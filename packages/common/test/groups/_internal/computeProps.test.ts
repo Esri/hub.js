@@ -86,6 +86,16 @@ describe("groups: computeProps:", () => {
           "https://org.maps.arcgis.com/sharing/rest/community/groups/3ef/info/group.jpg"
         );
       });
+      it("computes a links hash for the group", () => {
+        const chk = computeProps(
+          group,
+          hubGroup,
+          authdCtxMgr.context.requestOptions
+        );
+
+        expect(chk.links?.siteRelative).toBe("/teams/3ef");
+        expect(chk.links?.workspaceRelative).toBe("/workspace/groups/3ef");
+      });
       it("computes the correct props when no userMembership", () => {
         group = {
           id: "3ef",

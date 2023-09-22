@@ -7,7 +7,24 @@ import * as processEntitiesModule from "../../../src/permissions/_internal/proce
 import { ProjectDefaultFeatures } from "../../../src/projects/_internal/ProjectBusinessRules";
 describe("projects: computeProps:", () => {
   let authdCtxMgr: ArcGISContextManager;
+  let model: IModel;
+  let project: Partial<IHubProject>;
+
   beforeEach(async () => {
+    model = {
+      item: {
+        type: "Hub Project",
+        id: "00c",
+        created: new Date().getTime(),
+        modified: new Date().getTime(),
+      },
+      data: {},
+    } as IModel;
+    project = {
+      type: "Hub Project",
+      id: "00c",
+      slug: "mock-slug",
+    };
     // When we pass in all this information, the context
     // manager will not try to fetch anything, so no need
     // to mock those calls
@@ -43,60 +60,66 @@ describe("projects: computeProps:", () => {
       expect(spy.calls.argsFor(0)[1]).toEqual(ProjectDefaultFeatures);
     });
     it("handles missing settings hash", () => {
-      const model: IModel = {
-        item: {
-          created: new Date().getTime(),
-          modified: new Date().getTime(),
-        },
-        data: {},
-      } as IModel;
-      const init: Partial<IHubProject> = {};
-      const chk = computeProps(model, init, authdCtxMgr.context.requestOptions);
+      const chk = computeProps(
+        model,
+        project,
+        authdCtxMgr.context.requestOptions
+      );
       expect(chk.features?.details).toBeTruthy();
       expect(chk.features?.settings).toBeFalsy();
       expect(spy.calls.argsFor(0)[0]).toEqual({});
     });
     it("handles missing capabilities hash", () => {
-      const model: IModel = {
-        item: {
-          id: "3ef",
-          type: "Hub Project",
-          created: new Date().getTime(),
-          modified: new Date().getTime(),
-        },
-        data: {
-          settings: {},
-        },
-      } as unknown as IModel;
-      const init: Partial<IHubProject> = {};
-      const chk = computeProps(model, init, authdCtxMgr.context.requestOptions);
+      const chk = computeProps(
+        model,
+        project,
+        authdCtxMgr.context.requestOptions
+      );
 
       expect(chk.features?.details).toBeTruthy();
       expect(chk.features?.settings).toBeFalsy();
       expect(spy.calls.argsFor(0)[0]).toEqual({});
     });
     it("passes features hash", () => {
-      const model: IModel = {
-        item: {
-          id: "3ef",
-          type: "Hub Project",
-          created: new Date().getTime(),
-          modified: new Date().getTime(),
+      model.data = {
+        settings: {
+          features: { details: true },
         },
-        data: {
-          settings: {
-            features: {
-              details: true,
-            },
-          },
-        },
-      } as unknown as IModel;
-      const init: Partial<IHubProject> = {};
-      const chk = computeProps(model, init, authdCtxMgr.context.requestOptions);
+      };
+      const chk = computeProps(
+        model,
+        project,
+        authdCtxMgr.context.requestOptions
+      );
 
       expect(chk.features?.details).toBeTruthy();
       expect(chk.features?.settings).toBeFalsy();
       expect(spy.calls.argsFor(0)[0]).toEqual({ details: true });
+    });
+    describe("links hash", () => {
+      it("generates a links hash using the project's slug", () => {
+        const chk = computeProps(
+          model,
+          project,
+          authdCtxMgr.context.requestOptions
+        );
+
+        expect(chk.links?.siteRelative).toBe("/projects/mock-slug");
+        expect(chk.links?.workspaceRelative).toBe(
+          "/workspace/projects/mock-slug"
+        );
+      });
+      it("generates a links hash using the project's id when no slug is available", () => {
+        project.slug = undefined;
+        const chk = computeProps(
+          model,
+          project,
+          authdCtxMgr.context.requestOptions
+        );
+
+        expect(chk.links?.siteRelative).toBe("/projects/00c");
+        expect(chk.links?.workspaceRelative).toBe("/workspace/projects/00c");
+      });
     });
   });
 });

@@ -8,7 +8,24 @@ import { InitiativeDefaultFeatures } from "../../../src/initiatives/_internal/In
 
 describe("initiatives: computeProps:", () => {
   let authdCtxMgr: ArcGISContextManager;
+  let model: IModel;
+  let initiative: Partial<IHubInitiative>;
+
   beforeEach(async () => {
+    model = {
+      item: {
+        type: "Hub Initiative",
+        id: "00c",
+        created: new Date().getTime(),
+        modified: new Date().getTime(),
+      },
+      data: {},
+    } as IModel;
+    initiative = {
+      type: "Hub Initiative",
+      id: "00c",
+      slug: "mock-slug",
+    };
     // When we pass in all this information, the context
     // manager will not try to fetch anything, so no need
     // to mock those calls
@@ -44,60 +61,66 @@ describe("initiatives: computeProps:", () => {
       expect(spy.calls.argsFor(0)[1]).toEqual(InitiativeDefaultFeatures);
     });
     it("handles missing settings hash", () => {
-      const model: IModel = {
-        item: {
-          created: new Date().getTime(),
-          modified: new Date().getTime(),
-        },
-        data: {},
-      } as IModel;
-      const init: Partial<IHubInitiative> = {};
-      const chk = computeProps(model, init, authdCtxMgr.context.requestOptions);
+      const chk = computeProps(
+        model,
+        initiative,
+        authdCtxMgr.context.requestOptions
+      );
       expect(chk.features?.details).toBeTruthy();
       expect(chk.features?.settings).toBeFalsy();
       expect(spy.calls.argsFor(0)[0]).toEqual({});
     });
     it("handles missing capabilities hash", () => {
-      const model: IModel = {
-        item: {
-          id: "3ef",
-          type: "Hub Initiative",
-          created: new Date().getTime(),
-          modified: new Date().getTime(),
-        },
-        data: {
-          settings: {},
-        },
-      } as unknown as IModel;
-      const init: Partial<IHubInitiative> = {};
-      const chk = computeProps(model, init, authdCtxMgr.context.requestOptions);
+      const chk = computeProps(
+        model,
+        initiative,
+        authdCtxMgr.context.requestOptions
+      );
 
       expect(chk.features?.details).toBeTruthy();
       expect(chk.features?.settings).toBeFalsy();
       expect(spy.calls.argsFor(0)[0]).toEqual({});
     });
     it("passes features hash", () => {
-      const model: IModel = {
-        item: {
-          id: "3ef",
-          type: "Hub Initiative",
-          created: new Date().getTime(),
-          modified: new Date().getTime(),
+      model.data = {
+        settings: {
+          features: { details: true },
         },
-        data: {
-          settings: {
-            features: {
-              details: true,
-            },
-          },
-        },
-      } as unknown as IModel;
-      const init: Partial<IHubInitiative> = {};
-      const chk = computeProps(model, init, authdCtxMgr.context.requestOptions);
+      };
+      const chk = computeProps(
+        model,
+        initiative,
+        authdCtxMgr.context.requestOptions
+      );
 
       expect(chk.features?.details).toBeTruthy();
       expect(chk.features?.settings).toBeFalsy();
       expect(spy.calls.argsFor(0)[0]).toEqual({ details: true });
+    });
+    describe("links hash", () => {
+      it("generates a links hash using the initiative's slug", () => {
+        const chk = computeProps(
+          model,
+          initiative,
+          authdCtxMgr.context.requestOptions
+        );
+
+        expect(chk.links?.siteRelative).toBe("/initiatives2/mock-slug");
+        expect(chk.links?.workspaceRelative).toBe(
+          "/workspace/initiatives/mock-slug"
+        );
+      });
+      it("generates a links hash using the initiative's id when no slug is available", () => {
+        initiative.slug = undefined;
+        const chk = computeProps(
+          model,
+          initiative,
+          authdCtxMgr.context.requestOptions
+        );
+
+        expect(chk.links?.siteRelative).toBe("/initiatives2/00c");
+        expect(chk.links?.workspaceRelative).toBe("/workspace/initiatives/00c");
+      });
     });
   });
 });
