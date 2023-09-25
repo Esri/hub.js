@@ -5,6 +5,7 @@ import {
   IWithSlug,
   IWithCatalog,
 } from "../traits";
+import { IHubItemEntityEditor } from "./IHubItemEntity";
 import { IWithMetrics } from "../traits/IWithMetrics";
 
 /** Defines the properties of a Hub Initiative Template object */
@@ -24,13 +25,5 @@ export interface IHubInitiativeTemplate
  * This type redefines the IHubInitiativeTemplate interface in such a way
  * that it can be consumed by the entity editor.
  */
-export type IHubInitiativeTemplateEditor = Omit<
-  IHubInitiativeTemplate,
-  "extent"
-> & {
-  /**
-   * Thumbnail image. This is only used on the Editor and is
-   * persisted in the fromEditor method on the Class.
-   */
-  _thumbnail?: any;
-};
+export type IHubInitiativeTemplateEditor =
+  IHubItemEntityEditor<IHubInitiativeTemplate> & {};

@@ -4,6 +4,7 @@ import {
   Catalog,
   getProp,
   IHubInitiativeTemplate,
+  IHubInitiativeTemplateEditor,
 } from "../../src";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as editModule from "../../src/initiativeTemplates/edit";
@@ -11,7 +12,6 @@ import * as fetchModule from "../../src/initiativeTemplates/fetch";
 import * as viewModule from "../../src/initiativeTemplates/view";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import { HubInitiativeTemplate } from "../../src/initiativeTemplates/HubInitiativeTemplate";
-import { HubItemEntity } from "../../src/core/HubItemEntity";
 
 describe("HubInitiativeTemplate Class: ", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -315,7 +315,7 @@ describe("HubInitiativeTemplate Class: ", () => {
       );
     });
 
-    it("toEditor converst entity to correct structure", () => {
+    it("toEditor converst entity to correct structure", async () => {
       const chk = HubInitiativeTemplate.fromJson(
         {
           id: "bc3",
@@ -324,7 +324,7 @@ describe("HubInitiativeTemplate Class: ", () => {
         },
         authdCtxMgr.context
       );
-      const result = chk.toEditor();
+      const result = await chk.toEditor();
       // NOTE: If additional transforms are added in the class they should have tests here
       expect(result.id).toEqual("bc3");
       expect(result.name).toEqual("Test Entity");
@@ -359,7 +359,7 @@ describe("HubInitiativeTemplate Class: ", () => {
         // spy on the instance .save method and retrn void
         const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
         // make changes to the editor
-        const editor = chk.toEditor();
+        const editor = await chk.toEditor();
         editor.name = "new name";
         // call fromEditor
         const result = await chk.fromEditor(editor);
@@ -380,7 +380,7 @@ describe("HubInitiativeTemplate Class: ", () => {
         // spy on the instance .save method and retrn void
         const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
         // make changes to the editor
-        const editor = chk.toEditor();
+        const editor = await chk.toEditor();
         editor.name = "new name";
         editor._thumbnail = {
           blob: "fake blob",
@@ -407,7 +407,7 @@ describe("HubInitiativeTemplate Class: ", () => {
         // spy on the instance .save method and retrn void
         const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
         // make changes to the editor
-        const editor = chk.toEditor();
+        const editor = await chk.toEditor();
         editor.name = "new name";
         editor._thumbnail = {};
         // call fromEditor
