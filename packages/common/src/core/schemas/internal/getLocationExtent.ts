@@ -1,4 +1,4 @@
-import { bBoxToExtent, getGeographicOrgExtent } from "../../../extent";
+import { bBoxToExtent, orgExtent } from "../../../extent";
 import { IHubRequestOptions } from "../../../types";
 import { ConfigurableEntity } from "./ConfigurableEntity";
 /**
@@ -11,5 +11,5 @@ export async function getLocationExtent(
 ) {
   return entity.location?.extent?.length
     ? bBoxToExtent(entity.location.extent)
-    : await getGeographicOrgExtent(hubRequestOptions);
+    : await orgExtent(hubRequestOptions);
 }

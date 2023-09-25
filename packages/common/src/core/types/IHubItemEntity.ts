@@ -7,6 +7,8 @@ import {
   IWithDiscussions,
 } from "../traits";
 import { IHubLocation } from "./IHubLocation";
+import { IWithFollowers } from "../traits/IWithFollowers";
+import { IWithAssociations } from "../traits/IWithAssociations";
 
 /**
  * Properties exposed by Entities that are backed by Items
@@ -14,7 +16,9 @@ import { IHubLocation } from "./IHubLocation";
 export interface IHubItemEntity
   extends IHubEntityBase,
     IWithPermissions,
-    IWithDiscussions {
+    IWithDiscussions,
+    IWithFollowers,
+    IWithAssociations {
   /**
    * Access level of the item ("private" | "org" | "public")
    */
@@ -128,3 +132,23 @@ export interface IHubItemEntity
    */
   protected?: boolean;
 }
+
+export type IHubItemEntityEditor<T> = Omit<T, "extent"> & {
+  view: {
+    featuredImage?: any;
+  };
+  /**
+   * Thumbnail image. This is only used on the Editor and is
+   * persisted in the fromEditor method on the Class
+   */
+  _thumbnail?: any;
+  /**
+   * Follower group settings. These settings are only used in the
+   * Editor and is persisted appropriately in the fromEditor
+   * method on the Class
+   */
+  _followers?: {
+    groupAccess?: AccessLevel;
+    showFollowAction?: boolean;
+  };
+};

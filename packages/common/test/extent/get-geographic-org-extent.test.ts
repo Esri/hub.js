@@ -1,19 +1,15 @@
 import * as request from "@esri/arcgis-rest-request";
 import { mockUserSession } from "../test-helpers/fake-user-session";
-import {
-  IHubRequestOptions,
-  getGeographicOrgExtent,
-  GLOBAL_EXTENT
-} from "../../src";
+import { IHubRequestOptions, orgExtent, GLOBAL_EXTENT } from "../../src";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
-describe("getGeographicOrgExtent", function() {
-  it("fetches extent when geometryServiceUrl and orgExtent are provided", async function() {
+describe("orgExtent", function () {
+  it("fetches extent when geometryServiceUrl and orgExtent are provided", async function () {
     const geom = {
       xmin: 132,
       ymin: 435,
       xmax: 429,
-      ymax: 192
+      ymax: 192,
     };
 
     const geometryServiceUrl = "geometry-service-url";
@@ -26,27 +22,27 @@ describe("getGeographicOrgExtent", function() {
         name: "some-portal",
         defaultExtent: {
           spatialReference: {
-            wkid: orgWkid
-          }
+            wkid: orgWkid,
+          },
         },
         helperServices: {
           geometry: {
-            url: geometryServiceUrl
-          }
-        }
+            url: geometryServiceUrl,
+          },
+        },
       },
       isPortal: false,
       hubApiUrl: "some-url",
-      authentication: mockUserSession
+      authentication: mockUserSession,
     };
 
     const requestSpy = spyOn(request, "request").and.returnValue(
       Promise.resolve({
-        geometries: [geom]
+        geometries: [geom],
       })
     );
 
-    const result = await getGeographicOrgExtent(requestOpts);
+    const result = await orgExtent(requestOpts);
 
     expect(result.xmax).toBe(geom.xmax, "correct xmax");
     expect(result.ymax).toBe(geom.ymax, "correct ymax");
@@ -96,12 +92,12 @@ describe("getGeographicOrgExtent", function() {
     );
   });
 
-  it("returns global extent when geometryServiceUrl or orgExtent are absent", async function() {
+  it("returns global extent when geometryServiceUrl or orgExtent are absent", async function () {
     const geom = {
       xmin: 132,
       ymin: 435,
       xmax: 429,
-      ymax: 192
+      ymax: 192,
     };
 
     const optsWithoutOrgExtent: IHubRequestOptions = {
@@ -112,22 +108,22 @@ describe("getGeographicOrgExtent", function() {
         name: "some-portal",
         helperServices: {
           geometry: {
-            url: "some-url"
-          }
-        }
+            url: "some-url",
+          },
+        },
       },
       isPortal: false,
       hubApiUrl: "some-url",
-      authentication: mockUserSession
+      authentication: mockUserSession,
     };
 
     const requestSpy = spyOn(request, "request").and.returnValue(
       Promise.resolve({
-        geometries: [geom]
+        geometries: [geom],
       })
     );
 
-    const result = await getGeographicOrgExtent(optsWithoutOrgExtent);
+    const result = await orgExtent(optsWithoutOrgExtent);
 
     expect(requestSpy.calls.count()).toBe(0, "request not called");
     expect(result).toEqual(GLOBAL_EXTENT, "resolved to global extent");
@@ -141,25 +137,25 @@ describe("getGeographicOrgExtent", function() {
         name: "some-portal",
         defaultExtent: {
           spatialReference: {
-            wkid: 1234
-          }
+            wkid: 1234,
+          },
         },
         helperServices: {
-          geometry: {}
-        }
+          geometry: {},
+        },
       },
       isPortal: false,
       hubApiUrl: "some-url",
-      authentication: mockUserSession
+      authentication: mockUserSession,
     };
 
-    const result2 = await getGeographicOrgExtent(optsWithoutGeoUrl);
+    const result2 = await orgExtent(optsWithoutGeoUrl);
 
     expect(requestSpy.calls.count()).toBe(0, "request not called");
     expect(result2).toEqual(GLOBAL_EXTENT, "resolved to global extent");
   });
 
-  it("returns global extent when network call fails", async function() {
+  it("returns global extent when network call fails", async function () {
     const optsWithoutOrgExtent: IHubRequestOptions = {
       portalSelf: {
         user: {},
@@ -168,25 +164,25 @@ describe("getGeographicOrgExtent", function() {
         name: "some-portal",
         defaultExtent: {
           spatialReference: {
-            wkid: 1234
-          }
+            wkid: 1234,
+          },
         },
         helperServices: {
           geometry: {
-            url: "some-url"
-          }
-        }
+            url: "some-url",
+          },
+        },
       },
       isPortal: false,
       hubApiUrl: "some-url",
-      authentication: null
+      authentication: null,
     };
 
     const requestSpy = spyOn(request, "request").and.returnValue(
       Promise.reject(Error("network request failed"))
     );
 
-    const result = await getGeographicOrgExtent(optsWithoutOrgExtent);
+    const result = await orgExtent(optsWithoutOrgExtent);
 
     expect(requestSpy.calls.count()).toBe(1, "request called");
     expect(result).toEqual(GLOBAL_EXTENT, "resolved to global extent");

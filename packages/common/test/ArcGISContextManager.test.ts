@@ -8,6 +8,7 @@ import {
 } from "../src";
 import { base64ToUnicode, unicodeToBase64 } from "../src/utils/encoding";
 import * as portalModule from "@esri/arcgis-rest-portal";
+import * as requestModule from "@esri/arcgis-rest-request";
 import { MOCK_AUTH, MOCK_ENTERPRISE_AUTH } from "./mocks/mock-auth";
 import { IPortal } from "@esri/arcgis-rest-portal";
 import ExceptionFactory from "./mocks/ExceptionFactory";
@@ -53,6 +54,49 @@ const onlineUserResponse = {
   email: "jvader@deathstar.com",
 };
 
+const onlinePartneredOrgResponse = {
+  total: 4,
+  start: 1,
+  num: 10,
+  nextStart: -1,
+  trustedOrgs: [
+    {
+      from: {
+        orgId: "97KLIFOSt5CxbiRI",
+        usersAccess: true,
+        established: 1615402632000,
+        hub: false,
+        state: "active",
+      },
+      to: {
+        orgId: "5dIUy6DulN1DTIcJ",
+        usersAccess: true,
+        established: 1615402578000,
+        name: "Sign In Testing QA",
+        hub: false,
+        state: "active",
+      },
+    },
+    {
+      from: {
+        orgId: "97KLIFOSt5CxbiRI",
+        usersAccess: true,
+        established: 1528926476000,
+        hub: true,
+        state: "active",
+      },
+      to: {
+        orgId: "RWOqjImnJn06yrVq",
+        usersAccess: true,
+        established: 1528926476000,
+        name: "DCDev Hub Community",
+        hub: true,
+        state: "active",
+      },
+    },
+  ],
+};
+
 const enterprisePortalSelfResponse = {
   id: "FAKEID",
   name: "My Enterprise",
@@ -78,6 +122,14 @@ const enterpriseUserResponse = {
   lastName: "Skywalker",
   description: "Runs the Rebels",
   email: "lskywalker@rebelalliance.com",
+};
+
+const enterprisePartneredOrgResponse = {
+  error: {
+    code: 400,
+    messageCode: "GWM_0002",
+    message: "Invalid URL",
+  },
 };
 
 const past = new Date(new Date().getTime() - 1000000).toISOString();
@@ -221,6 +273,8 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.serviceStatus).toBeDefined();
       expect(mgr.context.hubLicense).toBe("hub-basic");
       expect(mgr.context.featureFlags).toEqual({});
+      expect(mgr.context.trustedOrgIds).toBeUndefined();
+      expect(mgr.context.trustedOrgs).toBeUndefined();
     });
     it("verify props when passed portalUrl", async () => {
       const t = new Date().getTime();
@@ -267,6 +321,18 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.featureFlags).not.toBe(featureFlags);
       expect(mgr.context.featureFlags).toEqual(featureFlags);
     });
+    it("verify when passed partnered orgs and partnered org ids", async () => {
+      const t = new Date().getTime();
+      const mgr = await ArcGISContextManager.create({
+        trustedOrgIds: ["FAKEID", "FOTHERID"],
+        trustedOrgs: onlinePartneredOrgResponse.trustedOrgs,
+      });
+      expect(mgr.context.id).toBeGreaterThanOrEqual(t);
+      expect(mgr.context.trustedOrgIds).toEqual(["FAKEID", "FOTHERID"]);
+      expect(mgr.context.trustedOrgs).toEqual(
+        onlinePartneredOrgResponse.trustedOrgs
+      );
+    });
     it("verify props when passed session", async () => {
       const t = new Date().getTime();
       spyOn(portalModule, "getSelf").and.callFake(() => {
@@ -274,6 +340,9 @@ describe("ArcGISContext:", () => {
       });
       spyOn(portalModule, "getUser").and.callFake(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
+      });
+      spyOn(requestModule, "request").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
       });
 
       const mgr = await ArcGISContextManager.create({
@@ -344,6 +413,14 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.portal).toEqual(
         onlinePortalSelfResponse as unknown as IPortal
       );
+      // Partnered Orgs
+      expect(mgr.context.trustedOrgIds).toEqual([
+        "5dIUy6DulN1DTIcJ",
+        "RWOqjImnJn06yrVq",
+      ]);
+      expect(mgr.context.trustedOrgs).toEqual(
+        onlinePartneredOrgResponse.trustedOrgs
+      );
     });
     it("verify props when passed session, portalSelf, User, and serviceStatus", async () => {
       const selfSpy = spyOn(portalModule, "getSelf").and.callFake(() => {
@@ -351,6 +428,9 @@ describe("ArcGISContext:", () => {
       });
       const userSpy = spyOn(portalModule, "getUser").and.callFake(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
+      });
+      spyOn(requestModule, "request").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
       });
 
       const mgr = await ArcGISContextManager.create({
@@ -382,6 +462,9 @@ describe("ArcGISContext:", () => {
       spyOn(portalModule, "getUser").and.callFake(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
       });
+      spyOn(requestModule, "request").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
+      });
 
       const mgr = await ArcGISContextManager.create();
       expect(mgr.context.portalUrl).toBe("https://www.arcgis.com");
@@ -396,6 +479,9 @@ describe("ArcGISContext:", () => {
       });
       spyOn(portalModule, "getUser").and.callFake(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
+      });
+      spyOn(requestModule, "request").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
       });
 
       const mgr = await ArcGISContextManager.create({
@@ -418,6 +504,10 @@ describe("ArcGISContext:", () => {
       spyOn(portalModule, "getUser").and.callFake(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
       });
+      spyOn(requestModule, "request").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
+      });
+
       try {
         await ArcGISContextManager.create({ authentication: MOCK_AUTH });
       } catch (ex) {
@@ -441,6 +531,9 @@ describe("ArcGISContext:", () => {
       });
       spyOn(portalModule, "getUser").and.callFake(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
+      });
+      spyOn(requestModule, "request").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
       });
 
       const mgr = await ArcGISContextManager.create({
@@ -483,6 +576,9 @@ describe("ArcGISContext:", () => {
       const userSpy = spyOn(portalModule, "getUser").and.callFake(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
       });
+      spyOn(requestModule, "request").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
+      });
       const serialized = unicodeToBase64(
         JSON.stringify(validSerializedContext)
       );
@@ -509,6 +605,9 @@ describe("ArcGISContext:", () => {
       const userSpy = spyOn(portalModule, "getUser").and.callFake(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
       });
+      spyOn(requestModule, "request").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
+      });
       const sparseValidContext = cloneObject(validSerializedContext) as any;
       delete sparseValidContext.currentUser;
       delete sparseValidContext.portal;
@@ -532,6 +631,9 @@ describe("ArcGISContext:", () => {
       });
       const userSpy = spyOn(portalModule, "getUser").and.callFake(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
+      });
+      spyOn(requestModule, "request").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
       });
       const serialized = unicodeToBase64(
         JSON.stringify(expiredSerializedContext)
@@ -577,6 +679,9 @@ describe("ArcGISContext:", () => {
       spyOn(portalModule, "getUser").and.callFake(() => {
         return Promise.resolve(cloneObject(enterpriseUserResponse));
       });
+      spyOn(requestModule, "request").and.callFake(() => {
+        return Promise.reject(cloneObject(enterprisePartneredOrgResponse));
+      });
 
       const mgr = await ArcGISContextManager.create({
         authentication: MOCK_ENTERPRISE_AUTH,
@@ -588,6 +693,9 @@ describe("ArcGISContext:", () => {
         MOCK_ENTERPRISE_AUTH.portal.replace(`/sharing/rest`, "")
       );
       expect(mgr.context.sharingApiUrl).toBe(MOCK_ENTERPRISE_AUTH.portal);
+      // Partnered orgs
+      expect(mgr.context.trustedOrgIds).toEqual([]);
+      expect(mgr.context.trustedOrgs).toEqual([]);
     });
     it("verify props after clearing session", async () => {
       const t = new Date().getTime();
@@ -596,6 +704,9 @@ describe("ArcGISContext:", () => {
       });
       spyOn(portalModule, "getUser").and.callFake(() => {
         return Promise.resolve(cloneObject(enterpriseUserResponse));
+      });
+      spyOn(requestModule, "request").and.callFake(() => {
+        return Promise.reject(cloneObject(enterprisePartneredOrgResponse));
       });
 
       const mgr = await ArcGISContextManager.create({

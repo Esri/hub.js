@@ -12,8 +12,8 @@ import { GroupEditorType } from "../../../groups/_internal/GroupSchema";
 import { ConfigurableEntity } from "./ConfigurableEntity";
 import { IArcGISContext } from "../../../ArcGISContext";
 import {
-  IHubContent,
   IHubDiscussion,
+  IHubEditableContent,
   IHubGroup,
   IHubInitiative,
   IHubInitiativeTemplate,
@@ -57,6 +57,8 @@ export async function getEntityEditorSchemas(
           import("../../../sites/_internal/SiteUiSchemaEdit"),
         "hub:site:create": () =>
           import("../../../sites/_internal/SiteUiSchemaCreate"),
+        "hub:site:followers": () =>
+          import("../../../sites/_internal/SiteUiSchemaFollowers"),
       }[type as SiteEditorType]();
       uiSchema = await siteModule.buildUiSchema(
         i18nScope,
@@ -153,10 +155,12 @@ export async function getEntityEditorSchemas(
       const contentModule = await {
         "hub:content:edit": () =>
           import("../../../content/_internal/ContentUiSchemaEdit"),
+        "hub:content:settings": () =>
+          import("../../../content/_internal/ContentUiSchemaSettings"),
       }[type as ContentEditorType]();
       uiSchema = await contentModule.buildUiSchema(
         i18nScope,
-        entity as IHubContent,
+        entity as IHubEditableContent,
         context
       );
 

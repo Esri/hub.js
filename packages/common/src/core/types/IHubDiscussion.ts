@@ -1,5 +1,5 @@
 import { IWithPermissions, IWithSlug } from "../traits";
-import { IHubItemEntity } from "./IHubItemEntity";
+import { IHubItemEntity, IHubItemEntityEditor } from "./IHubItemEntity";
 
 /**
  * DRAFT: Under development and more properties will likely be added
@@ -10,10 +10,4 @@ export interface IHubDiscussion
     IWithSlug,
     IWithPermissions {}
 
-export type IHubDiscussionEditor = Omit<IHubDiscussion, "extent"> & {
-  /**
-   * Thumbnail image. This is only used on the Editor and is
-   * persisted in the fromEditor method on the Class
-   */
-  _thumbnail?: any;
-};
+export type IHubDiscussionEditor = IHubItemEntityEditor<IHubDiscussion> & {};

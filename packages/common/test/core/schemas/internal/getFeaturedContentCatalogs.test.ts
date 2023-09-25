@@ -4,10 +4,10 @@ import { getFeaturedContentCatalogs } from "../../../../src/core/schemas/interna
 describe("getFeaturedContentCatalogs:", () => {
   it("adds user into catalog", () => {
     const user: IUser = { username: "darth" } as unknown as IUser;
-    const chk = getFeaturedContentCatalogs(user);
-    expect(chk.catalogs.length).toBe(4);
-    const myContent = chk.catalogs[0];
-    expect(myContent.scopes.item.filters[0].predicates[0]).toEqual({
+    const catalogs = getFeaturedContentCatalogs(user);
+    expect(catalogs.length).toBe(4);
+    const myContent = catalogs[0];
+    expect(myContent.scopes?.item?.filters[0].predicates[0]).toEqual({
       owner: "darth",
     });
   });

@@ -1,6 +1,3 @@
-// import { HubEntity } from "./types/HubEntity";
-// import { HubEntityType } from "./types/HubEntityType";
-
 import { getFamily } from "../content/get-family";
 import { ConfigurableEntity } from "./schemas/internal/ConfigurableEntity";
 import { HubEntity, IHubItemEntity, HubEntityType } from "./types";

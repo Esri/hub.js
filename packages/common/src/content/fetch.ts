@@ -1,5 +1,6 @@
 import {
   getLayer,
+  getService,
   parseServiceUrl,
   queryFeatures,
 } from "@esri/arcgis-rest-feature-layer";
@@ -9,6 +10,7 @@ import {
   ItemOrServerEnrichment,
   fetchItemEnrichments,
   IItemAndEnrichments,
+  IItemAndIServerEnrichments,
 } from "../items/_enrichments";
 import { IHubRequestOptions, IModel } from "../types";
 import { isNil } from "../util";
@@ -20,16 +22,12 @@ import {
   getContentEnrichments,
 } from "./_fetch";
 import { canUseHubApiForItem } from "./_internal/internalContentUtils";
-import {
-  composeContent,
-  getItemLayer,
-  getProxyUrl,
-  isLayerView,
-} from "./compose";
+import { composeContent, getItemLayer, getProxyUrl } from "./compose";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
+import { isHostedFeatureServiceItem } from "./hostedServiceUtils";
 
 const hasFeatures = (contentType: string) =>
   ["Feature Layer", "Table"].includes(contentType);
@@ -234,23 +232,43 @@ export const fetchContent = async (
   return content;
 };
 
+/**
+ * fetch a content entity by identifier
+ * @param identifier
+ * @param requestOptions
+ * @returns content entity
+ */
 export const fetchHubContent = async (
   identifier: string,
   requestOptions: IRequestOptions
 ): Promise<IHubEditableContent> => {
-  // TODO: fetch data? org? ownerUser? metadata?
-  // could use getItemEnrichments() and remove server, layers, etc
-  // but we'd have to do that _after_ fetching the item first
-  const enrichments = [] as ItemOrServerEnrichment[];
-  const options = { ...requestOptions, enrichments } as IFetchContentOptions;
-  // for now we call fetchContent(), which returns a superset of IHubEditableContent
-  // in the long run we probably want to replace this w/ fetchItemAndEnrichments()
-  // and then use the property mapper and computeProps() to compose the object
-  const model = await fetchContent(identifier, options);
-  // for now we still need property mapper to get defaults not set by composeContent()
+  // NOTE: b/c we have to support slugs we use fetchContent() to get the item
+  // by telling it to not fetch any enrichments
+  // which we then fetch as needed after we have the item
+  const options = {
+    ...requestOptions,
+    enrichments: [],
+  } as IFetchContentOptions;
+  const { item } = await fetchContent(identifier, options);
+  const model = { item };
+  const enrichments: IItemAndIServerEnrichments = {};
+  if (isHostedFeatureServiceItem(item)) {
+    enrichments.server = await getService({
+      ...requestOptions,
+      url: parseServiceUrl(item.url),
+    });
+  }
+  return modelToHubEditableContent(model, requestOptions, enrichments);
+};
+
+export function modelToHubEditableContent(
+  model: IModel,
+  requestOptions: IRequestOptions,
+  enrichments: IItemAndIServerEnrichments
+) {
   const mapper = new PropertyMapper<Partial<IHubEditableContent>, IModel>(
     getPropertyMap()
   );
   const content = mapper.storeToEntity(model, {}) as IHubEditableContent;
-  return computeProps(model, content, requestOptions);
-};
+  return computeProps(model, content, requestOptions, enrichments);
+}

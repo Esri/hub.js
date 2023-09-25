@@ -3,13 +3,10 @@ import { ConfigurableEntity } from "../../../../src/core/schemas/internal/Config
 import { getLocationOptions } from "../../../../src/core/schemas/internal/getLocationOptions";
 import * as ExtentModule from "../../../../src/extent";
 
-describe("getLocationOptions - default:", () => {
+describe("getLocationOptions:", () => {
   let orgExtentSpy: jasmine.Spy;
   beforeEach(() => {
-    orgExtentSpy = spyOn(
-      ExtentModule,
-      "getGeographicOrgExtent"
-    ).and.returnValue(
+    orgExtentSpy = spyOn(ExtentModule, "orgExtent").and.returnValue(
       Promise.resolve({
         xmin: -180,
         ymin: -90,

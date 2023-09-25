@@ -1,13 +1,14 @@
 import { IUser } from "@esri/arcgis-rest-types";
 import { fetchUserEnrichments } from "./_internal/enrichments";
 import { getProp } from "../objects";
-import { getUserThumbnailUrl, IHubSearchResult } from "../search";
+import { getUserThumbnailUrl } from "../search/utils";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { IHubRequestOptions } from "../types";
 import { getUserHomeUrl } from "../urls";
 import { unique } from "../util";
 import { mapBy } from "../utils";
 import { AccessLevel } from "../core";
+import { IHubSearchResult } from "../search/types/IHubSearchResult";
 
 /**
  * Enrich a User object
@@ -55,16 +56,8 @@ export async function enrichUserSearchResult(
     result.isGroupOwner = user.isGroupOwner;
   }
 
-  // Informal Enrichments - basically adding type-specific props
-  // derived directly from the entity
-
-  // default includes
-  const DEFAULTS: string[] = ["org.name AS orgName"];
-
-  // merge includes
-  include = [...DEFAULTS, ...include].filter(unique);
   // Parse the includes into a valid set of enrichments
-  const specs = include.map(parseInclude);
+  const specs = include.filter(unique).map(parseInclude);
   // Extract out the low-level enrichments needed
   const enrichments = mapBy("enrichment", specs).filter(unique);
   // fetch the enrichments

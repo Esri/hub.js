@@ -278,6 +278,49 @@ describe("HubItemEntity Class: ", () => {
     });
   });
 
+  describe("Follower Behavior", () => {
+    let harness: TestHarness;
+    beforeEach(() => {
+      harness = new TestHarness(
+        {
+          id: "00c",
+          owner: "deke",
+          followersGroupId: "followers00c",
+        },
+        authdCtxMgr.context
+      );
+    });
+    it("gets the followers group", async () => {
+      const getGroupSpy = spyOn(PortalModule, "getGroup").and.callFake(() => {
+        return Promise.resolve();
+      });
+
+      await harness.getFollowersGroup();
+      expect(getGroupSpy).toHaveBeenCalledTimes(1);
+      expect(getGroupSpy).toHaveBeenCalledWith(
+        "followers00c",
+        authdCtxMgr.context.userRequestOptions
+      );
+    });
+    it("sets the followers group access", async () => {
+      const updateGroupSpy = spyOn(PortalModule, "updateGroup").and.callFake(
+        () => {
+          return Promise.resolve();
+        }
+      );
+
+      await harness.setFollowersGroupAccess("public");
+      expect(updateGroupSpy).toHaveBeenCalledTimes(1);
+      expect(updateGroupSpy).toHaveBeenCalledWith({
+        group: {
+          id: "followers00c",
+          access: "public",
+        },
+        authentication: authdCtxMgr.context.session,
+      });
+    });
+  });
+
   describe("thumbnail behavior:", () => {
     it("should return a thumbnail if one is available", () => {
       const instance = new TestHarness(
@@ -641,6 +684,73 @@ describe("HubItemEntity Class: ", () => {
         typeKeywords: [CANNOT_DISCUSS],
         isDiscussable: false,
       });
+    });
+  });
+
+  describe("with associations behavior", () => {
+    it("listAssociations delegates", () => {
+      const spy = spyOn(
+        require("../../src/associations/listAssociations"),
+        "listAssociations"
+      ).and.callThrough();
+
+      const instance = new TestHarness(
+        {
+          id: "00c",
+          owner: "deke",
+          isDiscussable: false,
+          typeKeywords: ["initiative|00c", "initiative|00b"],
+        },
+        authdCtxMgr.context
+      );
+      const chk = instance.listAssociations("initiative");
+      expect(chk.length).toBe(2);
+      // no need to check the response, as listAssociations is tested elsewhere
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it("addAssociation delegates", () => {
+      const spy = spyOn(
+        require("../../src/associations/addAssociation"),
+        "addAssociation"
+      ).and.callThrough();
+
+      const instance = new TestHarness(
+        {
+          id: "00c",
+          owner: "deke",
+          isDiscussable: false,
+          typeKeywords: ["initiative|00c", "initiative|00b"],
+        },
+        authdCtxMgr.context
+      );
+      instance.addAssociation({ type: "initiative", id: "00f" });
+      const chk = instance.toJson();
+      expect(chk.typeKeywords.includes("initiative|00f")).toBeTruthy();
+      // no need to check the response, as addAssociations is tested elsewhere
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it("removeAssociation delegates", () => {
+      const spy = spyOn(
+        require("../../src/associations/removeAssociation"),
+        "removeAssociation"
+      ).and.callThrough();
+
+      const instance = new TestHarness(
+        {
+          id: "00c",
+          owner: "deke",
+          isDiscussable: false,
+          typeKeywords: ["initiative|00c", "initiative|00b"],
+        },
+        authdCtxMgr.context
+      );
+      instance.removeAssociation({ type: "initiative", id: "00c" });
+      const chk = instance.toJson();
+      expect(chk.typeKeywords.includes("initiative|00c")).toBeFalsy();
+      // no need to check the response, as addAssociations is tested elsewhere
+      expect(spy).toHaveBeenCalled();
     });
   });
 });

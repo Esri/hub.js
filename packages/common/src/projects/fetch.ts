@@ -8,8 +8,9 @@ import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getItemBySlug } from "../items/slugs";
 
 import { fetchItemEnrichments } from "../items/_enrichments";
-import { fetchModelFromItem, fetchModelResources } from "../models";
+import { fetchModelFromItem } from "../models";
 import { IHubSearchResult } from "../search";
+import { IQuery } from "../search/types/IHubCatalog";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { IHubRequestOptions, IModel } from "../types";
 import { isGuid, mapBy } from "../utils";
@@ -21,6 +22,8 @@ import { getItemThumbnailUrl } from "../resources/get-item-thumbnail-url";
 import { getItemHomeUrl } from "../urls/get-item-home-url";
 import { getItemIdentifier } from "../items";
 import { getRelativeWorkspaceUrl } from "../core/getRelativeWorkspaceUrl";
+import { listAssociations } from "../associations";
+import { getTypeByIdsQuery } from "../associations/internal/getTypeByIdsQuery";
 
 /**
  * @private
@@ -138,4 +141,28 @@ export async function enrichProjectSearchResult(
   );
 
   return result;
+}
+
+/**
+ * Get a query that will fetch all the initiatives which the project has
+ * chosen to connect to. If project has not defined any associations
+ * to any Initiatives, will return `null`.
+ * Currently, we have not implemented a means to get the list of initiatives that have
+ * "Accepted" the Project via inclusion in it's catalog.
+ *
+ * If needed, this could be done by getting all the groups the project is shared into
+ * then cross-walking that into the catalogs of all the Associated Initiatives
+ * @param project
+ * @returns
+ */
+export function getAssociatedInitiativesQuery(project: IHubProject): IQuery {
+  // get the list of ids from the keywords
+  const ids = listAssociations(project, "initiative").map((a) => a.id);
+  if (ids.length) {
+    // get the query
+    return getTypeByIdsQuery("Hub Initiative", ids);
+  } else {
+    // if there are no
+    return null;
+  }
 }

@@ -87,6 +87,7 @@ export enum PostStatus {
   REJECTED = "rejected",
   DELETED = "deleted",
   HIDDEN = "hidden",
+  BLOCKED = "blocked",
 }
 
 /**
@@ -814,6 +815,7 @@ export interface ICreateChannelPermissions {
 export interface IUpdateChannelPermissions {
   access?: SharingAccess;
   allowAnonymous?: boolean;
+  groups?: string[];
 }
 
 /**

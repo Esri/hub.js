@@ -8,14 +8,16 @@ import {
   IQuery,
 } from "./types";
 import { getApi } from "./_internal/commonHelpers/getApi";
-import {
-  hubSearchItems,
-  portalSearchItems,
-  portalSearchGroups,
-  portalSearchUsers,
-  hubSearchChannels,
-} from "./_internal";
 import { portalSearchGroupMembers } from "./_internal/portalSearchGroupMembers";
+import { portalSearchItems } from "./_internal/portalSearchItems";
+import { portalSearchGroups } from "./_internal/portalSearchGroups";
+import {
+  searchPortalUsersLegacy,
+  searchPortalUsers,
+  searchCommunityUsers,
+} from "./_internal/portalSearchUsers";
+import { hubSearchItems } from "./_internal/hubSearchItems";
+import { hubSearchChannels } from "./_internal/hubSearchChannels";
 
 /**
  * Main entrypoint for searching via Hub
@@ -75,7 +77,9 @@ export async function hubSearch(
     arcgis: {
       item: portalSearchItems,
       group: portalSearchGroups,
-      user: portalSearchUsers,
+      user: searchPortalUsersLegacy,
+      portalUser: searchPortalUsers,
+      communityUser: searchCommunityUsers,
       groupMember: portalSearchGroupMembers,
     },
     "arcgis-hub": {

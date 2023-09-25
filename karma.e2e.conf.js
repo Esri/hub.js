@@ -12,7 +12,6 @@ module.exports = function(config) {
     browserDisconnectTimeout: 120000,
     pingTimeout: 1200000,
 
-    
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: "",
 
@@ -23,7 +22,13 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       "packages/*/{src,e2e}/**/*.ts",
-      { pattern: 'e2e/test-images/*.jpg', watched: false, included: false, served: true, nocache: false }
+      {
+        pattern: "e2e/test-images/*.jpg",
+        watched: false,
+        included: false,
+        served: true,
+        nocache: false,
+      },
     ],
 
     // list of files to exclude
@@ -33,11 +38,7 @@ module.exports = function(config) {
       coverageOptions: {
         // Exclude all files - we don't want code coverage on e2e type tests
         // also critical so that we can debug in the code
-        exclude: [
-          /\.ts$/i,
-          /fixture*/,
-          /expected*/
-        ],
+        exclude: [/\.ts$/i, /fixture*/, /expected*/],
         threshold: {
           global: {
             statements: 0,
@@ -45,39 +46,40 @@ module.exports = function(config) {
             functions: 0,
             lines: 0,
             excludes: [
-              'packages/*/examples/**/*.ts',
-              'packages/*/test/**/*.ts',
-              'packages/*/e2e/**/*.ts',
-            ]
-          }
-        }
+              "packages/*/examples/**/*.ts",
+              "packages/*/test/**/*.ts",
+              "packages/*/e2e/**/*.ts",
+            ],
+          },
+        },
       },
       reports: {
-        "json": {
-          "directory": "coverage",
-          "filename": "coverage.json"
+        json: {
+          directory: "coverage",
+          filename: "coverage.json",
         },
-        "html": "coverage"
+        html: "coverage",
       },
       compilerOptions: {
         module: "commonjs",
-        importHelpers: true
+        importHelpers: true,
       },
       tsconfig: "./tsconfig.json",
       bundlerOptions: {
         // validateSyntax: false,
         transforms: [
-          require("karma-typescript-es6-transform")(
-            {
-                presets: [
-                    ["@babel/preset-env", {
-                        targets: {
-                            chrome: "94"
-                        }
-                    }]
-                ]
-            }
-          )
+          require("karma-typescript-es6-transform")({
+            presets: [
+              [
+                "@babel/preset-env",
+                {
+                  targets: {
+                    chrome: "94",
+                  },
+                },
+              ],
+            ],
+          }),
         ],
         exclude: ["@esri/arcgis-rest-types"],
         resolve: {
@@ -85,13 +87,13 @@ module.exports = function(config) {
           // so we need to manually alias each package here.
           alias: fs
             .readdirSync("packages")
-            .filter(p => p[0] !== ".")
+            .filter((p) => p[0] !== ".")
             .reduce((alias, p) => {
               alias[`@esri/templates-${p}`] = `packages/${p}/src/index.ts`;
               return alias;
-            }, {})
-        }
-      }
+            }, {}),
+        },
+      },
     },
 
     // preprocess matching files before serving them to the browser
@@ -99,26 +101,22 @@ module.exports = function(config) {
     preprocessors: {
       "packages/*/src/**/*.ts": ["karma-typescript"],
       "packages/*/e2e/**/*.ts": ["karma-typescript"],
-      "packages/*/e2e/**/helpers/config.ts": ["karma-typescript", "env"]
+      "packages/*/e2e/**/helpers/config.ts": ["karma-typescript", "env"],
     },
 
     // Expose this as `window.__env__.QACREDS_PSW
     // Used in config files in e2e folders
-    envPreprocessor: [
-      "QACREDS_PSW"
-    ],
+    envPreprocessor: ["QACREDS_PSW", "QACREDS_USER_PSW"],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
     // reporters: ["spec", "karma-typescript", "coverage"],
-    reporters: ["dots",  "karma-typescript"],
+    reporters: ["dots", "karma-typescript"],
     coverageReporter: {
       // specify a common output directory
-      dir: 'coverage',
-      reporters: [
-        { type: 'lcov', subdir: 'lcov' }
-      ]
+      dir: "coverage",
+      reporters: [{ type: "lcov", subdir: "lcov" }],
     },
 
     // web server port
@@ -136,24 +134,19 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: [
-      'Chrome',
-      'Edge',
-      'Firefox'
-    ],
+    browsers: ["Chrome", "Edge", "Firefox"],
     plugins: [
-      require('karma-env-preprocessor'),
-      require('@chiragrupani/karma-chromium-edge-launcher'),
-      require('karma-chrome-launcher'),
-      require('karma-coverage'), 
-      require('karma-firefox-launcher'),
-      require('karma-jasmine'),
-      require('karma-jasmine-diff-reporter'),
-      require('karma-safari-launcher'),
-      require('karma-spec-reporter'),
-      require('karma-typescript'),
-      require('karma-typescript-es6-transform')
-      
+      require("karma-env-preprocessor"),
+      require("@chiragrupani/karma-chromium-edge-launcher"),
+      require("karma-chrome-launcher"),
+      require("karma-coverage"),
+      require("karma-firefox-launcher"),
+      require("karma-jasmine"),
+      require("karma-jasmine-diff-reporter"),
+      require("karma-safari-launcher"),
+      require("karma-spec-reporter"),
+      require("karma-typescript"),
+      require("karma-typescript-es6-transform"),
     ],
 
     // Continuous Integration mode
@@ -165,13 +158,13 @@ module.exports = function(config) {
     concurrency: Infinity,
     customLaunchers: {
       ChromeHeadlessCI: {
-        base: 'ChromeHeadless',
-        flags: ['--no-sandbox']
+        base: "ChromeHeadless",
+        flags: ["--no-sandbox"],
       },
       ChromeDevTools: {
-        base: 'Chrome',
-        flags: ['--auto-open-devtools-for-tabs']
-      }
+        base: "Chrome",
+        flags: ["--auto-open-devtools-for-tabs"],
+      },
     },
   });
 };

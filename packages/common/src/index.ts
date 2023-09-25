@@ -2,6 +2,7 @@
  * Apache-2.0 */
 /* istanbul ignore file */
 
+export * from "./associations";
 export * from "./access";
 export * from "./api";
 export * from "./ArcGISContext";

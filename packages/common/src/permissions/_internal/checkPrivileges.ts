@@ -20,7 +20,10 @@ export function checkPrivileges(
     checks = policy.privileges.map((privilege) => {
       let response: PolicyResponse = "granted";
       let value = "privilege present";
-      if (!context.currentUser.privileges.includes(privilege)) {
+      if (!context.isAuthenticated) {
+        response = "not-authenticated";
+        value = "not authenticated";
+      } else if (!context.currentUser.privileges.includes(privilege)) {
         response = "privilege-required";
         value = "privilege missing";
       }

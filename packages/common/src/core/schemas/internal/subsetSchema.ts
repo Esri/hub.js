@@ -12,6 +12,13 @@ export function subsetSchema(
   props: string[]
 ): IConfigurationSchema {
   const subset: IConfigurationSchema = cloneObject(schema);
+
+  // 1. remove un-specified properties from the "required" array
+  subset.required = [...subset.required].filter((required) =>
+    props.includes(required)
+  );
+
+  // 2. filter the rest of the schema down to the specified properties
   Object.keys(subset.properties).forEach((key) => {
     if (props.indexOf(key) === -1) {
       delete subset.properties[key];

@@ -168,10 +168,15 @@ async function resolveItemQueryMetric(
     requestOptions: context.hubRequestOptions,
     num: 100,
   };
+  // Memoization is great but we have UI's where we want immediate
+  // updates as we share more items into the groups, which means
+  // we can't memoize the search response
   // create/get memoized version of portalSearchItemsAsItems
-  const memoizedPortalSearch = memoize(portalSearchItemsAsItems);
+  // const memoizedPortalSearch = memoize(portalSearchItemsAsItems);
   // Execute the query
-  const response = await memoizedPortalSearch(combined, opts);
+  // const response = await memoizedPortalSearch(combined, opts);
+
+  const response = await portalSearchItemsAsItems(combined, opts);
 
   // This next section is all promise based so that a dynamic value
   // can itself be a dynamic value definition, which then needs to be

@@ -19,7 +19,9 @@ export function checkOwner(
   if (policy.entityOwner) {
     let response: PolicyResponse = "granted";
     let name = "entity owner required";
-    if (!entity) {
+    if (!context.isAuthenticated) {
+      response = "not-authenticated";
+    } else if (!entity) {
       // fail b/c no entity
       response = "entity-required";
     } else {
@@ -32,7 +34,7 @@ export function checkOwner(
     // create the check
     const check: IPolicyCheck = {
       name,
-      value: `current user: ${context.currentUser.username}`,
+      value: `current user: ${context.currentUser?.username}`,
       code: getPolicyResponseCode(response),
       response,
     };

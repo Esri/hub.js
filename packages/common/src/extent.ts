@@ -67,24 +67,24 @@ export const GLOBAL_EXTENT: IExtent = {
  * Gets the geographic extent for an org
  * @param hubRequestOptions
  */
-export function getGeographicOrgExtent(
+export function orgExtent(
   hubRequestOptions: IHubRequestOptions
 ): Promise<IExtent> {
   const portal = hubRequestOptions.portalSelf;
-  const orgExtent = portal.defaultExtent;
+  const organizationExtent = portal.defaultExtent;
   const geometryServiceUrl = getProp(portal, "helperServices.geometry.url");
   // Define a default global extent object
   if (!geometryServiceUrl) {
     return Promise.resolve(GLOBAL_EXTENT);
   }
-  if (!orgExtent) {
+  if (!organizationExtent) {
     return Promise.resolve(GLOBAL_EXTENT);
   }
   const url = `${geometryServiceUrl}/project`;
   // geometry params...
   const geometryParam = {
     geometryType: "esriGeometryEnvelope",
-    geometries: [orgExtent],
+    geometries: [organizationExtent],
   };
   const options: IRequestOptions = {
     httpMethod: "POST",
@@ -92,7 +92,7 @@ export function getGeographicOrgExtent(
       geometries: JSON.stringify(geometryParam),
       transformForward: false,
       transformation: "",
-      inSR: orgExtent.spatialReference.wkid,
+      inSR: organizationExtent.spatialReference.wkid,
       outSR: 4326,
       f: "json",
     },
@@ -126,9 +126,7 @@ export function getGeographicOrgExtent(
 export function getOrgExtentAsBBox(
   hubRequestOptions: IHubRequestOptions
 ): Promise<BBox> {
-  return getGeographicOrgExtent(hubRequestOptions).then((extent) =>
-    extentToBBox(extent)
-  );
+  return orgExtent(hubRequestOptions).then((extent) => extentToBBox(extent));
 }
 
 /**

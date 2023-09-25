@@ -89,7 +89,7 @@ describe("EntityEditor:", () => {
         "someScope",
         "hub:project:edit"
       );
-      const chk = editor.toEditor();
+      const chk = await editor.toEditor();
       expect(toEditorSpy).toHaveBeenCalled();
       expect(chk.id).toBe("00c");
       await editor.save(chk);
@@ -122,7 +122,7 @@ describe("EntityEditor:", () => {
       expect(fromJsonSpy).toHaveBeenCalled();
       await editor.getConfig("someScope", "hub:page:edit");
       expect(getConfigSpy).toHaveBeenCalledWith("someScope", "hub:page:edit");
-      const chk = editor.toEditor();
+      const chk = await editor.toEditor();
       expect(toEditorSpy).toHaveBeenCalled();
       expect(chk.id).toBe("00c");
       await editor.save(chk);
@@ -166,7 +166,7 @@ describe("EntityEditor:", () => {
         "someScope",
         "hub:discussion:edit"
       );
-      const chk = editor.toEditor();
+      const chk = await editor.toEditor();
       expect(toEditorSpy).toHaveBeenCalled();
       expect(chk.id).toBe("00c");
       await editor.save(chk);
@@ -203,7 +203,7 @@ describe("EntityEditor:", () => {
       expect(fromJsonSpy).toHaveBeenCalled();
       await editor.getConfig("someScope", "hub:site:edit");
       expect(getConfigSpy).toHaveBeenCalledWith("someScope", "hub:site:edit");
-      const chk = editor.toEditor();
+      const chk = await editor.toEditor();
       expect(toEditorSpy).toHaveBeenCalled();
       expect(chk.id).toBe("00c");
       await editor.save(chk);
@@ -244,7 +244,7 @@ describe("EntityEditor:", () => {
         "someScope",
         "hub:content:edit"
       );
-      const chk = editor.toEditor();
+      const chk = await editor.toEditor();
       expect(toEditorSpy).toHaveBeenCalled();
       expect(chk.id).toBe("00c");
       await editor.save(chk);
@@ -288,7 +288,7 @@ describe("EntityEditor:", () => {
         "someScope",
         "hub:initiative:edit"
       );
-      const chk = editor.toEditor();
+      const chk = await editor.toEditor();
       expect(toEditorSpy).toHaveBeenCalled();
       expect(chk.id).toBe("00c");
       await editor.save(chk);
@@ -325,7 +325,7 @@ describe("EntityEditor:", () => {
       expect(fromJsonSpy).toHaveBeenCalled();
       await editor.getConfig("someScope", "hub:group:edit");
       expect(getConfigSpy).toHaveBeenCalledWith("someScope", "hub:group:edit");
-      const chk = editor.toEditor();
+      const chk = await editor.toEditor();
       expect(toEditorSpy).toHaveBeenCalled();
       expect(chk.id).toBe("00c");
       await editor.save(chk);
