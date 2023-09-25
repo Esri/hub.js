@@ -195,6 +195,11 @@ export async function getEntityEditorSchemas(
           import(
             "../../../initiativeTemplates/_internal/InitiativeTemplateUiSchemaEdit"
           ),
+        // TODO: update to create template when we have create
+        "hub:initaitiveTemplate:create": () =>
+          import(
+            "../../../initiativeTemplates/_internal/InitiativeTemplateUiSchemaEdit"
+          ),
       }[type as InitiativeTemplateEditorType]();
 
       uiSchema = await initiativeTemplateModule.buildUiSchema(
