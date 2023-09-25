@@ -5,8 +5,8 @@ export type InitiativeTemplateEditorType =
   (typeof InitiativeTemplateEditorTypes)[number];
 
 export const InitiativeTemplateEditorTypes = [
-  "hub:initaitiveTemplate:create",
   "hub:initiativeTemplate:edit",
+  "hub:initaitiveTemplate:create",
 ] as const;
 
 export const InitiativeTemplateSchema: IConfigurationSchema = {
