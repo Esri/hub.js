@@ -8,6 +8,7 @@ import { HubEntity } from "./types/HubEntity";
 import { HubEntityType } from "./types/HubEntityType";
 import { IArcGISContext } from "../ArcGISContext";
 import { fetchHubGroup } from "../groups/HubGroups";
+import { fetchInitiativeTemplate } from "../initiativeTemplates";
 
 /**
  * Fetch a Hub entity by identifier (id or slug)
@@ -44,6 +45,11 @@ export async function fetchHubEntity(
     case "group":
       result = await fetchHubGroup(identifier, context.userRequestOptions);
       break;
+    case "initiativeTemplate":
+      result = await fetchInitiativeTemplate(
+        identifier,
+        context.requestOptions
+      );
   }
   return result;
 }

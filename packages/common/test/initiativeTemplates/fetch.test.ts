@@ -1,5 +1,11 @@
 import * as portalModule from "@esri/arcgis-rest-portal";
-import { fetchInitiativeTemplate, IHubInitiativeTemplate } from "../../src";
+import {
+  fetchInitiativeTemplate,
+  IHubInitiativeTemplate,
+  IHubRequestOptions,
+  enrichInitiativeTemplateSearchResult,
+  cloneObject,
+} from "../../src";
 import {
   INITIATIVE_TEMPLATE_ITEM,
   INITIATIVE_TEMPLATE_DATA,
@@ -8,8 +14,9 @@ import {
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import * as slugUtils from "../../src/items/slugs";
+import * as FetchEnrichments from "../../src/items/_enrichments";
 
-describe("initiative template fetch module:", async () => {
+describe("initiative template fetch module:", () => {
   describe("fetchInitiativeTemplate:", () => {
     it("gets by id, if passed a guid", async () => {
       const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
@@ -86,6 +93,76 @@ describe("initiative template fetch module:", async () => {
       expect(getItemBySlugSpy.calls.argsFor(0)[0]).toBe("dcdev-34th-street");
       // This next stuff is O_o but req'd by typescript
       expect(chk).toEqual(null as unknown as IHubInitiativeTemplate);
+    });
+  });
+
+  describe("enrichInitiativeTemplateSearchResult:", () => {
+    let enrichmentSpy: jasmine.Spy;
+    let hubRo: IHubRequestOptions;
+    beforeEach(() => {
+      enrichmentSpy = spyOn(
+        FetchEnrichments,
+        "fetchItemEnrichments"
+      ).and.callFake(() => {
+        return Promise.resolve({});
+      });
+      hubRo = {
+        portal: "https://some-server.com/gis/sharing/rest",
+      };
+    });
+    it("converts item to search result", async () => {
+      const chk = await enrichInitiativeTemplateSearchResult(
+        cloneObject(INITIATIVE_TEMPLATE_ITEM),
+        [],
+        hubRo
+      );
+
+      expect(enrichmentSpy.calls.count()).toBe(
+        0,
+        "should not fetch enrichments"
+      );
+
+      // verify expected output
+      const ITM = cloneObject(INITIATIVE_TEMPLATE_ITEM);
+      expect(chk.access).toEqual(ITM.access);
+      expect(chk.id).toEqual(ITM.id);
+      expect(chk.type).toEqual(ITM.type);
+      expect(chk.name).toEqual(ITM.title);
+      expect(chk.owner).toEqual(ITM.owner);
+      expect(chk.summary).toEqual(ITM.snippet);
+      expect(chk.createdDate).toEqual(new Date(ITM.created));
+      expect(chk.createdDateSource).toEqual("item.created");
+      expect(chk.updatedDate).toEqual(new Date(ITM.modified));
+      expect(chk.updatedDateSource).toEqual("item.modified");
+      expect(chk.family).toEqual("template");
+      expect(chk.tags).toEqual(ITM.tags);
+      expect(chk.categories).toEqual(ITM.categories);
+      expect(chk.links?.self).toEqual(
+        `https://some-server.com/gis/home/item.html?id=${ITM.id}`
+      );
+      expect(chk.links?.siteRelative).toEqual(
+        `/initiatives/templates/${ITM.id}/about`
+      );
+      expect(chk.links?.thumbnail).toEqual(
+        `${hubRo.portal}/content/items/${ITM.id}/info/${ITM.thumbnail}`
+      );
+      expect(chk.links?.workspaceRelative).toEqual(
+        `/workspace/initiativeTemplates/${ITM.id}`
+      );
+    });
+    it("uses description if snippet is undefined", async () => {
+      const itm = cloneObject(INITIATIVE_TEMPLATE_ITEM);
+      itm.snippet = undefined;
+      const chk = await enrichInitiativeTemplateSearchResult(itm, [], hubRo);
+      expect(chk.summary).toEqual(itm.description);
+    });
+    it("uses slug in site-relative link if defined", async () => {
+      const itm = cloneObject(INITIATIVE_TEMPLATE_ITEM);
+      itm.properties = { slug: "myorg|my-slug" };
+      const chk = await enrichInitiativeTemplateSearchResult(itm, [], hubRo);
+      expect(chk.links?.siteRelative).toEqual(
+        "/initiatives/templates/myorg::my-slug/about"
+      );
     });
   });
 });
