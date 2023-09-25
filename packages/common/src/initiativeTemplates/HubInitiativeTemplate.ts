@@ -32,6 +32,7 @@ import {
   updateInitiativeTemplate,
   deleteInitiativeTemplate,
 } from "./edit";
+import { enrichEntity } from "../core/enrichEntity";
 
 /**
  * Hub Initiative Template Class
@@ -169,13 +170,18 @@ export class HubInitiativeTemplate
    * Return the initiative template as an editor object
    * @param editorContext
    */
-  toEditor(
-    editorContext: IEntityEditorContext = {}
-  ): IHubInitiativeTemplateEditor {
+  async toEditor(
+    editorContext: IEntityEditorContext = {},
+    include: string[] = []
+  ): Promise<IHubInitiativeTemplateEditor> {
     // cast the entity to its editor
-    const editor = cloneObject(this.entity) as IHubInitiativeTemplateEditor;
-
-    // TODO: determine if we need to do anything else here...i don't think so, but maybe....
+    const editor = include.length
+      ? ((await enrichEntity(
+          cloneObject(this.entity),
+          include,
+          this.context.hubRequestOptions
+        )) as IHubInitiativeTemplateEditor)
+      : (cloneObject(this.entity) as IHubInitiativeTemplateEditor);
 
     // for now, just return
     return editor;
