@@ -23,7 +23,9 @@ describe("addGroupMembers: ", () => {
     const result = await addGroupMembers(
       "abc123",
       ["bob", "frank"],
-      MOCK_AUTH,
+      {
+        authentication: MOCK_AUTH,
+      },
       true
     );
     expect(addGroupUsersSpy).toHaveBeenCalled();
@@ -44,7 +46,9 @@ describe("addGroupMembers: ", () => {
     const result = await addGroupMembers(
       "abc123",
       ["bob", "frank"],
-      MOCK_AUTH,
+      {
+        authentication: MOCK_AUTH,
+      },
       true
     );
     expect(addGroupUsersSpy).toHaveBeenCalled();
@@ -65,7 +69,9 @@ describe("addGroupMembers: ", () => {
     const result = await addGroupMembers(
       "abc123",
       ["bob", "frank"],
-      MOCK_AUTH,
+      {
+        authentication: MOCK_AUTH,
+      },
       false
     );
     expect(addGroupUsersSpy).not.toHaveBeenCalled();
