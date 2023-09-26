@@ -200,6 +200,7 @@ describe("initiative template fetch module:", () => {
       );
       expect(chk.siteSolutionId).toBe("c123");
       expect(chk.recommendedTemplates).toEqual(["c456"]);
+      expect(getItemDataSpy).toHaveBeenCalledTimes(1);
     });
   });
 });
