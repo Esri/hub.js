@@ -1,4 +1,8 @@
 import {
+  IAddGroupUsersResult,
+  IInviteGroupUsersResult,
+} from "@esri/arcgis-rest-portal";
+import {
   ArcGISRequestError,
   IAuthenticationManager,
 } from "@esri/arcgis-rest-request";
@@ -83,4 +87,21 @@ export interface IAddOrInviteToGroupResult {
   partnered: IAddOrInviteResponse;
   collaborationCoordinator: IAddOrInviteResponse;
   groupId: string;
+}
+
+/**
+ * Interface for result object out of addGroupMembers.
+ */
+export interface IAddGroupMembersResult {
+  added: string[];
+  invited: string[];
+  notAdded: string[];
+  notInvited: string[];
+  responses: IAddOrInviteMemberResponse[];
+}
+
+export interface IAddOrInviteMemberResponse {
+  username: string;
+  add: IAddGroupUsersResult;
+  invite: IInviteGroupUsersResult;
 }
