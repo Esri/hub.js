@@ -12,6 +12,7 @@ import * as fetchModule from "../../src/initiativeTemplates/fetch";
 import * as viewModule from "../../src/initiativeTemplates/view";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import { HubInitiativeTemplate } from "../../src/initiativeTemplates/HubInitiativeTemplate";
+import * as EnrichEntityModule from "../../src/core/enrichEntity";
 
 describe("HubInitiativeTemplate Class: ", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -315,20 +316,36 @@ describe("HubInitiativeTemplate Class: ", () => {
       );
     });
 
-    it("toEditor converst entity to correct structure", async () => {
-      const chk = HubInitiativeTemplate.fromJson(
-        {
-          id: "bc3",
-          name: "Test Entity",
-          thumbnailUrl: "https://myserver.com/thumbnail.png",
-        },
-        authdCtxMgr.context
-      );
-      const result = await chk.toEditor();
-      // NOTE: If additional transforms are added in the class they should have tests here
-      expect(result.id).toEqual("bc3");
-      expect(result.name).toEqual("Test Entity");
-      expect(result.thumbnailUrl).toEqual("https://myserver.com/thumbnail.png");
+    describe("toEditor", () => {
+      it("optionally enriches the entity", async () => {
+        const enrichEntitySpy = spyOn(
+          EnrichEntityModule,
+          "enrichEntity"
+        ).and.returnValue(Promise.resolve({}));
+        const chk = HubInitiativeTemplate.fromJson(
+          { id: "bc3" },
+          authdCtxMgr.context
+        );
+        await chk.toEditor({}, ["someEnrichment AS _someEnrichment"]);
+        expect(enrichEntitySpy).toHaveBeenCalledTimes(1);
+      });
+      it("toEditor converst entity to correct structure", async () => {
+        const chk = HubInitiativeTemplate.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+          },
+          authdCtxMgr.context
+        );
+        const result = await chk.toEditor();
+        // NOTE: If additional transforms are added in the class they should have tests here
+        expect(result.id).toEqual("bc3");
+        expect(result.name).toEqual("Test Entity");
+        expect(result.thumbnailUrl).toEqual(
+          "https://myserver.com/thumbnail.png"
+        );
+      });
     });
 
     describe("fromEditor:", () => {
@@ -417,6 +434,19 @@ describe("HubInitiativeTemplate Class: ", () => {
         // since thumbnailCache is protected we can't really test that it's set
         // other than via code-coverage
         expect(getProp(result, "_thumbnail")).not.toBeDefined();
+      });
+
+      it("works on create", async () => {
+        const chk = HubInitiativeTemplate.fromJson(
+          {
+            name: "Test Entity",
+          },
+          authdCtxMgr.context
+        );
+        const editor = await chk.toEditor();
+
+        await chk.fromEditor(editor);
+        expect(createSpy).toHaveBeenCalledTimes(1);
       });
     });
   });

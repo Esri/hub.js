@@ -164,5 +164,22 @@ describe("initiative template fetch module:", () => {
         "/initiatives/templates/myorg::my-slug/about"
       );
     });
+    // it("fetches enrichments", async () => {
+    //   const chk = await enrichInitiativeTemplateSearchResult(
+    //     cloneObject(INITIATIVE_TEMPLATE_ITEM),
+    //     ["data.previewUrl AS https://fake-url.arcgis.com"],
+    //     hubRo
+    //   );
+
+    //   // verify the response
+    //   expect(chk.previewUrl).toBe('https://fake-url.arcgis.com');
+
+    //   // verify the spy
+    //   expect(enrichmentSpy.calls.count()).toBe(1, "should fetch enrichments");
+    //   const [item, enrichments, ro] = enrichmentSpy.calls.argsFor(0);
+    //   expect(item).toEqual(INITIATIVE_TEMPLATE_ITEM);
+    //   expect(enrichments).toEqual(["data"]);
+    //   expect(ro).toBe(hubRo);
+    // });
   });
 });

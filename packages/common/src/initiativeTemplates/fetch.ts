@@ -88,23 +88,7 @@ export async function enrichInitiativeTemplateSearchResult(
     },
   };
 
-  // default includes
-  const DEFAULTS: string[] = [];
-  // merge includes
-  include = [...DEFAULTS, ...include].filter(unique);
-  // Parse the includes into a valid set of enrichments
-  const specs = include.map(parseInclude);
-  // Extract out the low-level enrichments needed
-  const enrichments = mapBy("enrichment", specs).filter(unique);
-  // fetch the enrichments
-  let enriched = {};
-  if (enrichments.length) {
-    // TODO: look into caching the requests in fetchItemEnrichments
-    enriched = await fetchItemEnrichments(item, enrichments, requestOptions);
-  }
-  specs.forEach((spec) => {
-    result[spec.prop] = getProp(enriched, spec.path);
-  });
+  // TODO: reimplement enrichment fetching when we know what enrichments we're looking for
 
   // Handle links
   // TODO: link handling should be an enrichment

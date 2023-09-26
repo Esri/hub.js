@@ -6,7 +6,6 @@ export type InitiativeTemplateEditorType =
 
 export const InitiativeTemplateEditorTypes = [
   "hub:initiativeTemplate:edit",
-  "hub:initaitiveTemplate:create",
 ] as const;
 
 export const InitiativeTemplateSchema: IConfigurationSchema = {
