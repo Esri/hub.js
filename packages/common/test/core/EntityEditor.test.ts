@@ -371,7 +371,7 @@ describe("EntityEditor:", () => {
         "someScope",
         "hub:initiativeTemplate:edit"
       );
-      const chk = editor.toEditor();
+      const chk = await editor.toEditor();
       expect(toEditorSpy).toHaveBeenCalled();
       expect(chk.id).toBe("00c");
       await editor.save(chk);
