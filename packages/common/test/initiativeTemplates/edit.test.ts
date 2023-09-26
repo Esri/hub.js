@@ -89,6 +89,9 @@ describe("initiative template edit module:", () => {
           slug: "dcdev|hello-world", // important for coverage
           description: "my desc",
           orgUrlKey: "dcdev",
+          previewUrl: "https://some-preview-url.com",
+          siteSolutionId: "c123",
+          recommendedTemplates: ["c456"],
         },
         { authentication: MOCK_AUTH }
       );
@@ -100,6 +103,9 @@ describe("initiative template edit module:", () => {
         "slug|dcdev|hello-world",
         "cannotDiscuss",
       ]);
+      expect(chk.previewUrl).toBe("https://some-preview-url.com");
+      expect(chk.siteSolutionId).toBe("c123");
+      expect(chk.recommendedTemplates).toEqual(["c456"]);
       // should ensure unique slug
       expect(slugSpy.calls.count()).toBe(1);
       expect(slugSpy.calls.argsFor(0)[0]).toEqual(
@@ -172,6 +178,11 @@ describe("initiative template edit module:", () => {
       expect(chk.location).toEqual({
         type: "none",
       });
+      expect(chk.previewUrl).toBe(
+        "https://dog-house-qa-pre-a-hub.hubqa.arcgis.com"
+      );
+      expect(chk.siteSolutionId).toBe("c123");
+      expect(chk.recommendedTemplates).toEqual(["c456"]);
       // should ensure unique slug
       expect(slugSpy.calls.count()).toBe(1);
       expect(slugSpy.calls.argsFor(0)[0]).toEqual(

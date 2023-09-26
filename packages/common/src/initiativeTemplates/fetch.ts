@@ -52,7 +52,6 @@ export async function convertItemToInitiativeTemplate(
   requestOptions: IRequestOptions
 ): Promise<IHubInitiativeTemplate> {
   const model = await fetchModelFromItem(item, requestOptions);
-  // TODO: in the future we will handle the boundary fetching from resource
   const mapper = new PropertyMapper<Partial<IHubInitiativeTemplate>, IModel>(
     getPropertyMap()
   );

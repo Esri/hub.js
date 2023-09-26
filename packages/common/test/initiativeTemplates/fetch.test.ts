@@ -4,13 +4,16 @@ import {
   enrichInitiativeTemplateSearchResult,
   cloneObject,
 } from "../../src";
-import { fetchInitiativeTemplate } from "../../src/initiativeTemplates/fetch";
+import {
+  convertItemToInitiativeTemplate,
+  fetchInitiativeTemplate,
+} from "../../src/initiativeTemplates/fetch";
 import {
   INITIATIVE_TEMPLATE_ITEM,
   INITIATIVE_TEMPLATE_DATA,
   GUID,
 } from "./fixtures";
-import { MOCK_AUTH } from "../mocks/mock-auth";
+import { MOCK_AUTH, MOCK_CONTEXT } from "../mocks/mock-auth";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as slugUtils from "../../src/items/slugs";
@@ -181,5 +184,22 @@ describe("initiative template fetch module:", () => {
     //   expect(enrichments).toEqual(["data"]);
     //   expect(ro).toBe(hubRo);
     // });
+  });
+
+  describe("convertItemToInitiativeTemplate", () => {
+    it("converts the item correctly", async () => {
+      const getItemDataSpy = spyOn(portalModule, "getItemData").and.returnValue(
+        Promise.resolve(INITIATIVE_TEMPLATE_DATA)
+      );
+      const chk = await convertItemToInitiativeTemplate(
+        INITIATIVE_TEMPLATE_ITEM,
+        MOCK_CONTEXT.requestOptions
+      );
+      expect(chk.previewUrl).toBe(
+        "https://dog-house-qa-pre-a-hub.hubqa.arcgis.com"
+      );
+      expect(chk.siteSolutionId).toBe("c123");
+      expect(chk.recommendedTemplates).toEqual(["c456"]);
+    });
   });
 });
