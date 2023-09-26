@@ -188,8 +188,9 @@ describe("initiative template edit module:", () => {
 
   describe("editor to initiative template", () => {
     it("basic transform", () => {
-      const editor: IHubInitiativeTemplateEditor =
-        {} as unknown as IHubInitiativeTemplateEditor;
+      const editor: IHubInitiativeTemplateEditor = {
+        orgUrlKey: "bar",
+      } as unknown as IHubInitiativeTemplateEditor;
       const it = editorToInitiativeTemplate(editor, {
         urlKey: "foo",
       } as unknown as portalModule.IPortal);

@@ -8,6 +8,7 @@ export const HUB_INITIATIVE_TEMPLATE_ITEM_TYPE = "Hub Initiative Template";
  * Default values of a IHubInitiativeTemplate
  */
 export const DEFAULT_INITIATIVE_TEMPLATE: Partial<IHubInitiativeTemplate> = {
+  catalog: { schemaVersion: 0 },
   name: "No title provided",
   permissions: [],
   tags: [],

@@ -136,6 +136,10 @@ export class HubInitiativeTemplate
     partialInitiativeTemplate: Partial<IHubInitiativeTemplate>,
     context: IArcGISContext
   ): IHubInitiativeTemplate {
+    // ensure we have the orgUrlKey
+    if (!partialInitiativeTemplate.orgUrlKey) {
+      partialInitiativeTemplate.orgUrlKey = context.portal.urlKey;
+    }
     const pojo = {
       ...DEFAULT_INITIATIVE_TEMPLATE,
       ...partialInitiativeTemplate,
