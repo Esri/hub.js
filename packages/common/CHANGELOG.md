@@ -1,3 +1,10 @@
+# @esri/hub-common [14.22.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.21.1...@esri/hub-common@14.22.0) (2023-09-26)
+
+
+### Features
+
+* addGroupMembers ([#1230](https://github.com/Esri/hub.js/issues/1230)) ([3a7c900](https://github.com/Esri/hub.js/commit/3a7c900b88f540dc3470b02947cb659db95a2255))
+
 ## @esri/hub-common [14.21.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.21.0...@esri/hub-common@14.21.1) (2023-09-25)
 
 
