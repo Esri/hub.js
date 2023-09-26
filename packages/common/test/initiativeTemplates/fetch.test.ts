@@ -1,11 +1,10 @@
-import * as portalModule from "@esri/arcgis-rest-portal";
 import {
-  fetchInitiativeTemplate,
   IHubInitiativeTemplate,
   IHubRequestOptions,
   enrichInitiativeTemplateSearchResult,
   cloneObject,
 } from "../../src";
+import { fetchInitiativeTemplate } from "../../src/initiativeTemplates/fetch";
 import {
   INITIATIVE_TEMPLATE_ITEM,
   INITIATIVE_TEMPLATE_DATA,
@@ -13,6 +12,7 @@ import {
 } from "./fixtures";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
+import * as portalModule from "@esri/arcgis-rest-portal";
 import * as slugUtils from "../../src/items/slugs";
 import * as FetchEnrichments from "../../src/items/_enrichments";
 
@@ -52,7 +52,7 @@ describe("initiative template fetch module:", () => {
       expect(chk.id).toBe(GUID);
       expect(chk.owner).toBe(INITIATIVE_TEMPLATE_ITEM.owner);
       expect(chk.thumbnailUrl).toBe(
-        "https://gis.myserver.com/portal/sharing/rest/content/items/9b77674e43cf4bbd9ecad5189b3f1fdc/info/thumbnail/mock-thumbnail.png"
+        "https://gis.myserver.com/portal/sharing/rest/content/items/8b77674e43cf4bbd9ecad5189b3f1fdc/info/thumbnail/mock-thumbnail.png"
       );
       expect(getItemSpy.calls.count()).toBe(1);
       expect(getItemSpy.calls.argsFor(0)[0]).toBe(GUID);

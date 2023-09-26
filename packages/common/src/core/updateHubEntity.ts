@@ -5,7 +5,7 @@ import { updateInitiative } from "../initiatives/HubInitiatives";
 import { updateProject } from "../projects/edit";
 import { updateSite } from "../sites/HubSites";
 import { updatePage } from "../pages/HubPages";
-import { updateInitiativeTemplate } from "../initiativeTemplates";
+import { updateInitiativeTemplate } from "../initiativeTemplates/edit";
 import {
   HubEntity,
   HubEntityType,
@@ -68,6 +68,7 @@ export const updateHubEntity = async (
         entity as IHubInitiativeTemplate,
         context.userRequestOptions
       );
+      break;
   }
   return result;
 };

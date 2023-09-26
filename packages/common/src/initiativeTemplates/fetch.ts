@@ -1,23 +1,26 @@
-import { getItem, IItem } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { getFamily } from "../content";
+import { getItem, IItem } from "@esri/arcgis-rest-portal";
+
+import { getFamily } from "../content/get-family";
 import { getHubRelativeUrl } from "../content/_internal/internalContentUtils";
-import { getRelativeWorkspaceUrl } from "../core";
-import { IHubInitiativeTemplate } from "../core/types/IHubInitiativeTemplate";
+import { IHubInitiativeTemplate } from "../core/types";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
-import { getItemBySlug, getItemIdentifier } from "../items";
+import { getItemBySlug } from "../items/slugs";
+
 import { fetchItemEnrichments } from "../items/_enrichments";
 import { fetchModelFromItem } from "../models";
-import { getProp } from "../objects";
-import { getItemThumbnailUrl } from "../resources";
 import { IHubSearchResult } from "../search";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { IHubRequestOptions, IModel } from "../types";
-import { getItemHomeUrl } from "../urls";
-import { unique } from "../util";
 import { isGuid, mapBy } from "../utils";
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
+import { unique } from "../util";
+import { getProp } from "../objects/get-prop";
+import { getItemThumbnailUrl } from "../resources/get-item-thumbnail-url";
+import { getItemHomeUrl } from "../urls/get-item-home-url";
+import { getItemIdentifier } from "../items";
+import { getRelativeWorkspaceUrl } from "../core/getRelativeWorkspaceUrl";
 
 export async function fetchInitiativeTemplate(
   identifier: string,

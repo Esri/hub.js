@@ -9,7 +9,7 @@ import {
 } from "../../src";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 
-export const GUID = "c12345";
+export const GUID = "8b77674e43cf4bbd9ecad5189b3f1fdc";
 
 export const INITIATIVE_TEMPLATE_ENTITY: IHubInitiativeTemplate = {
   access: "public",

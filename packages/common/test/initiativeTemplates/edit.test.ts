@@ -156,11 +156,7 @@ describe("initiative template edit module:", () => {
         location: {
           type: "none",
         },
-        typeKeywords: [
-          "Hub Initiative Template",
-          "slug|dcdev-wat-blarg",
-          "status|notStarted",
-        ],
+        typeKeywords: ["Hub Initiative Template", "slug|dcdev-wat-blarg"],
       };
       const chk = await updateInitiativeTemplate(it, {
         authentication: MOCK_AUTH,
@@ -171,7 +167,6 @@ describe("initiative template edit module:", () => {
       expect(chk.typeKeywords).toEqual([
         "Hub Initiative Template",
         "slug|dcdev-wat-blarg",
-        "status|inProgress",
         "cannotDiscuss",
       ]);
       expect(chk.location).toEqual({

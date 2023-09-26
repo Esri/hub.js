@@ -1,29 +1,28 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+
+// Note - we separate these imports so we can cleanly spy on things in tests
+import { createModel, getModel, updateModel } from "../models";
+import { constructSlug, getUniqueSlug, setSlugKeyword } from "../items/slugs";
 import {
   IPortal,
   IUserItemOptions,
   removeItem,
 } from "@esri/arcgis-rest-portal";
-import { UiSchemaElementOptions } from "../core";
-import { getEntityEditorSchemas } from "../core/schemas/internal/getEntityEditorSchemas";
+import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import {
   IHubInitiativeTemplate,
   IHubInitiativeTemplateEditor,
 } from "../core/types/IHubInitiativeTemplate";
-import { PropertyMapper } from "../core/_internal/PropertyMapper";
-import { setDiscussableKeyword } from "../discussions";
-import { constructSlug, getUniqueSlug, setSlugKeyword } from "../items";
-import { createModel, getModel, updateModel } from "../models";
-import { IModel } from "../types";
-import { cloneObject } from "../util";
 import {
   DEFAULT_INITIATIVE_TEMPLATE,
   DEFAULT_INITIATIVE_TEMPLATE_MODEL,
 } from "./defaults";
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
-import { InitiativeTemplateEditorType } from "./_internal/InitiativeTemplateSchema";
-import { IEditorConfig } from "../core/behaviors/IWithEditorBehavior";
+import { cloneObject } from "../util";
+import { setDiscussableKeyword } from "../discussions";
+import { IModel } from "../types";
+
 /**
  * @private
  * Create a new Hub Initiative Template item
