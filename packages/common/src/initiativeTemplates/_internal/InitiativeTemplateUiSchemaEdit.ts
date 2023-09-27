@@ -36,6 +36,26 @@ export const buildUiSchema = async (
           ],
         },
       },
+      {
+        type: "Control",
+        scope: "/properties/previewUrl",
+        labelKey: `${i18nScope}.fields.previewUrl.label`,
+      },
+      {
+        type: "Control",
+        scope: "/properties/summary",
+        labelKey: `${i18nScope}.fields.summary.label`,
+      },
+      {
+        type: "Control",
+        scope: "/properties/description",
+        labelKey: `${i18nScope}.fields.description.label`,
+      },
+      {
+        type: "Control",
+        scope: "/properties/_thumbnail",
+        labelKey: `${i18nScope}.fields._thumbnail.label`,
+      },
     ],
   };
 };

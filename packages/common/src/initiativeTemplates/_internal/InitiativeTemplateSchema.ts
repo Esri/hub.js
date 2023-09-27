@@ -12,5 +12,6 @@ export const InitiativeTemplateSchema: IConfigurationSchema = {
   ...HubItemEntitySchema,
   properties: {
     ...HubItemEntitySchema.properties,
+    previewUrl: { type: "string" },
   },
 } as IConfigurationSchema;
