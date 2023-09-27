@@ -142,7 +142,7 @@ export class HubSite
   ): IHubSite {
     // ensure we have the orgUrlKey
     if (!partialSite.orgUrlKey) {
-      partialSite.orgUrlKey = context.portal?.urlKey;
+      partialSite.orgUrlKey = context.portal.urlKey;
     }
     // extend the partial over the defaults
     const pojo = { ...DEFAULT_SITE, ...partialSite } as IHubSite;
