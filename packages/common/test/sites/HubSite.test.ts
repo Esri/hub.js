@@ -52,10 +52,7 @@ describe("HubSite Class:", () => {
   describe("static methods:", () => {
     it("loads from minimal json", () => {
       const createSpy = spyOn(HubSitesModule, "createSite");
-      const chk = HubSite.fromJson(
-        { name: "Test Site" },
-        unauthdCtxMgr.context
-      );
+      const chk = HubSite.fromJson({ name: "Test Site" }, authdCtxMgr.context);
 
       expect(createSpy).not.toHaveBeenCalled();
       expect(chk.toJson().name).toEqual("Test Site");
