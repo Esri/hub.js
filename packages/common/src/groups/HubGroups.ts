@@ -81,7 +81,7 @@ export async function enrichGroupSearchResult(
   });
 
   // Handle links
-  result.links = { ...computeLinks(group, requestOptions) };
+  result.links = computeLinks(group, requestOptions);
 
   return result;
 }

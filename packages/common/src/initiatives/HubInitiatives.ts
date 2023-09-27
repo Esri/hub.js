@@ -257,10 +257,12 @@ export async function enrichInitiativeSearchResult(
 
   // Handle links
   // TODO: Link handling should be an enrichment
-  result.links = { ...computeLinks(item, requestOptions) };
-  // TODO: remove once sites are separated from initiatives and
-  // the initiatives view route is released
-  result.links.siteRelative = getHubRelativeUrl(result.type, result.id);
+  result.links = {
+    ...computeLinks(item, requestOptions),
+    // TODO: remove once sites are separated from initiatives and
+    // the initiatives view route is released
+    siteRelative: getHubRelativeUrl(result.type, result.id),
+  };
 
   return result;
 }

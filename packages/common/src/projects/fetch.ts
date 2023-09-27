@@ -123,7 +123,7 @@ export async function enrichProjectSearchResult(
 
   // Handle links
   // TODO: Link handling should be an enrichment
-  result.links = { ...computeLinks(item, requestOptions) };
+  result.links = computeLinks(item, requestOptions);
 
   return result;
 }
