@@ -9,7 +9,6 @@ on:
       - beta
       # - alpha disabled to allow push to alpha then merge to master w/o incurring a release
       - next
-      - '+([0-9])?(.{+([0-9]),x}).x'
     # Dont run if it's just markdown or doc files
     paths-ignore:
       - "**.md"
