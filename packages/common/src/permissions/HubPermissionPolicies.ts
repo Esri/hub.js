@@ -8,7 +8,7 @@ import { IPermissionPolicy, Permission } from "./types";
 import { GroupPermissionPolicies } from "../groups/_internal/GroupBusinessRules";
 import { PagePermissionPolicies } from "../pages/_internal/PageBusinessRules";
 import { PlatformPermissionPolicies } from "./PlatformPermissionPolicies";
-import { InitiativeTemplatePermissionPolicies } from "../initiativeTemplates/_internal/InitiativeTemplateBusinessRules";
+import { InitiativeTemplatePermissionPolicies } from "../initiative-templates/_internal/InitiativeTemplateBusinessRules";
 // Examples of possible Permission Policies
 // const DiscussionPermissionPolicies: IPermissionPolicy[] = [
 //   {

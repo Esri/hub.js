@@ -3,7 +3,7 @@ import { HubContent } from "../content/HubContent";
 import { HubDiscussion } from "../discussions/HubDiscussion";
 import { HubGroup } from "../groups/HubGroup";
 import { HubInitiative } from "../initiatives/HubInitiative";
-import { HubInitiativeTemplate } from "../initiativeTemplates";
+import { HubInitiativeTemplate } from "../initiative-templates";
 import { HubPage } from "../pages/HubPage";
 import { HubProject } from "../projects/HubProject";
 import { HubSite } from "../sites/HubSite";

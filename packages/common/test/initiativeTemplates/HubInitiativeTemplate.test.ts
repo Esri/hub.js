@@ -7,11 +7,11 @@ import {
   IHubInitiativeTemplateEditor,
 } from "../../src";
 import { MOCK_AUTH } from "../mocks/mock-auth";
-import * as editModule from "../../src/initiativeTemplates/edit";
-import * as fetchModule from "../../src/initiativeTemplates/fetch";
-import * as viewModule from "../../src/initiativeTemplates/view";
+import * as editModule from "../../src/initiative-templates/edit";
+import * as fetchModule from "../../src/initiative-templates/fetch";
+import * as viewModule from "../../src/initiative-templates/view";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
-import { HubInitiativeTemplate } from "../../src/initiativeTemplates/HubInitiativeTemplate";
+import { HubInitiativeTemplate } from "../../src/initiative-templates/HubInitiativeTemplate";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
 
 describe("HubInitiativeTemplate Class: ", () => {

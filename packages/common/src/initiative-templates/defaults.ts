@@ -15,6 +15,7 @@ export const DEFAULT_INITIATIVE_TEMPLATE: Partial<IHubInitiativeTemplate> = {
   typeKeywords: [HUB_INITIATIVE_TEMPLATE_ITEM_TYPE],
   schemaVersion: 1, // TODO: what version is default right now?
   features: InitiativeTemplateDefaultFeatures,
+  values: {},
 };
 
 export const DEFAULT_INITIATIVE_TEMPLATE_MODEL: IModel = {

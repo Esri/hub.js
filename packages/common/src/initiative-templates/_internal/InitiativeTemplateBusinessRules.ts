@@ -4,7 +4,7 @@ import { IFeatureFlags, IPermissionPolicy } from "../../permissions";
  * Default features for an Initiative Template. These are the features that can be enabled / disabled by the entity owner
  */
 export const InitiativeTemplateDefaultFeatures: IFeatureFlags = {
-  // TODO
+  // empty for now
 };
 
 /**
