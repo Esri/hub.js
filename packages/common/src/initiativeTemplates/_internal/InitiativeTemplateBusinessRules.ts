@@ -20,8 +20,8 @@ export const InitiativeTemplatePermissions = [
   "hub:initiativeTemplate:view",
   "hub:initiativeTemplate:workspace:overview",
   "hub:initiativeTemplate:workspace:details",
-  "hub:initiativeTemplate:worskpace:collaborators",
-  "hub:initaitiveTemplate:workspace:settings",
+  "hub:initiativeTemplate:workspace:collaborators",
+  "hub:initiativeTemplate:workspace:settings",
   "hub:initiativeTemplate:manage",
 ] as const;
 
