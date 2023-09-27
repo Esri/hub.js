@@ -6,6 +6,7 @@ import { ContentPermissions } from "../../content/_internal/ContentBusinessRules
 import { GroupPermissions } from "../../groups/_internal/GroupBusinessRules";
 import { PagePermissions } from "../../pages/_internal/PageBusinessRules";
 import { PlatformPermissions } from "../PlatformPermissionPolicies";
+import { InitiativeTemplatePermissions } from "../../initiativeTemplates/_internal/InitiativeTemplateBusinessRules";
 /**
  * Defines the values for Permissions
  * It's critical that the arrays defined in the modules use `as const`
@@ -25,6 +26,7 @@ const validPermissions = [
   ...PlatformPermissions,
   ...TempPermissions,
   ...DiscussionPermissions,
+  ...InitiativeTemplatePermissions,
 ] as const;
 
 /**
@@ -39,7 +41,8 @@ export type Permission =
   | (typeof PagePermissions)[number]
   | (typeof PlatformPermissions)[number]
   | (typeof TempPermissions)[number]
-  | (typeof DiscussionPermissions)[number];
+  | (typeof DiscussionPermissions)[number]
+  | (typeof InitiativeTemplatePermissions)[number];
 
 /**
  * Validate a Permission
