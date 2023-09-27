@@ -7,7 +7,6 @@ import {
   updateInitiativeTemplate,
   IHubInitiativeTemplateEditor,
   editorToInitiativeTemplate,
-  getProp,
 } from "../../src";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as portalModule from "@esri/arcgis-rest-portal";

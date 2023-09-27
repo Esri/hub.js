@@ -8,7 +8,7 @@ import { HubEntity } from "./types/HubEntity";
 import { HubEntityType } from "./types/HubEntityType";
 import { IArcGISContext } from "../ArcGISContext";
 import { fetchHubGroup } from "../groups/HubGroups";
-import { fetchInitiativeTemplate } from "../initiativeTemplates/fetch";
+import { fetchInitiativeTemplate } from "../initiative-templates/fetch";
 
 /**
  * Fetch a Hub entity by identifier (id or slug)

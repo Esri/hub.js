@@ -21,7 +21,7 @@ import {
   IHubProject,
   IHubSite,
 } from "../../../core/types";
-import { InitiativeTemplateEditorType } from "../../../initiativeTemplates/_internal/InitiativeTemplateSchema";
+import { InitiativeTemplateEditorType } from "../../../initiative-templates/_internal/InitiativeTemplateSchema";
 
 /**
  * get the editor schema and uiSchema defined for an entity.
@@ -187,13 +187,13 @@ export async function getEntityEditorSchemas(
 
     case "initiativeTemplate":
       const { InitiativeTemplateSchema } = await import(
-        "../../../initiativeTemplates/_internal/InitiativeTemplateSchema"
+        "../../../initiative-templates/_internal/InitiativeTemplateSchema"
       );
       schema = cloneObject(InitiativeTemplateSchema);
       const initiativeTemplateModule = await {
         "hub:initiativeTemplate:edit": () =>
           import(
-            "../../../initiativeTemplates/_internal/InitiativeTemplateUiSchemaEdit"
+            "../../../initiative-templates/_internal/InitiativeTemplateUiSchemaEdit"
           ),
       }[type as InitiativeTemplateEditorType]();
 

@@ -6,7 +6,7 @@ import { ContentPermissions } from "../../content/_internal/ContentBusinessRules
 import { GroupPermissions } from "../../groups/_internal/GroupBusinessRules";
 import { PagePermissions } from "../../pages/_internal/PageBusinessRules";
 import { PlatformPermissions } from "../PlatformPermissionPolicies";
-import { InitiativeTemplatePermissions } from "../../initiativeTemplates/_internal/InitiativeTemplateBusinessRules";
+import { InitiativeTemplatePermissions } from "../../initiative-templates/_internal/InitiativeTemplateBusinessRules";
 /**
  * Defines the values for Permissions
  * It's critical that the arrays defined in the modules use `as const`

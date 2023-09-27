@@ -1,4 +1,4 @@
-import { buildUiSchema } from "../../../src/initiativeTemplates/_internal/InitiativeTemplateUiSchemaEdit";
+import { buildUiSchema } from "../../../src/initiative-templates/_internal/InitiativeTemplateUiSchemaEdit";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
 import { UiSchemaMessageTypes } from "../../../src/core/schemas/types";
 

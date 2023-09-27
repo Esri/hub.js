@@ -5,7 +5,7 @@ import { updateInitiative } from "../initiatives/HubInitiatives";
 import { updateProject } from "../projects/edit";
 import { updateSite } from "../sites/HubSites";
 import { updatePage } from "../pages/HubPages";
-import { updateInitiativeTemplate } from "../initiativeTemplates/edit";
+import { updateInitiativeTemplate } from "../initiative-templates/edit";
 import {
   HubEntity,
   HubEntityType,

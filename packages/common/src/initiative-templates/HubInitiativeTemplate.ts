@@ -1,16 +1,13 @@
 import { HubItemEntity } from "../core/HubItemEntity";
 import {
   IHubInitiativeTemplate,
-  IWithStoreBehavior,
   IWithCatalogBehavior,
-  IWithSharingBehavior,
   IWithCardBehavior,
   IConvertToCardModelOpts,
   IHubCardViewModel,
   IEntityEditorContext,
   IHubInitiativeTemplateEditor,
   HubEntity,
-  HubEntityEditor,
 } from "../core";
 
 import {
@@ -39,12 +36,7 @@ import { enrichEntity } from "../core/enrichEntity";
  */
 export class HubInitiativeTemplate
   extends HubItemEntity<IHubInitiativeTemplate>
-  implements
-    IWithStoreBehavior<IHubInitiativeTemplate>,
-    IWithCatalogBehavior,
-    IWithSharingBehavior,
-    IWithEditorBehavior,
-    IWithCardBehavior
+  implements IWithCatalogBehavior, IWithEditorBehavior, IWithCardBehavior
 {
   private _catalog: Catalog;
 
@@ -215,21 +207,11 @@ export class HubInitiativeTemplate
 
     delete editor._thumbnail;
 
-    // TODO: do we need featured image stuff here? i don't think so
-
     const entity = editorToInitiativeTemplate(editor, this.context.portal);
 
-    // create initiative template if does not yet exist
-    if (isCreate) {
-      this.entity = await createInitiativeTemplate(
-        entity,
-        this.context.userRequestOptions
-      );
-    } else {
-      // ...otherwise, update in-memory entity and save it
-      this.entity = entity;
-      await this.save();
-    }
+    // save, which will also create an entity if we don't have an id for it
+    this.entity = entity;
+    await this.save();
 
     return this.entity;
   }

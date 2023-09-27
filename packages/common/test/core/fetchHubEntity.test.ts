@@ -90,7 +90,7 @@ describe("fetchHubEntity:", () => {
       requestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
     const spy = spyOn(
-      require("../../src/initiativeTemplates/fetch"),
+      require("../../src/initiative-templates/fetch"),
       "fetchInitiativeTemplate"
     ).and.returnValue(Promise.resolve({}));
     await fetchHubEntity("initiativeTemplate", "123", ctx);

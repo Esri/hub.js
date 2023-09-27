@@ -82,7 +82,7 @@ describe("updateHubEntity:", () => {
       userRequestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
     const spy = spyOn(
-      require("../../src/initiativeTemplates/edit"),
+      require("../../src/initiative-templates/edit"),
       "updateInitiativeTemplate"
     ).and.returnValue(Promise.resolve({}));
     await updateHubEntity("initiativeTemplate", {} as HubEntity, ctx);

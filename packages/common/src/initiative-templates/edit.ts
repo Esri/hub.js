@@ -52,7 +52,7 @@ export async function createInitiativeTemplate(
     { slug: initiativeTemplate.slug },
     requestOptions
   );
-  // add slug and status to keywords
+  // add slug to keywords
   initiativeTemplate.typeKeywords = setSlugKeyword(
     initiativeTemplate.typeKeywords,
     initiativeTemplate.slug

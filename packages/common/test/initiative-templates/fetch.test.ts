@@ -7,7 +7,7 @@ import {
 import {
   convertItemToInitiativeTemplate,
   fetchInitiativeTemplate,
-} from "../../src/initiativeTemplates/fetch";
+} from "../../src/initiative-templates/fetch";
 import {
   INITIATIVE_TEMPLATE_ITEM,
   INITIATIVE_TEMPLATE_DATA,

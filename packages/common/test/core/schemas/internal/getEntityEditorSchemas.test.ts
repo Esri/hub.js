@@ -29,8 +29,8 @@ import { GroupEditorTypes } from "../../../../src/groups/_internal/GroupSchema";
 import * as GroupBuildEditUiSchema from "../../../../src/groups/_internal/GroupUiSchemaEdit";
 import * as GroupBuildSettingsUiSchema from "../../../../src/groups/_internal/GroupUiSchemaSettings";
 
-import { InitiativeTemplateEditorTypes } from "../../../../src/initiativeTemplates/_internal/InitiativeTemplateSchema";
-import * as InitiativeTemplateBuildEditUiSchema from "../../../../src/initiativeTemplates/_internal/InitiativeTemplateUiSchemaEdit";
+import { InitiativeTemplateEditorTypes } from "../../../../src/initiative-templates/_internal/InitiativeTemplateSchema";
+import * as InitiativeTemplateBuildEditUiSchema from "../../../../src/initiative-templates/_internal/InitiativeTemplateUiSchemaEdit";
 
 describe("getEntityEditorSchemas: ", () => {
   let uiSchemaBuildFnSpy: any;
