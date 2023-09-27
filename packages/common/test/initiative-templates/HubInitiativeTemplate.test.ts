@@ -4,7 +4,6 @@ import {
   Catalog,
   getProp,
   IHubInitiativeTemplate,
-  IHubInitiativeTemplateEditor,
 } from "../../src";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as editModule from "../../src/initiative-templates/edit";

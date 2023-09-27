@@ -8,7 +8,7 @@ import {
 import {
   initiativeTemplateToCardModel,
   initiativeTemplateResultToCardModel,
-} from "../../src/initiativeTemplates/view";
+} from "../../src/initiative-templates/view";
 import { cloneObject } from "../../src";
 
 describe("initiative template view module:", () => {
