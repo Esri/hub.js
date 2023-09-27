@@ -1,3 +1,18 @@
+# @esri/hub-common [14.22.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.21.1...@esri/hub-common@14.22.0) (2023-09-26)
+
+
+### Features
+
+* addGroupMembers ([#1230](https://github.com/Esri/hub.js/issues/1230)) ([3a7c900](https://github.com/Esri/hub.js/commit/3a7c900b88f540dc3470b02947cb659db95a2255))
+
+## @esri/hub-common [14.21.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.21.0...@esri/hub-common@14.21.1) (2023-09-25)
+
+
+### Bug Fixes
+
+* **hub-common:** content location should be of type extent, not polygon ([#1228](https://github.com/Esri/hub.js/issues/1228)) ([c5539f4](https://github.com/Esri/hub.js/commit/c5539f458060e990ee5f89fad4016ce74c5c5dfc))
+* checkPermission and checkPrivileges first check isAuthenticated ([#1227](https://github.com/Esri/hub.js/issues/1227)) ([b292131](https://github.com/Esri/hub.js/commit/b29213183ef9362a3517dbcaca8ec854b4b80537))
+
 # @esri/hub-common [14.21.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.20.0...@esri/hub-common@14.21.0) (2023-09-22)
 
 
