@@ -27,6 +27,26 @@ describe("buildUiSchema: initiative template edit", () => {
             ],
           },
         },
+        {
+          type: "Control",
+          scope: "/properties/previewUrl",
+          labelKey: `some.scope.fields.previewUrl.label`,
+        },
+        {
+          type: "Control",
+          scope: "/properties/summary",
+          labelKey: `some.scope.fields.summary.label`,
+        },
+        {
+          type: "Control",
+          scope: "/properties/description",
+          labelKey: `some.scope.fields.description.label`,
+        },
+        {
+          type: "Control",
+          scope: "/properties/_thumbnail",
+          labelKey: `some.scope.fields._thumbnail.label`,
+        },
       ],
     });
   });
