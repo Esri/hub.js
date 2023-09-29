@@ -4,7 +4,7 @@ import { ArcGISContextManager, setProp } from "../../../src";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
 import { IPortal } from "@esri/arcgis-rest-portal";
 
-describe("computeLinks", () => {
+describe("templates: computeLinks", () => {
   let authdCtxMgr: ArcGISContextManager;
   let item: IItem;
 
