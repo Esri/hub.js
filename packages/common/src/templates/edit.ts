@@ -63,7 +63,7 @@ export async function createTemplate(
   // 7. Create the item
   model = await createModel(model, requestOptions);
 
-  // 8. Map the item back into a IHubTemplate
+  // 8. Map the item back into an IHubTemplate
   let newTemplate = mapper.storeToEntity(model, {});
 
   // 9. Compute + set various properties on the IHubTemplate
@@ -112,7 +112,7 @@ export async function updateTemplate(
   // 7. Update the backing item
   const updatedModel = await updateModel(modelToUpdate, requestOptions);
 
-  // 8. Map the item back into a IHubTemplate
+  // 8. Map the item back into an IHubTemplate
   const updatedTemplate = mapper.storeToEntity(updatedModel, template);
 
   // 9. Compute + set various properties on the IHubTemplate

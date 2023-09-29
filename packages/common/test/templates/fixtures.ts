@@ -74,6 +74,7 @@ export const TEMPLATE_ITEM: IItem = {
   numViews: 10,
   size: 0,
   properties: {
+    slug: "qa-pre-a-hub|mock-template",
     schemaVersion: 1,
     previewUrl: "https://dog-house-qa-pre-a-hub.hubqa.arcgis.com",
   },

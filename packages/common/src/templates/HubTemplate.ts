@@ -3,6 +3,7 @@ import { HubItemEntity } from "../core/HubItemEntity";
 import { IHubTemplate } from "../core/types/IHubTemplate";
 import { DEFAULT_TEMPLATE } from "./defaults";
 import { createTemplate, deleteTemplate, updateTemplate } from "./edit";
+import { fetchTemplate } from "./fetch";
 
 /** Hub Template Class */
 export class HubTemplate extends HubItemEntity<IHubTemplate> {
@@ -54,6 +55,34 @@ export class HubTemplate extends HubItemEntity<IHubTemplate> {
       await instance.save();
     }
     return instance;
+  }
+
+  /**
+   * Fetch a HubTemplate from the backing store and return
+   * a HubTemplate instance
+   * @param identifier
+   * @param context
+   */
+  static async fetch(
+    identifier: string,
+    context: IArcGISContext
+  ): Promise<HubTemplate> {
+    try {
+      const initiativeTemplate = await fetchTemplate(
+        identifier,
+        context.requestOptions
+      );
+      return HubTemplate.fromJson(initiativeTemplate, context);
+    } catch (ex) {
+      if (
+        (ex as Error).message ===
+        "CONT_0001: Item does not exist or is inaccessible."
+      ) {
+        throw new Error(`Template ${identifier} not found.`);
+      } else {
+        throw ex;
+      }
+    }
   }
 
   /**

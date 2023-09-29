@@ -1,8 +1,9 @@
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubTemplate } from "../../src/templates/HubTemplate";
 import { initContextManager } from "./fixtures";
-import * as editModule from "../../src/templates/edit";
 import { IHubTemplate } from "../../src/core/types/IHubTemplate";
+import * as editModule from "../../src/templates/edit";
+import * as fetchModule from "../../src/templates/fetch";
 
 describe("HubTemplate Class", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -24,6 +25,7 @@ describe("HubTemplate Class", () => {
         expect(json.catalog).toEqual({ schemaVersion: 0 });
       });
     });
+
     describe("create", () => {
       let createSpy: any;
       beforeEach(() => {
@@ -47,6 +49,45 @@ describe("HubTemplate Class", () => {
           authdCtxMgr.context
         );
         expect(createSpy).not.toHaveBeenCalled();
+      });
+    });
+
+    describe("fetch", () => {
+      it("fetches the Template backing item", async () => {
+        const fetchSpy = spyOn(fetchModule, "fetchTemplate").and.callFake(() =>
+          Promise.resolve({ id: "00c" })
+        );
+
+        const chk = await HubTemplate.fetch("00c", authdCtxMgr.context);
+
+        expect(fetchSpy).toHaveBeenCalledTimes(1);
+        expect(chk.toJson().id).toBe("00c");
+      });
+      it("catches errors when attempting to fetch missing or inaccessible templates", async () => {
+        const fetchSpy = spyOn(fetchModule, "fetchTemplate").and.callFake(() =>
+          Promise.reject(
+            new Error("CONT_0001: Item does not exist or is inaccessible.")
+          )
+        );
+
+        try {
+          await HubTemplate.fetch("00c", authdCtxMgr.context);
+        } catch (ex) {
+          expect(fetchSpy).toHaveBeenCalledTimes(1);
+          expect((ex as any).message).toBe("Template 00c not found.");
+        }
+      });
+      it("catches other errors", async () => {
+        const fetchSpy = spyOn(fetchModule, "fetchTemplate").and.callFake(() =>
+          Promise.reject(new Error("error"))
+        );
+
+        try {
+          await HubTemplate.fetch("00c", authdCtxMgr.context);
+        } catch (ex) {
+          expect(fetchSpy).toHaveBeenCalledTimes(1);
+          expect((ex as any).message).toBe("error");
+        }
       });
     });
   });
