@@ -2,6 +2,7 @@ import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubTemplate } from "../../src/templates/HubTemplate";
 import { initContextManager } from "./fixtures";
 import * as editModule from "../../src/templates/edit";
+import { IHubTemplate } from "../../src/core/types/IHubTemplate";
 
 describe("HubTemplate Class", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -76,6 +77,63 @@ describe("HubTemplate Class", () => {
       await chk.save();
 
       expect(updateSpy).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("update", () => {
+    it("updates the instance's internal entity state", async () => {
+      const chk = HubTemplate.fromJson(
+        { id: "00c", name: "Test Template" },
+        authdCtxMgr.context
+      );
+      await chk.update({
+        name: "Test Template Updated",
+      });
+
+      expect(chk.toJson().name).toBe("Test Template Updated");
+    });
+  });
+
+  describe("delete", () => {
+    let deleteSpy: any;
+    let chk: any;
+    beforeEach(() => {
+      deleteSpy = spyOn(editModule, "deleteTemplate").and.callFake(() =>
+        Promise.resolve()
+      );
+      chk = HubTemplate.fromJson(
+        { id: "00c", name: "Test Template" },
+        authdCtxMgr.context
+      );
+    });
+
+    it("deletes the Hub Template's backing item", async () => {
+      await chk.delete();
+      expect(deleteSpy).toHaveBeenCalledTimes(1);
+    });
+    it("sets isDestroyed to true so that all other methods throw an error", async () => {
+      const destroyedError = "HubTemplate is already destroyed.";
+      expect(chk.isDestroyed).toBeFalsy();
+
+      await chk.delete();
+
+      expect(chk.isDestroyed).toBeTruthy();
+      expect(() => {
+        chk.toJson();
+      }).toThrowError("Entity is already destroyed.");
+      expect(() => {
+        chk.update({} as IHubTemplate);
+      }).toThrowError(destroyedError);
+      try {
+        await chk.delete();
+      } catch (e) {
+        expect((e as any).message).toEqual(destroyedError);
+      }
+      try {
+        await chk.save();
+      } catch (e) {
+        expect((e as any).message).toEqual(destroyedError);
+      }
     });
   });
 });

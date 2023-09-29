@@ -1,16 +1,21 @@
-import { createTemplate, updateTemplate } from "../../src/templates/edit";
+import {
+  createTemplate,
+  updateTemplate,
+  deleteTemplate,
+} from "../../src/templates/edit";
 import {
   GUID,
   TEMPLATE_MODEL,
   TEMPLATE_ENTITY,
   initContextManager,
 } from "./fixtures";
-import * as slugUtils from "../../src/items/slugs";
-import * as modelUtils from "../../src/models";
 import { IModel } from "../../src/types";
 import { cloneObject } from "../../src/util";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { IHubTemplate } from "../../src/core/types/IHubTemplate";
+import * as slugUtils from "../../src/items/slugs";
+import * as modelUtils from "../../src/models";
+import * as portalModule from "@esri/arcgis-rest-portal";
 
 describe("templates: edit module", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -126,6 +131,22 @@ describe("templates: edit module", () => {
       expect(chk.previewUrl).toBe("updated-preview-url");
       expect(chk.summary).toBe("Updated template summary");
       expect(chk.description).toBe("Updated template description");
+    });
+  });
+
+  describe("delteTemplate", () => {
+    it("deletes the template's backing item", async () => {
+      const removeItemSpy = spyOn(portalModule, "removeItem").and.returnValue(
+        Promise.resolve({ success: true })
+      );
+
+      const chk = await deleteTemplate(
+        "00c",
+        authdCtxMgr.context.userRequestOptions
+      );
+      expect(chk).toBeUndefined();
+      expect(removeItemSpy).toHaveBeenCalledTimes(1);
+      expect(removeItemSpy.calls.argsFor(0)[0].id).toBe("00c");
     });
   });
 });

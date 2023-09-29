@@ -9,6 +9,7 @@ import { cloneObject } from "../util";
 import { createModel, getModel, updateModel } from "../models";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
+import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
 
 /**
  * @private
@@ -119,4 +120,20 @@ export async function updateTemplate(
   template = computeProps(model, updatedTemplate, requestOptions);
 
   return updatedTemplate as IHubTemplate;
+}
+
+/**
+ * @private
+ * Remove a Hub Template's backing item
+ * @param id
+ * @param requestOptions
+ */
+export async function deleteTemplate(
+  id: string,
+  requestOptions: IUserRequestOptions
+): Promise<void> {
+  const ro = { ...requestOptions, ...{ id } } as IUserItemOptions;
+  await removeItem(ro);
+
+  return;
 }

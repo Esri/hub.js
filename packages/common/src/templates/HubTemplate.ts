@@ -2,7 +2,7 @@ import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
 import { IHubTemplate } from "../core/types/IHubTemplate";
 import { DEFAULT_TEMPLATE } from "./defaults";
-import { createTemplate, updateTemplate } from "./edit";
+import { createTemplate, deleteTemplate, updateTemplate } from "./edit";
 
 /** Hub Template Class */
 export class HubTemplate extends HubItemEntity<IHubTemplate> {
@@ -61,7 +61,6 @@ export class HubTemplate extends HubItemEntity<IHubTemplate> {
    * it to ensure that a baseline of properties are set
    * @param partialTemplate
    * @param context
-   * @returns
    */
   private static applyDefaults(
     partialTemplate: Partial<IHubTemplate>,
@@ -76,8 +75,16 @@ export class HubTemplate extends HubItemEntity<IHubTemplate> {
     return pojo;
   }
 
+  /**
+   * Update the instance's internal entity state
+   * @param changes
+   */
   update(changes: Partial<IHubTemplate>): void {
-    // TODO
+    if (this.isDestroyed) {
+      throw new Error("HubTemplate is already destroyed.");
+    }
+
+    this.entity = { ...this.entity, ...changes };
   }
 
   /** Save the HubTemplate to the backing store */
@@ -95,7 +102,16 @@ export class HubTemplate extends HubItemEntity<IHubTemplate> {
     await super.afterSave();
   }
 
+  /**
+   * Delete the Hub Template's backing item and set a flag
+   * indicating it's been destroyed
+   */
   async delete(): Promise<void> {
-    // TODO
+    if (this.isDestroyed) {
+      throw new Error("HubTemplate is already destroyed.");
+    }
+
+    this.isDestroyed = true;
+    await deleteTemplate(this.entity.id, this.context.userRequestOptions);
   }
 }
