@@ -1,4 +1,3 @@
-import { UserSession } from "@esri/arcgis-rest-auth";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { isDiscussable } from "../../discussions/utils";
 import { processEntityFeatures } from "../../permissions/_internal/processEntityFeatures";
@@ -6,6 +5,7 @@ import { IModel } from "../../types";
 import { TemplateDefaultFeatures } from "./TemplateBusinessRules";
 import { IHubTemplate } from "../../core/types/IHubTemplate";
 import { computeLinks } from "./computeLinks";
+import { getProp } from "../../objects";
 
 /**
  * @private
@@ -21,12 +21,6 @@ export function computeProps(
   template: Partial<IHubTemplate>,
   requestOptions: IRequestOptions
 ): IHubTemplate {
-  let token: string;
-  if (requestOptions.authentication) {
-    const session: UserSession = requestOptions.authentication as UserSession;
-    token = session.token;
-  }
-
   // 1. compute relevant template links
   template.links = computeLinks(model.item, requestOptions);
 
@@ -44,7 +38,7 @@ export function computeProps(
 
   // 5. process features that can be disabled by the entity owner
   template.features = processEntityFeatures(
-    model.data.settings?.features || {},
+    getProp(model, "data.settings.features") || {},
     TemplateDefaultFeatures
   );
 
