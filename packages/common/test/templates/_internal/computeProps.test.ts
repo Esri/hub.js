@@ -1,11 +1,8 @@
 import { computeProps } from "../../../src/templates/_internal/computeProps";
-import { MOCK_AUTH } from "../../mocks/mock-auth";
 import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
-import { mergeObjects } from "../../../src/objects";
 import { IHubTemplate } from "../../../src/core/types/IHubTemplate";
 import { IModel } from "../../../src/types";
-import { IUser } from "@esri/arcgis-rest-types";
-import { IPortal } from "@esri/arcgis-rest-portal";
+import { initContextManager } from "../fixtures";
 import * as computeLinksModule from "../../../src/templates/_internal/computeLinks";
 import * as isDiscussableModule from "../../../src/discussions/utils";
 import * as processEntityFeaturesModule from "../../../src/permissions/_internal/processEntityFeatures";
@@ -87,22 +84,3 @@ describe("templates: computeProps:", () => {
     expect(chk.features).toEqual({});
   });
 });
-
-const initContextManager = async (opts = {}) => {
-  const defaults = {
-    authentication: MOCK_AUTH,
-    currentUser: {
-      username: "casey",
-      privileges: ["portal:user:shareToGroup"],
-    } as unknown as IUser,
-    portal: {
-      name: "DC R&D Center",
-      id: "BRXFAKE",
-      urlKey: "fake-org",
-    } as unknown as IPortal,
-    portalUrl: "https://myserver.com",
-  };
-  return await ArcGISContextManager.create(
-    mergeObjects(opts, defaults, ["currentUser"])
-  );
-};
