@@ -24,7 +24,7 @@ describe("HubTemplate Class", () => {
       });
     });
     describe("create", () => {
-      let createSpy;
+      let createSpy: any;
       beforeEach(() => {
         createSpy = spyOn(editModule, "createTemplate").and.callFake(() =>
           Promise.resolve({ id: "00c" })

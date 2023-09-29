@@ -19,12 +19,12 @@ describe("templates: edit module", () => {
   beforeEach(async () => {
     authdCtxMgr = await initContextManager();
     getUniqueSlugSpy = spyOn(slugUtils, "getUniqueSlug").and.callFake(
-      ({ slug }) => Promise.resolve(slug)
+      ({ slug }: { slug: string }) => Promise.resolve(slug)
     );
   });
 
   describe("createTemplate", () => {
-    let createSpy;
+    let createSpy: any;
     beforeEach(() => {
       createSpy = spyOn(modelUtils, "createModel").and.callFake((m: IModel) => {
         const newModel = cloneObject(m);

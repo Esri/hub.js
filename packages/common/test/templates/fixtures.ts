@@ -109,9 +109,7 @@ export const TEMPLATE_HUB_SEARCH_RESULT: IHubSearchResult = {
   },
 };
 
-export const TEMPLATE_DATA = {
-  templates: [],
-};
+export const TEMPLATE_DATA = {};
 
 export const TEMPLATE_MODEL = {
   item: TEMPLATE_ITEM,

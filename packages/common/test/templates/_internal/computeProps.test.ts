@@ -11,9 +11,9 @@ describe("templates: computeProps:", () => {
   let authdCtxMgr: ArcGISContextManager;
   let model: IModel;
   let template: Partial<IHubTemplate>;
-  let computeLinksSpy;
-  let isDiscussableSpy;
-  let processEntityFeaturesSpy;
+  let computeLinksSpy: any;
+  let isDiscussableSpy: any;
+  let processEntityFeaturesSpy: any;
 
   beforeEach(async () => {
     authdCtxMgr = await initContextManager();
