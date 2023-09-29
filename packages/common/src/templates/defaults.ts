@@ -2,9 +2,17 @@ import { IHubTemplate } from "../core/types/IHubTemplate";
 import { TemplateDefaultFeatures } from "./_internal/TemplateBusinessRules";
 import { IModel } from "../types";
 
-export const HUB_TEMPLATE_ITEM_TYPE = "Hub Template";
+/**
+ * NOTE: this file provides default values for new
+ * Hub Template creation; however, we have no immediate
+ * plans to allow template creation from the context of
+ * our application. Scaffolding these defaults for
+ * potential future implementation
+ */
 
-/** Default values of a IHubTemplate */
+export const HUB_TEMPLATE_ITEM_TYPE = "Solution";
+
+/** Default values for a new IHubTemplate */
 export const DEFAULT_TEMPLATE: Partial<IHubTemplate> = {
   schemaVersion: 1,
   catalog: { schemaVersion: 0 },
