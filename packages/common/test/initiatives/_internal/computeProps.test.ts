@@ -5,10 +5,28 @@ import { computeProps } from "../../../src/initiatives/_internal/computeProps";
 import { IHubInitiative, IModel } from "../../../src";
 import * as processEntitiesModule from "../../../src/permissions/_internal/processEntityFeatures";
 import { InitiativeDefaultFeatures } from "../../../src/initiatives/_internal/InitiativeBusinessRules";
+import * as computeLinksModule from "../../../src/initiatives/_internal/computeLinks";
 
 describe("initiatives: computeProps:", () => {
   let authdCtxMgr: ArcGISContextManager;
+  let model: IModel;
+  let initiative: Partial<IHubInitiative>;
+
   beforeEach(async () => {
+    model = {
+      item: {
+        type: "Hub Initiative",
+        id: "00c",
+        created: new Date().getTime(),
+        modified: new Date().getTime(),
+      },
+      data: {},
+    } as IModel;
+    initiative = {
+      type: "Hub Initiative",
+      id: "00c",
+      slug: "mock-slug",
+    };
     // When we pass in all this information, the context
     // manager will not try to fetch anything, so no need
     // to mock those calls
@@ -44,60 +62,54 @@ describe("initiatives: computeProps:", () => {
       expect(spy.calls.argsFor(0)[1]).toEqual(InitiativeDefaultFeatures);
     });
     it("handles missing settings hash", () => {
-      const model: IModel = {
-        item: {
-          created: new Date().getTime(),
-          modified: new Date().getTime(),
-        },
-        data: {},
-      } as IModel;
-      const init: Partial<IHubInitiative> = {};
-      const chk = computeProps(model, init, authdCtxMgr.context.requestOptions);
+      const chk = computeProps(
+        model,
+        initiative,
+        authdCtxMgr.context.requestOptions
+      );
       expect(chk.features?.details).toBeTruthy();
       expect(chk.features?.settings).toBeFalsy();
       expect(spy.calls.argsFor(0)[0]).toEqual({});
     });
     it("handles missing capabilities hash", () => {
-      const model: IModel = {
-        item: {
-          id: "3ef",
-          type: "Hub Initiative",
-          created: new Date().getTime(),
-          modified: new Date().getTime(),
-        },
-        data: {
-          settings: {},
-        },
-      } as unknown as IModel;
-      const init: Partial<IHubInitiative> = {};
-      const chk = computeProps(model, init, authdCtxMgr.context.requestOptions);
+      const chk = computeProps(
+        model,
+        initiative,
+        authdCtxMgr.context.requestOptions
+      );
 
       expect(chk.features?.details).toBeTruthy();
       expect(chk.features?.settings).toBeFalsy();
       expect(spy.calls.argsFor(0)[0]).toEqual({});
     });
     it("passes features hash", () => {
-      const model: IModel = {
-        item: {
-          id: "3ef",
-          type: "Hub Initiative",
-          created: new Date().getTime(),
-          modified: new Date().getTime(),
+      model.data = {
+        settings: {
+          features: { details: true },
         },
-        data: {
-          settings: {
-            features: {
-              details: true,
-            },
-          },
-        },
-      } as unknown as IModel;
-      const init: Partial<IHubInitiative> = {};
-      const chk = computeProps(model, init, authdCtxMgr.context.requestOptions);
+      };
+      const chk = computeProps(
+        model,
+        initiative,
+        authdCtxMgr.context.requestOptions
+      );
 
       expect(chk.features?.details).toBeTruthy();
       expect(chk.features?.settings).toBeFalsy();
       expect(spy.calls.argsFor(0)[0]).toEqual({ details: true });
+    });
+    it("generates a links hash", () => {
+      const computeLinksSpy = spyOn(
+        computeLinksModule,
+        "computeLinks"
+      ).and.returnValue({ self: "some-link" });
+      const chk = computeProps(
+        model,
+        initiative,
+        authdCtxMgr.context.requestOptions
+      );
+      expect(computeLinksSpy).toHaveBeenCalledTimes(1);
+      expect(chk.links).toEqual({ self: "some-link" });
     });
   });
 });

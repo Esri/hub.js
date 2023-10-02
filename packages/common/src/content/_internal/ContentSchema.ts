@@ -5,6 +5,7 @@ export type ContentEditorType = (typeof ContentEditorTypes)[number];
 export const ContentEditorTypes = [
   "hub:content:edit",
   "hub:content:settings",
+  "hub:content:discussions",
 ] as const;
 
 /**

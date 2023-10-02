@@ -9,7 +9,7 @@ describe("migrateLegacyCapabilitiesToFeatures", () => {
       data: {
         settings: {},
         values: {
-          capabilities: ["hideFollow"],
+          capabilities: ["hideFollow", "disableDiscussions"],
         },
       },
     } as IModel;
@@ -18,6 +18,7 @@ describe("migrateLegacyCapabilitiesToFeatures", () => {
 
     expect(chk.data?.settings.features).toEqual({
       "hub:site:feature:follow": false,
+      "hub:site:feature:discussions": false,
     });
   });
   it("add features if they are not present in the legacy capabilities array - e.g. they are false", () => {
@@ -33,6 +34,7 @@ describe("migrateLegacyCapabilitiesToFeatures", () => {
 
     expect(chk.data?.settings.features).toEqual({
       "hub:site:feature:follow": true,
+      "hub:site:feature:discussions": true,
     });
   });
   it("adds legacy capabilities to existing features on a site", () => {
@@ -45,7 +47,7 @@ describe("migrateLegacyCapabilitiesToFeatures", () => {
           },
         },
         values: {
-          capabilities: ["hideFollow"],
+          capabilities: ["hideFollow", "disableDiscussions"],
         },
       },
     } as IModel;
@@ -55,6 +57,7 @@ describe("migrateLegacyCapabilitiesToFeatures", () => {
     expect(chk.data?.settings.features).toEqual({
       "hub:site:events": true,
       "hub:site:feature:follow": false,
+      "hub:site:feature:discussions": false,
     });
   });
 });

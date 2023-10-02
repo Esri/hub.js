@@ -10,6 +10,7 @@ import { getContentEditUrl, getHubRelativeUrl } from "./internalContentUtils";
 import { IHubLocation } from "../../core/types/IHubLocation";
 import { IHubEditableContent } from "../../core/types/IHubEditableContent";
 import { getRelativeWorkspaceUrl } from "../../core/getRelativeWorkspaceUrl";
+import { isDiscussable } from "../../discussions";
 import {
   hasServiceCapability,
   ServiceCapabilities,
@@ -71,6 +72,8 @@ export function computeProps(
         ? { type: "none" }
         : deriveLocationFromItemExtent(model.item.extent);
   }
+
+  content.isDiscussable = isDiscussable(content);
 
   if (enrichments.server) {
     content.serverExtractCapability = hasServiceCapability(

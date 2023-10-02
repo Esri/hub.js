@@ -424,6 +424,8 @@ export class HubSite
       editor
     );
 
+    editor._discussions = this.entity.features["hub:site:feature:discussions"];
+
     return editor;
   }
 
@@ -470,6 +472,7 @@ export class HubSite
     entity.features = {
       ...entity.features,
       "hub:site:feature:follow": editor._followers?.showFollowAction,
+      "hub:site:feature:discussions": editor._discussions,
     };
 
     // copy the location extent up one level

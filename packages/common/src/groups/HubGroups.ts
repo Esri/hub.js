@@ -1,10 +1,8 @@
 import { IGroup } from "@esri/arcgis-rest-types";
 import { fetchGroupEnrichments } from "./_internal/enrichments";
 import { getProp, setProp } from "../objects";
-import { getGroupThumbnailUrl } from "../search/utils";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { IHubRequestOptions } from "../types";
-import { getGroupHomeUrl } from "../urls";
 import { unique } from "../util";
 import { mapBy } from "../utils";
 import {
@@ -19,8 +17,9 @@ import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { DEFAULT_GROUP } from "./defaults";
 import { convertHubGroupToGroup } from "./_internal/convertHubGroupToGroup";
 import { convertGroupToHubGroup } from "./_internal/convertGroupToHubGroup";
-import { getRelativeWorkspaceUrl } from "../core/getRelativeWorkspaceUrl";
+import { setDiscussableKeyword } from "../discussions";
 import { IHubSearchResult } from "../search/types/IHubSearchResult";
+import { computeLinks } from "./_internal/computeLinks";
 
 /**
  * Enrich a generic search result
@@ -83,10 +82,7 @@ export async function enrichGroupSearchResult(
   });
 
   // Handle links
-  result.links.thumbnail = getGroupThumbnailUrl(requestOptions.portal, group);
-  result.links.self = getGroupHomeUrl(result.id, requestOptions);
-  result.links.siteRelative = `/teams/${result.id}`;
-  result.links.workspaceRelative = getRelativeWorkspaceUrl("Group", result.id);
+  result.links = computeLinks(group, requestOptions);
 
   return result;
 }
@@ -105,6 +101,10 @@ export async function createHubGroup(
 ): Promise<IHubGroup> {
   // merge the incoming and default groups
   const hubGroup = { ...DEFAULT_GROUP, ...partialGroup } as IHubGroup;
+  hubGroup.typeKeywords = setDiscussableKeyword(
+    hubGroup.typeKeywords,
+    hubGroup.isDiscussable
+  );
   const group = convertHubGroupToGroup(hubGroup);
   const opts = {
     group,
@@ -140,6 +140,10 @@ export async function updateHubGroup(
   hubGroup: IHubGroup,
   requestOptions: IRequestOptions
 ): Promise<IHubGroup> {
+  hubGroup.typeKeywords = setDiscussableKeyword(
+    hubGroup.typeKeywords,
+    hubGroup.isDiscussable
+  );
   const group = convertHubGroupToGroup(hubGroup);
   const opts = {
     group,

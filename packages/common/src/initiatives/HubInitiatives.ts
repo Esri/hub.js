@@ -17,13 +17,11 @@ import {
 import {
   isGuid,
   cloneObject,
-  getItemThumbnailUrl,
   unique,
   mapBy,
   getProp,
   getFamily,
   IHubRequestOptions,
-  getItemHomeUrl,
   setDiscussableKeyword,
   IModel,
 } from "../index";
@@ -41,17 +39,16 @@ import { IEntityInfo, IHubInitiative } from "../core/types";
 import { IHubSearchResult } from "../search";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { fetchItemEnrichments } from "../items/_enrichments";
-import { getHubRelativeUrl } from "../content/_internal/internalContentUtils";
 import { DEFAULT_INITIATIVE, DEFAULT_INITIATIVE_MODEL } from "./defaults";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
 import { applyInitiativeMigrations } from "./_internal/applyInitiativeMigrations";
-import { getRelativeWorkspaceUrl } from "../core/getRelativeWorkspaceUrl";
 import { combineQueries } from "../search/_internal/combineQueries";
 import { portalSearchItemsAsItems } from "../search/_internal/portalSearchItems";
 import { getTypeWithKeywordQuery } from "../associations/internal/getTypeWithKeywordQuery";
-import { getTypeWithoutKeywordQuery } from "../associations/internal/getTypeWithoutKeywordQuery";
 import { negateGroupPredicates } from "../search/_internal/negateGroupPredicates";
+import { computeLinks } from "./_internal/computeLinks";
+import { getHubRelativeUrl } from "../content/_internal/internalContentUtils";
 
 /**
  * @private
@@ -260,23 +257,12 @@ export async function enrichInitiativeSearchResult(
 
   // Handle links
   // TODO: Link handling should be an enrichment
-  result.links.thumbnail = getItemThumbnailUrl(item, requestOptions);
-  result.links.self = getItemHomeUrl(result.id, requestOptions);
-  const identifier = item.id;
-  // Until the new initiatives route is in place we need to
-  // route using the id. Once the route is in place we can
-  // un-comment this
-  // const identifier = getItemIdentifier(item);
-
-  result.links.siteRelative = getHubRelativeUrl(
-    result.type,
-    identifier,
-    item.typeKeywords
-  );
-  result.links.workspaceRelative = getRelativeWorkspaceUrl(
-    result.type,
-    identifier
-  );
+  result.links = {
+    ...computeLinks(item, requestOptions),
+    // TODO: remove once sites are separated from initiatives and
+    // the initiatives view route is released
+    siteRelative: getHubRelativeUrl(result.type, result.id),
+  };
 
   return result;
 }

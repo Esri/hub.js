@@ -19,6 +19,7 @@ import { getPropertyMap } from "./_internal/getPropertyMap";
 import { cloneObject } from "../util";
 import { IModel } from "../types";
 import { getProp } from "../objects/get-prop";
+import { setDiscussableKeyword } from "../discussions";
 import { modelToHubEditableContent } from "./fetch";
 import { getService, parseServiceUrl } from "@esri/arcgis-rest-feature-layer";
 import { updateServiceDefinition } from "@esri/arcgis-rest-service-admin";
@@ -57,6 +58,11 @@ export async function createContent(
   // merge incoming with the default
   // this expansion solves the typing somehow
   const content = { /* ...DEFAULT_PROJECT, */ ...partialContent };
+
+  content.typeKeywords = setDiscussableKeyword(
+    content.typeKeywords,
+    content.isDiscussable
+  );
 
   // Map project object onto a default project Model
   const mapper = new PropertyMapper<Partial<IHubEditableContent>, IModel>(
@@ -103,6 +109,10 @@ export async function updateContent(
   // to properly handle other types like PDFs that don't have JSON data
   const item = await getItem(content.id, requestOptions);
   const model: IModel = { item };
+  content.typeKeywords = setDiscussableKeyword(
+    content.typeKeywords,
+    content.isDiscussable
+  );
   // create the PropertyMapper
   const mapper = new PropertyMapper<Partial<IHubEditableContent>, IModel>(
     getPropertyMap()

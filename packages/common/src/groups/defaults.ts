@@ -10,6 +10,7 @@ export const DEFAULT_GROUP: Partial<IHubGroup> = {
   name: "No title provided",
   access: "private",
   permissions: [],
+  typeKeywords: [],
 };
 
 /**

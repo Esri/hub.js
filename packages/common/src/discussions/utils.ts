@@ -40,7 +40,7 @@ export function setDiscussableKeyword(
   typeKeywords: string[],
   discussable: boolean
 ): string[] {
-  const updatedTypeKeywords = typeKeywords.filter(
+  const updatedTypeKeywords = (typeKeywords || []).filter(
     (typeKeyword: string) => typeKeyword !== CANNOT_DISCUSS
   );
   if (!discussable) {
