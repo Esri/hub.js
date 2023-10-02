@@ -32,7 +32,7 @@ import {
 } from "./behaviors";
 
 import { IWithThumbnailBehavior } from "./behaviors/IWithThumbnailBehavior";
-import { AccessLevel, IHubItemEntity, SettableAccessLevel } from "./types";
+import { IHubItemEntity, SettableAccessLevel } from "./types";
 import { sharedWith } from "./_internal/sharedWith";
 import { IWithDiscussionsBehavior } from "./behaviors/IWithDiscussionsBehavior";
 import { setDiscussableKeyword } from "../discussions";
@@ -251,6 +251,25 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
       group: {
         id: this.entity.followersGroupId,
         access,
+      },
+      authentication: this.context.session,
+    });
+  }
+
+  /**
+   * Sets whether or not the followers group is discussable
+   * @param isDiscussable
+   */
+  async setFollowersGroupIsDiscussable(isDiscussable: boolean) {
+    const group = await this.getFollowersGroup();
+    const typeKeywords = setDiscussableKeyword(
+      group.typeKeywords,
+      isDiscussable
+    );
+    const afterGroup = await updateGroup({
+      group: {
+        id: group.id,
+        typeKeywords,
       },
       authentication: this.context.session,
     });
