@@ -56,6 +56,10 @@ export const InitiativeTemplatePermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:initiativeTemplate:view"],
   },
   {
+    permission: "hub:initiativeTemplate:workspace:dashboard",
+    dependencies: ["hub:initiativeTemplate:edit"],
+  },
+  {
     permission: "hub:initiativeTemplate:workspace:details",
     dependencies: ["hub:initiativeTemplate:edit"],
   },
