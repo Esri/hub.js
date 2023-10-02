@@ -31,21 +31,47 @@ describe("buildUiSchema: initiative template edit", () => {
           type: "Control",
           scope: "/properties/previewUrl",
           labelKey: `some.scope.fields.previewUrl.label`,
+          options: {
+            helperText: {
+              labelKey: "some.scope.fields.previewUrl.helperText",
+            },
+          },
         },
         {
           type: "Control",
           scope: "/properties/summary",
           labelKey: `some.scope.fields.summary.label`,
+          options: {
+            control: "hub-field-input-input",
+            type: "textarea",
+          },
         },
         {
           type: "Control",
           scope: "/properties/description",
           labelKey: `some.scope.fields.description.label`,
+          options: {
+            control: "hub-field-input-input",
+            type: "textarea",
+          },
         },
         {
           type: "Control",
           scope: "/properties/_thumbnail",
           labelKey: `some.scope.fields._thumbnail.label`,
+          options: {
+            control: "hub-field-input-image-picker",
+            imgSrc: "https://some-thumbnail-url.com",
+            maxWidth: 727,
+            maxHeight: 484,
+            aspectRatio: 1.5,
+            helperText: {
+              labelKey: "some.scope.fields._thumbnail.helperText",
+            },
+            sizeDescription: {
+              labelKey: "some.scope.fields._thumbnail.sizeDescription",
+            },
+          },
         },
       ],
     });
