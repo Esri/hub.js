@@ -57,6 +57,8 @@ export type EntityType =
   | "item"
   | "group"
   | "user"
+  | "portalUser"
+  | "communityUser"
   | "groupMember"
   | "event"
   | "channel";

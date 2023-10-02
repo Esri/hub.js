@@ -10,9 +10,8 @@ import {
   IEntityEditorContext,
   SettableAccessLevel,
 } from "../core";
-import { EditorType } from "../core/schemas/types";
 
-import { Catalog } from "../search";
+import { Catalog } from "../search/Catalog";
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
 import {
@@ -35,6 +34,10 @@ import {
 import { projectToCardModel } from "./view";
 import { cloneObject, maybePush } from "../util";
 import { createProject, editorToProject, updateProject } from "./edit";
+import { ProjectEditorType } from "./_internal/ProjectSchema";
+import { enrichEntity } from "../core/enrichEntity";
+import { getProp } from "../objects";
+import { IGroup } from "@esri/arcgis-rest-types";
 
 /**
  * Hub Project Class
@@ -161,14 +164,14 @@ export class HubProject
     return projectToCardModel(this.entity, this.context, opts);
   }
   /*
-   * Gt the editor config for the HubProject entity.
+   * Get a specific editor config for the HubProject entity.
    * @param i18nScope translation scope to be interpolated into the uiSchema
    * @param type editor type - corresonds to the returned uiSchema
    * @param options optional hash of dynamic uiSchema element options
    */
   async getEditorConfig(
     i18nScope: string,
-    type: EditorType
+    type: ProjectEditorType
   ): Promise<IEditorConfig> {
     // delegate to the schema subsystem
     return getEditorConfig(i18nScope, type, this.entity, this.context);
@@ -179,27 +182,52 @@ export class HubProject
    * @param editorContext
    * @returns
    */
-  toEditor(editorContext: IEntityEditorContext = {}): IHubProjectEditor {
-    // cast the entity to it's editor
-    const editor = cloneObject(this.entity) as IHubProjectEditor;
+  async toEditor(
+    editorContext: IEntityEditorContext = {},
+    include: string[] = []
+  ): Promise<IHubProjectEditor> {
+    // 1. optionally enrich entity and cast to editor
+    const editor = include.length
+      ? ((await enrichEntity(
+          cloneObject(this.entity),
+          include,
+          this.context.hubRequestOptions
+        )) as IHubProjectEditor)
+      : (cloneObject(this.entity) as IHubProjectEditor);
+
     // add the groups array that we'll use to auto-share on save
     editor._groups = [];
 
+    // 2. Apply transforms to relevant entity values so they
+    // can be consumed by the editor
     /**
      * on project creation, we want to pre-populate the sharing
      * field with the core and collaboration groups if the user
      * has the appropriate shareToGroup portal privilege
+     *
+     * TODO: we should re-evaluate this "auto-populate" pattern
      */
     const { access: canShare } = this.checkPermission(
       "platform:portal:user:shareToGroup"
     );
     if (!editor.id && canShare) {
-      // TODO: at what point can we remove this "auto-share" behavior?
-      editor._groups = maybePush(editorContext.contentGroupId, editor._groups);
-      editor._groups = maybePush(
+      const currentUserGroups: IGroup[] =
+        getProp(this.context, "currentUser.groups") || [];
+      const defaultShareWithGroups = [
+        editorContext.contentGroupId,
         editorContext.collaborationGroupId,
-        editor._groups
-      );
+      ].reduce((acc, groupId) => {
+        const group = currentUserGroups.find((g: IGroup) => g.id === groupId);
+        const canShareToGroup =
+          !!group &&
+          (!group.isViewOnly ||
+            (group.isViewOnly &&
+              ["owner", "admin"].includes(group.memberType)));
+
+        canShareToGroup && acc.push(groupId);
+        return acc;
+      }, []);
+      editor._groups = [...editor._groups, ...defaultShareWithGroups];
     }
 
     return editor;

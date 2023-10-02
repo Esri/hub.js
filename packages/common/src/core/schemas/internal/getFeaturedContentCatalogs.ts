@@ -3,13 +3,14 @@ import {
   WellKnownCatalog,
   getWellKnownCatalog,
 } from "../../../search/wellKnownCatalog";
+import { IHubCatalog } from "../../../search/types/IHubCatalog";
 
 /**
  * Return a catalog structured for picking featured content.
  * @param user
  * @returns
  */
-export function getFeaturedContentCatalogs(user: IUser) {
+export function getFeaturedContentCatalogs(user: IUser): IHubCatalog[] {
   const catalogNames: WellKnownCatalog[] = [
     "myContent",
     "favorites",
@@ -27,5 +28,5 @@ export function getFeaturedContentCatalogs(user: IUser) {
     return catalog;
   });
 
-  return { catalogs };
+  return catalogs;
 }

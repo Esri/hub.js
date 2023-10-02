@@ -3,18 +3,15 @@ import {
   ENTERPRISE_PAGE_ITEM_TYPE,
   HUB_PAGE_ITEM_TYPE,
 } from "./defaults";
-import { EditorType } from "../core/schemas/types";
 import {
   IHubPage,
   IWithStoreBehavior,
   IWithSharingBehavior,
-  UiSchemaElementOptions,
   IHubPageEditor,
   IEntityEditorContext,
 } from "../core";
 
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
-import { getEntityEditorSchemas } from "../core/schemas/getEntityEditorSchemas";
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
 import {
@@ -26,6 +23,7 @@ import { createPage, deletePage, fetchPage, updatePage } from "./HubPages";
 
 import { PageEditorType } from "./_internal/PageSchema";
 import { cloneObject } from "../util";
+import { enrichEntity } from "../core/enrichEntity";
 
 /*
   TODO:
@@ -116,14 +114,6 @@ export class HubPage
     }
   }
 
-  static async getEditorConfig(
-    i18nScope: string,
-    type: PageEditorType,
-    options: UiSchemaElementOptions[] = []
-  ): Promise<IEditorConfig> {
-    return getEntityEditorSchemas(i18nScope, type, options);
-  }
-
   private static applyDefaults(
     partialPage: Partial<IHubPage>,
     context: IArcGISContext
@@ -195,14 +185,14 @@ export class HubPage
     await deletePage(this.entity.id, this.context.userRequestOptions);
   }
   /*
-   * Get the editor config for the HubProject entity.
+   * Get a specific editor config for the HubPage entity.
    * @param i18nScope translation scope to be interpolated into the uiSchema
    * @param type editor type - corresonds to the returned uiSchema
    * @param options optional hash of dynamic uiSchema element options
    */
   async getEditorConfig(
     i18nScope: string,
-    type: EditorType
+    type: PageEditorType
   ): Promise<IEditorConfig> {
     // delegate to the schema subsystem
     return getEditorConfig(i18nScope, type, this.entity, this.context);
@@ -213,11 +203,22 @@ export class HubPage
    * @param editorContext
    * @returns
    */
-  toEditor(editorContext: IEntityEditorContext = {}): IHubPageEditor {
-    // Cast the entity to it's editor
-    const editor = cloneObject(this.entity) as IHubPageEditor;
+  async toEditor(
+    editorContext: IEntityEditorContext = {},
+    include: string[] = []
+  ): Promise<IHubPageEditor> {
+    // 1. optionally enrich entity and cast to editor
+    const editor = include.length
+      ? ((await enrichEntity(
+          cloneObject(this.entity),
+          include,
+          this.context.hubRequestOptions
+        )) as IHubPageEditor)
+      : (cloneObject(this.entity) as IHubPageEditor);
 
-    // Add other transforms here...
+    // 2. Apply transforms to relevant entity values so they
+    // can be consumed by the editor
+
     return editor;
   }
 

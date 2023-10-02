@@ -123,6 +123,21 @@ export interface IHubUserRequestOptions extends IHubRequestOptions {
   authentication: UserSession;
 }
 
+export interface IHubTrustedOrgsResponse {
+  from: IHubTrustedOrgsRelationship;
+  to: IHubTrustedOrgsRelationship;
+}
+
+export interface IHubTrustedOrgsRelationship {
+  orgId: string;
+  usersAccess: boolean;
+  established: number;
+  name?: string;
+  hub: boolean;
+  state: string;
+  [propName: string]: any;
+}
+
 export interface IItemResource {
   type?: string;
   url: string;

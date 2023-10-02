@@ -4,7 +4,8 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import { IHubGroup } from "../../core/types/IHubGroup";
 import { IGroup } from "@esri/arcgis-rest-types";
 import { isDiscussable } from "../../discussions";
-import { getGroupThumbnailUrl } from "../../search";
+import { getGroupThumbnailUrl } from "../../search/utils";
+import { computeLinks } from "./computeLinks";
 
 /**
  * Given a model and a group, set various computed properties that can't be directly mapped
@@ -47,6 +48,8 @@ export function computeProps(
     "updateitemcontrol"
   );
 
+  hubGroup.memberType = group.userMembership?.memberType;
+
   hubGroup.membershipAccess = "anyone";
   if (group.membershipAccess === "org") {
     hubGroup.membershipAccess = "organization";
@@ -56,9 +59,11 @@ export function computeProps(
   }
 
   hubGroup.canEdit =
-    group.userMembership.memberType === "owner" ||
-    group.userMembership.memberType === "admin";
+    group.userMembership?.memberType === "owner" ||
+    group.userMembership?.memberType === "admin";
   hubGroup.canDelete = hubGroup.canEdit;
+
+  hubGroup.links = computeLinks(group, requestOptions);
 
   // cast b/c this takes a partial but returns a full group
   return hubGroup as IHubGroup;

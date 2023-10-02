@@ -21,6 +21,22 @@ describe("getRelativeWorkspaceUrl", () => {
     expect(isValidEntityTypeSpy).toHaveBeenCalledTimes(1);
     expect(result).toBe("/workspace/projects/123");
   });
+  it("returns the relative workspace url if provided entity type content", () => {
+    const getTypeFromEntitySpy = spyOn(
+      getTypeFromEntityModule,
+      "getTypeFromEntity"
+    ).and.returnValue("content");
+    const isValidEntityTypeSpy = spyOn(
+      isValidEntityTypeModule,
+      "isValidEntityType"
+    ).and.returnValue(true);
+
+    result = getRelativeWorkspaceUrl("Web Mapping Application", "123");
+
+    expect(getTypeFromEntitySpy).toHaveBeenCalledTimes(1);
+    expect(isValidEntityTypeSpy).toHaveBeenCalledTimes(1);
+    expect(result).toBe("/workspace/content/123");
+  });
   it('returns "/" if provided an invalid entity type', () => {
     const getTypeFromEntitySpy = spyOn(
       getTypeFromEntityModule,

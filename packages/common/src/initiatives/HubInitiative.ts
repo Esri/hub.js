@@ -1,7 +1,4 @@
 import { DEFAULT_INITIATIVE } from "./defaults";
-import { EditorType } from "../core/schemas/types";
-
-import { getEntityEditorSchemas } from "../core/schemas/getEntityEditorSchemas";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
 import { IEntityEditorContext } from "../core/types/HubEntityEditor";
 import { cloneObject } from "../util";
@@ -12,7 +9,7 @@ import {
   updateInitiative,
 } from "./HubInitiatives";
 
-import { Catalog } from "../search";
+import { Catalog } from "../search/Catalog";
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
 import { InitiativeEditorType } from "./_internal/InitiativeSchema";
@@ -29,13 +26,13 @@ import {
   IWithCatalogBehavior,
   IWithStoreBehavior,
   IWithSharingBehavior,
-  UiSchemaElementOptions,
   IEditorConfig,
   IResolvedMetric,
   IWithCardBehavior,
   IWithEditorBehavior,
   IHubInitiativeEditor,
 } from "../core";
+import { enrichEntity } from "../core/enrichEntity";
 
 /**
  * Hub Initiative Class
@@ -131,24 +128,6 @@ export class HubInitiative
         throw ex;
       }
     }
-  }
-
-  /**
-   * Static method to get the editor config for the HubInitiative entity.
-   * @param i18nScope translation scope to be interpolated into the uiSchema
-   * @param type editor type - corresonds to the returned uiSchema
-   * @param options optional hash of dynamic uiSchema element options
-   *
-   * Note: typescript does not have a means to specify static methods in interfaces
-   * so while this is the implementation of IWithEditorBehavior, it is not enforced
-   * by the compiler.
-   */
-  static async getEditorConfig(
-    i18nScope: string,
-    type: InitiativeEditorType,
-    options: UiSchemaElementOptions[] = []
-  ): Promise<IEditorConfig> {
-    return getEntityEditorSchemas(i18nScope, type, options);
   }
 
   private static applyDefaults(
@@ -257,14 +236,14 @@ export class HubInitiative
   }
 
   /*
-   * Get the editor config for the HubProject entity.
+   * Get a specifc editor config for the HubInitiative entity.
    * @param i18nScope translation scope to be interpolated into the uiSchema
    * @param type editor type - corresonds to the returned uiSchema
    * @param options optional hash of dynamic uiSchema element options
    */
   async getEditorConfig(
     i18nScope: string,
-    type: EditorType
+    type: InitiativeEditorType
   ): Promise<IEditorConfig> {
     // delegate to the schema subsystem
     return getEditorConfig(i18nScope, type, this.entity, this.context);
@@ -275,11 +254,22 @@ export class HubInitiative
    * @param editorContext
    * @returns
    */
-  toEditor(editorContext: IEntityEditorContext = {}): IHubInitiativeEditor {
-    // Cast the entity to it's editor
-    const editor = cloneObject(this.entity) as IHubInitiativeEditor;
+  async toEditor(
+    editorContext: IEntityEditorContext = {},
+    include: string[] = []
+  ): Promise<IHubInitiativeEditor> {
+    // 1. optionally enrich entity and cast to editor
+    const editor = include.length
+      ? ((await enrichEntity(
+          cloneObject(this.entity),
+          include,
+          this.context.hubRequestOptions
+        )) as IHubInitiativeEditor)
+      : (cloneObject(this.entity) as IHubInitiativeEditor);
 
-    // Add other transforms here...
+    // 2. Apply transforms to relevant entity values so they
+    // can be consumed by the editor
+
     return editor;
   }
 

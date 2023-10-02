@@ -1,7 +1,6 @@
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
 
-import { EditorType } from "../core/schemas/types";
 import {
   IEditorConfig,
   IWithEditorBehavior,
@@ -15,6 +14,8 @@ import { getEditorConfig } from "../core/schemas/getEditorConfig";
 import { IEntityEditorContext } from "../core/types/HubEntityEditor";
 import { cloneObject } from "../util";
 import { editorToContent } from "./edit";
+import { ContentEditorType } from "./_internal/ContentSchema";
+import { enrichEntity } from "../core/enrichEntity";
 
 export class HubContent
   extends HubItemEntity<IHubEditableContent>
@@ -98,7 +99,7 @@ export class HubContent
    */
   async getEditorConfig(
     i18nScope: string,
-    type: EditorType
+    type: ContentEditorType
   ): Promise<IEditorConfig> {
     // delegate to the schema subsystem
     return getEditorConfig(i18nScope, type, this.entity, this.context);
@@ -109,12 +110,21 @@ export class HubContent
    * @param editorContext
    * @returns
    */
-  toEditor(editorContext: IEntityEditorContext = {}): IHubContentEditor {
-    // Cast the entity to it's editor
-    const editor = cloneObject(this.entity) as IHubContentEditor;
+  async toEditor(
+    editorContext: IEntityEditorContext = {},
+    include: string[] = []
+  ): Promise<IHubContentEditor> {
+    // 1. optionally enrich entity and cast to editor
+    const editor = include.length
+      ? ((await enrichEntity(
+          cloneObject(this.entity),
+          include,
+          this.context.hubRequestOptions
+        )) as IHubContentEditor)
+      : (cloneObject(this.entity) as IHubContentEditor);
 
-    // Add other transforms here...
-    // NOTE: Be sure to add tests for any transforms in the test suite
+    // 2. Apply transforms to relevant entity values so they
+    // can be consumed by the editor
     return editor;
   }
 

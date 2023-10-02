@@ -10,8 +10,8 @@ import {
 import { Catalog } from "../search";
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
-import { EditorType } from "../core/schemas/types";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
+import { enrichEntity } from "../core/enrichEntity";
 import {
   IEditorConfig,
   IWithEditorBehavior,
@@ -47,7 +47,8 @@ import { cloneObject } from "../util";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 
-import { IHubSiteEditor, IModel } from "../index";
+import { IHubSiteEditor, IModel, setProp, SettableAccessLevel } from "../index";
+import { SiteEditorType } from "./_internal/SiteSchema";
 
 /**
  * Hub Site Class
@@ -391,7 +392,7 @@ export class HubSite
    */
   async getEditorConfig(
     i18nScope: string,
-    type: EditorType
+    type: SiteEditorType
   ): Promise<IEditorConfig> {
     // delegate to the schema subsystem
     return getEditorConfig(i18nScope, type, this.entity, this.context);
@@ -402,11 +403,27 @@ export class HubSite
    * @param editorContext
    * @returns
    */
-  toEditor(editorContext: IEntityEditorContext = {}): IHubSiteEditor {
-    // Cast the entity to it's editor
-    const editor = cloneObject(this.entity) as IHubSiteEditor;
+  async toEditor(
+    editorContext: IEntityEditorContext = {},
+    include: string[] = []
+  ): Promise<IHubSiteEditor> {
+    // 1. optionally enrich entity and cast to editor
+    const editor = include.length
+      ? ((await enrichEntity(
+          cloneObject(this.entity),
+          include,
+          this.context.hubRequestOptions
+        )) as IHubSiteEditor)
+      : (cloneObject(this.entity) as IHubSiteEditor);
 
-    // Add other transforms here...
+    // 2. Apply transforms to relevant entity values so they
+    // can be consumed by the editor
+    setProp(
+      "_followers.showFollowAction",
+      this.entity.features["hub:site:feature:follow"],
+      editor
+    );
+
     return editor;
   }
 
@@ -417,6 +434,9 @@ export class HubSite
    */
   async fromEditor(editor: IHubSiteEditor): Promise<IHubSite> {
     const isCreate = !editor.id;
+
+    // 1. Perform any pre-save operations e.g. storing
+    // image resources on the item, setting access, etc.
 
     // Setting the thumbnailCache will ensure that
     // the thumbnail is updated on next save
@@ -436,18 +456,29 @@ export class HubSite
 
     delete editor._thumbnail;
 
-    // convert back to an entity. Apply any reverse transforms used in
-    // of the toEditor method
+    // set the followers group access
+    if (editor._followers?.groupAccess) {
+      await this.setFollowersGroupAccess(
+        editor._followers.groupAccess as SettableAccessLevel
+      );
+    }
+
+    // 2. Convert editor values back to an entity e.g. apply
+    // any reverse transforms used in the toEditor method
     const entity = cloneObject(editor) as IHubSite;
+
+    entity.features = {
+      ...entity.features,
+      "hub:site:feature:follow": editor._followers?.showFollowAction,
+    };
 
     // copy the location extent up one level
     entity.extent = editor.location?.extent;
 
-    // create it if it does not yet exist...
+    // 3. create or update the in-memory entity and save
     if (isCreate) {
       throw new Error("Cannot create content using the Editor.");
     } else {
-      // ...otherwise, update the in-memory entity and save it
       this.entity = entity;
       await this.save();
     }

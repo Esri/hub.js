@@ -19,6 +19,8 @@ export const GroupPermissions = [
   "hub:group:workspace:collaborators",
   "hub:group:workspace:content",
   "hub:group:workspace:members",
+  "hub:group:shareContent",
+  "hub:group:manage",
 ] as const;
 
 /**
@@ -73,5 +75,22 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:group:workspace:members",
     dependencies: ["hub:group:view"],
+  },
+  {
+    permission: "hub:group:shareContent",
+    dependencies: ["hub:group"],
+    authenticated: true,
+    privileges: ["portal:user:shareToGroup"],
+    assertions: [
+      {
+        property: "context:currentUser",
+        type: "is-group-member",
+        value: "entity:id",
+      },
+    ],
+  },
+  {
+    permission: "hub:group:manage",
+    dependencies: ["hub:group:edit"],
   },
 ];

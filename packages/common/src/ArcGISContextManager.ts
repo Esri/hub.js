@@ -13,6 +13,9 @@ import { HubServiceStatus } from "./core";
 import { cloneObject } from "./util";
 import { base64ToUnicode, unicodeToBase64 } from "./utils/encoding";
 import { IFeatureFlags } from "./permissions";
+import { IHubTrustedOrgsResponse } from "./types";
+import { request } from "@esri/arcgis-rest-request";
+import { failSafe } from "./utils/fail-safe";
 
 /**
  * Options that can be passed into `ArcGISContextManager.create`
@@ -73,6 +76,16 @@ export interface IArcGISContextManagerOptions {
    * Optional hash of feature flags
    */
   featureFlags?: IFeatureFlags;
+
+  /**
+   * Array of Trusted Org Ids
+   */
+  trustedOrgIds?: string[];
+
+  /**
+   * Trusted orgs xhr response
+   */
+  trustedOrgs?: IHubTrustedOrgsResponse[];
 }
 
 /**
@@ -116,6 +129,10 @@ export class ArcGISContextManager {
   private _serviceStatus: HubServiceStatus;
 
   private _featureFlags: IFeatureFlags = {};
+
+  private _trustedOrgIds: string[];
+
+  private _trustedOrgs: IHubTrustedOrgsResponse[];
 
   /**
    * Private constructor. Use `ArcGISContextManager.create(...)` to
@@ -163,6 +180,14 @@ export class ArcGISContextManager {
 
     if (opts.featureFlags) {
       this._featureFlags = cloneObject(opts.featureFlags);
+    }
+
+    if (opts.trustedOrgIds) {
+      this._trustedOrgIds = cloneObject(opts.trustedOrgIds);
+    }
+
+    if (opts.trustedOrgs) {
+      this._trustedOrgs = cloneObject(opts.trustedOrgs);
     }
   }
 
@@ -310,6 +335,12 @@ export class ArcGISContextManager {
     if (this._properties) {
       state.properties = this._properties;
     }
+    if (this._trustedOrgIds) {
+      state.trustedOrgIds = this._trustedOrgIds;
+    }
+    if (this._trustedOrgs) {
+      state.trustedOrgs = this._trustedOrgs;
+    }
 
     return unicodeToBase64(JSON.stringify(state));
   }
@@ -323,14 +354,21 @@ export class ArcGISContextManager {
     if (this._authentication && (!this._portalSelf || !this._currentUser)) {
       Logger.debug(`ArcGISContextManager-${this.id}: Initializing`);
       const username = this._authentication.username;
-      const requests: [Promise<IPortal>, Promise<IUser>] = [
+      const requests: [
+        Promise<IPortal>,
+        Promise<IUser>,
+        Promise<IHubTrustedOrgsResponse[]>
+      ] = [
         getSelf({ authentication: this._authentication }),
         getUser({ username, authentication: this._authentication }),
+        getTrustedOrgs(this._portalUrl, this._authentication),
       ];
       try {
-        const [portal, user] = await Promise.all(requests);
+        const [portal, user, trustedOrgs] = await Promise.all(requests);
         this._portalSelf = portal;
         this._currentUser = user;
+        this._trustedOrgs = trustedOrgs;
+        this._trustedOrgIds = getTrustedOrgIds(trustedOrgs);
         Logger.debug(
           `ArcGISContextManager-${this.id}: received portalSelf and currentUser`
         );
@@ -372,6 +410,12 @@ export class ArcGISContextManager {
     if (this._currentUser) {
       contextOpts.currentUser = this._currentUser;
     }
+    if (this._trustedOrgIds) {
+      contextOpts.trustedOrgIds = this._trustedOrgIds;
+    }
+    if (this._trustedOrgs) {
+      contextOpts.trustedOrgs = this._trustedOrgs;
+    }
 
     return contextOpts;
   }
@@ -388,6 +432,32 @@ function getServiceStatus(portalUrl: string): Promise<HubServiceStatus> {
   }
 
   return Promise.resolve(status);
+}
+
+/**
+ * Get trusted orgs w/ a failSafe to return an empty array
+ */
+async function getTrustedOrgs(
+  _portalUrl: string,
+  _authentication: UserSession
+): Promise<IHubTrustedOrgsResponse[]> {
+  const failSafeTrustedOrgs = failSafe(request, { trustedOrgs: [] });
+  const trustedOrgs = await failSafeTrustedOrgs(
+    `${_portalUrl}/sharing/rest/portals/self/trustedOrgs?f=json`,
+    {
+      params: {
+        token: _authentication.token,
+      },
+    }
+  );
+  return trustedOrgs.trustedOrgs;
+}
+
+/**
+ * Extract trustedOrg ids from trustedOrgs response
+ */
+function getTrustedOrgIds(trustedOrgs: IHubTrustedOrgsResponse[]): string[] {
+  return trustedOrgs.map((org) => org.to.orgId);
 }
 
 const HUB_SERVICE_STATUS: HubServiceStatus = {

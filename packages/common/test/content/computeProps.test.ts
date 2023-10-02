@@ -1,94 +1,185 @@
 import {
   computeProps,
   deriveLocationFromItemExtent,
-  getItemExtent,
+  getExtentObject,
 } from "../../src/content/_internal/computeProps";
-import { MOCK_AUTH } from "../mocks/mock-auth";
-import { ArcGISContextManager } from "../../src/ArcGISContextManager";
-import { IPortal } from "@esri/arcgis-rest-portal";
-import { IUser } from "@esri/arcgis-rest-types";
-import { IHubEditableContent, IModel } from "../../src";
+import { IHubEditableContent } from "../../src/core/types/IHubEditableContent";
+import { IItemAndIServerEnrichments } from "../../src/items/_enrichments";
+import { IHubRequestOptions, IModel } from "../../src/types";
+import { cloneObject } from "../../src/util";
+import { MOCK_HUB_REQOPTS } from "../mocks/mock-auth";
 
 describe("content computeProps", () => {
-  let authdCtxMgr: ArcGISContextManager;
+  let requestOptions: IHubRequestOptions;
   beforeEach(async () => {
-    // When we pass in all this information, the context
-    // manager will not try to fetch anything, so no need
-    // to mock those calls
-    authdCtxMgr = await ArcGISContextManager.create({
-      authentication: MOCK_AUTH,
-      currentUser: {
-        username: "casey",
-        privileges: ["portal:user:createItem"],
-      } as unknown as IUser,
-      portal: {
-        name: "DC R&D Center",
-        id: "BRXFAKE",
-        urlKey: "fake-org",
-        properties: {
-          hub: {
-            enabled: true,
-          },
-        },
-      } as unknown as IPortal,
-      portalUrl: "https://org.maps.arcgis.com",
-    });
+    requestOptions = cloneObject(MOCK_HUB_REQOPTS);
   });
 
-  it("computeProps model boundary undefined", () => {
+  it("handles when properties are undefined", () => {
     const model: IModel = {
       item: {
+        type: "Feature Service",
+        id: "9001",
+        created: new Date().getTime(),
+        modified: new Date().getTime(),
+      },
+      // no boundary set
+    } as IModel;
+    const content: Partial<IHubEditableContent> = {
+      type: "Feature Service",
+      id: "9001",
+      // no location set
+    };
+
+    const chk = computeProps(model, content, requestOptions);
+
+    expect(chk.location?.type).toBe("custom");
+  });
+
+  it("handles when boundary is undefined", () => {
+    const model: IModel = {
+      item: {
+        type: "Feature Service",
+        id: "9001",
         created: new Date().getTime(),
         modified: new Date().getTime(),
         properties: {
           // nothing set in properties
         },
       },
-      data: {},
       // no boundary set
     } as IModel;
     const content: Partial<IHubEditableContent> = {
+      type: "Feature Service",
+      id: "9001",
       // no location set
     };
 
-    const chk = computeProps(
-      model,
-      content,
-      authdCtxMgr.context.requestOptions
-    );
+    const chk = computeProps(model, content, requestOptions);
 
     expect(chk.location?.type).toBe("custom");
   });
 
-  it("computeProps boundary defined as none", () => {
+  it("handles when boundary defined as none", () => {
     const model: IModel = {
       item: {
+        type: "Feature Service",
+        id: "9001",
         created: new Date().getTime(),
         modified: new Date().getTime(),
         properties: {
           boundary: "none",
         },
       },
-      data: {},
       // no boundary set
     } as IModel;
     const content: Partial<IHubEditableContent> = {
+      type: "Feature Service",
+      id: "9001",
       // no location set
     };
 
-    const chk = computeProps(
-      model,
-      content,
-      authdCtxMgr.context.requestOptions
-    );
+    const chk = computeProps(model, content, requestOptions);
 
     expect(chk.location?.type).toBe("none");
+  });
+
+  it("adds relative link when no slug is available", () => {
+    const model: IModel = {
+      item: {
+        type: "Feature Service",
+        id: "9001",
+        created: new Date().getTime(),
+        modified: new Date().getTime(),
+        properties: {
+          boundary: "none",
+        },
+      },
+      // no boundary set
+    } as IModel;
+    const content: Partial<IHubEditableContent> = {
+      type: "Feature Service",
+      id: "9001",
+      // no location set
+    };
+
+    const chk = computeProps(model, content, requestOptions);
+
+    expect(chk.links.siteRelative).toBe("/maps/9001");
+  });
+
+  it("adds relative link when a slug is available", () => {
+    const model: IModel = {
+      item: {
+        type: "Feature Service",
+        id: "9001",
+        created: new Date().getTime(),
+        modified: new Date().getTime(),
+        properties: {
+          boundary: "none",
+        },
+      },
+      // no boundary set
+    } as IModel;
+    const content: Partial<IHubEditableContent> = {
+      type: "Feature Service",
+      id: "9001",
+      slug: "my-slug",
+      // no location set
+    };
+
+    const chk = computeProps(model, content, requestOptions);
+
+    expect(chk.links.siteRelative).toBe("/maps/my-slug");
+  });
+
+  it("adds server based enrichments if available", () => {
+    const model: IModel = {
+      item: {
+        type: "Feature Service",
+        id: "9001",
+        created: new Date().getTime(),
+        modified: new Date().getTime(),
+        properties: {},
+      },
+    } as IModel;
+    const content: Partial<IHubEditableContent> = {
+      type: "Feature Service",
+      id: "9001",
+    };
+    const enrichments: IItemAndIServerEnrichments = {
+      server: { capabilities: "Extract" },
+    };
+
+    const chk = computeProps(model, content, requestOptions, enrichments);
+    expect(chk.serverExtractCapability).toBeTruthy();
+  });
+
+  it("handles when authentication isn't defined", () => {
+    const model: IModel = {
+      item: {
+        type: "Feature Service",
+        id: "9001",
+        created: new Date().getTime(),
+        modified: new Date().getTime(),
+        properties: {},
+      },
+    } as IModel;
+    const content: Partial<IHubEditableContent> = {
+      type: "Feature Service",
+      id: "9001",
+    };
+    const withoutAuth = cloneObject(requestOptions);
+    delete withoutAuth.authentication;
+
+    const chk = computeProps(model, content, withoutAuth);
+    expect(chk.thumbnail).toBeUndefined();
   });
 });
 
 describe("getItemExtent", () => {
   it("getItemExtent isBBox is true", () => {
-    const chk = getItemExtent([
+    const chk = getExtentObject([
       [100, 100],
       [120, 120],
     ]);

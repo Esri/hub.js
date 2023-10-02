@@ -8,7 +8,7 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { HubServiceStatus } from "./core";
 import { getProp, getWithDefault } from "./objects";
 import { HubEnvironment, HubLicense, IFeatureFlags } from "./permissions/types";
-import { IHubRequestOptions } from "./types";
+import { IHubRequestOptions, IHubTrustedOrgsResponse } from "./types";
 import { getEnvironmentFromPortalUrl } from "./utils/getEnvironmentFromPortalUrl";
 
 /**
@@ -186,6 +186,16 @@ export interface IArcGISContext {
    * Hash of feature flags
    */
   featureFlags: IFeatureFlags;
+
+  /**
+   * Array of Trusted Org Ids
+   */
+  trustedOrgIds: string[];
+
+  /**
+   * Trusted orgs xhr response
+   */
+  trustedOrgs: IHubTrustedOrgsResponse[];
 }
 
 /**
@@ -242,6 +252,16 @@ export interface IArcGISContextOptions {
    * Hash of feature flags
    */
   featureFlags?: IFeatureFlags;
+
+  /**
+   * Array of Trusted Org Ids
+   */
+  trustedOrgIds?: string[];
+
+  /**
+   * Trusted orgs xhr response
+   */
+  trustedOrgs?: IHubTrustedOrgsResponse[];
 }
 
 /**
@@ -281,6 +301,10 @@ export class ArcGISContext implements IArcGISContext {
 
   private _featureFlags: IFeatureFlags = {};
 
+  private _trustedOrgIds: string[];
+
+  private _trustedOrgs: IHubTrustedOrgsResponse[];
+
   /**
    * Create a new instance of `ArcGISContext`.
    *
@@ -304,6 +328,14 @@ export class ArcGISContext implements IArcGISContext {
     }
     if (opts.properties) {
       this._properties = opts.properties;
+    }
+
+    if (opts.trustedOrgIds) {
+      this._trustedOrgIds = opts.trustedOrgIds;
+    }
+
+    if (opts.trustedOrgs) {
+      this._trustedOrgs = opts.trustedOrgs;
     }
 
     this._featureFlags = opts.featureFlags || {};
@@ -622,5 +654,19 @@ export class ArcGISContext implements IArcGISContext {
    */
   public get properties(): Record<string, any> {
     return this._properties;
+  }
+
+  /**
+   * Returns the array of Trusted Org Ids
+   */
+  public get trustedOrgIds(): string[] {
+    return this._trustedOrgIds;
+  }
+
+  /**
+   * Returns the array of Trusted Orgs
+   */
+  public get trustedOrgs(): IHubTrustedOrgsResponse[] {
+    return this._trustedOrgs;
   }
 }

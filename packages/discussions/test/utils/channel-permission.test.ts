@@ -1530,6 +1530,29 @@ describe("ChannelPermission class", () => {
 
         expect(channelPermission.canReadChannel(user)).toBe(false);
       });
+
+      it("returns true if user logged in and in non-discussable group", async () => {
+        const user = buildUser({
+          groups: [buildGroup("groupND", "member", [CANNOT_DISCUSS])],
+        });
+        const channelAcl = [
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.MEMBER,
+            key: "groupND",
+            role: Role.READ, // members write
+          },
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.ADMIN,
+            key: "groupND",
+            role: Role.READ, // members write
+          },
+        ] as IChannelAclPermission[];
+        const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+        expect(channelPermission.canReadChannel(user)).toBe(true);
+      });
     });
 
     describe("Anonymous User Permissions", () => {
@@ -1766,7 +1789,7 @@ describe("ChannelPermission class", () => {
         expect(channelPermission.canReadChannel(user)).toBe(true);
       });
 
-      it("returns false if user is group member in permissions list but the group is not discussable", async () => {
+      it("returns true if user is group member in permissions list but the group is not discussable", async () => {
         const user = buildUser({
           orgId: orgId1,
           groups: [
@@ -1790,7 +1813,7 @@ describe("ChannelPermission class", () => {
 
         const channelPermission = new ChannelPermission(channelAcl, "foo");
 
-        expect(channelPermission.canReadChannel(user)).toBe(false);
+        expect(channelPermission.canReadChannel(user)).toBe(true);
       });
 
       it("returns false if user is group admin but group is not in permissions list", async () => {

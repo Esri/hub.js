@@ -23,11 +23,13 @@ import {
   IEditorConfig,
   IWithEditorBehavior,
 } from "../core/behaviors/IWithEditorBehavior";
-import { EditorType } from "../core/schemas/types";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
 import { setGroupThumbnail } from "./setGroupThumbnail";
 import { getGroupThumbnailUrl } from "../search/utils";
 import { deleteGroupThumbnail } from "./deleteGroupThumbnail";
+import { GroupEditorType } from "./_internal/GroupSchema";
+import { IEntityEditorContext } from "../core";
+import { enrichEntity } from "../core/enrichEntity";
 
 /**
  * Hub Group Class
@@ -54,15 +56,12 @@ export class HubGroup
    * only the owner or admins of the group can
    */
   get canEdit(): boolean {
-    if (
+    return (
       (this.entity.memberType &&
         (this.entity.memberType === "owner" ||
           this.entity.memberType === "admin")) ||
       this.entity.owner === this.context.currentUser.username
-    ) {
-      return true;
-    }
-    return false;
+    );
   }
 
   /**
@@ -256,7 +255,7 @@ export class HubGroup
    */
   async getEditorConfig(
     i18nScope: string,
-    type: EditorType
+    type: GroupEditorType
   ): Promise<IEditorConfig> {
     // delegate to the schema subsystem
     return getEditorConfig(i18nScope, type, this.entity, this.context);
@@ -265,9 +264,22 @@ export class HubGroup
   /**
    * Return the group as an editor object
    */
-  toEditor(): IHubGroupEditor {
-    // cast the entity to it's editor
-    const editor = cloneObject(this.entity) as IHubGroupEditor;
+  async toEditor(
+    editorContext: IEntityEditorContext = {},
+    include: string[] = []
+  ): Promise<IHubGroupEditor> {
+    // 1. optionally enrich entity and cast to editor
+    const editor = include.length
+      ? ((await enrichEntity(
+          cloneObject(this.entity),
+          include,
+          this.context.hubRequestOptions
+        )) as IHubGroupEditor)
+      : (cloneObject(this.entity) as IHubGroupEditor);
+
+    // 2. Apply transforms to relevant entity values so they
+    // can be consumed by the editor
+
     return editor;
   }
 

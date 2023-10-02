@@ -7,6 +7,7 @@ export const SiteDefaultFeatures: IFeatureFlags = {
   "hub:site:events": false,
   "hub:site:content": true,
   "hub:site:discussions": false,
+  "hub:site:feature:follow": true,
 };
 
 /**
@@ -23,6 +24,7 @@ export const SitePermissions = [
   "hub:site:events",
   "hub:site:content",
   "hub:site:discussions",
+  "hub:site:feature:follow",
   "hub:site:workspace:overview",
   "hub:site:workspace:dashboard",
   "hub:site:workspace:details",
@@ -33,6 +35,7 @@ export const SitePermissions = [
   "hub:site:workspace:followers",
   "hub:site:workspace:followers:member",
   "hub:site:workspace:followers:manager",
+  "hub:site:manage",
 ] as const;
 
 /**
@@ -79,6 +82,11 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:site:discussions",
     dependencies: ["hub:site:view"],
+  },
+  {
+    permission: "hub:site:feature:follow",
+    dependencies: ["hub:site:view"],
+    entityConfigurable: true,
   },
   {
     permission: "hub:site:workspace:overview",
@@ -135,6 +143,10 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
         value: "entity:followersGroupId",
       },
     ],
+  },
+  {
+    permission: "hub:site:manage",
+    dependencies: ["hub:site:edit"],
   },
 ];
 

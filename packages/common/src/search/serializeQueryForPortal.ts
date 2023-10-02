@@ -164,11 +164,8 @@ function serializePredicate(predicate: IPredicate): ISearchOptions {
         if (!specialProps.includes(key) && key !== "term") {
           so.q = serializeMatchOptions(key, value);
         }
-        if (dateProps.includes(key)) {
-          so.q = serializeDateRange(
-            key,
-            value as unknown as IDateRange<number>
-          );
+        if (dateProps.includes(key) || isRange(value)) {
+          so.q = serializeRange(key, value as unknown as IDateRange<number>);
         }
         if (boolProps.includes(key)) {
           so.q = `${key}:${value}`;
@@ -230,12 +227,12 @@ function serializeMatchOptions(key: string, value: IMatchOptions): string {
 }
 
 /**
- * Serialize a date-range into Portal syntax
+ * Serialize a range into Portal syntax
  * @param key
  * @param range
  * @returns
  */
-function serializeDateRange(key: string, range: IDateRange<number>): string {
+function serializeRange(key: string, range: IDateRange<number>): string {
   return `${key}:[${range.from} TO ${range.to}]`;
 }
 
@@ -261,4 +258,17 @@ function serializeStringOrArray(
     q = `${key}:"${value}"`;
   }
   return q;
+}
+
+/**
+ * Determines if the given value is a range object
+ * @param value A search param value
+ * @returns true when the value is a range object, e.g. { from: '0', to: '{' }
+ */
+function isRange(value: any): boolean {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    ["from", "to"].every((key) => typeof value[key] !== "undefined")
+  );
 }

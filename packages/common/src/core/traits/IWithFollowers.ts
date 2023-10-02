@@ -3,5 +3,5 @@
  */
 export interface IWithFollowers {
   /** followers group id */
-  followersGroupId: string;
+  followersGroupId?: string;
 }
