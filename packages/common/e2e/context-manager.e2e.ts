@@ -13,7 +13,7 @@ describe("context-manager:", () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 200000;
     factory = new Artifactory(config);
   });
-  it("can set thumbnail on a project", async () => {
+  it("can serialize and deserialize", async () => {
     // create context
     const ctxMgr = await factory.getContextManager("hubBasic", "admin");
     // serialize
