@@ -11,7 +11,8 @@ export const TemplateSchema: IConfigurationSchema = {
     ...HubItemEntitySchema.properties,
     previewUrl: {
       type: "string",
-      format: "uri",
+      if: { minLength: 1 },
+      then: { format: "uri" },
     },
   },
 } as IConfigurationSchema;
