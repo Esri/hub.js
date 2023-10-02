@@ -1,3 +1,10 @@
+# @esri/hub-common [14.24.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.23.0...@esri/hub-common@14.24.0) (2023-10-02)
+
+
+### Features
+
+* adds entity discussion settings ([#1221](https://github.com/Esri/hub.js/issues/1221)) ([5e25a43](https://github.com/Esri/hub.js/commit/5e25a4336316aab18c1b9fd82c9a2b685fce14ef))
+
 # @esri/hub-common [14.23.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.22.0...@esri/hub-common@14.23.0) (2023-09-28)
 
 
