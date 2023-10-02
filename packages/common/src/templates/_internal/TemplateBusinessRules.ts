@@ -16,6 +16,7 @@ export const TemplatePermissions = [
   "hub:template:create",
   "hub:template:delete",
   "hub:template:edit",
+  "hub:template:manage",
   "hub:template:view",
   "hub:template:workspace:overview",
   "hub:template:workspace:details",
@@ -48,6 +49,10 @@ export const TemplatePermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:template"],
     authenticated: true,
     entityEdit: true,
+  },
+  {
+    permission: "hub:template:manage",
+    dependencies: ["hub:template:edit"],
   },
   {
     permission: "hub:template:workspace:overview",
