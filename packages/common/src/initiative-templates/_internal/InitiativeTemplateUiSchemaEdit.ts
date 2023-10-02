@@ -40,21 +40,47 @@ export const buildUiSchema = async (
         type: "Control",
         scope: "/properties/previewUrl",
         labelKey: `${i18nScope}.fields.previewUrl.label`,
+        options: {
+          helperText: {
+            labelKey: `${i18nScope}.fields.previewUrl.helperText`,
+          },
+        },
       },
       {
         type: "Control",
         scope: "/properties/summary",
         labelKey: `${i18nScope}.fields.summary.label`,
+        options: {
+          control: "hub-field-input-input",
+          type: "textarea",
+        },
       },
       {
         type: "Control",
         scope: "/properties/description",
         labelKey: `${i18nScope}.fields.description.label`,
+        options: {
+          control: "hub-field-input-input",
+          type: "textarea",
+        },
       },
       {
         type: "Control",
         scope: "/properties/_thumbnail",
         labelKey: `${i18nScope}.fields._thumbnail.label`,
+        options: {
+          control: "hub-field-input-image-picker",
+          imgSrc: entity.thumbnailUrl,
+          maxWidth: 727,
+          maxHeight: 484,
+          aspectRatio: 1.5,
+          helperText: {
+            labelKey: `${i18nScope}.fields._thumbnail.helperText`,
+          },
+          sizeDescription: {
+            labelKey: `${i18nScope}.fields._thumbnail.sizeDescription`,
+          },
+        },
       },
     ],
   };
