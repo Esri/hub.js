@@ -32,7 +32,7 @@ export const InitiativeTemplatePermissions = [
 export const InitiativeTemplatePermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:initiativeTemplate",
-    availability: ["alpha"], // gate to just alpha for now
+    // availability: ["alpha"], // gate to just alpha for now
     services: ["portal"],
   },
   {
