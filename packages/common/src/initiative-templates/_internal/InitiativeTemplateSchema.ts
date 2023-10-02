@@ -12,6 +12,7 @@ export const InitiativeTemplateSchema: IConfigurationSchema = {
   ...HubItemEntitySchema,
   properties: {
     ...HubItemEntitySchema.properties,
-    previewUrl: { type: "string" },
+    previewUrl: { type: "string", format: "url" },
   },
-} as IConfigurationSchema;
+  // we have to do this to allow the format: url to pass through
+} as unknown as IConfigurationSchema;
