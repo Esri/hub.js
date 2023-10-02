@@ -1,5 +1,4 @@
 import { updateSiteApplicationUris } from "../src";
-import * as updateRedirectModule from "../src/update-app-redirect-uris";
 import * as commonModule from "@esri/hub-common";
 import { IModel, IHubRequestOptions } from "@esri/hub-common";
 

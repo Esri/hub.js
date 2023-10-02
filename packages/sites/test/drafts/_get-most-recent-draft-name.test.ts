@@ -1,7 +1,6 @@
 import { _getMostRecentDraftName } from "../../src/drafts";
 import * as getDraftNameModule from "../../src/drafts/_get-draft-resource-names";
-import * as portalModule from "@esri/arcgis-rest-portal";
-import { IHubRequestOptions, IModel } from "@esri/hub-common";
+import { IHubRequestOptions } from "@esri/hub-common";
 
 describe("_getMostRecentDraftName", () => {
   const draftResourceNames = [
@@ -9,15 +8,15 @@ describe("_getMostRecentDraftName", () => {
     "draft-1599773122.json",
     "draft-968621122.json",
     "draft-968621122.json",
-    "draft-1599773123.json"
+    "draft-1599773123.json",
   ];
-  const ro = ({
+  const ro = {
     portal: "my-portal",
-    authentication: "my-auth"
-  } as unknown) as IHubRequestOptions;
+    authentication: "my-auth",
+  } as unknown as IHubRequestOptions;
 
   let getDraftSpy: jasmine.Spy;
-  beforeEach(function() {
+  beforeEach(function () {
     getDraftSpy = spyOn(
       getDraftNameModule,
       "_getDraftResourceNames"

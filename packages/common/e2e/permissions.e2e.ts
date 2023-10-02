@@ -1,8 +1,6 @@
 import { IArcGISContext } from "../src/ArcGISContext";
 import { fetchHubEntity } from "../src/core/fetchHubEntity";
 import { HubEntity } from "../src/core/types/HubEntity";
-import { IHubInitiative } from "../src/core/types/IHubInitiative";
-import { HubInitiative } from "../src/initiatives/HubInitiative";
 import { checkPermission } from "../src/permissions/checkPermission";
 import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";

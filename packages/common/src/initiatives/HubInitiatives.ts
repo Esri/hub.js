@@ -50,7 +50,6 @@ import { getRelativeWorkspaceUrl } from "../core/getRelativeWorkspaceUrl";
 import { combineQueries } from "../search/_internal/combineQueries";
 import { portalSearchItemsAsItems } from "../search/_internal/portalSearchItems";
 import { getTypeWithKeywordQuery } from "../associations/internal/getTypeWithKeywordQuery";
-import { getTypeWithoutKeywordQuery } from "../associations/internal/getTypeWithoutKeywordQuery";
 import { negateGroupPredicates } from "../search/_internal/negateGroupPredicates";
 
 /**

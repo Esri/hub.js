@@ -1,4 +1,4 @@
-import { lorem, random, date, datatype } from "faker";
+import { lorem, date, datatype } from "faker";
 import { BinaryHeap, kMerge } from "../../../src/util/merge-sort/merge";
 
 describe("Binary Heap", () => {
@@ -154,7 +154,7 @@ describe("Min Binary Heap", () => {
       seventh,
       eighth,
       ninth,
-      tenth
+      tenth,
     ];
 
     const comparator = (one: string, two: string): number => {
@@ -179,7 +179,7 @@ describe("Min Binary Heap", () => {
       seventh,
       fourth,
       eighth,
-      tenth
+      tenth,
     ]);
 
     // Assert minHeap insertions are correct
@@ -196,7 +196,7 @@ describe("Min Binary Heap", () => {
       fourth,
       eighth,
       tenth,
-      third
+      third,
     ]);
 
     minHeap.insert(fifth);
@@ -213,7 +213,7 @@ describe("Min Binary Heap", () => {
       eighth,
       tenth,
       third,
-      third
+      third,
     ]);
 
     // Assert that data is removed in correct order
@@ -262,14 +262,16 @@ describe("Min Binary Heap", () => {
     ) => one.data.localeCompare(two.data);
     const randomizer = (_v: unknown, _i: number, _a: unknown[]) => ({
       data: lorem.word(),
-      label: lorem.word()
+      label: lorem.word(),
     });
 
     const input: Array<{ data: string; label: string }> = Array.apply(
       null,
       Array(30)
     ).map(randomizer);
-    const expected: string[] = [...input].sort(sortFunc).map(node => node.data);
+    const expected: string[] = [...input]
+      .sort(sortFunc)
+      .map((node) => node.data);
 
     // Test
     const cmptr = (one: string, two: string) => one.localeCompare(two);
@@ -292,14 +294,16 @@ describe("Min Binary Heap", () => {
     ) => one.data - two.data;
     const randomizer = (_v: unknown, _i: number, _a: unknown[]) => ({
       data: datatype.number(1000),
-      label: lorem.word()
+      label: lorem.word(),
     });
 
     const input: Array<{ data: number; label: string }> = Array.apply(
       null,
       Array(30)
     ).map(randomizer);
-    const expected: number[] = [...input].sort(sortFunc).map(node => node.data);
+    const expected: number[] = [...input]
+      .sort(sortFunc)
+      .map((node) => node.data);
 
     // Test
     const cmptr = (one: number, two: number) => one - two;
@@ -322,14 +326,14 @@ describe("Min Binary Heap", () => {
     ) => one.data.getTime() - two.data.getTime();
     const randomizer = (_v: unknown, _i: number, _a: unknown[]) => ({
       data: date.past(),
-      label: lorem.word()
+      label: lorem.word(),
     });
 
     const input: Array<{ data: Date; label: string }> = Array.apply(
       null,
       Array(30)
     ).map(randomizer);
-    const expected: Date[] = [...input].sort(sortFunc).map(node => node.data);
+    const expected: Date[] = [...input].sort(sortFunc).map((node) => node.data);
 
     // Test
     const cmptr = (one: Date, two: Date) => one.getTime() - two.getTime();
@@ -435,7 +439,7 @@ describe("Max Binary Heap", () => {
       seventh,
       eighth,
       ninth,
-      tenth
+      tenth,
     ];
 
     const comparator = (one: string, two: string): number => {
@@ -464,7 +468,7 @@ describe("Max Binary Heap", () => {
       first,
       second,
       ninth,
-      fifth
+      fifth,
     ]);
 
     // Assert maxHeap insertions are correct
@@ -481,7 +485,7 @@ describe("Max Binary Heap", () => {
       second,
       ninth,
       fifth,
-      fourth
+      fourth,
     ]);
 
     maxHeap.insert(fifth);
@@ -498,7 +502,7 @@ describe("Max Binary Heap", () => {
       ninth,
       fifth,
       fourth,
-      fifth
+      fifth,
     ]);
 
     // Assert that data is removed in correct order
@@ -547,14 +551,16 @@ describe("Max Binary Heap", () => {
     ) => two.data.localeCompare(one.data);
     const randomizer = (_v: unknown, _i: number, _a: unknown[]) => ({
       data: lorem.word(),
-      label: lorem.word()
+      label: lorem.word(),
     });
 
     const input: Array<{ data: string; label: string }> = Array.apply(
       null,
       Array(30)
     ).map(randomizer);
-    const expected: string[] = [...input].sort(sortFunc).map(node => node.data);
+    const expected: string[] = [...input]
+      .sort(sortFunc)
+      .map((node) => node.data);
 
     // Test
     const cmptr = (one: string, two: string) => one.localeCompare(two);
@@ -581,14 +587,16 @@ describe("Max Binary Heap", () => {
     ) => two.data - one.data;
     const randomizer = (_v: unknown, _i: number, _a: unknown[]) => ({
       data: datatype.number(1000),
-      label: lorem.word()
+      label: lorem.word(),
     });
 
     const input: Array<{ data: number; label: string }> = Array.apply(
       null,
       Array(30)
     ).map(randomizer);
-    const expected: number[] = [...input].sort(sortFunc).map(node => node.data);
+    const expected: number[] = [...input]
+      .sort(sortFunc)
+      .map((node) => node.data);
 
     // Test
     const cmptr = (one: number, two: number) => one - two;
@@ -615,14 +623,14 @@ describe("Max Binary Heap", () => {
     ) => two.data.getTime() - one.data.getTime();
     const randomizer = (_v: unknown, _i: number, _a: unknown[]) => ({
       data: date.past(),
-      label: lorem.word()
+      label: lorem.word(),
     });
 
     const input: Array<{ data: Date; label: string }> = Array.apply(
       null,
       Array(30)
     ).map(randomizer);
-    const expected: Date[] = [...input].sort(sortFunc).map(node => node.data);
+    const expected: Date[] = [...input].sort(sortFunc).map((node) => node.data);
 
     // Test
     const cmptr = (one: Date, two: Date) => one.getTime() - two.getTime();
@@ -700,7 +708,7 @@ describe("kMerge", () => {
         arrTwo[1],
         arrOne[2],
         arrTwo[2],
-        arrOne[3]
+        arrOne[3],
       ];
 
       // Test
@@ -733,7 +741,7 @@ describe("kMerge", () => {
         arrTwo[1],
         arrOne[2],
         arrTwo[2],
-        arrOne[3]
+        arrOne[3],
       ];
 
       // Test
@@ -762,7 +770,7 @@ describe("kMerge", () => {
         arrOne[0],
         arrTwo[0],
         arrThree[1],
-        arrOne[1]
+        arrOne[1],
       ];
 
       // Test

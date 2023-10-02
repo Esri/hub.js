@@ -1,4 +1,3 @@
-import { IAuthenticationManager } from "@esri/arcgis-rest-request";
 import { IUser } from "@esri/arcgis-rest-types";
 import { failSafe } from "../utils";
 import { autoAddUsers } from "./autoAddUsers";

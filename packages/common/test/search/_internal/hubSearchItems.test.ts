@@ -29,7 +29,6 @@ import { formatOgcItemsResponse } from "../../../src/search/_internal/hubSearchI
 import { formatOgcAggregationsResponse } from "../../../src/search/_internal/hubSearchItemsHelpers/formatOgcAggregationsResponse";
 import * as searchOgcItemsModule from "../../../src/search/_internal/hubSearchItemsHelpers/searchOgcItems";
 import * as portalSearchItemsModule from "../../../src/search/_internal/portalSearchItems";
-import { IItem } from "@esri/arcgis-rest-types";
 import * as fetchMock from "fetch-mock";
 import {
   ogcItemsResponse,

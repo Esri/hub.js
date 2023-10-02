@@ -12,7 +12,6 @@ import {
   lookupDomain,
   removeDomain,
   updateDomain,
-  IDomainEntry,
 } from "../../src";
 
 describe("proxy domain exports", () => {

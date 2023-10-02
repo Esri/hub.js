@@ -1,5 +1,3 @@
-import { IHubProjectEditor } from "./IHubProject";
-
 /**
  * Unified type for all Hub entity editors
  */

@@ -10,7 +10,6 @@ import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
 import {
   ICreateOutput,
-  cleanupItems,
   createInitiative,
   createProjects,
   createScopeGroup,

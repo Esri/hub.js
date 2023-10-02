@@ -8,7 +8,7 @@ import { HubProject } from "../projects/HubProject";
 import { HubSite } from "../sites/HubSite";
 import { IEditorConfig, IWithEditorBehavior } from "./behaviors";
 import { getTypeFromEntity } from "./getTypeFromEntity";
-import { EditorType, UiSchemaElementOptions } from "./schemas";
+import { EditorType } from "./schemas";
 import { HubEntity } from "./types/HubEntity";
 import { HubEntityEditor, IEntityEditorContext } from "./types/HubEntityEditor";
 

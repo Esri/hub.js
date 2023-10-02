@@ -18,7 +18,6 @@ import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { cloneObject } from "../util";
 import { IModel } from "../types";
-import { getProp } from "../objects/get-prop";
 import { modelToHubEditableContent } from "./fetch";
 import { getService, parseServiceUrl } from "@esri/arcgis-rest-feature-layer";
 import { updateServiceDefinition } from "@esri/arcgis-rest-service-admin";
