@@ -31,7 +31,6 @@ export const TemplatePermissions = [
 export const TemplatePermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:template",
-    availability: ["alpha"], // gate to alpha for now
     services: ["portal"],
   },
   {
@@ -39,6 +38,12 @@ export const TemplatePermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:template"],
     authenticated: true,
     privileges: ["portal:user:createItem"],
+  },
+  {
+    permission: "hub:template:delete",
+    dependencies: ["hub:template"],
+    authenticated: true,
+    entityOwner: true,
   },
   {
     permission: "hub:template:view",
@@ -60,15 +65,15 @@ export const TemplatePermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:template:workspace:details",
-    dependencies: ["hub:template:edit"],
+    dependencies: ["hub:template:manage"],
   },
   {
     permission: "hub:template:workspace:collaborators",
-    dependencies: ["hub:template:edit"],
+    dependencies: ["hub:template:manage"],
   },
   {
     permission: "hub:template:workspace:settings",
-    dependencies: ["hub:template:edit"],
+    dependencies: ["hub:template:manage"],
     entityOwner: true,
   },
 ];
