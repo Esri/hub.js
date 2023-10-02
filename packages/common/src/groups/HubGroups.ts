@@ -1,10 +1,8 @@
 import { IGroup } from "@esri/arcgis-rest-types";
 import { fetchGroupEnrichments } from "./_internal/enrichments";
 import { getProp, setProp } from "../objects";
-import { getGroupThumbnailUrl } from "../search/utils";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { IHubRequestOptions } from "../types";
-import { getGroupHomeUrl } from "../urls";
 import { unique } from "../util";
 import { mapBy } from "../utils";
 import {
@@ -20,8 +18,8 @@ import { DEFAULT_GROUP } from "./defaults";
 import { convertHubGroupToGroup } from "./_internal/convertHubGroupToGroup";
 import { convertGroupToHubGroup } from "./_internal/convertGroupToHubGroup";
 import { setDiscussableKeyword } from "../discussions";
-import { getRelativeWorkspaceUrl } from "../core/getRelativeWorkspaceUrl";
 import { IHubSearchResult } from "../search/types/IHubSearchResult";
+import { computeLinks } from "./_internal/computeLinks";
 
 /**
  * Enrich a generic search result
@@ -84,10 +82,7 @@ export async function enrichGroupSearchResult(
   });
 
   // Handle links
-  result.links.thumbnail = getGroupThumbnailUrl(requestOptions.portal, group);
-  result.links.self = getGroupHomeUrl(result.id, requestOptions);
-  result.links.siteRelative = `/teams/${result.id}`;
-  result.links.workspaceRelative = getRelativeWorkspaceUrl("Group", result.id);
+  result.links = computeLinks(group, requestOptions);
 
   return result;
 }

@@ -1,5 +1,11 @@
 import * as PortalModule from "@esri/arcgis-rest-portal";
-import { IHubProject, IResolvedMetric, getProp } from "../../src";
+import {
+  IHubProject,
+  IResolvedMetric,
+  cloneObject,
+  getProp,
+  mergeObjects,
+} from "../../src";
 import { Catalog } from "../../src/search";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubProject } from "../../src/projects/HubProject";
@@ -12,6 +18,25 @@ import * as ResolveMetricModule from "../../src/metrics/resolveMetric";
 import { HubItemEntity } from "../../src/core/HubItemEntity";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
 
+const initContextManager = async (opts = {}) => {
+  const defaults = {
+    authentication: MOCK_AUTH,
+    currentUser: {
+      username: "casey",
+      privileges: ["portal:user:shareToGroup"],
+    } as unknown as PortalModule.IUser,
+    portal: {
+      name: "DC R&D Center",
+      id: "BRXFAKE",
+      urlKey: "fake-org",
+    } as unknown as PortalModule.IPortal,
+    portalUrl: "https://myserver.com",
+  };
+  return await ArcGISContextManager.create(
+    mergeObjects(opts, defaults, ["currentUser"])
+  );
+};
+
 describe("HubProject Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
   let unauthdCtxMgr: ArcGISContextManager;
@@ -20,19 +45,7 @@ describe("HubProject Class:", () => {
     // When we pass in all this information, the context
     // manager will not try to fetch anything, so no need
     // to mock those calls
-    authdCtxMgr = await ArcGISContextManager.create({
-      authentication: MOCK_AUTH,
-      currentUser: {
-        username: "casey",
-        privileges: ["portal:user:shareToGroup"],
-      } as unknown as PortalModule.IUser,
-      portal: {
-        name: "DC R&D Center",
-        id: "BRXFAKE",
-        urlKey: "fake-org",
-      } as unknown as PortalModule.IPortal,
-      portalUrl: "https://myserver.com",
-    });
+    authdCtxMgr = await initContextManager();
   });
 
   describe("static methods:", () => {
@@ -363,7 +376,7 @@ describe("HubProject Class:", () => {
 
         expect(enrichEntitySpy).toHaveBeenCalledTimes(1);
       });
-      it("toEditor converst entity to correct structure", async () => {
+      it("toEditor converts entity to correct structure", async () => {
         const chk = HubProject.fromJson(
           {
             id: "bc3",
@@ -380,6 +393,35 @@ describe("HubProject Class:", () => {
           "https://myserver.com/thumbnail.png"
         );
         expect(result._groups).toEqual([]);
+      });
+      describe('auto-populating "shareWith" groups', () => {
+        let projectInstance: any;
+        beforeEach(async () => {
+          const _authdCtxMgr = await initContextManager({
+            currentUser: {
+              groups: [
+                { id: "00a", isViewOnly: false },
+                { id: "00b", isViewOnly: true, memberType: "admin" },
+                { id: "00d", isViewOnly: false },
+              ] as PortalModule.IGroup[],
+            },
+          });
+          projectInstance = HubProject.fromJson({}, _authdCtxMgr.context);
+        });
+        it('handles auto-populating "shareWith" groups that the current user can share to', async () => {
+          const result = await projectInstance.toEditor({
+            contentGroupId: "00a",
+            collaborationGroupId: "00b",
+          });
+          expect(result._groups).toEqual(["00a", "00b"]);
+        });
+        it('does not auto-populate "shareWith" gruops that the current user cannot share to', async () => {
+          const result = await projectInstance.toEditor({
+            contentGroupId: "00e",
+            collaborationGroupId: "00f",
+          });
+          expect(result._groups).toEqual([]);
+        });
       });
     });
 

@@ -1,3 +1,56 @@
+# @esri/hub-common [14.23.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.22.0...@esri/hub-common@14.23.0) (2023-09-28)
+
+
+### Bug Fixes
+
+* **hub-common:** workspace route for content is /workspace/content/:id not /workspace/contents/:id ([#1250](https://github.com/Esri/hub.js/issues/1250)) ([f2c6679](https://github.com/Esri/hub.js/commit/f2c667933c1a9faf4ddf8e4087267f6f6aa22814))
+
+
+### Features
+
+* add links hash for project, initiative, and group entities ([#1226](https://github.com/Esri/hub.js/issues/1226)) ([aba8f7b](https://github.com/Esri/hub.js/commit/aba8f7b18e2c6da1c4dec022751c1fc897371165))
+
+# @esri/hub-common [14.22.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.21.1...@esri/hub-common@14.22.0) (2023-09-26)
+
+
+### Features
+
+* addGroupMembers ([#1230](https://github.com/Esri/hub.js/issues/1230)) ([3a7c900](https://github.com/Esri/hub.js/commit/3a7c900b88f540dc3470b02947cb659db95a2255))
+
+## @esri/hub-common [14.21.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.21.0...@esri/hub-common@14.21.1) (2023-09-25)
+
+
+### Bug Fixes
+
+* **hub-common:** content location should be of type extent, not polygon ([#1228](https://github.com/Esri/hub.js/issues/1228)) ([c5539f4](https://github.com/Esri/hub.js/commit/c5539f458060e990ee5f89fad4016ce74c5c5dfc))
+* checkPermission and checkPrivileges first check isAuthenticated ([#1227](https://github.com/Esri/hub.js/issues/1227)) ([b292131](https://github.com/Esri/hub.js/commit/b29213183ef9362a3517dbcaca8ec854b4b80537))
+
+# @esri/hub-common [14.21.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.20.0...@esri/hub-common@14.21.0) (2023-09-22)
+
+
+### Features
+
+* adds getChannelUsersQuery method, bumps to @esri/arcgis-rest-port… ([#1210](https://github.com/Esri/hub.js/issues/1210)) ([320d6d8](https://github.com/Esri/hub.js/commit/320d6d8e4b336955df1d55373b216de3238952b6))
+
+# @esri/hub-common [14.20.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.19.2...@esri/hub-common@14.20.0) (2023-09-21)
+
+
+### Bug Fixes
+
+* auto-populating groups in project creation ([#1225](https://github.com/Esri/hub.js/issues/1225)) ([0b9465f](https://github.com/Esri/hub.js/commit/0b9465ff73f6f0e9c0cdbb5f3e06d8a06b47d74f))
+
+
+### Features
+
+* **hub-common:** add blocked as a possible PostStatus ([#1222](https://github.com/Esri/hub.js/issues/1222)) ([11c8a58](https://github.com/Esri/hub.js/commit/11c8a589569036baa68f9722c503092f3c7e42ec))
+
+## @esri/hub-common [14.19.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.19.1...@esri/hub-common@14.19.2) (2023-09-20)
+
+
+### Bug Fixes
+
+* uiSchema translation keys ([#1224](https://github.com/Esri/hub.js/issues/1224)) ([a55292f](https://github.com/Esri/hub.js/commit/a55292f0d11d993c4f1edf00d9e621beb44459b6))
+
 ## @esri/hub-common [14.19.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.19.0...@esri/hub-common@14.19.1) (2023-09-20)
 
 
