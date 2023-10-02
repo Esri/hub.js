@@ -9,6 +9,7 @@ import {
   HubPage,
   HubProject,
   HubSite,
+  HubTemplate,
   IHubDiscussion,
   IHubEditableContent,
   IHubInitiative,
@@ -16,6 +17,7 @@ import {
   IHubPage,
   IHubProject,
   IHubSite,
+  IHubTemplate,
   getProp,
 } from "../../src";
 import { IHubGroup } from "../../src/core/types/IHubGroup";
@@ -287,6 +289,44 @@ describe("EntityEditor:", () => {
       expect(getConfigSpy).toHaveBeenCalledWith(
         "someScope",
         "hub:initiative:edit"
+      );
+      const chk = await editor.toEditor();
+      expect(toEditorSpy).toHaveBeenCalled();
+      expect(chk.id).toBe("00c");
+      await editor.save(chk);
+      expect(fromEditorSpy).toHaveBeenCalledWith(chk);
+    });
+  });
+
+  describe("supports templates:", () => {
+    let fromJsonSpy: jasmine.Spy;
+    let getConfigSpy: jasmine.Spy;
+    let toEditorSpy: jasmine.Spy;
+    let fromEditorSpy: jasmine.Spy;
+
+    beforeEach(() => {
+      fromJsonSpy = spyOn(HubTemplate, "fromJson").and.callThrough();
+      getConfigSpy = spyOn(
+        HubTemplate.prototype,
+        "getEditorConfig"
+      ).and.callFake(() => Promise.resolve({} as any));
+      toEditorSpy = spyOn(HubTemplate.prototype, "toEditor").and.callThrough();
+      fromEditorSpy = spyOn(HubTemplate.prototype, "fromEditor").and.callFake(
+        () => Promise.resolve({} as any)
+      );
+    });
+
+    it("verify EntityEditor with Template", async () => {
+      const it: IHubTemplate = {
+        id: "00c",
+        type: "Solution",
+      } as IHubTemplate;
+      const editor = EntityEditor.fromEntity(it, authdCtxMgr.context);
+      expect(fromJsonSpy).toHaveBeenCalled();
+      await editor.getConfig("someScope", "hub:template:edit");
+      expect(getConfigSpy).toHaveBeenCalledWith(
+        "someScope",
+        "hub:template:edit"
       );
       const chk = await editor.toEditor();
       expect(toEditorSpy).toHaveBeenCalled();

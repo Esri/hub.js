@@ -1,5 +1,5 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import { IHubTemplate } from "../core/types/IHubTemplate";
+import { IHubTemplate, IHubTemplateEditor } from "../core/types/IHubTemplate";
 import { DEFAULT_TEMPLATE, DEFAULT_TEMPLATE_MODEL } from "./defaults";
 import { constructSlug, getUniqueSlug, setSlugKeyword } from "../items/slugs";
 import { setDiscussableKeyword } from "../discussions";
@@ -9,7 +9,11 @@ import { cloneObject } from "../util";
 import { createModel, getModel, updateModel } from "../models";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
-import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
+import {
+  IPortal,
+  IUserItemOptions,
+  removeItem,
+} from "@esri/arcgis-rest-portal";
 
 /**
  * @private
@@ -120,6 +124,24 @@ export async function updateTemplate(
   template = computeProps(model, updatedTemplate, requestOptions);
 
   return updatedTemplate as IHubTemplate;
+}
+
+/**
+ * Convert an IHubTemplateEditor back into a IHubTemplate
+ * @param editor
+ * @param portal
+ */
+export function editorToTemplate(
+  editor: IHubTemplateEditor,
+  portal: IPortal
+): IHubTemplate {
+  // 1. cast editor to IHubTemplate
+  const template = cloneObject(editor) as IHubTemplate;
+
+  // 2. ensure there's an org url key
+  template.orgUrlKey = editor.orgUrlKey ? editor.orgUrlKey : portal.urlKey;
+
+  return template;
 }
 
 /**

@@ -1,9 +1,20 @@
 import { IArcGISContext } from "../ArcGISContext";
+import { getEditorConfig } from "../core/schemas/getEditorConfig";
+import { IEditorConfig } from "../core/behaviors/IWithEditorBehavior";
 import { HubItemEntity } from "../core/HubItemEntity";
-import { IHubTemplate } from "../core/types/IHubTemplate";
+import { IHubTemplate, IHubTemplateEditor } from "../core/types/IHubTemplate";
+import { TemplateEditorType } from "./_internal/TemplateSchema";
 import { DEFAULT_TEMPLATE } from "./defaults";
-import { createTemplate, deleteTemplate, updateTemplate } from "./edit";
+import {
+  createTemplate,
+  deleteTemplate,
+  editorToTemplate,
+  updateTemplate,
+} from "./edit";
 import { fetchTemplate } from "./fetch";
+import { IEntityEditorContext } from "../core/types";
+import { enrichEntity } from "../core/enrichEntity";
+import { cloneObject } from "../util";
 
 /** Hub Template Class */
 export class HubTemplate extends HubItemEntity<IHubTemplate> {
@@ -102,6 +113,74 @@ export class HubTemplate extends HubItemEntity<IHubTemplate> {
     // extend the partial over the defaults
     const pojo = { ...DEFAULT_TEMPLATE, ...partialTemplate } as IHubTemplate;
     return pojo;
+  }
+
+  /*
+   * Get a specific editor config for the HubTemplate entity.
+   * @param i18nScope
+   * @param type
+   */
+  async getEditorConfig(
+    i18nScope: string,
+    type: TemplateEditorType
+  ): Promise<IEditorConfig> {
+    // delegate to the schema subsystem
+    return getEditorConfig(i18nScope, type, this.entity, this.context);
+  }
+
+  /**
+   * Transform template entity into an editor object
+   * @param editorContext
+   */
+  async toEditor(
+    editorContext: IEntityEditorContext = {},
+    include: string[] = []
+  ): Promise<IHubTemplateEditor> {
+    // 1. optionally enrich entity and cast to editor
+    const editor = include.length
+      ? ((await enrichEntity(
+          cloneObject(this.entity),
+          include,
+          this.context.hubRequestOptions
+        )) as IHubTemplateEditor)
+      : (cloneObject(this.entity) as IHubTemplateEditor);
+
+    // 2. Apply transforms to relevant entity values so they
+    // can be consumed by the editor
+
+    return editor;
+  }
+
+  /**
+   * Transform editor values into a template entity
+   * @param editor
+   */
+  async fromEditor(editor: IHubTemplateEditor): Promise<IHubTemplate> {
+    // Setting the thumbnailCache will ensure that the
+    // thumbnail is updated on the next save
+    if (editor._thumbnail) {
+      if (editor._thumbnail.blob) {
+        this.thumbnailCache = {
+          file: editor._thumbnail.blob,
+          filename: editor._thumbnail.filename,
+          clear: false,
+        };
+      } else {
+        this.thumbnailCache = {
+          clear: true,
+        };
+      }
+    }
+
+    delete editor._thumbnail;
+
+    const entity = editorToTemplate(editor, this.context.portal);
+
+    // save, which will also create
+    this.entity = entity;
+    await this.save();
+
+    return this.entity;
   }
 
   /**

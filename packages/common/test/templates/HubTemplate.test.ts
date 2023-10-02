@@ -2,8 +2,11 @@ import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubTemplate } from "../../src/templates/HubTemplate";
 import { initContextManager } from "./fixtures";
 import { IHubTemplate } from "../../src/core/types/IHubTemplate";
+import { getProp } from "../../src/objects/get-prop";
 import * as editModule from "../../src/templates/edit";
 import * as fetchModule from "../../src/templates/fetch";
+import * as getEditorConfigModule from "../../src/core/schemas/getEditorConfig";
+import * as enrichEntityModule from "../../src/core/enrichEntity";
 
 describe("HubTemplate Class", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -41,6 +44,7 @@ describe("HubTemplate Class", () => {
           authdCtxMgr.context,
           true // save
         );
+
         expect(createSpy).toHaveBeenCalledTimes(1);
       });
       it("does not save by default", async () => {
@@ -118,6 +122,137 @@ describe("HubTemplate Class", () => {
       await chk.save();
 
       expect(updateSpy).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("IWithEditorBehavior", () => {
+    describe("getEditorConfig", () => {
+      it("delegates to the schema subsystem", async () => {
+        const getEditorConfigSpy = spyOn(
+          getEditorConfigModule,
+          "getEditorConfig"
+        ).and.callFake(() => Promise.resolve({ fake: "config" }));
+
+        const chk = HubTemplate.fromJson(
+          { id: "00c", name: "Test Template" },
+          authdCtxMgr.context
+        );
+        const result = await chk.getEditorConfig(
+          "i18n.Scope",
+          "hub:template:edit"
+        );
+        expect(result).toEqual({ fake: "config" } as any);
+        expect(getEditorConfigSpy).toHaveBeenCalledTimes(1);
+        expect(getEditorConfigSpy).toHaveBeenCalledWith(
+          "i18n.Scope",
+          "hub:template:edit",
+          chk.toJson(),
+          authdCtxMgr.context
+        );
+      });
+    });
+
+    describe("toEditor", () => {
+      it("optionally enriches the entity", async () => {
+        const enrichEntitySpy = spyOn(
+          enrichEntityModule,
+          "enrichEntity"
+        ).and.returnValue(Promise.resolve({}));
+        const chk = HubTemplate.fromJson({ id: "00c" }, authdCtxMgr.context);
+        await chk.toEditor({}, ["someEnrichment AS _someEnrichment"]);
+        expect(enrichEntitySpy).toHaveBeenCalledTimes(1);
+      });
+      it("transforms the entity to an editor object", async () => {
+        const chk = HubTemplate.fromJson(
+          { id: "00c", name: "Test Template" },
+          authdCtxMgr.context
+        );
+        const result = await chk.toEditor();
+
+        // NOTE: additional transform tests should be added here
+        expect(result.id).toEqual("00c");
+        expect(result.name).toEqual("Test Template");
+      });
+    });
+
+    describe("fromEditor:", () => {
+      let createSpy: jasmine.Spy;
+      beforeEach(() => {
+        createSpy = spyOn(editModule, "createTemplate").and.callFake(() =>
+          Promise.resolve({ id: "00c" })
+        );
+      });
+
+      it("handles simple value change", async () => {
+        const chk = HubTemplate.fromJson(
+          { id: "00c", name: "Test Template" },
+          authdCtxMgr.context
+        );
+        // 1. spy on the instance .save method and return void
+        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        // 2. make changes to the editor
+        const editor = await chk.toEditor();
+        editor.name = "Updated Name";
+
+        const result = await chk.fromEditor(editor);
+        expect(saveSpy).toHaveBeenCalledTimes(1);
+        expect(result.name).toEqual("Updated Name");
+      });
+      it("handles thumbnail change", async () => {
+        const chk = HubTemplate.fromJson(
+          {
+            id: "00c",
+            name: "Test Template",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+          },
+          authdCtxMgr.context
+        );
+
+        // 1. spy on the instance .save method and return void
+        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        // 2. make changes to the thumbnail
+        const editor = await chk.toEditor();
+        editor._thumbnail = {
+          blob: "fake blob",
+          filename: "thumbnail.png",
+        };
+
+        const result = await chk.fromEditor(editor);
+        expect(saveSpy).toHaveBeenCalledTimes(1);
+        expect(getProp(result, "_thumbnail")).not.toBeDefined();
+      });
+
+      it("handles thumbnail clear", async () => {
+        const chk = HubTemplate.fromJson(
+          {
+            id: "00c",
+            name: "Test Template",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+          },
+          authdCtxMgr.context
+        );
+
+        // 1. spy on the instance .save method and return void
+        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        // 2. clear the thumbnail
+        const editor = await chk.toEditor();
+        editor._thumbnail = {};
+
+        const result = await chk.fromEditor(editor);
+        expect(saveSpy).toHaveBeenCalledTimes(1);
+        expect(getProp(result, "_thumbnail")).not.toBeDefined();
+      });
+
+      it("works for Template creation", async () => {
+        const chk = HubTemplate.fromJson(
+          { name: "Test Template" },
+          authdCtxMgr.context
+        );
+        const editor = await chk.toEditor();
+
+        await chk.fromEditor(editor);
+        expect(createSpy).toHaveBeenCalledTimes(1);
+      });
     });
   });
 

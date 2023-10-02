@@ -2,6 +2,7 @@ import {
   createTemplate,
   updateTemplate,
   deleteTemplate,
+  editorToTemplate,
 } from "../../src/templates/edit";
 import {
   GUID,
@@ -12,7 +13,10 @@ import {
 import { IModel } from "../../src/types";
 import { cloneObject } from "../../src/util";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
-import { IHubTemplate } from "../../src/core/types/IHubTemplate";
+import {
+  IHubTemplate,
+  IHubTemplateEditor,
+} from "../../src/core/types/IHubTemplate";
 import * as slugUtils from "../../src/items/slugs";
 import * as modelUtils from "../../src/models";
 import * as portalModule from "@esri/arcgis-rest-portal";
@@ -131,6 +135,24 @@ describe("templates: edit module", () => {
       expect(chk.previewUrl).toBe("updated-preview-url");
       expect(chk.summary).toBe("Updated template summary");
       expect(chk.description).toBe("Updated template description");
+    });
+  });
+
+  describe("editor to template", () => {
+    it("ensures there is an org url key", () => {
+      const editor: IHubTemplateEditor = {
+        orgUrlKey: "bar",
+      } as unknown as IHubTemplateEditor;
+      const mockTemplate1 = editorToTemplate(editor, {
+        urlKey: "foo",
+      } as unknown as portalModule.IPortal);
+      expect(mockTemplate1.orgUrlKey).toEqual("bar");
+
+      const mockTemplate2 = editorToTemplate(
+        {} as IHubTemplateEditor,
+        { urlKey: "foo" } as unknown as portalModule.IPortal
+      );
+      expect(mockTemplate2.orgUrlKey).toEqual("foo");
     });
   });
 

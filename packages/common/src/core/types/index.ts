@@ -17,6 +17,7 @@ export * from "./IHubLayout";
 export * from "./IHubLocation";
 export * from "./IHubPage";
 export * from "./IHubProject";
+export * from "./IHubTemplate";
 export * from "./IHubSite";
 export * from "./IHubSiteTheme";
 export * from "./IHubTimeline";
