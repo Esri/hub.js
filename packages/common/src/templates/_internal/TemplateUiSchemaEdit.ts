@@ -75,7 +75,7 @@ export const buildUiSchema = async (
             },
           },
           {
-            labelKey: `${i18nScope}.fields._thumbnail.label`,
+            labelKey: `${i18nScope}.fields.thumbnail.label`,
             scope: "/properties/_thumbnail",
             type: "Control",
             options: {
@@ -85,7 +85,7 @@ export const buildUiSchema = async (
               maxHeight: 484,
               aspectRatio: 1.5,
               helperText: {
-                labelKey: `${i18nScope}.fields._thumbnail.helperText`,
+                labelKey: `${i18nScope}.fields.thumbnail.helperText`,
               },
             },
           },

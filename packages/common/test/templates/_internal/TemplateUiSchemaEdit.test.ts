@@ -65,7 +65,7 @@ describe("buildUiSchema: template edit", () => {
               },
             },
             {
-              labelKey: "some.scope.fields._thumbnail.label",
+              labelKey: "some.scope.fields.thumbnail.label",
               scope: "/properties/_thumbnail",
               type: "Control",
               options: {
@@ -75,7 +75,7 @@ describe("buildUiSchema: template edit", () => {
                 maxHeight: 484,
                 aspectRatio: 1.5,
                 helperText: {
-                  labelKey: "some.scope.fields._thumbnail.helperText",
+                  labelKey: "some.scope.fields.thumbnail.helperText",
                 },
               },
             },
