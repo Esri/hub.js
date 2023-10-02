@@ -81,4 +81,6 @@ export interface IHubSite
   legacyTeams: string[];
 }
 
-export type IHubSiteEditor = IHubItemEntityEditor<IHubSite> & {};
+export type IHubSiteEditor = IHubItemEntityEditor<IHubSite> & {
+  _discussions?: boolean;
+};

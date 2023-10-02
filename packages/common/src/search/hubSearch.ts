@@ -11,7 +11,11 @@ import { getApi } from "./_internal/commonHelpers/getApi";
 import { portalSearchGroupMembers } from "./_internal/portalSearchGroupMembers";
 import { portalSearchItems } from "./_internal/portalSearchItems";
 import { portalSearchGroups } from "./_internal/portalSearchGroups";
-import { searchPortalUsersLegacy, searchPortalUsers, searchCommunityUsers } from "./_internal/portalSearchUsers";
+import {
+  searchPortalUsersLegacy,
+  searchPortalUsers,
+  searchCommunityUsers,
+} from "./_internal/portalSearchUsers";
 import { hubSearchItems } from "./_internal/hubSearchItems";
 import { hubSearchChannels } from "./_internal/hubSearchChannels";
 
