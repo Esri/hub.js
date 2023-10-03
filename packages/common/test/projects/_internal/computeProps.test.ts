@@ -98,6 +98,7 @@ describe("projects: computeProps:", () => {
       expect(chk.features?.settings).toBeFalsy();
       expect(spy.calls.argsFor(0)[0]).toEqual({ details: true });
     });
+
     it("generates a links hash", () => {
       const computeLinksSpy = spyOn(
         computeLinksModule,
