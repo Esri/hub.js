@@ -41,7 +41,7 @@ export async function fetchTemplate(
 
 /**
  * @private
- * Convert an Hub Solution Item into a Hub Template, fetching
+ * Convert a Solution Item into a Hub Template, fetching
  * any additional information that may be required
  * @param item
  * @param auth

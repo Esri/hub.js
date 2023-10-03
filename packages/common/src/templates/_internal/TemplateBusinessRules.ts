@@ -31,6 +31,7 @@ export const TemplatePermissions = [
 export const TemplatePermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:template",
+    availability: ["alpha"], // gate to alpha for now
     services: ["portal"],
   },
   {
