@@ -1,3 +1,10 @@
+# @esri/hub-common [14.26.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.25.1...@esri/hub-common@14.26.0) (2023-10-03)
+
+
+### Features
+
+* initiative template workspace ([#1246](https://github.com/Esri/hub.js/issues/1246)) ([cb385e5](https://github.com/Esri/hub.js/commit/cb385e5315f0583d0337afe3e30664314581c1ee))
+
 ## @esri/hub-common [14.25.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.25.0...@esri/hub-common@14.25.1) (2023-10-03)
 
 
