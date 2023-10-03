@@ -16,10 +16,12 @@ import {
   IHubEditableContent,
   IHubGroup,
   IHubInitiative,
+  IHubInitiativeTemplate,
   IHubPage,
   IHubProject,
   IHubSite,
 } from "../../../core/types";
+import { InitiativeTemplateEditorType } from "../../../initiative-templates/_internal/InitiativeTemplateSchema";
 
 /**
  * get the editor schema and uiSchema defined for an entity.
@@ -186,6 +188,26 @@ export async function getEntityEditorSchemas(
       uiSchema = await groupModule.buildUiSchema(
         i18nScope,
         entity as IHubGroup,
+        context
+      );
+
+      break;
+
+    case "initiativeTemplate":
+      const { InitiativeTemplateSchema } = await import(
+        "../../../initiative-templates/_internal/InitiativeTemplateSchema"
+      );
+      schema = cloneObject(InitiativeTemplateSchema);
+      const initiativeTemplateModule = await {
+        "hub:initiativeTemplate:edit": () =>
+          import(
+            "../../../initiative-templates/_internal/InitiativeTemplateUiSchemaEdit"
+          ),
+      }[type as InitiativeTemplateEditorType]();
+
+      uiSchema = await initiativeTemplateModule.buildUiSchema(
+        i18nScope,
+        entity as IHubInitiativeTemplate,
         context
       );
 

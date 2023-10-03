@@ -32,6 +32,12 @@ export function getTypeFromEntity(
     case "Group":
       type = "group";
       break;
+    case "Hub Initiative Template":
+      type = "initiativeTemplate";
+      break;
+    // case "Hub Content": // needed for future ticket in getLocationOptions
+    //   type = "content";
+    //   break;
     default:
       // TODO: other families go here? feedback? solution? template?
       const contentFamilies = ["app", "content", "dataset", "document", "map"];

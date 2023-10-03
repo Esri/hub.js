@@ -33,6 +33,9 @@ import * as GroupBuildEditUiSchema from "../../../../src/groups/_internal/GroupU
 import * as GroupBuildSettingsUiSchema from "../../../../src/groups/_internal/GroupUiSchemaSettings";
 import * as GroupBuildDiscussionsUiSchema from "../../../../src/groups/_internal/GroupUiSchemaDiscussions";
 
+import { InitiativeTemplateEditorTypes } from "../../../../src/initiative-templates/_internal/InitiativeTemplateSchema";
+import * as InitiativeTemplateBuildEditUiSchema from "../../../../src/initiative-templates/_internal/InitiativeTemplateUiSchemaEdit";
+
 describe("getEntityEditorSchemas: ", () => {
   let uiSchemaBuildFnSpy: any;
   afterEach(() => {
@@ -59,6 +62,10 @@ describe("getEntityEditorSchemas: ", () => {
     { type: PageEditorTypes[0], buildFn: PageBuildEditUiSchema },
     { type: GroupEditorTypes[0], buildFn: GroupBuildEditUiSchema },
     { type: GroupEditorTypes[1], buildFn: GroupBuildSettingsUiSchema },
+    {
+      type: InitiativeTemplateEditorTypes[0],
+      buildFn: InitiativeTemplateBuildEditUiSchema,
+    },
     { type: GroupEditorTypes[2], buildFn: GroupBuildDiscussionsUiSchema },
   ].forEach(async ({ type, buildFn }) => {
     it("returns a schema & uiSchema for a given entity and editor type", async () => {
