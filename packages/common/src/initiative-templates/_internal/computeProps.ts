@@ -6,6 +6,7 @@ import { processEntityFeatures } from "../../permissions/_internal/processEntity
 import { getItemThumbnailUrl } from "../../resources";
 import { IModel } from "../../types";
 import { InitiativeTemplateDefaultFeatures } from "./InitiativeTemplateBusinessRules";
+import { computeLinks } from "./computeLinks";
 
 /**
  * Given a model and an initiative template, set various computed properties that can't be directly mapped
@@ -49,6 +50,8 @@ export function computeProps(
     model.data.settings?.features || {},
     InitiativeTemplateDefaultFeatures
   );
+
+  initiativeTemplate.links = computeLinks(model.item, requestOptions);
 
   // cast b/c this takes a partial but returns a full initiative template
   return initiativeTemplate as IHubInitiativeTemplate;

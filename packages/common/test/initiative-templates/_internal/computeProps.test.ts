@@ -5,9 +5,27 @@ import { computeProps } from "../../../src/initiative-templates/_internal/comput
 import { IHubInitiativeTemplate, IModel } from "../../../src";
 import * as processEntitiesModule from "../../../src/permissions/_internal/processEntityFeatures";
 import { InitiativeTemplateDefaultFeatures } from "../../../src/initiative-templates/_internal/InitiativeTemplateBusinessRules";
+import * as computeLinksModule from "../../../src/initiative-templates/_internal/computeLinks";
 describe("initiative templates: computeProps:", () => {
   let authdCtxMgr: ArcGISContextManager;
+  let model: IModel;
+  let initiativeTemplate: Partial<IHubInitiativeTemplate>;
+
   beforeEach(async () => {
+    model = {
+      item: {
+        type: "Hub Initiative Template",
+        id: "00c",
+        created: new Date().getTime(),
+        modified: new Date().getTime(),
+      },
+      data: {},
+    } as IModel;
+    initiativeTemplate = {
+      type: "Hub Initiative Template",
+      id: "00c",
+      slug: "mock-slug",
+    };
     // When we pass in all this information, the context
     // manager will not try to fetch anything, so no need
     // to mock those calls
@@ -45,60 +63,57 @@ describe("initiative templates: computeProps:", () => {
       );
     });
     it("handles missing settings hash", () => {
-      const model: IModel = {
-        item: {
-          created: new Date().getTime(),
-          modified: new Date().getTime(),
-        },
-        data: {},
-      } as IModel;
-      const init: Partial<IHubInitiativeTemplate> = {};
-      const chk = computeProps(model, init, authdCtxMgr.context.requestOptions);
+      const chk = computeProps(
+        model,
+        initiativeTemplate,
+        authdCtxMgr.context.requestOptions
+      );
       expect(chk.features?.details).toBeTruthy();
       expect(chk.features?.settings).toBeFalsy();
       expect(spy.calls.argsFor(0)[0]).toEqual({});
     });
     it("handles missing capabilities hash", () => {
-      const model: IModel = {
-        item: {
-          id: "3ef",
-          type: "Hub Initiative Template",
-          created: new Date().getTime(),
-          modified: new Date().getTime(),
-        },
-        data: {
-          settings: {},
-        },
-      } as unknown as IModel;
-      const init: Partial<IHubInitiativeTemplate> = {};
-      const chk = computeProps(model, init, authdCtxMgr.context.requestOptions);
+      const chk = computeProps(
+        model,
+        initiativeTemplate,
+        authdCtxMgr.context.requestOptions
+      );
 
       expect(chk.features?.details).toBeTruthy();
       expect(chk.features?.settings).toBeFalsy();
       expect(spy.calls.argsFor(0)[0]).toEqual({});
     });
     it("passes features hash", () => {
-      const model: IModel = {
-        item: {
-          id: "3ef",
-          type: "Hub Initiative Template",
-          created: new Date().getTime(),
-          modified: new Date().getTime(),
-        },
-        data: {
-          settings: {
-            features: {
-              details: true,
-            },
+      model.data = {
+        settings: {
+          features: {
+            details: true,
           },
         },
-      } as unknown as IModel;
-      const init: Partial<IHubInitiativeTemplate> = {};
-      const chk = computeProps(model, init, authdCtxMgr.context.requestOptions);
+      };
+      const chk = computeProps(
+        model,
+        initiativeTemplate,
+        authdCtxMgr.context.requestOptions
+      );
 
       expect(chk.features?.details).toBeTruthy();
       expect(chk.features?.settings).toBeFalsy();
       expect(spy.calls.argsFor(0)[0]).toEqual({ details: true });
+    });
+
+    it("generates a links hash", () => {
+      const computeLinksSpy = spyOn(
+        computeLinksModule,
+        "computeLinks"
+      ).and.returnValue({ self: "some-link" });
+      const chk = computeProps(
+        model,
+        initiativeTemplate,
+        authdCtxMgr.context.requestOptions
+      );
+      expect(computeLinksSpy).toHaveBeenCalledTimes(1);
+      expect(chk.links).toEqual({ self: "some-link" });
     });
   });
 });

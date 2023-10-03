@@ -17,6 +17,7 @@ import { getItemThumbnailUrl } from "../resources/get-item-thumbnail-url";
 import { getItemHomeUrl } from "../urls/get-item-home-url";
 import { getItemIdentifier } from "../items";
 import { getRelativeWorkspaceUrl } from "../core/getRelativeWorkspaceUrl";
+import { computeLinks } from "./_internal/computeLinks";
 
 export async function fetchInitiativeTemplate(
   identifier: string,
@@ -86,18 +87,8 @@ export async function enrichInitiativeTemplateSearchResult(
   // TODO: reimplement enrichment fetching when we know what enrichments we're looking for
 
   // Handle links
-  // TODO: link handling should be an enrichment
-  result.links.thumbnail = getItemThumbnailUrl(item, requestOptions);
-  result.links.self = getItemHomeUrl(result.id, requestOptions);
-  const identifier = getItemIdentifier(item);
-  result.links.siteRelative = getHubRelativeUrl(
-    result.type,
-    identifier,
-    item.typeKeywords
-  );
-  result.links.workspaceRelative = getRelativeWorkspaceUrl(
-    result.type,
-    identifier
-  );
+  // TODO: links should be an enrichment
+  result.links = computeLinks(item, requestOptions);
+
   return result;
 }
