@@ -44,6 +44,13 @@ export const buildUiSchema = async (
           helperText: {
             labelKey: `${i18nScope}.fields.previewUrl.helperText`,
           },
+          messages: [
+            {
+              type: "ERROR",
+              keyword: "if",
+              hidden: true,
+            },
+          ],
         },
       },
       {
