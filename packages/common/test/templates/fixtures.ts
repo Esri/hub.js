@@ -84,6 +84,7 @@ export const TEMPLATE_ITEM: IItem = {
 
 export const TEMPLATE_HUB_SEARCH_RESULT: IHubSearchResult = {
   access: "public",
+  activatedType: "Hub Site Application",
   id: GUID,
   type: "Solution",
   name: "Mock Template",

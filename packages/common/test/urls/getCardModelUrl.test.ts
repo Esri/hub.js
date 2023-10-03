@@ -3,9 +3,6 @@ import {
   getCardModelUrlFromResult,
   getCardModelUrlFromEntity,
 } from "../../src/urls/getCardModelUrl";
-import * as getItemHomeUrlModule from "../../src/urls/get-item-home-url";
-import * as getRelativeWorkspaceUrlModule from "../../src/core/getRelativeWorkspaceUrl";
-import * as internalContentUtils from "../../src/content/_internal/internalContentUtils";
 
 const MOCK_SELF_URL = "https://mock-self-url.com";
 const MOCK_SITE_RELATIVE_URL = "/mock-hub-relative-url";
@@ -139,8 +136,27 @@ describe("getCardModelUrlFromEntity", () => {
 
   it("handles undefined entity links", () => {
     MOCK_ENTITY.links = undefined;
-    const result = getCardModelUrlFromEntity(MOCK_ENTITY, MOCK_CONTEXT, "self");
-    expect(result).toBeUndefined();
+    const selfResult = getCardModelUrlFromEntity(
+      MOCK_ENTITY,
+      MOCK_CONTEXT,
+      "self"
+    );
+    const siteRelativeResult = getCardModelUrlFromEntity(
+      MOCK_ENTITY,
+      MOCK_CONTEXT,
+      "siteRelative",
+      "base-url"
+    );
+    const workspaceRelativeResult = getCardModelUrlFromEntity(
+      MOCK_ENTITY,
+      MOCK_CONTEXT,
+      "workspaceRelative",
+      "base-url"
+    );
+
+    expect(selfResult).toBeUndefined();
+    expect(siteRelativeResult).toBe("base-url");
+    expect(workspaceRelativeResult).toBe("base-url");
   });
   it('target = "self": returns the correct title url', () => {
     const result = getCardModelUrlFromEntity(MOCK_ENTITY, MOCK_CONTEXT, "self");
@@ -200,6 +216,15 @@ describe("getCardModelUrlFromEntity", () => {
   describe('type = "Hub Site Application"', () => {
     beforeEach(() => {
       MOCK_ENTITY.type = "Hub Site Application";
+    });
+    it("handles undefined entity links", () => {
+      MOCK_ENTITY.links = undefined;
+      const result = getCardModelUrlFromEntity(
+        MOCK_ENTITY,
+        MOCK_CONTEXT,
+        "self"
+      );
+      expect(result).toBeUndefined();
     });
     it('always returns the site\'s "self" url', () => {
       const result = getCardModelUrlFromEntity(
