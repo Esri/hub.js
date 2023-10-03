@@ -6,14 +6,16 @@ import { initContextManager } from "../fixtures";
 import * as computeLinksModule from "../../../src/templates/_internal/computeLinks";
 import * as isDiscussableModule from "../../../src/discussions/utils";
 import * as processEntityFeaturesModule from "../../../src/permissions/_internal/processEntityFeatures";
+import * as templateUtilsModule from "../../../src/templates/utils";
 
 describe("templates: computeProps:", () => {
   let authdCtxMgr: ArcGISContextManager;
   let model: IModel;
   let template: Partial<IHubTemplate>;
-  let computeLinksSpy: any;
-  let isDiscussableSpy: any;
-  let processEntityFeaturesSpy: any;
+  let computeLinksSpy: jasmine.Spy;
+  let isDiscussableSpy: jasmine.Spy;
+  let processEntityFeaturesSpy: jasmine.Spy;
+  let getActivatedTemplateTypeSpy: jasmine.Spy;
 
   beforeEach(async () => {
     authdCtxMgr = await initContextManager();
@@ -28,6 +30,10 @@ describe("templates: computeProps:", () => {
       processEntityFeaturesModule,
       "processEntityFeatures"
     ).and.returnValue({});
+    getActivatedTemplateTypeSpy = spyOn(
+      templateUtilsModule,
+      "getActivatedTemplateType"
+    ).and.returnValue("StoryMap");
 
     template = {
       type: "Solution",
@@ -82,5 +88,28 @@ describe("templates: computeProps:", () => {
     );
     expect(processEntityFeaturesSpy).toHaveBeenCalledTimes(1);
     expect(chk.features).toEqual({});
+  });
+  it("isDeployed: computes whether the template has been deployed", () => {
+    const chk = computeProps(
+      model,
+      template,
+      authdCtxMgr.context.requestOptions
+    );
+    expect(chk.isDeployed).toBeFalsy();
+
+    const chk2 = computeProps(
+      { data: {}, item: { ...model.item, typeKeywords: ["Deployed"] } },
+      template,
+      authdCtxMgr.context.requestOptions
+    );
+    expect(chk2.isDeployed).toBeTruthy();
+  });
+  it("activatedType: computes the activated solution type", () => {
+    const chk = computeProps(
+      model,
+      template,
+      authdCtxMgr.context.requestOptions
+    );
+    expect(chk.activatedType).toBe("StoryMap");
   });
 });

@@ -4,6 +4,8 @@ import { IHubItemEntity, IHubItemEntityEditor } from "./IHubItemEntity";
 /** Defines the properties of a Hub Template entity */
 export interface IHubTemplate extends IHubItemEntity, IWithSlug {
   previewUrl: string;
+  isDeployed: boolean;
+  activatedType: string;
 }
 
 /**

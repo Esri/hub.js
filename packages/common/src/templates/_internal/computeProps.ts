@@ -6,6 +6,7 @@ import { TemplateDefaultFeatures } from "./TemplateBusinessRules";
 import { IHubTemplate } from "../../core/types/IHubTemplate";
 import { computeLinks } from "./computeLinks";
 import { getProp } from "../../objects";
+import { getActivatedTemplateType } from "../utils";
 
 /**
  * @private
@@ -42,6 +43,12 @@ export function computeProps(
     TemplateDefaultFeatures
   );
 
-  // 6. cast b/c this takes a partial but returns a full template
+  // 6. compute additional template-specific properties
+  template.isDeployed = (getProp(model, "item.typeKeywords") || []).includes(
+    "Deployed"
+  );
+  template.activatedType = getActivatedTemplateType(model.item);
+
+  // 7. cast b/c this takes a partial but returns a full template
   return template as IHubTemplate;
 }
