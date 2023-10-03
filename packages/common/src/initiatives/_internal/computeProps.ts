@@ -8,6 +8,7 @@ import { IHubInitiative } from "../../core";
 import { isDiscussable } from "../../discussions";
 import { processEntityFeatures } from "../../permissions/_internal/processEntityFeatures";
 import { InitiativeDefaultFeatures } from "./InitiativeBusinessRules";
+import { computeLinks } from "./computeLinks";
 
 /**
  * Given a model and an Initiative, set various computed properties that can't be directly mapped
@@ -48,6 +49,8 @@ export function computeProps(
     model.data.settings?.features || {},
     InitiativeDefaultFeatures
   );
+
+  initiative.links = computeLinks(model.item, requestOptions);
 
   // cast b/c this takes a partial but returns a full object
   return initiative as IHubInitiative;

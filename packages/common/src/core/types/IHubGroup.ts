@@ -100,6 +100,11 @@ export interface IHubGroup extends IHubEntityBase, IWithPermissions {
   tags?: string[];
 
   /**
+   * System configurable typekeywords
+   */
+  typeKeywords?: string[];
+
+  /**
    * Group thumbnail url (read-only)
    */
   thumbnail?: string;

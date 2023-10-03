@@ -13,14 +13,17 @@ import { SiteEditorTypes } from "../../../../src/sites/_internal/SiteSchema";
 import * as SiteBuildEditUiSchema from "../../../../src/sites/_internal/SiteUiSchemaEdit";
 import * as SiteBuildCreateUiSchema from "../../../../src/sites/_internal/SiteUiSchemaCreate";
 import * as SiteBuildFollowersUiSchema from "../../../../src/sites/_internal/SiteUiSchemaFollowers";
+import * as SiteBuildDiscussionsUiSchema from "../../../../src/sites/_internal/SiteUiSchemaDiscussions";
 
 import { DiscussionEditorTypes } from "../../../../src/discussions/_internal/DiscussionSchema";
 import * as DiscussionBuildEditUiSchema from "../../../../src/discussions/_internal/DiscussionUiSchemaEdit";
 import * as DiscussionBuildCreateUiSchema from "../../../../src/discussions/_internal/DiscussionUiSchemaCreate";
+import * as DiscussionBuildSettingsUiSchema from "../../../../src/discussions/_internal/DiscussionUiSchemaSettings";
 
 import { ContentEditorTypes } from "../../../../src/content/_internal/ContentSchema";
 import * as ContentBuildEditUiSchema from "../../../../src/content/_internal/ContentUiSchemaEdit";
 import * as ContentBuildSettingsUiSchema from "../../../../src/content/_internal/ContentUiSchemaSettings";
+import * as ContentBuildDiscussionsUiSchema from "../../../../src/content/_internal/ContentUiSchemaDiscussions";
 
 import { PageEditorTypes } from "../../../../src/pages/_internal/PageSchema";
 import * as PageBuildEditUiSchema from "../../../../src/pages/_internal/PageUiSchemaEdit";
@@ -28,6 +31,7 @@ import * as PageBuildEditUiSchema from "../../../../src/pages/_internal/PageUiSc
 import { GroupEditorTypes } from "../../../../src/groups/_internal/GroupSchema";
 import * as GroupBuildEditUiSchema from "../../../../src/groups/_internal/GroupUiSchemaEdit";
 import * as GroupBuildSettingsUiSchema from "../../../../src/groups/_internal/GroupUiSchemaSettings";
+import * as GroupBuildDiscussionsUiSchema from "../../../../src/groups/_internal/GroupUiSchemaDiscussions";
 
 import { InitiativeTemplateEditorTypes } from "../../../../src/initiative-templates/_internal/InitiativeTemplateSchema";
 import * as InitiativeTemplateBuildEditUiSchema from "../../../../src/initiative-templates/_internal/InitiativeTemplateUiSchemaEdit";
@@ -45,10 +49,16 @@ describe("getEntityEditorSchemas: ", () => {
     { type: SiteEditorTypes[0], buildFn: SiteBuildEditUiSchema },
     { type: SiteEditorTypes[1], buildFn: SiteBuildCreateUiSchema },
     { type: SiteEditorTypes[2], buildFn: SiteBuildFollowersUiSchema },
+    { type: SiteEditorTypes[3], buildFn: SiteBuildDiscussionsUiSchema },
     { type: DiscussionEditorTypes[0], buildFn: DiscussionBuildEditUiSchema },
     { type: DiscussionEditorTypes[1], buildFn: DiscussionBuildCreateUiSchema },
+    {
+      type: DiscussionEditorTypes[2],
+      buildFn: DiscussionBuildSettingsUiSchema,
+    },
     { type: ContentEditorTypes[0], buildFn: ContentBuildEditUiSchema },
     { type: ContentEditorTypes[1], buildFn: ContentBuildSettingsUiSchema },
+    { type: ContentEditorTypes[2], buildFn: ContentBuildDiscussionsUiSchema },
     { type: PageEditorTypes[0], buildFn: PageBuildEditUiSchema },
     { type: GroupEditorTypes[0], buildFn: GroupBuildEditUiSchema },
     { type: GroupEditorTypes[1], buildFn: GroupBuildSettingsUiSchema },
@@ -56,6 +66,7 @@ describe("getEntityEditorSchemas: ", () => {
       type: InitiativeTemplateEditorTypes[0],
       buildFn: InitiativeTemplateBuildEditUiSchema,
     },
+    { type: GroupEditorTypes[2], buildFn: GroupBuildDiscussionsUiSchema },
   ].forEach(async ({ type, buildFn }) => {
     it("returns a schema & uiSchema for a given entity and editor type", async () => {
       uiSchemaBuildFnSpy = spyOn(buildFn, "buildUiSchema").and.returnValue(
@@ -67,7 +78,6 @@ describe("getEntityEditorSchemas: ", () => {
         {} as any,
         {} as any
       );
-
       expect(uiSchemaBuildFnSpy).toHaveBeenCalledTimes(1);
       expect(schema).toBeDefined();
       expect(uiSchema).toBeDefined();

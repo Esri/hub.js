@@ -1,3 +1,22 @@
+# @esri/hub-common [14.24.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.23.0...@esri/hub-common@14.24.0) (2023-10-02)
+
+
+### Features
+
+* adds entity discussion settings ([#1221](https://github.com/Esri/hub.js/issues/1221)) ([5e25a43](https://github.com/Esri/hub.js/commit/5e25a4336316aab18c1b9fd82c9a2b685fce14ef))
+
+# @esri/hub-common [14.23.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.22.0...@esri/hub-common@14.23.0) (2023-09-28)
+
+
+### Bug Fixes
+
+* **hub-common:** workspace route for content is /workspace/content/:id not /workspace/contents/:id ([#1250](https://github.com/Esri/hub.js/issues/1250)) ([f2c6679](https://github.com/Esri/hub.js/commit/f2c667933c1a9faf4ddf8e4087267f6f6aa22814))
+
+
+### Features
+
+* add links hash for project, initiative, and group entities ([#1226](https://github.com/Esri/hub.js/issues/1226)) ([aba8f7b](https://github.com/Esri/hub.js/commit/aba8f7b18e2c6da1c4dec022751c1fc897371165))
+
 # @esri/hub-common [14.22.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.21.1...@esri/hub-common@14.22.0) (2023-09-26)
 
 
