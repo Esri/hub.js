@@ -35,6 +35,13 @@ describe("buildUiSchema: initiative template edit", () => {
             helperText: {
               labelKey: "some.scope.fields.previewUrl.helperText",
             },
+            messages: [
+              {
+                type: "ERROR",
+                keyword: "if",
+                hidden: true,
+              },
+            ],
           },
         },
         {
