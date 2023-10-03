@@ -103,23 +103,23 @@ export async function updateTemplate(
   // 3. Fetch the backing model (item + data)
   const model = await getModel(template.id, requestOptions);
 
-  // 5. Create a property mapper between the template
+  // 4. Create a property mapper between the template
   // object and item model
   const mapper = new PropertyMapper<Partial<IHubTemplate>, IModel>(
     getPropertyMap()
   );
 
-  // 6. Create item model from updated template object, using
+  // 5. Create item model from updated template object, using
   // the existing model as a starting point
   const modelToUpdate = mapper.entityToStore(template, model);
 
-  // 7. Update the backing item
+  // 6. Update the backing item
   const updatedModel = await updateModel(modelToUpdate, requestOptions);
 
-  // 8. Map the item back into an IHubTemplate
+  // 7. Map the item back into an IHubTemplate
   const updatedTemplate = mapper.storeToEntity(updatedModel, template);
 
-  // 9. Compute + set various properties on the IHubTemplate
+  // 8. Compute + set various properties on the IHubTemplate
   // that cannot be directly mapped from the item
   template = computeProps(model, updatedTemplate, requestOptions);
 

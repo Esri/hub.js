@@ -20,6 +20,7 @@ export const TemplatePermissions = [
   "hub:template:view",
   "hub:template:workspace:overview",
   "hub:template:workspace:details",
+  "hub:template:workspace:dashboard",
   "hub:template:workspace:collaborators",
   "hub:template:workspace:settings",
 ] as const;
@@ -66,6 +67,10 @@ export const TemplatePermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:template:workspace:details",
+    dependencies: ["hub:template:manage"],
+  },
+  {
+    permission: "hub:template:workspace:dashboard",
     dependencies: ["hub:template:manage"],
   },
   {
