@@ -1,3 +1,10 @@
+## @esri/hub-common [14.25.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.25.0...@esri/hub-common@14.25.1) (2023-10-03)
+
+
+### Bug Fixes
+
+* add Project to wellKnownColletions ([#1254](https://github.com/Esri/hub.js/issues/1254)) ([82eb6a1](https://github.com/Esri/hub.js/commit/82eb6a18bf4f750c117349e1b0eb8bdd0f5bde02))
+
 # @esri/hub-common [14.25.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.24.0...@esri/hub-common@14.25.0) (2023-10-03)
 
 
