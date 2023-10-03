@@ -11,6 +11,7 @@ export const GUID = "8b77674e43cf4bbd9ecad5189b3f1fdc";
 
 export const TEMPLATE_ENTITY: IHubTemplate = {
   access: "public",
+  activatedType: "Hub Site Application",
   canEdit: true,
   canDelete: true,
   categories: ["Basemap imagery", "Creative maps"],
@@ -23,6 +24,7 @@ export const TEMPLATE_ENTITY: IHubTemplate = {
     [-87.74262594052858, 41.83922261453605],
   ],
   id: GUID,
+  isDeployed: false,
   itemControl: "admin",
   name: "Mock Template",
   orgUrlKey: "qa-pre-a-hub",
