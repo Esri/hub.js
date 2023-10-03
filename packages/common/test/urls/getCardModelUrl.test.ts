@@ -123,31 +123,27 @@ describe("getCardModelUrlFromResult", () => {
 describe("getCardModelUrlFromEntity", () => {
   let MOCK_ENTITY: HubEntity;
   let MOCK_CONTEXT: IArcGISContext;
-  let getItemHomeUrlSpy: any;
-  let getRelativeWorkspaceUrlSpy: any;
-  let getHubRelativeUrlSpy: any;
 
   beforeEach(() => {
-    MOCK_ENTITY = { id: "12300a", type: "Hub Project" } as HubEntity;
+    MOCK_ENTITY = {
+      id: "12300a",
+      type: "Hub Project",
+      links: {
+        self: MOCK_SELF_URL,
+        siteRelative: MOCK_SITE_RELATIVE_URL,
+        workspaceRelative: MOCK_WORKSPACE_RELATIVE_URL,
+      },
+    } as HubEntity;
     MOCK_CONTEXT = {} as IArcGISContext;
-
-    getItemHomeUrlSpy = spyOn(
-      getItemHomeUrlModule,
-      "getItemHomeUrl"
-    ).and.returnValue(MOCK_SELF_URL);
-    getRelativeWorkspaceUrlSpy = spyOn(
-      getRelativeWorkspaceUrlModule,
-      "getRelativeWorkspaceUrl"
-    ).and.returnValue(MOCK_WORKSPACE_RELATIVE_URL);
-    getHubRelativeUrlSpy = spyOn(
-      internalContentUtils,
-      "getHubRelativeUrl"
-    ).and.returnValue(MOCK_SITE_RELATIVE_URL);
   });
 
+  it("handles undefined entity links", () => {
+    MOCK_ENTITY.links = undefined;
+    const result = getCardModelUrlFromEntity(MOCK_ENTITY, MOCK_CONTEXT, "self");
+    expect(result).toBeUndefined();
+  });
   it('target = "self": returns the correct title url', () => {
     const result = getCardModelUrlFromEntity(MOCK_ENTITY, MOCK_CONTEXT, "self");
-    expect(getItemHomeUrlSpy).toHaveBeenCalledTimes(1);
     expect(result).toBe(MOCK_SELF_URL);
   });
   describe('target = "siteRelative', () => {
@@ -157,7 +153,6 @@ describe("getCardModelUrlFromEntity", () => {
         MOCK_CONTEXT,
         "siteRelative"
       );
-      expect(getHubRelativeUrlSpy).toHaveBeenCalledTimes(1);
       expect(result).toBe(MOCK_SITE_RELATIVE_URL);
     });
     it("baseUrl is defined: returns the correct title url", () => {
@@ -167,7 +162,6 @@ describe("getCardModelUrlFromEntity", () => {
         "siteRelative",
         "https://mock-base"
       );
-      expect(getHubRelativeUrlSpy).toHaveBeenCalledTimes(1);
       expect(result).toBe(`https://mock-base${MOCK_SITE_RELATIVE_URL}`);
     });
   });
@@ -178,7 +172,6 @@ describe("getCardModelUrlFromEntity", () => {
         MOCK_CONTEXT,
         "workspaceRelative"
       );
-      expect(getRelativeWorkspaceUrlSpy).toHaveBeenCalledTimes(1);
       expect(result).toBe(MOCK_WORKSPACE_RELATIVE_URL);
     });
     it("baseUrl is defined: returns the correct title url", () => {
@@ -188,7 +181,6 @@ describe("getCardModelUrlFromEntity", () => {
         "workspaceRelative",
         "https://mock-base"
       );
-      expect(getRelativeWorkspaceUrlSpy).toHaveBeenCalledTimes(1);
       expect(result).toBe(`https://mock-base${MOCK_WORKSPACE_RELATIVE_URL}`);
     });
   });
@@ -209,11 +201,11 @@ describe("getCardModelUrlFromEntity", () => {
     beforeEach(() => {
       MOCK_ENTITY.type = "Hub Site Application";
     });
-    it('returns the site\'s "self" url', () => {
+    it('always returns the site\'s "self" url', () => {
       const result = getCardModelUrlFromEntity(
         MOCK_ENTITY,
         MOCK_CONTEXT,
-        "self"
+        "siteRelative"
       );
       expect(result).toBe(MOCK_SELF_URL);
     });
