@@ -11,7 +11,7 @@ export const GUID = "8b77674e43cf4bbd9ecad5189b3f1fdc";
 
 export const TEMPLATE_ENTITY: IHubTemplate = {
   access: "public",
-  activatedType: "Hub Site Application",
+  deployedType: "Hub Site Application",
   canEdit: true,
   canDelete: true,
   categories: ["Basemap imagery", "Creative maps"],
@@ -84,7 +84,7 @@ export const TEMPLATE_ITEM: IItem = {
 
 export const TEMPLATE_HUB_SEARCH_RESULT: IHubSearchResult = {
   access: "public",
-  activatedType: "Hub Site Application",
+  deployedType: "Hub Site Application",
   id: GUID,
   type: "Solution",
   name: "Mock Template",

@@ -4,7 +4,7 @@ import { capitalize } from "../util";
 
 /**
  * We do our best to glean what the solution template
- * is supposed to become when activated. This util
+ * is supposed to become when deployed. This util
  * extracts the expected item type from the
  * hubSolutionType typeKeyword on the solution item
  *
@@ -13,8 +13,8 @@ import { capitalize } from "../util";
  *
  * @param template
  */
-export const getActivatedTemplateType = (template: IItem): string => {
-  let activatedType = "Solution";
+export const getDeployedTemplateType = (template: IItem): string => {
+  let deployedType = "Solution";
   // 1. Extract the camelCase item type from the
   // hubSolutionType|<camel-case-item-type> typeKeyword
   const hubSolutionTypeKeyword = template.typeKeywords.find((keyword: string) =>
@@ -24,7 +24,7 @@ export const getActivatedTemplateType = (template: IItem): string => {
   // 2. Attempt to de-camelize the item type
   if (hubSolutionTypeKeyword) {
     const camelizedType = hubSolutionTypeKeyword.split("|")[1];
-    activatedType = dasherize(camelizedType)
+    deployedType = dasherize(camelizedType)
       .split("-")
       .map((str) => capitalize(str))
       .join(" ");
@@ -37,9 +37,9 @@ export const getActivatedTemplateType = (template: IItem): string => {
     };
 
     if (exceptionMap[camelizedType]) {
-      activatedType = exceptionMap[camelizedType];
+      deployedType = exceptionMap[camelizedType];
     }
   }
 
-  return activatedType;
+  return deployedType;
 };

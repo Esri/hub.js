@@ -15,7 +15,7 @@ describe("templates: computeProps:", () => {
   let computeLinksSpy: jasmine.Spy;
   let isDiscussableSpy: jasmine.Spy;
   let processEntityFeaturesSpy: jasmine.Spy;
-  let getActivatedTemplateTypeSpy: jasmine.Spy;
+  let getDeployedTemplateTypeSpy: jasmine.Spy;
 
   beforeEach(async () => {
     authdCtxMgr = await initContextManager();
@@ -30,9 +30,9 @@ describe("templates: computeProps:", () => {
       processEntityFeaturesModule,
       "processEntityFeatures"
     ).and.returnValue({});
-    getActivatedTemplateTypeSpy = spyOn(
+    getDeployedTemplateTypeSpy = spyOn(
       templateUtilsModule,
-      "getActivatedTemplateType"
+      "getDeployedTemplateType"
     ).and.returnValue("StoryMap");
 
     template = {
@@ -104,12 +104,12 @@ describe("templates: computeProps:", () => {
     );
     expect(chk2.isDeployed).toBeTruthy();
   });
-  it("activatedType: computes the activated solution type", () => {
+  it("deployedType: computes the activated solution type", () => {
     const chk = computeProps(
       model,
       template,
       authdCtxMgr.context.requestOptions
     );
-    expect(chk.activatedType).toBe("StoryMap");
+    expect(chk.deployedType).toBe("StoryMap");
   });
 });

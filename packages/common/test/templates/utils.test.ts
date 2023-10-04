@@ -1,19 +1,19 @@
 import { IItem } from "@esri/arcgis-rest-types";
-import { getActivatedTemplateType } from "../../src/templates/utils";
+import { getDeployedTemplateType } from "../../src/templates/utils";
 
 describe("template utils", () => {
-  describe("getActivatedTemplateType", () => {
+  describe("getDeployedTemplateType", () => {
     it("Extracts the activated solution template type", () => {
       const mockTemplate = {
         typeKeywords: ["hubSolutionType|hubSiteApplication"],
       } as unknown as IItem;
-      const chk = getActivatedTemplateType(mockTemplate);
+      const chk = getDeployedTemplateType(mockTemplate);
 
       expect(chk).toBe("Hub Site Application");
     });
     it('Returns "Solution" as the fallback type', () => {
       const mockTemplate = { typeKeywords: [] } as unknown as IItem;
-      const chk = getActivatedTemplateType(mockTemplate);
+      const chk = getDeployedTemplateType(mockTemplate);
 
       expect(chk).toBe("Solution");
     });
@@ -21,7 +21,7 @@ describe("template utils", () => {
       const mockTemplate = {
         typeKeywords: ["hubSolutionType|storyMap"],
       } as unknown as IItem;
-      const chk = getActivatedTemplateType(mockTemplate);
+      const chk = getDeployedTemplateType(mockTemplate);
 
       expect(chk).toBe("StoryMap");
     });

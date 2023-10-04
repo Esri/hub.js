@@ -70,7 +70,7 @@ describe("templates: fetch module", () => {
   describe("enrichTemplateSearchResult", () => {
     let fetchItemEnrichmentsSpy: jasmine.Spy;
     let computLinksSpy: jasmine.Spy;
-    let getActivatedTemplateTypeSpy: jasmine.Spy;
+    let getDeployedTemplateTypeSpy: jasmine.Spy;
 
     beforeEach(() => {
       fetchItemEnrichmentsSpy = spyOn(
@@ -81,15 +81,15 @@ describe("templates: fetch module", () => {
         computeLinksModule,
         "computeLinks"
       ).and.returnValue({ self: "some-link" });
-      getActivatedTemplateTypeSpy = spyOn(
+      getDeployedTemplateTypeSpy = spyOn(
         templateUtilsModule,
-        "getActivatedTemplateType"
+        "getDeployedTemplateType"
       ).and.returnValue("StoryMap");
     });
     afterEach(() => {
       fetchItemEnrichmentsSpy.calls.reset();
       computLinksSpy.calls.reset();
-      getActivatedTemplateTypeSpy.calls.reset();
+      getDeployedTemplateTypeSpy.calls.reset();
     });
 
     it("enriches the templates with well-known item enrichments", async () => {
@@ -118,8 +118,8 @@ describe("templates: fetch module", () => {
         authdCtxMgr.context.hubRequestOptions
       );
 
-      expect(getActivatedTemplateTypeSpy).toHaveBeenCalledTimes(1);
-      expect(chk.activatedType).toBe("StoryMap");
+      expect(getDeployedTemplateTypeSpy).toHaveBeenCalledTimes(1);
+      expect(chk.deployedType).toBe("StoryMap");
     });
   });
 

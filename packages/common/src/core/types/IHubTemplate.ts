@@ -5,7 +5,7 @@ import { IHubItemEntity, IHubItemEntityEditor } from "./IHubItemEntity";
 export interface IHubTemplate extends IHubItemEntity, IWithSlug {
   previewUrl: string;
   isDeployed: boolean;
-  activatedType: string;
+  deployedType: string;
 }
 
 /**

@@ -15,7 +15,7 @@ import { parseInclude } from "../search/_internal/parseInclude";
 import { fetchItemEnrichments } from "../items/_enrichments";
 import { getProp } from "../objects";
 import { computeLinks } from "./_internal/computeLinks";
-import { getActivatedTemplateType } from "./utils";
+import { getDeployedTemplateType } from "./utils";
 
 /**
  * @private
@@ -124,7 +124,7 @@ export async function enrichTemplateSearchResult(
   result.links = computeLinks(item, requestOptions);
 
   // 3. append additional template-specific properties
-  result.activatedType = getActivatedTemplateType(item);
+  result.deployedType = getDeployedTemplateType(item);
 
   return result;
 }
