@@ -33,7 +33,7 @@ describe("HubTemplate Class", () => {
       let createSpy: any;
       beforeEach(() => {
         createSpy = spyOn(editModule, "createTemplate").and.callFake(() =>
-          Promise.resolve({ id: "00c" })
+          Promise.resolve()
         );
       });
       afterEach(() => createSpy.calls.reset());

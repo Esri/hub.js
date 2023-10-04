@@ -16,7 +16,12 @@ import { IEntityEditorContext } from "../core/types";
 import { enrichEntity } from "../core/enrichEntity";
 import { cloneObject } from "../util";
 
-/** Hub Template Class */
+/**
+ * Hub Template Class - this class encapsulates the standard
+ * operations for a "Solution" item despite the Hub team not
+ * "owning" this item type. Our primary goal is to allow
+ * editing of the item's meta information, manage sharing, etc.
+ */
 export class HubTemplate extends HubItemEntity<IHubTemplate> {
   /**
    * Private constructor to allow for future
@@ -49,8 +54,9 @@ export class HubTemplate extends HubItemEntity<IHubTemplate> {
    * the backing store unless save is set to true
    *
    * NOTE: we have no immediate plans to allow template creation
-   * from the context of our application, but scaffolding this
-   * method for potential future implementation
+   * from the context of the Hub application, but scaffolding this
+   * method for potential future implementation. The underlying
+   * createTemplate function will throw an error if attempted.
    * @param partialTemplate
    * @param context
    * @param save
@@ -201,7 +207,9 @@ export class HubTemplate extends HubItemEntity<IHubTemplate> {
       throw new Error("HubTemplate is already destroyed.");
     }
 
-    // 1. create or update
+    // 1. create or update. Note: the underlying createTemplate
+    // function will throw an error because we don't currently
+    // allow for template creation from the context of Hub
     this.entity = this.entity.id
       ? await updateTemplate(this.entity, this.context.userRequestOptions)
       : await createTemplate(this.entity, this.context.userRequestOptions);
