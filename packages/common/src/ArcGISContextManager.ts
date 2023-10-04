@@ -1,5 +1,5 @@
 import { getSelf, getUser, IPortal } from "@esri/arcgis-rest-portal";
-import { IUser, UserSession } from "@esri/arcgis-rest-auth";
+import { exchangeToken, IUser, UserSession } from "@esri/arcgis-rest-auth";
 import {
   ArcGISContext,
   IArcGISContext,
@@ -16,6 +16,20 @@ import { IFeatureFlags } from "./permissions";
 import { IHubTrustedOrgsResponse } from "./types";
 import { request } from "@esri/arcgis-rest-request";
 import { failSafe } from "./utils/fail-safe";
+
+export type UserResourceApp = "self" | "hubforarcgis" | "arcgisonline";
+// Passed into ContextManager, specifying what exchangeToken calls
+// should be made
+export interface IUserResourceConfig {
+  app: UserResourceApp;
+  clientId: string;
+}
+
+// After exchangeToken call is successful, this is the structure
+// stored in the context.userResourceTokens prop
+export interface IUserResourceToken extends IUserResourceConfig {
+  token: string;
+}
 
 /**
  * Options that can be passed into `ArcGISContextManager.create`
@@ -86,6 +100,12 @@ export interface IArcGISContextManagerOptions {
    * Trusted orgs xhr response
    */
   trustedOrgs?: IHubTrustedOrgsResponse[];
+
+  /**
+   * Hash of clientId's that Context Manager should
+   * exchange tokens for
+   */
+  resourceConfigs?: IUserResourceConfig[];
 }
 
 /**
@@ -116,7 +136,7 @@ export class ArcGISContextManager {
 
   private _portalUrl: string = "https://www.arcgis.com";
 
-  private _properties: Record<string, any>;
+  private _properties: Record<string, any> = {};
 
   private _hubUrl: string;
 
@@ -134,6 +154,10 @@ export class ArcGISContextManager {
 
   private _trustedOrgs: IHubTrustedOrgsResponse[];
 
+  private _resourceConfigs: IUserResourceConfig[] = [];
+
+  private _resourceTokens: IUserResourceToken[] = [];
+
   /**
    * Private constructor. Use `ArcGISContextManager.create(...)` to
    * instantiate an instance
@@ -150,6 +174,11 @@ export class ArcGISContextManager {
 
     if (opts.properties) {
       this._properties = opts.properties;
+    }
+    // Default to the Alpha orgs defined in Hub.js unless
+    // other values are passed in
+    if (!this._properties.alphaOrgs) {
+      this._properties.alphaOrgs = [...ALPHA_ORGS];
     }
 
     if (opts.authentication) {
@@ -188,6 +217,10 @@ export class ArcGISContextManager {
 
     if (opts.trustedOrgs) {
       this._trustedOrgs = cloneObject(opts.trustedOrgs);
+    }
+
+    if (opts.resourceConfigs) {
+      this._resourceConfigs = opts.resourceConfigs;
     }
   }
 
@@ -262,6 +295,8 @@ export class ArcGISContextManager {
     opts.serviceStatus = state.serviceStatus;
     opts.featureFlags = state.featureFlags;
 
+    opts.resourceConfigs = state.resourceConfigs;
+
     return ArcGISContextManager.create(opts);
   }
 
@@ -297,10 +332,12 @@ export class ArcGISContextManager {
     if (!this._context.isPortal) {
       this._portalUrl = getPortalBaseFromOrgUrl(this._portalUrl);
     }
-    // Clear the auth, portalSelf and currentUser props
+    // Clear the auth related props
     this._authentication = null;
     this._portalSelf = null;
     this._currentUser = null;
+    this._resourceTokens = [];
+    // re-create the context
     this._context = new ArcGISContext(this.contextOpts);
   }
 
@@ -348,6 +385,10 @@ export class ArcGISContextManager {
       state.trustedOrgs = this._trustedOrgs;
     }
 
+    if (this._resourceConfigs) {
+      state.resourceConfigs = this._resourceConfigs;
+    }
+
     return unicodeToBase64(JSON.stringify(state));
   }
 
@@ -360,24 +401,52 @@ export class ArcGISContextManager {
     if (this._authentication && (!this._portalSelf || !this._currentUser)) {
       Logger.debug(`ArcGISContextManager-${this.id}: Initializing`);
       const username = this._authentication.username;
+      const token = await this._authentication.getToken(
+        this._authentication.portal
+      );
       const requests: [
         Promise<IPortal>,
         Promise<IUser>,
-        Promise<IHubTrustedOrgsResponse[]>
+        Promise<IHubTrustedOrgsResponse[]>,
+        Promise<IUserResourceToken[]>
       ] = [
         getSelf({ authentication: this._authentication }),
         getUser({ username, authentication: this._authentication }),
         getTrustedOrgs(this._portalUrl, this._authentication),
+        getUserResourceTokens(
+          this._resourceConfigs,
+          token,
+          this._portalUrl + "/sharing/rest"
+        ),
       ];
       try {
-        const [portal, user, trustedOrgs] = await Promise.all(requests);
+        const [portal, user, trustedOrgs, resourceTokens] = await Promise.all(
+          requests
+        );
         this._portalSelf = portal;
         this._currentUser = user;
         this._trustedOrgs = trustedOrgs;
         this._trustedOrgIds = getTrustedOrgIds(trustedOrgs);
+        this._resourceTokens = resourceTokens;
         Logger.debug(
           `ArcGISContextManager-${this.id}: received portalSelf and currentUser`
         );
+        // add the "self" entry for resourceTokens as it should always be available
+        this._resourceTokens.push({
+          app: "self",
+          token,
+          clientId: this._authentication.clientId || "self",
+        });
+        // Under normal circumstances, this will be defined
+        // but in node, where the context was created via a UserSession
+        // that was not returned from an oAuth flow, it will not be set
+        if (this._authentication.clientId) {
+          this._resourceTokens.push({
+            app: this._authentication.clientId as UserResourceApp,
+            token,
+            clientId: this._authentication.clientId,
+          });
+        }
       } catch (ex) {
         const msg = `ArcGISContextManager could not fetch portal & user for "${this._authentication.username}" using ${this._authentication.portal}.`;
         Logger.error(msg);
@@ -423,6 +492,8 @@ export class ArcGISContextManager {
       contextOpts.trustedOrgs = this._trustedOrgs;
     }
 
+    contextOpts.userResourceTokens = this._resourceTokens;
+
     return contextOpts;
   }
 }
@@ -466,6 +537,25 @@ function getTrustedOrgIds(trustedOrgs: IHubTrustedOrgsResponse[]): string[] {
   return trustedOrgs.map((org) => org.to.orgId);
 }
 
+async function getUserResourceTokens(
+  configs: IUserResourceConfig[],
+  currentToken: string,
+  portalUrl: string
+): Promise<IUserResourceToken[]> {
+  // failSafe exchangeToken so we don't have to catch
+  const failSafeExchange = failSafe(exchangeToken, null);
+  const promises = configs.map((cfg) => {
+    return failSafeExchange(currentToken, cfg.clientId, portalUrl).then(
+      (token) => {
+        if (token) {
+          return { ...cfg, token } as IUserResourceToken;
+        }
+      }
+    );
+  });
+  return Promise.all(promises);
+}
+
 const HUB_SERVICE_STATUS: HubServiceStatus = {
   portal: "online",
   discussions: "online",
@@ -485,3 +575,27 @@ const ENTERPRISE_SITES_SERVICE_STATUS: HubServiceStatus = {
   "hub-search": "not-available",
   domains: "not-available",
 };
+
+const DEV_ALPHA_ORGS = [
+  "LjjARY1mkhxulWPq",
+  "q2ikdtW0bkt5EgtQ",
+  "yHYVvboBBOdmcKci",
+];
+const QA_ALPHA_ORGS = [
+  "97KLIFOSt5CxbiRI",
+  "MiFBHFxEZWumnKCx",
+  "8HRYeOqprj872mxP",
+  "Xj56SBi2udA78cC9",
+];
+const PROD_ALPHA_ORGS = [
+  "gGHDlz6USftL5Pau",
+  "CrA5hYOKgL3Vwan8",
+  "zj227gjeSqEyG4HF",
+  "bkrWlSKcjUDFDtgw",
+];
+
+export const ALPHA_ORGS = [
+  ...PROD_ALPHA_ORGS,
+  ...QA_ALPHA_ORGS,
+  ...DEV_ALPHA_ORGS,
+];

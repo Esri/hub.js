@@ -49,7 +49,7 @@ const TEST_ITEMS = {
   ],
 };
 
-fdescribe("associations development harness:", () => {
+describe("associations development harness:", () => {
   let factory: Artifactory;
   const orgName = "hubPremiumAlpha";
   beforeAll(() => {

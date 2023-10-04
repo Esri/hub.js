@@ -6,11 +6,8 @@
 // clientId. Hub is unique b/c Sites have their own clientId,
 
 import { IRequestOptions, request } from "@esri/arcgis-rest-request";
-import { failSafe } from "./fail-safe";
-import { getObjectSize } from "./getObjectSize";
-
-// AND (unlike other apps) we can exchange that for other Esri App clientIds.
-export type UserResourceApp = "self" | "hubforarcgis" | "arcgisonline";
+import { failSafe } from "../fail-safe";
+import { getObjectSize } from "../getObjectSize";
 
 // Defines the access for the resource
 export type UserResourceAccess =
@@ -51,7 +48,7 @@ export interface IUserResourceListResponse {
  * Passing `true` as the last parameter,
  * @param resource
  * @param username
- * @param portal
+ * @param portalUrl
  * @param token
  * @param replace
  * @returns
@@ -59,9 +56,9 @@ export interface IUserResourceListResponse {
 export async function setUserResource(
   resource: IAddUserResource,
   username: string,
-  portal: string,
+  portalUrl: string,
   token: string,
-  replace: false
+  replace: boolean = false
 ): Promise<void> {
   // Ensure we are below 5MB max size
   if (getObjectSize(resource.data).megabytes > 4.95) {
@@ -76,14 +73,14 @@ export async function setUserResource(
     const currentResource = await fsGetResource(
       username,
       resource.key,
-      portal,
+      portalUrl,
       token
     );
     // extend current object witn updated object
     payload = { ...currentResource, ...resource.data };
   }
   const ro: IRequestOptions = {
-    portal,
+    portal: portalUrl,
     httpMethod: "POST",
     params: {
       text: JSON.stringify(payload),
@@ -93,7 +90,10 @@ export async function setUserResource(
     },
   };
   // TODO Experiment w/ how we can make this call w/o creating a UserSession with the token
-  return request(`${portal}/community/users/${username}/addResource`, ro);
+  return request(
+    `${portalUrl}/sharing/rest/community/users/${username}/addResource`,
+    ro
+  );
 }
 
 /**
@@ -102,21 +102,51 @@ export async function setUserResource(
  * configured to return an empty object.
  * @param username
  * @param key
- * @param portal
+ * @param portalUrl
  * @param token
  * @returns
  */
 export function getUserResource(
   username: string,
   key: string,
-  portal: string,
+  portalUrl: string,
   token: string
 ): Promise<Record<string, any>> {
   const ro: IRequestOptions = {
-    portal,
+    portal: portalUrl,
   };
   return request(
-    `${portal}/community/users/${username}/resources/${key}?token=${token}`,
+    `${portalUrl}/sharing/rest/community/users/${username}/resources/${key}?token=${token}`,
+    ro
+  );
+}
+
+/**
+ * Remove a resource
+ * Used primarily in tests, but can be useful if you need to clean up
+ * settings that are no longer used
+ * @param username
+ * @param key
+ * @param portalUrl
+ * @param token
+ * @returns
+ */
+export function removeUserResource(
+  username: string,
+  key: string,
+  portalUrl: string,
+  token: string
+): Promise<Record<string, any>> {
+  const ro: IRequestOptions = {
+    portal: portalUrl,
+    httpMethod: "POST",
+    params: {
+      key,
+      token,
+    },
+  };
+  return request(
+    `${portalUrl}/sharing/rest/community/users/${username}/removeResource`,
     ro
   );
 }
@@ -124,21 +154,21 @@ export function getUserResource(
 /**
  * List user resources associated with
  * @param username
- * @param portal
+ * @param portalUrl
  * @param token
  * @returns
  */
 export function listUserResources(
   username: string,
-  portal: string,
+  portalUrl: string,
   token: string,
-  returnAllApps?: false
+  returnAllApps: boolean = false
 ): Promise<IUserResourceListResponse> {
   const ro: IRequestOptions = {
-    portal,
+    portal: portalUrl,
   };
   return request(
-    `${portal}/community/users/${username}/resources?token=${token}&returnAllApps=${returnAllApps}`,
+    `${portalUrl}/sharing/rest/community/users/${username}/resources?f=json&token=${token}&returnAllApps=${returnAllApps}`,
     ro
   ) as Promise<IUserResourceListResponse>;
 }
