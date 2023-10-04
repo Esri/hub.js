@@ -24,3 +24,4 @@ export * from "./memoize";
 export * from "./getEnvironmentFromPortalUrl";
 export * from "./poll";
 export * from "./hubUserAppResources";
+export * from "./getObjectSize";
