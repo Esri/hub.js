@@ -18,5 +18,8 @@ export async function ogcItemToSearchResult(
   result.source = ogcItem.properties.source;
   result.license = ogcItem.properties.license;
 
-  return result;
+  return {
+    geometry: ogcItem.geometry,
+    ...result,
+  };
 }
