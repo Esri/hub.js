@@ -890,12 +890,16 @@ export interface IFetchChannel {
  * @extends {Partial<IWithSorting<ChannelSort>>}
  * @extends {Partial<IWithTimeQueries>}
  * @extends {Partial<IWithFiltering<ChannelFilter>>}
+ * @extends {Partial<IWithAuthor>}
+ * @extends {Partial<IWithEditor>}
  */
 export interface ISearchChannels
   extends Partial<IPagingParams>,
     Partial<IWithSorting<ChannelSort>>,
     Partial<IWithTimeQueries>,
-    Partial<IWithFiltering<ChannelFilter>> {
+    Partial<IWithFiltering<ChannelFilter>>,
+    Partial<IWithAuthor>,
+    Partial<IWithEditor> {
   groups?: string[];
   access?: SharingAccess[];
   relations?: ChannelRelation[];
