@@ -1,3 +1,10 @@
+## @esri/hub-common [14.26.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.26.0...@esri/hub-common@14.26.1) (2023-10-04)
+
+
+### Bug Fixes
+
+* properly deserialize trustedOrgs from context ([#1256](https://github.com/Esri/hub.js/issues/1256)) ([760b4ff](https://github.com/Esri/hub.js/commit/760b4ff15888756484fdbaaa79828e1a3c9b1a17))
+
 # @esri/hub-common [14.26.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.25.1...@esri/hub-common@14.26.0) (2023-10-03)
 
 
