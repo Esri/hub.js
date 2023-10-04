@@ -1,3 +1,10 @@
+## @esri/hub-common [14.26.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.26.1...@esri/hub-common@14.26.2) (2023-10-04)
+
+
+### Bug Fixes
+
+* **hub-discussions:** add author and editor to isearchchannels ([#1257](https://github.com/Esri/hub.js/issues/1257)) ([5d22e8b](https://github.com/Esri/hub.js/commit/5d22e8bbe0304296a1d64234c20eb62a173a328f))
+
 ## @esri/hub-common [14.26.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.26.0...@esri/hub-common@14.26.1) (2023-10-04)
 
 
