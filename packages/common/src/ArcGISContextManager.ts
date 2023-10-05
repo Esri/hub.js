@@ -18,6 +18,7 @@ import { request } from "@esri/arcgis-rest-request";
 import { failSafe } from "./utils/fail-safe";
 
 export type UserResourceApp = "self" | "hubforarcgis" | "arcgisonline";
+
 // Passed into ContextManager, specifying what exchangeToken calls
 // should be made
 export interface IUserResourceConfig {
@@ -102,10 +103,16 @@ export interface IArcGISContextManagerOptions {
   trustedOrgs?: IHubTrustedOrgsResponse[];
 
   /**
-   * Hash of clientId's that Context Manager should
+   * Array of app, clientId's that Context Manager should
    * exchange tokens for
    */
   resourceConfigs?: IUserResourceConfig[];
+
+  /**
+   * Array of app, clientId, token objects which Context
+   * Manager has exchanged tokens for
+   */
+  resourceTokens?: IUserResourceToken[];
 }
 
 /**
@@ -222,6 +229,9 @@ export class ArcGISContextManager {
     if (opts.resourceConfigs) {
       this._resourceConfigs = opts.resourceConfigs;
     }
+    if (opts.resourceTokens) {
+      this._resourceTokens = opts.resourceTokens;
+    }
   }
 
   /**
@@ -296,6 +306,7 @@ export class ArcGISContextManager {
     opts.featureFlags = state.featureFlags;
 
     opts.resourceConfigs = state.resourceConfigs;
+    opts.resourceTokens = state.resourceTokens;
 
     return ArcGISContextManager.create(opts);
   }
@@ -364,6 +375,9 @@ export class ArcGISContextManager {
       portalUrl: this._portalUrl,
       serviceStatus: this._serviceStatus,
       featureFlags: this._featureFlags,
+      properties: this._properties,
+      resourceConfigs: this._resourceConfigs,
+      resourceTokens: this._resourceTokens,
     };
 
     if (this._authentication) {
@@ -375,18 +389,12 @@ export class ArcGISContextManager {
     if (this._currentUser) {
       state.currentUser = this._currentUser;
     }
-    if (this._properties) {
-      state.properties = this._properties;
-    }
+
     if (this._trustedOrgIds) {
       state.trustedOrgIds = this._trustedOrgIds;
     }
     if (this._trustedOrgs) {
       state.trustedOrgs = this._trustedOrgs;
-    }
-
-    if (this._resourceConfigs) {
-      state.resourceConfigs = this._resourceConfigs;
     }
 
     return unicodeToBase64(JSON.stringify(state));
@@ -397,68 +405,91 @@ export class ArcGISContextManager {
    * store that along with current user
    */
   private async initialize(): Promise<void> {
-    // if we have auth, and don't have portalSelf or currentUser, fetch them
-    if (this._authentication && (!this._portalSelf || !this._currentUser)) {
-      Logger.debug(`ArcGISContextManager-${this.id}: Initializing`);
-      const username = this._authentication.username;
+    // setup array to hold promises and one to track promise index
+    const promises: Array<Promise<any>> = [];
+    const promiseKeys: string[] = [];
+    // We always want service status if it's not passed in
+    if (!this._serviceStatus) {
+      promises.push(getServiceStatus(this._portalUrl));
+      promiseKeys.push("serviceStatus");
+    }
+    // Other info is only relevant if we have authentication
+    // and we only want to fetch the info, if it was not passed in
+    if (this._authentication) {
       const token = await this._authentication.getToken(
         this._authentication.portal
       );
-      const requests: [
-        Promise<IPortal>,
-        Promise<IUser>,
-        Promise<IHubTrustedOrgsResponse[]>,
-        Promise<IUserResourceToken[]>
-      ] = [
-        getSelf({ authentication: this._authentication }),
-        getUser({ username, authentication: this._authentication }),
-        getTrustedOrgs(this._portalUrl, this._authentication),
-        getUserResourceTokens(
-          this._resourceConfigs,
-          token,
-          this._portalUrl + "/sharing/rest"
-        ),
-      ];
-      try {
-        const [portal, user, trustedOrgs, resourceTokens] = await Promise.all(
-          requests
-        );
-        this._portalSelf = portal;
-        this._currentUser = user;
-        this._trustedOrgs = trustedOrgs;
-        this._trustedOrgIds = getTrustedOrgIds(trustedOrgs);
-        this._resourceTokens = resourceTokens;
-        Logger.debug(
-          `ArcGISContextManager-${this.id}: received portalSelf and currentUser`
-        );
-        // add the "self" entry for resourceTokens as it should always be available
-        this._resourceTokens.push({
-          app: "self",
-          token,
-          clientId: this._authentication.clientId || "self",
-        });
-        // Under normal circumstances, this will be defined
-        // but in node, where the context was created via a UserSession
-        // that was not returned from an oAuth flow, it will not be set
-        if (this._authentication.clientId) {
-          this._resourceTokens.push({
-            app: this._authentication.clientId as UserResourceApp,
-            token,
-            clientId: this._authentication.clientId,
-          });
-        }
-      } catch (ex) {
-        const msg = `ArcGISContextManager could not fetch portal & user for "${this._authentication.username}" using ${this._authentication.portal}.`;
-        Logger.error(msg);
-        // tslint:disable-next-line:no-console
-        console.error(msg);
-        throw ex;
+
+      if (!this._portalSelf) {
+        promises.push(getSelf({ authentication: this._authentication }));
+        promiseKeys.push("portal");
       }
+      if (!this._currentUser) {
+        const username = this._authentication.username;
+        promises.push(
+          getUser({ username, authentication: this._authentication })
+        );
+        promiseKeys.push("user");
+      }
+      if (!this._trustedOrgs) {
+        promises.push(getTrustedOrgs(this._portalUrl, this._authentication));
+        promiseKeys.push("trustedOrgs");
+      }
+      if (!this._resourceTokens.length && this._resourceConfigs.length) {
+        promises.push(
+          getUserResourceTokens(
+            this._resourceConfigs,
+            token,
+            this._portalUrl + "/sharing/rest"
+          )
+        );
+        promiseKeys.push("tokens");
+      }
+      // always add "self" to resourceTokens
+      this._resourceTokens.push({
+        app: "self",
+        token,
+        clientId: this._authentication.clientId || "self",
+      });
     }
-    // get service status
-    if (!this._serviceStatus) {
-      this._serviceStatus = await getServiceStatus(this._portalUrl);
+    // Await promises
+    let results: any[];
+    try {
+      results = await Promise.all(promises);
+    } catch (ex) {
+      const msg = `ArcGISContextManager failed while initializing for "${this._authentication.username}" using ${this._authentication.portal}.`;
+      Logger.error(msg);
+      // tslint:disable-next-line:no-console
+      console.error(msg);
+      throw ex;
     }
+
+    // iterate the keys, assigning values into private fields
+    promiseKeys.forEach((key: string, idx: number) => {
+      const result = results[idx];
+      switch (key) {
+        case "portal":
+          this._portalSelf = result as IPortal;
+          break;
+        case "user":
+          this._currentUser = result as IUser;
+          break;
+        case "trustedOrgs":
+          this._trustedOrgs = result as IHubTrustedOrgsResponse[];
+          this._trustedOrgIds = getTrustedOrgIds(this._trustedOrgs);
+          break;
+        case "tokens":
+          this._resourceTokens = [
+            ...this._resourceTokens,
+            ...(result as IUserResourceToken[]),
+          ];
+          break;
+        case "serviceStatus":
+          this._serviceStatus = result as HubServiceStatus;
+          break;
+      }
+    });
+
     Logger.debug(`ArcGISContextManager-${this.id}: updating context`);
     // update the context
     this._context = new ArcGISContext(this.contextOpts);

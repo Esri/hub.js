@@ -1,5 +1,4 @@
-import { IArcGISContext } from "..";
-import { UserResourceApp } from "../ArcGISContextManager";
+import { IArcGISContext } from "../ArcGISContext";
 import {
   USER_SITE_SETTINGS_APP,
   USER_SITE_SETTINGS_KEY,

@@ -35,7 +35,7 @@ const LISTRESPONSE = {
 const PORTALURL = "https://www.arcgis.com";
 const TOKEN = "THEFAKETOKEN";
 
-fdescribe("userAppResources:", () => {
+describe("userAppResources:", () => {
   let requestSpy: jasmine.Spy;
 
   describe("setUserResource:", () => {
@@ -61,7 +61,7 @@ fdescribe("userAppResources:", () => {
         };
         await setUserResource(resourceOpts, "jsmith", PORTALURL, TOKEN);
       } catch (ex) {
-        expect(ex.message).toContain("too large to store");
+        expect((ex as any).message).toContain("too large to store");
       }
     });
     it("can replace", async () => {

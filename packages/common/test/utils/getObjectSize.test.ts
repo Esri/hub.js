@@ -1,6 +1,6 @@
 import { getObjectSize } from "../../src";
 
-fdescribe("getObjectSize:", () => {
+describe("getObjectSize:", () => {
   it("returns size in b, kb, mb", () => {
     const chk = getObjectSize({ test: "object" });
     expect(chk.bytes).toBe(34);
