@@ -30,6 +30,7 @@ export * from "./resources";
 export * from "./search";
 export * from "./sites";
 export * from "./surveys";
+export * from "./templates";
 export * from "./types";
 export * from "./urls";
 export * from "./users";

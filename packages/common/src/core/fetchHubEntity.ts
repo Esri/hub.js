@@ -4,6 +4,7 @@ import { fetchInitiative } from "../initiatives/HubInitiatives";
 import { fetchPage } from "../pages/HubPages";
 import { fetchProject } from "../projects/fetch";
 import { fetchSite } from "../sites/HubSites";
+import { fetchTemplate } from "../templates/fetch";
 import { HubEntity } from "./types/HubEntity";
 import { HubEntityType } from "./types/HubEntityType";
 import { IArcGISContext } from "../ArcGISContext";
@@ -41,6 +42,9 @@ export async function fetchHubEntity(
       break;
     case "content":
       result = await fetchHubContent(identifier, context.requestOptions);
+      break;
+    case "template":
+      result = await fetchTemplate(identifier, context.requestOptions);
       break;
     case "group":
       result = await fetchHubGroup(identifier, context.userRequestOptions);

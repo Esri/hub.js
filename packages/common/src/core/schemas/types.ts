@@ -7,6 +7,7 @@ import { SiteEditorTypes } from "../../sites/_internal/SiteSchema";
 import { DiscussionEditorTypes } from "../../discussions/_internal/DiscussionSchema";
 import { PageEditorTypes } from "../../pages/_internal/PageSchema";
 import { ContentEditorTypes } from "../../content/_internal/ContentSchema";
+import { TemplateEditorTypes } from "../../templates/_internal/TemplateSchema";
 import { GroupEditorTypes } from "../../groups/_internal/GroupSchema";
 import { InitiativeTemplateEditorTypes } from "../../initiative-templates/_internal/InitiativeTemplateSchema";
 
@@ -22,6 +23,7 @@ export const validEditorTypes = [
   ...SiteEditorTypes,
   ...DiscussionEditorTypes,
   ...PageEditorTypes,
+  ...TemplateEditorTypes,
   ...GroupEditorTypes,
   ...InitiativeTemplateEditorTypes,
 ] as const;

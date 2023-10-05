@@ -1,13 +1,12 @@
 import { IArcGISContext } from "../ArcGISContext";
-import { getRelativeWorkspaceUrl } from "../core/getRelativeWorkspaceUrl";
-import { getHubRelativeUrl } from "../content/_internal/internalContentUtils";
 import { HubEntity } from "../core/types/HubEntity";
 import { CardModelTarget } from "../core/types/IHubCardViewModel";
 import { IHubSearchResult } from "../search/types/IHubSearchResult";
 import { getItemHomeUrl } from "./get-item-home-url";
 
 /**
- * returns a gallery card's title url from a hub search result
+ * given a target and hub search result, this util
+ * returns a gallery card's title url
  *
  * @param result hub search result
  * @param target context the card should redirect to
@@ -47,7 +46,8 @@ export function getCardModelUrlFromResult(
 }
 
 /**
- * returns a gallery card's title url from an entity
+ * given a target and hub entity, this util
+ * returns a gallery card's title url
  *
  * @param entity hub entity
  * @param context auth & portal information
@@ -70,17 +70,17 @@ export function getCardModelUrlFromEntity(
     switch (entity.type) {
       default:
         titleUrl = {
-          self: getItemHomeUrl(entity.id, context.hubRequestOptions),
+          self: entity.links?.self,
           siteRelative: baseUrl
-            ? `${baseUrl}${getHubRelativeUrl(entity.type, entity.id)}`
-            : getHubRelativeUrl(entity.type, entity.id),
+            ? `${baseUrl}${entity.links?.siteRelative || ""}`
+            : entity.links?.siteRelative,
           workspaceRelative: baseUrl
-            ? `${baseUrl}${getRelativeWorkspaceUrl(entity.type, entity.id)}`
-            : getRelativeWorkspaceUrl(entity.type, entity.id),
+            ? `${baseUrl}${entity.links?.workspaceRelative || ""}`
+            : entity.links?.workspaceRelative,
         }[target];
         break;
       case "Hub Site Application":
-        titleUrl = getItemHomeUrl(entity.id, context.hubRequestOptions);
+        titleUrl = entity.links?.self;
         break;
     }
   }
