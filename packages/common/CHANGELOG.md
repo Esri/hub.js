@@ -1,3 +1,10 @@
+# @esri/hub-common [14.27.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.26.2...@esri/hub-common@14.27.0) (2023-10-05)
+
+
+### Features
+
+* scaffold solution template entity ([#1253](https://github.com/Esri/hub.js/issues/1253)) ([54d1fe6](https://github.com/Esri/hub.js/commit/54d1fe636bc8bd949a8b275503a2db01eb6cc3ee))
+
 ## @esri/hub-common [14.26.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.26.1...@esri/hub-common@14.26.2) (2023-10-04)
 
 
