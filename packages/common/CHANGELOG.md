@@ -1,3 +1,10 @@
+# @esri/hub-common [14.28.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.27.0...@esri/hub-common@14.28.0) (2023-10-05)
+
+
+### Features
+
+* collaborator pane for content workspace ([#1259](https://github.com/Esri/hub.js/issues/1259)) ([e00e624](https://github.com/Esri/hub.js/commit/e00e6244f795589b829dad0c4aad48a9eea1d6a4))
+
 # @esri/hub-common [14.27.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.26.2...@esri/hub-common@14.27.0) (2023-10-05)
 
 
