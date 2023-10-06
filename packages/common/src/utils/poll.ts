@@ -13,12 +13,18 @@ export const poll = async (
     timeBetweenRequests?: number;
   }
 ): Promise<any> => {
-  const { timeout = 30000, timeBetweenRequests = 3000 } = opts || {};
+  const options =
+    opts || /* istanbul ignore next - must pass in overrides for tests */ {};
+  const timeout = options.timeout || 30000;
+  const timeBetweenRequests =
+    options.timeBetweenRequests ||
+    /* istanbul ignore next - cannot delay by this much in tests */ 3000;
+
   let resp: any;
   let requestCount = 0;
 
   do {
-    // on subsequent requests, check if the configured
+    // On subsequent requests, check if the configured
     // timeout has been reached
     // If YES: throw an error
     // If NO: delay before the next request
