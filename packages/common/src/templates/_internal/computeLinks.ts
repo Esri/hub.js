@@ -25,6 +25,9 @@ export function computeLinks(
     token = session.token;
   }
 
+  // If a solution template is deployed, we don't support
+  // managing it in the workspace, so we kick users to AGO
+  const isDeployed = item.typeKeywords?.includes("Deployed");
   return {
     self: getItemHomeUrl(item.id, requestOptions),
     siteRelative: getHubRelativeUrl(
@@ -32,10 +35,9 @@ export function computeLinks(
       getItemIdentifier(item),
       item.typeKeywords
     ),
-    workspaceRelative: getRelativeWorkspaceUrl(
-      item.type,
-      getItemIdentifier(item)
-    ),
+    workspaceRelative: isDeployed
+      ? getRelativeWorkspaceUrl(item.type, item.id, item.typeKeywords)
+      : getRelativeWorkspaceUrl(item.type, getItemIdentifier(item)),
     thumbnail: getItemThumbnailUrl(item, requestOptions, token),
   };
 }
