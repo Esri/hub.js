@@ -10,6 +10,7 @@ export * from "./HubSites";
 export * from "./site-schema-version";
 export * from "./themes";
 export * from "./upgrade-site-schema";
+export * from "./get-feed-configuration";
 // No longer exported b/c site app registration is now handled
 // by the domain service due to requirement to send signed HMAC request
 // export * from "./registerSiteAsApplication";
