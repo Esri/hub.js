@@ -170,4 +170,27 @@ describe("getFeedConfiguration", () => {
       expect(err).toBeDefined();
     }
   });
+
+  it("throws error if RSS version is not supported", async () => {
+    const rssConfig = {
+      title: "{{title}}",
+    };
+
+    const site = {
+      item: { id: "123s" },
+      data: {
+        feeds: {
+          rss2: rssConfig,
+        },
+      },
+    } as unknown as IModel;
+    const format = "unknown-feed";
+    const version = "3.0";
+    try {
+      getFeedConfiguration(site, format as any, version);
+      expect(true).toBe(false);
+    } catch (err) {
+      expect(err).toBeDefined();
+    }
+  });
 });

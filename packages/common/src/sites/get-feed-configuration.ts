@@ -25,6 +25,8 @@ export function getFeedConfiguration(
   if (format === "rss") {
     return getRssConfig(site, version);
   }
+
+  throw new Error("Unsupported feed format");
 }
 
 function getDcatApConfig(site: IModel, version: string) {
@@ -35,7 +37,7 @@ function getDcatApConfig(site: IModel, version: string) {
     };
   }
 
-  throw new Error("Unsupported DCAT AP Version");
+  throw new Error("Unsupported DCAT AP version");
 }
 
 function getDcatUsConfig(site: IModel, version: string) {
@@ -46,7 +48,7 @@ function getDcatUsConfig(site: IModel, version: string) {
     };
   }
 
-  throw new Error("Unsupported DCAT US Version");
+  throw new Error("Unsupported DCAT US version");
 }
 
 function getRssConfig(site: IModel, version: string) {
@@ -57,7 +59,7 @@ function getRssConfig(site: IModel, version: string) {
     };
   }
 
-  throw new Error("Unsupported RSS Version");
+  throw new Error("Unsupported RSS version");
 }
 
 function getMajorVersion(version: string) {
