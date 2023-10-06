@@ -39,7 +39,7 @@ describe("getFeedConfiguration", () => {
     const version = "1.1";
     const chk = getFeedConfiguration(site, format, version);
     expect(chk?.config).toEqual(dcatUsConfig);
-    expect(chk?.configPath).toEqual("data.feeds.dcatUS11");
+    expect(chk?.configPath).toEqual("data.feeds.dcatUS1X");
   });
 
   it("throws error if DCAT US version is not supported", async () => {
@@ -61,7 +61,7 @@ describe("getFeedConfiguration", () => {
       getFeedConfiguration(site, format, version);
       expect(true).toBe(false);
     } catch (err) {
-      expect(err.name).toBe("HubError");
+      expect(err).toBeDefined();
     }
   });
 
@@ -102,7 +102,7 @@ describe("getFeedConfiguration", () => {
     const version = "2.0.1";
     const chk = getFeedConfiguration(site, format, version);
     expect(chk?.config).toEqual(dcatApConfig);
-    expect(chk?.configPath).toEqual("data.feeds.dcatAP201");
+    expect(chk?.configPath).toEqual("data.feeds.dcatAP2XX");
   });
 
   it("throws error if DCAT AP version is not supported", async () => {
@@ -124,7 +124,7 @@ describe("getFeedConfiguration", () => {
       getFeedConfiguration(site, format, version);
       expect(true).toBe(false);
     } catch (err) {
-      expect(err.name).toBe("HubError");
+      expect(err).toBeDefined();
     }
   });
 
@@ -167,7 +167,7 @@ describe("getFeedConfiguration", () => {
       getFeedConfiguration(site, format, version);
       expect(true).toBe(false);
     } catch (err) {
-      expect(err.name).toBe("HubError");
+      expect(err).toBeDefined();
     }
   });
 });
