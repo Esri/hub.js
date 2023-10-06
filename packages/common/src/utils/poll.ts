@@ -24,8 +24,7 @@ export const poll = async (
   let requestCount = 0;
 
   do {
-    // On subsequent requests, check if the configured
-    // timeout has been reached
+    // On subsequent requests, check if the timeout has been reached
     // If YES: throw an error
     // If NO: delay before the next request
     if (requestCount > 0) {
