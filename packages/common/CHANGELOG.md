@@ -1,3 +1,15 @@
+# @esri/hub-common [14.29.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.28.0...@esri/hub-common@14.29.0) (2023-10-06)
+
+
+### Bug Fixes
+
+* update groups link from teams to groups ([#1262](https://github.com/Esri/hub.js/issues/1262)) ([26dd47a](https://github.com/Esri/hub.js/commit/26dd47a5f2bfb51096488c3693d458beb6b9b06d))
+
+
+### Features
+
+* add new polling util ([#1265](https://github.com/Esri/hub.js/issues/1265)) ([e36c142](https://github.com/Esri/hub.js/commit/e36c142b9d9ead2f41a323f0debae007d41335ee))
+
 # @esri/hub-common [14.28.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.27.0...@esri/hub-common@14.28.0) (2023-10-05)
 
 
