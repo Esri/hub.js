@@ -22,3 +22,4 @@ export * from "./dasherize";
 export * from "./titleize";
 export * from "./memoize";
 export * from "./getEnvironmentFromPortalUrl";
+export * from "./poll";
