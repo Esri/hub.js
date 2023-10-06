@@ -36,7 +36,12 @@ export function computeLinks(
       item.typeKeywords
     ),
     workspaceRelative: isDeployed
-      ? getRelativeWorkspaceUrl(item.type, item.id, item.typeKeywords)
+      ? getRelativeWorkspaceUrl(
+          item.type,
+          item.id,
+          item.typeKeywords,
+          requestOptions
+        )
       : getRelativeWorkspaceUrl(item.type, getItemIdentifier(item)),
     thumbnail: getItemThumbnailUrl(item, requestOptions, token),
   };
