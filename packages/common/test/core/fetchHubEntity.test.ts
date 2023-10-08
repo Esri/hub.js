@@ -63,6 +63,17 @@ describe("fetchHubEntity:", () => {
     await fetchHubEntity("content", "123", ctx);
     expect(spy).toHaveBeenCalledWith("123", "fakeRequestOptions");
   });
+  it("fetches template", async () => {
+    const ctx = {
+      requestOptions: "fakeRequestOptions",
+    } as unknown as IArcGISContext;
+    const spy = spyOn(
+      require("../../src/templates/fetch"),
+      "fetchTemplate"
+    ).and.returnValue(Promise.resolve({}));
+    await fetchHubEntity("template", "123", ctx);
+    expect(spy).toHaveBeenCalledWith("123", "fakeRequestOptions");
+  });
   it("fetches page", async () => {
     const ctx = {
       hubRequestOptions: "fakeRequestOptions",
@@ -83,6 +94,17 @@ describe("fetchHubEntity:", () => {
       "fetchHubGroup"
     ).and.returnValue(Promise.resolve({}));
     await fetchHubEntity("group", "123", ctx);
+    expect(spy).toHaveBeenCalledWith("123", "fakeRequestOptions");
+  });
+  it("fetches initiative template", async () => {
+    const ctx = {
+      requestOptions: "fakeRequestOptions",
+    } as unknown as IArcGISContext;
+    const spy = spyOn(
+      require("../../src/initiative-templates/fetch"),
+      "fetchInitiativeTemplate"
+    ).and.returnValue(Promise.resolve({}));
+    await fetchHubEntity("initiativeTemplate", "123", ctx);
     expect(spy).toHaveBeenCalledWith("123", "fakeRequestOptions");
   });
 });

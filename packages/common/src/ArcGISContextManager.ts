@@ -245,6 +245,12 @@ export class ArcGISContextManager {
         if (state.properties) {
           opts.properties = state.properties;
         }
+        if (state.trustedOrgIds) {
+          opts.trustedOrgIds = state.trustedOrgIds;
+        }
+        if (state.trustedOrgs) {
+          opts.trustedOrgs = state.trustedOrgs;
+        }
       }
     } else {
       // if the session is expired, we can still carry forward the portalUrl

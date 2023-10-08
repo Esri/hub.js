@@ -35,6 +35,7 @@ describe("WellKnownCatalog", () => {
         "document",
         "feedback",
         "site",
+        "project",
       ]);
       chk = getWellKnownCatalog("mockI18nScope", "favorites", "item", options);
       expect(chk.scopes).toBeDefined();
@@ -47,6 +48,7 @@ describe("WellKnownCatalog", () => {
         "document",
         "feedback",
         "site",
+        "project",
       ]);
     });
     it("returns the expected catalog for groups", () => {
@@ -178,6 +180,7 @@ describe("WellKnownCatalog", () => {
         "document",
         "feedback",
         "site",
+        "project",
       ]);
       expect(chk[1].scope.filters[0].predicates[0].type).toEqual([
         "CSV Collection",

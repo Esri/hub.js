@@ -66,6 +66,17 @@ describe("updateHubEntity:", () => {
     await updateHubEntity("content", {} as HubEntity, ctx);
     expect(spy).toHaveBeenCalledWith({}, "fakeRequestOptions");
   });
+  it("updates template", async () => {
+    const ctx = {
+      userRequestOptions: "fakeRequestOptions",
+    } as unknown as IArcGISContext;
+    const spy = spyOn(
+      require("../../src/templates/edit"),
+      "updateTemplate"
+    ).and.returnValue(Promise.resolve({}));
+    await updateHubEntity("template", {} as HubEntity, ctx);
+    expect(spy).toHaveBeenCalledWith({}, "fakeRequestOptions");
+  });
   it("updates page", async () => {
     const ctx = {
       userRequestOptions: "fakeRequestOptions",
@@ -75,6 +86,17 @@ describe("updateHubEntity:", () => {
       "updatePage"
     ).and.returnValue(Promise.resolve({}));
     await updateHubEntity("page", {} as HubEntity, ctx);
+    expect(spy).toHaveBeenCalledWith({}, "fakeRequestOptions");
+  });
+  it("updates initiative template", async () => {
+    const ctx = {
+      userRequestOptions: "fakeRequestOptions",
+    } as unknown as IArcGISContext;
+    const spy = spyOn(
+      require("../../src/initiative-templates/edit"),
+      "updateInitiativeTemplate"
+    ).and.returnValue(Promise.resolve({}));
+    await updateHubEntity("initiativeTemplate", {} as HubEntity, ctx);
     expect(spy).toHaveBeenCalledWith({}, "fakeRequestOptions");
   });
 });

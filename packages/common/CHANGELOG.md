@@ -1,3 +1,83 @@
+# @esri/hub-common [14.29.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.28.0...@esri/hub-common@14.29.0) (2023-10-06)
+
+
+### Bug Fixes
+
+* update groups link from teams to groups ([#1262](https://github.com/Esri/hub.js/issues/1262)) ([26dd47a](https://github.com/Esri/hub.js/commit/26dd47a5f2bfb51096488c3693d458beb6b9b06d))
+
+
+### Features
+
+* add new polling util ([#1265](https://github.com/Esri/hub.js/issues/1265)) ([e36c142](https://github.com/Esri/hub.js/commit/e36c142b9d9ead2f41a323f0debae007d41335ee))
+
+# @esri/hub-common [14.28.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.27.0...@esri/hub-common@14.28.0) (2023-10-05)
+
+
+### Features
+
+* collaborator pane for content workspace ([#1259](https://github.com/Esri/hub.js/issues/1259)) ([e00e624](https://github.com/Esri/hub.js/commit/e00e6244f795589b829dad0c4aad48a9eea1d6a4))
+
+# @esri/hub-common [14.27.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.26.2...@esri/hub-common@14.27.0) (2023-10-05)
+
+
+### Features
+
+* scaffold solution template entity ([#1253](https://github.com/Esri/hub.js/issues/1253)) ([54d1fe6](https://github.com/Esri/hub.js/commit/54d1fe636bc8bd949a8b275503a2db01eb6cc3ee))
+
+## @esri/hub-common [14.26.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.26.1...@esri/hub-common@14.26.2) (2023-10-04)
+
+
+### Bug Fixes
+
+* **hub-discussions:** add author and editor to isearchchannels ([#1257](https://github.com/Esri/hub.js/issues/1257)) ([5d22e8b](https://github.com/Esri/hub.js/commit/5d22e8bbe0304296a1d64234c20eb62a173a328f))
+
+## @esri/hub-common [14.26.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.26.0...@esri/hub-common@14.26.1) (2023-10-04)
+
+
+### Bug Fixes
+
+* properly deserialize trustedOrgs from context ([#1256](https://github.com/Esri/hub.js/issues/1256)) ([760b4ff](https://github.com/Esri/hub.js/commit/760b4ff15888756484fdbaaa79828e1a3c9b1a17))
+
+# @esri/hub-common [14.26.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.25.1...@esri/hub-common@14.26.0) (2023-10-03)
+
+
+### Features
+
+* initiative template workspace ([#1246](https://github.com/Esri/hub.js/issues/1246)) ([cb385e5](https://github.com/Esri/hub.js/commit/cb385e5315f0583d0337afe3e30664314581c1ee))
+
+## @esri/hub-common [14.25.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.25.0...@esri/hub-common@14.25.1) (2023-10-03)
+
+
+### Bug Fixes
+
+* add Project to wellKnownColletions ([#1254](https://github.com/Esri/hub.js/issues/1254)) ([82eb6a1](https://github.com/Esri/hub.js/commit/82eb6a18bf4f750c117349e1b0eb8bdd0f5bde02))
+
+# @esri/hub-common [14.25.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.24.0...@esri/hub-common@14.25.0) (2023-10-03)
+
+
+### Features
+
+* initiative template entity ([#1229](https://github.com/Esri/hub.js/issues/1229)) ([f5a995a](https://github.com/Esri/hub.js/commit/f5a995aaff7f379f738f4813bdc0e99bb419e9b1))
+
+# @esri/hub-common [14.24.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.23.0...@esri/hub-common@14.24.0) (2023-10-02)
+
+
+### Features
+
+* adds entity discussion settings ([#1221](https://github.com/Esri/hub.js/issues/1221)) ([5e25a43](https://github.com/Esri/hub.js/commit/5e25a4336316aab18c1b9fd82c9a2b685fce14ef))
+
+# @esri/hub-common [14.23.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.22.0...@esri/hub-common@14.23.0) (2023-09-28)
+
+
+### Bug Fixes
+
+* **hub-common:** workspace route for content is /workspace/content/:id not /workspace/contents/:id ([#1250](https://github.com/Esri/hub.js/issues/1250)) ([f2c6679](https://github.com/Esri/hub.js/commit/f2c667933c1a9faf4ddf8e4087267f6f6aa22814))
+
+
+### Features
+
+* add links hash for project, initiative, and group entities ([#1226](https://github.com/Esri/hub.js/issues/1226)) ([aba8f7b](https://github.com/Esri/hub.js/commit/aba8f7b18e2c6da1c4dec022751c1fc897371165))
+
 # @esri/hub-common [14.22.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.21.1...@esri/hub-common@14.22.0) (2023-09-26)
 
 

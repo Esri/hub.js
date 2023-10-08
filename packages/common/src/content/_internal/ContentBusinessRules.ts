@@ -21,7 +21,9 @@ export const ContentPermissions = [
   "hub:content:workspace:overview",
   "hub:content:workspace:dashboard",
   "hub:content:workspace:details",
+  "hub:content:workspace:discussion",
   "hub:content:workspace:settings",
+  "hub:content:workspace:collaborators",
   "hub:content:manage",
 ] as const;
 
@@ -68,9 +70,17 @@ export const ContentPermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:content:edit"],
   },
   {
+    permission: "hub:content:workspace:discussion",
+    dependencies: ["hub:content:edit"],
+  },
+  {
     permission: "hub:content:workspace:settings",
     dependencies: ["hub:content:edit"],
     entityOwner: true,
+  },
+  {
+    permission: "hub:content:workspace:collaborators",
+    dependencies: ["hub:content:edit"],
   },
   {
     permission: "hub:content:manage",

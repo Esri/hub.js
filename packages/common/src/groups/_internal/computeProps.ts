@@ -5,6 +5,7 @@ import { IHubGroup } from "../../core/types/IHubGroup";
 import { IGroup } from "@esri/arcgis-rest-types";
 import { isDiscussable } from "../../discussions";
 import { getGroupThumbnailUrl } from "../../search/utils";
+import { computeLinks } from "./computeLinks";
 
 /**
  * Given a model and a group, set various computed properties that can't be directly mapped
@@ -61,6 +62,8 @@ export function computeProps(
     group.userMembership?.memberType === "owner" ||
     group.userMembership?.memberType === "admin";
   hubGroup.canDelete = hubGroup.canEdit;
+
+  hubGroup.links = computeLinks(group, requestOptions);
 
   // cast b/c this takes a partial but returns a full group
   return hubGroup as IHubGroup;

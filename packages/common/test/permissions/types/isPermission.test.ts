@@ -7,6 +7,7 @@ import { ContentPermissions } from "../../../src/content/_internal/ContentBusine
 import { GroupPermissions } from "../../../src/groups/_internal/GroupBusinessRules";
 import { PagePermissions } from "../../../src/pages/_internal/PageBusinessRules";
 import { PlatformPermissions } from "../../../src/permissions/PlatformPermissionPolicies";
+import { InitiativeTemplatePermissions } from "../../../src/initiative-templates/_internal/InitiativeTemplateBusinessRules";
 
 describe("isPermission:", () => {
   const allPermissions = [
@@ -18,6 +19,7 @@ describe("isPermission:", () => {
     ...PagePermissions,
     ...PlatformPermissions,
     ...DiscussionPermissions,
+    ...InitiativeTemplatePermissions,
     "temp:workspace:released",
   ];
 

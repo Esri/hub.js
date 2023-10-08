@@ -5,15 +5,19 @@ import {
   HubDiscussion,
   HubGroup,
   HubInitiative,
+  HubInitiativeTemplate,
   HubPage,
   HubProject,
   HubSite,
+  HubTemplate,
   IHubDiscussion,
   IHubEditableContent,
   IHubInitiative,
+  IHubInitiativeTemplate,
   IHubPage,
   IHubProject,
   IHubSite,
+  IHubTemplate,
   getProp,
 } from "../../src";
 import { IHubGroup } from "../../src/core/types/IHubGroup";
@@ -306,6 +310,44 @@ describe("EntityEditor:", () => {
     });
   });
 
+  describe("supports templates:", () => {
+    let fromJsonSpy: jasmine.Spy;
+    let getConfigSpy: jasmine.Spy;
+    let toEditorSpy: jasmine.Spy;
+    let fromEditorSpy: jasmine.Spy;
+
+    beforeEach(() => {
+      fromJsonSpy = spyOn(HubTemplate, "fromJson").and.callThrough();
+      getConfigSpy = spyOn(
+        HubTemplate.prototype,
+        "getEditorConfig"
+      ).and.callFake(() => Promise.resolve({} as any));
+      toEditorSpy = spyOn(HubTemplate.prototype, "toEditor").and.callThrough();
+      fromEditorSpy = spyOn(HubTemplate.prototype, "fromEditor").and.callFake(
+        () => Promise.resolve({} as any)
+      );
+    });
+
+    it("verify EntityEditor with Template", async () => {
+      const it: IHubTemplate = {
+        id: "00c",
+        type: "Solution",
+      } as IHubTemplate;
+      const editor = EntityEditor.fromEntity(it, authdCtxMgr.context);
+      expect(fromJsonSpy).toHaveBeenCalled();
+      await editor.getConfig("someScope", "hub:template:edit");
+      expect(getConfigSpy).toHaveBeenCalledWith(
+        "someScope",
+        "hub:template:edit"
+      );
+      const chk = await editor.toEditor();
+      expect(toEditorSpy).toHaveBeenCalled();
+      expect(chk.id).toBe("00c");
+      await editor.save(chk);
+      expect(fromEditorSpy).toHaveBeenCalledWith(chk);
+    });
+  });
+
   describe("supports groups:", () => {
     let fromJsonSpy: jasmine.Spy;
     let getConfigSpy: jasmine.Spy;
@@ -335,6 +377,52 @@ describe("EntityEditor:", () => {
       expect(fromJsonSpy).toHaveBeenCalled();
       await editor.getConfig("someScope", "hub:group:edit");
       expect(getConfigSpy).toHaveBeenCalledWith("someScope", "hub:group:edit");
+      const chk = await editor.toEditor();
+      expect(toEditorSpy).toHaveBeenCalled();
+      expect(chk.id).toBe("00c");
+      await editor.save(chk);
+      expect(fromEditorSpy).toHaveBeenCalledWith(chk);
+    });
+  });
+
+  describe("supports initiative templates:", () => {
+    let fromJsonSpy: jasmine.Spy;
+    let getConfigSpy: jasmine.Spy;
+    let toEditorSpy: jasmine.Spy;
+    let fromEditorSpy: jasmine.Spy;
+
+    beforeEach(() => {
+      fromJsonSpy = spyOn(HubInitiativeTemplate, "fromJson").and.callThrough();
+      getConfigSpy = spyOn(
+        HubInitiativeTemplate.prototype,
+        "getEditorConfig"
+      ).and.callFake(() => {
+        return Promise.resolve({} as any);
+      });
+      toEditorSpy = spyOn(
+        HubInitiativeTemplate.prototype,
+        "toEditor"
+      ).and.callThrough();
+      fromEditorSpy = spyOn(
+        HubInitiativeTemplate.prototype,
+        "fromEditor"
+      ).and.callFake(() => {
+        return Promise.resolve({} as any);
+      });
+    });
+
+    it("verify EntityEditor with Initiative Template", async () => {
+      const it: IHubInitiativeTemplate = {
+        id: "00c",
+        type: "Hub Initiative Template",
+      } as IHubInitiativeTemplate;
+      const editor = EntityEditor.fromEntity(it, authdCtxMgr.context);
+      expect(fromJsonSpy).toHaveBeenCalled();
+      await editor.getConfig("someScope", "hub:initiativeTemplate:edit");
+      expect(getConfigSpy).toHaveBeenCalledWith(
+        "someScope",
+        "hub:initiativeTemplate:edit"
+      );
       const chk = await editor.toEditor();
       expect(toEditorSpy).toHaveBeenCalled();
       expect(chk.id).toBe("00c");

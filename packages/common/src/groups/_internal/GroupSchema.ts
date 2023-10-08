@@ -1,6 +1,7 @@
 import { IConfigurationSchema } from "../../core";
 import {
   ENTITY_IMAGE_SCHEMA,
+  ENTITY_IS_DISCUSSABLE_SCHEMA,
   ENTITY_NAME_SCHEMA,
   ENTITY_SUMMARY_SCHEMA,
 } from "../../core/schemas/shared";
@@ -9,6 +10,7 @@ export type GroupEditorType = (typeof GroupEditorTypes)[number];
 export const GroupEditorTypes = [
   "hub:group:edit",
   "hub:group:settings",
+  "hub:group:discussions",
 ] as const;
 
 /**
@@ -36,5 +38,6 @@ export const GroupSchema: IConfigurationSchema = {
       enum: [false, true],
       default: false,
     },
+    isDiscussable: ENTITY_IS_DISCUSSABLE_SCHEMA,
   },
 } as IConfigurationSchema;

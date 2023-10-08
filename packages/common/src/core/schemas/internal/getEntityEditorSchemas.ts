@@ -8,6 +8,7 @@ import { InitiativeEditorType } from "../../../initiatives/_internal/InitiativeS
 import { DiscussionEditorType } from "../../../discussions/_internal/DiscussionSchema";
 import { PageEditorType } from "../../../pages/_internal/PageSchema";
 import { ContentEditorType } from "../../../content/_internal/ContentSchema";
+import { TemplateEditorType } from "../../../templates/_internal/TemplateSchema";
 import { GroupEditorType } from "../../../groups/_internal/GroupSchema";
 import { ConfigurableEntity } from "./ConfigurableEntity";
 import { IArcGISContext } from "../../../ArcGISContext";
@@ -16,10 +17,13 @@ import {
   IHubEditableContent,
   IHubGroup,
   IHubInitiative,
+  IHubInitiativeTemplate,
   IHubPage,
   IHubProject,
   IHubSite,
+  IHubTemplate,
 } from "../../../core/types";
+import { InitiativeTemplateEditorType } from "../../../initiative-templates/_internal/InitiativeTemplateSchema";
 
 /**
  * get the editor schema and uiSchema defined for an entity.
@@ -57,6 +61,8 @@ export async function getEntityEditorSchemas(
           import("../../../sites/_internal/SiteUiSchemaCreate"),
         "hub:site:followers": () =>
           import("../../../sites/_internal/SiteUiSchemaFollowers"),
+        "hub:site:discussions": () =>
+          import("../../../sites/_internal/SiteUiSchemaDiscussions"),
       }[type as SiteEditorType]();
       uiSchema = await siteModule.buildUiSchema(
         i18nScope,
@@ -77,6 +83,8 @@ export async function getEntityEditorSchemas(
           import("../../../discussions/_internal/DiscussionUiSchemaEdit"),
         "hub:discussion:create": () =>
           import("../../../discussions/_internal/DiscussionUiSchemaCreate"),
+        "hub:discussion:settings": () =>
+          import("../../../discussions/_internal/DiscussionUiSchemaSettings"),
       }[type as DiscussionEditorType]();
       uiSchema = await discussionModule.buildUiSchema(
         i18nScope,
@@ -153,6 +161,8 @@ export async function getEntityEditorSchemas(
       const contentModule = await {
         "hub:content:edit": () =>
           import("../../../content/_internal/ContentUiSchemaEdit"),
+        "hub:content:discussions": () =>
+          import("../../../content/_internal/ContentUiSchemaDiscussions"),
         "hub:content:settings": () =>
           import("../../../content/_internal/ContentUiSchemaSettings"),
       }[type as ContentEditorType]();
@@ -163,6 +173,25 @@ export async function getEntityEditorSchemas(
       );
 
       break;
+    // ----------------------------------------------------
+    case "template":
+      const { TemplateSchema } = await import(
+        "../../../templates/_internal/TemplateSchema"
+      );
+      schema = cloneObject(TemplateSchema);
+
+      const templateModule = await {
+        "hub:template:edit": () =>
+          import("../../../templates/_internal/TemplateUiSchemaEdit"),
+      }[type as TemplateEditorType]();
+      uiSchema = await templateModule.buildUiSchema(
+        i18nScope,
+        entity as IHubTemplate,
+        context
+      );
+
+      break;
+    // ----------------------------------------------------
     case "group":
       const { GroupSchema } = await import(
         "../../../groups/_internal/GroupSchema"
@@ -174,10 +203,32 @@ export async function getEntityEditorSchemas(
           import("../../../groups/_internal/GroupUiSchemaEdit"),
         "hub:group:settings": () =>
           import("../../../groups/_internal/GroupUiSchemaSettings"),
+        "hub:group:discussions": () =>
+          import("../../../groups/_internal/GroupUiSchemaDiscussions"),
       }[type as GroupEditorType]();
       uiSchema = await groupModule.buildUiSchema(
         i18nScope,
         entity as IHubGroup,
+        context
+      );
+
+      break;
+
+    case "initiativeTemplate":
+      const { InitiativeTemplateSchema } = await import(
+        "../../../initiative-templates/_internal/InitiativeTemplateSchema"
+      );
+      schema = cloneObject(InitiativeTemplateSchema);
+      const initiativeTemplateModule = await {
+        "hub:initiativeTemplate:edit": () =>
+          import(
+            "../../../initiative-templates/_internal/InitiativeTemplateUiSchemaEdit"
+          ),
+      }[type as InitiativeTemplateEditorType]();
+
+      uiSchema = await initiativeTemplateModule.buildUiSchema(
+        i18nScope,
+        entity as IHubInitiativeTemplate,
         context
       );
 

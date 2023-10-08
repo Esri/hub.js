@@ -11,6 +11,7 @@ describe("convertFeaturesToLegacyCapabilities", () => {
           features: {
             "hub:site:content": true,
             "hub:site:feature:follow": false,
+            "hub:site:feature:discussions": false,
           },
         },
         values: {
@@ -37,7 +38,10 @@ describe("convertFeaturesToLegacyCapabilities", () => {
       currentModel
     );
 
-    expect(chk.data?.values.capabilities).toEqual(["hideFollow"]);
+    expect(chk.data?.values.capabilities).toEqual([
+      "hideFollow",
+      "disableDiscussions",
+    ]);
   });
 
   it("removes relevant features from the site's legacy capabilities array", () => {
@@ -48,6 +52,7 @@ describe("convertFeaturesToLegacyCapabilities", () => {
           features: {
             "hub:site:content": true,
             "hub:site:feature:follow": true,
+            "hub:site:feature:discussions": true,
           },
         },
         values: {
@@ -64,7 +69,7 @@ describe("convertFeaturesToLegacyCapabilities", () => {
           },
         },
         values: {
-          capabilities: ["hideFollow"],
+          capabilities: ["hideFollow", "disableDiscussions"],
         },
       },
     } as IModel;

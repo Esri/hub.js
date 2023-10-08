@@ -3,9 +3,11 @@ import { HubContent } from "../content/HubContent";
 import { HubDiscussion } from "../discussions/HubDiscussion";
 import { HubGroup } from "../groups/HubGroup";
 import { HubInitiative } from "../initiatives/HubInitiative";
+import { HubInitiativeTemplate } from "../initiative-templates";
 import { HubPage } from "../pages/HubPage";
 import { HubProject } from "../projects/HubProject";
 import { HubSite } from "../sites/HubSite";
+import { HubTemplate } from "../templates";
 import { IEditorConfig, IWithEditorBehavior } from "./behaviors";
 import { getTypeFromEntity } from "./getTypeFromEntity";
 import { EditorType } from "./schemas";
@@ -41,9 +43,18 @@ export class EntityEditor {
     if (entityType === "discussion") {
       editor = HubDiscussion.fromJson(entity, context) as IWithEditorBehavior;
     }
+    if (entityType === "template") {
+      editor = HubTemplate.fromJson(entity, context) as IWithEditorBehavior;
+    }
     if (entityType === "group") {
       editor = HubGroup.fromJson(
         entity as unknown as HubGroup,
+        context
+      ) as IWithEditorBehavior;
+    }
+    if (entityType === "initiativeTemplate") {
+      editor = HubInitiativeTemplate.fromJson(
+        entity,
         context
       ) as IWithEditorBehavior;
     }

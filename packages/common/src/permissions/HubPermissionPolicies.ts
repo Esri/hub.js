@@ -8,6 +8,9 @@ import { IPermissionPolicy, Permission } from "./types";
 import { GroupPermissionPolicies } from "../groups/_internal/GroupBusinessRules";
 import { PagePermissionPolicies } from "../pages/_internal/PageBusinessRules";
 import { PlatformPermissionPolicies } from "./PlatformPermissionPolicies";
+import { InitiativeTemplatePermissionPolicies } from "../initiative-templates/_internal/InitiativeTemplateBusinessRules";
+import { TemplatePermissionPolicies } from "../templates/_internal/TemplateBusinessRules";
+
 // Examples of possible Permission Policies
 // const DiscussionPermissionPolicies: IPermissionPolicy[] = [
 //   {
@@ -81,8 +84,10 @@ export const HubPermissionsPolicies: IPermissionPolicy[] = [
   ...ContentPermissionPolicies,
   ...GroupPermissionPolicies,
   ...PagePermissionPolicies,
+  ...TemplatePermissionPolicies,
   ...PlatformPermissionPolicies,
   ...TempPermissionPolicies,
+  ...InitiativeTemplatePermissionPolicies,
 ];
 
 /**

@@ -219,6 +219,8 @@ const serializedContext = {
   properties: {
     foo: "bar",
   },
+  trustedOrgIds: ["FAKEID", "FOTHERID"],
+  trustedOrgs: onlinePartneredOrgResponse.trustedOrgs,
 };
 
 const validSerializedContext = cloneObject(serializedContext);
@@ -597,6 +599,13 @@ describe("ArcGISContext:", () => {
         validSerializedContext.currentUser
       );
       expect(mgr.context.session.token).toEqual(validSession.token);
+      // trusted orgs/ids
+      expect(mgr.context.trustedOrgIds).toEqual(
+        validSerializedContext.trustedOrgIds
+      );
+      expect(mgr.context.trustedOrgs).toEqual(
+        validSerializedContext.trustedOrgs
+      );
     });
     it("can deserialize sparse, valid context", async () => {
       const selfSpy = spyOn(portalModule, "getSelf").and.callFake(() => {
@@ -612,6 +621,8 @@ describe("ArcGISContext:", () => {
       delete sparseValidContext.currentUser;
       delete sparseValidContext.portal;
       delete sparseValidContext.properties;
+      delete sparseValidContext.trustedOrgIds;
+      delete sparseValidContext.trustedOrgs;
 
       const serialized = unicodeToBase64(JSON.stringify(sparseValidContext));
       const mgr = await ArcGISContextManager.deserialize(serialized!);

@@ -22,7 +22,11 @@ export const getRelativeWorkspaceUrl = (
    * 2. handle entity variation
    */
   if (isValidEntityType(entityType)) {
-    url = `/workspace/${entityType}s/${identifier}`;
+    let typeSegment = entityType as string;
+    if (typeSegment !== "content") {
+      typeSegment = `${typeSegment}s`;
+    }
+    url = `/workspace/${typeSegment}/${identifier}`;
   }
 
   return url;
