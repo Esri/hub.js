@@ -10,7 +10,6 @@ import {
   removeDomain,
   addDomain,
 } from "@esri/hub-common";
-import { updateAppRedirectUris } from "./update-app-redirect-uris";
 /**
  * Update the list of valid uris associated with the Site item
  * @param {Object} site Site Model

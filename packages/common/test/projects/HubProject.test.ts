@@ -1,11 +1,5 @@
 import * as PortalModule from "@esri/arcgis-rest-portal";
-import {
-  IHubProject,
-  IResolvedMetric,
-  cloneObject,
-  getProp,
-  mergeObjects,
-} from "../../src";
+import { IHubProject, IResolvedMetric, getProp, mergeObjects } from "../../src";
 import { Catalog } from "../../src/search";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubProject } from "../../src/projects/HubProject";

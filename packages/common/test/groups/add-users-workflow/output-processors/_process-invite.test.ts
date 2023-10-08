@@ -1,7 +1,4 @@
-import {
-  IAddGroupUsersResult,
-  IInviteGroupUsersResult,
-} from "@esri/arcgis-rest-portal";
+import { IInviteGroupUsersResult } from "@esri/arcgis-rest-portal";
 import { IAddMemberContext, _processInvite } from "../../../../src";
 import * as inviteModule from "../../../../src/groups/inviteUsers";
 

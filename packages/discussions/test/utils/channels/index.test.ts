@@ -1,10 +1,7 @@
 import { IUser } from "@esri/arcgis-rest-auth";
 import { IGroup } from "@esri/arcgis-rest-types";
 import { SharingAccess, IChannel } from "../../../src/types";
-import {
-  canModifyChannel,
-  canReadFromChannel,
-} from "../../../src/utils/channels";
+import { canReadFromChannel } from "../../../src/utils/channels";
 
 const orgId1 = "3ef";
 const orgId2 = "4dc";

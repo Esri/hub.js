@@ -14,7 +14,6 @@ import { getProp } from "../objects/get-prop";
 import { IPredicate, IQuery } from "../search/types/IHubCatalog";
 import { combineQueries } from "../search/_internal/combineQueries";
 import { IHubSearchOptions } from "../search/types/IHubSearchOptions";
-import { memoize } from "../utils/memoize";
 import { portalSearchItemsAsItems } from "../search/_internal/portalSearchItems";
 
 /**

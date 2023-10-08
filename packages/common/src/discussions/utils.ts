@@ -5,18 +5,9 @@ import {
   AclCategory,
   AclSubCategory,
   IChannel,
-  IChannelAclPermission,
   SharingAccess,
 } from "./api/types";
-import {
-  IFilter,
-  IHubSearchOptions,
-  IHubSearchResponse,
-  IHubSearchResult,
-  IPredicate,
-  IQuery,
-  hubSearch,
-} from "../search";
+import { IFilter, IPredicate, IQuery } from "../search";
 
 /**
  * Utility to determine if a given IGroup, IItem, IHubContent, or IHubItemEntity

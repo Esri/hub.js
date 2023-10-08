@@ -56,6 +56,23 @@ export const buildUiSchema = async (
               },
             },
           },
+          {
+            labelKey: `${i18nScope}.fields.followers.discussable.label`,
+            scope: "/properties/_followers/properties/isDiscussable",
+            type: "Control",
+            options: {
+              control: "hub-field-input-radio",
+              labels: [
+                `{{${i18nScope}.fields.followers.discussable.enabled.label:translate}}`,
+                `{{${i18nScope}.fields.followers.discussable.disabled.label:translate}}`,
+              ],
+              descriptions: [
+                `{{${i18nScope}.fields.followers.discussable.enabled.description:translate}}`,
+                `{{${i18nScope}.fields.followers.discussable.disabled.description:translate}}`,
+              ],
+              icons: ["speech-bubbles", "circle-disallowed"],
+            },
+          },
         ],
       },
     ],

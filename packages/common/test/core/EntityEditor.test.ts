@@ -181,6 +181,8 @@ describe("EntityEditor:", () => {
     let getConfigSpy: jasmine.Spy;
     let toEditorSpy: jasmine.Spy;
     let fromEditorSpy: jasmine.Spy;
+    let getFollowersGroupSpy: jasmine.Spy;
+
     beforeEach(() => {
       fromJsonSpy = spyOn(HubSite, "fromJson").and.callThrough();
       getConfigSpy = spyOn(HubSite.prototype, "getEditorConfig").and.callFake(
@@ -194,6 +196,15 @@ describe("EntityEditor:", () => {
           return Promise.resolve({} as any);
         }
       );
+      getFollowersGroupSpy = spyOn(
+        HubSite.prototype,
+        "getFollowersGroup"
+      ).and.callFake(() => {
+        return Promise.resolve({
+          id: "followers00c",
+          typeKeywords: [],
+        });
+      });
     });
 
     it("verify EntityEditor with Site", async () => {
@@ -210,6 +221,7 @@ describe("EntityEditor:", () => {
       expect(chk.id).toBe("00c");
       await editor.save(chk);
       expect(fromEditorSpy).toHaveBeenCalledWith(chk);
+      expect(getFollowersGroupSpy).toHaveBeenCalledTimes(1);
     });
   });
 

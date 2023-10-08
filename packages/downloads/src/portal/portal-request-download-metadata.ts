@@ -12,7 +12,7 @@ import { DownloadTarget } from "../download-target";
 import { DownloadStatus } from "../download-status";
 import { isDownloadEnabled } from "./utils";
 import { isRecentlyUpdated } from "./utils";
-import { buildExistingExportsPortalQuery, includes } from "@esri/hub-common";
+import { buildExistingExportsPortalQuery } from "@esri/hub-common";
 import { parseDatasetId } from "@esri/hub-common";
 import { IDownloadMetadataResults } from "..";
 import { ArcGISAuthError } from "@esri/arcgis-rest-request";

@@ -1,4 +1,3 @@
-import { getProp } from "../../objects/get-prop";
 import { IHubCatalog } from "../../search/types/IHubCatalog";
 import { IModel } from "../../types";
 

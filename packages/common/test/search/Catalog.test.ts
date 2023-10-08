@@ -2,7 +2,6 @@ import { IPortal, IUser } from "@esri/arcgis-rest-portal";
 import { cloneObject, getProp, IArcGISContext } from "../../src";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import {
-  EntityType,
   ICatalogScope,
   IFilter,
   IHubCatalog,

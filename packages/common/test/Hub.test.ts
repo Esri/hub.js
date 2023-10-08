@@ -4,7 +4,7 @@ import { IUser } from "@esri/arcgis-rest-types";
 // imported with a full path
 import { ArcGISContextManager } from "../src/ArcGISContextManager";
 import { Hub } from "../src/Hub";
-import { IArcGISContextManagerOptions, IHubProject } from "../src";
+import { IArcGISContextManagerOptions } from "../src";
 import { MOCK_AUTH } from "./mocks/mock-auth";
 // import * as ProjectsModule from "../src/projects/HubProjects";
 

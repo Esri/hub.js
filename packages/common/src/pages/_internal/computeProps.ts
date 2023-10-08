@@ -7,7 +7,6 @@ import { processEntityFeatures } from "../../permissions/_internal/processEntity
 import { PageDefaultFeatures } from "./PageBusinessRules";
 import { getItemHomeUrl } from "../../urls/get-item-home-url";
 import { IHubPage } from "../../core/types/IHubPage";
-import { getHubRelativeUrl } from "../../content/_internal/internalContentUtils";
 import { getRelativeWorkspaceUrl } from "../../core/getRelativeWorkspaceUrl";
 
 /**

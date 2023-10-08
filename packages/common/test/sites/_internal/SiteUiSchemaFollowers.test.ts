@@ -64,6 +64,23 @@ describe("buildUiSchema: site followers", () => {
                 },
               },
             },
+            {
+              labelKey: `some.scope.fields.followers.discussable.label`,
+              scope: "/properties/_followers/properties/isDiscussable",
+              type: "Control",
+              options: {
+                control: "hub-field-input-radio",
+                labels: [
+                  `{{some.scope.fields.followers.discussable.enabled.label:translate}}`,
+                  `{{some.scope.fields.followers.discussable.disabled.label:translate}}`,
+                ],
+                descriptions: [
+                  `{{some.scope.fields.followers.discussable.enabled.description:translate}}`,
+                  `{{some.scope.fields.followers.discussable.disabled.description:translate}}`,
+                ],
+                icons: ["speech-bubbles", "circle-disallowed"],
+              },
+            },
           ],
         },
       ],

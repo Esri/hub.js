@@ -10,7 +10,7 @@ import { HubSite } from "../sites/HubSite";
 import { HubTemplate } from "../templates";
 import { IEditorConfig, IWithEditorBehavior } from "./behaviors";
 import { getTypeFromEntity } from "./getTypeFromEntity";
-import { EditorType, UiSchemaElementOptions } from "./schemas";
+import { EditorType } from "./schemas";
 import { HubEntity } from "./types/HubEntity";
 import { HubEntityEditor, IEntityEditorContext } from "./types/HubEntityEditor";
 

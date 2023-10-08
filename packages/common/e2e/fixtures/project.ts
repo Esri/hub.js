@@ -1,4 +1,4 @@
-import { IHubProject, IModel } from "../../src";
+import { IModel } from "../../src";
 
 const projectmodel: IModel = {
   item: {

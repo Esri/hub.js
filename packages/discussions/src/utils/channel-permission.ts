@@ -1,4 +1,4 @@
-import { IGroup, IUser } from "@esri/arcgis-rest-types";
+import { IGroup } from "@esri/arcgis-rest-types";
 import {
   AclCategory,
   AclSubCategory,

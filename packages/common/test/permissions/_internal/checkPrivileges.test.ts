@@ -1,4 +1,4 @@
-import { HubEntity, IArcGISContext } from "../../../src";
+import { IArcGISContext } from "../../../src";
 import { IPermissionPolicy } from "../../../src/permissions/types";
 import { checkPrivileges } from "../../../src/permissions/_internal/checkPrivileges";
 

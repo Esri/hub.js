@@ -1,5 +1,4 @@
 import {
-  IHubInitiative,
   IHubProject,
   IItemQueryMetricSource,
   IQuery,
