@@ -266,7 +266,7 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
       group.typeKeywords,
       isDiscussable
     );
-    const afterGroup = await updateGroup({
+    await updateGroup({
       group: {
         id: group.id,
         typeKeywords,
