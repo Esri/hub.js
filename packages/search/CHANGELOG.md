@@ -1,3 +1,10 @@
+# @esri/hub-search [14.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-search@14.0.0...@esri/hub-search@14.1.0) (2023-10-08)
+
+
+### Features
+
+* **hub-common:** adds followers group discussion settings on site wo… ([#1251](https://github.com/Esri/hub.js/issues/1251)) ([e0beb59](https://github.com/Esri/hub.js/commit/e0beb59f91b43795f96a694e55238a6cec83de74))
+
 # @esri/hub-search [14.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-search@13.0.0...@esri/hub-search@14.0.0) (2023-08-23)
 
 
