@@ -25,6 +25,9 @@ export function computeProps(
     const session: UserSession = requestOptions.authentication as UserSession;
     token = session.token;
   }
+
+  // Our editing validation code doesn't recognize undefined, so we default to null instead
+  discussion.thumbnail = discussion.thumbnail || null;
   // thumbnail url
   discussion.thumbnailUrl = getItemThumbnailUrl(
     model.item,
