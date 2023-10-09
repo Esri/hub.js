@@ -29,6 +29,11 @@ export const HubItemEntitySchema: IConfigurationSchema = {
     tags: ENTITY_TAGS_SCHEMA,
     categories: ENTITY_CATEGORIES_SCHEMA,
     isDiscussable: ENTITY_IS_DISCUSSABLE_SCHEMA,
+    // Do not modify, read-only property for validation rules
+    type: { type: "string" },
+    // Thumbnail filename (not fully qualified URL to the the image)
+    // Do not modify, read-only property for validation rules
+    thumbnail: { type: "string" },
     _thumbnail: ENTITY_IMAGE_SCHEMA,
     _followers: {
       type: "object",
