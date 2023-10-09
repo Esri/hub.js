@@ -27,6 +27,8 @@ export function computeProps(
     token = session.token;
   }
 
+  // Our editing validation code doesn't recognize undefined, so we default to null instead
+  initiativeTemplate.thumbnail = initiativeTemplate.thumbnail || null;
   // thumbnail url
   initiativeTemplate.thumbnailUrl = getItemThumbnailUrl(
     model.item,
