@@ -10,11 +10,18 @@ import { failSafe } from "../fail-safe";
 import { getObjectSize } from "../getObjectSize";
 
 // Defines the access for the resource
+// see the API details listed at the url in the comment above
 export type UserResourceAccess =
-  | "userappprivate" // default
-  | "userprivateallapps" // readable by any platform app, private to user
-  | "allorgusersprivateapp" // only if user is public or org
-  | "public"; // only if user is public or org
+  // Resource is available only to the user through the app from which resource was uploaded.
+  | "userappprivate"
+  // Resource is available only to the user that uploaded the resource through any app
+  | "userprivateallapps"
+  // resource is available to all members of the org as that of the resource owner and through
+  // the app that uploaded. We allow adding resource with level only if the user's access is either public or org
+  | "allorgusersprivateapp"
+  // Resource is available to anyone (including anonymous access) through any app. We allow adding a
+  // resource at public level only if the user's access is public and the canSharePublic flag of the org is set to true
+  | "public";
 
 /**
  * Add an User-App Resource
