@@ -1,4 +1,5 @@
 import { IArcGISContext } from "../../ArcGISContext";
+import { ALWAYS_HIDE } from "../../core/schemas/shared/rules";
 import { IUiSchema, UiSchemaMessageTypes } from "../../core/schemas/types";
 import { IHubTemplate } from "../../core/types/IHubTemplate";
 
@@ -81,8 +82,22 @@ export const buildUiSchema = async (
               },
             },
           },
+          // HIDDEN, READ-ONLY CONTROLS FOR VALIDATION RULES
+          // Unless we include a UI control, the Entity Editor will rip these values
+          // out of the underlying schema and cause validation errors on load.
           {
-            labelKey: `${i18nScope}.fields.thumbnail.label`,
+            scope: "/properties/type",
+            type: "Control",
+            rule: ALWAYS_HIDE,
+          },
+          {
+            scope: "/properties/thumbnail",
+            type: "Control",
+            rule: ALWAYS_HIDE,
+          },
+          // Actual control for modifying the thumbnail
+          {
+            labelKey: `${i18nScope}.fields._thumbnail.label`,
             scope: "/properties/_thumbnail",
             type: "Control",
             options: {
@@ -92,8 +107,38 @@ export const buildUiSchema = async (
               maxHeight: 484,
               aspectRatio: 1.5,
               helperText: {
-                labelKey: `${i18nScope}.fields.thumbnail.helperText`,
+                labelKey: `${i18nScope}.fields._thumbnail.helperText`,
               },
+              sizeDescription: {
+                labelKey: `${i18nScope}.fields._thumbnail.sizeDescription`,
+              },
+              messages: [
+                {
+                  type: "CUSTOM",
+                  display: "notice",
+                  labelKey: `${i18nScope}.fields._thumbnail.defaultThumbnailNotice`,
+                  icon: "lightbulb",
+                  allowShowBeforeInteract: true,
+                  condition: {
+                    schema: {
+                      properties: {
+                        // There are actually 2 default thumbnail values from AGO. They are:
+                        // - No thumbnail at all (usually temporary)
+                        // - An auto-generated thumbnail showcasing geometry (always named `ago_downloaded.png`)
+                        thumbnail: {
+                          oneOf: [
+                            { type: "null" },
+                            {
+                              type: "string",
+                              enum: ["thumbnail/ago_downloaded.png"],
+                            },
+                          ],
+                        },
+                      },
+                    },
+                  },
+                },
+              ],
             },
           },
         ],
