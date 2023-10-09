@@ -1,3 +1,10 @@
+## @esri/hub-discussions [26.1.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@26.1.0...@esri/hub-discussions@26.1.1) (2023-10-09)
+
+
+### Bug Fixes
+
+* **hub-discussions:** rename DiscussionSettings to Settings for types and functions that call the ap ([#1264](https://github.com/Esri/hub.js/issues/1264)) ([d0b77b3](https://github.com/Esri/hub.js/commit/d0b77b3ea7a95c0fd66994f9512357245555cea1))
+
 # @esri/hub-discussions [26.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@26.0.1...@esri/hub-discussions@26.1.0) (2023-10-08)
 
 
