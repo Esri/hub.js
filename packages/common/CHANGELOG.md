@@ -1,3 +1,15 @@
+# @esri/hub-common [14.31.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.30.1...@esri/hub-common@14.31.0) (2023-10-09)
+
+
+### Bug Fixes
+
+* add incremental delay and comments to poll util ([#1266](https://github.com/Esri/hub.js/issues/1266)) ([07be412](https://github.com/Esri/hub.js/commit/07be4127db5d69e3a2cd632927fce8ef4e9c24f5))
+
+
+### Features
+
+* **hub-common:** add function to get feed configuration ([#1261](https://github.com/Esri/hub.js/issues/1261)) ([79fcc47](https://github.com/Esri/hub.js/commit/79fcc470d8ab4d366ef8136523501ead2b5d9f70))
+
 ## @esri/hub-common [14.30.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.30.0...@esri/hub-common@14.30.1) (2023-10-09)
 
 
