@@ -216,7 +216,7 @@ describe("setFeedConfiguration", () => {
     expect(site?.data?.feeds.dcatUS1X).toEqual(newDcatUsConfig);
   });
 
-  it("gets DCAT US config from old dcatUS11 key", async () => {
+  it("sets DCAT US config from old dcatUS11 key", async () => {
     const newDcatUsConfig = {
       title: "{{new_title}}",
     };
@@ -286,7 +286,7 @@ describe("setFeedConfiguration", () => {
     expect(site?.data?.feeds.dcatAP2XX).toEqual(newDcatApConfig);
   });
 
-  it("gets DCAT AP config from old dcatAP201 key", async () => {
+  it("sets DCAT AP config from old dcatAP201 key", async () => {
     const newDcatApConfig = {
       title: "{{new_title}}",
     };
@@ -380,7 +380,7 @@ describe("setFeedConfiguration", () => {
     }
   });
 
-  it("throws error if RSS version is not supported", async () => {
+  it("throws error if feed is not supported", async () => {
     const newRssConfig = {
       title: "{{new_title}}",
     };
