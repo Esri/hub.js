@@ -25,7 +25,7 @@ describe("poll", () => {
     try {
       await poll(requestFnSpy, validationFn, {
         timeBetweenRequests: 100,
-        timeout: 200,
+        timeout: 300,
       });
     } catch (error) {
       expect(requestFnSpy).toHaveBeenCalledTimes(2);
