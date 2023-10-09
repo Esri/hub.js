@@ -3,6 +3,7 @@ import { getCategoryItems } from "../../core/schemas/internal/getCategoryItems";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
+import { ALWAYS_HIDE } from "../../core/schemas/shared/rules";
 import { IUiSchema } from "../../core/schemas/types";
 import { IHubSite } from "../../core/types";
 
@@ -63,6 +64,19 @@ export const buildUiSchema = async (
               },
             },
           },
+          // HIDDEN, READ-ONLY CONTROLS FOR VALIDATION RULES
+          // Unless we include a UI control, the Entity Editor will rip these values
+          // out of the underlying schema and cause validation errors on load.
+          {
+            scope: "/properties/type",
+            type: "Control",
+            rule: ALWAYS_HIDE,
+          },
+          {
+            scope: "/properties/thumbnail",
+            type: "Control",
+            rule: ALWAYS_HIDE,
+          },
           {
             labelKey: `${i18nScope}.fields._thumbnail.label`,
             scope: "/properties/_thumbnail",
@@ -76,6 +90,33 @@ export const buildUiSchema = async (
               helperText: {
                 labelKey: `${i18nScope}.fields._thumbnail.helperText`,
               },
+              messages: [
+                {
+                  type: "CUSTOM",
+                  display: "notice",
+                  labelKey: `${i18nScope}.fields._thumbnail.defaultThumbnailNotice`,
+                  icon: "lightbulb",
+                  allowShowBeforeInteract: true,
+                  condition: {
+                    schema: {
+                      properties: {
+                        // There are actually 2 default thumbnail values from AGO. They are:
+                        // - No thumbnail at all (usually temporary)
+                        // - An auto-generated thumbnail showcasing geometry (always named `ago_downloaded.png`)
+                        thumbnail: {
+                          oneOf: [
+                            { type: "null" },
+                            {
+                              type: "string",
+                              enum: ["thumbnail/ago_downloaded.png"],
+                            },
+                          ],
+                        },
+                      },
+                    },
+                  },
+                },
+              ],
             },
           },
           {
