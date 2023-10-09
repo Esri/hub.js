@@ -29,10 +29,8 @@ import { clearUserHubSettings } from "../src/utils/internal/clearUserHubSettings
 // Auth into uar-harness-qa-pre-a-hub.hubqa.arcgis.com as paige_pa
 // ** BE SURE TO AUTH INTO THIS SITE** don't just transition from another site!
 // go into network tab and get the token
-const SITE_TOKEN =
-  "yK55bPcOmtP3tWOVxqO8CroEfutCJjZEcf_9CZiDEZjJL8CoSWbm6eaVjnIcrXg9-jgUam2s204haNHoi1JGd1YBLBtk6W5AQrEZVK77y8b-sX2LOVuc_pb0jhIJLYE_pLeqKa9AY46mVMU2pTWDrR_moQu73ih9P9lVi_1MV43l6tfK_9BLgDx7dcf8DsnM_TKTxsw8sdDFMPgIfGGOse-BKTMie31g_9Riyn1ir1I.";
-// site  "yK55bPcOmtP3tWOVxqO8CroEfutCJjZEcf_9CZiDEZjJL8CoSWbm6eaVjnIcrXg9-jgUam2s204haNHoi1JGd1YBLBtk6W5AQrEZVK77y8b-sX2LOVuc_pb0jhIJLYE_pLeqKa9AY46mVMU2pTWDrR_moQu73ih9P9lVi_1MV43l6tfK_9BLgDx7dcf8DsnM_TKTxsw8sdDFMPgIfGGOse-BKTMie31g_9Riyn1ir1I.";
-// AGO "gMJyciD9aSJvVI78OU1L7zVAFJYDxWMMK9VJfXGzc2S2nK5hyHSp6qnIO9B3vaN4MXQg3VjOptRS4moWWtlAgvZLsBDDvsC4rOehHPXkWFkvTu_zrEBYIRDIPTtdfr5pkxmfLQZwJ73But5eaiiKWey63XrOnQXknOBcn-0Nd3t7QO3kvobvYtjLXj87SQf5wlIS0sFjMnZZ6FNPPjj9Djz7iJ9cAXX4uuEVo7LMy0Q."
+const SITE_TOKEN = "paste a token copied from a browser as per details above";
+// AGO "you may also need a token from the home app"
 
 fdescribe("user-app-resources harness: ", () => {
   let factory: Artifactory;
