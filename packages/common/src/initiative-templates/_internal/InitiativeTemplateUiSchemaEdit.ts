@@ -85,10 +85,11 @@ export const buildUiSchema = async (
         type: "Control",
         rule: ALWAYS_HIDE,
       },
+      // Actual control for modifying the thumbnail
       {
-        type: "Control",
-        scope: "/properties/_thumbnail",
         labelKey: `${i18nScope}.fields._thumbnail.label`,
+        scope: "/properties/_thumbnail",
+        type: "Control",
         options: {
           control: "hub-field-input-image-picker",
           imgSrc: entity.thumbnailUrl,

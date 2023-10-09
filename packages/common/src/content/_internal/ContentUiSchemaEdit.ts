@@ -83,7 +83,7 @@ export const buildUiSchema = async (
             type: "Control",
             rule: ALWAYS_HIDE,
           },
-          // thumbnail image
+          // Actual control for modifying the thumbnail
           {
             labelKey: `${i18nScope}.fields._thumbnail.label`,
             scope: "/properties/_thumbnail",
@@ -96,6 +96,9 @@ export const buildUiSchema = async (
               aspectRatio: 1.5,
               helperText: {
                 labelKey: `${i18nScope}.fields._thumbnail.helperText`,
+              },
+              sizeDescription: {
+                labelKey: `${i18nScope}.fields._thumbnail.sizeDescription`,
               },
               messages: [
                 {
