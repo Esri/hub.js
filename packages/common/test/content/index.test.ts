@@ -4,7 +4,6 @@ import {
   cloneObject,
   enrichContentSearchResult,
   IHubRequestOptions,
-  IHubSearchResult,
 } from "../../src";
 import * as FetchEnrichments from "../../src/items/_enrichments";
 

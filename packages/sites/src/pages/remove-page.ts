@@ -7,7 +7,7 @@ import {
   unprotectModel,
 } from "@esri/hub-common";
 import { unlinkSiteAndPage } from "../unlink-site-and-page";
-import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
+import { removeItem } from "@esri/arcgis-rest-portal";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 /**

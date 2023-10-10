@@ -1,6 +1,6 @@
 import { IItem } from "@esri/arcgis-rest-types";
 import { getContentEditUrl } from "../../../src/content/_internal/internalContentUtils";
-import { IHubRequestOptions, IModel } from "../../../src/types";
+import { IHubRequestOptions } from "../../../src/types";
 import { cloneObject } from "../../../src/util";
 import { MOCK_HUB_REQOPTS } from "../../mocks/mock-auth";
 

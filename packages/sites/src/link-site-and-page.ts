@@ -10,9 +10,9 @@ import {
   maybePush,
   failSafe,
   shareItemToGroups,
-  deepSet
+  deepSet,
 } from "@esri/hub-common";
-import { updateItem, IItem } from "@esri/arcgis-rest-portal";
+import { updateItem } from "@esri/arcgis-rest-portal";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { isSite } from "./is-site";
 
@@ -42,9 +42,9 @@ export function linkSiteAndPage(linkRequestOptions: {
   // get the models from the options...
   return Promise.all([
     getModelFromOptions("page", linkRequestOptions),
-    getModelFromOptions("site", linkRequestOptions)
+    getModelFromOptions("site", linkRequestOptions),
   ])
-    .then(models => {
+    .then((models) => {
       // Should we handle either item being inaccessible?
       [pageModel, siteModel] = models;
 
@@ -60,7 +60,7 @@ export function linkSiteAndPage(linkRequestOptions: {
         // Link the Site into the Page...
         const siteEntry = {
           id: siteModel.item.id,
-          title: siteModel.item.title
+          title: siteModel.item.title,
         };
 
         if (!getProp(pageModel, "data.values.sites")) {
@@ -85,7 +85,7 @@ export function linkSiteAndPage(linkRequestOptions: {
         // Link the Page into the Site
         const pageEntry: any = {
           id: pageModel.item.id,
-          title: pageModel.item.title
+          title: pageModel.item.title,
         };
         if (!getProp(siteModel, "data.values.pages")) {
           deepSet(siteModel, "data.values.pages", []);
@@ -131,9 +131,7 @@ export function linkSiteAndPage(linkRequestOptions: {
         let msg = `The Page item (${pageModel.item.id}) is inaccessible.`;
         if (siteModel.isMissing) {
           if (pageModel.isMissing) {
-            msg = `Both the Page item (${
-              pageModel.item.id
-            }) and the Site item (${siteModel.item.id}) are inaccssible`;
+            msg = `Both the Page item (${pageModel.item.id}) and the Site item (${siteModel.item.id}) are inaccssible`;
           } else {
             msg = `The Site item (${siteModel.item.id}) is inaccessible.`;
           }
@@ -146,14 +144,12 @@ export function linkSiteAndPage(linkRequestOptions: {
       // what is in what index, so we really can't use the return values...
       return {
         pageModel,
-        siteModel
+        siteModel,
       };
     })
     .catch((err: Error) => {
       throw Error(
-        `Error occured linking site ${siteModel.item.id} with ${
-          pageModel.item.id
-        }: ${err}`
+        `Error occured linking site ${siteModel.item.id} with ${pageModel.item.id}: ${err}`
       );
     });
 }

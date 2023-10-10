@@ -1,4 +1,3 @@
-import { IPolicyCheck } from "../../permissions/types/IPolicyCheck";
 import { PolicyResponse } from "../../permissions/types/PolicyResponse";
 
 export interface IAccessResponse {

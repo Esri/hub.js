@@ -5,6 +5,7 @@ import { serializeQueryForPortal } from "../serializeQueryForPortal";
 import { enrichPageSearchResult } from "../../pages/HubPages";
 import { enrichProjectSearchResult } from "../../projects";
 import { enrichSiteSearchResult } from "../../sites";
+import { enrichTemplateSearchResult } from "../../templates/fetch";
 import { IHubRequestOptions } from "../../types";
 
 import {
@@ -225,7 +226,9 @@ export async function itemToSearchResult(
     case "Hub Project":
       fn = enrichProjectSearchResult;
       break;
-
+    case "Solution":
+      fn = enrichTemplateSearchResult;
+      break;
     // handle old hub sites
     case "Web Mapping Application":
       if (item.typeKeywords.includes("hubSite")) {

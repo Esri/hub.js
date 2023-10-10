@@ -1,9 +1,4 @@
-import {
-  IArcGISContext,
-  IPermissionPolicy,
-  IPolicyAssertion,
-  IPolicyCheck,
-} from "../../../src";
+import { IArcGISContext, IPermissionPolicy, IPolicyCheck } from "../../../src";
 import * as AssertionModule from "../../../src/permissions/_internal/checkAssertion";
 import { checkAssertions } from "../../../src/permissions/_internal/checkAssertions";
 

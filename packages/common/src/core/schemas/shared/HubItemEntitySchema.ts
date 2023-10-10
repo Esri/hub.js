@@ -41,6 +41,7 @@ export const HubItemEntitySchema: IConfigurationSchema = {
           type: "boolean",
           default: true,
         },
+        isDiscussable: ENTITY_IS_DISCUSSABLE_SCHEMA,
       },
     },
     view: {

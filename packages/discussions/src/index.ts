@@ -3,7 +3,7 @@
 
 export * from "./posts";
 export * from "./channels";
-export * from "./discussion-settings";
+export * from "./settings";
 export * from "./reactions";
 export * from "./types";
 

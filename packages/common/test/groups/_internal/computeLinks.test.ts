@@ -30,7 +30,7 @@ describe("computeLinks", () => {
   it("generates a links hash", () => {
     const chk = computeLinks(group, authdCtxMgr.context.requestOptions);
 
-    expect(chk.siteRelative).toBe("/teams/00c");
+    expect(chk.siteRelative).toBe("/groups/00c");
     expect(chk.workspaceRelative).toBe("/workspace/groups/00c");
   });
 });

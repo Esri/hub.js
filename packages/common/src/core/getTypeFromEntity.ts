@@ -29,6 +29,9 @@ export function getTypeFromEntity(
     case "Discussion":
       type = "discussion";
       break;
+    case "Solution":
+      type = "template";
+      break;
     case "Group":
       type = "group";
       break;

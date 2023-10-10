@@ -150,5 +150,6 @@ export type IHubItemEntityEditor<T> = Omit<T, "extent"> & {
   _followers?: {
     groupAccess?: AccessLevel;
     showFollowAction?: boolean;
+    isDiscussable?: boolean;
   };
 };

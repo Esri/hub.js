@@ -25,7 +25,7 @@ export function computeLinks(
 
   return {
     self: getGroupHomeUrl(group.id, requestOptions),
-    siteRelative: `/teams/${group.id}`,
+    siteRelative: `/groups/${group.id}`,
     workspaceRelative: getRelativeWorkspaceUrl("Group", group.id),
     thumbnail: getGroupThumbnailUrl(requestOptions.portal, group, token),
   };

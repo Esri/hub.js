@@ -106,7 +106,7 @@ describe("HubGroups Module:", () => {
       expect(chk.links?.self).toEqual(
         `https://some-server.com/gis/home/group.html?id=${GRP.id}`
       );
-      expect(chk.links?.siteRelative).toEqual(`/teams/${GRP.id}`);
+      expect(chk.links?.siteRelative).toEqual(`/groups/${GRP.id}`);
       expect(chk.links?.thumbnail).toEqual(
         `${hubRo.portal}/community/groups/${GRP.id}/info/${GRP.thumbnail}`
       );

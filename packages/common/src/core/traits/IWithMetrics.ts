@@ -1,4 +1,3 @@
-import { IReference } from "../types";
 import { IMetric } from "../types/Metrics";
 
 /**

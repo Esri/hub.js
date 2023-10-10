@@ -1,3 +1,76 @@
+## @esri/hub-common [14.32.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.32.0...@esri/hub-common@14.32.1) (2023-10-10)
+
+
+### Bug Fixes
+
+* deployed solution redirects ([#1268](https://github.com/Esri/hub.js/issues/1268)) ([8df3607](https://github.com/Esri/hub.js/commit/8df3607b764a2dbfc743f6d0ece03b634e8924d1))
+
+# @esri/hub-common [14.32.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.31.0...@esri/hub-common@14.32.0) (2023-10-09)
+
+
+### Features
+
+* support for Site and Hub user app resources ([#1260](https://github.com/Esri/hub.js/issues/1260)) ([4a314e1](https://github.com/Esri/hub.js/commit/4a314e1d62d46374988a49cb1eb202d62a95cdb4))
+
+# @esri/hub-common [14.31.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.30.1...@esri/hub-common@14.31.0) (2023-10-09)
+
+
+### Bug Fixes
+
+* add incremental delay and comments to poll util ([#1266](https://github.com/Esri/hub.js/issues/1266)) ([07be412](https://github.com/Esri/hub.js/commit/07be4127db5d69e3a2cd632927fce8ef4e9c24f5))
+
+
+### Features
+
+* **hub-common:** add function to get feed configuration ([#1261](https://github.com/Esri/hub.js/issues/1261)) ([79fcc47](https://github.com/Esri/hub.js/commit/79fcc470d8ab4d366ef8136523501ead2b5d9f70))
+
+## @esri/hub-common [14.30.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.30.0...@esri/hub-common@14.30.1) (2023-10-09)
+
+
+### Bug Fixes
+
+* **hub-discussions:** rename DiscussionSettings to Settings for types and functions that call the ap ([#1264](https://github.com/Esri/hub.js/issues/1264)) ([d0b77b3](https://github.com/Esri/hub.js/commit/d0b77b3ea7a95c0fd66994f9512357245555cea1))
+
+# @esri/hub-common [14.30.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.29.0...@esri/hub-common@14.30.0) (2023-10-08)
+
+
+### Features
+
+* **hub-common:** adds followers group discussion settings on site wo… ([#1251](https://github.com/Esri/hub.js/issues/1251)) ([e0beb59](https://github.com/Esri/hub.js/commit/e0beb59f91b43795f96a694e55238a6cec83de74))
+
+# @esri/hub-common [14.29.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.28.0...@esri/hub-common@14.29.0) (2023-10-06)
+
+
+### Bug Fixes
+
+* update groups link from teams to groups ([#1262](https://github.com/Esri/hub.js/issues/1262)) ([26dd47a](https://github.com/Esri/hub.js/commit/26dd47a5f2bfb51096488c3693d458beb6b9b06d))
+
+
+### Features
+
+* add new polling util ([#1265](https://github.com/Esri/hub.js/issues/1265)) ([e36c142](https://github.com/Esri/hub.js/commit/e36c142b9d9ead2f41a323f0debae007d41335ee))
+
+# @esri/hub-common [14.28.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.27.0...@esri/hub-common@14.28.0) (2023-10-05)
+
+
+### Features
+
+* collaborator pane for content workspace ([#1259](https://github.com/Esri/hub.js/issues/1259)) ([e00e624](https://github.com/Esri/hub.js/commit/e00e6244f795589b829dad0c4aad48a9eea1d6a4))
+
+# @esri/hub-common [14.27.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.26.2...@esri/hub-common@14.27.0) (2023-10-05)
+
+
+### Features
+
+* scaffold solution template entity ([#1253](https://github.com/Esri/hub.js/issues/1253)) ([54d1fe6](https://github.com/Esri/hub.js/commit/54d1fe636bc8bd949a8b275503a2db01eb6cc3ee))
+
+## @esri/hub-common [14.26.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.26.1...@esri/hub-common@14.26.2) (2023-10-04)
+
+
+### Bug Fixes
+
+* **hub-discussions:** add author and editor to isearchchannels ([#1257](https://github.com/Esri/hub.js/issues/1257)) ([5d22e8b](https://github.com/Esri/hub.js/commit/5d22e8bbe0304296a1d64234c20eb62a173a328f))
+
 ## @esri/hub-common [14.26.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.26.0...@esri/hub-common@14.26.1) (2023-10-04)
 
 

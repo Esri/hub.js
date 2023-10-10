@@ -1,4 +1,4 @@
-import { IGetItemGroupsResponse, IGroup } from "@esri/arcgis-rest-portal";
+import { IGroup } from "@esri/arcgis-rest-portal";
 import { AccessLevel } from "../types";
 
 /**

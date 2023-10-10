@@ -1,9 +1,4 @@
-import {
-  IConfigurationSchema,
-  IUiSchema,
-  UiSchemaElementOptions,
-  EditorType,
-} from "../schemas";
+import { IConfigurationSchema, IUiSchema, EditorType } from "../schemas";
 import { HubEntity, HubEntityEditor, IEntityEditorContext } from "../types";
 
 export interface IEditorConfig {

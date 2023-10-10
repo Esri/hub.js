@@ -1,5 +1,6 @@
-import { ArcGISContextManager } from "../src/ArcGISContextManager";
+import { ALPHA_ORGS, ArcGISContextManager } from "../src/ArcGISContextManager";
 import {
+  ArcGISContext,
   cloneObject,
   HubServiceStatus,
   IFeatureFlags,
@@ -9,9 +10,11 @@ import {
 import { base64ToUnicode, unicodeToBase64 } from "../src/utils/encoding";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as requestModule from "@esri/arcgis-rest-request";
+import * as authModule from "@esri/arcgis-rest-auth";
 import { MOCK_AUTH, MOCK_ENTERPRISE_AUTH } from "./mocks/mock-auth";
 import { IPortal } from "@esri/arcgis-rest-portal";
 import ExceptionFactory from "./mocks/ExceptionFactory";
+import { TOMORROW } from "./test-helpers/tomorrow";
 
 const onlinePortalSelfResponse = {
   id: "FAKEID",
@@ -277,6 +280,21 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.featureFlags).toEqual({});
       expect(mgr.context.trustedOrgIds).toBeUndefined();
       expect(mgr.context.trustedOrgs).toBeUndefined();
+      expect(mgr.context.userResourceTokens).toEqual([]);
+      expect(mgr.context.isAlphaOrg).toEqual(false);
+      expect(mgr.context.isBetaOrg).toEqual(false);
+    });
+    it("verify alpha and beta orgs", async () => {
+      const mgr = await ArcGISContextManager.create({
+        portal: {
+          id: ALPHA_ORGS[0],
+        } as unknown as IPortal,
+        properties: {
+          betaOrgs: [ALPHA_ORGS[0]],
+        },
+      });
+      expect(mgr.context.isAlphaOrg).toEqual(true);
+      expect(mgr.context.isBetaOrg).toEqual(true);
     });
     it("verify props when passed portalUrl", async () => {
       const t = new Date().getTime();
@@ -288,7 +306,8 @@ describe("ArcGISContext:", () => {
       // RequestOptions
       expect(mgr.context.requestOptions.portal).toBe(mgr.context.sharingApiUrl);
       expect(mgr.context.requestOptions.authentication).not.toBeDefined();
-      expect(mgr.context.properties).not.toBeDefined();
+      expect(mgr.context.properties.alphaOrgs).toBeDefined();
+      expect(mgr.context.userResourceTokens).toEqual([]);
       // now call setProperties and ensure it's returned on context
       const hubSite = {
         id: "bc3",
@@ -311,6 +330,7 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.id).toBeGreaterThanOrEqual(t);
       expect(mgr.context.environment).toBe("enterprise");
       expect(mgr.context.properties.site).toEqual(site);
+      expect(mgr.context.userResourceTokens).toEqual([]);
     });
     it("verify when passed featureFlags", async () => {
       const t = new Date().getTime();
@@ -322,6 +342,37 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.environment).toBe("enterprise");
       expect(mgr.context.featureFlags).not.toBe(featureFlags);
       expect(mgr.context.featureFlags).toEqual(featureFlags);
+    });
+    it("verify when passed resourceConfigs and tokens", async () => {
+      const t = new Date().getTime();
+      const mgr = await ArcGISContextManager.create({
+        portalUrl: "https://myserver.com/gis",
+        featureFlags,
+        resourceConfigs: [
+          {
+            app: "self",
+            clientId: "FAKECLIENTID",
+          },
+        ],
+        resourceTokens: [
+          {
+            app: "self",
+            clientId: "FAKECLIENTID",
+            token: "FAKETOKEN",
+          },
+        ],
+      });
+      expect(mgr.context.id).toBeGreaterThanOrEqual(t);
+      expect(mgr.context.environment).toBe("enterprise");
+      expect(mgr.context.featureFlags).not.toBe(featureFlags);
+      expect(mgr.context.featureFlags).toEqual(featureFlags);
+      expect(mgr.context.userResourceTokens).toEqual([
+        {
+          app: "self",
+          clientId: "FAKECLIENTID",
+          token: "FAKETOKEN",
+        },
+      ]);
     });
     it("verify when passed partnered orgs and partnered org ids", async () => {
       const t = new Date().getTime();
@@ -498,6 +549,107 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.currentUser).toBeUndefined();
       expect(mgr.context.session).toBeUndefined();
     });
+    it("verify does not fetch additional info if passed in", async () => {
+      const selfSpy = spyOn(portalModule, "getSelf").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlinePortalSelfResponse));
+      });
+      const userSpy = spyOn(portalModule, "getUser").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlineUserResponse));
+      });
+      const trustedSpy = spyOn(requestModule, "request").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
+      });
+      const exchangeSpy = spyOn(authModule, "exchangeToken").and.callFake(
+        (_: string, cid: string) => {
+          return Promise.resolve(`FAKE-TOKEN-FOR-${cid}`);
+        }
+      );
+
+      const mgr = await ArcGISContextManager.create({
+        authentication: MOCK_AUTH,
+        serviceStatus: {} as unknown as HubServiceStatus,
+        portal: { fake: "portal" } as unknown as IPortal,
+        currentUser: { username: "fakeuser" } as unknown as portalModule.IUser,
+        trustedOrgs: cloneObject(onlinePartneredOrgResponse.trustedOrgs),
+        resourceTokens: [{ app: "self", clientId: "bar", token: "FAKETOKEN" }],
+        resourceConfigs: [{ app: "arcgisonline", clientId: "arcgisonline" }],
+      });
+
+      expect(selfSpy).not.toHaveBeenCalled();
+      expect(userSpy).not.toHaveBeenCalled();
+      expect(trustedSpy).not.toHaveBeenCalled();
+      expect(exchangeSpy).not.toHaveBeenCalled();
+
+      expect(mgr.context.tokenFor("self")).toEqual("FAKETOKEN");
+      expect(mgr.context.tokenFor("arcgisonline")).toBeUndefined();
+    });
+    it("verify fetches additional info if not passed in", async () => {
+      const selfSpy = spyOn(portalModule, "getSelf").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlinePortalSelfResponse));
+      });
+      const userSpy = spyOn(portalModule, "getUser").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlineUserResponse));
+      });
+      const trustedSpy = spyOn(requestModule, "request").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
+      });
+      const exchangeSpy = spyOn(authModule, "exchangeToken").and.callFake(
+        (_: string, cid: string) => {
+          return Promise.resolve(`FAKE-TOKEN-FOR-${cid}`);
+        }
+      );
+      await ArcGISContextManager.create({
+        authentication: MOCK_AUTH,
+        // we only exchange tokens if resource configs are passed in
+        resourceConfigs: [{ app: "arcgisonline", clientId: "arcgisonline" }],
+      });
+
+      expect(selfSpy).toHaveBeenCalled();
+      expect(userSpy).toHaveBeenCalled();
+      expect(trustedSpy).toHaveBeenCalled();
+      // we only exchange tokens if resource configs are passed in
+      expect(exchangeSpy).toHaveBeenCalled();
+    });
+    it("handles throw from exchangeToken", async () => {
+      const selfSpy = spyOn(portalModule, "getSelf").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlinePortalSelfResponse));
+      });
+      const userSpy = spyOn(portalModule, "getUser").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlineUserResponse));
+      });
+      const trustedSpy = spyOn(requestModule, "request").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
+      });
+      const exchangeSpy = spyOn(authModule, "exchangeToken").and.callFake(
+        () => {
+          return Promise.reject("FAIL");
+        }
+      );
+      // flex case where auth does not have clientId
+      const MOCK_AUTH_NO_CLIENTID = new authModule.UserSession({
+        redirectUri: "https://example-app.com/redirect-uri",
+        token: "fake-token",
+        tokenExpires: TOMORROW,
+        refreshToken: "refreshToken",
+        refreshTokenExpires: TOMORROW,
+        refreshTokenTTL: 1440,
+        username: "casey",
+        password: "123456",
+        portal: "https://myorg.maps.arcgis.com/sharing/rest",
+      });
+
+      await ArcGISContextManager.create({
+        authentication: MOCK_AUTH_NO_CLIENTID,
+        // we only exchange tokens if resource configs are passed in
+        resourceConfigs: [{ app: "arcgisonline", clientId: "arcgisonline" }],
+      });
+
+      expect(selfSpy).toHaveBeenCalled();
+      expect(userSpy).toHaveBeenCalled();
+      expect(trustedSpy).toHaveBeenCalled();
+      // we only exchange tokens if resource configs are passed in
+      expect(exchangeSpy).toHaveBeenCalled();
+    });
     it("throws if fetch fails", async () => {
       const invalidToken = ExceptionFactory.createInvalidTokenError();
       spyOn(portalModule, "getSelf").and.callFake(() => {
@@ -523,7 +675,7 @@ describe("ArcGISContext:", () => {
       expect(decoded.session).not.toBeDefined();
       expect(decoded.portal).not.toBeDefined();
       expect(decoded.currentUser).not.toBeDefined();
-      expect(decoded.properties).not.toBeDefined();
+      expect(decoded.properties.alphaOrgs).toBeDefined();
       expect(decoded.portalUrl).toEqual("https://www.arcgis.com");
     });
     it("serializes all props to encoded string", async () => {
@@ -549,7 +701,8 @@ describe("ArcGISContext:", () => {
       expect(decoded.session).toEqual(MOCK_AUTH.serialize());
       expect(decoded.portal).toEqual(onlinePortalSelfResponse);
       expect(decoded.currentUser).toEqual(onlineUserResponse);
-      expect(decoded.properties).toEqual({ foo: "bar" });
+      expect(decoded.properties.foo).toEqual("bar");
+      expect(decoded.properties.alphaOrgs).toBeDefined();
     });
     it("can deserialize minimal context", async () => {
       const serialized = unicodeToBase64(
@@ -663,7 +816,7 @@ describe("ArcGISContext:", () => {
   });
 
   describe("Enterprise:", () => {
-    it("verify props when passed just clientid", async () => {
+    it("verify props when passed just portalUrl", async () => {
       const t = new Date().getTime();
       const mgr = await ArcGISContextManager.create({
         portalUrl: "https://myenterprise.com/gis",
@@ -674,7 +827,6 @@ describe("ArcGISContext:", () => {
         "https://myenterprise.com/gis/sharing/rest"
       );
       expect(mgr.context.isPortal).toBe(true);
-
       expect(mgr.context.hubUrl).toBeUndefined();
       expect(mgr.context.hubHomeUrl).toBeUndefined();
       expect(mgr.context.discussionsServiceUrl).toBeUndefined();
@@ -765,6 +917,14 @@ describe("ArcGISContext:", () => {
       mgr.clearAuthentication();
       expect(mgr.context.hubUrl).toBe("https://hubdev.arcgis.com");
       expect(mgr.context.portalUrl).toBe("https://devext.arcgis.com");
+    });
+    it("handles ArcGISContext properties undefined", () => {
+      const ctx = new ArcGISContext({
+        id: 12,
+        portalUrl: "https://some.server.com",
+      });
+      expect(ctx.isAlphaOrg).toBeFalsy();
+      expect(ctx.isBetaOrg).toBeFalsy();
     });
   });
 });

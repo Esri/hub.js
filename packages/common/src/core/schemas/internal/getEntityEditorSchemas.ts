@@ -8,6 +8,7 @@ import { InitiativeEditorType } from "../../../initiatives/_internal/InitiativeS
 import { DiscussionEditorType } from "../../../discussions/_internal/DiscussionSchema";
 import { PageEditorType } from "../../../pages/_internal/PageSchema";
 import { ContentEditorType } from "../../../content/_internal/ContentSchema";
+import { TemplateEditorType } from "../../../templates/_internal/TemplateSchema";
 import { GroupEditorType } from "../../../groups/_internal/GroupSchema";
 import { ConfigurableEntity } from "./ConfigurableEntity";
 import { IArcGISContext } from "../../../ArcGISContext";
@@ -20,6 +21,7 @@ import {
   IHubPage,
   IHubProject,
   IHubSite,
+  IHubTemplate,
 } from "../../../core/types";
 import { InitiativeTemplateEditorType } from "../../../initiative-templates/_internal/InitiativeTemplateSchema";
 
@@ -171,6 +173,25 @@ export async function getEntityEditorSchemas(
       );
 
       break;
+    // ----------------------------------------------------
+    case "template":
+      const { TemplateSchema } = await import(
+        "../../../templates/_internal/TemplateSchema"
+      );
+      schema = cloneObject(TemplateSchema);
+
+      const templateModule = await {
+        "hub:template:edit": () =>
+          import("../../../templates/_internal/TemplateUiSchemaEdit"),
+      }[type as TemplateEditorType]();
+      uiSchema = await templateModule.buildUiSchema(
+        i18nScope,
+        entity as IHubTemplate,
+        context
+      );
+
+      break;
+    // ----------------------------------------------------
     case "group":
       const { GroupSchema } = await import(
         "../../../groups/_internal/GroupSchema"
