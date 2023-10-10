@@ -32,7 +32,7 @@ import { clearUserHubSettings } from "../src/utils/internal/clearUserHubSettings
 const SITE_TOKEN = "paste a token copied from a browser as per details above";
 // AGO "you may also need a token from the home app"
 
-fdescribe("user-app-resources harness: ", () => {
+describe("user-app-resources harness: ", () => {
   let factory: Artifactory;
   const orgName = "hubPremiumAlpha";
   let contextMgr: ArcGISContextManager;
@@ -253,7 +253,7 @@ fdescribe("user-app-resources harness: ", () => {
     });
   });
 
-  fdescribe("hub abstractions: ", () => {
+  describe("hub abstractions: ", () => {
     it("stores site level settings", async () => {
       const ts = new Date().getTime();
       const settings: IUserSiteSettings = {
