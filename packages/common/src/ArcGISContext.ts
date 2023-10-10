@@ -10,6 +10,7 @@ import { getProp, getWithDefault } from "./objects";
 import { HubEnvironment, HubLicense, IFeatureFlags } from "./permissions/types";
 import { IHubRequestOptions, IHubTrustedOrgsResponse } from "./types";
 import { getEnvironmentFromPortalUrl } from "./utils/getEnvironmentFromPortalUrl";
+import { IUserResourceToken, UserResourceApp } from "./ArcGISContextManager";
 
 /**
  * Hash of Hub API end points so updates
@@ -196,6 +197,17 @@ export interface IArcGISContext {
    * Trusted orgs xhr response
    */
   trustedOrgs: IHubTrustedOrgsResponse[];
+  /**
+   * Array of exchanged tokens for use
+   * with user-app-resources
+   */
+  userResourceTokens?: IUserResourceToken[];
+
+  /**
+   * Return the token for a given app, if defined
+   * @param app
+   */
+  tokenFor(app: UserResourceApp): string;
 }
 
 /**
@@ -262,6 +274,12 @@ export interface IArcGISContextOptions {
    * Trusted orgs xhr response
    */
   trustedOrgs?: IHubTrustedOrgsResponse[];
+
+  /**
+   * Array of exchanged tokens for use
+   * with user-app-resources
+   */
+  userResourceTokens?: IUserResourceToken[];
 }
 
 /**
@@ -305,6 +323,8 @@ export class ArcGISContext implements IArcGISContext {
 
   private _trustedOrgs: IHubTrustedOrgsResponse[];
 
+  private _userResourceTokens: IUserResourceToken[] = [];
+
   /**
    * Create a new instance of `ArcGISContext`.
    *
@@ -339,6 +359,7 @@ export class ArcGISContext implements IArcGISContext {
     }
 
     this._featureFlags = opts.featureFlags || {};
+    this._userResourceTokens = opts.userResourceTokens || [];
   }
 
   /**
@@ -668,5 +689,24 @@ export class ArcGISContext implements IArcGISContext {
    */
   public get trustedOrgs(): IHubTrustedOrgsResponse[] {
     return this._trustedOrgs;
+  }
+
+  /**
+   * Return the whole array of user resource tokens
+   */
+  public get userResourceTokens(): IUserResourceToken[] {
+    return this._userResourceTokens;
+  }
+
+  /**
+   * Return a token for a specific app
+   * @param app
+   * @returns
+   */
+  public tokenFor(app: UserResourceApp): string {
+    const entry = this._userResourceTokens.find((e) => e.app === app);
+    if (entry) {
+      return entry.token;
+    }
   }
 }
