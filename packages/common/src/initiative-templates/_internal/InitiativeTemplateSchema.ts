@@ -17,6 +17,12 @@ export const InitiativeTemplateSchema: IConfigurationSchema = {
       if: { minLength: 1 },
       then: { format: "uri" },
     },
+    recommendedTemplates: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+    },
   },
   // we have to do this to allow the format: url to pass through
 } as IConfigurationSchema;

@@ -188,8 +188,6 @@ export class HubInitiativeTemplate
    * @param editor
    */
   async fromEditor(editor: IHubInitiativeTemplateEditor): Promise<HubEntity> {
-    const isCreate = !editor.id;
-
     // Setting the thumbnailCache will ensure that the thumbnail is updated on next save
     if (editor._thumbnail) {
       if (editor._thumbnail.blob) {

@@ -1,6 +1,12 @@
+import { IUser } from "@esri/arcgis-rest-types";
 import { IArcGISContext } from "../..";
 import { IHubInitiativeTemplate } from "../../core";
 import { IUiSchema, UiSchemaMessageTypes } from "../../core/schemas/types";
+import { IHubCollection } from "../../search";
+import {
+  getWellKnownCatalog,
+  WellKnownCatalog,
+} from "../../search/wellKnownCatalog";
 
 /**
  * @private
@@ -89,6 +95,107 @@ export const buildUiSchema = async (
           },
         },
       },
+      {
+        type: "Control",
+        scope: "/properties/recommendedTemplates",
+        labelKey: `${i18nScope}.fields.recommendedTemplates.label`,
+        options: {
+          control: "hub-field-input-gallery-picker",
+          targetEntity: "item",
+          catalogs: getRecommendedTemplatesCatalog(
+            context.currentUser,
+            i18nScope
+          ),
+          facets: [
+            {
+              label: `${i18nScope}.facets.sharing.label`,
+              key: "access",
+              field: "access",
+              display: "multi-select",
+              operation: "OR",
+            },
+          ],
+          drag: false,
+          linkTarget: "workspaceRelative",
+        },
+      },
     ],
+  };
+};
+
+const getRecommendedTemplatesCatalog = (user: IUser, i18nScope: string) => {
+  const catalogNames: WellKnownCatalog[] = [
+    "myContent",
+    "favorites",
+    "organization",
+    "world",
+  ];
+
+  const catalogs = catalogNames.map((name: WellKnownCatalog) => {
+    const opts = { user };
+    const catalog = getWellKnownCatalog("", name, "item", opts);
+    if (catalog) {
+      // manually attach recommended templates collection
+      catalog.collections = [getRecommendedTemplatesCollection(i18nScope)];
+    }
+    return catalog;
+  });
+
+  return catalogs;
+};
+
+const getRecommendedTemplatesCollection = (
+  i18nScope: string
+): IHubCollection => {
+  return {
+    targetEntity: "item",
+    key: "recommendedTemplates",
+    label: `${i18nScope}.fields.recommendedTemplates.label`,
+    scope: {
+      targetEntity: "item",
+      filters: [
+        {
+          predicates: [
+            {
+              typeKeywords: {
+                not: ["hubSolutionType|hubSiteApplication"],
+              },
+            },
+          ],
+        },
+        {
+          predicates: [
+            {
+              typeKeywords: {
+                any: [
+                  "hubSolutionType|storymap",
+                  "hubSolutionType|webmap",
+                  "hubSolutionType|dashboard",
+                  "hubSolutionType|hubpage",
+                  "hubSolutionType|webexperience",
+                  "hubSolutionType|webmappingapplication",
+                  "hubSolutionType|form",
+                  "hubSolutionType|featureservice",
+                  "Template",
+                ],
+              },
+            },
+          ],
+          operation: "OR",
+        },
+        {
+          predicates: [
+            {
+              typeKeywords: ["hubSolutionTemplate"],
+            },
+            {
+              type: "Solution",
+              typeKeywords: ["Template"],
+            },
+          ],
+          operation: "OR",
+        },
+      ],
+    },
   };
 };
