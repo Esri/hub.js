@@ -1,3 +1,10 @@
+# @esri/hub-common [14.33.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.32.1...@esri/hub-common@14.33.0) (2023-10-10)
+
+
+### Features
+
+* **hub-common:** unify thumbnail ui schema for item-backed entities and add default thumbnail notice ([#1267](https://github.com/Esri/hub.js/issues/1267)) ([30bc262](https://github.com/Esri/hub.js/commit/30bc262ee152345c89a6d771e20cd77f6201605d))
+
 ## @esri/hub-common [14.32.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.32.0...@esri/hub-common@14.32.1) (2023-10-10)
 
 
