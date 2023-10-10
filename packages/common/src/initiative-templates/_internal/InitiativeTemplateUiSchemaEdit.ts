@@ -139,10 +139,9 @@ const getRecommendedTemplatesCatalog = (user: IUser, i18nScope: string) => {
       "item",
       opts
     );
-    if (catalog) {
-      // manually attach recommended templates collection
-      catalog.collections = [getRecommendedTemplatesCollection(i18nScope)];
-    }
+
+    // manually attach recommended templates collection
+    catalog.collections = [getRecommendedTemplatesCollection(i18nScope)];
     return catalog;
   });
 
