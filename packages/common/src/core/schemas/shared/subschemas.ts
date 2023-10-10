@@ -1,6 +1,5 @@
 import { IHubItemEntity } from "../../types";
 import { IUiSchemaElement } from "../types";
-import { ALWAYS_HIDE } from "./rules";
 
 /**
  * For consistency and validation purposes, leverage these commonly
@@ -118,19 +117,6 @@ export function getThumbnailUiSchemaElements(
   entity: IHubItemEntity
 ): IUiSchemaElement[] {
   return [
-    // HIDDEN, READ-ONLY CONTROLS FOR VALIDATION RULES
-    // Unless we include a UI control, the Entity Editor will rip these values
-    // out of the underlying schema and cause validation errors on load.
-    {
-      scope: "/properties/type",
-      type: "Control",
-      rule: ALWAYS_HIDE,
-    },
-    {
-      scope: "/properties/thumbnail",
-      type: "Control",
-      rule: ALWAYS_HIDE,
-    },
     // Actual control for modifying the thumbnail
     {
       labelKey: `${i18nScope}.fields._thumbnail.label`,
@@ -152,26 +138,20 @@ export function getThumbnailUiSchemaElements(
           {
             type: "CUSTOM",
             display: "notice",
-            labelKey: `${i18nScope}.fields._thumbnail.defaultThumbnailNotice`,
+            labelKey: "shared.defaultThumbnailNotice",
             icon: "lightbulb",
             allowShowBeforeInteract: true,
             condition: {
-              schema: {
-                properties: {
-                  // There are actually 2 default thumbnail values from AGO. They are:
-                  // - No thumbnail at all (usually temporary)
-                  // - An auto-generated thumbnail showcasing geometry (always named `ago_downloaded.png`)
-                  thumbnail: {
-                    oneOf: [
-                      { type: "null" },
-                      {
-                        type: "string",
-                        enum: ["thumbnail/ago_downloaded.png"],
-                      },
-                    ],
-                  },
-                },
-              },
+              /**
+               * Validation fn to evaluate whether an entity is populated by a
+               * default thumbnail. This can be evaluated in one of two ways:
+               * 1. There is no thumbnail at all (usually temporary)
+               * 2. There is an auto-generated thumbnail showcasing geometry (always named `ago_downloaded.png`)
+               */
+              validator: ((entity: IHubItemEntity) => {
+                const thumbnail = entity.thumbnail;
+                return thumbnail === null || thumbnail === "thumbnail/ago_downloaded.png"
+              }).bind(undefined, entity)
             },
           },
         ],

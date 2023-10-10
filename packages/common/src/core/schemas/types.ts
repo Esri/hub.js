@@ -78,14 +78,6 @@ export interface IValidationResult {
   errors?: Ajv.ErrorObject[];
 }
 
-export interface IUiSchemaRule {
-  effect: UiSchemaRuleEffects;
-  condition: {
-    scope?: string;
-    schema: IConfigurationSchema;
-  };
-}
-
 export interface IUiSchemaElement {
   type: string;
   labelKey?: string;
@@ -125,7 +117,8 @@ export interface IUiSchemaRule {
 
 export interface IUiSchemaCondition {
   scope?: string;
-  schema: IConfigurationSchema;
+  schema?: IConfigurationSchema;
+  validator?: () => boolean;
 }
 
 export interface IUiSchemaMessage {
@@ -139,14 +132,4 @@ export interface IUiSchemaMessage {
   hidden?: boolean;
   condition?: IUiSchemaCondition;
   allowShowBeforeInteract?: boolean;
-}
-
-export interface IUiSchemaRule {
-  effect: UiSchemaRuleEffects;
-  condition: IUiSchemaCondition;
-}
-
-export interface IUiSchemaCondition {
-  scope?: string;
-  schema: IConfigurationSchema;
 }
