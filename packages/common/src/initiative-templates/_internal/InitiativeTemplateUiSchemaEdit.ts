@@ -108,7 +108,7 @@ export const buildUiSchema = async (
           ),
           facets: [
             {
-              label: `${i18nScope}.facets.sharing.label`,
+              label: `{{${i18nScope}.fields.recommendedTemplates.facets.sharing:translate}}`,
               key: "access",
               field: "access",
               display: "multi-select",
