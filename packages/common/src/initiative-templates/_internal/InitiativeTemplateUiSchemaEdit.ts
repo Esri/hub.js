@@ -1,5 +1,6 @@
 import { IArcGISContext } from "../..";
 import { IHubInitiativeTemplate } from "../../core";
+import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 import { IUiSchema, UiSchemaMessageTypes } from "../../core/schemas/types";
 
 /**
@@ -71,24 +72,7 @@ export const buildUiSchema = async (
           type: "textarea",
         },
       },
-      {
-        type: "Control",
-        scope: "/properties/_thumbnail",
-        labelKey: `${i18nScope}.fields._thumbnail.label`,
-        options: {
-          control: "hub-field-input-image-picker",
-          imgSrc: entity.thumbnailUrl,
-          maxWidth: 727,
-          maxHeight: 484,
-          aspectRatio: 1.5,
-          helperText: {
-            labelKey: `${i18nScope}.fields._thumbnail.helperText`,
-          },
-          sizeDescription: {
-            labelKey: `${i18nScope}.fields._thumbnail.sizeDescription`,
-          },
-        },
-      },
+      getThumbnailUiSchemaElement(i18nScope, entity),
     ],
   };
 };

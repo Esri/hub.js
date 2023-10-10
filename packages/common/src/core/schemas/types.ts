@@ -130,13 +130,16 @@ export interface IUiSchemaCondition {
 
 export interface IUiSchemaMessage {
   type: UiSchemaMessageTypes;
+  display?: "message" | "notice";
   keyword?: string;
   label?: string;
   labelKey?: string;
   icon?: boolean | string;
+  kind?: "brand" | "danger" | "info" | "success" | "warning";
   hidden?: boolean;
   condition?: IUiSchemaCondition;
   allowShowBeforeInteract?: boolean;
+  alwaysShow?: boolean;
 }
 
 export interface IUiSchemaRule {

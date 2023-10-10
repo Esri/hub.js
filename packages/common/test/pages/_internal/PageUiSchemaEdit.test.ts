@@ -22,7 +22,10 @@ describe("buildUiSchema: page edit", () => {
 
     const uiSchema = await buildUiSchema(
       "some.scope",
-      { thumbnailUrl: "https://some-thumbnail-url.com" } as any,
+      {
+        thumbnail: "thumbnail/custom.png",
+        thumbnailUrl: "https://some-thumbnail-url.com",
+      } as any,
       MOCK_CONTEXT
     );
     expect(uiSchema).toEqual({
@@ -72,7 +75,7 @@ describe("buildUiSchema: page edit", () => {
               },
             },
             {
-              labelKey: "some.scope.fields._thumbnail.label",
+              labelKey: "shared.fields._thumbnail.label",
               scope: "/properties/_thumbnail",
               type: "Control",
               options: {
@@ -84,6 +87,10 @@ describe("buildUiSchema: page edit", () => {
                 helperText: {
                   labelKey: "some.scope.fields._thumbnail.helperText",
                 },
+                sizeDescription: {
+                  labelKey: "shared.fields._thumbnail.sizeDescription",
+                },
+                messages: [],
               },
             },
             {
