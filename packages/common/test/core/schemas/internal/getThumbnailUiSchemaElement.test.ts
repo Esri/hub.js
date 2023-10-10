@@ -22,7 +22,7 @@ describe("getThumbnailUiSchemaElement:", () => {
     const uiSchema = getThumbnailUiSchemaElement("scope", entity);
     expect(uiSchema.options?.messages.length).toBe(0);
   });
-  // write a test that asserts the default thumbnail notice is included if the entity has no thumbnail
+
   it("includes the default thumbnail notice if the entity has no thumbnail", () => {
     const entity: IHubItemEntity = {
       itemControl: "",
@@ -42,7 +42,7 @@ describe("getThumbnailUiSchemaElement:", () => {
     const uiSchema = getThumbnailUiSchemaElement("scope", entity);
     expect(uiSchema.options?.messages.length).toBe(1);
   });
-  // write a test that asserts the default thumbnail notice is included if the entity has the default thumbnail
+
   it("includes the default thumbnail notice if the entity has the default thumbnail", () => {
     const entity: IHubItemEntity = {
       thumbnail: "thumbnail/ago_downloaded.png",
