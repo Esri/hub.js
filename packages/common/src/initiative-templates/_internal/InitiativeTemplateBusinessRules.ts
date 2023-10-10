@@ -21,7 +21,6 @@ export const InitiativeTemplatePermissions = [
   "hub:initiativeTemplate:workspace:overview",
   "hub:initiativeTemplate:workspace:dashboard",
   "hub:initiativeTemplate:workspace:details",
-  "hub:initiativeTemplate:workspace:content",
   "hub:initiativeTemplate:workspace:collaborators",
   "hub:initiativeTemplate:workspace:settings",
   "hub:initiativeTemplate:manage",
@@ -73,10 +72,6 @@ export const InitiativeTemplatePermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:initiativeTemplate:workspace:collaborators",
-    dependencies: ["hub:initiativeTemplate:edit"],
-  },
-  {
-    permission: "hub:initiativeTemplate:workspace:content",
     dependencies: ["hub:initiativeTemplate:edit"],
   },
   {
