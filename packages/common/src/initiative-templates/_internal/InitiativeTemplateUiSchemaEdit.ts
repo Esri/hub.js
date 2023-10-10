@@ -133,7 +133,12 @@ const getRecommendedTemplatesCatalog = (user: IUser, i18nScope: string) => {
 
   const catalogs = catalogNames.map((name: WellKnownCatalog) => {
     const opts = { user };
-    const catalog = getWellKnownCatalog("", name, "item", opts);
+    const catalog = getWellKnownCatalog(
+      "initiativeTemplate.fields.recommendedTemplates",
+      name,
+      "item",
+      opts
+    );
     if (catalog) {
       // manually attach recommended templates collection
       catalog.collections = [getRecommendedTemplatesCollection(i18nScope)];
@@ -150,14 +155,14 @@ const getRecommendedTemplatesCollection = (
   return {
     targetEntity: "item",
     key: "recommendedTemplates",
-    label: `${i18nScope}.fields.recommendedTemplates.label`,
+    label: `${i18nScope}.fields.recommendedTemplates.collection.label`,
     scope: {
       targetEntity: "item",
       filters: [
         {
           predicates: [
             {
-              typeKeywords: {
+              typekeywords: {
                 not: ["hubSolutionType|hubSiteApplication"],
               },
             },
@@ -166,7 +171,7 @@ const getRecommendedTemplatesCollection = (
         {
           predicates: [
             {
-              typeKeywords: {
+              typekeywords: {
                 any: [
                   "hubSolutionType|storymap",
                   "hubSolutionType|webmap",
@@ -186,11 +191,11 @@ const getRecommendedTemplatesCollection = (
         {
           predicates: [
             {
-              typeKeywords: ["hubSolutionTemplate"],
+              typekeywords: ["hubSolutionTemplate"],
             },
             {
               type: "Solution",
-              typeKeywords: ["Template"],
+              typekeywords: ["Template"],
             },
           ],
           operation: "OR",
