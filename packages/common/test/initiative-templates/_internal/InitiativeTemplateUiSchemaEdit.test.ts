@@ -6,7 +6,10 @@ describe("buildUiSchema: initiative template edit", () => {
   it("returns the full initiative template edit uiSchema", async () => {
     const uiSchema = await buildUiSchema(
       "some.scope",
-      { thumbnailUrl: "https://some-thumbnail-url.com" } as any,
+      {
+        thumbnail: "thumbnail/custom.png",
+        thumbnailUrl: "https://some-thumbnail-url.com",
+      } as any,
       MOCK_CONTEXT
     );
     expect(uiSchema).toEqual({
@@ -65,7 +68,7 @@ describe("buildUiSchema: initiative template edit", () => {
         {
           type: "Control",
           scope: "/properties/_thumbnail",
-          labelKey: `some.scope.fields._thumbnail.label`,
+          labelKey: `shared.fields._thumbnail.label`,
           options: {
             control: "hub-field-input-image-picker",
             imgSrc: "https://some-thumbnail-url.com",
@@ -76,8 +79,9 @@ describe("buildUiSchema: initiative template edit", () => {
               labelKey: "some.scope.fields._thumbnail.helperText",
             },
             sizeDescription: {
-              labelKey: "some.scope.fields._thumbnail.sizeDescription",
+              labelKey: "shared.fields._thumbnail.sizeDescription",
             },
+            messages: [],
           },
         },
       ],

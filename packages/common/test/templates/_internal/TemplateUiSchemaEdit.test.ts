@@ -5,7 +5,10 @@ describe("buildUiSchema: template edit", () => {
   it("returns the full template edit uiSchema", async () => {
     const uiSchema = await buildUiSchema(
       "some.scope",
-      { thumbnailUrl: "https://some-thumbnail-url.com" } as any,
+      {
+        thumbnail: "thumbnail/custom.png",
+        thumbnailUrl: "https://some-thumbnail-url.com",
+      } as any,
       MOCK_CONTEXT
     );
     expect(uiSchema).toEqual({
@@ -72,7 +75,7 @@ describe("buildUiSchema: template edit", () => {
               },
             },
             {
-              labelKey: "some.scope.fields.thumbnail.label",
+              labelKey: "shared.fields._thumbnail.label",
               scope: "/properties/_thumbnail",
               type: "Control",
               options: {
@@ -82,8 +85,12 @@ describe("buildUiSchema: template edit", () => {
                 maxHeight: 484,
                 aspectRatio: 1.5,
                 helperText: {
-                  labelKey: "some.scope.fields.thumbnail.helperText",
+                  labelKey: "some.scope.fields._thumbnail.helperText",
                 },
+                sizeDescription: {
+                  labelKey: "shared.fields._thumbnail.sizeDescription",
+                },
+                messages: [],
               },
             },
           ],
