@@ -139,6 +139,7 @@ export interface IUiSchemaMessage {
   hidden?: boolean;
   condition?: IUiSchemaCondition;
   allowShowBeforeInteract?: boolean;
+  alwaysShow?: boolean;
 }
 
 export interface IUiSchemaRule {

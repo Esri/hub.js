@@ -6,7 +6,7 @@ import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { getCategoryItems } from "../../core/schemas/internal/getCategoryItems";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
-import { getThumbnailUiSchemaElements } from "../../core/schemas/shared/subschemas";
+import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 
 /**
  * @private
@@ -83,7 +83,7 @@ export const buildUiSchema = async (
               },
             },
           },
-          ...getThumbnailUiSchemaElements(i18nScope, entity),
+          getThumbnailUiSchemaElement(i18nScope, entity),
           {
             labelKey: `${i18nScope}.fields.featuredImage.label`,
             scope: "/properties/view/properties/featuredImage",

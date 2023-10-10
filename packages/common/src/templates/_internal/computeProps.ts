@@ -27,8 +27,6 @@ export function computeProps(
 
   // 2. append the template's thumbnail url at the top-level
   template.thumbnailUrl = template.links.thumbnail;
-  // Our editing validation code doesn't recognize undefined, so we default to null instead
-  template.thumbnail = template.thumbnail || null;
 
   // 3. compute relevant template dates
   template.createdDate = new Date(model.item.created);

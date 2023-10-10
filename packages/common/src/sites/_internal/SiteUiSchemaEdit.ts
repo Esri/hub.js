@@ -5,7 +5,7 @@ import { getLocationOptions } from "../../core/schemas/internal/getLocationOptio
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { IUiSchema } from "../../core/schemas/types";
 import { IHubSite } from "../../core/types";
-import { getThumbnailUiSchemaElements } from "../../core/schemas/shared/subschemas";
+import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 
 /**
  * @private
@@ -64,7 +64,7 @@ export const buildUiSchema = async (
               },
             },
           },
-          ...getThumbnailUiSchemaElements(i18nScope, entity),
+          getThumbnailUiSchemaElement(i18nScope, entity),
           {
             labelKey: `${i18nScope}.fields.tags.label`,
             scope: "/properties/tags",

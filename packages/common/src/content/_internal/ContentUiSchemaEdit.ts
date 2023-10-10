@@ -5,7 +5,7 @@ import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { IHubEditableContent } from "../../core/types/IHubEditableContent";
 import { IUiSchema } from "../../core/schemas/types";
-import { getThumbnailUiSchemaElements } from "../../core/schemas/shared/subschemas";
+import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 
 /**
  * @private
@@ -70,7 +70,7 @@ export const buildUiSchema = async (
               },
             },
           },
-          ...getThumbnailUiSchemaElements(i18nScope, entity),
+          getThumbnailUiSchemaElement(i18nScope, entity),
           // tags
           {
             labelKey: `${i18nScope}.fields.tags.label`,

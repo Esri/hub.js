@@ -7,7 +7,7 @@ import { getFeaturedImageUrl } from "../../core/schemas/internal/getFeaturedImag
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
-import { getThumbnailUiSchemaElements } from "../../core/schemas/shared/subschemas";
+import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 
 /**
  * @private
@@ -162,7 +162,7 @@ export const buildUiSchema = async (
               },
             },
           },
-          ...getThumbnailUiSchemaElements(i18nScope, entity),
+          getThumbnailUiSchemaElement(i18nScope, entity),
         ],
       },
       {

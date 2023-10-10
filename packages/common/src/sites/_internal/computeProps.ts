@@ -29,8 +29,6 @@ export function computeProps(
     token = session.token;
   }
 
-  // Our editing validation code doesn't recognize undefined, so we default to null instead
-  site.thumbnail = site.thumbnail || null;
   // thumbnail url
   const thumbnailUrl = getItemThumbnailUrl(model.item, requestOptions, token);
   // TODO: Remove this once opendata-ui starts using `links.thumbnail` instead

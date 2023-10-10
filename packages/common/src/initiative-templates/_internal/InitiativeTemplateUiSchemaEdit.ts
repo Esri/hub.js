@@ -1,6 +1,6 @@
 import { IArcGISContext } from "../..";
 import { IHubInitiativeTemplate } from "../../core";
-import { getThumbnailUiSchemaElements } from "../../core/schemas/shared/subschemas";
+import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 import { IUiSchema, UiSchemaMessageTypes } from "../../core/schemas/types";
 
 /**
@@ -72,7 +72,7 @@ export const buildUiSchema = async (
           type: "textarea",
         },
       },
-      ...getThumbnailUiSchemaElements(i18nScope, entity),
+      getThumbnailUiSchemaElement(i18nScope, entity),
     ],
   };
 };
