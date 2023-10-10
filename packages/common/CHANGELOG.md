@@ -1,3 +1,10 @@
+## @esri/hub-common [14.32.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.32.0...@esri/hub-common@14.32.1) (2023-10-10)
+
+
+### Bug Fixes
+
+* deployed solution redirects ([#1268](https://github.com/Esri/hub.js/issues/1268)) ([8df3607](https://github.com/Esri/hub.js/commit/8df3607b764a2dbfc743f6d0ece03b634e8924d1))
+
 # @esri/hub-common [14.32.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.31.0...@esri/hub-common@14.32.0) (2023-10-09)
 
 
