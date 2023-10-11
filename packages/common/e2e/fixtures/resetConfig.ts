@@ -120,7 +120,7 @@ export const resetConfig = {
       orgShort: "dev-bas-hub",
       url: "https://dev-bas-hub.mapsdevext.arcgis.com",
       users: [
-        "e2e_bas_pub_admin",
+        // "e2e_bas_pub_admin",
         "e2e_bas_pub_collaborator",
         "e2e_bas_pub_publisher",
       ],

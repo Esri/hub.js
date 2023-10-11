@@ -21,7 +21,7 @@ import config from "./helpers/config";
 import { getUser } from "@esri/arcgis-rest-portal";
 import { clearUserSiteSettings } from "../src/utils/internal/clearUserSiteSettings";
 import { clearUserHubSettings } from "../src/utils/internal/clearUserHubSettings";
-
+/* tslint:disable:no-string-literal */
 // NOTE: User App Resources is coupled with oAuth
 // so we can't simply create a session via username / pwd
 // because the resultant token is NOT tied to a clientId
@@ -39,7 +39,7 @@ describe("user-app-resources harness: ", () => {
   let session: UserSession;
 
   beforeAll(async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 200000;
+    jasmine["DEFAULT_TIMEOUT_INTERVAL"] = 200000;
     factory = new Artifactory(config);
     // create a session
     session = UserSession.fromCredential({

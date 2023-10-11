@@ -2,10 +2,14 @@ import { IUserRequestOptions, UserSession } from "@esri/arcgis-rest-auth";
 import { resetConfig } from "./fixtures/resetConfig";
 import { adminInfo } from "./fixtures/env";
 import { request } from "@esri/arcgis-rest-request";
-
+import { getProp } from "../src";
+/* tslint:disable:no-string-literal */
 const DRY_RUN = true;
-fdescribe("reset-users harness: ", () => {
+// Intentionally disabled. To use this, you will need to add a /fixtures/.env
+// file with the current admin pwds for the envs, and the new e2e user pwds for the envs
+xdescribe("reset-users harness: ", () => {
   it("reset passwords", async () => {
+    jasmine["DEFAULT_TIMEOUT_INTERVAL"] = 200000;
     // iterate the resetConfig.orgs
     const admins = resetConfig.admins || [];
     // debugger;
@@ -18,16 +22,16 @@ fdescribe("reset-users harness: ", () => {
         // tslint:disable-next-line:no-console
         console.info(`Admin user for ${org.orgShort} is ${adminUser.user}`);
         // get the password for the admin user
-        const adminPwd = adminInfo[adminUser.env].admin;
-        const newPwd = adminInfo[adminUser.env].user;
+        const adminPwd = getProp(adminInfo, `${adminUser.env}.admin`) as string;
+        const newPwd = getProp(adminInfo, `${adminUser.env}.user`) as string;
         // create session as this user
         const session = new UserSession({
           username: adminUser.user,
-          server: org.url,
+          portal: `${org.url}/sharing/rest`,
           password: adminPwd,
         });
         // verify auth by getting the token
-        const token = await session.getToken(org.url);
+        const token = await session.getToken(`${org.url}/sharing/rest`);
         if (token) {
           // tslint:disable-next-line:no-console
           console.info(`${adminUser.user} Authenticated to ${org.url}`);
@@ -36,16 +40,31 @@ fdescribe("reset-users harness: ", () => {
             // reset the password
             // tslint:disable-next-line:no-console
             console.info(`Resetting password for ${user}`);
-            const result = await resetPassword(
-              session,
-              user,
-              "e2e1hubtest",
-              newPwd,
-              DRY_RUN
-            );
-            // log the result
-            // tslint:disable-next-line:no-console
-            console.log(result);
+            try {
+              const result = await resetPassword(
+                session,
+                user,
+                "e2e1hubtest",
+                newPwd,
+                DRY_RUN
+              );
+              if (result.success) {
+                // tslint:disable-next-line:no-console
+                console.info(
+                  `Successfully reset password for ${user} in ${org.orgShort}`
+                );
+              } else {
+                // tslint:disable-next-line:no-console
+                console.error(
+                  `Failed to reset password for ${user} in ${org.orgShort}`
+                );
+              }
+            } catch (ex) {
+              // tslint:disable-next-line:no-console
+              console.error(
+                `Error resetting password for ${user} in ${org.orgShort}`
+              );
+            }
           }
         }
       }
@@ -74,9 +93,9 @@ function resetPassword(
   // tslint:disable-next-line:no-console
   console.info(`POST ${url}`);
   // tslint:disable-next-line:no-console
-  console.info(`${username} ${password} => ${newPassword}`);
+  console.info(`Resetting ${username} ${password} => ${newPassword}`);
   if (dry) {
-    return Promise.resolve();
+    return Promise.resolve({ success: true, username });
   } else {
     return request(url, options);
   }
