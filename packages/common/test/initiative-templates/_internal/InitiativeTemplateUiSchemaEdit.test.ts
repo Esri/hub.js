@@ -1,9 +1,14 @@
 import { buildUiSchema } from "../../../src/initiative-templates/_internal/InitiativeTemplateUiSchemaEdit";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
 import { UiSchemaMessageTypes } from "../../../src/core/schemas/types";
+import * as getRecommendedTemplatesCatalogModule from "../../../src/initiative-templates/_internal/getRecommendedTemplatesCatalog";
 
 describe("buildUiSchema: initiative template edit", () => {
   it("returns the full initiative template edit uiSchema", async () => {
+    spyOn(
+      getRecommendedTemplatesCatalogModule,
+      "getRecommendedTemplatesCatalog"
+    ).and.returnValue([]);
     const uiSchema = await buildUiSchema(
       "some.scope",
       { thumbnailUrl: "https://some-thumbnail-url.com" } as any,
@@ -87,284 +92,7 @@ describe("buildUiSchema: initiative template edit", () => {
           options: {
             control: "hub-field-input-gallery-picker",
             targetEntity: "item",
-            catalogs: [
-              {
-                schemaVersion: 1,
-                title:
-                  "{{initiativeTemplate.fields.recommendedTemplates.catalog.myContent:translate}}",
-                scopes: {
-                  item: {
-                    targetEntity: "item",
-                    filters: [
-                      {
-                        predicates: [{ owner: "mock_user" }],
-                      },
-                    ],
-                  },
-                },
-                collections: [
-                  {
-                    targetEntity: "item",
-                    key: "recommendedTemplates",
-                    label:
-                      "some.scope.fields.recommendedTemplates.collection.label",
-                    scope: {
-                      targetEntity: "item",
-                      filters: [
-                        {
-                          predicates: [
-                            {
-                              typekeywords: {
-                                not: ["hubSolutionType|hubSiteApplication"],
-                              },
-                            },
-                          ],
-                        },
-                        {
-                          predicates: [
-                            {
-                              typekeywords: {
-                                any: [
-                                  "hubSolutionType|storymap",
-                                  "hubSolutionType|webmap",
-                                  "hubSolutionType|dashboard",
-                                  "hubSolutionType|hubpage",
-                                  "hubSolutionType|webexperience",
-                                  "hubSolutionType|webmappingapplication",
-                                  "hubSolutionType|form",
-                                  "hubSolutionType|featureservice",
-                                  "Template",
-                                ],
-                              },
-                            },
-                          ],
-                          operation: "OR",
-                        },
-                        {
-                          predicates: [
-                            {
-                              typekeywords: ["hubSolutionTemplate"],
-                            },
-                            {
-                              type: "Solution",
-                              typekeywords: ["Template"],
-                            },
-                          ],
-                          operation: "OR",
-                        },
-                      ],
-                    },
-                  },
-                ],
-              },
-              {
-                schemaVersion: 1,
-                title:
-                  "{{initiativeTemplate.fields.recommendedTemplates.catalog.favorites:translate}}",
-                scopes: {
-                  item: {
-                    targetEntity: "item",
-                    filters: [
-                      {
-                        predicates: [{ group: "456abc" }],
-                      },
-                    ],
-                  },
-                },
-                collections: [
-                  {
-                    targetEntity: "item",
-                    key: "recommendedTemplates",
-                    label:
-                      "some.scope.fields.recommendedTemplates.collection.label",
-                    scope: {
-                      targetEntity: "item",
-                      filters: [
-                        {
-                          predicates: [
-                            {
-                              typekeywords: {
-                                not: ["hubSolutionType|hubSiteApplication"],
-                              },
-                            },
-                          ],
-                        },
-                        {
-                          predicates: [
-                            {
-                              typekeywords: {
-                                any: [
-                                  "hubSolutionType|storymap",
-                                  "hubSolutionType|webmap",
-                                  "hubSolutionType|dashboard",
-                                  "hubSolutionType|hubpage",
-                                  "hubSolutionType|webexperience",
-                                  "hubSolutionType|webmappingapplication",
-                                  "hubSolutionType|form",
-                                  "hubSolutionType|featureservice",
-                                  "Template",
-                                ],
-                              },
-                            },
-                          ],
-                          operation: "OR",
-                        },
-                        {
-                          predicates: [
-                            {
-                              typekeywords: ["hubSolutionTemplate"],
-                            },
-                            {
-                              type: "Solution",
-                              typekeywords: ["Template"],
-                            },
-                          ],
-                          operation: "OR",
-                        },
-                      ],
-                    },
-                  },
-                ],
-              },
-              {
-                schemaVersion: 1,
-                title:
-                  "{{initiativeTemplate.fields.recommendedTemplates.catalog.organization:translate}}",
-                scopes: {
-                  item: {
-                    targetEntity: "item",
-                    filters: [
-                      {
-                        predicates: [{ orgid: "789def" }],
-                      },
-                    ],
-                  },
-                },
-                collections: [
-                  {
-                    targetEntity: "item",
-                    key: "recommendedTemplates",
-                    label:
-                      "some.scope.fields.recommendedTemplates.collection.label",
-                    scope: {
-                      targetEntity: "item",
-                      filters: [
-                        {
-                          predicates: [
-                            {
-                              typekeywords: {
-                                not: ["hubSolutionType|hubSiteApplication"],
-                              },
-                            },
-                          ],
-                        },
-                        {
-                          predicates: [
-                            {
-                              typekeywords: {
-                                any: [
-                                  "hubSolutionType|storymap",
-                                  "hubSolutionType|webmap",
-                                  "hubSolutionType|dashboard",
-                                  "hubSolutionType|hubpage",
-                                  "hubSolutionType|webexperience",
-                                  "hubSolutionType|webmappingapplication",
-                                  "hubSolutionType|form",
-                                  "hubSolutionType|featureservice",
-                                  "Template",
-                                ],
-                              },
-                            },
-                          ],
-                          operation: "OR",
-                        },
-                        {
-                          predicates: [
-                            {
-                              typekeywords: ["hubSolutionTemplate"],
-                            },
-                            {
-                              type: "Solution",
-                              typekeywords: ["Template"],
-                            },
-                          ],
-                          operation: "OR",
-                        },
-                      ],
-                    },
-                  },
-                ],
-              },
-              {
-                schemaVersion: 1,
-                title:
-                  "{{initiativeTemplate.fields.recommendedTemplates.catalog.world:translate}}",
-                scopes: {
-                  item: {
-                    targetEntity: "item",
-                    filters: [
-                      {
-                        predicates: [{ type: { not: ["code attachment"] } }],
-                      },
-                    ],
-                  },
-                },
-                collections: [
-                  {
-                    targetEntity: "item",
-                    key: "recommendedTemplates",
-                    label:
-                      "some.scope.fields.recommendedTemplates.collection.label",
-                    scope: {
-                      targetEntity: "item",
-                      filters: [
-                        {
-                          predicates: [
-                            {
-                              typekeywords: {
-                                not: ["hubSolutionType|hubSiteApplication"],
-                              },
-                            },
-                          ],
-                        },
-                        {
-                          predicates: [
-                            {
-                              typekeywords: {
-                                any: [
-                                  "hubSolutionType|storymap",
-                                  "hubSolutionType|webmap",
-                                  "hubSolutionType|dashboard",
-                                  "hubSolutionType|hubpage",
-                                  "hubSolutionType|webexperience",
-                                  "hubSolutionType|webmappingapplication",
-                                  "hubSolutionType|form",
-                                  "hubSolutionType|featureservice",
-                                  "Template",
-                                ],
-                              },
-                            },
-                          ],
-                          operation: "OR",
-                        },
-                        {
-                          predicates: [
-                            {
-                              typekeywords: ["hubSolutionTemplate"],
-                            },
-                            {
-                              type: "Solution",
-                              typekeywords: ["Template"],
-                            },
-                          ],
-                          operation: "OR",
-                        },
-                      ],
-                    },
-                  },
-                ],
-              },
-            ],
+            catalogs: [],
             facets: [
               {
                 label: `{{some.scope.fields.recommendedTemplates.facets.sharing:translate}}`,
@@ -374,7 +102,7 @@ describe("buildUiSchema: initiative template edit", () => {
                 operation: "OR",
               },
             ],
-            drag: false,
+            canReorder: false,
             linkTarget: "workspaceRelative",
           },
         },
