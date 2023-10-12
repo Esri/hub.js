@@ -1,3 +1,10 @@
+## @esri/hub-common [14.35.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.35.0...@esri/hub-common@14.35.1) (2023-10-12)
+
+
+### Bug Fixes
+
+* **hub-common:** add CRUD functions for entity settings ([#1275](https://github.com/Esri/hub.js/issues/1275)) ([8eabc30](https://github.com/Esri/hub.js/commit/8eabc3005a1fa4786975d993464f7d7500de558b))
+
 # @esri/hub-common [14.35.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.34.0...@esri/hub-common@14.35.0) (2023-10-12)
 
 
