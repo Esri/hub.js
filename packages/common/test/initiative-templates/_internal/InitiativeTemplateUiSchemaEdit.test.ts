@@ -1,9 +1,14 @@
 import { buildUiSchema } from "../../../src/initiative-templates/_internal/InitiativeTemplateUiSchemaEdit";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
 import { UiSchemaMessageTypes } from "../../../src/core/schemas/types";
+import * as getRecommendedTemplatesCatalogModule from "../../../src/initiative-templates/_internal/getRecommendedTemplatesCatalog";
 
 describe("buildUiSchema: initiative template edit", () => {
   it("returns the full initiative template edit uiSchema", async () => {
+    spyOn(
+      getRecommendedTemplatesCatalogModule,
+      "getRecommendedTemplatesCatalog"
+    ).and.returnValue([]);
     const uiSchema = await buildUiSchema(
       "some.scope",
       {
@@ -94,6 +99,27 @@ describe("buildUiSchema: initiative template edit", () => {
               labelKey: "shared.fields._thumbnail.sizeDescription",
             },
             messages: [],
+          },
+        },
+        {
+          type: "Control",
+          scope: "/properties/recommendedTemplates",
+          labelKey: `some.scope.fields.recommendedTemplates.label`,
+          options: {
+            control: "hub-field-input-gallery-picker",
+            targetEntity: "item",
+            catalogs: [],
+            facets: [
+              {
+                label: `{{some.scope.fields.recommendedTemplates.facets.sharing:translate}}`,
+                key: "access",
+                field: "access",
+                display: "multi-select",
+                operation: "OR",
+              },
+            ],
+            canReorder: false,
+            linkTarget: "workspaceRelative",
           },
         },
       ],
