@@ -44,6 +44,12 @@ describe("buildUiSchema: template edit", () => {
                 messages: [
                   {
                     type: "ERROR",
+                    keyword: "format",
+                    icon: true,
+                    labelKey: "some.scope.fields.previewUrl.formatError",
+                  },
+                  {
+                    type: "ERROR",
                     keyword: "if",
                     hidden: true,
                   },

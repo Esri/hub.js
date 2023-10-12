@@ -41,6 +41,12 @@ describe("buildUiSchema: initiative template edit", () => {
             messages: [
               {
                 type: "ERROR",
+                keyword: "format",
+                icon: true,
+                labelKey: "some.scope.fields.previewUrl.formatError",
+              },
+              {
+                type: "ERROR",
                 keyword: "if",
                 hidden: true,
               },
@@ -54,6 +60,9 @@ describe("buildUiSchema: initiative template edit", () => {
           options: {
             control: "hub-field-input-input",
             type: "textarea",
+            helperText: {
+              labelKey: "some.scope.fields.summary.helperText",
+            },
           },
         },
         {
@@ -63,6 +72,9 @@ describe("buildUiSchema: initiative template edit", () => {
           options: {
             control: "hub-field-input-input",
             type: "textarea",
+            helperText: {
+              labelKey: "some.scope.fields.description.helperText",
+            },
           },
         },
         {
