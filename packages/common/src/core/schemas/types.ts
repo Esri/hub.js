@@ -24,6 +24,9 @@ export const validEditorTypes = [
   ...GroupEditorTypes,
 ] as const;
 
+export type CardType = (typeof validCardTypes)[number];
+export const validCardTypes = ["hub:card:stat"] as const;
+
 export enum UiSchemaRuleEffects {
   SHOW = "SHOW",
   HIDE = "HIDE",
