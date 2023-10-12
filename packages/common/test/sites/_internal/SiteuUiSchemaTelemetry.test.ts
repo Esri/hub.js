@@ -1,4 +1,4 @@
-import { buildUiSchema } from "../../../src/sites/_internal/SiteUiSchemaTelemetry";
+import { buildUiSchema } from "../../../src/sites/_internal/SiteUiSchemaSettings";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
 
 describe("buildUiSchema: site telemetry", () => {

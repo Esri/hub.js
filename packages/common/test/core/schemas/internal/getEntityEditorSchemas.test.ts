@@ -14,7 +14,7 @@ import * as SiteBuildEditUiSchema from "../../../../src/sites/_internal/SiteUiSc
 import * as SiteBuildCreateUiSchema from "../../../../src/sites/_internal/SiteUiSchemaCreate";
 import * as SiteBuildFollowersUiSchema from "../../../../src/sites/_internal/SiteUiSchemaFollowers";
 import * as SiteBuildDiscussionsUiSchema from "../../../../src/sites/_internal/SiteUiSchemaDiscussions";
-import * as SiteBuildTelemetryUiSchema from "../../../../src/sites/_internal/SiteUiSchemaTelemetry";
+import * as SiteBuildTelemetryUiSchema from "../../../../src/sites/_internal/SiteUiSchemaSettings";
 
 import { DiscussionEditorTypes } from "../../../../src/discussions/_internal/DiscussionSchema";
 import * as DiscussionBuildEditUiSchema from "../../../../src/discussions/_internal/DiscussionUiSchemaEdit";
