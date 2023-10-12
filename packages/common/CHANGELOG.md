@@ -1,3 +1,10 @@
+# @esri/hub-common [14.35.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.34.0...@esri/hub-common@14.35.0) (2023-10-12)
+
+
+### Features
+
+* add recommendedTemplates to schema/uiSchema for initiative template workspace ([#1258](https://github.com/Esri/hub.js/issues/1258)) ([339d1e6](https://github.com/Esri/hub.js/commit/339d1e6afddb8124b52362ae3967dfa6a1f6dbe9))
+
 # @esri/hub-common [14.34.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.33.0...@esri/hub-common@14.34.0) (2023-10-12)
 
 
