@@ -29,16 +29,18 @@ export function computeLinks(
   // managing it in the workspace, so we kick users to AGO
   const isDeployed = item.typeKeywords?.includes("Deployed");
   const itemHomeUrl = getItemHomeUrl(item.id, requestOptions);
+  const siteRelativeUrl = getHubRelativeUrl(
+    item.type,
+    getItemIdentifier(item),
+    item.typeKeywords
+  );
   return {
     self: itemHomeUrl,
-    siteRelative: getHubRelativeUrl(
-      item.type,
-      getItemIdentifier(item),
-      item.typeKeywords
-    ),
+    siteRelative: siteRelativeUrl,
     workspaceRelative: isDeployed
       ? itemHomeUrl
       : getRelativeWorkspaceUrl(item.type, getItemIdentifier(item)),
+    advancedEditRelative: `${siteRelativeUrl}/edit/advanced`,
     thumbnail: getItemThumbnailUrl(item, requestOptions, token),
   };
 }
