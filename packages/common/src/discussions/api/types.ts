@@ -1022,7 +1022,7 @@ export interface IRemoveChannelActivityParams
 }
 
 /**
- * representation of a setting record from the service
+ * representation of an entity setting record from the service
  *
  * @export
  * @interface ISetting
