@@ -1025,30 +1025,33 @@ export interface IRemoveChannelActivityParams
  * representation of an entity setting record from the service
  *
  * @export
- * @interface ISetting
+ * @interface IEntitySetting
  * @extends {IWithAuthor}
  * @extends {IWithEditor}
  * @extends {IWithTimestamps}
  */
-export interface ISetting extends IWithAuthor, IWithEditor, IWithTimestamps {
+export interface IEntitySetting
+  extends IWithAuthor,
+    IWithEditor,
+    IWithTimestamps {
   id: string;
-  type: SettingType;
-  settings: IContentSettings;
+  type: EntitySettingType;
+  settings: IEntityContentSettings;
 }
 
 /**
  * @export
  * @enum {string}
  */
-export enum SettingType {
+export enum EntitySettingType {
   CONTENT = "content",
 }
 
 /**
  * @export
- * @interface IContentSettings
+ * @interface IEntityContentSettings
  */
-export interface IContentSettings {
+export interface IEntityContentSettings {
   discussions?: IDiscussionsSettings;
 }
 
@@ -1076,8 +1079,8 @@ export interface IRemoveSettingResponse {
  */
 export interface ICreateSetting {
   id: string;
-  type: SettingType;
-  settings: IContentSettings;
+  type: EntitySettingType;
+  settings: IEntityContentSettings;
 }
 
 /**
@@ -1085,7 +1088,7 @@ export interface ICreateSetting {
  * @interface IUpdateSetting
  */
 export interface IUpdateSetting {
-  settings: Partial<IContentSettings>;
+  settings: Partial<IEntityContentSettings>;
 }
 
 /**

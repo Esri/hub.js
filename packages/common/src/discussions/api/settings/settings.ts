@@ -1,7 +1,7 @@
 import { request } from "../request";
 import {
   ICreateSettingParams,
-  ISetting,
+  IEntitySetting,
   IFetchSettingParams,
   IRemoveSettingParams,
   IRemoveSettingResponse,
@@ -13,11 +13,11 @@ import {
  *
  * @export
  * @param {ICreateSettingParams} options
- * @return {*} {Promise<ISetting>}
+ * @return {*} {Promise<IEntitySetting>}
  */
 export function createSetting(
   options: ICreateSettingParams
-): Promise<ISetting> {
+): Promise<IEntitySetting> {
   options.httpMethod = "POST";
   return request(`/settings`, options);
 }
@@ -27,9 +27,11 @@ export function createSetting(
  *
  * @export
  * @param {IFetchSettingParams} options
- * @return {*} {Promise<ISetting>}
+ * @return {*} {Promise<IEntitySetting>}
  */
-export function fetchSetting(options: IFetchSettingParams): Promise<ISetting> {
+export function fetchSetting(
+  options: IFetchSettingParams
+): Promise<IEntitySetting> {
   options.httpMethod = "GET";
   return request(`/settings/${options.id}`, options);
 }
@@ -39,11 +41,11 @@ export function fetchSetting(options: IFetchSettingParams): Promise<ISetting> {
  *
  * @export
  * @param {IUpdateSettingParams} options
- * @return {*} {Promise<ISetting>}
+ * @return {*} {Promise<IEntitySetting>}
  */
 export function updateSetting(
   options: IUpdateSettingParams
-): Promise<ISetting> {
+): Promise<IEntitySetting> {
   options.httpMethod = "PATCH";
   return request(`/settings/${options.id}`, options);
 }

@@ -6,7 +6,7 @@ import {
   updateSetting,
 } from "../../../src/discussions/api/settings";
 import {
-  SettingType,
+  EntitySettingType,
   ICreateSetting,
   ICreateSettingParams,
   IDiscussionsRequestOptions,
@@ -33,7 +33,7 @@ describe("settings", () => {
   it("createSetting", async () => {
     const body: ICreateSetting = {
       id: "uuidv4",
-      type: SettingType.CONTENT,
+      type: EntitySettingType.CONTENT,
       settings: {
         discussions: {
           allowedChannelIds: ["aaa"],
