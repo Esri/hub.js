@@ -1,4 +1,4 @@
-import { setProp } from "../../objects";
+import { getProp, setProp } from "../../objects";
 import { IModel, IDraft } from "../../types";
 import { cloneObject } from "../../util";
 
@@ -13,46 +13,40 @@ export function _migrateTelemetryConfig<T extends IModel | IDraft>(
 ): T {
   const newSchemaVersion = 1.7;
   // do nothing if migration already applied
-  if (model.item.properties?.schemaVersion >= newSchemaVersion) return model;
+  if (getProp(model, "item.properties.schemaVersion") >= newSchemaVersion) {
+    return model;
+  }
 
   // apply migration
   const clone = cloneObject(model);
 
+  clone.data.telemetry = {};
   // get allowPrivacyConfig from consentNotice capability
-  const allowPrivacyConfig =
-    clone.data.values.capabilities?.includes("consentNotice");
-  clone.data.telemetry = clone.data.telemetry || {
-    consentNotice: { allowPrivacyConfig },
+  const capabilities = getProp(model, "data.values.capabilities") || [];
+  const allowPrivacyConfig = capabilities.includes("consentNotice");
+
+  // migrate consentNotice
+  clone.data.telemetry.consentNotice = {
+    allowPrivacyConfig,
+    disclaimer: [
+      {
+        text:
+          getProp(model, "data.values.telemetry.consentNotice.consentText") ||
+          "",
+        default: true,
+      },
+    ],
+    policyURL:
+      getProp(model, "data.values.telemetry.consentNotice.policyURL") || "",
   };
 
-  // if we have data.values.telemetry.consentNotice, move it to data.telemetry
-  // the only other key that would be on telemetry would be customAnalytics which is no longer used (right?)
-  if (clone.data?.values?.telemetry?.consentNotice) {
-    clone.data.telemetry.consentNotice = {
-      ...clone.data.values.telemetry.consentNotice,
-      allowPrivacyConfig,
-    };
-
-    // move consentText into the disclaimer array
-    clone.data.telemetry.consentNotice.disclaimer = [
-      { text: clone.data.telemetry.consentNotice?.consentText },
-    ];
-    delete clone.data.telemetry.consentNotice?.consentText;
-
-    // remove old props
-    delete clone.data.telemetry.consentNotice?.isTheme;
-    delete clone.data.telemetry.consentNotice?.policyURLText;
-
-    // this doesn't actually have any effect - not sure we have a way to get rid of stuff
-    // delete clone.data?.values?.telemetry;
-  }
+  // this doesn't actually have any effect - not sure we have a way to get rid of stuff
+  // delete clone.data?.values?.telemetry;
 
   // if we have item.properties.telemetry.plugins, move it to data.telemetry
-  if (
-    !clone.data.telemetry.plugins &&
-    clone.item?.properties?.telemetry?.plugins
-  ) {
-    clone.data.telemetry.plugins = clone.item.properties.telemetry.plugins;
+  const plugins = getProp(model, "item.properties.telemetry.plugins");
+  if (plugins) {
+    clone.data.telemetry.plugins = plugins;
 
     // this doesn't actually have any effect - not sure we have a way to get rid of stuff
     // delete clone.item?.properties?.telemetry;
