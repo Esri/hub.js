@@ -52,6 +52,12 @@ export const buildUiSchema = async (
               messages: [
                 {
                   type: "ERROR",
+                  keyword: "format",
+                  icon: true,
+                  labelKey: `${i18nScope}.fields.previewUrl.formatError`,
+                },
+                {
+                  type: "ERROR",
                   keyword: "if",
                   hidden: true,
                 },

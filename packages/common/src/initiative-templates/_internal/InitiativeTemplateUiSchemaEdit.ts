@@ -48,6 +48,12 @@ export const buildUiSchema = async (
           messages: [
             {
               type: "ERROR",
+              keyword: "format",
+              icon: true,
+              labelKey: `${i18nScope}.fields.previewUrl.formatError`,
+            },
+            {
+              type: "ERROR",
               keyword: "if",
               hidden: true,
             },
@@ -61,6 +67,9 @@ export const buildUiSchema = async (
         options: {
           control: "hub-field-input-input",
           type: "textarea",
+          helperText: {
+            labelKey: `${i18nScope}.fields.summary.helperText`,
+          },
         },
       },
       {
@@ -70,6 +79,9 @@ export const buildUiSchema = async (
         options: {
           control: "hub-field-input-input",
           type: "textarea",
+          helperText: {
+            labelKey: `${i18nScope}.fields.description.helperText`,
+          },
         },
       },
       getThumbnailUiSchemaElement(i18nScope, entity),
