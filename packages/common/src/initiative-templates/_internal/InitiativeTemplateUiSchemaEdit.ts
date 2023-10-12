@@ -85,6 +85,7 @@ export const buildUiSchema = async (
           },
         },
       },
+      getThumbnailUiSchemaElement(i18nScope, entity),
       {
         type: "Control",
         scope: "/properties/recommendedTemplates",
@@ -109,7 +110,6 @@ export const buildUiSchema = async (
           linkTarget: "workspaceRelative",
         },
       },
-      getThumbnailUiSchemaElement(i18nScope, entity),
     ],
   };
 };
