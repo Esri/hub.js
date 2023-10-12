@@ -11,7 +11,10 @@ describe("buildUiSchema: initiative template edit", () => {
     ).and.returnValue([]);
     const uiSchema = await buildUiSchema(
       "some.scope",
-      { thumbnailUrl: "https://some-thumbnail-url.com" } as any,
+      {
+        thumbnail: "thumbnail/custom.png",
+        thumbnailUrl: "https://some-thumbnail-url.com",
+      } as any,
       MOCK_CONTEXT
     );
     expect(uiSchema).toEqual({
@@ -43,6 +46,12 @@ describe("buildUiSchema: initiative template edit", () => {
             messages: [
               {
                 type: "ERROR",
+                keyword: "format",
+                icon: true,
+                labelKey: "some.scope.fields.previewUrl.formatError",
+              },
+              {
+                type: "ERROR",
                 keyword: "if",
                 hidden: true,
               },
@@ -56,6 +65,9 @@ describe("buildUiSchema: initiative template edit", () => {
           options: {
             control: "hub-field-input-input",
             type: "textarea",
+            helperText: {
+              labelKey: "some.scope.fields.summary.helperText",
+            },
           },
         },
         {
@@ -65,12 +77,15 @@ describe("buildUiSchema: initiative template edit", () => {
           options: {
             control: "hub-field-input-input",
             type: "textarea",
+            helperText: {
+              labelKey: "some.scope.fields.description.helperText",
+            },
           },
         },
         {
           type: "Control",
           scope: "/properties/_thumbnail",
-          labelKey: `some.scope.fields._thumbnail.label`,
+          labelKey: `shared.fields._thumbnail.label`,
           options: {
             control: "hub-field-input-image-picker",
             imgSrc: "https://some-thumbnail-url.com",
@@ -81,8 +96,9 @@ describe("buildUiSchema: initiative template edit", () => {
               labelKey: "some.scope.fields._thumbnail.helperText",
             },
             sizeDescription: {
-              labelKey: "some.scope.fields._thumbnail.sizeDescription",
+              labelKey: "shared.fields._thumbnail.sizeDescription",
             },
+            messages: [],
           },
         },
         {

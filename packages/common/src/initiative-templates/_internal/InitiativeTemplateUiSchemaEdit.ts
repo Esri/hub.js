@@ -1,5 +1,6 @@
 import { IArcGISContext } from "../..";
 import { IHubInitiativeTemplate } from "../../core";
+import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 import { IUiSchema, UiSchemaMessageTypes } from "../../core/schemas/types";
 import { getRecommendedTemplatesCatalog } from "./getRecommendedTemplatesCatalog";
 
@@ -48,6 +49,12 @@ export const buildUiSchema = async (
           messages: [
             {
               type: "ERROR",
+              keyword: "format",
+              icon: true,
+              labelKey: `${i18nScope}.fields.previewUrl.formatError`,
+            },
+            {
+              type: "ERROR",
               keyword: "if",
               hidden: true,
             },
@@ -61,6 +68,9 @@ export const buildUiSchema = async (
         options: {
           control: "hub-field-input-input",
           type: "textarea",
+          helperText: {
+            labelKey: `${i18nScope}.fields.summary.helperText`,
+          },
         },
       },
       {
@@ -70,23 +80,8 @@ export const buildUiSchema = async (
         options: {
           control: "hub-field-input-input",
           type: "textarea",
-        },
-      },
-      {
-        type: "Control",
-        scope: "/properties/_thumbnail",
-        labelKey: `${i18nScope}.fields._thumbnail.label`,
-        options: {
-          control: "hub-field-input-image-picker",
-          imgSrc: entity.thumbnailUrl,
-          maxWidth: 727,
-          maxHeight: 484,
-          aspectRatio: 1.5,
           helperText: {
-            labelKey: `${i18nScope}.fields._thumbnail.helperText`,
-          },
-          sizeDescription: {
-            labelKey: `${i18nScope}.fields._thumbnail.sizeDescription`,
+            labelKey: `${i18nScope}.fields.description.helperText`,
           },
         },
       },
@@ -114,6 +109,7 @@ export const buildUiSchema = async (
           linkTarget: "workspaceRelative",
         },
       },
+      getThumbnailUiSchemaElement(i18nScope, entity),
     ],
   };
 };

@@ -25,6 +25,7 @@ export function computeProps(
     const session: UserSession = requestOptions.authentication as UserSession;
     token = session.token;
   }
+
   // thumbnail url
   discussion.thumbnailUrl = getItemThumbnailUrl(
     model.item,

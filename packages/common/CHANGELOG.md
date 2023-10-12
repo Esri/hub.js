@@ -1,3 +1,22 @@
+# @esri/hub-common [14.34.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.33.0...@esri/hub-common@14.34.0) (2023-10-12)
+
+
+### Bug Fixes
+
+* template workspace strings ([#1271](https://github.com/Esri/hub.js/issues/1271)) ([3fa208f](https://github.com/Esri/hub.js/commit/3fa208f55426e9c07a25e2447e5060543c476b76))
+
+
+### Features
+
+* polishing details pane for site workspace ([#1270](https://github.com/Esri/hub.js/issues/1270)) ([e1eee40](https://github.com/Esri/hub.js/commit/e1eee40d1e90e3a99571e0dc66bb249d6197ff9e))
+
+# @esri/hub-common [14.33.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.32.1...@esri/hub-common@14.33.0) (2023-10-10)
+
+
+### Features
+
+* **hub-common:** unify thumbnail ui schema for item-backed entities and add default thumbnail notice ([#1267](https://github.com/Esri/hub.js/issues/1267)) ([30bc262](https://github.com/Esri/hub.js/commit/30bc262ee152345c89a6d771e20cd77f6201605d))
+
 ## @esri/hub-common [14.32.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.32.0...@esri/hub-common@14.32.1) (2023-10-10)
 
 

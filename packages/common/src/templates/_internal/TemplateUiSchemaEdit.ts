@@ -1,4 +1,5 @@
 import { IArcGISContext } from "../../ArcGISContext";
+import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 import { IUiSchema, UiSchemaMessageTypes } from "../../core/schemas/types";
 import { IHubTemplate } from "../../core/types/IHubTemplate";
 
@@ -51,6 +52,12 @@ export const buildUiSchema = async (
               messages: [
                 {
                   type: "ERROR",
+                  keyword: "format",
+                  icon: true,
+                  labelKey: `${i18nScope}.fields.previewUrl.formatError`,
+                },
+                {
+                  type: "ERROR",
                   keyword: "if",
                   hidden: true,
                 },
@@ -81,21 +88,7 @@ export const buildUiSchema = async (
               },
             },
           },
-          {
-            labelKey: `${i18nScope}.fields.thumbnail.label`,
-            scope: "/properties/_thumbnail",
-            type: "Control",
-            options: {
-              control: "hub-field-input-image-picker",
-              imgSrc: entity.thumbnailUrl,
-              maxWidth: 727,
-              maxHeight: 484,
-              aspectRatio: 1.5,
-              helperText: {
-                labelKey: `${i18nScope}.fields.thumbnail.helperText`,
-              },
-            },
-          },
+          getThumbnailUiSchemaElement(i18nScope, entity),
         ],
       },
     ],

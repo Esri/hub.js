@@ -7,6 +7,7 @@ import { getFeaturedImageUrl } from "../../core/schemas/internal/getFeaturedImag
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
+import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 
 /**
  * @private
@@ -161,24 +162,7 @@ export const buildUiSchema = async (
               },
             },
           },
-          {
-            labelKey: `${i18nScope}.fields._thumbnail.label`,
-            scope: "/properties/_thumbnail",
-            type: "Control",
-            options: {
-              control: "hub-field-input-image-picker",
-              imgSrc: entity.thumbnailUrl,
-              maxWidth: 727,
-              maxHeight: 484,
-              aspectRatio: 1.5,
-              helperText: {
-                labelKey: `${i18nScope}.fields._thumbnail.helperText`,
-              },
-              sizeDescription: {
-                labelKey: `${i18nScope}.fields._thumbnail.sizeDescription`,
-              },
-            },
-          },
+          getThumbnailUiSchemaElement(i18nScope, entity),
         ],
       },
       {
