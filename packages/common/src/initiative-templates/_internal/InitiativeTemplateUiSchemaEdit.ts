@@ -2,7 +2,6 @@ import { IArcGISContext } from "../..";
 import { IHubInitiativeTemplate } from "../../core";
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 import { IUiSchema, UiSchemaMessageTypes } from "../../core/schemas/types";
-import { getRecommendedTemplatesCatalog } from "./getRecommendedTemplatesCatalog";
 
 /**
  * @private
@@ -24,91 +23,61 @@ export const buildUiSchema = async (
     type: "Layout",
     elements: [
       {
-        type: "Control",
-        scope: "/properties/name",
-        labelKey: `${i18nScope}.fields.name.label`,
-        options: {
-          messages: [
-            {
-              type: UiSchemaMessageTypes.error,
-              keyword: "required",
-              icon: true,
-              labelKey: `${i18nScope}.fields.name.requiredError`,
+        type: "Section",
+        labelKey: `${i18nScope}.sections.basicInfo.label`,
+        elements: [
+          {
+            type: "Control",
+            scope: "/properties/name",
+            labelKey: `${i18nScope}.fields.name.label`,
+            options: {
+              messages: [
+                {
+                  type: UiSchemaMessageTypes.error,
+                  keyword: "required",
+                  icon: true,
+                  labelKey: `${i18nScope}.fields.name.requiredError`,
+                },
+              ],
             },
-          ],
-        },
-      },
-      {
-        type: "Control",
-        scope: "/properties/previewUrl",
-        labelKey: `${i18nScope}.fields.previewUrl.label`,
-        options: {
-          helperText: {
-            labelKey: `${i18nScope}.fields.previewUrl.helperText`,
           },
-          messages: [
-            {
-              type: "ERROR",
-              keyword: "format",
-              icon: true,
-              labelKey: `${i18nScope}.fields.previewUrl.formatError`,
+          {
+            type: "Control",
+            scope: "/properties/previewUrl",
+            labelKey: `${i18nScope}.fields.previewUrl.label`,
+            options: {
+              helperText: {
+                labelKey: `${i18nScope}.fields.previewUrl.helperText`,
+              },
+              messages: [
+                {
+                  type: "ERROR",
+                  keyword: "if",
+                  hidden: true,
+                },
+              ],
             },
-            {
-              type: "ERROR",
-              keyword: "if",
-              hidden: true,
-            },
-          ],
-        },
-      },
-      {
-        type: "Control",
-        scope: "/properties/summary",
-        labelKey: `${i18nScope}.fields.summary.label`,
-        options: {
-          control: "hub-field-input-input",
-          type: "textarea",
-          helperText: {
-            labelKey: `${i18nScope}.fields.summary.helperText`,
           },
-        },
-      },
-      {
-        type: "Control",
-        scope: "/properties/description",
-        labelKey: `${i18nScope}.fields.description.label`,
-        options: {
-          control: "hub-field-input-input",
-          type: "textarea",
-          helperText: {
-            labelKey: `${i18nScope}.fields.description.helperText`,
-          },
-        },
-      },
-      getThumbnailUiSchemaElement(i18nScope, entity),
-      {
-        type: "Control",
-        scope: "/properties/recommendedTemplates",
-        labelKey: `${i18nScope}.fields.recommendedTemplates.label`,
-        options: {
-          control: "hub-field-input-gallery-picker",
-          targetEntity: "item",
-          catalogs: getRecommendedTemplatesCatalog(
-            context.currentUser,
-            i18nScope
-          ),
-          facets: [
-            {
-              label: `{{${i18nScope}.fields.recommendedTemplates.facets.sharing:translate}}`,
-              key: "access",
-              field: "access",
-              display: "multi-select",
-              operation: "OR",
+          {
+            type: "Control",
+            scope: "/properties/summary",
+            labelKey: `${i18nScope}.fields.summary.label`,
+            options: {
+              control: "hub-field-input-input",
+              type: "textarea",
             },
-          ],
-          canReorder: false,
-          linkTarget: "workspaceRelative",
-        },
+          },
+          {
+            type: "Control",
+            scope: "/properties/description",
+            labelKey: `${i18nScope}.fields.description.label`,
+            options: {
+              control: "hub-field-input-input",
+              type: "textarea",
+            },
+          },
+          getThumbnailUiSchemaElement(i18nScope, entity),
+        ],
       },
     ],
   };
