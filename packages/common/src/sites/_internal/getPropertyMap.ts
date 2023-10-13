@@ -24,7 +24,6 @@ export function getPropertyMap(): IPropertyMap[] {
     "clientId",
     "defaultExtent",
     "map",
-    "telemetry",
     "headerSass",
     "headContent",
     "layout",
@@ -67,5 +66,11 @@ export function getPropertyMap(): IPropertyMap[] {
     entityKey: "features",
     storeKey: "data.settings.features",
   });
+
+  map.push({
+    entityKey: "telemetry",
+    storeKey: "data.telemetry",
+  });
+
   return map;
 }

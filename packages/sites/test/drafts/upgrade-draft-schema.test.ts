@@ -9,6 +9,7 @@ describe("upgradeDraftSchema", () => {
   let ensureTelemetrySpy: jasmine.Spy;
   let migrateFeedConfigSpy: jasmine.Spy;
   let migrateEventListCardConfigsSpy: jasmine.Spy;
+  let migrateTelemetryConfigSpy: jasmine.Spy;
   beforeEach(() => {
     ensureTelemetrySpy = spyOn(commonModule, "_ensureTelemetry").and.callFake(
       (model: IModel) => model
@@ -20,6 +21,10 @@ describe("upgradeDraftSchema", () => {
     migrateEventListCardConfigsSpy = spyOn(
       commonModule,
       "_migrateEventListCardConfigs"
+    ).and.callFake((model: IModel) => model);
+    migrateTelemetryConfigSpy = spyOn(
+      commonModule,
+      "_migrateTelemetryConfig"
     ).and.callFake((model: IModel) => model);
   });
 
@@ -39,6 +44,7 @@ describe("upgradeDraftSchema", () => {
         ensureTelemetrySpy,
         migrateFeedConfigSpy,
         migrateEventListCardConfigsSpy,
+        migrateTelemetryConfigSpy,
       ],
       expect
     );
@@ -58,6 +64,7 @@ describe("upgradeDraftSchema", () => {
         ensureTelemetrySpy,
         migrateFeedConfigSpy,
         migrateEventListCardConfigsSpy,
+        migrateTelemetryConfigSpy,
       ],
       expect
     );
@@ -79,6 +86,7 @@ describe("upgradeDraftSchema", () => {
         ensureTelemetrySpy,
         migrateFeedConfigSpy,
         migrateEventListCardConfigsSpy,
+        migrateTelemetryConfigSpy,
       ],
       expect
     );
@@ -100,6 +108,7 @@ describe("upgradeDraftSchema", () => {
         ensureTelemetrySpy,
         migrateFeedConfigSpy,
         migrateEventListCardConfigsSpy,
+        migrateTelemetryConfigSpy,
       ],
       "toHaveBeenCalled",
       false,

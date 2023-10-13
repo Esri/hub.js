@@ -100,3 +100,12 @@ export const ENTITY_TIMELINE_SCHEMA = {
     },
   },
 };
+
+export const PRIVACY_CONFIG_SCHEMA = {
+  type: "object",
+  properties: {
+    consentNotice: {
+      type: "object",
+    },
+  },
+};

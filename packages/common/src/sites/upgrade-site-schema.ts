@@ -9,6 +9,7 @@ import { _ensureTelemetry } from "./_internal/_ensure-telemetry";
 import { _migrateFeedConfig } from "./_internal/_migrate-feed-config";
 import { _migrateEventListCardConfigs } from "./_internal/_migrate-event-list-card-configs";
 import { migrateLegacyCapabilitiesToFeatures } from "./_internal/capabilities/migrateLegacyCapabilitiesToFeatures";
+import { _migrateTelemetryConfig } from "./_internal/_migrate-telemetry-config";
 
 /**
  * Upgrades the schema upgrades
@@ -27,6 +28,7 @@ export function upgradeSiteSchema(model: IModel) {
     model = _migrateFeedConfig(model);
     model = _migrateEventListCardConfigs(model);
     model = migrateLegacyCapabilitiesToFeatures(model);
+    model = _migrateTelemetryConfig(model);
 
     // WARNING - If you are writing a site schema migration,
     // you probably need to apply it to site drafts as well!
