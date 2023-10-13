@@ -1,3 +1,11 @@
+# @esri/hub-common [14.36.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.35.1...@esri/hub-common@14.36.0) (2023-10-13)
+
+
+### Features
+
+* **hub-common:** add section heading for template ui schemas ([#1274](https://github.com/Esri/hub.js/issues/1274)) ([cdabf33](https://github.com/Esri/hub.js/commit/cdabf338c2b884111002189f4b05bcebb9ca56a4))
+* telemetry config ([#1272](https://github.com/Esri/hub.js/issues/1272)) ([7a0a40c](https://github.com/Esri/hub.js/commit/7a0a40cfd9bd2ca5ef4537e65812c3d05eae2dd8))
+
 ## @esri/hub-common [14.35.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.35.0...@esri/hub-common@14.35.1) (2023-10-12)
 
 
