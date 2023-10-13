@@ -1,3 +1,10 @@
+## @esri/hub-common [14.36.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.36.0...@esri/hub-common@14.36.1) (2023-10-13)
+
+
+### Bug Fixes
+
+* update privacy config schema ([#1276](https://github.com/Esri/hub.js/issues/1276)) ([7a3bb3f](https://github.com/Esri/hub.js/commit/7a3bb3f4fa30810c16fbd23aa1e40e03eec1c57f))
+
 # @esri/hub-common [14.36.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.35.1...@esri/hub-common@14.36.0) (2023-10-13)
 
 
