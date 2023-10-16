@@ -1,3 +1,10 @@
+# @esri/hub-common [14.37.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.36.1...@esri/hub-common@14.37.0) (2023-10-16)
+
+
+### Features
+
+* add advancedEditRelative to template links hash ([#1273](https://github.com/Esri/hub.js/issues/1273)) ([cd87479](https://github.com/Esri/hub.js/commit/cd874797faed04a0fe9bc326376fa1342d9bbd0f))
+
 ## @esri/hub-common [14.36.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.36.0...@esri/hub-common@14.36.1) (2023-10-13)
 
 
