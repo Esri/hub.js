@@ -15,6 +15,7 @@ const ALTERNATE_VISUAL_INTEREST = Object.keys(VISUAL_INTEREST).filter(
 
 export const MetricSchema: IConfigurationSchema = {
   type: "object",
+  required: [],
   properties: {
     type: {
       type: "string",
