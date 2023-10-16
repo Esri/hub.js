@@ -22,7 +22,7 @@ export async function getCardEditorSchemas(
 
   switch (cardType) {
     case "stat":
-      const { StatSchema } = await import("./metrics/StatCardSchema");
+      const { StatSchema } = await import("./metrics/MetricSchema");
       schema = cloneObject(StatSchema);
 
       const statModule = await {
