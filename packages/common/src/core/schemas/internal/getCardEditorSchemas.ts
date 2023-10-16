@@ -22,8 +22,8 @@ export async function getCardEditorSchemas(
 
   switch (cardType) {
     case "stat":
-      const { StatSchema } = await import("./metrics/MetricSchema");
-      schema = cloneObject(StatSchema);
+      const { MetricSchema } = await import("./metrics/MetricSchema");
+      schema = cloneObject(MetricSchema);
 
       const statModule = await {
         "hub:card:stat": () => import("./metrics/StatCardUiSchema"),
@@ -34,7 +34,7 @@ export async function getCardEditorSchemas(
   }
 
   // filter out properties not used in uiSchema
-  schema = filterSchemaToUiSchema(schema as IConfigurationSchema, uiSchema);
+  schema = filterSchemaToUiSchema(schema, uiSchema);
 
   return Promise.resolve({ schema, uiSchema });
 }

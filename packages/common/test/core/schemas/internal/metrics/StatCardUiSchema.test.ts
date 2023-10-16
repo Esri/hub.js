@@ -139,6 +139,26 @@ describe("buildUiSchema: stat", () => {
                       labelKey: `some.scope.advancedConfig.serverTimeout.helperText`,
                       placement: "bottom",
                     },
+                    messages: [
+                      {
+                        type: "ERROR",
+                        keyword: "type",
+                        labelKey: `some.scope.advancedConfig.serverTimeout.errors.type`,
+                        icon: true,
+                      },
+                      {
+                        type: "ERROR",
+                        keyword: "minimum",
+                        labelKey: `some.scope.advancedConfig.serverTimeout.errors.minimum`,
+                        icon: true,
+                      },
+                      {
+                        type: "ERROR",
+                        keyword: "maximum",
+                        labelKey: `some.scope.advancedConfig.serverTimeout.errors.maximum`,
+                        icon: true,
+                      },
+                    ],
                   },
                 },
               ],
@@ -228,6 +248,22 @@ describe("buildUiSchema: stat", () => {
                   },
                 },
               ],
+            },
+            {
+              type: "Control",
+              scope: "/properties/allowDynamicLink",
+              labelKey: `some.scope.details.allowDynamicLink`,
+              rule: {
+                condition: {
+                  scope: "/properties/type",
+                  schema: { const: "dynamic" },
+                },
+                effect: UiSchemaRuleEffects.SHOW,
+              },
+              options: {
+                layout: "inline-space-between",
+                control: "hub-field-input-switch",
+              },
             },
           ],
         },
@@ -364,6 +400,13 @@ describe("buildUiSchema: stat", () => {
               labelKey: `some.scope.sharing.showShareIcon`,
               scope: "/properties/shareable",
               type: "Control",
+              options: {
+                helperText: {
+                  labelKey: `some.scope.sharing.showShareIconHelperText`,
+                },
+                control: "hub-field-input-switch",
+                layout: "inline-space-between",
+              },
             },
             {
               labelKey: `some.scope.sharing.shareableByValue`,
@@ -389,10 +432,11 @@ describe("buildUiSchema: stat", () => {
                 effect: UiSchemaRuleEffects.SHOW,
               },
               options: {
-                enum: {
-                  i18nScope: `some.scope.sharing.shareableOnHover.enum`,
+                control: "hub-field-input-switch",
+                helperText: {
+                  labelKey: `some.scope.sharing.shareableOnHover.helperText.label`,
                 },
-                control: "hub-field-input-select",
+                layout: "inline-space-between",
               },
             },
           ],

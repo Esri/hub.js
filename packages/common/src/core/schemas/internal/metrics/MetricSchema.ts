@@ -1,10 +1,10 @@
+import { IConfigurationSchema } from "../../..";
 import {
   ALIGNMENTS,
   DROP_SHADOWS,
   UNIT_POSITIONS,
   VISUAL_INTEREST,
   LAYOUTS,
-  SHARING,
   SOURCE,
 } from "./interfaces";
 
@@ -13,8 +13,7 @@ const ALTERNATE_VISUAL_INTEREST = Object.keys(VISUAL_INTEREST).filter(
   (x) => x !== VISUAL_INTEREST.sparkline
 );
 
-export const StatSchema = {
-  required: ["value"],
+export const MetricSchema: IConfigurationSchema = {
   type: "object",
   properties: {
     type: {
@@ -44,9 +43,10 @@ export const StatSchema = {
       enum: Object.keys(UNIT_POSITIONS),
     },
     serverTimeout: {
-      type: ["number", "null"],
-      maximum: 99,
-      minimum: 0,
+      type: "number",
+      maximum: 95,
+      minimum: 5,
+      default: 10,
     },
     subtitle: {
       type: "string",
@@ -61,6 +61,10 @@ export const StatSchema = {
     allowLink: {
       type: "boolean",
       default: false,
+    },
+    allowDynamicLink: {
+      type: "boolean",
+      default: true,
     },
     sourceLink: {
       type: "string",
@@ -97,9 +101,8 @@ export const StatSchema = {
       default: false,
     },
     shareableOnHover: {
-      type: "string",
-      default: SHARING.always,
-      enum: Object.keys(SHARING),
+      type: "boolean",
+      default: true,
     },
     popoverTitle: {
       type: "string",

@@ -107,6 +107,26 @@ export const buildUiSchema = (
                     labelKey: `${i18nScope}.advancedConfig.serverTimeout.helperText`,
                     placement: "bottom",
                   },
+                  messages: [
+                    {
+                      type: "ERROR",
+                      keyword: "type",
+                      labelKey: `${i18nScope}.advancedConfig.serverTimeout.errors.type`,
+                      icon: true,
+                    },
+                    {
+                      type: "ERROR",
+                      keyword: "minimum",
+                      labelKey: `${i18nScope}.advancedConfig.serverTimeout.errors.minimum`,
+                      icon: true,
+                    },
+                    {
+                      type: "ERROR",
+                      keyword: "maximum",
+                      labelKey: `${i18nScope}.advancedConfig.serverTimeout.errors.maximum`,
+                      icon: true,
+                    },
+                  ],
                 },
               },
             ],
@@ -170,6 +190,16 @@ export const buildUiSchema = (
                 rule: SHOW_FOR_LINK_SECTION_ENABLED_AND_STATIC,
               },
             ],
+          },
+          {
+            type: "Control",
+            scope: "/properties/allowDynamicLink",
+            labelKey: `${i18nScope}.details.allowDynamicLink`,
+            rule: SHOW_FOR_DYNAMIC_RULE,
+            options: {
+              layout: "inline-space-between",
+              control: "hub-field-input-switch",
+            },
           },
         ],
       },
@@ -270,6 +300,13 @@ export const buildUiSchema = (
             labelKey: `${i18nScope}.sharing.showShareIcon`,
             scope: "/properties/shareable",
             type: "Control",
+            options: {
+              helperText: {
+                labelKey: `${i18nScope}.sharing.showShareIconHelperText`,
+              },
+              control: "hub-field-input-switch",
+              layout: "inline-space-between",
+            },
           },
           {
             labelKey: `${i18nScope}.sharing.shareableByValue`,
@@ -283,10 +320,11 @@ export const buildUiSchema = (
             type: "Control",
             rule: SHOW_FOR_SHARING_RULE,
             options: {
-              enum: {
-                i18nScope: `${i18nScope}.sharing.shareableOnHover.enum`,
+              control: "hub-field-input-switch",
+              helperText: {
+                labelKey: `${i18nScope}.sharing.shareableOnHover.helperText.label`,
               },
-              control: "hub-field-input-select",
+              layout: "inline-space-between",
             },
           },
         ],
