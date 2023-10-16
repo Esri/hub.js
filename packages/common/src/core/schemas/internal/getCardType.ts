@@ -1,4 +1,4 @@
-import { CardType } from "../../types";
+import { CardType } from "../types";
 
 /**
  * Helper function to get card type string from full type

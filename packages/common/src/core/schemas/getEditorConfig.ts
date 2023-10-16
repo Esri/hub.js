@@ -1,8 +1,12 @@
 import { IEditorConfig } from "../behaviors/IWithEditorBehavior";
 import { IArcGISContext } from "../../ArcGISContext";
-import { ConfigurableEntity } from "./internal/ConfigurableEntity";
+import {
+  ConfigurableCard,
+  ConfigurableEntity,
+} from "./internal/ConfigurableEntity";
 import { getEntityEditorSchemas } from "./internal/getEntityEditorSchemas";
-import { EditorType } from "./types";
+import { CardType, EditorType, validCardTypes } from "./types";
+import { getCardEditorSchemas } from "./internal/getCardEditorSchemas";
 
 /**
  * Construct the Editor Configuration (schema + uiSchema)
@@ -15,9 +19,11 @@ import { EditorType } from "./types";
  */
 export async function getEditorConfig(
   i18nScope: string,
-  type: EditorType,
-  entity: ConfigurableEntity,
+  type: EditorType | CardType,
+  config: ConfigurableEntity | ConfigurableCard,
   context: IArcGISContext
 ): Promise<IEditorConfig> {
-  return getEntityEditorSchemas(i18nScope, type, entity, context);
+  return validCardTypes.includes(type as CardType)
+    ? getCardEditorSchemas(i18nScope, type as CardType, config, context)
+    : getEntityEditorSchemas(i18nScope, type as EditorType, config, context);
 }
