@@ -1,3 +1,10 @@
+# @esri/hub-common [14.38.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.37.0...@esri/hub-common@14.38.0) (2023-10-16)
+
+
+### Features
+
+* **hub-common:** add "reharvestSiteCatalog" util ([#1279](https://github.com/Esri/hub.js/issues/1279)) ([6bdda94](https://github.com/Esri/hub.js/commit/6bdda94020f437b1e2c94470b0f3dd32cba31572))
+
 # @esri/hub-common [14.37.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.36.1...@esri/hub-common@14.37.0) (2023-10-16)
 
 
