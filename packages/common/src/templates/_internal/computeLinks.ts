@@ -40,7 +40,10 @@ export function computeLinks(
     workspaceRelative: isDeployed
       ? itemHomeUrl
       : getRelativeWorkspaceUrl(item.type, getItemIdentifier(item)),
-    advancedEditRelative: `${siteRelativeUrl}/edit/advanced`,
+    advancedEditRelative: `${siteRelativeUrl
+      .split("/")
+      .slice(0, -1)
+      .join("/")}/edit/advanced`,
     thumbnail: getItemThumbnailUrl(item, requestOptions, token),
   };
 }

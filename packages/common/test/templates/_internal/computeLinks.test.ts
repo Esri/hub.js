@@ -38,9 +38,7 @@ describe("templates: computeLinks", () => {
     expect(chk.self).toBe("/some-item-home-url");
     expect(chk.siteRelative).toBe("/templates/mock-slug/about");
     expect(chk.workspaceRelative).toBe("/workspace/templates/mock-slug");
-    expect(chk.advancedEditRelative).toBe(
-      "/templates/mock-slug/about/edit/advanced"
-    );
+    expect(chk.advancedEditRelative).toBe("/templates/mock-slug/edit/advanced");
     expect(chk.thumbnail).toBe("/some-thumbnail-url");
   });
   it("generates a links hash using the templates's id when no slug is available", () => {
@@ -49,7 +47,7 @@ describe("templates: computeLinks", () => {
     expect(chk.self).toBe("/some-item-home-url");
     expect(chk.siteRelative).toBe("/templates/00c/about");
     expect(chk.workspaceRelative).toBe("/workspace/templates/00c");
-    expect(chk.advancedEditRelative).toBe("/templates/00c/about/edit/advanced");
+    expect(chk.advancedEditRelative).toBe("/templates/00c/edit/advanced");
     expect(chk.thumbnail).toBe("/some-thumbnail-url");
   });
   describe("Deployed templates", () => {
