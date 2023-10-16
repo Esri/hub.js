@@ -6,7 +6,6 @@ import {
   IWithCatalog,
 } from "../traits/index";
 import { IHubItemEntity, IHubItemEntityEditor } from "./IHubItemEntity";
-import { IExtent } from "@esri/arcgis-rest-feature-layer";
 
 /**
  * Defines the properties of a Hub Project object

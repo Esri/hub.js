@@ -351,6 +351,24 @@ function getAllCollectionsMap(i18nScope: string, entityType: EntityType): any {
         ],
       },
     } as IHubCollection,
+    project: {
+      key: "project",
+      label: `{{${i18nScope}collection.projects:translate}}`,
+      targetEntity: entityType,
+      include: [],
+      scope: {
+        targetEntity: entityType,
+        filters: [
+          {
+            predicates: [
+              {
+                type: getFamilyTypes("project"),
+              },
+            ],
+          },
+        ],
+      },
+    } as IHubCollection,
   };
 }
 
@@ -359,7 +377,7 @@ function getAllCollectionsMap(i18nScope: string, entityType: EntityType): any {
  * @returns a list of WellKnownCollection definition strings
  */
 function getDefaultCollectionNames(): WellKnownCollection[] {
-  return ["appAndMap", "dataset", "document", "feedback", "site"];
+  return ["appAndMap", "dataset", "document", "feedback", "site", "project"];
 }
 
 /**

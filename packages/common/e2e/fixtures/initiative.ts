@@ -1,4 +1,4 @@
-import { IHubInitiative, IModel } from "../../src";
+import { IModel } from "../../src";
 
 const model: IModel = {
   item: {

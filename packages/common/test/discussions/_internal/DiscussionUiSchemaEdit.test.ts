@@ -26,7 +26,10 @@ describe("buildUiSchema: discussion edit", () => {
 
     const uiSchema = await buildUiSchema(
       "some.scope",
-      { thumbnailUrl: "https://some-thumbnail-url.com" } as any,
+      {
+        thumbnail: "thumbnail/custom.png",
+        thumbnailUrl: "https://some-thumbnail-url.com",
+      } as any,
       MOCK_CONTEXT
     );
     expect(uiSchema).toEqual({
@@ -94,7 +97,7 @@ describe("buildUiSchema: discussion edit", () => {
               },
             },
             {
-              labelKey: "some.scope.fields._thumbnail.label",
+              labelKey: "shared.fields._thumbnail.label",
               scope: "/properties/_thumbnail",
               type: "Control",
               options: {
@@ -106,6 +109,10 @@ describe("buildUiSchema: discussion edit", () => {
                 helperText: {
                   labelKey: "some.scope.fields._thumbnail.helperText",
                 },
+                sizeDescription: {
+                  labelKey: "shared.fields._thumbnail.sizeDescription",
+                },
+                messages: [],
               },
             },
             {
@@ -176,29 +183,6 @@ describe("buildUiSchema: discussion edit", () => {
                 control: "hub-field-input-location-picker",
                 extent: [],
                 options: [],
-              },
-            },
-          ],
-        },
-        {
-          type: "Section",
-          labelKey: "some.scope.sections.settings.label",
-          elements: [
-            {
-              labelKey: "some.scope.fields.discussable.label",
-              scope: "/properties/isDiscussable",
-              type: "Control",
-              options: {
-                control: "hub-field-input-radio",
-                labels: [
-                  "{{some.scope.fields.discussable.enabled.label:translate}}",
-                  "{{some.scope.fields.discussable.disabled.label:translate}}",
-                ],
-                descriptions: [
-                  "{{some.scope.fields.discussable.enabled.description:translate}}",
-                  "{{some.scope.fields.discussable.disabled.description:translate}}",
-                ],
-                icons: ["speech-bubbles", "circle-disallowed"],
               },
             },
           ],

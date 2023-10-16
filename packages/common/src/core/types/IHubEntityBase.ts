@@ -13,6 +13,39 @@ export interface ILink {
 }
 
 /**
+ * Interface for entity links
+ */
+export interface IHubEntityLinks {
+  /**
+   * Url to Thumbnail. May not include a token
+   * TODO: Why should we not include the token?
+   */
+  thumbnail?: string;
+  /**
+   * Url to the entities canonical "self"
+   * For Items/Groups/Users, this will be the Home App url
+   * For other entities, it will be the canonical url
+   */
+  self: string;
+  /**
+   * Relative url of the entity, within a site
+   */
+  siteRelative?: string;
+  /**
+   * Relative workspace url of the entity, within a site
+   */
+  workspaceRelative?: string;
+  /**
+   * Relative url to the entity's layout editing experience
+   */
+  layoutRelative?: string;
+  /**
+   * Additional urls
+   */
+  [key: string]: string | ILink;
+}
+
+/**
  * Base properties for Hub Entities
  * This includes a subset of `IItem`, that can apply to
  * models that are not backed by items. It also includes
@@ -68,33 +101,5 @@ export interface IHubEntityBase {
   /**
    * Links to related things
    */
-  links?: {
-    /**
-     * Url to Thumbnail. May not include a token
-     * TODO: Why should we not include the token?
-     */
-    thumbnail?: string;
-    /**
-     * Url to the entities canonical "self"
-     * For Items/Groups/Users, this will be the Home App url
-     * For other entities, it will be the canonical url
-     */
-    self: string;
-    /**
-     * Relative url of the entity, within a site
-     */
-    siteRelative?: string;
-    /**
-     * Relative workspace url of the entity, within a site
-     */
-    workspaceRelative?: string;
-    /**
-     * Relative url to the entity's layout editing experience
-     */
-    layoutRelative?: string;
-    /**
-     * Additional urls
-     */
-    [key: string]: string | ILink;
-  };
+  links?: IHubEntityLinks;
 }

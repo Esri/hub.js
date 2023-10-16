@@ -29,12 +29,7 @@ import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
-import {
-  DEFAULT_PAGE,
-  DEFAULT_PAGE_MODEL,
-  HUB_PAGE_ITEM_TYPE,
-  ENTERPRISE_PAGE_ITEM_TYPE,
-} from "./defaults";
+import { DEFAULT_PAGE, DEFAULT_PAGE_MODEL } from "./defaults";
 
 /**
  * @private

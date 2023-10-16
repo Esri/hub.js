@@ -3,13 +3,9 @@ import {
   lookupDomain,
   deleteSite,
   removeDomain,
-  batch,
   IArcGISContext,
   failSafe,
 } from "../src";
-import { hostnames } from "./fixtures/sample";
-import Artifactory from "./helpers/Artifactory";
-import config from "./helpers/config";
 let count = 0;
 async function processDomain(cfg: {
   domain: string;

@@ -17,8 +17,14 @@ export interface IHubLocation {
   // the extent of the location
   extent?: number[][];
 
-  // An esri geometry: __esri.Geometry
-  geometries?: __esri.Geometry[];
+  // array of geometries representing the location
+  // NOTE: we use partial here b/c __esri.Geometry
+  // is the type for instances and includes methods, etc
+  // but we want to be able to pass around POJOs as well as instances
+  // instead, we might want to use __esri.GeometryProperties or
+  // a discriminated union of the point, line, polygon, and extent _property_ types
+  // but for now it is a non-breaking change to relax __esri.Geometry w/ a partial
+  geometries?: Array<Partial<__esri.Geometry>>;
 
   // DEPRECATED: the following will be removed at next breaking version
   provenance?: "none" | "custom" | "existing";

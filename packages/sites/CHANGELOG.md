@@ -1,3 +1,17 @@
+# @esri/hub-sites [14.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@14.1.0...@esri/hub-sites@14.2.0) (2023-10-13)
+
+
+### Features
+
+* telemetry config ([#1272](https://github.com/Esri/hub.js/issues/1272)) ([7a0a40c](https://github.com/Esri/hub.js/commit/7a0a40cfd9bd2ca5ef4537e65812c3d05eae2dd8))
+
+# @esri/hub-sites [14.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@14.0.1...@esri/hub-sites@14.1.0) (2023-10-08)
+
+
+### Features
+
+* **hub-common:** adds followers group discussion settings on site wo… ([#1251](https://github.com/Esri/hub.js/issues/1251)) ([e0beb59](https://github.com/Esri/hub.js/commit/e0beb59f91b43795f96a694e55238a6cec83de74))
+
 ## @esri/hub-sites [14.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-sites@14.0.0...@esri/hub-sites@14.0.1) (2023-08-28)
 
 

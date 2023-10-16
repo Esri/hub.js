@@ -385,6 +385,7 @@ describe("HubSite Class:", () => {
             "hub:site:discussions": false,
             "hub:site:events": false,
             "hub:site:feature:follow": true,
+            "hub:site:feature:discussions": true,
           },
         },
       },
@@ -482,6 +483,7 @@ describe("HubSite Class:", () => {
               "hub:site:discussions": false,
               "hub:site:events": false,
               "hub:site:feature:follow": true,
+              "hub:site:feature:discussions": true,
             },
           },
         },
@@ -574,18 +576,11 @@ describe("HubSite Class:", () => {
     });
 
     describe("toEditor:", () => {
-      it("optionally enriches the entity", async () => {
-        const enrichEntitySpy = spyOn(
-          EnrichEntityModule,
-          "enrichEntity"
-        ).and.returnValue(Promise.resolve({}));
-        const chk = HubSite.fromJson({ id: "bc3" }, authdCtxMgr.context);
-        await chk.toEditor({}, ["someEnrichment AS _someEnrichment"]);
+      let chk: HubSite;
+      let getFollowersGroupSpy: any;
 
-        expect(enrichEntitySpy).toHaveBeenCalledTimes(1);
-      });
-      it("converts entity to correct structure", async () => {
-        const chk = HubSite.fromJson(
+      beforeEach(async () => {
+        chk = HubSite.fromJson(
           {
             id: "bc3",
             name: "Test Entity",
@@ -593,6 +588,27 @@ describe("HubSite Class:", () => {
           },
           authdCtxMgr.context
         );
+        getFollowersGroupSpy = spyOn(chk, "getFollowersGroup").and.callFake(
+          () => {
+            return Promise.resolve({
+              id: "followers00c",
+              typeKeywords: [],
+            });
+          }
+        );
+      });
+
+      it("optionally enriches the entity", async () => {
+        const enrichEntitySpy = spyOn(
+          EnrichEntityModule,
+          "enrichEntity"
+        ).and.returnValue(Promise.resolve({}));
+        await chk.toEditor({}, ["someEnrichment AS _someEnrichment"]);
+
+        expect(enrichEntitySpy).toHaveBeenCalledTimes(1);
+        expect(getFollowersGroupSpy).toHaveBeenCalledTimes(1);
+      });
+      it("converts entity to correct structure", async () => {
         const result = await chk.toEditor();
         // NOTE: If additional transforms are added in the class they should have tests here
         expect(result.id).toEqual("bc3");
@@ -600,12 +616,16 @@ describe("HubSite Class:", () => {
         expect(result.thumbnailUrl).toEqual(
           "https://myserver.com/thumbnail.png"
         );
+        expect(getFollowersGroupSpy).toHaveBeenCalledTimes(1);
       });
     });
 
     describe("fromEditor:", () => {
-      it("handles simple prop change", async () => {
-        const chk = HubSite.fromJson(
+      let chk: HubSite;
+      let getFollowersGroupSpy: any;
+
+      beforeEach(async () => {
+        chk = HubSite.fromJson(
           {
             id: "bc3",
             name: "Test Entity",
@@ -613,32 +633,37 @@ describe("HubSite Class:", () => {
           },
           authdCtxMgr.context
         );
+        getFollowersGroupSpy = spyOn(chk, "getFollowersGroup").and.callFake(
+          () => {
+            return Promise.resolve({
+              id: "followers00c",
+              typeKeywords: [],
+            });
+          }
+        );
+      });
+      it("handles simple prop change", async () => {
         // spy on the instance .save method and retrn void
         const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
         // make changes to the editor
         const editor = await chk.toEditor();
         editor.name = "new name";
+        (editor._followers as any).isDiscussable = undefined;
         // call fromEditor
         const result = await chk.fromEditor(editor);
         // expect the save method to have been called
         expect(saveSpy).toHaveBeenCalledTimes(1);
         // expect the name to have been updated
         expect(result.name).toEqual("new name");
+        expect(getFollowersGroupSpy).toHaveBeenCalledTimes(1);
       });
       it("handles thumbnail change", async () => {
-        const chk = HubSite.fromJson(
-          {
-            id: "bc3",
-            name: "Test Entity",
-            thumbnailUrl: "https://myserver.com/thumbnail.png",
-          },
-          authdCtxMgr.context
-        );
         // spy on the instance .save method and retrn void
         const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
         // make changes to the editor
         const editor = await chk.toEditor();
         editor.name = "new name";
+        (editor._followers as any).isDiscussable = undefined;
         editor._thumbnail = {
           blob: "fake blob",
           filename: "thumbnail.png",
@@ -650,22 +675,16 @@ describe("HubSite Class:", () => {
         // since thumbnailCache is protected we can't really test that it's set
         // other than via code-coverage
         expect(getProp(result, "_thumbnail")).not.toBeDefined();
+        expect(getFollowersGroupSpy).toHaveBeenCalledTimes(1);
       });
 
       it("handles thumbnail clear", async () => {
-        const chk = HubSite.fromJson(
-          {
-            id: "bc3",
-            name: "Test Entity",
-            thumbnailUrl: "https://myserver.com/thumbnail.png",
-          },
-          authdCtxMgr.context
-        );
         // spy on the instance .save method and retrn void
         const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
         // make changes to the editor
         const editor = await chk.toEditor();
         editor.name = "new name";
+        (editor._followers as any).isDiscussable = undefined;
         editor._thumbnail = {};
         // call fromEditor
         const result = await chk.fromEditor(editor);
@@ -674,46 +693,72 @@ describe("HubSite Class:", () => {
         // since thumbnailCache is protected we can't really test that it's set
         // other than via code-coverage
         expect(getProp(result, "_thumbnail")).not.toBeDefined();
+        expect(getFollowersGroupSpy).toHaveBeenCalledTimes(1);
       });
       describe("followers", () => {
-        let chk: HubSite;
+        let _chk: HubSite;
         let saveSpy: any;
         let setFollowersGroupAccessSpy: any;
+        let setFollowersGroupIsDiscussableSpy: any;
+        let _getFollowersGroupSpy: any;
         let editor: IHubSiteEditor;
 
         beforeEach(async () => {
-          chk = HubSite.fromJson(
+          _chk = HubSite.fromJson(
             {
               id: "bc3",
               name: "Test Entity",
             },
             authdCtxMgr.context
           );
-          saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+          saveSpy = spyOn(_chk, "save").and.returnValue(Promise.resolve());
           setFollowersGroupAccessSpy = spyOn(
-            chk,
+            _chk,
             "setFollowersGroupAccess"
           ).and.returnValue(Promise.resolve());
-          editor = await chk.toEditor();
+          setFollowersGroupIsDiscussableSpy = spyOn(
+            _chk,
+            "setFollowersGroupIsDiscussable"
+          ).and.returnValue(Promise.resolve());
+          _getFollowersGroupSpy = spyOn(_chk, "getFollowersGroup").and.callFake(
+            () => {
+              return Promise.resolve({
+                id: "followers00c",
+                typeKeywords: [],
+              });
+            }
+          );
+          editor = await _chk.toEditor();
         });
         it("does nothing if followers information is not present on the editor values", async () => {
           editor._followers = undefined;
-          await chk.fromEditor(editor);
+          await _chk.fromEditor(editor);
 
           expect(saveSpy).toHaveBeenCalledTimes(1);
           expect(setFollowersGroupAccessSpy).not.toHaveBeenCalled();
+          expect(_getFollowersGroupSpy).toHaveBeenCalledTimes(1);
         });
         it("handles setting the followers group access", async () => {
           editor._followers = { groupAccess: "public" };
-          await chk.fromEditor(editor);
+          await _chk.fromEditor(editor);
 
           expect(saveSpy).toHaveBeenCalledTimes(1);
           expect(setFollowersGroupAccessSpy).toHaveBeenCalledTimes(1);
           expect(setFollowersGroupAccessSpy).toHaveBeenCalledWith("public");
+          expect(_getFollowersGroupSpy).toHaveBeenCalledTimes(1);
+        });
+        it("handles setting followers group isDiscussable", async () => {
+          editor._followers = { isDiscussable: true };
+          await _chk.fromEditor(editor);
+
+          expect(saveSpy).toHaveBeenCalledTimes(1);
+          expect(setFollowersGroupAccessSpy).not.toHaveBeenCalled();
+          expect(_getFollowersGroupSpy).toHaveBeenCalledTimes(1);
+          expect(setFollowersGroupIsDiscussableSpy).toHaveBeenCalledTimes(1);
         });
       });
       it("handles extent from location", async () => {
-        const chk = HubSite.fromJson(
+        const _chk = HubSite.fromJson(
           {
             id: "bc3",
             name: "Test Entity",
@@ -726,10 +771,20 @@ describe("HubSite Class:", () => {
           authdCtxMgr.context
         );
         // spy on the instance .save method and retrn void
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        const saveSpy = spyOn(_chk, "save").and.returnValue(Promise.resolve());
+        const _getFollowersGroupSpy = spyOn(
+          _chk,
+          "getFollowersGroup"
+        ).and.callFake(() => {
+          return Promise.resolve({
+            id: "followers00c",
+            typeKeywords: [],
+          });
+        });
         // make changes to the editor
-        const editor = await chk.toEditor();
+        const editor = await _chk.toEditor();
         editor.name = "new name";
+        (editor._followers as any).isDiscussable = undefined;
         editor.location = {
           extent: [
             [-2, -2],
@@ -738,33 +793,45 @@ describe("HubSite Class:", () => {
           type: "custom",
         };
         // call fromEditor
-        const result = await chk.fromEditor(editor);
+        const result = await _chk.fromEditor(editor);
         // expect the save method to have been called
         expect(saveSpy).toHaveBeenCalledTimes(1);
         expect(result.extent).toEqual([
           [-2, -2],
           [2, 2],
         ]);
+        expect(_getFollowersGroupSpy).toHaveBeenCalledTimes(1);
       });
       it("throws if creating", async () => {
-        const chk = HubSite.fromJson(
+        const _chk = HubSite.fromJson(
           {
             name: "Test Entity",
             thumbnailUrl: "https://myserver.com/thumbnail.png",
           },
           authdCtxMgr.context
         );
+        const _getFollowersGroupSpy = spyOn(
+          _chk,
+          "getFollowersGroup"
+        ).and.callFake(() => {
+          return Promise.resolve({
+            id: "followers00c",
+            typeKeywords: [],
+          });
+        });
         // spy on the instance .save method and retrn void
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        const saveSpy = spyOn(_chk, "save").and.returnValue(Promise.resolve());
         // make changes to the editor
-        const editor = await chk.toEditor();
+        const editor = await _chk.toEditor();
         editor.name = "new name";
+        (editor._followers as any).isDiscussable = undefined;
         // call fromEditor
         try {
-          await chk.fromEditor(editor);
+          await _chk.fromEditor(editor);
         } catch (ex) {
           expect(ex.message).toContain("Cannot create");
           expect(saveSpy).toHaveBeenCalledTimes(0);
+          expect(_getFollowersGroupSpy).toHaveBeenCalledTimes(1);
         }
       });
     });

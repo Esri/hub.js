@@ -1,5 +1,4 @@
-import { IHubContent, IHubProject, IHubRequestOptions } from "../../../../src";
-import { ConfigurableEntity } from "../../../../src/core/schemas/internal/ConfigurableEntity";
+import { IHubProject, IHubRequestOptions } from "../../../../src";
 import { getLocationOptions } from "../../../../src/core/schemas/internal/getLocationOptions";
 import * as ExtentModule from "../../../../src/extent";
 

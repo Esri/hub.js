@@ -1,3 +1,17 @@
+# @esri/hub-downloads [14.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-downloads@14.1.0...@esri/hub-downloads@14.2.0) (2023-10-08)
+
+
+### Features
+
+* **hub-common:** adds followers group discussion settings on site wo… ([#1251](https://github.com/Esri/hub.js/issues/1251)) ([e0beb59](https://github.com/Esri/hub.js/commit/e0beb59f91b43795f96a694e55238a6cec83de74))
+
+# @esri/hub-downloads [14.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-downloads@14.0.0...@esri/hub-downloads@14.1.0) (2023-09-22)
+
+
+### Features
+
+* adds getChannelUsersQuery method, bumps to @esri/arcgis-rest-port… ([#1210](https://github.com/Esri/hub.js/issues/1210)) ([320d6d8](https://github.com/Esri/hub.js/commit/320d6d8e4b336955df1d55373b216de3238952b6))
+
 # @esri/hub-downloads [14.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-downloads@13.0.0...@esri/hub-downloads@14.0.0) (2023-08-23)
 
 

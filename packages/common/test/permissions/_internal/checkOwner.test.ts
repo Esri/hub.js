@@ -5,6 +5,7 @@ import { checkOwner } from "../../../src/permissions/_internal/checkOwner";
 describe("checkOwner:", () => {
   it("returns entity-required if not passed entity", () => {
     const ctx = {
+      isAuthenticated: true,
       currentUser: {
         username: "test-user",
       },
@@ -19,6 +20,7 @@ describe("checkOwner:", () => {
   });
   it("returns granted if entity.owner = username is true", () => {
     const ctx = {
+      isAuthenticated: true,
       currentUser: {
         username: "test",
       },
@@ -35,6 +37,7 @@ describe("checkOwner:", () => {
   });
   it("returns not-owner if user is not owner", () => {
     const ctx = {
+      isAuthenticated: true,
       currentUser: {
         username: "test",
       },
@@ -48,6 +51,20 @@ describe("checkOwner:", () => {
     const chks = checkOwner(policy, ctx, entity);
     expect(chks.length).toBe(1);
     expect(chks[0].response).toBe("not-owner");
+  });
+  it("returns not-authenticated if not authenticated", () => {
+    const ctx = {
+      isAuthenticated: false,
+    } as unknown as IArcGISContext;
+    const policy = {
+      entityOwner: true,
+    } as unknown as IPermissionPolicy;
+    const entity = {
+      owner: "not-test",
+    } as unknown as HubEntity;
+    const chks = checkOwner(policy, ctx, entity);
+    expect(chks.length).toBe(1);
+    expect(chks[0].response).toBe("not-authenticated");
   });
   it("returns empty array if policy does not specify entityOwner", () => {
     const ctx = {} as unknown as IArcGISContext;

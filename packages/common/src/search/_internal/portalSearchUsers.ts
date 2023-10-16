@@ -1,7 +1,9 @@
 import {
   ISearchOptions,
+  ISearchResult,
   IUserSearchOptions,
   searchUsers,
+  searchCommunityUsers as _searchCommunityUsers,
 } from "@esri/arcgis-rest-portal";
 import { IUser } from "@esri/arcgis-rest-types";
 import { enrichUserSearchResult } from "../../users";
@@ -16,41 +18,34 @@ import {
 } from "../types";
 import { getNextFunction } from "../utils";
 import { expandPredicate } from "./expandPredicate";
+import { cloneObject } from "../../util";
 
-/**
- * @private
- * Portal Search Implementation for Users
- * @param filterGroups
- * @param options
- * @returns
- */
-export async function portalSearchUsers(
+function buildSearchOptions(
   query: IQuery,
-  options: IHubSearchOptions
-): Promise<IHubSearchResponse<IHubSearchResult>> {
+  options: IHubSearchOptions,
+  operation: string
+): IUserSearchOptions {
   // requestOptions is always required and user must be authd
   if (!options.requestOptions) {
     throw new HubError(
-      "portalSearchUsers",
+      operation,
       "requestOptions: IHubRequestOptions is required."
     );
   }
 
   if (!options.requestOptions.authentication) {
-    throw new HubError(
-      "portalSearchUsers",
-      "requestOptions must pass authentication."
-    );
+    throw new HubError(operation, "requestOptions must pass authentication.");
   }
 
+  const clonedQuery = cloneObject(query);
   // Expand the individual predicates in each filter
-  query.filters = query.filters.map((filter) => {
+  clonedQuery.filters = clonedQuery.filters.map((filter) => {
     filter.predicates = filter.predicates.map(expandPredicate);
     return filter;
   });
 
   // Serialize the all the groups for portal
-  const so = serializeQueryForPortal(query);
+  const so = serializeQueryForPortal(clonedQuery);
   // Array of properties we want to copy from IHubSearchOptions to the ISearchOptions
   const props: Array<keyof IHubSearchOptions> = [
     "num",
@@ -71,8 +66,115 @@ export async function portalSearchUsers(
   // so we set it directly
   so.authentication = options.requestOptions.authentication;
 
+  return so as IUserSearchOptions;
+}
+
+/**
+ * @private
+ *
+ * Portal Search Implementation for Users within the currently authenticated user's organization.
+ * Automatically adds "org.name as OrgName" enrichment
+ *
+ * DEPRECATED: This method will be deprecated in a future release, as it's not ideal to impose default enrichments in all
+ * cases. When this method is depreated, all places that currently call `hubSearch` with a `targetEntity` of `user` will
+ * need to be updated to use the `portalUser` `targetEntity` and explicitly pass `"org.name as OrgName"` in `inclues` to
+ * preserve that enrichment, if needed. E.g.
+ *
+ * ```js
+ * // before
+ * await hubSearch(
+ *   { targetEntity: "user", ... },
+ *   { start: 1, ... },
+ * );
+ *
+ * // after
+ * await hubSearch(
+ *   { targetEntity: "portalUser", ... },
+ *   { start: 1, include: ["org.name as OrgName", ...], ... },
+ * );
+ * ```
+ *
+ * @param query An IQuery object representing the query to serialize
+ * @param options An IHubSearchOptions of search options
+ * @returns a promise that resolves an IHubSearchResponse<IHubSearchResult> of users results
+ */
+export function searchPortalUsersLegacy(
+  query: IQuery,
+  options: IHubSearchOptions
+): Promise<IHubSearchResponse<IHubSearchResult>> {
+  const searchOptions = buildSearchOptions(
+    query,
+    options,
+    "searchPortalUsersLegacy"
+  );
   // Execute search
-  return searchPortal(so as IUserSearchOptions);
+  return searchPortal({
+    ...searchOptions,
+    include: ["org.name as OrgName", ...(searchOptions.include || [])],
+  });
+}
+
+/**
+ * @private
+ *
+ * Portal Search Implementation for Users within the currently authenticated user's organization.
+ * No enrichments added by default.
+ *
+ * @param query An IQuery object representing the query to serialize
+ * @param options An IHubSearchOptions of search options
+ * @returns a promise that resolves an IHubSearchResponse<IHubSearchResult> of users results
+ */
+export function searchPortalUsers(
+  query: IQuery,
+  options: IHubSearchOptions
+): Promise<IHubSearchResponse<IHubSearchResult>> {
+  const searchOptions = buildSearchOptions(query, options, "searchPortalUsers");
+  // Execute search
+  return searchPortal(searchOptions);
+}
+
+/**
+ * @private
+ *
+ * Community Search Implementation for Users within in any organization.
+ * No enrichments added by default.
+ *
+ * @param query An IQuery object representing the query to serialize
+ * @param options An IHubSearchOptions of search options
+ * @returns a promise that resolves an IHubSearchResponse<IHubSearchResult> of users results
+ */
+export function searchCommunityUsers(
+  query: IQuery,
+  options: IHubSearchOptions
+): Promise<IHubSearchResponse<IHubSearchResult>> {
+  const searchOptions = buildSearchOptions(
+    query,
+    options,
+    "searchCommunityUsers"
+  );
+  // Execute search
+  return searchCommunity(searchOptions);
+}
+
+/**
+ * @private
+ * @param searchOptions An IUserSearchOptions object
+ * @param searchResponse A ISearchResult<IUser> object
+ * @returns
+ */
+function mapUsersToSearchResults(
+  searchOptions: IUserSearchOptions,
+  searchResponse: ISearchResult<IUser>
+): Promise<IHubSearchResult[]> {
+  // create mappable fn that will close
+  // over the includes and requestOptions
+  const fn = (user: IUser) =>
+    userToSearchResult(
+      user,
+      searchOptions.include,
+      searchOptions.requestOptions
+    );
+  return Promise.all(searchResponse.results.map(fn));
 }
 
 /**
@@ -80,27 +182,15 @@ export async function portalSearchUsers(
  * handling enrichments & includes along the way
  *
  * @param searchOptions
- * @returns
+ * @returns a promise that resolves enriched internal portal user search results
  */
 async function searchPortal(
   searchOptions: IUserSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
   // Execute portal search
   const resp = await searchUsers(searchOptions);
-
-  // create mappable fn that will close
-  // over the includes and requestOptions
-  const fn = (user: IUser) => {
-    return userToSearchResult(
-      user,
-      searchOptions.include,
-      searchOptions.requestOptions
-    );
-  };
-
   // map over results
-  const results = await Promise.all(resp.results.map(fn));
-
+  const results = await mapUsersToSearchResults(searchOptions, resp);
   // Group Search does not support aggregations
   // Construct the return
   return {
@@ -117,6 +207,35 @@ async function searchPortal(
 }
 
 /**
+ * Community search, which then converts `IGroup`s to `IHubSearchResult`s
+ * handling enrichments & includes along the way
+ *
+ * @param searchOptions
+ * @returns a promise that resolves enriched community user search results
+ */
+async function searchCommunity(
+  searchOptions: IUserSearchOptions
+): Promise<IHubSearchResponse<IHubSearchResult>> {
+  // Execute portal search
+  const resp = await _searchCommunityUsers(searchOptions);
+  // map over results
+  const results = await mapUsersToSearchResults(searchOptions, resp);
+  // Group Search does not support aggregations
+  // Construct the return
+  return {
+    total: resp.total,
+    results,
+    hasNext: resp.nextStart > -1,
+    next: getNextFunction<IHubSearchResult>(
+      searchOptions,
+      resp.nextStart,
+      resp.total,
+      searchCommunity
+    ),
+  };
+}
+
+/**
  * Convert an Item to a IHubSearchResult
  * Fetches the includes and attaches them to the item
  * @param item
@@ -124,7 +243,7 @@ async function searchPortal(
  * @param requestOptions
  * @returns
  */
-async function userToSearchResult(
+function userToSearchResult(
   user: IUser,
   include: string[] = [],
   requestOptions?: IHubRequestOptions

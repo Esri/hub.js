@@ -7,7 +7,9 @@ import { SiteEditorTypes } from "../../sites/_internal/SiteSchema";
 import { DiscussionEditorTypes } from "../../discussions/_internal/DiscussionSchema";
 import { PageEditorTypes } from "../../pages/_internal/PageSchema";
 import { ContentEditorTypes } from "../../content/_internal/ContentSchema";
+import { TemplateEditorTypes } from "../../templates/_internal/TemplateSchema";
 import { GroupEditorTypes } from "../../groups/_internal/GroupSchema";
+import { InitiativeTemplateEditorTypes } from "../../initiative-templates/_internal/InitiativeTemplateSchema";
 
 /**
  * Defines the possible editor type values - these correspond
@@ -21,7 +23,9 @@ export const validEditorTypes = [
   ...SiteEditorTypes,
   ...DiscussionEditorTypes,
   ...PageEditorTypes,
+  ...TemplateEditorTypes,
   ...GroupEditorTypes,
+  ...InitiativeTemplateEditorTypes,
 ] as const;
 
 export type CardType = (typeof validCardTypes)[number];
@@ -129,13 +133,16 @@ export interface IUiSchemaCondition {
 
 export interface IUiSchemaMessage {
   type: UiSchemaMessageTypes;
+  display?: "message" | "notice";
   keyword?: string;
   label?: string;
   labelKey?: string;
   icon?: boolean | string;
+  kind?: "brand" | "danger" | "info" | "success" | "warning";
   hidden?: boolean;
   condition?: IUiSchemaCondition;
   allowShowBeforeInteract?: boolean;
+  alwaysShow?: boolean;
 }
 
 export interface IUiSchemaRule {

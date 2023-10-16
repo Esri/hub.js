@@ -6,6 +6,7 @@ import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { getCategoryItems } from "../../core/schemas/internal/getCategoryItems";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
+import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 
 /**
  * @private
@@ -82,21 +83,7 @@ export const buildUiSchema = async (
               },
             },
           },
-          {
-            labelKey: `${i18nScope}.fields._thumbnail.label`,
-            scope: "/properties/_thumbnail",
-            type: "Control",
-            options: {
-              control: "hub-field-input-image-picker",
-              imgSrc: entity.thumbnailUrl,
-              maxWidth: 727,
-              maxHeight: 484,
-              aspectRatio: 1.5,
-              helperText: {
-                labelKey: `${i18nScope}.fields._thumbnail.helperText`,
-              },
-            },
-          },
+          getThumbnailUiSchemaElement(i18nScope, entity),
           {
             labelKey: `${i18nScope}.fields.featuredImage.label`,
             scope: "/properties/view/properties/featuredImage",
@@ -178,29 +165,6 @@ export const buildUiSchema = async (
                 context.portal.name,
                 context.hubRequestOptions
               ),
-            },
-          },
-        ],
-      },
-      {
-        type: "Section",
-        labelKey: `${i18nScope}.sections.settings.label`,
-        elements: [
-          {
-            labelKey: `${i18nScope}.fields.discussable.label`,
-            scope: "/properties/isDiscussable",
-            type: "Control",
-            options: {
-              control: "hub-field-input-radio",
-              labels: [
-                `{{${i18nScope}.fields.discussable.enabled.label:translate}}`,
-                `{{${i18nScope}.fields.discussable.disabled.label:translate}}`,
-              ],
-              descriptions: [
-                `{{${i18nScope}.fields.discussable.enabled.description:translate}}`,
-                `{{${i18nScope}.fields.discussable.disabled.description:translate}}`,
-              ],
-              icons: ["speech-bubbles", "circle-disallowed"],
             },
           },
         ],

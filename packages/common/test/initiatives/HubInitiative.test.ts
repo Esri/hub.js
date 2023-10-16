@@ -1,11 +1,5 @@
 import * as PortalModule from "@esri/arcgis-rest-portal";
-import {
-  IHubInitiative,
-  IMetricFeature,
-  IResolvedMetric,
-  UiSchemaElementOptions,
-  getProp,
-} from "../../src";
+import { IHubInitiative, IResolvedMetric, getProp } from "../../src";
 import { Catalog } from "../../src/search";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubInitiative } from "../../src/initiatives/HubInitiative";

@@ -8,6 +8,7 @@ import * as deleteItemThumbnailModule from "../../src/items/deleteItemThumbnail"
 import * as ItemsModule from "../../src/items";
 import { IEntityPermissionPolicy } from "../../src/permissions";
 import { CANNOT_DISCUSS, IHubItemEntity } from "../../src";
+import * as DISCUSSIONS from "../../src/discussions";
 
 // To test the abstract class, we need to create a
 // concrete class that extends it
@@ -315,6 +316,37 @@ describe("HubItemEntity Class: ", () => {
         group: {
           id: "followers00c",
           access: "public",
+        },
+        authentication: authdCtxMgr.context.session,
+      });
+    });
+    it("sets whether or not the followers group is discussable", async () => {
+      const getFollowersGroupSpy = spyOn(
+        harness,
+        "getFollowersGroup"
+      ).and.callFake(() => {
+        return Promise.resolve({
+          id: "followers00c",
+          typeKeywords: [],
+        });
+      });
+      const setDiscussableKeywordSpy = spyOn(
+        DISCUSSIONS,
+        "setDiscussableKeyword"
+      ).and.callThrough();
+      const updateGroupSpy = spyOn(PortalModule, "updateGroup").and.callFake(
+        () => {
+          return Promise.resolve();
+        }
+      );
+      await harness.setFollowersGroupIsDiscussable(false);
+      expect(getFollowersGroupSpy).toHaveBeenCalledTimes(1);
+      expect(setDiscussableKeywordSpy).toHaveBeenCalledWith([], false);
+      expect(updateGroupSpy).toHaveBeenCalledTimes(1);
+      expect(updateGroupSpy).toHaveBeenCalledWith({
+        group: {
+          id: "followers00c",
+          typeKeywords: [CANNOT_DISCUSS],
         },
         authentication: authdCtxMgr.context.session,
       });

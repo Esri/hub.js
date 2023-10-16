@@ -1,5 +1,5 @@
 import { cloneObject } from "../../src/util";
-import { CONTEXT, USER_HUB_SEARCH_RESULT } from "./fixtures";
+import { USER_HUB_SEARCH_RESULT } from "./fixtures";
 import * as internalContentUtils from "../../src/content/_internal/internalContentUtils";
 import * as titleUrlModule from "../../src/urls/getCardModelUrl";
 import { userResultToCardModel } from "../../src/users/view";

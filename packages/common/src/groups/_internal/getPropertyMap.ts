@@ -36,6 +36,7 @@ export function getPropertyMap(): IPropertyMap[] {
     "tags",
     "thumbnail",
     "thumbnailUrl",
+    "typeKeywords",
     "userMembership",
   ];
   groupProps.forEach((entry) => {

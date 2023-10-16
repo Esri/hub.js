@@ -1,4 +1,4 @@
-import { IHubProject, IHubRequestOptions, getProp } from "../../../../src";
+import { IHubProject, IHubRequestOptions } from "../../../../src";
 import { getTagItems } from "../../../../src/core/schemas/internal/getTagItems";
 import * as SearchModule from "@esri/arcgis-rest-portal";
 

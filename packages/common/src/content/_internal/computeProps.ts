@@ -2,14 +2,14 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { getItemThumbnailUrl } from "../../resources";
 import { IModel } from "../../types";
-import { bBoxToExtent, extentToPolygon, isBBox } from "../../extent";
+import { bBoxToExtent, isBBox } from "../../extent";
 import { IExtent } from "@esri/arcgis-rest-types";
-import Geometry = __esri.Geometry;
 import { getItemHomeUrl } from "../../urls/get-item-home-url";
 import { getContentEditUrl, getHubRelativeUrl } from "./internalContentUtils";
 import { IHubLocation } from "../../core/types/IHubLocation";
 import { IHubEditableContent } from "../../core/types/IHubEditableContent";
 import { getRelativeWorkspaceUrl } from "../../core/getRelativeWorkspaceUrl";
+import { isDiscussable } from "../../discussions";
 import {
   hasServiceCapability,
   ServiceCapabilities,
@@ -25,13 +25,9 @@ export const getExtentObject = (itemExtent: number[][]): IExtent => {
 
 export function deriveLocationFromItemExtent(itemExtent?: number[][]) {
   const location: IHubLocation = { type: "custom" };
-  const geometry: any = getExtentObject(itemExtent); // TODO: this needs to be fixed -tom
+  const geometry: any = getExtentObject(itemExtent);
   if (geometry) {
-    const convertedExtent = {
-      ...extentToPolygon(geometry),
-      type: "polygon",
-    } as unknown as Geometry;
-    location.geometries = [convertedExtent];
+    location.geometries = [geometry];
     location.spatialReference = geometry.spatialReference;
     location.extent = itemExtent;
   }
@@ -49,6 +45,7 @@ export function computeProps(
     const session: UserSession = requestOptions.authentication as UserSession;
     token = session.token;
   }
+
   // thumbnail url
   const thumbnailUrl = getItemThumbnailUrl(model.item, requestOptions, token);
   // TODO: Remove this once opendata-ui starts using `links.thumbnail` instead
@@ -75,6 +72,8 @@ export function computeProps(
         ? { type: "none" }
         : deriveLocationFromItemExtent(model.item.extent);
   }
+
+  content.isDiscussable = isDiscussable(content);
 
   if (enrichments.server) {
     content.serverExtractCapability = hasServiceCapability(

@@ -13,4 +13,8 @@ export interface IWithFollowersBehavior {
    * Set the access level of the followers group
    */
   setFollowersGroupAccess(access: SettableAccessLevel): Promise<void>;
+  /**
+   * Set whether or not the followers group is discussable
+   */
+  setFollowersGroupIsDiscussable(isDiscussable: boolean): Promise<void>;
 }

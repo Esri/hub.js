@@ -1,3 +1,24 @@
+## @esri/hub-discussions [26.1.2](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@26.1.1...@esri/hub-discussions@26.1.2) (2023-10-12)
+
+
+### Bug Fixes
+
+* **hub-common:** add CRUD functions for entity settings ([#1275](https://github.com/Esri/hub.js/issues/1275)) ([8eabc30](https://github.com/Esri/hub.js/commit/8eabc3005a1fa4786975d993464f7d7500de558b))
+
+## @esri/hub-discussions [26.1.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@26.1.0...@esri/hub-discussions@26.1.1) (2023-10-09)
+
+
+### Bug Fixes
+
+* **hub-discussions:** rename DiscussionSettings to Settings for types and functions that call the ap ([#1264](https://github.com/Esri/hub.js/issues/1264)) ([d0b77b3](https://github.com/Esri/hub.js/commit/d0b77b3ea7a95c0fd66994f9512357245555cea1))
+
+# @esri/hub-discussions [26.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@26.0.1...@esri/hub-discussions@26.1.0) (2023-10-08)
+
+
+### Features
+
+* **hub-common:** adds followers group discussion settings on site wo… ([#1251](https://github.com/Esri/hub.js/issues/1251)) ([e0beb59](https://github.com/Esri/hub.js/commit/e0beb59f91b43795f96a694e55238a6cec83de74))
+
 ## @esri/hub-discussions [26.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@26.0.0...@esri/hub-discussions@26.0.1) (2023-09-07)
 
 

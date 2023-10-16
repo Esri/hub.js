@@ -87,6 +87,7 @@ export enum PostStatus {
   REJECTED = "rejected",
   DELETED = "deleted",
   HIDDEN = "hidden",
+  BLOCKED = "blocked",
 }
 
 /**
@@ -889,12 +890,16 @@ export interface IFetchChannel {
  * @extends {Partial<IWithSorting<ChannelSort>>}
  * @extends {Partial<IWithTimeQueries>}
  * @extends {Partial<IWithFiltering<ChannelFilter>>}
+ * @extends {Partial<IWithAuthor>}
+ * @extends {Partial<IWithEditor>}
  */
 export interface ISearchChannels
   extends Partial<IPagingParams>,
     Partial<IWithSorting<ChannelSort>>,
     Partial<IWithTimeQueries>,
-    Partial<IWithFiltering<ChannelFilter>> {
+    Partial<IWithFiltering<ChannelFilter>>,
+    Partial<IWithAuthor>,
+    Partial<IWithEditor> {
   groups?: string[];
   access?: SharingAccess[];
   relations?: ChannelRelation[];
@@ -1017,111 +1022,116 @@ export interface IRemoveChannelActivityParams
 }
 
 /**
- * representation of a discussion setting record from the service
+ * representation of an entity setting record from the service
  *
  * @export
- * @interface IDiscussionSetting
+ * @interface IEntitySetting
  * @extends {IWithAuthor}
  * @extends {IWithEditor}
  * @extends {IWithTimestamps}
  */
-export interface IDiscussionSetting
+export interface IEntitySetting
   extends IWithAuthor,
     IWithEditor,
     IWithTimestamps {
   id: string;
-  type: DiscussionSettingType;
-  settings: ISettings;
+  type: EntitySettingType;
+  settings: IEntityContentSettings;
 }
 
 /**
  * @export
  * @enum {string}
  */
-export enum DiscussionSettingType {
+export enum EntitySettingType {
   CONTENT = "content",
 }
 
 /**
  * @export
- * @interface ISettings
+ * @interface IEntityContentSettings
  */
-export interface ISettings {
-  allowedChannelIds: string[] | null;
+export interface IEntityContentSettings {
+  discussions?: IDiscussionsSettings;
 }
 
 /**
  * @export
- * @interface IRemoveDiscussionSettingResponse
+ * @interface IDiscussionsSettings
  */
-export interface IRemoveDiscussionSettingResponse {
+export interface IDiscussionsSettings {
+  allowedChannelIds?: string[] | null;
+  allowedLocations?: Geometry[] | null;
+}
+
+/**
+ * @export
+ * @interface IRemoveSettingResponse
+ */
+export interface IRemoveSettingResponse {
   id: string;
   success: boolean;
 }
 
 /**
  * @export
- * @interface ICreateDiscussionSetting
+ * @interface ICreateSetting
  */
-export interface ICreateDiscussionSetting {
+export interface ICreateSetting {
   id: string;
-  type: DiscussionSettingType;
-  settings: ISettings;
+  type: EntitySettingType;
+  settings: IEntityContentSettings;
 }
 
 /**
  * @export
- * @interface IUpdateDiscussionSetting
+ * @interface IUpdateSetting
  */
-export interface IUpdateDiscussionSetting {
-  settings: Partial<ISettings>;
+export interface IUpdateSetting {
+  settings: Partial<IEntityContentSettings>;
 }
 
 /**
- * parameters for creating a discussionSetting
+ * parameters for creating a setting
  *
  * @export
- * @interface ICreateDiscussionSettingParams
+ * @interface ICreateSettingParams
  * @extends {IDiscussionsRequestOptions}
  */
-export interface ICreateDiscussionSettingParams
-  extends IDiscussionsRequestOptions {
-  data: ICreateDiscussionSetting;
+export interface ICreateSettingParams extends IDiscussionsRequestOptions {
+  data: ICreateSetting;
 }
 
 /**
- * parameters for fetching a discussionSetting
+ * parameters for fetching a setting
  *
  * @export
- * @interface IFetchDiscussionSettingParams
+ * @interface IFetchSettingParams
  * @extends {IDiscussionsRequestOptions}
  */
-export interface IFetchDiscussionSettingParams
-  extends IDiscussionsRequestOptions {
+export interface IFetchSettingParams extends IDiscussionsRequestOptions {
   id: string;
 }
 
 /**
- * parameters for updating a discussionSetting
+ * parameters for updating a setting
  *
  * @export
- * @interface IUpdateDiscussionSettingParams
+ * @interface IUpdateSettingParams
  * @extends {IDiscussionsRequestOptions}
  */
-export interface IUpdateDiscussionSettingParams
-  extends IDiscussionsRequestOptions {
+export interface IUpdateSettingParams extends IDiscussionsRequestOptions {
   id: string;
-  data: IUpdateDiscussionSetting;
+  data: IUpdateSetting;
 }
 
 /**
- * parameters for removing a discussionSetting
+ * parameters for removing a setting
  *
  * @export
- * @interface IRemoveDiscussionSettingParams
+ * @interface IRemoveSettingParams
  * @extends {IDiscussionsRequestOptions}
  */
-export interface IRemoveDiscussionSettingParams
-  extends IDiscussionsRequestOptions {
+export interface IRemoveSettingParams extends IDiscussionsRequestOptions {
   id: string;
 }

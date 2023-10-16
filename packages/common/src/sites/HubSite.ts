@@ -30,7 +30,6 @@ import { IContainsResponse, IDeepCatalogInfo, IHubCatalog } from "../search";
 import { deepContains } from "../core/_internal/deepContains";
 
 import {
-  applyVersion,
   createVersion,
   deleteVersion,
   getVersion,
@@ -47,7 +46,13 @@ import { cloneObject } from "../util";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 
-import { IHubSiteEditor, IModel, setProp, SettableAccessLevel } from "../index";
+import {
+  IHubSiteEditor,
+  IModel,
+  isDiscussable,
+  setProp,
+  SettableAccessLevel,
+} from "../index";
 import { SiteEditorType } from "./_internal/SiteSchema";
 
 /**
@@ -424,6 +429,11 @@ export class HubSite
       editor
     );
 
+    const followersGroup = await this.getFollowersGroup();
+    setProp("_followers.isDiscussable", isDiscussable(followersGroup), editor);
+
+    editor._discussions = this.entity.features["hub:site:feature:discussions"];
+
     return editor;
   }
 
@@ -456,6 +466,13 @@ export class HubSite
 
     delete editor._thumbnail;
 
+    // set whether or not the followers group is discussable
+    if (editor._followers?.isDiscussable !== undefined) {
+      await this.setFollowersGroupIsDiscussable(
+        editor._followers.isDiscussable
+      );
+    }
+
     // set the followers group access
     if (editor._followers?.groupAccess) {
       await this.setFollowersGroupAccess(
@@ -470,6 +487,7 @@ export class HubSite
     entity.features = {
       ...entity.features,
       "hub:site:feature:follow": editor._followers?.showFollowAction,
+      "hub:site:feature:discussions": editor._discussions,
     };
 
     // copy the location extent up one level

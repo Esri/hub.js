@@ -23,6 +23,7 @@ describe("getTypeFromEntity:", () => {
       "Hub Initiative",
       "Discussion",
       "Group",
+      "Hub Initiative Template",
     ];
     const expected = [
       "site",
@@ -33,6 +34,7 @@ describe("getTypeFromEntity:", () => {
       "initiative",
       "discussion",
       "group",
+      "initiativeTemplate",
     ];
     types.forEach((type, i) => {
       const entity = { type } as unknown as HubEntity;

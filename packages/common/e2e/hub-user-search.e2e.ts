@@ -33,6 +33,35 @@ describe("Hub User search", () => {
       expect(response.results.length).toBe(1);
       expect(response.results[0].owner).toBe("dave_pub_qa_pre");
     });
+    it("can search for users not in current users org", async () => {
+      const ctxMgr = await factory.getContextManager("hubPremium", "admin");
+      const ctx = ctxMgr.context;
+      const qry: IQuery = {
+        targetEntity: "communityUser",
+        filters: [
+          {
+            predicates: [
+              {
+                orgid: {
+                  not: [ctx.currentUser.orgId],
+                },
+              },
+              {
+                orgid: { type: "range", from: "0", to: "\\{" },
+              },
+            ],
+          },
+        ],
+      };
+
+      const response = await hubSearch(qry, {
+        requestOptions: ctx.hubRequestOptions,
+      });
+
+      expect(response.results).toBeDefined();
+      expect(response.results.length).toBe(1);
+      expect(response.results[0].owner).toBe("dave_pub_qa_pre");
+    });
   });
 
   describe("Search for Group Users", () => {

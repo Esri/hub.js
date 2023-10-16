@@ -6,6 +6,7 @@ import { getCategoryItems } from "../../core/schemas/internal/getCategoryItems";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { getFeaturedContentCatalogs } from "../../core/schemas/internal/getFeaturedContentCatalogs";
+import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 
 /**
  * @private
@@ -64,21 +65,7 @@ export const buildUiSchema = async (
               },
             },
           },
-          {
-            labelKey: `${i18nScope}.fields._thumbnail.label`,
-            scope: "/properties/_thumbnail",
-            type: "Control",
-            options: {
-              control: "hub-field-input-image-picker",
-              imgSrc: entity.thumbnailUrl,
-              maxWidth: 727,
-              maxHeight: 484,
-              aspectRatio: 1.5,
-              helperText: {
-                labelKey: `${i18nScope}.fields._thumbnail.helperText`,
-              },
-            },
-          },
+          getThumbnailUiSchemaElement(i18nScope, entity),
           {
             labelKey: `${i18nScope}.fields.tags.label`,
             scope: "/properties/tags",
@@ -161,7 +148,7 @@ export const buildUiSchema = async (
               catalogs: getFeaturedContentCatalogs(context.currentUser),
               facets: [
                 {
-                  label: `{{${i18nScope}.fields.featuredContent.facets.type:translate}`,
+                  label: `{{${i18nScope}.fields.featuredContent.facets.type:translate}}`,
                   key: "type",
                   display: "multi-select",
                   field: "type",
@@ -170,7 +157,7 @@ export const buildUiSchema = async (
                   aggLimit: 100,
                 },
                 {
-                  label: `{{${i18nScope}.fields.featuredContent.facets.sharing:translate}`,
+                  label: `{{${i18nScope}.fields.featuredContent.facets.sharing:translate}}`,
                   key: "access",
                   display: "multi-select",
                   field: "access",

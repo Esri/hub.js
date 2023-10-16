@@ -100,3 +100,46 @@ export const ENTITY_TIMELINE_SCHEMA = {
     },
   },
 };
+
+export const PRIVACY_CONFIG_SCHEMA = {
+  type: "object",
+  properties: {
+    consentNotice: {
+      type: "object",
+      properties: {
+        allowPrivacyConfig: {
+          type: "boolean",
+          default: false,
+        },
+        blocking: {
+          type: "boolean",
+          default: false,
+        },
+        disclaimer: {
+          type: "array",
+          items: [
+            {
+              type: "object",
+              properties: {
+                text: {
+                  type: "string",
+                },
+                lang: {
+                  type: "string",
+                },
+                default: {
+                  type: "boolean",
+                },
+              },
+            },
+          ],
+        },
+        policyURL: {
+          type: "string",
+          pattern:
+            "^(https?:\\/\\/)?([\\da-z.-]+)\\.([a-z.]{2,6})([\\/\\w.-]*)*\\/?$|^$",
+        },
+      },
+    },
+  },
+};

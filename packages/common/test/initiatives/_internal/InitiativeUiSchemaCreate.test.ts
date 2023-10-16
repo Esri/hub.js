@@ -117,7 +117,7 @@ describe("buildUiSchema: initiative create", () => {
                   options: {
                     control: "arcgis-hub-access-level-controls",
                     orgName: "My org",
-                    itemType: "{{some.scope.fields.access.itemType:translate}",
+                    itemType: "{{some.scope.fields.access.itemType:translate}}",
                   },
                 },
                 {

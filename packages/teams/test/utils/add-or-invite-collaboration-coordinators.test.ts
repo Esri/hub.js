@@ -1,7 +1,6 @@
 import { addOrInviteCollaborationCoordinators } from "../../src/utils/add-or-invite-collaboration-coordinators";
 import { MOCK_AUTH } from "../fixtures";
 import * as processAutoAddUsersModule from "../../src/utils/process-auto-add-users";
-import * as processInviteUsersModule from "../../src/utils/process-invite-users";
 import * as handleNoUsersModule from "../../src/utils/handle-no-users";
 import { IAddOrInviteContext } from "../../src/types";
 

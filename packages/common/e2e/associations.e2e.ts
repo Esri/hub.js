@@ -8,7 +8,6 @@ import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
 import {
   ICreateOutput,
-  cleanupItems,
   createInitiative,
   createProjects,
   createScopeGroup,
@@ -50,7 +49,7 @@ const TEST_ITEMS = {
   ],
 };
 
-fdescribe("associations development harness:", () => {
+describe("associations development harness:", () => {
   let factory: Artifactory;
   const orgName = "hubPremiumAlpha";
   beforeAll(() => {

@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-downloads",
-  "version": "14.0.0",
+  "version": "14.2.0",
   "description": "Service for Hub downloads",
   "main": "dist/node/index.js",
   "module": "dist/esm/index.js",
@@ -14,7 +14,7 @@
   "peerDependencies": {
     "@esri/arcgis-rest-auth": "^3.1.0",
     "@esri/arcgis-rest-feature-layer": "^3.1.0",
-    "@esri/arcgis-rest-portal": "^3.5.0",
+    "@esri/arcgis-rest-portal": "^3.7.0",
     "@esri/arcgis-rest-request": "^3.1.0",
     "@esri/hub-common": "^14.0.0"
   },

@@ -32,10 +32,12 @@ import {
   IHubCardViewModel,
 } from "../core/types/IHubCardViewModel";
 import { projectToCardModel } from "./view";
-import { cloneObject, maybePush } from "../util";
+import { cloneObject } from "../util";
 import { createProject, editorToProject, updateProject } from "./edit";
 import { ProjectEditorType } from "./_internal/ProjectSchema";
 import { enrichEntity } from "../core/enrichEntity";
+import { getProp } from "../objects";
+import { IGroup } from "@esri/arcgis-rest-types";
 
 /**
  * Hub Project Class
@@ -164,7 +166,7 @@ export class HubProject
   /*
    * Get a specific editor config for the HubProject entity.
    * @param i18nScope translation scope to be interpolated into the uiSchema
-   * @param type editor type - corresonds to the returned uiSchema
+   * @param type editor type - corresponds to the returned uiSchema
    * @param options optional hash of dynamic uiSchema element options
    */
   async getEditorConfig(
@@ -202,17 +204,30 @@ export class HubProject
      * on project creation, we want to pre-populate the sharing
      * field with the core and collaboration groups if the user
      * has the appropriate shareToGroup portal privilege
+     *
+     * TODO: we should re-evaluate this "auto-populate" pattern
      */
     const { access: canShare } = this.checkPermission(
       "platform:portal:user:shareToGroup"
     );
     if (!editor.id && canShare) {
-      // TODO: at what point can we remove this "auto-share" behavior?
-      editor._groups = maybePush(editorContext.contentGroupId, editor._groups);
-      editor._groups = maybePush(
+      const currentUserGroups: IGroup[] =
+        getProp(this.context, "currentUser.groups") || [];
+      const defaultShareWithGroups = [
+        editorContext.contentGroupId,
         editorContext.collaborationGroupId,
-        editor._groups
-      );
+      ].reduce((acc, groupId) => {
+        const group = currentUserGroups.find((g: IGroup) => g.id === groupId);
+        const canShareToGroup =
+          !!group &&
+          (!group.isViewOnly ||
+            (group.isViewOnly &&
+              ["owner", "admin"].includes(group.memberType)));
+
+        canShareToGroup && acc.push(groupId);
+        return acc;
+      }, []);
+      editor._groups = [...editor._groups, ...defaultShareWithGroups];
     }
 
     return editor;

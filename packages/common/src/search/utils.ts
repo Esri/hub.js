@@ -11,7 +11,6 @@ import {
 } from "@esri/arcgis-rest-portal";
 import { isPageType } from "../content/_internal/internalContentUtils";
 import { IHubSite } from "../core";
-import { getProp } from "../objects/get-prop";
 import { ISearchResponse } from "../types";
 import { cloneObject } from "../util";
 import { IHubSearchResult } from "./types";

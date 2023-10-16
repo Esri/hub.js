@@ -27,7 +27,10 @@ describe("buildUiSchema: initiative edit", () => {
 
     const uiSchema = await buildUiSchema(
       "some.scope",
-      { thumbnailUrl: "https://some-thumbnail-url.com" } as any,
+      {
+        thumbnail: "thumbnail/custom.png",
+        thumbnailUrl: "https://some-thumbnail-url.com",
+      } as any,
       MOCK_CONTEXT
     );
     expect(uiSchema).toEqual({
@@ -77,7 +80,7 @@ describe("buildUiSchema: initiative edit", () => {
               },
             },
             {
-              labelKey: "some.scope.fields._thumbnail.label",
+              labelKey: "shared.fields._thumbnail.label",
               scope: "/properties/_thumbnail",
               type: "Control",
               options: {
@@ -89,6 +92,10 @@ describe("buildUiSchema: initiative edit", () => {
                 helperText: {
                   labelKey: "some.scope.fields._thumbnail.helperText",
                 },
+                sizeDescription: {
+                  labelKey: "shared.fields._thumbnail.sizeDescription",
+                },
+                messages: [],
               },
             },
             {
@@ -160,7 +167,7 @@ describe("buildUiSchema: initiative edit", () => {
                 facets: [
                   {
                     label:
-                      "{{some.scope.fields.featuredContent.facets.type:translate}",
+                      "{{some.scope.fields.featuredContent.facets.type:translate}}",
                     key: "type",
                     display: "multi-select",
                     field: "type",
@@ -170,7 +177,7 @@ describe("buildUiSchema: initiative edit", () => {
                   },
                   {
                     label:
-                      "{{some.scope.fields.featuredContent.facets.sharing:translate}",
+                      "{{some.scope.fields.featuredContent.facets.sharing:translate}}",
                     key: "access",
                     display: "multi-select",
                     field: "access",
