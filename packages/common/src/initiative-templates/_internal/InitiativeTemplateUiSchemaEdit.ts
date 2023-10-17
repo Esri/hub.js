@@ -87,28 +87,36 @@ export const buildUiSchema = async (
       },
       getThumbnailUiSchemaElement(i18nScope, entity),
       {
-        type: "Control",
-        scope: "/properties/recommendedTemplates",
+        type: "Section",
         labelKey: `${i18nScope}.fields.recommendedTemplates.label`,
-        options: {
-          control: "hub-field-input-gallery-picker",
-          targetEntity: "item",
-          catalogs: getRecommendedTemplatesCatalog(
-            context.currentUser,
-            i18nScope
-          ),
-          facets: [
-            {
-              label: `{{${i18nScope}.fields.recommendedTemplates.facets.sharing:translate}}`,
-              key: "access",
-              field: "access",
-              display: "multi-select",
-              operation: "OR",
+        elements: [
+          {
+            type: "Control",
+            scope: "/properties/recommendedTemplates",
+            options: {
+              control: "hub-field-input-gallery-picker",
+              targetEntity: "item",
+              catalogs: getRecommendedTemplatesCatalog(
+                context.currentUser,
+                i18nScope
+              ),
+              facets: [
+                {
+                  label: `{{${i18nScope}.fields.recommendedTemplates.facets.sharing:translate}}`,
+                  key: "access",
+                  field: "access",
+                  display: "multi-select",
+                  operation: "OR",
+                },
+              ],
+              canReorder: false,
+              linkTarget: "workspaceRelative",
+              modalTitle: {
+                labelKey: `${i18nScope}.fields.recommendedTemplates.modalTitle`,
+              },
             },
-          ],
-          canReorder: false,
-          linkTarget: "workspaceRelative",
-        },
+          },
+        ],
       },
     ],
   };
