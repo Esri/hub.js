@@ -1,3 +1,10 @@
+## @esri/hub-common [14.38.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.38.0...@esri/hub-common@14.38.1) (2023-10-17)
+
+
+### Bug Fixes
+
+* update recommended templates slightly in initiative template workspace ([#1280](https://github.com/Esri/hub.js/issues/1280)) ([f7fd636](https://github.com/Esri/hub.js/commit/f7fd6366ec097095dcbc9fef31b331a64165d310))
+
 # @esri/hub-common [14.38.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.37.0...@esri/hub-common@14.38.0) (2023-10-16)
 
 
