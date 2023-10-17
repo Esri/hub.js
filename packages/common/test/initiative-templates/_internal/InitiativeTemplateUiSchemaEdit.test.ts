@@ -105,35 +105,35 @@ describe("buildUiSchema: initiative template edit", () => {
                 messages: [],
               },
             },
+          ],
+        },
+        {
+          type: "Section",
+          labelKey: `some.scope.fields.recommendedTemplates.label`,
+          elements: [
             {
-              type: "Section",
-              labelKey: `some.scope.fields.recommendedTemplates.label`,
-              elements: [
-                {
-                  type: "Control",
-                  scope: "/properties/recommendedTemplates",
+              type: "Control",
+              scope: "/properties/recommendedTemplates",
 
-                  options: {
-                    control: "hub-field-input-gallery-picker",
-                    targetEntity: "item",
-                    catalogs: [],
-                    facets: [
-                      {
-                        label: `{{some.scope.fields.recommendedTemplates.facets.sharing:translate}}`,
-                        key: "access",
-                        field: "access",
-                        display: "multi-select",
-                        operation: "OR",
-                      },
-                    ],
-                    canReorder: false,
-                    linkTarget: "workspaceRelative",
-                    modalTitle: {
-                      labelKey: `some.scope.fields.recommendedTemplates.modalTitle`,
-                    },
+              options: {
+                control: "hub-field-input-gallery-picker",
+                targetEntity: "item",
+                catalogs: [],
+                facets: [
+                  {
+                    label: `{{some.scope.fields.recommendedTemplates.facets.sharing:translate}}`,
+                    key: "access",
+                    field: "access",
+                    display: "multi-select",
+                    operation: "OR",
                   },
+                ],
+                canReorder: false,
+                linkTarget: "workspaceRelative",
+                modalTitle: {
+                  labelKey: `some.scope.fields.recommendedTemplates.modalTitle`,
                 },
-              ],
+              },
             },
           ],
         },
