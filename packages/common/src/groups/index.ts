@@ -4,6 +4,8 @@ export * from "./types";
 export * from "./HubGroups";
 export * from "./HubGroup";
 export * from "./addGroupMembers";
+export * from "./removeGroupMembers";
+export * from "./updateUserMembership";
 // TODO: The below are being used in hub-teams. When we deprecate that package we can move
 // The below into _internal and remove the exports from here. They were previously in
 // the add-users-workflow directory
