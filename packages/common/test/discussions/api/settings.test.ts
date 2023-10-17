@@ -1,12 +1,12 @@
-import * as req from "../src/request";
+import * as req from "../../../src/discussions/api/request";
 import {
   createSetting,
   fetchSetting,
   removeSetting,
   updateSetting,
-} from "../src/settings";
+} from "../../../src/discussions/api/settings";
 import {
-  SettingType,
+  EntitySettingType,
   ICreateSetting,
   ICreateSettingParams,
   IDiscussionsRequestOptions,
@@ -14,7 +14,7 @@ import {
   IUpdateSetting,
   IUpdateSettingParams,
   IFetchSettingParams,
-} from "../src/types";
+} from "../../../src/discussions/api/types";
 
 describe("settings", () => {
   let requestSpy: any;
@@ -33,7 +33,7 @@ describe("settings", () => {
   it("createSetting", async () => {
     const body: ICreateSetting = {
       id: "uuidv4",
-      type: SettingType.CONTENT,
+      type: EntitySettingType.CONTENT,
       settings: {
         discussions: {
           allowedChannelIds: ["aaa"],

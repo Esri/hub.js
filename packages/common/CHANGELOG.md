@@ -1,3 +1,39 @@
+# @esri/hub-common [14.38.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.37.0...@esri/hub-common@14.38.0) (2023-10-16)
+
+
+### Features
+
+* **hub-common:** add "reharvestSiteCatalog" util ([#1279](https://github.com/Esri/hub.js/issues/1279)) ([6bdda94](https://github.com/Esri/hub.js/commit/6bdda94020f437b1e2c94470b0f3dd32cba31572))
+
+# @esri/hub-common [14.37.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.36.1...@esri/hub-common@14.37.0) (2023-10-16)
+
+
+### Features
+
+* add advancedEditRelative to template links hash ([#1273](https://github.com/Esri/hub.js/issues/1273)) ([cd87479](https://github.com/Esri/hub.js/commit/cd874797faed04a0fe9bc326376fa1342d9bbd0f))
+
+## @esri/hub-common [14.36.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.36.0...@esri/hub-common@14.36.1) (2023-10-13)
+
+
+### Bug Fixes
+
+* update privacy config schema ([#1276](https://github.com/Esri/hub.js/issues/1276)) ([7a3bb3f](https://github.com/Esri/hub.js/commit/7a3bb3f4fa30810c16fbd23aa1e40e03eec1c57f))
+
+# @esri/hub-common [14.36.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.35.1...@esri/hub-common@14.36.0) (2023-10-13)
+
+
+### Features
+
+* **hub-common:** add section heading for template ui schemas ([#1274](https://github.com/Esri/hub.js/issues/1274)) ([cdabf33](https://github.com/Esri/hub.js/commit/cdabf338c2b884111002189f4b05bcebb9ca56a4))
+* telemetry config ([#1272](https://github.com/Esri/hub.js/issues/1272)) ([7a0a40c](https://github.com/Esri/hub.js/commit/7a0a40cfd9bd2ca5ef4537e65812c3d05eae2dd8))
+
+## @esri/hub-common [14.35.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.35.0...@esri/hub-common@14.35.1) (2023-10-12)
+
+
+### Bug Fixes
+
+* **hub-common:** add CRUD functions for entity settings ([#1275](https://github.com/Esri/hub.js/issues/1275)) ([8eabc30](https://github.com/Esri/hub.js/commit/8eabc3005a1fa4786975d993464f7d7500de558b))
+
 # @esri/hub-common [14.35.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.34.0...@esri/hub-common@14.35.0) (2023-10-12)
 
 
