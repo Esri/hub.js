@@ -106,25 +106,34 @@ describe("buildUiSchema: initiative template edit", () => {
               },
             },
             {
-              type: "Control",
-              scope: "/properties/recommendedTemplates",
+              type: "Section",
               labelKey: `some.scope.fields.recommendedTemplates.label`,
-              options: {
-                control: "hub-field-input-gallery-picker",
-                targetEntity: "item",
-                catalogs: [],
-                facets: [
-                  {
-                    label: `{{some.scope.fields.recommendedTemplates.facets.sharing:translate}}`,
-                    key: "access",
-                    field: "access",
-                    display: "multi-select",
-                    operation: "OR",
+              elements: [
+                {
+                  type: "Control",
+                  scope: "/properties/recommendedTemplates",
+
+                  options: {
+                    control: "hub-field-input-gallery-picker",
+                    targetEntity: "item",
+                    catalogs: [],
+                    facets: [
+                      {
+                        label: `{{some.scope.fields.recommendedTemplates.facets.sharing:translate}}`,
+                        key: "access",
+                        field: "access",
+                        display: "multi-select",
+                        operation: "OR",
+                      },
+                    ],
+                    canReorder: false,
+                    linkTarget: "workspaceRelative",
+                    modalTitle: {
+                      labelKey: `some.scope.fields.recommendedTemplates.modalTitle`,
+                    },
                   },
-                ],
-                canReorder: false,
-                linkTarget: "workspaceRelative",
-              },
+                },
+              ],
             },
           ],
         },
