@@ -105,10 +105,16 @@ describe("buildUiSchema: initiative template edit", () => {
                 messages: [],
               },
             },
+          ],
+        },
+        {
+          type: "Section",
+          labelKey: `some.scope.fields.recommendedTemplates.label`,
+          elements: [
             {
               type: "Control",
               scope: "/properties/recommendedTemplates",
-              labelKey: `some.scope.fields.recommendedTemplates.label`,
+
               options: {
                 control: "hub-field-input-gallery-picker",
                 targetEntity: "item",
@@ -124,6 +130,9 @@ describe("buildUiSchema: initiative template edit", () => {
                 ],
                 canReorder: false,
                 linkTarget: "workspaceRelative",
+                pickerTitle: {
+                  labelKey: `some.scope.fields.recommendedTemplates.pickerTitle`,
+                },
               },
             },
           ],

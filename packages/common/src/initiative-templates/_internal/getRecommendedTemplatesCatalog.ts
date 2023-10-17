@@ -9,12 +9,7 @@ export const getRecommendedTemplatesCatalog = (
   user: IUser,
   i18nScope: string
 ) => {
-  const catalogNames: WellKnownCatalog[] = [
-    "myContent",
-    "favorites",
-    "organization",
-    "world",
-  ];
+  const catalogNames: WellKnownCatalog[] = ["myContent", "organization"];
 
   const catalogs = catalogNames.map((name: WellKnownCatalog) => {
     const opts = { user };
@@ -46,31 +41,9 @@ const getRecommendedTemplatesCollection = (
         {
           predicates: [
             {
-              typekeywords: {
-                not: ["hubSolutionType|hubSiteApplication"],
-              },
+              type: "Solution",
             },
           ],
-        },
-        {
-          predicates: [
-            {
-              typekeywords: {
-                any: [
-                  "hubSolutionType|storymap",
-                  "hubSolutionType|webmap",
-                  "hubSolutionType|dashboard",
-                  "hubSolutionType|hubpage",
-                  "hubSolutionType|webexperience",
-                  "hubSolutionType|webmappingapplication",
-                  "hubSolutionType|form",
-                  "hubSolutionType|featureservice",
-                  "Template",
-                ],
-              },
-            },
-          ],
-          operation: "OR",
         },
         {
           predicates: [
@@ -78,7 +51,6 @@ const getRecommendedTemplatesCollection = (
               typekeywords: ["hubSolutionTemplate"],
             },
             {
-              type: "Solution",
               typekeywords: ["Template"],
             },
           ],
