@@ -130,8 +130,8 @@ describe("buildUiSchema: initiative template edit", () => {
                 ],
                 canReorder: false,
                 linkTarget: "workspaceRelative",
-                modalTitle: {
-                  labelKey: `some.scope.fields.recommendedTemplates.modalTitle`,
+                pickerTitle: {
+                  labelKey: `some.scope.fields.recommendedTemplates.pickerTitle`,
                 },
               },
             },

@@ -117,8 +117,8 @@ export const buildUiSchema = async (
               ],
               canReorder: false,
               linkTarget: "workspaceRelative",
-              modalTitle: {
-                labelKey: `${i18nScope}.fields.recommendedTemplates.modalTitle`,
+              pickerTitle: {
+                labelKey: `${i18nScope}.fields.recommendedTemplates.pickerTitle`,
               },
             },
           },
