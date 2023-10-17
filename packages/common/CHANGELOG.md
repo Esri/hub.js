@@ -1,3 +1,10 @@
+# @esri/hub-common [14.39.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.38.1...@esri/hub-common@14.39.0) (2023-10-17)
+
+
+### Features
+
+* **hub-discussions:** added paging params to IFetchPost ([#1281](https://github.com/Esri/hub.js/issues/1281)) ([63a405a](https://github.com/Esri/hub.js/commit/63a405a00dc8a3afc3f02cc6f2240a745c0b6427))
+
 ## @esri/hub-common [14.38.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.38.0...@esri/hub-common@14.38.1) (2023-10-17)
 
 
