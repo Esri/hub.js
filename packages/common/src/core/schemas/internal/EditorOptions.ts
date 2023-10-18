@@ -1,10 +1,12 @@
+import { HubEntity } from "../../types";
+
 /** Intersection type of all EditorOptions */
 export type EditorOptions = EntityEditorOptions | CardEditorOptions;
 
 /**
  * Generic interface for a Hub Entity
  */
-export type EntityEditorOptions = Record<string, any>;
+export type EntityEditorOptions = Partial<HubEntity> & Record<string, any>;
 
 /**
  * Generic interface for a layout card
