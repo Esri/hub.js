@@ -2,14 +2,14 @@ import { IEditorConfig } from "..";
 import { CardEditorType } from "../types";
 import { getCardType } from "./getCardType";
 import { filterSchemaToUiSchema } from "./filterSchemaToUiSchema";
-import { CardEditorOptions } from "./EditorOptions";
+import { ICardEditorOptions } from "./EditorOptions";
 import { cloneObject } from "../../../util";
 import { IArcGISContext } from "../../..";
 
 export async function getCardEditorSchemas(
   i18nScope: string,
   type: CardEditorType,
-  config: CardEditorOptions,
+  config: ICardEditorOptions,
   context: IArcGISContext
 ): Promise<IEditorConfig> {
   const cardType = getCardType(type);
