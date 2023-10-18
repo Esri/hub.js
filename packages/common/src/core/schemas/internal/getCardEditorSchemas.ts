@@ -29,7 +29,7 @@ export async function getCardEditorSchemas(
       }[type as CardEditorType];
 
       // Allow imports to run in parallel
-      Promise.all([schemaPromise, uiSchemaPromise()]).then(
+      await Promise.all([schemaPromise, uiSchemaPromise()]).then(
         ([schemaModuleResolved, statModuleResolved]) => {
           const { MetricSchema } = schemaModuleResolved;
           schema = cloneObject(MetricSchema);
@@ -42,7 +42,6 @@ export async function getCardEditorSchemas(
       );
       break;
   }
-
   // filter out properties not used in uiSchema
   schema = filterSchemaToUiSchema(schema, uiSchema);
 

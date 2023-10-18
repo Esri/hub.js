@@ -40,6 +40,9 @@ import * as GroupBuildDiscussionsUiSchema from "../../../../src/groups/_internal
 import { InitiativeTemplateEditorTypes } from "../../../../src/initiative-templates/_internal/InitiativeTemplateSchema";
 import * as InitiativeTemplateBuildEditUiSchema from "../../../../src/initiative-templates/_internal/InitiativeTemplateUiSchemaEdit";
 
+import { validCardEditorTypes } from "../../../../src";
+import * as statUiSchemaModule from "../../../../src/core/schemas/internal/metrics/StatCardUiSchema";
+
 describe("getEditorSchemas: ", () => {
   let uiSchemaBuildFnSpy: any;
   afterEach(() => {
@@ -73,6 +76,7 @@ describe("getEditorSchemas: ", () => {
       buildFn: InitiativeTemplateBuildEditUiSchema,
     },
     { type: GroupEditorTypes[2], buildFn: GroupBuildDiscussionsUiSchema },
+    { type: validCardEditorTypes[0], buildFn: statUiSchemaModule },
   ].forEach(async ({ type, buildFn }) => {
     it("returns a schema & uiSchema for a given entity and editor type", async () => {
       uiSchemaBuildFnSpy = spyOn(buildFn, "buildUiSchema").and.returnValue(

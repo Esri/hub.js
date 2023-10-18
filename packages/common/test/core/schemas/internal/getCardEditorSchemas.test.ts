@@ -1,6 +1,6 @@
 import { getCardEditorSchemas } from "../../../../src/core/schemas/internal/getCardEditorSchemas";
 import * as filterSchemaModule from "../../../../src/core/schemas/internal/filterSchemaToUiSchema";
-import { CardType } from "../../../../src";
+import { CardEditorType } from "../../../../src";
 
 import * as statUiSchemaModule from "../../../../src/core/schemas/internal/metrics/StatCardUiSchema";
 
@@ -18,7 +18,7 @@ describe("getCardEditorSchemas", () => {
         });
         const { schema, uiSchema } = await getCardEditorSchemas(
           "some.scope",
-          type as CardType,
+          type as CardEditorType,
           {} as any,
           {} as any
         );
