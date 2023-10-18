@@ -21,7 +21,7 @@ import config from "./helpers/config";
 import { getUser } from "@esri/arcgis-rest-portal";
 import { clearUserSiteSettings } from "../src/utils/internal/clearUserSiteSettings";
 import { clearUserHubSettings } from "../src/utils/internal/clearUserHubSettings";
-
+/* tslint:disable:no-string-literal */
 // NOTE: User App Resources is coupled with oAuth
 // so we can't simply create a session via username / pwd
 // because the resultant token is NOT tied to a clientId
@@ -32,14 +32,14 @@ import { clearUserHubSettings } from "../src/utils/internal/clearUserHubSettings
 const SITE_TOKEN = "paste a token copied from a browser as per details above";
 // AGO "you may also need a token from the home app"
 
-fdescribe("user-app-resources harness: ", () => {
+describe("user-app-resources harness: ", () => {
   let factory: Artifactory;
   const orgName = "hubPremiumAlpha";
   let contextMgr: ArcGISContextManager;
   let session: UserSession;
 
   beforeAll(async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 200000;
+    jasmine["DEFAULT_TIMEOUT_INTERVAL"] = 200000;
     factory = new Artifactory(config);
     // create a session
     session = UserSession.fromCredential({
@@ -253,7 +253,7 @@ fdescribe("user-app-resources harness: ", () => {
     });
   });
 
-  fdescribe("hub abstractions: ", () => {
+  describe("hub abstractions: ", () => {
     it("stores site level settings", async () => {
       const ts = new Date().getTime();
       const settings: IUserSiteSettings = {
