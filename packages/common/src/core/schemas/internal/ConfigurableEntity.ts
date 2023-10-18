@@ -1,9 +1,12 @@
+/** Intersection type of all EditorOptions */
+export type EditorOptions = EntityEditorOptions | CardEditorOptions;
+
 /**
  * Generic interface for a Hub Entity
  */
-export type ConfigurableEntity = Record<string, any>;
+export type EntityEditorOptions = Record<string, any>;
 
 /**
  * Generic interface for a layout card
  */
-export type ConfigurableCard = Record<string, any>;
+export type CardEditorOptions = Record<string, any>;

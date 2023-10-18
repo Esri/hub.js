@@ -45,8 +45,6 @@ export enum SOURCE {
   static = "static",
 }
 
-export type SelectionMode = "multiple" | "none" | "single";
-
 export interface IShareableCard {
   shareable: boolean;
   shareableByValue: boolean;

@@ -1,10 +1,5 @@
-import { IConfigurationSchema, IUiSchema, EditorType } from "../schemas";
+import { EditorType, IEditorConfig } from "../schemas";
 import { HubEntity, HubEntityEditor, IEntityEditorContext } from "../types";
-
-export interface IEditorConfig {
-  schema: IConfigurationSchema;
-  uiSchema: IUiSchema;
-}
 
 /**
  * Functions that are used by the arcgis-hub-entity-editor component

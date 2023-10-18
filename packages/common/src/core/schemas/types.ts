@@ -11,6 +11,11 @@ import { TemplateEditorTypes } from "../../templates/_internal/TemplateSchema";
 import { GroupEditorTypes } from "../../groups/_internal/GroupSchema";
 import { InitiativeTemplateEditorTypes } from "../../initiative-templates/_internal/InitiativeTemplateSchema";
 
+export interface IEditorConfig {
+  schema: IConfigurationSchema;
+  uiSchema: IUiSchema;
+}
+
 /**
  * Defines the possible editor type values - these correspond
  * to the supported/defined uiSchema configurations

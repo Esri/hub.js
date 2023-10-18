@@ -263,18 +263,6 @@ export const buildUiSchema = (
               },
             },
           },
-          // {
-          //   type: 'Control',
-          //   scope: '/properties/icon',
-          //   options: { control: 'hub-composite-input-icon' },
-          //   rule: {
-          //     effect: UiSchemaRuleEffects.SHOW,
-          //     condition: {
-          //       scope: '/properties/visualInterest',
-          //       schema: { const: 'icon' }
-          //     }
-          //   }
-          // },
           {
             labelKey: `${i18nScope}.appearance.popoverTitle`,
             scope: "/properties/popoverTitle",

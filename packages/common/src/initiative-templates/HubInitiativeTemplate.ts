@@ -8,12 +8,9 @@ import {
   IEntityEditorContext,
   IHubInitiativeTemplateEditor,
   HubEntity,
-} from "../core";
-
-import {
   IEditorConfig,
-  IWithEditorBehavior,
-} from "../core/behaviors/IWithEditorBehavior";
+} from "../core";
+import { IWithEditorBehavior } from "../core/behaviors/IWithEditorBehavior";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
 import { EditorType } from "../core/schemas/types";
 

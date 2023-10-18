@@ -14,10 +14,8 @@ import {
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
-import {
-  IEditorConfig,
-  IWithEditorBehavior,
-} from "../core/behaviors/IWithEditorBehavior";
+import { IEditorConfig } from "../core";
+import { IWithEditorBehavior } from "../core/behaviors/IWithEditorBehavior";
 
 import { createPage, deletePage, fetchPage, updatePage } from "./HubPages";
 
