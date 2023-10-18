@@ -2,7 +2,12 @@ import { IEditorConfig } from ".";
 import { IArcGISContext } from "../../ArcGISContext";
 import { EditorOptions } from "./internal/EditorOptions";
 import { getEntityEditorSchemas } from "./internal/getEntityEditorSchemas";
-import { CardType, EditorType, validCardTypes } from "./types";
+import {
+  CardEditorType,
+  EditorType,
+  EntityEditorType,
+  validCardEditorTypes,
+} from "./types";
 import { getCardEditorSchemas } from "./internal/getCardEditorSchemas";
 
 /**
@@ -16,11 +21,16 @@ import { getCardEditorSchemas } from "./internal/getCardEditorSchemas";
  */
 export async function getEditorConfig(
   i18nScope: string,
-  type: EditorType | CardType, // make this into an intersection type vs. either or
+  type: EditorType, // make this into an intersection type vs. either or
   options: EditorOptions, //
   context: IArcGISContext
 ): Promise<IEditorConfig> {
-  return validCardTypes.includes(type as CardType)
-    ? getCardEditorSchemas(i18nScope, type as CardType, options, context)
-    : getEntityEditorSchemas(i18nScope, type as EditorType, options, context);
+  return validCardEditorTypes.includes(type as CardEditorType)
+    ? getCardEditorSchemas(i18nScope, type as CardEditorType, options, context)
+    : getEntityEditorSchemas(
+        i18nScope,
+        type as EntityEditorType,
+        options,
+        context
+      );
 }

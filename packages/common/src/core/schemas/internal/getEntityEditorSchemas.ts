@@ -1,6 +1,6 @@
 import { cloneObject } from "../../../util";
 import { IEditorConfig } from "..";
-import { EditorType, IConfigurationSchema, IUiSchema } from "../types";
+import { EntityEditorType, IConfigurationSchema, IUiSchema } from "../types";
 import { filterSchemaToUiSchema } from "./filterSchemaToUiSchema";
 import { SiteEditorType } from "../../../sites/_internal/SiteSchema";
 import { ProjectEditorType } from "../../../projects/_internal/ProjectSchema";
@@ -37,7 +37,7 @@ import { InitiativeTemplateEditorType } from "../../../initiative-templates/_int
  */
 export async function getEntityEditorSchemas(
   i18nScope: string,
-  type: EditorType,
+  type: EntityEditorType,
   entity: EntityEditorOptions,
   context: IArcGISContext
 ): Promise<IEditorConfig> {

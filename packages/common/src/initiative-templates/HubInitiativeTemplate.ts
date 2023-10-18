@@ -12,7 +12,7 @@ import {
 } from "../core";
 import { IWithEditorBehavior } from "../core/behaviors/IWithEditorBehavior";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
-import { EditorType } from "../core/schemas/types";
+import { EntityEditorType } from "../core/schemas/types";
 
 import { IArcGISContext } from "..";
 import { Catalog } from "../search";
@@ -153,7 +153,7 @@ export class HubInitiativeTemplate
    */
   async getEditorConfig(
     i18nScope: string,
-    type: EditorType
+    type: EntityEditorType
   ): Promise<IEditorConfig> {
     // delegate to the schema subsystem
     return getEditorConfig(i18nScope, type, this.entity, this.context);

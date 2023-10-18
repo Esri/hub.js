@@ -20,8 +20,8 @@ export interface IEditorConfig {
  * Defines the possible editor type values - these correspond
  * to the supported/defined uiSchema configurations
  */
-export type EditorType = (typeof validEditorTypes)[number];
-export const validEditorTypes = [
+export type EntityEditorType = (typeof validEntityEditorTypes)[number];
+export const validEntityEditorTypes = [
   ...ProjectEditorTypes,
   ...ContentEditorTypes,
   ...InitiativeEditorTypes,
@@ -33,8 +33,18 @@ export const validEditorTypes = [
   ...InitiativeTemplateEditorTypes,
 ] as const;
 
-export type CardType = (typeof validCardTypes)[number];
-export const validCardTypes = ["hub:card:stat"] as const;
+export type CardEditorType = (typeof validCardEditorTypes)[number];
+export const validCardEditorTypes = ["hub:card:stat"] as const;
+
+/**
+ * All supported editor types - these "map"
+ * to defined schema/uiSchema configurations
+ */
+export type EditorType = (typeof validEditorTypes)[number];
+export const validEditorTypes = [
+  ...validEntityEditorTypes,
+  ...validCardEditorTypes,
+] as const;
 
 export enum UiSchemaRuleEffects {
   SHOW = "SHOW",

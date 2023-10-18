@@ -1,5 +1,5 @@
 import { IEditorConfig } from "..";
-import { CardType } from "../types";
+import { CardEditorType } from "../types";
 import { getCardType } from "./getCardType";
 import { filterSchemaToUiSchema } from "./filterSchemaToUiSchema";
 import { CardEditorOptions } from "./EditorOptions";
@@ -8,7 +8,7 @@ import { IArcGISContext } from "../../..";
 
 export async function getCardEditorSchemas(
   i18nScope: string,
-  type: CardType,
+  type: CardEditorType,
   config: CardEditorOptions,
   context: IArcGISContext
 ): Promise<IEditorConfig> {
@@ -26,7 +26,7 @@ export async function getCardEditorSchemas(
       const schemaPromise = import("./metrics/MetricSchema");
       const uiSchemaPromise = {
         "hub:card:stat": () => import("./metrics/StatCardUiSchema"),
-      }[type as CardType];
+      }[type as CardEditorType];
 
       // Allow imports to run in parallel
       Promise.all([schemaPromise, uiSchemaPromise()]).then(
