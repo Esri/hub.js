@@ -1,12 +1,6 @@
 import { IConfigurationSchema } from "../../..";
-import {
-  ALIGNMENTS,
-  DROP_SHADOWS,
-  UNIT_POSITIONS,
-  VISUAL_INTEREST,
-  LAYOUTS,
-  SOURCE,
-} from "./interfaces";
+import { UNIT_POSITIONS, VISUAL_INTEREST, LAYOUTS, SOURCE } from "./interfaces";
+import { ALIGNMENTS, DROP_SHADOWS } from "../../..";
 
 // when the user selects the dataViz uiSchema/layout, we show fewer visual interest options
 const ALTERNATE_VISUAL_INTEREST = Object.keys(VISUAL_INTEREST).filter(
