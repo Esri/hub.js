@@ -42,6 +42,7 @@ export const buildUiSchema = async (
             options: {
               control: "hub-field-input-input",
               type: "textarea",
+              rows: 4,
             },
           },
           {

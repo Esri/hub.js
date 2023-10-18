@@ -57,6 +57,7 @@ export const buildUiSchema = async (
                     options: {
                       control: "hub-field-input-input",
                       type: "textarea",
+                      rows: 4,
                       helperText: {
                         labelKey: `${i18nScope}.fields.summary.helperText`,
                       },
