@@ -76,7 +76,7 @@ export {
   IRemoveChannelActivityParams,
   IEntitySetting,
   EntitySettingType,
-  IEntityContentSettings,
+  IEntitySettings,
   IDiscussionsSettings,
   IRemoveSettingResponse,
   ICreateSetting,

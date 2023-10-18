@@ -3,10 +3,11 @@ import { IItem, getItem } from "@esri/arcgis-rest-portal";
 import { IHubDiscussion } from "../core/types";
 import { fetchModelFromItem } from "../models";
 import { getItemBySlug } from "../items/slugs";
-import { IModel, isGuid } from "../index";
+import { EntitySettingType, IModel, fetchSetting, isGuid } from "../index";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
+import { getDefaultEntitySettings } from "../utils/internal/getDefaultEntitySettings";
 
 /**
  * @private
@@ -45,6 +46,10 @@ export async function convertItemToDiscussion(
   requestOptions: IRequestOptions
 ): Promise<IHubDiscussion> {
   const model = await fetchModelFromItem(item, requestOptions);
+  await fetchSetting({ id: item.id }).then((settings) => {
+    model.entitySettings =
+      settings ?? getDefaultEntitySettings(EntitySettingType.CONTENT);
+  });
   const mapper = new PropertyMapper<Partial<IHubDiscussion>, IModel>(
     getPropertyMap()
   );

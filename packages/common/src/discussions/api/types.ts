@@ -1037,7 +1037,7 @@ export interface IEntitySetting
     IWithTimestamps {
   id: string;
   type: EntitySettingType;
-  settings: IEntityContentSettings;
+  settings: IEntitySettings;
 }
 
 /**
@@ -1050,9 +1050,9 @@ export enum EntitySettingType {
 
 /**
  * @export
- * @interface IEntityContentSettings
+ * @interface IEntitySettings
  */
-export interface IEntityContentSettings {
+export interface IEntitySettings {
   discussions?: IDiscussionsSettings;
 }
 
@@ -1081,7 +1081,7 @@ export interface IRemoveSettingResponse {
 export interface ICreateSetting {
   id: string;
   type: EntitySettingType;
-  settings: IEntityContentSettings;
+  settings: IEntitySettings;
 }
 
 /**
@@ -1089,7 +1089,7 @@ export interface ICreateSetting {
  * @interface IUpdateSetting
  */
 export interface IUpdateSetting {
-  settings: Partial<IEntityContentSettings>;
+  settings: Partial<IEntitySettings>;
 }
 
 /**

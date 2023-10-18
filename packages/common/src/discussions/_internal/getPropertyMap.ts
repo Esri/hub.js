@@ -12,10 +12,17 @@ export function getPropertyMap(): IPropertyMap[] {
   const map = getBasePropertyMap();
 
   // Type specific mappings
-  map.push({ entityKey: "prompt", storeKey: "data.prompt" });
+  map.push({
+    entityKey: "prompt",
+    storeKey: "data.prompt",
+  });
   map.push({
     entityKey: "location",
     storeKey: "item.properties.location",
+  });
+  map.push({
+    entityKey: "entitySettings.settings.discussions",
+    storeKey: "discussionSettings",
   });
   return map;
 }

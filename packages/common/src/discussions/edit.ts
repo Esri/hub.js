@@ -3,11 +3,20 @@ import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
 import { IHubDiscussion } from "../core/types";
 import { createModel, getModel, updateModel } from "../models";
 import { constructSlug, getUniqueSlug, setSlugKeyword } from "../items/slugs";
-import { IModel, cloneObject, setDiscussableKeyword } from "../index";
+import {
+  EntitySettingType,
+  IModel,
+  cloneObject,
+  createSetting,
+  removeSetting,
+  setDiscussableKeyword,
+  updateSetting,
+} from "../index";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
 import { DEFAULT_DISCUSSION, DEFAULT_DISCUSSION_MODEL } from "./defaults";
+import { getDefaultEntitySettings } from "../utils/internal/getDefaultEntitySettings";
 
 /**
  * @private
@@ -45,6 +54,16 @@ export async function createDiscussion(
     discussion.typeKeywords,
     discussion.isDiscussable
   );
+  // initialize discussion settings
+  discussion.discussionSettings = await createSetting({
+    data: {
+      id: discussion.id,
+      type: EntitySettingType.CONTENT,
+      settings: getDefaultEntitySettings(EntitySettingType.CONTENT),
+    },
+  }).then((result) => {
+    return result.settings.discussions;
+  });
   // Map discussion object onto a default discussion Model
   const mapper = new PropertyMapper<Partial<IHubDiscussion>, IModel>(
     getPropertyMap()
@@ -98,6 +117,26 @@ export async function updateDiscussion(
   // now map back into a discussion and return that
   let updatedDiscussion = mapper.storeToEntity(updatedModel, discussion);
   updatedDiscussion = computeProps(model, updatedDiscussion, requestOptions);
+  if (updatedDiscussion.discussionSettings) {
+    updateSetting({
+      id: updatedDiscussion.id,
+      data: {
+        settings: {
+          discussions: updatedDiscussion.discussionSettings,
+        },
+      },
+    });
+  } else {
+    updatedDiscussion.discussionSettings = await createSetting({
+      data: {
+        id: updatedDiscussion.id,
+        type: EntitySettingType.CONTENT,
+        settings: getDefaultEntitySettings(EntitySettingType.CONTENT),
+      },
+    }).then((result) => {
+      return result.settings.discussions;
+    });
+  }
   // the casting is needed because modelToObject returns a `Partial<T>`
   // where as this function returns a `T`
   return updatedDiscussion as IHubDiscussion;
@@ -114,6 +153,9 @@ export async function deleteDiscussion(
   id: string,
   requestOptions: IUserRequestOptions
 ): Promise<void> {
+  removeSetting({ id }).catch(() => {
+    // surpressing error...
+  });
   const ro = { ...requestOptions, ...{ id } } as IUserItemOptions;
   await removeItem(ro);
   return;
