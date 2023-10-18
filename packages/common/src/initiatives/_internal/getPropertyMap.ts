@@ -19,7 +19,10 @@ export function getPropertyMap(): IPropertyMap[] {
   map.push({ entityKey: "contacts", storeKey: "data.contacts" });
   map.push({ entityKey: "timeline", storeKey: "data.timeline" });
   map.push({ entityKey: "metrics", storeKey: "item.properties.metrics" });
-
+  map.push({
+    entityKey: "associations",
+    storeKey: "item.properties.associations",
+  });
   map.push({
     entityKey: "location",
     storeKey: "item.properties.location",
