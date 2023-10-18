@@ -1,7 +1,7 @@
 import { IEditorConfig } from ".";
 import { IArcGISContext } from "../../ArcGISContext";
 import { EditorOptions } from "./internal/EditorOptions";
-import { getEntityEditorSchemas } from "./internal/getEntityEditorSchemas";
+import { getEditorSchemas } from "./internal/getEditorSchemas";
 import {
   CardEditorType,
   EditorType,
@@ -25,12 +25,5 @@ export async function getEditorConfig(
   options: EditorOptions, //
   context: IArcGISContext
 ): Promise<IEditorConfig> {
-  return validCardEditorTypes.includes(type as CardEditorType)
-    ? getCardEditorSchemas(i18nScope, type as CardEditorType, options, context)
-    : getEntityEditorSchemas(
-        i18nScope,
-        type as EntityEditorType,
-        options,
-        context
-      );
+  return getEditorSchemas(i18nScope, type, options, context);
 }

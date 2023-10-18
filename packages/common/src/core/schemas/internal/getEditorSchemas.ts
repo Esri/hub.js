@@ -1,6 +1,12 @@
 import { cloneObject } from "../../../util";
 import { IEditorConfig } from "..";
-import { EntityEditorType, IConfigurationSchema, IUiSchema } from "../types";
+import {
+  CardEditorType,
+  EditorType,
+  EntityEditorType,
+  IConfigurationSchema,
+  IUiSchema,
+} from "../types";
 import { filterSchemaToUiSchema } from "./filterSchemaToUiSchema";
 import { SiteEditorType } from "../../../sites/_internal/SiteSchema";
 import { ProjectEditorType } from "../../../projects/_internal/ProjectSchema";
@@ -10,7 +16,7 @@ import { PageEditorType } from "../../../pages/_internal/PageSchema";
 import { ContentEditorType } from "../../../content/_internal/ContentSchema";
 import { TemplateEditorType } from "../../../templates/_internal/TemplateSchema";
 import { GroupEditorType } from "../../../groups/_internal/GroupSchema";
-import { EntityEditorOptions } from "./EditorOptions";
+import { EditorOptions } from "./EditorOptions";
 import { IArcGISContext } from "../../../ArcGISContext";
 import {
   IHubDiscussion,
@@ -22,8 +28,9 @@ import {
   IHubProject,
   IHubSite,
   IHubTemplate,
-} from "../../../core/types";
+} from "../../types";
 import { InitiativeTemplateEditorType } from "../../../initiative-templates/_internal/InitiativeTemplateSchema";
+import { getCardEditorSchemas } from "./getCardEditorSchemas";
 
 /**
  * get the editor schema and uiSchema defined for an entity.
@@ -35,10 +42,10 @@ import { InitiativeTemplateEditorType } from "../../../initiative-templates/_int
  * @param options optional hash of dynamic uiSchema element options
  * @returns
  */
-export async function getEntityEditorSchemas(
+export async function getEditorSchemas(
   i18nScope: string,
-  type: EntityEditorType,
-  entity: EntityEditorOptions,
+  type: EditorType,
+  options: EditorOptions,
   context: IArcGISContext
 ): Promise<IEditorConfig> {
   const entityType = type.split(":")[1];
@@ -68,7 +75,7 @@ export async function getEntityEditorSchemas(
       }[type as SiteEditorType]();
       uiSchema = await siteModule.buildUiSchema(
         i18nScope,
-        entity as IHubSite,
+        options as IHubSite,
         context
       );
 
@@ -90,7 +97,7 @@ export async function getEntityEditorSchemas(
       }[type as DiscussionEditorType]();
       uiSchema = await discussionModule.buildUiSchema(
         i18nScope,
-        entity as IHubDiscussion,
+        options as IHubDiscussion,
         context
       );
 
@@ -110,7 +117,7 @@ export async function getEntityEditorSchemas(
       }[type as ProjectEditorType]();
       uiSchema = await projectModule.buildUiSchema(
         i18nScope,
-        entity as IHubProject,
+        options as IHubProject,
         context
       );
 
@@ -130,7 +137,7 @@ export async function getEntityEditorSchemas(
       }[type as InitiativeEditorType]();
       uiSchema = await initiativeModule.buildUiSchema(
         i18nScope,
-        entity as IHubInitiative,
+        options as IHubInitiative,
         context
       );
 
@@ -148,7 +155,7 @@ export async function getEntityEditorSchemas(
       }[type as PageEditorType]();
       uiSchema = await pageModule.buildUiSchema(
         i18nScope,
-        entity as IHubPage,
+        options as IHubPage,
         context
       );
 
@@ -170,7 +177,7 @@ export async function getEntityEditorSchemas(
       }[type as ContentEditorType]();
       uiSchema = await contentModule.buildUiSchema(
         i18nScope,
-        entity as IHubEditableContent,
+        options as IHubEditableContent,
         context
       );
 
@@ -188,7 +195,7 @@ export async function getEntityEditorSchemas(
       }[type as TemplateEditorType]();
       uiSchema = await templateModule.buildUiSchema(
         i18nScope,
-        entity as IHubTemplate,
+        options as IHubTemplate,
         context
       );
 
@@ -210,7 +217,7 @@ export async function getEntityEditorSchemas(
       }[type as GroupEditorType]();
       uiSchema = await groupModule.buildUiSchema(
         i18nScope,
-        entity as IHubGroup,
+        options as IHubGroup,
         context
       );
 
@@ -230,11 +237,21 @@ export async function getEntityEditorSchemas(
 
       uiSchema = await initiativeTemplateModule.buildUiSchema(
         i18nScope,
-        entity as IHubInitiativeTemplate,
+        options as IHubInitiativeTemplate,
         context
       );
 
       break;
+
+    case "card":
+      const result = await getCardEditorSchemas(
+        i18nScope,
+        type as CardEditorType,
+        options,
+        context
+      );
+      schema = result.schema;
+      uiSchema = result.uiSchema;
   }
 
   // filter out properties not used in the UI schema

@@ -1,12 +1,12 @@
 import { getEditorConfig } from "../../../src";
-import * as GetEntitySchemasModule from "../../../src/core/schemas/internal/getEntityEditorSchemas";
+import * as GetEntitySchemasModule from "../../../src/core/schemas/internal/getEditorSchemas";
 import * as GetCardSchemasModule from "../../../src/core/schemas/internal/getCardEditorSchemas";
 
 describe("getEditorConfig:", () => {
-  it("delegates to getEntityEditorSchemas", async () => {
-    const getEntityEditorSchemas = spyOn(
+  it("delegates to getEditorSchemas", async () => {
+    const getEditorSchemas = spyOn(
       GetEntitySchemasModule,
-      "getEntityEditorSchemas"
+      "getEditorSchemas"
     ).and.callFake(() => {
       return Promise.resolve({ schema: {} } as any);
     });
@@ -25,9 +25,9 @@ describe("getEditorConfig:", () => {
       {} as any
     );
 
-    expect(getEntityEditorSchemas).toHaveBeenCalled();
+    expect(getEditorSchemas).toHaveBeenCalled();
     // verify that the options are passed to the schemas
-    expect(getEntityEditorSchemas).toHaveBeenCalledWith(
+    expect(getEditorSchemas).toHaveBeenCalledWith(
       "someScope",
       "hub:discussion:edit",
       {},
@@ -39,9 +39,9 @@ describe("getEditorConfig:", () => {
   });
 
   it("delegates to getCardEditorSchemas", async () => {
-    const getEntityEditorSchemas = spyOn(
+    const getEditorSchemas = spyOn(
       GetEntitySchemasModule,
-      "getEntityEditorSchemas"
+      "getEditorSchemas"
     ).and.callFake(() => {
       return Promise.resolve({ schema: {} } as any);
     });
@@ -69,7 +69,7 @@ describe("getEditorConfig:", () => {
       {}
     );
 
-    expect(getEntityEditorSchemas).not.toHaveBeenCalled();
+    expect(getEditorSchemas).not.toHaveBeenCalled();
     expect(chk).toBeDefined();
     expect(chk.schema).toBeDefined();
   });

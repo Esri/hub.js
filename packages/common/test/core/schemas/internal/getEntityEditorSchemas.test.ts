@@ -1,4 +1,4 @@
-import { getEntityEditorSchemas } from "../../../../src/core/schemas/internal/getEntityEditorSchemas";
+import { getEditorSchemas } from "../../../../src/core/schemas/internal/getEditorSchemas";
 import * as filterSchemaModule from "../../../../src/core/schemas/internal/filterSchemaToUiSchema";
 
 import { ProjectEditorTypes } from "../../../../src/projects/_internal/ProjectSchema";
@@ -40,7 +40,7 @@ import * as GroupBuildDiscussionsUiSchema from "../../../../src/groups/_internal
 import { InitiativeTemplateEditorTypes } from "../../../../src/initiative-templates/_internal/InitiativeTemplateSchema";
 import * as InitiativeTemplateBuildEditUiSchema from "../../../../src/initiative-templates/_internal/InitiativeTemplateUiSchemaEdit";
 
-describe("getEntityEditorSchemas: ", () => {
+describe("getEditorSchemas: ", () => {
   let uiSchemaBuildFnSpy: any;
   afterEach(() => {
     uiSchemaBuildFnSpy.calls.reset();
@@ -78,7 +78,7 @@ describe("getEntityEditorSchemas: ", () => {
       uiSchemaBuildFnSpy = spyOn(buildFn, "buildUiSchema").and.returnValue(
         Promise.resolve({})
       );
-      const { schema, uiSchema } = await getEntityEditorSchemas(
+      const { schema, uiSchema } = await getEditorSchemas(
         "some.scope",
         type,
         {} as any,
@@ -99,7 +99,7 @@ describe("getEntityEditorSchemas: ", () => {
       "buildUiSchema"
     ).and.returnValue({});
 
-    await getEntityEditorSchemas(
+    await getEditorSchemas(
       "some.scope",
       "hub:project:edit",
       {} as any,
