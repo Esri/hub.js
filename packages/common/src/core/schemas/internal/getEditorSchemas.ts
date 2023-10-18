@@ -3,7 +3,6 @@ import { IEditorConfig } from "..";
 import {
   CardEditorType,
   EditorType,
-  EntityEditorType,
   IConfigurationSchema,
   IUiSchema,
 } from "../types";
@@ -16,7 +15,7 @@ import { PageEditorType } from "../../../pages/_internal/PageSchema";
 import { ContentEditorType } from "../../../content/_internal/ContentSchema";
 import { TemplateEditorType } from "../../../templates/_internal/TemplateSchema";
 import { GroupEditorType } from "../../../groups/_internal/GroupSchema";
-import { EditorOptions } from "./EditorOptions";
+import { ICardEditorOptions, EditorOptions } from "./EditorOptions";
 import { IArcGISContext } from "../../../ArcGISContext";
 import {
   IHubDiscussion,
@@ -247,7 +246,7 @@ export async function getEditorSchemas(
       const result = await getCardEditorSchemas(
         i18nScope,
         type as CardEditorType,
-        options,
+        options as ICardEditorOptions,
         context
       );
       schema = result.schema;

@@ -1,7 +1,7 @@
 import { extentToBBox, orgExtent as orgExtent } from "../../../extent";
 import { IHubRequestOptions } from "../../../types";
 import { getTypeFromEntity } from "../../getTypeFromEntity";
-import { EditorOptions } from "./EditorOptions";
+import { IEntityEditorOptions } from "./EditorOptions";
 import { IHubLocation, IHubLocationOption } from "../../types/IHubLocation";
 import { IExtent } from "@esri/arcgis-rest-types";
 
@@ -18,7 +18,7 @@ import { IExtent } from "@esri/arcgis-rest-types";
  * location
  */
 export async function getLocationOptions(
-  entity: EditorOptions,
+  entity: IEntityEditorOptions,
   portalName: string,
   hubRequestOptions: IHubRequestOptions
 ): Promise<IHubLocationOption[]> {

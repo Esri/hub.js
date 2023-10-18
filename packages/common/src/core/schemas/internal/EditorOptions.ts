@@ -1,14 +1,16 @@
 import { HubEntity } from "../../types";
 
 /** Intersection type of all EditorOptions */
-export type EditorOptions = EntityEditorOptions | CardEditorOptions;
+export type EditorOptions = IEntityEditorOptions | ICardEditorOptions;
 
 /**
  * Generic interface for a Hub Entity
  */
-export type EntityEditorOptions = Partial<HubEntity> & Record<string, any>;
+export type IEntityEditorOptions = Partial<HubEntity> & Record<string, any>;
 
 /**
  * Generic interface for a layout card
  */
-export type CardEditorOptions = Record<string, any>;
+export interface ICardEditorOptions {
+  themeColors: string[];
+}
