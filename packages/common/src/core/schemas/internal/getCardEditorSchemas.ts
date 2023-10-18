@@ -1,8 +1,8 @@
 import { IEditorConfig } from "..";
-import { CardType, IConfigurationSchema } from "../types";
+import { CardType } from "../types";
 import { getCardType } from "./getCardType";
 import { filterSchemaToUiSchema } from "./filterSchemaToUiSchema";
-import { CardEditorOptions } from "./ConfigurableEntity";
+import { CardEditorOptions } from "./EditorOptions";
 import { cloneObject } from "../../../util";
 import { IArcGISContext } from "../../..";
 

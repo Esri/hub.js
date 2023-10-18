@@ -1,5 +1,5 @@
 import { getFamily } from "../content/get-family";
-import { ConfigurableEntity } from "./schemas/internal/ConfigurableEntity";
+import { EntityEditorOptions } from "./schemas/internal/EditorOptions";
 import { HubEntity, IHubItemEntity, HubEntityType } from "./types";
 
 /**
@@ -8,7 +8,7 @@ import { HubEntity, IHubItemEntity, HubEntityType } from "./types";
  * @returns
  */
 export function getTypeFromEntity(
-  entity: IHubItemEntity | HubEntity | ConfigurableEntity
+  entity: IHubItemEntity | HubEntity | EntityEditorOptions
 ): HubEntityType {
   let type: HubEntityType;
   switch (entity.type) {

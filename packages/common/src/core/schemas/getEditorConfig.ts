@@ -1,6 +1,6 @@
 import { IEditorConfig } from ".";
 import { IArcGISContext } from "../../ArcGISContext";
-import { EditorOptions } from "./internal/ConfigurableEntity";
+import { EditorOptions } from "./internal/EditorOptions";
 import { getEntityEditorSchemas } from "./internal/getEntityEditorSchemas";
 import { CardType, EditorType, validCardTypes } from "./types";
 import { getCardEditorSchemas } from "./internal/getCardEditorSchemas";

@@ -1,5 +1,5 @@
 import { cloneObject } from "../../../util";
-import { IEditorConfig } from "../../behaviors/IWithEditorBehavior";
+import { IEditorConfig } from "..";
 import { EditorType, IConfigurationSchema, IUiSchema } from "../types";
 import { filterSchemaToUiSchema } from "./filterSchemaToUiSchema";
 import { SiteEditorType } from "../../../sites/_internal/SiteSchema";
@@ -10,7 +10,7 @@ import { PageEditorType } from "../../../pages/_internal/PageSchema";
 import { ContentEditorType } from "../../../content/_internal/ContentSchema";
 import { TemplateEditorType } from "../../../templates/_internal/TemplateSchema";
 import { GroupEditorType } from "../../../groups/_internal/GroupSchema";
-import { ConfigurableEntity } from "./ConfigurableEntity";
+import { EntityEditorOptions } from "./EditorOptions";
 import { IArcGISContext } from "../../../ArcGISContext";
 import {
   IHubDiscussion,
@@ -38,7 +38,7 @@ import { InitiativeTemplateEditorType } from "../../../initiative-templates/_int
 export async function getEntityEditorSchemas(
   i18nScope: string,
   type: EditorType,
-  entity: ConfigurableEntity,
+  entity: EntityEditorOptions,
   context: IArcGISContext
 ): Promise<IEditorConfig> {
   const entityType = type.split(":")[1];
