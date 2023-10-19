@@ -1,12 +1,12 @@
 import { IUiSchema } from "../../core/schemas/types";
 import { IArcGISContext } from "../../ArcGISContext";
-import { IHubInitiative } from "../../core/types";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { getCategoryItems } from "../../core/schemas/internal/getCategoryItems";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { getFeaturedContentCatalogs } from "../../core/schemas/internal/getFeaturedContentCatalogs";
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
+import { IEntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 
 /**
  * @private
@@ -16,7 +16,7 @@ import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThum
  */
 export const buildUiSchema = async (
   i18nScope: string,
-  entity: IHubInitiative,
+  options: IEntityEditorOptions,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
   return {
@@ -65,7 +65,7 @@ export const buildUiSchema = async (
               },
             },
           },
-          getThumbnailUiSchemaElement(i18nScope, entity),
+          getThumbnailUiSchemaElement(i18nScope, options),
           {
             labelKey: `${i18nScope}.fields.tags.label`,
             scope: "/properties/tags",
@@ -73,7 +73,7 @@ export const buildUiSchema = async (
             options: {
               control: "hub-field-input-combobox",
               items: await getTagItems(
-                entity,
+                options,
                 context.portal.id,
                 context.hubRequestOptions
               ),
@@ -118,11 +118,11 @@ export const buildUiSchema = async (
             options: {
               control: "hub-field-input-location-picker",
               extent: await getLocationExtent(
-                entity,
+                options,
                 context.hubRequestOptions
               ),
               options: await getLocationOptions(
-                entity,
+                options,
                 context.portal.name,
                 context.hubRequestOptions
               ),
