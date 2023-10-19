@@ -1,7 +1,6 @@
-import { IArcGISContext } from "../../../..";
+import { IArcGISContext } from "../../../../ArcGISContext";
 import { ICardEditorOptions } from "../EditorOptions";
-import { IUiSchema } from "../../types";
-import { UiSchemaRuleEffects } from "../../types";
+import { UiSchemaRuleEffects, IUiSchema } from "../../types";
 
 /**
  * @private

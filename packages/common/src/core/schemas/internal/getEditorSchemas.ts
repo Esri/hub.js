@@ -1,10 +1,10 @@
 import { cloneObject } from "../../../util";
-import { IEditorConfig } from "../types";
 import {
   CardEditorType,
   EditorType,
   IConfigurationSchema,
   IUiSchema,
+  IEditorConfig,
 } from "../types";
 import { filterSchemaToUiSchema } from "./filterSchemaToUiSchema";
 import { SiteEditorType } from "../../../sites/_internal/SiteSchema";

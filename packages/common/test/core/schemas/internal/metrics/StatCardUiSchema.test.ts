@@ -1,5 +1,5 @@
 import { buildUiSchema } from "../../../../../src/core/schemas/internal/metrics/StatCardUiSchema";
-import { UiSchemaRuleEffects } from "../../../../../src";
+import { UiSchemaRuleEffects } from "../../../../../src/core/schemas/types";
 import { MOCK_CONTEXT } from "../../../../mocks/mock-auth";
 
 describe("buildUiSchema: stat", () => {

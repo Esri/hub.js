@@ -3,7 +3,7 @@ import { getCardType } from "./getCardType";
 import { filterSchemaToUiSchema } from "./filterSchemaToUiSchema";
 import { ICardEditorOptions } from "./EditorOptions";
 import { cloneObject } from "../../../util";
-import { IArcGISContext } from "../../..";
+import { IArcGISContext } from "../../../ArcGISContext";
 
 /**
  * get the editor schema and uiSchema defined for a layout card.
