@@ -12,8 +12,6 @@ import {
 } from "../core";
 import { IWithEditorBehavior } from "../core/behaviors/IWithEditorBehavior";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
-import { EntityEditorType } from "../core/schemas/types";
-
 import { IArcGISContext } from "..";
 import { Catalog } from "../search";
 import { DEFAULT_INITIATIVE_TEMPLATE } from "./defaults";
@@ -27,6 +25,7 @@ import {
   deleteInitiativeTemplate,
 } from "./edit";
 import { enrichEntity } from "../core/enrichEntity";
+import { InitiativeTemplateEditorType } from "./_internal/InitiativeTemplateSchema";
 
 /**
  * Hub Initiative Template Class
@@ -153,7 +152,7 @@ export class HubInitiativeTemplate
    */
   async getEditorConfig(
     i18nScope: string,
-    type: EntityEditorType
+    type: InitiativeTemplateEditorType
   ): Promise<IEditorConfig> {
     // delegate to the schema subsystem
     return getEditorConfig(i18nScope, type, this.entity, this.context);
