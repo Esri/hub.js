@@ -19,6 +19,7 @@ export const DEFAULT_PROJECT: Partial<IHubProject> = {
     contacts: [],
     featuredContentIds: [],
     showMap: true,
+    metricDisplays: [],
   },
   features: InitiativeDefaultFeatures,
 };
@@ -47,6 +48,7 @@ export const DEFAULT_PROJECT_MODEL: IModel = {
       contacts: [],
       featuredContentIds: [],
       showMap: true,
+      metricDisplays: [],
     },
   },
 } as unknown as IModel;

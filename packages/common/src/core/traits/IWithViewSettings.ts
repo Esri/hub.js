@@ -1,4 +1,4 @@
-import { IHubTimeline } from "../types";
+import { IHubTimeline, IMetricDisplayConfig } from "../types";
 
 /**
  * Properties to be exclusively displayed on an entity's
@@ -33,4 +33,9 @@ export interface IWithViewSettings {
    * timeline associated with an entity
    */
   timeline?: IHubTimeline;
+
+  /**
+   * configurations for how to display metrics in the ui
+   */
+  metricDisplays?: IMetricDisplayConfig[];
 }
