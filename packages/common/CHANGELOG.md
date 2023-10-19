@@ -1,3 +1,10 @@
+# @esri/hub-common [14.41.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.40.0...@esri/hub-common@14.41.0) (2023-10-19)
+
+
+### Features
+
+* add permission for privacy; refactor workspace permissions ([#1291](https://github.com/Esri/hub.js/issues/1291)) ([b9639e7](https://github.com/Esri/hub.js/commit/b9639e79c4ee76eba7bdd046212b29e0fde07933))
+
 # @esri/hub-common [14.40.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.39.1...@esri/hub-common@14.40.0) (2023-10-19)
 
 
