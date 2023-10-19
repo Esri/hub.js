@@ -6,6 +6,18 @@ describe("getTopLevelPredicate |", () => {
     const result = getTopLevelPredicate("bbox", []);
     expect(result).toBeNull();
   });
+  it("returns null when passed when predicate has nil value", () => {
+    const result = getTopLevelPredicate("bbox", [
+      { predicates: [{ bbox: undefined }] },
+    ]);
+    expect(result).toBeNull();
+  });
+  it("returns null when passed when predicate has empty string value", () => {
+    const result = getTopLevelPredicate("bbox", [
+      { predicates: [{ bbox: "" }] },
+    ]);
+    expect(result).toBeNull();
+  });
   it("throws an error when more than 1 filter with target field predicates are passed in", () => {
     const filters: IFilter[] = [
       { predicates: [{ bbox: "1,2,3,4" }] },
@@ -69,7 +81,7 @@ describe("getTopLevelPredicate |", () => {
       expect(true).toBe(false);
     } catch (err) {
       expect(err.message).toEqual(
-        "'bbox' predicate must have a string value, string[] and IMatchOptions are not allowed."
+        "'bbox' predicate must be a string or boolean primitive. string[] and IMatchOptions are not allowed."
       );
     }
   });
@@ -92,7 +104,7 @@ describe("getTopLevelPredicate |", () => {
       expect(true).toBe(false);
     } catch (err) {
       expect(err.message).toEqual(
-        "'bbox' predicate must have a string value, string[] and IMatchOptions are not allowed."
+        "'bbox' predicate must be a string or boolean primitive. string[] and IMatchOptions are not allowed."
       );
     }
   });
