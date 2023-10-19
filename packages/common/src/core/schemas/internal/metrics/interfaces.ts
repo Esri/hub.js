@@ -19,27 +19,7 @@ export enum VISUAL_INTEREST {
   icon = "icon",
   logo = "logo",
 }
-
-export enum SHARING {
-  always = "always",
-  hover = "hover",
-}
-
 export enum SOURCE {
   dynamic = "dynamic",
   static = "static",
-}
-
-export interface IShareableCard {
-  shareable: boolean;
-  shareableByValue: boolean;
-  shareableByReference: boolean;
-  shareableOnHover: boolean;
-  element: HTMLElement;
-  getState?(): any;
-}
-
-export enum IMAGE_TYPES {
-  thumbnail = "thumbnail",
-  icon = "icon",
 }
