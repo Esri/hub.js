@@ -18,12 +18,12 @@ import { IExtent } from "@esri/arcgis-rest-types";
  * location
  */
 export async function getLocationOptions(
-  entity: IEntityEditorOptions,
+  options: IEntityEditorOptions,
   portalName: string,
   hubRequestOptions: IHubRequestOptions
 ): Promise<IHubLocationOption[]> {
   const defaultExtent: IExtent = await orgExtent(hubRequestOptions);
-  const location: IHubLocation = entity.location;
+  const location: IHubLocation = options.location;
 
   // Base options
   const optionsArray = [
@@ -43,7 +43,7 @@ export async function getLocationOptions(
     {
       label: "{{shared.fields.location.custom:translate}}",
       description: "{{shared.fields.location.customDescription:translate}}",
-      entityType: getTypeFromEntity(entity),
+      entityType: getTypeFromEntity(options),
       location: {
         type: "custom",
         spatialReference: defaultExtent.spatialReference,
@@ -60,9 +60,9 @@ export async function getLocationOptions(
 
   return optionsArray.map((option) => {
     // If this is a new entity, select the custom option by default
-    if (!entity.id && option.location.type === "custom") {
+    if (!options.id && option.location.type === "custom") {
       option.selected = true;
-    } else if (entity.id && !location && option.location.type === "none") {
+    } else if (options.id && !location && option.location.type === "none") {
       option.selected = true;
     } else if (location?.type === option.location.type) {
       option.location = location;

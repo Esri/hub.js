@@ -9,7 +9,7 @@ import { IArcGISContext } from "../../..";
 export async function getCardEditorSchemas(
   i18nScope: string,
   type: CardEditorType,
-  config: ICardEditorOptions,
+  options: ICardEditorOptions,
   context: IArcGISContext
 ): Promise<IEditorConfig> {
   const cardType = getCardType(type);
@@ -35,7 +35,7 @@ export async function getCardEditorSchemas(
           schema = cloneObject(MetricSchema);
           uiSchema = statModuleResolved.buildUiSchema(
             i18nScope,
-            config,
+            options,
             context
           );
         }

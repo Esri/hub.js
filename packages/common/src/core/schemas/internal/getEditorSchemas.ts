@@ -15,7 +15,11 @@ import { PageEditorType } from "../../../pages/_internal/PageSchema";
 import { ContentEditorType } from "../../../content/_internal/ContentSchema";
 import { TemplateEditorType } from "../../../templates/_internal/TemplateSchema";
 import { GroupEditorType } from "../../../groups/_internal/GroupSchema";
-import { ICardEditorOptions, EditorOptions } from "./EditorOptions";
+import {
+  ICardEditorOptions,
+  EditorOptions,
+  IEntityEditorOptions,
+} from "./EditorOptions";
 import { IArcGISContext } from "../../../ArcGISContext";
 import {
   IHubDiscussion,
@@ -74,7 +78,7 @@ export async function getEditorSchemas(
       }[type as SiteEditorType]();
       uiSchema = await siteModule.buildUiSchema(
         i18nScope,
-        options as IHubSite,
+        options as IEntityEditorOptions,
         context
       );
 
@@ -96,7 +100,7 @@ export async function getEditorSchemas(
       }[type as DiscussionEditorType]();
       uiSchema = await discussionModule.buildUiSchema(
         i18nScope,
-        options as IHubDiscussion,
+        options as IEntityEditorOptions,
         context
       );
 
@@ -116,7 +120,7 @@ export async function getEditorSchemas(
       }[type as ProjectEditorType]();
       uiSchema = await projectModule.buildUiSchema(
         i18nScope,
-        options as IHubProject,
+        options as IEntityEditorOptions,
         context
       );
 
@@ -136,7 +140,7 @@ export async function getEditorSchemas(
       }[type as InitiativeEditorType]();
       uiSchema = await initiativeModule.buildUiSchema(
         i18nScope,
-        options as IHubInitiative,
+        options as IEntityEditorOptions,
         context
       );
 
@@ -154,7 +158,7 @@ export async function getEditorSchemas(
       }[type as PageEditorType]();
       uiSchema = await pageModule.buildUiSchema(
         i18nScope,
-        options as IHubPage,
+        options as IEntityEditorOptions,
         context
       );
 
@@ -176,7 +180,7 @@ export async function getEditorSchemas(
       }[type as ContentEditorType]();
       uiSchema = await contentModule.buildUiSchema(
         i18nScope,
-        options as IHubEditableContent,
+        options as IEntityEditorOptions,
         context
       );
 
@@ -194,7 +198,7 @@ export async function getEditorSchemas(
       }[type as TemplateEditorType]();
       uiSchema = await templateModule.buildUiSchema(
         i18nScope,
-        options as IHubTemplate,
+        options as IEntityEditorOptions,
         context
       );
 
@@ -216,7 +220,7 @@ export async function getEditorSchemas(
       }[type as GroupEditorType]();
       uiSchema = await groupModule.buildUiSchema(
         i18nScope,
-        options as IHubGroup,
+        options as IEntityEditorOptions,
         context
       );
 
@@ -236,7 +240,7 @@ export async function getEditorSchemas(
 
       uiSchema = await initiativeTemplateModule.buildUiSchema(
         i18nScope,
-        options as IHubInitiativeTemplate,
+        options as IEntityEditorOptions,
         context
       );
 
