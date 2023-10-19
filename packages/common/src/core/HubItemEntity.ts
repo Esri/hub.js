@@ -41,7 +41,6 @@ import { AssociationType, IAssociationInfo } from "../associations/types";
 import { listAssociations } from "../associations/listAssociations";
 import { addAssociation } from "../associations/addAssociation";
 import { removeAssociation } from "../associations/removeAssociation";
-import { IEntitySetting, IWithEntitySettings } from "..";
 
 const FEATURED_IMAGE_FILENAME = "featuredImage.png";
 
@@ -57,10 +56,8 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
     IWithPermissionBehavior,
     IWithDiscussionsBehavior,
     IWithFollowersBehavior,
-    IWithAssociationBehavior,
-    IWithEntitySettings
+    IWithAssociationBehavior
 {
-  entitySettings: Omit<IEntitySetting, "id"> & { id?: string };
   protected context: IArcGISContext;
   protected entity: T;
   protected isDestroyed: boolean = false;

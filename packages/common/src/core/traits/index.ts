@@ -6,5 +6,4 @@ export * from "./IWithPermissions";
 export * from "./IWithCatalog";
 export * from "./IWithViewSettings";
 export * from "./IWithDiscussions";
-export * from "./IWithEntitySettings";
 export * from "./IWithDiscussionsSettings";
