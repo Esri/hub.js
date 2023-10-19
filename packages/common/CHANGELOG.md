@@ -1,3 +1,10 @@
+## @esri/hub-common [14.39.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.39.0...@esri/hub-common@14.39.1) (2023-10-19)
+
+
+### Bug Fixes
+
+* address issue importing from a file thats not checked in ([#1289](https://github.com/Esri/hub.js/issues/1289)) ([ead47f4](https://github.com/Esri/hub.js/commit/ead47f424ad46ec0ba71b6fedfdb2b7c49c43e9f))
+
 # @esri/hub-common [14.39.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.38.1...@esri/hub-common@14.39.0) (2023-10-17)
 
 
