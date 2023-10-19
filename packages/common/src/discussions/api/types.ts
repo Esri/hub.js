@@ -541,8 +541,9 @@ export interface ICreateReplyParams extends IDiscussionsRequestOptions {
  *
  * @export
  * @interface IFetchPost
+ * @extends {Partial<IPagingParams>}
  */
-export interface IFetchPost {
+export interface IFetchPost extends Partial<IPagingParams> {
   relations?: PostRelation[];
 }
 

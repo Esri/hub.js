@@ -97,3 +97,6 @@ test.html
 # Madge graphs
 /graph.svg
 /**/*/graph.svg
+
+# Fixtures
+packages/common/e2e/fixtures/env.ts

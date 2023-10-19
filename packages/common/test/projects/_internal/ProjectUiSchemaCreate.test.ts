@@ -58,6 +58,7 @@ describe("buildUiSchema: project create", () => {
                       options: {
                         control: "hub-field-input-input",
                         type: "textarea",
+                        rows: 4,
                         helperText: {
                           labelKey: "some.scope.fields.summary.helperText",
                         },

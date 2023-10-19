@@ -1,3 +1,31 @@
+# @esri/hub-common [14.39.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.38.1...@esri/hub-common@14.39.0) (2023-10-17)
+
+
+### Features
+
+* **hub-discussions:** added paging params to IFetchPost ([#1281](https://github.com/Esri/hub.js/issues/1281)) ([63a405a](https://github.com/Esri/hub.js/commit/63a405a00dc8a3afc3f02cc6f2240a745c0b6427))
+
+## @esri/hub-common [14.38.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.38.0...@esri/hub-common@14.38.1) (2023-10-17)
+
+
+### Bug Fixes
+
+* update recommended templates slightly in initiative template workspace ([#1280](https://github.com/Esri/hub.js/issues/1280)) ([f7fd636](https://github.com/Esri/hub.js/commit/f7fd6366ec097095dcbc9fef31b331a64165d310))
+
+# @esri/hub-common [14.38.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.37.0...@esri/hub-common@14.38.0) (2023-10-16)
+
+
+### Features
+
+* **hub-common:** add "reharvestSiteCatalog" util ([#1279](https://github.com/Esri/hub.js/issues/1279)) ([6bdda94](https://github.com/Esri/hub.js/commit/6bdda94020f437b1e2c94470b0f3dd32cba31572))
+
+# @esri/hub-common [14.37.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.36.1...@esri/hub-common@14.37.0) (2023-10-16)
+
+
+### Features
+
+* add advancedEditRelative to template links hash ([#1273](https://github.com/Esri/hub.js/issues/1273)) ([cd87479](https://github.com/Esri/hub.js/commit/cd874797faed04a0fe9bc326376fa1342d9bbd0f))
+
 ## @esri/hub-common [14.36.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.36.0...@esri/hub-common@14.36.1) (2023-10-13)
 
 

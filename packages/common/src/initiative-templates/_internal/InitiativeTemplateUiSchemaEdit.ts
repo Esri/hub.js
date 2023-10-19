@@ -72,6 +72,7 @@ export const buildUiSchema = async (
             options: {
               control: "hub-field-input-input",
               type: "textarea",
+              rows: 4,
               helperText: {
                 labelKey: `${i18nScope}.fields.summary.helperText`,
               },
@@ -90,10 +91,15 @@ export const buildUiSchema = async (
             },
           },
           getThumbnailUiSchemaElement(i18nScope, options),
+        ],
+      },
+      {
+        type: "Section",
+        labelKey: `${i18nScope}.fields.recommendedTemplates.label`,
+        elements: [
           {
             type: "Control",
             scope: "/properties/recommendedTemplates",
-            labelKey: `${i18nScope}.fields.recommendedTemplates.label`,
             options: {
               control: "hub-field-input-gallery-picker",
               targetEntity: "item",
@@ -112,6 +118,9 @@ export const buildUiSchema = async (
               ],
               canReorder: false,
               linkTarget: "workspaceRelative",
+              pickerTitle: {
+                labelKey: `${i18nScope}.fields.recommendedTemplates.pickerTitle`,
+              },
             },
           },
         ],
