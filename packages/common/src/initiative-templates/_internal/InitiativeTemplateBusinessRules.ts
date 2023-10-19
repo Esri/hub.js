@@ -18,6 +18,7 @@ export const InitiativeTemplatePermissions = [
   "hub:initiativeTemplate:delete",
   "hub:initiativeTemplate:edit",
   "hub:initiativeTemplate:view",
+  "hub:initiativeTemplate:workspace",
   "hub:initiativeTemplate:workspace:overview",
   "hub:initiativeTemplate:workspace:dashboard",
   "hub:initiativeTemplate:workspace:details",
@@ -59,24 +60,43 @@ export const InitiativeTemplatePermissionPolicies: IPermissionPolicy[] = [
     entityOwner: true,
   },
   {
+    permission: "hub:initiativeTemplate:workspace",
+    dependencies: ["hub:feature:workspace"],
+  },
+  {
     permission: "hub:initiativeTemplate:workspace:overview",
-    dependencies: ["hub:initiativeTemplate:view"],
+    dependencies: [
+      "hub:initiativeTemplate:workspace",
+      "hub:initiativeTemplate:view",
+    ],
   },
   {
     permission: "hub:initiativeTemplate:workspace:dashboard",
-    dependencies: ["hub:initiativeTemplate:edit"],
+    dependencies: [
+      "hub:initiativeTemplate:workspace",
+      "hub:initiativeTemplate:edit",
+    ],
   },
   {
     permission: "hub:initiativeTemplate:workspace:details",
-    dependencies: ["hub:initiativeTemplate:edit"],
+    dependencies: [
+      "hub:initiativeTemplate:workspace",
+      "hub:initiativeTemplate:edit",
+    ],
   },
   {
     permission: "hub:initiativeTemplate:workspace:collaborators",
-    dependencies: ["hub:initiativeTemplate:edit"],
+    dependencies: [
+      "hub:initiativeTemplate:workspace",
+      "hub:initiativeTemplate:edit",
+    ],
   },
   {
     permission: "hub:initiativeTemplate:workspace:settings",
-    dependencies: ["hub:initiativeTemplate:edit"],
+    dependencies: [
+      "hub:initiativeTemplate:workspace",
+      "hub:initiativeTemplate:edit",
+    ],
     entityOwner: true,
   },
   {
