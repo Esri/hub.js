@@ -3,7 +3,7 @@ import { cacheBustUrl } from "../../../urls/cacheBustUrl";
 import { IEntityEditorOptions } from "./EditorOptions";
 
 export function getFeaturedImageUrl(
-  entity: IEntityEditorOptions,
+  options: IEntityEditorOptions,
   context: IArcGISContext
 ) {
   const queryParams = context.isAuthenticated
@@ -11,7 +11,7 @@ export function getFeaturedImageUrl(
     : "";
   // TODO: Decide if the url should be passed in or plucked out of this deep path here
   return (
-    entity.view?.featuredImageUrl &&
-    cacheBustUrl(`${entity.view.featuredImageUrl}${queryParams}`)
+    options.view?.featuredImageUrl &&
+    cacheBustUrl(`${options.view.featuredImageUrl}${queryParams}`)
   );
 }

@@ -16,13 +16,13 @@ import { IEntityEditorOptions } from "./EditorOptions";
  */
 export function getThumbnailUiSchemaElement(
   i18nScope: string,
-  entity: IEntityEditorOptions
+  options: IEntityEditorOptions
 ): IUiSchemaElement {
   const messages: IUiSchemaMessage[] = [];
   // Advise the user if the entity's thumbnail is either of the default values
   if (
-    !entity.thumbnail ||
-    entity.thumbnail === "thumbnail/ago_downloaded.png"
+    !options.thumbnail ||
+    options.thumbnail === "thumbnail/ago_downloaded.png"
   ) {
     messages.push({
       type: UiSchemaMessageTypes.custom,
@@ -39,7 +39,7 @@ export function getThumbnailUiSchemaElement(
     type: "Control",
     options: {
       control: "hub-field-input-image-picker",
-      imgSrc: entity.thumbnailUrl,
+      imgSrc: options.thumbnailUrl,
       maxWidth: 727,
       maxHeight: 484,
       aspectRatio: 1.5,

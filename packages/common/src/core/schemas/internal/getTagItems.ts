@@ -15,7 +15,7 @@ import { IEntityEditorOptions } from "./EditorOptions";
  * be hoisted to hub.js
  */
 export async function getTagItems(
-  entity: IEntityEditorOptions,
+  options: IEntityEditorOptions,
   orgId: string,
   hubRequestOptions: IHubRequestOptions
 ): Promise<IUiSchemaComboboxItem[]> {
@@ -60,7 +60,7 @@ export async function getTagItems(
      * and the tags fetched from the orgs, then remove duplicates, filter out
      * any empty values and convert them to the IUiSchemaComboboxItem format
      */
-    const entityTags = entity.tags || [];
+    const entityTags = options.tags || [];
     return [...new Set([...tagsAgg.values.map((t) => t.value), ...entityTags])]
       .filter((t) => t)
       .map((t) => ({ value: t }));

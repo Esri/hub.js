@@ -6,10 +6,10 @@ import { IEntityEditorOptions } from "./EditorOptions";
  * Otherwise, fall back to using the org extent.
  */
 export async function getLocationExtent(
-  entity: IEntityEditorOptions,
+  options: IEntityEditorOptions,
   hubRequestOptions: IHubRequestOptions
 ) {
-  return entity.location?.extent?.length
-    ? bBoxToExtent(entity.location.extent)
+  return options.location?.extent?.length
+    ? bBoxToExtent(options.location.extent)
     : await orgExtent(hubRequestOptions);
 }

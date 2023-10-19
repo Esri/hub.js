@@ -1,6 +1,6 @@
 import { IUiSchema } from "../../core";
 import { IArcGISContext } from "../../ArcGISContext";
-import { IHubDiscussion } from "../../core/types";
+import { IEntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 /**
  * @private
  * constructs the complete create uiSchema for Hub Discussions.
@@ -9,7 +9,7 @@ import { IHubDiscussion } from "../../core/types";
  */
 export const buildUiSchema = async (
   i18nScope: string,
-  entity: IHubDiscussion,
+  options: IEntityEditorOptions,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
   return {
