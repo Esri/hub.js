@@ -1,3 +1,10 @@
+# @esri/hub-common [14.40.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.39.1...@esri/hub-common@14.40.0) (2023-10-19)
+
+
+### Features
+
+* add metric display config to hub.js ([#1290](https://github.com/Esri/hub.js/issues/1290)) ([bef629c](https://github.com/Esri/hub.js/commit/bef629c1dfba8c3f1aa6ed43af2f7fd0d0a9408f))
+
 ## @esri/hub-common [14.39.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.39.0...@esri/hub-common@14.39.1) (2023-10-19)
 
 
