@@ -1,6 +1,6 @@
 import { IArcGISContext } from "../ArcGISContext";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
-import { IEditorConfig } from "../core";
+import { IEditorConfig } from "../core/schemas/types";
 import { HubItemEntity } from "../core/HubItemEntity";
 import { IHubTemplate, IHubTemplateEditor } from "../core/types/IHubTemplate";
 import { TemplateEditorType } from "./_internal/TemplateSchema";

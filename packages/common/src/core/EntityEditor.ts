@@ -8,10 +8,9 @@ import { HubPage } from "../pages/HubPage";
 import { HubProject } from "../projects/HubProject";
 import { HubSite } from "../sites/HubSite";
 import { HubTemplate } from "../templates";
-import { IEditorConfig } from "../core";
+import { IEditorConfig, EntityEditorType } from "./schemas/types";
 import { IWithEditorBehavior } from "./behaviors";
 import { getTypeFromEntity } from "./getTypeFromEntity";
-import { EntityEditorType } from "./schemas";
 import { HubEntity } from "./types/HubEntity";
 import { HubEntityEditor, IEntityEditorContext } from "./types/HubEntityEditor";
 

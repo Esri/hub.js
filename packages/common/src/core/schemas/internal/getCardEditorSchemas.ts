@@ -1,5 +1,4 @@
-import { IEditorConfig } from "..";
-import { CardEditorType } from "../types";
+import { CardEditorType, IEditorConfig } from "../types";
 import { getCardType } from "./getCardType";
 import { filterSchemaToUiSchema } from "./filterSchemaToUiSchema";
 import { ICardEditorOptions } from "./EditorOptions";

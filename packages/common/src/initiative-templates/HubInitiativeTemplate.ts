@@ -8,8 +8,8 @@ import {
   IEntityEditorContext,
   IHubInitiativeTemplateEditor,
   HubEntity,
-  IEditorConfig,
 } from "../core";
+import { IEditorConfig } from "../core/schemas/types";
 import { IWithEditorBehavior } from "../core/behaviors/IWithEditorBehavior";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
 import { IArcGISContext } from "..";

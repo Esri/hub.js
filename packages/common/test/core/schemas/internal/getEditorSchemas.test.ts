@@ -40,7 +40,7 @@ import * as GroupBuildDiscussionsUiSchema from "../../../../src/groups/_internal
 import { InitiativeTemplateEditorTypes } from "../../../../src/initiative-templates/_internal/InitiativeTemplateSchema";
 import * as InitiativeTemplateBuildEditUiSchema from "../../../../src/initiative-templates/_internal/InitiativeTemplateUiSchemaEdit";
 
-import { validCardEditorTypes } from "../../../../src";
+import { validCardEditorTypes } from "../../../../src/core/schemas/types";
 import * as statUiSchemaModule from "../../../../src/core/schemas/internal/metrics/StatCardUiSchema";
 
 describe("getEditorSchemas: ", () => {

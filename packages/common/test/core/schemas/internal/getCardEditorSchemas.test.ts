@@ -1,6 +1,6 @@
 import { getCardEditorSchemas } from "../../../../src/core/schemas/internal/getCardEditorSchemas";
 import * as filterSchemaModule from "../../../../src/core/schemas/internal/filterSchemaToUiSchema";
-import { CardEditorType } from "../../../../src";
+import { CardEditorType } from "../../../../src/core/schemas/types";
 
 import * as statUiSchemaModule from "../../../../src/core/schemas/internal/metrics/StatCardUiSchema";
 

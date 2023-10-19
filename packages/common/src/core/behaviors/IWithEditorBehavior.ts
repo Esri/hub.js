@@ -1,4 +1,4 @@
-import { EditorType, IEditorConfig } from "../schemas";
+import { IEditorConfig, EditorType } from "../schemas/types";
 import { HubEntity, HubEntityEditor, IEntityEditorContext } from "../types";
 
 /**

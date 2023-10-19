@@ -1,5 +1,5 @@
 import { cloneObject } from "../../../util";
-import { IEditorConfig } from "..";
+import { IEditorConfig } from "../types";
 import {
   CardEditorType,
   EditorType,
