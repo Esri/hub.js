@@ -1,3 +1,10 @@
+# @esri/hub-common [14.42.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.41.0...@esri/hub-common@14.42.0) (2023-10-19)
+
+
+### Features
+
+* **hub-common:** allow boolean predicates for OGC searches, openData flag for OGC aggs requests ([#1292](https://github.com/Esri/hub.js/issues/1292)) ([b15ea86](https://github.com/Esri/hub.js/commit/b15ea861a27bb3a521cc2d848a59d245eb21f5c3))
+
 # @esri/hub-common [14.41.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.40.0...@esri/hub-common@14.41.0) (2023-10-19)
 
 
