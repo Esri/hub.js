@@ -42,10 +42,6 @@ function isAuthorizedToModifyChannelByLegacyPermissions(
     return false;
   }
 
-  if (username === channelCreator) {
-    return true;
-  }
-
   if (access === SharingAccess.PRIVATE) {
     return isAuthorizedToModifyChannelByLegacyGroup(channelGroups, userGroups);
   }

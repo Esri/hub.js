@@ -73,13 +73,6 @@ describe("canModerateChannel", () => {
       expect(canModifyChannel(channel)).toBe(false);
     });
 
-    it("returns true if the user created the channel", () => {
-      const user = { username: "john" } as IDiscussionsUser;
-      const channel = { creator: "john" } as IChannel;
-
-      expect(canModifyChannel(channel, user)).toBe(true);
-    });
-
     describe("public channel", () => {
       it("returns true if the user is an admin of one of the channel groups", () => {
         const user = {
