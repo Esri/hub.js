@@ -36,7 +36,7 @@ import { InitiativeTemplateEditorType } from "../../../initiative-templates/_int
 import { getCardEditorSchemas } from "./getCardEditorSchemas";
 
 /**
- * get the editor schema and uiSchema defined for an entity.
+ * get the editor schema and uiSchema defined for an editor (either an entity or a card).
  * The schema and uiSchema that are returned can be used to
  * render a form UI (using the configuration editor)
  *

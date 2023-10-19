@@ -1,4 +1,4 @@
-import { IEditorConfig } from ".";
+import { IEditorConfig } from "./types";
 import { IArcGISContext } from "../../ArcGISContext";
 import { EditorOptions } from "./internal/EditorOptions";
 import { getEditorSchemas } from "./internal/getEditorSchemas";

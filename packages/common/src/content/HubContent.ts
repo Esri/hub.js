@@ -1,6 +1,6 @@
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
-import { IEditorConfig } from "../core";
+import { IEditorConfig } from "../core/schemas/types";
 import { IWithEditorBehavior } from "../core/behaviors/IWithEditorBehavior";
 import {
   IHubContentEditor,
