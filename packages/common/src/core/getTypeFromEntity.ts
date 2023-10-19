@@ -8,7 +8,7 @@ import { HubEntity, IHubItemEntity, HubEntityType } from "./types";
  * @returns
  */
 export function getTypeFromEntity(
-  entity: IHubItemEntity | HubEntity | IEntityEditorOptions
+  entity: IHubItemEntity | Partial<HubEntity>
 ): HubEntityType {
   let type: HubEntityType;
   switch (entity.type) {
