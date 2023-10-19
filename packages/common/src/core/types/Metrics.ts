@@ -197,3 +197,12 @@ export interface IExpression {
    */
   key?: string;
 }
+
+/**
+ * Configuration for how to show a metric in the ui
+ */
+export interface IMetricDisplayConfig {
+  metricId: string;
+  displayType: string;
+  [key: string]: any;
+}
