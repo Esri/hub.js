@@ -97,6 +97,14 @@ describe("hubSearchItems Module |", () => {
         expect(result).toEqual("(type=typeA)");
       });
 
+      it("handles a boolean predicate", () => {
+        const predicate = {
+          openData: false,
+        };
+        const result = formatPredicate(predicate);
+        expect(result).toEqual("(openData=false)");
+      });
+
       it("handles a simple multi-predicate", () => {
         const predicate = {
           type: "typeA",
@@ -519,7 +527,7 @@ describe("hubSearchItems Module |", () => {
     });
 
     describe("getOgcAggregationsQueryString |", () => {
-      const query: IQuery = {
+      const baseQuery: IQuery = {
         targetEntity: "item",
         filters: [
           {
@@ -533,7 +541,7 @@ describe("hubSearchItems Module |", () => {
         const options: IHubSearchOptions = {
           aggFields: ["type", "tags", "categories"],
         };
-        const result = getOgcAggregationQueryParams(query, options);
+        const result = getOgcAggregationQueryParams(baseQuery, options);
         const queryString = getQueryString(result);
         expect(queryString).toEqual(
           `?aggregations=${encodeURIComponent(
@@ -542,7 +550,23 @@ describe("hubSearchItems Module |", () => {
         );
       });
 
-      it("handles aggregations and token", () => {
+      it("handles aggregations and openData flag", () => {
+        const options: IHubSearchOptions = {
+          aggFields: ["type", "tags", "categories"],
+        };
+        const opendataQuery = cloneObject(baseQuery);
+        opendataQuery.filters.push({ predicates: [{ openData: true }] });
+
+        const result = getOgcAggregationQueryParams(opendataQuery, options);
+        const queryString = getQueryString(result);
+        expect(queryString).toEqual(
+          `?aggregations=${encodeURIComponent(
+            "terms(fields=(type,tags,categories))"
+          )}&openData=true`
+        );
+      });
+
+      it("handles aggregations, openData flag and token", () => {
         const options: IHubSearchOptions = {
           aggFields: ["type", "tags", "categories"],
           requestOptions: {
@@ -551,12 +575,15 @@ describe("hubSearchItems Module |", () => {
             } as UserSession,
           },
         };
-        const result = getOgcAggregationQueryParams(query, options);
+        const opendataQuery = cloneObject(baseQuery);
+        opendataQuery.filters.push({ predicates: [{ openData: true }] });
+
+        const result = getOgcAggregationQueryParams(opendataQuery, options);
         const queryString = getQueryString(result);
         expect(queryString).toEqual(
           `?aggregations=${encodeURIComponent(
             "terms(fields=(type,tags,categories))"
-          )}&token=abc`
+          )}&openData=true&token=abc`
         );
       });
     });

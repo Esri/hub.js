@@ -1,5 +1,6 @@
 import { IFilter, IPredicate, IQuery } from "../../types/IHubCatalog";
 import { IDateRange, IMatchOptions } from "../../types/types";
+import { isNilOrEmptyString } from "../commonHelpers/isNilOrEmptyString";
 
 export function getFilterQueryParam(query: IQuery) {
   return query.filters
@@ -21,11 +22,14 @@ export function formatPredicate(predicate: IPredicate) {
   const formatted = Object.entries(predicate)
     // Remove predicates that use `term` (handled in `getQQueryParam`),
     // `bbox` (handled in `getBboxQueryParam) or have undefined entries
-    .filter(([field, value]) => field !== "term" && field !== "bbox" && !!value)
+    .filter(
+      ([field, value]) =>
+        field !== "term" && field !== "bbox" && !isNilOrEmptyString(value)
+    )
     // Create sections for each field
     .reduce((acc, [field, value]) => {
       let section;
-      if (typeof value === "string") {
+      if (typeof value === "string" || typeof value === "boolean") {
         section = formatSimpleComparison(field, value);
       } else if (Array.isArray(value)) {
         section = formatMultiStringPredicate(field, value);
@@ -51,8 +55,10 @@ function formatDateRangePredicate(field: string, value: IDateRange<number>) {
   return `${field} BETWEEN ${value.from} AND ${value.to}`;
 }
 
-function formatSimpleComparison(field: string, value: string) {
-  return `${field}=${maybeAddSingleQuotes(value)}`;
+function formatSimpleComparison(field: string, value: string | boolean) {
+  const formattedValue =
+    typeof value === "string" ? maybeAddSingleQuotes(value) : value;
+  return `${field}=${formattedValue}`;
 }
 
 function formatMultiStringPredicate(field: string, values: string[]) {
