@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <meta name="date" content="2023-10-19T20:54:15.055Z">
+    <meta name="date" content="2023-10-19T21:40:39.076Z">
     <title>getTopLevelPredicate | API Reference | @esri/hub.js</title>
     
     <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
@@ -75,7 +75,7 @@
               <path d="M7 4h5l12 12-12 12H7l12-12L7 4z" />
             </svg>
           </button>
-          <a href="/hub.js/api/common/" class="is-active tsd-kind-icon">common</a>&nbsp;<small>v14.40.0</small>
+          <a href="/hub.js/api/common/" class="is-active tsd-kind-icon">common</a>&nbsp;<small>v14.41.0</small>
           <ul id="list1" class="api-package-content-list">
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -1348,6 +1348,10 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/isNil/" class="tsd-kind-icon padding-right-1">isNil</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/isNilOrEmptyString/" class="tsd-kind-icon padding-right-1">isNilOrEmptyString</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -4910,7 +4914,7 @@
 <li>Only ONE filter can have a predicate with the target field</li>
 <li>Only ONE predicate with the target field can exist</li>
 <li>The predicate can only be ANDed to other predicates</li>
-<li>The predicate's field value MUST be a string (not string[] or IMatchOptions)</li>
+<li>The predicate's field value MUST be a string or boolean (not string[] or IMatchOptions)</li>
 </ul>
 <p>Example: Portal's bbox field cannot be conditionally searched. Any value provided will always be applied as a top-level filter.</p>
 <ul>
@@ -5052,7 +5056,7 @@
 
 
 
-<small class="font-size--2">Function defined in <a href="https://github.com/Esri/hub.js/blob/master/packages/common/src/search/_internal/commonHelpers/getTopLevelPredicate.ts#L21">common/src/search/_internal/commonHelpers/getTopLevelPredicate.ts:21</a></small>
+<small class="font-size--2">Function defined in <a href="https://github.com/Esri/hub.js/blob/master/packages/common/src/search/_internal/commonHelpers/getTopLevelPredicate.ts#L22">common/src/search/_internal/commonHelpers/getTopLevelPredicate.ts:22</a></small>
 
 
     </div>
