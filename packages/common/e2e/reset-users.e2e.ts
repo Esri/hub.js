@@ -1,8 +1,12 @@
 import { IUserRequestOptions, UserSession } from "@esri/arcgis-rest-auth";
 import { resetConfig } from "./fixtures/resetConfig";
-import { adminInfo } from "./fixtures/env";
 import { request } from "@esri/arcgis-rest-request";
 import { getProp } from "../src";
+
+// NOTE: Need to swap this out for a real env file!
+import { adminInfo } from "./fixtures/env-example";
+// import { adminInfo } from "./fixtures/env";
+
 /* tslint:disable:no-string-literal */
 const DRY_RUN = true;
 // Intentionally disabled. To use this, you will need to add a /fixtures/.env
