@@ -18,6 +18,7 @@ export const ContentPermissions = [
   // "hub:content:delete",
   "hub:content:edit",
   "hub:content:view",
+  "hub:content:workspace",
   "hub:content:workspace:overview",
   "hub:content:workspace:dashboard",
   "hub:content:workspace:details",
@@ -58,29 +59,33 @@ export const ContentPermissionPolicies: IPermissionPolicy[] = [
   //   licenses: ["hub-basic", "hub-premium", "enterprise-sites"],
   // },
   {
+    permission: "hub:content:workspace",
+    dependencies: ["hub:feature:workspace"],
+  },
+  {
     permission: "hub:content:workspace:overview",
-    dependencies: ["hub:content:view"],
+    dependencies: ["hub:content:workspace", "hub:content:view"],
   },
   {
     permission: "hub:content:workspace:dashboard",
-    dependencies: ["hub:content:view"],
+    dependencies: ["hub:content:workspace", "hub:content:view"],
   },
   {
     permission: "hub:content:workspace:details",
-    dependencies: ["hub:content:edit"],
+    dependencies: ["hub:content:workspace", "hub:content:edit"],
   },
   {
     permission: "hub:content:workspace:discussion",
-    dependencies: ["hub:content:edit"],
+    dependencies: ["hub:content:workspace", "hub:content:edit"],
   },
   {
     permission: "hub:content:workspace:settings",
-    dependencies: ["hub:content:edit"],
+    dependencies: ["hub:content:workspace", "hub:content:edit"],
     entityOwner: true,
   },
   {
     permission: "hub:content:workspace:collaborators",
-    dependencies: ["hub:content:edit"],
+    dependencies: ["hub:content:workspace", "hub:content:edit"],
   },
   {
     permission: "hub:content:manage",

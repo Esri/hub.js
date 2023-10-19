@@ -27,6 +27,7 @@ export const SitePermissions = [
   "hub:site:discussions",
   "hub:site:feature:follow",
   "hub:site:feature:discussions",
+  "hub:site:workspace",
   "hub:site:workspace:overview",
   "hub:site:workspace:dashboard",
   "hub:site:workspace:details",
@@ -97,38 +98,43 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
     entityConfigurable: true,
   },
   {
+    permission: "hub:site:workspace",
+    dependencies: ["hub:feature:workspace"],
+    environments: ["devext", "qaext"],
+  },
+  {
     permission: "hub:site:workspace:overview",
-    dependencies: ["hub:site:view"],
+    dependencies: ["hub:site:workspace", "hub:site:view"],
   },
   {
     permission: "hub:site:workspace:dashboard",
-    dependencies: ["hub:site:view"],
+    dependencies: ["hub:site:workspace", "hub:site:view"],
   },
   {
     permission: "hub:site:workspace:details",
-    dependencies: ["hub:site:edit"],
+    dependencies: ["hub:site:workspace", "hub:site:edit"],
   },
   {
     permission: "hub:site:workspace:settings",
-    dependencies: ["hub:site:edit"],
+    dependencies: ["hub:site:workspace", "hub:site:edit"],
     entityOwner: true,
   },
   {
     permission: "hub:site:workspace:collaborators",
-    dependencies: ["hub:site:edit"],
+    dependencies: ["hub:site:workspace", "hub:site:edit"],
   },
   {
     permission: "hub:site:workspace:content",
-    dependencies: ["hub:site:edit"],
+    dependencies: ["hub:site:workspace", "hub:site:edit"],
   },
   {
     permission: "hub:site:workspace:metrics",
-    dependencies: ["hub:site:edit"],
+    dependencies: ["hub:site:workspace", "hub:site:edit"],
     environments: ["devext", "qaext"],
   },
   {
     permission: "hub:site:workspace:followers",
-    dependencies: ["hub:site:edit"],
+    dependencies: ["hub:site:workspace", "hub:site:edit"],
   },
   {
     permission: "hub:site:workspace:followers:member",
@@ -154,7 +160,7 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:site:workspace:discussion",
-    dependencies: ["hub:site:edit"],
+    dependencies: ["hub:site:workspace", "hub:site:edit"],
   },
   {
     permission: "hub:site:manage",

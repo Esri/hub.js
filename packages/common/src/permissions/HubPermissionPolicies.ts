@@ -64,10 +64,29 @@ import { TemplatePermissionPolicies } from "../templates/_internal/TemplateBusin
 //   },
 // ];
 
+// DEPRECATED!
+// NO LONGER USED IN OPENDATA-UI DO NOT ADD MORE TO THIS LIST
 const TempPermissionPolicies: IPermissionPolicy[] = [
   {
-    // alpha orgs not on prod
-    permission: "temp:workspace:released",
+    permission: "temp:workspace:released", // replace with hub:features:workspace
+    availability: ["alpha"],
+    environments: ["devext", "qaext"],
+  },
+];
+
+/**
+ * Highlevel Permission definitions for the Hub System as a whole
+ * Typically other permissions depend on these so a whole set of features
+ * can be enabled / disabled by changing a single permission
+ */
+const SystemPermissionPolicies: IPermissionPolicy[] = [
+  {
+    permission: "hub:feature:privacy",
+    availability: ["alpha"],
+    environments: ["qaext"],
+  },
+  {
+    permission: "hub:feature:workspace",
     availability: ["alpha"],
     environments: ["devext", "qaext"],
   },
@@ -88,6 +107,7 @@ export const HubPermissionsPolicies: IPermissionPolicy[] = [
   ...PlatformPermissionPolicies,
   ...TempPermissionPolicies,
   ...InitiativeTemplatePermissionPolicies,
+  ...SystemPermissionPolicies,
 ];
 
 /**

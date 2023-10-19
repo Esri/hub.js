@@ -17,6 +17,8 @@ import { TemplatePermissions } from "../../templates/_internal/TemplateBusinessR
 // to be used until we release workspaces or it can be replaced with our new access control (permission/feature/capability) system
 const TempPermissions = ["temp:workspace:released"];
 
+const SystemPermissions = ["hub:feature:privacy", "hub:feature:workspace"];
+
 const validPermissions = [
   ...SitePermissions,
   ...ProjectPermissions,
@@ -29,6 +31,7 @@ const validPermissions = [
   ...DiscussionPermissions,
   ...InitiativeTemplatePermissions,
   ...TemplatePermissions,
+  ...SystemPermissions,
 ] as const;
 
 /**
@@ -45,7 +48,8 @@ export type Permission =
   | (typeof TempPermissions)[number]
   | (typeof DiscussionPermissions)[number]
   | (typeof InitiativeTemplatePermissions)[number]
-  | (typeof TemplatePermissions)[number];
+  | (typeof TemplatePermissions)[number]
+  | (typeof SystemPermissions)[number];
 
 /**
  * Validate a Permission
