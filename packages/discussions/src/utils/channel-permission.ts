@@ -24,12 +24,10 @@ export class ChannelPermission {
   private readonly ALLOWED_GROUP_MEMBER_TYPES = ["owner", "admin", "member"];
   private isChannelAclEmpty: boolean;
   private permissionsByCategory: PermissionsByAclCategoryMap;
-  private channelCreator: string;
 
-  constructor(channelAcl: IChannelAclPermission[], creator: string) {
+  constructor(channelAcl: IChannelAclPermission[]) {
     this.isChannelAclEmpty = channelAcl.length === 0;
     this.permissionsByCategory = {};
-    this.channelCreator = creator;
 
     channelAcl.forEach((permission) => {
       const { category } = permission;
@@ -75,7 +73,6 @@ export class ChannelPermission {
     }
 
     return (
-      user.username === this.channelCreator ||
       this.canSomeUser(ChannelAction.MODERATE_CHANNEL, user) ||
       this.canSomeUserGroup(ChannelAction.MODERATE_CHANNEL, user) ||
       this.canSomeUserOrg(ChannelAction.MODERATE_CHANNEL, user)
