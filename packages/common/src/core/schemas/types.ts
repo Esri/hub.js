@@ -11,12 +11,17 @@ import { TemplateEditorTypes } from "../../templates/_internal/TemplateSchema";
 import { GroupEditorTypes } from "../../groups/_internal/GroupSchema";
 import { InitiativeTemplateEditorTypes } from "../../initiative-templates/_internal/InitiativeTemplateSchema";
 
+export interface IEditorConfig {
+  schema: IConfigurationSchema;
+  uiSchema: IUiSchema;
+}
+
 /**
  * Defines the possible editor type values - these correspond
  * to the supported/defined uiSchema configurations
  */
-export type EditorType = (typeof validEditorTypes)[number];
-export const validEditorTypes = [
+export type EntityEditorType = (typeof validEntityEditorTypes)[number];
+export const validEntityEditorTypes = [
   ...ProjectEditorTypes,
   ...ContentEditorTypes,
   ...InitiativeEditorTypes,
@@ -26,6 +31,30 @@ export const validEditorTypes = [
   ...TemplateEditorTypes,
   ...GroupEditorTypes,
   ...InitiativeTemplateEditorTypes,
+] as const;
+
+/** Defines the possible editor type values for a stat card. These
+ * correspond to the supported/defined uiSchema configurations. This should
+ * have its own signature in the getEditorConfig function.
+ */
+export type StatCardEditorType = (typeof validStatCardEditorTypes)[number];
+export const validStatCardEditorTypes = ["hub:card:stat"] as const;
+
+/**
+ * Defines the possible editor type values for any layout card. These
+ * correspond to the supported/defined uiSchema configurations for cards.
+ */
+export type CardEditorType = (typeof validCardEditorTypes)[number];
+export const validCardEditorTypes = [...validStatCardEditorTypes] as const;
+
+/**
+ * All supported editor types - these "map"
+ * to defined schema/uiSchema configurations
+ */
+export type EditorType = (typeof validEditorTypes)[number];
+export const validEditorTypes = [
+  ...validEntityEditorTypes,
+  ...validCardEditorTypes,
 ] as const;
 
 export enum UiSchemaRuleEffects {
@@ -150,4 +179,20 @@ export interface IUiSchemaRule {
 export interface IUiSchemaCondition {
   scope?: string;
   schema: IConfigurationSchema;
+}
+
+export enum ALIGNMENTS {
+  start = "start",
+  center = "center",
+  end = "end",
+}
+export enum CORNERS {
+  square = "square",
+  round = "round",
+}
+export enum DROP_SHADOWS {
+  none = "none",
+  low = "low",
+  medium = "medium",
+  heavy = "heavy",
 }

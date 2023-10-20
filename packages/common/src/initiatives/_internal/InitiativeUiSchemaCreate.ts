@@ -1,10 +1,10 @@
 import { IArcGISContext } from "../../ArcGISContext";
 import { checkPermission } from "../../permissions/checkPermission";
-import { IHubInitiative } from "../../core/types";
 import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { getSharableGroupsComboBoxItems } from "../../core/schemas/internal/getSharableGroupsComboBoxItems";
+import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 
 /**
  * @private
@@ -17,7 +17,7 @@ import { getSharableGroupsComboBoxItems } from "../../core/schemas/internal/getS
  */
 export const buildUiSchema = async (
   i18nScope: string,
-  entity: IHubInitiative,
+  options: EntityEditorOptions,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
   return {
@@ -93,11 +93,11 @@ export const buildUiSchema = async (
                     options: {
                       control: "hub-field-input-location-picker",
                       extent: await getLocationExtent(
-                        entity,
+                        options,
                         context.hubRequestOptions
                       ),
                       options: await getLocationOptions(
-                        entity,
+                        options,
                         context.portal.name,
                         context.hubRequestOptions
                       ),

@@ -9,10 +9,8 @@ import {
 import { HubItemEntity } from "../core/HubItemEntity";
 import { fetchDiscussion } from "./fetch";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
-import {
-  IEditorConfig,
-  IWithEditorBehavior,
-} from "../core/behaviors/IWithEditorBehavior";
+import { IEditorConfig } from "../core/schemas/types";
+import { IWithEditorBehavior } from "../core/behaviors/IWithEditorBehavior";
 import { cloneObject } from "../util";
 import { DiscussionEditorType } from "./_internal/DiscussionSchema";
 import { enrichEntity } from "../core/enrichEntity";

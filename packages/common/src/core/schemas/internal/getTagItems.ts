@@ -5,7 +5,7 @@ import { ISearchOptions, searchItems } from "@esri/arcgis-rest-portal";
 
 import { IHubRequestOptions } from "../../../types";
 import { IUiSchemaComboboxItem } from "../types";
-import { ConfigurableEntity } from "./ConfigurableEntity";
+import { EntityEditorOptions } from "./EditorOptions";
 /**
  * Fetch the entity's org tags (limited to the top 200),
  * merge with any configured on the entity itself, and convert
@@ -15,7 +15,7 @@ import { ConfigurableEntity } from "./ConfigurableEntity";
  * be hoisted to hub.js
  */
 export async function getTagItems(
-  entity: ConfigurableEntity,
+  options: EntityEditorOptions,
   orgId: string,
   hubRequestOptions: IHubRequestOptions
 ): Promise<IUiSchemaComboboxItem[]> {
@@ -60,7 +60,7 @@ export async function getTagItems(
      * and the tags fetched from the orgs, then remove duplicates, filter out
      * any empty values and convert them to the IUiSchemaComboboxItem format
      */
-    const entityTags = entity.tags || [];
+    const entityTags = options.tags || [];
     return [...new Set([...tagsAgg.values.map((t) => t.value), ...entityTags])]
       .filter((t) => t)
       .map((t) => ({ value: t }));

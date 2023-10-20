@@ -19,10 +19,8 @@ import { IWithStoreBehavior } from "../core/behaviors/IWithStoreBehavior";
 import { IWithPermissionBehavior } from "../core/behaviors/IWithPermissionBehavior";
 import { IArcGISContext } from "../ArcGISContext";
 import { cloneObject } from "../util";
-import {
-  IEditorConfig,
-  IWithEditorBehavior,
-} from "../core/behaviors/IWithEditorBehavior";
+import { IEditorConfig } from "../core/schemas/types";
+import { IWithEditorBehavior } from "../core/behaviors/IWithEditorBehavior";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
 import { setGroupThumbnail } from "./setGroupThumbnail";
 import { getGroupThumbnailUrl } from "../search/utils";

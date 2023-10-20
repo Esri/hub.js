@@ -1,14 +1,13 @@
 import { getFamily } from "../content/get-family";
-import { ConfigurableEntity } from "./schemas/internal/ConfigurableEntity";
 import { HubEntity, IHubItemEntity, HubEntityType } from "./types";
 
 /**
- * Given a HubEntity, return it's HubEntityType
+ * Given a HubEntity, return its HubEntityType
  * @param entity
  * @returns
  */
 export function getTypeFromEntity(
-  entity: IHubItemEntity | HubEntity | ConfigurableEntity
+  entity: IHubItemEntity | Partial<HubEntity>
 ): HubEntityType {
   let type: HubEntityType;
   switch (entity.type) {

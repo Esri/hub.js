@@ -1,11 +1,14 @@
-import { getEditorConfig } from "../../../src";
-import * as GetSchemasModule from "../../../src/core/schemas/internal/getEntityEditorSchemas";
+import { getEditorConfig } from "../../../src/core/schemas";
+import { IArcGISContext } from "../../../src/ArcGISContext";
+import { EntityEditorOptions } from "../../../src/core/schemas/internal/EditorOptions";
+import * as GetEntitySchemasModule from "../../../src/core/schemas/internal/getEditorSchemas";
+import { HubEntity } from "../../../src/core/types/HubEntity";
 
 describe("getEditorConfig:", () => {
-  it("delegates", async () => {
-    const getSchemasSpy = spyOn(
-      GetSchemasModule,
-      "getEntityEditorSchemas"
+  it("delegates to getEditorSchemas with entity", async () => {
+    const getEditorSchemas = spyOn(
+      GetEntitySchemasModule,
+      "getEditorSchemas"
     ).and.callFake(() => {
       return Promise.resolve({ schema: {} } as any);
     });
@@ -13,16 +16,43 @@ describe("getEditorConfig:", () => {
     const chk = await getEditorConfig(
       "someScope",
       "hub:discussion:edit",
-      {} as any,
+      {} as HubEntity,
       {} as any
     );
 
-    expect(getSchemasSpy).toHaveBeenCalled();
+    expect(getEditorSchemas).toHaveBeenCalled();
     // verify that the options are passed to the schemas
-    expect(getSchemasSpy).toHaveBeenCalledWith(
+    expect(getEditorSchemas).toHaveBeenCalledWith(
       "someScope",
       "hub:discussion:edit",
       {},
+      {}
+    );
+    expect(chk).toBeDefined();
+    expect(chk.schema).toBeDefined();
+  });
+
+  it("delegates to getEditorSchemas with card", async () => {
+    const getEditorSchemas = spyOn(
+      GetEntitySchemasModule,
+      "getEditorSchemas"
+    ).and.callFake(() => {
+      return Promise.resolve({ schema: {} } as any);
+    });
+
+    const chk = await getEditorConfig(
+      "someScope",
+      "hub:card:stat",
+      { themeColors: [] },
+      {} as IArcGISContext
+    );
+
+    expect(getEditorSchemas).toHaveBeenCalled();
+    // verify that the options are passed to the schemas
+    expect(getEditorSchemas).toHaveBeenCalledWith(
+      "someScope",
+      "hub:card:stat",
+      { themeColors: [] },
       {}
     );
     expect(chk).toBeDefined();

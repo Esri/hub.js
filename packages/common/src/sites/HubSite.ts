@@ -12,10 +12,8 @@ import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
 import { enrichEntity } from "../core/enrichEntity";
-import {
-  IEditorConfig,
-  IWithEditorBehavior,
-} from "../core/behaviors/IWithEditorBehavior";
+import { IEditorConfig } from "../core/schemas/types";
+import { IWithEditorBehavior } from "../core/behaviors/IWithEditorBehavior";
 import { DEFAULT_SITE } from "./defaults";
 import {
   createSite,

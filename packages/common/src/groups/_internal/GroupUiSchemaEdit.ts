@@ -1,6 +1,6 @@
 import { IUiSchema } from "../../core/schemas/types";
 import { IArcGISContext } from "../../ArcGISContext";
-import { IHubGroup } from "../../core/types";
+import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 
 /**
  * @private
@@ -10,7 +10,7 @@ import { IHubGroup } from "../../core/types";
  */
 export const buildUiSchema = async (
   i18nScope: string,
-  entity: IHubGroup,
+  options: EntityEditorOptions,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
   return {
@@ -51,7 +51,7 @@ export const buildUiSchema = async (
             type: "Control",
             options: {
               control: "hub-field-input-image-picker",
-              imgSrc: entity.thumbnailUrl,
+              imgSrc: options.thumbnailUrl,
               maxWidth: 727,
               maxHeight: 484,
               aspectRatio: 1,

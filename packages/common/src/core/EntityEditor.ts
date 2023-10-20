@@ -8,9 +8,9 @@ import { HubPage } from "../pages/HubPage";
 import { HubProject } from "../projects/HubProject";
 import { HubSite } from "../sites/HubSite";
 import { HubTemplate } from "../templates";
-import { IEditorConfig, IWithEditorBehavior } from "./behaviors";
+import { IEditorConfig, EntityEditorType } from "./schemas/types";
+import { IWithEditorBehavior } from "./behaviors";
 import { getTypeFromEntity } from "./getTypeFromEntity";
-import { EditorType } from "./schemas";
 import { HubEntity } from "./types/HubEntity";
 import { HubEntityEditor, IEntityEditorContext } from "./types/HubEntityEditor";
 
@@ -65,7 +65,10 @@ export class EntityEditor {
     }
   }
 
-  async getConfig(i18nScope: string, type: EditorType): Promise<IEditorConfig> {
+  async getConfig(
+    i18nScope: string,
+    type: EntityEditorType
+  ): Promise<IEditorConfig> {
     return this.instance.getEditorConfig(i18nScope, type);
   }
 

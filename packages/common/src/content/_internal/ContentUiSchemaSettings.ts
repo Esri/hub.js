@@ -1,4 +1,5 @@
 import { IArcGISContext } from "../../ArcGISContext";
+import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import { IHubEditableContent } from "../../core/types/IHubEditableContent";
 import { isHostedFeatureServiceEntity } from "../hostedServiceUtils";
@@ -11,14 +12,14 @@ import { isHostedFeatureServiceEntity } from "../hostedServiceUtils";
  */
 export const buildUiSchema = async (
   i18nScope: string,
-  entity: IHubEditableContent,
+  options: EntityEditorOptions,
   _context: IArcGISContext
 ): Promise<IUiSchema> => {
   const uiSchema: IUiSchema = {
     type: "Layout",
     elements: [],
   };
-  if (isHostedFeatureServiceEntity(entity)) {
+  if (isHostedFeatureServiceEntity(options as IHubEditableContent)) {
     uiSchema.elements.push({
       type: "Section",
       labelKey: `${i18nScope}.sections.downloads.label`,

@@ -1,9 +1,9 @@
 import { IArcGISContext } from "../../../ArcGISContext";
 import { cacheBustUrl } from "../../../urls/cacheBustUrl";
-import { ConfigurableEntity } from "./ConfigurableEntity";
+import { EntityEditorOptions } from "./EditorOptions";
 
 export function getFeaturedImageUrl(
-  entity: ConfigurableEntity,
+  options: EntityEditorOptions,
   context: IArcGISContext
 ) {
   const queryParams = context.isAuthenticated
@@ -11,7 +11,7 @@ export function getFeaturedImageUrl(
     : "";
   // TODO: Decide if the url should be passed in or plucked out of this deep path here
   return (
-    entity.view?.featuredImageUrl &&
-    cacheBustUrl(`${entity.view.featuredImageUrl}${queryParams}`)
+    options.view?.featuredImageUrl &&
+    cacheBustUrl(`${options.view.featuredImageUrl}${queryParams}`)
   );
 }

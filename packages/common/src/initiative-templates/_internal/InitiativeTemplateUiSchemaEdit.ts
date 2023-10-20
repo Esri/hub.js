@@ -1,5 +1,5 @@
 import { IArcGISContext } from "../..";
-import { IHubInitiativeTemplate } from "../../core";
+import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 import { IUiSchema, UiSchemaMessageTypes } from "../../core/schemas/types";
 import { getRecommendedTemplatesCatalog } from "./getRecommendedTemplatesCatalog";
@@ -17,7 +17,7 @@ import { getRecommendedTemplatesCatalog } from "./getRecommendedTemplatesCatalog
  */
 export const buildUiSchema = async (
   i18nScope: string,
-  entity: IHubInitiativeTemplate,
+  options: EntityEditorOptions,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
   return {
@@ -90,7 +90,7 @@ export const buildUiSchema = async (
               },
             },
           },
-          getThumbnailUiSchemaElement(i18nScope, entity),
+          getThumbnailUiSchemaElement(i18nScope, options),
         ],
       },
       {

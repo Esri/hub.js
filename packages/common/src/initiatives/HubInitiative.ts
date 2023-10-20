@@ -26,12 +26,12 @@ import {
   IWithCatalogBehavior,
   IWithStoreBehavior,
   IWithSharingBehavior,
-  IEditorConfig,
   IResolvedMetric,
   IWithCardBehavior,
   IWithEditorBehavior,
   IHubInitiativeEditor,
 } from "../core";
+import { IEditorConfig } from "../core/schemas/types";
 import { enrichEntity } from "../core/enrichEntity";
 
 /**
