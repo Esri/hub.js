@@ -1,5 +1,5 @@
 import { IArcGISContext } from "../../../../ArcGISContext";
-import { ICardEditorOptions } from "../EditorOptions";
+import { IStatCardEditorOptions } from "../EditorOptions";
 import { UiSchemaRuleEffects, IUiSchema } from "../../types";
 
 /**
@@ -9,7 +9,7 @@ import { UiSchemaRuleEffects, IUiSchema } from "../../types";
  */
 export const buildUiSchema = (
   i18nScope: string,
-  config: ICardEditorOptions,
+  config: IStatCardEditorOptions,
   context: IArcGISContext
 ): IUiSchema => {
   const { themeColors } = config;

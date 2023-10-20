@@ -5,7 +5,7 @@ import { getLocationOptions } from "../../core/schemas/internal/getLocationOptio
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { IUiSchema } from "../../core/schemas/types";
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
-import { IEntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
+import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 
 /**
  * @private
@@ -15,7 +15,7 @@ import { IEntityEditorOptions } from "../../core/schemas/internal/EditorOptions"
  */
 export const buildUiSchema = async (
   i18nScope: string,
-  options: IEntityEditorOptions,
+  options: EntityEditorOptions,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
   return {

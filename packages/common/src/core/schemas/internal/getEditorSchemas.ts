@@ -16,22 +16,11 @@ import { ContentEditorType } from "../../../content/_internal/ContentSchema";
 import { TemplateEditorType } from "../../../templates/_internal/TemplateSchema";
 import { GroupEditorType } from "../../../groups/_internal/GroupSchema";
 import {
-  ICardEditorOptions,
+  CardEditorOptions,
   EditorOptions,
-  IEntityEditorOptions,
+  EntityEditorOptions,
 } from "./EditorOptions";
 import { IArcGISContext } from "../../../ArcGISContext";
-import {
-  IHubDiscussion,
-  IHubEditableContent,
-  IHubGroup,
-  IHubInitiative,
-  IHubInitiativeTemplate,
-  IHubPage,
-  IHubProject,
-  IHubSite,
-  IHubTemplate,
-} from "../../types";
 import { InitiativeTemplateEditorType } from "../../../initiative-templates/_internal/InitiativeTemplateSchema";
 import { getCardEditorSchemas } from "./getCardEditorSchemas";
 
@@ -51,13 +40,13 @@ export async function getEditorSchemas(
   options: EditorOptions,
   context: IArcGISContext
 ): Promise<IEditorConfig> {
-  const entityType = type.split(":")[1];
+  const editorType = type.split(":")[1];
 
   // schema and uiSchema are dynamically imported based on
   // the entity type and the provided editor type
   let schema: IConfigurationSchema;
   let uiSchema: IUiSchema;
-  switch (entityType) {
+  switch (editorType) {
     case "site":
       const { SiteSchema } = await import(
         "../../../sites/_internal/SiteSchema"
@@ -78,7 +67,7 @@ export async function getEditorSchemas(
       }[type as SiteEditorType]();
       uiSchema = await siteModule.buildUiSchema(
         i18nScope,
-        options as IEntityEditorOptions,
+        options as EntityEditorOptions,
         context
       );
 
@@ -100,7 +89,7 @@ export async function getEditorSchemas(
       }[type as DiscussionEditorType]();
       uiSchema = await discussionModule.buildUiSchema(
         i18nScope,
-        options as IEntityEditorOptions,
+        options as EntityEditorOptions,
         context
       );
 
@@ -120,7 +109,7 @@ export async function getEditorSchemas(
       }[type as ProjectEditorType]();
       uiSchema = await projectModule.buildUiSchema(
         i18nScope,
-        options as IEntityEditorOptions,
+        options as EntityEditorOptions,
         context
       );
 
@@ -140,7 +129,7 @@ export async function getEditorSchemas(
       }[type as InitiativeEditorType]();
       uiSchema = await initiativeModule.buildUiSchema(
         i18nScope,
-        options as IEntityEditorOptions,
+        options as EntityEditorOptions,
         context
       );
 
@@ -158,7 +147,7 @@ export async function getEditorSchemas(
       }[type as PageEditorType]();
       uiSchema = await pageModule.buildUiSchema(
         i18nScope,
-        options as IEntityEditorOptions,
+        options as EntityEditorOptions,
         context
       );
 
@@ -180,7 +169,7 @@ export async function getEditorSchemas(
       }[type as ContentEditorType]();
       uiSchema = await contentModule.buildUiSchema(
         i18nScope,
-        options as IEntityEditorOptions,
+        options as EntityEditorOptions,
         context
       );
 
@@ -198,7 +187,7 @@ export async function getEditorSchemas(
       }[type as TemplateEditorType]();
       uiSchema = await templateModule.buildUiSchema(
         i18nScope,
-        options as IEntityEditorOptions,
+        options as EntityEditorOptions,
         context
       );
 
@@ -220,7 +209,7 @@ export async function getEditorSchemas(
       }[type as GroupEditorType]();
       uiSchema = await groupModule.buildUiSchema(
         i18nScope,
-        options as IEntityEditorOptions,
+        options as EntityEditorOptions,
         context
       );
 
@@ -240,7 +229,7 @@ export async function getEditorSchemas(
 
       uiSchema = await initiativeTemplateModule.buildUiSchema(
         i18nScope,
-        options as IEntityEditorOptions,
+        options as EntityEditorOptions,
         context
       );
 
@@ -250,7 +239,7 @@ export async function getEditorSchemas(
       const result = await getCardEditorSchemas(
         i18nScope,
         type as CardEditorType,
-        options as ICardEditorOptions,
+        options as CardEditorOptions,
         context
       );
       schema = result.schema;

@@ -1,5 +1,5 @@
 import { IArcGISContext } from "../../ArcGISContext";
-import { IEntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
+import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 import { IUiSchema, UiSchemaMessageTypes } from "../../core/schemas/types";
 
@@ -16,7 +16,7 @@ import { IUiSchema, UiSchemaMessageTypes } from "../../core/schemas/types";
  */
 export const buildUiSchema = async (
   i18nScope: string,
-  options: IEntityEditorOptions,
+  options: EntityEditorOptions,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
   return {

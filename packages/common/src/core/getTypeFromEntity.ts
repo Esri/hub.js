@@ -1,9 +1,8 @@
 import { getFamily } from "../content/get-family";
-import { IEntityEditorOptions } from "./schemas/internal/EditorOptions";
 import { HubEntity, IHubItemEntity, HubEntityType } from "./types";
 
 /**
- * Given a HubEntity, return it's HubEntityType
+ * Given a HubEntity, return its HubEntityType
  * @param entity
  * @returns
  */

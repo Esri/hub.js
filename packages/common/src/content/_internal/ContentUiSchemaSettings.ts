@@ -1,5 +1,5 @@
 import { IArcGISContext } from "../../ArcGISContext";
-import { IEntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
+import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import { IHubEditableContent } from "../../core/types/IHubEditableContent";
 import { isHostedFeatureServiceEntity } from "../hostedServiceUtils";
@@ -12,7 +12,7 @@ import { isHostedFeatureServiceEntity } from "../hostedServiceUtils";
  */
 export const buildUiSchema = async (
   i18nScope: string,
-  options: IEntityEditorOptions,
+  options: EntityEditorOptions,
   _context: IArcGISContext
 ): Promise<IUiSchema> => {
   const uiSchema: IUiSchema = {

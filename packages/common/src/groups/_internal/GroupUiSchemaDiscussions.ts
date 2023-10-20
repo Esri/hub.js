@@ -1,6 +1,6 @@
 import { IArcGISContext } from "../../ArcGISContext";
 import { IUiSchema } from "../../core/schemas/types";
-import { IEntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
+import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 /**
  * @private
  * settings uiSchema for Hub Discussions - this
@@ -9,7 +9,7 @@ import { IEntityEditorOptions } from "../../core/schemas/internal/EditorOptions"
  */
 export const buildUiSchema = async (
   i18nScope: string,
-  options: IEntityEditorOptions,
+  options: EntityEditorOptions,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
   return {

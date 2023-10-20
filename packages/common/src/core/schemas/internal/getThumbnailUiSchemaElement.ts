@@ -1,10 +1,9 @@
-import { IHubItemEntity } from "../../types/IHubItemEntity";
 import {
   IUiSchemaElement,
   IUiSchemaMessage,
   UiSchemaMessageTypes,
 } from "../types";
-import { IEntityEditorOptions } from "./EditorOptions";
+import { EntityEditorOptions } from "./EditorOptions";
 
 /**
  * Returns the UI schema element needed to render
@@ -16,7 +15,7 @@ import { IEntityEditorOptions } from "./EditorOptions";
  */
 export function getThumbnailUiSchemaElement(
   i18nScope: string,
-  options: IEntityEditorOptions
+  options: EntityEditorOptions
 ): IUiSchemaElement {
   const messages: IUiSchemaMessage[] = [];
   // Advise the user if the entity's thumbnail is either of the default values

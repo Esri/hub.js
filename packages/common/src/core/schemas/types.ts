@@ -33,8 +33,19 @@ export const validEntityEditorTypes = [
   ...InitiativeTemplateEditorTypes,
 ] as const;
 
+/** Defines the possible editor type values for a stat card. These
+ * correspond to the supported/defined uiSchema configurations. This should
+ * have its own signature in the getEditorConfig function.
+ */
+export type StatCardEditorType = (typeof validStatCardEditorTypes)[number];
+export const validStatCardEditorTypes = ["hub:card:stat"] as const;
+
+/**
+ * Defines the possible editor type values for any layout card. These
+ * correspond to the supported/defined uiSchema configurations for cards.
+ */
 export type CardEditorType = (typeof validCardEditorTypes)[number];
-export const validCardEditorTypes = ["hub:card:stat"] as const;
+export const validCardEditorTypes = [...validStatCardEditorTypes] as const;
 
 /**
  * All supported editor types - these "map"

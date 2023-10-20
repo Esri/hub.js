@@ -1,8 +1,19 @@
-import { IEditorConfig } from "./types";
+import { EntityEditorType, IEditorConfig, StatCardEditorType } from "./types";
 import { IArcGISContext } from "../../ArcGISContext";
-import { EditorOptions } from "./internal/EditorOptions";
+import {
+  EditorOptions,
+  EntityEditorOptions,
+  IStatCardEditorOptions,
+} from "./internal/EditorOptions";
 import { getEditorSchemas } from "./internal/getEditorSchemas";
 import { EditorType } from "./types";
+
+/**
+ * NOTE: We use the concept of function overloading to write getEditorConfig.
+ * In doing so, we create multiple signatures for the function.
+ * When the function is called, its types will need to agree with one of the signatures.
+ * This prevents a function call from having an EntityEditorType type, and IStatCardEditorOptions options, for example.
+ */
 
 /**
  * Construct the Editor Configuration (schema + uiSchema)
@@ -13,6 +24,24 @@ import { EditorType } from "./types";
  * @param context
  * @returns
  */
+
+// Entity editor overload
+export async function getEditorConfig(
+  i18nScope: string,
+  type: EntityEditorType,
+  options: EntityEditorOptions,
+  context: IArcGISContext
+): Promise<IEditorConfig>;
+
+// Stat card editor overload
+export async function getEditorConfig(
+  i18nScope: string,
+  type: StatCardEditorType,
+  options: IStatCardEditorOptions,
+  context: IArcGISContext
+): Promise<IEditorConfig>;
+
+// General function
 export async function getEditorConfig(
   i18nScope: string,
   type: EditorType,
