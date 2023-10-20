@@ -30,6 +30,6 @@ function isChannelModerator(
     return false;
   }
 
-  const channelPermission = new ChannelPermission(channelAcl, creator);
+  const channelPermission = new ChannelPermission(channelAcl);
   return channelPermission.canModerateChannel(user);
 }
