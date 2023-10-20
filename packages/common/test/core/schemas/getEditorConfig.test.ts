@@ -25,7 +25,7 @@ describe("getEditorConfig:", () => {
     expect(getEditorSchemas).toHaveBeenCalledWith(
       "someScope",
       "hub:discussion:edit",
-      { type: "" },
+      {},
       {}
     );
     expect(chk).toBeDefined();
