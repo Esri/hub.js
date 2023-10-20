@@ -10,9 +10,7 @@ export type EditorOptions = EntityEditorOptions | CardEditorOptions;
  *
  * However, it must always have "type" on the options, even if not the entire entity.
  */
-export type EntityEditorOptions = Required<Pick<HubEntity, "type">> &
-  Partial<HubEntity> &
-  Record<string, any>;
+export type EntityEditorOptions = HubEntity & Record<string, any>;
 
 /**
  * Options to use when constructing a schema and uiSchema for
