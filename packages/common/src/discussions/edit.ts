@@ -15,7 +15,7 @@ import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
 import { DEFAULT_DISCUSSION, DEFAULT_DISCUSSION_MODEL } from "./defaults";
-import { getDefaultEntitySettings } from "../utils/internal/getDefaultEntitySettings";
+import { getDefaultEntitySettings } from "./api/settings/getDefaultEntitySettings";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 /**
