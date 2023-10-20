@@ -32,6 +32,12 @@ export const buildUiSchema = async (
                   icon: true,
                   labelKey: `${i18nScope}.fields.name.requiredError`,
                 },
+                {
+                  type: "ERROR",
+                  keyword: "maxLength",
+                  icon: true,
+                  labelKey: `shared.fields.name.maxLengthError`,
+                },
               ],
             },
           },
@@ -43,6 +49,14 @@ export const buildUiSchema = async (
               control: "hub-field-input-input",
               type: "textarea",
               rows: 4,
+              messages: [
+                {
+                  type: "ERROR",
+                  keyword: "maxLength",
+                  icon: true,
+                  labelKey: `shared.fields.summary.maxLengthError`,
+                },
+              ],
             },
           },
           {

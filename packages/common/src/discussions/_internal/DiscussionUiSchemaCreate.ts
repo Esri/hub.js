@@ -27,6 +27,12 @@ export const buildUiSchema = async (
               icon: true,
               labelKey: `${i18nScope}.fields.name.requiredError`,
             },
+            {
+              type: "ERROR",
+              keyword: "maxLength",
+              icon: true,
+              labelKey: `shared.fields.name.maxLengthError`,
+            },
           ],
         },
       },
