@@ -73,7 +73,10 @@ export async function createDiscussion(
       type: defaultSettings.type,
       settings: {
         ...defaultSettings.settings,
-        ...discussion.discussionSettings,
+        discussions: {
+          ...defaultSettings.settings.discussions,
+          ...discussion.discussionSettings,
+        },
       },
     },
     ...requestOptions,
@@ -123,35 +126,33 @@ export async function updateDiscussion(
   // now map back into a discussion and return that
   let updatedDiscussion = mapper.storeToEntity(updatedModel, discussion);
   updatedDiscussion = computeProps(model, updatedDiscussion, requestOptions);
-  if (updatedDiscussion.entitySettingsId) {
-    updateSetting({
-      id: updatedDiscussion.entitySettingsId,
-      data: {
-        settings: {
-          discussions: updatedDiscussion.discussionSettings,
+
+  // create or update entity settings
+  const defaultSettings = getDefaultEntitySettings("discussion");
+  const settings = {
+    ...defaultSettings.settings,
+    discussions: {
+      ...defaultSettings.settings.discussions,
+      ...updatedDiscussion.discussionSettings,
+    },
+  };
+  const newOrUpdatedSettings = updatedDiscussion.entitySettingsId
+    ? await updateSetting({
+        id: updatedDiscussion.entitySettingsId,
+        data: { settings },
+        ...requestOptions,
+      })
+    : await createSetting({
+        data: {
+          id: updatedDiscussion.id,
+          type: defaultSettings.type,
+          settings,
         },
-      },
-      ...requestOptions,
-    });
-  } else {
-    const defaultSettings = getDefaultEntitySettings("discussion");
-    const entitySettings = await createSetting({
-      data: {
-        id: updatedDiscussion.id,
-        type: defaultSettings.type,
-        settings: {
-          ...defaultSettings.settings,
-          discussions: {
-            ...defaultSettings.settings.discussions,
-            ...updatedDiscussion.discussionSettings,
-          },
-        },
-      },
-      ...requestOptions,
-    });
-    updatedDiscussion.entitySettingsId = entitySettings.id;
-    updatedDiscussion.discussionSettings = entitySettings.settings.discussions;
-  }
+        ...requestOptions,
+      });
+  updatedDiscussion.entitySettingsId = newOrUpdatedSettings.id;
+  updatedDiscussion.discussionSettings =
+    newOrUpdatedSettings.settings.discussions;
   // the casting is needed because modelToObject returns a `Partial<T>`
   // where as this function returns a `T`
   return updatedDiscussion as IHubDiscussion;
