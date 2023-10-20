@@ -20,13 +20,5 @@ export function getPropertyMap(): IPropertyMap[] {
     entityKey: "location",
     storeKey: "item.properties.location",
   });
-  map.push({
-    entityKey: "discussionSettings",
-    storeKey: "entitySettings.settings.discussions",
-  });
-  map.push({
-    entityKey: "entitySettingsId",
-    storeKey: "entitySettings.id",
-  });
   return map;
 }

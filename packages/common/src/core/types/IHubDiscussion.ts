@@ -1,8 +1,4 @@
-import {
-  IWithDiscussionsSettings,
-  IWithPermissions,
-  IWithSlug,
-} from "../traits";
+import { IWithPermissions, IWithSlug } from "../traits";
 import { IHubItemEntity, IHubItemEntityEditor } from "./IHubItemEntity";
 
 /**
@@ -12,7 +8,6 @@ import { IHubItemEntity, IHubItemEntityEditor } from "./IHubItemEntity";
 export interface IHubDiscussion
   extends IHubItemEntity,
     IWithSlug,
-    IWithPermissions,
-    IWithDiscussionsSettings {}
+    IWithPermissions {}
 
 export type IHubDiscussionEditor = IHubItemEntityEditor<IHubDiscussion> & {};
