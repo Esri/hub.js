@@ -31,7 +31,7 @@ export function canPostToChannel(
   const { channelAcl, access, groups, orgs, allowAnonymous, creator } = channel;
 
   if (channelAcl) {
-    const channelPermission = new ChannelPermission(channelAcl, creator);
+    const channelPermission = new ChannelPermission(channelAcl);
     return channelPermission.canPostToChannel(user as IDiscussionsUser);
   }
 
