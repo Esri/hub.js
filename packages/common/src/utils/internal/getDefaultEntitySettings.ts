@@ -2,7 +2,7 @@ import {
   EntitySettingType,
   IEntitySetting,
   IEntitySettings,
-} from "../../discussions";
+} from "../../discussions/api/types";
 import { HubEntityType } from "../../core/types";
 
 const DISCUSSION_SETTINGS: IEntitySettings = {

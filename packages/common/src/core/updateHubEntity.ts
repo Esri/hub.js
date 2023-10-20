@@ -53,7 +53,7 @@ export const updateHubEntity = async (
     case "discussion":
       result = await updateDiscussion(
         entity as IHubDiscussion,
-        context.userRequestOptions
+        context.hubRequestOptions
       );
       break;
     case "content":
