@@ -24,7 +24,7 @@ describe("getEditorConfig:", () => {
     expect(getEditorSchemas).toHaveBeenCalledWith(
       "someScope",
       "hub:discussion:edit",
-      {},
+      { type: "" },
       {}
     );
     expect(chk).toBeDefined();
@@ -50,8 +50,8 @@ describe("getEditorConfig:", () => {
     // verify that the options are passed to the schemas
     expect(getEditorSchemas).toHaveBeenCalledWith(
       "someScope",
-      "hub:discussion:edit",
-      {},
+      "hub:card:stat",
+      { themeColors: [] },
       {}
     );
     expect(chk).toBeDefined();
