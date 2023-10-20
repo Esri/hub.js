@@ -1,3 +1,10 @@
+# @esri/hub-common [14.43.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.42.1...@esri/hub-common@14.43.0) (2023-10-20)
+
+
+### Features
+
+* add structure for getting card editor schemas ([#1277](https://github.com/Esri/hub.js/issues/1277)) ([6b82f03](https://github.com/Esri/hub.js/commit/6b82f03deb4ecbc373df6a00f4de030c56dceb2d))
+
 ## @esri/hub-common [14.42.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.42.0...@esri/hub-common@14.42.1) (2023-10-20)
 
 
