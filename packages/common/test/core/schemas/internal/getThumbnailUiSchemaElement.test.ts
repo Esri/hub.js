@@ -1,4 +1,5 @@
 import { IHubItemEntity } from "../../../../src";
+import { EntityEditorOptions } from "../../../../src/core/schemas/internal/EditorOptions";
 import { getThumbnailUiSchemaElement } from "../../../../src/core/schemas/internal/getThumbnailUiSchemaElement";
 
 describe("getThumbnailUiSchemaElement:", () => {
@@ -19,7 +20,10 @@ describe("getThumbnailUiSchemaElement:", () => {
       updatedDateSource: "item.modified",
       type: "Feature Service",
     };
-    const uiSchema = getThumbnailUiSchemaElement("scope", entity);
+    const uiSchema = getThumbnailUiSchemaElement(
+      "scope",
+      entity as EntityEditorOptions
+    );
     expect(uiSchema.options?.messages.length).toBe(0);
   });
 
@@ -39,7 +43,10 @@ describe("getThumbnailUiSchemaElement:", () => {
       updatedDateSource: "item.modified",
       type: "Feature Service",
     };
-    const uiSchema = getThumbnailUiSchemaElement("scope", entity);
+    const uiSchema = getThumbnailUiSchemaElement(
+      "scope",
+      entity as EntityEditorOptions
+    );
     expect(uiSchema.options?.messages.length).toBe(1);
   });
 
@@ -60,7 +67,10 @@ describe("getThumbnailUiSchemaElement:", () => {
       updatedDateSource: "item.modified",
       type: "Feature Service",
     };
-    const uiSchema = getThumbnailUiSchemaElement("scope", entity);
+    const uiSchema = getThumbnailUiSchemaElement(
+      "scope",
+      entity as EntityEditorOptions
+    );
     expect(uiSchema.options?.messages.length).toBe(1);
   });
 });
