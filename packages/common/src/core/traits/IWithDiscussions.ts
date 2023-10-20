@@ -13,5 +13,5 @@ export interface IWithDiscussions extends IWithEntitySettings {
   /**
    * The entity's discussion settings
    */
-  discussionsSettings?: IDiscussionsSettings;
+  discussionSettings?: IDiscussionsSettings;
 }
