@@ -1,3 +1,10 @@
+## @esri/hub-common [14.42.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.42.0...@esri/hub-common@14.42.1) (2023-10-20)
+
+
+### Bug Fixes
+
+* **hub-common:** page schema missing _thumbnail; caused details pane to crash ([#1294](https://github.com/Esri/hub.js/issues/1294)) ([6502c6b](https://github.com/Esri/hub.js/commit/6502c6b2d0c397220fac33f859be6f5a262df5cf))
+
 # @esri/hub-common [14.42.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.41.0...@esri/hub-common@14.42.0) (2023-10-19)
 
 
