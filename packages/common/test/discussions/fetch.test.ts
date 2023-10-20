@@ -4,6 +4,7 @@ import * as slugUtils from "../../src/items/slugs";
 import { IHubRequestOptions } from "../../src/types";
 import { fetchDiscussion } from "../../src/discussions/fetch";
 import { IHubDiscussion } from "../../src/core/types/IHubDiscussion";
+import * as settingUtils from "../../src";
 
 // TODO: update
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
@@ -39,6 +40,9 @@ describe("discussions fetch:", () => {
       const getItemDataSpy = spyOn(portalModule, "getItemData").and.returnValue(
         Promise.resolve(DISCUSSION_DATA)
       );
+      const fetchSettingsSpy = spyOn(settingUtils, "fetchSetting").and.callFake(
+        () => settingUtils.getDefaultEntitySettings("discussion")
+      );
 
       const chk = await fetchDiscussion(GUID, {
         authentication: MOCK_AUTH,
@@ -58,6 +62,9 @@ describe("discussions fetch:", () => {
       const getItemDataSpy = spyOn(portalModule, "getItemData").and.returnValue(
         Promise.resolve()
       );
+      const fetchSettingsSpy = spyOn(settingUtils, "fetchSetting").and.callFake(
+        () => settingUtils.getDefaultEntitySettings("discussion")
+      );
 
       const chk = await fetchDiscussion(GUID, {
         authentication: MOCK_AUTH,
@@ -76,6 +83,9 @@ describe("discussions fetch:", () => {
       );
       const getItemDataSpy = spyOn(portalModule, "getItemData").and.returnValue(
         Promise.resolve(DISCUSSION_DATA)
+      );
+      const fetchSettingsSpy = spyOn(settingUtils, "fetchSetting").and.callFake(
+        () => settingUtils.getDefaultEntitySettings("discussion")
       );
       const ro: IHubRequestOptions = {
         portal: "https://gis.myserver.com/portal/sharing/rest",
@@ -99,6 +109,9 @@ describe("discussions fetch:", () => {
       ).and.returnValue(Promise.resolve(DISCUSSION_ITEM));
       const getItemDataSpy = spyOn(portalModule, "getItemData").and.returnValue(
         Promise.resolve(DISCUSSION_DATA)
+      );
+      const fetchSettingsSpy = spyOn(settingUtils, "fetchSetting").and.callFake(
+        () => settingUtils.getDefaultEntitySettings("discussion")
       );
 
       const chk = await fetchDiscussion("dcdev-34th-street", {

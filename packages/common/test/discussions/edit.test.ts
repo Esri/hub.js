@@ -10,6 +10,7 @@ import {
 } from "../../src/discussions/edit";
 import { IHubDiscussion } from "../../src/core/types/IHubDiscussion";
 import { cloneObject } from "../../src/util";
+import * as settingUtils from "../../src";
 
 // TODO: update
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
@@ -70,6 +71,10 @@ describe("discussions edit:", () => {
           return Promise.resolve(newModel);
         }
       );
+      const createSettingsSpy = spyOn(
+        settingUtils,
+        "createSetting"
+      ).and.callFake(() => settingUtils.getDefaultEntitySettings("discussion"));
       const chk = await createDiscussion(
         { name: "Hello World", orgUrlKey: "dcdev" },
         { authentication: MOCK_AUTH }
@@ -103,6 +108,10 @@ describe("discussions edit:", () => {
           return Promise.resolve(newModel);
         }
       );
+      const createSettingsSpy = spyOn(
+        settingUtils,
+        "createSetting"
+      ).and.callFake(() => settingUtils.getDefaultEntitySettings("discussion"));
       const chk = await createDiscussion(
         {
           name: "Hello World",
@@ -142,6 +151,14 @@ describe("discussions edit:", () => {
           return Promise.resolve(m);
         }
       );
+      const createSettingsSpy = spyOn(
+        settingUtils,
+        "createSetting"
+      ).and.callFake(() => settingUtils.getDefaultEntitySettings("discussion"));
+      const updateSettingsSpy = spyOn(
+        settingUtils,
+        "updateSetting"
+      ).and.callFake(() => settingUtils.getDefaultEntitySettings("discussion"));
       const prj: IHubDiscussion = {
         itemControl: "edit",
         id: GUID,
@@ -171,7 +188,7 @@ describe("discussions edit:", () => {
       expect(slugSpy.calls.count()).toBe(1);
       expect(slugSpy.calls.argsFor(0)[0]).toEqual(
         { slug: "dcdev-wat-blarg", existingId: GUID },
-        "should recieve slug"
+        "should receive slug"
       );
       expect(getModelSpy.calls.count()).toBe(1);
       expect(updateModelSpy.calls.count()).toBe(1);

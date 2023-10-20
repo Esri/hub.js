@@ -47,6 +47,7 @@ describe("updateHubEntity:", () => {
   it("updates discussion", async () => {
     const ctx = {
       userRequestOptions: "fakeRequestOptions",
+      hubRequestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
     const spy = spyOn(
       require("../../src/discussions/edit"),

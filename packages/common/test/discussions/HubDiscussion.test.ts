@@ -1,5 +1,6 @@
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import { IHubDiscussion, getProp } from "../../src";
+import * as settingUtils from "../../src";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubDiscussion } from "../../src/discussions/HubDiscussion";
 import { MOCK_AUTH } from "../mocks/mock-auth";
