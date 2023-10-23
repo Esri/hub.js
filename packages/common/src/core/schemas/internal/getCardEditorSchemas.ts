@@ -36,14 +36,15 @@ export async function getCardEditorSchemas(
       const schemaPromise = import("./metrics/MetricSchema");
       const uiSchemaPromise = {
         "hub:card:stat": () => import("./metrics/StatCardUiSchema"),
+        "hub:card:metric": () => import("./metrics/MetricUiSchema"),
       }[type as StatCardEditorType];
 
       // Allow imports to run in parallel
       await Promise.all([schemaPromise, uiSchemaPromise()]).then(
-        ([schemaModuleResolved, statModuleResolved]) => {
+        ([schemaModuleResolved, uiSchemaModuleResolved]) => {
           const { MetricSchema } = schemaModuleResolved;
           schema = cloneObject(MetricSchema);
-          uiSchema = statModuleResolved.buildUiSchema(
+          uiSchema = uiSchemaModuleResolved.buildUiSchema(
             i18nScope,
             options,
             context

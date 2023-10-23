@@ -36,6 +36,7 @@ import { ProjectEditorType } from "./_internal/ProjectSchema";
 import { enrichEntity } from "../core/enrichEntity";
 import { getProp } from "../objects";
 import { IGroup } from "@esri/arcgis-rest-types";
+import { metricToEditor } from "../core/schemas/internal/metrics/metricToEditor";
 
 /**
  * Hub Project Class
@@ -227,6 +228,15 @@ export class HubProject
       }, []);
       editor._groups = [...editor._groups, ...defaultShareWithGroups];
     }
+
+    // handle metrics
+    const metric = this.entity.metrics.find(
+      (m) => m.id === editorContext.metricId
+    );
+    const displayConfig = this.entity.view.metricDisplays.find(
+      (display) => display.metricId === editorContext.metricId
+    );
+    editor._metric = metricToEditor(metric, displayConfig);
 
     return editor;
   }

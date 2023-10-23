@@ -196,6 +196,23 @@ export interface IExpression {
    * A special identifier given to the expression when it is created
    */
   key?: string;
+  /**
+   * Relation between the values in an expression
+   */
+  relationship?: ExpressionRelationships;
+}
+
+/**
+ * Possible relationships for an expression
+ * BETWEEN -- used to show between two values, i.e. 7 < x < 10
+ * IS_EXACTLY -- for exact matching, i.e. two same strings
+ */
+export enum ExpressionRelationships {
+  BETWEEN = "between",
+  IS_EXACTLY = "isExactly",
+
+  // deprecated and not currently allowed for new use, only used for migrating older stat cards
+  LIKE = "like",
 }
 
 /**
@@ -205,4 +222,12 @@ export interface IMetricDisplayConfig {
   metricId: string;
   displayType: string;
   [key: string]: any;
+}
+
+/**
+ * Params needed to properly display a metric in the ui -- display and metric values
+ */
+export interface IMetricCardParams {
+  metric: IMetric;
+  displayConfig: IMetricDisplayConfig;
 }
