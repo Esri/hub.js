@@ -1,4 +1,7 @@
-import { IServiceQueryMetricSource } from "../../../../../src/core/types/Metrics";
+import {
+  IExpression,
+  IServiceQueryMetricSource,
+} from "../../../../../src/core/types/Metrics";
 import * as EditorToMetric from "../../../../../src/core/schemas/internal/metrics/editorToMetric";
 
 import {
@@ -11,7 +14,7 @@ import {
 describe("editorToMetric", () => {
   describe("buildWhereClause", () => {
     it("constructs a where clause successfully", () => {
-      const expressionSet = [
+      const expressionSet: IExpression[] = [
         {
           field: MOCK_STRING_FIELD,
           key: "expression-123",
@@ -52,7 +55,7 @@ describe("editorToMetric", () => {
           serviceUrl: "",
           fieldType: "",
           allowExpressionSet: true,
-          expressionSet: [],
+          expressionSet: [] as IExpression[],
           legacyWhere: "location = 'river' OR location = 'sun'",
         },
         itemId: "",
