@@ -8,25 +8,13 @@ const DISCUSSION_SETTINGS: IEntitySettings = {
   },
 };
 
-const SETTINGS_TYPE_BY_ENTITY_TYPE: Record<HubEntityType, EntitySettingType> = {
-  discussion: EntitySettingType.CONTENT,
-  site: null,
-  project: null,
-  initiative: null,
-  initiativeTemplate: null,
-  page: null,
-  content: null,
-  org: null,
-  group: null,
-  template: null,
-};
-
 const DEFAULT_ENTITY_SETTINGS_BY_ENTITY_TYPE: Record<
   HubEntityType,
-  IEntitySettings
+  { type: EntitySettingType; settings: IEntitySettings }
 > = {
   discussion: {
-    ...DISCUSSION_SETTINGS,
+    type: EntitySettingType.CONTENT,
+    settings: { ...DISCUSSION_SETTINGS },
   },
   site: null,
   project: null,
@@ -42,14 +30,13 @@ const DEFAULT_ENTITY_SETTINGS_BY_ENTITY_TYPE: Record<
 export function getDefaultEntitySettings(
   entityType: HubEntityType
 ): Partial<IEntitySetting> {
-  if (!SETTINGS_TYPE_BY_ENTITY_TYPE[entityType]) {
-    throw new Error(`no entity settings type defined for ${entityType}`);
-  }
   if (!DEFAULT_ENTITY_SETTINGS_BY_ENTITY_TYPE[entityType]) {
     throw new Error(`no default entity settings defined for ${entityType}`);
   }
   return {
-    type: SETTINGS_TYPE_BY_ENTITY_TYPE[entityType],
-    settings: { ...DEFAULT_ENTITY_SETTINGS_BY_ENTITY_TYPE[entityType] },
+    type: DEFAULT_ENTITY_SETTINGS_BY_ENTITY_TYPE[entityType].type,
+    settings: {
+      ...DEFAULT_ENTITY_SETTINGS_BY_ENTITY_TYPE[entityType].settings,
+    },
   };
 }

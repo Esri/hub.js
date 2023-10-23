@@ -1,7 +1,9 @@
+import { HubEntityType } from "../../../src";
 import * as req from "../../../src/discussions/api/request";
 import {
   createSetting,
   fetchSetting,
+  getDefaultEntitySettings,
   removeSetting,
   updateSetting,
 } from "../../../src/discussions/api/settings";
@@ -107,5 +109,28 @@ describe("settings", () => {
     const [url, opts] = requestSpy.calls.argsFor(0);
     expect(url).toEqual(`/settings/${id}`);
     expect(opts).toEqual({ ...options, httpMethod: "DELETE" });
+  });
+
+  describe("getDefaultEntitySettings", () => {
+    it("returns default entity settings", () => {
+      const result = getDefaultEntitySettings("discussion");
+      expect(result).toEqual({
+        type: EntitySettingType.CONTENT,
+        settings: {
+          discussions: {
+            allowedChannelIds: null,
+            allowedLocations: null,
+          },
+        },
+      });
+    });
+
+    it("throws error if entity type not valid", () => {
+      try {
+        getDefaultEntitySettings("org");
+      } catch (e) {
+        expect(e.message).toBe("no default entity settings defined for org");
+      }
+    });
   });
 });

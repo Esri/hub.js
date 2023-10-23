@@ -43,6 +43,9 @@ const DISCUSSION_MODEL = {
   data: DISCUSSION_DATA,
 } as IModel;
 
+const DEFAULT_SETTINGS =
+  getDefaultEntitySettingsUtils.getDefaultEntitySettings("discussion");
+
 describe("discussions edit:", () => {
   describe("deleteDiscussion:", () => {
     it("deletes the item", async () => {
@@ -75,8 +78,11 @@ describe("discussions edit:", () => {
       const createSettingsSpy = spyOn(
         settingUtils,
         "createSetting"
-      ).and.callFake(() =>
-        getDefaultEntitySettingsUtils.getDefaultEntitySettings("discussion")
+      ).and.returnValue(
+        Promise.resolve({
+          id: GUID,
+          ...DEFAULT_SETTINGS,
+        })
       );
       const chk = await createDiscussion(
         { name: "Hello World", orgUrlKey: "dcdev" },
@@ -85,6 +91,10 @@ describe("discussions edit:", () => {
 
       expect(chk.id).toBe(GUID);
       expect(chk.name).toBe("Hello World");
+      expect(chk.entitySettingsId).toBe(GUID);
+      expect(chk.discussionSettings).toEqual(
+        DEFAULT_SETTINGS.settings?.discussions
+      );
       // should ensure unique slug
       expect(slugSpy.calls.count()).toBe(1);
       expect(slugSpy.calls.argsFor(0)[0]).toEqual(
@@ -94,6 +104,7 @@ describe("discussions edit:", () => {
       // should create the item
       expect(createSpy.calls.count()).toBe(1);
       const modelToCreate = createSpy.calls.argsFor(0)[0];
+      expect(createSettingsSpy.calls.count()).toBe(1);
       expect(modelToCreate.item.title).toBe("Hello World");
       expect(modelToCreate.item.type).toBe("Discussion");
       expect(modelToCreate.item.properties.slug).toBe("dcdev|hello-world");
@@ -114,8 +125,11 @@ describe("discussions edit:", () => {
       const createSettingsSpy = spyOn(
         settingUtils,
         "createSetting"
-      ).and.callFake(() =>
-        getDefaultEntitySettingsUtils.getDefaultEntitySettings("discussion")
+      ).and.returnValue(
+        Promise.resolve({
+          id: GUID,
+          ...DEFAULT_SETTINGS,
+        })
       );
       const chk = await createDiscussion(
         {
@@ -129,6 +143,10 @@ describe("discussions edit:", () => {
       expect(chk.id).toBe(GUID);
       expect(chk.name).toBe("Hello World");
       expect(chk.description).toBe("my desc");
+      expect(chk.entitySettingsId).toBe(GUID);
+      expect(chk.discussionSettings).toEqual(
+        DEFAULT_SETTINGS.settings?.discussions
+      );
       // should ensure unique slug
       expect(slugSpy.calls.count()).toBe(1);
       expect(slugSpy.calls.argsFor(0)[0]).toEqual(
@@ -138,13 +156,14 @@ describe("discussions edit:", () => {
       // should create the item
       expect(createSpy.calls.count()).toBe(1);
       const modelToCreate = createSpy.calls.argsFor(0)[0];
+      expect(createSettingsSpy.calls.count()).toBe(1);
       expect(modelToCreate.item.properties.slug).toBe("dcdev|hello-world");
       expect(modelToCreate.item.properties.orgUrlKey).toBe("dcdev");
     });
   });
 
   describe("updateDiscussion: ", () => {
-    it("updates backing model", async () => {
+    it("updates backing model and creates settings if none exist", async () => {
       const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
         Promise.resolve("dcdev-wat-blarg-1")
       );
@@ -159,14 +178,11 @@ describe("discussions edit:", () => {
       const createSettingsSpy = spyOn(
         settingUtils,
         "createSetting"
-      ).and.callFake(() =>
-        getDefaultEntitySettingsUtils.getDefaultEntitySettings("discussion")
-      );
-      const updateSettingsSpy = spyOn(
-        settingUtils,
-        "updateSetting"
-      ).and.callFake(() =>
-        getDefaultEntitySettingsUtils.getDefaultEntitySettings("discussion")
+      ).and.returnValue(
+        Promise.resolve({
+          id: GUID,
+          ...DEFAULT_SETTINGS,
+        })
       );
       const prj: IHubDiscussion = {
         itemControl: "edit",
@@ -193,6 +209,10 @@ describe("discussions edit:", () => {
       expect(chk.id).toBe(GUID);
       expect(chk.name).toBe("Hello World");
       expect(chk.description).toBe("Some longer description");
+      expect(chk.entitySettingsId).toBe(GUID);
+      expect(chk.discussionSettings).toEqual(
+        DEFAULT_SETTINGS.settings?.discussions
+      );
       // should ensure unique slug
       expect(slugSpy.calls.count()).toBe(1);
       expect(slugSpy.calls.argsFor(0)[0]).toEqual(
@@ -201,6 +221,71 @@ describe("discussions edit:", () => {
       );
       expect(getModelSpy.calls.count()).toBe(1);
       expect(updateModelSpy.calls.count()).toBe(1);
+      const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
+      expect(createSettingsSpy.calls.count()).toBe(1);
+      expect(modelToUpdate.item.description).toBe(prj.description);
+      expect(modelToUpdate.item.properties.slug).toBe("dcdev-wat-blarg-1");
+    });
+    it("updates backing model and updates settings when settings id exists", async () => {
+      const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
+        Promise.resolve("dcdev-wat-blarg-1")
+      );
+      const getModelSpy = spyOn(modelUtils, "getModel").and.returnValue(
+        Promise.resolve(DISCUSSION_MODEL)
+      );
+      const updateModelSpy = spyOn(modelUtils, "updateModel").and.callFake(
+        (m: IModel) => {
+          return Promise.resolve(m);
+        }
+      );
+      const updateSettingsSpy = spyOn(
+        settingUtils,
+        "updateSetting"
+      ).and.returnValue(
+        Promise.resolve({
+          id: GUID,
+          ...DEFAULT_SETTINGS,
+        })
+      );
+      const prj: IHubDiscussion = {
+        itemControl: "edit",
+        id: GUID,
+        name: "Hello World",
+        tags: ["Transportation"],
+        description: "Some longer description",
+        slug: "dcdev-wat-blarg",
+        orgUrlKey: "dcdev",
+        owner: "dcdev_dude",
+        type: "Discussion",
+        createdDate: new Date(1595878748000),
+        createdDateSource: "item.created",
+        updatedDate: new Date(1595878750000),
+        updatedDateSource: "item.modified",
+        thumbnailUrl: "",
+        permissions: [],
+        schemaVersion: 1,
+        canEdit: false,
+        canDelete: false,
+        typeKeywords: [],
+        entitySettingsId: "an id",
+      };
+      const chk = await updateDiscussion(prj, { authentication: MOCK_AUTH });
+      expect(chk.id).toBe(GUID);
+      expect(chk.name).toBe("Hello World");
+      expect(chk.description).toBe("Some longer description");
+      expect(chk.entitySettingsId).toBe(GUID);
+      expect(chk.discussionSettings).toEqual(
+        DEFAULT_SETTINGS.settings?.discussions
+      );
+      // should ensure unique slug
+      expect(slugSpy.calls.count()).toBe(1);
+      expect(slugSpy.calls.argsFor(0)[0]).toEqual(
+        { slug: "dcdev-wat-blarg", existingId: GUID },
+        "should receive slug"
+      );
+      expect(getModelSpy.calls.count()).toBe(1);
+      expect(updateModelSpy.calls.count()).toBe(1);
+      expect(updateSettingsSpy.calls.count()).toBe(1);
       const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
       expect(modelToUpdate.item.description).toBe(prj.description);
       expect(modelToUpdate.item.properties.slug).toBe("dcdev-wat-blarg-1");

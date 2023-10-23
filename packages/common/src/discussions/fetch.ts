@@ -51,7 +51,11 @@ export async function convertItemToDiscussion(
   try {
     entitySettings = await fetchSetting({ id: item.id, ...requestOptions });
   } catch (e) {
-    entitySettings = getDefaultEntitySettings("discussion");
+    const defaultSettings = getDefaultEntitySettings("discussion");
+    entitySettings = {
+      id: null,
+      ...defaultSettings,
+    };
   }
   model.entitySettings = entitySettings;
   const mapper = new PropertyMapper<Partial<IHubDiscussion>, IModel>(
