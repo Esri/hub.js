@@ -4,7 +4,8 @@ import * as slugUtils from "../../src/items/slugs";
 import { IHubRequestOptions } from "../../src/types";
 import { fetchDiscussion } from "../../src/discussions/fetch";
 import { IHubDiscussion } from "../../src/core/types/IHubDiscussion";
-import * as settingUtils from "../../src";
+import * as settingUtils from "../../src/discussions/api/settings/settings";
+import * as getDefaultEntitySettingsUtils from "../../src/discussions/api/settings/getDefaultEntitySettings";
 
 // TODO: update
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
@@ -41,7 +42,8 @@ describe("discussions fetch:", () => {
         Promise.resolve(DISCUSSION_DATA)
       );
       const fetchSettingsSpy = spyOn(settingUtils, "fetchSetting").and.callFake(
-        () => settingUtils.getDefaultEntitySettings("discussion")
+        () =>
+          getDefaultEntitySettingsUtils.getDefaultEntitySettings("discussion")
       );
 
       const chk = await fetchDiscussion(GUID, {
@@ -63,7 +65,8 @@ describe("discussions fetch:", () => {
         Promise.resolve()
       );
       const fetchSettingsSpy = spyOn(settingUtils, "fetchSetting").and.callFake(
-        () => settingUtils.getDefaultEntitySettings("discussion")
+        () =>
+          getDefaultEntitySettingsUtils.getDefaultEntitySettings("discussion")
       );
 
       const chk = await fetchDiscussion(GUID, {
@@ -85,7 +88,8 @@ describe("discussions fetch:", () => {
         Promise.resolve(DISCUSSION_DATA)
       );
       const fetchSettingsSpy = spyOn(settingUtils, "fetchSetting").and.callFake(
-        () => settingUtils.getDefaultEntitySettings("discussion")
+        () =>
+          getDefaultEntitySettingsUtils.getDefaultEntitySettings("discussion")
       );
       const ro: IHubRequestOptions = {
         portal: "https://gis.myserver.com/portal/sharing/rest",
@@ -111,7 +115,8 @@ describe("discussions fetch:", () => {
         Promise.resolve(DISCUSSION_DATA)
       );
       const fetchSettingsSpy = spyOn(settingUtils, "fetchSetting").and.callFake(
-        () => settingUtils.getDefaultEntitySettings("discussion")
+        () =>
+          getDefaultEntitySettingsUtils.getDefaultEntitySettings("discussion")
       );
 
       const chk = await fetchDiscussion("dcdev-34th-street", {

@@ -2,11 +2,13 @@ import { IItem, getItem } from "@esri/arcgis-rest-portal";
 import { IHubDiscussion } from "../core/types";
 import { fetchModelFromItem } from "../models";
 import { getItemBySlug } from "../items/slugs";
-import { IHubRequestOptions, IModel, fetchSetting, isGuid } from "../index";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
 import { getDefaultEntitySettings } from "./api/settings/getDefaultEntitySettings";
+import { IHubRequestOptions, IModel } from "../types";
+import { isGuid } from "../utils/is-guid";
+import { fetchSetting } from "./api/settings/settings";
 
 /**
  * @private

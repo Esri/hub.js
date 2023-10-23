@@ -3,20 +3,19 @@ import { IHubDiscussion } from "../core/types";
 import { createModel, getModel, updateModel } from "../models";
 import { constructSlug, getUniqueSlug, setSlugKeyword } from "../items/slugs";
 import {
-  IHubRequestOptions,
-  IModel,
-  cloneObject,
   createSetting,
   removeSetting,
-  setDiscussableKeyword,
   updateSetting,
-} from "../index";
+} from "./api/settings/settings";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
 import { DEFAULT_DISCUSSION, DEFAULT_DISCUSSION_MODEL } from "./defaults";
 import { getDefaultEntitySettings } from "./api/settings/getDefaultEntitySettings";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { setDiscussableKeyword } from "./utils";
+import { IHubRequestOptions, IModel } from "../types";
+import { cloneObject } from "../util";
 
 /**
  * @private
@@ -172,7 +171,7 @@ export async function deleteDiscussion(
   const ro = { ...requestOptions, ...{ id } } as IUserItemOptions;
   await removeItem(ro);
   try {
-    removeSetting({ id, ...requestOptions });
+    await removeSetting({ id, ...requestOptions });
   } catch (e) {
     // suppress error
   }

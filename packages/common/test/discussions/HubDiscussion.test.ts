@@ -1,6 +1,4 @@
 import * as PortalModule from "@esri/arcgis-rest-portal";
-import { IHubDiscussion, getProp } from "../../src";
-import * as settingUtils from "../../src";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubDiscussion } from "../../src/discussions/HubDiscussion";
 import { MOCK_AUTH } from "../mocks/mock-auth";
@@ -8,6 +6,8 @@ import * as discussionsFetchModule from "../../src/discussions/fetch";
 import * as discussionsEditModule from "../../src/discussions/edit";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
+import { IHubDiscussion } from "../../src/core/types";
+import { getProp } from "../../src/objects/get-prop";
 
 describe("HubDiscussion Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
