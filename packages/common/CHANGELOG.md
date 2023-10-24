@@ -1,3 +1,10 @@
+# @esri/hub-common [14.44.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.43.1...@esri/hub-common@14.44.0) (2023-10-24)
+
+
+### Features
+
+* max length error messages ([#1295](https://github.com/Esri/hub.js/issues/1295)) ([4d7705e](https://github.com/Esri/hub.js/commit/4d7705e9b7d8fc4c12c1bb04eeeec3c0f89040c9))
+
 ## @esri/hub-common [14.43.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.43.0...@esri/hub-common@14.43.1) (2023-10-24)
 
 
