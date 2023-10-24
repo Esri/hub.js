@@ -27,6 +27,12 @@ describe("buildUiSchema: group edit", () => {
                     icon: true,
                     labelKey: "some.scope.fields.name.requiredError",
                   },
+                  {
+                    type: "ERROR",
+                    keyword: "maxLength",
+                    icon: true,
+                    labelKey: `shared.fields.name.maxLengthError`,
+                  },
                 ],
               },
             },
@@ -38,6 +44,14 @@ describe("buildUiSchema: group edit", () => {
                 control: "hub-field-input-input",
                 type: "textarea",
                 rows: 4,
+                messages: [
+                  {
+                    type: "ERROR",
+                    keyword: "maxLength",
+                    icon: true,
+                    labelKey: `shared.fields.summary.maxLengthError`,
+                  },
+                ],
               },
             },
             {

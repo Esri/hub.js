@@ -19,6 +19,12 @@ describe("buildUiSchema: discussion create", () => {
                 icon: true,
                 labelKey: "some.scope.fields.name.requiredError",
               },
+              {
+                type: "ERROR",
+                keyword: "maxLength",
+                icon: true,
+                labelKey: `shared.fields.name.maxLengthError`,
+              },
             ],
           },
         },
