@@ -8,6 +8,7 @@ import { UiSchemaRuleEffects, IUiSchema } from "../../types";
  * @returns
  */
 export const buildUiSchema = (
+  i18nScope: string,
   config: IStatCardEditorOptions,
   context: IArcGISContext
 ): IUiSchema => {
