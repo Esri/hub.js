@@ -1,15 +1,13 @@
 import { isNil } from "../../../../util";
-import {
-  ExpressionRelationships,
-  IEntityInfo,
-  IExpression,
-  MetricSource,
-} from "../../../types";
 import { IConfigurationValues } from "../../types";
 import {
   IMetric,
   IMetricCardParams,
   IMetricDisplayConfig,
+  MetricSource,
+  ExpressionRelationships,
+  IEntityInfo,
+  IExpression,
 } from "../../../types/Metrics";
 
 /**
