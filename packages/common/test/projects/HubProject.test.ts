@@ -362,6 +362,47 @@ describe("HubProject Class:", () => {
         );
         expect(result._groups).toEqual([]);
       });
+      it("toEditor gets correct metric and metric display", async () => {
+        const chk = HubProject.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+            metrics: [
+              {
+                id: "metric123",
+                source: {
+                  type: "static-value",
+                  value: "525,600",
+                },
+              },
+              {
+                id: "metric456",
+                source: {
+                  type: "static-value",
+                  value: "wrong metric",
+                },
+              },
+            ],
+            view: {
+              metricDisplays: [
+                {
+                  metricId: "metric123",
+                  displayType: "stat-card",
+                  cardTitle: "Right metric",
+                },
+                {
+                  metricId: "metric456",
+                  displayType: "stat-card",
+                  cardTitle: "Wrong metric",
+                },
+              ],
+            },
+          },
+          authdCtxMgr.context
+        );
+        const result = await chk.toEditor({ metricId: "metric123" });
+      });
       describe('auto-populating "shareWith" groups', () => {
         let projectInstance: any;
         beforeEach(async () => {
@@ -418,6 +459,7 @@ describe("HubProject Class:", () => {
           },
           authdCtxMgr.context
         );
+        const editorContext = { metricId: "metric123" };
         const editor = await chk.toEditor();
         editor.view = {
           featuredImage: {

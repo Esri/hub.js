@@ -95,7 +95,7 @@ describe("EntityEditor:", () => {
       expect(toEditorSpy).toHaveBeenCalled();
       expect(chk.id).toBe("00c");
       await editor.save(chk);
-      expect(fromEditorSpy).toHaveBeenCalledWith(chk);
+      expect(fromEditorSpy).toHaveBeenCalledWith(chk, undefined);
     });
   });
   describe("supports pages:", () => {
@@ -128,7 +128,7 @@ describe("EntityEditor:", () => {
       expect(toEditorSpy).toHaveBeenCalled();
       expect(chk.id).toBe("00c");
       await editor.save(chk);
-      expect(fromEditorSpy).toHaveBeenCalledWith(chk);
+      expect(fromEditorSpy).toHaveBeenCalledWith(chk, undefined);
     });
   });
 
@@ -172,7 +172,7 @@ describe("EntityEditor:", () => {
       expect(toEditorSpy).toHaveBeenCalled();
       expect(chk.id).toBe("00c");
       await editor.save(chk);
-      expect(fromEditorSpy).toHaveBeenCalledWith(chk);
+      expect(fromEditorSpy).toHaveBeenCalledWith(chk, undefined);
     });
   });
 
@@ -220,7 +220,7 @@ describe("EntityEditor:", () => {
       expect(toEditorSpy).toHaveBeenCalled();
       expect(chk.id).toBe("00c");
       await editor.save(chk);
-      expect(fromEditorSpy).toHaveBeenCalledWith(chk);
+      expect(fromEditorSpy).toHaveBeenCalledWith(chk, undefined);
       expect(getFollowersGroupSpy).toHaveBeenCalledTimes(1);
     });
   });
@@ -262,7 +262,7 @@ describe("EntityEditor:", () => {
       expect(toEditorSpy).toHaveBeenCalled();
       expect(chk.id).toBe("00c");
       await editor.save(chk);
-      expect(fromEditorSpy).toHaveBeenCalledWith(chk);
+      expect(fromEditorSpy).toHaveBeenCalledWith(chk, undefined);
     });
   });
 
@@ -306,7 +306,7 @@ describe("EntityEditor:", () => {
       expect(toEditorSpy).toHaveBeenCalled();
       expect(chk.id).toBe("00c");
       await editor.save(chk);
-      expect(fromEditorSpy).toHaveBeenCalledWith(chk);
+      expect(fromEditorSpy).toHaveBeenCalledWith(chk, undefined);
     });
   });
 
@@ -344,7 +344,7 @@ describe("EntityEditor:", () => {
       expect(toEditorSpy).toHaveBeenCalled();
       expect(chk.id).toBe("00c");
       await editor.save(chk);
-      expect(fromEditorSpy).toHaveBeenCalledWith(chk);
+      expect(fromEditorSpy).toHaveBeenCalledWith(chk, undefined);
     });
   });
 
@@ -381,7 +381,7 @@ describe("EntityEditor:", () => {
       expect(toEditorSpy).toHaveBeenCalled();
       expect(chk.id).toBe("00c");
       await editor.save(chk);
-      expect(fromEditorSpy).toHaveBeenCalledWith(chk);
+      expect(fromEditorSpy).toHaveBeenCalledWith(chk, undefined);
     });
   });
 
@@ -427,7 +427,7 @@ describe("EntityEditor:", () => {
       expect(toEditorSpy).toHaveBeenCalled();
       expect(chk.id).toBe("00c");
       await editor.save(chk);
-      expect(fromEditorSpy).toHaveBeenCalledWith(chk);
+      expect(fromEditorSpy).toHaveBeenCalledWith(chk, undefined);
     });
   });
 });

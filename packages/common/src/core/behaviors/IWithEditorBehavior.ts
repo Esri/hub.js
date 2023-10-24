@@ -29,5 +29,8 @@ export interface IWithEditorBehavior {
    * For general use, see the `update(Partial<T>)` method
    * @param values
    */
-  fromEditor(editor: HubEntityEditor): Promise<HubEntity>;
+  fromEditor(
+    editor: HubEntityEditor,
+    editorContext?: IEntityEditorContext
+  ): Promise<HubEntity>;
 }

@@ -20,7 +20,7 @@ import {
  * @param entityInfo what should be the entityInfo of the transformed metric
  * @returns a metric and cardConfig used for rendering arcgis-hub-metric-card
  */
-export function transformEditorValuesToMetricAndCardConfig(
+export function editorToMetric(
   values: IConfigurationValues = {},
   metricId: string,
   opts?: { metricName?: string; entityInfo?: IEntityInfo }

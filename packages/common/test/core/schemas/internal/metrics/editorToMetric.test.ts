@@ -86,7 +86,7 @@ describe("editorToMetric", () => {
       ];
       const whereClause = EditorToMetric.buildWhereClause(expressionSet);
       expect(whereClause).toEqual(
-        "'(category IN ('value1')) AND (amount) >= 0 AND (amount) <= 2 AND (amount) <= 4 AND (amount) >= 1 AND date <= timestamp '2023-01-04 23:59:59' AND date >= timestamp '2023-01-02 00:00:00' AND date >= timestamp '2023-01-01 00:00:00' AND date <= timestamp '2023-01-03 23:59:59' AND (guid) >= 1234 AND (guid) <= 5234 AND category like '%val%' AND (category IN ('val', 'e', 'undefined'))'"
+        "(category IN ('value1')) AND (amount) >= 0 AND (amount) <= 2 AND (amount) <= 4 AND (amount) >= 1 AND date <= timestamp '2023-01-04 23:59:59' AND date >= timestamp '2023-01-02 00:00:00' AND date >= timestamp '2023-01-01 00:00:00' AND date <= timestamp '2023-01-03 23:59:59' AND (guid) >= 1234 AND (guid) <= 5234 AND category like '%val%' AND (category IN ('val', 'e'))"
       );
     });
     it("handles an undefined expression set", () => {
@@ -95,7 +95,7 @@ describe("editorToMetric", () => {
     });
   });
 
-  describe("transformEditorValuesToMetricAndCardConfig", () => {
+  describe("editorToMetric", () => {
     it("uses legacy where if we have it instead of building a where clause", () => {
       const values = {
         value: "1",
@@ -119,12 +119,7 @@ describe("editorToMetric", () => {
 
       const buildWhereClauseSpy = spyOn(EditorToMetric, "buildWhereClause");
 
-      const { metric } =
-        EditorToMetric.transformEditorValuesToMetricAndCardConfig(
-          values,
-          "id",
-          opts
-        );
+      const { metric } = EditorToMetric.editorToMetric(values, "id", opts);
       const source = metric.source as IServiceQueryMetricSource;
       expect(source.where).toBe("location = 'river' OR location = 'sun'");
       expect(buildWhereClauseSpy).toHaveBeenCalledTimes(0);
@@ -133,12 +128,7 @@ describe("editorToMetric", () => {
       const values = undefined as any;
       const metricId = "test123";
       const opts = {};
-      const { metric } =
-        EditorToMetric.transformEditorValuesToMetricAndCardConfig(
-          values,
-          metricId,
-          opts
-        );
+      const { metric } = EditorToMetric.editorToMetric(values, metricId, opts);
       expect(metric.source as IStaticValueMetricSource as any).toEqual({
         type: "static-value",
         value: undefined,
@@ -148,12 +138,7 @@ describe("editorToMetric", () => {
       const values = {};
       const metricId = "test123";
       const opts = {};
-      const { metric } =
-        EditorToMetric.transformEditorValuesToMetricAndCardConfig(
-          values,
-          metricId,
-          opts
-        );
+      const { metric } = EditorToMetric.editorToMetric(values, metricId, opts);
       expect(metric.source as IStaticValueMetricSource as any).toEqual({
         type: "static-value",
         value: undefined,
@@ -163,12 +148,11 @@ describe("editorToMetric", () => {
       const values = {};
       const metricId = "test123";
       const opts = {};
-      const { metric } =
-        EditorToMetric.transformEditorValuesToMetricAndCardConfig(
-          values as any,
-          metricId,
-          opts
-        );
+      const { metric } = EditorToMetric.editorToMetric(
+        values as any,
+        metricId,
+        opts
+      );
       expect(metric.source as IStaticValueMetricSource as any).toEqual({
         type: "static-value",
         value: undefined,
@@ -206,12 +190,7 @@ describe("editorToMetric", () => {
         metricName: "name",
       };
 
-      const { metric } =
-        EditorToMetric.transformEditorValuesToMetricAndCardConfig(
-          values,
-          "id",
-          opts
-        );
+      const { metric } = EditorToMetric.editorToMetric(values, "id", opts);
       const source = metric.source as IServiceQueryMetricSource;
       expect(source.where).toBe("(caption IN ('hello'))");
       expect(buildWhereClauseSpy).toHaveBeenCalledTimes(0);
@@ -245,12 +224,11 @@ describe("editorToMetric", () => {
           metricName: "name",
         };
 
-        const { displayConfig } =
-          EditorToMetric.transformEditorValuesToMetricAndCardConfig(
-            values,
-            "id",
-            opts
-          );
+        const { displayConfig } = EditorToMetric.editorToMetric(
+          values,
+          "id",
+          opts
+        );
         expect(displayConfig).toEqual({
           displayType: "stat-card",
           metricId: "id",
@@ -290,12 +268,11 @@ describe("editorToMetric", () => {
           metricName: "name",
         };
 
-        const { displayConfig } =
-          EditorToMetric.transformEditorValuesToMetricAndCardConfig(
-            values,
-            "id",
-            opts
-          );
+        const { displayConfig } = EditorToMetric.editorToMetric(
+          values,
+          "id",
+          opts
+        );
         expect(displayConfig).toEqual({
           displayType: "stat-card",
           metricId: "id",
@@ -333,12 +310,11 @@ describe("editorToMetric", () => {
           metricName: "name",
         };
 
-        const { displayConfig } =
-          EditorToMetric.transformEditorValuesToMetricAndCardConfig(
-            values,
-            "id",
-            opts
-          );
+        const { displayConfig } = EditorToMetric.editorToMetric(
+          values,
+          "id",
+          opts
+        );
         expect(displayConfig).toEqual({
           displayType: "stat-card",
           metricId: "id",

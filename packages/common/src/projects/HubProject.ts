@@ -30,13 +30,14 @@ import {
   IHubCardViewModel,
 } from "../core/types/IHubCardViewModel";
 import { projectToCardModel } from "./view";
-import { cloneObject } from "../util";
+import { camelize, cloneObject, createId } from "../util";
 import { createProject, editorToProject, updateProject } from "./edit";
 import { ProjectEditorType } from "./_internal/ProjectSchema";
 import { enrichEntity } from "../core/enrichEntity";
 import { getProp } from "../objects";
 import { IGroup } from "@esri/arcgis-rest-types";
 import { metricToEditor } from "../core/schemas/internal/metrics/metricToEditor";
+import { editorToMetric } from "../core/schemas/internal/metrics/editorToMetric";
 
 /**
  * Hub Project Class
@@ -245,7 +246,10 @@ export class HubProject
    * @param editor
    * @returns
    */
-  async fromEditor(editor: IHubProjectEditor): Promise<IHubProject> {
+  async fromEditor(
+    editor: IHubProjectEditor,
+    editorContext?: IEntityEditorContext
+  ): Promise<IHubProject> {
     const autoShareGroups = editor._groups || [];
     const isCreate = !editor.id;
 
@@ -295,6 +299,26 @@ export class HubProject
       } else {
         await this.clearFeaturedImage();
       }
+    }
+
+    // handle metrics
+    const _metric = editor._metric;
+
+    // if we have a current metric and it's beyond the default empty from toEditor
+    if (_metric && Object.keys(_metric).length) {
+      let metricId = editorContext.metricId;
+
+      // creating a new metric
+      if (!metricId) {
+        metricId = createId(camelize(editor._metric.cardTitle));
+      }
+
+      const { metric, displayConfig } = editorToMetric(
+        editor._metric,
+        metricId
+      );
+
+      // TODO: save metric and display config onto entity
     }
 
     /**
