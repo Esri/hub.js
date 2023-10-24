@@ -36,7 +36,6 @@ export async function getCardEditorSchemas(
       const schemaPromise = import("./metrics/MetricSchema");
       const uiSchemaPromise = {
         "hub:card:stat": () => import("./metrics/StatCardUiSchema"),
-        "hub:card:metric": () => import("./metrics/MetricUiSchema"),
       }[type as StatCardEditorType];
 
       // Allow imports to run in parallel

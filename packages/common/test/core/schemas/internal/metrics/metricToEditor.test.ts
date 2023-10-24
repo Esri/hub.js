@@ -33,6 +33,7 @@ describe("metricToEditor", () => {
       metricId: "test123",
       displayType: "stat",
       cardTitle: "Testing the display config",
+      source: "dynamic",
       dynamicMetric: {
         serviceUrl: "https://hubqa.arcgis.com",
         layerId: 0,
@@ -67,6 +68,7 @@ describe("metricToEditor", () => {
       displayType: "stat",
       cardTitle: "Testing the display config",
       value: "525,600",
+      source: "static",
     });
   });
 

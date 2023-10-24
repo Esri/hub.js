@@ -18,24 +18,26 @@ export function metricToEditor(
   displayConfig: IMetricDisplayConfig
 ): IConfigurationValues {
   let editor = { ...displayConfig };
-  const metricType = (metric.source as MetricSource).type;
+  if (metric && metric.source) {
+    const metricType = (metric.source as MetricSource).type || "";
 
-  switch (metricType) {
-    case "service-query":
-      editor = {
-        dynamicMetric: {
-          ...(metric.source as IServiceQueryMetricSource),
-        },
-        ...editor,
-      };
-      break;
+    switch (metricType) {
+      case "service-query":
+        editor = {
+          dynamicMetric: {
+            ...(metric.source as IServiceQueryMetricSource),
+          },
+          ...editor,
+        };
+        break;
 
-    case "static-value":
-      editor = {
-        ...editor,
-        value: (metric.source as IStaticValueMetricSource).value,
-      };
-      break;
+      case "static-value":
+        editor = {
+          ...editor,
+          value: (metric.source as IStaticValueMetricSource).value,
+        };
+        break;
+    }
   }
 
   return editor;

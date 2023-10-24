@@ -1,6 +1,6 @@
 import { IArcGISContext } from "../../../../ArcGISContext";
 import { IUiSchema } from "../../types";
-import { IStatCardEditorOptions } from "../EditorOptions";
+import { EntityEditorOptions } from "../EditorOptions";
 
 /**
  * @private
@@ -12,7 +12,7 @@ import { IStatCardEditorOptions } from "../EditorOptions";
  */
 export const buildUiSchema = (
   i18nScope: string,
-  config: IStatCardEditorOptions,
+  config: EntityEditorOptions,
   context: IArcGISContext
 ): IUiSchema => {
   // To be filled out in a later issue

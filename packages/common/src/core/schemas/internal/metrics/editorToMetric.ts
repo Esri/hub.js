@@ -21,7 +21,7 @@ import {
  * @returns a metric and cardConfig used for rendering arcgis-hub-metric-card
  */
 export function transformEditorValuesToMetricAndCardConfig(
-  values: IConfigurationValues,
+  values: IConfigurationValues = {},
   metricId: string,
   opts?: { metricName?: string; entityInfo?: IEntityInfo }
 ): IMetricCardParams {
@@ -82,15 +82,13 @@ export function transformEditorValuesToMetricAndCardConfig(
     // if we are in dynamic mode and have a link, then we use that link
     // otherwise we use manually input sourceLink on card config
     sourceLink:
-      values?.type === "dynamic" && sourceLink
-        ? sourceLink
-        : config?.sourceLink,
+      values.type === "dynamic" && sourceLink ? sourceLink : config?.sourceLink,
     sourceTitle:
-      values?.type === "dynamic" && sourceTitle
+      values.type === "dynamic" && sourceTitle
         ? sourceTitle
         : config?.sourceTitle,
     allowLink:
-      values?.type === "dynamic" ? config.allowDynamicLink : config.allowLink,
+      values.type === "dynamic" ? config.allowDynamicLink : config.allowLink,
   };
 
   return { metric, displayConfig };
@@ -113,7 +111,7 @@ export function buildWhereClause(expressionSet: IExpression[] = []): string {
         const escape = (value: string) => value?.replace(/(['])/g, "$1$1"); // currently only handles single quotes
 
         // if we don't have values or field, or if it is an "incomplete" expression, do not include
-        if (!values || !values.length || !field || !field?.name) {
+        if (!values || !values.length || !field || !field.name) {
           return false;
         }
 

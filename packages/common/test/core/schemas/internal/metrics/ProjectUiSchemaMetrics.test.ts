@@ -1,13 +1,10 @@
-import { buildUiSchema } from "../../../../../src/core/schemas/internal/metrics/MetricUiSchema";
+import { HubEntity } from "../../../../../src/core/types/HubEntity";
+import { buildUiSchema } from "../../../../../src/core/schemas/internal/metrics/ProjectUiSchemaMetrics";
 import { MOCK_CONTEXT } from "../../../../mocks/mock-auth";
 
 describe("buildUiSchema: metric", () => {
   it("returns the full metric uiSchema", () => {
-    const uiSchema = buildUiSchema(
-      "some.scope",
-      { themeColors: ["#ffffff"] },
-      MOCK_CONTEXT
-    );
+    const uiSchema = buildUiSchema("some.scope", {} as HubEntity, MOCK_CONTEXT);
 
     expect(uiSchema).toEqual({
       type: "Layout",

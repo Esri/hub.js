@@ -7,6 +7,7 @@ export type ProjectEditorType = (typeof ProjectEditorTypes)[number];
 export const ProjectEditorTypes = [
   "hub:project:create",
   "hub:project:edit",
+  "hub:project:metrics",
 ] as const;
 
 /**
@@ -25,6 +26,9 @@ export const ProjectSchema: IConfigurationSchema = {
       default: PROJECT_STATUSES.notStarted,
       enum: Object.keys(PROJECT_STATUSES),
     },
-    _metrics: MetricSchema,
+    _metrics: {
+      type: "object",
+      ...MetricSchema.properties,
+    },
   },
 } as IConfigurationSchema;

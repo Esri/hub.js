@@ -230,9 +230,8 @@ export class HubProject
     }
 
     // handle metrics
-    const metric = this.entity.metrics.find(
-      (m) => m.id === editorContext.metricId
-    );
+    const metrics = getEntityMetrics(this.entity);
+    const metric = metrics.find((m) => m.id === editorContext.metricId);
     const displayConfig = this.entity.view.metricDisplays.find(
       (display) => display.metricId === editorContext.metricId
     );
