@@ -144,18 +144,17 @@ describe("editorToMetric", () => {
         value: undefined,
       });
     });
-    it("handles an empty values object", () => {
-      const values = {};
+    it("handles a values object with just value and dynamicMetric", () => {
+      const values = {
+        value: "",
+        dynamicMetric: {},
+      };
       const metricId = "test123";
       const opts = {};
-      const { metric } = EditorToMetric.editorToMetric(
-        values as any,
-        metricId,
-        opts
-      );
+      const { metric } = EditorToMetric.editorToMetric(values, metricId, opts);
       expect(metric.source as IStaticValueMetricSource as any).toEqual({
         type: "static-value",
-        value: undefined,
+        value: "",
       });
     });
     it("creates a new where clause correctly", () => {
@@ -171,12 +170,69 @@ describe("editorToMetric", () => {
           allowExpressionSet: true,
           expressionSet: [
             {
+              field: MOCK_STRING_FIELD,
               key: "expression-123",
-              field: {
-                name: "caption",
-                type: "esriFieldTypeString",
-              },
-              values: ["hello"],
+              values: ["value1"],
+              relationship: ExpressionRelationships.IS_EXACTLY,
+            },
+            {
+              field: MOCK_NUMERIC_FIELD,
+              key: "expression-456",
+              values: [0, 2],
+              relationship: ExpressionRelationships.BETWEEN,
+            },
+            {
+              field: MOCK_NUMERIC_FIELD,
+              key: "expression-444",
+              values: [undefined as any, 4],
+              relationship: ExpressionRelationships.BETWEEN,
+            },
+            {
+              field: MOCK_NUMERIC_FIELD,
+              key: "expression-4445",
+              values: [1, undefined as any],
+              relationship: ExpressionRelationships.BETWEEN,
+            },
+            {
+              field: MOCK_DATE_FIELD,
+              key: "expression-777",
+              values: [undefined as any, "2023-01-04"],
+              relationship: ExpressionRelationships.BETWEEN,
+            },
+            {
+              field: MOCK_DATE_FIELD,
+              key: "expression-7778",
+              values: ["2023-01-02", undefined as any],
+              relationship: ExpressionRelationships.BETWEEN,
+            },
+            {
+              field: MOCK_DATE_FIELD,
+              key: "expression-789",
+              values: ["2023-01-01", "2023-01-03"],
+              relationship: ExpressionRelationships.BETWEEN,
+            },
+            {
+              field: MOCK_ID_FIELD,
+              key: "expression-000",
+              values: ["1234", "5234"],
+              relationship: ExpressionRelationships.BETWEEN,
+            },
+            {
+              field: MOCK_STRING_FIELD,
+              key: "expression-111",
+              values: ["val"],
+              relationship: ExpressionRelationships.LIKE,
+            },
+            {
+              field: MOCK_STRING_FIELD,
+              key: "expression-111",
+              values: ["val", "e"],
+              relationship: ExpressionRelationships.IS_EXACTLY,
+            },
+            {
+              field: MOCK_STRING_FIELD,
+              key: "expression-111",
+              values: [],
               relationship: ExpressionRelationships.IS_EXACTLY,
             },
           ] as IExpression[],
@@ -192,8 +248,31 @@ describe("editorToMetric", () => {
 
       const { metric } = EditorToMetric.editorToMetric(values, "id", opts);
       const source = metric.source as IServiceQueryMetricSource;
-      expect(source.where).toBe("(caption IN ('hello'))");
+      expect(source.where).toBe(
+        "(category IN ('value1')) AND (amount) >= 0 AND (amount) <= 2 AND (amount) <= 4 AND (amount) >= 1 AND date <= timestamp '2023-01-04 23:59:59' AND date >= timestamp '2023-01-02 00:00:00' AND date >= timestamp '2023-01-01 00:00:00' AND date <= timestamp '2023-01-03 23:59:59' AND (guid) >= 1234 AND (guid) <= 5234 AND category like '%val%' AND (category IN ('val', 'e'))"
+      );
       expect(buildWhereClauseSpy).toHaveBeenCalledTimes(0);
+    });
+
+    it("handles no legacy where with no allowed expression set", () => {
+      const values = {
+        dynamicMetric: {
+          allowExpressionSet: false,
+          expressionSet: [] as IExpression[],
+        },
+        type: "dynamic",
+      };
+      const metricId = "test123";
+      const opts = {};
+      const { metric } = EditorToMetric.editorToMetric(values, metricId, opts);
+      expect(metric.source as IStaticValueMetricSource as any).toEqual({
+        type: "service-query",
+        serviceUrl: undefined,
+        layerId: undefined,
+        field: undefined,
+        statistic: undefined,
+        where: "1=1",
+      });
     });
 
     describe("source link ", () => {

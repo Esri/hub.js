@@ -38,11 +38,11 @@ export function editorToMetric(
     expressionSet,
     legacyWhere,
   } = dynamicMetric || {};
-  const { entityInfo, metricName } = opts;
+  const { entityInfo, metricName } = opts || {};
 
   // create source
   const source: MetricSource =
-    values?.type === "dynamic"
+    values.type === "dynamic"
       ? {
           type: "service-query",
           serviceUrl,
@@ -82,11 +82,11 @@ export function editorToMetric(
     // if we are in dynamic mode and have a link, then we use that link
     // otherwise we use manually input sourceLink on card config
     sourceLink:
-      values.type === "dynamic" && sourceLink ? sourceLink : config?.sourceLink,
+      values.type === "dynamic" && sourceLink ? sourceLink : config.sourceLink,
     sourceTitle:
       values.type === "dynamic" && sourceTitle
         ? sourceTitle
-        : config?.sourceTitle,
+        : config.sourceTitle,
     allowLink:
       values.type === "dynamic" ? config.allowDynamicLink : config.allowLink,
   };
@@ -108,7 +108,7 @@ export function buildWhereClause(expressionSet: IExpression[] = []): string {
       .map((expression) => {
         const { field, values, relationship } = expression;
 
-        const escape = (value: string) => value?.replace(/(['])/g, "$1$1"); // currently only handles single quotes
+        const escape = (value: string) => value.replace(/(['])/g, "$1$1"); // currently only handles single quotes
 
         // if we don't have values or field, or if it is an "incomplete" expression, do not include
         if (!values || !values.length || !field || !field.name) {
@@ -129,12 +129,15 @@ export function buildWhereClause(expressionSet: IExpression[] = []): string {
             break;
 
           case "esriFieldTypeDate":
-            // if we have just one value for either value box
+            // just the second bounding value
             if (!isNil(values[0])) {
               clause = `${field.name} >= timestamp '${escape(
                 values[0] as string
               )} 00:00:00'`;
-            } else if (!isNil(values[1])) {
+            }
+
+            // just the first bounding value
+            if (!isNil(values[1])) {
               clause = `${field.name} <= timestamp '${escape(
                 values[1] as string
               )} 23:59:59'`;
@@ -151,10 +154,13 @@ export function buildWhereClause(expressionSet: IExpression[] = []): string {
             break;
 
           default:
-            // if we have just one value for each value box
+            // just the first bounding value
             if (!isNil(values[0])) {
               clause = `(${field.name}) >= ${values[0]}`;
-            } else if (!isNil(values[1])) {
+            }
+
+            // just the second bounding value
+            if (!isNil(values[1])) {
               clause = `(${field.name}) <= ${values[1]}`;
             }
 

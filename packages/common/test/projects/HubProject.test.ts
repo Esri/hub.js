@@ -11,6 +11,7 @@ import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import * as ResolveMetricModule from "../../src/metrics/resolveMetric";
 import { HubItemEntity } from "../../src/core/HubItemEntity";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
+import * as utils from "../../src/util";
 
 const initContextManager = async (opts = {}) => {
   const defaults = {
@@ -650,6 +651,167 @@ describe("HubProject Class:", () => {
         expect(result.extent).toEqual([
           [-2, -2],
           [2, 2],
+        ]);
+      });
+      it("handles setting new metric with no editorContext", async () => {
+        const chk = HubProject.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            metrics: [],
+            view: {
+              metricDisplays: [],
+            },
+          },
+          authdCtxMgr.context
+        );
+
+        spyOn(utils, "createId").and.returnValue("metric1fakeid");
+
+        const editor = await chk.toEditor();
+        editor._metric = { type: "static", value: "123", cardTitle: "metric1" };
+        const result = await chk.fromEditor(editor);
+        expect(getProp(result, "metrics")).toEqual([
+          {
+            id: "metric1fakeid",
+            source: {
+              type: "static-value",
+              value: "123",
+            },
+            name: "metric1fakeid",
+            entityInfo: {
+              id: undefined,
+              name: undefined,
+              type: undefined,
+            },
+          },
+        ]);
+        expect(getProp(result, "view.metricDisplays")).toEqual([
+          {
+            cardTitle: "metric1",
+            type: "static",
+            displayType: "stat-card",
+            metricId: "metric1fakeid",
+            fieldType: undefined,
+            statistic: undefined,
+            sourceLink: undefined,
+            sourceTitle: undefined,
+            allowLink: undefined,
+          },
+        ]);
+      });
+      it("handles setting new metric with empty editorContext", async () => {
+        const chk = HubProject.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            metrics: [],
+            view: {
+              metricDisplays: [],
+            },
+          },
+          authdCtxMgr.context
+        );
+
+        spyOn(utils, "createId").and.returnValue("metric1fakeid");
+
+        const editor = await chk.toEditor();
+        editor._metric = { type: "static", value: "123", cardTitle: "metric1" };
+        const result = await chk.fromEditor(editor, {});
+        expect(getProp(result, "metrics")).toEqual([
+          {
+            id: "metric1fakeid",
+            source: {
+              type: "static-value",
+              value: "123",
+            },
+            name: "metric1fakeid",
+            entityInfo: {
+              id: undefined,
+              name: undefined,
+              type: undefined,
+            },
+          },
+        ]);
+        expect(getProp(result, "view.metricDisplays")).toEqual([
+          {
+            cardTitle: "metric1",
+            type: "static",
+            displayType: "stat-card",
+            metricId: "metric1fakeid",
+            fieldType: undefined,
+            statistic: undefined,
+            sourceLink: undefined,
+            sourceTitle: undefined,
+            allowLink: undefined,
+          },
+        ]);
+      });
+      it("handles setting existing metric", async () => {
+        const chk = HubProject.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            metrics: [
+              {
+                id: "metric1",
+                source: {
+                  type: "static-value",
+                  value: "123",
+                },
+              },
+            ],
+            view: {
+              metricDisplays: [
+                {
+                  cardTitle: "metric1",
+                  displayType: "stat-card",
+                  metricId: "metric1",
+                },
+              ],
+            },
+          },
+          authdCtxMgr.context
+        );
+
+        const editor = await chk.toEditor();
+        editor._metric = {
+          id: "metric1",
+          trailingText: "...",
+          type: "static",
+          value: "123",
+          cardTitle: "metric1",
+        };
+        const result = await chk.fromEditor(editor, { metricId: "metric1" });
+        expect(getProp(result, "metrics")).toEqual([
+          {
+            id: "metric1",
+            source: {
+              type: "static-value",
+              value: "123",
+            },
+            name: "metric1",
+            entityInfo: {
+              id: undefined,
+              name: undefined,
+              type: undefined,
+            },
+          },
+        ]);
+        expect(getProp(result, "view.metricDisplays")).toEqual([
+          {
+            cardTitle: "metric1",
+            trailingText: "...",
+            fieldType: undefined,
+            statistic: undefined,
+            sourceLink: undefined,
+            sourceTitle: undefined,
+            allowLink: undefined,
+            id: "metric1",
+            type: "static",
+            displayType: "stat-card",
+            metricId: "metric1",
+          },
         ]);
       });
     });

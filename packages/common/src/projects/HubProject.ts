@@ -38,6 +38,7 @@ import { getProp } from "../objects";
 import { IGroup } from "@esri/arcgis-rest-types";
 import { metricToEditor } from "../core/schemas/internal/metrics/metricToEditor";
 import { editorToMetric } from "../core/schemas/internal/metrics/editorToMetric";
+import { setMetricAndDisplay } from "../core/schemas/internal/metrics/setMetricAndDisplay";
 
 /**
  * Hub Project Class
@@ -306,19 +307,21 @@ export class HubProject
 
     // if we have a current metric and it's beyond the default empty from toEditor
     if (_metric && Object.keys(_metric).length) {
-      let metricId = editorContext.metricId;
+      let metricId = editorContext?.metricId;
 
       // creating a new metric
       if (!metricId) {
         metricId = createId(camelize(editor._metric.cardTitle));
       }
 
+      // transform editor values into metric and displayConfig
       const { metric, displayConfig } = editorToMetric(
         editor._metric,
         metricId
       );
 
-      // TODO: save metric and display config onto entity
+      // put metric and display config onto entity
+      setMetricAndDisplay(this.entity, metric, displayConfig);
     }
 
     /**

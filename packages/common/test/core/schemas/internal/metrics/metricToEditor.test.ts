@@ -83,4 +83,17 @@ describe("metricToEditor", () => {
     );
     expect(editor).toEqual({});
   });
+  it("handles a metric with an empty source", () => {
+    const metric = {
+      source: {},
+    };
+
+    const displayConfig = {};
+
+    const editor = metricToEditor(
+      metric as IMetric,
+      displayConfig as IMetricDisplayConfig
+    );
+    expect(editor).toEqual({});
+  });
 });
