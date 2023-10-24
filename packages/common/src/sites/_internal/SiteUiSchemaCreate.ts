@@ -1,10 +1,10 @@
 import { IArcGISContext } from "../../ArcGISContext";
 import { checkPermission } from "../../permissions/checkPermission";
-import { IHubSite } from "../../core/types";
 import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { getSharableGroupsComboBoxItems } from "../../core/schemas/internal/getSharableGroupsComboBoxItems";
+import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 
 /**
  * @private
@@ -17,7 +17,7 @@ import { getSharableGroupsComboBoxItems } from "../../core/schemas/internal/getS
  */
 export const buildUiSchema = async (
   i18nScope: string,
-  entity: IHubSite,
+  options: EntityEditorOptions,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
   return {
@@ -47,6 +47,12 @@ export const buildUiSchema = async (
                           icon: true,
                           labelKey: `${i18nScope}.fields.name.requiredError`,
                         },
+                        {
+                          type: "ERROR",
+                          keyword: "maxLength",
+                          icon: true,
+                          labelKey: `shared.fields.name.maxLengthError`,
+                        },
                       ],
                     },
                   },
@@ -61,6 +67,14 @@ export const buildUiSchema = async (
                       helperText: {
                         labelKey: `${i18nScope}.fields.summary.helperText`,
                       },
+                      messages: [
+                        {
+                          type: "ERROR",
+                          keyword: "maxLength",
+                          icon: true,
+                          labelKey: `shared.fields.summary.maxLengthError`,
+                        },
+                      ],
                     },
                   },
                 ],
@@ -93,11 +107,11 @@ export const buildUiSchema = async (
                     options: {
                       control: "hub-field-input-location-picker",
                       extent: await getLocationExtent(
-                        entity,
+                        options,
                         context.hubRequestOptions
                       ),
                       options: await getLocationOptions(
-                        entity,
+                        options,
                         context.portal.name,
                         context.hubRequestOptions
                       ),

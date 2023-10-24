@@ -1,6 +1,6 @@
-import { IHubSite } from "../../core/types";
 import { IArcGISContext } from "../../ArcGISContext";
 import { IUiSchema } from "../../core/schemas/types";
+import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 
 /**
  * @private
@@ -10,7 +10,7 @@ import { IUiSchema } from "../../core/schemas/types";
  */
 export const buildUiSchema = async (
   i18nScope: string,
-  entity: IHubSite,
+  options: EntityEditorOptions,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
   return {

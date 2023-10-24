@@ -18,6 +18,7 @@ export const PagePermissions = [
   "hub:page:delete",
   "hub:page:edit",
   "hub:page:view",
+  "hub:page:workspace",
   "hub:page:workspace:overview",
   "hub:page:workspace:dashboard",
   "hub:page:workspace:details",
@@ -58,24 +59,28 @@ export const PagePermissionPolicies: IPermissionPolicy[] = [
     entityOwner: true,
   },
   {
+    permission: "hub:page:workspace",
+    dependencies: ["hub:feature:workspace"],
+  },
+  {
     permission: "hub:page:workspace:overview",
-    dependencies: ["hub:page:view"],
+    dependencies: ["hub:page:workspace", "hub:page:view"],
   },
   {
     permission: "hub:page:workspace:dashboard",
-    dependencies: ["hub:page:view"],
+    dependencies: ["hub:page:workspace", "hub:page:view"],
   },
   {
     permission: "hub:page:workspace:details",
-    dependencies: ["hub:page:edit"],
+    dependencies: ["hub:page:workspace", "hub:page:edit"],
   },
   {
     permission: "hub:page:workspace:collaborators",
-    dependencies: ["hub:page:edit"],
+    dependencies: ["hub:page:workspace", "hub:page:edit"],
   },
   {
     permission: "hub:page:workspace:settings",
-    dependencies: ["hub:page:edit"],
+    dependencies: ["hub:page:workspace", "hub:page:edit"],
     entityOwner: true,
   },
   {

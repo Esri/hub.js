@@ -24,6 +24,7 @@ export const ProjectPermissions = [
   "hub:project:events",
   "hub:project:content",
   "hub:project:discussions",
+  "hub:project:workspace",
   "hub:project:workspace:overview",
   "hub:project:workspace:dashboard",
   "hub:project:workspace:details",
@@ -87,33 +88,36 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:project:view"],
   },
   {
+    permission: "hub:project:workspace",
+  },
+  {
     permission: "hub:project:workspace:overview",
-    dependencies: ["hub:project:view"],
+    dependencies: ["hub:project:workspace", "hub:project:view"],
   },
   {
     permission: "hub:project:workspace:dashboard",
-    dependencies: ["hub:project:view"],
+    dependencies: ["hub:project:workspace", "hub:project:view"],
   },
   {
     permission: "hub:project:workspace:details",
-    dependencies: ["hub:project:edit"],
+    dependencies: ["hub:project:workspace", "hub:project:edit"],
   },
   {
     permission: "hub:project:workspace:settings",
-    dependencies: ["hub:project:edit"],
+    dependencies: ["hub:project:workspace", "hub:project:edit"],
     entityOwner: true,
   },
   {
     permission: "hub:project:workspace:collaborators",
-    dependencies: ["hub:project:edit"],
+    dependencies: ["hub:project:workspace", "hub:project:edit"],
   },
   {
     permission: "hub:project:workspace:content",
-    dependencies: ["hub:project:edit"],
+    dependencies: ["hub:project:workspace", "hub:project:edit"],
   },
   {
     permission: "hub:project:workspace:metrics",
-    dependencies: ["hub:project:edit"],
+    dependencies: ["hub:project:workspace", "hub:project:edit"],
   },
   {
     permission: "hub:project:manage",

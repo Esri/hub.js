@@ -104,32 +104,6 @@ describe("HubProject Class:", () => {
         expect((ex as any).message).toBe("ZOMG!");
       }
     });
-
-    // it("returns editorConfig", async () => {
-    //   const spy = spyOn(schemasModule, "getEntityEditorSchemas").and.callFake(
-    //     () => {
-    //       return Promise.resolve({ schema: {}, uiSchema: {} });
-    //     }
-    //   );
-
-    //   await HubProject.getEditorConfig("test.scope", "hub:project:edit");
-    //   expect(spy).toHaveBeenCalledTimes(1);
-    //   expect(spy).toHaveBeenCalledWith("test.scope", "hub:project:edit", []);
-    // });
-
-    // it("returns editorConfig integrating options", async () => {
-    //   const spy = spyOn(schemasModule, "getEntityEditorSchemas").and.callFake(
-    //     () => {
-    //       return Promise.resolve({ schema: {}, uiSchema: {} });
-    //     }
-    //   );
-
-    //   const opts: UiSchemaElementOptions[] = [];
-
-    //   await HubProject.getEditorConfig("test.scope", "hub:project:edit", opts);
-    //   expect(spy).toHaveBeenCalledTimes(1);
-    //   expect(spy).toHaveBeenCalledWith("test.scope", "hub:project:edit", opts);
-    // });
   });
 
   it("convertToCardModel: delegates to the projectToCardModel util", async () => {

@@ -14,10 +14,8 @@ import {
 import { Catalog } from "../search/Catalog";
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
-import {
-  IEditorConfig,
-  IWithEditorBehavior,
-} from "../core/behaviors/IWithEditorBehavior";
+import { IEditorConfig } from "../core/schemas/types";
+import { IWithEditorBehavior } from "../core/behaviors/IWithEditorBehavior";
 
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
 

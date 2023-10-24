@@ -1,4 +1,5 @@
 import { IFilter, IPredicate } from "../../types/IHubCatalog";
+import { isNilOrEmptyString } from "./isNilOrEmptyString";
 
 /**
  * Searches through a list of filters and finds a specific predicate that should be appended at the top level of a search
@@ -8,7 +9,7 @@ import { IFilter, IPredicate } from "../../types/IHubCatalog";
  * - Only ONE filter can have a predicate with the target field
  * - Only ONE predicate with the target field can exist
  * - The predicate can only be ANDed to other predicates
- * - The predicate's field value MUST be a string (not string[] or IMatchOptions)
+ * - The predicate's field value MUST be a string or boolean (not string[] or IMatchOptions)
  *
  * Example: Portal's bbox field cannot be conditionally searched. Any value provided will always be applied as a top-level filter.
  * - Valid: `?bbox=1,2,3,4&filter=type:CSV`
@@ -25,7 +26,7 @@ export function getTopLevelPredicate(
   let result = null;
 
   const matchingFilters: IFilter[] = filters.filter((f) => {
-    return f.predicates.find((p) => !!p[field]);
+    return f.predicates.find((p) => !isNilOrEmptyString(p[field]));
   });
 
   if (matchingFilters.length > 1) {
@@ -37,7 +38,7 @@ export function getTopLevelPredicate(
   if (matchingFilters.length) {
     const matchingFilter = matchingFilters[0];
     const matchingPredicates = matchingFilter.predicates.filter(
-      (p) => !!p[field]
+      (p) => !isNilOrEmptyString(p[field])
     );
 
     if (matchingPredicates.length > 1) {
@@ -56,9 +57,12 @@ export function getTopLevelPredicate(
     }
 
     const topLevelPredicate = matchingPredicates[0];
-    if (typeof topLevelPredicate[field] !== "string") {
+    const predicateValue = topLevelPredicate[field];
+    const isValidPrimitive =
+      typeof predicateValue === "string" || typeof predicateValue === "boolean";
+    if (!isValidPrimitive) {
       throw new Error(
-        `'${field}' predicate must have a string value, string[] and IMatchOptions are not allowed.`
+        `'${field}' predicate must be a string or boolean primitive. string[] and IMatchOptions are not allowed.`
       );
     }
     result = topLevelPredicate;

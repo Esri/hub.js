@@ -3,9 +3,9 @@ import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { getCategoryItems } from "../../core/schemas/internal/getCategoryItems";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
-import { IHubEditableContent } from "../../core/types/IHubEditableContent";
 import { IUiSchema } from "../../core/schemas/types";
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
+import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 
 /**
  * @private
@@ -15,7 +15,7 @@ import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThum
  */
 export const buildUiSchema = async (
   i18nScope: string,
-  entity: IHubEditableContent,
+  options: EntityEditorOptions,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
   return {
@@ -41,6 +41,12 @@ export const buildUiSchema = async (
                   icon: true,
                   labelKey: `${i18nScope}.fields.title.requiredError`,
                 },
+                {
+                  type: "ERROR",
+                  keyword: "maxLength",
+                  icon: true,
+                  labelKey: `shared.fields.name.maxLengthError`,
+                },
               ],
             },
           },
@@ -56,6 +62,14 @@ export const buildUiSchema = async (
               helperText: {
                 labelKey: `${i18nScope}.fields.summary.hint`,
               },
+              messages: [
+                {
+                  type: "ERROR",
+                  keyword: "maxLength",
+                  icon: true,
+                  labelKey: `shared.fields.summary.maxLengthError`,
+                },
+              ],
             },
           },
           // description
@@ -71,7 +85,7 @@ export const buildUiSchema = async (
               },
             },
           },
-          getThumbnailUiSchemaElement(i18nScope, entity),
+          getThumbnailUiSchemaElement(i18nScope, options),
           // tags
           {
             labelKey: `${i18nScope}.fields.tags.label`,
@@ -80,7 +94,7 @@ export const buildUiSchema = async (
             options: {
               control: "hub-field-input-combobox",
               items: await getTagItems(
-                entity,
+                options,
                 context.portal.id,
                 context.hubRequestOptions
               ),
@@ -139,11 +153,11 @@ export const buildUiSchema = async (
             options: {
               control: "hub-field-input-location-picker",
               extent: await getLocationExtent(
-                entity,
+                options,
                 context.hubRequestOptions
               ),
               options: await getLocationOptions(
-                entity,
+                options,
                 context.portal.name,
                 context.hubRequestOptions
               ),

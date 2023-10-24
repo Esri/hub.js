@@ -1,3 +1,45 @@
+# @esri/hub-common [14.44.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.43.1...@esri/hub-common@14.44.0) (2023-10-24)
+
+
+### Features
+
+* max length error messages ([#1295](https://github.com/Esri/hub.js/issues/1295)) ([4d7705e](https://github.com/Esri/hub.js/commit/4d7705e9b7d8fc4c12c1bb04eeeec3c0f89040c9))
+
+## @esri/hub-common [14.43.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.43.0...@esri/hub-common@14.43.1) (2023-10-24)
+
+
+### Bug Fixes
+
+* remove scope from uiSchema for stat card ([#1298](https://github.com/Esri/hub.js/issues/1298)) ([e0ef2ee](https://github.com/Esri/hub.js/commit/e0ef2eef99c26303f9e93c86b5710d0d5423a680))
+
+# @esri/hub-common [14.43.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.42.1...@esri/hub-common@14.43.0) (2023-10-20)
+
+
+### Features
+
+* add structure for getting card editor schemas ([#1277](https://github.com/Esri/hub.js/issues/1277)) ([6b82f03](https://github.com/Esri/hub.js/commit/6b82f03deb4ecbc373df6a00f4de030c56dceb2d))
+
+## @esri/hub-common [14.42.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.42.0...@esri/hub-common@14.42.1) (2023-10-20)
+
+
+### Bug Fixes
+
+* **hub-common:** page schema missing _thumbnail; caused details pane to crash ([#1294](https://github.com/Esri/hub.js/issues/1294)) ([6502c6b](https://github.com/Esri/hub.js/commit/6502c6b2d0c397220fac33f859be6f5a262df5cf))
+
+# @esri/hub-common [14.42.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.41.0...@esri/hub-common@14.42.0) (2023-10-19)
+
+
+### Features
+
+* **hub-common:** allow boolean predicates for OGC searches, openData flag for OGC aggs requests ([#1292](https://github.com/Esri/hub.js/issues/1292)) ([b15ea86](https://github.com/Esri/hub.js/commit/b15ea861a27bb3a521cc2d848a59d245eb21f5c3))
+
+# @esri/hub-common [14.41.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.40.0...@esri/hub-common@14.41.0) (2023-10-19)
+
+
+### Features
+
+* add permission for privacy; refactor workspace permissions ([#1291](https://github.com/Esri/hub.js/issues/1291)) ([b9639e7](https://github.com/Esri/hub.js/commit/b9639e79c4ee76eba7bdd046212b29e0fde07933))
+
 # @esri/hub-common [14.40.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.39.1...@esri/hub-common@14.40.0) (2023-10-19)
 
 

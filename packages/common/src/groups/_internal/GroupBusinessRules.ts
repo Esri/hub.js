@@ -12,6 +12,7 @@ export const GroupPermissions = [
   "hub:group:edit",
   "hub:group:view",
   "hub:group:owner",
+  "hub:group:workspace",
   "hub:group:workspace:overview",
   "hub:group:workspace:dashboard",
   "hub:group:workspace:details",
@@ -62,24 +63,28 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
     entityOwner: true,
   },
   {
+    permission: "hub:group:workspace",
+    dependencies: ["hub:feature:workspace"],
+  },
+  {
     permission: "hub:group:workspace:details",
-    dependencies: ["hub:group:edit"],
+    dependencies: ["hub:group:workspace", "hub:group:edit"],
   },
   {
     permission: "hub:group:workspace:discussion",
-    dependencies: ["hub:group:edit"],
+    dependencies: ["hub:group:workspace", "hub:group:edit"],
   },
   {
     permission: "hub:group:workspace:settings",
-    dependencies: ["hub:group:edit"],
+    dependencies: ["hub:group:workspace", "hub:group:edit"],
   },
   {
     permission: "hub:group:workspace:content",
-    dependencies: ["hub:group:view"],
+    dependencies: ["hub:group:workspace", "hub:group:view"],
   },
   {
     permission: "hub:group:workspace:members",
-    dependencies: ["hub:group:view"],
+    dependencies: ["hub:group:workspace", "hub:group:view"],
   },
   {
     permission: "hub:group:shareContent",

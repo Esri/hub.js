@@ -23,6 +23,7 @@ export const InitiativePermissions = [
   "hub:initiative:events",
   "hub:initiative:content",
   "hub:initiative:discussions",
+  "hub:initiative:workspace",
   "hub:initiative:workspace:overview",
   "hub:initiative:workspace:dashboard",
   "hub:initiative:workspace:details",
@@ -81,33 +82,38 @@ export const InitiativePermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:initiative:view"],
   },
   {
+    permission: "hub:initiative:workspace",
+    dependencies: ["hub:feature:workspace"],
+    environments: ["devext", "qaext"],
+  },
+  {
     permission: "hub:initiative:workspace:overview",
-    dependencies: ["hub:initiative:view"],
+    dependencies: ["hub:initiative:workspace", "hub:initiative:view"],
   },
   {
     permission: "hub:initiative:workspace:dashboard",
-    dependencies: ["hub:initiative:view"],
+    dependencies: ["hub:initiative:workspace", "hub:initiative:view"],
   },
   {
     permission: "hub:initiative:workspace:details",
-    dependencies: ["hub:initiative:edit"],
+    dependencies: ["hub:initiative:workspace", "hub:initiative:edit"],
   },
   {
     permission: "hub:initiative:workspace:settings",
-    dependencies: ["hub:initiative:edit"],
+    dependencies: ["hub:initiative:workspace", "hub:initiative:edit"],
     entityOwner: true,
   },
   {
     permission: "hub:initiative:workspace:collaborators",
-    dependencies: ["hub:initiative:edit"],
+    dependencies: ["hub:initiative:workspace", "hub:initiative:edit"],
   },
   {
     permission: "hub:initiative:workspace:content",
-    dependencies: ["hub:initiative:edit"],
+    dependencies: ["hub:initiative:workspace", "hub:initiative:edit"],
   },
   {
     permission: "hub:initiative:workspace:metrics",
-    dependencies: ["hub:initiative:edit"],
+    dependencies: ["hub:initiative:workspace", "hub:initiative:edit"],
   },
   {
     permission: "hub:initiative:manage",

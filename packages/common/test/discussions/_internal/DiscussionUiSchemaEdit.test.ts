@@ -51,6 +51,12 @@ describe("buildUiSchema: discussion edit", () => {
                     icon: true,
                     labelKey: "some.scope.fields.name.requiredError",
                   },
+                  {
+                    type: "ERROR",
+                    keyword: "maxLength",
+                    icon: true,
+                    labelKey: `shared.fields.name.maxLengthError`,
+                  },
                 ],
               },
             },
@@ -83,6 +89,14 @@ describe("buildUiSchema: discussion edit", () => {
                 helperText: {
                   labelKey: "some.scope.fields.summary.helperText",
                 },
+                messages: [
+                  {
+                    type: "ERROR",
+                    keyword: "maxLength",
+                    icon: true,
+                    labelKey: `shared.fields.summary.maxLengthError`,
+                  },
+                ],
               },
             },
             {

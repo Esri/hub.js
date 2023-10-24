@@ -18,6 +18,7 @@ export const TemplatePermissions = [
   "hub:template:edit",
   "hub:template:manage",
   "hub:template:view",
+  "hub:template:workspace",
   "hub:template:workspace:overview",
   "hub:template:workspace:details",
   "hub:template:workspace:dashboard",
@@ -62,24 +63,28 @@ export const TemplatePermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:template:edit"],
   },
   {
+    permission: "hub:template:workspace",
+    dependencies: ["hub:feature:workspace"],
+  },
+  {
     permission: "hub:template:workspace:overview",
-    dependencies: ["hub:template:view"],
+    dependencies: ["hub:template:workspace", "hub:template:view"],
   },
   {
     permission: "hub:template:workspace:details",
-    dependencies: ["hub:template:manage"],
+    dependencies: ["hub:template:workspace", "hub:template:manage"],
   },
   {
     permission: "hub:template:workspace:dashboard",
-    dependencies: ["hub:template:manage"],
+    dependencies: ["hub:template:workspace", "hub:template:manage"],
   },
   {
     permission: "hub:template:workspace:collaborators",
-    dependencies: ["hub:template:manage"],
+    dependencies: ["hub:template:workspace", "hub:template:manage"],
   },
   {
     permission: "hub:template:workspace:settings",
-    dependencies: ["hub:template:manage"],
+    dependencies: ["hub:template:workspace", "hub:template:manage"],
     entityOwner: true,
   },
 ];
