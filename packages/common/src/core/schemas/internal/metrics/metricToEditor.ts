@@ -10,7 +10,7 @@ import {
 /**
  * Util to convert a metric into editor values consumable by the configuration editor
  * @param metric - IMetric metric
- * @param cardConfig - display configuration for the metric
+ * @param displayConfig - display configuration for the metric
  * @returns
  */
 export function metricToEditor(

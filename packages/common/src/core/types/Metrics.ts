@@ -223,11 +223,3 @@ export interface IMetricDisplayConfig {
   displayType: string;
   [key: string]: any;
 }
-
-/**
- * Params needed to properly display a metric in the ui -- display and metric values
- */
-export interface IMetricCardParams {
-  metric: IMetric;
-  displayConfig: IMetricDisplayConfig;
-}

@@ -2,7 +2,6 @@ import { isNil } from "../../../../util";
 import { IConfigurationValues } from "../../types";
 import {
   IMetric,
-  IMetricCardParams,
   IMetricDisplayConfig,
   MetricSource,
   ExpressionRelationships,
@@ -11,18 +10,17 @@ import {
 } from "../../../types/Metrics";
 
 /**
- * Transforms the arcgis-stat-card-editor values into an object with IMetric and IMetricDisplayConfig to be passed to the arcgis-hub-metric-card component.
- * @param values arcgis-configuration-editor values for the arcgis-hub-metric-card to use
- * @param metricName what should be the name of the transformed metric
+ * Transforms the IConfigurationValues into an object with IMetric and IMetricDisplayConfig to be saved on an entity or rendered in the ui.
+ * @param values IConfigurationValues for the arcgis-hub-metric-card to use
  * @param metricId what should be the id of the transformed metric
  * @param entityInfo what should be the entityInfo of the transformed metric
- * @returns a metric and cardConfig used for rendering arcgis-hub-metric-card
+ * @returns IMetricCardParams
  */
 export function editorToMetric(
   values: IConfigurationValues = {},
   metricId: string,
   opts?: { metricName?: string; entityInfo?: IEntityInfo }
-): IMetricCardParams {
+): { metric: IMetric; displayConfig: IMetricDisplayConfig } {
   const { value, dynamicMetric, ...config } = values;
   const {
     layerId,
@@ -93,6 +91,8 @@ export function editorToMetric(
 }
 
 /**
+ * Constructs a where clause from a given expression set.
+ *
  * @param {Array} fields the available fields for a given dataset
  * @param {Object} values the selected values
  *

@@ -1,6 +1,13 @@
 import { IHubProject } from "../../../types/IHubProject";
 import { IMetric, IMetricDisplayConfig } from "../../../types/Metrics";
 
+/**
+ * Sets a given metric and metricDisplayConfig on an entity's metric and view.metricDisplays props.
+ *
+ * @param entity - should have metric and metricDisplays implemented
+ * @param metric - IMetric
+ * @param displayConfig - IMetricDisplayConfig configuration to display the metric in the ui
+ */
 export function setMetricAndDisplay(
   entity: IHubProject,
   metric: IMetric,
