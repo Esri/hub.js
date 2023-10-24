@@ -43,6 +43,7 @@ function applyCatalogSchema(original: any): IHubCatalog {
       collections: [],
     };
 
+    // Handle legacy group structure
     const rawGroups = getProp(original, "groups");
     let groups = [];
     if (Array.isArray(rawGroups) && rawGroups.length) {
@@ -54,6 +55,24 @@ function applyCatalogSchema(original: any): IHubCatalog {
     if (groups.length) {
       catalog.scopes.item.filters.push({
         predicates: [{ group: groups }],
+      });
+    }
+
+    // Handle legacy orgId value, which should only be present
+    // for org-level home sites (e.g., "my-org.hub.arcgis.com")
+    const orgId = getProp(original, "orgId");
+    if (orgId) {
+      catalog.scopes.item.filters.push({
+        predicates: [
+          // Portal uses `orgid` instead of `orgId`, so we comply.
+          // While `orgid` is valid field for search, it does not count
+          // towards Portal's requirement of needing at least one filter.
+          { orgid: [orgId] },
+          // Hack to force Portal to think that at least one filter has
+          // been provided. 'Code Attachment' is an old AGO type that has
+          // been defunct for some time, so the results won't be affected.
+          { type: { not: ["Code Attachment"] } },
+        ],
       });
     }
 
