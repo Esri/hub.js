@@ -18,7 +18,7 @@ export const buildUiSchema = (
     elements: [
       {
         type: "Section",
-        labelKey: `${i18nScope}.statistic.sectionTitle`,
+        labelKey: `statistic.sectionTitle`,
         options: {
           section: "block",
           open: true,
@@ -27,16 +27,16 @@ export const buildUiSchema = (
           {
             type: "Control",
             scope: "/properties/type",
-            labelKey: `${i18nScope}.statistic.type.label`,
+            labelKey: `statistic.type.label`,
             options: {
               control: "hub-field-input-tile-select",
               enum: {
-                i18nScope: `${i18nScope}.statistic.type.enum`,
+                i18nScope: `statistic.type.enum`,
               },
             },
           },
           {
-            labelKey: `${i18nScope}.statistic.displayValue`,
+            labelKey: `statistic.displayValue`,
             scope: "/properties/value",
             type: "Control",
             rule: SHOW_FOR_STATIC_RULE,
@@ -44,7 +44,7 @@ export const buildUiSchema = (
           {
             scope: "/properties/dynamicMetric",
             type: "Control",
-            labelKey: `${i18nScope}.statistic.dataSource`,
+            labelKey: `statistic.dataSource`,
             rule: SHOW_FOR_DYNAMIC_RULE,
             options: {
               control: "hub-composite-input-service-query-metric",
@@ -52,7 +52,7 @@ export const buildUiSchema = (
           },
           {
             type: "Section",
-            labelKey: `${i18nScope}.formatting.sectionTitle`,
+            labelKey: `formatting.sectionTitle`,
             scope: "/properties/allowUnitFormatting",
             options: {
               section: "subblock",
@@ -61,26 +61,26 @@ export const buildUiSchema = (
             },
             elements: [
               {
-                labelKey: `${i18nScope}.formatting.unit.label`,
+                labelKey: `formatting.unit.label`,
                 scope: "/properties/unit",
                 type: "Control",
                 rule: SHOW_FOR_UNITS_SECTION_ENABLED,
                 options: {
                   helperText: {
-                    labelKey: `${i18nScope}.formatting.unit.helperText`,
+                    labelKey: `formatting.unit.helperText`,
                     placement: "bottom",
                   },
                 },
               },
               {
-                labelKey: `${i18nScope}.formatting.unitPosition.label`,
+                labelKey: `formatting.unitPosition.label`,
                 scope: "/properties/unitPosition",
                 type: "Control",
                 rule: SHOW_FOR_UNITS_SECTION_ENABLED,
                 options: {
                   control: "hub-field-input-select",
                   enum: {
-                    i18nScope: `${i18nScope}.formatting.unitPosition.enum`,
+                    i18nScope: `formatting.unitPosition.enum`,
                   },
                 },
               },
@@ -88,7 +88,7 @@ export const buildUiSchema = (
           },
           {
             type: "Section",
-            labelKey: `${i18nScope}.advancedConfig.label`,
+            labelKey: `advancedConfig.label`,
             options: {
               section: "subblock",
             },
@@ -96,33 +96,33 @@ export const buildUiSchema = (
             elements: [
               {
                 scope: "/properties/serverTimeout",
-                labelKey: `${i18nScope}.advancedConfig.serverTimeout.label`,
+                labelKey: `advancedConfig.serverTimeout.label`,
                 type: "Control",
                 rule: SHOW_FOR_DYNAMIC_RULE,
                 options: {
                   control: "hub-field-input-input",
                   type: "number",
                   helperText: {
-                    labelKey: `${i18nScope}.advancedConfig.serverTimeout.helperText`,
+                    labelKey: `advancedConfig.serverTimeout.helperText`,
                     placement: "bottom",
                   },
                   messages: [
                     {
                       type: "ERROR",
                       keyword: "type",
-                      labelKey: `${i18nScope}.advancedConfig.serverTimeout.errors.type`,
+                      labelKey: `advancedConfig.serverTimeout.errors.type`,
                       icon: true,
                     },
                     {
                       type: "ERROR",
                       keyword: "minimum",
-                      labelKey: `${i18nScope}.advancedConfig.serverTimeout.errors.minimum`,
+                      labelKey: `advancedConfig.serverTimeout.errors.minimum`,
                       icon: true,
                     },
                     {
                       type: "ERROR",
                       keyword: "maximum",
-                      labelKey: `${i18nScope}.advancedConfig.serverTimeout.errors.maximum`,
+                      labelKey: `advancedConfig.serverTimeout.errors.maximum`,
                       icon: true,
                     },
                   ],
@@ -134,29 +134,29 @@ export const buildUiSchema = (
       },
       {
         type: "Section",
-        labelKey: `${i18nScope}.details.sectionTitle`,
+        labelKey: `details.sectionTitle`,
         options: {
           section: "block",
         },
         elements: [
           {
-            labelKey: `${i18nScope}.details.title`,
+            labelKey: `details.title`,
             scope: "/properties/cardTitle",
             type: "Control",
           },
           {
-            labelKey: `${i18nScope}.details.subtitle`,
+            labelKey: `details.subtitle`,
             scope: "/properties/subtitle",
             type: "Control",
           },
           {
-            labelKey: `${i18nScope}.details.trailingText`,
+            labelKey: `details.trailingText`,
             scope: "/properties/trailingText",
             type: "Control",
           },
           {
             type: "Section",
-            labelKey: `${i18nScope}.details.link.sectionTitle`,
+            labelKey: `details.link.sectionTitle`,
             scope: "/properties/allowLink",
             options: {
               section: "subblock",
@@ -165,7 +165,7 @@ export const buildUiSchema = (
             rule: SHOW_FOR_STATIC_RULE,
             elements: [
               {
-                labelKey: `${i18nScope}.details.link.sourceLink`,
+                labelKey: `details.link.sourceLink`,
                 scope: "/properties/sourceLink",
                 type: "Control",
                 rule: SHOW_FOR_LINK_SECTION_ENABLED_AND_STATIC,
@@ -176,14 +176,14 @@ export const buildUiSchema = (
                       type: "ERROR",
                       keyword: "required",
                       icon: true,
-                      labelKey: `${i18nScope}.errors.sourceLink.required`,
+                      labelKey: `errors.sourceLink.required`,
                       allowShowBeforeInteract: true,
                     },
                   ],
                 },
               },
               {
-                labelKey: `${i18nScope}.details.link.sourceTitle`,
+                labelKey: `details.link.sourceTitle`,
                 scope: "/properties/sourceTitle",
                 type: "Control",
                 rule: SHOW_FOR_LINK_SECTION_ENABLED_AND_STATIC,
@@ -193,7 +193,7 @@ export const buildUiSchema = (
           {
             type: "Control",
             scope: "/properties/allowDynamicLink",
-            labelKey: `${i18nScope}.details.allowDynamicLink`,
+            labelKey: `details.allowDynamicLink`,
             rule: SHOW_FOR_DYNAMIC_RULE,
             options: {
               layout: "inline-space-between",
@@ -204,23 +204,23 @@ export const buildUiSchema = (
       },
       {
         type: "Section",
-        labelKey: `${i18nScope}.appearance.sectionTitle`,
+        labelKey: `appearance.sectionTitle`,
         options: { section: "block" },
         elements: [
           {
-            labelKey: `${i18nScope}.appearance.layout.label`,
+            labelKey: `appearance.layout.label`,
             scope: "/properties/layout",
             type: "Control",
             rule: HIDE_FOR_ALL, // Temporary while no layouts
             options: {
               control: "hub-field-input-select",
               enum: {
-                i18nScope: `${i18nScope}.layout.enum`,
+                i18nScope: `layout.enum`,
               },
             },
           },
           {
-            labelKey: `${i18nScope}.appearance.textAlign`,
+            labelKey: `appearance.textAlign`,
             scope: "/properties/textAlign",
             type: "Control",
             rule: HIDE_FOR_DATA_VIZ_RULE,
@@ -229,7 +229,7 @@ export const buildUiSchema = (
             },
           },
           {
-            labelKey: `${i18nScope}.appearance.valueColor`,
+            labelKey: `appearance.valueColor`,
             scope: "/properties/valueColor",
             type: "Control",
             options: {
@@ -238,38 +238,38 @@ export const buildUiSchema = (
             },
           },
           {
-            labelKey: `${i18nScope}.appearance.dropShadow.label`,
+            labelKey: `appearance.dropShadow.label`,
             scope: "/properties/dropShadow",
             type: "Control",
             rule: HIDE_FOR_ALL,
             options: {
               control: "hub-field-input-select",
               enum: {
-                i18nScope: `${i18nScope}.appearance.dropShadow.enum`,
+                i18nScope: `appearance.dropShadow.enum`,
               },
             },
           },
 
           {
-            labelKey: `${i18nScope}.appearance.visualInterest.label`,
+            labelKey: `appearance.visualInterest.label`,
             scope: "/properties/visualInterest",
             type: "Control",
             rule: HIDE_FOR_ALL,
             options: {
               control: "hub-field-input-select",
               enum: {
-                i18nScope: `${i18nScope}.appearance.visualInterest.enum`,
+                i18nScope: `appearance.visualInterest.enum`,
               },
             },
           },
           {
-            labelKey: `${i18nScope}.appearance.popoverTitle`,
+            labelKey: `appearance.popoverTitle`,
             scope: "/properties/popoverTitle",
             type: "Control",
             rule: SHOW_FOR_MORE_INFO_RULE,
           },
           {
-            labelKey: `${i18nScope}.appearance.popoverDescription`,
+            labelKey: `appearance.popoverDescription`,
             scope: "/properties/popoverDescription",
             type: "Control",
             rule: SHOW_FOR_MORE_INFO_RULE,
@@ -278,38 +278,38 @@ export const buildUiSchema = (
       },
       {
         type: "Section",
-        labelKey: `${i18nScope}.sharing.sectionTitle`,
+        labelKey: `sharing.sectionTitle`,
         options: {
           section: "block",
         },
         elements: [
           {
-            labelKey: `${i18nScope}.sharing.showShareIcon`,
+            labelKey: `sharing.showShareIcon`,
             scope: "/properties/shareable",
             type: "Control",
             options: {
               helperText: {
-                labelKey: `${i18nScope}.sharing.showShareIconHelperText`,
+                labelKey: `sharing.showShareIconHelperText`,
               },
               control: "hub-field-input-switch",
               layout: "inline-space-between",
             },
           },
           {
-            labelKey: `${i18nScope}.sharing.shareableByValue`,
+            labelKey: `sharing.shareableByValue`,
             scope: "/properties/shareableByValue",
             type: "Control",
             rule: HIDE_FOR_ALL,
           },
           {
-            labelKey: `${i18nScope}.sharing.shareableOnHover.label`,
+            labelKey: `sharing.shareableOnHover.label`,
             scope: "/properties/shareableOnHover",
             type: "Control",
             rule: SHOW_FOR_SHARING_RULE,
             options: {
               control: "hub-field-input-switch",
               helperText: {
-                labelKey: `${i18nScope}.sharing.shareableOnHover.helperText.label`,
+                labelKey: `sharing.shareableOnHover.helperText.label`,
               },
               layout: "inline-space-between",
             },
