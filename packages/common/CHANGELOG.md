@@ -1,3 +1,10 @@
+## @esri/hub-common [14.43.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.43.0...@esri/hub-common@14.43.1) (2023-10-24)
+
+
+### Bug Fixes
+
+* remove scope from uiSchema for stat card ([#1298](https://github.com/Esri/hub.js/issues/1298)) ([e0ef2ee](https://github.com/Esri/hub.js/commit/e0ef2eef99c26303f9e93c86b5710d0d5423a680))
+
 # @esri/hub-common [14.43.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.42.1...@esri/hub-common@14.43.0) (2023-10-20)
 
 
