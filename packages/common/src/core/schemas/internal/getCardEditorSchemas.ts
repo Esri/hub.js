@@ -43,7 +43,11 @@ export async function getCardEditorSchemas(
         ([schemaModuleResolved, statModuleResolved]) => {
           const { MetricSchema } = schemaModuleResolved;
           schema = cloneObject(MetricSchema);
-          uiSchema = statModuleResolved.buildUiSchema(options, context);
+          uiSchema = statModuleResolved.buildUiSchema(
+            i18nScope,
+            options,
+            context
+          );
         }
       );
       break;
