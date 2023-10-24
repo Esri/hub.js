@@ -4,18 +4,14 @@ import { MOCK_CONTEXT } from "../../../../mocks/mock-auth";
 
 describe("buildUiSchema: stat", () => {
   it("returns the full stat card uiSchema", async () => {
-    const uiSchema = buildUiSchema(
-      "some.scope",
-      { themeColors: ["#ffffff"] },
-      MOCK_CONTEXT
-    );
+    const uiSchema = buildUiSchema({ themeColors: ["#ffffff"] }, MOCK_CONTEXT);
 
     expect(uiSchema).toEqual({
       type: "Layout",
       elements: [
         {
           type: "Section",
-          labelKey: `some.scope.statistic.sectionTitle`,
+          labelKey: `statistic.sectionTitle`,
           options: {
             section: "block",
             open: true,
@@ -24,16 +20,16 @@ describe("buildUiSchema: stat", () => {
             {
               type: "Control",
               scope: "/properties/type",
-              labelKey: `some.scope.statistic.type.label`,
+              labelKey: `statistic.type.label`,
               options: {
                 control: "hub-field-input-tile-select",
                 enum: {
-                  i18nScope: `some.scope.statistic.type.enum`,
+                  i18nScope: `statistic.type.enum`,
                 },
               },
             },
             {
-              labelKey: `some.scope.statistic.displayValue`,
+              labelKey: `statistic.displayValue`,
               scope: "/properties/value",
               type: "Control",
               rule: {
@@ -47,7 +43,7 @@ describe("buildUiSchema: stat", () => {
             {
               scope: "/properties/dynamicMetric",
               type: "Control",
-              labelKey: `some.scope.statistic.dataSource`,
+              labelKey: `statistic.dataSource`,
               rule: {
                 condition: {
                   scope: "/properties/type",
@@ -61,7 +57,7 @@ describe("buildUiSchema: stat", () => {
             },
             {
               type: "Section",
-              labelKey: `some.scope.formatting.sectionTitle`,
+              labelKey: `formatting.sectionTitle`,
               scope: "/properties/allowUnitFormatting",
               options: {
                 section: "subblock",
@@ -70,7 +66,7 @@ describe("buildUiSchema: stat", () => {
               },
               elements: [
                 {
-                  labelKey: `some.scope.formatting.unit.label`,
+                  labelKey: `formatting.unit.label`,
                   scope: "/properties/unit",
                   type: "Control",
                   rule: {
@@ -82,13 +78,13 @@ describe("buildUiSchema: stat", () => {
                   },
                   options: {
                     helperText: {
-                      labelKey: `some.scope.formatting.unit.helperText`,
+                      labelKey: `formatting.unit.helperText`,
                       placement: "bottom",
                     },
                   },
                 },
                 {
-                  labelKey: `some.scope.formatting.unitPosition.label`,
+                  labelKey: `formatting.unitPosition.label`,
                   scope: "/properties/unitPosition",
                   type: "Control",
                   rule: {
@@ -101,7 +97,7 @@ describe("buildUiSchema: stat", () => {
                   options: {
                     control: "hub-field-input-select",
                     enum: {
-                      i18nScope: `some.scope.formatting.unitPosition.enum`,
+                      i18nScope: `formatting.unitPosition.enum`,
                     },
                   },
                 },
@@ -109,7 +105,7 @@ describe("buildUiSchema: stat", () => {
             },
             {
               type: "Section",
-              labelKey: `some.scope.advancedConfig.label`,
+              labelKey: `advancedConfig.label`,
               options: {
                 section: "subblock",
               },
@@ -123,7 +119,7 @@ describe("buildUiSchema: stat", () => {
               elements: [
                 {
                   scope: "/properties/serverTimeout",
-                  labelKey: `some.scope.advancedConfig.serverTimeout.label`,
+                  labelKey: `advancedConfig.serverTimeout.label`,
                   type: "Control",
                   rule: {
                     condition: {
@@ -136,26 +132,26 @@ describe("buildUiSchema: stat", () => {
                     control: "hub-field-input-input",
                     type: "number",
                     helperText: {
-                      labelKey: `some.scope.advancedConfig.serverTimeout.helperText`,
+                      labelKey: `advancedConfig.serverTimeout.helperText`,
                       placement: "bottom",
                     },
                     messages: [
                       {
                         type: "ERROR",
                         keyword: "type",
-                        labelKey: `some.scope.advancedConfig.serverTimeout.errors.type`,
+                        labelKey: `advancedConfig.serverTimeout.errors.type`,
                         icon: true,
                       },
                       {
                         type: "ERROR",
                         keyword: "minimum",
-                        labelKey: `some.scope.advancedConfig.serverTimeout.errors.minimum`,
+                        labelKey: `advancedConfig.serverTimeout.errors.minimum`,
                         icon: true,
                       },
                       {
                         type: "ERROR",
                         keyword: "maximum",
-                        labelKey: `some.scope.advancedConfig.serverTimeout.errors.maximum`,
+                        labelKey: `advancedConfig.serverTimeout.errors.maximum`,
                         icon: true,
                       },
                     ],
@@ -167,29 +163,29 @@ describe("buildUiSchema: stat", () => {
         },
         {
           type: "Section",
-          labelKey: `some.scope.details.sectionTitle`,
+          labelKey: `details.sectionTitle`,
           options: {
             section: "block",
           },
           elements: [
             {
-              labelKey: `some.scope.details.title`,
+              labelKey: `details.title`,
               scope: "/properties/cardTitle",
               type: "Control",
             },
             {
-              labelKey: `some.scope.details.subtitle`,
+              labelKey: `details.subtitle`,
               scope: "/properties/subtitle",
               type: "Control",
             },
             {
-              labelKey: `some.scope.details.trailingText`,
+              labelKey: `details.trailingText`,
               scope: "/properties/trailingText",
               type: "Control",
             },
             {
               type: "Section",
-              labelKey: `some.scope.details.link.sectionTitle`,
+              labelKey: `details.link.sectionTitle`,
               scope: "/properties/allowLink",
               options: {
                 section: "subblock",
@@ -204,7 +200,7 @@ describe("buildUiSchema: stat", () => {
               },
               elements: [
                 {
-                  labelKey: `some.scope.details.link.sourceLink`,
+                  labelKey: `details.link.sourceLink`,
                   scope: "/properties/sourceLink",
                   type: "Control",
                   rule: {
@@ -225,14 +221,14 @@ describe("buildUiSchema: stat", () => {
                         type: "ERROR",
                         keyword: "required",
                         icon: true,
-                        labelKey: `some.scope.errors.sourceLink.required`,
+                        labelKey: `errors.sourceLink.required`,
                         allowShowBeforeInteract: true,
                       },
                     ],
                   },
                 },
                 {
-                  labelKey: `some.scope.details.link.sourceTitle`,
+                  labelKey: `details.link.sourceTitle`,
                   scope: "/properties/sourceTitle",
                   type: "Control",
                   rule: {
@@ -252,7 +248,7 @@ describe("buildUiSchema: stat", () => {
             {
               type: "Control",
               scope: "/properties/allowDynamicLink",
-              labelKey: `some.scope.details.allowDynamicLink`,
+              labelKey: `details.allowDynamicLink`,
               rule: {
                 condition: {
                   scope: "/properties/type",
@@ -269,11 +265,11 @@ describe("buildUiSchema: stat", () => {
         },
         {
           type: "Section",
-          labelKey: `some.scope.appearance.sectionTitle`,
+          labelKey: `appearance.sectionTitle`,
           options: { section: "block" },
           elements: [
             {
-              labelKey: `some.scope.appearance.layout.label`,
+              labelKey: `appearance.layout.label`,
               scope: "/properties/layout",
               type: "Control",
               rule: {
@@ -286,12 +282,12 @@ describe("buildUiSchema: stat", () => {
               options: {
                 control: "hub-field-input-select",
                 enum: {
-                  i18nScope: `some.scope.layout.enum`,
+                  i18nScope: `layout.enum`,
                 },
               },
             },
             {
-              labelKey: `some.scope.appearance.textAlign`,
+              labelKey: `appearance.textAlign`,
               scope: "/properties/textAlign",
               type: "Control",
               rule: {
@@ -306,7 +302,7 @@ describe("buildUiSchema: stat", () => {
               },
             },
             {
-              labelKey: `some.scope.appearance.valueColor`,
+              labelKey: `appearance.valueColor`,
               scope: "/properties/valueColor",
               type: "Control",
               options: {
@@ -315,7 +311,7 @@ describe("buildUiSchema: stat", () => {
               },
             },
             {
-              labelKey: `some.scope.appearance.dropShadow.label`,
+              labelKey: `appearance.dropShadow.label`,
               scope: "/properties/dropShadow",
               type: "Control",
               rule: {
@@ -328,13 +324,13 @@ describe("buildUiSchema: stat", () => {
               options: {
                 control: "hub-field-input-select",
                 enum: {
-                  i18nScope: `some.scope.appearance.dropShadow.enum`,
+                  i18nScope: `appearance.dropShadow.enum`,
                 },
               },
             },
 
             {
-              labelKey: `some.scope.appearance.visualInterest.label`,
+              labelKey: `appearance.visualInterest.label`,
               scope: "/properties/visualInterest",
               type: "Control",
               rule: {
@@ -347,7 +343,7 @@ describe("buildUiSchema: stat", () => {
               options: {
                 control: "hub-field-input-select",
                 enum: {
-                  i18nScope: `some.scope.appearance.visualInterest.enum`,
+                  i18nScope: `appearance.visualInterest.enum`,
                 },
               },
             },
@@ -364,7 +360,7 @@ describe("buildUiSchema: stat", () => {
             //   }
             // },
             {
-              labelKey: `some.scope.appearance.popoverTitle`,
+              labelKey: `appearance.popoverTitle`,
               scope: "/properties/popoverTitle",
               type: "Control",
               rule: {
@@ -376,7 +372,7 @@ describe("buildUiSchema: stat", () => {
               },
             },
             {
-              labelKey: `some.scope.appearance.popoverDescription`,
+              labelKey: `appearance.popoverDescription`,
               scope: "/properties/popoverDescription",
               type: "Control",
               rule: {
@@ -391,25 +387,25 @@ describe("buildUiSchema: stat", () => {
         },
         {
           type: "Section",
-          labelKey: `some.scope.sharing.sectionTitle`,
+          labelKey: `sharing.sectionTitle`,
           options: {
             section: "block",
           },
           elements: [
             {
-              labelKey: `some.scope.sharing.showShareIcon`,
+              labelKey: `sharing.showShareIcon`,
               scope: "/properties/shareable",
               type: "Control",
               options: {
                 helperText: {
-                  labelKey: `some.scope.sharing.showShareIconHelperText`,
+                  labelKey: `sharing.showShareIconHelperText`,
                 },
                 control: "hub-field-input-switch",
                 layout: "inline-space-between",
               },
             },
             {
-              labelKey: `some.scope.sharing.shareableByValue`,
+              labelKey: `sharing.shareableByValue`,
               scope: "/properties/shareableByValue",
               type: "Control",
               rule: {
@@ -421,7 +417,7 @@ describe("buildUiSchema: stat", () => {
               },
             },
             {
-              labelKey: `some.scope.sharing.shareableOnHover.label`,
+              labelKey: `sharing.shareableOnHover.label`,
               scope: "/properties/shareableOnHover",
               type: "Control",
               rule: {
@@ -434,7 +430,7 @@ describe("buildUiSchema: stat", () => {
               options: {
                 control: "hub-field-input-switch",
                 helperText: {
-                  labelKey: `some.scope.sharing.shareableOnHover.helperText.label`,
+                  labelKey: `sharing.shareableOnHover.helperText.label`,
                 },
                 layout: "inline-space-between",
               },
