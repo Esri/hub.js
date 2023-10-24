@@ -1,4 +1,4 @@
-import { IWithPermissions } from "../traits";
+import { IWithDiscussions, IWithPermissions } from "../traits";
 import { IHubEntityBase } from "./IHubEntityBase";
 import {
   GroupSortField,
@@ -12,7 +12,10 @@ import {
  * Defines the properties of a Hub Group object
  * @internal
  */
-export interface IHubGroup extends IHubEntityBase, IWithPermissions {
+export interface IHubGroup
+  extends IHubEntityBase,
+    IWithPermissions,
+    IWithDiscussions {
   /**
    * Access level of the group
    * ("private" | "org" | "public")

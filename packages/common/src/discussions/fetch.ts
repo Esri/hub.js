@@ -1,12 +1,14 @@
-import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IItem, getItem } from "@esri/arcgis-rest-portal";
 import { IHubDiscussion } from "../core/types";
 import { fetchModelFromItem } from "../models";
 import { getItemBySlug } from "../items/slugs";
-import { IModel, isGuid } from "../index";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
+import { getDefaultEntitySettings } from "./api/settings/getDefaultEntitySettings";
+import { IHubRequestOptions, IModel } from "../types";
+import { isGuid } from "../utils/is-guid";
+import { fetchSetting } from "./api/settings/settings";
 
 /**
  * @private
@@ -17,7 +19,7 @@ import { computeProps } from "./_internal/computeProps";
  */
 export async function fetchDiscussion(
   identifier: string,
-  requestOptions: IRequestOptions
+  requestOptions: IHubRequestOptions
 ): Promise<IHubDiscussion> {
   let getPrms;
   if (isGuid(identifier)) {
@@ -42,9 +44,20 @@ export async function fetchDiscussion(
  */
 export async function convertItemToDiscussion(
   item: IItem,
-  requestOptions: IRequestOptions
+  requestOptions: IHubRequestOptions
 ): Promise<IHubDiscussion> {
   const model = await fetchModelFromItem(item, requestOptions);
+  let entitySettings;
+  try {
+    entitySettings = await fetchSetting({ id: item.id, ...requestOptions });
+  } catch (e) {
+    const defaultSettings = getDefaultEntitySettings("discussion");
+    entitySettings = {
+      id: null,
+      ...defaultSettings,
+    };
+  }
+  model.entitySettings = entitySettings;
   const mapper = new PropertyMapper<Partial<IHubDiscussion>, IModel>(
     getPropertyMap()
   );

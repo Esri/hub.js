@@ -72,7 +72,10 @@ export class HubDiscussion
     context: IArcGISContext
   ): Promise<HubDiscussion> {
     try {
-      const entity = await fetchDiscussion(identifier, context.requestOptions);
+      const entity = await fetchDiscussion(
+        identifier,
+        context.hubRequestOptions
+      );
       // create an instance of HubDiscussion from the entity
       return HubDiscussion.fromJson(entity, context);
     } catch (ex) {
@@ -121,14 +124,14 @@ export class HubDiscussion
       // update it
       this.entity = await updateDiscussion(
         this.entity,
-        this.context.userRequestOptions
+        this.context.hubRequestOptions
       );
     } else {
       const { createDiscussion } = await import("./edit");
       // create it
       this.entity = await createDiscussion(
         this.entity,
-        this.context.userRequestOptions
+        this.context.hubRequestOptions
       );
     }
 
@@ -150,7 +153,7 @@ export class HubDiscussion
     const { deleteDiscussion } = await import("./edit");
     this.isDestroyed = true;
     // Delegate to module fn
-    await deleteDiscussion(this.entity.id, this.context.userRequestOptions);
+    await deleteDiscussion(this.entity.id, this.context.hubRequestOptions);
   }
 
   /*

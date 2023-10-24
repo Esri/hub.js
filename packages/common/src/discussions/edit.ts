@@ -1,13 +1,21 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
 import { IHubDiscussion } from "../core/types";
 import { createModel, getModel, updateModel } from "../models";
 import { constructSlug, getUniqueSlug, setSlugKeyword } from "../items/slugs";
-import { IModel, cloneObject, setDiscussableKeyword } from "../index";
+import {
+  createSetting,
+  removeSetting,
+  updateSetting,
+} from "./api/settings/settings";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
 import { DEFAULT_DISCUSSION, DEFAULT_DISCUSSION_MODEL } from "./defaults";
+import { getDefaultEntitySettings } from "./api/settings/getDefaultEntitySettings";
+import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { setDiscussableKeyword } from "./utils";
+import { IHubRequestOptions, IModel } from "../types";
+import { cloneObject } from "../util";
 
 /**
  * @private
@@ -21,7 +29,7 @@ import { DEFAULT_DISCUSSION, DEFAULT_DISCUSSION_MODEL } from "./defaults";
  */
 export async function createDiscussion(
   partialDiscussion: Partial<IHubDiscussion>,
-  requestOptions: IUserRequestOptions
+  requestOptions: IHubRequestOptions
 ): Promise<IHubDiscussion> {
   // merge incoming with the default
   // this expansion solves the typing somehow
@@ -55,7 +63,23 @@ export async function createDiscussion(
     cloneObject(DEFAULT_DISCUSSION_MODEL)
   );
   // create the item
-  model = await createModel(model, requestOptions);
+  model = await createModel(model, requestOptions as IUserRequestOptions);
+  const defaultSettings = getDefaultEntitySettings("discussion");
+  // create the entity settings
+  model.entitySettings = await createSetting({
+    data: {
+      id: model.item.id,
+      type: defaultSettings.type,
+      settings: {
+        ...defaultSettings.settings,
+        discussions: {
+          ...defaultSettings.settings.discussions,
+          ...discussion.discussionSettings,
+        },
+      },
+    },
+    ...requestOptions,
+  });
   // map the model back into a IHubDiscussion
   let newDiscussion = mapper.storeToEntity(model, {});
   newDiscussion = computeProps(model, newDiscussion, requestOptions);
@@ -72,7 +96,7 @@ export async function createDiscussion(
  */
 export async function updateDiscussion(
   discussion: IHubDiscussion,
-  requestOptions: IUserRequestOptions
+  requestOptions: IHubRequestOptions
 ): Promise<IHubDiscussion> {
   // verify that the slug is unique, excluding the current discussion
   discussion.slug = await getUniqueSlug(
@@ -94,10 +118,40 @@ export async function updateDiscussion(
   // but this is where we would apply that sort of logic
   const modelToUpdate = mapper.entityToStore(discussion, model);
   // update the backing item
-  const updatedModel = await updateModel(modelToUpdate, requestOptions);
+  const updatedModel = await updateModel(
+    modelToUpdate,
+    requestOptions as IUserRequestOptions
+  );
   // now map back into a discussion and return that
   let updatedDiscussion = mapper.storeToEntity(updatedModel, discussion);
   updatedDiscussion = computeProps(model, updatedDiscussion, requestOptions);
+
+  // create or update entity settings
+  const defaultSettings = getDefaultEntitySettings("discussion");
+  const settings = {
+    ...defaultSettings.settings,
+    discussions: {
+      ...defaultSettings.settings.discussions,
+      ...updatedDiscussion.discussionSettings,
+    },
+  };
+  const newOrUpdatedSettings = updatedDiscussion.entitySettingsId
+    ? await updateSetting({
+        id: updatedDiscussion.entitySettingsId,
+        data: { settings },
+        ...requestOptions,
+      })
+    : await createSetting({
+        data: {
+          id: updatedDiscussion.id,
+          type: defaultSettings.type,
+          settings,
+        },
+        ...requestOptions,
+      });
+  updatedDiscussion.entitySettingsId = newOrUpdatedSettings.id;
+  updatedDiscussion.discussionSettings =
+    newOrUpdatedSettings.settings.discussions;
   // the casting is needed because modelToObject returns a `Partial<T>`
   // where as this function returns a `T`
   return updatedDiscussion as IHubDiscussion;
@@ -112,9 +166,14 @@ export async function updateDiscussion(
  */
 export async function deleteDiscussion(
   id: string,
-  requestOptions: IUserRequestOptions
+  requestOptions: IHubRequestOptions
 ): Promise<void> {
   const ro = { ...requestOptions, ...{ id } } as IUserItemOptions;
   await removeItem(ro);
+  try {
+    await removeSetting({ id, ...requestOptions });
+  } catch (e) {
+    // suppress error
+  }
   return;
 }
