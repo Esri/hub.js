@@ -1,3 +1,10 @@
+# @esri/hub-discussions [26.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@26.1.2...@esri/hub-discussions@26.2.0) (2023-10-24)
+
+
+### Features
+
+* **hub-common:** add support for discussion settings for entities ([#1284](https://github.com/Esri/hub.js/issues/1284)) ([951c455](https://github.com/Esri/hub.js/commit/951c45549cc4189c1103ede16950fafdedf6eadc))
+
 ## @esri/hub-discussions [26.1.2](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@26.1.1...@esri/hub-discussions@26.1.2) (2023-10-12)
 
 
