@@ -11,6 +11,7 @@ import { HubEnvironment, HubLicense, IFeatureFlags } from "./permissions/types";
 import { IHubRequestOptions, IHubTrustedOrgsResponse } from "./types";
 import { getEnvironmentFromPortalUrl } from "./utils/getEnvironmentFromPortalUrl";
 import { IUserResourceToken, UserResourceApp } from "./ArcGISContextManager";
+import { IUserHubSettings } from "./utils";
 
 /**
  * Hash of Hub API end points so updates
@@ -280,6 +281,12 @@ export interface IArcGISContextOptions {
    * with user-app-resources
    */
   userResourceTokens?: IUserResourceToken[];
+
+  /**
+   * Hash of user hub settings. These are stored as
+   * user-app-resources, associated with the `hubforarcgis` clientId
+   */
+  userHubSettings?: IUserHubSettings;
 }
 
 /**
@@ -325,6 +332,8 @@ export class ArcGISContext implements IArcGISContext {
 
   private _userResourceTokens: IUserResourceToken[] = [];
 
+  private _userHubSettings: IUserHubSettings;
+
   /**
    * Create a new instance of `ArcGISContext`.
    *
@@ -360,6 +369,7 @@ export class ArcGISContext implements IArcGISContext {
 
     this._featureFlags = opts.featureFlags || {};
     this._userResourceTokens = opts.userResourceTokens || [];
+    this._userHubSettings = opts.userHubSettings || null;
   }
 
   /**
@@ -708,5 +718,13 @@ export class ArcGISContext implements IArcGISContext {
     if (entry) {
       return entry.token;
     }
+  }
+
+  /**
+   * Return the user hub settings.
+   * Updates must be done via `contextManager.updateUserHubSettings`
+   */
+  public get userHubSettings(): IUserHubSettings {
+    return this._userHubSettings;
   }
 }

@@ -16,6 +16,14 @@ import { IFeatureFlags } from "./permissions";
 import { IHubTrustedOrgsResponse } from "./types";
 import { request } from "@esri/arcgis-rest-request";
 import { failSafe } from "./utils/fail-safe";
+import { USER_HUB_SETTINGS_KEY } from "./utils/internal/clearUserHubSettings";
+import { getUserResource } from "./utils/internal/userAppResources";
+import { applyHubSettingsMigrations } from "./utils/internal/siteSettingsMigrations";
+import {
+  IUserHubSettings,
+  updateUserHubSettings,
+} from "./utils/hubUserAppResources";
+import { fetchAndMigrateUserHubSettings } from "./utils/internal/fetchAndMigrateUserHubSettings";
 
 export type UserResourceApp = "self" | "hubforarcgis" | "arcgisonline";
 
@@ -113,6 +121,11 @@ export interface IArcGISContextManagerOptions {
    * Manager has exchanged tokens for
    */
   resourceTokens?: IUserResourceToken[];
+  /**
+   * Hash of user hub settings. These are stored as
+   * user-app-resources, associated with the `hubforarcgis` clientId
+   */
+  userHubSettings?: IUserHubSettings;
 }
 
 /**
@@ -164,6 +177,8 @@ export class ArcGISContextManager {
   private _resourceConfigs: IUserResourceConfig[] = [];
 
   private _resourceTokens: IUserResourceToken[] = [];
+
+  private _userHubSettings: IUserHubSettings;
 
   /**
    * Private constructor. Use `ArcGISContextManager.create(...)` to
@@ -231,6 +246,12 @@ export class ArcGISContextManager {
     }
     if (opts.resourceTokens) {
       this._resourceTokens = opts.resourceTokens;
+    }
+    // This is mainly used for testing; typically this
+    // will be fetched during the initialization process
+    // if the context has authentication information
+    if (opts.userHubSettings) {
+      this._userHubSettings = opts.userHubSettings;
     }
   }
 
@@ -396,8 +417,25 @@ export class ArcGISContextManager {
     if (this._trustedOrgs) {
       state.trustedOrgs = this._trustedOrgs;
     }
+    // we don't store the userHubSettings b/c it will be reloaded
+    // during the initialization following deserialization
+    // if this becomes a problem, we can add it to the state
 
     return unicodeToBase64(JSON.stringify(state));
+  }
+
+  /**
+   * Update the User's Hub Settings
+   * Stores in the user-app-resource associated with the `hubforarcgis` clientId
+   * and updates the context
+   * @param settings
+   */
+  async updateUserHubSettings(settings: IUserHubSettings): Promise<void> {
+    // update the user-app-resource
+    await updateUserHubSettings(settings, this.context);
+    // update the context
+    this._userHubSettings = settings;
+    this._context = new ArcGISContext(this.contextOpts);
   }
 
   /**
@@ -435,6 +473,7 @@ export class ArcGISContextManager {
         promises.push(getTrustedOrgs(this._portalUrl, this._authentication));
         promiseKeys.push("trustedOrgs");
       }
+      // if we don't have the tokens but we have resource configs, fetch them
       if (!this._resourceTokens.length && this._resourceConfigs.length) {
         promises.push(
           getUserResourceTokens(
@@ -445,7 +484,8 @@ export class ArcGISContextManager {
         );
         promiseKeys.push("tokens");
       }
-      // always add "self" to resourceTokens
+
+      // always add "self" to resourceTokens, associated with the app's clientId
       this._resourceTokens.push({
         app: "self",
         token,
@@ -490,6 +530,25 @@ export class ArcGISContextManager {
       }
     });
 
+    // if we are auth'd and have a hubforarcgis token,
+    // fetch the users IUserHubSettings extract out the
+    // preview properties and cross-walk to permissions
+    const hubAppToken = this._resourceTokens.find(
+      (e) => e.app === "hubforarcgis"
+    );
+    if (this._authentication && hubAppToken) {
+      this._userHubSettings = await fetchAndMigrateUserHubSettings(
+        this._authentication.username,
+        this._portalUrl,
+        hubAppToken.token
+      );
+      // check for preview properties and cross-walk to permissions
+      // and add to the flags hash
+      if (this._userHubSettings.preview?.workspace) {
+        this._featureFlags["hub:preview:workspace"] = true;
+      }
+    }
+
     Logger.debug(`ArcGISContextManager-${this.id}: updating context`);
     // update the context
     this._context = new ArcGISContext(this.contextOpts);
@@ -521,6 +580,9 @@ export class ArcGISContextManager {
     }
     if (this._trustedOrgs) {
       contextOpts.trustedOrgs = this._trustedOrgs;
+    }
+    if (this._userHubSettings) {
+      contextOpts.userHubSettings = this._userHubSettings;
     }
 
     contextOpts.userResourceTokens = this._resourceTokens;
