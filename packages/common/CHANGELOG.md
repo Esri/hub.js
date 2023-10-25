@@ -1,3 +1,10 @@
+## @esri/hub-common [14.46.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.46.0...@esri/hub-common@14.46.1) (2023-10-25)
+
+
+### Bug Fixes
+
+* **hub-common:** corrected error messages for varying inputs on details pane ([#1301](https://github.com/Esri/hub.js/issues/1301)) ([41fc5cd](https://github.com/Esri/hub.js/commit/41fc5cd3a5c616d2295d01c6068423328fe1d68b))
+
 # @esri/hub-common [14.46.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.45.0...@esri/hub-common@14.46.0) (2023-10-25)
 
 
