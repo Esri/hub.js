@@ -51,7 +51,7 @@ describe("buildUiSchema: site edit", () => {
                     type: "ERROR",
                     keyword: "maxLength",
                     icon: true,
-                    labelKey: `shared.fields.name.maxLengthError`,
+                    labelKey: `some.scope.fields.name.maxLengthError`,
                   },
                 ],
               },
