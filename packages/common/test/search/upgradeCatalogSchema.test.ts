@@ -41,6 +41,17 @@ describe("upgradeCatalogSchema", () => {
     ]);
   });
 
+  it("handles org-level home site legacy catalogs", () => {
+    const chk = upgradeCatalogSchema({ orgId: "a3g" });
+    expect(chk.title).toBe("Default Catalog");
+    expect(chk.scopes).toBeDefined();
+    expect(chk.scopes?.item?.filters.length).toBe(1);
+    expect(chk.scopes?.item?.filters[0].predicates[0].orgid).toEqual(["a3g"]);
+    expect(chk.scopes?.item?.filters[0].predicates[1].type).toEqual({
+      not: ["Code Attachment"],
+    });
+  });
+
   it("skips upgrade if on the same version", () => {
     const cat = { schemaVersion: 1.0 };
     const chk = upgradeCatalogSchema(cat);
