@@ -1,3 +1,10 @@
+# @esri/hub-common [14.46.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.45.0...@esri/hub-common@14.46.0) (2023-10-25)
+
+
+### Features
+
+* **hub-common:** upgradeCatalogSchema handles "orgId" field in legacy catalogs ([#1299](https://github.com/Esri/hub.js/issues/1299)) ([8e85c47](https://github.com/Esri/hub.js/commit/8e85c47c39047d52464fbcba97a5515b29261c68))
+
 # @esri/hub-common [14.45.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.44.0...@esri/hub-common@14.45.0) (2023-10-24)
 
 
