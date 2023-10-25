@@ -113,7 +113,14 @@ export function checkPermission(
       access: false,
       response: respValue,
       code: getPolicyResponseCode(respValue),
-      checks: [],
+      // checks are needed so the aggregations in checkParents function works
+      checks: [
+        {
+          response: respValue,
+          code: getPolicyResponseCode(respValue),
+          name: `Feature Flag: ${permission}`,
+        },
+      ],
     } as IPermissionAccessResponse;
     logResponse(disabledByFlagResponse, label);
     return disabledByFlagResponse;

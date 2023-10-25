@@ -16,14 +16,13 @@ import { IFeatureFlags } from "./permissions";
 import { IHubTrustedOrgsResponse } from "./types";
 import { request } from "@esri/arcgis-rest-request";
 import { failSafe } from "./utils/fail-safe";
-import { USER_HUB_SETTINGS_KEY } from "./utils/internal/clearUserHubSettings";
-import { getUserResource } from "./utils/internal/userAppResources";
-import { applyHubSettingsMigrations } from "./utils/internal/siteSettingsMigrations";
+
 import {
   IUserHubSettings,
   updateUserHubSettings,
 } from "./utils/hubUserAppResources";
 import { fetchAndMigrateUserHubSettings } from "./utils/internal/fetchAndMigrateUserHubSettings";
+import { getWithDefault } from "./objects";
 
 export type UserResourceApp = "self" | "hubforarcgis" | "arcgisonline";
 
@@ -435,6 +434,13 @@ export class ArcGISContextManager {
     await updateUserHubSettings(settings, this.context);
     // update the context
     this._userHubSettings = settings;
+    // update the flags hash
+    this._featureFlags["hub:feature:workspace"] = getWithDefault(
+      settings,
+      "preview.workspace",
+      false
+    );
+
     this._context = new ArcGISContext(this.contextOpts);
   }
 
@@ -542,11 +548,12 @@ export class ArcGISContextManager {
         this._portalUrl,
         hubAppToken.token
       );
-      // check for preview properties and cross-walk to permissions
-      // and add to the flags hash
-      if (this._userHubSettings.preview?.workspace) {
-        this._featureFlags["hub:preview:workspace"] = true;
-      }
+      // update the flags hash
+      this._featureFlags["hub:feature:workspace"] = getWithDefault(
+        this._userHubSettings,
+        "preview.workspace",
+        false
+      );
     }
 
     Logger.debug(`ArcGISContextManager-${this.id}: updating context`);
@@ -646,7 +653,9 @@ async function getUserResourceTokens(
       }
     );
   });
-  return Promise.all(promises);
+  const results = await Promise.all(promises);
+  // remove any null entries so downstream code doesn't have to check
+  return results.filter((e) => !!e);
 }
 
 const HUB_SERVICE_STATUS: HubServiceStatus = {

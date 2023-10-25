@@ -4,6 +4,7 @@ import { checkPermission, IHubItemEntity, Permission } from "../../src";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import { IPermissionPolicy } from "../../dist/types/permissions/types/IPermissionPolicy";
 import * as GetPolicyModule from "../../src/permissions/HubPermissionPolicies";
+import * as IsPermissionModule from "../../src/permissions/types/Permission";
 // In order to have stable tests over time, we define some policies just
 // for the purposes of testing. We then spy on getPermissionPolicy
 // and use these test-only structures instead of current businessrules
@@ -12,6 +13,11 @@ import * as GetPolicyModule from "../../src/permissions/HubPermissionPolicies";
 
 // THIS USES PROJECT PERMISSIONS BUT THE POLICIES ARE JUST FOR TESTING
 const TestPermissionPolicies: IPermissionPolicy[] = [
+  {
+    permission: "hub:feature:workspace",
+    availability: ["alpha"],
+    environments: ["devext", "qaext"],
+  },
   {
     permission: "hub:project",
     services: ["portal"],
@@ -45,6 +51,10 @@ const TestPermissionPolicies: IPermissionPolicy[] = [
     entityConfigurable: true,
   },
   {
+    permission: "hub:project:workspace",
+    dependencies: ["hub:feature:workspace"],
+  },
+  {
     permission: "hub:project:workspace:dashboard",
     dependencies: ["hub:project:view"],
     availability: ["alpha"],
@@ -54,6 +64,15 @@ const TestPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:project:workspace:details",
     dependencies: ["hub:project:edit"],
     entityConfigurable: true,
+  },
+  {
+    permission: "hub:project:workspace:hierarchy",
+    dependencies: ["hub:project:workspace"],
+    environments: ["devext"],
+  },
+  {
+    permission: "hub:project:workspace:hierarchy2",
+    dependencies: ["hub:project:workspace"],
   },
   // More permissions that can be used to create more test scenarios
   // {
@@ -86,6 +105,13 @@ function getPermissionPolicy(permission: Permission): IPermissionPolicy {
   ) as unknown as IPermissionPolicy;
 }
 
+function isPermission(permission: Permission): boolean {
+  const permissions = TestPermissionPolicies.map((p) => p.permission);
+  // Add one to flex a missing policy condition
+  permissions.push("hub:missing:policy");
+  return permissions.includes(permission);
+}
+
 describe("checkPermission:", () => {
   let basicCtxMgr: ArcGISContextManager;
   let premiumCtxMgr: ArcGISContextManager;
@@ -97,6 +123,7 @@ describe("checkPermission:", () => {
     spyOn(GetPolicyModule, "getPermissionPolicy").and.callFake(
       getPermissionPolicy
     );
+    spyOn(IsPermissionModule, "isPermission").and.callFake(isPermission);
     // unauthdCtxMgr = await ArcGISContextManager.create();
     // When we pass in all this information, the context
     // manager will not try to fetch anything, so no need
@@ -147,6 +174,8 @@ describe("checkPermission:", () => {
         "hub:project:workspace:details": false,
         // force content to be enabled, even if entity turned it off
         "hub:project:content": true,
+        // enable hub:project:workspace:hiearchy by enabling hub:feature:workspace
+        "hub:feature:workspace": true,
       },
     });
   });
@@ -168,7 +197,7 @@ describe("checkPermission:", () => {
     );
   });
   it("fails for missing policy", () => {
-    const chk = checkPermission("hub:project:owner", basicCtxMgr.context);
+    const chk = checkPermission("hub:missing:policy", basicCtxMgr.context);
     expect(chk.access).toBe(false);
     expect(chk.response).toBe("no-policy-exists");
     expect(chk.checks.length).toBe(0);
@@ -273,7 +302,7 @@ describe("checkPermission:", () => {
       );
       expect(chk.access).toBe(false);
       expect(chk.response).toBe("disabled-by-entity-flag");
-      expect(chk.checks.length).toBe(0);
+      expect(chk.checks.length).toBe(1);
     });
     it("enabled entity flag runs all checks", () => {
       const entity = {
@@ -326,6 +355,22 @@ describe("checkPermission:", () => {
     it("disabled feature flag denies access", () => {
       const chk = checkPermission(
         "hub:project:workspace:details",
+        premiumCtxMgr.context
+      );
+
+      expect(chk.access).toBe(false);
+    });
+    it("permission dependencies respect flags", () => {
+      const chk = checkPermission(
+        "hub:project:workspace:hierarchy2",
+        premiumCtxMgr.context
+      );
+
+      expect(chk.access).toBe(true);
+    });
+    it("flags for dependencies do not override child conditions", () => {
+      const chk = checkPermission(
+        "hub:project:workspace:hierarchy",
         premiumCtxMgr.context
       );
 

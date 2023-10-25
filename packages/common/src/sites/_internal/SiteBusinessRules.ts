@@ -100,7 +100,6 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:site:workspace",
     dependencies: ["hub:feature:workspace"],
-    environments: ["devext", "qaext"],
   },
   {
     permission: "hub:site:workspace:overview",
@@ -130,6 +129,10 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:site:workspace:metrics",
     dependencies: ["hub:site:workspace", "hub:site:edit"],
+    // Setting environments ensures this is not accessible to users who
+    // opt into workspaces via feature flag for hub:feature:workspace
+    // Stated another way, accessing this in PROD would require passing
+    // ?pe=hub:site:workspace:metrics
     environments: ["devext", "qaext"],
   },
   {
