@@ -1,5 +1,5 @@
-import { HubEntityType } from "../../../src";
 import * as req from "../../../src/discussions/api/request";
+import { Geometry } from "geojson";
 import {
   createSetting,
   fetchSetting,
@@ -26,6 +26,19 @@ describe("settings", () => {
     authentication: undefined,
   };
 
+  const polygon: Geometry = {
+    type: "Polygon",
+    coordinates: [
+      [
+        [0, 0],
+        [5, 0],
+        [5, 5],
+        [0, 5],
+        [0, 0],
+      ],
+    ],
+  };
+
   beforeEach(() => {
     requestSpy = spyOn(req, "request").and.returnValue(
       Promise.resolve(response)
@@ -39,12 +52,7 @@ describe("settings", () => {
       settings: {
         discussions: {
           allowedChannelIds: ["aaa"],
-          allowedLocations: [
-            {
-              type: "Point",
-              coordinates: [-101.25, 37.996162679728116],
-            },
-          ],
+          allowedLocations: [polygon],
         },
       },
     };
@@ -76,12 +84,7 @@ describe("settings", () => {
       settings: {
         discussions: {
           allowedChannelIds: ["aaa"],
-          allowedLocations: [
-            {
-              type: "Point",
-              coordinates: [-101.25, 37.996162679728116],
-            },
-          ],
+          allowedLocations: [polygon],
         },
       },
     };
