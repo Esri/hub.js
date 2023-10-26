@@ -1,10 +1,4 @@
-import {
-  _isString,
-  _isDate,
-  _isFunction,
-  _isObject,
-  _isRegExp,
-} from "./_deep-map-values";
+import { isFindable } from "./internal/isFindable";
 
 /**
  * Traverse a graph, locating the first entry with an `id` property that
@@ -87,18 +81,4 @@ export function deepFind(
   } else {
     return undefined;
   }
-}
-
-function isFindable(object: any): boolean {
-  let result = false;
-  if (
-    object &&
-    _isObject(object) &&
-    !_isDate(object) &&
-    !_isRegExp(object) &&
-    !_isFunction(object)
-  ) {
-    result = true;
-  }
-  return result;
 }
