@@ -1,3 +1,10 @@
+## @esri/hub-common [14.46.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.46.1...@esri/hub-common@14.46.2) (2023-10-26)
+
+
+### Bug Fixes
+
+* **hub-common:** change allowedLocations type from geometry array to … ([#1302](https://github.com/Esri/hub.js/issues/1302)) ([f42c459](https://github.com/Esri/hub.js/commit/f42c45901c42d4af09f21e65d1eccc15b83fd21e))
+
 ## @esri/hub-common [14.46.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.46.0...@esri/hub-common@14.46.1) (2023-10-25)
 
 
