@@ -3,7 +3,7 @@ import {
   IPagedResponse as IRestPagedResponse,
   IUser,
 } from "@esri/arcgis-rest-types";
-import { Geometry } from "geojson";
+import { Geometry, Polygon } from "geojson";
 import { IHubRequestOptions } from "../../types";
 
 /**
@@ -1062,7 +1062,7 @@ export interface IEntitySettings {
  */
 export interface IDiscussionsSettings {
   allowedChannelIds?: string[] | null;
-  allowedLocations?: Geometry[] | null;
+  allowedLocations?: Polygon[] | null;
 }
 
 /**
