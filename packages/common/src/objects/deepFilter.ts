@@ -2,8 +2,8 @@ import { isFindable } from "./internal/isFindable";
 import { setProp } from "./set-prop";
 
 /**
- * Traverse a graph filtering out entities that do
- * not passes the predicate
+ * Traverse a graph filtering out entries that do
+ * not pass the predicate
  * @param object
  * @param predicate
  */
