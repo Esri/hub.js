@@ -5,6 +5,9 @@ import { setProp } from "./set-prop";
  * Traverse a graph filtering out entries that do
  * not pass the predicate
  *
+ * Note: this util uses cloning behind the scenes
+ * so will only work for POJOs and not class instances
+ *
  * example:
  * const predicate = (link: any) => link.key !== "00a"
  * const obj = [
