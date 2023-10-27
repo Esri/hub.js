@@ -118,8 +118,10 @@ describe("checkPermission:", () => {
   let consoleInfoSpy: jasmine.Spy;
   let consoleDirSpy: jasmine.Spy;
   beforeEach(async () => {
-    consoleInfoSpy = spyOn(console, "info").and.callThrough();
-    consoleDirSpy = spyOn(console, "dir").and.callThrough();
+    // tslint:disable-next-line: no-empty
+    consoleInfoSpy = spyOn(console, "info").and.callFake(() => {}); // suppress console output
+    // tslint:disable-next-line: no-empty
+    consoleDirSpy = spyOn(console, "dir").and.callFake(() => {}); // suppress console output
     spyOn(GetPolicyModule, "getPermissionPolicy").and.callFake(
       getPermissionPolicy
     );

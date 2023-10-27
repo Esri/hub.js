@@ -6,6 +6,11 @@ import { MOCK_HUB_REQOPTS } from "../../mocks/mock-auth";
 
 describe("getContentEditUrl", () => {
   let requestOptions: IHubRequestOptions;
+  beforeAll(() => {
+    // suppress deprecation warnings
+    // tslint:disable-next-line: no-empty
+    spyOn(console, "warn").and.callFake(() => {});
+  });
   beforeEach(async () => {
     requestOptions = cloneObject(MOCK_HUB_REQOPTS);
   });

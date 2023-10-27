@@ -10,6 +10,11 @@ import * as documentItem from "../mocks/items/document.json";
 import * as featureServiceItem from "../mocks/items/feature-service-item.json";
 
 describe("_fetch", () => {
+  beforeAll(() => {
+    // suppress deprecation warnings
+    // tslint:disable-next-line: no-empty
+    spyOn(console, "warn").and.callFake(() => {});
+  });
   describe("getContentEnrichments", () => {
     it("should return defaults for items that are not maps, services, or templates, etc", () => {
       const result = getContentEnrichments(documentItem);

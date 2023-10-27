@@ -54,6 +54,11 @@ const getMultiLayerItemEnrichments = () => {
 };
 
 describe("fetchContent", () => {
+  beforeAll(() => {
+    // suppress deprecation warnings
+    // tslint:disable-next-line: no-empty
+    spyOn(console, "warn").and.callFake(() => {});
+  });
   let portal: string;
   let hubApiUrl: string;
   let itemId: string;
