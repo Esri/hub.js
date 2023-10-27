@@ -1,6 +1,7 @@
 import {
   ExpressionRelationships,
   IExpression,
+  IMetricEditorValues,
   IServiceQueryMetricSource,
   IStaticValueMetricSource,
 } from "../../../../../src/core/types/Metrics";
@@ -12,6 +13,7 @@ import {
   MOCK_NUMERIC_FIELD,
   MOCK_STRING_FIELD,
 } from "./fixtures";
+import { FieldType } from "@esri/arcgis-rest-types";
 
 describe("editorToMetric", () => {
   describe("buildWhereClause", () => {
@@ -105,12 +107,14 @@ describe("editorToMetric", () => {
           field: "",
           statistic: "",
           serviceUrl: "",
-          fieldType: "",
+          fieldType: "esriFieldTypeString" as FieldType,
           allowExpressionSet: true,
           expressionSet: [] as IExpression[],
           legacyWhere: "location = 'river' OR location = 'sun'",
         },
         itemId: "",
+        displayType: "stat-card",
+        metricId: "m123",
       };
 
       const opts = {
@@ -135,7 +139,7 @@ describe("editorToMetric", () => {
       });
     });
     it("handles an empty values object", () => {
-      const values = {};
+      const values = {} as unknown as IMetricEditorValues;
       const metricId = "test123";
       const opts = {};
       const { metric } = EditorToMetric.editorToMetric(values, metricId, opts);
@@ -148,7 +152,7 @@ describe("editorToMetric", () => {
       const values = {
         value: "",
         dynamicMetric: {},
-      };
+      } as unknown as IMetricEditorValues;
       const metricId = "test123";
       const opts = {};
       const { metric } = EditorToMetric.editorToMetric(values, metricId, opts);
@@ -161,12 +165,14 @@ describe("editorToMetric", () => {
       const values = {
         value: "1",
         type: "dynamic",
+        metricId: "id",
+        displayType: "stat-card",
         dynamicMetric: {
           layerId: 0,
           field: "",
           statistic: "",
           serviceUrl: "",
-          fieldType: "",
+          fieldType: "esriFieldTypeString" as FieldType,
           allowExpressionSet: true,
           expressionSet: [
             {
@@ -261,6 +267,8 @@ describe("editorToMetric", () => {
           expressionSet: [] as IExpression[],
         },
         type: "dynamic",
+        metricId: "test123",
+        displayType: "stat-card",
       };
       const metricId = "test123";
       const opts = {};
@@ -289,7 +297,7 @@ describe("editorToMetric", () => {
             field: "",
             statistic: "",
             serviceUrl: "",
-            fieldType: "",
+            fieldType: "esriFieldTypeString" as FieldType,
             sourceLink: "/dynamicmaps/123",
             sourceTitle: "DynamicMaps123",
             allowExpressionSet: true,
@@ -297,6 +305,7 @@ describe("editorToMetric", () => {
             legacyWhere: "location = 'river' OR location = 'sun'",
           },
           itemId: "",
+          metricId: "id",
         };
 
         const opts = {
@@ -315,7 +324,7 @@ describe("editorToMetric", () => {
           sourceLink: "/dynamicmaps/123",
           sourceTitle: "DynamicMaps123",
           allowLink: undefined,
-          fieldType: "",
+          fieldType: "esriFieldTypeString",
           statistic: "",
         });
       });
@@ -332,7 +341,7 @@ describe("editorToMetric", () => {
             field: "",
             statistic: "",
             serviceUrl: "",
-            fieldType: "",
+            fieldType: "esriFieldTypeString" as FieldType,
             sourceLink: "/dynamicmaps/123",
             sourceTitle: "DynamicMaps123",
             allowDynamicLink: true,
@@ -341,6 +350,7 @@ describe("editorToMetric", () => {
             legacyWhere: "location = 'river' OR location = 'sun'",
           },
           itemId: "",
+          metricId: "id",
         };
 
         const opts = {
@@ -359,7 +369,7 @@ describe("editorToMetric", () => {
           sourceLink: "/dynamicmaps/123",
           sourceTitle: "DynamicMaps123",
           allowLink: undefined,
-          fieldType: "",
+          fieldType: "esriFieldTypeString",
           statistic: "",
         });
       });
@@ -374,7 +384,7 @@ describe("editorToMetric", () => {
             field: "",
             statistic: "",
             serviceUrl: "",
-            fieldType: "",
+            fieldType: "esriFieldTypeString" as FieldType,
             sourceLink: "/dynamicmaps/123",
             sourceTitle: "DynamicMaps123",
             allowDynamicLink: true,
@@ -383,6 +393,7 @@ describe("editorToMetric", () => {
             legacyWhere: "location = 'river' OR location = 'sun'",
           },
           itemId: "",
+          metricId: "id",
         };
 
         const opts = {
@@ -401,7 +412,7 @@ describe("editorToMetric", () => {
           sourceLink: "/dynamicmaps/123",
           sourceTitle: "DynamicMaps123",
           allowLink: undefined,
-          fieldType: "",
+          fieldType: "esriFieldTypeString",
           statistic: "",
         });
       });

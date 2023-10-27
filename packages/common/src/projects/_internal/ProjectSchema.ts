@@ -26,9 +26,6 @@ export const ProjectSchema: IConfigurationSchema = {
       default: PROJECT_STATUSES.notStarted,
       enum: Object.keys(PROJECT_STATUSES),
     },
-    _metrics: {
-      type: "object",
-      ...MetricSchema.properties,
-    },
+    _metrics: MetricSchema,
   },
 } as IConfigurationSchema;

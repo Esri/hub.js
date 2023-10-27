@@ -321,7 +321,7 @@ export class HubProject
       );
 
       // put metric and display config onto entity
-      setMetricAndDisplay(this.entity, metric, displayConfig);
+      this.entity = setMetricAndDisplay(this.entity, metric, displayConfig);
     }
 
     /**

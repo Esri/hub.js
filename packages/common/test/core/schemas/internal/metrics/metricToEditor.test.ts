@@ -72,28 +72,40 @@ describe("metricToEditor", () => {
     });
   });
 
-  it("handles an empty metric and empty displayConfig", () => {
+  it("handles an empty metric", () => {
     const metric = {};
 
-    const displayConfig = {};
+    const displayConfig: IMetricDisplayConfig = {
+      displayType: "stat-card",
+      metricId: "m123",
+    };
 
     const editor = metricToEditor(
       metric as IMetric,
       displayConfig as IMetricDisplayConfig
     );
-    expect(editor).toEqual({});
+    expect(editor).toEqual({
+      displayType: "stat-card",
+      metricId: "m123",
+    });
   });
   it("handles a metric with an empty source", () => {
     const metric = {
       source: {},
     };
 
-    const displayConfig = {};
+    const displayConfig = {
+      displayType: "stat-card",
+      metricId: "m123",
+    };
 
     const editor = metricToEditor(
       metric as IMetric,
       displayConfig as IMetricDisplayConfig
     );
-    expect(editor).toEqual({});
+    expect(editor).toEqual({
+      displayType: "stat-card",
+      metricId: "m123",
+    });
   });
 });

@@ -669,7 +669,13 @@ describe("HubProject Class:", () => {
         spyOn(utils, "createId").and.returnValue("metric1fakeid");
 
         const editor = await chk.toEditor();
-        editor._metric = { type: "static", value: "123", cardTitle: "metric1" };
+        editor._metric = {
+          type: "static",
+          value: "123",
+          cardTitle: "metric1",
+          metricId: "id",
+          displayType: "stat-card",
+        };
         const result = await chk.fromEditor(editor);
         expect(getProp(result, "metrics")).toEqual([
           {
@@ -716,7 +722,13 @@ describe("HubProject Class:", () => {
         spyOn(utils, "createId").and.returnValue("metric1fakeid");
 
         const editor = await chk.toEditor();
-        editor._metric = { type: "static", value: "123", cardTitle: "metric1" };
+        editor._metric = {
+          type: "static",
+          value: "123",
+          cardTitle: "metric1",
+          metricId: "c123",
+          displayType: "stat-card",
+        };
         const result = await chk.fromEditor(editor, {});
         expect(getProp(result, "metrics")).toEqual([
           {
@@ -776,11 +788,12 @@ describe("HubProject Class:", () => {
 
         const editor = await chk.toEditor();
         editor._metric = {
-          id: "metric1",
           trailingText: "...",
           type: "static",
           value: "123",
           cardTitle: "metric1",
+          metricId: "metric1",
+          displayType: "stat-card",
         };
         const result = await chk.fromEditor(editor, { metricId: "metric1" });
         expect(getProp(result, "metrics")).toEqual([
@@ -807,7 +820,6 @@ describe("HubProject Class:", () => {
             sourceLink: undefined,
             sourceTitle: undefined,
             allowLink: undefined,
-            id: "metric1",
             type: "static",
             displayType: "stat-card",
             metricId: "metric1",

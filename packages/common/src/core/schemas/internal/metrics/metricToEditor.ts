@@ -1,7 +1,7 @@
-import { IConfigurationValues } from "../../types";
 import {
   IMetric,
   IMetricDisplayConfig,
+  IMetricEditorValues,
   IServiceQueryMetricSource,
   IStaticValueMetricSource,
   MetricSource,
@@ -16,7 +16,7 @@ import {
 export function metricToEditor(
   metric: IMetric,
   displayConfig: IMetricDisplayConfig
-): IConfigurationValues {
+): IMetricEditorValues {
   let editor = { ...displayConfig };
   if (metric && metric.source) {
     const metricType = (metric.source as MetricSource).type || "";

@@ -9,7 +9,7 @@ import {
 import { IHubLocation } from "./IHubLocation";
 import { IWithFollowers } from "../traits/IWithFollowers";
 import { IWithAssociations } from "../traits/IWithAssociations";
-import { IConfigurationValues } from "../schemas/types";
+import { IMetricEditorValues } from "./Metrics";
 
 /**
  * Properties exposed by Entities that are backed by Items
@@ -153,5 +153,5 @@ export type IHubItemEntityEditor<T> = Omit<T, "extent"> & {
     showFollowAction?: boolean;
     isDiscussable?: boolean;
   };
-  _metric?: IConfigurationValues;
+  _metric?: IMetricEditorValues;
 };

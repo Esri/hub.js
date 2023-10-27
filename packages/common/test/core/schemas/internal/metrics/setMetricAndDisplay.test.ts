@@ -61,9 +61,9 @@ describe("setMetricAndDisplay", () => {
       trailingText: "trailing text...",
     };
 
-    setMetricAndDisplay(entity, metric, displayConfig);
+    const e = setMetricAndDisplay(entity, metric, displayConfig);
 
-    expect(entity.metrics).toEqual([
+    expect(e.metrics).toEqual([
       {
         id: "metric1",
         source: {
@@ -72,7 +72,7 @@ describe("setMetricAndDisplay", () => {
         },
       },
     ]);
-    expect(entity.view).toEqual({
+    expect(e.view).toEqual({
       metricDisplays: [
         {
           displayType: "stat-card",
@@ -135,9 +135,9 @@ describe("setMetricAndDisplay", () => {
       trailingText: "trailing text...",
     };
 
-    setMetricAndDisplay(entity, metric, displayConfig);
+    const e = setMetricAndDisplay(entity, metric, displayConfig);
 
-    expect(entity.metrics).toEqual([
+    expect(e.metrics).toEqual([
       {
         id: "metric1",
         source: {
@@ -153,7 +153,7 @@ describe("setMetricAndDisplay", () => {
         },
       },
     ]);
-    expect(entity.view).toEqual({
+    expect(e.view).toEqual({
       metricDisplays: [
         {
           displayType: "stat-card",

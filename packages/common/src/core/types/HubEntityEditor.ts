@@ -11,5 +11,7 @@ export interface IEntityEditorContext {
   // the future, but we'll include for now
   collaborationGroupId?: string;
   contentGroupId?: string;
+
+  // represents the current metric id being edited in the editor experience.
   metricId?: string;
 }

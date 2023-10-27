@@ -1,5 +1,4 @@
 import { isNil } from "../../../../util";
-import { IConfigurationValues } from "../../types";
 import {
   IMetric,
   IMetricDisplayConfig,
@@ -7,7 +6,9 @@ import {
   ExpressionRelationships,
   IEntityInfo,
   IExpression,
+  IMetricEditorValues,
 } from "../../../types/Metrics";
+import { ServiceAggregation } from "../../../../core/types/DynamicValues";
 
 /**
  * Transforms the IConfigurationValues into an object with IMetric and IMetricDisplayConfig to be saved on an entity or rendered in the ui.
@@ -17,7 +18,10 @@ import {
  * @returns IMetricCardParams
  */
 export function editorToMetric(
-  values: IConfigurationValues = {},
+  values: IMetricEditorValues = {
+    displayType: "stat-card",
+    metricId: undefined,
+  },
   metricId: string,
   opts?: { metricName?: string; entityInfo?: IEntityInfo }
 ): { metric: IMetric; displayConfig: IMetricDisplayConfig } {
@@ -44,7 +48,7 @@ export function editorToMetric(
           serviceUrl,
           layerId,
           field,
-          statistic,
+          statistic: statistic as ServiceAggregation,
           where: legacyWhere
             ? legacyWhere
             : buildWhereClause(allowExpressionSet ? expressionSet : []),
