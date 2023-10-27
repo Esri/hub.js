@@ -205,6 +205,12 @@ export interface IArcGISContext {
   userResourceTokens?: IUserResourceToken[];
 
   /**
+   * Hash of user hub settings. These are stored as
+   * user-app-resources, associated with the `hubforarcgis` clientId
+   */
+  userHubSettings?: IUserHubSettings;
+
+  /**
    * Return the token for a given app, if defined
    * @param app
    */
@@ -237,12 +243,13 @@ export interface IArcGISContextOptions {
    */
   authentication?: UserSession;
   /**
-   * If the user is authenticated, the portal should be passed in
+   * DEPRECATED: If the user is authenticated, the portal should be passed in
    * so various getters can work as expected.
    *
    * ArcGISContextManager handles this internally
    */
   portalSelf?: IPortal;
+
   /**
    * If the user is authenticated, the user should be passed in
    * so various getters can work as expected.
@@ -709,6 +716,14 @@ export class ArcGISContext implements IArcGISContext {
   }
 
   /**
+   * Return the user hub settings.
+   * Updates must be done via `contextManager.updateUserHubSettings`
+   */
+  public get userHubSettings(): IUserHubSettings {
+    return this._userHubSettings;
+  }
+
+  /**
    * Return a token for a specific app
    * @param app
    * @returns
@@ -718,13 +733,5 @@ export class ArcGISContext implements IArcGISContext {
     if (entry) {
       return entry.token;
     }
-  }
-
-  /**
-   * Return the user hub settings.
-   * Updates must be done via `contextManager.updateUserHubSettings`
-   */
-  public get userHubSettings(): IUserHubSettings {
-    return this._userHubSettings;
   }
 }

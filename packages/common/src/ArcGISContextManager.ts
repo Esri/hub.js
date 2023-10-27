@@ -10,7 +10,7 @@ import { getHubApiFromPortalUrl } from "./urls/getHubApiFromPortalUrl";
 import { getPortalBaseFromOrgUrl } from "./urls/getPortalBaseFromOrgUrl";
 import { Level, Logger } from "./utils/logger";
 import { HubServiceStatus } from "./core";
-import { cloneObject } from "./util";
+import { cloneObject, maybeAdd } from "./util";
 import { base64ToUnicode, unicodeToBase64 } from "./utils/encoding";
 import { IFeatureFlags } from "./permissions";
 import { IHubTrustedOrgsResponse } from "./types";
@@ -22,7 +22,7 @@ import {
   updateUserHubSettings,
 } from "./utils/hubUserAppResources";
 import { fetchAndMigrateUserHubSettings } from "./utils/internal/fetchAndMigrateUserHubSettings";
-import { getWithDefault } from "./objects";
+import { getProp, getWithDefault, setProp } from "./objects";
 
 export type UserResourceApp = "self" | "hubforarcgis" | "arcgisonline";
 
@@ -38,6 +38,26 @@ export interface IUserResourceConfig {
 export interface IUserResourceToken extends IUserResourceConfig {
   token: string;
 }
+
+/**
+ * Properties that we can always serialize/deserialize regardless of authentication status
+ */
+const CONTEXT_SERIALIZABLE_PROPS: Array<keyof IArcGISContextManagerOptions> = [
+  "portalUrl",
+  "serviceStatus",
+  "featureFlags",
+  "properties",
+  "resourceConfigs",
+  "trustedOrgIds",
+  "trustedOrgs",
+];
+
+/**
+ * Properties that we only serialize/deserialize if the user is authenticated
+ */
+const CONTEXT_AUTHD_SERIALIZABLE_PROPS: Array<
+  keyof IArcGISContextManagerOptions
+> = ["resourceTokens", "portal", "currentUser"];
 
 /**
  * Options that can be passed into `ArcGISContextManager.create`
@@ -159,7 +179,7 @@ export class ArcGISContextManager {
 
   private _hubUrl: string;
 
-  private _portalSelf: IPortal;
+  private _portal: IPortal;
 
   private _currentUser: IUser;
 
@@ -169,13 +189,13 @@ export class ArcGISContextManager {
 
   private _featureFlags: IFeatureFlags = {};
 
-  private _trustedOrgIds: string[];
+  private _trustedOrgIds: string[] = [];
 
-  private _trustedOrgs: IHubTrustedOrgsResponse[];
+  private _trustedOrgs: IHubTrustedOrgsResponse[] = [];
 
   private _resourceConfigs: IUserResourceConfig[] = [];
 
-  private _resourceTokens: IUserResourceToken[] = [];
+  private _userResourceTokens: IUserResourceToken[] = [];
 
   private _userHubSettings: IUserHubSettings;
 
@@ -217,7 +237,7 @@ export class ArcGISContextManager {
     }
 
     if (opts.portal) {
-      this._portalSelf = cloneObject(opts.portal);
+      this._portal = cloneObject(opts.portal);
     }
 
     if (opts.currentUser) {
@@ -241,16 +261,10 @@ export class ArcGISContextManager {
     }
 
     if (opts.resourceConfigs) {
-      this._resourceConfigs = opts.resourceConfigs;
+      this._resourceConfigs = cloneObject(opts.resourceConfigs);
     }
     if (opts.resourceTokens) {
-      this._resourceTokens = opts.resourceTokens;
-    }
-    // This is mainly used for testing; typically this
-    // will be fetched during the initialization process
-    // if the context has authentication information
-    if (opts.userHubSettings) {
-      this._userHubSettings = opts.userHubSettings;
+      this._userResourceTokens = cloneObject(opts.resourceTokens);
     }
   }
 
@@ -282,53 +296,54 @@ export class ArcGISContextManager {
   public static async deserialize(
     serializedContext: string
   ): Promise<ArcGISContextManager> {
+    // decode the string
     const decoded = base64ToUnicode(serializedContext);
-
     const state: Partial<IArcGISContextManagerOptions> & {
       session?: string;
     } = JSON.parse(decoded);
-
     // create opts and populate from state
-    const opts: IArcGISContextManagerOptions = {
-      portalUrl: state.portalUrl,
-    };
+    let opts: any = {};
+    //
+    // iterate the serialized props
+    CONTEXT_SERIALIZABLE_PROPS.forEach((prop) => {
+      opts = maybeAdd(prop, getProp(state, prop), opts);
+    });
+    // check if there is a session and if it's still valid
     if (state.session) {
-      // re-create the session
       const userSession = UserSession.deserialize(state.session);
-      // if the session is still valid, use it and the other properties
       if (userSession.tokenExpires.getTime() > Date.now()) {
+        CONTEXT_AUTHD_SERIALIZABLE_PROPS.forEach((prop) => {
+          opts = maybeAdd(prop, getProp(state, prop), opts);
+        });
+        // CRTITICAL: This must be done after the maybeAdd calls above
+        // as those return clones of the opts object, and cloneObject
+        // does not support cloning a UserSession
         opts.authentication = userSession;
-
-        if (state.portal) {
-          opts.portal = state.portal;
-        }
-        if (state.currentUser) {
-          opts.currentUser = state.currentUser;
-        }
-        if (state.properties) {
-          opts.properties = state.properties;
-        }
-        if (state.trustedOrgIds) {
-          opts.trustedOrgIds = state.trustedOrgIds;
-        }
-        if (state.trustedOrgs) {
-          opts.trustedOrgs = state.trustedOrgs;
-        }
       }
-    } else {
-      // if the session is expired, we can still carry forward the portalUrl
-      // we don't need this when auth is passed b/c it will use that instead
-      // of portalUrl
-      opts.portalUrl = state.portalUrl;
     }
-    // service status and feature flags are safe to carry forward even if session is expired
-    opts.serviceStatus = state.serviceStatus;
-    opts.featureFlags = state.featureFlags;
-
-    opts.resourceConfigs = state.resourceConfigs;
-    opts.resourceTokens = state.resourceTokens;
-
     return ArcGISContextManager.create(opts);
+  }
+
+  /**
+   * Serialize the context into a string that can be stored
+   * and re-hydrated
+   * @returns
+   */
+  serialize(): string {
+    let state: any = {};
+    // iterate the serializable props...
+    CONTEXT_SERIALIZABLE_PROPS.forEach((prop) => {
+      state = maybeAdd(prop, getProp(this, `_${prop}`), state);
+    });
+    // If user is authenticated, serialize the session and other auth related props
+    if (this._authentication) {
+      state.session = this._authentication.serialize();
+      CONTEXT_AUTHD_SERIALIZABLE_PROPS.forEach((prop) => {
+        state = maybeAdd(prop, getProp(this, `_${prop}`), state);
+      });
+    }
+
+    return unicodeToBase64(JSON.stringify(state));
   }
 
   /**
@@ -365,9 +380,9 @@ export class ArcGISContextManager {
     }
     // Clear the auth related props
     this._authentication = null;
-    this._portalSelf = null;
+    this._portal = null;
     this._currentUser = null;
-    this._resourceTokens = [];
+    this._userResourceTokens = [];
     // re-create the context
     this._context = new ArcGISContext(this.contextOpts);
   }
@@ -383,70 +398,36 @@ export class ArcGISContextManager {
   }
 
   /**
-   * Serialize the context into a string that can be stored
-   * in a browser's local storage or server side session
-   *
-   * @returns encoded string representation of the context
-   */
-  serialize(): string {
-    const state: Partial<IArcGISContextManagerOptions> & {
-      session?: string;
-    } = {
-      portalUrl: this._portalUrl,
-      serviceStatus: this._serviceStatus,
-      featureFlags: this._featureFlags,
-      properties: this._properties,
-      resourceConfigs: this._resourceConfigs,
-      resourceTokens: this._resourceTokens,
-    };
-
-    if (this._authentication) {
-      state.session = this._authentication.serialize();
-    }
-    if (this._portalSelf) {
-      state.portal = this._portalSelf;
-    }
-    if (this._currentUser) {
-      state.currentUser = this._currentUser;
-    }
-
-    if (this._trustedOrgIds) {
-      state.trustedOrgIds = this._trustedOrgIds;
-    }
-    if (this._trustedOrgs) {
-      state.trustedOrgs = this._trustedOrgs;
-    }
-    // we don't store the userHubSettings b/c it will be reloaded
-    // during the initialization following deserialization
-    // if this becomes a problem, we can add it to the state
-
-    return unicodeToBase64(JSON.stringify(state));
-  }
-
-  /**
    * Update the User's Hub Settings
    * Stores in the user-app-resource associated with the `hubforarcgis` clientId
    * and updates the context
    * @param settings
    */
   async updateUserHubSettings(settings: IUserHubSettings): Promise<void> {
+    if (!this._authentication) {
+      throw new Error(
+        "Cannot update user hub settings without an authenticated user"
+      );
+    }
     // update the user-app-resource
     await updateUserHubSettings(settings, this.context);
     // update the context
     this._userHubSettings = settings;
-    // update the flags hash
-    this._featureFlags["hub:feature:workspace"] = getWithDefault(
-      settings,
-      "preview.workspace",
-      false
-    );
+    // update the feature flags
+    Object.keys(getWithDefault(settings, "preview", {})).forEach((key) => {
+      // only set the flag if it's true, otherwise delete the flag so we revert to default behavior
+      if (getProp(settings, `preview.${key}`)) {
+        this._featureFlags[`hub:feature:${key}`] = true;
+      } else {
+        delete this._featureFlags[`hub:feature:${key}`];
+      }
+    });
 
     this._context = new ArcGISContext(this.contextOpts);
   }
 
   /**
-   * If we have a UserSession, fetch portal/self and
-   * store that along with current user
+   * If we have a UserSession, fetch other resources to populate the context
    */
   private async initialize(): Promise<void> {
     // setup array to hold promises and one to track promise index
@@ -464,7 +445,7 @@ export class ArcGISContextManager {
         this._authentication.portal
       );
 
-      if (!this._portalSelf) {
+      if (!this._portal) {
         promises.push(getSelf({ authentication: this._authentication }));
         promiseKeys.push("portal");
       }
@@ -475,12 +456,12 @@ export class ArcGISContextManager {
         );
         promiseKeys.push("user");
       }
-      if (!this._trustedOrgs) {
+      if (!this._trustedOrgs.length) {
         promises.push(getTrustedOrgs(this._portalUrl, this._authentication));
         promiseKeys.push("trustedOrgs");
       }
       // if we don't have the tokens but we have resource configs, fetch them
-      if (!this._resourceTokens.length && this._resourceConfigs.length) {
+      if (!this._userResourceTokens.length && this._resourceConfigs.length) {
         promises.push(
           getUserResourceTokens(
             this._resourceConfigs,
@@ -492,7 +473,7 @@ export class ArcGISContextManager {
       }
 
       // always add "self" to resourceTokens, associated with the app's clientId
-      this._resourceTokens.push({
+      this._userResourceTokens.push({
         app: "self",
         token,
         clientId: this._authentication.clientId || "self",
@@ -515,7 +496,7 @@ export class ArcGISContextManager {
       const result = results[idx];
       switch (key) {
         case "portal":
-          this._portalSelf = result as IPortal;
+          this._portal = result as IPortal;
           break;
         case "user":
           this._currentUser = result as IUser;
@@ -525,8 +506,8 @@ export class ArcGISContextManager {
           this._trustedOrgIds = getTrustedOrgIds(this._trustedOrgs);
           break;
         case "tokens":
-          this._resourceTokens = [
-            ...this._resourceTokens,
+          this._userResourceTokens = [
+            ...this._userResourceTokens,
             ...(result as IUserResourceToken[]),
           ];
           break;
@@ -539,7 +520,7 @@ export class ArcGISContextManager {
     // if we are auth'd and have a hubforarcgis token,
     // fetch the users IUserHubSettings extract out the
     // preview properties and cross-walk to permissions
-    const hubAppToken = this._resourceTokens.find(
+    const hubAppToken = this._userResourceTokens.find(
       (e) => e.app === "hubforarcgis"
     );
     if (this._authentication && hubAppToken) {
@@ -548,11 +529,15 @@ export class ArcGISContextManager {
         this._portalUrl,
         hubAppToken.token
       );
-      // update the flags hash
-      this._featureFlags["hub:feature:workspace"] = getWithDefault(
-        this._userHubSettings,
-        "preview.workspace",
-        false
+      // Check for preview settings and walk the into feature flags
+      Object.keys(getWithDefault(this._userHubSettings, "preview", {})).forEach(
+        (key) => {
+          // only set the flag if it's true, otherwise we can override
+          // feature flag query params
+          if (getProp(this._userHubSettings, `preview.${key}`)) {
+            this._featureFlags[`hub:feature:${key}`] = true;
+          }
+        }
       );
     }
 
@@ -565,39 +550,43 @@ export class ArcGISContextManager {
    * Getter to streamline the creation of updated Context instances
    */
   private get contextOpts(): IArcGISContextOptions {
-    const contextOpts: IArcGISContextOptions = {
+    // Prop names for the IArcGISContextOptions interface do not match
+    // up exactly with the prop names on the serialized context so we have to define
+    // separate arrays here
+    const anonProps = ["hubUrl", ...CONTEXT_SERIALIZABLE_PROPS];
+    const authdProps = ["currentUser", "userResourceTokens", "userHubSettings"];
+
+    let contextOpts: IArcGISContextOptions = {
       id: this.id,
       portalUrl: this._portalUrl,
-      hubUrl: this._hubUrl,
-      properties: this._properties,
-      serviceStatus: this._serviceStatus,
-      featureFlags: this._featureFlags,
     };
+    // iterate the anon props...
+    anonProps.forEach((prop) => {
+      contextOpts = maybeAdd(prop, getProp(this, `_${prop}`), contextOpts);
+    });
+    // If user is authenticated, we can add other props
     if (this._authentication) {
+      authdProps.forEach((prop) => {
+        contextOpts = maybeAdd(prop, getProp(this, `_${prop}`), contextOpts);
+      });
+      // CRTITICAL: .authentication must be attached after the maybeAdd calls above
+      // as those return clones of the opts object, and cloneObject
+      // does not support cloning a UserSession
       contextOpts.authentication = this._authentication;
     }
-    if (this._portalSelf) {
-      contextOpts.portalSelf = this._portalSelf;
-    }
-    if (this._currentUser) {
-      contextOpts.currentUser = this._currentUser;
-    }
-    if (this._trustedOrgIds) {
-      contextOpts.trustedOrgIds = this._trustedOrgIds;
-    }
-    if (this._trustedOrgs) {
-      contextOpts.trustedOrgs = this._trustedOrgs;
-    }
-    if (this._userHubSettings) {
-      contextOpts.userHubSettings = this._userHubSettings;
-    }
-
-    contextOpts.userResourceTokens = this._resourceTokens;
-
+    // Handle some special cases where the prop names don't map cleanly
+    // and would require a breaking change to fix
+    contextOpts.portalSelf = this._portal;
     return contextOpts;
   }
 }
 
+/**
+ * @internal
+ * Fetch the service status for the given portalUrl
+ * @param portalUrl
+ * @returns
+ */
 function getServiceStatus(portalUrl: string): Promise<HubServiceStatus> {
   let status = HUB_SERVICE_STATUS;
   const isPortal = portalUrl.indexOf("arcgis.com") === -1;
@@ -612,6 +601,7 @@ function getServiceStatus(portalUrl: string): Promise<HubServiceStatus> {
 }
 
 /**
+ * @internal
  * Get trusted orgs w/ a failSafe to return an empty array
  */
 async function getTrustedOrgs(
@@ -631,12 +621,21 @@ async function getTrustedOrgs(
 }
 
 /**
+ * @internal
  * Extract trustedOrg ids from trustedOrgs response
  */
 function getTrustedOrgIds(trustedOrgs: IHubTrustedOrgsResponse[]): string[] {
   return trustedOrgs.map((org) => org.to.orgId);
 }
 
+/**
+ * @internal
+ * Get a set of tokens for the given configs
+ * @param configs
+ * @param currentToken
+ * @param portalUrl
+ * @returns
+ */
 async function getUserResourceTokens(
   configs: IUserResourceConfig[],
   currentToken: string,

@@ -5,12 +5,16 @@ import {
   HubServiceStatus,
   IFeatureFlags,
   IHubRequestOptionsPortalSelf,
+  IUserHubSettings,
   Level,
 } from "../src";
 import { base64ToUnicode, unicodeToBase64 } from "../src/utils/encoding";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as requestModule from "@esri/arcgis-rest-request";
 import * as authModule from "@esri/arcgis-rest-auth";
+import * as appResourcesModule from "../src/utils/hubUserAppResources";
+import * as userResourcesModule from "../src/utils/internal/userAppResources";
+
 import { MOCK_AUTH, MOCK_ENTERPRISE_AUTH } from "./mocks/mock-auth";
 import { IPortal } from "@esri/arcgis-rest-portal";
 import ExceptionFactory from "./mocks/ExceptionFactory";
@@ -237,11 +241,6 @@ const featureFlags: IFeatureFlags = {
   "hub:site:create": false,
 };
 
-/**
- * NOTE: Throughout these tests we pass in a second arg to ArcGISContextManager.create
- * which is a fake `window`. We do this so these same tests will work in node
- */
-
 describe("ArcGISContext:", () => {
   describe("AGO:", () => {
     it("verify props when passed nothing", async () => {
@@ -278,9 +277,10 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.serviceStatus).toBeDefined();
       expect(mgr.context.hubLicense).toBe("hub-basic");
       expect(mgr.context.featureFlags).toEqual({});
-      expect(mgr.context.trustedOrgIds).toBeUndefined();
-      expect(mgr.context.trustedOrgs).toBeUndefined();
+      expect(mgr.context.trustedOrgIds).toEqual([]);
+      expect(mgr.context.trustedOrgs).toEqual([]);
       expect(mgr.context.userResourceTokens).toEqual([]);
+      expect(mgr.context.userHubSettings).toBeNull();
       expect(mgr.context.isAlphaOrg).toEqual(false);
       expect(mgr.context.isBetaOrg).toEqual(false);
     });
@@ -290,11 +290,12 @@ describe("ArcGISContext:", () => {
           id: ALPHA_ORGS[0],
         } as unknown as IPortal,
         properties: {
-          betaOrgs: [ALPHA_ORGS[0]],
+          alphaOrgs: ALPHA_ORGS,
+          betaOrgs: ALPHA_ORGS,
         },
       });
-      expect(mgr.context.isAlphaOrg).toEqual(true);
-      expect(mgr.context.isBetaOrg).toEqual(true);
+      expect(mgr.context.isAlphaOrg).toEqual(true, "Alpha org should be true");
+      expect(mgr.context.isBetaOrg).toEqual(true, "Beta org should be true");
     });
     it("verify props when passed portalUrl", async () => {
       const t = new Date().getTime();
@@ -343,7 +344,8 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.featureFlags).not.toBe(featureFlags);
       expect(mgr.context.featureFlags).toEqual(featureFlags);
     });
-    it("verify when passed resourceConfigs and tokens", async () => {
+
+    it("verify when passed resourceConfigs", async () => {
       const t = new Date().getTime();
       const mgr = await ArcGISContextManager.create({
         portalUrl: "https://myserver.com/gis",
@@ -354,25 +356,12 @@ describe("ArcGISContext:", () => {
             clientId: "FAKECLIENTID",
           },
         ],
-        resourceTokens: [
-          {
-            app: "self",
-            clientId: "FAKECLIENTID",
-            token: "FAKETOKEN",
-          },
-        ],
       });
       expect(mgr.context.id).toBeGreaterThanOrEqual(t);
       expect(mgr.context.environment).toBe("enterprise");
       expect(mgr.context.featureFlags).not.toBe(featureFlags);
       expect(mgr.context.featureFlags).toEqual(featureFlags);
-      expect(mgr.context.userResourceTokens).toEqual([
-        {
-          app: "self",
-          clientId: "FAKECLIENTID",
-          token: "FAKETOKEN",
-        },
-      ]);
+      expect(mgr.context.userResourceTokens).toEqual([]);
     });
     it("verify when passed partnered orgs and partnered org ids", async () => {
       const t = new Date().getTime();
@@ -474,6 +463,176 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.trustedOrgs).toEqual(
         onlinePartneredOrgResponse.trustedOrgs
       );
+    });
+    it("verify tokens when passed session", async () => {
+      const t = new Date().getTime();
+      spyOn(portalModule, "getSelf").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlinePortalSelfResponse));
+      });
+      spyOn(portalModule, "getUser").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlineUserResponse));
+      });
+      spyOn(requestModule, "request").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
+      });
+      const fetchSettingsSpy = spyOn(
+        userResourcesModule,
+        "getUserResource"
+      ).and.callFake(() => {
+        return Promise.resolve({
+          schemaVersion: 1,
+          preview: {
+            workspace: true,
+          },
+        });
+      });
+      const exchangeTokenSpy = spyOn(authModule, "exchangeToken").and.callFake(
+        (_: string, clientId: string) => {
+          return Promise.resolve(`FAKE-${clientId}-TOKEN`);
+        }
+      );
+
+      const mgr = await ArcGISContextManager.create({
+        authentication: MOCK_AUTH,
+        resourceConfigs: [
+          {
+            app: "hubforarcgis",
+            clientId: "hubforarcgis",
+          },
+        ],
+      });
+
+      // assertions
+      expect(mgr.context.id).toBeGreaterThanOrEqual(t);
+      // verify exchange token call
+      expect(exchangeTokenSpy).toHaveBeenCalled();
+      const args = exchangeTokenSpy.calls.argsFor(0);
+      expect(args[0]).toBe(MOCK_AUTH.token);
+      expect(args[1]).toBe("hubforarcgis");
+
+      // Resource Configs and Tokens
+      expect(mgr.context.userResourceTokens).toEqual([
+        {
+          app: "self",
+          clientId: MOCK_AUTH.clientId,
+          token: MOCK_AUTH.token,
+        },
+        {
+          app: "hubforarcgis",
+          clientId: "hubforarcgis",
+          token: "FAKE-hubforarcgis-TOKEN",
+        },
+      ]);
+    });
+    it("verify flags when passed session", async () => {
+      const t = new Date().getTime();
+      spyOn(portalModule, "getSelf").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlinePortalSelfResponse));
+      });
+      spyOn(portalModule, "getUser").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlineUserResponse));
+      });
+      spyOn(requestModule, "request").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
+      });
+      const fetchSettingsSpy = spyOn(
+        userResourcesModule,
+        "getUserResource"
+      ).and.callFake(() => {
+        return Promise.resolve({
+          schemaVersion: 1,
+          preview: {
+            workspace: true,
+          },
+        });
+      });
+      const exchangeTokenSpy = spyOn(authModule, "exchangeToken").and.callFake(
+        (_: string, clientId: string) => {
+          return Promise.resolve(`FAKE-${clientId}-TOKEN`);
+        }
+      );
+
+      const mgr = await ArcGISContextManager.create({
+        authentication: MOCK_AUTH,
+        resourceConfigs: [
+          {
+            app: "hubforarcgis",
+            clientId: "hubforarcgis",
+          },
+        ],
+      });
+
+      // assertions
+
+      // verify exchange token call
+      expect(exchangeTokenSpy).toHaveBeenCalled();
+
+      // verify userHubSettings
+      expect(fetchSettingsSpy).toHaveBeenCalled();
+      expect(mgr.context.userHubSettings).toEqual({
+        schemaVersion: 1,
+        preview: {
+          workspace: true,
+        },
+      });
+
+      expect(mgr.context.featureFlags["hub:feature:workspace"]).toBe(true);
+    });
+    it("verify flags not set if preview false when passed session", async () => {
+      const t = new Date().getTime();
+      spyOn(portalModule, "getSelf").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlinePortalSelfResponse));
+      });
+      spyOn(portalModule, "getUser").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlineUserResponse));
+      });
+      spyOn(requestModule, "request").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
+      });
+      const fetchSettingsSpy = spyOn(
+        userResourcesModule,
+        "getUserResource"
+      ).and.callFake(() => {
+        return Promise.resolve({
+          schemaVersion: 1,
+          preview: {
+            workspace: false,
+          },
+        });
+      });
+      const exchangeTokenSpy = spyOn(authModule, "exchangeToken").and.callFake(
+        (_: string, clientId: string) => {
+          return Promise.resolve(`FAKE-${clientId}-TOKEN`);
+        }
+      );
+
+      const mgr = await ArcGISContextManager.create({
+        authentication: MOCK_AUTH,
+        resourceConfigs: [
+          {
+            app: "hubforarcgis",
+            clientId: "hubforarcgis",
+          },
+        ],
+      });
+
+      // assertions
+
+      // verify exchange token call
+      expect(exchangeTokenSpy).toHaveBeenCalled();
+
+      // verify userHubSettings
+      expect(fetchSettingsSpy).toHaveBeenCalled();
+      expect(mgr.context.userHubSettings).toEqual({
+        schemaVersion: 1,
+        preview: {
+          workspace: false,
+        },
+      });
+
+      expect(
+        mgr.context.featureFlags["hub:feature:workspace"]
+      ).not.toBeDefined();
     });
     it("verify props when passed session, portalSelf, User, and serviceStatus", async () => {
       const selfSpy = spyOn(portalModule, "getSelf").and.callFake(() => {
@@ -737,6 +896,7 @@ describe("ArcGISContext:", () => {
       const serialized = unicodeToBase64(
         JSON.stringify(validSerializedContext)
       );
+
       const mgr = await ArcGISContextManager.deserialize(serialized!);
       expect(selfSpy.calls.count()).toBe(0);
       expect(userSpy.calls.count()).toBe(0);
@@ -812,6 +972,54 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.currentUser).not.toBeDefined();
       expect(mgr.context.portal).not.toBeDefined();
       expect(mgr.context.session).not.toBeDefined();
+    });
+    it("updateUserHubSettings throws is used is not authd", async () => {
+      const mgr = await ArcGISContextManager.create();
+      try {
+        await mgr.updateUserHubSettings({} as IUserHubSettings);
+      } catch (ex) {
+        expect(ex).toBeDefined();
+      }
+    });
+    it("updating userHubSettings updates flags if", async () => {
+      // spy on updateUserHubSettings
+      const uarSpy = spyOn(
+        appResourcesModule,
+        "updateUserHubSettings"
+      ).and.callFake(() => {
+        return Promise.resolve(null);
+      });
+      const mgr = await ArcGISContextManager.create({
+        authentication: MOCK_AUTH,
+        serviceStatus: {} as unknown as HubServiceStatus,
+        portal: { fake: "portal" } as unknown as IPortal,
+        currentUser: { username: "fakeuser" } as unknown as portalModule.IUser,
+        trustedOrgs: cloneObject(onlinePartneredOrgResponse.trustedOrgs),
+        resourceTokens: [{ app: "self", clientId: "bar", token: "FAKETOKEN" }],
+        resourceConfigs: [{ app: "arcgisonline", clientId: "arcgisonline" }],
+      });
+      // Ensude default
+      expect(mgr.context.featureFlags["hub:feature:workspace"]).toBeFalsy();
+      // update the HubUserSettings
+      await mgr.updateUserHubSettings({
+        schemaVersion: 1,
+        preview: {
+          workspace: true,
+        },
+      });
+      expect(uarSpy).toHaveBeenCalled();
+      // verify the flag was updated
+      expect(mgr.context.featureFlags["hub:feature:workspace"]).toBeTruthy();
+      // remove the flag if set to false
+      await mgr.updateUserHubSettings({
+        schemaVersion: 1,
+        preview: {
+          workspace: false,
+        },
+      });
+      expect(
+        mgr.context.featureFlags["hub:feature:workspace"]
+      ).not.toBeDefined();
     });
   });
 

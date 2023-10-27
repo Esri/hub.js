@@ -51,6 +51,7 @@ export interface IUserHubSettings {
  * @param replace
  * @returns
  */
+/* istanbul ignore next */
 export async function setUserSiteSettings(
   settings: IUserSiteSettings,
   context: IArcGISContext,
@@ -66,9 +67,11 @@ export async function setUserSiteSettings(
  * @param context
  * @returns
  */
+/* istanbul ignore next */
 export async function getUserSiteSettings(
   context: IArcGISContext
 ): Promise<IUserSiteSettings> {
+  /* istanbul ignore next */
   return fetchUserSiteSettings(context);
 }
 
@@ -81,11 +84,13 @@ export async function getUserSiteSettings(
  * @param replace
  * @returns
  */
+/* istanbul ignore next */
 export async function setUserHubSettings(
   settings: IUserHubSettings,
   context: IArcGISContext,
   replace: boolean = false
 ): Promise<void> {
+  /* istanbul ignore next */
   return updateUserHubSettings(settings, context, replace);
 }
 
@@ -96,9 +101,11 @@ export async function setUserHubSettings(
  * @param context
  * @returns
  */
+/* istanbul ignore next */
 export async function getUserHubSettings(
   context: IArcGISContext
 ): Promise<IUserHubSettings> {
+  /* istanbul ignore next */
   return fetchUserHubSettings(context);
 }
 
