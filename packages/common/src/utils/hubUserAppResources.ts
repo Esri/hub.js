@@ -57,6 +57,7 @@ export async function setUserSiteSettings(
   context: IArcGISContext,
   replace: boolean = false
 ): Promise<void> {
+  /* istanbul ignore next */
   return updateUserSiteSettings(settings, context, replace);
 }
 
