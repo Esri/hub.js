@@ -1,3 +1,10 @@
+# @esri/hub-common [14.47.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.46.2...@esri/hub-common@14.47.0) (2023-10-27)
+
+
+### Features
+
+* add new deepFilter util ([#1303](https://github.com/Esri/hub.js/issues/1303)) ([c556b3c](https://github.com/Esri/hub.js/commit/c556b3c5dba6c5d5dccc379465efa4e11efc7a46))
+
 ## @esri/hub-common [14.46.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.46.1...@esri/hub-common@14.46.2) (2023-10-26)
 
 
