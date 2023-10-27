@@ -1,6 +1,11 @@
 import { encodeAgoQuery } from "../../src/ago/encode-ago-query";
 
 describe("encodeAgoQuery test", () => {
+  beforeAll(() => {
+    // suppress deprecation warnings
+    // tslint:disable-next-line: no-empty
+    spyOn(console, "warn").and.callFake(() => {}); // suppress console output
+  });
   it("encodes ago query for all fields defined in params", () => {
     const params: any = {
       q: "crime",

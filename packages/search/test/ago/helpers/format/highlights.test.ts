@@ -1,6 +1,11 @@
 import { calcHighlights } from "../../../../src/ago/helpers/format/highlights";
 
 describe("highlights test", () => {
+  beforeAll(() => {
+    // suppress deprecation warnings
+    // tslint:disable-next-line: no-empty
+    spyOn(console, "warn").and.callFake(() => {}); // suppress console output
+  });
   it("highlights the search term for multiple occurrences", () => {
     const input = "Capital bike share... blah blah capital.... CAPITAL CAPITAL";
     const query = "capital";

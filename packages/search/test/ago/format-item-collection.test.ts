@@ -2,13 +2,18 @@ import { agoFormatItemCollection } from "../../src/ago/format-item-collection";
 import { searchResults } from "./mocks/ago-response";
 
 describe("agoFormatItemCollection test", () => {
+  beforeAll(() => {
+    // suppress deprecation warnings
+    // tslint:disable-next-line: no-empty
+    spyOn(console, "warn").and.callFake(() => {}); // suppress console output
+  });
   it("it format item collection correctly", () => {
     const params = {
       q: "blah",
       tags: "all(a,b)",
       agg: { fields: "tags,collection" },
       start: 1,
-      num: 10
+      num: 10,
     };
     const facets = { a: 1 };
     const formatted = agoFormatItemCollection(searchResults, facets, params);
@@ -28,7 +33,7 @@ describe("agoFormatItemCollection test", () => {
       tags: "all(a,b)",
       agg: { fields: "tags,collection" },
       start: 1,
-      num: 10
+      num: 10,
     };
     const formatted = agoFormatItemCollection(searchResults, undefined, params);
     expect(formatted.data.length).toBe(10);

@@ -1,20 +1,25 @@
 import { mergePages } from "../../../src/util/merge-pagination/merge";
 
 describe("Merge Paginations Function", () => {
+  beforeAll(() => {
+    // suppress deprecation warnings
+    // tslint:disable-next-line: no-empty
+    spyOn(console, "warn").and.callFake(() => {}); // suppress console output
+  });
   it("can properly merge pages from different sources, handling cases when nextStart is not specified", () => {
     // Setup
     const pages: any[] = [
       {
         label: "hub",
-        nextPageStart: 13
+        nextPageStart: 13,
       },
       {
         label: "ago",
-        nextPageStart: 4
+        nextPageStart: 4,
       },
       {
-        label: "event"
-      }
+        label: "event",
+      },
     ];
 
     const expectedResult: string = "eyJodWIiOjEzLCJhZ28iOjQsImV2ZW50IjoxfQ==";

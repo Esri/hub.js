@@ -1,9 +1,14 @@
 import {
   IAggregationResult,
-  mergeAggregations
+  mergeAggregations,
 } from "../../../src/util/aggregations/merge-aggregations";
 
 describe("Merge Aggregation Function", () => {
+  beforeAll(() => {
+    // suppress deprecation warnings
+    // tslint:disable-next-line: no-empty
+    spyOn(console, "warn").and.callFake(() => {}); // suppress console output
+  });
   it("can properly merge several lists of aggregations with a default merge function", () => {
     // Setup
     const aggregationsOne: IAggregationResult[] = [
@@ -12,31 +17,31 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "public",
-            value: 5
+            value: 5,
           },
           {
             label: "private",
-            value: 3
+            value: 3,
           },
           {
             label: "0",
-            value: 2
-          }
-        ]
+            value: 2,
+          },
+        ],
       },
       {
         fieldName: "category",
         aggregations: [
           {
             label: "1",
-            value: 23
+            value: 23,
           },
           {
             label: "a_category",
-            value: 10
-          }
-        ]
-      }
+            value: 10,
+          },
+        ],
+      },
     ];
 
     const aggregationsTwo: IAggregationResult[] = [
@@ -45,31 +50,31 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "public",
-            value: 17
+            value: 17,
           },
           {
             label: "shared",
-            value: 5
+            value: 5,
           },
           {
             label: "1",
-            value: 4
-          }
-        ]
+            value: 4,
+          },
+        ],
       },
       {
         fieldName: "type",
         aggregations: [
           {
             label: "1",
-            value: 12
+            value: 12,
           },
           {
             label: "feature layer",
-            value: 7
-          }
-        ]
-      }
+            value: 7,
+          },
+        ],
+      },
     ];
 
     const aggregationsThree: IAggregationResult[] = [
@@ -78,27 +83,27 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "a_category",
-            value: 12
+            value: 12,
           },
           {
             label: "0",
-            value: 9
-          }
-        ]
+            value: 9,
+          },
+        ],
       },
       {
         fieldName: "type",
         aggregations: [
           {
             label: "0",
-            value: 6
+            value: 6,
           },
           {
             label: "feature layer",
-            value: 2
-          }
-        ]
-      }
+            value: 2,
+          },
+        ],
+      },
     ];
 
     const expectedMergedAggregations: IAggregationResult[] = [
@@ -107,67 +112,67 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "0",
-            value: 2
+            value: 2,
           },
           {
             label: "1",
-            value: 4
+            value: 4,
           },
           {
             label: "public",
-            value: 22
+            value: 22,
           },
           {
             label: "private",
-            value: 3
+            value: 3,
           },
           {
             label: "shared",
-            value: 5
-          }
-        ]
+            value: 5,
+          },
+        ],
       },
       {
         fieldName: "category",
         aggregations: [
           {
             label: "0",
-            value: 9
+            value: 9,
           },
           {
             label: "1",
-            value: 23
+            value: 23,
           },
           {
             label: "a_category",
-            value: 22
-          }
-        ]
+            value: 22,
+          },
+        ],
       },
       {
         fieldName: "type",
         aggregations: [
           {
             label: "0",
-            value: 6
+            value: 6,
           },
           {
             label: "1",
-            value: 12
+            value: 12,
           },
           {
             label: "feature layer",
-            value: 9
-          }
-        ]
-      }
+            value: 9,
+          },
+        ],
+      },
     ];
 
     // Test
     const actualMergedAggregations: IAggregationResult[] = mergeAggregations([
       aggregationsOne,
       aggregationsTwo,
-      aggregationsThree
+      aggregationsThree,
     ]);
 
     // Assert
@@ -182,31 +187,31 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "public",
-            value: 5
+            value: 5,
           },
           {
             label: "private",
-            value: 3
+            value: 3,
           },
           {
             label: "0",
-            value: 2
-          }
-        ]
+            value: 2,
+          },
+        ],
       },
       {
         fieldName: "category",
         aggregations: [
           {
             label: "1",
-            value: 23
+            value: 23,
           },
           {
             label: "a_category",
-            value: 10
-          }
-        ]
-      }
+            value: 10,
+          },
+        ],
+      },
     ];
 
     const aggregationsTwo: IAggregationResult[] = [
@@ -215,31 +220,31 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "public",
-            value: 17
+            value: 17,
           },
           {
             label: "shared",
-            value: 5
+            value: 5,
           },
           {
             label: "1",
-            value: 4
-          }
-        ]
+            value: 4,
+          },
+        ],
       },
       {
         fieldName: "type",
         aggregations: [
           {
             label: "1",
-            value: 12
+            value: 12,
           },
           {
             label: "feature layer",
-            value: 7
-          }
-        ]
-      }
+            value: 7,
+          },
+        ],
+      },
     ];
 
     const aggregationsThree: IAggregationResult[] = [
@@ -248,27 +253,27 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "a_category",
-            value: 12
+            value: 12,
           },
           {
             label: "0",
-            value: 9
-          }
-        ]
+            value: 9,
+          },
+        ],
       },
       {
         fieldName: "type",
         aggregations: [
           {
             label: "0",
-            value: 6
+            value: 6,
           },
           {
             label: "feature layer",
-            value: 2
-          }
-        ]
-      }
+            value: 2,
+          },
+        ],
+      },
     ];
 
     const mergeFunc: any = (one: number, two: number) => Math.max(one, two);
@@ -279,60 +284,60 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "0",
-            value: 2
+            value: 2,
           },
           {
             label: "1",
-            value: 4
+            value: 4,
           },
           {
             label: "public",
-            value: 17
+            value: 17,
           },
           {
             label: "private",
-            value: 3
+            value: 3,
           },
           {
             label: "shared",
-            value: 5
-          }
-        ]
+            value: 5,
+          },
+        ],
       },
       {
         fieldName: "category",
         aggregations: [
           {
             label: "0",
-            value: 9
+            value: 9,
           },
           {
             label: "1",
-            value: 23
+            value: 23,
           },
           {
             label: "a_category",
-            value: 12
-          }
-        ]
+            value: 12,
+          },
+        ],
       },
       {
         fieldName: "type",
         aggregations: [
           {
             label: "0",
-            value: 6
+            value: 6,
           },
           {
             label: "1",
-            value: 12
+            value: 12,
           },
           {
             label: "feature layer",
-            value: 7
-          }
-        ]
-      }
+            value: 7,
+          },
+        ],
+      },
     ];
 
     // Test
@@ -353,31 +358,31 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "public",
-            value: null
+            value: null,
           },
           {
             label: "private",
-            value: 3
+            value: 3,
           },
           {
             label: "0",
-            value: 2
-          }
-        ]
+            value: 2,
+          },
+        ],
       },
       {
         fieldName: "category",
         aggregations: [
           {
             label: "1",
-            value: 23
+            value: 23,
           },
           {
             label: "a_category",
-            value: 4
-          }
-        ]
-      }
+            value: 4,
+          },
+        ],
+      },
     ];
 
     const aggregationsTwo: IAggregationResult[] = [
@@ -386,18 +391,18 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "public",
-            value: 17
+            value: 17,
           },
           {
             label: "shared",
-            value: 5
+            value: 5,
           },
           {
             label: "1",
-            value: 4
-          }
-        ]
-      }
+            value: 4,
+          },
+        ],
+      },
     ];
 
     const aggregationsThree: IAggregationResult[] = [
@@ -406,14 +411,14 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "a_category",
-            value: undefined
+            value: undefined,
           },
           {
             label: "0",
-            value: 9
-          }
-        ]
-      }
+            value: 9,
+          },
+        ],
+      },
     ];
 
     const expectedMergedAggregations: IAggregationResult[] = [
@@ -422,50 +427,50 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "0",
-            value: 2
+            value: 2,
           },
           {
             label: "1",
-            value: 4
+            value: 4,
           },
           {
             label: "private",
-            value: 3
+            value: 3,
           },
           {
             label: "public",
-            value: 17
+            value: 17,
           },
           {
             label: "shared",
-            value: 5
-          }
-        ]
+            value: 5,
+          },
+        ],
       },
       {
         fieldName: "category",
         aggregations: [
           {
             label: "0",
-            value: 9
+            value: 9,
           },
           {
             label: "1",
-            value: 23
+            value: 23,
           },
           {
             label: "a_category",
-            value: 4
-          }
-        ]
-      }
+            value: 4,
+          },
+        ],
+      },
     ];
 
     // Test
     const actualMergedAggregations: IAggregationResult[] = mergeAggregations([
       aggregationsOne,
       aggregationsTwo,
-      aggregationsThree
+      aggregationsThree,
     ]);
 
     // Assert
@@ -480,31 +485,31 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "public",
-            value: null
+            value: null,
           },
           {
             label: "private",
-            value: 3
+            value: 3,
           },
           {
             label: "0",
-            value: 2
-          }
-        ]
+            value: 2,
+          },
+        ],
       },
       {
         fieldName: "category",
         aggregations: [
           {
             label: "1",
-            value: 23
+            value: 23,
           },
           {
             label: "a_category",
-            value: undefined
-          }
-        ]
-      }
+            value: undefined,
+          },
+        ],
+      },
     ];
 
     const aggregationsTwo: IAggregationResult[] = [
@@ -513,18 +518,18 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "public",
-            value: undefined
+            value: undefined,
           },
           {
             label: "shared",
-            value: 5
+            value: 5,
           },
           {
             label: "1",
-            value: 4
-          }
-        ]
-      }
+            value: 4,
+          },
+        ],
+      },
     ];
 
     const aggregationsThree: IAggregationResult[] = [
@@ -533,14 +538,14 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "a_category",
-            value: null
+            value: null,
           },
           {
             label: "0",
-            value: 9
-          }
-        ]
-      }
+            value: 9,
+          },
+        ],
+      },
     ];
 
     const expectedMergedAggregations: IAggregationResult[] = [
@@ -549,42 +554,42 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "0",
-            value: 2
+            value: 2,
           },
           {
             label: "1",
-            value: 4
+            value: 4,
           },
           {
             label: "private",
-            value: 3
+            value: 3,
           },
           {
             label: "shared",
-            value: 5
-          }
-        ]
+            value: 5,
+          },
+        ],
       },
       {
         fieldName: "category",
         aggregations: [
           {
             label: "0",
-            value: 9
+            value: 9,
           },
           {
             label: "1",
-            value: 23
-          }
-        ]
-      }
+            value: 23,
+          },
+        ],
+      },
     ];
 
     // Test
     const actualMergedAggregations: IAggregationResult[] = mergeAggregations([
       aggregationsOne,
       aggregationsTwo,
-      aggregationsThree
+      aggregationsThree,
     ]);
 
     // Assert
@@ -599,26 +604,26 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "public",
-            value: 5
+            value: 5,
           },
           {
             label: "private",
-            value: 3
+            value: 3,
           },
           {
             label: "0",
-            value: 2
-          }
-        ]
+            value: 2,
+          },
+        ],
       },
       {
         fieldName: "category",
-        aggregations: []
+        aggregations: [],
       },
       {
         fieldName: "type",
-        aggregations: undefined
-      }
+        aggregations: undefined,
+      },
     ];
 
     const aggregationsTwo: IAggregationResult[] = [
@@ -627,22 +632,22 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "public",
-            value: undefined
+            value: undefined,
           },
           {
             label: "shared",
-            value: 5
+            value: 5,
           },
           {
             label: "1",
-            value: 4
-          }
-        ]
+            value: 4,
+          },
+        ],
       },
       {
         fieldName: "type",
-        aggregations: null
-      }
+        aggregations: null,
+      },
     ];
 
     const aggregationsThree: IAggregationResult[] = [
@@ -651,14 +656,14 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "a_category",
-            value: 20
+            value: 20,
           },
           {
             label: "0",
-            value: 9
-          }
-        ]
-      }
+            value: 9,
+          },
+        ],
+      },
     ];
 
     const expectedMergedAggregations: IAggregationResult[] = [
@@ -667,46 +672,46 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "0",
-            value: 2
+            value: 2,
           },
           {
             label: "1",
-            value: 4
+            value: 4,
           },
           {
             label: "public",
-            value: 5
+            value: 5,
           },
           {
             label: "private",
-            value: 3
+            value: 3,
           },
           {
             label: "shared",
-            value: 5
-          }
-        ]
+            value: 5,
+          },
+        ],
       },
       {
         fieldName: "category",
         aggregations: [
           {
             label: "0",
-            value: 9
+            value: 9,
           },
           {
             label: "a_category",
-            value: 20
-          }
-        ]
-      }
+            value: 20,
+          },
+        ],
+      },
     ];
 
     // Test
     const actualMergedAggregations: IAggregationResult[] = mergeAggregations([
       aggregationsOne,
       aggregationsTwo,
-      aggregationsThree
+      aggregationsThree,
     ]);
 
     // Assert
@@ -721,31 +726,31 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "PUBLIC",
-            value: 5
+            value: 5,
           },
           {
             label: "private",
-            value: 3
+            value: 3,
           },
           {
             label: "0",
-            value: 2
-          }
-        ]
+            value: 2,
+          },
+        ],
       },
       {
         fieldName: "CATEGORY",
         aggregations: [
           {
             label: "1",
-            value: 23
+            value: 23,
           },
           {
             label: "a_Category",
-            value: 10
-          }
-        ]
-      }
+            value: 10,
+          },
+        ],
+      },
     ];
 
     const aggregationsTwo: IAggregationResult[] = [
@@ -754,31 +759,31 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "public",
-            value: 17
+            value: 17,
           },
           {
             label: "shared",
-            value: 5
+            value: 5,
           },
           {
             label: "1",
-            value: 4
-          }
-        ]
+            value: 4,
+          },
+        ],
       },
       {
         fieldName: "type",
         aggregations: [
           {
             label: "1",
-            value: 12
+            value: 12,
           },
           {
             label: "FeaTure laYer",
-            value: 7
-          }
-        ]
-      }
+            value: 7,
+          },
+        ],
+      },
     ];
 
     const aggregationsThree: IAggregationResult[] = [
@@ -787,27 +792,27 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "a_category",
-            value: 12
+            value: 12,
           },
           {
             label: "0",
-            value: 9
-          }
-        ]
+            value: 9,
+          },
+        ],
       },
       {
         fieldName: "TYPE",
         aggregations: [
           {
             label: "0",
-            value: 6
+            value: 6,
           },
           {
             label: "FeaturE LayeR",
-            value: 2
-          }
-        ]
-      }
+            value: 2,
+          },
+        ],
+      },
     ];
 
     const expectedMergedAggregations: IAggregationResult[] = [
@@ -816,67 +821,67 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "0",
-            value: 2
+            value: 2,
           },
           {
             label: "1",
-            value: 4
+            value: 4,
           },
           {
             label: "public",
-            value: 22
+            value: 22,
           },
           {
             label: "private",
-            value: 3
+            value: 3,
           },
           {
             label: "shared",
-            value: 5
-          }
-        ]
+            value: 5,
+          },
+        ],
       },
       {
         fieldName: "category",
         aggregations: [
           {
             label: "0",
-            value: 9
+            value: 9,
           },
           {
             label: "1",
-            value: 23
+            value: 23,
           },
           {
             label: "a_category",
-            value: 22
-          }
-        ]
+            value: 22,
+          },
+        ],
       },
       {
         fieldName: "type",
         aggregations: [
           {
             label: "0",
-            value: 6
+            value: 6,
           },
           {
             label: "1",
-            value: 12
+            value: 12,
           },
           {
             label: "feature layer",
-            value: 9
-          }
-        ]
-      }
+            value: 9,
+          },
+        ],
+      },
     ];
 
     // Test
     const actualMergedAggregations: IAggregationResult[] = mergeAggregations([
       aggregationsOne,
       aggregationsTwo,
-      aggregationsThree
+      aggregationsThree,
     ]);
 
     // Assert

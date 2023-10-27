@@ -4,6 +4,11 @@ import { ISearchParams } from "../../src/ago/params";
 import * as EncodeAgoQuery from "../../src/ago/encode-ago-query";
 
 describe("getItems test", () => {
+  beforeAll(() => {
+    // suppress deprecation warnings
+    // tslint:disable-next-line: no-empty
+    spyOn(console, "warn").and.callFake(() => {}); // suppress console output
+  });
   it("gets items when there are no count fields i.e. aggs", async (done) => {
     const rawAgoResults = {
       results: [],
