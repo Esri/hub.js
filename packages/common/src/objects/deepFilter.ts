@@ -72,9 +72,9 @@ export function deepFilter(
       if (predicate(object[entry])) {
         if (isFindable(object[entry])) {
           const filteredEntry = deepFilter(object[entry], predicate);
-          setProp(entry, filteredEntry, acc);
+          (acc as any)[entry] = filteredEntry;
         } else {
-          setProp(entry, object[entry], acc);
+          (acc as any)[entry] = object[entry];
         }
       }
       return acc;
