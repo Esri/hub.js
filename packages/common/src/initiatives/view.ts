@@ -122,12 +122,17 @@ const getSharedInitiativeCardModel = (
     },
   ];
 
+  let source: string = null;
+  if (entityOrSearchResult.source !== entityOrSearchResult.owner) {
+    source = entityOrSearchResult.source;
+  }
+
   return {
     access: entityOrSearchResult.access,
     badges: [],
     id: entityOrSearchResult.id,
     family: getFamily(entityOrSearchResult.type),
-    source: entityOrSearchResult.owner,
+    source,
     summary: entityOrSearchResult.summary,
     title: entityOrSearchResult.name,
     type: entityOrSearchResult.type,
