@@ -8,6 +8,8 @@ import {
 
 export type GroupEditorType = (typeof GroupEditorTypes)[number];
 export const GroupEditorTypes = [
+  "hub:group:create",
+  "hub:group:create:association",
   "hub:group:edit",
   "hub:group:settings",
   "hub:group:discussions",

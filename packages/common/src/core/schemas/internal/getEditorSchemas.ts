@@ -200,6 +200,10 @@ export async function getEditorSchemas(
       schema = cloneObject(GroupSchema);
 
       const groupModule = await {
+        "hub:group:create": () =>
+          import("../../../groups/_internal/GroupUiSchemaCreate"),
+        "hub:group:create:association": () =>
+          import("../../../groups/_internal/GroupUiSchemaCreateAssociation"),
         "hub:group:edit": () =>
           import("../../../groups/_internal/GroupUiSchemaEdit"),
         "hub:group:settings": () =>
