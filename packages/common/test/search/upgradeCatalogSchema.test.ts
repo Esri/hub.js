@@ -46,6 +46,7 @@ describe("upgradeCatalogSchema", () => {
     expect(chk.title).toBe("Default Catalog");
     expect(chk.scopes).toBeDefined();
     expect(chk.scopes?.item?.filters.length).toBe(1);
+    expect(chk.scopes?.item?.filters[0].operation).toEqual("AND");
     expect(chk.scopes?.item?.filters[0].predicates[0].orgid).toEqual(["a3g"]);
     expect(chk.scopes?.item?.filters[0].predicates[1].type).toEqual({
       not: ["Code Attachment"],

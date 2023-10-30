@@ -63,6 +63,7 @@ function applyCatalogSchema(original: any): IHubCatalog {
     const orgId = getProp(original, "orgId");
     if (orgId) {
       catalog.scopes.item.filters.push({
+        operation: "AND",
         predicates: [
           // Portal uses `orgid` instead of `orgId`, so we comply.
           // While `orgid` is valid field for search, it does not count
