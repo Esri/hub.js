@@ -1,3 +1,10 @@
+## @esri/hub-common [14.48.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.48.0...@esri/hub-common@14.48.1) (2023-10-30)
+
+
+### Bug Fixes
+
+* **hub-common:** fix catalog filter query ([#1308](https://github.com/Esri/hub.js/issues/1308)) ([12780c1](https://github.com/Esri/hub.js/commit/12780c1ffd785d82bde332fc067fdc86ec43b84d))
+
 # @esri/hub-common [14.48.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.47.0...@esri/hub-common@14.48.0) (2023-10-30)
 
 
