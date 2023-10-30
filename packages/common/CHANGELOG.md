@@ -1,3 +1,10 @@
+# @esri/hub-common [14.48.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.47.0...@esri/hub-common@14.48.0) (2023-10-30)
+
+
+### Features
+
+* add metrics schema and uiSchema to projects ([#1296](https://github.com/Esri/hub.js/issues/1296)) ([156e6f5](https://github.com/Esri/hub.js/commit/156e6f54b65851c4c624021f87a6b813bf75cf30))
+
 # @esri/hub-common [14.47.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.46.2...@esri/hub-common@14.47.0) (2023-10-27)
 
 
