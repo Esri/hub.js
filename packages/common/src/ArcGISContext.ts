@@ -243,7 +243,7 @@ export interface IArcGISContextOptions {
    */
   authentication?: UserSession;
   /**
-   * DEPRECATED: If the user is authenticated, the portal should be passed in
+   * If the user is authenticated, the portal should be passed in
    * so various getters can work as expected.
    *
    * ArcGISContextManager handles this internally
