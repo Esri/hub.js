@@ -106,6 +106,7 @@ export async function getEditorSchemas(
           import("../../../projects/_internal/ProjectUiSchemaEdit"),
         "hub:project:create": () =>
           import("../../../projects/_internal/ProjectUiSchemaCreate"),
+        "hub:project:metrics": () => import("./metrics/ProjectUiSchemaMetrics"),
       }[type as ProjectEditorType]();
       uiSchema = await projectModule.buildUiSchema(
         i18nScope,

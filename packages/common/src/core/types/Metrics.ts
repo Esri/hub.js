@@ -1,7 +1,7 @@
 import { IQuery } from "../../search/types/IHubCatalog";
-import { IField } from "@esri/arcgis-rest-types";
-import { ServiceAggregation } from "./DynamicValues";
+import { FieldType, IField } from "@esri/arcgis-rest-types";
 import { IReference } from "./IReference";
+import { ServiceAggregation } from "../../core/types/DynamicValues";
 
 /**
  * Defines the information required from a Metric
@@ -196,6 +196,23 @@ export interface IExpression {
    * A special identifier given to the expression when it is created
    */
   key?: string;
+  /**
+   * Relation between the values in an expression
+   */
+  relationship?: ExpressionRelationships;
+}
+
+/**
+ * Possible relationships for an expression
+ * BETWEEN -- used to show between two values, i.e. 7 < x < 10
+ * IS_EXACTLY -- for exact matching, i.e. two same strings
+ */
+export enum ExpressionRelationships {
+  BETWEEN = "between",
+  IS_EXACTLY = "isExactly",
+
+  // deprecated and not currently allowed for new use, only used for migrating older stat cards
+  LIKE = "like",
 }
 
 /**
@@ -204,5 +221,47 @@ export interface IExpression {
 export interface IMetricDisplayConfig {
   metricId: string;
   displayType: string;
+  [key: string]: any;
+}
+
+/**
+ * Editor values expected when editing a metric
+ */
+export interface IMetricEditorValues extends IMetricDisplayConfig {
+  /** the main value of the metric  */
+  value?: string | number;
+  /** all values related to constructing a service-query metric */
+  dynamicMetric?: IDynamicMetricValues;
+}
+
+/**
+ * Editor values associated with editing a dynamic metric
+ */
+export interface IDynamicMetricValues {
+  /** id of the item being queried */
+  itemId?: string;
+  /** id of the layer of the item being queried */
+  layerId?: number;
+  /** field of the layer of the item being queried to run the aggregation on */
+  field?: string;
+  /** the method of service aggregation -- count, min, max, etc. */
+  statistic?: string;
+  /** the feature service url of the item being queried */
+  serviceUrl?: string;
+  /** the esri-dictated field type of the field being queried */
+  fieldType?: FieldType;
+  /** a clause to filter the query by -- ex: field BETWEEN 0 AND 2 */
+  where?: string;
+  /** the ui navigational link to the item source */
+  sourceLink?: string;
+  /** the text displayed in the ui for the sourceLink */
+  sourceTitle?: string;
+  /** whether attribute filtering should be enabled */
+  allowExpressionSet?: boolean;
+  /** a list of expressions with which to construct a where clause */
+  expressionSet?: IExpression[];
+  /** the old where clause, utilized during the migration of the old summary stat card */
+  legacyWhere?: string;
+
   [key: string]: any;
 }

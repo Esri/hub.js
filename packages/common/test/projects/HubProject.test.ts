@@ -11,6 +11,7 @@ import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import * as ResolveMetricModule from "../../src/metrics/resolveMetric";
 import { HubItemEntity } from "../../src/core/HubItemEntity";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
+import * as utils from "../../src/util";
 
 const initContextManager = async (opts = {}) => {
   const defaults = {
@@ -362,6 +363,47 @@ describe("HubProject Class:", () => {
         );
         expect(result._groups).toEqual([]);
       });
+      it("toEditor gets correct metric and metric display", async () => {
+        const chk = HubProject.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+            metrics: [
+              {
+                id: "metric123",
+                source: {
+                  type: "static-value",
+                  value: "525,600",
+                },
+              },
+              {
+                id: "metric456",
+                source: {
+                  type: "static-value",
+                  value: "wrong metric",
+                },
+              },
+            ],
+            view: {
+              metricDisplays: [
+                {
+                  metricId: "metric123",
+                  displayType: "stat-card",
+                  cardTitle: "Right metric",
+                },
+                {
+                  metricId: "metric456",
+                  displayType: "stat-card",
+                  cardTitle: "Wrong metric",
+                },
+              ],
+            },
+          },
+          authdCtxMgr.context
+        );
+        const result = await chk.toEditor({ metricId: "metric123" });
+      });
       describe('auto-populating "shareWith" groups', () => {
         let projectInstance: any;
         beforeEach(async () => {
@@ -418,6 +460,7 @@ describe("HubProject Class:", () => {
           },
           authdCtxMgr.context
         );
+        const editorContext = { metricId: "metric123" };
         const editor = await chk.toEditor();
         editor.view = {
           featuredImage: {
@@ -608,6 +651,179 @@ describe("HubProject Class:", () => {
         expect(result.extent).toEqual([
           [-2, -2],
           [2, 2],
+        ]);
+      });
+      it("handles setting new metric with no editorContext", async () => {
+        const chk = HubProject.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            metrics: [],
+            view: {
+              metricDisplays: [],
+            },
+          },
+          authdCtxMgr.context
+        );
+
+        spyOn(utils, "createId").and.returnValue("metric1fakeid");
+
+        const editor = await chk.toEditor();
+        editor._metric = {
+          type: "static",
+          value: "123",
+          cardTitle: "metric1",
+          metricId: "id",
+          displayType: "stat-card",
+        };
+        const result = await chk.fromEditor(editor);
+        expect(getProp(result, "metrics")).toEqual([
+          {
+            id: "metric1fakeid",
+            source: {
+              type: "static-value",
+              value: "123",
+            },
+            name: "metric1fakeid",
+            entityInfo: {
+              id: undefined,
+              name: undefined,
+              type: undefined,
+            },
+          },
+        ]);
+        expect(getProp(result, "view.metricDisplays")).toEqual([
+          {
+            cardTitle: "metric1",
+            type: "static",
+            displayType: "stat-card",
+            metricId: "metric1fakeid",
+            fieldType: undefined,
+            statistic: undefined,
+            sourceLink: undefined,
+            sourceTitle: undefined,
+            allowLink: undefined,
+          },
+        ]);
+      });
+      it("handles setting new metric with empty editorContext", async () => {
+        const chk = HubProject.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            metrics: [],
+            view: {
+              metricDisplays: [],
+            },
+          },
+          authdCtxMgr.context
+        );
+
+        spyOn(utils, "createId").and.returnValue("metric1fakeid");
+
+        const editor = await chk.toEditor();
+        editor._metric = {
+          type: "static",
+          value: "123",
+          cardTitle: "metric1",
+          metricId: "c123",
+          displayType: "stat-card",
+        };
+        const result = await chk.fromEditor(editor, {});
+        expect(getProp(result, "metrics")).toEqual([
+          {
+            id: "metric1fakeid",
+            source: {
+              type: "static-value",
+              value: "123",
+            },
+            name: "metric1fakeid",
+            entityInfo: {
+              id: undefined,
+              name: undefined,
+              type: undefined,
+            },
+          },
+        ]);
+        expect(getProp(result, "view.metricDisplays")).toEqual([
+          {
+            cardTitle: "metric1",
+            type: "static",
+            displayType: "stat-card",
+            metricId: "metric1fakeid",
+            fieldType: undefined,
+            statistic: undefined,
+            sourceLink: undefined,
+            sourceTitle: undefined,
+            allowLink: undefined,
+          },
+        ]);
+      });
+      it("handles setting existing metric", async () => {
+        const chk = HubProject.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            metrics: [
+              {
+                id: "metric1",
+                source: {
+                  type: "static-value",
+                  value: "123",
+                },
+              },
+            ],
+            view: {
+              metricDisplays: [
+                {
+                  cardTitle: "metric1",
+                  displayType: "stat-card",
+                  metricId: "metric1",
+                },
+              ],
+            },
+          },
+          authdCtxMgr.context
+        );
+
+        const editor = await chk.toEditor();
+        editor._metric = {
+          trailingText: "...",
+          type: "static",
+          value: "123",
+          cardTitle: "metric1",
+          metricId: "metric1",
+          displayType: "stat-card",
+        };
+        const result = await chk.fromEditor(editor, { metricId: "metric1" });
+        expect(getProp(result, "metrics")).toEqual([
+          {
+            id: "metric1",
+            source: {
+              type: "static-value",
+              value: "123",
+            },
+            name: "metric1",
+            entityInfo: {
+              id: undefined,
+              name: undefined,
+              type: undefined,
+            },
+          },
+        ]);
+        expect(getProp(result, "view.metricDisplays")).toEqual([
+          {
+            cardTitle: "metric1",
+            trailingText: "...",
+            fieldType: undefined,
+            statistic: undefined,
+            sourceLink: undefined,
+            sourceTitle: undefined,
+            allowLink: undefined,
+            type: "static",
+            displayType: "stat-card",
+            metricId: "metric1",
+          },
         ]);
       });
     });

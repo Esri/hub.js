@@ -27,7 +27,11 @@ export interface IWithEditorBehavior {
    * Update the internal Entity from the "Editor" structure.
    * This should only be used by the arcgis-hub-entity-editor component.
    * For general use, see the `update(Partial<T>)` method
-   * @param values
+   * @param editor
+   * @param editorContext
    */
-  fromEditor(editor: HubEntityEditor): Promise<HubEntity>;
+  fromEditor(
+    editor: HubEntityEditor,
+    editorContext?: IEntityEditorContext
+  ): Promise<HubEntity>;
 }

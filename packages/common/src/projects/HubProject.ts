@@ -30,12 +30,15 @@ import {
   IHubCardViewModel,
 } from "../core/types/IHubCardViewModel";
 import { projectToCardModel } from "./view";
-import { cloneObject } from "../util";
+import { camelize, cloneObject, createId } from "../util";
 import { createProject, editorToProject, updateProject } from "./edit";
 import { ProjectEditorType } from "./_internal/ProjectSchema";
 import { enrichEntity } from "../core/enrichEntity";
 import { getProp } from "../objects";
 import { IGroup } from "@esri/arcgis-rest-types";
+import { metricToEditor } from "../core/schemas/internal/metrics/metricToEditor";
+import { editorToMetric } from "../core/schemas/internal/metrics/editorToMetric";
+import { setMetricAndDisplay } from "../core/schemas/internal/metrics/setMetricAndDisplay";
 
 /**
  * Hub Project Class
@@ -228,6 +231,14 @@ export class HubProject
       editor._groups = [...editor._groups, ...defaultShareWithGroups];
     }
 
+    // handle metrics
+    const metrics = getEntityMetrics(this.entity);
+    const metric = metrics.find((m) => m.id === editorContext.metricId);
+    const displayConfig = this.entity.view.metricDisplays.find(
+      (display) => display.metricId === editorContext.metricId
+    );
+    editor._metric = metricToEditor(metric, displayConfig);
+
     return editor;
   }
 
@@ -236,7 +247,10 @@ export class HubProject
    * @param editor
    * @returns
    */
-  async fromEditor(editor: IHubProjectEditor): Promise<IHubProject> {
+  async fromEditor(
+    editor: IHubProjectEditor,
+    editorContext?: IEntityEditorContext
+  ): Promise<IHubProject> {
     const autoShareGroups = editor._groups || [];
     const isCreate = !editor.id;
 
@@ -286,6 +300,28 @@ export class HubProject
       } else {
         await this.clearFeaturedImage();
       }
+    }
+
+    // handle metrics
+    const _metric = editor._metric;
+
+    // if we have a current metric and it's beyond the default empty from toEditor
+    if (_metric && Object.keys(_metric).length) {
+      let metricId = editorContext?.metricId;
+
+      // creating a new metric
+      if (!metricId) {
+        metricId = createId(camelize(editor._metric.cardTitle));
+      }
+
+      // transform editor values into metric and displayConfig
+      const { metric, displayConfig } = editorToMetric(
+        editor._metric,
+        metricId
+      );
+
+      // put metric and display config onto entity
+      this.entity = setMetricAndDisplay(this.entity, metric, displayConfig);
     }
 
     /**

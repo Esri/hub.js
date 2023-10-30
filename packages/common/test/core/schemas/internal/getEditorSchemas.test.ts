@@ -4,6 +4,7 @@ import * as filterSchemaModule from "../../../../src/core/schemas/internal/filte
 import { ProjectEditorTypes } from "../../../../src/projects/_internal/ProjectSchema";
 import * as ProjectBuildEditUiSchema from "../../../../src/projects/_internal/ProjectUiSchemaEdit";
 import * as ProjectBuildCreateUiSchema from "../../../../src/projects/_internal/ProjectUiSchemaCreate";
+import * as ProjectBuildMetricUiSchema from "../../../../src/core/schemas/internal/metrics/ProjectUiSchemaMetrics";
 
 import { InitiativeEditorTypes } from "../../../../src/initiatives/_internal/InitiativeSchema";
 import * as InitiativeBuildEditUiSchema from "../../../../src/initiatives/_internal/InitiativeUiSchemaEdit";
@@ -51,6 +52,7 @@ describe("getEditorSchemas: ", () => {
   [
     { type: ProjectEditorTypes[0], buildFn: ProjectBuildCreateUiSchema },
     { type: ProjectEditorTypes[1], buildFn: ProjectBuildEditUiSchema },
+    { type: ProjectEditorTypes[2], buildFn: ProjectBuildMetricUiSchema },
     { type: InitiativeEditorTypes[0], buildFn: InitiativeBuildEditUiSchema },
     { type: InitiativeEditorTypes[1], buildFn: InitiativeBuildCreateUiSchema },
     { type: SiteEditorTypes[0], buildFn: SiteBuildEditUiSchema },

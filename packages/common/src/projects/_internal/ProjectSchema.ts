@@ -1,3 +1,4 @@
+import { MetricSchema } from "../../core/schemas/internal/metrics/MetricSchema";
 import { HubItemEntitySchema } from "../../core/schemas/shared/HubItemEntitySchema";
 import { IConfigurationSchema } from "../../core/schemas/types";
 import { PROJECT_STATUSES } from "../../core/types/IHubProject";
@@ -6,6 +7,7 @@ export type ProjectEditorType = (typeof ProjectEditorTypes)[number];
 export const ProjectEditorTypes = [
   "hub:project:create",
   "hub:project:edit",
+  "hub:project:metrics",
 ] as const;
 
 /**
@@ -24,5 +26,6 @@ export const ProjectSchema: IConfigurationSchema = {
       default: PROJECT_STATUSES.notStarted,
       enum: Object.keys(PROJECT_STATUSES),
     },
+    _metrics: MetricSchema,
   },
 } as IConfigurationSchema;

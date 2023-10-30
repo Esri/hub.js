@@ -83,7 +83,10 @@ export class EntityEditor {
     ) as unknown as HubEntityEditor;
   }
 
-  async save(editor: HubEntityEditor): Promise<HubEntity> {
-    return this.instance.fromEditor(editor);
+  async save(
+    editor: HubEntityEditor,
+    editorContext?: IEntityEditorContext
+  ): Promise<HubEntity> {
+    return this.instance.fromEditor(editor, editorContext);
   }
 }
