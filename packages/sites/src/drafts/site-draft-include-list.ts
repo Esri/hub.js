@@ -19,4 +19,5 @@ export const SITE_DRAFT_INCLUDE_LIST = [
   "data.values.capabilities",
   "data.values.contentViews",
   "data.values.headContent",
+  "data.telemetry",
 ];

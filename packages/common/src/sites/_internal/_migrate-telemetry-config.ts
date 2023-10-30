@@ -11,7 +11,8 @@ import { cloneObject } from "../../util";
 export function _migrateTelemetryConfig<T extends IModel | IDraft>(
   model: T
 ): T {
-  const newSchemaVersion = 1.7;
+  // NOTE: this migration was initially 1.6 => 1.7 but i (jupe) did not get the ui in sync so we will just do it again and i will get it right this time
+  const newSchemaVersion = 1.8;
   // do nothing if migration already applied
   if (getProp(model, "item.properties.schemaVersion") >= newSchemaVersion) {
     return model;
