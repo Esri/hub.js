@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <meta name="date" content="2023-10-27T13:50:36.139Z">
+    <meta name="date" content="2023-10-30T16:59:28.848Z">
     <title>common | API Reference | @esri/hub.js</title>
     
     <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
@@ -75,7 +75,7 @@
               <path d="M7 4h5l12 12-12 12H7l12-12L7 4z" />
             </svg>
           </button>
-          <a href="/hub.js/api/common/" class="is-active tsd-kind-icon">common</a>&nbsp;<small>v14.46.2</small>
+          <a href="/hub.js/api/common/" class="is-active tsd-kind-icon">common</a>&nbsp;<small>v14.47.0</small>
           <ul id="list1" class="api-package-content-list">
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -204,6 +204,10 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/buildExistingExportsPortalQuery/" class="tsd-kind-icon padding-right-1">buildExistingExportsPortalQuery</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/buildWhereClause/" class="tsd-kind-icon padding-right-1">buildWhereClause</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -548,6 +552,10 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/editorToInitiativeTemplate/" class="tsd-kind-icon padding-right-1">editorToInitiativeTemplate</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/editorToMetric/" class="tsd-kind-icon padding-right-1">editorToMetric</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -1487,6 +1495,10 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/metricToEditor/" class="tsd-kind-icon padding-right-1">metricToEditor</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/migrateLegacyCapabilitiesToFeatures/" class="tsd-kind-icon padding-right-1">migrateLegacyCapabilitiesToFeatures</a>
             </li>
             
@@ -1716,6 +1728,10 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/setItemThumbnail/" class="tsd-kind-icon padding-right-1">setItemThumbnail</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/setMetricAndDisplay/" class="tsd-kind-icon padding-right-1">setMetricAndDisplay</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -2439,6 +2455,10 @@
             </li>
             
             <li class="tsd-kind-enumeration padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/ExpressionRelationships/" class="tsd-kind-icon padding-right-1">ExpressionRelationships</a>
+            </li>
+            
+            <li class="tsd-kind-enumeration padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/FileExtension/" class="tsd-kind-icon padding-right-1">FileExtension</a>
             </li>
             
@@ -3131,6 +3151,10 @@
             </li>
             
             <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/IDynamicMetricValues/" class="tsd-kind-icon padding-right-1">IDynamicMetricValues</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/IDynamicPortalSelfDefinition/" class="tsd-kind-icon padding-right-1">IDynamicPortalSelfDefinition</a>
             </li>
             
@@ -3488,6 +3512,10 @@
             
             <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/IMetricDisplayConfig/" class="tsd-kind-icon padding-right-1">IMetricDisplayConfig</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/IMetricEditorValues/" class="tsd-kind-icon padding-right-1">IMetricEditorValues</a>
             </li>
             
             <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
@@ -4954,7 +4982,7 @@
 
   <div class="column-18">
     <div class="panel panel-white padding-left-1 padding-right-1 padding-trailer-1 padding-leader-half">
-      <small class="label right">Version 14.46.2</small>
+      <small class="label right">Version 14.47.0</small>
 <h1 class="tsd-kind-module font-size-3 trailer-half code-face">
   <a href="/hub.js/api/common/" class="is-active">@esri/hub-common</a>
 </h1>
@@ -4996,6 +5024,7 @@
   bboxToString,
   buildDraft,
   buildExistingExportsPortalQuery,
+  buildWhereClause,
   cacheBustUrl,
   camelize,
   canEditEvent,
@@ -5082,6 +5111,7 @@
   dotifyString,
   editorToContent,
   editorToInitiativeTemplate,
+  editorToMetric,
   editorToProject,
   editorToTemplate,
   emailOrgUsers,
@@ -5316,6 +5346,7 @@
   maybePush,
   memoize,
   mergeObjects,
+  metricToEditor,
   migrateLegacyCapabilitiesToFeatures,
   migrateToCollectionKey,
   modelToHubEditableContent,
@@ -5374,6 +5405,7 @@
   setFeedConfiguration,
   setGroupThumbnail,
   setItemThumbnail,
+  setMetricAndDisplay,
   setProp,
   setSlugKeyword,
   setStatusKeyword,
@@ -5566,6 +5598,10 @@
   
   <li class="tsd-kind-function">
     <a href="/hub.js/api/common/buildExistingExportsPortalQuery/" class="tsd-kind-icon">buildExistingExportsPortalQuery</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/buildWhereClause/" class="tsd-kind-icon">buildWhereClause</a>
   </li>
   
   <li class="tsd-kind-function">
@@ -5910,6 +5946,10 @@
   
   <li class="tsd-kind-function">
     <a href="/hub.js/api/common/editorToInitiativeTemplate/" class="tsd-kind-icon">editorToInitiativeTemplate</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/editorToMetric/" class="tsd-kind-icon">editorToMetric</a>
   </li>
   
   <li class="tsd-kind-function">
@@ -6849,6 +6889,10 @@
   </li>
   
   <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/metricToEditor/" class="tsd-kind-icon">metricToEditor</a>
+  </li>
+  
+  <li class="tsd-kind-function">
     <a href="/hub.js/api/common/migrateLegacyCapabilitiesToFeatures/" class="tsd-kind-icon">migrateLegacyCapabilitiesToFeatures</a>
   </li>
   
@@ -7078,6 +7122,10 @@
   
   <li class="tsd-kind-function">
     <a href="/hub.js/api/common/setItemThumbnail/" class="tsd-kind-icon">setItemThumbnail</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/setMetricAndDisplay/" class="tsd-kind-icon">setMetricAndDisplay</a>
   </li>
   
   <li class="tsd-kind-function">
@@ -7801,6 +7849,10 @@
   </li>
   
   <li class="tsd-kind-enumeration">
+    <a href="/hub.js/api/common/ExpressionRelationships/" class="tsd-kind-icon">ExpressionRelationships</a>
+  </li>
+  
+  <li class="tsd-kind-enumeration">
     <a href="/hub.js/api/common/FileExtension/" class="tsd-kind-icon">FileExtension</a>
   </li>
   
@@ -8493,6 +8545,10 @@
   </li>
   
   <li class="tsd-kind-interface">
+    <a href="/hub.js/api/common/IDynamicMetricValues/" class="tsd-kind-icon">IDynamicMetricValues</a>
+  </li>
+  
+  <li class="tsd-kind-interface">
     <a href="/hub.js/api/common/IDynamicPortalSelfDefinition/" class="tsd-kind-icon">IDynamicPortalSelfDefinition</a>
   </li>
   
@@ -8850,6 +8906,10 @@
   
   <li class="tsd-kind-interface">
     <a href="/hub.js/api/common/IMetricDisplayConfig/" class="tsd-kind-icon">IMetricDisplayConfig</a>
+  </li>
+  
+  <li class="tsd-kind-interface">
+    <a href="/hub.js/api/common/IMetricEditorValues/" class="tsd-kind-icon">IMetricEditorValues</a>
   </li>
   
   <li class="tsd-kind-interface">
