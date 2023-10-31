@@ -1,3 +1,5 @@
+import { IQuery } from "../search";
+
 /**
  * Definition of an Association
  * This will be persisted in the item's typekeywords
@@ -19,3 +21,9 @@ export interface IAssociationInfo {
  */
 export type AssociationType = "initiative";
 // AS WE ADD MORE TYPES, UPDATE THE getItemTypeFromAssociationType FUNCTION
+
+export interface IHubAssociationRules {
+  /** schema version for migration purposes */
+  schemaVersion: number;
+  query: IQuery;
+}

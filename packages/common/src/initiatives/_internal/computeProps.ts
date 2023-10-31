@@ -9,6 +9,7 @@ import { isDiscussable } from "../../discussions";
 import { processEntityFeatures } from "../../permissions/_internal/processEntityFeatures";
 import { InitiativeDefaultFeatures } from "./InitiativeBusinessRules";
 import { computeLinks } from "./computeLinks";
+import { getGroupPredicate, getProp, setProp } from "../..";
 
 /**
  * Given a model and an Initiative, set various computed properties that can't be directly mapped
@@ -52,6 +53,13 @@ export function computeProps(
   );
 
   initiative.links = computeLinks(model.item, requestOptions);
+
+  /**
+   * pull the (potential) association group id out of the
+   * association query
+   */
+  const associationGroupPredicate = getGroupPredicate(getProp(model.data, "associations.query"))
+  associationGroupPredicate && setProp("associations.group", getProp(associationGroupPredicate, "group"), initiative);
 
   // cast b/c this takes a partial but returns a full object
   return initiative as IHubInitiative;
