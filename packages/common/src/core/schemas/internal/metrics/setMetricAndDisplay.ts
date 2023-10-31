@@ -1,3 +1,4 @@
+import { getWithDefault } from "../../../../objects";
 import { cloneObject } from "../../../../util";
 import { IHubProject } from "../../../types/IHubProject";
 import { IMetric, IMetricDisplayConfig } from "../../../types/Metrics";
@@ -20,20 +21,29 @@ export function setMetricAndDisplay(
   const entityCopy = cloneObject(entity);
   const metricId = metric.id;
   const mIndex = entityCopy.metrics.findIndex((m) => m.id === metricId);
-  const dIndex = entityCopy.view.metricDisplays.findIndex(
-    (d) => d.metricId === metricId
+
+  // get array in case of undefined
+  const displays = getWithDefault(entityCopy, "view.metricDisplays", []);
+  const dIndex = displays.findIndex(
+    (d: IMetricDisplayConfig) => d.metricId === metricId
   );
 
-  // existing metric and display
-  if (mIndex > -1 && dIndex > -1) {
+  // existing vs new metric
+  if (mIndex > -1) {
     entityCopy.metrics[mIndex] = metric;
-    entityCopy.view.metricDisplays[dIndex] = displayConfig;
-  }
-  // new metric and display
-  else {
+  } else {
     entityCopy.metrics.push(metric);
-    entityCopy.view.metricDisplays.push(displayConfig);
   }
+
+  // existing vs new display
+  if (dIndex > -1) {
+    displays[dIndex] = displayConfig;
+  } else {
+    displays.push(displayConfig);
+  }
+
+  // reset the displays array
+  entityCopy.view.metricDisplays = displays;
 
   return entityCopy;
 }
