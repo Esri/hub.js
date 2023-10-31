@@ -1,3 +1,10 @@
+# @esri/hub-search [14.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-search@14.1.0...@esri/hub-search@14.2.0) (2023-10-31)
+
+
+### Features
+
+* implement hub user settings and integrate with context ([#1305](https://github.com/Esri/hub.js/issues/1305)) ([47de708](https://github.com/Esri/hub.js/commit/47de708a5ca1d3051066daf2174eaacd453f7eeb))
+
 # @esri/hub-search [14.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-search@14.0.0...@esri/hub-search@14.1.0) (2023-10-08)
 
 
