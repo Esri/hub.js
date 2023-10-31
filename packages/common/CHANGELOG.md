@@ -1,3 +1,15 @@
+# @esri/hub-common [14.49.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.48.1...@esri/hub-common@14.49.0) (2023-10-31)
+
+
+### Bug Fixes
+
+* add data.telemetry to site draft include list; redo telemetry config migration ([#1306](https://github.com/Esri/hub.js/issues/1306)) ([a00818b](https://github.com/Esri/hub.js/commit/a00818b75338f3bacfde0da6a6181222d870367b))
+
+
+### Features
+
+* implement hub user settings and integrate with context ([#1305](https://github.com/Esri/hub.js/issues/1305)) ([47de708](https://github.com/Esri/hub.js/commit/47de708a5ca1d3051066daf2174eaacd453f7eeb))
+
 ## @esri/hub-common [14.48.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.48.0...@esri/hub-common@14.48.1) (2023-10-30)
 
 
