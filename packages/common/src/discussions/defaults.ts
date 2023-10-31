@@ -12,6 +12,7 @@ export const DEFAULT_DISCUSSION: Partial<IHubDiscussion> = {
   typeKeywords: ["Hub Discussion"],
   permissions: [],
   schemaVersion: 1,
+  isDiscussable: true,
 };
 
 /**
