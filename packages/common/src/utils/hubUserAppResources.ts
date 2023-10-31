@@ -7,15 +7,13 @@ import {
   USER_HUB_SETTINGS_APP,
   USER_HUB_SETTINGS_KEY,
 } from "./internal/clearUserHubSettings";
-import {
-  applyHubSettingsMigrations,
-  applySiteSettingsMigrations,
-} from "./internal/siteSettingsMigrations";
+import { applySiteSettingsMigrations } from "./internal/siteSettingsMigrations";
 import {
   IAddUserResource,
   getUserResource,
   setUserResource,
 } from "./internal/userAppResources";
+import { fetchAndMigrateUserHubSettings } from "./internal/fetchAndMigrateUserHubSettings";
 
 /**
  * Site Level Settings
@@ -33,6 +31,83 @@ export interface IUserHubSettings {
   schemaVersion: number;
   username?: string;
   updated?: number;
+  /**
+   * Features that are enabled for the user in preview mode
+   */
+  preview?: {
+    /**
+     *
+     */
+    workspace: boolean;
+  };
+}
+
+/**
+ * @private
+ * DEPRECATED: Use `updateUserSiteSettings` instead
+ * Store User settings in the Site App's cache
+ * @param settings
+ * @param context
+ * @param replace
+ * @returns
+ */
+/* istanbul ignore next */
+export async function setUserSiteSettings(
+  settings: IUserSiteSettings,
+  context: IArcGISContext,
+  replace: boolean = false
+): Promise<void> {
+  /* istanbul ignore next */
+  return updateUserSiteSettings(settings, context, replace);
+}
+
+/**
+ * @private
+ * DEPRECATED: Use `fetchUserSiteSettings`
+ * Get the current user's settings for the current Site
+ * @param context
+ * @returns
+ */
+/* istanbul ignore next */
+export async function getUserSiteSettings(
+  context: IArcGISContext
+): Promise<IUserSiteSettings> {
+  /* istanbul ignore next */
+  return fetchUserSiteSettings(context);
+}
+
+/**
+ * @private
+ * DEPRECATED: use `updateUserHubSettings` instead
+ * Store the current user's Hub settings
+ * @param settings
+ * @param context
+ * @param replace
+ * @returns
+ */
+/* istanbul ignore next */
+export async function setUserHubSettings(
+  settings: IUserHubSettings,
+  context: IArcGISContext,
+  replace: boolean = false
+): Promise<void> {
+  /* istanbul ignore next */
+  return updateUserHubSettings(settings, context, replace);
+}
+
+/**
+ * @private
+ * DEPRECATED: Use `fetchUserHubSettings`
+ * Get the current user's settings for ArcGIS Hub
+ * @param context
+ * @returns
+ */
+/* istanbul ignore next */
+export async function getUserHubSettings(
+  context: IArcGISContext
+): Promise<IUserHubSettings> {
+  /* istanbul ignore next */
+  return fetchUserHubSettings(context);
 }
 
 /**
@@ -42,7 +117,7 @@ export interface IUserHubSettings {
  * @param replace
  * @returns
  */
-export async function setUserSiteSettings(
+export async function updateUserSiteSettings(
   settings: IUserSiteSettings,
   context: IArcGISContext,
   replace: boolean = false
@@ -74,11 +149,11 @@ export async function setUserSiteSettings(
 }
 
 /**
- * Get the current user's settings for the current Site
+ * Fetch the user's settings for the current Site
  * @param context
  * @returns
  */
-export async function getUserSiteSettings(
+export async function fetchUserSiteSettings(
   context: IArcGISContext
 ): Promise<IUserSiteSettings> {
   const token = context.tokenFor(USER_SITE_SETTINGS_APP);
@@ -98,13 +173,13 @@ export async function getUserSiteSettings(
 }
 
 /**
- * Store the current user's Hub settings
+ * Store the current user's Hub settings as a User App Resource
  * @param settings
  * @param context
  * @param replace
  * @returns
  */
-export async function setUserHubSettings(
+export async function updateUserHubSettings(
   settings: IUserHubSettings,
   context: IArcGISContext,
   replace: boolean = false
@@ -135,23 +210,21 @@ export async function setUserHubSettings(
 }
 
 /**
- * Get the current user's settings for ArcGIS Hub
+ * Fetch the current user's settings for ArcGIS Hub
+ * Will return null if the hubforarcgis token is not available
  * @param context
  * @returns
  */
-export async function getUserHubSettings(
+export async function fetchUserHubSettings(
   context: IArcGISContext
 ): Promise<IUserHubSettings> {
   const token = context.tokenFor(USER_HUB_SETTINGS_APP);
-
   if (token) {
-    const settings = await getUserResource(
+    return await fetchAndMigrateUserHubSettings(
       context.currentUser.username,
-      USER_HUB_SETTINGS_KEY,
       context.portalUrl,
       token
     );
-    return applyHubSettingsMigrations(settings);
   } else {
     return Promise.resolve(null);
   }

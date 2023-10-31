@@ -5,11 +5,16 @@ import * as FormatItemCollection from "../../src/ago/format-item-collection";
 import { ISearchParams } from "../../src/ago/params";
 
 describe("agoSearch test", () => {
-  it("uses the right functions", async done => {
+  beforeAll(() => {
+    // suppress deprecation warnings
+    // tslint:disable-next-line: no-empty
+    spyOn(console, "warn").and.callFake(() => {}); // suppress console output
+  });
+  it("uses the right functions", async (done) => {
     const rawAgoResults = {
       results: [],
       total: 0,
-      aggregations: { counts: {} }
+      aggregations: { counts: {} },
     } as any;
     const facets = { facet1: [{ key: "a", docCount: 5 }] };
     const formatted = { data: [], meta: { stats: {} } } as any;
@@ -34,7 +39,7 @@ describe("agoSearch test", () => {
       groupIds: "1ef",
       agg: { fields: "tags,collection,owner,source,hasApi,downloadable" },
       start: 1,
-      num: 10
+      num: 10,
     };
     const token = "token";
     const portal = "https://test.com";
@@ -51,7 +56,7 @@ describe("agoSearch test", () => {
       aggsForComputeFacets,
       paramsForComputeFacets,
       tokenForComputeFacets,
-      portalForComputeFacets
+      portalForComputeFacets,
     ] = computeItemsFacetsSpy.calls.argsFor(0);
     expect(aggsForComputeFacets).toEqual({ counts: {} });
     expect(paramsForComputeFacets).toEqual(params);
@@ -60,11 +65,8 @@ describe("agoSearch test", () => {
 
     // step 4: ago format item collection
     expect(agoFormatCollectionSpy.calls.count()).toBe(1);
-    const [
-      resultsForFormat,
-      facetsForFormat,
-      paramsForFormat
-    ] = agoFormatCollectionSpy.calls.argsFor(0);
+    const [resultsForFormat, facetsForFormat, paramsForFormat] =
+      agoFormatCollectionSpy.calls.argsFor(0);
     expect(resultsForFormat).toEqual(rawAgoResults);
     expect(facetsForFormat).toEqual(facets);
     expect(paramsForFormat).toEqual(params);

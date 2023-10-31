@@ -29,6 +29,11 @@ const featureServiceItem = {
 } as IItem;
 
 describe("composeContent", () => {
+  beforeAll(() => {
+    // suppress deprecation warnings
+    // tslint:disable-next-line: no-empty
+    spyOn(console, "warn").and.callFake(() => {});
+  });
   let item: IItem;
   // most of compose content is currently covered by
   // tests of higher level functions like datasetToContent()

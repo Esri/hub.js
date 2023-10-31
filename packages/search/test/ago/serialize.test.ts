@@ -2,6 +2,11 @@ import { serialize } from "../../src/ago/serialize";
 import { ISearchParams } from "../../src/ago/params";
 
 describe("serialize test", () => {
+  beforeAll(() => {
+    // suppress deprecation warnings
+    // tslint:disable-next-line: no-empty
+    spyOn(console, "warn").and.callFake(() => {}); // suppress console output
+  });
   it("serializes q, tags, aggs, sort, groupIds, orgId, initiativeId correctly", () => {
     const input: ISearchParams = {
       q: "crime",
@@ -13,18 +18,18 @@ describe("serialize test", () => {
       agg: {
         fields: "tags,collection,owner,source,hasApi,downloadable",
         size: 10,
-        mode: "uniqueCount"
+        mode: "uniqueCount",
       },
       page: {
         hub: {
           start: 1,
-          size: 10
+          size: 10,
         },
         ago: {
           start: 1,
-          size: 10
-        }
-      }
+          size: 10,
+        },
+      },
     };
     const actual = serialize(input);
     const expected =
@@ -37,7 +42,7 @@ describe("serialize test", () => {
       q: "crime",
       sort: "name",
       groupIds: "1ef,2ab",
-      id: "1qw"
+      id: "1qw",
     };
     const actual = serialize(input);
     const expected =
@@ -49,7 +54,7 @@ describe("serialize test", () => {
 
   it("serializes without nonFilters and filters", () => {
     const input: ISearchParams = {
-      q: ""
+      q: "",
     };
     const actual = serialize(input);
     const expected = "";

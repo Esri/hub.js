@@ -1,6 +1,11 @@
 import { getFamilyTypes } from "../../src";
 
 describe("getFamily", () => {
+  beforeAll(() => {
+    // suppress deprecation warnings
+    // tslint:disable-next-line: no-empty
+    spyOn(console, "warn").and.callFake(() => {});
+  });
   describe("getFamilyTypes", () => {
     it("can get 'content' types", () => {
       const types = getFamilyTypes("content");

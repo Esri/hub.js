@@ -1,12 +1,12 @@
 import { IUser } from "@esri/arcgis-rest-types";
 import {
-  setUserSiteSettings,
-  getUserSiteSettings,
-  setUserHubSettings,
-  getUserHubSettings,
   IUserSiteSettings,
   ArcGISContext,
   IUserHubSettings,
+  updateUserSiteSettings,
+  updateUserHubSettings,
+  fetchUserHubSettings,
+  fetchUserSiteSettings,
 } from "../../src";
 
 import * as resourceModule from "../../src/utils/internal/userAppResources";
@@ -14,7 +14,7 @@ import { USER_SITE_SETTINGS_KEY } from "../../src/utils/internal/clearUserSiteSe
 import { USER_HUB_SETTINGS_KEY } from "../../src/utils/internal/clearUserHubSettings";
 
 describe("hubUserAppResources:", () => {
-  describe("setUserSiteSettings:", () => {
+  describe("updateUserSiteSettings:", () => {
     let spy: jasmine.Spy;
     let ctx: ArcGISContext;
     beforeEach(() => {
@@ -42,7 +42,7 @@ describe("hubUserAppResources:", () => {
           },
         ],
       });
-      await setUserSiteSettings(settings, ctx);
+      await updateUserSiteSettings(settings, ctx);
       expect(spy).toHaveBeenCalled();
       // inspect the arts
       const [resource, username, url, token, replace] = spy.calls.argsFor(0);
@@ -53,6 +53,8 @@ describe("hubUserAppResources:", () => {
       expect(username).toBe("jsmith");
       expect(url).toBe(ctx.portalUrl);
       expect(token).toBe("FAKESITETOKEN");
+      await updateUserSiteSettings(settings, ctx, true);
+      expect(spy.calls.argsFor(1)[4]).toEqual(true);
     });
     it("throws if token not found for ", async () => {
       const settings: IUserSiteSettings = {
@@ -75,7 +77,7 @@ describe("hubUserAppResources:", () => {
         ],
       });
       try {
-        await setUserSiteSettings(settings, ctx);
+        await updateUserSiteSettings(settings, ctx);
       } catch (ex) {
         expect((ex as any).message).toContain(
           "user-app-resource token available"
@@ -83,7 +85,7 @@ describe("hubUserAppResources:", () => {
       }
     });
   });
-  describe("getUserSiteSettings:", () => {
+  describe("fetchUserSiteSettings:", () => {
     let spy: jasmine.Spy;
     let ctx: ArcGISContext;
     beforeEach(() => {
@@ -106,7 +108,7 @@ describe("hubUserAppResources:", () => {
           },
         ],
       });
-      const settings = await getUserSiteSettings(ctx);
+      const settings = await fetchUserSiteSettings(ctx);
       expect(settings).toEqual({
         fake: "settings",
       } as unknown as IUserSiteSettings);
@@ -133,11 +135,11 @@ describe("hubUserAppResources:", () => {
         ],
       });
 
-      const settings = await getUserSiteSettings(ctx);
+      const settings = await fetchUserSiteSettings(ctx);
       expect(settings).toBeNull();
     });
   });
-  describe("setUserHubSettings:", () => {
+  describe("updateUserHubSettings:", () => {
     let spy: jasmine.Spy;
     let ctx: ArcGISContext;
     beforeEach(() => {
@@ -165,10 +167,11 @@ describe("hubUserAppResources:", () => {
           },
         ],
       });
-      await setUserHubSettings(settings, ctx);
+      await updateUserHubSettings(settings, ctx);
       expect(spy).toHaveBeenCalled();
       // inspect the arts
       const [resource, username, url, token, replace] = spy.calls.argsFor(0);
+      expect(replace).toBe(false);
       expect(resource.key).toBe(USER_HUB_SETTINGS_KEY);
       expect(resource.data.username).toBe("jsmith");
       expect(resource.data.updated).toBeGreaterThan(0);
@@ -176,6 +179,8 @@ describe("hubUserAppResources:", () => {
       expect(username).toBe("jsmith");
       expect(url).toBe(ctx.portalUrl);
       expect(token).toBe("FAKEHUBTOKEN");
+      await updateUserHubSettings(settings, ctx, true);
+      expect(spy.calls.argsFor(1)[4]).toEqual(true);
     });
     it("throws if token not found for ", async () => {
       const settings: IUserSiteSettings = {
@@ -198,7 +203,7 @@ describe("hubUserAppResources:", () => {
         ],
       });
       try {
-        await setUserHubSettings(settings, ctx);
+        await updateUserHubSettings(settings, ctx);
       } catch (ex) {
         expect((ex as any).message).toContain(
           "user-app-resource token available"
@@ -206,7 +211,7 @@ describe("hubUserAppResources:", () => {
       }
     });
   });
-  describe("getUserHubSettings:", () => {
+  describe("fetchUserHubSettings:", () => {
     let spy: jasmine.Spy;
     let ctx: ArcGISContext;
     beforeEach(() => {
@@ -229,7 +234,7 @@ describe("hubUserAppResources:", () => {
           },
         ],
       });
-      const settings = await getUserHubSettings(ctx);
+      const settings = await fetchUserHubSettings(ctx);
       expect(settings).toEqual({
         fake: "settings",
       } as unknown as IUserHubSettings);
@@ -256,7 +261,7 @@ describe("hubUserAppResources:", () => {
         ],
       });
 
-      const settings = await getUserHubSettings(ctx);
+      const settings = await fetchUserHubSettings(ctx);
       expect(settings).toBeNull();
     });
   });

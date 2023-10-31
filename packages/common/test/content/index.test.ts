@@ -61,6 +61,11 @@ const FEATURE_SERVICE_ITEM: IItem = {
 };
 
 describe("content module:", () => {
+  beforeAll(() => {
+    // suppress deprecation warnings
+    // tslint:disable-next-line: no-empty
+    spyOn(console, "warn").and.callFake(() => {});
+  });
   describe("enrichments:", () => {
     let enrichmentSpy: jasmine.Spy;
     let hubRo: IHubRequestOptions;

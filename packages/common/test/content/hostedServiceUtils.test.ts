@@ -10,6 +10,11 @@ import {
 } from "../../src/content/hostedServiceUtils";
 
 describe("isHostedFeatureServiceItem", () => {
+  beforeAll(() => {
+    // suppress deprecation warnings
+    // tslint:disable-next-line: no-empty
+    spyOn(console, "warn").and.callFake(() => {});
+  });
   it("returns true for hosted feature service items", () => {
     const item = {
       type: "Feature Service",

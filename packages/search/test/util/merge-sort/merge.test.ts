@@ -2,6 +2,11 @@ import { lorem, date, datatype } from "faker";
 import { BinaryHeap, kMerge } from "../../../src/util/merge-sort/merge";
 
 describe("Binary Heap", () => {
+  beforeAll(() => {
+    // suppress deprecation warnings
+    // tslint:disable-next-line: no-empty
+    spyOn(console, "warn").and.callFake(() => {}); // suppress console output
+  });
   it("should successfully initialize if falsey nodes are explicitly provided", () => {
     // Setup
     const comparator = (one: number[], two: number[]): number => {

@@ -1,6 +1,11 @@
 import { getShortenedCategories } from "../../src/content/_internal/internalContentUtils";
 
 describe("getShortenedCategories", () => {
+  beforeAll(() => {
+    // suppress deprecation warnings
+    // tslint:disable-next-line: no-empty
+    spyOn(console, "warn").and.callFake(() => {});
+  });
   it("returns an empty array when no categories are provided", () => {
     const result = getShortenedCategories([]);
     expect(result).toEqual([]);

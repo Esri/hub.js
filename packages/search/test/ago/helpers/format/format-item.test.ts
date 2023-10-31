@@ -12,10 +12,18 @@ const itemProps = {
   type: "feature layer",
   numViews: 1000,
   size: 1,
-  extent: [[1, 2], [3, 4]]
+  extent: [
+    [1, 2],
+    [3, 4],
+  ],
 };
 
 describe("highlights test", () => {
+  beforeAll(() => {
+    // suppress deprecation warnings
+    // tslint:disable-next-line: no-empty
+    spyOn(console, "warn").and.callFake(() => {}); // suppress console output
+  });
   it("formats item into v3 style dataset", () => {
     const item: IItem = { ...itemProps };
     const query = "fake";
@@ -30,18 +38,20 @@ describe("highlights test", () => {
         hubType: "dataset",
         collection: ["Dataset"],
         extent: {
-          coordinates: [[1, 2], [3, 4]],
-          type: "envelope"
-        }
+          coordinates: [
+            [1, 2],
+            [3, 4],
+          ],
+          type: "envelope",
+        },
       },
       meta: {
         highlights: {
-          name:
-            '<mark class="hub-search-highlight name-highlight">fake</mark> item',
+          name: '<mark class="hub-search-highlight name-highlight">fake</mark> item',
           searchDescription:
-            '<mark class="hub-search-highlight description-highlight">fake</mark> description'
-        }
-      }
+            '<mark class="hub-search-highlight description-highlight">fake</mark> description',
+        },
+      },
     };
     expect(actual).toEqual(expected);
   });
@@ -60,10 +70,13 @@ describe("highlights test", () => {
         hubType: "dataset",
         collection: ["Dataset"],
         extent: {
-          coordinates: [[1, 2], [3, 4]],
-          type: "envelope"
-        }
-      }
+          coordinates: [
+            [1, 2],
+            [3, 4],
+          ],
+          type: "envelope",
+        },
+      },
     };
     expect(actual).toEqual(expected);
   });
@@ -83,10 +96,13 @@ describe("highlights test", () => {
         hubType: "Other",
         collection: ["Other"],
         extent: {
-          coordinates: [[1, 2], [3, 4]],
-          type: "envelope"
-        }
-      }
+          coordinates: [
+            [1, 2],
+            [3, 4],
+          ],
+          type: "envelope",
+        },
+      },
     };
     expect(actual).toEqual(expected);
   });

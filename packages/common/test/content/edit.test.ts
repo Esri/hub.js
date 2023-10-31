@@ -15,6 +15,11 @@ import { cloneObject } from "../../src/util";
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
 
 describe("content editing:", () => {
+  beforeAll(() => {
+    // suppress deprecation warnings
+    // tslint:disable-next-line: no-empty
+    spyOn(console, "warn").and.callFake(() => {});
+  });
   describe("create content:", () => {
     it("converts to a model and creates the item", async () => {
       const createSpy = spyOn(modelUtils, "createModel").and.callFake(

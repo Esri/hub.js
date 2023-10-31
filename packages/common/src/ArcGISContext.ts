@@ -11,6 +11,7 @@ import { HubEnvironment, HubLicense, IFeatureFlags } from "./permissions/types";
 import { IHubRequestOptions, IHubTrustedOrgsResponse } from "./types";
 import { getEnvironmentFromPortalUrl } from "./utils/getEnvironmentFromPortalUrl";
 import { IUserResourceToken, UserResourceApp } from "./ArcGISContextManager";
+import { IUserHubSettings } from "./utils";
 
 /**
  * Hash of Hub API end points so updates
@@ -204,6 +205,12 @@ export interface IArcGISContext {
   userResourceTokens?: IUserResourceToken[];
 
   /**
+   * Hash of user hub settings. These are stored as
+   * user-app-resources, associated with the `hubforarcgis` clientId
+   */
+  userHubSettings?: IUserHubSettings;
+
+  /**
    * Return the token for a given app, if defined
    * @param app
    */
@@ -242,6 +249,7 @@ export interface IArcGISContextOptions {
    * ArcGISContextManager handles this internally
    */
   portalSelf?: IPortal;
+
   /**
    * If the user is authenticated, the user should be passed in
    * so various getters can work as expected.
@@ -280,6 +288,12 @@ export interface IArcGISContextOptions {
    * with user-app-resources
    */
   userResourceTokens?: IUserResourceToken[];
+
+  /**
+   * Hash of user hub settings. These are stored as
+   * user-app-resources, associated with the `hubforarcgis` clientId
+   */
+  userHubSettings?: IUserHubSettings;
 }
 
 /**
@@ -325,6 +339,8 @@ export class ArcGISContext implements IArcGISContext {
 
   private _userResourceTokens: IUserResourceToken[] = [];
 
+  private _userHubSettings: IUserHubSettings;
+
   /**
    * Create a new instance of `ArcGISContext`.
    *
@@ -360,6 +376,7 @@ export class ArcGISContext implements IArcGISContext {
 
     this._featureFlags = opts.featureFlags || {};
     this._userResourceTokens = opts.userResourceTokens || [];
+    this._userHubSettings = opts.userHubSettings || null;
   }
 
   /**
@@ -696,6 +713,14 @@ export class ArcGISContext implements IArcGISContext {
    */
   public get userResourceTokens(): IUserResourceToken[] {
     return this._userResourceTokens;
+  }
+
+  /**
+   * Return the user hub settings.
+   * Updates must be done via `contextManager.updateUserHubSettings`
+   */
+  public get userHubSettings(): IUserHubSettings {
+    return this._userHubSettings;
   }
 
   /**

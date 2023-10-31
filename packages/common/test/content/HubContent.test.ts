@@ -10,6 +10,11 @@ import * as EnrichEntityModule from "../../src/core/enrichEntity";
 
 describe("HubContent class", () => {
   let authdCtxMgr: ArcGISContextManager;
+  beforeAll(() => {
+    // suppress deprecation warnings
+    // tslint:disable-next-line: no-empty
+    spyOn(console, "warn").and.callFake(() => {});
+  });
   // let unauthdCtxMgr: ArcGISContextManager;
   beforeEach(async () => {
     // unauthdCtxMgr = await ArcGISContextManager.create();

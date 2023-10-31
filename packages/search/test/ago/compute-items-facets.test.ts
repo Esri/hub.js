@@ -11,7 +11,7 @@ const item: IItem = {
   numViews: 1,
   size: 1,
   title: "title",
-  type: "CSV"
+  type: "CSV",
 };
 
 const aggregations = {
@@ -21,28 +21,33 @@ const aggregations = {
       fieldValues: [
         {
           value: "feature service",
-          count: 12
+          count: 12,
         },
         {
           value: "map service",
-          count: 10
-        }
-      ]
+          count: 10,
+        },
+      ],
     },
     {
       fieldName: "access",
       fieldValues: [
         {
           value: "private",
-          count: 3
-        }
-      ]
-    }
-  ]
+          count: 3,
+        },
+      ],
+    },
+  ],
 };
 
 describe("computeItemsFacets test", () => {
-  it("it should call ago searchItems if custom aggs are requested", async done => {
+  beforeAll(() => {
+    // suppress deprecation warnings
+    // tslint:disable-next-line: no-empty
+    spyOn(console, "warn").and.callFake(() => {}); // suppress console output
+  });
+  it("it should call ago searchItems if custom aggs are requested", async (done) => {
     const getItemsSpy = spyOn(GetItems, "getItems").and.callFake(() => {
       const response: ISearchResult<IItem> = {
         results: [item],
@@ -50,7 +55,7 @@ describe("computeItemsFacets test", () => {
         start: 1,
         num: 0,
         nextStart: -1,
-        total: 0
+        total: 0,
       };
       return Promise.resolve(response);
     });
@@ -62,15 +67,15 @@ describe("computeItemsFacets test", () => {
     const expected = {
       downloadable: [
         { key: "true", docCount: 1 },
-        { key: "false", docCount: 0 }
-      ]
+        { key: "false", docCount: 0 },
+      ],
     };
     expect(facets).toEqual(expected);
     expect(getItemsSpy.calls.count()).toEqual(1);
     done();
   });
 
-  it("it should compute facets from custom and ago-provided aggs correctly", async done => {
+  it("it should compute facets from custom and ago-provided aggs correctly", async (done) => {
     const getItemsSpy = spyOn(GetItems, "getItems").and.callFake(() => {
       const response: ISearchResult<IItem> = {
         results: [item],
@@ -78,13 +83,13 @@ describe("computeItemsFacets test", () => {
         start: 1,
         num: 0,
         nextStart: -1,
-        total: 0
+        total: 0,
       };
       return Promise.resolve(response);
     });
     const params = {
       q: "blah",
-      agg: { fields: "downloadable,type,access,hasApi" }
+      agg: { fields: "downloadable,type,access,hasApi" },
     };
     const token = "secret";
     const portal = "https://qaext.arcgis.com/sharing/rest";
@@ -97,26 +102,29 @@ describe("computeItemsFacets test", () => {
     const expected = {
       downloadable: [
         { key: "true", docCount: 1 },
-        { key: "false", docCount: 0 }
+        { key: "false", docCount: 0 },
       ],
       type: [
         { key: "feature service", docCount: 12 },
-        { key: "map service", docCount: 10 }
+        { key: "map service", docCount: 10 },
       ],
       access: [{ key: "private", docCount: 3 }],
-      hasApi: [{ key: "true", docCount: 22 }, { key: "false", docCount: 0 }]
+      hasApi: [
+        { key: "true", docCount: 22 },
+        { key: "false", docCount: 0 },
+      ],
     };
     expect(facets).toEqual(expected);
     expect(getItemsSpy.calls.count()).toEqual(1);
     done();
   });
 
-  it("it should handle undefined agoAggregations and undefined agg params correctly", async done => {
+  it("it should handle undefined agoAggregations and undefined agg params correctly", async (done) => {
     const getItemsSpy = spyOn(GetItems, "getItems").and.callFake(() => {
       return Promise.resolve({});
     });
     const params = {
-      q: "blah"
+      q: "blah",
     };
     const token = "secret";
     const portal = "https://qaext.arcgis.com/sharing/rest";
@@ -126,7 +134,7 @@ describe("computeItemsFacets test", () => {
     done();
   });
 
-  it("it should flatten categories facet if present", async done => {
+  it("it should flatten categories facet if present", async (done) => {
     spyOn(GetItems, "getItems").and.callFake(() => {
       return Promise.resolve({});
     });
@@ -137,10 +145,10 @@ describe("computeItemsFacets test", () => {
           fieldValues: [
             { value: "/categories", count: 5 },
             { value: "/categories/economy", count: 5 },
-            { value: "/categories/economy/business", count: 5 }
-          ]
-        }
-      ]
+            { value: "/categories/economy/business", count: 5 },
+          ],
+        },
+      ],
     };
     const params = { q: "blah", agg: { fields: "categories" } };
     const token = "secret";
@@ -149,8 +157,8 @@ describe("computeItemsFacets test", () => {
     const expected = {
       categories: [
         { key: "economy", docCount: 10 },
-        { key: "business", docCount: 5 }
-      ]
+        { key: "business", docCount: 5 },
+      ],
     };
     expect(facets).toEqual(expected);
     done();
