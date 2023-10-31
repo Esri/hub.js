@@ -1,3 +1,10 @@
+## @esri/hub-sites [14.2.1](https://github.com/Esri/hub.js/compare/@esri/hub-sites@14.2.0...@esri/hub-sites@14.2.1) (2023-10-31)
+
+
+### Bug Fixes
+
+* add data.telemetry to site draft include list; redo telemetry config migration ([#1306](https://github.com/Esri/hub.js/issues/1306)) ([a00818b](https://github.com/Esri/hub.js/commit/a00818b75338f3bacfde0da6a6181222d870367b))
+
 # @esri/hub-sites [14.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@14.1.0...@esri/hub-sites@14.2.0) (2023-10-13)
 
 
