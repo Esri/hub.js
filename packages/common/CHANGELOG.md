@@ -1,3 +1,10 @@
+# @esri/hub-common [14.50.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.49.1...@esri/hub-common@14.50.0) (2023-11-01)
+
+
+### Features
+
+* **hub-common:** sets discussion board isDiscussable true by default ([#1309](https://github.com/Esri/hub.js/issues/1309)) ([98f3d28](https://github.com/Esri/hub.js/commit/98f3d282e9d8579565fe61b75719f5b5593ad006))
+
 ## @esri/hub-common [14.49.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.49.0...@esri/hub-common@14.49.1) (2023-11-01)
 
 
