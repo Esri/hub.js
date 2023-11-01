@@ -1,3 +1,10 @@
+## @esri/hub-common [14.49.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.49.0...@esri/hub-common@14.49.1) (2023-11-01)
+
+
+### Bug Fixes
+
+* update check for metricDisplays to have default ([#1310](https://github.com/Esri/hub.js/issues/1310)) ([ca1701c](https://github.com/Esri/hub.js/commit/ca1701cce07fc7b200c13fbb6ea67534119f442e))
+
 # @esri/hub-common [14.49.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.48.1...@esri/hub-common@14.49.0) (2023-10-31)
 
 
