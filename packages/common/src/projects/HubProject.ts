@@ -34,11 +34,12 @@ import { camelize, cloneObject, createId } from "../util";
 import { createProject, editorToProject, updateProject } from "./edit";
 import { ProjectEditorType } from "./_internal/ProjectSchema";
 import { enrichEntity } from "../core/enrichEntity";
-import { getProp } from "../objects";
+import { getProp, getWithDefault } from "../objects";
 import { IGroup } from "@esri/arcgis-rest-types";
 import { metricToEditor } from "../core/schemas/internal/metrics/metricToEditor";
 import { editorToMetric } from "../core/schemas/internal/metrics/editorToMetric";
 import { setMetricAndDisplay } from "../core/schemas/internal/metrics/setMetricAndDisplay";
+import { IMetricDisplayConfig } from "../core/types/Metrics";
 
 /**
  * Hub Project Class
@@ -234,9 +235,12 @@ export class HubProject
     // handle metrics
     const metrics = getEntityMetrics(this.entity);
     const metric = metrics.find((m) => m.id === editorContext.metricId);
-    const displayConfig = this.entity.view.metricDisplays.find(
-      (display) => display.metricId === editorContext.metricId
-    );
+    const displays = getWithDefault(this.entity, "view.metricDisplays", []);
+    const displayConfig =
+      displays.find(
+        (display: IMetricDisplayConfig) =>
+          display.metricId === editorContext.metricId
+      ) || {};
     editor._metric = metricToEditor(metric, displayConfig);
 
     return editor;

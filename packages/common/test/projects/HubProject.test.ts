@@ -826,6 +826,65 @@ describe("HubProject Class:", () => {
           },
         ]);
       });
+      it("handles setting metrics when metricDisplays is undefined", async () => {
+        const chk = HubProject.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            metrics: [
+              {
+                id: "metric1",
+                source: {
+                  type: "static-value",
+                  value: "123",
+                },
+              },
+            ],
+            view: {},
+          },
+          authdCtxMgr.context
+        );
+
+        const editor = await chk.toEditor();
+        editor._metric = {
+          trailingText: "...",
+          type: "static",
+          value: "123",
+          cardTitle: "metric1",
+          metricId: "metric1",
+          displayType: "stat-card",
+        };
+        const result = await chk.fromEditor(editor, { metricId: "metric1" });
+        expect(getProp(result, "metrics")).toEqual([
+          {
+            id: "metric1",
+            source: {
+              type: "static-value",
+              value: "123",
+            },
+            name: "metric1",
+            entityInfo: {
+              id: undefined,
+              name: undefined,
+              type: undefined,
+            },
+          },
+        ]);
+        expect(getProp(result, "view.metricDisplays")).toEqual([
+          {
+            cardTitle: "metric1",
+            trailingText: "...",
+            fieldType: undefined,
+            statistic: undefined,
+            sourceLink: undefined,
+            sourceTitle: undefined,
+            allowLink: undefined,
+            type: "static",
+            displayType: "stat-card",
+            metricId: "metric1",
+          },
+        ]);
+      });
     });
   });
 });
