@@ -11,7 +11,8 @@ import { IQuery } from "../../search/types/IHubCatalog";
  */
 export function getTypeByIdsQuery(
   itemType: string | string[],
-  ids: string[]
+  ids: string[],
+  negate?: boolean
 ): IQuery {
   const targetEntity =
     typeof itemType === "string"
@@ -26,7 +27,7 @@ export function getTypeByIdsQuery(
         predicates: [
           {
             type: itemType,
-            id: [...ids],
+            id: negate ? { not: [...ids] } : [...ids],
           },
         ],
       },
