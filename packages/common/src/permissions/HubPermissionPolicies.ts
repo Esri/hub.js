@@ -82,8 +82,13 @@ const TempPermissionPolicies: IPermissionPolicy[] = [
 const SystemPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:feature:privacy",
-    availability: ["alpha"],
-    environments: ["qaext"],
+    // alpha does not do what we want here, it says "grant if the _logged in user_ is in an alpha org"
+    // but what we really want is "grant if the _current site_ is in an alpha org" which we can't do
+    // availability: ["alpha"],
+    // so the fallback is to deny this permission in all cases except when the feature flag is passed (?pe=hub:feature:privacy)
+    // but we can't do that either
+    // so we will just enable it only in devext since we don't use that env
+    environments: ["devext"],
   },
   {
     permission: "hub:feature:workspace",
