@@ -9,6 +9,7 @@ import { negateGroupPredicates } from "../../search/_internal/negateGroupPredica
 import { IArcGISContext } from "../../ArcGISContext";
 import { getTypeByIdsQuery } from "./getTypeByIdsQuery";
 import { getTypeFromEntity } from "../../core/getTypeFromEntity";
+import { getIdsFromTypekeywords } from "./getIdsFromTypekeywords";
 
 export const getIdentifiesDoesNotIncludeQuery = async (
   entity: HubEntity,
@@ -74,15 +75,9 @@ export const getIdentifiesDoesNotIncludeQuery = async (
      * 3. iterate over the child's typeKeywords and grab the parent
      * ids they identify with (typeKeywords = "parentIdentifier|:id")
      */
-    const parentIdsChildIdentifiesWith = getProp(entity, "typeKeywords").reduce(
-      (ids: string[], keyword: string) => {
-        if (keyword.startsWith(`${parentIdentifier}|`)) {
-          const id = keyword.split("|")[1];
-          ids.push(id);
-        }
-        return ids;
-      },
-      []
+    const parentIdsChildIdentifiesWith = getIdsFromTypekeywords(
+      entity,
+      parentIdentifier
     );
 
     /**
@@ -94,6 +89,7 @@ export const getIdentifiesDoesNotIncludeQuery = async (
     );
 
     /** 5. return a query for the filtered parent ids */
-    return getTypeByIdsQuery(associationType, parentIds);
+    const type = getTypesFromEntityType(associationType);
+    return getTypeByIdsQuery(type, parentIds);
   }
 };
