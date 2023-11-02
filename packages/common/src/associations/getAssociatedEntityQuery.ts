@@ -16,9 +16,7 @@ export const getAssociatedEntityQuery = async (
   const isSupported = isAssociationSupported(entityType, associationType);
 
   if (isSupported) {
-    const associationHierarchy = getAssociationHierarchy(
-      getTypeFromEntity(entity)
-    );
+    const associationHierarchy = getAssociationHierarchy(entityType);
     const isParent = associationHierarchy.children.includes(associationType);
 
     query = await getIncludesAndIdentifiesQuery(
