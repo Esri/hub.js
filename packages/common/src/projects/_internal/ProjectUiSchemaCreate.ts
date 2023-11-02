@@ -119,7 +119,9 @@ export const buildUiSchema = async (
                         context.hubRequestOptions
                       ),
                       options: await getLocationOptions(
-                        options,
+                        options.id,
+                        options.type,
+                        options.location,
                         context.portal.name,
                         context.hubRequestOptions
                       ),
