@@ -1,5 +1,4 @@
 import { IHubItemEntity } from "../../../../src";
-import { EntityEditorOptions } from "../../../../src/core/schemas/internal/EditorOptions";
 import { getThumbnailUiSchemaElement } from "../../../../src/core/schemas/internal/getThumbnailUiSchemaElement";
 
 describe("getThumbnailUiSchemaElement:", () => {
@@ -22,7 +21,8 @@ describe("getThumbnailUiSchemaElement:", () => {
     };
     const uiSchema = getThumbnailUiSchemaElement(
       "scope",
-      entity as EntityEditorOptions
+      entity.thumbnail as unknown as string,
+      entity.thumbnailUrl as unknown as string
     );
     expect(uiSchema.options?.messages.length).toBe(0);
   });
@@ -45,7 +45,8 @@ describe("getThumbnailUiSchemaElement:", () => {
     };
     const uiSchema = getThumbnailUiSchemaElement(
       "scope",
-      entity as EntityEditorOptions
+      entity.thumbnail as unknown as string,
+      entity.thumbnailUrl as unknown as string
     );
     expect(uiSchema.options?.messages.length).toBe(1);
   });
@@ -69,7 +70,8 @@ describe("getThumbnailUiSchemaElement:", () => {
     };
     const uiSchema = getThumbnailUiSchemaElement(
       "scope",
-      entity as EntityEditorOptions
+      entity.thumbnail as string,
+      entity.thumbnailUrl as unknown as string
     );
     expect(uiSchema.options?.messages.length).toBe(1);
   });

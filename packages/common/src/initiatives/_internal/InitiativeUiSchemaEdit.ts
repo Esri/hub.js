@@ -80,7 +80,11 @@ export const buildUiSchema = async (
               },
             },
           },
-          getThumbnailUiSchemaElement(i18nScope, options),
+          getThumbnailUiSchemaElement(
+            i18nScope,
+            options.thumbnail,
+            options.thumbnailUrl
+          ),
           {
             labelKey: `${i18nScope}.fields.tags.label`,
             scope: "/properties/tags",
