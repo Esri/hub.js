@@ -10,10 +10,13 @@ import { IQuery } from "../../search/types/IHubCatalog";
  * @returns
  */
 export function getTypeWithoutKeywordQuery(
-  itemType: string,
+  itemType: string | string[],
   keyword: string
 ): IQuery {
-  const targetEntity = getEntityTypeFromType(itemType);
+  const targetEntity =
+    typeof itemType === "string"
+      ? getEntityTypeFromType(itemType)
+      : getEntityTypeFromType(itemType[0]);
 
   return {
     targetEntity,

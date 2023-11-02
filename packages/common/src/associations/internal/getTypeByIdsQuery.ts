@@ -9,8 +9,14 @@ import { IQuery } from "../../search/types/IHubCatalog";
  * @param type
  * @returns
  */
-export function getTypeByIdsQuery(itemType: string, ids: string[]): IQuery {
-  const targetEntity = getEntityTypeFromType(itemType);
+export function getTypeByIdsQuery(
+  itemType: string | string[],
+  ids: string[]
+): IQuery {
+  const targetEntity =
+    typeof itemType === "string"
+      ? getEntityTypeFromType(itemType)
+      : getEntityTypeFromType(itemType[0]);
 
   const qry: IQuery = {
     targetEntity,
