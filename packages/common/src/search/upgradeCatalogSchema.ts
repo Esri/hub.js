@@ -63,19 +63,22 @@ function applyCatalogSchema(original: any): IHubCatalog {
     const orgId = getProp(original, "orgId");
     if (orgId) {
       catalog.scopes.item.filters.push({
-        operation: "AND",
         predicates: [
           // Portal uses `orgid` instead of `orgId`, so we comply.
           // While `orgid` is valid field for search, it does not count
           // towards Portal's requirement of needing at least one filter.
           { orgid: [orgId] },
-          // Hack to force Portal to think that at least one filter has
-          // been provided. 'Code Attachment' is an old AGO type that has
-          // been defunct for some time, so the results won't be affected.
-          { type: { not: ["Code Attachment"] } },
         ],
       });
     }
+
+    // 'Code Attachment' is an old AGO type that has
+    // been defunct for some time, so add this predicate
+    // to all catalog filter to omit 'Code Attachment' items
+    // from search results
+    catalog.scopes.item.filters.push({
+      predicates: [{ type: { not: ["Code Attachment"] } }],
+    });
 
     return catalog;
   }

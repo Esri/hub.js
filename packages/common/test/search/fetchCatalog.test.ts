@@ -37,7 +37,7 @@ describe("fetchCatalog:", () => {
     // verify response
     expect(chk.schemaVersion).toBe(1);
     expect(chk.scopes?.item).toBeDefined();
-    expect(chk.scopes?.item?.filters.length).toBe(1);
+    expect(chk.scopes?.item?.filters.length).toBe(2);
     // verify calls
     expect(lookupDomainSpy.calls.count()).toBe(1);
     const [url, hroParam] = lookupDomainSpy.calls.argsFor(0);
@@ -71,7 +71,7 @@ describe("fetchCatalog:", () => {
     // verify response
     expect(chk.schemaVersion).toBe(1);
     expect(chk.scopes?.item).toBeDefined();
-    expect(chk.scopes?.item?.filters.length).toBe(0);
+    expect(chk.scopes?.item?.filters.length).toBe(1);
     // verify calls
     expect(lookupDomainSpy.calls.count()).toBe(1);
     const [url, hroParam] = lookupDomainSpy.calls.argsFor(0);
@@ -96,7 +96,7 @@ describe("fetchCatalog:", () => {
     // verify response
     expect(chk.schemaVersion).toBe(1);
     expect(chk.scopes?.item).toBeDefined();
-    expect(chk.scopes?.item?.filters.length).toBe(1);
+    expect(chk.scopes?.item?.filters.length).toBe(2);
     // verify calls
     expect(getItemDataSpy.calls.count()).toBe(1);
     const [id, opts] = getItemDataSpy.calls.argsFor(0);
@@ -116,7 +116,7 @@ describe("fetchCatalog:", () => {
     // verify response
     expect(chk.schemaVersion).toBe(1);
     expect(chk.scopes?.item).toBeDefined();
-    expect(chk.scopes?.item?.filters.length).toBe(0);
+    expect(chk.scopes?.item?.filters.length).toBe(1);
     // verify calls
     expect(getItemDataSpy.calls.count()).toBe(1);
     const [id, opts] = getItemDataSpy.calls.argsFor(0);

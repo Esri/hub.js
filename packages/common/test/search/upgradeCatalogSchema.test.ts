@@ -5,50 +5,64 @@ describe("upgradeCatalogSchema", () => {
     const chk = upgradeCatalogSchema(null);
     expect(chk.title).toBe("Default Catalog");
     expect(chk.scopes).toBeDefined();
-    expect(chk.scopes?.item?.filters.length).toBe(0);
+    expect(chk.scopes?.item?.filters.length).toBe(1);
+    expect(chk.scopes?.item?.filters[0].predicates[0].type).toEqual({
+      not: ["Code Attachment"],
+    });
   });
 
   it("returns default catalog if passed empty object", () => {
     const chk = upgradeCatalogSchema({});
     expect(chk.title).toBe("Default Catalog");
     expect(chk.scopes).toBeDefined();
-    expect(chk.scopes?.item?.filters.length).toBe(0);
+    expect(chk.scopes?.item?.filters.length).toBe(1);
+    expect(chk.scopes?.item?.filters[0].predicates[0].type).toEqual({
+      not: ["Code Attachment"],
+    });
   });
 
   it("does not return groups if passed empty array", () => {
     const chk = upgradeCatalogSchema({ groups: [] });
     expect(chk.title).toBe("Default Catalog");
     expect(chk.scopes).toBeDefined();
-    expect(chk.scopes?.item?.filters.length).toBe(0);
+    expect(chk.scopes?.item?.filters.length).toBe(1);
+    expect(chk.scopes?.item?.filters[0].predicates[0].type).toEqual({
+      not: ["Code Attachment"],
+    });
   });
 
   it("returns groups if passed a string", () => {
     const chk = upgradeCatalogSchema({ groups: "3ef" });
     expect(chk.title).toBe("Default Catalog");
     expect(chk.scopes).toBeDefined();
-    expect(chk.scopes?.item?.filters.length).toBe(1);
+    expect(chk.scopes?.item?.filters.length).toBe(2);
     expect(chk.scopes?.item?.filters[0].predicates[0].group).toEqual(["3ef"]);
+    expect(chk.scopes?.item?.filters[1].predicates[0].type).toEqual({
+      not: ["Code Attachment"],
+    });
   });
 
   it("returns groups if passed an array", () => {
     const chk = upgradeCatalogSchema({ groups: ["3ef", "bc4"] });
     expect(chk.title).toBe("Default Catalog");
     expect(chk.scopes).toBeDefined();
-    expect(chk.scopes?.item?.filters.length).toBe(1);
+    expect(chk.scopes?.item?.filters.length).toBe(2);
     expect(chk.scopes?.item?.filters[0].predicates[0].group).toEqual([
       "3ef",
       "bc4",
     ]);
+    expect(chk.scopes?.item?.filters[1].predicates[0].type).toEqual({
+      not: ["Code Attachment"],
+    });
   });
 
   it("handles org-level home site legacy catalogs", () => {
     const chk = upgradeCatalogSchema({ orgId: "a3g" });
     expect(chk.title).toBe("Default Catalog");
     expect(chk.scopes).toBeDefined();
-    expect(chk.scopes?.item?.filters.length).toBe(1);
-    expect(chk.scopes?.item?.filters[0].operation).toEqual("AND");
+    expect(chk.scopes?.item?.filters.length).toBe(2);
     expect(chk.scopes?.item?.filters[0].predicates[0].orgid).toEqual(["a3g"]);
-    expect(chk.scopes?.item?.filters[0].predicates[1].type).toEqual({
+    expect(chk.scopes?.item?.filters[1].predicates[0].type).toEqual({
       not: ["Code Attachment"],
     });
   });
