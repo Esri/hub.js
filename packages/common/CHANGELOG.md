@@ -1,3 +1,10 @@
+## @esri/hub-common [14.50.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.50.0...@esri/hub-common@14.50.1) (2023-11-02)
+
+
+### Bug Fixes
+
+* hub:feature:privacy is gated to devext ([#1313](https://github.com/Esri/hub.js/issues/1313)) ([2e1832a](https://github.com/Esri/hub.js/commit/2e1832aba6c8571d6bbaf65d958569a108f0c5b4))
+
 # @esri/hub-common [14.50.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.49.1...@esri/hub-common@14.50.0) (2023-11-01)
 
 
