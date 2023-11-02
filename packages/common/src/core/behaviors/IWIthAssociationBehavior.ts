@@ -1,7 +1,8 @@
+import { HubEntityType } from "../types";
+
 /**
  * Composable behavior that adds permissions to an entity
  */
 export interface IWithAssociationBehavior {
-  requestAssociation(): void;
-  acceptAssociation(): void;
+  requestAssociation(type: HubEntityType, id: string, owner: string): void;
 }

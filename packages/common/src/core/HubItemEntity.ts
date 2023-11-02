@@ -32,12 +32,17 @@ import {
 } from "./behaviors";
 
 import { IWithThumbnailBehavior } from "./behaviors/IWithThumbnailBehavior";
-import { IHubItemEntity, SettableAccessLevel } from "./types";
+import {
+  HubEntity,
+  HubEntityType,
+  IHubItemEntity,
+  SettableAccessLevel,
+} from "./types";
 import { sharedWith } from "./_internal/sharedWith";
 import { IWithDiscussionsBehavior } from "./behaviors/IWithDiscussionsBehavior";
 import { setDiscussableKeyword } from "../discussions";
 import { IWithFollowersBehavior } from "./behaviors/IWithFollowersBehavior";
-import { acceptAssociation, requestAssociation } from "../associations";
+import { requestAssociation } from "../associations/requestAssociation";
 
 const FEATURED_IMAGE_FILENAME = "featuredImage.png";
 
@@ -434,11 +439,13 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
     this.update({ typeKeywords, isDiscussable } as Partial<T>);
   }
 
-  requestAssociation(): void {
-    return requestAssociation();
-  }
-
-  acceptAssociation(): void {
-    return acceptAssociation();
+  requestAssociation(type: HubEntityType, id: string, owner: string): void {
+    return requestAssociation(
+      this.entity as unknown as HubEntity,
+      type,
+      id,
+      owner,
+      this.context
+    );
   }
 }
