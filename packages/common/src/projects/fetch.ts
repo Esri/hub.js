@@ -17,8 +17,6 @@ import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { unique } from "../util";
 import { getProp } from "../objects/get-prop";
-import { listAssociations } from "../associations";
-import { getTypeByIdsQuery } from "../associations/internal/getTypeByIdsQuery";
 import { computeLinks } from "./_internal/computeLinks";
 
 /**
@@ -126,28 +124,4 @@ export async function enrichProjectSearchResult(
   result.links = computeLinks(item, requestOptions);
 
   return result;
-}
-
-/**
- * Get a query that will fetch all the initiatives which the project has
- * chosen to connect to. If project has not defined any associations
- * to any Initiatives, will return `null`.
- * Currently, we have not implemented a means to get the list of initiatives that have
- * "Accepted" the Project via inclusion in it's catalog.
- *
- * If needed, this could be done by getting all the groups the project is shared into
- * then cross-walking that into the catalogs of all the Associated Initiatives
- * @param project
- * @returns
- */
-export function getAssociatedInitiativesQuery(project: IHubProject): IQuery {
-  // get the list of ids from the keywords
-  const ids = listAssociations(project, "initiative").map((a) => a.id);
-  if (ids.length) {
-    // get the query
-    return getTypeByIdsQuery("Hub Initiative", ids);
-  } else {
-    // if there are no
-    return null;
-  }
 }

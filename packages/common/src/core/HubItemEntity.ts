@@ -37,10 +37,7 @@ import { sharedWith } from "./_internal/sharedWith";
 import { IWithDiscussionsBehavior } from "./behaviors/IWithDiscussionsBehavior";
 import { setDiscussableKeyword } from "../discussions";
 import { IWithFollowersBehavior } from "./behaviors/IWithFollowersBehavior";
-import { AssociationType, IAssociationInfo } from "../associations/types";
-import { listAssociations } from "../associations/listAssociations";
-import { addAssociation } from "../associations/addAssociation";
-import { removeAssociation } from "../associations/removeAssociation";
+import { acceptAssociation, requestAssociation } from "../associations";
 
 const FEATURED_IMAGE_FILENAME = "featuredImage.png";
 
@@ -437,31 +434,11 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
     this.update({ typeKeywords, isDiscussable } as Partial<T>);
   }
 
-  /**
-   * Return a list of IAssociationInfo objects representing
-   * the associations this entity has, to the specified type
-   * @param type
-   * @returns
-   */
-  listAssociations(type: AssociationType): IAssociationInfo[] {
-    return listAssociations(this.entity, type);
+  requestAssociation(): void {
+    return requestAssociation();
   }
 
-  /**
-   * Add an association to this entity
-   * @param info
-   * @returns
-   */
-  addAssociation(info: IAssociationInfo): void {
-    return addAssociation(this.entity, info);
-  }
-
-  /**
-   * Remove an association from this entity
-   * @param info
-   * @returns
-   */
-  removeAssociation(info: IAssociationInfo): void {
-    return removeAssociation(this.entity, info);
+  acceptAssociation(): void {
+    return acceptAssociation();
   }
 }

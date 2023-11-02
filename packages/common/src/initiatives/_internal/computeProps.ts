@@ -58,8 +58,15 @@ export function computeProps(
    * pull the (potential) association group id out of the
    * association query
    */
-  const associationGroupPredicate = getGroupPredicate(getProp(model.data, "associations.query"))
-  associationGroupPredicate && setProp("associations.group", getProp(associationGroupPredicate, "group"), initiative);
+  const associationGroupPredicate = getGroupPredicate(
+    getProp(model.data, "associations.query")
+  );
+  associationGroupPredicate &&
+    setProp(
+      "associations.group",
+      getProp(associationGroupPredicate, "group.any[0]"),
+      initiative
+    );
 
   // cast b/c this takes a partial but returns a full object
   return initiative as IHubInitiative;
