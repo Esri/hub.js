@@ -5,6 +5,7 @@ export * from "./schemas";
 export * from "./fetchHubEntity";
 export * from "./getEntityDefaultWorkspacePane";
 export * from "./getTypeFromEntity";
+export * from "./getTypesFromEntityType";
 export * from "./getRelativeWorkspaceUrl";
 export * from "./isValidEntityType";
 export * from "./processActionLinks";
