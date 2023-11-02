@@ -136,7 +136,7 @@ export const buildUiSchema = async (
             options: {
               control: "hub-field-input-combobox",
               items: await getTagItems(
-                options,
+                options.tags,
                 context.portal.id,
                 context.hubRequestOptions
               ),
@@ -172,7 +172,7 @@ export const buildUiSchema = async (
             options: {
               control: "hub-field-input-location-picker",
               extent: await getLocationExtent(
-                options,
+                options.location,
                 context.hubRequestOptions
               ),
               options: await getLocationOptions(

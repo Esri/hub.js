@@ -1,4 +1,5 @@
 import { IHubProject, IHubRequestOptions } from "../../../../src";
+import { IHubLocation } from "../../../../src/core/types";
 import { getLocationExtent } from "../../../../src/core/schemas/internal/getLocationExtent";
 import * as ExtentModule from "../../../../src/extent";
 
@@ -26,7 +27,10 @@ describe("getLocationExtent", () => {
         ],
       },
     } as unknown as IHubProject;
-    const chk = await getLocationExtent(entity, {} as IHubRequestOptions);
+    const chk = await getLocationExtent(
+      entity.location as IHubLocation,
+      {} as IHubRequestOptions
+    );
     expect(chk).toEqual({
       xmin: -170,
       ymin: -80,
@@ -41,7 +45,10 @@ describe("getLocationExtent", () => {
     const entity: IHubProject = {
       location: {},
     } as unknown as IHubProject;
-    const chk = await getLocationExtent(entity, {} as IHubRequestOptions);
+    const chk = await getLocationExtent(
+      entity.location as IHubLocation,
+      {} as IHubRequestOptions
+    );
     expect(chk).toEqual({
       xmin: -180,
       ymin: -90,
@@ -54,7 +61,10 @@ describe("getLocationExtent", () => {
   });
   it("return org extent if location undefined", async () => {
     const entity: IHubProject = {} as unknown as IHubProject;
-    const chk = await getLocationExtent(entity, {} as IHubRequestOptions);
+    const chk = await getLocationExtent(
+      entity.location as IHubLocation,
+      {} as IHubRequestOptions
+    );
     expect(chk).toEqual({
       xmin: -180,
       ymin: -90,

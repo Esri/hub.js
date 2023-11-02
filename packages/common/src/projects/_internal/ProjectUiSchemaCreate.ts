@@ -115,7 +115,7 @@ export const buildUiSchema = async (
                     options: {
                       control: "hub-field-input-location-picker",
                       extent: await getLocationExtent(
-                        options,
+                        options.location,
                         context.hubRequestOptions
                       ),
                       options: await getLocationOptions(
