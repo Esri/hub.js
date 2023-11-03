@@ -12,6 +12,7 @@ import { IHubDiscussion } from "../../src/core/types/IHubDiscussion";
 import { cloneObject } from "../../src/util";
 import * as settingUtils from "../../src/discussions/api/settings/settings";
 import * as getDefaultEntitySettingsUtils from "../../src/discussions/api/settings/getDefaultEntitySettings";
+import * as terraformer from "../../src/utils/internal/arcgisToGeoJson";
 
 // TODO: update
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
@@ -289,6 +290,168 @@ describe("discussions edit:", () => {
       const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
       expect(modelToUpdate.item.description).toBe(prj.description);
       expect(modelToUpdate.item.properties.slug).toBe("dcdev-wat-blarg-1");
+    });
+    describe("allowedLocations", () => {
+      it("processes locations and persists them to settings", async () => {
+        const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
+          Promise.resolve("dcdev-wat-blarg-1")
+        );
+        const getModelSpy = spyOn(modelUtils, "getModel").and.returnValue(
+          Promise.resolve(DISCUSSION_MODEL)
+        );
+        const updateModelSpy = spyOn(modelUtils, "updateModel").and.callFake(
+          (m: IModel) => {
+            return Promise.resolve(m);
+          }
+        );
+        const arcgisToGeoJSONSpy = spyOn(
+          terraformer,
+          "arcgisToGeoJSON"
+        ).and.returnValue({ type: "Point", coordinates: [0, 0] });
+        const updateSettingsSpy = spyOn(
+          settingUtils,
+          "updateSetting"
+        ).and.returnValue(
+          Promise.resolve({
+            id: GUID,
+            ...DEFAULT_SETTINGS,
+          })
+        );
+        const prj: IHubDiscussion = {
+          itemControl: "edit",
+          id: GUID,
+          name: "Hello World",
+          tags: ["Transportation"],
+          description: "Some longer description",
+          slug: "dcdev-wat-blarg",
+          orgUrlKey: "dcdev",
+          owner: "dcdev_dude",
+          type: "Discussion",
+          createdDate: new Date(1595878748000),
+          createdDateSource: "item.created",
+          updatedDate: new Date(1595878750000),
+          updatedDateSource: "item.modified",
+          thumbnailUrl: "",
+          permissions: [],
+          schemaVersion: 1,
+          canEdit: false,
+          canDelete: false,
+          typeKeywords: [],
+          entitySettingsId: "an id",
+          location: {
+            type: "custom",
+            geometries: [{ x: 0, y: 0 } as any],
+          },
+        };
+        const chk = await updateDiscussion(prj, { authentication: MOCK_AUTH });
+        expect(chk.id).toBe(GUID);
+        expect(chk.name).toBe("Hello World");
+        expect(chk.description).toBe("Some longer description");
+        expect(chk.entitySettingsId).toBe(GUID);
+        expect(chk.discussionSettings).toEqual(
+          DEFAULT_SETTINGS.settings?.discussions
+        );
+        // should ensure unique slug
+        expect(slugSpy.calls.count()).toBe(1);
+        expect(slugSpy.calls.argsFor(0)[0]).toEqual(
+          { slug: "dcdev-wat-blarg", existingId: GUID },
+          "should receive slug"
+        );
+        expect(getModelSpy.calls.count()).toBe(1);
+        expect(updateModelSpy.calls.count()).toBe(1);
+        expect(updateSettingsSpy.calls.count()).toBe(1);
+        const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
+        expect(modelToUpdate.item.description).toBe(prj.description);
+        expect(modelToUpdate.item.properties.slug).toBe("dcdev-wat-blarg-1");
+        // should transform location and persist to settings
+        expect(arcgisToGeoJSONSpy.calls.count()).toBe(1);
+        const settingsToUpdate = updateSettingsSpy.calls.argsFor(0)[0];
+        expect(
+          settingsToUpdate.data.settings.discussions.allowedLocations
+        ).toEqual([{ type: "Point", coordinates: [0, 0] }]);
+      });
+      it("processes locations and handles error if thrown", async () => {
+        const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
+          Promise.resolve("dcdev-wat-blarg-1")
+        );
+        const getModelSpy = spyOn(modelUtils, "getModel").and.returnValue(
+          Promise.resolve(DISCUSSION_MODEL)
+        );
+        const updateModelSpy = spyOn(modelUtils, "updateModel").and.callFake(
+          (m: IModel) => {
+            return Promise.resolve(m);
+          }
+        );
+        const arcgisToGeoJSONSpy = spyOn(
+          terraformer,
+          "arcgisToGeoJSON"
+        ).and.throwError("error message");
+        const consoleWarnSpy = spyOn(console, "warn").and.callFake(() => {
+          return;
+        });
+        const updateSettingsSpy = spyOn(
+          settingUtils,
+          "updateSetting"
+        ).and.returnValue(
+          Promise.resolve({
+            id: GUID,
+            ...DEFAULT_SETTINGS,
+          })
+        );
+        const prj: IHubDiscussion = {
+          itemControl: "edit",
+          id: GUID,
+          name: "Hello World",
+          tags: ["Transportation"],
+          description: "Some longer description",
+          slug: "dcdev-wat-blarg",
+          orgUrlKey: "dcdev",
+          owner: "dcdev_dude",
+          type: "Discussion",
+          createdDate: new Date(1595878748000),
+          createdDateSource: "item.created",
+          updatedDate: new Date(1595878750000),
+          updatedDateSource: "item.modified",
+          thumbnailUrl: "",
+          permissions: [],
+          schemaVersion: 1,
+          canEdit: false,
+          canDelete: false,
+          typeKeywords: [],
+          entitySettingsId: "an id",
+          location: {
+            type: "custom",
+            geometries: [{ x: 0, y: 0 } as any],
+          },
+        };
+        const chk = await updateDiscussion(prj, { authentication: MOCK_AUTH });
+        expect(chk.id).toBe(GUID);
+        expect(chk.name).toBe("Hello World");
+        expect(chk.description).toBe("Some longer description");
+        expect(chk.entitySettingsId).toBe(GUID);
+        expect(chk.discussionSettings).toEqual(
+          DEFAULT_SETTINGS.settings?.discussions
+        );
+        // should ensure unique slug
+        expect(slugSpy.calls.count()).toBe(1);
+        expect(slugSpy.calls.argsFor(0)[0]).toEqual(
+          { slug: "dcdev-wat-blarg", existingId: GUID },
+          "should receive slug"
+        );
+        expect(getModelSpy.calls.count()).toBe(1);
+        expect(updateModelSpy.calls.count()).toBe(1);
+        expect(updateSettingsSpy.calls.count()).toBe(1);
+        const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
+        expect(modelToUpdate.item.description).toBe(prj.description);
+        expect(modelToUpdate.item.properties.slug).toBe("dcdev-wat-blarg-1");
+        // should transform location and persist to settings
+        expect(arcgisToGeoJSONSpy.calls.count()).toBe(1);
+        const settingsToUpdate = updateSettingsSpy.calls.argsFor(0)[0];
+        expect(
+          settingsToUpdate.data.settings.discussions.allowedLocations
+        ).toEqual(null);
+        expect(consoleWarnSpy.calls.count()).toBe(1);
+      });
     });
   });
 });

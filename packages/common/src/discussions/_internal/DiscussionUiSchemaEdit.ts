@@ -165,6 +165,11 @@ export const buildUiSchema = async (
       {
         type: "Section",
         labelKey: `${i18nScope}.sections.location.label`,
+        options: {
+          helperText: {
+            labelKey: `${i18nScope}.sections.location.helperText`,
+          },
+        },
         elements: [
           {
             scope: "/properties/location",
@@ -180,6 +185,7 @@ export const buildUiSchema = async (
                 context.portal.name,
                 context.hubRequestOptions
               ),
+              mapTools: ["polygon", "rectangle"],
             },
           },
         ],

@@ -16,6 +16,7 @@ import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { setDiscussableKeyword } from "./utils";
 import { IHubRequestOptions, IModel } from "../types";
 import { cloneObject } from "../util";
+import { arcgisToGeoJSON } from "../utils/internal/arcgisToGeoJson";
 
 /**
  * @private
@@ -126,13 +127,33 @@ export async function updateDiscussion(
   let updatedDiscussion = mapper.storeToEntity(updatedModel, discussion);
   updatedDiscussion = computeProps(model, updatedDiscussion, requestOptions);
 
+  // persist location geometries to discussion settings as Geometry[]
+  let allowedLocations;
+  try {
+    allowedLocations =
+      updatedDiscussion.location?.geometries?.map((geometry) =>
+        arcgisToGeoJSON(geometry)
+      ) || null;
+  } catch (e) {
+    if (e instanceof Error) {
+      allowedLocations = null;
+      /* tslint:disable no-console */
+      console.warn("Esri JSON conversion failed:", e.message);
+    } else {
+      // nothing
+    }
+  }
+
   // create or update entity settings
   const defaultSettings = getDefaultEntitySettings("discussion");
   const settings = {
     ...defaultSettings.settings,
     discussions: {
       ...defaultSettings.settings.discussions,
-      ...updatedDiscussion.discussionSettings,
+      ...{
+        ...updatedDiscussion.discussionSettings,
+        allowedLocations,
+      },
     },
   };
   const newOrUpdatedSettings = updatedDiscussion.entitySettingsId
