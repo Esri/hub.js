@@ -2,6 +2,7 @@ import { IUser } from "@esri/arcgis-rest-types";
 import { getFamilyTypes } from "../content/get-family";
 import { HubFamily } from "../types";
 import { EntityType, IHubCatalog, IHubCollection } from "./types";
+import { buildCatalog } from "./_internal/buildCatalog";
 
 /**
  * This is used to determine what IHubCatalog definition JSON object
@@ -70,49 +71,6 @@ export function getWellKnownCatalog(
     default:
       throw new Error(`Wellknown catalog not implemented for "${entityType}"`);
   }
-}
-
-/**
- * Build an IHubCatalog definition JSON object based on the
- * catalog name, predicates and collections we want to use for each catalog
- * @param i18nScope
- * @param catalogName
- * @param predicates Predicates for the catalog
- * @param collections Collections to include for the catalog
- * @returns An IHubCatalog definition JSON object
- */
-function buildCatalog(
-  i18nScope: string,
-  catalogName: WellKnownCatalog,
-  predicates: any[],
-  collections: IHubCollection[],
-  entityType: EntityType
-): IHubCatalog {
-  let scopes;
-  switch (entityType) {
-    case "item":
-      scopes = {
-        item: {
-          targetEntity: "item" as EntityType,
-          filters: [{ predicates }],
-        },
-      };
-      break;
-    case "group":
-      scopes = {
-        group: {
-          targetEntity: "group" as EntityType,
-          filters: [{ predicates }],
-        },
-      };
-      break;
-  }
-  return {
-    schemaVersion: 1,
-    title: `{{${i18nScope}catalog.${catalogName}:translate}}`,
-    scopes,
-    collections,
-  };
 }
 
 /**
@@ -369,6 +327,24 @@ function getAllCollectionsMap(i18nScope: string, entityType: EntityType): any {
         ],
       },
     } as IHubCollection,
+    initiative: {
+      key: "initiative",
+      label: `{{${i18nScope}collection.initiatives:translate}}`,
+      targetEntity: entityType,
+      include: [],
+      scope: {
+        targetEntity: entityType,
+        filters: [
+          {
+            predicates: [
+              {
+                type: getFamilyTypes("initiative"),
+              },
+            ],
+          },
+        ],
+      },
+    },
   };
 }
 
