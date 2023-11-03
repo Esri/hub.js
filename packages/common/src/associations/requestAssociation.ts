@@ -7,13 +7,13 @@ import { isAssociationSupported } from "./internal/isAssociationSupported";
 import { setAssociationKeyword } from "./internal/setAssociationKeyword";
 import { getProp } from "../objects";
 
-export const requestAssociation = (
+export const requestAssociation = async (
   entity: HubEntity,
   type: HubEntityType,
   id: string,
-  owner: string,
-  context: IArcGISContext
-) => {
+  owner?: string,
+  context?: IArcGISContext
+): Promise<void> => {
   const entityType = getTypeFromEntity(entity);
   const isSupported = isAssociationSupported(entityType, type);
 
