@@ -4,11 +4,10 @@ import {
   IArcGISContext,
   IHubProject,
 } from "../../../../src";
-import { IWithViewSettings } from "../../../../src/core/traits/IWithViewSettings";
 import { MOCK_AUTH } from "../../../mocks/mock-auth";
-import { getFeaturedImageUrl } from "../../../../src/core/schemas/internal/getFeaturedImageUrl";
+import { getAuthedImageUrl } from "../../../../src/core/schemas/internal/getAuthedImageUrl";
 
-describe("getFeaturedImageUrl:", () => {
+describe("getAuthedImageUrl:", () => {
   let authdCtxMgr: ArcGISContextManager;
   beforeEach(async () => {
     // When we pass in all this information, the context
@@ -40,8 +39,8 @@ describe("getFeaturedImageUrl:", () => {
       },
     } as unknown as IHubProject;
 
-    const url = getFeaturedImageUrl(
-      entity.view as IWithViewSettings,
+    const url = getAuthedImageUrl(
+      entity.view?.featuredImageUrl as string,
       authdCtxMgr.context
     );
     expect(url?.includes("token=fake-token")).toBeTruthy();
@@ -55,8 +54,8 @@ describe("getFeaturedImageUrl:", () => {
       },
     } as unknown as IHubProject;
 
-    const url = getFeaturedImageUrl(
-      entity.view as IWithViewSettings,
+    const url = getAuthedImageUrl(
+      entity.view?.featuredImageUrl as string,
       {
         isAuthenticated: false,
       } as unknown as IArcGISContext
@@ -66,8 +65,8 @@ describe("getFeaturedImageUrl:", () => {
   });
   it("returns undefined if a featured image url is not defined on the entity", () => {
     const entity = {} as IHubProject;
-    const url = getFeaturedImageUrl(
-      entity.view as IWithViewSettings,
+    const url = getAuthedImageUrl(
+      entity.view?.featuredImageUrl as string,
       {
         isAuthenticated: false,
       } as IArcGISContext

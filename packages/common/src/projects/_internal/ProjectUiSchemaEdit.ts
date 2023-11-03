@@ -2,7 +2,7 @@ import { IArcGISContext } from "../../ArcGISContext";
 import { IUiSchema } from "../../core/schemas/types";
 import { getCategoryItems } from "../../core/schemas/internal/getCategoryItems";
 import { getFeaturedContentCatalogs } from "../../core/schemas/internal/getFeaturedContentCatalogs";
-import { getFeaturedImageUrl } from "../../core/schemas/internal/getFeaturedImageUrl";
+import { getAuthedImageUrl } from "../../core/schemas/internal/getAuthedImageUrl";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
@@ -87,7 +87,10 @@ export const buildUiSchema = async (
             type: "Control",
             options: {
               control: "hub-field-input-image-picker",
-              imgSrc: getFeaturedImageUrl(options.view, context),
+              imgSrc: getAuthedImageUrl(
+                options.view?.featuredImageUrl,
+                context
+              ),
               maxWidth: 727,
               maxHeight: 484,
               aspectRatio: 1.5,
