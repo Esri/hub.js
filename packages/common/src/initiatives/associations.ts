@@ -5,11 +5,8 @@ import { getPendingEntitiesQuery } from "../associations/getPendingEntitiesQuery
 import { getRequestingEntitiesQuery } from "../associations/getRequestingEntitiesQuery";
 import { getAssociatedEntitiesQuery } from "../associations/getAssociatedEntitiesQuery";
 import { requestAssociation } from "../associations/requestAssociation";
+import { breakAssociation } from "../associations/breakAssociation";
 
-export interface IHubInitiativeAssociation {
-  entity: IHubInitiative;
-  type: "project"; // as
-}
 /**
  * Associated projects are those that identify with the initiative
  * via a typeKeyword (initiative|:id) AND are included in the
@@ -72,16 +69,14 @@ export async function getRequestingProjectsQuery(
  *
  * @param initiative initiative entity requesting association
  * @param projectId id of the project the intiative is requesting association with
- * @param projectOwner owner of the project the initiative is requesting association with
  * @param context
  */
 export async function requestProjectAssociation(
   initiative: IHubInitiative,
   projectId: string,
-  projectOwner: string,
   context: IArcGISContext
 ): Promise<void> {
-  requestAssociation(initiative, "project", projectId, projectOwner, context);
+  await requestAssociation(initiative, "project", projectId, context);
 }
 
 /**
@@ -94,14 +89,27 @@ export async function requestProjectAssociation(
  *
  * @param initiative initiative entity requesting association
  * @param projectId id of the project the intiative is requesting association with
- * @param projectOwner owner of the project the initiative is requesting association with
  * @param context
  */
 export async function acceptProjectAssociation(
   initiative: IHubInitiative,
   projectId: string,
-  projectOwner: string,
   context: IArcGISContext
 ): Promise<void> {
-  requestAssociation(initiative, "project", projectId, projectOwner, context);
+  await requestAssociation(initiative, "project", projectId, context);
+}
+
+/**
+ * When an initiative decides it wants to "disconnect" itself from
+ * a project, it removes the project from its association group
+ *
+ * @param initiative initiative initiating the disconnection
+ * @param initiativeId id of the project the initiative wants to disconnect from
+ */
+export async function breatkProjectAssociation(
+  initiative: IHubInitiative,
+  projectId: string,
+  context: IArcGISContext
+): Promise<void> {
+  await breakAssociation(initiative, "project", projectId, context);
 }

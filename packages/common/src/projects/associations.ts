@@ -5,6 +5,7 @@ import { getPendingEntitiesQuery } from "../associations/getPendingEntitiesQuery
 import { getRequestingEntitiesQuery } from "../associations/getRequestingEntitiesQuery";
 import { getAssociatedEntitiesQuery } from "../associations/getAssociatedEntitiesQuery";
 import { requestAssociation } from "../associations/requestAssociation";
+import { breakAssociation } from "../associations/breakAssociation";
 
 /**
  * Associated Initiatives are those that include the project
@@ -75,9 +76,10 @@ export async function getRequestingInitiativesQuery(
  */
 export async function requestInitiativeAssociation(
   project: IHubProject,
-  initiativeId: string
+  initiativeId: string,
+  context: IArcGISContext
 ): Promise<void> {
-  return requestAssociation(project, "initiative", initiativeId);
+  await requestAssociation(project, "initiative", initiativeId, context);
 }
 
 /**
@@ -94,7 +96,24 @@ export async function requestInitiativeAssociation(
  */
 export async function acceptInitiativeAssociation(
   project: IHubProject,
-  initiativeId: string
+  initiativeId: string,
+  context: IArcGISContext
 ): Promise<void> {
-  return requestAssociation(project, "initiative", initiativeId);
+  await requestAssociation(project, "initiative", initiativeId, context);
+}
+
+/**
+ * When a project decides it wants to "disconnect" itself from
+ * an initiative, it removes the initiative identifier (initiative|:id)
+ * from its typeKeywords
+ *
+ * @param project project initiating the disconnection
+ * @param initiativeId id of the initiative the project wants to disconnect from
+ */
+export async function breakInitiativeAssociation(
+  project: IHubProject,
+  initiativeId: string,
+  context: IArcGISContext
+): Promise<void> {
+  await breakAssociation(project, "initiative", initiativeId, context);
 }
