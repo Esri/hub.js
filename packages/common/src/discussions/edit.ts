@@ -135,12 +135,13 @@ export async function updateDiscussion(
         arcgisToGeoJSON(geometry)
       ) || null;
   } catch (e) {
+    /* istanbul ignore else */
     if (e instanceof Error) {
       allowedLocations = null;
       /* tslint:disable no-console */
       console.warn("Esri JSON conversion failed:", e.message);
     } else {
-      // nothing
+      // do nothing
     }
   }
 
