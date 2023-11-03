@@ -10,6 +10,16 @@ import { getTypeByIdsQuery } from "./getTypeByIdsQuery";
 import { getTypeFromEntity } from "../../core/getTypeFromEntity";
 import { getIdsFromTypekeywords } from "./getIdsFromTypekeywords";
 
+/**
+ * builds a query that will return entities that are
+ * "included" AND "identified"
+ *
+ * @param entity Hub entity
+ * @param associationType entity type to query for
+ * @param isParent whether the entity is the parent in the association
+ * @param context
+ * @returns
+ */
 export const getIncludesAndIdentifiesQuery = async (
   entity: HubEntity,
   associationType: HubEntityType,

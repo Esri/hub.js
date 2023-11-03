@@ -11,6 +11,16 @@ import { getTypeByIdsQuery } from "./getTypeByIdsQuery";
 import { getTypeFromEntity } from "../../core/getTypeFromEntity";
 import { getIdsFromTypekeywords } from "./getIdsFromTypekeywords";
 
+/**
+ * builds a query that will return entities that are
+ * "identified" but NOT "included".
+ *
+ * @param entity Hub entity
+ * @param associationType entity type to query for
+ * @param isParent whether the entity is the parent in the association
+ * @param context
+ * @returns {IQuery}
+ */
 export const getIdentifiesDoesNotIncludeQuery = async (
   entity: HubEntity,
   associationType: HubEntityType,
