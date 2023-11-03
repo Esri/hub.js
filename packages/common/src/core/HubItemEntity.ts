@@ -439,16 +439,11 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
     this.update({ typeKeywords, isDiscussable } as Partial<T>);
   }
 
-  requestAssociation(
-    type: HubEntityType,
-    id: string,
-    owner: string
-  ): Promise<void> {
-    return requestAssociation(
+  async requestAssociation(type: HubEntityType, id: string): Promise<void> {
+    await requestAssociation(
       this.entity as unknown as HubEntity,
       type,
       id,
-      owner,
       this.context
     );
   }
