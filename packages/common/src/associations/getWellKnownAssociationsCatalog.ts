@@ -38,7 +38,7 @@ export type WellKnownAssociationCatalog =
  * @param context
  * @returns {IHubCatalog}
  */
-export async function getWellKnownAssociationCatalog(
+export async function getWellKnownAssociationsCatalog(
   i18nScope: string,
   catalogName: WellKnownAssociationCatalog,
   entity: HubEntity,
@@ -94,7 +94,7 @@ export async function getWellKnownAssociationCatalog(
     );
   } else {
     throw new Error(
-      `getWellKnownAssociationCatalog: Association between ${entityType} and ${associationType} is not supported.`
+      `getWellKnownAssociationsCatalog: Association between ${entityType} and ${associationType} is not supported.`
     );
   }
   return catalog;

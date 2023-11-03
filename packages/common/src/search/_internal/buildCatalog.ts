@@ -1,4 +1,4 @@
-import { WellKnownAssociationCatalog } from "../../associations/getWellKnownAssociationCatalog";
+import { WellKnownAssociationCatalog } from "../../associations/getWellKnownAssociationsCatalog";
 import { EntityType, IHubCatalog, IHubCollection } from "../types";
 import { WellKnownCatalog } from "../wellKnownCatalog";
 
