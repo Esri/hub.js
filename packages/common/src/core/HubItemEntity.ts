@@ -439,7 +439,11 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
     this.update({ typeKeywords, isDiscussable } as Partial<T>);
   }
 
-  requestAssociation(type: HubEntityType, id: string, owner: string): void {
+  requestAssociation(
+    type: HubEntityType,
+    id: string,
+    owner: string
+  ): Promise<void> {
     return requestAssociation(
       this.entity as unknown as HubEntity,
       type,
