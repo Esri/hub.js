@@ -4,7 +4,7 @@ import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { getSharableGroupsComboBoxItems } from "../../core/schemas/internal/getSharableGroupsComboBoxItems";
-import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
+import { IHubProject } from "../../core/types";
 
 /**
  * @private
@@ -14,7 +14,7 @@ import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
  */
 export const buildUiSchema = async (
   i18nScope: string,
-  options: EntityEditorOptions,
+  options: Partial<IHubProject>,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
   return {

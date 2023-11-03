@@ -5,7 +5,7 @@ import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { IUiSchema } from "../../core/schemas/types";
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
-import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
+import { IHubEditableContent } from "../../core/types";
 
 /**
  * @private
@@ -15,7 +15,7 @@ import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
  */
 export const buildUiSchema = async (
   i18nScope: string,
-  options: EntityEditorOptions,
+  options: Partial<IHubEditableContent>,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
   return {
