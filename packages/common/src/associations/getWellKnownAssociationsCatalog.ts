@@ -11,7 +11,7 @@ import {
 } from "../search";
 import { buildCatalog } from "../search/_internal/buildCatalog";
 import { getEntityTypeFromType } from "../search/_internal/getEntityTypeFromType";
-import { getAssociatedEntityQuery } from "./getAssociatedEntityQuery";
+import { getAssociatedEntitiesQuery } from "./getAssociatedEntitiesQuery";
 import { getPendingEntityQuery } from "./getPendingEntityQuery";
 import { getRequestAssociationQuery } from "./getRequestAssociationQuery";
 import { getRequestingEntityQuery } from "./getRequestingEntityQuery";
@@ -63,7 +63,7 @@ export async function getWellKnownAssociationsCatalog(
     let query: IQuery;
     switch (catalogName) {
       case "associated":
-        query = await getAssociatedEntityQuery(
+        query = await getAssociatedEntitiesQuery(
           entity,
           associationType,
           context

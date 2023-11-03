@@ -22,7 +22,7 @@ import { IArcGISContext } from "../ArcGISContext";
  * @param context
  * @returns {IQuery}
  */
-export const getAssociatedEntityQuery = async (
+export const getAssociatedEntitiesQuery = async (
   entity: HubEntity,
   associationType: HubEntityType,
   context: IArcGISContext
@@ -43,7 +43,7 @@ export const getAssociatedEntityQuery = async (
     );
   } else {
     throw new Error(
-      `getAssociatedEntityQuery: Association between ${entityType} and ${associationType} is not supported.`
+      `getAssociatedEntitiesQuery: Association between ${entityType} and ${associationType} is not supported.`
     );
   }
 

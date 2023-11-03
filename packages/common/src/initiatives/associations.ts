@@ -3,7 +3,7 @@ import { IQuery } from "../search/types";
 import { IArcGISContext } from "../ArcGISContext";
 import { getPendingEntityQuery } from "../associations/getPendingEntityQuery";
 import { getRequestingEntityQuery } from "../associations/getRequestingEntityQuery";
-import { getAssociatedEntityQuery } from "../associations/getAssociatedEntityQuery";
+import { getAssociatedEntitiesQuery } from "../associations/getAssociatedEntitiesQuery";
 import { requestAssociation } from "../associations/requestAssociation";
 
 export interface IHubInitiativeAssociation {
@@ -24,7 +24,7 @@ export async function getAssociatedProjectsQuery(
   initiative: IHubInitiative,
   context: IArcGISContext
 ): Promise<IQuery> {
-  return getAssociatedEntityQuery(initiative, "project", context);
+  return getAssociatedEntitiesQuery(initiative, "project", context);
 }
 
 /**
