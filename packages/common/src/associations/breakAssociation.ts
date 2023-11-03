@@ -1,6 +1,6 @@
 import { unshareItemWithGroup } from "@esri/arcgis-rest-portal";
 import { IArcGISContext } from "../ArcGISContext";
-import { getTypeFromEntity } from "../core";
+import { fetchHubEntity, getTypeFromEntity } from "../core";
 import { HubEntity, HubEntityType } from "../core/types";
 import { getAssociationHierarchy } from "./internal/getAssociationHierarchy";
 import { isAssociationSupported } from "./internal/isAssociationSupported";
@@ -40,10 +40,12 @@ export const breakAssociation = async (
 
     if (isParent) {
       const associationGroupId = getProp(entity, "associations.group");
+      const { owner } = await fetchHubEntity(type, id, context);
       await unshareItemWithGroup({
         id,
         groupId: associationGroupId,
         authentication: context.session,
+        owner,
       });
     } else {
       entity.typeKeywords = removeAssociationKeyword(
