@@ -7,6 +7,23 @@ import { isAssociationSupported } from "./internal/isAssociationSupported";
 import { setAssociationKeyword } from "./internal/setAssociationKeyword";
 import { getProp } from "../objects";
 
+/**
+ * When an entity sends an "outgoing" request or accepts an
+ * "incoming" request, half of the association "connection"
+ * is made.
+ *
+ * from the parent's perspective: the parent "includes"
+ * the child in its association query
+ *
+ * From the child's perspective: the child "identifies"
+ * with the parent via a typeKeyword (parent|:id)
+ *
+ * @param entity
+ * @param type
+ * @param id
+ * @param owner
+ * @param context
+ */
 export const requestAssociation = async (
   entity: HubEntity,
   type: HubEntityType,
