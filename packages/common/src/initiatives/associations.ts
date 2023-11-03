@@ -1,10 +1,10 @@
-import { getIncludesAndIdentifiesQuery } from "../associations/internal/getIncludesAndIdentifiesQuery";
 import { IHubInitiative } from "../core/types";
 import { IQuery } from "../search/types";
 import { IArcGISContext } from "../ArcGISContext";
 import { getPendingEntityQuery } from "../associations/getPendingEntityQuery";
 import { getRequestingEntityQuery } from "../associations/getRequestingEntityQuery";
 import { getAssociatedEntityQuery } from "../associations/getAssociatedEntityQuery";
+import { requestAssociation } from "../associations/requestAssociation";
 
 export interface IHubInitiativeAssociation {
   entity: IHubInitiative;
@@ -63,4 +63,45 @@ export async function getRequestingProjectsQuery(
   context: IArcGISContext
 ): Promise<IQuery> {
   return getRequestingEntityQuery(initiative, "project", context);
+}
+
+/**
+ * When an initiative sends an "outgoing" request to associate
+ * with a project, it "includes" the project in its association
+ * group
+ *
+ * @param initiative initiative entity requesting association
+ * @param projectId id of the project the intiative is requesting association with
+ * @param projectOwner owner of the project the initiative is requesting association with
+ * @param context
+ */
+export async function requestProjectAssociation(
+  initiative: IHubInitiative,
+  projectId: string,
+  projectOwner: string,
+  context: IArcGISContext
+): Promise<void> {
+  requestAssociation(initiative, "project", projectId, projectOwner, context);
+}
+
+/**
+ * When an initiative accpets an "incoming" request to associate
+ * with a project, it "includes" the project in its association
+ * group
+ *
+ * Note: this function is identical to "requestProjectAssociation".
+ * We expose it under a new name for clarity purposes
+ *
+ * @param initiative initiative entity requesting association
+ * @param projectId id of the project the intiative is requesting association with
+ * @param projectOwner owner of the project the initiative is requesting association with
+ * @param context
+ */
+export async function acceptProjectAssociation(
+  initiative: IHubInitiative,
+  projectId: string,
+  projectOwner: string,
+  context: IArcGISContext
+): Promise<void> {
+  requestAssociation(initiative, "project", projectId, projectOwner, context);
 }
