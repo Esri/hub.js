@@ -1,7 +1,6 @@
 import { IArcGISContext } from "../ArcGISContext";
 import { getTypeFromEntity } from "../core";
 import { HubEntity, HubEntityType } from "../core/types";
-import { getProp } from "../objects";
 import {
   IHubCatalog,
   IQuery,
@@ -84,7 +83,10 @@ export async function getWellKnownAssociationsCatalog(
         break;
     }
 
-    const predicates = getProp(query, "filters[0].predicates");
+    const predicates = query.filters.reduce((acc: any[], filter) => {
+      const filterPredicates = filter.predicates;
+      return [...acc, ...filterPredicates];
+    }, []);
     catalog = buildCatalog(
       i18nScope,
       catalogName,
