@@ -17,7 +17,7 @@ import {
   IPredicate,
   IQuery,
 } from "../types";
-import { getNextFunction } from "../utils";
+import { getItemQueryWithDefaultPredicates, getNextFunction } from "../utils";
 import { convertPortalAggregations } from "./portalSearchUtils";
 import { expandPredicate } from "./expandPredicate";
 import HubError from "../../HubError";
@@ -25,7 +25,6 @@ import { enrichContentSearchResult } from "../../content/search";
 import { cloneObject } from "../../util";
 import { getWellknownCollection } from "../wellKnownCatalog";
 import { getProp } from "../../objects";
-import { getItemQueryWithDefaultPredicates } from "./commonHelpers/getItemQueryWithDefaultPredicates";
 
 /**
  * @internal
