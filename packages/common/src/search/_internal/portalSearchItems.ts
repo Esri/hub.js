@@ -25,6 +25,7 @@ import { enrichContentSearchResult } from "../../content/search";
 import { cloneObject } from "../../util";
 import { getWellknownCollection } from "../wellKnownCatalog";
 import { getProp } from "../../objects";
+import { getItemQueryWithDefaultPredicates } from "./commonHelpers/getItemQueryWithDefaultPredicates";
 
 /**
  * @internal
@@ -37,7 +38,8 @@ export async function portalSearchItems(
   query: IQuery,
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
-  const so = processSearchParams(options, query);
+  const queryWithDefaultPredicates = getItemQueryWithDefaultPredicates(query);
+  const so = processSearchParams(options, queryWithDefaultPredicates);
   return searchPortalAsHubSearchResult(so);
 }
 
