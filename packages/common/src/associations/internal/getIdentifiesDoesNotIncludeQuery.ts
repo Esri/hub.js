@@ -10,6 +10,7 @@ import { IArcGISContext } from "../../ArcGISContext";
 import { getTypeByIdsQuery } from "./getTypeByIdsQuery";
 import { getTypeFromEntity } from "../../core/getTypeFromEntity";
 import { getIdsFromTypekeywords } from "./getIdsFromTypekeywords";
+import { getIdsFromAssociationGroups } from "./getIdsFromAssociationGroups";
 
 /**
  * builds a query that will return entities that are
@@ -66,19 +67,9 @@ export const getIdentifiesDoesNotIncludeQuery = async (
      * typeKeyword = "parentIdentifier|:id") and grab parent ids
      */
     const parentIdentifier = associationType;
-    const parentIdsThatIncludeChild = groupsChildIsSharedWith.reduce(
-      (ids: string[], group: IGroup) => {
-        const associationTypeKeyword = group.typeKeywords.find(
-          (keyword: string) => keyword.startsWith(`${parentIdentifier}|`)
-        );
-
-        if (associationTypeKeyword) {
-          const id = associationTypeKeyword.split("|")[1];
-          ids.push(id);
-        }
-        return ids;
-      },
-      []
+    const parentIdsThatIncludeChild = getIdsFromAssociationGroups(
+      groupsChildIsSharedWith,
+      parentIdentifier
     );
 
     /**
