@@ -3,8 +3,13 @@ import { ProjectAssociationHierarchies } from "../../projects/_internal/ProjectA
 import { InitiativeAssociationHierarchies } from "../../initiatives/_internal/InitiativeAssociationHierarchies";
 
 /**
- * given an entity type, get the parent and children
- * entity types that it can associate with
+ * associations are hierarchical in nature, e.g.
+ * there is always a parent and a child involved
+ * in the relationship.
+ *
+ * given an entity type, this util returns the
+ * parent and children entity types that it can
+ * associate with
  *
  * @param type entity type
  * @returns {IHubAssociationHierarchy}
