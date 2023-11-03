@@ -91,6 +91,10 @@ export const getIdentifiesDoesNotIncludeQuery = async (
 
     /** 5. return a query for the filtered parent ids */
     const type = getTypesFromEntityType(associationType);
+    // TODO: this is hacky - find another way
+    if (!parentIds.length) {
+      parentIds.push("not-an-id");
+    }
     return getTypeByIdsQuery(type, parentIds);
   }
 };
