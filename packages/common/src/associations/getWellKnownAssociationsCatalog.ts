@@ -14,7 +14,7 @@ import { getEntityTypeFromType } from "../search/_internal/getEntityTypeFromType
 import { getAssociatedEntitiesQuery } from "./getAssociatedEntitiesQuery";
 import { getPendingEntitiesQuery } from "./getPendingEntitiesQuery";
 import { getRequestAssociationQuery } from "./getRequestAssociationQuery";
-import { getRequestingEntityQuery } from "./getRequestingEntityQuery";
+import { getRequestingEntitiesQuery } from "./getRequestingEntitiesQuery";
 import { isAssociationSupported } from "./internal/isAssociationSupported";
 
 /**
@@ -73,7 +73,7 @@ export async function getWellKnownAssociationsCatalog(
         query = await getPendingEntitiesQuery(entity, associationType, context);
         break;
       case "requesting":
-        query = await getRequestingEntityQuery(
+        query = await getRequestingEntitiesQuery(
           entity,
           associationType,
           context

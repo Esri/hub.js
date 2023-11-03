@@ -49,7 +49,7 @@ export const getRequestAssociationQuery = (
     }
   } else {
     throw new Error(
-      `getPendingEntitiesQuery: Association between ${entityType} and ${associationType} is not supported.`
+      `getRequestAssociationQuery: Association between ${entityType} and ${associationType} is not supported.`
     );
   }
 
