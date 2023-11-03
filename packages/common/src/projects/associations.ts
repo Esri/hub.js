@@ -4,6 +4,7 @@ import { IArcGISContext } from "../ArcGISContext";
 import { getPendingEntityQuery } from "../associations/getPendingEntityQuery";
 import { getRequestingEntityQuery } from "../associations/getRequestingEntityQuery";
 import { getAssociatedEntityQuery } from "../associations/getAssociatedEntityQuery";
+import { requestAssociation } from "../associations/requestAssociation";
 
 /**
  * Associated Initiatives are those that include the project
@@ -12,7 +13,8 @@ import { getAssociatedEntityQuery } from "../associations/getAssociatedEntityQue
  *
  * This query can be passed into the Gallery to show initiatives
  * that are fully "associated" (two-way handshake) with a project
- * @param initiative
+ * @param project
+ * @param context
  * @returns {IQuery}
  */
 export async function getAssociatedInitiativesQuery(
@@ -31,7 +33,8 @@ export async function getAssociatedInitiativesQuery(
  * Initiatives - those which the project has requested to be
  * associated with, but the initiative has not yet accepted.
  *
- * @param initiative
+ * @param project project entity
+ * @param context
  * @returns {IQuery}
  */
 export async function getPendingInitiativesQuery(
@@ -42,15 +45,16 @@ export async function getPendingInitiativesQuery(
 }
 
 /**
- * Requesting Projects are those that identify with the initiative
- * via a typeKeyword (initiative|:id) but are NOT included in the
- * intiative's association query
+ * Requesting Initiatives are those which include the project
+ * in their association query but are NOT identified via a
+ * typeKeyword (initiative|:id) by the project
  *
  * This query can be passed into the Gallery to show "Requesting"
- * Projects - those which have requested to be associated with
- * the initiative, but have not yet been accepted.
+ * Initiatives - those which have requested to be associated with
+ * the Project, but have not yet been accepted.
  *
- * @param initiative
+ * @param project project entity
+ * @param context
  * @returns {IQuery}
  */
 export async function getRequestingInitiativesQuery(
@@ -58,4 +62,39 @@ export async function getRequestingInitiativesQuery(
   context: IArcGISContext
 ): Promise<IQuery> {
   return getRequestingEntityQuery(project, "initiative", context);
+}
+
+/**
+ * When a project sends an "outgoing" request to associate
+ * with an initiative, it "identifies" with the initiative
+ * via a typeKeyword (initiative|:id)
+ *
+ * @param project project entity requesting association
+ * @param initiativeId id of the initiative the project is requesting association with
+ * @param context
+ */
+export async function requestInitiativeAssociation(
+  project: IHubProject,
+  initiativeId: string
+): Promise<void> {
+  return requestAssociation(project, "initiative", initiativeId);
+}
+
+/**
+ * When a project accepts an "incoming" request to associate
+ * with an initiative, it "identifies" with the initiative
+ * via a typeKeyword (initiative|:id)
+ *
+ * Note: this function is identical to "requestInitiativeAssociation".
+ * We expose it under a new name for clarity purposes
+ *
+ * @param project project entity requesting association
+ * @param initiativeId id of the initiative the project is requesting association with
+ * @param context
+ */
+export async function acceptInitiativeAssociation(
+  project: IHubProject,
+  initiativeId: string
+): Promise<void> {
+  return requestAssociation(project, "initiative", initiativeId);
 }
