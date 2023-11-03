@@ -1,7 +1,7 @@
 import { IHubInitiative } from "../core/types";
 import { IQuery } from "../search/types";
 import { IArcGISContext } from "../ArcGISContext";
-import { getPendingEntityQuery } from "../associations/getPendingEntityQuery";
+import { getPendingEntitiesQuery } from "../associations/getPendingEntitiesQuery";
 import { getRequestingEntityQuery } from "../associations/getRequestingEntityQuery";
 import { getAssociatedEntitiesQuery } from "../associations/getAssociatedEntitiesQuery";
 import { requestAssociation } from "../associations/requestAssociation";
@@ -43,7 +43,7 @@ export async function getPendingProjectsQuery(
   initiative: IHubInitiative,
   context: IArcGISContext
 ): Promise<IQuery> {
-  return getPendingEntityQuery(initiative, "project", context);
+  return getPendingEntitiesQuery(initiative, "project", context);
 }
 
 /**

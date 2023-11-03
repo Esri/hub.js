@@ -12,7 +12,7 @@ import {
 import { buildCatalog } from "../search/_internal/buildCatalog";
 import { getEntityTypeFromType } from "../search/_internal/getEntityTypeFromType";
 import { getAssociatedEntitiesQuery } from "./getAssociatedEntitiesQuery";
-import { getPendingEntityQuery } from "./getPendingEntityQuery";
+import { getPendingEntitiesQuery } from "./getPendingEntitiesQuery";
 import { getRequestAssociationQuery } from "./getRequestAssociationQuery";
 import { getRequestingEntityQuery } from "./getRequestingEntityQuery";
 import { isAssociationSupported } from "./internal/isAssociationSupported";
@@ -70,7 +70,7 @@ export async function getWellKnownAssociationsCatalog(
         );
         break;
       case "pending":
-        query = await getPendingEntityQuery(entity, associationType, context);
+        query = await getPendingEntitiesQuery(entity, associationType, context);
         break;
       case "requesting":
         query = await getRequestingEntityQuery(
