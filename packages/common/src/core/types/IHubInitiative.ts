@@ -11,6 +11,15 @@ export interface IHubInitiative
     IWithSlug,
     IWithCatalog,
     IWithMetrics,
-    IWithPermissions {}
+    IWithPermissions {
+  status: INITIATIVE_STATUSES;
+}
+
+export enum INITIATIVE_STATUSES {
+  notStarted = "notStarted",
+  inProgress = "inProgress",
+  onHold = "onHold",
+  complete = "complete",
+}
 
 export type IHubInitiativeEditor = IHubItemEntityEditor<IHubInitiative> & {};
