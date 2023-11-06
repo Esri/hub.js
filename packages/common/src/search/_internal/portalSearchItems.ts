@@ -17,7 +17,7 @@ import {
   IPredicate,
   IQuery,
 } from "../types";
-import { getItemQueryWithDefaultPredicates, getNextFunction } from "../utils";
+import { addDefaultItemSearchPredicates, getNextFunction } from "../utils";
 import { convertPortalAggregations } from "./portalSearchUtils";
 import { expandPredicate } from "./expandPredicate";
 import HubError from "../../HubError";
@@ -37,7 +37,7 @@ export async function portalSearchItems(
   query: IQuery,
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
-  const queryWithDefaultPredicates = getItemQueryWithDefaultPredicates(query);
+  const queryWithDefaultPredicates = addDefaultItemSearchPredicates(query);
   const so = processSearchParams(options, queryWithDefaultPredicates);
   return searchPortalAsHubSearchResult(so);
 }
