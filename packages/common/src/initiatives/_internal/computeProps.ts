@@ -58,9 +58,9 @@ export function computeProps(
    * pull the (potential) association group id out of the
    * association query
    */
-  const associationGroupPredicate = getGroupPredicate(
-    getProp(model.data, "associations.query")
-  );
+  const associationsQuery = getProp(model.data, "associations.query");
+  const associationGroupPredicate =
+    associationsQuery && getGroupPredicate(associationsQuery);
   associationGroupPredicate &&
     setProp(
       "associations.group",

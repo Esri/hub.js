@@ -83,7 +83,7 @@ export async function getWellKnownAssociationsCatalog(
         break;
     }
 
-    const predicates = query.filters.reduce((acc: any[], filter) => {
+    const predicates = query?.filters?.reduce((acc: any[], filter) => {
       const filterPredicates = filter.predicates;
       return [...acc, ...filterPredicates];
     }, []);
