@@ -43,6 +43,7 @@ import { IWithDiscussionsBehavior } from "./behaviors/IWithDiscussionsBehavior";
 import { setDiscussableKeyword } from "../discussions";
 import { IWithFollowersBehavior } from "./behaviors/IWithFollowersBehavior";
 import { requestAssociation } from "../associations/requestAssociation";
+import { breakAssociation } from "../associations/breakAssociation";
 
 const FEATURED_IMAGE_FILENAME = "featuredImage.png";
 
@@ -57,7 +58,8 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
     IWithFeaturedImageBehavior,
     IWithPermissionBehavior,
     IWithDiscussionsBehavior,
-    IWithFollowersBehavior
+    IWithFollowersBehavior,
+    IWithAssociationBehavior
 {
   protected context: IArcGISContext;
   protected entity: T;
@@ -436,5 +438,76 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
       isDiscussable
     );
     this.update({ typeKeywords, isDiscussable } as Partial<T>);
+  }
+
+  /**
+   * When an entity sends an "outgoing" request, half of the
+   * association "connection" is made.
+   *
+   * From the parent's perspective: the parent "includes"
+   * the child in its association group
+   *
+   * From the child's perspective: the child "identifies"
+   * with the parent via a typeKeyword (parent|:id)
+   *
+   * @param type type of the entity the requesting entity wants to associate with
+   * @param id id of the entity the requesting entity wants to associate with
+   */
+  async requestAssociation(type: HubEntityType, id: string): Promise<void> {
+    await requestAssociation(
+      this.entity as unknown as HubEntity,
+      type,
+      id,
+      this.context
+    );
+  }
+
+  /**
+   * When an entity accpets an "incoming" request, half of
+   * the association "connection" is made.
+   *
+   * From the parent's perspective: the parent "includes"
+   * the child in its association group
+   *
+   * From the child's perspective: the child "identifies"
+   * with the parent via a typeKeyword (parent|:id)
+   *
+   * Note: this function is identical to "requestAssociation";
+   * however, we expose it under a new name for clarity purposes
+   *
+   * @param type type of the entity the requesting entity wants to accept association with
+   * @param id id of the entity the requesting entity wants to accept association with
+   */
+  async acceptAssociation(type: HubEntityType, id: string): Promise<void> {
+    await requestAssociation(
+      this.entity as unknown as HubEntity,
+      type,
+      id,
+      this.context
+    );
+  }
+
+  /**
+   * When an entity decides it wants to "disconnect" itself
+   * from an existing association, half ot he association
+   * "connection" is broken.
+   *
+   * From the parent's perspective: the parent removes
+   * the child from its association group
+   *
+   * From the child's perspective: the child removes
+   * the parent identifier (parent|:id) from its
+   * typeKeywords
+   *
+   * @param type type of the entity the requesting entity wants to break association with
+   * @param id id of the entity the requesting entity wants to break association with
+   */
+  async breakAssociation(type: HubEntityType, id: string): Promise<void> {
+    await breakAssociation(
+      this.entity as unknown as HubEntity,
+      type,
+      id,
+      this.context
+    );
   }
 }
