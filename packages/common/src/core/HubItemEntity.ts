@@ -58,9 +58,9 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
     IWithFeaturedImageBehavior,
     IWithPermissionBehavior,
     IWithDiscussionsBehavior,
-    IWithFollowersBehavior,
-    IWithAssociationBehavior
+    IWithFollowersBehavior
 {
+  // IWithAssociationBehavior
   protected context: IArcGISContext;
   protected entity: T;
   protected isDestroyed: boolean = false;
@@ -453,14 +453,14 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
    * @param type type of the entity the requesting entity wants to associate with
    * @param id id of the entity the requesting entity wants to associate with
    */
-  async requestAssociation(type: HubEntityType, id: string): Promise<void> {
-    await requestAssociation(
-      this.entity as unknown as HubEntity,
-      type,
-      id,
-      this.context
-    );
-  }
+  // async requestAssociation(type: HubEntityType, id: string): Promise<void> {
+  //   await requestAssociation(
+  //     this.entity as any,
+  //     type,
+  //     id,
+  //     this.context
+  //   );
+  // }
 
   /**
    * When an entity accpets an "incoming" request, half of
@@ -478,14 +478,14 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
    * @param type type of the entity the requesting entity wants to accept association with
    * @param id id of the entity the requesting entity wants to accept association with
    */
-  async acceptAssociation(type: HubEntityType, id: string): Promise<void> {
-    await requestAssociation(
-      this.entity as unknown as HubEntity,
-      type,
-      id,
-      this.context
-    );
-  }
+  // async acceptAssociation(type: HubEntityType, id: string): Promise<void> {
+  //   await requestAssociation(
+  //     this.entity as any,
+  //     type,
+  //     id,
+  //     this.context
+  //   );
+  // }
 
   /**
    * When an entity decides it wants to "disconnect" itself
@@ -502,12 +502,12 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
    * @param type type of the entity the requesting entity wants to break association with
    * @param id id of the entity the requesting entity wants to break association with
    */
-  async breakAssociation(type: HubEntityType, id: string): Promise<void> {
-    await breakAssociation(
-      this.entity as unknown as HubEntity,
-      type,
-      id,
-      this.context
-    );
-  }
+  // async breakAssociation(type: HubEntityType, id: string): Promise<void> {
+  //   await breakAssociation(
+  //     this.entity as unknown as HubEntity,
+  //     type,
+  //     id,
+  //     this.context
+  //   );
+  // }
 }
