@@ -1,3 +1,10 @@
+# @esri/hub-common [14.51.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.50.1...@esri/hub-common@14.51.0) (2023-11-06)
+
+
+### Features
+
+* **hub-common:** add default predicate for portal search ([#1315](https://github.com/Esri/hub.js/issues/1315)) ([6a42e63](https://github.com/Esri/hub.js/commit/6a42e63eb854c502cbb6b55ccb3b98c07b3934d5))
+
 ## @esri/hub-common [14.50.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.50.0...@esri/hub-common@14.50.1) (2023-11-02)
 
 
