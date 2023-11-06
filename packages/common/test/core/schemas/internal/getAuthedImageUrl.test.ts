@@ -5,9 +5,9 @@ import {
   IHubProject,
 } from "../../../../src";
 import { MOCK_AUTH } from "../../../mocks/mock-auth";
-import { getFeaturedImageUrl } from "../../../../src/core/schemas/internal/getFeaturedImageUrl";
+import { getAuthedImageUrl } from "../../../../src/core/schemas/internal/getAuthedImageUrl";
 
-describe("getFeaturedImageUrl:", () => {
+describe("getAuthedImageUrl:", () => {
   let authdCtxMgr: ArcGISContextManager;
   beforeEach(async () => {
     // When we pass in all this information, the context
@@ -39,9 +39,12 @@ describe("getFeaturedImageUrl:", () => {
       },
     } as unknown as IHubProject;
 
-    const url = getFeaturedImageUrl(entity, authdCtxMgr.context);
-    expect(url.includes("token=fake-token")).toBeTruthy();
-    expect(url.includes("v=")).toBeTruthy();
+    const url = getAuthedImageUrl(
+      entity.view?.featuredImageUrl as string,
+      authdCtxMgr.context
+    );
+    expect(url?.includes("token=fake-token")).toBeTruthy();
+    expect(url?.includes("v=")).toBeTruthy();
   });
   it("skips token if not authd", () => {
     const entity = {
@@ -51,17 +54,23 @@ describe("getFeaturedImageUrl:", () => {
       },
     } as unknown as IHubProject;
 
-    const url = getFeaturedImageUrl(entity, {
-      isAuthenticated: false,
-    } as unknown as IArcGISContext);
-    expect(url.includes("token=fake-token")).toBeFalsy();
-    expect(url.includes("v=")).toBeTruthy();
+    const url = getAuthedImageUrl(
+      entity.view?.featuredImageUrl as string,
+      {
+        isAuthenticated: false,
+      } as unknown as IArcGISContext
+    );
+    expect(url?.includes("token=fake-token")).toBeFalsy();
+    expect(url?.includes("v=")).toBeTruthy();
   });
   it("returns undefined if a featured image url is not defined on the entity", () => {
     const entity = {} as IHubProject;
-    const url = getFeaturedImageUrl(entity, {
-      isAuthenticated: false,
-    } as IArcGISContext);
+    const url = getAuthedImageUrl(
+      entity.view?.featuredImageUrl as string,
+      {
+        isAuthenticated: false,
+      } as IArcGISContext
+    );
 
     expect(url).toBeUndefined();
   });

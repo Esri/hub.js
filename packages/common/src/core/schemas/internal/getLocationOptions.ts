@@ -1,7 +1,6 @@
 import { extentToBBox, orgExtent as orgExtent } from "../../../extent";
 import { IHubRequestOptions } from "../../../types";
 import { getTypeFromEntity } from "../../getTypeFromEntity";
-import { EntityEditorOptions } from "./EditorOptions";
 import { IHubLocation, IHubLocationOption } from "../../types/IHubLocation";
 import { IExtent } from "@esri/arcgis-rest-types";
 
@@ -18,12 +17,13 @@ import { IExtent } from "@esri/arcgis-rest-types";
  * location
  */
 export async function getLocationOptions(
-  options: EntityEditorOptions,
+  id: string,
+  type: string,
+  location: IHubLocation,
   portalName: string,
   hubRequestOptions: IHubRequestOptions
 ): Promise<IHubLocationOption[]> {
   const defaultExtent: IExtent = await orgExtent(hubRequestOptions);
-  const location: IHubLocation = options.location;
 
   // Base options
   const optionsArray = [
@@ -43,7 +43,7 @@ export async function getLocationOptions(
     {
       label: "{{shared.fields.location.custom:translate}}",
       description: "{{shared.fields.location.customDescription:translate}}",
-      entityType: getTypeFromEntity(options),
+      entityType: getTypeFromEntity({ type }),
       location: {
         type: "custom",
         spatialReference: defaultExtent.spatialReference,
@@ -60,9 +60,9 @@ export async function getLocationOptions(
 
   return optionsArray.map((option) => {
     // If this is a new entity, select the custom option by default
-    if (!options.id && option.location.type === "custom") {
+    if (!id && option.location.type === "custom") {
       option.selected = true;
-    } else if (options.id && !location && option.location.type === "none") {
+    } else if (id && !location && option.location.type === "none") {
       option.selected = true;
     } else if (location?.type === option.location.type) {
       option.location = location;

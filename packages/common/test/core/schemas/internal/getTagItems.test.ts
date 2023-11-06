@@ -14,7 +14,7 @@ describe("getTagItems:", () => {
     } as IHubProject;
     const orgId = "some-org-id";
     const ro = {} as IHubRequestOptions;
-    const chk = await getTagItems(entity, orgId, ro);
+    const chk = await getTagItems(entity.tags, orgId, ro);
     expect(searchSpy).toHaveBeenCalled();
     // include tags from the item
     expect(chk.find((e) => e.value === "a")).toBeTruthy();
@@ -30,7 +30,7 @@ describe("getTagItems:", () => {
     const entity = {} as IHubProject;
     const orgId = "some-org-id";
     const ro = {} as IHubRequestOptions;
-    const chk = await getTagItems(entity, orgId, ro);
+    const chk = await getTagItems(entity.tags, orgId, ro);
     expect(searchSpy).toHaveBeenCalled();
     // include tags from the item
     expect(chk.find((e) => e.value === "a")).toBeFalsy();
@@ -45,7 +45,7 @@ describe("getTagItems:", () => {
     const orgId = "some-org-id";
     const ro = {} as IHubRequestOptions;
 
-    const chk = await getTagItems(entity, orgId, ro);
+    const chk = await getTagItems(entity.tags, orgId, ro);
     expect(chk).toEqual([]);
   });
 });

@@ -5,7 +5,7 @@ import { getCategoryItems } from "../../core/schemas/internal/getCategoryItems";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
-import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
+import { IHubPage } from "../../core/types";
 
 /**
  * @private
@@ -15,7 +15,7 @@ import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
  */
 export const buildUiSchema = async (
   i18nScope: string,
-  options: EntityEditorOptions,
+  options: Partial<IHubPage>,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
   return {
@@ -79,7 +79,11 @@ export const buildUiSchema = async (
               },
             },
           },
-          getThumbnailUiSchemaElement(i18nScope, options),
+          getThumbnailUiSchemaElement(
+            i18nScope,
+            options.thumbnail,
+            options.thumbnailUrl
+          ),
           {
             labelKey: `${i18nScope}.fields.tags.label`,
             scope: "/properties/tags",
@@ -87,7 +91,7 @@ export const buildUiSchema = async (
             options: {
               control: "hub-field-input-combobox",
               items: await getTagItems(
-                options,
+                options.tags,
                 context.portal.id,
                 context.hubRequestOptions
               ),
@@ -132,11 +136,13 @@ export const buildUiSchema = async (
             options: {
               control: "hub-field-input-location-picker",
               extent: await getLocationExtent(
-                options,
+                options.location,
                 context.hubRequestOptions
               ),
               options: await getLocationOptions(
-                options,
+                options.id,
+                options.type,
+                options.location,
                 context.portal.name,
                 context.hubRequestOptions
               ),

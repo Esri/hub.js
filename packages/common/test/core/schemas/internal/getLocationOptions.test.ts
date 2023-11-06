@@ -1,4 +1,5 @@
 import { IHubProject, IHubRequestOptions } from "../../../../src";
+import { IHubLocation } from "../../../../src/core/types";
 import { getLocationOptions } from "../../../../src/core/schemas/internal/getLocationOptions";
 import * as ExtentModule from "../../../../src/extent";
 
@@ -18,16 +19,18 @@ describe("getLocationOptions:", () => {
     );
   });
   it("custom is selected", async () => {
-    const entity: IHubProject = {
+    const entity = {
       id: "00c",
       type: "Hub Project",
       location: {
         type: "custom",
-      },
-    } as IHubProject;
+      } as IHubLocation,
+    };
 
     const chk = await getLocationOptions(
-      entity,
+      entity.id,
+      entity.type,
+      entity.location,
       "portalName",
       {} as IHubRequestOptions
     );
@@ -42,7 +45,9 @@ describe("getLocationOptions:", () => {
     } as IHubProject;
 
     const chk = await getLocationOptions(
-      entity,
+      entity.id,
+      entity.type,
+      entity.location as unknown as IHubLocation,
       "portalName",
       {} as IHubRequestOptions
     );
@@ -51,16 +56,18 @@ describe("getLocationOptions:", () => {
     expect(chk[0].selected).toBe(true);
   });
   it("org is selected", async () => {
-    const entity: IHubProject = {
+    const entity = {
       id: "00c",
       type: "Hub Project",
       location: {
         type: "org",
-      },
-    } as IHubProject;
+      } as IHubLocation,
+    };
 
     const chk = await getLocationOptions(
-      entity,
+      entity.id,
+      entity.type,
+      entity.location,
       "portalName",
       {} as IHubRequestOptions
     );
@@ -69,15 +76,17 @@ describe("getLocationOptions:", () => {
     expect(chk[1].selected).toBe(true);
   });
   it("custom is selected if entity does not have an id", async () => {
-    const entity: IHubProject = {
+    const entity = {
       type: "Hub Project",
       location: {
         type: "org",
-      },
-    } as IHubProject;
+      } as IHubLocation,
+    };
 
     const chk = await getLocationOptions(
-      entity,
+      undefined as unknown as any,
+      entity.type,
+      entity.location,
       "portalName",
       {} as IHubRequestOptions
     );
