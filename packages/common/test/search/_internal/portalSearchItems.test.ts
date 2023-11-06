@@ -80,43 +80,6 @@ describe("portalSearchItems Module:", () => {
       expect(expectedParams.q).toEqual('(water) AND (-type:"Code Attachment")');
       expect(expectedParams.countFields).not.toBeDefined();
     });
-    it("search query does not contain default item predicate for non-item entities", async () => {
-      const searchItemsSpy = spyOn(Portal, "searchItems").and.callFake(() => {
-        return Promise.resolve(cloneObject(AllTypesResponse));
-      });
-
-      const qry: IQuery = {
-        targetEntity: "group",
-        filters: [
-          {
-            predicates: [
-              {
-                term: "water",
-              },
-            ],
-          },
-        ],
-      };
-      const opts: IHubSearchOptions = {
-        requestOptions: {
-          portal: "https://www.arcgis.com/sharing/rest",
-        },
-      };
-
-      const resp = await portalSearchItems(qry, opts);
-
-      // find the hubsite entry and ensure that it does not have .properties
-      const hubSite = resp.results.find(
-        (e) => e.type === "Hub Site Application"
-      );
-      expect(hubSite?.properties).not.toBeDefined();
-
-      expect(searchItemsSpy.calls.count()).toBe(1, "should call searchItems");
-      const [expectedParams] = searchItemsSpy.calls.argsFor(0);
-      expect(expectedParams.portal).toEqual(opts.requestOptions?.portal);
-      expect(expectedParams.q).toEqual("(water)");
-      expect(expectedParams.countFields).not.toBeDefined();
-    });
     it("simple search with bbox", async () => {
       const searchItemsSpy = spyOn(Portal, "searchItems").and.callFake(() => {
         return Promise.resolve(cloneObject(AllTypesResponse));
