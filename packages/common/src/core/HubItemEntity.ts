@@ -57,8 +57,7 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
     IWithFeaturedImageBehavior,
     IWithPermissionBehavior,
     IWithDiscussionsBehavior,
-    IWithFollowersBehavior,
-    IWithAssociationBehavior
+    IWithFollowersBehavior
 {
   protected context: IArcGISContext;
   protected entity: T;
@@ -437,14 +436,5 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
       isDiscussable
     );
     this.update({ typeKeywords, isDiscussable } as Partial<T>);
-  }
-
-  async requestAssociation(type: HubEntityType, id: string): Promise<void> {
-    await requestAssociation(
-      this.entity as unknown as HubEntity,
-      type,
-      id,
-      this.context
-    );
   }
 }
