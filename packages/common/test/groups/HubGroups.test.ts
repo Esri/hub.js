@@ -210,7 +210,7 @@ describe("HubGroups Module:", () => {
       // to the updateGroup call
       expect(
         portalUpdateGroupSpy.calls.argsFor(0)[0].group.membershipAccess
-      ).toBe(null);
+      ).toBe("");
       expect(
         portalUpdateGroupSpy.calls.argsFor(0)[0].params.clearEmptyFields
       ).toBeTruthy();
