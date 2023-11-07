@@ -5,7 +5,7 @@ import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as modelUtils from "../../src/models";
 import * as slugUtils from "../../src/items/slugs";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IHubRequestOptions, IModel } from "../../src/types";
+import { HubEntityStatus, IHubRequestOptions, IModel } from "../../src/types";
 import {
   createInitiative,
   enrichInitiativeSearchResult,
@@ -251,12 +251,19 @@ describe("HubInitiatives:", () => {
           slug: "dcdev|hello-world", // important for coverage
           description: "my desc",
           orgUrlKey: "dcdev",
+          status: HubEntityStatus.inProgress,
         },
         { authentication: MOCK_AUTH }
       );
       expect(chk.id).toBe(GUID);
       expect(chk.name).toBe("Hello World");
       expect(chk.description).toBe("my desc");
+      expect(chk.typeKeywords).toEqual([
+        "Hub Initiative",
+        "slug|dcdev|hello-world",
+        "status|inProgress",
+        "cannotDiscuss",
+      ]);
       // should ensure unique slug
       expect(slugSpy.calls.count()).toBe(1);
       expect(slugSpy.calls.argsFor(0)[0]).toEqual(
@@ -291,6 +298,7 @@ describe("HubInitiatives:", () => {
         tags: ["Transportation"],
         description: "Some longer description",
         slug: "dcdev-wat-blarg",
+        status: HubEntityStatus.notStarted,
         orgUrlKey: "dcdev",
         owner: "dcdev_dude",
         type: "Hub Initiative",

@@ -49,7 +49,7 @@ import { getTypeWithKeywordQuery } from "../associations/internal/getTypeWithKey
 import { negateGroupPredicates } from "../search/_internal/negateGroupPredicates";
 import { computeLinks } from "./_internal/computeLinks";
 import { getHubRelativeUrl } from "../content/_internal/internalContentUtils";
-import { setStatusKeyword } from "./_internal/setStatusKeyword";
+import { setStatusKeyword } from "../utils/internal/setStatusKeyword";
 
 /**
  * @private

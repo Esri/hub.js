@@ -1,8 +1,12 @@
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
-import { checkPermission, IHubItemEntity, Permission } from "../../src";
+import {
+  checkPermission,
+  IHubItemEntity,
+  IPermissionPolicy,
+  Permission,
+} from "../../src";
 import { MOCK_AUTH } from "../mocks/mock-auth";
-import { IPermissionPolicy } from "../../dist/types/permissions/types/IPermissionPolicy";
 import * as GetPolicyModule from "../../src/permissions/HubPermissionPolicies";
 import * as IsPermissionModule from "../../src/permissions/types/Permission";
 // In order to have stable tests over time, we define some policies just

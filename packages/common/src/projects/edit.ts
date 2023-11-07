@@ -13,10 +13,10 @@ import { IHubProject, IHubProjectEditor } from "../core/types";
 import { DEFAULT_PROJECT, DEFAULT_PROJECT_MODEL } from "./defaults";
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
-import { setStatusKeyword } from "./_internal/setStatusKeyword";
 import { cloneObject } from "../util";
 import { setDiscussableKeyword } from "../discussions";
 import { IModel } from "../types";
+import { setStatusKeyword } from "../utils/internal/setStatusKeyword";
 
 /**
  * @private
