@@ -1,3 +1,4 @@
+import { HubEntityStatus } from "../../types";
 import { IWithSlug, IWithPermissions, IWithCatalog } from "../traits";
 import { IWithMetrics } from "../traits/IWithMetrics";
 import { IHubItemEntity, IHubItemEntityEditor } from "./IHubItemEntity";
@@ -12,14 +13,7 @@ export interface IHubInitiative
     IWithCatalog,
     IWithMetrics,
     IWithPermissions {
-  status: INITIATIVE_STATUSES;
-}
-
-export enum INITIATIVE_STATUSES {
-  notStarted = "notStarted",
-  inProgress = "inProgress",
-  onHold = "onHold",
-  complete = "complete",
+  status: HubEntityStatus;
 }
 
 export type IHubInitiativeEditor = IHubItemEntityEditor<IHubInitiative> & {};

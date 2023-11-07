@@ -1,10 +1,10 @@
 import { HubEntityStatus } from "../../types";
 
 /**
- * adds/updates the project status typekeyword and returns
+ * adds/updates the initiative status typekeyword and returns
  * a new array of typekeywords
- * @param typeKeywords project's current typekeywords
- * @param status project status
+ * @param typeKeywords initiative's current typekeywords
+ * @param status initiative status
  */
 export function setStatusKeyword(
   typeKeywords: string[],

@@ -1,3 +1,4 @@
+import { HubEntityStatus } from "../../types";
 import { IWithMetrics } from "../traits/IWithMetrics";
 import {
   IWithLayout,
@@ -17,14 +18,7 @@ export interface IHubProject
     IWithLayout,
     IWithMetrics,
     IWithPermissions {
-  status: PROJECT_STATUSES;
-}
-
-export enum PROJECT_STATUSES {
-  notStarted = "notStarted",
-  inProgress = "inProgress",
-  onHold = "onHold",
-  complete = "complete",
+  status: HubEntityStatus;
 }
 
 /**

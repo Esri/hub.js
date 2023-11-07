@@ -1239,6 +1239,16 @@ export const addCreateItemTypes: Record<string, IFileType> = {
     typeKeywords: ["Insights", "Insights Workbook Package"],
   },
 };
+
+/**
+ * ENUM which defines entity statuses
+ */
+export enum HubEntityStatus {
+  notStarted = "notStarted",
+  inProgress = "inProgress",
+  onHold = "onHold",
+  complete = "complete",
+}
 /**
  * END CONTENT UPLOAD TYPES/ENUMS
  */

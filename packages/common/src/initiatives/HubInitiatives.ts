@@ -49,6 +49,7 @@ import { getTypeWithKeywordQuery } from "../associations/internal/getTypeWithKey
 import { negateGroupPredicates } from "../search/_internal/negateGroupPredicates";
 import { computeLinks } from "./_internal/computeLinks";
 import { getHubRelativeUrl } from "../content/_internal/internalContentUtils";
+import { setStatusKeyword } from "./_internal/setStatusKeyword";
 
 /**
  * @private
@@ -80,6 +81,11 @@ export async function createInitiative(
   initiative.typeKeywords = setSlugKeyword(
     initiative.typeKeywords,
     initiative.slug
+  );
+  // add the status keyword
+  initiative.typeKeywords = setStatusKeyword(
+    initiative.typeKeywords,
+    initiative.status
   );
   initiative.typeKeywords = setDiscussableKeyword(
     initiative.typeKeywords,
@@ -117,6 +123,11 @@ export async function updateInitiative(
   initiative.slug = await getUniqueSlug(
     { slug: initiative.slug, existingId: initiative.id },
     requestOptions
+  );
+  // update the status keyword
+  initiative.typeKeywords = setStatusKeyword(
+    initiative.typeKeywords,
+    initiative.status
   );
   initiative.typeKeywords = setDiscussableKeyword(
     initiative.typeKeywords,

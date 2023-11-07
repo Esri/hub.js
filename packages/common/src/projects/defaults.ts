@@ -1,6 +1,6 @@
-import { IHubProject, PROJECT_STATUSES } from "../core";
+import { IHubProject } from "../core";
 import { InitiativeDefaultFeatures } from "../initiatives/_internal/InitiativeBusinessRules";
-import { IModel } from "../types";
+import { IModel, HubEntityStatus } from "../types";
 
 export const HUB_PROJECT_ITEM_TYPE = "Hub Project";
 
@@ -12,7 +12,7 @@ export const DEFAULT_PROJECT: Partial<IHubProject> = {
   name: "",
   permissions: [],
   schemaVersion: 1,
-  status: PROJECT_STATUSES.notStarted,
+  status: HubEntityStatus.notStarted,
   tags: [],
   typeKeywords: [HUB_PROJECT_ITEM_TYPE],
   view: {
@@ -43,7 +43,7 @@ export const DEFAULT_PROJECT_MODEL: IModel = {
   data: {
     display: "about",
     permissions: [],
-    status: PROJECT_STATUSES.notStarted,
+    status: HubEntityStatus.notStarted,
     view: {
       contacts: [],
       featuredContentIds: [],
