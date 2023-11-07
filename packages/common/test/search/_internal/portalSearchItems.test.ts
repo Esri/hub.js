@@ -76,7 +76,8 @@ describe("portalSearchItems Module:", () => {
       expect(searchItemsSpy.calls.count()).toBe(1, "should call searchItems");
       const [expectedParams] = searchItemsSpy.calls.argsFor(0);
       expect(expectedParams.portal).toEqual(opts.requestOptions?.portal);
-      expect(expectedParams.q).toEqual("(water)");
+      // 'Code Attachment' comes from default item predicate
+      expect(expectedParams.q).toEqual('(water) AND (-type:"Code Attachment")');
       expect(expectedParams.countFields).not.toBeDefined();
     });
     it("simple search with bbox", async () => {
@@ -107,7 +108,8 @@ describe("portalSearchItems Module:", () => {
       expect(searchItemsSpy.calls.count()).toBe(1, "should call searchItems");
       const [expectedParams] = searchItemsSpy.calls.argsFor(0);
       expect(expectedParams.portal).toEqual(opts.requestOptions?.portal);
-      expect(expectedParams.q).toEqual("(water)");
+      // 'Code Attachment' comes from default item predicate
+      expect(expectedParams.q).toEqual('(water) AND (-type:"Code Attachment")');
       expect(expectedParams.params.bbox).toEqual("1,2,3,4");
       expect(expectedParams.countFields).not.toBeDefined();
     });
@@ -139,7 +141,8 @@ describe("portalSearchItems Module:", () => {
       expect(searchItemsSpy.calls.count()).toBe(1, "should call searchItems");
       const [expectedParams] = searchItemsSpy.calls.argsFor(0);
       expect(expectedParams.portal).toBeUndefined();
-      expect(expectedParams.q).toEqual("(water)");
+      // 'Code Attachment' comes from default item predicate
+      expect(expectedParams.q).toEqual('(water) AND (-type:"Code Attachment")');
       expect(expectedParams.authentication).toEqual(
         opts.requestOptions?.authentication
       );
@@ -173,7 +176,8 @@ describe("portalSearchItems Module:", () => {
       expect(searchItemsSpy.calls.count()).toBe(1, "should call searchItems");
       const [expectedParams] = searchItemsSpy.calls.argsFor(0);
       // verify q
-      expect(expectedParams.q).toEqual("(water)");
+      // 'Code Attachment' comes from default item predicate
+      expect(expectedParams.q).toEqual('(water) AND (-type:"Code Attachment")');
       expect(expectedParams.countFields).toEqual("tags");
       expect(expectedParams.countSize).toEqual(10);
     });
@@ -206,7 +210,8 @@ describe("portalSearchItems Module:", () => {
       expect(searchItemsSpy.calls.count()).toBe(1, "should call searchItems");
       const [expectedParams] = searchItemsSpy.calls.argsFor(0);
       // verify q
-      expect(expectedParams.q).toEqual("(water)");
+      // 'Code Attachment' comes from default item predicate
+      expect(expectedParams.q).toEqual('(water) AND (-type:"Code Attachment")');
       expect(expectedParams.countFields).toEqual("tags");
       expect(expectedParams.countSize).toEqual(100);
       expect(expectedParams.portal).toEqual(
