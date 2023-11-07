@@ -16,7 +16,7 @@ import { getPropertyMap } from "./_internal/getPropertyMap";
 import { cloneObject } from "../util";
 import { setDiscussableKeyword } from "../discussions";
 import { IModel } from "../types";
-import { setStatusKeyword } from "../utils/internal/setStatusKeyword";
+import { setEntityStatusKeyword } from "../utils/internal/setEntityStatusKeyword";
 
 /**
  * @private
@@ -43,7 +43,10 @@ export async function createProject(
   project.slug = await getUniqueSlug({ slug: project.slug }, requestOptions);
   // add slug and status to keywords
   project.typeKeywords = setSlugKeyword(project.typeKeywords, project.slug);
-  project.typeKeywords = setStatusKeyword(project.typeKeywords, project.status);
+  project.typeKeywords = setEntityStatusKeyword(
+    project.typeKeywords,
+    project.status
+  );
   project.typeKeywords = setDiscussableKeyword(
     project.typeKeywords,
     project.isDiscussable
@@ -101,7 +104,10 @@ export async function updateProject(
     requestOptions
   );
   // update the status keyword
-  project.typeKeywords = setStatusKeyword(project.typeKeywords, project.status);
+  project.typeKeywords = setEntityStatusKeyword(
+    project.typeKeywords,
+    project.status
+  );
   project.typeKeywords = setDiscussableKeyword(
     project.typeKeywords,
     project.isDiscussable

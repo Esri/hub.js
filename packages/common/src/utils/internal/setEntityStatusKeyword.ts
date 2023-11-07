@@ -6,7 +6,7 @@ import { HubEntityStatus } from "../../types";
  * @param typeKeywords entity's current typekeywords
  * @param status entity status
  */
-export function setStatusKeyword(
+export function setEntityStatusKeyword(
   typeKeywords: string[],
   status: HubEntityStatus
 ): string[] {

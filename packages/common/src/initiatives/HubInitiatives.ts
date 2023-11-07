@@ -49,7 +49,7 @@ import { getTypeWithKeywordQuery } from "../associations/internal/getTypeWithKey
 import { negateGroupPredicates } from "../search/_internal/negateGroupPredicates";
 import { computeLinks } from "./_internal/computeLinks";
 import { getHubRelativeUrl } from "../content/_internal/internalContentUtils";
-import { setStatusKeyword } from "../utils/internal/setStatusKeyword";
+import { setEntityStatusKeyword } from "../utils/internal/setEntityStatusKeyword";
 
 /**
  * @private
@@ -83,7 +83,7 @@ export async function createInitiative(
     initiative.slug
   );
   // add the status keyword
-  initiative.typeKeywords = setStatusKeyword(
+  initiative.typeKeywords = setEntityStatusKeyword(
     initiative.typeKeywords,
     initiative.status
   );
@@ -125,7 +125,7 @@ export async function updateInitiative(
     requestOptions
   );
   // update the status keyword
-  initiative.typeKeywords = setStatusKeyword(
+  initiative.typeKeywords = setEntityStatusKeyword(
     initiative.typeKeywords,
     initiative.status
   );
