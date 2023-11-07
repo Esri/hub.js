@@ -1,3 +1,10 @@
+## @esri/hub-common [14.51.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.51.0...@esri/hub-common@14.51.1) (2023-11-07)
+
+
+### Bug Fixes
+
+* switch null to empty string for membershipAccess ([#1321](https://github.com/Esri/hub.js/issues/1321)) ([85e85d3](https://github.com/Esri/hub.js/commit/85e85d36736444bffdaae50c236fcec24e0a5c02))
+
 # @esri/hub-common [14.51.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.50.1...@esri/hub-common@14.51.0) (2023-11-06)
 
 
