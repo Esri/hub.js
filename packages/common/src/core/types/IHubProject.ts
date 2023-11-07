@@ -29,3 +29,13 @@ export type IHubProjectEditor = IHubItemEntityEditor<IHubProject> & {
   // Groups is an ephemeral property, so we prefix with _
   _groups?: string[];
 };
+
+// *** THIS IS DEPRECATED ***
+// This is deprecated and will be removed during our next planned
+// breaking change. Please use HubEntityStatus instead
+export enum PROJECT_STATUSES {
+  notStarted = "notStarted",
+  inProgress = "inProgress",
+  onHold = "onHold",
+  complete = "complete",
+}
