@@ -1,3 +1,4 @@
+export * from "./acceptAssociation";
 export * from "./breakAssociation";
 export * from "./getAssociatedEntitiesQuery";
 export * from "./getPendingEntitiesQuery";
