@@ -32,6 +32,7 @@ export const ProjectPermissions = [
   "hub:project:workspace:collaborators",
   "hub:project:workspace:content",
   "hub:project:workspace:metrics",
+  "hub:project:workspace:metrics-coming-soon",
   "hub:project:manage",
 ] as const;
 
@@ -116,7 +117,12 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:project:workspace", "hub:project:edit"],
   },
   {
+    permission: "hub:project:workspace:metrics-coming-soon",
+    dependencies: ["hub:project:workspace", "hub:project:edit"],
+  },
+  {
     permission: "hub:project:workspace:metrics",
+    availability: ["alpha"], // gate to alpha for just now
     dependencies: ["hub:project:workspace", "hub:project:edit"],
   },
   {
