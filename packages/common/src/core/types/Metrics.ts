@@ -221,8 +221,11 @@ export enum ExpressionRelationships {
 export interface IMetricDisplayConfig {
   metricId: string;
   displayType: string;
+  visibility?: MetricVisibility;
   [key: string]: any;
 }
+
+export type MetricVisibility = "visible" | "hidden" | "featured";
 
 /**
  * Editor values expected when editing a metric
