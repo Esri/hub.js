@@ -135,14 +135,9 @@ export async function updateDiscussion(
         arcgisToGeoJSON(geometry)
       ) || null;
   } catch (e) {
-    /* istanbul ignore else */
-    if (e instanceof Error) {
-      allowedLocations = null;
-      /* tslint:disable no-console */
-      console.warn("Esri JSON conversion failed:", e.message);
-    } else {
-      // do nothing
-    }
+    allowedLocations = null;
+    /* tslint:disable no-console */
+    console.warn("Esri JSON conversion failed", e);
   }
 
   // create or update entity settings
@@ -151,10 +146,8 @@ export async function updateDiscussion(
     ...defaultSettings.settings,
     discussions: {
       ...defaultSettings.settings.discussions,
-      ...{
-        ...updatedDiscussion.discussionSettings,
-        allowedLocations,
-      },
+      ...updatedDiscussion.discussionSettings,
+      allowedLocations,
     },
   };
   const newOrUpdatedSettings = updatedDiscussion.entitySettingsId
