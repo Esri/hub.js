@@ -1,3 +1,10 @@
+## @esri/hub-common [14.51.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.51.1...@esri/hub-common@14.51.2) (2023-11-07)
+
+
+### Bug Fixes
+
+* add metrics-coming-soon permission ([#1317](https://github.com/Esri/hub.js/issues/1317)) ([9b505c9](https://github.com/Esri/hub.js/commit/9b505c96a00b32c2873ef42ec51dfb49fb74ba80))
+
 ## @esri/hub-common [14.51.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.51.0...@esri/hub-common@14.51.1) (2023-11-07)
 
 
