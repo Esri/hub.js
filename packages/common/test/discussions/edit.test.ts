@@ -12,7 +12,7 @@ import { IHubDiscussion } from "../../src/core/types/IHubDiscussion";
 import { cloneObject } from "../../src/util";
 import * as settingUtils from "../../src/discussions/api/settings/settings";
 import * as getDefaultEntitySettingsUtils from "../../src/discussions/api/settings/getDefaultEntitySettings";
-import * as terraformer from "../../src/utils/internal/arcgisToGeoJson";
+import * as terraformer from "@terraformer/arcgis";
 
 // TODO: update
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";

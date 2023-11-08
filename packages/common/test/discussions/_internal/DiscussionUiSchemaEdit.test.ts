@@ -397,6 +397,11 @@ describe("buildUiSchema: discussion edit", () => {
         {
           type: "Section",
           labelKey: "some.scope.sections.location.label",
+          options: {
+            helperText: {
+              labelKey: "some.scope.sections.location.helperText",
+            },
+          },
           elements: [
             {
               scope: "/properties/location",
@@ -405,6 +410,7 @@ describe("buildUiSchema: discussion edit", () => {
                 control: "hub-field-input-location-picker",
                 extent: [],
                 options: [],
+                mapTools: ["polygon", "rectangle"],
               },
             },
           ],
