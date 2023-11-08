@@ -106,6 +106,7 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:project:workspace:initiatives",
+    availability: ["alpha"], // gate to just alpha for now
     dependencies: ["hub:project:workspace", "hub:project:edit"],
   },
   {
