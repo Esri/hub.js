@@ -1,3 +1,10 @@
+# @esri/hub-common [14.52.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.51.2...@esri/hub-common@14.52.0) (2023-11-08)
+
+
+### Features
+
+* add status to hub initiative ([#1319](https://github.com/Esri/hub.js/issues/1319)) ([57662a7](https://github.com/Esri/hub.js/commit/57662a701ba50d9a93206dffff09679e1ce91b62))
+
 ## @esri/hub-common [14.51.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.51.1...@esri/hub-common@14.51.2) (2023-11-07)
 
 
