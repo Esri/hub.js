@@ -1,5 +1,5 @@
-import { HubEntityStatus } from "../../types";
 import { IWithMetrics } from "../traits/IWithMetrics";
+import { IWithStatus } from "../traits/IWithStatus";
 import {
   IWithLayout,
   IWithPermissions,
@@ -17,9 +17,8 @@ export interface IHubProject
     IWithCatalog,
     IWithLayout,
     IWithMetrics,
-    IWithPermissions {
-  status: HubEntityStatus;
-}
+    IWithPermissions,
+    IWithStatus {}
 
 /**
  * This type redefines the IHubProject interface in such a way
@@ -30,9 +29,12 @@ export type IHubProjectEditor = IHubItemEntityEditor<IHubProject> & {
   _groups?: string[];
 };
 
-// *** THIS IS DEPRECATED ***
-// This is deprecated and will be removed during our next planned
-// breaking change. Please use HubEntityStatus instead
+/**
+ * @internal
+ * *** DEPRECATED ***
+ * This is deprecated and will be removed during our next planned
+ * breaking change. Please use HubEntityStatus instead
+ */
 export enum PROJECT_STATUSES {
   notStarted = "notStarted",
   inProgress = "inProgress",
