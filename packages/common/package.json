@@ -12,12 +12,13 @@
     "dist/**"
   ],
   "dependencies": {
+    "@terraformer/arcgis": "^2.1.2",
     "abab": "^2.0.5",
     "adlib": "^3.0.8",
     "ajv": "^6.12.6",
     "fast-xml-parser": "^3.21.0",
-    "jsonapi-typescript": "^0.1.3",
     "json-schema-typed": "^7.0.3",
+    "jsonapi-typescript": "^0.1.3",
     "tslib": "^1.13.0"
   },
   "peerDependencies": {
@@ -30,6 +31,8 @@
   },
   "devDependencies": {
     "@types/adlib": "^3.0.1",
+    "@types/geojson": "^7946.0.13",
+    "@types/terraformer__arcgis": "^2.0.5",
     "typescript": "^3.8.1"
   },
   "scripts": {
