@@ -1,3 +1,10 @@
+# @esri/hub-common [14.53.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.52.0...@esri/hub-common@14.53.0) (2023-11-08)
+
+
+### Features
+
+* allow metrics visibility ([#1322](https://github.com/Esri/hub.js/issues/1322)) ([366e369](https://github.com/Esri/hub.js/commit/366e3696bce1ef6407fd604a7e40a3362b84823c))
+
 # @esri/hub-common [14.52.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.51.2...@esri/hub-common@14.52.0) (2023-11-08)
 
 
