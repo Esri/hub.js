@@ -218,7 +218,7 @@ export enum ExpressionRelationships {
 /**
  * Configuration for how to show a metric in the ui
  */
-export interface IMetricDisplayConfig {
+export interface IMetricDisplayConfig extends IMetricEditorValues {
   metricId: string;
   displayType: string;
   visibility?: MetricVisibility;
@@ -238,7 +238,7 @@ export enum MetricVisibility {
 /**
  * Editor values expected when editing a metric
  */
-export interface IMetricEditorValues extends IMetricDisplayConfig {
+export interface IMetricEditorValues {
   /** the main value of the metric  */
   value?: string | number;
   /** all values related to constructing a service-query metric */
