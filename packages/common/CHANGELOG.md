@@ -1,3 +1,10 @@
+# @esri/hub-common [14.54.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.53.0...@esri/hub-common@14.54.0) (2023-11-08)
+
+
+### Features
+
+* **hub-common:** persist location onto discussion allowedLocations settings ([#1316](https://github.com/Esri/hub.js/issues/1316)) ([87d17a3](https://github.com/Esri/hub.js/commit/87d17a36698963db8758452f798afb06765fc738))
+
 # @esri/hub-common [14.53.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.52.0...@esri/hub-common@14.53.0) (2023-11-08)
 
 
