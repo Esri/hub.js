@@ -1,14 +1,14 @@
-import { PROJECT_STATUSES } from "../../core";
+import { HubEntityStatus } from "../../types";
 
 /**
- * adds/updates the project status typekeyword and returns
+ * adds/updates the entity status typekeyword and returns
  * a new array of typekeywords
- * @param typeKeywords project's current typekeywords
- * @param status project status
+ * @param typeKeywords entity's current typekeywords
+ * @param status entity status
  */
-export function setStatusKeyword(
+export function setEntityStatusKeyword(
   typeKeywords: string[],
-  status: PROJECT_STATUSES
+  status: HubEntityStatus
 ): string[] {
   // filter out the existing status typekeyword
   const filteredTypekeywords = typeKeywords.filter((typekeyword: string) => {

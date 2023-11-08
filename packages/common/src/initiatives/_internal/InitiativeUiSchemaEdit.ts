@@ -153,6 +153,23 @@ export const buildUiSchema = async (
       },
       {
         type: "Section",
+        labelKey: `${i18nScope}.sections.status.label`,
+        elements: [
+          {
+            scope: "/properties/status",
+            type: "Control",
+            labelKey: `${i18nScope}.fields.status.label`,
+            options: {
+              control: "hub-field-input-select",
+              enum: {
+                i18nScope: `${i18nScope}.fields.status.enum`,
+              },
+            },
+          },
+        ],
+      },
+      {
+        type: "Section",
         labelKey: `${i18nScope}.sections.featuredContent.label`,
         options: {
           helperText: {

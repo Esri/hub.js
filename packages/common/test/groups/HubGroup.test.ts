@@ -1,11 +1,10 @@
 import { IGroup } from "@esri/arcgis-rest-portal";
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import { MOCK_AUTH } from "../mocks/mock-auth";
-import { HubGroup } from "../../src";
+import { HubGroup, IEntityPermissionPolicy } from "../../src";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import * as HubGroupsModule from "../../src/groups/HubGroups";
 import { IHubGroup } from "../../src/core/types/IHubGroup";
-import { IEntityPermissionPolicy } from "../../dist/types/permissions/types/IEntityPermissionPolicy";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import { getProp } from "../../src/objects/get-prop";
 import * as SearchUtils from "../../src/search/utils";

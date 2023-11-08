@@ -165,6 +165,23 @@ describe("buildUiSchema: initiative edit", () => {
         },
         {
           type: "Section",
+          labelKey: "some.scope.sections.status.label",
+          elements: [
+            {
+              scope: "/properties/status",
+              type: "Control",
+              labelKey: "some.scope.fields.status.label",
+              options: {
+                control: "hub-field-input-select",
+                enum: {
+                  i18nScope: "some.scope.fields.status.enum",
+                },
+              },
+            },
+          ],
+        },
+        {
+          type: "Section",
           labelKey: "some.scope.sections.featuredContent.label",
           options: {
             helperText: {

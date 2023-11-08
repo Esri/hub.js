@@ -1,6 +1,7 @@
 import { IItem, IUser } from "@esri/arcgis-rest-types";
 import {
   ArcGISContext,
+  HubEntityStatus,
   IHubCatalog,
   IHubInitiative,
   IHubLocation,
@@ -57,6 +58,7 @@ export const INITIATIVE_ENTITY: IHubInitiative = {
   owner: "dev_pre_hub_admin",
   schemaVersion: 1,
   slug: "qa-pre-a-hub|mock-initiative",
+  status: HubEntityStatus.notStarted,
   summary: "this is a initiative snippet",
   tags: ["tag1", "tag2"],
   thumbnail: "thumbnail/mock-thumbnail.png",

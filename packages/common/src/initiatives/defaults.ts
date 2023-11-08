@@ -1,5 +1,5 @@
 import { IHubInitiative } from "../core/types";
-import { IModel } from "../types";
+import { HubEntityStatus, IModel } from "../types";
 import { InitiativeDefaultFeatures } from "./_internal/InitiativeBusinessRules";
 
 export const HUB_INITIATIVE_ITEM_TYPE = "Hub Initiative";
@@ -14,6 +14,7 @@ export const DEFAULT_INITIATIVE: Partial<IHubInitiative> = {
   catalog: { schemaVersion: 0 },
   permissions: [],
   schemaVersion: 2,
+  status: HubEntityStatus.notStarted,
   features: InitiativeDefaultFeatures,
   view: {
     featuredContentIds: [],
@@ -37,6 +38,7 @@ export const DEFAULT_INITIATIVE_MODEL: IModel = {
     },
   },
   data: {
+    status: HubEntityStatus.notStarted,
     view: {
       featuredContentIds: [],
     },

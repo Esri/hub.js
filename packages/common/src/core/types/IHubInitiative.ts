@@ -1,5 +1,6 @@
 import { IWithSlug, IWithPermissions, IWithCatalog } from "../traits";
 import { IWithMetrics } from "../traits/IWithMetrics";
+import { IWithStatus } from "../traits/IWithStatus";
 import { IHubItemEntity, IHubItemEntityEditor } from "./IHubItemEntity";
 
 /**
@@ -11,6 +12,7 @@ export interface IHubInitiative
     IWithSlug,
     IWithCatalog,
     IWithMetrics,
-    IWithPermissions {}
+    IWithPermissions,
+    IWithStatus {}
 
 export type IHubInitiativeEditor = IHubItemEntityEditor<IHubInitiative> & {};
