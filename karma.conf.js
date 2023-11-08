@@ -30,7 +30,6 @@ module.exports = function (config) {
           /fixture*/,
           /mocks*/,
           /test-helpers*/,
-          /arcgisToGeoJson.ts/,
         ],
         threshold: {
           global: {

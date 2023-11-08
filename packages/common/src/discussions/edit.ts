@@ -16,7 +16,8 @@ import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { setDiscussableKeyword } from "./utils";
 import { IHubRequestOptions, IModel } from "../types";
 import { cloneObject } from "../util";
-import { arcgisToGeoJSON } from "../utils/internal/arcgisToGeoJson";
+import { arcgisToGeoJSON } from "@terraformer/arcgis";
+import { Polygon } from "geojson";
 
 /**
  * @private
@@ -127,12 +128,12 @@ export async function updateDiscussion(
   let updatedDiscussion = mapper.storeToEntity(updatedModel, discussion);
   updatedDiscussion = computeProps(model, updatedDiscussion, requestOptions);
 
-  // persist location geometries to discussion settings as Geometry[]
-  let allowedLocations;
+  // persist location geometries to discussion settings as Polygon[]
+  let allowedLocations: Polygon[];
   try {
     allowedLocations =
-      updatedDiscussion.location?.geometries?.map((geometry) =>
-        arcgisToGeoJSON(geometry)
+      updatedDiscussion.location?.geometries?.map(
+        (geometry) => arcgisToGeoJSON(geometry) as any as Polygon
       ) || null;
   } catch (e) {
     allowedLocations = null;
