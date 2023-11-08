@@ -1,8 +1,8 @@
 import {
+  HubEntityStatus,
   IHubProject,
   IHubProjectEditor,
   IModel,
-  PROJECT_STATUSES,
   cloneObject,
   createProject,
   deleteProject,
@@ -91,7 +91,7 @@ describe("project edit module:", () => {
           description: "my desc",
           orgUrlKey: "dcdev",
           location: PROJECT_LOCATION,
-          status: PROJECT_STATUSES.inProgress,
+          status: HubEntityStatus.inProgress,
         },
         { authentication: MOCK_AUTH }
       );
@@ -148,7 +148,7 @@ describe("project edit module:", () => {
         createdDateSource: "item.created",
         updatedDate: new Date(1595878750000),
         updatedDateSource: "item.modified",
-        status: PROJECT_STATUSES.inProgress,
+        status: HubEntityStatus.inProgress,
         thumbnailUrl: "",
         permissions: [],
         catalog: {

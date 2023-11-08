@@ -3,7 +3,6 @@ import {
   IUiSchemaMessage,
   UiSchemaMessageTypes,
 } from "../types";
-import { EntityEditorOptions } from "./EditorOptions";
 
 /**
  * Returns the UI schema element needed to render
@@ -15,14 +14,12 @@ import { EntityEditorOptions } from "./EditorOptions";
  */
 export function getThumbnailUiSchemaElement(
   i18nScope: string,
-  options: EntityEditorOptions
+  thumbnail: string,
+  thumbnailUrl: string
 ): IUiSchemaElement {
   const messages: IUiSchemaMessage[] = [];
   // Advise the user if the entity's thumbnail is either of the default values
-  if (
-    !options.thumbnail ||
-    options.thumbnail === "thumbnail/ago_downloaded.png"
-  ) {
+  if (!thumbnail || thumbnail === "thumbnail/ago_downloaded.png") {
     messages.push({
       type: UiSchemaMessageTypes.custom,
       display: "notice",
@@ -38,7 +35,7 @@ export function getThumbnailUiSchemaElement(
     type: "Control",
     options: {
       control: "hub-field-input-image-picker",
-      imgSrc: options.thumbnailUrl,
+      imgSrc: thumbnailUrl,
       maxWidth: 727,
       maxHeight: 484,
       aspectRatio: 1.5,

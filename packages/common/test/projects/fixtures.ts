@@ -1,12 +1,12 @@
 import { IItem, IUser } from "@esri/arcgis-rest-types";
 import {
   ArcGISContext,
+  HubEntityStatus,
   IHubCatalog,
   IHubLocation,
   IHubProject,
   IHubSearchResult,
   IModel,
-  PROJECT_STATUSES,
 } from "../../src";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import { IPortal } from "@esri/arcgis-rest-portal";
@@ -58,7 +58,7 @@ export const PROJECT_ENTITY: IHubProject = {
   owner: "dev_pre_hub_admin",
   schemaVersion: 1,
   slug: "qa-pre-a-hub|mock-project",
-  status: PROJECT_STATUSES.notStarted,
+  status: HubEntityStatus.notStarted,
   summary: "this is a project snippet",
   tags: ["tag1", "tag2"],
   thumbnail: "thumbnail/mock-thumbnail.png",

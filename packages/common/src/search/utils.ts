@@ -349,3 +349,22 @@ export function getResultSiteRelativeLink(
   }
   return siteRelativeLink;
 }
+
+/**
+ * Adds default predicates for item target entity
+ *
+ * @param query IQuery to search items
+ * @returns a cloned copy of the query object with default item search predicates
+ */
+export function addDefaultItemSearchPredicates(query: IQuery): IQuery {
+  const queryWithDefaultItemPredicates: IQuery = cloneObject(query);
+  const defaultPredicates = {
+    // 'Code Attachment' is an old AGO type that has
+    // been defunct for some time, so add this predicate
+    // to all catalog filter to omit 'Code Attachment' items
+    // from search results
+    predicates: [{ type: { not: ["Code Attachment"] } }],
+  };
+  queryWithDefaultItemPredicates.filters.push(defaultPredicates);
+  return queryWithDefaultItemPredicates;
+}

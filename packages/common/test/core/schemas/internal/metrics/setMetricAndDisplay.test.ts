@@ -1,17 +1,15 @@
-import {
-  IHubProject,
-  PROJECT_STATUSES,
-} from "../../../../../src/core/types/IHubProject";
+import { IHubProject } from "../../../../../src/core/types/IHubProject";
 import { setMetricAndDisplay } from "../../../../../src/core/schemas/internal/metrics/setMetricAndDisplay";
 import {
   IMetric,
   IMetricDisplayConfig,
 } from "../../../../../src/core/types/Metrics";
+import { HubEntityStatus } from "../../../../../src/types";
 
 describe("setMetricAndDisplay", () => {
   it("sets an existing metric and display correctly", () => {
     const entity: IHubProject = {
-      status: PROJECT_STATUSES.complete,
+      status: HubEntityStatus.complete,
       itemControl: "",
       owner: "",
       schemaVersion: 1,
@@ -85,7 +83,7 @@ describe("setMetricAndDisplay", () => {
   });
   it("sets an existing metric and display correctly", () => {
     const entity: IHubProject = {
-      status: PROJECT_STATUSES.complete,
+      status: HubEntityStatus.complete,
       itemControl: "",
       owner: "",
       schemaVersion: 1,

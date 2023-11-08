@@ -27,7 +27,7 @@ export function convertHubGroupToGroup(hubGroup: IHubGroup): IGroup {
   // since we are setting null to a prop, we need to
   // send clearEmptyFields: true to the updateGroup call
   if (group.membershipAccess === "anyone") {
-    group.membershipAccess = null;
+    group.membershipAccess = "";
     group._clearEmptyFields = true;
   }
   return group;

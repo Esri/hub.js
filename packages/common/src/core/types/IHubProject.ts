@@ -1,4 +1,5 @@
 import { IWithMetrics } from "../traits/IWithMetrics";
+import { IWithStatus } from "../traits/IWithStatus";
 import {
   IWithLayout,
   IWithPermissions,
@@ -16,16 +17,8 @@ export interface IHubProject
     IWithCatalog,
     IWithLayout,
     IWithMetrics,
-    IWithPermissions {
-  status: PROJECT_STATUSES;
-}
-
-export enum PROJECT_STATUSES {
-  notStarted = "notStarted",
-  inProgress = "inProgress",
-  onHold = "onHold",
-  complete = "complete",
-}
+    IWithPermissions,
+    IWithStatus {}
 
 /**
  * This type redefines the IHubProject interface in such a way
@@ -35,3 +28,16 @@ export type IHubProjectEditor = IHubItemEntityEditor<IHubProject> & {
   // Groups is an ephemeral property, so we prefix with _
   _groups?: string[];
 };
+
+/**
+ * @internal
+ * *** DEPRECATED ***
+ * This is deprecated and will be removed during our next planned
+ * breaking change. Please use HubEntityStatus instead
+ */
+export enum PROJECT_STATUSES {
+  notStarted = "notStarted",
+  inProgress = "inProgress",
+  onHold = "onHold",
+  complete = "complete",
+}

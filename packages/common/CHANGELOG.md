@@ -1,3 +1,38 @@
+# @esri/hub-common [14.52.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.51.2...@esri/hub-common@14.52.0) (2023-11-08)
+
+
+### Features
+
+* add status to hub initiative ([#1319](https://github.com/Esri/hub.js/issues/1319)) ([57662a7](https://github.com/Esri/hub.js/commit/57662a701ba50d9a93206dffff09679e1ce91b62))
+
+## @esri/hub-common [14.51.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.51.1...@esri/hub-common@14.51.2) (2023-11-07)
+
+
+### Bug Fixes
+
+* add metrics-coming-soon permission ([#1317](https://github.com/Esri/hub.js/issues/1317)) ([9b505c9](https://github.com/Esri/hub.js/commit/9b505c96a00b32c2873ef42ec51dfb49fb74ba80))
+
+## @esri/hub-common [14.51.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.51.0...@esri/hub-common@14.51.1) (2023-11-07)
+
+
+### Bug Fixes
+
+* switch null to empty string for membershipAccess ([#1321](https://github.com/Esri/hub.js/issues/1321)) ([85e85d3](https://github.com/Esri/hub.js/commit/85e85d36736444bffdaae50c236fcec24e0a5c02))
+
+# @esri/hub-common [14.51.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.50.1...@esri/hub-common@14.51.0) (2023-11-06)
+
+
+### Features
+
+* **hub-common:** add default predicate for portal search ([#1315](https://github.com/Esri/hub.js/issues/1315)) ([6a42e63](https://github.com/Esri/hub.js/commit/6a42e63eb854c502cbb6b55ccb3b98c07b3934d5))
+
+## @esri/hub-common [14.50.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.50.0...@esri/hub-common@14.50.1) (2023-11-02)
+
+
+### Bug Fixes
+
+* hub:feature:privacy is gated to devext ([#1313](https://github.com/Esri/hub.js/issues/1313)) ([2e1832a](https://github.com/Esri/hub.js/commit/2e1832aba6c8571d6bbaf65d958569a108f0c5b4))
+
 # @esri/hub-common [14.50.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.49.1...@esri/hub-common@14.50.0) (2023-11-01)
 
 

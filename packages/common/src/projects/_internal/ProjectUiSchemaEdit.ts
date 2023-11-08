@@ -2,12 +2,12 @@ import { IArcGISContext } from "../../ArcGISContext";
 import { IUiSchema } from "../../core/schemas/types";
 import { getCategoryItems } from "../../core/schemas/internal/getCategoryItems";
 import { getFeaturedContentCatalogs } from "../../core/schemas/internal/getFeaturedContentCatalogs";
-import { getFeaturedImageUrl } from "../../core/schemas/internal/getFeaturedImageUrl";
+import { getAuthedImageUrl } from "../../core/schemas/internal/getAuthedImageUrl";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
-import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
+import { IHubProject } from "../../core/types";
 
 /**
  * @private
@@ -17,7 +17,7 @@ import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
  */
 export const buildUiSchema = async (
   i18nScope: string,
-  options: EntityEditorOptions,
+  options: Partial<IHubProject>,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
   return {
@@ -87,7 +87,10 @@ export const buildUiSchema = async (
             type: "Control",
             options: {
               control: "hub-field-input-image-picker",
-              imgSrc: getFeaturedImageUrl(options, context),
+              imgSrc: getAuthedImageUrl(
+                options.view?.featuredImageUrl,
+                context
+              ),
               maxWidth: 727,
               maxHeight: 484,
               aspectRatio: 1.5,
@@ -126,11 +129,13 @@ export const buildUiSchema = async (
             options: {
               control: "hub-field-input-location-picker",
               extent: await getLocationExtent(
-                options,
+                options.location,
                 context.hubRequestOptions
               ),
               options: await getLocationOptions(
-                options,
+                options.id,
+                options.type,
+                options.location,
                 context.portal.name,
                 context.hubRequestOptions
               ),
@@ -149,7 +154,7 @@ export const buildUiSchema = async (
             options: {
               control: "hub-field-input-combobox",
               items: await getTagItems(
-                options,
+                options.tags,
                 context.portal.id,
                 context.hubRequestOptions
               ),
@@ -177,7 +182,11 @@ export const buildUiSchema = async (
               },
             },
           },
-          getThumbnailUiSchemaElement(i18nScope, options),
+          getThumbnailUiSchemaElement(
+            i18nScope,
+            options.thumbnail,
+            options.thumbnailUrl
+          ),
         ],
       },
       {

@@ -1,7 +1,7 @@
 import {
+  HubEntityStatus,
   IHubProject,
   IHubRequestOptions,
-  PROJECT_STATUSES,
   cloneObject,
   enrichProjectSearchResult,
   fetchProject,
@@ -105,7 +105,7 @@ describe("project fetch module:", () => {
       ).and.callFake(() => {
         return Promise.resolve({
           data: {
-            status: PROJECT_STATUSES.inProgress,
+            status: HubEntityStatus.inProgress,
           },
         });
       });
@@ -171,7 +171,7 @@ describe("project fetch module:", () => {
       );
 
       // verify the response
-      expect(chk.projectStatus).toBe(PROJECT_STATUSES.inProgress);
+      expect(chk.projectStatus).toBe(HubEntityStatus.inProgress);
 
       // verify the spy
       expect(enrichmentSpy.calls.count()).toBe(1, "should fetch enrichments");
