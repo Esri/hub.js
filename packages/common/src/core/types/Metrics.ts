@@ -216,13 +216,13 @@ export enum ExpressionRelationships {
 }
 
 /**
- * Configuration for how to show a metric in the ui
+ * Configuration for how to show a metric in the ui. These are just values that are important to how to
+ * display the metric; values that are configured in the editor should be added to IMetricEditorValues instead.
  */
 export interface IMetricDisplayConfig extends IMetricEditorValues {
   metricId: string;
   displayType: string;
   visibility?: MetricVisibility;
-  [key: string]: any;
 }
 
 /**
@@ -236,13 +236,17 @@ export enum MetricVisibility {
 }
 
 /**
- * Editor values expected when editing a metric
+ * Editor values expected when editing a metric. These are options that are set in the metric editor that
+ * help build the IMetricDisplayConfig.
  */
 export interface IMetricEditorValues {
   /** the main value of the metric  */
   value?: string | number;
   /** all values related to constructing a service-query metric */
   dynamicMetric?: IDynamicMetricValues;
+
+  // TODO: enumerate all editor values here
+  [key: string]: any;
 }
 
 /**
