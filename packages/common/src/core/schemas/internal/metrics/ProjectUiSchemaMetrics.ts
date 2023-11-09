@@ -30,8 +30,8 @@ export const buildUiSchema = (
               messages: [
                 {
                   type: "ERROR",
-                  keyword: "minLength",
-                  labelKey: `${i18nScope}.fields.cardTitle.message.minLength`,
+                  keyword: "required",
+                  labelKey: `${i18nScope}.fields.cardTitle.message.required`,
                   icon: true,
                   allowShowBeforeInteract: true,
                 },
@@ -54,8 +54,8 @@ export const buildUiSchema = (
                   messages: [
                     {
                       type: "ERROR",
-                      keyword: "minLength",
-                      labelKey: `${i18nScope}.fields.value.message.minLength`,
+                      keyword: "required",
+                      labelKey: `${i18nScope}.fields.value.message.required`,
                       icon: true,
                       allowShowBeforeInteract: true,
                     },
