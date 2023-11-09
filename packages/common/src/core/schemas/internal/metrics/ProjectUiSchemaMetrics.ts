@@ -29,17 +29,17 @@ export const buildUiSchema = (
         elements: [
           {
             labelKey: `${i18nScope}.uiSchema.cardTitle.title`,
-            scope: "/properties/_metrics/cardTitle",
+            scope: "/properties/_metrics/properties/cardTitle",
             type: "Control",
           },
           {
             labelKey: `${i18nScope}.uiSchema.value.title`,
-            scope: "/properties/_metrics/value",
+            scope: "/properties/_metrics/properties/value",
             type: "Control",
           },
           {
             labelKey: `${i18nScope}.uiSchema.units.title`,
-            scope: "/properties/_metrics/units",
+            scope: "/properties/_metrics/properties/units",
             type: "Control",
             options: {
               helperText: {
@@ -50,7 +50,7 @@ export const buildUiSchema = (
           },
           {
             labelKey: `${i18nScope}.uiSchema.unitPosition.title`,
-            scope: "/properties/_metrics/unitPosition",
+            scope: "/properties/_metrics/properties/unitPosition",
             type: "Control",
             options: {
               control: "hub-field-input-select",
@@ -61,7 +61,7 @@ export const buildUiSchema = (
           },
           {
             labelKey: `${i18nScope}.uiSchema.trailingText.title`,
-            scope: "/properties/_metrics/trailingText",
+            scope: "/properties/_metrics/properties/trailingText",
             type: "Control",
           },
         ],
