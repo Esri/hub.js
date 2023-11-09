@@ -20,51 +20,41 @@ export const buildUiSchema = (
     type: "Layout",
     elements: [
       {
-        type: "Section",
-        labelKey: `${i18nScope}.uiSchema.flowTitle.sectionTitle`,
+        labelKey: `${i18nScope}.uiSchema.cardTitle.title`,
+        scope: "/properties/_metrics/properties/cardTitle",
+        type: "Control",
+      },
+      {
+        labelKey: `${i18nScope}.uiSchema.value.title`,
+        scope: "/properties/_metrics/properties/value",
+        type: "Control",
+      },
+      {
+        labelKey: `${i18nScope}.uiSchema.units.title`,
+        scope: "/properties/_metrics/properties/units",
+        type: "Control",
         options: {
-          section: "block",
-          helperText: `${i18nScope}.uiSchema.flowTitle.description`,
+          helperText: {
+            labelKey: `${i18nScope}.uiSchema.units.helperText`,
+            placement: "bottom",
+          },
         },
-        elements: [
-          {
-            labelKey: `${i18nScope}.uiSchema.cardTitle.title`,
-            scope: "/properties/_metrics/properties/cardTitle",
-            type: "Control",
+      },
+      {
+        labelKey: `${i18nScope}.uiSchema.unitPosition.title`,
+        scope: "/properties/_metrics/properties/unitPosition",
+        type: "Control",
+        options: {
+          control: "hub-field-input-select",
+          enum: {
+            i18nScope: `${i18nScope}.uiSchema.unitPosition.enum`,
           },
-          {
-            labelKey: `${i18nScope}.uiSchema.value.title`,
-            scope: "/properties/_metrics/properties/value",
-            type: "Control",
-          },
-          {
-            labelKey: `${i18nScope}.uiSchema.units.title`,
-            scope: "/properties/_metrics/properties/units",
-            type: "Control",
-            options: {
-              helperText: {
-                labelKey: `${i18nScope}.uiSchema.units.helperText`,
-                placement: "bottom",
-              },
-            },
-          },
-          {
-            labelKey: `${i18nScope}.uiSchema.unitPosition.title`,
-            scope: "/properties/_metrics/properties/unitPosition",
-            type: "Control",
-            options: {
-              control: "hub-field-input-select",
-              enum: {
-                i18nScope: `${i18nScope}.uiSchema.unitPosition.enum`,
-              },
-            },
-          },
-          {
-            labelKey: `${i18nScope}.uiSchema.trailingText.title`,
-            scope: "/properties/_metrics/properties/trailingText",
-            type: "Control",
-          },
-        ],
+        },
+      },
+      {
+        labelKey: `${i18nScope}.uiSchema.trailingText.title`,
+        scope: "/properties/_metrics/properties/trailingText",
+        type: "Control",
       },
     ],
   };
