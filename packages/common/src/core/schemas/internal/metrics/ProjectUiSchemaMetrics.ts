@@ -51,12 +51,12 @@ export const buildUiSchema = (
             },
             elements: [
               {
-                labelKey: `${i18nScope}.fields.units.label`,
-                scope: "/properties/_metrics/properties/units",
+                labelKey: `${i18nScope}.fields.unit.label`,
+                scope: "/properties/_metrics/properties/unit",
                 type: "Control",
                 options: {
                   helperText: {
-                    labelKey: `${i18nScope}.fields.units.helperText`,
+                    labelKey: `${i18nScope}.fields.unit.helperText`,
                     placement: "bottom",
                   },
                 },

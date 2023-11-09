@@ -41,12 +41,12 @@ describe("buildUiSchema: metric", () => {
               },
               elements: [
                 {
-                  labelKey: `some.scope.fields.units.label`,
-                  scope: "/properties/_metrics/properties/units",
+                  labelKey: `some.scope.fields.unit.label`,
+                  scope: "/properties/_metrics/properties/unit",
                   type: "Control",
                   options: {
                     helperText: {
-                      labelKey: `some.scope.fields.units.helperText`,
+                      labelKey: `some.scope.fields.unit.helperText`,
                       placement: "bottom",
                     },
                   },
