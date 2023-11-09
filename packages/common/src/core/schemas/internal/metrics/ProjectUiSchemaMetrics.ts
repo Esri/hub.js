@@ -73,7 +73,7 @@ export const buildUiSchema = (
       },
       {
         type: "Section",
-        labelKey: `${i18nScope}.appearance.formatting.label`,
+        labelKey: `${i18nScope}.sections.appearance.label`,
         options: {
           section: "block",
           open: false,

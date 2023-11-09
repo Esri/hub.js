@@ -63,7 +63,7 @@ describe("buildUiSchema: metric", () => {
         },
         {
           type: "Section",
-          labelKey: `some.scope.appearance.formatting.label`,
+          labelKey: `some.scope.sections.appearance.label`,
           options: {
             section: "block",
             open: false,
