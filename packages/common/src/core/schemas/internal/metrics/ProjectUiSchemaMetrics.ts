@@ -24,14 +24,14 @@ export const buildUiSchema = (
         elements: [
           {
             labelKey: `${i18nScope}.fields.cardTitle.label`,
-            scope: "/properties/_metrics/properties/cardTitle",
+            scope: "/properties/_metric/properties/cardTitle",
             type: "Control",
             options: {
               messages: [
                 {
                   type: "ERROR",
                   keyword: "minLength",
-                  labelKey: "fields.cardTitle.message.minLength",
+                  labelKey: `${i18nScope}.fields.cardTitle.message.minLength`,
                   icon: true,
                   allowShowBeforeInteract: true,
                 },
@@ -48,14 +48,14 @@ export const buildUiSchema = (
             elements: [
               {
                 labelKey: `${i18nScope}.fields.value.label`,
-                scope: "/properties/_metrics/properties/value",
+                scope: "/properties/_metric/properties/value",
                 type: "Control",
                 options: {
                   messages: [
                     {
                       type: "ERROR",
                       keyword: "minLength",
-                      labelKey: "fields.value.message.minLength",
+                      labelKey: `${i18nScope}.fields.value.message.minLength`,
                       icon: true,
                       allowShowBeforeInteract: true,
                     },
@@ -74,7 +74,7 @@ export const buildUiSchema = (
             elements: [
               {
                 labelKey: `${i18nScope}.fields.unit.label`,
-                scope: "/properties/_metrics/properties/unit",
+                scope: "/properties/_metric/properties/unit",
                 type: "Control",
                 options: {
                   helperText: {
@@ -85,7 +85,7 @@ export const buildUiSchema = (
               },
               {
                 labelKey: `${i18nScope}.fields.unitPosition.label`,
-                scope: "/properties/_metrics/properties/unitPosition",
+                scope: "/properties/_metric/properties/unitPosition",
                 type: "Control",
                 options: {
                   control: "hub-field-input-select",
@@ -106,7 +106,7 @@ export const buildUiSchema = (
             elements: [
               {
                 labelKey: `${i18nScope}.fields.trailingText.label`,
-                scope: "/properties/_metrics/properties/trailingText",
+                scope: "/properties/_metric/properties/trailingText",
                 type: "Control",
               },
             ],

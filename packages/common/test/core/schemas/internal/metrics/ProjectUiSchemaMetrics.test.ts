@@ -14,7 +14,7 @@ describe("buildUiSchema: metric", () => {
           elements: [
             {
               labelKey: `some.scope.fields.cardTitle.label`,
-              scope: "/properties/_metrics/properties/cardTitle",
+              scope: "/properties/_metric/properties/cardTitle",
               type: "Control",
               options: {
                 messages: [
@@ -38,7 +38,7 @@ describe("buildUiSchema: metric", () => {
               elements: [
                 {
                   labelKey: `some.scope.fields.value.label`,
-                  scope: "/properties/_metrics/properties/value",
+                  scope: "/properties/_metric/properties/value",
                   type: "Control",
                   options: {
                     messages: [
@@ -64,7 +64,7 @@ describe("buildUiSchema: metric", () => {
               elements: [
                 {
                   labelKey: `some.scope.fields.unit.label`,
-                  scope: "/properties/_metrics/properties/unit",
+                  scope: "/properties/_metric/properties/unit",
                   type: "Control",
                   options: {
                     helperText: {
@@ -75,7 +75,7 @@ describe("buildUiSchema: metric", () => {
                 },
                 {
                   labelKey: `some.scope.fields.unitPosition.label`,
-                  scope: "/properties/_metrics/properties/unitPosition",
+                  scope: "/properties/_metric/properties/unitPosition",
                   type: "Control",
                   options: {
                     control: "hub-field-input-select",
@@ -96,7 +96,7 @@ describe("buildUiSchema: metric", () => {
               elements: [
                 {
                   labelKey: `some.scope.fields.trailingText.label`,
-                  scope: "/properties/_metrics/properties/trailingText",
+                  scope: "/properties/_metric/properties/trailingText",
                   type: "Control",
                 },
               ],

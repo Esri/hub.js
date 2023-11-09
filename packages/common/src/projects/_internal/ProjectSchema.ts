@@ -26,7 +26,7 @@ export const ProjectSchema: IConfigurationSchema = {
       default: HubEntityStatus.notStarted,
       enum: Object.keys(HubEntityStatus),
     },
-    _metrics: {
+    _metric: {
       type: "object",
       required: ["cardTitle", "value"],
       properties: {
