@@ -19,17 +19,17 @@ describe("buildUiSchema: metric", () => {
           elements: [
             {
               labelKey: `some.scope.uiSchema.cardTitle.title`,
-              scope: "/properties/_metrics/cardTitle",
+              scope: "/properties/_metrics/properties/cardTitle",
               type: "Control",
             },
             {
               labelKey: `some.scope.uiSchema.value.title`,
-              scope: "/properties/_metrics/value",
+              scope: "/properties/_metrics/properties/value",
               type: "Control",
             },
             {
               labelKey: `some.scope.uiSchema.units.title`,
-              scope: "/properties/_metrics/units",
+              scope: "/properties/_metrics/properties/units",
               type: "Control",
               options: {
                 helperText: {
@@ -40,7 +40,7 @@ describe("buildUiSchema: metric", () => {
             },
             {
               labelKey: `some.scope.uiSchema.unitPosition.title`,
-              scope: "/properties/_metrics/unitPosition",
+              scope: "/properties/_metrics/properties/unitPosition",
               type: "Control",
               options: {
                 control: "hub-field-input-select",
@@ -51,7 +51,7 @@ describe("buildUiSchema: metric", () => {
             },
             {
               labelKey: `some.scope.uiSchema.trailingText.title`,
-              scope: "/properties/_metrics/trailingText",
+              scope: "/properties/_metrics/properties/trailingText",
               type: "Control",
             },
           ],
