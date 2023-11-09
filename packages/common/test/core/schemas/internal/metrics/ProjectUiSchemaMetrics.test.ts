@@ -15,36 +15,66 @@ describe("buildUiSchema: metric", () => {
           type: "Control",
         },
         {
-          labelKey: `some.scope.fields.value.label`,
-          scope: "/properties/_metrics/properties/value",
-          type: "Control",
-        },
-        {
-          labelKey: `some.scope.fields.units.label`,
-          scope: "/properties/_metrics/properties/units",
-          type: "Control",
+          type: "Section",
+          labelKey: `some.scope.sections.source.label`,
           options: {
-            helperText: {
-              labelKey: `some.scope.fields.units.helperText`,
-              placement: "bottom",
-            },
+            section: "block",
+            open: true,
           },
+          elements: [
+            {
+              labelKey: `some.scope.fields.value.label`,
+              scope: "/properties/_metrics/properties/value",
+              type: "Control",
+            },
+          ],
         },
         {
-          labelKey: `some.scope.fields.unitPosition.label`,
-          scope: "/properties/_metrics/properties/unitPosition",
-          type: "Control",
+          type: "Section",
+          labelKey: `some.scope.sections.formatting.label`,
           options: {
-            control: "hub-field-input-select",
-            enum: {
-              i18nScope: `some.scope.fields.unitPosition.enum`,
-            },
+            section: "block",
+            open: true,
           },
+          elements: [
+            {
+              labelKey: `some.scope.fields.units.label`,
+              scope: "/properties/_metrics/properties/units",
+              type: "Control",
+              options: {
+                helperText: {
+                  labelKey: `some.scope.fields.units.helperText`,
+                  placement: "bottom",
+                },
+              },
+            },
+            {
+              labelKey: `some.scope.fields.unitPosition.label`,
+              scope: "/properties/_metrics/properties/unitPosition",
+              type: "Control",
+              options: {
+                control: "hub-field-input-select",
+                enum: {
+                  i18nScope: `some.scope.fields.unitPosition.enum`,
+                },
+              },
+            },
+          ],
         },
         {
-          labelKey: `some.scope.fields.trailingText.label`,
-          scope: "/properties/_metrics/properties/trailingText",
-          type: "Control",
+          type: "Section",
+          labelKey: `some.scope.appearance.formatting.label`,
+          options: {
+            section: "block",
+            open: false,
+          },
+          elements: [
+            {
+              labelKey: `some.scope.fields.trailingText.label`,
+              scope: "/properties/_metrics/properties/trailingText",
+              type: "Control",
+            },
+          ],
         },
       ],
     });
