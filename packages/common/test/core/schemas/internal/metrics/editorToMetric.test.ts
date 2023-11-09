@@ -106,9 +106,7 @@ describe("editorToMetric", () => {
         },
       ];
       const whereClause = EditorToMetric.buildWhereClause(expressionSet);
-      expect(whereClause).toEqual(
-        "date >= timestamp 'undefined 00:00:00' AND date <= timestamp '2023-01-03 23:59:59'"
-      );
+      expect(whereClause).toEqual("date <= timestamp '2023-01-03 23:59:59'");
     });
     it("handles objects in values with between", () => {
       const expressionSet: IExpression[] = [
@@ -120,9 +118,7 @@ describe("editorToMetric", () => {
         },
       ];
       const whereClause = EditorToMetric.buildWhereClause(expressionSet);
-      expect(whereClause).toEqual(
-        "date >= timestamp 'undefined 00:00:00' AND date <= timestamp 'undefined 23:59:59'"
-      );
+      expect(whereClause).toEqual("1=1");
     });
     it("handles bad strings in values with between", () => {
       const expressionSet: IExpression[] = [

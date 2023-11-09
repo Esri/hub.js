@@ -137,21 +137,24 @@ export function buildWhereClause(expressionSet: IExpression[] = []): string {
 
           case "esriFieldTypeDate":
             // just the second bounding value
-            if (!isNil(values[0])) {
+            if (typeof values[0] === "string") {
               clause = `${field.name} >= timestamp '${escape(
                 values[0] as string
               )} 00:00:00'`;
             }
 
             // just the first bounding value
-            if (!isNil(values[1])) {
+            if (typeof values[1] === "string") {
               clause = `${field.name} <= timestamp '${escape(
                 values[1] as string
               )} 23:59:59'`;
             }
 
             // if we have both, rewrite clause
-            if (!isNil(values[0]) && !isNil(values[1])) {
+            if (
+              typeof values[0] === "string" &&
+              typeof values[1] === "string"
+            ) {
               clause = `${field.name} >= timestamp '${escape(
                 values[0] as string
               )} 00:00:00' AND ${field.name} <= timestamp '${escape(
