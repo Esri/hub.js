@@ -20,39 +20,39 @@ export const buildUiSchema = (
     type: "Layout",
     elements: [
       {
-        labelKey: `${i18nScope}.uiSchema.cardTitle.title`,
+        labelKey: `${i18nScope}.metrics.cardTitle.title`,
         scope: "/properties/_metrics/properties/cardTitle",
         type: "Control",
       },
       {
-        labelKey: `${i18nScope}.uiSchema.value.title`,
+        labelKey: `${i18nScope}.metrics.value.title`,
         scope: "/properties/_metrics/properties/value",
         type: "Control",
       },
       {
-        labelKey: `${i18nScope}.uiSchema.units.title`,
+        labelKey: `${i18nScope}.metrics.units.title`,
         scope: "/properties/_metrics/properties/units",
         type: "Control",
         options: {
           helperText: {
-            labelKey: `${i18nScope}.uiSchema.units.helperText`,
+            labelKey: `${i18nScope}.metrics.units.helperText`,
             placement: "bottom",
           },
         },
       },
       {
-        labelKey: `${i18nScope}.uiSchema.unitPosition.title`,
+        labelKey: `${i18nScope}.metrics.unitPosition.title`,
         scope: "/properties/_metrics/properties/unitPosition",
         type: "Control",
         options: {
           control: "hub-field-input-select",
           enum: {
-            i18nScope: `${i18nScope}.uiSchema.unitPosition.enum`,
+            i18nScope: `${i18nScope}.metrics.unitPosition.enum`,
           },
         },
       },
       {
-        labelKey: `${i18nScope}.uiSchema.trailingText.title`,
+        labelKey: `${i18nScope}.metrics.trailingText.title`,
         scope: "/properties/_metrics/properties/trailingText",
         type: "Control",
       },
