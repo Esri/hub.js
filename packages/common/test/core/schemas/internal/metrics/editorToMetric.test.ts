@@ -61,6 +61,7 @@ describe("editorToMetric", () => {
           values: ["2023-01-01", "2023-01-03"],
           relationship: ExpressionRelationships.BETWEEN,
         },
+
         {
           field: MOCK_ID_FIELD,
           key: "expression-000",
@@ -91,6 +92,53 @@ describe("editorToMetric", () => {
         "(category IN ('value1')) AND (amount) >= 0 AND (amount) <= 2 AND (amount) <= 4 AND (amount) >= 1 AND date <= timestamp '2023-01-04 23:59:59' AND date >= timestamp '2023-01-02 00:00:00' AND date >= timestamp '2023-01-01 00:00:00' AND date <= timestamp '2023-01-03 23:59:59' AND (guid) >= 1234 AND (guid) <= 5234 AND category like '%val%' AND (category IN ('val', 'e'))"
       );
     });
+    // NOTE THESE NEXT THREE TESTS COVER CASES WHICH SHOULD NEVER OCCUR
+    // BUT WHICH HAVE BEEN SEEN IN THE WILD. THE GOAL IS TO JUST ENSURE
+    // AN EXCEPTION IS NOT THROWN. THE WHERE CLAUSE WILL BE INVALID, BUT
+    // THE SITE WILL NOT CRASH
+    it("handles object in values with between", () => {
+      const expressionSet: IExpression[] = [
+        {
+          field: MOCK_DATE_FIELD,
+          key: "expression-7890",
+          values: [{} as unknown as string, "2023-01-03"],
+          relationship: ExpressionRelationships.BETWEEN,
+        },
+      ];
+      const whereClause = EditorToMetric.buildWhereClause(expressionSet);
+      expect(whereClause).toEqual(
+        "date >= timestamp 'undefined 00:00:00' AND date <= timestamp '2023-01-03 23:59:59'"
+      );
+    });
+    it("handles objects in values with between", () => {
+      const expressionSet: IExpression[] = [
+        {
+          field: MOCK_DATE_FIELD,
+          key: "expression-7890",
+          values: [{} as unknown as string, {} as unknown as string],
+          relationship: ExpressionRelationships.BETWEEN,
+        },
+      ];
+      const whereClause = EditorToMetric.buildWhereClause(expressionSet);
+      expect(whereClause).toEqual(
+        "date >= timestamp 'undefined 00:00:00' AND date <= timestamp 'undefined 23:59:59'"
+      );
+    });
+    it("handles bad strings in values with between", () => {
+      const expressionSet: IExpression[] = [
+        {
+          field: MOCK_DATE_FIELD,
+          key: "expression-7890",
+          values: ["WAT", "BLARG"],
+          relationship: ExpressionRelationships.BETWEEN,
+        },
+      ];
+      const whereClause = EditorToMetric.buildWhereClause(expressionSet);
+      expect(whereClause).toEqual(
+        "date >= timestamp 'WAT 00:00:00' AND date <= timestamp 'BLARG 23:59:59'"
+      );
+    });
+    // END
     it("handles an undefined expression set", () => {
       const whereClause = EditorToMetric.buildWhereClause(undefined);
       expect(whereClause).toEqual("1=1");
@@ -148,6 +196,7 @@ describe("editorToMetric", () => {
         value: undefined,
       });
     });
+
     it("handles a values object with just value and dynamicMetric", () => {
       const values = {
         value: "",
