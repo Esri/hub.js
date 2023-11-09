@@ -81,6 +81,17 @@ describe("util functions", () => {
     });
   });
 
+  it("handles nulls in arrays", () => {
+    const obj: any[] = [null, null, null];
+    const chk = cloneObject(obj);
+    expect(chk).toEqual(obj);
+  });
+  it("handles nulls in arrays nested in objects", () => {
+    const obj: { values: any[] } = { values: [null, null, null] };
+    const chk = cloneObject(obj);
+    expect(chk).toEqual(obj);
+  });
+
   if (typeof Blob !== "undefined") {
     it("can clone a Blob", () => {
       const obj = {

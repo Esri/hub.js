@@ -110,7 +110,12 @@ export function buildWhereClause(expressionSet: IExpression[] = []): string {
       .map((expression) => {
         const { field, values, relationship } = expression;
 
-        const escape = (value: string) => value.replace(/(['])/g, "$1$1"); // currently only handles single quotes
+        const escape = (value: string) => {
+          // Ensure that the value has a .replace method
+          // We encountered a case where the value was an empty object (unclear how this happened)
+          // and it caused the site to go into an infinite loop and crash. This is a safeguard.
+          return value.replace && value.replace(/(['])/g, "$1$1"); // currently only handles single quotes
+        };
 
         // if we don't have values or field, or if it is an "incomplete" expression, do not include
         if (!values || !values.length || !field || !field.name) {
@@ -132,21 +137,24 @@ export function buildWhereClause(expressionSet: IExpression[] = []): string {
 
           case "esriFieldTypeDate":
             // just the second bounding value
-            if (!isNil(values[0])) {
+            if (typeof values[0] === "string") {
               clause = `${field.name} >= timestamp '${escape(
                 values[0] as string
               )} 00:00:00'`;
             }
 
             // just the first bounding value
-            if (!isNil(values[1])) {
+            if (typeof values[1] === "string") {
               clause = `${field.name} <= timestamp '${escape(
                 values[1] as string
               )} 23:59:59'`;
             }
 
             // if we have both, rewrite clause
-            if (!isNil(values[0]) && !isNil(values[1])) {
+            if (
+              typeof values[0] === "string" &&
+              typeof values[1] === "string"
+            ) {
               clause = `${field.name} >= timestamp '${escape(
                 values[0] as string
               )} 00:00:00' AND ${field.name} <= timestamp '${escape(
