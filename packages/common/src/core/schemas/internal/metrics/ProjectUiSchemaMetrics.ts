@@ -47,7 +47,7 @@ export const buildUiSchema = (
         options: {
           control: "hub-field-input-select",
           enum: {
-            i18nScope: `${i18nScope}.metrics.unitPosition.enum`,
+            i18nScope: `${i18nScope}.fields.unitPosition.enum`,
           },
         },
       },
