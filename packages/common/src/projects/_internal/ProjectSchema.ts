@@ -28,7 +28,6 @@ export const ProjectSchema: IConfigurationSchema = {
     },
     _metric: {
       type: "object",
-      required: ["cardTitle", "value"],
       properties: {
         cardTitle: {
           type: "string",
