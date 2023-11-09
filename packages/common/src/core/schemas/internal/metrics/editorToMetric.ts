@@ -76,6 +76,7 @@ export function editorToMetric(
   const displayConfig: IMetricDisplayConfig = {
     ...config,
     displayType: config.displayType || "stat-card",
+    visibility: config.visibility || "hidden",
     metricId,
     fieldType,
     statistic,

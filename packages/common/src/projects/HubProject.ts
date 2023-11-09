@@ -284,6 +284,36 @@ export class HubProject
     // convert back to an entity
     const entity = editorToProject(editor, this.context.portal);
 
+    // handle metrics
+    const _metric = editor._metric;
+
+    // if we have a current metric and it's beyond the default empty from toEditor
+    if (_metric && Object.keys(_metric).length) {
+      let metricId = editorContext?.metricId;
+
+      // creating a new metric
+      if (!metricId) {
+        metricId = createId(camelize(`${editor._metric.cardTitle}_`));
+      }
+
+      // transform editor values into metric and displayConfig
+      const { metric, displayConfig } = editorToMetric(
+        editor._metric,
+        metricId,
+        {
+          metricName: editor._metric.cardTitle,
+          entityInfo: {
+            id: entity.id,
+            name: entity.name,
+            type: entity.type,
+          },
+        }
+      );
+
+      // put metric and display config onto entity
+      this.entity = setMetricAndDisplay(this.entity, metric, displayConfig);
+    }
+
     // create it if it does not yet exist...
     if (isCreate) {
       // this allows the featured image functions to work
@@ -304,28 +334,6 @@ export class HubProject
       } else {
         await this.clearFeaturedImage();
       }
-    }
-
-    // handle metrics
-    const _metric = editor._metric;
-
-    // if we have a current metric and it's beyond the default empty from toEditor
-    if (_metric && Object.keys(_metric).length) {
-      let metricId = editorContext?.metricId;
-
-      // creating a new metric
-      if (!metricId) {
-        metricId = createId(camelize(editor._metric.cardTitle));
-      }
-
-      // transform editor values into metric and displayConfig
-      const { metric, displayConfig } = editorToMetric(
-        editor._metric,
-        metricId
-      );
-
-      // put metric and display config onto entity
-      this.entity = setMetricAndDisplay(this.entity, metric, displayConfig);
     }
 
     /**
