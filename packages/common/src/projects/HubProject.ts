@@ -282,7 +282,7 @@ export class HubProject
     delete editor.view.featuredImage;
 
     // convert back to an entity
-    const entity = editorToProject(editor, this.context.portal);
+    let entity = editorToProject(editor, this.context.portal);
 
     // handle metrics
     const _metric = editor._metric;
@@ -311,7 +311,7 @@ export class HubProject
       );
 
       // put metric and display config onto entity
-      this.entity = setMetricAndDisplay(this.entity, metric, displayConfig);
+      entity = setMetricAndDisplay(this.entity, metric, displayConfig);
     }
 
     // create it if it does not yet exist...

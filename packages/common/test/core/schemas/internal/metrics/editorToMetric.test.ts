@@ -4,6 +4,7 @@ import {
   IMetricEditorValues,
   IServiceQueryMetricSource,
   IStaticValueMetricSource,
+  MetricVisibility,
 } from "../../../../../src/core/types/Metrics";
 import * as EditorToMetric from "../../../../../src/core/schemas/internal/metrics/editorToMetric";
 
@@ -325,6 +326,7 @@ describe("editorToMetric", () => {
           sourceTitle: "DynamicMaps123",
           allowLink: undefined,
           fieldType: "esriFieldTypeString",
+          visibility: MetricVisibility.hidden,
           statistic: "",
         });
       });
@@ -371,6 +373,7 @@ describe("editorToMetric", () => {
           allowLink: undefined,
           fieldType: "esriFieldTypeString",
           statistic: "",
+          visibility: MetricVisibility.hidden,
         });
       });
       it("handles static source link correctly when no source", () => {
@@ -414,6 +417,7 @@ describe("editorToMetric", () => {
           allowLink: undefined,
           fieldType: "esriFieldTypeString",
           statistic: "",
+          visibility: MetricVisibility.hidden,
         });
       });
     });
