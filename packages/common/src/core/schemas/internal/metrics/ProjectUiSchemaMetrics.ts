@@ -20,69 +20,74 @@ export const buildUiSchema = (
     type: "Layout",
     elements: [
       {
-        labelKey: `${i18nScope}.fields.cardTitle.label`,
-        scope: "/properties/_metrics/properties/cardTitle",
-        type: "Control",
-      },
-      {
         type: "Section",
-        labelKey: `${i18nScope}.sections.source.label`,
-        options: {
-          section: "block",
-          open: true,
-        },
         elements: [
           {
-            labelKey: `${i18nScope}.fields.value.label`,
-            scope: "/properties/_metrics/properties/value",
+            labelKey: `${i18nScope}.fields.cardTitle.label`,
+            scope: "/properties/_metrics/properties/cardTitle",
             type: "Control",
           },
-        ],
-      },
-      {
-        type: "Section",
-        labelKey: `${i18nScope}.sections.formatting.label`,
-        options: {
-          section: "block",
-          open: true,
-        },
-        elements: [
           {
-            labelKey: `${i18nScope}.fields.units.label`,
-            scope: "/properties/_metrics/properties/units",
-            type: "Control",
+            type: "Section",
+            labelKey: `${i18nScope}.sections.source.label`,
             options: {
-              helperText: {
-                labelKey: `${i18nScope}.fields.units.helperText`,
-                placement: "bottom",
-              },
+              section: "block",
+              open: true,
             },
+            elements: [
+              {
+                labelKey: `${i18nScope}.fields.value.label`,
+                scope: "/properties/_metrics/properties/value",
+                type: "Control",
+              },
+            ],
           },
           {
-            labelKey: `${i18nScope}.fields.unitPosition.label`,
-            scope: "/properties/_metrics/properties/unitPosition",
-            type: "Control",
+            type: "Section",
+            labelKey: `${i18nScope}.sections.formatting.label`,
             options: {
-              control: "hub-field-input-select",
-              enum: {
-                i18nScope: `${i18nScope}.fields.unitPosition.enum`,
-              },
+              section: "block",
+              open: true,
             },
+            elements: [
+              {
+                labelKey: `${i18nScope}.fields.units.label`,
+                scope: "/properties/_metrics/properties/units",
+                type: "Control",
+                options: {
+                  helperText: {
+                    labelKey: `${i18nScope}.fields.units.helperText`,
+                    placement: "bottom",
+                  },
+                },
+              },
+              {
+                labelKey: `${i18nScope}.fields.unitPosition.label`,
+                scope: "/properties/_metrics/properties/unitPosition",
+                type: "Control",
+                options: {
+                  control: "hub-field-input-select",
+                  enum: {
+                    i18nScope: `${i18nScope}.fields.unitPosition.enum`,
+                  },
+                },
+              },
+            ],
           },
-        ],
-      },
-      {
-        type: "Section",
-        labelKey: `${i18nScope}.sections.appearance.label`,
-        options: {
-          section: "block",
-          open: false,
-        },
-        elements: [
           {
-            labelKey: `${i18nScope}.fields.trailingText.label`,
-            scope: "/properties/_metrics/properties/trailingText",
-            type: "Control",
+            type: "Section",
+            labelKey: `${i18nScope}.sections.appearance.label`,
+            options: {
+              section: "block",
+              open: false,
+            },
+            elements: [
+              {
+                labelKey: `${i18nScope}.fields.trailingText.label`,
+                scope: "/properties/_metrics/properties/trailingText",
+                type: "Control",
+              },
+            ],
           },
         ],
       },
