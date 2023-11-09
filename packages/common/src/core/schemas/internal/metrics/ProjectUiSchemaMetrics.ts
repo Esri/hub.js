@@ -26,6 +26,17 @@ export const buildUiSchema = (
             labelKey: `${i18nScope}.fields.cardTitle.label`,
             scope: "/properties/_metrics/properties/cardTitle",
             type: "Control",
+            options: {
+              messages: [
+                {
+                  type: "ERROR",
+                  keyword: "minLength",
+                  labelKey: "fields.cardTitle.message.minLength",
+                  icon: true,
+                  allowShowBeforeInteract: true,
+                },
+              ],
+            },
           },
           {
             type: "Section",
@@ -39,6 +50,17 @@ export const buildUiSchema = (
                 labelKey: `${i18nScope}.fields.value.label`,
                 scope: "/properties/_metrics/properties/value",
                 type: "Control",
+                options: {
+                  messages: [
+                    {
+                      type: "ERROR",
+                      keyword: "minLength",
+                      labelKey: "fields.value.message.minLength",
+                      icon: true,
+                      allowShowBeforeInteract: true,
+                    },
+                  ],
+                },
               },
             ],
           },

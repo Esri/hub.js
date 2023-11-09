@@ -16,6 +16,17 @@ describe("buildUiSchema: metric", () => {
               labelKey: `some.scope.fields.cardTitle.label`,
               scope: "/properties/_metrics/properties/cardTitle",
               type: "Control",
+              options: {
+                messages: [
+                  {
+                    type: "ERROR",
+                    keyword: "minLength",
+                    labelKey: "some.scope.fields.cardTitle.message.minLength",
+                    icon: true,
+                    allowShowBeforeInteract: true,
+                  },
+                ],
+              },
             },
             {
               type: "Section",
@@ -29,6 +40,17 @@ describe("buildUiSchema: metric", () => {
                   labelKey: `some.scope.fields.value.label`,
                   scope: "/properties/_metrics/properties/value",
                   type: "Control",
+                  options: {
+                    messages: [
+                      {
+                        type: "ERROR",
+                        keyword: "minLength",
+                        labelKey: "some.scope.fields.value.message.minLength",
+                        icon: true,
+                        allowShowBeforeInteract: true,
+                      },
+                    ],
+                  },
                 },
               ],
             },
