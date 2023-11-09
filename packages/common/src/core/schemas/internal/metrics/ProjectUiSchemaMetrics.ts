@@ -20,28 +20,28 @@ export const buildUiSchema = (
     type: "Layout",
     elements: [
       {
-        labelKey: `${i18nScope}.metrics.cardTitle.title`,
+        labelKey: `${i18nScope}.fields.cardTitle.label`,
         scope: "/properties/_metrics/properties/cardTitle",
         type: "Control",
       },
       {
-        labelKey: `${i18nScope}.metrics.value.title`,
+        labelKey: `${i18nScope}.fields.value.label`,
         scope: "/properties/_metrics/properties/value",
         type: "Control",
       },
       {
-        labelKey: `${i18nScope}.metrics.units.title`,
+        labelKey: `${i18nScope}.fields.units.label`,
         scope: "/properties/_metrics/properties/units",
         type: "Control",
         options: {
           helperText: {
-            labelKey: `${i18nScope}.metrics.units.helperText`,
+            labelKey: `${i18nScope}.fields.units.helperText`,
             placement: "bottom",
           },
         },
       },
       {
-        labelKey: `${i18nScope}.metrics.unitPosition.title`,
+        labelKey: `${i18nScope}.fields.unitPosition.label`,
         scope: "/properties/_metrics/properties/unitPosition",
         type: "Control",
         options: {
@@ -52,7 +52,7 @@ export const buildUiSchema = (
         },
       },
       {
-        labelKey: `${i18nScope}.metrics.trailingText.title`,
+        labelKey: `${i18nScope}.fields.trailingText.label`,
         scope: "/properties/_metrics/properties/trailingText",
         type: "Control",
       },

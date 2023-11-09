@@ -10,39 +10,39 @@ describe("buildUiSchema: metric", () => {
       type: "Layout",
       elements: [
         {
-          labelKey: `some.scope.metrics.cardTitle.title`,
+          labelKey: `some.scope.fields.cardTitle.label`,
           scope: "/properties/_metrics/properties/cardTitle",
           type: "Control",
         },
         {
-          labelKey: `some.scope.metrics.value.title`,
+          labelKey: `some.scope.fields.value.label`,
           scope: "/properties/_metrics/properties/value",
           type: "Control",
         },
         {
-          labelKey: `some.scope.metrics.units.title`,
+          labelKey: `some.scope.fields.units.label`,
           scope: "/properties/_metrics/properties/units",
           type: "Control",
           options: {
             helperText: {
-              labelKey: `some.scope.metrics.units.helperText`,
+              labelKey: `some.scope.fields.units.helperText`,
               placement: "bottom",
             },
           },
         },
         {
-          labelKey: `some.scope.metrics.unitPosition.title`,
+          labelKey: `some.scope.fields.unitPosition.label`,
           scope: "/properties/_metrics/properties/unitPosition",
           type: "Control",
           options: {
             control: "hub-field-input-select",
             enum: {
-              i18nScope: `some.scope.metrics.unitPosition.enum`,
+              i18nScope: `some.scope.fields.unitPosition.enum`,
             },
           },
         },
         {
-          labelKey: `some.scope.metrics.trailingText.title`,
+          labelKey: `some.scope.fields.trailingText.label`,
           scope: "/properties/_metrics/properties/trailingText",
           type: "Control",
         },
