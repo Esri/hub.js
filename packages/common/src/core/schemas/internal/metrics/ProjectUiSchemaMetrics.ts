@@ -21,14 +21,47 @@ export const buildUiSchema = (
     elements: [
       {
         type: "Section",
-        labelKey: `${i18nScope}.details.sectionTitle`,
+        labelKey: `${i18nScope}.uiSchema.flowTitle.sectionTitle`,
         options: {
           section: "block",
+          helperText: `${i18nScope}.uiSchema.flowTitle.description`,
         },
         elements: [
           {
-            labelKey: `${i18nScope}.details.title`,
-            scope: "/properties/cardTitle",
+            labelKey: `${i18nScope}.uiSchema.cardTitle.title`,
+            scope: "/properties/_metrics/cardTitle",
+            type: "Control",
+          },
+          {
+            labelKey: `${i18nScope}.uiSchema.value.title`,
+            scope: "/properties/_metrics/value",
+            type: "Control",
+          },
+          {
+            labelKey: `${i18nScope}.uiSchema.units.title`,
+            scope: "/properties/_metrics/units",
+            type: "Control",
+            options: {
+              helperText: {
+                labelKey: `${i18nScope}.uiSchema.units.helperText`,
+                placement: "bottom",
+              },
+            },
+          },
+          {
+            labelKey: `${i18nScope}.uiSchema.unitPosition.title`,
+            scope: "/properties/_metrics/unitPosition",
+            type: "Control",
+            options: {
+              control: "hub-field-input-select",
+              enum: {
+                i18nScope: `${i18nScope}.uiSchema.unitPosition.enum`,
+              },
+            },
+          },
+          {
+            labelKey: `${i18nScope}.uiSchema.trailingText.title`,
+            scope: "/properties/_metrics/trailingText",
             type: "Control",
           },
         ],
