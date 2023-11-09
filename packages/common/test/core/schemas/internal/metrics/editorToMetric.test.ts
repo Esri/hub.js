@@ -92,7 +92,7 @@ describe("editorToMetric", () => {
         "(category IN ('value1')) AND (amount) >= 0 AND (amount) <= 2 AND (amount) <= 4 AND (amount) >= 1 AND date <= timestamp '2023-01-04 23:59:59' AND date >= timestamp '2023-01-02 00:00:00' AND date >= timestamp '2023-01-01 00:00:00' AND date <= timestamp '2023-01-03 23:59:59' AND (guid) >= 1234 AND (guid) <= 5234 AND category like '%val%' AND (category IN ('val', 'e'))"
       );
     });
-    // NOTE THESE NEXT THREE TESTS COVER CASES WHICH SHOULD NEVER OCCUR
+    // NOTE THESE NEXT FIVE TESTS COVER CASES WHICH SHOULD NEVER OCCUR
     // BUT WHICH HAVE BEEN SEEN IN THE WILD. THE GOAL IS TO JUST ENSURE
     // AN EXCEPTION IS NOT THROWN. THE WHERE CLAUSE WILL BE INVALID, BUT
     // THE SITE WILL NOT CRASH
@@ -137,6 +137,30 @@ describe("editorToMetric", () => {
       expect(whereClause).toEqual(
         "date >= timestamp 'WAT 00:00:00' AND date <= timestamp 'BLARG 23:59:59'"
       );
+    });
+    it("handles single entry in values with between", () => {
+      const expressionSet: IExpression[] = [
+        {
+          field: MOCK_DATE_FIELD,
+          key: "expression-7890",
+          values: ["2022-01-01"],
+          relationship: ExpressionRelationships.BETWEEN,
+        },
+      ];
+      const whereClause = EditorToMetric.buildWhereClause(expressionSet);
+      expect(whereClause).toEqual("date >= timestamp '2022-01-01 00:00:00'");
+    });
+    it("handles null in values with between", () => {
+      const expressionSet: IExpression[] = [
+        {
+          field: MOCK_DATE_FIELD,
+          key: "expression-7890",
+          values: [null as unknown as string, "2022-01-01"],
+          relationship: ExpressionRelationships.BETWEEN,
+        },
+      ];
+      const whereClause = EditorToMetric.buildWhereClause(expressionSet);
+      expect(whereClause).toEqual("date <= timestamp '2022-01-01 23:59:59'");
     });
     // END
     it("handles an undefined expression set", () => {

@@ -18,6 +18,10 @@ export function cloneObject<T>(obj: T): T {
   if (Array.isArray(obj)) {
     clone = obj.map(cloneObject);
   } else if (typeof obj === "object") {
+    // allow nulls to carry through
+    if (obj === null) {
+      return obj;
+    }
     for (const i in obj) {
       if (obj.hasOwnProperty(i)) {
         const value = obj[i];
