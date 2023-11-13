@@ -11,6 +11,7 @@ export const GroupEditorTypes = [
   "hub:group:edit",
   "hub:group:settings",
   "hub:group:discussions",
+  "hub:group:create",
 ] as const;
 
 /**

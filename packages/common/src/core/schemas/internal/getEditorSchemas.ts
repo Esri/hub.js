@@ -207,6 +207,8 @@ export async function getEditorSchemas(
           import("../../../groups/_internal/GroupUiSchemaSettings"),
         "hub:group:discussions": () =>
           import("../../../groups/_internal/GroupUiSchemaDiscussions"),
+        "hub:group:create": () =>
+          import("../../../groups/_internal/GroupUiSchemaCreate"),
       }[type as GroupEditorType]();
       uiSchema = await groupModule.buildUiSchema(
         i18nScope,
