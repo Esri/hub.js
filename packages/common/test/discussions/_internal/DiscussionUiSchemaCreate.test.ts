@@ -28,6 +28,24 @@ describe("buildUiSchema: discussion create", () => {
             ],
           },
         },
+        {
+          labelKey: "some.scope.fields.prompt.label",
+          scope: "/properties/prompt",
+          type: "Control",
+          options: {
+            helperText: {
+              labelKey: "some.scope.fields.prompt.helperText",
+            },
+            messages: [
+              {
+                type: "ERROR",
+                keyword: "required",
+                icon: true,
+                labelKey: "some.scope.fields.prompt.requiredError",
+              },
+            ],
+          },
+        },
       ],
     });
   });
