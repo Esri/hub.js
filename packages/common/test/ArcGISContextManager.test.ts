@@ -251,7 +251,7 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.portalUrl).toBe("https://www.arcgis.com");
       expect(mgr.context.isPortal).toBe(false);
       expect(mgr.context.hubUrl).toBe("https://hub.arcgis.com");
-      expect(mgr.context.OGCApiUrl).toBe(
+      expect(mgr.context.ogcApiUrl).toBe(
         "https://opendata.arcgis.com/api/search/v1"
       );
       expect(mgr.context.hubHomeUrl).toBe("https://hub.arcgis.com");
@@ -335,7 +335,7 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.environment).toBe("enterprise");
       expect(mgr.context.properties.site).toEqual(site);
       expect(mgr.context.userResourceTokens).toEqual([]);
-      expect(mgr.context.OGCApiUrl).toBeUndefined();
+      expect(mgr.context.ogcApiUrl).toBeUndefined();
     });
     it("verify when passed featureFlags", async () => {
       const t = new Date().getTime();
@@ -1040,7 +1040,7 @@ describe("ArcGISContext:", () => {
       );
       expect(mgr.context.isPortal).toBe(true);
       expect(mgr.context.hubUrl).toBeUndefined();
-      expect(mgr.context.OGCApiUrl).toBeUndefined();
+      expect(mgr.context.ogcApiUrl).toBeUndefined();
       expect(mgr.context.hubHomeUrl).toBeUndefined();
       expect(mgr.context.discussionsServiceUrl).toBeUndefined();
       expect(mgr.context.hubSearchServiceUrl).toBeUndefined();

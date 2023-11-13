@@ -21,7 +21,7 @@ const hubApiEndpoints = {
   domains: "/api/v3/domains",
   search: "/api/v3/datasets",
   discussions: "/api/discussions/v1",
-  ogcapi: "/api/search/v1",
+  ogcRecords: "/api/search/v1",
 };
 
 /**
@@ -95,7 +95,7 @@ export interface IArcGISContext {
   /**
    * Url for the Hub OGC API
    */
-  OGCApiUrl: string;
+  ogcApiUrl: string;
   /**
    * Returns the current user's hub-home url. If not authenticated,
    * returns the Hub Url. If portal, returns undefined
@@ -609,13 +609,13 @@ export class ArcGISContext implements IArcGISContext {
   /**
    * Returns Hub OGCAPI Service URL
    */
-  public get OGCApiUrl(): string {
+  public get ogcApiUrl(): string {
     if (this._hubUrl) {
       // NOTE: In the future, we will be able to use _hubUrl directly
       // but for now, we swap "hub" to "opendata" in _hubUrl so we end
       // up with urls like https://opendataqa.arcgis.com/api/search/v1
       const opendataUrl = this._hubUrl.replace("hub", "opendata");
-      return `${opendataUrl}${hubApiEndpoints.ogcapi}`;
+      return `${opendataUrl}${hubApiEndpoints.ogcRecords}`;
     }
   }
 
