@@ -18,7 +18,9 @@ import {
   IHubPage,
   IHubInitiativeTemplate,
   IHubTemplate,
+  IHubGroup,
 } from "./types";
+import { updateHubGroup } from "../groups";
 
 /**
  * centralized function to update a Hub entity - delegates
@@ -77,6 +79,11 @@ export const updateHubEntity = async (
         context.userRequestOptions
       );
       break;
+    case "group":
+      result = await updateHubGroup(
+        entity as IHubGroup,
+        context.requestOptions
+      );
   }
   return result;
 };
