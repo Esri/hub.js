@@ -1,3 +1,10 @@
+# @esri/hub-common [14.55.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.54.1...@esri/hub-common@14.55.0) (2023-11-13)
+
+
+### Features
+
+* add context.OGCApiUrl ([#1326](https://github.com/Esri/hub.js/issues/1326)) ([dc08e2f](https://github.com/Esri/hub.js/commit/dc08e2fed85aef4ca584cb4e9719a351e3a51b0d))
+
 ## @esri/hub-common [14.54.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.54.0...@esri/hub-common@14.54.1) (2023-11-13)
 
 
