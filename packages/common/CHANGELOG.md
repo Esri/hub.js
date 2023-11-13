@@ -1,3 +1,10 @@
+## @esri/hub-common [14.54.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.54.0...@esri/hub-common@14.54.1) (2023-11-13)
+
+
+### Bug Fixes
+
+* add guards around excape predicate to avoid exceptions ([#1324](https://github.com/Esri/hub.js/issues/1324)) ([a96f1ad](https://github.com/Esri/hub.js/commit/a96f1adb67c8ad1697b6dc7e392af7af635e1bce))
+
 # @esri/hub-common [14.54.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.53.0...@esri/hub-common@14.54.0) (2023-11-08)
 
 
