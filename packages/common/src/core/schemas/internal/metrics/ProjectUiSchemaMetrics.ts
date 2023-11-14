@@ -23,7 +23,7 @@ export const buildUiSchema = (
         type: "Section",
         elements: [
           {
-            labelKey: `${i18nScope}.fields.cardTitle.label`,
+            labelKey: `${i18nScope}.fields.metrics.cardTitle.label`,
             scope: "/properties/_metric/properties/cardTitle",
             type: "Control",
             options: {
@@ -31,7 +31,7 @@ export const buildUiSchema = (
                 {
                   type: "ERROR",
                   keyword: "minLength",
-                  labelKey: `${i18nScope}.fields.cardTitle.message.minLength`,
+                  labelKey: `${i18nScope}.fields.metrics.cardTitle.message.minLength`,
                   icon: true,
                   allowShowBeforeInteract: true,
                 },
@@ -40,14 +40,14 @@ export const buildUiSchema = (
           },
           {
             type: "Section",
-            labelKey: `${i18nScope}.sections.source.label`,
+            labelKey: `${i18nScope}.sections.metrics.source.label`,
             options: {
               section: "block",
               open: true,
             },
             elements: [
               {
-                labelKey: `${i18nScope}.fields.value.label`,
+                labelKey: `${i18nScope}.fields.metrics.value.label`,
                 scope: "/properties/_metric/properties/value",
                 type: "Control",
                 options: {
@@ -55,7 +55,7 @@ export const buildUiSchema = (
                     {
                       type: "ERROR",
                       keyword: "minLength",
-                      labelKey: `${i18nScope}.fields.value.message.minLength`,
+                      labelKey: `${i18nScope}.fields.metrics.value.message.minLength`,
                       icon: true,
                       allowShowBeforeInteract: true,
                     },
@@ -66,31 +66,31 @@ export const buildUiSchema = (
           },
           {
             type: "Section",
-            labelKey: `${i18nScope}.sections.formatting.label`,
+            labelKey: `${i18nScope}.sections.metrics.formatting.label`,
             options: {
               section: "block",
               open: true,
             },
             elements: [
               {
-                labelKey: `${i18nScope}.fields.unit.label`,
+                labelKey: `${i18nScope}.fields.metrics.unit.label`,
                 scope: "/properties/_metric/properties/unit",
                 type: "Control",
                 options: {
                   helperText: {
-                    labelKey: `${i18nScope}.fields.unit.helperText`,
+                    labelKey: `${i18nScope}.fields.metrics.unit.helperText`,
                     placement: "bottom",
                   },
                 },
               },
               {
-                labelKey: `${i18nScope}.fields.unitPosition.label`,
+                labelKey: `${i18nScope}.fields.metrics.unitPosition.label`,
                 scope: "/properties/_metric/properties/unitPosition",
                 type: "Control",
                 options: {
                   control: "hub-field-input-select",
                   enum: {
-                    i18nScope: `${i18nScope}.fields.unitPosition.enum`,
+                    i18nScope: `${i18nScope}.fields.metrics.unitPosition.enum`,
                   },
                 },
               },
@@ -98,14 +98,14 @@ export const buildUiSchema = (
           },
           {
             type: "Section",
-            labelKey: `${i18nScope}.sections.appearance.label`,
+            labelKey: `${i18nScope}.sections.metrics.appearance.label`,
             options: {
               section: "block",
               open: false,
             },
             elements: [
               {
-                labelKey: `${i18nScope}.fields.trailingText.label`,
+                labelKey: `${i18nScope}.fields.metrics.trailingText.label`,
                 scope: "/properties/_metric/properties/trailingText",
                 type: "Control",
               },

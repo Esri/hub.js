@@ -13,7 +13,7 @@ describe("buildUiSchema: metric", () => {
           type: "Section",
           elements: [
             {
-              labelKey: `some.scope.fields.cardTitle.label`,
+              labelKey: `some.scope.fields.metrics.cardTitle.label`,
               scope: "/properties/_metric/properties/cardTitle",
               type: "Control",
               options: {
@@ -21,7 +21,8 @@ describe("buildUiSchema: metric", () => {
                   {
                     type: "ERROR",
                     keyword: "minLength",
-                    labelKey: "some.scope.fields.cardTitle.message.minLength",
+                    labelKey:
+                      "some.scope.fields.metrics.cardTitle.message.minLength",
                     icon: true,
                     allowShowBeforeInteract: true,
                   },
@@ -30,14 +31,14 @@ describe("buildUiSchema: metric", () => {
             },
             {
               type: "Section",
-              labelKey: `some.scope.sections.source.label`,
+              labelKey: `some.scope.sections.metrics.source.label`,
               options: {
                 section: "block",
                 open: true,
               },
               elements: [
                 {
-                  labelKey: `some.scope.fields.value.label`,
+                  labelKey: `some.scope.fields.metrics.value.label`,
                   scope: "/properties/_metric/properties/value",
                   type: "Control",
                   options: {
@@ -45,7 +46,8 @@ describe("buildUiSchema: metric", () => {
                       {
                         type: "ERROR",
                         keyword: "minLength",
-                        labelKey: "some.scope.fields.value.message.minLength",
+                        labelKey:
+                          "some.scope.fields.metrics.value.message.minLength",
                         icon: true,
                         allowShowBeforeInteract: true,
                       },
@@ -56,31 +58,31 @@ describe("buildUiSchema: metric", () => {
             },
             {
               type: "Section",
-              labelKey: `some.scope.sections.formatting.label`,
+              labelKey: `some.scope.sections.metrics.formatting.label`,
               options: {
                 section: "block",
                 open: true,
               },
               elements: [
                 {
-                  labelKey: `some.scope.fields.unit.label`,
+                  labelKey: `some.scope.fields.metrics.unit.label`,
                   scope: "/properties/_metric/properties/unit",
                   type: "Control",
                   options: {
                     helperText: {
-                      labelKey: `some.scope.fields.unit.helperText`,
+                      labelKey: `some.scope.fields.metrics.unit.helperText`,
                       placement: "bottom",
                     },
                   },
                 },
                 {
-                  labelKey: `some.scope.fields.unitPosition.label`,
+                  labelKey: `some.scope.fields.metrics.unitPosition.label`,
                   scope: "/properties/_metric/properties/unitPosition",
                   type: "Control",
                   options: {
                     control: "hub-field-input-select",
                     enum: {
-                      i18nScope: `some.scope.fields.unitPosition.enum`,
+                      i18nScope: `some.scope.fields.metrics.unitPosition.enum`,
                     },
                   },
                 },
@@ -88,14 +90,14 @@ describe("buildUiSchema: metric", () => {
             },
             {
               type: "Section",
-              labelKey: `some.scope.sections.appearance.label`,
+              labelKey: `some.scope.sections.metrics.appearance.label`,
               options: {
                 section: "block",
                 open: false,
               },
               elements: [
                 {
-                  labelKey: `some.scope.fields.trailingText.label`,
+                  labelKey: `some.scope.fields.metrics.trailingText.label`,
                   scope: "/properties/_metric/properties/trailingText",
                   type: "Control",
                 },
