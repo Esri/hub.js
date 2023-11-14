@@ -1,3 +1,10 @@
+# @esri/hub-common [14.56.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.55.0...@esri/hub-common@14.56.0) (2023-11-14)
+
+
+### Features
+
+* **hub-common:** hubSearchItems filters aggregations requests by the provided query ([#1327](https://github.com/Esri/hub.js/issues/1327)) ([df53fb9](https://github.com/Esri/hub.js/commit/df53fb95d1b3d192775ff4db71558556e1910a7c))
+
 # @esri/hub-common [14.55.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.54.1...@esri/hub-common@14.55.0) (2023-11-13)
 
 
