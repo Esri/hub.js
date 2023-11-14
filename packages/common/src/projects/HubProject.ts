@@ -302,11 +302,6 @@ export class HubProject
         metricId,
         {
           metricName: editor._metric.cardTitle,
-          entityInfo: {
-            id: entity.id,
-            name: entity.name,
-            type: entity.type,
-          },
         }
       );
 

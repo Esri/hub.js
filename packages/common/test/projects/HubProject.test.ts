@@ -687,9 +687,9 @@ describe("HubProject Class:", () => {
             },
             name: "metric1",
             entityInfo: {
-              id: "bc3",
-              name: "Test Entity",
-              type: "Hub Project",
+              id: undefined,
+              name: undefined,
+              type: undefined,
             },
           },
         ]);
@@ -742,9 +742,9 @@ describe("HubProject Class:", () => {
             },
             name: "metric1",
             entityInfo: {
-              id: "bc3",
-              name: "Test Entity",
-              type: "Hub Project",
+              id: undefined,
+              name: undefined,
+              type: undefined,
             },
           },
         ]);
@@ -811,9 +811,9 @@ describe("HubProject Class:", () => {
             },
             name: "metric1",
             entityInfo: {
-              id: "bc3",
-              name: "Test Entity",
-              type: "Hub Project",
+              id: undefined,
+              name: undefined,
+              type: undefined,
             },
           },
         ]);
@@ -873,9 +873,9 @@ describe("HubProject Class:", () => {
             },
             name: "metric1",
             entityInfo: {
-              id: "bc3",
-              name: "Test Entity",
-              type: "Hub Project",
+              id: undefined,
+              name: undefined,
+              type: undefined,
             },
           },
         ]);
