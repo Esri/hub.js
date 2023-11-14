@@ -1,4 +1,4 @@
-export type IHubActionLink =
+export type HubActionLink =
   | IHubActionLinkSection
   | IHubExternalActionLink
   | IHubContentActionLink
@@ -31,7 +31,7 @@ interface IHubBaseActionLink {
 export interface IHubActionLinkSection extends IHubBaseActionLink {
   kind: "section";
   /** section links */
-  children: IHubActionLink[];
+  children: HubActionLink[];
 }
 
 /**
