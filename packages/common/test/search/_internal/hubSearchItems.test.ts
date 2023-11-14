@@ -541,7 +541,11 @@ describe("hubSearchItems Module |", () => {
         const options: IHubSearchOptions = {
           aggFields: ["type", "tags", "categories"],
         };
-        const result = getOgcAggregationQueryParams(baseQuery, options);
+        const emptyQuery: IQuery = {
+          targetEntity: "item",
+          filters: [],
+        };
+        const result = getOgcAggregationQueryParams(emptyQuery, options);
         const queryString = getQueryString(result);
         expect(queryString).toEqual(
           `?aggregations=${encodeURIComponent(
@@ -550,23 +554,20 @@ describe("hubSearchItems Module |", () => {
         );
       });
 
-      it("handles aggregations and openData flag", () => {
+      it("handles aggregations and filter", () => {
         const options: IHubSearchOptions = {
           aggFields: ["type", "tags", "categories"],
         };
-        const opendataQuery = cloneObject(baseQuery);
-        opendataQuery.filters.push({ predicates: [{ openData: true }] });
-
-        const result = getOgcAggregationQueryParams(opendataQuery, options);
+        const result = getOgcAggregationQueryParams(baseQuery, options);
         const queryString = getQueryString(result);
         expect(queryString).toEqual(
           `?aggregations=${encodeURIComponent(
             "terms(fields=(type,tags,categories))"
-          )}&openData=true`
+          )}&filter=${encodeURIComponent("((type=typeA))")}`
         );
       });
 
-      it("handles aggregations, openData flag and token", () => {
+      it("handles aggregations, filter, and token", () => {
         const options: IHubSearchOptions = {
           aggFields: ["type", "tags", "categories"],
           requestOptions: {
@@ -583,7 +584,9 @@ describe("hubSearchItems Module |", () => {
         expect(queryString).toEqual(
           `?aggregations=${encodeURIComponent(
             "terms(fields=(type,tags,categories))"
-          )}&openData=true&token=abc`
+          )}&filter=${encodeURIComponent(
+            "((type=typeA)) AND ((openData=true))"
+          )}&token=abc`
         );
       });
     });
@@ -744,7 +747,7 @@ describe("hubSearchItems Module |", () => {
         total: 0,
         results: [],
         hasNext: false,
-        next: () => null,
+        next: async () => null as any,
       };
 
       let searchOgcItemsSpy: jasmine.Spy;
@@ -835,9 +838,9 @@ describe("hubSearchItems Module |", () => {
         expect(nextResult).toBeNull();
 
         // Test aggregation results
-        expect(formatted.aggregations.length).toEqual(2);
+        expect(formatted.aggregations?.length).toEqual(2);
 
-        const accessAgg = formatted.aggregations.find(
+        const accessAgg = formatted.aggregations?.find(
           (a) => a.field === "access"
         );
         expect(accessAgg).toEqual({
@@ -851,7 +854,7 @@ describe("hubSearchItems Module |", () => {
           ],
         });
 
-        const typeAgg = formatted.aggregations.find((a) => a.field === "type");
+        const typeAgg = formatted.aggregations?.find((a) => a.field === "type");
         expect(typeAgg).toEqual({
           mode: "terms",
           field: "type",
@@ -1012,9 +1015,9 @@ describe("hubSearchItems Module |", () => {
           expect(response.results).toEqual([]);
           expect(response.hasNext).toEqual(false),
             // Test aggregation results
-            expect(response.aggregations.length).toEqual(2);
+            expect(response.aggregations?.length).toEqual(2);
 
-          const accessAgg = response.aggregations.find(
+          const accessAgg = response.aggregations?.find(
             (a) => a.field === "access"
           );
           expect(accessAgg).toEqual({
@@ -1028,7 +1031,9 @@ describe("hubSearchItems Module |", () => {
             ],
           });
 
-          const typeAgg = response.aggregations.find((a) => a.field === "type");
+          const typeAgg = response.aggregations?.find(
+            (a) => a.field === "type"
+          );
           expect(typeAgg).toEqual({
             mode: "terms",
             field: "type",
