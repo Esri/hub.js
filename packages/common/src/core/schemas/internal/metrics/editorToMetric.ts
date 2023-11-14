@@ -7,6 +7,7 @@ import {
   IEntityInfo,
   IExpression,
   IMetricEditorValues,
+  MetricVisibility,
 } from "../../../types/Metrics";
 import { ServiceAggregation } from "../../../../core/types/DynamicValues";
 
@@ -76,6 +77,7 @@ export function editorToMetric(
   const displayConfig: IMetricDisplayConfig = {
     ...config,
     displayType: config.displayType || "stat-card",
+    visibility: config.visibility || MetricVisibility.hidden,
     metricId,
     fieldType,
     statistic,

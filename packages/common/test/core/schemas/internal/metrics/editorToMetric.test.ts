@@ -4,6 +4,7 @@ import {
   IMetricEditorValues,
   IServiceQueryMetricSource,
   IStaticValueMetricSource,
+  MetricVisibility,
 } from "../../../../../src/core/types/Metrics";
 import * as EditorToMetric from "../../../../../src/core/schemas/internal/metrics/editorToMetric";
 
@@ -394,6 +395,7 @@ describe("editorToMetric", () => {
           sourceTitle: "DynamicMaps123",
           allowLink: undefined,
           fieldType: "esriFieldTypeString",
+          visibility: MetricVisibility.hidden,
           statistic: "",
         });
       });
@@ -440,6 +442,7 @@ describe("editorToMetric", () => {
           allowLink: undefined,
           fieldType: "esriFieldTypeString",
           statistic: "",
+          visibility: MetricVisibility.hidden,
         });
       });
       it("handles static source link correctly when no source", () => {
@@ -483,6 +486,47 @@ describe("editorToMetric", () => {
           allowLink: undefined,
           fieldType: "esriFieldTypeString",
           statistic: "",
+          visibility: MetricVisibility.hidden,
+        });
+      });
+      it("handles static source link correctly when no source or entity info", () => {
+        const values = {
+          value: "1",
+          type: "dynamic",
+          displayType: "stat-card",
+          allowLink: false,
+          dynamicMetric: {
+            layerId: 0,
+            field: "",
+            statistic: "",
+            serviceUrl: "",
+            fieldType: "esriFieldTypeString" as FieldType,
+            sourceLink: "/dynamicmaps/123",
+            sourceTitle: "DynamicMaps123",
+            allowDynamicLink: true,
+            allowExpressionSet: true,
+            expressionSet: [] as IExpression[],
+            legacyWhere: "location = 'river' OR location = 'sun'",
+          },
+          itemId: "",
+          metricId: "id",
+        };
+
+        const { displayConfig } = EditorToMetric.editorToMetric(
+          values,
+          "id",
+          undefined
+        );
+        expect(displayConfig).toEqual({
+          displayType: "stat-card",
+          metricId: "id",
+          type: "dynamic",
+          sourceLink: "/dynamicmaps/123",
+          sourceTitle: "DynamicMaps123",
+          allowLink: undefined,
+          fieldType: "esriFieldTypeString",
+          statistic: "",
+          visibility: MetricVisibility.hidden,
         });
       });
     });

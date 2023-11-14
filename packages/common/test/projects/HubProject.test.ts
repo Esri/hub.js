@@ -1,5 +1,6 @@
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import { IHubProject, IResolvedMetric, getProp, mergeObjects } from "../../src";
+import { MetricVisibility } from "../../src/core/types/Metrics";
 import { Catalog } from "../../src/search";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubProject } from "../../src/projects/HubProject";
@@ -658,6 +659,7 @@ describe("HubProject Class:", () => {
           {
             id: "bc3",
             name: "Test Entity",
+            type: "Hub Project",
             metrics: [],
             view: {
               metricDisplays: [],
@@ -673,7 +675,6 @@ describe("HubProject Class:", () => {
           type: "static",
           value: "123",
           cardTitle: "metric1",
-          metricId: "id",
           displayType: "stat-card",
         };
         const result = await chk.fromEditor(editor);
@@ -684,7 +685,7 @@ describe("HubProject Class:", () => {
               type: "static-value",
               value: "123",
             },
-            name: "metric1fakeid",
+            name: "metric1",
             entityInfo: {
               id: undefined,
               name: undefined,
@@ -703,6 +704,7 @@ describe("HubProject Class:", () => {
             sourceLink: undefined,
             sourceTitle: undefined,
             allowLink: undefined,
+            visibility: MetricVisibility.hidden,
           },
         ]);
       });
@@ -711,6 +713,7 @@ describe("HubProject Class:", () => {
           {
             id: "bc3",
             name: "Test Entity",
+            type: "Hub Project",
             metrics: [],
             view: {
               metricDisplays: [],
@@ -737,7 +740,7 @@ describe("HubProject Class:", () => {
               type: "static-value",
               value: "123",
             },
-            name: "metric1fakeid",
+            name: "metric1",
             entityInfo: {
               id: undefined,
               name: undefined,
@@ -756,6 +759,7 @@ describe("HubProject Class:", () => {
             sourceLink: undefined,
             sourceTitle: undefined,
             allowLink: undefined,
+            visibility: MetricVisibility.hidden,
           },
         ]);
       });
@@ -764,6 +768,7 @@ describe("HubProject Class:", () => {
           {
             id: "bc3",
             name: "Test Entity",
+            type: "Hub Project",
             metrics: [
               {
                 id: "metric1",
@@ -779,6 +784,7 @@ describe("HubProject Class:", () => {
                   cardTitle: "metric1",
                   displayType: "stat-card",
                   metricId: "metric1",
+                  visibility: MetricVisibility.hidden,
                 },
               ],
             },
@@ -823,6 +829,7 @@ describe("HubProject Class:", () => {
             type: "static",
             displayType: "stat-card",
             metricId: "metric1",
+            visibility: MetricVisibility.hidden,
           },
         ]);
       });
@@ -831,6 +838,7 @@ describe("HubProject Class:", () => {
           {
             id: "bc3",
             name: "Test Entity",
+            type: "Hub Project",
             metrics: [
               {
                 id: "metric1",
@@ -853,6 +861,7 @@ describe("HubProject Class:", () => {
           cardTitle: "metric1",
           metricId: "metric1",
           displayType: "stat-card",
+          visibility: MetricVisibility.hidden,
         };
         const result = await chk.fromEditor(editor, { metricId: "metric1" });
         expect(getProp(result, "metrics")).toEqual([
@@ -881,6 +890,7 @@ describe("HubProject Class:", () => {
             allowLink: undefined,
             type: "static",
             displayType: "stat-card",
+            visibility: MetricVisibility.hidden,
             metricId: "metric1",
           },
         ]);
