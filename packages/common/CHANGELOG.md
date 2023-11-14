@@ -1,3 +1,10 @@
+# @esri/hub-common [14.57.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.56.0...@esri/hub-common@14.57.0) (2023-11-14)
+
+
+### Features
+
+* update project schema/metricsUiSchema ([#1323](https://github.com/Esri/hub.js/issues/1323)) ([ac3a6fa](https://github.com/Esri/hub.js/commit/ac3a6fadb1bb06f45de23e01aa52794d6a69c196))
+
 # @esri/hub-common [14.56.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.55.0...@esri/hub-common@14.56.0) (2023-11-14)
 
 
