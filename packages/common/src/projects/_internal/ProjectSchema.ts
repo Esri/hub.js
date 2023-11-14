@@ -29,6 +29,7 @@ export const ProjectSchema: IConfigurationSchema = {
     _metric: {
       type: "object",
       properties: {
+        ...MetricSchema.properties,
         cardTitle: {
           type: "string",
           minLength: 1,
@@ -37,7 +38,6 @@ export const ProjectSchema: IConfigurationSchema = {
           type: "string",
           minLength: 1,
         },
-        ...MetricSchema.properties,
       },
     },
   },
