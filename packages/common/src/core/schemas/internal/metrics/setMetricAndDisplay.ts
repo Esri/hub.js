@@ -20,9 +20,12 @@ export function setMetricAndDisplay(
 ): IHubProject {
   const entityCopy = cloneObject(entity);
   const metricId = metric.id;
-  const mIndex = entityCopy.metrics.findIndex((m) => m.id === metricId);
 
-  // get array in case of undefined
+  // get with default in case we have an undefined metrics array
+  const metrics = getWithDefault(entityCopy, "metrics", []);
+  const mIndex = metrics.findIndex((m: IMetric) => m.id === metricId);
+
+  // get array in case of undefined displays array
   const displays = getWithDefault(entityCopy, "view.metricDisplays", []);
   const dIndex = displays.findIndex(
     (d: IMetricDisplayConfig) => d.metricId === metricId
@@ -30,9 +33,9 @@ export function setMetricAndDisplay(
 
   // existing vs new metric
   if (mIndex > -1) {
-    entityCopy.metrics[mIndex] = metric;
+    metrics[mIndex] = metric;
   } else {
-    entityCopy.metrics.push(metric);
+    metrics.push(metric);
   }
 
   // existing vs new display
@@ -42,8 +45,9 @@ export function setMetricAndDisplay(
     displays.push(displayConfig);
   }
 
-  // reset the displays array
+  // reset the arrays
   entityCopy.view.metricDisplays = displays;
+  entityCopy.metrics = metrics;
 
   return entityCopy;
 }
