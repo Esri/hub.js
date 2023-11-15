@@ -1,3 +1,10 @@
+# @esri/hub-common [14.58.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.57.0...@esri/hub-common@14.58.0) (2023-11-15)
+
+
+### Features
+
+* **hub-common:** updates DiscussionUiSchemaEdit schema layout and de… ([#1325](https://github.com/Esri/hub.js/issues/1325)) ([1336de1](https://github.com/Esri/hub.js/commit/1336de1a1e50cbe20d4d32623ecd4858bf136db7))
+
 # @esri/hub-common [14.57.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.56.0...@esri/hub-common@14.57.0) (2023-11-14)
 
 
