@@ -65,77 +65,47 @@ export const buildUiSchema = async (
               ],
             },
           },
-          {
-            labelKey: `${i18nScope}.fields.summary.label`,
-            scope: "/properties/summary",
-            type: "Control",
-            options: {
-              control: "hub-field-input-input",
-              type: "textarea",
-              rows: 4,
-              helperText: {
-                labelKey: `${i18nScope}.fields.summary.helperText`,
-              },
-              messages: [
-                {
-                  type: "ERROR",
-                  keyword: "maxLength",
-                  icon: true,
-                  labelKey: `shared.fields.purpose.maxLengthError`,
-                },
-              ],
-            },
-          },
-          {
-            labelKey: `${i18nScope}.fields.description.label`,
-            scope: "/properties/description",
-            type: "Control",
-            options: {
-              control: "hub-field-input-input",
-              type: "textarea",
-              helperText: {
-                labelKey: `${i18nScope}.fields.description.helperText`,
-              },
-            },
-          },
           getThumbnailUiSchemaElement(
             i18nScope,
             options.thumbnail,
             options.thumbnailUrl
           ),
+        ],
+      },
+      {
+        type: "Section",
+        labelKey: `${i18nScope}.sections.location.label`,
+        options: {
+          helperText: {
+            labelKey: `${i18nScope}.sections.location.helperText`,
+          },
+        },
+        elements: [
           {
-            labelKey: `${i18nScope}.fields.featuredImage.label`,
-            scope: "/properties/view/properties/featuredImage",
+            scope: "/properties/location",
             type: "Control",
             options: {
-              control: "hub-field-input-image-picker",
-              imgSrc: getAuthedImageUrl(
-                options.view?.featuredImageUrl,
-                context
+              control: "hub-field-input-location-picker",
+              extent: await getLocationExtent(
+                options.location,
+                context.hubRequestOptions
               ),
-              maxWidth: 727,
-              maxHeight: 484,
-              aspectRatio: 1.5,
-              sizeDescription: {
-                labelKey: `${i18nScope}.fields.featuredImage.sizeDescription`,
-              },
+              options: await getLocationOptions(
+                options.id,
+                options.type,
+                options.location,
+                context.portal.name,
+                context.hubRequestOptions
+              ),
+              mapTools: ["polygon", "rectangle"],
             },
           },
-          {
-            labelKey: `${i18nScope}.fields.featuredImage.altText.label`,
-            scope: "/properties/view/properties/featuredImageAltText",
-            type: "Control",
-            options: {
-              helperText: {
-                labelKey: `${i18nScope}.fields.featuredImage.altText.helperText`,
-              },
-            },
-          },
-          {
-            labelKey: `${i18nScope}.fields.featuredImage.name.label`,
-            scope: "/properties/view/properties/featuredImageName",
-            type: "Control",
-          },
+        ],
+      },
+      {
+        type: "Section",
+        labelKey: `${i18nScope}.sections.searchDiscoverability.label`,
+        elements: [
           {
             labelKey: `${i18nScope}.fields.tags.label`,
             scope: "/properties/tags",
@@ -167,34 +137,37 @@ export const buildUiSchema = async (
               placeholderIcon: "select-category",
             },
           },
-        ],
-      },
-      {
-        type: "Section",
-        labelKey: `${i18nScope}.sections.location.label`,
-        options: {
-          helperText: {
-            labelKey: `${i18nScope}.sections.location.helperText`,
-          },
-        },
-        elements: [
           {
-            scope: "/properties/location",
+            labelKey: `${i18nScope}.fields.summary.label`,
+            scope: "/properties/summary",
             type: "Control",
             options: {
-              control: "hub-field-input-location-picker",
-              extent: await getLocationExtent(
-                options.location,
-                context.hubRequestOptions
-              ),
-              options: await getLocationOptions(
-                options.id,
-                options.type,
-                options.location,
-                context.portal.name,
-                context.hubRequestOptions
-              ),
-              mapTools: ["polygon", "rectangle"],
+              control: "hub-field-input-input",
+              type: "textarea",
+              rows: 4,
+              helperText: {
+                labelKey: `${i18nScope}.fields.summary.helperText`,
+              },
+              messages: [
+                {
+                  type: "ERROR",
+                  keyword: "maxLength",
+                  icon: true,
+                  labelKey: `shared.fields.purpose.maxLengthError`,
+                },
+              ],
+            },
+          },
+          {
+            labelKey: `${i18nScope}.fields.description.label`,
+            scope: "/properties/description",
+            type: "Control",
+            options: {
+              control: "hub-field-input-input",
+              type: "textarea",
+              helperText: {
+                labelKey: `${i18nScope}.fields.description.helperText`,
+              },
             },
           },
         ],

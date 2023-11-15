@@ -55,7 +55,7 @@ describe("buildUiSchema: discussion edit", () => {
                     type: "ERROR",
                     keyword: "maxLength",
                     icon: true,
-                    labelKey: `shared.fields.title.maxLengthError`,
+                    labelKey: "shared.fields.title.maxLengthError",
                   },
                 ],
               },
@@ -79,39 +79,6 @@ describe("buildUiSchema: discussion edit", () => {
               },
             },
             {
-              labelKey: "some.scope.fields.summary.label",
-              scope: "/properties/summary",
-              type: "Control",
-              options: {
-                control: "hub-field-input-input",
-                type: "textarea",
-                rows: 4,
-                helperText: {
-                  labelKey: "some.scope.fields.summary.helperText",
-                },
-                messages: [
-                  {
-                    type: "ERROR",
-                    keyword: "maxLength",
-                    icon: true,
-                    labelKey: `shared.fields.purpose.maxLengthError`,
-                  },
-                ],
-              },
-            },
-            {
-              labelKey: "some.scope.fields.description.label",
-              scope: "/properties/description",
-              type: "Control",
-              options: {
-                control: "hub-field-input-input",
-                type: "textarea",
-                helperText: {
-                  labelKey: "some.scope.fields.description.helperText",
-                },
-              },
-            },
-            {
               labelKey: "shared.fields._thumbnail.label",
               scope: "/properties/_thumbnail",
               type: "Control",
@@ -130,37 +97,33 @@ describe("buildUiSchema: discussion edit", () => {
                 messages: [],
               },
             },
+          ],
+        },
+        {
+          type: "Section",
+          labelKey: "some.scope.sections.location.label",
+          options: {
+            helperText: {
+              labelKey: "some.scope.sections.location.helperText",
+            },
+          },
+          elements: [
             {
-              labelKey: "some.scope.fields.featuredImage.label",
-              scope: "/properties/view/properties/featuredImage",
+              scope: "/properties/location",
               type: "Control",
               options: {
-                control: "hub-field-input-image-picker",
-                imgSrc: "https://some-image-url.com",
-                maxWidth: 727,
-                maxHeight: 484,
-                aspectRatio: 1.5,
-                sizeDescription: {
-                  labelKey: "some.scope.fields.featuredImage.sizeDescription",
-                },
+                control: "hub-field-input-location-picker",
+                extent: [],
+                options: [],
+                mapTools: ["polygon", "rectangle"],
               },
             },
-            {
-              labelKey: "some.scope.fields.featuredImage.altText.label",
-              scope: "/properties/view/properties/featuredImageAltText",
-              type: "Control",
-              options: {
-                helperText: {
-                  labelKey:
-                    "some.scope.fields.featuredImage.altText.helperText",
-                },
-              },
-            },
-            {
-              labelKey: "some.scope.fields.featuredImage.name.label",
-              scope: "/properties/view/properties/featuredImageName",
-              type: "Control",
-            },
+          ],
+        },
+        {
+          type: "Section",
+          labelKey: "some.scope.sections.searchDiscoverability.label",
+          elements: [
             {
               labelKey: "some.scope.fields.tags.label",
               scope: "/properties/tags",
@@ -185,25 +148,37 @@ describe("buildUiSchema: discussion edit", () => {
                 placeholderIcon: "select-category",
               },
             },
-          ],
-        },
-        {
-          type: "Section",
-          labelKey: "some.scope.sections.location.label",
-          options: {
-            helperText: {
-              labelKey: "some.scope.sections.location.helperText",
-            },
-          },
-          elements: [
             {
-              scope: "/properties/location",
+              labelKey: "some.scope.fields.summary.label",
+              scope: "/properties/summary",
               type: "Control",
               options: {
-                control: "hub-field-input-location-picker",
-                extent: [],
-                options: [],
-                mapTools: ["polygon", "rectangle"],
+                control: "hub-field-input-input",
+                type: "textarea",
+                rows: 4,
+                helperText: {
+                  labelKey: "some.scope.fields.summary.helperText",
+                },
+                messages: [
+                  {
+                    type: "ERROR",
+                    keyword: "maxLength",
+                    icon: true,
+                    labelKey: "shared.fields.purpose.maxLengthError",
+                  },
+                ],
+              },
+            },
+            {
+              labelKey: "some.scope.fields.description.label",
+              scope: "/properties/description",
+              type: "Control",
+              options: {
+                control: "hub-field-input-input",
+                type: "textarea",
+                helperText: {
+                  labelKey: "some.scope.fields.description.helperText",
+                },
               },
             },
           ],
@@ -262,7 +237,7 @@ describe("buildUiSchema: discussion edit", () => {
                     type: "ERROR",
                     keyword: "maxLength",
                     icon: true,
-                    labelKey: `shared.fields.title.maxLengthError`,
+                    labelKey: "shared.fields.title.maxLengthError",
                   },
                 ],
               },
@@ -286,39 +261,6 @@ describe("buildUiSchema: discussion edit", () => {
               },
             },
             {
-              labelKey: "some.scope.fields.summary.label",
-              scope: "/properties/summary",
-              type: "Control",
-              options: {
-                control: "hub-field-input-input",
-                type: "textarea",
-                rows: 4,
-                helperText: {
-                  labelKey: "some.scope.fields.summary.helperText",
-                },
-                messages: [
-                  {
-                    type: "ERROR",
-                    keyword: "maxLength",
-                    icon: true,
-                    labelKey: `shared.fields.purpose.maxLengthError`,
-                  },
-                ],
-              },
-            },
-            {
-              labelKey: "some.scope.fields.description.label",
-              scope: "/properties/description",
-              type: "Control",
-              options: {
-                control: "hub-field-input-input",
-                type: "textarea",
-                helperText: {
-                  labelKey: "some.scope.fields.description.helperText",
-                },
-              },
-            },
-            {
               labelKey: "shared.fields._thumbnail.label",
               scope: "/properties/_thumbnail",
               type: "Control",
@@ -337,37 +279,33 @@ describe("buildUiSchema: discussion edit", () => {
                 messages: [],
               },
             },
+          ],
+        },
+        {
+          type: "Section",
+          labelKey: "some.scope.sections.location.label",
+          options: {
+            helperText: {
+              labelKey: "some.scope.sections.location.helperText",
+            },
+          },
+          elements: [
             {
-              labelKey: "some.scope.fields.featuredImage.label",
-              scope: "/properties/view/properties/featuredImage",
+              scope: "/properties/location",
               type: "Control",
               options: {
-                control: "hub-field-input-image-picker",
-                imgSrc: "https://some-image-url.com",
-                maxWidth: 727,
-                maxHeight: 484,
-                aspectRatio: 1.5,
-                sizeDescription: {
-                  labelKey: "some.scope.fields.featuredImage.sizeDescription",
-                },
+                control: "hub-field-input-location-picker",
+                extent: [],
+                options: [],
+                mapTools: ["polygon", "rectangle"],
               },
             },
-            {
-              labelKey: "some.scope.fields.featuredImage.altText.label",
-              scope: "/properties/view/properties/featuredImageAltText",
-              type: "Control",
-              options: {
-                helperText: {
-                  labelKey:
-                    "some.scope.fields.featuredImage.altText.helperText",
-                },
-              },
-            },
-            {
-              labelKey: "some.scope.fields.featuredImage.name.label",
-              scope: "/properties/view/properties/featuredImageName",
-              type: "Control",
-            },
+          ],
+        },
+        {
+          type: "Section",
+          labelKey: "some.scope.sections.searchDiscoverability.label",
+          elements: [
             {
               labelKey: "some.scope.fields.tags.label",
               scope: "/properties/tags",
@@ -392,25 +330,37 @@ describe("buildUiSchema: discussion edit", () => {
                 placeholderIcon: "select-category",
               },
             },
-          ],
-        },
-        {
-          type: "Section",
-          labelKey: "some.scope.sections.location.label",
-          options: {
-            helperText: {
-              labelKey: "some.scope.sections.location.helperText",
-            },
-          },
-          elements: [
             {
-              scope: "/properties/location",
+              labelKey: "some.scope.fields.summary.label",
+              scope: "/properties/summary",
               type: "Control",
               options: {
-                control: "hub-field-input-location-picker",
-                extent: [],
-                options: [],
-                mapTools: ["polygon", "rectangle"],
+                control: "hub-field-input-input",
+                type: "textarea",
+                rows: 4,
+                helperText: {
+                  labelKey: "some.scope.fields.summary.helperText",
+                },
+                messages: [
+                  {
+                    type: "ERROR",
+                    keyword: "maxLength",
+                    icon: true,
+                    labelKey: "shared.fields.purpose.maxLengthError",
+                  },
+                ],
+              },
+            },
+            {
+              labelKey: "some.scope.fields.description.label",
+              scope: "/properties/description",
+              type: "Control",
+              options: {
+                control: "hub-field-input-input",
+                type: "textarea",
+                helperText: {
+                  labelKey: "some.scope.fields.description.helperText",
+                },
               },
             },
           ],

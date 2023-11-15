@@ -13,11 +13,12 @@ export const DiscussionEditorTypes = [
  */
 export const DiscussionSchema: IConfigurationSchema = {
   ...HubItemEntitySchema,
+  required: ["name", "prompt"],
   properties: {
     ...HubItemEntitySchema.properties,
     prompt: {
       type: "string",
-      default: "We want to hear from you!",
+      default: "",
     },
   },
 } as IConfigurationSchema;

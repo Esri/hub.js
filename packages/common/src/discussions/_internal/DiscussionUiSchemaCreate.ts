@@ -36,6 +36,24 @@ export const buildUiSchema = async (
           ],
         },
       },
+      {
+        labelKey: `${i18nScope}.fields.prompt.label`,
+        scope: "/properties/prompt",
+        type: "Control",
+        options: {
+          helperText: {
+            labelKey: `${i18nScope}.fields.prompt.helperText`,
+          },
+          messages: [
+            {
+              type: "ERROR",
+              keyword: "required",
+              icon: true,
+              labelKey: `${i18nScope}.fields.prompt.requiredError`,
+            },
+          ],
+        },
+      },
     ],
   };
 };

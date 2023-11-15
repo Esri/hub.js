@@ -7,7 +7,7 @@ export const HUB_DISCUSSION_ITEM_TYPE = "Discussion";
  * Default values of a IHubDiscussion
  */
 export const DEFAULT_DISCUSSION: Partial<IHubDiscussion> = {
-  name: "No title provided",
+  name: "",
   tags: [],
   typeKeywords: ["Hub Discussion"],
   permissions: [],
@@ -21,8 +21,8 @@ export const DEFAULT_DISCUSSION: Partial<IHubDiscussion> = {
 export const DEFAULT_DISCUSSION_MODEL: IModel = {
   item: {
     type: HUB_DISCUSSION_ITEM_TYPE,
-    title: "No Title Provided",
-    description: "No Description Provided",
+    title: "",
+    description: "",
     snippet: "",
     tags: [],
     typeKeywords: ["Hub Discussion"],
@@ -32,6 +32,6 @@ export const DEFAULT_DISCUSSION_MODEL: IModel = {
     },
   },
   data: {
-    prompt: "We want to hear from you!",
+    prompt: "",
   },
 } as unknown as IModel;
