@@ -1,3 +1,9 @@
+/**
+ * Type to represent an action link. This is a discriminated
+ * union between actions that link to "external" sources,
+ * actions that link to existing "content", "well-known"
+ * actions, and action link "sections"
+ */
 export type HubActionLink =
   | IHubActionLinkSection
   | IHubExternalActionLink
