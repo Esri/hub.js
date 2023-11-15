@@ -1,3 +1,10 @@
+# @esri/hub-common [14.59.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.58.0...@esri/hub-common@14.59.0) (2023-11-15)
+
+
+### Features
+
+* add generic action link interfaces/types ([#1328](https://github.com/Esri/hub.js/issues/1328)) ([1441d28](https://github.com/Esri/hub.js/commit/1441d28a7edd3d5fae90460cadc9419e422e6ecd))
+
 # @esri/hub-common [14.58.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.57.0...@esri/hub-common@14.58.0) (2023-11-15)
 
 
