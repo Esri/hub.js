@@ -3,7 +3,7 @@ import {
   IUserRequestOptions,
   UserSession,
 } from "@esri/arcgis-rest-auth";
-import { IPortal } from "@esri/arcgis-rest-portal";
+import { IGetUserOptions, IPortal, getUser } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { HubServiceStatus } from "./core";
 import { getProp, getWithDefault } from "./objects";
@@ -220,6 +220,11 @@ export interface IArcGISContext {
    * @param app
    */
   tokenFor(app: UserResourceApp): string;
+
+  /**
+   * Refresh the current user, including their groups
+   */
+  refreshUser(): Promise<void>;
 }
 
 /**
@@ -751,5 +756,21 @@ export class ArcGISContext implements IArcGISContext {
     if (entry) {
       return entry.token;
     }
+  }
+
+  /**
+   * Re-fetch the current user, including their groups
+   * @returns
+   */
+  public refreshUser(): Promise<void> {
+    const opts: IGetUserOptions = {
+      authentication: this.session,
+      portal: this.sharingApiUrl,
+      username: this.session.username,
+    };
+
+    return getUser(opts).then((user) => {
+      this._currentUser = user;
+    });
   }
 }
