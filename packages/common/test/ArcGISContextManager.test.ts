@@ -20,6 +20,25 @@ import { IPortal } from "@esri/arcgis-rest-portal";
 import ExceptionFactory from "./mocks/ExceptionFactory";
 import { TOMORROW } from "./test-helpers/tomorrow";
 
+const onlineUserResponse = {
+  username: "jvader",
+  firstName: "Jeff",
+  lastName: "Vader",
+  description: "Runs the Deathstar",
+  email: "jvader@deathstar.com",
+  groups: [
+    {
+      id: "00c",
+      title: "Fake Group",
+      userMembership: {
+        username: "jvader",
+        memberType: "admin",
+        applications: 0,
+      },
+    } as portalModule.IGroup,
+  ],
+};
+
 const onlinePortalSelfResponse = {
   id: "FAKEID",
   name: "My Org",
@@ -44,21 +63,7 @@ const onlinePortalSelfResponse = {
       },
     },
   },
-  user: {
-    username: "jvader",
-    firstName: "Jeff",
-    lastName: "Vader",
-    description: "Runs the Deathstar",
-    email: "jvader@deathstar.com",
-  },
-};
-
-const onlineUserResponse = {
-  username: "jvader",
-  firstName: "Jeff",
-  lastName: "Vader",
-  description: "Runs the Deathstar",
-  email: "jvader@deathstar.com",
+  user: cloneObject(onlineUserResponse) as portalModule.IUser,
 };
 
 const onlinePartneredOrgResponse = {
@@ -216,13 +221,7 @@ const serializedContext = {
       email: "jvader@deathstar.com",
     },
   },
-  currentUser: {
-    username: "jvader",
-    firstName: "Jeff",
-    lastName: "Vader",
-    description: "Runs the Deathstar",
-    email: "jvader@deathstar.com",
-  },
+  currentUser: cloneObject(onlineUserResponse) as portalModule.IUser,
   properties: {
     foo: "bar",
   },
@@ -1024,6 +1023,49 @@ describe("ArcGISContext:", () => {
       expect(
         mgr.context.featureFlags["hub:feature:workspace"]
       ).not.toBeDefined();
+    });
+    it("can refresh user", async () => {
+      const selfSpy = spyOn(portalModule, "getSelf").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlinePortalSelfResponse));
+      });
+      const updatedUserResponse = cloneObject(onlineUserResponse);
+      updatedUserResponse.groups.push({
+        id: "ff0",
+        title: "Fake Group 2",
+        userMembership: {
+          username: "jvader",
+          memberType: "admin",
+          applications: 0,
+        },
+      } as portalModule.IGroup);
+      const userSpy = spyOn(portalModule, "getUser").and.callFake(() => {
+        return Promise.resolve(cloneObject(updatedUserResponse));
+      });
+      spyOn(requestModule, "request").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
+      });
+      const serialized = unicodeToBase64(
+        JSON.stringify(validSerializedContext)
+      );
+
+      const mgr = await ArcGISContextManager.deserialize(serialized!);
+      expect(selfSpy.calls.count()).toBe(0);
+      expect(userSpy.calls.count()).toBe(0);
+      expect(mgr.context.portalUrl).toBe(
+        MOCK_AUTH.portal.replace(`/sharing/rest`, "")
+      );
+      expect(mgr.context.isAuthenticated).toBeTruthy();
+      expect(mgr.context.currentUser).toEqual(
+        validSerializedContext.currentUser
+      );
+      expect(mgr.context.currentUser.groups?.length).toEqual(1);
+      // call refresh user
+      await mgr.context.refreshUser();
+      expect(userSpy.calls.count()).toBe(1);
+      expect(mgr.context.currentUser.groups?.length).toEqual(2);
+      expect(mgr.context.currentUser).toEqual(
+        updatedUserResponse as portalModule.IUser
+      );
     });
   });
 
