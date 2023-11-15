@@ -1,3 +1,10 @@
+# @esri/hub-common [14.60.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.59.0...@esri/hub-common@14.60.0) (2023-11-15)
+
+
+### Features
+
+* add refreshUser method to context ([#1330](https://github.com/Esri/hub.js/issues/1330)) ([a970ff8](https://github.com/Esri/hub.js/commit/a970ff86c6aee80ad2758f5c3709e3f2507de075))
+
 # @esri/hub-common [14.59.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.58.0...@esri/hub-common@14.59.0) (2023-11-15)
 
 
