@@ -1,3 +1,10 @@
+# @esri/hub-common [14.62.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.61.0...@esri/hub-common@14.62.0) (2023-11-16)
+
+
+### Features
+
+* **hub-common:** allow workspaces to route to specific panes ([#1332](https://github.com/Esri/hub.js/issues/1332)) ([d126dee](https://github.com/Esri/hub.js/commit/d126deed2cd3d010a6a2f86c5fd30ddb87d28ab3))
+
 # @esri/hub-common [14.61.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.60.1...@esri/hub-common@14.61.0) (2023-11-16)
 
 
