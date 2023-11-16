@@ -3,6 +3,7 @@ export * from "./types";
 export * from "./behaviors";
 export * from "./schemas";
 export * from "./fetchHubEntity";
+export * from "./getEntityDefaultWorkspacePane";
 export * from "./getTypeFromEntity";
 export * from "./getRelativeWorkspaceUrl";
 export * from "./isValidEntityType";
