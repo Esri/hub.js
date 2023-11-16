@@ -1,3 +1,10 @@
+# @esri/hub-common [14.61.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.60.1...@esri/hub-common@14.61.0) (2023-11-16)
+
+
+### Features
+
+* add new processActionLinks util ([#1331](https://github.com/Esri/hub.js/issues/1331)) ([166f598](https://github.com/Esri/hub.js/commit/166f59813f80c60a18cb6d6732735db3258148cb))
+
 ## @esri/hub-common [14.60.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.60.0...@esri/hub-common@14.60.1) (2023-11-16)
 
 
