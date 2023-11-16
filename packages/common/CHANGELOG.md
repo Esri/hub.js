@@ -1,3 +1,10 @@
+## @esri/hub-common [14.60.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.60.0...@esri/hub-common@14.60.1) (2023-11-16)
+
+
+### Bug Fixes
+
+* update max size of metrics on an entity to 24 ([#1329](https://github.com/Esri/hub.js/issues/1329)) ([a520118](https://github.com/Esri/hub.js/commit/a52011805ece73fc1b0d5377aa2c7fd6ff942cf7))
+
 # @esri/hub-common [14.60.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.59.0...@esri/hub-common@14.60.0) (2023-11-15)
 
 
