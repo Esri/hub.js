@@ -98,6 +98,7 @@ export async function enrichTemplateSearchResult(
       thumbnail: "not-implemented",
       workspaceRelative: "not-implemented",
     },
+    rawResult: item,
   };
 
   // 1. optionally enrich the template item with

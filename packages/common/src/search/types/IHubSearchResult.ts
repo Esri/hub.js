@@ -1,5 +1,9 @@
+import { IGroup, IItem, IUser } from "@esri/arcgis-rest-portal";
 import { AccessLevel, IHubEntityBase } from "../../core";
-import { HubFamily, IHubGeography } from "../../types";
+import { HubFamily, IHubGeography, ISearchResponse } from "../../types";
+import { IOgcItem } from "../_internal/hubSearchItemsHelpers/interfaces";
+import { ISearch } from "@esri/arcgis-rest-types";
+import { IChannel } from "../../discussions/api/types";
 
 /**
  * Standardized light-weight search result structure, applicable to all
@@ -43,6 +47,16 @@ export interface IHubSearchResult extends IHubEntityBase {
    * or the extent of a layer
    */
   geometry?: IHubGeography;
+
+  /**
+   * Raw result object returned from the search.
+   * This allows downstream processing to access
+   * additional properties that may not be
+   * explicitly defined in this interface
+   * Note: We will need to cast to the approproate type
+   * in order to access the properties
+   */
+  rawResult: IItem | IGroup | IUser | IOgcItem | IChannel;
 
   /** Allow any additional properties to be added */
   [key: string]: any;

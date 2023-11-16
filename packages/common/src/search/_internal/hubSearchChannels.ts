@@ -161,6 +161,7 @@ export const toHubSearchResult = async (
             )
           : [],
       },
+      rawResult: channel,
     };
   };
   return {

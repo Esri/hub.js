@@ -55,4 +55,5 @@ export const USER_HUB_SEARCH_RESULT: IHubSearchResult = {
   index: 2,
   typeKeywords: ["User"],
   tags: ["tag1", "tag2"],
+  rawResult: USER,
 };
