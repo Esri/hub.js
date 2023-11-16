@@ -11,7 +11,8 @@ import { HubEntity } from "./types";
  */
 export const getRelativeWorkspaceUrl = (
   type: string,
-  identifier: string
+  identifier: string,
+  pane?: string
 ): string => {
   let url = "/";
   const entityType = getTypeFromEntity({ type } as HubEntity);
@@ -27,6 +28,9 @@ export const getRelativeWorkspaceUrl = (
       typeSegment = `${typeSegment}s`;
     }
     url = `/workspace/${typeSegment}/${identifier}`;
+    if (pane) {
+      url += `/${pane}`;
+    }
   }
 
   return url;

@@ -53,4 +53,20 @@ describe("getRelativeWorkspaceUrl", () => {
     expect(isValidEntityTypeSpy).toHaveBeenCalledTimes(1);
     expect(result).toBe("/");
   });
+  it("returns url with workspace pane when provided", () => {
+    const getTypeFromEntitySpy = spyOn(
+      getTypeFromEntityModule,
+      "getTypeFromEntity"
+    ).and.returnValue("project");
+    const isValidEntityTypeSpy = spyOn(
+      isValidEntityTypeModule,
+      "isValidEntityType"
+    ).and.returnValue(true);
+
+    result = getRelativeWorkspaceUrl("Hub Project", "123", "details");
+
+    expect(getTypeFromEntitySpy).toHaveBeenCalledTimes(1);
+    expect(isValidEntityTypeSpy).toHaveBeenCalledTimes(1);
+    expect(result).toBe("/workspace/projects/123/details");
+  });
 });
