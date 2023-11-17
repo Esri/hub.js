@@ -5,6 +5,7 @@ import { cloneObject } from "../util";
 import {
   createInitiative,
   deleteInitiative,
+  editorToInitiative,
   fetchInitiative,
   updateInitiative,
 } from "./HubInitiatives";
@@ -250,7 +251,7 @@ export class HubInitiative
   }
 
   /**
-   * Return the project as an editor object
+   * Return the initiative as an editor object
    * @param editorContext
    * @returns
    */
@@ -274,7 +275,7 @@ export class HubInitiative
   }
 
   /**
-   * Load the project from the editor object
+   * Load the initiative from the editor object
    * @param editor
    * @returns
    */
@@ -299,20 +300,34 @@ export class HubInitiative
 
     delete editor._thumbnail;
 
-    // convert back to an entity. Apply any reverse transforms used in
-    // of the toEditor method
-    const entity = cloneObject(editor) as IHubInitiative;
+    // extract out things we don't want to persist directly
+    // b/c the first thing we do is create/update the initiative
+    const featuredImage = editor.view.featuredImage;
+    delete editor.view.featuredImage;
 
-    // copy the location extent up one level
-    entity.extent = editor.location?.extent;
+    // convert back to an entity
+    const entity = editorToInitiative(editor, this.context.portal);
 
     // create it if it does not yet exist...
     if (isCreate) {
-      throw new Error("Cannot create content using the Editor.");
+      // this allows the featured image functions to work
+      this.entity = await createInitiative(
+        entity,
+        this.context.userRequestOptions
+      );
     } else {
       // ...otherwise, update the in-memory entity and save it
       this.entity = entity;
       await this.save();
+    }
+
+    // handle featured image
+    if (featuredImage) {
+      if (featuredImage.blob) {
+        await this.setFeaturedImage(featuredImage.blob);
+      } else {
+        await this.clearFeaturedImage();
+      }
     }
 
     return this.entity;

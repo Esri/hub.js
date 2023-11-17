@@ -11,9 +11,6 @@ import { IHubInitiative } from "../../core/types";
  * constructs the minimal create uiSchema for Hub Initiatives.
  * This defines how the schema properties should be rendered
  * in the initiative creation experience
- *
- * TODO: this was copied from projects and is just a placeholder
- * for now - it isn't being used anywhere in the application
  */
 export const buildUiSchema = async (
   i18nScope: string,
@@ -75,6 +72,17 @@ export const buildUiSchema = async (
                           labelKey: `shared.fields.purpose.maxLengthError`,
                         },
                       ],
+                    },
+                  },
+                  {
+                    labelKey: `${i18nScope}.fields.status.label`,
+                    scope: "/properties/status",
+                    type: "Control",
+                    options: {
+                      control: "hub-field-input-select",
+                      enum: {
+                        i18nScope: `${i18nScope}.fields.status.enum`,
+                      },
                     },
                   },
                 ],
