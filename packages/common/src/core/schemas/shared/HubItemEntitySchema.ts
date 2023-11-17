@@ -60,5 +60,6 @@ export const HubItemEntitySchema: IConfigurationSchema = {
         },
       },
     },
+    heroActions: { type: "array" },
   },
 } as IConfigurationSchema;

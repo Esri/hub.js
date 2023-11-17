@@ -1,5 +1,5 @@
 import { HubEntityHero } from "../../types";
-import { IHubTimeline, IMetricDisplayConfig } from "../types";
+import { IHubTimeline, IMetricDisplayConfig, HubActionLink } from "../types";
 
 /**
  * Properties to be exclusively displayed on an entity's
@@ -41,7 +41,13 @@ export interface IWithViewSettings {
   metricDisplays?: IMetricDisplayConfig[];
 
   /**
+<<<<<<< HEAD
    * what to show in the hero field, map/image
    */
   hero?: HubEntityHero;
+=======
+   * array of actions for action links
+   */
+  heroActions?: HubActionLink[];
+>>>>>>> 8e0537078e (feat(): update projects schema)
 }
