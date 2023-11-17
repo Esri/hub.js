@@ -137,6 +137,7 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:site:workspace:followers",
+    licenses: ["hub-premium"],
     dependencies: ["hub:site:workspace", "hub:site:edit"],
   },
   {
