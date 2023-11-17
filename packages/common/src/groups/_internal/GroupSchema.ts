@@ -8,6 +8,7 @@ import {
 
 export type GroupEditorType = (typeof GroupEditorTypes)[number];
 export const GroupEditorTypes = [
+  "hub:group:create:followers",
   "hub:group:edit",
   "hub:group:settings",
   "hub:group:discussions",
