@@ -105,6 +105,7 @@ export const INITIATIVE_TEMPLATE_HUB_SEARCH_RESULT: IHubSearchResult = {
     thumbnail: "https://thumbnail/mock-thumbnail.png",
     workspaceRelative: "/mock-relative-workspace-url",
   },
+  rawResult: INITIATIVE_TEMPLATE_ITEM,
 };
 
 export const INITIATIVE_TEMPLATE_DATA = {

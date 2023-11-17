@@ -671,6 +671,8 @@ describe("hubSearchItems Module |", () => {
         thumbnail:
           "https://www.arcgis.com/sharing/rest/content/items/f4bcc/info/thumbnail/hub_thumbnail_1658341016537.png",
       },
+      // TODO: fill this and add some verification
+      rawResult: ogcItemsResponse.features[0].properties as IOgcItem,
     },
   ];
 

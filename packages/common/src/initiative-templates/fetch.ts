@@ -82,6 +82,7 @@ export async function enrichInitiativeTemplateSearchResult(
       thumbnail: "not-implemented",
       workspaceRelative: "not-implemented",
     },
+    rawResult: item,
   };
 
   // TODO: reimplement enrichment fetching when we know what enrichments we're looking for

@@ -44,6 +44,7 @@ export async function enrichContentSearchResult(
       siteRelative: "not-implemented",
       thumbnail: "not-implemented",
     },
+    rawResult: item,
   };
 
   // default includes

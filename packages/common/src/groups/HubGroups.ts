@@ -51,6 +51,7 @@ export async function enrichGroupSearchResult(
       siteRelative: "not-implemented",
       thumbnail: "not-implemented",
     },
+    rawResult: group,
   };
 
   // Informal Enrichments - basically adding type-specific props
