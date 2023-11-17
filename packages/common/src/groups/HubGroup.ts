@@ -287,8 +287,6 @@ export class HubGroup
    * @returns
    */
   async fromEditor(editor: IHubGroupEditor): Promise<IHubGroup> {
-    const isCreate = !editor.id;
-
     // Setting the thumbnailCache will ensure that
     // the thumbnail is updated on next save
     if (editor._thumbnail) {
@@ -339,14 +337,9 @@ export class HubGroup
     // of the toEditor method
     const entity = cloneObject(editor) as IHubGroup;
 
-    // create it if it does not yet exist...
-    if (isCreate) {
-      throw new Error("Cannot create group using the Editor.");
-    } else {
-      // ...otherwise, update the in-memory entity and save it
-      this.entity = entity;
-      await this.save();
-    }
+    // save or create group
+    this.entity = entity;
+    await this.save();
 
     return this.entity;
   }
