@@ -1,3 +1,10 @@
+# @esri/hub-common [14.63.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.62.0...@esri/hub-common@14.63.0) (2023-11-17)
+
+
+### Features
+
+* add featured metrics limit ([#1334](https://github.com/Esri/hub.js/issues/1334)) ([a662714](https://github.com/Esri/hub.js/commit/a66271423489553f0fbe44df2a13e37cdb189a6c))
+
 # @esri/hub-common [14.62.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.61.0...@esri/hub-common@14.62.0) (2023-11-16)
 
 
