@@ -55,7 +55,7 @@ export interface IHubSearchResult extends IHubEntityBase {
    * Note: We will need to cast to the approproate type
    * in order to access the properties
    */
-  rawResult: IItem | IGroup | IUser | IOgcItem | IChannel;
+  rawResult?: IItem | IGroup | IUser | IOgcItem | IChannel;
 
   /** Allow any additional properties to be added */
   [key: string]: any;
