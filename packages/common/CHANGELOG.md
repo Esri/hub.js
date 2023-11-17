@@ -1,3 +1,10 @@
+# @esri/hub-common [14.64.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.63.0...@esri/hub-common@14.64.0) (2023-11-17)
+
+
+### Features
+
+* search result has rawResult prop ([#1336](https://github.com/Esri/hub.js/issues/1336)) ([c8a41f4](https://github.com/Esri/hub.js/commit/c8a41f47b15c2ca110c7a35811917e93db0ada6b))
+
 # @esri/hub-common [14.63.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.62.0...@esri/hub-common@14.63.0) (2023-11-17)
 
 
