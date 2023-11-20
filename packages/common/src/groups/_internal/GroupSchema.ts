@@ -11,6 +11,7 @@ export const GroupEditorTypes = [
   "hub:group:edit",
   "hub:group:settings",
   "hub:group:discussions",
+  // editor to create a followers group
   "hub:group:create:followers",
 ] as const;
 

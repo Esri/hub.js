@@ -4,8 +4,8 @@ import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 
 /**
  * @private
- * constructs the complete create uiSchema for Hub follower
- * groups. This defines how the schema properties should be
+ * constructs the complete uiSchema for creating a followers
+ * group. This defines how the schema properties should be
  * rendered in the follower group creation experience
  */
 export const buildUiSchema = async (

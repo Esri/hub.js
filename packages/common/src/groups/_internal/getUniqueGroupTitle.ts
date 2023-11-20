@@ -8,11 +8,11 @@ import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
  * in the user's org.
  *
  * Ex: Given a title of "Medical Team", if a group with that
- * title exists this fn will add a number on the end, and
+ * title exists, this fn will add a number on the end, and
  * increment until an available group title is found - i.e.
  * "Medical Team 3"
  *
- * @param {String} title Group Title to ensure if unique
+ * @param {String} title Group Title to ensure is unique
  * @param {IUserRequestOptions} requestOptions
  * @param {Number} step Number to increment. Defaults to 0
  */
