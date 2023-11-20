@@ -13,7 +13,7 @@ export const DiscussionEditorTypes = [
  */
 export const DiscussionSchema: IConfigurationSchema = {
   ...HubItemEntitySchema,
-  required: ["name", "prompt"],
+  required: ["name"],
   properties: {
     ...HubItemEntitySchema.properties,
     prompt: {
