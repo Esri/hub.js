@@ -3,6 +3,7 @@ import { hubSearch } from "../../search/hubSearch";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 /**
+ * @private
  * Given a title, construct a group title that is unique
  * in the user's org.
  *
@@ -10,11 +11,12 @@ import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
  * title exists this fn will add a number on the end, and
  * increment until an available group title is found - i.e.
  * "Medical Team 3"
+ *
  * @param {String} title Group Title to ensure if unique
  * @param {IUserRequestOptions} requestOptions
  * @param {Number} step Number to increment. Defaults to 0
  */
-export function getUniqueGroupTitle(
+export async function getUniqueGroupTitle(
   title: string,
   requestOptions: IUserRequestOptions,
   step = 0
@@ -40,7 +42,7 @@ export function getUniqueGroupTitle(
 }
 
 /**
- * checks whether the group with the specified title
+ * checks whether a group with the specified title
  * exists in the user's org
  *
  * @param {String} title Group Title

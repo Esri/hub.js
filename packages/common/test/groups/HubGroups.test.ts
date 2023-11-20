@@ -8,6 +8,7 @@ import {
 } from "../../src";
 import * as HubGroupsModule from "../../src/groups/HubGroups";
 import * as FetchEnrichments from "../../src/groups/_internal/enrichments";
+import * as GetUniqueGroupTitleModule from "../../src/groups/_internal/getUniqueGroupTitle";
 import { IHubGroup } from "../../src/core/types/IHubGroup";
 
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
@@ -151,6 +152,10 @@ describe("HubGroups Module:", () => {
 
   describe("createHubGroup", () => {
     it("creates a HubGroup from an IGroup", async () => {
+      const getUniqueGroupTitleSpy = spyOn(
+        GetUniqueGroupTitleModule,
+        "getUniqueGroupTitle"
+      ).and.returnValue(Promise.resolve(TEST_GROUP.title));
       const portalCreateGroupSpy = spyOn(
         PortalModule,
         "createGroup"
@@ -167,6 +172,7 @@ describe("HubGroups Module:", () => {
         { authentication: MOCK_AUTH }
       );
       expect(chk.name).toBe("dev followers Content");
+      expect(getUniqueGroupTitleSpy).toHaveBeenCalledTimes(1);
       expect(portalCreateGroupSpy).toHaveBeenCalledTimes(1);
     });
   });
