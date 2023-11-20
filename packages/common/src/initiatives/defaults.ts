@@ -1,5 +1,5 @@
 import { IHubInitiative } from "../core/types";
-import { HubEntityStatus, IModel } from "../types";
+import { HubEntityHero, HubEntityStatus, IModel } from "../types";
 import { InitiativeDefaultFeatures } from "./_internal/InitiativeBusinessRules";
 
 export const HUB_INITIATIVE_ITEM_TYPE = "Hub Initiative";
@@ -42,6 +42,6 @@ export const DEFAULT_INITIATIVE_MODEL: IModel = {
     view: {
       featuredContentIds: [],
     },
-    hero: "map",
+    hero: HubEntityHero.map,
   },
 } as unknown as IModel;

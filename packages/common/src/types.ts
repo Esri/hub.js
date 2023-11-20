@@ -1253,7 +1253,10 @@ export enum HubEntityStatus {
 /**
  * Types of entity heroes
  */
-export type HubEntityHero = "map" | "image";
+export enum HubEntityHero {
+  map = "map",
+  image = "image",
+}
 /**
  * END CONTENT UPLOAD TYPES/ENUMS
  */
