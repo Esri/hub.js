@@ -1,3 +1,10 @@
+## @esri/hub-common [14.64.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.64.0...@esri/hub-common@14.64.1) (2023-11-20)
+
+
+### Bug Fixes
+
+* **hub-common:** prompt no longer required ([#1337](https://github.com/Esri/hub.js/issues/1337)) ([9376161](https://github.com/Esri/hub.js/commit/9376161346c3e180f7f917d07138310db862aa8d))
+
 # @esri/hub-common [14.64.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.63.0...@esri/hub-common@14.64.0) (2023-11-17)
 
 
