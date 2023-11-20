@@ -21,7 +21,7 @@ export function reduceByGroupMembership(
 }
 
 /**
- * Utility that checks if a user is a portal org admin (default role)
+ * Utility that checks if a user is a portal org admin, or an org_admin by a platform role
  *
  * @export
  * @param {IUser} user
