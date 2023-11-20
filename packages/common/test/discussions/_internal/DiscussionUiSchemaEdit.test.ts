@@ -68,14 +68,6 @@ describe("buildUiSchema: discussion edit", () => {
                 helperText: {
                   labelKey: "some.scope.fields.prompt.helperText",
                 },
-                messages: [
-                  {
-                    type: "ERROR",
-                    keyword: "required",
-                    icon: true,
-                    labelKey: "some.scope.fields.prompt.requiredError",
-                  },
-                ],
               },
             },
             {
@@ -250,14 +242,6 @@ describe("buildUiSchema: discussion edit", () => {
                 helperText: {
                   labelKey: "some.scope.fields.prompt.helperText",
                 },
-                messages: [
-                  {
-                    type: "ERROR",
-                    keyword: "required",
-                    icon: true,
-                    labelKey: "some.scope.fields.prompt.requiredError",
-                  },
-                ],
               },
             },
             {
