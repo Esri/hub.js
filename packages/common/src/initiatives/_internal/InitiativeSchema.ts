@@ -15,10 +15,18 @@ export const InitiativeSchema: IConfigurationSchema = {
   ...HubItemEntitySchema,
   properties: {
     ...HubItemEntitySchema.properties,
+    _groups: {
+      type: "array",
+      items: { type: "string" },
+    },
     status: {
       type: "string",
       default: HubEntityStatus.notStarted,
       enum: Object.keys(HubEntityStatus),
+    },
+    hero: {
+      type: "string",
+      default: "map",
     },
   },
 } as IConfigurationSchema;

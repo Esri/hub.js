@@ -75,14 +75,16 @@ export const buildUiSchema = async (
                     },
                   },
                   {
-                    labelKey: `${i18nScope}.fields.status.label`,
-                    scope: "/properties/status",
+                    labelKey: `${i18nScope}.fields.hero.label`,
+                    scope: "/properties/hero",
                     type: "Control",
                     options: {
-                      control: "hub-field-input-select",
+                      control: "hub-field-input-tile-select",
+                      layout: "horizontal",
                       enum: {
-                        i18nScope: `${i18nScope}.fields.status.enum`,
+                        i18nScope: `${i18nScope}.fields.hero.enum`,
                       },
+                      icons: ["map-pin", "image"],
                     },
                   },
                 ],

@@ -8,7 +8,7 @@ export const HUB_INITIATIVE_ITEM_TYPE = "Hub Initiative";
  * Default values of a IHubInitiative
  */
 export const DEFAULT_INITIATIVE: Partial<IHubInitiative> = {
-  name: "No title provided",
+  name: "",
   tags: [],
   typeKeywords: ["hubInitiative"],
   catalog: { schemaVersion: 0 },
@@ -27,8 +27,8 @@ export const DEFAULT_INITIATIVE: Partial<IHubInitiative> = {
 export const DEFAULT_INITIATIVE_MODEL: IModel = {
   item: {
     type: HUB_INITIATIVE_ITEM_TYPE,
-    title: "No Title Provided",
-    description: "No Description Provided",
+    title: "",
+    description: "",
     snippet: "",
     tags: [],
     typeKeywords: ["hubInitiative"],
@@ -42,5 +42,6 @@ export const DEFAULT_INITIATIVE_MODEL: IModel = {
     view: {
       featuredContentIds: [],
     },
+    hero: "map",
   },
 } as unknown as IModel;

@@ -13,6 +13,8 @@ export interface IHubInitiative
     IWithCatalog,
     IWithMetrics,
     IWithPermissions,
-    IWithStatus {}
+    IWithStatus {
+  hero: string;
+}
 
 export type IHubInitiativeEditor = IHubItemEntityEditor<IHubInitiative> & {};

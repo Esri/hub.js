@@ -80,6 +80,18 @@ export const buildUiSchema = async (
               },
             },
           },
+          {
+            labelKey: `${i18nScope}.fields.hero.label`,
+            scope: "/properties/hero",
+            type: "Control",
+            options: {
+              control: "hub-field-input-tile-select",
+              enum: {
+                i18nScope: `${i18nScope}.fields.status.enum`,
+              },
+              layout: "horizontal",
+            },
+          },
           getThumbnailUiSchemaElement(
             i18nScope,
             options.thumbnail,
