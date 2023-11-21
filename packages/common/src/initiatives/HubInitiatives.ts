@@ -52,6 +52,7 @@ import { negateGroupPredicates } from "../search/_internal/negateGroupPredicates
 import { computeLinks } from "./_internal/computeLinks";
 import { getHubRelativeUrl } from "../content/_internal/internalContentUtils";
 import { setEntityStatusKeyword } from "../utils/internal/setEntityStatusKeyword";
+import { setEntityHeroKeyword } from "../utils/internal/setEntityHeroKeyword";
 
 /**
  * @private
@@ -92,6 +93,11 @@ export async function createInitiative(
   initiative.typeKeywords = setDiscussableKeyword(
     initiative.typeKeywords,
     initiative.isDiscussable
+  );
+  // add the hero keyword
+  initiative.typeKeywords = setEntityHeroKeyword(
+    initiative.typeKeywords,
+    initiative.hero
   );
   // Map initiative object onto a default initiative Model
   const mapper = new PropertyMapper<Partial<IHubInitiative>, IModel>(
@@ -156,6 +162,11 @@ export async function updateInitiative(
   initiative.typeKeywords = setDiscussableKeyword(
     initiative.typeKeywords,
     initiative.isDiscussable
+  );
+  // update the hero keyword
+  initiative.typeKeywords = setEntityHeroKeyword(
+    initiative.typeKeywords,
+    initiative.hero
   );
   // get the backing item & data
   const model = await getModel(initiative.id, requestOptions);

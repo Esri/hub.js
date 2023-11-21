@@ -81,9 +81,17 @@ export const buildUiSchema = async (
                     options: {
                       control: "hub-field-input-tile-select",
                       layout: "horizontal",
-                      enum: {
-                        i18nScope: `${i18nScope}.fields.hero.enum`,
+                      helperText: {
+                        labelKey: `${i18nScope}.fields.hero.helperText`,
                       },
+                      labels: [
+                        `{{${i18nScope}.fields.hero.map.label:translate}}`,
+                        `{{${i18nScope}.fields.hero.image.label:translate}}`,
+                      ],
+                      descriptions: [
+                        `{{${i18nScope}.fields.hero.map.description:translate}}`,
+                        `{{${i18nScope}.fields.hero.map.description:translate}}`,
+                      ],
                       icons: ["map-pin", "image"],
                     },
                   },

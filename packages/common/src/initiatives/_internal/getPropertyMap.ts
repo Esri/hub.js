@@ -30,5 +30,7 @@ export function getPropertyMap(): IPropertyMap[] {
     storeKey: "data.settings.features",
   });
 
+  map.push({ entityKey: "hero", storeKey: "data.hero" });
+
   return map;
 }

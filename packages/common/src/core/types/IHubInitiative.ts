@@ -1,3 +1,4 @@
+import { HubEntityHero } from "../../types";
 import { IWithSlug, IWithPermissions, IWithCatalog } from "../traits";
 import { IWithMetrics } from "../traits/IWithMetrics";
 import { IWithStatus } from "../traits/IWithStatus";
@@ -14,7 +15,7 @@ export interface IHubInitiative
     IWithMetrics,
     IWithPermissions,
     IWithStatus {
-  hero: string;
+  hero: HubEntityHero;
 }
 
 export type IHubInitiativeEditor = IHubItemEntityEditor<IHubInitiative> & {};
