@@ -65,6 +65,10 @@ export function checkAssertion(
       case "lt":
         response = rangeAssertions(assertion, propValue, val);
         break;
+      case "length-gt":
+      case "length-lt":
+        response = lengthAssertions(assertion, propValue, val);
+        break;
       case "is-group-admin":
       case "is-group-member":
       case "is-group-owner":
@@ -225,6 +229,33 @@ function rangeAssertions(
     response = "assertion-failed";
   } else if (assertion.type === "lt" && propValue > val) {
     response = "assertion-failed";
+  }
+  return response;
+}
+
+/**
+ * Is the propValue length "gt" or "lt" to the val?
+ * @param assertion
+ * @param propValue
+ * @param val
+ * @returns
+ */
+function lengthAssertions(
+  assertion: IPolicyAssertion,
+  propValue: any,
+  val: any
+): PolicyResponse {
+  let response: PolicyResponse = "granted";
+  if (typeof propValue !== "string" && !Array.isArray(propValue)) {
+    response = "property-has-no-length";
+  } else if (typeof val !== "number") {
+    response = "assertion-requires-numeric-values";
+  } else {
+    if (assertion.type === "length-gt" && propValue.length < val) {
+      response = "assertion-failed";
+    } else if (assertion.type === "length-lt" && propValue.length > val) {
+      response = "assertion-failed";
+    }
   }
   return response;
 }

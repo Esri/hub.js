@@ -458,6 +458,100 @@ describe("checkAssertion:", () => {
       expect(chk.response).toBe("assertion-requires-numeric-values");
     });
   });
+  describe("length checks:", () => {
+    it("prop length gt val", () => {
+      const assertion: IPolicyAssertion = {
+        property: "groups",
+        type: "length-gt",
+        value: 2,
+      };
+      const ctx = {
+        isAuthenticated: true,
+      } as unknown as IArcGISContext;
+
+      const chk = checkAssertion(
+        assertion,
+        {
+          groups: ["group-1", "group-2", "group-3"],
+        },
+        ctx
+      );
+      expect(chk.response).toBe("granted");
+      const fail = checkAssertion(
+        assertion,
+        {
+          groups: ["group-1"],
+        },
+        ctx
+      );
+      expect(fail.response).toBe("assertion-failed");
+    });
+    it("prop length lt val", () => {
+      const assertion: IPolicyAssertion = {
+        property: "title",
+        type: "length-lt",
+        value: 10,
+      };
+      const ctx = {
+        isAuthenticated: true,
+      } as unknown as IArcGISContext;
+
+      const chk = checkAssertion(
+        assertion,
+        {
+          title: "mock title",
+        },
+        ctx
+      );
+      expect(chk.response).toBe("granted");
+      const fail = checkAssertion(
+        assertion,
+        {
+          title: "some really long mock title",
+        },
+        ctx
+      );
+      expect(fail.response).toBe("assertion-failed");
+    });
+    it("prop values without a length error", () => {
+      const assertion: IPolicyAssertion = {
+        property: "count",
+        type: "length-gt",
+        value: 12,
+      };
+      const ctx = {
+        isAuthenticated: true,
+      } as unknown as IArcGISContext;
+
+      const chk = checkAssertion(
+        assertion,
+        {
+          count: 10,
+        },
+        ctx
+      );
+      expect(chk.response).toBe("property-has-no-length");
+    });
+    it("non-numeric value error", () => {
+      const assertion: IPolicyAssertion = {
+        property: "groups",
+        type: "length-gt",
+        value: "12",
+      };
+      const ctx = {
+        isAuthenticated: true,
+      } as unknown as IArcGISContext;
+
+      const chk = checkAssertion(
+        assertion,
+        {
+          groups: ["group-1"],
+        },
+        ctx
+      );
+      expect(chk.response).toBe("assertion-requires-numeric-values");
+    });
+  });
   describe("includes checks:", () => {
     it("entity prop included-in val", () => {
       const assertion: IPolicyAssertion = {
