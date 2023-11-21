@@ -14,18 +14,18 @@ describe("Util: reduceByGroupMembership", () => {
 });
 
 describe("Util: isOrgAdmin", () => {
-  it("returns true if org_admin and no roleId", async () => {
-    const user = { role: "org_admin", roleId: null } as unknown as IUser;
+  it("returns true if org_admin", async () => {
+    const user = { role: "org_admin" } as unknown as IUser;
     expect(isOrgAdmin(user)).toBeTruthy();
   });
 
-  it("returns false if org_admin via platform role", async () => {
+  it("returns true if org_admin via platform role", async () => {
     const user = { role: "org_admin", roleId: "3ef" } as IUser;
-    expect(isOrgAdmin(user)).toBeFalsy();
+    expect(isOrgAdmin(user)).toBeTruthy();
   });
 
   it("returns false if not org_admin", async () => {
-    const user = { role: "org_user", roleId: null } as unknown as IUser;
+    const user = { role: "org_user" } as unknown as IUser;
     expect(isOrgAdmin(user)).toBeFalsy();
   });
 });

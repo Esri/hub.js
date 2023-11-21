@@ -21,7 +21,7 @@ export function reduceByGroupMembership(
 }
 
 /**
- * Utility that checks if a user is a portal org admin (default role)
+ * Utility that checks if a user is a portal org admin, or an org_admin by a platform role
  *
  * @export
  * @param {IUser} user
@@ -31,5 +31,5 @@ export function reduceByGroupMembership(
 // which first resolves `user` from `IUserRequestOptions` to make this determination
 // https://github.com/Esri/arcgis-rest-js/blob/7ab072184f89dcb35367518101ee4abeb5a9d112/packages/arcgis-rest-portal/src/sharing/helpers.ts#L45
 export function isOrgAdmin(user: IUser): boolean {
-  return user.role === "org_admin" && !user.roleId;
+  return user.role === "org_admin";
 }
