@@ -142,24 +142,25 @@ export const toHubSearchResult = async (
       },
       includes: {
         // when 'include' requests 'groups' enrichment, get group details
-        groups: options.include?.includes("groups")
-          ? await Promise.all(
-              channel.groups.map(async (groupId) => {
-                let group;
-                try {
-                  group = await getGroup(groupId, options.requestOptions);
-                } catch (e) {
-                  group = null;
-                  /* tslint:disable-next-line: no-console */
-                  console.warn(
-                    `Cannot fetch group enhancement for id = ${groupId}`,
-                    e
-                  );
-                }
-                return group;
-              })
-            )
-          : [],
+        groups:
+          options.include?.includes("groups") && channel.groups
+            ? await Promise.all(
+                channel.groups.map(async (groupId) => {
+                  let group;
+                  try {
+                    group = await getGroup(groupId, options.requestOptions);
+                  } catch (e) {
+                    group = null;
+                    /* tslint:disable-next-line: no-console */
+                    console.warn(
+                      `Cannot fetch group enhancement for id = ${groupId}`,
+                      e
+                    );
+                  }
+                  return group;
+                })
+              )
+            : [],
       },
       rawResult: channel,
     };
