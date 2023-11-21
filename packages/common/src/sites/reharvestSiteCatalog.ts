@@ -15,10 +15,14 @@ interface IGroupReharvestInfo {
   status: number;
 }
 
+interface IReharvestError {
+  message: string;
+  cause: string;
+}
+
 interface IReharvestInfo {
   groups?: IGroupReharvestInfo[];
-  message?: string;
-  cause?: string;
+  error?: IReharvestError;
 }
 
 /**
@@ -43,5 +47,17 @@ export async function reharvestSiteCatalog(
       authorization: context.hubRequestOptions.authentication.token,
     },
   };
-  return fetch(url, options).then((result) => result.json());
+
+  return fetch(url, options)
+    .then((result) => result.json())
+    .then((rawResult) => {
+      const result: IReharvestInfo = {};
+      if (rawResult.groups) {
+        result.groups = rawResult.groups;
+      }
+      if (rawResult.message) {
+        result.error = rawResult;
+      }
+      return result;
+    });
 }
