@@ -1,3 +1,10 @@
+# @esri/hub-common [14.65.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.64.1...@esri/hub-common@14.65.0) (2023-11-21)
+
+
+### Features
+
+* add logic/schema to allow follower group creation ([#1333](https://github.com/Esri/hub.js/issues/1333)) ([9515f8c](https://github.com/Esri/hub.js/commit/9515f8c64b115e3981e98d440276e87c01b8791b))
+
 ## @esri/hub-common [14.64.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.64.0...@esri/hub-common@14.64.1) (2023-11-20)
 
 
