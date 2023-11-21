@@ -25,14 +25,14 @@ describe("reharvestSiteCatalog", () => {
   });
   it("correctly returns error from the reharvest endpoint", async () => {
     const url = `${MOCK_CONTEXT.hubUrl}/api/v3/jobs/site/some-site-id/harvest`;
-    const erroResponse = {
+    const errorResponse = {
       message: "site has been harvested too recently",
       cause: "TIME_LOCK",
     };
     const expectedResponse = {
-      error: erroResponse,
+      error: errorResponse,
     };
-    fetchMock.once(url, erroResponse);
+    fetchMock.once(url, errorResponse);
     const actualResults = await reharvestSiteCatalog(
       "some-site-id",
       MOCK_CONTEXT
