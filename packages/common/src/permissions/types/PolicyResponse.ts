@@ -31,6 +31,7 @@ export type PolicyResponse =
   | "not-beta-org" // user is not in a beta org
   | "property-missing" // assertion requires property but is missing from entity
   | "property-not-array" // assertion requires array property
+  | "property-has-no-length" // assertion requires string or array property
   | "array-contains-invalid-value" // assertion specifies a value not be included
   | "array-missing-required-value" // assertion specifies a value not be included
   | "property-mismatch"

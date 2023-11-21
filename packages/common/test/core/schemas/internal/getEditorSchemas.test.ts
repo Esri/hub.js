@@ -37,6 +37,7 @@ import { GroupEditorTypes } from "../../../../src/groups/_internal/GroupSchema";
 import * as GroupBuildEditUiSchema from "../../../../src/groups/_internal/GroupUiSchemaEdit";
 import * as GroupBuildSettingsUiSchema from "../../../../src/groups/_internal/GroupUiSchemaSettings";
 import * as GroupBuildDiscussionsUiSchema from "../../../../src/groups/_internal/GroupUiSchemaDiscussions";
+import * as GroupBuildCreateFollowersUiSchema from "../../../../src/groups/_internal/GroupUiSchemaCreateFollowers";
 
 import { InitiativeTemplateEditorTypes } from "../../../../src/initiative-templates/_internal/InitiativeTemplateSchema";
 import * as InitiativeTemplateBuildEditUiSchema from "../../../../src/initiative-templates/_internal/InitiativeTemplateUiSchemaEdit";
@@ -73,11 +74,12 @@ describe("getEditorSchemas: ", () => {
     { type: TemplateEditorTypes[0], buildFn: TemplateBuildEditUiSchema },
     { type: GroupEditorTypes[0], buildFn: GroupBuildEditUiSchema },
     { type: GroupEditorTypes[1], buildFn: GroupBuildSettingsUiSchema },
+    { type: GroupEditorTypes[2], buildFn: GroupBuildDiscussionsUiSchema },
+    { type: GroupEditorTypes[3], buildFn: GroupBuildCreateFollowersUiSchema },
     {
       type: InitiativeTemplateEditorTypes[0],
       buildFn: InitiativeTemplateBuildEditUiSchema,
     },
-    { type: GroupEditorTypes[2], buildFn: GroupBuildDiscussionsUiSchema },
     { type: validCardEditorTypes[0], buildFn: statUiSchemaModule },
   ].forEach(async ({ type, buildFn }) => {
     it("returns a schema & uiSchema for a given entity and editor type", async () => {
