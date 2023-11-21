@@ -39,6 +39,15 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:group"],
     authenticated: true,
     privileges: ["portal:user:createGroup"],
+    assertions: [
+      {
+        property: "context:currentUser.groups",
+        type: "length-lt",
+        // TODO: 512 is the default, but there are exceptions
+        // this should be based on the org's specified limit
+        value: 512,
+      },
+    ],
   },
   {
     permission: "hub:group:view",
