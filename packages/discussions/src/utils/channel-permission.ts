@@ -153,7 +153,6 @@ export class ChannelPermission {
     const orgPermissions = this.permissionsByCategory[AclCategory.ORG] ?? [];
 
     return orgPermissions.some((permission) => {
-      const { key } = permission;
       if (permission.key !== user.orgId) {
         return false;
       }
