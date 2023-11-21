@@ -5,13 +5,15 @@ import { reharvestSiteCatalog } from "../../src/sites/reharvestSiteCatalog";
 describe("reharvestSiteCatalog", () => {
   it("correctly calls the reharvest endpoint", async () => {
     const url = `${MOCK_CONTEXT.hubUrl}/api/v3/jobs/site/some-site-id/harvest`;
-    const expectedResults = [
-      {
-        groupId: "some-group-id",
-        jobId: "some-job-id",
-        status: 202,
-      },
-    ];
+    const expectedResults = {
+      groups: [
+        {
+          groupId: "some-group-id",
+          jobId: "some-job-id",
+          status: 202,
+        },
+      ],
+    };
     fetchMock.once(url, expectedResults);
     const actualResults = await reharvestSiteCatalog(
       "some-site-id",
