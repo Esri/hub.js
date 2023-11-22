@@ -1,3 +1,10 @@
+## @esri/hub-common [14.65.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.65.0...@esri/hub-common@14.65.1) (2023-11-22)
+
+
+### Bug Fixes
+
+* **hub-common:** fix reharvest site catalog response interface ([#1339](https://github.com/Esri/hub.js/issues/1339)) ([f6767f4](https://github.com/Esri/hub.js/commit/f6767f47aaff7f7e3f4fb9bc0c4ca42d6a21f7a7))
+
 # @esri/hub-common [14.65.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.64.1...@esri/hub-common@14.65.0) (2023-11-21)
 
 
