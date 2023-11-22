@@ -1,3 +1,10 @@
+# @esri/hub-common [14.66.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.65.1...@esri/hub-common@14.66.0) (2023-11-22)
+
+
+### Features
+
+* **hub-common:** adds temporary gated permissions for creating new d… ([#1342](https://github.com/Esri/hub.js/issues/1342)) ([2fc2d78](https://github.com/Esri/hub.js/commit/2fc2d78a1dfef9eeabfda84733deb8107223551a))
+
 ## @esri/hub-common [14.65.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.65.0...@esri/hub-common@14.65.1) (2023-11-22)
 
 
