@@ -117,7 +117,7 @@ export const buildUiSchema = async (
               control: "hub-field-input-image-picker",
               imgSrc: getAuthedImageUrl(
                 options.view?.featuredImageUrl,
-                context
+                context.requestOptions
               ),
               maxWidth: 727,
               maxHeight: 484,

@@ -1,9 +1,5 @@
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
-import {
-  ArcGISContextManager,
-  IArcGISContext,
-  IHubProject,
-} from "../../../../src";
+import { ArcGISContextManager, IHubProject } from "../../../../src";
 import { MOCK_AUTH } from "../../../mocks/mock-auth";
 import { getAuthedImageUrl } from "../../../../src/core/schemas/internal/getAuthedImageUrl";
 
@@ -41,7 +37,7 @@ describe("getAuthedImageUrl:", () => {
 
     const url = getAuthedImageUrl(
       entity.view?.featuredImageUrl as string,
-      authdCtxMgr.context
+      authdCtxMgr.context.requestOptions
     );
     expect(url?.includes("token=fake-token")).toBeTruthy();
     expect(url?.includes("v=")).toBeTruthy();
@@ -54,12 +50,7 @@ describe("getAuthedImageUrl:", () => {
       },
     } as unknown as IHubProject;
 
-    const url = getAuthedImageUrl(
-      entity.view?.featuredImageUrl as string,
-      {
-        isAuthenticated: false,
-      } as unknown as IArcGISContext
-    );
+    const url = getAuthedImageUrl(entity.view?.featuredImageUrl as string, {});
     expect(url?.includes("token=fake-token")).toBeFalsy();
     expect(url?.includes("v=")).toBeTruthy();
   });
@@ -67,9 +58,7 @@ describe("getAuthedImageUrl:", () => {
     const entity = {} as IHubProject;
     const url = getAuthedImageUrl(
       entity.view?.featuredImageUrl as string,
-      {
-        isAuthenticated: false,
-      } as IArcGISContext
+      authdCtxMgr.context.requestOptions
     );
 
     expect(url).toBeUndefined();

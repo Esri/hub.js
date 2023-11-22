@@ -9,6 +9,7 @@ import { isDiscussable } from "../../discussions";
 import { processEntityFeatures } from "../../permissions/_internal/processEntityFeatures";
 import { InitiativeDefaultFeatures } from "./InitiativeBusinessRules";
 import { computeLinks } from "./computeLinks";
+import { getAuthedImageUrl } from "../../core/schemas/internal/getAuthedImageUrl";
 
 /**
  * Given a model and an Initiative, set various computed properties that can't be directly mapped
@@ -34,6 +35,12 @@ export function computeProps(
     model.item,
     requestOptions,
     token
+  );
+
+  // featured image url
+  initiative.view.featuredImageUrl = getAuthedImageUrl(
+    initiative.view.featuredImageUrl,
+    requestOptions
   );
 
   // Handle Dates
