@@ -1,3 +1,10 @@
+## @esri/hub-discussions [27.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@27.0.0...@esri/hub-discussions@27.0.1) (2023-11-22)
+
+
+### Bug Fixes
+
+* **hub-discussions:** use the platform isOrgAdmin function in discussions access check ([#1341](https://github.com/Esri/hub.js/issues/1341)) ([f221383](https://github.com/Esri/hub.js/commit/f221383b3b22b0f47e11b7a24b56702bf72a8bfc))
+
 # @esri/hub-discussions [27.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@26.2.0...@esri/hub-discussions@27.0.0) (2023-11-21)
 
 
