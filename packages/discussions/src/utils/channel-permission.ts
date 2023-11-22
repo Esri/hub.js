@@ -158,7 +158,7 @@ export class ChannelPermission {
       }
 
       return (
-        doesPermissionAllowOrgRole(permission, user.role) &&
+        doesPermissionAllowOrgRole(permission, user) &&
         channelActionLookup(action).includes(permission.role)
       );
     });
@@ -275,12 +275,12 @@ function doesPermissionAllowGroupMemberType(
 
 function doesPermissionAllowOrgRole(
   permission: IChannelAclPermission,
-  orgRole: string
+  user: IDiscussionsUser
 ): boolean {
   return (
     permission.category === AclCategory.ORG &&
     (permission.subCategory === AclSubCategory.MEMBER ||
-      (permission.subCategory === "admin" && orgRole === "org_admin"))
+      (permission.subCategory === AclSubCategory.ADMIN && isOrgAdmin(user)))
   );
 }
 
