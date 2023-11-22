@@ -91,4 +91,11 @@ export const DiscussionPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:discussion:manage",
     dependencies: ["hub:discussion:edit"],
   },
+  // Temporary gated creation of new discussion boards
+  {
+    permission: "temp:hub:discussion:create",
+    dependencies: ["hub:discussion:create"],
+    availability: ["alpha"],
+    environments: ["devext", "qaext"],
+  },
 ];
