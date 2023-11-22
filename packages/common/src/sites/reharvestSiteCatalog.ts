@@ -15,6 +15,16 @@ interface IGroupReharvestInfo {
   status: number;
 }
 
+interface IReharvestError {
+  message: string;
+  cause: string;
+}
+
+interface IReharvestInfo {
+  groups?: IGroupReharvestInfo[];
+  error?: IReharvestError;
+}
+
 /**
  * Trigger a manual update to reharvest each public item within a site's catalog.
  * This should only be used when search metadata has gotten out of sync despite
@@ -27,7 +37,7 @@ interface IGroupReharvestInfo {
 export async function reharvestSiteCatalog(
   siteId: string,
   context: IArcGISContext
-): Promise<IGroupReharvestInfo[]> {
+): Promise<IReharvestInfo> {
   const apiHost = context.hubUrl;
   const url = `${apiHost}/api/v3/jobs/site/${siteId}/harvest`;
   const options = {
@@ -37,5 +47,17 @@ export async function reharvestSiteCatalog(
       authorization: context.hubRequestOptions.authentication.token,
     },
   };
-  return fetch(url, options).then((result) => result.json());
+
+  return fetch(url, options)
+    .then((result) => result.json())
+    .then((rawResult) => {
+      const result: IReharvestInfo = {};
+      if (rawResult.groups) {
+        result.groups = rawResult.groups;
+      }
+      if (rawResult.message) {
+        result.error = rawResult;
+      }
+      return result;
+    });
 }
