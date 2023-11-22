@@ -19,6 +19,7 @@ export const DiscussionPermissions = [
   "hub:discussion:workspace:discussion",
   "hub:discussion:workspace:metrics",
   "hub:discussion:manage",
+  "temp:hub:discussion:create",
 ] as const;
 
 /**
