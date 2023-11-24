@@ -1,5 +1,6 @@
 import { IUiSchema } from "../../core/schemas/types";
 import { IArcGISContext } from "../../ArcGISContext";
+import { getAuthedImageUrl } from "../../core/schemas/internal/getAuthedImageUrl";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { getCategoryItems } from "../../core/schemas/internal/getCategoryItems";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";

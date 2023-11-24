@@ -5,6 +5,8 @@ import * as getLocationOptionsModule from "../../../src/core/schemas/internal/ge
 import * as getTagItemsModule from "../../../src/core/schemas/internal/getTagItems";
 import * as getCategoryItemsModule from "../../../src/core/schemas/internal/getCategoryItems";
 import * as getFeaturedContentCatalogsModule from "../../../src/core/schemas/internal/getFeaturedContentCatalogs";
+import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
+import * as getAuthedImageUrlModule from "../../../src/core/schemas/internal/getAuthedImageUrl";
 
 describe("buildUiSchema: initiative edit", () => {
   it("returns the full initiative edit uiSchema", async () => {
@@ -24,6 +26,9 @@ describe("buildUiSchema: initiative edit", () => {
       getFeaturedContentCatalogsModule,
       "getFeaturedContentCatalogs"
     ).and.returnValue({});
+    spyOn(getAuthedImageUrlModule, "getAuthedImageUrl").and.returnValue(
+      "https://some-image-url.com"
+    );
 
     const uiSchema = await buildUiSchema(
       "some.scope",
@@ -91,6 +96,69 @@ describe("buildUiSchema: initiative edit", () => {
                 type: "textarea",
                 helperText: {
                   labelKey: "some.scope.fields.description.helperText",
+                },
+              },
+            },
+            {
+              labelKey: `some.scope.fields.hero.label`,
+              scope: "/properties/hero",
+              type: "Control",
+              options: {
+                control: "hub-field-input-tile-select",
+                layout: "horizontal",
+                helperText: {
+                  labelKey: `some.scope.fields.hero.helperText`,
+                },
+                labels: [
+                  `{{some.scope.fields.hero.map.label:translate}}`,
+                  `{{some.scope.fields.hero.image.label:translate}}`,
+                ],
+                descriptions: [
+                  `{{some.scope.fields.hero.map.description:translate}}`,
+                  `{{some.scope.fields.hero.map.description:translate}}`,
+                ],
+                icons: ["map-pin", "image"],
+              },
+            },
+            {
+              labelKey: `some.scope.fields.featuredImage.label`,
+              scope: "/properties/view/properties/featuredImage",
+              type: "Control",
+              rule: {
+                effect: UiSchemaRuleEffects.HIDE,
+                condition: {
+                  scope: "/properties/hero",
+                  schema: { const: "map" },
+                },
+              },
+              options: {
+                control: "hub-field-input-image-picker",
+                imgSrc: "https://some-image-url.com",
+                maxWidth: 727,
+                maxHeight: 484,
+                aspectRatio: 1.5,
+                helperText: {
+                  labelKey: `some.scope.fields.featuredImage.helperText`,
+                },
+                sizeDescription: {
+                  labelKey: `some.scope.fields.featuredImage.sizeDescription`,
+                },
+              },
+            },
+            {
+              labelKey: `some.scope.fields.featuredImage.altText.label`,
+              scope: "/properties/view/properties/featuredImageAltText",
+              type: "Control",
+              rule: {
+                effect: UiSchemaRuleEffects.HIDE,
+                condition: {
+                  scope: "/properties/hero",
+                  schema: { const: "map" },
+                },
+              },
+              options: {
+                helperText: {
+                  labelKey: `some.scope.fields.featuredImage.altText.helperText`,
                 },
               },
             },

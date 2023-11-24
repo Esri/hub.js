@@ -78,6 +78,27 @@ describe("buildUiSchema: initiative create", () => {
                         ],
                       },
                     },
+                    {
+                      labelKey: "some.scope.fields.hero.label",
+                      scope: "/properties/hero",
+                      type: "Control",
+                      options: {
+                        control: "hub-field-input-tile-select",
+                        layout: "horizontal",
+                        helperText: {
+                          labelKey: "some.scope.fields.hero.helperText",
+                        },
+                        labels: [
+                          `{{some.scope.fields.hero.map.label:translate}}`,
+                          `{{some.scope.fields.hero.image.label:translate}}`,
+                        ],
+                        descriptions: [
+                          `{{some.scope.fields.hero.map.description:translate}}`,
+                          `{{some.scope.fields.hero.map.description:translate}}`,
+                        ],
+                        icons: ["map-pin", "image"],
+                      },
+                    },
                   ],
                 },
               ],

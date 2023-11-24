@@ -39,7 +39,7 @@ export function computeProps(
 
   // featured image url
   initiative.view.featuredImageUrl = getAuthedImageUrl(
-    initiative.view.featuredImageUrl,
+    model.data.view.featuredImageUrl,
     requestOptions
   );
 

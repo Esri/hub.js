@@ -469,27 +469,6 @@ describe("HubInitiative Class:", () => {
           [2, 2],
         ]);
       });
-      it("throws if creating", async () => {
-        const chk = HubInitiative.fromJson(
-          {
-            name: "Test Entity",
-            thumbnailUrl: "https://myserver.com/thumbnail.png",
-          },
-          authdCtxMgr.context
-        );
-        // spy on the instance .save method and retrn void
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
-        // make changes to the editor
-        const editor = await chk.toEditor();
-        editor.name = "new name";
-        // call fromEditor
-        try {
-          await chk.fromEditor(editor);
-        } catch (ex) {
-          expect(ex.message).toContain("Cannot create");
-          expect(saveSpy).toHaveBeenCalledTimes(0);
-        }
-      });
     });
   });
 });

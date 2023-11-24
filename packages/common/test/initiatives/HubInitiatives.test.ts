@@ -41,7 +41,7 @@ const INITIATIVE_ITEM: portalModule.IItem = {
   size: 0,
 } as portalModule.IItem;
 
-const INITIATIVE_DATA = {};
+const INITIATIVE_DATA = { view: {} };
 
 const INITIATIVE_MODEL = {
   item: INITIATIVE_ITEM,
@@ -60,7 +60,7 @@ const INITIATIVE_ITEM_ENRICH: portalModule.IItem = {
   type: "Hub Initiative",
   typeKeywords: [
     "Hub",
-    "Hub Initiative",
+    "hubInitiative",
     "JavaScript",
     "Map",
     "Mapping Site",
@@ -259,10 +259,11 @@ describe("HubInitiatives:", () => {
       expect(chk.name).toBe("Hello World");
       expect(chk.description).toBe("my desc");
       expect(chk.typeKeywords).toEqual([
-        "Hub Initiative",
+        "hubInitiative",
         "slug|dcdev|hello-world",
         "status|inProgress",
         "cannotDiscuss",
+        "hero|map",
       ]);
       // should ensure unique slug
       expect(slugSpy.calls.count()).toBe(1);
