@@ -20,6 +20,7 @@ import { convertGroupToHubGroup } from "./_internal/convertGroupToHubGroup";
 import { setDiscussableKeyword } from "../discussions";
 import { IHubSearchResult } from "../search/types/IHubSearchResult";
 import { computeLinks } from "./_internal/computeLinks";
+import { getUniqueGroupTitle } from "./_internal/getUniqueGroupTitle";
 
 /**
  * Enrich a generic search result
@@ -51,6 +52,7 @@ export async function enrichGroupSearchResult(
       siteRelative: "not-implemented",
       thumbnail: "not-implemented",
     },
+    rawResult: group,
   };
 
   // Informal Enrichments - basically adding type-specific props
@@ -101,6 +103,11 @@ export async function createHubGroup(
 ): Promise<IHubGroup> {
   // merge the incoming and default groups
   const hubGroup = { ...DEFAULT_GROUP, ...partialGroup } as IHubGroup;
+
+  // ensure the group has a unique title
+  const uniqueTitle = await getUniqueGroupTitle(hubGroup.name, requestOptions);
+  hubGroup.name = uniqueTitle;
+
   hubGroup.typeKeywords = setDiscussableKeyword(
     hubGroup.typeKeywords,
     hubGroup.isDiscussable

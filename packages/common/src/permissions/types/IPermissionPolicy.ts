@@ -129,6 +129,8 @@ export type AssertionType =
   | "neq"
   | "gt"
   | "lt"
+  | "length-gt"
+  | "length-lt"
   | "contains"
   | "contains-all"
   | "without"

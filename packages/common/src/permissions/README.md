@@ -1,6 +1,6 @@
 # Permissions
 
-## TODO: Write general Permissions section and add to Guides
+Please see the [Guide](https://esri.github.io/hub.js/guides/advanced/permissions/) for additional information.
 
 ## Permission Assertions
 

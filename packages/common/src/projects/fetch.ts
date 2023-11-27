@@ -100,6 +100,7 @@ export async function enrichProjectSearchResult(
       thumbnail: "not-implemented",
       workspaceRelative: "not-implemented",
     },
+    rawResult: item,
   };
 
   // default includes

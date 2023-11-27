@@ -49,6 +49,7 @@ export async function enrichUserSearchResult(
       siteRelative: "not-implemented",
       thumbnail: null,
     },
+    rawResult: user,
   };
   // Group Memberships need these additional properties
   if (user.memberType) {

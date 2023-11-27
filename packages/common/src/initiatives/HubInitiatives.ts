@@ -280,6 +280,7 @@ export async function enrichInitiativeSearchResult(
       thumbnail: "not-implemented",
       workspaceRelative: "not-implemented",
     },
+    rawResult: item,
   };
 
   // default includes

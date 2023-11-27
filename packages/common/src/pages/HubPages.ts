@@ -214,6 +214,7 @@ export async function enrichPageSearchResult(
       siteRelative: "not-implemented",
       thumbnail: "not-implemented",
     },
+    rawResult: item,
   };
 
   // default includes

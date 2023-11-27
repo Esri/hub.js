@@ -1,3 +1,26 @@
+## @esri/hub-discussions [27.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@27.0.0...@esri/hub-discussions@27.0.1) (2023-11-22)
+
+
+### Bug Fixes
+
+* **hub-discussions:** use the platform isOrgAdmin function in discussions access check ([#1341](https://github.com/Esri/hub.js/issues/1341)) ([f221383](https://github.com/Esri/hub.js/commit/f221383b3b22b0f47e11b7a24b56702bf72a8bfc))
+
+# @esri/hub-discussions [27.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@26.2.0...@esri/hub-discussions@27.0.0) (2023-11-21)
+
+
+### Features
+
+* **hub-discussions:** true isOrgAdmin check if org_admin via platfor… ([#1338](https://github.com/Esri/hub.js/issues/1338)) ([520a5d0](https://github.com/Esri/hub.js/commit/520a5d07b4432a3e3c798da3ff1dd3ce5cb65ae2))
+
+
+### BREAKING CHANGES
+
+* **hub-discussions:** function isOrgAdmin returns true if the user is an org_admin by an assigned roleId
+
+* docs(hub-discussions): update function description for isOrgAdmin
+
+affects: @esri/hub-discussions
+
 # @esri/hub-discussions [26.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@26.1.2...@esri/hub-discussions@26.2.0) (2023-10-24)
 
 

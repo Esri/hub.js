@@ -282,4 +282,7 @@ export interface IDynamicMetricValues {
 }
 
 /** Maxmium number of metrics allowed on any given entity. */
-export const MAX_ENTITY_METRICS_ALLOWED = 12;
+export const MAX_ENTITY_METRICS_ALLOWED = 24;
+
+/** Maximum number of featured metrics allowed on any given entity. */
+export const MAX_FEATURED_METRICS_ALLOWED = 4;

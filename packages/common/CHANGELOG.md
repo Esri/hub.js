@@ -1,3 +1,66 @@
+# @esri/hub-common [14.66.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.65.1...@esri/hub-common@14.66.0) (2023-11-22)
+
+
+### Features
+
+* **hub-common:** adds temporary gated permissions for creating new d… ([#1342](https://github.com/Esri/hub.js/issues/1342)) ([2fc2d78](https://github.com/Esri/hub.js/commit/2fc2d78a1dfef9eeabfda84733deb8107223551a))
+
+## @esri/hub-common [14.65.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.65.0...@esri/hub-common@14.65.1) (2023-11-22)
+
+
+### Bug Fixes
+
+* **hub-common:** fix reharvest site catalog response interface ([#1339](https://github.com/Esri/hub.js/issues/1339)) ([f6767f4](https://github.com/Esri/hub.js/commit/f6767f47aaff7f7e3f4fb9bc0c4ca42d6a21f7a7))
+
+# @esri/hub-common [14.65.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.64.1...@esri/hub-common@14.65.0) (2023-11-21)
+
+
+### Features
+
+* add logic/schema to allow follower group creation ([#1333](https://github.com/Esri/hub.js/issues/1333)) ([9515f8c](https://github.com/Esri/hub.js/commit/9515f8c64b115e3981e98d440276e87c01b8791b))
+
+## @esri/hub-common [14.64.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.64.0...@esri/hub-common@14.64.1) (2023-11-20)
+
+
+### Bug Fixes
+
+* **hub-common:** prompt no longer required ([#1337](https://github.com/Esri/hub.js/issues/1337)) ([9376161](https://github.com/Esri/hub.js/commit/9376161346c3e180f7f917d07138310db862aa8d))
+
+# @esri/hub-common [14.64.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.63.0...@esri/hub-common@14.64.0) (2023-11-17)
+
+
+### Features
+
+* search result has rawResult prop ([#1336](https://github.com/Esri/hub.js/issues/1336)) ([c8a41f4](https://github.com/Esri/hub.js/commit/c8a41f47b15c2ca110c7a35811917e93db0ada6b))
+
+# @esri/hub-common [14.63.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.62.0...@esri/hub-common@14.63.0) (2023-11-17)
+
+
+### Features
+
+* add featured metrics limit ([#1334](https://github.com/Esri/hub.js/issues/1334)) ([a662714](https://github.com/Esri/hub.js/commit/a66271423489553f0fbe44df2a13e37cdb189a6c))
+
+# @esri/hub-common [14.62.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.61.0...@esri/hub-common@14.62.0) (2023-11-16)
+
+
+### Features
+
+* **hub-common:** allow workspaces to route to specific panes ([#1332](https://github.com/Esri/hub.js/issues/1332)) ([d126dee](https://github.com/Esri/hub.js/commit/d126deed2cd3d010a6a2f86c5fd30ddb87d28ab3))
+
+# @esri/hub-common [14.61.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.60.1...@esri/hub-common@14.61.0) (2023-11-16)
+
+
+### Features
+
+* add new processActionLinks util ([#1331](https://github.com/Esri/hub.js/issues/1331)) ([166f598](https://github.com/Esri/hub.js/commit/166f59813f80c60a18cb6d6732735db3258148cb))
+
+## @esri/hub-common [14.60.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.60.0...@esri/hub-common@14.60.1) (2023-11-16)
+
+
+### Bug Fixes
+
+* update max size of metrics on an entity to 24 ([#1329](https://github.com/Esri/hub.js/issues/1329)) ([a520118](https://github.com/Esri/hub.js/commit/a52011805ece73fc1b0d5377aa2c7fd6ff942cf7))
+
 # @esri/hub-common [14.60.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.59.0...@esri/hub-common@14.60.0) (2023-11-15)
 
 

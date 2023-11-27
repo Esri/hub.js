@@ -150,6 +150,7 @@ export const INITIATIVE_HUB_SEARCH_RESULT: IHubSearchResult = {
     thumbnail: "https://thumbnail/mock-thumbnail.png",
     workspaceRelative: "/mock-relative-workspace-url",
   },
+  rawResult: INITIATIVE_ITEM,
 };
 
 export const INITIATIVE_DATA = {
