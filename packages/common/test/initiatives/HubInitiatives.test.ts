@@ -64,7 +64,7 @@ const INITIATIVE_ITEM_ENRICH: portalModule.IItem = {
   type: "Hub Initiative",
   typeKeywords: [
     "Hub",
-    "hubInitiative",
+    "hubInitiativeV2",
     "JavaScript",
     "Map",
     "Mapping Site",
@@ -74,7 +74,7 @@ const INITIATIVE_ITEM_ENRICH: portalModule.IItem = {
     "Web Map",
   ],
   description: "Test Initiative with data",
-  tags: ["hubinitiative"],
+  tags: ["hubInitiativeV2"],
   // snippet: null,
   thumbnail: "thumbnail/my-thing.png",
   // documentation: null,
@@ -263,7 +263,7 @@ describe("HubInitiatives:", () => {
       expect(chk.name).toBe("Hello World");
       expect(chk.description).toBe("my desc");
       expect(chk.typeKeywords).toEqual([
-        "hubInitiative",
+        "hubInitiativeV2",
         "slug|dcdev|hello-world",
         "status|inProgress",
         "cannotDiscuss",

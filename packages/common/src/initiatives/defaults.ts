@@ -10,7 +10,7 @@ export const HUB_INITIATIVE_ITEM_TYPE = "Hub Initiative";
 export const DEFAULT_INITIATIVE: Partial<IHubInitiative> = {
   name: "",
   tags: [],
-  typeKeywords: ["hubInitiative"],
+  typeKeywords: ["hubInitiativeV2"],
   catalog: { schemaVersion: 0 },
   permissions: [],
   schemaVersion: 2,
@@ -32,7 +32,7 @@ export const DEFAULT_INITIATIVE_MODEL: IModel = {
     description: "",
     snippet: "",
     tags: [],
-    typeKeywords: ["hubInitiative"],
+    typeKeywords: ["hubInitiativeV2"],
     properties: {
       slug: "",
       schemaVersion: 2,
