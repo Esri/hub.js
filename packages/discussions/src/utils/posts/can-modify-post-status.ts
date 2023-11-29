@@ -18,7 +18,7 @@ export function canModifyPostStatus(
   const { channelAcl, creator } = channel;
 
   if (channelAcl) {
-    const channelPermission = new ChannelPermission(channelAcl, creator);
+    const channelPermission = new ChannelPermission(channelAcl);
     return channelPermission.canModerateChannel(user as IDiscussionsUser);
   }
 

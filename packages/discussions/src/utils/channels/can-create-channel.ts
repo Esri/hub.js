@@ -19,7 +19,7 @@ export function canCreateChannel(
   const { channelAcl, access, groups, orgs, creator } = channel;
 
   if (channelAcl) {
-    const channelPermission = new ChannelPermission(channelAcl, creator);
+    const channelPermission = new ChannelPermission(channelAcl);
     return channelPermission.canCreateChannel(user as IDiscussionsUser);
   }
 

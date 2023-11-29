@@ -22,7 +22,7 @@ export function canModifyPost(
 ): boolean {
   const { access, groups, orgs, allowAnonymous, channelAcl, creator } = channel;
   if (channelAcl) {
-    const channelPermission = new ChannelPermission(channelAcl, creator);
+    const channelPermission = new ChannelPermission(channelAcl);
     return (
       isPostCreator(post, user) && channelPermission.canPostToChannel(user)
     );
