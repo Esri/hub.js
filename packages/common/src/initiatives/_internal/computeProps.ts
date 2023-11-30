@@ -38,10 +38,12 @@ export function computeProps(
   );
 
   // featured image url
-  initiative.view.featuredImageUrl = getAuthedImageUrl(
-    model.data.view.featuredImageUrl,
-    requestOptions
-  );
+  initiative.view = {
+    featuredImageUrl: getAuthedImageUrl(
+      model.data.view.featuredImageUrl,
+      requestOptions
+    ),
+  };
 
   // Handle Dates
   initiative.createdDate = new Date(model.item.created);
