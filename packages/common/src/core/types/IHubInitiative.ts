@@ -18,7 +18,6 @@ export interface IHubInitiative
     IWithCatalog,
     IWithMetrics,
     IWithPermissions,
-    IWithStatus,
-    IWithViewSettings {}
+    IWithStatus {}
 
 export type IHubInitiativeEditor = IHubItemEntityEditor<IHubInitiative> & {};
