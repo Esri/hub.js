@@ -1,9 +1,4 @@
-import {
-  IWithSlug,
-  IWithPermissions,
-  IWithCatalog,
-  IWithViewSettings,
-} from "../traits";
+import { IWithSlug, IWithPermissions, IWithCatalog } from "../traits";
 import { IWithMetrics } from "../traits/IWithMetrics";
 import { IWithStatus } from "../traits/IWithStatus";
 import { IHubItemEntity, IHubItemEntityEditor } from "./IHubItemEntity";
