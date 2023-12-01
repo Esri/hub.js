@@ -1,6 +1,6 @@
 import { IConfigurationSchema } from "../../core";
 import { HubItemEntitySchema } from "../../core/schemas/shared/HubItemEntitySchema";
-import { HubEntityHero, HubEntityStatus } from "../../types";
+import { HubEntityStatus } from "../../types";
 
 export type InitiativeEditorType = (typeof InitiativeEditorTypes)[number];
 export const InitiativeEditorTypes = [
@@ -23,11 +23,6 @@ export const InitiativeSchema: IConfigurationSchema = {
       type: "string",
       default: HubEntityStatus.notStarted,
       enum: Object.keys(HubEntityStatus),
-    },
-    hero: {
-      type: "string",
-      default: HubEntityHero.map,
-      enum: Object.keys(HubEntityHero),
     },
   },
 } as IConfigurationSchema;

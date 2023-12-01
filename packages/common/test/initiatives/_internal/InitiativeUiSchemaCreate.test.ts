@@ -84,7 +84,7 @@ describe("buildUiSchema: initiative create", () => {
                     },
                     {
                       labelKey: "some.scope.fields.hero.label",
-                      scope: "/properties/hero",
+                      scope: "/properties/view/properties/hero",
                       type: "Control",
                       options: {
                         control: "hub-field-input-tile-select",
@@ -124,7 +124,7 @@ describe("buildUiSchema: initiative create", () => {
                   rule: {
                     effect: UiSchemaRuleEffects.HIDE,
                     condition: {
-                      scope: "/properties/hero",
+                      scope: "/properties/view/properties/hero",
                       schema: { const: "image" },
                     },
                   },
@@ -152,7 +152,7 @@ describe("buildUiSchema: initiative create", () => {
                   rule: {
                     effect: UiSchemaRuleEffects.HIDE,
                     condition: {
-                      scope: "/properties/hero",
+                      scope: "/properties/view/properties/hero",
                       schema: { const: "map" },
                     },
                   },
@@ -178,7 +178,7 @@ describe("buildUiSchema: initiative create", () => {
                   rule: {
                     effect: UiSchemaRuleEffects.HIDE,
                     condition: {
-                      scope: "/properties/hero",
+                      scope: "/properties/view/properties/hero",
                       schema: { const: "map" },
                     },
                   },
@@ -314,7 +314,7 @@ describe("buildUiSchema: initiative create", () => {
                     },
                     {
                       labelKey: "some.scope.fields.hero.label",
-                      scope: "/properties/hero",
+                      scope: "/properties/view/properties/hero",
                       type: "Control",
                       options: {
                         control: "hub-field-input-tile-select",
@@ -354,7 +354,7 @@ describe("buildUiSchema: initiative create", () => {
                   rule: {
                     effect: UiSchemaRuleEffects.HIDE,
                     condition: {
-                      scope: "/properties/hero",
+                      scope: "/properties/view/properties/hero",
                       schema: { const: "image" },
                     },
                   },
@@ -382,7 +382,7 @@ describe("buildUiSchema: initiative create", () => {
                   rule: {
                     effect: UiSchemaRuleEffects.HIDE,
                     condition: {
-                      scope: "/properties/hero",
+                      scope: "/properties/view/properties/hero",
                       schema: { const: "map" },
                     },
                   },
@@ -408,7 +408,7 @@ describe("buildUiSchema: initiative create", () => {
                   rule: {
                     effect: UiSchemaRuleEffects.HIDE,
                     condition: {
-                      scope: "/properties/hero",
+                      scope: "/properties/view/properties/hero",
                       schema: { const: "map" },
                     },
                   },
