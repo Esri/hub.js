@@ -1,3 +1,10 @@
+# @esri/hub-common [14.67.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.66.1...@esri/hub-common@14.67.0) (2023-12-01)
+
+
+### Features
+
+* add enrichement to refetch item with additional props ([#1345](https://github.com/Esri/hub.js/issues/1345)) ([3d3ac62](https://github.com/Esri/hub.js/commit/3d3ac62eb99c61fbf1577915b59cfa6db4ece907))
+
 ## @esri/hub-common [14.66.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.66.0...@esri/hub-common@14.66.1) (2023-12-01)
 
 
