@@ -83,7 +83,7 @@ export const buildUiSchema = async (
           },
           {
             labelKey: `${i18nScope}.fields.hero.label`,
-            scope: "/properties/hero",
+            scope: "/properties/view/properties/hero",
             type: "Control",
             options: {
               control: "hub-field-input-tile-select",
@@ -109,7 +109,7 @@ export const buildUiSchema = async (
             rule: {
               effect: UiSchemaRuleEffects.HIDE,
               condition: {
-                scope: "/properties/hero",
+                scope: "/properties/view/properties/hero",
                 schema: { const: "map" },
               },
             },
@@ -137,7 +137,7 @@ export const buildUiSchema = async (
             rule: {
               effect: UiSchemaRuleEffects.HIDE,
               condition: {
-                scope: "/properties/hero",
+                scope: "/properties/view/properties/hero",
                 schema: { const: "map" },
               },
             },
