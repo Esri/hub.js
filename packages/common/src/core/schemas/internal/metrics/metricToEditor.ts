@@ -17,9 +17,14 @@ export function metricToEditor(
   metric: IMetric,
   displayConfig: IMetricDisplayConfig
 ): IMetricEditorValues {
-  let editor = { ...displayConfig };
+  // default settings
+  let editor = {
+    ...displayConfig,
+    type: "dynamic",
+  };
+
   if (metric && metric.source) {
-    const metricType = (metric.source as MetricSource).type || "service-query";
+    const metricType = (metric.source as MetricSource).type || "";
 
     switch (metricType) {
       case "service-query":
