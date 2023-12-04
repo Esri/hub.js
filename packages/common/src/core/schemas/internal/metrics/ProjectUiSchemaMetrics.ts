@@ -174,7 +174,7 @@ export const buildUiSchema = (
 /***************** Rules *****************/
 const SHOW_FOR_STATIC_RULE = {
   condition: {
-    scope: "/properties/type",
+    scope: "/properties/_metric/properties/type",
     schema: { const: "static" },
   },
   effect: UiSchemaRuleEffects.SHOW,
@@ -182,7 +182,7 @@ const SHOW_FOR_STATIC_RULE = {
 
 const SHOW_FOR_SHARING_RULE = {
   condition: {
-    scope: "/properties/shareable",
+    scope: "/properties/_metric/properties/shareable",
     schema: { const: true },
   },
   effect: UiSchemaRuleEffects.SHOW,
