@@ -1,4 +1,4 @@
-import { IUiSchema } from "../../core/schemas/types";
+import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import { IArcGISContext } from "../../ArcGISContext";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { getCategoryItems } from "../../core/schemas/internal/getCategoryItems";
@@ -7,12 +7,13 @@ import { getLocationOptions } from "../../core/schemas/internal/getLocationOptio
 import { getFeaturedContentCatalogs } from "../../core/schemas/internal/getFeaturedContentCatalogs";
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 import { IHubInitiative } from "../../core";
+import { getAuthedImageUrl } from "../../core/_internal/getAuthedImageUrl";
 
 /**
  * @private
- * constructs the complete edit uiSchema for Hub Projects.
+ * constructs the complete edit uiSchema for Hub Initiative.
  * This defines how the schema properties should be
- * rendered in the project editing experience
+ * rendered in the initiative editing experience
  */
 export const buildUiSchema = async (
   i18nScope: string,
@@ -77,6 +78,72 @@ export const buildUiSchema = async (
               type: "textarea",
               helperText: {
                 labelKey: `${i18nScope}.fields.description.helperText`,
+              },
+            },
+          },
+          {
+            labelKey: `${i18nScope}.fields.hero.label`,
+            scope: "/properties/view/properties/hero",
+            type: "Control",
+            options: {
+              control: "hub-field-input-tile-select",
+              layout: "horizontal",
+              helperText: {
+                labelKey: `${i18nScope}.fields.hero.helperText`,
+              },
+              labels: [
+                `{{${i18nScope}.fields.hero.map.label:translate}}`,
+                `{{${i18nScope}.fields.hero.image.label:translate}}`,
+              ],
+              descriptions: [
+                `{{${i18nScope}.fields.hero.map.description:translate}}`,
+                `{{${i18nScope}.fields.hero.map.description:translate}}`,
+              ],
+              icons: ["map-pin", "image"],
+            },
+          },
+          {
+            labelKey: `${i18nScope}.fields.featuredImage.label`,
+            scope: "/properties/view/properties/featuredImage",
+            type: "Control",
+            rule: {
+              effect: UiSchemaRuleEffects.HIDE,
+              condition: {
+                scope: "/properties/view/properties/hero",
+                schema: { const: "map" },
+              },
+            },
+            options: {
+              control: "hub-field-input-image-picker",
+              imgSrc: getAuthedImageUrl(
+                options.view?.featuredImageUrl,
+                context.requestOptions
+              ),
+              maxWidth: 727,
+              maxHeight: 484,
+              aspectRatio: 1.5,
+              helperText: {
+                labelKey: `${i18nScope}.fields.featuredImage.helperText`,
+              },
+              sizeDescription: {
+                labelKey: `${i18nScope}.fields.featuredImage.sizeDescription`,
+              },
+            },
+          },
+          {
+            labelKey: `${i18nScope}.fields.featuredImage.altText.label`,
+            scope: "/properties/view/properties/featuredImageAltText",
+            type: "Control",
+            rule: {
+              effect: UiSchemaRuleEffects.HIDE,
+              condition: {
+                scope: "/properties/view/properties/hero",
+                schema: { const: "map" },
+              },
+            },
+            options: {
+              helperText: {
+                labelKey: `${i18nScope}.fields.featuredImage.altText.helperText`,
               },
             },
           },

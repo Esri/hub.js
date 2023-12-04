@@ -9,6 +9,8 @@ import * as ResolveMetricModule from "../../src/metrics/resolveMetric";
 import * as viewModule from "../../src/initiatives/view";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
+import { HubItemEntity } from "../../src/core/HubItemEntity";
+import { initContextManager } from "../templates/fixtures";
 
 describe("HubInitiative Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -22,6 +24,7 @@ describe("HubInitiative Class:", () => {
       authentication: MOCK_AUTH,
       currentUser: {
         username: "casey",
+        privileges: ["portal:user:shareToGroup"],
       } as unknown as PortalModule.IUser,
       portal: {
         name: "DC R&D Center",
@@ -360,10 +363,58 @@ describe("HubInitiative Class:", () => {
         expect(result.thumbnailUrl).toEqual(
           "https://myserver.com/thumbnail.png"
         );
+        expect(result._groups).toEqual([]);
+      });
+      describe('auto-populating "shareWith" groups', () => {
+        let projectInstance: any;
+        beforeEach(async () => {
+          const _authdCtxMgr = await initContextManager({
+            currentUser: {
+              groups: [
+                { id: "00a", isViewOnly: false },
+                { id: "00b", isViewOnly: true, memberType: "admin" },
+                { id: "00d", isViewOnly: false },
+              ] as PortalModule.IGroup[],
+              privileges: ["portal:user:shareToGroup"],
+            },
+          });
+          projectInstance = HubInitiative.fromJson({}, _authdCtxMgr.context);
+        });
+        it('handles auto-populating "shareWith" groups that the current user can share to', async () => {
+          const result = await projectInstance.toEditor({
+            contentGroupId: "00a",
+            collaborationGroupId: "00b",
+          });
+          expect(result._groups).toEqual(["00a", "00b"]);
+        });
+        it('does not auto-populate "shareWith" gruops that the current user cannot share to', async () => {
+          const result = await projectInstance.toEditor({
+            contentGroupId: "00e",
+            collaborationGroupId: "00f",
+          });
+          expect(result._groups).toEqual([]);
+        });
       });
     });
 
     describe("fromEditor:", () => {
+      let updateSpy: jasmine.Spy;
+      let createSpy: jasmine.Spy;
+      beforeEach(() => {
+        updateSpy = spyOn(
+          HubInitiativesModule,
+          "updateInitiative"
+        ).and.callFake((p: IHubInitiative) => {
+          return Promise.resolve(p);
+        });
+        createSpy = spyOn(
+          HubInitiativesModule,
+          "createInitiative"
+        ).and.callFake((e: any) => {
+          e.id = "3ef";
+          return Promise.resolve(e);
+        });
+      });
       it("handles simple prop change", async () => {
         const chk = HubInitiative.fromJson(
           {
@@ -378,6 +429,7 @@ describe("HubInitiative Class:", () => {
         // make changes to the editor
         const editor = await chk.toEditor();
         editor.name = "new name";
+        delete editor._groups;
         // call fromEditor
         const result = await chk.fromEditor(editor);
         // expect the save method to have been called
@@ -469,7 +521,53 @@ describe("HubInitiative Class:", () => {
           [2, 2],
         ]);
       });
-      it("throws if creating", async () => {
+      it("handles setting featured image", async () => {
+        const chk = HubInitiative.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+          },
+          authdCtxMgr.context
+        );
+        const editor = await chk.toEditor();
+        editor.view = {
+          featuredImage: {
+            blob: "some blob",
+            filename: "some-featuredImage.png",
+          },
+        };
+        const setFeaturedImageSpy = spyOn(
+          chk,
+          "setFeaturedImage"
+        ).and.returnValue(Promise.resolve());
+        await chk.fromEditor(editor);
+        expect(updateSpy).toHaveBeenCalledTimes(1);
+        expect(createSpy).not.toHaveBeenCalled();
+        expect(setFeaturedImageSpy).toHaveBeenCalledTimes(1);
+        expect(setFeaturedImageSpy).toHaveBeenCalledWith("some blob");
+      });
+      it("handles clearing featured image", async () => {
+        const chk = HubInitiative.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+          },
+          authdCtxMgr.context
+        );
+        const editor = await chk.toEditor();
+        editor.view = {
+          featuredImage: {},
+        };
+        const clearFeaturedImageSpy = spyOn(
+          chk,
+          "clearFeaturedImage"
+        ).and.returnValue(Promise.resolve());
+        await chk.fromEditor(editor);
+        expect(updateSpy).toHaveBeenCalledTimes(1);
+        expect(createSpy).not.toHaveBeenCalled();
+        expect(clearFeaturedImageSpy).toHaveBeenCalledTimes(1);
+      });
+      it("sets access on create", async () => {
         const chk = HubInitiative.fromJson(
           {
             name: "Test Entity",
@@ -477,18 +575,46 @@ describe("HubInitiative Class:", () => {
           },
           authdCtxMgr.context
         );
-        // spy on the instance .save method and retrn void
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
-        // make changes to the editor
         const editor = await chk.toEditor();
-        editor.name = "new name";
-        // call fromEditor
-        try {
-          await chk.fromEditor(editor);
-        } catch (ex) {
-          expect(ex.message).toContain("Cannot create");
-          expect(saveSpy).toHaveBeenCalledTimes(0);
-        }
+
+        editor.access = "org";
+
+        const accessSpy = spyOn(
+          HubItemEntity.prototype,
+          "setAccess"
+        ).and.returnValue(Promise.resolve());
+
+        await chk.fromEditor(editor);
+        expect(createSpy).toHaveBeenCalledTimes(1);
+        expect(accessSpy).toHaveBeenCalledTimes(1);
+        expect(accessSpy).toHaveBeenCalledWith("org");
+      });
+      it("handles sharing on create", async () => {
+        const chk = HubInitiative.fromJson(
+          {
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+          },
+          authdCtxMgr.context
+        );
+        const editor = await chk.toEditor();
+        editor._groups = ["3ef"];
+        editor.access = "org";
+        const accessSpy = spyOn(
+          HubItemEntity.prototype,
+          "setAccess"
+        ).and.returnValue(Promise.resolve());
+
+        const shareSpy = spyOn(
+          HubItemEntity.prototype,
+          "shareWithGroup"
+        ).and.returnValue(Promise.resolve());
+        await chk.fromEditor(editor);
+        expect(createSpy).toHaveBeenCalledTimes(1);
+        expect(accessSpy).toHaveBeenCalledTimes(1);
+        expect(accessSpy).toHaveBeenCalledWith("org");
+        expect(shareSpy).toHaveBeenCalledTimes(1);
+        expect(shareSpy).toHaveBeenCalledWith("3ef");
       });
     });
   });

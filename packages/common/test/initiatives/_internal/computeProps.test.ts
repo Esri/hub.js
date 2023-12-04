@@ -20,12 +20,17 @@ describe("initiatives: computeProps:", () => {
         created: new Date().getTime(),
         modified: new Date().getTime(),
       },
-      data: {},
-    } as IModel;
+      data: {
+        view: {
+          featuredImageUrl: "mock-featured-image-url",
+        },
+      },
+    } as unknown as IModel;
     initiative = {
       type: "Hub Initiative",
       id: "00c",
       slug: "mock-slug",
+      view: {},
     };
     // When we pass in all this information, the context
     // manager will not try to fetch anything, so no need
@@ -87,6 +92,9 @@ describe("initiatives: computeProps:", () => {
         settings: {
           features: { details: true },
         },
+        view: {
+          featuredImageUrl: "",
+        },
       };
       const chk = computeProps(
         model,
@@ -110,6 +118,16 @@ describe("initiatives: computeProps:", () => {
       );
       expect(computeLinksSpy).toHaveBeenCalledTimes(1);
       expect(chk.links).toEqual({ self: "some-link" });
+    });
+    it("generates a valid featured image url", () => {
+      const chk = computeProps(
+        model,
+        initiative,
+        authdCtxMgr.context.requestOptions
+      );
+      expect(chk.view.featuredImageUrl).toContain(
+        "mock-featured-image-url?token=fake-token"
+      );
     });
   });
 });

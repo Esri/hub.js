@@ -1249,6 +1249,14 @@ export enum HubEntityStatus {
   onHold = "onHold",
   complete = "complete",
 }
+
+/**
+ * Types of entity heroes
+ */
+export enum HubEntityHero {
+  map = "map",
+  image = "image",
+}
 /**
  * END CONTENT UPLOAD TYPES/ENUMS
  */

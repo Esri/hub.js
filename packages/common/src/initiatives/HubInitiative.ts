@@ -5,6 +5,7 @@ import { cloneObject } from "../util";
 import {
   createInitiative,
   deleteInitiative,
+  editorToInitiative,
   fetchInitiative,
   updateInitiative,
 } from "./HubInitiatives";
@@ -30,9 +31,12 @@ import {
   IWithCardBehavior,
   IWithEditorBehavior,
   IHubInitiativeEditor,
+  SettableAccessLevel,
 } from "../core";
 import { IEditorConfig } from "../core/schemas/types";
 import { enrichEntity } from "../core/enrichEntity";
+import { IGroup } from "@esri/arcgis-rest-types";
+import { getProp } from "../objects";
 
 /**
  * Hub Initiative Class
@@ -250,7 +254,7 @@ export class HubInitiative
   }
 
   /**
-   * Return the project as an editor object
+   * Return the initiative as an editor object
    * @param editorContext
    * @returns
    */
@@ -267,18 +271,50 @@ export class HubInitiative
         )) as IHubInitiativeEditor)
       : (cloneObject(this.entity) as IHubInitiativeEditor);
 
+    // add the groups array that we'll use to auto-share on save
+    editor._groups = [];
+
     // 2. Apply transforms to relevant entity values so they
     // can be consumed by the editor
+    /**
+     * on initiative creation, we want to pre-populate the sharing
+     * field with the core and collaboration groups if the user
+     * has the appropriate shareToGroup portal privilege
+     *
+     * TODO: we should re-evaluate this "auto-populate" pattern
+     */
+    const { access: canShare } = this.checkPermission(
+      "platform:portal:user:shareToGroup"
+    );
+    if (!editor.id && canShare) {
+      const currentUserGroups: IGroup[] =
+        getProp(this.context, "currentUser.groups") || [];
+      const defaultShareWithGroups = [
+        editorContext.contentGroupId,
+        editorContext.collaborationGroupId,
+      ].reduce((acc, groupId) => {
+        const group = currentUserGroups.find((g: IGroup) => g.id === groupId);
+        const canShareToGroup =
+          !!group &&
+          (!group.isViewOnly ||
+            (group.isViewOnly &&
+              ["owner", "admin"].includes(group.memberType)));
 
+        canShareToGroup && acc.push(groupId);
+        return acc;
+      }, []);
+      editor._groups = [...editor._groups, ...defaultShareWithGroups];
+    }
     return editor;
   }
 
   /**
-   * Load the project from the editor object
+   * Load the initiative from the editor object
    * @param editor
    * @returns
    */
   async fromEditor(editor: IHubInitiativeEditor): Promise<IHubInitiative> {
+    const autoShareGroups = editor._groups || [];
     const isCreate = !editor.id;
 
     // Setting the thumbnailCache will ensure that
@@ -299,20 +335,50 @@ export class HubInitiative
 
     delete editor._thumbnail;
 
-    // convert back to an entity. Apply any reverse transforms used in
-    // of the toEditor method
-    const entity = cloneObject(editor) as IHubInitiative;
+    // extract out things we don't want to persist directly
+    // b/c the first thing we do is create/update the initiative
+    const featuredImage = editor.view.featuredImage;
+    delete editor.view.featuredImage;
 
-    // copy the location extent up one level
-    entity.extent = editor.location?.extent;
+    // convert back to an entity
+    const entity = editorToInitiative(editor, this.context.portal);
 
     // create it if it does not yet exist...
     if (isCreate) {
-      throw new Error("Cannot create content using the Editor.");
+      // this allows the featured image functions to work
+      this.entity = await createInitiative(
+        entity,
+        this.context.userRequestOptions
+      );
     } else {
       // ...otherwise, update the in-memory entity and save it
       this.entity = entity;
       await this.save();
+    }
+
+    // handle featured image
+    if (featuredImage) {
+      if (featuredImage.blob) {
+        await this.setFeaturedImage(featuredImage.blob);
+      } else {
+        await this.clearFeaturedImage();
+      }
+    }
+
+    /**
+     * operations that are only relevant to the create workflow.
+     * if these ever become part of the edit experience, we can remove the conditional
+     */
+    if (isCreate) {
+      await this.setAccess(editor.access as SettableAccessLevel);
+      // share the entity with the configured groups
+      if (autoShareGroups.length) {
+        await Promise.all(
+          autoShareGroups.map((id: string) => {
+            return this.shareWithGroup(id);
+          })
+        );
+      }
     }
 
     return this.entity;

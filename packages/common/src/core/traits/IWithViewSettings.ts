@@ -1,3 +1,4 @@
+import { HubEntityHero } from "../../types";
 import { IHubTimeline, IMetricDisplayConfig } from "../types";
 
 /**
@@ -38,4 +39,9 @@ export interface IWithViewSettings {
    * configurations for how to display metrics in the ui
    */
   metricDisplays?: IMetricDisplayConfig[];
+
+  /**
+   * what to show in the hero field, map/image
+   */
+  hero?: HubEntityHero;
 }

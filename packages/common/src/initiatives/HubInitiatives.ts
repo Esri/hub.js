@@ -24,6 +24,7 @@ import {
   IHubRequestOptions,
   setDiscussableKeyword,
   IModel,
+  IHubInitiativeEditor,
 } from "../index";
 import { IQuery } from "../search/types/IHubCatalog";
 import {
@@ -31,6 +32,7 @@ import {
   IUserItemOptions,
   removeItem,
   getItem,
+  IPortal,
 } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
@@ -107,6 +109,28 @@ export async function createInitiative(
   newInitiative = computeProps(model, newInitiative, requestOptions);
   // and return it
   return newInitiative as IHubInitiative;
+}
+
+/**
+ * Convert a IHubInitiativeEditor back to an IHubInitiative
+ * @param editor
+ * @param portal
+ * @returns
+ */
+export function editorToInitiative(
+  editor: IHubInitiativeEditor,
+  portal: IPortal
+): IHubInitiative {
+  // remove the ephemeral props we graft on for the editor
+  delete editor._groups;
+  // clone into a HubInitiative
+  const initiative = cloneObject(editor) as IHubInitiative;
+  // ensure there's an org url key
+  initiative.orgUrlKey = editor.orgUrlKey ? editor.orgUrlKey : portal.urlKey;
+  // copy the location extent up one level
+  initiative.extent = editor.location?.extent;
+  // return with a cast
+  return initiative;
 }
 
 /**

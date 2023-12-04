@@ -1,5 +1,5 @@
 import { IHubInitiative } from "../core/types";
-import { HubEntityStatus, IModel } from "../types";
+import { HubEntityHero, HubEntityStatus, IModel } from "../types";
 import { InitiativeDefaultFeatures } from "./_internal/InitiativeBusinessRules";
 
 export const HUB_INITIATIVE_ITEM_TYPE = "Hub Initiative";
@@ -8,9 +8,9 @@ export const HUB_INITIATIVE_ITEM_TYPE = "Hub Initiative";
  * Default values of a IHubInitiative
  */
 export const DEFAULT_INITIATIVE: Partial<IHubInitiative> = {
-  name: "No title provided",
+  name: "",
   tags: [],
-  typeKeywords: ["Hub Initiative"],
+  typeKeywords: ["hubInitiativeV2"],
   catalog: { schemaVersion: 0 },
   permissions: [],
   schemaVersion: 2,
@@ -18,6 +18,7 @@ export const DEFAULT_INITIATIVE: Partial<IHubInitiative> = {
   features: InitiativeDefaultFeatures,
   view: {
     featuredContentIds: [],
+    hero: HubEntityHero.map,
   },
 };
 
@@ -27,11 +28,11 @@ export const DEFAULT_INITIATIVE: Partial<IHubInitiative> = {
 export const DEFAULT_INITIATIVE_MODEL: IModel = {
   item: {
     type: HUB_INITIATIVE_ITEM_TYPE,
-    title: "No Title Provided",
-    description: "No Description Provided",
+    title: "",
+    description: "",
     snippet: "",
     tags: [],
-    typeKeywords: ["Hub Initiative"],
+    typeKeywords: ["hubInitiativeV2"],
     properties: {
       slug: "",
       schemaVersion: 2,
@@ -41,6 +42,7 @@ export const DEFAULT_INITIATIVE_MODEL: IModel = {
     status: HubEntityStatus.notStarted,
     view: {
       featuredContentIds: [],
+      hero: HubEntityHero.map,
     },
   },
 } as unknown as IModel;

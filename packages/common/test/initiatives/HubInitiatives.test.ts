@@ -16,10 +16,14 @@ import {
   getAcceptedProjectsQuery,
   fetchAcceptedProjects,
   fetchPendingProjects,
+  editorToInitiative,
 } from "../../src/initiatives/HubInitiatives";
-import { IHubInitiative } from "../../src/core/types/IHubInitiative";
+import {
+  IHubInitiative,
+  IHubInitiativeEditor,
+} from "../../src/core/types/IHubInitiative";
 import { cloneObject } from "../../src/util";
-import { IPredicate, IQuery } from "../../src";
+import { IPredicate, IQuery, getProp } from "../../src";
 
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
 const INITIATIVE_ITEM: portalModule.IItem = {
@@ -41,7 +45,7 @@ const INITIATIVE_ITEM: portalModule.IItem = {
   size: 0,
 } as portalModule.IItem;
 
-const INITIATIVE_DATA = {};
+const INITIATIVE_DATA = { view: {} };
 
 const INITIATIVE_MODEL = {
   item: INITIATIVE_ITEM,
@@ -60,7 +64,7 @@ const INITIATIVE_ITEM_ENRICH: portalModule.IItem = {
   type: "Hub Initiative",
   typeKeywords: [
     "Hub",
-    "Hub Initiative",
+    "hubInitiativeV2",
     "JavaScript",
     "Map",
     "Mapping Site",
@@ -70,7 +74,7 @@ const INITIATIVE_ITEM_ENRICH: portalModule.IItem = {
     "Web Map",
   ],
   description: "Test Initiative with data",
-  tags: ["hubinitiative"],
+  tags: ["hubInitiativeV2"],
   // snippet: null,
   thumbnail: "thumbnail/my-thing.png",
   // documentation: null,
@@ -259,7 +263,7 @@ describe("HubInitiatives:", () => {
       expect(chk.name).toBe("Hello World");
       expect(chk.description).toBe("my desc");
       expect(chk.typeKeywords).toEqual([
-        "Hub Initiative",
+        "hubInitiativeV2",
         "slug|dcdev|hello-world",
         "status|inProgress",
         "cannotDiscuss",
@@ -584,6 +588,42 @@ describe("HubInitiatives:", () => {
     //     type: "Hub Project",
     //   });
     // });
+  });
+
+  describe("editor to initiative", () => {
+    it("basic transform", () => {
+      const editor: IHubInitiativeEditor = {
+        orgUrlKey: "bar",
+        _groups: [],
+        location: {
+          extent: [
+            [-1, -1],
+            [1, 1],
+          ],
+        },
+      } as unknown as IHubInitiativeEditor;
+      const i = editorToInitiative(editor, {
+        urlKey: "foo",
+      } as unknown as portalModule.IPortal);
+      expect(i.orgUrlKey).toEqual("bar");
+      expect(i.extent).toEqual([
+        [-1, -1],
+        [1, 1],
+      ]);
+      expect(getProp(i, "_groups")).toBeUndefined();
+    });
+
+    it("sparse transform", () => {
+      const editor: IHubInitiativeEditor = {
+        _groups: [],
+      } as unknown as IHubInitiativeEditor;
+      const i = editorToInitiative(editor, {
+        urlKey: "foo",
+      } as unknown as portalModule.IPortal);
+      expect(i.orgUrlKey).toEqual("foo");
+      expect(i.extent).toBeUndefined();
+      expect(getProp(i, "_groups")).toBeUndefined();
+    });
   });
 });
 

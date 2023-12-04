@@ -5,15 +5,13 @@ import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { getSharableGroupsComboBoxItems } from "../../core/schemas/internal/getSharableGroupsComboBoxItems";
 import { IHubInitiative } from "../../core/types";
+import { getAuthedImageUrl } from "../../core/_internal/getAuthedImageUrl";
 
 /**
  * @private
  * constructs the minimal create uiSchema for Hub Initiatives.
  * This defines how the schema properties should be rendered
  * in the initiative creation experience
- *
- * TODO: this was copied from projects and is just a placeholder
- * for now - it isn't being used anywhere in the application
  */
 export const buildUiSchema = async (
   i18nScope: string,
@@ -77,13 +75,34 @@ export const buildUiSchema = async (
                       ],
                     },
                   },
+                  {
+                    labelKey: `${i18nScope}.fields.hero.label`,
+                    scope: "/properties/view/properties/hero",
+                    type: "Control",
+                    options: {
+                      control: "hub-field-input-tile-select",
+                      layout: "horizontal",
+                      helperText: {
+                        labelKey: `${i18nScope}.fields.hero.helperText`,
+                      },
+                      labels: [
+                        `{{${i18nScope}.fields.hero.map.label:translate}}`,
+                        `{{${i18nScope}.fields.hero.image.label:translate}}`,
+                      ],
+                      descriptions: [
+                        `{{${i18nScope}.fields.hero.map.description:translate}}`,
+                        `{{${i18nScope}.fields.hero.map.description:translate}}`,
+                      ],
+                      icons: ["map-pin", "image"],
+                    },
+                  },
                 ],
               },
             ],
           },
           {
             type: "Step",
-            labelKey: `${i18nScope}.sections.location.label`,
+            labelKey: `${i18nScope}.sections.hero.label`,
             rule: {
               effect: UiSchemaRuleEffects.DISABLE,
               condition: {
@@ -95,6 +114,13 @@ export const buildUiSchema = async (
               {
                 type: "Section",
                 labelKey: `${i18nScope}.sections.location.label`,
+                rule: {
+                  effect: UiSchemaRuleEffects.HIDE,
+                  condition: {
+                    scope: "/properties/view/properties/hero",
+                    schema: { const: "image" },
+                  },
+                },
                 options: {
                   helperText: {
                     labelKey: `${i18nScope}.sections.location.helperText`,
@@ -120,6 +146,51 @@ export const buildUiSchema = async (
                     },
                   },
                 ],
+              },
+              {
+                labelKey: `${i18nScope}.fields.featuredImage.label`,
+                scope: "/properties/view/properties/featuredImage",
+                type: "Control",
+                rule: {
+                  effect: UiSchemaRuleEffects.HIDE,
+                  condition: {
+                    scope: "/properties/view/properties/hero",
+                    schema: { const: "map" },
+                  },
+                },
+                options: {
+                  control: "hub-field-input-image-picker",
+                  imgSrc: getAuthedImageUrl(
+                    options.view?.featuredImageUrl,
+                    context.requestOptions
+                  ),
+                  maxWidth: 727,
+                  maxHeight: 484,
+                  aspectRatio: 1.5,
+                  helperText: {
+                    labelKey: `${i18nScope}.fields.featuredImage.helperText`,
+                  },
+                  sizeDescription: {
+                    labelKey: `${i18nScope}.fields.featuredImage.sizeDescription`,
+                  },
+                },
+              },
+              {
+                labelKey: `${i18nScope}.fields.featuredImage.altText.label`,
+                scope: "/properties/view/properties/featuredImageAltText",
+                type: "Control",
+                rule: {
+                  effect: UiSchemaRuleEffects.HIDE,
+                  condition: {
+                    scope: "/properties/view/properties/hero",
+                    schema: { const: "map" },
+                  },
+                },
+                options: {
+                  helperText: {
+                    labelKey: `${i18nScope}.fields.featuredImage.altText.helperText`,
+                  },
+                },
               },
             ],
           },
