@@ -145,26 +145,26 @@ export const buildUiSchema = (
             },
             elements: [
               {
-                labelKey: `${i18nScope}.fields.metrics.sharing.showShareIcon.label`,
+                labelKey: `${i18nScope}.fields.metrics.showShareIcon.label`,
                 scope: "/properties/_metric/properties/shareable",
                 type: "Control",
                 options: {
                   helperText: {
-                    labelKey: `${i18nScope}.fields.metrics.sharing.showShareIcon.helperText.label`,
+                    labelKey: `${i18nScope}.fields.metrics.showShareIcon.helperText.label`,
                   },
                   control: "hub-field-input-switch",
                   layout: "inline-space-between",
                 },
               },
               {
-                labelKey: `${i18nScope}.fields.metrics.sharing.shareableOnHover.label`,
+                labelKey: `${i18nScope}.fields.metrics.shareableOnHover.label`,
                 scope: "/properties/_metric/properties/shareableOnHover",
                 type: "Control",
                 rule: SHOW_FOR_SHARING_RULE,
                 options: {
                   control: "hub-field-input-switch",
                   helperText: {
-                    labelKey: `${i18nScope}.fields.metrics.sharing.shareableOnHover.helperText.label`,
+                    labelKey: `${i18nScope}.fields.metrics.shareableOnHover.helperText.label`,
                   },
                   layout: "inline-space-between",
                 },
