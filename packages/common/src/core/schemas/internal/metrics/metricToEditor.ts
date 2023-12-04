@@ -24,6 +24,7 @@ export function metricToEditor(
     switch (metricType) {
       case "service-query":
         editor = {
+          type: "dynamic",
           dynamicMetric: {
             ...(metric.source as IServiceQueryMetricSource),
           },
@@ -33,8 +34,9 @@ export function metricToEditor(
 
       case "static-value":
         editor = {
-          ...editor,
+          type: "static",
           value: (metric.source as IStaticValueMetricSource).value,
+          ...editor,
         };
         break;
     }
