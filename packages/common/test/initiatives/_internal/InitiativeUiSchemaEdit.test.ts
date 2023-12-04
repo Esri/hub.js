@@ -6,7 +6,7 @@ import * as getTagItemsModule from "../../../src/core/schemas/internal/getTagIte
 import * as getCategoryItemsModule from "../../../src/core/schemas/internal/getCategoryItems";
 import * as getFeaturedContentCatalogsModule from "../../../src/core/schemas/internal/getFeaturedContentCatalogs";
 import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
-import * as getAuthedImageUrlModule from "../../../src/core/schemas/internal/getAuthedImageUrl";
+import * as getAuthedImageUrlModule from "../../../src/core/_internal/getAuthedImageUrl";
 
 describe("buildUiSchema: initiative edit", () => {
   it("returns the full initiative edit uiSchema", async () => {

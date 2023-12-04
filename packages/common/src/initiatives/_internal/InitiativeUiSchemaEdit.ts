@@ -7,7 +7,7 @@ import { getLocationOptions } from "../../core/schemas/internal/getLocationOptio
 import { getFeaturedContentCatalogs } from "../../core/schemas/internal/getFeaturedContentCatalogs";
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 import { IHubInitiative } from "../../core";
-import { getAuthedImageUrl } from "../../core/schemas/internal/getAuthedImageUrl";
+import { getAuthedImageUrl } from "../../core/_internal/getAuthedImageUrl";
 
 /**
  * @private

@@ -1,7 +1,6 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { IArcGISContext } from "../../../ArcGISContext";
-import { cacheBustUrl } from "../../../urls/cacheBustUrl";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { cacheBustUrl } from "../../urls/cacheBustUrl";
 
 export function getAuthedImageUrl(
   url: string,

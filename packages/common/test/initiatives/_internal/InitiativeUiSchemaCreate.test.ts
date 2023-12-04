@@ -5,7 +5,7 @@ import * as getLocationExtentModule from "../../../src/core/schemas/internal/get
 import * as getLocationOptionsModule from "../../../src/core/schemas/internal/getLocationOptions";
 import * as getSharableGroupsComboBoxItemsModule from "../../../src/core/schemas/internal/getSharableGroupsComboBoxItems";
 import * as checkPermissionModule from "../../../src/permissions/checkPermission";
-import * as getAuthedImageUrlModule from "../../../src/core/schemas/internal/getAuthedImageUrl";
+import * as getAuthedImageUrlModule from "../../../src/core/_internal/getAuthedImageUrl";
 
 describe("buildUiSchema: initiative create", () => {
   it("returns the full initiative create uiSchema", async () => {

@@ -1,7 +1,7 @@
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
 import { ArcGISContextManager, IHubProject } from "../../../../src";
 import { MOCK_AUTH } from "../../../mocks/mock-auth";
-import { getAuthedImageUrl } from "../../../../src/core/schemas/internal/getAuthedImageUrl";
+import { getAuthedImageUrl } from "../../../../src/core/_internal/getAuthedImageUrl";
 
 describe("getAuthedImageUrl:", () => {
   let authdCtxMgr: ArcGISContextManager;

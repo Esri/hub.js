@@ -9,7 +9,7 @@ import { isDiscussable } from "../../discussions";
 import { processEntityFeatures } from "../../permissions/_internal/processEntityFeatures";
 import { InitiativeDefaultFeatures } from "./InitiativeBusinessRules";
 import { computeLinks } from "./computeLinks";
-import { getAuthedImageUrl } from "../../core/schemas/internal/getAuthedImageUrl";
+import { getAuthedImageUrl } from "../../core/_internal/getAuthedImageUrl";
 
 /**
  * Given a model and an Initiative, set various computed properties that can't be directly mapped

@@ -1,7 +1,6 @@
 import { buildUiSchema } from "../../../src/discussions/_internal/DiscussionUiSchemaEdit";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
 import * as getCategoryItemsModule from "../../../src/core/schemas/internal/getCategoryItems";
-import * as getAuthedImageUrlModule from "../../../src/core/schemas/internal/getAuthedImageUrl";
 import * as getLocationExtentModule from "../../../src/core/schemas/internal/getLocationExtent";
 import * as getLocationOptionsModule from "../../../src/core/schemas/internal/getLocationOptions";
 import * as getTagItemsModule from "../../../src/core/schemas/internal/getTagItems";
@@ -10,9 +9,6 @@ describe("buildUiSchema: discussion edit", () => {
   it("returns the full discussion edit uiSchema", async () => {
     spyOn(getCategoryItemsModule, "getCategoryItems").and.returnValue(
       Promise.resolve([])
-    );
-    spyOn(getAuthedImageUrlModule, "getAuthedImageUrl").and.returnValue(
-      "https://some-image-url.com"
     );
     spyOn(getLocationExtentModule, "getLocationExtent").and.returnValue(
       Promise.resolve([])
@@ -181,9 +177,6 @@ describe("buildUiSchema: discussion edit", () => {
   it("returns the full discussion edit uiSchema when entity does have a view", async () => {
     spyOn(getCategoryItemsModule, "getCategoryItems").and.returnValue(
       Promise.resolve([])
-    );
-    spyOn(getAuthedImageUrlModule, "getAuthedImageUrl").and.returnValue(
-      "https://some-image-url.com"
     );
     spyOn(getLocationExtentModule, "getLocationExtent").and.returnValue(
       Promise.resolve([])

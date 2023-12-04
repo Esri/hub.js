@@ -2,7 +2,7 @@ import { buildUiSchema } from "../../../src/projects/_internal/ProjectUiSchemaEd
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
 import * as getCategoryItemsModule from "../../../src/core/schemas/internal/getCategoryItems";
 import * as getFeaturedContentCatalogsModule from "../../../src/core/schemas/internal/getFeaturedContentCatalogs";
-import * as getAuthedImageUrlModule from "../../../src/core/schemas/internal/getAuthedImageUrl";
+import * as getAuthedImageUrlModule from "../../../src/core/_internal/getAuthedImageUrl";
 import * as getLocationExtentModule from "../../../src/core/schemas/internal/getLocationExtent";
 import * as getLocationOptionsModule from "../../../src/core/schemas/internal/getLocationOptions";
 import * as getTagItemsModule from "../../../src/core/schemas/internal/getTagItems";
