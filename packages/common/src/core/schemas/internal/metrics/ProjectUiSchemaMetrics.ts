@@ -49,6 +49,12 @@ export const buildUiSchema = (
                 labelKey: `${i18nScope}.fields.metrics.type.label`,
                 scope: "/properties/_metric/properties/type",
                 type: "Control",
+                options: {
+                  control: "hub-field-input-tile-select",
+                  enum: {
+                    i18nScope: `${i18nScope}.fields.metrics.type.enum`,
+                  },
+                },
               },
               {
                 labelKey: `${i18nScope}.fields.metrics.value.label`,
