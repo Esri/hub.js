@@ -2,6 +2,12 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { cacheBustUrl } from "../../urls/cacheBustUrl";
 
+/**
+ * Get the image url with token if authenticated,
+ * return the original url otherwise
+ * @param url image url
+ * @param requestOptions
+ */
 export function getAuthedImageUrl(
   url: string,
   requestOptions: IRequestOptions
@@ -12,6 +18,6 @@ export function getAuthedImageUrl(
     token = session.token;
   }
   const queryParams = requestOptions.authentication ? `?token=${token}` : "";
-  // TODO: Decide if the url should be passed in or plucked out of this deep path here
+
   return url && cacheBustUrl(`${url}${queryParams}`);
 }
