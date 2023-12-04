@@ -106,7 +106,7 @@ export const buildUiSchema = (
               },
               {
                 labelKey: `${i18nScope}.fields.metrics.sourceLink.label`,
-                scope: "/properties/sourceLink",
+                scope: "/properties/_metric/properties/sourceLink",
                 type: "Control",
                 rule: SHOW_FOR_STATIC_RULE,
                 options: {
@@ -125,7 +125,7 @@ export const buildUiSchema = (
               },
               {
                 labelKey: `${i18nScope}.fields.metrics.sourceTitle.label`,
-                scope: "/properties/sourceTitle",
+                scope: "/properties/_metric/properties/sourceTitle",
                 type: "Control",
                 rule: SHOW_FOR_STATIC_RULE,
               },
@@ -140,7 +140,7 @@ export const buildUiSchema = (
             elements: [
               {
                 labelKey: `${i18nScope}.fields.metrics.sharing.showShareIcon.label`,
-                scope: "/properties/shareable",
+                scope: "/properties/_metric/properties/shareable",
                 type: "Control",
                 options: {
                   helperText: {
@@ -152,7 +152,7 @@ export const buildUiSchema = (
               },
               {
                 labelKey: `${i18nScope}.fields.metrics.sharing.shareableOnHover.label`,
-                scope: "/properties/shareableOnHover",
+                scope: "/properties/_metric/properties/shareableOnHover",
                 type: "Control",
                 rule: SHOW_FOR_SHARING_RULE,
                 options: {
