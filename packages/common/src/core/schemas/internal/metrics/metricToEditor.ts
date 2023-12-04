@@ -19,7 +19,7 @@ export function metricToEditor(
 ): IMetricEditorValues {
   let editor = { ...displayConfig };
   if (metric && metric.source) {
-    const metricType = (metric.source as MetricSource).type || "";
+    const metricType = (metric.source as MetricSource).type || "service-query";
 
     switch (metricType) {
       case "service-query":
