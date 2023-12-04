@@ -1,3 +1,10 @@
+# @esri/hub-common [14.68.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.67.0...@esri/hub-common@14.68.0) (2023-12-04)
+
+
+### Features
+
+* 8182 initiative creation ([#1343](https://github.com/Esri/hub.js/issues/1343)) ([ac7d48d](https://github.com/Esri/hub.js/commit/ac7d48da59ec8adb18fcaeeaaa78871612088512))
+
 # @esri/hub-common [14.67.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.66.1...@esri/hub-common@14.67.0) (2023-12-01)
 
 
