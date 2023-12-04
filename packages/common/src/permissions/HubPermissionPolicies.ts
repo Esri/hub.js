@@ -95,6 +95,12 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     availability: ["alpha"],
     environments: ["devext", "qaext"],
   },
+  {
+    // This is an experimental extension of the gallery to include `map layout`
+    // Similar to `hub:feature:privacy`, we want to deny permission unless explicity enabled with (?pe=hub:feature:gallery:map)
+    permission: "hub:feature:gallery:map",
+    environments: ["devext"],
+  },
 ];
 
 /**
