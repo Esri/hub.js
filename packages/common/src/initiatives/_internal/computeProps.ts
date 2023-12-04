@@ -43,6 +43,7 @@ export function computeProps(
       model.data.view.featuredImageUrl,
       requestOptions
     ),
+    featuredImageAltText: model.data.view.featuredImageAltText,
     hero: model.data.view.hero,
   };
 
