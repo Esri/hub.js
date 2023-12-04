@@ -227,6 +227,13 @@ describe("content editing:", () => {
       expect(updateModelSpy.calls.count()).toBe(1);
       expect(getServiceSpy).toHaveBeenCalledTimes(1);
       expect(updateServiceSpy).toHaveBeenCalledTimes(1);
+      expect(updateServiceSpy).toHaveBeenCalledWith(
+        "https://services.arcgis.com/:orgId/arcgis/rest/services/:serviceName/FeatureServer",
+        {
+          authentication: MOCK_AUTH,
+          updateDefinition: { capabilities: "Query,Extract" },
+        }
+      );
       const [url, { updateDefinition }] = updateServiceSpy.calls.argsFor(0);
       expect(url).toEqual(
         "https://services.arcgis.com/:orgId/arcgis/rest/services/:serviceName/FeatureServer"
