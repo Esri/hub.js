@@ -40,10 +40,6 @@ export const buildUiSchema = (
           {
             type: "Section",
             labelKey: `${i18nScope}.sections.metrics.source.label`,
-            options: {
-              section: "block",
-              open: true,
-            },
             elements: [
               {
                 labelKey: `${i18nScope}.fields.metrics.type.label`,
@@ -87,10 +83,6 @@ export const buildUiSchema = (
           {
             type: "Section",
             labelKey: `${i18nScope}.sections.metrics.formatting.label`,
-            options: {
-              section: "block",
-              open: true,
-            },
             elements: [
               {
                 labelKey: `${i18nScope}.fields.metrics.unit.label`,
@@ -144,14 +136,21 @@ export const buildUiSchema = (
                 type: "Control",
                 rule: SHOW_FOR_STATIC_RULE,
               },
+              {
+                type: "Control",
+                scope: "/properties/_metric/properties/allowDynamicLink",
+                labelKey: `${i18nScope}.fields.metrics.allowDynamicLink.label`,
+                rule: SHOW_FOR_DYNAMIC_RULE,
+                options: {
+                  layout: "inline-space-between",
+                  control: "hub-field-input-switch",
+                },
+              },
             ],
           },
           {
             type: "Section",
             labelKey: `${i18nScope}.sections.metrics.sharing.label`,
-            options: {
-              section: "block",
-            },
             elements: [
               {
                 labelKey: `${i18nScope}.fields.metrics.showShareIcon.label`,
