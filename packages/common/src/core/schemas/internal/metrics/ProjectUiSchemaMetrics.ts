@@ -73,6 +73,15 @@ export const buildUiSchema = (
                   ],
                 },
               },
+              {
+                scope: "/properties/_metric/properties/dynamicMetric",
+                type: "Control",
+                labelKey: `${i18nScope}.fields.metrics.dynamicMetric.label`,
+                rule: SHOW_FOR_DYNAMIC_RULE,
+                options: {
+                  control: "hub-composite-input-service-query-metric",
+                },
+              },
             ],
           },
           {
@@ -182,6 +191,14 @@ const SHOW_FOR_STATIC_RULE = {
   condition: {
     scope: "/properties/_metric/properties/type",
     schema: { const: "static" },
+  },
+  effect: UiSchemaRuleEffects.SHOW,
+};
+
+const SHOW_FOR_DYNAMIC_RULE = {
+  condition: {
+    scope: "/properties/_metric/properties/type",
+    schema: { const: "dynamic" },
   },
   effect: UiSchemaRuleEffects.SHOW,
 };
