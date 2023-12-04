@@ -16,9 +16,9 @@ export const DEFAULT_INITIATIVE: Partial<IHubInitiative> = {
   schemaVersion: 2,
   status: HubEntityStatus.notStarted,
   features: InitiativeDefaultFeatures,
-  hero: HubEntityHero.map,
   view: {
     featuredContentIds: [],
+    hero: HubEntityHero.map,
   },
 };
 
@@ -40,9 +40,9 @@ export const DEFAULT_INITIATIVE_MODEL: IModel = {
   },
   data: {
     status: HubEntityStatus.notStarted,
-    hero: HubEntityHero.map,
     view: {
       featuredContentIds: [],
+      hero: HubEntityHero.map,
     },
   },
 } as unknown as IModel;

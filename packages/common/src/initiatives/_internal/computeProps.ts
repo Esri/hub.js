@@ -43,6 +43,7 @@ export function computeProps(
       model.data.view.featuredImageUrl,
       requestOptions
     ),
+    hero: model.data.view.hero,
   };
 
   // Handle Dates

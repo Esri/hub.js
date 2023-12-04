@@ -267,7 +267,6 @@ describe("HubInitiatives:", () => {
         "slug|dcdev|hello-world",
         "status|inProgress",
         "cannotDiscuss",
-        "hero|map",
       ]);
       // should ensure unique slug
       expect(slugSpy.calls.count()).toBe(1);
