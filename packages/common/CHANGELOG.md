@@ -1,3 +1,10 @@
+# @esri/hub-common [14.69.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.68.1...@esri/hub-common@14.69.0) (2023-12-05)
+
+
+### Features
+
+* add notices to IUserHubSettings ([#1351](https://github.com/Esri/hub.js/issues/1351)) ([28e15b0](https://github.com/Esri/hub.js/commit/28e15b0a04e5494e98e18764cf2bc3d11d0dcfd6))
+
 ## @esri/hub-common [14.68.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.68.0...@esri/hub-common@14.68.1) (2023-12-05)
 
 
