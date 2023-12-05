@@ -1,3 +1,10 @@
+## @esri/hub-common [14.69.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.69.0...@esri/hub-common@14.69.1) (2023-12-05)
+
+
+### Bug Fixes
+
+* enable featured image alt text on hub initiative ([#1350](https://github.com/Esri/hub.js/issues/1350)) ([669f0d8](https://github.com/Esri/hub.js/commit/669f0d8eead34d7237ff5c96e194e8c505b9dbdd))
+
 # @esri/hub-common [14.69.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.68.1...@esri/hub-common@14.69.0) (2023-12-05)
 
 
