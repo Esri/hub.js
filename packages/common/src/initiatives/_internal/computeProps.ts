@@ -37,14 +37,12 @@ export function computeProps(
     token
   );
 
-  // featured image url
   initiative.view = {
+    ...model.data.view,
     featuredImageUrl: getAuthedImageUrl(
       model.data.view.featuredImageUrl,
       requestOptions
     ),
-    featuredImageAltText: model.data.view.featuredImageAltText,
-    hero: model.data.view.hero,
   };
 
   // Handle Dates
