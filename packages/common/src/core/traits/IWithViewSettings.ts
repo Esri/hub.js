@@ -34,20 +34,16 @@ export interface IWithViewSettings {
    * timeline associated with an entity
    */
   timeline?: IHubTimeline;
-
   /**
    * configurations for how to display metrics in the ui
    */
   metricDisplays?: IMetricDisplayConfig[];
-
   /**
-<<<<<<< HEAD
    * what to show in the hero field, map/image
    */
   hero?: HubEntityHero;
-=======
+  /**
    * array of actions for action links
    */
   heroActions?: HubActionLink[];
->>>>>>> 8e0537078e (feat(): update projects schema)
 }
