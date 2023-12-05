@@ -17,10 +17,8 @@ export function metricToEditor(
   metric: IMetric,
   displayConfig: IMetricDisplayConfig
 ): IMetricEditorValues {
-  // default settings
   let editor = {
     ...displayConfig,
-    type: "dynamic",
   };
 
   if (metric && metric.source) {
