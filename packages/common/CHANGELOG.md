@@ -1,3 +1,10 @@
+## @esri/hub-common [14.68.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.68.0...@esri/hub-common@14.68.1) (2023-12-05)
+
+
+### Bug Fixes
+
+* **hub-common:** use only capabilities key to update extract capability service definition ([#1347](https://github.com/Esri/hub.js/issues/1347)) ([9f6e0f3](https://github.com/Esri/hub.js/commit/9f6e0f3d028a3d8d42503bda94b182943768cf55))
+
 # @esri/hub-common [14.68.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.67.0...@esri/hub-common@14.68.0) (2023-12-04)
 
 
