@@ -1,5 +1,5 @@
 import { IConfigurationSchema } from "../../types";
-import { UNIT_POSITIONS, VISUAL_INTEREST, LAYOUTS, SOURCE } from "./interfaces";
+import { UNIT_POSITIONS, VISUAL_INTEREST, LAYOUTS, SOURCE } from "./resources";
 import { ALIGNMENTS, DROP_SHADOWS } from "../../shared/enums";
 
 // when the user selects the dataViz uiSchema/layout, we show fewer visual interest options

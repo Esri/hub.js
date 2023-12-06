@@ -1,6 +1,11 @@
 import { IArcGISContext } from "../../../../ArcGISContext";
-import { IUiSchema, UiSchemaRuleEffects } from "../../types";
+import { IUiSchema } from "../../types";
 import { EntityEditorOptions } from "../EditorOptions";
+import {
+  SHOW_FOR_STATIC_RULE_ENTITY,
+  SHOW_FOR_DYNAMIC_RULE_ENTITY,
+  SHOW_FOR_SHARING_RULE_ENTITY,
+} from "./resources";
 
 /**
  * @private
@@ -56,7 +61,7 @@ export const buildUiSchema = (
                 labelKey: `${i18nScope}.fields.metrics.value.label`,
                 scope: "/properties/_metric/properties/value",
                 type: "Control",
-                rule: SHOW_FOR_STATIC_RULE,
+                rule: SHOW_FOR_STATIC_RULE_ENTITY,
                 options: {
                   messages: [
                     {
@@ -73,7 +78,7 @@ export const buildUiSchema = (
                 scope: "/properties/_metric/properties/dynamicMetric",
                 type: "Control",
                 labelKey: `${i18nScope}.fields.metrics.dynamicMetric.label`,
-                rule: SHOW_FOR_DYNAMIC_RULE,
+                rule: SHOW_FOR_DYNAMIC_RULE_ENTITY,
                 options: {
                   control: "hub-composite-input-service-query-metric",
                 },
@@ -115,7 +120,7 @@ export const buildUiSchema = (
                 labelKey: `${i18nScope}.fields.metrics.sourceLink.label`,
                 scope: "/properties/_metric/properties/sourceLink",
                 type: "Control",
-                rule: SHOW_FOR_STATIC_RULE,
+                rule: SHOW_FOR_STATIC_RULE_ENTITY,
                 options: {
                   placeholder: "https://esri.com",
                   messages: [
@@ -134,13 +139,13 @@ export const buildUiSchema = (
                 labelKey: `${i18nScope}.fields.metrics.sourceTitle.label`,
                 scope: "/properties/_metric/properties/sourceTitle",
                 type: "Control",
-                rule: SHOW_FOR_STATIC_RULE,
+                rule: SHOW_FOR_STATIC_RULE_ENTITY,
               },
               {
                 type: "Control",
                 scope: "/properties/_metric/properties/allowDynamicLink",
                 labelKey: `${i18nScope}.fields.metrics.allowDynamicLink.label`,
-                rule: SHOW_FOR_DYNAMIC_RULE,
+                rule: SHOW_FOR_DYNAMIC_RULE_ENTITY,
                 options: {
                   layout: "inline-space-between",
                   control: "hub-field-input-switch",
@@ -168,7 +173,7 @@ export const buildUiSchema = (
                 labelKey: `${i18nScope}.fields.metrics.shareableOnHover.label`,
                 scope: "/properties/_metric/properties/shareableOnHover",
                 type: "Control",
-                rule: SHOW_FOR_SHARING_RULE,
+                rule: SHOW_FOR_SHARING_RULE_ENTITY,
                 options: {
                   control: "hub-field-input-switch",
                   helperText: {
@@ -183,29 +188,4 @@ export const buildUiSchema = (
       },
     ],
   };
-};
-
-/***************** Rules *****************/
-const SHOW_FOR_STATIC_RULE = {
-  condition: {
-    scope: "/properties/_metric/properties/type",
-    schema: { const: "static" },
-  },
-  effect: UiSchemaRuleEffects.SHOW,
-};
-
-const SHOW_FOR_DYNAMIC_RULE = {
-  condition: {
-    scope: "/properties/_metric/properties/type",
-    schema: { const: "dynamic" },
-  },
-  effect: UiSchemaRuleEffects.SHOW,
-};
-
-const SHOW_FOR_SHARING_RULE = {
-  condition: {
-    scope: "/properties/_metric/properties/shareable",
-    schema: { const: true },
-  },
-  effect: UiSchemaRuleEffects.SHOW,
 };
