@@ -78,12 +78,6 @@ export const buildUiSchema = (
                   control: "hub-composite-input-service-query-metric",
                 },
               },
-            ],
-          },
-          {
-            type: "Section",
-            labelKey: `${i18nScope}.sections.metrics.formatting.label`,
-            elements: [
               {
                 labelKey: `${i18nScope}.fields.metrics.unit.label`,
                 scope: "/properties/_metric/properties/unit",
@@ -106,6 +100,12 @@ export const buildUiSchema = (
                   },
                 },
               },
+            ],
+          },
+          {
+            type: "Section",
+            labelKey: `${i18nScope}.sections.metrics.formatting.label`,
+            elements: [
               {
                 labelKey: `${i18nScope}.fields.metrics.trailingText.label`,
                 scope: "/properties/_metric/properties/trailingText",

@@ -84,12 +84,6 @@ describe("buildUiSchema: metric", () => {
                     control: "hub-composite-input-service-query-metric",
                   },
                 },
-              ],
-            },
-            {
-              type: "Section",
-              labelKey: `some.scope.sections.metrics.formatting.label`,
-              elements: [
                 {
                   labelKey: `some.scope.fields.metrics.unit.label`,
                   scope: "/properties/_metric/properties/unit",
@@ -112,6 +106,12 @@ describe("buildUiSchema: metric", () => {
                     },
                   },
                 },
+              ],
+            },
+            {
+              type: "Section",
+              labelKey: `some.scope.sections.metrics.formatting.label`,
+              elements: [
                 {
                   labelKey: `some.scope.fields.metrics.trailingText.label`,
                   scope: "/properties/_metric/properties/trailingText",
