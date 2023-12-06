@@ -12,6 +12,8 @@ import { IHubRequestOptions, IHubTrustedOrgsResponse } from "./types";
 import { getEnvironmentFromPortalUrl } from "./utils/getEnvironmentFromPortalUrl";
 import { IUserResourceToken, UserResourceApp } from "./ArcGISContextManager";
 import { IUserHubSettings } from "./utils";
+import { base64ToUnicode, unicodeToBase64 } from "./utils/encoding";
+import { STORAGE_KEYS } from "./localStorageKeys";
 
 /**
  * Hash of Hub API end points so updates
@@ -224,7 +226,7 @@ export interface IArcGISContext {
   /**
    * Refresh the current user, including their groups
    */
-  refreshUser(): Promise<void>;
+  refreshUser(win?: any): Promise<void>;
 }
 
 /**
@@ -759,10 +761,13 @@ export class ArcGISContext implements IArcGISContext {
   }
 
   /**
-   * Re-fetch the current user, including their groups
+   * Re-fetch the current user, including their groups.
+   * If running in a browser, and there is a cached
+   * context manager in localStorage, this will also
+   * update the user in the serialized context manager.
    * @returns
    */
-  public refreshUser(): Promise<void> {
+  public refreshUser(win: any = window): Promise<void> {
     const opts: IGetUserOptions = {
       authentication: this.session,
       portal: this.sharingApiUrl,
@@ -771,6 +776,24 @@ export class ArcGISContext implements IArcGISContext {
 
     return getUser(opts).then((user) => {
       this._currentUser = user;
+      // Check for serialized context in localStorage
+      // extract it, add the user to it, and then
+      // re-serialize it and store it back in localStorage
+      /* istanbul ignore else */
+      if (win && win.localStorage) {
+        const encoded = win.localStorage.getItem(STORAGE_KEYS.contextManager);
+        if (encoded) {
+          const serializedContext = base64ToUnicode(encoded);
+          const context = JSON.parse(serializedContext);
+          // update the user
+          context.currentUser = user;
+          // re-serialize and store
+          win.localStorage.setItem(
+            STORAGE_KEYS.contextManager,
+            unicodeToBase64(JSON.stringify(context))
+          );
+        }
+      }
     });
   }
 }

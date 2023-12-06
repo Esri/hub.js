@@ -19,6 +19,7 @@ import { MOCK_AUTH, MOCK_ENTERPRISE_AUTH } from "./mocks/mock-auth";
 import { IPortal } from "@esri/arcgis-rest-portal";
 import ExceptionFactory from "./mocks/ExceptionFactory";
 import { TOMORROW } from "./test-helpers/tomorrow";
+import { STORAGE_KEYS } from "../src/localStorageKeys";
 
 const onlineUserResponse = {
   username: "jvader",
@@ -1024,7 +1025,7 @@ describe("ArcGISContext:", () => {
         mgr.context.featureFlags["hub:feature:workspace"]
       ).not.toBeDefined();
     });
-    it("can refresh user", async () => {
+    it("refreshUser updates user", async () => {
       const selfSpy = spyOn(portalModule, "getSelf").and.callFake(() => {
         return Promise.resolve(cloneObject(onlinePortalSelfResponse));
       });
@@ -1044,11 +1045,40 @@ describe("ArcGISContext:", () => {
       spyOn(requestModule, "request").and.callFake(() => {
         return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
       });
+      // Create a fake localStorage
+      const fakeWindow = {
+        localStorage: {
+          cache: {} as { [key: string]: any },
+          getItem(key: string) {
+            return this.cache[key];
+          },
+          setItem(key: string, value: string) {
+            this.cache[key] = value;
+          },
+        },
+      };
+
       const serialized = unicodeToBase64(
         JSON.stringify(validSerializedContext)
       );
 
       const mgr = await ArcGISContextManager.deserialize(serialized!);
+      // Add the context to the fake local storage
+      fakeWindow.localStorage.setItem(
+        STORAGE_KEYS.contextManager,
+        serialized as string
+      );
+
+      // setup spies
+      const getItemSpy = spyOn(
+        fakeWindow.localStorage,
+        "getItem"
+      ).and.callThrough();
+      const setItemSpy = spyOn(
+        fakeWindow.localStorage,
+        "setItem"
+      ).and.callThrough();
+
       expect(selfSpy.calls.count()).toBe(0);
       expect(userSpy.calls.count()).toBe(0);
       expect(mgr.context.portalUrl).toBe(
@@ -1059,13 +1089,140 @@ describe("ArcGISContext:", () => {
         validSerializedContext.currentUser
       );
       expect(mgr.context.currentUser.groups?.length).toEqual(1);
-      // call refresh user
-      await mgr.context.refreshUser();
+      // call refresh user with fake window
+      await mgr.context.refreshUser(fakeWindow);
       expect(userSpy.calls.count()).toBe(1);
       expect(mgr.context.currentUser.groups?.length).toEqual(2);
       expect(mgr.context.currentUser).toEqual(
         updatedUserResponse as portalModule.IUser
       );
+      // verify that the context was updated in local storage
+      expect(getItemSpy).toHaveBeenCalled();
+      expect(setItemSpy).toHaveBeenCalled();
+      const updatedSerializedContext = fakeWindow.localStorage.getItem(
+        STORAGE_KEYS.contextManager
+      );
+      expect(updatedSerializedContext).toBeDefined();
+      const decoded = JSON.parse(base64ToUnicode(updatedSerializedContext));
+      expect(decoded.currentUser.groups?.length).toEqual(2);
+    });
+    it("refreshUser does not fail if no localStorage entry", async () => {
+      const selfSpy = spyOn(portalModule, "getSelf").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlinePortalSelfResponse));
+      });
+      const updatedUserResponse = cloneObject(onlineUserResponse);
+      updatedUserResponse.groups.push({
+        id: "ff0",
+        title: "Fake Group 2",
+        userMembership: {
+          username: "jvader",
+          memberType: "admin",
+          applications: 0,
+        },
+      } as portalModule.IGroup);
+      const userSpy = spyOn(portalModule, "getUser").and.callFake(() => {
+        return Promise.resolve(cloneObject(updatedUserResponse));
+      });
+      spyOn(requestModule, "request").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
+      });
+      // Create a fake localStorage
+      const fakeWindow = {
+        localStorage: {
+          cache: {} as { [key: string]: any },
+          getItem(key: string) {
+            return this.cache[key];
+          },
+          setItem(key: string, value: string) {
+            this.cache[key] = value;
+          },
+        },
+      };
+
+      const serialized = unicodeToBase64(
+        JSON.stringify(validSerializedContext)
+      );
+
+      const mgr = await ArcGISContextManager.deserialize(serialized!);
+
+      // setup spies
+      const getItemSpy = spyOn(
+        fakeWindow.localStorage,
+        "getItem"
+      ).and.callThrough();
+      const setItemSpy = spyOn(
+        fakeWindow.localStorage,
+        "setItem"
+      ).and.callThrough();
+
+      expect(selfSpy.calls.count()).toBe(0);
+      expect(userSpy.calls.count()).toBe(0);
+      expect(mgr.context.portalUrl).toBe(
+        MOCK_AUTH.portal.replace(`/sharing/rest`, "")
+      );
+      expect(mgr.context.isAuthenticated).toBeTruthy();
+      expect(mgr.context.currentUser).toEqual(
+        validSerializedContext.currentUser
+      );
+      expect(mgr.context.currentUser.groups?.length).toEqual(1);
+      // call refresh user with fake window
+      await mgr.context.refreshUser(fakeWindow);
+      expect(userSpy.calls.count()).toBe(1);
+      expect(mgr.context.currentUser.groups?.length).toEqual(2);
+      expect(mgr.context.currentUser).toEqual(
+        updatedUserResponse as portalModule.IUser
+      );
+      // verify that the context was updated in local storage
+      expect(getItemSpy).toHaveBeenCalled();
+      expect(setItemSpy).not.toHaveBeenCalled();
+    });
+    it("refreshUser does not fail if localStorage is not defined", async () => {
+      const selfSpy = spyOn(portalModule, "getSelf").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlinePortalSelfResponse));
+      });
+      const updatedUserResponse = cloneObject(onlineUserResponse);
+      updatedUserResponse.groups.push({
+        id: "ff0",
+        title: "Fake Group 2",
+        userMembership: {
+          username: "jvader",
+          memberType: "admin",
+          applications: 0,
+        },
+      } as portalModule.IGroup);
+      const userSpy = spyOn(portalModule, "getUser").and.callFake(() => {
+        return Promise.resolve(cloneObject(updatedUserResponse));
+      });
+      spyOn(requestModule, "request").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
+      });
+
+      const serialized = unicodeToBase64(
+        JSON.stringify(validSerializedContext)
+      );
+
+      const mgr = await ArcGISContextManager.deserialize(serialized!);
+
+      expect(selfSpy.calls.count()).toBe(0);
+      expect(userSpy.calls.count()).toBe(0);
+      expect(mgr.context.portalUrl).toBe(
+        MOCK_AUTH.portal.replace(`/sharing/rest`, "")
+      );
+      expect(mgr.context.isAuthenticated).toBeTruthy();
+      expect(mgr.context.currentUser).toEqual(
+        validSerializedContext.currentUser
+      );
+      expect(mgr.context.currentUser.groups?.length).toEqual(1);
+      // call refresh user with window as undefined (like node)
+      await mgr.context.refreshUser(undefined);
+      expect(userSpy.calls.count()).toBe(1);
+      expect(mgr.context.currentUser.groups?.length).toEqual(2);
+      expect(mgr.context.currentUser).toEqual(
+        updatedUserResponse as portalModule.IUser
+      );
+      // call with no args, should default to window
+      await mgr.context.refreshUser();
+      expect(userSpy.calls.count()).toBe(2);
     });
   });
 
