@@ -25,15 +25,14 @@ describe("metricToEditor", () => {
       metricId: "test123",
       displayType: "stat",
       cardTitle: "Testing the display config",
-      source: "dynamic",
     };
 
     const editor = metricToEditor(metric, displayConfig);
     expect(editor).toEqual({
       metricId: "test123",
+      type: "dynamic",
       displayType: "stat",
       cardTitle: "Testing the display config",
-      source: "dynamic",
       dynamicMetric: {
         serviceUrl: "https://hubqa.arcgis.com",
         layerId: 0,
@@ -59,7 +58,6 @@ describe("metricToEditor", () => {
       metricId: "test123",
       displayType: "stat",
       cardTitle: "Testing the display config",
-      source: "static",
     };
 
     const editor = metricToEditor(metric, displayConfig);
@@ -68,7 +66,7 @@ describe("metricToEditor", () => {
       displayType: "stat",
       cardTitle: "Testing the display config",
       value: "525,600",
-      source: "static",
+      type: "static",
     });
   });
 
