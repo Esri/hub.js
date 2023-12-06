@@ -226,7 +226,7 @@ export interface IArcGISContext {
   /**
    * Refresh the current user, including their groups
    */
-  refreshUser(win?: any): Promise<void>;
+  refreshUser(): Promise<void>;
 }
 
 /**
@@ -767,7 +767,7 @@ export class ArcGISContext implements IArcGISContext {
    * update the user in the serialized context manager.
    * @returns
    */
-  public refreshUser(win: any = window): Promise<void> {
+  public refreshUser(): Promise<void> {
     const opts: IGetUserOptions = {
       authentication: this.session,
       portal: this.sharingApiUrl,
@@ -780,15 +780,17 @@ export class ArcGISContext implements IArcGISContext {
       // extract it, add the user to it, and then
       // re-serialize it and store it back in localStorage
       /* istanbul ignore else */
-      if (win && win.localStorage) {
-        const encoded = win.localStorage.getItem(STORAGE_KEYS.contextManager);
+      if (typeof window !== "undefined") {
+        const encoded = window.localStorage.getItem(
+          STORAGE_KEYS.contextManager
+        );
         if (encoded) {
           const serializedContext = base64ToUnicode(encoded);
           const context = JSON.parse(serializedContext);
           // update the user
           context.currentUser = user;
           // re-serialize and store
-          win.localStorage.setItem(
+          window.localStorage.setItem(
             STORAGE_KEYS.contextManager,
             unicodeToBase64(JSON.stringify(context))
           );
