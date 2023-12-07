@@ -5,7 +5,7 @@ import {
   SHOW_FOR_STATIC_RULE_ENTITY,
   SHOW_FOR_DYNAMIC_RULE_ENTITY,
   SHOW_FOR_SHARING_RULE_ENTITY,
-} from "./resources";
+} from "./rules";
 
 /**
  * @private
