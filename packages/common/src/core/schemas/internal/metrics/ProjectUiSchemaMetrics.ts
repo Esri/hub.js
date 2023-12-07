@@ -25,6 +25,7 @@ export const buildUiSchema = (
     elements: [
       {
         type: "Section",
+        labelKey: `${i18nScope}.sections.metrics.basic.label`,
         elements: [
           {
             labelKey: `${i18nScope}.fields.metrics.cardTitle.label`,
