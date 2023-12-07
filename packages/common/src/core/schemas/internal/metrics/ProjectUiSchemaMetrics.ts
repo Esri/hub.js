@@ -24,20 +24,25 @@ export const buildUiSchema = (
     type: "Layout",
     elements: [
       {
-        labelKey: `${i18nScope}.fields.metrics.cardTitle.label`,
-        scope: "/properties/_metric/properties/cardTitle",
-        type: "Control",
-        options: {
-          messages: [
-            {
-              type: "ERROR",
-              keyword: "minLength",
-              labelKey: `${i18nScope}.fields.metrics.cardTitle.message.minLength`,
-              icon: true,
-              allowShowBeforeInteract: true,
+        type: "Section",
+        elements: [
+          {
+            labelKey: `${i18nScope}.fields.metrics.cardTitle.label`,
+            scope: "/properties/_metric/properties/cardTitle",
+            type: "Control",
+            options: {
+              messages: [
+                {
+                  type: "ERROR",
+                  keyword: "minLength",
+                  labelKey: `${i18nScope}.fields.metrics.cardTitle.message.minLength`,
+                  icon: true,
+                  allowShowBeforeInteract: true,
+                },
+              ],
             },
-          ],
-        },
+          },
+        ],
       },
       {
         type: "Section",
