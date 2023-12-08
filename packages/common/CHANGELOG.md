@@ -1,3 +1,10 @@
+## @esri/hub-common [14.70.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.70.0...@esri/hub-common@14.70.1) (2023-12-08)
+
+
+### Bug Fixes
+
+* checkPermission uses userHubSettings.preview flags ([#1358](https://github.com/Esri/hub.js/issues/1358)) ([e6ee056](https://github.com/Esri/hub.js/commit/e6ee0562656b89424f3b1763cc907a5b83e4ca81))
+
 # @esri/hub-common [14.70.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.69.1...@esri/hub-common@14.70.0) (2023-12-08)
 
 
