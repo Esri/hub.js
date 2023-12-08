@@ -1,3 +1,11 @@
+# @esri/hub-common [14.70.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.69.1...@esri/hub-common@14.70.0) (2023-12-08)
+
+
+### Features
+
+* initiative/project description fields are rich text ([#1355](https://github.com/Esri/hub.js/issues/1355)) ([02bb6bf](https://github.com/Esri/hub.js/commit/02bb6bf34a904d2a0597ccd05a4c387dbe2a2f95))
+* update projects schema ([#1354](https://github.com/Esri/hub.js/issues/1354)) ([8904324](https://github.com/Esri/hub.js/commit/8904324d537650bb4b575f1feea620f809d04bb1))
+
 ## @esri/hub-common [14.69.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.69.0...@esri/hub-common@14.69.1) (2023-12-05)
 
 
