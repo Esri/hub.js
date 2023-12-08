@@ -74,11 +74,13 @@ export const buildUiSchema = async (
             scope: "/properties/description",
             type: "Control",
             options: {
-              control: "hub-field-input-input",
+              control: "hub-field-input-rich-text",
               type: "textarea",
               helperText: {
                 labelKey: `${i18nScope}.fields.description.helperText`,
               },
+              toolbar:
+                "heading,|,bold,italic,blockQuote,removeFormat,link,|,bulletedList,numberedList,alignment,outdent,indent,|,undo,redo",
             },
           },
           {
