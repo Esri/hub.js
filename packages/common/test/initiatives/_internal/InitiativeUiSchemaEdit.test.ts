@@ -139,9 +139,6 @@ describe("buildUiSchema: initiative edit", () => {
                 maxWidth: 727,
                 maxHeight: 484,
                 aspectRatio: 1.5,
-                helperText: {
-                  labelKey: `some.scope.fields.featuredImage.helperText`,
-                },
                 sizeDescription: {
                   labelKey: `some.scope.fields.featuredImage.sizeDescription`,
                 },
@@ -427,9 +424,6 @@ describe("buildUiSchema: initiative edit", () => {
                 maxWidth: 727,
                 maxHeight: 484,
                 aspectRatio: 1.5,
-                helperText: {
-                  labelKey: `some.scope.fields.featuredImage.helperText`,
-                },
                 sizeDescription: {
                   labelKey: `some.scope.fields.featuredImage.sizeDescription`,
                 },
