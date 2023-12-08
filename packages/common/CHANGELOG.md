@@ -1,3 +1,10 @@
+## @esri/hub-common [14.70.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.70.1...@esri/hub-common@14.70.2) (2023-12-08)
+
+
+### Bug Fixes
+
+* initiative UI schema enhancement ([#1359](https://github.com/Esri/hub.js/issues/1359)) ([df303a3](https://github.com/Esri/hub.js/commit/df303a3df0034a959736090ca24b8b9c0d2f6127))
+
 ## @esri/hub-common [14.70.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.70.0...@esri/hub-common@14.70.1) (2023-12-08)
 
 
