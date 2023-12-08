@@ -122,9 +122,6 @@ export const buildUiSchema = async (
               maxWidth: 727,
               maxHeight: 484,
               aspectRatio: 1.5,
-              helperText: {
-                labelKey: `${i18nScope}.fields.featuredImage.helperText`,
-              },
               sizeDescription: {
                 labelKey: `${i18nScope}.fields.featuredImage.sizeDescription`,
               },
