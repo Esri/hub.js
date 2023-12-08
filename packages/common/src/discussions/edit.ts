@@ -185,11 +185,11 @@ export async function deleteDiscussion(
   requestOptions: IHubRequestOptions
 ): Promise<void> {
   const ro = { ...requestOptions, ...{ id } } as IUserItemOptions;
-  await removeItem(ro);
   try {
     await removeSetting({ id, ...requestOptions });
   } catch (e) {
     // suppress error
   }
+  await removeItem(ro);
   return;
 }
