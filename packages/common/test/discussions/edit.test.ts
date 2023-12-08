@@ -50,17 +50,28 @@ const DEFAULT_SETTINGS =
 describe("discussions edit:", () => {
   describe("deleteDiscussion:", () => {
     it("deletes the item", async () => {
-      const removeSpy = spyOn(portalModule, "removeItem").and.returnValue(
+      const removeItemSpy = spyOn(portalModule, "removeItem").and.returnValue(
         Promise.resolve({ success: true })
       );
+      const removeSettingSpy = spyOn(
+        settingUtils,
+        "removeSetting"
+      ).and.returnValue(Promise.resolve({ success: true }));
 
       const result = await deleteDiscussion("3ef", {
         authentication: MOCK_AUTH,
       });
       expect(result).toBeUndefined();
-      expect(removeSpy.calls.count()).toBe(1);
-      expect(removeSpy.calls.argsFor(0)[0].authentication).toBe(MOCK_AUTH);
-      expect(removeSpy.calls.argsFor(0)[0].id).toBe("3ef");
+      expect(removeSettingSpy.calls.count()).toBe(1);
+      expect(removeSettingSpy.calls.argsFor(0)[0].authentication).toBe(
+        MOCK_AUTH
+      );
+      expect(removeItemSpy.calls.count()).toBe(1);
+      expect(removeItemSpy.calls.argsFor(0)[0]).toEqual({
+        id: "3ef",
+        authentication: MOCK_AUTH,
+      });
+      expect(removeItemSpy.calls.argsFor(0)[0].id).toBe("3ef");
     });
   });
 
