@@ -21,6 +21,7 @@ const SystemPermissions = [
   "hub:feature:privacy",
   "hub:feature:workspace",
   "hub:feature:gallery:map",
+  "hub:feature:user:preferences",
 ];
 
 const validPermissions = [

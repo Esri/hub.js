@@ -2,12 +2,12 @@ import { IArcGISContext } from "../../ArcGISContext";
 import { IUiSchema } from "../../core/schemas/types";
 import { getCategoryItems } from "../../core/schemas/internal/getCategoryItems";
 import { getFeaturedContentCatalogs } from "../../core/schemas/internal/getFeaturedContentCatalogs";
-import { getAuthedImageUrl } from "../../core/schemas/internal/getAuthedImageUrl";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 import { IHubProject } from "../../core/types";
+import { getAuthedImageUrl } from "../../core/_internal/getAuthedImageUrl";
 
 /**
  * @private
@@ -74,11 +74,13 @@ export const buildUiSchema = async (
             scope: "/properties/description",
             type: "Control",
             options: {
-              control: "hub-field-input-input",
+              control: "hub-field-input-rich-text",
               type: "textarea",
               helperText: {
                 labelKey: `${i18nScope}.fields.description.helperText`,
               },
+              toolbar:
+                "heading,|,bold,italic,blockQuote,removeFormat,link,|,bulletedList,numberedList,alignment,outdent,indent,|,undo,redo",
             },
           },
           {
@@ -89,7 +91,7 @@ export const buildUiSchema = async (
               control: "hub-field-input-image-picker",
               imgSrc: getAuthedImageUrl(
                 options.view?.featuredImageUrl,
-                context
+                context.requestOptions
               ),
               maxWidth: 727,
               maxHeight: 484,
@@ -248,6 +250,45 @@ export const buildUiSchema = async (
                 },
                 {
                   label: `{{${i18nScope}.fields.featuredContent.facets.sharing:translate}}`,
+                  key: "access",
+                  display: "multi-select",
+                  field: "access",
+                  options: [],
+                  operation: "OR",
+                },
+              ],
+            },
+          },
+        ],
+      },
+      {
+        type: "Section",
+        labelKey: `${i18nScope}.sections.callToAction.label`,
+        options: {
+          helperText: {
+            labelKey: `${i18nScope}.sections.callToAction.helperText`,
+          },
+        },
+        elements: [
+          {
+            scope: "/properties/view/properties/heroActions",
+            type: "Control",
+            options: {
+              control: "hub-composite-input-action-links",
+              type: "button",
+              catalogs: getFeaturedContentCatalogs(context.currentUser), // for now we'll just re-use this util to get the catalogs
+              facets: [
+                {
+                  label: `{{${i18nScope}.fields.callToAction.facets.type:translate}}`,
+                  key: "type",
+                  display: "multi-select",
+                  field: "type",
+                  options: [],
+                  operation: "OR",
+                  aggLimit: 100,
+                },
+                {
+                  label: `{{${i18nScope}.fields.callToAction.facets.sharing:translate}}`,
                   key: "access",
                   display: "multi-select",
                   field: "access",

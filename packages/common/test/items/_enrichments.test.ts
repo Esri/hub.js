@@ -16,7 +16,7 @@ describe("_enrichments", () => {
     } as IEnrichmentErrorInfo;
     let item: IItem;
     beforeEach(() => {
-      item = cloneObject(featureServiceItem);
+      item = cloneObject(featureServiceItem) as unknown as IItem;
     });
     describe("groupIds", () => {
       it("fetches groupIds", async () => {
@@ -126,6 +126,23 @@ describe("_enrichments", () => {
       it("handles errors", async () => {
         fetchMock.once("*", 404);
         const result = await fetchItemEnrichments(item, ["data"]);
+        expect(result.data).toBeUndefined();
+        expect(result.errors).toEqual([expectedError]);
+      });
+    });
+    describe("enrichItem", () => {
+      it("fetches item", async () => {
+        const itemJson = {
+          id: item.id,
+          itemControl: "admin",
+        } as unknown as IItem;
+        fetchMock.once("*", itemJson);
+        const result = await fetchItemEnrichments(item, ["item"]);
+        expect(result.item.itemControl).toEqual("admin");
+      });
+      it("handles errors", async () => {
+        fetchMock.once("*", 404);
+        const result = await fetchItemEnrichments(item, ["item"]);
         expect(result.data).toBeUndefined();
         expect(result.errors).toEqual([expectedError]);
       });

@@ -1,5 +1,5 @@
 import { IArcGISContext } from "../ArcGISContext";
-import { getWithDefault } from "../objects";
+import { getProp, getWithDefault } from "../objects";
 import { checkLicense } from "./_internal/checkLicense";
 import { getPermissionPolicy } from "./HubPermissionPolicies";
 import { Permission, isPermission } from "./types/Permission";
@@ -19,6 +19,7 @@ import { IPermissionAccessResponse } from "./types/IPermissionAccessResponse";
 import { PolicyResponse } from "./types/PolicyResponse";
 import { IPolicyCheck } from "./types/IPolicyCheck";
 import { IEntityPermissionPolicy } from "./types/IEntityPermissionPolicy";
+import { IUserHubSettings } from "../utils";
 
 /**
  * Type to allow either an entity or and entity and label to be
@@ -99,10 +100,31 @@ export function checkPermission(
   // Feature Flags
   // Passed in from the application when context is created,
   // these override entity flags, so they are checked after
-  if (context.featureFlags.hasOwnProperty(permission)) {
+  if (context.featureFlags?.hasOwnProperty(permission)) {
     flagging.hasFlag = true;
     flagging.value = context.featureFlags[permission];
     flagging.type = "feature";
+  }
+
+  // We also check the context.userHubSettings.preview array
+  // which can also be used to enable features.
+  if (context.userHubSettings?.preview) {
+    const preview = getWithDefault(
+      context,
+      "userHubSettings.preview",
+      {}
+    ) as IUserHubSettings["preview"];
+    Object.keys(preview).forEach((key) => {
+      // only set the flag if it's true, otherwise delete the flag so we revert to default behavior
+      if (
+        permission === `hub:feature:${key}` &&
+        getProp(preview, key) === true
+      ) {
+        flagging.hasFlag = true;
+        flagging.value = true;
+        flagging.type = "feature";
+      }
+    });
   }
 
   // in all cases, if flag exists and false, access is denied

@@ -1,7 +1,11 @@
-import { IUser, IPortal } from "@esri/arcgis-rest-portal";
+import { IUser, IPortal, IItem } from "@esri/arcgis-rest-portal";
 import { IEnrichmentErrorInfo } from "../../types";
 
 export interface IItemEnrichments {
+  /**
+   * Enable the item to be re-fetched so we get more props
+   */
+  item?: IItem;
   /** The portal item's data (if any) */
   data?: {
     [propName: string]: any;

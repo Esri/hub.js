@@ -81,7 +81,7 @@ describe("buildUiSchema: create followers group", () => {
                     labels: [
                       "{{some.scope.fields.membershipAccess.org:translate}}",
                       "{{some.scope.fields.membershipAccess.collab:translate}}",
-                      "{{some.scope.fields.membershipAccess.any:translate}}",
+                      "{{some.scope.fields.membershipAccess.createFollowers.any:translate}}",
                     ],
                     disabled: [false, false, true],
                   },
@@ -94,7 +94,7 @@ describe("buildUiSchema: create followers group", () => {
                     control: "hub-field-input-radio",
                     labels: [
                       "{{some.scope.fields.contributeContent.all:translate}}",
-                      "{{some.scope.fields.contributeContent.admins:translate}}",
+                      "{{some.scope.fields.contributeContent.createFollowers.admins:translate}}",
                     ],
                   },
                 },

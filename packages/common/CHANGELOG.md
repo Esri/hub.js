@@ -1,3 +1,60 @@
+## @esri/hub-common [14.70.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.70.0...@esri/hub-common@14.70.1) (2023-12-08)
+
+
+### Bug Fixes
+
+* checkPermission uses userHubSettings.preview flags ([#1358](https://github.com/Esri/hub.js/issues/1358)) ([e6ee056](https://github.com/Esri/hub.js/commit/e6ee0562656b89424f3b1763cc907a5b83e4ca81))
+
+# @esri/hub-common [14.70.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.69.1...@esri/hub-common@14.70.0) (2023-12-08)
+
+
+### Features
+
+* initiative/project description fields are rich text ([#1355](https://github.com/Esri/hub.js/issues/1355)) ([02bb6bf](https://github.com/Esri/hub.js/commit/02bb6bf34a904d2a0597ccd05a4c387dbe2a2f95))
+* update projects schema ([#1354](https://github.com/Esri/hub.js/issues/1354)) ([8904324](https://github.com/Esri/hub.js/commit/8904324d537650bb4b575f1feea620f809d04bb1))
+
+## @esri/hub-common [14.69.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.69.0...@esri/hub-common@14.69.1) (2023-12-05)
+
+
+### Bug Fixes
+
+* enable featured image alt text on hub initiative ([#1350](https://github.com/Esri/hub.js/issues/1350)) ([669f0d8](https://github.com/Esri/hub.js/commit/669f0d8eead34d7237ff5c96e194e8c505b9dbdd))
+
+# @esri/hub-common [14.69.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.68.1...@esri/hub-common@14.69.0) (2023-12-05)
+
+
+### Features
+
+* add notices to IUserHubSettings ([#1351](https://github.com/Esri/hub.js/issues/1351)) ([28e15b0](https://github.com/Esri/hub.js/commit/28e15b0a04e5494e98e18764cf2bc3d11d0dcfd6))
+
+## @esri/hub-common [14.68.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.68.0...@esri/hub-common@14.68.1) (2023-12-05)
+
+
+### Bug Fixes
+
+* **hub-common:** use only capabilities key to update extract capability service definition ([#1347](https://github.com/Esri/hub.js/issues/1347)) ([9f6e0f3](https://github.com/Esri/hub.js/commit/9f6e0f3d028a3d8d42503bda94b182943768cf55))
+
+# @esri/hub-common [14.68.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.67.0...@esri/hub-common@14.68.0) (2023-12-04)
+
+
+### Features
+
+* 8182 initiative creation ([#1343](https://github.com/Esri/hub.js/issues/1343)) ([ac7d48d](https://github.com/Esri/hub.js/commit/ac7d48da59ec8adb18fcaeeaaa78871612088512))
+
+# @esri/hub-common [14.67.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.66.1...@esri/hub-common@14.67.0) (2023-12-01)
+
+
+### Features
+
+* add enrichement to refetch item with additional props ([#1345](https://github.com/Esri/hub.js/issues/1345)) ([3d3ac62](https://github.com/Esri/hub.js/commit/3d3ac62eb99c61fbf1577915b59cfa6db4ece907))
+
+## @esri/hub-common [14.66.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.66.0...@esri/hub-common@14.66.1) (2023-12-01)
+
+
+### Bug Fixes
+
+* update followers group creation strings ([#1344](https://github.com/Esri/hub.js/issues/1344)) ([4523f20](https://github.com/Esri/hub.js/commit/4523f206ec570d98082af5967a2e6cac8a2a0d72))
+
 # @esri/hub-common [14.66.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.65.1...@esri/hub-common@14.66.0) (2023-11-22)
 
 

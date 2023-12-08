@@ -173,7 +173,7 @@ async function searchPortalAsHubSearchResult(
   const fn = (item: IItem) => {
     return itemToSearchResult(
       item,
-      searchOptions.includes,
+      searchOptions.include,
       searchOptions.requestOptions
     );
   };

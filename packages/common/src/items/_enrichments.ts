@@ -1,5 +1,6 @@
 import {
   IItem,
+  getItem,
   getItemData,
   getItemGroups,
   getUser,
@@ -183,6 +184,25 @@ const enrichData = (
     .catch((error) => handleEnrichmentError(error, input, opId));
 };
 
+/**
+ * Enriches an item by fetching the item directly as this returns additional
+ * information not included in a search result.
+ * @param input - The input object containing the item and enrichments.
+ * @returns A promise that resolves to the updated input object.
+ */
+const enrichItem = (
+  input: IPipeable<IItemAndEnrichments>
+): Promise<IPipeable<IItemAndEnrichments>> => {
+  const { data, stack, requestOptions } = input;
+  const opId = stack.start("enrichData");
+  return getItem(data.item.id, requestOptions)
+    .then((itemJson) => {
+      stack.finish(opId);
+      return { data: { ...data, item: itemJson }, stack, requestOptions };
+    })
+    .catch((error) => handleEnrichmentError(error, input, opId));
+};
+
 const enrichServer = (
   input: IPipeable<IItemAndEnrichments>
 ): Promise<IPipeable<IItemAndEnrichments>> => {
@@ -277,6 +297,7 @@ const enrichmentOperations: IEnrichmentOperations = {
   data: enrichData,
   server: enrichServer,
   layers: enrichLayers,
+  item: enrichItem,
 };
 
 /**

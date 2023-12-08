@@ -21,7 +21,11 @@ import { IModel } from "../types";
 import { getProp } from "../objects/get-prop";
 import { setDiscussableKeyword } from "../discussions";
 import { modelToHubEditableContent } from "./fetch";
-import { getService, parseServiceUrl } from "@esri/arcgis-rest-feature-layer";
+import {
+  getService,
+  IFeatureServiceDefinition,
+  parseServiceUrl,
+} from "@esri/arcgis-rest-feature-layer";
 import { updateServiceDefinition } from "@esri/arcgis-rest-service-admin";
 import {
   hasServiceCapability,
@@ -151,9 +155,12 @@ export async function updateContent(
         ServiceCapabilities.EXTRACT,
         currentDefinition
       );
+      const updatedServiceCapabilities: Partial<IFeatureServiceDefinition> = {
+        capabilities: updatedDefinition.capabilities,
+      };
       await updateServiceDefinition(parseServiceUrl(content.url), {
         authentication: requestOptions.authentication,
-        updateDefinition: updatedDefinition,
+        updateDefinition: updatedServiceCapabilities,
       });
       enrichments.server = updatedDefinition;
     } else {
