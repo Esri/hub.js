@@ -1,3 +1,15 @@
+# @esri/hub-common [14.71.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.70.2...@esri/hub-common@14.71.0) (2023-12-11)
+
+
+### Bug Fixes
+
+* **hub-common:** delete the discussion entity settings before the discussion entity ([#1360](https://github.com/Esri/hub.js/issues/1360)) ([0900a8c](https://github.com/Esri/hub.js/commit/0900a8cee10fef78b6377eada1038912277789c6))
+
+
+### Features
+
+* **hub-common:** adds geometry to search results and new permission policy ([#1348](https://github.com/Esri/hub.js/issues/1348)) ([3c082d5](https://github.com/Esri/hub.js/commit/3c082d5a8b533a8196a12ce4135d40d2ba758ce0))
+
 ## @esri/hub-common [14.70.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.70.1...@esri/hub-common@14.70.2) (2023-12-08)
 
 
