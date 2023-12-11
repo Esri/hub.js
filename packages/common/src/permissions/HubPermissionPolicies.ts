@@ -96,6 +96,12 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     environments: ["devext", "qaext"],
   },
   {
+    // This is an experimental extension of the gallery to include `map layout`
+    // Similar to `hub:feature:privacy`, we want to deny permission unless explicity enabled with (?pe=hub:feature:gallery:map)
+    permission: "hub:feature:gallery:map",
+    environments: ["devext"],
+  },
+  {
     // Enables access to the user preferences section of the user profile
     // This will likely be removed when we swap the user profile to use workspace
     permission: "hub:feature:user:preferences",
