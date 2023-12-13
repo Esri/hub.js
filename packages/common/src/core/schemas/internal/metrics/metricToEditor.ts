@@ -32,6 +32,7 @@ export function metricToEditor(
             ...(metric.source as IServiceQueryMetricSource),
             itemId: displayConfig.itemId,
             expressionSet: displayConfig.expressionSet,
+            allowExpressionSet: displayConfig.allowExpressionSet,
           },
           ...editor,
         };
