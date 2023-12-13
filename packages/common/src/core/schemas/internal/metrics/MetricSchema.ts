@@ -120,7 +120,7 @@ export const MetricSchema: IConfigurationSchema = {
     },
     "if-source-title-then-source-link": {
       if: {
-        properties: { sourceTitle: { not: { enum: ["", undefined] } } },
+        properties: { sourceTitle: { not: { const: "" } } },
         required: ["sourceTitle"],
       },
       then: {

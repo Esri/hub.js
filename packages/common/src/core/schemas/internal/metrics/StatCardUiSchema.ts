@@ -324,7 +324,7 @@ const HIDE_FOR_ALL = {
   effect: UiSchemaRuleEffects.HIDE,
   condition: {
     scope: "/properties/type",
-    schema: { enum: [undefined, "static", "dynamic"] },
+    schema: { enum: ["static", "dynamic"] },
   },
 };
 
