@@ -76,6 +76,7 @@ export function editorToMetric(
   // create card config
   const displayConfig: IMetricDisplayConfig = {
     ...config,
+    ...dynamicMetric,
     displayType: config.displayType || "stat-card",
     visibility: config.visibility || MetricVisibility.hidden,
     metricId,

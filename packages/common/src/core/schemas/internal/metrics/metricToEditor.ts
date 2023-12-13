@@ -30,6 +30,8 @@ export function metricToEditor(
           type: "dynamic",
           dynamicMetric: {
             ...(metric.source as IServiceQueryMetricSource),
+            itemId: displayConfig.itemId,
+            expressionSet: displayConfig.expressionSet,
           },
           ...editor,
         };
