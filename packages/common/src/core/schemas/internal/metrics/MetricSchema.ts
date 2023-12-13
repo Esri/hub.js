@@ -106,6 +106,9 @@ export const MetricSchema: IConfigurationSchema = {
       type: "string",
     },
   },
+  dependentRequired: {
+    sourceTitle: ["sourceLink"],
+  },
   allOf: [{ $ref: "#/definitions/if-source-title-then-source-link" }],
   definitions: {
     // TODO: reimplement popover with layouts release
@@ -116,15 +119,6 @@ export const MetricSchema: IConfigurationSchema = {
       },
       then: {
         required: ["popoverTitle", "popoverDescription"],
-      },
-    },
-    "if-source-title-then-source-link": {
-      if: {
-        properties: { sourceTitle: { not: { enum: ["", undefined] } } },
-        required: ["sourceTitle"],
-      },
-      then: {
-        required: ["sourceLink"],
       },
     },
   },
