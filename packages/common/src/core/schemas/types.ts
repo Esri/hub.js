@@ -87,7 +87,7 @@ export enum UiSchemaMessageTypes {
   custom = "CUSTOM",
 }
 
-export interface IConfigurationSchema extends JSONSchema {
+export interface IConfigurationSchema extends JSONSchema.Interface {
   type?: "object";
 }
 
