@@ -9,6 +9,7 @@ describe("buildUiSchema: site telemetry", () => {
       elements: [
         {
           type: "Section",
+          labelKey: `some.scope.sections.privacy.label`,
           elements: [
             {
               scope: "/properties/telemetry/properties/consentNotice",
