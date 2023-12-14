@@ -92,6 +92,7 @@ export function editorToMetric(
         : config.sourceTitle,
     allowLink:
       values.type === "dynamic" ? config.allowDynamicLink : config.allowLink,
+    type: values.type,
   };
 
   return { metric, displayConfig };
