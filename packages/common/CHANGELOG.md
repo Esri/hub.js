@@ -1,3 +1,10 @@
+## @esri/hub-common [14.71.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.71.1...@esri/hub-common@14.71.2) (2023-12-14)
+
+
+### Bug Fixes
+
+* adds label to site telemetry ui schema section ([#1363](https://github.com/Esri/hub.js/issues/1363)) ([6e29ddc](https://github.com/Esri/hub.js/commit/6e29ddc90373275117600ff023a53ed2f064557e))
+
 ## @esri/hub-common [14.71.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.71.0...@esri/hub-common@14.71.1) (2023-12-14)
 
 
