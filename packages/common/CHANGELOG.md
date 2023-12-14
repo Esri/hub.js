@@ -1,3 +1,10 @@
+## @esri/hub-common [14.71.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.71.0...@esri/hub-common@14.71.1) (2023-12-14)
+
+
+### Bug Fixes
+
+* remove undefined from schemas ([#1362](https://github.com/Esri/hub.js/issues/1362)) ([abd493f](https://github.com/Esri/hub.js/commit/abd493f5468d8ac03a9f5f94ef574fd7c775ae8f))
+
 # @esri/hub-common [14.71.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.70.2...@esri/hub-common@14.71.0) (2023-12-11)
 
 
