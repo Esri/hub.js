@@ -18,6 +18,7 @@ export const buildUiSchema = async (
     elements: [
       {
         type: "Section",
+        labelKey: `${i18nScope}.sections.privacy.label`,
         elements: [
           {
             scope: "/properties/telemetry/properties/consentNotice",
