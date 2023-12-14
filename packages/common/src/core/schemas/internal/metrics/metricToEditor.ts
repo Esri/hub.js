@@ -17,8 +17,16 @@ export function metricToEditor(
   metric: IMetric,
   displayConfig: IMetricDisplayConfig
 ): IMetricEditorValues {
+  const {
+    allowExpressionSet,
+    expressionSet,
+    fieldType,
+    itemId,
+    statistic,
+    ...config
+  } = displayConfig;
   let editor = {
-    ...displayConfig,
+    ...config,
   };
 
   if (metric && metric.source) {
@@ -30,9 +38,10 @@ export function metricToEditor(
           type: "dynamic",
           dynamicMetric: {
             ...(metric.source as IServiceQueryMetricSource),
-            itemId: displayConfig.itemId,
-            expressionSet: displayConfig.expressionSet,
-            allowExpressionSet: displayConfig.allowExpressionSet,
+            itemId,
+            expressionSet,
+            allowExpressionSet,
+            fieldType,
           },
           ...editor,
         };
