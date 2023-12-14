@@ -29,6 +29,7 @@ export function editorToMetric(
   const { value, dynamicMetric, ...config } = values;
   const {
     layerId,
+    itemId,
     field,
     statistic,
     serviceUrl,
@@ -76,11 +77,14 @@ export function editorToMetric(
   // create card config
   const displayConfig: IMetricDisplayConfig = {
     ...config,
-    ...dynamicMetric,
     displayType: config.displayType || "stat-card",
     visibility: config.visibility || MetricVisibility.hidden,
     metricId,
+    // dynamic metric values
     fieldType,
+    itemId,
+    expressionSet,
+    allowExpressionSet,
     statistic,
     // if we are in dynamic mode and have a link, then we use that link
     // otherwise we use manually input sourceLink on card config
