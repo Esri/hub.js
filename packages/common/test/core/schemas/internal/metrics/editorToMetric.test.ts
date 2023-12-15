@@ -90,7 +90,7 @@ describe("editorToMetric", () => {
       ];
       const whereClause = EditorToMetric.buildWhereClause(expressionSet);
       expect(whereClause).toEqual(
-        "(category IN ('value1')) AND (amount) >= 0 AND (amount) <= 2 AND (amount) <= 4 AND (amount) >= 1 AND date <= timestamp '2023-01-04 23:59:59' AND date >= timestamp '2023-01-02 00:00:00' AND date >= timestamp '2023-01-01 00:00:00' AND date <= timestamp '2023-01-03 23:59:59' AND (guid) >= 1234 AND (guid) <= 5234 AND category like '%val%' AND (category IN ('val', 'e'))"
+        "(category%20IN%20('value1'))%20AND%20(amount)%20%3E%3D%200%20AND%20(amount)%20%3C%3D%202%20AND%20(amount)%20%3C%3D%204%20AND%20(amount)%20%3E%3D%201%20AND%20date%20%3C%3D%20timestamp%20'2023-01-04%2023%3A59%3A59'%20AND%20date%20%3E%3D%20timestamp%20'2023-01-02%2000%3A00%3A00'%20AND%20date%20%3E%3D%20timestamp%20'2023-01-01%2000%3A00%3A00'%20AND%20date%20%3C%3D%20timestamp%20'2023-01-03%2023%3A59%3A59'%20AND%20(guid)%20%3E%3D%201234%20AND%20(guid)%20%3C%3D%205234%20AND%20category%20like%20'%25val%25'%20AND%20(category%20IN%20('val'%2C%20'e'))"
       );
     });
     // NOTE THESE NEXT FIVE TESTS COVER CASES WHICH SHOULD NEVER OCCUR
@@ -107,7 +107,9 @@ describe("editorToMetric", () => {
         },
       ];
       const whereClause = EditorToMetric.buildWhereClause(expressionSet);
-      expect(whereClause).toEqual("date <= timestamp '2023-01-03 23:59:59'");
+      expect(whereClause).toEqual(
+        "date%20%3C%3D%20timestamp%20'2023-01-03%2023%3A59%3A59'"
+      );
     });
     it("handles objects in values with between", () => {
       const expressionSet: IExpression[] = [
@@ -119,7 +121,7 @@ describe("editorToMetric", () => {
         },
       ];
       const whereClause = EditorToMetric.buildWhereClause(expressionSet);
-      expect(whereClause).toEqual("1=1");
+      expect(whereClause).toEqual("1%3D1");
     });
     it("handles bad strings in values with between", () => {
       const expressionSet: IExpression[] = [
@@ -132,7 +134,7 @@ describe("editorToMetric", () => {
       ];
       const whereClause = EditorToMetric.buildWhereClause(expressionSet);
       expect(whereClause).toEqual(
-        "date >= timestamp 'WAT 00:00:00' AND date <= timestamp 'BLARG 23:59:59'"
+        "date%20%3E%3D%20timestamp%20'WAT%2000%3A00%3A00'%20AND%20date%20%3C%3D%20timestamp%20'BLARG%2023%3A59%3A59'"
       );
     });
     it("handles single entry in values with between", () => {
@@ -145,7 +147,9 @@ describe("editorToMetric", () => {
         },
       ];
       const whereClause = EditorToMetric.buildWhereClause(expressionSet);
-      expect(whereClause).toEqual("date >= timestamp '2022-01-01 00:00:00'");
+      expect(whereClause).toEqual(
+        "date%20%3E%3D%20timestamp%20'2022-01-01%2000%3A00%3A00'"
+      );
     });
     it("handles null in values with between", () => {
       const expressionSet: IExpression[] = [
@@ -157,12 +161,14 @@ describe("editorToMetric", () => {
         },
       ];
       const whereClause = EditorToMetric.buildWhereClause(expressionSet);
-      expect(whereClause).toEqual("date <= timestamp '2022-01-01 23:59:59'");
+      expect(whereClause).toEqual(
+        "date%20%3C%3D%20timestamp%20'2022-01-01%2023%3A59%3A59'"
+      );
     });
     // END
     it("handles an undefined expression set", () => {
       const whereClause = EditorToMetric.buildWhereClause(undefined);
-      expect(whereClause).toEqual("1=1");
+      expect(whereClause).toEqual("1%3D1");
     });
   });
 
@@ -325,7 +331,7 @@ describe("editorToMetric", () => {
       const { metric } = EditorToMetric.editorToMetric(values, "id", opts);
       const source = metric.source as IServiceQueryMetricSource;
       expect(source.where).toBe(
-        "(category IN ('value1')) AND (amount) >= 0 AND (amount) <= 2 AND (amount) <= 4 AND (amount) >= 1 AND date <= timestamp '2023-01-04 23:59:59' AND date >= timestamp '2023-01-02 00:00:00' AND date >= timestamp '2023-01-01 00:00:00' AND date <= timestamp '2023-01-03 23:59:59' AND (guid) >= 1234 AND (guid) <= 5234 AND category like '%val%' AND (category IN ('val', 'e'))"
+        "(category%20IN%20('value1'))%20AND%20(amount)%20%3E%3D%200%20AND%20(amount)%20%3C%3D%202%20AND%20(amount)%20%3C%3D%204%20AND%20(amount)%20%3E%3D%201%20AND%20date%20%3C%3D%20timestamp%20'2023-01-04%2023%3A59%3A59'%20AND%20date%20%3E%3D%20timestamp%20'2023-01-02%2000%3A00%3A00'%20AND%20date%20%3E%3D%20timestamp%20'2023-01-01%2000%3A00%3A00'%20AND%20date%20%3C%3D%20timestamp%20'2023-01-03%2023%3A59%3A59'%20AND%20(guid)%20%3E%3D%201234%20AND%20(guid)%20%3C%3D%205234%20AND%20category%20like%20'%25val%25'%20AND%20(category%20IN%20('val'%2C%20'e'))"
       );
       expect(buildWhereClauseSpy).toHaveBeenCalledTimes(0);
     });
@@ -349,7 +355,7 @@ describe("editorToMetric", () => {
         layerId: undefined,
         field: undefined,
         statistic: undefined,
-        where: "1=1",
+        where: "1%3D1",
       });
     });
 
@@ -397,6 +403,9 @@ describe("editorToMetric", () => {
           fieldType: "esriFieldTypeString",
           visibility: MetricVisibility.hidden,
           statistic: "",
+          itemId: undefined,
+          expressionSet: [],
+          allowExpressionSet: true,
         });
       });
       it("handles static source link correctly", () => {
@@ -443,6 +452,9 @@ describe("editorToMetric", () => {
           fieldType: "esriFieldTypeString",
           statistic: "",
           visibility: MetricVisibility.hidden,
+          itemId: undefined,
+          expressionSet: [],
+          allowExpressionSet: true,
         });
       });
       it("handles static source link correctly when no source", () => {
@@ -487,6 +499,9 @@ describe("editorToMetric", () => {
           fieldType: "esriFieldTypeString",
           statistic: "",
           visibility: MetricVisibility.hidden,
+          itemId: undefined,
+          expressionSet: [],
+          allowExpressionSet: true,
         });
       });
       it("handles static source link correctly when no source or entity info", () => {
@@ -527,6 +542,9 @@ describe("editorToMetric", () => {
           fieldType: "esriFieldTypeString",
           statistic: "",
           visibility: MetricVisibility.hidden,
+          itemId: undefined,
+          expressionSet: [],
+          allowExpressionSet: true,
         });
       });
     });

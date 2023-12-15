@@ -40,6 +40,10 @@ describe("metricToEditor", () => {
         statistic: "count",
         where: "caption = 'hello'",
         type: "service-query",
+        itemId: undefined,
+        expressionSet: undefined,
+        allowExpressionSet: undefined,
+        fieldType: undefined,
       },
     });
   });
