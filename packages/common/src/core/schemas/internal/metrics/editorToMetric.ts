@@ -113,7 +113,7 @@ export function editorToMetric(
  * NOTE: currently returns string as a MATCH and everything else as BETWEEN
  */
 export function buildWhereClause(expressionSet: IExpression[] = []): string {
-  return (
+  const whereClause =
     expressionSet
       .map((expression) => {
         const { field, values, relationship } = expression;
@@ -144,14 +144,14 @@ export function buildWhereClause(expressionSet: IExpression[] = []): string {
             break;
 
           case "esriFieldTypeDate":
-            // just the second bounding value
+            // just the first bounding value
             if (typeof values[0] === "string") {
               clause = `${field.name} >= timestamp '${escape(
                 values[0] as string
               )} 00:00:00'`;
             }
 
-            // just the first bounding value
+            // just the second bounding value
             if (typeof values[1] === "string") {
               clause = `${field.name} <= timestamp '${escape(
                 values[1] as string
@@ -192,6 +192,8 @@ export function buildWhereClause(expressionSet: IExpression[] = []): string {
         return clause;
       })
       .filter(Boolean)
-      .join(" AND ") || "1=1"
-  );
+      .join(" AND ") || "1=1";
+
+  // encode where clause for item.properties
+  return encodeURIComponent(whereClause);
 }
