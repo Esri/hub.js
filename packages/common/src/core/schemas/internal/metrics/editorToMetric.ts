@@ -49,7 +49,7 @@ export function editorToMetric(
           type: "service-query",
           serviceUrl,
           layerId,
-          field: encodeURIComponent(field),
+          field,
           statistic: statistic as ServiceAggregation,
           where: legacyWhere
             ? legacyWhere
