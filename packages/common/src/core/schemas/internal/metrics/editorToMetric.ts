@@ -194,6 +194,5 @@ export function buildWhereClause(expressionSet: IExpression[] = []): string {
       .filter(Boolean)
       .join(" AND ") || "1=1";
 
-  // encode where clause for item.properties
   return encodeURIComponent(whereClause);
 }

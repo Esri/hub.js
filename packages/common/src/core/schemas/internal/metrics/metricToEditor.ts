@@ -34,12 +34,10 @@ export function metricToEditor(
 
     switch (metricType) {
       case "service-query":
-        const { where, ...source } = metric.source as IServiceQueryMetricSource;
         editor = {
           type: "dynamic",
           dynamicMetric: {
-            ...source,
-            where: decodeURIComponent(where),
+            ...(metric.source as IServiceQueryMetricSource),
             itemId,
             expressionSet,
             allowExpressionSet,
