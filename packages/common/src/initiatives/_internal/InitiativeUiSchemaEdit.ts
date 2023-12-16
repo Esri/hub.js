@@ -240,7 +240,7 @@ export const buildUiSchema = async (
           },
         ],
       },
-      // Feature Content - Hidden for MVP
+      // Feature Content - hiding for MVP
       // {
       //   type: "Section",
       //   labelKey: `${i18nScope}.sections.featuredContent.label`,
