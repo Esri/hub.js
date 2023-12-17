@@ -146,46 +146,6 @@ export const buildUiSchema = async (
               },
             },
           },
-          getThumbnailUiSchemaElement(
-            i18nScope,
-            options.thumbnail,
-            options.thumbnailUrl
-          ),
-          {
-            labelKey: `${i18nScope}.fields.tags.label`,
-            scope: "/properties/tags",
-            type: "Control",
-            options: {
-              control: "hub-field-input-combobox",
-              items: await getTagItems(
-                options.tags,
-                context.portal.id,
-                context.hubRequestOptions
-              ),
-              allowCustomValues: true,
-              selectionMode: "multiple",
-              placeholderIcon: "label",
-              helperText: { labelKey: `${i18nScope}.fields.tags.helperText` },
-            },
-          },
-          {
-            labelKey: `${i18nScope}.fields.categories.label`,
-            scope: "/properties/categories",
-            type: "Control",
-            options: {
-              control: "hub-field-input-combobox",
-              items: await getCategoryItems(
-                context.portal.id,
-                context.hubRequestOptions
-              ),
-              allowCustomValues: false,
-              selectionMode: "multiple",
-              placeholderIcon: "select-category",
-              helperText: {
-                labelKey: `${i18nScope}.fields.categories.helperText`,
-              },
-            },
-          },
         ],
       },
       {
@@ -219,6 +179,52 @@ export const buildUiSchema = async (
       },
       {
         type: "Section",
+        labelKey: `${i18nScope}.sections.searchDiscoverability.label`,
+        elements: [
+          {
+            labelKey: `${i18nScope}.fields.categories.label`,
+            scope: "/properties/categories",
+            type: "Control",
+            options: {
+              control: "hub-field-input-combobox",
+              items: await getCategoryItems(
+                context.portal.id,
+                context.hubRequestOptions
+              ),
+              allowCustomValues: false,
+              selectionMode: "multiple",
+              placeholderIcon: "select-category",
+              helperText: {
+                labelKey: `${i18nScope}.fields.categories.helperText`,
+              },
+            },
+          },
+          {
+            labelKey: `${i18nScope}.fields.tags.label`,
+            scope: "/properties/tags",
+            type: "Control",
+            options: {
+              control: "hub-field-input-combobox",
+              items: await getTagItems(
+                options.tags,
+                context.portal.id,
+                context.hubRequestOptions
+              ),
+              allowCustomValues: true,
+              selectionMode: "multiple",
+              placeholderIcon: "label",
+              helperText: { labelKey: `${i18nScope}.fields.tags.helperText` },
+            },
+          },
+          getThumbnailUiSchemaElement(
+            i18nScope,
+            options.thumbnail,
+            options.thumbnailUrl
+          ),
+        ],
+      },
+      {
+        type: "Section",
         labelKey: `${i18nScope}.sections.status.label`,
         elements: [
           {
@@ -234,45 +240,46 @@ export const buildUiSchema = async (
           },
         ],
       },
-      {
-        type: "Section",
-        labelKey: `${i18nScope}.sections.featuredContent.label`,
-        options: {
-          helperText: {
-            labelKey: `${i18nScope}.sections.featuredContent.helperText`,
-          },
-        },
-        elements: [
-          {
-            scope: "/properties/view/properties/featuredContentIds",
-            type: "Control",
-            options: {
-              control: "hub-field-input-gallery-picker",
-              targetEntity: "item",
-              catalogs: getFeaturedContentCatalogs(context.currentUser),
-              facets: [
-                {
-                  label: `{{${i18nScope}.fields.featuredContent.facets.type:translate}}`,
-                  key: "type",
-                  display: "multi-select",
-                  field: "type",
-                  options: [],
-                  operation: "OR",
-                  aggLimit: 100,
-                },
-                {
-                  label: `{{${i18nScope}.fields.featuredContent.facets.sharing:translate}}`,
-                  key: "access",
-                  display: "multi-select",
-                  field: "access",
-                  options: [],
-                  operation: "OR",
-                },
-              ],
-            },
-          },
-        ],
-      },
+      // Feature Content - hiding for MVP
+      // {
+      //   type: "Section",
+      //   labelKey: `${i18nScope}.sections.featuredContent.label`,
+      //   options: {
+      //     helperText: {
+      //       labelKey: `${i18nScope}.sections.featuredContent.helperText`,
+      //     },
+      //   },
+      //   elements: [
+      //     {
+      //       scope: "/properties/view/properties/featuredContentIds",
+      //       type: "Control",
+      //       options: {
+      //         control: "hub-field-input-gallery-picker",
+      //         targetEntity: "item",
+      //         catalogs: getFeaturedContentCatalogs(context.currentUser),
+      //         facets: [
+      //           {
+      //             label: `{{${i18nScope}.fields.featuredContent.facets.type:translate}}`,
+      //             key: "type",
+      //             display: "multi-select",
+      //             field: "type",
+      //             options: [],
+      //             operation: "OR",
+      //             aggLimit: 100,
+      //           },
+      //           {
+      //             label: `{{${i18nScope}.fields.featuredContent.facets.sharing:translate}}`,
+      //             key: "access",
+      //             display: "multi-select",
+      //             field: "access",
+      //             options: [],
+      //             operation: "OR",
+      //           },
+      //         ],
+      //       },
+      //     },
+      //   ],
+      // },
     ],
   };
 };
