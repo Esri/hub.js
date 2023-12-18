@@ -66,9 +66,6 @@ export const buildUiSchema = async (
             options: {
               control: "hub-field-input-rich-text",
               type: "textarea",
-              helperText: {
-                labelKey: `${i18nScope}.fields.description.helperText`,
-              },
             },
           },
           {

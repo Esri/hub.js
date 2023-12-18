@@ -61,9 +61,6 @@ describe("buildUiSchema: group edit", () => {
               options: {
                 control: "hub-field-input-rich-text",
                 type: "textarea",
-                helperText: {
-                  labelKey: "some.scope.fields.description.helperText",
-                },
               },
             },
             {
