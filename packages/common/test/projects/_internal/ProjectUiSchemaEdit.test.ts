@@ -96,8 +96,6 @@ describe("buildUiSchema: project edit", () => {
                 helperText: {
                   labelKey: "some.scope.fields.description.helperText",
                 },
-                toolbar:
-                  "heading,|,bold,italic,blockQuote,removeFormat,link,|,bulletedList,numberedList,alignment,outdent,indent,|,undo,redo",
               },
             },
             {
@@ -409,8 +407,6 @@ describe("buildUiSchema: project edit", () => {
                 helperText: {
                   labelKey: "some.scope.fields.description.helperText",
                 },
-                toolbar:
-                  "heading,|,bold,italic,blockQuote,removeFormat,link,|,bulletedList,numberedList,alignment,outdent,indent,|,undo,redo",
               },
             },
             {

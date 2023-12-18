@@ -79,8 +79,6 @@ export const buildUiSchema = async (
               helperText: {
                 labelKey: `${i18nScope}.fields.description.helperText`,
               },
-              toolbar:
-                "heading,|,bold,italic,blockQuote,removeFormat,link,|,bulletedList,numberedList,alignment,outdent,indent,|,undo,redo",
             },
           },
           {
