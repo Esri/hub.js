@@ -1,3 +1,10 @@
+# @esri/hub-common [14.72.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.71.3...@esri/hub-common@14.72.0) (2023-12-18)
+
+
+### Features
+
+* description fields to rich text ([#1366](https://github.com/Esri/hub.js/issues/1366)) ([1dec16f](https://github.com/Esri/hub.js/commit/1dec16fa404795d683577eaa3a7494e0b8c831e0))
+
 ## @esri/hub-common [14.71.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.71.2...@esri/hub-common@14.71.3) (2023-12-18)
 
 
