@@ -97,8 +97,6 @@ describe("buildUiSchema: initiative edit", () => {
                 helperText: {
                   labelKey: "some.scope.fields.description.helperText",
                 },
-                toolbar:
-                  "heading,|,bold,italic,blockQuote,removeFormat,link,|,bulletedList,numberedList,alignment,outdent,indent,|,undo,redo",
               },
             },
             {
@@ -389,8 +387,6 @@ describe("buildUiSchema: initiative edit", () => {
                 helperText: {
                   labelKey: "some.scope.fields.description.helperText",
                 },
-                toolbar:
-                  "heading,|,bold,italic,blockQuote,removeFormat,link,|,bulletedList,numberedList,alignment,outdent,indent,|,undo,redo",
               },
             },
             {
