@@ -1,3 +1,10 @@
+## @esri/hub-common [14.71.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.71.2...@esri/hub-common@14.71.3) (2023-12-18)
+
+
+### Bug Fixes
+
+* reorder fields in initiative editor, hide featured content for MVP ([#1364](https://github.com/Esri/hub.js/issues/1364)) ([dae8911](https://github.com/Esri/hub.js/commit/dae89116b37535a7f2a62e256eb68a3f6714e0e0))
+
 ## @esri/hub-common [14.71.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.71.1...@esri/hub-common@14.71.2) (2023-12-14)
 
 
