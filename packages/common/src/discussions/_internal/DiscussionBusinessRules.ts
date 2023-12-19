@@ -74,7 +74,6 @@ export const DiscussionPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:discussion:workspace:settings",
     dependencies: ["hub:discussion:edit"],
-    entityOwner: true,
   },
   {
     permission: "hub:discussion:workspace:collaborators",
