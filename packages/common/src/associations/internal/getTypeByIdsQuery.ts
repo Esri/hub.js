@@ -2,15 +2,23 @@ import { getEntityTypeFromType } from "../../search/_internal/getEntityTypeFromT
 import { IQuery } from "../../search/types/IHubCatalog";
 
 /**
- * Get a query that can be used in a Gallery, and will return the associated
- * entities, based on the AssociationType
+ * @private
+ * Construct an IQuery to fetch a specified set of item id(s)
+ * by type(s). Note: if an array of types is provided, they
+ * must be the same underlying target entity type.
  *
- * @param entity
- * @param type
- * @returns
+ * @param itemType - a single item type or an array of item types
+ * @param ids - an array of ids
+ * @returns {IQuery}
  */
-export function getTypeByIdsQuery(itemType: string, ids: string[]): IQuery {
-  const targetEntity = getEntityTypeFromType(itemType);
+export function getTypeByIdsQuery(
+  itemType: string | string[],
+  ids: string[]
+): IQuery {
+  const targetEntity =
+    typeof itemType === "string"
+      ? getEntityTypeFromType(itemType)
+      : getEntityTypeFromType(itemType[0]);
 
   const qry: IQuery = {
     targetEntity,
@@ -20,7 +28,7 @@ export function getTypeByIdsQuery(itemType: string, ids: string[]): IQuery {
         predicates: [
           {
             type: itemType,
-            id: [...ids],
+            id: ids,
           },
         ],
       },
