@@ -1,3 +1,10 @@
+## @esri/hub-common [14.72.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.72.0...@esri/hub-common@14.72.1) (2023-12-19)
+
+
+### Bug Fixes
+
+* tempoarily remove call to action from project edit uiSchema ([#1367](https://github.com/Esri/hub.js/issues/1367)) ([b8175be](https://github.com/Esri/hub.js/commit/b8175bef0fdfa328b105717d8f3f471072d120c3))
+
 # @esri/hub-common [14.72.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.71.3...@esri/hub-common@14.72.0) (2023-12-18)
 
 
