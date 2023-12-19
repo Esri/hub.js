@@ -1,3 +1,10 @@
+## @esri/hub-common [14.72.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.72.1...@esri/hub-common@14.72.2) (2023-12-19)
+
+
+### Bug Fixes
+
+* **hub-common:** enables discussions settings pane for users with edi… ([#1368](https://github.com/Esri/hub.js/issues/1368)) ([714b979](https://github.com/Esri/hub.js/commit/714b979c7d0db841ad5f5d4664be2a46d402ee44))
+
 ## @esri/hub-common [14.72.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.72.0...@esri/hub-common@14.72.1) (2023-12-19)
 
 
