@@ -259,7 +259,7 @@ export const buildUiSchema = async (
           },
         ],
       },
-      // NOTE: temporarily commenting out for release
+      // NOTE: temporarily commenting out for release.
       // {
       //   type: "Section",
       //   labelKey: `${i18nScope}.sections.callToAction.label`,
