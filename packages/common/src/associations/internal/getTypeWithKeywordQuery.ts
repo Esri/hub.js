@@ -8,8 +8,8 @@ import { IQuery } from "../../search/types/IHubCatalog";
  * is provided, they must be the same underlying target
  * entity type.
  *
- * @param itemType
- * @param keyword
+ * @param itemType - The type(s) of item to fetch
+ * @param keyword - The typeKeyword to filter by
  * @returns
  */
 export function getTypeWithKeywordQuery(
