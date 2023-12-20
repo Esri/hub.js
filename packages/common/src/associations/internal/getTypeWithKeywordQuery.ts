@@ -3,17 +3,23 @@ import { IQuery } from "../../search/types/IHubCatalog";
 
 /**
  * @private
- * Return an `IQuery` for a specific item type, with a specific typekeyword
- * This is used internally to build queries for "Connected" entities
+ * Construct an IQuery to fetch a set of items by type(s)
+ * with a specified typeKeyword. Note: if an array of types
+ * is provided, they must be the same underlying target
+ * entity type.
+ *
  * @param itemType
  * @param keyword
  * @returns
  */
 export function getTypeWithKeywordQuery(
-  itemType: string,
+  itemType: string | string[],
   keyword: string
 ): IQuery {
-  const targetEntity = getEntityTypeFromType(itemType);
+  const targetEntity =
+    typeof itemType === "string"
+      ? getEntityTypeFromType(itemType)
+      : getEntityTypeFromType(itemType[0]);
 
   return {
     targetEntity,
