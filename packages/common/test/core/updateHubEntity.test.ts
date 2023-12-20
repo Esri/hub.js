@@ -100,4 +100,15 @@ describe("updateHubEntity:", () => {
     await updateHubEntity("initiativeTemplate", {} as HubEntity, ctx);
     expect(spy).toHaveBeenCalledWith({}, "fakeRequestOptions");
   });
+  it("updates group", async () => {
+    const ctx = {
+      requestOptions: "fakeRequestOptions",
+    } as unknown as IArcGISContext;
+    const spy = spyOn(
+      require("../../src/groups/HubGroups"),
+      "updateHubGroup"
+    ).and.returnValue(Promise.resolve({}));
+    await updateHubEntity("group", {} as HubEntity, ctx);
+    expect(spy).toHaveBeenCalledWith({}, "fakeRequestOptions");
+  });
 });
