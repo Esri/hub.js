@@ -11,7 +11,7 @@ import { HubEntityType } from "../../core/types";
  * @returns {string[]}
  */
 export function setAssociationKeyword(
-  typeKeywords: string[] = [],
+  typeKeywords: string[],
   type: HubEntityType,
   id: string
 ): string[] {
