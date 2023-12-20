@@ -1,7 +1,7 @@
 import { setAssociationKeyword } from "../../../src/associations/internal/setAssociationKeyword";
 
 describe("setAssociationKeyword:", () => {
-  it("adds association keyword", () => {
+  it("adds an association keyword", () => {
     const chk = setAssociationKeyword(["someKeyword"], "initiative", "123");
     expect(chk[1]).toBe("ref|initiative|123");
   });
