@@ -29,7 +29,7 @@ export function getTypeWithKeywordQuery(
         predicates: [
           {
             type: itemType,
-            typekeywords: keyword,
+            typekeywords: [keyword],
           },
         ],
       },

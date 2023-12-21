@@ -12,7 +12,7 @@ describe("getTypeWithKeywordQuery:", () => {
     const chk = getTypeWithKeywordQuery("Hub Project", "foo|00c");
 
     expect(chk.filters[0].predicates[0].type).toBe("Hub Project");
-    expect(chk.filters[0].predicates[0].typekeywords).toEqual("foo|00c");
+    expect(chk.filters[0].predicates[0].typekeywords).toEqual(["foo|00c"]);
   });
   it("constructs a query for multiple types and a single typeKeyword", () => {
     const chk = getTypeWithKeywordQuery(
@@ -24,6 +24,6 @@ describe("getTypeWithKeywordQuery:", () => {
       "Hub Project",
       "Hub Initiative",
     ]);
-    expect(chk.filters[0].predicates[0].typekeywords).toEqual("foo|00c");
+    expect(chk.filters[0].predicates[0].typekeywords).toEqual(["foo|00c"]);
   });
 });
