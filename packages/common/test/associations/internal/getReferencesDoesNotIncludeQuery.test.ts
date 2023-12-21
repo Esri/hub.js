@@ -21,7 +21,7 @@ describe("getReferencesDoesNotIncludeQuery:", () => {
             predicates: [
               {
                 type: ["Hub Project"],
-                typekeywords: "ref|initiative|parent-00a",
+                typekeywords: ["ref|initiative|parent-00a"],
               },
             ],
           },

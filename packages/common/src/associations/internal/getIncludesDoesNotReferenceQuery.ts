@@ -17,7 +17,7 @@ import { getIdsFromAssociationGroups } from "./getIdsFromAssociationGroups";
  *
  * @param entity - Hub entity
  * @param associationType - entity type to query for
- * @param isParent - whether the entity is the parent in the association
+ * @param isParent - whether the provided Hub entity is the parent in the association relationship
  * @param context - contextual auth and portal information
  * @returns {IQuery}
  */
@@ -29,8 +29,8 @@ export const getIncludesDoesNotReferenceQuery = async (
 ): Promise<IQuery> => {
   if (isParent) {
     /**
-     * 1. build query that returns child entities WITHOUT the
-     * parent's association typeKeyword
+     * 1. build query that returns child entities WITHOUT a
+     * typeKeyword reference to the parent
      */
     const parentType = getTypeFromEntity(entity);
     const referencedQuery = getTypeWithoutKeywordQuery(

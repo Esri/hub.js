@@ -30,8 +30,8 @@ export const getReferencesDoesNotIncludeQuery = async (
 ): Promise<IQuery> => {
   if (isParent) {
     /**
-     * 1. build query that returns child entities WITH the
-     * parent's association typeKeyword
+     * 1. build query that returns child entities WITH a
+     * typeKeyword reference to the parent
      */
     const parentType = getTypeFromEntity(entity);
     const referencedQuery = getTypeWithKeywordQuery(
