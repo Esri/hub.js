@@ -47,7 +47,7 @@ export const getIncludesDoesNotReferenceQuery = async (
     /** 1. fetch the groups a child has been shared with */
     const { admin, member, other } = await getItemGroups(
       entity.id,
-      context?.requestOptions
+      context.requestOptions
     );
     const groupsChildIsSharedWith = [...admin, ...member, ...other];
 
