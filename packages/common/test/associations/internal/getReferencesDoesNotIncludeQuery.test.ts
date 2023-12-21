@@ -1,3 +1,4 @@
+import { cloneObject } from "../../../src";
 import { IArcGISContext } from "../../../src/ArcGISContext";
 import { getReferencesDoesNotIncludeQuery } from "../../../src/associations/internal/getReferencesDoesNotIncludeQuery";
 import { MOCK_PARENT_ENTITY, MOCK_CHILD_ENTITY } from "../fixtures";
@@ -43,6 +44,10 @@ describe("getReferencesDoesNotIncludeQuery:", () => {
         })
       );
     });
+    afterEach(() => {
+      getItemGroupsSpy.calls.reset();
+    });
+
     it("returns a valid IQuery to fetch parent entities", async () => {
       const query = await getReferencesDoesNotIncludeQuery(
         MOCK_CHILD_ENTITY,
@@ -69,9 +74,10 @@ describe("getReferencesDoesNotIncludeQuery:", () => {
       });
     });
     it("returns null when the child doesn't reference any parents", async () => {
-      MOCK_CHILD_ENTITY.typeKeywords = [];
+      const child = cloneObject(MOCK_CHILD_ENTITY);
+      child.typeKeywords = [];
       const query = await getReferencesDoesNotIncludeQuery(
-        MOCK_CHILD_ENTITY,
+        child,
         "initiative",
         false,
         { requestOptions: {} } as IArcGISContext

@@ -1,3 +1,4 @@
+import { cloneObject } from "../../../src";
 import { IArcGISContext } from "../../../src/ArcGISContext";
 import { getIncludesAndReferencesQuery } from "../../../src/associations/internal/getIncludesAndReferencesQuery";
 import { MOCK_PARENT_ENTITY, MOCK_CHILD_ENTITY } from "../fixtures";
@@ -89,9 +90,10 @@ describe("getIncludesAndReferencesQuery:", () => {
           other: [],
         })
       );
-      MOCK_CHILD_ENTITY.typeKeywords = [];
+      const child = cloneObject(MOCK_CHILD_ENTITY);
+      child.typeKeywords = [];
       const query = await getIncludesAndReferencesQuery(
-        MOCK_CHILD_ENTITY,
+        child,
         "initiative",
         false,
         { requestOptions: {} } as IArcGISContext
