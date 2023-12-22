@@ -24,7 +24,7 @@ export function getTypeByIdsQuery(
     targetEntity,
     filters: [
       {
-        operation: "AND",
+        ...(ids.length && { operation: "AND" }),
         predicates: [
           {
             type: itemType,

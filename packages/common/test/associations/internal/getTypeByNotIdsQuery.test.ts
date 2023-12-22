@@ -12,6 +12,7 @@ describe("getTypeByNotIdsQuery:", () => {
     const chk = getTypeByNotIdsQuery("Hub Project", []);
 
     expect(chk.filters[0].predicates[0].type).toBe("Hub Project");
+    expect(chk.filters[0].operation).toBeUndefined();
     expect(chk.filters[0].predicates[0].id).toBeUndefined();
   });
   it("constructs a query for a single type and multiple ids", () => {
