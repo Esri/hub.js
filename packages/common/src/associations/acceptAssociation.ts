@@ -1,6 +1,6 @@
 import { IArcGISContext } from "../ArcGISContext";
 import { HubEntity, HubEntityType } from "../core/types";
-import { requestAssociation } from "./requestAssociation";
+import { requestAssociation } from ".";
 
 /**
  * When an entity accepts an "incoming" association request,
@@ -27,5 +27,5 @@ export const acceptAssociation = async (
   id: string,
   context: IArcGISContext
 ): Promise<void> => {
-  await requestAssociation(entity, type, id, context);
+  return requestAssociation(entity, type, id, context);
 };

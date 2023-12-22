@@ -1,13 +1,13 @@
 import { ArcGISContext } from "../../src/ArcGISContext";
 import { acceptAssociation } from "../../src/associations/acceptAssociation";
 import { MOCK_PARENT_ENTITY } from "./fixtures";
-import * as RequestAssociationModule from "../../src/associations/requestAssociation";
+import * as AssociationsModule from "../../src/associations";
 
 describe("acceptAssociation", () => {
   let requestAssociation: jasmine.Spy;
   beforeEach(() => {
     requestAssociation = spyOn(
-      RequestAssociationModule,
+      AssociationsModule,
       "requestAssociation"
     ).and.returnValue(Promise.resolve());
   });
