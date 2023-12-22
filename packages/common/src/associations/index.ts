@@ -1,3 +1,4 @@
+export * from "./acceptAssociation";
 export * from "./addAssociation";
 export * from "./listAssociations";
 export * from "./removeAssociation";
