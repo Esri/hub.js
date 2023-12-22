@@ -7,3 +7,4 @@ export * from "./getAvailableToRequestEntitiesQuery";
 export * from "./getPendingEntitiesQuery";
 export * from "./getRequestingEntitiesQuery";
 export * from "./getWellKnownAssociationsCatalog";
+export * from "./requestAssociation";
