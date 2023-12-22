@@ -63,7 +63,7 @@ export const getIncludesDoesNotReferenceQuery = async (
 
     /**
      * 3. iterate over the child's typeKeywords and grab the parent
-     * ids they reference (typeKeyword = <associationType>|<id>)
+     * ids it references (typeKeyword = <associationType>|<id>)
      */
     const parentIdsChildReferences = getIdsFromKeywords(
       entity,

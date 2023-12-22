@@ -39,21 +39,16 @@ export const getReferencesDoesNotIncludeQuery = async (
       `ref|${parentType}|${entity.id}`
     );
 
-    /** 2. grab the parent's association query */
-    const includedQuery = getProp(entity, "associations.rules.query");
-
     /**
-     * 3. negate the predicates in the association query + combine
-     * queries - will remove null/undefined entries
-     *
-     * TODO: in the future, we will need a function to negate all
-     * predicates in the association query - for now, the query
-     * only specifies an association group, so this will work
+     * 2. grab the parent's association query and negate
+     * the group predicate
      */
-    return combineQueries([
-      referencedQuery,
-      negateGroupPredicates(includedQuery),
-    ]);
+    const notIncludedQuery = negateGroupPredicates(
+      getProp(entity, "associations.rules.query")
+    );
+
+    /** 3. combine queries - will remove null/undefined entries */
+    return combineQueries([referencedQuery, notIncludedQuery]);
   } else {
     /** 1. fetch the groups a child has been shared with */
     const { admin, member, other } = await getItemGroups(
@@ -74,7 +69,7 @@ export const getReferencesDoesNotIncludeQuery = async (
 
     /**
      * 3. iterate over the child's typeKeywords and grab the parent
-     * ids they reference (typeKeyword = <associationType>|<id>)
+     * ids it references (typeKeyword = <associationType>|<id>)
      */
     const parentIdsChildReferences = getIdsFromKeywords(
       entity,
