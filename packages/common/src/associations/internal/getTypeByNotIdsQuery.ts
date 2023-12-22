@@ -28,7 +28,7 @@ export function getTypeByNotIdsQuery(
         predicates: [
           {
             type: itemType,
-            id: { not: ids },
+            ...(ids.length && { id: { not: ids } }),
           },
         ],
       },

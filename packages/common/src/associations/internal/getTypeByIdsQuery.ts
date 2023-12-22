@@ -28,7 +28,7 @@ export function getTypeByIdsQuery(
         predicates: [
           {
             type: itemType,
-            id: ids,
+            ...(ids.length && { id: ids }),
           },
         ],
       },

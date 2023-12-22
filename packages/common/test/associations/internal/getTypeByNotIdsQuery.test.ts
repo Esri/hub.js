@@ -8,6 +8,12 @@ describe("getTypeByNotIdsQuery:", () => {
     expect(chk.filters.length).toBe(1);
     expect(chk.filters[0].predicates.length).toBe(1);
   });
+  it("constructs a query when no ids are provided", () => {
+    const chk = getTypeByNotIdsQuery("Hub Project", []);
+
+    expect(chk.filters[0].predicates[0].type).toBe("Hub Project");
+    expect(chk.filters[0].predicates[0].id).toBeUndefined();
+  });
   it("constructs a query for a single type and multiple ids", () => {
     const chk = getTypeByNotIdsQuery("Hub Project", ["a", "b"]);
 
