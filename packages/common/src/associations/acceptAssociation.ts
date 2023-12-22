@@ -1,6 +1,6 @@
 import { IArcGISContext } from "../ArcGISContext";
 import { HubEntity, HubEntityType } from "../core/types";
-import { requestAssociation } from "../associations/requestAssociation";
+import { requestAssociation } from "./requestAssociation";
 
 /**
  * When an entity accepts an "incoming" association request,
