@@ -13,6 +13,7 @@ describe("getPendingEntitiesQuery:", () => {
     await getPendingEntitiesQuery(MOCK_PARENT_ENTITY, "project", {
       requestOptions: {},
     } as IArcGISContext);
+
     expect(getIncludesDoesNotReferenceQuerySpy).toHaveBeenCalledTimes(1);
     expect(getIncludesDoesNotReferenceQuerySpy).toHaveBeenCalledWith(
       MOCK_PARENT_ENTITY,
@@ -29,6 +30,7 @@ describe("getPendingEntitiesQuery:", () => {
     await getPendingEntitiesQuery(MOCK_CHILD_ENTITY, "initiative", {
       requestOptions: {},
     } as IArcGISContext);
+
     expect(getReferencesDoesNotIncludeQuerySpy).toHaveBeenCalledTimes(1);
     expect(getReferencesDoesNotIncludeQuerySpy).toHaveBeenCalledWith(
       MOCK_CHILD_ENTITY,
