@@ -1,8 +1,9 @@
 import { HubEntityType } from "./types";
 
 /**
- * Given a Hub entity type, return its item type(s).
- * This is effectively the reverse of getTypeFromEntity
+ * return the item type(s) associated with a provided
+ * Hub entity type. This is effectively the reverse of
+ * getTypeFromEntity
  *
  * @param entityType - the hub entity type
  * @returns {string[]}
