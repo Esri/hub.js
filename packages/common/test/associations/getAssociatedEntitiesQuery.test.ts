@@ -3,15 +3,16 @@ import { getAssociatedEntitiesQuery } from "../../src/associations/getAssociated
 import { MOCK_PARENT_ENTITY } from "./fixtures";
 import * as AssociationsModule from "../../src/associations/internal/getIncludesAndReferencesQuery";
 
-describe("getAssociatedEntitiesQuery", () => {
+describe("getAssociatedEntitiesQuery:", () => {
   it("delegates to getIncludesAndReferencesQuery", async () => {
     const getIncludesAndReferencesQuerySpy = spyOn(
       AssociationsModule,
       "getIncludesAndReferencesQuery"
-    ).and.callThrough();
+    ).and.returnValue(Promise.resolve());
     await getAssociatedEntitiesQuery(MOCK_PARENT_ENTITY, "project", {
       requestOptions: {},
     } as IArcGISContext);
+
     expect(getIncludesAndReferencesQuerySpy).toHaveBeenCalledTimes(1);
     expect(getIncludesAndReferencesQuerySpy).toHaveBeenCalledWith(
       MOCK_PARENT_ENTITY,
