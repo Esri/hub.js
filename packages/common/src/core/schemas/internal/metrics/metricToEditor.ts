@@ -51,6 +51,7 @@ export function metricToEditor(
         editor = {
           type: "static",
           value: (metric.source as IStaticValueMetricSource).value,
+          valueType: (metric.source as IStaticValueMetricSource).valueType,
           ...editor,
         };
         break;

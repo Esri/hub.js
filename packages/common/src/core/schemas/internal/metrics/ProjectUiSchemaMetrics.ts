@@ -78,6 +78,19 @@ export const buildUiSchema = (
             },
           },
           {
+            scope: "/properties/_metric/properties/valueType",
+            type: "Control",
+            labelKey: `${i18nScope}.fields.metrics.valueType.label`,
+            rule: SHOW_FOR_STATIC_RULE_ENTITY,
+            options: {
+              control: "hub-field-input-tile-select",
+              layout: "horizontal",
+              enum: {
+                i18nScope: `${i18nScope}.fields.metrics.valueType.enum`,
+              },
+            },
+          },
+          {
             scope: "/properties/_metric/properties/dynamicMetric",
             type: "Control",
             labelKey: `${i18nScope}.fields.metrics.dynamicMetric.label`,
