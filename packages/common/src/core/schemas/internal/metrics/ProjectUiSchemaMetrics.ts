@@ -85,6 +85,10 @@ export const buildUiSchema = (
             options: {
               control: "hub-field-input-tile-select",
               layout: "horizontal",
+              helperText: {
+                labelKey: `${i18nScope}.fields.metrics.valueType.helperText`,
+                placement: "bottom",
+              },
               enum: {
                 i18nScope: `${i18nScope}.fields.metrics.valueType.enum`,
               },
