@@ -9,23 +9,23 @@ import { requestAssociation } from ".";
  * from the parent's perspective: the parent "includes"
  * the child in its association group
  *
- * From the child's perspective: the child "identifies"
- * with the parent via a typeKeyword (parent|:id)
+ * From the child's perspective: the child "references"
+ * the parent via a typeKeyword of the form ref|<parentType>|<parentID>
  *
  * Note: functionally this is equivalent to requestAssociation,
  * and we delegate accordingly. We expose this function purely
  * for syntax/clarity purposes
  *
  * @param entity - entity requesting association
- * @param type - type of the entity the requesting entity wants to associate with
+ * @param associationType - type of the entity the requesting entity wants to associate with
  * @param id - id of the entity the requesting entity wants to associate with
  * @param context - contextual portal and auth information
  */
 export const acceptAssociation = async (
   entity: HubEntity,
-  type: HubEntityType,
+  associationType: HubEntityType,
   id: string,
   context: IArcGISContext
 ): Promise<void> => {
-  return requestAssociation(entity, type, id, context);
+  return requestAssociation(entity, associationType, id, context);
 };

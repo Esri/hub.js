@@ -17,8 +17,7 @@ import { updateHubEntity } from "../core/updateHubEntity";
  * the child in its association group
  *
  * From the child's perspective: the child "references"
- * the parent via a typeKeyword of the form
- * ref|<parentType>|<parentId>
+ * the parent via a typeKeyword of the form ref|<parentType>|<parentId>
  *
  * @param entity - entity requesting association
  * @param type - type of the entity the requesting entity wants to associate with
