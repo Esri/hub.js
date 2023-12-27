@@ -2,6 +2,9 @@ import { IWithAssociations } from "../core/traits/IWithAssociations";
 import { IAssociationInfo } from "./types";
 
 /**
+ * ** DEPRECATED: please use breakAssociation instead.
+ * This will be removed in next breaking version **
+ *
  * Remove an association from an entity
  * @param info
  * @param entity
