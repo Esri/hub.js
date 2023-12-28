@@ -189,7 +189,7 @@ describe("content editing:", () => {
     });
     it("updates the hosted service if configurations have changed", async () => {
       const currentDefinition: Partial<featureLayerModule.IFeatureServiceDefinition> =
-        { capabilities: "Query" };
+        { currentVersion: 11.2, capabilities: "Query" };
       getServiceSpy.and.returnValue(Promise.resolve(currentDefinition));
 
       const content: IHubEditableContent = {

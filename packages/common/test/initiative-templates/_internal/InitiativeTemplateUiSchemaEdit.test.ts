@@ -94,7 +94,7 @@ describe("buildUiSchema: initiative template edit", () => {
               scope: "/properties/description",
               labelKey: `some.scope.fields.description.label`,
               options: {
-                control: "hub-field-input-input",
+                control: "hub-field-input-rich-text",
                 type: "textarea",
                 helperText: {
                   labelKey: "some.scope.fields.description.helperText",

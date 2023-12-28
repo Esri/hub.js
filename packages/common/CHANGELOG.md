@@ -1,3 +1,100 @@
+## @esri/hub-common [14.72.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.72.1...@esri/hub-common@14.72.2) (2023-12-19)
+
+
+### Bug Fixes
+
+* **hub-common:** enables discussions settings pane for users with edi… ([#1368](https://github.com/Esri/hub.js/issues/1368)) ([714b979](https://github.com/Esri/hub.js/commit/714b979c7d0db841ad5f5d4664be2a46d402ee44))
+
+## @esri/hub-common [14.72.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.72.0...@esri/hub-common@14.72.1) (2023-12-19)
+
+
+### Bug Fixes
+
+* tempoarily remove call to action from project edit uiSchema ([#1367](https://github.com/Esri/hub.js/issues/1367)) ([b8175be](https://github.com/Esri/hub.js/commit/b8175bef0fdfa328b105717d8f3f471072d120c3))
+
+# @esri/hub-common [14.72.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.71.3...@esri/hub-common@14.72.0) (2023-12-18)
+
+
+### Features
+
+* description fields to rich text ([#1366](https://github.com/Esri/hub.js/issues/1366)) ([1dec16f](https://github.com/Esri/hub.js/commit/1dec16fa404795d683577eaa3a7494e0b8c831e0))
+
+## @esri/hub-common [14.71.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.71.2...@esri/hub-common@14.71.3) (2023-12-18)
+
+
+### Bug Fixes
+
+* reorder fields in initiative editor, hide featured content for MVP ([#1364](https://github.com/Esri/hub.js/issues/1364)) ([dae8911](https://github.com/Esri/hub.js/commit/dae89116b37535a7f2a62e256eb68a3f6714e0e0))
+
+## @esri/hub-common [14.71.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.71.1...@esri/hub-common@14.71.2) (2023-12-14)
+
+
+### Bug Fixes
+
+* adds label to site telemetry ui schema section ([#1363](https://github.com/Esri/hub.js/issues/1363)) ([6e29ddc](https://github.com/Esri/hub.js/commit/6e29ddc90373275117600ff023a53ed2f064557e))
+
+## @esri/hub-common [14.71.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.71.0...@esri/hub-common@14.71.1) (2023-12-14)
+
+
+### Bug Fixes
+
+* remove undefined from schemas ([#1362](https://github.com/Esri/hub.js/issues/1362)) ([abd493f](https://github.com/Esri/hub.js/commit/abd493f5468d8ac03a9f5f94ef574fd7c775ae8f))
+
+# @esri/hub-common [14.71.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.70.2...@esri/hub-common@14.71.0) (2023-12-11)
+
+
+### Bug Fixes
+
+* **hub-common:** delete the discussion entity settings before the discussion entity ([#1360](https://github.com/Esri/hub.js/issues/1360)) ([0900a8c](https://github.com/Esri/hub.js/commit/0900a8cee10fef78b6377eada1038912277789c6))
+
+
+### Features
+
+* **hub-common:** adds geometry to search results and new permission policy ([#1348](https://github.com/Esri/hub.js/issues/1348)) ([3c082d5](https://github.com/Esri/hub.js/commit/3c082d5a8b533a8196a12ce4135d40d2ba758ce0))
+
+## @esri/hub-common [14.70.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.70.1...@esri/hub-common@14.70.2) (2023-12-08)
+
+
+### Bug Fixes
+
+* initiative UI schema enhancement ([#1359](https://github.com/Esri/hub.js/issues/1359)) ([df303a3](https://github.com/Esri/hub.js/commit/df303a3df0034a959736090ca24b8b9c0d2f6127))
+
+## @esri/hub-common [14.70.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.70.0...@esri/hub-common@14.70.1) (2023-12-08)
+
+
+### Bug Fixes
+
+* checkPermission uses userHubSettings.preview flags ([#1358](https://github.com/Esri/hub.js/issues/1358)) ([e6ee056](https://github.com/Esri/hub.js/commit/e6ee0562656b89424f3b1763cc907a5b83e4ca81))
+
+# @esri/hub-common [14.70.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.69.1...@esri/hub-common@14.70.0) (2023-12-08)
+
+
+### Features
+
+* initiative/project description fields are rich text ([#1355](https://github.com/Esri/hub.js/issues/1355)) ([02bb6bf](https://github.com/Esri/hub.js/commit/02bb6bf34a904d2a0597ccd05a4c387dbe2a2f95))
+* update projects schema ([#1354](https://github.com/Esri/hub.js/issues/1354)) ([8904324](https://github.com/Esri/hub.js/commit/8904324d537650bb4b575f1feea620f809d04bb1))
+
+## @esri/hub-common [14.69.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.69.0...@esri/hub-common@14.69.1) (2023-12-05)
+
+
+### Bug Fixes
+
+* enable featured image alt text on hub initiative ([#1350](https://github.com/Esri/hub.js/issues/1350)) ([669f0d8](https://github.com/Esri/hub.js/commit/669f0d8eead34d7237ff5c96e194e8c505b9dbdd))
+
+# @esri/hub-common [14.69.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.68.1...@esri/hub-common@14.69.0) (2023-12-05)
+
+
+### Features
+
+* add notices to IUserHubSettings ([#1351](https://github.com/Esri/hub.js/issues/1351)) ([28e15b0](https://github.com/Esri/hub.js/commit/28e15b0a04e5494e98e18764cf2bc3d11d0dcfd6))
+
+## @esri/hub-common [14.68.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.68.0...@esri/hub-common@14.68.1) (2023-12-05)
+
+
+### Bug Fixes
+
+* **hub-common:** use only capabilities key to update extract capability service definition ([#1347](https://github.com/Esri/hub.js/issues/1347)) ([9f6e0f3](https://github.com/Esri/hub.js/commit/9f6e0f3d028a3d8d42503bda94b182943768cf55))
+
 # @esri/hub-common [14.68.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.67.0...@esri/hub-common@14.68.0) (2023-12-04)
 
 

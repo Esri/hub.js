@@ -60,6 +60,15 @@ export const buildUiSchema = async (
             },
           },
           {
+            labelKey: `${i18nScope}.fields.description.label`,
+            scope: "/properties/description",
+            type: "Control",
+            options: {
+              control: "hub-field-input-rich-text",
+              type: "textarea",
+            },
+          },
+          {
             labelKey: `${i18nScope}.fields._thumbnail.label`,
             scope: "/properties/_thumbnail",
             type: "Control",

@@ -17,7 +17,12 @@ import { TemplatePermissions } from "../../templates/_internal/TemplateBusinessR
 // to be used until we release workspaces or it can be replaced with our new access control (permission/feature/capability) system
 const TempPermissions = ["temp:workspace:released"];
 
-const SystemPermissions = ["hub:feature:privacy", "hub:feature:workspace"];
+const SystemPermissions = [
+  "hub:feature:privacy",
+  "hub:feature:workspace",
+  "hub:feature:gallery:map",
+  "hub:feature:user:preferences",
+];
 
 const validPermissions = [
   ...SitePermissions,
