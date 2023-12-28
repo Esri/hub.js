@@ -97,7 +97,7 @@ export const buildUiSchema = async (
             scope: "/properties/description",
             labelKey: `${i18nScope}.fields.description.label`,
             options: {
-              control: "hub-field-input-input",
+              control: "hub-field-input-rich-text",
               type: "textarea",
               helperText: {
                 labelKey: `${i18nScope}.fields.description.helperText`,

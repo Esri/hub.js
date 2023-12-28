@@ -98,7 +98,7 @@ describe("buildUiSchema: initiative create", () => {
                         ],
                         descriptions: [
                           "{{some.scope.fields.hero.map.description:translate}}",
-                          "{{some.scope.fields.hero.map.description:translate}}",
+                          "{{some.scope.fields.hero.image.description:translate}}",
                         ],
                         icons: ["map-pin", "image"],
                       },
@@ -146,9 +146,8 @@ describe("buildUiSchema: initiative create", () => {
                   ],
                 },
                 {
+                  type: "Section",
                   labelKey: "some.scope.fields.featuredImage.label",
-                  scope: "/properties/view/properties/featuredImage",
-                  type: "Control",
                   rule: {
                     effect: UiSchemaRuleEffects.HIDE,
                     condition: {
@@ -156,38 +155,34 @@ describe("buildUiSchema: initiative create", () => {
                       schema: { const: "map" },
                     },
                   },
-                  options: {
-                    control: "hub-field-input-image-picker",
-                    imgSrc: "https://some-image-url.com",
-                    maxWidth: 727,
-                    maxHeight: 484,
-                    aspectRatio: 1.5,
-                    helperText: {
-                      labelKey: "some.scope.fields.featuredImage.helperText",
+                  elements: [
+                    {
+                      scope: "/properties/view/properties/featuredImage",
+                      type: "Control",
+                      options: {
+                        control: "hub-field-input-image-picker",
+                        imgSrc: "https://some-image-url.com",
+                        maxWidth: 727,
+                        maxHeight: 484,
+                        aspectRatio: 1.5,
+                        sizeDescription: {
+                          labelKey:
+                            "some.scope.fields.featuredImage.sizeDescription",
+                        },
+                      },
                     },
-                    sizeDescription: {
-                      labelKey:
-                        "some.scope.fields.featuredImage.sizeDescription",
+                    {
+                      labelKey: "some.scope.fields.featuredImage.altText.label",
+                      scope: "/properties/view/properties/featuredImageAltText",
+                      type: "Control",
+                      options: {
+                        helperText: {
+                          labelKey:
+                            "some.scope.fields.featuredImage.altText.helperText",
+                        },
+                      },
                     },
-                  },
-                },
-                {
-                  labelKey: "some.scope.fields.featuredImage.altText.label",
-                  scope: "/properties/view/properties/featuredImageAltText",
-                  type: "Control",
-                  rule: {
-                    effect: UiSchemaRuleEffects.HIDE,
-                    condition: {
-                      scope: "/properties/view/properties/hero",
-                      schema: { const: "map" },
-                    },
-                  },
-                  options: {
-                    helperText: {
-                      labelKey:
-                        "some.scope.fields.featuredImage.altText.helperText",
-                    },
-                  },
+                  ],
                 },
               ],
             },
@@ -328,7 +323,7 @@ describe("buildUiSchema: initiative create", () => {
                         ],
                         descriptions: [
                           "{{some.scope.fields.hero.map.description:translate}}",
-                          "{{some.scope.fields.hero.map.description:translate}}",
+                          "{{some.scope.fields.hero.image.description:translate}}",
                         ],
                         icons: ["map-pin", "image"],
                       },
@@ -376,9 +371,8 @@ describe("buildUiSchema: initiative create", () => {
                   ],
                 },
                 {
+                  type: "Section",
                   labelKey: "some.scope.fields.featuredImage.label",
-                  scope: "/properties/view/properties/featuredImage",
-                  type: "Control",
                   rule: {
                     effect: UiSchemaRuleEffects.HIDE,
                     condition: {
@@ -386,38 +380,34 @@ describe("buildUiSchema: initiative create", () => {
                       schema: { const: "map" },
                     },
                   },
-                  options: {
-                    control: "hub-field-input-image-picker",
-                    imgSrc: "https://some-image-url.com",
-                    maxWidth: 727,
-                    maxHeight: 484,
-                    aspectRatio: 1.5,
-                    helperText: {
-                      labelKey: "some.scope.fields.featuredImage.helperText",
+                  elements: [
+                    {
+                      scope: "/properties/view/properties/featuredImage",
+                      type: "Control",
+                      options: {
+                        control: "hub-field-input-image-picker",
+                        imgSrc: "https://some-image-url.com",
+                        maxWidth: 727,
+                        maxHeight: 484,
+                        aspectRatio: 1.5,
+                        sizeDescription: {
+                          labelKey:
+                            "some.scope.fields.featuredImage.sizeDescription",
+                        },
+                      },
                     },
-                    sizeDescription: {
-                      labelKey:
-                        "some.scope.fields.featuredImage.sizeDescription",
+                    {
+                      labelKey: "some.scope.fields.featuredImage.altText.label",
+                      scope: "/properties/view/properties/featuredImageAltText",
+                      type: "Control",
+                      options: {
+                        helperText: {
+                          labelKey:
+                            "some.scope.fields.featuredImage.altText.helperText",
+                        },
+                      },
                     },
-                  },
-                },
-                {
-                  labelKey: "some.scope.fields.featuredImage.altText.label",
-                  scope: "/properties/view/properties/featuredImageAltText",
-                  type: "Control",
-                  rule: {
-                    effect: UiSchemaRuleEffects.HIDE,
-                    condition: {
-                      scope: "/properties/view/properties/hero",
-                      schema: { const: "map" },
-                    },
-                  },
-                  options: {
-                    helperText: {
-                      labelKey:
-                        "some.scope.fields.featuredImage.altText.helperText",
-                    },
-                  },
+                  ],
                 },
               ],
             },

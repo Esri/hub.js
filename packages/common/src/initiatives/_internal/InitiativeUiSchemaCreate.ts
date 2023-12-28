@@ -91,7 +91,7 @@ export const buildUiSchema = async (
                       ],
                       descriptions: [
                         `{{${i18nScope}.fields.hero.map.description:translate}}`,
-                        `{{${i18nScope}.fields.hero.map.description:translate}}`,
+                        `{{${i18nScope}.fields.hero.image.description:translate}}`,
                       ],
                       icons: ["map-pin", "image"],
                     },
@@ -148,9 +148,8 @@ export const buildUiSchema = async (
                 ],
               },
               {
+                type: "Section",
                 labelKey: `${i18nScope}.fields.featuredImage.label`,
-                scope: "/properties/view/properties/featuredImage",
-                type: "Control",
                 rule: {
                   effect: UiSchemaRuleEffects.HIDE,
                   condition: {
@@ -158,39 +157,35 @@ export const buildUiSchema = async (
                     schema: { const: "map" },
                   },
                 },
-                options: {
-                  control: "hub-field-input-image-picker",
-                  imgSrc: getAuthedImageUrl(
-                    options.view?.featuredImageUrl,
-                    context.requestOptions
-                  ),
-                  maxWidth: 727,
-                  maxHeight: 484,
-                  aspectRatio: 1.5,
-                  helperText: {
-                    labelKey: `${i18nScope}.fields.featuredImage.helperText`,
+                elements: [
+                  {
+                    scope: "/properties/view/properties/featuredImage",
+                    type: "Control",
+                    options: {
+                      control: "hub-field-input-image-picker",
+                      imgSrc: getAuthedImageUrl(
+                        options.view?.featuredImageUrl,
+                        context.requestOptions
+                      ),
+                      maxWidth: 727,
+                      maxHeight: 484,
+                      aspectRatio: 1.5,
+                      sizeDescription: {
+                        labelKey: `${i18nScope}.fields.featuredImage.sizeDescription`,
+                      },
+                    },
                   },
-                  sizeDescription: {
-                    labelKey: `${i18nScope}.fields.featuredImage.sizeDescription`,
+                  {
+                    labelKey: `${i18nScope}.fields.featuredImage.altText.label`,
+                    scope: "/properties/view/properties/featuredImageAltText",
+                    type: "Control",
+                    options: {
+                      helperText: {
+                        labelKey: `${i18nScope}.fields.featuredImage.altText.helperText`,
+                      },
+                    },
                   },
-                },
-              },
-              {
-                labelKey: `${i18nScope}.fields.featuredImage.altText.label`,
-                scope: "/properties/view/properties/featuredImageAltText",
-                type: "Control",
-                rule: {
-                  effect: UiSchemaRuleEffects.HIDE,
-                  condition: {
-                    scope: "/properties/view/properties/hero",
-                    schema: { const: "map" },
-                  },
-                },
-                options: {
-                  helperText: {
-                    labelKey: `${i18nScope}.fields.featuredImage.altText.helperText`,
-                  },
-                },
+                ],
               },
             ],
           },

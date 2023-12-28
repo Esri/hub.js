@@ -92,7 +92,7 @@ describe("buildUiSchema: initiative edit", () => {
               scope: "/properties/description",
               type: "Control",
               options: {
-                control: "hub-field-input-input",
+                control: "hub-field-input-rich-text",
                 type: "textarea",
                 helperText: {
                   labelKey: "some.scope.fields.description.helperText",
@@ -137,9 +137,6 @@ describe("buildUiSchema: initiative edit", () => {
                 maxWidth: 727,
                 maxHeight: 484,
                 aspectRatio: 1.5,
-                helperText: {
-                  labelKey: `some.scope.fields.featuredImage.helperText`,
-                },
                 sizeDescription: {
                   labelKey: `some.scope.fields.featuredImage.sizeDescription`,
                 },
@@ -159,53 +156,6 @@ describe("buildUiSchema: initiative edit", () => {
               options: {
                 helperText: {
                   labelKey: `some.scope.fields.featuredImage.altText.helperText`,
-                },
-              },
-            },
-            {
-              labelKey: "shared.fields._thumbnail.label",
-              scope: "/properties/_thumbnail",
-              type: "Control",
-              options: {
-                control: "hub-field-input-image-picker",
-                imgSrc: "https://some-thumbnail-url.com",
-                maxWidth: 727,
-                maxHeight: 484,
-                aspectRatio: 1.5,
-                helperText: {
-                  labelKey: "some.scope.fields._thumbnail.helperText",
-                },
-                sizeDescription: {
-                  labelKey: "shared.fields._thumbnail.sizeDescription",
-                },
-                messages: [],
-              },
-            },
-            {
-              labelKey: "some.scope.fields.tags.label",
-              scope: "/properties/tags",
-              type: "Control",
-              options: {
-                control: "hub-field-input-combobox",
-                items: [],
-                allowCustomValues: true,
-                selectionMode: "multiple",
-                placeholderIcon: "label",
-                helperText: { labelKey: "some.scope.fields.tags.helperText" },
-              },
-            },
-            {
-              labelKey: "some.scope.fields.categories.label",
-              scope: "/properties/categories",
-              type: "Control",
-              options: {
-                control: "hub-field-input-combobox",
-                items: [],
-                allowCustomValues: false,
-                selectionMode: "multiple",
-                placeholderIcon: "select-category",
-                helperText: {
-                  labelKey: "some.scope.fields.categories.helperText",
                 },
               },
             },
@@ -233,6 +183,59 @@ describe("buildUiSchema: initiative edit", () => {
         },
         {
           type: "Section",
+          labelKey: "some.scope.sections.searchDiscoverability.label",
+          elements: [
+            {
+              labelKey: "some.scope.fields.categories.label",
+              scope: "/properties/categories",
+              type: "Control",
+              options: {
+                control: "hub-field-input-combobox",
+                items: [],
+                allowCustomValues: false,
+                selectionMode: "multiple",
+                placeholderIcon: "select-category",
+                helperText: {
+                  labelKey: "some.scope.fields.categories.helperText",
+                },
+              },
+            },
+            {
+              labelKey: "some.scope.fields.tags.label",
+              scope: "/properties/tags",
+              type: "Control",
+              options: {
+                control: "hub-field-input-combobox",
+                items: [],
+                allowCustomValues: true,
+                selectionMode: "multiple",
+                placeholderIcon: "label",
+                helperText: { labelKey: "some.scope.fields.tags.helperText" },
+              },
+            },
+            {
+              labelKey: "shared.fields._thumbnail.label",
+              scope: "/properties/_thumbnail",
+              type: "Control",
+              options: {
+                control: "hub-field-input-image-picker",
+                imgSrc: "https://some-thumbnail-url.com",
+                maxWidth: 727,
+                maxHeight: 484,
+                aspectRatio: 1.5,
+                helperText: {
+                  labelKey: "some.scope.fields._thumbnail.helperText",
+                },
+                sizeDescription: {
+                  labelKey: "shared.fields._thumbnail.sizeDescription",
+                },
+                messages: [],
+              },
+            },
+          ],
+        },
+        {
+          type: "Section",
           labelKey: "some.scope.sections.status.label",
           elements: [
             {
@@ -248,47 +251,48 @@ describe("buildUiSchema: initiative edit", () => {
             },
           ],
         },
-        {
-          type: "Section",
-          labelKey: "some.scope.sections.featuredContent.label",
-          options: {
-            helperText: {
-              labelKey: "some.scope.sections.featuredContent.helperText",
-            },
-          },
-          elements: [
-            {
-              scope: "/properties/view/properties/featuredContentIds",
-              type: "Control",
-              options: {
-                control: "hub-field-input-gallery-picker",
-                targetEntity: "item",
-                catalogs: {},
-                facets: [
-                  {
-                    label:
-                      "{{some.scope.fields.featuredContent.facets.type:translate}}",
-                    key: "type",
-                    display: "multi-select",
-                    field: "type",
-                    options: [],
-                    operation: "OR",
-                    aggLimit: 100,
-                  },
-                  {
-                    label:
-                      "{{some.scope.fields.featuredContent.facets.sharing:translate}}",
-                    key: "access",
-                    display: "multi-select",
-                    field: "access",
-                    options: [],
-                    operation: "OR",
-                  },
-                ],
-              },
-            },
-          ],
-        },
+        // Feature Content - hiding for MVP
+        // {
+        //   type: "Section",
+        //   labelKey: "some.scope.sections.featuredContent.label",
+        //   options: {
+        //     helperText: {
+        //       labelKey: "some.scope.sections.featuredContent.helperText",
+        //     },
+        //   },
+        //   elements: [
+        //     {
+        //       scope: "/properties/view/properties/featuredContentIds",
+        //       type: "Control",
+        //       options: {
+        //         control: "hub-field-input-gallery-picker",
+        //         targetEntity: "item",
+        //         catalogs: {},
+        //         facets: [
+        //           {
+        //             label:
+        //               "{{some.scope.fields.featuredContent.facets.type:translate}}",
+        //             key: "type",
+        //             display: "multi-select",
+        //             field: "type",
+        //             options: [],
+        //             operation: "OR",
+        //             aggLimit: 100,
+        //           },
+        //           {
+        //             label:
+        //               "{{some.scope.fields.featuredContent.facets.sharing:translate}}",
+        //             key: "access",
+        //             display: "multi-select",
+        //             field: "access",
+        //             options: [],
+        //             operation: "OR",
+        //           },
+        //         ],
+        //       },
+        //     },
+        //   ],
+        // },
       ],
     });
   });
@@ -378,7 +382,7 @@ describe("buildUiSchema: initiative edit", () => {
               scope: "/properties/description",
               type: "Control",
               options: {
-                control: "hub-field-input-input",
+                control: "hub-field-input-rich-text",
                 type: "textarea",
                 helperText: {
                   labelKey: "some.scope.fields.description.helperText",
@@ -423,9 +427,6 @@ describe("buildUiSchema: initiative edit", () => {
                 maxWidth: 727,
                 maxHeight: 484,
                 aspectRatio: 1.5,
-                helperText: {
-                  labelKey: `some.scope.fields.featuredImage.helperText`,
-                },
                 sizeDescription: {
                   labelKey: `some.scope.fields.featuredImage.sizeDescription`,
                 },
@@ -445,53 +446,6 @@ describe("buildUiSchema: initiative edit", () => {
               options: {
                 helperText: {
                   labelKey: `some.scope.fields.featuredImage.altText.helperText`,
-                },
-              },
-            },
-            {
-              labelKey: "shared.fields._thumbnail.label",
-              scope: "/properties/_thumbnail",
-              type: "Control",
-              options: {
-                control: "hub-field-input-image-picker",
-                imgSrc: "https://some-thumbnail-url.com",
-                maxWidth: 727,
-                maxHeight: 484,
-                aspectRatio: 1.5,
-                helperText: {
-                  labelKey: "some.scope.fields._thumbnail.helperText",
-                },
-                sizeDescription: {
-                  labelKey: "shared.fields._thumbnail.sizeDescription",
-                },
-                messages: [],
-              },
-            },
-            {
-              labelKey: "some.scope.fields.tags.label",
-              scope: "/properties/tags",
-              type: "Control",
-              options: {
-                control: "hub-field-input-combobox",
-                items: [],
-                allowCustomValues: true,
-                selectionMode: "multiple",
-                placeholderIcon: "label",
-                helperText: { labelKey: "some.scope.fields.tags.helperText" },
-              },
-            },
-            {
-              labelKey: "some.scope.fields.categories.label",
-              scope: "/properties/categories",
-              type: "Control",
-              options: {
-                control: "hub-field-input-combobox",
-                items: [],
-                allowCustomValues: false,
-                selectionMode: "multiple",
-                placeholderIcon: "select-category",
-                helperText: {
-                  labelKey: "some.scope.fields.categories.helperText",
                 },
               },
             },
@@ -519,6 +473,59 @@ describe("buildUiSchema: initiative edit", () => {
         },
         {
           type: "Section",
+          labelKey: "some.scope.sections.searchDiscoverability.label",
+          elements: [
+            {
+              labelKey: "some.scope.fields.categories.label",
+              scope: "/properties/categories",
+              type: "Control",
+              options: {
+                control: "hub-field-input-combobox",
+                items: [],
+                allowCustomValues: false,
+                selectionMode: "multiple",
+                placeholderIcon: "select-category",
+                helperText: {
+                  labelKey: "some.scope.fields.categories.helperText",
+                },
+              },
+            },
+            {
+              labelKey: "some.scope.fields.tags.label",
+              scope: "/properties/tags",
+              type: "Control",
+              options: {
+                control: "hub-field-input-combobox",
+                items: [],
+                allowCustomValues: true,
+                selectionMode: "multiple",
+                placeholderIcon: "label",
+                helperText: { labelKey: "some.scope.fields.tags.helperText" },
+              },
+            },
+            {
+              labelKey: "shared.fields._thumbnail.label",
+              scope: "/properties/_thumbnail",
+              type: "Control",
+              options: {
+                control: "hub-field-input-image-picker",
+                imgSrc: "https://some-thumbnail-url.com",
+                maxWidth: 727,
+                maxHeight: 484,
+                aspectRatio: 1.5,
+                helperText: {
+                  labelKey: "some.scope.fields._thumbnail.helperText",
+                },
+                sizeDescription: {
+                  labelKey: "shared.fields._thumbnail.sizeDescription",
+                },
+                messages: [],
+              },
+            },
+          ],
+        },
+        {
+          type: "Section",
           labelKey: "some.scope.sections.status.label",
           elements: [
             {
@@ -534,47 +541,48 @@ describe("buildUiSchema: initiative edit", () => {
             },
           ],
         },
-        {
-          type: "Section",
-          labelKey: "some.scope.sections.featuredContent.label",
-          options: {
-            helperText: {
-              labelKey: "some.scope.sections.featuredContent.helperText",
-            },
-          },
-          elements: [
-            {
-              scope: "/properties/view/properties/featuredContentIds",
-              type: "Control",
-              options: {
-                control: "hub-field-input-gallery-picker",
-                targetEntity: "item",
-                catalogs: {},
-                facets: [
-                  {
-                    label:
-                      "{{some.scope.fields.featuredContent.facets.type:translate}}",
-                    key: "type",
-                    display: "multi-select",
-                    field: "type",
-                    options: [],
-                    operation: "OR",
-                    aggLimit: 100,
-                  },
-                  {
-                    label:
-                      "{{some.scope.fields.featuredContent.facets.sharing:translate}}",
-                    key: "access",
-                    display: "multi-select",
-                    field: "access",
-                    options: [],
-                    operation: "OR",
-                  },
-                ],
-              },
-            },
-          ],
-        },
+        // Feature Content - hiding for MVP
+        // {
+        //   type: "Section",
+        //   labelKey: "some.scope.sections.featuredContent.label",
+        //   options: {
+        //     helperText: {
+        //       labelKey: "some.scope.sections.featuredContent.helperText",
+        //     },
+        //   },
+        //   elements: [
+        //     {
+        //       scope: "/properties/view/properties/featuredContentIds",
+        //       type: "Control",
+        //       options: {
+        //         control: "hub-field-input-gallery-picker",
+        //         targetEntity: "item",
+        //         catalogs: {},
+        //         facets: [
+        //           {
+        //             label:
+        //               "{{some.scope.fields.featuredContent.facets.type:translate}}",
+        //             key: "type",
+        //             display: "multi-select",
+        //             field: "type",
+        //             options: [],
+        //             operation: "OR",
+        //             aggLimit: 100,
+        //           },
+        //           {
+        //             label:
+        //               "{{some.scope.fields.featuredContent.facets.sharing:translate}}",
+        //             key: "access",
+        //             display: "multi-select",
+        //             field: "access",
+        //             options: [],
+        //             operation: "OR",
+        //           },
+        //         ],
+        //       },
+        //     },
+        //   ],
+        // },
       ],
     });
   });

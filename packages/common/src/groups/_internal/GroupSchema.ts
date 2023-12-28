@@ -29,6 +29,7 @@ export const GroupSchema: IConfigurationSchema = {
       // a max char limit of 250
       maxLength: 250,
     },
+    description: { type: "string" },
     _thumbnail: ENTITY_IMAGE_SCHEMA,
     membershipAccess: {
       type: "string",

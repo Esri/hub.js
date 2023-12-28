@@ -6,6 +6,7 @@ import {
   IHubRequestOptions,
 } from "../../src";
 import * as FetchEnrichments from "../../src/items/_enrichments";
+import * as Extent from "../../src/extent";
 
 const FEATURE_SERVICE_ITEM: IItem = {
   id: "bbc0882d4713479c87bedcd6b3c41d1a",
@@ -144,6 +145,47 @@ describe("content module:", () => {
       expect(item).toEqual(FEATURE_SERVICE_ITEM);
       expect(enrichments).toEqual(["server"]);
       expect(ro).toBe(hubRo);
+    });
+
+    it("adds geometry to search result", async () => {
+      const isBBoxSpy = spyOn(Extent, "isBBox").and.callThrough();
+      const bBoxToExtentSpy = spyOn(Extent, "bBoxToExtent").and.callThrough();
+      const extentToPolygonSpy = spyOn(
+        Extent,
+        "extentToPolygon"
+      ).and.callThrough();
+      const chk = await enrichContentSearchResult(
+        cloneObject(FEATURE_SERVICE_ITEM),
+        ["server.layers.length AS layerCount"],
+        hubRo
+      );
+      expect(isBBoxSpy.calls.count()).toBe(
+        1,
+        "should call isBBoxSpy on item.extent"
+      );
+      expect(isBBoxSpy.calls.allArgs()[0]).toEqual([
+        FEATURE_SERVICE_ITEM.extent,
+      ]);
+      expect(bBoxToExtentSpy.calls.count()).toBe(
+        1,
+        "should convert bbox to extent"
+      );
+      expect(bBoxToExtentSpy.calls.allArgs()[0]).toEqual([
+        FEATURE_SERVICE_ITEM.extent,
+      ]);
+      expect(extentToPolygonSpy.calls.count()).toBe(
+        1,
+        "should call extentToPolygon"
+      );
+      expect(extentToPolygonSpy.calls.allArgs()[0]).toEqual([
+        {
+          xmin: 20.9847,
+          ymin: 37.0075,
+          xmax: 26.6331,
+          ymax: 41.7264,
+          spatialReference: { wkid: 4326 },
+        },
+      ]);
     });
   });
 });
