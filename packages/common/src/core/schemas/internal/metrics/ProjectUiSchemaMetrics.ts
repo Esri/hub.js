@@ -64,6 +64,23 @@ export const buildUiSchema = (
             },
           },
           {
+            scope: "/properties/_metric/properties/valueType",
+            type: "Control",
+            labelKey: `${i18nScope}.fields.metrics.valueType.label`,
+            rule: SHOW_FOR_STATIC_RULE_ENTITY,
+            options: {
+              control: "hub-field-input-tile-select",
+              layout: "horizontal",
+              helperText: {
+                labelKey: `${i18nScope}.fields.metrics.valueType.helperText`,
+                placement: "bottom",
+              },
+              enum: {
+                i18nScope: `${i18nScope}.fields.metrics.valueType.enum`,
+              },
+            },
+          },
+          {
             labelKey: `${i18nScope}.fields.metrics.value.label`,
             scope: "/properties/_metric/properties/value",
             type: "Control",
@@ -104,7 +121,7 @@ export const buildUiSchema = (
             type: "Control",
             rule: SHOW_FOR_STATIC_AND_DATE_RULE_ENTITY,
             options: {
-              type: "date",
+              control: "hub-field-input-date",
               messages: [
                 {
                   type: "ERROR",
@@ -114,23 +131,6 @@ export const buildUiSchema = (
                   allowShowBeforeInteract: true,
                 },
               ],
-            },
-          },
-          {
-            scope: "/properties/_metric/properties/valueType",
-            type: "Control",
-            labelKey: `${i18nScope}.fields.metrics.valueType.label`,
-            rule: SHOW_FOR_STATIC_RULE_ENTITY,
-            options: {
-              control: "hub-field-input-tile-select",
-              layout: "horizontal",
-              helperText: {
-                labelKey: `${i18nScope}.fields.metrics.valueType.helperText`,
-                placement: "bottom",
-              },
-              enum: {
-                i18nScope: `${i18nScope}.fields.metrics.valueType.enum`,
-              },
             },
           },
           {
