@@ -13,6 +13,42 @@ export const SHOW_FOR_STATIC_RULE_ENTITY = {
   effect: UiSchemaRuleEffects.SHOW,
 };
 
+export const SHOW_FOR_STATIC_AND_STRING_RULE_ENTITY = {
+  condition: {
+    schema: {
+      properties: {
+        type: { const: "static" },
+        valueType: { const: "string" },
+      },
+    },
+  },
+  effect: UiSchemaRuleEffects.SHOW,
+};
+
+export const SHOW_FOR_STATIC_AND_NUMBER_RULE_ENTITY = {
+  condition: {
+    schema: {
+      properties: {
+        type: { const: "static" },
+        valueType: { const: "number" },
+      },
+    },
+  },
+  effect: UiSchemaRuleEffects.SHOW,
+};
+
+export const SHOW_FOR_STATIC_AND_DATE_RULE_ENTITY = {
+  condition: {
+    schema: {
+      properties: {
+        type: { const: "static" },
+        valueType: { const: "date" },
+      },
+    },
+  },
+  effect: UiSchemaRuleEffects.SHOW,
+};
+
 /** Show if the type is set to dynamic */
 export const SHOW_FOR_DYNAMIC_RULE_ENTITY = {
   condition: {

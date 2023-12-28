@@ -5,6 +5,9 @@ import {
   SHOW_FOR_STATIC_RULE_ENTITY,
   SHOW_FOR_DYNAMIC_RULE_ENTITY,
   SHOW_FOR_SHARING_RULE_ENTITY,
+  SHOW_FOR_STATIC_AND_STRING_RULE_ENTITY,
+  SHOW_FOR_STATIC_AND_NUMBER_RULE_ENTITY,
+  SHOW_FOR_STATIC_AND_DATE_RULE_ENTITY,
 } from "./rules";
 
 /**
@@ -64,8 +67,44 @@ export const buildUiSchema = (
             labelKey: `${i18nScope}.fields.metrics.value.label`,
             scope: "/properties/_metric/properties/value",
             type: "Control",
-            rule: SHOW_FOR_STATIC_RULE_ENTITY,
+            rule: SHOW_FOR_STATIC_AND_STRING_RULE_ENTITY,
             options: {
+              messages: [
+                {
+                  type: "ERROR",
+                  keyword: "minLength",
+                  labelKey: `${i18nScope}.fields.metrics.value.message.minLength`,
+                  icon: true,
+                  allowShowBeforeInteract: true,
+                },
+              ],
+            },
+          },
+          {
+            labelKey: `${i18nScope}.fields.metrics.value.label`,
+            scope: "/properties/_metric/properties/value",
+            type: "Control",
+            rule: SHOW_FOR_STATIC_AND_NUMBER_RULE_ENTITY,
+            options: {
+              type: "number",
+              messages: [
+                {
+                  type: "ERROR",
+                  keyword: "minLength",
+                  labelKey: `${i18nScope}.fields.metrics.value.message.minLength`,
+                  icon: true,
+                  allowShowBeforeInteract: true,
+                },
+              ],
+            },
+          },
+          {
+            labelKey: `${i18nScope}.fields.metrics.value.label`,
+            scope: "/properties/_metric/properties/value",
+            type: "Control",
+            rule: SHOW_FOR_STATIC_AND_DATE_RULE_ENTITY,
+            options: {
+              type: "date",
               messages: [
                 {
                   type: "ERROR",
