@@ -17,8 +17,12 @@ export const SHOW_FOR_STATIC_AND_STRING_RULE_ENTITY = {
   condition: {
     schema: {
       properties: {
-        type: { const: "static" },
-        valueType: { const: "string" },
+        _metric: {
+          properties: {
+            type: { const: "static" },
+            valueType: { const: "string" },
+          },
+        },
       },
     },
   },
@@ -29,8 +33,12 @@ export const SHOW_FOR_STATIC_AND_NUMBER_RULE_ENTITY = {
   condition: {
     schema: {
       properties: {
-        type: { const: "static" },
-        valueType: { const: "number" },
+        _metric: {
+          properties: {
+            type: { const: "static" },
+            valueType: { const: "number" },
+          },
+        },
       },
     },
   },
@@ -41,8 +49,12 @@ export const SHOW_FOR_STATIC_AND_DATE_RULE_ENTITY = {
   condition: {
     schema: {
       properties: {
-        type: { const: "static" },
-        valueType: { const: "date" },
+        _metric: {
+          properties: {
+            type: { const: "static" },
+            valueType: { const: "date" },
+          },
+        },
       },
     },
   },
