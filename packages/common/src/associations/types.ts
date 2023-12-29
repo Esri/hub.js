@@ -31,7 +31,8 @@ export interface IHubAssociationRules {
 }
 
 /**
- * ** DEPRECATED: remove in next breaking version **
+ * ** DEPRECATED: This will be removed in the next
+ * breaking version **
  *
  * Definition of an Association
  * This will be persisted in the item's typekeywords
@@ -49,7 +50,8 @@ export interface IAssociationInfo {
 }
 
 /**
- * ** DEPRECATED: remove in next breaking version **
+ * ** DEPRECATED: This will be removed in the next
+ * breaking version **
  *
  * Association type
  */

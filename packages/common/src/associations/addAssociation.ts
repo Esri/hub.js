@@ -3,7 +3,7 @@ import { IAssociationInfo } from "./types";
 
 /**
  * ** DEPRECATED: please use requestAssociation instead.
- * This will be removed in next breaking version **
+ * This will be removed in the next breaking version **
  *
  * Add an association to an entity
  * Persisted into the entity's `.typeKeywords` array

@@ -3,7 +3,7 @@ import { IAssociationInfo } from "./types";
 
 /**
  * ** DEPRECATED: please use breakAssociation instead.
- * This will be removed in next breaking version **
+ * This will be removed in the next breaking version **
  *
  * Remove an association from an entity
  * @param info
