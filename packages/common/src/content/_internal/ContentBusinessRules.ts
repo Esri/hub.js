@@ -81,7 +81,6 @@ export const ContentPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:content:workspace:settings",
     dependencies: ["hub:content:workspace", "hub:content:edit"],
-    entityOwner: true,
   },
   {
     permission: "hub:content:workspace:collaborators",
