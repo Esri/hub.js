@@ -14,8 +14,7 @@ export const ContentDefaultFeatures: IFeatureFlags = {
  */
 export const ContentPermissions = [
   "hub:content:create",
-  // TODO: verify if this is needed:
-  // "hub:content:delete",
+  "hub:content:delete",
   "hub:content:edit",
   "hub:content:view",
   "hub:content:workspace",
@@ -51,13 +50,12 @@ export const ContentPermissionPolicies: IPermissionPolicy[] = [
     services: ["portal"],
     entityEdit: true,
   },
-  // TODO: verify if this is needed
-  // {
-  //   permission: "hub:content:delete",
-  //   authenticated: true,
-  //   entityOwner: true,
-  //   licenses: ["hub-basic", "hub-premium", "enterprise-sites"],
-  // },
+  {
+    permission: "hub:content:delete",
+    authenticated: true,
+    services: ["portal"],
+    entityEdit: true,
+  },
   {
     permission: "hub:content:workspace",
     dependencies: ["hub:feature:workspace"],
