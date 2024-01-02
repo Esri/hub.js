@@ -7,7 +7,7 @@ import {
   IHubExternalActionLink,
   IHubWellKnownActionLink,
 } from "../../src/core/types/ActionLinks";
-import * as searchModule from "../../src/search";
+import * as searchModule from "../../src/search/hubSearch";
 
 describe("processActionLink", () => {
   let hubSearchSpy: jasmine.Spy;

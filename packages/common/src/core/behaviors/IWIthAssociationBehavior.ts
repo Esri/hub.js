@@ -14,7 +14,7 @@ export interface IWithAssociationBehavior {
   listAssociations(type: AssociationType): IAssociationInfo[];
 
   /**
-   * ** DEPRECATED: please use requestAssociation instead.
+   * ** DEPRECATED: please use requestAssociation directly.
    * This will be removed in the next breaking version **
    *
    * Add an association to the entity.
@@ -24,7 +24,7 @@ export interface IWithAssociationBehavior {
   addAssociation(info: IAssociationInfo): void;
 
   /**
-   * ** DEPRECATED: please use breakAssociation instead.
+   * ** DEPRECATED: please use breakAssociation directly.
    * This will be removed in the next breaking version **
    *
    * Remove an association to the entity.
