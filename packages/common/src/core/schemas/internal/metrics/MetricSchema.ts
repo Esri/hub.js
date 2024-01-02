@@ -20,7 +20,7 @@ export const MetricSchema: IConfigurationSchema = {
       type: "string",
     },
     value: {
-      type: ["string", "number"],
+      type: ["number", "string"],
     },
     valueType: {
       type: "string",
