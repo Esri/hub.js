@@ -86,10 +86,16 @@ export async function getWellKnownAssociationsCatalog(
     }
 
     /** 3. build the well-known catalog */
+    // if query filters are undefined (e.g. query = null), we assume
+    // an empty state, and we need to construct a default query
+    // filter that will return no results
+    const filters = query?.filters
+      ? query.filters
+      : [{ predicates: [{ type: ["Code Attachment"] }] }];
     catalog = buildCatalog(
       i18nScope,
       catalogName,
-      query.filters,
+      filters,
       collections,
       targetEntity
     );

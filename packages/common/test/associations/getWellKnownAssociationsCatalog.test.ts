@@ -59,6 +59,24 @@ describe("getWellKnownAssociationsCatalog", () => {
       collections: [{ key: "mock-collection" } as IHubCollection],
     });
   });
+  it("handles empty state filters", async () => {
+    getAssociatedEntitiesQuerySpy.and.returnValue(Promise.resolve(null));
+
+    const catalog = await getWellKnownAssociationsCatalog(
+      "some-scope",
+      "associated",
+      { type: "Hub Project" } as HubEntity,
+      "initiative",
+      {} as ArcGISContext
+    );
+
+    expect(catalog.scopes).toEqual({
+      item: {
+        targetEntity: "item",
+        filters: [{ predicates: [{ type: ["Code Attachment"] }] }],
+      },
+    });
+  });
   it('delegates to getAssociatedEntitiesQuery for the well-known "associated" catalog', async () => {
     await getWellKnownAssociationsCatalog(
       "some-scope",
