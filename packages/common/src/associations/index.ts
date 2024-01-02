@@ -1,4 +1,3 @@
-export * from "./acceptAssociation";
 export * from "./addAssociation";
 export * from "./breakAssociation";
 export * from "./listAssociations";
@@ -10,4 +9,8 @@ export * from "./getAvailableToRequestEntitiesQuery";
 export * from "./getPendingEntitiesQuery";
 export * from "./getRequestingEntitiesQuery";
 export * from "./getWellKnownAssociationsCatalog";
-export * from "./requestAssociation";
+// Note: we expose "requestAssociation" under 2 names.
+// These actions are functionally equivalent, but we want
+// to make the intent more clear to the consumer.
+export { requestAssociation } from "./requestAssociation";
+export { requestAssociation as acceptAssociation } from "./requestAssociation";

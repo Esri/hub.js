@@ -10,7 +10,8 @@ import { getProp } from "../objects";
 import { updateHubEntity } from "../core/updateHubEntity";
 
 /**
- * When an entity sends an "outgoing" request, half of
+ * When an entity sends an "outgoing" association request
+ * or accepts an "incoming" association request, half of
  * the association "connection" is made.
  *
  * from the parent's perspective: the parent "includes"
@@ -18,6 +19,10 @@ import { updateHubEntity } from "../core/updateHubEntity";
  *
  * From the child's perspective: the child "references"
  * the parent via a typeKeyword of the form ref|<parentType>|<parentId>
+ *
+ * Note: we export this function under 2 names - requestAssociation
+ * and acceptAssociation. These actions are functionally equivalent,
+ * but we want to make the intent more clear to the consumer.
  *
  * @param entity - entity requesting association
  * @param type - type of the entity the requesting entity wants to associate with

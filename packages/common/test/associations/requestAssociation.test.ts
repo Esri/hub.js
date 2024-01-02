@@ -1,4 +1,4 @@
-import { ArcGISContext, cloneObject } from "../../src";
+import { ArcGISContext } from "../../src/ArcGISContext";
 import { requestAssociation } from "../../src/associations/requestAssociation";
 import { MOCK_CHILD_ENTITY, MOCK_PARENT_ENTITY } from "./fixtures";
 import * as RestPortalModule from "@esri/arcgis-rest-portal";
@@ -43,7 +43,7 @@ describe("requestAssociation", () => {
     });
   });
   it("child perspective: adds a typeKeyword to itself referencing the parent", async () => {
-    const mockChild = cloneObject(MOCK_CHILD_ENTITY);
+    const mockChild = { ...MOCK_CHILD_ENTITY };
     await requestAssociation(
       mockChild,
       "initiative",
