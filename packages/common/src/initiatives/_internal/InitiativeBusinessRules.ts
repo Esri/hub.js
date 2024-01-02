@@ -112,7 +112,7 @@ export const InitiativePermissionPolicies: IPermissionPolicy[] = [
       {
         property: "context:currentUser",
         type: "is-group-member",
-        value: "entity:associations.group",
+        value: "entity:associations.groupId",
       },
     ],
   },
@@ -123,7 +123,7 @@ export const InitiativePermissionPolicies: IPermissionPolicy[] = [
       {
         property: "context:currentUser",
         type: "is-group-admin",
-        value: "entity:associations.group",
+        value: "entity:associations.groupId",
       },
     ],
   },
