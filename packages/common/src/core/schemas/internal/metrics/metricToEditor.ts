@@ -17,15 +17,31 @@ export function metricToEditor(
   metric: IMetric,
   displayConfig: IMetricDisplayConfig
 ): IMetricEditorValues {
-  let editor = { ...displayConfig };
+  const {
+    allowExpressionSet,
+    expressionSet,
+    fieldType,
+    itemId,
+    statistic,
+    ...config
+  } = displayConfig;
+  let editor = {
+    ...config,
+  };
+
   if (metric && metric.source) {
     const metricType = (metric.source as MetricSource).type || "";
 
     switch (metricType) {
       case "service-query":
         editor = {
+          type: "dynamic",
           dynamicMetric: {
             ...(metric.source as IServiceQueryMetricSource),
+            itemId,
+            expressionSet,
+            allowExpressionSet,
+            fieldType,
           },
           ...editor,
         };
@@ -33,8 +49,9 @@ export function metricToEditor(
 
       case "static-value":
         editor = {
-          ...editor,
+          type: "static",
           value: (metric.source as IStaticValueMetricSource).value,
+          ...editor,
         };
         break;
     }
