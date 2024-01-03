@@ -74,7 +74,7 @@ export const buildUiSchema = async (
             scope: "/properties/description",
             type: "Control",
             options: {
-              control: "hub-field-input-input",
+              control: "hub-field-input-rich-text",
               type: "textarea",
               helperText: {
                 labelKey: `${i18nScope}.fields.description.helperText`,
@@ -259,6 +259,46 @@ export const buildUiSchema = async (
           },
         ],
       },
+      // NOTE: temporarily commenting out for release.
+      // {
+      //   type: "Section",
+      //   labelKey: `${i18nScope}.sections.callToAction.label`,
+      //   options: {
+      //     helperText: {
+      //       labelKey: `${i18nScope}.sections.callToAction.helperText`,
+      //     },
+      //   },
+      //   elements: [
+      //     {
+      //       scope: "/properties/view/properties/heroActions",
+      //       type: "Control",
+      //       options: {
+      //         control: "hub-composite-input-action-links",
+      //         type: "button",
+      //         catalogs: getFeaturedContentCatalogs(context.currentUser), // for now we'll just re-use this util to get the catalogs
+      //         facets: [
+      //           {
+      //             label: `{{${i18nScope}.fields.callToAction.facets.type:translate}}`,
+      //             key: "type",
+      //             display: "multi-select",
+      //             field: "type",
+      //             options: [],
+      //             operation: "OR",
+      //             aggLimit: 100,
+      //           },
+      //           {
+      //             label: `{{${i18nScope}.fields.callToAction.facets.sharing:translate}}`,
+      //             key: "access",
+      //             display: "multi-select",
+      //             field: "access",
+      //             options: [],
+      //             operation: "OR",
+      //           },
+      //         ],
+      //       },
+      //     },
+      //   ],
+      // },
     ],
   };
 };

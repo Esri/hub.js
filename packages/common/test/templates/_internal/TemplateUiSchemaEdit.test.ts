@@ -88,7 +88,7 @@ describe("buildUiSchema: template edit", () => {
               scope: "/properties/description",
               type: "Control",
               options: {
-                control: "hub-field-input-input",
+                control: "hub-field-input-rich-text",
                 type: "textarea",
                 helperText: {
                   labelKey: "some.scope.fields.description.helperText",

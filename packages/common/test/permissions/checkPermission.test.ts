@@ -2,8 +2,10 @@ import { IPortal, IUser } from "@esri/arcgis-rest-portal";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import {
   checkPermission,
+  cloneObject,
   IHubItemEntity,
   IPermissionPolicy,
+  IUserHubSettings,
   Permission,
 } from "../../src";
 import { MOCK_AUTH } from "../mocks/mock-auth";
@@ -400,6 +402,21 @@ describe("checkPermission:", () => {
         expect(chk.response).toBe("granted");
         expect(chk.checks.length).toBe(4);
       });
+    });
+  });
+  describe("user preferences", () => {
+    it("enabled user feature flag overrides availability and env", () => {
+      const localCtx = cloneObject(premiumCtxMgr.context);
+      localCtx.userHubSettings = {
+        schemaVersion: 1,
+        preview: {
+          workspace: true,
+          otherProp: true,
+        } as unknown as IUserHubSettings["preview"],
+      };
+      const chk = checkPermission("hub:feature:workspace", localCtx);
+
+      expect(chk.access).toBe(true);
     });
   });
 });

@@ -58,6 +58,7 @@ export const HubItemEntitySchema: IConfigurationSchema = {
           default: HubEntityHero.map,
           enum: Object.keys(HubEntityHero),
         },
+        heroActions: { type: "array" },
       },
     },
   },

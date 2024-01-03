@@ -10,6 +10,7 @@ import { unique } from "../util";
 import { mapBy } from "../utils";
 import { getFamily } from "./get-family";
 import { getHubRelativeUrl } from "./_internal/internalContentUtils";
+import { bBoxToExtent, extentToPolygon, isBBox } from "../extent";
 
 /**
  * Enrich a generic search result
@@ -46,6 +47,18 @@ export async function enrichContentSearchResult(
     },
     rawResult: item,
   };
+
+  // Include geometry in IHubSearchResult
+  if (isBBox(item.extent)) {
+    // PR Reference: https://github.com/Esri/hub.js/pull/987
+    const extent = bBoxToExtent(item.extent);
+    const geometryPolygon = extentToPolygon(extent);
+    result.geometry = {
+      geometry: { type: "polygon", ...geometryPolygon },
+      provenance: "item",
+      spatialReference: extent.spatialReference,
+    };
+  }
 
   // default includes
   const DEFAULTS: string[] = [];
