@@ -40,16 +40,6 @@ export const ProjectSchema: IConfigurationSchema = {
           minLength: 1,
         },
       },
-      if: {
-        properties: {
-          type: {
-            const: "static",
-          },
-        },
-      },
-      then: {
-        required: ["value"],
-      },
     },
   },
 } as IConfigurationSchema;

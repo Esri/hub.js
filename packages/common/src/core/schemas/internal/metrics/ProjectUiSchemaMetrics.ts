@@ -1,5 +1,5 @@
 import { IArcGISContext } from "../../../../ArcGISContext";
-import { IUiSchema } from "../../types";
+import { IUiSchema, IUiSchemaRule, UiSchemaRuleEffects } from "../../types";
 import { EntityEditorOptions } from "../EditorOptions";
 import {
   SHOW_FOR_STATIC_RULE_ENTITY,
@@ -90,6 +90,7 @@ export const buildUiSchema = (
             labelKey: `${i18nScope}.fields.metrics.unit.label`,
             scope: "/properties/_metric/properties/unit",
             type: "Control",
+            rule: REQUIRE_IF_STATIC,
             options: {
               helperText: {
                 labelKey: `${i18nScope}.fields.metrics.unit.helperText`,
@@ -189,4 +190,14 @@ export const buildUiSchema = (
       },
     ],
   };
+};
+
+// rule to require if static type
+const REQUIRE_IF_STATIC: IUiSchemaRule = {
+  effect: UiSchemaRuleEffects.REQUIRE,
+  condition: {
+    scope: "/properties/_metric/properties/type",
+    schema: { const: "static" },
+  },
+  conditionalRequire: ["/properties/_metric/properties/value"],
 };
