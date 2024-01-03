@@ -185,6 +185,7 @@ export interface IUiSchemaMessage {
 export interface IUiSchemaRule {
   effect: UiSchemaRuleEffects;
   condition: IUiSchemaCondition;
+  conditionalRequire?: string[];
 }
 
 export interface IUiSchemaCondition {
