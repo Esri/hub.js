@@ -61,6 +61,7 @@ export enum UiSchemaRuleEffects {
   SHOW = "SHOW",
   HIDE = "HIDE",
   DISABLE = "DISABLE",
+  REQUIRE = "REQUIRE",
   NONE = "",
 }
 
@@ -122,6 +123,7 @@ export interface IUiSchemaRule {
     scope?: string;
     schema: IConfigurationSchema;
   };
+  conditionalRequire?: string[];
 }
 
 export interface IUiSchemaElement {
