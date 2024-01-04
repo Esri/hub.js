@@ -199,5 +199,5 @@ const REQUIRE_IF_STATIC: IUiSchemaRule = {
     scope: "/properties/_metric/properties/type",
     schema: { const: "static" },
   },
-  conditionalRequire: ["/properties/_metric/properties/value"],
+  conditionalRequire: ["/properties/_metric/properties/unit"],
 };
