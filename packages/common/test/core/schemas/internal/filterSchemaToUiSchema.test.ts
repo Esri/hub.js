@@ -31,8 +31,7 @@ describe("filterSchemaToUiSchema util:", () => {
           type: "Section",
           labelKey: "section1.label.key",
           options: {
-            section: "stepper",
-            open: true,
+            section: "stepper"
           },
           elements: [
             {

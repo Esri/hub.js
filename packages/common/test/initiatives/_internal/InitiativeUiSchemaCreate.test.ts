@@ -33,8 +33,11 @@ describe("buildUiSchema: initiative create", () => {
           options: { section: "stepper", scale: "l" },
           elements: [
             {
-              type: "Step",
+              type: "Section",
               labelKey: "some.scope.sections.details.label",
+              options: {
+                section: "step",
+              },
               elements: [
                 {
                   type: "Section",
@@ -108,8 +111,11 @@ describe("buildUiSchema: initiative create", () => {
               ],
             },
             {
-              type: "Step",
+              type: "Section",
               labelKey: "some.scope.sections.hero.label",
+              options: {
+                section: "step",
+              },
               rule: {
                 effect: UiSchemaRuleEffects.DISABLE,
                 condition: {
@@ -187,8 +193,11 @@ describe("buildUiSchema: initiative create", () => {
               ],
             },
             {
-              type: "Step",
+              type: "Section",
               labelKey: "some.scope.sections.sharing.label",
+              options: {
+                section: "step",
+              },
               rule: {
                 effect: UiSchemaRuleEffects.DISABLE,
                 condition: {
@@ -258,8 +267,11 @@ describe("buildUiSchema: initiative create", () => {
           options: { section: "stepper", scale: "l" },
           elements: [
             {
-              type: "Step",
+              type: "Section",
               labelKey: "some.scope.sections.details.label",
+              options: {
+                section: "step",
+              },
               elements: [
                 {
                   type: "Section",
@@ -333,8 +345,11 @@ describe("buildUiSchema: initiative create", () => {
               ],
             },
             {
-              type: "Step",
+              type: "Section",
               labelKey: "some.scope.sections.hero.label",
+              options: {
+                section: "step",
+              },
               rule: {
                 effect: UiSchemaRuleEffects.DISABLE,
                 condition: {
@@ -412,8 +427,11 @@ describe("buildUiSchema: initiative create", () => {
               ],
             },
             {
-              type: "Step",
+              type: "Section",
               labelKey: "some.scope.sections.sharing.label",
+              options: {
+                section: "step",
+              },
               rule: {
                 effect: UiSchemaRuleEffects.DISABLE,
                 condition: {

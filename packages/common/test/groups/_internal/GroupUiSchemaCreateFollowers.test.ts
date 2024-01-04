@@ -17,8 +17,11 @@ describe("buildUiSchema: create followers group", () => {
           options: { section: "stepper", scale: "l" },
           elements: [
             {
-              type: "Step",
+              type: "Section",
               labelKey: "some.scope.sections.details.label",
+              options: {
+                section: "step",
+              },
               elements: [
                 {
                   labelKey: "some.scope.fields.name.label",
@@ -62,8 +65,11 @@ describe("buildUiSchema: create followers group", () => {
               ],
             },
             {
-              type: "Step",
+              type: "Section",
               labelKey: "some.scope.sections.membershipAccess.label",
+              options: {
+                section: "step",
+              },
               rule: {
                 effect: UiSchemaRuleEffects.DISABLE,
                 condition: {
