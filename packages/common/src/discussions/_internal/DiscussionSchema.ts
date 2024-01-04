@@ -19,6 +19,7 @@ export const DiscussionSchema: IConfigurationSchema = {
     prompt: {
       type: "string",
       default: "",
+      maxLength: 150,
     },
   },
 } as IConfigurationSchema;
