@@ -690,6 +690,7 @@ describe("hubSearchItems Module |", () => {
           },
         },
       } as any,
+      location: undefined,
     },
   ];
 
@@ -751,6 +752,7 @@ describe("hubSearchItems Module |", () => {
           ...mockedItemToSearchResultResponse,
           source: "my-source",
           license: "CC-BY-4.0",
+          location: undefined,
         });
       });
       it("adds arcgis geometry to result", async () => {

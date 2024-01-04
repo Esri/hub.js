@@ -19,13 +19,13 @@ export async function ogcItemToSearchResult(
   // as `license` and `source` if the OgcItem came from the index.
   const pseudoItem = ogcItem.properties as IItem;
   const result = await itemToSearchResult(pseudoItem, includes, requestOptions);
-  // Expose extraneous members like `license`, `source`, and `geometry`
+  // Expose extraneous members like `license`, `source`, `properties.location` and `geometry`
   result.source = ogcItem.properties.source;
   result.license = ogcItem.properties.license;
+  result.location = ogcItem.properties?.properties?.location;
   // Add IHubGeography to result
   if (ogcItem.geometry) {
     try {
-      // NOTE: Currently using IHubGeography, but should explore switching to IHubLocation
       result.geometry = {
         geometry: geojsonToArcGIS(ogcItem.geometry) as IPolygonProperties,
       };
