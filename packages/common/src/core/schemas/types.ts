@@ -135,7 +135,7 @@ export interface IUiSchemaElement {
     [key: string]: any;
   };
   scope?: string;
-  rule?: IUiSchemaRule;
+  rule?: IUiSchemaRule | IUiSchemaRule[];
   elements?: IUiSchemaElement[];
   tooltip?: string;
 }
