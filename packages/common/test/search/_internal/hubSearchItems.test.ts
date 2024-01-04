@@ -1,6 +1,7 @@
 import {
   cloneObject,
   IFilter,
+  IHubLocation,
   IHubRequestOptions,
   IHubSearchOptions,
   IHubSearchResponse,
@@ -697,6 +698,30 @@ describe("hubSearchItems Module |", () => {
   describe("Response Transformation Helpers |", () => {
     describe("ogcItemToSearchResult |", () => {
       const { ogcItemToSearchResult } = ogcItemToSearchResultModule;
+
+      const LOCATION: IHubLocation = {
+        type: "custom",
+        geometries: [
+          {
+            xmin: -157.92997000002723,
+            ymin: 17.069699999614166,
+            xmax: -65.79849542073713,
+            ymax: 53.57133351703125,
+            spatialReference: {
+              wkid: 4326,
+            },
+            type: "extent",
+          } as any,
+        ],
+        spatialReference: {
+          wkid: 4326,
+        },
+        extent: [
+          [-157.92997000002723, 17.069699999614166],
+          [-65.79849542073713, 53.57133351703125],
+        ],
+      };
+
       const ogcItemProperties: any = {
         id: "9001",
         owner: "goku",
@@ -712,6 +737,7 @@ describe("hubSearchItems Module |", () => {
         categories: [],
         source: "my-source",
         license: "CC-BY-4.0",
+        properties: undefined,
       };
 
       it("delegates to itemToSearchResult, then tacks on enrichment fields", async () => {
@@ -753,6 +779,53 @@ describe("hubSearchItems Module |", () => {
           source: "my-source",
           license: "CC-BY-4.0",
           location: undefined,
+        });
+      });
+      it("adds item.properties.location on result", async () => {
+        const mockedItemToSearchResultResponse = {
+          id: "9001",
+          type: "Feature Service",
+          family: "map",
+        } as unknown as IHubSearchResult;
+        const delegateSpy = spyOn(
+          portalSearchItemsModule,
+          "itemToSearchResult"
+        ).and.returnValue(
+          Promise.resolve(cloneObject(mockedItemToSearchResultResponse))
+        );
+        const _ogcItemProperties = {
+          ...cloneObject(ogcItemProperties),
+          properties: {
+            location: LOCATION,
+          },
+        };
+        const ogcItem: IOgcItem = {
+          id: "9001",
+          type: "Feature",
+          geometry: null, // for simplicity
+          time: null, // for simplicity
+          links: [], // for simplicity
+          properties: _ogcItemProperties,
+        };
+        const includes: string[] = [];
+        const requestOptions: IHubRequestOptions = {};
+
+        const result = await ogcItemToSearchResult(
+          ogcItem,
+          includes,
+          requestOptions
+        );
+        expect(delegateSpy).toHaveBeenCalledTimes(1);
+        expect(delegateSpy).toHaveBeenCalledWith(
+          _ogcItemProperties,
+          includes,
+          requestOptions
+        );
+        expect(result).toEqual({
+          ...mockedItemToSearchResultResponse,
+          source: "my-source",
+          license: "CC-BY-4.0",
+          location: LOCATION,
         });
       });
       it("adds arcgis geometry to result", async () => {
