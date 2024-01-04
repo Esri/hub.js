@@ -62,6 +62,7 @@ export enum UiSchemaRuleEffects {
   HIDE = "HIDE",
   DISABLE = "DISABLE",
   REQUIRE = "REQUIRE",
+  OPTIONAL = "OPTONAL", // internal use only
   NONE = "",
 }
 
