@@ -52,7 +52,11 @@ export const ProjectSchema: IConfigurationSchema = {
         },
       },
       then: {
-        required: ["value"],
+        properties: {
+          _metric: {
+            required: ["value"],
+          },
+        },
       },
     },
   ],
