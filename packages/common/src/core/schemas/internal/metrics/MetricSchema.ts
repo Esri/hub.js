@@ -132,5 +132,16 @@ export const MetricSchema: IConfigurationSchema = {
         required: ["sourceLink"],
       },
     },
+    "value-type-value-mapping": {
+      if: {
+        properties: { valueType: { enum: ["string", "date"] } },
+      },
+      then: {
+        properties: { value: { type: "string" } },
+      },
+      else: {
+        properties: { value: { type: "number" } },
+      },
+    },
   },
 };
