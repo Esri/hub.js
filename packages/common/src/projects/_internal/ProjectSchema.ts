@@ -40,6 +40,10 @@ export const ProjectSchema: IConfigurationSchema = {
           minLength: 1,
         },
       },
+    },
+  },
+  allOf: [
+    {
       if: {
         properties: {
           type: {
@@ -51,5 +55,5 @@ export const ProjectSchema: IConfigurationSchema = {
         required: ["value"],
       },
     },
-  },
+  ],
 } as IConfigurationSchema;

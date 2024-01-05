@@ -35,13 +35,6 @@ export const buildUiSchema = (
               messages: [
                 {
                   type: "ERROR",
-                  keyword: "minLength",
-                  labelKey: `${i18nScope}.fields.metrics.cardTitle.message.minLength`,
-                  icon: true,
-                  allowShowBeforeInteract: true,
-                },
-                {
-                  type: "ERROR",
                   keyword: "required",
                   labelKey: `${i18nScope}.fields.metrics.cardTitle.message.required`,
                   icon: true,
@@ -73,12 +66,6 @@ export const buildUiSchema = (
             rule: SHOW_FOR_STATIC_RULE_ENTITY,
             options: {
               messages: [
-                {
-                  type: "ERROR",
-                  keyword: "minLength",
-                  labelKey: `${i18nScope}.fields.metrics.value.message.minLength`,
-                  icon: true,
-                },
                 {
                   type: "ERROR",
                   keyword: "required",

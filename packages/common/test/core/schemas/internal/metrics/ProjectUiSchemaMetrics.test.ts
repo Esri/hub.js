@@ -22,14 +22,6 @@ describe("buildUiSchema: metric", () => {
                 messages: [
                   {
                     type: "ERROR",
-                    keyword: "minLength",
-                    labelKey:
-                      "some.scope.fields.metrics.cardTitle.message.minLength",
-                    icon: true,
-                    allowShowBeforeInteract: true,
-                  },
-                  {
-                    type: "ERROR",
                     keyword: "required",
                     labelKey: `some.scope.fields.metrics.cardTitle.message.required`,
                     icon: true,
@@ -67,13 +59,6 @@ describe("buildUiSchema: metric", () => {
               },
               options: {
                 messages: [
-                  {
-                    type: "ERROR",
-                    keyword: "minLength",
-                    labelKey:
-                      "some.scope.fields.metrics.value.message.minLength",
-                    icon: true,
-                  },
                   {
                     type: "ERROR",
                     keyword: "required",
