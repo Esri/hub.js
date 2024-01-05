@@ -46,8 +46,12 @@ export const ProjectSchema: IConfigurationSchema = {
     {
       if: {
         properties: {
-          type: {
-            const: "static",
+          _metric: {
+            properties: {
+              type: {
+                const: "static",
+              },
+            },
           },
         },
       },
