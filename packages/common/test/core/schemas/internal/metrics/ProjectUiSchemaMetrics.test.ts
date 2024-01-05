@@ -26,6 +26,12 @@ describe("buildUiSchema: metric", () => {
                     icon: true,
                     allowShowBeforeInteract: true,
                   },
+                  {
+                    type: "ERROR",
+                    keyword: "required",
+                    labelKey: `some.scope.fields.metrics.value.message.required`,
+                    icon: true,
+                  },
                 ],
               },
             },
@@ -49,7 +55,12 @@ describe("buildUiSchema: metric", () => {
                         labelKey:
                           "some.scope.fields.metrics.value.message.minLength",
                         icon: true,
-                        allowShowBeforeInteract: true,
+                      },
+                      {
+                        type: "ERROR",
+                        keyword: "required",
+                        labelKey: `some.scope.fields.metrics.value.message.required`,
+                        icon: true,
                       },
                     ],
                   },
