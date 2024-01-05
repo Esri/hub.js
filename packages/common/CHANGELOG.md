@@ -1,3 +1,17 @@
+# @esri/hub-common [14.74.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.73.0...@esri/hub-common@14.74.0) (2024-01-04)
+
+
+### Features
+
+* add correct fields for static and dynamic ([#1346](https://github.com/Esri/hub.js/issues/1346)) ([d2bf4c1](https://github.com/Esri/hub.js/commit/d2bf4c118caaae83d233fa2274c1dca54b57f227))
+
+# @esri/hub-common [14.73.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.72.2...@esri/hub-common@14.73.0) (2023-12-29)
+
+
+### Features
+
+* **hub-common:** enable content settings for admins and add content delete permission ([#1372](https://github.com/Esri/hub.js/issues/1372)) ([00ecba2](https://github.com/Esri/hub.js/commit/00ecba267ca3181fe8e735087ab9df5bcfef72cc))
+
 ## @esri/hub-common [14.72.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.72.1...@esri/hub-common@14.72.2) (2023-12-19)
 
 
