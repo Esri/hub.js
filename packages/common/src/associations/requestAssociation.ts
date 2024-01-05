@@ -38,36 +38,36 @@ export const requestAssociation = async (
   const entityType = getTypeFromEntity(entity);
   const isSupported = isAssociationSupported(entityType, associationType);
 
-  if (isSupported) {
-    const associationHierarchy = getAssociationHierarchy(entityType);
-    const isParent = associationHierarchy.children.includes(associationType);
-
-    if (isParent) {
-      const associationGroupId = getProp(entity, "associations.groupId");
-      const { owner } = await fetchHubEntity(associationType, id, context);
-      try {
-        await shareItemWithGroup({
-          id,
-          owner,
-          groupId: associationGroupId,
-          authentication: context.session,
-        });
-      } catch (error) {
-        throw new Error(
-          `requestAssociation: there was an error sharing ${id} to ${associationGroupId}: ${error}`
-        );
-      }
-    } else {
-      entity.typeKeywords = setAssociationKeyword(
-        entity.typeKeywords,
-        associationType,
-        id
-      );
-      await updateHubEntity(entityType, entity, context);
-    }
-  } else {
+  if (!isSupported) {
     throw new Error(
       `requestAssociation: Association between ${entityType} and ${associationType} is not supported.`
     );
+  }
+
+  const associationHierarchy = getAssociationHierarchy(entityType);
+  const isParent = associationHierarchy.children.includes(associationType);
+
+  if (isParent) {
+    const associationGroupId = getProp(entity, "associations.groupId");
+    const { owner } = await fetchHubEntity(associationType, id, context);
+    try {
+      await shareItemWithGroup({
+        id,
+        owner,
+        groupId: associationGroupId,
+        authentication: context.session,
+      });
+    } catch (error) {
+      throw new Error(
+        `requestAssociation: there was an error sharing ${id} to ${associationGroupId}: ${error}`
+      );
+    }
+  } else {
+    entity.typeKeywords = setAssociationKeyword(
+      entity.typeKeywords,
+      associationType,
+      id
+    );
+    await updateHubEntity(entityType, entity, context);
   }
 };

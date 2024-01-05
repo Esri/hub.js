@@ -47,62 +47,63 @@ export async function getWellKnownAssociationsCatalog(
   const entityType = getTypeFromEntity(entity);
   const isSupported = isAssociationSupported(entityType, associationType);
 
-  if (isSupported) {
-    i18nScope = dotifyString(i18nScope);
-    const targetEntity = getEntityTypeFromType(entity.type);
-
-    /** 1. build a collection based on the provided associationType */
-    const collections = [
-      getWellknownCollection(
-        i18nScope,
-        targetEntity,
-        associationType as WellKnownCollection
-      ),
-    ];
-
-    /** 2. build a query based on the provided catalogName */
-    let query: IQuery;
-    switch (catalogName) {
-      case "associated":
-        query = await getAssociatedEntitiesQuery(
-          entity,
-          associationType,
-          context
-        );
-        break;
-      case "pending":
-        query = await getPendingEntitiesQuery(entity, associationType, context);
-        break;
-      case "requesting":
-        query = await getRequestingEntitiesQuery(
-          entity,
-          associationType,
-          context
-        );
-        break;
-      case "availableToRequest":
-        query = getAvailableToRequestEntitiesQuery(entity, associationType);
-        break;
-    }
-
-    /** 3. build the well-known catalog */
-    // if query filters are undefined (e.g. query = null), we assume
-    // an empty state, and we need to construct a default query
-    // filter that will return no results
-    const filters = query?.filters
-      ? query.filters
-      : [{ predicates: [{ type: ["Code Attachment"] }] }];
-    catalog = buildCatalog(
-      i18nScope,
-      catalogName,
-      filters,
-      collections,
-      targetEntity
-    );
-  } else {
+  if (!isSupported) {
     throw new Error(
       `getWellKnownAssociationsCatalog: Association between ${entityType} and ${associationType} is not supported.`
     );
   }
+
+  i18nScope = dotifyString(i18nScope);
+  const targetEntity = getEntityTypeFromType(entity.type);
+
+  /** 1. build a collection based on the provided associationType */
+  const collections = [
+    getWellknownCollection(
+      i18nScope,
+      targetEntity,
+      associationType as WellKnownCollection
+    ),
+  ];
+
+  /** 2. build a query based on the provided catalogName */
+  let query: IQuery;
+  switch (catalogName) {
+    case "associated":
+      query = await getAssociatedEntitiesQuery(
+        entity,
+        associationType,
+        context
+      );
+      break;
+    case "pending":
+      query = await getPendingEntitiesQuery(entity, associationType, context);
+      break;
+    case "requesting":
+      query = await getRequestingEntitiesQuery(
+        entity,
+        associationType,
+        context
+      );
+      break;
+    case "availableToRequest":
+      query = getAvailableToRequestEntitiesQuery(entity, associationType);
+      break;
+  }
+
+  /** 3. build the well-known catalog */
+  // if query filters are undefined (e.g. query = null), we assume
+  // an empty state, and we need to construct a default query
+  // filter that will return no results
+  const filters = query?.filters
+    ? query.filters
+    : [{ predicates: [{ type: ["Code Attachment"] }] }];
+  catalog = buildCatalog(
+    i18nScope,
+    catalogName,
+    filters,
+    collections,
+    targetEntity
+  );
+
   return catalog;
 }

@@ -35,48 +35,48 @@ export const getAssociationStats = async (
   const entityType = getTypeFromEntity(entity);
   const isSupported = isAssociationSupported(entityType, associationType);
 
-  if (isSupported) {
-    const associationHierarchy = getAssociationHierarchy(entityType);
-    const isParent = associationHierarchy.children.includes(associationType);
-
-    stats = {
-      associated: 0,
-      pending: 0,
-      requesting: 0,
-      ...(isParent ? { included: 0 } : { referenced: 0 }),
-    };
-
-    try {
-      const queries = await Promise.all([
-        getAssociatedEntitiesQuery(entity, associationType, context),
-        getPendingEntitiesQuery(entity, associationType, context),
-        getRequestingEntitiesQuery(entity, associationType, context),
-      ]);
-
-      const [{ total: associated }, { total: pending }, { total: requesting }] =
-        await Promise.all(
-          queries.map((query: IQuery) => {
-            return hubSearch(query, {
-              requestOptions: context.hubRequestOptions,
-            });
-          })
-        );
-
-      stats = {
-        associated,
-        pending,
-        requesting,
-        ...(isParent
-          ? { included: associated + pending }
-          : { referenced: associated + pending }),
-      };
-    } catch (error) {
-      return stats;
-    }
-  } else {
+  if (!isSupported) {
     throw new Error(
       `getAssociationStats: Association between ${entityType} and ${associationType} is not supported.`
     );
+  }
+
+  const associationHierarchy = getAssociationHierarchy(entityType);
+  const isParent = associationHierarchy.children.includes(associationType);
+
+  stats = {
+    associated: 0,
+    pending: 0,
+    requesting: 0,
+    ...(isParent ? { included: 0 } : { referenced: 0 }),
+  };
+
+  try {
+    const queries = await Promise.all([
+      getAssociatedEntitiesQuery(entity, associationType, context),
+      getPendingEntitiesQuery(entity, associationType, context),
+      getRequestingEntitiesQuery(entity, associationType, context),
+    ]);
+
+    const [{ total: associated }, { total: pending }, { total: requesting }] =
+      await Promise.all(
+        queries.map((query: IQuery) => {
+          return hubSearch(query, {
+            requestOptions: context.hubRequestOptions,
+          });
+        })
+      );
+
+    stats = {
+      associated,
+      pending,
+      requesting,
+      ...(isParent
+        ? { included: associated + pending }
+        : { referenced: associated + pending }),
+    };
+  } catch (error) {
+    return stats;
   }
 
   return stats;

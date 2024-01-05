@@ -37,43 +37,43 @@ export const getAvailableToRequestEntitiesQuery = (
   const entityType = getTypeFromEntity(entity);
   const isSupported = isAssociationSupported(entityType, associationType);
 
-  if (isSupported) {
-    const associationHierarchy = getAssociationHierarchy(entityType);
-    const isParent = associationHierarchy.children.includes(associationType);
-
-    if (isParent) {
-      /** 1. build query that returns child entities */
-      const childType = getTypesFromEntityType(associationType);
-      const childTypeQuery = getTypeByIdsQuery(childType, []);
-
-      /**
-       * 2. grab the parent's association query and negate
-       * the group predicate
-       */
-      const notIncludedQuery = negateGroupPredicates(
-        getProp(entity, "associations.rules.query")
-      );
-
-      /** 3. combine queries - will remove null/undefined entries */
-      query = combineQueries([notIncludedQuery, childTypeQuery]);
-    } else {
-      /**
-       * 1. iterate over the child's typeKeywords and grab the parent
-       * ids it references (typeKeyword = <associationType>|<id>)
-       */
-      const ids = getIdsFromKeywords(entity, associationType);
-
-      /**
-       * 2. build query that returns parent entities NOT
-       * "referenced" by the child
-       */
-      const type = getTypesFromEntityType(associationType);
-      query = getTypeByNotIdsQuery(type, ids);
-    }
-  } else {
+  if (!isSupported) {
     throw new Error(
       `getAvailableToRequestEntitiesQuery: Association between ${entityType} and ${associationType} is not supported.`
     );
+  }
+
+  const associationHierarchy = getAssociationHierarchy(entityType);
+  const isParent = associationHierarchy.children.includes(associationType);
+
+  if (isParent) {
+    /** 1. build query that returns child entities */
+    const childType = getTypesFromEntityType(associationType);
+    const childTypeQuery = getTypeByIdsQuery(childType, []);
+
+    /**
+     * 2. grab the parent's association query and negate
+     * the group predicate
+     */
+    const notIncludedQuery = negateGroupPredicates(
+      getProp(entity, "associations.rules.query")
+    );
+
+    /** 3. combine queries - will remove null/undefined entries */
+    query = combineQueries([notIncludedQuery, childTypeQuery]);
+  } else {
+    /**
+     * 1. iterate over the child's typeKeywords and grab the parent
+     * ids it references (typeKeyword = <associationType>|<id>)
+     */
+    const ids = getIdsFromKeywords(entity, associationType);
+
+    /**
+     * 2. build query that returns parent entities NOT
+     * "referenced" by the child
+     */
+    const type = getTypesFromEntityType(associationType);
+    query = getTypeByNotIdsQuery(type, ids);
   }
 
   return query;

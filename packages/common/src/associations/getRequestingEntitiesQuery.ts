@@ -34,32 +34,31 @@ export const getRequestingEntitiesQuery = async (
   associationType: HubEntityType,
   context: IArcGISContext
 ): Promise<IQuery> => {
-  let query: IQuery;
   const entityType = getTypeFromEntity(entity);
   const isSupported = isAssociationSupported(entityType, associationType);
 
-  if (isSupported) {
-    const associationHierarchy = getAssociationHierarchy(entityType);
-    const isParent = associationHierarchy.children.includes(associationType);
-
-    query = isParent
-      ? await getReferencesDoesNotIncludeQuery(
-          entity,
-          associationType,
-          isParent,
-          context
-        )
-      : await getIncludesDoesNotReferenceQuery(
-          entity,
-          associationType,
-          isParent,
-          context
-        );
-  } else {
+  if (!isSupported) {
     throw new Error(
       `getRequestingEntitiesQuery: Association between ${entityType} and ${associationType} is not supported.`
     );
   }
+
+  const associationHierarchy = getAssociationHierarchy(entityType);
+  const isParent = associationHierarchy.children.includes(associationType);
+
+  const query = isParent
+    ? await getReferencesDoesNotIncludeQuery(
+        entity,
+        associationType,
+        isParent,
+        context
+      )
+    : await getIncludesDoesNotReferenceQuery(
+        entity,
+        associationType,
+        isParent,
+        context
+      );
 
   return query;
 };

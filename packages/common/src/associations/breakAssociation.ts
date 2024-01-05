@@ -35,36 +35,36 @@ export const breakAssociation = async (
   const entityType = getTypeFromEntity(entity);
   const isSupported = isAssociationSupported(entityType, associationType);
 
-  if (isSupported) {
-    const associationHierarchy = getAssociationHierarchy(entityType);
-    const isParent = associationHierarchy.children.includes(associationType);
-
-    if (isParent) {
-      const associationGroupId = getProp(entity, "associations.groupId");
-      const { owner } = await fetchHubEntity(associationType, id, context);
-      try {
-        await unshareItemWithGroup({
-          id,
-          groupId: associationGroupId,
-          authentication: context.session,
-          owner,
-        });
-      } catch (error) {
-        throw new Error(
-          `breakAssociation: there was an error unsharing ${id} from ${associationGroupId}: ${error}`
-        );
-      }
-    } else {
-      entity.typeKeywords = removeAssociationKeyword(
-        entity.typeKeywords,
-        associationType,
-        id
-      );
-      await updateHubEntity(entityType, entity, context);
-    }
-  } else {
+  if (!isSupported) {
     throw new Error(
       `breakAssociation: Association between ${entityType} and ${associationType} is not supported.`
     );
+  }
+
+  const associationHierarchy = getAssociationHierarchy(entityType);
+  const isParent = associationHierarchy.children.includes(associationType);
+
+  if (isParent) {
+    const associationGroupId = getProp(entity, "associations.groupId");
+    const { owner } = await fetchHubEntity(associationType, id, context);
+    try {
+      await unshareItemWithGroup({
+        id,
+        groupId: associationGroupId,
+        authentication: context.session,
+        owner,
+      });
+    } catch (error) {
+      throw new Error(
+        `breakAssociation: there was an error unsharing ${id} from ${associationGroupId}: ${error}`
+      );
+    }
+  } else {
+    entity.typeKeywords = removeAssociationKeyword(
+      entity.typeKeywords,
+      associationType,
+      id
+    );
+    await updateHubEntity(entityType, entity, context);
   }
 };
