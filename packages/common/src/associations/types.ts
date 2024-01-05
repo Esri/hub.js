@@ -31,6 +31,25 @@ export interface IHubAssociationRules {
 }
 
 /**
+ * associations involve a 2-way agreement between
+ * parent and child. This interface allows us to
+ * keep track of an entity's association stats with
+ * another entity
+ */
+export interface IAssociationStats {
+  /** number of full associations */
+  associated: number;
+  /** number of outgoing association requests */
+  pending: number;
+  /** number of incoming association requests */
+  requesting: number;
+  /** number of entity's the child references = associated + pending */
+  referenced?: number;
+  /** number of entities included by the parent = associated + pending */
+  included?: number;
+}
+
+/**
  * ** DEPRECATED: This will be removed in the next
  * breaking version **
  *

@@ -8,14 +8,7 @@ import { getPendingEntitiesQuery } from "./getPendingEntitiesQuery";
 import { getRequestingEntitiesQuery } from "./getRequestingEntitiesQuery";
 import { getAssociationHierarchy } from "./internal/getAssociationHierarchy";
 import { isAssociationSupported } from "./internal/isAssociationSupported";
-
-interface IAssociationStats {
-  associated: number;
-  pending: number;
-  requesting: number;
-  referenced?: number;
-  included?: number;
-}
+import { IAssociationStats } from "./types";
 
 /**
  * get an entity's association stats - # of associated, pending,
