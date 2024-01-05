@@ -63,6 +63,21 @@ describe("breakAssociation", () => {
       {} as ArcGISContext
     );
   });
+  it("throws an error if there is an issue unsharing the item from the association group", async () => {
+    unshareItemWithGroupSpy.and.returnValue(Promise.reject("unshare error"));
+
+    try {
+      await breakAssociation(MOCK_PARENT_ENTITY, "project", "child-00a", {
+        session: {},
+      } as ArcGISContext);
+    } catch (err) {
+      expect(err).toEqual(
+        new Error(
+          "breakAssociation: there was an error unsharing child-00a from group-00a: unshare error"
+        )
+      );
+    }
+  });
   it("throws an error if the association is not supported", async () => {
     try {
       await breakAssociation(

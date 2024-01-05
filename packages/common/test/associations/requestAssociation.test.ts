@@ -59,6 +59,24 @@ describe("requestAssociation", () => {
       {} as ArcGISContext
     );
   });
+  it("throws an error if there is an issue sharing the item with the association group", async () => {
+    shareItemWithGroupSpy.and.returnValue(Promise.reject("error"));
+
+    try {
+      await requestAssociation(
+        MOCK_PARENT_ENTITY,
+        "project",
+        "child-00a",
+        {} as ArcGISContext
+      );
+    } catch (err) {
+      expect(err).toEqual(
+        new Error(
+          "requestAssociation: there was an error sharing child-00a to group-00a: error"
+        )
+      );
+    }
+  });
   it("throws an error if the association is not supported", async () => {
     try {
       await requestAssociation(

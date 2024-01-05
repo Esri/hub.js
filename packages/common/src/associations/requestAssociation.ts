@@ -45,12 +45,18 @@ export const requestAssociation = async (
     if (isParent) {
       const associationGroupId = getProp(entity, "associations.groupId");
       const { owner } = await fetchHubEntity(associationType, id, context);
-      await shareItemWithGroup({
-        id,
-        owner,
-        groupId: associationGroupId,
-        authentication: context.session,
-      });
+      try {
+        await shareItemWithGroup({
+          id,
+          owner,
+          groupId: associationGroupId,
+          authentication: context.session,
+        });
+      } catch (error) {
+        throw new Error(
+          `requestAssociation: there was an error sharing ${id} to ${associationGroupId}: ${error}`
+        );
+      }
     } else {
       entity.typeKeywords = setAssociationKeyword(
         entity.typeKeywords,

@@ -42,12 +42,18 @@ export const breakAssociation = async (
     if (isParent) {
       const associationGroupId = getProp(entity, "associations.groupId");
       const { owner } = await fetchHubEntity(associationType, id, context);
-      await unshareItemWithGroup({
-        id,
-        groupId: associationGroupId,
-        authentication: context.session,
-        owner,
-      });
+      try {
+        await unshareItemWithGroup({
+          id,
+          groupId: associationGroupId,
+          authentication: context.session,
+          owner,
+        });
+      } catch (error) {
+        throw new Error(
+          `breakAssociation: there was an error unsharing ${id} from ${associationGroupId}: ${error}`
+        );
+      }
     } else {
       entity.typeKeywords = removeAssociationKeyword(
         entity.typeKeywords,
