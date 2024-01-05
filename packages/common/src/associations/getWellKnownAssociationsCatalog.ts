@@ -27,7 +27,21 @@ export type WellKnownAssociationCatalog =
   | "availableToRequest";
 
 /**
- * build a well-known association catalog
+ * There are two primary UI workflows when we consider associations:
+ * 1. Viewing associations
+ * 2. Forming associations
+ *
+ * Because associations involve a 2-way agreement between parent
+ * and child, when viewing associations, there are 3 gallery states
+ * that can be viewed: "associated", "pending", and "requesting"
+ * entities. Additionally, when forming associations, we need a
+ * picker experience filtered to entities that can still be
+ * requested for association.
+ *
+ * These define the "well-known" association catalogs that this
+ * util can return. In turn, these can be passed into the catalog
+ * and/or gallery-picker components to render the appropriate
+ * UI experience.
  *
  * @param i18nScope - translation scope to be interpolated into the catalog
  * @param catalogName - name of the well-known catalog requested

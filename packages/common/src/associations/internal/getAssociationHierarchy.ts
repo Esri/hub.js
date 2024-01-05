@@ -32,7 +32,7 @@ export const getAssociationHierarchy = (
     // as we support more entity associations, we'll need to extend this
     default:
       throw new Error(
-        `getAssociationHierarchy: Invalid type for assosiations: ${type}.`
+        `getAssociationHierarchy: Invalid type for associations: ${type}.`
       );
   }
 
