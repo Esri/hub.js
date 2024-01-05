@@ -274,46 +274,45 @@ describe("buildUiSchema: project edit", () => {
             },
           ],
         },
-        // TODO: uncomment after release and we add CTA back
-        // {
-        //   type: "Section",
-        //   labelKey: "some.scope.sections.callToAction.label",
-        //   options: {
-        //     helperText: {
-        //       labelKey: "some.scope.sections.callToAction.helperText",
-        //     },
-        //   },
-        //   elements: [
-        //     {
-        //       scope: "/properties/view/properties/heroActions",
-        //       type: "Control",
-        //       options: {
-        //         control: "hub-composite-input-action-links",
-        //         type: "button",
-        //         catalogs: {},
-        //         facets: [
-        //           {
-        //             label: `{{some.scope.fields.callToAction.facets.type:translate}}`,
-        //             key: "type",
-        //             display: "multi-select",
-        //             field: "type",
-        //             options: [],
-        //             operation: "OR",
-        //             aggLimit: 100,
-        //           },
-        //           {
-        //             label: `{{some.scope.fields.callToAction.facets.sharing:translate}}`,
-        //             key: "access",
-        //             display: "multi-select",
-        //             field: "access",
-        //             options: [],
-        //             operation: "OR",
-        //           },
-        //         ],
-        //       },
-        //     },
-        //   ],
-        // },
+        {
+          type: "Section",
+          labelKey: "some.scope.sections.callToAction.label",
+          options: {
+            helperText: {
+              labelKey: "some.scope.sections.callToAction.helperText",
+            },
+          },
+          elements: [
+            {
+              scope: "/properties/view/properties/heroActions",
+              type: "Control",
+              options: {
+                control: "hub-composite-input-action-links",
+                type: "button",
+                catalogs: {},
+                facets: [
+                  {
+                    label: `{{some.scope.fields.callToAction.facets.type:translate}}`,
+                    key: "type",
+                    display: "multi-select",
+                    field: "type",
+                    options: [],
+                    operation: "OR",
+                    aggLimit: 100,
+                  },
+                  {
+                    label: `{{some.scope.fields.callToAction.facets.sharing:translate}}`,
+                    key: "access",
+                    display: "multi-select",
+                    field: "access",
+                    options: [],
+                    operation: "OR",
+                  },
+                ],
+              },
+            },
+          ],
+        },
       ],
     });
   });
@@ -586,46 +585,45 @@ describe("buildUiSchema: project edit", () => {
             },
           ],
         },
-        // TODO: uncomment after release and we add CTA back
-        // {
-        //   type: "Section",
-        //   labelKey: "some.scope.sections.callToAction.label",
-        //   options: {
-        //     helperText: {
-        //       labelKey: "some.scope.sections.callToAction.helperText",
-        //     },
-        //   },
-        //   elements: [
-        //     {
-        //       scope: "/properties/view/properties/heroActions",
-        //       type: "Control",
-        //       options: {
-        //         control: "hub-composite-input-action-links",
-        //         type: "button",
-        //         catalogs: {},
-        //         facets: [
-        //           {
-        //             label: `{{some.scope.fields.callToAction.facets.type:translate}}`,
-        //             key: "type",
-        //             display: "multi-select",
-        //             field: "type",
-        //             options: [],
-        //             operation: "OR",
-        //             aggLimit: 100,
-        //           },
-        //           {
-        //             label: `{{some.scope.fields.callToAction.facets.sharing:translate}}`,
-        //             key: "access",
-        //             display: "multi-select",
-        //             field: "access",
-        //             options: [],
-        //             operation: "OR",
-        //           },
-        //         ],
-        //       },
-        //     },
-        //   ],
-        // },
+        {
+          type: "Section",
+          labelKey: "some.scope.sections.callToAction.label",
+          options: {
+            helperText: {
+              labelKey: "some.scope.sections.callToAction.helperText",
+            },
+          },
+          elements: [
+            {
+              scope: "/properties/view/properties/heroActions",
+              type: "Control",
+              options: {
+                control: "hub-composite-input-action-links",
+                type: "button",
+                catalogs: {},
+                facets: [
+                  {
+                    label: `{{some.scope.fields.callToAction.facets.type:translate}}`,
+                    key: "type",
+                    display: "multi-select",
+                    field: "type",
+                    options: [],
+                    operation: "OR",
+                    aggLimit: 100,
+                  },
+                  {
+                    label: `{{some.scope.fields.callToAction.facets.sharing:translate}}`,
+                    key: "access",
+                    display: "multi-select",
+                    field: "access",
+                    options: [],
+                    operation: "OR",
+                  },
+                ],
+              },
+            },
+          ],
+        },
       ],
     });
   });
