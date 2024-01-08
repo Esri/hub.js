@@ -1,7 +1,7 @@
 import { HubEntityType } from "../../core/types";
 
 /**
- * when a child decides it wants to "disconnect" itslef from
+ * when a child decides it wants to "disconnect" itself from
  * an existing association, the child removes the typeKeyword
  * (ref|<type>|<id>) that "references" the parent
  *
