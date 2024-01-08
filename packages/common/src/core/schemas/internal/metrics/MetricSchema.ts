@@ -19,9 +19,7 @@ export const MetricSchema: IConfigurationSchema = {
     cardTitle: {
       type: "string",
     },
-    value: {
-      type: ["number", "string"],
-    },
+    value: {},
     valueType: {
       type: "string",
       default: "string",
@@ -134,7 +132,9 @@ export const MetricSchema: IConfigurationSchema = {
     },
     "value-type-value-mapping": {
       if: {
-        properties: { valueType: { enum: ["string", "date"] } },
+        properties: {
+          valueType: { enum: ["string", "date"] },
+        },
       },
       then: {
         properties: { value: { type: "string" } },
