@@ -19,7 +19,9 @@ export const MetricSchema: IConfigurationSchema = {
     cardTitle: {
       type: "string",
     },
-    value: {},
+    value: {
+      type: "string",
+    },
     valueType: {
       type: "string",
       default: "string",
@@ -109,7 +111,10 @@ export const MetricSchema: IConfigurationSchema = {
       type: "string",
     },
   },
-  allOf: [{ $ref: "#/definitions/if-source-title-then-source-link" }],
+  allOf: [
+    { $ref: "#/definitions/if-source-title-then-source-link" },
+    { $ref: "#/definitions/value-type-value-mapping" },
+  ],
   definitions: {
     // TODO: reimplement popover with layouts release
     "if-layout-moreinfo-then-require-popover-title-description": {
