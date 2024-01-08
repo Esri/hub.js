@@ -19,9 +19,7 @@ export const MetricSchema: IConfigurationSchema = {
     cardTitle: {
       type: "string",
     },
-    value: {
-      type: "string",
-    },
+    value: {},
     valueType: {
       type: "string",
       default: "string",
