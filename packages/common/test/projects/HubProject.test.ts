@@ -705,6 +705,9 @@ describe("HubProject Class:", () => {
             sourceTitle: undefined,
             allowLink: undefined,
             visibility: MetricVisibility.hidden,
+            itemId: undefined,
+            expressionSet: undefined,
+            allowExpressionSet: undefined,
           },
         ]);
       });
@@ -759,6 +762,9 @@ describe("HubProject Class:", () => {
             sourceLink: undefined,
             sourceTitle: undefined,
             allowLink: undefined,
+            itemId: undefined,
+            expressionSet: undefined,
+            allowExpressionSet: undefined,
             visibility: MetricVisibility.hidden,
           },
         ]);
@@ -826,6 +832,9 @@ describe("HubProject Class:", () => {
             sourceLink: undefined,
             sourceTitle: undefined,
             allowLink: undefined,
+            itemId: undefined,
+            expressionSet: undefined,
+            allowExpressionSet: undefined,
             type: "static",
             displayType: "stat-card",
             metricId: "metric1",
@@ -892,6 +901,9 @@ describe("HubProject Class:", () => {
             displayType: "stat-card",
             visibility: MetricVisibility.hidden,
             metricId: "metric1",
+            itemId: undefined,
+            expressionSet: undefined,
+            allowExpressionSet: undefined,
           },
         ]);
       });
