@@ -86,6 +86,7 @@ export const buildUiSchema = (
             type: "Control",
             rule: SHOW_FOR_STATIC_AND_STRING_RULE_ENTITY,
             options: {
+              control: "hub-field-input-input",
               messages: [
                 {
                   type: "ERROR",
@@ -103,6 +104,7 @@ export const buildUiSchema = (
             type: "Control",
             rule: SHOW_FOR_STATIC_AND_NUMBER_RULE_ENTITY,
             options: {
+              control: "hub-field-input-input",
               type: "number",
               messages: [
                 {
