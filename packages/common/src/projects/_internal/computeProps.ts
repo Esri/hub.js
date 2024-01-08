@@ -7,6 +7,7 @@ import { isDiscussable } from "../../discussions";
 import { processEntityFeatures } from "../../permissions/_internal/processEntityFeatures";
 import { ProjectDefaultFeatures } from "./ProjectBusinessRules";
 import { computeLinks } from "./computeLinks";
+import { getAuthedImageUrl } from "../../core/_internal/getAuthedImageUrl";
 
 /**
  * Given a model and a project, set various computed properties that can't be directly mapped
@@ -35,6 +36,14 @@ export function computeProps(
   project.updatedDate = new Date(model.item.modified);
   project.updatedDateSource = "item.modified";
   project.isDiscussable = isDiscussable(project);
+
+  project.view = {
+    ...model.data.view,
+    featuredImageUrl: getAuthedImageUrl(
+      model.data.view?.featuredImageUrl,
+      requestOptions
+    ),
+  };
 
   /**
    * Features that can be disabled by the entity owner
