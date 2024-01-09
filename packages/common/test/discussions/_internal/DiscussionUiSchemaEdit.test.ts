@@ -64,6 +64,14 @@ describe("buildUiSchema: discussion edit", () => {
                 helperText: {
                   labelKey: "some.scope.fields.prompt.helperText",
                 },
+                messages: [
+                  {
+                    type: "ERROR",
+                    keyword: "maxLength",
+                    icon: true,
+                    labelKey: `some.scope.fields.prompt.maxLengthError`,
+                  },
+                ],
               },
             },
             {
@@ -235,6 +243,14 @@ describe("buildUiSchema: discussion edit", () => {
                 helperText: {
                   labelKey: "some.scope.fields.prompt.helperText",
                 },
+                messages: [
+                  {
+                    type: "ERROR",
+                    keyword: "maxLength",
+                    icon: true,
+                    labelKey: `some.scope.fields.prompt.maxLengthError`,
+                  },
+                ],
               },
             },
             {
