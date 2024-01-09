@@ -1,4 +1,5 @@
-import { IWithAssociations, listAssociations } from "../../src";
+import { IWithAssociations } from "../../src/core/traits";
+import { listAssociations } from "../../src/associations/listAssociations";
 
 describe("listAssociations:", () => {
   it("returns empty array if no keywords prop", () => {

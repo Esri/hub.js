@@ -1,4 +1,5 @@
-import { IWithAssociations, removeAssociation } from "../../src";
+import { IWithAssociations } from "../../src/core/traits";
+import { removeAssociation } from "../../src/associations/removeAssociation";
 
 describe("removeAssociation", () => {
   it("removes the keyword if present", () => {

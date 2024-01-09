@@ -27,6 +27,9 @@ export const InitiativePermissions = [
   "hub:initiative:workspace:overview",
   "hub:initiative:workspace:dashboard",
   "hub:initiative:workspace:details",
+  "hub:initiative:workspace:projects",
+  "hub:initiative:workspace:projects:member",
+  "hub:initiative:workspace:projects:manager",
   "hub:initiative:workspace:settings",
   "hub:initiative:workspace:collaborators",
   "hub:initiative:workspace:content",
@@ -97,6 +100,32 @@ export const InitiativePermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:initiative:workspace:details",
     dependencies: ["hub:initiative:workspace", "hub:initiative:edit"],
+  },
+  {
+    permission: "hub:initiative:workspace:projects",
+    dependencies: ["hub:initiative:workspace", "hub:initiative:edit"],
+  },
+  {
+    permission: "hub:initiative:workspace:projects:member",
+    dependencies: ["hub:initiative:workspace:projects"],
+    assertions: [
+      {
+        property: "context:currentUser",
+        type: "is-group-member",
+        value: "entity:associations.groupId",
+      },
+    ],
+  },
+  {
+    permission: "hub:initiative:workspace:projects:manager",
+    dependencies: ["hub:initiative:workspace:projects"],
+    assertions: [
+      {
+        property: "context:currentUser",
+        type: "is-group-admin",
+        value: "entity:associations.groupId",
+      },
+    ],
   },
   {
     permission: "hub:initiative:workspace:settings",

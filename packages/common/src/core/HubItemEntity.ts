@@ -455,6 +455,9 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
   }
 
   /**
+   * ** DEPRECATED: This will be removed in the next
+   * breaking version **
+   *
    * Return a list of IAssociationInfo objects representing
    * the associations this entity has, to the specified type
    * @param type
@@ -465,6 +468,9 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
   }
 
   /**
+   * ** DEPRECATED: please use requestAssociation instead.
+   * This will be removed in the next breaking version **
+   *
    * Add an association to this entity
    * @param info
    * @returns
@@ -474,6 +480,9 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
   }
 
   /**
+   * ** DEPRECATED: please use breakAssociation instead.
+   * This will be removed in the next breaking version **
+   *
    * Remove an association from this entity
    * @param info
    * @returns

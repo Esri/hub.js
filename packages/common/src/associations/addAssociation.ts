@@ -2,6 +2,9 @@ import { IWithAssociations } from "../core/traits/IWithAssociations";
 import { IAssociationInfo } from "./types";
 
 /**
+ * ** DEPRECATED: please use requestAssociation instead.
+ * This will be removed in the next breaking version **
+ *
  * Add an association to an entity
  * Persisted into the entity's `.typeKeywords` array
  * @param info
