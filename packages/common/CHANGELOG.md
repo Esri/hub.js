@@ -1,3 +1,10 @@
+# @esri/hub-common [14.77.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.76.0...@esri/hub-common@14.77.0) (2024-01-09)
+
+
+### Features
+
+* **hub-common:** adds IHubLocation to IHubSearchResult ([#1376](https://github.com/Esri/hub.js/issues/1376)) ([122d285](https://github.com/Esri/hub.js/commit/122d285f94feb2b5aabeba33bf325ce8edf4f016))
+
 # @esri/hub-common [14.76.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.75.0...@esri/hub-common@14.76.0) (2024-01-09)
 
 
