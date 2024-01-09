@@ -1,3 +1,10 @@
+# @esri/hub-common [14.76.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.75.0...@esri/hub-common@14.76.0) (2024-01-09)
+
+
+### Features
+
+* **hub-common:** adds character limit to prompt field ([#1375](https://github.com/Esri/hub.js/issues/1375)) ([e6503cd](https://github.com/Esri/hub.js/commit/e6503cdf3ca33e17f143d9eb6b34f268de677dde))
+
 # @esri/hub-common [14.75.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.74.2...@esri/hub-common@14.75.0) (2024-01-09)
 
 
