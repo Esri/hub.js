@@ -45,6 +45,7 @@ export async function enrichContentSearchResult(
       siteRelative: "not-implemented",
       thumbnail: "not-implemented",
     },
+    location: item.properties?.location,
     rawResult: item,
   };
 

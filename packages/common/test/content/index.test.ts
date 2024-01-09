@@ -3,10 +3,34 @@ import { IItem } from "@esri/arcgis-rest-portal";
 import {
   cloneObject,
   enrichContentSearchResult,
+  IHubLocation,
   IHubRequestOptions,
 } from "../../src";
 import * as FetchEnrichments from "../../src/items/_enrichments";
 import * as Extent from "../../src/extent";
+
+const LOCATION: IHubLocation = {
+  type: "custom",
+  geometries: [
+    {
+      xmin: -157.92997000002723,
+      ymin: 17.069699999614166,
+      xmax: -65.79849542073713,
+      ymax: 53.57133351703125,
+      spatialReference: {
+        wkid: 4326,
+      },
+      type: "extent",
+    } as any,
+  ],
+  spatialReference: {
+    wkid: 4326,
+  },
+  extent: [
+    [-157.92997000002723, 17.069699999614166],
+    [-65.79849542073713, 53.57133351703125],
+  ],
+};
 
 const FEATURE_SERVICE_ITEM: IItem = {
   id: "bbc0882d4713479c87bedcd6b3c41d1a",
@@ -38,7 +62,7 @@ const FEATURE_SERVICE_ITEM: IItem = {
   accessInformation: null,
   licenseInfo: null,
   culture: "en-us",
-  properties: null,
+  properties: { location: LOCATION },
   advancedSettings: null,
   url: "http://gaiacloud.gaiaose.gr/arcgis/rest/services/Public/MisthoseisPlot/MapServer",
   proxyFilter: null,
@@ -120,6 +144,7 @@ describe("content module:", () => {
       expect(chk.links.thumbnail).toEqual(
         `${hubRo.portal}/content/items/${ITM.id}/info/${ITM.thumbnail}`
       );
+      expect(chk.location).toEqual(LOCATION);
     });
 
     it("uses snippet if defined", async () => {
