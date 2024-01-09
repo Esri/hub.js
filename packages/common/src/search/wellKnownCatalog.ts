@@ -2,6 +2,7 @@ import { IUser } from "@esri/arcgis-rest-types";
 import { getFamilyTypes } from "../content/get-family";
 import { HubFamily } from "../types";
 import { EntityType, IHubCatalog, IHubCollection } from "./types";
+import { buildCatalog } from "./_internal/buildCatalog";
 
 /**
  * This is used to determine what IHubCatalog definition JSON object
@@ -73,49 +74,6 @@ export function getWellKnownCatalog(
 }
 
 /**
- * Build an IHubCatalog definition JSON object based on the
- * catalog name, predicates and collections we want to use for each catalog
- * @param i18nScope
- * @param catalogName
- * @param predicates Predicates for the catalog
- * @param collections Collections to include for the catalog
- * @returns An IHubCatalog definition JSON object
- */
-function buildCatalog(
-  i18nScope: string,
-  catalogName: WellKnownCatalog,
-  predicates: any[],
-  collections: IHubCollection[],
-  entityType: EntityType
-): IHubCatalog {
-  let scopes;
-  switch (entityType) {
-    case "item":
-      scopes = {
-        item: {
-          targetEntity: "item" as EntityType,
-          filters: [{ predicates }],
-        },
-      };
-      break;
-    case "group":
-      scopes = {
-        group: {
-          targetEntity: "group" as EntityType,
-          filters: [{ predicates }],
-        },
-      };
-      break;
-  }
-  return {
-    schemaVersion: 1,
-    title: `{{${i18nScope}catalog.${catalogName}:translate}}`,
-    scopes,
-    collections,
-  };
-}
-
-/**
  * Check if user is available in the passed options, throw an error if not
  * @param catalogName
  * @param options Options that contains user
@@ -154,7 +112,7 @@ function getWellknownItemCatalog(
       catalog = buildCatalog(
         i18nScope,
         catalogName,
-        [{ owner: options.user.username }],
+        [{ predicates: [{ owner: options.user.username }] }],
         collections,
         "item"
       );
@@ -164,7 +122,7 @@ function getWellknownItemCatalog(
       catalog = buildCatalog(
         i18nScope,
         catalogName,
-        [{ group: options.user.favGroupId }],
+        [{ predicates: [{ group: options.user.favGroupId }] }],
         collections,
         "item"
       );
@@ -174,7 +132,7 @@ function getWellknownItemCatalog(
       catalog = buildCatalog(
         i18nScope,
         catalogName,
-        [{ orgid: options.user.orgId }],
+        [{ predicates: [{ orgid: options.user.orgId }] }],
         collections,
         "item"
       );
@@ -183,7 +141,7 @@ function getWellknownItemCatalog(
       catalog = buildCatalog(
         i18nScope,
         catalogName,
-        [{ type: { not: ["code attachment"] } }],
+        [{ predicates: [{ type: { not: ["code attachment"] } }] }],
         collections,
         "item"
       );
@@ -230,7 +188,7 @@ function getWellknownGroupCatalog(
       catalog = buildCatalog(
         i18nScope,
         catalogName,
-        [{ capabilities: ["updateitemcontrol"] }],
+        [{ predicates: [{ capabilities: ["updateitemcontrol"] }] }],
         collections,
         "group"
       );
@@ -240,7 +198,7 @@ function getWellknownGroupCatalog(
       catalog = buildCatalog(
         i18nScope,
         catalogName,
-        [{ capabilities: { not: ["updateitemcontrol"] } }],
+        [{ predicates: [{ capabilities: { not: ["updateitemcontrol"] } }] }],
         collections,
         "group"
       );
@@ -250,7 +208,7 @@ function getWellknownGroupCatalog(
       catalog = buildCatalog(
         i18nScope,
         catalogName,
-        [{ capabilities: [""] }],
+        [{ predicates: [{ capabilities: [""] }] }],
         collections,
         "group"
       );
@@ -363,6 +321,27 @@ function getAllCollectionsMap(i18nScope: string, entityType: EntityType): any {
             predicates: [
               {
                 type: getFamilyTypes("project"),
+              },
+            ],
+          },
+        ],
+      },
+    } as IHubCollection,
+    // note: For now, this is not included in the default collection names.
+    // It would need to be explicitly passed into getWellknownCollections
+    // to be returned
+    initiative: {
+      key: "initiative",
+      label: `{{${i18nScope}collection.initiatives:translate}}`,
+      targetEntity: entityType,
+      include: [],
+      scope: {
+        targetEntity: entityType,
+        filters: [
+          {
+            predicates: [
+              {
+                type: getFamilyTypes("initiative"),
               },
             ],
           },

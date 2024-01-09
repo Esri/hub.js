@@ -614,6 +614,78 @@ describe("HubItemEntity Class: ", () => {
         "https://www.arcgis.com/sharing/rest/content/items/3ef/resources/featuredImage.png"
       );
     });
+
+    it("should call itself if resource is already present but there is no featuredImageUrl", async () => {
+      let count = 1;
+      const clearImageSpy = spyOn(
+        PortalModule,
+        "removeItemResource"
+      ).and.returnValue(Promise.resolve({ success: true }));
+
+      const setImageSpy = spyOn(
+        ItemsModule,
+        "uploadImageResource"
+      ).and.callFake(() => {
+        if (count === 1) {
+          count += 1;
+          const err = new Error("CONT_00942: Resource already present");
+          return Promise.reject(err);
+        } else {
+          return Promise.resolve(
+            "https://www.arcgis.com/sharing/rest/content/items/3ef/resources/featuredImage.png"
+          );
+        }
+      });
+
+      const instance = new TestHarness(
+        {
+          id: "00c",
+          owner: "deke",
+          view: {},
+        },
+        authdCtxMgr.context
+      );
+      await instance.setFeaturedImage("fake-file");
+      expect(clearImageSpy).toHaveBeenCalledTimes(1);
+      expect(setImageSpy).toHaveBeenCalledTimes(2);
+      const chk = instance.toJson();
+      expect(chk.view.featuredImageUrl).toBe(
+        "https://www.arcgis.com/sharing/rest/content/items/3ef/resources/featuredImage.png"
+      );
+    });
+  });
+
+  it("should throw an err if applicable", async () => {
+    const clearImageSpy = spyOn(
+      PortalModule,
+      "removeItemResource"
+    ).and.returnValue(Promise.resolve({ success: true }));
+
+    const setImageSpy = spyOn(ItemsModule, "uploadImageResource").and.callFake(
+      () => {
+        return Promise.reject(new Error("fake error"));
+      }
+    );
+
+    const instance = new TestHarness(
+      {
+        id: "00c",
+        owner: "deke",
+        view: {
+          featuredImageUrl: "https://fake.com/featured.png",
+        },
+      },
+      authdCtxMgr.context
+    );
+    try {
+      await instance.setFeaturedImage("fake-file");
+      fail("should have thrown error");
+    } catch (err) {
+      expect(clearImageSpy).toHaveBeenCalledTimes(1);
+      expect(setImageSpy).toHaveBeenCalledTimes(1);
+      const chk = instance.toJson();
+      expect(chk.view.featuredImageUrl).toBe(null);
+    }
   });
 
   describe("permission behavior:", () => {

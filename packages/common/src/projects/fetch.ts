@@ -130,6 +130,9 @@ export async function enrichProjectSearchResult(
 }
 
 /**
+ * ** DEPRECATED: Please use the association methods directly.
+ * This will be removed in the next breaking version **
+ *
  * Get a query that will fetch all the initiatives which the project has
  * chosen to connect to. If project has not defined any associations
  * to any Initiatives, will return `null`.

@@ -5,9 +5,9 @@ export interface IWithFeaturedImageBehavior {
   /**
    * Set the featured image for the item
    * @param file
-   * @param filename
+   * @param clearExisting
    */
-  setFeaturedImage(file: any, filename: string): Promise<void>;
+  setFeaturedImage(file: any, clearExisting: boolean): Promise<void>;
   /**
    * Clears the featured image for the item
    * @param filename
