@@ -1,3 +1,10 @@
+# @esri/hub-common [14.75.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.74.2...@esri/hub-common@14.75.0) (2024-01-09)
+
+
+### Features
+
+* add/update associations business logic ([#1370](https://github.com/Esri/hub.js/issues/1370)) ([75abd91](https://github.com/Esri/hub.js/commit/75abd912462cbd4f49e9be859da1ae6270021e89))
+
 ## @esri/hub-common [14.74.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.74.1...@esri/hub-common@14.74.2) (2024-01-08)
 
 
