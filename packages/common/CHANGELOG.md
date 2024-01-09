@@ -1,3 +1,17 @@
+# @esri/hub-common [14.75.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.74.2...@esri/hub-common@14.75.0) (2024-01-09)
+
+
+### Features
+
+* add/update associations business logic ([#1370](https://github.com/Esri/hub.js/issues/1370)) ([75abd91](https://github.com/Esri/hub.js/commit/75abd912462cbd4f49e9be859da1ae6270021e89))
+
+## @esri/hub-common [14.74.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.74.1...@esri/hub-common@14.74.2) (2024-01-08)
+
+
+### Bug Fixes
+
+* setFeaturedImage can now clear out orphaned featured image resou… ([#1378](https://github.com/Esri/hub.js/issues/1378)) ([910b2ea](https://github.com/Esri/hub.js/commit/910b2ea0480bf5704bfc332e8f98f71f2c8af63a))
+
 ## @esri/hub-common [14.74.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.74.0...@esri/hub-common@14.74.1) (2024-01-05)
 
 
