@@ -18,18 +18,6 @@ describe("buildUiSchema: metric", () => {
               labelKey: `some.scope.fields.metrics.cardTitle.label`,
               scope: "/properties/_metric/properties/cardTitle",
               type: "Control",
-              options: {
-                messages: [
-                  {
-                    type: "ERROR",
-                    keyword: "minLength",
-                    labelKey:
-                      "some.scope.fields.metrics.cardTitle.message.minLength",
-                    icon: true,
-                    allowShowBeforeInteract: true,
-                  },
-                ],
-              },
             },
           ],
         },
@@ -92,16 +80,6 @@ describe("buildUiSchema: metric", () => {
               },
               options: {
                 control: "hub-field-input-input",
-                messages: [
-                  {
-                    type: "ERROR",
-                    keyword: "minLength",
-                    labelKey:
-                      "some.scope.fields.metrics.value.message.minLength",
-                    icon: true,
-                    allowShowBeforeInteract: true,
-                  },
-                ],
               },
             },
             {
@@ -126,16 +104,6 @@ describe("buildUiSchema: metric", () => {
               options: {
                 control: "hub-field-input-input",
                 type: "number",
-                messages: [
-                  {
-                    type: "ERROR",
-                    keyword: "minLength",
-                    labelKey:
-                      "some.scope.fields.metrics.value.message.minLength",
-                    icon: true,
-                    allowShowBeforeInteract: true,
-                  },
-                ],
               },
             },
             {
@@ -159,16 +127,6 @@ describe("buildUiSchema: metric", () => {
               },
               options: {
                 control: "hub-field-input-date",
-                messages: [
-                  {
-                    type: "ERROR",
-                    keyword: "minLength",
-                    labelKey:
-                      "some.scope.fields.metrics.value.message.minLength",
-                    icon: true,
-                    allowShowBeforeInteract: true,
-                  },
-                ],
               },
             },
             {

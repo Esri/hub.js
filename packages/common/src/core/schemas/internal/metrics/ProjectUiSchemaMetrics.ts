@@ -34,17 +34,7 @@ export const buildUiSchema = (
             labelKey: `${i18nScope}.fields.metrics.cardTitle.label`,
             scope: "/properties/_metric/properties/cardTitle",
             type: "Control",
-            options: {
-              messages: [
-                {
-                  type: "ERROR",
-                  keyword: "minLength",
-                  labelKey: `${i18nScope}.fields.metrics.cardTitle.message.minLength`,
-                  icon: true,
-                  allowShowBeforeInteract: true,
-                },
-              ],
-            },
+            options: {},
           },
         ],
       },
@@ -87,15 +77,6 @@ export const buildUiSchema = (
             rule: SHOW_FOR_STATIC_AND_STRING_RULE_ENTITY,
             options: {
               control: "hub-field-input-input",
-              messages: [
-                {
-                  type: "ERROR",
-                  keyword: "minLength",
-                  labelKey: `${i18nScope}.fields.metrics.value.message.minLength`,
-                  icon: true,
-                  allowShowBeforeInteract: true,
-                },
-              ],
             },
           },
           {
@@ -106,15 +87,6 @@ export const buildUiSchema = (
             options: {
               control: "hub-field-input-input",
               type: "number",
-              messages: [
-                {
-                  type: "ERROR",
-                  keyword: "minLength",
-                  labelKey: `${i18nScope}.fields.metrics.value.message.minLength`,
-                  icon: true,
-                  allowShowBeforeInteract: true,
-                },
-              ],
             },
           },
           {
@@ -124,15 +96,6 @@ export const buildUiSchema = (
             rule: SHOW_FOR_STATIC_AND_DATE_RULE_ENTITY,
             options: {
               control: "hub-field-input-date",
-              messages: [
-                {
-                  type: "ERROR",
-                  keyword: "minLength",
-                  labelKey: `${i18nScope}.fields.metrics.value.message.minLength`,
-                  icon: true,
-                  allowShowBeforeInteract: true,
-                },
-              ],
             },
           },
           {
@@ -151,7 +114,7 @@ export const buildUiSchema = (
             options: {
               helperText: {
                 labelKey: `${i18nScope}.fields.metrics.unit.helperText`,
-                placement: "bottom",
+                placement: "top",
               },
             },
           },
