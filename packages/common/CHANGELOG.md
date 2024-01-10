@@ -1,3 +1,10 @@
+## @esri/hub-common [14.77.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.77.0...@esri/hub-common@14.77.1) (2024-01-10)
+
+
+### Bug Fixes
+
+* image description in hero title select ([#1380](https://github.com/Esri/hub.js/issues/1380)) ([0693f24](https://github.com/Esri/hub.js/commit/0693f249bc024af69d8b8ec7729c4caa32d03aaa))
+
 # @esri/hub-common [14.77.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.76.0...@esri/hub-common@14.77.0) (2024-01-09)
 
 
