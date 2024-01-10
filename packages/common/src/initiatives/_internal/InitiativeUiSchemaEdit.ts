@@ -97,7 +97,7 @@ export const buildUiSchema = async (
               ],
               descriptions: [
                 `{{${i18nScope}.fields.hero.map.description:translate}}`,
-                `{{${i18nScope}.fields.hero.map.description:translate}}`,
+                `{{${i18nScope}.fields.hero.image.description:translate}}`,
               ],
               icons: ["map-pin", "image"],
             },
