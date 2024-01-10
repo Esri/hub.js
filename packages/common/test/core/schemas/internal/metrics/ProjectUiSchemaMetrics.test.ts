@@ -52,7 +52,7 @@ describe("buildUiSchema: metric", () => {
                 layout: "horizontal",
                 helperText: {
                   labelKey: `some.scope.fields.metrics.valueType.helperText`,
-                  placement: "bottom",
+                  placement: "top",
                 },
                 enum: {
                   i18nScope: `some.scope.fields.metrics.valueType.enum`,
@@ -151,7 +151,7 @@ describe("buildUiSchema: metric", () => {
               options: {
                 helperText: {
                   labelKey: `some.scope.fields.metrics.unit.helperText`,
-                  placement: "bottom",
+                  placement: "top",
                 },
               },
             },
