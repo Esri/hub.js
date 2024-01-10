@@ -1,3 +1,10 @@
+# @esri/hub-common [14.78.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.77.1...@esri/hub-common@14.78.0) (2024-01-10)
+
+
+### Features
+
+* add type for static metric value ([#1371](https://github.com/Esri/hub.js/issues/1371)) ([af404bf](https://github.com/Esri/hub.js/commit/af404bf47686e411f5612f5a3c5a937c97218616))
+
 ## @esri/hub-common [14.77.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.77.0...@esri/hub-common@14.77.1) (2024-01-10)
 
 
