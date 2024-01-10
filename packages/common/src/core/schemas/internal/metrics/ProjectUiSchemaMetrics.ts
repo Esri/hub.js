@@ -34,7 +34,6 @@ export const buildUiSchema = (
             labelKey: `${i18nScope}.fields.metrics.cardTitle.label`,
             scope: "/properties/_metric/properties/cardTitle",
             type: "Control",
-            options: {},
           },
         ],
       },
@@ -63,7 +62,7 @@ export const buildUiSchema = (
               layout: "horizontal",
               helperText: {
                 labelKey: `${i18nScope}.fields.metrics.valueType.helperText`,
-                placement: "bottom",
+                placement: "top",
               },
               enum: {
                 i18nScope: `${i18nScope}.fields.metrics.valueType.enum`,
