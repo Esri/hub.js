@@ -120,6 +120,11 @@ export interface IStaticValueMetricSource {
    * Static value to use
    */
   value: string | number;
+
+  /**
+   * Type of the static value.
+   */
+  valueType?: "string" | "number" | "date";
 }
 
 /**

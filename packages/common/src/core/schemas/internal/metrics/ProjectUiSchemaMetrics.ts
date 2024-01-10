@@ -5,6 +5,9 @@ import {
   SHOW_FOR_STATIC_RULE_ENTITY,
   SHOW_FOR_DYNAMIC_RULE_ENTITY,
   SHOW_FOR_SHARING_RULE_ENTITY,
+  SHOW_FOR_STATIC_AND_STRING_RULE_ENTITY,
+  SHOW_FOR_STATIC_AND_NUMBER_RULE_ENTITY,
+  SHOW_FOR_STATIC_AND_DATE_RULE_ENTITY,
 } from "./rules";
 
 /**
@@ -31,17 +34,6 @@ export const buildUiSchema = (
             labelKey: `${i18nScope}.fields.metrics.cardTitle.label`,
             scope: "/properties/_metric/properties/cardTitle",
             type: "Control",
-            options: {
-              messages: [
-                {
-                  type: "ERROR",
-                  keyword: "minLength",
-                  labelKey: `${i18nScope}.fields.metrics.cardTitle.message.minLength`,
-                  icon: true,
-                  allowShowBeforeInteract: true,
-                },
-              ],
-            },
           },
         ],
       },
@@ -61,20 +53,48 @@ export const buildUiSchema = (
             },
           },
           {
+            scope: "/properties/_metric/properties/valueType",
+            type: "Control",
+            labelKey: `${i18nScope}.fields.metrics.valueType.label`,
+            rule: SHOW_FOR_STATIC_RULE_ENTITY,
+            options: {
+              control: "hub-field-input-tile-select",
+              layout: "horizontal",
+              helperText: {
+                labelKey: `${i18nScope}.fields.metrics.valueType.helperText`,
+                placement: "top",
+              },
+              enum: {
+                i18nScope: `${i18nScope}.fields.metrics.valueType.enum`,
+              },
+            },
+          },
+          {
             labelKey: `${i18nScope}.fields.metrics.value.label`,
             scope: "/properties/_metric/properties/value",
             type: "Control",
-            rule: SHOW_FOR_STATIC_RULE_ENTITY,
+            rule: SHOW_FOR_STATIC_AND_STRING_RULE_ENTITY,
             options: {
-              messages: [
-                {
-                  type: "ERROR",
-                  keyword: "minLength",
-                  labelKey: `${i18nScope}.fields.metrics.value.message.minLength`,
-                  icon: true,
-                  allowShowBeforeInteract: true,
-                },
-              ],
+              control: "hub-field-input-input",
+            },
+          },
+          {
+            labelKey: `${i18nScope}.fields.metrics.value.label`,
+            scope: "/properties/_metric/properties/value",
+            type: "Control",
+            rule: SHOW_FOR_STATIC_AND_NUMBER_RULE_ENTITY,
+            options: {
+              control: "hub-field-input-input",
+              type: "number",
+            },
+          },
+          {
+            labelKey: `${i18nScope}.fields.metrics.value.label`,
+            scope: "/properties/_metric/properties/value",
+            type: "Control",
+            rule: SHOW_FOR_STATIC_AND_DATE_RULE_ENTITY,
+            options: {
+              control: "hub-field-input-date",
             },
           },
           {
@@ -93,7 +113,7 @@ export const buildUiSchema = (
             options: {
               helperText: {
                 labelKey: `${i18nScope}.fields.metrics.unit.helperText`,
-                placement: "bottom",
+                placement: "top",
               },
             },
           },

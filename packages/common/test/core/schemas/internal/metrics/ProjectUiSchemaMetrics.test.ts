@@ -18,18 +18,6 @@ describe("buildUiSchema: metric", () => {
               labelKey: `some.scope.fields.metrics.cardTitle.label`,
               scope: "/properties/_metric/properties/cardTitle",
               type: "Control",
-              options: {
-                messages: [
-                  {
-                    type: "ERROR",
-                    keyword: "minLength",
-                    labelKey:
-                      "some.scope.fields.metrics.cardTitle.message.minLength",
-                    icon: true,
-                    allowShowBeforeInteract: true,
-                  },
-                ],
-              },
             },
           ],
         },
@@ -49,9 +37,9 @@ describe("buildUiSchema: metric", () => {
               },
             },
             {
-              labelKey: `some.scope.fields.metrics.value.label`,
-              scope: "/properties/_metric/properties/value",
+              scope: "/properties/_metric/properties/valueType",
               type: "Control",
+              labelKey: `some.scope.fields.metrics.valueType.label`,
               rule: {
                 condition: {
                   scope: "/properties/_metric/properties/type",
@@ -60,16 +48,85 @@ describe("buildUiSchema: metric", () => {
                 effect: UiSchemaRuleEffects.SHOW,
               },
               options: {
-                messages: [
-                  {
-                    type: "ERROR",
-                    keyword: "minLength",
-                    labelKey:
-                      "some.scope.fields.metrics.value.message.minLength",
-                    icon: true,
-                    allowShowBeforeInteract: true,
+                control: "hub-field-input-tile-select",
+                layout: "horizontal",
+                helperText: {
+                  labelKey: `some.scope.fields.metrics.valueType.helperText`,
+                  placement: "top",
+                },
+                enum: {
+                  i18nScope: `some.scope.fields.metrics.valueType.enum`,
+                },
+              },
+            },
+            {
+              labelKey: `some.scope.fields.metrics.value.label`,
+              scope: "/properties/_metric/properties/value",
+              type: "Control",
+              rule: {
+                condition: {
+                  schema: {
+                    properties: {
+                      _metric: {
+                        properties: {
+                          type: { const: "static" },
+                          valueType: { const: "string" },
+                        },
+                      },
+                    },
                   },
-                ],
+                },
+                effect: UiSchemaRuleEffects.SHOW,
+              },
+              options: {
+                control: "hub-field-input-input",
+              },
+            },
+            {
+              labelKey: `some.scope.fields.metrics.value.label`,
+              scope: "/properties/_metric/properties/value",
+              type: "Control",
+              rule: {
+                condition: {
+                  schema: {
+                    properties: {
+                      _metric: {
+                        properties: {
+                          type: { const: "static" },
+                          valueType: { const: "number" },
+                        },
+                      },
+                    },
+                  },
+                },
+                effect: UiSchemaRuleEffects.SHOW,
+              },
+              options: {
+                control: "hub-field-input-input",
+                type: "number",
+              },
+            },
+            {
+              labelKey: `some.scope.fields.metrics.value.label`,
+              scope: "/properties/_metric/properties/value",
+              type: "Control",
+              rule: {
+                condition: {
+                  schema: {
+                    properties: {
+                      _metric: {
+                        properties: {
+                          type: { const: "static" },
+                          valueType: { const: "date" },
+                        },
+                      },
+                    },
+                  },
+                },
+                effect: UiSchemaRuleEffects.SHOW,
+              },
+              options: {
+                control: "hub-field-input-date",
               },
             },
             {
@@ -94,7 +151,7 @@ describe("buildUiSchema: metric", () => {
               options: {
                 helperText: {
                   labelKey: `some.scope.fields.metrics.unit.helperText`,
-                  placement: "bottom",
+                  placement: "top",
                 },
               },
             },

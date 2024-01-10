@@ -684,6 +684,7 @@ describe("HubProject Class:", () => {
             source: {
               type: "static-value",
               value: "123",
+              valueType: undefined,
             },
             name: "metric1",
             entityInfo: {
@@ -742,6 +743,7 @@ describe("HubProject Class:", () => {
             source: {
               type: "static-value",
               value: "123",
+              valueType: undefined,
             },
             name: "metric1",
             entityInfo: {
@@ -814,6 +816,7 @@ describe("HubProject Class:", () => {
             source: {
               type: "static-value",
               value: "123",
+              valueType: undefined,
             },
             name: "metric1",
             entityInfo: {
@@ -879,6 +882,7 @@ describe("HubProject Class:", () => {
             source: {
               type: "static-value",
               value: "123",
+              valueType: undefined,
             },
             name: "metric1",
             entityInfo: {

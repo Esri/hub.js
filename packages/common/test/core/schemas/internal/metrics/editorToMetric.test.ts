@@ -211,6 +211,7 @@ describe("editorToMetric", () => {
       expect(metric.source as IStaticValueMetricSource as any).toEqual({
         type: "static-value",
         value: undefined,
+        valueType: undefined,
       });
     });
     it("handles an empty values object", () => {
@@ -221,6 +222,7 @@ describe("editorToMetric", () => {
       expect(metric.source as IStaticValueMetricSource as any).toEqual({
         type: "static-value",
         value: undefined,
+        valueType: undefined,
       });
     });
 
@@ -235,6 +237,7 @@ describe("editorToMetric", () => {
       expect(metric.source as IStaticValueMetricSource as any).toEqual({
         type: "static-value",
         value: "",
+        valueType: undefined,
       });
     });
     it("creates a new where clause correctly", () => {

@@ -26,7 +26,7 @@ export function editorToMetric(
   metricId: string,
   opts?: { metricName?: string; entityInfo?: IEntityInfo }
 ): { metric: IMetric; displayConfig: IMetricDisplayConfig } {
-  const { value, dynamicMetric, ...config } = values;
+  const { value, valueType, dynamicMetric, ...config } = values;
   const {
     layerId,
     itemId,
@@ -58,6 +58,7 @@ export function editorToMetric(
       : {
           type: "static-value",
           value,
+          valueType,
         };
 
   // create metric
