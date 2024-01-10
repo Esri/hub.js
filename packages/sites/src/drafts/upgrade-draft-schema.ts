@@ -5,6 +5,7 @@ import {
   _migrateFeedConfig,
   _migrateEventListCardConfigs,
   _migrateTelemetryConfig,
+  migrateBadBasemap,
 } from "@esri/hub-common";
 
 const schemaVersionPath = "item.properties.schemaVersion";
@@ -18,6 +19,9 @@ export function upgradeDraftSchema(draft: IDraft) {
   if (getProp(draft, "item.properties.schemaVersion") === undefined) {
     deepSet(draft, schemaVersionPath, initialDraftVersion);
   }
+
+  // Migrations that should always be applied
+  draft = migrateBadBasemap<IDraft>(draft);
 
   if (getProp(draft, "item.properties.schemaVersion") === SITE_SCHEMA_VERSION) {
     return draft;

@@ -17,6 +17,11 @@ import { migrateBadBasemap } from "./_internal/migrateBadBasemap";
  * @param model IModel
  */
 export function upgradeSiteSchema(model: IModel) {
+  // WARNING - If you are writing a site schema migration,
+  // you probably need to apply it to site drafts as well!
+  // Specifically, add the migration to upgrade-draft-schema.ts file
+  // in the sites package.
+  // See https://github.com/Esri/hub.js/issues/498 for more details.
   if (getProp(model, "item.properties.schemaVersion") !== SITE_SCHEMA_VERSION) {
     // apply upgrade functions in order...
     model = _applySiteSchema(model);

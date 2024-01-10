@@ -1,5 +1,5 @@
 import { getProp } from "../../objects";
-import { IModel } from "../../types";
+import { IDraft, IModel } from "../../types";
 import { cloneObject } from "../../util";
 
 /**
@@ -9,7 +9,7 @@ import { cloneObject } from "../../util";
  * @param {Object} model Site Model
  * @private
  */
-export function migrateBadBasemap(model: IModel) {
+export function migrateBadBasemap<T extends IModel | IDraft>(model: T) {
   // Unlike other migrations, this is not based on a version
   // rather it checks for a bad confirmation and fixes it.
 
