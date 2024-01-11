@@ -16,6 +16,7 @@ import {
   ServiceCapabilities,
 } from "../hostedServiceUtils";
 import { IItemAndIServerEnrichments } from "../../items/_enrichments";
+import { computeBaseProps } from "../../core/_internal/computeBaseProps";
 
 export function computeProps(
   model: IModel,
@@ -28,6 +29,9 @@ export function computeProps(
     const session: UserSession = requestOptions.authentication as UserSession;
     token = session.token;
   }
+
+  // compute base properties on content
+  content = computeBaseProps(model.item, content);
 
   // thumbnail url
   const thumbnailUrl = getItemThumbnailUrl(model.item, requestOptions, token);
@@ -47,8 +51,6 @@ export function computeProps(
   // cannot be null otherwise we'd get a validation
   // error that doesn't let us save the form
   content.licenseInfo = model.item.licenseInfo || "";
-
-  content.location = deriveLocationFromItem(model.item);
 
   content.isDiscussable = isDiscussable(content);
 
