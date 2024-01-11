@@ -19,7 +19,7 @@ export async function ogcItemToSearchResult(
   // as `license` and `source` if the OgcItem came from the index.
   const pseudoItem = ogcItem.properties as IItem;
   const result = await itemToSearchResult(pseudoItem, includes, requestOptions);
-  // Expose extraneous members like `license`, `source`, `properties.location` and `geometry`
+  // Expose extraneous members like `license` and `source`
   result.source = ogcItem.properties.source;
   result.license = ogcItem.properties.license;
   return result;
