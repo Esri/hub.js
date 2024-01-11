@@ -1,3 +1,10 @@
+## @esri/hub-common [14.78.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.78.1...@esri/hub-common@14.78.2) (2024-01-11)
+
+
+### Bug Fixes
+
+* require title and require value if static ([#1373](https://github.com/Esri/hub.js/issues/1373)) ([6231438](https://github.com/Esri/hub.js/commit/62314387ec9033e2a390e072f7f60f3f6eef9581))
+
 ## @esri/hub-common [14.78.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.78.0...@esri/hub-common@14.78.1) (2024-01-11)
 
 
