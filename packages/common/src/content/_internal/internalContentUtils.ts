@@ -133,7 +133,7 @@ export const deriveLocationFromItem = (item: IItem): IHubLocation => {
   if (!location) {
     // IHubLocation does not exist on item properties, so construct it
     // from item extent
-    const geometry: any = getExtentObject(item.extent);
+    const geometry: any = getExtentObject(extent);
     return {
       type: "custom",
       extent,
