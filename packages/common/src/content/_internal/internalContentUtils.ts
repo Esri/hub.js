@@ -111,30 +111,36 @@ const getExtentObject = (extent: number[][]): IExtent => {
  * Derives proper IHubLocation given an ArcGIS Item.  If no
  * location (item.properties.location) is present, one will be
  * constructed from the item's extent.
- * If item.properties.boundary === 'none', this function will strip
- * location and return { type: 'none' } per this document:
- * https://confluencewikidev.esri.com/display/Hub/Hub+Location+Management
  * @param item ArcGIS Item
  * @returns IHubLocation
  */
 export const deriveLocationFromItem = (item: IItem): IHubLocation => {
   const { properties, extent } = item;
+  const location: IHubLocation = properties?.location;
+
+  if (location) {
+    // IHubLocation already exists, so return it
+    return location;
+  }
+
   if (properties?.boundary === "none") {
+    // Per https://confluencewikidev.esri.com/display/Hub/Hub+Location+Management
+    // bounds = 'none' -> specifies not to show on map.  If this is true and
+    // no location is already present, opt to not generate location from item extent
     return { type: "none" };
   }
-  let location: IHubLocation = properties?.location;
+
   if (!location) {
     // IHubLocation does not exist on item properties, so construct it
     // from item extent
     const geometry: any = getExtentObject(item.extent);
-    location = {
+    return {
       type: "custom",
       extent,
       geometries: [geometry],
       spatialReference: geometry.spatialReference,
     };
   }
-  return location;
 };
 
 /**
