@@ -1,7 +1,11 @@
+// These internals need to be exported from the common package
+// so they can be accessed by sites package, specifically
+// the upgradeDraftSchema function
 export * from "./_internal/_ensure-telemetry";
 export * from "./_internal/_migrate-feed-config";
 export * from "./_internal/_migrate-event-list-card-configs";
 export * from "./_internal/_migrate-telemetry-config";
+export * from "./_internal/migrateBadBasemap";
 export * from "./domains";
 export * from "./drafts";
 export * from "./fetchSiteModel";
