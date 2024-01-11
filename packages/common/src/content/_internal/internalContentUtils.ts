@@ -11,11 +11,12 @@
 import { parseServiceUrl } from "@esri/arcgis-rest-feature-layer";
 import { IItem, IPortal } from "@esri/arcgis-rest-portal";
 import {
+  IExtent,
   ILayerDefinition,
   ISpatialReference,
   IUser,
 } from "@esri/arcgis-rest-types";
-import { IHubContent, PublisherSource } from "../../core";
+import { IHubContent, IHubLocation, PublisherSource } from "../../core";
 import {
   IHubGeography,
   GeographyProvenance,
@@ -93,6 +94,47 @@ export const getContentBoundary = (item: IItem): IHubGeography => {
     boundary.spatialReference = boundary.geometry.spatialReference;
   }
   return boundary;
+};
+
+/**
+ * Constructs IExtent from numeric item extent array
+ * @param extent Raw item extent array
+ * @returns IExtent
+ */
+const getExtentObject = (extent: number[][]): IExtent => {
+  return isBBox(extent)
+    ? ({ ...bBoxToExtent(extent), type: "extent" } as unknown as IExtent)
+    : undefined;
+};
+
+/**
+ * Derives proper IHubLocation given an ArcGIS Item.  If no
+ * location (item.properties.location) is present, one will be
+ * constructed from the item's extent.
+ * If item.properties.boundary === 'none', this function will strip
+ * location and return { type: 'none' } per this document:
+ * https://confluencewikidev.esri.com/display/Hub/Hub+Location+Management
+ * @param item ArcGIS Item
+ * @returns IHubLocation
+ */
+export const deriveLocationFromItem = (item: IItem): IHubLocation => {
+  const { properties, extent } = item;
+  if (properties?.boundary === "none") {
+    return { type: "none" };
+  }
+  let location: IHubLocation = properties?.location;
+  if (!location) {
+    // IHubLocation does not exist on item properties, so construct it
+    // from item extent
+    const geometry: any = getExtentObject(item.extent);
+    location = {
+      type: "custom",
+      extent,
+      geometries: [geometry],
+      spatialReference: geometry.spatialReference,
+    };
+  }
+  return location;
 };
 
 /**

@@ -22,18 +22,5 @@ export async function ogcItemToSearchResult(
   // Expose extraneous members like `license`, `source`, `properties.location` and `geometry`
   result.source = ogcItem.properties.source;
   result.license = ogcItem.properties.license;
-  result.location = ogcItem.properties.properties?.location;
-  // Add IHubGeography to result
-  if (ogcItem.geometry) {
-    try {
-      result.geometry = {
-        geometry: geojsonToArcGIS(ogcItem.geometry) as IPolygonProperties,
-      };
-    } catch {
-      // If geojsonToArcGIS throws an error from an invalid input geometry,
-      // just ignore for now
-    }
-  }
-
   return result;
 }
