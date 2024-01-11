@@ -10,6 +10,7 @@ describe("upgradeDraftSchema", () => {
   let migrateFeedConfigSpy: jasmine.Spy;
   let migrateEventListCardConfigsSpy: jasmine.Spy;
   let migrateTelemetryConfigSpy: jasmine.Spy;
+  let migrateBadBasemapSpy: jasmine.Spy;
   beforeEach(() => {
     ensureTelemetrySpy = spyOn(commonModule, "_ensureTelemetry").and.callFake(
       (model: IModel) => model
@@ -25,6 +26,10 @@ describe("upgradeDraftSchema", () => {
     migrateTelemetryConfigSpy = spyOn(
       commonModule,
       "_migrateTelemetryConfig"
+    ).and.callFake((model: IModel) => model);
+    migrateBadBasemapSpy = spyOn(
+      commonModule,
+      "migrateBadBasemap"
     ).and.callFake((model: IModel) => model);
   });
 
@@ -45,6 +50,7 @@ describe("upgradeDraftSchema", () => {
         migrateFeedConfigSpy,
         migrateEventListCardConfigsSpy,
         migrateTelemetryConfigSpy,
+        migrateBadBasemapSpy,
       ],
       expect
     );
@@ -65,6 +71,7 @@ describe("upgradeDraftSchema", () => {
         migrateFeedConfigSpy,
         migrateEventListCardConfigsSpy,
         migrateTelemetryConfigSpy,
+        migrateBadBasemapSpy,
       ],
       expect
     );
@@ -87,6 +94,7 @@ describe("upgradeDraftSchema", () => {
         migrateFeedConfigSpy,
         migrateEventListCardConfigsSpy,
         migrateTelemetryConfigSpy,
+        migrateBadBasemapSpy,
       ],
       expect
     );
@@ -114,5 +122,7 @@ describe("upgradeDraftSchema", () => {
       false,
       expect
     );
+    // should still run versionless migrations
+    expectAllCalled([migrateBadBasemapSpy], expect);
   });
 });

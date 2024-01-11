@@ -368,26 +368,43 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
    * to keep the number of resources in control
    * @param file
    */
-  async setFeaturedImage(file: any): Promise<void> {
-    // If we have a featured image then clear it out.
-    if (this.entity.view?.featuredImageUrl) {
-      await this.clearFeaturedImage();
+  async setFeaturedImage(
+    file: any,
+    clearExisting: boolean = false
+  ): Promise<void> {
+    try {
+      // If we have a featured image then clear it out.
+      if (this.entity.view?.featuredImageUrl || clearExisting) {
+        await this.clearFeaturedImage();
+      }
+      // add the new featured image
+      const featuredImageUrl = await uploadImageResource(
+        this.entity.id,
+        this.entity.owner,
+        file,
+        FEATURED_IMAGE_FILENAME,
+        this.context.userRequestOptions
+      );
+      // If successful, update the entity
+      this.entity.view = {
+        ...this.entity.view,
+        featuredImageUrl,
+      };
+      // save the entity
+      await this.save();
+    } catch (err) {
+      // If the featured image url has been cleared, but the resource hasn't
+      // Been removed then we'll get the following error message.
+      // In that case, we'll try again with clearExisting set to true.
+      if (
+        err instanceof Error &&
+        err.message === "CONT_00942: Resource already present"
+      ) {
+        return this.setFeaturedImage(file, true);
+      } else {
+        throw err;
+      }
     }
-    // add the new featured image
-    const featuredImageUrl = await uploadImageResource(
-      this.entity.id,
-      this.entity.owner,
-      file,
-      FEATURED_IMAGE_FILENAME,
-      this.context.userRequestOptions
-    );
-    // If successful, update the entity
-    this.entity.view = {
-      ...this.entity.view,
-      featuredImageUrl,
-    };
-    // save the entity
-    await this.save();
   }
   /**
    * Remove the featured image from the item
@@ -438,6 +455,9 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
   }
 
   /**
+   * ** DEPRECATED: This will be removed in the next
+   * breaking version **
+   *
    * Return a list of IAssociationInfo objects representing
    * the associations this entity has, to the specified type
    * @param type
@@ -448,6 +468,9 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
   }
 
   /**
+   * ** DEPRECATED: please use requestAssociation instead.
+   * This will be removed in the next breaking version **
+   *
    * Add an association to this entity
    * @param info
    * @returns
@@ -457,6 +480,9 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
   }
 
   /**
+   * ** DEPRECATED: please use breakAssociation instead.
+   * This will be removed in the next breaking version **
+   *
    * Remove an association from this entity
    * @param info
    * @returns

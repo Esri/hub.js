@@ -1,3 +1,52 @@
+## @esri/hub-common [14.78.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.78.0...@esri/hub-common@14.78.1) (2024-01-11)
+
+
+### Bug Fixes
+
+* migrate malformed basemap hash resulting from hub.py bug ([#1381](https://github.com/Esri/hub.js/issues/1381)) ([b68da32](https://github.com/Esri/hub.js/commit/b68da32b9206e45ab3568c026f49d5659af8f05b))
+
+# @esri/hub-common [14.78.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.77.1...@esri/hub-common@14.78.0) (2024-01-10)
+
+
+### Features
+
+* add type for static metric value ([#1371](https://github.com/Esri/hub.js/issues/1371)) ([af404bf](https://github.com/Esri/hub.js/commit/af404bf47686e411f5612f5a3c5a937c97218616))
+
+## @esri/hub-common [14.77.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.77.0...@esri/hub-common@14.77.1) (2024-01-10)
+
+
+### Bug Fixes
+
+* image description in hero title select ([#1380](https://github.com/Esri/hub.js/issues/1380)) ([0693f24](https://github.com/Esri/hub.js/commit/0693f249bc024af69d8b8ec7729c4caa32d03aaa))
+
+# @esri/hub-common [14.77.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.76.0...@esri/hub-common@14.77.0) (2024-01-09)
+
+
+### Features
+
+* **hub-common:** adds IHubLocation to IHubSearchResult ([#1376](https://github.com/Esri/hub.js/issues/1376)) ([122d285](https://github.com/Esri/hub.js/commit/122d285f94feb2b5aabeba33bf325ce8edf4f016))
+
+# @esri/hub-common [14.76.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.75.0...@esri/hub-common@14.76.0) (2024-01-09)
+
+
+### Features
+
+* **hub-common:** adds character limit to prompt field ([#1375](https://github.com/Esri/hub.js/issues/1375)) ([e6503cd](https://github.com/Esri/hub.js/commit/e6503cdf3ca33e17f143d9eb6b34f268de677dde))
+
+# @esri/hub-common [14.75.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.74.2...@esri/hub-common@14.75.0) (2024-01-09)
+
+
+### Features
+
+* add/update associations business logic ([#1370](https://github.com/Esri/hub.js/issues/1370)) ([75abd91](https://github.com/Esri/hub.js/commit/75abd912462cbd4f49e9be859da1ae6270021e89))
+
+## @esri/hub-common [14.74.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.74.1...@esri/hub-common@14.74.2) (2024-01-08)
+
+
+### Bug Fixes
+
+* setFeaturedImage can now clear out orphaned featured image resou… ([#1378](https://github.com/Esri/hub.js/issues/1378)) ([910b2ea](https://github.com/Esri/hub.js/commit/910b2ea0480bf5704bfc332e8f98f71f2c8af63a))
+
 ## @esri/hub-common [14.74.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.74.0...@esri/hub-common@14.74.1) (2024-01-05)
 
 

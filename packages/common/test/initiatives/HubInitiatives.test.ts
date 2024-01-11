@@ -446,7 +446,7 @@ describe("HubInitiatives:", () => {
       // ensure we have type and keyword in predicate
       expect(verifyPredicate(chk, { type: "Hub Project" })).toBeTruthy();
       expect(
-        verifyPredicate(chk, { typekeywords: "initiative|00f" })
+        verifyPredicate(chk, { typekeywords: ["initiative|00f"] })
       ).toBeTruthy("should have keyword");
       expect(getPredicateValue(chk, { group: null })).toEqual(["00c", "aa1"]);
     });
@@ -456,7 +456,7 @@ describe("HubInitiatives:", () => {
       // ensure we have type and keyword in predicate
       expect(verifyPredicate(chk, { type: "Hub Project" })).toBeTruthy();
       expect(
-        verifyPredicate(chk, { typekeywords: "initiative|00f" })
+        verifyPredicate(chk, { typekeywords: ["initiative|00f"] })
       ).toBeTruthy("should have keyword");
       expect(getPredicateValue(chk, { group: null })).toEqual({
         any: [],

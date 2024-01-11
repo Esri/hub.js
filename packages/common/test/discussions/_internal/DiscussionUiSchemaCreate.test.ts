@@ -36,6 +36,14 @@ describe("buildUiSchema: discussion create", () => {
             helperText: {
               labelKey: "some.scope.fields.prompt.helperText",
             },
+            messages: [
+              {
+                type: "ERROR",
+                keyword: "maxLength",
+                icon: true,
+                labelKey: `some.scope.fields.prompt.maxLengthError`,
+              },
+            ],
           },
         },
       ],

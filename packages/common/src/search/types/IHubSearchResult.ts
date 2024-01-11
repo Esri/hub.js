@@ -1,5 +1,5 @@
 import { IGroup, IItem, IUser } from "@esri/arcgis-rest-portal";
-import { AccessLevel, IHubEntityBase } from "../../core";
+import { AccessLevel, IHubEntityBase, IHubLocation } from "../../core";
 import { HubFamily, IHubGeography } from "../../types";
 import { IOgcItem } from "../_internal/hubSearchItemsHelpers/interfaces";
 import { IChannel } from "../../discussions/api/types";
@@ -46,6 +46,14 @@ export interface IHubSearchResult extends IHubEntityBase {
    * or the extent of a layer
    */
   geometry?: IHubGeography;
+
+  /**
+   * Custom location defined on the item
+   * properties (item.properties.location),
+   * typically created in details pane of entity
+   * workspace.
+   */
+  location?: IHubLocation;
 
   /**
    * Raw result object returned from the search.

@@ -54,6 +54,14 @@ export const buildUiSchema = async (
               helperText: {
                 labelKey: `${i18nScope}.fields.prompt.helperText`,
               },
+              messages: [
+                {
+                  type: "ERROR",
+                  keyword: "maxLength",
+                  icon: true,
+                  labelKey: `${i18nScope}.fields.prompt.maxLengthError`,
+                },
+              ],
             },
           },
           getThumbnailUiSchemaElement(

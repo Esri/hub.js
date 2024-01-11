@@ -2,7 +2,7 @@ import { IPortal, IUser } from "@esri/arcgis-rest-portal";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
 import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
 import { computeProps } from "../../../src/projects/_internal/computeProps";
-import { IHubProject, IModel } from "../../../src";
+import { IHubProject, IModel, cloneObject } from "../../../src";
 import * as processEntitiesModule from "../../../src/permissions/_internal/processEntityFeatures";
 import { ProjectDefaultFeatures } from "../../../src/projects/_internal/ProjectBusinessRules";
 import * as computeLinksModule from "../../../src/projects/_internal/computeLinks";
@@ -20,8 +20,12 @@ describe("projects: computeProps:", () => {
         created: new Date().getTime(),
         modified: new Date().getTime(),
       },
-      data: {},
-    } as IModel;
+      data: {
+        view: {
+          featuredImageUrl: "mock-featured-image-url",
+        },
+      },
+    } as unknown as IModel;
     project = {
       type: "Hub Project",
       id: "00c",
@@ -87,6 +91,9 @@ describe("projects: computeProps:", () => {
         settings: {
           features: { details: true },
         },
+        view: {
+          featuredImageUrl: "",
+        },
       };
       const chk = computeProps(
         model,
@@ -111,6 +118,29 @@ describe("projects: computeProps:", () => {
       );
       expect(computeLinksSpy).toHaveBeenCalledTimes(1);
       expect(chk.links).toEqual({ self: "some-link" });
+    });
+
+    it("generates a valid featured image url", () => {
+      const chk = computeProps(
+        model,
+        project,
+        authdCtxMgr.context.requestOptions
+      );
+      expect(chk.view?.featuredImageUrl).toContain(
+        "mock-featured-image-url?token=fake-token"
+      );
+    });
+    it("handles case where there is no view..", () => {
+      const mdl = cloneObject(model);
+      if (mdl.data) {
+        delete mdl.data.view;
+      }
+      const chk = computeProps(
+        mdl,
+        project,
+        authdCtxMgr.context.requestOptions
+      );
+      expect(chk.view?.featuredImageUrl).toBeUndefined();
     });
   });
 });

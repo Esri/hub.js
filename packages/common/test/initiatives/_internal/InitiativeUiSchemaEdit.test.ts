@@ -115,7 +115,7 @@ describe("buildUiSchema: initiative edit", () => {
                 ],
                 descriptions: [
                   `{{some.scope.fields.hero.map.description:translate}}`,
-                  `{{some.scope.fields.hero.map.description:translate}}`,
+                  `{{some.scope.fields.hero.image.description:translate}}`,
                 ],
                 icons: ["map-pin", "image"],
               },
@@ -405,7 +405,7 @@ describe("buildUiSchema: initiative edit", () => {
                 ],
                 descriptions: [
                   `{{some.scope.fields.hero.map.description:translate}}`,
-                  `{{some.scope.fields.hero.map.description:translate}}`,
+                  `{{some.scope.fields.hero.image.description:translate}}`,
                 ],
                 icons: ["map-pin", "image"],
               },

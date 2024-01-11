@@ -1,3 +1,10 @@
+## @esri/hub-sites [14.2.2](https://github.com/Esri/hub.js/compare/@esri/hub-sites@14.2.1...@esri/hub-sites@14.2.2) (2024-01-11)
+
+
+### Bug Fixes
+
+* migrate malformed basemap hash resulting from hub.py bug ([#1381](https://github.com/Esri/hub.js/issues/1381)) ([b68da32](https://github.com/Esri/hub.js/commit/b68da32b9206e45ab3568c026f49d5659af8f05b))
+
 ## @esri/hub-sites [14.2.1](https://github.com/Esri/hub.js/compare/@esri/hub-sites@14.2.0...@esri/hub-sites@14.2.1) (2023-10-31)
 
 

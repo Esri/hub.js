@@ -35,10 +35,6 @@ export const ProjectSchema: IConfigurationSchema = {
           type: "string",
           minLength: 1,
         },
-        value: {
-          type: "string",
-          minLength: 1,
-        },
       },
     },
   },
