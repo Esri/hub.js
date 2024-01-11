@@ -8,10 +8,10 @@ import { deriveLocationFromItem } from "../../content/_internal/internalContentU
  * @param entity IHubItemEntity
  * @returns
  */
-export function computeBaseProps<EntityType extends Partial<IHubItemEntity>>(
+export function computeBaseProps<T extends Partial<IHubItemEntity>>(
   item: IItem,
-  entity: EntityType
-): EntityType {
+  entity: T
+): T {
   entity.location = deriveLocationFromItem(item);
   return entity;
 }
