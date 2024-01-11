@@ -95,7 +95,5 @@ export const DiscussionPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "temp:hub:discussion:create",
     dependencies: ["hub:discussion:create"],
-    availability: ["alpha"],
-    environments: ["devext", "qaext"],
   },
 ];
