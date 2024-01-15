@@ -112,6 +112,7 @@ export const MetricSchema: IConfigurationSchema = {
   allOf: [
     { $ref: "#/definitions/if-source-title-then-source-link" },
     { $ref: "#/definitions/value-type-value-mapping" },
+    { $ref: "#/definitions/value-type-date" },
   ],
   definitions: {
     // TODO: reimplement popover with layouts release
@@ -144,6 +145,20 @@ export const MetricSchema: IConfigurationSchema = {
       },
       else: {
         properties: { value: { type: "number" } },
+      },
+    },
+    "value-type-date": {
+      if: {
+        properties: {
+          valueType: { const: "date" },
+        },
+      },
+      then: {
+        properties: {
+          value: {
+            format: "date-time",
+          },
+        },
       },
     },
   },
