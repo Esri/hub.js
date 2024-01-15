@@ -28,6 +28,7 @@ export const ProjectSchema: IConfigurationSchema = {
     },
     _metric: {
       type: "object",
+      required: ["cardTitle"],
       properties: {
         ...MetricSchema.properties,
         cardTitle: {
@@ -37,4 +38,26 @@ export const ProjectSchema: IConfigurationSchema = {
       },
     },
   },
+  allOf: [
+    {
+      if: {
+        properties: {
+          _metric: {
+            properties: {
+              type: {
+                const: "static",
+              },
+            },
+          },
+        },
+      },
+      then: {
+        properties: {
+          _metric: {
+            required: ["value"],
+          },
+        },
+      },
+    },
+  ],
 } as IConfigurationSchema;
