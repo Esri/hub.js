@@ -6,6 +6,11 @@ import { IConfigurationSchema } from "../types";
  * @param schema
  * @param props
  * @returns
+ *
+ * TODO: this function needs to be updated to include the
+ * anyOf/allOf/oneOf/then/else properties. Right now, there is a temporary fix
+ * to allow for project creation/editing to work correctly -- but this should
+ * be improved to allow for more complex use cases.
  */
 export function subsetSchema(
   schema: IConfigurationSchema,
