@@ -1,3 +1,10 @@
+# @esri/hub-common [14.79.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.78.2...@esri/hub-common@14.79.0) (2024-01-16)
+
+
+### Features
+
+* release project metrics ([#1383](https://github.com/Esri/hub.js/issues/1383)) ([f2c9a55](https://github.com/Esri/hub.js/commit/f2c9a55d52cd48c4ee07d5be0c1f6375a2f213e6))
+
 ## @esri/hub-common [14.78.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.78.1...@esri/hub-common@14.78.2) (2024-01-11)
 
 
