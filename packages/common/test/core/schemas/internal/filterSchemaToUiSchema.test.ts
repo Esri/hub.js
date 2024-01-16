@@ -105,6 +105,9 @@ describe("filterSchemaToUiSchema util:", () => {
               },
             },
           },
+          else: {
+            required: ["status"],
+          },
         },
       ],
     };
@@ -148,6 +151,7 @@ describe("filterSchemaToUiSchema util:", () => {
         {
           if: { properties: {} },
           then: { properties: {} },
+          else: { required: ["status"] },
         },
       ],
     });
