@@ -7,10 +7,6 @@ import { IConfigurationSchema } from "../types";
  * @param props
  * @returns
  *
- * TODO: this function needs to be updated to include the
- * anyOf/allOf/oneOf/then/else properties. Right now, there is a temporary fix
- * to allow for project creation/editing to work correctly -- but this should
- * be improved to allow for more complex use cases.
  */
 export function subsetSchema(
   schema: IConfigurationSchema,
@@ -36,6 +32,10 @@ export function subsetSchema(
 
   // 3. filter schema compositions (anyOf, allOf, oneOf) down
   // to specified properties
+
+  // TODO: enhance subset functionality to filter more complex
+  // compositional schemas (anyOf, oneOf) and non-if/then/else conditional structures.
+  // Also enhance to account for whole compositions versus individual clauses.
 
   if (subset.allOf) {
     subset.allOf = subset.allOf.map((s) =>
