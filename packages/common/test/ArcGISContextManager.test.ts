@@ -14,6 +14,7 @@ import * as requestModule from "@esri/arcgis-rest-request";
 import * as authModule from "@esri/arcgis-rest-auth";
 import * as appResourcesModule from "../src/utils/hubUserAppResources";
 import * as userResourcesModule from "../src/utils/internal/userAppResources";
+import * as orgLimitsModule from "../src/org/fetchOrgLimits";
 
 import { MOCK_AUTH, MOCK_ENTERPRISE_AUTH } from "./mocks/mock-auth";
 import { IPortal } from "@esri/arcgis-rest-portal";
@@ -66,6 +67,13 @@ const onlinePortalSelfResponse = {
   user: cloneObject(onlineUserResponse) as portalModule.IUser,
 };
 
+const onlinePortalSelfWithLimitsResponse = {
+  ...onlinePortalSelfResponse,
+  limits: {
+    MaxNumUserGroups: 100,
+  },
+};
+
 const onlinePartneredOrgResponse = {
   total: 4,
   start: 1,
@@ -107,6 +115,12 @@ const onlinePartneredOrgResponse = {
       },
     },
   ],
+};
+
+const portalLimitsResponse = {
+  type: "Groups",
+  name: "MaxNumUserGroups",
+  limitValue: 100,
 };
 
 const enterprisePortalSelfResponse = {
@@ -197,6 +211,9 @@ const serializedContext = {
     isPortal: false,
     helperServices: {
       big: "hash of things",
+    },
+    limits: {
+      MaxNumUserGroups: 100,
     },
     portalProperties: {
       hub: {
@@ -381,13 +398,16 @@ describe("ArcGISContext:", () => {
     it("verify props when passed session", async () => {
       const t = new Date().getTime();
       spyOn(portalModule, "getSelf").and.callFake(() => {
-        return Promise.resolve(cloneObject(onlinePortalSelfResponse));
+        return Promise.resolve(cloneObject(onlinePortalSelfWithLimitsResponse));
       });
       spyOn(portalModule, "getUser").and.callFake(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
       });
       spyOn(requestModule, "request").and.callFake(() => {
         return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
+      });
+      spyOn(orgLimitsModule, "fetchOrgLimits").and.callFake(() => {
+        return Promise.resolve(portalLimitsResponse);
       });
 
       const mgr = await ArcGISContextManager.create({
@@ -418,7 +438,7 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.hubRequestOptions.authentication).toBe(MOCK_AUTH);
       expect(mgr.context.hubRequestOptions.isPortal).toBe(false);
       expect(mgr.context.hubRequestOptions.portalSelf).toEqual(
-        onlinePortalSelfResponse as unknown as IHubRequestOptionsPortalSelf
+        onlinePortalSelfWithLimitsResponse as unknown as IHubRequestOptionsPortalSelf
       );
       expect(mgr.context.hubRequestOptions.hubApiUrl).toBe(
         "https://hub.arcgis.com"
@@ -444,20 +464,25 @@ describe("ArcGISContext:", () => {
       );
 
       expect(mgr.context.eventsConfig).toEqual(
-        onlinePortalSelfResponse.portalProperties.hub.settings.events
+        onlinePortalSelfWithLimitsResponse.portalProperties.hub.settings.events
       );
       expect(mgr.context.hubEnabled).toEqual(
-        onlinePortalSelfResponse.portalProperties.hub.enabled
+        onlinePortalSelfWithLimitsResponse.portalProperties.hub.enabled
       );
       expect(mgr.context.hubLicense).toBe("hub-premium");
 
       expect(mgr.context.helperServices).toEqual(
-        onlinePortalSelfResponse.helperServices
+        onlinePortalSelfWithLimitsResponse.helperServices
       );
-      expect(mgr.context.currentUser).toEqual(onlinePortalSelfResponse.user);
-      expect(mgr.context.portal).toEqual(
-        onlinePortalSelfResponse as unknown as IPortal
+      expect(mgr.context.currentUser).toEqual(
+        onlinePortalSelfWithLimitsResponse.user
       );
+      expect(mgr.context.portal).toEqual({
+        ...(onlinePortalSelfWithLimitsResponse as unknown as IPortal),
+        limits: {
+          MaxNumUserGroups: 100,
+        },
+      });
       // Partnered Orgs
       expect(mgr.context.trustedOrgIds).toEqual([
         "5dIUy6DulN1DTIcJ",
@@ -470,7 +495,7 @@ describe("ArcGISContext:", () => {
     it("verify tokens when passed session", async () => {
       const t = new Date().getTime();
       spyOn(portalModule, "getSelf").and.callFake(() => {
-        return Promise.resolve(cloneObject(onlinePortalSelfResponse));
+        return Promise.resolve(cloneObject(onlinePortalSelfWithLimitsResponse));
       });
       spyOn(portalModule, "getUser").and.callFake(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
@@ -530,7 +555,7 @@ describe("ArcGISContext:", () => {
     it("verify flags when passed session", async () => {
       const t = new Date().getTime();
       spyOn(portalModule, "getSelf").and.callFake(() => {
-        return Promise.resolve(cloneObject(onlinePortalSelfResponse));
+        return Promise.resolve(cloneObject(onlinePortalSelfWithLimitsResponse));
       });
       spyOn(portalModule, "getUser").and.callFake(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
@@ -584,7 +609,7 @@ describe("ArcGISContext:", () => {
     it("verify flags not set if preview false when passed session", async () => {
       const t = new Date().getTime();
       spyOn(portalModule, "getSelf").and.callFake(() => {
-        return Promise.resolve(cloneObject(onlinePortalSelfResponse));
+        return Promise.resolve(cloneObject(onlinePortalSelfWithLimitsResponse));
       });
       spyOn(portalModule, "getUser").and.callFake(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
@@ -639,7 +664,7 @@ describe("ArcGISContext:", () => {
     });
     it("verify props when passed session, portalSelf, User, and serviceStatus", async () => {
       const selfSpy = spyOn(portalModule, "getSelf").and.callFake(() => {
-        return Promise.resolve(cloneObject(onlinePortalSelfResponse));
+        return Promise.resolve(cloneObject(onlinePortalSelfWithLimitsResponse));
       });
       const userSpy = spyOn(portalModule, "getUser").and.callFake(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
@@ -650,7 +675,7 @@ describe("ArcGISContext:", () => {
 
       const mgr = await ArcGISContextManager.create({
         authentication: MOCK_AUTH,
-        portal: onlinePortalSelfResponse,
+        portal: onlinePortalSelfWithLimitsResponse,
         currentUser: onlineUserResponse,
         serviceStatus: { domains: "online" } as HubServiceStatus,
         properties: {
@@ -661,7 +686,7 @@ describe("ArcGISContext:", () => {
       expect(selfSpy.calls.count()).toBe(0);
       expect(userSpy.calls.count()).toBe(0);
       expect(mgr.context.currentUser).toEqual(onlineUserResponse);
-      expect(mgr.context.portal).toEqual(onlinePortalSelfResponse);
+      expect(mgr.context.portal).toEqual(onlinePortalSelfWithLimitsResponse);
       expect(mgr.context.session).toBe(MOCK_AUTH);
       expect(mgr.context.serviceStatus).toEqual({
         domains: "online",
@@ -672,7 +697,7 @@ describe("ArcGISContext:", () => {
     });
     it("verify props update setting session after", async () => {
       spyOn(portalModule, "getSelf").and.callFake(() => {
-        return Promise.resolve(cloneObject(onlinePortalSelfResponse));
+        return Promise.resolve(cloneObject(onlinePortalSelfWithLimitsResponse));
       });
       spyOn(portalModule, "getUser").and.callFake(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
@@ -690,7 +715,7 @@ describe("ArcGISContext:", () => {
     });
     it("verify props after clearing session", async () => {
       spyOn(portalModule, "getSelf").and.callFake(() => {
-        return Promise.resolve(cloneObject(onlinePortalSelfResponse));
+        return Promise.resolve(cloneObject(onlinePortalSelfWithLimitsResponse));
       });
       spyOn(portalModule, "getUser").and.callFake(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
@@ -713,7 +738,7 @@ describe("ArcGISContext:", () => {
     });
     it("verify does not fetch additional info if passed in", async () => {
       const selfSpy = spyOn(portalModule, "getSelf").and.callFake(() => {
-        return Promise.resolve(cloneObject(onlinePortalSelfResponse));
+        return Promise.resolve(cloneObject(onlinePortalSelfWithLimitsResponse));
       });
       const userSpy = spyOn(portalModule, "getUser").and.callFake(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
@@ -726,11 +751,16 @@ describe("ArcGISContext:", () => {
           return Promise.resolve(`FAKE-TOKEN-FOR-${cid}`);
         }
       );
+      const orgLimitSpy = spyOn(orgLimitsModule, "fetchOrgLimits").and.callFake(
+        () => {
+          return Promise.resolve(portalLimitsResponse);
+        }
+      );
 
       const mgr = await ArcGISContextManager.create({
         authentication: MOCK_AUTH,
         serviceStatus: {} as unknown as HubServiceStatus,
-        portal: { fake: "portal" } as unknown as IPortal,
+        portal: { fake: "portal", limits: {} } as unknown as IPortal,
         currentUser: { username: "fakeuser" } as unknown as portalModule.IUser,
         trustedOrgs: cloneObject(onlinePartneredOrgResponse.trustedOrgs),
         resourceTokens: [{ app: "self", clientId: "bar", token: "FAKETOKEN" }],
@@ -741,13 +771,14 @@ describe("ArcGISContext:", () => {
       expect(userSpy).not.toHaveBeenCalled();
       expect(trustedSpy).not.toHaveBeenCalled();
       expect(exchangeSpy).not.toHaveBeenCalled();
+      expect(orgLimitSpy).not.toHaveBeenCalled();
 
       expect(mgr.context.tokenFor("self")).toEqual("FAKETOKEN");
       expect(mgr.context.tokenFor("arcgisonline")).toBeUndefined();
     });
     it("verify fetches additional info if not passed in", async () => {
       const selfSpy = spyOn(portalModule, "getSelf").and.callFake(() => {
-        return Promise.resolve(cloneObject(onlinePortalSelfResponse));
+        return Promise.resolve(cloneObject(onlinePortalSelfWithLimitsResponse));
       });
       const userSpy = spyOn(portalModule, "getUser").and.callFake(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
@@ -774,7 +805,7 @@ describe("ArcGISContext:", () => {
     });
     it("handles throw from exchangeToken", async () => {
       const selfSpy = spyOn(portalModule, "getSelf").and.callFake(() => {
-        return Promise.resolve(cloneObject(onlinePortalSelfResponse));
+        return Promise.resolve(cloneObject(onlinePortalSelfWithLimitsResponse));
       });
       const userSpy = spyOn(portalModule, "getUser").and.callFake(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
@@ -843,13 +874,16 @@ describe("ArcGISContext:", () => {
     it("serializes all props to encoded string", async () => {
       const t = new Date().getTime();
       spyOn(portalModule, "getSelf").and.callFake(() => {
-        return Promise.resolve(cloneObject(onlinePortalSelfResponse));
+        return Promise.resolve(cloneObject(onlinePortalSelfWithLimitsResponse));
       });
       spyOn(portalModule, "getUser").and.callFake(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
       });
       spyOn(requestModule, "request").and.callFake(() => {
         return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
+      });
+      spyOn(orgLimitsModule, "fetchOrgLimits").and.callFake(() => {
+        return Promise.resolve(portalLimitsResponse);
       });
 
       const mgr = await ArcGISContextManager.create({
@@ -861,7 +895,7 @@ describe("ArcGISContext:", () => {
       // and converting back into json
       const decoded = JSON.parse(base64ToUnicode(serialized));
       expect(decoded.session).toEqual(MOCK_AUTH.serialize());
-      expect(decoded.portal).toEqual(onlinePortalSelfResponse);
+      expect(decoded.portal).toEqual(onlinePortalSelfWithLimitsResponse);
       expect(decoded.currentUser).toEqual(onlineUserResponse);
       expect(decoded.properties.foo).toEqual("bar");
       expect(decoded.properties.alphaOrgs).toBeDefined();
@@ -888,13 +922,16 @@ describe("ArcGISContext:", () => {
     });
     it("can deserialize full, valid context", async () => {
       const selfSpy = spyOn(portalModule, "getSelf").and.callFake(() => {
-        return Promise.resolve(cloneObject(onlinePortalSelfResponse));
+        return Promise.resolve(cloneObject(onlinePortalSelfWithLimitsResponse));
       });
       const userSpy = spyOn(portalModule, "getUser").and.callFake(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
       });
       spyOn(requestModule, "request").and.callFake(() => {
         return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
+      });
+      spyOn(orgLimitsModule, "fetchOrgLimits").and.callFake(() => {
+        return Promise.resolve(portalLimitsResponse);
       });
       const serialized = unicodeToBase64(
         JSON.stringify(validSerializedContext)
@@ -925,13 +962,16 @@ describe("ArcGISContext:", () => {
     });
     it("can deserialize sparse, valid context", async () => {
       const selfSpy = spyOn(portalModule, "getSelf").and.callFake(() => {
-        return Promise.resolve(cloneObject(onlinePortalSelfResponse));
+        return Promise.resolve(cloneObject(onlinePortalSelfWithLimitsResponse));
       });
       const userSpy = spyOn(portalModule, "getUser").and.callFake(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
       });
       spyOn(requestModule, "request").and.callFake(() => {
         return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
+      });
+      spyOn(orgLimitsModule, "fetchOrgLimits").and.callFake(() => {
+        return Promise.resolve(portalLimitsResponse);
       });
       const sparseValidContext = cloneObject(validSerializedContext) as any;
       delete sparseValidContext.currentUser;
@@ -949,12 +989,12 @@ describe("ArcGISContext:", () => {
       );
       expect(mgr.context.isAuthenticated).toBeTruthy();
       expect(mgr.context.currentUser).toEqual(onlineUserResponse);
-      expect(mgr.context.portal).toEqual(onlinePortalSelfResponse);
+      expect(mgr.context.portal).toEqual(onlinePortalSelfWithLimitsResponse);
       expect(mgr.context.session.token).toEqual(validSession.token);
     });
     it("can deserialize full, expired context", async () => {
       const selfSpy = spyOn(portalModule, "getSelf").and.callFake(() => {
-        return Promise.resolve(cloneObject(onlinePortalSelfResponse));
+        return Promise.resolve(cloneObject(onlinePortalSelfWithLimitsResponse));
       });
       const userSpy = spyOn(portalModule, "getUser").and.callFake(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
@@ -1026,7 +1066,7 @@ describe("ArcGISContext:", () => {
     });
     it("can refresh user", async () => {
       const selfSpy = spyOn(portalModule, "getSelf").and.callFake(() => {
-        return Promise.resolve(cloneObject(onlinePortalSelfResponse));
+        return Promise.resolve(cloneObject(onlinePortalSelfWithLimitsResponse));
       });
       const updatedUserResponse = cloneObject(onlineUserResponse);
       updatedUserResponse.groups.push({
