@@ -1,3 +1,10 @@
+## @esri/hub-common [14.79.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.79.0...@esri/hub-common@14.79.1) (2024-01-17)
+
+
+### Bug Fixes
+
+* update subsetSchema ([#1386](https://github.com/Esri/hub.js/issues/1386)) ([b1be3e2](https://github.com/Esri/hub.js/commit/b1be3e2371608f276c3fc1ac14cbd7c6551921be))
+
 # @esri/hub-common [14.79.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.78.2...@esri/hub-common@14.79.0) (2024-01-16)
 
 
