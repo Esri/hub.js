@@ -477,12 +477,7 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.currentUser).toEqual(
         onlinePortalSelfWithLimitsResponse.user
       );
-      expect(mgr.context.portal).toEqual({
-        ...(onlinePortalSelfWithLimitsResponse as unknown as IPortal),
-        limits: {
-          MaxNumUserGroups: 100,
-        },
-      });
+      expect(mgr.context.portal).toEqual(onlinePortalSelfWithLimitsResponse);
       // Partnered Orgs
       expect(mgr.context.trustedOrgIds).toEqual([
         "5dIUy6DulN1DTIcJ",

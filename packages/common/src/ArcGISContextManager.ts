@@ -668,16 +668,31 @@ async function getPortalLimits(
   authentication: UserSession
 ): Promise<Record<string, number>> {
   // TODO: add additional limits as needed
-  const limitsToFetch: Array<{ limitType: OrgLimitType; limitName: string }> = [
-    { limitType: "Groups", limitName: "MaxNumUserGroups" },
-  ];
-  const failSafeFetchOrgLimits = failSafe(fetchOrgLimits, {});
+  const limitsToFetch: Array<{
+    type: OrgLimitType;
+    name: string;
+    fallback: number;
+  }> = [{ type: "Groups", name: "MaxNumUserGroups", fallback: 512 }];
   const limits = await Promise.all(
-    limitsToFetch.map((limit) => {
-      return failSafeFetchOrgLimits(orgId, limit.limitType, limit.limitName, {
-        authentication,
-        portal: authentication.portal,
-      });
+    limitsToFetch.map(async (limit) => {
+      try {
+        const resolvedLimit = await fetchOrgLimits(
+          orgId,
+          limit.type,
+          limit.name,
+          {
+            authentication,
+            portal: authentication.portal,
+          }
+        );
+        return resolvedLimit;
+      } catch (error) {
+        return {
+          type: limit.type,
+          name: limit.name,
+          limitValue: limit.fallback,
+        };
+      }
     })
   );
 
