@@ -1,3 +1,10 @@
+## @esri/hub-common [14.80.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.80.0...@esri/hub-common@14.80.1) (2024-01-18)
+
+
+### Bug Fixes
+
+* explicitly say control for stat card uiSchema ([#1387](https://github.com/Esri/hub.js/issues/1387)) ([a92acff](https://github.com/Esri/hub.js/commit/a92acff6bdc3600faa05f35b161d3259a32afa72))
+
 # @esri/hub-common [14.80.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.79.1...@esri/hub-common@14.80.0) (2024-01-18)
 
 
