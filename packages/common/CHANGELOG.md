@@ -1,3 +1,10 @@
+# @esri/hub-common [14.80.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.79.1...@esri/hub-common@14.80.0) (2024-01-18)
+
+
+### Features
+
+* expose portal limits on context ([#1385](https://github.com/Esri/hub.js/issues/1385)) ([28b693d](https://github.com/Esri/hub.js/commit/28b693d2de7b6f19c2d63cc8b178d60578c11636))
+
 ## @esri/hub-common [14.79.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.79.0...@esri/hub-common@14.79.1) (2024-01-17)
 
 
