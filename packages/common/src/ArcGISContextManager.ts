@@ -23,6 +23,7 @@ import {
 } from "./utils/hubUserAppResources";
 import { fetchAndMigrateUserHubSettings } from "./utils/internal/fetchAndMigrateUserHubSettings";
 import { getProp, getWithDefault, setProp } from "./objects";
+import { fetchOrgLimits, IOrgLimit, OrgLimitType } from "./org/fetchOrgLimits";
 
 export type UserResourceApp = "self" | "hubforarcgis" | "arcgisonline";
 
@@ -446,8 +447,12 @@ export class ArcGISContextManager {
       );
 
       if (!this._portal) {
-        promises.push(getSelf({ authentication: this._authentication }));
+        promises.push(getSelfWithLimits(this._authentication));
         promiseKeys.push("portal");
+      }
+      if (this._portal && !this._portal.limits) {
+        promises.push(getPortalLimits(this._portal.id, this._authentication));
+        promiseKeys.push("portalLimits");
       }
       if (!this._currentUser) {
         const username = this._authentication.username;
@@ -497,6 +502,9 @@ export class ArcGISContextManager {
       switch (key) {
         case "portal":
           this._portal = result as IPortal;
+          break;
+        case "portalLimits":
+          this._portal.limits = result as Record<string, number>;
           break;
         case "user":
           this._currentUser = result as IUser;
@@ -626,6 +634,72 @@ async function getTrustedOrgs(
  */
 function getTrustedOrgIds(trustedOrgs: IHubTrustedOrgsResponse[]): string[] {
   return trustedOrgs.map((org) => org.to.orgId);
+}
+
+/**
+ * @internal
+ * Get the portal and its limits.
+ * Note: we are only fetching a set of limits,
+ * but we can add additional limits as needed
+ *
+ * @param authentication
+ * @returns {IPortal}
+ */
+async function getSelfWithLimits(
+  authentication: UserSession
+): Promise<IPortal> {
+  const portal = await getSelf({ authentication });
+  const limits = await getPortalLimits(portal.id, authentication);
+  portal.limits = limits;
+
+  return portal;
+}
+
+/**
+ * @internal
+ * Get a set of limits for the given org.
+ * Note: we can add additional limits as needed
+ *
+ * @param orgId
+ * @param authentication
+ */
+async function getPortalLimits(
+  orgId: string,
+  authentication: UserSession
+): Promise<Record<string, number>> {
+  // TODO: add additional limits as needed
+  const limitsToFetch: Array<{
+    type: OrgLimitType;
+    name: string;
+    fallback: number;
+  }> = [{ type: "Groups", name: "MaxNumUserGroups", fallback: 512 }];
+  const limits = await Promise.all(
+    limitsToFetch.map(async (limit) => {
+      try {
+        const resolvedLimit = await fetchOrgLimits(
+          orgId,
+          limit.type,
+          limit.name,
+          {
+            authentication,
+            portal: authentication.portal,
+          }
+        );
+        return resolvedLimit;
+      } catch (error) {
+        return {
+          type: limit.type,
+          name: limit.name,
+          limitValue: limit.fallback,
+        };
+      }
+    })
+  );
+
+  return limits.reduce((acc: Record<string, number>, limit: IOrgLimit) => {
+    acc[limit.name] = limit.limitValue;
+    return acc;
+  }, {});
 }
 
 /**
