@@ -40,6 +40,9 @@ export const buildUiSchema = (
             scope: "/properties/value",
             type: "Control",
             rule: SHOW_FOR_STATIC_RULE,
+            options: {
+              control: "hub-field-input-input",
+            },
           },
           {
             scope: "/properties/dynamicMetric",

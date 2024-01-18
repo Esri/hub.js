@@ -43,6 +43,9 @@ describe("buildUiSchema: stat", () => {
                 },
                 effect: UiSchemaRuleEffects.SHOW,
               },
+              options: {
+                control: "hub-field-input-input",
+              },
             },
             {
               scope: "/properties/dynamicMetric",
