@@ -1,3 +1,45 @@
+## @esri/hub-common [14.80.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.80.0...@esri/hub-common@14.80.1) (2024-01-18)
+
+
+### Bug Fixes
+
+* explicitly say control for stat card uiSchema ([#1387](https://github.com/Esri/hub.js/issues/1387)) ([a92acff](https://github.com/Esri/hub.js/commit/a92acff6bdc3600faa05f35b161d3259a32afa72))
+
+# @esri/hub-common [14.80.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.79.1...@esri/hub-common@14.80.0) (2024-01-18)
+
+
+### Features
+
+* expose portal limits on context ([#1385](https://github.com/Esri/hub.js/issues/1385)) ([28b693d](https://github.com/Esri/hub.js/commit/28b693d2de7b6f19c2d63cc8b178d60578c11636))
+
+## @esri/hub-common [14.79.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.79.0...@esri/hub-common@14.79.1) (2024-01-17)
+
+
+### Bug Fixes
+
+* update subsetSchema ([#1386](https://github.com/Esri/hub.js/issues/1386)) ([b1be3e2](https://github.com/Esri/hub.js/commit/b1be3e2371608f276c3fc1ac14cbd7c6551921be))
+
+# @esri/hub-common [14.79.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.78.2...@esri/hub-common@14.79.0) (2024-01-16)
+
+
+### Features
+
+* release project metrics ([#1383](https://github.com/Esri/hub.js/issues/1383)) ([f2c9a55](https://github.com/Esri/hub.js/commit/f2c9a55d52cd48c4ee07d5be0c1f6375a2f213e6))
+
+## @esri/hub-common [14.78.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.78.1...@esri/hub-common@14.78.2) (2024-01-11)
+
+
+### Bug Fixes
+
+* require title and require value if static ([#1373](https://github.com/Esri/hub.js/issues/1373)) ([6231438](https://github.com/Esri/hub.js/commit/62314387ec9033e2a390e072f7f60f3f6eef9581))
+
+## @esri/hub-common [14.78.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.78.0...@esri/hub-common@14.78.1) (2024-01-11)
+
+
+### Bug Fixes
+
+* migrate malformed basemap hash resulting from hub.py bug ([#1381](https://github.com/Esri/hub.js/issues/1381)) ([b68da32](https://github.com/Esri/hub.js/commit/b68da32b9206e45ab3568c026f49d5659af8f05b))
+
 # @esri/hub-common [14.78.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.77.1...@esri/hub-common@14.78.0) (2024-01-10)
 
 

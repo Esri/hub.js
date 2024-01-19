@@ -18,6 +18,16 @@ describe("buildUiSchema: metric", () => {
               labelKey: `some.scope.fields.metrics.cardTitle.label`,
               scope: "/properties/_metric/properties/cardTitle",
               type: "Control",
+              options: {
+                messages: [
+                  {
+                    type: "ERROR",
+                    keyword: "required",
+                    labelKey: `some.scope.fields.metrics.cardTitle.message.required`,
+                    icon: true,
+                  },
+                ],
+              },
             },
           ],
         },
@@ -80,6 +90,14 @@ describe("buildUiSchema: metric", () => {
               },
               options: {
                 control: "hub-field-input-input",
+                messages: [
+                  {
+                    type: "ERROR",
+                    keyword: "required",
+                    labelKey: `some.scope.fields.metrics.value.message.required`,
+                    icon: true,
+                  },
+                ],
               },
             },
             {
@@ -104,31 +122,47 @@ describe("buildUiSchema: metric", () => {
               options: {
                 control: "hub-field-input-input",
                 type: "number",
-              },
-            },
-            {
-              labelKey: `some.scope.fields.metrics.value.label`,
-              scope: "/properties/_metric/properties/value",
-              type: "Control",
-              rule: {
-                condition: {
-                  schema: {
-                    properties: {
-                      _metric: {
-                        properties: {
-                          type: { const: "static" },
-                          valueType: { const: "date" },
-                        },
-                      },
-                    },
+                messages: [
+                  {
+                    type: "ERROR",
+                    keyword: "required",
+                    labelKey: `some.scope.fields.metrics.value.message.required`,
+                    icon: true,
                   },
-                },
-                effect: UiSchemaRuleEffects.SHOW,
-              },
-              options: {
-                control: "hub-field-input-date",
+                ],
               },
             },
+            // {
+            //   labelKey: `some.scope.fields.metrics.value.label`,
+            //   scope: "/properties/_metric/properties/value",
+            //   type: "Control",
+            //   rule: {
+            //     condition: {
+            //       schema: {
+            //         properties: {
+            //           _metric: {
+            //             properties: {
+            //               type: { const: "static" },
+            //               valueType: { const: "date" },
+            //             },
+            //           },
+            //         },
+            //       },
+            //     },
+            //     effect: UiSchemaRuleEffects.SHOW,
+            //   },
+            //   options: {
+            //     control: "hub-field-input-date",
+            //     messages: [
+            //       {
+            //         type: "ERROR",
+            //         keyword: "required",
+            //         labelKey: `some.scope.fields.metrics.value.message.required`,
+            //         icon: true,
+            //       },
+            //     ],
+            //   },
+            // },
             {
               scope: "/properties/_metric/properties/dynamicMetric",
               type: "Control",

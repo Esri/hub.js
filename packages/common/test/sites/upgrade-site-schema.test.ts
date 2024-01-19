@@ -8,6 +8,7 @@ import * as _migrateFeedConfigModule from "../../src/sites/_internal/_migrate-fe
 import * as _migrateEventListCardConfigs from "../../src/sites/_internal/_migrate-event-list-card-configs";
 import * as migrateLegacyCapabilitiesToFeatures from "../../src/sites/_internal/capabilities/migrateLegacyCapabilitiesToFeatures";
 import * as _migrateTelemetryConfig from "../../src/sites/_internal/_migrate-telemetry-config";
+import * as migrateBadBasemapModule from "../../src/sites/_internal/migrateBadBasemap";
 import { IModel } from "../../src";
 import { SITE_SCHEMA_VERSION } from "../../src/sites/site-schema-version";
 import { expectAllCalled, expectAll } from "./test-helpers.test";
@@ -22,6 +23,7 @@ describe("upgradeSiteSchema", () => {
   let migrateEventListCardConfigsSpy: jasmine.Spy;
   let migrateLegacyCapabilitiesToFeaturesSpy: jasmine.Spy;
   let migrateTelemetryConfigSpy: jasmine.Spy;
+  let migrateBadBasemapSpy: jasmine.Spy;
   beforeEach(() => {
     applySpy = spyOn(_applySiteSchemaModule, "_applySiteSchema").and.callFake(
       (model: IModel) => model
@@ -58,6 +60,10 @@ describe("upgradeSiteSchema", () => {
       _migrateTelemetryConfig,
       "_migrateTelemetryConfig"
     ).and.callFake((model: IModel) => model);
+    migrateBadBasemapSpy = spyOn(
+      migrateBadBasemapModule,
+      "migrateBadBasemap"
+    ).and.callFake((model: IModel) => model);
   });
 
   it("runs schema upgrades", async () => {
@@ -82,6 +88,7 @@ describe("upgradeSiteSchema", () => {
         migrateEventListCardConfigsSpy,
         migrateLegacyCapabilitiesToFeaturesSpy,
         migrateTelemetryConfigSpy,
+        migrateBadBasemapSpy,
       ],
       expect
     );
@@ -113,5 +120,7 @@ describe("upgradeSiteSchema", () => {
       false,
       expect
     );
+    // Versionless migrations should still run
+    expectAll([migrateBadBasemapSpy], "toHaveBeenCalled", true, expect);
   });
 });
