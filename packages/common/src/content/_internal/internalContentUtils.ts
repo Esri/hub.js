@@ -130,23 +130,20 @@ export const deriveLocationFromItem = (item: IItem): IHubLocation => {
     return { type: "none" };
   }
 
-  /* istanbul ignore else */
-  if (!location) {
-    // IHubLocation does not exist on item properties, so construct it
-    // from item extent
-    const geometry: any = getExtentObject(extent);
-    if (geometry) {
-      return {
-        type: "custom",
-        extent,
-        geometries: [geometry],
-        spatialReference: geometry.spatialReference,
-      };
-    }
+  // IHubLocation does not exist on item properties, so construct it
+  // from item extent
+  const geometry: any = getExtentObject(extent);
+  if (geometry) {
+    return {
+      type: "custom",
+      extent,
+      geometries: [geometry],
+      spatialReference: geometry.spatialReference,
+    };
+  } else {
+    // Could not construct extent object, so return none
+    return { type: "none" };
   }
-
-  // If we get here, we have no location and no extent, so return none
-  return { type: "none" };
 };
 
 /**

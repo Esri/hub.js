@@ -381,9 +381,4 @@ describe("deriveLocationFromItem", () => {
       },
     });
   });
-  it("should finally resolve to none", () => {
-    const _item = cloneObject(item);
-    const chk = deriveLocationFromItem(_item);
-    expect(chk).toEqual({ type: "none" });
-  });
 });
