@@ -101,7 +101,7 @@ export const getContentBoundary = (item: IItem): IHubGeography => {
  * @param extent Raw item extent array
  * @returns IExtent
  */
-const getExtentObject = (extent: number[][]): IExtent => {
+export const getExtentObject = (extent: number[][]): IExtent => {
   return isBBox(extent)
     ? ({ ...bBoxToExtent(extent), type: "extent" } as unknown as IExtent)
     : undefined;
@@ -130,17 +130,23 @@ export const deriveLocationFromItem = (item: IItem): IHubLocation => {
     return { type: "none" };
   }
 
+  /* istanbul ignore else */
   if (!location) {
     // IHubLocation does not exist on item properties, so construct it
     // from item extent
     const geometry: any = getExtentObject(extent);
-    return {
-      type: "custom",
-      extent,
-      geometries: [geometry],
-      spatialReference: geometry.spatialReference,
-    };
+    if (geometry) {
+      return {
+        type: "custom",
+        extent,
+        geometries: [geometry],
+        spatialReference: geometry.spatialReference,
+      };
+    }
   }
+
+  // If we get here, we have no location and no extent, so return none
+  return { type: "none" };
 };
 
 /**

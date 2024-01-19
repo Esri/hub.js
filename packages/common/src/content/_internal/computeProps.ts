@@ -3,11 +3,7 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import { getItemThumbnailUrl } from "../../resources";
 import { IModel } from "../../types";
 import { getItemHomeUrl } from "../../urls/get-item-home-url";
-import {
-  deriveLocationFromItem,
-  getContentEditUrl,
-  getHubRelativeUrl,
-} from "./internalContentUtils";
+import { getContentEditUrl, getHubRelativeUrl } from "./internalContentUtils";
 import { IHubEditableContent } from "../../core/types/IHubEditableContent";
 import { getRelativeWorkspaceUrl } from "../../core/getRelativeWorkspaceUrl";
 import { isDiscussable } from "../../discussions";

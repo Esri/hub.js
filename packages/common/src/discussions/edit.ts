@@ -131,6 +131,7 @@ export async function updateDiscussion(
   // persist location geometries to discussion settings as Polygon[]
   let allowedLocations: Polygon[];
   try {
+    /* istanbul ignore next: optional chaining appears not picked up in coverage */
     allowedLocations =
       updatedDiscussion.location?.geometries?.map(
         (geometry) => arcgisToGeoJSON(geometry) as any as Polygon

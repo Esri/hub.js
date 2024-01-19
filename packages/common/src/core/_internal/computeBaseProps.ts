@@ -15,6 +15,6 @@ export function computeBaseProps<T extends Partial<IHubItemEntity>>(
   // TODO: Currently only location is determined for base
   // properties, but all properties that are commonly shared
   // across items should be moved here.
-  entity.location = deriveLocationFromItem(item);
+  entity.location = entity.location || deriveLocationFromItem(item);
   return entity;
 }
