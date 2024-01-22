@@ -7,7 +7,6 @@ import {
 import { IHubSearchResult } from "../../types/IHubSearchResult";
 import { itemToSearchResult } from "../portalSearchItems";
 import { IOgcItem } from "./interfaces";
-import { geojsonToArcGIS } from "@terraformer/arcgis";
 
 export async function ogcItemToSearchResult(
   ogcItem: IOgcItem,

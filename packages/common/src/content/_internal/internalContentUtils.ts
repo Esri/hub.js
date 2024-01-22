@@ -23,6 +23,8 @@ import {
   IHubRequestOptions,
 } from "../../types";
 import {
+  GeoJSONPolygonToBBox,
+  allCoordinatesPossiblyWGS84,
   bBoxToExtent,
   extentToBBox,
   extentToPolygon,
@@ -37,6 +39,8 @@ import { getEnvironmentFromPortalUrl } from "../../utils";
 import { HubEnvironment } from "../../permissions";
 import { _getHubUrlFromPortalHostname } from "../../urls/_get-hub-url-from-portal-hostname";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { geojsonToArcGIS } from "@terraformer/arcgis";
+import { Polygon } from "geojson";
 
 /**
  * Hashmap of Hub environment and application url surfix
@@ -134,6 +138,7 @@ export const deriveLocationFromItem = (item: IItem): IHubLocation => {
   // from item extent
   const geometry: any = getExtentObject(extent);
   if (geometry) {
+    // geometry constructed from bbox
     return {
       type: "custom",
       extent,
@@ -141,8 +146,31 @@ export const deriveLocationFromItem = (item: IItem): IHubLocation => {
       spatialReference: geometry.spatialReference,
     };
   } else {
-    // Could not construct extent object, so return none
-    return { type: "none" };
+    // Could not construct extent object, attempt to construct from geojson
+    try {
+      // Item extent is supposed to be in WGS84 per item documentation:
+      // https://developers.arcgis.com/rest/users-groups-and-items/item.htm
+      // But in many situations, this is not the case.  So we do out best to
+      // determine the spatial reference of the extent.
+      const bbox = GeoJSONPolygonToBBox(extent as any as Polygon);
+      const defaultSpatialReference = { wkid: 4326 };
+      const _geometry: Partial<__esri.Geometry> = {
+        type: "polygon",
+        ...geojsonToArcGIS(extent as any as Polygon),
+        spatialReference: allCoordinatesPossiblyWGS84(bbox)
+          ? defaultSpatialReference
+          : (getItemSpatialReference(item) as any) || defaultSpatialReference,
+      };
+      return {
+        type: "custom",
+        extent: bbox,
+        geometries: [_geometry],
+        spatialReference: _geometry.spatialReference,
+      };
+    } catch {
+      // Finally, exhausted all options and return a location of type none
+      return { type: "none" };
+    }
   }
 };
 

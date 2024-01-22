@@ -381,4 +381,91 @@ describe("deriveLocationFromItem", () => {
       },
     });
   });
+  it("should construct location from geojson if getExtentObject undefined", () => {
+    const _item = cloneObject(item);
+    _item.spatialReference = "102100" as any;
+    _item.extent = {
+      type: "Polygon",
+      coordinates: [
+        [
+          [-14999967.4259, 6499962.1704],
+          [-6200050.3592, 6499962.1704],
+          [-6200050.3592, 2352563.6343],
+          [-14999967.4259, 2352563.6343],
+          [-14999967.4259, 6499962.1704],
+        ],
+      ],
+    } as any;
+    const chk = deriveLocationFromItem(_item);
+    expect(chk).toEqual({
+      type: "custom",
+      extent: [
+        [-14999967.4259, 2352563.6343],
+        [-6200050.3592, 6499962.1704],
+      ],
+      geometries: [
+        {
+          type: "polygon",
+          rings: [
+            [
+              [-14999967.4259, 6499962.1704],
+              [-6200050.3592, 6499962.1704],
+              [-6200050.3592, 2352563.6343],
+              [-14999967.4259, 2352563.6343],
+              [-14999967.4259, 6499962.1704],
+            ],
+          ],
+          spatialReference: {
+            wkid: 102100,
+          } as any,
+        } as any,
+      ],
+      spatialReference: {
+        wkid: 102100,
+      },
+    });
+  });
+  it("should construct location from geojson and return default spatial reference if none defined", () => {
+    const _item = cloneObject(item);
+    _item.extent = {
+      type: "Polygon",
+      coordinates: [
+        [
+          [-14999967.4259, 6499962.1704],
+          [-6200050.3592, 6499962.1704],
+          [-6200050.3592, 2352563.6343],
+          [-14999967.4259, 2352563.6343],
+          [-14999967.4259, 6499962.1704],
+        ],
+      ],
+    } as any;
+    const chk = deriveLocationFromItem(_item);
+    expect(chk).toEqual({
+      type: "custom",
+      extent: [
+        [-14999967.4259, 2352563.6343],
+        [-6200050.3592, 6499962.1704],
+      ],
+      geometries: [
+        {
+          type: "polygon",
+          rings: [
+            [
+              [-14999967.4259, 6499962.1704],
+              [-6200050.3592, 6499962.1704],
+              [-6200050.3592, 2352563.6343],
+              [-14999967.4259, 2352563.6343],
+              [-14999967.4259, 6499962.1704],
+            ],
+          ],
+          spatialReference: {
+            wkid: 4326,
+          } as any,
+        } as any,
+      ],
+      spatialReference: {
+        wkid: 4326,
+      },
+    });
+  });
 });

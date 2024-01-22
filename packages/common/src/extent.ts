@@ -2,6 +2,7 @@ import { IExtent, IPoint, IPolygon, Position } from "@esri/arcgis-rest-types";
 import { IHubRequestOptions, BBox } from "./types";
 import { getProp } from "./objects";
 import { IRequestOptions, request } from "@esri/arcgis-rest-request";
+import { Polygon } from "geojson";
 
 /**
  * Turns an bounding box coordinate array into an extent object
@@ -189,4 +190,49 @@ export const getExtentCenter = (extent: IExtent): IPoint => {
   const x = (xmax - xmin) / 2 + xmin;
   const y = (ymax - ymin) / 2 + ymin;
   return { x, y, spatialReference };
+};
+
+/**
+ * Checks coordinate or coordinate array to determine if all coordinates are
+ * possibly WGS84.  This is a best effert attempt, not a guarantee.
+ * @param bboxOrCoordinates
+ * @returns
+ */
+export const allCoordinatesPossiblyWGS84 = (
+  bboxOrCoordinates: number[][] | number[]
+): boolean => {
+  const flattenCoordinates = [].concat(...bboxOrCoordinates);
+  for (let i = 0; i < flattenCoordinates.length; i += 2) {
+    const [lon, lat] = [flattenCoordinates[i], flattenCoordinates[i + 1]];
+    if (lat < -90 || lat > 90 || lon < -180 || lon > 180) {
+      return false;
+    }
+  }
+  return true;
+};
+
+/**
+ * Turns a geojson polygon in to a bounding box coordinate array
+ * @param polygon
+ * @returns BBox
+ */
+export const GeoJSONPolygonToBBox = (polygon: Partial<Polygon>): BBox => {
+  let xmin = Infinity;
+  let ymin = Infinity;
+  let xmax = -Infinity;
+  let ymax = -Infinity;
+
+  for (const coordinate of polygon.coordinates) {
+    for (const [x, y] of coordinate) {
+      xmin = Math.min(xmin, x);
+      ymin = Math.min(ymin, y);
+      xmax = Math.max(xmax, x);
+      ymax = Math.max(ymax, y);
+    }
+  }
+
+  return [
+    [xmin, ymin],
+    [xmax, ymax],
+  ];
 };

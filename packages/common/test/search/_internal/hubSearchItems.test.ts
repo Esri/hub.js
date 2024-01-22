@@ -11,8 +11,6 @@ import {
 } from "../../../src";
 
 import { UserSession } from "@esri/arcgis-rest-auth";
-import * as Terraformer from "@terraformer/arcgis";
-
 import {
   formatPredicate,
   formatFilterBlock,
@@ -675,7 +673,33 @@ describe("hubSearchItems Module |", () => {
       },
       // TODO: fill this and add some verification
       rawResult: ogcItemsResponse.features[0].properties as IOgcItem,
-      location: { type: "none" },
+      location: {
+        type: "custom",
+        extent: [
+          [-121.11799999999793, 38.67499450446548],
+          [-119.00899999999801, 39.37030746927015],
+        ],
+        geometries: [
+          {
+            type: "polygon",
+            rings: [
+              [
+                [-121.11799999999793, 39.37030746927015],
+                [-119.00899999999801, 39.37030746927015],
+                [-119.00899999999801, 38.67499450446548],
+                [-121.11799999999793, 38.67499450446548],
+                [-121.11799999999793, 39.37030746927015],
+              ],
+            ],
+            spatialReference: {
+              wkid: 4326,
+            } as any,
+          } as any,
+        ],
+        spatialReference: {
+          wkid: 4326,
+        },
+      },
     },
   ];
 
