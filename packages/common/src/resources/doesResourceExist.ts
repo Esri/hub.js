@@ -1,6 +1,14 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { getItemResources } from "@esri/arcgis-rest-portal";
 
+/**
+ * Given an item ID, and a resource name, check if the resource exists
+ *
+ * @param id Item ID
+ * @param name Resource name
+ * @param ro Request options
+ * @returns boolean
+ */
 export async function doesResourceExist(
   id: string,
   name: string,
