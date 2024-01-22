@@ -37,6 +37,7 @@ import { IEditorConfig } from "../core/schemas/types";
 import { enrichEntity } from "../core/enrichEntity";
 import { IGroup } from "@esri/arcgis-rest-types";
 import { getProp } from "../objects";
+import { clearSetFeaturedImage } from "../items/clearSetFeaturedImage";
 
 /**
  * Hub Initiative Class
@@ -343,6 +344,30 @@ export class HubInitiative
     // convert back to an entity
     const entity = editorToInitiative(editor, this.context.portal);
 
+    // handle featured image
+    // If there is a featured image from the editor, we need to...
+    if (featuredImage) {
+      // If there's a current featured image, we need to clear it
+      let clearOrSet: "clear" | "set" | "both" = "clear";
+      let fi: any = "";
+      if (featuredImage.blob) {
+        // If there's a blob update input params
+        clearOrSet = entity.view.featuredImageUrl ? "both" : "set";
+        fi = featuredImage.blob;
+      }
+      // ...and set/clear it
+      const featuredImageUrl = await clearSetFeaturedImage(
+        fi,
+        clearOrSet,
+        entity,
+        this.context.userRequestOptions
+      );
+      entity.view = {
+        ...entity.view,
+        featuredImageUrl,
+      };
+    }
+
     // create it if it does not yet exist...
     if (isCreate) {
       // this allows the featured image functions to work
@@ -354,15 +379,6 @@ export class HubInitiative
       // ...otherwise, update the in-memory entity and save it
       this.entity = entity;
       await this.save();
-    }
-
-    // handle featured image
-    if (featuredImage) {
-      if (featuredImage.blob) {
-        await this.setFeaturedImage(featuredImage.blob);
-      } else {
-        await this.clearFeaturedImage();
-      }
     }
 
     /**

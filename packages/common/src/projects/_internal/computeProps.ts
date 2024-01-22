@@ -39,10 +39,7 @@ export function computeProps(
 
   project.view = {
     ...model.data.view,
-    featuredImageUrl: getAuthedImageUrl(
-      model.data.view?.featuredImageUrl,
-      requestOptions
-    ),
+    featuredImageUrl: model.data.view?.featuredImageUrl,
   };
 
   /**

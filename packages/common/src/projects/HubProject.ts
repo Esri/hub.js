@@ -40,6 +40,7 @@ import { metricToEditor } from "../core/schemas/internal/metrics/metricToEditor"
 import { editorToMetric } from "../core/schemas/internal/metrics/editorToMetric";
 import { setMetricAndDisplay } from "../core/schemas/internal/metrics/setMetricAndDisplay";
 import { IMetricDisplayConfig } from "../core/types/Metrics";
+import { clearSetFeaturedImage } from "../items/clearSetFeaturedImage";
 
 /**
  * Hub Project Class
@@ -309,6 +310,30 @@ export class HubProject
       entity = setMetricAndDisplay(this.entity, metric, displayConfig);
     }
 
+    // handle featured image
+    // If there is a featured image from the editor, we need to...
+    if (featuredImage) {
+      // If there's a current featured image, we need to clear it
+      let clearOrSet: "clear" | "set" | "both" = "clear";
+      let fi: any = "";
+      if (featuredImage.blob) {
+        // If there's a blob update input params
+        clearOrSet = entity.view.featuredImageUrl ? "both" : "set";
+        fi = featuredImage.blob;
+      }
+      // ...and set/clear it
+      const featuredImageUrl = await clearSetFeaturedImage(
+        fi,
+        clearOrSet,
+        entity,
+        this.context.userRequestOptions
+      );
+      entity.view = {
+        ...entity.view,
+        featuredImageUrl,
+      };
+    }
+
     // create it if it does not yet exist...
     if (isCreate) {
       // this allows the featured image functions to work
@@ -320,15 +345,6 @@ export class HubProject
       // ...otherwise, update the in-memory entity and save it
       this.entity = entity;
       await this.save();
-    }
-
-    // handle featured image
-    if (featuredImage) {
-      if (featuredImage.blob) {
-        await this.setFeaturedImage(featuredImage.blob);
-      } else {
-        await this.clearFeaturedImage();
-      }
     }
 
     /**

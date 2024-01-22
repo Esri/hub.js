@@ -9,6 +9,7 @@ import * as ResolveMetricModule from "../../src/metrics/resolveMetric";
 import * as viewModule from "../../src/initiatives/view";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
+import * as ClearSetFeaturedImageModule from "../../src/items/clearSetFeaturedImage";
 import { HubItemEntity } from "../../src/core/HubItemEntity";
 import { initContextManager } from "../templates/fixtures";
 
@@ -536,15 +537,47 @@ describe("HubInitiative Class:", () => {
             filename: "some-featuredImage.png",
           },
         };
-        const setFeaturedImageSpy = spyOn(
-          chk,
-          "setFeaturedImage"
-        ).and.returnValue(Promise.resolve());
+        const clearSetFeaturedImageSpy = spyOn(
+          ClearSetFeaturedImageModule,
+          "clearSetFeaturedImage"
+        ).and.returnValue(
+          Promise.resolve("https://blah.com/some-featuredImage.png")
+        );
         await chk.fromEditor(editor);
         expect(updateSpy).toHaveBeenCalledTimes(1);
         expect(createSpy).not.toHaveBeenCalled();
-        expect(setFeaturedImageSpy).toHaveBeenCalledTimes(1);
-        expect(setFeaturedImageSpy).toHaveBeenCalledWith("some blob");
+        expect(clearSetFeaturedImageSpy).toHaveBeenCalledTimes(1);
+      });
+      it("handles setting featured image and clearing prior image", async () => {
+        const chk = HubInitiative.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            view: {
+              featuredImageUrl: "https://blah.com/some-featuredImage.png",
+            },
+          },
+          authdCtxMgr.context
+        );
+        const editor = await chk.toEditor();
+
+        editor.view = {
+          ...editor.view,
+          featuredImage: {
+            blob: "some blob",
+            filename: "some-featuredImage.png",
+          },
+        };
+        const clearSetFeaturedImageSpy = spyOn(
+          ClearSetFeaturedImageModule,
+          "clearSetFeaturedImage"
+        ).and.returnValue(
+          Promise.resolve("https://blah.com/some-featuredImage.png")
+        );
+        await chk.fromEditor(editor);
+        expect(updateSpy).toHaveBeenCalledTimes(1);
+        expect(createSpy).not.toHaveBeenCalled();
+        expect(clearSetFeaturedImageSpy).toHaveBeenCalledTimes(1);
       });
       it("handles clearing featured image", async () => {
         const chk = HubInitiative.fromJson(
@@ -558,14 +591,14 @@ describe("HubInitiative Class:", () => {
         editor.view = {
           featuredImage: {},
         };
-        const clearFeaturedImageSpy = spyOn(
-          chk,
-          "clearFeaturedImage"
-        ).and.returnValue(Promise.resolve());
+        const clearSetFeaturedImageSpy = spyOn(
+          ClearSetFeaturedImageModule,
+          "clearSetFeaturedImage"
+        ).and.returnValue(Promise.resolve(null));
         await chk.fromEditor(editor);
         expect(updateSpy).toHaveBeenCalledTimes(1);
         expect(createSpy).not.toHaveBeenCalled();
-        expect(clearFeaturedImageSpy).toHaveBeenCalledTimes(1);
+        expect(clearSetFeaturedImageSpy).toHaveBeenCalledTimes(1);
       });
       it("sets access on create", async () => {
         const chk = HubInitiative.fromJson(
