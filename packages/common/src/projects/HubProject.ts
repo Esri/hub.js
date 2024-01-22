@@ -40,7 +40,9 @@ import { metricToEditor } from "../core/schemas/internal/metrics/metricToEditor"
 import { editorToMetric } from "../core/schemas/internal/metrics/editorToMetric";
 import { setMetricAndDisplay } from "../core/schemas/internal/metrics/setMetricAndDisplay";
 import { IMetricDisplayConfig } from "../core/types/Metrics";
-import { clearSetFeaturedImage } from "../items/clearSetFeaturedImage";
+import { upsertResource } from "../resources/upsertResource";
+import { doesResourceExist } from "../resources/doesResourceExist";
+import { removeResource } from "../resources/removeResource";
 
 /**
  * Hub Project Class
@@ -313,21 +315,31 @@ export class HubProject
     // handle featured image
     // If there is a featured image from the editor, we need to...
     if (featuredImage) {
-      // If there's a current featured image, we need to clear it
-      let clearOrSet: "clear" | "set" | "both" = "clear";
-      let fi: any = "";
+      let featuredImageUrl: string | null = null;
+      // ...upsert it if it's a blob
       if (featuredImage.blob) {
-        // If there's a blob update input params
-        clearOrSet = entity.view.featuredImageUrl ? "both" : "set";
-        fi = featuredImage.blob;
+        featuredImageUrl = await upsertResource(
+          entity.id,
+          entity.owner,
+          featuredImage.blob,
+          "featuredImage.png",
+          this.context.userRequestOptions
+        );
+      } else if (
+        await doesResourceExist(
+          entity.id,
+          "featuredImage.png",
+          this.context.userRequestOptions
+        )
+      ) {
+        await removeResource(
+          entity.id,
+          "featuredImage.png",
+          entity.owner,
+          this.context.userRequestOptions
+        );
       }
-      // ...and set/clear it
-      const featuredImageUrl = await clearSetFeaturedImage(
-        fi,
-        clearOrSet,
-        entity,
-        this.context.userRequestOptions
-      );
+
       entity.view = {
         ...entity.view,
         featuredImageUrl,

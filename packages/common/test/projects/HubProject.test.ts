@@ -13,7 +13,9 @@ import * as ResolveMetricModule from "../../src/metrics/resolveMetric";
 import { HubItemEntity } from "../../src/core/HubItemEntity";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
 import * as utils from "../../src/util";
-import * as ClearSetFeaturedImageModule from "../../src/items/clearSetFeaturedImage";
+import * as upsertResourceModule from "../../src/resources/upsertResource";
+import * as doesResourceExistModule from "../../src/resources/doesResourceExist";
+import * as removeResourceModule from "../../src/resources/removeResource";
 
 const initContextManager = async (opts = {}) => {
   const defaults = {
@@ -471,8 +473,8 @@ describe("HubProject Class:", () => {
           },
         };
         const spy = spyOn(
-          ClearSetFeaturedImageModule,
-          "clearSetFeaturedImage"
+          upsertResourceModule,
+          "upsertResource"
         ).and.returnValue(
           Promise.resolve("https://blah.com/some-featuredImage.png")
         );
@@ -503,8 +505,8 @@ describe("HubProject Class:", () => {
           },
         };
         const spy = spyOn(
-          ClearSetFeaturedImageModule,
-          "clearSetFeaturedImage"
+          upsertResourceModule,
+          "upsertResource"
         ).and.returnValue(
           Promise.resolve("https://blah.com/some-featuredImage.png")
         );
@@ -527,13 +529,45 @@ describe("HubProject Class:", () => {
           featuredImage: {}, // Will clear b/c .blob is not defined
         };
         const spy = spyOn(
-          ClearSetFeaturedImageModule,
-          "clearSetFeaturedImage"
-        ).and.returnValue(Promise.resolve(null));
+          doesResourceExistModule,
+          "doesResourceExist"
+        ).and.returnValue(Promise.resolve(true));
+        const removeResourceSpy = spyOn(
+          removeResourceModule,
+          "removeResource"
+        ).and.returnValue(Promise.resolve());
         await chk.fromEditor(editor);
         expect(updateSpy).toHaveBeenCalledTimes(1);
         expect(createSpy).not.toHaveBeenCalled();
         expect(spy).toHaveBeenCalledTimes(1);
+        expect(removeResourceSpy).toHaveBeenCalledTimes(1);
+      });
+      it("handles clearing featuredImage when resource doesnt exist", async () => {
+        const chk = HubProject.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+          },
+          authdCtxMgr.context
+        );
+        const editor = await chk.toEditor();
+        editor.view = {
+          featuredImage: {}, // Will clear b/c .blob is not defined
+        };
+        const spy = spyOn(
+          doesResourceExistModule,
+          "doesResourceExist"
+        ).and.returnValue(Promise.resolve(false));
+        const removeResourceSpy = spyOn(
+          removeResourceModule,
+          "removeResource"
+        ).and.returnValue(Promise.resolve());
+        await chk.fromEditor(editor);
+        expect(updateSpy).toHaveBeenCalledTimes(1);
+        expect(createSpy).not.toHaveBeenCalled();
+        expect(spy).toHaveBeenCalledTimes(1);
+        expect(removeResourceSpy).not.toHaveBeenCalled();
       });
       it("sets access on create", async () => {
         const chk = HubProject.fromJson(

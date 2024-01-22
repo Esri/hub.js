@@ -37,7 +37,9 @@ import { IEditorConfig } from "../core/schemas/types";
 import { enrichEntity } from "../core/enrichEntity";
 import { IGroup } from "@esri/arcgis-rest-types";
 import { getProp } from "../objects";
-import { clearSetFeaturedImage } from "../items/clearSetFeaturedImage";
+import { upsertResource } from "../resources/upsertResource";
+import { doesResourceExist } from "../resources/doesResourceExist";
+import { removeResource } from "../resources/removeResource";
 
 /**
  * Hub Initiative Class
@@ -347,21 +349,31 @@ export class HubInitiative
     // handle featured image
     // If there is a featured image from the editor, we need to...
     if (featuredImage) {
-      // If there's a current featured image, we need to clear it
-      let clearOrSet: "clear" | "set" | "both" = "clear";
-      let fi: any = "";
+      let featuredImageUrl: string | null = null;
+      // ...upsert it if it's a blob
       if (featuredImage.blob) {
-        // If there's a blob update input params
-        clearOrSet = entity.view.featuredImageUrl ? "both" : "set";
-        fi = featuredImage.blob;
+        featuredImageUrl = await upsertResource(
+          entity.id,
+          entity.owner,
+          featuredImage.blob,
+          "featuredImage.png",
+          this.context.userRequestOptions
+        );
+      } else if (
+        await doesResourceExist(
+          entity.id,
+          "featuredImage.png",
+          this.context.userRequestOptions
+        )
+      ) {
+        await removeResource(
+          entity.id,
+          "featuredImage.png",
+          entity.owner,
+          this.context.userRequestOptions
+        );
       }
-      // ...and set/clear it
-      const featuredImageUrl = await clearSetFeaturedImage(
-        fi,
-        clearOrSet,
-        entity,
-        this.context.userRequestOptions
-      );
+
       entity.view = {
         ...entity.view,
         featuredImageUrl,
