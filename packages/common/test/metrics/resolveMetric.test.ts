@@ -60,6 +60,7 @@ describe("resolveMetric:", () => {
       source: {
         type: "static-value",
         value: 100000,
+        valueType: "number",
       },
       entityInfo: {
         id: "00c",
@@ -76,6 +77,7 @@ describe("resolveMetric:", () => {
             name: "Some Project Name",
             type: "Hub Project",
             initiativeBudget: 100000,
+            valueType: "number",
           },
         },
       ]);
