@@ -132,37 +132,37 @@ describe("buildUiSchema: metric", () => {
                 ],
               },
             },
-            // {
-            //   labelKey: `some.scope.fields.metrics.value.label`,
-            //   scope: "/properties/_metric/properties/value",
-            //   type: "Control",
-            //   rule: {
-            //     condition: {
-            //       schema: {
-            //         properties: {
-            //           _metric: {
-            //             properties: {
-            //               type: { const: "static" },
-            //               valueType: { const: "date" },
-            //             },
-            //           },
-            //         },
-            //       },
-            //     },
-            //     effect: UiSchemaRuleEffects.SHOW,
-            //   },
-            //   options: {
-            //     control: "hub-field-input-date",
-            //     messages: [
-            //       {
-            //         type: "ERROR",
-            //         keyword: "required",
-            //         labelKey: `some.scope.fields.metrics.value.message.required`,
-            //         icon: true,
-            //       },
-            //     ],
-            //   },
-            // },
+            {
+              labelKey: `some.scope.fields.metrics.value.label`,
+              scope: "/properties/_metric/properties/value",
+              type: "Control",
+              rule: {
+                condition: {
+                  schema: {
+                    properties: {
+                      _metric: {
+                        properties: {
+                          type: { const: "static" },
+                          valueType: { const: "date" },
+                        },
+                      },
+                    },
+                  },
+                },
+                effect: UiSchemaRuleEffects.SHOW,
+              },
+              options: {
+                control: "hub-field-input-date",
+                messages: [
+                  {
+                    type: "ERROR",
+                    keyword: "required",
+                    labelKey: `some.scope.fields.metrics.value.message.required`,
+                    icon: true,
+                  },
+                ],
+              },
+            },
             {
               scope: "/properties/_metric/properties/dynamicMetric",
               type: "Control",

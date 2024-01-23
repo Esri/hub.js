@@ -23,7 +23,7 @@ export const MetricSchema: IConfigurationSchema = {
     valueType: {
       type: "string",
       default: "string",
-      enum: ["string", "number"],
+      enum: ["string", "number", "date"],
     },
     dynamicMetric: {
       type: "object",
