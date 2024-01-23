@@ -40,6 +40,9 @@ import { metricToEditor } from "../core/schemas/internal/metrics/metricToEditor"
 import { editorToMetric } from "../core/schemas/internal/metrics/editorToMetric";
 import { setMetricAndDisplay } from "../core/schemas/internal/metrics/setMetricAndDisplay";
 import { IMetricDisplayConfig } from "../core/types/Metrics";
+import { upsertResource } from "../resources/upsertResource";
+import { doesResourceExist } from "../resources/doesResourceExist";
+import { removeResource } from "../resources/removeResource";
 
 /**
  * Hub Project Class
@@ -309,6 +312,40 @@ export class HubProject
       entity = setMetricAndDisplay(this.entity, metric, displayConfig);
     }
 
+    // handle featured image
+    // If there is a featured image from the editor, we need to...
+    if (featuredImage) {
+      let featuredImageUrl: string | null = null;
+      // ...upsert it if it's a blob
+      if (featuredImage.blob) {
+        featuredImageUrl = await upsertResource(
+          entity.id,
+          entity.owner,
+          featuredImage.blob,
+          "featuredImage.png",
+          this.context.userRequestOptions
+        );
+      } else if (
+        await doesResourceExist(
+          entity.id,
+          "featuredImage.png",
+          this.context.userRequestOptions
+        )
+      ) {
+        await removeResource(
+          entity.id,
+          "featuredImage.png",
+          entity.owner,
+          this.context.userRequestOptions
+        );
+      }
+
+      entity.view = {
+        ...entity.view,
+        featuredImageUrl,
+      };
+    }
+
     // create it if it does not yet exist...
     if (isCreate) {
       // this allows the featured image functions to work
@@ -320,15 +357,6 @@ export class HubProject
       // ...otherwise, update the in-memory entity and save it
       this.entity = entity;
       await this.save();
-    }
-
-    // handle featured image
-    if (featuredImage) {
-      if (featuredImage.blob) {
-        await this.setFeaturedImage(featuredImage.blob);
-      } else {
-        await this.clearFeaturedImage();
-      }
     }
 
     /**

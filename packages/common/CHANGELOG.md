@@ -1,3 +1,10 @@
+## @esri/hub-common [14.80.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.80.1...@esri/hub-common@14.80.2) (2024-01-23)
+
+
+### Bug Fixes
+
+* project/initiatives use upsertResource ([#1388](https://github.com/Esri/hub.js/issues/1388)) ([8e3aabc](https://github.com/Esri/hub.js/commit/8e3aabc6af67cc9655da02959b3e57b9561c422f))
+
 ## @esri/hub-common [14.80.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.80.0...@esri/hub-common@14.80.1) (2024-01-18)
 
 

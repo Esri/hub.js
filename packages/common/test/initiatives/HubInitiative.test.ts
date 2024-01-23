@@ -9,6 +9,9 @@ import * as ResolveMetricModule from "../../src/metrics/resolveMetric";
 import * as viewModule from "../../src/initiatives/view";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
+import * as upsertResourceModule from "../../src/resources/upsertResource";
+import * as doesResourceExistModule from "../../src/resources/doesResourceExist";
+import * as removeResourceModule from "../../src/resources/removeResource";
 import { HubItemEntity } from "../../src/core/HubItemEntity";
 import { initContextManager } from "../templates/fixtures";
 
@@ -536,15 +539,47 @@ describe("HubInitiative Class:", () => {
             filename: "some-featuredImage.png",
           },
         };
-        const setFeaturedImageSpy = spyOn(
-          chk,
-          "setFeaturedImage"
-        ).and.returnValue(Promise.resolve());
+        const upsertResourceSpy = spyOn(
+          upsertResourceModule,
+          "upsertResource"
+        ).and.returnValue(
+          Promise.resolve("https://blah.com/some-featuredImage.png")
+        );
         await chk.fromEditor(editor);
         expect(updateSpy).toHaveBeenCalledTimes(1);
         expect(createSpy).not.toHaveBeenCalled();
-        expect(setFeaturedImageSpy).toHaveBeenCalledTimes(1);
-        expect(setFeaturedImageSpy).toHaveBeenCalledWith("some blob");
+        expect(upsertResourceSpy).toHaveBeenCalledTimes(1);
+      });
+      it("handles setting featured image and clearing prior image", async () => {
+        const chk = HubInitiative.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            view: {
+              featuredImageUrl: "https://blah.com/some-featuredImage.png",
+            },
+          },
+          authdCtxMgr.context
+        );
+        const editor = await chk.toEditor();
+
+        editor.view = {
+          ...editor.view,
+          featuredImage: {
+            blob: "some blob",
+            filename: "some-featuredImage.png",
+          },
+        };
+        const upsertResourceSpy = spyOn(
+          upsertResourceModule,
+          "upsertResource"
+        ).and.returnValue(
+          Promise.resolve("https://blah.com/some-featuredImage.png")
+        );
+        await chk.fromEditor(editor);
+        expect(updateSpy).toHaveBeenCalledTimes(1);
+        expect(createSpy).not.toHaveBeenCalled();
+        expect(upsertResourceSpy).toHaveBeenCalledTimes(1);
       });
       it("handles clearing featured image", async () => {
         const chk = HubInitiative.fromJson(
@@ -558,14 +593,47 @@ describe("HubInitiative Class:", () => {
         editor.view = {
           featuredImage: {},
         };
-        const clearFeaturedImageSpy = spyOn(
-          chk,
-          "clearFeaturedImage"
+        const doesResourceExistSpy = spyOn(
+          doesResourceExistModule,
+          "doesResourceExist"
+        ).and.returnValue(Promise.resolve(true));
+        const removeResourceSpy = spyOn(
+          removeResourceModule,
+          "removeResource"
         ).and.returnValue(Promise.resolve());
+
         await chk.fromEditor(editor);
         expect(updateSpy).toHaveBeenCalledTimes(1);
         expect(createSpy).not.toHaveBeenCalled();
-        expect(clearFeaturedImageSpy).toHaveBeenCalledTimes(1);
+        expect(doesResourceExistSpy).toHaveBeenCalledTimes(1);
+        expect(removeResourceSpy).toHaveBeenCalledTimes(1);
+      });
+      it("handles clearing featured image when resource doesnt exist", async () => {
+        const chk = HubInitiative.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+          },
+          authdCtxMgr.context
+        );
+        const editor = await chk.toEditor();
+        editor.view = {
+          featuredImage: {},
+        };
+        const doesResourceExistSpy = spyOn(
+          doesResourceExistModule,
+          "doesResourceExist"
+        ).and.returnValue(Promise.resolve(false));
+        const removeResourceSpy = spyOn(
+          removeResourceModule,
+          "removeResource"
+        ).and.returnValue(Promise.resolve());
+
+        await chk.fromEditor(editor);
+        expect(updateSpy).toHaveBeenCalledTimes(1);
+        expect(createSpy).not.toHaveBeenCalled();
+        expect(doesResourceExistSpy).toHaveBeenCalledTimes(1);
+        expect(removeResourceSpy).not.toHaveBeenCalled();
       });
       it("sets access on create", async () => {
         const chk = HubInitiative.fromJson(

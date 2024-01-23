@@ -37,6 +37,9 @@ import { IEditorConfig } from "../core/schemas/types";
 import { enrichEntity } from "../core/enrichEntity";
 import { IGroup } from "@esri/arcgis-rest-types";
 import { getProp } from "../objects";
+import { upsertResource } from "../resources/upsertResource";
+import { doesResourceExist } from "../resources/doesResourceExist";
+import { removeResource } from "../resources/removeResource";
 
 /**
  * Hub Initiative Class
@@ -343,6 +346,40 @@ export class HubInitiative
     // convert back to an entity
     const entity = editorToInitiative(editor, this.context.portal);
 
+    // handle featured image
+    // If there is a featured image from the editor, we need to...
+    if (featuredImage) {
+      let featuredImageUrl: string | null = null;
+      // ...upsert it if it's a blob
+      if (featuredImage.blob) {
+        featuredImageUrl = await upsertResource(
+          entity.id,
+          entity.owner,
+          featuredImage.blob,
+          "featuredImage.png",
+          this.context.userRequestOptions
+        );
+      } else if (
+        await doesResourceExist(
+          entity.id,
+          "featuredImage.png",
+          this.context.userRequestOptions
+        )
+      ) {
+        await removeResource(
+          entity.id,
+          "featuredImage.png",
+          entity.owner,
+          this.context.userRequestOptions
+        );
+      }
+
+      entity.view = {
+        ...entity.view,
+        featuredImageUrl,
+      };
+    }
+
     // create it if it does not yet exist...
     if (isCreate) {
       // this allows the featured image functions to work
@@ -354,15 +391,6 @@ export class HubInitiative
       // ...otherwise, update the in-memory entity and save it
       this.entity = entity;
       await this.save();
-    }
-
-    // handle featured image
-    if (featuredImage) {
-      if (featuredImage.blob) {
-        await this.setFeaturedImage(featuredImage.blob);
-      } else {
-        await this.clearFeaturedImage();
-      }
     }
 
     /**
