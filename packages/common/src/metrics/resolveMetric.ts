@@ -68,6 +68,7 @@ function resolveStaticValueMetric(
       name: metric.entityInfo.name,
       type: metric.entityInfo.type,
       [fieldName]: source.value,
+      valueType: source.valueType,
     },
   };
   return Promise.resolve({
