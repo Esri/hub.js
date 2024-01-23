@@ -16,7 +16,7 @@
     "abab": "^2.0.5",
     "adlib": "^3.0.8",
     "ajv": "^6.12.6",
-    "fast-xml-parser": "^3.21.0",
+    "fast-xml-parser": "^4.1.2",
     "json-schema-typed": "^7.0.3",
     "jsonapi-typescript": "^0.1.3",
     "tslib": "^1.13.0"
