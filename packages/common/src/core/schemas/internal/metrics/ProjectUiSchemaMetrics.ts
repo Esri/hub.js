@@ -86,6 +86,7 @@ export const buildUiSchema = (
             rule: SHOW_FOR_STATIC_AND_STRING_RULE_ENTITY,
             options: {
               control: "hub-field-input-input",
+              clearOnHidden: true,
               messages: [
                 {
                   type: "ERROR",
@@ -104,6 +105,7 @@ export const buildUiSchema = (
             options: {
               control: "hub-field-input-input",
               type: "number",
+              clearOnHidden: true,
               messages: [
                 {
                   type: "ERROR",
