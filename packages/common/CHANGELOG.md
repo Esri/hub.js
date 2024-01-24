@@ -1,3 +1,10 @@
+# @esri/hub-common [14.81.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.80.2...@esri/hub-common@14.81.0) (2024-01-24)
+
+
+### Features
+
+* **hub-common:** consolidates entity location construction and depre… ([#1382](https://github.com/Esri/hub.js/issues/1382)) ([d067225](https://github.com/Esri/hub.js/commit/d06722554645eb082ec1f03be323d18a4aceb8b7))
+
 ## @esri/hub-common [14.80.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.80.1...@esri/hub-common@14.80.2) (2024-01-23)
 
 
