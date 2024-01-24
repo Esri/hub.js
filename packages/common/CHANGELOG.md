@@ -1,3 +1,73 @@
+## @esri/hub-common [14.81.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.81.0...@esri/hub-common@14.81.1) (2024-01-24)
+
+
+### Bug Fixes
+
+* config editor cleanup - update schemas ([#1377](https://github.com/Esri/hub.js/issues/1377)) ([f531ee5](https://github.com/Esri/hub.js/commit/f531ee580f1c728a5fa13c905c83fd51ea2aeb9a))
+
+# @esri/hub-common [14.81.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.80.2...@esri/hub-common@14.81.0) (2024-01-24)
+
+
+### Features
+
+* **hub-common:** consolidates entity location construction and depre… ([#1382](https://github.com/Esri/hub.js/issues/1382)) ([d067225](https://github.com/Esri/hub.js/commit/d06722554645eb082ec1f03be323d18a4aceb8b7))
+
+## @esri/hub-common [14.80.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.80.1...@esri/hub-common@14.80.2) (2024-01-23)
+
+
+### Bug Fixes
+
+* project/initiatives use upsertResource ([#1388](https://github.com/Esri/hub.js/issues/1388)) ([8e3aabc](https://github.com/Esri/hub.js/commit/8e3aabc6af67cc9655da02959b3e57b9561c422f))
+
+## @esri/hub-common [14.80.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.80.0...@esri/hub-common@14.80.1) (2024-01-18)
+
+
+### Bug Fixes
+
+* explicitly say control for stat card uiSchema ([#1387](https://github.com/Esri/hub.js/issues/1387)) ([a92acff](https://github.com/Esri/hub.js/commit/a92acff6bdc3600faa05f35b161d3259a32afa72))
+
+# @esri/hub-common [14.80.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.79.1...@esri/hub-common@14.80.0) (2024-01-18)
+
+
+### Features
+
+* expose portal limits on context ([#1385](https://github.com/Esri/hub.js/issues/1385)) ([28b693d](https://github.com/Esri/hub.js/commit/28b693d2de7b6f19c2d63cc8b178d60578c11636))
+
+## @esri/hub-common [14.79.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.79.0...@esri/hub-common@14.79.1) (2024-01-17)
+
+
+### Bug Fixes
+
+* update subsetSchema ([#1386](https://github.com/Esri/hub.js/issues/1386)) ([b1be3e2](https://github.com/Esri/hub.js/commit/b1be3e2371608f276c3fc1ac14cbd7c6551921be))
+
+# @esri/hub-common [14.79.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.78.2...@esri/hub-common@14.79.0) (2024-01-16)
+
+
+### Features
+
+* release project metrics ([#1383](https://github.com/Esri/hub.js/issues/1383)) ([f2c9a55](https://github.com/Esri/hub.js/commit/f2c9a55d52cd48c4ee07d5be0c1f6375a2f213e6))
+
+## @esri/hub-common [14.78.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.78.1...@esri/hub-common@14.78.2) (2024-01-11)
+
+
+### Bug Fixes
+
+* require title and require value if static ([#1373](https://github.com/Esri/hub.js/issues/1373)) ([6231438](https://github.com/Esri/hub.js/commit/62314387ec9033e2a390e072f7f60f3f6eef9581))
+
+## @esri/hub-common [14.78.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.78.0...@esri/hub-common@14.78.1) (2024-01-11)
+
+
+### Bug Fixes
+
+* migrate malformed basemap hash resulting from hub.py bug ([#1381](https://github.com/Esri/hub.js/issues/1381)) ([b68da32](https://github.com/Esri/hub.js/commit/b68da32b9206e45ab3568c026f49d5659af8f05b))
+
+# @esri/hub-common [14.78.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.77.1...@esri/hub-common@14.78.0) (2024-01-10)
+
+
+### Features
+
+* add type for static metric value ([#1371](https://github.com/Esri/hub.js/issues/1371)) ([af404bf](https://github.com/Esri/hub.js/commit/af404bf47686e411f5612f5a3c5a937c97218616))
+
 ## @esri/hub-common [14.77.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.77.0...@esri/hub-common@14.77.1) (2024-01-10)
 
 

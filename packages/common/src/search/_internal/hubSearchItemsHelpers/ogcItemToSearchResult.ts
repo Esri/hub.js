@@ -7,7 +7,6 @@ import {
 import { IHubSearchResult } from "../../types/IHubSearchResult";
 import { itemToSearchResult } from "../portalSearchItems";
 import { IOgcItem } from "./interfaces";
-import { geojsonToArcGIS } from "@terraformer/arcgis";
 
 export async function ogcItemToSearchResult(
   ogcItem: IOgcItem,
@@ -19,21 +18,8 @@ export async function ogcItemToSearchResult(
   // as `license` and `source` if the OgcItem came from the index.
   const pseudoItem = ogcItem.properties as IItem;
   const result = await itemToSearchResult(pseudoItem, includes, requestOptions);
-  // Expose extraneous members like `license`, `source`, `properties.location` and `geometry`
+  // Expose extraneous members like `license` and `source`
   result.source = ogcItem.properties.source;
   result.license = ogcItem.properties.license;
-  result.location = ogcItem.properties.properties?.location;
-  // Add IHubGeography to result
-  if (ogcItem.geometry) {
-    try {
-      result.geometry = {
-        geometry: geojsonToArcGIS(ogcItem.geometry) as IPolygonProperties,
-      };
-    } catch {
-      // If geojsonToArcGIS throws an error from an invalid input geometry,
-      // just ignore for now
-    }
-  }
-
   return result;
 }

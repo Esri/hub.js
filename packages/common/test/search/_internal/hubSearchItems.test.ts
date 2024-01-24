@@ -11,8 +11,6 @@ import {
 } from "../../../src";
 
 import { UserSession } from "@esri/arcgis-rest-auth";
-import * as Terraformer from "@terraformer/arcgis";
-
 import {
   formatPredicate,
   formatFilterBlock,
@@ -675,23 +673,33 @@ describe("hubSearchItems Module |", () => {
       },
       // TODO: fill this and add some verification
       rawResult: ogcItemsResponse.features[0].properties as IOgcItem,
-      geometry: {
-        geometry: {
-          rings: [
-            [
-              [-121.11799999999793, 39.37030746927015],
-              [-119.00899999999801, 39.37030746927015],
-              [-119.00899999999801, 38.67499450446548],
-              [-121.11799999999793, 38.67499450446548],
-              [-121.11799999999793, 39.37030746927015],
+      location: {
+        type: "custom",
+        extent: [
+          [-121.11799999999793, 38.67499450446548],
+          [-119.00899999999801, 39.37030746927015],
+        ],
+        geometries: [
+          {
+            type: "polygon",
+            rings: [
+              [
+                [-121.11799999999793, 39.37030746927015],
+                [-119.00899999999801, 39.37030746927015],
+                [-119.00899999999801, 38.67499450446548],
+                [-121.11799999999793, 38.67499450446548],
+                [-121.11799999999793, 39.37030746927015],
+              ],
             ],
-          ],
-          spatialReference: {
-            wkid: 4326,
-          },
+            spatialReference: {
+              wkid: 4326,
+            } as any,
+          } as any,
+        ],
+        spatialReference: {
+          wkid: 4326,
         },
-      } as any,
-      location: undefined,
+      },
     },
   ];
 
@@ -778,7 +786,6 @@ describe("hubSearchItems Module |", () => {
           ...mockedItemToSearchResultResponse,
           source: "my-source",
           license: "CC-BY-4.0",
-          location: undefined,
         });
       });
       it("adds item.properties.location on result", async () => {
@@ -790,9 +797,7 @@ describe("hubSearchItems Module |", () => {
         const delegateSpy = spyOn(
           portalSearchItemsModule,
           "itemToSearchResult"
-        ).and.returnValue(
-          Promise.resolve(cloneObject(mockedItemToSearchResultResponse))
-        );
+        ).and.callThrough();
         const _ogcItemProperties = {
           ...cloneObject(ogcItemProperties),
           properties: {
@@ -821,40 +826,7 @@ describe("hubSearchItems Module |", () => {
           includes,
           requestOptions
         );
-        expect(result).toEqual({
-          ...mockedItemToSearchResultResponse,
-          source: "my-source",
-          license: "CC-BY-4.0",
-          location: LOCATION,
-        });
-      });
-      it("adds arcgis geometry to result", async () => {
-        const geojsonToArcGISSpy = spyOn(
-          Terraformer,
-          "geojsonToArcGIS"
-        ).and.callThrough();
-        const includes: string[] = [];
-        const requestOptions: IHubRequestOptions = {};
-        await ogcItemToSearchResult(
-          ogcItemsResponse.features[0],
-          includes,
-          requestOptions
-        );
-        expect(geojsonToArcGISSpy.calls.count()).toBe(
-          1,
-          "Calls geojsonToArcGIS()"
-        );
-        expect(geojsonToArcGISSpy.calls.allArgs()[0]).toEqual([
-          ogcItemsResponse.features[0].geometry,
-        ]);
-
-        geojsonToArcGISSpy.and.throwError("Error");
-        await ogcItemToSearchResult(
-          ogcItemsResponse.features[0],
-          includes,
-          requestOptions
-        );
-        expect(geojsonToArcGISSpy).toThrowError("Error");
+        expect(result.location).toEqual(ogcItem.properties.properties.location);
       });
     });
 

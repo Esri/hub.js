@@ -21,8 +21,11 @@ export const buildUiSchema = async (
         options: { section: "stepper", scale: "l" },
         elements: [
           {
-            type: "Step",
+            type: "Section",
             labelKey: `${i18nScope}.sections.details.label`,
+            options: {
+              section: "step",
+            },
             elements: [
               {
                 labelKey: `${i18nScope}.fields.name.label`,
@@ -66,8 +69,11 @@ export const buildUiSchema = async (
             ],
           },
           {
-            type: "Step",
+            type: "Section",
             labelKey: `${i18nScope}.sections.membershipAccess.label`,
+            options: {
+              section: "step",
+            },
             rule: {
               effect: UiSchemaRuleEffects.DISABLE,
               condition: {

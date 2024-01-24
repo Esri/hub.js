@@ -1,11 +1,7 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import {
-  addItemResource,
-  getItemResources,
-  updateItemResource,
-} from "@esri/arcgis-rest-portal";
+import { addItemResource, updateItemResource } from "@esri/arcgis-rest-portal";
 import HubError from "../HubError";
-import { objectToJsonBlob, stringToBlob } from ".";
+import { objectToJsonBlob, stringToBlob, doesResourceExist } from ".";
 import { getPortalApiUrl } from "../urls";
 
 /**
@@ -32,19 +28,9 @@ export async function upsertResource(
   try {
     const extension = name.split(".").pop();
     // Search against the item resources to see if the resource exists
-    const doesResourceExist: boolean = await getItemResources(id, ro).then(
-      (resp) => {
-        // if the resource exists, return true
-        const foundResource = resp.resources.find((e: any) => {
-          return e.resource === name;
-        });
-        return !!foundResource;
-      }
-    );
+    const doesResExist: boolean = await doesResourceExist(id, name, ro);
     // if the resource exists, update it, otherwise add it
-    const resourceFunc = doesResourceExist
-      ? updateItemResource
-      : addItemResource;
+    const resourceFunc = doesResExist ? updateItemResource : addItemResource;
     // JSON and text resources have....odd things happen
     // to them when they are added as resources and NOT
     // converted to blobs. Thus we convert them to blobs

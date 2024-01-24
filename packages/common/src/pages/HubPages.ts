@@ -1,5 +1,8 @@
 import { getFamily } from "../content/get-family";
-import { getHubRelativeUrl } from "../content/_internal/internalContentUtils";
+import {
+  deriveLocationFromItem,
+  getHubRelativeUrl,
+} from "../content/_internal/internalContentUtils";
 import { fetchItemEnrichments } from "../items/_enrichments";
 import { getProp } from "../objects";
 import { getItemThumbnailUrl } from "../resources";
@@ -214,6 +217,7 @@ export async function enrichPageSearchResult(
       siteRelative: "not-implemented",
       thumbnail: "not-implemented",
     },
+    location: deriveLocationFromItem(item),
     rawResult: item,
   };
 

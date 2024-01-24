@@ -41,6 +41,11 @@ const SITE_DATA = {
   values: {
     customHostname: "site-org.hub.arcgis.com",
     defaultHostname: "",
+    map: {
+      basemaps: {
+        primary: {},
+      },
+    },
   },
 };
 const SITE_MODEL = {
@@ -91,7 +96,11 @@ const SITE: commonModule.IHubSite = {
   customHostname: "",
   clientId: "bc7ashcase13as",
   telemetry: {},
-  map: {},
+  map: {
+    basemaps: {
+      primary: { updated: true },
+    },
+  },
   contentViews: {},
   headerSass: "",
   thumbnailUrl: "",
@@ -311,6 +320,73 @@ describe("HubSites:", () => {
         MOCK_ENTERPRISE_REQOPTS.authentication
       );
       expect(removeSpy.calls.argsFor(0)[0].id).toBe("3ef");
+    });
+  });
+  describe("updateSite removes properties:", () => {
+    let domainChangeSpy: jasmine.Spy;
+    let updateModelSpy: jasmine.Spy;
+    let getModelSpy: jasmine.Spy;
+    let getUniqueSlugSpy: jasmine.Spy;
+    beforeEach(() => {
+      domainChangeSpy = spyOn(
+        require("../../src/sites/_internal"),
+        "handleDomainChanges"
+      ).and.returnValue(Promise.resolve());
+
+      updateModelSpy = spyOn(
+        require("../../src/models"),
+        "updateModel"
+      ).and.callFake((m: commonModule.IModel) => {
+        return Promise.resolve(m);
+      });
+
+      // We need to add some extra props to the site_model
+      // which will be removed by updateSite
+      const SiteModelWithExtraProps = commonModule.cloneObject(SITE_MODEL);
+      commonModule.setProp(
+        "data.values.map.baseMapLayers",
+        ["fake"],
+        SiteModelWithExtraProps
+      );
+      commonModule.setProp(
+        "data.values.map.title",
+        "fake",
+        SiteModelWithExtraProps
+      );
+      commonModule.setProp(
+        "data.telemetry",
+        { fake: "data.telemetry" },
+        SiteModelWithExtraProps
+      );
+      commonModule.setProp(
+        "item.properties.telemetry",
+        { fake: "props.telemetry" },
+        SiteModelWithExtraProps
+      );
+
+      getModelSpy = spyOn(
+        require("../../src/models"),
+        "getModel"
+      ).and.returnValue(Promise.resolve(SiteModelWithExtraProps));
+
+      getUniqueSlugSpy = spyOn(slugUtils, "getUniqueSlug").and.callFake(
+        ({ slug }: any) => {
+          return Promise.resolve(slug as string);
+        }
+      );
+    });
+    it("removes props", async () => {
+      const updatedSite = commonModule.cloneObject(SITE);
+      const chk = await commonModule.updateSite(updatedSite, MOCK_HUB_REQOPTS);
+
+      expect(chk.id).toBe(GUID);
+      expect(getModelSpy).toHaveBeenCalledTimes(1);
+      const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
+      expect(modelToUpdate.data.values.map.baseMapLayers).not.toBeDefined();
+      expect(modelToUpdate.data.values.map.basemaps.primary).toBeDefined();
+      expect(modelToUpdate.data.values.map.title).not.toBeDefined();
+      expect(modelToUpdate.item.properties?.telemetry).not.toBeDefined();
+      expect(modelToUpdate.data.values.telemetry).not.toBeDefined();
     });
   });
   describe("updateSite:", () => {

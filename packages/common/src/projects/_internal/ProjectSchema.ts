@@ -28,17 +28,36 @@ export const ProjectSchema: IConfigurationSchema = {
     },
     _metric: {
       type: "object",
+      required: ["cardTitle"],
       properties: {
         ...MetricSchema.properties,
         cardTitle: {
           type: "string",
           minLength: 1,
         },
-        value: {
-          type: "string",
-          minLength: 1,
-        },
       },
     },
   },
+  allOf: [
+    {
+      if: {
+        properties: {
+          _metric: {
+            properties: {
+              type: {
+                const: "static",
+              },
+            },
+          },
+        },
+      },
+      then: {
+        properties: {
+          _metric: {
+            required: ["value"],
+          },
+        },
+      },
+    },
+  ],
 } as IConfigurationSchema;

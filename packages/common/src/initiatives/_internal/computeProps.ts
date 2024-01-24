@@ -10,6 +10,7 @@ import { processEntityFeatures } from "../../permissions/_internal/processEntity
 import { InitiativeDefaultFeatures } from "./InitiativeBusinessRules";
 import { computeLinks } from "./computeLinks";
 import { getAuthedImageUrl } from "../../core/_internal/getAuthedImageUrl";
+import { computeBaseProps } from "../../core/_internal/computeBaseProps";
 
 /**
  * Given a model and an Initiative, set various computed properties that can't be directly mapped
@@ -30,6 +31,9 @@ export function computeProps(
     token = session.token;
   }
 
+  // compute base properties on initiative
+  initiative = computeBaseProps(model.item, initiative);
+
   // thumbnail url
   initiative.thumbnailUrl = getItemThumbnailUrl(
     model.item,
@@ -39,10 +43,7 @@ export function computeProps(
 
   initiative.view = {
     ...model.data.view,
-    featuredImageUrl: getAuthedImageUrl(
-      model.data.view.featuredImageUrl,
-      requestOptions
-    ),
+    featuredImageUrl: model.data.view.featuredImageUrl,
   };
 
   // Handle Dates

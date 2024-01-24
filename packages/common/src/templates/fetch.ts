@@ -16,6 +16,7 @@ import { fetchItemEnrichments } from "../items/_enrichments";
 import { getProp } from "../objects";
 import { computeLinks } from "./_internal/computeLinks";
 import { getDeployedTemplateType } from "./utils";
+import { deriveLocationFromItem } from "../content/_internal/internalContentUtils";
 
 /**
  * @private
@@ -98,6 +99,7 @@ export async function enrichTemplateSearchResult(
       thumbnail: "not-implemented",
       workspaceRelative: "not-implemented",
     },
+    location: deriveLocationFromItem(item),
     rawResult: item,
   };
 
