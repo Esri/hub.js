@@ -45,8 +45,11 @@ const SteppedUiSchema: IUiSchema = {
       },
       elements: [
         {
-          type: "Step",
+          type: "Section",
           labelKey: "step1.label.key",
+          options: {
+            section: "step",
+          },
           elements: [
             {
               labelKey: "property1.label.key",

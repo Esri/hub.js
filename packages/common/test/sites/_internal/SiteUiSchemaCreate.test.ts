@@ -29,8 +29,11 @@ describe("buildUiSchema: site create", () => {
           options: { section: "stepper", scale: "l" },
           elements: [
             {
-              type: "Step",
+              type: "Section",
               labelKey: "some.scope.sections.details.label",
+              options: {
+                section: "step",
+              },
               elements: [
                 {
                   type: "Section",
@@ -83,8 +86,11 @@ describe("buildUiSchema: site create", () => {
               ],
             },
             {
-              type: "Step",
+              type: "Section",
               labelKey: "some.scope.sections.location.label",
+              options: {
+                section: "step",
+              },
               rule: {
                 effect: UiSchemaRuleEffects.DISABLE,
                 condition: {
@@ -116,8 +122,11 @@ describe("buildUiSchema: site create", () => {
               ],
             },
             {
-              type: "Step",
+              type: "Section",
               labelKey: "some.scope.sections.sharing.label",
+              options: {
+                section: "step",
+              },
               rule: {
                 effect: UiSchemaRuleEffects.DISABLE,
                 condition: {
