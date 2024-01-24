@@ -6,7 +6,7 @@ import {
 } from "../types";
 import { getCardType } from "./getCardType";
 import { filterSchemaToUiSchema } from "./filterSchemaToUiSchema";
-import { CardEditorOptions, IStatCardEditorOptions } from "./EditorOptions";
+import { CardEditorOptions } from "./EditorOptions";
 import { cloneObject } from "../../../util";
 import { IArcGISContext } from "../../../ArcGISContext";
 
