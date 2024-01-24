@@ -13,6 +13,9 @@ import * as ResolveMetricModule from "../../src/metrics/resolveMetric";
 import { HubItemEntity } from "../../src/core/HubItemEntity";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
 import * as utils from "../../src/util";
+import * as upsertResourceModule from "../../src/resources/upsertResource";
+import * as doesResourceExistModule from "../../src/resources/doesResourceExist";
+import * as removeResourceModule from "../../src/resources/removeResource";
 
 const initContextManager = async (opts = {}) => {
   const defaults = {
@@ -469,14 +472,48 @@ describe("HubProject Class:", () => {
             filename: "thumbnail.png",
           },
         };
-        const spy = spyOn(chk, "setFeaturedImage").and.returnValue(
-          Promise.resolve()
+        const spy = spyOn(
+          upsertResourceModule,
+          "upsertResource"
+        ).and.returnValue(
+          Promise.resolve("https://blah.com/some-featuredImage.png")
         );
         await chk.fromEditor(editor);
         expect(updateSpy).toHaveBeenCalledTimes(1);
         expect(createSpy).not.toHaveBeenCalled();
         expect(spy).toHaveBeenCalledTimes(1);
-        expect(spy).toHaveBeenCalledWith("fake blob");
+      });
+      it("handles setting featuredImage and clearing prior image", async () => {
+        const chk = HubProject.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+            view: {
+              featuredImageUrl: "https://myserver.com/featuredImage.png",
+            },
+          },
+          authdCtxMgr.context
+        );
+        const editorContext = { metricId: "metric123" };
+        const editor = await chk.toEditor();
+        editor.view = {
+          ...editor.view,
+          featuredImage: {
+            blob: "fake blob",
+            filename: "thumbnail.png",
+          },
+        };
+        const spy = spyOn(
+          upsertResourceModule,
+          "upsertResource"
+        ).and.returnValue(
+          Promise.resolve("https://blah.com/some-featuredImage.png")
+        );
+        await chk.fromEditor(editor);
+        expect(updateSpy).toHaveBeenCalledTimes(1);
+        expect(createSpy).not.toHaveBeenCalled();
+        expect(spy).toHaveBeenCalledTimes(1);
       });
       it("handles clearing featuredImage", async () => {
         const chk = HubProject.fromJson(
@@ -491,13 +528,46 @@ describe("HubProject Class:", () => {
         editor.view = {
           featuredImage: {}, // Will clear b/c .blob is not defined
         };
-        const spy = spyOn(chk, "clearFeaturedImage").and.returnValue(
-          Promise.resolve()
-        );
+        const spy = spyOn(
+          doesResourceExistModule,
+          "doesResourceExist"
+        ).and.returnValue(Promise.resolve(true));
+        const removeResourceSpy = spyOn(
+          removeResourceModule,
+          "removeResource"
+        ).and.returnValue(Promise.resolve());
         await chk.fromEditor(editor);
         expect(updateSpy).toHaveBeenCalledTimes(1);
         expect(createSpy).not.toHaveBeenCalled();
         expect(spy).toHaveBeenCalledTimes(1);
+        expect(removeResourceSpy).toHaveBeenCalledTimes(1);
+      });
+      it("handles clearing featuredImage when resource doesnt exist", async () => {
+        const chk = HubProject.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+          },
+          authdCtxMgr.context
+        );
+        const editor = await chk.toEditor();
+        editor.view = {
+          featuredImage: {}, // Will clear b/c .blob is not defined
+        };
+        const spy = spyOn(
+          doesResourceExistModule,
+          "doesResourceExist"
+        ).and.returnValue(Promise.resolve(false));
+        const removeResourceSpy = spyOn(
+          removeResourceModule,
+          "removeResource"
+        ).and.returnValue(Promise.resolve());
+        await chk.fromEditor(editor);
+        expect(updateSpy).toHaveBeenCalledTimes(1);
+        expect(createSpy).not.toHaveBeenCalled();
+        expect(spy).toHaveBeenCalledTimes(1);
+        expect(removeResourceSpy).not.toHaveBeenCalled();
       });
       it("sets access on create", async () => {
         const chk = HubProject.fromJson(
@@ -684,6 +754,7 @@ describe("HubProject Class:", () => {
             source: {
               type: "static-value",
               value: "123",
+              valueType: undefined,
             },
             name: "metric1",
             entityInfo: {
@@ -742,6 +813,7 @@ describe("HubProject Class:", () => {
             source: {
               type: "static-value",
               value: "123",
+              valueType: undefined,
             },
             name: "metric1",
             entityInfo: {
@@ -814,6 +886,7 @@ describe("HubProject Class:", () => {
             source: {
               type: "static-value",
               value: "123",
+              valueType: undefined,
             },
             name: "metric1",
             entityInfo: {
@@ -879,6 +952,7 @@ describe("HubProject Class:", () => {
             source: {
               type: "static-value",
               value: "123",
+              valueType: undefined,
             },
             name: "metric1",
             entityInfo: {

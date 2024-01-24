@@ -22,11 +22,9 @@ describe("buildUiSchema: metric", () => {
                 messages: [
                   {
                     type: "ERROR",
-                    keyword: "minLength",
-                    labelKey:
-                      "some.scope.fields.metrics.cardTitle.message.minLength",
+                    keyword: "required",
+                    labelKey: `some.scope.fields.metrics.cardTitle.message.required`,
                     icon: true,
-                    allowShowBeforeInteract: true,
                   },
                 ],
               },
@@ -49,9 +47,9 @@ describe("buildUiSchema: metric", () => {
               },
             },
             {
-              labelKey: `some.scope.fields.metrics.value.label`,
-              scope: "/properties/_metric/properties/value",
+              scope: "/properties/_metric/properties/valueType",
               type: "Control",
+              labelKey: `some.scope.fields.metrics.valueType.label`,
               rule: {
                 condition: {
                   scope: "/properties/_metric/properties/type",
@@ -60,18 +58,111 @@ describe("buildUiSchema: metric", () => {
                 effect: UiSchemaRuleEffects.SHOW,
               },
               options: {
+                control: "hub-field-input-tile-select",
+                layout: "horizontal",
+                helperText: {
+                  labelKey: `some.scope.fields.metrics.valueType.helperText`,
+                  placement: "top",
+                },
+                enum: {
+                  i18nScope: `some.scope.fields.metrics.valueType.enum`,
+                },
+              },
+            },
+            {
+              labelKey: `some.scope.fields.metrics.value.label`,
+              scope: "/properties/_metric/properties/value",
+              type: "Control",
+              rule: {
+                condition: {
+                  schema: {
+                    properties: {
+                      _metric: {
+                        properties: {
+                          type: { const: "static" },
+                          valueType: { const: "string" },
+                        },
+                      },
+                    },
+                  },
+                },
+                effect: UiSchemaRuleEffects.SHOW,
+              },
+              options: {
+                control: "hub-field-input-input",
                 messages: [
                   {
                     type: "ERROR",
-                    keyword: "minLength",
-                    labelKey:
-                      "some.scope.fields.metrics.value.message.minLength",
+                    keyword: "required",
+                    labelKey: `some.scope.fields.metrics.value.message.required`,
                     icon: true,
-                    allowShowBeforeInteract: true,
                   },
                 ],
               },
             },
+            {
+              labelKey: `some.scope.fields.metrics.value.label`,
+              scope: "/properties/_metric/properties/value",
+              type: "Control",
+              rule: {
+                condition: {
+                  schema: {
+                    properties: {
+                      _metric: {
+                        properties: {
+                          type: { const: "static" },
+                          valueType: { const: "number" },
+                        },
+                      },
+                    },
+                  },
+                },
+                effect: UiSchemaRuleEffects.SHOW,
+              },
+              options: {
+                control: "hub-field-input-input",
+                type: "number",
+                messages: [
+                  {
+                    type: "ERROR",
+                    keyword: "required",
+                    labelKey: `some.scope.fields.metrics.value.message.required`,
+                    icon: true,
+                  },
+                ],
+              },
+            },
+            // {
+            //   labelKey: `some.scope.fields.metrics.value.label`,
+            //   scope: "/properties/_metric/properties/value",
+            //   type: "Control",
+            //   rule: {
+            //     condition: {
+            //       schema: {
+            //         properties: {
+            //           _metric: {
+            //             properties: {
+            //               type: { const: "static" },
+            //               valueType: { const: "date" },
+            //             },
+            //           },
+            //         },
+            //       },
+            //     },
+            //     effect: UiSchemaRuleEffects.SHOW,
+            //   },
+            //   options: {
+            //     control: "hub-field-input-date",
+            //     messages: [
+            //       {
+            //         type: "ERROR",
+            //         keyword: "required",
+            //         labelKey: `some.scope.fields.metrics.value.message.required`,
+            //         icon: true,
+            //       },
+            //     ],
+            //   },
+            // },
             {
               scope: "/properties/_metric/properties/dynamicMetric",
               type: "Control",
@@ -94,7 +185,7 @@ describe("buildUiSchema: metric", () => {
               options: {
                 helperText: {
                   labelKey: `some.scope.fields.metrics.unit.helperText`,
-                  placement: "bottom",
+                  placement: "top",
                 },
               },
             },

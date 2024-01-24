@@ -71,6 +71,7 @@ describe("metricToEditor", () => {
       cardTitle: "Testing the display config",
       value: "525,600",
       type: "static",
+      valueType: undefined,
     });
   });
 

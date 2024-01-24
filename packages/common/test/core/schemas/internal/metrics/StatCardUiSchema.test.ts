@@ -43,6 +43,9 @@ describe("buildUiSchema: stat", () => {
                 },
                 effect: UiSchemaRuleEffects.SHOW,
               },
+              options: {
+                control: "hub-field-input-input",
+              },
             },
             {
               scope: "/properties/dynamicMetric",
@@ -65,6 +68,7 @@ describe("buildUiSchema: stat", () => {
               scope: "/properties/allowUnitFormatting",
               options: {
                 section: "subblock",
+                scale: "m",
                 toggleDisplay: "switch",
                 scope: "/properties/unit",
               },
@@ -112,6 +116,7 @@ describe("buildUiSchema: stat", () => {
               labelKey: `advancedConfig.label`,
               options: {
                 section: "subblock",
+                scale: "m",
               },
               rule: {
                 condition: {
@@ -193,6 +198,7 @@ describe("buildUiSchema: stat", () => {
               scope: "/properties/allowLink",
               options: {
                 section: "subblock",
+                scale: "m",
                 toggleDisplay: "switch",
               },
               rule: {

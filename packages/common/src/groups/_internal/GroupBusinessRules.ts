@@ -43,9 +43,7 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
       {
         property: "context:currentUser.groups",
         type: "length-lt",
-        // TODO: 512 is the default, but there are exceptions
-        // this should be based on the org's specified limit
-        value: 512,
+        value: "context:portal.limits.MaxNumUserGroups",
       },
     ],
   },

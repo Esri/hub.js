@@ -8,6 +8,7 @@ import { processEntityFeatures } from "../../permissions/_internal/processEntity
 import { ProjectDefaultFeatures } from "./ProjectBusinessRules";
 import { computeLinks } from "./computeLinks";
 import { getAuthedImageUrl } from "../../core/_internal/getAuthedImageUrl";
+import { computeBaseProps } from "../../core/_internal/computeBaseProps";
 
 /**
  * Given a model and a project, set various computed properties that can't be directly mapped
@@ -27,6 +28,8 @@ export function computeProps(
     const session: UserSession = requestOptions.authentication as UserSession;
     token = session.token;
   }
+  // compute base properties on project
+  project = computeBaseProps(model.item, project);
   // thumbnail url
   project.thumbnailUrl = getItemThumbnailUrl(model.item, requestOptions, token);
 
@@ -39,10 +42,7 @@ export function computeProps(
 
   project.view = {
     ...model.data.view,
-    featuredImageUrl: getAuthedImageUrl(
-      model.data.view?.featuredImageUrl,
-      requestOptions
-    ),
+    featuredImageUrl: model.data.view?.featuredImageUrl,
   };
 
   /**

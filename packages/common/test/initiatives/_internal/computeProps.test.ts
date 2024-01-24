@@ -125,9 +125,7 @@ describe("initiatives: computeProps:", () => {
         initiative,
         authdCtxMgr.context.requestOptions
       );
-      expect(chk.view.featuredImageUrl).toContain(
-        "mock-featured-image-url?token=fake-token"
-      );
+      expect(chk.view?.featuredImageUrl).toContain("mock-featured-image-url");
     });
   });
 });

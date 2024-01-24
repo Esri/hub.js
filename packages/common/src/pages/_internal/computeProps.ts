@@ -8,6 +8,7 @@ import { PageDefaultFeatures } from "./PageBusinessRules";
 import { getItemHomeUrl } from "../../urls/get-item-home-url";
 import { IHubPage } from "../../core/types/IHubPage";
 import { getRelativeWorkspaceUrl } from "../../core/getRelativeWorkspaceUrl";
+import { computeBaseProps } from "../../core/_internal/computeBaseProps";
 
 /**
  * Given a model and a page, set various computed properties that can't be directly mapped
@@ -27,6 +28,8 @@ export function computeProps(
     const session: UserSession = requestOptions.authentication as UserSession;
     token = session.token;
   }
+  // compute base properties on page
+  page = computeBaseProps(model.item, page);
   // thumbnail url
   const thumbnailUrl = getItemThumbnailUrl(model.item, requestOptions, token);
   // TODO: Remove this once opendata-ui starts using `links.thumbnail` instead

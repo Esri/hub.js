@@ -40,6 +40,9 @@ export const buildUiSchema = (
             scope: "/properties/value",
             type: "Control",
             rule: SHOW_FOR_STATIC_RULE,
+            options: {
+              control: "hub-field-input-input",
+            },
           },
           {
             scope: "/properties/dynamicMetric",
@@ -56,6 +59,7 @@ export const buildUiSchema = (
             scope: "/properties/allowUnitFormatting",
             options: {
               section: "subblock",
+              scale: "m",
               toggleDisplay: "switch",
               scope: "/properties/unit",
             },
@@ -91,6 +95,7 @@ export const buildUiSchema = (
             labelKey: `advancedConfig.label`,
             options: {
               section: "subblock",
+              scale: "m",
             },
             rule: SHOW_FOR_DYNAMIC_RULE,
             elements: [
@@ -160,6 +165,7 @@ export const buildUiSchema = (
             scope: "/properties/allowLink",
             options: {
               section: "subblock",
+              scale: "m",
               toggleDisplay: "switch",
             },
             rule: SHOW_FOR_STATIC_RULE,

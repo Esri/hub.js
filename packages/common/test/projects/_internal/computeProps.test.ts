@@ -126,9 +126,7 @@ describe("projects: computeProps:", () => {
         project,
         authdCtxMgr.context.requestOptions
       );
-      expect(chk.view?.featuredImageUrl).toContain(
-        "mock-featured-image-url?token=fake-token"
-      );
+      expect(chk.view?.featuredImageUrl).toContain("mock-featured-image-url");
     });
     it("handles case where there is no view..", () => {
       const mdl = cloneObject(model);

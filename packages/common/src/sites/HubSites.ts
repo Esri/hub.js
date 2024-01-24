@@ -7,7 +7,10 @@ import { handleDomainChanges } from "./_internal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { fetchItemEnrichments } from "../items/_enrichments";
 import { parseInclude } from "../search/_internal/parseInclude";
-import { getHubRelativeUrl } from "../content/_internal/internalContentUtils";
+import {
+  deriveLocationFromItem,
+  getHubRelativeUrl,
+} from "../content/_internal/internalContentUtils";
 import { applyPermissionMigration } from "./_internal/applyPermissionMigration";
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
@@ -330,6 +333,24 @@ export async function updateSite(
     getPropertyMap()
   );
   let modelToUpdate = mapper.entityToStore(site, currentModel);
+  // ============================================================
+  // Entity to Store can not handle scenarios where deep properties have been removed
+  // via a run-time migration.
+  // At this time we don't have a comprehensize solution for this, so we just remove
+  // the well-known-invalid properties from the model here.
+  // NOTES:
+  // * Add test logic into the `describe("updateSite removes properties:"...` section
+  // * We ignore coverage on the delete statements below because they
+  // use the optional property chaining, but we don't want to add a bunch of
+  // complex test cases just to satisfy the coverage tool.
+  // The tests do verify that the properties are removed.
+  // ============================================================
+
+  // Old telemetry props: migrated to correct property path in _migrateTelemetryConfig
+  /* istanbul ignore next */
+  delete modelToUpdate.data?.values?.telemetry;
+  /* istanbul ignore next */
+  delete modelToUpdate.item?.properties?.telemetry;
 
   // handle any domain changes
   await handleDomainChanges(modelToUpdate, currentModel, requestOptions);
@@ -491,6 +512,7 @@ export async function enrichSiteSearchResult(
       siteRelative: "not-implemented",
       thumbnail: "not-implemented",
     },
+    location: deriveLocationFromItem(item),
     rawResult: item,
   };
 
