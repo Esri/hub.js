@@ -1,3 +1,10 @@
+## @esri/hub-common [14.81.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.81.0...@esri/hub-common@14.81.1) (2024-01-24)
+
+
+### Bug Fixes
+
+* config editor cleanup - update schemas ([#1377](https://github.com/Esri/hub.js/issues/1377)) ([f531ee5](https://github.com/Esri/hub.js/commit/f531ee580f1c728a5fa13c905c83fd51ea2aeb9a))
+
 # @esri/hub-common [14.81.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.80.2...@esri/hub-common@14.81.0) (2024-01-24)
 
 
