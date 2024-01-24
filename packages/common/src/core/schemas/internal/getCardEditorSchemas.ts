@@ -1,7 +1,12 @@
-import { CardEditorType, IEditorConfig, StatCardEditorType } from "../types";
+import {
+  CardEditorType,
+  IEditorConfig,
+  StatCardEditorType,
+  FollowCardEditorType,
+} from "../types";
 import { getCardType } from "./getCardType";
 import { filterSchemaToUiSchema } from "./filterSchemaToUiSchema";
-import { CardEditorOptions } from "./EditorOptions";
+import { CardEditorOptions, IStatCardEditorOptions } from "./EditorOptions";
 import { cloneObject } from "../../../util";
 import { IArcGISContext } from "../../../ArcGISContext";
 
@@ -29,12 +34,14 @@ export async function getCardEditorSchemas(
 
   let schema;
   let uiSchema;
+  let schemaPromise;
+  let uiSchemaPromise;
 
   switch (cardType) {
     case "stat":
       // get correct module
-      const schemaPromise = import("./metrics/MetricSchema");
-      const uiSchemaPromise = {
+      schemaPromise = import("./metrics/MetricSchema");
+      uiSchemaPromise = {
         "hub:card:stat": () => import("./metrics/StatCardUiSchema"),
       }[type as StatCardEditorType];
 
@@ -43,6 +50,26 @@ export async function getCardEditorSchemas(
         ([schemaModuleResolved, uiSchemaModuleResolved]) => {
           const { MetricSchema } = schemaModuleResolved;
           schema = cloneObject(MetricSchema);
+          uiSchema = uiSchemaModuleResolved.buildUiSchema(
+            i18nScope,
+            options,
+            context
+          );
+        }
+      );
+      break;
+    case "follow":
+      // get correct module
+      schemaPromise = import("./follow/FollowCardSchema");
+      uiSchemaPromise = {
+        "hub:card:follow": () => import("./follow/FollowCardUiSchema"),
+      }[type as FollowCardEditorType];
+
+      // Allow imports to run in parallel
+      await Promise.all([schemaPromise, uiSchemaPromise()]).then(
+        ([schemaModuleResolved, uiSchemaModuleResolved]) => {
+          const { FollowCardSchema } = schemaModuleResolved;
+          schema = cloneObject(FollowCardSchema);
           uiSchema = uiSchemaModuleResolved.buildUiSchema(
             i18nScope,
             options,

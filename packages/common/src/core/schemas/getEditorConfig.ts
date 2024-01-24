@@ -1,9 +1,15 @@
-import { EntityEditorType, IEditorConfig, StatCardEditorType } from "./types";
+import {
+  EntityEditorType,
+  IEditorConfig,
+  StatCardEditorType,
+  FollowCardEditorType,
+} from "./types";
 import { IArcGISContext } from "../../ArcGISContext";
 import {
   EditorOptions,
   EntityEditorOptions,
   IStatCardEditorOptions,
+  CardEditorOptions,
 } from "./internal/EditorOptions";
 import { getEditorSchemas } from "./internal/getEditorSchemas";
 import { EditorType } from "./types";
@@ -38,6 +44,14 @@ export async function getEditorConfig(
   i18nScope: string,
   type: StatCardEditorType,
   options: IStatCardEditorOptions,
+  context: IArcGISContext
+): Promise<IEditorConfig>;
+
+// Follow card editor overload
+export async function getEditorConfig(
+  i18nScope: string,
+  type: FollowCardEditorType,
+  options: CardEditorOptions,
   context: IArcGISContext
 ): Promise<IEditorConfig>;
 
