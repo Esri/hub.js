@@ -132,7 +132,7 @@ export async function updateDiscussion(
   let allowedLocations: Polygon[];
   try {
     allowedLocations =
-      updatedDiscussion.location?.geometries?.map(
+      updatedDiscussion.location.geometries?.map(
         (geometry) => arcgisToGeoJSON(geometry) as any as Polygon
       ) || null;
   } catch (e) {

@@ -1,8 +1,4 @@
-import {
-  computeProps,
-  deriveLocationFromItemExtent,
-  getExtentObject,
-} from "../../src/content/_internal/computeProps";
+import { computeProps } from "../../src/content/_internal/computeProps";
 import { IHubEditableContent } from "../../src/core/types/IHubEditableContent";
 import { IItemAndIServerEnrichments } from "../../src/items/_enrichments";
 import { IHubRequestOptions, IModel } from "../../src/types";
@@ -23,6 +19,10 @@ describe("content computeProps", () => {
   it("handles when properties are undefined", () => {
     const model: IModel = {
       item: {
+        extent: [
+          [0, 0],
+          [0, 0],
+        ],
         type: "Feature Service",
         id: "9001",
         created: new Date().getTime(),
@@ -44,6 +44,10 @@ describe("content computeProps", () => {
   it("handles when boundary is undefined", () => {
     const model: IModel = {
       item: {
+        extent: [
+          [0, 0],
+          [0, 0],
+        ],
         type: "Feature Service",
         id: "9001",
         created: new Date().getTime(),
@@ -179,29 +183,5 @@ describe("content computeProps", () => {
 
     const chk = computeProps(model, content, withoutAuth);
     expect(chk.thumbnail).toBeUndefined();
-  });
-});
-
-describe("getItemExtent", () => {
-  it("getItemExtent isBBox is true", () => {
-    const chk = getExtentObject([
-      [100, 100],
-      [120, 120],
-    ]);
-    expect(chk.xmin).toBe(100);
-    expect(chk.ymin).toBe(100);
-    expect(chk.xmax).toBe(120);
-    expect(chk.ymax).toBe(120);
-  });
-});
-
-describe("deriveLocationFromItemExtent", () => {
-  it("deriveLocationFromItemExtent valid extent", () => {
-    const chk = deriveLocationFromItemExtent([
-      [100, 100],
-      [120, 120],
-    ]);
-    expect(chk.geometries?.length).toBe(1);
-    expect(chk.type).toBe("custom");
   });
 });
