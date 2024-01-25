@@ -116,4 +116,20 @@ describe("getAssociationStats:", () => {
       included: 0,
     });
   });
+  it("returns empty stats if any error is thrown", async () => {
+    getAssociatedEntitiesQuerySpy.and.returnValue(Promise.reject({}));
+
+    const stats = await getAssociationStats(
+      MOCK_PARENT_ENTITY,
+      "project",
+      {} as ArcGISContext
+    );
+
+    expect(stats).toEqual({
+      associated: 0,
+      pending: 0,
+      requesting: 0,
+      included: 0,
+    });
+  });
 });
