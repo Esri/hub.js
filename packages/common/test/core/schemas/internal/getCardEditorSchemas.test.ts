@@ -3,7 +3,7 @@ import * as filterSchemaModule from "../../../../src/core/schemas/internal/filte
 import { CardEditorType } from "../../../../src/core/schemas/types";
 
 import * as statUiSchemaModule from "../../../../src/core/schemas/internal/metrics/StatCardUiSchema";
-import * as followUiSchemaModule from "../../../../src/core/schemas/internal/follow/FollowUiSchema";
+import * as followUiSchemaModule from "../../../../src/core/schemas/internal/follow/FollowCardUiSchema";
 
 describe("getCardEditorSchemas", () => {
   let uiSchemaBuildFnSpy: any;

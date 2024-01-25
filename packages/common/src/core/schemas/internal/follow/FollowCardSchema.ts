@@ -1,6 +1,6 @@
 import { IConfigurationSchema } from "../../types";
 
-export const FollowSchema: IConfigurationSchema = {
+export const FollowCardSchema: IConfigurationSchema = {
   type: "object",
   required: [],
   properties: {
