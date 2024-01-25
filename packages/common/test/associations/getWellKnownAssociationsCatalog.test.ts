@@ -4,7 +4,12 @@ import * as getPendingEntitiesQueryModule from "../../src/associations/getPendin
 import * as getRequestingEntitiesQueryModule from "../../src/associations/getRequestingEntitiesQuery";
 import * as getAvailableToRequestEntitiesQueryModule from "../../src/associations/getAvailableToRequestEntitiesQuery";
 import * as wellKnownCatalogModule from "../../src/search/wellKnownCatalog";
-import { ArcGISContext, HubEntity, IHubCollection } from "../../src";
+import {
+  ArcGISContext,
+  HubEntity,
+  IHubCollection,
+  getAvailableToRequestCatalogs,
+} from "../../src";
 
 describe("getWellKnownAssociationsCatalog", () => {
   let getAssociatedEntitiesQuerySpy: jasmine.Spy;
@@ -135,5 +140,60 @@ describe("getWellKnownAssociationsCatalog", () => {
         "getWellKnownAssociationsCatalog: Association between initiative and group is not supported."
       );
     }
+  });
+});
+
+describe("getAvailableToRequestCatalogs", () => {
+  let getAvailableToRequestEntitiesQuerySpy: jasmine.Spy;
+  let getWellknownCatalogSpy: jasmine.Spy;
+
+  const mockFilters = [{ predicates: [{ id: ["00b", "00c"] }] }];
+  beforeEach(() => {
+    getAvailableToRequestEntitiesQuerySpy = spyOn(
+      getAvailableToRequestEntitiesQueryModule,
+      "getAvailableToRequestEntitiesQuery"
+    ).and.returnValue(Promise.resolve({ filters: mockFilters }));
+    getWellknownCatalogSpy = spyOn(
+      wellKnownCatalogModule,
+      "getWellKnownCatalog"
+    ).and.returnValues(
+      { schemaVersion: 1, title: "mock-myContent" },
+      { schemaVersion: 1, title: "mock-favorites" },
+      { schemaVersion: 1, title: "mock-organization" },
+      { schemaVersion: 1, title: "mock-world" }
+    );
+  });
+
+  it("throws an error if the association is not supported", async () => {
+    try {
+      await getAvailableToRequestCatalogs(
+        "some-scope",
+        { type: "Hub Initiative" } as HubEntity,
+        "group",
+        {} as ArcGISContext
+      );
+    } catch (err) {
+      expect(err.message).toBe(
+        "getAvailableToRequestCatalogs: Association between initiative and group is not supported."
+      );
+    }
+  });
+  it('returns an array of valid "availableToRequest" catalogs', async () => {
+    const catalogs = await getAvailableToRequestCatalogs(
+      "some-scope",
+      { type: "Hub Project" } as HubEntity,
+      "initiative",
+      {} as ArcGISContext
+    );
+
+    expect(getAvailableToRequestEntitiesQuerySpy).toHaveBeenCalledTimes(1);
+    expect(getWellknownCatalogSpy).toHaveBeenCalledTimes(4);
+    expect(catalogs.length).toBe(4);
+    expect(catalogs).toEqual([
+      { schemaVersion: 1, title: "mock-myContent" },
+      { schemaVersion: 1, title: "mock-favorites" },
+      { schemaVersion: 1, title: "mock-organization" },
+      { schemaVersion: 1, title: "mock-world" },
+    ]);
   });
 });

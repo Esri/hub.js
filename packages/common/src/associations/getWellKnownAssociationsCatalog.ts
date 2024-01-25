@@ -10,8 +10,11 @@ import { getRequestingEntitiesQuery } from "./getRequestingEntitiesQuery";
 import { isAssociationSupported } from "./internal/isAssociationSupported";
 import { IHubCatalog, IQuery } from "../search/types";
 import {
+  IGetWellKnownCatalogOptions,
+  WellKnownCatalog,
   WellKnownCollection,
   dotifyString,
+  getWellKnownCatalog,
   getWellknownCollection,
 } from "../search/wellKnownCatalog";
 
@@ -121,3 +124,54 @@ export async function getWellKnownAssociationsCatalog(
 
   return catalog;
 }
+
+/**
+ * Specific util for building well-known (My content, Favorites,
+ * Organization, and World) association catalogs to populate
+ * a gallery picker experience for requesting association.
+ *
+ * In addition to the normal filters that define these well-known
+ * catalogs, we also need to further filter the results to only
+ * include entities that can still be requested for association.
+ *
+ * @param i18nScope - translation scope to be interpolated into the catalog
+ * @param entity - primary entity the catalog is being built for
+ * @param associationType - type of entity the primary entity wants to view associations for
+ * @param context - contextual auth and portal information
+ * @returns {IHubCatalog[]}
+ */
+export const getAvailableToRequestCatalogs = (
+  i18nScope: string,
+  entity: HubEntity,
+  associationType: HubEntityType,
+  context: IArcGISContext
+) => {
+  const entityType = getTypeFromEntity(entity);
+  const isSupported = isAssociationSupported(entityType, associationType);
+
+  if (!isSupported) {
+    throw new Error(
+      `getAvailableToRequestCatalogs: Association between ${entityType} and ${associationType} is not supported.`
+    );
+  }
+
+  i18nScope = dotifyString(i18nScope);
+  const filters = getAvailableToRequestEntitiesQuery(
+    entity,
+    associationType
+  ).filters;
+  const catalogNames: WellKnownCatalog[] = [
+    "myContent",
+    "favorites",
+    "organization",
+    "world",
+  ];
+  return catalogNames.map((name: WellKnownCatalog) => {
+    const options: IGetWellKnownCatalogOptions = {
+      user: context.currentUser,
+      filters,
+      collectionNames: [associationType as WellKnownCollection],
+    };
+    return getWellKnownCatalog(i18nScope, name, "item", options);
+  });
+};
