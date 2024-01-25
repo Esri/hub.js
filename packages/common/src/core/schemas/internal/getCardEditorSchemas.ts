@@ -60,7 +60,7 @@ export async function getCardEditorSchemas(
       break;
     case "follow":
       // get correct module
-      schemaPromise = import("./follow/FollowCardSchema");
+      schemaPromise = import("./follow/FollowSchema");
       uiSchemaPromise = {
         "hub:card:follow": () => import("./follow/FollowCardUiSchema"),
       }[type as FollowCardEditorType];
@@ -68,8 +68,8 @@ export async function getCardEditorSchemas(
       // Allow imports to run in parallel
       await Promise.all([schemaPromise, uiSchemaPromise()]).then(
         ([schemaModuleResolved, uiSchemaModuleResolved]) => {
-          const { FollowCardSchema } = schemaModuleResolved;
-          schema = cloneObject(FollowCardSchema);
+          const { FollowSchema: FollowSchema } = schemaModuleResolved;
+          schema = cloneObject(FollowSchema);
           uiSchema = uiSchemaModuleResolved.buildUiSchema(
             i18nScope,
             options,
