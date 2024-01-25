@@ -44,8 +44,8 @@ export const validStatCardEditorTypes = ["hub:card:stat"] as const;
  * correspond to the supported/defined uiSchema configurations. This should
  * have its own signature in the getEditorConfig function.
  */
-export type FollowCardEditorType = (typeof validFollowCardEditorTypes)[number];
-export const validFollowCardEditorTypes = ["hub:card:follow"] as const;
+export type FollowEditorType = (typeof validFollowEditorTypes)[number];
+export const validFollowEditorTypes = ["hub:card:follow"] as const;
 
 /**
  * Defines the possible editor type values for any layout card. These
@@ -54,7 +54,7 @@ export const validFollowCardEditorTypes = ["hub:card:follow"] as const;
 export type CardEditorType = (typeof validCardEditorTypes)[number];
 export const validCardEditorTypes = [
   ...validStatCardEditorTypes,
-  ...validFollowCardEditorTypes,
+  ...validFollowEditorTypes,
 ] as const;
 
 /**

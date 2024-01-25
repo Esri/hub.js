@@ -2,7 +2,7 @@ import {
   EntityEditorType,
   IEditorConfig,
   StatCardEditorType,
-  FollowCardEditorType,
+  FollowEditorType,
 } from "./types";
 import { IArcGISContext } from "../../ArcGISContext";
 import {
@@ -50,7 +50,7 @@ export async function getEditorConfig(
 // Follow card editor overload
 export async function getEditorConfig(
   i18nScope: string,
-  type: FollowCardEditorType,
+  type: FollowEditorType,
   options: CardEditorOptions,
   context: IArcGISContext
 ): Promise<IEditorConfig>;
