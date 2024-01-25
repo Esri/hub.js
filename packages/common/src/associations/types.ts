@@ -80,7 +80,7 @@ export type AssociationType = "initiative";
  * The model for associations is built around platform
  * capabilities. Platform imposes a limit of 128 on the
  * number of typeKeywords that can be set on an item.
- * Since "children" form their half of an association
+ * Since "child" entities form their half of an association
  * connection via typeKeywords, we must limit the number
  * of associations a child can request or accept to far
  * fewer than 128.

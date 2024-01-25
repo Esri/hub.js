@@ -8,6 +8,7 @@ export * from "./getAssociationStats";
 export * from "./getAvailableToRequestEntitiesQuery";
 export * from "./getPendingEntitiesQuery";
 export * from "./getRequestingEntitiesQuery";
+export * from "./getReferencedEntityIds";
 export * from "./wellKnownAssociationCatalogs";
 // Note: we expose "requestAssociation" under 2 names.
 // These actions are functionally equivalent, but we want
