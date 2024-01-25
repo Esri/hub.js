@@ -140,7 +140,7 @@ export async function getWellKnownAssociationsCatalog(
  * @param context - contextual auth and portal information
  * @returns {IHubCatalog[]}
  */
-export const getAvailableToRequestCatalogs = (
+export const getAvailableToRequestAssociationCatalogs = (
   i18nScope: string,
   entity: HubEntity,
   associationType: HubEntityType,
@@ -151,7 +151,7 @@ export const getAvailableToRequestCatalogs = (
 
   if (!isSupported) {
     throw new Error(
-      `getAvailableToRequestCatalogs: Association between ${entityType} and ${associationType} is not supported.`
+      `getAvailableToRequestAssociationCatalogs: Association between ${entityType} and ${associationType} is not supported.`
     );
   }
 

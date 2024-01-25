@@ -1,4 +1,4 @@
-import { getWellKnownAssociationsCatalog } from "../../src/associations/getWellKnownAssociationsCatalog";
+import { getWellKnownAssociationsCatalog } from "../../src/associations/wellKnownAssociationCatalogs";
 import * as getAssociatedEntitiesQueryModule from "../../src/associations/getAssociatedEntitiesQuery";
 import * as getPendingEntitiesQueryModule from "../../src/associations/getPendingEntitiesQuery";
 import * as getRequestingEntitiesQueryModule from "../../src/associations/getRequestingEntitiesQuery";
@@ -8,7 +8,7 @@ import {
   ArcGISContext,
   HubEntity,
   IHubCollection,
-  getAvailableToRequestCatalogs,
+  getAvailableToRequestAssociationCatalogs,
 } from "../../src";
 
 describe("getWellKnownAssociationsCatalog", () => {
@@ -143,7 +143,7 @@ describe("getWellKnownAssociationsCatalog", () => {
   });
 });
 
-describe("getAvailableToRequestCatalogs", () => {
+describe("getAvailableToRequestAssociationCatalogs", () => {
   let getAvailableToRequestEntitiesQuerySpy: jasmine.Spy;
   let getWellknownCatalogSpy: jasmine.Spy;
 
@@ -166,7 +166,7 @@ describe("getAvailableToRequestCatalogs", () => {
 
   it("throws an error if the association is not supported", async () => {
     try {
-      await getAvailableToRequestCatalogs(
+      await getAvailableToRequestAssociationCatalogs(
         "some-scope",
         { type: "Hub Initiative" } as HubEntity,
         "group",
@@ -174,12 +174,12 @@ describe("getAvailableToRequestCatalogs", () => {
       );
     } catch (err) {
       expect(err.message).toBe(
-        "getAvailableToRequestCatalogs: Association between initiative and group is not supported."
+        "getAvailableToRequestAssociationCatalogs: Association between initiative and group is not supported."
       );
     }
   });
   it('returns an array of valid "availableToRequest" catalogs', async () => {
-    const catalogs = await getAvailableToRequestCatalogs(
+    const catalogs = await getAvailableToRequestAssociationCatalogs(
       "some-scope",
       { type: "Hub Project" } as HubEntity,
       "initiative",
