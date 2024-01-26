@@ -8,7 +8,10 @@ describe("buildUiSchema: follow", () => {
 
     expect(uiSchema.type).toBe("Layout");
     expect(uiSchema.elements?.length).toBe(7);
-    // TODO: add more explicit tests when we polish the ui schema later
-    // e.g. check the scopes, the controls
+    expect(uiSchema.elements![0].scope).toBe("/properties/followedItemId");
+    expect(uiSchema.elements![0].options!.control).toBe(
+      "hub-field-input-gallery-picker"
+    );
+    // TODO: add more explicit tests when we complete the ui schema
   });
 });
