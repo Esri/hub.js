@@ -1,3 +1,10 @@
+# @esri/hub-common [14.82.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.81.1...@esri/hub-common@14.82.0) (2024-01-26)
+
+
+### Features
+
+* follow card permission and editor support ([#1394](https://github.com/Esri/hub.js/issues/1394)) ([23feb30](https://github.com/Esri/hub.js/commit/23feb301229809b9971a56cf234850d88fa4ac52))
+
 ## @esri/hub-common [14.81.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.81.0...@esri/hub-common@14.81.1) (2024-01-24)
 
 
