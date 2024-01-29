@@ -123,6 +123,7 @@ export const buildUiSchema = (
             rule: SHOW_FOR_STATIC_AND_DATE_RULE_ENTITY,
             options: {
               control: "hub-field-input-date",
+              clearOnHidden: true,
               messages: [
                 {
                   type: "ERROR",

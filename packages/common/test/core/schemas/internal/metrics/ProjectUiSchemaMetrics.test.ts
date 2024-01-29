@@ -155,6 +155,7 @@ describe("buildUiSchema: metric", () => {
               },
               options: {
                 control: "hub-field-input-date",
+                clearOnHidden: true,
                 messages: [
                   {
                     type: "ERROR",
