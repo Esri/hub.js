@@ -28,8 +28,11 @@ export const buildUiSchema = async (
         options: { section: "stepper", scale: "l" },
         elements: [
           {
-            type: "Step",
+            type: "Section",
             labelKey: `${i18nScope}.sections.details.label`,
+            options: {
+              section: "step",
+            },
             elements: [
               {
                 type: "Section",
@@ -82,8 +85,11 @@ export const buildUiSchema = async (
             ],
           },
           {
-            type: "Step",
+            type: "Section",
             labelKey: `${i18nScope}.sections.location.label`,
+            options: {
+              section: "step",
+            },
             rule: {
               effect: UiSchemaRuleEffects.DISABLE,
               condition: {
@@ -124,8 +130,11 @@ export const buildUiSchema = async (
             ],
           },
           {
-            type: "Step",
+            type: "Section",
             labelKey: `${i18nScope}.sections.sharing.label`,
+            options: {
+              section: "step",
+            },
             rule: {
               effect: UiSchemaRuleEffects.DISABLE,
               condition: {

@@ -129,8 +129,11 @@ const SteppedUiSchema: IUiSchema = {
       },
       elements: [
         {
-          type: "Step",
+          type: "Section",
           labelKey: "step1.label.key",
+          options: {
+            section: "step",
+          },
           elements: [
             {
               labelKey: "property1.label.key",
@@ -145,8 +148,11 @@ const SteppedUiSchema: IUiSchema = {
           ],
         },
         {
-          type: "Step",
+          type: "Section",
           labelKey: "step2.label.key",
+          options: {
+            section: "step",
+          },
           elements: [
             {
               labelKey: "property3.label.key",

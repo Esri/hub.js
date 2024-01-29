@@ -2,11 +2,8 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { getItemThumbnailUrl } from "../../resources";
 import { IModel } from "../../types";
-import { bBoxToExtent, isBBox } from "../../extent";
-import { IExtent } from "@esri/arcgis-rest-types";
 import { getItemHomeUrl } from "../../urls/get-item-home-url";
 import { getContentEditUrl, getHubRelativeUrl } from "./internalContentUtils";
-import { IHubLocation } from "../../core/types/IHubLocation";
 import { IHubEditableContent } from "../../core/types/IHubEditableContent";
 import { getRelativeWorkspaceUrl } from "../../core/getRelativeWorkspaceUrl";
 import { isDiscussable } from "../../discussions";
@@ -15,24 +12,7 @@ import {
   ServiceCapabilities,
 } from "../hostedServiceUtils";
 import { IItemAndIServerEnrichments } from "../../items/_enrichments";
-
-// if called and valid, set 3 things -- else just return type custom
-export const getExtentObject = (itemExtent: number[][]): IExtent => {
-  return isBBox(itemExtent)
-    ? ({ ...bBoxToExtent(itemExtent), type: "extent" } as unknown as IExtent)
-    : undefined;
-};
-
-export function deriveLocationFromItemExtent(itemExtent?: number[][]) {
-  const location: IHubLocation = { type: "custom" };
-  const geometry: any = getExtentObject(itemExtent);
-  if (geometry) {
-    location.geometries = [geometry];
-    location.spatialReference = geometry.spatialReference;
-    location.extent = itemExtent;
-  }
-  return location;
-}
+import { computeBaseProps } from "../../core/_internal/computeBaseProps";
 
 export function computeProps(
   model: IModel,
@@ -45,6 +25,9 @@ export function computeProps(
     const session: UserSession = requestOptions.authentication as UserSession;
     token = session.token;
   }
+
+  // compute base properties on content
+  content = computeBaseProps(model.item, content);
 
   // thumbnail url
   const thumbnailUrl = getItemThumbnailUrl(model.item, requestOptions, token);
@@ -64,14 +47,6 @@ export function computeProps(
   // cannot be null otherwise we'd get a validation
   // error that doesn't let us save the form
   content.licenseInfo = model.item.licenseInfo || "";
-
-  if (!content.location) {
-    // build location if one does not exist based off of the boundary and the item's extent
-    content.location =
-      model.item.properties?.boundary === "none"
-        ? { type: "none" }
-        : deriveLocationFromItemExtent(model.item.extent);
-  }
 
   content.isDiscussable = isDiscussable(content);
 

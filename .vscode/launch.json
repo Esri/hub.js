@@ -12,7 +12,9 @@
       "program": "${workspaceRoot}/node_modules/.bin/jasmine",
       "args": [
         "--config=jasmine.json"
-      ]
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
     },
     {
       "type": "node",

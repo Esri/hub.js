@@ -50,7 +50,10 @@ import { portalSearchItemsAsItems } from "../search/_internal/portalSearchItems"
 import { getTypeWithKeywordQuery } from "../associations/internal/getTypeWithKeywordQuery";
 import { negateGroupPredicates } from "../search/_internal/negateGroupPredicates";
 import { computeLinks } from "./_internal/computeLinks";
-import { getHubRelativeUrl } from "../content/_internal/internalContentUtils";
+import {
+  deriveLocationFromItem,
+  getHubRelativeUrl,
+} from "../content/_internal/internalContentUtils";
 import { setEntityStatusKeyword } from "../utils/internal/setEntityStatusKeyword";
 
 /**
@@ -269,6 +272,7 @@ export async function enrichInitiativeSearchResult(
       thumbnail: "not-implemented",
       workspaceRelative: "not-implemented",
     },
+    location: deriveLocationFromItem(item),
     rawResult: item,
   };
 
