@@ -136,6 +136,7 @@ export interface IUiSchemaRule {
 
 export interface IUiSchemaElement {
   type: string;
+  id?: string;
   labelKey?: string;
   label?: string;
   options?: {

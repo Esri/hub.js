@@ -90,6 +90,7 @@ describe("buildUiSchema: metric", () => {
               },
               options: {
                 control: "hub-field-input-input",
+                clearOnHidden: true,
                 messages: [
                   {
                     type: "ERROR",
@@ -122,6 +123,7 @@ describe("buildUiSchema: metric", () => {
               options: {
                 control: "hub-field-input-input",
                 type: "number",
+                clearOnHidden: true,
                 messages: [
                   {
                     type: "ERROR",
