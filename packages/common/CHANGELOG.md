@@ -1,3 +1,10 @@
+# @esri/hub-common [14.83.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.82.1...@esri/hub-common@14.83.0) (2024-01-29)
+
+
+### Features
+
+* date option ([#1392](https://github.com/Esri/hub.js/issues/1392)) ([ad8ba53](https://github.com/Esri/hub.js/commit/ad8ba5385ce3bbddc348fcb7d094909aaab9edc8))
+
 ## @esri/hub-common [14.82.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.82.0...@esri/hub-common@14.82.1) (2024-01-29)
 
 
