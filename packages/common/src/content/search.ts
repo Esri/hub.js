@@ -9,8 +9,10 @@ import { getItemHomeUrl } from "../urls";
 import { unique } from "../util";
 import { mapBy } from "../utils";
 import { getFamily } from "./get-family";
-import { getHubRelativeUrl } from "./_internal/internalContentUtils";
-import { bBoxToExtent, extentToPolygon, isBBox } from "../extent";
+import {
+  deriveLocationFromItem,
+  getHubRelativeUrl,
+} from "./_internal/internalContentUtils";
 
 /**
  * Enrich a generic search result
@@ -45,21 +47,9 @@ export async function enrichContentSearchResult(
       siteRelative: "not-implemented",
       thumbnail: "not-implemented",
     },
-    location: item.properties?.location,
+    location: deriveLocationFromItem(item),
     rawResult: item,
   };
-
-  // Include geometry in IHubSearchResult
-  if (isBBox(item.extent)) {
-    // PR Reference: https://github.com/Esri/hub.js/pull/987
-    const extent = bBoxToExtent(item.extent);
-    const geometryPolygon = extentToPolygon(extent);
-    result.geometry = {
-      geometry: { type: "polygon", ...geometryPolygon },
-      provenance: "item",
-      spatialReference: extent.spatialReference,
-    };
-  }
 
   // default includes
   const DEFAULTS: string[] = [];

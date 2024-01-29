@@ -22,6 +22,7 @@ const SystemPermissions = [
   "hub:feature:workspace",
   "hub:feature:gallery:map",
   "hub:feature:user:preferences",
+  "hub:card:follow",
 ];
 
 const validPermissions = [

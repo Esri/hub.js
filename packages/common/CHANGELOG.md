@@ -1,3 +1,24 @@
+# @esri/hub-common [14.82.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.81.1...@esri/hub-common@14.82.0) (2024-01-26)
+
+
+### Features
+
+* follow card permission and editor support ([#1394](https://github.com/Esri/hub.js/issues/1394)) ([23feb30](https://github.com/Esri/hub.js/commit/23feb301229809b9971a56cf234850d88fa4ac52))
+
+## @esri/hub-common [14.81.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.81.0...@esri/hub-common@14.81.1) (2024-01-24)
+
+
+### Bug Fixes
+
+* config editor cleanup - update schemas ([#1377](https://github.com/Esri/hub.js/issues/1377)) ([f531ee5](https://github.com/Esri/hub.js/commit/f531ee580f1c728a5fa13c905c83fd51ea2aeb9a))
+
+# @esri/hub-common [14.81.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.80.2...@esri/hub-common@14.81.0) (2024-01-24)
+
+
+### Features
+
+* **hub-common:** consolidates entity location construction and depre… ([#1382](https://github.com/Esri/hub.js/issues/1382)) ([d067225](https://github.com/Esri/hub.js/commit/d06722554645eb082ec1f03be323d18a4aceb8b7))
+
 ## @esri/hub-common [14.80.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.80.1...@esri/hub-common@14.80.2) (2024-01-23)
 
 

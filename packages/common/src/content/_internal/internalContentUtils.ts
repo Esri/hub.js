@@ -11,17 +11,20 @@
 import { parseServiceUrl } from "@esri/arcgis-rest-feature-layer";
 import { IItem, IPortal } from "@esri/arcgis-rest-portal";
 import {
+  IExtent,
   ILayerDefinition,
   ISpatialReference,
   IUser,
 } from "@esri/arcgis-rest-types";
-import { IHubContent, PublisherSource } from "../../core";
+import { IHubContent, IHubLocation, PublisherSource } from "../../core";
 import {
   IHubGeography,
   GeographyProvenance,
   IHubRequestOptions,
 } from "../../types";
 import {
+  GeoJSONPolygonToBBox,
+  allCoordinatesPossiblyWGS84,
   bBoxToExtent,
   extentToBBox,
   extentToPolygon,
@@ -36,6 +39,8 @@ import { getEnvironmentFromPortalUrl } from "../../utils";
 import { HubEnvironment } from "../../permissions";
 import { _getHubUrlFromPortalHostname } from "../../urls/_get-hub-url-from-portal-hostname";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { geojsonToArcGIS } from "@terraformer/arcgis";
+import { Polygon } from "geojson";
 
 /**
  * Hashmap of Hub environment and application url surfix
@@ -93,6 +98,80 @@ export const getContentBoundary = (item: IItem): IHubGeography => {
     boundary.spatialReference = boundary.geometry.spatialReference;
   }
   return boundary;
+};
+
+/**
+ * Constructs IExtent from numeric item extent array
+ * @param extent Raw item extent array
+ * @returns IExtent
+ */
+export const getExtentObject = (extent: number[][]): IExtent => {
+  return isBBox(extent)
+    ? ({ ...bBoxToExtent(extent), type: "extent" } as unknown as IExtent)
+    : undefined;
+};
+
+/**
+ * Derives proper IHubLocation given an ArcGIS Item.  If no
+ * location (item.properties.location) is present, one will be
+ * constructed from the item's extent.
+ * @param item ArcGIS Item
+ * @returns IHubLocation
+ */
+export const deriveLocationFromItem = (item: IItem): IHubLocation => {
+  const { properties, extent } = item;
+  const location: IHubLocation = properties?.location;
+
+  if (location) {
+    // IHubLocation already exists, so return it
+    return location;
+  }
+
+  if (properties?.boundary === "none") {
+    // Per https://confluencewikidev.esri.com/display/Hub/Hub+Location+Management
+    // bounds = 'none' -> specifies not to show on map.  If this is true and
+    // no location is already present, opt to not generate location from item extent
+    return { type: "none" };
+  }
+
+  // IHubLocation does not exist on item properties, so construct it
+  // from item extent
+  const geometry: any = getExtentObject(extent);
+  if (geometry) {
+    // geometry constructed from bbox
+    return {
+      type: "custom",
+      extent,
+      geometries: [geometry],
+      spatialReference: geometry.spatialReference,
+    };
+  } else {
+    // Could not construct extent object, attempt to construct from geojson
+    try {
+      // Item extent is supposed to be in WGS84 per item documentation:
+      // https://developers.arcgis.com/rest/users-groups-and-items/item.htm
+      // But in many situations, this is not the case.  So we do out best to
+      // determine the spatial reference of the extent.
+      const bbox = GeoJSONPolygonToBBox(extent as any as Polygon);
+      const defaultSpatialReference = { wkid: 4326 };
+      const _geometry: Partial<__esri.Geometry> = {
+        type: "polygon",
+        ...geojsonToArcGIS(extent as any as Polygon),
+        spatialReference: allCoordinatesPossiblyWGS84(bbox)
+          ? defaultSpatialReference
+          : (getItemSpatialReference(item) as any) || defaultSpatialReference,
+      };
+      return {
+        type: "custom",
+        extent: bbox,
+        geometries: [_geometry],
+        spatialReference: _geometry.spatialReference,
+      };
+    } catch {
+      // Finally, exhausted all options and return a location of type none
+      return { type: "none" };
+    }
+  }
 };
 
 /**

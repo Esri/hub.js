@@ -20,6 +20,7 @@ import { getProp } from "../objects/get-prop";
 import { listAssociations } from "../associations";
 import { getTypeByIdsQuery } from "../associations/internal/getTypeByIdsQuery";
 import { computeLinks } from "./_internal/computeLinks";
+import { deriveLocationFromItem } from "../content/_internal/internalContentUtils";
 
 /**
  * @private
@@ -100,6 +101,7 @@ export async function enrichProjectSearchResult(
       thumbnail: "not-implemented",
       workspaceRelative: "not-implemented",
     },
+    location: deriveLocationFromItem(item),
     rawResult: item,
   };
 

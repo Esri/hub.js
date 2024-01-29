@@ -40,12 +40,22 @@ export const validEntityEditorTypes = [
 export type StatCardEditorType = (typeof validStatCardEditorTypes)[number];
 export const validStatCardEditorTypes = ["hub:card:stat"] as const;
 
+/** Defines the possible editor type values for a follow card. These
+ * correspond to the supported/defined uiSchema configurations. This should
+ * have its own signature in the getEditorConfig function.
+ */
+export type FollowCardEditorType = (typeof validFollowCardEditorTypes)[number];
+export const validFollowCardEditorTypes = ["hub:card:follow"] as const;
+
 /**
  * Defines the possible editor type values for any layout card. These
  * correspond to the supported/defined uiSchema configurations for cards.
  */
 export type CardEditorType = (typeof validCardEditorTypes)[number];
-export const validCardEditorTypes = [...validStatCardEditorTypes] as const;
+export const validCardEditorTypes = [
+  ...validStatCardEditorTypes,
+  ...validFollowCardEditorTypes,
+] as const;
 
 /**
  * All supported editor types - these "map"
@@ -65,9 +75,7 @@ export enum UiSchemaRuleEffects {
 }
 
 export enum UiSchemaElementTypes {
-  accordionItem = "AccordionItem",
   section = "Section",
-  step = "Step",
   control = "Control",
   layout = "Layout",
   slot = "Slot",
@@ -75,8 +83,10 @@ export enum UiSchemaElementTypes {
 
 export enum UiSchemaSectionTypes {
   accordion = "accordion",
+  accordionItem = "accordionItem",
   block = "block",
   stepper = "stepper",
+  step = "step",
   subblock = "subblock",
   card = "card",
 }
@@ -126,6 +136,7 @@ export interface IUiSchemaRule {
 
 export interface IUiSchemaElement {
   type: string;
+  id?: string;
   labelKey?: string;
   label?: string;
   options?: {

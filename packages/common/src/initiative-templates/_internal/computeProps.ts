@@ -7,6 +7,7 @@ import { getItemThumbnailUrl } from "../../resources";
 import { IModel } from "../../types";
 import { InitiativeTemplateDefaultFeatures } from "./InitiativeTemplateBusinessRules";
 import { computeLinks } from "./computeLinks";
+import { computeBaseProps } from "../../core/_internal/computeBaseProps";
 
 /**
  * Given a model and an initiative template, set various computed properties that can't be directly mapped
@@ -26,6 +27,9 @@ export function computeProps(
     const session: UserSession = requestOptions.authentication as UserSession;
     token = session.token;
   }
+
+  // compute base properties on initiativeTemplate
+  initiativeTemplate = computeBaseProps(model.item, initiativeTemplate);
 
   // thumbnail url
   initiativeTemplate.thumbnailUrl = getItemThumbnailUrl(

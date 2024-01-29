@@ -7,7 +7,10 @@ import { handleDomainChanges } from "./_internal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { fetchItemEnrichments } from "../items/_enrichments";
 import { parseInclude } from "../search/_internal/parseInclude";
-import { getHubRelativeUrl } from "../content/_internal/internalContentUtils";
+import {
+  deriveLocationFromItem,
+  getHubRelativeUrl,
+} from "../content/_internal/internalContentUtils";
 import { applyPermissionMigration } from "./_internal/applyPermissionMigration";
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
@@ -509,6 +512,7 @@ export async function enrichSiteSearchResult(
       siteRelative: "not-implemented",
       thumbnail: "not-implemented",
     },
+    location: deriveLocationFromItem(item),
     rawResult: item,
   };
 

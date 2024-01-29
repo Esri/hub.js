@@ -78,6 +78,8 @@ const TempPermissionPolicies: IPermissionPolicy[] = [
  * Highlevel Permission definitions for the Hub System as a whole
  * Typically other permissions depend on these so a whole set of features
  * can be enabled / disabled by changing a single permission
+ * MAKE SURE to add the permission string to the SystemPermissions array
+ * in Permissions.ts
  */
 const SystemPermissionPolicies: IPermissionPolicy[] = [
   {
@@ -109,6 +111,12 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     // we pass `?pe=hub:feature:user:preferences` in the URL
     availability: ["alpha"],
     environments: ["devext", "qaext"],
+  },
+  {
+    permission: "hub:card:follow",
+    environments: ["qaext"],
+    availability: ["alpha"],
+    licenses: ["hub-premium"],
   },
 ];
 

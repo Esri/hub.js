@@ -40,6 +40,10 @@ export interface IHubSearchResult extends IHubEntityBase {
   typeKeywords?: string[];
 
   /**
+   * @deprecated geometry is being dropped and replaced
+   * with 'location' for all location specific information
+   * on a search result
+   *
    * Geometry connected to this entity
    * For items, it will default to the extent,
    * but may be derived from a boundary resource
