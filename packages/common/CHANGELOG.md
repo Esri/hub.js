@@ -1,3 +1,10 @@
+## @esri/hub-common [14.82.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.82.0...@esri/hub-common@14.82.1) (2024-01-29)
+
+
+### Bug Fixes
+
+* add clearOnHidden to values in metrics ([#1393](https://github.com/Esri/hub.js/issues/1393)) ([311ad2a](https://github.com/Esri/hub.js/commit/311ad2acd15a7bb4bdedf5cf600446299217499d))
+
 # @esri/hub-common [14.82.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.81.1...@esri/hub-common@14.82.0) (2024-01-26)
 
 
