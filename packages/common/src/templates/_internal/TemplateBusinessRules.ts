@@ -68,6 +68,7 @@ export const TemplatePermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:template:workspace:overview",
+    availability: ["alpha"],
     dependencies: ["hub:template:workspace", "hub:template:view"],
   },
   {

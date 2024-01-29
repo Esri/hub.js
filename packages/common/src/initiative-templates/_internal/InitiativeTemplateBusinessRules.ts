@@ -65,6 +65,7 @@ export const InitiativeTemplatePermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:initiativeTemplate:workspace:overview",
+    availability: ["alpha"],
     dependencies: [
       "hub:initiativeTemplate:workspace",
       "hub:initiativeTemplate:view",

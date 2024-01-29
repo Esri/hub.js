@@ -64,6 +64,7 @@ export const PagePermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:page:workspace:overview",
+    availability: ["alpha"],
     dependencies: ["hub:page:workspace", "hub:page:view"],
   },
   {

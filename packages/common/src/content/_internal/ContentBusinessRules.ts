@@ -62,6 +62,7 @@ export const ContentPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:content:workspace:overview",
+    availability: ["alpha"],
     dependencies: ["hub:content:workspace", "hub:content:view"],
   },
   {
