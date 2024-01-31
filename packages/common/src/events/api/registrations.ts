@@ -1,14 +1,9 @@
 import {
-  IConfirmRegistrationResponse,
+  IRegistration,
   ICreateRegistrationParams,
-  ICreateRegistrationResponse,
   IDeleteRegistrationParams,
-  IDeleteRegistrationResponse,
   IGetRegistrationParams,
-  IGetRegistrationResponse,
-  IGetRegistrationsResponse,
   IUpdateRegistrationParams,
-  IUpdateRegistrationResponse,
 } from "./types";
 import { authenticateRequest } from "./utils/authenticate-request";
 import {
@@ -23,13 +18,12 @@ import {
 /**
  * create an event registration
  *
- * @hidden
  * @param {ICreateEventParams} options
- * @return {*}  {Promise<ICreateRegistrationResponse>}
+ * @return {*}  {Promise<IRegistration>}
  */
 export async function createRegistration(
   options: ICreateRegistrationParams
-): Promise<ICreateRegistrationResponse> {
+): Promise<IRegistration> {
   options.token = await authenticateRequest(options);
   return _createRegistration(options.data, options);
 }
@@ -37,13 +31,12 @@ export async function createRegistration(
 // /**
 //  * get registrations
 //  *
-//  * @hidden
 //  * @param {IGetRegistrationsParams} options
-//  * @return {*}  {Promise<IGetRegistrationsResponse>}
+//  * @return {*}  {Promise<IRegistration[]>} // paged response?
 //  */
 // export async function getRegistrations(
 //   options: IGetRegistrationsParams
-// ): Promise<IGetRegistrationsResponse> {
+// ): Promise<IRegistration[]> {
 //   options.token = await authenticateRequest(options);
 //   return _getRegistrations(options.data, options);
 // }
@@ -51,13 +44,12 @@ export async function createRegistration(
 /**
  * get a registration
  *
- * @hidden
  * @param {IGetRegistrationParams} options
- * @return {*}  {Promise<IGetRegistrationResponse>}
+ * @return {*}  {Promise<IRegistration>}
  */
 export async function getRegistration(
   options: IGetRegistrationParams
-): Promise<IGetRegistrationResponse> {
+): Promise<IRegistration> {
   options.token = await authenticateRequest(options);
   return _getRegistration(options.registrationId, options);
 }
@@ -65,13 +57,12 @@ export async function getRegistration(
 /**
  * update a registration
  *
- * @hidden
  * @param {IUpdateRegistrationParams} options
- * @return {*}  {Promise<IUpdateRegistrationResponse>}
+ * @return {*}  {Promise<IRegistration>}
  */
 export async function updateRegistration(
   options: IUpdateRegistrationParams
-): Promise<IUpdateRegistrationResponse> {
+): Promise<IRegistration> {
   options.token = await authenticateRequest(options);
   return _updateRegistration(options.registrationId, options.data, options);
 }
@@ -79,13 +70,12 @@ export async function updateRegistration(
 /**
  * delete a registration
  *
- * @hidden
  * @param {IDeleteRegistrationParams} options
- * @return {*}  {Promise<IDeleteRegistrationResponse>}
+ * @return {*}  {Promise<IRegistration>}
  */
 export async function deleteRegistration(
   options: IDeleteRegistrationParams
-): Promise<IDeleteRegistrationResponse> {
+): Promise<IRegistration> {
   options.token = await authenticateRequest(options);
   return _deleteRegistration(options.registrationId, options);
 }
@@ -93,13 +83,12 @@ export async function deleteRegistration(
 // /**
 //  * confirm a registration
 //  *
-//  * @hidden
 //  * @param {IConfirmRegistrationParams} options
-//  * @return {*}  {Promise<IConfirmRegistrationResponse>}
+//  * @return {*}  {Promise<IRegistration>}
 //  */
 // export async function confirmRegistration(
 //   options: IConfirmRegistrationParams
-// ): Promise<IConfirmRegistrationResponse> {
+// ): Promise<IRegistration> {
 //   options.token = await authenticateRequest(options);
 //   return _confirmRegistration(options);
 // }

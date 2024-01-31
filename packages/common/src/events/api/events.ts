@@ -1,12 +1,8 @@
 import {
-  ICreateEventResponse,
+  IEvent,
   ICreateEventParams,
-  IGetEventResponse,
   IGetEventParams,
-  IGetEventsResponse,
   IUpdateEventParams,
-  IUpdateEventResponse,
-  IDeleteEventResponse,
   IDeleteEventParams,
 } from "./types";
 import { authenticateRequest } from "./utils/authenticate-request";
@@ -21,13 +17,12 @@ import {
 /**
  * create an event
  *
- * @hidden
  * @param {ICreateEventParams} options
- * @return {*}  {Promise<ICreateEventResponse>}
+ * @return {*}
  */
 export async function createEvent(
   options: ICreateEventParams
-): Promise<ICreateEventResponse> {
+): Promise<IEvent> {
   options.token = await authenticateRequest(options);
   return _createEvent(options.data, options);
 }
@@ -35,9 +30,8 @@ export async function createEvent(
 // /**
 //  * get events
 //  *
-//  * @hidden
 //  * @param {IGetEventsParams} options
-//  * @return {*}  {Promise<IGetEventsResponse>}
+//  * @return {*}  {Promise<IEvent[]>} // paged response
 //  */
 // export async function getEvents(
 //   options: IGetEventsParams
@@ -49,13 +43,10 @@ export async function createEvent(
 /**
  * get an event
  *
- * @hidden
  * @param {ICreateEventParams} options
  * @return {*}  {Promise<IGetEventEventResponse>}
  */
-export async function getEvent(
-  options: IGetEventParams
-): Promise<IGetEventResponse> {
+export async function getEvent(options: IGetEventParams): Promise<IEvent> {
   options.token = await authenticateRequest(options);
   return _getEvent(options.eventId, options);
 }
@@ -63,10 +54,9 @@ export async function getEvent(
 /**
  * update an event
  *
- * @hidden
- * @param {ICreateEventParams} options
+ * @param {IUpdateEventParams} options
  *   todo: update return type when defined
- * @return {*}  {Promise<>}
+ * @return {*}  {Promise<IEvent>}
  */
 export async function updateEvent(
   options: IUpdateEventParams
@@ -79,13 +69,12 @@ export async function updateEvent(
 /**
  * delete an event
  *
- * @hidden
  * @param {IDeleteEventParams} options
- * @return {*}  {Promise<IDeleteEventParams>}
+ * @return {*}  {Promise<IEvent>}
  */
 export async function deleteEvent(
   options: IDeleteEventParams
-): Promise<IDeleteEventResponse> {
+): Promise<IEvent> {
   options.token = await authenticateRequest(options);
   return _deleteEvent(options.eventId, options);
 }

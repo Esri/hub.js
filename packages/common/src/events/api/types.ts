@@ -11,17 +11,6 @@ import {
   CreateEventDto as ICreateEvent,
   UpdateRegistrationDto as IUpdateRegistration,
   CreateRegistrationDto as ICreateRegistration,
-  CreateEventResult as ICreateEventResponse,
-  GetEventsResult as IGetEventsResponse,
-  GetEventResult as IGetEventResponse,
-  UpdateEventResult as IUpdateEventResponse,
-  DeleteEventResult as IDeleteEventResponse,
-  CreateRegistrationResult as ICreateRegistrationResponse,
-  GetRegistrationsResult as IGetRegistrationsResponse,
-  GetRegistrationResult as IGetRegistrationResponse,
-  UpdateRegistrationResult as IUpdateRegistrationResponse,
-  DeleteRegistrationResult as IDeleteRegistrationResponse,
-  ConfirmRegistrationResult as IConfirmRegistrationResponse,
 } from "./orval/api/orval";
 
 export {
@@ -36,17 +25,6 @@ export {
   ICreateEvent,
   IUpdateRegistration,
   ICreateRegistration,
-  ICreateEventResponse,
-  IGetEventsResponse,
-  IGetEventResponse,
-  IUpdateEventResponse,
-  IDeleteEventResponse,
-  ICreateRegistrationResponse,
-  IGetRegistrationsResponse,
-  IGetRegistrationResponse,
-  IUpdateRegistrationResponse,
-  IDeleteRegistrationResponse,
-  IConfirmRegistrationResponse,
 };
 
 /**
