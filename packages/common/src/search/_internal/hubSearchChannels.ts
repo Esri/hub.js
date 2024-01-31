@@ -13,7 +13,7 @@ import {
   ISearchChannels,
   ISearchChannelsParams,
 } from "../../discussions";
-import { getGroup } from "@esri/arcgis-rest-portal";
+import { IGroup, getGroup } from "@esri/arcgis-rest-portal";
 
 /**
  * @private
@@ -104,6 +104,39 @@ export const processSearchParams = (
 };
 
 /**
+ * Transforms a given channel and optional channel groups array into a IHubSearchResult
+ * @param channel
+ * @param groups
+ * @returns
+ */
+export const channelToSearchResult = (
+  channel: IChannel,
+  groups?: IGroup[]
+): IHubSearchResult => {
+  return {
+    ...channel,
+    id: channel.id,
+    name: channel.name,
+    createdDate: new Date(channel.createdAt),
+    createdDateSource: "channel",
+    updatedDate: new Date(channel.updatedAt),
+    updatedDateSource: "channel",
+    type: "channel",
+    access: channel.access,
+    family: "channel",
+    owner: channel.creator,
+    links: {
+      // TODO: add links?
+      thumbnail: null,
+      self: null,
+      siteRelative: null,
+    },
+    includes: { groups },
+    rawResult: channel,
+  };
+};
+
+/**
  * @private
  * Convert the Discussions API searchChannels response into an
  * IHubSearchResponse necessary for supporting hubSearch results
@@ -112,61 +145,41 @@ export const processSearchParams = (
  * @param {IHubSearchOptions} options
  * @returns IHubSearchResponse<IHubSearchResult>
  */
-export const toHubSearchResult = async (
+export const toHubSearchResults = async (
   channelsResponse: IPagedResponse<IChannel>,
   query: IQuery,
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> => {
   const { total, items, nextStart } = channelsResponse;
   // Convert IChannel to IHubSearchResult
-  const channelToSearchResult = async (
-    channel: IChannel
-  ): Promise<IHubSearchResult> => {
-    return {
-      ...channel,
-      id: channel.id,
-      name: channel.name,
-      createdDate: new Date(channel.createdAt),
-      createdDateSource: "channel",
-      updatedDate: new Date(channel.updatedAt),
-      updatedDateSource: "channel",
-      type: "channel",
-      access: channel.access,
-      family: "channel",
-      owner: channel.creator,
-      links: {
-        // TODO: add links?
-        thumbnail: null,
-        self: null,
-        siteRelative: null,
-      },
-      includes: {
-        // when 'include' requests 'groups' enrichment, get group details
-        groups: options.include?.includes("groups")
-          ? await Promise.all(
-              channel.groups.map(async (groupId) => {
-                let group;
-                try {
-                  group = await getGroup(groupId, options.requestOptions);
-                } catch (e) {
-                  group = null;
-                  /* tslint:disable-next-line: no-console */
-                  console.warn(
-                    `Cannot fetch group enhancement for id = ${groupId}`,
-                    e
-                  );
-                }
-                return group;
-              })
-            )
-          : [],
-      },
-      rawResult: channel,
-    };
-  };
+  const itemsAndGroups = await Promise.all(
+    items.map(async (channel) => {
+      const groups = options.include?.includes("groups")
+        ? await Promise.all(
+            channel.groups.map(async (groupId) => {
+              let group;
+              try {
+                group = await getGroup(groupId, options.requestOptions);
+              } catch (e) {
+                group = null;
+                /* tslint:disable-next-line: no-console */
+                console.warn(
+                  `Cannot fetch group enhancement for id = ${groupId}`,
+                  e
+                );
+              }
+              return group;
+            })
+          )
+        : [];
+      return { channel, groups };
+    })
+  );
   return {
     total,
-    results: await Promise.all(items.map(channelToSearchResult)),
+    results: itemsAndGroups.map(({ channel, groups }) =>
+      channelToSearchResult(channel, groups)
+    ),
     hasNext: nextStart > -1,
     next: () => {
       return hubSearchChannels(query, {
@@ -193,5 +206,5 @@ export const hubSearchChannels = async (
   // Call to searchChannels
   const channelsResponse = await searchChannels(searchOptions);
   // Parse into <IHubSearchResponse<IHubSearchResult>>
-  return toHubSearchResult(channelsResponse, query, options);
+  return toHubSearchResults(channelsResponse, query, options);
 };
