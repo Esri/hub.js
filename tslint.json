@@ -5,11 +5,16 @@
     "tslint-config-prettier"
   ],
   "rules": {
-    
+
     "strict-type-predicates": false,
     "ordered-imports": ["any"],
     "only-arrow-functions": [false],
     "object-literal-sort-keys": false,
     "interface-name": [true, "always-prefix"]
+  },
+  "linterOptions": {
+    "exclude": [
+      "**/orval/**/*"
+    ]
   }
 }
