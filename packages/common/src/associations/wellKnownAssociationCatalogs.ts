@@ -159,7 +159,7 @@ export const getAvailableToRequestAssociationCatalogs = (
   const filters = getAvailableToRequestEntitiesQuery(
     entity,
     associationType
-  ).filters;
+  )?.filters;
   const catalogNames: WellKnownCatalog[] = [
     "myContent",
     "favorites",

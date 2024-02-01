@@ -69,10 +69,9 @@ export const getAssociationStats = async (
       await Promise.all(
         queries.map(async (query: IQuery) => {
           try {
-            const result = await hubSearch(query, {
+            return await hubSearch(query, {
               requestOptions: context.hubRequestOptions,
             });
-            return result;
           } catch (error) {
             return { total: 0 };
           }

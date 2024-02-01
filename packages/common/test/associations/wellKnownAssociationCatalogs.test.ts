@@ -1,15 +1,13 @@
-import { getWellKnownAssociationsCatalog } from "../../src/associations/wellKnownAssociationCatalogs";
+import {
+  getWellKnownAssociationsCatalog,
+  getAvailableToRequestAssociationCatalogs,
+} from "../../src/associations/wellKnownAssociationCatalogs";
 import * as getAssociatedEntitiesQueryModule from "../../src/associations/getAssociatedEntitiesQuery";
 import * as getPendingEntitiesQueryModule from "../../src/associations/getPendingEntitiesQuery";
 import * as getRequestingEntitiesQueryModule from "../../src/associations/getRequestingEntitiesQuery";
 import * as getAvailableToRequestEntitiesQueryModule from "../../src/associations/getAvailableToRequestEntitiesQuery";
 import * as wellKnownCatalogModule from "../../src/search/wellKnownCatalog";
-import {
-  ArcGISContext,
-  HubEntity,
-  IHubCollection,
-  getAvailableToRequestAssociationCatalogs,
-} from "../../src";
+import { ArcGISContext, HubEntity, IHubCollection } from "../../src";
 
 describe("getWellKnownAssociationsCatalog", () => {
   let getAssociatedEntitiesQuerySpy: jasmine.Spy;
@@ -35,11 +33,18 @@ describe("getWellKnownAssociationsCatalog", () => {
     getAvailableToRequestEntitiesQuerySpy = spyOn(
       getAvailableToRequestEntitiesQueryModule,
       "getAvailableToRequestEntitiesQuery"
-    ).and.returnValue(Promise.resolve({ filters: mockFilters }));
+    ).and.returnValue({ filters: mockFilters });
     getWellknownCollectionSpy = spyOn(
       wellKnownCatalogModule,
       "getWellknownCollection"
     ).and.returnValue({ key: "mock-collection" });
+  });
+  afterEach(() => {
+    getAssociatedEntitiesQuerySpy.calls.reset();
+    getPendingEntitiesQuerySpy.calls.reset();
+    getRequestingEntitiesQuerySpy.calls.reset();
+    getAvailableToRequestEntitiesQuerySpy.calls.reset();
+    getWellknownCollectionSpy.calls.reset();
   });
 
   it("builds a valid well-known catalog", async () => {
@@ -152,7 +157,7 @@ describe("getAvailableToRequestAssociationCatalogs", () => {
     getAvailableToRequestEntitiesQuerySpy = spyOn(
       getAvailableToRequestEntitiesQueryModule,
       "getAvailableToRequestEntitiesQuery"
-    ).and.returnValue(Promise.resolve({ filters: mockFilters }));
+    ).and.returnValue({ filters: mockFilters });
     getWellknownCatalogSpy = spyOn(
       wellKnownCatalogModule,
       "getWellKnownCatalog"
@@ -162,6 +167,10 @@ describe("getAvailableToRequestAssociationCatalogs", () => {
       { schemaVersion: 1, title: "mock-organization" },
       { schemaVersion: 1, title: "mock-world" }
     );
+  });
+  afterEach(() => {
+    getAvailableToRequestEntitiesQuerySpy.calls.reset();
+    getWellknownCatalogSpy.calls.reset();
   });
 
   it("throws an error if the association is not supported", async () => {
@@ -177,6 +186,20 @@ describe("getAvailableToRequestAssociationCatalogs", () => {
         "getAvailableToRequestAssociationCatalogs: Association between initiative and group is not supported."
       );
     }
+  });
+  it("does not provide additional filters if the availableToRequestEntitiesQuery comes back empty", async () => {
+    // overwrite the spy to return null
+    getAvailableToRequestEntitiesQuerySpy.and.returnValue(null);
+
+    await getAvailableToRequestAssociationCatalogs(
+      "some-scope",
+      { type: "Hub Project" } as HubEntity,
+      "initiative",
+      {} as ArcGISContext
+    );
+
+    const args = getWellknownCatalogSpy.calls.argsFor(1);
+    expect(args[3].filters).toBeUndefined();
   });
   it('returns an array of valid "availableToRequest" catalogs', async () => {
     const catalogs = await getAvailableToRequestAssociationCatalogs(
