@@ -8,8 +8,11 @@ import {
   IStaticValueMetricSource,
   MetricSource,
 } from "../core/types/Metrics";
-import { queryFeatures } from "@esri/arcgis-rest-feature-layer";
-import { IItem, IStatisticDefinition } from "@esri/arcgis-rest-types";
+import {
+  IQueryFeaturesOptions,
+  queryFeatures,
+} from "@esri/arcgis-rest-feature-layer";
+import { IFeature, IItem, IStatisticDefinition } from "@esri/arcgis-rest-types";
 import { getProp } from "../objects/get-prop";
 import { IPredicate, IQuery } from "../search/types/IHubCatalog";
 import { combineQueries } from "../search/_internal/combineQueries";
@@ -103,18 +106,28 @@ async function resolveServiceQueryMetric(
   };
   // construct the url by appending the layer id if provided
   const serviceUrl = source.serviceUrl + `/${source.layerId}`;
-  // Execute the query
-  const response = await queryFeatures({
+
+  const query: IQueryFeaturesOptions = {
     url: serviceUrl,
     where: source.where as string,
     f: "json",
     outStatistics: [statsDef],
     authentication: context.requestOptions.authentication,
-  });
+  };
+
+  if (source.groupBy) {
+    // convert fields to comma joined string
+    const groupByFields = source.groupBy.fields.join(", ");
+    query.groupByFieldsForStatistics = groupByFields;
+  }
+  // Execute the query
+  const response = await queryFeatures(query);
 
   // TODO: If we enable more stats, we will need to update
   // how we fetch the values out of the response
-  const aggregate = getProp(response, `features[0].attributes.${source.field}`);
+  const aggregate = query.groupByFieldsForStatistics
+    ? getProp(response, "features")
+    : getProp(response, `features[0].attributes.${source.field}`);
 
   const result: IMetricFeature = {
     attributes: {

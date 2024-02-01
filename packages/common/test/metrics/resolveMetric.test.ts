@@ -153,6 +153,29 @@ describe("resolveMetric:", () => {
 
       expect(opts.where).toEqual("1=1");
     });
+    it("returns time series query", async () => {
+      const newMetric: IMetric = {
+        id: "fireseries_00",
+        name: "Fire series",
+        source: {
+          type: "service-query",
+          serviceUrl:
+            "https://geodata.md.gov/imap/rest/services/PublicSafety/MD_Fire/FeatureServer",
+          layerId: 1,
+          field: "StationName",
+          statistic: "count",
+          groupBy: {
+            fields: ["Zip"],
+          },
+        } as IServiceQueryMetricSource,
+        entityInfo: {
+          id: "00c",
+          name: "Some Project Name",
+          type: "Hub Project",
+        },
+      };
+      const chk = await resolveMetric(newMetric, ctx);
+    });
   });
 
   describe("item-query: ", () => {
