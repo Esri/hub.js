@@ -115,7 +115,7 @@ async function resolveServiceQueryMetric(
     authentication: context.requestOptions.authentication,
   };
 
-  if (source.groupBy) {
+  if (source.groupBy && source.groupBy.fields) {
     // convert fields to comma joined string
     const groupByFields = source.groupBy.fields.join(", ");
     query.groupByFieldsForStatistics = groupByFields;
