@@ -125,21 +125,39 @@ async function resolveServiceQueryMetric(
 
   // TODO: If we enable more stats, we will need to update
   // how we fetch the values out of the response
-  const aggregate = query.groupByFieldsForStatistics
-    ? getProp(response, "features")
-    : getProp(response, `features[0].attributes.${source.field}`);
-
-  const result: IMetricFeature = {
-    attributes: {
-      id: metric.entityInfo.id,
-      name: metric.entityInfo.name,
-      type: metric.entityInfo.type,
-      [fieldName]: aggregate,
-    },
-  };
+  let result: IMetricFeature[];
+  if (query.groupByFieldsForStatistics) {
+    const features = getProp(response, "features");
+    result = features.map((f: IFeature) => {
+      const attributes = getProp(f, `attributes`);
+      return {
+        attributes: {
+          id: metric.entityInfo.id,
+          name: metric.entityInfo.name,
+          type: metric.entityInfo.type,
+          ...attributes,
+        },
+      };
+    });
+  } else {
+    const aggregate = getProp(
+      response,
+      `features[0].attributes.${source.field}`
+    );
+    result = [
+      {
+        attributes: {
+          id: metric.entityInfo.id,
+          name: metric.entityInfo.name,
+          type: metric.entityInfo.type,
+          [fieldName]: aggregate,
+        },
+      },
+    ];
+  }
 
   return {
-    features: [result],
+    features: result,
     generatedAt: new Date().getTime(),
   };
 }
