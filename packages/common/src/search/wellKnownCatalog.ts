@@ -1,8 +1,9 @@
 import { IUser } from "@esri/arcgis-rest-types";
 import { getFamilyTypes } from "../content/get-family";
 import { HubFamily } from "../types";
-import { EntityType, IHubCatalog, IHubCollection } from "./types";
+import { EntityType, IFilter, IHubCatalog, IHubCollection } from "./types";
 import { buildCatalog } from "./_internal/buildCatalog";
+import { getProp } from "../objects";
 
 /**
  * This is used to determine what IHubCatalog definition JSON object
@@ -36,6 +37,8 @@ export type WellKnownCollection =
 export interface IGetWellKnownCatalogOptions {
   user?: IUser;
   collectionNames?: WellKnownCollection[];
+  /** additional filters to apply to the catalog scope */
+  filters?: IFilter[];
 }
 
 /**
@@ -101,6 +104,7 @@ function getWellknownItemCatalog(
 ): IHubCatalog {
   i18nScope = dotifyString(i18nScope);
   let catalog;
+  const additionalFilters = getProp(options, "filters") || [];
   const collections = getWellknownCollections(
     i18nScope,
     "item",
@@ -112,7 +116,10 @@ function getWellknownItemCatalog(
       catalog = buildCatalog(
         i18nScope,
         catalogName,
-        [{ predicates: [{ owner: options.user.username }] }],
+        [
+          { predicates: [{ owner: options.user.username }] },
+          ...additionalFilters,
+        ],
         collections,
         "item"
       );
@@ -122,7 +129,10 @@ function getWellknownItemCatalog(
       catalog = buildCatalog(
         i18nScope,
         catalogName,
-        [{ predicates: [{ group: options.user.favGroupId }] }],
+        [
+          { predicates: [{ group: options.user.favGroupId }] },
+          ...additionalFilters,
+        ],
         collections,
         "item"
       );
@@ -132,7 +142,7 @@ function getWellknownItemCatalog(
       catalog = buildCatalog(
         i18nScope,
         catalogName,
-        [{ predicates: [{ orgid: options.user.orgId }] }],
+        [{ predicates: [{ orgid: options.user.orgId }] }, ...additionalFilters],
         collections,
         "item"
       );
@@ -141,7 +151,10 @@ function getWellknownItemCatalog(
       catalog = buildCatalog(
         i18nScope,
         catalogName,
-        [{ predicates: [{ type: { not: ["code attachment"] } }] }],
+        [
+          { predicates: [{ type: { not: ["code attachment"] } }] },
+          ...additionalFilters,
+        ],
         collections,
         "item"
       );
@@ -164,6 +177,7 @@ function getWellknownGroupCatalog(
 ): IHubCatalog {
   i18nScope = dotifyString(i18nScope);
   let catalog;
+  const additionalFilters = getProp(options, "filters") || [];
   // because collections are needed in arcgis-hub-catalog and
   // "searchGroups" allows 'q: "*"', we use this as the collection
   const collections = [
@@ -188,7 +202,10 @@ function getWellknownGroupCatalog(
       catalog = buildCatalog(
         i18nScope,
         catalogName,
-        [{ predicates: [{ capabilities: ["updateitemcontrol"] }] }],
+        [
+          { predicates: [{ capabilities: ["updateitemcontrol"] }] },
+          ...additionalFilters,
+        ],
         collections,
         "group"
       );
@@ -198,7 +215,10 @@ function getWellknownGroupCatalog(
       catalog = buildCatalog(
         i18nScope,
         catalogName,
-        [{ predicates: [{ capabilities: { not: ["updateitemcontrol"] } }] }],
+        [
+          { predicates: [{ capabilities: { not: ["updateitemcontrol"] } }] },
+          ...additionalFilters,
+        ],
         collections,
         "group"
       );
@@ -208,7 +228,7 @@ function getWellknownGroupCatalog(
       catalog = buildCatalog(
         i18nScope,
         catalogName,
-        [{ predicates: [{ capabilities: [""] }] }],
+        [{ predicates: [{ capabilities: [""] }] }, ...additionalFilters],
         collections,
         "group"
       );
@@ -342,6 +362,8 @@ function getAllCollectionsMap(i18nScope: string, entityType: EntityType): any {
             predicates: [
               {
                 type: getFamilyTypes("initiative"),
+                // only include v2 initiatives
+                typekeywords: ["hubInitiativeV2"],
               },
             ],
           },

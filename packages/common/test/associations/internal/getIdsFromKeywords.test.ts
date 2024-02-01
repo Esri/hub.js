@@ -16,7 +16,7 @@ describe("getIdsFromKeywords", () => {
     );
     expect(ids.length).toBe(0);
   });
-  it("returns an array of ids for association keywords", () => {
+  it("returns an array of ids for the association keywords of a specific association type", () => {
     const ids = getIdsFromKeywords(
       {
         typeKeywords: ["someKeyword", "ref|initiative|00c"],
@@ -25,5 +25,17 @@ describe("getIdsFromKeywords", () => {
     );
     expect(ids.length).toBe(1);
     expect(ids[0]).toBe("00c");
+  });
+  it("returns an array of ids for ALL association keywords if no association type is provided", () => {
+    const ids = getIdsFromKeywords({
+      typeKeywords: [
+        "someKeyword",
+        "ref|some-type-a|00c",
+        "ref|some-type-b|00d",
+      ],
+    } as unknown as HubEntity);
+    expect(ids.length).toBe(2);
+    expect(ids[0]).toBe("00c");
+    expect(ids[1]).toBe("00d");
   });
 });
