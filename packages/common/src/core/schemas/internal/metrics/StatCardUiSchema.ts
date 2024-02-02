@@ -226,7 +226,7 @@ export const buildUiSchema = (
             },
           },
           {
-            labelKey: `appearance.displayType`,
+            labelKey: `appearance.displayType.label`,
             scope: "/properties/displayType",
             type: "Control",
             rule: SHOW_FOR_DYNAMIC_RULE,
