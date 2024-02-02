@@ -226,6 +226,18 @@ export const buildUiSchema = (
             },
           },
           {
+            labelKey: `appearance.displayType`,
+            scope: "/properties/displayType",
+            type: "Control",
+            rule: SHOW_FOR_DYNAMIC_RULE,
+            options: {
+              control: "hub-field-input-select",
+              enum: {
+                i18nScope: `appearance.displayType.enum`,
+              },
+            },
+          },
+          {
             labelKey: `appearance.textAlign`,
             scope: "/properties/textAlign",
             type: "Control",
