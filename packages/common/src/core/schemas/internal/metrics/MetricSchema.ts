@@ -26,7 +26,7 @@ export const MetricSchema: IConfigurationSchema = {
     },
     chartType: {
       type: "string",
-      enum: ["bar", "line", "scatter", "pie", "histogram", "donut"],
+      enum: ["bar", "line", "scatter", "pie", "histogram", "gauge"],
       default: "bar",
     },
     value: {},
