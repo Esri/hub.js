@@ -29,6 +29,11 @@ export const MetricSchema: IConfigurationSchema = {
       enum: ["bar", "line", "scatter", "pie", "histogram", "gauge"],
       default: "bar",
     },
+    stackType: {
+      type: "string",
+      enum: ["stacked", "sideBySide"],
+      default: "sideBySide",
+    },
     value: {},
     valueType: {
       type: "string",
