@@ -59,6 +59,8 @@ export interface ICardActionLink {
   showLabel?: boolean;
   icon?: string;
   buttonStyle?: "outline" | "outline-fill" | "solid" | "transparent";
+  disabled?: boolean;
+  tooltip?: string;
 }
 
 export type CardModelTarget =

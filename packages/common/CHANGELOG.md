@@ -1,3 +1,10 @@
+# @esri/hub-common [14.84.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.83.0...@esri/hub-common@14.84.0) (2024-02-01)
+
+
+### Features
+
+* enhance associations logic to handle forming associations ([#1395](https://github.com/Esri/hub.js/issues/1395)) ([6eb7e5f](https://github.com/Esri/hub.js/commit/6eb7e5f6548161d28381139e2d3c76cbae175797))
+
 # @esri/hub-common [14.83.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.82.1...@esri/hub-common@14.83.0) (2024-01-29)
 
 
