@@ -1,30 +1,30 @@
 import { IHubRequestOptions } from "../../types";
 import {
-  IRegistrationStatus as RegistrationStatus, // enum export fixed in the upcoming orval release (6.24.0). Revisit when published
-  IRegistrationRole as RegistrationRole, // enum export fixed in the upcoming orval release (6.24.0). Revisit when published
-  IEventStatus as EventStatus, // enum export fixed in the upcoming orval release (6.24.0). Revisit when published
-  IEventAttendanceTypeItem as EventAttendanceType, // enum export fixed in the upcoming orval release (6.24.0). Revisit when published
-  IUser,
   IEvent,
+  IUser,
   IRegistration,
-  UpdateEventDto as IUpdateEvent,
-  CreateEventDto as ICreateEvent,
-  UpdateRegistrationDto as IUpdateRegistration,
-  CreateRegistrationDto as ICreateRegistration,
-} from "./orval/api/orval";
 
-export {
+  // todo pull in all dtos
+  ICreateEvent,
+  IUpdateEvent,
+  ICreateRegistration,
+  IUpdateRegistration,
+
+  // todo pull in all enums
   RegistrationStatus,
   RegistrationRole,
   EventStatus,
   EventAttendanceType,
-  IUser,
+} from "./orval/api/orval";
+
+export {
   IEvent,
+  IUser,
   IRegistration,
-  IUpdateEvent,
-  ICreateEvent,
-  IUpdateRegistration,
-  ICreateRegistration,
+  RegistrationStatus,
+  RegistrationRole,
+  EventStatus,
+  EventAttendanceType,
 };
 
 /**
@@ -32,12 +32,8 @@ export {
  *
  * @export
  * @interface IEventsRequestOptions
- * @extends {RequestInit}
+ * @extends {IHubRequestOptions}
  */
-// NOTE: this is as close to implementing @esri/hub-common IHubRequestOptions as possible
-// only real exception is needing to extend httpMethod to include PATCH and DELETE
-// also making isPortal optional for convenience
-// picking fields from requestInit for development against local api
 export interface IEventsRequestOptions
   extends Omit<IHubRequestOptions, "httpMethod" | "isPortal">,
     Pick<RequestInit, "mode" | "cache" | "credentials"> {
