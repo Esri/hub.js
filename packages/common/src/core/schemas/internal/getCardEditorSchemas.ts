@@ -3,10 +3,11 @@ import {
   IEditorConfig,
   StatCardEditorType,
   FollowCardEditorType,
+  ActionCardEditorType,
 } from "../types";
 import { getCardType } from "./getCardType";
 import { filterSchemaToUiSchema } from "./filterSchemaToUiSchema";
-import { CardEditorOptions } from "./EditorOptions";
+import { CardEditorOptions, IActionCardEditorOptions, IFollowCardEditorOptions, IStatCardEditorOptions } from "./EditorOptions";
 import { cloneObject } from "../../../util";
 import { IArcGISContext } from "../../../ArcGISContext";
 
@@ -52,7 +53,7 @@ export async function getCardEditorSchemas(
           schema = cloneObject(MetricSchema);
           uiSchema = uiSchemaModuleResolved.buildUiSchema(
             i18nScope,
-            options,
+            options as IStatCardEditorOptions,
             context
           );
         }
@@ -72,7 +73,27 @@ export async function getCardEditorSchemas(
           schema = cloneObject(FollowSchema);
           uiSchema = uiSchemaModuleResolved.buildUiSchema(
             i18nScope,
-            options,
+            options as IFollowCardEditorOptions,
+            context
+          );
+        }
+      );
+      break;
+    case "action":
+      // get correct module
+      schemaPromise = import("./actionLinks/ActionLinksSchema");
+      uiSchemaPromise = {
+        "hub:card:action": () => import("./actionLinks/ActionCardUiSchema"),
+      }[type as ActionCardEditorType];
+
+      // Allow imports to run in parallel
+      await Promise.all([schemaPromise, uiSchemaPromise()]).then(
+        ([schemaModuleResolved, uiSchemaModuleResolved]) => {
+          const { ActionLinksSchema } = schemaModuleResolved;
+          schema = cloneObject(ActionLinksSchema);
+          uiSchema = uiSchemaModuleResolved.buildUiSchema(
+            i18nScope,
+            options as IActionCardEditorOptions,
             context
           );
         }

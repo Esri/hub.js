@@ -4,7 +4,7 @@ export const FollowSchema: IConfigurationSchema = {
   type: "object",
   required: [],
   properties: {
-    itemGalleryWithDefault: {
+    followedItemId: {
       type: "array",
       items: {
         type: "string",

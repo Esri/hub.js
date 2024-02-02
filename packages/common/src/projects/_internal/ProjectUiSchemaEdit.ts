@@ -274,26 +274,7 @@ export const buildUiSchema = async (
             options: {
               control: "hub-composite-input-action-links",
               type: "button",
-              catalogs: getFeaturedContentCatalogs(context.currentUser), // for now we'll just re-use this util to get the catalogs
-              facets: [
-                {
-                  label: `{{${i18nScope}.fields.callToAction.facets.type:translate}}`,
-                  key: "type",
-                  display: "multi-select",
-                  field: "type",
-                  options: [],
-                  operation: "OR",
-                  aggLimit: 100,
-                },
-                {
-                  label: `{{${i18nScope}.fields.callToAction.facets.sharing:translate}}`,
-                  key: "access",
-                  display: "multi-select",
-                  field: "access",
-                  options: [],
-                  operation: "OR",
-                },
-              ],
+              editorType: "hub:field:actionLinks:projectCallToAction"
             },
           },
         ],

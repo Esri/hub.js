@@ -33,19 +33,26 @@ export const validEntityEditorTypes = [
   ...InitiativeTemplateEditorTypes,
 ] as const;
 
-/** Defines the possible editor type values for a stat card. These
- * correspond to the supported/defined uiSchema configurations. This should
- * have its own signature in the getEditorConfig function.
+/** 
+ * The following types define the possible editor type values for various
+ * hub cards. These correspond to the supported/defined uiSchema configurations
+ * for that card.
+ * 
+ * Note: each should have its own signature in the getEditorConfig function.
  */
 export type StatCardEditorType = (typeof validStatCardEditorTypes)[number];
 export const validStatCardEditorTypes = ["hub:card:stat"] as const;
 
-/** Defines the possible editor type values for a follow card. These
- * correspond to the supported/defined uiSchema configurations. This should
- * have its own signature in the getEditorConfig function.
- */
 export type FollowCardEditorType = (typeof validFollowCardEditorTypes)[number];
 export const validFollowCardEditorTypes = ["hub:card:follow"] as const;
+
+export type ActionCardEditorType = (typeof validActionCardEditorTypes)[number];
+export const validActionCardEditorTypes = ["hub:card:action"] as const;
+
+
+export type ActionLinksFieldEditorType = (typeof validActionLinksFieldEditorTypes)[number];
+export const validActionLinksFieldEditorTypes = ["hub:field:actionLinks:card", "hub:field:actionLinks:projectCallToAction"] as const;
+
 
 /**
  * Defines the possible editor type values for any layout card. These
@@ -55,6 +62,12 @@ export type CardEditorType = (typeof validCardEditorTypes)[number];
 export const validCardEditorTypes = [
   ...validStatCardEditorTypes,
   ...validFollowCardEditorTypes,
+  ...validActionCardEditorTypes
+] as const;
+
+export type FieldEditorType = (typeof validFieldEditorTypes)[number];
+export const validFieldEditorTypes = [
+  ...validActionLinksFieldEditorTypes
 ] as const;
 
 /**
@@ -65,6 +78,7 @@ export type EditorType = (typeof validEditorTypes)[number];
 export const validEditorTypes = [
   ...validEntityEditorTypes,
   ...validCardEditorTypes,
+  ...validFieldEditorTypes
 ] as const;
 
 export enum UiSchemaRuleEffects {

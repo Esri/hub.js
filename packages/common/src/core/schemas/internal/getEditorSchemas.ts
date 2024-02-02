@@ -5,6 +5,7 @@ import {
   IConfigurationSchema,
   IUiSchema,
   IEditorConfig,
+  FieldEditorType,
 } from "../types";
 import { filterSchemaToUiSchema } from "./filterSchemaToUiSchema";
 import { SiteEditorType } from "../../../sites/_internal/SiteSchema";
@@ -23,6 +24,7 @@ import {
 import { IArcGISContext } from "../../../ArcGISContext";
 import { InitiativeTemplateEditorType } from "../../../initiative-templates/_internal/InitiativeTemplateSchema";
 import { getCardEditorSchemas } from "./getCardEditorSchemas";
+import { getFieldEditorSchemas } from "./getFieldEditorSchemas";
 
 /**
  * get the editor schema and uiSchema defined for an editor (either an entity or a card).
@@ -106,7 +108,7 @@ export async function getEditorSchemas(
           import("../../../projects/_internal/ProjectUiSchemaEdit"),
         "hub:project:create": () =>
           import("../../../projects/_internal/ProjectUiSchemaCreate"),
-        "hub:project:metrics": () => import("./metrics/ProjectUiSchemaMetrics"),
+        "hub:project:metrics": () => import("./metrics/ProjectUiSchemaMetrics")
       }[type as ProjectEditorType]();
       uiSchema = await projectModule.buildUiSchema(
         i18nScope,
@@ -247,6 +249,16 @@ export async function getEditorSchemas(
       );
       schema = result.schema;
       uiSchema = result.uiSchema;
+    
+    case "field":
+      const fieldResult = await getFieldEditorSchemas(
+        i18nScope,
+        type as FieldEditorType,
+        options as CardEditorOptions,
+        context
+      );
+      schema = fieldResult.schema;
+      uiSchema = fieldResult.uiSchema;
   }
 
   // filter out properties not used in the UI schema

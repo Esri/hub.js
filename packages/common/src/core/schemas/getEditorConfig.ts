@@ -3,13 +3,16 @@ import {
   IEditorConfig,
   StatCardEditorType,
   FollowCardEditorType,
+  ActionCardEditorType,
+  ActionLinksFieldEditorType,
 } from "./types";
 import { IArcGISContext } from "../../ArcGISContext";
 import {
   EditorOptions,
   EntityEditorOptions,
   IStatCardEditorOptions,
-  CardEditorOptions,
+  IFollowCardEditorOptions,
+  IActionCardEditorOptions,
 } from "./internal/EditorOptions";
 import { getEditorSchemas } from "./internal/getEditorSchemas";
 import { EditorType } from "./types";
@@ -51,7 +54,23 @@ export async function getEditorConfig(
 export async function getEditorConfig(
   i18nScope: string,
   type: FollowCardEditorType,
-  options: CardEditorOptions,
+  options: IFollowCardEditorOptions,
+  context: IArcGISContext
+): Promise<IEditorConfig>;
+
+// Action link card editor overload
+export async function getEditorConfig(
+  i18nScope: string,
+  type: ActionCardEditorType,
+  options: IActionCardEditorOptions,
+  context: IArcGISContext
+): Promise<IEditorConfig>;
+
+// Action link field editor overload
+export async function getEditorConfig(
+  i18nScope: string,
+  type: ActionLinksFieldEditorType,
+  options: any,
   context: IArcGISContext
 ): Promise<IEditorConfig>;
 
