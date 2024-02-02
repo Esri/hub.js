@@ -34,6 +34,7 @@ export function editorToMetric(
     statistic,
     serviceUrl,
     fieldType,
+    groupByFields,
     sourceLink,
     sourceTitle,
     allowExpressionSet,
@@ -83,6 +84,7 @@ export function editorToMetric(
     metricId,
     // dynamic metric values
     fieldType,
+    groupByFields,
     itemId,
     expressionSet,
     allowExpressionSet,
