@@ -78,3 +78,44 @@ export const SHOW_FOR_SHARING_RULE_ENTITY = {
   },
   effect: UiSchemaRuleEffects.SHOW,
 };
+
+export const SHOW_FOR_DYNAMIC_RULE = {
+  condition: {
+    scope: "/properties/_metric/properties/type",
+    schema: { const: "dynamic" },
+  },
+  effect: UiSchemaRuleEffects.SHOW,
+};
+
+export const SHOW_FOR_DYNAMIC_RULE_AND_CHART = {
+  condition: {
+    schema: {
+      properties: {
+        _metric: {
+          properties: {
+            type: { const: "dynamic" },
+            displayType: { enum: ["chart", "stat-with-chart"] },
+          },
+        },
+      },
+    },
+  },
+  effect: UiSchemaRuleEffects.SHOW,
+};
+
+export const SHOW_FOR_DYNAMIC_RULE_AND_BAR_CHART = {
+  condition: {
+    schema: {
+      properties: {
+        _metric: {
+          properties: {
+            type: { const: "dynamic" },
+            displayType: { enum: ["chart", "stat-with-chart"] },
+            chartType: { const: "bar" },
+          },
+        },
+      },
+    },
+  },
+  effect: UiSchemaRuleEffects.SHOW,
+};

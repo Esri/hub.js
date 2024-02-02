@@ -8,6 +8,9 @@ import {
   SHOW_FOR_STATIC_AND_STRING_RULE_ENTITY,
   SHOW_FOR_STATIC_AND_NUMBER_RULE_ENTITY,
   SHOW_FOR_STATIC_AND_DATE_RULE_ENTITY,
+  SHOW_FOR_DYNAMIC_RULE,
+  SHOW_FOR_DYNAMIC_RULE_AND_BAR_CHART,
+  SHOW_FOR_DYNAMIC_RULE_AND_CHART,
 } from "./rules";
 
 /**
@@ -59,6 +62,43 @@ export const buildUiSchema = (
               control: "hub-field-input-tile-select",
               enum: {
                 i18nScope: `${i18nScope}.fields.metrics.type.enum`,
+              },
+            },
+          },
+          {
+            labelKey: `${i18nScope}.fields.metrics.displayType.label`,
+            scope: "/properties/_metric/properties/displayType",
+            type: "Control",
+            rule: SHOW_FOR_DYNAMIC_RULE,
+            options: {
+              control: "hub-field-input-select",
+              enum: {
+                i18nScope: `${i18nScope}.fields.metrics.displayType.enum`,
+              },
+            },
+          },
+
+          {
+            scope: "/properties/_metric/properties/chartType",
+            type: "Control",
+            labelKey: `${i18nScope}.fields.metrics.chartType.label`,
+            rule: SHOW_FOR_DYNAMIC_RULE_AND_CHART,
+            options: {
+              control: "hub-field-input-select",
+              enum: {
+                i18nScope: `${i18nScope}.fields.metrics.chartType.enum`,
+              },
+            },
+          },
+          {
+            scope: "/properties/_metric/properties/stackType",
+            type: "Control",
+            labelKey: `${i18nScope}.fields.metrics.stackType.label`,
+            rule: SHOW_FOR_DYNAMIC_RULE_AND_BAR_CHART,
+            options: {
+              control: "hub-field-input-select",
+              enum: {
+                i18nScope: `${i18nScope}.fields.metrics.stackType.enum`,
               },
             },
           },
