@@ -47,6 +47,19 @@ export const buildUiSchema = (
               },
             },
           },
+
+          {
+            scope: "/properties/chartType",
+            type: "Control",
+            labelKey: `appearance.chartType.label`,
+            rule: SHOW_FOR_DYNAMIC_RULE_AND_CHART,
+            options: {
+              control: "hub-field-input-select",
+              enum: {
+                i18nScope: `appearance.chartType.enum`,
+              },
+            },
+          },
           {
             labelKey: `statistic.displayValue`,
             scope: "/properties/value",
@@ -366,6 +379,18 @@ const SHOW_FOR_DYNAMIC_RULE = {
   condition: {
     scope: "/properties/type",
     schema: { const: "dynamic" },
+  },
+  effect: UiSchemaRuleEffects.SHOW,
+};
+
+const SHOW_FOR_DYNAMIC_RULE_AND_CHART = {
+  condition: {
+    schema: {
+      properties: {
+        type: { const: "dynamic" },
+        displayType: { enum: ["chart", "stat-with-chart"] },
+      },
+    },
   },
   effect: UiSchemaRuleEffects.SHOW,
 };

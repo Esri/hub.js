@@ -24,6 +24,11 @@ export const MetricSchema: IConfigurationSchema = {
       enum: ["stat-card", "chart", "stat-with-chart"],
       default: "stat-card",
     },
+    chartType: {
+      type: "string",
+      enum: ["bar", "line", "scatter", "pie", "histogram", "donut"],
+      default: "bar",
+    },
     value: {},
     valueType: {
       type: "string",
