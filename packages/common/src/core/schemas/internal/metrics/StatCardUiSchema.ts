@@ -36,6 +36,18 @@ export const buildUiSchema = (
             },
           },
           {
+            labelKey: `appearance.displayType.label`,
+            scope: "/properties/displayType",
+            type: "Control",
+            rule: SHOW_FOR_DYNAMIC_RULE,
+            options: {
+              control: "hub-field-input-select",
+              enum: {
+                i18nScope: `appearance.displayType.enum`,
+              },
+            },
+          },
+          {
             labelKey: `statistic.displayValue`,
             scope: "/properties/value",
             type: "Control",
@@ -222,18 +234,6 @@ export const buildUiSchema = (
               control: "hub-field-input-select",
               enum: {
                 i18nScope: `layout.enum`,
-              },
-            },
-          },
-          {
-            labelKey: `appearance.displayType.label`,
-            scope: "/properties/displayType",
-            type: "Control",
-            rule: SHOW_FOR_DYNAMIC_RULE,
-            options: {
-              control: "hub-field-input-select",
-              enum: {
-                i18nScope: `appearance.displayType.enum`,
               },
             },
           },
