@@ -7,7 +7,7 @@ import {
   IChannel,
   SharingAccess,
 } from "./api/types";
-import { IFilter, IPredicate, IQuery } from "../search";
+import { IFilter, IHubSearchResult, IPredicate, IQuery } from "../search";
 
 /**
  * Utility to determine if a given IGroup, IItem, IHubContent, or IHubItemEntity
