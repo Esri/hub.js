@@ -118,6 +118,20 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     availability: ["alpha"],
     licenses: ["hub-premium"],
   },
+  {
+    // When enabled, the edit & manage links will take the user to umbrella\
+    // Gated to dev + alpha as this is just meant as a demo enabled by feature flagging
+    permission: "hub:feature:workspace:umbrella",
+    availability: ["alpha"],
+    environments: ["devext"],
+  },
+  {
+    // When enabled, the edit & manage links will take the user to hub-home
+    // Gated to dev + alpha as this is just meant as a demo enabled by feature flagging
+    permission: "hub:feature:workspace:hubhome",
+    availability: ["alpha"],
+    environments: ["devext"],
+  },
 ];
 
 /**
