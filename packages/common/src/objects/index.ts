@@ -13,3 +13,5 @@ export * from "./deepFilter";
 export * from "./deepFind";
 export * from "./resolveReferences";
 export * from "./pickProps";
+export * from "./deepEqual";
+export * from "./deepDeletePropByValue";
