@@ -1,3 +1,10 @@
+# @esri/hub-common [14.85.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.84.0...@esri/hub-common@14.85.0) (2024-02-05)
+
+
+### Features
+
+* add deepDeletePropByValue and deepEqual util functions ([#1401](https://github.com/Esri/hub.js/issues/1401)) ([9671261](https://github.com/Esri/hub.js/commit/96712615113f8ba48a44b1af7bc3466fb572f36f))
+
 # @esri/hub-common [14.84.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.83.0...@esri/hub-common@14.84.0) (2024-02-01)
 
 
