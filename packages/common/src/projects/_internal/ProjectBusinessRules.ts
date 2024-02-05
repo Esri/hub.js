@@ -91,7 +91,6 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:project:associations",
     availability: ["alpha"],
-    environments: ["devext", "qaext"],
   },
   {
     permission: "hub:project:workspace",
