@@ -88,7 +88,7 @@ export const buildUiSchema = (
         type: "Control",
         options: {
           control: "hub-field-input-select",
-          labels: ["Solid Background", "Ounline"],
+          labels: ["Solid Background", "Outline"],
         },
       },
     ],
