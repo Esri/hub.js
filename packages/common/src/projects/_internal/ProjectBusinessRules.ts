@@ -24,6 +24,7 @@ export const ProjectPermissions = [
   "hub:project:events",
   "hub:project:content",
   "hub:project:discussions",
+  "hub:project:associations",
   "hub:project:workspace",
   "hub:project:workspace:overview",
   "hub:project:workspace:dashboard",
