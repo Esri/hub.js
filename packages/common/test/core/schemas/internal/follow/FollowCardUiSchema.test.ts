@@ -8,10 +8,11 @@ describe("buildUiSchema: follow", () => {
 
     expect(uiSchema.type).toBe("Layout");
     expect(uiSchema.elements?.length).toBe(7);
-    expect(uiSchema.elements![0].scope).toBe("/properties/followedItemId");
+    expect(uiSchema.elements![0].scope).toBe("/properties/entityId");
     expect(uiSchema.elements![0].options!.control).toBe(
       "hub-field-input-gallery-picker"
     );
     // TODO: add more explicit tests when we complete the ui schema
+    // (still waiting for final card editor design)
   });
 });
