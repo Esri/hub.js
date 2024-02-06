@@ -7,7 +7,7 @@ import {
   IChannel,
   SharingAccess,
 } from "./api/types";
-import { IFilter, IPredicate, IQuery } from "../search";
+import { IFilter, IHubSearchResult, IPredicate, IQuery } from "../search";
 
 /**
  * Utility to determine if a given IGroup, IItem, IHubContent, or IHubItemEntity
@@ -196,3 +196,36 @@ export function getChannelUsersQuery(
   };
   return query;
 }
+
+/**
+ * Transforms a given channel and optional channel groups array into a IHubSearchResult
+ * @param channel
+ * @param groups
+ * @returns
+ */
+export const channelToSearchResult = (
+  channel: IChannel,
+  groups?: IGroup[]
+): IHubSearchResult => {
+  return {
+    ...channel,
+    id: channel.id,
+    name: channel.name,
+    createdDate: new Date(channel.createdAt),
+    createdDateSource: "channel",
+    updatedDate: new Date(channel.updatedAt),
+    updatedDateSource: "channel",
+    type: "channel",
+    access: channel.access,
+    family: "channel",
+    owner: channel.creator,
+    links: {
+      // TODO: add links?
+      thumbnail: null,
+      self: null,
+      siteRelative: null,
+    },
+    includes: { groups },
+    rawResult: channel,
+  };
+};
