@@ -1,3 +1,10 @@
+## @esri/hub-common [14.86.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.86.0...@esri/hub-common@14.86.1) (2024-02-06)
+
+
+### Bug Fixes
+
+* **hub-common:** refactor hubSearchChannels for more general use ([#1398](https://github.com/Esri/hub.js/issues/1398)) ([8aba9aa](https://github.com/Esri/hub.js/commit/8aba9aa94f131630b8d8b2862dc5cdf5c6ccd1ee))
+
 # @esri/hub-common [14.86.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.85.0...@esri/hub-common@14.86.0) (2024-02-05)
 
 
