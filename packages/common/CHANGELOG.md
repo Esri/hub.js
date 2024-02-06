@@ -1,3 +1,17 @@
+# @esri/hub-common [14.86.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.85.0...@esri/hub-common@14.86.0) (2024-02-05)
+
+
+### Features
+
+* add permission to manage on umbrella ([#1403](https://github.com/Esri/hub.js/issues/1403)) ([d438766](https://github.com/Esri/hub.js/commit/d438766da8819750bad982d1655b94599038c478))
+
+# @esri/hub-common [14.85.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.84.0...@esri/hub-common@14.85.0) (2024-02-05)
+
+
+### Features
+
+* add deepDeletePropByValue and deepEqual util functions ([#1401](https://github.com/Esri/hub.js/issues/1401)) ([9671261](https://github.com/Esri/hub.js/commit/96712615113f8ba48a44b1af7bc3466fb572f36f))
+
 # @esri/hub-common [14.84.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.83.0...@esri/hub-common@14.84.0) (2024-02-01)
 
 
