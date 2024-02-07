@@ -74,6 +74,11 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:feature:workspace"],
   },
   {
+    permission: "hub:group:workspace:overview",
+    availability: ["alpha"],
+    dependencies: ["hub:group:workspace", "hub:group:view"],
+  },
+  {
     permission: "hub:group:workspace:details",
     dependencies: ["hub:group:workspace", "hub:group:edit"],
   },

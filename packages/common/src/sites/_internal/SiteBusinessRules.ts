@@ -104,6 +104,7 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:site:workspace:overview",
+    availability: ["alpha"],
     dependencies: ["hub:site:workspace", "hub:site:view"],
   },
   {
