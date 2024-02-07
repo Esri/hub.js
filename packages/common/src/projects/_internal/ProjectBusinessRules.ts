@@ -24,6 +24,7 @@ export const ProjectPermissions = [
   "hub:project:events",
   "hub:project:content",
   "hub:project:discussions",
+  "hub:project:associations",
   "hub:project:workspace",
   "hub:project:workspace:overview",
   "hub:project:workspace:dashboard",
@@ -89,6 +90,11 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:project:view"],
   },
   {
+    permission: "hub:project:associations",
+    availability: ["alpha"],
+    dependencies: ["hub:project:view"],
+  },
+  {
     permission: "hub:project:workspace",
   },
   {
@@ -105,8 +111,11 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:project:workspace:initiatives",
-    availability: ["alpha"], // gate to just alpha for now
-    dependencies: ["hub:project:workspace", "hub:project:edit"],
+    dependencies: [
+      "hub:project:workspace",
+      "hub:project:associations",
+      "hub:project:edit",
+    ],
   },
   {
     permission: "hub:project:workspace:settings",
