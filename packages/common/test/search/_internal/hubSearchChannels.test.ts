@@ -11,7 +11,7 @@ import * as arcgisRestPortal from "@esri/arcgis-rest-portal";
 
 describe("discussionsSearchItems Module |", () => {
   let processSearchParamsSpy: jasmine.Spy;
-  let toHubSearchResultSpy: jasmine.Spy;
+  let toHubSearchResultsSpy: jasmine.Spy;
   let searchChannelsSpy: jasmine.Spy;
   let getGroupSpy: jasmine.Spy;
 
@@ -20,9 +20,9 @@ describe("discussionsSearchItems Module |", () => {
       hubSearchChannels,
       "processSearchParams"
     ).and.callThrough();
-    toHubSearchResultSpy = spyOn(
+    toHubSearchResultsSpy = spyOn(
       hubSearchChannels,
-      "toHubSearchResult"
+      "toHubSearchResults"
     ).and.callThrough();
     searchChannelsSpy = spyOn(API, "searchChannels").and.callFake(() => {
       return Promise.resolve(SEARCH_CHANNELS_RESPONSE);
@@ -60,7 +60,7 @@ describe("discussionsSearchItems Module |", () => {
     };
     const result = await hubSearchChannels.hubSearchChannels(qry, opts);
     expect(processSearchParamsSpy).toHaveBeenCalledTimes(1);
-    expect(toHubSearchResultSpy).toHaveBeenCalledTimes(1);
+    expect(toHubSearchResultsSpy).toHaveBeenCalledTimes(1);
     expect(searchChannelsSpy).toHaveBeenCalledTimes(1);
     expect(result).toBeTruthy();
     const nextResult = await result.next();
@@ -117,7 +117,7 @@ describe("discussionsSearchItems Module |", () => {
     };
     const result = await hubSearchChannels.hubSearchChannels(qry, opts);
     expect(processSearchParamsSpy).toHaveBeenCalledTimes(1);
-    expect(toHubSearchResultSpy).toHaveBeenCalledTimes(1);
+    expect(toHubSearchResultsSpy).toHaveBeenCalledTimes(1);
     expect(searchChannelsSpy).toHaveBeenCalledTimes(1);
     expect(result).toBeTruthy();
   });

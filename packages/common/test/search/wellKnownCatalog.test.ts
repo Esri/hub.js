@@ -169,6 +169,16 @@ describe("WellKnownCatalog", () => {
       );
       expect(chk.collections?.length).toBe(0);
     });
+    it("applies provided filters to the catalog scope", () => {
+      options.filters = [{ predicates: [{ type: ["Hub Project"] }] }];
+      const chk = getWellKnownCatalog(
+        "mockI18nScope",
+        "organization",
+        "item",
+        options
+      );
+      expect(chk.scopes?.item?.filters.length).toBe(2);
+    });
   });
 
   describe("getWellknownCollections", () => {

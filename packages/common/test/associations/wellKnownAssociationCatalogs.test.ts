@@ -1,4 +1,7 @@
-import { getWellKnownAssociationsCatalog } from "../../src/associations/getWellKnownAssociationsCatalog";
+import {
+  getWellKnownAssociationsCatalog,
+  getAvailableToRequestAssociationCatalogs,
+} from "../../src/associations/wellKnownAssociationCatalogs";
 import * as getAssociatedEntitiesQueryModule from "../../src/associations/getAssociatedEntitiesQuery";
 import * as getPendingEntitiesQueryModule from "../../src/associations/getPendingEntitiesQuery";
 import * as getRequestingEntitiesQueryModule from "../../src/associations/getRequestingEntitiesQuery";
@@ -30,11 +33,18 @@ describe("getWellKnownAssociationsCatalog", () => {
     getAvailableToRequestEntitiesQuerySpy = spyOn(
       getAvailableToRequestEntitiesQueryModule,
       "getAvailableToRequestEntitiesQuery"
-    ).and.returnValue(Promise.resolve({ filters: mockFilters }));
+    ).and.returnValue({ filters: mockFilters });
     getWellknownCollectionSpy = spyOn(
       wellKnownCatalogModule,
       "getWellknownCollection"
     ).and.returnValue({ key: "mock-collection" });
+  });
+  afterEach(() => {
+    getAssociatedEntitiesQuerySpy.calls.reset();
+    getPendingEntitiesQuerySpy.calls.reset();
+    getRequestingEntitiesQuerySpy.calls.reset();
+    getAvailableToRequestEntitiesQuerySpy.calls.reset();
+    getWellknownCollectionSpy.calls.reset();
   });
 
   it("builds a valid well-known catalog", async () => {
@@ -135,5 +145,78 @@ describe("getWellKnownAssociationsCatalog", () => {
         "getWellKnownAssociationsCatalog: Association between initiative and group is not supported."
       );
     }
+  });
+});
+
+describe("getAvailableToRequestAssociationCatalogs", () => {
+  let getAvailableToRequestEntitiesQuerySpy: jasmine.Spy;
+  let getWellknownCatalogSpy: jasmine.Spy;
+
+  const mockFilters = [{ predicates: [{ id: ["00b", "00c"] }] }];
+  beforeEach(() => {
+    getAvailableToRequestEntitiesQuerySpy = spyOn(
+      getAvailableToRequestEntitiesQueryModule,
+      "getAvailableToRequestEntitiesQuery"
+    ).and.returnValue({ filters: mockFilters });
+    getWellknownCatalogSpy = spyOn(
+      wellKnownCatalogModule,
+      "getWellKnownCatalog"
+    ).and.returnValues(
+      { schemaVersion: 1, title: "mock-myContent" },
+      { schemaVersion: 1, title: "mock-favorites" },
+      { schemaVersion: 1, title: "mock-organization" },
+      { schemaVersion: 1, title: "mock-world" }
+    );
+  });
+  afterEach(() => {
+    getAvailableToRequestEntitiesQuerySpy.calls.reset();
+    getWellknownCatalogSpy.calls.reset();
+  });
+
+  it("throws an error if the association is not supported", async () => {
+    try {
+      await getAvailableToRequestAssociationCatalogs(
+        "some-scope",
+        { type: "Hub Initiative" } as HubEntity,
+        "group",
+        {} as ArcGISContext
+      );
+    } catch (err) {
+      expect(err.message).toBe(
+        "getAvailableToRequestAssociationCatalogs: Association between initiative and group is not supported."
+      );
+    }
+  });
+  it("does not provide additional filters if the availableToRequestEntitiesQuery comes back empty", async () => {
+    // overwrite the spy to return null
+    getAvailableToRequestEntitiesQuerySpy.and.returnValue(null);
+
+    await getAvailableToRequestAssociationCatalogs(
+      "some-scope",
+      { type: "Hub Project" } as HubEntity,
+      "initiative",
+      {} as ArcGISContext
+    );
+
+    const args = getWellknownCatalogSpy.calls.argsFor(1);
+    expect(args[3].filters).toBeUndefined();
+  });
+  it('returns an array of valid "availableToRequest" catalogs', async () => {
+    const catalogs = await getAvailableToRequestAssociationCatalogs(
+      "some-scope",
+      { type: "Hub Project" } as HubEntity,
+      "initiative",
+      {} as ArcGISContext
+    );
+
+    expect(getAvailableToRequestEntitiesQuerySpy).toHaveBeenCalledTimes(1);
+    expect(getWellknownCatalogSpy).toHaveBeenCalledTimes(4);
+    expect(catalogs.length).toBe(4);
+    expect(catalogs).toEqual([
+      { schemaVersion: 1, title: "mock-myContent" },
+      { schemaVersion: 1, title: "mock-favorites" },
+      { schemaVersion: 1, title: "mock-organization" },
+      { schemaVersion: 1, title: "mock-world" },
+    ]);
   });
 });

@@ -11,8 +11,22 @@ import { isAssociationSupported } from "./internal/isAssociationSupported";
 import { IAssociationStats } from "./types";
 
 /**
- * get an entity's association stats - # of associated, pending,
- * requesting, included/referenced entities
+ * get Entity A's association stats with Entity B:
+ *
+ * 1. associated: the number of Entity B's that Entity A
+ * is associated with
+ *
+ * 2. pending: the number of outgoing requests Entity A
+ * has sent to Entity B
+ *
+ * 3. requesting: the number of incoming requests Entity A
+ * has received from Entity B
+ *
+ * 4a. included: if Entity A is the parent, the number of
+ * Entity B's it has included in its association group
+ *
+ * 4b. referenced: if Entity A is the child, the number of
+ * Entity B's it has referenced (via typeKeyword)
  *
  * @param entity - Hub entity
  * @param associationType - entity type to query for
@@ -53,10 +67,14 @@ export const getAssociationStats = async (
 
     const [{ total: associated }, { total: pending }, { total: requesting }] =
       await Promise.all(
-        queries.map((query: IQuery) => {
-          return hubSearch(query, {
-            requestOptions: context.hubRequestOptions,
-          });
+        queries.map(async (query: IQuery) => {
+          try {
+            return await hubSearch(query, {
+              requestOptions: context.hubRequestOptions,
+            });
+          } catch (error) {
+            return { total: 0 };
+          }
         })
       );
 

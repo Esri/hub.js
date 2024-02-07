@@ -12,25 +12,28 @@ export const FollowSchema: IConfigurationSchema = {
       maxItems: 10,
       default: [],
     },
-    callToAction: {
+    entityId: {
+      type: "string",
+    },
+    callToActionText: {
       type: "string",
       default:
         "By following this site you will get updates about new events, surveys, and tools that you can use to help us achieve our goals.",
     },
-    callToActionAlignment: {
+    callToActionAlign: {
       enum: ["start", "center", "end"],
       default: "center",
       type: "string",
     },
-    followStateText: {
+    buttonText: {
       type: "string",
       default: "Follow",
     },
-    unfollowStateText: {
+    unfollowButtonText: {
       type: "string",
       default: "Unfollow",
     },
-    buttonAlignment: {
+    buttonAlign: {
       enum: ["start", "center", "end"],
       default: "center",
       type: "string",

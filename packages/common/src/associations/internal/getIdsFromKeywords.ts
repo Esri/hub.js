@@ -14,11 +14,12 @@ import { getProp } from "../../objects";
  */
 export const getIdsFromKeywords = (
   entity: HubEntity,
-  associationType: HubEntityType
+  associationType?: HubEntityType
 ): string[] => {
   return getProp(entity, "typeKeywords").reduce(
     (ids: string[], keyword: string) => {
-      if (keyword.startsWith(`ref|${associationType}|`)) {
+      const refKey = associationType ? `ref|${associationType}|` : "ref|";
+      if (keyword.startsWith(refKey)) {
         const id = keyword.split("|")[2];
         ids.push(id);
       }
