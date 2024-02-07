@@ -3,7 +3,6 @@ import { IQuery } from "../../types/IHubCatalog";
 import { IHubSearchOptions } from "../../types/IHubSearchOptions";
 import { getBboxQueryParam } from "./getBboxQueryParam";
 import { getFilterQueryParam } from "./getFilterQueryParam";
-import { getQQueryParam } from "./getQQueryParam";
 import { getSortByQueryParam } from "./getSortByQueryParam";
 
 export interface IOgcItemQueryParams {
@@ -34,7 +33,6 @@ export function getOgcItemQueryParams(
   const limit = options.num;
   // API requires the param name be all lowercase
   const startindex = options.start;
-  const q = getQQueryParam(query);
   const sortBy = getSortByQueryParam(options);
   const bbox = getBboxQueryParam(query);
 
@@ -43,7 +41,6 @@ export function getOgcItemQueryParams(
     token,
     limit,
     startindex,
-    q,
     sortBy,
     bbox,
   };
