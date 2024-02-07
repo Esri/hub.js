@@ -1,3 +1,10 @@
+## @esri/hub-common [14.87.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.87.0...@esri/hub-common@14.87.1) (2024-02-07)
+
+
+### Bug Fixes
+
+* alpha-gate overview and remove extra util ([#1396](https://github.com/Esri/hub.js/issues/1396)) ([b1bc126](https://github.com/Esri/hub.js/commit/b1bc126fae90911d34adc5219c6eec478589afee))
+
 # @esri/hub-common [14.87.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.86.1...@esri/hub-common@14.87.0) (2024-02-07)
 
 
