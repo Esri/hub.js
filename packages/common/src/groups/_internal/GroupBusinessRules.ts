@@ -8,6 +8,8 @@ import { IPermissionPolicy } from "../../permissions";
 export const GroupPermissions = [
   "hub:group",
   "hub:group:create",
+  "hub:group:create:view",
+  "hub:group:create:edit",
   "hub:group:delete",
   "hub:group:edit",
   "hub:group:view",
@@ -46,6 +48,15 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
         value: "context:portal.limits.MaxNumUserGroups",
       },
     ],
+  },
+  {
+    permission: "hub:group:create:view",
+    dependencies: ["hub:group:create"],
+  },
+  {
+    permission: "hub:group:create:edit",
+    dependencies: ["hub:group:create"],
+    privileges: ["portal:admin:createUpdateCapableGroup"],
   },
   {
     permission: "hub:group:view",
