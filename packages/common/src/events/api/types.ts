@@ -1,38 +1,31 @@
-import { IHubRequestOptions } from "../../types";
-import {
-  IEvent,
+export {
+  IUpdateRegistration,
+  ICreateRegistration,
+  IUpdateEvent,
+  EventStatus,
+  RegistrationStatus,
+  RegistrationRole,
   IUser,
   IRegistration,
-
-  // todo pull in all dtos
+  // ICreateEventLocationsItem,
+  EventAttendanceType,
+  IEvent,
+  ICreateEvent,
+} from "./orval/api/orval-events";
+import { IHubRequestOptions } from "../../types";
+import {
   ICreateEvent,
   IUpdateEvent,
   ICreateRegistration,
   IUpdateRegistration,
-
-  // todo pull in all enums
-  RegistrationStatus,
-  RegistrationRole,
-  EventStatus,
-  EventAttendanceType,
-} from "./orval/api/orval";
-
-export {
-  IEvent,
-  IUser,
-  IRegistration,
-  RegistrationStatus,
-  RegistrationRole,
-  EventStatus,
-  EventAttendanceType,
-};
+} from "./orval/api/orval-events";
 
 /**
  * options for making requests against the Events API
  *
  * @export
  * @interface IEventsRequestOptions
- * @extends {IHubRequestOptions}
+ * @extends IHubRequestOptions
  */
 export interface IEventsRequestOptions
   extends Omit<IHubRequestOptions, "httpMethod" | "isPortal">,

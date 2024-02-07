@@ -12,7 +12,7 @@ import {
   getEvent as _getEvent,
   updateEvent as _updateEvent,
   deleteEvent as _deleteEvent,
-} from "./orval/api/orval";
+} from "./orval/api/orval-events";
 
 /**
  * create an event
@@ -51,20 +51,20 @@ export async function getEvent(options: IGetEventParams): Promise<IEvent> {
   return _getEvent(options.eventId, options);
 }
 
-/**
- * update an event
- *
- * @param {IUpdateEventParams} options
- *   todo: update return type when defined
- * @return {*}  {Promise<IEvent>}
- */
-export async function updateEvent(
-  options: IUpdateEventParams
-  // todo: update return type when defined
-): Promise<void> {
-  options.token = await authenticateRequest(options);
-  return _updateEvent(options.eventId, options.data, options);
-}
+// /**
+//  * update an event
+//  *
+//  * @param {IUpdateEventParams} options
+//  *   todo: update return type when defined
+//  * @return {*}  {Promise<IEvent>}
+//  */
+// export async function updateEvent(
+//   options: IUpdateEventParams
+//   // todo: update return type when defined
+// ): Promise<void> {
+//   options.token = await authenticateRequest(options);
+//   return _updateEvent(options.eventId, options.data, options);
+// }
 
 /**
  * delete an event

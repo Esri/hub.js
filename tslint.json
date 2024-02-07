@@ -11,10 +11,5 @@
     "only-arrow-functions": [false],
     "object-literal-sort-keys": false,
     "interface-name": [true, "always-prefix"]
-  },
-  "linterOptions": {
-    "exclude": [
-      "**/orval/**/*"
-    ]
   }
 }

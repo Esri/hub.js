@@ -5,52 +5,12 @@
  * OpenAPI spec version: 0.0.1
  */
 import { customClient } from "../custom-client";
-/**
- * Status of the registration
- */
-export type IUpdateRegistrationStatus =
-  (typeof IUpdateRegistrationStatus)[keyof typeof IUpdateRegistrationStatus];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const IUpdateRegistrationStatus = {
-  PENDING: "PENDING",
-  ACCEPTED: "ACCEPTED",
-  DECLINED: "DECLINED",
-  BLOCKED: "BLOCKED",
-} as const;
-
-/**
- * Role of the user in the event
- */
-export type IUpdateRegistrationRole =
-  (typeof IUpdateRegistrationRole)[keyof typeof IUpdateRegistrationRole];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const IUpdateRegistrationRole = {
-  OWNER: "OWNER",
-  ORGANIZER: "ORGANIZER",
-  ATTENDEE: "ATTENDEE",
-} as const;
-
 export interface IUpdateRegistration {
   /** Role of the user in the event */
-  role?: IUpdateRegistrationRole;
+  role?: RegistrationRole;
   /** Status of the registration */
-  status?: IUpdateRegistrationStatus;
+  status?: RegistrationStatus;
 }
-
-/**
- * Role of the user in the event
- */
-export type ICreateRegistrationRole =
-  (typeof ICreateRegistrationRole)[keyof typeof ICreateRegistrationRole];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ICreateRegistrationRole = {
-  OWNER: "OWNER",
-  ORGANIZER: "ORGANIZER",
-  ATTENDEE: "ATTENDEE",
-} as const;
 
 export interface ICreateRegistration {
   /** ArcGIS Online id for a user. Will always be extracted from the token unless service token is used. */
@@ -64,7 +24,7 @@ export interface ICreateRegistration {
   /** Last name for the subscriber. Will always be extracted from the token unless service token is used. */
   lastName?: string;
   /** Role of the user in the event */
-  role?: ICreateRegistrationRole;
+  role?: RegistrationRole;
   /** Username for the subscriber. Will always be extracted from the token unless service token is used. */
   username?: string;
 }
@@ -128,7 +88,7 @@ export interface IRegistration {
   userId: string;
 }
 
-export type ICreateEventLocationsItem = { [key: string]: any };
+// export type ICreateEventLocationsItem = { [key: string]: any };
 
 export type EventAttendanceType =
   (typeof EventAttendanceType)[keyof typeof EventAttendanceType];
@@ -218,7 +178,7 @@ export const createEvent = (
 };
 
 export const getEvents = (options?: SecondParameter<typeof customClient>) => {
-  return customClient<void>(
+  return customClient<IEvent[]>(
     { url: `/api/events/v1/events`, method: "GET" },
     options
   );
@@ -239,7 +199,7 @@ export const updateEvent = (
   iUpdateEvent: IUpdateEvent,
   options?: SecondParameter<typeof customClient>
 ) => {
-  return customClient<void>(
+  return customClient<IEvent>(
     {
       url: `/api/events/v1/events/${id}`,
       method: "PATCH",

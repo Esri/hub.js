@@ -9,7 +9,7 @@ import {
   updateRegistration,
 } from "../../../src/events/api";
 import * as authenticateRequestModule from "../../../src/events/api/utils/authenticate-request";
-import * as orvalModule from "../../../src/events/api/orval/api/orval";
+import * as orvalModule from "../../../src/events/api/orval/api/orval-events";
 import { IRegistration } from "../../../src/events/api";
 
 describe("Registrations", () => {

@@ -13,7 +13,7 @@ import {
   updateRegistration as _updateRegistration,
   deleteRegistration as _deleteRegistration,
   confirmRegistration as _confirmRegistration,
-} from "./orval/api/orval";
+} from "./orval/api/orval-events";
 
 /**
  * create an event registration
