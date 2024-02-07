@@ -1,3 +1,10 @@
+# @esri/hub-common [14.87.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.86.1...@esri/hub-common@14.87.0) (2024-02-07)
+
+
+### Features
+
+* 9161 follow card schema update ([#1406](https://github.com/Esri/hub.js/issues/1406)) ([6b71911](https://github.com/Esri/hub.js/commit/6b719119bbf0183dd82ffc45c5a4008f03e53719))
+
 ## @esri/hub-common [14.86.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.86.0...@esri/hub-common@14.86.1) (2024-02-06)
 
 
