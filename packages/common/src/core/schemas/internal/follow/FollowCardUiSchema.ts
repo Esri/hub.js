@@ -17,7 +17,7 @@ export const buildUiSchema = (
     elements: [
       {
         label: "Select Entity to Follow",
-        scope: "/properties/followedItemId",
+        scope: "/properties/entityId",
         type: "Control",
         options: {
           control: "hub-field-input-gallery-picker",
@@ -33,7 +33,7 @@ export const buildUiSchema = (
                     {
                       predicates: [
                         {
-                          type: "Hub Project",
+                          type: "Hub Site Application",
                         },
                       ],
                     },
@@ -46,40 +46,39 @@ export const buildUiSchema = (
       },
       {
         label: "Call-to-Action",
-        scope: "/properties/callToAction",
+        scope: "/properties/callToActionText",
         type: "Control",
+        options: {
+          type: "textarea",
+          rows: 4,
+        },
       },
       {
         label: "Alignment",
-        scope: "/properties/callToActionAlignment",
+        scope: "/properties/callToActionAlign",
         type: "Control",
         options: {
           control: "hub-field-input-alignment",
+          layout: "inline-space-between",
         },
       },
       {
-        label: "Button State",
-        scope: "/properties/followStateText",
+        label: "Follow",
+        scope: "/properties/buttonText",
         type: "Control",
-        options: {
-          control: "hub-field-input-input",
-          type: "textarea",
-        },
       },
       {
-        scope: "/properties/unfollowStateText",
+        label: "Unfollow",
+        scope: "/properties/unfollowButtonText",
         type: "Control",
-        options: {
-          control: "hub-field-input-input",
-          type: "textarea",
-        },
       },
       {
         label: "Button Alignment",
-        scope: "/properties/callToActionAlignment",
+        scope: "/properties/buttonAlign",
         type: "Control",
         options: {
           control: "hub-field-input-alignment",
+          layout: "inline-space-between",
         },
       },
       {
@@ -88,7 +87,7 @@ export const buildUiSchema = (
         type: "Control",
         options: {
           control: "hub-field-input-select",
-          labels: ["Solid Background", "Ounline"],
+          labels: ["Solid Background", "Outline"],
         },
       },
     ],
