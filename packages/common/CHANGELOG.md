@@ -1,3 +1,10 @@
+## @esri/hub-common [14.87.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.87.1...@esri/hub-common@14.87.2) (2024-02-07)
+
+
+### Bug Fixes
+
+* add permission for project associations ([#1404](https://github.com/Esri/hub.js/issues/1404)) ([ca42602](https://github.com/Esri/hub.js/commit/ca4260271cb489bc638fbd90c2c6f42244d2ac12))
+
 ## @esri/hub-common [14.87.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.87.0...@esri/hub-common@14.87.1) (2024-02-07)
 
 
