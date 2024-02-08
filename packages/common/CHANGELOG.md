@@ -1,3 +1,10 @@
+# @esri/hub-common [14.88.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.87.2...@esri/hub-common@14.88.0) (2024-02-08)
+
+
+### Features
+
+* remove temp discussions gating permission ([#1405](https://github.com/Esri/hub.js/issues/1405)) ([fd280e7](https://github.com/Esri/hub.js/commit/fd280e7d6d25a32bb302290627f0d73b94dc6025))
+
 ## @esri/hub-common [14.87.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.87.1...@esri/hub-common@14.87.2) (2024-02-07)
 
 
