@@ -1,3 +1,10 @@
+## @esri/hub-common [14.89.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.89.0...@esri/hub-common@14.89.1) (2024-02-09)
+
+
+### Bug Fixes
+
+* fix the keyboard permission! ([#1409](https://github.com/Esri/hub.js/issues/1409)) ([078d606](https://github.com/Esri/hub.js/commit/078d60674e2b60056b5427bf6cafa057b52b01b4))
+
 # @esri/hub-common [14.89.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.88.0...@esri/hub-common@14.89.0) (2024-02-09)
 
 
