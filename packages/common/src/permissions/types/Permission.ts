@@ -24,6 +24,7 @@ const SystemPermissions = [
   "hub:feature:user:preferences",
   "hub:card:follow",
   "hub:feature:workspace:umbrella",
+  "hub:feature:keyboardshortcuts",
 ];
 
 const validPermissions = [
