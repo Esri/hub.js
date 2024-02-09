@@ -124,6 +124,11 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     availability: ["alpha"],
     environments: ["qaext"],
   },
+  {
+    // when enabled keyboard shortcuts will be available
+    permission: "hub:feature:keyboardshortcuts",
+    environments: ["devext", "qaext"],
+  },
 ];
 
 /**
