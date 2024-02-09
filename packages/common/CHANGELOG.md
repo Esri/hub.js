@@ -1,3 +1,10 @@
+# @esri/hub-common [14.89.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.88.0...@esri/hub-common@14.89.0) (2024-02-09)
+
+
+### Features
+
+* add system permission for keyboard shortcuts ([#1408](https://github.com/Esri/hub.js/issues/1408)) ([7d66793](https://github.com/Esri/hub.js/commit/7d66793215384874fb76ce1d00068af7d5512ce2))
+
 # @esri/hub-common [14.88.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.87.2...@esri/hub-common@14.88.0) (2024-02-08)
 
 
