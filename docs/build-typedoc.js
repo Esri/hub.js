@@ -324,7 +324,7 @@ const md = new MarkdownIt();
                     return 0;
                   }
                 }),
-                
+
               icon: "tsd-kind-module",
               src,
               pageUrl: prettyifyUrl(src)

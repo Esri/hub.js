@@ -30,6 +30,8 @@ module.exports = function (config) {
           /fixture*/,
           /mocks*/,
           /test-helpers*/,
+          /orval-*/,
+          /custom-client.ts/,
         ],
         threshold: {
           global: {
