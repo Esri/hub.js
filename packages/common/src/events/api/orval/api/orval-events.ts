@@ -4,7 +4,72 @@
  * Hub Events Service
  * OpenAPI spec version: 0.0.1
  */
+import { AsyncReturnType } from "../async-return-type";
 import { customClient } from "../custom-client";
+export interface IUpdateEvent {
+  [key: string]: any;
+}
+
+/* tslint:disable:interface-over-type-literal */
+export type IEventLocationsItem = { [key: string]: any };
+
+/* tslint:disable:interface-over-type-literal */
+export type IEventCatalogItem = { [key: string]: any };
+
+export type EventStatus = (typeof EventStatus)[keyof typeof EventStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const EventStatus = {
+  PLANNED: "PLANNED",
+  CANCELED: "CANCELED",
+  REMOVED: "REMOVED",
+} as const;
+
+export interface IEvent {
+  allDay: boolean;
+  attendanceType: EventAttendanceType[];
+  capacity: number | null;
+  catalog: IEventCatalogItem[] | null;
+  createdAt: string;
+  createdById: string;
+  creator?: IUser;
+  description: string | null;
+  endDateTime: string;
+  id: string;
+  locations: IEventLocationsItem[] | null;
+  notifyAttendees: boolean;
+  onlineLocations: string[];
+  recurrence: string | null;
+  registrations?: IRegistration[];
+  startDateTime: string;
+  status: EventStatus;
+  summary: string;
+  timeZone: string;
+  title: string;
+  updatedAt: string;
+}
+
+export type RegistrationStatus =
+  (typeof RegistrationStatus)[keyof typeof RegistrationStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RegistrationStatus = {
+  PENDING: "PENDING",
+  ACCEPTED: "ACCEPTED",
+  DECLINED: "DECLINED",
+  BLOCKED: "BLOCKED",
+} as const;
+
+export type RegistrationRole =
+  (typeof RegistrationRole)[keyof typeof RegistrationRole];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const RegistrationRole = {
+  OWNER: "OWNER",
+  ORGANIZER: "ORGANIZER",
+  ATTENDEE: "ATTENDEE",
+} as const;
+
 export interface IUpdateRegistration {
   /** Role of the user in the event */
   role?: RegistrationRole;
@@ -28,40 +93,6 @@ export interface ICreateRegistration {
   /** Username for the subscriber. Will always be extracted from the token unless service token is used. */
   username?: string;
 }
-
-export interface IUpdateEvent {
-  [key: string]: any;
-}
-
-export type EventStatus = (typeof EventStatus)[keyof typeof EventStatus];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const EventStatus = {
-  PLANNED: "PLANNED",
-  CANCELED: "CANCELED",
-  REMOVED: "REMOVED",
-} as const;
-
-export type RegistrationStatus =
-  (typeof RegistrationStatus)[keyof typeof RegistrationStatus];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const RegistrationStatus = {
-  PENDING: "PENDING",
-  ACCEPTED: "ACCEPTED",
-  DECLINED: "DECLINED",
-  BLOCKED: "BLOCKED",
-} as const;
-
-export type RegistrationRole =
-  (typeof RegistrationRole)[keyof typeof RegistrationRole];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const RegistrationRole = {
-  OWNER: "OWNER",
-  ORGANIZER: "ORGANIZER",
-  ATTENDEE: "ATTENDEE",
-} as const;
 
 export interface IUser {
   agoId: string;
@@ -88,7 +119,8 @@ export interface IRegistration {
   userId: string;
 }
 
-// export type ICreateEventLocationsItem = { [key: string]: any };
+/* tslint:disable:interface-over-type-literal */
+export type ICreateEventLocationsItem = { [key: string]: any };
 
 export type EventAttendanceType =
   (typeof EventAttendanceType)[keyof typeof EventAttendanceType];
@@ -98,30 +130,6 @@ export const EventAttendanceType = {
   VIRTUAL: "VIRTUAL",
   IN_PERSON: "IN_PERSON",
 } as const;
-
-export interface IEvent {
-  allDay: boolean;
-  attendanceType: EventAttendanceType[];
-  capacity: number | null;
-  catalog: string[] | null;
-  createdAt: string;
-  createdById: string;
-  creator?: IUser;
-  description: string | null;
-  endDateTime: string;
-  id: string;
-  locations: string[];
-  notifyAttendees: boolean;
-  onlineLocations: string[];
-  recurrence: string | null;
-  registrations?: IRegistration[];
-  startDateTime: string;
-  status: EventStatus;
-  summary: string;
-  timeZone: string;
-  title: string;
-  updatedAt: string;
-}
 
 export interface ICreateEvent {
   /** ArcGIS Online id for a user. Will always be extracted from the token unless service token is used. */
@@ -143,7 +151,7 @@ export interface ICreateEvent {
   /** Last name for the subscriber. Will always be extracted from the token unless service token is used. */
   lastName?: string;
   /** Array of geojson objects for the event locations */
-  locations: ICreateEventLocationsItem[];
+  locations?: ICreateEventLocationsItem[];
   /** Flag to notify attendees */
   notifyAttendees?: boolean;
   /** Online locations for the event */
@@ -290,33 +298,31 @@ export const confirmRegistration = (
 };
 
 export type CreateEventResult = NonNullable<
-  Promise<ReturnType<typeof createEvent>>
+  AsyncReturnType<typeof createEvent>
 >;
-export type GetEventsResult = NonNullable<
-  Promise<ReturnType<typeof getEvents>>
->;
-export type GetEventResult = NonNullable<Promise<ReturnType<typeof getEvent>>>;
+export type GetEventsResult = NonNullable<AsyncReturnType<typeof getEvents>>;
+export type GetEventResult = NonNullable<AsyncReturnType<typeof getEvent>>;
 export type UpdateEventResult = NonNullable<
-  Promise<ReturnType<typeof updateEvent>>
+  AsyncReturnType<typeof updateEvent>
 >;
 export type DeleteEventResult = NonNullable<
-  Promise<ReturnType<typeof deleteEvent>>
+  AsyncReturnType<typeof deleteEvent>
 >;
 export type CreateRegistrationResult = NonNullable<
-  Promise<ReturnType<typeof createRegistration>>
+  AsyncReturnType<typeof createRegistration>
 >;
 export type GetRegistrationsResult = NonNullable<
-  Promise<ReturnType<typeof getRegistrations>>
+  AsyncReturnType<typeof getRegistrations>
 >;
 export type GetRegistrationResult = NonNullable<
-  Promise<ReturnType<typeof getRegistration>>
+  AsyncReturnType<typeof getRegistration>
 >;
 export type UpdateRegistrationResult = NonNullable<
-  Promise<ReturnType<typeof updateRegistration>>
+  AsyncReturnType<typeof updateRegistration>
 >;
 export type DeleteRegistrationResult = NonNullable<
-  Promise<ReturnType<typeof deleteRegistration>>
+  AsyncReturnType<typeof deleteRegistration>
 >;
 export type ConfirmRegistrationResult = NonNullable<
-  Promise<ReturnType<typeof confirmRegistration>>
+  AsyncReturnType<typeof confirmRegistration>
 >;
