@@ -1,3 +1,10 @@
+# @esri/hub-common [14.90.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.89.1...@esri/hub-common@14.90.0) (2024-02-12)
+
+
+### Features
+
+* **hub-common:** add events 3.0 functions ([#1397](https://github.com/Esri/hub.js/issues/1397)) ([846f579](https://github.com/Esri/hub.js/commit/846f5799671c5181af0e9ded56633ace1c584a1f))
+
 ## @esri/hub-common [14.89.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.89.0...@esri/hub-common@14.89.1) (2024-02-09)
 
 
