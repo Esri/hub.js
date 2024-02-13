@@ -12,6 +12,24 @@ describe("slug utils: ", () => {
       expect(slugModule.constructSlug("E2E Test Project", "qa-bas-hub")).toBe(
         "qa-bas-hub|e2e-test-project"
       );
+      expect(
+        slugModule.constructSlug(
+          "A really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really long title",
+          "qa-bas-hub"
+        )
+      ).toBe(
+        "qa-bas-hub|a-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-rea",
+        "does not exceed 256 chars taking into account slug prefix and orgKey"
+      );
+      expect(
+        slugModule.constructSlug(
+          "A really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really reallllly really long title",
+          "qa-bas-hub"
+        )
+      ).toBe(
+        "qa-bas-hub|a-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-reallllly",
+        "does not end with hyphen"
+      );
     });
   });
   describe("setSlugKeyword:", () => {
@@ -269,6 +287,26 @@ describe("slug utils: ", () => {
       expect(args.authentication).toBe(MOCK_AUTH);
       expect(slug).toBe("foo-bar");
     });
+    it("excludes item with existingId", async () => {
+      const searchSpy = spyOn(portalModule, "searchItems").and.returnValue(
+        Promise.resolve({
+          results: [],
+        })
+      );
+      const slug = await slugModule.getUniqueSlug(
+        { slug: "foo-bar", existingId: "31c" },
+        {
+          authentication: MOCK_AUTH,
+        }
+      );
+
+      expect(searchSpy.calls.count()).toBe(1);
+      const args = searchSpy.calls.argsFor(0)[0] as unknown as ISearchOptions;
+      expect(args.filter).toBe(`typekeywords:"slug|foo-bar"`);
+      expect(args.authentication).toBe(MOCK_AUTH);
+      expect(args.q).toBe("NOT id:31c");
+      expect(slug).toBe("foo-bar");
+    });
     it("increments if item found", async () => {
       let callCount = 0;
       // semantics for jasmine spies are lacking
@@ -276,7 +314,7 @@ describe("slug utils: ", () => {
         const response = {
           results: [] as portalModule.IItem[],
         };
-        if (callCount === 0) {
+        if (callCount < 2) {
           response.results.push({
             id: "3ef",
             title: "Fake",
@@ -293,12 +331,14 @@ describe("slug utils: ", () => {
           authentication: MOCK_AUTH,
         }
       );
-      expect(slug).toBe("foo-bar-1");
-      expect(searchSpy.calls.count()).toBe(2);
+      expect(slug).toBe("foo-bar-2");
+      expect(searchSpy.calls.count()).toBe(3);
       const args = searchSpy.calls.argsFor(0)[0] as unknown as ISearchOptions;
       expect(args.filter).toBe(`typekeywords:"slug|foo-bar"`);
       const args2 = searchSpy.calls.argsFor(1)[0] as unknown as ISearchOptions;
       expect(args2.filter).toBe(`typekeywords:"slug|foo-bar-1"`);
+      const args3 = searchSpy.calls.argsFor(2)[0] as unknown as ISearchOptions;
+      expect(args3.filter).toBe(`typekeywords:"slug|foo-bar-2"`);
     });
     it("re-throws exceptions", async () => {
       const searchSpy = spyOn(portalModule, "searchItems").and.returnValue(

@@ -4,34 +4,63 @@ import { IItem } from "@esri/arcgis-rest-types";
 import { slugify } from "../utils";
 import { uriSlugToKeywordSlug } from "./_internal/slugConverters";
 
+export const TYPEKEYWORD_SLUG_PREFIX = "slug";
+
+export const TYPEKEYWORD_MAX_LENGTH = 256;
+
 /**
- * Create a slug, namespaced to an org
- * Typically used to lookup items by a human readable name in urls
+ * Create a slug, namespaced to an org and accounting for the 256 character limit
+ * of individual typekeywords. Typically used to lookup items by a human readable name in urls
  *
  * @param title
  * @param orgKey
  * @returns
  */
 export function constructSlug(title: string, orgKey: string) {
-  return `${orgKey.toLowerCase()}|${slugify(title)}`;
+  // typekeywords have a max length of 256 characters, so we use the slug
+  // format that gets persisted in typekeywords as our basis
+  return (
+    [
+      // add the typekeyword slug prefix
+      TYPEKEYWORD_SLUG_PREFIX,
+      // add the orgKey segment
+      orgKey.toLowerCase(),
+      // add the slugified title segment
+      slugify(title),
+    ]
+      .join("|")
+      // allow some padding at the end for incrementing so we don't wind up w/ weird, inconsistent slugs
+      // when the increment goes from single to multiple digits, i.e. avoid producing the following when
+      // deduping:
+      // slug|qa-pre-a-hub|some-really-really-...-really-long
+      // slug|qa-pre-a-hub|some-really-really-...-really-lo-1
+      // slug|qa-pre-a-hub|some-really-really-...-really-l-11
+      // slug|qa-pre-a-hub|some-really-really-...-really-100
+      .substring(0, TYPEKEYWORD_MAX_LENGTH - 4)
+      // removing tailing hyphens
+      .replace(/-+$/, "")
+      // remove typekeyword slug prefix, it's re-added in setSlugKeyword
+      .replace(new RegExp(`^${TYPEKEYWORD_SLUG_PREFIX}\\|`), "")
+  );
 }
 
 /**
  * Adds/Updates the slug typekeyword
  * Returns a new array of keywords
- * @param typeKeywords
- * @param slug
- * @returns
+ *
+ * @param typeKeywords A collection of typekeywords
+ * @param slug The slug to add/update
+ * @returns An updated collection of typekeywords
  */
 export function setSlugKeyword(typeKeywords: string[], slug: string): string[] {
   // remove slug entry from array
-  const removed = typeKeywords.filter((entry: string) => {
-    return !entry.startsWith("slug|");
-  });
+  const updatedTypekeywords = typeKeywords.filter(
+    (entry: string) => !entry.startsWith(`${TYPEKEYWORD_SLUG_PREFIX}|`)
+  );
 
   // now add it
-  removed.push(`slug|${slug}`);
-  return removed;
+  updatedTypekeywords.push([TYPEKEYWORD_SLUG_PREFIX, slug].join("|"));
+  return updatedTypekeywords;
 }
 
 /**
@@ -84,8 +113,11 @@ export function findItemsBySlug(
   },
   requestOptions: IRequestOptions
 ): Promise<IItem[]> {
+  const filter = slugInfo.slug.startsWith(`${TYPEKEYWORD_SLUG_PREFIX}|`)
+    ? slugInfo.slug
+    : [TYPEKEYWORD_SLUG_PREFIX, slugInfo.slug].join("|");
   const opts = {
-    filter: `typekeywords:"slug|${slugInfo.slug}"`,
+    filter: `typekeywords:"${filter}"`,
   } as ISearchOptions;
 
   if (requestOptions.authentication) {
@@ -130,22 +162,16 @@ export function getUniqueSlug(
   requestOptions: IRequestOptions,
   step: number = 0
 ): Promise<string> {
-  let combinedSlug = slugInfo.slug;
-  if (step) {
-    combinedSlug = `${slugInfo.slug}-${step}`;
-  }
+  const combinedSlug = step ? [slugInfo.slug, step].join("-") : slugInfo.slug;
   return findItemsBySlug(
     { slug: combinedSlug, exclude: slugInfo.existingId },
     requestOptions
   )
-    .then((results) => {
-      if (results.length) {
-        step++;
-        return getUniqueSlug(slugInfo, requestOptions, step);
-      } else {
-        return combinedSlug;
-      }
-    })
+    .then((results) =>
+      !results.length
+        ? combinedSlug
+        : getUniqueSlug(slugInfo, requestOptions, step + 1)
+    )
     .catch((e) => {
       throw Error(`Error in getUniqueSlug ${e}`);
     });
