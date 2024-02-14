@@ -1,3 +1,10 @@
+## @esri/hub-common [14.90.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.90.0...@esri/hub-common@14.90.1) (2024-02-14)
+
+
+### Bug Fixes
+
+* constructSlug accounts for typekeyword max length of 256 chars ([#1410](https://github.com/Esri/hub.js/issues/1410)) ([c7465a0](https://github.com/Esri/hub.js/commit/c7465a00aac743b833ca448e7a0e44ddf4e6c60b))
+
 # @esri/hub-common [14.90.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.89.1...@esri/hub-common@14.90.0) (2024-02-12)
 
 
