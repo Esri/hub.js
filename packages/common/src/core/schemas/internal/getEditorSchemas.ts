@@ -23,6 +23,7 @@ import {
 import { IArcGISContext } from "../../../ArcGISContext";
 import { InitiativeTemplateEditorType } from "../../../initiative-templates/_internal/InitiativeTemplateSchema";
 import { getCardEditorSchemas } from "./getCardEditorSchemas";
+import { FeedbackEditorType } from "../../../feedback/_internal/FeedbackSchema";
 
 /**
  * get the editor schema and uiSchema defined for an editor (either an entity or a card).
@@ -216,6 +217,25 @@ export async function getEditorSchemas(
         context
       );
 
+      break;
+    // ----------------------------------------------------
+    case "feedback":
+      const { FeedbackSchema } = await import(
+        "../../../feedback/_internal/FeedbackSchema"
+      );
+      schema = cloneObject(FeedbackSchema);
+
+      const feedbackModule = await {
+        "hub:feedback:edit": () =>
+          import("../../../feedback/_internal/FeedbackUiSchemaEdit"),
+        "hub:feedback:settings": () =>
+          import("../../../feedback/_internal/FeedbackUiSchemaSettings"),
+      }[type as FeedbackEditorType]();
+      uiSchema = await groupModule.buildUiSchema(
+        i18nScope,
+        options as EntityEditorOptions,
+        context
+      );
       break;
 
     case "initiativeTemplate":

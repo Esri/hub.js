@@ -1,0 +1,69 @@
+import { IItem, getItem } from "@esri/arcgis-rest-portal";
+import {
+  IHubFeedback,
+  IHubRequestOptions,
+  IModel,
+  fetchModelFromItem,
+  fetchSetting,
+  getDefaultEntitySettings,
+  getItemBySlug,
+  isGuid,
+} from "..";
+import { PropertyMapper } from "../core/_internal/PropertyMapper";
+import { getPropertyMap } from "./_internal/getPropertyMap";
+import { computeProps } from "./_internal/computeProps";
+
+/**
+ * @private
+ * Get a Feedback entity by id or slug
+ * @param identifier item id or slug
+ * @param requestOptions request options
+ * @returns a promise that resolves a IHubFeedback object
+ */
+export async function fetchFeedback(
+  identifier: string,
+  requestOptions: IHubRequestOptions
+): Promise<IHubFeedback> {
+  let getPrms;
+  if (isGuid(identifier)) {
+    // get item by id
+    getPrms = getItem(identifier, requestOptions);
+  } else {
+    getPrms = getItemBySlug(identifier, requestOptions);
+  }
+  return getPrms.then((item) => {
+    if (!item) return null;
+    return convertItemToFeedback(item, requestOptions);
+  });
+}
+
+/**
+ * @private
+ * Convert a Hub Feedback Item into a Hub Feedback entity, fetching any additional
+ * information that may be required
+ * @param item the feedback item
+ * @param auth request options
+ * @returns a promise that resolves a IHubFeedback object
+ */
+export async function convertItemToFeedback(
+  item: IItem,
+  requestOptions: IHubRequestOptions
+): Promise<IHubFeedback> {
+  const model = await fetchModelFromItem(item, requestOptions);
+  let entitySettings;
+  try {
+    entitySettings = await fetchSetting({ id: item.id, ...requestOptions });
+  } catch (e) {
+    const defaultSettings = getDefaultEntitySettings("feedback");
+    entitySettings = {
+      id: null,
+      ...defaultSettings,
+    };
+  }
+  model.entitySettings = entitySettings;
+  const mapper = new PropertyMapper<Partial<IHubFeedback>, IModel>(
+    getPropertyMap()
+  );
+  const feedback = mapper.storeToEntity(model, {}) as IHubFeedback;
+  return computeProps(model, feedback, requestOptions);
+}

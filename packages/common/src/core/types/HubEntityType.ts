@@ -9,5 +9,6 @@ export const HUB_ENTITY_TYPES = [
   "org",
   "group",
   "template",
+  "feedback",
 ] as const;
 export type HubEntityType = (typeof HUB_ENTITY_TYPES)[number];

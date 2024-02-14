@@ -10,6 +10,7 @@ import { ContentEditorTypes } from "../../content/_internal/ContentSchema";
 import { TemplateEditorTypes } from "../../templates/_internal/TemplateSchema";
 import { GroupEditorTypes } from "../../groups/_internal/GroupSchema";
 import { InitiativeTemplateEditorTypes } from "../../initiative-templates/_internal/InitiativeTemplateSchema";
+import { FeedbackEditorTypes } from "../../feedback/_internal/FeedbackSchema";
 
 export interface IEditorConfig {
   schema: IConfigurationSchema;
@@ -31,6 +32,7 @@ export const validEntityEditorTypes = [
   ...TemplateEditorTypes,
   ...GroupEditorTypes,
   ...InitiativeTemplateEditorTypes,
+  ...FeedbackEditorTypes,
 ] as const;
 
 /** Defines the possible editor type values for a stat card. These

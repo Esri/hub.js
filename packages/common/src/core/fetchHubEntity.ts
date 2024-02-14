@@ -10,6 +10,7 @@ import { HubEntityType } from "./types/HubEntityType";
 import { IArcGISContext } from "../ArcGISContext";
 import { fetchHubGroup } from "../groups/HubGroups";
 import { fetchInitiativeTemplate } from "../initiative-templates/fetch";
+import { fetchFeedback } from "../feedback/fetch";
 
 /**
  * Fetch a Hub entity by identifier (id or slug)
@@ -48,6 +49,9 @@ export async function fetchHubEntity(
       break;
     case "group":
       result = await fetchHubGroup(identifier, context.userRequestOptions);
+      break;
+    case "feedback":
+      result = await fetchFeedback(identifier, context.hubRequestOptions);
       break;
     case "initiativeTemplate":
       result = await fetchInitiativeTemplate(
