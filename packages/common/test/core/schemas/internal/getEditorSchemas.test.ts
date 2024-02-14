@@ -38,6 +38,7 @@ import * as GroupBuildEditUiSchema from "../../../../src/groups/_internal/GroupU
 import * as GroupBuildSettingsUiSchema from "../../../../src/groups/_internal/GroupUiSchemaSettings";
 import * as GroupBuildDiscussionsUiSchema from "../../../../src/groups/_internal/GroupUiSchemaDiscussions";
 import * as GroupBuildCreateFollowersUiSchema from "../../../../src/groups/_internal/GroupUiSchemaCreateFollowers";
+import * as GroupBuildCreateAssociationUiSchema from "../../../../src/groups/_internal/GroupUiSchemaCreateAssociation";
 
 import { InitiativeTemplateEditorTypes } from "../../../../src/initiative-templates/_internal/InitiativeTemplateSchema";
 import * as InitiativeTemplateBuildEditUiSchema from "../../../../src/initiative-templates/_internal/InitiativeTemplateUiSchemaEdit";
@@ -76,6 +77,7 @@ describe("getEditorSchemas: ", () => {
     { type: GroupEditorTypes[1], buildFn: GroupBuildSettingsUiSchema },
     { type: GroupEditorTypes[2], buildFn: GroupBuildDiscussionsUiSchema },
     { type: GroupEditorTypes[3], buildFn: GroupBuildCreateFollowersUiSchema },
+    { type: GroupEditorTypes[4], buildFn: GroupBuildCreateAssociationUiSchema },
     {
       type: InitiativeTemplateEditorTypes[0],
       buildFn: InitiativeTemplateBuildEditUiSchema,
