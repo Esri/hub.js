@@ -30,6 +30,9 @@ describe("project fetch module:", () => {
       expect(chk.id).toBe(GUID);
       expect(chk.owner).toBe(PROJECT_ITEM.owner);
       expect(chk.location).toEqual(PROJECT_LOCATION);
+      // protected and recycling pass through
+      expect(chk.canRecycle).toBe(PROJECT_ITEM.canRecycle);
+      expect(chk.protected).toBe(PROJECT_ITEM.protected);
 
       expect(getItemSpy.calls.count()).toBe(1);
       expect(getItemSpy.calls.argsFor(0)[0]).toBe(GUID);

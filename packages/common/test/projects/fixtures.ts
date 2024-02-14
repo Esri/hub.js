@@ -122,6 +122,8 @@ export const PROJECT_ITEM: IItem = {
   contentOrigin: "self",
   numViews: 10,
   size: 0,
+  protected: false,
+  canRecycle: true,
   properties: {
     schemaVersion: 1,
     location: PROJECT_LOCATION,
