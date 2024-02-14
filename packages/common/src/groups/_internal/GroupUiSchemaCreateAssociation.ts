@@ -1,4 +1,8 @@
-import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
+import {
+  IConfigurationValues,
+  IUiSchema,
+  UiSchemaRuleEffects,
+} from "../../core/schemas/types";
 import { IArcGISContext } from "../../ArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 
@@ -113,5 +117,21 @@ export const buildUiSchema = async (
         ],
       },
     ],
+  };
+};
+
+export const buildDefaults = async (
+  i18nScope: string,
+  options: EntityEditorOptions,
+  context: IArcGISContext
+): Promise<IConfigurationValues> => {
+  const { name } = options;
+  return {
+    name: `${name} ${i18nScope}.associationGroup`,
+    summary: `${i18nScope}.createAssociationGroup.defaultSummary`,
+    access: "public",
+    isViewOnly: false,
+    autoJoin: false,
+    isInvitationOnly: false,
   };
 };

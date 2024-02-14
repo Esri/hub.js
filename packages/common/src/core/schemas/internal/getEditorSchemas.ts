@@ -5,6 +5,7 @@ import {
   IConfigurationSchema,
   IUiSchema,
   IEditorConfig,
+  IConfigurationValues,
 } from "../types";
 import { filterSchemaToUiSchema } from "./filterSchemaToUiSchema";
 import { SiteEditorType } from "../../../sites/_internal/SiteSchema";
@@ -46,6 +47,7 @@ export async function getEditorSchemas(
   // the entity type and the provided editor type
   let schema: IConfigurationSchema;
   let uiSchema: IUiSchema;
+  let defaults: IConfigurationValues;
   switch (editorType) {
     case "site":
       const { SiteSchema } = await import(
@@ -218,6 +220,12 @@ export async function getEditorSchemas(
         context
       );
 
+      defaults = await groupModule.buildDefaults(
+        i18nScope,
+        options as EntityEditorOptions,
+        context
+      );
+
       break;
 
     case "initiativeTemplate":
@@ -254,5 +262,5 @@ export async function getEditorSchemas(
   // filter out properties not used in the UI schema
   schema = filterSchemaToUiSchema(schema, uiSchema);
 
-  return Promise.resolve({ schema, uiSchema });
+  return Promise.resolve({ schema, uiSchema, defaults });
 }

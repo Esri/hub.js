@@ -14,6 +14,7 @@ import { InitiativeTemplateEditorTypes } from "../../initiative-templates/_inter
 export interface IEditorConfig {
   schema: IConfigurationSchema;
   uiSchema: IUiSchema;
+  defaults?: IConfigurationValues;
 }
 
 /**

@@ -1,4 +1,8 @@
-import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
+import {
+  IConfigurationValues,
+  IUiSchema,
+  UiSchemaRuleEffects,
+} from "../../core/schemas/types";
 import { IArcGISContext } from "../../ArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 
@@ -113,5 +117,30 @@ export const buildUiSchema = async (
         ],
       },
     ],
+  };
+};
+
+/**
+ * @private
+ * constructs the default values for creating a followers group.
+ * This is used to pre-populate the form with specific default values
+ * that are different from the normal Group Schema defualts.
+ * @param i18nScope
+ * @param options
+ * @param context
+ * @returns
+ */
+export const buildDefaults = async (
+  i18nScope: string,
+  options: EntityEditorOptions,
+  context: IArcGISContext
+): Promise<IConfigurationValues> => {
+  const { name } = options;
+  return {
+    name: `${name} ${i18nScope}.followers`,
+    summary: `${i18nScope}.createFollowersGroup.defaultSummary`,
+    access: "public",
+    isViewOnly: true,
+    autoJoin: true,
   };
 };

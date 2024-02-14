@@ -41,3 +41,11 @@ export const buildUiSchema = async (
     ],
   };
 };
+
+export const buildDefaults = async (
+  i18nScope: string,
+  options: EntityEditorOptions,
+  context: IArcGISContext
+): Promise<any> => {
+  return;
+};
