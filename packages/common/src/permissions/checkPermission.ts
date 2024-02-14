@@ -108,7 +108,7 @@ export function checkPermission(
 
   // We also check the context.userHubSettings.preview array
   // which can also be used to enable features.
-  if (context.userHubSettings?.preview) {
+  if (context.userHubSettings.preview) {
     const preview = getWithDefault(
       context,
       "userHubSettings.preview",

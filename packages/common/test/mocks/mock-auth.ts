@@ -94,4 +94,93 @@ export const MOCK_CONTEXT = new ArcGISContext({
     "hub-search": "online",
     domains: "online",
   },
+  userHubSettings: {
+    schemaVersion: 1,
+  },
 }) as IArcGISContext;
+
+export const MOCK_ANON_CONTEXT = new ArcGISContext({
+  id: 123,
+  currentUser: null,
+  portalUrl: "https://qaext.arcgis.com",
+  hubUrl: "https://hubqa.arcgis.com",
+  authentication: null,
+  portalSelf: {
+    id: "123",
+    name: "My org",
+    isPortal: false,
+    urlKey: "www",
+  },
+  serviceStatus: {
+    portal: "online",
+    discussions: "online",
+    events: "online",
+    metrics: "online",
+    notifications: "online",
+    "hub-search": "online",
+    domains: "online",
+  },
+  userHubSettings: {
+    schemaVersion: 1,
+  },
+}) as IArcGISContext;
+
+export function createMockContext(): ArcGISContext {
+  return new ArcGISContext({
+    id: 123,
+    currentUser: {
+      username: "mock_user",
+      favGroupId: "456abc",
+      orgId: "789def",
+    },
+    portalUrl: "https://qaext.arcgis.com",
+    hubUrl: "https://hubqa.arcgis.com",
+    authentication: MOCK_AUTH,
+    portalSelf: {
+      id: "123",
+      name: "My org",
+      isPortal: false,
+      urlKey: "www",
+    },
+    serviceStatus: {
+      portal: "online",
+      discussions: "online",
+      events: "online",
+      metrics: "online",
+      notifications: "online",
+      "hub-search": "online",
+      domains: "online",
+    },
+    userHubSettings: {
+      schemaVersion: 1,
+    },
+  });
+}
+
+export function createMockAnonContext(): ArcGISContext {
+  return new ArcGISContext({
+    id: 123,
+    currentUser: null,
+    portalUrl: "https://qaext.arcgis.com",
+    hubUrl: "https://hubqa.arcgis.com",
+    authentication: null,
+    portalSelf: {
+      id: "123",
+      name: "My org",
+      isPortal: false,
+      urlKey: "www",
+    },
+    serviceStatus: {
+      portal: "online",
+      discussions: "online",
+      events: "online",
+      metrics: "online",
+      notifications: "online",
+      "hub-search": "online",
+      domains: "online",
+    },
+    userHubSettings: {
+      schemaVersion: 1,
+    },
+  });
+}

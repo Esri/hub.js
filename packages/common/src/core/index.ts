@@ -10,6 +10,7 @@ export * from "./getRelativeWorkspaceUrl";
 export * from "./isValidEntityType";
 export * from "./processActionLinks";
 
-// For sme reason, if updateHubEntity is exported here,
-// it is not actually exported in the final package.
+// For sme reason, if these are exported here,
+// they are not actually exported in the final package.
 // export * from "./updateHubEntity";
+// export * from "./hubHistory";

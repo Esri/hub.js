@@ -5,13 +5,30 @@ import {
 } from "@esri/arcgis-rest-auth";
 import { IGetUserOptions, IPortal, getUser } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { HubServiceStatus } from "./core";
+import {
+  IHubHistory,
+  IHubHistoryEntry,
+  addHistoryEntry,
+  removeHistoryEntry,
+} from "./core/hubHistory";
 import { getProp, getWithDefault } from "./objects";
-import { HubEnvironment, HubLicense, IFeatureFlags } from "./permissions/types";
+import {
+  HubEnvironment,
+  HubLicense,
+  IFeatureFlags,
+  IPermissionAccessResponse,
+  Permission,
+} from "./permissions/types";
 import { IHubRequestOptions, IHubTrustedOrgsResponse } from "./types";
 import { getEnvironmentFromPortalUrl } from "./utils/getEnvironmentFromPortalUrl";
 import { IUserResourceToken, UserResourceApp } from "./ArcGISContextManager";
-import { IUserHubSettings } from "./utils";
+import {
+  IUserHubSettings,
+  updateUserHubSettings,
+} from "./utils/hubUserAppResources";
+import { HubServiceStatus } from "./core/types/ISystemStatus";
+import { checkPermission } from "./permissions/checkPermission";
+import { HubEntity } from "./core/types/HubEntity";
 
 /**
  * Hash of Hub API end points so updates
@@ -216,6 +233,12 @@ export interface IArcGISContext {
   userHubSettings?: IUserHubSettings;
 
   /**
+   * Return the user's history
+   * @returns
+   */
+  history: IHubHistory;
+
+  /**
    * Return the token for a given app, if defined
    * @param app
    */
@@ -225,6 +248,40 @@ export interface IArcGISContext {
    * Refresh the current user, including their groups
    */
   refreshUser(): Promise<void>;
+
+  /**
+   * Add an entry to the user's history
+   * If not authenticated, this function will no-op
+   * @param entry
+   */
+  addToHistory(entry: IHubHistoryEntry): Promise<void>;
+
+  /**
+   * Remove a specific entry from the user's history
+   * @param entry
+   */
+  removeFromHistory(entry: IHubHistoryEntry): Promise<void>;
+
+  /**
+   * Simple clear of the all of the user's history
+   */
+  clearHistory(): Promise<void>;
+
+  /**
+   * Check specific permission for the current user, and optionally an entity
+   * @param permission
+   * @param entity
+   */
+  checkPermission(
+    permission: Permission,
+    entity?: HubEntity
+  ): IPermissionAccessResponse;
+
+  /**
+   * Update the user's hub settings directly from the Context
+   * @param settings
+   */
+  updateUserHubSettings(settings: IUserHubSettings): Promise<void>;
 }
 
 /**
@@ -386,7 +443,9 @@ export class ArcGISContext implements IArcGISContext {
 
     this._featureFlags = opts.featureFlags || {};
     this._userResourceTokens = opts.userResourceTokens || [];
-    this._userHubSettings = opts.userHubSettings || null;
+    this._userHubSettings = opts.userHubSettings || {
+      schemaVersion: 1,
+    };
   }
 
   /**
@@ -771,6 +830,138 @@ export class ArcGISContext implements IArcGISContext {
 
     return getUser(opts).then((user) => {
       this._currentUser = user;
+    });
+  }
+
+  /**
+   * Return the user's history
+   * @returns
+   */
+  public get history(): IHubHistory {
+    return this._userHubSettings.history || ({ entries: [] } as IHubHistory);
+  }
+
+  /**
+   * Check specific permission for the current user, and optionally an entity
+   * @param permission
+   * @param entity
+   * @returns
+   */
+  checkPermission(
+    permission: Permission,
+    entity?: HubEntity
+  ): IPermissionAccessResponse {
+    return checkPermission(permission, this, entity);
+  }
+
+  /**
+   * Add an entry to the user's history
+   * @param entry
+   * @param win
+   * @returns
+   */
+  public async addToHistory(entry: IHubHistoryEntry): Promise<void> {
+    // No-op if not authenticated
+    if (!this.isAuthenticated) {
+      return;
+    }
+
+    // No-op if the user doesn't have the permission
+    const chk = this.checkPermission("hub:feature:history");
+    if (!chk.access) {
+      return;
+    }
+
+    // add the entry to the history
+    const updated = addHistoryEntry(entry, this.history);
+    // The getter reads from this, so just re-assign
+    this._userHubSettings.history = updated;
+    // update the user-app-resource
+    return this.updateUserHubSettings(this._userHubSettings);
+
+    // --------------------------------------------------------------------
+    // Turns out that integrating this with LocalStorage will involve
+    // a lot of syncronization as auth'd user moves between sites
+    // which may have different history states in localStorage
+    // So let's start with just tracking the history
+    // in workspaces and see how that goes.
+    // --------------------------------------------------------------------
+  }
+
+  /**
+   * Clear the entire history
+   * @returns
+   */
+  public async clearHistory(): Promise<void> {
+    // No-op if not authenticated
+    if (!this.isAuthenticated) {
+      return;
+    }
+    // No-op if the user doesn't have the permission
+    const chk = this.checkPermission("hub:feature:history");
+    if (!chk.access) {
+      return;
+    }
+    // create a new history object
+    const history: IHubHistory = {
+      entries: [],
+    };
+    // assign into the user-app-resource
+    this._userHubSettings.history = history;
+    // update the user-app-resource
+    return this.updateUserHubSettings(this._userHubSettings);
+  }
+
+  /**
+   * Remove a specific entry from the user's history
+   * @param entry
+   * @returns
+   */
+  public async removeFromHistory(entry: IHubHistoryEntry): Promise<void> {
+    // No-op if not authenticated
+    if (!this.isAuthenticated) {
+      return;
+    }
+    // No-op if the user doesn't have the permission
+    const chk = this.checkPermission("hub:feature:history");
+    if (!chk.access) {
+      return;
+    }
+    // remove the entry from the history
+    const updated = removeHistoryEntry(entry, this.history);
+    this._userHubSettings.history = updated;
+    // update the user-app-resource
+    return this.updateUserHubSettings(this._userHubSettings);
+  }
+
+  /**
+   * Update the user's hub settings
+   *
+   * Possible issue here is that we're not updating the contextManager
+   * so the contextManager will be out of sync with this instance of
+   * ArcGISContext. Unclear if this will be an actual problem.
+   * @param settings
+   */
+  public async updateUserHubSettings(
+    settings: IUserHubSettings
+  ): Promise<void> {
+    if (!this._authentication) {
+      throw new Error(
+        "Cannot update user hub settings without an authenticated user"
+      );
+    }
+    // update the user-app-resource
+    await updateUserHubSettings(settings, this);
+    // update the context
+    this._userHubSettings = settings;
+    // update the feature flags
+    Object.keys(getWithDefault(settings, "preview", {})).forEach((key) => {
+      // only set the flag if it's true, otherwise delete the flag so we revert to default behavior
+      if (getProp(settings, `preview.${key}`)) {
+        this._featureFlags[`hub:feature:${key}`] = true;
+      } else {
+        delete this._featureFlags[`hub:feature:${key}`];
+      }
     });
   }
 }

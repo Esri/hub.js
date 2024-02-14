@@ -299,7 +299,7 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.trustedOrgIds).toEqual([]);
       expect(mgr.context.trustedOrgs).toEqual([]);
       expect(mgr.context.userResourceTokens).toEqual([]);
-      expect(mgr.context.userHubSettings).toBeNull();
+      expect(mgr.context.userHubSettings).toEqual({ schemaVersion: 1 });
       expect(mgr.context.isAlphaOrg).toEqual(false);
       expect(mgr.context.isBetaOrg).toEqual(false);
     });
