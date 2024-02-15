@@ -43,7 +43,6 @@ export class PropertyMapper<E, S> {
       setProp("canEdit", ["admin", "update"].includes(itm.itemControl), obj);
       setProp("canDelete", itm.itemControl === "admin", obj);
       setProp("canRecycle", itm.canRecycle || false, obj);
-      setProp("protected", itm.protected, obj);
     }
 
     return obj;

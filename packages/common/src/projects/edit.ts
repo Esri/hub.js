@@ -6,9 +6,11 @@ import { constructSlug, getUniqueSlug, setSlugKeyword } from "../items/slugs";
 import {
   IPortal,
   IUserItemOptions,
+  protectItem,
   removeItem,
+  unprotectItem,
 } from "@esri/arcgis-rest-portal";
-import { PropertyMapper } from "../core/_internal/PropertyMapper";
+import { IPropertyMap, PropertyMapper } from "../core/_internal/PropertyMapper";
 import { IHubProject, IHubProjectEditor } from "../core/types";
 import { DEFAULT_PROJECT, DEFAULT_PROJECT_MODEL } from "./defaults";
 import { computeProps } from "./_internal/computeProps";
@@ -17,6 +19,8 @@ import { cloneObject } from "../util";
 import { setDiscussableKeyword } from "../discussions";
 import { IModel } from "../types";
 import { setEntityStatusKeyword } from "../utils/internal/setEntityStatusKeyword";
+import { deepEqual } from "../objects/deepEqual";
+import { updateComplexItemProperties } from "../core/_internal/updateComplexItemProperties";
 
 /**
  * @private
@@ -112,12 +116,30 @@ export async function updateProject(
     project.typeKeywords,
     project.isDiscussable
   );
+
   // get the backing item & data
   const model = await getModel(project.id, requestOptions);
   // create the PropertyMapper
   const mapper = new PropertyMapper<Partial<IHubProject>, IModel>(
     getPropertyMap()
   );
+
+  // ----------------------------------------------------------------
+  // Some properties require additional actions when they change
+  // so we need to determine if they have changed by comparing with
+  // the entity we fetched from the server
+  // ----------------------------------------------------------------
+  const upstream = mapper.storeToEntity(model, {}) as IHubProject;
+  // NOTE: We are not calling computeProps b/c we do not need to check for
+  // changes in props that are purely derived from the item's data
+  project = await updateComplexItemProperties(
+    project,
+    upstream,
+    requestOptions
+  );
+
+  // ----------------------------------------------------------------
+
   // Note: Although we are fetching the model, and applying changes onto it,
   // we are not attempting to handle "concurrent edit" conflict resolution
   // but this is where we would apply that sort of logic
