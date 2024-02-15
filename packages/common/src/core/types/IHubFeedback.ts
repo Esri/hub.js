@@ -1,4 +1,4 @@
-import { IWithPermissions, IWithSlug } from "../..";
+import { IWithPermissions, IWithSlug } from "../traits";
 import { IHubItemEntity, IHubItemEntityEditor } from "./IHubItemEntity";
 
 /**

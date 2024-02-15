@@ -7,7 +7,6 @@ import { getBasePropertyMap } from "../../core/_internal/getBasePropertyMap";
  * @returns an IPropertyMap array
  * @private
  */
-
 export function getPropertyMap(): IPropertyMap[] {
   const map = getBasePropertyMap();
   return map;

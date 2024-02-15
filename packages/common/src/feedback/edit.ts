@@ -1,11 +1,14 @@
-import { IHubFeedback, IModel, getUniqueSlug, setDiscussableKeyword } from "..";
-import { getModel, updateModel } from "../models";
-import { PropertyMapper } from "../core/_internal/PropertyMapper";
-import { setEntityStatusKeyword } from "../utils/internal/setEntityStatusKeyword";
-import { getPropertyMap } from "./_internal/getPropertyMap";
-import { computeProps } from "./_internal/computeProps";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
+import { PropertyMapper } from "../core/_internal/PropertyMapper";
+import { setDiscussableKeyword } from "../discussions";
+import { getUniqueSlug } from "../items";
+import { getModel, updateModel } from "../models";
+import { IModel } from "../types";
+import { setEntityStatusKeyword } from "../utils/internal/setEntityStatusKeyword";
+import { computeProps } from "./_internal/computeProps";
+import { getPropertyMap } from "./_internal/getPropertyMap";
+import { IHubFeedback } from "../core/types/IHubFeedback";
 
 /**
  * @private

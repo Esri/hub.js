@@ -11,6 +11,7 @@ export const FeedbackPermissions = [
   "hub:feedback:delete",
   "hub:feedback:edit",
   "hub:feedback:view",
+  "hub:feedback:workspace",
   "hub:feedback:workspace:dashboard",
   "hub:feedback:workspace:details",
   "hub:feedback:workspace:settings",
@@ -25,6 +26,9 @@ export const FeedbackPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:feedback",
     services: ["portal"],
+    // gated for now
+    availability: ["alpha"],
+    environments: ["devext", "qaext"],
   },
   {
     permission: "hub:feedback:view",
@@ -49,16 +53,20 @@ export const FeedbackPermissionPolicies: IPermissionPolicy[] = [
     entityOwner: true,
   },
   {
+    permission: "hub:feedback:workspace",
+    dependencies: ["hub:feature:workspace"],
+  },
+  {
     permission: "hub:feedback:workspace:dashboard",
-    dependencies: ["hub:feedback:view"],
+    dependencies: ["hub:site:workspace", "hub:feedback:view"],
   },
   {
     permission: "hub:feedback:workspace:details",
-    dependencies: ["hub:feedback:edit"],
+    dependencies: ["hub:site:workspace", "hub:feedback:edit"],
   },
   {
     permission: "hub:feedback:workspace:settings",
-    dependencies: ["hub:feedback:edit"],
+    dependencies: ["hub:site:workspace", "hub:feedback:edit"],
   },
   {
     permission: "hub:feedback:manage",

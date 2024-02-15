@@ -1,21 +1,22 @@
 import {
-  HubEntity,
-  HubEntityEditor,
-  IArcGISContext,
+  IWithEditorBehavior,
   IEditorConfig,
   IEntityEditorContext,
+  HubEntityEditor,
+  HubEntity,
+  IHubFeedback,
+  getEditorConfig,
   IHubFeedbackEditor,
-  IWithEditorBehavior,
-  cloneObject,
-} from "..";
+} from "../core";
 import { HubItemEntity } from "../core/HubItemEntity";
-import { IHubFeedback } from "../core/types";
-import { FeedbackEditorType } from "./_internal/FeedbackSchema";
-import { getEditorConfig } from "../core/schemas/getEditorConfig";
-import { deleteFeedback } from "./edit";
-import { updateFeedback } from "./edit";
 import { enrichEntity } from "../core/enrichEntity";
+import { cloneObject } from "../util";
+import { FeedbackEditorType } from "./_internal/FeedbackSchema";
+import { updateFeedback, deleteFeedback } from "./edit";
 
+/**
+ * Hub Feedback Class
+ */
 export class HubFeedback
   extends HubItemEntity<IHubFeedback>
   implements IWithEditorBehavior

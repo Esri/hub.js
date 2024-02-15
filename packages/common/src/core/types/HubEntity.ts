@@ -5,7 +5,7 @@ import { IHubSite } from "./IHubSite";
 import { IHubDiscussion } from "./IHubDiscussion";
 import { IHubGroup } from "./IHubGroup";
 import { IHubTemplate } from "./IHubTemplate";
-import { IHubFeedback } from "../..";
+import { IHubFeedback } from "./IHubFeedback";
 
 export type HubEntity =
   | IHubSite
