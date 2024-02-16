@@ -148,7 +148,7 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
       {
         property: "context:currentUser.username",
         type: "eq",
-        value: "entity.owner",
+        value: "entity:owner",
       },
     ],
   },
