@@ -11,6 +11,7 @@ describe("groups: convertHubGroupToGroup:", () => {
       name: "Test group",
       thumbnail: "group.jpg",
       membershipAccess: "collaborators",
+      isSharedUpdate: true,
     } as unknown as IHubGroup;
   });
   it("converts an HubGroup to a IGroup", async () => {
@@ -21,6 +22,7 @@ describe("groups: convertHubGroupToGroup:", () => {
     expect(chk.id).toBe("3ef");
     expect(chk.access).toBe("org");
     expect(chk.membershipAccess).toBe("collaboration");
+    expect(chk.capabilities).toBe("updateitemcontrol");
   });
   it("clears empty fields", async () => {
     hubGroup.membershipAccess = "anyone";

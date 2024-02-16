@@ -24,7 +24,7 @@ export function getBasePropertyMap(): IPropertyMap[] {
     "thumbnail",
     "url",
     "orgId",
-    "protected",
+    // NOTE: Read-only props like canRecycle are handled in the PropertyMapper itself
   ];
   const dataProps = ["display", "geometry", "view", "associations"];
   const resourceProps = Object.keys(EntityResourceMap);
