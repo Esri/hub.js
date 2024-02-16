@@ -1,9 +1,11 @@
+import { IS123Question } from "../types";
+
 /**
  * Determines if the given question is a map question
  * @param {Object} question A question object
  * @returns {boolean}
  */
-export const isMapQuestion = (question: any) => {
+export const isMapQuestion = (question: IS123Question) => {
   const { type, maps = [] } = question;
   const types = [
     "esriQuestionTypeGeoPoint",

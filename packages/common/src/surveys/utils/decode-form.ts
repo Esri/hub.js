@@ -1,12 +1,13 @@
 import { getProp, setProp } from "../../objects";
 import { cloneObject } from "../../util";
+import { IS123FormJSON, IS123Question } from "../types";
 import { isPageQuestion } from "./is-page-question";
 
 /**
  * Decodes certain properties of the Survey Form json into html
- * @param {any} form
+ * @param {IS123FormJSON} form
  */
-export const decodeForm = (form: any) => {
+export const decodeForm = (form: IS123FormJSON) => {
   const target = cloneObject(form);
   const props = [
     "header.content",
@@ -19,8 +20,8 @@ export const decodeForm = (form: any) => {
       setProp(prop, decodeURIComponent(getProp(target, prop)), target);
     }
   });
-  const toDecoded = (question: any) => {
-    const decode = (q: any) => {
+  const toDecoded = (question: IS123Question) => {
+    const decode = (q: IS123Question) => {
       if (q.description) {
         q.description = decodeURIComponent(q.description);
       }

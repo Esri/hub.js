@@ -1,3 +1,4 @@
+import { IS123Question } from "../types";
 import { isMapQuestion } from "./is-map-question";
 import { isPageQuestion } from "./is-page-question";
 
@@ -6,12 +7,12 @@ import { isPageQuestion } from "./is-page-question";
  * @param {Array} questions An array of questions
  * @returns {Object}
  */
-export const getMapQuestion = (questions: any[]): any => {
+export const getMapQuestion = (questions: IS123Question[]): IS123Question => {
   const [head, ...tail] = questions;
   return getMapQuestionRecur(head, tail);
 };
 
-const getMapQuestionRecur: any = (head: any, tail: any) => {
+const getMapQuestionRecur = (head: IS123Question, tail: any): IS123Question => {
   let result;
   if (!head) {
     result = null;
