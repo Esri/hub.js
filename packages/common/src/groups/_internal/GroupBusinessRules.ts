@@ -25,6 +25,9 @@ export const GroupPermissions = [
   "hub:group:workspace:members",
   "hub:group:shareContent",
   "hub:group:manage",
+  "hub:group:share",
+  "hub:group:share:view",
+  "hub:group:share:edit",
 ] as const;
 
 /**
@@ -109,6 +112,7 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:group:workspace:members",
     dependencies: ["hub:group:workspace", "hub:group:view"],
   },
+  // This is meant for checking if you can share content while within a group
   {
     permission: "hub:group:shareContent",
     dependencies: ["hub:group"],
@@ -125,5 +129,27 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:group:manage",
     dependencies: ["hub:group:edit"],
+  },
+  // These are meant for checking if you can share a group when in the context of an entity that is not a group
+  {
+    permission: "hub:group:share",
+    dependencies: ["hub:group"],
+    authenticated: true,
+    privileges: ["portal:user:shareToGroup"],
+  },
+  {
+    permission: "hub:group:share:view",
+    dependencies: ["hub:group:share"],
+  },
+  {
+    permission: "hub:group:share:edit",
+    dependencies: ["hub:group:share"],
+    assertions: [
+      {
+        property: "context:currentUser.username",
+        type: "eq",
+        value: "entity.owner",
+      },
+    ],
   },
 ];
