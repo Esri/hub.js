@@ -1,3 +1,10 @@
+## @esri/hub-common [14.92.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.92.0...@esri/hub-common@14.92.1) (2024-02-16)
+
+
+### Bug Fixes
+
+* checkPermission tolerates context without userHubSettings ([#1416](https://github.com/Esri/hub.js/issues/1416)) ([f9e7669](https://github.com/Esri/hub.js/commit/f9e766948773dc8a24725e8c390f3177f81d4619))
+
 # @esri/hub-common [14.92.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.91.0...@esri/hub-common@14.92.0) (2024-02-16)
 
 
