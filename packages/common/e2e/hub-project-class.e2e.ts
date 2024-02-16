@@ -194,39 +194,6 @@ describe("HubProject Class", () => {
     // clean up
     await project.delete();
   });
-  fit("protect/unprotect", async () => {
-    // create context
-    const ctxMgr = await factory.getContextManager("hubBasic", "admin");
-    // create a project
-    const newProj: Partial<IHubProject> = {
-      name: "E2E Test Project",
-      summary: "This is the summary. Delete me",
-    };
-    const project = await HubProject.create(newProj, ctxMgr.context);
-    // at this point we have a HubProject instance, but it is not yet saved
-    try {
-      // Set some more props on the project via the Json
-      project.update({
-        protected: true,
-        tags: ["tag1", "tag2"],
-      });
-      // save it, which actually creates the item and
-      // updates the internal project object
-      await project.save();
-
-      // udpate protected
-      project.update({
-        protected: false,
-      });
-      await project.save();
-      // debugger;
-      // } catch (e) {
-      // console.error(e);
-      // debugger;
-    } finally {
-      await project.delete();
-    }
-  });
 });
 
 // Quick and dirty fetch image fn

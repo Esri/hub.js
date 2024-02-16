@@ -110,10 +110,6 @@ export async function createModel(
     ...requestOptions,
   });
 
-  // During the create cycle, if protected is true, we should auto-protect the item
-  if (model.item.protected === true) {
-    await protectItem({ id: createResponse.id, ...requestOptions });
-  }
   // Re-fetch the model and return that so it has all the latest prop values
   return getModel(createResponse.id, requestOptions);
 }

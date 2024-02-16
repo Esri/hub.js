@@ -120,7 +120,6 @@ export async function createHubGroup(
     authentication: requestOptions.authentication,
   };
   const result = await createGroup(opts);
-  // TODO: If group.protected === true, protect it here
   return convertGroupToHubGroup(result.group, requestOptions);
 }
 
@@ -148,7 +147,7 @@ export async function fetchHubGroup(
  */
 export async function updateHubGroup(
   hubGroup: IHubGroup,
-  requestOptions: IUserRequestOptions
+  requestOptions: IRequestOptions
 ): Promise<IHubGroup> {
   // TODO: fetch the upstream group and convert to a HubGroup so we can compare props
 
@@ -157,37 +156,6 @@ export async function updateHubGroup(
     hubGroup.isDiscussable
   );
   const group = convertHubGroupToGroup(hubGroup);
-  const upstream = await getGroup(hubGroup.id, requestOptions);
-
-  // Check for changes in protected property
-  // PROBLEM: simply changing the protected property is not enough
-  // the current user must be an admin of the group to change protection
-  // settings. We need to add a check for that here.
-  if (group.protected !== upstream.protected) {
-    if (["admin", "owner"].includes(upstream.userMembership.memberType)) {
-      if (group.protected === true) {
-        // protect the group
-        await protectGroup({
-          id: group.id,
-          authentication: requestOptions.authentication,
-        });
-      } else {
-        // unprotect the group
-        await unprotectGroup({
-          id: group.id,
-          authentication: requestOptions.authentication,
-        });
-      }
-    } else {
-      // TOOD: Wire into centralized logger
-      // console.warn(
-      //   `User lacks the necessary access to change the protection settings of the group. The UI layer should be enforcing this logic.`
-      // );
-      // assign the upstream.protected value to the current group
-      // so we don't make it seem like things worked
-      group.protected = upstream.protected;
-    }
-  }
 
   const opts = {
     group,

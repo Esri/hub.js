@@ -34,6 +34,9 @@ describe("Hub Groups", () => {
         newGroup.id,
         ctxMgr.context.userRequestOptions
       );
+      // verify can* flags
+      expect(fetchedGroup.canDelete).toBe(true);
+      expect(fetchedGroup.canEdit).toBe(true);
       expect(fetchedGroup.summary).toBe("New group summary");
       const newHubGroup = {
         id: newGroup.id,
@@ -101,7 +104,7 @@ describe("HubGroup Class", () => {
       // save group and verify that the permission is there
       await group.save();
       const json = group.toJson();
-      expect(json.permissions[0].permission).toBe("hub:group:edit");
+      expect((json.permissions || [])[0].permission).toBe("hub:group:edit");
       const p = json.permissions || [];
       expect(p[0].collaborationId).toBe(pojo.id);
 
