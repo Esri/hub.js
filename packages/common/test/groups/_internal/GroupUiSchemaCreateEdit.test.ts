@@ -89,7 +89,7 @@ describe("buildUiSchema: create edit group", () => {
                       "{{some.scope.fields.membershipAccess.collab:translate}}",
                       "{{some.scope.fields.membershipAccess.any:translate}}",
                     ],
-                    disabled: [true, false, false],
+                    disabled: [false, true, true],
                   },
                 },
                 {

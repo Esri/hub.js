@@ -1,6 +1,7 @@
 import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import { IArcGISContext } from "../../ArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
+import { checkPermission } from "../../permissions";
 
 /**
  * @private
@@ -93,7 +94,14 @@ export const buildUiSchema = async (
                     `{{${i18nScope}.fields.membershipAccess.collab:translate}}`,
                     `{{${i18nScope}.fields.membershipAccess.any:translate}}`,
                   ],
-                  disabled: [true, false, false],
+                  disabled: [
+                    false,
+                    !checkPermission(
+                      "platform:portal:user:addExternalMembersToGroup",
+                      context
+                    ).access,
+                    true,
+                  ],
                 },
               },
               {
