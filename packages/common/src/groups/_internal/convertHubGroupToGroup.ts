@@ -16,6 +16,10 @@ export function convertHubGroupToGroup(hubGroup: IHubGroup): IGroup {
     hubGroup,
     {} as unknown as IGroup
   ) as IGroup;
+  // convert isSharedUpdate to the updateitemcontrol capability
+  if (hubGroup.isSharedUpdate) {
+    group.capabilities = "updateitemcontrol";
+  }
   // convert the values for membershipAccess back to
   // the ones the API accepts
   if (group.membershipAccess === "organization") {

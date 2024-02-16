@@ -75,6 +75,7 @@ export const MOCK_CONTEXT = new ArcGISContext({
     username: "mock_user",
     favGroupId: "456abc",
     orgId: "789def",
+    privileges: [],
   },
   portalUrl: "https://qaext.arcgis.com",
   hubUrl: "https://hubqa.arcgis.com",
