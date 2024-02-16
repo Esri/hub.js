@@ -1,5 +1,6 @@
 import { IConfigurationSchema } from "../../core";
 import { HubItemEntitySchema } from "../../core/schemas/shared/HubItemEntitySchema";
+import { hasMapQuestion } from "../../surveys/utils";
 
 export type FeedbackEditorType = (typeof FeedbackEditorTypes)[number];
 export const FeedbackEditorTypes = [
@@ -14,6 +15,11 @@ export const FeedbackSchema: IConfigurationSchema = {
   ...HubItemEntitySchema,
   properties: {
     displayMap: {
+      type: "boolean",
+      enum: [true, false],
+      default: false,
+    },
+    hasMapQuestion: {
       type: "boolean",
       enum: [true, false],
       default: false,

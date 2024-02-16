@@ -9,6 +9,7 @@ import { IHubRequestOptions, IModel } from "../types";
 import { isGuid } from "../utils";
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
+import { getFormJson } from "../surveys/get-form-json";
 
 /**
  * @private
@@ -47,17 +48,7 @@ export async function convertItemToFeedback(
   requestOptions: IHubRequestOptions
 ): Promise<IHubFeedback> {
   const model = await fetchModelFromItem(item, requestOptions);
-  let entitySettings;
-  try {
-    entitySettings = await fetchSetting({ id: item.id, ...requestOptions });
-  } catch (e) {
-    const defaultSettings = getDefaultEntitySettings("feedback");
-    entitySettings = {
-      id: null,
-      ...defaultSettings,
-    };
-  }
-  model.entitySettings = entitySettings;
+  model.formJSON = await getFormJson(item, requestOptions);
   const mapper = new PropertyMapper<Partial<IHubFeedback>, IModel>(
     getPropertyMap()
   );

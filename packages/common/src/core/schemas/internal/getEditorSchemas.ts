@@ -231,7 +231,7 @@ export async function getEditorSchemas(
         "hub:feedback:settings": () =>
           import("../../../feedback/_internal/FeedbackUiSchemaSettings"),
       }[type as FeedbackEditorType]();
-      uiSchema = await groupModule.buildUiSchema(
+      uiSchema = await feedbackModule.buildUiSchema(
         i18nScope,
         options as EntityEditorOptions,
         context

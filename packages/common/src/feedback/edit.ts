@@ -9,6 +9,7 @@ import { setEntityStatusKeyword } from "../utils/internal/setEntityStatusKeyword
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { IHubFeedback } from "../core/types/IHubFeedback";
+import { setDisplayMapKeyword } from "./utils.ts";
 
 /**
  * @private
@@ -34,6 +35,10 @@ export async function updateFeedback(
   feedback.typeKeywords = setDiscussableKeyword(
     feedback.typeKeywords,
     feedback.isDiscussable
+  );
+  feedback.typeKeywords = setDisplayMapKeyword(
+    feedback.typeKeywords,
+    feedback.displayMap
   );
   // get the backing item & data
   const model = await getModel(feedback.id, requestOptions);

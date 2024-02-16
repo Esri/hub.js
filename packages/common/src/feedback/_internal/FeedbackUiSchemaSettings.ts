@@ -1,5 +1,5 @@
 import { IArcGISContext } from "../../ArcGISContext";
-import { IUiSchema } from "../../core";
+import { IUiSchema, UiSchemaRuleEffects } from "../../core";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 
 /**
@@ -18,6 +18,13 @@ export const buildUiSchema = async (
     elements: [
       {
         type: "Section",
+        rule: {
+          effect: UiSchemaRuleEffects.SHOW,
+          condition: {
+            scope: "/properties/hasMapQuestion",
+            schema: { const: true },
+          },
+        },
         labelKey: `${i18nScope}.sections.settings.label`,
         elements: [
           {

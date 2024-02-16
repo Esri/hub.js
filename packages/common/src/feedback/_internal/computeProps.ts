@@ -5,6 +5,7 @@ import { isDiscussable } from "../../discussions";
 import { getItemThumbnailUrl } from "../../resources";
 import { IModel } from "../../types";
 import { IHubFeedback } from "../../core/types/IHubFeedback";
+import { hasMapQuestion, shouldDisplayMap } from "../../surveys/utils";
 
 /**
  * Given a model and a feedback object, set various computed properties that can't be directly mapped
@@ -40,6 +41,8 @@ export function computeProps(
   feedback.updatedDate = new Date(model.item.modified);
   feedback.updatedDateSource = "item.modified";
   feedback.isDiscussable = isDiscussable(feedback);
+  feedback.hasMapQuestion = hasMapQuestion(model.formJSON.questions);
+  feedback.displayMap = shouldDisplayMap(model.item);
 
   // cast b/c this takes a partial but returns a full object
   return feedback as IHubFeedback;
