@@ -1,3 +1,15 @@
+# @esri/hub-common [14.92.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.91.0...@esri/hub-common@14.92.0) (2024-02-16)
+
+
+### Bug Fixes
+
+* remove group sharing ([#1415](https://github.com/Esri/hub.js/issues/1415)) ([d0bb1c1](https://github.com/Esri/hub.js/commit/d0bb1c189dd78ed65b96ac7c20df5663e31bea47))
+
+
+### Features
+
+* new schemas for creating view/edit groups ([#1400](https://github.com/Esri/hub.js/issues/1400)) ([bdb63c8](https://github.com/Esri/hub.js/commit/bdb63c8d71b10ebe0bb27c6eb093a92e1661536e))
+
 # @esri/hub-common [14.91.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.90.1...@esri/hub-common@14.91.0) (2024-02-16)
 
 
