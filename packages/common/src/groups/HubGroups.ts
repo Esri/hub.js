@@ -10,6 +10,8 @@ import {
   removeGroup,
   createGroup,
   updateGroup,
+  protectGroup,
+  unprotectGroup,
 } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IHubGroup } from "../core/types/IHubGroup";
@@ -147,11 +149,14 @@ export async function updateHubGroup(
   hubGroup: IHubGroup,
   requestOptions: IRequestOptions
 ): Promise<IHubGroup> {
+  // TODO: fetch the upstream group and convert to a HubGroup so we can compare props
+
   hubGroup.typeKeywords = setDiscussableKeyword(
     hubGroup.typeKeywords,
     hubGroup.isDiscussable
   );
   const group = convertHubGroupToGroup(hubGroup);
+
   const opts = {
     group,
     authentication: requestOptions.authentication,

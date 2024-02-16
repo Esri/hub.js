@@ -14,6 +14,7 @@ import {
   setUserResource,
 } from "./internal/userAppResources";
 import { fetchAndMigrateUserHubSettings } from "./internal/fetchAndMigrateUserHubSettings";
+import { IHubHistory } from "../core/hubHistory";
 
 /**
  * Site Level Settings
@@ -50,6 +51,10 @@ export interface IUserHubSettings {
      */
     workspace: boolean;
   };
+  /**
+   * Optional history of sites/content the user has visited
+   */
+  history?: IHubHistory;
 }
 
 /**

@@ -11,6 +11,7 @@ import {
   ICreateItemResponse,
   IItem,
   IUpdateItemOptions,
+  protectItem,
   updateItem,
 } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
@@ -88,7 +89,7 @@ export function getModelBySlug(
  * @param {IRequestOptions} requestOptions
  * @returns {Promise<IModel>}
  */
-export function createModel(
+export async function createModel(
   model: IModel,
   requestOptions: IUserRequestOptions
 ): Promise<IModel> {
@@ -102,20 +103,15 @@ export function createModel(
     // and normally should never be done.
     item.extent = bboxToString(item.extent) as unknown as number[][];
   }
-  const opts = {
+
+  // Create the item
+  const createResponse = await createItem({
     item,
     ...requestOptions,
-  };
-  return createItem(opts as ICreateItemOptions).then(
-    (response: ICreateItemResponse) => {
-      // re-fetch the model so all the server-set properties
-      // are included in the response
-      return getModel(response.id, requestOptions);
-      // clone.item.created = new Date().getTime();
-      // clone.item.modified = clone.item.created;
-      // return clone as IModel;
-    }
-  );
+  });
+
+  // Re-fetch the model and return that so it has all the latest prop values
+  return getModel(createResponse.id, requestOptions);
 }
 
 /**
