@@ -1,3 +1,10 @@
+# @esri/hub-common [14.91.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.90.1...@esri/hub-common@14.91.0) (2024-02-16)
+
+
+### Features
+
+* context has user history ([#1411](https://github.com/Esri/hub.js/issues/1411)) ([1c350cd](https://github.com/Esri/hub.js/commit/1c350cdf5f22be4c9b136ceab9db7975f7938752))
+
 ## @esri/hub-common [14.90.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.90.0...@esri/hub-common@14.90.1) (2024-02-14)
 
 
