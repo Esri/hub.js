@@ -1,23 +1,11 @@
-export {
-  IUpdateRegistration,
-  ICreateRegistration,
-  IUpdateEvent,
-  EventStatus,
-  RegistrationStatus,
-  RegistrationRole,
-  IUser,
-  IRegistration,
-  // ICreateEventLocationsItem,
-  EventAttendanceType,
-  IEvent,
-  ICreateEvent,
-} from "./orval/api/orval-events";
+export * from "./orval/api/orval-events";
 import { IHubRequestOptions } from "../../types";
 import {
   ICreateEvent,
   IUpdateEvent,
   ICreateRegistration,
   IUpdateRegistration,
+  GetEventsParams,
 } from "./orval/api/orval-events";
 
 /**
@@ -41,9 +29,9 @@ export interface IEventsRequestOptions
 export interface ICreateEventParams extends IEventsRequestOptions {
   data: ICreateEvent;
 }
-// export interface IGetEventsParams extends IEventsRequestOptions {
-//   data: any;
-// }
+export interface IGetEventsParams extends IEventsRequestOptions {
+  data: GetEventsParams;
+}
 export interface IGetEventParams extends IEventsRequestOptions {
   eventId: string;
 }
@@ -71,6 +59,3 @@ export interface IUpdateRegistrationParams extends IEventsRequestOptions {
 export interface IDeleteRegistrationParams extends IEventsRequestOptions {
   registrationId: number;
 }
-// export interface IConfirmRegistrationParams extends IEventsRequestOptions {
-//   data: any;
-// }
