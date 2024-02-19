@@ -36,7 +36,7 @@ export async function createEvent(
  */
 export async function getEvents(options: IGetEventsParams): Promise<IEvent[]> {
   options.token = await authenticateRequest(options);
-  return _getEvents(options.data);
+  return _getEvents(options.data, options);
 }
 
 /**
