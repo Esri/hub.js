@@ -134,7 +134,6 @@ export interface IRegistration {
 /**
  * GeoJSON formatted geometry related to the event
  */
-/* tslint:disable:interface-over-type-literal */
 export type ICreateEventGeometry = { [key: string]: any };
 
 export enum EventAttendanceType {

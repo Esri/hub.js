@@ -1,4 +1,24 @@
-export * from "./orval/api/orval-events";
+export {
+  EventAttendanceType,
+  EventStatus,
+  GetEventsParams,
+  IAddress,
+  IAddressExtent,
+  IAddressLocation,
+  ICreateAddress,
+  ICreateEvent,
+  ICreateEventGeometry,
+  ICreateRegistration,
+  IEvent,
+  IEventCatalogItem,
+  IEventGeometry,
+  IRegistration,
+  IUpdateEvent,
+  IUpdateRegistration,
+  IUser,
+  RegistrationRole,
+  RegistrationStatus,
+} from "./orval/api/orval-events";
 import { IHubRequestOptions } from "../../types";
 import {
   ICreateEvent,
