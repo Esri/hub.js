@@ -226,7 +226,7 @@ export async function getEditorSchemas(
         context
       );
 
-      // TODO: check if this actually works as a check?
+      // if we have the buildDefaults fn, then construct the defaults
       if (groupModule.buildDefaults) {
         defaults = await groupModule.buildDefaults(
           i18nScope,
