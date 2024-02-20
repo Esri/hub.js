@@ -10,7 +10,10 @@ import { ContentEditorTypes } from "../../content/_internal/ContentSchema";
 import { TemplateEditorTypes } from "../../templates/_internal/TemplateSchema";
 import { GroupEditorTypes } from "../../groups/_internal/GroupSchema";
 import { InitiativeTemplateEditorTypes } from "../../initiative-templates/_internal/InitiativeTemplateSchema";
-import { EntityEditorOptions } from "./internal/EditorOptions";
+import {
+  CardEditorOptions,
+  EntityEditorOptions,
+} from "./internal/EditorOptions";
 import { IArcGISContext } from "../../ArcGISContext";
 
 export interface IEditorConfig {
@@ -75,7 +78,14 @@ export const validEditorTypes = [
  * will always have a buildUiSchema function, and sometimes it will have a
  * buildDefaults function to override default values in the editor.
  */
-export interface IEditorModuleType {
+export type IEditorModuleType = IEntityEditorModuleType | ICardEditorModuleType;
+
+/**
+ * An entity editor's module when dynamically imported depending on the EditorType. This
+ * will always have a buildUiSchema function, and sometimes it will have a
+ * buildDefaults function to override default values in the editor.
+ */
+export interface IEntityEditorModuleType {
   buildUiSchema: (
     i18nScope: string,
     options: EntityEditorOptions,
@@ -85,7 +95,26 @@ export interface IEditorModuleType {
     i18nScope: string,
     options: EntityEditorOptions,
     context: IArcGISContext
+  ) => Promise<IConfigurationValues>;
+}
+
+/**
+ * A card editor's module when dynamically imported depending on the EditorType. This
+ * will always have a buildUiSchema function, and sometimes it will have a
+ * buildDefaults function to override default values in the editor.
+ */
+export interface ICardEditorModuleType {
+  buildUiSchema: (
+    i18nScope: string,
+    config: CardEditorOptions,
+    context: IArcGISContext
   ) => Promise<IUiSchema>;
+
+  buildDefaults?: (
+    i18nScope: string,
+    options: CardEditorOptions,
+    context: IArcGISContext
+  ) => Promise<IConfigurationValues>;
 }
 
 export enum UiSchemaRuleEffects {
