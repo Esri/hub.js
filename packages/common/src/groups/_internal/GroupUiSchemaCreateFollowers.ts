@@ -138,8 +138,6 @@ export const buildDefaults = async (
 ): Promise<IConfigurationValues> => {
   const { name } = options;
   return {
-    name: `${name} ${i18nScope}.followers`,
-    summary: `${i18nScope}.createFollowersGroup.defaultSummary`,
     ...getWellKnownGroup("hubFollowersGroup", context),
   };
 };

@@ -126,10 +126,7 @@ export const buildDefaults = async (
   options: EntityEditorOptions,
   context: IArcGISContext
 ): Promise<IConfigurationValues> => {
-  const { name } = options;
   return {
-    name: `${name} ${i18nScope}.associationGroup`,
-    summary: `${i18nScope}.associationGroup.create.defaultSummary`,
     ...getWellKnownGroup("hubAssociationsGroup", context),
   };
 };

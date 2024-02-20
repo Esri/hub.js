@@ -125,8 +125,6 @@ describe("GroupUiSchemaCreateAssociation", () => {
         MOCK_CONTEXT
       );
       expect(defaults).toEqual({
-        name: "Groupname some.scope.associationGroup",
-        summary: "some.scope.associationGroup.create.defaultSummary",
         access: "public",
         isViewOnly: false,
         autoJoin: false,

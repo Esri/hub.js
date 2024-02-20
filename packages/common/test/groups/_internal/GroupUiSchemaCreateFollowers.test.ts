@@ -124,8 +124,6 @@ describe("GroupUiSchemaCreateFollowers", () => {
         MOCK_CONTEXT
       );
       expect(defaults).toEqual({
-        name: "Groupname some.scope.followers",
-        summary: "some.scope.createFollowersGroup.defaultSummary",
         access: "public",
         autoJoin: true,
         isInvitationOnly: false,
