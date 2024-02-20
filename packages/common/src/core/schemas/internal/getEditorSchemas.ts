@@ -6,6 +6,7 @@ import {
   IUiSchema,
   IEditorConfig,
   IConfigurationValues,
+  IEditorModuleType,
 } from "../types";
 import { filterSchemaToUiSchema } from "./filterSchemaToUiSchema";
 import { SiteEditorType } from "../../../sites/_internal/SiteSchema";
@@ -55,7 +56,7 @@ export async function getEditorSchemas(
       );
       schema = cloneObject(SiteSchema);
 
-      const siteModule = await {
+      const siteModule: IEditorModuleType = await {
         "hub:site:edit": () =>
           import("../../../sites/_internal/SiteUiSchemaEdit"),
         "hub:site:create": () =>
@@ -81,7 +82,7 @@ export async function getEditorSchemas(
       );
       schema = cloneObject(DiscussionSchema);
 
-      const discussionModule = await {
+      const discussionModule: IEditorModuleType = await {
         "hub:discussion:edit": () =>
           import("../../../discussions/_internal/DiscussionUiSchemaEdit"),
         "hub:discussion:create": () =>
@@ -103,7 +104,7 @@ export async function getEditorSchemas(
       );
       schema = cloneObject(ProjectSchema);
 
-      const projectModule = await {
+      const projectModule: IEditorModuleType = await {
         "hub:project:edit": () =>
           import("../../../projects/_internal/ProjectUiSchemaEdit"),
         "hub:project:create": () =>
@@ -124,7 +125,7 @@ export async function getEditorSchemas(
       );
       schema = cloneObject(InitiativeSchema);
 
-      const initiativeModule = await {
+      const initiativeModule: IEditorModuleType = await {
         "hub:initiative:edit": () =>
           import("../../../initiatives/_internal/InitiativeUiSchemaEdit"),
         "hub:initiative:create": () =>
@@ -144,7 +145,7 @@ export async function getEditorSchemas(
       );
       schema = cloneObject(PageSchema);
 
-      const pageModule = await {
+      const pageModule: IEditorModuleType = await {
         "hub:page:edit": () =>
           import("../../../pages/_internal/PageUiSchemaEdit"),
       }[type as PageEditorType]();
@@ -162,7 +163,7 @@ export async function getEditorSchemas(
       );
       schema = cloneObject(ContentSchema);
 
-      const contentModule = await {
+      const contentModule: IEditorModuleType = await {
         "hub:content:edit": () =>
           import("../../../content/_internal/ContentUiSchemaEdit"),
         "hub:content:discussions": () =>
@@ -184,7 +185,7 @@ export async function getEditorSchemas(
       );
       schema = cloneObject(TemplateSchema);
 
-      const templateModule = await {
+      const templateModule: IEditorModuleType = await {
         "hub:template:edit": () =>
           import("../../../templates/_internal/TemplateUiSchemaEdit"),
       }[type as TemplateEditorType]();
@@ -202,7 +203,7 @@ export async function getEditorSchemas(
       );
       schema = cloneObject(GroupSchema);
 
-      const groupModule = await {
+      const groupModule: IEditorModuleType = await {
         "hub:group:create:followers": () =>
           import("../../../groups/_internal/GroupUiSchemaCreateFollowers"),
         "hub:group:create:association": () =>
@@ -220,11 +221,14 @@ export async function getEditorSchemas(
         context
       );
 
-      defaults = await groupModule.buildDefaults(
-        i18nScope,
-        options as EntityEditorOptions,
-        context
-      );
+      // TODO: check if this actually works as a check?
+      if (groupModule.buildDefaults) {
+        defaults = await groupModule.buildDefaults(
+          i18nScope,
+          options as EntityEditorOptions,
+          context
+        );
+      }
 
       break;
 
@@ -233,7 +237,7 @@ export async function getEditorSchemas(
         "../../../initiative-templates/_internal/InitiativeTemplateSchema"
       );
       schema = cloneObject(InitiativeTemplateSchema);
-      const initiativeTemplateModule = await {
+      const initiativeTemplateModule: IEditorModuleType = await {
         "hub:initiativeTemplate:edit": () =>
           import(
             "../../../initiative-templates/_internal/InitiativeTemplateUiSchemaEdit"
