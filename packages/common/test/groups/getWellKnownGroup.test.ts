@@ -49,7 +49,7 @@ describe("getWellKnownGroup: ", () => {
       autoJoin: false,
       isInvitationOnly: false,
       hiddenMembers: false,
-      isViewOnly: true,
+      isViewOnly: false,
       tags: ["Hub Group"],
       membershipAccess: "organization",
     });
@@ -64,7 +64,7 @@ describe("getWellKnownGroup: ", () => {
       autoJoin: false,
       isInvitationOnly: false,
       hiddenMembers: false,
-      isViewOnly: true,
+      isViewOnly: false,
       tags: ["Hub Group"],
       membershipAccess: "anyone",
     });
@@ -77,7 +77,7 @@ describe("getWellKnownGroup: ", () => {
       isSharedUpdate: true,
       isInvitationOnly: false,
       hiddenMembers: false,
-      isViewOnly: true,
+      isViewOnly: false,
       tags: ["Hub Group"],
       membershipAccess: "organization",
     });
@@ -93,7 +93,7 @@ describe("getWellKnownGroup: ", () => {
       isSharedUpdate: true,
       isInvitationOnly: false,
       hiddenMembers: false,
-      isViewOnly: true,
+      isViewOnly: false,
       tags: ["Hub Group"],
       membershipAccess: "collaborators",
     });
