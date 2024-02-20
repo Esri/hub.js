@@ -129,7 +129,7 @@ export const buildDefaults = async (
   const { name } = options;
   return {
     name: `${name} ${i18nScope}.associationGroup`,
-    summary: `${i18nScope}.createAssociationGroup.defaultSummary`,
+    summary: `${i18nScope}.associationGroup.create.defaultSummary`,
     ...getWellKnownGroup("hubAssociationsGroup", context),
   };
 };

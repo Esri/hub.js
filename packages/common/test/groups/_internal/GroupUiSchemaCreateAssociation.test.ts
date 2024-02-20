@@ -126,7 +126,7 @@ describe("GroupUiSchemaCreateAssociation", () => {
       );
       expect(defaults).toEqual({
         name: "Groupname some.scope.associationGroup",
-        summary: "some.scope.createAssociationGroup.defaultSummary",
+        summary: "some.scope.associationGroup.create.defaultSummary",
         access: "public",
         isViewOnly: false,
         autoJoin: false,
