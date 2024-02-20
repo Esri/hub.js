@@ -5,6 +5,7 @@ import {
 } from "../../core/schemas/types";
 import { IArcGISContext } from "../../ArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
+import { getWellKnownGroup } from "../getWellKnownGroup";
 
 /**
  * @private
@@ -139,8 +140,6 @@ export const buildDefaults = async (
   return {
     name: `${name} ${i18nScope}.followers`,
     summary: `${i18nScope}.createFollowersGroup.defaultSummary`,
-    access: "public",
-    isViewOnly: true,
-    autoJoin: true,
+    ...getWellKnownGroup("hubFollowersGroup", context),
   };
 };

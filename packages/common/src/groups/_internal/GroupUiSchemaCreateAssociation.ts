@@ -5,6 +5,7 @@ import {
 } from "../../core/schemas/types";
 import { IArcGISContext } from "../../ArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
+import { getWellKnownGroup } from "../getWellKnownGroup";
 
 /**
  * @private
@@ -129,9 +130,6 @@ export const buildDefaults = async (
   return {
     name: `${name} ${i18nScope}.associationGroup`,
     summary: `${i18nScope}.createAssociationGroup.defaultSummary`,
-    access: "public",
-    isViewOnly: false,
-    autoJoin: false,
-    isInvitationOnly: false,
+    ...getWellKnownGroup("hubAssociationsGroup", context),
   };
 };
