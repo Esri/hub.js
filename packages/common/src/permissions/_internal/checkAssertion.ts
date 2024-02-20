@@ -225,9 +225,9 @@ function rangeAssertions(
     response = "assertion-requires-numeric-values";
   }
 
-  if (assertion.type === "gt" && propValue < val) {
+  if (assertion.type === "gt" && !(propValue > val)) {
     response = "assertion-failed";
-  } else if (assertion.type === "lt" && propValue > val) {
+  } else if (assertion.type === "lt" && !(propValue < val)) {
     response = "assertion-failed";
   }
   return response;
@@ -251,9 +251,9 @@ function lengthAssertions(
   } else if (typeof val !== "number") {
     response = "assertion-requires-numeric-values";
   } else {
-    if (assertion.type === "length-gt" && propValue.length < val) {
+    if (assertion.type === "length-gt" && !(propValue.length > val)) {
       response = "assertion-failed";
-    } else if (assertion.type === "length-lt" && propValue.length > val) {
+    } else if (assertion.type === "length-lt" && !(propValue.length < val)) {
       response = "assertion-failed";
     }
   }

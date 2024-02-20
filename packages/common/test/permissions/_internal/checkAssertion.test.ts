@@ -402,10 +402,18 @@ describe("checkAssertion:", () => {
         ctx
       );
       expect(chk.response).toBe("granted");
-      const fail = checkAssertion(
+      let fail = checkAssertion(
         assertion,
         {
           count: 11,
+        },
+        ctx
+      );
+      expect(fail.response).toBe("assertion-failed");
+      fail = checkAssertion(
+        assertion,
+        {
+          count: 12,
         },
         ctx
       );
@@ -429,10 +437,18 @@ describe("checkAssertion:", () => {
         ctx
       );
       expect(chk.response).toBe("granted");
-      const fail = checkAssertion(
+      let fail = checkAssertion(
         assertion,
         {
           count: 13,
+        },
+        ctx
+      );
+      expect(fail.response).toBe("assertion-failed");
+      fail = checkAssertion(
+        assertion,
+        {
+          count: 12,
         },
         ctx
       );
@@ -477,10 +493,18 @@ describe("checkAssertion:", () => {
         ctx
       );
       expect(chk.response).toBe("granted");
-      const fail = checkAssertion(
+      let fail = checkAssertion(
         assertion,
         {
           groups: ["group-1"],
+        },
+        ctx
+      );
+      expect(fail.response).toBe("assertion-failed");
+      fail = checkAssertion(
+        assertion,
+        {
+          groups: ["group-1", "group-2"],
         },
         ctx
       );
@@ -495,16 +519,23 @@ describe("checkAssertion:", () => {
       const ctx = {
         isAuthenticated: true,
       } as unknown as IArcGISContext;
-
       const chk = checkAssertion(
+        assertion,
+        {
+          title: "mock assr",
+        },
+        ctx
+      );
+      expect(chk.response).toBe("granted");
+      let fail = checkAssertion(
         assertion,
         {
           title: "mock title",
         },
         ctx
       );
-      expect(chk.response).toBe("granted");
-      const fail = checkAssertion(
+      expect(fail.response).toBe("assertion-failed");
+      fail = checkAssertion(
         assertion,
         {
           title: "some really long mock title",

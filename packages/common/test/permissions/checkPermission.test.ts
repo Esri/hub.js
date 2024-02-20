@@ -418,5 +418,11 @@ describe("checkPermission:", () => {
 
       expect(chk.access).toBe(true);
     });
+    it("tolerates context without userHubSettings", () => {
+      const localCtx = cloneObject(premiumCtxMgr.context);
+      delete localCtx.userHubSettings;
+      const chk = checkPermission("hub:feature:workspace", localCtx);
+      expect(chk.access).toBe(false);
+    });
   });
 });

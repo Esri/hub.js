@@ -129,6 +129,9 @@ export interface IHubGroup
    * to the updateGroup call
    */
   _clearEmptyFields?: boolean;
+
+  /** Whether members of the group are hidden */
+  hiddenMembers?: boolean;
 }
 
 /**

@@ -132,6 +132,12 @@ export interface IHubItemEntity
    * Is the item protected?
    */
   protected?: boolean;
+  /**
+   * Can this item be recycled?
+   * This will be returned by the Portal API once recycling is enabled on the platform
+   * Optional because it can default to false if not returned by the API
+   */
+  canRecycle?: boolean;
 }
 
 export type IHubItemEntityEditor<T> = Omit<T, "extent"> & {

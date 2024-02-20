@@ -112,12 +112,15 @@ export async function updateProject(
     project.typeKeywords,
     project.isDiscussable
   );
+
   // get the backing item & data
   const model = await getModel(project.id, requestOptions);
   // create the PropertyMapper
   const mapper = new PropertyMapper<Partial<IHubProject>, IModel>(
     getPropertyMap()
   );
+
+  // ----------------------------------------------------------------
   // Note: Although we are fetching the model, and applying changes onto it,
   // we are not attempting to handle "concurrent edit" conflict resolution
   // but this is where we would apply that sort of logic

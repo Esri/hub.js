@@ -39,6 +39,8 @@ import * as GroupBuildSettingsUiSchema from "../../../../src/groups/_internal/Gr
 import * as GroupBuildDiscussionsUiSchema from "../../../../src/groups/_internal/GroupUiSchemaDiscussions";
 import * as GroupBuildCreateFollowersUiSchema from "../../../../src/groups/_internal/GroupUiSchemaCreateFollowers";
 import * as GroupBuildCreateAssociationUiSchema from "../../../../src/groups/_internal/GroupUiSchemaCreateAssociation";
+import * as GroupBuildCreateViewUiSchema from "../../../../src/groups/_internal/GroupUiSchemaCreateView";
+import * as GroupBuildCreateEditUiSchema from "../../../../src/groups/_internal/GroupUiSchemaCreateEdit";
 
 import { InitiativeTemplateEditorTypes } from "../../../../src/initiative-templates/_internal/InitiativeTemplateSchema";
 import * as InitiativeTemplateBuildEditUiSchema from "../../../../src/initiative-templates/_internal/InitiativeTemplateUiSchemaEdit";
@@ -78,6 +80,8 @@ describe("getEditorSchemas: ", () => {
     { type: GroupEditorTypes[2], buildFn: GroupBuildDiscussionsUiSchema },
     { type: GroupEditorTypes[3], buildFn: GroupBuildCreateFollowersUiSchema },
     { type: GroupEditorTypes[4], buildFn: GroupBuildCreateAssociationUiSchema },
+    { type: GroupEditorTypes[5], buildFn: GroupBuildCreateViewUiSchema },
+    { type: GroupEditorTypes[6], buildFn: GroupBuildCreateEditUiSchema },
     {
       type: InitiativeTemplateEditorTypes[0],
       buildFn: InitiativeTemplateBuildEditUiSchema,

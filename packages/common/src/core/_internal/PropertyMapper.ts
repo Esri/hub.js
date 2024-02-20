@@ -33,18 +33,20 @@ export class PropertyMapper<E, S> {
    */
   storeToEntity(store: S, entity: E): E {
     const obj = mapStoreToEntity(store, entity, this.mappings);
-    // Additional Read-Only Model Level Property Mappings
 
     // ------------------------------
-    // canEdit and canDelete
+    // Additional Read-Only Model Level Property Mappings
     // ------------------------------
-    // use setProp to side-step typechecking
+    // Since they are not in the property map, setting these values on
+    // the entity does not attempt to send that back upstream to the store
     if (getProp(store, "item")) {
       const itm = getProp(store, "item");
+      // use setProp to side-step typechecking
       setProp("canEdit", ["admin", "update"].includes(itm.itemControl), obj);
       setProp("canDelete", itm.itemControl === "admin", obj);
+      setProp("canRecycle", itm.canRecycle || false, obj);
+      setProp("protected", itm.protected, obj);
     }
-
     return obj;
   }
 
