@@ -1,7 +1,12 @@
-import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
+import {
+  IConfigurationValues,
+  IUiSchema,
+  UiSchemaRuleEffects,
+} from "../../core/schemas/types";
 import { IArcGISContext } from "../../ArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 import { checkPermission } from "../../permissions";
+import { getWellKnownGroup } from "../getWellKnownGroup";
 
 /**
  * @private
@@ -121,5 +126,15 @@ export const buildUiSchema = async (
         ],
       },
     ],
+  };
+};
+
+export const buildDefaults = async (
+  i18nScope: string,
+  options: EntityEditorOptions,
+  context: IArcGISContext
+): Promise<IConfigurationValues> => {
+  return {
+    ...getWellKnownGroup("hubEditGroup", context),
   };
 };
