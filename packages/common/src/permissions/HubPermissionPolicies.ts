@@ -113,9 +113,13 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     environments: ["devext", "qaext"],
   },
   {
+    // When enabled, the new follow card will be loaded
+    // instead of the old follow initiative card.
+    // To enable it, we need to pass the feature flag
+    // (?pe=hub:card:follow) into the URL
     permission: "hub:card:follow",
     environments: ["qaext"],
-    availability: ["alpha"],
+    availability: ["flag"],
     licenses: ["hub-premium"],
   },
   {

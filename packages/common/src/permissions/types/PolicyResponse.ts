@@ -45,4 +45,5 @@ export type PolicyResponse =
   | "feature-disabled" // feature has been disabled for the entity
   | "feature-enabled" // feature has been enabled for the entity
   | "not-in-environment" // user is not in an allowed environment
-  | "no-policy-exists"; // policy is not defined for this permission
+  | "no-policy-exists" // policy is not defined for this permission
+  | "feature-flag-required"; // feature flag is not passed;
