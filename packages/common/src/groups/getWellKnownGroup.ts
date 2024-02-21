@@ -23,7 +23,7 @@ export function getWellKnownGroup(
       autoJoin: false,
       isInvitationOnly: false,
       hiddenMembers: false,
-      isViewOnly: true,
+      isViewOnly: false,
       tags: ["Hub Group"],
       membershipAccess: checkPermission(
         "platform:portal:user:addExternalMembersToGroup",
@@ -38,7 +38,7 @@ export function getWellKnownGroup(
       isSharedUpdate: true,
       isInvitationOnly: false,
       hiddenMembers: false,
-      isViewOnly: true,
+      isViewOnly: false,
       tags: ["Hub Group"],
       membershipAccess: checkPermission(
         "platform:portal:user:addExternalMembersToGroup",
