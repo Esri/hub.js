@@ -1,3 +1,17 @@
+## @esri/hub-common [14.92.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.92.2...@esri/hub-common@14.92.3) (2024-02-21)
+
+
+### Bug Fixes
+
+* gate the new follow card behind the feature flag ([#1419](https://github.com/Esri/hub.js/issues/1419)) ([92626e7](https://github.com/Esri/hub.js/commit/92626e72e30af5d113f9f0eb7313262d03f2b253))
+
+## @esri/hub-common [14.92.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.92.1...@esri/hub-common@14.92.2) (2024-02-20)
+
+
+### Bug Fixes
+
+* view edit isviewonly ([#1418](https://github.com/Esri/hub.js/issues/1418)) ([904bd27](https://github.com/Esri/hub.js/commit/904bd27cd0911aa6b9c4be8d645dc06816268b8f))
+
 ## @esri/hub-common [14.92.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.92.0...@esri/hub-common@14.92.1) (2024-02-16)
 
 

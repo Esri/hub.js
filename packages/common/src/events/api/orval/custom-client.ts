@@ -2,23 +2,19 @@
  * Generated and copied from the [events service](https://github.com/ArcGIS/hub-newsletters/blob/master/orval/custom-client.ts)
  * Do not edit manually
  */
-interface IHeaders {
-  [key: string]: string;
-}
-
 export interface IOrvalParams {
   url: string;
   method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
-  headers?: IHeaders;
-  params?: Record<string, string>; // query params
+  headers?: HeadersInit;
+  params?: Record<string, any>; // query params
   data?: Record<string, any>; // request body
 }
 
 export interface ICustomParams {
   hubApiUrl?: string;
   token?: string;
-  headers?: IHeaders;
-  params?: Record<string, string>; // query params
+  headers?: HeadersInit;
+  params?: Record<string, any>; // query params
   data?: Record<string, any>; // request body
   mode?: RequestMode;
   cache?: RequestCache;
@@ -68,12 +64,12 @@ function removeTrailingSlash(hubApiUrl = "https://hub.arcgis.com") {
 }
 
 function combineParams(orvalParams: IOrvalParams, options: ICustomParams) {
-  const headers = {
+  const headers = new Headers({
     ...orvalParams.headers,
     ...options.headers,
-  };
+  });
   if (options.token) {
-    headers.Authorization = options.token;
+    headers.set("Authorization", options.token);
   }
 
   const params = {

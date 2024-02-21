@@ -7,10 +7,12 @@ import {
   deleteRegistration,
   getRegistration,
   updateRegistration,
+  IRegistration,
+  RegistrationRole,
+  RegistrationStatus,
 } from "../../../src/events/api";
 import * as authenticateRequestModule from "../../../src/events/api/utils/authenticate-request";
 import * as orvalModule from "../../../src/events/api/orval/api/orval-events";
-import { IRegistration } from "../../../src/events/api";
 
 describe("Registrations", () => {
   const token = "aaa";
@@ -37,7 +39,7 @@ describe("Registrations", () => {
         token,
         data: {
           eventId: "111",
-          role: "ATTENDEE",
+          role: RegistrationRole.ATTENDEE,
         },
       };
 
@@ -89,7 +91,10 @@ describe("Registrations", () => {
 
       const options: IUpdateRegistrationParams = {
         registrationId: 111,
-        data: { role: "ORGANIZER", status: "DECLINED" },
+        data: {
+          role: RegistrationRole.ORGANIZER,
+          status: RegistrationStatus.DECLINED,
+        },
       };
 
       const result = await updateRegistration(options);

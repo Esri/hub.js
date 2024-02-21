@@ -12,14 +12,13 @@ import {
   getRegistration as _getRegistration,
   updateRegistration as _updateRegistration,
   deleteRegistration as _deleteRegistration,
-  confirmRegistration as _confirmRegistration,
 } from "./orval/api/orval-events";
 
 /**
  * create an event registration
  *
  * @param {ICreateEventParams} options
- * @return {*}  {Promise<IRegistration>}
+ * @return {Promise<IRegistration>}
  */
 export async function createRegistration(
   options: ICreateRegistrationParams
@@ -32,7 +31,7 @@ export async function createRegistration(
 //  * get registrations
 //  *
 //  * @param {IGetRegistrationsParams} options
-//  * @return {*}  {Promise<IRegistration[]>} // paged response?
+//  * @return {Promise<IRegistration[]>} // paged response?
 //  */
 // export async function getRegistrations(
 //   options: IGetRegistrationsParams
@@ -45,7 +44,7 @@ export async function createRegistration(
  * get a registration
  *
  * @param {IGetRegistrationParams} options
- * @return {*}  {Promise<IRegistration>}
+ * @return {Promise<IRegistration>}
  */
 export async function getRegistration(
   options: IGetRegistrationParams
@@ -58,7 +57,7 @@ export async function getRegistration(
  * update a registration
  *
  * @param {IUpdateRegistrationParams} options
- * @return {*}  {Promise<IRegistration>}
+ * @return {Promise<IRegistration>}
  */
 export async function updateRegistration(
   options: IUpdateRegistrationParams
@@ -71,7 +70,7 @@ export async function updateRegistration(
  * delete a registration
  *
  * @param {IDeleteRegistrationParams} options
- * @return {*}  {Promise<IRegistration>}
+ * @return {Promise<IRegistration>}
  */
 export async function deleteRegistration(
   options: IDeleteRegistrationParams
@@ -79,16 +78,3 @@ export async function deleteRegistration(
   options.token = await authenticateRequest(options);
   return _deleteRegistration(options.registrationId, options);
 }
-
-// /**
-//  * confirm a registration
-//  *
-//  * @param {IConfirmRegistrationParams} options
-//  * @return {*}  {Promise<IRegistration>}
-//  */
-// export async function confirmRegistration(
-//   options: IConfirmRegistrationParams
-// ): Promise<IRegistration> {
-//   options.token = await authenticateRequest(options);
-//   return _confirmRegistration(options);
-// }
