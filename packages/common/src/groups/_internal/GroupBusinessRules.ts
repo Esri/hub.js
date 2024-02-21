@@ -117,8 +117,27 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
     privileges: ["portal:user:shareToGroup"],
     assertions: [
       {
+        conditions: [
+          {
+            property: "entity:isViewOnly",
+            type: "eq",
+            value: false,
+          },
+        ],
         property: "context:currentUser",
         type: "is-group-member",
+        value: "entity:id",
+      },
+      {
+        conditions: [
+          {
+            property: "entity:isViewOnly",
+            type: "eq",
+            value: true,
+          },
+        ],
+        property: "context:currentUser",
+        type: "is-group-admin",
         value: "entity:id",
       },
     ],

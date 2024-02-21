@@ -18,6 +18,20 @@ export function checkAssertion(
   entity: Record<string, any>,
   context: IArcGISContext
 ): IPolicyCheck {
+  let conditionsResult = true;
+  // if the assertion has conditions, we need to check them first
+  // to determine if the assertion itself needs to be checked.
+  if (assertion.conditions?.length) {
+    conditionsResult = assertion.conditions.every(
+      (condition: IPolicyAssertion) =>
+        checkAssertion(condition, entity, context).response === "granted"
+    );
+  }
+  // return early if the assertion's conditions are not met
+  if (!conditionsResult) {
+    return;
+  }
+
   let response: PolicyResponse = "granted";
   // construct a hash to look up properties in
   const lookupHash = { entity, context };
