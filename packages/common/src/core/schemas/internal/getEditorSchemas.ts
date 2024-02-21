@@ -361,9 +361,7 @@ export async function getEditorSchemas(
       );
       schema = result.schema;
       uiSchema = result.uiSchema;
-      if (result.defaults) {
-        defaults = result.defaults;
-      }
+      defaults = result.defaults;
   }
 
   // filter out properties not used in the UI schema

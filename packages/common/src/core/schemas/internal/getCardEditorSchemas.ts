@@ -59,6 +59,9 @@ export async function getCardEditorSchemas(
           );
 
           // if we have buildDefaults, build the defaults
+          // TODO: when first implementing buildDefaults for initiative templates, remove the ignore line
+
+          /* istanbul ignore next */
           if ((uiSchemaModuleResolved as ICardEditorModuleType).buildDefaults) {
             defaults = (
               uiSchemaModuleResolved as ICardEditorModuleType
