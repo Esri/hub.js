@@ -1,4 +1,4 @@
-import { IPermissionPolicy } from "../../permissions";
+import { IPermissionPolicy } from "../../permissions/types/IPermissionPolicy";
 
 /**
  * Feedback Permission Policies
@@ -58,15 +58,15 @@ export const FeedbackPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:feedback:workspace:dashboard",
-    dependencies: ["hub:site:workspace", "hub:feedback:view"],
+    dependencies: ["hub:feedback:workspace", "hub:feedback:view"],
   },
   {
     permission: "hub:feedback:workspace:details",
-    dependencies: ["hub:site:workspace", "hub:feedback:edit"],
+    dependencies: ["hub:feedback:workspace", "hub:feedback:edit"],
   },
   {
     permission: "hub:feedback:workspace:settings",
-    dependencies: ["hub:site:workspace", "hub:feedback:edit"],
+    dependencies: ["hub:feedback:workspace", "hub:feedback:edit"],
   },
   {
     permission: "hub:feedback:manage",

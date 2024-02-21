@@ -1,4 +1,5 @@
-import { getProp, setProp } from "../../objects";
+import { getProp } from "../../objects/get-prop";
+import { setProp } from "../../objects/set-prop";
 import { cloneObject } from "../../util";
 import { IS123FormJSON, IS123Question } from "../types";
 import { isPageQuestion } from "./is-page-question";

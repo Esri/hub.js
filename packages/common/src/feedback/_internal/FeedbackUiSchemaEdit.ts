@@ -1,8 +1,9 @@
 import { IArcGISContext } from "../../ArcGISContext";
-import { IHubFeedback, IUiSchema } from "../../core";
 import { getCategoryItems } from "../../core/schemas/internal/getCategoryItems";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
+import { IUiSchema } from "../../core/schemas/types";
+import { IHubFeedback } from "../../core/types/IHubFeedback";
 
 /**
  * @private

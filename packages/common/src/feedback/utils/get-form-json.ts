@@ -3,7 +3,9 @@ import {
   IItem,
   getItemInfo,
 } from "@esri/arcgis-rest-portal";
-import { decodeForm, getFormInfoJson, isSurvey123Connect } from "./utils";
+import { getFormInfoJson } from "./get-form-info-json";
+import { isSurvey123Connect } from "./is-survey123-connect";
+import { decodeForm } from "./decode-form";
 
 /**
  * Given the id of a Survey Item, return the form json, if it exists.

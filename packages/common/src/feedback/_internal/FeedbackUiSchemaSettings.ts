@@ -1,6 +1,6 @@
 import { IArcGISContext } from "../../ArcGISContext";
-import { IUiSchema, UiSchemaRuleEffects } from "../../core";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
+import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 
 /**
  * @private

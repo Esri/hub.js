@@ -1,6 +1,5 @@
-import { IConfigurationSchema } from "../../core";
 import { HubItemEntitySchema } from "../../core/schemas/shared/HubItemEntitySchema";
-import { hasMapQuestion } from "../../surveys/utils";
+import { IConfigurationSchema } from "../../core/schemas/types";
 
 export type FeedbackEditorType = (typeof FeedbackEditorTypes)[number];
 export const FeedbackEditorTypes = [

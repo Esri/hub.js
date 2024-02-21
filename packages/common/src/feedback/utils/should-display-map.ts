@@ -1,5 +1,5 @@
 import { IItem } from "@esri/arcgis-rest-types";
-import { MAP_SURVEY_TYPEKEYWORD } from "../../feedback";
+import { MAP_SURVEY_TYPEKEYWORD } from "../constants";
 
 /**
  * Determines the display mode of the given survey

@@ -1,18 +1,17 @@
-import {
-  IWithEditorBehavior,
-  IEditorConfig,
-  IEntityEditorContext,
-  HubEntityEditor,
-  HubEntity,
-  IHubFeedback,
-  getEditorConfig,
-  IHubFeedbackEditor,
-} from "../core";
 import { HubItemEntity } from "../core/HubItemEntity";
+import { IWithEditorBehavior } from "../core/behaviors/IWithEditorBehavior";
 import { enrichEntity } from "../core/enrichEntity";
+import { getEditorConfig } from "../core/schemas/getEditorConfig";
+import { IEditorConfig } from "../core/schemas/types";
+import { HubEntity } from "../core/types/HubEntity";
+import {
+  HubEntityEditor,
+  IEntityEditorContext,
+} from "../core/types/HubEntityEditor";
+import { IHubFeedback, IHubFeedbackEditor } from "../core/types/IHubFeedback";
 import { cloneObject } from "../util";
 import { FeedbackEditorType } from "./_internal/FeedbackSchema";
-import { updateFeedback, deleteFeedback } from "./edit";
+import { deleteFeedback, updateFeedback } from "./edit";
 
 /**
  * Hub Feedback Class

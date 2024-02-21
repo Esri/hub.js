@@ -1,11 +1,12 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { computeBaseProps } from "../../core/_internal/computeBaseProps";
-import { isDiscussable } from "../../discussions";
-import { getItemThumbnailUrl } from "../../resources";
-import { IModel } from "../../types";
 import { IHubFeedback } from "../../core/types/IHubFeedback";
-import { hasMapQuestion, shouldDisplayMap } from "../../surveys/utils";
+import { IModel } from "../../types";
+import { getItemThumbnailUrl } from "../../resources/get-item-thumbnail-url";
+import { isDiscussable } from "../../discussions/utils";
+import { hasMapQuestion } from "../utils/has-map-question";
+import { shouldDisplayMap } from "../utils/should-display-map";
 
 /**
  * Given a model and a feedback object, set various computed properties that can't be directly mapped
