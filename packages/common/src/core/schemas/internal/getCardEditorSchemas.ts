@@ -9,6 +9,7 @@ import { filterSchemaToUiSchema } from "./filterSchemaToUiSchema";
 import { CardEditorOptions } from "./EditorOptions";
 import { cloneObject } from "../../../util";
 import { IArcGISContext } from "../../../ArcGISContext";
+import { ICardEditorModuleType } from "../types";
 
 /**
  * get the editor schema and uiSchema defined for a layout card.
@@ -36,6 +37,7 @@ export async function getCardEditorSchemas(
   let uiSchema;
   let schemaPromise;
   let uiSchemaPromise;
+  let defaults;
 
   switch (cardType) {
     case "stat":
@@ -55,8 +57,16 @@ export async function getCardEditorSchemas(
             options,
             context
           );
+
+          // if we have buildDefaults, build the defaults
+          if ((uiSchemaModuleResolved as ICardEditorModuleType).buildDefaults) {
+            defaults = (
+              uiSchemaModuleResolved as ICardEditorModuleType
+            ).buildDefaults(i18nScope, options, context);
+          }
         }
       );
+
       break;
     case "follow":
       // get correct module
