@@ -36,13 +36,23 @@ export function checkAvailability(
 
     // reduce over the policy.availability array, adding a check for each
     // value that is not included in the contextAvailability array
+    // the 'flag' is only used when we want to gate the feature behind
+    // a feature flag, e.g. ?pe=hub:card:follow
     checks = policy.availability.reduce((acc: IPolicyCheck[], value) => {
       let result: PolicyResponse = "granted";
       if (!contextAvailability.includes(value)) {
-        result = `not-${value}-org` as PolicyResponse;
+        if (value === "flag") {
+          result = `feature-flag-required`;
+        } else {
+          result = `not-${value}-org` as PolicyResponse;
+        }
+      }
+      let name = `user in ${value} org`;
+      if (value === "flag") {
+        name = `with feature flag`;
       }
       const check: IPolicyCheck = {
-        name: `user in ${value} org`,
+        name,
         value: contextAvailability.join(", "),
         code: getPolicyResponseCode(result),
         response: result,
