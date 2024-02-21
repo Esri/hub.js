@@ -1,3 +1,10 @@
+# @esri/hub-common [14.93.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.92.3...@esri/hub-common@14.93.0) (2024-02-21)
+
+
+### Features
+
+* **hub-common:** add types for event addresses ([#1417](https://github.com/Esri/hub.js/issues/1417)) ([7fe4657](https://github.com/Esri/hub.js/commit/7fe46575ac0c167091907d68ccb2d1cda834ddfe))
+
 ## @esri/hub-common [14.92.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.92.2...@esri/hub-common@14.92.3) (2024-02-21)
 
 
