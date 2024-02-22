@@ -58,7 +58,13 @@ describe("Events", () => {
             properties: {},
           },
           notifyAttendees: true,
-          onlineLocations: ["https://www.esri.com"],
+          onlineMeetings: [
+            {
+              url: "https://www.esri.com",
+              capacity: 50,
+              details: "Tacos online are here",
+            },
+          ],
           startDateTime: "2023-12-01T19:52:13.584Z",
           summary: "a summary",
           timeZone: "America/Los_Angeles",

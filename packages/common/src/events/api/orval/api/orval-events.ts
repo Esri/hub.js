@@ -34,11 +34,21 @@ export type GetEventsParams = {
   start?: number;
 };
 
-export interface IUpdateRegistration {
+export interface ICreateRegistration {
+  /** ArcGIS Online id for a user. Will always be extracted from the token unless service token is used. */
+  agoId?: string;
+  /** Email for the subscriber. Will always be extracted from the token unless service token is used. */
+  email?: string;
+  /** Event id being registered for */
+  eventId: string;
+  /** First name for the subscriber. Will always be extracted from the token unless service token is used. */
+  firstName?: string;
+  /** Last name for the subscriber. Will always be extracted from the token unless service token is used. */
+  lastName?: string;
   /** Role of the user in the event */
   role?: RegistrationRole;
-  /** Status of the registration */
-  status?: RegistrationStatus;
+  /** Username for the subscriber. Will always be extracted from the token unless service token is used. */
+  username?: string;
 }
 
 export interface IUpdateEvent {
@@ -87,21 +97,11 @@ export enum RegistrationRole {
   ORGANIZER = "ORGANIZER",
   ATTENDEE = "ATTENDEE",
 }
-export interface ICreateRegistration {
-  /** ArcGIS Online id for a user. Will always be extracted from the token unless service token is used. */
-  agoId?: string;
-  /** Email for the subscriber. Will always be extracted from the token unless service token is used. */
-  email?: string;
-  /** Event id being registered for */
-  eventId: string;
-  /** First name for the subscriber. Will always be extracted from the token unless service token is used. */
-  firstName?: string;
-  /** Last name for the subscriber. Will always be extracted from the token unless service token is used. */
-  lastName?: string;
+export interface IUpdateRegistration {
   /** Role of the user in the event */
   role?: RegistrationRole;
-  /** Username for the subscriber. Will always be extracted from the token unless service token is used. */
-  username?: string;
+  /** Status of the registration */
+  status?: RegistrationStatus;
 }
 
 export interface IRegistration {
@@ -145,6 +145,15 @@ export interface IUser {
  * GeoJSON formatted geometry related to the event
  */
 export type ICreateEventGeometry = { [key: string]: any };
+
+export interface ICreateOnlineMeeting {
+  /** Capacity of the online meeting. Minimum value is 1 */
+  capacity?: number;
+  /** Details related to the online meeting */
+  details?: string;
+  /** Url for the online meeting */
+  url: string;
+}
 
 export enum EventAttendanceType {
   VIRTUAL = "VIRTUAL",
@@ -211,7 +220,7 @@ export interface ICreateEvent {
   /** Flag to notify attendees */
   notifyAttendees?: boolean;
   /** Online meetings for the event. Required if attendanceType includes VIRTUAL */
-  onlineMeetings?: ICreateAddress[];
+  onlineMeetings?: ICreateOnlineMeeting[];
   /** ISO8601 start date-time for the event */
   startDateTime: string;
   /** Summary of the event */
