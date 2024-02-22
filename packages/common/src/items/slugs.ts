@@ -106,13 +106,16 @@ export function getItemBySlug(
  * @param requestOptions
  * @returns
  */
-export function findItemsBySlug(
+export async function findItemsBySlug(
   slugInfo: {
     slug: string;
     exclude?: string;
   },
   requestOptions: IRequestOptions
 ): Promise<IItem[]> {
+  if (!slugInfo.slug) {
+    return [];
+  }
   const filter = slugInfo.slug.startsWith(`${TYPEKEYWORD_SLUG_PREFIX}|`)
     ? slugInfo.slug
     : [TYPEKEYWORD_SLUG_PREFIX, slugInfo.slug].join("|");
@@ -133,13 +136,12 @@ export function findItemsBySlug(
   if (slugInfo.exclude) {
     opts.q = `NOT id:${slugInfo.exclude}`;
   }
-  return searchItems(opts)
-    .then((response) => {
-      return response.results;
-    })
-    .catch((e) => {
-      throw e;
-    });
+  try {
+    const response = await searchItems(opts);
+    return response.results;
+  } catch (e) {
+    throw e;
+  }
 }
 
 /**
