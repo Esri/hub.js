@@ -150,7 +150,7 @@ describe("slug utils: ", () => {
   });
 
   describe("findItemsBySlug:", () => {
-    fit("short-circuits with an empty array when slugInfo.slug is falsey", async () => {
+    it("short-circuits with an empty array when slugInfo.slug is falsey", async () => {
       const searchSpy = spyOn(portalModule, "searchItems").and.returnValue(
         Promise.resolve({ results: [] })
       );
