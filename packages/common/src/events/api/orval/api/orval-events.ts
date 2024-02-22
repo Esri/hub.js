@@ -34,6 +34,13 @@ export type GetEventsParams = {
   start?: number;
 };
 
+export interface IUpdateRegistration {
+  /** Role of the user in the event */
+  role?: RegistrationRole;
+  /** Status of the registration */
+  status?: RegistrationStatus;
+}
+
 export interface IUpdateEvent {
   [key: string]: any;
 }
@@ -80,13 +87,6 @@ export enum RegistrationRole {
   ORGANIZER = "ORGANIZER",
   ATTENDEE = "ATTENDEE",
 }
-export interface IUpdateRegistration {
-  /** Role of the user in the event */
-  role?: RegistrationRole;
-  /** Status of the registration */
-  status?: RegistrationStatus;
-}
-
 export interface ICreateRegistration {
   /** ArcGIS Online id for a user. Will always be extracted from the token unless service token is used. */
   agoId?: string;
@@ -104,18 +104,6 @@ export interface ICreateRegistration {
   username?: string;
 }
 
-export interface IUser {
-  agoId: string;
-  createdAt: string;
-  deleted: boolean;
-  email: string;
-  firstName: string;
-  lastName: string;
-  optedOut: boolean;
-  updatedAt: string;
-  username: string;
-}
-
 export interface IRegistration {
   createdAt: string;
   createdBy?: IUser;
@@ -128,6 +116,29 @@ export interface IRegistration {
   updatedAt: string;
   user?: IUser;
   userId: string;
+}
+
+export interface IOnlineMeeting {
+  capacity: number | null;
+  createdAt: string;
+  details: string | null;
+  event?: IEvent;
+  eventId: string;
+  id: string;
+  updatedAt: string;
+  url: string;
+}
+
+export interface IUser {
+  agoId: string;
+  createdAt: string;
+  deleted: boolean;
+  email: string;
+  firstName: string;
+  lastName: string;
+  optedOut: boolean;
+  updatedAt: string;
+  username: string;
 }
 
 /**
@@ -152,7 +163,7 @@ export interface IEvent {
   geometry: IEventGeometry;
   id: string;
   notifyAttendees: boolean;
-  onlineLocations: string[];
+  onlineMeetings?: IOnlineMeeting[];
   recurrence: string | null;
   registrations?: IRegistration[];
   startDateTime: string;
@@ -199,8 +210,8 @@ export interface ICreateEvent {
   lastName?: string;
   /** Flag to notify attendees */
   notifyAttendees?: boolean;
-  /** Online locations for the event */
-  onlineLocations?: string[];
+  /** Online meetings for the event. Required if attendanceType includes VIRTUAL */
+  onlineMeetings?: ICreateAddress[];
   /** ISO8601 start date-time for the event */
   startDateTime: string;
   /** Summary of the event */
