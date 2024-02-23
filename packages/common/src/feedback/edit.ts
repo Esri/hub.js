@@ -13,6 +13,7 @@ import { setDiscussableKeyword } from "../discussions/utils";
 import { setDisplayMapKeyword } from "./utils/set-display-map-keyword";
 import { updateModel } from "../models";
 import { IModel } from "../types";
+import { getFormJson } from "./utils/get-form-json";
 
 /**
  * @private
@@ -40,7 +41,8 @@ export async function updateFeedback(
   );
   // get the backing item
   const item = await getItem(feedback.id, requestOptions);
-  const model = { item };
+  const model: IModel = { item };
+  model.formJSON = await getFormJson(item, requestOptions);
   // create the PropertyMapper
   const mapper = new PropertyMapper<Partial<IHubFeedback>, IModel>(
     getPropertyMap()
