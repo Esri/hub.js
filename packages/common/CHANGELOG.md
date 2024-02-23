@@ -1,3 +1,10 @@
+# @esri/hub-common [14.94.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.93.1...@esri/hub-common@14.94.0) (2024-02-23)
+
+
+### Features
+
+* **hub-common:** remove hostedDownloads beta setting from content schemas / entity calculations ([#1422](https://github.com/Esri/hub.js/issues/1422)) ([28af54f](https://github.com/Esri/hub.js/commit/28af54f923566d437958fa08e769edd41d01bfa4))
+
 ## @esri/hub-common [14.93.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.93.0...@esri/hub-common@14.93.1) (2024-02-22)
 
 
