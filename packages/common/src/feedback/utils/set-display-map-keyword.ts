@@ -13,7 +13,7 @@ export function setDisplayMapKeyword(
   const updatedTypeKeywords = (typeKeywords || []).filter(
     (typeKeyword: string) => typeKeyword !== MAP_SURVEY_TYPEKEYWORD
   );
-  if (!displayMap) {
+  if (displayMap) {
     updatedTypeKeywords.push(MAP_SURVEY_TYPEKEYWORD);
   }
   return updatedTypeKeywords;

@@ -5,7 +5,6 @@ import {
   removeItem,
 } from "@esri/arcgis-rest-portal";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
-import { setEntityStatusKeyword } from "../utils/internal/setEntityStatusKeyword";
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { IHubFeedback } from "../core/types/IHubFeedback";
@@ -26,11 +25,6 @@ export async function updateFeedback(
   feedback: IHubFeedback,
   requestOptions: IUserRequestOptions
 ): Promise<IHubFeedback> {
-  // update the status keyword
-  feedback.typeKeywords = setEntityStatusKeyword(
-    feedback.typeKeywords,
-    feedback.status
-  );
   feedback.typeKeywords = setDiscussableKeyword(
     feedback.typeKeywords,
     feedback.isDiscussable
