@@ -6,12 +6,12 @@ import { IS123Question } from "../types";
  * @returns {boolean}
  */
 export const isMapQuestion = (question: IS123Question) => {
-  const { type, maps = [] } = question;
+  const { type, maps = [], defaultMap } = question;
   const types = [
     "esriQuestionTypeGeoPoint",
     "esriQuestionTypePolyline",
     "esriQuestionTypePolygon",
   ];
   const isType = types.includes(type);
-  return isType && maps.length > 0;
+  return isType && (maps.length > 0 || defaultMap);
 };

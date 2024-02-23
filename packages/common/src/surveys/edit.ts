@@ -5,7 +5,6 @@ import {
   removeItem,
 } from "@esri/arcgis-rest-portal";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
-import { setEntityStatusKeyword } from "../utils/internal/setEntityStatusKeyword";
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { IHubSurvey } from "../core/types/IHubSurvey";
@@ -18,7 +17,7 @@ import { getFormJson } from "./utils/get-form-json";
 /**
  * @private
  * Update a Hub Survey obejct
- * @param survey the Survey to update
+ * @param survey the survey to update
  * @param requestOptions user request options
  * @returns promise that resolves a IHubSurvey
  */
@@ -26,11 +25,6 @@ export async function updateSurvey(
   survey: IHubSurvey,
   requestOptions: IUserRequestOptions
 ): Promise<IHubSurvey> {
-  // update the status keyword
-  survey.typeKeywords = setEntityStatusKeyword(
-    survey.typeKeywords,
-    survey.status
-  );
   survey.typeKeywords = setDiscussableKeyword(
     survey.typeKeywords,
     survey.isDiscussable
