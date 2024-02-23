@@ -23,7 +23,7 @@ import {
 import { IArcGISContext } from "../../../ArcGISContext";
 import { InitiativeTemplateEditorType } from "../../../initiative-templates/_internal/InitiativeTemplateSchema";
 import { getCardEditorSchemas } from "./getCardEditorSchemas";
-import { FeedbackEditorType } from "../../../feedback/_internal/FeedbackSchema";
+import { SurveyEditorType } from "../../../surveys/_internal/SurveySchema";
 
 /**
  * get the editor schema and uiSchema defined for an editor (either an entity or a card).
@@ -223,19 +223,19 @@ export async function getEditorSchemas(
 
       break;
     // ----------------------------------------------------
-    case "feedback":
-      const { FeedbackSchema } = await import(
-        "../../../feedback/_internal/FeedbackSchema"
+    case "survey":
+      const { SurveySchema } = await import(
+        "../../../surveys/_internal/SurveySchema"
       );
-      schema = cloneObject(FeedbackSchema);
+      schema = cloneObject(SurveySchema);
 
-      const feedbackModule = await {
-        "hub:feedback:edit": () =>
-          import("../../../feedback/_internal/FeedbackUiSchemaEdit"),
-        "hub:feedback:settings": () =>
-          import("../../../feedback/_internal/FeedbackUiSchemaSettings"),
-      }[type as FeedbackEditorType]();
-      uiSchema = await feedbackModule.buildUiSchema(
+      const surveyModule = await {
+        "hub:survey:edit": () =>
+          import("../../../surveys/_internal/SurveyUiSchemaEdit"),
+        "hub:survey:settings": () =>
+          import("../../../surveys/_internal/SurveyUiSchemaSettings"),
+      }[type as SurveyEditorType]();
+      uiSchema = await surveyModule.buildUiSchema(
         i18nScope,
         options as EntityEditorOptions,
         context

@@ -1,4 +1,4 @@
-export * from "./HubFeedback";
+export * from "./HubSurvey";
 export * from "./edit";
 export * from "./fetch";
 export * from "./constants";

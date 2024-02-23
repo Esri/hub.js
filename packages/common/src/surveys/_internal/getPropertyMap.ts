@@ -3,7 +3,7 @@ import { getBasePropertyMap } from "../../core/_internal/getBasePropertyMap";
 
 /**
  * Returns an Array of IPropertyMap objects
- * that define the projection of properties from a IModel to an IHubFeedback object
+ * that define the projection of properties from a IModel to an IHubSurvey object
  * @returns an IPropertyMap array
  * @private
  */

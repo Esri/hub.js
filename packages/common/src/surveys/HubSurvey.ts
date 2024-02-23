@@ -5,58 +5,58 @@ import { enrichEntity } from "../core/enrichEntity";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
 import { IEditorConfig } from "../core/schemas/types";
 import { HubEntity } from "../core/types/HubEntity";
-import { DEFAULT_FEEDBACK } from "./defaults";
+import { DEFAULT_SURVEY } from "./defaults";
 import {
   HubEntityEditor,
   IEntityEditorContext,
 } from "../core/types/HubEntityEditor";
-import { IHubFeedback, IHubFeedbackEditor } from "../core/types/IHubFeedback";
+import { IHubSurvey, IHubSurveyEditor } from "../core/types/IHubSurvey";
 import { cloneObject } from "../util";
-import { FeedbackEditorType } from "./_internal/FeedbackSchema";
-import { deleteFeedback, updateFeedback } from "./edit";
+import { SurveyEditorType } from "./_internal/SurveySchema";
+import { deleteSurvey, updateSurvey } from "./edit";
 
 /**
- * Hub Feedback Class
+ * Hub Survey Class
  */
-export class HubFeedback
-  extends HubItemEntity<IHubFeedback>
+export class HubSurvey
+  extends HubItemEntity<IHubSurvey>
   implements IWithEditorBehavior
 {
   /**
-   * Create an instance from a HubFeedback object
-   * @param json - JSON object to create a HubFeedback from
+   * Create an instance from a HubSurvey object
+   * @param json - JSON object to create a HubSurvey from
    * @param context - ArcGIS context
    * @returns
    */
   static fromJson(
-    json: Partial<IHubFeedback>,
+    json: Partial<IHubSurvey>,
     context: IArcGISContext
-  ): HubFeedback {
+  ): HubSurvey {
     // merge what we have with the default values
     const pojo = this.applyDefaults(json, context);
-    return new HubFeedback(pojo, context);
+    return new HubSurvey(pojo, context);
   }
 
   private static applyDefaults(
-    partialFeedback: Partial<IHubFeedback>,
+    partialSurvey: Partial<IHubSurvey>,
     context: IArcGISContext
-  ): IHubFeedback {
+  ): IHubSurvey {
     // ensure we have the orgUrlKey
-    if (!partialFeedback.orgUrlKey) {
-      partialFeedback.orgUrlKey = context.portal.urlKey;
+    if (!partialSurvey.orgUrlKey) {
+      partialSurvey.orgUrlKey = context.portal.urlKey;
     }
     // extend the partial over the defaults
-    const pojo = { ...DEFAULT_FEEDBACK, ...partialFeedback } as IHubFeedback;
+    const pojo = { ...DEFAULT_SURVEY, ...partialSurvey } as IHubSurvey;
     return pojo;
   }
 
   /**
    * Apply a new state to the instance
-   * @param changes A partial IHubFeedback
+   * @param changes A partial IHubSurvey
    */
-  update(changes: Partial<IHubFeedback>): void {
+  update(changes: Partial<IHubSurvey>): void {
     if (this.isDestroyed) {
-      throw new Error("HubFeedback is already destroyed.");
+      throw new Error("HubSurvey is already destroyed.");
     }
     // merge partial onto existing entity
     this.entity = { ...this.entity, ...changes };
@@ -67,12 +67,12 @@ export class HubFeedback
    */
   async save(): Promise<void> {
     if (this.isDestroyed) {
-      throw new Error("HubFeedback is already destroyed.");
+      throw new Error("HubSurvey is already destroyed.");
     }
 
     if (this.entity.id) {
       // update it
-      this.entity = await updateFeedback(
+      this.entity = await updateSurvey(
         this.entity,
         this.context.userRequestOptions
       );
@@ -85,34 +85,34 @@ export class HubFeedback
   }
 
   /**
-   * Delete the HubFeedback object from the store
+   * Delete the HubSurvey object from the store
    * set a flag to indicate that it is destroyed
    * @returns a promise
    */
   async delete(): Promise<void> {
     if (this.isDestroyed) {
-      throw new Error("HubFeedback is already destroyed.");
+      throw new Error("HubSurvey is already destroyed.");
     }
     this.isDestroyed = true;
     // Delegate to module fn
-    await deleteFeedback(this.entity.id, this.context.userRequestOptions);
+    await deleteSurvey(this.entity.id, this.context.userRequestOptions);
   }
 
   /*
-   * Get the editor config for the HubFeedback entity.
+   * Get the editor config for the HubSurvey entity.
    * @param i18nScope translation scope to be interpolated into the uiSchema
    * @param type editor type - corresonds to the returned uiSchema
    */
   getEditorConfig(
     i18nScope: string,
-    type: FeedbackEditorType
+    type: SurveyEditorType
   ): Promise<IEditorConfig> {
     // delegate to the schema subsystem
     return getEditorConfig(i18nScope, type, this.entity, this.context);
   }
 
   /**
-   * Return the feedback object as an editor object
+   * Return the Survey object as an editor object
    * @param editorContext
    * @param include
    * @returns
@@ -127,8 +127,8 @@ export class HubFeedback
           cloneObject(this.entity),
           include,
           this.context.hubRequestOptions
-        )) as IHubFeedbackEditor)
-      : (cloneObject(this.entity) as IHubFeedbackEditor);
+        )) as IHubSurveyEditor)
+      : (cloneObject(this.entity) as IHubSurveyEditor);
 
     // 2. Apply transforms to relevant entity values so they
     // can be consumed by the editor
@@ -136,10 +136,10 @@ export class HubFeedback
   }
 
   /**
-   * Load the feedback object from the editor object
+   * Load the Survey object from the editor object
    * @param editor
    * @param editorContext
-   * @returns IHubFeedback
+   * @returns IHubSurvey
    */
   async fromEditor(
     editor: HubEntityEditor,
@@ -165,7 +165,7 @@ export class HubFeedback
 
     // convert back to an entity. Apply any reverse transforms used in
     // of the toEditor method
-    const entity = cloneObject(editor) as IHubFeedback;
+    const entity = cloneObject(editor) as IHubSurvey;
 
     // copy the location extent up one level
     entity.extent = editor.location?.extent;

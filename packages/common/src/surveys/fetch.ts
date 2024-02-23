@@ -1,6 +1,6 @@
 import { getItem } from "@esri/arcgis-rest-portal";
 import { IItem } from "@esri/arcgis-rest-types";
-import { IHubFeedback } from "../core/types/IHubFeedback";
+import { IHubSurvey } from "../core/types/IHubSurvey";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
@@ -11,15 +11,15 @@ import { getItemBySlug } from "../items/slugs";
 
 /**
  * @private
- * Get a Feedback entity by id or slug
+ * Get a Survey entity by id or slug
  * @param identifier item id or slug
  * @param requestOptions request options
- * @returns a promise that resolves a IHubFeedback object
+ * @returns a promise that resolves a IHubSurvey object
  */
-export async function fetchFeedback(
+export async function fetchSurvey(
   identifier: string,
   requestOptions: IHubRequestOptions
-): Promise<IHubFeedback> {
+): Promise<IHubSurvey> {
   let getPrms;
   if (isGuid(identifier)) {
     // get item by id
@@ -29,27 +29,27 @@ export async function fetchFeedback(
   }
   return getPrms.then((item) => {
     if (!item) return null;
-    return convertItemToFeedback(item, requestOptions);
+    return convertItemToSurvey(item, requestOptions);
   });
 }
 
 /**
  * @private
- * Convert a Hub Feedback Item into a Hub Feedback entity, fetching any additional
+ * Convert a Hub Survey Item into a Hub Survey entity, fetching any additional
  * information that may be required
- * @param item the feedback item
+ * @param item the Survey item
  * @param auth request options
- * @returns a promise that resolves a IHubFeedback object
+ * @returns a promise that resolves a IHubSurvey object
  */
-export async function convertItemToFeedback(
+export async function convertItemToSurvey(
   item: IItem,
   requestOptions: IHubRequestOptions
-): Promise<IHubFeedback> {
+): Promise<IHubSurvey> {
   const model: IModel = { item };
   model.formJSON = await getFormJson(item, requestOptions);
-  const mapper = new PropertyMapper<Partial<IHubFeedback>, IModel>(
+  const mapper = new PropertyMapper<Partial<IHubSurvey>, IModel>(
     getPropertyMap()
   );
-  const feedback = mapper.storeToEntity(model, {}) as IHubFeedback;
-  return computeProps(model, feedback, requestOptions);
+  const survey = mapper.storeToEntity(model, {}) as IHubSurvey;
+  return computeProps(model, survey, requestOptions);
 }

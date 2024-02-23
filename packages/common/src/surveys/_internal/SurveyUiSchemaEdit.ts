@@ -3,17 +3,17 @@ import { getCategoryItems } from "../../core/schemas/internal/getCategoryItems";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 import { IUiSchema } from "../../core/schemas/types";
-import { IHubFeedback } from "../../core/types/IHubFeedback";
+import { IHubSurvey } from "../../core/types/IHubSurvey";
 
 /**
  * @private
- * constructs the complete edit uiSchema for Hub Feedback.
+ * constructs the complete edit uiSchema for Hub Survey.
  * This defines how the schema properties should be
- * rendered in the feedback editing experience
+ * rendered in the survey editing experience
  */
 export const buildUiSchema = async (
   i18nScope: string,
-  options: Partial<IHubFeedback>,
+  options: Partial<IHubSurvey>,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
   return {

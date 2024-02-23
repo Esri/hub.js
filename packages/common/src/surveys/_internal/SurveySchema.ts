@@ -1,16 +1,16 @@
 import { HubItemEntitySchema } from "../../core/schemas/shared/HubItemEntitySchema";
 import { IConfigurationSchema } from "../../core/schemas/types";
 
-export type FeedbackEditorType = (typeof FeedbackEditorTypes)[number];
-export const FeedbackEditorTypes = [
-  "hub:feedback:edit",
-  "hub:feedback:settings",
+export type SurveyEditorType = (typeof SurveyEditorTypes)[number];
+export const SurveyEditorTypes = [
+  "hub:survey:edit",
+  "hub:survey:settings",
 ] as const;
 
 /**
- * defines the JSON schema for a Feedback entity's editable fields
+ * defines the JSON schema for a Survey entity's editable fields
  */
-export const FeedbackSchema: IConfigurationSchema = {
+export const SurveySchema: IConfigurationSchema = {
   ...HubItemEntitySchema,
   properties: {
     displayMap: {

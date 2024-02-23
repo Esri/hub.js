@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { getSourceFeatureServiceModelFromFieldworker } from "../../src/feedback/utils/get-source-feature-service-model-from-fieldworker";
+import { getSourceFeatureServiceModelFromFieldworker } from "../../src/surveys/utils/get-source-feature-service-model-from-fieldworker";
 import * as FeatureServiceItem from "../mocks/items/feature-service-item.json";
 import * as restPortal from "@esri/arcgis-rest-portal";
 import { mockUserSession } from "../test-helpers/fake-user-session";

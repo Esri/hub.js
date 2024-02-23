@@ -25,7 +25,7 @@ const DEFAULT_ENTITY_SETTINGS_BY_ENTITY_TYPE: Record<
   org: null,
   group: null,
   template: null,
-  feedback: null,
+  survey: null,
 };
 
 export function getDefaultEntitySettings(

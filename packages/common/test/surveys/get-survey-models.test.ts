@@ -4,15 +4,15 @@
 import { IModel } from "../../src/types";
 import * as restPortal from "@esri/arcgis-rest-portal";
 import { mockUserSession } from "../test-helpers/fake-user-session";
-import { getSurveyModels } from "../../src/feedback/utils/get-survey-models";
+import { getSurveyModels } from "../../src/surveys/utils/get-survey-models";
 import * as FormItemPublished from "../mocks/items/form-item-published.json";
 import * as FeatureServiceItem from "../mocks/items/feature-service-item.json";
 import * as FieldworkerItem from "../mocks/items/fieldworker-item.json";
 import * as StakeholderItem from "../mocks/items/stakeholder-item.json";
-import * as isFieldworkerView from "../../src/feedback/utils/is-fieldworker-view";
-import * as getInputFeatureServiceModel from "../../src/feedback/utils/get-input-feature-service-model";
-import * as getSourceFeatureServiceModelFromFieldworker from "../../src/feedback/utils/get-source-feature-service-model-from-fieldworker";
-import * as getStakeholderModel from "../../src/feedback/utils/get-stakeholder-model";
+import * as isFieldworkerView from "../../src/surveys/utils/is-fieldworker-view";
+import * as getInputFeatureServiceModel from "../../src/surveys/utils/get-input-feature-service-model";
+import * as getSourceFeatureServiceModelFromFieldworker from "../../src/surveys/utils/get-source-feature-service-model-from-fieldworker";
+import * as getStakeholderModel from "../../src/surveys/utils/get-stakeholder-model";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 describe("getSurveyModels", function () {

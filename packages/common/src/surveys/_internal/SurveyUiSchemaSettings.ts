@@ -4,9 +4,9 @@ import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 
 /**
  * @private
- * settings uiSchema for Hub Feedback - this
+ * settings uiSchema for Hub Survey - this
  * defines how the schema properties should be
- * rendered in the Feedback settings experience
+ * rendered in the Survey settings experience
  */
 export const buildUiSchema = async (
   i18nScope: string,

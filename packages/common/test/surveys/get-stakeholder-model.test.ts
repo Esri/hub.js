@@ -3,7 +3,7 @@
 
 import * as restPortal from "@esri/arcgis-rest-portal";
 import { mockUserSession } from "../test-helpers/fake-user-session";
-import { getStakeholderModel } from "../../src/feedback/utils/get-stakeholder-model";
+import { getStakeholderModel } from "../../src/surveys/utils/get-stakeholder-model";
 import * as StakeholderItem from "../mocks/items/stakeholder-item.json";
 
 describe("getStakeholderModel", function () {

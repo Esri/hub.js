@@ -35,7 +35,7 @@ export function getTypeFromEntity(
       type = "group";
       break;
     case "Form":
-      type = "feedback";
+      type = "survey";
       break;
     case "Hub Initiative Template":
       type = "initiativeTemplate";

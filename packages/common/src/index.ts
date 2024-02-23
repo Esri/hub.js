@@ -18,7 +18,7 @@ export * from "./i18n";
 export * from "./initiatives";
 export * from "./initiative-templates";
 export * from "./discussions";
-export * from "./feedback";
+export * from "./surveys";
 export * from "./items";
 export * from "./models";
 export * from "./objects";

@@ -3,5 +3,5 @@
     "include": [
         "src/**/*.ts",
         "types/**/*.ts"
-, "src/feedback/utils"    ], 
+, "src/surveys/utils"    ], 
 }
