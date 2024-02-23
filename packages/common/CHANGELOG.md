@@ -1,3 +1,17 @@
+# @esri/hub-common [14.94.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.93.1...@esri/hub-common@14.94.0) (2024-02-23)
+
+
+### Features
+
+* **hub-common:** remove hostedDownloads beta setting from content schemas / entity calculations ([#1422](https://github.com/Esri/hub.js/issues/1422)) ([28af54f](https://github.com/Esri/hub.js/commit/28af54f923566d437958fa08e769edd41d01bfa4))
+
+## @esri/hub-common [14.93.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.93.0...@esri/hub-common@14.93.1) (2024-02-22)
+
+
+### Bug Fixes
+
+* findItemsBySlug short-circuits to resolve empty array when slug is falsey ([#1420](https://github.com/Esri/hub.js/issues/1420)) ([f255f6e](https://github.com/Esri/hub.js/commit/f255f6ec4ce20598ef9538f208d7f5c1d38f51fe))
+
 # @esri/hub-common [14.93.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.92.3...@esri/hub-common@14.93.0) (2024-02-21)
 
 

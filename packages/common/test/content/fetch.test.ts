@@ -687,7 +687,6 @@ describe("fetchHubContent", () => {
     expect(chk.id).toBe(HOSTED_FEATURE_SERVICE_GUID);
     expect(chk.owner).toBe(HOSTED_FEATURE_SERVICE_ITEM.owner);
     expect(chk.serverExtractCapability).toBeTruthy();
-    expect(chk.hostedDownloads).toBeFalsy();
 
     expect(getItemSpy.calls.count()).toBe(1);
     expect(getItemSpy.calls.argsFor(0)[0]).toBe(HOSTED_FEATURE_SERVICE_GUID);
@@ -709,7 +708,6 @@ describe("fetchHubContent", () => {
     expect(chk.id).toBe(NON_HOSTED_FEATURE_SERVICE_GUID);
     expect(chk.owner).toBe(NON_HOSTED_FEATURE_SERVICE_ITEM.owner);
     expect(chk.serverExtractCapability).toBeFalsy();
-    expect(chk.hostedDownloads).toBeFalsy();
 
     expect(getItemSpy.calls.count()).toBe(1);
     expect(getItemSpy.calls.argsFor(0)[0]).toBe(
@@ -731,7 +729,6 @@ describe("fetchHubContent", () => {
     expect(chk.id).toBe(PDF_GUID);
     expect(chk.owner).toBe(PDF_ITEM.owner);
     expect(chk.serverExtractCapability).toBeFalsy();
-    expect(chk.hostedDownloads).toBeFalsy();
 
     expect(getItemSpy.calls.count()).toBe(1);
     expect(getItemSpy.calls.argsFor(0)[0]).toBe(PDF_GUID);
