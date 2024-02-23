@@ -22,6 +22,12 @@ export class HubFeedback
   extends HubItemEntity<IHubFeedback>
   implements IWithEditorBehavior
 {
+  /**
+   * Create an instance from a HubFeedback object
+   * @param json - JSON object to create a HubFeedback from
+   * @param context - ArcGIS context
+   * @returns
+   */
   static fromJson(
     json: Partial<IHubFeedback>,
     context: IArcGISContext

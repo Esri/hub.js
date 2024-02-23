@@ -12,7 +12,7 @@ import { IHubFeedback } from "../core/types/IHubFeedback";
 import { getUniqueSlug } from "../items/slugs";
 import { setDiscussableKeyword } from "../discussions/utils";
 import { setDisplayMapKeyword } from "./utils/set-display-map-keyword";
-import { /*getModel, */ updateModel } from "../models";
+import { updateModel } from "../models";
 import { IModel } from "../types";
 
 /**
@@ -45,7 +45,6 @@ export async function updateFeedback(
     feedback.displayMap
   );
   // get the backing item
-  // const model = await getModel(feedback.id, requestOptions);
   const item = await getItem(feedback.id, requestOptions);
   const model = { item };
   // create the PropertyMapper
