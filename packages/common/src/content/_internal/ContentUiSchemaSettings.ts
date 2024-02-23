@@ -39,26 +39,6 @@ export const buildUiSchema = async (
             },
           },
         },
-        {
-          labelKey: `${i18nScope}.fields.hostedDownloads.label`,
-          scope: "/properties/hostedDownloads",
-          type: "Control",
-          options: {
-            helperText: {
-              labelKey: `${i18nScope}.fields.hostedDownloads.helperText`,
-            },
-          },
-          rule: {
-            effect: UiSchemaRuleEffects.DISABLE,
-            condition: {
-              schema: {
-                properties: {
-                  serverExtractCapability: { const: false },
-                },
-              },
-            },
-          },
-        },
       ],
     });
   }

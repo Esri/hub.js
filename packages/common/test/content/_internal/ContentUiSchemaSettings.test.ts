@@ -34,26 +34,6 @@ describe("buildUiSchema: content settings", () => {
                 },
               },
             },
-            {
-              labelKey: "some.scope.fields.hostedDownloads.label",
-              scope: "/properties/hostedDownloads",
-              type: "Control",
-              options: {
-                helperText: {
-                  labelKey: "some.scope.fields.hostedDownloads.helperText",
-                },
-              },
-              rule: {
-                effect: UiSchemaRuleEffects.DISABLE,
-                condition: {
-                  schema: {
-                    properties: {
-                      serverExtractCapability: { const: false },
-                    },
-                  },
-                },
-              },
-            },
           ],
         },
       ],
