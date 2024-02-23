@@ -9,7 +9,6 @@ import { setEntityStatusKeyword } from "../utils/internal/setEntityStatusKeyword
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { IHubFeedback } from "../core/types/IHubFeedback";
-import { getUniqueSlug } from "../items/slugs";
 import { setDiscussableKeyword } from "../discussions/utils";
 import { setDisplayMapKeyword } from "./utils/set-display-map-keyword";
 import { updateModel } from "../models";
@@ -26,11 +25,6 @@ export async function updateFeedback(
   feedback: IHubFeedback,
   requestOptions: IUserRequestOptions
 ): Promise<IHubFeedback> {
-  // verify that the slug is unique, excluding the current feedback
-  feedback.slug = await getUniqueSlug(
-    { slug: feedback.slug, existingId: feedback.id },
-    requestOptions
-  );
   // update the status keyword
   feedback.typeKeywords = setEntityStatusKeyword(
     feedback.typeKeywords,
