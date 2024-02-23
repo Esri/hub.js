@@ -1,9 +1,11 @@
+import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
 import { IWithEditorBehavior } from "../core/behaviors/IWithEditorBehavior";
 import { enrichEntity } from "../core/enrichEntity";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
 import { IEditorConfig } from "../core/schemas/types";
 import { HubEntity } from "../core/types/HubEntity";
+import { DEFAULT_FEEDBACK } from "./defaults";
 import {
   HubEntityEditor,
   IEntityEditorContext,
@@ -20,6 +22,28 @@ export class HubFeedback
   extends HubItemEntity<IHubFeedback>
   implements IWithEditorBehavior
 {
+  static fromJson(
+    json: Partial<IHubFeedback>,
+    context: IArcGISContext
+  ): HubFeedback {
+    // merge what we have with the default values
+    const pojo = this.applyDefaults(json, context);
+    return new HubFeedback(pojo, context);
+  }
+
+  private static applyDefaults(
+    partialFeedback: Partial<IHubFeedback>,
+    context: IArcGISContext
+  ): IHubFeedback {
+    // ensure we have the orgUrlKey
+    if (!partialFeedback.orgUrlKey) {
+      partialFeedback.orgUrlKey = context.portal.urlKey;
+    }
+    // extend the partial over the defaults
+    const pojo = { ...DEFAULT_FEEDBACK, ...partialFeedback } as IHubFeedback;
+    return pojo;
+  }
+
   /**
    * Apply a new state to the instance
    * @param changes A partial IHubFeedback

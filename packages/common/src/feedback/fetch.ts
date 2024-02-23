@@ -8,7 +8,7 @@ import { getFormJson } from "./utils/get-form-json";
 import { isGuid } from "../utils/is-guid";
 import { IHubRequestOptions, IModel } from "../types";
 import { getItemBySlug } from "../items/slugs";
-import { fetchModelFromItem } from "../models";
+// import { fetchModelFromItem } from "../models";
 
 /**
  * @private
@@ -46,7 +46,8 @@ export async function convertItemToFeedback(
   item: IItem,
   requestOptions: IHubRequestOptions
 ): Promise<IHubFeedback> {
-  const model = await fetchModelFromItem(item, requestOptions);
+  // const model = await fetchModelFromItem(item, requestOptions);
+  const model: IModel = { item };
   model.formJSON = await getFormJson(item, requestOptions);
   const mapper = new PropertyMapper<Partial<IHubFeedback>, IModel>(
     getPropertyMap()

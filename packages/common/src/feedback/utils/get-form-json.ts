@@ -27,10 +27,12 @@ export const getFormJson = async (
     promise = Promise.all([
       getItemInfo(item.id, {
         fileName: `${name}.webform`,
+        readAs: "json",
         ...requestOptions,
       }),
       getItemInfo(item.id, {
         fileName: `${name}.info`,
+        readAs: "json",
         ...requestOptions,
       }),
     ]).then(([webform, info]) => {
@@ -67,6 +69,7 @@ export const getFormJson = async (
   } else {
     promise = getItemInfo(item.id, {
       fileName: `${name}.json`,
+      readAs: "json",
       ...requestOptions,
     });
   }

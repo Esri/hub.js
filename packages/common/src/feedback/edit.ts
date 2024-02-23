@@ -1,5 +1,9 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
+import {
+  IUserItemOptions,
+  getItem,
+  removeItem,
+} from "@esri/arcgis-rest-portal";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { setEntityStatusKeyword } from "../utils/internal/setEntityStatusKeyword";
 import { computeProps } from "./_internal/computeProps";
@@ -8,7 +12,7 @@ import { IHubFeedback } from "../core/types/IHubFeedback";
 import { getUniqueSlug } from "../items/slugs";
 import { setDiscussableKeyword } from "../discussions/utils";
 import { setDisplayMapKeyword } from "./utils/set-display-map-keyword";
-import { getModel, updateModel } from "../models";
+import { /*getModel, */ updateModel } from "../models";
 import { IModel } from "../types";
 
 /**
@@ -40,8 +44,10 @@ export async function updateFeedback(
     feedback.typeKeywords,
     feedback.displayMap
   );
-  // get the backing item & data
-  const model = await getModel(feedback.id, requestOptions);
+  // get the backing item
+  // const model = await getModel(feedback.id, requestOptions);
+  const item = await getItem(feedback.id, requestOptions);
+  const model = { item };
   // create the PropertyMapper
   const mapper = new PropertyMapper<Partial<IHubFeedback>, IModel>(
     getPropertyMap()

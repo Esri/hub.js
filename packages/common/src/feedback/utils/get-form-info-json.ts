@@ -14,6 +14,7 @@ export const getFormInfoJson = (
 ) => {
   return getItemInfo(id, {
     fileName: "forminfo.json",
+    readAs: "json",
     ...requestOptions,
   });
 };

@@ -10,6 +10,7 @@ import { PagePermissionPolicies } from "../pages/_internal/PageBusinessRules";
 import { PlatformPermissionPolicies } from "./PlatformPermissionPolicies";
 import { InitiativeTemplatePermissionPolicies } from "../initiative-templates/_internal/InitiativeTemplateBusinessRules";
 import { TemplatePermissionPolicies } from "../templates/_internal/TemplateBusinessRules";
+import { FeedbackPermissionPolicies } from "../feedback/_internal/FeedbackBusinessRules";
 
 // Examples of possible Permission Policies
 // const DiscussionPermissionPolicies: IPermissionPolicy[] = [
@@ -158,6 +159,7 @@ export const HubPermissionsPolicies: IPermissionPolicy[] = [
   ...TempPermissionPolicies,
   ...InitiativeTemplatePermissionPolicies,
   ...SystemPermissionPolicies,
+  ...FeedbackPermissionPolicies,
 ];
 
 /**
