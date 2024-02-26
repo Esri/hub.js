@@ -2,15 +2,19 @@ import {
   ICreateEventParams,
   IDeleteEventParams,
   IGetEventParams,
+  IGetEventsParams,
   IUpdateEventParams,
   createEvent,
   deleteEvent,
   getEvent,
+  getEvents,
   // updateEvent,
+  IEvent,
+  EventAttendanceType,
+  EventStatus,
 } from "../../../src/events/api";
 import * as authenticateRequestModule from "../../../src/events/api/utils/authenticate-request";
 import * as orvalModule from "../../../src/events/api/orval/api/orval-events";
-import { IEvent } from "../../../src/events/api";
 
 describe("Events", () => {
   const token = "aaa";
@@ -31,24 +35,36 @@ describe("Events", () => {
       );
 
       const options: ICreateEventParams = {
-        token,
         data: {
-          allDay: false,
-          attendanceType: ["IN_PERSON", "VIRTUAL"],
-          capacity: 100,
-          // catalog: [], // todo: not defined yet
-          description: "a description",
-          endDateTime: "2023-12-19T19:52:13.584Z",
-          locations: [
+          addresses: [
             {
-              type: "Feature",
-              geometry: { type: "Point", coordinates: [0, 0] },
-              properties: {},
+              address: "111 Crunchy Street Bend, OR 97703",
+              address2: "Room 203",
+              capacity: 100,
+              description: "Tacos are here",
+              venue: "Taco Hall",
             },
           ],
+          allDay: false,
+          attendanceType: [
+            EventAttendanceType.IN_PERSON,
+            EventAttendanceType.VIRTUAL,
+          ],
+          description: "a description",
+          endDateTime: "2023-12-19T19:52:13.584Z",
+          geometry: {
+            type: "Feature",
+            geometry: { type: "Point", coordinates: [0, 0] },
+            properties: {},
+          },
           notifyAttendees: true,
-          onlineLocations: ["https://www.esri.com"],
-          // recurrence: null, // todo: not defined yet
+          onlineMeetings: [
+            {
+              url: "https://www.esri.com",
+              capacity: 50,
+              details: "Tacos online are here",
+            },
+          ],
           startDateTime: "2023-12-01T19:52:13.584Z",
           summary: "a summary",
           timeZone: "America/Los_Angeles",
@@ -83,6 +99,30 @@ describe("Events", () => {
 
       expect(authenticateRequestSpy).toHaveBeenCalledWith(options);
       expect(getEventSpy).toHaveBeenCalledWith(options.eventId, {
+        ...options,
+        token,
+      });
+    });
+  });
+
+  describe("getEvents", () => {
+    it("should get events", async () => {
+      const mockEvent = { burrito: "supreme" } as unknown as IEvent;
+      const getEventsSpy = spyOn(orvalModule, "getEvents").and.callFake(
+        async () => [mockEvent]
+      );
+
+      const options: IGetEventsParams = {
+        data: {
+          startDateTimeBefore: "2024-02-19T21:52:29.525Z",
+        },
+      };
+
+      const result = await getEvents(options);
+      expect(result).toEqual([mockEvent]);
+
+      expect(authenticateRequestSpy).toHaveBeenCalledWith(options);
+      expect(getEventsSpy).toHaveBeenCalledWith(options.data, {
         ...options,
         token,
       });

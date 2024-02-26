@@ -100,7 +100,7 @@ export interface IFeatureFlags extends Record<Permission, boolean> {}
 /**
  * Hub Availability levels
  */
-export type HubAvailability = "alpha" | "beta" | "general";
+export type HubAvailability = "alpha" | "beta" | "general" | "flag";
 
 /**
  * Hub Run-time environments

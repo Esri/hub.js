@@ -150,6 +150,20 @@ describe("slug utils: ", () => {
   });
 
   describe("findItemsBySlug:", () => {
+    it("short-circuits with an empty array when slugInfo.slug is falsey", async () => {
+      const searchSpy = spyOn(portalModule, "searchItems").and.returnValue(
+        Promise.resolve({ results: [] })
+      );
+
+      const results = await slugModule.findItemsBySlug(
+        { slug: "", exclude: "bc3" },
+        {
+          authentication: MOCK_AUTH,
+        }
+      );
+      expect(results).toEqual([]);
+      expect(searchSpy.calls.count()).toBe(0);
+    });
     it("excludes specific item", async () => {
       const searchSpy = spyOn(portalModule, "searchItems").and.returnValue(
         Promise.resolve({
@@ -166,7 +180,6 @@ describe("slug utils: ", () => {
         }
       );
       expect(results[0].id).toBe("3ef");
-      // check if
       expect(searchSpy.calls.count()).toBe(1);
       const args = searchSpy.calls.argsFor(0)[0] as unknown as ISearchOptions;
       expect(args.filter).toBe(`typekeywords:"slug|foo-bar"`);

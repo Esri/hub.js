@@ -21,8 +21,5 @@ export const ContentSchema: IConfigurationSchema = {
     serverExtractCapability: {
       type: "boolean",
     },
-    hostedDownloads: {
-      type: "boolean",
-    },
   },
 } as IConfigurationSchema;

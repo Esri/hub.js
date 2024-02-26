@@ -1,3 +1,38 @@
+# @esri/hub-common [14.95.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.94.0...@esri/hub-common@14.95.0) (2024-02-26)
+
+
+### Features
+
+* **hub-common:** update events schema for onlineMeetings ([#1421](https://github.com/Esri/hub.js/issues/1421)) ([c81255f](https://github.com/Esri/hub.js/commit/c81255f2f806045299e70771a6649e5f1b4ebed6))
+
+# @esri/hub-common [14.94.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.93.1...@esri/hub-common@14.94.0) (2024-02-23)
+
+
+### Features
+
+* **hub-common:** remove hostedDownloads beta setting from content schemas / entity calculations ([#1422](https://github.com/Esri/hub.js/issues/1422)) ([28af54f](https://github.com/Esri/hub.js/commit/28af54f923566d437958fa08e769edd41d01bfa4))
+
+## @esri/hub-common [14.93.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.93.0...@esri/hub-common@14.93.1) (2024-02-22)
+
+
+### Bug Fixes
+
+* findItemsBySlug short-circuits to resolve empty array when slug is falsey ([#1420](https://github.com/Esri/hub.js/issues/1420)) ([f255f6e](https://github.com/Esri/hub.js/commit/f255f6ec4ce20598ef9538f208d7f5c1d38f51fe))
+
+# @esri/hub-common [14.93.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.92.3...@esri/hub-common@14.93.0) (2024-02-21)
+
+
+### Features
+
+* **hub-common:** add types for event addresses ([#1417](https://github.com/Esri/hub.js/issues/1417)) ([7fe4657](https://github.com/Esri/hub.js/commit/7fe46575ac0c167091907d68ccb2d1cda834ddfe))
+
+## @esri/hub-common [14.92.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.92.2...@esri/hub-common@14.92.3) (2024-02-21)
+
+
+### Bug Fixes
+
+* gate the new follow card behind the feature flag ([#1419](https://github.com/Esri/hub.js/issues/1419)) ([92626e7](https://github.com/Esri/hub.js/commit/92626e72e30af5d113f9f0eb7313262d03f2b253))
+
 ## @esri/hub-common [14.92.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.92.1...@esri/hub-common@14.92.2) (2024-02-20)
 
 

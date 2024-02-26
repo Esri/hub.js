@@ -2,6 +2,7 @@ import {
   IEvent,
   ICreateEventParams,
   IGetEventParams,
+  IGetEventsParams,
   IUpdateEventParams,
   IDeleteEventParams,
 } from "./types";
@@ -18,7 +19,7 @@ import {
  * create an event
  *
  * @param {ICreateEventParams} options
- * @return {*}
+ * @return {Promise<IEvent>}
  */
 export async function createEvent(
   options: ICreateEventParams
@@ -27,24 +28,22 @@ export async function createEvent(
   return _createEvent(options.data, options);
 }
 
-// /**
-//  * get events
-//  *
-//  * @param {IGetEventsParams} options
-//  * @return {*}  {Promise<IEvent[]>} // paged response
-//  */
-// export async function getEvents(
-//   options: IGetEventsParams
-// ): Promise<IGetEventsResponse> {
-//   options.token = await authenticateRequest(options);
-//   return _getEvents(options.data);
-// }
+/**
+ * get events
+ *
+ * @param {IGetEventsParams} options
+ * @return {Promise<IEvent[]>}
+ */
+export async function getEvents(options: IGetEventsParams): Promise<IEvent[]> {
+  options.token = await authenticateRequest(options);
+  return _getEvents(options.data, options);
+}
 
 /**
  * get an event
  *
  * @param {ICreateEventParams} options
- * @return {*}  {Promise<IGetEventEventResponse>}
+ * @return {Promise<IEvent>}
  */
 export async function getEvent(options: IGetEventParams): Promise<IEvent> {
   options.token = await authenticateRequest(options);
@@ -56,7 +55,7 @@ export async function getEvent(options: IGetEventParams): Promise<IEvent> {
 //  *
 //  * @param {IUpdateEventParams} options
 //  *   todo: update return type when defined
-//  * @return {*}  {Promise<IEvent>}
+//  * @return {Promise<IEvent>}
 //  */
 // export async function updateEvent(
 //   options: IUpdateEventParams
@@ -70,7 +69,7 @@ export async function getEvent(options: IGetEventParams): Promise<IEvent> {
  * delete an event
  *
  * @param {IDeleteEventParams} options
- * @return {*}  {Promise<IEvent>}
+ * @return {Promise<IEvent>}
  */
 export async function deleteEvent(
   options: IDeleteEventParams

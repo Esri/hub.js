@@ -12,6 +12,11 @@ describe("checkAvailability: ", () => {
     availability: ["beta"],
   };
 
+  const policyFlag: IPermissionPolicy = {
+    permission: "hub:project",
+    availability: ["flag"],
+  };
+
   const policyGA: IPermissionPolicy = {
     permission: "hub:project",
     availability: ["general"],
@@ -71,6 +76,13 @@ describe("checkAvailability: ", () => {
     expect(checks4.length).toBe(1);
     expect(checks4[0].name).toBe("user in alpha org");
     expect(checks4[0].response).toBe("not-alpha-org");
+  });
+
+  it("fails check when policy is flag", () => {
+    const checks = checkAvailability(policyFlag, contextAlpha);
+    expect(checks.length).toBe(1);
+    expect(checks[0].name).toBe("with feature flag");
+    expect(checks[0].response).toBe("feature-flag-required");
   });
 
   it("should return an empty array when available is not defined in the policy", () => {
