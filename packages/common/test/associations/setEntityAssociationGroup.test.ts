@@ -1,10 +1,10 @@
 import { IHubGroup } from "../../src/core/types/IHubGroup";
-import { initEntityAssociationGroup } from "../../src/associations/initEntityAssociationGroup";
+import { setEntityAssociationGroup } from "../../src/associations/setEntityAssociationGroup";
 import { MOCK_INITIAL_PARENT_ENTITY } from "./fixtures";
 import * as UpdateHubEntityModule from "../../src/core/updateHubEntity";
 import { ArcGISContext } from "../../src/ArcGISContext";
 
-describe("initEntityAssociationGroup", () => {
+describe("setEntityAssociationGroup", () => {
   let updateHubEntitySpy: jasmine.Spy;
 
   beforeEach(() => {
@@ -14,13 +14,13 @@ describe("initEntityAssociationGroup", () => {
     ).and.returnValue(Promise.resolve());
   });
 
-  it("initializes an entity association group", async () => {
+  it("sets an entity association group", async () => {
     const group = {
       typeKeywords: [],
       id: "g123",
     } as unknown as IHubGroup;
 
-    await initEntityAssociationGroup(
+    await setEntityAssociationGroup(
       MOCK_INITIAL_PARENT_ENTITY,
       group,
       {} as ArcGISContext
@@ -51,13 +51,13 @@ describe("initEntityAssociationGroup", () => {
     ]);
   });
 
-  it("initializes an entity association group with existing typeKeywords", async () => {
+  it("set an entity association group with existing typeKeywords", async () => {
     const group = {
       typeKeywords: ["existing-keyword"],
       id: "g123",
     } as unknown as IHubGroup;
 
-    await initEntityAssociationGroup(
+    await setEntityAssociationGroup(
       MOCK_INITIAL_PARENT_ENTITY,
       group,
       {} as ArcGISContext

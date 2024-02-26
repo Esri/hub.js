@@ -119,20 +119,19 @@ export async function createHubGroup(
     group,
     authentication: requestOptions.authentication,
   };
-  const createdGroup = await createGroup(opts).then(async (res) => {
-    // protecting the group requires a separate call
-    if (group.protected) {
-      res.group.protected = (
-        await protectGroup({
-          id: res.group.id,
-          authentication: requestOptions.authentication,
-        })
-      ).success;
-    }
-    return res.group;
-  });
+  const result = await createGroup(opts);
+  // createGroup does not set a protection value based on the value of 'protected'
+  // so we have to make an additional call to protectGroup to set protection
+  if (group.protected) {
+    result.group.protected = (
+      await protectGroup({
+        id: result.group.id,
+        authentication: requestOptions.authentication,
+      })
+    ).success;
+  }
 
-  return convertGroupToHubGroup(createdGroup, requestOptions);
+  return convertGroupToHubGroup(result.group, requestOptions);
 }
 
 /**

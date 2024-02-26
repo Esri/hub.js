@@ -125,7 +125,7 @@ export const buildUiSchema = async (
  * @private
  * constructs the default values for creating a followers group.
  * This is used to pre-populate the form with specific default values
- * that are different from the normal Group Schema defualts.
+ * that are different from the normal Group Schema defaults.
  * @param i18nScope
  * @param options
  * @param context

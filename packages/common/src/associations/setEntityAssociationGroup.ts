@@ -5,15 +5,15 @@ import { updateHubEntity } from "../core/updateHubEntity";
 import { setProp } from "../objects";
 
 /**
- * Utility to initialize an entity association group that has just been created.
- * This adds the entity-specific association keyword to the association group,
+ * Utility to create a relationship between an entity and a group, setting the group as
+ * the entity's association group. This adds the entity-specific association keyword to the association group,
  * and it adds the association definition to the original entity.
  * @param entity
  * @param group
  * @param context
  * @returns
  */
-export async function initEntityAssociationGroup(
+export async function setEntityAssociationGroup(
   entity: HubEntity,
   group: IHubGroup,
   context: IArcGISContext
@@ -21,7 +21,11 @@ export async function initEntityAssociationGroup(
   const type = getTypeFromEntity(entity);
 
   // 1. Add the association keyword to the group entity
-  group.typeKeywords = [...group.typeKeywords, `${type}|${entity.id}`];
+  // if we don't already have it
+  const associationKeyword = `${type}|${entity.id}`;
+  if (!group.typeKeywords.includes(associationKeyword)) {
+    group.typeKeywords = [...group.typeKeywords, `${type}|${entity.id}`];
+  }
 
   await updateHubEntity("group", group, context);
 

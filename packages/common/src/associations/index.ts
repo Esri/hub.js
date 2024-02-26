@@ -10,7 +10,7 @@ export * from "./getPendingEntitiesQuery";
 export * from "./getRequestingEntitiesQuery";
 export * from "./getReferencedEntityIds";
 export * from "./wellKnownAssociationCatalogs";
-export * from "./initEntityAssociationGroup";
+export * from "./setEntityAssociationGroup";
 // Note: we expose "requestAssociation" under 2 names.
 // These actions are functionally equivalent, but we want
 // to make the intent more clear to the consumer.

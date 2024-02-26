@@ -129,6 +129,16 @@ export const buildUiSchema = async (
   };
 };
 
+/**
+ * @private
+ * constructs the default values for creating an edit group.
+ * This is used to pre-populate the form with specific default values
+ * that are different from the normal Group Schema defaults.
+ * @param i18nScope
+ * @param options
+ * @param context
+ * @returns
+ */
 export const buildDefaults = async (
   i18nScope: string,
   options: EntityEditorOptions,
