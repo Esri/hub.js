@@ -93,7 +93,7 @@ describe("GroupUiSchemaCreateAssociation", () => {
                         "{{some.scope.fields.membershipAccess.collab:translate}}",
                         "{{some.scope.fields.membershipAccess.createAssociation.any:translate}}",
                       ],
-                      disabled: [false, false, true],
+                      disabled: [false, true, true],
                     },
                   },
                   {

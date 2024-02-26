@@ -6,6 +6,7 @@ import {
 import { IArcGISContext } from "../../ArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 import { getWellKnownGroup } from "../getWellKnownGroup";
+import { checkPermission } from "../../permissions/checkPermission";
 
 /**
  * @private
@@ -98,7 +99,17 @@ export const buildUiSchema = async (
                     `{{${i18nScope}.fields.membershipAccess.collab:translate}}`,
                     `{{${i18nScope}.fields.membershipAccess.createAssociation.any:translate}}`,
                   ],
-                  disabled: [false, false, options.isSharedUpdate],
+                  disabled: [
+                    false,
+                    !checkPermission(
+                      "platform:portal:user:addExternalMembersToGroup",
+                      context
+                    ).access,
+                    !checkPermission(
+                      "platform:portal:user:addExternalMembersToGroup",
+                      context
+                    ).access,
+                  ],
                 },
               },
               {
