@@ -169,6 +169,7 @@ describe("HubGroups Module:", () => {
         group.group.userMembership = {
           memberType: TEST_GROUP.userMembership?.memberType,
         };
+        group.protected = false;
         return Promise.resolve(group);
       });
       const chk = await HubGroupsModule.createHubGroup(
@@ -200,6 +201,7 @@ describe("HubGroups Module:", () => {
         group.group.userMembership = {
           memberType: TEST_GROUP.userMembership?.memberType,
         };
+        group.protected = false;
         return Promise.resolve(group);
       });
       const chk = await HubGroupsModule.createHubGroup(
@@ -231,6 +233,7 @@ describe("HubGroups Module:", () => {
         group.group.userMembership = {
           memberType: TEST_GROUP.userMembership?.memberType,
         };
+        group.protected = false;
         return Promise.resolve(group);
       });
       const chk = await HubGroupsModule.createHubGroup(
