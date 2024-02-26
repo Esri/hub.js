@@ -34,6 +34,7 @@ export const buildUiSchema = async (
             options: {
               control: "hub-field-input-tile-select",
               type: "radio",
+              layout: "horizontal",
               labels: [
                 `{{${i18nScope}.fields.displayMap.enabled.label:translate}}`,
                 `{{${i18nScope}.fields.displayMap.disabled.label:translate}}`,
@@ -42,7 +43,7 @@ export const buildUiSchema = async (
                 `{{${i18nScope}.fields.displayMap.enabled.description:translate}}`,
                 `{{${i18nScope}.fields.displayMap.disabled.description:translate}}`,
               ],
-              icons: ["sidecard", "form-elements"],
+              icons: ["sidecar", "form-elements"],
             },
           },
         ],
