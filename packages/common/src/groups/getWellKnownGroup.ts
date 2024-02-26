@@ -58,7 +58,12 @@ export function getWellKnownGroup(
       autoJoin: false,
       isInvitationOnly: false,
       isViewOnly: true,
-      membershipAccess: "anyone",
+      membershipAccess: checkPermission(
+        "platform:portal:user:addExternalMembersToGroup",
+        context
+      ).access
+        ? "anyone"
+        : "organization",
       protected: true,
     },
   };

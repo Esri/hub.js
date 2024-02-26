@@ -153,6 +153,5 @@ export const InitiativePermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:initiative:workspace:associationGroup:create",
     dependencies: ["hub:initiative:workspace:projects", "hub:group:create"],
-    privileges: ["portal:user:addExternalMembersToGroup"],
   },
 ];
