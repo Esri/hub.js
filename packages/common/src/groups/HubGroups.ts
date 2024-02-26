@@ -119,20 +119,19 @@ export async function createHubGroup(
     group,
     authentication: requestOptions.authentication,
   };
-  const result = await createGroup(opts);
-
-  const createdGroup = result.group; // the group we just created
-
-  // protect group if we have protected flag enabled
-  // protecting a group requires a separate call and cannot be done in the createGroup call
-  if (group.protected) {
-    const protectOpts = {
-      id: createdGroup.id,
-      authentication: requestOptions.authentication,
-    };
-    const { success } = await protectGroup(protectOpts);
-    createdGroup.protected = success;
-  }
+  const createdGroup = await createGroup(opts).then(async (res) => {
+    // protecting the group requires a separate call
+    if (group.protected) {
+      // protect the group
+      res.group.protected = (
+        await protectGroup({
+          id: res.group.id,
+          authentication: requestOptions.authentication,
+        })
+      ).success;
+    }
+    return res.group;
+  });
 
   return convertGroupToHubGroup(createdGroup, requestOptions);
 }
