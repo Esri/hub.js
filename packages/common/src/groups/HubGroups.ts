@@ -122,7 +122,6 @@ export async function createHubGroup(
   const createdGroup = await createGroup(opts).then(async (res) => {
     // protecting the group requires a separate call
     if (group.protected) {
-      // protect the group
       res.group.protected = (
         await protectGroup({
           id: res.group.id,
