@@ -120,6 +120,16 @@ export async function createHubGroup(
     authentication: requestOptions.authentication,
   };
   const result = await createGroup(opts);
+
+  // protect group if we have protected flag enabled
+  if (partialGroup.protected) {
+    const protectOpts = {
+      id: group.id,
+      authentication: requestOptions.authentication,
+    };
+    await protectGroup(protectOpts);
+  }
+
   return convertGroupToHubGroup(result.group, requestOptions);
 }
 
