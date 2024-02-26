@@ -32,7 +32,8 @@ export const buildUiSchema = async (
             scope: "/properties/displayMap",
             type: "Control",
             options: {
-              control: "hub-field-input-radio",
+              control: "hub-field-input-tile-select",
+              type: "radio",
               labels: [
                 `{{${i18nScope}.fields.displayMap.enabled.label:translate}}`,
                 `{{${i18nScope}.fields.displayMap.disabled.label:translate}}`,
