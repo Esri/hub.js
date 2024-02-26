@@ -55,9 +55,10 @@ export function getWellKnownGroup(
     },
     hubAssociationsGroup: {
       access: "public",
-      isViewOnly: false,
+      isViewOnly: true,
       autoJoin: false,
       isInvitationOnly: false,
+      protected: true,
     },
   };
 
