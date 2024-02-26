@@ -126,9 +126,11 @@ describe("GroupUiSchemaCreateAssociation", () => {
       );
       expect(defaults).toEqual({
         access: "public",
-        isViewOnly: false,
         autoJoin: false,
         isInvitationOnly: false,
+        isViewOnly: true,
+        membershipAccess: "anyone",
+        protected: true,
       });
     });
   });
