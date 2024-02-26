@@ -1,3 +1,10 @@
+# @esri/hub-common [14.95.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.94.0...@esri/hub-common@14.95.0) (2024-02-26)
+
+
+### Features
+
+* **hub-common:** update events schema for onlineMeetings ([#1421](https://github.com/Esri/hub.js/issues/1421)) ([c81255f](https://github.com/Esri/hub.js/commit/c81255f2f806045299e70771a6649e5f1b4ebed6))
+
 # @esri/hub-common [14.94.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.93.1...@esri/hub-common@14.94.0) (2024-02-23)
 
 
