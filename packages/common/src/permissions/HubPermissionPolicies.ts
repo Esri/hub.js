@@ -95,7 +95,7 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:feature:workspace",
     availability: ["alpha"],
-    environments: ["devext", "qaext"],
+    environments: ["devext", "qaext", "production"],
   },
   {
     // This is an experimental extension of the gallery to include `map layout`
