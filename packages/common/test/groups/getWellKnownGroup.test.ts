@@ -98,4 +98,31 @@ describe("getWellKnownGroup: ", () => {
       membershipAccess: "collaborators",
     });
   });
+
+  it("returns an associations group", () => {
+    const resp = getWellKnownGroup("hubAssociationsGroup", MOCK_CONTEXT);
+    expect(resp).toEqual({
+      access: "public",
+      autoJoin: false,
+      isInvitationOnly: false,
+      isViewOnly: true,
+      membershipAccess: "organization",
+      protected: true,
+    });
+  });
+
+  it("returns an associations group with membershipAccess set to anyone", () => {
+    const resp = getWellKnownGroup(
+      "hubAssociationsGroup",
+      MOCK_CONTEXT_WITH_PRIVILEGES
+    );
+    expect(resp).toEqual({
+      access: "public",
+      autoJoin: false,
+      isInvitationOnly: false,
+      isViewOnly: true,
+      membershipAccess: "anyone",
+      protected: true,
+    });
+  });
 });

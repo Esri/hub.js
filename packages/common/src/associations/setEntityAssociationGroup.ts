@@ -20,7 +20,7 @@ export async function setEntityAssociationGroup(
 ): Promise<HubEntity> {
   const type = getTypeFromEntity(entity);
 
-  // 1. Add the association keyword to the group entity
+  // 1. Add the association marker to the group entity
   // if we don't already have it
   const associationKeyword = `${type}|${entity.id}`;
   if (!group.typeKeywords.includes(associationKeyword)) {

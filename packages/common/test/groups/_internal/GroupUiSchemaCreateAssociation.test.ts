@@ -3,7 +3,10 @@ import {
   buildUiSchema,
   buildDefaults,
 } from "../../../src/groups/_internal/GroupUiSchemaCreateAssociation";
-import { MOCK_CONTEXT } from "../../mocks/mock-auth";
+import {
+  MOCK_CONTEXT,
+  getMockContextWithPrivilenges,
+} from "../../mocks/mock-auth";
 
 describe("GroupUiSchemaCreateAssociation", () => {
   describe("buildUiSchema: create association group", () => {
@@ -123,6 +126,24 @@ describe("GroupUiSchemaCreateAssociation", () => {
         "some.scope",
         { name: "Groupname" } as IHubGroup,
         MOCK_CONTEXT
+      );
+      expect(defaults).toEqual({
+        access: "public",
+        autoJoin: false,
+        isInvitationOnly: false,
+        isViewOnly: true,
+        membershipAccess: "organization",
+        protected: true,
+      });
+    });
+    it("returns the defaults to create an association group with privs", async () => {
+      const mockContext = getMockContextWithPrivilenges([
+        "portal:user:addExternalMembersToGroup",
+      ]);
+      const defaults = await buildDefaults(
+        "some.scope",
+        { name: "Groupname" } as IHubGroup,
+        mockContext
       );
       expect(defaults).toEqual({
         access: "public",
