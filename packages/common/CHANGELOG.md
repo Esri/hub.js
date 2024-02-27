@@ -1,3 +1,10 @@
+## @esri/hub-common [14.95.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.95.0...@esri/hub-common@14.95.1) (2024-02-27)
+
+
+### Bug Fixes
+
+* add prod alpha orgs to hub:feature:workspace ([#1423](https://github.com/Esri/hub.js/issues/1423)) ([f1104a2](https://github.com/Esri/hub.js/commit/f1104a2dd332516ee26a323e0a18d38ecb7ff065))
+
 # @esri/hub-common [14.95.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.94.0...@esri/hub-common@14.95.0) (2024-02-26)
 
 
