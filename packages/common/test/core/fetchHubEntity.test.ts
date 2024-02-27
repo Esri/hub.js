@@ -107,4 +107,15 @@ describe("fetchHubEntity:", () => {
     await fetchHubEntity("initiativeTemplate", "123", ctx);
     expect(spy).toHaveBeenCalledWith("123", "fakeRequestOptions");
   });
+  it("fetches survey", async () => {
+    const ctx = {
+      hubRequestOptions: "fakeRequestOptions",
+    } as unknown as IArcGISContext;
+    const spy = spyOn(
+      require("../../src/surveys/fetch"),
+      "fetchSurvey"
+    ).and.returnValue(Promise.resolve({}));
+    await fetchHubEntity("survey", "123", ctx);
+    expect(spy).toHaveBeenCalledWith("123", "fakeRequestOptions");
+  });
 });

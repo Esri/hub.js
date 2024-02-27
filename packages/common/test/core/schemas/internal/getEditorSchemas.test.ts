@@ -44,6 +44,10 @@ import * as GroupBuildCreateEditUiSchema from "../../../../src/groups/_internal/
 import { InitiativeTemplateEditorTypes } from "../../../../src/initiative-templates/_internal/InitiativeTemplateSchema";
 import * as InitiativeTemplateBuildEditUiSchema from "../../../../src/initiative-templates/_internal/InitiativeTemplateUiSchemaEdit";
 
+import { SurveyEditorTypes } from "../../../../src/surveys/_internal/SurveySchema";
+import * as SurveyBuildEditUiSchema from "../../../../src/surveys/_internal/SurveyUiSchemaEdit";
+import * as SurveyBuildSettingsUiSchema from "../../../../src/surveys/_internal/SurveyUiSchemaSettings";
+
 import { validCardEditorTypes } from "../../../../src/core/schemas/types";
 import * as statUiSchemaModule from "../../../../src/core/schemas/internal/metrics/StatCardUiSchema";
 
@@ -84,6 +88,8 @@ describe("getEditorSchemas: ", () => {
       type: InitiativeTemplateEditorTypes[0],
       buildFn: InitiativeTemplateBuildEditUiSchema,
     },
+    { type: SurveyEditorTypes[0], buildFn: SurveyBuildEditUiSchema },
+    { type: SurveyEditorTypes[1], buildFn: SurveyBuildSettingsUiSchema },
     { type: validCardEditorTypes[0], buildFn: statUiSchemaModule },
   ].forEach(async ({ type, buildFn }) => {
     it("returns a schema & uiSchema for a given entity and editor type", async () => {

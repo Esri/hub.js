@@ -118,8 +118,8 @@ export class HubSurvey
    * @returns
    */
   async toEditor(
-    editorContext: IEntityEditorContext,
-    include?: string[]
+    editorContext?: IEntityEditorContext,
+    include: string[] = []
   ): Promise<HubEntityEditor> {
     // 1. optionally enrich entity and cast to editor
     const editor = include.length
@@ -144,7 +144,7 @@ export class HubSurvey
   async fromEditor(
     editor: HubEntityEditor,
     editorContext?: IEntityEditorContext
-  ): Promise<HubEntity> {
+  ): Promise<IHubSurvey> {
     // Setting the thumbnailCache will ensure that
     // the thumbnail is updated on next save
     if (editor._thumbnail) {
