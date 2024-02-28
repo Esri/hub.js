@@ -311,7 +311,7 @@ describe("hubSearch Module:", () => {
         expect(options.requestOptions).toBe(opts.requestOptions);
         expect(options.api).toEqual({
           type: "arcgis-hub",
-          url: "https://hubqa.arcgis.com/api/search/v1",
+          url: "https://hubqa.arcgis.com/api/search/v2",
         });
       });
     });
