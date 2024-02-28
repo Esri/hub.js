@@ -119,6 +119,7 @@ export interface IPolicyAssertion {
   property: string;
   type: AssertionType;
   value: any;
+  conditions?: IPolicyAssertion[];
 }
 
 /**

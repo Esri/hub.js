@@ -18,9 +18,30 @@ export function checkAssertions(
   // Only return a check if the policy is defined
   if (policy.assertions) {
     // iterate over the assertions, creating a check for each entry
-    checks = policy.assertions.map((assertion: IPolicyAssertion) => {
-      return checkAssertion(assertion, entity, context);
-    });
+    checks = policy.assertions.reduce(
+      (acc: IPolicyCheck[], assertion: IPolicyAssertion) => {
+        let conditionResult = true;
+
+        // if the assertion has conditions, we need to check them first
+        // to determine if the assertion itself needs to be checked in the first place.
+        if (assertion.conditions?.length) {
+          conditionResult = assertion.conditions.every(
+            (condition: IPolicyAssertion) =>
+              checkAssertion(condition, entity, context).response === "granted"
+          );
+        }
+
+        // if we pass the conditions, we should check the assertion
+        // otherwise, this assertion is irrelevant and we should skip it
+        if (conditionResult) {
+          const chk = checkAssertion(assertion, entity, context);
+          acc = [...acc, chk];
+        }
+
+        return acc;
+      },
+      []
+    );
   }
 
   return checks;
