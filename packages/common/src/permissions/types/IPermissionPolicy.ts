@@ -119,6 +119,11 @@ export interface IPolicyAssertion {
   property: string;
   type: AssertionType;
   value: any;
+
+  /** A condition dictates if an assertion should be evaluated. If any condition evaluates to false,
+   * the assertion should be ignored. If the conditions evaluate to true, or if there are no conditions,
+   * the assertion should be evaluated.
+   */
   conditions?: IPolicyAssertion[];
 }
 

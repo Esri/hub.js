@@ -22,8 +22,7 @@ export function checkAssertions(
       (acc: IPolicyCheck[], assertion: IPolicyAssertion) => {
         let conditionResult = true;
 
-        // if the assertion has conditions, we need to check them first
-        // to determine if the assertion itself needs to be checked in the first place.
+        // if conditions, check them first
         if (assertion.conditions?.length) {
           conditionResult = assertion.conditions.every(
             (condition: IPolicyAssertion) =>
@@ -31,8 +30,8 @@ export function checkAssertions(
           );
         }
 
-        // if we pass the conditions, we should check the assertion
-        // otherwise, this assertion is irrelevant and we should skip it
+        // if we pass all conditions/there are no conditions, we evaluate the assertion
+        // otherwise, the assertion is ignored
         if (conditionResult) {
           const chk = checkAssertion(assertion, entity, context);
           acc = [...acc, chk];
