@@ -10,32 +10,45 @@ describe("buildUiSchema: survey settings", () => {
       elements: [
         {
           type: "Section",
-          rule: {
-            effect: UiSchemaRuleEffects.SHOW,
-            condition: {
-              scope: "/properties/hasMapQuestion",
-              schema: { const: true },
-            },
-          },
-          labelKey: `some.scope.sections.settings.label`,
+          labelKey: "some.scope.sections.settings.label",
           elements: [
             {
-              labelKey: `some.scope.fields.displayMap.label`,
+              labelKey: "some.scope.fields.displayMap.label",
               scope: "/properties/displayMap",
               type: "Control",
+              rule: {
+                effect: UiSchemaRuleEffects.DISABLE,
+                condition: {
+                  scope: "/properties/hasMapQuestion",
+                  schema: {
+                    const: false,
+                  },
+                },
+              },
               options: {
                 control: "hub-field-input-tile-select",
                 type: "radio",
-                layout: "horizontal",
                 labels: [
-                  `{{some.scope.fields.displayMap.enabled.label:translate}}`,
-                  `{{some.scope.fields.displayMap.disabled.label:translate}}`,
+                  "{{some.scope.fields.displayMap.enabled.label:translate}}",
+                  "{{some.scope.fields.displayMap.disabled.label:translate}}",
                 ],
                 descriptions: [
-                  `{{some.scope.fields.displayMap.enabled.description:translate}}`,
-                  `{{some.scope.fields.displayMap.disabled.description:translate}}`,
+                  "{{some.scope.fields.displayMap.enabled.description:translate}}",
+                  "{{some.scope.fields.displayMap.disabled.description:translate}}",
                 ],
                 icons: ["sidecar", "form-elements"],
+                layout: "horizontal",
+                messages: [
+                  {
+                    type: "CUSTOM",
+                    display: "notice",
+                    keyword: "mapQuestion",
+                    titleKey: "some.scope.fields.displayMap.notice.title",
+                    labelKey: "some.scope.fields.displayMap.notice.message",
+                    allowShowBeforeInteract: true,
+                    alwaysShow: true,
+                  },
+                ],
               },
             },
           ],
