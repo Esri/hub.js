@@ -6,6 +6,7 @@ import {
   IHubSearchOptions,
   IHubSearchResponse,
   IHubSearchResult,
+  IPost,
   IPredicate,
   IQuery,
 } from "../../../src";
@@ -25,12 +26,14 @@ import { getOgcAggregationQueryParams } from "../../../src/search/_internal/hubS
 import { getQQueryParam } from "../../../src/search/_internal/hubSearchItemsHelpers/getQQueryParam";
 import { IOgcItem } from "../../../src/search/_internal/hubSearchItemsHelpers/interfaces";
 import * as ogcItemToSearchResultModule from "../../../src/search/_internal/hubSearchItemsHelpers/ogcItemToSearchResult";
+import * as ogcItemToDiscussionPostModule from "../../../src/search/_internal/hubSearchItemsHelpers/ogcItemToDiscussionPostResult";
 import { formatOgcItemsResponse } from "../../../src/search/_internal/hubSearchItemsHelpers/formatOgcItemsResponse";
 import { formatOgcAggregationsResponse } from "../../../src/search/_internal/hubSearchItemsHelpers/formatOgcAggregationsResponse";
 import * as searchOgcItemsModule from "../../../src/search/_internal/hubSearchItemsHelpers/searchOgcItems";
 import * as portalSearchItemsModule from "../../../src/search/_internal/portalSearchItems";
 import * as fetchMock from "fetch-mock";
 import {
+  ogcDiscussionPostResponseWithNext,
   ogcItemsResponse,
   ogcItemsResponseWithNext,
 } from "./mocks/ogcItemsResponse";
@@ -73,6 +76,22 @@ describe("hubSearchItems Module |", () => {
         const result = getOgcCollectionUrl(query, options);
         expect(result).toBe(
           "https://my-hub.com/api/search/v1/collections/dataset"
+        );
+      });
+      it("points to the V2 Discussion post collection if the targetEntity is discussionPost", () => {
+        const query: IQuery = {
+          targetEntity: "discussionPost",
+          filters: [],
+        };
+        const options: IHubSearchOptions = {
+          api: {
+            type: "arcgis-hub",
+            url: "https://my-hub.com/api/search/v2",
+          },
+        };
+        const result = getOgcCollectionUrl(query, options);
+        expect(result).toBe(
+          "https://my-hub.com/api/search/v2/collections/discussion-post"
         );
       });
     });
@@ -830,6 +849,41 @@ describe("hubSearchItems Module |", () => {
       });
     });
 
+    describe("ogcItemToDiscussionPostResult |", () => {
+      const { ogcItemToDiscussionPostResult } = ogcItemToDiscussionPostModule;
+
+      const ogcItemProperties: IPost = {
+        id: "12345",
+        title: "title",
+        body: "body",
+        status: "PENDING" as any,
+        appInfo: null,
+        discussion: null,
+        geometry: null,
+        featureGeometry: null,
+        postType: "Discussion" as any,
+        createdAt: new Date("2021-01-01"),
+        updatedAt: new Date("2021-01-01"),
+      };
+
+      it("simply returns the Post as properties", async () => {
+        const ogcItem: IOgcItem = {
+          id: "9001",
+          type: "Feature",
+          geometry: null, // for simplicity
+          time: null, // for simplicity
+          links: [], // for simplicity
+          properties: cloneObject(ogcItemProperties),
+        };
+        const includes: string[] = [];
+        const requestOptions: IHubRequestOptions = {};
+
+        const result = await ogcItemToDiscussionPostResult(ogcItem);
+
+        expect(result).toEqual(ogcItem.properties as IPost);
+      });
+    });
+
     describe("getNextOgcCallback", () => {
       const { getNextOgcCallback } = getNextOgcCallbackModule;
       const query: IQuery = {
@@ -908,6 +962,18 @@ describe("hubSearchItems Module |", () => {
         const formattedResponse = await formatOgcItemsResponse(
           ogcItemsResponseWithNext,
           query,
+          requestOptions
+        );
+
+        expect(formattedResponse).toBeDefined();
+        expect(formattedResponse.total).toEqual(2);
+        expect(formattedResponse.hasNext).toEqual(true); // Verify that hasNext is true this time
+      });
+
+      it("correctly handles discussion posts", async () => {
+        const formattedResponse = await formatOgcItemsResponse(
+          ogcDiscussionPostResponseWithNext,
+          { targetEntity: "discussionPost", filters: [] },
           requestOptions
         );
 
