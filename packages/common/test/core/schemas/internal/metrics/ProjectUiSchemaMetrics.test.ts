@@ -4,8 +4,12 @@ import { MOCK_CONTEXT } from "../../../../mocks/mock-auth";
 import { UiSchemaRuleEffects } from "../../../../../src/core/schemas/types";
 
 describe("buildUiSchema: metric", () => {
-  it("returns the full metric uiSchema", () => {
-    const uiSchema = buildUiSchema("some.scope", {} as HubEntity, MOCK_CONTEXT);
+  it("returns the full metric uiSchema", async () => {
+    const uiSchema = await buildUiSchema(
+      "some.scope",
+      {} as HubEntity,
+      MOCK_CONTEXT
+    );
 
     expect(uiSchema).toEqual({
       type: "Layout",
