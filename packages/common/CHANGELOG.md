@@ -1,3 +1,10 @@
+# @esri/hub-common [14.96.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.95.1...@esri/hub-common@14.96.0) (2024-02-29)
+
+
+### Features
+
+* association group creation form and permission ([#1413](https://github.com/Esri/hub.js/issues/1413)) ([64d01b4](https://github.com/Esri/hub.js/commit/64d01b4eb4b514edefff06fd14c29e600149c92c))
+
 ## @esri/hub-common [14.95.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.95.0...@esri/hub-common@14.95.1) (2024-02-27)
 
 
