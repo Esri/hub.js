@@ -24,6 +24,8 @@ export * from "./uploadImageResource";
 export * from "./is-services-directory-disabled";
 export * from "./getItemIdentifier";
 export * from "./deleteItemThumbnail";
+export * from "./deleteItemThumbnail";
+export * from "./follow";
 // No longer exported as the only App Hub needed this for was a Site
 // and that registration is now done in the domain service with a
 // signed HMAC request.
