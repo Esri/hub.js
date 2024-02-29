@@ -4,7 +4,7 @@ import { MOCK_CONTEXT } from "../../../../mocks/mock-auth";
 
 describe("buildUiSchema: stat", () => {
   it("returns the full stat card uiSchema", async () => {
-    const uiSchema = buildUiSchema(
+    const uiSchema = await buildUiSchema(
       "",
       { themeColors: ["#ffffff"] },
       MOCK_CONTEXT

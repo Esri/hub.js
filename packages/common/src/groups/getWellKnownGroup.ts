@@ -2,7 +2,11 @@ import { IHubGroup } from "../core/types/IHubGroup";
 import { checkPermission } from "../permissions";
 import { IArcGISContext } from "../ArcGISContext";
 
-type WellKnownGroup = "hubViewGroup" | "hubEditGroup" | "hubFollowersGroup";
+type WellKnownGroup =
+  | "hubViewGroup"
+  | "hubEditGroup"
+  | "hubFollowersGroup"
+  | "hubAssociationsGroup";
 /**
  * Fetches a well known group template based on a name
  *
@@ -48,6 +52,19 @@ export function getWellKnownGroup(
       autoJoin: true,
       isInvitationOnly: false,
       isViewOnly: true,
+    },
+    hubAssociationsGroup: {
+      access: "public",
+      autoJoin: false,
+      isInvitationOnly: false,
+      isViewOnly: true,
+      membershipAccess: checkPermission(
+        "platform:portal:user:addExternalMembersToGroup",
+        context
+      ).access
+        ? "anyone"
+        : "organization",
+      protected: true,
     },
   };
 
