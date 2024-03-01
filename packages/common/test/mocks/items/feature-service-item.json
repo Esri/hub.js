@@ -23,11 +23,11 @@
 		"SurveyService",
 		"Hosted Service"
 	],
-	"description": null,
+	"description": "",
 	"tags": [],
-	"snippet": null,
+	"snippet": "",
 	"thumbnail": null,
-	"documentation": null,
+	"documentation": "",
 	"extent": [
 		[
 			-180,

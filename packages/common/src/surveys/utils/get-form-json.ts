@@ -8,10 +8,8 @@ import { isSurvey123Connect } from "./is-survey123-connect";
 import { decodeForm } from "./decode-form";
 
 /**
- * Given the id of a Survey Item, return the form json, if it exists.
- * @param {string} id - form id
- * @param {string} name - The name of the form ("name" from forminfo.json)
- * @param {boolean} isSurvey123Connect - whether the survey was created by Survey123 Connect
+ * Given a Survey Item, return the form json, if it exists.
+ * @param {IItem} the survey item
  * @param {IGetItemInfoOptions} requestOptions
  * @returns {Promise}
  */
