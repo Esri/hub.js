@@ -7,11 +7,11 @@ import { UiSchemaRuleEffects, IUiSchema } from "../../types";
  * Exports the uiSchema of the stat card
  * @returns
  */
-export const buildUiSchema = (
+export const buildUiSchema = async (
   i18nScope: string,
   config: IStatCardEditorOptions,
   context: IArcGISContext
-): IUiSchema => {
+): Promise<IUiSchema> => {
   const { themeColors } = config;
   return {
     type: "Layout",

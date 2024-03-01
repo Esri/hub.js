@@ -18,11 +18,11 @@ import {
  * @param context
  * @returns
  */
-export const buildUiSchema = (
+export const buildUiSchema = async (
   i18nScope: string,
   config: EntityEditorOptions,
   context: IArcGISContext
-): IUiSchema => {
+): Promise<IUiSchema> => {
   return {
     type: "Layout",
     elements: [

@@ -2,15 +2,15 @@ import { IHubGroup, UiSchemaRuleEffects } from "../../../src";
 import {
   buildUiSchema,
   buildDefaults,
-} from "../../../src/groups/_internal/GroupUiSchemaCreateEdit";
+} from "../../../src/groups/_internal/GroupUiSchemaCreateAssociation";
 import {
   MOCK_CONTEXT,
   getMockContextWithPrivilenges,
 } from "../../mocks/mock-auth";
 
-describe("GroupUiSchemaCreateEdit", () => {
-  describe("buildUiSchema: create edit group", () => {
-    it("returns the uiSchema to create a edit group", async () => {
+describe("GroupUiSchemaCreateAssociation", () => {
+  describe("buildUiSchema: create association group", () => {
+    it("returns the uiSchema to create a association group", async () => {
       const uiSchema = await buildUiSchema(
         "some.scope",
         { isSharedUpdate: true } as IHubGroup,
@@ -94,7 +94,7 @@ describe("GroupUiSchemaCreateEdit", () => {
                       labels: [
                         "{{some.scope.fields.membershipAccess.org:translate}}",
                         "{{some.scope.fields.membershipAccess.collab:translate}}",
-                        "{{some.scope.fields.membershipAccess.any:translate}}",
+                        "{{some.scope.fields.membershipAccess.createAssociation.any:translate}}",
                       ],
                       disabled: [false, true, true],
                     },
@@ -107,7 +107,7 @@ describe("GroupUiSchemaCreateEdit", () => {
                       control: "hub-field-input-radio",
                       labels: [
                         "{{some.scope.fields.contributeContent.all:translate}}",
-                        "{{some.scope.fields.contributeContent.admins:translate}}",
+                        "{{some.scope.fields.contributeContent.createAssociation.admins:translate}}",
                       ],
                     },
                   },
@@ -120,39 +120,38 @@ describe("GroupUiSchemaCreateEdit", () => {
     });
   });
 
-  describe("buildDefaults", () => {
-    it("builds defaults for create edit group when permission is false", async () => {
+  describe("buildDefaults: create association group", () => {
+    it("returns the defaults to create a association group", async () => {
       const defaults = await buildDefaults(
         "some.scope",
-        { isSharedUpdate: true } as IHubGroup,
+        { name: "Groupname" } as IHubGroup,
         MOCK_CONTEXT
       );
       expect(defaults).toEqual({
-        access: "org",
+        access: "public",
         autoJoin: false,
-        isSharedUpdate: true,
         isInvitationOnly: false,
-        hiddenMembers: false,
-        isViewOnly: false,
-        tags: ["Hub Group"],
+        isViewOnly: true,
         membershipAccess: "organization",
+        protected: true,
       });
     });
-    it("builds defaults for create edit group when permission is true", async () => {
+    it("returns the defaults to create an association group with privs", async () => {
+      const mockContext = getMockContextWithPrivilenges([
+        "portal:user:addExternalMembersToGroup",
+      ]);
       const defaults = await buildDefaults(
         "some.scope",
-        { isSharedUpdate: true } as IHubGroup,
-        getMockContextWithPrivilenges(["portal:user:addExternalMembersToGroup"])
+        { name: "Groupname" } as IHubGroup,
+        mockContext
       );
       expect(defaults).toEqual({
-        access: "org",
+        access: "public",
         autoJoin: false,
-        isSharedUpdate: true,
         isInvitationOnly: false,
-        hiddenMembers: false,
-        isViewOnly: false,
-        tags: ["Hub Group"],
-        membershipAccess: "collaborators",
+        isViewOnly: true,
+        membershipAccess: "anyone",
+        protected: true,
       });
     });
   });

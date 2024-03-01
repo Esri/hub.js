@@ -1,3 +1,24 @@
+# @esri/hub-common [14.96.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.95.1...@esri/hub-common@14.96.0) (2024-02-29)
+
+
+### Features
+
+* association group creation form and permission ([#1413](https://github.com/Esri/hub.js/issues/1413)) ([64d01b4](https://github.com/Esri/hub.js/commit/64d01b4eb4b514edefff06fd14c29e600149c92c))
+
+## @esri/hub-common [14.95.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.95.0...@esri/hub-common@14.95.1) (2024-02-27)
+
+
+### Bug Fixes
+
+* add prod alpha orgs to hub:feature:workspace ([#1423](https://github.com/Esri/hub.js/issues/1423)) ([f1104a2](https://github.com/Esri/hub.js/commit/f1104a2dd332516ee26a323e0a18d38ecb7ff065))
+
+# @esri/hub-common [14.95.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.94.0...@esri/hub-common@14.95.0) (2024-02-26)
+
+
+### Features
+
+* **hub-common:** update events schema for onlineMeetings ([#1421](https://github.com/Esri/hub.js/issues/1421)) ([c81255f](https://github.com/Esri/hub.js/commit/c81255f2f806045299e70771a6649e5f1b4ebed6))
+
 # @esri/hub-common [14.94.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.93.1...@esri/hub-common@14.94.0) (2024-02-23)
 
 

@@ -156,6 +156,10 @@ describe("HubGroups Module:", () => {
         GetUniqueGroupTitleModule,
         "getUniqueGroupTitle"
       ).and.returnValue(Promise.resolve(TEST_GROUP.title));
+      const portalProtectGroupSpy = spyOn(
+        PortalModule,
+        "protectGroup"
+      ).and.returnValue(Promise.resolve({ success: true }));
       const portalCreateGroupSpy = spyOn(
         PortalModule,
         "createGroup"
@@ -165,15 +169,82 @@ describe("HubGroups Module:", () => {
         group.group.userMembership = {
           memberType: TEST_GROUP.userMembership?.memberType,
         };
+        group.protected = false;
         return Promise.resolve(group);
       });
       const chk = await HubGroupsModule.createHubGroup(
-        { name: TEST_GROUP.title },
+        { name: TEST_GROUP.title, protected: TEST_GROUP.protected },
         { authentication: MOCK_AUTH }
       );
       expect(chk.name).toBe("dev followers Content");
       expect(getUniqueGroupTitleSpy).toHaveBeenCalledTimes(1);
       expect(portalCreateGroupSpy).toHaveBeenCalledTimes(1);
+      expect(portalProtectGroupSpy).toHaveBeenCalledTimes(1);
+      expect(chk.protected).toBe(true);
+    });
+
+    it("creates a HubGroup without the protected flag", async () => {
+      const getUniqueGroupTitleSpy = spyOn(
+        GetUniqueGroupTitleModule,
+        "getUniqueGroupTitle"
+      ).and.returnValue(Promise.resolve(TEST_GROUP.title));
+      const portalProtectGroupSpy = spyOn(
+        PortalModule,
+        "protectGroup"
+      ).and.returnValue(Promise.resolve({ success: true }));
+      const portalCreateGroupSpy = spyOn(
+        PortalModule,
+        "createGroup"
+      ).and.callFake((group: IGroup) => {
+        group.id = TEST_GROUP.id;
+        group.description = TEST_GROUP.description;
+        group.group.userMembership = {
+          memberType: TEST_GROUP.userMembership?.memberType,
+        };
+        group.protected = false;
+        return Promise.resolve(group);
+      });
+      const chk = await HubGroupsModule.createHubGroup(
+        { name: TEST_GROUP.title, protected: false },
+        { authentication: MOCK_AUTH }
+      );
+      expect(chk.name).toBe("dev followers Content");
+      expect(getUniqueGroupTitleSpy).toHaveBeenCalledTimes(1);
+      expect(portalCreateGroupSpy).toHaveBeenCalledTimes(1);
+      expect(portalProtectGroupSpy).toHaveBeenCalledTimes(0);
+      expect(chk.protected).toBe(false);
+    });
+
+    it("does not set the protected flag if the protect call fails", async () => {
+      const getUniqueGroupTitleSpy = spyOn(
+        GetUniqueGroupTitleModule,
+        "getUniqueGroupTitle"
+      ).and.returnValue(Promise.resolve(TEST_GROUP.title));
+      const portalProtectGroupSpy = spyOn(
+        PortalModule,
+        "protectGroup"
+      ).and.returnValue(Promise.resolve({ success: false }));
+      const portalCreateGroupSpy = spyOn(
+        PortalModule,
+        "createGroup"
+      ).and.callFake((group: IGroup) => {
+        group.id = TEST_GROUP.id;
+        group.description = TEST_GROUP.description;
+        group.group.userMembership = {
+          memberType: TEST_GROUP.userMembership?.memberType,
+        };
+        group.protected = false;
+        return Promise.resolve(group);
+      });
+      const chk = await HubGroupsModule.createHubGroup(
+        { name: TEST_GROUP.title, protected: TEST_GROUP.protected },
+        { authentication: MOCK_AUTH }
+      );
+      expect(chk.name).toBe("dev followers Content");
+      expect(getUniqueGroupTitleSpy).toHaveBeenCalledTimes(1);
+      expect(portalCreateGroupSpy).toHaveBeenCalledTimes(1);
+      expect(portalProtectGroupSpy).toHaveBeenCalledTimes(1);
+      expect(chk.protected).toBe(false);
     });
   });
 

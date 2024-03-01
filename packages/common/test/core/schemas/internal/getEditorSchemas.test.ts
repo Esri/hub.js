@@ -38,6 +38,7 @@ import * as GroupBuildEditUiSchema from "../../../../src/groups/_internal/GroupU
 import * as GroupBuildSettingsUiSchema from "../../../../src/groups/_internal/GroupUiSchemaSettings";
 import * as GroupBuildDiscussionsUiSchema from "../../../../src/groups/_internal/GroupUiSchemaDiscussions";
 import * as GroupBuildCreateFollowersUiSchema from "../../../../src/groups/_internal/GroupUiSchemaCreateFollowers";
+import * as GroupBuildCreateAssociationUiSchema from "../../../../src/groups/_internal/GroupUiSchemaCreateAssociation";
 import * as GroupBuildCreateViewUiSchema from "../../../../src/groups/_internal/GroupUiSchemaCreateView";
 import * as GroupBuildCreateEditUiSchema from "../../../../src/groups/_internal/GroupUiSchemaCreateEdit";
 
@@ -48,55 +49,73 @@ import { SurveyEditorTypes } from "../../../../src/surveys/_internal/SurveySchem
 import * as SurveyBuildEditUiSchema from "../../../../src/surveys/_internal/SurveyUiSchemaEdit";
 import * as SurveyBuildSettingsUiSchema from "../../../../src/surveys/_internal/SurveyUiSchemaSettings";
 
-import { validCardEditorTypes } from "../../../../src/core/schemas/types";
+import {
+  EditorType,
+  IEditorModuleType,
+  validCardEditorTypes,
+} from "../../../../src/core/schemas/types";
 import * as statUiSchemaModule from "../../../../src/core/schemas/internal/metrics/StatCardUiSchema";
 
 describe("getEditorSchemas: ", () => {
   let uiSchemaBuildFnSpy: any;
+  let defaultsFnSpy: any;
   afterEach(() => {
     uiSchemaBuildFnSpy.calls.reset();
+
+    if (defaultsFnSpy) {
+      defaultsFnSpy.calls.reset();
+    }
   });
-  [
-    { type: ProjectEditorTypes[0], buildFn: ProjectBuildCreateUiSchema },
-    { type: ProjectEditorTypes[1], buildFn: ProjectBuildEditUiSchema },
-    { type: ProjectEditorTypes[2], buildFn: ProjectBuildMetricUiSchema },
-    { type: InitiativeEditorTypes[0], buildFn: InitiativeBuildEditUiSchema },
-    { type: InitiativeEditorTypes[1], buildFn: InitiativeBuildCreateUiSchema },
-    { type: SiteEditorTypes[0], buildFn: SiteBuildEditUiSchema },
-    { type: SiteEditorTypes[1], buildFn: SiteBuildCreateUiSchema },
-    { type: SiteEditorTypes[2], buildFn: SiteBuildFollowersUiSchema },
-    { type: SiteEditorTypes[3], buildFn: SiteBuildDiscussionsUiSchema },
-    { type: SiteEditorTypes[4], buildFn: SiteBuildTelemetryUiSchema },
-    { type: DiscussionEditorTypes[0], buildFn: DiscussionBuildEditUiSchema },
-    { type: DiscussionEditorTypes[1], buildFn: DiscussionBuildCreateUiSchema },
+  const modules: Array<{ type: EditorType; module: IEditorModuleType }> = [
+    { type: ProjectEditorTypes[0], module: ProjectBuildCreateUiSchema },
+    { type: ProjectEditorTypes[1], module: ProjectBuildEditUiSchema },
+    { type: ProjectEditorTypes[2], module: ProjectBuildMetricUiSchema },
+    { type: InitiativeEditorTypes[0], module: InitiativeBuildEditUiSchema },
+    { type: InitiativeEditorTypes[1], module: InitiativeBuildCreateUiSchema },
+    { type: SiteEditorTypes[0], module: SiteBuildEditUiSchema },
+    { type: SiteEditorTypes[1], module: SiteBuildCreateUiSchema },
+    { type: SiteEditorTypes[2], module: SiteBuildFollowersUiSchema },
+    { type: SiteEditorTypes[3], module: SiteBuildDiscussionsUiSchema },
+    { type: SiteEditorTypes[4], module: SiteBuildTelemetryUiSchema },
+    { type: DiscussionEditorTypes[0], module: DiscussionBuildEditUiSchema },
+    { type: DiscussionEditorTypes[1], module: DiscussionBuildCreateUiSchema },
     {
       type: DiscussionEditorTypes[2],
-      buildFn: DiscussionBuildSettingsUiSchema,
+      module: DiscussionBuildSettingsUiSchema,
     },
-    { type: ContentEditorTypes[0], buildFn: ContentBuildEditUiSchema },
-    { type: ContentEditorTypes[1], buildFn: ContentBuildSettingsUiSchema },
-    { type: ContentEditorTypes[2], buildFn: ContentBuildDiscussionsUiSchema },
-    { type: PageEditorTypes[0], buildFn: PageBuildEditUiSchema },
-    { type: TemplateEditorTypes[0], buildFn: TemplateBuildEditUiSchema },
-    { type: GroupEditorTypes[0], buildFn: GroupBuildEditUiSchema },
-    { type: GroupEditorTypes[1], buildFn: GroupBuildSettingsUiSchema },
-    { type: GroupEditorTypes[2], buildFn: GroupBuildDiscussionsUiSchema },
-    { type: GroupEditorTypes[3], buildFn: GroupBuildCreateFollowersUiSchema },
-    { type: GroupEditorTypes[4], buildFn: GroupBuildCreateViewUiSchema },
-    { type: GroupEditorTypes[5], buildFn: GroupBuildCreateEditUiSchema },
+    { type: ContentEditorTypes[0], module: ContentBuildEditUiSchema },
+    { type: ContentEditorTypes[1], module: ContentBuildSettingsUiSchema },
+    { type: ContentEditorTypes[2], module: ContentBuildDiscussionsUiSchema },
+    { type: PageEditorTypes[0], module: PageBuildEditUiSchema },
+    { type: TemplateEditorTypes[0], module: TemplateBuildEditUiSchema },
+    { type: GroupEditorTypes[0], module: GroupBuildEditUiSchema },
+    { type: GroupEditorTypes[1], module: GroupBuildSettingsUiSchema },
+    { type: GroupEditorTypes[2], module: GroupBuildDiscussionsUiSchema },
+    { type: GroupEditorTypes[3], module: GroupBuildCreateFollowersUiSchema },
+    { type: GroupEditorTypes[4], module: GroupBuildCreateAssociationUiSchema },
+    { type: GroupEditorTypes[5], module: GroupBuildCreateViewUiSchema },
+    { type: GroupEditorTypes[6], module: GroupBuildCreateEditUiSchema },
     {
       type: InitiativeTemplateEditorTypes[0],
-      buildFn: InitiativeTemplateBuildEditUiSchema,
+      module: InitiativeTemplateBuildEditUiSchema,
     },
-    { type: SurveyEditorTypes[0], buildFn: SurveyBuildEditUiSchema },
-    { type: SurveyEditorTypes[1], buildFn: SurveyBuildSettingsUiSchema },
-    { type: validCardEditorTypes[0], buildFn: statUiSchemaModule },
-  ].forEach(async ({ type, buildFn }) => {
+    { type: SurveyEditorTypes[0], module: SurveyBuildEditUiSchema },
+    { type: SurveyEditorTypes[1], module: SurveyBuildSettingsUiSchema },
+    { type: validCardEditorTypes[0], module: statUiSchemaModule },
+  ];
+
+  modules.forEach(async ({ type, module }) => {
     it("returns a schema & uiSchema for a given entity and editor type", async () => {
-      uiSchemaBuildFnSpy = spyOn(buildFn, "buildUiSchema").and.returnValue(
+      uiSchemaBuildFnSpy = spyOn(module, "buildUiSchema").and.returnValue(
         Promise.resolve({})
       );
-      const { schema, uiSchema } = await getEditorSchemas(
+      if (module.buildDefaults) {
+        defaultsFnSpy = spyOn(module, "buildDefaults").and.returnValue(
+          Promise.resolve({})
+        );
+      }
+
+      const { schema, uiSchema, defaults } = await getEditorSchemas(
         "some.scope",
         type,
         {} as any,
@@ -105,6 +124,11 @@ describe("getEditorSchemas: ", () => {
       expect(uiSchemaBuildFnSpy).toHaveBeenCalledTimes(1);
       expect(schema).toBeDefined();
       expect(uiSchema).toBeDefined();
+
+      if (module.buildDefaults) {
+        expect(defaultsFnSpy).toHaveBeenCalledTimes(1);
+        expect(defaults).toBeDefined();
+      }
     });
   });
   it("filters the schemas to the uiSchema elements before returning", async () => {
