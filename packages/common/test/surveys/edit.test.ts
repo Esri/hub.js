@@ -11,7 +11,7 @@
 
 // const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
 
-// xdescribe("survey editing:", () => {
+// describe("survey editing:", () => {
 //   beforeAll(() => {
 //     // suppress deprecation warnings
 //     // tslint:disable-next-line: no-empty
@@ -34,13 +34,12 @@
 //           return Promise.resolve(m);
 //         }
 //       );
-//       getFormJsonSpy = spyOn(surveyUtils, "getFormJson").and.callFake(() => {
-//         return { questions: [] };
-//       });
+//       getFormJsonSpy = spyOn(surveyUtils, "getFormJson").and.callFake(() => Promise.resolve({ questions: [] }));
 //     });
 //     afterEach(() => {
 //       getItemSpy.calls.reset();
 //       updateModelSpy.calls.reset();
+//       getFormJsonSpy.calls.reset();
 //     });
 //     it("converts to a model and updates the item", async () => {
 //       const survey: IHubSurvey = {
@@ -52,7 +51,7 @@
 //         slug: "dcdev-wat-blarg",
 //         orgUrlKey: "dcdev",
 //         owner: "dcdev_dude",
-//         type: "Hub Initiative",
+//         type: "Form",
 //         createdDate: new Date(1595878748000),
 //         createdDateSource: "item.created",
 //         updatedDate: new Date(1595878750000),
@@ -86,7 +85,7 @@
 //         slug: "dcdev-wat-blarg",
 //         orgUrlKey: "dcdev",
 //         owner: "dcdev_dude",
-//         type: "Hub Initiative",
+//         type: "Form",
 //         createdDate: new Date(1595878748000),
 //         createdDateSource: "item.created",
 //         updatedDate: new Date(1595878750000),
