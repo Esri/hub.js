@@ -3,8 +3,8 @@ import { MOCK_AUTH } from "../../mocks/mock-auth";
 import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
 import { computeProps } from "../../../src/surveys/_internal/computeProps";
 import { IHubSurvey } from "../../../src/core/types/IHubSurvey";
-import { IModel } from "../../../dist/types/types";
 import { MAP_SURVEY_TYPEKEYWORD } from "../../../src/surveys/constants";
+import { IModel } from "../../../src/types";
 
 describe("surveys: computeProps:", () => {
   let model: IModel;
