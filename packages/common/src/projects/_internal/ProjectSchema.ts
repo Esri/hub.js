@@ -41,8 +41,10 @@ export const ProjectSchema: IConfigurationSchema = {
   allOf: [
     {
       if: {
+        type: "object",
         properties: {
           _metric: {
+            type: "object",
             properties: {
               type: {
                 const: "static",
@@ -52,8 +54,10 @@ export const ProjectSchema: IConfigurationSchema = {
         },
       },
       then: {
+        type: "object",
         properties: {
           _metric: {
+            type: "object",
             required: ["value"],
           },
         },

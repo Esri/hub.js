@@ -53,6 +53,7 @@ export const InitiativeSchema: IConfigurationSchema = {
         type: "object",
         properties: {
           _metric: {
+            type: "object",
             required: ["value"],
           },
         },
