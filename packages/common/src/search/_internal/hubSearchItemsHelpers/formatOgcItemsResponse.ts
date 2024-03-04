@@ -13,7 +13,7 @@ export async function formatOgcItemsResponse(
   originalOptions: IHubSearchOptions
 ): Promise<IHubSearchResponse<HubOgcSearchResultType>> {
   if (originalQuery.targetEntity === "discussionPost") {
-    return formatDiscussionPoastTargetEntityResponse(
+    return formatDiscussionPostTargetEntityResponse(
       response,
       originalQuery,
       originalOptions
@@ -27,7 +27,7 @@ export async function formatOgcItemsResponse(
   );
 }
 
-async function formatDiscussionPoastTargetEntityResponse(
+async function formatDiscussionPostTargetEntityResponse(
   response: IOgcItemsResponse,
   originalQuery: IQuery,
   originalOptions: IHubSearchOptions
