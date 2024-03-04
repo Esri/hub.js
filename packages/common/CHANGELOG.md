@@ -1,3 +1,10 @@
+# @esri/hub-common [14.97.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.96.0...@esri/hub-common@14.97.0) (2024-03-04)
+
+
+### Features
+
+* implement assertion conditions ([#1424](https://github.com/Esri/hub.js/issues/1424)) ([bfaeb5a](https://github.com/Esri/hub.js/commit/bfaeb5ad99507d7094ec028df6e96edffe2095b6))
+
 # @esri/hub-common [14.96.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.95.1...@esri/hub-common@14.96.0) (2024-02-29)
 
 
