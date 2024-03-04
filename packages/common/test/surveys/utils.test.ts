@@ -19,7 +19,6 @@ import {
   setDisplayMapKeyword,
   shouldDisplayMap,
 } from "@esri/hub-common";
-import * as surveyUtils from "../../src/surveys/utils";
 import * as restPortal from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { mockUserSession } from "../test-helpers/fake-user-session";
@@ -27,6 +26,11 @@ import * as FieldworkerItem from "../mocks/items/fieldworker-item.json";
 import * as FeatureServiceItem from "../mocks/items/feature-service-item.json";
 import * as StakeholderItem from "../mocks/items/stakeholder-item.json";
 import * as FormItemPublished from "../mocks/items/form-item-published.json";
+import * as getFormInfoJsonUtil from "../../src/surveys/utils/get-form-info-json";
+import * as isFieldworkerViewUtil from "../../src/surveys/utils/is-fieldworker-view";
+import * as getInputFeatureServiceModelUtil from "../../src/surveys/utils/get-input-feature-service-model";
+import * as getSourceFeatureServiceModelFromFieldworkerUtil from "../../src/surveys/utils/get-source-feature-service-model-from-fieldworker";
+import * as getStakeholderModelUtil from "../../src/surveys/utils/get-stakeholder-model";
 
 describe("survey utils", () => {
   let requestOptions: IRequestOptions;
@@ -105,21 +109,27 @@ describe("survey utils", () => {
     });
   });
 
-  // describe("getFormInfoJson", () => {
-  //   let getItemInfoSpy;
-  //   beforeEach(() => {
-  //     getItemInfoSpy = spyOn(restPortal, "getItemInfo").and.returnValue(Promise.resolve({ name: 'my form' }));
-  //   });
+  describe("getFormInfoJson", () => {
+    let getItemInfoSpy;
+    beforeEach(() => {
+      getItemInfoSpy = spyOn(restPortal, "getItemInfo").and.returnValue(
+        Promise.resolve({ name: "my form" })
+      );
+    });
 
-  //   it("calls getItemInfo with expected parameters", async () => {
-  //     await getFormInfoJson('some id', requestOptions);
-  //     expect(getItemInfoSpy).toHaveBeenCalledWith('some id', { fileName: 'forminfo.json', readAs: 'json', authentication: mockUserSession });
-  //   })
-  // });
+    it("calls getItemInfo with expected parameters", async () => {
+      await getFormInfoJson("some id", requestOptions);
+      expect(getItemInfoSpy).toHaveBeenCalledWith("some id", {
+        fileName: "forminfo.json",
+        readAs: "json",
+        authentication: mockUserSession,
+      });
+    });
+  });
 
   describe("getFormJson", () => {
     beforeEach(() => {
-      spyOn(surveyUtils, "getFormInfoJson").and.callFake(() => {
+      spyOn(getFormInfoJsonUtil, "getFormInfoJson").and.callFake(() => {
         return Promise.resolve({ name: "my form" });
       });
     });
@@ -154,7 +164,7 @@ describe("survey utils", () => {
       });
     });
 
-    xit("handle when form is null", async () => {
+    it("handle when form is null", async () => {
       spyOn(restPortal, "getItemInfo").and.returnValues(Promise.resolve(null));
       const survey = { id: "3ef" } as any as restPortal.IItem;
       const result = await getFormJson(survey, requestOptions);
@@ -374,7 +384,7 @@ describe("survey utils", () => {
     });
   });
 
-  xdescribe("getSurveyModels", () => {
+  describe("getSurveyModels", () => {
     let formModel: IModel;
     let featureServiceModel: IModel;
     let fieldworkerModel: IModel;
@@ -392,19 +402,19 @@ describe("survey utils", () => {
         Promise.resolve(FormItemPublished)
       );
       const isFieldworkerViewSpy = spyOn(
-        surveyUtils,
+        isFieldworkerViewUtil,
         "isFieldworkerView"
       ).and.returnValue(true);
       const getInputFeatureServiceModelSpy = spyOn(
-        surveyUtils,
+        getInputFeatureServiceModelUtil,
         "getInputFeatureServiceModel"
       ).and.returnValue(Promise.resolve(fieldworkerModel));
       const getSourceFeatureServiceModelFromFieldworkerSpy = spyOn(
-        surveyUtils,
+        getSourceFeatureServiceModelFromFieldworkerUtil,
         "getSourceFeatureServiceModelFromFieldworker"
       ).and.returnValue(Promise.resolve(featureServiceModel));
       const getStakeholderModelSpy = spyOn(
-        surveyUtils,
+        getStakeholderModelUtil,
         "getStakeholderModel"
       ).and.returnValue(Promise.resolve(stakeholderModel));
       const results = await getSurveyModels(formModel.item.id, requestOptions);
@@ -444,19 +454,19 @@ describe("survey utils", () => {
         Promise.resolve(FormItemPublished)
       );
       const isFieldworkerViewSpy = spyOn(
-        surveyUtils,
+        isFieldworkerViewUtil,
         "isFieldworkerView"
       ).and.returnValue(false);
       const getInputFeatureServiceModelSpy = spyOn(
-        surveyUtils,
+        getInputFeatureServiceModelUtil,
         "getInputFeatureServiceModel"
       ).and.returnValue(Promise.resolve(featureServiceModel));
       const getSourceFeatureServiceModelFromFieldworkerSpy = spyOn(
-        surveyUtils,
+        getSourceFeatureServiceModelFromFieldworkerUtil,
         "getSourceFeatureServiceModelFromFieldworker"
       );
       const getStakeholderModelSpy = spyOn(
-        surveyUtils,
+        getStakeholderModelUtil,
         "getStakeholderModel"
       ).and.returnValue(Promise.resolve());
       const results = await getSurveyModels(formModel.item.id, requestOptions);
@@ -493,19 +503,19 @@ describe("survey utils", () => {
         Promise.resolve(FormItemPublished)
       );
       const isFieldworkerViewSpy = spyOn(
-        surveyUtils,
+        isFieldworkerViewUtil,
         "isFieldworkerView"
       ).and.returnValue(false);
       const getInputFeatureServiceModelSpy = spyOn(
-        surveyUtils,
+        getInputFeatureServiceModelUtil,
         "getInputFeatureServiceModel"
       ).and.returnValue(Promise.resolve());
       const getSourceFeatureServiceModelFromFieldworkerSpy = spyOn(
-        surveyUtils,
+        getSourceFeatureServiceModelFromFieldworkerUtil,
         "getSourceFeatureServiceModelFromFieldworker"
       );
       const getStakeholderModelSpy = spyOn(
-        surveyUtils,
+        getStakeholderModelUtil,
         "getStakeholderModel"
       ).and.returnValue(Promise.resolve());
       const results = await getSurveyModels(formModel.item.id, requestOptions);
@@ -537,19 +547,19 @@ describe("survey utils", () => {
     it("only fetches Form when formItemOrId is a string", async function () {
       const getItemStub = spyOn(restPortal, "getItem");
       const isFieldworkerViewSpy = spyOn(
-        surveyUtils,
+        isFieldworkerViewUtil,
         "isFieldworkerView"
       ).and.returnValue(true);
       const getInputFeatureServiceModelSpy = spyOn(
-        surveyUtils,
+        getInputFeatureServiceModelUtil,
         "getInputFeatureServiceModel"
       ).and.returnValue(Promise.resolve(fieldworkerModel));
       const getSourceFeatureServiceModelFromFieldworkerSpy = spyOn(
-        surveyUtils,
+        getSourceFeatureServiceModelFromFieldworkerUtil,
         "getSourceFeatureServiceModelFromFieldworker"
       ).and.returnValue(Promise.resolve(featureServiceModel));
       const getStakeholderModelSpy = spyOn(
-        surveyUtils,
+        getStakeholderModelUtil,
         "getStakeholderModel"
       ).and.returnValue(Promise.resolve(stakeholderModel));
       const results = await getSurveyModels(formModel.item, requestOptions);
