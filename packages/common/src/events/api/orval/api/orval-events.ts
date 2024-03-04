@@ -34,25 +34,18 @@ export type GetEventsParams = {
   start?: number;
 };
 
-export interface ICreateRegistration {
-  /** ArcGIS Online id for a user. Will always be extracted from the token unless service token is used. */
-  agoId?: string;
-  /** Email for the subscriber. Will always be extracted from the token unless service token is used. */
-  email?: string;
-  /** Event id being registered for */
-  eventId: string;
-  /** First name for the subscriber. Will always be extracted from the token unless service token is used. */
-  firstName?: string;
-  /** Last name for the subscriber. Will always be extracted from the token unless service token is used. */
-  lastName?: string;
+export interface IUpdateRegistration {
   /** Role of the user in the event */
   role?: RegistrationRole;
-  /** Username for the subscriber. Will always be extracted from the token unless service token is used. */
-  username?: string;
+  /** Status of the registration */
+  status?: RegistrationStatus;
 }
 
 export interface IUpdateEvent {
-  [key: string]: any;
+  /** Addresses for the event */
+  addresses?: ICreateAddress[];
+  /** Online meetings for the event */
+  onlineMeetings?: ICreateOnlineMeeting[];
 }
 
 export type IAddressLocation = { [key: string]: any };
@@ -77,7 +70,11 @@ export interface IAddress {
   venue: string | null;
 }
 
+export type IEventReadGroupsItem = { [key: string]: any };
+
 export type IEventGeometry = { [key: string]: any } | null;
+
+export type IEventEditGroupsItem = { [key: string]: any };
 
 export type IEventCatalogItem = { [key: string]: any };
 
@@ -97,11 +94,21 @@ export enum RegistrationRole {
   ORGANIZER = "ORGANIZER",
   ATTENDEE = "ATTENDEE",
 }
-export interface IUpdateRegistration {
+export interface ICreateRegistration {
+  /** ArcGIS Online id for a user. Will always be extracted from the token unless service token is used. */
+  agoId?: string;
+  /** Email for the subscriber. Will always be extracted from the token unless service token is used. */
+  email?: string;
+  /** Event id being registered for */
+  eventId: string;
+  /** First name for the subscriber. Will always be extracted from the token unless service token is used. */
+  firstName?: string;
+  /** Last name for the subscriber. Will always be extracted from the token unless service token is used. */
+  lastName?: string;
   /** Role of the user in the event */
   role?: RegistrationRole;
-  /** Status of the registration */
-  status?: RegistrationStatus;
+  /** Username for the subscriber. Will always be extracted from the token unless service token is used. */
+  username?: string;
 }
 
 export interface IRegistration {
@@ -159,7 +166,13 @@ export enum EventAttendanceType {
   VIRTUAL = "VIRTUAL",
   IN_PERSON = "IN_PERSON",
 }
+export enum EventAccess {
+  PRIVATE = "PRIVATE",
+  ORG = "ORG",
+  PUBLIC = "PUBLIC",
+}
 export interface IEvent {
+  access: EventAccess;
   addresses?: IAddress[];
   allDay: boolean;
   attendanceType: EventAttendanceType[];
@@ -168,11 +181,14 @@ export interface IEvent {
   createdById: string;
   creator?: IUser;
   description: string | null;
+  editGroups: IEventEditGroupsItem[] | null;
   endDateTime: string;
   geometry: IEventGeometry;
   id: string;
   notifyAttendees: boolean;
   onlineMeetings?: IOnlineMeeting[];
+  orgId: string;
+  readGroups: IEventReadGroupsItem[] | null;
   recurrence: string | null;
   registrations?: IRegistration[];
   startDateTime: string;
@@ -197,6 +213,8 @@ export interface ICreateAddress {
 }
 
 export interface ICreateEvent {
+  /** Access level of the event */
+  access?: EventAccess;
   /** Addresses for the event. Required if attendanceType includes IN_PERSON */
   addresses?: ICreateAddress[];
   /** ArcGIS Online id for a user. Will always be extracted from the token unless service token is used. */
@@ -207,6 +225,8 @@ export interface ICreateEvent {
   attendanceType?: EventAttendanceType[];
   /** Description of the event */
   description?: string;
+  /** Groups with edit access to the event */
+  editGroups?: string[];
   /** Email for the subscriber. Will always be extracted from the token unless service token is used. */
   email?: string;
   /** ISO8601 end date-time for the event */
@@ -221,6 +241,8 @@ export interface ICreateEvent {
   notifyAttendees?: boolean;
   /** Online meetings for the event. Required if attendanceType includes VIRTUAL */
   onlineMeetings?: ICreateOnlineMeeting[];
+  /** Groups with read access to the event */
+  readGroups?: string[];
   /** ISO8601 start date-time for the event */
   startDateTime: string;
   /** Summary of the event */
