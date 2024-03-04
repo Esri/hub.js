@@ -65,6 +65,7 @@ const onlinePortalSelfResponse = {
     },
   },
   user: cloneObject(onlineUserResponse) as portalModule.IUser,
+  thumbnail: "fake-thumbnail.jpg",
 };
 
 const onlinePortalSelfWithLimitsResponse = {
@@ -302,6 +303,7 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.userHubSettings).toEqual({ schemaVersion: 1 });
       expect(mgr.context.isAlphaOrg).toEqual(false);
       expect(mgr.context.isBetaOrg).toEqual(false);
+      expect(mgr.context.portalThumbnailUrl).toBeNull();
     });
     it("verify alpha and beta orgs", async () => {
       const mgr = await ArcGISContextManager.create({
@@ -689,6 +691,9 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.properties.alphaOrgs).toEqual(["FAKEID", "FOTHERID"]);
       expect(mgr.context.isAlphaOrg).toBeTruthy();
       expect(mgr.context.isBetaOrg).toBeTruthy();
+      expect(mgr.context.portalThumbnailUrl).toBe(
+        `${MOCK_AUTH.portal}/portals/self/resources/fake-thumbnail.jpg?token=${MOCK_AUTH.token}`
+      );
     });
     it("verify props update setting session after", async () => {
       spyOn(portalModule, "getSelf").and.callFake(() => {
