@@ -49,4 +49,60 @@ describe("checkAssertions:", () => {
     expect(checks.length).toBe(2);
     expect(spy.calls.count()).toBe(2);
   });
+  it("checks conditions", () => {
+    const policy: IPermissionPolicy = {
+      permission: "hub:group:shareContent",
+      assertions: [
+        {
+          conditions: [
+            {
+              property: "entity:isViewOnly",
+              type: "eq",
+              value: false,
+            },
+          ],
+          property: "context:currentUser",
+          type: "is-group-member",
+          value: "entity:id",
+        },
+        {
+          conditions: [
+            {
+              property: "entity:isViewOnly",
+              type: "eq",
+              value: true,
+            },
+          ],
+          property: "context:currentUser",
+          type: "is-group-admin",
+          value: "entity:id",
+        },
+      ],
+    };
+
+    const ctx = {
+      isAuthenticated: true,
+    } as unknown as IArcGISContext;
+    const entity = {
+      group: {
+        id: "123",
+      },
+    };
+
+    const spy = spyOn(AssertionModule, "checkAssertion").and.returnValues(
+      {
+        response: "granted",
+      },
+      {
+        response: "granted",
+      },
+      {
+        response: "assertion-failed",
+      }
+    );
+
+    const checks = checkAssertions(policy, ctx, entity);
+    expect(checks.length).toBe(1);
+    expect(spy.calls.count()).toBe(3);
+  });
 });
