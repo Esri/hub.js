@@ -62,11 +62,25 @@ describe("HubSurvey Class:", () => {
       {
         id: "bc3",
         name: "Test Survey",
+        orgUrlKey: "fake-org",
       },
       authdCtxMgr.context
     );
     await chk.save();
     expect(updateSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not save updates if no id", async () => {
+    const updateSpy = spyOn(surveyEditModule, "updateSurvey");
+    const chk = HubSurvey.fromJson(
+      {
+        name: "Test Survey",
+        orgUrlKey: "fake-org",
+      },
+      authdCtxMgr.context
+    );
+    await chk.save();
+    expect(updateSpy).not.toHaveBeenCalledTimes(1);
   });
 
   it("delete", async () => {
@@ -103,6 +117,7 @@ describe("HubSurvey Class:", () => {
       expect(e.message).toEqual("HubSurvey is already destroyed.");
     }
   });
+
   describe("IWithEditorBehavior:", () => {
     it("getEditorConfig delegates to helper", async () => {
       const spy = spyOn(EditConfigModule, "getEditorConfig").and.callFake(

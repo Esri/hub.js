@@ -4,7 +4,7 @@ import { mockUserSession } from "../../test-helpers/fake-user-session";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 describe("getFormInfoJson", () => {
-  let getItemInfoSpy;
+  let getItemInfoSpy: jasmine.Spy;
   let requestOptions: IRequestOptions;
 
   beforeEach(() => {
