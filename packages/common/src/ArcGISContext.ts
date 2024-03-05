@@ -29,7 +29,7 @@ import {
 import { HubServiceStatus } from "./core/types/ISystemStatus";
 import { checkPermission } from "./permissions/checkPermission";
 import { HubEntity } from "./core/types/HubEntity";
-import { getPortalThumbnailUrl } from "./resources/get-portal-thumbnail-url";
+import { getOrgThumbnailUrl } from "./resources/get-org-thumbnail-url";
 
 /**
  * Hash of Hub API end points so updates
@@ -242,7 +242,7 @@ export interface IArcGISContext {
   /**
    * Return the portal thumbnail url
    */
-  portalThumbnailUrl: string;
+  orgThumbnailUrl: string;
 
   /**
    * Return the token for a given app, if defined
@@ -811,12 +811,8 @@ export class ArcGISContext implements IArcGISContext {
     return this._userHubSettings;
   }
 
-  public get portalThumbnailUrl(): string {
-    return getPortalThumbnailUrl(
-      this.sharingApiUrl,
-      this.portal,
-      this.session?.token
-    );
+  public get orgThumbnailUrl(): string {
+    return getOrgThumbnailUrl(this.portal, this.session?.token);
   }
 
   /**

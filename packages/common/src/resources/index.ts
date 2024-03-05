@@ -5,7 +5,7 @@ export * from "./fetch-and-upload-thumbnail";
 export * from "./fetch-image-as-blob";
 export * from "./get-item-assets";
 export * from "./get-item-thumbnail-url";
-export * from "./get-portal-thumbnail-url";
+export * from "./get-org-thumbnail-url";
 export * from "./string-to-blob";
 export * from "./upload-resources-from-url";
 export * from "./add-solution-resource-url-to-assets";
