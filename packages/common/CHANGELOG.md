@@ -1,3 +1,15 @@
+# @esri/hub-common [14.98.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.97.0...@esri/hub-common@14.98.0) (2024-03-05)
+
+
+### Bug Fixes
+
+* await uiSchema build ([#1428](https://github.com/Esri/hub.js/issues/1428)) ([8af4f48](https://github.com/Esri/hub.js/commit/8af4f48c55b3867e8d4bf6208c6bfd229f602123))
+
+
+### Features
+
+* org thumbnail ([#1427](https://github.com/Esri/hub.js/issues/1427)) ([2d61161](https://github.com/Esri/hub.js/commit/2d61161d6fa2260181f885153917d42960f42efb))
+
 # @esri/hub-common [14.97.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.96.0...@esri/hub-common@14.97.0) (2024-03-04)
 
 
