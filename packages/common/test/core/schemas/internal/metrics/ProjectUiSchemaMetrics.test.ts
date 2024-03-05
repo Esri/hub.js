@@ -81,8 +81,10 @@ describe("ProjectUiSchemaMetrics", () => {
                 rule: {
                   condition: {
                     schema: {
+                      type: "object",
                       properties: {
                         _metric: {
+                          type: "object",
                           properties: {
                             type: { const: "static" },
                             valueType: { const: "string" },
@@ -113,8 +115,10 @@ describe("ProjectUiSchemaMetrics", () => {
                 rule: {
                   condition: {
                     schema: {
+                      type: "object",
                       properties: {
                         _metric: {
+                          type: "object",
                           properties: {
                             type: { const: "static" },
                             valueType: { const: "number" },
@@ -146,8 +150,10 @@ describe("ProjectUiSchemaMetrics", () => {
                 rule: {
                   condition: {
                     schema: {
+                      type: "object",
                       properties: {
                         _metric: {
+                          type: "object",
                           properties: {
                             type: { const: "static" },
                             valueType: { const: "date" },
