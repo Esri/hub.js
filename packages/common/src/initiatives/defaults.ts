@@ -19,6 +19,7 @@ export const DEFAULT_INITIATIVE: Partial<IHubInitiative> = {
   view: {
     featuredContentIds: [],
     hero: HubEntityHero.map,
+    metricDisplays: [],
   },
 };
 
@@ -43,6 +44,7 @@ export const DEFAULT_INITIATIVE_MODEL: IModel = {
     view: {
       featuredContentIds: [],
       hero: HubEntityHero.map,
+      metricDisplays: [],
     },
   },
 } as unknown as IModel;
