@@ -49,10 +49,10 @@ export async function getCardEditorSchemas(
 
       // Allow imports to run in parallel
       await Promise.all([schemaPromise, uiSchemaPromise()]).then(
-        ([schemaModuleResolved, uiSchemaModuleResolved]) => {
+        async ([schemaModuleResolved, uiSchemaModuleResolved]) => {
           const { MetricSchema } = schemaModuleResolved;
           schema = cloneObject(MetricSchema);
-          uiSchema = uiSchemaModuleResolved.buildUiSchema(
+          uiSchema = await uiSchemaModuleResolved.buildUiSchema(
             i18nScope,
             options,
             context
