@@ -70,7 +70,6 @@ describe("buildUiSchema: stat", () => {
                 section: "subblock",
                 scale: "m",
                 toggleDisplay: "switch",
-                scope: "/properties/unit",
               },
               elements: [
                 {
