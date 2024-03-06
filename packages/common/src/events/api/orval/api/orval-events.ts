@@ -25,6 +25,10 @@ export type GetEventsParams = {
    */
   startDateTimeAfter?: string;
   /**
+   * attendance types to filter query results by
+   */
+  attendanceTypes?: string[];
+  /**
    * the max amount of events to return
    */
   num?: number;
@@ -34,18 +38,59 @@ export type GetEventsParams = {
   start?: number;
 };
 
-export interface IUpdateRegistration {
+export interface ICreateRegistration {
+  /** ArcGIS Online id for a user. Will always be extracted from the token unless service token is used. */
+  agoId?: string;
+  /** Email for the subscriber. Will always be extracted from the token unless service token is used. */
+  email?: string;
+  /** Event id being registered for */
+  eventId: string;
+  /** First name for the subscriber. Will always be extracted from the token unless service token is used. */
+  firstName?: string;
+  /** Last name for the subscriber. Will always be extracted from the token unless service token is used. */
+  lastName?: string;
   /** Role of the user in the event */
   role?: RegistrationRole;
-  /** Status of the registration */
-  status?: RegistrationStatus;
+  /** Username for the subscriber. Will always be extracted from the token unless service token is used. */
+  username?: string;
 }
 
+/**
+ * GeoJSON formatted geometry related to the event
+ */
+export type IUpdateEventGeometry = { [key: string]: any };
+
 export interface IUpdateEvent {
+  /** Access level of the event */
+  access?: EventAccess;
   /** Addresses for the event */
   addresses?: ICreateAddress[];
+  /** Flag for all day event */
+  allDay?: boolean;
+  /** Valid ways to attend the event */
+  attendanceType?: EventAttendanceType[];
+  /** Description of the event */
+  description?: string;
+  /** Groups with edit access to the event */
+  editGroups?: string[];
+  /** ISO8601 end date-time for the event */
+  endDateTime?: string;
+  /** GeoJSON formatted geometry related to the event */
+  geometry?: IUpdateEventGeometry;
+  /** Flag to notify attendees */
+  notifyAttendees?: boolean;
   /** Online meetings for the event */
   onlineMeetings?: ICreateOnlineMeeting[];
+  /** Groups with read access to the event */
+  readGroups?: string[];
+  /** ISO8601 start date-time for the event */
+  startDateTime?: string;
+  /** Summary of the event */
+  summary?: string;
+  /** IANA time zone for the event */
+  timeZone?: string;
+  /** Title of the event */
+  title?: string;
 }
 
 export type IAddressLocation = { [key: string]: any };
@@ -70,11 +115,7 @@ export interface IAddress {
   venue: string | null;
 }
 
-export type IEventReadGroupsItem = { [key: string]: any };
-
 export type IEventGeometry = { [key: string]: any } | null;
-
-export type IEventEditGroupsItem = { [key: string]: any };
 
 export type IEventCatalogItem = { [key: string]: any };
 
@@ -94,21 +135,11 @@ export enum RegistrationRole {
   ORGANIZER = "ORGANIZER",
   ATTENDEE = "ATTENDEE",
 }
-export interface ICreateRegistration {
-  /** ArcGIS Online id for a user. Will always be extracted from the token unless service token is used. */
-  agoId?: string;
-  /** Email for the subscriber. Will always be extracted from the token unless service token is used. */
-  email?: string;
-  /** Event id being registered for */
-  eventId: string;
-  /** First name for the subscriber. Will always be extracted from the token unless service token is used. */
-  firstName?: string;
-  /** Last name for the subscriber. Will always be extracted from the token unless service token is used. */
-  lastName?: string;
+export interface IUpdateRegistration {
   /** Role of the user in the event */
   role?: RegistrationRole;
-  /** Username for the subscriber. Will always be extracted from the token unless service token is used. */
-  username?: string;
+  /** Status of the registration */
+  status?: RegistrationStatus;
 }
 
 export interface IRegistration {
@@ -181,14 +212,14 @@ export interface IEvent {
   createdById: string;
   creator?: IUser;
   description: string | null;
-  editGroups: IEventEditGroupsItem[] | null;
+  editGroups: string[] | null;
   endDateTime: string;
   geometry: IEventGeometry;
   id: string;
   notifyAttendees: boolean;
   onlineMeetings?: IOnlineMeeting[];
   orgId: string;
-  readGroups: IEventReadGroupsItem[] | null;
+  readGroups: string[] | null;
   recurrence: string | null;
   registrations?: IRegistration[];
   startDateTime: string;
