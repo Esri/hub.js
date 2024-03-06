@@ -1,21 +1,18 @@
-/* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
- * Apache-2.0 */
-
-import { IModel } from "../../src/types";
 import * as restPortal from "@esri/arcgis-rest-portal";
-import { mockUserSession } from "../test-helpers/fake-user-session";
-import { getSurveyModels } from "../../src/surveys/get-survey-models";
-import * as FormItemPublished from "../mocks/items/form-item-published.json";
-import * as FeatureServiceItem from "../mocks/items/feature-service-item.json";
-import * as FieldworkerItem from "../mocks/items/fieldworker-item.json";
-import * as StakeholderItem from "../mocks/items/stakeholder-item.json";
-import * as isFieldworkerView from "../../src/surveys/is-fieldworker-view";
-import * as getInputFeatureServiceModel from "../../src/surveys/get-input-feature-service-model";
-import * as getSourceFeatureServiceModelFromFieldworker from "../../src/surveys/get-source-feature-service-model-from-fieldworker";
-import * as getStakeholderModel from "../../src/surveys/get-stakeholder-model";
+import * as FieldworkerItem from "../../mocks/items/fieldworker-item.json";
+import * as FeatureServiceItem from "../../mocks/items/feature-service-item.json";
+import * as StakeholderItem from "../../mocks/items/stakeholder-item.json";
+import * as FormItemPublished from "../../mocks/items/form-item-published.json";
+import * as isFieldworkerViewUtil from "../../../src/surveys/utils/is-fieldworker-view";
+import * as getInputFeatureServiceModelUtil from "../../../src/surveys/utils/get-input-feature-service-model";
+import * as getSourceFeatureServiceModelFromFieldworkerUtil from "../../../src/surveys/utils/get-source-feature-service-model-from-fieldworker";
+import * as getStakeholderModelUtil from "../../../src/surveys/utils/get-stakeholder-model";
+import { mockUserSession } from "../../test-helpers/fake-user-session";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { getSurveyModels } from "../../../src/surveys/utils/get-survey-models";
+import { IModel } from "../../../src/types";
 
-describe("getSurveyModels", function () {
+describe("getSurveyModels", () => {
   let formModel: IModel;
   let featureServiceModel: IModel;
   let fieldworkerModel: IModel;
@@ -35,19 +32,19 @@ describe("getSurveyModels", function () {
       Promise.resolve(FormItemPublished)
     );
     const isFieldworkerViewSpy = spyOn(
-      isFieldworkerView,
+      isFieldworkerViewUtil,
       "isFieldworkerView"
     ).and.returnValue(true);
     const getInputFeatureServiceModelSpy = spyOn(
-      getInputFeatureServiceModel,
+      getInputFeatureServiceModelUtil,
       "getInputFeatureServiceModel"
     ).and.returnValue(Promise.resolve(fieldworkerModel));
     const getSourceFeatureServiceModelFromFieldworkerSpy = spyOn(
-      getSourceFeatureServiceModelFromFieldworker,
+      getSourceFeatureServiceModelFromFieldworkerUtil,
       "getSourceFeatureServiceModelFromFieldworker"
     ).and.returnValue(Promise.resolve(featureServiceModel));
     const getStakeholderModelSpy = spyOn(
-      getStakeholderModel,
+      getStakeholderModelUtil,
       "getStakeholderModel"
     ).and.returnValue(Promise.resolve(stakeholderModel));
     const results = await getSurveyModels(formModel.item.id, requestOptions);
@@ -87,19 +84,19 @@ describe("getSurveyModels", function () {
       Promise.resolve(FormItemPublished)
     );
     const isFieldworkerViewSpy = spyOn(
-      isFieldworkerView,
+      isFieldworkerViewUtil,
       "isFieldworkerView"
     ).and.returnValue(false);
     const getInputFeatureServiceModelSpy = spyOn(
-      getInputFeatureServiceModel,
+      getInputFeatureServiceModelUtil,
       "getInputFeatureServiceModel"
     ).and.returnValue(Promise.resolve(featureServiceModel));
     const getSourceFeatureServiceModelFromFieldworkerSpy = spyOn(
-      getSourceFeatureServiceModelFromFieldworker,
+      getSourceFeatureServiceModelFromFieldworkerUtil,
       "getSourceFeatureServiceModelFromFieldworker"
     );
     const getStakeholderModelSpy = spyOn(
-      getStakeholderModel,
+      getStakeholderModelUtil,
       "getStakeholderModel"
     ).and.returnValue(Promise.resolve());
     const results = await getSurveyModels(formModel.item.id, requestOptions);
@@ -136,19 +133,19 @@ describe("getSurveyModels", function () {
       Promise.resolve(FormItemPublished)
     );
     const isFieldworkerViewSpy = spyOn(
-      isFieldworkerView,
+      isFieldworkerViewUtil,
       "isFieldworkerView"
     ).and.returnValue(false);
     const getInputFeatureServiceModelSpy = spyOn(
-      getInputFeatureServiceModel,
+      getInputFeatureServiceModelUtil,
       "getInputFeatureServiceModel"
     ).and.returnValue(Promise.resolve());
     const getSourceFeatureServiceModelFromFieldworkerSpy = spyOn(
-      getSourceFeatureServiceModelFromFieldworker,
+      getSourceFeatureServiceModelFromFieldworkerUtil,
       "getSourceFeatureServiceModelFromFieldworker"
     );
     const getStakeholderModelSpy = spyOn(
-      getStakeholderModel,
+      getStakeholderModelUtil,
       "getStakeholderModel"
     ).and.returnValue(Promise.resolve());
     const results = await getSurveyModels(formModel.item.id, requestOptions);
@@ -180,19 +177,19 @@ describe("getSurveyModels", function () {
   it("only fetches Form when formItemOrId is a string", async function () {
     const getItemStub = spyOn(restPortal, "getItem");
     const isFieldworkerViewSpy = spyOn(
-      isFieldworkerView,
+      isFieldworkerViewUtil,
       "isFieldworkerView"
     ).and.returnValue(true);
     const getInputFeatureServiceModelSpy = spyOn(
-      getInputFeatureServiceModel,
+      getInputFeatureServiceModelUtil,
       "getInputFeatureServiceModel"
     ).and.returnValue(Promise.resolve(fieldworkerModel));
     const getSourceFeatureServiceModelFromFieldworkerSpy = spyOn(
-      getSourceFeatureServiceModelFromFieldworker,
+      getSourceFeatureServiceModelFromFieldworkerUtil,
       "getSourceFeatureServiceModelFromFieldworker"
     ).and.returnValue(Promise.resolve(featureServiceModel));
     const getStakeholderModelSpy = spyOn(
-      getStakeholderModel,
+      getStakeholderModelUtil,
       "getStakeholderModel"
     ).and.returnValue(Promise.resolve(stakeholderModel));
     const results = await getSurveyModels(formModel.item, requestOptions);

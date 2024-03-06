@@ -1,12 +1,9 @@
-/* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
- * Apache-2.0 */
-
-import { getSourceFeatureServiceModelFromFieldworker } from "../../src/surveys/get-source-feature-service-model-from-fieldworker";
-import * as FeatureServiceItem from "../mocks/items/feature-service-item.json";
 import * as restPortal from "@esri/arcgis-rest-portal";
-import { mockUserSession } from "../test-helpers/fake-user-session";
+import { mockUserSession } from "../../test-helpers/fake-user-session";
+import * as FeatureServiceItem from "../../mocks/items/feature-service-item.json";
+import { getSourceFeatureServiceModelFromFieldworker } from "../../../src/surveys/utils/get-source-feature-service-model-from-fieldworker";
 
-describe("getSourceFeatureServiceModelFromFieldworker", function () {
+describe("getSourceFeatureServiceModelFromFieldworker", () => {
   let getRelatedItemsResponse: restPortal.IGetRelatedItemsResponse;
 
   beforeEach(() => {
