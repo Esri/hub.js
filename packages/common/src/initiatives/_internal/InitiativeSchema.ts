@@ -27,37 +27,13 @@ export const InitiativeSchema: IConfigurationSchema = {
       enum: Object.keys(HubEntityStatus),
     },
     _metric: {
-      type: "object",
+      ...MetricSchema,
       required: ["cardTitle"],
-      properties: {
-        ...MetricSchema.properties,
-      },
+      allOf: [
+        MetricSchema.definitions["if-source-title-then-source-link"],
+        MetricSchema.definitions["if-static-then-require-value"],
+        MetricSchema.definitions["value-type-value-mapping"],
+      ],
     },
   },
-  allOf: [
-    {
-      if: {
-        type: "object",
-        properties: {
-          _metric: {
-            type: "object",
-            properties: {
-              type: {
-                const: "static",
-              },
-            },
-          },
-        },
-      },
-      then: {
-        type: "object",
-        properties: {
-          _metric: {
-            type: "object",
-            required: ["value"],
-          },
-        },
-      },
-    },
-  ],
 } as IConfigurationSchema;

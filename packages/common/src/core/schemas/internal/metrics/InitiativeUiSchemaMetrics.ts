@@ -189,7 +189,6 @@ export const buildUiSchema = async (
               placeholder: "https://esri.com",
               messages: [
                 {
-                  /** not in use until conditional required lands */
                   type: "ERROR",
                   keyword: "required",
                   icon: true,

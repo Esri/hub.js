@@ -98,7 +98,8 @@ export function editorToProject(
   //   a. transform editor values into metric + displayConfig
   //   b. set metric and displayConfig on project
   if (_metric && Object.keys(_metric).length) {
-    const metricId = _metric.id || createId(camelize(`${_metric.cardTitle}_`));
+    const metricId =
+      _metric.metricId || createId(camelize(`${_metric.cardTitle}_`));
     const { metric, displayConfig } = editorToMetric(_metric, metricId, {
       metricName: _metric.cardTitle,
     });

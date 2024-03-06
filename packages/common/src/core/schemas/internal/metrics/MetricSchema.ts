@@ -151,5 +151,14 @@ export const MetricSchema: IConfigurationSchema = {
         properties: { value: { type: "number" } },
       },
     },
+    "if-static-then-require-value": {
+      if: {
+        type: "object",
+        properties: {
+          type: { const: "static" },
+        },
+      },
+      then: { required: ["value"] },
+    },
   },
 };
