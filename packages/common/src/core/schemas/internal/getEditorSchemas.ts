@@ -25,6 +25,7 @@ import {
 import { IArcGISContext } from "../../../ArcGISContext";
 import { InitiativeTemplateEditorType } from "../../../initiative-templates/_internal/InitiativeTemplateSchema";
 import { getCardEditorSchemas } from "./getCardEditorSchemas";
+import { SurveyEditorType } from "../../../surveys/_internal/SurveySchema";
 
 /**
  * get the editor schema and uiSchema defined for an editor (either an entity or a card).
@@ -318,6 +319,25 @@ export async function getEditorSchemas(
         );
       }
 
+      break;
+    // ----------------------------------------------------
+    case "survey":
+      const { SurveySchema } = await import(
+        "../../../surveys/_internal/SurveySchema"
+      );
+      schema = cloneObject(SurveySchema);
+
+      const surveyModule = await {
+        "hub:survey:edit": () =>
+          import("../../../surveys/_internal/SurveyUiSchemaEdit"),
+        "hub:survey:settings": () =>
+          import("../../../surveys/_internal/SurveyUiSchemaSettings"),
+      }[type as SurveyEditorType]();
+      uiSchema = await surveyModule.buildUiSchema(
+        i18nScope,
+        options as EntityEditorOptions,
+        context
+      );
       break;
 
     case "initiativeTemplate":

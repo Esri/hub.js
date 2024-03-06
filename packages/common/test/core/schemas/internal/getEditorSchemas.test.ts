@@ -45,6 +45,10 @@ import * as GroupBuildCreateEditUiSchema from "../../../../src/groups/_internal/
 import { InitiativeTemplateEditorTypes } from "../../../../src/initiative-templates/_internal/InitiativeTemplateSchema";
 import * as InitiativeTemplateBuildEditUiSchema from "../../../../src/initiative-templates/_internal/InitiativeTemplateUiSchemaEdit";
 
+import { SurveyEditorTypes } from "../../../../src/surveys/_internal/SurveySchema";
+import * as SurveyBuildEditUiSchema from "../../../../src/surveys/_internal/SurveyUiSchemaEdit";
+import * as SurveyBuildSettingsUiSchema from "../../../../src/surveys/_internal/SurveyUiSchemaSettings";
+
 import {
   EditorType,
   IEditorModuleType,
@@ -95,6 +99,8 @@ describe("getEditorSchemas: ", () => {
       type: InitiativeTemplateEditorTypes[0],
       module: InitiativeTemplateBuildEditUiSchema,
     },
+    { type: SurveyEditorTypes[0], module: SurveyBuildEditUiSchema },
+    { type: SurveyEditorTypes[1], module: SurveyBuildSettingsUiSchema },
     { type: validCardEditorTypes[0], module: statUiSchemaModule },
   ];
 

@@ -3,7 +3,7 @@
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getRelatedItems } from "@esri/arcgis-rest-portal";
-import { IModel } from "../types";
+import { IModel } from "../../types";
 
 /**
  * Gets the primary input Feature Service for the given
