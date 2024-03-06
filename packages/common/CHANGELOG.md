@@ -1,3 +1,10 @@
+# @esri/hub-common [14.99.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.98.1...@esri/hub-common@14.99.0) (2024-03-06)
+
+
+### Features
+
+* **hub-common:** create feedback entity ([#1414](https://github.com/Esri/hub.js/issues/1414)) ([4a5e61e](https://github.com/Esri/hub.js/commit/4a5e61eca8cda965f9ad0e30a857c429230e0b47))
+
 ## @esri/hub-common [14.98.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.98.0...@esri/hub-common@14.98.1) (2024-03-06)
 
 
