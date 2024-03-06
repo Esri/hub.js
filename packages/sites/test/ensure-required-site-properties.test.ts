@@ -115,6 +115,7 @@ describe("ensureRequiredSiteProperties", () => {
     const model = {
       item: {},
       data: {
+        telemetry: {},
         values: {
           subdomain: "name-org",
           defaultHostname: "name-org.hub.arcgis.com",

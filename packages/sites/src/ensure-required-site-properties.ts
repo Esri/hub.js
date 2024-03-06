@@ -77,6 +77,9 @@ export function ensureRequiredSiteProperties(
     caps.push("socialSharing");
   }
   deepSet(model, "data.values.capabilities", caps);
+  if (!getProp(model, "data.telemetry")) {
+    deepSet(model, "data.telemetry", {});
+  }
   // return the clone
   return model;
 }
