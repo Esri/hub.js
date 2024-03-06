@@ -11,6 +11,7 @@ import { _migrateEventListCardConfigs } from "./_internal/_migrate-event-list-ca
 import { migrateLegacyCapabilitiesToFeatures } from "./_internal/capabilities/migrateLegacyCapabilitiesToFeatures";
 import { _migrateTelemetryConfig } from "./_internal/_migrate-telemetry-config";
 import { migrateBadBasemap } from "./_internal/migrateBadBasemap";
+import { ensureBaseTelemetry } from "./_internal/ensureBaseTelemetry";
 
 /**
  * Upgrades the schema upgrades
@@ -37,5 +38,6 @@ export function upgradeSiteSchema(model: IModel) {
 
   // apply versionless migrations
   model = migrateBadBasemap(model);
+  model = ensureBaseTelemetry(model);
   return model;
 }

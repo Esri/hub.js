@@ -1,3 +1,22 @@
+## @esri/hub-common [14.98.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.98.0...@esri/hub-common@14.98.1) (2024-03-06)
+
+
+### Bug Fixes
+
+* ensure sites have telemetry ([#1430](https://github.com/Esri/hub.js/issues/1430)) ([abc5205](https://github.com/Esri/hub.js/commit/abc5205bd8779d4544ceda042a8a097369b52364))
+
+# @esri/hub-common [14.98.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.97.0...@esri/hub-common@14.98.0) (2024-03-05)
+
+
+### Bug Fixes
+
+* await uiSchema build ([#1428](https://github.com/Esri/hub.js/issues/1428)) ([8af4f48](https://github.com/Esri/hub.js/commit/8af4f48c55b3867e8d4bf6208c6bfd229f602123))
+
+
+### Features
+
+* org thumbnail ([#1427](https://github.com/Esri/hub.js/issues/1427)) ([2d61161](https://github.com/Esri/hub.js/commit/2d61161d6fa2260181f885153917d42960f42efb))
+
 # @esri/hub-common [14.97.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.96.0...@esri/hub-common@14.97.0) (2024-03-04)
 
 
