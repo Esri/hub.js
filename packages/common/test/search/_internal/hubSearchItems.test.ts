@@ -856,6 +856,7 @@ describe("hubSearchItems Module |", () => {
         id: "12345",
         title: "title",
         body: "body",
+        creator: "creator",
         status: "PENDING" as any,
         appInfo: null,
         discussion: null,
@@ -866,7 +867,7 @@ describe("hubSearchItems Module |", () => {
         updatedAt: new Date("2021-01-01"),
       };
 
-      it("simply returns the Post as properties", async () => {
+      it("returns an IHubSearchResult with an IPost raw result", async () => {
         const ogcItem: IOgcItem = {
           id: "9001",
           type: "Feature",
@@ -880,7 +881,24 @@ describe("hubSearchItems Module |", () => {
 
         const result = await ogcItemToDiscussionPostResult(ogcItem);
 
-        expect(result).toEqual(ogcItem.properties as IPost);
+        expect(result).toEqual({
+          access: null as any,
+          name: "title",
+          title: "title",
+          type: "Discussion",
+          createdDate: ogcItemProperties.createdAt,
+          createdDateSource: "properties.createdAt",
+          updatedDate: ogcItemProperties.updatedAt,
+          updatedDateSource: "properties.updatedAt",
+          created: ogcItemProperties.createdAt,
+          modified: ogcItemProperties.updatedAt,
+          family: null as any,
+          id: "9001",
+          owner: "creator",
+          rawResult: ogcItemProperties as any,
+          summary: "body",
+          location: null as any,
+        } as any);
       });
     });
 

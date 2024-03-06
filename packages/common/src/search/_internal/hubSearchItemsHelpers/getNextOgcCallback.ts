@@ -1,4 +1,4 @@
-import { HubOgcSearchResultType } from "../../types/HubOgcSearchResultType";
+import { IHubSearchResult } from "../../types";
 import { IQuery } from "../../types/IHubCatalog";
 import { IHubSearchOptions } from "../../types/IHubSearchOptions";
 import { IHubSearchResponse } from "../../types/IHubSearchResponse";
@@ -9,11 +9,10 @@ export function getNextOgcCallback(
   response: IOgcItemsResponse,
   originalQuery: IQuery,
   originalOptions: IHubSearchOptions
-): (params?: any) => Promise<IHubSearchResponse<HubOgcSearchResultType>> {
+): (params?: any) => Promise<IHubSearchResponse<IHubSearchResult>> {
   const nextLink = response.links.find((l) => l.rel === "next");
 
-  let callback = (): Promise<IHubSearchResponse<HubOgcSearchResultType>> =>
-    null;
+  let callback = (): Promise<IHubSearchResponse<IHubSearchResult>> => null;
   if (nextLink) {
     callback = () => {
       const nextUrl = new URL(nextLink.href);

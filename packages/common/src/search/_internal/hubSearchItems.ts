@@ -1,5 +1,9 @@
-import { IHubSearchOptions, IHubSearchResponse, IQuery } from "../types";
-import { HubOgcSearchResultType } from "../types/HubOgcSearchResultType";
+import {
+  IHubSearchOptions,
+  IHubSearchResponse,
+  IHubSearchResult,
+  IQuery,
+} from "../types";
 import { searchOgcAggregations } from "./hubSearchItemsHelpers/searchOgcAggregations";
 import { searchOgcItems } from "./hubSearchItemsHelpers/searchOgcItems";
 
@@ -13,7 +17,7 @@ import { searchOgcItems } from "./hubSearchItemsHelpers/searchOgcItems";
 export async function hubSearchItems(
   query: IQuery,
   options: IHubSearchOptions
-): Promise<IHubSearchResponse<HubOgcSearchResultType>> {
+): Promise<IHubSearchResponse<IHubSearchResult>> {
   return options.aggFields?.length
     ? searchOgcAggregations(query, options)
     : searchOgcItems(query, options);
