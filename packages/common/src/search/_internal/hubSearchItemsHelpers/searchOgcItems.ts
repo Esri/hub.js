@@ -1,7 +1,7 @@
-import { IHubSearchResult } from "../../types";
 import { IQuery } from "../../types/IHubCatalog";
 import { IHubSearchOptions } from "../../types/IHubSearchOptions";
 import { IHubSearchResponse } from "../../types/IHubSearchResponse";
+import { IHubSearchResult } from "../../types/IHubSearchResult";
 import { formatOgcItemsResponse } from "./formatOgcItemsResponse";
 import { getOgcCollectionUrl } from "./getOgcCollectionUrl";
 import { getOgcItemQueryParams } from "./getOgcItemQueryParams";
