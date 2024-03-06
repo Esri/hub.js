@@ -5,14 +5,14 @@ import {
 } from "../../core/schemas/types";
 import { IArcGISContext } from "../../ArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
-import { checkPermission } from "../../permissions";
 import { getWellKnownGroup } from "../getWellKnownGroup";
+import { checkPermission } from "../../permissions/checkPermission";
 
 /**
  * @private
- * constructs the complete uiSchema for creating a edit
+ * constructs the complete uiSchema for creating an association
  * group. This defines how the schema properties should be
- * rendered in the edit group creation experience
+ * rendered in the association group creation experience
  */
 export const buildUiSchema = async (
   i18nScope: string,
@@ -97,7 +97,7 @@ export const buildUiSchema = async (
                   labels: [
                     `{{${i18nScope}.fields.membershipAccess.org:translate}}`,
                     `{{${i18nScope}.fields.membershipAccess.collab:translate}}`,
-                    `{{${i18nScope}.fields.membershipAccess.any:translate}}`,
+                    `{{${i18nScope}.fields.membershipAccess.createAssociation.any:translate}}`,
                   ],
                   disabled: [
                     false,
@@ -105,7 +105,10 @@ export const buildUiSchema = async (
                       "platform:portal:user:addExternalMembersToGroup",
                       context
                     ).access,
-                    true,
+                    !checkPermission(
+                      "platform:portal:user:addExternalMembersToGroup",
+                      context
+                    ).access,
                   ],
                 },
               },
@@ -117,7 +120,7 @@ export const buildUiSchema = async (
                   control: "hub-field-input-radio",
                   labels: [
                     `{{${i18nScope}.fields.contributeContent.all:translate}}`,
-                    `{{${i18nScope}.fields.contributeContent.admins:translate}}`,
+                    `{{${i18nScope}.fields.contributeContent.createAssociation.admins:translate}}`,
                   ],
                 },
               },
@@ -131,7 +134,7 @@ export const buildUiSchema = async (
 
 /**
  * @private
- * constructs the default values for creating an edit group.
+ * constructs the default values for creating an associations group.
  * This is used to pre-populate the form with specific default values
  * that are different from the normal Group Schema defaults.
  * @param i18nScope
@@ -145,6 +148,6 @@ export const buildDefaults = async (
   context: IArcGISContext
 ): Promise<IConfigurationValues> => {
   return {
-    ...getWellKnownGroup("hubEditGroup", context),
+    ...getWellKnownGroup("hubAssociationsGroup", context),
   };
 };

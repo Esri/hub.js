@@ -69,6 +69,41 @@ export const MOCK_ENTERPRISE_REQOPTS = {
   isPortal: true,
 } as unknown as IHubRequestOptions;
 
+export function getMockContextWithPrivilenges(
+  privileges: string[]
+): IArcGISContext {
+  return new ArcGISContext({
+    id: 123,
+    currentUser: {
+      username: "mock_user",
+      favGroupId: "456abc",
+      orgId: "789def",
+      privileges,
+    },
+    portalUrl: "https://qaext.arcgis.com",
+    hubUrl: "https://hubqa.arcgis.com",
+    authentication: MOCK_AUTH,
+    portalSelf: {
+      id: "123",
+      name: "My org",
+      isPortal: false,
+      urlKey: "www",
+    },
+    serviceStatus: {
+      portal: "online",
+      discussions: "online",
+      events: "online",
+      metrics: "online",
+      notifications: "online",
+      "hub-search": "online",
+      domains: "online",
+    },
+    userHubSettings: {
+      schemaVersion: 1,
+    },
+  }) as IArcGISContext;
+}
+
 export const MOCK_CONTEXT = new ArcGISContext({
   id: 123,
   currentUser: {

@@ -120,6 +120,17 @@ export async function createHubGroup(
     authentication: requestOptions.authentication,
   };
   const result = await createGroup(opts);
+  // createGroup does not set a protection value based on the value of 'protected'
+  // so we have to make an additional call to protectGroup to set protection
+  if (group.protected) {
+    result.group.protected = (
+      await protectGroup({
+        id: result.group.id,
+        authentication: requestOptions.authentication,
+      })
+    ).success;
+  }
+
   return convertGroupToHubGroup(result.group, requestOptions);
 }
 

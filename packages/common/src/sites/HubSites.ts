@@ -84,6 +84,7 @@ const DEFAULT_SITE: Partial<IHubSite> = {
       feedback: true,
     },
   },
+  telemetry: {},
 };
 
 /**
