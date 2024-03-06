@@ -25,9 +25,9 @@ export type GetEventsParams = {
    */
   startDateTimeAfter?: string;
   /**
-   * attendance types to filter query results by
+   * Comma separated sting list of AttendanceTypes
    */
-  attendanceTypes?: string[];
+  attendanceTypes?: string;
   /**
    * the max amount of events to return
    */
