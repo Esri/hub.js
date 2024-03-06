@@ -1,3 +1,10 @@
+## @esri/hub-common [14.98.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.98.0...@esri/hub-common@14.98.1) (2024-03-06)
+
+
+### Bug Fixes
+
+* ensure sites have telemetry ([#1430](https://github.com/Esri/hub.js/issues/1430)) ([abc5205](https://github.com/Esri/hub.js/commit/abc5205bd8779d4544ceda042a8a097369b52364))
+
 # @esri/hub-common [14.98.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.97.0...@esri/hub-common@14.98.0) (2024-03-05)
 
 
