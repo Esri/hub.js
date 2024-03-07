@@ -1,41 +1,55 @@
 import { IUser, joinGroup, leaveGroup } from "@esri/arcgis-rest-portal";
-import { EntityType, IHubSearchOptions } from "../search";
-import { fetchSite } from "../sites";
-import { HubEntity } from "../core";
+import { HubEntityType, fetchHubEntity } from "../core";
+import { IWithFollowers } from "../core/traits/IWithFollowers";
+import { IArcGISContext } from "../ArcGISContext";
 
 /**
  * Get the entity's followers group id
+ * @param entityId entity id
+ * @param entityType entity type
+ * @param context context used to support fetchHubEntity so it has access
+ * to different types of request options based on the entity type
+ * @returns {string} entity's followers group id
  */
 export async function getEntityFollowersGroupId(
   entityId: string,
-  entityType: EntityType,
-  hubSearchOptions: IHubSearchOptions
+  entityType: HubEntityType,
+  context: IArcGISContext
 ): Promise<string> {
-  let entity: HubEntity;
-  let groupId: string;
-  if (entityType === ("site" as EntityType)) {
-    entity = await fetchSite(entityId, hubSearchOptions);
-    groupId = entity.followersGroupId;
-  }
-  // handle other entity types here...
-  return groupId;
+  // entity's type is IWithFollowers as we only want to accept hub entities
+  // backed by item entities which extend IWithFollowers
+  let entity: IWithFollowers;
+  entity = (await fetchHubEntity(
+    entityType,
+    entityId,
+    context
+  )) as IWithFollowers;
+  return entity.followersGroupId;
 }
 
 /**
- * If the user is currently following the entity
+ * Whether the user is currently following the entity
+ * @param entityOrId hub entity or entity id, type is IWithFollowers
+ * as we only want to accept hub entities backed by item entities which
+ * extend IWithFollowers
+ * @param user
+ * @param entityType
+ * @param context
+ * @returns {boolean}
  */
 export async function isUserFollowing(
-  entityId: string,
-  entityType: EntityType,
-  hubSearchOptions: IHubSearchOptions,
-  user: IUser
+  entityOrId: IWithFollowers | string,
+  user: IUser,
+  entityType?: HubEntityType,
+  context?: IArcGISContext
 ): Promise<boolean> {
   // get the entity's followers group id
-  const groupId = await getEntityFollowersGroupId(
-    entityId,
-    entityType,
-    hubSearchOptions
-  );
+  let groupId: string;
+  if (typeof entityOrId === "string") {
+    groupId = await getEntityFollowersGroupId(entityOrId, entityType, context);
+  } else {
+    groupId = entityOrId.followersGroupId;
+  }
   // looks through the users group list and find the same group
   const group = user.groups.find((g) => g.id === groupId);
   return !!group;
@@ -43,34 +57,43 @@ export async function isUserFollowing(
 
 /**
  * Follow an entity
+ * @param entityOrId hub entity or entity id, type is IWithFollowers
+ * as we only want to accept hub entities backed by item entities which
+ * extend IWithFollowers
+ * @param user user who attempts to follow the entity
+ * @param entityType optional if entityOrId is a string
+ * @param context optional if entityOrId is a string
+ * @returns promise that resolves { success: true, username: user.username }
+ * or rejects with an error
  */
 export async function followEntity(
-  entityId: string,
-  entityType: EntityType,
-  hubSearchOptions: IHubSearchOptions,
-  user: IUser
+  entityOrId: IWithFollowers | string,
+  user: IUser,
+  entityType?: HubEntityType,
+  context?: IArcGISContext
 ): Promise<{ success: boolean; username: string }> {
   const isFollowing = await isUserFollowing(
-    entityId,
+    entityOrId,
+    user,
     entityType,
-    hubSearchOptions,
-    user
+    context
   );
   // don't update if user is already following
   if (isFollowing) {
     return Promise.reject(`User is already following this entity.`);
   }
+  let groupId: string;
+  if (typeof entityOrId === "string") {
+    groupId = await getEntityFollowersGroupId(entityOrId, entityType, context);
+  } else {
+    groupId = entityOrId.followersGroupId;
+  }
   // if the entity has a followers group, attempt to join it
-  const groupId = await getEntityFollowersGroupId(
-    entityId,
-    entityType,
-    hubSearchOptions
-  );
   if (groupId) {
     try {
       await joinGroup({
         id: groupId,
-        authentication: hubSearchOptions.authentication,
+        authentication: context.hubRequestOptions.authentication,
       });
       // the entity has a followers group and we successfully joined it
       return { success: true, username: user.username };
@@ -84,34 +107,43 @@ export async function followEntity(
 
 /**
  * Unfollow an entity
+ * @param entityOrId hub entity or entity id, type is IWithFollowers
+ * as we only want to accept hub entities backed by item entities which
+ * extend IWithFollowers
+ * @param user user who attempts to unfollow the entity
+ * @param entityType optional if entityOrId is a string
+ * @param context optional if entityOrId is a string
+ * @returns promise that resolves { success: true, username: user.username } or
+ * rejects with an error
  */
 export async function unfollowEntity(
-  entityId: string,
-  entityType: EntityType,
-  hubSearchOptions: IHubSearchOptions,
-  user: IUser
+  entityOrId: IWithFollowers | string,
+  user: IUser,
+  entityType?: HubEntityType,
+  context?: IArcGISContext
 ): Promise<{ success: boolean; username: string }> {
   const isFollowing = await isUserFollowing(
-    entityId,
+    entityOrId,
+    user,
     entityType,
-    hubSearchOptions,
-    user
+    context
   );
   // don't update if user is not following
   if (!isFollowing) {
     return Promise.reject(`User is not following this entity.`);
   }
+  let groupId: string;
+  if (typeof entityOrId === "string") {
+    groupId = await getEntityFollowersGroupId(entityOrId, entityType, context);
+  } else {
+    groupId = entityOrId.followersGroupId;
+  }
   // if the entity has a followers group, attempt to leave it
-  const groupId = await getEntityFollowersGroupId(
-    entityId,
-    entityType,
-    hubSearchOptions
-  );
   if (groupId) {
     try {
       await leaveGroup({
         id: groupId,
-        authentication: hubSearchOptions.authentication,
+        authentication: context.hubRequestOptions.authentication,
       });
       // the entity has a followers group and we successfully left it
       return { success: true, username: user.username };
