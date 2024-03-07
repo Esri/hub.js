@@ -31,7 +31,7 @@ export const IF_SOURCE_TITLE_THEN_SOURCE_LINK = {
     properties: {
       _metric: {
         type: "object",
-        properties: { sourceTitle: { not: { enum: ["", undefined] } } },
+        properties: { sourceTitle: { not: { const: "" } } },
         required: ["sourceTitle"],
       },
     },
