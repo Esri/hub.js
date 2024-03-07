@@ -13,5 +13,5 @@ export const isMapQuestion = (question: IS123Question) => {
     "esriQuestionTypePolygon",
   ];
   const isType = types.includes(type);
-  return isType && (maps.length > 0 || defaultMap);
+  return isType && (maps.length > 0 || Boolean(defaultMap));
 };
