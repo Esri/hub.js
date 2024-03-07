@@ -15,6 +15,7 @@ export const SurveyPermissions = [
   "hub:survey:workspace:dashboard",
   "hub:survey:workspace:details",
   "hub:survey:workspace:settings",
+  "hub:survey:workspace:collaborators",
   "hub:survey:manage",
 ] as const;
 
@@ -66,6 +67,10 @@ export const SurveyPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:survey:workspace:settings",
+    dependencies: ["hub:survey:workspace", "hub:survey:edit"],
+  },
+  {
+    permission: "hub:survey:workspace:collaborators",
     dependencies: ["hub:survey:workspace", "hub:survey:edit"],
   },
   {
