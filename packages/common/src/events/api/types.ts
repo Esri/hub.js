@@ -1,4 +1,5 @@
 export {
+  EventAccess,
   EventAttendanceType,
   EventStatus,
   GetEventsParams,
