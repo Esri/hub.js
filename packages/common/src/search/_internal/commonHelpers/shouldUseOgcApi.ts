@@ -15,5 +15,7 @@ export function shouldUseOgcApi(
     site,
     requestOptions: { isPortal },
   } = options;
-  return targetEntity === "item" && !!site && !isPortal;
+  if (isPortal) return false;
+  if (targetEntity === "discussionPost") return true;
+  return targetEntity === "item" && !!site;
 }
