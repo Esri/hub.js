@@ -1,3 +1,10 @@
+# @esri/hub-common [14.101.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.100.1...@esri/hub-common@14.101.0) (2024-03-07)
+
+
+### Features
+
+* **hub-common:** update events types ([#1426](https://github.com/Esri/hub.js/issues/1426)) ([83beb44](https://github.com/Esri/hub.js/commit/83beb44affeac6bced315680d41db63dd512aec9))
+
 ## @esri/hub-common [14.100.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.100.0...@esri/hub-common@14.100.1) (2024-03-07)
 
 
