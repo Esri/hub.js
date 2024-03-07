@@ -5,7 +5,7 @@
  * Hub Events Service
  * OpenAPI spec version: 0.0.1
  */
-import { AsyncReturnType } from "../async-return-type";
+import { Awaited } from "../awaited-type";
 import { customClient } from "../custom-client";
 export type GetEventsParams = {
   /**
@@ -51,6 +51,8 @@ export interface ICreateRegistration {
   lastName?: string;
   /** Role of the user in the event */
   role?: RegistrationRole;
+  /** Attendance type for this registration */
+  type: EventAttendanceType;
   /** Username for the subscriber. Will always be extracted from the token unless service token is used. */
   username?: string;
 }
@@ -135,13 +137,6 @@ export enum RegistrationRole {
   ORGANIZER = "ORGANIZER",
   ATTENDEE = "ATTENDEE",
 }
-export interface IUpdateRegistration {
-  /** Role of the user in the event */
-  role?: RegistrationRole;
-  /** Status of the registration */
-  status?: RegistrationStatus;
-}
-
 export interface IRegistration {
   createdAt: string;
   createdBy?: IUser;
@@ -151,6 +146,7 @@ export interface IRegistration {
   id: number;
   role: RegistrationRole;
   status: RegistrationStatus;
+  type: EventAttendanceType;
   updatedAt: string;
   user?: IUser;
   userId: string;
@@ -197,6 +193,15 @@ export enum EventAttendanceType {
   VIRTUAL = "VIRTUAL",
   IN_PERSON = "IN_PERSON",
 }
+export interface IUpdateRegistration {
+  /** Role of the user in the event */
+  role?: RegistrationRole;
+  /** Status of the registration */
+  status?: RegistrationStatus;
+  /** Attendance type for this registration */
+  type?: EventAttendanceType;
+}
+
 export enum EventAccess {
   PRIVATE = "PRIVATE",
   ORG = "ORG",
@@ -410,28 +415,30 @@ export const deleteRegistration = (
 };
 
 export type CreateEventResult = NonNullable<
-  AsyncReturnType<typeof createEvent>
+  Awaited<ReturnType<typeof createEvent>>
 >;
-export type GetEventsResult = NonNullable<AsyncReturnType<typeof getEvents>>;
-export type GetEventResult = NonNullable<AsyncReturnType<typeof getEvent>>;
+export type GetEventsResult = NonNullable<
+  Awaited<ReturnType<typeof getEvents>>
+>;
+export type GetEventResult = NonNullable<Awaited<ReturnType<typeof getEvent>>>;
 export type UpdateEventResult = NonNullable<
-  AsyncReturnType<typeof updateEvent>
+  Awaited<ReturnType<typeof updateEvent>>
 >;
 export type DeleteEventResult = NonNullable<
-  AsyncReturnType<typeof deleteEvent>
+  Awaited<ReturnType<typeof deleteEvent>>
 >;
 export type CreateRegistrationResult = NonNullable<
-  AsyncReturnType<typeof createRegistration>
+  Awaited<ReturnType<typeof createRegistration>>
 >;
 export type GetRegistrationsResult = NonNullable<
-  AsyncReturnType<typeof getRegistrations>
+  Awaited<ReturnType<typeof getRegistrations>>
 >;
 export type GetRegistrationResult = NonNullable<
-  AsyncReturnType<typeof getRegistration>
+  Awaited<ReturnType<typeof getRegistration>>
 >;
 export type UpdateRegistrationResult = NonNullable<
-  AsyncReturnType<typeof updateRegistration>
+  Awaited<ReturnType<typeof updateRegistration>>
 >;
 export type DeleteRegistrationResult = NonNullable<
-  AsyncReturnType<typeof deleteRegistration>
+  Awaited<ReturnType<typeof deleteRegistration>>
 >;
