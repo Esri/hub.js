@@ -128,7 +128,7 @@ export const MetricSchema: IConfigurationSchema = {
     "if-source-title-then-source-link": {
       if: {
         type: "object",
-        properties: { sourceTitle: { not: { const: "" } } },
+        properties: { sourceTitle: { not: { enum: ["", undefined] } } },
         required: ["sourceTitle"],
       },
       then: {
@@ -150,15 +150,6 @@ export const MetricSchema: IConfigurationSchema = {
         type: "object",
         properties: { value: { type: "number" } },
       },
-    },
-    "if-static-then-require-value": {
-      if: {
-        type: "object",
-        properties: {
-          type: { const: "static" },
-        },
-      },
-      then: { required: ["value"] },
     },
   },
 };
