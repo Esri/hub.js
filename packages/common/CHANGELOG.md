@@ -1,3 +1,10 @@
+## @esri/hub-common [14.100.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.100.0...@esri/hub-common@14.100.1) (2024-03-07)
+
+
+### Bug Fixes
+
+* remove unused scope on subblock section in stat card editor uiSchema ([#1431](https://github.com/Esri/hub.js/issues/1431)) ([9389cd8](https://github.com/Esri/hub.js/commit/9389cd8c9dfe4c8fdc6231c4ff227f7ff8f062b5))
+
 # @esri/hub-common [14.100.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.99.0...@esri/hub-common@14.100.0) (2024-03-07)
 
 
