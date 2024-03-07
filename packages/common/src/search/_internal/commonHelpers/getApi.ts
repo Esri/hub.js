@@ -33,7 +33,7 @@ export function getApi(
   } else if (shouldUseDiscussionsApi(targetEntity, options)) {
     result = getDiscussionsApiDefinition();
   } else if (shouldUseOgcApi(targetEntity, options)) {
-    result = getOgcApiDefinition(options);
+    result = getOgcApiDefinition(targetEntity, options);
   } else {
     result = { type: "arcgis", url: portal };
   }

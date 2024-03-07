@@ -35,6 +35,16 @@ describe("shouldUseOgcApi", () => {
     expect(shouldUseOgcApi(targetEntity, options)).toBeFalsy();
   });
 
+  it("returns true when target entity is 'discussionPost'", () => {
+    const targetEntity = "discussionPost";
+    const options = {
+      requestOptions: {
+        isPortal: false,
+      },
+    } as unknown as IHubSearchOptions;
+    expect(shouldUseOgcApi(targetEntity, options)).toBeTruthy();
+  });
+
   it("returns true otherwise", () => {
     const targetEntity = "item";
     const options = {

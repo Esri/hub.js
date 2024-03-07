@@ -57,4 +57,17 @@ describe("getApi", () => {
       url: portal,
     });
   });
+  it("otherwise returns reference to OGC API V2 API if targetEntity is discussionPost", () => {
+    const options = {
+      site,
+      requestOptions: {
+        hubApiUrl,
+        isPortal: false,
+      },
+    } as unknown as IHubSearchOptions;
+    expect(getApi("discussionPost", options)).toEqual({
+      type: "arcgis-hub",
+      url: `${hubApiUrl}/api/search/v2`,
+    });
+  });
 });
