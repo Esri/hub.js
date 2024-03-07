@@ -1,3 +1,11 @@
+# @esri/hub-common [14.100.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.99.0...@esri/hub-common@14.100.0) (2024-03-07)
+
+
+### Features
+
+* **hub-common:** introduces types and function modifications for discussion post search ([#1425](https://github.com/Esri/hub.js/issues/1425)) ([b0080ff](https://github.com/Esri/hub.js/commit/b0080ff67de8526b40e91e8dd66aeb1074369f36))
+* **hub-common:** update feedback util ([#1433](https://github.com/Esri/hub.js/issues/1433)) ([f71a855](https://github.com/Esri/hub.js/commit/f71a8558e6bc37daccff6e9c38e81a50c6361382))
+
 # @esri/hub-common [14.99.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.98.1...@esri/hub-common@14.99.0) (2024-03-06)
 
 
