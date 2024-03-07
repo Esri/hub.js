@@ -61,7 +61,6 @@ export const buildUiSchema = async (
               section: "subblock",
               scale: "m",
               toggleDisplay: "switch",
-              scope: "/properties/unit",
             },
             elements: [
               {
