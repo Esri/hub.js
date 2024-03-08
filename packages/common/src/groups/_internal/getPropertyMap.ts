@@ -30,6 +30,7 @@ export function getPropertyMap(): IPropertyMap[] {
     "isViewOnly",
     "membershipAccess",
     "owner",
+    "orgId",
     "protected",
     "sortField",
     "sortOrder",

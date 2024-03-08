@@ -258,6 +258,7 @@ describe("HubGroups Module:", () => {
       });
       expect(chk.name).toBe("dev followers Content");
       expect(chk.description).toBe("dev followers Content summary");
+      expect(chk.orgId).toBe(TEST_GROUP.orgId);
       expect(portalGetGroupSpy).toHaveBeenCalledTimes(1);
     });
   });
