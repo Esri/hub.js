@@ -1,3 +1,10 @@
+# @esri/hub-common [14.102.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.101.0...@esri/hub-common@14.102.0) (2024-03-08)
+
+
+### Features
+
+* add orgId to IHubGroup ([#1434](https://github.com/Esri/hub.js/issues/1434)) ([66c574d](https://github.com/Esri/hub.js/commit/66c574d3edac0a0ebe0a1600fe3f8f8e7dc980c5))
+
 # @esri/hub-common [14.101.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.100.1...@esri/hub-common@14.101.0) (2024-03-07)
 
 
