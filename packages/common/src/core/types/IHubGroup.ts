@@ -82,6 +82,13 @@ export interface IHubGroup
   owner?: string;
 
   /**
+   * Id of the org that the group belongs to
+   * Depending who is fetching the group, and the owning org's settings
+   * this may not be returned from the Portal API
+   */
+  orgId?: string;
+
+  /**
    * Whether the group is protected or not
    * the group cannot be deleted if protected
    */
