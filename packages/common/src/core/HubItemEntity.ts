@@ -41,8 +41,10 @@ import { AssociationType, IAssociationInfo } from "../associations/types";
 import { listAssociations } from "../associations/listAssociations";
 import { addAssociation } from "../associations/addAssociation";
 import { removeAssociation } from "../associations/removeAssociation";
-import { IQuery, getGroupPredicate } from "../search";
-import { getProp, setProp } from "../objects";
+import { IQuery } from "../search/types";
+import { getGroupPredicate } from "../search/utils";
+import { getProp } from "../objects/get-prop";
+import { setProp } from "../objects/set-prop";
 
 const FEATURED_IMAGE_FILENAME = "featuredImage.png";
 
