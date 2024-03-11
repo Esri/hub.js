@@ -1,3 +1,10 @@
+# @esri/hub-common [14.103.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.102.0...@esri/hub-common@14.103.0) (2024-03-11)
+
+
+### Features
+
+* scaffold initiative metrics ([#1429](https://github.com/Esri/hub.js/issues/1429)) ([891f80a](https://github.com/Esri/hub.js/commit/891f80a5d0cbc54976ec1ae665e3315b362c5c03))
+
 # @esri/hub-common [14.102.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.101.0...@esri/hub-common@14.102.0) (2024-03-08)
 
 
