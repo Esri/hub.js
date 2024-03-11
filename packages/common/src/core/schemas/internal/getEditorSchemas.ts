@@ -167,6 +167,10 @@ export async function getEditorSchemas(
           import("../../../initiatives/_internal/InitiativeUiSchemaEdit"),
         "hub:initiative:create": () =>
           import("../../../initiatives/_internal/InitiativeUiSchemaCreate"),
+        "hub:initiative:associations": () =>
+          import(
+            "../../../initiatives/_internal/InitiativeUiSchemaAssociations"
+          ),
       }[type as InitiativeEditorType]();
       uiSchema = await initiativeModule.buildUiSchema(
         i18nScope,

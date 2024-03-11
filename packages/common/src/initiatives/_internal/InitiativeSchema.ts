@@ -6,6 +6,7 @@ export type InitiativeEditorType = (typeof InitiativeEditorTypes)[number];
 export const InitiativeEditorTypes = [
   "hub:initiative:edit",
   "hub:initiative:create",
+  "hub:initiative:associations",
 ] as const;
 
 /**
