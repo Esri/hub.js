@@ -42,7 +42,7 @@ export async function getEvents(options: IGetEventsParams): Promise<IEvent[]> {
 /**
  * get an event
  *
- * @param {ICreateEventParams} options
+ * @param {IGetEventParams} options
  * @return {Promise<IEvent>}
  */
 export async function getEvent(options: IGetEventParams): Promise<IEvent> {
