@@ -159,5 +159,16 @@ export type IHubItemEntityEditor<T> = Omit<T, "extent"> & {
     showFollowAction?: boolean;
     isDiscussable?: boolean;
   };
+
+  /**
+   * Association group settings. These settings are only used in the
+   * Editor and is persisted appropriately in the fromEditor
+   * method on the Class
+   */
+  _associations?: {
+    groupAccess?: AccessLevel;
+    membershipAccess?: "organization" | "collaborators" | "anyone";
+    includeInCatalog?: boolean;
+  };
   _metric?: IMetricEditorValues;
 };
