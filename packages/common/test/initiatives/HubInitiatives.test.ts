@@ -22,8 +22,16 @@ import {
   IHubInitiative,
   IHubInitiativeEditor,
 } from "../../src/core/types/IHubInitiative";
-import { cloneObject } from "../../src/util";
-import { IPredicate, IQuery, getProp } from "../../src";
+import * as utilModule from "../../src/util";
+import {
+  IMetric,
+  IMetricDisplayConfig,
+  IPredicate,
+  IQuery,
+  getProp,
+} from "../../src";
+import * as editorToMetricModule from "../../src/core/schemas/internal/metrics/editorToMetric";
+import * as setMetricAndDisplayModule from "../../src/core/schemas/internal/metrics/setMetricAndDisplay";
 
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
 const INITIATIVE_ITEM: portalModule.IItem = {
@@ -211,7 +219,7 @@ describe("HubInitiatives:", () => {
       );
       const createSpy = spyOn(modelUtils, "createModel").and.callFake(
         (m: IModel) => {
-          const newModel = cloneObject(m);
+          const newModel = utilModule.cloneObject(m);
           newModel.item.id = GUID;
           return Promise.resolve(newModel);
         }
@@ -244,7 +252,7 @@ describe("HubInitiatives:", () => {
       );
       const createSpy = spyOn(modelUtils, "createModel").and.callFake(
         (m: IModel) => {
-          const newModel = cloneObject(m);
+          const newModel = utilModule.cloneObject(m);
           newModel.item.id = GUID;
           return Promise.resolve(newModel);
         }
@@ -358,7 +366,7 @@ describe("HubInitiatives:", () => {
     });
     it("converts item to search result", async () => {
       const chk = await enrichInitiativeSearchResult(
-        cloneObject(INITIATIVE_ITEM_ENRICH),
+        utilModule.cloneObject(INITIATIVE_ITEM_ENRICH),
         [],
         hubRo
       );
@@ -369,7 +377,7 @@ describe("HubInitiatives:", () => {
       );
 
       // verify expected output
-      const ITM = cloneObject(INITIATIVE_ITEM_ENRICH);
+      const ITM = utilModule.cloneObject(INITIATIVE_ITEM_ENRICH);
       expect(chk.access).toEqual(ITM.access);
       expect(chk.id).toEqual(ITM.id);
       expect(chk.type).toEqual(ITM.type);
@@ -390,14 +398,14 @@ describe("HubInitiatives:", () => {
       );
     });
     it("uses snippet if defined", async () => {
-      const itm = cloneObject(INITIATIVE_ITEM_ENRICH);
+      const itm = utilModule.cloneObject(INITIATIVE_ITEM_ENRICH);
       itm.snippet = "This should be used";
       const chk = await enrichInitiativeSearchResult(itm, [], hubRo);
       expect(chk.summary).toEqual(itm.snippet);
     });
     it("fetches enrichments", async () => {
       const chk = await enrichInitiativeSearchResult(
-        cloneObject(INITIATIVE_ITEM_ENRICH),
+        utilModule.cloneObject(INITIATIVE_ITEM_ENRICH),
         ["data.status AS projectStatus"],
         hubRo
       );
@@ -591,38 +599,131 @@ describe("HubInitiatives:", () => {
   });
 
   describe("editor to initiative", () => {
-    it("basic transform", () => {
+    it("removes ephemeral props", () => {
+      const editor: IHubInitiativeEditor = {
+        _groups: [],
+        _thumbnail: "foo",
+        view: { featuredImage: "bar" },
+        _metric: {
+          id: "123",
+          cardTitle: "foo",
+        },
+      } as unknown as IHubInitiativeEditor;
+
+      const res = editorToInitiative(editor, {
+        urlKey: "foo",
+      } as unknown as portalModule.IPortal);
+
+      expect(res._groups).toBeUndefined();
+      expect(res._thumbnail).toBeUndefined();
+      expect(getProp(res, "view.featuredImage")).toBeUndefined();
+      expect(res._metric).toBeUndefined();
+    });
+    it("ensures the project has an orgUrlKey", () => {
       const editor: IHubInitiativeEditor = {
         orgUrlKey: "bar",
-        _groups: [],
+      } as unknown as IHubInitiativeEditor;
+
+      const res = editorToInitiative(editor, {
+        urlKey: "foo",
+      } as unknown as portalModule.IPortal);
+
+      expect(res.orgUrlKey).toEqual("bar");
+    });
+    it("copies the location extent up one level", () => {
+      const editor: IHubInitiativeEditor = {
         location: {
           extent: [
-            [-1, -1],
-            [1, 1],
+            [1, 2],
+            [3, 4],
           ],
         },
       } as unknown as IHubInitiativeEditor;
-      const i = editorToInitiative(editor, {
-        urlKey: "foo",
-      } as unknown as portalModule.IPortal);
-      expect(i.orgUrlKey).toEqual("bar");
-      expect(i.extent).toEqual([
-        [-1, -1],
-        [1, 1],
-      ]);
-      expect(getProp(i, "_groups")).toBeUndefined();
-    });
 
-    it("sparse transform", () => {
-      const editor: IHubInitiativeEditor = {
-        _groups: [],
-      } as unknown as IHubInitiativeEditor;
-      const i = editorToInitiative(editor, {
+      const res = editorToInitiative(editor, {
         urlKey: "foo",
       } as unknown as portalModule.IPortal);
-      expect(i.orgUrlKey).toEqual("foo");
-      expect(i.extent).toBeUndefined();
-      expect(getProp(i, "_groups")).toBeUndefined();
+
+      expect(res.extent).toEqual([
+        [1, 2],
+        [3, 4],
+      ]);
+    });
+    describe("metrics", () => {
+      let mockMetric: IMetric;
+      let mockMetricDisplay: IMetricDisplayConfig;
+      let editorToMetricSpy: jasmine.Spy;
+      let setMetricAndDisplaySpy: jasmine.Spy;
+
+      beforeEach(() => {
+        mockMetric = {
+          source: { type: "static-value", value: "10" },
+          name: "123",
+          id: "123",
+        };
+        mockMetricDisplay = {
+          displayType: "stat-card",
+          metricId: "123",
+          cardTitle: "foo",
+        };
+
+        editorToMetricSpy = spyOn(
+          editorToMetricModule,
+          "editorToMetric"
+        ).and.returnValue({ metric: {}, displayConfig: {} });
+        setMetricAndDisplaySpy = spyOn(
+          setMetricAndDisplayModule,
+          "setMetricAndDisplay"
+        ).and.returnValue({
+          metrics: [mockMetric],
+          view: { metricDisplays: [mockMetricDisplay] },
+        });
+      });
+      it("handles creating new metrics", () => {
+        const createIdSpy = spyOn(utilModule, "createId").and.returnValue(
+          "123"
+        );
+        const editor = {
+          _metric: {
+            type: "static",
+            value: "10",
+            cardTitle: "foo",
+          },
+        } as unknown as IHubInitiativeEditor;
+
+        const res = editorToInitiative(editor, {
+          urlKey: "foo",
+        } as unknown as portalModule.IPortal);
+
+        expect(createIdSpy).toHaveBeenCalledTimes(1);
+        expect(editorToMetricSpy).toHaveBeenCalledTimes(1);
+        expect(setMetricAndDisplaySpy).toHaveBeenCalledTimes(1);
+        expect(res.metrics).toEqual([mockMetric]);
+        expect(getProp(res, "view.metricDisplays")).toEqual([
+          mockMetricDisplay,
+        ]);
+      });
+      it("handles updating existing metrics", () => {
+        const editor = {
+          _metric: {
+            type: "static",
+            id: "123",
+            value: "10",
+            cardTitle: "foo",
+          },
+        } as unknown as IHubInitiativeEditor;
+
+        const res = editorToInitiative(editor, {
+          urlKey: "foo",
+        } as unknown as portalModule.IPortal);
+
+        expect(editorToMetricSpy).toHaveBeenCalledTimes(1);
+        expect(setMetricAndDisplaySpy).toHaveBeenCalledTimes(1);
+        expect(res.metrics).toEqual([mockMetric]);
+        expect(getProp(res, "view.metricDisplays")).toEqual([
+          mockMetricDisplay,
+        ]);
+      });
     });
   });
 });

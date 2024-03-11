@@ -1,9 +1,5 @@
 import { IItem } from "@esri/arcgis-rest-types";
-import {
-  IHubGeography,
-  IHubRequestOptions,
-  IPolygonProperties,
-} from "../../../types";
+import { IHubRequestOptions } from "../../../types";
 import { IHubSearchResult } from "../../types/IHubSearchResult";
 import { itemToSearchResult } from "../portalSearchItems";
 import { IOgcItem } from "./interfaces";

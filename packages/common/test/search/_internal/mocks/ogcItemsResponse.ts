@@ -179,3 +179,76 @@ export const ogcItemsResponseWithNext: IOgcItemsResponse = {
     },
   ],
 };
+
+export const ogcDiscussionPostResponseWithNext: IOgcItemsResponse = {
+  type: "FeatureCollection",
+  features: [
+    {
+      id: "f4bcc",
+      type: "Feature",
+      geometry: {
+        type: "Polygon",
+        coordinates: [
+          [
+            [-121.11799999999793, 39.37030746927015],
+            [-119.00899999999801, 39.37030746927015],
+            [-119.00899999999801, 38.67499450446548],
+            [-121.11799999999793, 38.67499450446548],
+            [-121.11799999999793, 39.37030746927015],
+          ],
+        ],
+      },
+      properties: {
+        id: "12345",
+        title: "title",
+        body: "body",
+        status: "PENDING" as any,
+        appInfo: null,
+        discussion: null,
+        geometry: null,
+        featureGeometry: null,
+        postType: "Discussion" as any,
+        createdAt: new Date("2021-01-01"),
+        updatedAt: new Date("2021-01-01"),
+      },
+      time: null,
+      links: [
+        {
+          rel: "self",
+          type: "application/geo+json",
+          title: "This document as GeoJSON",
+          href: "https://foo-bar.com/api/search/v2/collections/discussion-post/items/12345",
+        },
+        {
+          rel: "collection",
+          type: "application/json",
+          title: "discussion-post",
+          href: "https://foo-bar.com/api/search/v2/collections/discussion-post",
+        },
+      ],
+    },
+  ],
+  timestamp: "2023-01-23T18:53:40.715Z",
+  numberMatched: 2,
+  numberReturned: 1,
+  links: [
+    {
+      rel: "self",
+      type: "application/geo+json",
+      title: "This document as GeoJSON",
+      href: "https://foo-bar.com/api/search/v1/collections/all/items",
+    },
+    {
+      rel: "collection",
+      type: "application/json",
+      title: "All",
+      href: "https://foo-bar.com/api/search/v1/collections/all",
+    },
+    {
+      rel: "next",
+      type: "application/geo+json",
+      title: "items (next)",
+      href: "https://foo-bar.com/api/search/v1/collections/all/items?limit=1&startindex=2",
+    },
+  ],
+};

@@ -171,6 +171,8 @@ export async function getEditorSchemas(
           import(
             "../../../initiatives/_internal/InitiativeUiSchemaAssociations"
           ),
+        "hub:initiative:metrics": () =>
+          import("./metrics/InitiativeUiSchemaMetrics"),
       }[type as InitiativeEditorType]();
       uiSchema = await initiativeModule.buildUiSchema(
         i18nScope,
