@@ -2,6 +2,8 @@ import {
   HubEntityStatus,
   IHubProject,
   IHubProjectEditor,
+  IMetric,
+  IMetricDisplayConfig,
   IModel,
   cloneObject,
   createProject,
@@ -15,6 +17,9 @@ import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as slugUtils from "../../src/items/slugs";
 import * as modelUtils from "../../src/models";
+import * as editorToMetricModule from "../../src/core/schemas/internal/metrics/editorToMetric";
+import * as setMetricAndDisplayModule from "../../src/core/schemas/internal/metrics/setMetricAndDisplay";
+import * as utilModule from "../../src/util";
 
 describe("project edit module:", () => {
   describe("destroyProject:", () => {
@@ -193,38 +198,131 @@ describe("project edit module:", () => {
     });
   });
   describe("editor to project", () => {
-    it("basic transform", () => {
+    it("removes ephemeral props", () => {
+      const editor: IHubProjectEditor = {
+        _groups: [],
+        _thumbnail: "foo",
+        view: { featuredImage: "bar" },
+        _metric: {
+          id: "123",
+          cardTitle: "foo",
+        },
+      } as unknown as IHubProjectEditor;
+
+      const res = editorToProject(editor, {
+        urlKey: "foo",
+      } as unknown as portalModule.IPortal);
+
+      expect(res._groups).toBeUndefined();
+      expect(res._thumbnail).toBeUndefined();
+      expect(getProp(res, "view.featuredImage")).toBeUndefined();
+      expect(res._metric).toBeUndefined();
+    });
+    it("ensures the project has an orgUrlKey", () => {
       const editor: IHubProjectEditor = {
         orgUrlKey: "bar",
-        _groups: [],
+      } as unknown as IHubProjectEditor;
+
+      const res = editorToProject(editor, {
+        urlKey: "foo",
+      } as unknown as portalModule.IPortal);
+
+      expect(res.orgUrlKey).toEqual("bar");
+    });
+    it("copies the location extent up one level", () => {
+      const editor: IHubProjectEditor = {
         location: {
           extent: [
-            [-1, -1],
-            [1, 1],
+            [1, 2],
+            [3, 4],
           ],
         },
       } as unknown as IHubProjectEditor;
-      const p = editorToProject(editor, {
-        urlKey: "foo",
-      } as unknown as portalModule.IPortal);
-      expect(p.orgUrlKey).toEqual("bar");
-      // expect(p.extent).toEqual([
-      //   [-1, -1],
-      //   [1, 1],
-      // ]);
-      expect(getProp(p, "_groups")).toBeUndefined();
-    });
 
-    it("sparse transform", () => {
-      const editor: IHubProjectEditor = {
-        _groups: [],
-      } as unknown as IHubProjectEditor;
-      const p = editorToProject(editor, {
+      const res = editorToProject(editor, {
         urlKey: "foo",
       } as unknown as portalModule.IPortal);
-      expect(p.orgUrlKey).toEqual("foo");
-      expect(p.extent).toBeUndefined();
-      expect(getProp(p, "_groups")).toBeUndefined();
+
+      expect(res.extent).toEqual([
+        [1, 2],
+        [3, 4],
+      ]);
+    });
+    describe("metrics", () => {
+      let mockMetric: IMetric;
+      let mockMetricDisplay: IMetricDisplayConfig;
+      let editorToMetricSpy: jasmine.Spy;
+      let setMetricAndDisplaySpy: jasmine.Spy;
+
+      beforeEach(() => {
+        mockMetric = {
+          source: { type: "static-value", value: "10" },
+          name: "123",
+          id: "123",
+        };
+        mockMetricDisplay = {
+          displayType: "stat-card",
+          metricId: "123",
+          cardTitle: "foo",
+        };
+
+        editorToMetricSpy = spyOn(
+          editorToMetricModule,
+          "editorToMetric"
+        ).and.returnValue({ metric: {}, displayConfig: {} });
+        setMetricAndDisplaySpy = spyOn(
+          setMetricAndDisplayModule,
+          "setMetricAndDisplay"
+        ).and.returnValue({
+          metrics: [mockMetric],
+          view: { metricDisplays: [mockMetricDisplay] },
+        });
+      });
+      it("handles creating new metrics", () => {
+        const createIdSpy = spyOn(utilModule, "createId").and.returnValue(
+          "123"
+        );
+        const editor = {
+          _metric: {
+            type: "static",
+            value: "10",
+            cardTitle: "foo",
+          },
+        } as unknown as IHubProjectEditor;
+
+        const res = editorToProject(editor, {
+          urlKey: "foo",
+        } as unknown as portalModule.IPortal);
+
+        expect(createIdSpy).toHaveBeenCalledTimes(1);
+        expect(editorToMetricSpy).toHaveBeenCalledTimes(1);
+        expect(setMetricAndDisplaySpy).toHaveBeenCalledTimes(1);
+        expect(res.metrics).toEqual([mockMetric]);
+        expect(getProp(res, "view.metricDisplays")).toEqual([
+          mockMetricDisplay,
+        ]);
+      });
+      it("handles updating existing metrics", () => {
+        const editor = {
+          _metric: {
+            type: "static",
+            id: "123",
+            value: "10",
+            cardTitle: "foo",
+          },
+        } as unknown as IHubProjectEditor;
+
+        const res = editorToProject(editor, {
+          urlKey: "foo",
+        } as unknown as portalModule.IPortal);
+
+        expect(editorToMetricSpy).toHaveBeenCalledTimes(1);
+        expect(setMetricAndDisplaySpy).toHaveBeenCalledTimes(1);
+        expect(res.metrics).toEqual([mockMetric]);
+        expect(getProp(res, "view.metricDisplays")).toEqual([
+          mockMetricDisplay,
+        ]);
+      });
     });
   });
 });

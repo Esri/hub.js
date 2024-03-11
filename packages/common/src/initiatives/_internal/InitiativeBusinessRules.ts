@@ -27,6 +27,7 @@ export const InitiativePermissions = [
   "hub:initiative:workspace:overview",
   "hub:initiative:workspace:dashboard",
   "hub:initiative:workspace:details",
+  "hub:initiative:workspace:metrics",
   "hub:initiative:workspace:projects",
   "hub:initiative:workspace:projects:member",
   "hub:initiative:workspace:projects:manager",
@@ -100,6 +101,10 @@ export const InitiativePermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:initiative:workspace:details",
+    dependencies: ["hub:initiative:workspace", "hub:initiative:edit"],
+  },
+  {
+    permission: "hub:initiative:workspace:metrics",
     dependencies: ["hub:initiative:workspace", "hub:initiative:edit"],
   },
   {

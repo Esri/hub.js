@@ -12,7 +12,11 @@ import {
 
 /**
  * @private
- * Exports the uiSchema of metrics for projects
+ * constructs the uiSchema for initiative metrics.
+ * This defines how the MetricSchema properties
+ * should render when creating/editing initiative
+ * metrics
+ *
  * @param i18nScope
  * @param config
  * @param context
@@ -185,7 +189,6 @@ export const buildUiSchema = async (
               placeholder: "https://esri.com",
               messages: [
                 {
-                  /** not in use until conditional required lands */
                   type: "ERROR",
                   keyword: "required",
                   icon: true,
