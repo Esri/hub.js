@@ -33,7 +33,6 @@ import {
   IUserItemOptions,
   removeItem,
   getItem,
-  IPortal,
 } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
@@ -58,7 +57,13 @@ import {
 import { setEntityStatusKeyword } from "../utils/internal/setEntityStatusKeyword";
 import { editorToMetric } from "../core/schemas/internal/metrics/editorToMetric";
 import { setMetricAndDisplay } from "../core/schemas/internal/metrics/setMetricAndDisplay";
-import { createId } from "../util";
+import { createId, isNil } from "../util";
+import {
+  setAssociationsGroupAccess,
+  setAssociationsIncludeInCatalog,
+  setAssociationsMembershipAccess,
+} from "../associations/updateAssociationGroup";
+import { IArcGISContext } from "../ArcGISContext";
 
 /**
  * @private
@@ -126,9 +131,10 @@ export async function createInitiative(
  */
 export function editorToInitiative(
   editor: IHubInitiativeEditor,
-  portal: IPortal
+  context: IArcGISContext
 ): IHubInitiative {
   const _metric = editor._metric;
+  const _associations = editor._associations;
 
   // 1. remove the ephemeral props we graft onto the editor
   delete editor._groups;
@@ -136,10 +142,13 @@ export function editorToInitiative(
   delete editor.view?.featuredImage;
   delete editor._metric;
   delete editor._groups;
+  delete editor._associations;
 
   // 2. clone into a HubInitiative and ensure there's an orgUrlKey
   let initiative = cloneObject(editor) as IHubInitiative;
-  initiative.orgUrlKey = editor.orgUrlKey ? editor.orgUrlKey : portal.urlKey;
+  initiative.orgUrlKey = editor.orgUrlKey
+    ? editor.orgUrlKey
+    : context.portal.urlKey;
 
   // 3. copy the location extent up one level
   initiative.extent = editor.location?.extent;
@@ -155,6 +164,28 @@ export function editorToInitiative(
     });
 
     initiative = setMetricAndDisplay(initiative, metric, displayConfig);
+  }
+
+  // 5. handle association group settings
+  const assocGroupId = initiative.associations?.groupId;
+  if (_associations.groupAccess && assocGroupId) {
+    setAssociationsGroupAccess(
+      assocGroupId,
+      _associations.groupAccess,
+      context
+    );
+  }
+
+  if (_associations.membershipAccess && assocGroupId) {
+    setAssociationsMembershipAccess(
+      assocGroupId,
+      _associations.membershipAccess,
+      context
+    );
+  }
+
+  if (isNil(_associations.includeInCatalog) && assocGroupId) {
+    setAssociationsIncludeInCatalog(initiative, _associations.includeInCatalog);
   }
 
   return initiative;
