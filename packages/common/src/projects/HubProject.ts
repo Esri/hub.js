@@ -30,7 +30,7 @@ import {
   IHubCardViewModel,
 } from "../core/types/IHubCardViewModel";
 import { projectToCardModel } from "./view";
-import { camelize, cloneObject, createId, isNil } from "../util";
+import { camelize, cloneObject, createId } from "../util";
 import { createProject, editorToProject, updateProject } from "./edit";
 import { ProjectEditorType } from "./_internal/ProjectSchema";
 import { enrichEntity } from "../core/enrichEntity";
@@ -283,27 +283,6 @@ export class HubProject
     // b/c the first thing we do is create/update the project
     const featuredImage = editor.view.featuredImage;
     delete editor.view.featuredImage;
-
-    // handle association group settings -- access level
-    if (editor._associations?.groupAccess) {
-      await this.setAssociationsGroupAccess(
-        editor._associations.groupAccess as SettableAccessLevel
-      );
-    }
-
-    // handle association group settings -- membership access
-    if (editor._associations?.membershipAccess) {
-      await this.setAssociationsMembershipAccess(
-        editor._associations.membershipAccess
-      );
-    }
-
-    // handle association group settings -- include in catalog
-    if (!isNil(editor._associations?.includeInCatalog)) {
-      this.setAssociationsIncludeInCatalog(
-        editor._associations.includeInCatalog
-      );
-    }
 
     // convert back to an entity
     let entity = editorToProject(editor, this.context.portal);
