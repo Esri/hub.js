@@ -279,90 +279,90 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
     });
   }
 
-  /**
-   * Sets the access level of the association group
-   * @access access level to set
-   */
-  async setAssociationsGroupAccess(access: SettableAccessLevel): Promise<void> {
-    await updateGroup({
-      group: {
-        id: this.entity.associationsGroupId,
-        access,
-      },
-      authentication: this.context.session,
-    });
-  }
+  // /**
+  //  * Sets the access level of the association group
+  //  * @access access level to set
+  //  */
+  // async setAssociationsGroupAccess(access: SettableAccessLevel): Promise<void> {
+  //   await updateGroup({
+  //     group: {
+  //       id: this.entity.associationsGroupId,
+  //       access,
+  //     },
+  //     authentication: this.context.session,
+  //   });
+  // }
 
-  /**
-   * Sets the membership access level of the association group
-   * @param membershipAccess membership access level to set
-   */
-  async setAssociationsMembershipAccess(
-    membershipAccess: "organization" | "collaborators" | "anyone"
-  ): Promise<void> {
-    await updateGroup({
-      group: {
-        id: this.entity.associationsGroupId,
-        membershipAccess,
-      },
-      authentication: this.context.session,
-    });
-  }
+  // /**
+  //  * Sets the membership access level of the association group
+  //  * @param membershipAccess membership access level to set
+  //  */
+  // async setAssociationsMembershipAccess(
+  //   membershipAccess: "organization" | "collaborators" | "anyone"
+  // ): Promise<void> {
+  //   await updateGroup({
+  //     group: {
+  //       id: this.entity.associationsGroupId,
+  //       membershipAccess,
+  //     },
+  //     authentication: this.context.session,
+  //   });
+  // }
 
-  /**
-   * Adds or removes the association group from the entity catalog
-   * @param includeInCatalog
-   */
-  setAssociationsIncludeInCatalog(includeInCatalog: boolean): void {
-    // Handle entities that don't have a catalog scope defined
-    if (!getProp(this.entity, "catalog.scopes.item")) {
-      setProp(
-        "catalog.scopes.item",
-        { targetEntity: "item", filters: [] } as IQuery,
-        this.entity
-      );
-    }
+  // /**
+  //  * Adds or removes the association group from the entity catalog
+  //  * @param includeInCatalog
+  //  */
+  // setAssociationsIncludeInCatalog(includeInCatalog: boolean): void {
+  //   // Handle entities that don't have a catalog scope defined
+  //   if (!getProp(this.entity, "catalog.scopes.item")) {
+  //     setProp(
+  //       "catalog.scopes.item",
+  //       { targetEntity: "item", filters: [] } as IQuery,
+  //       this.entity
+  //     );
+  //   }
 
-    // current group ids in the predicate
-    let groupIds: string[] = [];
+  //   // current group ids in the predicate
+  //   let groupIds: string[] = [];
 
-    // get the current group predicate
-    const groupPredicate = getGroupPredicate(this.entity.catalog.scopes.item);
-    if (groupPredicate) {
-      const { group: groupClause } = groupPredicate;
-      groupIds = Array.isArray(groupClause) ? groupClause : [groupClause];
-    }
+  //   // get the current group predicate
+  //   const groupPredicate = getGroupPredicate(this.entity.catalog.scopes.item);
+  //   if (groupPredicate) {
+  //     const { group: groupClause } = groupPredicate;
+  //     groupIds = Array.isArray(groupClause) ? groupClause : [groupClause];
+  //   }
 
-    // update the group ids list based on the includeInCatalog flag and whether
-    // the group is already in the list
-    if (
-      includeInCatalog &&
-      !groupIds.includes(this.entity.associationsGroupId)
-    ) {
-      groupIds.push(this.entity.associationsGroupId);
-    } else if (
-      !includeInCatalog &&
-      groupIds.includes(this.entity.associationsGroupId)
-    ) {
-      groupIds.splice(groupIds.indexOf(this.entity.associationsGroupId), 1);
-    }
+  //   // update the group ids list based on the includeInCatalog flag and whether
+  //   // the group is already in the list
+  //   if (
+  //     includeInCatalog &&
+  //     !groupIds.includes(this.entity.associationsGroupId)
+  //   ) {
+  //     groupIds.push(this.entity.associationsGroupId);
+  //   } else if (
+  //     !includeInCatalog &&
+  //     groupIds.includes(this.entity.associationsGroupId)
+  //   ) {
+  //     groupIds.splice(groupIds.indexOf(this.entity.associationsGroupId), 1);
+  //   }
 
-    // if we already have a group predicate, update the group clause
-    if (groupPredicate) {
-      groupPredicate.group = groupIds;
-    }
-    // else there is no group predicate, so create it
-    else {
-      this.entity.catalog.scopes.item.filters.push({
-        operation: "OR",
-        predicates: [
-          {
-            group: groupIds,
-          },
-        ],
-      });
-    }
-  }
+  //   // if we already have a group predicate, update the group clause
+  //   if (groupPredicate) {
+  //     groupPredicate.group = groupIds;
+  //   }
+  //   // else there is no group predicate, so create it
+  //   else {
+  //     this.entity.catalog.scopes.item.filters.push({
+  //       operation: "OR",
+  //       predicates: [
+  //         {
+  //           group: groupIds,
+  //         },
+  //       ],
+  //     });
+  //   }
+  // }
 
   /**
    * Return a list of groups the Entity is shared to.

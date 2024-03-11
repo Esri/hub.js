@@ -343,26 +343,26 @@ export class HubInitiative
     const featuredImage = editor.view.featuredImage;
     delete editor.view.featuredImage;
 
-    // handle association group settings -- access level
-    if (editor._associations?.groupAccess) {
-      await this.setAssociationsGroupAccess(
-        editor._associations.groupAccess as SettableAccessLevel
-      );
-    }
+    // // handle association group settings -- access level
+    // if (editor._associations?.groupAccess) {
+    //   await this.setAssociationsGroupAccess(
+    //     editor._associations.groupAccess as SettableAccessLevel
+    //   );
+    // }
 
-    // handle association group settings -- membership access
-    if (editor._associations?.membershipAccess) {
-      await this.setAssociationsMembershipAccess(
-        editor._associations.membershipAccess
-      );
-    }
+    // // handle association group settings -- membership access
+    // if (editor._associations?.membershipAccess) {
+    //   await this.setAssociationsMembershipAccess(
+    //     editor._associations.membershipAccess
+    //   );
+    // }
 
-    // handle association group settings -- include in catalog
-    if (!isNil(editor._associations?.includeInCatalog)) {
-      this.setAssociationsIncludeInCatalog(
-        editor._associations.includeInCatalog
-      );
-    }
+    // // handle association group settings -- include in catalog
+    // if (!isNil(editor._associations?.includeInCatalog)) {
+    //   this.setAssociationsIncludeInCatalog(
+    //     editor._associations.includeInCatalog
+    //   );
+    // }
 
     // convert back to an entity
     const entity = editorToInitiative(editor, this.context.portal);
