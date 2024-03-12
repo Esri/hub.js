@@ -77,6 +77,7 @@ export const buildUiSchema = async (
                 labelKey: `${i18nScope}.fields.includeInCatalog.helperText`,
               },
               control: "hub-field-input-switch",
+              layout: "inline-space-between",
             },
           },
         ],
