@@ -304,6 +304,7 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.isAlphaOrg).toEqual(false);
       expect(mgr.context.isBetaOrg).toEqual(false);
       expect(mgr.context.orgThumbnailUrl).toBeNull();
+      expect(mgr.context.survey123Url).toEqual("https://survey123.arcgis.com");
     });
     it("verify alpha and beta orgs", async () => {
       const mgr = await ArcGISContextManager.create({
@@ -694,6 +695,7 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.orgThumbnailUrl).toBe(
         `${MOCK_AUTH.portal}/portals/FAKEID/resources/fake-thumbnail.jpg?token=${MOCK_AUTH.token}`
       );
+      expect(mgr.context.survey123Url).toEqual("https://survey123.arcgis.com");
     });
     it("verify props update setting session after", async () => {
       spyOn(portalModule, "getSelf").and.callFake(() => {
@@ -1188,12 +1190,18 @@ describe("ArcGISContext:", () => {
         portalUrl: "https://qaext.arcgis.com",
       });
       expect(mgr.context.hubUrl).toBe("https://hubqa.arcgis.com");
+      expect(mgr.context.survey123Url).toEqual(
+        "https://survey123qa.arcgis.com"
+      );
     });
     it("handles devext hubUrl", async () => {
       const mgr = await ArcGISContextManager.create({
         portalUrl: "https://devext.arcgis.com",
       });
       expect(mgr.context.hubUrl).toBe("https://hubdev.arcgis.com");
+      expect(mgr.context.survey123Url).toEqual(
+        "https://survey123dev.arcgis.com"
+      );
     });
     it("sign out on qa, resets portalUrl correctly", async () => {
       const mgr = await ArcGISContextManager.create({
