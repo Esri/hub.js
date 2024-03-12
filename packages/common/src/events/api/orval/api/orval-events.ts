@@ -11,11 +11,11 @@ export type GetEventsParams = {
   /**
    * Include registrations with each event
    */
-  includeRegistrations?: boolean;
+  includeRegistrations?: string;
   /**
    * Include creator with each event
    */
-  includeCreator?: boolean;
+  includeCreator?: string;
   /**
    * latest ISO8601 start date-time for the events
    */
@@ -29,13 +29,17 @@ export type GetEventsParams = {
    */
   attendanceTypes?: string;
   /**
+   * comma separated string list of event statuses
+   */
+  status?: string;
+  /**
    * the max amount of events to return
    */
-  num?: number;
+  num?: string;
   /**
    * the index to start at
    */
-  start?: number;
+  start?: string;
 };
 
 export interface ICreateRegistration {

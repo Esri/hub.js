@@ -10,6 +10,7 @@ import {
   IRegistration,
   RegistrationRole,
   RegistrationStatus,
+  EventAttendanceType,
 } from "../../../src/events/api";
 import * as authenticateRequestModule from "../../../src/events/api/utils/authenticate-request";
 import * as orvalModule from "../../../src/events/api/orval/api/orval-events";
@@ -40,6 +41,7 @@ describe("Registrations", () => {
         data: {
           eventId: "111",
           role: RegistrationRole.ATTENDEE,
+          type: EventAttendanceType.IN_PERSON,
         },
       };
 
