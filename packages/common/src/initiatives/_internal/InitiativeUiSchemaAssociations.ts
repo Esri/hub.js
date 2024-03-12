@@ -21,24 +21,24 @@ export const buildUiSchema = async (
         type: "Section",
         elements: [
           {
-            labelKey: `${i18nScope}.fields.settings.groupAccess.label`,
+            labelKey: `${i18nScope}.fields.groupAccess.label`,
             scope: "/properties/_associations/properties/groupAccess",
             type: "Control",
             options: {
               control: "hub-field-input-tile-select",
               layout: "horizontal",
               helperText: {
-                labelKey: `${i18nScope}.fields.settings.groupAccess.helperText`,
+                labelKey: `${i18nScope}.fields.groupAccess.helperText`,
               },
               labels: [
-                `{{${i18nScope}.fields.settings.groupAccess.private.label:translate}}`,
-                `{{${i18nScope}.fields.settings.groupAccess.org.label:translate}}`,
-                `{{${i18nScope}.fields.settings.groupAccess.public.label:translate}}`,
+                `{{${i18nScope}.fields.groupAccess.private.label:translate}}`,
+                `{{${i18nScope}.fields.groupAccess.org.label:translate}}`,
+                `{{${i18nScope}.fields.groupAccess.public.label:translate}}`,
               ],
               descriptions: [
-                `{{${i18nScope}.fields.associations.groupAccess.private.description:translate}}`,
-                `{{${i18nScope}.fields.settings.groupAccess.org.description:translate}}`,
-                `{{${i18nScope}.fields.settings.groupAccess.public.description:translate}}`,
+                `{{${i18nScope}.fields.groupAccess.private.description:translate}}`,
+                `{{${i18nScope}.fields.groupAccess.org.description:translate}}`,
+                `{{${i18nScope}.fields.groupAccess.public.description:translate}}`,
               ],
               icons: ["users", "organization", "globe"],
               styles: { "max-width": "45rem" },
@@ -74,7 +74,7 @@ export const buildUiSchema = async (
             type: "Control",
             options: {
               helperText: {
-                labelKey: `${i18nScope}.fields.settings.includeInCatalog.helperText`,
+                labelKey: `${i18nScope}.fields.includeInCatalog.helperText`,
               },
               control: "hub-field-input-switch",
             },
