@@ -1,3 +1,93 @@
+# @esri/hub-common [14.103.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.102.0...@esri/hub-common@14.103.0) (2024-03-11)
+
+
+### Features
+
+* scaffold initiative metrics ([#1429](https://github.com/Esri/hub.js/issues/1429)) ([891f80a](https://github.com/Esri/hub.js/commit/891f80a5d0cbc54976ec1ae665e3315b362c5c03))
+
+# @esri/hub-common [14.102.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.101.0...@esri/hub-common@14.102.0) (2024-03-08)
+
+
+### Features
+
+* add orgId to IHubGroup ([#1434](https://github.com/Esri/hub.js/issues/1434)) ([66c574d](https://github.com/Esri/hub.js/commit/66c574d3edac0a0ebe0a1600fe3f8f8e7dc980c5))
+
+# @esri/hub-common [14.101.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.100.1...@esri/hub-common@14.101.0) (2024-03-07)
+
+
+### Features
+
+* **hub-common:** update events types ([#1426](https://github.com/Esri/hub.js/issues/1426)) ([83beb44](https://github.com/Esri/hub.js/commit/83beb44affeac6bced315680d41db63dd512aec9))
+
+## @esri/hub-common [14.100.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.100.0...@esri/hub-common@14.100.1) (2024-03-07)
+
+
+### Bug Fixes
+
+* remove unused scope on subblock section in stat card editor uiSchema ([#1431](https://github.com/Esri/hub.js/issues/1431)) ([9389cd8](https://github.com/Esri/hub.js/commit/9389cd8c9dfe4c8fdc6231c4ff227f7ff8f062b5))
+
+# @esri/hub-common [14.100.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.99.0...@esri/hub-common@14.100.0) (2024-03-07)
+
+
+### Features
+
+* **hub-common:** introduces types and function modifications for discussion post search ([#1425](https://github.com/Esri/hub.js/issues/1425)) ([b0080ff](https://github.com/Esri/hub.js/commit/b0080ff67de8526b40e91e8dd66aeb1074369f36))
+* **hub-common:** update feedback util ([#1433](https://github.com/Esri/hub.js/issues/1433)) ([f71a855](https://github.com/Esri/hub.js/commit/f71a8558e6bc37daccff6e9c38e81a50c6361382))
+
+# @esri/hub-common [14.99.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.98.1...@esri/hub-common@14.99.0) (2024-03-06)
+
+
+### Features
+
+* **hub-common:** create feedback entity ([#1414](https://github.com/Esri/hub.js/issues/1414)) ([4a5e61e](https://github.com/Esri/hub.js/commit/4a5e61eca8cda965f9ad0e30a857c429230e0b47))
+
+## @esri/hub-common [14.98.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.98.0...@esri/hub-common@14.98.1) (2024-03-06)
+
+
+### Bug Fixes
+
+* ensure sites have telemetry ([#1430](https://github.com/Esri/hub.js/issues/1430)) ([abc5205](https://github.com/Esri/hub.js/commit/abc5205bd8779d4544ceda042a8a097369b52364))
+
+# @esri/hub-common [14.98.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.97.0...@esri/hub-common@14.98.0) (2024-03-05)
+
+
+### Bug Fixes
+
+* await uiSchema build ([#1428](https://github.com/Esri/hub.js/issues/1428)) ([8af4f48](https://github.com/Esri/hub.js/commit/8af4f48c55b3867e8d4bf6208c6bfd229f602123))
+
+
+### Features
+
+* org thumbnail ([#1427](https://github.com/Esri/hub.js/issues/1427)) ([2d61161](https://github.com/Esri/hub.js/commit/2d61161d6fa2260181f885153917d42960f42efb))
+
+# @esri/hub-common [14.97.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.96.0...@esri/hub-common@14.97.0) (2024-03-04)
+
+
+### Features
+
+* implement assertion conditions ([#1424](https://github.com/Esri/hub.js/issues/1424)) ([bfaeb5a](https://github.com/Esri/hub.js/commit/bfaeb5ad99507d7094ec028df6e96edffe2095b6))
+
+# @esri/hub-common [14.96.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.95.1...@esri/hub-common@14.96.0) (2024-02-29)
+
+
+### Features
+
+* association group creation form and permission ([#1413](https://github.com/Esri/hub.js/issues/1413)) ([64d01b4](https://github.com/Esri/hub.js/commit/64d01b4eb4b514edefff06fd14c29e600149c92c))
+
+## @esri/hub-common [14.95.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.95.0...@esri/hub-common@14.95.1) (2024-02-27)
+
+
+### Bug Fixes
+
+* add prod alpha orgs to hub:feature:workspace ([#1423](https://github.com/Esri/hub.js/issues/1423)) ([f1104a2](https://github.com/Esri/hub.js/commit/f1104a2dd332516ee26a323e0a18d38ecb7ff065))
+
+# @esri/hub-common [14.95.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.94.0...@esri/hub-common@14.95.0) (2024-02-26)
+
+
+### Features
+
+* **hub-common:** update events schema for onlineMeetings ([#1421](https://github.com/Esri/hub.js/issues/1421)) ([c81255f](https://github.com/Esri/hub.js/commit/c81255f2f806045299e70771a6649e5f1b4ebed6))
+
 # @esri/hub-common [14.94.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.93.1...@esri/hub-common@14.94.0) (2024-02-23)
 
 

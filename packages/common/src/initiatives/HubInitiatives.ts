@@ -25,6 +25,7 @@ import {
   setDiscussableKeyword,
   IModel,
   IHubInitiativeEditor,
+  camelize,
 } from "../index";
 import { IQuery } from "../search/types/IHubCatalog";
 import {
@@ -55,6 +56,9 @@ import {
   getHubRelativeUrl,
 } from "../content/_internal/internalContentUtils";
 import { setEntityStatusKeyword } from "../utils/internal/setEntityStatusKeyword";
+import { editorToMetric } from "../core/schemas/internal/metrics/editorToMetric";
+import { setMetricAndDisplay } from "../core/schemas/internal/metrics/setMetricAndDisplay";
+import { createId } from "../util";
 
 /**
  * @private
@@ -124,15 +128,35 @@ export function editorToInitiative(
   editor: IHubInitiativeEditor,
   portal: IPortal
 ): IHubInitiative {
-  // remove the ephemeral props we graft on for the editor
+  const _metric = editor._metric;
+
+  // 1. remove the ephemeral props we graft onto the editor
   delete editor._groups;
-  // clone into a HubInitiative
-  const initiative = cloneObject(editor) as IHubInitiative;
-  // ensure there's an org url key
+  delete editor._thumbnail;
+  delete editor.view?.featuredImage;
+  delete editor._metric;
+  delete editor._groups;
+
+  // 2. clone into a HubInitiative and ensure there's an orgUrlKey
+  let initiative = cloneObject(editor) as IHubInitiative;
   initiative.orgUrlKey = editor.orgUrlKey ? editor.orgUrlKey : portal.urlKey;
-  // copy the location extent up one level
+
+  // 3. copy the location extent up one level
   initiative.extent = editor.location?.extent;
-  // return with a cast
+
+  // 4. handle configured metric:
+  //   a. transform editor values into metric + displayConfig
+  //   b. set metric and displayConfig on initiative
+  if (_metric && Object.keys(_metric).length) {
+    const metricId =
+      _metric.metricId || createId(camelize(`${_metric.cardTitle}_`));
+    const { metric, displayConfig } = editorToMetric(_metric, metricId, {
+      metricName: _metric.cardTitle,
+    });
+
+    initiative = setMetricAndDisplay(initiative, metric, displayConfig);
+  }
+
   return initiative;
 }
 

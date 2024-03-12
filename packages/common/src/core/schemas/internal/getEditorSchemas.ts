@@ -5,6 +5,8 @@ import {
   IConfigurationSchema,
   IUiSchema,
   IEditorConfig,
+  IConfigurationValues,
+  IEntityEditorModuleType,
 } from "../types";
 import { filterSchemaToUiSchema } from "./filterSchemaToUiSchema";
 import { SiteEditorType } from "../../../sites/_internal/SiteSchema";
@@ -23,6 +25,7 @@ import {
 import { IArcGISContext } from "../../../ArcGISContext";
 import { InitiativeTemplateEditorType } from "../../../initiative-templates/_internal/InitiativeTemplateSchema";
 import { getCardEditorSchemas } from "./getCardEditorSchemas";
+import { SurveyEditorType } from "../../../surveys/_internal/SurveySchema";
 
 /**
  * get the editor schema and uiSchema defined for an editor (either an entity or a card).
@@ -46,6 +49,7 @@ export async function getEditorSchemas(
   // the entity type and the provided editor type
   let schema: IConfigurationSchema;
   let uiSchema: IUiSchema;
+  let defaults: IConfigurationValues;
   switch (editorType) {
     case "site":
       const { SiteSchema } = await import(
@@ -53,7 +57,7 @@ export async function getEditorSchemas(
       );
       schema = cloneObject(SiteSchema);
 
-      const siteModule = await {
+      const siteModule: IEntityEditorModuleType = await {
         "hub:site:edit": () =>
           import("../../../sites/_internal/SiteUiSchemaEdit"),
         "hub:site:create": () =>
@@ -71,6 +75,18 @@ export async function getEditorSchemas(
         context
       );
 
+      // if we have the buildDefaults fn, then construct the defaults
+      // TODO: when implementing buildDefaults for sites, remove the ignore line
+
+      /* istanbul ignore next */
+      if (siteModule.buildDefaults) {
+        defaults = await siteModule.buildDefaults(
+          i18nScope,
+          options as EntityEditorOptions,
+          context
+        );
+      }
+
       break;
     // ----------------------------------------------------
     case "discussion":
@@ -79,7 +95,7 @@ export async function getEditorSchemas(
       );
       schema = cloneObject(DiscussionSchema);
 
-      const discussionModule = await {
+      const discussionModule: IEntityEditorModuleType = await {
         "hub:discussion:edit": () =>
           import("../../../discussions/_internal/DiscussionUiSchemaEdit"),
         "hub:discussion:create": () =>
@@ -93,6 +109,18 @@ export async function getEditorSchemas(
         context
       );
 
+      // if we have the buildDefaults fn, then construct the defaults
+      // TODO: when first implementing buildDefaults for discussions, remove the ignore line
+
+      /* istanbul ignore next */
+      if (discussionModule.buildDefaults) {
+        defaults = await discussionModule.buildDefaults(
+          i18nScope,
+          options as EntityEditorOptions,
+          context
+        );
+      }
+
       break;
     // ----------------------------------------------------
     case "project":
@@ -101,7 +129,7 @@ export async function getEditorSchemas(
       );
       schema = cloneObject(ProjectSchema);
 
-      const projectModule = await {
+      const projectModule: IEntityEditorModuleType = await {
         "hub:project:edit": () =>
           import("../../../projects/_internal/ProjectUiSchemaEdit"),
         "hub:project:create": () =>
@@ -114,6 +142,18 @@ export async function getEditorSchemas(
         context
       );
 
+      // if we have the buildDefaults fn, then construct the defaults
+      // TODO: when first implementing buildDefaults for projects, remove the ignore line
+
+      /* istanbul ignore next */
+      if (projectModule.buildDefaults) {
+        defaults = await projectModule.buildDefaults(
+          i18nScope,
+          options as EntityEditorOptions,
+          context
+        );
+      }
+
       break;
     // ----------------------------------------------------
     case "initiative":
@@ -122,17 +162,31 @@ export async function getEditorSchemas(
       );
       schema = cloneObject(InitiativeSchema);
 
-      const initiativeModule = await {
+      const initiativeModule: IEntityEditorModuleType = await {
         "hub:initiative:edit": () =>
           import("../../../initiatives/_internal/InitiativeUiSchemaEdit"),
         "hub:initiative:create": () =>
           import("../../../initiatives/_internal/InitiativeUiSchemaCreate"),
+        "hub:initiative:metrics": () =>
+          import("./metrics/InitiativeUiSchemaMetrics"),
       }[type as InitiativeEditorType]();
       uiSchema = await initiativeModule.buildUiSchema(
         i18nScope,
         options as EntityEditorOptions,
         context
       );
+
+      // if we have the buildDefaults fn, then construct the defaults
+      // TODO: when first implementing buildDefaults for initiatives, remove the ignore line
+
+      /* istanbul ignore next */
+      if (initiativeModule.buildDefaults) {
+        defaults = await initiativeModule.buildDefaults(
+          i18nScope,
+          options as EntityEditorOptions,
+          context
+        );
+      }
 
       break;
     // ----------------------------------------------------
@@ -142,7 +196,7 @@ export async function getEditorSchemas(
       );
       schema = cloneObject(PageSchema);
 
-      const pageModule = await {
+      const pageModule: IEntityEditorModuleType = await {
         "hub:page:edit": () =>
           import("../../../pages/_internal/PageUiSchemaEdit"),
       }[type as PageEditorType]();
@@ -152,6 +206,18 @@ export async function getEditorSchemas(
         context
       );
 
+      // if we have the buildDefaults fn, then construct the defaults
+      // TODO: when first implementing buildDefaults for pages, remove the ignore line
+
+      /* istanbul ignore next */
+      if (pageModule.buildDefaults) {
+        defaults = await pageModule.buildDefaults(
+          i18nScope,
+          options as EntityEditorOptions,
+          context
+        );
+      }
+
       break;
     // ----------------------------------------------------
     case "content":
@@ -160,7 +226,7 @@ export async function getEditorSchemas(
       );
       schema = cloneObject(ContentSchema);
 
-      const contentModule = await {
+      const contentModule: IEntityEditorModuleType = await {
         "hub:content:edit": () =>
           import("../../../content/_internal/ContentUiSchemaEdit"),
         "hub:content:discussions": () =>
@@ -174,6 +240,18 @@ export async function getEditorSchemas(
         context
       );
 
+      // if we have the buildDefaults fn, then construct the defaults
+      // TODO: when first implementing buildDefaults for content, remove the ignore line
+
+      /* istanbul ignore next */
+      if (contentModule.buildDefaults) {
+        defaults = await contentModule.buildDefaults(
+          i18nScope,
+          options as EntityEditorOptions,
+          context
+        );
+      }
+
       break;
     // ----------------------------------------------------
     case "template":
@@ -182,7 +260,7 @@ export async function getEditorSchemas(
       );
       schema = cloneObject(TemplateSchema);
 
-      const templateModule = await {
+      const templateModule: IEntityEditorModuleType = await {
         "hub:template:edit": () =>
           import("../../../templates/_internal/TemplateUiSchemaEdit"),
       }[type as TemplateEditorType]();
@@ -192,6 +270,18 @@ export async function getEditorSchemas(
         context
       );
 
+      // if we have the buildDefaults fn, then construct the defaults
+      // TODO: when first implementing buildDefaults for templates, remove the ignore line
+
+      /* istanbul ignore next */
+      if (templateModule.buildDefaults) {
+        defaults = await templateModule.buildDefaults(
+          i18nScope,
+          options as EntityEditorOptions,
+          context
+        );
+      }
+
       break;
     // ----------------------------------------------------
     case "group":
@@ -200,9 +290,11 @@ export async function getEditorSchemas(
       );
       schema = cloneObject(GroupSchema);
 
-      const groupModule = await {
+      const groupModule: IEntityEditorModuleType = await {
         "hub:group:create:followers": () =>
           import("../../../groups/_internal/GroupUiSchemaCreateFollowers"),
+        "hub:group:create:association": () =>
+          import("../../../groups/_internal/GroupUiSchemaCreateAssociation"),
         "hub:group:create:view": () =>
           import("../../../groups/_internal/GroupUiSchemaCreateView"),
         "hub:group:create:edit": () =>
@@ -220,6 +312,34 @@ export async function getEditorSchemas(
         context
       );
 
+      // if we have the buildDefaults fn, then construct the defaults
+      if (groupModule.buildDefaults) {
+        defaults = await groupModule.buildDefaults(
+          i18nScope,
+          options as EntityEditorOptions,
+          context
+        );
+      }
+
+      break;
+    // ----------------------------------------------------
+    case "survey":
+      const { SurveySchema } = await import(
+        "../../../surveys/_internal/SurveySchema"
+      );
+      schema = cloneObject(SurveySchema);
+
+      const surveyModule = await {
+        "hub:survey:edit": () =>
+          import("../../../surveys/_internal/SurveyUiSchemaEdit"),
+        "hub:survey:settings": () =>
+          import("../../../surveys/_internal/SurveyUiSchemaSettings"),
+      }[type as SurveyEditorType]();
+      uiSchema = await surveyModule.buildUiSchema(
+        i18nScope,
+        options as EntityEditorOptions,
+        context
+      );
       break;
 
     case "initiativeTemplate":
@@ -227,7 +347,7 @@ export async function getEditorSchemas(
         "../../../initiative-templates/_internal/InitiativeTemplateSchema"
       );
       schema = cloneObject(InitiativeTemplateSchema);
-      const initiativeTemplateModule = await {
+      const initiativeTemplateModule: IEntityEditorModuleType = await {
         "hub:initiativeTemplate:edit": () =>
           import(
             "../../../initiative-templates/_internal/InitiativeTemplateUiSchemaEdit"
@@ -240,6 +360,18 @@ export async function getEditorSchemas(
         context
       );
 
+      // if we have the buildDefaults fn, then construct the defaults
+      // TODO: when first implementing buildDefaults for initiative templates, remove the ignore line
+
+      /* istanbul ignore next */
+      if (initiativeTemplateModule.buildDefaults) {
+        defaults = await initiativeTemplateModule.buildDefaults(
+          i18nScope,
+          options as EntityEditorOptions,
+          context
+        );
+      }
+
       break;
 
     case "card":
@@ -251,10 +383,11 @@ export async function getEditorSchemas(
       );
       schema = result.schema;
       uiSchema = result.uiSchema;
+      defaults = result.defaults;
   }
 
   // filter out properties not used in the UI schema
   schema = filterSchemaToUiSchema(schema, uiSchema);
 
-  return Promise.resolve({ schema, uiSchema });
+  return Promise.resolve({ schema, uiSchema, defaults });
 }

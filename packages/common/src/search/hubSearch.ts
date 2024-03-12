@@ -85,6 +85,7 @@ export async function hubSearch(
     "arcgis-hub": {
       item: hubSearchItems,
       channel: hubSearchChannels,
+      discussionPost: hubSearchItems,
     },
   };
 

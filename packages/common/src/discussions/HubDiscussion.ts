@@ -157,7 +157,7 @@ export class HubDiscussion
   }
 
   /*
-   * Get the editor config for the HubProject entity.
+   * Get the editor config for the HubDiscussion entity.
    * @param i18nScope translation scope to be interpolated into the uiSchema
    * @param type editor type - corresonds to the returned uiSchema
    * @param options optional hash of dynamic uiSchema element options
