@@ -46,7 +46,7 @@ export const buildUiSchema = async (
           },
           {
             labelKey: `${i18nScope}.fields.membershipAccess.label`,
-            scope: "/properties/membershipAccess",
+            scope: "/properties/_associations/properties/membershipAccess",
             type: "Control",
             options: {
               control: "hub-field-input-radio",
@@ -70,7 +70,7 @@ export const buildUiSchema = async (
           },
           {
             labelKey: `${i18nScope}.fields.includeInCatalog.label`,
-            scope: "/properties/includeInCatalog",
+            scope: "/properties/_associations/properties/includeInCatalog",
             type: "Control",
             options: {
               control: "hub-field-input-switch",
