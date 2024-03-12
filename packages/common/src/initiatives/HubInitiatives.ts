@@ -168,6 +168,8 @@ export function editorToInitiative(
 
   // 5. handle association group settings
   const assocGroupId = initiative.associations?.groupId;
+
+  // handle group access
   if (_associations.groupAccess && assocGroupId) {
     setAssociationsGroupAccess(
       assocGroupId,
@@ -176,6 +178,7 @@ export function editorToInitiative(
     );
   }
 
+  // handle membership access
   if (_associations.membershipAccess && assocGroupId) {
     setAssociationsMembershipAccess(
       assocGroupId,
@@ -184,6 +187,7 @@ export function editorToInitiative(
     );
   }
 
+  // handle include in catalog
   if (isNil(_associations.includeInCatalog) && assocGroupId) {
     setAssociationsIncludeInCatalog(initiative, _associations.includeInCatalog);
   }
