@@ -96,6 +96,7 @@ describe("Registrations", () => {
         data: {
           role: RegistrationRole.ORGANIZER,
           status: RegistrationStatus.DECLINED,
+          type: EventAttendanceType.VIRTUAL,
         },
       };
 
