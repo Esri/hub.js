@@ -10,6 +10,7 @@ import { PagePermissionPolicies } from "../pages/_internal/PageBusinessRules";
 import { PlatformPermissionPolicies } from "./PlatformPermissionPolicies";
 import { InitiativeTemplatePermissionPolicies } from "../initiative-templates/_internal/InitiativeTemplateBusinessRules";
 import { TemplatePermissionPolicies } from "../templates/_internal/TemplateBusinessRules";
+import { SurveyPermissionPolicies } from "../surveys/_internal/SurveyBusinessRules";
 
 // Examples of possible Permission Policies
 // const DiscussionPermissionPolicies: IPermissionPolicy[] = [
@@ -95,7 +96,7 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:feature:workspace",
     availability: ["alpha"],
-    environments: ["devext", "qaext"],
+    environments: ["devext", "qaext", "production"],
   },
   {
     // This is an experimental extension of the gallery to include `map layout`
@@ -158,6 +159,7 @@ export const HubPermissionsPolicies: IPermissionPolicy[] = [
   ...TempPermissionPolicies,
   ...InitiativeTemplatePermissionPolicies,
   ...SystemPermissionPolicies,
+  ...SurveyPermissionPolicies,
 ];
 
 /**

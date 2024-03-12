@@ -117,6 +117,7 @@ export const MetricSchema: IConfigurationSchema = {
     // TODO: reimplement popover with layouts release
     "if-layout-moreinfo-then-require-popover-title-description": {
       if: {
+        type: "object",
         properties: { layout: { const: LAYOUTS.moreInfo } },
         required: ["layout"],
       },
@@ -126,6 +127,7 @@ export const MetricSchema: IConfigurationSchema = {
     },
     "if-source-title-then-source-link": {
       if: {
+        type: "object",
         properties: { sourceTitle: { not: { const: "" } } },
         required: ["sourceTitle"],
       },
@@ -135,14 +137,17 @@ export const MetricSchema: IConfigurationSchema = {
     },
     "value-type-value-mapping": {
       if: {
+        type: "object",
         properties: {
           valueType: { enum: ["string", "date"] },
         },
       },
       then: {
+        type: "object",
         properties: { value: { type: "string" } },
       },
       else: {
+        type: "object",
         properties: { value: { type: "number" } },
       },
     },

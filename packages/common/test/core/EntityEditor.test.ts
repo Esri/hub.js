@@ -9,6 +9,7 @@ import {
   HubPage,
   HubProject,
   HubSite,
+  HubSurvey,
   HubTemplate,
   IHubDiscussion,
   IHubEditableContent,
@@ -17,6 +18,7 @@ import {
   IHubPage,
   IHubProject,
   IHubSite,
+  IHubSurvey,
   IHubTemplate,
   getProp,
 } from "../../src";
@@ -423,6 +425,43 @@ describe("EntityEditor:", () => {
         "someScope",
         "hub:initiativeTemplate:edit"
       );
+      const chk = await editor.toEditor();
+      expect(toEditorSpy).toHaveBeenCalled();
+      expect(chk.id).toBe("00c");
+      await editor.save(chk);
+      expect(fromEditorSpy).toHaveBeenCalledWith(chk, undefined);
+    });
+  });
+
+  describe("supports surveys:", () => {
+    let fromJsonSpy: jasmine.Spy;
+    let getConfigSpy: jasmine.Spy;
+    let toEditorSpy: jasmine.Spy;
+    let fromEditorSpy: jasmine.Spy;
+    beforeEach(() => {
+      fromJsonSpy = spyOn(HubSurvey, "fromJson").and.callThrough();
+      getConfigSpy = spyOn(HubSurvey.prototype, "getEditorConfig").and.callFake(
+        () => {
+          return Promise.resolve({} as any);
+        }
+      );
+      toEditorSpy = spyOn(HubSurvey.prototype, "toEditor").and.callThrough();
+      fromEditorSpy = spyOn(HubSurvey.prototype, "fromEditor").and.callFake(
+        () => {
+          return Promise.resolve({} as any);
+        }
+      );
+    });
+
+    it("verify EntityEditor with Survey", async () => {
+      const s: IHubSurvey = {
+        id: "00c",
+        type: "Form",
+      } as IHubSurvey;
+      const editor = EntityEditor.fromEntity(s, authdCtxMgr.context);
+      expect(fromJsonSpy).toHaveBeenCalled();
+      await editor.getConfig("someScope", "hub:survey:edit");
+      expect(getConfigSpy).toHaveBeenCalledWith("someScope", "hub:survey:edit");
       const chk = await editor.toEditor();
       expect(toEditorSpy).toHaveBeenCalled();
       expect(chk.id).toBe("00c");

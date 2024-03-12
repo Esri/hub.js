@@ -1,5 +1,10 @@
 import { HubEntity } from "../../src/core/types";
 
+export const MOCK_INITIAL_PARENT_ENTITY = {
+  id: "parent-00a",
+  type: "Hub Initiative",
+} as unknown as HubEntity;
+
 export const MOCK_PARENT_ENTITY = {
   id: "parent-00a",
   type: "Hub Initiative",

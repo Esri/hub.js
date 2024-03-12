@@ -10,10 +10,17 @@ import { ContentEditorTypes } from "../../content/_internal/ContentSchema";
 import { TemplateEditorTypes } from "../../templates/_internal/TemplateSchema";
 import { GroupEditorTypes } from "../../groups/_internal/GroupSchema";
 import { InitiativeTemplateEditorTypes } from "../../initiative-templates/_internal/InitiativeTemplateSchema";
+import { SurveyEditorTypes } from "../../surveys/_internal/SurveySchema";
+import {
+  CardEditorOptions,
+  EntityEditorOptions,
+} from "./internal/EditorOptions";
+import { IArcGISContext } from "../../ArcGISContext";
 
 export interface IEditorConfig {
   schema: IConfigurationSchema;
   uiSchema: IUiSchema;
+  defaults?: IConfigurationValues;
 }
 
 /**
@@ -31,6 +38,7 @@ export const validEntityEditorTypes = [
   ...TemplateEditorTypes,
   ...GroupEditorTypes,
   ...InitiativeTemplateEditorTypes,
+  ...SurveyEditorTypes,
 ] as const;
 
 /** Defines the possible editor type values for a stat card. These
@@ -66,6 +74,50 @@ export const validEditorTypes = [
   ...validEntityEditorTypes,
   ...validCardEditorTypes,
 ] as const;
+
+/**
+ * An editor's module when dynamically imported depending on the EditorType. This
+ * will always have a buildUiSchema function, and sometimes it will have a
+ * buildDefaults function to override default values in the editor.
+ */
+export type IEditorModuleType = IEntityEditorModuleType | ICardEditorModuleType;
+
+/**
+ * An entity editor's module when dynamically imported depending on the EditorType. This
+ * will always have a buildUiSchema function, and sometimes it will have a
+ * buildDefaults function to override default values in the editor.
+ */
+export interface IEntityEditorModuleType {
+  buildUiSchema: (
+    i18nScope: string,
+    options: EntityEditorOptions,
+    context: IArcGISContext
+  ) => Promise<IUiSchema>;
+  buildDefaults?: (
+    i18nScope: string,
+    options: EntityEditorOptions,
+    context: IArcGISContext
+  ) => Promise<IConfigurationValues>;
+}
+
+/**
+ * A card editor's module when dynamically imported depending on the EditorType. This
+ * will always have a buildUiSchema function, and sometimes it will have a
+ * buildDefaults function to override default values in the editor.
+ */
+export interface ICardEditorModuleType {
+  buildUiSchema: (
+    i18nScope: string,
+    config: CardEditorOptions,
+    context: IArcGISContext
+  ) => Promise<IUiSchema>;
+
+  buildDefaults?: (
+    i18nScope: string,
+    options: CardEditorOptions,
+    context: IArcGISContext
+  ) => Promise<IConfigurationValues>;
+}
 
 export enum UiSchemaRuleEffects {
   SHOW = "SHOW",
@@ -199,4 +251,20 @@ export interface IUiSchemaRule {
 export interface IUiSchemaCondition {
   scope?: string;
   schema: IConfigurationSchema;
+}
+
+export interface IUiSchemaMessage {
+  type: UiSchemaMessageTypes;
+  display?: "message" | "notice";
+  keyword?: string;
+  title?: string;
+  titleKey?: string;
+  label?: string;
+  labelKey?: string;
+  icon?: boolean | string;
+  kind?: "brand" | "danger" | "info" | "success" | "warning";
+  hidden?: boolean;
+  condition?: IUiSchemaCondition;
+  allowShowBeforeInteract?: boolean;
+  alwaysShow?: boolean;
 }

@@ -116,9 +116,31 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
     authenticated: true,
     privileges: ["portal:user:shareToGroup"],
     assertions: [
+      // If the group is not view only, any member can share content
       {
+        conditions: [
+          {
+            property: "entity:isViewOnly",
+            type: "eq",
+            value: false,
+          },
+        ],
         property: "context:currentUser",
         type: "is-group-member",
+        value: "entity:id",
+      },
+
+      // if the group is view only, only group admins can share content
+      {
+        conditions: [
+          {
+            property: "entity:isViewOnly",
+            type: "eq",
+            value: true,
+          },
+        ],
+        property: "context:currentUser",
+        type: "is-group-admin",
         value: "entity:id",
       },
     ],

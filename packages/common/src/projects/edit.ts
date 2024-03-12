@@ -13,10 +13,12 @@ import { IHubProject, IHubProjectEditor } from "../core/types";
 import { DEFAULT_PROJECT, DEFAULT_PROJECT_MODEL } from "./defaults";
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
-import { cloneObject } from "../util";
+import { camelize, cloneObject, createId } from "../util";
 import { setDiscussableKeyword } from "../discussions";
 import { IModel } from "../types";
 import { setEntityStatusKeyword } from "../utils/internal/setEntityStatusKeyword";
+import { editorToMetric } from "../core/schemas/internal/metrics/editorToMetric";
+import { setMetricAndDisplay } from "../core/schemas/internal/metrics/setMetricAndDisplay";
 
 /**
  * @private
@@ -76,15 +78,35 @@ export function editorToProject(
   editor: IHubProjectEditor,
   portal: IPortal
 ): IHubProject {
-  // remove the ephemeral props we graft on for the editor
+  const _metric = editor._metric;
+
+  // 1. remove the ephemeral props we graft onto the editor
   delete editor._groups;
-  // clone into a HubProject
-  const project = cloneObject(editor) as IHubProject;
-  // ensure there's an org url key
+  delete editor._thumbnail;
+  delete editor.view?.featuredImage;
+  delete editor._metric;
+  delete editor._groups;
+
+  // 2. clone into a HubProject and ensure there's an orgUrlKey
+  let project = cloneObject(editor) as IHubProject;
   project.orgUrlKey = editor.orgUrlKey ? editor.orgUrlKey : portal.urlKey;
-  // copy the location extent up one level
+
+  // 3. copy the location extent up one level
   project.extent = editor.location?.extent;
-  // return with a cast
+
+  // 4. handle configured metric:
+  //   a. transform editor values into metric + displayConfig
+  //   b. set metric and displayConfig on project
+  if (_metric && Object.keys(_metric).length) {
+    const metricId =
+      _metric.metricId || createId(camelize(`${_metric.cardTitle}_`));
+    const { metric, displayConfig } = editorToMetric(_metric, metricId, {
+      metricName: _metric.cardTitle,
+    });
+
+    project = setMetricAndDisplay(project, metric, displayConfig);
+  }
+
   return project;
 }
 

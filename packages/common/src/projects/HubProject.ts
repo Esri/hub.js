@@ -37,8 +37,6 @@ import { enrichEntity } from "../core/enrichEntity";
 import { getProp, getWithDefault } from "../objects";
 import { IGroup } from "@esri/arcgis-rest-types";
 import { metricToEditor } from "../core/schemas/internal/metrics/metricToEditor";
-import { editorToMetric } from "../core/schemas/internal/metrics/editorToMetric";
-import { setMetricAndDisplay } from "../core/schemas/internal/metrics/setMetricAndDisplay";
 import { IMetricDisplayConfig } from "../core/types/Metrics";
 import { upsertResource } from "../resources/upsertResource";
 import { doesResourceExist } from "../resources/doesResourceExist";
@@ -200,18 +198,10 @@ export class HubProject
         )) as IHubProjectEditor)
       : (cloneObject(this.entity) as IHubProjectEditor);
 
-    // add the groups array that we'll use to auto-share on save
+    // 2. on project creation, pre-populate the sharing field
+    // with the core + collaobration groups if the user has the
+    // appropriate shareToGroup portal privilege
     editor._groups = [];
-
-    // 2. Apply transforms to relevant entity values so they
-    // can be consumed by the editor
-    /**
-     * on project creation, we want to pre-populate the sharing
-     * field with the core and collaboration groups if the user
-     * has the appropriate shareToGroup portal privilege
-     *
-     * TODO: we should re-evaluate this "auto-populate" pattern
-     */
     const { access: canShare } = this.checkPermission(
       "platform:portal:user:shareToGroup"
     );
@@ -235,7 +225,7 @@ export class HubProject
       editor._groups = [...editor._groups, ...defaultShareWithGroups];
     }
 
-    // handle metrics
+    // 3. handle metrics
     const metrics = getEntityMetrics(this.entity);
     const metric = metrics.find((m) => m.id === editorContext.metricId);
     const displays = getWithDefault(this.entity, "view.metricDisplays", []);
@@ -258,16 +248,22 @@ export class HubProject
     editor: IHubProjectEditor,
     editorContext?: IEntityEditorContext
   ): Promise<IHubProject> {
+    // 1. extract the ephemeral props we graft onto the editor
+    // note: they will be deleted in the editorToProject function
+    const thumbnail = editor._thumbnail;
+    const featuredImage = editor.view.featuredImage;
     const autoShareGroups = editor._groups || [];
-    const isCreate = !editor.id;
 
-    // Setting the thumbnailCache will ensure that
-    // the thumbnail is updated on next save
-    if (editor._thumbnail) {
-      if (editor._thumbnail.blob) {
+    // 2. convert the editor values back to a project entity
+    const entity = editorToProject(editor, this.context.portal);
+
+    // 3. set the thumbnailCache to ensure that
+    // the thumbnail is updated on the next save
+    if (thumbnail) {
+      if (thumbnail.blob) {
         this.thumbnailCache = {
-          file: editor._thumbnail.blob,
-          filename: editor._thumbnail.fileName,
+          file: thumbnail.blob,
+          filename: thumbnail.fileName,
           clear: false,
         };
       } else {
@@ -277,46 +273,9 @@ export class HubProject
       }
     }
 
-    delete editor._thumbnail;
-
-    // extract out things we don't want to persist directly
-    // b/c the first thing we do is create/update the project
-    const featuredImage = editor.view.featuredImage;
-    delete editor.view.featuredImage;
-
-    // convert back to an entity
-    let entity = editorToProject(editor, this.context.portal);
-
-    // handle metrics
-    const _metric = editor._metric;
-
-    // if we have a current metric and it's beyond the default empty from toEditor
-    if (_metric && Object.keys(_metric).length) {
-      let metricId = editorContext?.metricId;
-
-      // creating a new metric
-      if (!metricId) {
-        metricId = createId(camelize(`${editor._metric.cardTitle}_`));
-      }
-
-      // transform editor values into metric and displayConfig
-      const { metric, displayConfig } = editorToMetric(
-        editor._metric,
-        metricId,
-        {
-          metricName: editor._metric.cardTitle,
-        }
-      );
-
-      // put metric and display config onto entity
-      entity = setMetricAndDisplay(this.entity, metric, displayConfig);
-    }
-
-    // handle featured image
-    // If there is a featured image from the editor, we need to...
+    // 4. upsert or remove the configured featured image
     if (featuredImage) {
       let featuredImageUrl: string | null = null;
-      // ...upsert it if it's a blob
       if (featuredImage.blob) {
         featuredImageUrl = await upsertResource(
           entity.id,
@@ -346,27 +305,14 @@ export class HubProject
       };
     }
 
-    // create it if it does not yet exist...
-    if (isCreate) {
-      // this allows the featured image functions to work
-      this.entity = await createProject(
-        entity,
-        this.context.userRequestOptions
-      );
-    } else {
-      // ...otherwise, update the in-memory entity and save it
-      this.entity = entity;
-      await this.save();
-    }
+    // 5. save or create the entity
+    this.entity = entity;
+    await this.save();
 
-    /**
-     * operations that are only relevant to the project create workflow.
-     * if these ever become part of the edit experience, we can remove
-     * the conditional
-     */
+    // 6. share the entity with the configured groups
+    const isCreate = !editor.id;
     if (isCreate) {
       await this.setAccess(editor.access as SettableAccessLevel);
-      // share the entity with the configured groups
       if (autoShareGroups.length) {
         await Promise.all(
           autoShareGroups.map((id: string) => {

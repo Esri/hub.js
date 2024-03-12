@@ -13,6 +13,7 @@ import {
   EventAttendanceType,
   EventStatus,
 } from "../../../src/events/api";
+import { EventAccess } from "../../../src/events/api/types";
 import * as authenticateRequestModule from "../../../src/events/api/utils/authenticate-request";
 import * as orvalModule from "../../../src/events/api/orval/api/orval-events";
 
@@ -36,6 +37,7 @@ describe("Events", () => {
 
       const options: ICreateEventParams = {
         data: {
+          access: EventAccess.ORG,
           addresses: [
             {
               address: "111 Crunchy Street Bend, OR 97703",
@@ -51,6 +53,7 @@ describe("Events", () => {
             EventAttendanceType.VIRTUAL,
           ],
           description: "a description",
+          editGroups: ["111"],
           endDateTime: "2023-12-19T19:52:13.584Z",
           geometry: {
             type: "Feature",
@@ -58,7 +61,14 @@ describe("Events", () => {
             properties: {},
           },
           notifyAttendees: true,
-          onlineLocations: ["https://www.esri.com"],
+          onlineMeetings: [
+            {
+              url: "https://www.esri.com",
+              capacity: 50,
+              details: "Tacos online are here",
+            },
+          ],
+          readGroups: ["111"],
           startDateTime: "2023-12-01T19:52:13.584Z",
           summary: "a summary",
           timeZone: "America/Los_Angeles",

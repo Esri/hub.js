@@ -32,14 +32,16 @@ import {
   IWithEditorBehavior,
   IHubInitiativeEditor,
   SettableAccessLevel,
+  IMetricDisplayConfig,
 } from "../core";
 import { IEditorConfig } from "../core/schemas/types";
 import { enrichEntity } from "../core/enrichEntity";
 import { IGroup } from "@esri/arcgis-rest-types";
-import { getProp } from "../objects";
+import { getProp, getWithDefault } from "../objects";
 import { upsertResource } from "../resources/upsertResource";
 import { doesResourceExist } from "../resources/doesResourceExist";
 import { removeResource } from "../resources/removeResource";
+import { metricToEditor } from "../core/schemas/internal/metrics/metricToEditor";
 
 /**
  * Hub Initiative Class
@@ -274,18 +276,10 @@ export class HubInitiative
         )) as IHubInitiativeEditor)
       : (cloneObject(this.entity) as IHubInitiativeEditor);
 
-    // add the groups array that we'll use to auto-share on save
+    // 2. on initiative creation, pre-populate the sharing field
+    // with the core + collaobration groups if the user has the
+    // appropriate shareToGroup portal privilege
     editor._groups = [];
-
-    // 2. Apply transforms to relevant entity values so they
-    // can be consumed by the editor
-    /**
-     * on initiative creation, we want to pre-populate the sharing
-     * field with the core and collaboration groups if the user
-     * has the appropriate shareToGroup portal privilege
-     *
-     * TODO: we should re-evaluate this "auto-populate" pattern
-     */
     const { access: canShare } = this.checkPermission(
       "platform:portal:user:shareToGroup"
     );
@@ -308,6 +302,18 @@ export class HubInitiative
       }, []);
       editor._groups = [...editor._groups, ...defaultShareWithGroups];
     }
+
+    // 3. handle metrics
+    const metrics = getEntityMetrics(this.entity);
+    const metric = metrics.find((m) => m.id === editorContext.metricId);
+    const displays = getWithDefault(this.entity, "view.metricDisplays", []);
+    const displayConfig =
+      displays.find(
+        (display: IMetricDisplayConfig) =>
+          display.metricId === editorContext.metricId
+      ) || {};
+    editor._metric = metricToEditor(metric, displayConfig);
+
     return editor;
   }
 
@@ -317,16 +323,22 @@ export class HubInitiative
    * @returns
    */
   async fromEditor(editor: IHubInitiativeEditor): Promise<IHubInitiative> {
+    // 1. extract the ephemeral props we graft onto the editor
+    // note: they will be deleted in the editorToInitiative function
+    const thumbnail = editor._thumbnail;
+    const featuredImage = editor.view.featuredImage;
     const autoShareGroups = editor._groups || [];
-    const isCreate = !editor.id;
 
-    // Setting the thumbnailCache will ensure that
-    // the thumbnail is updated on next save
-    if (editor._thumbnail) {
-      if (editor._thumbnail.blob) {
+    // 2. convert the editor values back to a initiative entity
+    const entity = editorToInitiative(editor, this.context.portal);
+
+    // 3. set the thumbnailCache to ensure that
+    // the thumbnail is updated on the next save
+    if (thumbnail) {
+      if (thumbnail.blob) {
         this.thumbnailCache = {
-          file: editor._thumbnail.blob,
-          filename: editor._thumbnail.fileName,
+          file: thumbnail.blob,
+          filename: thumbnail.fileName,
           clear: false,
         };
       } else {
@@ -336,21 +348,9 @@ export class HubInitiative
       }
     }
 
-    delete editor._thumbnail;
-
-    // extract out things we don't want to persist directly
-    // b/c the first thing we do is create/update the initiative
-    const featuredImage = editor.view.featuredImage;
-    delete editor.view.featuredImage;
-
-    // convert back to an entity
-    const entity = editorToInitiative(editor, this.context.portal);
-
-    // handle featured image
-    // If there is a featured image from the editor, we need to...
+    // 4. upsert or remove the configured featured image
     if (featuredImage) {
       let featuredImageUrl: string | null = null;
-      // ...upsert it if it's a blob
       if (featuredImage.blob) {
         featuredImageUrl = await upsertResource(
           entity.id,
@@ -380,26 +380,14 @@ export class HubInitiative
       };
     }
 
-    // create it if it does not yet exist...
-    if (isCreate) {
-      // this allows the featured image functions to work
-      this.entity = await createInitiative(
-        entity,
-        this.context.userRequestOptions
-      );
-    } else {
-      // ...otherwise, update the in-memory entity and save it
-      this.entity = entity;
-      await this.save();
-    }
+    // 5. save or create the entity
+    this.entity = entity;
+    await this.save();
 
-    /**
-     * operations that are only relevant to the create workflow.
-     * if these ever become part of the edit experience, we can remove the conditional
-     */
+    // 6. share the entity with the configured groups
+    const isCreate = !editor.id;
     if (isCreate) {
       await this.setAccess(editor.access as SettableAccessLevel);
-      // share the entity with the configured groups
       if (autoShareGroups.length) {
         await Promise.all(
           autoShareGroups.map((id: string) => {

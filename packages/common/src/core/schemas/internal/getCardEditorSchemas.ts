@@ -9,6 +9,7 @@ import { filterSchemaToUiSchema } from "./filterSchemaToUiSchema";
 import { CardEditorOptions } from "./EditorOptions";
 import { cloneObject } from "../../../util";
 import { IArcGISContext } from "../../../ArcGISContext";
+import { ICardEditorModuleType } from "../types";
 
 /**
  * get the editor schema and uiSchema defined for a layout card.
@@ -36,6 +37,7 @@ export async function getCardEditorSchemas(
   let uiSchema;
   let schemaPromise;
   let uiSchemaPromise;
+  let defaults;
 
   switch (cardType) {
     case "stat":
@@ -47,16 +49,27 @@ export async function getCardEditorSchemas(
 
       // Allow imports to run in parallel
       await Promise.all([schemaPromise, uiSchemaPromise()]).then(
-        ([schemaModuleResolved, uiSchemaModuleResolved]) => {
+        async ([schemaModuleResolved, uiSchemaModuleResolved]) => {
           const { MetricSchema } = schemaModuleResolved;
           schema = cloneObject(MetricSchema);
-          uiSchema = uiSchemaModuleResolved.buildUiSchema(
+          uiSchema = await uiSchemaModuleResolved.buildUiSchema(
             i18nScope,
             options,
             context
           );
+
+          // if we have buildDefaults, build the defaults
+          // TODO: when first implementing buildDefaults for initiative templates, remove the ignore line
+
+          /* istanbul ignore next */
+          if ((uiSchemaModuleResolved as ICardEditorModuleType).buildDefaults) {
+            defaults = (
+              uiSchemaModuleResolved as ICardEditorModuleType
+            ).buildDefaults(i18nScope, options, context);
+          }
         }
       );
+
       break;
     case "follow":
       // get correct module

@@ -1,5 +1,5 @@
 import * as PortalModule from "@esri/arcgis-rest-portal";
-import { IHubInitiative, IResolvedMetric, getProp } from "../../src";
+import { IHubInitiative, IMetric, IResolvedMetric, getProp } from "../../src";
 import { Catalog } from "../../src/search";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubInitiative } from "../../src/initiatives/HubInitiative";
@@ -12,6 +12,7 @@ import * as EnrichEntityModule from "../../src/core/enrichEntity";
 import * as upsertResourceModule from "../../src/resources/upsertResource";
 import * as doesResourceExistModule from "../../src/resources/doesResourceExist";
 import * as removeResourceModule from "../../src/resources/removeResource";
+import * as metricToEditorModule from "../../src/core/schemas/internal/metrics/metricToEditor";
 import { HubItemEntity } from "../../src/core/HubItemEntity";
 import { initContextManager } from "../templates/fixtures";
 
@@ -367,6 +368,64 @@ describe("HubInitiative Class:", () => {
           "https://myserver.com/thumbnail.png"
         );
         expect(result._groups).toEqual([]);
+      });
+      describe("metrics", () => {
+        it("appends the relevant metric config to the editor object", async () => {
+          const mockMetric = {
+            type: "static",
+            value: "525,600",
+            cardTitle: "Right metric",
+          };
+          const metricToEditorSpy = spyOn(
+            metricToEditorModule,
+            "metricToEditor"
+          ).and.returnValue(mockMetric);
+          const mockInitiative = {
+            id: "bc3",
+            metrics: [
+              {
+                id: "metric123",
+                source: {
+                  type: "static-value",
+                  value: "525,600",
+                },
+              },
+              {
+                id: "metric456",
+                source: {
+                  type: "static-value",
+                  value: "wrong metric",
+                },
+              },
+            ] as IMetric[],
+            view: {
+              metricDisplays: [
+                {
+                  metricId: "metric123",
+                  displayType: "stat-card",
+                  cardTitle: "Right metric",
+                },
+                {
+                  metricId: "metric456",
+                  displayType: "stat-card",
+                  cardTitle: "Wrong metric",
+                },
+              ],
+            },
+          };
+          const chk = HubInitiative.fromJson(
+            mockInitiative,
+            authdCtxMgr.context
+          );
+          const result = await chk.toEditor({ metricId: "metric123" });
+
+          expect(metricToEditorSpy).toHaveBeenCalledTimes(1);
+          expect(metricToEditorSpy).toHaveBeenCalledWith(
+            mockInitiative.metrics[0],
+            mockInitiative.view.metricDisplays[0]
+          );
+          expect(result._metric).toEqual(mockMetric);
+        });
       });
       describe('auto-populating "shareWith" groups', () => {
         let projectInstance: any;

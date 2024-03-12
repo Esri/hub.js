@@ -4,7 +4,7 @@ import { MOCK_CONTEXT } from "../../../../mocks/mock-auth";
 
 describe("buildUiSchema: stat", () => {
   it("returns the full stat card uiSchema", async () => {
-    const uiSchema = buildUiSchema(
+    const uiSchema = await buildUiSchema(
       "",
       { themeColors: ["#ffffff"] },
       MOCK_CONTEXT
@@ -70,7 +70,6 @@ describe("buildUiSchema: stat", () => {
                 section: "subblock",
                 scale: "m",
                 toggleDisplay: "switch",
-                scope: "/properties/unit",
               },
               elements: [
                 {

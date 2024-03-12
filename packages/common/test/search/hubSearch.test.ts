@@ -280,6 +280,40 @@ describe("hubSearch Module:", () => {
         expect(query).toEqual(qry);
         expect(options).toEqual(opts);
       });
+      it("discussionPost + arcgis-hub: hubSearchItems", async () => {
+        const qry: IQuery = {
+          targetEntity: "discussionPost",
+          collection: "discussion-post" as any,
+          filters: [
+            {
+              predicates: [{ term: "water" }],
+            },
+          ],
+        };
+        const opts: IHubSearchOptions = {
+          site: "https://my-site.hub.arcgis.com",
+          requestOptions: {
+            isPortal: false,
+            portal: "https://qaext.arcgis.com/sharing/rest",
+            hubApiUrl: "https://hubqa.arcgis.com",
+          },
+          include: ["server"],
+        };
+        const chk = await hubSearch(qry, opts);
+        expect(chk.total).toBe(99);
+        expect(portalSearchItemsSpy.calls.count()).toBe(0);
+        expect(portalSearchGroupsSpy.calls.count()).toBe(0);
+        expect(hubSearchItemsSpy.calls.count()).toBe(1);
+        const [query, options] = hubSearchItemsSpy.calls.argsFor(0);
+        expect(query).toEqual(qry);
+        expect(options.include).toBeDefined();
+        // Any cloning of auth can break downstream functions
+        expect(options.requestOptions).toBe(opts.requestOptions);
+        expect(options.api).toEqual({
+          type: "arcgis-hub",
+          url: "https://hubqa.arcgis.com/api/search/v2",
+        });
+      });
     });
   });
 });

@@ -3,7 +3,7 @@
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getItem, IItem } from "@esri/arcgis-rest-portal";
-import { IModel, IGetSurveyModelsResponse } from "../types";
+import { IModel, IGetSurveyModelsResponse } from "../../types";
 import { getInputFeatureServiceModel } from "./get-input-feature-service-model";
 import { getSourceFeatureServiceModelFromFieldworker } from "./get-source-feature-service-model-from-fieldworker";
 import { getStakeholderModel } from "./get-stakeholder-model";

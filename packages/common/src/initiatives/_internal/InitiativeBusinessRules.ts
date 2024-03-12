@@ -27,6 +27,7 @@ export const InitiativePermissions = [
   "hub:initiative:workspace:overview",
   "hub:initiative:workspace:dashboard",
   "hub:initiative:workspace:details",
+  "hub:initiative:workspace:metrics",
   "hub:initiative:workspace:projects",
   "hub:initiative:workspace:projects:member",
   "hub:initiative:workspace:projects:manager",
@@ -34,6 +35,7 @@ export const InitiativePermissions = [
   "hub:initiative:workspace:collaborators",
   "hub:initiative:workspace:content",
   "hub:initiative:workspace:metrics",
+  "hub:initiative:workspace:associationGroup:create",
   "hub:initiative:manage",
 ] as const;
 
@@ -102,6 +104,10 @@ export const InitiativePermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:initiative:workspace", "hub:initiative:edit"],
   },
   {
+    permission: "hub:initiative:workspace:metrics",
+    dependencies: ["hub:initiative:workspace", "hub:initiative:edit"],
+  },
+  {
     permission: "hub:initiative:workspace:projects",
     dependencies: ["hub:initiative:workspace", "hub:initiative:edit"],
   },
@@ -147,5 +153,10 @@ export const InitiativePermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:initiative:manage",
     dependencies: ["hub:initiative:edit"],
+  },
+  // permission to create an association group
+  {
+    permission: "hub:initiative:workspace:associationGroup:create",
+    dependencies: ["hub:initiative:workspace:projects", "hub:group:create"],
   },
 ];
