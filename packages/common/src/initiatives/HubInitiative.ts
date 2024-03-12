@@ -1,7 +1,7 @@
 import { DEFAULT_INITIATIVE } from "./defaults";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
 import { IEntityEditorContext } from "../core/types/HubEntityEditor";
-import { cloneObject, isNil } from "../util";
+import { cloneObject } from "../util";
 import {
   createInitiative,
   deleteInitiative,
@@ -42,6 +42,7 @@ import { upsertResource } from "../resources/upsertResource";
 import { doesResourceExist } from "../resources/doesResourceExist";
 import { removeResource } from "../resources/removeResource";
 import { metricToEditor } from "../core/schemas/internal/metrics/metricToEditor";
+import { getGroup } from "@esri/arcgis-rest-portal";
 
 /**
  * Hub Initiative Class
@@ -313,6 +314,21 @@ export class HubInitiative
           display.metricId === editorContext.metricId
       ) || {};
     editor._metric = metricToEditor(metric, displayConfig);
+
+    // 4. handle association group
+    const assocGroupId = getProp(this.entity, "associations.groupId");
+
+    if (assocGroupId) {
+      const associationGroup = await getGroup(
+        assocGroupId,
+        this.context.requestOptions
+      );
+      const _associations = {
+        groupAccess: associationGroup.access,
+        membershipAccess: associationGroup.membershipAccess,
+      };
+      editor._associations = _associations;
+    }
 
     return editor;
   }

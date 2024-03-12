@@ -68,18 +68,6 @@ export const buildUiSchema = async (
               ],
             },
           },
-          {
-            labelKey: `${i18nScope}.fields.includeInCatalog.label`,
-            scope: "/properties/_associations/properties/includeInCatalog",
-            type: "Control",
-            options: {
-              helperText: {
-                labelKey: `${i18nScope}.fields.includeInCatalog.helperText`,
-              },
-              control: "hub-field-input-switch",
-              layout: "inline-space-between",
-            },
-          },
         ],
       },
     ],

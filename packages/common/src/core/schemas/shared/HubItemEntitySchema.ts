@@ -51,15 +51,12 @@ export const HubItemEntitySchema: IConfigurationSchema = {
         groupAccess: {
           ...ENTITY_ACCESS_SCHEMA,
           enum: ["private", "org", "public"],
+          default: "private",
         },
         membershipAccess: {
           type: "string",
           enum: ["organization", "collaborators", "anyone"],
-        },
-        includeInCatalog: {
-          type: "boolean",
-          enum: [false, true],
-          default: false,
+          default: "organization",
         },
       },
     },
