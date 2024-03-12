@@ -30,6 +30,7 @@ import {
   IQuery,
   getProp,
 } from "../../src";
+import { IArcGISContext } from "../../src/ArcGISContext";
 import * as editorToMetricModule from "../../src/core/schemas/internal/metrics/editorToMetric";
 import * as setMetricAndDisplayModule from "../../src/core/schemas/internal/metrics/setMetricAndDisplay";
 
@@ -611,8 +612,10 @@ describe("HubInitiatives:", () => {
       } as unknown as IHubInitiativeEditor;
 
       const res = editorToInitiative(editor, {
-        urlKey: "foo",
-      } as unknown as portalModule.IPortal);
+        portal: {
+          urlKey: "foo",
+        } as unknown as portalModule.IPortal,
+      } as unknown as IArcGISContext);
 
       expect(res._groups).toBeUndefined();
       expect(res._thumbnail).toBeUndefined();
@@ -625,8 +628,10 @@ describe("HubInitiatives:", () => {
       } as unknown as IHubInitiativeEditor;
 
       const res = editorToInitiative(editor, {
-        urlKey: "foo",
-      } as unknown as portalModule.IPortal);
+        portal: {
+          urlKey: "foo",
+        } as unknown as portalModule.IPortal,
+      } as unknown as IArcGISContext);
 
       expect(res.orgUrlKey).toEqual("bar");
     });
@@ -641,8 +646,10 @@ describe("HubInitiatives:", () => {
       } as unknown as IHubInitiativeEditor;
 
       const res = editorToInitiative(editor, {
-        urlKey: "foo",
-      } as unknown as portalModule.IPortal);
+        portal: {
+          urlKey: "foo",
+        } as unknown as portalModule.IPortal,
+      } as unknown as IArcGISContext);
 
       expect(res.extent).toEqual([
         [1, 2],
@@ -692,8 +699,10 @@ describe("HubInitiatives:", () => {
         } as unknown as IHubInitiativeEditor;
 
         const res = editorToInitiative(editor, {
-          urlKey: "foo",
-        } as unknown as portalModule.IPortal);
+          portal: {
+            urlKey: "foo",
+          } as unknown as portalModule.IPortal,
+        } as unknown as IArcGISContext);
 
         expect(createIdSpy).toHaveBeenCalledTimes(1);
         expect(editorToMetricSpy).toHaveBeenCalledTimes(1);
@@ -714,8 +723,10 @@ describe("HubInitiatives:", () => {
         } as unknown as IHubInitiativeEditor;
 
         const res = editorToInitiative(editor, {
-          urlKey: "foo",
-        } as unknown as portalModule.IPortal);
+          portal: {
+            urlKey: "foo",
+          } as unknown as portalModule.IPortal,
+        } as unknown as IArcGISContext);
 
         expect(editorToMetricSpy).toHaveBeenCalledTimes(1);
         expect(setMetricAndDisplaySpy).toHaveBeenCalledTimes(1);

@@ -170,7 +170,7 @@ export function editorToInitiative(
   const assocGroupId = initiative.associations?.groupId;
 
   // handle group access
-  if (_associations.groupAccess && assocGroupId) {
+  if (assocGroupId && _associations?.groupAccess) {
     setAssociationsGroupAccess(
       assocGroupId,
       _associations.groupAccess,
@@ -179,7 +179,7 @@ export function editorToInitiative(
   }
 
   // handle membership access
-  if (_associations.membershipAccess && assocGroupId) {
+  if (assocGroupId && _associations?.membershipAccess) {
     setAssociationsMembershipAccess(
       assocGroupId,
       _associations.membershipAccess,
@@ -188,7 +188,7 @@ export function editorToInitiative(
   }
 
   // handle include in catalog
-  if (isNil(_associations.includeInCatalog) && assocGroupId) {
+  if (assocGroupId && !isNil(_associations?.includeInCatalog)) {
     setAssociationsIncludeInCatalog(initiative, _associations.includeInCatalog);
   }
 
