@@ -168,7 +168,6 @@ export type IHubItemEntityEditor<T> = Omit<T, "extent"> & {
   _associations?: {
     groupAccess?: SettableAccessLevel;
     membershipAccess?: "organization" | "collaborators" | "anyone";
-    includeInCatalog?: boolean;
   };
   _metric?: IMetricEditorValues;
 };

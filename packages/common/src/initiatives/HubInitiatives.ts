@@ -187,11 +187,6 @@ export function editorToInitiative(
     );
   }
 
-  // handle include in catalog
-  if (assocGroupId && !isNil(_associations?.includeInCatalog)) {
-    setAssociationsIncludeInCatalog(initiative, _associations.includeInCatalog);
-  }
-
   return initiative;
 }
 
