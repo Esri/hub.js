@@ -53,7 +53,7 @@ export const buildUiSchema = async (
               labels: [
                 `{{${i18nScope}.fields.membershipAccess.org:translate}}`,
                 `{{${i18nScope}.fields.membershipAccess.collab:translate}}`,
-                `{{${i18nScope}.fields.membershipAccess.createAssociation.any:translate}}`,
+                `{{${i18nScope}.fields.membershipAccess.any:translate}}`,
               ],
               disabled: [
                 false,
@@ -73,6 +73,9 @@ export const buildUiSchema = async (
             scope: "/properties/_associations/properties/includeInCatalog",
             type: "Control",
             options: {
+              helperText: {
+                labelKey: `${i18nScope}.fields.settings.includeInCatalog.helperText`,
+              },
               control: "hub-field-input-switch",
             },
           },
