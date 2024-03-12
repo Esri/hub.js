@@ -100,8 +100,6 @@ export async function followEntity(
     } catch (error) {
       throw new Error(`Error joining group: ${error}`);
     }
-  } else {
-    // handle if the entity doesn't have a followers group
   }
 }
 
@@ -150,7 +148,5 @@ export async function unfollowEntity(
     } catch (error) {
       throw new Error(`Error leaving group: ${error}`);
     }
-  } else {
-    // handle if the entity doesn't have a followers group
   }
 }
