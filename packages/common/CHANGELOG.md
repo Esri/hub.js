@@ -1,3 +1,10 @@
+# @esri/hub-common [14.106.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.105.0...@esri/hub-common@14.106.0) (2024-03-13)
+
+
+### Features
+
+* **hub-common:** add newsletters types and functions ([#1436](https://github.com/Esri/hub.js/issues/1436)) ([35ff6f7](https://github.com/Esri/hub.js/commit/35ff6f7af9969006362ec8f1f63bd454aaf49c9b))
+
 # @esri/hub-common [14.105.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.104.0...@esri/hub-common@14.105.0) (2024-03-13)
 
 
