@@ -1,8 +1,7 @@
 import { IUser, joinGroup, leaveGroup } from "@esri/arcgis-rest-portal";
-import { fetchHubEntity } from "../core/fetchHubEntity";
+import { HubEntityType, fetchHubEntity } from "../core";
 import { IWithFollowers } from "../core/traits/IWithFollowers";
 import { IArcGISContext } from "../ArcGISContext";
-import { HubEntityType } from "../core/types/HubEntityType";
 
 /**
  * Get the entity's followers group id
@@ -20,12 +19,16 @@ export async function getEntityFollowersGroupId(
   // entity's type is IWithFollowers as we only want to accept hub entities
   // backed by item entities which extend IWithFollowers
   let entity: IWithFollowers;
-  entity = (await fetchHubEntity(
-    entityType,
-    entityId,
-    context
-  )) as IWithFollowers;
-  return entity.followersGroupId;
+  try {
+    entity = (await fetchHubEntity(
+      entityType,
+      entityId,
+      context
+    )) as IWithFollowers;
+    return entity.followersGroupId;
+  } catch (e) {
+    throw new Error(`Error fetching entity followers group ID: ${e}`);
+  }
 }
 
 /**

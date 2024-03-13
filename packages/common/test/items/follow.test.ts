@@ -44,6 +44,16 @@ describe("follow", function () {
       expect(fetchHubEntitySpy).toHaveBeenCalled();
       expect(result).toBe("12345");
     });
+    it("throws if it fails to fetch the entity.", async function () {
+      fetchHubEntitySpy.and.returnValue(Promise.reject("error"));
+      try {
+        await followEntity(sampleEntityId, sampleUser, "site", {
+          hubRequestOptions: {},
+        } as ArcGISContext);
+      } catch (e) {
+        expect(e).toBe("Error fetching entity followers group ID: error");
+      }
+    });
   });
 
   describe("isUserFollowing", function () {
