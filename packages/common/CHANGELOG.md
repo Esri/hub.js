@@ -1,3 +1,11 @@
+# @esri/hub-common [14.105.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.104.0...@esri/hub-common@14.105.0) (2024-03-13)
+
+
+### Features
+
+* 9273 new follow entity and related functionalities ([#1438](https://github.com/Esri/hub.js/issues/1438)) ([f5de4f2](https://github.com/Esri/hub.js/commit/f5de4f2d469735249830c194ef29936e737b96d9))
+* **hub-common:** add get s123 edit url util ([#1440](https://github.com/Esri/hub.js/issues/1440)) ([f7d0dca](https://github.com/Esri/hub.js/commit/f7d0dca38e38fbf80ff83a8217b2d64fb1a4d246))
+
 # @esri/hub-common [14.104.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.103.0...@esri/hub-common@14.104.0) (2024-03-13)
 
 
