@@ -13,8 +13,10 @@ import * as upsertResourceModule from "../../src/resources/upsertResource";
 import * as doesResourceExistModule from "../../src/resources/doesResourceExist";
 import * as removeResourceModule from "../../src/resources/removeResource";
 import * as metricToEditorModule from "../../src/core/schemas/internal/metrics/metricToEditor";
+import * as restPortalModule from "@esri/arcgis-rest-portal";
 import { HubItemEntity } from "../../src/core/HubItemEntity";
 import { initContextManager } from "../templates/fixtures";
+import { IHubAssociationRules } from "../../src/associations/types";
 
 describe("HubInitiative Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -357,8 +359,19 @@ describe("HubInitiative Class:", () => {
             id: "bc3",
             name: "Test Entity",
             thumbnailUrl: "https://myserver.com/thumbnail.png",
+            associations: {
+              groupId: "00123",
+              rules: {} as IHubAssociationRules,
+            },
           },
           authdCtxMgr.context
+        );
+        spyOn(restPortalModule, "getGroup").and.returnValue(
+          Promise.resolve({
+            id: "00123",
+            access: "public",
+            membershipAccess: "anyone",
+          } as unknown as PortalModule.IGroup)
         );
         const result = await chk.toEditor();
         // NOTE: If additional transforms are added in the class they should have tests here
@@ -368,6 +381,10 @@ describe("HubInitiative Class:", () => {
           "https://myserver.com/thumbnail.png"
         );
         expect(result._groups).toEqual([]);
+        expect(result._associations).toEqual({
+          groupAccess: "public",
+          membershipAccess: "anyone",
+        } as any);
       });
       describe("metrics", () => {
         it("appends the relevant metric config to the editor object", async () => {

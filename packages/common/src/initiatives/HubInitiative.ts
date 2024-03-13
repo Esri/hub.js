@@ -346,7 +346,7 @@ export class HubInitiative
     const autoShareGroups = editor._groups || [];
 
     // 2. convert the editor values back to a initiative entity
-    const entity = editorToInitiative(editor, this.context);
+    const entity = await editorToInitiative(editor, this.context);
 
     // 3. set the thumbnailCache to ensure that
     // the thumbnail is updated on the next save

@@ -57,10 +57,9 @@ import {
 import { setEntityStatusKeyword } from "../utils/internal/setEntityStatusKeyword";
 import { editorToMetric } from "../core/schemas/internal/metrics/editorToMetric";
 import { setMetricAndDisplay } from "../core/schemas/internal/metrics/setMetricAndDisplay";
-import { createId, isNil } from "../util";
+import { createId } from "../util";
 import {
   setAssociationsGroupAccess,
-  setAssociationsIncludeInCatalog,
   setAssociationsMembershipAccess,
 } from "../associations/updateAssociationGroup";
 import { IArcGISContext } from "../ArcGISContext";
@@ -129,10 +128,10 @@ export async function createInitiative(
  * @param portal
  * @returns
  */
-export function editorToInitiative(
+export async function editorToInitiative(
   editor: IHubInitiativeEditor,
   context: IArcGISContext
-): IHubInitiative {
+): Promise<IHubInitiative> {
   const _metric = editor._metric;
   const _associations = editor._associations;
 
@@ -171,7 +170,7 @@ export function editorToInitiative(
 
   // handle group access
   if (assocGroupId && _associations?.groupAccess) {
-    setAssociationsGroupAccess(
+    await setAssociationsGroupAccess(
       assocGroupId,
       _associations.groupAccess,
       context
@@ -180,7 +179,7 @@ export function editorToInitiative(
 
   // handle membership access
   if (assocGroupId && _associations?.membershipAccess) {
-    setAssociationsMembershipAccess(
+    await setAssociationsMembershipAccess(
       assocGroupId,
       _associations.membershipAccess,
       context
