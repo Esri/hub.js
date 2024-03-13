@@ -5,20 +5,19 @@ import {
   unfollowEntity,
 } from "../../src/items/follow";
 import * as CoreModule from "../../src/core";
-import { IGroup, ISearchOptions, IUser } from "@esri/arcgis-rest-portal";
 import * as PortalModule from "@esri/arcgis-rest-portal";
-import { ArcGISContext } from "../../src";
+import { ArcGISContext } from "../../src/ArcGISContext";
 import { IWithFollowers } from "../../src/core/traits/IWithFollowers";
 
 describe("follow", function () {
-  let sampleUser: IUser;
+  let sampleUser: PortalModule.IUser;
   let sampleEntity: IWithFollowers;
   let sampleEntityId: string;
   let fetchHubEntitySpy: jasmine.Spy;
 
   beforeEach(() => {
     sampleUser = {
-      groups: [{ id: "12345" } as IGroup],
+      groups: [{ id: "12345" } as PortalModule.IGroup],
       username: "sampleUsername",
     };
     sampleEntity = {
@@ -58,7 +57,7 @@ describe("follow", function () {
       expect(result).toBeTruthy();
 
       // check with a different user
-      sampleUser.groups = [{ id: "67890" } as IGroup];
+      sampleUser.groups = [{ id: "67890" } as PortalModule.IGroup];
       result = await isUserFollowing(
         sampleEntity,
         sampleUser,

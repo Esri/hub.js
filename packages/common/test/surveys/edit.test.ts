@@ -3,7 +3,7 @@ import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as modelUtils from "../../src/models";
 import { IModel } from "../../src/types";
 import { deleteSurvey, updateSurvey } from "../../src/surveys/edit";
-import { IHubSurvey } from "../../dist/types/core/types/IHubSurvey";
+import { IHubSurvey } from "../../src/core/types/IHubSurvey";
 import * as getFormJsonUtil from "../../src/surveys/utils/get-form-json";
 
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
