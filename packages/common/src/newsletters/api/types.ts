@@ -21,7 +21,7 @@ import {
 } from "./orval/api/orval-newsletters";
 
 /**
- * options for making requests against the Events API
+ * options for making requests against the Newsletters API
  *
  * @export
  * @interface INewslettersRequestOptions

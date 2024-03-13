@@ -4,7 +4,7 @@ import { INewslettersRequestOptions } from "../types";
  * return a token created using options.authentication or set on options.token
  *
  * @export
- * @param {IDiscussionsRequestOptions} options
+ * @param {INewslettersRequestOptions} options
  * @return {*}  {Promise<string>}
  */
 export function authenticateRequest(
