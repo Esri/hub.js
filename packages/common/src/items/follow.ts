@@ -57,9 +57,7 @@ export async function isUserFollowing(
 
 /**
  * Follow an entity
- * @param entityOrId hub entity or entity id, type is IWithFollowers
- * as we only want to accept hub entities backed by item entities which
- * extend IWithFollowers
+ * @param entityId entity id
  * @param user user who attempts to follow the entity
  * @param entityType optional if entityOrId is a string
  * @param context optional if entityOrId is a string
@@ -67,47 +65,41 @@ export async function isUserFollowing(
  * or rejects with an error
  */
 export async function followEntity(
-  entityOrId: IWithFollowers | string,
+  entityId: string,
   user: IUser,
   entityType?: HubEntityType,
   context?: IArcGISContext
 ): Promise<{ success: boolean; username: string }> {
   const isFollowing = await isUserFollowing(
-    entityOrId,
+    entityId,
     user,
     entityType,
     context
   );
   // don't update if user is already following
   if (isFollowing) {
-    return Promise.reject(`User is already following this entity.`);
+    return Promise.reject("User is already following this entity.");
   }
-  let groupId: string;
-  if (typeof entityOrId === "string") {
-    groupId = await getEntityFollowersGroupId(entityOrId, entityType, context);
-  } else {
-    groupId = entityOrId.followersGroupId;
-  }
-  // if the entity has a followers group, attempt to join it
-  if (groupId) {
-    try {
-      await joinGroup({
-        id: groupId,
-        authentication: context.hubRequestOptions.authentication,
-      });
-      // the entity has a followers group and we successfully joined it
-      return { success: true, username: user.username };
-    } catch (error) {
-      throw new Error(`Error joining group: ${error}`);
-    }
+  const groupId = await getEntityFollowersGroupId(
+    entityId,
+    entityType,
+    context
+  );
+  try {
+    await joinGroup({
+      id: groupId,
+      authentication: context.hubRequestOptions.authentication,
+    });
+    // successfully joined the group
+    return { success: true, username: user.username };
+  } catch (error) {
+    throw new Error(`Error joining group: ${error}`);
   }
 }
 
 /**
  * Unfollow an entity
- * @param entityOrId hub entity or entity id, type is IWithFollowers
- * as we only want to accept hub entities backed by item entities which
- * extend IWithFollowers
+ * @param entityId entity id
  * @param user user who attempts to unfollow the entity
  * @param entityType optional if entityOrId is a string
  * @param context optional if entityOrId is a string
@@ -115,38 +107,34 @@ export async function followEntity(
  * rejects with an error
  */
 export async function unfollowEntity(
-  entityOrId: IWithFollowers | string,
+  entityId: string,
   user: IUser,
   entityType?: HubEntityType,
   context?: IArcGISContext
 ): Promise<{ success: boolean; username: string }> {
   const isFollowing = await isUserFollowing(
-    entityOrId,
+    entityId,
     user,
     entityType,
     context
   );
   // don't update if user is not following
   if (!isFollowing) {
-    return Promise.reject(`User is not following this entity.`);
+    return Promise.reject("User is not following this entity.");
   }
-  let groupId: string;
-  if (typeof entityOrId === "string") {
-    groupId = await getEntityFollowersGroupId(entityOrId, entityType, context);
-  } else {
-    groupId = entityOrId.followersGroupId;
-  }
-  // if the entity has a followers group, attempt to leave it
-  if (groupId) {
-    try {
-      await leaveGroup({
-        id: groupId,
-        authentication: context.hubRequestOptions.authentication,
-      });
-      // the entity has a followers group and we successfully left it
-      return { success: true, username: user.username };
-    } catch (error) {
-      throw new Error(`Error leaving group: ${error}`);
-    }
+  const groupId = await getEntityFollowersGroupId(
+    entityId,
+    entityType,
+    context
+  );
+  try {
+    await leaveGroup({
+      id: groupId,
+      authentication: context.hubRequestOptions.authentication,
+    });
+    // successfully left the group
+    return { success: true, username: user.username };
+  } catch (error) {
+    throw new Error(`Error leaving group: ${error}`);
   }
 }
