@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <meta name="date" content="2024-03-13T16:39:34.219Z">
+    <meta name="date" content="2024-03-13T20:49:05.778Z">
     <title>@esri/hub.js</title>
     
     <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/css/calcite-web.min.css">
@@ -73,7 +73,7 @@
               <path d="M7 4h5l12 12-12 12H7l12-12L7 4z" />
             </svg>
           </button>
-          <a href="/hub.js/api/common/" class="tsd-kind-icon">common</a>&nbsp;<small>v14.103.0</small>
+          <a href="/hub.js/api/common/" class="tsd-kind-icon">common</a>&nbsp;<small>v14.104.0</small>
           <ul id="list1" class="api-package-content-list">
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -857,6 +857,10 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/followEntity/" class="tsd-kind-icon padding-right-1">followEntity</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/formatFilterBlock/" class="tsd-kind-icon padding-right-1">formatFilterBlock</a>
             </li>
             
@@ -1006,6 +1010,10 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/getEntityDefaultWorkspacePane/" class="tsd-kind-icon padding-right-1">getEntityDefaultWorkspacePane</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/getEntityFollowersGroupId/" class="tsd-kind-icon padding-right-1">getEntityFollowersGroupId</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -1333,6 +1341,10 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/getS123EditUrl/" class="tsd-kind-icon padding-right-1">getS123EditUrl</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/getS123ShareUrl/" class="tsd-kind-icon padding-right-1">getS123ShareUrl</a>
             </li>
             
@@ -1638,6 +1650,10 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/isUrl/" class="tsd-kind-icon padding-right-1">isUrl</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/isUserFollowing/" class="tsd-kind-icon padding-right-1">isUserFollowing</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -2038,6 +2054,10 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/toggleServiceCapability/" class="tsd-kind-icon padding-right-1">toggleServiceCapability</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/unfollowEntity/" class="tsd-kind-icon padding-right-1">unfollowEntity</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -5622,7 +5642,7 @@
   
   
   
-  <small class="label right">Version 14.103.0</small>
+  <small class="label right">Version 14.104.0</small>
 <h1 class=" font-size-3 trailer-half code-face">
   <a href="/hub.js/api/common/">@esri/hub-common</a>
 </h1>
@@ -5827,6 +5847,7 @@
   findBy,
   findItemsBySlug,
   flattenArray,
+  followEntity,
   formatFilterBlock,
   formatOgcAggregationsResponse,
   formatOgcItemsResponse,
@@ -5865,6 +5886,7 @@
   getEditorConfig,
   getEditorSchemas,
   getEntityDefaultWorkspacePane,
+  getEntityFollowersGroupId,
   getEntityMetrics,
   getEnvironmentFromPortalUrl,
   getEvent,
@@ -5946,6 +5968,7 @@
   getRelativeWorkspaceUrl,
   getRequestingEntitiesQuery,
   getResultSiteRelativeLink,
+  getS123EditUrl,
   getS123ShareUrl,
   getScopeGroupPredicate,
   getServiceTypeFromUrl,
@@ -6023,6 +6046,7 @@
   isSurvey123Connect,
   isUpdateGroup,
   isUrl,
+  isUserFollowing,
   isValidDomain,
   isValidEntityType,
   isValidExtent,
@@ -6123,6 +6147,7 @@
   templateToCardModel,
   titleize,
   toggleServiceCapability,
+  unfollowEntity,
   unicodeToBase64,
   unique,
   uniqueBy,
@@ -6962,6 +6987,10 @@
   </li>
   
   <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/followEntity/" class="tsd-kind-icon">followEntity</a>
+  </li>
+  
+  <li class="tsd-kind-function">
     <a href="/hub.js/api/common/formatFilterBlock/" class="tsd-kind-icon">formatFilterBlock</a>
   </li>
   
@@ -7111,6 +7140,10 @@
   
   <li class="tsd-kind-function">
     <a href="/hub.js/api/common/getEntityDefaultWorkspacePane/" class="tsd-kind-icon">getEntityDefaultWorkspacePane</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/getEntityFollowersGroupId/" class="tsd-kind-icon">getEntityFollowersGroupId</a>
   </li>
   
   <li class="tsd-kind-function">
@@ -7438,6 +7471,10 @@
   </li>
   
   <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/getS123EditUrl/" class="tsd-kind-icon">getS123EditUrl</a>
+  </li>
+  
+  <li class="tsd-kind-function">
     <a href="/hub.js/api/common/getS123ShareUrl/" class="tsd-kind-icon">getS123ShareUrl</a>
   </li>
   
@@ -7743,6 +7780,10 @@
   
   <li class="tsd-kind-function">
     <a href="/hub.js/api/common/isUrl/" class="tsd-kind-icon">isUrl</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/isUserFollowing/" class="tsd-kind-icon">isUserFollowing</a>
   </li>
   
   <li class="tsd-kind-function">
@@ -8143,6 +8184,10 @@
   
   <li class="tsd-kind-function">
     <a href="/hub.js/api/common/toggleServiceCapability/" class="tsd-kind-icon">toggleServiceCapability</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/unfollowEntity/" class="tsd-kind-icon">unfollowEntity</a>
   </li>
   
   <li class="tsd-kind-function">
@@ -10730,7 +10775,7 @@
   </li>
   
 </ul>
-  <small>v14.103.0</small>
+  <small>v14.104.0</small>
 
   
   <hr>
