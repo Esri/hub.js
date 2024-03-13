@@ -245,6 +245,11 @@ export interface IArcGISContext {
   orgThumbnailUrl: string;
 
   /**
+   * Return the Survey123 url
+   */
+  survey123Url: string;
+
+  /**
    * Return the token for a given app, if defined
    * @param app
    */
@@ -813,6 +818,18 @@ export class ArcGISContext implements IArcGISContext {
 
   public get orgThumbnailUrl(): string {
     return getOrgThumbnailUrl(this.portal, this.session?.token);
+  }
+
+  /**
+   * Return the survey123 url
+   */
+  public get survey123Url(): string {
+    const suffixes: Partial<Record<HubEnvironment, string>> = {
+      qaext: "qa",
+      devext: "dev",
+    };
+    const suffix = suffixes[this.environment] ?? "";
+    return `https://survey123${suffix}.arcgis.com`;
   }
 
   /**
