@@ -3,6 +3,7 @@ export * from "./get-form-info-json";
 export * from "./get-form-json";
 export * from "./get-input-feature-service-model";
 export * from "./get-map-question";
+export * from "./get-s123-share-url";
 export * from "./get-source-feature-service-model-from-fieldworker";
 export * from "./get-stakeholder-model";
 export * from "./get-survey-models";
