@@ -51,7 +51,9 @@ describe("follow", function () {
           hubRequestOptions: {},
         } as ArcGISContext);
       } catch (e) {
-        expect(e).toBe("Error fetching entity followers group ID: error");
+        expect(e.message).toBe(
+          "Error fetching entity followers group ID: error"
+        );
       }
     });
   });
