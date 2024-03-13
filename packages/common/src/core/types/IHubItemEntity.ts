@@ -1,6 +1,6 @@
 import { IHubEntityBase } from "./IHubEntityBase";
 import { IHubGeography } from "../../types";
-import { AccessLevel, SettableAccessLevel } from "./types";
+import { AccessLevel, MembershipAccess, SettableAccessLevel } from "./types";
 import {
   IWithPermissions,
   IWithViewSettings,
@@ -167,7 +167,7 @@ export type IHubItemEntityEditor<T> = Omit<T, "extent"> & {
    */
   _associations?: {
     groupAccess?: SettableAccessLevel;
-    membershipAccess?: "organization" | "collaborators" | "anyone";
+    membershipAccess?: MembershipAccess;
   };
   _metric?: IMetricEditorValues;
 };
