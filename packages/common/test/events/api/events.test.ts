@@ -8,12 +8,12 @@ import {
   deleteEvent,
   getEvent,
   getEvents,
-  // updateEvent,
+  updateEvent,
   IEvent,
   EventAttendanceType,
   EventStatus,
+  EventAccess,
 } from "../../../src/events/api";
-import { EventAccess } from "../../../src/events/api/types";
 import * as authenticateRequestModule from "../../../src/events/api/utils/authenticate-request";
 import * as orvalModule from "../../../src/events/api/orval/api/orval-events";
 
@@ -133,31 +133,29 @@ describe("Events", () => {
     });
   });
 
-  // describe("updateEvent", () => {
-  //   it("should update an event", async () => {
-  //     const mockEvent = { burrito: "supreme" } as unknown as IEvent;
-  //     const updateEventSpy = spyOn(orvalModule, "updateEvent").and.callFake(
-  //       async () => mockEvent
-  //     );
+  describe("updateEvent", () => {
+    it("should update an event", async () => {
+      const mockEvent = { burrito: "supreme" } as unknown as IEvent;
+      const updateEventSpy = spyOn(orvalModule, "updateEvent").and.callFake(
+        async () => mockEvent
+      );
 
-  //     const options: IUpdateEventParams = {
-  //       eventId: "111",
-  //       data: { description: "a new description" },
-  //     };
+      const options: IUpdateEventParams = {
+        eventId: "111",
+        data: { description: "a new description" },
+      };
 
-  //     const result = await updateEvent(options);
-  //     // todo: remove when updateEvent return type is defined
-  //     // @ts-ignore
-  //     expect(result).toEqual(mockEvent);
+      const result = await updateEvent(options);
+      expect(result).toEqual(mockEvent);
 
-  //     expect(authenticateRequestSpy).toHaveBeenCalledWith(options);
-  //     expect(updateEventSpy).toHaveBeenCalledWith(
-  //       options.eventId,
-  //       options.data,
-  //       { ...options, token }
-  //     );
-  //   });
-  // });
+      expect(authenticateRequestSpy).toHaveBeenCalledWith(options);
+      expect(updateEventSpy).toHaveBeenCalledWith(
+        options.eventId,
+        options.data,
+        { ...options, token }
+      );
+    });
+  });
 
   describe("deleteEvent", () => {
     it("should delete an event", async () => {
