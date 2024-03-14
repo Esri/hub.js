@@ -43,6 +43,7 @@ import { doesResourceExist } from "../resources/doesResourceExist";
 import { removeResource } from "../resources/removeResource";
 import { metricToEditor } from "../core/schemas/internal/metrics/metricToEditor";
 import { getGroup } from "@esri/arcgis-rest-portal";
+import { MembershipAccess } from "../core/types";
 
 /**
  * Hub Initiative Class
@@ -323,9 +324,16 @@ export class HubInitiative
         assocGroupId,
         this.context.requestOptions
       );
+
+      let membershipAccess: MembershipAccess = "anyone";
+      if (associationGroup.membershipAccess === "org") {
+        membershipAccess = "organization";
+      } else if (associationGroup.membershipAccess === "collaboration") {
+        membershipAccess = "collaborators";
+      }
       const _associations = {
         groupAccess: associationGroup.access,
-        membershipAccess: associationGroup.membershipAccess,
+        membershipAccess,
       };
       editor._associations = _associations;
     }

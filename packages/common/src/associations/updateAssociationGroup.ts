@@ -30,9 +30,19 @@ export async function setAssociationsGroupAccess(
  */
 export async function setAssociationsMembershipAccess(
   groupId: string,
-  membershipAccess: MembershipAccess,
+  membershipAccessHub: MembershipAccess,
   context: IArcGISContext
 ): Promise<void> {
+  // convert values for membershipAccess back to
+  // the ones the API accepts
+  let membershipAccess = "";
+
+  if (membershipAccessHub === "organization") {
+    membershipAccess = "org";
+  } else if (membershipAccessHub === "collaborators") {
+    membershipAccess = "collaboration";
+  }
+
   await updateGroup({
     group: {
       id: groupId,

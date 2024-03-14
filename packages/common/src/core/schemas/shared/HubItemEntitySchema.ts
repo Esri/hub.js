@@ -55,7 +55,7 @@ export const HubItemEntitySchema: IConfigurationSchema = {
         },
         membershipAccess: {
           type: "string",
-          enum: ["organization", "collaborators", "none"],
+          enum: ["organization", "collaborators", "anyone"],
           default: "organization",
         },
       },
