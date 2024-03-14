@@ -1,3 +1,25 @@
+# @esri/hub-common [14.106.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.105.0...@esri/hub-common@14.106.0) (2024-03-13)
+
+
+### Features
+
+* **hub-common:** add newsletters types and functions ([#1436](https://github.com/Esri/hub.js/issues/1436)) ([35ff6f7](https://github.com/Esri/hub.js/commit/35ff6f7af9969006362ec8f1f63bd454aaf49c9b))
+
+# @esri/hub-common [14.105.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.104.0...@esri/hub-common@14.105.0) (2024-03-13)
+
+
+### Features
+
+* 9273 new follow entity and related functionalities ([#1438](https://github.com/Esri/hub.js/issues/1438)) ([f5de4f2](https://github.com/Esri/hub.js/commit/f5de4f2d469735249830c194ef29936e737b96d9))
+* **hub-common:** add get s123 edit url util ([#1440](https://github.com/Esri/hub.js/issues/1440)) ([f7d0dca](https://github.com/Esri/hub.js/commit/f7d0dca38e38fbf80ff83a8217b2d64fb1a4d246))
+
+# @esri/hub-common [14.104.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.103.0...@esri/hub-common@14.104.0) (2024-03-13)
+
+
+### Features
+
+* **hub-common:** add s123 url to context ([#1439](https://github.com/Esri/hub.js/issues/1439)) ([be5f99e](https://github.com/Esri/hub.js/commit/be5f99eac174c58794127d83b5b26549d3231eeb))
+
 # @esri/hub-common [14.103.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.102.0...@esri/hub-common@14.103.0) (2024-03-11)
 
 
