@@ -37,6 +37,7 @@ export async function setAssociationsMembershipAccess(
     group: {
       id: groupId,
       membershipAccess,
+      clearEmptyFields: true,
     },
     authentication: context.hubRequestOptions.authentication,
   });

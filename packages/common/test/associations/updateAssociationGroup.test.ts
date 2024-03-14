@@ -45,6 +45,7 @@ describe("updateAssociationGroup", () => {
         group: {
           id: groupId,
           membershipAccess: "org",
+          clearEmptyFields: true,
         },
         authentication: MOCK_CONTEXT.hubRequestOptions.authentication,
       });
