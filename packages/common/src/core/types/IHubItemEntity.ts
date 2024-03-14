@@ -166,7 +166,7 @@ export type IHubItemEntityEditor<T> = Omit<T, "extent"> & {
    * method on the Class
    */
   _associations?: {
-    groupAccess?: SettableAccessLevel;
+    groupAccess?: AccessLevel;
     membershipAccess?: MembershipAccess;
   };
   _metric?: IMetricEditorValues;

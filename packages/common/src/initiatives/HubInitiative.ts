@@ -44,6 +44,7 @@ import { removeResource } from "../resources/removeResource";
 import { metricToEditor } from "../core/schemas/internal/metrics/metricToEditor";
 import { getGroup } from "@esri/arcgis-rest-portal";
 import { MembershipAccess } from "../core/types";
+import { convertGroupToHubGroup } from "../groups/_internal/convertGroupToHubGroup";
 
 /**
  * Hub Initiative Class
@@ -325,15 +326,13 @@ export class HubInitiative
         this.context.requestOptions
       );
 
-      let membershipAccess: MembershipAccess = "anyone";
-      if (associationGroup.membershipAccess === "org") {
-        membershipAccess = "organization";
-      } else if (associationGroup.membershipAccess === "collaboration") {
-        membershipAccess = "collaborators";
-      }
+      const hubAssociationGroup = convertGroupToHubGroup(
+        associationGroup,
+        this.context.userRequestOptions
+      );
       const _associations = {
-        groupAccess: associationGroup.access,
-        membershipAccess,
+        groupAccess: hubAssociationGroup.access,
+        membershipAccess: hubAssociationGroup.membershipAccess,
       };
       editor._associations = _associations;
     }

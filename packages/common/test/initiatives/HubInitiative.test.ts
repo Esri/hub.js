@@ -370,7 +370,6 @@ describe("HubInitiative Class:", () => {
           Promise.resolve({
             id: "00123",
             access: "public",
-            membershipAccess: "anyone",
           } as unknown as PortalModule.IGroup)
         );
         const result = await chk.toEditor();
@@ -443,6 +442,9 @@ describe("HubInitiative Class:", () => {
           );
           expect(result._metric).toEqual(mockMetric);
         });
+      });
+      describe("associations", () => {
+        it("handles organization conversion");
       });
       describe('auto-populating "shareWith" groups', () => {
         let projectInstance: any;

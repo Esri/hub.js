@@ -746,7 +746,7 @@ describe("HubInitiatives:", () => {
         const editor = {
           _associations: {
             groupAccess: "public",
-            membershipAccess: "org",
+            membershipAccess: "organization",
           },
           associations: {
             groupId: "00123",

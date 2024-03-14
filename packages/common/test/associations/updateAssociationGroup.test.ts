@@ -30,7 +30,7 @@ describe("updateAssociationGroup", () => {
   describe("setAssociationsMembershipAccess", () => {
     it("sets the membership access level of the association group", async () => {
       const groupId = "123";
-      const membershipAccess = "organization";
+      const membershipAccess = "org";
       // spy on updateGroup
       const updateGroup = spyOn(
         updateGroupModule,
@@ -44,7 +44,7 @@ describe("updateAssociationGroup", () => {
       expect(updateGroup).toHaveBeenCalledWith({
         group: {
           id: groupId,
-          membershipAccess,
+          membershipAccess: "org",
         },
         authentication: MOCK_CONTEXT.hubRequestOptions.authentication,
       });

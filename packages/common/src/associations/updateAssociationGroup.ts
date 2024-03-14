@@ -1,6 +1,6 @@
 import { updateGroup } from "@esri/arcgis-rest-portal";
 import { IArcGISContext } from "../ArcGISContext";
-import { MembershipAccess, SettableAccessLevel } from "../core/types/types";
+import { AccessLevel } from "../core/types/types";
 
 /**
  * Sets the access level of the association group
@@ -10,7 +10,7 @@ import { MembershipAccess, SettableAccessLevel } from "../core/types/types";
  */
 export async function setAssociationsGroupAccess(
   groupId: string,
-  access: SettableAccessLevel,
+  access: AccessLevel,
   context: IArcGISContext
 ): Promise<void> {
   await updateGroup({
@@ -30,19 +30,9 @@ export async function setAssociationsGroupAccess(
  */
 export async function setAssociationsMembershipAccess(
   groupId: string,
-  membershipAccessHub: MembershipAccess,
+  membershipAccess: "org" | "collaboration" | "",
   context: IArcGISContext
 ): Promise<void> {
-  // convert values for membershipAccess back to
-  // the ones the API accepts
-  let membershipAccess = "";
-
-  if (membershipAccessHub === "organization") {
-    membershipAccess = "org";
-  } else if (membershipAccessHub === "collaborators") {
-    membershipAccess = "collaboration";
-  }
-
   await updateGroup({
     group: {
       id: groupId,

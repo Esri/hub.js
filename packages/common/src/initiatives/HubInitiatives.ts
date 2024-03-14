@@ -63,6 +63,8 @@ import {
   setAssociationsMembershipAccess,
 } from "../associations/updateAssociationGroup";
 import { IArcGISContext } from "../ArcGISContext";
+import { convertHubGroupToGroup } from "../groups/_internal/convertHubGroupToGroup";
+import { IHubGroup } from "../core/types/IHubGroup";
 
 /**
  * @private
@@ -168,22 +170,26 @@ export async function editorToInitiative(
   // 5. handle association group settings
   const assocGroupId = initiative.associations?.groupId;
 
-  // handle group access
-  if (assocGroupId && _associations?.groupAccess) {
-    await setAssociationsGroupAccess(
-      assocGroupId,
-      _associations.groupAccess,
-      context
-    );
-  }
+  if (assocGroupId && _associations) {
+    const associationGroup = convertHubGroupToGroup(_associations as IHubGroup);
 
-  // handle membership access
-  if (assocGroupId && _associations?.membershipAccess) {
-    await setAssociationsMembershipAccess(
-      assocGroupId,
-      _associations.membershipAccess,
-      context
-    );
+    // handle group access
+    if (_associations.groupAccess) {
+      await setAssociationsGroupAccess(
+        assocGroupId,
+        _associations.groupAccess,
+        context
+      );
+    }
+
+    // handle membership access
+    if (_associations.membershipAccess) {
+      await setAssociationsMembershipAccess(
+        assocGroupId,
+        associationGroup.membershipAccess,
+        context
+      );
+    }
   }
 
   return initiative;
