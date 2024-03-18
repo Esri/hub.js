@@ -759,22 +759,26 @@ describe("HubInitiatives:", () => {
 
         const res = await editorToInitiative(editor, MOCK_CONTEXT);
 
-        expect(updateGroupSpy.calls[0]).toHaveBeenCalledWith({
-          group: {
-            id: "00123",
-            access: "public",
+        expect(updateGroupSpy.calls.argsFor(0)).toEqual([
+          {
+            group: {
+              id: "00123",
+              access: "public",
+            },
+            authentication: MOCK_CONTEXT.hubRequestOptions.authentication,
           },
-          authentication: MOCK_CONTEXT.hubRequestOptions.authentication,
-        });
-        expect(updateGroupSpy.calls[1]).toHaveBeenCalledWith({
-          group: {
-            id: "00123",
-            membershipAccess: "org",
-            clearEmptyFields: true,
+        ]);
+        expect(updateGroupSpy.calls.argsFor(1)).toEqual([
+          {
+            group: {
+              id: "00123",
+              membershipAccess: "org",
+              clearEmptyFields: true,
+            },
+            authentication: MOCK_CONTEXT.hubRequestOptions.authentication,
           },
-          authentication: MOCK_CONTEXT.hubRequestOptions.authentication,
-        });
-        expect(updateGroupSpy).toHaveBeenCalledTimes(1);
+        ]);
+        expect(updateGroupSpy).toHaveBeenCalledTimes(2);
         expect(res._associations).toBeUndefined();
       });
       it("handles an empty associations object", async () => {
