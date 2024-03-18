@@ -6,6 +6,7 @@ export * from "./_internal/_migrate-feed-config";
 export * from "./_internal/_migrate-event-list-card-configs";
 export * from "./_internal/_migrate-telemetry-config";
 export * from "./_internal/migrateBadBasemap";
+export * from "./_internal/migrateWebMappingApplicationSites";
 export * from "./domains";
 export * from "./drafts";
 export * from "./fetchSiteModel";
