@@ -33,6 +33,7 @@ import {
   IUserItemOptions,
   removeItem,
   getItem,
+  updateGroup,
 } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
@@ -58,10 +59,6 @@ import { setEntityStatusKeyword } from "../utils/internal/setEntityStatusKeyword
 import { editorToMetric } from "../core/schemas/internal/metrics/editorToMetric";
 import { setMetricAndDisplay } from "../core/schemas/internal/metrics/setMetricAndDisplay";
 import { createId } from "../util";
-import {
-  setAssociationsGroupAccess,
-  setAssociationsMembershipAccess,
-} from "../associations/updateAssociationGroup";
 import { IArcGISContext } from "../ArcGISContext";
 import { convertHubGroupToGroup } from "../groups/_internal/convertHubGroupToGroup";
 import { IHubGroup } from "../core/types/IHubGroup";
@@ -175,20 +172,25 @@ export async function editorToInitiative(
 
     // handle group access
     if (_associations.groupAccess) {
-      await setAssociationsGroupAccess(
-        assocGroupId,
-        _associations.groupAccess,
-        context
-      );
+      await updateGroup({
+        group: {
+          id: assocGroupId,
+          access: _associations.groupAccess,
+        },
+        authentication: context.hubRequestOptions.authentication,
+      });
     }
 
     // handle membership access
     if (_associations.membershipAccess) {
-      await setAssociationsMembershipAccess(
-        assocGroupId,
-        associationGroup.membershipAccess,
-        context
-      );
+      await updateGroup({
+        group: {
+          id: assocGroupId,
+          membershipAccess: associationGroup.membershipAccess,
+          clearEmptyFields: true,
+        },
+        authentication: context.hubRequestOptions.authentication,
+      });
     }
   }
 

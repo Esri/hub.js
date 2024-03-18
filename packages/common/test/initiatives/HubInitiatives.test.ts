@@ -33,7 +33,6 @@ import {
 import { IArcGISContext } from "../../src/ArcGISContext";
 import * as editorToMetricModule from "../../src/core/schemas/internal/metrics/editorToMetric";
 import * as setMetricAndDisplayModule from "../../src/core/schemas/internal/metrics/setMetricAndDisplay";
-import * as updateAssociationGroupModule from "../../src/associations/updateAssociationGroup";
 
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
 const INITIATIVE_ITEM: portalModule.IItem = {
@@ -753,29 +752,29 @@ describe("HubInitiatives:", () => {
           },
         } as unknown as IHubInitiativeEditor;
 
-        const setAssociationsGroupAccessSpy = spyOn(
-          updateAssociationGroupModule,
-          "setAssociationsGroupAccess"
-        ).and.returnValue(Promise.resolve());
-        const setAssociationsMembershipAccessSpy = spyOn(
-          updateAssociationGroupModule,
-          "setAssociationsMembershipAccess"
+        const updateGroupSpy = spyOn(
+          portalModule,
+          "updateGroup"
         ).and.returnValue(Promise.resolve());
 
         const res = await editorToInitiative(editor, MOCK_CONTEXT);
 
-        expect(setAssociationsGroupAccessSpy).toHaveBeenCalledWith(
-          "00123",
-          "public",
-          MOCK_CONTEXT
-        );
-        expect(setAssociationsMembershipAccessSpy).toHaveBeenCalledWith(
-          "00123",
-          "org",
-          MOCK_CONTEXT
-        );
-        expect(setAssociationsGroupAccessSpy).toHaveBeenCalledTimes(1);
-        expect(setAssociationsMembershipAccessSpy).toHaveBeenCalledTimes(1);
+        expect(updateGroupSpy.calls[0]).toHaveBeenCalledWith({
+          group: {
+            id: "00123",
+            access: "public",
+          },
+          authentication: MOCK_CONTEXT.hubRequestOptions.authentication,
+        });
+        expect(updateGroupSpy.calls[1]).toHaveBeenCalledWith({
+          group: {
+            id: "00123",
+            membershipAccess: "org",
+            clearEmptyFields: true,
+          },
+          authentication: MOCK_CONTEXT.hubRequestOptions.authentication,
+        });
+        expect(updateGroupSpy).toHaveBeenCalledTimes(1);
         expect(res._associations).toBeUndefined();
       });
       it("handles an empty associations object", async () => {
