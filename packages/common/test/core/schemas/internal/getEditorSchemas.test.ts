@@ -10,6 +10,7 @@ import { InitiativeEditorTypes } from "../../../../src/initiatives/_internal/Ini
 import * as InitiativeBuildEditUiSchema from "../../../../src/initiatives/_internal/InitiativeUiSchemaEdit";
 import * as InitiativeBuildCreateUiSchema from "../../../../src/initiatives/_internal/InitiativeUiSchemaCreate";
 import * as InitiativeBuildMetricUiSchema from "../../../../src/core/schemas/internal/metrics/InitiativeUiSchemaMetrics";
+import * as InitiativeBuildAssociationsUiSchema from "../../../../src/initiatives/_internal/InitiativeUiSchemaAssociations";
 
 import { SiteEditorTypes } from "../../../../src/sites/_internal/SiteSchema";
 import * as SiteBuildEditUiSchema from "../../../../src/sites/_internal/SiteUiSchemaEdit";
@@ -56,6 +57,7 @@ import {
   validCardEditorTypes,
 } from "../../../../src/core/schemas/types";
 import * as statUiSchemaModule from "../../../../src/core/schemas/internal/metrics/StatCardUiSchema";
+import * as checkPermissionModule from "../../../../src/permissions/checkPermission";
 
 describe("getEditorSchemas: ", () => {
   let uiSchemaBuildFnSpy: any;
@@ -74,6 +76,11 @@ describe("getEditorSchemas: ", () => {
     { type: InitiativeEditorTypes[0], module: InitiativeBuildEditUiSchema },
     { type: InitiativeEditorTypes[1], module: InitiativeBuildCreateUiSchema },
     { type: InitiativeEditorTypes[2], module: InitiativeBuildMetricUiSchema },
+    {
+      type: InitiativeEditorTypes[3],
+      module: InitiativeBuildAssociationsUiSchema,
+    },
+
     { type: SiteEditorTypes[0], module: SiteBuildEditUiSchema },
     { type: SiteEditorTypes[1], module: SiteBuildCreateUiSchema },
     { type: SiteEditorTypes[2], module: SiteBuildFollowersUiSchema },
@@ -116,6 +123,10 @@ describe("getEditorSchemas: ", () => {
           Promise.resolve({})
         );
       }
+
+      spyOn(checkPermissionModule, "checkPermission").and.returnValue({
+        access: true,
+      });
 
       const { schema, uiSchema, defaults } = await getEditorSchemas(
         "some.scope",

@@ -13,6 +13,7 @@ export const InitiativeEditorTypes = [
   "hub:initiative:edit",
   "hub:initiative:create",
   "hub:initiative:metrics",
+  "hub:initiative:associations",
 ] as const;
 
 /**

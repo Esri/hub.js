@@ -1,6 +1,6 @@
 import { IHubEntityBase } from "./IHubEntityBase";
 import { IHubGeography } from "../../types";
-import { AccessLevel } from "./types";
+import { AccessLevel, MembershipAccess, SettableAccessLevel } from "./types";
 import {
   IWithPermissions,
   IWithViewSettings,
@@ -158,6 +158,16 @@ export type IHubItemEntityEditor<T> = Omit<T, "extent"> & {
     groupAccess?: AccessLevel;
     showFollowAction?: boolean;
     isDiscussable?: boolean;
+  };
+
+  /**
+   * Association group settings. These settings are only used in the
+   * Editor and is persisted appropriately in the fromEditor
+   * method on the Class
+   */
+  _associations?: {
+    groupAccess?: AccessLevel;
+    membershipAccess?: MembershipAccess;
   };
   _metric?: IMetricEditorValues;
 };

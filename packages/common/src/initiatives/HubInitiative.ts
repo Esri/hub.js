@@ -42,6 +42,9 @@ import { upsertResource } from "../resources/upsertResource";
 import { doesResourceExist } from "../resources/doesResourceExist";
 import { removeResource } from "../resources/removeResource";
 import { metricToEditor } from "../core/schemas/internal/metrics/metricToEditor";
+import { getGroup } from "@esri/arcgis-rest-portal";
+import { MembershipAccess } from "../core/types";
+import { convertGroupToHubGroup } from "../groups/_internal/convertGroupToHubGroup";
 
 /**
  * Hub Initiative Class
@@ -314,6 +317,26 @@ export class HubInitiative
       ) || {};
     editor._metric = metricToEditor(metric, displayConfig);
 
+    // 4. handle association group
+    const assocGroupId = getProp(this.entity, "associations.groupId");
+
+    if (assocGroupId) {
+      const associationGroup = await getGroup(
+        assocGroupId,
+        this.context.requestOptions
+      );
+
+      const hubAssociationGroup = convertGroupToHubGroup(
+        associationGroup,
+        this.context.userRequestOptions
+      );
+      const _associations = {
+        groupAccess: hubAssociationGroup.access,
+        membershipAccess: hubAssociationGroup.membershipAccess,
+      };
+      editor._associations = _associations;
+    }
+
     return editor;
   }
 
@@ -330,7 +353,7 @@ export class HubInitiative
     const autoShareGroups = editor._groups || [];
 
     // 2. convert the editor values back to a initiative entity
-    const entity = editorToInitiative(editor, this.context.portal);
+    const entity = await editorToInitiative(editor, this.context);
 
     // 3. set the thumbnailCache to ensure that
     // the thumbnail is updated on the next save

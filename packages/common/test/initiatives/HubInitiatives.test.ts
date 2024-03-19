@@ -1,7 +1,7 @@
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as FetchEnrichments from "../../src/items/_enrichments";
 
-import { MOCK_AUTH } from "../mocks/mock-auth";
+import { MOCK_AUTH, MOCK_CONTEXT } from "../mocks/mock-auth";
 import * as modelUtils from "../../src/models";
 import * as slugUtils from "../../src/items/slugs";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
@@ -30,6 +30,7 @@ import {
   IQuery,
   getProp,
 } from "../../src";
+import { IArcGISContext } from "../../src/ArcGISContext";
 import * as editorToMetricModule from "../../src/core/schemas/internal/metrics/editorToMetric";
 import * as setMetricAndDisplayModule from "../../src/core/schemas/internal/metrics/setMetricAndDisplay";
 
@@ -599,7 +600,7 @@ describe("HubInitiatives:", () => {
   });
 
   describe("editor to initiative", () => {
-    it("removes ephemeral props", () => {
+    it("removes ephemeral props", async () => {
       const editor: IHubInitiativeEditor = {
         _groups: [],
         _thumbnail: "foo",
@@ -608,29 +609,37 @@ describe("HubInitiatives:", () => {
           id: "123",
           cardTitle: "foo",
         },
+        _associations: {
+          groupAccess: "public",
+        },
       } as unknown as IHubInitiativeEditor;
 
-      const res = editorToInitiative(editor, {
-        urlKey: "foo",
-      } as unknown as portalModule.IPortal);
+      const res = await editorToInitiative(editor, {
+        portal: {
+          urlKey: "foo",
+        } as unknown as portalModule.IPortal,
+      } as unknown as IArcGISContext);
 
       expect(res._groups).toBeUndefined();
       expect(res._thumbnail).toBeUndefined();
       expect(getProp(res, "view.featuredImage")).toBeUndefined();
       expect(res._metric).toBeUndefined();
+      expect(res._associations).toBeUndefined();
     });
-    it("ensures the project has an orgUrlKey", () => {
+    it("ensures the project has an orgUrlKey", async () => {
       const editor: IHubInitiativeEditor = {
         orgUrlKey: "bar",
       } as unknown as IHubInitiativeEditor;
 
-      const res = editorToInitiative(editor, {
-        urlKey: "foo",
-      } as unknown as portalModule.IPortal);
+      const res = await editorToInitiative(editor, {
+        portal: {
+          urlKey: "foo",
+        } as unknown as portalModule.IPortal,
+      } as unknown as IArcGISContext);
 
       expect(res.orgUrlKey).toEqual("bar");
     });
-    it("copies the location extent up one level", () => {
+    it("copies the location extent up one level", async () => {
       const editor: IHubInitiativeEditor = {
         location: {
           extent: [
@@ -640,9 +649,11 @@ describe("HubInitiatives:", () => {
         },
       } as unknown as IHubInitiativeEditor;
 
-      const res = editorToInitiative(editor, {
-        urlKey: "foo",
-      } as unknown as portalModule.IPortal);
+      const res = await editorToInitiative(editor, {
+        portal: {
+          urlKey: "foo",
+        } as unknown as portalModule.IPortal,
+      } as unknown as IArcGISContext);
 
       expect(res.extent).toEqual([
         [1, 2],
@@ -679,7 +690,7 @@ describe("HubInitiatives:", () => {
           view: { metricDisplays: [mockMetricDisplay] },
         });
       });
-      it("handles creating new metrics", () => {
+      it("handles creating new metrics", async () => {
         const createIdSpy = spyOn(utilModule, "createId").and.returnValue(
           "123"
         );
@@ -691,9 +702,11 @@ describe("HubInitiatives:", () => {
           },
         } as unknown as IHubInitiativeEditor;
 
-        const res = editorToInitiative(editor, {
-          urlKey: "foo",
-        } as unknown as portalModule.IPortal);
+        const res = await editorToInitiative(editor, {
+          portal: {
+            urlKey: "foo",
+          } as unknown as portalModule.IPortal,
+        } as unknown as IArcGISContext);
 
         expect(createIdSpy).toHaveBeenCalledTimes(1);
         expect(editorToMetricSpy).toHaveBeenCalledTimes(1);
@@ -703,7 +716,7 @@ describe("HubInitiatives:", () => {
           mockMetricDisplay,
         ]);
       });
-      it("handles updating existing metrics", () => {
+      it("handles updating existing metrics", async () => {
         const editor = {
           _metric: {
             type: "static",
@@ -713,9 +726,11 @@ describe("HubInitiatives:", () => {
           },
         } as unknown as IHubInitiativeEditor;
 
-        const res = editorToInitiative(editor, {
-          urlKey: "foo",
-        } as unknown as portalModule.IPortal);
+        const res = await editorToInitiative(editor, {
+          portal: {
+            urlKey: "foo",
+          } as unknown as portalModule.IPortal,
+        } as unknown as IArcGISContext);
 
         expect(editorToMetricSpy).toHaveBeenCalledTimes(1);
         expect(setMetricAndDisplaySpy).toHaveBeenCalledTimes(1);
@@ -723,6 +738,81 @@ describe("HubInitiatives:", () => {
         expect(getProp(res, "view.metricDisplays")).toEqual([
           mockMetricDisplay,
         ]);
+      });
+    });
+    describe("associations", () => {
+      it("handles associations", async () => {
+        const editor = {
+          _associations: {
+            groupAccess: "public",
+            membershipAccess: "organization",
+          },
+          associations: {
+            groupId: "00123",
+          },
+        } as unknown as IHubInitiativeEditor;
+
+        const updateGroupSpy = spyOn(
+          portalModule,
+          "updateGroup"
+        ).and.returnValue(Promise.resolve());
+
+        const res = await editorToInitiative(editor, MOCK_CONTEXT);
+
+        expect(updateGroupSpy.calls.argsFor(0)).toEqual([
+          {
+            group: {
+              id: "00123",
+              access: "public",
+            },
+            authentication: MOCK_CONTEXT.hubRequestOptions.authentication,
+          },
+        ]);
+        expect(updateGroupSpy.calls.argsFor(1)).toEqual([
+          {
+            group: {
+              id: "00123",
+              membershipAccess: "org",
+              clearEmptyFields: true,
+            },
+            authentication: MOCK_CONTEXT.hubRequestOptions.authentication,
+          },
+        ]);
+        expect(updateGroupSpy).toHaveBeenCalledTimes(2);
+        expect(res._associations).toBeUndefined();
+      });
+      it("handles an empty associations object", async () => {
+        const editor = {
+          _associations: {},
+          associations: {
+            groupId: "00123",
+          },
+        } as unknown as IHubInitiativeEditor;
+
+        const res = await editorToInitiative(editor, {
+          portal: {
+            urlKey: "foo",
+          } as unknown as portalModule.IPortal,
+        } as unknown as IArcGISContext);
+
+        expect(res.groupAccess).toBeUndefined();
+        expect(res.membershipAccess).toBeUndefined();
+      });
+      it("handles no associations object", async () => {
+        const editor = {
+          associations: {
+            groupId: "00123",
+          },
+        } as unknown as IHubInitiativeEditor;
+
+        const res = await editorToInitiative(editor, {
+          portal: {
+            urlKey: "foo",
+          } as unknown as portalModule.IPortal,
+        } as unknown as IArcGISContext);
+
+        expect(res.groupAccess).toBeUndefined();
+        expect(res.membershipAccess).toBeUndefined();
       });
     });
   });

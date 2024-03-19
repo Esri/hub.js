@@ -33,7 +33,7 @@ import {
   IUserItemOptions,
   removeItem,
   getItem,
-  IPortal,
+  updateGroup,
 } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
@@ -59,6 +59,9 @@ import { setEntityStatusKeyword } from "../utils/internal/setEntityStatusKeyword
 import { editorToMetric } from "../core/schemas/internal/metrics/editorToMetric";
 import { setMetricAndDisplay } from "../core/schemas/internal/metrics/setMetricAndDisplay";
 import { createId } from "../util";
+import { IArcGISContext } from "../ArcGISContext";
+import { convertHubGroupToGroup } from "../groups/_internal/convertHubGroupToGroup";
+import { IHubGroup } from "../core/types/IHubGroup";
 
 /**
  * @private
@@ -124,11 +127,12 @@ export async function createInitiative(
  * @param portal
  * @returns
  */
-export function editorToInitiative(
+export async function editorToInitiative(
   editor: IHubInitiativeEditor,
-  portal: IPortal
-): IHubInitiative {
+  context: IArcGISContext
+): Promise<IHubInitiative> {
   const _metric = editor._metric;
+  const _associations = editor._associations;
 
   // 1. remove the ephemeral props we graft onto the editor
   delete editor._groups;
@@ -136,10 +140,13 @@ export function editorToInitiative(
   delete editor.view?.featuredImage;
   delete editor._metric;
   delete editor._groups;
+  delete editor._associations;
 
   // 2. clone into a HubInitiative and ensure there's an orgUrlKey
   let initiative = cloneObject(editor) as IHubInitiative;
-  initiative.orgUrlKey = editor.orgUrlKey ? editor.orgUrlKey : portal.urlKey;
+  initiative.orgUrlKey = editor.orgUrlKey
+    ? editor.orgUrlKey
+    : context.portal.urlKey;
 
   // 3. copy the location extent up one level
   initiative.extent = editor.location?.extent;
@@ -155,6 +162,36 @@ export function editorToInitiative(
     });
 
     initiative = setMetricAndDisplay(initiative, metric, displayConfig);
+  }
+
+  // 5. handle association group settings
+  const assocGroupId = initiative.associations?.groupId;
+
+  if (assocGroupId && _associations) {
+    const associationGroup = convertHubGroupToGroup(_associations as IHubGroup);
+
+    // handle group access
+    if (_associations.groupAccess) {
+      await updateGroup({
+        group: {
+          id: assocGroupId,
+          access: _associations.groupAccess,
+        },
+        authentication: context.hubRequestOptions.authentication,
+      });
+    }
+
+    // handle membership access
+    if (_associations.membershipAccess) {
+      await updateGroup({
+        group: {
+          id: assocGroupId,
+          membershipAccess: associationGroup.membershipAccess,
+          clearEmptyFields: true,
+        },
+        authentication: context.hubRequestOptions.authentication,
+      });
+    }
   }
 
   return initiative;

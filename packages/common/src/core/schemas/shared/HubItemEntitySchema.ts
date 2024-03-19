@@ -45,6 +45,21 @@ export const HubItemEntitySchema: IConfigurationSchema = {
         isDiscussable: ENTITY_IS_DISCUSSABLE_SCHEMA,
       },
     },
+    _associations: {
+      type: "object",
+      properties: {
+        groupAccess: {
+          ...ENTITY_ACCESS_SCHEMA,
+          enum: ["private", "org", "public"],
+          default: "private",
+        },
+        membershipAccess: {
+          type: "string",
+          enum: ["organization", "collaborators", "anyone"],
+          default: "organization",
+        },
+      },
+    },
     view: {
       type: "object",
       properties: {
