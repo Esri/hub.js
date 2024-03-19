@@ -41,6 +41,7 @@ import { applyDefaultCollectionMigration } from "./_internal/applyDefaultCollect
 import { reflectCollectionsToSearchCategories } from "./_internal/reflectCollectionsToSearchCategories";
 import { convertCatalogToLegacyFormat } from "./_internal/convertCatalogToLegacyFormat";
 import { convertFeaturesToLegacyCapabilities } from "./_internal/capabilities/convertFeaturesToLegacyCapabilities";
+import { computeLinks } from "./_internal/computeLinks";
 export const HUB_SITE_ITEM_TYPE = "Hub Site Application";
 export const ENTERPRISE_SITE_ITEM_TYPE = "Site Application";
 
@@ -538,13 +539,7 @@ export async function enrichSiteSearchResult(
   });
 
   // Handle links
-  result.links.thumbnail = getItemThumbnailUrl(item, requestOptions);
-  result.links.self = item.url;
-  result.links.siteRelative = getHubRelativeUrl(
-    result.type,
-    result.id,
-    item.typeKeywords
-  );
+  result.links = computeLinks(item, requestOptions);
 
   return result;
 }
