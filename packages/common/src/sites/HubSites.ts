@@ -497,7 +497,13 @@ export async function enrichSiteSearchResult(
   const result: IHubSearchResult = {
     access: item.access,
     id: item.id,
-    type: item.type,
+    // we send old hub sites through this enrichment and
+    // artificially change their type - note this change
+    // won't actually be persisted
+    type:
+      item.type === "Web Mapping Application"
+        ? "Hub Site Application"
+        : item.type,
     name: item.title,
     owner: item.owner,
     typeKeywords: item.typeKeywords,
