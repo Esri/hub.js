@@ -64,7 +64,7 @@ export const InitiativePermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:initiative:edit",
-    dependencies: ["hub:initiative"],
+    services: ["portal"],
     authenticated: true,
     entityEdit: true,
     licenses: ["hub-premium", "hub-basic"],
