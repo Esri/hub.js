@@ -5,6 +5,7 @@ import { IHubEntityLinks } from "../../core/types";
 import { getItemIdentifier } from "../../items";
 import { getRelativeWorkspaceUrl } from "../../core/getRelativeWorkspaceUrl";
 import { getItemThumbnailUrl } from "../../resources/get-item-thumbnail-url";
+import { getHubRelativeUrl } from "../../content/_internal/internalContentUtils";
 
 /**
  * Compute the links that get appended to a Hub Site
@@ -25,7 +26,7 @@ export function computeLinks(
 
   return {
     self: item.url,
-    siteRelative: "/",
+    siteRelative: getHubRelativeUrl(item.type, item.id, item.typeKeywords),
     layoutRelative: "/edit",
     workspaceRelative: getRelativeWorkspaceUrl(
       item.type,
