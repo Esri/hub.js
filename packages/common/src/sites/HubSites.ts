@@ -493,17 +493,20 @@ export async function enrichSiteSearchResult(
   include: string[],
   requestOptions: IHubRequestOptions
 ): Promise<IHubSearchResult> {
+  // we send old hub sites through this enrichment and
+  // artificially change their type so they appear to be
+  // newer "Hub Site Application"s - note this change
+  // won't actually be persisted
+  item.type =
+    item.type === "Web Mapping Application"
+      ? "Hub Site Application"
+      : item.type;
+
   // Create the basic structure
   const result: IHubSearchResult = {
     access: item.access,
     id: item.id,
-    // we send old hub sites through this enrichment and
-    // artificially change their type - note this change
-    // won't actually be persisted
-    type:
-      item.type === "Web Mapping Application"
-        ? "Hub Site Application"
-        : item.type,
+    type: item.type,
     name: item.title,
     owner: item.owner,
     typeKeywords: item.typeKeywords,
