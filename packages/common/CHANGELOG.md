@@ -1,3 +1,10 @@
+# @esri/hub-common [14.107.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.106.0...@esri/hub-common@14.107.0) (2024-03-20)
+
+
+### Features
+
+* handle association group settings ([#1435](https://github.com/Esri/hub.js/issues/1435)) ([6685e5e](https://github.com/Esri/hub.js/commit/6685e5e87d58892564f76536f70b908b0df5bda9))
+
 # @esri/hub-common [14.106.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.105.0...@esri/hub-common@14.106.0) (2024-03-13)
 
 
