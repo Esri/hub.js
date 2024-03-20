@@ -76,10 +76,10 @@ export class EntityEditor {
     return this.instance.getEditorConfig(i18nScope, type);
   }
 
-  toEditor(
+  async toEditor(
     editorContext: IEntityEditorContext = {},
     include: string[] = []
-  ): HubEntityEditor {
+  ): Promise<HubEntityEditor> {
     // This is ugly but it's the only way to get the type to be correct
     return this.instance.toEditor(
       editorContext,
