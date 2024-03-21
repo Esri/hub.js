@@ -353,12 +353,16 @@ describe("checkAssertion:", () => {
         },
       } as unknown as IArcGISContext;
 
-      const chk = checkAssertion(assertion, {}, ctx);
-      expect(chk.response).toBe("granted");
+      const chk1 = checkAssertion(assertion, {}, ctx);
+      expect(chk1.response).toBe("granted");
 
       ctx.currentUser.privileges = [];
-      const fail = checkAssertion(assertion, {}, ctx);
-      expect(fail.response).toBe("array-missing-required-value");
+      const chk2 = checkAssertion(assertion, {}, ctx);
+      expect(chk2.response).toBe("array-missing-required-value");
+
+      assertion.value = "some string";
+      const chk3 = checkAssertion(assertion, {}, ctx);
+      expect(chk3.response).toBe("assertion-requires-array-value");
     });
 
     it("entity prop without val", () => {
