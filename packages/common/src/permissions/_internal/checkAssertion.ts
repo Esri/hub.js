@@ -55,6 +55,7 @@ export function checkAssertion(
         response = stringAssertions(assertion, propValue, val);
         break;
       case "contains":
+      case "contains-some":
       case "without":
         response = arrayAssertions(assertion, propValue, val);
         break;
@@ -280,6 +281,16 @@ function arrayAssertions(
     const arrayContainsValue = arrayProp.includes(val);
     if (assertion.type === "contains" && !arrayContainsValue) {
       response = "array-missing-required-value";
+    }
+    if (assertion.type === "contains-some") {
+      if (!Array.isArray(val)) {
+        response = "assertion-requires-array-value";
+      } else {
+        const containsSome = val.some((v) => arrayProp.includes(v));
+        if (!containsSome) {
+          response = "array-missing-required-value";
+        }
+      }
     }
     if (assertion.type === "without" && arrayContainsValue) {
       response = "array-contains-invalid-value";

@@ -336,6 +336,31 @@ describe("checkAssertion:", () => {
       expect(fail.response).toBe("array-missing-required-value");
     });
 
+    it("entity prop contains-some val", () => {
+      const assertion: IPolicyAssertion = {
+        property: "context:currentUser.privileges",
+        type: "contains-some",
+        value: [
+          "portal:admin:shareToPublic",
+          "portal:admin:shareToOrg",
+          "portal:user:shareToPublic",
+          "portal:user:shareToOrg",
+        ],
+      };
+      const ctx = {
+        currentUser: {
+          privileges: ["portal:admin:shareToOrg"],
+        },
+      } as unknown as IArcGISContext;
+
+      const chk = checkAssertion(assertion, {}, ctx);
+      expect(chk.response).toBe("granted");
+
+      ctx.currentUser.privileges = [];
+      const fail = checkAssertion(assertion, {}, ctx);
+      expect(fail.response).toBe("array-missing-required-value");
+    });
+
     it("entity prop without val", () => {
       const assertion: IPolicyAssertion = {
         property: "colors",
