@@ -14,6 +14,7 @@ export const GroupPermissions = [
   "hub:group:edit",
   "hub:group:view",
   "hub:group:owner",
+  "hub:group:canEditAccess",
   "hub:group:workspace",
   "hub:group:workspace:overview",
   "hub:group:workspace:dashboard",
@@ -79,6 +80,23 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:group"],
     authenticated: true,
     entityOwner: true,
+  },
+  {
+    permission: "hub:group:canEditAccess",
+    dependencies: ["hub:group"],
+    authenticated: true,
+    assertions: [
+      {
+        property: "context:currentUser.privileges",
+        type: "contains-some",
+        value: ["portal:admin:updateGroups"],
+      },
+      {
+        property: "context:currentUser",
+        type: "is-group-admin",
+        value: "entity:id",
+      },
+    ],
   },
   {
     permission: "hub:group:workspace",

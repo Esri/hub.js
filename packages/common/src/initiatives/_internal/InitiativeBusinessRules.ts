@@ -20,6 +20,7 @@ export const InitiativePermissions = [
   "hub:initiative:delete",
   "hub:initiative:edit",
   "hub:initiative:view",
+  "hub:initiative:canEditAccess",
   "hub:initiative:events",
   "hub:initiative:content",
   "hub:initiative:discussions",
@@ -73,6 +74,28 @@ export const InitiativePermissionPolicies: IPermissionPolicy[] = [
     authenticated: true,
 
     entityOwner: true,
+  },
+  {
+    permission: "hub:initiative:canEditAccess",
+    dependencies: ["hub:initiative"],
+    authenticated: true,
+    assertions: [
+      {
+        property: "context:currentUser.privileges",
+        type: "contains-some",
+        value: [
+          "portal:admin:shareToPublic",
+          "portal:admin:shareToOrg",
+          "portal:user:shareToPublic",
+          "portal:user:shareToOrg",
+        ],
+      },
+      {
+        property: "entity:itemControl",
+        type: "eq",
+        value: "admin",
+      },
+    ],
   },
   {
     permission: "hub:initiative:events",

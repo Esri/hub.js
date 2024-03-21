@@ -139,6 +139,7 @@ export type AssertionType =
   | "length-lt"
   | "contains"
   | "contains-all"
+  | "contains-some"
   | "without"
   | "included-in"
   | "is-group-admin"
