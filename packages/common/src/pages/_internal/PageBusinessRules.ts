@@ -82,7 +82,6 @@ export const PagePermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:page:workspace:settings",
     dependencies: ["hub:page:workspace", "hub:page:edit"],
-    entityOwner: true,
   },
   {
     permission: "hub:page:manage",

@@ -89,7 +89,6 @@ export const InitiativeTemplatePermissionPolicies: IPermissionPolicy[] = [
       "hub:initiativeTemplate:workspace",
       "hub:initiativeTemplate:edit",
     ],
-    entityOwner: true,
   },
   {
     permission: "hub:initiativeTemplate:manage",

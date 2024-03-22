@@ -118,7 +118,6 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:site:workspace:settings",
     dependencies: ["hub:site:workspace", "hub:site:edit"],
-    entityOwner: true,
   },
   {
     permission: "hub:site:workspace:collaborators",

@@ -136,7 +136,6 @@ export const InitiativePermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:initiative:workspace:settings",
     dependencies: ["hub:initiative:workspace", "hub:initiative:edit"],
-    entityOwner: true,
   },
   {
     permission: "hub:initiative:workspace:collaborators",
