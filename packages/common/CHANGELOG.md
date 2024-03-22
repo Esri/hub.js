@@ -1,3 +1,10 @@
+## @esri/hub-common [14.107.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.107.0...@esri/hub-common@14.107.1) (2024-03-22)
+
+
+### Bug Fixes
+
+* permissions for settings pane related to allow all editors ([#1446](https://github.com/Esri/hub.js/issues/1446)) ([f511e50](https://github.com/Esri/hub.js/commit/f511e508e2014810a586a2b584dcea188d2b2bc9))
+
 # @esri/hub-common [14.107.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.106.0...@esri/hub-common@14.107.0) (2024-03-20)
 
 
