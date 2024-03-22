@@ -120,7 +120,6 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:project:workspace:settings",
     dependencies: ["hub:project:workspace", "hub:project:edit"],
-    entityOwner: true,
   },
   {
     permission: "hub:project:workspace:collaborators",
