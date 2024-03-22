@@ -674,7 +674,7 @@ describe("checkAssertion:", () => {
         ],
       },
     } as unknown as IArcGISContext;
-    it("is-group-manager", () => {
+    it("is-group-admin", () => {
       const assertion: IPolicyAssertion = {
         property: "context:currentUser",
         type: "is-group-admin",
@@ -762,6 +762,38 @@ describe("checkAssertion:", () => {
         ctx
       );
       expect(fail.response).toBe("user-not-group-owner");
+    });
+    it("is-not-group-admin", () => {
+      const assertion: IPolicyAssertion = {
+        property: "context:currentUser",
+        type: "is-not-group-admin",
+        value: "entity:group.id",
+      };
+
+      const chk1 = checkAssertion(
+        assertion,
+        {
+          group: { id: "00a" },
+        },
+        ctx
+      );
+      expect(chk1.response).toBe("granted");
+      const chk2 = checkAssertion(
+        assertion,
+        {
+          group: { id: "00b" },
+        },
+        ctx
+      );
+      expect(chk2.response).toBe("user-is-group-manager");
+      const chk3 = checkAssertion(
+        assertion,
+        {
+          group: { id: "00c" },
+        },
+        ctx
+      );
+      expect(chk3.response).toBe("user-is-group-manager");
     });
     it("user has no groups", () => {
       const cloneCtx = cloneObject(ctx);

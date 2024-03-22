@@ -87,11 +87,25 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
     authenticated: true,
     assertions: [
       {
+        conditions: [
+          {
+            property: "context:currentUser",
+            type: "is-not-group-admin",
+            value: "entity:id",
+          },
+        ],
         property: "context:currentUser.privileges",
-        type: "contains-some",
+        type: "contains",
         value: ["portal:admin:updateGroups"],
       },
       {
+        conditions: [
+          {
+            property: "context:currentUser.privileges",
+            type: "without",
+            value: ["portal:admin:updateGroups"],
+          },
+        ],
         property: "context:currentUser",
         type: "is-group-admin",
         value: "entity:id",

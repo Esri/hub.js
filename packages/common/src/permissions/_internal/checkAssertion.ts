@@ -71,6 +71,7 @@ export function checkAssertion(
         response = lengthAssertions(assertion, propValue, val);
         break;
       case "is-group-admin":
+      case "is-not-group-admin":
       case "is-group-member":
       case "is-group-owner":
         response = groupAssertions(assertion, propValue, val, context);
@@ -110,6 +111,11 @@ function groupAssertions(
   if (assertion.type === "is-group-admin") {
     failResponse = "user-not-group-manager";
     groups = filterByMembershipType(userGroups, ["admin", "owner"]);
+  }
+
+  if (assertion.type === "is-not-group-admin") {
+    failResponse = "user-is-group-manager";
+    groups = filterByMembershipType(userGroups, ["member"]);
   }
 
   if (assertion.type === "is-group-owner") {

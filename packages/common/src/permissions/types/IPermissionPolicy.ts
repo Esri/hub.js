@@ -143,6 +143,7 @@ export type AssertionType =
   | "without"
   | "included-in"
   | "is-group-admin"
+  | "is-not-group-admin"
   | "is-group-member"
   | "is-group-owner"
   | "starts-with"

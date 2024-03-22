@@ -38,6 +38,7 @@ export type PolicyResponse =
   | "user-not-group-member"
   | "user-not-group-manager"
   | "user-not-group-owner"
+  | "user-is-group-manager"
   | "assertion-property-not-found"
   | "assertion-failed" // assertion condition was not met
   | "assertion-requires-numeric-values" // assertion requires numeric values
