@@ -43,7 +43,7 @@ export const DiscussionPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:discussion:view",
     dependencies: ["hub:discussion"],
     authenticated: false,
-    licenses: ["hub-premium"],
+    licenses: ["hub-basic", "hub-premium"],
   },
   {
     permission: "hub:discussion:edit",
@@ -88,7 +88,6 @@ export const DiscussionPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:discussion:workspace:dashboard",
     dependencies: ["hub:discussion:view"],
-    environments: ["devext", "qaext"],
   },
   {
     permission: "hub:discussion:workspace:details",
