@@ -6,7 +6,6 @@ import {
   IHubSearchOptions,
   IHubSearchResponse,
   IHubSearchResult,
-  IPost,
   IPredicate,
   IQuery,
 } from "../../../src";
@@ -852,8 +851,9 @@ describe("hubSearchItems Module |", () => {
     describe("ogcItemToDiscussionPostResult |", () => {
       const { ogcItemToDiscussionPostResult } = ogcItemToDiscussionPostModule;
 
-      const ogcItemProperties: IPost = {
+      const ogcItemProperties: Record<string, any> = {
         id: "12345",
+        channelId: "23456",
         title: "title",
         body: "body",
         creator: "creator",
@@ -863,11 +863,17 @@ describe("hubSearchItems Module |", () => {
         geometry: null,
         featureGeometry: null,
         postType: "Discussion" as any,
-        createdAt: new Date("2021-01-01"),
-        updatedAt: new Date("2021-01-01"),
+        createdAt: new Date("2021-01-01").getTime(),
+        updatedAt: new Date("2021-01-01").getTime(),
+        totalReplies: 1,
+        totalReactions: 1,
+        channelName: "a channel",
+        channelCreator: "channel creator",
+        channelCreatedAt: new Date("2020-01-01").getTime(),
+        channelUpdatedAt: new Date("2020-01-01").getTime(),
       };
 
-      it("returns an IHubSearchResult with an IPost raw result", async () => {
+      it("returns an IHubSearchResult with post and channel data", async () => {
         const ogcItem: IOgcItem = {
           id: "9001",
           type: "Feature",
@@ -876,8 +882,6 @@ describe("hubSearchItems Module |", () => {
           links: [], // for simplicity
           properties: cloneObject(ogcItemProperties),
         };
-        const includes: string[] = [];
-        const requestOptions: IHubRequestOptions = {};
 
         const result = await ogcItemToDiscussionPostResult(ogcItem);
 
@@ -886,18 +890,119 @@ describe("hubSearchItems Module |", () => {
           name: "title",
           title: "title",
           type: "Discussion",
-          createdDate: ogcItemProperties.createdAt,
+          creator: "creator",
+          createdDate: new Date(ogcItemProperties.createdAt),
           createdDateSource: "properties.createdAt",
-          updatedDate: ogcItemProperties.updatedAt,
+          updatedDate: new Date(ogcItemProperties.updatedAt),
           updatedDateSource: "properties.updatedAt",
-          created: ogcItemProperties.createdAt,
-          modified: ogcItemProperties.updatedAt,
+          created: new Date(ogcItemProperties.createdAt),
+          modified: new Date(ogcItemProperties.updatedAt),
+          createdAt: new Date(ogcItemProperties.createdAt),
+          updatedAt: new Date(ogcItemProperties.updatedAt),
           family: null as any,
           id: "9001",
+          channelId: "23456",
+          parentId: undefined,
           owner: "creator",
+          postType: "Discussion",
           rawResult: ogcItemProperties as any,
           summary: "body",
+          body: "body",
+          status: "PENDING",
           location: null as any,
+          discussion: null,
+          entityId: undefined,
+          entityType: undefined,
+          entityLayerId: undefined,
+          editor: undefined,
+          mentions: undefined,
+          asAnonymous: undefined,
+          geometry: null,
+          featureGeometry: null,
+          originUrl: undefined,
+          appInfo: null,
+          totalReplies: 1,
+          totalReactions: 1,
+          channelName: "a channel",
+          channelCreator: "channel creator",
+          channelEditor: undefined,
+          channelCreatedAt: new Date(ogcItemProperties.channelCreatedAt),
+          channelUpdatedAt: new Date(ogcItemProperties.channelUpdatedAt),
+          channelDeletedAt: null,
+          deletedAt: null,
+        } as any);
+      });
+
+      it("returns an IHubSearchResult with deletes", async () => {
+        const deletedAt = new Date("2021-01-01").getTime();
+        const channelDeletedAt = new Date("2020-01-01").getTime();
+
+        const clone = cloneObject({
+          ...ogcItemProperties,
+          deletedAt,
+          channelDeletedAt,
+        });
+
+        const ogcItem: IOgcItem = {
+          id: "9001",
+          type: "Feature",
+          geometry: null, // for simplicity
+          time: null, // for simplicity
+          links: [], // for simplicity
+          properties: clone,
+        };
+
+        const result = await ogcItemToDiscussionPostResult(ogcItem);
+
+        expect(result).toEqual({
+          access: null as any,
+          name: "title",
+          title: "title",
+          type: "Discussion",
+          creator: "creator",
+          createdDate: new Date(ogcItemProperties.createdAt),
+          createdDateSource: "properties.createdAt",
+          updatedDate: new Date(ogcItemProperties.updatedAt),
+          updatedDateSource: "properties.updatedAt",
+          created: new Date(ogcItemProperties.createdAt),
+          modified: new Date(ogcItemProperties.updatedAt),
+          createdAt: new Date(ogcItemProperties.createdAt),
+          updatedAt: new Date(ogcItemProperties.updatedAt),
+          family: null as any,
+          id: "9001",
+          channelId: "23456",
+          parentId: undefined,
+          owner: "creator",
+          postType: "Discussion",
+          rawResult: {
+            ...ogcItemProperties,
+            deletedAt,
+            channelDeletedAt,
+          },
+          summary: "body",
+          body: "body",
+          status: "PENDING",
+          location: null as any,
+          discussion: null,
+          entityId: undefined,
+          entityType: undefined,
+          entityLayerId: undefined,
+          editor: undefined,
+          mentions: undefined,
+          asAnonymous: undefined,
+          geometry: null,
+          featureGeometry: null,
+          originUrl: undefined,
+          appInfo: null,
+          totalReplies: 1,
+          totalReactions: 1,
+          channelName: "a channel",
+          channelCreator: "channel creator",
+          channelEditor: undefined,
+          channelCreatedAt: new Date(ogcItemProperties.channelCreatedAt),
+          channelUpdatedAt: new Date(ogcItemProperties.channelUpdatedAt),
+          channelDeletedAt: new Date(channelDeletedAt),
+          deletedAt: new Date(deletedAt),
         } as any);
       });
     });
