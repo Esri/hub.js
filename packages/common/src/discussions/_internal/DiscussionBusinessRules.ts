@@ -11,6 +11,7 @@ export const DiscussionPermissions = [
   "hub:discussion:delete",
   "hub:discussion:edit",
   "hub:discussion:view",
+  "hub:discussion:canChangeAccess",
   "hub:discussion:workspace:overview",
   "hub:discussion:workspace:dashboard",
   "hub:discussion:workspace:details",
@@ -57,6 +58,28 @@ export const DiscussionPermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:discussion"],
     entityOwner: true,
     licenses: ["hub-premium"],
+  },
+  {
+    permission: "hub:discussion:canChangeAccess",
+    dependencies: ["hub:discussion"],
+    authenticated: true,
+    assertions: [
+      {
+        property: "context:currentUser.privileges",
+        type: "contains-some",
+        value: [
+          "portal:admin:shareToPublic",
+          "portal:admin:shareToOrg",
+          "portal:user:shareToPublic",
+          "portal:user:shareToOrg",
+        ],
+      },
+      {
+        property: "entity:itemControl",
+        type: "eq",
+        value: "admin",
+      },
+    ],
   },
   {
     permission: "hub:discussion:workspace:overview",

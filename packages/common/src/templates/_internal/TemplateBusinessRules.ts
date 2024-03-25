@@ -18,6 +18,7 @@ export const TemplatePermissions = [
   "hub:template:edit",
   "hub:template:manage",
   "hub:template:view",
+  "hub:template:canChangeAccess",
   "hub:template:workspace",
   "hub:template:workspace:details",
   "hub:template:workspace:dashboard",
@@ -60,6 +61,28 @@ export const TemplatePermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:template:manage",
     dependencies: ["hub:template:edit"],
+  },
+  {
+    permission: "hub:template:canChangeAccess",
+    dependencies: ["hub:template"],
+    authenticated: true,
+    assertions: [
+      {
+        property: "context:currentUser.privileges",
+        type: "contains-some",
+        value: [
+          "portal:admin:shareToPublic",
+          "portal:admin:shareToOrg",
+          "portal:user:shareToPublic",
+          "portal:user:shareToOrg",
+        ],
+      },
+      {
+        property: "entity:itemControl",
+        type: "eq",
+        value: "admin",
+      },
+    ],
   },
   {
     permission: "hub:template:workspace",

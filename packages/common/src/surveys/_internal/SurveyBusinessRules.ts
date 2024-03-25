@@ -11,6 +11,7 @@ export const SurveyPermissions = [
   "hub:survey:delete",
   "hub:survey:edit",
   "hub:survey:view",
+  "hub:survey:canChangeAccess",
   "hub:survey:workspace",
   "hub:survey:workspace:dashboard",
   "hub:survey:workspace:details",
@@ -52,6 +53,28 @@ export const SurveyPermissionPolicies: IPermissionPolicy[] = [
     authenticated: true,
     dependencies: ["hub:survey"],
     entityOwner: true,
+  },
+  {
+    permission: "hub:survey:canChangeAccess",
+    dependencies: ["hub:survey"],
+    authenticated: true,
+    assertions: [
+      {
+        property: "context:currentUser.privileges",
+        type: "contains-some",
+        value: [
+          "portal:admin:shareToPublic",
+          "portal:admin:shareToOrg",
+          "portal:user:shareToPublic",
+          "portal:user:shareToOrg",
+        ],
+      },
+      {
+        property: "entity:itemControl",
+        type: "eq",
+        value: "admin",
+      },
+    ],
   },
   {
     permission: "hub:survey:workspace",
