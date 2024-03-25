@@ -304,7 +304,7 @@ describe("HubItemEntity Class: ", () => {
           authdCtxMgr.context.userRequestOptions
         );
       });
-      it("returns an empty object when the followerGroupId does not exist on the entity", async () => {
+      it("returns undefined when the followerGroupId does not exist on the entity", async () => {
         harness = new TestHarness(
           {
             id: "00c",
@@ -314,9 +314,9 @@ describe("HubItemEntity Class: ", () => {
         );
 
         const resp = await harness.getFollowersGroup();
-        expect(resp).toEqual({} as PortalModule.IGroup);
+        expect(resp).toBeUndefined();
       });
-      it("returns an empty object when there is an error fetching the followers group", async () => {
+      it("returns null when there is an error fetching the followers group", async () => {
         const getGroupSpy = spyOn(PortalModule, "getGroup").and.callFake(() => {
           return Promise.reject();
         });
@@ -327,7 +327,7 @@ describe("HubItemEntity Class: ", () => {
           "followers00c",
           authdCtxMgr.context.userRequestOptions
         );
-        expect(resp).toEqual({} as PortalModule.IGroup);
+        expect(resp).toBeNull();
       });
     });
     it("sets the followers group access", async () => {

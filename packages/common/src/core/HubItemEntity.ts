@@ -236,7 +236,7 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
    * Returns the followers group
    */
   async getFollowersGroup(): Promise<IGroup> {
-    let group = {} as IGroup;
+    let group;
     try {
       if (this.entity.followersGroupId) {
         group = await getGroup(
@@ -245,7 +245,7 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
         );
       }
     } catch (error) {
-      return {} as IGroup;
+      group = null;
     }
 
     return group;
