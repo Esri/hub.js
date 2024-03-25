@@ -28,9 +28,6 @@ export const SurveyPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:survey",
     services: ["portal"],
-    // gated for now
-    availability: ["alpha"],
-    environments: ["devext", "qaext"],
   },
   {
     permission: "hub:survey:view",
