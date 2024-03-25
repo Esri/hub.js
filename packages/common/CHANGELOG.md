@@ -1,3 +1,10 @@
+# @esri/hub-common [14.108.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.107.2...@esri/hub-common@14.108.0) (2024-03-25)
+
+
+### Features
+
+* add canEditAccess permission to all entities ([#1445](https://github.com/Esri/hub.js/issues/1445)) ([d129c15](https://github.com/Esri/hub.js/commit/d129c15514460b65c7326cccd61c6129ffbfa58c))
+
 ## @esri/hub-common [14.107.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.107.1...@esri/hub-common@14.107.2) (2024-03-25)
 
 
