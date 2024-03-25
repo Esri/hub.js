@@ -21,7 +21,7 @@ export const ProjectPermissions = [
   "hub:project:edit",
   "hub:project:view",
   "hub:project:owner",
-  "hub:project:canEditAccess",
+  "hub:project:canChangeAccess",
   "hub:project:events",
   "hub:project:content",
   "hub:project:discussions",
@@ -78,7 +78,7 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
     entityOwner: true,
   },
   {
-    permission: "hub:project:canEditAccess",
+    permission: "hub:project:canChangeAccess",
     dependencies: ["hub:project"],
     authenticated: true,
     assertions: [

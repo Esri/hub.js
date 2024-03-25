@@ -11,7 +11,7 @@ export const DiscussionPermissions = [
   "hub:discussion:delete",
   "hub:discussion:edit",
   "hub:discussion:view",
-  "hub:discussion:canEditAccess",
+  "hub:discussion:canChangeAccess",
   "hub:discussion:workspace:overview",
   "hub:discussion:workspace:dashboard",
   "hub:discussion:workspace:details",
@@ -60,7 +60,7 @@ export const DiscussionPermissionPolicies: IPermissionPolicy[] = [
     licenses: ["hub-premium"],
   },
   {
-    permission: "hub:discussion:canEditAccess",
+    permission: "hub:discussion:canChangeAccess",
     dependencies: ["hub:discussion"],
     authenticated: true,
     assertions: [

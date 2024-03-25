@@ -22,7 +22,7 @@ export const SitePermissions = [
   "hub:site:edit",
   "hub:site:view",
   "hub:site:owner",
-  "hub:site:canEditAccess",
+  "hub:site:canChangeAccess",
   "hub:site:events",
   "hub:site:content",
   "hub:site:discussions",
@@ -78,7 +78,7 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
     authenticated: true,
   },
   {
-    permission: "hub:site:canEditAccess",
+    permission: "hub:site:canChangeAccess",
     dependencies: ["hub:site"],
     authenticated: true,
     assertions: [

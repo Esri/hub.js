@@ -18,7 +18,7 @@ export const InitiativeTemplatePermissions = [
   "hub:initiativeTemplate:delete",
   "hub:initiativeTemplate:edit",
   "hub:initiativeTemplate:view",
-  "hub:initiativeTemplate:canEditAccess",
+  "hub:initiativeTemplate:canChangeAccess",
   "hub:initiativeTemplate:workspace",
   "hub:initiativeTemplate:workspace:dashboard",
   "hub:initiativeTemplate:workspace:details",
@@ -60,7 +60,7 @@ export const InitiativeTemplatePermissionPolicies: IPermissionPolicy[] = [
     entityOwner: true,
   },
   {
-    permission: "hub:initiativeTemplate:canEditAccess",
+    permission: "hub:initiativeTemplate:canChangeAccess",
     dependencies: ["hub:initiativeTemplate"],
     authenticated: true,
     assertions: [

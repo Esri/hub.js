@@ -18,7 +18,7 @@ export const PagePermissions = [
   "hub:page:delete",
   "hub:page:edit",
   "hub:page:view",
-  "hub:page:canEditAccess",
+  "hub:page:canChangeAccess",
   "hub:page:workspace",
   "hub:page:workspace:overview",
   "hub:page:workspace:dashboard",
@@ -60,7 +60,7 @@ export const PagePermissionPolicies: IPermissionPolicy[] = [
     entityOwner: true,
   },
   {
-    permission: "hub:page:canEditAccess",
+    permission: "hub:page:canChangeAccess",
     dependencies: ["hub:page"],
     authenticated: true,
     assertions: [

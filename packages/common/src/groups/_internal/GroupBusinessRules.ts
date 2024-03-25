@@ -14,7 +14,7 @@ export const GroupPermissions = [
   "hub:group:edit",
   "hub:group:view",
   "hub:group:owner",
-  "hub:group:canEditAccess",
+  "hub:group:canChangeAccess",
   "hub:group:workspace",
   "hub:group:workspace:overview",
   "hub:group:workspace:dashboard",
@@ -82,7 +82,7 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
     entityOwner: true,
   },
   {
-    permission: "hub:group:canEditAccess",
+    permission: "hub:group:canChangeAccess",
     dependencies: ["hub:group"],
     authenticated: true,
     assertions: [

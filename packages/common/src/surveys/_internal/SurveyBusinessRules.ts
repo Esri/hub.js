@@ -11,7 +11,7 @@ export const SurveyPermissions = [
   "hub:survey:delete",
   "hub:survey:edit",
   "hub:survey:view",
-  "hub:survey:canEditAccess",
+  "hub:survey:canChangeAccess",
   "hub:survey:workspace",
   "hub:survey:workspace:dashboard",
   "hub:survey:workspace:details",
@@ -55,7 +55,7 @@ export const SurveyPermissionPolicies: IPermissionPolicy[] = [
     entityOwner: true,
   },
   {
-    permission: "hub:survey:canEditAccess",
+    permission: "hub:survey:canChangeAccess",
     dependencies: ["hub:survey"],
     authenticated: true,
     assertions: [

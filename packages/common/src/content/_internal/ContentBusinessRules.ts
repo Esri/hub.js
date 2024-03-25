@@ -17,7 +17,7 @@ export const ContentPermissions = [
   "hub:content:delete",
   "hub:content:edit",
   "hub:content:view",
-  "hub:content:canEditAccess",
+  "hub:content:canChangeAccess",
   "hub:content:workspace",
   "hub:content:workspace:overview",
   "hub:content:workspace:dashboard",
@@ -62,7 +62,7 @@ export const ContentPermissionPolicies: IPermissionPolicy[] = [
     entityEdit: true,
   },
   {
-    permission: "hub:content:canEditAccess",
+    permission: "hub:content:canChangeAccess",
     dependencies: ["hub:content"],
     authenticated: true,
     assertions: [
