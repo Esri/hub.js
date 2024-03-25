@@ -33,6 +33,10 @@ export type GetEventsParams = {
    */
   status?: string;
   /**
+   * string to match within an event title
+   */
+  title?: string;
+  /**
    * the max amount of events to return
    */
   num?: string;
@@ -41,6 +45,15 @@ export type GetEventsParams = {
    */
   start?: string;
 };
+
+export interface IUpdateRegistration {
+  /** Role of the user in the event */
+  role?: RegistrationRole;
+  /** Status of the registration */
+  status?: RegistrationStatus;
+  /** Attendance type for this registration */
+  type?: EventAttendanceType;
+}
 
 export interface ICreateRegistration {
   /** ArcGIS Online id for a user. Will always be extracted from the token unless service token is used. */
@@ -73,6 +86,8 @@ export interface IUpdateEvent {
   addresses?: ICreateAddress[];
   /** Flag for all day event */
   allDay?: boolean;
+  /** Boolean to indicate if users can register for an event */
+  allowRegistration?: boolean;
   /** Valid ways to attend the event */
   attendanceType?: EventAttendanceType[];
   /** Description of the event */
@@ -99,6 +114,25 @@ export interface IUpdateEvent {
   title?: string;
 }
 
+export interface IRegistrationPermission {
+  canDelete: boolean;
+  canEdit: boolean;
+}
+
+export type IEventGeometry = { [key: string]: any } | null;
+
+export type IEventCatalogItem = { [key: string]: any };
+
+export interface IEventPermission {
+  canDelete: boolean;
+  canEdit: boolean;
+  canSetAccessToOrg: boolean;
+  canSetAccessToPrivate: boolean;
+  canSetAccessToPublic: boolean;
+  canSetStatusToCancelled: boolean;
+  canSetStatusToRemoved: boolean;
+}
+
 export type IAddressLocation = { [key: string]: any };
 
 export type IAddressExtent = { [key: string]: any };
@@ -109,7 +143,7 @@ export interface IAddress {
   capacity: number | null;
   createdAt: string;
   description: string | null;
-  event?: IEvent;
+  event?: IEventEntity;
   eventId: string;
   extent: IAddressExtent;
   geoAddress: string;
@@ -121,15 +155,45 @@ export interface IAddress {
   venue: string | null;
 }
 
-export type IEventGeometry = { [key: string]: any } | null;
+export type IEventEntityGeometry = { [key: string]: any } | null;
 
-export type IEventCatalogItem = { [key: string]: any };
+export type IEventEntityCatalogItem = { [key: string]: any };
 
 export enum EventStatus {
   PLANNED = "PLANNED",
   CANCELED = "CANCELED",
   REMOVED = "REMOVED",
 }
+export interface IEvent {
+  access: EventAccess;
+  addresses?: IAddress[];
+  allDay: boolean;
+  allowRegistration: boolean;
+  attendanceType: EventAttendanceType[];
+  catalog: IEventCatalogItem[] | null;
+  createdAt: string;
+  createdById: string;
+  creator?: IUser;
+  description: string | null;
+  editGroups: string[] | null;
+  endDateTime: string;
+  geometry: IEventGeometry;
+  id: string;
+  notifyAttendees: boolean;
+  onlineMeetings?: IOnlineMeeting[];
+  orgId: string;
+  permission: IEventPermission;
+  readGroups: string[] | null;
+  recurrence: string | null;
+  registrations?: IRegistration[];
+  startDateTime: string;
+  status: EventStatus;
+  summary: string | null;
+  timeZone: string;
+  title: string;
+  updatedAt: string;
+}
+
 export enum RegistrationStatus {
   PENDING = "PENDING",
   ACCEPTED = "ACCEPTED",
@@ -148,6 +212,22 @@ export interface IRegistration {
   event?: IEvent;
   eventId: string;
   id: number;
+  permission: IRegistrationPermission;
+  role: RegistrationRole;
+  status: RegistrationStatus;
+  type: EventAttendanceType;
+  updatedAt: string;
+  user?: IUser;
+  userId: string;
+}
+
+export interface IRegistrationEntity {
+  createdAt: string;
+  createdBy?: IUser;
+  createdById: string;
+  event?: IEventEntity;
+  eventId: string;
+  id: number;
   role: RegistrationRole;
   status: RegistrationStatus;
   type: EventAttendanceType;
@@ -160,7 +240,7 @@ export interface IOnlineMeeting {
   capacity: number | null;
   createdAt: string;
   details: string | null;
-  event?: IEvent;
+  event?: IEventEntity;
   eventId: string;
   id: string;
   updatedAt: string;
@@ -197,40 +277,32 @@ export enum EventAttendanceType {
   VIRTUAL = "VIRTUAL",
   IN_PERSON = "IN_PERSON",
 }
-export interface IUpdateRegistration {
-  /** Role of the user in the event */
-  role?: RegistrationRole;
-  /** Status of the registration */
-  status?: RegistrationStatus;
-  /** Attendance type for this registration */
-  type?: EventAttendanceType;
-}
-
 export enum EventAccess {
   PRIVATE = "PRIVATE",
   ORG = "ORG",
   PUBLIC = "PUBLIC",
 }
-export interface IEvent {
+export interface IEventEntity {
   access: EventAccess;
   addresses?: IAddress[];
   allDay: boolean;
+  allowRegistration: boolean;
   attendanceType: EventAttendanceType[];
-  catalog: IEventCatalogItem[] | null;
+  catalog: IEventEntityCatalogItem[] | null;
   createdAt: string;
   createdById: string;
   creator?: IUser;
   description: string | null;
   editGroups: string[] | null;
   endDateTime: string;
-  geometry: IEventGeometry;
+  geometry: IEventEntityGeometry;
   id: string;
   notifyAttendees: boolean;
   onlineMeetings?: IOnlineMeeting[];
   orgId: string;
   readGroups: string[] | null;
   recurrence: string | null;
-  registrations?: IRegistration[];
+  registrations?: IRegistrationEntity[];
   startDateTime: string;
   status: EventStatus;
   summary: string | null;
@@ -261,6 +333,8 @@ export interface ICreateEvent {
   agoId?: string;
   /** Flag for all day event */
   allDay?: boolean;
+  /** Boolean to indicate if users can register for an event */
+  allowRegistration?: boolean;
   /** Valid ways to attend the event */
   attendanceType?: EventAttendanceType[];
   /** Description of the event */
