@@ -1,3 +1,10 @@
+## @esri/hub-common [14.108.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.108.0...@esri/hub-common@14.108.1) (2024-03-25)
+
+
+### Bug Fixes
+
+* **hub-common:** fix discussion board and survey permissions ([#1449](https://github.com/Esri/hub.js/issues/1449)) ([2d56088](https://github.com/Esri/hub.js/commit/2d56088af4fb01b9311cb910d8bbc0b077a5bb2a))
+
 # @esri/hub-common [14.108.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.107.2...@esri/hub-common@14.108.0) (2024-03-25)
 
 
