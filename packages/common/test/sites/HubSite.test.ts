@@ -585,20 +585,16 @@ describe("HubSite Class:", () => {
             id: "bc3",
             name: "Test Entity",
             thumbnailUrl: "https://myserver.com/thumbnail.png",
+            features: { "hub:site:feature:follow": true },
           },
           authdCtxMgr.context
-        );
-        getFollowersGroupSpy = spyOn(chk, "getFollowersGroup").and.callFake(
-          () => {
-            return Promise.resolve({
-              id: "followers00c",
-              typeKeywords: [],
-            });
-          }
         );
       });
 
       it("optionally enriches the entity", async () => {
+        getFollowersGroupSpy = spyOn(chk, "getFollowersGroup").and.returnValue(
+          Promise.resolve({})
+        );
         const enrichEntitySpy = spyOn(
           EnrichEntityModule,
           "enrichEntity"
@@ -608,15 +604,43 @@ describe("HubSite Class:", () => {
         expect(enrichEntitySpy).toHaveBeenCalledTimes(1);
         expect(getFollowersGroupSpy).toHaveBeenCalledTimes(1);
       });
-      it("converts entity to correct structure", async () => {
-        const result = await chk.toEditor();
-        // NOTE: If additional transforms are added in the class they should have tests here
-        expect(result.id).toEqual("bc3");
-        expect(result.name).toEqual("Test Entity");
-        expect(result.thumbnailUrl).toEqual(
-          "https://myserver.com/thumbnail.png"
-        );
-        expect(getFollowersGroupSpy).toHaveBeenCalledTimes(1);
+      describe("entity transforms", () => {
+        it("sets the _followers.showFollowAction property based on the presence of the hub:site:feature:follow feature", async () => {
+          getFollowersGroupSpy = spyOn(
+            chk,
+            "getFollowersGroup"
+          ).and.returnValue(Promise.resolve({}));
+          const result = await chk.toEditor();
+          expect(result._followers?.showFollowAction).toBe(true);
+        });
+        describe("_followers.isDiscussable", () => {
+          it("set to true by default (when no followers group is returned)", async () => {
+            getFollowersGroupSpy = spyOn(
+              chk,
+              "getFollowersGroup"
+            ).and.returnValue(Promise.resolve(null));
+            const result = await chk.toEditor();
+            expect(result._followers?.isDiscussable).toBe(true);
+          });
+          it("set to true when the followers group is discussable", async () => {
+            getFollowersGroupSpy = spyOn(
+              chk,
+              "getFollowersGroup"
+            ).and.returnValue(Promise.resolve({ typeKeywords: [] }));
+            const result = await chk.toEditor();
+            expect(result._followers?.isDiscussable).toBe(true);
+          });
+          it("set to false when the followers group is not discussable", async () => {
+            getFollowersGroupSpy = spyOn(
+              chk,
+              "getFollowersGroup"
+            ).and.returnValue(
+              Promise.resolve({ typeKeywords: ["cannotDiscuss"] })
+            );
+            const result = await chk.toEditor();
+            expect(result._followers?.isDiscussable).toBe(false);
+          });
+        });
       });
     });
 
