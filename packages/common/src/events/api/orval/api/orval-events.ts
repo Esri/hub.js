@@ -133,37 +133,6 @@ export interface IEventPermission {
   canSetStatusToRemoved: boolean;
 }
 
-export type IAddressLocation = { [key: string]: any };
-
-export type IAddressExtent = { [key: string]: any };
-
-export interface IAddress {
-  address: string;
-  address2: string | null;
-  capacity: number | null;
-  createdAt: string;
-  description: string | null;
-  event?: IEventEntity;
-  eventId: string;
-  extent: IAddressExtent;
-  geoAddress: string;
-  geoAddrType: string;
-  geoScore: number;
-  id: string;
-  location: IAddressLocation;
-  updatedAt: string;
-  venue: string | null;
-}
-
-export type IEventEntityGeometry = { [key: string]: any } | null;
-
-export type IEventEntityCatalogItem = { [key: string]: any };
-
-export enum EventStatus {
-  PLANNED = "PLANNED",
-  CANCELED = "CANCELED",
-  REMOVED = "REMOVED",
-}
 export interface IEvent {
   access: EventAccess;
   addresses?: IAddress[];
@@ -205,6 +174,32 @@ export enum RegistrationRole {
   ORGANIZER = "ORGANIZER",
   ATTENDEE = "ATTENDEE",
 }
+export enum EventStatus {
+  PLANNED = "PLANNED",
+  CANCELED = "CANCELED",
+  REMOVED = "REMOVED",
+}
+export interface IOnlineMeeting {
+  capacity: number | null;
+  createdAt: string;
+  details: string | null;
+  eventId: string;
+  updatedAt: string;
+  url: string;
+}
+
+export interface IUser {
+  agoId: string;
+  createdAt: string;
+  deleted: boolean;
+  email: string;
+  firstName: string;
+  lastName: string;
+  optedOut: boolean;
+  updatedAt: string;
+  username: string;
+}
+
 export interface IRegistration {
   createdAt: string;
   createdBy?: IUser;
@@ -221,42 +216,24 @@ export interface IRegistration {
   userId: string;
 }
 
-export interface IRegistrationEntity {
-  createdAt: string;
-  createdBy?: IUser;
-  createdById: string;
-  event?: IEventEntity;
-  eventId: string;
-  id: number;
-  role: RegistrationRole;
-  status: RegistrationStatus;
-  type: EventAttendanceType;
-  updatedAt: string;
-  user?: IUser;
-  userId: string;
-}
+export type IAddressLocation = { [key: string]: any };
 
-export interface IOnlineMeeting {
+export type IAddressExtent = { [key: string]: any };
+
+export interface IAddress {
+  address: string;
+  address2: string | null;
   capacity: number | null;
   createdAt: string;
-  details: string | null;
-  event?: IEventEntity;
+  description: string | null;
   eventId: string;
-  id: string;
+  extent: IAddressExtent;
+  geoAddress: string;
+  geoAddrType: string;
+  geoScore: number;
+  location: IAddressLocation;
   updatedAt: string;
-  url: string;
-}
-
-export interface IUser {
-  agoId: string;
-  createdAt: string;
-  deleted: boolean;
-  email: string;
-  firstName: string;
-  lastName: string;
-  optedOut: boolean;
-  updatedAt: string;
-  username: string;
+  venue: string | null;
 }
 
 /**
@@ -282,35 +259,6 @@ export enum EventAccess {
   ORG = "ORG",
   PUBLIC = "PUBLIC",
 }
-export interface IEventEntity {
-  access: EventAccess;
-  addresses?: IAddress[];
-  allDay: boolean;
-  allowRegistration: boolean;
-  attendanceType: EventAttendanceType[];
-  catalog: IEventEntityCatalogItem[] | null;
-  createdAt: string;
-  createdById: string;
-  creator?: IUser;
-  description: string | null;
-  editGroups: string[] | null;
-  endDateTime: string;
-  geometry: IEventEntityGeometry;
-  id: string;
-  notifyAttendees: boolean;
-  onlineMeetings?: IOnlineMeeting[];
-  orgId: string;
-  readGroups: string[] | null;
-  recurrence: string | null;
-  registrations?: IRegistrationEntity[];
-  startDateTime: string;
-  status: EventStatus;
-  summary: string | null;
-  timeZone: string;
-  title: string;
-  updatedAt: string;
-}
-
 export interface ICreateAddress {
   /** Street address */
   address: string;
