@@ -1,3 +1,10 @@
+## @esri/hub-common [14.107.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.107.1...@esri/hub-common@14.107.2) (2024-03-25)
+
+
+### Bug Fixes
+
+* **hub-common:** add permission object to IEvent and IRegistration ([#1448](https://github.com/Esri/hub.js/issues/1448)) ([fc32def](https://github.com/Esri/hub.js/commit/fc32def22ad4853f4d95f375e243b06f099a8fd5))
+
 ## @esri/hub-common [14.107.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.107.0...@esri/hub-common@14.107.1) (2024-03-22)
 
 
