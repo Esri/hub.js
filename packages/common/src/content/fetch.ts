@@ -22,12 +22,18 @@ import {
   getContentEnrichments,
 } from "./_fetch";
 import { canUseHubApiForItem } from "./_internal/internalContentUtils";
-import { composeContent, getItemLayer, getProxyUrl } from "./compose";
+import {
+  composeContent,
+  getItemLayer,
+  getProxyUrl,
+  normalizeItemType,
+} from "./compose";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
 import { isHostedFeatureServiceItem } from "./hostedServiceUtils";
+import { setProp } from "../objects";
 
 const hasFeatures = (contentType: string) =>
   ["Feature Layer", "Table"].includes(contentType);
@@ -250,6 +256,13 @@ export const fetchHubContent = async (
     enrichments: [],
   } as IFetchContentOptions;
   const { item } = await fetchContent(identifier, options);
+
+  // we must normalize the underlying item type to account
+  // for older items (e.g. sites that are type "Web Mapping
+  // Application") before we map the model to a Hub Entity
+  const type = normalizeItemType(item);
+  setProp("type", type, item);
+
   const model = { item };
   const enrichments: IItemAndIServerEnrichments = {};
   if (isHostedFeatureServiceItem(item)) {
