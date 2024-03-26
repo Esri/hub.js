@@ -9,8 +9,9 @@
     {% if description %}
     <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
     {% endif %}
-    <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/css/calcite-web.min.css">
+    <link rel="stylesheet" href="/hub.js/css/calcite-web.min.css">
     <link rel="stylesheet" href="/hub.js/css/style.css">
+    
     {% block css %}{% endblock %}
   </head>
   <body>
@@ -75,7 +76,8 @@
       </div>
     </footer>
 
-    <script src="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/js/calcite-web.min.js"></script>
+    
+    <script src="hub.js/js/calcite-web.min.js"></script>
 
     <script>
        calcite.init()
