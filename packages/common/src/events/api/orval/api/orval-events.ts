@@ -25,13 +25,21 @@ export type GetEventsParams = {
    */
   startDateTimeAfter?: string;
   /**
-   * Comma separated sting list of AttendanceTypes
+   * Comma separated string list of AttendanceTypes
    */
   attendanceTypes?: string;
+  /**
+   * Comma separated string list of categories
+   */
+  categories?: string;
   /**
    * comma separated string list of event statuses
    */
   status?: string;
+  /**
+   * Comma separated string list of tags
+   */
+  tags?: string;
   /**
    * string to match within an event title
    */
@@ -90,6 +98,8 @@ export interface IUpdateEvent {
   allowRegistration?: boolean;
   /** Valid ways to attend the event */
   attendanceType?: EventAttendanceType[];
+  /** categories for the event */
+  categories?: string[];
   /** Description of the event */
   description?: string;
   /** Groups with edit access to the event */
@@ -108,6 +118,8 @@ export interface IUpdateEvent {
   startDateTime?: string;
   /** Summary of the event */
   summary?: string;
+  /** Tags for the event */
+  tags?: string[];
   /** IANA time zone for the event */
   timeZone?: string;
   /** Title of the event */
@@ -140,6 +152,7 @@ export interface IEvent {
   allowRegistration: boolean;
   attendanceType: EventAttendanceType[];
   catalog: IEventCatalogItem[] | null;
+  categories: string[];
   createdAt: string;
   createdById: string;
   creator?: IUser;
@@ -158,6 +171,7 @@ export interface IEvent {
   startDateTime: string;
   status: EventStatus;
   summary: string | null;
+  tags: string[];
   timeZone: string;
   title: string;
   updatedAt: string;
@@ -285,6 +299,8 @@ export interface ICreateEvent {
   allowRegistration?: boolean;
   /** Valid ways to attend the event */
   attendanceType?: EventAttendanceType[];
+  /** categories for the event */
+  categories?: string[];
   /** Description of the event */
   description?: string;
   /** Groups with edit access to the event */
@@ -309,6 +325,8 @@ export interface ICreateEvent {
   startDateTime: string;
   /** Summary of the event */
   summary?: string;
+  /** Tags for the event */
+  tags?: string[];
   /** IANA time zone for the event */
   timeZone: string;
   /** Title of the event */
