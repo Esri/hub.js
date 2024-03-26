@@ -52,6 +52,14 @@ export type GetEventsParams = {
    * the index to start at
    */
   start?: string;
+  /**
+   * Event property to sort results by
+   */
+  sortBy?: EventSort;
+  /**
+   * sort results order desc or asc
+   */
+  sortOrder?: SortOrder;
 };
 
 export interface IUpdateRegistration {
@@ -126,6 +134,16 @@ export interface IUpdateEvent {
   title?: string;
 }
 
+export enum SortOrder {
+  asc = "asc",
+  desc = "desc",
+}
+export enum EventSort {
+  title = "title",
+  startDateTime = "startDateTime",
+  createdAt = "createdAt",
+  updatedAt = "updatedAt",
+}
 export interface IRegistrationPermission {
   canDelete: boolean;
   canEdit: boolean;
