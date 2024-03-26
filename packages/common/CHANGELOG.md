@@ -1,3 +1,10 @@
+## @esri/hub-common [14.108.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.108.1...@esri/hub-common@14.108.2) (2024-03-26)
+
+
+### Bug Fixes
+
+* initiatives can be edited by premium and basic users ([#1443](https://github.com/Esri/hub.js/issues/1443)) ([9dce7d0](https://github.com/Esri/hub.js/commit/9dce7d013eab32511cca225a38ffc21b9ecca5b2))
+
 ## @esri/hub-common [14.108.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.108.0...@esri/hub-common@14.108.1) (2024-03-25)
 
 
