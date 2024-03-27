@@ -17,6 +17,7 @@ export const ContentPermissions = [
   "hub:content:delete",
   "hub:content:edit",
   "hub:content:view",
+  "hub:content:canChangeAccess",
   "hub:content:workspace",
   "hub:content:workspace:overview",
   "hub:content:workspace:dashboard",
@@ -33,6 +34,10 @@ export const ContentPermissions = [
  * @private
  */
 export const ContentPermissionPolicies: IPermissionPolicy[] = [
+  {
+    permission: "hub:content",
+    services: ["portal"],
+  },
   {
     permission: "hub:content:create",
     services: ["portal"],
@@ -55,6 +60,28 @@ export const ContentPermissionPolicies: IPermissionPolicy[] = [
     authenticated: true,
     services: ["portal"],
     entityEdit: true,
+  },
+  {
+    permission: "hub:content:canChangeAccess",
+    dependencies: ["hub:content"],
+    authenticated: true,
+    assertions: [
+      {
+        property: "context:currentUser.privileges",
+        type: "contains-some",
+        value: [
+          "portal:admin:shareToPublic",
+          "portal:admin:shareToOrg",
+          "portal:user:shareToPublic",
+          "portal:user:shareToOrg",
+        ],
+      },
+      {
+        property: "entity:itemControl",
+        type: "eq",
+        value: "admin",
+      },
+    ],
   },
   {
     permission: "hub:content:workspace",

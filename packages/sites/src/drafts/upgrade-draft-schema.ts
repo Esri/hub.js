@@ -1,4 +1,9 @@
-import { deepSet, getProp, IDraft } from "@esri/hub-common";
+import {
+  deepSet,
+  getProp,
+  IDraft,
+  migrateWebMappingApplicationSites,
+} from "@esri/hub-common";
 import {
   SITE_SCHEMA_VERSION,
   _ensureTelemetry,
@@ -22,6 +27,7 @@ export function upgradeDraftSchema(draft: IDraft) {
 
   // Migrations that should always be applied
   draft = migrateBadBasemap<IDraft>(draft);
+  draft = migrateWebMappingApplicationSites<IDraft>(draft);
 
   if (getProp(draft, "item.properties.schemaVersion") === SITE_SCHEMA_VERSION) {
     return draft;

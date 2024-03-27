@@ -21,6 +21,7 @@ export const ProjectPermissions = [
   "hub:project:edit",
   "hub:project:view",
   "hub:project:owner",
+  "hub:project:canChangeAccess",
   "hub:project:events",
   "hub:project:content",
   "hub:project:discussions",
@@ -75,6 +76,28 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:project"],
     authenticated: true,
     entityOwner: true,
+  },
+  {
+    permission: "hub:project:canChangeAccess",
+    dependencies: ["hub:project"],
+    authenticated: true,
+    assertions: [
+      {
+        property: "context:currentUser.privileges",
+        type: "contains-some",
+        value: [
+          "portal:admin:shareToPublic",
+          "portal:admin:shareToOrg",
+          "portal:user:shareToPublic",
+          "portal:user:shareToOrg",
+        ],
+      },
+      {
+        property: "entity:itemControl",
+        type: "eq",
+        value: "admin",
+      },
+    ],
   },
   {
     permission: "hub:project:events",

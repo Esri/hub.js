@@ -41,6 +41,7 @@ import { applyDefaultCollectionMigration } from "./_internal/applyDefaultCollect
 import { reflectCollectionsToSearchCategories } from "./_internal/reflectCollectionsToSearchCategories";
 import { convertCatalogToLegacyFormat } from "./_internal/convertCatalogToLegacyFormat";
 import { convertFeaturesToLegacyCapabilities } from "./_internal/capabilities/convertFeaturesToLegacyCapabilities";
+import { computeLinks } from "./_internal/computeLinks";
 export const HUB_SITE_ITEM_TYPE = "Hub Site Application";
 export const ENTERPRISE_SITE_ITEM_TYPE = "Site Application";
 
@@ -492,6 +493,15 @@ export async function enrichSiteSearchResult(
   include: string[],
   requestOptions: IHubRequestOptions
 ): Promise<IHubSearchResult> {
+  // we send old hub sites through this enrichment and
+  // artificially change their type so they appear to be
+  // newer "Hub Site Application"s - note this change
+  // won't actually be persisted
+  item.type =
+    item.type === "Web Mapping Application"
+      ? "Hub Site Application"
+      : item.type;
+
   // Create the basic structure
   const result: IHubSearchResult = {
     access: item.access,
@@ -538,13 +548,7 @@ export async function enrichSiteSearchResult(
   });
 
   // Handle links
-  result.links.thumbnail = getItemThumbnailUrl(item, requestOptions);
-  result.links.self = item.url;
-  result.links.siteRelative = getHubRelativeUrl(
-    result.type,
-    result.id,
-    item.typeKeywords
-  );
+  result.links = computeLinks(item, requestOptions);
 
   return result;
 }

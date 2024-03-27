@@ -22,6 +22,7 @@ export const SitePermissions = [
   "hub:site:edit",
   "hub:site:view",
   "hub:site:owner",
+  "hub:site:canChangeAccess",
   "hub:site:events",
   "hub:site:content",
   "hub:site:discussions",
@@ -75,6 +76,28 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
     entityEdit: true,
     dependencies: ["hub:site"],
     authenticated: true,
+  },
+  {
+    permission: "hub:site:canChangeAccess",
+    dependencies: ["hub:site"],
+    authenticated: true,
+    assertions: [
+      {
+        property: "context:currentUser.privileges",
+        type: "contains-some",
+        value: [
+          "portal:admin:shareToPublic",
+          "portal:admin:shareToOrg",
+          "portal:user:shareToPublic",
+          "portal:user:shareToOrg",
+        ],
+      },
+      {
+        property: "entity:itemControl",
+        type: "eq",
+        value: "admin",
+      },
+    ],
   },
   {
     permission: "hub:site:events",
