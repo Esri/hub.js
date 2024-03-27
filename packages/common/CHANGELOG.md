@@ -1,3 +1,10 @@
+## @esri/hub-common [14.108.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.108.3...@esri/hub-common@14.108.4) (2024-03-27)
+
+
+### Bug Fixes
+
+* **hub-common:** add tags and categories to events ([#1452](https://github.com/Esri/hub.js/issues/1452)) ([d0a6284](https://github.com/Esri/hub.js/commit/d0a6284c32403b1f600875f38bde2fcfcd517d5d))
+
 ## @esri/hub-common [14.108.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.108.2...@esri/hub-common@14.108.3) (2024-03-26)
 
 
