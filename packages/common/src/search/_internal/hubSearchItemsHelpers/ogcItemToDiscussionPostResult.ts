@@ -23,48 +23,12 @@ export async function ogcItemToDiscussionPostResult(
     updatedDateSource: "properties.updatedAt",
     type: ogcItem.properties.postType,
     owner: ogcItem.properties.creator,
-    location: ogcItem.properties.geometry,
+    location: null, // Discussion posts do not have custom location specifiably via item properties
     created: new Date(ogcItem.properties.createdAt),
     modified: new Date(ogcItem.properties.updatedAt),
     title: ogcItem.properties.title,
-    rawResult: ogcItem.properties,
+    rawResult: ogcItem,
     access: null,
     family: null,
-
-    // Post properties
-    channelId: ogcItem.properties.channelId,
-    postType: ogcItem.properties.postType,
-    discussion: ogcItem.properties.discussion,
-    entityId: ogcItem.properties.entityId,
-    entityType: ogcItem.properties.entityType,
-    entityLayerId: ogcItem.properties.entityLayerId,
-    status: ogcItem.properties.status,
-    creator: ogcItem.properties.creator,
-    editor: ogcItem.properties.editor,
-    createdAt: new Date(ogcItem.properties.createdAt),
-    updatedAt: new Date(ogcItem.properties.updatedAt),
-    deletedAt: ogcItem.properties.deletedAt
-      ? new Date(ogcItem.properties.deletedAt)
-      : null,
-    parentId: ogcItem.properties.parentId,
-    body: ogcItem.properties.body,
-    mentions: ogcItem.properties.mentions,
-    asAnonymous: ogcItem.properties.asAnonymous,
-    geometry: ogcItem.geometry,
-    featureGeometry: ogcItem.properties.featureGeometry,
-    originUrl: ogcItem.properties.originUrl,
-    appInfo: ogcItem.properties.appInfo,
-    totalReplies: ogcItem.properties.totalReplies,
-    totalReactions: ogcItem.properties.totalReactions,
-
-    // Channel properties
-    channelName: ogcItem.properties.channelName,
-    channelCreator: ogcItem.properties.channelCreator,
-    channelEditor: ogcItem.properties.channelEditor,
-    channelCreatedAt: new Date(ogcItem.properties.channelCreatedAt),
-    channelUpdatedAt: new Date(ogcItem.properties.channelUpdatedAt),
-    channelDeletedAt: ogcItem.properties.channelDeletedAt
-      ? new Date(ogcItem.properties.channelDeletedAt)
-      : null,
   } as IHubSearchResult;
 }
