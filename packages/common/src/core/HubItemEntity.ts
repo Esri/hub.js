@@ -236,10 +236,19 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
    * Returns the followers group
    */
   async getFollowersGroup(): Promise<IGroup> {
-    return getGroup(
-      this.entity.followersGroupId,
-      this.context.userRequestOptions
-    );
+    let group;
+    try {
+      if (this.entity.followersGroupId) {
+        group = await getGroup(
+          this.entity.followersGroupId,
+          this.context.userRequestOptions
+        );
+      }
+    } catch (error) {
+      group = null;
+    }
+
+    return group;
   }
 
   /**

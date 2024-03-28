@@ -18,6 +18,7 @@ export const PagePermissions = [
   "hub:page:delete",
   "hub:page:edit",
   "hub:page:view",
+  "hub:page:canChangeAccess",
   "hub:page:workspace",
   "hub:page:workspace:overview",
   "hub:page:workspace:dashboard",
@@ -57,6 +58,28 @@ export const PagePermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:page"],
     authenticated: true,
     entityOwner: true,
+  },
+  {
+    permission: "hub:page:canChangeAccess",
+    dependencies: ["hub:page"],
+    authenticated: true,
+    assertions: [
+      {
+        property: "context:currentUser.privileges",
+        type: "contains-some",
+        value: [
+          "portal:admin:shareToPublic",
+          "portal:admin:shareToOrg",
+          "portal:user:shareToPublic",
+          "portal:user:shareToOrg",
+        ],
+      },
+      {
+        property: "entity:itemControl",
+        type: "eq",
+        value: "admin",
+      },
+    ],
   },
   {
     permission: "hub:page:workspace",

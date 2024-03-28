@@ -6,10 +6,9 @@ import { upgradeCatalogSchema } from "../../search/upgradeCatalogSchema";
 import { isDiscussable } from "../../discussions";
 import { processEntityFeatures } from "../../permissions/_internal/processEntityFeatures";
 import { SiteDefaultFeatures } from "./SiteBusinessRules";
-import { getItemHomeUrl } from "../../urls/get-item-home-url";
 import { IHubSite } from "../../core/types/IHubSite";
-import { getRelativeWorkspaceUrl } from "../../core/getRelativeWorkspaceUrl";
 import { computeBaseProps } from "../../core/_internal/computeBaseProps";
+import { computeLinks } from "./computeLinks";
 
 /**
  * Given a model and a site, set various computed properties that can't be directly mapped
@@ -35,13 +34,7 @@ export function computeProps(
   const thumbnailUrl = getItemThumbnailUrl(model.item, requestOptions, token);
   // TODO: Remove this once opendata-ui starts using `links.thumbnail` instead
   site.thumbnailUrl = thumbnailUrl;
-  site.links = {
-    self: getItemHomeUrl(site.id, requestOptions),
-    siteRelative: "/",
-    workspaceRelative: getRelativeWorkspaceUrl("site", site.id),
-    layoutRelative: "/edit",
-    thumbnail: thumbnailUrl,
-  };
+  site.links = computeLinks(model.item, requestOptions);
 
   // Handle Dates
   site.createdDate = new Date(model.item.created);

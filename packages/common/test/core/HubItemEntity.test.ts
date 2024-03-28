@@ -291,17 +291,44 @@ describe("HubItemEntity Class: ", () => {
         authdCtxMgr.context
       );
     });
-    it("gets the followers group", async () => {
-      const getGroupSpy = spyOn(PortalModule, "getGroup").and.callFake(() => {
-        return Promise.resolve();
-      });
+    describe("getFollowersGroup", () => {
+      it("fetches the followers group when a followersGroupId exists on the entity", async () => {
+        const getGroupSpy = spyOn(PortalModule, "getGroup").and.callFake(() => {
+          return Promise.resolve();
+        });
 
-      await harness.getFollowersGroup();
-      expect(getGroupSpy).toHaveBeenCalledTimes(1);
-      expect(getGroupSpy).toHaveBeenCalledWith(
-        "followers00c",
-        authdCtxMgr.context.userRequestOptions
-      );
+        await harness.getFollowersGroup();
+        expect(getGroupSpy).toHaveBeenCalledTimes(1);
+        expect(getGroupSpy).toHaveBeenCalledWith(
+          "followers00c",
+          authdCtxMgr.context.userRequestOptions
+        );
+      });
+      it("returns undefined when the followerGroupId does not exist on the entity", async () => {
+        harness = new TestHarness(
+          {
+            id: "00c",
+            owner: "deke",
+          },
+          authdCtxMgr.context
+        );
+
+        const resp = await harness.getFollowersGroup();
+        expect(resp).toBeUndefined();
+      });
+      it("returns null when there is an error fetching the followers group", async () => {
+        const getGroupSpy = spyOn(PortalModule, "getGroup").and.callFake(() => {
+          return Promise.reject();
+        });
+
+        const resp = await harness.getFollowersGroup();
+        expect(getGroupSpy).toHaveBeenCalledTimes(1);
+        expect(getGroupSpy).toHaveBeenCalledWith(
+          "followers00c",
+          authdCtxMgr.context.userRequestOptions
+        );
+        expect(resp).toBeNull();
+      });
     });
     it("sets the followers group access", async () => {
       const updateGroupSpy = spyOn(PortalModule, "updateGroup").and.callFake(

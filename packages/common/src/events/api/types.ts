@@ -11,14 +11,18 @@ export {
   ICreateEventGeometry,
   ICreateRegistration,
   IEvent,
+  IEventPermission,
   IEventCatalogItem,
   IEventGeometry,
   IRegistration,
+  IRegistrationPermission,
   IUpdateEvent,
   IUpdateRegistration,
   IUser,
   RegistrationRole,
   RegistrationStatus,
+  SortOrder,
+  EventSort,
 } from "./orval/api/orval-events";
 import { IHubRequestOptions } from "../../types";
 import {

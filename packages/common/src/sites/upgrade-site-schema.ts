@@ -12,6 +12,7 @@ import { migrateLegacyCapabilitiesToFeatures } from "./_internal/capabilities/mi
 import { _migrateTelemetryConfig } from "./_internal/_migrate-telemetry-config";
 import { migrateBadBasemap } from "./_internal/migrateBadBasemap";
 import { ensureBaseTelemetry } from "./_internal/ensureBaseTelemetry";
+import { migrateWebMappingApplicationSites } from "./_internal/migrateWebMappingApplicationSites";
 
 /**
  * Upgrades the schema upgrades
@@ -39,5 +40,6 @@ export function upgradeSiteSchema(model: IModel) {
   // apply versionless migrations
   model = migrateBadBasemap(model);
   model = ensureBaseTelemetry(model);
+  model = migrateWebMappingApplicationSites(model);
   return model;
 }

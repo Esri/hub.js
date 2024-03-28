@@ -735,4 +735,20 @@ describe("fetchHubContent", () => {
     // Service definition isn't fetched items that aren't hosted feature services
     expect(getServiceSpy.calls.count()).toBe(0);
   });
+
+  it("normalizes the item type", async () => {
+    const getServiceSpy = spyOn(featureLayerModule, "getService");
+    const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
+      Promise.resolve({
+        type: "Web Mapping Application",
+        typeKeywords: ["hubSite"],
+      })
+    );
+
+    const chk = await fetchHubContent(PDF_GUID, {
+      authentication: MOCK_AUTH,
+    });
+
+    expect(chk.type).toBe("Hub Site Application");
+  });
 });
