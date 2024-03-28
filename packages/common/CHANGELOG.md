@@ -1,3 +1,11 @@
+# @esri/hub-common [14.109.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.108.4...@esri/hub-common@14.109.0) (2024-03-28)
+
+
+### Features
+
+* **hub-common:** add fetchItemJobRecords function ([#1454](https://github.com/Esri/hub.js/issues/1454)) ([082b847](https://github.com/Esri/hub.js/commit/082b847649f49c0c58afc5fbc336535d5113711a))
+* post with enrichments ([#1447](https://github.com/Esri/hub.js/issues/1447)) ([0a637c0](https://github.com/Esri/hub.js/commit/0a637c0853c059d6ca7c2b0e0ddc81ab3f697cdb))
+
 ## @esri/hub-common [14.108.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.108.3...@esri/hub-common@14.108.4) (2024-03-27)
 
 
