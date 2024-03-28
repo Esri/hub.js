@@ -18,6 +18,7 @@ export const InitiativeTemplatePermissions = [
   "hub:initiativeTemplate:delete",
   "hub:initiativeTemplate:edit",
   "hub:initiativeTemplate:view",
+  "hub:initiativeTemplate:canChangeAccess",
   "hub:initiativeTemplate:workspace",
   "hub:initiativeTemplate:workspace:dashboard",
   "hub:initiativeTemplate:workspace:details",
@@ -57,6 +58,28 @@ export const InitiativeTemplatePermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:initiativeTemplate"],
     authenticated: true,
     entityOwner: true,
+  },
+  {
+    permission: "hub:initiativeTemplate:canChangeAccess",
+    dependencies: ["hub:initiativeTemplate"],
+    authenticated: true,
+    assertions: [
+      {
+        property: "context:currentUser.privileges",
+        type: "contains-some",
+        value: [
+          "portal:admin:shareToPublic",
+          "portal:admin:shareToOrg",
+          "portal:user:shareToPublic",
+          "portal:user:shareToOrg",
+        ],
+      },
+      {
+        property: "entity:itemControl",
+        type: "eq",
+        value: "admin",
+      },
+    ],
   },
   {
     permission: "hub:initiativeTemplate:workspace",

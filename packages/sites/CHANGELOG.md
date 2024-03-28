@@ -1,3 +1,10 @@
+## @esri/hub-sites [14.2.4](https://github.com/Esri/hub.js/compare/@esri/hub-sites@14.2.3...@esri/hub-sites@14.2.4) (2024-03-26)
+
+
+### Bug Fixes
+
+* support old web mapping application sites in workspaces ([#1442](https://github.com/Esri/hub.js/issues/1442)) ([ede26c4](https://github.com/Esri/hub.js/commit/ede26c45b67391eb67f0d4bb511c627a82a6ba74))
+
 ## @esri/hub-sites [14.2.3](https://github.com/Esri/hub.js/compare/@esri/hub-sites@14.2.2...@esri/hub-sites@14.2.3) (2024-03-06)
 
 

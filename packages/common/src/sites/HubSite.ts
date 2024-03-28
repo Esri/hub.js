@@ -428,7 +428,11 @@ export class HubSite
     );
 
     const followersGroup = await this.getFollowersGroup();
-    setProp("_followers.isDiscussable", isDiscussable(followersGroup), editor);
+    setProp(
+      "_followers.isDiscussable",
+      isDiscussable(followersGroup || {}),
+      editor
+    );
 
     editor._discussions = this.entity.features["hub:site:feature:discussions"];
 

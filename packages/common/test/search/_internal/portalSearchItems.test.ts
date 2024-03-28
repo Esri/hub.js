@@ -248,7 +248,9 @@ describe("portalSearchItems Module:", () => {
         },
       };
       const searchResult = await portalSearchItems(qry, opts);
-      expect(searchResult.results[0].type).toBe("Web Mapping Application");
+      // we artificially change the type from "Web Mapping Application"
+      // > "Hub Site Application" in search results so it acts like a site
+      expect(searchResult.results[0].type).toBe("Hub Site Application");
       expect(
         searchResult.results[0].typeKeywords?.includes("hubSite")
       ).toBeTruthy();

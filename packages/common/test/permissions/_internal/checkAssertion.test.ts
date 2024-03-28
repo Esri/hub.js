@@ -336,6 +336,35 @@ describe("checkAssertion:", () => {
       expect(fail.response).toBe("array-missing-required-value");
     });
 
+    it("entity prop contains-some val", () => {
+      const assertion: IPolicyAssertion = {
+        property: "context:currentUser.privileges",
+        type: "contains-some",
+        value: [
+          "portal:admin:shareToPublic",
+          "portal:admin:shareToOrg",
+          "portal:user:shareToPublic",
+          "portal:user:shareToOrg",
+        ],
+      };
+      const ctx = {
+        currentUser: {
+          privileges: ["portal:admin:shareToOrg"],
+        },
+      } as unknown as IArcGISContext;
+
+      const chk1 = checkAssertion(assertion, {}, ctx);
+      expect(chk1.response).toBe("granted");
+
+      ctx.currentUser.privileges = [];
+      const chk2 = checkAssertion(assertion, {}, ctx);
+      expect(chk2.response).toBe("array-missing-required-value");
+
+      assertion.value = "some string";
+      const chk3 = checkAssertion(assertion, {}, ctx);
+      expect(chk3.response).toBe("assertion-requires-array-value");
+    });
+
     it("entity prop without val", () => {
       const assertion: IPolicyAssertion = {
         property: "colors",
@@ -645,7 +674,7 @@ describe("checkAssertion:", () => {
         ],
       },
     } as unknown as IArcGISContext;
-    it("is-group-manager", () => {
+    it("is-group-admin", () => {
       const assertion: IPolicyAssertion = {
         property: "context:currentUser",
         type: "is-group-admin",
@@ -733,6 +762,38 @@ describe("checkAssertion:", () => {
         ctx
       );
       expect(fail.response).toBe("user-not-group-owner");
+    });
+    it("is-not-group-admin", () => {
+      const assertion: IPolicyAssertion = {
+        property: "context:currentUser",
+        type: "is-not-group-admin",
+        value: "entity:group.id",
+      };
+
+      const chk1 = checkAssertion(
+        assertion,
+        {
+          group: { id: "00a" },
+        },
+        ctx
+      );
+      expect(chk1.response).toBe("granted");
+      const chk2 = checkAssertion(
+        assertion,
+        {
+          group: { id: "00b" },
+        },
+        ctx
+      );
+      expect(chk2.response).toBe("user-is-group-manager");
+      const chk3 = checkAssertion(
+        assertion,
+        {
+          group: { id: "00c" },
+        },
+        ctx
+      );
+      expect(chk3.response).toBe("user-is-group-manager");
     });
     it("user has no groups", () => {
       const cloneCtx = cloneObject(ctx);

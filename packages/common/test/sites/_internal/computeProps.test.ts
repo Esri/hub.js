@@ -8,10 +8,17 @@ import {
 } from "../../../src";
 import { SiteDefaultFeatures } from "../../../src/sites/_internal/SiteBusinessRules";
 import * as processEntitiesModule from "../../../src/permissions/_internal/processEntityFeatures";
+import * as computeLinksModule from "../../../src/sites/_internal/computeLinks";
+
 describe("sites: computeProps:", () => {
   let requestOptions: IHubRequestOptions;
+  let computeLinksSpy: jasmine.Spy;
+
   beforeEach(async () => {
     requestOptions = cloneObject(MOCK_HUB_REQOPTS);
+    computeLinksSpy = spyOn(computeLinksModule, "computeLinks").and.returnValue(
+      { self: "some-link" }
+    );
   });
   describe("features:", () => {
     let spy: jasmine.Spy;
@@ -82,7 +89,7 @@ describe("sites: computeProps:", () => {
       expect(spy.calls.argsFor(0)[0]).toEqual({ details: true });
     });
   });
-  it("creates links", () => {
+  it("generates a links hash", () => {
     const model: IModel = {
       item: {
         id: "9001",
@@ -93,7 +100,8 @@ describe("sites: computeProps:", () => {
     } as IModel;
     const init: Partial<IHubSite> = { id: "9001" };
     const chk = computeProps(model, init, requestOptions);
-    expect(chk.links.siteRelative).toBe("/");
-    expect(chk.links.layoutRelative).toBe("/edit");
+
+    expect(computeLinksSpy).toHaveBeenCalledTimes(1);
+    expect(chk.links).toEqual({ self: "some-link" });
   });
 });

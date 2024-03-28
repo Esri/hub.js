@@ -11,6 +11,7 @@ export const DiscussionPermissions = [
   "hub:discussion:delete",
   "hub:discussion:edit",
   "hub:discussion:view",
+  "hub:discussion:canChangeAccess",
   "hub:discussion:workspace:overview",
   "hub:discussion:workspace:dashboard",
   "hub:discussion:workspace:details",
@@ -42,7 +43,7 @@ export const DiscussionPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:discussion:view",
     dependencies: ["hub:discussion"],
     authenticated: false,
-    licenses: ["hub-premium"],
+    licenses: ["hub-basic", "hub-premium"],
   },
   {
     permission: "hub:discussion:edit",
@@ -59,13 +60,34 @@ export const DiscussionPermissionPolicies: IPermissionPolicy[] = [
     licenses: ["hub-premium"],
   },
   {
+    permission: "hub:discussion:canChangeAccess",
+    dependencies: ["hub:discussion"],
+    authenticated: true,
+    assertions: [
+      {
+        property: "context:currentUser.privileges",
+        type: "contains-some",
+        value: [
+          "portal:admin:shareToPublic",
+          "portal:admin:shareToOrg",
+          "portal:user:shareToPublic",
+          "portal:user:shareToOrg",
+        ],
+      },
+      {
+        property: "entity:itemControl",
+        type: "eq",
+        value: "admin",
+      },
+    ],
+  },
+  {
     permission: "hub:discussion:workspace:overview",
     dependencies: ["hub:discussion:view"],
   },
   {
     permission: "hub:discussion:workspace:dashboard",
     dependencies: ["hub:discussion:view"],
-    environments: ["devext", "qaext"],
   },
   {
     permission: "hub:discussion:workspace:details",
