@@ -4,16 +4,13 @@ export const FollowSchema: IConfigurationSchema = {
   type: "object",
   required: [],
   properties: {
-    itemGalleryWithDefault: {
+    entityId: {
       type: "array",
       items: {
         type: "string",
       },
       maxItems: 1,
       default: [],
-    },
-    entityId: {
-      type: "array",
     },
     callToActionText: {
       type: "string",
