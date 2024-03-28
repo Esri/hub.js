@@ -21,7 +21,7 @@ export async function ogcItemToDiscussionPostResult(
     createdDateSource: "properties.createdAt",
     updatedDate: new Date(ogcItem.properties.updatedAt),
     updatedDateSource: "properties.updatedAt",
-    type: ogcItem.properties.postType,
+    type: "post",
     owner: ogcItem.properties.creator,
     location: null, // Discussion posts do not have custom location specifiably via item properties
     created: new Date(ogcItem.properties.createdAt),

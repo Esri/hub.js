@@ -895,7 +895,7 @@ describe("hubSearchItems Module |", () => {
           access: null as any,
           name: "title",
           title: "title",
-          type: "Discussion",
+          type: "post",
           createdDate: new Date(ogcItemProperties.createdAt),
           createdDateSource: "properties.createdAt",
           updatedDate: new Date(ogcItemProperties.updatedAt),
