@@ -26,5 +26,4 @@ export const InitiativeTemplateSchema: IConfigurationSchema = {
       },
     },
   },
-  // we have to do this to allow the format: url to pass through
 };
