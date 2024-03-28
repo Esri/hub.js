@@ -9,16 +9,14 @@ export const FollowSchema: IConfigurationSchema = {
       items: {
         type: "string",
       },
-      maxItems: 10,
+      maxItems: 1,
       default: [],
     },
     entityId: {
-      type: "string",
+      type: "array",
     },
     callToActionText: {
       type: "string",
-      default:
-        "By following this site you will get updates about new events, surveys, and tools that you can use to help us achieve our goals.",
     },
     callToActionAlign: {
       enum: ["start", "center", "end"],

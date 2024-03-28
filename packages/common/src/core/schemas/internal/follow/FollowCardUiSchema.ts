@@ -1,12 +1,37 @@
 import { IArcGISContext } from "../../../../ArcGISContext";
 import { CardEditorOptions } from "../EditorOptions";
 import { IUiSchema } from "../../types";
+import {
+  WellKnownCatalog,
+  WellKnownCollection,
+  getWellKnownCatalog,
+} from "../../../../search/wellKnownCatalog";
+import { IUser } from "@esri/arcgis-rest-types";
+import { IHubCatalog } from "../../../../search/types/IHubCatalog";
 
-/**
- * @private
- * Exports the uiSchema of the stat card
- * @returns
- */
+function getCatalog(user: IUser): IHubCatalog[] {
+  const catalogNames: WellKnownCatalog[] = [
+    "myContent",
+    "favorites",
+    "organization",
+  ];
+  const catalogs = catalogNames.map((name: WellKnownCatalog) => {
+    const opts = {
+      user,
+      collectionNames: ["site" as WellKnownCollection],
+    };
+    const catalog = getWellKnownCatalog(
+      "selectContent.facets",
+      name,
+      "item",
+      opts
+    );
+    return catalog;
+  });
+
+  return catalogs;
+}
+
 export const buildUiSchema = (
   i18nScope: string,
   config: CardEditorOptions,
@@ -16,79 +41,89 @@ export const buildUiSchema = (
     type: "Layout",
     elements: [
       {
-        label: "Select Entity to Follow",
+        labelKey: "selectContent.title",
         scope: "/properties/entityId",
         type: "Control",
         options: {
           control: "hub-field-input-gallery-picker",
           targetEntity: "item",
-          catalogs: [
+          catalogs: getCatalog(context.currentUser),
+          facets: [
             {
-              schemaVersion: 1,
-              title: "Esri",
-              scopes: {
-                item: {
-                  targetEntity: "item",
-                  filters: [
-                    {
-                      predicates: [
-                        {
-                          type: "Hub Site Application",
-                        },
-                      ],
-                    },
-                  ],
-                },
-              },
+              label: "{{selectContent.facets.sharing:translate}}",
+              key: "access",
+              display: "multi-select",
+              field: "access",
+              options: [],
+              operation: "OR",
             },
           ],
         },
       },
       {
-        label: "Call-to-Action",
-        scope: "/properties/callToActionText",
-        type: "Control",
+        type: "Section",
+        labelKey: "callToAction.title",
+        elements: [
+          {
+            labelKey: "callToAction.description",
+            scope: "/properties/callToActionText",
+            type: "Control",
+            options: {
+              type: "textarea",
+              rows: 4,
+            },
+          },
+          {
+            labelKey: "callToAction.alignment",
+            scope: "/properties/callToActionAlign",
+            type: "Control",
+            options: {
+              control: "hub-field-input-alignment",
+            },
+          },
+        ],
+      },
+      {
+        type: "Section",
+        labelKey: "followButton.title",
         options: {
-          type: "textarea",
-          rows: 4,
+          labelKey: "followButton.description",
         },
-      },
-      {
-        label: "Alignment",
-        scope: "/properties/callToActionAlign",
-        type: "Control",
-        options: {
-          control: "hub-field-input-alignment",
-          layout: "inline-space-between",
-        },
-      },
-      {
-        label: "Follow",
-        scope: "/properties/buttonText",
-        type: "Control",
-      },
-      {
-        label: "Unfollow",
-        scope: "/properties/unfollowButtonText",
-        type: "Control",
-      },
-      {
-        label: "Button Alignment",
-        scope: "/properties/buttonAlign",
-        type: "Control",
-        options: {
-          control: "hub-field-input-alignment",
-          layout: "inline-space-between",
-        },
-      },
-      {
-        label: "Button Style",
-        scope: "/properties/buttonStyle",
-        type: "Control",
-        options: {
-          control: "hub-field-input-select",
-          labels: ["Solid Background", "Outline"],
-        },
+        elements: [
+          {
+            labelKey: "followButton.buttonText",
+            scope: "/properties/buttonText",
+            type: "Control",
+            options: {
+              control: "hub-field-input-input",
+            },
+          },
+          {
+            labelKey: "followButton.unfollowButtonText",
+            scope: "/properties/unfollowButtonText",
+            type: "Control",
+            options: {
+              control: "hub-field-input-input",
+            },
+          },
+          {
+            labelKey: "followButton.alignment",
+            scope: "/properties/buttonAlign",
+            type: "Control",
+            options: {
+              control: "hub-field-input-alignment",
+            },
+          },
+          {
+            labelKey: "followButton.buttonStyle",
+            scope: "/properties/buttonStyle",
+            type: "Control",
+            options: {
+              control: "hub-field-input-select",
+              labels: ["Solid Background", "Outline"],
+            },
+          },
+        ],
       },
     ],
   };
