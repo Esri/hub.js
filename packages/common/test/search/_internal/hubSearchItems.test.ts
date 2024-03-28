@@ -6,7 +6,6 @@ import {
   IHubSearchOptions,
   IHubSearchResponse,
   IHubSearchResult,
-  IPost,
   IPredicate,
   IQuery,
 } from "../../../src";
@@ -852,32 +851,43 @@ describe("hubSearchItems Module |", () => {
     describe("ogcItemToDiscussionPostResult |", () => {
       const { ogcItemToDiscussionPostResult } = ogcItemToDiscussionPostModule;
 
-      const ogcItemProperties: IPost = {
+      const ogcItemProperties: Record<string, any> = {
         id: "12345",
+        channelId: "23456",
         title: "title",
         body: "body",
         creator: "creator",
         status: "PENDING" as any,
         appInfo: null,
         discussion: null,
-        geometry: null,
+        geometry: {
+          type: "Point",
+          coordinates: [0, 0],
+        },
         featureGeometry: null,
         postType: "Discussion" as any,
-        createdAt: new Date("2021-01-01"),
-        updatedAt: new Date("2021-01-01"),
+        createdAt: new Date("2021-01-01").getTime(),
+        updatedAt: new Date("2021-01-01").getTime(),
+        totalReplies: 1,
+        totalReactions: 1,
+        channelName: "a channel",
+        channelCreator: "channel creator",
+        channelCreatedAt: new Date("2020-01-01").getTime(),
+        channelUpdatedAt: new Date("2020-01-01").getTime(),
       };
 
-      it("returns an IHubSearchResult with an IPost raw result", async () => {
+      it("returns an IHubSearchResult with post and channel data", async () => {
         const ogcItem: IOgcItem = {
           id: "9001",
           type: "Feature",
-          geometry: null, // for simplicity
+          geometry: {
+            type: "Point",
+            coordinates: [0, 0],
+          },
           time: null, // for simplicity
           links: [], // for simplicity
           properties: cloneObject(ogcItemProperties),
         };
-        const includes: string[] = [];
-        const requestOptions: IHubRequestOptions = {};
 
         const result = await ogcItemToDiscussionPostResult(ogcItem);
 
@@ -885,19 +895,19 @@ describe("hubSearchItems Module |", () => {
           access: null as any,
           name: "title",
           title: "title",
-          type: "Discussion",
-          createdDate: ogcItemProperties.createdAt,
+          type: "post",
+          createdDate: new Date(ogcItemProperties.createdAt),
           createdDateSource: "properties.createdAt",
-          updatedDate: ogcItemProperties.updatedAt,
+          updatedDate: new Date(ogcItemProperties.updatedAt),
           updatedDateSource: "properties.updatedAt",
-          created: ogcItemProperties.createdAt,
-          modified: ogcItemProperties.updatedAt,
+          created: new Date(ogcItemProperties.createdAt),
+          modified: new Date(ogcItemProperties.updatedAt),
           family: null as any,
           id: "9001",
           owner: "creator",
-          rawResult: ogcItemProperties as any,
+          rawResult: ogcItem,
           summary: "body",
-          location: null as any,
+          location: null,
         } as any);
       });
     });
