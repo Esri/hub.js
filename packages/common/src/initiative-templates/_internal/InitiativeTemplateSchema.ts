@@ -15,7 +15,9 @@ export const InitiativeTemplateSchema: IConfigurationSchema = {
     previewUrl: {
       type: "string",
       if: { minLength: 1 },
-      then: { format: "uri" },
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      then: { format: "url" },
     },
     recommendedTemplates: {
       type: "array",
@@ -24,5 +26,4 @@ export const InitiativeTemplateSchema: IConfigurationSchema = {
       },
     },
   },
-  // we have to do this to allow the format: url to pass through
-} as IConfigurationSchema;
+};
