@@ -112,14 +112,6 @@ export const EventPermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:event:workspace", "hub:event:edit"],
   },
   {
-    permission: "hub:event:workspace:discussion",
-    dependencies: ["hub:event:workspace", "hub:event:edit"],
-  },
-  {
-    permission: "hub:event:workspace:metrics",
-    dependencies: ["hub:event:workspace", "hub:event:edit"],
-  },
-  {
     permission: "hub:event:manage",
     dependencies: ["hub:event:edit"],
   },

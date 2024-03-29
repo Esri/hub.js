@@ -10,7 +10,7 @@ import { cloneObject } from "../../util";
 // TODO: remove, these transforms were moved into the custom PropertyMapper
 
 /**
- * Given a model and a Discussion, set various computed properties that can't be directly mapped
+ * Given an IEvent (db record) and an IHubEvent (entity), set various computed properties that can't be directly mapped
  * @private
  * @param model The IEvent model, i.e. the event model from the Events API client
  * @param event A partial IHubEvent model

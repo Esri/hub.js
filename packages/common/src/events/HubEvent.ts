@@ -38,13 +38,13 @@ export class HubEvent
   ): Promise<HubEvent> {
     try {
       const entity = await fetchEvent(identifier, context.hubRequestOptions);
-      // create an instance of HubDiscussion from the entity
+      // create an instance of HubEvent from the entity
       return HubEvent.fromJson(entity, context);
     } catch (ex) {
       throw new Error("Event not found.");
       // throw (ex as Error).message ===
       //   "CONT_0001: Item does not exist or is inaccessible."
-      //   ? new Error("Discussion not found.")
+      //   ? new Error("Event not found.")
       //   : ex;
     }
   }

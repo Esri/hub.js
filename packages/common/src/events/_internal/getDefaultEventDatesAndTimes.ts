@@ -2,7 +2,7 @@ export const getDefaultEventDatesAndTimes = () => {
   const hour = 1000 * 60 * 60;
   const sDate = new Date(Date.now() + hour);
   const eDate = new Date(sDate.valueOf() + hour);
-  const zeroPad = (num: number) => (num < 10 ? `0${num}` : num.toString());
+  const zeroPad = (num: number) => num.toString().padStart(2, "0");
 
   const getDate = (date: Date): string => {
     const year = date.getFullYear().toString();

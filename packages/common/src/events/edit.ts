@@ -68,7 +68,7 @@ export async function createEvent(
  * @returns promise that resolves a IHubEvent
  */
 export async function updateEvent(
-  discussion: IHubEvent,
+  event: IHubEvent,
   requestOptions: IHubRequestOptions
 ): Promise<IHubEvent> {
   throw new Error("not implemented");
