@@ -7,6 +7,7 @@ import { updateSite } from "../sites/HubSites";
 import { updatePage } from "../pages/HubPages";
 import { updateInitiativeTemplate } from "../initiative-templates/edit";
 import { updateTemplate } from "../templates/edit";
+import { updateEvent } from "../events/edit";
 import { updateHubGroup } from "../groups/HubGroups";
 import {
   HubEntity,
@@ -20,6 +21,7 @@ import {
   IHubInitiativeTemplate,
   IHubTemplate,
   IHubGroup,
+  IHubEvent,
 } from "./types";
 
 /**
@@ -83,6 +85,12 @@ export const updateHubEntity = async (
       result = await updateHubGroup(
         entity as IHubGroup,
         context.requestOptions
+      );
+      break;
+    case "event":
+      result = await updateEvent(
+        entity as IHubEvent,
+        context.hubRequestOptions
       );
       break;
   }

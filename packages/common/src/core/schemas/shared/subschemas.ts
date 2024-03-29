@@ -27,6 +27,13 @@ export const ENTITY_TAGS_SCHEMA = {
   },
 };
 
+export const ENTITY_GROUPS_SCHEMA = {
+  type: "array",
+  items: {
+    type: "string",
+  },
+};
+
 export const ENTITY_CATEGORIES_SCHEMA = {
   type: "array",
   items: {

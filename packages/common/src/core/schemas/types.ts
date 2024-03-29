@@ -16,6 +16,7 @@ import {
   EntityEditorOptions,
 } from "./internal/EditorOptions";
 import { IArcGISContext } from "../../ArcGISContext";
+import { EventEditorTypes } from "../../events/_internal/EventSchemaCreate";
 
 export interface IEditorConfig {
   schema: IConfigurationSchema;
@@ -39,6 +40,7 @@ export const validEntityEditorTypes = [
   ...GroupEditorTypes,
   ...InitiativeTemplateEditorTypes,
   ...SurveyEditorTypes,
+  ...EventEditorTypes,
 ] as const;
 
 /** Defines the possible editor type values for a stat card. These

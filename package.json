@@ -96,7 +96,8 @@
 		"isomorphic-form-data": "^1.0.0",
 		"node-fetch": "^2.0.1",
 		"tslib": "^1.13.0",
-		"ultra-runner": "^3.10.5"
+		"ultra-runner": "^3.10.5",
+		"dayjs": "^1.11.10"
 	},
 	"scripts": {
 		"build:esm": "npx ultra --build -r filter=\"packages/*\"  build:esm",
