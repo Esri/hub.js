@@ -12,9 +12,7 @@ export const TemplateSchema: IConfigurationSchema = {
     previewUrl: {
       type: "string",
       if: { minLength: 1 },
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      then: { format: "url" },
+      then: { format: "uri" },
     },
   },
-};
+} as IConfigurationSchema;
