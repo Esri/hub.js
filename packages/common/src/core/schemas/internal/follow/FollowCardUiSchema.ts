@@ -9,13 +9,13 @@ import {
 import { IUser } from "@esri/arcgis-rest-types";
 import { IHubCatalog } from "../../../../search/types/IHubCatalog";
 
-function getCatalog(user: IUser): IHubCatalog[] {
+function getCatalogs(user: IUser): IHubCatalog[] {
   const catalogNames: WellKnownCatalog[] = [
     "myContent",
     "favorites",
     "organization",
   ];
-  const catalogs = catalogNames.map((name: WellKnownCatalog) => {
+  return catalogNames.map((name: WellKnownCatalog) => {
     const opts = {
       user,
       collectionNames: ["site" as WellKnownCollection],
@@ -28,8 +28,6 @@ function getCatalog(user: IUser): IHubCatalog[] {
     );
     return catalog;
   });
-
-  return catalogs;
 }
 
 export const buildUiSchema = (
@@ -47,7 +45,7 @@ export const buildUiSchema = (
         options: {
           control: "hub-field-input-gallery-picker",
           targetEntity: "item",
-          catalogs: getCatalog(context.currentUser),
+          catalogs: getCatalogs(context.currentUser),
           facets: [
             {
               label: "{{selectContent.facets.sharing:translate}}",
