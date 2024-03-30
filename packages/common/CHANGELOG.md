@@ -1,3 +1,10 @@
+## @esri/hub-common [14.109.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.109.0...@esri/hub-common@14.109.1) (2024-03-30)
+
+
+### Bug Fixes
+
+* add url validator ([#1451](https://github.com/Esri/hub.js/issues/1451)) ([54956d7](https://github.com/Esri/hub.js/commit/54956d75a2379a9d0478ff94d3ecacc5181f625b))
+
 # @esri/hub-common [14.109.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.108.4...@esri/hub-common@14.109.0) (2024-03-28)
 
 
