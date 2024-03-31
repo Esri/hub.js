@@ -18,11 +18,18 @@ export function getPropertyMap(): IPropertyMap[] {
 
   map.push({ entityKey: "contacts", storeKey: "data.contacts" });
   map.push({ entityKey: "timeline", storeKey: "data.timeline" });
+
+  // Deeper/Indirect mappings
   map.push({ entityKey: "metrics", storeKey: "item.properties.metrics" });
 
   map.push({
     entityKey: "location",
     storeKey: "item.properties.location",
+  });
+
+  map.push({
+    entityKey: "followersGroupId",
+    storeKey: "item.properties.followersGroupId",
   });
 
   map.push({
