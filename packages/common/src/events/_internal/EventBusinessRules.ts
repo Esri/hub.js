@@ -29,7 +29,6 @@ export const EventPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:event",
     services: ["events"],
-    licenses: ["hub-basic", "hub-premium"],
     environments: ["devext", "qaext"],
     availability: ["alpha"],
   },
@@ -43,6 +42,7 @@ export const EventPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:event:view",
     dependencies: ["hub:event"],
+    licenses: ["hub-basic", "hub-premium"],
   },
   {
     permission: "hub:event:edit",
@@ -88,12 +88,10 @@ export const EventPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:event:workspace",
-    dependencies: ["hub:feature:workspace"],
+    dependencies: ["hub:event", "hub:feature:workspace"],
+    licenses: ["hub-premium"],
     environments: ["devext", "qaext"],
-  },
-  {
-    permission: "hub:event:workspace:overview",
-    dependencies: ["hub:event:workspace", "hub:event:view"],
+    availability: ["alpha"],
   },
   {
     permission: "hub:event:workspace:dashboard",
@@ -109,6 +107,10 @@ export const EventPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:event:workspace:collaborators",
+    dependencies: ["hub:event:workspace", "hub:event:edit"],
+  },
+  {
+    permission: "hub:event:workspace:attendees",
     dependencies: ["hub:event:workspace", "hub:event:edit"],
   },
   {

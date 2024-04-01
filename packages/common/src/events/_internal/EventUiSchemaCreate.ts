@@ -1,8 +1,6 @@
 import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import { IArcGISContext } from "../../ArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
-import { getSharableGroupsComboBoxItems } from "../../core/schemas/internal/getSharableGroupsComboBoxItems";
-import { checkPermission } from "../../permissions/checkPermission";
 
 /**
  * @private

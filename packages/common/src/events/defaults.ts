@@ -25,7 +25,7 @@ export function buildDefaultEventEntity(): Partial<IHubEvent> {
     onlineCapacity: null,
     onlineDetails: null,
     onlineUrl: null,
-    permissions: [],
+    // permissions: [],
     references: [],
     schemaVersion: 1,
     tags: [],

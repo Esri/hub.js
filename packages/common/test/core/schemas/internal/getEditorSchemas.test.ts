@@ -58,6 +58,8 @@ import {
 } from "../../../../src/core/schemas/types";
 import * as statUiSchemaModule from "../../../../src/core/schemas/internal/metrics/StatCardUiSchema";
 import * as checkPermissionModule from "../../../../src/permissions/checkPermission";
+import { EventEditorTypes } from "../../../../src/events/_internal/EventSchemaCreate";
+import * as EventBuildCreateUiSchema from "../../../../src/events/_internal/EventUiSchemaCreate";
 
 describe("getEditorSchemas: ", () => {
   let uiSchemaBuildFnSpy: any;
@@ -110,6 +112,7 @@ describe("getEditorSchemas: ", () => {
     },
     { type: SurveyEditorTypes[0], module: SurveyBuildEditUiSchema },
     { type: SurveyEditorTypes[1], module: SurveyBuildSettingsUiSchema },
+    { type: EventEditorTypes[0], module: EventBuildCreateUiSchema },
     { type: validCardEditorTypes[0], module: statUiSchemaModule },
   ];
 

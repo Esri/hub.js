@@ -42,10 +42,6 @@ export class HubEvent
       return HubEvent.fromJson(entity, context);
     } catch (ex) {
       throw new Error("Event not found.");
-      // throw (ex as Error).message ===
-      //   "CONT_0001: Item does not exist or is inaccessible."
-      //   ? new Error("Event not found.")
-      //   : ex;
     }
   }
 
@@ -89,14 +85,14 @@ export class HubEvent
     }
 
     if (this.entity.id) {
-      const { updateEvent } = await import("./edit");
-      this.entity = await updateEvent(
+      const { updateHubEvent } = await import("./edit");
+      this.entity = await updateHubEvent(
         this.entity,
         this.context.hubRequestOptions
       );
     } else {
-      const { createEvent } = await import("./edit");
-      this.entity = await createEvent(
+      const { createHubEvent } = await import("./edit");
+      this.entity = await createHubEvent(
         this.entity,
         this.context.hubRequestOptions
       );

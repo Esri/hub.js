@@ -15,12 +15,22 @@ import { createEvent as createEventApi } from "./api/events";
  * @param requestOptions user request options
  * @returns promise that resolves a IHubEvent
  */
-export async function createEvent(
+export async function createHubEvent(
   partialEvent: Partial<IHubEvent>,
   requestOptions: IHubRequestOptions
 ): Promise<IHubEvent> {
   // throw new Error('not implemented');
   const event = { ...buildDefaultEventEntity(), ...partialEvent };
+
+  // single-day events are created from new-menu, i.e. no endDate field provided
+  // so set endDate to startDate
+  event.endDate = event.startDate;
+
+  // override startTime & endTime for all-day events
+  if (event.isAllDay) {
+    event.startTime = "00:00:00";
+    event.endTime = "23:59:59";
+  }
 
   // TODO: how to handle slugs
   // TODO: how to handle events being discussable vs non-discussable
@@ -67,7 +77,7 @@ export async function createEvent(
  * @param requestOptions user request options
  * @returns promise that resolves a IHubEvent
  */
-export async function updateEvent(
+export async function updateHubEvent(
   event: IHubEvent,
   requestOptions: IHubRequestOptions
 ): Promise<IHubEvent> {

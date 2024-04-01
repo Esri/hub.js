@@ -7,7 +7,8 @@ import { updateSite } from "../sites/HubSites";
 import { updatePage } from "../pages/HubPages";
 import { updateInitiativeTemplate } from "../initiative-templates/edit";
 import { updateTemplate } from "../templates/edit";
-import { updateEvent } from "../events/edit";
+import { updateHubEvent } from "../events/edit";
+import { updateSurvey } from "../surveys/edit";
 import { updateHubGroup } from "../groups/HubGroups";
 import {
   HubEntity,
@@ -22,6 +23,7 @@ import {
   IHubTemplate,
   IHubGroup,
   IHubEvent,
+  IHubSurvey,
 } from "./types";
 
 /**
@@ -87,8 +89,14 @@ export const updateHubEntity = async (
         context.requestOptions
       );
       break;
+    case "survey":
+      result = await updateSurvey(
+        entity as IHubSurvey,
+        context.userRequestOptions
+      );
+      break;
     case "event":
-      result = await updateEvent(
+      result = await updateHubEvent(
         entity as IHubEvent,
         context.hubRequestOptions
       );

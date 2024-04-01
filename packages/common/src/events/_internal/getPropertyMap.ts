@@ -39,6 +39,14 @@ export function getPropertyMap(): IPropertyMap[] {
         entityKey: "canChangeAccessPublic",
         storeKey: "permission.canSetAccessToPublic",
       },
+      {
+        entityKey: "canChangeStatusCancelled",
+        storeKey: "permission.canSetStatusToCancelled",
+      },
+      {
+        entityKey: "canChangeStatusRemoved",
+        storeKey: "permission.canSetStatusToRemoved",
+      },
     ]
   );
 }

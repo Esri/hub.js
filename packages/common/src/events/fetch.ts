@@ -1,7 +1,6 @@
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { IHubEvent } from "../core/types/IHubEvent";
 import { IHubRequestOptions } from "../types";
-// import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { getEvent } from "./api/events";
 import { IEvent } from "./api/orval/api/orval-events";
@@ -23,7 +22,7 @@ export function fetchEvent(
   })
     .then((event) => convertClientEventToHubEvent(event, requestOptions))
     .catch(() => {
-      return null;
+      throw new Error("Failed to fetch event.");
     });
 }
 
@@ -42,6 +41,5 @@ export async function convertClientEventToHubEvent(
     getPropertyMap()
   );
   const hubEvent = mapper.storeToEntity(clientEvent, {}) as IHubEvent;
-  // return computeProps(clientEvent, hubEvent, requestOptions);
   return hubEvent;
 }

@@ -1,31 +1,20 @@
+import { getLocalDate, getLocalTime, guessTimeZone } from "../../utils/date";
+
 export const getDefaultEventDatesAndTimes = () => {
   const hour = 1000 * 60 * 60;
-  const sDate = new Date(Date.now() + hour);
-  const eDate = new Date(sDate.valueOf() + hour);
-  const zeroPad = (num: number) => num.toString().padStart(2, "0");
-
-  const getDate = (date: Date): string => {
-    const year = date.getFullYear().toString();
-    const day = zeroPad(date.getDate());
-    const monthIndex = date.getMonth();
-    const month = zeroPad(monthIndex === 11 ? 1 : monthIndex + 1);
-    return [year, month, day].join("-");
-  };
-
-  const getHour = (date: Date): string => {
-    const hours = zeroPad(date.getHours());
-    const minutes = zeroPad(0);
-    return [hours, minutes].join(":");
-  };
-
-  const startDate = getDate(sDate);
-  const endDate = getDate(eDate);
+  const startMs = Date.now() + hour;
+  const sDate = new Date(startMs).toISOString();
+  const eDate = new Date(startMs + hour).toISOString();
+  const timeZone = guessTimeZone();
+  const startDate = getLocalDate(sDate, timeZone);
+  const endDate = getLocalDate(eDate, timeZone);
   return {
     startDate,
-    startDateTime: sDate,
-    startTime: getHour(sDate),
+    startDateTime: new Date(sDate),
+    startTime: getLocalTime(sDate, timeZone),
     endDate,
-    endDateTime: eDate,
-    endTime: getHour(eDate),
+    endDateTime: new Date(eDate),
+    endTime: getLocalTime(eDate, timeZone),
+    timeZone,
   };
 };

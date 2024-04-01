@@ -9,7 +9,7 @@ export interface IHubEvent extends IHubItemEntity, IWithPermissions, IWithSlug {
   /**
    * True when users can be registered to attend the event
    */
-  allowRegistration: true;
+  allowRegistration: boolean;
 
   /**
    * The attendnace type of the event. Either `online`, `inPerson` or `both`
@@ -35,6 +35,21 @@ export interface IHubEvent extends IHubItemEntity, IWithPermissions, IWithSlug {
    * True when the user can change the access of the event to `public`
    */
   canChangeAccessPublic: boolean;
+
+  /**
+   * True when the user can change the status of the event to `cancelled` or `removed`
+   */
+  canChangeStatus: boolean;
+
+  /**
+   * True when the user can change the status of the event to `cancelled`
+   */
+  canChangeStatusCancelled: boolean;
+
+  /**
+   * True when the user can change the status of the event to `removed`
+   */
+  canChangeStatusRemoved: boolean;
 
   /**
    * The end date of the event

@@ -6,27 +6,17 @@ import {
 import { IHubEvent } from "../../core/types/IHubEvent";
 import { SettableAccessLevel } from "../../core/types/types";
 import {
+  getLocalDate,
+  getLocalTime,
+  getTimeZoneISOStringFromLocalDateTime,
+} from "../../utils/date";
+import {
   EventAccess,
   EventAttendanceType,
   EventStatus,
   IEvent,
   IOnlineMeeting,
 } from "../api/orval/api/orval-events";
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-import timezone from "dayjs/plugin/timezone";
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
-
-function getTimeZoneISOStringFromLocalDateTime(
-  date: string,
-  time: string,
-  timeZone: string
-): string {
-  const timeZoneDateTime = dayjs.tz([date, time].join(" "), timeZone);
-  return timeZoneDateTime.toISOString();
-}
 
 export class PropertyMapper {
   public mappings: IPropertyMap[];
@@ -83,14 +73,27 @@ export class PropertyMapper {
       store.permission.canSetAccessToOrg,
       store.permission.canSetAccessToPrivate,
     ].some(Boolean);
+    obj.canChangeStatus = [
+      store.permission.canSetStatusToCancelled,
+      store.permission.canSetStatusToRemoved,
+    ].some(Boolean);
 
     // Handle Dates
     obj.createdDate = new Date(store.createdAt);
     obj.startDateTime = new Date(store.startDateTime);
     obj.endDateTime = new Date(store.endDateTime);
+    obj.startDate = getLocalDate(store.startDateTime, store.timeZone);
+    obj.endDate = getLocalDate(store.endDateTime, store.timeZone);
+    obj.startTime = getLocalTime(store.startDateTime, store.timeZone);
+    obj.endTime = getLocalTime(store.endDateTime, store.timeZone);
     obj.createdDateSource = "createdAt";
     obj.updatedDate = new Date(store.updatedAt);
     obj.updatedDateSource = "updatedAt";
+
+    // obj.itemControl = '';
+    // obj.schemaVersion = 1;
+    // obj.references = [];
+    // obj.orgUrlKey = '';
 
     return obj;
   }
@@ -135,25 +138,15 @@ export class PropertyMapper {
       ];
     }
 
-    const { startDate } = entity;
-    // single-day events are created from new-menu, i.e. no endDate field provided
-    // so set endDate to startDate
-    const endDate = startDate;
-    let { startTime, endTime } = entity;
-    // override startTime & endTime for all-day events
-    if (entity.isAllDay) {
-      startTime = "00:00:00";
-      endTime = "23:59:59";
-    }
     // build start & end date/time iso strings, adjusted for desired time zone
     obj.startDateTime = getTimeZoneISOStringFromLocalDateTime(
-      startDate,
-      startTime,
+      entity.startDate,
+      entity.startTime,
       entity.timeZone
     );
     obj.endDateTime = getTimeZoneISOStringFromLocalDateTime(
-      endDate,
-      endTime,
+      entity.endDate,
+      entity.endTime,
       entity.timeZone
     );
 
