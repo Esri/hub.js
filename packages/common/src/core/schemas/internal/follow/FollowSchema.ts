@@ -10,7 +10,6 @@ export const FollowSchema: IConfigurationSchema = {
         type: "string",
       },
       maxItems: 1,
-      default: [],
     },
     callToActionText: {
       type: "string",
