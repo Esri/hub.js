@@ -1,3 +1,10 @@
+# @esri/hub-common [14.110.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.109.1...@esri/hub-common@14.110.0) (2024-04-01)
+
+
+### Features
+
+* **hub-common:** add permission to capture download errors ([#1458](https://github.com/Esri/hub.js/issues/1458)) ([f132be4](https://github.com/Esri/hub.js/commit/f132be4376e39598929439af02937eebdab5fa56))
+
 ## @esri/hub-common [14.109.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.109.0...@esri/hub-common@14.109.1) (2024-03-30)
 
 
