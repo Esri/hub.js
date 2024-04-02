@@ -1,9 +1,11 @@
-import * as dayjs from "dayjs";
-import * as utc from "dayjs/plugin/utc";
-import * as timezone from "dayjs/plugin/timezone";
+// import * as dayjs from "dayjs";
+// import * as utc from "dayjs/plugin/utc";
+// import * as timezone from "dayjs/plugin/timezone";
 
-dayjs.extend(utc);
-dayjs.extend(timezone);
+// dayjs.extend(utc);
+// dayjs.extend(timezone);
+
+import { zonedTimeToUtc } from "date-fns-tz";
 
 /**
  * A utility method to convert a number to a zero-padded (start) string of the given length
@@ -36,7 +38,8 @@ export function getTimeZoneISOStringFromLocalDateTime(
   time: string,
   timeZone?: string
 ): string {
-  const timeZoneDateTime = dayjs.tz([date, time].join(" "), timeZone);
+  const timeZoneDateTime = zonedTimeToUtc([date, time].join(" "), timeZone);
+  // const timeZoneDateTime = dayjs.tz([date, time].join(" "), timeZone);
   return timeZoneDateTime.toISOString();
 }
 
@@ -45,7 +48,8 @@ export function getTimeZoneISOStringFromLocalDateTime(
  * @returns an IANA time zone
  */
 export function guessTimeZone(): string {
-  return dayjs.tz.guess();
+  // return dayjs.tz.guess();
+  return Intl.DateTimeFormat().resolvedOptions().timeZone;
 }
 
 /**
@@ -64,11 +68,12 @@ export function guessTimeZone(): string {
  * @returns a local time string, e.g. `12:00:00`
  */
 export function getLocalTime(date: string, timeZone?: string): string {
-  const localDate = dayjs.tz(date, timeZone);
+  // const localDate = dayjs.tz(date, timeZone);
+  const localDate = zonedTimeToUtc(date, timeZone);
   return [
-    zeroPadStart(localDate.hour(), 2),
-    zeroPadStart(localDate.minute(), 2),
-    zeroPadStart(localDate.second(), 2),
+    zeroPadStart(localDate.getHours(), 2),
+    zeroPadStart(localDate.getMinutes(), 2),
+    zeroPadStart(localDate.getSeconds(), 2),
   ].join(":");
 }
 
@@ -88,10 +93,11 @@ export function getLocalTime(date: string, timeZone?: string): string {
  * @returns a local date string, e.g. `2024-03-29`
  */
 export function getLocalDate(date: string, timeZone?: string): string {
-  const localDate = dayjs.tz(date, timeZone);
+  // const localDate = dayjs.tz(date, timeZone);
+  const localDate = zonedTimeToUtc(date, timeZone);
   return [
-    localDate.year(),
-    zeroPadStart(localDate.month() + 1, 2),
-    zeroPadStart(localDate.date(), 2),
+    localDate.getFullYear(),
+    zeroPadStart(localDate.getMonth() + 1, 2),
+    zeroPadStart(localDate.getDate(), 2),
   ].join("-");
 }
