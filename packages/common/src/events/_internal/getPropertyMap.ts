@@ -6,7 +6,6 @@ import { IPropertyMap } from "../../core/_internal/PropertyMapper";
  * @returns an IPropertyMap array
  * @private
  */
-
 export function getPropertyMap(): IPropertyMap[] {
   const commonPropNames = [
     "orgId",

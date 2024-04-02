@@ -48,11 +48,11 @@ export class HubSurvey
     identifier: string,
     context: IArcGISContext
   ): Promise<HubSurvey> {
-    // fetch the project by id or slug
+    // fetch the survey by id
     try {
-      const project = await fetchSurvey(identifier, context.userRequestOptions);
+      const survey = await fetchSurvey(identifier, context.userRequestOptions);
       // create an instance of HubSurvey from the survey
-      return HubSurvey.fromJson(project, context);
+      return HubSurvey.fromJson(survey, context);
     } catch (ex) {
       if (
         (ex as Error).message ===

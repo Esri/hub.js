@@ -66,7 +66,6 @@ export async function createHubEvent(
   });
 
   const newEvent = mapper.storeToEntity(model, {});
-  // newEvent = computeProps(model, newEvent, requestOptions);
   return newEvent as IHubEvent;
 }
 

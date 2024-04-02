@@ -90,11 +90,6 @@ export class PropertyMapper {
     obj.updatedDate = new Date(store.updatedAt);
     obj.updatedDateSource = "updatedAt";
 
-    // obj.itemControl = '';
-    // obj.schemaVersion = 1;
-    // obj.references = [];
-    // obj.orgUrlKey = '';
-
     return obj;
   }
 
