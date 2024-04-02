@@ -1,4 +1,4 @@
-import { zonedTimeToUtc } from "date-fns-tz";
+import { zonedTimeToUtc, utcToZonedTime } from "date-fns-tz";
 
 /**
  * A utility method to convert a number to a zero-padded (start) string of the given length
@@ -48,7 +48,7 @@ export function guessTimeZone(): string {
  * @returns a local time string, e.g. `12:00:00`
  */
 export function getLocalTime(date: string, timeZone: string): string {
-  const localDate = zonedTimeToUtc(date, timeZone);
+  const localDate = utcToZonedTime(date, timeZone);
   return [
     zeroPadStart(localDate.getHours(), 2),
     zeroPadStart(localDate.getMinutes(), 2),
@@ -67,7 +67,7 @@ export function getLocalTime(date: string, timeZone: string): string {
  * @returns a local date string, e.g. `2024-03-29`
  */
 export function getLocalDate(date: string, timeZone: string): string {
-  const localDate = zonedTimeToUtc(date, timeZone);
+  const localDate = utcToZonedTime(date, timeZone);
   return [
     localDate.getFullYear(),
     zeroPadStart(localDate.getMonth() + 1, 2),

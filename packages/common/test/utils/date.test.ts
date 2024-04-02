@@ -46,7 +46,7 @@ describe("date", () => {
     it("should return a date", () => {
       expect(
         getLocalTime("2024-03-29T16:00:00.000Z", "America/Los_Angeles")
-      ).toEqual("15:00:00");
+      ).toEqual("09:00:00");
     });
   });
 });
