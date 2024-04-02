@@ -6,9 +6,15 @@ import { getLocalDate, getLocalTime, guessTimeZone } from "../../utils/date";
  */
 export const getDefaultEventDatesAndTimes = () => {
   const hour = 1000 * 60 * 60;
-  const startMs = Date.now() + hour;
-  const sDate = new Date(startMs).toISOString();
-  const eDate = new Date(startMs + hour).toISOString();
+  const nowPlus1Hour = new Date(Date.now() + hour);
+  const nextFullHour = new Date(
+    nowPlus1Hour.getFullYear(),
+    nowPlus1Hour.getMonth(),
+    nowPlus1Hour.getDate(),
+    nowPlus1Hour.getHours()
+  );
+  const sDate = nextFullHour.toISOString();
+  const eDate = new Date(nextFullHour.valueOf() + hour).toISOString();
   const timeZone = guessTimeZone();
   const startDate = getLocalDate(sDate, timeZone);
   const endDate = getLocalDate(eDate, timeZone);
