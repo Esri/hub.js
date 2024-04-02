@@ -1,7 +1,7 @@
 import { IHubEvent } from "../core/types/IHubEvent";
 import { IHubRequestOptions } from "../types";
 import { getPropertyMap } from "./_internal/getPropertyMap";
-import { PropertyMapper } from "./_internal/PropertyMapper";
+import { EventPropertyMapper } from "./_internal/PropertyMapper";
 import { buildDefaultEventEntity, buildDefaultEventRecord } from "./defaults";
 import { createEvent as createEventApi } from "./api/events";
 
@@ -35,7 +35,7 @@ export async function createHubEvent(
   // TODO: how to handle slugs
   // TODO: how to handle events being discussable vs non-discussable
 
-  const mapper = new PropertyMapper(getPropertyMap());
+  const mapper = new EventPropertyMapper(getPropertyMap());
 
   let model = mapper.entityToStore(event, buildDefaultEventRecord());
   const data = {

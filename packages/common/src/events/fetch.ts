@@ -1,4 +1,4 @@
-import { PropertyMapper } from "../core/_internal/PropertyMapper";
+import { EventPropertyMapper } from "./_internal/PropertyMapper";
 import { IHubEvent } from "../core/types/IHubEvent";
 import { IHubRequestOptions } from "../types";
 import { getPropertyMap } from "./_internal/getPropertyMap";
@@ -37,9 +37,7 @@ export async function convertClientEventToHubEvent(
   clientEvent: IEvent,
   requestOptions: IHubRequestOptions
 ): Promise<IHubEvent> {
-  const mapper = new PropertyMapper<Partial<IHubEvent>, IEvent>(
-    getPropertyMap()
-  );
+  const mapper = new EventPropertyMapper(getPropertyMap());
   const hubEvent = mapper.storeToEntity(clientEvent, {}) as IHubEvent;
   return hubEvent;
 }

@@ -20,6 +20,12 @@ export class HubEvent
   extends HubItemEntity<IHubEvent>
   implements IWithSharingBehavior, IWithEditorBehavior
 {
+  /**
+   * Create an instance from a HubEvent object
+   * @param json - JSON object to create a HubEvent from
+   * @param context - ArcGIS context
+   * @returns HubEvent
+   */
   static fromJson(json: Partial<IHubEvent>, context: IArcGISContext): HubEvent {
     // merge what we have with the default values
     const pojo = this.applyDefaults(json, context);
@@ -30,7 +36,7 @@ export class HubEvent
    * Fetch an Event from the API and return a HubEvent instance.
    * @param identifier slug or item id
    * @param context ArcGIS context
-   * @returns promise that resolves a HubEvent
+   * @returns Promise<HubEvent>
    */
   static async fetch(
     identifier: string,
@@ -147,6 +153,12 @@ export class HubEvent
     throw new Error("not implemented");
   }
 
+  /*
+   * Get the editor config for the HubEvent entity.
+   * @param i18nScope translation scope to be interpolated into the uiSchema
+   * @param type editor type - corresonds to the returned uiSchema
+   * @returns Promise<IEditorConfig>
+   */
   async getEditorConfig(
     i18nScope: string,
     type: EventEditorType
@@ -155,6 +167,12 @@ export class HubEvent
     return getEditorConfig(i18nScope, type, this.entity, this.context);
   }
 
+  /**
+   * Return the HubEvent object as an editor object
+   * @param editorContext
+   * @param include
+   * @returns Promise<IHubEventEditor>
+   */
   async toEditor(
     editorContext: IEntityEditorContext = {},
     include: string[] = []
@@ -163,6 +181,12 @@ export class HubEvent
     return editor;
   }
 
+  /**
+   * Load the HubEvent object from the editor object
+   * @param editor
+   * @param editorContext
+   * @returns Promise<IHubEvent>
+   */
   async fromEditor(editor: IHubEventEditor): Promise<IHubEvent> {
     const entity = cloneObject(editor) as IHubEvent;
     this.entity = entity;

@@ -1,5 +1,5 @@
 import {
-  IPropertyMap,
+  PropertyMapper,
   mapEntityToStore,
   mapStoreToEntity,
 } from "../../core/_internal/PropertyMapper";
@@ -18,16 +18,16 @@ import {
   IOnlineMeeting,
 } from "../api/orval/api/orval-events";
 
-export class PropertyMapper {
-  public mappings: IPropertyMap[];
-  /**
-   * Pass in the mappings between the Entity and
-   * it's backing structure (model or otherwise)
-   * @param mappings
-   */
-  constructor(mappings: IPropertyMap[]) {
-    this.mappings = mappings;
-  }
+/**
+ * @private
+ * Manage forward and backward property mappings to
+ * streamline conversion between a Hub Event, and
+ * the backing Store objects.
+ */
+export class EventPropertyMapper extends PropertyMapper<
+  Partial<IHubEvent>,
+  Partial<IEvent>
+> {
   /**
    * Map properties from a Store object, on to an Entity object.
    *
@@ -93,6 +93,16 @@ export class PropertyMapper {
     return obj;
   }
 
+  /**
+   * Map properties from an entity object onto a model.
+   *
+   * Typically the model will already exist, and this
+   * method is used to transfer changes to the model
+   * prior to storage.
+   * @param entity
+   * @param store
+   * @returns
+   */
   entityToStore(
     entity: Partial<IHubEvent>,
     store: Partial<IEvent>

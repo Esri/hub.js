@@ -5,7 +5,7 @@ import {
   getLocalTime,
 } from "../../src";
 
-fdescribe("date", () => {
+describe("date", () => {
   describe("getTimeZoneISOStringFromLocalDateTime", () => {
     it("it returns the expected UTC strings", () => {
       // daylight savings

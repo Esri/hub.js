@@ -1,6 +1,5 @@
-import * as propertyMapperModule from "../../../src/core/_internal/PropertyMapper";
 import { IHubEvent } from "../../../src/core/types/IHubEvent";
-import { PropertyMapper } from "../../../src/events/_internal/PropertyMapper";
+import { EventPropertyMapper } from "../../../src/events/_internal/PropertyMapper";
 import { getPropertyMap } from "../../../src/events/_internal/getPropertyMap";
 import { IOnlineMeeting } from "../../../src/events/api/orval/api/orval-events";
 import {
@@ -11,10 +10,10 @@ import {
 } from "../../../src/events/api/types";
 
 describe("PropertyMapper", () => {
-  let propertyMapper: PropertyMapper;
+  let propertyMapper: EventPropertyMapper;
 
   beforeEach(() => {
-    propertyMapper = new PropertyMapper(getPropertyMap());
+    propertyMapper = new EventPropertyMapper(getPropertyMap());
   });
 
   describe("storeToEntity", () => {
@@ -203,7 +202,7 @@ describe("PropertyMapper", () => {
         createdDateSource: "createdAt",
         updatedDate: jasmine.any(Date) as unknown as Date,
         updatedDateSource: "updatedAt",
-        startDate: "2024-04-1",
+        startDate: "2024-04-01",
         endDate: "2024-04-01",
         startTime: "12:00:00",
         endTime: "01:00:00",

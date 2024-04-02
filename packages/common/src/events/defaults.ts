@@ -7,6 +7,9 @@ import {
   IEvent,
 } from "./api/orval/api/orval-events";
 
+/**
+ * Builds a partial IHubEvent (entity) with default values
+ */
 export function buildDefaultEventEntity(): Partial<IHubEvent> {
   const dates = getDefaultEventDatesAndTimes();
   return {
@@ -33,6 +36,9 @@ export function buildDefaultEventEntity(): Partial<IHubEvent> {
   };
 }
 
+/**
+ * Builds a partial IEvent (record) with default values
+ */
 export function buildDefaultEventRecord(): Partial<IEvent> {
   const { startDateTime, endDateTime } = getDefaultEventDatesAndTimes();
   return {

@@ -1,5 +1,9 @@
 import { getLocalDate, getLocalTime, guessTimeZone } from "../../utils/date";
 
+/**
+ * Builds an object containing the user's guessed timezone and default
+ * event start/end dates and times
+ */
 export const getDefaultEventDatesAndTimes = () => {
   const hour = 1000 * 60 * 60;
   const startMs = Date.now() + hour;
