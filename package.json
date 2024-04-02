@@ -49,6 +49,7 @@
 		"cz-conventional-changelog": "^3.3.0",
 		"cz-lerna-changelog": "^2.0.3",
 		"dasherize": "^2.0.0",
+		"date-fns": "^1.29.0",
 		"dotenv": "^8.2.0",
 		"fetch-mock": "^7.0.0",
 		"gh-pages": "^1.2.0",
@@ -95,9 +96,7 @@
 		"isomorphic-form-data": "^1.0.0",
 		"node-fetch": "^2.0.1",
 		"tslib": "^1.13.0",
-		"ultra-runner": "^3.10.5",
-		"date-fns": "^2.30.0",
-		"date-fns-tz": "^2.0.1"
+		"ultra-runner": "^3.10.5"
 	},
 	"scripts": {
 		"build:esm": "npx ultra --build -r filter=\"packages/*\"  build:esm",

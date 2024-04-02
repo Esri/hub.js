@@ -1,4 +1,14 @@
-import { zonedTimeToUtc, utcToZonedTime } from "date-fns-tz";
+// import { zonedTimeToUtc, utcToZonedTime } from "date-fns-tz";
+
+// As of 04/01/2024
+//  * latest dayjs does not support ESM modules
+//  * date-fns@2 & date-fns-tz@2 does not support ESM modules
+//  * date-fns@3 supposedly supports ESM modules, but date-fns-tz is lagging in support for date-fns@3.
+//    date-fns-tz@3.0.0-beta.3 was published 03/28/2024 which is supposed to also support ESM, but observed
+//    issues using it with date-fns@3
+//
+// Below only supports local client time for now. We should revisit this after future
+// releases of date-fns & date-fns-tz to unlock support for other time zones
 
 /**
  * A utility method to convert a number to a zero-padded (start) string of the given length
@@ -25,7 +35,14 @@ export function getTimeZoneISOStringFromLocalDateTime(
   time: string,
   timeZone: string
 ): string {
-  const timeZoneDateTime = zonedTimeToUtc([date, time].join(" "), timeZone);
+  // const timeZoneDateTime = zonedTimeToUtc([date, time].join(" "), timeZone);
+  const [yr, mon, day] = date
+    .split("-")
+    .map((segment) => parseInt(segment, 10));
+  const [hr, min, sec] = time
+    .split(":")
+    .map((segment) => parseInt(segment, 10));
+  const timeZoneDateTime = new Date(yr, mon - 1, day, hr, min, sec, 0);
   return timeZoneDateTime.toISOString();
 }
 
@@ -48,7 +65,8 @@ export function guessTimeZone(): string {
  * @returns a local time string, e.g. `12:00:00`
  */
 export function getLocalTime(date: string, timeZone: string): string {
-  const localDate = utcToZonedTime(date, timeZone);
+  // const localDate = utcToZonedTime(date, timeZone);
+  const localDate = new Date(date);
   return [
     zeroPadStart(localDate.getHours(), 2),
     zeroPadStart(localDate.getMinutes(), 2),
@@ -67,7 +85,8 @@ export function getLocalTime(date: string, timeZone: string): string {
  * @returns a local date string, e.g. `2024-03-29`
  */
 export function getLocalDate(date: string, timeZone: string): string {
-  const localDate = utcToZonedTime(date, timeZone);
+  // const localDate = utcToZonedTime(date, timeZone);
+  const localDate = new Date(date);
   return [
     localDate.getFullYear(),
     zeroPadStart(localDate.getMonth() + 1, 2),
