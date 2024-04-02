@@ -1,6 +1,6 @@
 import { IArcGISContext } from "../../../../ArcGISContext";
 import { CardEditorOptions } from "../EditorOptions";
-import { IUiSchema } from "../../types";
+import { IUiSchema, UiSchemaRuleEffects } from "../../types";
 import {
   WellKnownCatalog,
   WellKnownCollection,
@@ -61,6 +61,7 @@ export const buildUiSchema = (
       {
         type: "Section",
         labelKey: "callToAction.title",
+        rule: HIDE_FOR_NO_ENTITY_ID,
         elements: [
           {
             labelKey: "callToAction.description",
@@ -87,6 +88,7 @@ export const buildUiSchema = (
         options: {
           labelKey: "followButton.description",
         },
+        rule: HIDE_FOR_NO_ENTITY_ID,
         elements: [
           {
             labelKey: "followButton.buttonText",
@@ -125,4 +127,12 @@ export const buildUiSchema = (
       },
     ],
   };
+};
+
+const HIDE_FOR_NO_ENTITY_ID = {
+  effect: UiSchemaRuleEffects.HIDE,
+  condition: {
+    scope: "/properties/entityId",
+    schema: { const: [] as any },
+  },
 };
