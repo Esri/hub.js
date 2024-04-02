@@ -1,6 +1,7 @@
 import { getLocalDate, getLocalTime, guessTimeZone } from "../../utils/date";
 
 /**
+ * @private
  * Builds an object containing the user's guessed timezone and default
  * event start/end dates and times
  */

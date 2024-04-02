@@ -1,10 +1,10 @@
 import { IPropertyMap } from "../../core/_internal/PropertyMapper";
 
 /**
+ * @private
  * Returns an Array of IPropertyMap objects
  * that define the projection of properties from an IEvent to an IHubEvent
  * @returns an IPropertyMap array
- * @private
  */
 export function getPropertyMap(): IPropertyMap[] {
   const commonPropNames = [

@@ -6,6 +6,7 @@ export type EventEditorType = (typeof EventEditorTypes)[number];
 export const EventEditorTypes = ["hub:event:create"] as const;
 
 /**
+ * @private
  * Builds a schema for an Event that enforces a startDate relative to the user's locale
  */
 export const buildSchema = (): IConfigurationSchema => {

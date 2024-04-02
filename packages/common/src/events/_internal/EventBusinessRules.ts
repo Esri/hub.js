@@ -1,9 +1,9 @@
 import { IPermissionPolicy } from "../../permissions";
 
 /**
+ * @private
  * Event Permission Policies
  * These define the requirements any user must meet to perform related actions
- * @private
  */
 export const EventPermissions = [
   "hub:event",
@@ -22,8 +22,8 @@ export const EventPermissions = [
 ] as const;
 
 /**
- * Event permission policies
  * @private
+ * Event permission policies
  */
 export const EventPermissionPolicies: IPermissionPolicy[] = [
   {
