@@ -19,6 +19,7 @@ export const EventPermissions = [
   "hub:event:workspace:settings",
   "hub:event:workspace:collaborators",
   "hub:event:workspace:manage",
+  "hub:event:workspace:attendees",
 ] as const;
 
 /**
@@ -29,6 +30,8 @@ export const EventPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:event",
     services: ["events"],
+    licenses: ["hub-premium"],
+    // gating
     environments: ["devext", "qaext"],
     availability: ["alpha"],
   },
@@ -37,11 +40,10 @@ export const EventPermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:event"],
     authenticated: true,
     privileges: ["portal:user:createItem"],
-    licenses: ["hub-premium"],
   },
   {
     permission: "hub:event:view",
-    dependencies: ["hub:event"],
+    services: ["events"],
     licenses: ["hub-basic", "hub-premium"],
   },
   {
@@ -49,14 +51,12 @@ export const EventPermissionPolicies: IPermissionPolicy[] = [
     authenticated: true,
     dependencies: ["hub:event"],
     entityEdit: true,
-    licenses: ["hub-premium"],
   },
   {
     permission: "hub:event:delete",
     authenticated: true,
     dependencies: ["hub:event"],
     entityOwner: true,
-    licenses: ["hub-premium"],
   },
   {
     permission: "hub:event:owner",
@@ -88,10 +88,6 @@ export const EventPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:event:workspace",
-    dependencies: ["hub:event", "hub:feature:workspace"],
-    licenses: ["hub-premium"],
-    environments: ["devext", "qaext"],
-    availability: ["alpha"],
   },
   {
     permission: "hub:event:workspace:dashboard",
