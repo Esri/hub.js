@@ -43,7 +43,6 @@ export const buildUiSchema = async (
         type: "Control",
         options: {
           control: "hub-field-input-date",
-          min: "2024-03-28",
           messages: [
             {
               type: "ERROR",
