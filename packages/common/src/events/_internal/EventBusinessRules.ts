@@ -20,6 +20,7 @@ export const EventPermissions = [
   "hub:event:workspace:collaborators",
   "hub:event:workspace:manage",
   "hub:event:workspace:attendees",
+  "hub:event:manage",
 ] as const;
 
 /**
