@@ -86,6 +86,7 @@ describe("EventUiSchemaCreate", () => {
             type: "Control",
             options: {
               control: "hub-field-input-date",
+              min: jasmine.any(String),
               messages: [
                 {
                   type: "ERROR",

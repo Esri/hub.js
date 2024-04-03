@@ -1,6 +1,8 @@
 import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import { IArcGISContext } from "../../ArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
+import { getLocalDate } from "../../utils";
+import { IHubEvent } from "../../core/types/IHubEvent";
 
 /**
  * @private
@@ -43,6 +45,10 @@ export const buildUiSchema = async (
         type: "Control",
         options: {
           control: "hub-field-input-date",
+          min: getLocalDate(
+            new Date().toISOString(),
+            (options as IHubEvent).timeZone
+          ),
           messages: [
             {
               type: "ERROR",
