@@ -9,6 +9,7 @@ import {
 import { IUser } from "@esri/arcgis-rest-types";
 import { IHubCatalog } from "../../../../search/types/IHubCatalog";
 
+// Get the catalogs for the entity gallery picker
 function getCatalogs(user: IUser): IHubCatalog[] {
   const catalogNames: WellKnownCatalog[] = [
     "myContent",
