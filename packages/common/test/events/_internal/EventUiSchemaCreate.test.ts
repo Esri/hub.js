@@ -81,7 +81,7 @@ describe("EventUiSchemaCreate", () => {
             },
           },
           {
-            labelKey: `myI18nScope.fields.startDate.label`,
+            labelKey: `myI18nScope.fields.date.label`,
             scope: "/properties/startDate",
             type: "Control",
             options: {
@@ -92,7 +92,7 @@ describe("EventUiSchemaCreate", () => {
                   type: "ERROR",
                   keyword: "required",
                   icon: true,
-                  labelKey: `myI18nScope.fields.startDate.requiredError`,
+                  labelKey: `myI18nScope.fields.date.requiredError`,
                 },
               ],
             },

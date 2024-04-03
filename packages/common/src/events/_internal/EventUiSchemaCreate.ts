@@ -40,7 +40,7 @@ export const buildUiSchema = async (
         },
       },
       {
-        labelKey: `${i18nScope}.fields.startDate.label`,
+        labelKey: `${i18nScope}.fields.date.label`,
         scope: "/properties/startDate",
         type: "Control",
         options: {
@@ -54,7 +54,7 @@ export const buildUiSchema = async (
               type: "ERROR",
               keyword: "required",
               icon: true,
-              labelKey: `${i18nScope}.fields.startDate.requiredError`,
+              labelKey: `${i18nScope}.fields.date.requiredError`,
             },
           ],
         },
