@@ -94,6 +94,12 @@ describe("EventUiSchemaCreate", () => {
                   icon: true,
                   labelKey: `myI18nScope.fields.date.requiredError`,
                 },
+                {
+                  type: "ERROR",
+                  keyword: "formatMinimum",
+                  icon: true,
+                  labelKey: `myI18nScope.fields.date.minDateError`,
+                },
               ],
             },
           },
