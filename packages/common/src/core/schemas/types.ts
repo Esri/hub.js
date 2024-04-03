@@ -151,7 +151,6 @@ export enum UiSchemaMessageTypes {
 
 export interface IConfigurationSchema extends JSONSchema {
   type?: "object";
-  selectionMode?: "string";
 }
 
 export interface IConfigurationValues {

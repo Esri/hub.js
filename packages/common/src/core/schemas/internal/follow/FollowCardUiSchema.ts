@@ -120,7 +120,10 @@ export const buildUiSchema = (
             type: "Control",
             options: {
               control: "hub-field-input-select",
-              labels: ["Solid Background", "Outline"],
+              labels: [
+                "{{followButton.solid:translate}}",
+                "{{followButton.outline:translate}}",
+              ],
             },
           },
         ],
