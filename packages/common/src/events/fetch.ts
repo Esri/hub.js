@@ -38,6 +38,5 @@ export async function convertClientEventToHubEvent(
   requestOptions: IHubRequestOptions
 ): Promise<IHubEvent> {
   const mapper = new EventPropertyMapper(getPropertyMap());
-  const hubEvent = mapper.storeToEntity(clientEvent, {}) as IHubEvent;
-  return hubEvent;
+  return mapper.storeToEntity(clientEvent, {}) as IHubEvent;
 }
