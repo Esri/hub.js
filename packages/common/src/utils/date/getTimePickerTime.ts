@@ -22,17 +22,15 @@ export function getTimePickerTime(
 ): string {
   const parts = new Intl.DateTimeFormat("en-US", {
     hour: "2-digit",
-    hour12: false,
     minute: "2-digit",
     second: "2-digit",
     timeZone: timeZone ?? guessTimeZone(),
+    // see https://support.google.com/chrome/thread/29828561?hl=en
+    // chrome computes the hour part as "24" for midnight while other browsers compute it as "00"
+    // setting hourCycle to "h23" normalizes this across browser implementations
+    // ts flags this property as an error, despite this working in chrome, ff & node envs
+    // @ts-ignore
+    hourCycle: "h23",
   }).formatToParts(new Date(date));
-  return [
-    // as of 4/4/2024, FF 124.0.2 and Chrome 123.0.6312.87 for macos return different values for the hour part for midnight...
-    // Specifically, Chrome returns "24" while FF returns "00", so we coerce "24" to "00" as that works with the time-picker
-    // in both browsers.
-    parts[0].value === "24" ? "00" : parts[0].value,
-    parts[2].value,
-    parts[4].value,
-  ].join(":");
+  return [parts[0].value, parts[2].value, parts[4].value].join(":");
 }
