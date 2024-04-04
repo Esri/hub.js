@@ -25,6 +25,7 @@ import { enrichContentSearchResult } from "../../content/search";
 import { cloneObject } from "../../util";
 import { getWellknownCollection } from "../wellKnownCatalog";
 import { getProp } from "../../objects";
+import { enrichInitiativeSearchResult } from "../../initiatives";
 
 /**
  * @internal
@@ -226,6 +227,9 @@ export async function itemToSearchResult(
       break;
     case "Hub Project":
       fn = enrichProjectSearchResult;
+      break;
+    case "Hub Initiative":
+      fn = enrichInitiativeSearchResult;
       break;
     case "Solution":
       fn = enrichTemplateSearchResult;
