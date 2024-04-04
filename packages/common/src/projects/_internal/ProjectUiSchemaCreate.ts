@@ -5,7 +5,44 @@ import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { getSharableGroupsComboBoxItems } from "../../core/schemas/internal/getSharableGroupsComboBoxItems";
 import { IHubProject } from "../../core/types";
+import {
+  IGetWellKnownCatalogOptions,
+  IHubCatalog,
+  WellKnownCatalog,
+  getWellKnownCatalog,
+} from "../../search";
+import { IUser } from "@esri/arcgis-rest-types";
 
+const getShareableGroupsCatalogs = (user: IUser): IHubCatalog[] => {
+  const catalogNames: WellKnownCatalog[] = ["editGroups", "viewGroups"];
+
+  const catalogs = catalogNames.map((name: WellKnownCatalog) => {
+    const opts: IGetWellKnownCatalogOptions = {
+      user,
+      filters: [
+        {
+          operation: "OR",
+          predicates: [
+            {
+              // isViewOnly: true,
+              memberType: ["admin", "owner"],
+            },
+            // { isViewOnly: false }
+          ],
+        },
+      ],
+    };
+    const catalog = getWellKnownCatalog(
+      "project.fields.groups",
+      name,
+      "group",
+      opts
+    );
+    return catalog;
+  });
+
+  return catalogs;
+};
 /**
  * @private
  * constructs the minimal create uiSchema for Hub Projects.
@@ -165,16 +202,19 @@ export const buildUiSchema = async (
                 scope: "/properties/_groups",
                 type: "Control",
                 options: {
-                  control: "hub-field-input-combobox",
-                  items: getSharableGroupsComboBoxItems(
-                    context.currentUser.groups
-                  ),
-                  disabled: !checkPermission(
-                    "platform:portal:user:shareToGroup",
-                    context
-                  ),
-                  allowCustomValues: false,
-                  selectionMode: "multiple",
+                  control: "hub-field-input-gallery-picker",
+                  targetEntity: "group",
+                  catalogs: getShareableGroupsCatalogs(context.currentUser),
+                  facets: [
+                    {
+                      label: `{{${i18nScope}.fields.groups.facets.sharing:translate}}`,
+                      key: "access",
+                      display: "multi-select",
+                      field: "access",
+                      options: [],
+                      operation: "OR",
+                    },
+                  ],
                 },
               },
             ],
