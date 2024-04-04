@@ -27,5 +27,9 @@ export function getTimePickerTime(
     second: "2-digit",
     timeZone: timeZone ?? guessTimeZone(),
   }).formatToParts(new Date(date));
-  return [parts[0].value, parts[2].value, parts[4].value].join(":");
+  return [
+    parts[0].value === "24" ? "00" : parts[0].value,
+    parts[2].value,
+    parts[4].value,
+  ].join(":");
 }

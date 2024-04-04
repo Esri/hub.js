@@ -11,6 +11,12 @@ describe("getTimePickerTime", () => {
       getTimePickerTime("2024-03-29T17:00:00.000Z", "America/New_York")
     ).toEqual("13:00:00");
     expect(
+      getTimePickerTime("2025-01-31T05:00:00.000Z", "America/New_York")
+    ).toEqual("00:00:00");
+    expect(
+      getTimePickerTime("2025-02-01T04:59:59.000Z", "America/New_York")
+    ).toEqual("23:59:59");
+    expect(
       getTimePickerTime("2024-03-29T17:00:00.000Z", "America/Los_Angeles")
     ).toEqual("10:00:00");
     expect(guessTimeZoneSpy).not.toHaveBeenCalled();

@@ -320,6 +320,49 @@ describe("PropertyMapper", () => {
       });
     });
 
+    it("converts an IHubEvent to an online Event record with fixed only capacity", () => {
+      eventEntity.onlineCapacityType = HubEventOnlineCapacityType.Fixed;
+      eventEntity.attendanceType = HubEventAttendanceType.Online;
+      eventEntity.onlineDetails = "online event details";
+      eventEntity.onlineCapacity = 20;
+      eventEntity.onlineUrl = "https://somewhere.com/";
+      expect(propertyMapper.entityToStore(eventEntity, {})).toEqual({
+        allDay: false,
+        title: "event title",
+        createdById: "jdoe",
+        permission: {
+          canEdit: true,
+          canDelete: true,
+          canSetAccessToOrg: true,
+          canSetAccessToPrivate: true,
+          canSetAccessToPublic: true,
+          canSetStatusToCancelled: true,
+          canSetStatusToRemoved: true,
+        },
+        orgId: "42b",
+        description: "event description",
+        id: "31c",
+        tags: ["tag1"],
+        categories: ["category1"],
+        timeZone: "America/New_York",
+        summary: "event summary",
+        notifyAttendees: false,
+        allowRegistration: false,
+        access: EventAccess.PRIVATE,
+        status: EventStatus.PLANNED,
+        attendanceType: [EventAttendanceType.VIRTUAL],
+        onlineMeetings: [
+          {
+            capacity: null,
+            details: "online event details",
+            url: "https://somewhere.com/",
+          } as IOnlineMeeting,
+        ],
+        startDateTime: jasmine.any(String) as unknown as string,
+        endDateTime: jasmine.any(String) as unknown as string,
+      });
+    });
+
     it("converts an IHubEvent to a hybrid Event record", () => {
       eventEntity.attendanceType = HubEventAttendanceType.Both;
       eventEntity.onlineDetails = "online event details";
