@@ -22,7 +22,6 @@ export async function createHubEvent(
   partialEvent: Partial<IHubEvent>,
   requestOptions: IHubRequestOptions
 ): Promise<IHubEvent> {
-  // throw new Error('not implemented');
   const event = { ...buildDefaultEventEntity(), ...partialEvent };
 
   // single-day events are created from new-menu, i.e. no endDate field provided
