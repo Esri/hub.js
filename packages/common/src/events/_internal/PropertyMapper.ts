@@ -150,8 +150,8 @@ export class EventPropertyMapper extends PropertyMapper<
           details: clonedEntity.onlineDetails,
           capacity:
             clonedEntity.onlineCapacityType === HubEventOnlineCapacityType.Fixed
-              ? null
-              : clonedEntity.onlineCapacity,
+              ? clonedEntity.onlineCapacity
+              : null,
           url: clonedEntity.onlineUrl,
         } as IOnlineMeeting,
       ];

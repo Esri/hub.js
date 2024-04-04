@@ -281,6 +281,7 @@ describe("PropertyMapper", () => {
     it("converts an IHubEvent to an online Event record", () => {
       eventEntity.attendanceType = HubEventAttendanceType.Online;
       eventEntity.onlineDetails = "online event details";
+      eventEntity.onlineCapacityType = HubEventOnlineCapacityType.Fixed;
       eventEntity.onlineCapacity = 20;
       eventEntity.onlineUrl = "https://somewhere.com/";
       expect(propertyMapper.entityToStore(eventEntity, {})).toEqual({
@@ -320,8 +321,8 @@ describe("PropertyMapper", () => {
       });
     });
 
-    it("converts an IHubEvent to an online Event record with fixed only capacity", () => {
-      eventEntity.onlineCapacityType = HubEventOnlineCapacityType.Fixed;
+    it("converts an IHubEvent to an online Event record with unlimited capacity", () => {
+      eventEntity.onlineCapacityType = HubEventOnlineCapacityType.Unlimited;
       eventEntity.attendanceType = HubEventAttendanceType.Online;
       eventEntity.onlineDetails = "online event details";
       eventEntity.onlineCapacity = 20;
@@ -365,6 +366,7 @@ describe("PropertyMapper", () => {
 
     it("converts an IHubEvent to a hybrid Event record", () => {
       eventEntity.attendanceType = HubEventAttendanceType.Both;
+      eventEntity.onlineCapacityType = HubEventOnlineCapacityType.Fixed;
       eventEntity.onlineDetails = "online event details";
       eventEntity.onlineCapacity = 20;
       eventEntity.onlineUrl = "https://somewhere.com/";
