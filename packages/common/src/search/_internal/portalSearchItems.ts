@@ -5,6 +5,7 @@ import { serializeQueryForPortal } from "../serializeQueryForPortal";
 import { enrichPageSearchResult } from "../../pages/HubPages";
 import { enrichProjectSearchResult } from "../../projects";
 import { enrichSiteSearchResult } from "../../sites";
+import { enrichInitiativeSearchResult } from "../../initiatives/HubInitiatives";
 import { enrichTemplateSearchResult } from "../../templates/fetch";
 import { IHubRequestOptions } from "../../types";
 
@@ -25,7 +26,6 @@ import { enrichContentSearchResult } from "../../content/search";
 import { cloneObject } from "../../util";
 import { getWellknownCollection } from "../wellKnownCatalog";
 import { getProp } from "../../objects";
-import { enrichInitiativeSearchResult } from "../../initiatives";
 
 /**
  * @internal
