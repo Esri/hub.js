@@ -28,6 +28,9 @@ export function getTimePickerTime(
     timeZone: timeZone ?? guessTimeZone(),
   }).formatToParts(new Date(date));
   return [
+    // as of 4/4/2024, FF 124.0.2 and Chrome 123.0.6312.87 for macos return different values for the hour part for midnight...
+    // Specifically, Chrome returns "24" while FF returns "00", so we coerce "24" to "00" as that works with the time-picker
+    // in both browsers.
     parts[0].value === "24" ? "00" : parts[0].value,
     parts[2].value,
     parts[4].value,
