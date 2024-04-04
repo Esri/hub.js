@@ -11,6 +11,7 @@ import {
 } from "../../src/events/api/types";
 import { createHubEvent, updateHubEvent } from "../../src/events/edit";
 import { IHubEvent } from "../../src/core/types/IHubEvent";
+import { HubEventAttendanceType } from "../../src/events/types";
 
 describe("HubEvents edit module", () => {
   describe("createHubEvent", () => {
@@ -39,7 +40,7 @@ describe("HubEvents edit module", () => {
       const defaultEntity: Partial<IHubEvent> = {
         access: "private",
         allowRegistration: true,
-        attendanceType: "inPerson",
+        attendanceType: HubEventAttendanceType.InPerson,
         categories: [],
         inPersonCapacity: null,
         isAllDay: false,
@@ -133,7 +134,10 @@ describe("HubEvents edit module", () => {
       });
       expect(res.name).toEqual("my event");
     });
-    it("should create an all-day event", async () => {
+  });
+
+  describe("updateHubEvent", () => {
+    it("should create an event", async () => {
       const authdCtxMgr = await ArcGISContextManager.create({
         authentication: MOCK_AUTH,
         currentUser: {
@@ -158,7 +162,7 @@ describe("HubEvents edit module", () => {
       const defaultEntity: Partial<IHubEvent> = {
         access: "private",
         allowRegistration: true,
-        attendanceType: "inPerson",
+        attendanceType: HubEventAttendanceType.InPerson,
         categories: [],
         inPersonCapacity: null,
         isAllDay: false,
@@ -202,9 +206,8 @@ describe("HubEvents edit module", () => {
         },
         timeZone: "America/New_York",
       };
-      const createdRecord = {
+      const updatedRecord = {
         ...defaultRecord,
-        allDay: true,
         title: "my event",
         timeZone: "America/New_York",
         createdAt: new Date().toISOString(),
@@ -218,22 +221,27 @@ describe("HubEvents edit module", () => {
         defaultsModule,
         "buildDefaultEventRecord"
       ).and.returnValue(defaultRecord);
-      const createEventApiSpy = spyOn(
+      const updateEventApiSpy = spyOn(
         eventsModule,
-        "createEvent"
-      ).and.returnValue(new Promise((resolve) => resolve(createdRecord)));
-      const res = await createHubEvent(
-        { name: "my event", timeZone: "America/New_York", isAllDay: true },
+        "updateEvent"
+      ).and.returnValue(new Promise((resolve) => resolve(updatedRecord)));
+      const res = await updateHubEvent(
+        {
+          name: "my event",
+          timeZone: "America/New_York",
+          id: "31c",
+        } as IHubEvent,
         authdCtxMgr.context.hubRequestOptions
       );
       expect(buildDefaultEventEntitySpy).toHaveBeenCalledTimes(1);
       expect(buildDefaultEventRecordSpy).toHaveBeenCalledTimes(1);
-      expect(createEventApiSpy).toHaveBeenCalledTimes(1);
-      expect(createEventApiSpy).toHaveBeenCalledWith({
+      expect(updateEventApiSpy).toHaveBeenCalledTimes(1);
+      expect(updateEventApiSpy).toHaveBeenCalledWith({
+        eventId: "31c",
         data: {
           access: defaultRecord.access,
           addresses: defaultRecord.addresses,
-          allDay: true,
+          allDay: defaultRecord.allDay,
           allowRegistration: defaultRecord.allowRegistration,
           attendanceType: defaultRecord.attendanceType,
           categories: defaultRecord.categories,
@@ -252,44 +260,6 @@ describe("HubEvents edit module", () => {
         ...authdCtxMgr.context.hubRequestOptions,
       });
       expect(res.name).toEqual("my event");
-    });
-  });
-
-  describe("updateHubEvent", () => {
-    it("should reject for now", async () => {
-      const event = {
-        access: EventAccess.PRIVATE,
-        allDay: false,
-        allowRegistration: true,
-        attendanceType: [EventAttendanceType.IN_PERSON],
-        categories: [],
-        editGroups: [],
-        endDateTime: new Date().toISOString(),
-        notifyAttendees: true,
-        readGroups: [],
-        startDateTime: new Date().toISOString(),
-        status: EventStatus.PLANNED,
-        tags: [],
-        title: "",
-      } as unknown as IHubEvent;
-      const authdCtxMgr = await ArcGISContextManager.create({
-        authentication: MOCK_AUTH,
-        currentUser: {
-          username: "casey",
-        } as unknown as PortalModule.IUser,
-        portal: {
-          name: "DC R&D Center",
-          id: "BRXFAKE",
-          urlKey: "fake-org",
-        } as unknown as PortalModule.IPortal,
-        portalUrl: "https://myserver.com",
-      });
-      try {
-        await updateHubEvent(event, authdCtxMgr.context.hubRequestOptions);
-        fail("not rejected");
-      } catch (e) {
-        expect(e.message).toBe("not implemented");
-      }
     });
   });
 });

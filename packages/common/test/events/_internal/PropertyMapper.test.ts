@@ -8,6 +8,10 @@ import {
   EventStatus,
   IEvent,
 } from "../../../src/events/api/types";
+import {
+  HubEventAttendanceType,
+  HubEventOnlineCapacityType,
+} from "../../../src/events/types";
 
 describe("PropertyMapper", () => {
   let propertyMapper: EventPropertyMapper;
@@ -99,9 +103,10 @@ describe("PropertyMapper", () => {
         isCanceled: false,
         isPlanned: true,
         isRemoved: false,
-        attendanceType: "inPerson",
+        attendanceType: HubEventAttendanceType.InPerson,
         inPersonCapacity: 30,
         onlineCapacity: null,
+        onlineCapacityType: HubEventOnlineCapacityType.Unlimited,
         onlineDetails: null,
         onlineUrl: null,
         canChangeAccess: true,
@@ -135,7 +140,7 @@ describe("PropertyMapper", () => {
       ];
       delete eventRecord.addresses;
       const res = propertyMapper.storeToEntity(eventRecord, {});
-      expect(res.attendanceType).toEqual("online");
+      expect(res.attendanceType).toEqual(HubEventAttendanceType.Online);
       expect(res.onlineCapacity).toEqual(20);
       expect(res.onlineDetails).toEqual("online event details");
       expect(res.onlineUrl).toEqual("https://somewhere.com/");
@@ -157,7 +162,7 @@ describe("PropertyMapper", () => {
         },
       ];
       const res = propertyMapper.storeToEntity(eventRecord, {});
-      expect(res.attendanceType).toEqual("both");
+      expect(res.attendanceType).toEqual(HubEventAttendanceType.Both);
     });
   });
 
@@ -190,7 +195,7 @@ describe("PropertyMapper", () => {
         isCanceled: false,
         isPlanned: true,
         isRemoved: false,
-        attendanceType: "inPerson",
+        attendanceType: HubEventAttendanceType.InPerson,
         inPersonCapacity: 30,
         onlineCapacity: null,
         onlineDetails: null,
@@ -241,8 +246,40 @@ describe("PropertyMapper", () => {
       });
     });
 
+    it("converts an IHubEvent to an all-day Event record", () => {
+      eventEntity.isAllDay = true;
+      expect(propertyMapper.entityToStore(eventEntity, {})).toEqual({
+        allDay: true,
+        title: "event title",
+        createdById: "jdoe",
+        permission: {
+          canEdit: true,
+          canDelete: true,
+          canSetAccessToOrg: true,
+          canSetAccessToPrivate: true,
+          canSetAccessToPublic: true,
+          canSetStatusToCancelled: true,
+          canSetStatusToRemoved: true,
+        },
+        orgId: "42b",
+        description: "event description",
+        id: "31c",
+        tags: ["tag1"],
+        categories: ["category1"],
+        timeZone: "America/New_York",
+        summary: "event summary",
+        notifyAttendees: false,
+        allowRegistration: false,
+        access: EventAccess.PRIVATE,
+        status: EventStatus.PLANNED,
+        attendanceType: [EventAttendanceType.IN_PERSON],
+        startDateTime: jasmine.any(String) as unknown as string,
+        endDateTime: jasmine.any(String) as unknown as string,
+      });
+    });
+
     it("converts an IHubEvent to an online Event record", () => {
-      eventEntity.attendanceType = "online";
+      eventEntity.attendanceType = HubEventAttendanceType.Online;
       eventEntity.onlineDetails = "online event details";
       eventEntity.onlineCapacity = 20;
       eventEntity.onlineUrl = "https://somewhere.com/";
@@ -284,7 +321,7 @@ describe("PropertyMapper", () => {
     });
 
     it("converts an IHubEvent to a hybrid Event record", () => {
-      eventEntity.attendanceType = "both";
+      eventEntity.attendanceType = HubEventAttendanceType.Both;
       eventEntity.onlineDetails = "online event details";
       eventEntity.onlineCapacity = 20;
       eventEntity.onlineUrl = "https://somewhere.com/";

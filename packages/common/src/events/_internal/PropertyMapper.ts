@@ -5,11 +5,10 @@ import {
 } from "../../core/_internal/PropertyMapper";
 import { IHubEvent } from "../../core/types/IHubEvent";
 import { SettableAccessLevel } from "../../core/types/types";
-import {
-  getLocalDate,
-  getLocalTime,
-  getTimeZoneISOStringFromLocalDateTime,
-} from "../../utils/date";
+import { cloneObject } from "../../util";
+import { getDatePickerDate } from "../../utils/date/getDatePickerDate";
+import { getTimePickerTime } from "../../utils/date/getTimePickerTime";
+import { getISOStringFromClientDateTime } from "./getISOStringFromClientDateTime";
 import {
   EventAccess,
   EventAttendanceType,
@@ -17,6 +16,7 @@ import {
   IEvent,
   IOnlineMeeting,
 } from "../api/orval/api/orval-events";
+import { HubEventAttendanceType, HubEventOnlineCapacityType } from "../types";
 
 /**
  * @private
@@ -58,14 +58,17 @@ export class EventPropertyMapper extends PropertyMapper<
       store.attendanceType.includes(EventAttendanceType.IN_PERSON) &&
       store.attendanceType.includes(EventAttendanceType.VIRTUAL)
     ) {
-      obj.attendanceType = "both";
+      obj.attendanceType = HubEventAttendanceType.Both;
     } else if (store.attendanceType.includes(EventAttendanceType.IN_PERSON)) {
-      obj.attendanceType = "inPerson";
+      obj.attendanceType = HubEventAttendanceType.InPerson;
     } else {
-      obj.attendanceType = "online";
+      obj.attendanceType = HubEventAttendanceType.Online;
     }
     obj.inPersonCapacity = store.addresses?.[0]?.capacity ?? null;
     obj.onlineCapacity = store.onlineMeetings?.[0]?.capacity ?? null;
+    obj.onlineCapacityType = store.onlineMeetings?.[0]?.capacity
+      ? HubEventOnlineCapacityType.Fixed
+      : HubEventOnlineCapacityType.Unlimited;
     obj.onlineDetails = store.onlineMeetings?.[0]?.details ?? null;
     obj.onlineUrl = store.onlineMeetings?.[0]?.url ?? null;
     obj.canChangeAccess = [
@@ -82,10 +85,10 @@ export class EventPropertyMapper extends PropertyMapper<
     obj.createdDate = new Date(store.createdAt);
     obj.startDateTime = new Date(store.startDateTime);
     obj.endDateTime = new Date(store.endDateTime);
-    obj.startDate = getLocalDate(store.startDateTime, store.timeZone);
-    obj.endDate = getLocalDate(store.endDateTime, store.timeZone);
-    obj.startTime = getLocalTime(store.startDateTime, store.timeZone);
-    obj.endTime = getLocalTime(store.endDateTime, store.timeZone);
+    obj.startDate = getDatePickerDate(store.startDateTime, store.timeZone);
+    obj.endDate = getDatePickerDate(store.endDateTime, store.timeZone);
+    obj.startTime = getTimePickerTime(store.startDateTime, store.timeZone);
+    obj.endTime = getTimePickerTime(store.endDateTime, store.timeZone);
     obj.createdDateSource = "createdAt";
     obj.updatedDate = new Date(store.updatedAt);
     obj.updatedDateSource = "updatedAt";
@@ -110,49 +113,61 @@ export class EventPropertyMapper extends PropertyMapper<
     // TODO: support locations
     // TODO: thumbnail & thumbnail url
 
-    const obj = mapEntityToStore(entity, store, this.mappings);
+    const clonedEntity = cloneObject(entity);
 
-    obj.access = entity.access.toUpperCase() as EventAccess;
+    const obj = mapEntityToStore(clonedEntity, store, this.mappings);
 
-    if (entity.isRemoved) {
+    obj.access = clonedEntity.access.toUpperCase() as EventAccess;
+
+    if (clonedEntity.isRemoved) {
       obj.status = EventStatus.REMOVED;
-    } else if (entity.isCanceled) {
+    } else if (clonedEntity.isCanceled) {
       obj.status = EventStatus.CANCELED;
     } else {
       obj.status = EventStatus.PLANNED;
     }
 
-    if (entity.attendanceType === "both") {
+    if (clonedEntity.attendanceType === HubEventAttendanceType.Both) {
       obj.attendanceType = [
         EventAttendanceType.IN_PERSON,
         EventAttendanceType.VIRTUAL,
       ];
-    } else if (entity.attendanceType === "inPerson") {
+    } else if (
+      clonedEntity.attendanceType === HubEventAttendanceType.InPerson
+    ) {
       obj.attendanceType = [EventAttendanceType.IN_PERSON];
     } else {
       obj.attendanceType = [EventAttendanceType.VIRTUAL];
     }
 
-    if (["online", "both"].includes(entity.attendanceType)) {
+    if (
+      [HubEventAttendanceType.Online, HubEventAttendanceType.Both].includes(
+        clonedEntity.attendanceType
+      )
+    ) {
       obj.onlineMeetings = [
         {
-          details: entity.onlineDetails,
-          capacity: entity.onlineCapacity,
-          url: entity.onlineUrl,
+          details: clonedEntity.onlineDetails,
+          capacity: clonedEntity.onlineCapacity,
+          url: clonedEntity.onlineUrl,
         } as IOnlineMeeting,
       ];
     }
 
+    // override startTime & endTime for all-day events
+    if (clonedEntity.isAllDay) {
+      clonedEntity.startTime = "00:00:00";
+      clonedEntity.endTime = "23:59:59";
+    }
+
     // build start & end date/time iso strings, adjusted for desired time zone
-    obj.startDateTime = getTimeZoneISOStringFromLocalDateTime(
-      entity.startDate,
-      entity.startTime,
-      entity.timeZone
+    obj.startDateTime = getISOStringFromClientDateTime(
+      clonedEntity.startDate,
+      clonedEntity.startTime
     );
-    obj.endDateTime = getTimeZoneISOStringFromLocalDateTime(
-      entity.endDate,
-      entity.endTime,
-      entity.timeZone
+    obj.endDateTime = getISOStringFromClientDateTime(
+      clonedEntity.endDate,
+      clonedEntity.endTime
     );
 
     return obj;

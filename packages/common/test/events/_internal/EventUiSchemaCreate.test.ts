@@ -3,7 +3,9 @@ import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
 import { IHubEvent } from "../../../src/core/types/IHubEvent";
 import { buildUiSchema } from "../../../src/events/_internal/EventUiSchemaCreate";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
+import { HubEventAttendanceType } from "../../../src/events/types";
 import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
+import * as getDatePickerDateUtils from "../../../src/utils/date/getDatePickerDate";
 
 describe("EventUiSchemaCreate", () => {
   describe("buildUiSchema", () => {
@@ -32,7 +34,7 @@ describe("EventUiSchemaCreate", () => {
       const entity = {
         access: "private",
         allowRegistration: true,
-        attendanceType: "inPerson",
+        attendanceType: HubEventAttendanceType.InPerson,
         categories: [],
         inPersonCapacity: null,
         isAllDay: false,
@@ -51,10 +53,19 @@ describe("EventUiSchemaCreate", () => {
         tags: [],
         ...datesAndTimes,
       } as unknown as IHubEvent;
+      const getDatePickerDateSpy = spyOn(
+        getDatePickerDateUtils,
+        "getDatePickerDate"
+      ).and.returnValue("2024-04-03");
       const res = await buildUiSchema(
         "myI18nScope",
         entity,
         authdCtxMgr.context
+      );
+      expect(getDatePickerDateSpy).toHaveBeenCalledTimes(1);
+      expect(getDatePickerDateSpy).toHaveBeenCalledWith(
+        jasmine.any(Date),
+        entity.timeZone
       );
       expect(res).toEqual({
         type: "Layout",
@@ -86,7 +97,7 @@ describe("EventUiSchemaCreate", () => {
             type: "Control",
             options: {
               control: "hub-field-input-date",
-              min: jasmine.any(String),
+              min: "2024-04-03",
               messages: [
                 {
                   type: "ERROR",
@@ -179,7 +190,12 @@ describe("EventUiSchemaCreate", () => {
             rule: {
               condition: {
                 scope: "/properties/attendanceType",
-                schema: { enum: ["online", "both"] },
+                schema: {
+                  enum: [
+                    HubEventAttendanceType.Online,
+                    HubEventAttendanceType.Both,
+                  ],
+                },
               },
               effect: UiSchemaRuleEffects.SHOW,
             },

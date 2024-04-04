@@ -6,6 +6,7 @@ import {
   EventStatus,
   IEvent,
 } from "./api/orval/api/orval-events";
+import { HubEventAttendanceType } from "./types";
 
 /**
  * Builds a partial IHubEvent (entity) with default values
@@ -15,7 +16,7 @@ export function buildDefaultEventEntity(): Partial<IHubEvent> {
   return {
     access: "private",
     allowRegistration: true,
-    attendanceType: "inPerson",
+    attendanceType: HubEventAttendanceType.InPerson,
     categories: [],
     inPersonCapacity: null,
     isAllDay: false,

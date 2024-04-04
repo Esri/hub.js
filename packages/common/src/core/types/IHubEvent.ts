@@ -1,3 +1,7 @@
+import {
+  HubEventAttendanceType,
+  HubEventOnlineCapacityType,
+} from "../../events/types";
 import { IWithPermissions, IWithSlug } from "../traits";
 import { IHubItemEntity, IHubItemEntityEditor } from "./IHubItemEntity";
 
@@ -14,7 +18,7 @@ export interface IHubEvent extends IHubItemEntity, IWithPermissions, IWithSlug {
   /**
    * The attendnace type of the event. Either `online`, `inPerson` or `both`
    */
-  attendanceType: "online" | "inPerson" | "both";
+  attendanceType: HubEventAttendanceType;
 
   /**
    * True when the user can change the access of the event to `public`, `org` or `private`
@@ -100,6 +104,11 @@ export interface IHubEvent extends IHubItemEntity, IWithPermissions, IWithSlug {
    * The maximum attendance capacity for an online event
    */
   onlineCapacity?: number | null;
+
+  /**
+   * The capacity type for an online event, either `unlimited` or `fixed`
+   */
+  onlineCapacityType?: HubEventOnlineCapacityType;
 
   /**
    * The details for an online event

@@ -3,7 +3,10 @@ import { IHubRequestOptions } from "../types";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { EventPropertyMapper } from "./_internal/PropertyMapper";
 import { buildDefaultEventEntity, buildDefaultEventRecord } from "./defaults";
-import { createEvent as createEventApi } from "./api/events";
+import {
+  createEvent as createEventApi,
+  updateEvent as updateEventApi,
+} from "./api/events";
 
 /**
  * @private
@@ -26,18 +29,13 @@ export async function createHubEvent(
   // so set endDate to startDate
   event.endDate = event.startDate;
 
-  // override startTime & endTime for all-day events
-  if (event.isAllDay) {
-    event.startTime = "00:00:00";
-    event.endTime = "23:59:59";
-  }
-
   // TODO: how to handle slugs
   // TODO: how to handle events being discussable vs non-discussable
 
   const mapper = new EventPropertyMapper(getPropertyMap());
 
   let model = mapper.entityToStore(event, buildDefaultEventRecord());
+
   const data = {
     access: model.access,
     addresses: model.addresses,
@@ -65,8 +63,7 @@ export async function createHubEvent(
     ...requestOptions,
   });
 
-  const newEvent = mapper.storeToEntity(model, {});
-  return newEvent as IHubEvent;
+  return mapper.storeToEntity(model, {}) as IHubEvent;
 }
 
 /**
@@ -80,5 +77,42 @@ export async function updateHubEvent(
   event: IHubEvent,
   requestOptions: IHubRequestOptions
 ): Promise<IHubEvent> {
-  throw new Error("not implemented");
+  const eventUpdates = { ...buildDefaultEventEntity(), ...event };
+
+  // TODO: how to handle slugs
+  // TODO: how to handle events being discussable vs non-discussable
+
+  const mapper = new EventPropertyMapper(getPropertyMap());
+
+  let model = mapper.entityToStore(eventUpdates, buildDefaultEventRecord());
+
+  const data = {
+    access: model.access,
+    addresses: model.addresses,
+    allDay: model.allDay,
+    allowRegistration: model.allowRegistration,
+    attendanceType: model.attendanceType,
+    categories: model.categories,
+    description: model.description,
+    editGroups: model.editGroups,
+    endDateTime: model.endDateTime,
+    notifyAttendees: model.notifyAttendees,
+    onlineMeetings: model.onlineMeetings,
+    readGroups: model.readGroups,
+    startDateTime: model.startDateTime,
+    summary: model.summary,
+    tags: model.tags,
+    timeZone: model.timeZone,
+    title: model.title,
+    // TODO: groups
+    // TODO: locations
+  };
+
+  model = await updateEventApi({
+    eventId: model.id,
+    data,
+    ...requestOptions,
+  });
+
+  return mapper.storeToEntity(model, {}) as IHubEvent;
 }

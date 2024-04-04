@@ -1,8 +1,9 @@
 import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import { IArcGISContext } from "../../ArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
-import { getLocalDate } from "../../utils";
+import { getDatePickerDate } from "../../utils/date/getDatePickerDate";
 import { IHubEvent } from "../../core/types/IHubEvent";
+import { HubEventAttendanceType } from "../types";
 
 /**
  * @private
@@ -15,6 +16,10 @@ export const buildUiSchema = async (
   options: EntityEditorOptions,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
+  const minStartDate = getDatePickerDate(
+    new Date(),
+    (options as IHubEvent).timeZone
+  );
   return {
     type: "Layout",
     elements: [
@@ -45,10 +50,7 @@ export const buildUiSchema = async (
         type: "Control",
         options: {
           control: "hub-field-input-date",
-          min: getLocalDate(
-            new Date().toISOString(),
-            (options as IHubEvent).timeZone
-          ),
+          min: minStartDate,
           messages: [
             {
               type: "ERROR",
@@ -141,7 +143,12 @@ export const buildUiSchema = async (
         rule: {
           condition: {
             scope: "/properties/attendanceType",
-            schema: { enum: ["online", "both"] },
+            schema: {
+              enum: [
+                HubEventAttendanceType.Online,
+                HubEventAttendanceType.Both,
+              ],
+            },
           },
           effect: UiSchemaRuleEffects.SHOW,
         },

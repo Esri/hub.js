@@ -1,4 +1,6 @@
-import { getLocalDate, getLocalTime, guessTimeZone } from "../../utils/date";
+import { getDatePickerDate } from "../../utils/date/getDatePickerDate";
+import { getTimePickerTime } from "../../utils/date/getTimePickerTime";
+import { guessTimeZone } from "../../utils/date/guessTimeZone";
 
 /**
  * @private
@@ -17,15 +19,15 @@ export const getDefaultEventDatesAndTimes = () => {
   const sDate = nextFullHour.toISOString();
   const eDate = new Date(nextFullHour.valueOf() + hour).toISOString();
   const timeZone = guessTimeZone();
-  const startDate = getLocalDate(sDate, timeZone);
-  const endDate = getLocalDate(eDate, timeZone);
+  const startDate = getDatePickerDate(sDate, timeZone);
+  const endDate = getDatePickerDate(eDate, timeZone);
   return {
     startDate,
     startDateTime: new Date(sDate),
-    startTime: getLocalTime(sDate, timeZone),
+    startTime: getTimePickerTime(sDate, timeZone),
     endDate,
     endDateTime: new Date(eDate),
-    endTime: getLocalTime(eDate, timeZone),
+    endTime: getTimePickerTime(eDate, timeZone),
     timeZone,
   };
 };

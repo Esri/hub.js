@@ -1,9 +1,14 @@
 import { IConfigurationSchema } from "../../core/schemas/types";
 import { ENTITY_NAME_SCHEMA } from "../../core/schemas/shared/subschemas";
 import { getDefaultEventDatesAndTimes } from "./getDefaultEventDatesAndTimes";
+import { HubEventAttendanceType } from "../types";
+import {
+  URL_VALIDATIONS_WHEN_ONLINE_OR_HYBRID,
+  TIME_VALIDATIONS_WHEN_NOT_ALL_DAY,
+} from "./validations";
 
 export type EventEditorType = (typeof EventEditorTypes)[number];
-export const EventEditorTypes = ["hub:event:create"] as const;
+export const EventEditorTypes = ["hub:event:create", "hub:event:edit"] as const;
 
 /**
  * @private
@@ -28,8 +33,12 @@ export const buildSchema = (): IConfigurationSchema => {
       },
       attendanceType: {
         type: "string",
-        enum: ["inPerson", "online", "both"],
-        default: "inPerson",
+        enum: [
+          HubEventAttendanceType.InPerson,
+          HubEventAttendanceType.Online,
+          HubEventAttendanceType.Both,
+        ],
+        default: HubEventAttendanceType.InPerson,
       },
       isAllDay: {
         type: "boolean",
@@ -40,37 +49,8 @@ export const buildSchema = (): IConfigurationSchema => {
       },
     },
     allOf: [
-      {
-        if: {
-          properties: {
-            attendanceType: { enum: ["online", "both"] },
-          },
-        },
-        then: {
-          required: ["onlineUrl"],
-          properties: {
-            onlineUrl: {
-              format: "url" as string,
-            },
-          },
-        },
-      },
-      {
-        if: {
-          properties: {
-            isAllDay: { const: false },
-          },
-        },
-        then: {
-          required: ["startTime", "endTime"],
-          properties: {
-            endTime: {
-              format: "timePickerTime",
-              formatExclusiveMinimum: { $data: "1/startTime" },
-            },
-          },
-        },
-      },
+      URL_VALIDATIONS_WHEN_ONLINE_OR_HYBRID,
+      TIME_VALIDATIONS_WHEN_NOT_ALL_DAY,
     ],
   } as IConfigurationSchema;
 };

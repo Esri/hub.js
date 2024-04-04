@@ -8,6 +8,7 @@ import {
   buildDefaultEventEntity,
   buildDefaultEventRecord,
 } from "../../src/events/defaults";
+import { HubEventAttendanceType } from "../../src/events/types";
 
 describe("HubEvent defaults:", () => {
   describe("buildDefaultEventEntity", () => {
@@ -28,7 +29,7 @@ describe("HubEvent defaults:", () => {
       expect(buildDefaultEventEntity()).toEqual({
         access: "private",
         allowRegistration: true,
-        attendanceType: "inPerson",
+        attendanceType: HubEventAttendanceType.InPerson,
         categories: [],
         inPersonCapacity: null,
         isAllDay: false,

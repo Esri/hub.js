@@ -1,5 +1,7 @@
 import { getDefaultEventDatesAndTimes } from "../../../src/events/_internal/getDefaultEventDatesAndTimes";
-import * as dateUtils from "../../../src/utils/date";
+import * as getDatePickerDateUtils from "../../../src/utils/date/getDatePickerDate";
+import * as getTimePickerTimeUtils from "../../../src/utils/date/getTimePickerTime";
+import * as guessTimeZoneUtils from "../../../src/utils/date/guessTimeZone";
 
 describe("getDefaultEventDatesAndTimes", () => {
   beforeAll(() => {
@@ -12,15 +14,19 @@ describe("getDefaultEventDatesAndTimes", () => {
   });
 
   it("should return an object containing start & end dates & times and the timeZone", () => {
-    const guessTimeZoneSpy = spyOn(dateUtils, "guessTimeZone").and.returnValue(
-      "America/New_York"
-    );
-    const getLocalDateSpy = spyOn(dateUtils, "getLocalDate").and.returnValue(
-      "2024-04-01"
-    );
-    const getLocalTimeSpy = spyOn(dateUtils, "getLocalTime").and.callFake(
-      (arg: string) =>
-        arg === "2024-04-01T17:00:00.000Z" ? "13:00:00" : "14:00:00"
+    const guessTimeZoneSpy = spyOn(
+      guessTimeZoneUtils,
+      "guessTimeZone"
+    ).and.returnValue("America/New_York");
+    const getDatePickerDateSpy = spyOn(
+      getDatePickerDateUtils,
+      "getDatePickerDate"
+    ).and.returnValue("2024-04-01");
+    const getTimePickerTimeUtilsSpy = spyOn(
+      getTimePickerTimeUtils,
+      "getTimePickerTime"
+    ).and.callFake((arg: string) =>
+      arg === "2024-04-01T17:00:00.000Z" ? "13:00:00" : "14:00:00"
     );
     expect(getDefaultEventDatesAndTimes()).toEqual({
       startDate: "2024-04-01",
@@ -32,21 +38,21 @@ describe("getDefaultEventDatesAndTimes", () => {
       timeZone: "America/New_York",
     });
     expect(guessTimeZoneSpy).toHaveBeenCalledTimes(1);
-    expect(getLocalDateSpy).toHaveBeenCalledTimes(2);
-    expect(getLocalDateSpy).toHaveBeenCalledWith(
+    expect(getDatePickerDateSpy).toHaveBeenCalledTimes(2);
+    expect(getDatePickerDateSpy).toHaveBeenCalledWith(
       "2024-04-01T17:00:00.000Z",
       "America/New_York"
     );
-    expect(getLocalDateSpy).toHaveBeenCalledWith(
+    expect(getDatePickerDateSpy).toHaveBeenCalledWith(
       "2024-04-01T18:00:00.000Z",
       "America/New_York"
     );
-    expect(getLocalTimeSpy).toHaveBeenCalledTimes(2);
-    expect(getLocalTimeSpy).toHaveBeenCalledWith(
+    expect(getTimePickerTimeUtilsSpy).toHaveBeenCalledTimes(2);
+    expect(getTimePickerTimeUtilsSpy).toHaveBeenCalledWith(
       "2024-04-01T17:00:00.000Z",
       "America/New_York"
     );
-    expect(getLocalTimeSpy).toHaveBeenCalledWith(
+    expect(getTimePickerTimeUtilsSpy).toHaveBeenCalledWith(
       "2024-04-01T18:00:00.000Z",
       "America/New_York"
     );
