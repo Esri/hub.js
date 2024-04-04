@@ -1,3 +1,10 @@
+## @esri/hub-common [14.110.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.110.0...@esri/hub-common@14.110.1) (2024-04-03)
+
+
+### Bug Fixes
+
+* update followSchema and followCardUiSchema ([#1455](https://github.com/Esri/hub.js/issues/1455)) ([7da4122](https://github.com/Esri/hub.js/commit/7da41222970e7ca705f3a22deb73b7158bbea41b))
+
 # @esri/hub-common [14.110.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.109.1...@esri/hub-common@14.110.0) (2024-04-01)
 
 

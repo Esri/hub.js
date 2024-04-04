@@ -4,21 +4,15 @@ export const FollowSchema: IConfigurationSchema = {
   type: "object",
   required: [],
   properties: {
-    itemGalleryWithDefault: {
+    entityId: {
       type: "array",
       items: {
         type: "string",
       },
-      maxItems: 10,
-      default: [],
-    },
-    entityId: {
-      type: "string",
+      maxItems: 1,
     },
     callToActionText: {
       type: "string",
-      default:
-        "By following this site you will get updates about new events, surveys, and tools that you can use to help us achieve our goals.",
     },
     callToActionAlign: {
       enum: ["start", "center", "end"],

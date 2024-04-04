@@ -43,7 +43,7 @@ export function computeProps(
 
   initiative.view = {
     ...model.data.view,
-    featuredImageUrl: model.data.view.featuredImageUrl,
+    featuredImageUrl: model.data.view?.featuredImageUrl,
   };
 
   // Handle Dates

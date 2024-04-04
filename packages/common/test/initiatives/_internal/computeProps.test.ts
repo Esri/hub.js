@@ -127,5 +127,14 @@ describe("initiatives: computeProps:", () => {
       );
       expect(chk.view?.featuredImageUrl).toContain("mock-featured-image-url");
     });
+    it("does not generate featuredImageUrl when there is no data view", () => {
+      model.data = {};
+      const chk = computeProps(
+        model,
+        initiative,
+        authdCtxMgr.context.requestOptions
+      );
+      expect(chk.view?.featuredImageUrl).toBeFalsy();
+    });
   });
 });
