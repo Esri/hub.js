@@ -1,3 +1,10 @@
+# @esri/hub-common [14.111.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.110.1...@esri/hub-common@14.111.0) (2024-04-05)
+
+
+### Features
+
+* **hub-common:** add event entity ([#1457](https://github.com/Esri/hub.js/issues/1457)) ([b76092e](https://github.com/Esri/hub.js/commit/b76092ebb5e1093b140488a5714bfbe66d96c6b8))
+
 ## @esri/hub-common [14.110.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.110.0...@esri/hub-common@14.110.1) (2024-04-03)
 
 
