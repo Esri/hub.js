@@ -1,3 +1,10 @@
+## @esri/hub-common [14.111.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.111.0...@esri/hub-common@14.111.1) (2024-04-05)
+
+
+### Bug Fixes
+
+* metric/stat card schema sourceLink does url validation ([#1461](https://github.com/Esri/hub.js/issues/1461)) ([8e398d0](https://github.com/Esri/hub.js/commit/8e398d038e9e56529f098fd568bd545c10807c56))
+
 # @esri/hub-common [14.111.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.110.1...@esri/hub-common@14.111.0) (2024-04-05)
 
 
