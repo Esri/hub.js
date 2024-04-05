@@ -10,6 +10,7 @@ import {
   HubProject,
   HubSite,
   HubSurvey,
+  HubEvent,
   HubTemplate,
   IHubDiscussion,
   IHubEditableContent,
@@ -19,6 +20,7 @@ import {
   IHubProject,
   IHubSite,
   IHubSurvey,
+  IHubEvent,
   IHubTemplate,
   getProp,
 } from "../../src";
@@ -462,6 +464,46 @@ describe("EntityEditor:", () => {
       expect(fromJsonSpy).toHaveBeenCalled();
       await editor.getConfig("someScope", "hub:survey:edit");
       expect(getConfigSpy).toHaveBeenCalledWith("someScope", "hub:survey:edit");
+      const chk = await editor.toEditor();
+      expect(toEditorSpy).toHaveBeenCalled();
+      expect(chk.id).toBe("00c");
+      await editor.save(chk);
+      expect(fromEditorSpy).toHaveBeenCalledWith(chk, undefined);
+    });
+  });
+
+  describe("supports events:", () => {
+    let fromJsonSpy: jasmine.Spy;
+    let getConfigSpy: jasmine.Spy;
+    let toEditorSpy: jasmine.Spy;
+    let fromEditorSpy: jasmine.Spy;
+    beforeEach(() => {
+      fromJsonSpy = spyOn(HubEvent, "fromJson").and.callThrough();
+      getConfigSpy = spyOn(HubEvent.prototype, "getEditorConfig").and.callFake(
+        () => {
+          return Promise.resolve({} as any);
+        }
+      );
+      toEditorSpy = spyOn(HubEvent.prototype, "toEditor").and.callThrough();
+      fromEditorSpy = spyOn(HubEvent.prototype, "fromEditor").and.callFake(
+        () => {
+          return Promise.resolve({} as any);
+        }
+      );
+    });
+
+    it("verify EntityEditor with Event", async () => {
+      const s: IHubEvent = {
+        id: "00c",
+        type: "Event",
+      } as IHubEvent;
+      const editor = EntityEditor.fromEntity(s, authdCtxMgr.context);
+      expect(fromJsonSpy).toHaveBeenCalled();
+      await editor.getConfig("someScope", "hub:event:create");
+      expect(getConfigSpy).toHaveBeenCalledWith(
+        "someScope",
+        "hub:event:create"
+      );
       const chk = await editor.toEditor();
       expect(toEditorSpy).toHaveBeenCalled();
       expect(chk.id).toBe("00c");

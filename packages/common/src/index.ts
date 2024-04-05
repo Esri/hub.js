@@ -19,6 +19,7 @@ export * from "./initiatives";
 export * from "./initiative-templates";
 export * from "./discussions";
 export * from "./surveys";
+export * from "./events";
 export * from "./items";
 export * from "./models";
 export * from "./objects";

@@ -40,6 +40,9 @@ export function getTypeFromEntity(
     case "Hub Initiative Template":
       type = "initiativeTemplate";
       break;
+    case "Event":
+      type = "event";
+      break;
     // case "Hub Content": // needed for future ticket in getLocationOptions
     //   type = "content";
     //   break;
