@@ -245,6 +245,7 @@ export const getContentTypeIcon = (contentType: string) => {
     desktopApplication: "desktop",
     discussion: "speech-bubbles",
     documentLink: "link",
+    event: "event",
     excaliburImageryProject: "file",
     explorerMap: "file",
     exportPackage: "file",
