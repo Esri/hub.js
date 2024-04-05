@@ -1,3 +1,10 @@
+## @esri/hub-common [14.111.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.111.1...@esri/hub-common@14.111.2) (2024-04-05)
+
+
+### Bug Fixes
+
+* update unfollow button to outline-fill ([#1462](https://github.com/Esri/hub.js/issues/1462)) ([0427e81](https://github.com/Esri/hub.js/commit/0427e81045fff210f68600adf5d48c6c02b49832))
+
 ## @esri/hub-common [14.111.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.111.0...@esri/hub-common@14.111.1) (2024-04-05)
 
 
