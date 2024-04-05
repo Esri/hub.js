@@ -155,8 +155,6 @@ export class EventPropertyMapper extends PropertyMapper<
           url: clonedEntity.onlineUrl,
         } as IOnlineMeeting,
       ];
-    } else {
-      obj.onlineMeetings = [];
     }
 
     // override startTime & endTime for all-day events

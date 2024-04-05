@@ -216,11 +216,6 @@ describe("PropertyMapper", () => {
     });
 
     it("converts an IHubEvent to an in-person Event record", () => {
-      eventEntity.attendanceType = HubEventAttendanceType.InPerson;
-      eventEntity.onlineDetails = "online event details";
-      eventEntity.onlineCapacityType = HubEventOnlineCapacityType.Fixed;
-      eventEntity.onlineCapacity = 20;
-      eventEntity.onlineUrl = "https://somewhere.com/";
       expect(propertyMapper.entityToStore(eventEntity, {})).toEqual({
         allDay: false,
         title: "event title",
@@ -242,7 +237,6 @@ describe("PropertyMapper", () => {
         timeZone: "America/New_York",
         summary: "event summary",
         notifyAttendees: false,
-        onlineMeetings: [],
         allowRegistration: false,
         access: EventAccess.PRIVATE,
         status: EventStatus.PLANNED,
@@ -268,7 +262,6 @@ describe("PropertyMapper", () => {
           canSetStatusToRemoved: true,
         },
         orgId: "42b",
-        onlineMeetings: [],
         description: "event description",
         id: "31c",
         tags: ["tag1"],
@@ -433,7 +426,6 @@ describe("PropertyMapper", () => {
           canSetStatusToRemoved: true,
         },
         orgId: "42b",
-        onlineMeetings: [],
         description: "event description",
         id: "31c",
         tags: ["tag1"],
@@ -466,7 +458,6 @@ describe("PropertyMapper", () => {
           canSetStatusToRemoved: true,
         },
         orgId: "42b",
-        onlineMeetings: [],
         description: "event description",
         id: "31c",
         tags: ["tag1"],
