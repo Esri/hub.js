@@ -3,8 +3,12 @@ name: Build, Test, Release
 # On pushes to master (i.e. merging a PR)
 # run all tests, on win, macos, linux, on node 12 & 14
 on:
+  pull_request:
+    branches:
+      - b/npm-auth-token
   push:
     branches:
+      - b/npm-auth-token
       - master
       - beta
       # - alpha disabled to allow push to alpha then merge to master w/o incurring a release
@@ -31,10 +35,15 @@ jobs:
         node: [16]
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
+
+      - name: Debug - verify setup
+        run: |
+          npm set "//registry.npmjs.org/:_authToken" ${{ secrets.NPM_TOKEN }}
+          npm whoami
 
       - name: Install
         run: npm ci
@@ -59,13 +68,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           # This parameter is required to make sure sematic-relase exactly use the provided GitHub Token
           # See https://semantic-release.gitbook.io/semantic-release/recipes/ci-configurations/github-actions#pushing-package.json-changes-to-a-master-branch
           persist-credentials: false
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 16.13
 
@@ -74,6 +83,11 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Debug - verify setup
+        run: |
+          npm set "//registry.npmjs.org/:_authToken" ${{ secrets.NPM_TOKEN }}
+          npm whoami
 
       - name: Release
         env:
