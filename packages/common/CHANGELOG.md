@@ -1,3 +1,10 @@
+## @esri/hub-common [14.111.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.111.2...@esri/hub-common@14.111.3) (2024-04-08)
+
+
+### Bug Fixes
+
+* **hub-common:** add event icon to getContentTypeIcon method ([#1463](https://github.com/Esri/hub.js/issues/1463)) ([09b675d](https://github.com/Esri/hub.js/commit/09b675d142b8d59c274b400b6fa64aa4ec6eff2e))
+
 ## @esri/hub-common [14.111.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.111.1...@esri/hub-common@14.111.2) (2024-04-05)
 
 
