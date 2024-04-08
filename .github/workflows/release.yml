@@ -22,49 +22,44 @@ on:
 jobs:
   # First, build and test on multiple os's
   # and multuple versions of node
-  build_and_test:
-    name: Build and Test
+  # build_and_test:
+  #   name: Build and Test
 
-    runs-on: ${{ matrix.os }}
+  #   runs-on: ${{ matrix.os }}
 
-    # PRs will run tests on node 14,16 on ubuntu, macos and windows
-    # so for the release, we're just running node 16@ubuntu
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        node: [16]
+  #   # PRs will run tests on node 14,16 on ubuntu, macos and windows
+  #   # so for the release, we're just running node 16@ubuntu
+  #   strategy:
+  #     matrix:
+  #       os: [ubuntu-latest]
+  #       node: [16]
 
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node }}
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: actions/setup-node@v4
+  #       with:
+  #         node-version: ${{ matrix.node }}
 
-      - name: Debug - verify setup
-        run: |
-          npm set "//registry.npmjs.org/:_authToken" ${{ secrets.NPM_TOKEN }}
-          npm whoami
+  #     - name: Install
+  #       run: npm ci
 
-      - name: Install
-        run: npm ci
+  #     - name: Build
+  #       run: npm run build
 
-      - name: Build
-        run: npm run build
+  #     - name: Test in Chrome
+  #       run: npm run test:chrome:ci
 
-      - name: Test in Chrome
-        run: npm run test:chrome:ci
+  #     - name: Test in Node
+  #       run: npm run test:node
 
-      - name: Test in Node
-        run: npm run test:node
-
-      - uses: codecov/codecov-action@v3
-        with:
-          directory: ./coverage
+  #     - uses: codecov/codecov-action@v3
+  #       with:
+  #         directory: ./coverage
 
   # If the build and test works, run a release
   release:
     name: Release
-    needs: [build_and_test]
+    # needs: [build_and_test]
     runs-on: ubuntu-latest
 
     steps:
