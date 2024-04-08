@@ -1,3 +1,15 @@
+# @esri/hub-common [14.112.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.111.2...@esri/hub-common@14.112.0) (2024-04-08)
+
+
+### Bug Fixes
+
+* **hub-common:** add event icon to getContentTypeIcon method ([#1463](https://github.com/Esri/hub.js/issues/1463)) ([09b675d](https://github.com/Esri/hub.js/commit/09b675d142b8d59c274b400b6fa64aa4ec6eff2e))
+
+
+### Features
+
+* added permission for download errors ([#1465](https://github.com/Esri/hub.js/issues/1465)) ([63351c5](https://github.com/Esri/hub.js/commit/63351c5986dbc1f21c87fa2fd570912e55843b73))
+
 ## @esri/hub-common [14.111.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.111.2...@esri/hub-common@14.111.3) (2024-04-08)
 
 
