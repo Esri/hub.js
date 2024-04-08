@@ -27,6 +27,7 @@ export const ContentPermissions = [
   "hub:content:workspace:collaborators",
   "hub:content:manage",
   "hub:content:canRecordDownloadErrors",
+  "hub:content:downloads:displayErrors",
 ] as const;
 
 /**
@@ -119,6 +120,11 @@ export const ContentPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:content:canRecordDownloadErrors",
+    environments: ["qaext", "devext"],
+  },
+  {
+    permission: "hub:content:downloads:displayErrors",
+    availability: ["alpha"],
     environments: ["qaext", "devext"],
   },
 ];
