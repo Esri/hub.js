@@ -68,6 +68,11 @@ export const buildUiSchema = (
         type: "Section",
         labelKey: "callToAction.title",
         rule: HIDE_FOR_NO_ENTITY_ID,
+        options: {
+          helperText: {
+            labelKey: "callToAction.helperText",
+          },
+        },
         elements: [
           {
             scope: "/properties/callToActionText",
@@ -91,7 +96,9 @@ export const buildUiSchema = (
         type: "Section",
         labelKey: "followButton.title",
         options: {
-          labelKey: "followButton.description",
+          helperText: {
+            labelKey: "followButton.helperText",
+          },
         },
         rule: HIDE_FOR_NO_ENTITY_ID,
         elements: [
