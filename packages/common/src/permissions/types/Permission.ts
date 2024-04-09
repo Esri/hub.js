@@ -9,6 +9,7 @@ import { PlatformPermissions } from "../PlatformPermissionPolicies";
 import { InitiativeTemplatePermissions } from "../../initiative-templates/_internal/InitiativeTemplateBusinessRules";
 import { TemplatePermissions } from "../../templates/_internal/TemplateBusinessRules";
 import { SurveyPermissions } from "../../surveys/_internal/SurveyBusinessRules";
+import { EventPermissions } from "../../events/_internal/EventBusinessRules";
 /**
  * Defines the values for Permissions
  * It's critical that the arrays defined in the modules use `as const`
@@ -43,6 +44,7 @@ const validPermissions = [
   ...TemplatePermissions,
   ...SystemPermissions,
   ...SurveyPermissions,
+  ...EventPermissions,
 ] as const;
 
 /**
@@ -61,7 +63,8 @@ export type Permission =
   | (typeof InitiativeTemplatePermissions)[number]
   | (typeof TemplatePermissions)[number]
   | (typeof SystemPermissions)[number]
-  | (typeof SurveyPermissions)[number];
+  | (typeof SurveyPermissions)[number]
+  | (typeof EventPermissions)[number];
 
 /**
  * Validate a Permission

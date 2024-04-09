@@ -14,6 +14,7 @@ import { IHubSurvey, IHubSurveyEditor } from "../core/types/IHubSurvey";
 import { cloneObject } from "../util";
 import { SurveyEditorType } from "./_internal/SurveySchema";
 import { deleteSurvey, updateSurvey } from "./edit";
+import { fetchSurvey } from "./fetch";
 
 /**
  * Hub Survey Class
@@ -35,6 +36,33 @@ export class HubSurvey
     // merge what we have with the default values
     const pojo = this.applyDefaults(json, context);
     return new HubSurvey(pojo, context);
+  }
+
+  /**
+   * Fetch a Survey from the backing store and return a HubSurvey instance.
+   * @param identifier - Identifier of the survey to load
+   * @param context
+   * @returns
+   */
+  static async fetch(
+    identifier: string,
+    context: IArcGISContext
+  ): Promise<HubSurvey> {
+    // fetch the survey by id
+    try {
+      const survey = await fetchSurvey(identifier, context.userRequestOptions);
+      // create an instance of HubSurvey from the survey
+      return HubSurvey.fromJson(survey, context);
+    } catch (ex) {
+      if (
+        (ex as Error).message ===
+        "CONT_0001: Item does not exist or is inaccessible."
+      ) {
+        throw new Error(`Survey not found.`);
+      } else {
+        throw ex;
+      }
+    }
   }
 
   private static applyDefaults(

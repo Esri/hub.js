@@ -1,3 +1,43 @@
+# @esri/hub-common [14.112.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.111.2...@esri/hub-common@14.112.0) (2024-04-08)
+
+
+### Bug Fixes
+
+* **hub-common:** add event icon to getContentTypeIcon method ([#1463](https://github.com/Esri/hub.js/issues/1463)) ([09b675d](https://github.com/Esri/hub.js/commit/09b675d142b8d59c274b400b6fa64aa4ec6eff2e))
+
+
+### Features
+
+* added permission for download errors ([#1465](https://github.com/Esri/hub.js/issues/1465)) ([63351c5](https://github.com/Esri/hub.js/commit/63351c5986dbc1f21c87fa2fd570912e55843b73))
+
+## @esri/hub-common [14.111.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.111.2...@esri/hub-common@14.111.3) (2024-04-08)
+
+
+### Bug Fixes
+
+* **hub-common:** add event icon to getContentTypeIcon method ([#1463](https://github.com/Esri/hub.js/issues/1463)) ([09b675d](https://github.com/Esri/hub.js/commit/09b675d142b8d59c274b400b6fa64aa4ec6eff2e))
+
+## @esri/hub-common [14.111.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.111.1...@esri/hub-common@14.111.2) (2024-04-05)
+
+
+### Bug Fixes
+
+* update unfollow button to outline-fill ([#1462](https://github.com/Esri/hub.js/issues/1462)) ([0427e81](https://github.com/Esri/hub.js/commit/0427e81045fff210f68600adf5d48c6c02b49832))
+
+## @esri/hub-common [14.111.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.111.0...@esri/hub-common@14.111.1) (2024-04-05)
+
+
+### Bug Fixes
+
+* metric/stat card schema sourceLink does url validation ([#1461](https://github.com/Esri/hub.js/issues/1461)) ([8e398d0](https://github.com/Esri/hub.js/commit/8e398d038e9e56529f098fd568bd545c10807c56))
+
+# @esri/hub-common [14.111.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.110.1...@esri/hub-common@14.111.0) (2024-04-05)
+
+
+### Features
+
+* **hub-common:** add event entity ([#1457](https://github.com/Esri/hub.js/issues/1457)) ([b76092e](https://github.com/Esri/hub.js/commit/b76092ebb5e1093b140488a5714bfbe66d96c6b8))
+
 ## @esri/hub-common [14.110.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.110.0...@esri/hub-common@14.110.1) (2024-04-03)
 
 

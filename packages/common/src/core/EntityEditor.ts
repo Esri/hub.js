@@ -14,6 +14,7 @@ import { IWithEditorBehavior } from "./behaviors";
 import { getTypeFromEntity } from "./getTypeFromEntity";
 import { HubEntity } from "./types/HubEntity";
 import { HubEntityEditor, IEntityEditorContext } from "./types/HubEntityEditor";
+import { HubEvent } from "../events/HubEvent";
 
 export class EntityEditor {
   instance: IWithEditorBehavior;
@@ -49,6 +50,9 @@ export class EntityEditor {
     }
     if (entityType === "survey") {
       editor = HubSurvey.fromJson(entity, context) as IWithEditorBehavior;
+    }
+    if (entityType === "event") {
+      editor = HubEvent.fromJson(entity, context) as IWithEditorBehavior;
     }
     if (entityType === "group") {
       editor = HubGroup.fromJson(

@@ -1,8 +1,8 @@
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { MOCK_AUTH } from "../mocks/mock-auth";
-import * as surveyFetchModule from "../../src/surveys/fetch";
 import * as surveyEditModule from "../../src/surveys/edit";
+import * as surveyFetchModule from "../../src/surveys/fetch";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
 import { getProp } from "../../src/objects/get-prop";
@@ -40,7 +40,7 @@ describe("HubSurvey Class:", () => {
       name: "Test Survey 2",
       permissions: [
         {
-          permission: "hub:project:edit",
+          permission: "hub:survey:edit",
           collaborationType: "group",
           collaborationId: "3ef",
         },
@@ -300,6 +300,44 @@ describe("HubSurvey Class:", () => {
           expect(saveSpy).toHaveBeenCalledTimes(0);
         }
       });
+    });
+  });
+
+  describe("fetch", () => {
+    it("should fetch the event", async () => {
+      const fetchEventSpy = spyOn(
+        surveyFetchModule,
+        "fetchSurvey"
+      ).and.returnValue(
+        new Promise((resolve) => resolve({ name: "my survey" }))
+      );
+      const res = await HubSurvey.fetch("31c", authdCtxMgr.context);
+      expect(fetchEventSpy).toHaveBeenCalledTimes(1);
+      expect(fetchEventSpy).toHaveBeenCalledWith(
+        "31c",
+        authdCtxMgr.context.userRequestOptions
+      );
+      expect(res instanceof HubSurvey).toBe(true);
+    });
+    it("should reject when an error occurs", async () => {
+      spyOn(surveyFetchModule, "fetchSurvey").and.throwError(
+        "CONT_0001: Item does not exist or is inaccessible."
+      );
+      try {
+        await HubSurvey.fetch("31c", authdCtxMgr.context);
+        fail("not rejected");
+      } catch (e) {
+        expect(e.message).toBe("Survey not found.");
+      }
+    });
+    it("should reject with the caught error when an error occurs", async () => {
+      spyOn(surveyFetchModule, "fetchSurvey").and.throwError("fail");
+      try {
+        await HubSurvey.fetch("31c", authdCtxMgr.context);
+        fail("not rejected");
+      } catch (e) {
+        expect(e.message).toBe("fail");
+      }
     });
   });
 });

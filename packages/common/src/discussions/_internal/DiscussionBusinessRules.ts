@@ -11,6 +11,7 @@ export const DiscussionPermissions = [
   "hub:discussion:delete",
   "hub:discussion:edit",
   "hub:discussion:view",
+  "hub:discussion:owner",
   "hub:discussion:canChangeAccess",
   "hub:discussion:workspace:overview",
   "hub:discussion:workspace:dashboard",
@@ -58,6 +59,12 @@ export const DiscussionPermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:discussion"],
     entityOwner: true,
     licenses: ["hub-premium"],
+  },
+  {
+    permission: "hub:discussion:owner",
+    dependencies: ["hub:discussion"],
+    authenticated: true,
+    entityOwner: true,
   },
   {
     permission: "hub:discussion:canChangeAccess",

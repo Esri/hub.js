@@ -11,6 +11,7 @@ import { IArcGISContext } from "../ArcGISContext";
 import { fetchHubGroup } from "../groups/HubGroups";
 import { fetchInitiativeTemplate } from "../initiative-templates/fetch";
 import { fetchSurvey } from "../surveys/fetch";
+import { fetchEvent } from "../events/fetch";
 
 /**
  * Fetch a Hub entity by identifier (id or slug)
@@ -52,6 +53,9 @@ export async function fetchHubEntity(
       break;
     case "survey":
       result = await fetchSurvey(identifier, context.hubRequestOptions);
+      break;
+    case "event":
+      result = await fetchEvent(identifier, context.hubRequestOptions);
       break;
     case "initiativeTemplate":
       result = await fetchInitiativeTemplate(

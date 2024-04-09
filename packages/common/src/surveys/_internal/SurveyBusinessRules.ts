@@ -11,6 +11,7 @@ export const SurveyPermissions = [
   "hub:survey:delete",
   "hub:survey:edit",
   "hub:survey:view",
+  "hub:survey:owner",
   "hub:survey:canChangeAccess",
   "hub:survey:workspace",
   "hub:survey:workspace:dashboard",
@@ -28,6 +29,7 @@ export const SurveyPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:survey",
     services: ["portal"],
+    licenses: ["hub-basic", "hub-premium"],
   },
   {
     permission: "hub:survey:view",
@@ -37,7 +39,12 @@ export const SurveyPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:survey:create",
     authenticated: true,
     dependencies: ["hub:survey"],
-    entityEdit: true,
+    privileges: [
+      "features:user:edit",
+      "portal:publisher:publishFeatures",
+      "portal:user:createItem",
+      "portal:user:shareToGroup",
+    ],
   },
   {
     permission: "hub:survey:edit",
@@ -49,6 +56,12 @@ export const SurveyPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:survey:delete",
     authenticated: true,
     dependencies: ["hub:survey"],
+    entityOwner: true,
+  },
+  {
+    permission: "hub:survey:owner",
+    dependencies: ["hub:survey"],
+    authenticated: true,
     entityOwner: true,
   },
   {

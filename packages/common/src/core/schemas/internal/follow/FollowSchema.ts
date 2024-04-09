@@ -34,7 +34,7 @@ export const FollowSchema: IConfigurationSchema = {
     },
     buttonStyle: {
       type: "string",
-      enum: ["solid", "outline"],
+      enum: ["solid", "outline-fill"],
       default: "solid",
     },
   },

@@ -11,6 +11,7 @@ import { PlatformPermissionPolicies } from "./PlatformPermissionPolicies";
 import { InitiativeTemplatePermissionPolicies } from "../initiative-templates/_internal/InitiativeTemplateBusinessRules";
 import { TemplatePermissionPolicies } from "../templates/_internal/TemplateBusinessRules";
 import { SurveyPermissionPolicies } from "../surveys/_internal/SurveyBusinessRules";
+import { EventPermissionPolicies } from "../events/_internal/EventBusinessRules";
 
 // Examples of possible Permission Policies
 // const DiscussionPermissionPolicies: IPermissionPolicy[] = [
@@ -160,6 +161,7 @@ export const HubPermissionsPolicies: IPermissionPolicy[] = [
   ...InitiativeTemplatePermissionPolicies,
   ...SystemPermissionPolicies,
   ...SurveyPermissionPolicies,
+  ...EventPermissionPolicies,
 ];
 
 /**

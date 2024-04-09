@@ -6,6 +6,7 @@ import { IHubDiscussion } from "./IHubDiscussion";
 import { IHubGroup } from "./IHubGroup";
 import { IHubTemplate } from "./IHubTemplate";
 import { IHubSurvey } from "./IHubSurvey";
+import { IHubEvent } from "./IHubEvent";
 
 export type HubEntity =
   | IHubSite
@@ -15,4 +16,5 @@ export type HubEntity =
   | IHubPage
   | IHubGroup
   | IHubTemplate
-  | IHubSurvey;
+  | IHubSurvey
+  | IHubEvent;
