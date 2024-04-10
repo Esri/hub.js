@@ -11,14 +11,16 @@
  * @param validationFn
  * @param opts
  */
-export const poll = async (
-  requestFn: () => any,
-  validationFn: (resp: any) => boolean,
+export async function poll<T>(
+  requestFn: () => Promise<T>,
+  validationFn: (resp: T) => boolean,
   opts?: {
     timeout?: number;
     timeBetweenRequests?: number;
   }
-): Promise<any> => {
+): Promise<T> {
+  const delay = (milliseconds: number) =>
+    new Promise((resolve) => setTimeout(resolve, milliseconds));
   const options =
     opts || /* istanbul ignore next - we must pass in overrides for tests */ {};
   const timeout = isNaN(options.timeout) ? 30000 : options.timeout;
@@ -27,7 +29,7 @@ export const poll = async (
     ? 3000
     : options.timeBetweenRequests;
 
-  let resp: any;
+  let resp: T;
   let requestCount = 0;
   let timeElapsed = 0;
 
@@ -52,8 +54,4 @@ export const poll = async (
   } while (!validationFn(resp));
 
   return resp;
-};
-
-const delay = (milliseconds: number) => {
-  return new Promise((resolve) => setTimeout(resolve, milliseconds));
-};
+}

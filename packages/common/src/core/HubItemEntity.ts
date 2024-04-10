@@ -3,11 +3,14 @@ import {
   IItem,
   getGroup,
   removeItemResource,
+  // setItemAccess,
   updateGroup,
 } from "@esri/arcgis-rest-portal";
 import { IArcGISContext } from "../ArcGISContext";
 import HubError from "../HubError";
-import { uploadImageResource } from "../items";
+import { uploadImageResource } from "../items/uploadImageResource";
+// import { unshareItemFromGroups } from "../items/unshare-item-from-groups";
+// import { shareItemToGroups } from "../items/share-item-to-groups";
 import { deleteItemThumbnail } from "../items/deleteItemThumbnail";
 import { setItemThumbnail } from "../items/setItemThumbnail";
 import {
@@ -29,8 +32,9 @@ import {
 } from "./behaviors";
 
 import { IWithThumbnailBehavior } from "./behaviors/IWithThumbnailBehavior";
-import { IHubItemEntity, SettableAccessLevel } from "./types";
-import { sharedWith } from "./_internal/sharedWith";
+import { IHubItemEntity } from "./types/IHubItemEntity";
+import { SettableAccessLevel } from "./types/types";
+// import { sharedWith } from "./_internal/sharedWith";
 import { IWithDiscussionsBehavior } from "./behaviors/IWithDiscussionsBehavior";
 import { setDiscussableKeyword } from "../discussions";
 import { IWithFollowersBehavior } from "./behaviors/IWithFollowersBehavior";
@@ -38,9 +42,6 @@ import { AssociationType, IAssociationInfo } from "../associations/types";
 import { listAssociations } from "../associations/listAssociations";
 import { addAssociation } from "../associations/addAssociation";
 import { removeAssociation } from "../associations/removeAssociation";
-import { shareItemEntityWithGroups } from "./_internal/shareItemEntityWithGroups";
-import { unshareItemEntityWithGroups } from "./_internal/unshareItemEntityWithGroups";
-import { setItemAccess } from "./_internal/setItemAccess";
 
 const FEATURED_IMAGE_FILENAME = "featuredImage.png";
 
@@ -176,7 +177,7 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
    * @param groupId
    */
   async shareWithGroup(groupId: string): Promise<void> {
-    await shareItemEntityWithGroups([groupId], this.entity, this.context);
+    // await shareItemToGroups(this.entity.id, [groupId], this.context.requestOptions, this.entity.owner);
   }
 
   /**
@@ -184,7 +185,13 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
    * @param groupIds
    */
   async shareWithGroups(groupIds: string[]): Promise<void> {
-    await shareItemEntityWithGroups(groupIds, this.entity, this.context);
+    if (!this.context.currentUser) {
+      throw new HubError(
+        "Share Item With Group",
+        "Cannot share item with group when no user is logged in."
+      );
+    }
+    // await shareItemToGroups(this.entity.id, groupIds, this.context.requestOptions, this.entity.owner);
   }
 
   /**
@@ -192,7 +199,7 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
    * @param groupId
    */
   async unshareWithGroup(groupId: string): Promise<void> {
-    await unshareItemEntityWithGroups([groupId], this.entity, this.context);
+    // await unshareItemFromGroups(this.entity.id, [groupId], this.context.requestOptions, this.entity.owner);
   }
 
   /**
@@ -200,7 +207,7 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
    * @param groupIds
    */
   async unshareWithGroups(groupIds: string[]): Promise<void> {
-    await unshareItemEntityWithGroups(groupIds, this.entity, this.context);
+    // await unshareItemFromGroups(this.entity.id, groupIds, this.context.requestOptions, this.entity.owner);
   }
 
   /**
@@ -208,7 +215,12 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
    * @param access
    */
   async setAccess(access: SettableAccessLevel): Promise<void> {
-    await setItemAccess(access, this.entity, this.context);
+    // await setItemAccess({
+    //   id: this.entity.id,
+    //   access,
+    //   owner: this.entity.owner,
+    //   authentication: this.context.session,
+    // });
     // if this succeeded, update the entity
     this.entity.access = access;
   }
@@ -271,7 +283,8 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
    */
   async sharedWith(): Promise<IGroup[]> {
     // delegate to a util that merges the three arrays returned from the api, into a single array
-    return sharedWith(this.entity.id, this.context.requestOptions);
+    // return sharedWith(this.entity.id, this.context.requestOptions);
+    return [];
   }
 
   //#endregion

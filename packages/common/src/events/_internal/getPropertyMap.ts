@@ -46,6 +46,14 @@ export function getPropertyMap(): IPropertyMap[] {
         entityKey: "canChangeStatusRemoved",
         storeKey: "permission.canSetStatusToRemoved",
       },
+      {
+        entityKey: "readGroupIds",
+        storeKey: "readGroups",
+      },
+      {
+        entityKey: "editGroupIds",
+        storeKey: "editGroups",
+      },
     ]
   );
 }

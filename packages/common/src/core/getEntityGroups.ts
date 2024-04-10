@@ -1,15 +1,15 @@
 import { IArcGISContext } from "../ArcGISContext";
 import { getEventGroups } from "../events/_internal/getEventGroups";
 import { sharedWith } from "./_internal/sharedWith";
-import { HubEntityType } from "./types/HubEntityType";
+import { getTypeFromEntity } from "./getTypeFromEntity";
 import { IHubEvent } from "./types/IHubEvent";
 import { IHubItemEntity } from "./types/IHubItemEntity";
 
 export async function getEntityGroups(
-  type: HubEntityType,
   entity: IHubItemEntity,
   context: IArcGISContext
 ) {
+  const type = getTypeFromEntity(entity);
   let groups;
   switch (type) {
     case "event":

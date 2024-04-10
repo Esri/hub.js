@@ -13,7 +13,9 @@ import { cloneObject } from "../util";
 import { EventEditorType } from "./_internal/EventSchemaCreate";
 import { shareEventWithGroups } from "./_internal/shareEventWithGroups";
 import { unshareEventWithGroups } from "./_internal/unshareEventWithGroups";
-import { setEventAccess } from "./_internal/setEventAccess";
+import HubError from "../HubError";
+import { updateEvent } from "./api/events";
+import { EventAccess } from "./api/orval/api/orval-events";
 
 /**
  * Defines the properties of a Hub Event object
@@ -130,6 +132,12 @@ export class HubEvent
    * @param groupId The ID of the group to share the Event to
    */
   async shareWithGroup(groupId: string): Promise<void> {
+    if (!this.context.currentUser) {
+      throw new HubError(
+        "Share Event With Group",
+        "Cannot share event with group when no user is logged in."
+      );
+    }
     await shareEventWithGroups([groupId], this.entity, this.context);
   }
 
@@ -162,7 +170,14 @@ export class HubEvent
    * @param access The access level to set the Event to
    */
   async setAccess(access: SettableAccessLevel): Promise<void> {
-    await setEventAccess(access, this.entity, this.context);
+    // await setEventAccess(access, this.entity, this.context);
+    await updateEvent({
+      eventId: this.entity.id,
+      data: {
+        access: access.toLowerCase() as EventAccess,
+      },
+      ...this.context.hubRequestOptions,
+    });
     this.entity.access = access;
   }
 

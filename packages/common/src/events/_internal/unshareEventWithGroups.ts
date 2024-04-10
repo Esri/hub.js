@@ -1,9 +1,6 @@
 import { IArcGISContext } from "../../ArcGISContext";
 import HubError from "../../HubError";
 import { IHubEvent } from "../../core/types/IHubEvent";
-import { hubSearch } from "../../search/hubSearch";
-import { EntityType } from "../../search/types";
-import { unique } from "../../util";
 import { updateEvent } from "../api/events";
 
 export async function unshareEventWithGroups(
