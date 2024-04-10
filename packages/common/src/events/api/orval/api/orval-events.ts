@@ -7,15 +7,30 @@
  */
 import { Awaited } from "../awaited-type";
 import { customClient } from "../custom-client";
+export type GetRegistrationsParams = {
+  /**
+   * Event id being registered for
+   */
+  eventId?: string;
+  /**
+   * ArcGIS Online id for a user. Will always be extracted from the token unless service token is used.
+   */
+  userAgoId?: string;
+  /**
+   * the max amount of registrations to return
+   */
+  num?: string;
+  /**
+   * the index to start at
+   */
+  start?: string;
+};
+
 export type GetEventsParams = {
   /**
-   * Include registrations with each event
+   * which relation fields to include in response
    */
-  includeRegistrations?: string;
-  /**
-   * Include creator with each event
-   */
-  includeCreator?: string;
+  include?: string;
   /**
    * latest ISO8601 start date-time for the events
    */
@@ -124,6 +139,8 @@ export interface IUpdateEvent {
   readGroups?: string[];
   /** ISO8601 start date-time for the event */
   startDateTime?: string;
+  /** Status of the event */
+  status?: EventStatus;
   /** Summary of the event */
   summary?: string;
   /** Tags for the event */
@@ -172,7 +189,7 @@ export interface IEvent {
   catalog: IEventCatalogItem[] | null;
   categories: string[];
   createdAt: string;
-  createdById: string;
+  createdById: string | null;
   creator?: IUser;
   description: string | null;
   editGroups: string[] | null;
@@ -432,16 +449,17 @@ export const createRegistration = (
 };
 
 export const getRegistrations = (
+  params?: GetRegistrationsParams,
   options?: SecondParameter<typeof customClient>
 ) => {
   return customClient<IRegistration[]>(
-    { url: `/api/events/v1/registrations`, method: "GET" },
+    { url: `/api/events/v1/registrations`, method: "GET", params },
     options
   );
 };
 
 export const getRegistration = (
-  id: number,
+  id: string,
   options?: SecondParameter<typeof customClient>
 ) => {
   return customClient<IRegistration>(
