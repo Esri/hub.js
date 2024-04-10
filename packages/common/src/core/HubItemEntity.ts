@@ -3,14 +3,14 @@ import {
   IItem,
   getGroup,
   removeItemResource,
-  // setItemAccess,
+  setItemAccess,
   updateGroup,
 } from "@esri/arcgis-rest-portal";
 import { IArcGISContext } from "../ArcGISContext";
 import HubError from "../HubError";
 import { uploadImageResource } from "../items/uploadImageResource";
-// import { unshareItemFromGroups } from "../items/unshare-item-from-groups";
-// import { shareItemToGroups } from "../items/share-item-to-groups";
+import { unshareItemFromGroups } from "../items/unshare-item-from-groups";
+import { shareItemToGroups } from "../items/share-item-to-groups";
 import { deleteItemThumbnail } from "../items/deleteItemThumbnail";
 import { setItemThumbnail } from "../items/setItemThumbnail";
 import {
@@ -177,7 +177,12 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
    * @param groupId
    */
   async shareWithGroup(groupId: string): Promise<void> {
-    // await shareItemToGroups(this.entity.id, [groupId], this.context.requestOptions, this.entity.owner);
+    await shareItemToGroups(
+      this.entity.id,
+      [groupId],
+      this.context.requestOptions,
+      this.entity.owner
+    );
   }
 
   /**
@@ -191,7 +196,12 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
         "Cannot share item with group when no user is logged in."
       );
     }
-    // await shareItemToGroups(this.entity.id, groupIds, this.context.requestOptions, this.entity.owner);
+    await shareItemToGroups(
+      this.entity.id,
+      groupIds,
+      this.context.requestOptions,
+      this.entity.owner
+    );
   }
 
   /**
@@ -199,7 +209,12 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
    * @param groupId
    */
   async unshareWithGroup(groupId: string): Promise<void> {
-    // await unshareItemFromGroups(this.entity.id, [groupId], this.context.requestOptions, this.entity.owner);
+    await unshareItemFromGroups(
+      this.entity.id,
+      [groupId],
+      this.context.requestOptions,
+      this.entity.owner
+    );
   }
 
   /**
@@ -207,7 +222,12 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
    * @param groupIds
    */
   async unshareWithGroups(groupIds: string[]): Promise<void> {
-    // await unshareItemFromGroups(this.entity.id, groupIds, this.context.requestOptions, this.entity.owner);
+    await unshareItemFromGroups(
+      this.entity.id,
+      groupIds,
+      this.context.requestOptions,
+      this.entity.owner
+    );
   }
 
   /**
@@ -215,12 +235,12 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
    * @param access
    */
   async setAccess(access: SettableAccessLevel): Promise<void> {
-    // await setItemAccess({
-    //   id: this.entity.id,
-    //   access,
-    //   owner: this.entity.owner,
-    //   authentication: this.context.session,
-    // });
+    await setItemAccess({
+      id: this.entity.id,
+      access,
+      owner: this.entity.owner,
+      authentication: this.context.session,
+    });
     // if this succeeded, update the entity
     this.entity.access = access;
   }
