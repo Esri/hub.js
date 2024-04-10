@@ -9,13 +9,19 @@ export async function unshareEntityWithGroups(
   entity: IHubItemEntity,
   groupIds: string[],
   context: IArcGISContext
-): Promise<void> {
+): Promise<IHubItemEntity> {
   const type = getTypeFromEntity(entity);
+  let results: IHubItemEntity;
   switch (type) {
     case "event":
-      await unshareEventWithGroups(groupIds, entity as IHubEvent, context);
+      results = await unshareEventWithGroups(
+        groupIds,
+        entity as IHubEvent,
+        context
+      );
       break;
     default:
+      results = entity;
       await unshareItemFromGroups(
         entity.id,
         groupIds,
@@ -24,4 +30,5 @@ export async function unshareEntityWithGroups(
       );
       break;
   }
+  return results;
 }

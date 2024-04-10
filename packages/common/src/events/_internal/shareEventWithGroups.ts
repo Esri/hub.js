@@ -4,12 +4,13 @@ import { IHubEvent } from "../../core/types/IHubEvent";
 import { unique } from "../../util";
 import { updateEvent } from "../api/events";
 import { poll } from "../../utils/poll";
+import { IHubItemEntity } from "../../core/types/IHubItemEntity";
 
 export async function shareEventWithGroups(
   groupIds: string[],
   entity: IHubEvent,
   context: IArcGISContext
-) {
+): Promise<IHubItemEntity> {
   const fn: () => Promise<ISearchResult<IGroup>> = searchGroups.bind(
     undefined,
     {
@@ -46,6 +47,11 @@ export async function shareEventWithGroups(
       },
       ...context.hubRequestOptions,
     });
+    return {
+      ...entity,
+      readGroupIds,
+      editGroupIds,
+    };
   } catch (e) {
     throw new Error(
       `Entity: ${entity.id} could not be shared with groups: ${groupIds.join(

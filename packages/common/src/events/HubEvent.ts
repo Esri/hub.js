@@ -138,7 +138,11 @@ export class HubEvent
         "Cannot share event with group when no user is logged in."
       );
     }
-    await shareEventWithGroups([groupId], this.entity, this.context);
+    this.entity = (await shareEventWithGroups(
+      [groupId],
+      this.entity,
+      this.context
+    )) as IHubEvent;
   }
 
   /**
@@ -146,7 +150,11 @@ export class HubEvent
    * @param groupIds The IDs of the groups to share the Event to
    */
   async shareWithGroups(groupIds: string[]): Promise<void> {
-    await shareEventWithGroups(groupIds, this.entity, this.context);
+    this.entity = (await shareEventWithGroups(
+      groupIds,
+      this.entity,
+      this.context
+    )) as IHubEvent;
   }
 
   /**
@@ -154,7 +162,11 @@ export class HubEvent
    * @param groupId The ID of the group to unshar ethe Event with
    */
   async unshareWithGroup(groupId: string): Promise<void> {
-    await unshareEventWithGroups([groupId], this.entity, this.context);
+    this.entity = (await unshareEventWithGroups(
+      [groupId],
+      this.entity,
+      this.context
+    )) as IHubEvent;
   }
 
   /**
@@ -162,7 +174,11 @@ export class HubEvent
    * @param groupIds The IDs of the groups to unshare the Event with
    */
   async unshareWithGroups(groupIds: string[]): Promise<void> {
-    await unshareEventWithGroups(groupIds, this.entity, this.context);
+    this.entity = (await unshareEventWithGroups(
+      groupIds,
+      this.entity,
+      this.context
+    )) as IHubEvent;
   }
 
   /**
