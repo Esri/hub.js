@@ -1,5 +1,6 @@
 import {
   IEvent,
+  IPagedEventResponse,
   ICreateEventParams,
   IGetEventParams,
   IGetEventsParams,
@@ -32,9 +33,11 @@ export async function createEvent(
  * get events
  *
  * @param {IGetEventsParams} options
- * @return {Promise<IEvent[]>}
+ * @return {Promise<IPagedEventResponse>}
  */
-export async function getEvents(options: IGetEventsParams): Promise<IEvent[]> {
+export async function getEvents(
+  options: IGetEventsParams
+): Promise<IPagedEventResponse> {
   options.token = await authenticateRequest(options);
   return _getEvents(options.data, options);
 }
