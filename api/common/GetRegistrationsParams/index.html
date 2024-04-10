@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <meta name="date" content="2024-04-10T15:51:12.291Z">
+    <meta name="date" content="2024-04-10T20:51:02.527Z">
     <title>GetRegistrationsParams | API Reference | @esri/hub.js</title>
     
     <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
@@ -76,7 +76,7 @@
               <path d="M7 4h5l12 12-12 12H7l12-12L7 4z" />
             </svg>
           </button>
-          <a href="/hub.js/api/common/" class="is-active tsd-kind-icon">common</a>&nbsp;<small>v14.112.1</small>
+          <a href="/hub.js/api/common/" class="is-active tsd-kind-icon">common</a>&nbsp;<small>v14.113.0</small>
           <ul id="list1" class="api-package-content-list">
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -1397,6 +1397,10 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/getRegistration/" class="tsd-kind-icon padding-right-1">getRegistration</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/getRegistrations/" class="tsd-kind-icon padding-right-1">getRegistrations</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -3096,6 +3100,10 @@
             </li>
             
             <li class="tsd-kind-enumeration padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/RegistrationSort/" class="tsd-kind-icon padding-right-1">RegistrationSort</a>
+            </li>
+            
+            <li class="tsd-kind-enumeration padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/RegistrationStatus/" class="tsd-kind-icon padding-right-1">RegistrationStatus</a>
             </li>
             
@@ -4164,6 +4172,10 @@
             </li>
             
             <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/IGetRegistrationsParams/" class="tsd-kind-icon padding-right-1">IGetRegistrationsParams</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/IGetSubscriptionParams/" class="tsd-kind-icon padding-right-1">IGetSubscriptionParams</a>
             </li>
             
@@ -4541,6 +4553,14 @@
             
             <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/IOrvalParams/" class="tsd-kind-icon padding-right-1">IOrvalParams</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/IPagedEventResponse/" class="tsd-kind-icon padding-right-1">IPagedEventResponse</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/IPagedRegistrationResponse/" class="tsd-kind-icon padding-right-1">IPagedRegistrationResponse</a>
             </li>
             
             <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
@@ -6084,7 +6104,7 @@
 
 
   Value(s):<br>
-  <pre style="display: inline;">{<dl class="type-child-list clearfix"><dt class="type-child-name">eventId:</dt><dd class="type-child-type"><i class="text-purple">string</i></dd><dt class="type-child-name">num:</dt><dd class="type-child-type"><i class="text-purple">string</i></dd><dt class="type-child-name">start:</dt><dd class="type-child-type"><i class="text-purple">string</i></dd><dt class="type-child-name">userAgoId:</dt><dd class="type-child-type"><i class="text-purple">string</i></dd></dl>}<i></i></pre>
+  <pre style="display: inline;">{<dl class="type-child-list clearfix"><dt class="type-child-name">eventId:</dt><dd class="type-child-type"><i class="text-purple">string</i></dd><dt class="type-child-name">num:</dt><dd class="type-child-type"><i class="text-purple">string</i></dd><dt class="type-child-name">role:</dt><dd class="type-child-type"><i class="text-purple">string</i></dd><dt class="type-child-name">sortBy:</dt><dd class="type-child-type"><i><a href="/hub.js/api/common/RegistrationSort/">RegistrationSort</a></i></dd><dt class="type-child-name">sortOrder:</dt><dd class="type-child-type"><i><a href="/hub.js/api/common/SortOrder/">SortOrder</a></i></dd><dt class="type-child-name">start:</dt><dd class="type-child-type"><i class="text-purple">string</i></dd><dt class="type-child-name">status:</dt><dd class="type-child-type"><i class="text-purple">string</i></dd><dt class="type-child-name">type:</dt><dd class="type-child-type"><i class="text-purple">string</i></dd><dt class="type-child-name">updatedAtAfter:</dt><dd class="type-child-type"><i class="text-purple">string</i></dd><dt class="type-child-name">updatedAtBefore:</dt><dd class="type-child-type"><i class="text-purple">string</i></dd><dt class="type-child-name">userId:</dt><dd class="type-child-type"><i class="text-purple">string</i></dd></dl>}<i></i></pre>
 
 
 
@@ -6097,7 +6117,7 @@
 
 
 
-<small class="font-size--2">Type alias defined in <a href="https://github.com/Esri/hub.js/blob/master/packages/common/src/events/api/orval/api/orval-events.ts#L10">common/src/events/api/orval/api/orval-events.ts:10</a></small>
+<small class="font-size--2">Type alias defined in <a href="https://github.com/Esri/hub.js/blob/master/packages/common/src/events/api/orval/api/orval-events.ts#L23">common/src/events/api/orval/api/orval-events.ts:23</a></small>
 
 
     </div>
