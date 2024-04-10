@@ -1,3 +1,10 @@
+# @esri/hub-common [14.113.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.112.1...@esri/hub-common@14.113.0) (2024-04-10)
+
+
+### Features
+
+* loosen hub:feature:user:preferences permission  ([#1470](https://github.com/Esri/hub.js/issues/1470)) ([03fad00](https://github.com/Esri/hub.js/commit/03fad00a20e271dc22dbecac279f14ad991d87fa))
+
 ## @esri/hub-common [14.112.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.112.0...@esri/hub-common@14.112.1) (2024-04-10)
 
 
