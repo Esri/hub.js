@@ -120,6 +120,10 @@ export interface IHubEvent extends IHubItemEntity, IWithPermissions, IWithSlug {
    */
   onlineUrl?: string | null;
 
+  readGroupIds: string[];
+
+  editGroupIds: string[];
+
   /**
    * A collection of objects containing the ids & types for entities that the event references
    */

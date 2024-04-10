@@ -15,6 +15,7 @@ import {
   updateEvent as _updateEvent,
   deleteEvent as _deleteEvent,
 } from "./orval/api/orval-events";
+import { IArcGISContext } from "../..";
 
 /**
  * create an event

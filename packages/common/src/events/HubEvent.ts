@@ -1,7 +1,7 @@
 import { IGroup } from "@esri/arcgis-rest-types";
 import { HubItemEntity } from "../core/HubItemEntity";
 import { IHubEventEditor, IHubEvent } from "../core/types/IHubEvent";
-import { IWithEditorBehavior, IWithSharingBehavior } from "../core/behaviors";
+import { IWithEditorBehavior } from "../core/behaviors";
 import { SettableAccessLevel } from "../core/types/types";
 import { IArcGISContext } from "../ArcGISContext";
 import { fetchEvent } from "./fetch";
@@ -11,6 +11,9 @@ import { IEditorConfig } from "../core/schemas/types";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
 import { cloneObject } from "../util";
 import { EventEditorType } from "./_internal/EventSchemaCreate";
+import { shareEventWithGroups } from "./_internal/shareEventWithGroups";
+import { unshareEventWithGroups } from "./_internal/unshareEventWithGroups";
+import { setEventAccess } from "./_internal/setEventAccess";
 
 /**
  * Defines the properties of a Hub Event object
@@ -18,7 +21,7 @@ import { EventEditorType } from "./_internal/EventSchemaCreate";
  */
 export class HubEvent
   extends HubItemEntity<IHubEvent>
-  implements IWithSharingBehavior, IWithEditorBehavior
+  implements IWithEditorBehavior
 {
   /**
    * Create an instance from a HubEvent object
@@ -127,7 +130,15 @@ export class HubEvent
    * @param groupId The ID of the group to share the Event to
    */
   async shareWithGroup(groupId: string): Promise<void> {
-    throw new Error("not implemented");
+    await shareEventWithGroups([groupId], this.entity, this.context);
+  }
+
+  /**
+   * Share the Entity with the specified group ids
+   * @param groupIds The IDs of the groups to share the Event to
+   */
+  async shareWithGroups(groupIds: string[]): Promise<void> {
+    await shareEventWithGroups(groupIds, this.entity, this.context);
   }
 
   /**
@@ -135,7 +146,15 @@ export class HubEvent
    * @param groupId The ID of the group to unshar ethe Event with
    */
   async unshareWithGroup(groupId: string): Promise<void> {
-    throw new Error("not implemented");
+    await unshareEventWithGroups([groupId], this.entity, this.context);
+  }
+
+  /**
+   * Unshare the Event with the specified group ids
+   * @param groupIds The IDs of the groups to unshare the Event with
+   */
+  async unshareWithGroups(groupIds: string[]): Promise<void> {
+    await unshareEventWithGroups(groupIds, this.entity, this.context);
   }
 
   /**
@@ -143,7 +162,8 @@ export class HubEvent
    * @param access The access level to set the Event to
    */
   async setAccess(access: SettableAccessLevel): Promise<void> {
-    throw new Error("not implemented");
+    await setEventAccess(access, this.entity, this.context);
+    this.entity.access = access;
   }
 
   /**
