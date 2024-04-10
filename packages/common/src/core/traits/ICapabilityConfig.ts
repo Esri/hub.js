@@ -28,7 +28,7 @@ export interface IDiscussionsConfig extends ICapabilityConfig {}
 export interface IPagesConfig extends ICapabilityConfig {}
 /* tslint:enable: no-empty-interface */
 export interface IContentConfig extends ICapabilityConfig {
-  feeds: any; // TODO: lookup the type as this is defined somewhere
+  feeds?: any; // TODO: lookup the type as this is defined somewhere
 }
 
 export interface IWithEvents {

@@ -41,6 +41,8 @@ export const SitePermissions = [
   "hub:site:workspace:followers:manager",
   "hub:site:workspace:followers:create",
   "hub:site:workspace:discussion",
+  "hub:site:workspace:pages",
+  "hub:site:workspace:events",
   "hub:site:manage",
 ] as const;
 
@@ -149,6 +151,16 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:site:workspace:content",
     dependencies: ["hub:site:workspace", "hub:site:edit"],
+  },
+  {
+    permission: "hub:site:workspace:pages",
+    dependencies: ["hub:site:workspace", "hub:site:edit"],
+    availability: ["alpha"],
+  },
+  {
+    permission: "hub:site:workspace:events",
+    dependencies: ["hub:site:workspace", "hub:site:edit"],
+    availability: ["alpha"],
   },
   {
     permission: "hub:site:workspace:metrics",

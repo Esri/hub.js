@@ -152,6 +152,7 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:project:workspace:content",
     dependencies: ["hub:project:workspace", "hub:project:edit"],
+    availability: ["alpha"],
   },
   {
     permission: "hub:project:workspace:events",
