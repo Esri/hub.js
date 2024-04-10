@@ -186,7 +186,6 @@ export class HubEvent
    * @param access The access level to set the Event to
    */
   async setAccess(access: SettableAccessLevel): Promise<void> {
-    // await setEventAccess(access, this.entity, this.context);
     await updateEvent({
       eventId: this.entity.id,
       data: {
