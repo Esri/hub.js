@@ -34,7 +34,7 @@ import {
 import { IWithThumbnailBehavior } from "./behaviors/IWithThumbnailBehavior";
 import { IHubItemEntity } from "./types/IHubItemEntity";
 import { SettableAccessLevel } from "./types/types";
-// import { sharedWith } from "./_internal/sharedWith";
+import { sharedWith } from "./_internal/sharedWith";
 import { IWithDiscussionsBehavior } from "./behaviors/IWithDiscussionsBehavior";
 import { setDiscussableKeyword } from "../discussions";
 import { IWithFollowersBehavior } from "./behaviors/IWithFollowersBehavior";
@@ -303,8 +303,7 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
    */
   async sharedWith(): Promise<IGroup[]> {
     // delegate to a util that merges the three arrays returned from the api, into a single array
-    // return sharedWith(this.entity.id, this.context.requestOptions);
-    return [];
+    return sharedWith(this.entity.id, this.context.requestOptions);
   }
 
   //#endregion
