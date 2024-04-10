@@ -109,9 +109,8 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     // Enables access to the user preferences section of the user profile
     // This will likely be removed when we swap the user profile to use workspace
     permission: "hub:feature:user:preferences",
-    // gated to alpha and qa/dev for now, but will be accessible on PROD when
+    // gated to qa/dev for now, but will be accessible on PROD when
     // we pass `?pe=hub:feature:user:preferences` in the URL
-    availability: ["alpha"],
     environments: ["devext", "qaext"],
   },
   {
