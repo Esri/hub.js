@@ -459,7 +459,7 @@ export const getRegistrations = (
 };
 
 export const getRegistration = (
-  id: string,
+  id: number,
   options?: SecondParameter<typeof customClient>
 ) => {
   return customClient<IRegistration>(
