@@ -41,8 +41,8 @@ export async function shareEventWithGroups(
     await updateEvent({
       eventId: entity.id,
       data: {
-        readGroups: [...entity.readGroups, ...readGroupIds].filter(unique),
-        editGroups: [...entity.editGroups, ...editGroupIds].filter(unique),
+        readGroups: [...entity.readGroupIds, ...readGroupIds].filter(unique),
+        editGroups: [...entity.editGroupIds, ...editGroupIds].filter(unique),
       },
       ...context.hubRequestOptions,
     });
