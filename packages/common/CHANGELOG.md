@@ -1,3 +1,10 @@
+## @esri/hub-common [14.112.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.112.0...@esri/hub-common@14.112.1) (2024-04-10)
+
+
+### Bug Fixes
+
+* **hub-common:** add status to IUpdateEvent ([#1469](https://github.com/Esri/hub.js/issues/1469)) ([c44b99d](https://github.com/Esri/hub.js/commit/c44b99d3d364006dfedb45bb853c05b95dfea744))
+
 # @esri/hub-common [14.112.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.111.2...@esri/hub-common@14.112.0) (2024-04-08)
 
 
