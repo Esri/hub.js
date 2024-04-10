@@ -1,13 +1,13 @@
-import { setItemAccess } from "@esri/arcgis-rest-portal";
+import { setItemAccess, updateGroup } from "@esri/arcgis-rest-portal";
 import { IArcGISContext } from "../ArcGISContext";
 import { SettableAccessLevel } from "./types/types";
-import { IHubItemEntity } from "./types/IHubItemEntity";
 import { getTypeFromEntity } from "./getTypeFromEntity";
 import { EventAccess } from "../events/api/orval/api/orval-events";
 import { updateEvent } from "../events/api/events";
+import { HubEntity } from "./types/HubEntity";
 
 export async function setEntityAccess(
-  entity: IHubItemEntity,
+  entity: HubEntity,
   access: SettableAccessLevel,
   context: IArcGISContext
 ): Promise<void> {
@@ -17,9 +17,18 @@ export async function setEntityAccess(
       await updateEvent({
         eventId: entity.id,
         data: {
-          access: access.toLowerCase() as EventAccess,
+          access: access.toUpperCase() as EventAccess,
         },
         ...context.hubRequestOptions,
+      });
+      break;
+    case "group":
+      await updateGroup({
+        group: {
+          id: entity.id,
+          access,
+        },
+        authentication: context.session,
       });
       break;
     default:

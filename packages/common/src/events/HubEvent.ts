@@ -190,7 +190,7 @@ export class HubEvent
     await updateEvent({
       eventId: this.entity.id,
       data: {
-        access: access.toLowerCase() as EventAccess,
+        access: access.toUpperCase() as EventAccess,
       },
       ...this.context.hubRequestOptions,
     });
