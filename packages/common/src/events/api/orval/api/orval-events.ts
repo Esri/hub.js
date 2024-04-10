@@ -77,15 +77,13 @@ export type GetEventsParams = {
   sortOrder?: SortOrder;
 };
 
-export interface IUpdateRegistration {
-  /** Role of the user in the event */
-  role?: RegistrationRole;
-  /** Status of the registration */
-  status?: RegistrationStatus;
-  /** Attendance type for this registration */
-  type?: EventAttendanceType;
+export enum RegistrationSort {
+  createdAt = "createdAt",
+  updatedAt = "updatedAt",
+  firstName = "firstName",
+  lastName = "lastName",
+  username = "username",
 }
-
 export interface ICreateRegistration {
   /** ArcGIS Online id for a user. Will always be extracted from the token unless service token is used. */
   agoId?: string;
@@ -155,12 +153,64 @@ export enum SortOrder {
   asc = "asc",
   desc = "desc",
 }
+export type GetRegistrationsParams = {
+  /**
+   * Event id being registered for
+   */
+  eventId?: string;
+  /**
+   * ArcGIS Online id for a user
+   */
+  userId?: string;
+  /**
+   * comma separated string list of registration roles
+   */
+  role?: string;
+  /**
+   * comma separated string list of registration statuses
+   */
+  status?: string;
+  /**
+   * comma separated string list of registration types
+   */
+  type?: string;
+  /**
+   * latest ISO8601 updatedAt for the registrations
+   */
+  updatedAtBefore?: string;
+  /**
+   * earliest ISO8601 updatedAt for the registrations
+   */
+  updatedAtAfter?: string;
+  /**
+   * the max amount of registrations to return
+   */
+  num?: string;
+  /**
+   * the index to start at
+   */
+  start?: string;
+  /**
+   * property to sort results by
+   */
+  sortBy?: RegistrationSort;
+  /**
+   * sort order desc or asc
+   */
+  sortOrder?: SortOrder;
+};
+
 export enum EventSort {
   title = "title",
   startDateTime = "startDateTime",
   createdAt = "createdAt",
   updatedAt = "updatedAt",
 }
+export interface IPagingParams {
+  nextStart: number;
+  total: number;
+}
+
 export interface IRegistrationPermission {
   canDelete: boolean;
   canEdit: boolean;
@@ -192,7 +242,7 @@ export interface IEvent {
   createdById: string | null;
   creator?: IUser;
   description: string | null;
-  editGroups: string[] | null;
+  editGroups: string[];
   endDateTime: string;
   geometry: IEventGeometry;
   id: string;
@@ -200,7 +250,7 @@ export interface IEvent {
   onlineMeetings?: IOnlineMeeting[];
   orgId: string;
   permission: IEventPermission;
-  readGroups: string[] | null;
+  readGroups: string[];
   recurrence: string | null;
   registrations?: IRegistration[];
   startDateTime: string;
@@ -223,6 +273,15 @@ export enum RegistrationRole {
   ORGANIZER = "ORGANIZER",
   ATTENDEE = "ATTENDEE",
 }
+export interface IUpdateRegistration {
+  /** Role of the user in the event */
+  role?: RegistrationRole;
+  /** Status of the registration */
+  status?: RegistrationStatus;
+  /** Attendance type for this registration */
+  type?: EventAttendanceType;
+}
+
 export enum EventStatus {
   PLANNED = "PLANNED",
   CANCELED = "CANCELED",
@@ -391,7 +450,7 @@ export const getEvents = (
   params?: GetEventsParams,
   options?: SecondParameter<typeof customClient>
 ) => {
-  return customClient<IEvent[]>(
+  return customClient<GetEvents200>(
     { url: `/api/events/v1/events`, method: "GET", params },
     options
   );

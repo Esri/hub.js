@@ -2,10 +2,12 @@ import {
   ICreateRegistrationParams,
   IDeleteRegistrationParams,
   IGetRegistrationParams,
+  IGetRegistrationsParams,
   IUpdateRegistrationParams,
   createRegistration,
   deleteRegistration,
   getRegistration,
+  getRegistrations,
   updateRegistration,
   IRegistration,
   RegistrationRole,
@@ -57,7 +59,7 @@ describe("Registrations", () => {
   });
 
   describe("getRegistration", () => {
-    it("should get an event", async () => {
+    it("should get a registration", async () => {
       const mockRegistration = {
         burrito: "supreme",
       } as unknown as IRegistration;
@@ -75,6 +77,38 @@ describe("Registrations", () => {
 
       expect(authenticateRequestSpy).toHaveBeenCalledWith(options);
       expect(getRegistrationSpy).toHaveBeenCalledWith(options.registrationId, {
+        ...options,
+        token,
+      });
+    });
+  });
+
+  describe("getRegistrations", () => {
+    it("should get all registrations", async () => {
+      const mockRegistration = {
+        burrito: "supreme",
+      } as unknown as IRegistration;
+      const pagedResponse = {
+        total: 1,
+        nextStart: 2,
+        events: [mockRegistration],
+      };
+      const getRegistrationsSpy = spyOn(
+        orvalModule,
+        "getRegistrations"
+      ).and.callFake(async () => pagedResponse);
+
+      const options: IGetRegistrationsParams = {
+        data: {
+          eventId: "111",
+        },
+      };
+
+      const result = await getRegistrations(options);
+      expect(result).toEqual(pagedResponse);
+
+      expect(authenticateRequestSpy).toHaveBeenCalledWith(options);
+      expect(getRegistrationsSpy).toHaveBeenCalledWith(options.data, {
         ...options,
         token,
       });
