@@ -25,7 +25,7 @@ export async function shareItemToGroups(
   const fn: () => Promise<ISearchResult<IGroup>> = searchGroups.bind(
     undefined,
     {
-      q: `id:(${groupIds.join(",")})`,
+      q: `id:(${groupIds.join(" OR ")})`,
       num: groupIds.length,
       ...requestOptions,
     }
