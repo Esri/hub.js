@@ -1,3 +1,10 @@
+# @esri/hub-common [14.114.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.113.0...@esri/hub-common@14.114.0) (2024-04-10)
+
+
+### Features
+
+* **hub-common:** add function getRegistrations and fix type for page… ([#1468](https://github.com/Esri/hub.js/issues/1468)) ([33599d3](https://github.com/Esri/hub.js/commit/33599d3ecd889fcdb276ec708ece8f81e6268a69))
+
 # @esri/hub-common [14.113.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.112.1...@esri/hub-common@14.113.0) (2024-04-10)
 
 
