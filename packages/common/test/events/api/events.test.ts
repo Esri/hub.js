@@ -11,7 +11,6 @@ import {
   updateEvent,
   IEvent,
   EventAttendanceType,
-  EventStatus,
   EventAccess,
 } from "../../../src/events/api";
 import * as authenticateRequestModule from "../../../src/events/api/utils/authenticate-request";
@@ -115,7 +114,7 @@ describe("Events", () => {
       const pagedResponse = {
         total: 1,
         nextStart: 2,
-        events: [mockEvent],
+        items: [mockEvent],
       };
       const getEventsSpy = spyOn(orvalModule, "getEvents").and.callFake(
         async () => pagedResponse

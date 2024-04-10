@@ -27,8 +27,8 @@ export {
   RegistrationSort,
   SortOrder,
   EventSort,
-  GetRegistrations200,
-  GetEvents200,
+  IPagedRegistrationResponse,
+  IPagedEventResponse,
 } from "./orval/api/orval-events";
 import { IHubRequestOptions } from "../../types";
 import {

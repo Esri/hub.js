@@ -5,7 +5,7 @@ import {
   IGetRegistrationParams,
   IUpdateRegistrationParams,
   IGetRegistrationsParams,
-  GetRegistrations200,
+  IPagedRegistrationResponse,
 } from "./types";
 import { authenticateRequest } from "./utils/authenticate-request";
 import {
@@ -19,8 +19,8 @@ import {
 /**
  * create an event registration
  *
- * @param {ICreateEventParams} options
- * @return {Promise<GetRegistrations200>}
+ * @param {ICreateRegistrationParams} options
+ * @return {Promise<IRegistration>}
  */
 export async function createRegistration(
   options: ICreateRegistrationParams
@@ -33,11 +33,11 @@ export async function createRegistration(
  * get registrations
  *
  * @param {IGetRegistrationsParams} options
- * @return {Promise<IRegistration[]>} // paged response?
+ * @return {Promise<IPagedRegistrationResponse>}
  */
 export async function getRegistrations(
   options: IGetRegistrationsParams
-): Promise<GetRegistrations200> {
+): Promise<IPagedRegistrationResponse> {
   options.token = await authenticateRequest(options);
   return _getRegistrations(options.data, options);
 }

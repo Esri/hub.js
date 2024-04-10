@@ -91,7 +91,7 @@ describe("Registrations", () => {
       const pagedResponse = {
         total: 1,
         nextStart: 2,
-        events: [mockRegistration],
+        items: [mockRegistration],
       };
       const getRegistrationsSpy = spyOn(
         orvalModule,

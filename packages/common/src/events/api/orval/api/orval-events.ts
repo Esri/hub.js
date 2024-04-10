@@ -7,75 +7,11 @@
  */
 import { Awaited } from "../awaited-type";
 import { customClient } from "../custom-client";
-export type GetRegistrationsParams = {
-  /**
-   * Event id being registered for
-   */
-  eventId?: string;
-  /**
-   * ArcGIS Online id for a user. Will always be extracted from the token unless service token is used.
-   */
-  userAgoId?: string;
-  /**
-   * the max amount of registrations to return
-   */
-  num?: string;
-  /**
-   * the index to start at
-   */
-  start?: string;
-};
-
-export type GetEventsParams = {
-  /**
-   * which relation fields to include in response
-   */
-  include?: string;
-  /**
-   * latest ISO8601 start date-time for the events
-   */
-  startDateTimeBefore?: string;
-  /**
-   * earliest ISO8601 start date-time for the events
-   */
-  startDateTimeAfter?: string;
-  /**
-   * Comma separated string list of AttendanceTypes
-   */
-  attendanceTypes?: string;
-  /**
-   * Comma separated string list of categories
-   */
-  categories?: string;
-  /**
-   * comma separated string list of event statuses
-   */
-  status?: string;
-  /**
-   * Comma separated string list of tags
-   */
-  tags?: string;
-  /**
-   * string to match within an event title
-   */
-  title?: string;
-  /**
-   * the max amount of events to return
-   */
-  num?: string;
-  /**
-   * the index to start at
-   */
-  start?: string;
-  /**
-   * Event property to sort results by
-   */
-  sortBy?: EventSort;
-  /**
-   * sort results order desc or asc
-   */
-  sortOrder?: SortOrder;
-};
+export interface IPagedRegistrationResponse {
+  items: IRegistration[];
+  nextStart: number;
+  total: number;
+}
 
 export enum RegistrationSort {
   createdAt = "createdAt",
@@ -84,6 +20,53 @@ export enum RegistrationSort {
   lastName = "lastName",
   username = "username",
 }
+export type GetRegistrationsParams = {
+  /**
+   * Event id being registered for
+   */
+  eventId?: string;
+  /**
+   * ArcGIS Online id for a user
+   */
+  userId?: string;
+  /**
+   * comma separated string list of registration roles
+   */
+  role?: string;
+  /**
+   * comma separated string list of registration statuses
+   */
+  status?: string;
+  /**
+   * comma separated string list of registration types
+   */
+  type?: string;
+  /**
+   * latest ISO8601 updatedAt for the registrations
+   */
+  updatedAtBefore?: string;
+  /**
+   * earliest ISO8601 updatedAt for the registrations
+   */
+  updatedAtAfter?: string;
+  /**
+   * the max amount of registrations to return
+   */
+  num?: string;
+  /**
+   * the index to start at
+   */
+  start?: string;
+  /**
+   * property to sort results by
+   */
+  sortBy?: RegistrationSort;
+  /**
+   * sort order desc or asc
+   */
+  sortOrder?: SortOrder;
+};
+
 export interface ICreateRegistration {
   /** ArcGIS Online id for a user. Will always be extracted from the token unless service token is used. */
   agoId?: string;
@@ -149,41 +132,57 @@ export interface IUpdateEvent {
   title?: string;
 }
 
+export interface IPagedEventResponse {
+  items: IEvent[];
+  nextStart: number;
+  total: number;
+}
+
 export enum SortOrder {
   asc = "asc",
   desc = "desc",
 }
-export type GetRegistrationsParams = {
+export enum EventSort {
+  title = "title",
+  startDateTime = "startDateTime",
+  createdAt = "createdAt",
+  updatedAt = "updatedAt",
+}
+export type GetEventsParams = {
   /**
-   * Event id being registered for
+   * Comma separated string list of relation fields to include in response
    */
-  eventId?: string;
+  include?: string;
   /**
-   * ArcGIS Online id for a user
+   * latest ISO8601 start date-time for the events
    */
-  userId?: string;
+  startDateTimeBefore?: string;
   /**
-   * comma separated string list of registration roles
+   * earliest ISO8601 start date-time for the events
    */
-  role?: string;
+  startDateTimeAfter?: string;
   /**
-   * comma separated string list of registration statuses
+   * Comma separated string list of AttendanceTypes
+   */
+  attendanceTypes?: string;
+  /**
+   * Comma separated string list of categories
+   */
+  categories?: string;
+  /**
+   * comma separated string list of event statuses
    */
   status?: string;
   /**
-   * comma separated string list of registration types
+   * Comma separated string list of tags
    */
-  type?: string;
+  tags?: string;
   /**
-   * latest ISO8601 updatedAt for the registrations
+   * string to match within an event title
    */
-  updatedAtBefore?: string;
+  title?: string;
   /**
-   * earliest ISO8601 updatedAt for the registrations
-   */
-  updatedAtAfter?: string;
-  /**
-   * the max amount of registrations to return
+   * the max amount of events to return
    */
   num?: string;
   /**
@@ -191,25 +190,14 @@ export type GetRegistrationsParams = {
    */
   start?: string;
   /**
-   * property to sort results by
+   * Event property to sort results by
    */
-  sortBy?: RegistrationSort;
+  sortBy?: EventSort;
   /**
-   * sort order desc or asc
+   * sort results order desc or asc
    */
   sortOrder?: SortOrder;
 };
-
-export enum EventSort {
-  title = "title",
-  startDateTime = "startDateTime",
-  createdAt = "createdAt",
-  updatedAt = "updatedAt",
-}
-export interface IPagingParams {
-  nextStart: number;
-  total: number;
-}
 
 export interface IRegistrationPermission {
   canDelete: boolean;
@@ -450,7 +438,7 @@ export const getEvents = (
   params?: GetEventsParams,
   options?: SecondParameter<typeof customClient>
 ) => {
-  return customClient<GetEvents200>(
+  return customClient<IPagedEventResponse>(
     { url: `/api/events/v1/events`, method: "GET", params },
     options
   );
@@ -511,7 +499,7 @@ export const getRegistrations = (
   params?: GetRegistrationsParams,
   options?: SecondParameter<typeof customClient>
 ) => {
-  return customClient<IRegistration[]>(
+  return customClient<IPagedRegistrationResponse>(
     { url: `/api/events/v1/registrations`, method: "GET", params },
     options
   );
