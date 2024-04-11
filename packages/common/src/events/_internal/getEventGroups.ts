@@ -11,7 +11,7 @@ export async function getEventGroups(
     ids.length
       ? searchGroups({
           q: `id:(${ids.join(" OR ")})`,
-          num: 100,
+          num: ids.length,
           ...requestOptions,
         })
       : Promise.resolve({ results: [] } as ISearchResult<IGroup>);

@@ -8,9 +8,12 @@ export async function unshareEventWithGroups(
   entity: IHubEvent,
   context: IArcGISContext
 ): Promise<IHubItemEntity> {
-  try {
-    const { readGroups: readGroupIds, editGroups: editGroupIds } =
-      await updateEvent({
+  if (groupIds.length) {
+    try {
+      const {
+        readGroups: updatedReadGroupIds,
+        editGroups: updatedEditGroupIds,
+      } = await updateEvent({
         eventId: entity.id,
         data: {
           readGroups: entity.readGroupIds.filter(
@@ -22,16 +25,19 @@ export async function unshareEventWithGroups(
         },
         ...context.hubRequestOptions,
       });
-    return {
-      ...entity,
-      readGroupIds,
-      editGroupIds,
-    };
-  } catch (e) {
-    throw new Error(
-      `Entity: ${entity.id} could not be unshared with groups: ${groupIds.join(
-        ", "
-      )}`
-    );
+      return {
+        ...entity,
+        readGroupIds: updatedReadGroupIds,
+        editGroupIds: updatedEditGroupIds,
+      };
+    } catch (e) {
+      throw new Error(
+        `Entity: ${
+          entity.id
+        } could not be unshared with groups: ${groupIds.join(", ")}`
+      );
+    }
+  } else {
+    return entity;
   }
 }

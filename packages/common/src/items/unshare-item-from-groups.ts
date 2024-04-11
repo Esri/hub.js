@@ -33,7 +33,8 @@ export function unshareItemFromGroups(
       // individual call in another try/catch block to
       // make sure it catches before all promises finish
       try {
-        return unshareItemWithGroup(opt);
+        const results = await unshareItemWithGroup(opt);
+        return results;
       } catch (err) {
         throw new Error(
           `Error unsharing item: ${itemId} with group: ${groupId}`

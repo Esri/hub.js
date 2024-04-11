@@ -31,7 +31,7 @@ export async function shareItemToGroups(
     }
   );
   const validate = (resp: ISearchResult<IGroup>) =>
-    resp?.results?.length === groupIds.length;
+    resp.results.length === groupIds.length;
   let groups: IGroup[];
   try {
     ({ results: groups } = groupIds.length
@@ -51,10 +51,11 @@ export async function shareItemToGroups(
         id: itemId,
         groupId: group.id,
         owner,
-        confirmItemControl: group.capabilities?.includes("updateitemcontrol"),
+        confirmItemControl: group.capabilities.includes("updateitemcontrol"),
       } as IGroupSharingOptions;
       try {
-        return shareItemWithGroup(opt);
+        const res = await shareItemWithGroup(opt);
+        return res;
       } catch (e) {
         throw new Error(
           `Error sharing item: ${itemId} with group: ${group.id}`

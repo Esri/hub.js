@@ -177,6 +177,12 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
    * @param groupId
    */
   async shareWithGroup(groupId: string): Promise<void> {
+    if (!this.context.currentUser) {
+      throw new HubError(
+        "Share Item With Group",
+        "Cannot share item with group when no user is logged in."
+      );
+    }
     await shareItemToGroups(
       this.entity.id,
       [groupId],
@@ -190,12 +196,6 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
    * @param groupIds
    */
   async shareWithGroups(groupIds: string[]): Promise<void> {
-    if (!this.context.currentUser) {
-      throw new HubError(
-        "Share Item With Group",
-        "Cannot share item with group when no user is logged in."
-      );
-    }
     await shareItemToGroups(
       this.entity.id,
       groupIds,
