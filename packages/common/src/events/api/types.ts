@@ -6,6 +6,8 @@ export {
   IAddress,
   IAddressExtent,
   IAddressLocation,
+  IOnlineMeeting,
+  ICreateOnlineMeeting,
   ICreateAddress,
   ICreateEvent,
   ICreateEventGeometry,
@@ -18,19 +20,24 @@ export {
   IRegistrationPermission,
   IUpdateEvent,
   IUpdateRegistration,
+  GetRegistrationsParams,
   IUser,
   RegistrationRole,
   RegistrationStatus,
+  RegistrationSort,
   SortOrder,
   EventSort,
+  IPagedRegistrationResponse,
+  IPagedEventResponse,
 } from "./orval/api/orval-events";
 import { IHubRequestOptions } from "../../types";
 import {
   ICreateEvent,
   IUpdateEvent,
+  GetEventsParams,
   ICreateRegistration,
   IUpdateRegistration,
-  GetEventsParams,
+  GetRegistrationsParams,
 } from "./orval/api/orval-events";
 
 /**
@@ -71,9 +78,9 @@ export interface IDeleteEventParams extends IEventsRequestOptions {
 export interface ICreateRegistrationParams extends IEventsRequestOptions {
   data: ICreateRegistration;
 }
-// export interface IGetRegistrationsParams extends IEventsRequestOptions {
-//   data: any;
-// }
+export interface IGetRegistrationsParams extends IEventsRequestOptions {
+  data: GetRegistrationsParams;
+}
 export interface IGetRegistrationParams extends IEventsRequestOptions {
   registrationId: number;
 }

@@ -1,3 +1,24 @@
+# @esri/hub-common [14.114.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.113.0...@esri/hub-common@14.114.0) (2024-04-10)
+
+
+### Features
+
+* **hub-common:** add function getRegistrations and fix type for page… ([#1468](https://github.com/Esri/hub.js/issues/1468)) ([33599d3](https://github.com/Esri/hub.js/commit/33599d3ecd889fcdb276ec708ece8f81e6268a69))
+
+# @esri/hub-common [14.113.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.112.1...@esri/hub-common@14.113.0) (2024-04-10)
+
+
+### Features
+
+* loosen hub:feature:user:preferences permission  ([#1470](https://github.com/Esri/hub.js/issues/1470)) ([03fad00](https://github.com/Esri/hub.js/commit/03fad00a20e271dc22dbecac279f14ad991d87fa))
+
+## @esri/hub-common [14.112.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.112.0...@esri/hub-common@14.112.1) (2024-04-10)
+
+
+### Bug Fixes
+
+* **hub-common:** add status to IUpdateEvent ([#1469](https://github.com/Esri/hub.js/issues/1469)) ([c44b99d](https://github.com/Esri/hub.js/commit/c44b99d3d364006dfedb45bb853c05b95dfea744))
+
 # @esri/hub-common [14.112.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.111.2...@esri/hub-common@14.112.0) (2024-04-08)
 
 

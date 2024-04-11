@@ -4,6 +4,8 @@ import {
   IDeleteRegistrationParams,
   IGetRegistrationParams,
   IUpdateRegistrationParams,
+  IGetRegistrationsParams,
+  IPagedRegistrationResponse,
 } from "./types";
 import { authenticateRequest } from "./utils/authenticate-request";
 import {
@@ -17,7 +19,7 @@ import {
 /**
  * create an event registration
  *
- * @param {ICreateEventParams} options
+ * @param {ICreateRegistrationParams} options
  * @return {Promise<IRegistration>}
  */
 export async function createRegistration(
@@ -27,18 +29,18 @@ export async function createRegistration(
   return _createRegistration(options.data, options);
 }
 
-// /**
-//  * get registrations
-//  *
-//  * @param {IGetRegistrationsParams} options
-//  * @return {Promise<IRegistration[]>} // paged response?
-//  */
-// export async function getRegistrations(
-//   options: IGetRegistrationsParams
-// ): Promise<IRegistration[]> {
-//   options.token = await authenticateRequest(options);
-//   return _getRegistrations(options.data, options);
-// }
+/**
+ * get registrations
+ *
+ * @param {IGetRegistrationsParams} options
+ * @return {Promise<IPagedRegistrationResponse>}
+ */
+export async function getRegistrations(
+  options: IGetRegistrationsParams
+): Promise<IPagedRegistrationResponse> {
+  options.token = await authenticateRequest(options);
+  return _getRegistrations(options.data, options);
+}
 
 /**
  * get a registration
