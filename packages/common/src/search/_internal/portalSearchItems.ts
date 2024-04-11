@@ -5,6 +5,7 @@ import { serializeQueryForPortal } from "../serializeQueryForPortal";
 import { enrichPageSearchResult } from "../../pages/HubPages";
 import { enrichProjectSearchResult } from "../../projects";
 import { enrichSiteSearchResult } from "../../sites";
+import { enrichInitiativeSearchResult } from "../../initiatives/HubInitiatives";
 import { enrichTemplateSearchResult } from "../../templates/fetch";
 import { IHubRequestOptions } from "../../types";
 
@@ -226,6 +227,9 @@ export async function itemToSearchResult(
       break;
     case "Hub Project":
       fn = enrichProjectSearchResult;
+      break;
+    case "Hub Initiative":
+      fn = enrichInitiativeSearchResult;
       break;
     case "Solution":
       fn = enrichTemplateSearchResult;
