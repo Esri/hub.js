@@ -201,7 +201,7 @@ export class HubEvent
    * Return a list of groups the Entity is shared to.
    */
   async sharedWith(): Promise<IGroup[]> {
-    return getEventGroups(this.entity, this.context.requestOptions);
+    return getEventGroups(this.entity.id, this.context);
   }
 
   /*

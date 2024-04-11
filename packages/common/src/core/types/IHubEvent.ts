@@ -56,6 +56,11 @@ export interface IHubEvent extends IHubItemEntity, IWithPermissions, IWithSlug {
   canChangeStatusRemoved: boolean;
 
   /**
+   * An Array of edit group IDs the event is shared with
+   */
+  editGroupIds: string[];
+
+  /**
    * The end date of the event
    */
   endDate: string;
@@ -120,9 +125,10 @@ export interface IHubEvent extends IHubItemEntity, IWithPermissions, IWithSlug {
    */
   onlineUrl?: string | null;
 
+  /**
+   * An Array of view group IDs the event is shared with
+   */
   readGroupIds: string[];
-
-  editGroupIds: string[];
 
   /**
    * A collection of objects containing the ids & types for entities that the event references

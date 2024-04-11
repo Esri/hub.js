@@ -1,13 +1,19 @@
 import { IArcGISContext } from "../../ArcGISContext";
 import { IHubEvent } from "../../core/types/IHubEvent";
-import { IHubItemEntity } from "../../core/types/IHubItemEntity";
 import { updateEvent } from "../api/events";
 
+/**
+ * Unshares an event with one or more groups
+ * @param groupIds An array of group IDs to unshare the group from
+ * @param entity An IHubEvent object
+ * @param context An IArcGISContext object
+ * @returns An updated IHubEvent object
+ */
 export async function unshareEventWithGroups(
   groupIds: string[],
   entity: IHubEvent,
   context: IArcGISContext
-): Promise<IHubItemEntity> {
+): Promise<IHubEvent> {
   if (groupIds.length) {
     try {
       const {

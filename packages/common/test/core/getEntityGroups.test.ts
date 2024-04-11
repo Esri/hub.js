@@ -34,10 +34,7 @@ describe("getEntityGroups", () => {
     const res = await getEntityGroups(entity, context);
     expect(res).toEqual(groups);
     expect(getEventGroupsSpy).toHaveBeenCalledTimes(1);
-    expect(getEventGroupsSpy).toHaveBeenCalledWith(
-      entity,
-      context.requestOptions
-    );
+    expect(getEventGroupsSpy).toHaveBeenCalledWith(entity.id, context);
   });
 
   it("should call sharedWith for an other", async () => {

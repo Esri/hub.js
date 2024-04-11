@@ -379,8 +379,8 @@ describe("HubEvent Class:", () => {
       expect(getEventGroupsSpy).toHaveBeenCalledTimes(1);
       expect(getEventGroupsSpy).toHaveBeenCalledWith(
         /* tslint:disable-next-line */
-        chk["entity"],
-        authdCtxMgr.context.requestOptions
+        chk["entity"].id,
+        authdCtxMgr.context
       );
       expect(res).toEqual(groups);
     });

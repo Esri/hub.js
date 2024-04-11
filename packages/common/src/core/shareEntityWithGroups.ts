@@ -5,6 +5,13 @@ import { IHubItemEntity } from "./types/IHubItemEntity";
 import { getTypeFromEntity } from "./getTypeFromEntity";
 import { shareItemToGroups } from "../items/share-item-to-groups";
 
+/**
+ * Shares an entity to one or more groups
+ * @param entity An IHubItemEntity object
+ * @param groupIds An array of group IDs to share the entity to
+ * @param context An IArcGISContext object
+ * @returns a promise that resolves the updated entity
+ */
 export async function shareEntityWithGroups(
   entity: IHubItemEntity,
   groupIds: string[],

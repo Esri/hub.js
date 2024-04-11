@@ -6,6 +6,13 @@ import { EventAccess } from "../events/api/orval/api/orval-events";
 import { updateEvent } from "../events/api/events";
 import { HubEntity } from "./types/HubEntity";
 
+/**
+ * Sets an entity's access to the given access
+ * @param entity A HubEntity object
+ * @param access The access to set the entity to
+ * @param context An IArcGISContext object
+ * @returns a promise
+ */
 export async function setEntityAccess(
   entity: HubEntity,
   access: SettableAccessLevel,

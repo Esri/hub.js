@@ -5,6 +5,13 @@ import { IHubItemEntity } from "./types/IHubItemEntity";
 import { getTypeFromEntity } from "./getTypeFromEntity";
 import { unshareItemFromGroups } from "../items/unshare-item-from-groups";
 
+/**
+ * Unshares an entity from one or more groups
+ * @param entity An IHubItemEntity object
+ * @param groupIds An array of group IDs to unshare the entity from
+ * @param context An IArcGISContext object
+ * @returns a promise that resolves the updated entity
+ */
 export async function unshareEntityWithGroups(
   entity: IHubItemEntity,
   groupIds: string[],

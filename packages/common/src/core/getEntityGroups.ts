@@ -1,22 +1,25 @@
+import { IGroup } from "@esri/arcgis-rest-portal";
 import { IArcGISContext } from "../ArcGISContext";
 import { getEventGroups } from "../events/_internal/getEventGroups";
 import { sharedWith } from "./_internal/sharedWith";
 import { getTypeFromEntity } from "./getTypeFromEntity";
-import { IHubEvent } from "./types/IHubEvent";
 import { IHubItemEntity } from "./types/IHubItemEntity";
 
+/**
+ * Fetches an array of groups the entity is shared with
+ * @param entity An IHubItemEntity
+ * @param context An IArcGISContext
+ * @returns a promise that resolves an array of groups the entity is shared with
+ */
 export async function getEntityGroups(
   entity: IHubItemEntity,
   context: IArcGISContext
-) {
+): Promise<IGroup[]> {
   const type = getTypeFromEntity(entity);
   let groups;
   switch (type) {
     case "event":
-      groups = await getEventGroups(
-        entity as IHubEvent,
-        context.requestOptions
-      );
+      groups = await getEventGroups(entity.id, context);
       break;
     default:
       groups = await sharedWith(entity.id, context.requestOptions);

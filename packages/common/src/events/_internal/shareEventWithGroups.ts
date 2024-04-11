@@ -4,13 +4,19 @@ import { IHubEvent } from "../../core/types/IHubEvent";
 import { unique } from "../../util";
 import { updateEvent } from "../api/events";
 import { poll } from "../../utils/poll";
-import { IHubItemEntity } from "../../core/types/IHubItemEntity";
 
+/**
+ * Shares an event with one or more groups
+ * @param groupIds An array of group IDs to share the event with
+ * @param entity An IHubEvent object
+ * @param context An IArcGISContext object
+ * @returns a promise that resolves IHubItemEntity
+ */
 export async function shareEventWithGroups(
   groupIds: string[],
   entity: IHubEvent,
   context: IArcGISContext
-): Promise<IHubItemEntity> {
+): Promise<IHubEvent> {
   const fn: () => Promise<ISearchResult<IGroup>> = searchGroups.bind(
     undefined,
     {

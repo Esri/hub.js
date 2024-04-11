@@ -11,10 +11,10 @@ import { poll } from "../utils/poll";
 
 /**
  * Share an item to a set of groups
- * @param {String} itemId Iten Id to share to the groups
+ * @param {String} itemId Item Id to share to the groups
  * @param {Array} groupIds Array of group id's to which the item will be shared
+ * @param {IRequestOptions} requestOptions
  * @param {String} owner optional Owner username to determine which endpoint to hit
- * @param {*} requestOptions
  */
 export async function shareItemToGroups(
   itemId: string,
