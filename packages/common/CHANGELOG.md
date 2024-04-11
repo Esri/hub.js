@@ -1,3 +1,10 @@
+# @esri/hub-common [14.115.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.114.0...@esri/hub-common@14.115.0) (2024-04-11)
+
+
+### Features
+
+* enrich initiatives with correct links ([#1460](https://github.com/Esri/hub.js/issues/1460)) ([488818c](https://github.com/Esri/hub.js/commit/488818cadf2c5215dc6f30c42692fd2236e6e1bc))
+
 # @esri/hub-common [14.114.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.113.0...@esri/hub-common@14.114.0) (2024-04-10)
 
 
