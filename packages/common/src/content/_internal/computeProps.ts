@@ -50,6 +50,9 @@ export function computeProps(
 
   content.isDiscussable = isDiscussable(content);
 
+  // TODO: schedule doesn't exist on the item quite yet, need to get it from the database like San mentioned
+  content.schedule = model.item.schedule || { mode: "automatic" };
+
   if (enrichments.server) {
     content.serverExtractCapability = hasServiceCapability(
       ServiceCapabilities.EXTRACT,
