@@ -192,6 +192,18 @@ export const buildUiSchema = async (
                   labelKey: "shared.fields.metrics.sourceLink.message.required",
                   allowShowBeforeInteract: true,
                 },
+                {
+                  type: "ERROR",
+                  keyword: "format",
+                  icon: true,
+                  labelKey:
+                    "shared.fields.metrics.sourceLink.message.formatError",
+                },
+                {
+                  type: "ERROR",
+                  keyword: "if",
+                  hidden: true,
+                },
               ],
             },
           },
