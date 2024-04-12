@@ -1,3 +1,10 @@
+# @esri/hub-common [14.116.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.115.0...@esri/hub-common@14.116.0) (2024-04-12)
+
+
+### Features
+
+* **hub-common:** add facade methods related to entity sharing and ac… ([#1467](https://github.com/Esri/hub.js/issues/1467)) ([7cfc46b](https://github.com/Esri/hub.js/commit/7cfc46b8d983a28320999d10576d1523d7bd51b5))
+
 # @esri/hub-common [14.115.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.114.0...@esri/hub-common@14.115.0) (2024-04-11)
 
 
