@@ -34,6 +34,10 @@ export async function shareItemToGroups(
     resp.results.length === groupIds.length;
   let groups: IGroup[];
   try {
+    // We poll for the expected group results as newly created groups aren't immediately available in the
+    // AGO group search index. Polling here eliminates the need for us to potentially implement this polling
+    // in multiple places in our app where we create new groups from. In the majority of cases, this will only fire
+    // a single request.
     ({ results: groups } = groupIds.length
       ? await poll<ISearchResult<IGroup>>(fn, validate, {
           timeBetweenRequests: 300,
