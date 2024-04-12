@@ -226,7 +226,7 @@ export const buildUiSchema = async (
                   type: "ERROR",
                   keyword: "format",
                   icon: true,
-                  labelKey: `${i18nScope}.fields.onlineUrl.linkHrefFormatError`,
+                  labelKey: `shared.errors.urlFormat`,
                 },
               ],
             },

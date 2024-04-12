@@ -250,8 +250,7 @@ describe("ProjectUiSchemaMetrics", () => {
                       type: "ERROR",
                       keyword: "format",
                       icon: true,
-                      labelKey:
-                        "shared.fields.metrics.sourceLink.message.formatError",
+                      labelKey: "shared.errors.urlFormat",
                     },
                     {
                       type: "ERROR",
