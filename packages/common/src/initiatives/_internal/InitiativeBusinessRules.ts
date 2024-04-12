@@ -20,6 +20,7 @@ export const InitiativePermissions = [
   "hub:initiative:delete",
   "hub:initiative:edit",
   "hub:initiative:view",
+  "hub:initiative:owner",
   "hub:initiative:canChangeAccess",
   "hub:initiative:events",
   "hub:initiative:content",
@@ -61,6 +62,12 @@ export const InitiativePermissionPolicies: IPermissionPolicy[] = [
     services: ["portal"],
     authenticated: false,
     licenses: ["hub-premium", "hub-basic"],
+  },
+  {
+    permission: "hub:initiative:owner",
+    dependencies: ["hub:initiative"],
+    authenticated: true,
+    entityOwner: true,
   },
   {
     permission: "hub:initiative:edit",
