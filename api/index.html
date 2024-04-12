@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <meta name="date" content="2024-04-11T15:57:02.138Z">
+    <meta name="date" content="2024-04-12T20:11:17.801Z">
     <title>@esri/hub.js</title>
     
     <link rel="stylesheet" href="/hub.js/css/calcite-web.min.css">
@@ -74,7 +74,7 @@
               <path d="M7 4h5l12 12-12 12H7l12-12L7 4z" />
             </svg>
           </button>
-          <a href="/hub.js/api/common/" class="tsd-kind-icon">common</a>&nbsp;<small>v14.114.0</small>
+          <a href="/hub.js/api/common/" class="tsd-kind-icon">common</a>&nbsp;<small>v14.115.0</small>
           <ul id="list1" class="api-package-content-list">
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -1082,6 +1082,10 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/getEntityGroups/" class="tsd-kind-icon padding-right-1">getEntityGroups</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/getEntityMetrics/" class="tsd-kind-icon padding-right-1">getEntityMetrics</a>
             </li>
             
@@ -1095,6 +1099,10 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/getEvent/" class="tsd-kind-icon padding-right-1">getEvent</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/getEventGroups/" class="tsd-kind-icon padding-right-1">getEventGroups</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -2094,6 +2102,10 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/setEntityAccess/" class="tsd-kind-icon padding-right-1">setEntityAccess</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/setEntityAssociationGroup/" class="tsd-kind-icon padding-right-1">setEntityAssociationGroup</a>
             </li>
             
@@ -2123,6 +2135,14 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/setSlugKeyword/" class="tsd-kind-icon padding-right-1">setSlugKeyword</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/shareEntityWithGroups/" class="tsd-kind-icon padding-right-1">shareEntityWithGroups</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/shareEventWithGroups/" class="tsd-kind-icon padding-right-1">shareEventWithGroups</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -2195,6 +2215,14 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/unprotectModel/" class="tsd-kind-icon padding-right-1">unprotectModel</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/unshareEntityWithGroups/" class="tsd-kind-icon padding-right-1">unshareEntityWithGroups</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/unshareEventWithGroups/" class="tsd-kind-icon padding-right-1">unshareEventWithGroups</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -6067,7 +6095,7 @@
   
   
   
-  <small class="label right">Version 14.114.0</small>
+  <small class="label right">Version 14.115.0</small>
 <h1 class=" font-size-3 trailer-half code-face">
   <a href="/hub.js/api/common/">@esri/hub-common</a>
 </h1>
@@ -6328,10 +6356,12 @@
   getEditorSchemas,
   getEntityDefaultWorkspacePane,
   getEntityFollowersGroupId,
+  getEntityGroups,
   getEntityMetrics,
   getEnvironmentFromPortalUrl,
   getEvent,
   getEvent,
+  getEventGroups,
   getEvents,
   getEvents,
   getExtentCenter,
@@ -6581,6 +6611,7 @@
   setContentType,
   setDiscussableKeyword,
   setDisplayMapKeyword,
+  setEntityAccess,
   setEntityAssociationGroup,
   setEntityStatusKeyword,
   setFeedConfiguration,
@@ -6589,6 +6620,8 @@
   setMetricAndDisplay,
   setProp,
   setSlugKeyword,
+  shareEntityWithGroups,
+  shareEventWithGroups,
   shareItemToGroups,
   shouldDisplayMap,
   shouldHaveDataUrl,
@@ -6607,6 +6640,8 @@
   unique,
   uniqueBy,
   unprotectModel,
+  unshareEntityWithGroups,
+  unshareEventWithGroups,
   unshareItemFromGroups,
   updateDomain,
   updateEvent,
@@ -7672,6 +7707,10 @@
   </li>
   
   <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/getEntityGroups/" class="tsd-kind-icon">getEntityGroups</a>
+  </li>
+  
+  <li class="tsd-kind-function">
     <a href="/hub.js/api/common/getEntityMetrics/" class="tsd-kind-icon">getEntityMetrics</a>
   </li>
   
@@ -7685,6 +7724,10 @@
   
   <li class="tsd-kind-function">
     <a href="/hub.js/api/common/getEvent/" class="tsd-kind-icon">getEvent</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/getEventGroups/" class="tsd-kind-icon">getEventGroups</a>
   </li>
   
   <li class="tsd-kind-function">
@@ -8684,6 +8727,10 @@
   </li>
   
   <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/setEntityAccess/" class="tsd-kind-icon">setEntityAccess</a>
+  </li>
+  
+  <li class="tsd-kind-function">
     <a href="/hub.js/api/common/setEntityAssociationGroup/" class="tsd-kind-icon">setEntityAssociationGroup</a>
   </li>
   
@@ -8713,6 +8760,14 @@
   
   <li class="tsd-kind-function">
     <a href="/hub.js/api/common/setSlugKeyword/" class="tsd-kind-icon">setSlugKeyword</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/shareEntityWithGroups/" class="tsd-kind-icon">shareEntityWithGroups</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/shareEventWithGroups/" class="tsd-kind-icon">shareEventWithGroups</a>
   </li>
   
   <li class="tsd-kind-function">
@@ -8785,6 +8840,14 @@
   
   <li class="tsd-kind-function">
     <a href="/hub.js/api/common/unprotectModel/" class="tsd-kind-icon">unprotectModel</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/unshareEntityWithGroups/" class="tsd-kind-icon">unshareEntityWithGroups</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/unshareEventWithGroups/" class="tsd-kind-icon">unshareEventWithGroups</a>
   </li>
   
   <li class="tsd-kind-function">
@@ -11660,7 +11723,7 @@
   </li>
   
 </ul>
-  <small>v14.114.0</small>
+  <small>v14.115.0</small>
 
   
   <hr>
