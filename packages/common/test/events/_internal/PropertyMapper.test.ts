@@ -49,7 +49,10 @@ describe("PropertyMapper", () => {
         catalog: null,
         categories: ["category1"],
         createdAt: new Date().toISOString(),
-        createdById: "jdoe",
+        createdById: "12345",
+        creator: {
+          username: "jdoe",
+        },
         description: "event description",
         editGroups: ["editGroup1"],
         endDateTime: new Date().toISOString(),
@@ -75,7 +78,7 @@ describe("PropertyMapper", () => {
         timeZone: "America/New_York",
         title: "event title",
         updatedAt: new Date().toISOString(),
-      };
+      } as IEvent;
     });
 
     it("converts an Event record to an in-person Event entity", () => {
@@ -123,6 +126,8 @@ describe("PropertyMapper", () => {
         canChangeStatus: true,
         canChangeStatusCancelled: true,
         canChangeStatusRemoved: true,
+        readGroupIds: ["readGroup1"],
+        editGroupIds: ["editGroup1"],
       });
     });
 
@@ -219,7 +224,7 @@ describe("PropertyMapper", () => {
       expect(propertyMapper.entityToStore(eventEntity, {})).toEqual({
         allDay: false,
         title: "event title",
-        createdById: "jdoe",
+        creator: { username: "jdoe" },
         permission: {
           canEdit: true,
           canDelete: true,
@@ -243,7 +248,7 @@ describe("PropertyMapper", () => {
         attendanceType: [EventAttendanceType.IN_PERSON],
         startDateTime: jasmine.any(String) as unknown as string,
         endDateTime: jasmine.any(String) as unknown as string,
-      });
+      } as IEvent);
     });
 
     it("converts an IHubEvent to an all-day Event record", () => {
@@ -251,7 +256,7 @@ describe("PropertyMapper", () => {
       expect(propertyMapper.entityToStore(eventEntity, {})).toEqual({
         allDay: true,
         title: "event title",
-        createdById: "jdoe",
+        creator: { username: "jdoe" },
         permission: {
           canEdit: true,
           canDelete: true,
@@ -275,7 +280,7 @@ describe("PropertyMapper", () => {
         attendanceType: [EventAttendanceType.IN_PERSON],
         startDateTime: jasmine.any(String) as unknown as string,
         endDateTime: jasmine.any(String) as unknown as string,
-      });
+      } as IEvent);
     });
 
     it("converts an IHubEvent to an online Event record", () => {
@@ -287,7 +292,7 @@ describe("PropertyMapper", () => {
       expect(propertyMapper.entityToStore(eventEntity, {})).toEqual({
         allDay: false,
         title: "event title",
-        createdById: "jdoe",
+        creator: { username: "jdoe" },
         permission: {
           canEdit: true,
           canDelete: true,
@@ -318,7 +323,7 @@ describe("PropertyMapper", () => {
         ],
         startDateTime: jasmine.any(String) as unknown as string,
         endDateTime: jasmine.any(String) as unknown as string,
-      });
+      } as IEvent);
     });
 
     it("converts an IHubEvent to an online Event record with unlimited capacity", () => {
@@ -330,7 +335,7 @@ describe("PropertyMapper", () => {
       expect(propertyMapper.entityToStore(eventEntity, {})).toEqual({
         allDay: false,
         title: "event title",
-        createdById: "jdoe",
+        creator: { username: "jdoe" },
         permission: {
           canEdit: true,
           canDelete: true,
@@ -361,7 +366,7 @@ describe("PropertyMapper", () => {
         ],
         startDateTime: jasmine.any(String) as unknown as string,
         endDateTime: jasmine.any(String) as unknown as string,
-      });
+      } as IEvent);
     });
 
     it("converts an IHubEvent to a hybrid Event record", () => {
@@ -373,7 +378,7 @@ describe("PropertyMapper", () => {
       expect(propertyMapper.entityToStore(eventEntity, {})).toEqual({
         allDay: false,
         title: "event title",
-        createdById: "jdoe",
+        creator: { username: "jdoe" },
         permission: {
           canEdit: true,
           canDelete: true,
@@ -407,7 +412,7 @@ describe("PropertyMapper", () => {
         ],
         startDateTime: jasmine.any(String) as unknown as string,
         endDateTime: jasmine.any(String) as unknown as string,
-      });
+      } as IEvent);
     });
 
     it("converts an IHubEvent to a cancelled Event record", () => {
@@ -415,7 +420,7 @@ describe("PropertyMapper", () => {
       expect(propertyMapper.entityToStore(eventEntity, {})).toEqual({
         allDay: false,
         title: "event title",
-        createdById: "jdoe",
+        creator: { username: "jdoe" },
         permission: {
           canEdit: true,
           canDelete: true,
@@ -439,7 +444,7 @@ describe("PropertyMapper", () => {
         attendanceType: [EventAttendanceType.IN_PERSON],
         startDateTime: jasmine.any(String) as unknown as string,
         endDateTime: jasmine.any(String) as unknown as string,
-      });
+      } as IEvent);
     });
 
     it("converts an IHubEvent to a removed Event record", () => {
@@ -447,7 +452,7 @@ describe("PropertyMapper", () => {
       expect(propertyMapper.entityToStore(eventEntity, {})).toEqual({
         allDay: false,
         title: "event title",
-        createdById: "jdoe",
+        creator: { username: "jdoe" },
         permission: {
           canEdit: true,
           canDelete: true,
@@ -471,7 +476,7 @@ describe("PropertyMapper", () => {
         attendanceType: [EventAttendanceType.IN_PERSON],
         startDateTime: jasmine.any(String) as unknown as string,
         endDateTime: jasmine.any(String) as unknown as string,
-      });
+      } as IEvent);
     });
   });
 });

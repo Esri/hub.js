@@ -45,6 +45,8 @@ describe("HubEvent defaults:", () => {
         references: [],
         schemaVersion: 1,
         tags: [],
+        readGroupIds: [],
+        editGroupIds: [],
         ...datesAndTimes,
       });
       expect(getDefaultEventDatesAndTimesSpy).toHaveBeenCalledTimes(1);

@@ -137,7 +137,7 @@ describe("HubEvents edit module", () => {
   });
 
   describe("updateHubEvent", () => {
-    it("should create an event", async () => {
+    it("should update an event", async () => {
       const authdCtxMgr = await ArcGISContextManager.create({
         authentication: MOCK_AUTH,
         currentUser: {
@@ -230,6 +230,7 @@ describe("HubEvents edit module", () => {
           name: "my event",
           timeZone: "America/New_York",
           id: "31c",
+          isCanceled: true,
         } as IHubEvent,
         authdCtxMgr.context.hubRequestOptions
       );
@@ -252,6 +253,7 @@ describe("HubEvents edit module", () => {
           onlineMeetings: defaultRecord.onlineMeetings,
           readGroups: defaultRecord.readGroups,
           startDateTime: jasmine.any(String) as unknown as string,
+          status: EventStatus.CANCELED,
           summary: defaultRecord.summary,
           tags: defaultRecord.tags,
           timeZone: defaultRecord.timeZone,

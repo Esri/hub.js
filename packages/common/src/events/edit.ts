@@ -53,7 +53,6 @@ export async function createHubEvent(
     tags: model.tags,
     timeZone: model.timeZone,
     title: model.title,
-    // TODO: groups
     // TODO: locations
   };
 
@@ -99,11 +98,11 @@ export async function updateHubEvent(
     onlineMeetings: model.onlineMeetings,
     readGroups: model.readGroups,
     startDateTime: model.startDateTime,
+    status: model.status,
     summary: model.summary,
     tags: model.tags,
     timeZone: model.timeZone,
     title: model.title,
-    // TODO: groups
     // TODO: locations
   };
 
