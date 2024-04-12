@@ -69,8 +69,7 @@ describe("shareEventWithGroups", () => {
     expect(pollSpy).toHaveBeenCalledTimes(1);
     expect(pollSpy).toHaveBeenCalledWith(
       jasmine.any(Function),
-      jasmine.any(Function),
-      { timeBetweenRequests: 300 }
+      jasmine.any(Function)
     );
     expect(updateEventSpy).toHaveBeenCalledTimes(1);
     expect(updateEventSpy).toHaveBeenCalledWith({
@@ -113,8 +112,7 @@ describe("shareEventWithGroups", () => {
     expect(pollSpy).toHaveBeenCalledTimes(1);
     expect(pollSpy).toHaveBeenCalledWith(
       jasmine.any(Function),
-      jasmine.any(Function),
-      { timeBetweenRequests: 300 }
+      jasmine.any(Function)
     );
   });
 

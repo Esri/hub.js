@@ -35,8 +35,7 @@ describe("shareItemToGroups", function () {
     expect(pollSpy).toHaveBeenCalledTimes(1);
     expect(pollSpy).toHaveBeenCalledWith(
       jasmine.any(Function),
-      jasmine.any(Function),
-      { timeBetweenRequests: 300 }
+      jasmine.any(Function)
     );
     expect(shareItemWithGroupSpy).toHaveBeenCalledTimes(2);
     expect(shareItemWithGroupSpy).toHaveBeenCalledWith({
@@ -112,8 +111,7 @@ describe("shareItemToGroups", function () {
     expect(pollSpy).toHaveBeenCalledTimes(1);
     expect(pollSpy).toHaveBeenCalledWith(
       jasmine.any(Function),
-      jasmine.any(Function),
-      { timeBetweenRequests: 300 }
+      jasmine.any(Function)
     );
     expect(shareItemWithGroupSpy).toHaveBeenCalledTimes(0);
   });
@@ -148,8 +146,7 @@ describe("shareItemToGroups", function () {
     expect(pollSpy).toHaveBeenCalledTimes(1);
     expect(pollSpy).toHaveBeenCalledWith(
       jasmine.any(Function),
-      jasmine.any(Function),
-      { timeBetweenRequests: 300 }
+      jasmine.any(Function)
     );
     expect(shareItemWithGroupSpy).toHaveBeenCalledTimes(2);
     expect(shareItemWithGroupSpy).toHaveBeenCalledWith({

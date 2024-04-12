@@ -14,44 +14,31 @@
 export async function poll<T>(
   requestFn: () => Promise<T>,
   validationFn: (resp: T) => boolean,
-  opts?: {
-    timeout?: number;
-    timeBetweenRequests?: number;
+  options?: {
+    maxAttempts?: number;
+    initialRetryDelay?: number;
   }
 ): Promise<T> {
-  const delay = (milliseconds: number) =>
-    new Promise((resolve) => setTimeout(resolve, milliseconds));
-  const options =
-    opts || /* istanbul ignore next - we must pass in overrides for tests */ {};
-  const timeout = isNaN(options.timeout) ? 30000 : options.timeout;
-  /* istanbul ignore next - should not cover the 3000 case in tests */
-  const timeBetweenRequests = isNaN(options.timeBetweenRequests)
-    ? 3000
-    : options.timeBetweenRequests;
-
-  let resp: T;
-  let requestCount = 0;
-  let timeElapsed = 0;
-
-  do {
-    // On subsequent requests, check if the timeout has been reached
-    // If YES: throw an error
-    // If NO: delay before the next request
-    if (requestCount > 0) {
-      timeElapsed += requestCount * timeBetweenRequests;
-      if (timeElapsed >= timeout) {
-        throw new Error("Polling timeout");
-      }
-
-      // NOTE: we incrementally increase the time between requests
-      // so as not to hammer an API with subsequent calls.
-      // This was specifically requested by the Portal API team
-      await delay(requestCount * timeBetweenRequests);
+  const isGreaterThanZero = (num: number) => !isNaN(num) && num > 0;
+  const _maxAttempts = isGreaterThanZero(options?.maxAttempts)
+    ? options.maxAttempts
+    : 7;
+  const _delay = isGreaterThanZero(options?.initialRetryDelay)
+    ? options.initialRetryDelay
+    : 500;
+  async function pollRecursive(attempt: number, delay: number): Promise<T> {
+    if (attempt > _maxAttempts) {
+      throw new Error(`Polling failed after ${_maxAttempts} attempts`);
     }
-
-    resp = await requestFn();
-    requestCount++;
-  } while (!validationFn(resp));
-
-  return resp;
+    const results = await new Promise<T>((resolve) => {
+      setTimeout(async () => {
+        const res = await requestFn();
+        resolve(res);
+      }, delay);
+    });
+    return validationFn(results)
+      ? results
+      : await pollRecursive(attempt + 1, attempt === 1 ? _delay : delay * 2);
+  }
+  return pollRecursive(1, 0);
 }

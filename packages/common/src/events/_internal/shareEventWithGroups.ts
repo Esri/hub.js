@@ -35,10 +35,7 @@ export async function shareEventWithGroups(
       // a single request.
       const { results: groups } = await poll<ISearchResult<IGroup>>(
         fn,
-        validate,
-        {
-          timeBetweenRequests: 300,
-        }
+        validate
       );
       const { readGroupIds, editGroupIds } = groups.reduce<{
         readGroupIds: string[];

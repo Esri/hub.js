@@ -39,9 +39,7 @@ export async function shareItemToGroups(
     // in multiple places in our app where we create new groups from. In the majority of cases, this will only fire
     // a single request.
     ({ results: groups } = groupIds.length
-      ? await poll<ISearchResult<IGroup>>(fn, validate, {
-          timeBetweenRequests: 300,
-        })
+      ? await poll<ISearchResult<IGroup>>(fn, validate)
       : ({ results: [] } as ISearchResult<IGroup>));
   } catch (e) {
     throw new Error(
