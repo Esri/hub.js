@@ -98,6 +98,7 @@ export async function updateHubEvent(
     onlineMeetings: model.onlineMeetings,
     readGroups: model.readGroups,
     startDateTime: model.startDateTime,
+    status: model.status,
     summary: model.summary,
     tags: model.tags,
     timeZone: model.timeZone,
