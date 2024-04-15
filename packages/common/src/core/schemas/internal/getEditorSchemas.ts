@@ -353,12 +353,16 @@ export async function getEditorSchemas(
           import("../../../events/_internal/EventSchemaCreate"),
         "hub:event:edit": () =>
           import("../../../events/_internal/EventSchemaEdit"),
+        "hub:event:attendees": () =>
+          import("../../../events/_internal/EventSchemaEdit"),
       }[type as EventEditorType]();
       const eventUiSchemaModule = await {
         "hub:event:create": () =>
           import("../../../events/_internal/EventUiSchemaCreate"),
         "hub:event:edit": () =>
           import("../../../events/_internal/EventUiSchemaEdit"),
+        "hub:event:attendees": () =>
+          import("../../../events/_internal/EventUiSchemaAttendeesSettings"),
       }[type as EventEditorType]();
       schema = eventSchemaModule.buildSchema();
       uiSchema = await eventUiSchemaModule.buildUiSchema(
