@@ -43,6 +43,8 @@ export const SitePermissions = [
   "hub:site:workspace:discussion",
   "hub:site:workspace:pages",
   "hub:site:workspace:events",
+  "hub:site:workspace:projects",
+  "hub:site:workspace:initiatives",
   "hub:site:manage",
 ] as const;
 
@@ -209,6 +211,16 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:site:workspace:discussion",
     dependencies: ["hub:site:workspace", "hub:site:edit"],
+  },
+  {
+    permission: "hub:site:workspace:projects",
+    dependencies: ["hub:site:workspace", "hub:site:edit"],
+    availability: ["alpha"],
+  },
+  {
+    permission: "hub:site:workspace:initiatives",
+    dependencies: ["hub:site:workspace", "hub:site:edit"],
+    availability: ["alpha"],
   },
   {
     permission: "hub:site:manage",

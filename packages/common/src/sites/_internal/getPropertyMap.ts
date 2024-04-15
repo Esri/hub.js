@@ -33,6 +33,8 @@ export function getPropertyMap(): IPropertyMap[] {
   });
   // Capabilities
   map.push({ entityKey: "events", storeKey: "data.events" });
+  map.push({ entityKey: "initiatives", storeKey: "data.initiatives" });
+  map.push({ entityKey: "projects", storeKey: "data.projects" });
 
   // Deeper/Indirect mappings
   map.push({
