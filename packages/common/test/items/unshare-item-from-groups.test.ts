@@ -1,4 +1,4 @@
-import { unshareItemFromGroups } from "../../src";
+import { unshareItemFromGroups } from "../../src/items";
 import * as portal from "@esri/arcgis-rest-portal";
 import { mockUserSession } from "../test-helpers/fake-user-session";
 

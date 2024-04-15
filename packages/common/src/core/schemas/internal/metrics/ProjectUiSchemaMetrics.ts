@@ -185,12 +185,22 @@ export const buildUiSchema = async (
               placeholder: "https://esri.com",
               messages: [
                 {
-                  /** not in use until conditional required lands */
                   type: "ERROR",
                   keyword: "required",
                   icon: true,
                   labelKey: "shared.fields.metrics.sourceLink.message.required",
                   allowShowBeforeInteract: true,
+                },
+                {
+                  type: "ERROR",
+                  keyword: "format",
+                  icon: true,
+                  labelKey: "shared.errors.urlFormat",
+                },
+                {
+                  type: "ERROR",
+                  keyword: "if",
+                  hidden: true,
                 },
               ],
             },

@@ -306,7 +306,7 @@ describe("EventUiSchemaEdit", () => {
                       type: "ERROR",
                       keyword: "format",
                       icon: true,
-                      labelKey: `myI18nScope.fields.onlineUrl.linkHrefFormatError`,
+                      labelKey: `shared.errors.urlFormat`,
                     },
                   ],
                 },
