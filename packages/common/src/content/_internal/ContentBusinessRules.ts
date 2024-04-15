@@ -127,4 +127,5 @@ export const ContentPermissionPolicies: IPermissionPolicy[] = [
     availability: ["alpha"],
     environments: ["qaext", "devext"],
   },
+  // TODO: add permission for scheduler here
 ];

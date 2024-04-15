@@ -1,6 +1,6 @@
 import { IArcGISContext } from "../../ArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
-import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
+import { IUiSchema } from "../../core/schemas/types";
 import { IHubEditableContent } from "../../core/types/IHubEditableContent";
 import { isHostedFeatureServiceEntity } from "../hostedServiceUtils";
 
@@ -55,13 +55,14 @@ export const buildUiSchema = async (
                   type: "annually",
                   expandedHelperText: "Each year on",
                 }, // TODO: i18n
-                {
-                  label: "Manual",
-                  type: "manual",
-                  helperActionIcon: "information-f",
-                  helperActionText:
-                    "Use this option to manually update the search index and cached download files for this item.",
-                }, // TODO: i18n
+                // uncomment this when the manual option is available
+                // {
+                //   label: "Manual",
+                //   type: "manual",
+                //   helperActionIcon: "information-f",
+                //   helperActionText:
+                //     "Use this option to manually update the search index and cached download files for this item.",
+                // }, // TODO: i18n
               ],
             },
           },
