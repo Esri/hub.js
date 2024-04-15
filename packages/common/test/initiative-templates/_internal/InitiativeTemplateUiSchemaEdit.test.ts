@@ -58,7 +58,7 @@ describe("buildUiSchema: initiative template edit", () => {
                     type: "ERROR",
                     keyword: "format",
                     icon: true,
-                    labelKey: "some.scope.fields.previewUrl.formatError",
+                    labelKey: "shared.errors.urlFormat",
                   },
                   {
                     type: "ERROR",
