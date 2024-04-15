@@ -1,3 +1,31 @@
+## @esri/hub-common [14.116.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.116.0...@esri/hub-common@14.116.1) (2024-04-15)
+
+
+### Bug Fixes
+
+* 9948 stat card editor error messaging ([#1472](https://github.com/Esri/hub.js/issues/1472)) ([02119ee](https://github.com/Esri/hub.js/commit/02119ee37dfe5e76f542e6a0dd9c6e0a133bd5c9))
+
+# @esri/hub-common [14.116.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.115.0...@esri/hub-common@14.116.0) (2024-04-12)
+
+
+### Features
+
+* **hub-common:** add facade methods related to entity sharing and ac… ([#1467](https://github.com/Esri/hub.js/issues/1467)) ([7cfc46b](https://github.com/Esri/hub.js/commit/7cfc46b8d983a28320999d10576d1523d7bd51b5))
+
+# @esri/hub-common [14.115.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.114.0...@esri/hub-common@14.115.0) (2024-04-11)
+
+
+### Features
+
+* enrich initiatives with correct links ([#1460](https://github.com/Esri/hub.js/issues/1460)) ([488818c](https://github.com/Esri/hub.js/commit/488818cadf2c5215dc6f30c42692fd2236e6e1bc))
+
+# @esri/hub-common [14.114.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.113.0...@esri/hub-common@14.114.0) (2024-04-10)
+
+
+### Features
+
+* **hub-common:** add function getRegistrations and fix type for page… ([#1468](https://github.com/Esri/hub.js/issues/1468)) ([33599d3](https://github.com/Esri/hub.js/commit/33599d3ecd889fcdb276ec708ece8f81e6268a69))
+
 # @esri/hub-common [14.113.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.112.1...@esri/hub-common@14.113.0) (2024-04-10)
 
 

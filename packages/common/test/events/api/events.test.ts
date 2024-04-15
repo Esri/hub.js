@@ -11,7 +11,6 @@ import {
   updateEvent,
   IEvent,
   EventAttendanceType,
-  EventStatus,
   EventAccess,
 } from "../../../src/events/api";
 import * as authenticateRequestModule from "../../../src/events/api/utils/authenticate-request";
@@ -112,8 +111,13 @@ describe("Events", () => {
   describe("getEvents", () => {
     it("should get events", async () => {
       const mockEvent = { burrito: "supreme" } as unknown as IEvent;
+      const pagedResponse = {
+        total: 1,
+        nextStart: 2,
+        items: [mockEvent],
+      };
       const getEventsSpy = spyOn(orvalModule, "getEvents").and.callFake(
-        async () => [mockEvent]
+        async () => pagedResponse
       );
 
       const options: IGetEventsParams = {
@@ -123,7 +127,7 @@ describe("Events", () => {
       };
 
       const result = await getEvents(options);
-      expect(result).toEqual([mockEvent]);
+      expect(result).toEqual(pagedResponse);
 
       expect(authenticateRequestSpy).toHaveBeenCalledWith(options);
       expect(getEventsSpy).toHaveBeenCalledWith(options.data, {

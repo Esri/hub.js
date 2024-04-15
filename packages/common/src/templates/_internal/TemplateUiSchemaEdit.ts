@@ -60,7 +60,7 @@ export const buildUiSchema = async (
                   type: "ERROR",
                   keyword: "format",
                   icon: true,
-                  labelKey: `${i18nScope}.fields.previewUrl.formatError`,
+                  labelKey: `shared.errors.urlFormat`,
                 },
                 {
                   type: "ERROR",

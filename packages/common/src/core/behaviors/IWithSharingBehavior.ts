@@ -11,10 +11,20 @@ export interface IWithSharingBehavior {
    */
   shareWithGroup(groupId: string): Promise<void>;
   /**
+   * Share the item with multiple groups
+   * @param groupIds
+   */
+  shareWithGroups(groupIds: string[]): Promise<void>;
+  /**
    * Unshare the item with the specified group
    * @param groupId
    */
   unshareWithGroup(groupId: string): Promise<void>;
+  /**
+   * Unshare the item with the specified group
+   * @param groupId
+   */
+  unshareWithGroups(groupIds: string[]): Promise<void>;
   /**
    * Set the access level for the item
    * @param access
