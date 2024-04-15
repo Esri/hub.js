@@ -233,6 +233,17 @@ describe("buildUiSchema: stat", () => {
                         labelKey: `errors.sourceLink.required`,
                         allowShowBeforeInteract: true,
                       },
+                      {
+                        type: "ERROR",
+                        keyword: "format",
+                        icon: true,
+                        labelKey: `errors.sourceLink.formatError`,
+                      },
+                      {
+                        type: "ERROR",
+                        keyword: "if",
+                        hidden: true,
+                      },
                     ],
                   },
                 },
