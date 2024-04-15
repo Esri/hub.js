@@ -32,8 +32,9 @@ export function buildDefaultEventEntity(): Partial<IHubEvent> {
     references: [],
     schemaVersion: 1,
     tags: [],
+    readGroupIds: [],
+    editGroupIds: [],
     ...dates,
-    // TODO: groups
   };
 }
 

@@ -75,7 +75,7 @@ export class EventPropertyMapper extends PropertyMapper<
       store.permission.canSetAccessToPublic,
       store.permission.canSetAccessToOrg,
       store.permission.canSetAccessToPrivate,
-    ].some(Boolean);
+    ].every(Boolean);
     obj.canChangeStatus = [
       store.permission.canSetStatusToCancelled,
       store.permission.canSetStatusToRemoved,

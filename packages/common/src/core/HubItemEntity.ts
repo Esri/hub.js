@@ -4,13 +4,13 @@ import {
   getGroup,
   removeItemResource,
   setItemAccess,
-  shareItemWithGroup,
-  unshareItemWithGroup,
   updateGroup,
 } from "@esri/arcgis-rest-portal";
 import { IArcGISContext } from "../ArcGISContext";
 import HubError from "../HubError";
-import { uploadImageResource } from "../items";
+import { uploadImageResource } from "../items/uploadImageResource";
+import { unshareItemFromGroups } from "../items/unshare-item-from-groups";
+import { shareItemToGroups } from "../items/share-item-to-groups";
 import { deleteItemThumbnail } from "../items/deleteItemThumbnail";
 import { setItemThumbnail } from "../items/setItemThumbnail";
 import {
@@ -32,7 +32,8 @@ import {
 } from "./behaviors";
 
 import { IWithThumbnailBehavior } from "./behaviors/IWithThumbnailBehavior";
-import { IHubItemEntity, SettableAccessLevel } from "./types";
+import { IHubItemEntity } from "./types/IHubItemEntity";
+import { SettableAccessLevel } from "./types/types";
 import { sharedWith } from "./_internal/sharedWith";
 import { IWithDiscussionsBehavior } from "./behaviors/IWithDiscussionsBehavior";
 import { setDiscussableKeyword } from "../discussions";
@@ -182,41 +183,53 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
         "Cannot share item with group when no user is logged in."
       );
     }
-    // Group should be in current user's group collection,
-    // but we do not enforce that because they could have
-    // joined a group since the context was creatd.
-    // Get the group from user to check if it's an update group
-    // NOTE: If this becomes a problem, we can simply fetch the group
-    // and check user membership as well as capabilities.
-    const group = this.context.currentUser.groups?.find(
-      (g) => g.id === groupId
+    await shareItemToGroups(
+      this.entity.id,
+      [groupId],
+      this.context.requestOptions,
+      this.entity.owner
     );
-
-    // and see if it's an edit group b/c we need to send an additional param
-    const isEditGroup = (group?.capabilities || []).includes(
-      "updateitemcontrol"
-    );
-
-    await shareItemWithGroup({
-      id: this.entity.id,
-      groupId,
-      confirmItemControl: isEditGroup,
-      owner: this.entity.owner,
-      authentication: this.context.session,
-    });
   }
+
+  /**
+   * Share the Entity with the specified group ids
+   * @param groupIds
+   */
+  async shareWithGroups(groupIds: string[]): Promise<void> {
+    await shareItemToGroups(
+      this.entity.id,
+      groupIds,
+      this.context.requestOptions,
+      this.entity.owner
+    );
+  }
+
   /**
    * Unshare the Entity with the specified group id
    * @param groupId
    */
   async unshareWithGroup(groupId: string): Promise<void> {
-    await unshareItemWithGroup({
-      id: this.entity.id,
-      groupId,
-      owner: this.entity.owner,
-      authentication: this.context.session,
-    });
+    await unshareItemFromGroups(
+      this.entity.id,
+      [groupId],
+      this.context.requestOptions,
+      this.entity.owner
+    );
   }
+
+  /**
+   * Unshare the Entity with the specified group ids
+   * @param groupIds
+   */
+  async unshareWithGroups(groupIds: string[]): Promise<void> {
+    await unshareItemFromGroups(
+      this.entity.id,
+      groupIds,
+      this.context.requestOptions,
+      this.entity.owner
+    );
+  }
+
   /**
    * Set the access level of the backing item
    * @param access

@@ -5,10 +5,12 @@ import * as PortalModule from "@esri/arcgis-rest-portal";
 import * as SharedWithModule from "../../src/core/_internal/sharedWith";
 import * as setItemThumbnailModule from "../../src/items/setItemThumbnail";
 import * as deleteItemThumbnailModule from "../../src/items/deleteItemThumbnail";
-import * as ItemsModule from "../../src/items";
+import * as uploadImageResourceModule from "../../src/items/uploadImageResource";
 import { IEntityPermissionPolicy } from "../../src/permissions";
 import { CANNOT_DISCUSS, IHubItemEntity } from "../../src";
 import * as DISCUSSIONS from "../../src/discussions";
+import * as shareItemToGroupsModule from "../../src/items/share-item-to-groups";
+import * as unshareItemFromGroupsModule from "../../src/items/unshare-item-from-groups";
 
 // To test the abstract class, we need to create a
 // concrete class that extends it
@@ -80,159 +82,124 @@ describe("HubItemEntity Class: ", () => {
         authdCtxMgr.context
       );
     });
-    it("shares to view group", async () => {
-      const shareSpy = spyOn(PortalModule, "shareItemWithGroup").and.callFake(
-        () => {
-          return Promise.resolve();
+    describe("shareWithGroup", () => {
+      it("calls shareItemToGroups", async () => {
+        const shareItemToGroupsSpy = spyOn(
+          shareItemToGroupsModule,
+          "shareItemToGroups"
+        ).and.returnValue(Promise.resolve(undefined));
+        await harness.shareWithGroup("31c");
+        expect(shareItemToGroupsSpy).toHaveBeenCalledTimes(1);
+        expect(shareItemToGroupsSpy).toHaveBeenCalledWith(
+          "00c",
+          ["31c"],
+          authdCtxMgr.context.requestOptions,
+          "deke"
+        );
+      });
+      it("throws if user is not authd", async () => {
+        const unauthdCtxMgr = await ArcGISContextManager.create();
+        const instance = new TestHarness(
+          {
+            id: "00c",
+            owner: "deke",
+          },
+          unauthdCtxMgr.context
+        );
+        try {
+          await instance.shareWithGroup("efUpdate");
+          fail("should have thrown");
+        } catch (err) {
+          expect(err.name).toBe("HubError");
         }
-      );
-      await harness.shareWithGroup("efView");
-      expect(shareSpy).toHaveBeenCalledTimes(1);
-      // verify args
-      expect(shareSpy).toHaveBeenCalledWith({
-        id: "00c",
-        groupId: "efView",
-        owner: "deke",
-        confirmItemControl: false,
-        authentication: authdCtxMgr.context.session,
       });
     });
-    it("shares to update group", async () => {
-      const shareSpy = spyOn(PortalModule, "shareItemWithGroup").and.callFake(
-        () => {
-          return Promise.resolve();
-        }
-      );
-      await harness.shareWithGroup("efUpdate");
-      expect(shareSpy).toHaveBeenCalledTimes(1);
-      // verify args
-      expect(shareSpy).toHaveBeenCalledWith({
-        id: "00c",
-        groupId: "efUpdate",
-        owner: "deke",
-        confirmItemControl: true,
-        authentication: authdCtxMgr.context.session,
+    describe("shareWithGroups", () => {
+      it("calls shareItemToGroups", async () => {
+        const shareItemToGroupsSpy = spyOn(
+          shareItemToGroupsModule,
+          "shareItemToGroups"
+        ).and.returnValue(Promise.resolve(undefined));
+        await harness.shareWithGroups(["31c", "5n6"]);
+        expect(shareItemToGroupsSpy).toHaveBeenCalledTimes(1);
+        expect(shareItemToGroupsSpy).toHaveBeenCalledWith(
+          "00c",
+          ["31c", "5n6"],
+          authdCtxMgr.context.requestOptions,
+          "deke"
+        );
       });
     });
-
-    it("uses user groups to check if group is update", async () => {
-      const shareSpy = spyOn(PortalModule, "shareItemWithGroup").and.callFake(
-        () => {
-          return Promise.resolve();
-        }
-      );
-      await harness.shareWithGroup("notMyGroup");
-      expect(shareSpy).toHaveBeenCalledTimes(1);
-      // verify args
-      expect(shareSpy).toHaveBeenCalledWith({
-        id: "00c",
-        groupId: "notMyGroup",
-        owner: "deke",
-        confirmItemControl: false,
-        authentication: authdCtxMgr.context.session,
+    describe("unshareWithGroup", () => {
+      it("calls unshareItemFromGroups", async () => {
+        const unshareItemFromGroupsSpy = spyOn(
+          unshareItemFromGroupsModule,
+          "unshareItemFromGroups"
+        ).and.returnValue(Promise.resolve(undefined));
+        await harness.unshareWithGroup("31c");
+        expect(unshareItemFromGroupsSpy).toHaveBeenCalledTimes(1);
+        expect(unshareItemFromGroupsSpy).toHaveBeenCalledWith(
+          "00c",
+          ["31c"],
+          authdCtxMgr.context.requestOptions,
+          "deke"
+        );
       });
     });
-    it("throws if user is not authd", async () => {
-      const unauthdCtxMgr = await ArcGISContextManager.create();
-      const instance = new TestHarness(
-        {
+    describe("unshareWithGroups", () => {
+      it("calls unshareItemFromGroups", async () => {
+        const unshareItemFromGroupsSpy = spyOn(
+          unshareItemFromGroupsModule,
+          "unshareItemFromGroups"
+        ).and.returnValue(Promise.resolve(undefined));
+        await harness.unshareWithGroups(["31c", "5n6"]);
+        expect(unshareItemFromGroupsSpy).toHaveBeenCalledTimes(1);
+        expect(unshareItemFromGroupsSpy).toHaveBeenCalledWith(
+          "00c",
+          ["31c", "5n6"],
+          authdCtxMgr.context.requestOptions,
+          "deke"
+        );
+      });
+    });
+    describe("setAccess", () => {
+      it("calls setItemAccess", async () => {
+        const setItemAccessSpy = spyOn(
+          PortalModule,
+          "setItemAccess"
+        ).and.returnValue(Promise.resolve(undefined));
+        await harness.setAccess("org");
+        expect(setItemAccessSpy).toHaveBeenCalledTimes(1);
+        expect(setItemAccessSpy).toHaveBeenCalledWith({
           id: "00c",
+          access: "org",
           owner: "deke",
-        },
-        unauthdCtxMgr.context
-      );
-      try {
-        await instance.shareWithGroup("efUpdate");
-        fail("should have thrown");
-      } catch (err) {
-        expect(err.name).toBe("HubError");
-      }
-    });
-    it("user w/o groups", async () => {
-      const ctxMgr = await ArcGISContextManager.create({
-        authentication: MOCK_AUTH,
-        currentUser: {
-          username: "casey",
-        } as unknown as PortalModule.IUser,
-        portal: {
-          name: "DC R&D Center",
-          id: "BRXFAKE",
-          urlKey: "fake-org",
-          customBaseUrl: "fakemaps.arcgis.com",
-        } as unknown as PortalModule.IPortal,
-      });
-      const instance = new TestHarness(
-        {
-          id: "00c",
-          owner: "deke",
-        },
-        ctxMgr.context
-      );
-      const shareSpy = spyOn(PortalModule, "shareItemWithGroup").and.callFake(
-        () => {
-          return Promise.resolve();
-        }
-      );
-      await instance.shareWithGroup("notMyGroup");
-      expect(shareSpy).toHaveBeenCalledTimes(1);
-      // verify args
-      expect(shareSpy).toHaveBeenCalledWith({
-        id: "00c",
-        groupId: "notMyGroup",
-        owner: "deke",
-        confirmItemControl: false,
-        authentication: authdCtxMgr.context.session,
+          authentication: authdCtxMgr.context.session,
+        });
       });
     });
-
-    it("unshared from group", async () => {
-      const unshareSpy = spyOn(
-        PortalModule,
-        "unshareItemWithGroup"
-      ).and.callFake(() => {
-        return Promise.resolve();
-      });
-      await harness.unshareWithGroup("3ef");
-      expect(unshareSpy).toHaveBeenCalledWith({
-        id: "00c",
-        groupId: "3ef",
-        owner: "deke",
-        authentication: authdCtxMgr.context.session,
+    describe("sharedWith", () => {
+      it("calls sharedWith", async () => {
+        const groups = [
+          { id: "31c", capabilities: [] } as unknown as PortalModule.IGroup,
+          {
+            id: "52n",
+            capabilities: ["updateitemcontrol"],
+          } as unknown as PortalModule.IGroup,
+        ];
+        const sharedWithSpy = spyOn(
+          SharedWithModule,
+          "sharedWith"
+        ).and.returnValue(Promise.resolve(groups));
+        const res = await harness.sharedWith();
+        expect(sharedWithSpy).toHaveBeenCalledTimes(1);
+        expect(sharedWithSpy).toHaveBeenCalledWith(
+          "00c",
+          authdCtxMgr.context.requestOptions
+        );
+        expect(res).toEqual(groups);
       });
     });
-
-    it("sets access", async () => {
-      const setAccessSpy = spyOn(PortalModule, "setItemAccess").and.callFake(
-        () => {
-          return Promise.resolve();
-        }
-      );
-      await harness.setAccess("public");
-      expect(setAccessSpy).toHaveBeenCalledTimes(1);
-      // verify args
-      expect(setAccessSpy).toHaveBeenCalledWith({
-        id: "00c",
-        access: "public",
-        owner: "deke",
-        authentication: authdCtxMgr.context.session,
-      });
-      // verify update to access property
-      expect(harness.toJson().access).toEqual("public");
-    });
-
-    it("gets groups entity is shared to", async () => {
-      const spy = spyOn(SharedWithModule, "sharedWith").and.callFake(() => {
-        return Promise.resolve([{ id: "3ef", name: "Test Group" }]);
-      });
-      const groups = await harness.sharedWith();
-      expect(spy).toHaveBeenCalledTimes(1);
-      expect(spy).toHaveBeenCalledWith(
-        "00c",
-        authdCtxMgr.context.requestOptions
-      );
-      expect(groups.length).toEqual(1);
-    });
-
     describe("Store Behavior:", () => {
       it("toJson throws if object is destroyed", async () => {
         const instance = new TestHarness(
@@ -585,7 +552,7 @@ describe("HubItemEntity Class: ", () => {
 
     it("should set featured image", async () => {
       const setImageSpy = spyOn(
-        ItemsModule,
+        uploadImageResourceModule,
         "uploadImageResource"
       ).and.callFake(() => {
         return Promise.resolve(
@@ -615,7 +582,7 @@ describe("HubItemEntity Class: ", () => {
       ).and.returnValue(Promise.resolve({ success: true }));
 
       const setImageSpy = spyOn(
-        ItemsModule,
+        uploadImageResourceModule,
         "uploadImageResource"
       ).and.callFake(() => {
         return Promise.resolve(
@@ -650,7 +617,7 @@ describe("HubItemEntity Class: ", () => {
       ).and.returnValue(Promise.resolve({ success: true }));
 
       const setImageSpy = spyOn(
-        ItemsModule,
+        uploadImageResourceModule,
         "uploadImageResource"
       ).and.callFake(() => {
         if (count === 1) {
@@ -688,11 +655,12 @@ describe("HubItemEntity Class: ", () => {
       "removeItemResource"
     ).and.returnValue(Promise.resolve({ success: true }));
 
-    const setImageSpy = spyOn(ItemsModule, "uploadImageResource").and.callFake(
-      () => {
-        return Promise.reject(new Error("fake error"));
-      }
-    );
+    const setImageSpy = spyOn(
+      uploadImageResourceModule,
+      "uploadImageResource"
+    ).and.callFake(() => {
+      return Promise.reject(new Error("fake error"));
+    });
 
     const instance = new TestHarness(
       {
