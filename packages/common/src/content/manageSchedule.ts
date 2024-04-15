@@ -42,19 +42,54 @@ export const getSchedule = async (
   }
 };
 
-// export const setSchedule = async (
-//   item: IItem,
-//   schedule: ISchedule,
-//   requestOptions: IRequestOptions
-// ): Promise<void> => {
-//   await fetch(
-//     `${getHubApiUrl(requestOptions)}/api/download/v1/items/${item.id}/schedule`,
-//     {
-//       method: "POST",
-//       schedule: schedule,
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     }
-//   );
-// }
+/**
+ * Set the schedule for an item
+ * @param item The item to set the schedule for
+ * @param schedule The schedule to set
+ * @param requestOptions The request options needed to get the HubApiUrl
+ */
+export const setSchedule = async (
+  item: IItem,
+  schedule: ISchedule,
+  requestOptions: IRequestOptions
+): Promise<void> => {
+  if (schedule.mode) {
+    delete schedule.mode;
+  }
+  const url = `${getHubApiUrl(requestOptions)}/api/download/v1/items/${
+    item.id
+  }/schedule`;
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      accept: "application/json",
+    },
+    body: JSON.stringify({
+      ...schedule,
+      itemId: item.id,
+    }),
+  };
+  await fetch(url, options);
+};
+
+/**
+ * Delete the schedule for an item
+ * @param item The item to delete the schedule for
+ * @param requestOptions The request options needed to get the HubApiUrl
+ */
+export const deleteSchedule = async (
+  item: IItem,
+  requestOptions: IRequestOptions
+): Promise<void> => {
+  const url = `${getHubApiUrl(requestOptions)}/api/download/v1/items/${
+    item.id
+  }/schedule`;
+  const options = {
+    method: "DELETE",
+    headers: {
+      accept: "application/json",
+    },
+  };
+  await fetch(url, options);
+};

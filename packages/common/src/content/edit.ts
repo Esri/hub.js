@@ -34,7 +34,7 @@ import {
   toggleServiceCapability,
 } from "./hostedServiceUtils";
 import { IItemAndIServerEnrichments } from "../items/_enrichments";
-import { getSchedule } from "./manageSchedule";
+import { deleteSchedule, getSchedule, setSchedule } from "./manageSchedule";
 
 // TODO: move this to defaults?
 const DEFAULT_CONTENT_MODEL: IModel = {
@@ -169,9 +169,11 @@ export async function updateContent(
     }
   }
 
-  // if old schedule != new schedule -- then send out POST to schedule API
-  if (content.schedule !== (await getSchedule(item, requestOptions))) {
-    // TODO: post request to schedule API ~~
+  if (content.schedule.mode === "automatic") {
+    // TODO: afterparty about whether or not setting the schedule to automatic means deleting the schedule...
+    await deleteSchedule(item, requestOptions);
+  } else if (content.schedule !== (await getSchedule(item, requestOptions))) {
+    await setSchedule(item, content.schedule, requestOptions);
   }
 
   return modelToHubEditableContent(updatedModel, requestOptions, enrichments);
