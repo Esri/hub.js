@@ -277,7 +277,6 @@ export const fetchHubContent = async (
 
   // fetch schedule and add it to enrichments if it exists in schedule API
   enrichments.schedule = await getSchedule(item, requestOptions);
-  // console.log(await fetchResponse.json());
 
   return modelToHubEditableContent(model, requestOptions, enrichments);
 };
