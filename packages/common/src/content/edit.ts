@@ -34,6 +34,7 @@ import {
   toggleServiceCapability,
 } from "./hostedServiceUtils";
 import { IItemAndIServerEnrichments } from "../items/_enrichments";
+import { getSchedule } from "./manageSchedule";
 
 // TODO: move this to defaults?
 const DEFAULT_CONTENT_MODEL: IModel = {
@@ -166,6 +167,11 @@ export async function updateContent(
     } else {
       enrichments.server = currentDefinition;
     }
+  }
+
+  // if old schedule != new schedule -- then send out POST to schedule API
+  if (content.schedule !== (await getSchedule(item, requestOptions))) {
+    // TODO: post request to schedule API ~~
   }
 
   return modelToHubEditableContent(updatedModel, requestOptions, enrichments);

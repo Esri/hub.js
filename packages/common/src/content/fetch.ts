@@ -11,6 +11,7 @@ import {
   fetchItemEnrichments,
   IItemAndEnrichments,
   IItemAndIServerEnrichments,
+  IHubEditableContentEnrichments,
 } from "../items/_enrichments";
 import { IHubRequestOptions, IModel } from "../types";
 import { isNil } from "../util";
@@ -34,6 +35,8 @@ import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
 import { isHostedFeatureServiceItem } from "./hostedServiceUtils";
 import { setProp } from "../objects";
+import { getHubApiUrl } from "../api";
+import { getSchedule } from "./manageSchedule";
 
 const hasFeatures = (contentType: string) =>
   ["Feature Layer", "Table"].includes(contentType);
@@ -264,13 +267,18 @@ export const fetchHubContent = async (
   setProp("type", type, item);
 
   const model = { item };
-  const enrichments: IItemAndIServerEnrichments = {};
+  const enrichments: IHubEditableContentEnrichments = {};
   if (isHostedFeatureServiceItem(item)) {
     enrichments.server = await getService({
       ...requestOptions,
       url: parseServiceUrl(item.url),
     });
   }
+
+  // fetch schedule and add it to enrichments if it exists in schedule API
+  enrichments.schedule = await getSchedule(item, requestOptions);
+  // console.log(await fetchResponse.json());
+
   return modelToHubEditableContent(model, requestOptions, enrichments);
 };
 

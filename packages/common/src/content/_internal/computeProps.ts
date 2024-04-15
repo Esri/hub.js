@@ -11,14 +11,14 @@ import {
   hasServiceCapability,
   ServiceCapabilities,
 } from "../hostedServiceUtils";
-import { IItemAndIServerEnrichments } from "../../items/_enrichments";
 import { computeBaseProps } from "../../core/_internal/computeBaseProps";
+import { IHubEditableContentEnrichments } from "../../items/_enrichments";
 
 export function computeProps(
   model: IModel,
   content: Partial<IHubEditableContent>,
   requestOptions: IRequestOptions,
-  enrichments: IItemAndIServerEnrichments = {}
+  enrichments: IHubEditableContentEnrichments = {}
 ): IHubEditableContent {
   let token: string;
   if (requestOptions.authentication) {
@@ -50,8 +50,8 @@ export function computeProps(
 
   content.isDiscussable = isDiscussable(content);
 
-  // TODO: schedule doesn't exist on the item quite yet, need to get it from the database like San mentioned
-  content.schedule = model.item.schedule || { mode: "automatic" };
+  // when we receive a schedule from the enrichments, we want to use it, otherwise default to automatic
+  content.schedule = enrichments.schedule || { mode: "automatic" };
 
   if (enrichments.server) {
     content.serverExtractCapability = hasServiceCapability(
