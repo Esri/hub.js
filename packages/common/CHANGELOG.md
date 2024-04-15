@@ -1,3 +1,10 @@
+## @esri/hub-common [14.116.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.116.0...@esri/hub-common@14.116.1) (2024-04-15)
+
+
+### Bug Fixes
+
+* 9948 stat card editor error messaging ([#1472](https://github.com/Esri/hub.js/issues/1472)) ([02119ee](https://github.com/Esri/hub.js/commit/02119ee37dfe5e76f542e6a0dd9c6e0a133bd5c9))
+
 # @esri/hub-common [14.116.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.115.0...@esri/hub-common@14.116.0) (2024-04-12)
 
 
