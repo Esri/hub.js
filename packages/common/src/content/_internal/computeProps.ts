@@ -13,6 +13,7 @@ import {
 } from "../hostedServiceUtils";
 import { IItemAndIServerEnrichments } from "../../items/_enrichments";
 import { computeBaseProps } from "../../core/_internal/computeBaseProps";
+import { getProp } from "../../objects";
 
 export function computeProps(
   model: IModel,
@@ -55,7 +56,15 @@ export function computeProps(
       ServiceCapabilities.EXTRACT,
       enrichments.server
     );
+    const extractFormatsList: string = getProp(
+      enrichments,
+      "server.supportedExportFormats"
+    );
+    content.serverExtractFormats =
+      extractFormatsList && extractFormatsList.split(",");
   }
+
+  content.additionalResources = enrichments.additionalResources;
 
   return content as IHubEditableContent;
 }

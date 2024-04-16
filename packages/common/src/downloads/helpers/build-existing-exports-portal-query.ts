@@ -1,47 +1,10 @@
 import { SearchQueryBuilder } from "@esri/arcgis-rest-portal";
 import { ISpatialReference } from "@esri/arcgis-rest-types";
 import { btoa } from "abab";
-import { flattenArray } from "../util";
+import { flattenArray } from "../../util";
+import { PORTAL_EXPORT_TYPES } from "./types";
 
 export const WGS84_WKID = "4326";
-
-export const PORTAL_EXPORT_TYPES = {
-  csv: {
-    name: "CSV",
-    itemTypes: ["CSV", "CSV Collection"],
-    supportsProjection: true,
-  },
-  kml: {
-    name: "KML",
-    itemTypes: ["KML", "KML Collection"],
-    supportsProjection: false,
-  },
-  shapefile: {
-    name: "Shapefile",
-    itemTypes: ["Shapefile"],
-    supportsProjection: true,
-  },
-  fileGeodatabase: {
-    name: "File Geodatabase",
-    itemTypes: ["File Geodatabase"],
-    supportsProjection: true,
-  },
-  geojson: {
-    name: "GeoJson",
-    itemTypes: ["GeoJson"],
-    supportsProjection: false,
-  },
-  excel: {
-    name: "Excel",
-    itemTypes: ["Microsoft Excel"],
-    supportsProjection: true,
-  },
-  featureCollection: {
-    name: "Feature Collection",
-    itemTypes: ["Feature Collection"],
-    supportsProjection: true,
-  },
-};
 
 interface IExistingExportsPortalQueryOptions {
   layerId?: number | string;

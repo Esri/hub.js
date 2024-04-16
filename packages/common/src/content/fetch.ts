@@ -255,7 +255,7 @@ export const fetchHubContent = async (
     ...requestOptions,
     enrichments: [],
   } as IFetchContentOptions;
-  const { item } = await fetchContent(identifier, options);
+  const { item, additionalResources } = await fetchContent(identifier, options);
 
   // we must normalize the underlying item type to account
   // for older items (e.g. sites that are type "Web Mapping
@@ -264,7 +264,7 @@ export const fetchHubContent = async (
   setProp("type", type, item);
 
   const model = { item };
-  const enrichments: IItemAndIServerEnrichments = {};
+  const enrichments: IItemAndIServerEnrichments = { additionalResources };
   if (isHostedFeatureServiceItem(item)) {
     enrichments.server = await getService({
       ...requestOptions,
