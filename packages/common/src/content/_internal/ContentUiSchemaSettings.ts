@@ -29,8 +29,10 @@ export const buildUiSchema = async (
             scope: "/properties/schedule",
             labelKey: `${i18nScope}.sections.schedule.helperText`,
             options: {
+              // The scope for the options is the scope of the scheduler field, not the config editor
               type: "Control",
               control: "hub-field-input-scheduler",
+              labelKey: "fieldHeader",
               format: "radio",
               inputs: [
                 { label: `option.default.label`, type: "automatic" },
