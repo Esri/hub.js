@@ -22,7 +22,7 @@ export interface IHubEditableContent
   /**
    * The schedule at which the reharvest of the item will occur
    */
-  schedule: ISchedule;
+  schedule?: ISchedule;
 }
 
 export type IHubContentEditor = IHubItemEntityEditor<IHubEditableContent> & {};
