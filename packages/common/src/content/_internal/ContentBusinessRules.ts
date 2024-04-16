@@ -24,6 +24,7 @@ export const ContentPermissions = [
   "hub:content:workspace:details",
   "hub:content:workspace:discussion",
   "hub:content:workspace:settings",
+  "hub:content:workspace:settings:schedule",
   "hub:content:workspace:collaborators",
   "hub:content:manage",
   "hub:content:canRecordDownloadErrors",
@@ -111,6 +112,12 @@ export const ContentPermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:content:workspace", "hub:content:edit"],
   },
   {
+    // can view = (alpha org + devext environment) || (permission is passed via query param)
+    permission: "hub:content:workspace:settings:schedule",
+    availability: ["alpha"],
+    environments: ["devext"],
+  },
+  {
     permission: "hub:content:workspace:collaborators",
     dependencies: ["hub:content:workspace", "hub:content:edit"],
   },
@@ -127,5 +134,4 @@ export const ContentPermissionPolicies: IPermissionPolicy[] = [
     availability: ["alpha"],
     environments: ["qaext", "devext"],
   },
-  // TODO: add permission for scheduler here
 ];
