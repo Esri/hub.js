@@ -57,15 +57,6 @@ export const buildUiSchema = (
       },
       {
         type: "Section",
-        elements: [
-          {
-            type: "Slot",
-            options: { name: "notice-slot" },
-          },
-        ],
-      },
-      {
-        type: "Section",
         labelKey: "callToAction.title",
         rule: HIDE_FOR_NO_ENTITY_ID,
         options: {
