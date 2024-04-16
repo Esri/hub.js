@@ -22,47 +22,45 @@ export const buildUiSchema = async (
       // TODO: wrap this element in a feature flag / permission
       {
         type: "Section",
-        label: "Scheduling", // TODO: i18n
+        labelKey: `${i18nScope}.sections.schedule.label`,
         elements: [
           {
             type: "Control",
             scope: "/properties/schedule",
-            label:
-              "Hub will automatically try to determine the best time to generate a download file for this item. However, you can choose to manually set when you want the download file to be updated.", // TODO: i18n
+            labelKey: `${i18nScope}.sections.schedule.helperText`,
             options: {
               type: "Control",
               control: "hub-field-input-scheduler",
               format: "radio",
               inputs: [
-                { label: "Default", type: "automatic" }, // TODO: i18n
+                { label: `option.default.label`, type: "automatic" },
                 {
-                  label: "Daily",
+                  label: `option.daily.label`,
                   type: "daily",
-                  expandedHelperText: "Each day at",
-                }, // TODO: i18n
+                  expandedHelperText: `option.daily.expandedHelperText`,
+                },
                 {
-                  label: "Weekly",
+                  label: `option.weekly.label`,
                   type: "weekly",
-                  expandedHelperText: "Each week on",
-                }, // TODO: i18n
+                  expandedHelperText: `option.weekly.expandedHelperText`,
+                },
                 {
-                  label: "Monthly",
+                  label: `option.monthly.label`,
                   type: "monthly",
-                  expandedHelperText: "Each month on",
-                }, // TODO: i18n
+                  expandedHelperText: `option.monthly.expandedHelperText`,
+                },
                 {
-                  label: "Yearly",
+                  label: `option.annually.label`,
                   type: "annually",
-                  expandedHelperText: "Each year on",
-                }, // TODO: i18n
+                  expandedHelperText: `option.annually.expandedHelperText`,
+                },
                 // uncomment this when the manual option is available
                 // {
-                //   label: "Manual",
+                //   label: `option.manual.label`,
                 //   type: "manual",
                 //   helperActionIcon: "information-f",
-                //   helperActionText:
-                //     "Use this option to manually update the search index and cached download files for this item.",
-                // }, // TODO: i18n
+                //   helperActionText: "option.manual.helperActionText",
+                // },
               ],
             },
           },
