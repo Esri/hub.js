@@ -1,7 +1,7 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getHubApiUrl } from "../api";
 import { IItem } from "@esri/arcgis-rest-portal";
-import { ISchedule } from "../core/types/ISchedule";
+import { IHubSchedule } from "../core/types/IHubSchedule";
 
 /**
  * Get the schedule for an item. If no schedule is found, returns null.
@@ -12,7 +12,7 @@ import { ISchedule } from "../core/types/ISchedule";
 export const getSchedule = async (
   item: IItem,
   requestOptions: IRequestOptions
-): Promise<ISchedule | null> => {
+): Promise<IHubSchedule | null> => {
   const fetchResponse = await fetch(
     `${getHubApiUrl(requestOptions)}/api/download/v1/items/${item.id}/schedule`
   );
@@ -50,7 +50,7 @@ export const getSchedule = async (
  */
 export const setSchedule = async (
   item: IItem,
-  schedule: ISchedule,
+  schedule: IHubSchedule,
   requestOptions: IRequestOptions
 ): Promise<void> => {
   if (schedule.mode) {

@@ -170,7 +170,6 @@ export async function updateContent(
   }
 
   if (content.schedule.mode === "automatic") {
-    // TODO: afterparty about whether or not setting the schedule to automatic means deleting the schedule...
     await deleteSchedule(item, requestOptions);
   } else if (content.schedule !== (await getSchedule(item, requestOptions))) {
     await setSchedule(item, content.schedule, requestOptions);

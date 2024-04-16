@@ -1,6 +1,6 @@
 import { IWithPermissions, IWithSlug } from "../traits/index";
 import { IHubItemEntity, IHubItemEntityEditor } from "./IHubItemEntity";
-import { ISchedule } from "./ISchedule";
+import { IHubSchedule } from "./IHubSchedule";
 
 /**
  * Defines the properties of an editable Hub Content object
@@ -22,7 +22,7 @@ export interface IHubEditableContent
   /**
    * The schedule at which the reharvest of the item will occur
    */
-  schedule?: ISchedule;
+  schedule?: IHubSchedule;
 }
 
 export type IHubContentEditor = IHubItemEntityEditor<IHubEditableContent> & {};

@@ -19,7 +19,7 @@ import { getItemMetadata } from "@esri/arcgis-rest-portal";
 import { getItemOrgId } from "../content/_internal/internalContentUtils";
 import { fetchOrg } from "../org";
 import { isServicesDirectoryDisabled } from "./is-services-directory-disabled";
-import { ISchedule } from "../core/types/ISchedule";
+import { IHubSchedule } from "../core/types/IHubSchedule";
 
 /**
  * An object containing the item and fetched enrichments
@@ -43,8 +43,7 @@ export type IItemAndIServerEnrichments = IItemEnrichments & IServerEnrichments;
 
 export interface IHubEditableContentEnrichments
   extends IItemAndIServerEnrichments {
-  // TODO: change ISchedule to IHubSchedule
-  schedule?: ISchedule;
+  schedule?: IHubSchedule;
 }
 
 /**

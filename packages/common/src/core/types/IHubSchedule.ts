@@ -34,10 +34,10 @@ export interface ISchedulerOption {
   validationMessage?: string;
 
   // The value of the expanded section
-  value?: ISchedule;
+  value?: IHubSchedule;
 }
 
-export interface ISchedule {
+export interface IHubSchedule {
   mode: ScheduleMode;
   cadence?: Cadence;
   hour?: number; // 0-23
