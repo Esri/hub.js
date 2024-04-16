@@ -246,6 +246,17 @@ describe("ProjectUiSchemaMetrics", () => {
                       labelKey: `shared.fields.metrics.sourceLink.message.required`,
                       allowShowBeforeInteract: true,
                     },
+                    {
+                      type: "ERROR",
+                      keyword: "format",
+                      icon: true,
+                      labelKey: "shared.errors.urlFormat",
+                    },
+                    {
+                      type: "ERROR",
+                      keyword: "if",
+                      hidden: true,
+                    },
                   ],
                 },
               },

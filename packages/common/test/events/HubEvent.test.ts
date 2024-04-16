@@ -1,4 +1,4 @@
-import * as PortalModule from "@esri/arcgis-rest-portal";
+import * as portalModule from "@esri/arcgis-rest-portal";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as eventEditModule from "../../src/events/edit";
@@ -7,7 +7,12 @@ import * as eventModule from "../../src/events/api/events";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import { HubEvent } from "../../src/events/HubEvent";
 import { IHubEvent } from "../../src/core/types/IHubEvent";
+import * as shareEventWithGroupsModule from "../../src/events/_internal/shareEventWithGroups";
+import * as unshareEventWithGroupsModule from "../../src/events/_internal/unshareEventWithGroups";
+import * as getEventGroupsModule from "../../src/events/_internal/getEventGroups";
+import * as eventsModule from "../../src/events/api/events";
 
+/* @ts-ignore no-unnecessary-qualifier */
 describe("HubEvent Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
   let unauthdCtxMgr: ArcGISContextManager;
@@ -20,12 +25,12 @@ describe("HubEvent Class:", () => {
       authentication: MOCK_AUTH,
       currentUser: {
         username: "casey",
-      } as unknown as PortalModule.IUser,
+      } as unknown as portalModule.IUser,
       portal: {
         name: "DC R&D Center",
         id: "BRXFAKE",
         urlKey: "fake-org",
-      } as unknown as PortalModule.IPortal,
+      } as unknown as portalModule.IPortal,
       portalUrl: "https://myserver.com",
     });
   });
@@ -209,7 +214,16 @@ describe("HubEvent Class:", () => {
   });
 
   describe("shareWithGroup", () => {
-    it("should reject for now", async () => {
+    it("should reject when user not authenticated", async () => {
+      authdCtxMgr = await ArcGISContextManager.create({
+        currentUser: undefined,
+        portal: {
+          name: "DC R&D Center",
+          id: "BRXFAKE",
+          urlKey: "fake-org",
+        } as unknown as portalModule.IPortal,
+        portalUrl: "https://myserver.com",
+      });
       const chk = HubEvent.fromJson(
         {
           name: "Test Entity",
@@ -221,49 +235,128 @@ describe("HubEvent Class:", () => {
         await chk.shareWithGroup("123");
         fail("not rejected");
       } catch (e) {
-        expect(e.message).toBe("not implemented");
+        expect(e.message).toBe(
+          "Cannot share event with group when no user is logged in."
+        );
       }
+    });
+    it("should call shareEventWithGroups", async () => {
+      const entity = {
+        name: "Test Entity",
+        thumbnailUrl: "https://myserver.com/thumbnail.png",
+      };
+      const chk = HubEvent.fromJson(entity, authdCtxMgr.context);
+      const shareEventWithGroupsSpy = spyOn(
+        shareEventWithGroupsModule,
+        "shareEventWithGroups"
+        /* tslint:disable-next-line */
+      ).and.returnValue(chk["entity"]);
+      await chk.shareWithGroup("123");
+      expect(shareEventWithGroupsSpy).toHaveBeenCalledTimes(1);
+      expect(shareEventWithGroupsSpy).toHaveBeenCalledWith(
+        ["123"],
+        /* tslint:disable-next-line */
+        chk["entity"],
+        authdCtxMgr.context
+      );
+    });
+  });
+
+  describe("shareWithGroups", () => {
+    it("should call shareEventWithGroups", async () => {
+      const entity = {
+        name: "Test Entity",
+        thumbnailUrl: "https://myserver.com/thumbnail.png",
+      };
+      const chk = HubEvent.fromJson(entity, authdCtxMgr.context);
+      const shareEventWithGroupsSpy = spyOn(
+        shareEventWithGroupsModule,
+        "shareEventWithGroups"
+        /* tslint:disable-next-line */
+      ).and.returnValue(chk["entity"]);
+      await chk.shareWithGroups(["123", "456"]);
+      expect(shareEventWithGroupsSpy).toHaveBeenCalledTimes(1);
+      expect(shareEventWithGroupsSpy).toHaveBeenCalledWith(
+        ["123", "456"],
+        /* tslint:disable-next-line */
+        chk["entity"],
+        authdCtxMgr.context
+      );
     });
   });
 
   describe("unshareWithGroup", () => {
-    it("should reject for now", async () => {
-      const chk = HubEvent.fromJson(
-        {
-          name: "Test Entity",
-          thumbnailUrl: "https://myserver.com/thumbnail.png",
-        },
+    it("should call unshareEventWithGroups", async () => {
+      const entity = {
+        name: "Test Entity",
+        thumbnailUrl: "https://myserver.com/thumbnail.png",
+      };
+      const chk = HubEvent.fromJson(entity, authdCtxMgr.context);
+      const unshareEventWithGroupsSpy = spyOn(
+        unshareEventWithGroupsModule,
+        "unshareEventWithGroups"
+        /* tslint:disable-next-line */
+      ).and.returnValue(chk["entity"]);
+      await chk.unshareWithGroup("123");
+      expect(unshareEventWithGroupsSpy).toHaveBeenCalledTimes(1);
+      expect(unshareEventWithGroupsSpy).toHaveBeenCalledWith(
+        ["123"],
+        /* tslint:disable-next-line */
+        chk["entity"],
         authdCtxMgr.context
       );
-      try {
-        await chk.unshareWithGroup("123");
-        fail("not rejected");
-      } catch (e) {
-        expect(e.message).toBe("not implemented");
-      }
+    });
+  });
+
+  describe("unshareWithGroups", () => {
+    it("should call unshareEventWithGroups", async () => {
+      const entity = {
+        name: "Test Entity",
+        thumbnailUrl: "https://myserver.com/thumbnail.png",
+      };
+      const chk = HubEvent.fromJson(entity, authdCtxMgr.context);
+      const unshareEventWithGroupsSpy = spyOn(
+        unshareEventWithGroupsModule,
+        "unshareEventWithGroups"
+        /* tslint:disable-next-line */
+      ).and.returnValue(chk["entity"]);
+      await chk.unshareWithGroups(["123", "456"]);
+      expect(unshareEventWithGroupsSpy).toHaveBeenCalledTimes(1);
+      expect(unshareEventWithGroupsSpy).toHaveBeenCalledWith(
+        ["123", "456"],
+        /* tslint:disable-next-line */
+        chk["entity"],
+        authdCtxMgr.context
+      );
     });
   });
 
   describe("setAccess", () => {
-    it("should reject for now", async () => {
-      const chk = HubEvent.fromJson(
-        {
-          name: "Test Entity",
-          thumbnailUrl: "https://myserver.com/thumbnail.png",
-        },
-        authdCtxMgr.context
+    it("should call updateEvent", async () => {
+      const entity = {
+        id: "31c",
+        name: "Test Entity",
+        thumbnailUrl: "https://myserver.com/thumbnail.png",
+      };
+      const chk = HubEvent.fromJson(entity, authdCtxMgr.context);
+      const updateEventSpy = spyOn(eventsModule, "updateEvent").and.returnValue(
+        /* tslint:disable-next-line */
+        chk["entity"]
       );
-      try {
-        await chk.setAccess("private");
-        fail("not rejected");
-      } catch (e) {
-        expect(e.message).toBe("not implemented");
-      }
+      await chk.setAccess("org");
+      expect(updateEventSpy).toHaveBeenCalledTimes(1);
+      expect(updateEventSpy).toHaveBeenCalledWith({
+        eventId: "31c",
+        data: {
+          access: "ORG",
+        },
+        ...authdCtxMgr.context.hubRequestOptions,
+      });
     });
   });
 
   describe("sharedWith", () => {
-    it("should reject for now", async () => {
+    it("should call getEventGroups", async () => {
       const chk = HubEvent.fromJson(
         {
           name: "Test Entity",
@@ -271,12 +364,25 @@ describe("HubEvent Class:", () => {
         },
         authdCtxMgr.context
       );
-      try {
-        await chk.sharedWith();
-        fail("not rejected");
-      } catch (e) {
-        expect(e.message).toBe("not implemented");
-      }
+      const groups = [
+        { id: "31c", capabilities: [] } as unknown as portalModule.IGroup,
+        {
+          id: "31c",
+          capabilities: ["updateitemcontrol"],
+        } as unknown as portalModule.IGroup,
+      ];
+      const getEventGroupsSpy = spyOn(
+        getEventGroupsModule,
+        "getEventGroups"
+      ).and.returnValue(Promise.resolve(groups));
+      const res = await chk.sharedWith();
+      expect(getEventGroupsSpy).toHaveBeenCalledTimes(1);
+      expect(getEventGroupsSpy).toHaveBeenCalledWith(
+        /* tslint:disable-next-line */
+        chk["entity"].id,
+        authdCtxMgr.context
+      );
+      expect(res).toEqual(groups);
     });
   });
 

@@ -32,13 +32,13 @@ describe("computeLinks", () => {
     setProp("properties.slug", "mock-slug", item);
     const chk = computeLinks(item, authdCtxMgr.context.requestOptions);
 
-    expect(chk.siteRelative).toBe("/initiatives2/mock-slug");
+    expect(chk.siteRelative).toBe("/initiatives/mock-slug");
     expect(chk.workspaceRelative).toBe("/workspace/initiatives/mock-slug");
   });
   it("generates a links hash using the initiative's id when no slug is available", () => {
     const chk = computeLinks(item, authdCtxMgr.context.requestOptions);
 
-    expect(chk.siteRelative).toBe("/initiatives2/00c");
+    expect(chk.siteRelative).toBe("/initiatives/00c");
     expect(chk.workspaceRelative).toBe("/workspace/initiatives/00c");
   });
 });

@@ -23,7 +23,7 @@ export function getPropertyMap(): IPropertyMap[] {
     [
       { entityKey: "isAllDay", storeKey: "allDay" },
       { entityKey: "name", storeKey: "title" },
-      { entityKey: "owner", storeKey: "createdById" },
+      { entityKey: "owner", storeKey: "creator.username" },
       { entityKey: "canEdit", storeKey: "permission.canEdit" },
       { entityKey: "canDelete", storeKey: "permission.canDelete" },
       {
@@ -45,6 +45,14 @@ export function getPropertyMap(): IPropertyMap[] {
       {
         entityKey: "canChangeStatusRemoved",
         storeKey: "permission.canSetStatusToRemoved",
+      },
+      {
+        entityKey: "readGroupIds",
+        storeKey: "readGroups",
+      },
+      {
+        entityKey: "editGroupIds",
+        storeKey: "editGroups",
       },
     ]
   );

@@ -6,6 +6,7 @@ import { IHubEntityLinks } from "../../core/types";
 import { getItemIdentifier } from "../../items";
 import { getRelativeWorkspaceUrl } from "../../core/getRelativeWorkspaceUrl";
 import { getItemThumbnailUrl } from "../../resources/get-item-thumbnail-url";
+import { getHubRelativeUrl } from "../../content/_internal/internalContentUtils";
 
 /**
  * Compute the links that get appended to a Hub Initiative
@@ -26,10 +27,7 @@ export function computeLinks(
 
   return {
     self: getItemHomeUrl(item.id, requestOptions),
-    // TODO: once the initiative view is moved to initiatives/:id,
-    // update and leverage the getHubRelativeUrl util to construct
-    // this url. For now, we hard-code to the initiatives2/:id route
-    siteRelative: `/initiatives2/${getItemIdentifier(item)}`,
+    siteRelative: getHubRelativeUrl(item.type, getItemIdentifier(item)),
     workspaceRelative: getRelativeWorkspaceUrl(
       item.type,
       getItemIdentifier(item)

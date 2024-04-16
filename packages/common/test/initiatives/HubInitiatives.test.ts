@@ -393,7 +393,7 @@ describe("HubInitiatives:", () => {
       expect(chk.links?.self).toEqual(
         `https://some-server.com/gis/home/item.html?id=${ITM.id}`
       );
-      expect(chk.links?.siteRelative).toEqual(`/content/${ITM.id}`);
+      expect(chk.links?.siteRelative).toEqual(`/initiatives/${ITM.id}`);
       expect(chk.links?.thumbnail).toEqual(
         `${hubRo.portal}/content/items/${ITM.id}/info/${ITM.thumbnail}`
       );

@@ -852,10 +852,6 @@ describe("content: ", () => {
         result = getHubRelativeUrl("Hub Initiative Template", identifier);
         expect(result).toBe(`/initiatives/templates/${identifier}/about`);
       });
-      it("should handle initiative items", () => {
-        const result = getHubRelativeUrl("Hub Initiative", identifier);
-        expect(result).toBe(`/content/${identifier}`);
-      });
       it("should handle solution templates", () => {
         let result = getHubRelativeUrl("Web Mapping Application", identifier, [
           "hubSolutionTemplate",
