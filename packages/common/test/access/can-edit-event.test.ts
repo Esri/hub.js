@@ -3,12 +3,12 @@ import { canEditEvent, IEventModel } from "../../src/access/can-edit-event";
 import * as baseUtils from "../../src/access/has-base-priv";
 import { IModel } from "../../src/types";
 
-describe("canEditEvent", function() {
+describe("canEditEvent", function () {
   const getModel = (collaborationGroupId: any): IEventModel => {
     const item = {
       properties: {
-        collaborationGroupId
-      }
+        collaborationGroupId,
+      },
     } as IItem;
     const initiative = { item } as IModel;
     return { initiative } as IEventModel;
@@ -26,7 +26,7 @@ describe("canEditEvent", function() {
     hasBasePrivSpy.calls.reset();
   });
 
-  it(`returns true when user has base priv and is member of event's related initiative collab group`, function() {
+  it(`returns true when user has base priv and is member of event's related initiative collab group`, function () {
     const groupId = "foo";
     const model = getModel(groupId);
     const group = getGroup({ id: groupId });
@@ -37,7 +37,20 @@ describe("canEditEvent", function() {
     expect(hasBasePrivSpy.calls.argsFor(0)).toEqual([user]);
   });
 
-  it(`returns false when user has base priv and is not member of event's related initiative collab group`, function() {
+  it(`returns true when user has base priv and is member of event's related site collab group`, function () {
+    const groupId = "foo";
+    const model = {
+      site: { properties: { collaborationGroupId: groupId } },
+    } as IEventModel;
+    const group = getGroup({ id: groupId });
+    const user = getUser({ groups: [group] });
+    const res = canEditEvent(model, user);
+    expect(res).toBe(true);
+    expect(hasBasePrivSpy.calls.count()).toBe(1);
+    expect(hasBasePrivSpy.calls.argsFor(0)).toEqual([user]);
+  });
+
+  it(`returns false when user has base priv and is not member of event's related initiative/site collab group`, function () {
     const groupId = "foo";
     const model = getModel(groupId);
     const user = getUser({});
@@ -47,7 +60,14 @@ describe("canEditEvent", function() {
     expect(hasBasePrivSpy.calls.argsFor(0)).toEqual([user]);
   });
 
-  it(`returns false when user lacks base priv`, function() {
+  it("returns false if there is no collaborationGroupId", function () {
+    const model = {} as IEventModel;
+    const user = getUser({});
+    const res = canEditEvent(model, user);
+    expect(res).toBe(false);
+  });
+
+  it(`returns false when user lacks base priv`, function () {
     hasBasePrivSpy.and.returnValue(false);
     const groupId = "foo";
     const model = getModel(groupId);
