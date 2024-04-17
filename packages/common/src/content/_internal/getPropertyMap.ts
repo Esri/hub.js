@@ -30,11 +30,6 @@ export function getPropertyMap(): IPropertyMap[] {
     storeKey: "item.licenseInfo",
   });
 
-  map.push({
-    entityKey: "schedule",
-    storeKey: "item.schedule",
-  });
-
   // features is intentionally left out
 
   // TODO: look into composeContent() for what we can add here

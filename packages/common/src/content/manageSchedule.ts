@@ -3,6 +3,7 @@ import { getHubApiUrl } from "../api";
 import { IItem } from "@esri/arcgis-rest-portal";
 import { IHubSchedule } from "../core/types/IHubSchedule";
 import { cloneObject } from "../util";
+import { IHubRequestOptions } from "../types";
 
 /**
  * Get the schedule for an item. If no schedule is found, returns null.
@@ -14,9 +15,12 @@ export const getSchedule = async (
   item: IItem,
   requestOptions: IRequestOptions
 ): Promise<IHubSchedule | null> => {
-  const fetchResponse = await fetch(
-    `${getHubApiUrl(requestOptions)}/api/download/v1/items/${item.id}/schedule`
-  );
+  // enterprise check
+  if (isPortal(requestOptions)) {
+    return null;
+  }
+
+  const fetchResponse = await fetch(schedulerApiUrl(item, requestOptions));
   if (!fetchResponse.ok) {
     return null;
   }
@@ -48,11 +52,13 @@ export const setSchedule = async (
   schedule: IHubSchedule,
   requestOptions: IRequestOptions
 ): Promise<any> => {
+  if (isPortal(requestOptions)) {
+    return null;
+  }
+
   const body = cloneObject(schedule);
   delete body.mode;
-  const url = `${getHubApiUrl(requestOptions)}/api/download/v1/items/${
-    item.id
-  }/schedule`;
+  const url = schedulerApiUrl(item, requestOptions);
   const options = {
     method: "POST",
     headers: {
@@ -64,7 +70,8 @@ export const setSchedule = async (
       itemId: item.id,
     }),
   };
-  return await fetch(url, options);
+  const response = await fetch(url, options);
+  return response.ok;
 };
 
 /**
@@ -75,15 +82,30 @@ export const setSchedule = async (
 export const deleteSchedule = async (
   item: IItem,
   requestOptions: IRequestOptions
-): Promise<void> => {
-  const url = `${getHubApiUrl(requestOptions)}/api/download/v1/items/${
-    item.id
-  }/schedule`;
+): Promise<any> => {
+  if (isPortal(requestOptions)) {
+    return null;
+  }
+  const url = schedulerApiUrl(item, requestOptions);
   const options = {
     method: "DELETE",
     headers: {
       accept: "application/json",
     },
   };
-  await fetch(url, options);
+  const response = await fetch(url, options);
+  return response.ok;
+};
+
+const isPortal = (requestOptions: IRequestOptions): boolean => {
+  return (requestOptions as IHubRequestOptions).isPortal;
+};
+
+const schedulerApiUrl = (
+  item: IItem,
+  requestOptions: IRequestOptions
+): string => {
+  return `${getHubApiUrl(requestOptions)}/api/download/v1/items/${
+    item.id
+  }/schedule`;
 };

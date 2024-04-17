@@ -6,6 +6,7 @@ import {
 } from "../../src/content/manageSchedule";
 import { IHubSchedule } from "../../src/core/types/IHubSchedule";
 import { MOCK_HUB_REQOPTS } from "../mocks/mock-auth";
+import { IHubRequestOptions } from "../../src/types";
 
 const item = {
   id: "9b77674e43cf4bbd9ecad5189b3f1fdc",
@@ -37,5 +38,51 @@ describe("manageSchedule", () => {
     await deleteSchedule(item, MOCK_HUB_REQOPTS);
     const schedule = await getSchedule(item, MOCK_HUB_REQOPTS);
     expect(schedule).toBe(null);
+  });
+
+  it("deleteSchedule should fail", async () => {
+    const isOk = await deleteSchedule(item, {
+      ...MOCK_HUB_REQOPTS,
+      hubApiUrl: "this is literally not a url",
+    } as unknown as IHubRequestOptions);
+    expect(isOk).toBe(false);
+  });
+
+  it("isPortal", async () => {
+    const setAndIsPortal = await setSchedule(item, dailySchedule, {
+      ...MOCK_HUB_REQOPTS,
+      isPortal: true,
+    } as unknown as IHubRequestOptions);
+    expect(setAndIsPortal).toEqual(null);
+
+    const getAndIsPortal = await getSchedule(item, {
+      ...MOCK_HUB_REQOPTS,
+      isPortal: true,
+    } as unknown as IHubRequestOptions);
+    expect(getAndIsPortal).toEqual(null);
+
+    const deleteAndIsPortal = await deleteSchedule(item, {
+      ...MOCK_HUB_REQOPTS,
+      isPortal: true,
+    } as unknown as IHubRequestOptions);
+    expect(deleteAndIsPortal).toEqual(null);
+
+    const setAndNotPortal = await setSchedule(item, dailySchedule, {
+      ...MOCK_HUB_REQOPTS,
+      isPortal: false,
+    } as unknown as IHubRequestOptions);
+    expect(setAndNotPortal).not.toEqual(null);
+
+    const getAndNotPortal = await getSchedule(item, {
+      ...MOCK_HUB_REQOPTS,
+      isPortal: false,
+    } as unknown as IHubRequestOptions);
+    expect(getAndNotPortal).not.toEqual(null);
+
+    const deleteAndNotPortal = await deleteSchedule(item, {
+      ...MOCK_HUB_REQOPTS,
+      isPortal: false,
+    } as unknown as IHubRequestOptions);
+    expect(deleteAndNotPortal).not.toEqual(null);
   });
 });

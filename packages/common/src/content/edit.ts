@@ -171,15 +171,19 @@ export async function updateContent(
     }
   }
 
-  if (content.schedule.mode === "automatic") {
-    await deleteSchedule(item, requestOptions);
-  } else {
-    const currentSchedule = await getSchedule(
-      { id: `${item.id || content.id}` } as unknown as IItem,
-      requestOptions
-    );
-    if (!_.isEqual(content.schedule, currentSchedule)) {
-      await setSchedule(item, content.schedule, requestOptions);
+  const currentSchedule = await getSchedule(
+    { id: `${item.id || content.id}` } as unknown as IItem,
+    requestOptions
+  );
+
+  if (!_.isEqual(content.schedule, currentSchedule)) {
+    // if current and incoming schedules differ
+    if (content.schedule.mode === "automatic") {
+      // and incoming schedule is automatic
+      await deleteSchedule(item, requestOptions); // delete schedules
+    } else {
+      // else
+      await setSchedule(item, content.schedule, requestOptions); // set the schedule
     }
   }
 
