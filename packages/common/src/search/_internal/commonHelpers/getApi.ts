@@ -5,7 +5,9 @@ import { expandApi } from "../../utils";
 import { shouldUseOgcApi } from "./shouldUseOgcApi";
 import { getOgcApiDefinition } from "./getOgcApiDefinition";
 import { shouldUseDiscussionsApi } from "./shouldUseDiscussionsApi";
+import { shouldUseEventsApi } from "./shouldUseEventsApi";
 import { getDiscussionsApiDefinition } from "./getDiscussionsApiDefinition";
+import { getEventsApiDefinition } from "./getEventsApiDefinition";
 
 /**
  * @private
@@ -32,6 +34,8 @@ export function getApi(
     result = expandApi(api);
   } else if (shouldUseDiscussionsApi(targetEntity, options)) {
     result = getDiscussionsApiDefinition();
+  } else if (shouldUseEventsApi(targetEntity, options)) {
+    result = getEventsApiDefinition();
   } else if (shouldUseOgcApi(targetEntity, options)) {
     result = getOgcApiDefinition(targetEntity, options);
   } else {
