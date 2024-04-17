@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-types";
+import { IItem, IUser } from "@esri/arcgis-rest-types";
 import { IInitiativeModel } from "../types";
 import { getProp } from "../objects";
 import { findBy } from "../util";
@@ -6,6 +6,7 @@ import { hasBasePriv } from "./has-base-priv";
 
 export interface IEventModel {
   initiative: IInitiativeModel;
+  site: IItem;
   [propName: string]: any;
 }
 
@@ -18,10 +19,9 @@ export interface IEventModel {
 export function canEditEvent(model: IEventModel, user: IUser): boolean {
   let res = false;
   if (hasBasePriv(user)) {
-    const coreTeamId = getProp(
-      model,
-      "initiative.item.properties.collaborationGroupId"
-    );
+    const coreTeamId = model.initiative
+      ? getProp(model, "initiative.item.properties.collaborationGroupId")
+      : getProp(model, "site.properties.collaborationGroupId");
     const { groups = [] } = user;
     res = !!coreTeamId && !!findBy(groups, "id", coreTeamId);
   }
