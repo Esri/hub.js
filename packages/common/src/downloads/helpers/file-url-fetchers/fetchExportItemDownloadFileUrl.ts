@@ -7,7 +7,7 @@ import {
 import { ExportItemFormat, IFetchDownloadFileUrlOptions } from "../types";
 import HubError from "../../../HubError";
 import { IArcGISContext } from "../../../ArcGISContext";
-import { getExportItemDataUrl } from "../getExportedItemDownloadUrl";
+import { getExportItemDataUrl } from "../getExportItemDataUrl";
 
 export async function fetchExportItemDownloadFileUrl(
   options: IFetchDownloadFileUrlOptions
