@@ -35,6 +35,7 @@ import {
 } from "./hostedServiceUtils";
 import { IItemAndIServerEnrichments } from "../items/_enrichments";
 import { deleteSchedule, getSchedule, setSchedule } from "./manageSchedule";
+import _ from "lodash";
 
 // TODO: move this to defaults?
 const DEFAULT_CONTENT_MODEL: IModel = {
@@ -171,7 +172,9 @@ export async function updateContent(
 
   if (content.schedule.mode === "automatic") {
     await deleteSchedule(item, requestOptions);
-  } else if (content.schedule !== (await getSchedule(item, requestOptions))) {
+  } else if (
+    !_.isEqual(content.schedule, await getSchedule(item, requestOptions))
+  ) {
     await setSchedule(item, content.schedule, requestOptions);
   }
 

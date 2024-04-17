@@ -10,7 +10,18 @@ describe("buildUiSchema: content settings", () => {
       "isHostedFeatureServiceEntity"
     ).and.returnValue(true);
 
-    const uiSchema = await buildUiSchema("some.scope", {} as any, MOCK_CONTEXT);
+    const contextWithPermission = {
+      ...MOCK_CONTEXT,
+      featureFlags: {
+        "hub:content:workspace:settings:schedule": true,
+      },
+    };
+    const uiSchema = await buildUiSchema(
+      "some.scope",
+      {} as any,
+      contextWithPermission
+    );
+    // TODO: Add the rest of the schema added in this PR
     expect(uiSchema).toEqual({
       type: "Layout",
       elements: [

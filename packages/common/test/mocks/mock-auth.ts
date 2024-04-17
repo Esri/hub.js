@@ -1,7 +1,7 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { ArcGISContext, IArcGISContext, IHubRequestOptions } from "../../src";
 
-const TOMORROW = (function () {
+export const TOMORROW = (function () {
   const now = new Date();
   now.setDate(now.getDate() + 1);
   return now;

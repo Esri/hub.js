@@ -2,6 +2,7 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getHubApiUrl } from "../api";
 import { IItem } from "@esri/arcgis-rest-portal";
 import { IHubSchedule } from "../core/types/IHubSchedule";
+import { cloneObject } from "../util";
 
 /**
  * Get the schedule for an item. If no schedule is found, returns null.
@@ -22,15 +23,9 @@ export const getSchedule = async (
 
   // if the schedule is set, return it with added mode
   const schedule = await fetchResponse.json();
+  delete schedule.itemId;
   switch (schedule.cadence) {
-    case "automatic":
-      return {
-        mode: "automatic",
-      };
-    case "manual":
-      return {
-        mode: "manual",
-      };
+    // TODO: add manual option here when option is viable
     case "daily":
     case "weekly":
     case "monthly":
@@ -52,10 +47,9 @@ export const setSchedule = async (
   item: IItem,
   schedule: IHubSchedule,
   requestOptions: IRequestOptions
-): Promise<void> => {
-  if (schedule.mode) {
-    delete schedule.mode;
-  }
+): Promise<any> => {
+  const body = cloneObject(schedule);
+  delete body.mode;
   const url = `${getHubApiUrl(requestOptions)}/api/download/v1/items/${
     item.id
   }/schedule`;
@@ -66,11 +60,11 @@ export const setSchedule = async (
       accept: "application/json",
     },
     body: JSON.stringify({
-      ...schedule,
+      ...body,
       itemId: item.id,
     }),
   };
-  await fetch(url, options);
+  return await fetch(url, options);
 };
 
 /**

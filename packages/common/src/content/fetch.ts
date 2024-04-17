@@ -35,7 +35,6 @@ import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
 import { isHostedFeatureServiceItem } from "./hostedServiceUtils";
 import { setProp } from "../objects";
-import { getHubApiUrl } from "../api";
 import { getSchedule } from "./manageSchedule";
 
 const hasFeatures = (contentType: string) =>
