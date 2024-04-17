@@ -62,7 +62,8 @@ export type EntityType =
   | "groupMember"
   | "event"
   | "channel"
-  | "discussionPost";
+  | "discussionPost"
+  | "event";
 /**
  * @private
  *
