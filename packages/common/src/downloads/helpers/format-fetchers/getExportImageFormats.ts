@@ -1,4 +1,4 @@
-import { IDynamicDownloadFormat } from "./types";
+import { IDynamicDownloadFormat } from "../types";
 
 export function getExportImageDownloadFormats(): IDynamicDownloadFormat[] {
   const formats: IDynamicDownloadFormat[] = [

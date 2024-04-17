@@ -1,5 +1,5 @@
-import { IHubEditableContent } from "../../core/types/IHubEditableContent";
-import { IDynamicDownloadFormat } from "./types";
+import { IHubEditableContent } from "../../../core/types/IHubEditableContent";
+import { IDynamicDownloadFormat } from "../types";
 
 export function getCreateReplicaFormats(
   entity: IHubEditableContent

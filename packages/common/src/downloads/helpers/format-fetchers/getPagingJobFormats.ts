@@ -1,4 +1,4 @@
-import { IDynamicDownloadFormat } from "./types";
+import { IDynamicDownloadFormat } from "../types";
 
 export function getPagingJobFormats(): IDynamicDownloadFormat[] {
   // Formats are defined within the Hub API code

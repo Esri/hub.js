@@ -1,8 +1,8 @@
-import { IArcGISContext } from "../../ArcGISContext";
-import { IHubEditableContent } from "../../core/types/IHubEditableContent";
+import { IArcGISContext } from "../../../ArcGISContext";
+import { IHubEditableContent } from "../../../core/types/IHubEditableContent";
 import { fetchAvailableExportItemFormats } from "./fetchAvailableExportItemFormats";
 import { getAllExportItemFormats } from "./getAllExportItemFormats";
-import { IDynamicDownloadFormat } from "./types";
+import { IDynamicDownloadFormat } from "../types";
 
 export async function fetchExportItemFormats(
   entity: IHubEditableContent,

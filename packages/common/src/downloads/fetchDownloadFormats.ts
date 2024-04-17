@@ -4,9 +4,9 @@ import { IHubEditableContent } from "../core/types/IHubEditableContent";
 import { canUseExportImage } from "./helpers/canUseExportImage";
 import { canUseExportItem } from "./helpers/canUseExportItem";
 import { canUseHubDownloadApi } from "./helpers/canUseHubDownloadApi";
-import { fetchExportItemFormats } from "./helpers/fetchExportItemFormats";
-import { getExportImageDownloadFormats } from "./helpers/getExportImageFormats";
-import { getHubDownloadApiFormats } from "./helpers/getHubDownloadApiFormats";
+import { fetchExportItemFormats } from "./helpers/format-fetching/fetchExportItemFormats";
+import { getExportImageDownloadFormats } from "./helpers/format-fetching/getExportImageFormats";
+import { getHubDownloadApiFormats } from "./helpers/format-fetching/getHubDownloadApiFormats";
 import {
   IDownloadFormat,
   IDynamicDownloadFormat,
