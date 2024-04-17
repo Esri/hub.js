@@ -1,3 +1,6 @@
+import { IArcGISContext } from "../../ArcGISContext";
+import { IHubEditableContent } from "../../core/types/IHubEditableContent";
+
 export interface IDownloadFormat {
   type: "static" | "dynamic";
 }
@@ -50,3 +53,19 @@ export const PORTAL_EXPORT_TYPES = {
     supportsProjection: true,
   },
 };
+
+export interface IFetchDownloadFileUrlOptions {
+  entity: IHubEditableContent;
+  format: string;
+  context: IArcGISContext;
+  layers?: number[]; // layers to download; when not specified, all layers will be downloaded
+  geometry?: any; // geometry to filter results by
+  where?: string; // where clause to filter results by
+  progressCallback?: (state: DownloadOperationState, percent?: number) => void;
+}
+
+export type DownloadOperationState =
+  | "pending"
+  | "processing"
+  | "creating"
+  | "complete";
