@@ -23,6 +23,9 @@ export async function fetchExportItemDownloadFileUrl(
 
   await pollForJobCompletion(exportItemId, jobId, context);
 
+  // TODO: Once the job is completed, we still need to set the special typekeywords needed to find the item later.
+  // Also, I _think_ we can only do one layer at a time (at least with the current typeKeywords schema we're using)
+
   return getExportItemDataUrl(exportItemId, context);
 }
 
