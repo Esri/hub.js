@@ -5,9 +5,7 @@ import {
   setSchedule,
 } from "../../src/content/manageSchedule";
 import { IHubSchedule } from "../../src/core/types/IHubSchedule";
-import { MOCK_AUTH, MOCK_HUB_REQOPTS, TOMORROW } from "../mocks/mock-auth";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { MOCK_HUB_REQOPTS } from "../mocks/mock-auth";
 
 const item = {
   id: "9b77674e43cf4bbd9ecad5189b3f1fdc",

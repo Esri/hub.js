@@ -1,5 +1,6 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import {
+  IItem,
   IPortal,
   IUserItemOptions,
   getItem,
@@ -172,10 +173,14 @@ export async function updateContent(
 
   if (content.schedule.mode === "automatic") {
     await deleteSchedule(item, requestOptions);
-  } else if (
-    !_.isEqual(content.schedule, await getSchedule(item, requestOptions))
-  ) {
-    await setSchedule(item, content.schedule, requestOptions);
+  } else {
+    const currentSchedule = await getSchedule(
+      { id: `${item.id || content.id}` } as unknown as IItem,
+      requestOptions
+    );
+    if (!_.isEqual(content.schedule, currentSchedule)) {
+      await setSchedule(item, content.schedule, requestOptions);
+    }
   }
 
   return modelToHubEditableContent(updatedModel, requestOptions, enrichments);

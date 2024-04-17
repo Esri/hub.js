@@ -166,7 +166,7 @@ describe("content editing:", () => {
         canDelete: false,
         location: { type: "item" },
         licenseInfo: "",
-        schedule: { mode: "manual" },
+        schedule: { mode: "automatic" },
       };
       const chk = await updateContent(content, {
         ...MOCK_HUB_REQOPTS,
@@ -214,12 +214,7 @@ describe("content editing:", () => {
         // Indicates that Extract should enabled on the service,
         // Since it already is, nothing should change
         serverExtractCapability: true,
-        schedule: {
-          mode: "scheduled",
-          cadence: "daily",
-          hour: 3,
-          timezone: "America/New York",
-        },
+        schedule: { mode: "automatic" },
       };
       const chk = await updateContent(content, {
         ...MOCK_HUB_REQOPTS,
@@ -317,11 +312,15 @@ describe("content editing:", () => {
         canDelete: false,
         location: { type: "none" },
         licenseInfo: "",
-        schedule: weeklySchedule,
+        schedule: dailySchedule,
       };
 
       // sets the schedule to what we're going to try and update it to; no update to the schedule is then needed
-      const response = await setSchedule(item, dailySchedule, MOCK_HUB_REQOPTS);
+      const response = await setSchedule(
+        item,
+        weeklySchedule,
+        MOCK_HUB_REQOPTS
+      );
       const chk = await updateContent(content, {
         ...MOCK_HUB_REQOPTS,
         authentication: myMockAuth,
@@ -375,7 +374,6 @@ describe("content editing:", () => {
         schedule: dailySchedule,
       };
 
-      // sets the schedule to what we're going to try and update it to; no update to the schedule is then needed
       await setSchedule(item, dailySchedule, MOCK_HUB_REQOPTS);
       const chk = await updateContent(content, {
         ...MOCK_HUB_REQOPTS,

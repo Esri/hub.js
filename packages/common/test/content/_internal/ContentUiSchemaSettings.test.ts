@@ -27,6 +27,54 @@ describe("buildUiSchema: content settings", () => {
       elements: [
         {
           type: "Section",
+          labelKey: `some.scope.sections.schedule.label`,
+          elements: [
+            {
+              type: "Control",
+              scope: "/properties/schedule",
+              labelKey: `some.scope.sections.schedule.helperText`,
+              options: {
+                // The scope for the options is the scope of the scheduler field, not the config editor
+                type: "Control",
+                control: "hub-field-input-scheduler",
+                labelKey: "fieldHeader",
+                format: "radio",
+                inputs: [
+                  { label: `option.default.label`, type: "automatic" },
+                  {
+                    label: `option.daily.label`,
+                    type: "daily",
+                    expandedHelperText: `option.daily.expandedHelperText`,
+                  },
+                  {
+                    label: `option.weekly.label`,
+                    type: "weekly",
+                    expandedHelperText: `option.weekly.expandedHelperText`,
+                  },
+                  {
+                    label: `option.monthly.label`,
+                    type: "monthly",
+                    expandedHelperText: `option.monthly.expandedHelperText`,
+                  },
+                  {
+                    label: `option.annually.label`,
+                    type: "annually",
+                    expandedHelperText: `option.annually.expandedHelperText`,
+                  },
+                  // uncomment this when the manual option is available
+                  // {
+                  //   label: `option.manual.label`,
+                  //   type: "manual",
+                  //   helperActionIcon: "information-f",
+                  //   helperActionText: "option.manual.helperActionText",
+                  // },
+                ],
+              },
+            },
+          ],
+        },
+        {
+          type: "Section",
           labelKey: "some.scope.sections.downloads.label",
           options: {
             helperText: {
