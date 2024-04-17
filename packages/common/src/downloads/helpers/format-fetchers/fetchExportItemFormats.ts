@@ -2,13 +2,13 @@ import { IArcGISContext } from "../../../ArcGISContext";
 import { IHubEditableContent } from "../../../core/types/IHubEditableContent";
 import { fetchAvailableExportItemFormats } from "./fetchAvailableExportItemFormats";
 import { getAllExportItemFormats } from "./getAllExportItemFormats";
-import { IDynamicDownloadFormat } from "../types";
+import { IDownloadFormat } from "../types";
 
 export async function fetchExportItemFormats(
   entity: IHubEditableContent,
   context: IArcGISContext,
   _layerId?: string
-): Promise<IDynamicDownloadFormat[]> {
+): Promise<IDownloadFormat[]> {
   return canCreateExport(entity, context)
     ? getAllExportItemFormats()
     : fetchAvailableExportItemFormats(entity, context);

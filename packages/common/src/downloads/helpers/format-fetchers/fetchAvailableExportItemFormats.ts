@@ -1,14 +1,19 @@
 import { IArcGISContext } from "../../../ArcGISContext";
 import { IHubEditableContent } from "../../../core/types/IHubEditableContent";
 import { buildExistingExportsPortalQuery } from "../build-existing-exports-portal-query";
-import { IDynamicDownloadFormat, PORTAL_EXPORT_TYPES } from "../types";
+import {
+  ExportItemFormat,
+  IStaticDownloadFormat,
+  PORTAL_EXPORT_TYPES,
+} from "../types";
 import { fetchAllPages } from "../../../items";
 import { IItem, searchItems } from "@esri/arcgis-rest-portal";
+import { getExportItemDataUrl } from "../getExportItemDataUrl";
 
 export async function fetchAvailableExportItemFormats(
   entity: IHubEditableContent,
   context: IArcGISContext
-): Promise<IDynamicDownloadFormat[]> {
+): Promise<IStaticDownloadFormat[]> {
   // NOTE: we _need_ to pass the spatialRefId otherwise we're going to default to 4326
   // Dang it, we'll need to pass the layerId as well... should we support multiple layers?
   const q = buildExistingExportsPortalQuery(entity.id);
@@ -16,22 +21,22 @@ export async function fetchAvailableExportItemFormats(
     q,
     ...context.requestOptions,
   })) as IItem[];
-  const formatsWithDuplicates = exportItems
-    .map(itemToExportFormat)
-    .filter(Boolean);
-  const formatsWithoutDuplicates = Array.from(new Set(formatsWithDuplicates));
 
-  return formatsWithoutDuplicates.map((format) => ({
-    type: "dynamic",
-    format,
+  // TODO: Do we need to worry about duplicates here?
+
+  return exportItems.map((item) => ({
+    type: "static",
+    label: null,
+    format: toExportItemFormat(item.type),
+    url: getExportItemDataUrl(item.id, context),
   }));
 }
 
 // TODO: man, can't we make this cleaner???
-function itemToExportFormat(item: IItem): string {
+function toExportItemFormat(itemType: string): ExportItemFormat {
   return Object.keys(PORTAL_EXPORT_TYPES).find((format) =>
     PORTAL_EXPORT_TYPES[
       format as keyof typeof PORTAL_EXPORT_TYPES
-    ].itemTypes.includes(item.type)
-  );
+    ].itemTypes.includes(itemType)
+  ) as ExportItemFormat;
 }
