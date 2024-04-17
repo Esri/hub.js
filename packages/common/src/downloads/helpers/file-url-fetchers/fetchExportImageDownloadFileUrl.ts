@@ -1,3 +1,4 @@
+import { request } from "@esri/arcgis-rest-request";
 import { IFetchDownloadFileUrlOptions } from "../types";
 
 export async function fetchExportImageDownloadFileUrl(

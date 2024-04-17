@@ -1,8 +1,10 @@
-import { request } from "@esri/arcgis-rest-request";
 import HubError from "../HubError";
 import { canUseExportImage } from "./helpers/canUseExportImage";
 import { canUseExportItem } from "./helpers/canUseExportItem";
 import { canUseHubDownloadApi } from "./helpers/canUseHubDownloadApi";
+import { fetchExportImageDownloadFileUrl } from "./helpers/file-url-fetchers/fetchExportImageDownloadFileUrl";
+import { fetchExportItemDownloadFileUrl } from "./helpers/file-url-fetchers/fetchExportItemDownloadFileUrl";
+import { fetchHubApiDownloadFileUrl } from "./helpers/file-url-fetchers/fetchHubApiDownloadFileUrl";
 import { IFetchDownloadFileUrlOptions } from "./helpers/types";
 
 export async function fetchDownloadFileUrl(
