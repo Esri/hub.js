@@ -1,4 +1,4 @@
-import { IHubCatalog } from "../../search/types/IHubCatalog";
+import { IFilter, IHubCatalog } from "../../search/types/IHubCatalog";
 
 export type HubCapability =
   | "events"
@@ -14,7 +14,16 @@ export type HubCapability =
  */
 export interface ICapabilityConfig {
   enabled: boolean;
-  catalog: IHubCatalog;
+  /**
+   * If defined, the filter will be injected into
+   * the entitie's content catalog's scope when the gallery is
+   * rendered
+   */
+  filter?: IFilter;
+  /**
+   * If defined, this catalog is used to render the gallery
+   */
+  catalog?: IHubCatalog;
 }
 /**
  * We intentionally want these interfaces to exist even if they are empty
