@@ -29,7 +29,7 @@ export const getSchedule = async (
     case "daily":
     case "weekly":
     case "monthly":
-    case "annually":
+    case "yearly":
       return {
         ...schedule,
         mode: "scheduled",

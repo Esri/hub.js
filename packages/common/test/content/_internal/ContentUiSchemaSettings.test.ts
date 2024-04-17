@@ -57,9 +57,9 @@ describe("buildUiSchema: content settings", () => {
                     expandedHelperText: `option.monthly.expandedHelperText`,
                   },
                   {
-                    label: `option.annually.label`,
-                    type: "annually",
-                    expandedHelperText: `option.annually.expandedHelperText`,
+                    label: `option.yearly.label`,
+                    type: "yearly",
+                    expandedHelperText: `option.yearly.expandedHelperText`,
                   },
                   // uncomment this when the manual option is available
                   // {

@@ -1,4 +1,4 @@
-export type Cadence = "daily" | "weekly" | "monthly" | "annually";
+export type Cadence = "daily" | "weekly" | "monthly" | "yearly";
 export type SchedulerOptionType = Cadence | "automatic" | "manual";
 
 /**
