@@ -36,7 +36,7 @@ import {
 } from "./hostedServiceUtils";
 import { IItemAndIServerEnrichments } from "../items/_enrichments";
 import { deleteSchedule, getSchedule, setSchedule } from "./manageSchedule";
-import _ from "lodash";
+import { deepEqual } from "../objects/deepEqual";
 
 // TODO: move this to defaults?
 const DEFAULT_CONTENT_MODEL: IModel = {
@@ -176,7 +176,7 @@ export async function updateContent(
     requestOptions
   );
 
-  if (!_.isEqual(content.schedule, currentSchedule)) {
+  if (!deepEqual(content.schedule, currentSchedule)) {
     // if current and incoming schedules differ
     if (content.schedule.mode === "automatic") {
       // and incoming schedule is automatic
