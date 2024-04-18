@@ -1,3 +1,15 @@
+# @esri/hub-common [14.118.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.117.0...@esri/hub-common@14.118.0) (2024-04-18)
+
+
+### Bug Fixes
+
+* update can-edit-event to work in cases where initiative is deleted ([#1474](https://github.com/Esri/hub.js/issues/1474)) ([a07470b](https://github.com/Esri/hub.js/commit/a07470be35fe200afd8135499ef162da747b8243))
+
+
+### Features
+
+* types for entity views ([#1477](https://github.com/Esri/hub.js/issues/1477)) ([89c6365](https://github.com/Esri/hub.js/commit/89c63658d6f88dc434cb9242ad75bf965ca65267))
+
 # @esri/hub-common [14.117.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.116.1...@esri/hub-common@14.117.0) (2024-04-17)
 
 

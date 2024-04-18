@@ -31,6 +31,11 @@ export function getPropertyMap(): IPropertyMap[] {
   valueProps.forEach((entry) => {
     map.push({ entityKey: entry, storeKey: `data.values.${entry}` });
   });
+  // Capabilities
+  map.push({ entityKey: "events", storeKey: "data.events" });
+  map.push({ entityKey: "initiatives", storeKey: "data.initiatives" });
+  map.push({ entityKey: "projects", storeKey: "data.projects" });
+
   // Deeper/Indirect mappings
   map.push({
     entityKey: "slug",
