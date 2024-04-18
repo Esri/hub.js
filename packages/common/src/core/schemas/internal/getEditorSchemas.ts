@@ -354,7 +354,7 @@ export async function getEditorSchemas(
         "hub:event:edit": () =>
           import("../../../events/_internal/EventSchemaEdit"),
         "hub:event:attendees": () =>
-          import("../../../events/_internal/EventSchemaEdit"),
+          import("../../../events/_internal/EventSchemaAttendeesSettings"),
       }[type as EventEditorType]();
       const eventUiSchemaModule = await {
         "hub:event:create": () =>

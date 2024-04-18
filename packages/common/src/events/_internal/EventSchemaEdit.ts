@@ -74,16 +74,6 @@ export const buildSchema = (): IConfigurationSchema => {
         ],
         default: HubEventOnlineCapacityType.Unlimited,
       },
-      allowRegistration: {
-        type: "boolean",
-        enum: [true, false],
-        default: false,
-      },
-      notifyAttendees: {
-        type: "boolean",
-        enum: [true, false],
-        default: false,
-      },
       summary: ENTITY_SUMMARY_SCHEMA,
       tags: ENTITY_TAGS_SCHEMA,
       categories: ENTITY_CATEGORIES_SCHEMA,
