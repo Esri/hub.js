@@ -389,18 +389,6 @@ describe("content editing:", () => {
       expect(updateServiceSpy).not.toHaveBeenCalled();
     });
     it("updates content but does not have access to update schedule", async () => {
-      const item = {
-        id: GUID,
-        owner: "dcdev_dude",
-        tags: ["Transportation"],
-        created: 1595878748000,
-        modified: 1595878750000,
-        numViews: 0,
-        size: 0,
-        title: "Hello World",
-        type: "",
-      } as IItem;
-
       const content: IHubEditableContent = {
         itemControl: "edit",
         id: GUID,

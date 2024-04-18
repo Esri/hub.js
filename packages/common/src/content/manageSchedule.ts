@@ -18,12 +18,7 @@ export const getSchedule = async (
   itemId: string,
   requestOptions: IRequestOptions
 ): Promise<IHubSchedule | null> => {
-  let fetchResponse;
-  try {
-    fetchResponse = await fetch(schedulerApiUrl(itemId, requestOptions));
-  } catch (e) {
-    return null;
-  }
+  const fetchResponse = await fetch(schedulerApiUrl(itemId, requestOptions));
   if (!fetchResponse.ok) {
     return null;
   }
@@ -69,13 +64,7 @@ export const setSchedule = async (
       itemId,
     }),
   };
-  let response;
-  try {
-    response = await fetch(url, options);
-  } catch (e) {
-    return false;
-  }
-
+  const response = await fetch(url, options);
   return response.ok;
 };
 
@@ -117,7 +106,7 @@ export const maybeUpdateSchedule = async (
   const currentSchedule = await getSchedule(content.id, requestOptions);
 
   // if no schedule is set and incoming schedule is automatic, do nothing
-  if (content.schedule.mode === "automatic" && content.schedule === null) {
+  if (content.schedule.mode === "automatic" && currentSchedule === null) {
     return false;
   }
 
