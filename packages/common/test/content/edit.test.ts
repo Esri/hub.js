@@ -317,7 +317,7 @@ describe("content editing:", () => {
 
       // sets the schedule to what we're going to try and update it to; no update to the schedule is then needed
       const response = await setSchedule(
-        item,
+        item.id,
         weeklySchedule,
         MOCK_HUB_REQOPTS
       );
@@ -374,7 +374,7 @@ describe("content editing:", () => {
         schedule: dailySchedule,
       };
 
-      await setSchedule(item, dailySchedule, MOCK_HUB_REQOPTS);
+      await setSchedule(item.id, dailySchedule, MOCK_HUB_REQOPTS);
       const chk = await updateContent(content, {
         ...MOCK_HUB_REQOPTS,
         authentication: myMockAuth,

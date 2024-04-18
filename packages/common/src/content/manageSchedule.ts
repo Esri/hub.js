@@ -4,23 +4,23 @@ import { IItem } from "@esri/arcgis-rest-portal";
 import { IHubSchedule } from "../core/types/IHubSchedule";
 import { cloneObject } from "../util";
 import { IHubRequestOptions } from "../types";
+import { deepEqual } from "../objects/deepEqual";
+import { IHubEditableContent } from "../core";
+
+// Any code referencing these functions must first pass:
+// checkPermission("hub:content:workspace:settings:schedule", _context).access
 
 /**
  * Get the schedule for an item. If no schedule is found, returns null.
- * @param item The item to get the schedule for
+ * @param itemId The item to get the schedule for
  * @param requestOptions The request options needed to get the HubApiUrl
  * @returns The schedule for the item OR null if no schedule is set
  */
 export const getSchedule = async (
-  item: IItem,
+  itemId: string,
   requestOptions: IRequestOptions
 ): Promise<IHubSchedule | null> => {
-  // enterprise check
-  if (isPortal(requestOptions)) {
-    return null;
-  }
-
-  const fetchResponse = await fetch(schedulerApiUrl(item, requestOptions));
+  const fetchResponse = await fetch(schedulerApiUrl(itemId, requestOptions));
   if (!fetchResponse.ok) {
     return null;
   }
@@ -43,22 +43,18 @@ export const getSchedule = async (
 
 /**
  * Set the schedule for an item
- * @param item The item to set the schedule for
+ * @param itemId The item to set the schedule for
  * @param schedule The schedule to set
  * @param requestOptions The request options needed to get the HubApiUrl
  */
 export const setSchedule = async (
-  item: IItem,
+  itemId: string,
   schedule: IHubSchedule,
   requestOptions: IRequestOptions
 ): Promise<any> => {
-  if (isPortal(requestOptions)) {
-    return null;
-  }
-
   const body = cloneObject(schedule);
   delete body.mode;
-  const url = schedulerApiUrl(item, requestOptions);
+  const url = schedulerApiUrl(itemId, requestOptions);
   const options = {
     method: "POST",
     headers: {
@@ -67,7 +63,7 @@ export const setSchedule = async (
     },
     body: JSON.stringify({
       ...body,
-      itemId: item.id,
+      itemId,
     }),
   };
   const response = await fetch(url, options);
@@ -76,36 +72,58 @@ export const setSchedule = async (
 
 /**
  * Delete the schedule for an item
- * @param item The item to delete the schedule for
+ * @param itemId The item to delete the schedule for
  * @param requestOptions The request options needed to get the HubApiUrl
  */
 export const deleteSchedule = async (
-  item: IItem,
+  itemId: string,
   requestOptions: IRequestOptions
 ): Promise<any> => {
-  if (isPortal(requestOptions)) {
-    return null;
-  }
-  const url = schedulerApiUrl(item, requestOptions);
+  const url = schedulerApiUrl(itemId, requestOptions);
   const options = {
     method: "DELETE",
     headers: {
       accept: "application/json",
     },
   };
-  const response = await fetch(url, options);
+  let response;
+  try {
+    response = await fetch(url, options);
+  } catch (e) {
+    return false;
+  }
+
   return response.ok;
 };
 
-const isPortal = (requestOptions: IRequestOptions): boolean => {
-  return (requestOptions as IHubRequestOptions).isPortal;
+/**
+ * Checks if the content schedule should be updated and updates it if necessary
+ * @param content The content to check and update the schedule for (should include any new schedule information)
+ * @param requestOptions The request options needed to get the HubApiUrl
+ */
+export const maybeUpdateSchedule = async (
+  content: IHubEditableContent,
+  requestOptions: IRequestOptions
+) => {
+  const currentSchedule = await getSchedule(content.id, requestOptions);
+
+  if (!deepEqual(content.schedule, currentSchedule)) {
+    // if current and incoming schedules differ
+    if (content.schedule.mode === "automatic" && currentSchedule !== null) {
+      // and incoming schedule is automatic
+      await deleteSchedule(content.id, requestOptions); // delete schedules
+    } else {
+      // else
+      await setSchedule(content.id, content.schedule, requestOptions); // set the schedule
+    }
+  }
 };
 
 const schedulerApiUrl = (
-  item: IItem,
+  itemId: string,
   requestOptions: IRequestOptions
 ): string => {
-  return `${getHubApiUrl(requestOptions)}/api/download/v1/items/${
-    item.id
-  }/schedule`;
+  return `${getHubApiUrl(
+    requestOptions
+  )}/api/download/v1/items/${itemId}/schedule`;
 };

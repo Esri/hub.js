@@ -35,8 +35,9 @@ import {
   toggleServiceCapability,
 } from "./hostedServiceUtils";
 import { IItemAndIServerEnrichments } from "../items/_enrichments";
-import { deleteSchedule, getSchedule, setSchedule } from "./manageSchedule";
+import { maybeUpdateSchedule } from "./manageSchedule";
 import { deepEqual } from "../objects/deepEqual";
+import { checkPermission } from "../permissions/checkPermission";
 
 // TODO: move this to defaults?
 const DEFAULT_CONTENT_MODEL: IModel = {
@@ -171,21 +172,8 @@ export async function updateContent(
     }
   }
 
-  const currentSchedule = await getSchedule(
-    { id: `${item.id || content.id}` } as unknown as IItem,
-    requestOptions
-  );
-
-  if (!deepEqual(content.schedule, currentSchedule)) {
-    // if current and incoming schedules differ
-    if (content.schedule.mode === "automatic") {
-      // and incoming schedule is automatic
-      await deleteSchedule(item, requestOptions); // delete schedules
-    } else {
-      // else
-      await setSchedule(item, content.schedule, requestOptions); // set the schedule
-    }
-  }
+  // if (checkPermission("hub:content:workspace:settings:schedule", context).access) { -- would like to add this here but need to access context...
+  maybeUpdateSchedule(content, requestOptions);
 
   return modelToHubEditableContent(updatedModel, requestOptions, enrichments);
 }
