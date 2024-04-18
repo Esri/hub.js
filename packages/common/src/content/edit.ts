@@ -35,9 +35,10 @@ import {
   toggleServiceCapability,
 } from "./hostedServiceUtils";
 import { IItemAndIServerEnrichments } from "../items/_enrichments";
-import { maybeUpdateSchedule } from "./manageSchedule";
-import { deepEqual } from "../objects/deepEqual";
-import { checkPermission } from "../permissions/checkPermission";
+import {
+  isDownloadSchedulingAvailable,
+  maybeUpdateSchedule,
+} from "./manageSchedule";
 
 // TODO: move this to defaults?
 const DEFAULT_CONTENT_MODEL: IModel = {
@@ -172,8 +173,9 @@ export async function updateContent(
     }
   }
 
-  // if (checkPermission("hub:content:workspace:settings:schedule", context).access) { -- would like to add this here but need to access context...
-  maybeUpdateSchedule(content, requestOptions);
+  if (isDownloadSchedulingAvailable(requestOptions)) {
+    maybeUpdateSchedule(content, requestOptions);
+  }
 
   return modelToHubEditableContent(updatedModel, requestOptions, enrichments);
 }

@@ -1,9 +1,7 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getHubApiUrl } from "../api";
-import { IItem } from "@esri/arcgis-rest-portal";
 import { IHubSchedule } from "../core/types/IHubSchedule";
 import { cloneObject } from "../util";
-import { IHubRequestOptions } from "../types";
 import { deepEqual } from "../objects/deepEqual";
 import { IHubEditableContent } from "../core";
 
@@ -20,7 +18,12 @@ export const getSchedule = async (
   itemId: string,
   requestOptions: IRequestOptions
 ): Promise<IHubSchedule | null> => {
-  const fetchResponse = await fetch(schedulerApiUrl(itemId, requestOptions));
+  let fetchResponse;
+  try {
+    fetchResponse = await fetch(schedulerApiUrl(itemId, requestOptions));
+  } catch (e) {
+    return null;
+  }
   if (!fetchResponse.ok) {
     return null;
   }
@@ -66,7 +69,13 @@ export const setSchedule = async (
       itemId,
     }),
   };
-  const response = await fetch(url, options);
+  let response;
+  try {
+    response = await fetch(url, options);
+  } catch (e) {
+    return false;
+  }
+
   return response.ok;
 };
 
@@ -107,14 +116,19 @@ export const maybeUpdateSchedule = async (
 ) => {
   const currentSchedule = await getSchedule(content.id, requestOptions);
 
+  // if no schedule is set and incoming schedule is automatic, do nothing
+  if (content.schedule.mode === "automatic" && content.schedule === null) {
+    return false;
+  }
+
   if (!deepEqual(content.schedule, currentSchedule)) {
     // if current and incoming schedules differ
-    if (content.schedule.mode === "automatic" && currentSchedule !== null) {
+    if (content.schedule.mode === "automatic") {
       // and incoming schedule is automatic
-      await deleteSchedule(content.id, requestOptions); // delete schedules
+      return await deleteSchedule(content.id, requestOptions); // delete the schedule
     } else {
       // else
-      await setSchedule(content.id, content.schedule, requestOptions); // set the schedule
+      return await setSchedule(content.id, content.schedule, requestOptions); // set the schedule
     }
   }
 };
@@ -126,4 +140,19 @@ const schedulerApiUrl = (
   return `${getHubApiUrl(
     requestOptions
   )}/api/download/v1/items/${itemId}/schedule`;
+};
+
+/**
+ * To be used before calling any of the schedule functions in order to prevent fetch
+ * requests to scheduler API from portal/enterprise
+ *
+ * Note: After a discussion w/ Dave, we decided this check is preferred to passing the context
+ * into functions that would need checkPermission
+ * @param requestOptions The request options needed to get the HubApiUrl
+ * @returns Whether or not the scheduling feature is available
+ */
+export const isDownloadSchedulingAvailable = (
+  requestOptions: IRequestOptions
+): boolean => {
+  return requestOptions.portal?.includes("arcgis.com");
 };

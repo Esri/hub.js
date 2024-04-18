@@ -47,42 +47,4 @@ describe("manageSchedule", () => {
     } as unknown as IHubRequestOptions);
     expect(isOk).toBe(false);
   });
-
-  // it("isPortal", async () => {
-  //   const setAndIsPortal = await setSchedule(item.id, dailySchedule, {
-  //     ...MOCK_HUB_REQOPTS,
-  //     isPortal: true,
-  //   } as unknown as IHubRequestOptions);
-  //   expect(setAndIsPortal).toEqual(null);
-
-  //   const getAndIsPortal = await getSchedule(item.id, {
-  //     ...MOCK_HUB_REQOPTS,
-  //     isPortal: true,
-  //   } as unknown as IHubRequestOptions);
-  //   expect(getAndIsPortal).toEqual(null);
-
-  //   const deleteAndIsPortal = await deleteSchedule(item.id, {
-  //     ...MOCK_HUB_REQOPTS,
-  //     isPortal: true,
-  //   } as unknown as IHubRequestOptions);
-  //   expect(deleteAndIsPortal).toEqual(null);
-
-  //   const setAndNotPortal = await setSchedule(item.id, dailySchedule, {
-  //     ...MOCK_HUB_REQOPTS,
-  //     isPortal: false,
-  //   } as unknown as IHubRequestOptions);
-  //   expect(setAndNotPortal).not.toEqual(null);
-
-  //   const getAndNotPortal = await getSchedule(item.id, {
-  //     ...MOCK_HUB_REQOPTS,
-  //     isPortal: false,
-  //   } as unknown as IHubRequestOptions);
-  //   expect(getAndNotPortal).not.toEqual(null);
-
-  //   const deleteAndNotPortal = await deleteSchedule(item.id, {
-  //     ...MOCK_HUB_REQOPTS,
-  //     isPortal: false,
-  //   } as unknown as IHubRequestOptions);
-  //   expect(deleteAndNotPortal).not.toEqual(null);
-  // });
 });

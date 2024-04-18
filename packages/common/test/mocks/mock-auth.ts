@@ -31,6 +31,7 @@ export const MOCK_HUB_REQOPTS = {
   },
   isPortal: false,
   hubApiUrl: "https://hubqa.arcgis.com",
+  portal: "https://myorg.maps.arcgis.com",
 } as unknown as IHubRequestOptions;
 
 export const MOCK_NOAUTH_HUB_REQOPTS = {

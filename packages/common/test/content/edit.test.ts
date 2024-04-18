@@ -316,11 +316,7 @@ describe("content editing:", () => {
       };
 
       // sets the schedule to what we're going to try and update it to; no update to the schedule is then needed
-      const response = await setSchedule(
-        item.id,
-        weeklySchedule,
-        MOCK_HUB_REQOPTS
-      );
+      await setSchedule(item.id, weeklySchedule, MOCK_HUB_REQOPTS);
       const chk = await updateContent(content, {
         ...MOCK_HUB_REQOPTS,
         authentication: myMockAuth,
@@ -377,6 +373,61 @@ describe("content editing:", () => {
       await setSchedule(item.id, dailySchedule, MOCK_HUB_REQOPTS);
       const chk = await updateContent(content, {
         ...MOCK_HUB_REQOPTS,
+        portal: "https://myorg.maps.arcgis.com",
+        authentication: myMockAuth,
+      });
+
+      expect(chk.id).toBe(GUID);
+      expect(chk.name).toBe("Hello World");
+      expect(chk.description).toBe("Some longer description");
+      expect(getItemSpy.calls.count()).toBe(1);
+      expect(updateModelSpy.calls.count()).toBe(1);
+      const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
+      expect(modelToUpdate.item.description).toBe(content.description);
+      // No service is associated with Hub Initiatives
+      expect(getServiceSpy).not.toHaveBeenCalled();
+      expect(updateServiceSpy).not.toHaveBeenCalled();
+    });
+    it("updates content but does not have access to update schedule", async () => {
+      const item = {
+        id: GUID,
+        owner: "dcdev_dude",
+        tags: ["Transportation"],
+        created: 1595878748000,
+        modified: 1595878750000,
+        numViews: 0,
+        size: 0,
+        title: "Hello World",
+        type: "",
+      } as IItem;
+
+      const content: IHubEditableContent = {
+        itemControl: "edit",
+        id: GUID,
+        name: "Hello World",
+        tags: ["Transportation"],
+        description: "Some longer description",
+        slug: "dcdev-wat-blarg",
+        orgUrlKey: "dcdev",
+        owner: "dcdev_dude",
+        type: "Hub Initiative",
+        createdDate: new Date(1595878748000),
+        createdDateSource: "item.created",
+        updatedDate: new Date(1595878750000),
+        updatedDateSource: "item.modified",
+        thumbnailUrl: "",
+        permissions: [],
+        schemaVersion: 1,
+        canEdit: false,
+        canDelete: false,
+        location: { type: "none" },
+        licenseInfo: "",
+        schedule: dailySchedule,
+      };
+
+      const chk = await updateContent(content, {
+        ...MOCK_HUB_REQOPTS,
+        portal: "https://my-server.com/portal/sharing/rest", // key difference is portal string does not contain arcgis.com
         authentication: myMockAuth,
       });
 

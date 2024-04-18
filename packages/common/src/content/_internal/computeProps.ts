@@ -13,7 +13,6 @@ import {
 } from "../hostedServiceUtils";
 import { computeBaseProps } from "../../core/_internal/computeBaseProps";
 import { IHubEditableContentEnrichments } from "../../items/_enrichments";
-import { checkPermission } from "../../permissions/checkPermission";
 
 export function computeProps(
   model: IModel,
@@ -51,7 +50,6 @@ export function computeProps(
 
   content.isDiscussable = isDiscussable(content);
 
-  // if (checkPermission("hub:content:workspace:settings:schedule", context).access) { -- would like to add this here but need to access context...
   // when we receive a schedule from the enrichments, we want to use it, otherwise default to automatic
   content.schedule = enrichments.schedule || { mode: "automatic" };
 

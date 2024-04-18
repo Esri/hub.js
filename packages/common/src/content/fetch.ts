@@ -35,7 +35,7 @@ import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
 import { isHostedFeatureServiceItem } from "./hostedServiceUtils";
 import { setProp } from "../objects";
-import { getSchedule } from "./manageSchedule";
+import { getSchedule, isDownloadSchedulingAvailable } from "./manageSchedule";
 
 const hasFeatures = (contentType: string) =>
   ["Feature Layer", "Table"].includes(contentType);
@@ -274,8 +274,10 @@ export const fetchHubContent = async (
     });
   }
 
-  // fetch schedule and add it to enrichments if it exists in schedule API
-  enrichments.schedule = await getSchedule(item.id, requestOptions);
+  if (isDownloadSchedulingAvailable(requestOptions)) {
+    // fetch schedule and add it to enrichments if it exists in schedule API
+    enrichments.schedule = await getSchedule(item.id, requestOptions);
+  }
 
   return modelToHubEditableContent(model, requestOptions, enrichments);
 };
