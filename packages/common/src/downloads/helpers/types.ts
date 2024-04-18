@@ -80,6 +80,7 @@ export interface IDownloadFormat {
 
 export interface IStaticDownloadFormat extends IDownloadFormat {
   type: "static";
+  format?: string;
   label: string;
   url: string;
 }
@@ -109,5 +110,11 @@ export type DownloadOperationStatus =
   | "pending"
   | "processing"
   | "creating"
-  | "complete"
+  | "completed"
   | "failed";
+
+export interface IFetchDownloadFormatsOptions {
+  entity: IHubEditableContent;
+  context: IArcGISContext;
+  layers?: number[];
+}

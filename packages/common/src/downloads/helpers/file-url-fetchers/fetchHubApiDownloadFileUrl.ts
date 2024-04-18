@@ -36,9 +36,11 @@ function getDownloadApiRequestUrl(options: IFetchDownloadFileUrlOptions) {
 
   const searchParams = new URLSearchParams({
     status: "true",
+    redirect: "false",
     layers: layers[0].toString(),
-    where,
   });
+
+  where && searchParams.append("where", where);
 
   return `${context.hubUrl}/api/download/v1/items/${
     entity.id
@@ -90,7 +92,7 @@ function toDownloadOperationStatus(
     ImportAttachments: "processing",
     ProvisioningReplica: "processing",
     UnRegisteringReplica: "processing",
-    Completed: "complete",
+    Completed: "completed",
     Failed: "failed",
     CompletedWithErrors: "failed",
   };
@@ -100,7 +102,7 @@ function toDownloadOperationStatus(
     PagingData: "processing",
     ConvertingData: "processing",
     Failed: "failed",
-    Completed: "complete",
+    Completed: "completed",
   };
 
   return (

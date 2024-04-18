@@ -1,6 +1,4 @@
-import { IArcGISContext } from "../ArcGISContext";
 import { IHubAdditionalResource } from "../core/types/IHubAdditionalResource";
-import { IHubEditableContent } from "../core/types/IHubEditableContent";
 import { canUseExportImage } from "./helpers/canUseExportImage";
 import { canUseExportItem } from "./helpers/canUseExportItem";
 import { canUseHubDownloadApi } from "./helpers/canUseHubDownloadApi";
@@ -9,30 +7,31 @@ import { getExportImageDownloadFormats } from "./helpers/format-fetchers/getExpo
 import { getHubDownloadApiFormats } from "./helpers/format-fetchers/getHubDownloadApiFormats";
 import {
   IDownloadFormat,
-  IDynamicDownloadFormat,
+  IFetchDownloadFormatsOptions,
   IStaticDownloadFormat,
 } from "./helpers/types";
 
 export async function fetchDownloadFormats(
-  entity: IHubEditableContent,
-  context: IArcGISContext,
-  layerId?: string
+  options: IFetchDownloadFormatsOptions
 ): Promise<IDownloadFormat[]> {
-  // fetch dynamic formats
-  let dynamicFormats: IDynamicDownloadFormat[] = [];
+  const { entity, context, layers } = options;
+  // fetch base formats for the item
+  let baseFormats: IDownloadFormat[] = [];
   if (canUseHubDownloadApi(entity, context)) {
-    dynamicFormats = getHubDownloadApiFormats(entity);
+    baseFormats = getHubDownloadApiFormats(entity);
   } else if (canUseExportItem(entity)) {
-    dynamicFormats = await fetchExportItemFormats(entity, context, layerId);
+    baseFormats = await fetchExportItemFormats(entity, context, layers);
   } else if (canUseExportImage(entity)) {
-    dynamicFormats = getExportImageDownloadFormats();
+    baseFormats = getExportImageDownloadFormats();
   }
 
-  // transform additional resources into static formats
-  const staticFormats = (entity.additionalResources || []).map(toStaticFormat);
+  // add additional resource links as static formats
+  const additionalFormats = (entity.additionalResources || []).map(
+    toStaticFormat
+  );
 
   // combine formats into single list
-  return [...dynamicFormats, ...staticFormats];
+  return [...baseFormats, ...additionalFormats];
 }
 
 function toStaticFormat(

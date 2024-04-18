@@ -7,11 +7,11 @@ import { IDownloadFormat } from "../types";
 export async function fetchExportItemFormats(
   entity: IHubEditableContent,
   context: IArcGISContext,
-  _layerId?: string
+  layers?: number[]
 ): Promise<IDownloadFormat[]> {
   return canCreateExport(entity, context)
     ? getAllExportItemFormats()
-    : fetchAvailableExportItemFormats(entity, context);
+    : fetchAvailableExportItemFormats(entity, context, layers);
 }
 
 function canCreateExport(

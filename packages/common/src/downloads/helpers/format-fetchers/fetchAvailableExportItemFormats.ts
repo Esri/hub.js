@@ -9,14 +9,22 @@ import {
 import { fetchAllPages } from "../../../items";
 import { IItem, searchItems } from "@esri/arcgis-rest-portal";
 import { getExportItemDataUrl } from "../getExportItemDataUrl";
+import HubError from "../../../HubError";
 
 export async function fetchAvailableExportItemFormats(
   entity: IHubEditableContent,
-  context: IArcGISContext
+  context: IArcGISContext,
+  layers: number[] = []
 ): Promise<IStaticDownloadFormat[]> {
+  if (layers.length > 1) {
+    throw new HubError(
+      "fetchAvailableExportItemFormats",
+      "Multi-layer downloads are not supported for this item"
+    );
+  }
   // NOTE: we _need_ to pass the spatialRefId otherwise we're going to default to 4326
   // Dang it, we'll need to pass the layerId as well... should we support multiple layers?
-  const q = buildExistingExportsPortalQuery(entity.id);
+  const q = buildExistingExportsPortalQuery(entity.id, { layerId: layers[0] });
   const exportItems = (await fetchAllPages(searchItems, {
     q,
     ...context.requestOptions,
