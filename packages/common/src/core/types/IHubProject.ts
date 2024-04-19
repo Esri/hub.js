@@ -1,11 +1,11 @@
+import { IWithCatalog } from "../traits/IWithCatalog";
+import { IWithLayout } from "../traits/IWithLayout";
 import { IWithMetrics } from "../traits/IWithMetrics";
+import { IWithPermissions } from "../traits/IWithPermissions";
+import { IWithSlug } from "../traits/IWithSlug";
 import { IWithStatus } from "../traits/IWithStatus";
-import {
-  IWithLayout,
-  IWithPermissions,
-  IWithSlug,
-  IWithCatalog,
-} from "../traits/index";
+import { IWithContent, IWithEvents } from "../traits/ICapabilityConfig";
+
 import { IHubItemEntity, IHubItemEntityEditor } from "./IHubItemEntity";
 
 /**
@@ -18,6 +18,8 @@ export interface IHubProject
     IWithLayout,
     IWithMetrics,
     IWithPermissions,
+    IWithEvents,
+    IWithContent,
     IWithStatus {}
 
 /**

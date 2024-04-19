@@ -118,7 +118,7 @@
 		"docs:dev:acetate": "acetate server --log=debug --config docs/acetate.config.js --startPath hub.js/index.html",
 		"docs:dev:css": "cpx \"docs/src/css/*.css\" docs/build/hub.js/css",
 		"docs:dev:images": "cpx \"docs/src/**/*.{png,jpg,jpeg,gif,svg,webm,ogg}\" docs/build/hub.js -w",
-		"docs:dev:js": "cpx \"docs/src/**/{api-search,nav-toggle}.js\" docs/build/hub.js -w",
+		"docs:dev:js": "cpx \"docs/src/js/*.js\" docs/build/hub.js/js",
 		"docs:dev:typedoc": "onchange -v 'packages/*/src/**/*.ts' -- npm run docs:typedoc",
 		"docs:serve": "rimraf docs/build && concurrently \"npm run docs:dev:js\" \"npm run docs:dev:images\" \"npm run docs:dev:acetate\" \"npm run docs:dev:css\" \"npm run docs:dev:typedoc\"",
 		"docs:srihash": "node docs/generate-srihashes.js",
