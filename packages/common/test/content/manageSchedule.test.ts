@@ -1,4 +1,3 @@
-import { IItem } from "@esri/arcgis-rest-types";
 import {
   deleteSchedule,
   getSchedule,
@@ -7,78 +6,215 @@ import {
 } from "../../src/content/manageSchedule";
 import { IHubSchedule } from "../../src/core/types/IHubSchedule";
 import { MOCK_HUB_REQOPTS } from "../mocks/mock-auth";
-import { IHubRequestOptions } from "../../src/types";
 import { IHubEditableContent } from "../../src/core/types/IHubEditableContent";
-
-const item = {
-  id: "9b77674e43cf4bbd9ecad5189b3f1fdc",
-  owner: "dcdev_dude",
-  tags: ["Transportation"],
-  created: 1595878748000,
-  modified: 1595878750000,
-  numViews: 0,
-  size: 0,
-  title: "my item",
-  type: "",
-} as IItem;
-
-const dailySchedule = {
-  mode: "scheduled",
-  cadence: "daily",
-  hour: 0,
-  timezone: "America/New_York",
-} as IHubSchedule;
+import * as fetchMock from "fetch-mock";
 
 describe("manageSchedule", () => {
-  it("setSchedule", async () => {
-    await setSchedule(item.id, dailySchedule, MOCK_HUB_REQOPTS);
-    const schedule = await getSchedule(item.id, MOCK_HUB_REQOPTS);
-    expect(schedule).toEqual(dailySchedule);
+  afterEach(() => {
+    fetchMock.restore();
   });
 
-  it("deleteSchedule", async () => {
-    await deleteSchedule(item.id, MOCK_HUB_REQOPTS);
-    const schedule = await getSchedule(item.id, MOCK_HUB_REQOPTS);
-    expect(schedule).toBe(null);
+  it("getSchedule: returns null if no schedule is set", async () => {
+    const item = { id: "123" };
+    fetchMock.once(
+      `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule`,
+      {
+        error: "Not Found",
+        message: `Download schedule for the item ${item.id} is not found.`,
+        statusCode: 404,
+      }
+    );
+    const response = await getSchedule(item.id, MOCK_HUB_REQOPTS);
+    expect(response).toEqual(null);
+    expect(fetchMock.calls().length).toBe(1);
   });
 
-  it("deleteSchedule should fail", async () => {
-    const isOk = await deleteSchedule(item.id, {
-      ...MOCK_HUB_REQOPTS,
-      hubApiUrl: "https://some.url.com/",
-    } as unknown as IHubRequestOptions);
-    expect(isOk).toBe(false);
+  it("getSchedule: returns schedule if set", async () => {
+    const item = { id: "123" };
+    fetchMock.once(
+      `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule`,
+      {
+        cadence: "daily",
+        hour: 0,
+        timezone: "America/New_York",
+      }
+    );
+    const response = await getSchedule(item.id, MOCK_HUB_REQOPTS);
+    expect(response).toEqual({
+      mode: "scheduled",
+      cadence: "daily",
+      hour: 0,
+      timezone: "America/New_York",
+    });
+    expect(fetchMock.calls().length).toBe(1);
   });
 
-  it("maybeUpdateSchedule", async () => {
-    const content: IHubEditableContent = {
-      itemControl: "edit",
+  it("setSchedule: sets the item's schedule", async () => {
+    const item = { id: "123" };
+    const schedule = {
+      mode: "scheduled",
+      cadence: "daily",
+      hour: 0,
+      timezone: "America/New_York",
+    } as IHubSchedule;
+
+    fetchMock.post(
+      `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule`,
+      {
+        message: "Download schedule set successfully.",
+      }
+    );
+
+    const response = await setSchedule(item.id, schedule, MOCK_HUB_REQOPTS);
+    expect(response.message).toEqual("Download schedule set successfully.");
+    expect(fetchMock.calls().length).toBe(1);
+  });
+
+  it("setSchedule: attempts to set an invalid schedule", async () => {
+    const item = { id: "123" };
+    const schedule = {
+      mode: "scheduled",
+      cadence: "daily",
+      hour: 26,
+      timezone: "America/New_York",
+    } as IHubSchedule;
+
+    fetchMock.post(
+      `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule`,
+      {
+        title: "unit out of range",
+        message:
+          "you specified 26 (of type number) as a hour, which is invalid",
+      }
+    );
+
+    const response = await setSchedule(item.id, schedule, MOCK_HUB_REQOPTS);
+    expect(response.message).toEqual(
+      "you specified 26 (of type number) as a hour, which is invalid"
+    );
+    expect(fetchMock.calls().length).toBe(1);
+  });
+
+  it("deleteSchedule: tries to delete an item's schedule", async () => {
+    const item = { id: "123" };
+
+    fetchMock.delete(
+      `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule`,
+      {
+        message: "Download schedule deleted successfully.",
+      }
+    );
+
+    const response = await deleteSchedule(item.id, MOCK_HUB_REQOPTS);
+    expect(response.message).toEqual("Download schedule deleted successfully.");
+    expect(fetchMock.calls().length).toBe(1);
+  });
+
+  it("maybeUpdateSchedule: no schedule is set, and updating to automatic is not needed", async () => {
+    const item = { id: "123" };
+    const content = {
       id: item.id,
-      name: "Hello World",
-      tags: ["Transportation"],
-      description: "Some longer description",
-      slug: "dcdev-wat-blarg",
-      orgUrlKey: "dcdev",
-      owner: "dcdev_dude",
-      type: "Hub Initiative",
-      createdDate: new Date(1595878748000),
-      createdDateSource: "item.created",
-      updatedDate: new Date(1595878750000),
-      updatedDateSource: "item.modified",
-      thumbnailUrl: "",
-      permissions: [],
-      schemaVersion: 1,
-      canEdit: false,
-      canDelete: false,
-      location: { type: "none" },
-      licenseInfo: "",
       schedule: { mode: "automatic" },
-    };
-    // no schedule set previosly, and incoming schedule is automatic -- we should expect null
-    const chk = await maybeUpdateSchedule(content, MOCK_HUB_REQOPTS);
-    expect(chk).toBe(false);
+    } as IHubEditableContent;
 
-    const repsonse = await getSchedule(content.id, MOCK_HUB_REQOPTS);
-    expect(repsonse).toBe(null);
+    fetchMock.get(
+      `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule`,
+      {
+        error: "Not Found",
+        message: `Download schedule for the item ${item.id} is not found.`,
+        statusCode: 404,
+      }
+    );
+
+    const response = await maybeUpdateSchedule(content, MOCK_HUB_REQOPTS);
+    expect(response).toEqual(false);
+    expect(fetchMock.calls().length).toBe(1);
+  });
+
+  it("maybeUpdateSchedule: no schedule is set, and updatinng to scheduled is needed", async () => {
+    const item = { id: "123" };
+    const content = {
+      id: item.id,
+      schedule: {
+        mode: "scheduled",
+        cadence: "daily",
+        hour: 0,
+        timezone: "America/New_York",
+      },
+    } as IHubEditableContent;
+
+    fetchMock
+      .get(
+        `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule`,
+        {
+          error: "Not Found",
+          message: `Download schedule for the item ${item.id} is not found.`,
+          statusCode: 404,
+        }
+      )
+      .post(
+        `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule`,
+        {
+          message: "Download schedule set successfully.",
+        }
+      );
+
+    const response = await maybeUpdateSchedule(content, MOCK_HUB_REQOPTS);
+    expect(response.message).toEqual("Download schedule set successfully.");
+    expect(fetchMock.calls().length).toBe(2);
+  });
+
+  it("maybeUpdateSchedule: schedule is set, and updating to automatic requires deleting the schedule", async () => {
+    const item = { id: "123" };
+    const content = {
+      id: item.id,
+      schedule: { mode: "automatic" },
+    } as IHubEditableContent;
+
+    fetchMock
+      .get(
+        `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule`,
+        {
+          cadence: "daily",
+          hour: 0,
+          timezone: "America/New_York",
+        }
+      )
+      .delete(
+        `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule`,
+        {
+          message: "Download schedule deleted successfully.",
+        }
+      );
+
+    const response = await maybeUpdateSchedule(content, MOCK_HUB_REQOPTS);
+    expect(response.message).toEqual("Download schedule deleted successfully.");
+    expect(fetchMock.calls().length).toBe(2);
+  });
+
+  it("maybeUpdateSchedule: schedule is set, and no action is needed as schedules deepEqual each other", async () => {
+    const item = { id: "123" };
+    const content = {
+      id: item.id,
+      schedule: {
+        mode: "scheduled",
+        cadence: "daily",
+        hour: 0,
+        timezone: "America/New_York",
+      },
+    } as IHubEditableContent;
+
+    fetchMock.get(
+      `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule`,
+      {
+        cadence: "daily",
+        hour: 0,
+        timezone: "America/New_York",
+      }
+    );
+
+    const response = await maybeUpdateSchedule(content, MOCK_HUB_REQOPTS);
+    expect(response).toEqual(false);
+    expect(fetchMock.calls().length).toBe(1);
   });
 });

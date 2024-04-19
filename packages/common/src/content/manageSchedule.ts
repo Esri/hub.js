@@ -5,8 +5,7 @@ import { cloneObject } from "../util";
 import { deepEqual } from "../objects/deepEqual";
 import { IHubEditableContent } from "../core";
 
-// Any code referencing these functions must first pass:
-// checkPermission("hub:content:workspace:settings:schedule", _context).access
+// Any code referencing these functions must first pass isDownloadSchedulingAvailable
 
 /**
  * Get the schedule for an item. If no schedule is found, returns null.
@@ -19,12 +18,12 @@ export const getSchedule = async (
   requestOptions: IRequestOptions
 ): Promise<IHubSchedule | null> => {
   const fetchResponse = await fetch(schedulerApiUrl(itemId, requestOptions));
-  if (!fetchResponse.ok) {
+  const schedule = await fetchResponse.json();
+  if (!fetchResponse.ok || schedule.statusCode === 404) {
     return null;
   }
 
   // if the schedule is set, return it with added mode
-  const schedule = await fetchResponse.json();
   delete schedule.itemId;
   switch (schedule.cadence) {
     // TODO: add manual option here when option is viable
@@ -65,7 +64,7 @@ export const setSchedule = async (
     }),
   };
   const response = await fetch(url, options);
-  return response.ok;
+  return await response.json();
 };
 
 /**
@@ -84,14 +83,8 @@ export const deleteSchedule = async (
       accept: "application/json",
     },
   };
-  let response;
-  try {
-    response = await fetch(url, options);
-  } catch (e) {
-    return false;
-  }
-
-  return response.ok;
+  const response = await fetch(url, options);
+  return await response.json();
 };
 
 /**
@@ -120,6 +113,7 @@ export const maybeUpdateSchedule = async (
       return await setSchedule(content.id, content.schedule, requestOptions); // set the schedule
     }
   }
+  return false;
 };
 
 const schedulerApiUrl = (

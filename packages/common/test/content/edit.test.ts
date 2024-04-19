@@ -11,25 +11,9 @@ import {
   updateContent,
 } from "../../src/content/edit";
 import { cloneObject } from "../../src/util";
-import { IHubSchedule } from "../../src/core/types/IHubSchedule";
-import { IItem } from "@esri/arcgis-rest-portal";
-import { setSchedule } from "../../src/content/manageSchedule";
 import { UserSession } from "@esri/arcgis-rest-auth";
 
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
-const weeklySchedule = {
-  mode: "scheduled",
-  cadence: "weekly",
-  hour: 0,
-  day: 0,
-  timezone: "America/New_York",
-} as IHubSchedule;
-const dailySchedule = {
-  mode: "scheduled",
-  cadence: "daily",
-  hour: 0,
-  timezone: "America/New_York",
-} as IHubSchedule;
 const myMockAuth = new UserSession({
   clientId: "clientId",
   redirectUri: "https://example-app.com/redirect-uri",
@@ -170,6 +154,7 @@ describe("content editing:", () => {
       };
       const chk = await updateContent(content, {
         ...MOCK_HUB_REQOPTS,
+        portal: "https://not-portal.com",
         authentication: myMockAuth,
       });
       expect(chk.id).toBe(GUID);
@@ -277,158 +262,6 @@ describe("content editing:", () => {
         "https://services.arcgis.com/:orgId/arcgis/rest/services/:serviceName/FeatureServer"
       );
       expect(updateDefinition).toEqual({ capabilities: "Query,Extract" });
-    });
-    it("updates content and updates schedule", async () => {
-      const item = {
-        id: GUID,
-        owner: "dcdev_dude",
-        tags: ["Transportation"],
-        created: 1595878748000,
-        modified: 1595878750000,
-        numViews: 0,
-        size: 0,
-        title: "Hello World",
-        type: "",
-      } as IItem;
-
-      const content: IHubEditableContent = {
-        itemControl: "edit",
-        id: GUID,
-        name: "Hello World",
-        tags: ["Transportation"],
-        description: "Some longer description",
-        slug: "dcdev-wat-blarg",
-        orgUrlKey: "dcdev",
-        owner: "dcdev_dude",
-        type: "Hub Initiative",
-        createdDate: new Date(1595878748000),
-        createdDateSource: "item.created",
-        updatedDate: new Date(1595878750000),
-        updatedDateSource: "item.modified",
-        thumbnailUrl: "",
-        permissions: [],
-        schemaVersion: 1,
-        canEdit: false,
-        canDelete: false,
-        location: { type: "none" },
-        licenseInfo: "",
-        schedule: dailySchedule,
-      };
-
-      // sets the schedule to what we're going to try and update it to; no update to the schedule is then needed
-      await setSchedule(item.id, weeklySchedule, MOCK_HUB_REQOPTS);
-      const chk = await updateContent(content, {
-        ...MOCK_HUB_REQOPTS,
-        authentication: myMockAuth,
-      });
-
-      expect(chk.id).toBe(GUID);
-      expect(chk.name).toBe("Hello World");
-      expect(chk.description).toBe("Some longer description");
-      expect(getItemSpy.calls.count()).toBe(1);
-      expect(updateModelSpy.calls.count()).toBe(1);
-      const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
-      expect(modelToUpdate.item.description).toBe(content.description);
-      // No service is associated with Hub Initiatives
-      expect(getServiceSpy).not.toHaveBeenCalled();
-      expect(updateServiceSpy).not.toHaveBeenCalled();
-    });
-    it("updates content but does not need to update schedule", async () => {
-      const item = {
-        id: GUID,
-        owner: "dcdev_dude",
-        tags: ["Transportation"],
-        created: 1595878748000,
-        modified: 1595878750000,
-        numViews: 0,
-        size: 0,
-        title: "Hello World",
-        type: "",
-      } as IItem;
-
-      const content: IHubEditableContent = {
-        itemControl: "edit",
-        id: GUID,
-        name: "Hello World",
-        tags: ["Transportation"],
-        description: "Some longer description",
-        slug: "dcdev-wat-blarg",
-        orgUrlKey: "dcdev",
-        owner: "dcdev_dude",
-        type: "Hub Initiative",
-        createdDate: new Date(1595878748000),
-        createdDateSource: "item.created",
-        updatedDate: new Date(1595878750000),
-        updatedDateSource: "item.modified",
-        thumbnailUrl: "",
-        permissions: [],
-        schemaVersion: 1,
-        canEdit: false,
-        canDelete: false,
-        location: { type: "none" },
-        licenseInfo: "",
-        schedule: dailySchedule,
-      };
-
-      await setSchedule(item.id, dailySchedule, MOCK_HUB_REQOPTS);
-      const chk = await updateContent(content, {
-        ...MOCK_HUB_REQOPTS,
-        portal: "https://myorg.maps.arcgis.com",
-        authentication: myMockAuth,
-      });
-
-      expect(chk.id).toBe(GUID);
-      expect(chk.name).toBe("Hello World");
-      expect(chk.description).toBe("Some longer description");
-      expect(getItemSpy.calls.count()).toBe(1);
-      expect(updateModelSpy.calls.count()).toBe(1);
-      const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
-      expect(modelToUpdate.item.description).toBe(content.description);
-      // No service is associated with Hub Initiatives
-      expect(getServiceSpy).not.toHaveBeenCalled();
-      expect(updateServiceSpy).not.toHaveBeenCalled();
-    });
-    it("updates content but does not have access to update schedule", async () => {
-      const content: IHubEditableContent = {
-        itemControl: "edit",
-        id: GUID,
-        name: "Hello World",
-        tags: ["Transportation"],
-        description: "Some longer description",
-        slug: "dcdev-wat-blarg",
-        orgUrlKey: "dcdev",
-        owner: "dcdev_dude",
-        type: "Hub Initiative",
-        createdDate: new Date(1595878748000),
-        createdDateSource: "item.created",
-        updatedDate: new Date(1595878750000),
-        updatedDateSource: "item.modified",
-        thumbnailUrl: "",
-        permissions: [],
-        schemaVersion: 1,
-        canEdit: false,
-        canDelete: false,
-        location: { type: "none" },
-        licenseInfo: "",
-        schedule: dailySchedule,
-      };
-
-      const chk = await updateContent(content, {
-        ...MOCK_HUB_REQOPTS,
-        portal: "https://my-server.com/portal/sharing/rest", // key difference is portal string does not contain arcgis.com
-        authentication: myMockAuth,
-      });
-
-      expect(chk.id).toBe(GUID);
-      expect(chk.name).toBe("Hello World");
-      expect(chk.description).toBe("Some longer description");
-      expect(getItemSpy.calls.count()).toBe(1);
-      expect(updateModelSpy.calls.count()).toBe(1);
-      const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
-      expect(modelToUpdate.item.description).toBe(content.description);
-      // No service is associated with Hub Initiatives
-      expect(getServiceSpy).not.toHaveBeenCalled();
-      expect(updateServiceSpy).not.toHaveBeenCalled();
     });
   });
   describe("delete content", () => {

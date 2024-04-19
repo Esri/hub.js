@@ -21,7 +21,6 @@ describe("buildUiSchema: content settings", () => {
       {} as any,
       contextWithPermission
     );
-    // TODO: Add the rest of the schema added in this PR
     expect(uiSchema).toEqual({
       type: "Layout",
       elements: [
