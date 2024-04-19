@@ -33,33 +33,16 @@ export const buildUiSchema = async (
           scope: "/properties/schedule",
           labelKey: `${i18nScope}.sections.schedule.helperText`,
           options: {
-            // The scope for the options is the scope of the scheduler field, not the config editor
             type: "Control",
             control: "hub-field-input-scheduler",
             labelKey: "fieldHeader",
             format: "radio",
             inputs: [
-              { label: `option.default.label`, type: "automatic" },
-              {
-                label: `option.daily.label`,
-                type: "daily",
-                expandedHelperText: `option.daily.expandedHelperText`,
-              },
-              {
-                label: `option.weekly.label`,
-                type: "weekly",
-                expandedHelperText: `option.weekly.expandedHelperText`,
-              },
-              {
-                label: `option.monthly.label`,
-                type: "monthly",
-                expandedHelperText: `option.monthly.expandedHelperText`,
-              },
-              {
-                label: `option.yearly.label`,
-                type: "yearly",
-                expandedHelperText: `option.yearly.expandedHelperText`,
-              },
+              { type: "automatic" },
+              { type: "daily" },
+              { type: "weekly" },
+              { type: "monthly" },
+              { type: "yearly" },
               // uncomment this when the manual option is available
               // {
               //   label: `option.manual.label`,
