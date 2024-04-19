@@ -1,5 +1,5 @@
-import { processFilters } from "../../../src/search/_internal/hubEventsHelpers/processFilters";
-import { IFilter } from "../../../src/search/types/IHubCatalog";
+import { processFilters } from "../../../../src/search/_internal/hubEventsHelpers/processFilters";
+import { IFilter } from "../../../../src/search/types/IHubCatalog";
 
 const MULTI_SELECT_FILTERS: IFilter[] = [
   {
@@ -148,6 +148,9 @@ describe("processFilters", () => {
       title: "abc",
       categories: "category1,category2",
       tags: "tag1,tag2",
+      // TODO: remove ts-ignore once GetEventsParams supports filtering by access
+      // @ts-ignore
+      access: "public,org,private",
       attendanceTypes: "online,in_person",
       status: "planned,canceled",
       startDateTimeAfter: "2024-04-28T04:00:00.000Z",
@@ -160,10 +163,19 @@ describe("processFilters", () => {
       title: "abc",
       categories: "category1",
       tags: "tag1",
+      // TODO: remove ts-ignore once GetEventsParams supports filtering by access
+      // @ts-ignore
+      access: "public",
       attendanceTypes: "online",
       status: "planned",
       startDateTimeAfter: "2024-04-28T04:00:00.000Z",
       startDateTimeBefore: "2024-04-29T03:59:59.999Z",
+    });
+  });
+  it("should set some defaults", () => {
+    const results = processFilters([]);
+    expect(results).toEqual({
+      status: "planned,canceled",
     });
   });
 });

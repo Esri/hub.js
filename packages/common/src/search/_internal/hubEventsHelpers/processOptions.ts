@@ -15,11 +15,14 @@ export function processOptions(
   if (options.start > 1) {
     processedOptions.start = options.start.toString();
   }
-  if (EventSort[options.sortField as EventSort]) {
-    processedOptions.sortBy = options.sortField as EventSort;
+  if (options.sortField === "modified") {
+    processedOptions.sortBy = EventSort.updatedAt;
+  } else if (options.sortField === "created") {
+    processedOptions.sortBy = EventSort.createdAt;
+  } else if (options.sortField === "title") {
+    processedOptions.sortBy = EventSort.title;
   }
-  if (SortOrder[options.sortOrder as SortOrder]) {
-    processedOptions.sortOrder = options.sortOrder as SortOrder;
-  }
+  processedOptions.sortOrder =
+    options.sortOrder === "desc" ? SortOrder.desc : SortOrder.asc;
   return processedOptions;
 }

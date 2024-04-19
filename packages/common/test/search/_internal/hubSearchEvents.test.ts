@@ -8,6 +8,7 @@ import {
   EventAttendanceType,
   EventStatus,
   GetEventsParams,
+  IEvent,
   IPagedEventResponse,
   IUser,
   RegistrationRole,
@@ -292,7 +293,7 @@ describe("hubSearchEvents", () => {
     eventToSearchResultSpy = spyOn(
       eventToSearchResultModule,
       "eventToSearchResult"
-    ).and.callFake((event) => ({ id: event.id }));
+    ).and.callFake((event: IEvent) => ({ id: event.id } as IHubSearchResult));
   });
 
   it("should call events and resolve with an IHubSearchResponse<IHubSearchResult>", async () => {

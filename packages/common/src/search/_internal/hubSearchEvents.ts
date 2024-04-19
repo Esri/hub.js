@@ -23,9 +23,7 @@ export async function hubSearchEvents(
     ...options.requestOptions,
     data,
   });
-  const results = await Promise.all(
-    items.map((event) => eventToSearchResult(event, options))
-  );
+  const results = items.map((event) => eventToSearchResult(event, options));
   const hasNext = nextStart > -1;
   return {
     total,

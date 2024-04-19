@@ -1,5 +1,8 @@
 import { IFilter, IPredicate } from "../../types/IHubCatalog";
-import { GetEventsParams } from "../../../events/api/orval/api/orval-events";
+import {
+  EventStatus,
+  GetEventsParams,
+} from "../../../events/api/orval/api/orval-events";
 import { unique } from "../../../util";
 
 const getPredicateValuesByKey = (
@@ -31,6 +34,12 @@ const getOptionalPredicateStringsByKey = (
 
 export function processFilters(filters: IFilter[]): Partial<GetEventsParams> {
   const processedFilters: Partial<GetEventsParams> = {};
+  const access = getOptionalPredicateStringsByKey(filters, "access");
+  if (access?.length) {
+    // TODO: remove ts-ignore once GetEventsParams supports filtering by access
+    // @ts-ignore
+    processedFilters.access = access;
+  }
   const term = getPredicateValuesByKey(filters, "term");
   if (term?.length) {
     processedFilters.title = term[0];
@@ -51,9 +60,11 @@ export function processFilters(filters: IFilter[]): Partial<GetEventsParams> {
     processedFilters.attendanceTypes = attendanceType;
   }
   const status = getOptionalPredicateStringsByKey(filters, "status");
-  if (status?.length) {
-    processedFilters.status = status;
-  }
+  processedFilters.status = status?.length
+    ? status
+    : [EventStatus.PLANNED, EventStatus.CANCELED]
+        .map((val) => val.toLowerCase())
+        .join(",");
   const startDateRange = getPredicateValuesByKey(filters, "startDateRange");
   if (startDateRange?.length) {
     processedFilters.startDateTimeBefore = new Date(
