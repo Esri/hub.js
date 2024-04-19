@@ -1,6 +1,6 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getHubApiUrl } from "../api";
-import { IHubSchedule } from "../core/types/IHubSchedule";
+import { IHubSchedule, IHubScheduleResponse } from "../core/types/IHubSchedule";
 import { cloneObject } from "../util";
 import { deepEqual } from "../objects/deepEqual";
 import { IHubEditableContent } from "../core";
@@ -16,11 +16,15 @@ import { IHubEditableContent } from "../core";
 export const getSchedule = async (
   itemId: string,
   requestOptions: IRequestOptions
-): Promise<IHubSchedule | null> => {
-  const fetchResponse = await fetch(schedulerApiUrl(itemId, requestOptions));
+): Promise<IHubScheduleResponse> => {
+  const fetchResponse = await fetch(getSchedulerApiUrl(itemId, requestOptions));
   const schedule = await fetchResponse.json();
   if (!fetchResponse.ok || schedule.statusCode === 404) {
-    return null;
+    return {
+      message: `Download schedule not found for item ${itemId}`,
+      statusCode: 404,
+      schedule: null,
+    } as IHubScheduleResponse;
   }
 
   // if the schedule is set, return it with added mode
@@ -32,9 +36,13 @@ export const getSchedule = async (
     case "monthly":
     case "yearly":
       return {
-        ...schedule,
-        mode: "scheduled",
-      };
+        schedule: {
+          ...schedule,
+          mode: "scheduled",
+        },
+        message: `Download schedule found for item ${itemId}`,
+        statusCode: 200,
+      } as IHubScheduleResponse;
   }
 };
 
@@ -48,10 +56,10 @@ export const setSchedule = async (
   itemId: string,
   schedule: IHubSchedule,
   requestOptions: IRequestOptions
-): Promise<any> => {
+): Promise<IHubScheduleResponse> => {
   const body = cloneObject(schedule);
   delete body.mode;
-  const url = schedulerApiUrl(itemId, requestOptions);
+  const url = getSchedulerApiUrl(itemId, requestOptions);
   const options = {
     method: "POST",
     headers: {
@@ -64,7 +72,7 @@ export const setSchedule = async (
     }),
   };
   const response = await fetch(url, options);
-  return await response.json();
+  return (await response.json()) as IHubScheduleResponse;
 };
 
 /**
@@ -75,8 +83,8 @@ export const setSchedule = async (
 export const deleteSchedule = async (
   itemId: string,
   requestOptions: IRequestOptions
-): Promise<any> => {
-  const url = schedulerApiUrl(itemId, requestOptions);
+): Promise<IHubScheduleResponse> => {
+  const url = getSchedulerApiUrl(itemId, requestOptions);
   const options = {
     method: "DELETE",
     headers: {
@@ -84,7 +92,7 @@ export const deleteSchedule = async (
     },
   };
   const response = await fetch(url, options);
-  return await response.json();
+  return (await response.json()) as IHubScheduleResponse;
 };
 
 /**
@@ -95,15 +103,21 @@ export const deleteSchedule = async (
 export const maybeUpdateSchedule = async (
   content: IHubEditableContent,
   requestOptions: IRequestOptions
-) => {
-  const currentSchedule = await getSchedule(content.id, requestOptions);
+): Promise<IHubScheduleResponse> => {
+  const scheduleResponse = await getSchedule(content.id, requestOptions);
 
   // if no schedule is set and incoming schedule is automatic, do nothing
-  if (content.schedule.mode === "automatic" && currentSchedule === null) {
-    return false;
+  if (
+    content.schedule.mode === "automatic" &&
+    scheduleResponse.statusCode === 404
+  ) {
+    return {
+      message: "No schedule set, and incoming schedule is automatic.",
+      statusCode: 404,
+    };
   }
 
-  if (!deepEqual(content.schedule, currentSchedule)) {
+  if (!deepEqual(content.schedule, scheduleResponse.schedule)) {
     // if current and incoming schedules differ
     if (content.schedule.mode === "automatic") {
       // and incoming schedule is automatic
@@ -113,10 +127,10 @@ export const maybeUpdateSchedule = async (
       return await setSchedule(content.id, content.schedule, requestOptions); // set the schedule
     }
   }
-  return false;
+  return { message: "No action needed as schedules deepEqual each other." };
 };
 
-const schedulerApiUrl = (
+const getSchedulerApiUrl = (
   itemId: string,
   requestOptions: IRequestOptions
 ): string => {

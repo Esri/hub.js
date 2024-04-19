@@ -174,7 +174,7 @@ export async function updateContent(
   }
 
   if (isDownloadSchedulingAvailable(requestOptions)) {
-    maybeUpdateSchedule(content, requestOptions);
+    await maybeUpdateSchedule(content, requestOptions);
   }
 
   return modelToHubEditableContent(updatedModel, requestOptions, enrichments);

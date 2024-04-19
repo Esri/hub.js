@@ -276,7 +276,9 @@ export const fetchHubContent = async (
 
   if (isDownloadSchedulingAvailable(requestOptions)) {
     // fetch schedule and add it to enrichments if it exists in schedule API
-    enrichments.schedule = await getSchedule(item.id, requestOptions);
+    enrichments.schedule = (
+      await getSchedule(item.id, requestOptions)
+    ).schedule;
   }
 
   return modelToHubEditableContent(model, requestOptions, enrichments);

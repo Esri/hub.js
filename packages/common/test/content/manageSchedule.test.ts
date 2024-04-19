@@ -4,7 +4,10 @@ import {
   maybeUpdateSchedule,
   setSchedule,
 } from "../../src/content/manageSchedule";
-import { IHubSchedule } from "../../src/core/types/IHubSchedule";
+import {
+  IHubSchedule,
+  IHubScheduleResponse,
+} from "../../src/core/types/IHubSchedule";
 import { MOCK_HUB_REQOPTS } from "../mocks/mock-auth";
 import { IHubEditableContent } from "../../src/core/types/IHubEditableContent";
 import * as fetchMock from "fetch-mock";
@@ -24,8 +27,13 @@ describe("manageSchedule", () => {
         statusCode: 404,
       }
     );
-    const response = await getSchedule(item.id, MOCK_HUB_REQOPTS);
-    expect(response).toEqual(null);
+    const response: IHubScheduleResponse = await getSchedule(
+      item.id,
+      MOCK_HUB_REQOPTS
+    );
+    expect(response.message).toEqual(
+      `Download schedule not found for item ${item.id}`
+    );
     expect(fetchMock.calls().length).toBe(1);
   });
 
@@ -39,8 +47,11 @@ describe("manageSchedule", () => {
         timezone: "America/New_York",
       }
     );
-    const response = await getSchedule(item.id, MOCK_HUB_REQOPTS);
-    expect(response).toEqual({
+    const response: IHubScheduleResponse = await getSchedule(
+      item.id,
+      MOCK_HUB_REQOPTS
+    );
+    expect(response.schedule).toEqual({
       mode: "scheduled",
       cadence: "daily",
       hour: 0,
@@ -127,11 +138,13 @@ describe("manageSchedule", () => {
     );
 
     const response = await maybeUpdateSchedule(content, MOCK_HUB_REQOPTS);
-    expect(response).toEqual(false);
+    expect(response.message).toEqual(
+      `No schedule set, and incoming schedule is automatic.`
+    );
     expect(fetchMock.calls().length).toBe(1);
   });
 
-  it("maybeUpdateSchedule: no schedule is set, and updatinng to scheduled is needed", async () => {
+  it("maybeUpdateSchedule: no schedule is set, and updating to scheduled is needed", async () => {
     const item = { id: "123" };
     const content = {
       id: item.id,
@@ -214,7 +227,9 @@ describe("manageSchedule", () => {
     );
 
     const response = await maybeUpdateSchedule(content, MOCK_HUB_REQOPTS);
-    expect(response).toEqual(false);
+    expect(response.message).toEqual(
+      "No action needed as schedules deepEqual each other."
+    );
     expect(fetchMock.calls().length).toBe(1);
   });
 });

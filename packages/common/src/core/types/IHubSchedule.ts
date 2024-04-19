@@ -42,7 +42,14 @@ export interface IHubSchedule {
   cadence?: Cadence;
   hour?: number; // 0-23
   day?: number; // 0-6 (Sunday-Saturday)
-  date?: number; // 1-31
+  date?: number; // 1-28
   month?: number; // 0-11 (January-December)
   timezone?: string;
+}
+
+export interface IHubScheduleResponse {
+  message: string;
+  schedule?: IHubSchedule;
+  error?: string;
+  statusCode?: number;
 }
