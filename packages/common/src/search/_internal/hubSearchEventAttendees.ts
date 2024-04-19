@@ -16,7 +16,7 @@ export const processGetRegistrationsParams = (
   options: IHubSearchOptions,
   query: IQuery
 ): GetRegistrationsParams => {
-  // valid eys to translate from IQuery predicates
+  // valid keys to translate from IQuery predicates
   const validPredicateKeys: Array<keyof IPredicate> = [
     "eventId",
     "userId",

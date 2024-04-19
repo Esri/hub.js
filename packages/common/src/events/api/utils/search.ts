@@ -17,12 +17,12 @@ export const eventAttendeeToSearchResult = (
     id: String(attendee.id),
     name: attendee.user?.username,
     createdDate: new Date(attendee.createdAt),
-    createdDateSource: "registration",
+    createdDateSource: "attendee.createdAt",
     updatedDate: new Date(attendee.updatedAt),
-    updatedDateSource: "registration",
+    updatedDateSource: "attendee.updatedAt",
     access,
-    type: "eventAttendee",
-    family: "event",
+    type: "Event Attendee",
+    family: "eventAttendee",
     rawResult: attendee,
   };
 };
