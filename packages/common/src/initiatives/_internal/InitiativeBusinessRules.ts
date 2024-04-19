@@ -20,6 +20,7 @@ export const InitiativePermissions = [
   "hub:initiative:delete",
   "hub:initiative:edit",
   "hub:initiative:view",
+  "hub:initiative:owner",
   "hub:initiative:canChangeAccess",
   "hub:initiative:events",
   "hub:initiative:content",
@@ -35,6 +36,7 @@ export const InitiativePermissions = [
   "hub:initiative:workspace:settings",
   "hub:initiative:workspace:collaborators",
   "hub:initiative:workspace:content",
+  "hub:initiative:workspace:events",
   "hub:initiative:workspace:metrics",
   "hub:initiative:workspace:associationGroup:create",
   "hub:initiative:manage",
@@ -61,6 +63,12 @@ export const InitiativePermissionPolicies: IPermissionPolicy[] = [
     services: ["portal"],
     authenticated: false,
     licenses: ["hub-premium", "hub-basic"],
+  },
+  {
+    permission: "hub:initiative:owner",
+    dependencies: ["hub:initiative"],
+    authenticated: true,
+    entityOwner: true,
   },
   {
     permission: "hub:initiative:edit",
@@ -168,6 +176,12 @@ export const InitiativePermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:initiative:workspace:content",
     dependencies: ["hub:initiative:workspace", "hub:initiative:edit"],
+    availability: ["alpha"],
+  },
+  {
+    permission: "hub:initiative:workspace:events",
+    dependencies: ["hub:initiative:workspace", "hub:initiative:edit"],
+    availability: ["alpha"],
   },
   {
     permission: "hub:initiative:workspace:metrics",
