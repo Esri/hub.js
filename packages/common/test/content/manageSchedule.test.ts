@@ -17,7 +17,7 @@ describe("manageSchedule", () => {
     fetchMock.restore();
   });
 
-  it("getSchedule: returns null if no schedule is set", async () => {
+  it("getSchedule: returns an error if no schedule is set", async () => {
     const item = { id: "123" };
     fetchMock.once(
       `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule`,

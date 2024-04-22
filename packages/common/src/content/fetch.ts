@@ -257,7 +257,7 @@ export const fetchHubContent = async (
     ...requestOptions,
     enrichments: [],
   } as IFetchContentOptions;
-  const { item } = await fetchContent(identifier, options);
+  const { item, access } = await fetchContent(identifier, options);
 
   // we must normalize the underlying item type to account
   // for older items (e.g. sites that are type "Web Mapping
@@ -274,11 +274,10 @@ export const fetchHubContent = async (
     });
   }
 
-  if (isDownloadSchedulingAvailable(requestOptions)) {
+  if (isDownloadSchedulingAvailable(requestOptions, access)) {
     // fetch schedule and add it to enrichments if it exists in schedule API
-    enrichments.schedule = (
-      await getSchedule(item.id, requestOptions)
-    ).schedule;
+    enrichments.schedule = (await getSchedule(item.id, requestOptions))
+      .schedule || { mode: "automatic" };
   }
 
   return modelToHubEditableContent(model, requestOptions, enrichments);

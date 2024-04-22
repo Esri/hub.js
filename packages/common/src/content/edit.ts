@@ -173,7 +173,7 @@ export async function updateContent(
     }
   }
 
-  if (isDownloadSchedulingAvailable(requestOptions)) {
+  if (isDownloadSchedulingAvailable(requestOptions, content.access)) {
     await maybeUpdateSchedule(content, requestOptions);
   }
 

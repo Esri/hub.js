@@ -18,7 +18,7 @@ describe("buildUiSchema: content settings", () => {
     };
     const uiSchema = await buildUiSchema(
       "some.scope",
-      {} as any,
+      { access: "public" } as any,
       contextWithPermission
     );
     expect(uiSchema).toEqual({

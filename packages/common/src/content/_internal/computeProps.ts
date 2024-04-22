@@ -51,7 +51,7 @@ export function computeProps(
   content.isDiscussable = isDiscussable(content);
 
   // when we receive a schedule from the enrichments, we want to use it, otherwise default to automatic
-  content.schedule = enrichments.schedule || { mode: "automatic" };
+  content.schedule = enrichments.schedule;
 
   if (enrichments.server) {
     content.serverExtractCapability = hasServiceCapability(

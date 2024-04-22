@@ -245,6 +245,7 @@ describe("content editing:", () => {
         // Since it currently isn't, the service will be updated
         serverExtractCapability: true,
         schedule: { mode: "automatic" },
+        access: "public",
       };
       const chk = await updateContent(content, {
         ...MOCK_HUB_REQOPTS,

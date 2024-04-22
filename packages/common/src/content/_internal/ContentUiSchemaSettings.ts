@@ -22,7 +22,9 @@ export const buildUiSchema = async (
   };
 
   if (
-    checkPermission("hub:content:workspace:settings:schedule", _context).access
+    checkPermission("hub:content:workspace:settings:schedule", _context)
+      .access &&
+    options.access === "public"
   ) {
     uiSchema.elements.push({
       type: "Section",

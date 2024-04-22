@@ -3,7 +3,7 @@ import { getHubApiUrl } from "../api";
 import { IHubSchedule, IHubScheduleResponse } from "../core/types/IHubSchedule";
 import { cloneObject } from "../util";
 import { deepEqual } from "../objects/deepEqual";
-import { IHubEditableContent } from "../core";
+import { AccessLevel, IHubEditableContent } from "../core";
 
 // Any code referencing these functions must first pass isDownloadSchedulingAvailable
 
@@ -149,7 +149,8 @@ const getSchedulerApiUrl = (
  * @returns Whether or not the scheduling feature is available
  */
 export const isDownloadSchedulingAvailable = (
-  requestOptions: IRequestOptions
+  requestOptions: IRequestOptions,
+  access: AccessLevel
 ): boolean => {
-  return requestOptions.portal?.includes("arcgis.com");
+  return requestOptions.portal?.includes("arcgis.com") && access === "public";
 };
