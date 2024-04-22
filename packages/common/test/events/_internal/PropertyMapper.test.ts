@@ -128,6 +128,11 @@ describe("PropertyMapper", () => {
         canChangeStatusRemoved: true,
         readGroupIds: ["readGroup1"],
         editGroupIds: ["editGroup1"],
+        links: {
+          self: "/events/event-title-31c",
+          siteRelative: "/events/event-title-31c",
+          workspaceRelative: "/workspace/events/31c",
+        },
       });
     });
 
