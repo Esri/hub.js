@@ -21,5 +21,8 @@ export const ContentSchema: IConfigurationSchema = {
     serverExtractCapability: {
       type: "boolean",
     },
+    schedule: {
+      type: "object",
+    },
   },
 } as IConfigurationSchema;
