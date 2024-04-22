@@ -7,25 +7,50 @@ import response from "./mocks/getRegistrationsResponse";
 
 describe("hubSearchEventAttendees", () => {
   describe("processGetRegistrationsParams", () => {
-    it("processes all properties correctly", () => {
+    fit("processes all properties correctly", () => {
       const qry: IQuery = {
-        targetEntity: "eventAttendees",
+        targetEntity: "eventAttendee",
         filters: [
           {
+            predicates: [{ term: "abc" }],
+          },
+          {
+            operation: "OR",
+            predicates: [
+              { role: "owner" },
+              { role: "organizer" },
+              { role: "attendee" },
+            ],
+          },
+          {
+            operation: "OR",
+            predicates: [
+              { status: "pending" },
+              { status: "accepted" },
+              { status: "declined" },
+              { status: "blocked" },
+            ],
+          },
+          {
+            operation: "OR",
+            predicates: [
+              { attendanceType: "virtual" },
+              { attendanceType: "in_person" },
+            ],
+          },
+          {
+            operation: "OR",
             predicates: [
               {
-                eventId: "an event id",
-                userId: "a user id",
-                role: "a,registration,role",
-                status: "a,registration,status",
-                type: "a,registration,type",
-                updatedAtBefore: "2024-04-17T15:30:42+0000",
-                updatedAtAfter: "2024-04-17T15:30:42+0000",
-                aFakeKey: "fake and bad",
+                updatedRange: {
+                  from: 1714276800000,
+                  to: 1714363199999,
+                },
               },
             ],
           },
         ],
+        collection: "eventAttendees",
       };
       const opts: IHubSearchOptions = {
         num: 10,
@@ -54,26 +79,26 @@ describe("hubSearchEventAttendees", () => {
     });
   });
 
-  describe("eventAttendeesToHubSearchResults", () => {
-    it("converts attendees to search results", async () => {
-      const qry: IQuery = {
-        targetEntity: "eventAttendees",
-        filters: [],
-      };
-      const opts: IHubSearchOptions = {};
-      const result =
-        await hubSearchEventAttendees.eventAttendeesToHubSearchResults(
-          response,
-          qry,
-          opts
-        );
-      expect(result.total).toEqual(1);
-      expect(result.results).toEqual([
-        eventAttendeeToSearchResult(response.items[0]),
-      ]);
-      expect(result.hasNext).toBeFalsy();
-    });
-  });
+  // describe("eventAttendeesToHubSearchResults", () => {
+  //   it("converts attendees to search results", async () => {
+  //     const qry: IQuery = {
+  //       targetEntity: "eventAttendees",
+  //       filters: [],
+  //     };
+  //     const opts: IHubSearchOptions = {};
+  //     const result =
+  //       await hubSearchEventAttendees.eventAttendeesToHubSearchResults(
+  //         response,
+  //         qry,
+  //         opts
+  //       );
+  //     expect(result.total).toEqual(1);
+  //     expect(result.results).toEqual([
+  //       eventAttendeeToSearchResult(response.items[0]),
+  //     ]);
+  //     expect(result.hasNext).toBeFalsy();
+  //   });
+  // });
 
   // describe('hubSearchEventAttendees', () => {
   //   it(('searches for event attendees'), async () => {

@@ -1,16 +1,16 @@
-import {
-  GetRegistrationsParams,
-  IGetRegistrationsParams,
-} from "../../events/api";
+import { getUser, IUser } from "@esri/arcgis-rest-portal";
+import { GetRegistrationsParams } from "../../events/api";
 import {
   getRegistrations,
   IPagedRegistrationResponse,
+  IRegistration,
 } from "../../events/api/orval/api/orval-events";
 import { eventAttendeeToSearchResult } from "../../events/api/utils/search";
 import { IPredicate, IQuery } from "../types/IHubCatalog";
 import { IHubSearchOptions } from "../types/IHubSearchOptions";
 import { IHubSearchResponse } from "../types/IHubSearchResponse";
 import { IHubSearchResult } from "../types/IHubSearchResult";
+import { setProp } from "../../objects";
 
 export const processGetRegistrationsParams = (
   options: IHubSearchOptions,
@@ -18,6 +18,7 @@ export const processGetRegistrationsParams = (
 ): GetRegistrationsParams => {
   // valid keys to translate from IQuery predicates
   const validPredicateKeys: Array<keyof IPredicate> = [
+    "term",
     "eventId",
     "userId",
     "role",
@@ -39,6 +40,7 @@ export const processGetRegistrationsParams = (
     keyof GetRegistrationsParams
   > = {
     sortField: "sortBy",
+    // term: "name"
   };
   // translate IQuery filters into GetRegistrationParams
   const filterProps: Record<string, string[]> = {};
@@ -89,7 +91,9 @@ export const eventAttendeesToHubSearchResults = async (
   const { total, items, nextStart } = eventAttendeesResponse;
   return {
     total,
-    results: items.map((attendees) => eventAttendeeToSearchResult(attendees)),
+    results: await Promise.all(
+      items.map((attendees) => eventAttendeeToSearchResult(attendees))
+    ),
     hasNext: nextStart > -1,
     next: () => {
       return hubSearchEventAttendees(query, {
