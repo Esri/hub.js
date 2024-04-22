@@ -12,10 +12,12 @@ import { getEventSlug } from "./getEventSlug";
  * @param requestOptions
  */
 export function computeLinks(event: IEvent): IHubEntityLinks {
+  const siteRelative = getHubRelativeUrl("event", getEventSlug(event));
   return {
-    self: "not-implemented",
-    siteRelative: getHubRelativeUrl("event", getEventSlug(event)), // TODO: this should be the slug
+    self: siteRelative,
+    siteRelative,
     workspaceRelative: getRelativeWorkspaceUrl("Event", event.id),
-    thumbnail: "not-implemented",
+    // TODO
+    // thumbnail: "",
   };
 }

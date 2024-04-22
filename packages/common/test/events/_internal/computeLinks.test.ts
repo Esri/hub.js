@@ -9,10 +9,9 @@ describe("computeLinks", () => {
     } as IEvent;
     const results = computeLinks(event);
     expect(results).toEqual({
-      self: "not-implemented",
+      self: "/events/my-events-are-awesome-123-31c",
       siteRelative: "/events/my-events-are-awesome-123-31c",
       workspaceRelative: "/workspace/events/31c",
-      thumbnail: "not-implemented",
     });
   });
 });
