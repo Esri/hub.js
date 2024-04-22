@@ -16,7 +16,7 @@ export function eventToSearchResult(
     name: event.title,
     owner: event.creator.username,
     ownerUser: event.creator,
-    summary: event.summary,
+    summary: event.summary || event.description,
     createdDate: new Date(event.createdAt),
     createdDateSource: "event.createdAt",
     updatedDate: new Date(event.updatedAt),
