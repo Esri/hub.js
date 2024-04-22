@@ -1,3 +1,10 @@
+## @esri/hub-common [14.119.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.119.0...@esri/hub-common@14.119.1) (2024-04-22)
+
+
+### Bug Fixes
+
+* proper export path for schedule interfaces ([#1478](https://github.com/Esri/hub.js/issues/1478)) ([b0c10bb](https://github.com/Esri/hub.js/commit/b0c10bb9bc6949f69efd9f63d7f4d2bd6374688e))
+
 # @esri/hub-common [14.119.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.118.1...@esri/hub-common@14.119.0) (2024-04-22)
 
 
