@@ -1,3 +1,10 @@
+# @esri/hub-common [14.119.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.118.1...@esri/hub-common@14.119.0) (2024-04-22)
+
+
+### Features
+
+* scheduler added to content uischema ([#1471](https://github.com/Esri/hub.js/issues/1471)) ([217be81](https://github.com/Esri/hub.js/commit/217be819d9aa3f594000045e578d635a01b4d740))
+
 ## @esri/hub-common [14.118.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.118.0...@esri/hub-common@14.118.1) (2024-04-19)
 
 
