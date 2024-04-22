@@ -1,3 +1,10 @@
+## @esri/hub-common [14.118.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.118.0...@esri/hub-common@14.118.1) (2024-04-19)
+
+
+### Bug Fixes
+
+* add helper texts and remove "Favorite" filter in follow card editor ([#1466](https://github.com/Esri/hub.js/issues/1466)) ([6e928b5](https://github.com/Esri/hub.js/commit/6e928b5dfbf977e519f85f611287884136c21a73))
+
 # @esri/hub-common [14.118.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.117.0...@esri/hub-common@14.118.0) (2024-04-18)
 
 

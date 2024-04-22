@@ -11,11 +11,7 @@ import { IHubCatalog } from "../../../../search/types/IHubCatalog";
 
 // Get the catalogs for the entity gallery picker
 function getCatalogs(user: IUser): IHubCatalog[] {
-  const catalogNames: WellKnownCatalog[] = [
-    "myContent",
-    "favorites",
-    "organization",
-  ];
+  const catalogNames: WellKnownCatalog[] = ["myContent", "organization"];
   return catalogNames.map((name: WellKnownCatalog) => {
     const opts = {
       user,
@@ -63,9 +59,13 @@ export const buildUiSchema = (
         type: "Section",
         labelKey: "callToAction.title",
         rule: HIDE_FOR_NO_ENTITY_ID,
+        options: {
+          helperText: {
+            labelKey: "callToAction.helperText",
+          },
+        },
         elements: [
           {
-            labelKey: "callToAction.description",
             scope: "/properties/callToActionText",
             type: "Control",
             options: {
@@ -87,7 +87,9 @@ export const buildUiSchema = (
         type: "Section",
         labelKey: "followButton.title",
         options: {
-          labelKey: "followButton.description",
+          helperText: {
+            labelKey: "followButton.helperText",
+          },
         },
         rule: HIDE_FOR_NO_ENTITY_ID,
         elements: [
