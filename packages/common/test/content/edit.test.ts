@@ -1,7 +1,7 @@
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as featureLayerModule from "@esri/arcgis-rest-feature-layer";
 import * as adminModule from "@esri/arcgis-rest-service-admin";
-import { MOCK_AUTH } from "../mocks/mock-auth";
+import { MOCK_AUTH, MOCK_HUB_REQOPTS, TOMORROW } from "../mocks/mock-auth";
 import * as modelUtils from "../../src/models";
 import { IModel } from "../../src/types";
 import { IHubEditableContent } from "../../src/core/types";
@@ -11,8 +11,21 @@ import {
   updateContent,
 } from "../../src/content/edit";
 import { cloneObject } from "../../src/util";
+import { UserSession } from "@esri/arcgis-rest-auth";
 
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
+const myMockAuth = new UserSession({
+  clientId: "clientId",
+  redirectUri: "https://example-app.com/redirect-uri",
+  token: "fake-token",
+  tokenExpires: TOMORROW,
+  refreshToken: "refreshToken",
+  refreshTokenExpires: TOMORROW,
+  refreshTokenTTL: 1440,
+  username: "casey",
+  password: "123456",
+  portal: MOCK_HUB_REQOPTS.hubApiUrl,
+});
 
 describe("content editing:", () => {
   beforeAll(() => {
@@ -98,8 +111,12 @@ describe("content editing:", () => {
         canDelete: false,
         location: { type: "none" },
         licenseInfo: "",
+        schedule: { mode: "automatic" },
       };
-      const chk = await updateContent(content, { authentication: MOCK_AUTH });
+      const chk = await updateContent(content, {
+        ...MOCK_HUB_REQOPTS,
+        authentication: myMockAuth,
+      });
       expect(chk.id).toBe(GUID);
       expect(chk.name).toBe("Hello World");
       expect(chk.description).toBe("Some longer description");
@@ -133,8 +150,13 @@ describe("content editing:", () => {
         canDelete: false,
         location: { type: "item" },
         licenseInfo: "",
+        schedule: { mode: "automatic" },
       };
-      const chk = await updateContent(content, { authentication: MOCK_AUTH });
+      const chk = await updateContent(content, {
+        ...MOCK_HUB_REQOPTS,
+        portal: "https://not-portal.com",
+        authentication: myMockAuth,
+      });
       expect(chk.id).toBe(GUID);
       expect(chk.name).toBe("Hello World");
       expect(chk.description).toBe("Some longer description");
@@ -177,8 +199,12 @@ describe("content editing:", () => {
         // Indicates that Extract should enabled on the service,
         // Since it already is, nothing should change
         serverExtractCapability: true,
+        schedule: { mode: "automatic" },
       };
-      const chk = await updateContent(content, { authentication: MOCK_AUTH });
+      const chk = await updateContent(content, {
+        ...MOCK_HUB_REQOPTS,
+        authentication: myMockAuth,
+      });
       expect(chk.id).toBe(GUID);
       expect(chk.name).toBe("Hello World");
       expect(chk.description).toBe("Some longer description");
@@ -218,8 +244,13 @@ describe("content editing:", () => {
         // Indicates that Extract should enabled on the service,
         // Since it currently isn't, the service will be updated
         serverExtractCapability: true,
+        schedule: { mode: "automatic" },
+        access: "public",
       };
-      const chk = await updateContent(content, { authentication: MOCK_AUTH });
+      const chk = await updateContent(content, {
+        ...MOCK_HUB_REQOPTS,
+        authentication: myMockAuth,
+      });
       expect(chk.id).toBe(GUID);
       expect(chk.name).toBe("Hello World");
       expect(chk.description).toBe("Some longer description");

@@ -1,3 +1,24 @@
+## @esri/hub-common [14.119.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.119.0...@esri/hub-common@14.119.1) (2024-04-22)
+
+
+### Bug Fixes
+
+* proper export path for schedule interfaces ([#1478](https://github.com/Esri/hub.js/issues/1478)) ([b0c10bb](https://github.com/Esri/hub.js/commit/b0c10bb9bc6949f69efd9f63d7f4d2bd6374688e))
+
+# @esri/hub-common [14.119.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.118.1...@esri/hub-common@14.119.0) (2024-04-22)
+
+
+### Features
+
+* scheduler added to content uischema ([#1471](https://github.com/Esri/hub.js/issues/1471)) ([217be81](https://github.com/Esri/hub.js/commit/217be819d9aa3f594000045e578d635a01b4d740))
+
+## @esri/hub-common [14.118.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.118.0...@esri/hub-common@14.118.1) (2024-04-19)
+
+
+### Bug Fixes
+
+* add helper texts and remove "Favorite" filter in follow card editor ([#1466](https://github.com/Esri/hub.js/issues/1466)) ([6e928b5](https://github.com/Esri/hub.js/commit/6e928b5dfbf977e519f85f611287884136c21a73))
+
 # @esri/hub-common [14.118.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.117.0...@esri/hub-common@14.118.0) (2024-04-18)
 
 

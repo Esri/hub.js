@@ -682,6 +682,7 @@ describe("fetchHubContent", () => {
     ).and.returnValue(HOSTED_FEATURE_SERVICE_DEFINITION);
 
     const chk = await fetchHubContent(HOSTED_FEATURE_SERVICE_GUID, {
+      portal: MOCK_AUTH.portal,
       authentication: MOCK_AUTH,
     });
     expect(chk.id).toBe(HOSTED_FEATURE_SERVICE_GUID);
@@ -703,6 +704,7 @@ describe("fetchHubContent", () => {
     const getServiceSpy = spyOn(featureLayerModule, "getService");
 
     const chk = await fetchHubContent(NON_HOSTED_FEATURE_SERVICE_GUID, {
+      portal: MOCK_AUTH.portal,
       authentication: MOCK_AUTH,
     });
     expect(chk.id).toBe(NON_HOSTED_FEATURE_SERVICE_GUID);

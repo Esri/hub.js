@@ -11,6 +11,7 @@ import {
   fetchItemEnrichments,
   IItemAndEnrichments,
   IItemAndIServerEnrichments,
+  IHubEditableContentEnrichments,
 } from "../items/_enrichments";
 import { IHubRequestOptions, IModel } from "../types";
 import { isNil } from "../util";
@@ -34,6 +35,7 @@ import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
 import { isHostedFeatureServiceItem } from "./hostedServiceUtils";
 import { setProp } from "../objects";
+import { getSchedule, isDownloadSchedulingAvailable } from "./manageSchedule";
 
 const hasFeatures = (contentType: string) =>
   ["Feature Layer", "Table"].includes(contentType);
@@ -255,7 +257,7 @@ export const fetchHubContent = async (
     ...requestOptions,
     enrichments: [],
   } as IFetchContentOptions;
-  const { item } = await fetchContent(identifier, options);
+  const { item, access } = await fetchContent(identifier, options);
 
   // we must normalize the underlying item type to account
   // for older items (e.g. sites that are type "Web Mapping
@@ -264,13 +266,20 @@ export const fetchHubContent = async (
   setProp("type", type, item);
 
   const model = { item };
-  const enrichments: IItemAndIServerEnrichments = {};
+  const enrichments: IHubEditableContentEnrichments = {};
   if (isHostedFeatureServiceItem(item)) {
     enrichments.server = await getService({
       ...requestOptions,
       url: parseServiceUrl(item.url),
     });
   }
+
+  if (isDownloadSchedulingAvailable(requestOptions, access)) {
+    // fetch schedule and add it to enrichments if it exists in schedule API
+    enrichments.schedule = (await getSchedule(item.id, requestOptions))
+      .schedule || { mode: "automatic" };
+  }
+
   return modelToHubEditableContent(model, requestOptions, enrichments);
 };
 
