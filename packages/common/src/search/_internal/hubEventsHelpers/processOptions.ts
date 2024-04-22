@@ -5,6 +5,11 @@ import {
   SortOrder,
 } from "../../../events/api/orval/api/orval-events";
 
+/**
+ * Builds a Partial<GetEventsParams> for the given IHubSearchOptions
+ * @param options An IHubSearchOptions object
+ * @returns a Partial<GetEventsParams> for the given IHubSearchOptions
+ */
 export function processOptions(
   options: IHubSearchOptions
 ): Partial<GetEventsParams> {

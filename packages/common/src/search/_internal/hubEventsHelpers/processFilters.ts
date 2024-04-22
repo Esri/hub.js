@@ -32,6 +32,11 @@ const getOptionalPredicateStringsByKey = (
   }
 };
 
+/**
+ * Builds a Partial<GetEventsParams> given an Array of IFilter objects
+ * @param filters An Array of IFilter
+ * @returns a Partial<GetEventsParams> for the given Array of IFilter objects
+ */
 export function processFilters(filters: IFilter[]): Partial<GetEventsParams> {
   const processedFilters: Partial<GetEventsParams> = {};
   const access = getOptionalPredicateStringsByKey(filters, "access");

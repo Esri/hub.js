@@ -8,6 +8,12 @@ import { eventToSearchResult } from "./hubEventsHelpers/eventToSearchResult";
 import { processOptions } from "./hubEventsHelpers/processOptions";
 import { processFilters } from "./hubEventsHelpers/processFilters";
 
+/**
+ * Searches for events against the Events 3 API using the given `query` and `options`
+ * @param query An IQuery object
+ * @param options An IHubSearchOptions object
+ * @returns a promise that resolves a <IHubSearchResponse<IHubSearchResult> object
+ */
 export async function hubSearchEvents(
   query: IQuery,
   options: IHubSearchOptions

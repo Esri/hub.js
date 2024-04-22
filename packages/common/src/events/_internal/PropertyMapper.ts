@@ -18,6 +18,7 @@ import {
 } from "../api/orval/api/orval-events";
 import { HubEventAttendanceType, HubEventOnlineCapacityType } from "../types";
 import { computeLinks } from "./computeLinks";
+import { getEventSlug } from "./getEventSlug";
 
 /**
  * @private
@@ -94,6 +95,7 @@ export class EventPropertyMapper extends PropertyMapper<
     obj.updatedDate = new Date(store.updatedAt);
     obj.updatedDateSource = "updatedAt";
     obj.links = computeLinks(store as IEvent);
+    obj.slug = getEventSlug(store as IEvent);
 
     return obj;
   }

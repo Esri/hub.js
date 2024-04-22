@@ -6,6 +6,12 @@ import { AccessLevel } from "../../../core/types/types";
 import { HubFamily } from "../../../types";
 import { computeLinks } from "../../../events/_internal/computeLinks";
 
+/**
+ * Resolves an IHubSearchResult for the given IEvent record
+ * @param event An IEvent record
+ * @param options An IHubSearchOptions object
+ * @returns a IHubSearchResult for the given IEvent record
+ */
 export async function eventToSearchResult(
   event: IEvent,
   options: IHubSearchOptions

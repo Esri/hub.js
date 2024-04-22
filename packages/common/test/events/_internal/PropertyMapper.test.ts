@@ -133,6 +133,7 @@ describe("PropertyMapper", () => {
           siteRelative: "/events/event-title-31c",
           workspaceRelative: "/workspace/events/31c",
         },
+        slug: "event-title-31c",
       });
     });
 
