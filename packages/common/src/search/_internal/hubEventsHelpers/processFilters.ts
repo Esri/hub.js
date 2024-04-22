@@ -41,7 +41,7 @@ export function processFilters(filters: IFilter[]): Partial<GetEventsParams> {
     processedFilters.access = access;
   }
   const term = getPredicateValuesByKey(filters, "term");
-  if (term?.length) {
+  if (term.length) {
     processedFilters.title = term[0];
   }
   const categories = getOptionalPredicateStringsByKey(filters, "categories");
@@ -66,7 +66,7 @@ export function processFilters(filters: IFilter[]): Partial<GetEventsParams> {
         .map((val) => val.toLowerCase())
         .join(",");
   const startDateRange = getPredicateValuesByKey(filters, "startDateRange");
-  if (startDateRange?.length) {
+  if (startDateRange.length) {
     processedFilters.startDateTimeBefore = new Date(
       startDateRange[0].to
     ).toISOString();
