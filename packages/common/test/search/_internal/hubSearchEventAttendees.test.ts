@@ -10,6 +10,9 @@ describe("hubSearchEventAttendees", () => {
     fit("processes all properties correctly", () => {
       const qry: IQuery = {
         targetEntity: "eventAttendee",
+        properties: {
+          eventId: "an event id",
+        },
         filters: [
           {
             predicates: [{ term: "abc" }],
@@ -69,12 +72,11 @@ describe("hubSearchEventAttendees", () => {
         sortBy: eventsAPI.RegistrationSort.createdAt,
         sortOrder: eventsAPI.SortOrder.desc,
         eventId: "an event id",
-        userId: "a user id",
-        role: "a,registration,role",
-        status: "a,registration,status",
-        type: "a,registration,type",
-        updatedAtBefore: "2024-04-17T15:30:42+0000",
-        updatedAtAfter: "2024-04-17T15:30:42+0000",
+        role: "owner,organizer,attendee",
+        status: "pending,accepted,declined,blocked",
+        type: "virtual,in_person",
+        updatedAtBefore: "2024-04-29T03:59:59.999Z",
+        updatedAtAfter: "2024-04-28T04:00:00.000Z",
       });
     });
   });

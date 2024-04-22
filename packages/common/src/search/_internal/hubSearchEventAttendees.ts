@@ -18,14 +18,12 @@ export const processGetRegistrationsParams = (
 ): GetRegistrationsParams => {
   // valid keys to translate from IQuery predicates
   const validPredicateKeys: Array<keyof IPredicate> = [
-    "term",
-    "eventId",
+    // "term",
     "userId",
     "role",
     "status",
     "type",
-    "updatedAtBefore",
-    "updatedAtAfter",
+    "updatedRange",
   ];
   // valid keys to translate from IHubSearchOptions
   const validPaginationKeys: Array<keyof IHubSearchOptions> = [
@@ -40,16 +38,28 @@ export const processGetRegistrationsParams = (
     keyof GetRegistrationsParams
   > = {
     sortField: "sortBy",
+    attendanceType: "type",
     // term: "name"
   };
   // translate IQuery filters into GetRegistrationParams
-  const filterProps: Record<string, string[]> = {};
+  const filterProps: Record<string, string> = {};
   query.filters.forEach((filter) => {
     filter.predicates.forEach((predicate) => {
       Object.keys(predicate).forEach((key: any) => {
         const { [key]: _key = key } = keyMappings;
         if (validPredicateKeys.includes(_key)) {
-          filterProps[_key] = predicate[key];
+          if (_key === "updatedRange") {
+            filterProps.updatedAtBefore = new Date(
+              predicate.updatedRange.to
+            ).toISOString();
+            filterProps.updatedAtAfter = new Date(
+              predicate.updatedRange.from
+            ).toISOString();
+          } else if (filterProps[_key]) {
+            filterProps[_key] += `,${predicate[key]}`;
+          } else {
+            filterProps[_key] = predicate[key];
+          }
         }
       });
     });
@@ -69,6 +79,7 @@ export const processGetRegistrationsParams = (
   });
   // assemble GetRegistrationParams object
   return {
+    eventId: query.properties.eventId,
     ...filterProps,
     ...paginationProps,
   };
