@@ -72,7 +72,10 @@ export const setSchedule = async (
     }),
   };
   const response = await fetch(url, options);
-  return (await response.json()) as IHubScheduleResponse;
+  return {
+    ...((await response.json()) as IHubScheduleResponse),
+    statusCode: response.status,
+  };
 };
 
 /**
@@ -92,7 +95,10 @@ export const deleteSchedule = async (
     },
   };
   const response = await fetch(url, options);
-  return (await response.json()) as IHubScheduleResponse;
+  return {
+    ...((await response.json()) as IHubScheduleResponse),
+    statusCode: response.status,
+  };
 };
 
 /**
