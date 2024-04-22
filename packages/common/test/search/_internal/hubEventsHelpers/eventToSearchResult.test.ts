@@ -1,11 +1,20 @@
+import * as restPortal from "@esri/arcgis-rest-portal";
 import { AccessLevel } from "../../../../src/core/types/types";
 import { EventAccess, IEvent } from "../../../../src/events/api/types";
 import { eventToSearchResult } from "../../../../src/search/_internal/hubEventsHelpers/eventToSearchResult";
 import { IHubSearchOptions } from "../../../../src/search/types/IHubSearchOptions";
 
 describe("eventToSearchResult", () => {
-  const options = { options: true } as IHubSearchOptions;
+  const options = {
+    options: true,
+    authentication: { auth: true },
+  } as unknown as IHubSearchOptions;
+  const user = {
+    id: "user1",
+    username: "jdoe",
+  } as restPortal.IUser;
   let event: IEvent;
+  let getUserSpy: jasmine.Spy;
 
   beforeEach(() => {
     event = {
@@ -13,7 +22,7 @@ describe("eventToSearchResult", () => {
       id: "31c",
       title: "My event title",
       creator: {
-        username: "jdoe",
+        username: user.username,
       },
       summary: "My event summary",
       description: "My event description",
@@ -22,17 +31,25 @@ describe("eventToSearchResult", () => {
       tags: ["tag1"],
       categories: ["category1"],
     } as IEvent;
+    getUserSpy = spyOn(restPortal, "getUser").and.returnValue(
+      Promise.resolve(user)
+    );
   });
 
-  it("should return an IHubSearchResult for the event", () => {
-    const result = eventToSearchResult(event, options);
+  it("should return an IHubSearchResult for the event", async () => {
+    const result = await eventToSearchResult(event, options);
+    expect(getUserSpy).toHaveBeenCalledTimes(1);
+    expect(getUserSpy).toHaveBeenCalledWith({
+      username: event.creator?.username,
+      authentication: options.authentication,
+    });
     expect(result).toEqual({
       access: event.access.toLowerCase() as AccessLevel,
       id: event.id,
       type: "Event",
       name: event.title,
       owner: event.creator?.username,
-      ownerUser: event.creator,
+      ownerUser: user,
       summary: event.summary as string,
       createdDate: jasmine.any(Date) as any,
       createdDateSource: "event.createdAt",
@@ -52,16 +69,21 @@ describe("eventToSearchResult", () => {
     expect(result.updatedDate.toISOString()).toEqual(event.updatedAt);
   });
 
-  it("should set summary to event.description when event.summary is falsey", () => {
+  it("should set summary to event.description when event.summary is falsey", async () => {
     event.summary = null;
-    const result = eventToSearchResult(event, options);
+    const result = await eventToSearchResult(event, options);
+    expect(getUserSpy).toHaveBeenCalledTimes(1);
+    expect(getUserSpy).toHaveBeenCalledWith({
+      username: event.creator?.username,
+      authentication: options.authentication,
+    });
     expect(result).toEqual({
       access: event.access.toLowerCase() as AccessLevel,
       id: event.id,
       type: "Event",
       name: event.title,
       owner: event.creator?.username,
-      ownerUser: event.creator,
+      ownerUser: user,
       summary: event.description as string,
       createdDate: jasmine.any(Date) as any,
       createdDateSource: "event.createdAt",

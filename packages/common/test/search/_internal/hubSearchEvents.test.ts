@@ -293,7 +293,9 @@ describe("hubSearchEvents", () => {
     eventToSearchResultSpy = spyOn(
       eventToSearchResultModule,
       "eventToSearchResult"
-    ).and.callFake((event: IEvent) => ({ id: event.id } as IHubSearchResult));
+    ).and.callFake((event: IEvent) =>
+      Promise.resolve({ id: event.id } as IHubSearchResult)
+    );
   });
 
   it("should call events and resolve with an IHubSearchResponse<IHubSearchResult>", async () => {

@@ -1,3 +1,4 @@
+import { getUser } from "@esri/arcgis-rest-portal";
 import { IHubSearchOptions } from "../../types/IHubSearchOptions";
 import { IHubSearchResult } from "../../types/IHubSearchResult";
 import { IEvent } from "../../../events/api/orval/api/orval-events";
@@ -5,17 +6,21 @@ import { AccessLevel } from "../../../core/types/types";
 import { HubFamily } from "../../../types";
 import { computeLinks } from "../../../events/_internal/computeLinks";
 
-export function eventToSearchResult(
+export async function eventToSearchResult(
   event: IEvent,
   options: IHubSearchOptions
-): IHubSearchResult {
+): Promise<IHubSearchResult> {
+  const ownerUser = await getUser({
+    username: event.creator.username,
+    authentication: options.authentication,
+  });
   const result = {
     access: event.access.toLowerCase() as AccessLevel,
     id: event.id,
     type: "Event",
     name: event.title,
     owner: event.creator.username,
-    ownerUser: event.creator,
+    ownerUser,
     summary: event.summary || event.description,
     createdDate: new Date(event.createdAt),
     createdDateSource: "event.createdAt",
