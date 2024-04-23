@@ -121,10 +121,10 @@ export const InitiativePermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:initiative:workspace",
     dependencies: ["hub:feature:workspace"],
-    environments: ["devext", "qaext"],
   },
   {
     permission: "hub:initiative:workspace:overview",
+    availability: ["alpha"],
     dependencies: ["hub:initiative:workspace", "hub:initiative:view"],
   },
   {
