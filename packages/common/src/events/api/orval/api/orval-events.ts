@@ -154,6 +154,10 @@ export enum EventSort {
 }
 export type GetEventsParams = {
   /**
+   * Comma separated string list of EventAccess
+   */
+  access?: string;
+  /**
    * Comma separated string list of relation fields to include in response
    */
   include?: string;
