@@ -7,7 +7,7 @@ import { IHubSearchOptions } from "../../../../src/search/types/IHubSearchOption
 describe("eventToSearchResult", () => {
   const options = {
     options: true,
-    authentication: { auth: true },
+    requestOptions: { requestOptions: true },
   } as unknown as IHubSearchOptions;
   const user = {
     id: "user1",
@@ -41,7 +41,7 @@ describe("eventToSearchResult", () => {
     expect(getUserSpy).toHaveBeenCalledTimes(1);
     expect(getUserSpy).toHaveBeenCalledWith({
       username: event.creator?.username,
-      authentication: options.authentication,
+      ...options.requestOptions,
     });
     expect(result).toEqual({
       access: event.access.toLowerCase() as AccessLevel,
@@ -75,7 +75,7 @@ describe("eventToSearchResult", () => {
     expect(getUserSpy).toHaveBeenCalledTimes(1);
     expect(getUserSpy).toHaveBeenCalledWith({
       username: event.creator?.username,
-      authentication: options.authentication,
+      ...options.requestOptions,
     });
     expect(result).toEqual({
       access: event.access.toLowerCase() as AccessLevel,

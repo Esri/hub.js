@@ -18,7 +18,7 @@ export async function eventToSearchResult(
 ): Promise<IHubSearchResult> {
   const ownerUser = await getUser({
     username: event.creator.username,
-    authentication: options.authentication,
+    ...options.requestOptions,
   });
   const result = {
     access: event.access.toLowerCase() as AccessLevel,
