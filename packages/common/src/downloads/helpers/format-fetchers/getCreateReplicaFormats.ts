@@ -4,10 +4,8 @@ import { CreateReplicaFormat, IDynamicDownloadFormat } from "../types";
 export function getCreateReplicaFormats(
   entity: IHubEditableContent
 ): IDynamicDownloadFormat[] {
-  return (entity.serverExtractFormats || []).map(
-    (format: CreateReplicaFormat) => ({
-      type: "dynamic",
-      format,
-    })
-  );
+  return (entity.serverExtractFormats || []).map((format: string) => ({
+    type: "dynamic",
+    format: format as CreateReplicaFormat,
+  }));
 }

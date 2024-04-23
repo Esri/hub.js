@@ -1,23 +1,22 @@
 import { IArcGISContext } from "../../../ArcGISContext";
 import { IHubEditableContent } from "../../../core/types/IHubEditableContent";
-import { fetchAvailableExportItemFormats } from "./fetchAvailableExportItemFormats";
-import { getAllExportItemFormats } from "./getAllExportItemFormats";
 import { IDownloadFormat } from "../types";
 
 export async function fetchExportItemFormats(
-  entity: IHubEditableContent,
-  context: IArcGISContext,
-  layers?: number[]
+  _entity: IHubEditableContent,
+  _context: IArcGISContext,
+  _layers?: number[]
 ): Promise<IDownloadFormat[]> {
-  return canCreateExport(entity, context)
-    ? getAllExportItemFormats()
-    : fetchAvailableExportItemFormats(entity, context, layers);
+  throw new Error("Not implemented");
+  // return canCreateExport(entity, context)
+  //   ? getAllExportItemFormats()
+  //   : fetchAvailableExportItemFormats(entity, context, layers);
 }
 
-function canCreateExport(
-  _entity: IHubEditableContent,
-  _context: IArcGISContext
-): boolean {
-  // TODO: port over logic from ember's download-service
-  return true;
-}
+// function canCreateExport(
+//   _entity: IHubEditableContent,
+//   _context: IArcGISContext
+// ): boolean {
+//   // TODO: port over logic from ember's download-service
+//   return true;
+// }

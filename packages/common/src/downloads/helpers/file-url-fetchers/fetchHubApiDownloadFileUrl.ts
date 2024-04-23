@@ -1,5 +1,7 @@
 import HubError from "../../../HubError";
+import { getProp } from "../../../objects/get-prop";
 import {
+  ArcgisHubDownloadError,
   DownloadOperationStatus,
   IFetchDownloadFileUrlOptions,
   downloadProgressCallback,
@@ -35,12 +37,14 @@ function getDownloadApiRequestUrl(options: IFetchDownloadFileUrlOptions) {
   const { entity, format, context, layers, where /* geometry, */ } = options;
 
   const searchParams = new URLSearchParams({
-    status: "true",
     redirect: "false",
     layers: layers[0].toString(),
   });
 
   where && searchParams.append("where", where);
+
+  const token = getProp(context, "hubRequestOptions.authentication.token");
+  token && searchParams.append("token", token);
 
   return `${context.hubUrl}/api/download/v1/items/${
     entity.id
@@ -53,15 +57,21 @@ async function pollDownloadApi(
 ): Promise<string> {
   const response = await fetch(requestUrl);
   if (!response.ok) {
-    // TODO: Standardize error messages
-    throw new HubError(
-      "pollDownloadApi",
-      `Failed to fetch download status: ${response.status}`
-    );
+    const errorBody = await response.json();
+    // TODO: Add standarized messageId when available
+    throw new ArcgisHubDownloadError({
+      rawMessage: errorBody.message,
+    });
   }
   const { status, progressInPercent, resultUrl }: IHubDownloadApiResponse =
     await response.json();
   const operationStatus = toDownloadOperationStatus(status);
+  if (operationStatus === DownloadOperationStatus.FAILED) {
+    throw new HubError(
+      "fetchHubApiDownloadFileUrl",
+      "Download operation failed with a 200 status code"
+    );
+  }
   progressCallback && progressCallback(operationStatus, progressInPercent);
 
   // Operation complete, return the download URL
@@ -82,27 +92,27 @@ function toDownloadOperationStatus(
     CreateReplicaStatus,
     DownloadOperationStatus
   > = {
-    Pending: "pending",
-    InProgress: "pending",
-    ImportChanges: "pending",
-    ExportChanges: "pending",
-    ExportingData: "processing",
-    ExportingSnapshot: "processing",
-    ExportAttachments: "processing",
-    ImportAttachments: "processing",
-    ProvisioningReplica: "processing",
-    UnRegisteringReplica: "processing",
-    Completed: "completed",
-    Failed: "failed",
-    CompletedWithErrors: "failed",
+    Pending: DownloadOperationStatus.PENDING,
+    InProgress: DownloadOperationStatus.PENDING,
+    ImportChanges: DownloadOperationStatus.PENDING,
+    ExportChanges: DownloadOperationStatus.PENDING,
+    ExportingData: DownloadOperationStatus.PROCESSING,
+    ExportingSnapshot: DownloadOperationStatus.PROCESSING,
+    ExportAttachments: DownloadOperationStatus.PROCESSING,
+    ImportAttachments: DownloadOperationStatus.PROCESSING,
+    ProvisioningReplica: DownloadOperationStatus.PROCESSING,
+    UnRegisteringReplica: DownloadOperationStatus.PROCESSING,
+    Completed: DownloadOperationStatus.COMPLETED,
+    Failed: DownloadOperationStatus.FAILED,
+    CompletedWithErrors: DownloadOperationStatus.FAILED,
   };
 
   const pagingJobStatusMap: Record<PagingJobStatus, DownloadOperationStatus> = {
-    Pending: "pending",
-    PagingData: "processing",
-    ConvertingData: "processing",
-    Failed: "failed",
-    Completed: "completed",
+    Pending: DownloadOperationStatus.PENDING,
+    PagingData: DownloadOperationStatus.PROCESSING,
+    ConvertingData: DownloadOperationStatus.PROCESSING,
+    Failed: DownloadOperationStatus.FAILED,
+    Completed: DownloadOperationStatus.COMPLETED,
   };
 
   return (

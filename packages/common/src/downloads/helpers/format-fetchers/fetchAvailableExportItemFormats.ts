@@ -1,15 +1,17 @@
-import { IArcGISContext } from "../../../ArcGISContext";
-import { IHubEditableContent } from "../../../core/types/IHubEditableContent";
 import { buildExistingExportsPortalQuery } from "../build-existing-exports-portal-query";
 import {
   ExportItemFormat,
   IStaticDownloadFormat,
+  LegacyExportItemFormat,
   PORTAL_EXPORT_TYPES,
+  ServiceDownloadFormat,
 } from "../types";
-import { fetchAllPages } from "../../../items";
 import { IItem, searchItems } from "@esri/arcgis-rest-portal";
 import { getExportItemDataUrl } from "../getExportItemDataUrl";
+import { IHubEditableContent } from "../../../core/types/IHubEditableContent";
+import { IArcGISContext } from "../../../ArcGISContext";
 import HubError from "../../../HubError";
+import { fetchAllPages } from "../../../items/fetch-all-pages";
 
 export async function fetchAvailableExportItemFormats(
   entity: IHubEditableContent,
@@ -35,16 +37,24 @@ export async function fetchAvailableExportItemFormats(
   return exportItems.map((item) => ({
     type: "static",
     label: null,
-    format: toExportItemFormat(item.type),
+    format: getExportItemFormat(item.type),
     url: getExportItemDataUrl(item.id, context),
-  }));
+  })) as any[]; // TODO: change export formats to use the ServiceDownloadFormat type
 }
 
-// TODO: man, can't we make this cleaner???
-function toExportItemFormat(itemType: string): ExportItemFormat {
-  return Object.keys(PORTAL_EXPORT_TYPES).find((format) =>
-    PORTAL_EXPORT_TYPES[
-      format as keyof typeof PORTAL_EXPORT_TYPES
-    ].itemTypes.includes(itemType)
-  ) as ExportItemFormat;
+function getExportItemFormat(itemType: string): ExportItemFormat {
+  const legacyExportItemFormat = (
+    Object.keys(PORTAL_EXPORT_TYPES) as LegacyExportItemFormat[]
+  ).find((format: LegacyExportItemFormat) => {
+    return PORTAL_EXPORT_TYPES[format].itemTypes.includes(itemType);
+  }) as LegacyExportItemFormat;
+  return migrateExportItemFormat(legacyExportItemFormat);
+}
+
+function migrateExportItemFormat(
+  format: LegacyExportItemFormat
+): ExportItemFormat {
+  return format === "fileGeodatabase"
+    ? ServiceDownloadFormat.FILE_GDB
+    : (format as ExportItemFormat);
 }

@@ -4,19 +4,28 @@ import {
   exportItem,
   getItemStatus,
 } from "@esri/arcgis-rest-portal";
-import { ExportItemFormat, IFetchDownloadFileUrlOptions } from "../types";
+import {
+  DownloadOperationStatus,
+  ExportItemFormat,
+  IFetchDownloadFileUrlOptions,
+  LegacyExportItemFormat,
+  PORTAL_EXPORT_TYPES,
+  ServiceDownloadFormat,
+  downloadProgressCallback,
+} from "../types";
+import { getExportItemDataUrl } from "../getExportItemDataUrl";
 import HubError from "../../../HubError";
 import { IArcGISContext } from "../../../ArcGISContext";
-import { getExportItemDataUrl } from "../getExportItemDataUrl";
 
 export async function fetchExportItemDownloadFileUrl(
   options: IFetchDownloadFileUrlOptions
 ): Promise<string> {
   validateOptions(options);
-  const { entity, format, context } = options;
+  const { entity, format, context, progressCallback } = options;
+  progressCallback && progressCallback(DownloadOperationStatus.PENDING);
   const { exportItemId, jobId } = await exportItem({
     id: entity.id,
-    exportFormat: toExportFormat(format as ExportItemFormat), // oh no, the format strings are _totally_ different. We're going to have to come up with a centralizing mechanism.
+    exportFormat: getExportFormatParam(format as ExportItemFormat),
     exportParameters: getExportParameters(options),
     authentication: context.hubRequestOptions.authentication,
   });
@@ -25,7 +34,7 @@ export async function fetchExportItemDownloadFileUrl(
 
   // TODO: Once the job is completed, we still need to set the special typekeywords needed to find the item later.
   // Also, I _think_ we can only do one layer at a time (at least with the current typeKeywords schema we're using)
-
+  progressCallback && progressCallback(DownloadOperationStatus.COMPLETED);
   return getExportItemDataUrl(exportItemId, context);
 }
 
@@ -47,23 +56,18 @@ function validateOptions(options: IFetchDownloadFileUrlOptions) {
   }
 }
 
-function toExportFormat(
+function getExportFormatParam(
   format: ExportItemFormat
 ): IExportItemRequestOptions["exportFormat"] {
-  const formatMap: Record<
-    ExportItemFormat,
-    IExportItemRequestOptions["exportFormat"]
-  > = {
-    csv: "CSV",
-    shapefile: "Shapefile",
-    kml: "KML",
-    geojson: "GeoJson",
-    fileGeodatabase: "File Geodatabase",
-    excel: "Excel",
-    featureCollection: "Feature Collection",
-  };
+  const legacyFormat = getLegacyExportItemFormat(format);
+  return PORTAL_EXPORT_TYPES[legacyFormat]
+    ?.name as IExportItemRequestOptions["exportFormat"];
+}
 
-  return formatMap[format];
+function getLegacyExportItemFormat(
+  format: ExportItemFormat
+): LegacyExportItemFormat {
+  return format === ServiceDownloadFormat.FILE_GDB ? "fileGeodatabase" : format;
 }
 
 function getExportParameters(
@@ -82,7 +86,8 @@ function getExportParameters(
 async function pollForJobCompletion(
   exportedItemId: string,
   jobId: string,
-  context: IArcGISContext
+  context: IArcGISContext,
+  progressCallback?: downloadProgressCallback
 ): Promise<void> {
   const POLL_INTERVAL = 3000;
   const { status } = await getItemStatus({
@@ -92,9 +97,12 @@ async function pollForJobCompletion(
     authentication: context.hubRequestOptions.authentication,
   });
 
-  // TODO: handle any errors that might come back from the job
+  if (status === "failed") {
+    throw new HubError("fetchExportItemDownloadFileUrl", "Export job failed");
+  }
 
   if (status !== "completed") {
+    progressCallback && progressCallback(DownloadOperationStatus.PROCESSING);
     await new Promise((resolve) => setTimeout(resolve, POLL_INTERVAL));
     return pollForJobCompletion(exportedItemId, jobId, context);
   }

@@ -1,6 +1,6 @@
 import HubError from "../HubError";
-import { canUseExportImage } from "./helpers/canUseExportImage";
-import { canUseExportItem } from "./helpers/canUseExportItem";
+import { canUseExportImageFlow } from "./helpers/canUseExportImageFlow";
+import { canUseExportItemFlow } from "./helpers/canUseExportItemFlow";
 import { canUseHubDownloadApi } from "./helpers/canUseHubDownloadApi";
 import { fetchExportImageDownloadFileUrl } from "./helpers/file-url-fetchers/fetchExportImageDownloadFileUrl";
 import { fetchExportItemDownloadFileUrl } from "./helpers/file-url-fetchers/fetchExportItemDownloadFileUrl";
@@ -13,14 +13,14 @@ export async function fetchDownloadFileUrl(
   let fetchingFn;
   if (canUseHubDownloadApi(options.entity, options.context)) {
     fetchingFn = fetchHubApiDownloadFileUrl;
-  } else if (canUseExportItem(options.entity)) {
+  } else if (canUseExportItemFlow(options.entity)) {
     fetchingFn = fetchExportItemDownloadFileUrl;
-  } else if (canUseExportImage(options.entity)) {
+  } else if (canUseExportImageFlow(options.entity)) {
     fetchingFn = fetchExportImageDownloadFileUrl;
   } else {
     throw new HubError(
       "fetchDownloadFileUrl",
-      " Downloads are not supported for this item in this environment"
+      "Downloads are not supported for this item in this environment"
     );
   }
   return fetchingFn(options);
