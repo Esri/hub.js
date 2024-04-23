@@ -11,15 +11,15 @@ import {
   hasServiceCapability,
   ServiceCapabilities,
 } from "../hostedServiceUtils";
-import { IItemAndIServerEnrichments } from "../../items/_enrichments";
 import { computeBaseProps } from "../../core/_internal/computeBaseProps";
 import { getProp } from "../../objects";
+import { IHubEditableContentEnrichments } from "../../items/_enrichments";
 
 export function computeProps(
   model: IModel,
   content: Partial<IHubEditableContent>,
   requestOptions: IRequestOptions,
-  enrichments: IItemAndIServerEnrichments = {}
+  enrichments: IHubEditableContentEnrichments = {}
 ): IHubEditableContent {
   let token: string;
   if (requestOptions.authentication) {
@@ -50,6 +50,9 @@ export function computeProps(
   content.licenseInfo = model.item.licenseInfo || "";
 
   content.isDiscussable = isDiscussable(content);
+
+  // when we receive a schedule from the enrichments, we want to use it, otherwise default to automatic
+  content.schedule = enrichments.schedule;
 
   if (enrichments.server) {
     content.serverExtractCapability = hasServiceCapability(

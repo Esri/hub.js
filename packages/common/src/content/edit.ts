@@ -1,5 +1,6 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import {
+  IItem,
   IPortal,
   IUserItemOptions,
   getItem,
@@ -34,6 +35,10 @@ import {
   toggleServiceCapability,
 } from "./hostedServiceUtils";
 import { IItemAndIServerEnrichments } from "../items/_enrichments";
+import {
+  isDownloadSchedulingAvailable,
+  maybeUpdateSchedule,
+} from "./manageSchedule";
 
 // TODO: move this to defaults?
 const DEFAULT_CONTENT_MODEL: IModel = {
@@ -166,6 +171,10 @@ export async function updateContent(
     } else {
       enrichments.server = currentDefinition;
     }
+  }
+
+  if (isDownloadSchedulingAvailable(requestOptions, content.access)) {
+    await maybeUpdateSchedule(content, requestOptions);
   }
 
   return modelToHubEditableContent(updatedModel, requestOptions, enrichments);

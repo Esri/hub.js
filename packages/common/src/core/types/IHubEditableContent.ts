@@ -1,6 +1,7 @@
 import { IWithPermissions, IWithSlug } from "../traits/index";
 import { IHubAdditionalResource } from "./IHubAdditionalResource";
 import { IHubItemEntity, IHubItemEntityEditor } from "./IHubItemEntity";
+import { IHubSchedule } from "./IHubSchedule";
 
 /**
  * Defines the properties of an editable Hub Content object
@@ -29,6 +30,10 @@ export interface IHubEditableContent
    * TODO: which items can have these? And is it only available for public items?
    */
   additionalResources?: IHubAdditionalResource[];
+  /**
+   * The schedule at which the reharvest of the item will occur
+   */
+  schedule?: IHubSchedule;
 }
 
 export type IHubContentEditor = IHubItemEntityEditor<IHubEditableContent> & {};

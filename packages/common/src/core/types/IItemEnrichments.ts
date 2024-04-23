@@ -1,6 +1,5 @@
 import { IUser, IPortal, IItem } from "@esri/arcgis-rest-portal";
 import { IEnrichmentErrorInfo } from "../../types";
-import { IHubAdditionalResource } from "./IHubAdditionalResource";
 
 export interface IItemEnrichments {
   /**
@@ -31,9 +30,4 @@ export interface IItemEnrichments {
    * see https://github.com/ArcGIS/hub-indexer/blob/master/docs/errors.md#response-formatting-for-errors
    */
   errors?: IEnrichmentErrorInfo[];
-
-  /**
-   * Additional resources specified in the formal item metadata
-   */
-  additionalResources?: IHubAdditionalResource[];
 }
