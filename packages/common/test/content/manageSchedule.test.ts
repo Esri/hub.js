@@ -11,10 +11,28 @@ import {
 import { MOCK_HUB_REQOPTS } from "../mocks/mock-auth";
 import { IHubEditableContent } from "../../src/core/types/IHubEditableContent";
 import * as fetchMock from "fetch-mock";
+import { getSchedulerApiUrl } from "../../src/content/_internal/getSchedulerApiUrl";
 
 describe("manageSchedule", () => {
   afterEach(() => {
     fetchMock.restore();
+  });
+  it("getSchedulerApiUrl: returns the correct url when no version is attached on requestOptions", () => {
+    const url = getSchedulerApiUrl("123", MOCK_HUB_REQOPTS);
+    expect(url).toEqual(
+      "https://hubqa.arcgis.com/api/download/v1/items/123/schedule"
+    );
+  });
+  it("getSchedulerApiUrl: returns the correct url when v3 is attached on requestOptions", () => {
+    const requestOptions = {
+      ...MOCK_HUB_REQOPTS,
+      hubApiUrl: "https://hubqa.arcgis.com/api/v3",
+    };
+
+    const url = getSchedulerApiUrl("123", requestOptions);
+    expect(url).toEqual(
+      "https://hubqa.arcgis.com/api/download/v1/items/123/schedule"
+    );
   });
 
   it("getSchedule: returns an error if no schedule is set", async () => {
