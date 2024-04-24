@@ -198,7 +198,10 @@ export class HubProject
         )) as IHubProjectEditor)
       : (cloneObject(this.entity) as IHubProjectEditor);
 
-    // 2. handle metrics
+    // 2. editor._groups handling
+    editor._groups = [];
+
+    // 3. handle metrics
     const metrics = getEntityMetrics(this.entity);
     const metric = metrics.find((m) => m.id === editorContext.metricId);
     const displays = getWithDefault(this.entity, "view.metricDisplays", []);
