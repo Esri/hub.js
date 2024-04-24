@@ -1,9 +1,9 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { getHubApiUrl } from "../api";
 import { IHubSchedule, IHubScheduleResponse } from "../core/types/IHubSchedule";
 import { cloneObject } from "../util";
 import { deepEqual } from "../objects/deepEqual";
 import { AccessLevel, IHubEditableContent } from "../core";
+import { getSchedulerApiUrl } from "./_internal/getSchedulerApiUrl";
 
 // Any code referencing these functions must first pass isDownloadSchedulingAvailable
 
@@ -134,15 +134,6 @@ export const maybeUpdateSchedule = async (
     }
   }
   return { message: "No action needed as schedules deepEqual each other." };
-};
-
-const getSchedulerApiUrl = (
-  itemId: string,
-  requestOptions: IRequestOptions
-): string => {
-  return `${getHubApiUrl(
-    requestOptions
-  )}/api/download/v1/items/${itemId}/schedule`;
 };
 
 /**
