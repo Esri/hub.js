@@ -153,7 +153,7 @@ export interface IFetchDownloadFileUrlOptions {
   format: ServiceDownloadFormat;
   context: IArcGISContext;
   layers?: number[]; // layers to download; when not specified, all layers will be downloaded
-  geometry?: any; // geometry to filter results by
+  geometry?: __esri.Geometry; // geometry to filter results by
   where?: string; // where clause to filter results by
   progressCallback?: downloadProgressCallback;
 }

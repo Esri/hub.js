@@ -34,12 +34,19 @@ function validateOptions(options: IFetchDownloadFileUrlOptions) {
 }
 
 function getDownloadApiRequestUrl(options: IFetchDownloadFileUrlOptions) {
-  const { entity, format, context, layers, where /* geometry, */ } = options;
+  const { entity, format, context, layers, geometry, where } = options;
 
   const searchParams = new URLSearchParams({
     redirect: "false",
     layers: layers[0].toString(),
   });
+
+  if (geometry) {
+    const geometryJSON = geometry.toJSON();
+    // Not sure why type isn't included in the toJSON() output, but our API expects it
+    geometryJSON.type = geometry.type;
+    searchParams.append("geometry", JSON.stringify(geometryJSON));
+  }
 
   where && searchParams.append("where", where);
 
