@@ -23,6 +23,7 @@ export * from "./IHubTemplate";
 export * from "./IHubSite";
 export * from "./IHubSiteTheme";
 export * from "./IHubTimeline";
+export * from "./IHubSchedule";
 export * from "./IItemEnrichments";
 export * from "./IReference";
 export * from "./IServerEnrichments";

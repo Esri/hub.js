@@ -1,5 +1,6 @@
 import { IWithPermissions, IWithSlug } from "../traits/index";
 import { IHubItemEntity, IHubItemEntityEditor } from "./IHubItemEntity";
+import { IHubSchedule } from "./IHubSchedule";
 
 /**
  * Defines the properties of an editable Hub Content object
@@ -18,6 +19,10 @@ export interface IHubEditableContent
    * capability enabled. This is a pre-requisite for Hosted Downloads to work.
    */
   serverExtractCapability?: boolean;
+  /**
+   * The schedule at which the reharvest of the item will occur
+   */
+  schedule?: IHubSchedule;
 }
 
 export type IHubContentEditor = IHubItemEntityEditor<IHubEditableContent> & {};
