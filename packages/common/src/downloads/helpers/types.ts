@@ -1,7 +1,11 @@
 import { IArcGISContext } from "../../ArcGISContext";
 import { IHubEditableContent } from "../../core/types/IHubEditableContent";
 
-// ugh, where was this originally? I would love to change this to align better with the other formats.
+/**
+ * This hash map was defined to support the previous implementation of the export item flow.
+ * We are currently working on a new implementation that will replace this hash map, but we
+ * need to keep this around for now to support the existing implementation.
+ */
 export const PORTAL_EXPORT_TYPES = {
   csv: {
     name: "CSV",
@@ -38,15 +42,20 @@ export const PORTAL_EXPORT_TYPES = {
     itemTypes: ["Feature Collection"],
     supportsProjection: true,
   },
-  // Do we want to support these?
+  // Do we want to support Scene Packages?
   // scenePackage: {
   //   name: "Scene Package",
   //   itemTypes: ["Scene Package"],
   //   supportsProjection: ???,
   // },
 };
+
+// Keys that the legacy implementation of the export item flow uses to identify the export format.
 export type LegacyExportItemFormat = keyof typeof PORTAL_EXPORT_TYPES;
 
+/**
+ * Comprehensive enum of all the download formats that are supported by service-backed items across the ArcGIS platform.
+ */
 export enum ServiceDownloadFormat {
   // Image Service Formats
   BIP = "bip", // 10.3+
@@ -75,6 +84,9 @@ export enum ServiceDownloadFormat {
   SQLITE = "sqlite",
 }
 
+/**
+ * Formats supported by the /export endpoint of the Portal API.
+ */
 export const EXPORT_ITEM_FORMATS = [
   ServiceDownloadFormat.CSV,
   ServiceDownloadFormat.KML,
@@ -87,6 +99,9 @@ export const EXPORT_ITEM_FORMATS = [
 
 export type ExportItemFormat = (typeof EXPORT_ITEM_FORMATS)[number];
 
+/**
+ * Formats supported by the /exportImage endpoint of Image Services.
+ */
 export const EXPORT_IMAGE_FORMATS = [
   ServiceDownloadFormat.BIP,
   ServiceDownloadFormat.BMP,
@@ -101,18 +116,23 @@ export const EXPORT_IMAGE_FORMATS = [
   ServiceDownloadFormat.PNG8,
   ServiceDownloadFormat.TIFF,
 ] as const;
-
 export type ExportImageFormat = (typeof EXPORT_IMAGE_FORMATS)[number];
 
+/**
+ * Formats supported by the paging operation endpoint of the Hub Download API.
+ */
 export const HUB_PAGING_JOB_FORMATS = [
   ServiceDownloadFormat.CSV,
   ServiceDownloadFormat.GEOJSON,
   ServiceDownloadFormat.KML,
   ServiceDownloadFormat.SHAPEFILE,
 ] as const;
-
 export type HubPagingJobFormat = (typeof HUB_PAGING_JOB_FORMATS)[number];
 
+/**
+ * Known formats supported by the /createReplica endpoint of the Hub Download API.
+ * NOTE: this is may be incomplete and should be updated as needed.
+ */
 export const CREATE_REPLICA_FORMATS = [
   ServiceDownloadFormat.CSV,
   ServiceDownloadFormat.EXCEL,
@@ -124,13 +144,21 @@ export const CREATE_REPLICA_FORMATS = [
   ServiceDownloadFormat.SHAPEFILE,
   ServiceDownloadFormat.SQLITE,
 ] as const;
-
 export type CreateReplicaFormat = (typeof CREATE_REPLICA_FORMATS)[number];
 
+/**
+ * Represents a file format related to a content entity that can be downloaded.
+ * Formats can either be dynamic (i.e., generated on-the-fly) or static (i.e., pre-generated)
+ */
 export interface IDownloadFormat {
   type: "static" | "dynamic";
 }
 
+/**
+ * Represents a static download format that is pre-generated and available for download.
+ * If the format is a service-backed format, the `format` property will be set to the corresponding
+ * service format. If the format is to an arbitrary static file, the `format` property should be undefined.
+ */
 export interface IStaticDownloadFormat extends IDownloadFormat {
   type: "static";
   format?: ServiceDownloadFormat;
@@ -138,16 +166,26 @@ export interface IStaticDownloadFormat extends IDownloadFormat {
   url: string;
 }
 
+/**
+ * Represents a dynamic download format that is generated on-the-fly when requested.
+ * The `format` property will be set to the corresponding service format.
+ */
 export interface IDynamicDownloadFormat extends IDownloadFormat {
   type: "dynamic";
   format: ServiceDownloadFormat;
 }
 
+/**
+ * A callback function that is invoked to report the progress of a download operation.
+ */
 export type downloadProgressCallback = (
   status: DownloadOperationStatus,
   percent?: number // integer between 0 and 100
 ) => void;
 
+/**
+ * Options for refining / filtering the results of the fetchDownloadFileUrl operation.
+ */
 export interface IFetchDownloadFileUrlOptions {
   entity: IHubEditableContent;
   format: ServiceDownloadFormat;
@@ -158,6 +196,10 @@ export interface IFetchDownloadFileUrlOptions {
   progressCallback?: downloadProgressCallback;
 }
 
+/**
+ * Human-readable status of a download operation. Operation specific statuses
+ * should be converted to one of these statuses before being reported to the user.
+ */
 export enum DownloadOperationStatus {
   PENDING = "pending",
   PROCESSING = "processing",
@@ -166,22 +208,31 @@ export enum DownloadOperationStatus {
   FAILED = "failed",
 }
 
+/**
+ * Options for fetching download formats for an entity.
+ */
 export interface IFetchDownloadFormatsOptions {
   entity: IHubEditableContent;
   context: IArcGISContext;
   layers?: number[];
 }
 
+/**
+ * Options for instantiating an ArcgisHubDownloadError object.
+ */
 export interface IArcgisHubDownloadErrorOptions {
-  rawMessage: string;
-  messageId?: string;
-  operation?: string;
+  rawMessage: string; // raw error message
+  messageId?: string; // well-known error message ID
+  operation?: string; // operation that the error occurred in
 }
 
+/**
+ * Error class for reporting well-known download errors that occur during the download process.
+ */
 export class ArcgisHubDownloadError extends Error {
-  public messageId?: string;
+  public messageId?: string; // well-known error message ID
 
-  public operation?: string;
+  public operation?: string; // operation that the error occurred in
 
   constructor(options: IArcgisHubDownloadErrorOptions) {
     super(options.rawMessage);

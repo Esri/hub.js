@@ -17,6 +17,24 @@ import { getExportItemDataUrl } from "../getExportItemDataUrl";
 import HubError from "../../../HubError";
 import { IArcGISContext } from "../../../ArcGISContext";
 
+/**
+ * @private
+ * Fetches a download file url the Portal API via the item /export endpoint.
+ *
+ * NOTE: This function is incomplete and various permissions / branching paths need to be
+ * validated and implemented. It is a work in progress.
+ *
+ * NOTE: This is a last resort approach for current Enterprise environments, but it will be replaced
+ * by calling the service's /createReplica endpoint directly in the future (i.e., once the Enterprise
+ * team achieves feature parity with the Online team's implementation).
+ *
+ * This is because The item /export endpoint can only be used on Hosted Feature Services
+ * with the "Extract" capability enabled, which means the service will also have the /createReplica
+ * endpoint available. As /createReplica is a more flexible operation, /export becomes obsolete.
+ *
+ * @param options options for refining / filtering the resulting download file
+ * @returns a url to download the file
+ */
 export async function fetchExportItemDownloadFileUrl(
   options: IFetchDownloadFileUrlOptions
 ): Promise<string> {

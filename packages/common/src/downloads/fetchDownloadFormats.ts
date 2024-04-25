@@ -11,6 +11,11 @@ import {
   IStaticDownloadFormat,
 } from "./helpers/types";
 
+/**
+ * Fetches download formats for the given entity. Also folds in any additional resources defined on the entity.
+ * @param options options to refine / filter the results of the fetchDownloadFormats operation
+ * @returns a promise that resolves with the download formats
+ */
 export async function fetchDownloadFormats(
   options: IFetchDownloadFormatsOptions
 ): Promise<IDownloadFormat[]> {

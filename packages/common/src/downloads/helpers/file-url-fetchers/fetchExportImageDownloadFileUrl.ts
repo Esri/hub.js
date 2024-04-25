@@ -4,6 +4,16 @@ import {
   IFetchDownloadFileUrlOptions,
 } from "../types";
 
+/**
+ * @private
+ * Fetches a download file url from an Image Service via the exportImage endpoint
+ *
+ * NOTE: This function is incomplete and needs various parameters to be validated
+ * and implemented. It is a work in progress.
+ *
+ * @param options options for refining / filtering the resulting download file
+ * @returns a url to download the file
+ */
 export async function fetchExportImageDownloadFileUrl(
   options: IFetchDownloadFileUrlOptions
 ): Promise<string> {
@@ -21,8 +31,8 @@ export async function fetchExportImageDownloadFileUrl(
       '{"ascending":true,"mosaicMethod":"esriMosaicNorthwest","mosaicOperation":"MT_FIRST"}',
   };
 
-  if (geometry) {
-    const { xmin, xmax, ymin, ymax } = geometry;
+  if (geometry && geometry.type === "extent") {
+    const { xmin, xmax, ymin, ymax } = geometry as __esri.Extent;
     const { wkid } = geometry.spatialReference;
     requestOptions.params.bbox = `${xmin},${ymin},${xmax},${ymax}`;
     requestOptions.params.bboxSR = `${wkid}`;
