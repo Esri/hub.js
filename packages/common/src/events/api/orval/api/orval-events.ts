@@ -239,7 +239,9 @@ export interface IEvent {
   creator?: IUser;
   description: string | null;
   editGroups: string[];
+  endDate: string;
   endDateTime: string;
+  endTime: string;
   geometry: IEventGeometry;
   id: string;
   notifyAttendees: boolean;
@@ -249,7 +251,9 @@ export interface IEvent {
   readGroups: string[];
   recurrence: string | null;
   registrations?: IRegistration[];
+  startDate: string;
   startDateTime: string;
+  startTime: string;
   status: EventStatus;
   summary: string | null;
   tags: string[];
