@@ -465,7 +465,7 @@ export class HubSite
     delete editor._thumbnail;
 
     // set whether or not the followers group is discussable
-    if (editor._followers?.isDiscussable !== undefined) {
+    if (editor._followers?.isDiscussable) {
       await this.setFollowersGroupIsDiscussable(
         editor._followers.isDiscussable
       );
