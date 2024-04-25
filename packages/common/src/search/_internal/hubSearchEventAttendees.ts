@@ -1,21 +1,19 @@
-import { getUser, IUser } from "@esri/arcgis-rest-portal";
-import { GetRegistrationsParams } from "../../events/api";
-import {
-  getRegistrations,
-  IPagedRegistrationResponse,
-  IRegistration,
-} from "../../events/api/orval/api/orval-events";
+import { getRegistrations } from "../../events/api/registrations";
 import { eventAttendeeToSearchResult } from "../../events/api/utils/search";
 import { IPredicate, IQuery } from "../types/IHubCatalog";
 import { IHubSearchOptions } from "../types/IHubSearchOptions";
 import { IHubSearchResponse } from "../types/IHubSearchResponse";
 import { IHubSearchResult } from "../types/IHubSearchResult";
-import { setProp } from "../../objects";
+import {
+  GetRegistrationsParams,
+  IGetRegistrationsParams,
+  IPagedRegistrationResponse,
+} from "../../events/api/types";
 
-export const processGetRegistrationsParams = (
+export const processIGetRegistrationsParams = (
   options: IHubSearchOptions,
   query: IQuery
-): GetRegistrationsParams => {
+): IGetRegistrationsParams => {
   // valid keys to translate from IQuery predicates
   const validPredicateKeys: Array<keyof IPredicate> = [
     // "term",
@@ -65,12 +63,12 @@ export const processGetRegistrationsParams = (
     });
   });
   // translate IHubSearchOptions into GetRegistrationParams
-  const paginationProps: Partial<Record<keyof GetRegistrationsParams, any>> =
+  const paginationProps: Partial<Record<keyof IGetRegistrationsParams, any>> =
     {};
   validPaginationKeys.forEach((key) => {
     if (options.hasOwnProperty(key)) {
       const { [key]: mappedKey = key as any } = keyMappings;
-      const _key = mappedKey as keyof GetRegistrationsParams;
+      const _key = mappedKey as keyof IGetRegistrationsParams;
       const value = options[key];
       if (key && value) {
         paginationProps[_key] = String(value);
@@ -79,9 +77,11 @@ export const processGetRegistrationsParams = (
   });
   // assemble GetRegistrationParams object
   return {
-    eventId: query.properties.eventId,
-    ...filterProps,
-    ...paginationProps,
+    data: {
+      eventId: query.properties.eventId,
+      ...filterProps,
+      ...paginationProps,
+    },
   };
 };
 
@@ -127,7 +127,7 @@ export const hubSearchEventAttendees = async (
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> => {
   // Pull useful info out of query
-  const params: GetRegistrationsParams = processGetRegistrationsParams(
+  const params: IGetRegistrationsParams = processIGetRegistrationsParams(
     options,
     query
   );
