@@ -1,3 +1,10 @@
+## @esri/hub-common [14.119.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.119.2...@esri/hub-common@14.119.3) (2024-04-25)
+
+
+### Bug Fixes
+
+* broaden check for isDiscussable to handle falsey, not just undefined ([#1487](https://github.com/Esri/hub.js/issues/1487)) ([a298ba3](https://github.com/Esri/hub.js/commit/a298ba3ce8d4bc7f19fb19fb705c9e1b4772661e))
+
 ## @esri/hub-common [14.119.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.119.1...@esri/hub-common@14.119.2) (2024-04-25)
 
 
