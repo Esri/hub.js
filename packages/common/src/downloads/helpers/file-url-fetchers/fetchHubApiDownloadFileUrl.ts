@@ -4,6 +4,7 @@ import {
   ArcgisHubDownloadError,
   DownloadOperationStatus,
   IFetchDownloadFileUrlOptions,
+  ServiceDownloadFormat,
   downloadProgressCallback,
 } from "../types";
 
@@ -46,6 +47,13 @@ function getDownloadApiRequestUrl(options: IFetchDownloadFileUrlOptions) {
     // Not sure why type isn't included in the toJSON() output, but our API expects it
     geometryJSON.type = geometry.type;
     searchParams.append("geometry", JSON.stringify(geometryJSON));
+  }
+
+  // GeoJSON and KML are only supported in WGS84, so we need to specify the spatial reference here
+  if (
+    [ServiceDownloadFormat.GEOJSON, ServiceDownloadFormat.KML].includes(format)
+  ) {
+    searchParams.append("spatialRefId", "4326");
   }
 
   where && searchParams.append("where", where);
@@ -94,30 +102,34 @@ async function pollDownloadApi(
 function toDownloadOperationStatus(
   status: HubDownloadApiStatus
 ): DownloadOperationStatus {
-  // TODO: verify the correct mapping for each create replica status
   const createReplicaStatusMap: Record<
     CreateReplicaStatus,
     DownloadOperationStatus
   > = {
-    Pending: DownloadOperationStatus.PENDING,
-    InProgress: DownloadOperationStatus.PENDING,
-    ImportChanges: DownloadOperationStatus.PENDING,
-    ExportChanges: DownloadOperationStatus.PENDING,
-    ExportingData: DownloadOperationStatus.PROCESSING,
-    ExportingSnapshot: DownloadOperationStatus.PROCESSING,
-    ExportAttachments: DownloadOperationStatus.PROCESSING,
-    ImportAttachments: DownloadOperationStatus.PROCESSING,
-    ProvisioningReplica: DownloadOperationStatus.PROCESSING,
-    UnRegisteringReplica: DownloadOperationStatus.PROCESSING,
+    // Statuses that we expect to see (listed in the order they could occur)
+    Pending: DownloadOperationStatus.PENDING, // Job hasn't started yet
+    InProgress: DownloadOperationStatus.PENDING, // Job is in progress
+    ExportingData: DownloadOperationStatus.PROCESSING, // Features are being exported, progress available
+    ExportAttachments: DownloadOperationStatus.PROCESSING, // Reported by Khaled Hassen, unsure when this actually happens
     Completed: DownloadOperationStatus.COMPLETED,
+    CompletedWithErrors: DownloadOperationStatus.FAILED, // Reported by Khaled Hassen, unsure when this actually happens
     Failed: DownloadOperationStatus.FAILED,
-    CompletedWithErrors: DownloadOperationStatus.FAILED,
+
+    // These statuses are not expected to be returned by the API, but are included in the documentation
+    ProvisioningReplica: DownloadOperationStatus.PROCESSING, // NOTE: This used to occur before ExportingData, but according to Khalid Hassen we shouldn't see it anymore
+    ImportChanges: DownloadOperationStatus.PROCESSING,
+    ExportChanges: DownloadOperationStatus.PROCESSING,
+    ExportingSnapshot: DownloadOperationStatus.PROCESSING,
+    ImportAttachments: DownloadOperationStatus.PROCESSING,
+    UnRegisteringReplica: DownloadOperationStatus.PROCESSING,
   };
 
   const pagingJobStatusMap: Record<PagingJobStatus, DownloadOperationStatus> = {
+    // Statuses are listed in the order they are expected to occur
     Pending: DownloadOperationStatus.PENDING,
+    InProgress: DownloadOperationStatus.PENDING,
     PagingData: DownloadOperationStatus.PROCESSING,
-    ConvertingData: DownloadOperationStatus.PROCESSING,
+    ConvertingData: DownloadOperationStatus.CONVERTING,
     Failed: DownloadOperationStatus.FAILED,
     Completed: DownloadOperationStatus.COMPLETED,
   };
@@ -145,10 +157,11 @@ type CreateReplicaStatus =
 
 type PagingJobStatus =
   | "Pending"
+  | "InProgress"
   | "PagingData"
   | "ConvertingData"
-  | "Failed"
-  | "Completed";
+  | "Completed"
+  | "Failed";
 
 type HubDownloadApiStatus = CreateReplicaStatus | PagingJobStatus;
 

@@ -161,7 +161,7 @@ export interface IFetchDownloadFileUrlOptions {
 export enum DownloadOperationStatus {
   PENDING = "pending",
   PROCESSING = "processing",
-  CREATING = "creating",
+  CONVERTING = "converting",
   COMPLETED = "completed",
   FAILED = "failed",
 }
