@@ -614,13 +614,13 @@ describe("HubSite Class:", () => {
           expect(result._followers?.showFollowAction).toBe(true);
         });
         describe("_followers.isDiscussable", () => {
-          it("set to true by default (when no followers group is returned)", async () => {
+          it("set to false by default (when no followers group is returned)", async () => {
             getFollowersGroupSpy = spyOn(
               chk,
               "getFollowersGroup"
             ).and.returnValue(Promise.resolve(null));
             const result = await chk.toEditor();
-            expect(result._followers?.isDiscussable).toBe(true);
+            expect(result._followers?.isDiscussable).toBe(false);
           });
           it("set to true when the followers group is discussable", async () => {
             getFollowersGroupSpy = spyOn(
