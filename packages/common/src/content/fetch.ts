@@ -22,7 +22,10 @@ import {
   fetchHubEnrichmentsBySlug,
   getContentEnrichments,
 } from "./_fetch";
-import { canUseHubApiForItem } from "./_internal/internalContentUtils";
+import {
+  canUseHubApiForItem,
+  fetchAdditionalResources,
+} from "./_internal/internalContentUtils";
 import {
   composeContent,
   getItemLayer,
@@ -252,15 +255,11 @@ export const fetchHubContent = async (
 ): Promise<IHubEditableContent> => {
   // NOTE: b/c we have to support slugs we use fetchContent() to get the item
   // by telling it to not fetch any enrichments which we then fetch as needed after we have the item
-  // EXCEPTION: We ask it to fetch the metadata enrichment so we don't have to parse xml on the client
   const options = {
     ...requestOptions,
-    enrichments: ["metadata"],
+    enrichments: [],
   } as IFetchContentOptions;
-  const { item, access, additionalResources } = await fetchContent(
-    identifier,
-    options
-  );
+  const { item, access } = await fetchContent(identifier, options);
 
   // we must normalize the underlying item type to account
   // for older items (e.g. sites that are type "Web Mapping
@@ -269,12 +268,20 @@ export const fetchHubContent = async (
   setProp("type", type, item);
 
   const model = { item };
-  const enrichments: IHubEditableContentEnrichments = { additionalResources };
+  const enrichments: IHubEditableContentEnrichments = {};
+
   if (isHostedFeatureServiceItem(item)) {
     enrichments.server = await getService({
       ...requestOptions,
       url: parseServiceUrl(item.url),
     });
+  }
+
+  if (access === "public") {
+    // NOTE: If we ever want to support fetching additional resouces for private items,
+    // We'll need to refactor `fetchHubContent()` to take an `IHubRequestOptions` so
+    // `fetchAdditionalResources` can access options.authentication.token for url calculations
+    enrichments.additionalResources = await fetchAdditionalResources(item);
   }
 
   if (isDownloadSchedulingAvailable(requestOptions, access)) {
