@@ -1,3 +1,10 @@
+## @esri/hub-common [14.119.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.119.3...@esri/hub-common@14.119.4) (2024-04-26)
+
+
+### Bug Fixes
+
+* update fetchHubGroup ro and follow card permission ([#1484](https://github.com/Esri/hub.js/issues/1484)) ([ef3cabb](https://github.com/Esri/hub.js/commit/ef3cabb9bfa91604585c279acbea294b3a9d983c))
+
 ## @esri/hub-common [14.119.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.119.2...@esri/hub-common@14.119.3) (2024-04-25)
 
 
