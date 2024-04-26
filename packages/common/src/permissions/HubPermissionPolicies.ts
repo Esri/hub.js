@@ -121,7 +121,7 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:card:follow",
     environments: ["qaext"],
     availability: ["flag"],
-    licenses: ["hub-premium"],
+    licenses: ["hub-basic", "hub-premium"],
   },
   {
     // When enabled, the edit & manage links will take the user to umbrella
