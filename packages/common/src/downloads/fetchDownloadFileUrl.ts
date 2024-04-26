@@ -1,7 +1,7 @@
 import HubError from "../HubError";
 import { canUseExportImageFlow } from "./_internal/canUseExportImageFlow";
 import { canUseExportItemFlow } from "./_internal/canUseExportItemFlow";
-import { canUseHubDownloadApi } from "./_internal/canUseHubDownloadApi";
+import { canUseHubDownloadApi } from "./canUseHubDownloadApi";
 import { IFetchDownloadFileUrlOptions } from "./types";
 
 /**

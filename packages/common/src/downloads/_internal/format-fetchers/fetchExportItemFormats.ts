@@ -33,11 +33,3 @@ export async function fetchExportItemFormats(
   //   ? getAllExportItemFormats()
   //   : fetchAvailableExportItemFormats(entity, context, layers);
 }
-
-// function canCreateExport(
-//   _entity: IHubEditableContent,
-//   _context: IArcGISContext
-// ): boolean {
-//   // TODO: port over logic from ember's download-service
-//   return true;
-// }

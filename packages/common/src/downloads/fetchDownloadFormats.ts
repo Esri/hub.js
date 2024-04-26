@@ -1,7 +1,7 @@
 import { IHubAdditionalResource } from "../core/types/IHubAdditionalResource";
 import { canUseExportImageFlow } from "./_internal/canUseExportImageFlow";
 import { canUseExportItemFlow } from "./_internal/canUseExportItemFlow";
-import { canUseHubDownloadApi } from "./_internal/canUseHubDownloadApi";
+import { canUseHubDownloadApi } from "./canUseHubDownloadApi";
 import {
   IDownloadFormat,
   IFetchDownloadFormatsOptions,

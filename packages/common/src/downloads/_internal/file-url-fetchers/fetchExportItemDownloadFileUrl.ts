@@ -6,7 +6,6 @@ import {
 } from "@esri/arcgis-rest-portal";
 import {
   DownloadOperationStatus,
-  ExportItemFormat,
   IFetchDownloadFileUrlOptions,
   LegacyExportItemFormat,
   PORTAL_EXPORT_TYPES,
@@ -16,6 +15,7 @@ import {
 import { getExportItemDataUrl } from "../getExportItemDataUrl";
 import HubError from "../../../HubError";
 import { IArcGISContext } from "../../../ArcGISContext";
+import { ExportItemFormat } from "../_types";
 
 /**
  * @private
