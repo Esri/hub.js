@@ -77,6 +77,7 @@ export const processIGetRegistrationsParams = (
   });
   // assemble GetRegistrationParams object
   return {
+    ...options.requestOptions,
     data: {
       eventId: query.properties.eventId,
       ...filterProps,
