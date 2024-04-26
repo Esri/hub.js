@@ -18,7 +18,12 @@ import { IFilter, IHubSearchResult, IPredicate, IQuery } from "../search";
 export function isDiscussable(
   subject: Partial<IGroup | IItem | IHubContent | IHubItemEntity>
 ) {
-  return !(subject.typeKeywords ?? []).includes(CANNOT_DISCUSS);
+  let result = false;
+  if (subject) {
+    const typeKeywords = subject.typeKeywords || [];
+    result = !typeKeywords.includes(CANNOT_DISCUSS);
+  }
+  return result;
 }
 
 /**
