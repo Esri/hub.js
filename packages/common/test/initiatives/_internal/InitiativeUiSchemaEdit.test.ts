@@ -433,6 +433,9 @@ describe("buildUiSchema: initiative edit", () => {
                 sizeDescription: {
                   labelKey: `some.scope.fields.featuredImage.sizeDescription`,
                 },
+                helperText: {
+                  labelKey: `some.scope.fields.featuredImage.helperText`,
+                },
               },
             },
             {
