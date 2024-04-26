@@ -154,6 +154,11 @@ describe("buildUiSchema: initiative create", () => {
                 {
                   type: "Section",
                   labelKey: "some.scope.fields.featuredImage.label",
+                  options: {
+                    helperText: {
+                      labelKey: `some.scope.fields.featuredImage.helperText`,
+                    },
+                  },
                   rule: {
                     effect: UiSchemaRuleEffects.HIDE,
                     condition: {
