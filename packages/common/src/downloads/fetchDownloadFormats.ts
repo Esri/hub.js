@@ -2,9 +2,6 @@ import { IHubAdditionalResource } from "../core/types/IHubAdditionalResource";
 import { canUseExportImageFlow } from "./_internal/canUseExportImageFlow";
 import { canUseExportItemFlow } from "./_internal/canUseExportItemFlow";
 import { canUseHubDownloadApi } from "./_internal/canUseHubDownloadApi";
-import { fetchExportItemFormats } from "./_internal/format-fetchers/fetchExportItemFormats";
-import { getExportImageDownloadFormats } from "./_internal/format-fetchers/getExportImageFormats";
-import { getHubDownloadApiFormats } from "./_internal/format-fetchers/getHubDownloadApiFormats";
 import {
   IDownloadFormat,
   IFetchDownloadFormatsOptions,
@@ -23,10 +20,19 @@ export async function fetchDownloadFormats(
   // fetch base formats for the item
   let baseFormats: IDownloadFormat[] = [];
   if (canUseHubDownloadApi(entity, context)) {
+    const { getHubDownloadApiFormats } = await import(
+      "./_internal/format-fetchers/getHubDownloadApiFormats"
+    );
     baseFormats = getHubDownloadApiFormats(entity);
   } else if (canUseExportItemFlow(entity)) {
+    const { fetchExportItemFormats } = await import(
+      "./_internal/format-fetchers/fetchExportItemFormats"
+    );
     baseFormats = await fetchExportItemFormats(entity, context, layers);
   } else if (canUseExportImageFlow(entity)) {
+    const { getExportImageDownloadFormats } = await import(
+      "./_internal/format-fetchers/getExportImageFormats"
+    );
     baseFormats = getExportImageDownloadFormats();
   }
 

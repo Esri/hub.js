@@ -2,9 +2,6 @@ import HubError from "../HubError";
 import { canUseExportImageFlow } from "./_internal/canUseExportImageFlow";
 import { canUseExportItemFlow } from "./_internal/canUseExportItemFlow";
 import { canUseHubDownloadApi } from "./_internal/canUseHubDownloadApi";
-import { fetchExportImageDownloadFileUrl } from "./_internal/file-url-fetchers/fetchExportImageDownloadFileUrl";
-import { fetchExportItemDownloadFileUrl } from "./_internal/file-url-fetchers/fetchExportItemDownloadFileUrl";
-import { fetchHubApiDownloadFileUrl } from "./_internal/file-url-fetchers/fetchHubApiDownloadFileUrl";
 import { IFetchDownloadFileUrlOptions } from "./types";
 
 /**
@@ -17,11 +14,21 @@ export async function fetchDownloadFileUrl(
 ): Promise<string> {
   let fetchingFn;
   if (canUseHubDownloadApi(options.entity, options.context)) {
-    fetchingFn = fetchHubApiDownloadFileUrl;
+    fetchingFn = (
+      await import("./_internal/file-url-fetchers/fetchHubApiDownloadFileUrl")
+    ).fetchHubApiDownloadFileUrl;
   } else if (canUseExportItemFlow(options.entity)) {
-    fetchingFn = fetchExportItemDownloadFileUrl;
+    fetchingFn = (
+      await import(
+        "./_internal/file-url-fetchers/fetchExportItemDownloadFileUrl"
+      )
+    ).fetchExportItemDownloadFileUrl;
   } else if (canUseExportImageFlow(options.entity)) {
-    fetchingFn = fetchExportImageDownloadFileUrl;
+    fetchingFn = (
+      await import(
+        "./_internal/file-url-fetchers/fetchExportImageDownloadFileUrl"
+      )
+    ).fetchExportImageDownloadFileUrl;
   } else {
     throw new HubError(
       "fetchDownloadFileUrl",
