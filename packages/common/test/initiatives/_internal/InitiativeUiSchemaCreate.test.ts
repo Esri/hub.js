@@ -154,11 +154,6 @@ describe("buildUiSchema: initiative create", () => {
                 {
                   type: "Section",
                   labelKey: "some.scope.fields.featuredImage.label",
-                  options: {
-                    helperText: {
-                      labelKey: `some.scope.fields.featuredImage.helperText`,
-                    },
-                  },
                   rule: {
                     effect: UiSchemaRuleEffects.HIDE,
                     condition: {
@@ -179,6 +174,9 @@ describe("buildUiSchema: initiative create", () => {
                         sizeDescription: {
                           labelKey:
                             "some.scope.fields.featuredImage.sizeDescription",
+                        },
+                        helperText: {
+                          labelKey: `some.scope.fields.featuredImage.helperText`,
                         },
                       },
                     },
@@ -393,11 +391,7 @@ describe("buildUiSchema: initiative create", () => {
                 {
                   type: "Section",
                   labelKey: "some.scope.fields.featuredImage.label",
-                  options: {
-                    helperText: {
-                      labelKey: `some.scope.fields.featuredImage.helperText`,
-                    },
-                  },
+
                   rule: {
                     effect: UiSchemaRuleEffects.HIDE,
                     condition: {
@@ -418,6 +412,9 @@ describe("buildUiSchema: initiative create", () => {
                         sizeDescription: {
                           labelKey:
                             "some.scope.fields.featuredImage.sizeDescription",
+                        },
+                        helperText: {
+                          labelKey: `some.scope.fields.featuredImage.helperText`,
                         },
                       },
                     },
