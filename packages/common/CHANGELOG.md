@@ -1,3 +1,18 @@
+## @esri/hub-common [14.119.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.119.2...@esri/hub-common@14.119.3) (2024-04-25)
+
+
+### Bug Fixes
+
+* broaden check for isDiscussable to handle falsey, not just undefined ([#1487](https://github.com/Esri/hub.js/issues/1487)) ([a298ba3](https://github.com/Esri/hub.js/commit/a298ba3ce8d4bc7f19fb19fb705c9e1b4772661e))
+
+## @esri/hub-common [14.119.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.119.1...@esri/hub-common@14.119.2) (2024-04-25)
+
+
+### Bug Fixes
+
+* isDiscussable handles undefined subject ([#1486](https://github.com/Esri/hub.js/issues/1486)) ([d9ea92a](https://github.com/Esri/hub.js/commit/d9ea92aa7891f812f867769f47682ddd374e65f1))
+* **hub-common:** fix the target api url in getSchedule(), setSchedule(), etc ([#1485](https://github.com/Esri/hub.js/issues/1485)) ([c820942](https://github.com/Esri/hub.js/commit/c820942656f2aec9d0f2a9ac36cf0820f6d1056d))
+
 ## @esri/hub-common [14.119.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.119.0...@esri/hub-common@14.119.1) (2024-04-22)
 
 
