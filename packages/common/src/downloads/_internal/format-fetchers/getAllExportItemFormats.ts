@@ -1,4 +1,5 @@
-import { EXPORT_ITEM_FORMATS, IDynamicDownloadFormat } from "../types";
+import { IDynamicDownloadFormat } from "../../types";
+import { EXPORT_ITEM_FORMATS } from "../_types";
 
 /**
  * @private

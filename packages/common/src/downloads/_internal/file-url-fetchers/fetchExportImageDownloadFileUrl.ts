@@ -2,7 +2,7 @@ import { request } from "@esri/arcgis-rest-request";
 import {
   DownloadOperationStatus,
   IFetchDownloadFileUrlOptions,
-} from "../types";
+} from "../../types";
 
 /**
  * @private

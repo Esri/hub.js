@@ -1,11 +1,11 @@
 import HubError from "../HubError";
-import { canUseExportImageFlow } from "./helpers/canUseExportImageFlow";
-import { canUseExportItemFlow } from "./helpers/canUseExportItemFlow";
-import { canUseHubDownloadApi } from "./helpers/canUseHubDownloadApi";
-import { fetchExportImageDownloadFileUrl } from "./helpers/file-url-fetchers/fetchExportImageDownloadFileUrl";
-import { fetchExportItemDownloadFileUrl } from "./helpers/file-url-fetchers/fetchExportItemDownloadFileUrl";
-import { fetchHubApiDownloadFileUrl } from "./helpers/file-url-fetchers/fetchHubApiDownloadFileUrl";
-import { IFetchDownloadFileUrlOptions } from "./helpers/types";
+import { canUseExportImageFlow } from "./_internal/canUseExportImageFlow";
+import { canUseExportItemFlow } from "./_internal/canUseExportItemFlow";
+import { canUseHubDownloadApi } from "./_internal/canUseHubDownloadApi";
+import { fetchExportImageDownloadFileUrl } from "./_internal/file-url-fetchers/fetchExportImageDownloadFileUrl";
+import { fetchExportItemDownloadFileUrl } from "./_internal/file-url-fetchers/fetchExportItemDownloadFileUrl";
+import { fetchHubApiDownloadFileUrl } from "./_internal/file-url-fetchers/fetchHubApiDownloadFileUrl";
+import { IFetchDownloadFileUrlOptions } from "./types";
 
 /**
  * Fetches a download file URL for the given entity and format.

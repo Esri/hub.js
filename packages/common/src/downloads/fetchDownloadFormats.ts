@@ -1,15 +1,15 @@
 import { IHubAdditionalResource } from "../core/types/IHubAdditionalResource";
-import { canUseExportImageFlow } from "./helpers/canUseExportImageFlow";
-import { canUseExportItemFlow } from "./helpers/canUseExportItemFlow";
-import { canUseHubDownloadApi } from "./helpers/canUseHubDownloadApi";
-import { fetchExportItemFormats } from "./helpers/format-fetchers/fetchExportItemFormats";
-import { getExportImageDownloadFormats } from "./helpers/format-fetchers/getExportImageFormats";
-import { getHubDownloadApiFormats } from "./helpers/format-fetchers/getHubDownloadApiFormats";
+import { canUseExportImageFlow } from "./_internal/canUseExportImageFlow";
+import { canUseExportItemFlow } from "./_internal/canUseExportItemFlow";
+import { canUseHubDownloadApi } from "./_internal/canUseHubDownloadApi";
+import { fetchExportItemFormats } from "./_internal/format-fetchers/fetchExportItemFormats";
+import { getExportImageDownloadFormats } from "./_internal/format-fetchers/getExportImageFormats";
+import { getHubDownloadApiFormats } from "./_internal/format-fetchers/getHubDownloadApiFormats";
 import {
   IDownloadFormat,
   IFetchDownloadFormatsOptions,
   IStaticDownloadFormat,
-} from "./helpers/types";
+} from "./types";
 
 /**
  * Fetches download formats for the given entity. Also folds in any additional resources defined on the entity.

@@ -1,4 +1,5 @@
-import { HUB_PAGING_JOB_FORMATS, IDynamicDownloadFormat } from "../types";
+import { IDynamicDownloadFormat } from "../../types";
+import { HUB_PAGING_JOB_FORMATS } from "../_types";
 
 /**
  * @private

@@ -1,6 +1,6 @@
 import { getCreateReplicaFormats } from "./getCreateReplicaFormats";
 import { getPagingJobFormats } from "./getPagingJobFormats";
-import { IDynamicDownloadFormat } from "../types";
+import { IDynamicDownloadFormat } from "../../types";
 import { IHubEditableContent } from "../../../core/types/IHubEditableContent";
 import { isHostedFeatureServiceEntity } from "../../../content/hostedServiceUtils";
 

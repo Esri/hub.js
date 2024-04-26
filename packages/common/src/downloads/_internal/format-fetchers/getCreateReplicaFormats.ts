@@ -1,5 +1,6 @@
 import { IHubEditableContent } from "../../../core/types/IHubEditableContent";
-import { CreateReplicaFormat, IDynamicDownloadFormat } from "../types";
+import { IDynamicDownloadFormat } from "../../types";
+import { CreateReplicaFormat } from "../_types";
 
 /**
  * @private

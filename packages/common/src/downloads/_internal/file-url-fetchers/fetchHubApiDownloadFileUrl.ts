@@ -6,7 +6,7 @@ import {
   IFetchDownloadFileUrlOptions,
   ServiceDownloadFormat,
   downloadProgressCallback,
-} from "../types";
+} from "../../types";
 
 /**
  * @private

@@ -1,17 +1,17 @@
-import { buildExistingExportsPortalQuery } from "../build-existing-exports-portal-query";
+import { buildExistingExportsPortalQuery } from "../../build-existing-exports-portal-query";
 import {
-  ExportItemFormat,
   IStaticDownloadFormat,
   LegacyExportItemFormat,
   PORTAL_EXPORT_TYPES,
   ServiceDownloadFormat,
-} from "../types";
+} from "../../types";
 import { IItem, searchItems } from "@esri/arcgis-rest-portal";
 import { getExportItemDataUrl } from "../getExportItemDataUrl";
 import { IHubEditableContent } from "../../../core/types/IHubEditableContent";
 import { IArcGISContext } from "../../../ArcGISContext";
 import HubError from "../../../HubError";
 import { fetchAllPages } from "../../../items/fetch-all-pages";
+import { ExportItemFormat } from "../_types";
 
 /**
  * @private

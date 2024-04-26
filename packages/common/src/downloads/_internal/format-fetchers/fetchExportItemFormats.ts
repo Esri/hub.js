@@ -1,6 +1,6 @@
 import { IArcGISContext } from "../../../ArcGISContext";
 import { IHubEditableContent } from "../../../core/types/IHubEditableContent";
-import { IDownloadFormat } from "../types";
+import { IDownloadFormat } from "../../types";
 
 /**
  * @private

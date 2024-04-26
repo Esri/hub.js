@@ -12,7 +12,7 @@ import {
   PORTAL_EXPORT_TYPES,
   ServiceDownloadFormat,
   downloadProgressCallback,
-} from "../types";
+} from "../../types";
 import { getExportItemDataUrl } from "../getExportItemDataUrl";
 import HubError from "../../../HubError";
 import { IArcGISContext } from "../../../ArcGISContext";
