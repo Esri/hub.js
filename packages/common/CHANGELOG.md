@@ -1,3 +1,10 @@
+# @esri/hub-common [14.120.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.119.4...@esri/hub-common@14.120.0) (2024-04-29)
+
+
+### Features
+
+* initiative workspace gated to alpha, but open to prod ([#1481](https://github.com/Esri/hub.js/issues/1481)) ([46c4f09](https://github.com/Esri/hub.js/commit/46c4f09807b43e7d55b3aa1f9e0e8c14b992498b))
+
 ## @esri/hub-common [14.119.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.119.3...@esri/hub-common@14.119.4) (2024-04-26)
 
 
