@@ -1,5 +1,4 @@
 import { IWithPermissions, IWithSlug } from "../traits/index";
-import { IHubAdditionalResource } from "./IHubAdditionalResource";
 import { IHubItemEntity, IHubItemEntityEditor } from "./IHubItemEntity";
 import { IHubSchedule } from "./IHubSchedule";
 
@@ -20,16 +19,6 @@ export interface IHubEditableContent
    * capability enabled. This is a pre-requisite for Hosted Downloads to work.
    */
   serverExtractCapability?: boolean;
-  /**
-   * If the item represents a hosted feature service with "Extract enabled", shows the formats that
-   * can be extracted from the service via the "createReplica" operation.
-   */
-  serverExtractFormats?: string[];
-  /**
-   * links to additional resources specified in the formal item metadata
-   * TODO: which items can have these? And is it only available for public items?
-   */
-  additionalResources?: IHubAdditionalResource[];
   /**
    * The schedule at which the reharvest of the item will occur
    */

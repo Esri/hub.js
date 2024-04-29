@@ -59,15 +59,9 @@ export function computeProps(
       ServiceCapabilities.EXTRACT,
       enrichments.server
     );
-    const extractFormatsList: string = getProp(
-      enrichments,
-      "server.supportedExportFormats"
-    );
-    content.serverExtractFormats =
-      extractFormatsList && extractFormatsList.split(",");
   }
 
-  content.additionalResources = enrichments.additionalResources;
+ 
 
   return content as IHubEditableContent;
 }
