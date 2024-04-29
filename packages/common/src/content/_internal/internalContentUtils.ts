@@ -41,7 +41,6 @@ import { _getHubUrlFromPortalHostname } from "../../urls/_get-hub-url-from-porta
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { geojsonToArcGIS } from "@terraformer/arcgis";
 import { Polygon } from "geojson";
-import { fetchItemEnrichments } from "../../items/_enrichments";
 
 /**
  * Hashmap of Hub environment and application url surfix
@@ -451,25 +450,6 @@ export const getItemSpatialReference = (item: IItem): ISpatialReference => {
 interface IAGOAdditionalResource {
   orName?: string; // Name of the resource
   linkage: string; // URL to the resource
-}
-
-/**
- * Fetches and formats additional resources that are defined in the formal item metadata
- *
- * @param item
- * @param requestOptions
- * @returns An array of additional resources, or null if none are available
- */
-export async function fetchAdditionalResources(
-  item: IItem,
-  requestOptions?: IHubRequestOptions
-): Promise<IHubAdditionalResource[]> {
-  const { metadata } = await fetchItemEnrichments(
-    item,
-    ["metadata"],
-    requestOptions
-  );
-  return getAdditionalResources(item, metadata, requestOptions);
 }
 
 /**
