@@ -140,6 +140,9 @@ describe("buildUiSchema: initiative edit", () => {
                 sizeDescription: {
                   labelKey: `some.scope.fields.featuredImage.sizeDescription`,
                 },
+                helperText: {
+                  labelKey: `some.scope.fields.featuredImage.helperText`,
+                },
               },
             },
             {
@@ -429,6 +432,9 @@ describe("buildUiSchema: initiative edit", () => {
                 aspectRatio: 1.5,
                 sizeDescription: {
                   labelKey: `some.scope.fields.featuredImage.sizeDescription`,
+                },
+                helperText: {
+                  labelKey: `some.scope.fields.featuredImage.helperText`,
                 },
               },
             },

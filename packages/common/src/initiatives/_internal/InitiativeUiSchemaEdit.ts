@@ -125,6 +125,9 @@ export const buildUiSchema = async (
               sizeDescription: {
                 labelKey: `${i18nScope}.fields.featuredImage.sizeDescription`,
               },
+              helperText: {
+                labelKey: `${i18nScope}.fields.featuredImage.helperText`,
+              },
             },
           },
           {
