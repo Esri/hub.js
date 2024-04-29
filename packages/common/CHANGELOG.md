@@ -1,3 +1,10 @@
+## @esri/hub-common [14.121.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.121.0...@esri/hub-common@14.121.1) (2024-04-29)
+
+
+### Bug Fixes
+
+* export IWithFollowers ([#1489](https://github.com/Esri/hub.js/issues/1489)) ([6455b42](https://github.com/Esri/hub.js/commit/6455b421425995f71b3f8578114deea0033b680c))
+
 # @esri/hub-common [14.121.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.120.0...@esri/hub-common@14.121.0) (2024-04-29)
 
 
