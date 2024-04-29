@@ -415,9 +415,6 @@ describe("buildUiSchema: initiative create", () => {
                           labelKey:
                             "some.scope.fields.featuredImage.sizeDescription",
                         },
-                        helperText: {
-                          labelKey: `some.scope.fields.featuredImage.helperText`,
-                        },
                       },
                     },
                     {
