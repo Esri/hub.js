@@ -87,7 +87,7 @@ describe("fetchHubEntity:", () => {
   });
   it("fetches group", async () => {
     const ctx = {
-      userRequestOptions: "fakeRequestOptions",
+      hubRequestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
     const spy = spyOn(
       require("../../src/groups/HubGroups"),

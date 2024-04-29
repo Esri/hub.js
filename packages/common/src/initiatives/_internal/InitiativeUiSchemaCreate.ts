@@ -156,6 +156,11 @@ export const buildUiSchema = async (
               {
                 type: "Section",
                 labelKey: `${i18nScope}.fields.featuredImage.label`,
+                options: {
+                  helperText: {
+                    labelKey: `${i18nScope}.fields.featuredImage.helperText`,
+                  },
+                },
                 rule: {
                   effect: UiSchemaRuleEffects.HIDE,
                   condition: {

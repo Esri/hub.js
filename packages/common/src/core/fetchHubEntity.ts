@@ -49,7 +49,7 @@ export async function fetchHubEntity(
       result = await fetchTemplate(identifier, context.requestOptions);
       break;
     case "group":
-      result = await fetchHubGroup(identifier, context.userRequestOptions);
+      result = await fetchHubGroup(identifier, context.hubRequestOptions);
       break;
     case "survey":
       result = await fetchSurvey(identifier, context.hubRequestOptions);
