@@ -72,7 +72,7 @@ async function parseMetadataXml(metadataXml: string): Promise<any> {
  * @param id item id
  * @param requestOptions
  */
-export async function fetchContentMetadata(
+async function fetchContentMetadata(
   id: string,
   requestOptions?: IHubRequestOptions
 ): Promise<any> {

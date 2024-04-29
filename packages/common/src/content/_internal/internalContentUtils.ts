@@ -41,7 +41,7 @@ import { _getHubUrlFromPortalHostname } from "../../urls/_get-hub-url-from-porta
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { geojsonToArcGIS } from "@terraformer/arcgis";
 import { Polygon } from "geojson";
-import { fetchContentMetadata } from "../../items/_enrichments";
+import { fetchItemEnrichments } from "../../items/_enrichments";
 
 /**
  * Hashmap of Hub environment and application url surfix
@@ -464,7 +464,11 @@ export async function fetchAdditionalResources(
   item: IItem,
   requestOptions?: IHubRequestOptions
 ): Promise<IHubAdditionalResource[]> {
-  const metadata = await fetchContentMetadata(item.id, requestOptions);
+  const { metadata } = await fetchItemEnrichments(
+    item,
+    ["metadata"],
+    requestOptions
+  );
   return getAdditionalResources(item, metadata, requestOptions);
 }
 
