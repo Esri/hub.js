@@ -1,7 +1,7 @@
 import { checkPermission } from "../..";
 import { IArcGISContext } from "../../ArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
-import { IUiSchema } from "../../core/schemas/types";
+import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import { IHubEditableContent } from "../../core/types/IHubEditableContent";
 import { isHostedFeatureServiceEntity } from "../hostedServiceUtils";
 
@@ -45,13 +45,32 @@ export const buildUiSchema = async (
               { type: "weekly" },
               { type: "monthly" },
               { type: "yearly" },
-              // uncomment this when the manual option is available
-              // {
-              //   label: `option.manual.label`,
-              //   type: "manual",
-              //   helperActionIcon: "information-f",
-              //   helperActionText: "option.manual.helperActionText",
-              // },
+              { type: "manual" },
+            ],
+          },
+        },
+        {
+          type: "Control",
+          scope: "/properties/schedule/properties/_forceUpdate",
+          rule: {
+            effect: UiSchemaRuleEffects.SHOW,
+            condition: {
+              scope: "/properties/schedule",
+              schema: {
+                enum: [
+                  { mode: "manual" },
+                  { mode: "manual", _forceUpdate: [] },
+                  { mode: "manual", _forceUpdate: [true] },
+                ],
+              },
+            },
+          },
+          options: {
+            control: "hub-field-input-tile-select",
+            type: "checkbox",
+            labels: ["Force Update"],
+            descriptions: [
+              "Use this option to manually update the search index and cached download files for this item.",
             ],
           },
         },

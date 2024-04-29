@@ -23,6 +23,15 @@ export const ContentSchema: IConfigurationSchema = {
     },
     schedule: {
       type: "object",
+      properties: {
+        _forceUpdate: {
+          type: "array",
+          items: {
+            type: "boolean",
+            enum: [true],
+          },
+        },
+      },
     },
   },
 } as IConfigurationSchema;
