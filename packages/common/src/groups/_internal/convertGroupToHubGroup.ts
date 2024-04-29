@@ -3,7 +3,7 @@ import { PropertyMapper } from "../../core/_internal/PropertyMapper";
 import { IHubGroup } from "../../core/types/IHubGroup";
 import { computeProps } from "./computeProps";
 import { getPropertyMap } from "./getPropertyMap";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IHubRequestOptions } from "../../types";
 
 /**
  * Convert an IGroup to a Hub Group
@@ -13,7 +13,7 @@ import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 export function convertGroupToHubGroup(
   group: IGroup,
-  requestOptions: IUserRequestOptions
+  requestOptions: IHubRequestOptions
 ): IHubGroup {
   const mapper = new PropertyMapper<Partial<IHubGroup>, IGroup>(
     getPropertyMap()
