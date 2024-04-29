@@ -1,3 +1,10 @@
+# @esri/hub-common [14.121.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.120.0...@esri/hub-common@14.121.0) (2024-04-29)
+
+
+### Features
+
+* add helper text to image ([#1488](https://github.com/Esri/hub.js/issues/1488)) ([58f67ec](https://github.com/Esri/hub.js/commit/58f67eca730ef606fe1e432163f942ccf1c1ec19))
+
 # @esri/hub-common [14.120.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.119.4...@esri/hub-common@14.120.0) (2024-04-29)
 
 
