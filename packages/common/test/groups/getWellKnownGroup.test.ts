@@ -28,6 +28,7 @@ describe("getWellKnownGroup: ", () => {
       notifications: "online",
       "hub-search": "online",
       domains: "online",
+      "hub-downloads": "online",
     },
     userHubSettings: {
       schemaVersion: 1,
