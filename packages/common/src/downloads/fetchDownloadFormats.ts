@@ -30,10 +30,10 @@ export async function fetchDownloadFormats(
     );
     baseFormats = await fetchExportItemFormats(entity, context, layers);
   } else if (canUseExportImageFlow(entity)) {
-    const { getExportImageDownloadFormats } = await import(
+    const { getExportImageFormats } = await import(
       "./_internal/format-fetchers/getExportImageFormats"
     );
-    baseFormats = getExportImageDownloadFormats();
+    baseFormats = getExportImageFormats();
   }
 
   // add additional resource links as static formats
