@@ -32,7 +32,7 @@ describe("Hub Groups", () => {
       expect(newGroup.membershipAccess).toBe("organization");
       const fetchedGroup = await fetchHubGroup(
         newGroup.id,
-        ctxMgr.context.userRequestOptions
+        ctxMgr.context.hubRequestOptions
       );
       // verify can* flags
       expect(fetchedGroup.canDelete).toBe(true);
@@ -51,7 +51,7 @@ describe("Hub Groups", () => {
       expect(updatedGroup.membershipAccess).toBe("anyone");
       await deleteHubGroup(newGroup.id, ctxMgr.context.userRequestOptions);
       try {
-        await fetchHubGroup(newGroup.id, ctxMgr.context.userRequestOptions);
+        await fetchHubGroup(newGroup.id, ctxMgr.context.hubRequestOptions);
         fail("should have thrown error");
       } catch (e) {
         expect((e as any).message).toBe(

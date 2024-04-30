@@ -109,8 +109,10 @@ export interface IUpdateEvent {
   description?: string;
   /** Groups with edit access to the event */
   editGroups?: string[];
-  /** ISO8601 end date-time for the event */
-  endDateTime?: string;
+  /** end date string formatted YYYY-MM-DD */
+  endDate?: string;
+  /** end time string 24 hour formatted HH:MM:SS */
+  endTime?: string;
   /** GeoJSON formatted geometry related to the event */
   geometry?: IUpdateEventGeometry;
   /** Flag to notify attendees */
@@ -119,8 +121,10 @@ export interface IUpdateEvent {
   onlineMeetings?: ICreateOnlineMeeting[];
   /** Groups with read access to the event */
   readGroups?: string[];
-  /** ISO8601 start date-time for the event */
-  startDateTime?: string;
+  /** start date string formatted YYYY-MM-DD */
+  startDate?: string;
+  /** start time string 24 hour formatted HH:MM:SS */
+  startTime?: string;
   /** Status of the event */
   status?: EventStatus;
   /** Summary of the event */
@@ -150,6 +154,10 @@ export enum EventSort {
   updatedAt = "updatedAt",
 }
 export type GetEventsParams = {
+  /**
+   * Comma separated string list of EventAccess
+   */
+  access?: string;
   /**
    * Comma separated string list of relation fields to include in response
    */
@@ -232,7 +240,9 @@ export interface IEvent {
   creator?: IUser;
   description: string | null;
   editGroups: string[];
+  endDate: string;
   endDateTime: string;
+  endTime: string;
   geometry: IEventGeometry;
   id: string;
   notifyAttendees: boolean;
@@ -242,7 +252,9 @@ export interface IEvent {
   readGroups: string[];
   recurrence: string | null;
   registrations?: IRegistration[];
+  startDate: string;
   startDateTime: string;
+  startTime: string;
   status: EventStatus;
   summary: string | null;
   tags: string[];
@@ -390,8 +402,10 @@ export interface ICreateEvent {
   editGroups?: string[];
   /** Email for the subscriber. Will always be extracted from the token unless service token is used. */
   email?: string;
-  /** ISO8601 end date-time for the event */
-  endDateTime: string;
+  /** end date string formatted YYYY-MM-DD */
+  endDate: string;
+  /** end time string 24 hour formatted HH:MM:SS */
+  endTime: string;
   /** First name for the subscriber. Will always be extracted from the token unless service token is used. */
   firstName?: string;
   /** GeoJSON formatted geometry related to the event */
@@ -404,8 +418,10 @@ export interface ICreateEvent {
   onlineMeetings?: ICreateOnlineMeeting[];
   /** Groups with read access to the event */
   readGroups?: string[];
-  /** ISO8601 start date-time for the event */
-  startDateTime: string;
+  /** start date string formatted YYYY-MM-DD */
+  startDate: string;
+  /** start time string 24 hour formatted HH:MM:SS */
+  startTime: string;
   /** Summary of the event */
   summary?: string;
   /** Tags for the event */

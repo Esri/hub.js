@@ -1,3 +1,38 @@
+## @esri/hub-common [14.121.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.121.1...@esri/hub-common@14.121.2) (2024-04-30)
+
+
+### Bug Fixes
+
+* **hub-common:** add startDate, startTime, endDate, endTime to create… ([#1480](https://github.com/Esri/hub.js/issues/1480)) ([74b4634](https://github.com/Esri/hub.js/commit/74b463485c9583281ed7a919e8974153bcd0ecd2))
+
+## @esri/hub-common [14.121.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.121.0...@esri/hub-common@14.121.1) (2024-04-29)
+
+
+### Bug Fixes
+
+* export IWithFollowers ([#1489](https://github.com/Esri/hub.js/issues/1489)) ([6455b42](https://github.com/Esri/hub.js/commit/6455b421425995f71b3f8578114deea0033b680c))
+
+# @esri/hub-common [14.121.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.120.0...@esri/hub-common@14.121.0) (2024-04-29)
+
+
+### Features
+
+* add helper text to image ([#1488](https://github.com/Esri/hub.js/issues/1488)) ([58f67ec](https://github.com/Esri/hub.js/commit/58f67eca730ef606fe1e432163f942ccf1c1ec19))
+
+# @esri/hub-common [14.120.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.119.4...@esri/hub-common@14.120.0) (2024-04-29)
+
+
+### Features
+
+* initiative workspace gated to alpha, but open to prod ([#1481](https://github.com/Esri/hub.js/issues/1481)) ([46c4f09](https://github.com/Esri/hub.js/commit/46c4f09807b43e7d55b3aa1f9e0e8c14b992498b))
+
+## @esri/hub-common [14.119.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.119.3...@esri/hub-common@14.119.4) (2024-04-26)
+
+
+### Bug Fixes
+
+* update fetchHubGroup ro and follow card permission ([#1484](https://github.com/Esri/hub.js/issues/1484)) ([ef3cabb](https://github.com/Esri/hub.js/commit/ef3cabb9bfa91604585c279acbea294b3a9d983c))
+
 ## @esri/hub-common [14.119.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.119.2...@esri/hub-common@14.119.3) (2024-04-25)
 
 

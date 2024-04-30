@@ -142,7 +142,7 @@ export async function createHubGroup(
  */
 export async function fetchHubGroup(
   identifier: string,
-  requestOptions: IUserRequestOptions
+  requestOptions: IHubRequestOptions
 ): Promise<IHubGroup> {
   const group = await getGroup(identifier, requestOptions);
   return convertGroupToHubGroup(group, requestOptions);
