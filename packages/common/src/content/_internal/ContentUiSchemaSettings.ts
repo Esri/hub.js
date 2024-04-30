@@ -45,13 +45,11 @@ export const buildUiSchema = async (
               { type: "weekly" },
               { type: "monthly" },
               { type: "yearly" },
-              // uncomment this when the manual option is available
-              // {
-              //   label: `option.manual.label`,
-              //   type: "manual",
-              //   helperActionIcon: "information-f",
-              //   helperActionText: "option.manual.helperActionText",
-              // },
+              {
+                type: "manual",
+                helperActionIcon: "information-f",
+                helperActionText: `{{${i18nScope}.fields.schedule.manual.helperActionText:translate}}`,
+              },
             ],
           },
         },
