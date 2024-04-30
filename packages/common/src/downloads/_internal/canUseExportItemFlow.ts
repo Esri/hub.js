@@ -1,4 +1,4 @@
-import { isHostedFeatureServiceEntity } from "../../content";
+import { isHostedFeatureServiceEntity } from "../../content/hostedServiceUtils";
 import { IHubEditableContent } from "../../core/types/IHubEditableContent";
 
 /**

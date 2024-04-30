@@ -40,12 +40,12 @@ export async function fetchExportImageDownloadFileUrl(
   }
   // Note: validate where "extent" and "layer" are coming from in the old ember code,
   // check if they are still applicable here
-  else {
-    const coords = entity.extent;
-    requestOptions.params.bbox = `${coords[0][0]},${coords[0][1]},${coords[1][0]},${coords[1][1]}`;
-    requestOptions.params.bboxSR = "4326";
-    requestOptions.params.imageSR = "4326";
-  }
+  // else {
+  //   const coords = entity.extent;
+  //   requestOptions.params.bbox = `${coords[0][0]},${coords[0][1]},${coords[1][0]},${coords[1][1]}`;
+  //   requestOptions.params.bboxSR = "4326";
+  //   requestOptions.params.imageSR = "4326";
+  // }
 
   // const { maxImageHeight, maxImageWidth } = this.args.model.layer || {};
   // if (maxImageWidth && maxImageHeight) {

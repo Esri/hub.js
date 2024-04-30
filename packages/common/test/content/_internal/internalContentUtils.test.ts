@@ -3,12 +3,15 @@ import {
   getContentEditUrl,
   getExtentObject,
   deriveLocationFromItem,
+  fetchAdditionalResources,
 } from "../../../src/content/_internal/internalContentUtils";
 import * as internalContentUtils from "../../../src/content/_internal/internalContentUtils";
 import { IHubRequestOptions } from "../../../src/types";
 import { cloneObject } from "../../../src/util";
 import { MOCK_HUB_REQOPTS } from "../../mocks/mock-auth";
 import { IHubLocation } from "../../../src";
+import * as _enrichmentsModule from "../../../src/items/_enrichments";
+import { IHubAdditionalResource } from "../../../src/core/types/IHubAdditionalResource";
 
 describe("getContentEditUrl", () => {
   let requestOptions: IHubRequestOptions;
@@ -467,5 +470,48 @@ describe("deriveLocationFromItem", () => {
         wkid: 4326,
       },
     });
+  });
+});
+describe("fetchAdditionalResources", () => {
+  it("should fetch additional resources", async () => {
+    const expected: IHubAdditionalResource[] = [
+      {
+        name: "fake-name",
+        url: "fake-url",
+        isDataSource: false,
+      },
+    ];
+    const metadata = { key: "value" };
+    const enrichmentsSpy = spyOn(
+      _enrichmentsModule,
+      "fetchItemEnrichments"
+    ).and.callFake(() => Promise.resolve({ metadata }));
+    const getAdditionalResourcesSpy = spyOn(
+      internalContentUtils,
+      "getAdditionalResources"
+    ).and.callFake(() => expected);
+
+    const item: IItem = {
+      id: "9001",
+      type: "Feature Service",
+      url: "fake-url",
+    } as IItem;
+
+    const requestOptions = {} as unknown as IHubRequestOptions;
+
+    const chk = await fetchAdditionalResources(item, requestOptions);
+    expect(chk).toEqual(expected);
+    expect(enrichmentsSpy).toHaveBeenCalledTimes(1);
+    expect(enrichmentsSpy).toHaveBeenCalledWith(
+      item,
+      ["metadata"],
+      requestOptions
+    );
+    expect(getAdditionalResourcesSpy).toHaveBeenCalledTimes(1);
+    expect(getAdditionalResourcesSpy).toHaveBeenCalledWith(
+      item,
+      metadata,
+      requestOptions
+    );
   });
 });

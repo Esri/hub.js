@@ -27,7 +27,8 @@ export async function fetchHubApiDownloadFileUrl(
 ): Promise<string> {
   validateOptions(options);
   const requestUrl = getDownloadApiRequestUrl(options);
-  return pollDownloadApi(requestUrl, options.progressCallback);
+  const { pollInterval, progressCallback } = options;
+  return pollDownloadApi(requestUrl, pollInterval, progressCallback);
 }
 
 function validateOptions(options: IFetchDownloadFileUrlOptions) {
@@ -100,6 +101,7 @@ function getDownloadApiRequestUrl(options: IFetchDownloadFileUrlOptions) {
  */
 async function pollDownloadApi(
   requestUrl: string,
+  pollInterval = 3000,
   progressCallback?: downloadProgressCallback
 ): Promise<string> {
   const response = await fetch(requestUrl);
@@ -116,7 +118,7 @@ async function pollDownloadApi(
   if (operationStatus === DownloadOperationStatus.FAILED) {
     throw new HubError(
       "fetchHubApiDownloadFileUrl",
-      "Download operation failed with a 200 status code"
+      "Download operation failed with a 200"
     );
   }
   progressCallback && progressCallback(operationStatus, progressInPercent);
@@ -127,8 +129,8 @@ async function pollDownloadApi(
   }
 
   // Operation still in progress, poll again
-  await new Promise((resolve) => setTimeout(resolve, 3000));
-  return pollDownloadApi(requestUrl, progressCallback);
+  await new Promise((resolve) => setTimeout(resolve, pollInterval));
+  return pollDownloadApi(requestUrl, pollInterval, progressCallback);
 }
 
 /**
@@ -150,7 +152,7 @@ function toDownloadOperationStatus(
   > = {
     // Statuses that we expect to see (listed in the order they could occur)
     Pending: DownloadOperationStatus.PENDING, // Job hasn't started yet
-    InProgress: DownloadOperationStatus.PENDING, // Job is in progress
+    InProgress: DownloadOperationStatus.PROCESSING, // Job is in progress
     ExportingData: DownloadOperationStatus.PROCESSING, // Features are being exported, progress available
     ExportAttachments: DownloadOperationStatus.PROCESSING, // Reported by Khaled Hassen, unsure when this actually happens
     Completed: DownloadOperationStatus.COMPLETED,
@@ -170,7 +172,7 @@ function toDownloadOperationStatus(
   // under the hood They are listed in the order they are expected to occur
   const pagingJobStatusMap: Record<PagingJobStatus, DownloadOperationStatus> = {
     Pending: DownloadOperationStatus.PENDING,
-    InProgress: DownloadOperationStatus.PENDING,
+    InProgress: DownloadOperationStatus.PROCESSING,
     PagingData: DownloadOperationStatus.PROCESSING,
     ConvertingData: DownloadOperationStatus.CONVERTING,
     Failed: DownloadOperationStatus.FAILED,

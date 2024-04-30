@@ -16,6 +16,7 @@ import { getExportItemDataUrl } from "../getExportItemDataUrl";
 import HubError from "../../../HubError";
 import { IArcGISContext } from "../../../ArcGISContext";
 import { ExportItemFormat } from "../_types";
+import { getProp } from "../../../objects/get-prop";
 
 /**
  * @private
@@ -39,7 +40,7 @@ export async function fetchExportItemDownloadFileUrl(
   options: IFetchDownloadFileUrlOptions
 ): Promise<string> {
   validateOptions(options);
-  const { entity, format, context, progressCallback } = options;
+  const { entity, format, context, progressCallback, pollInterval } = options;
   progressCallback && progressCallback(DownloadOperationStatus.PENDING);
   const { exportItemId, jobId } = await exportItem({
     id: entity.id,
@@ -48,7 +49,13 @@ export async function fetchExportItemDownloadFileUrl(
     authentication: context.hubRequestOptions.authentication,
   });
 
-  await pollForJobCompletion(exportItemId, jobId, context);
+  await pollForJobCompletion(
+    exportItemId,
+    jobId,
+    context,
+    progressCallback,
+    pollInterval
+  );
 
   // TODO: Once the job is completed, we still need to set the special typekeywords needed to find the item later.
   // Also, I _think_ we can only do one layer at a time (at least with the current typeKeywords schema we're using)
@@ -78,8 +85,10 @@ function getExportFormatParam(
   format: ExportItemFormat
 ): IExportItemRequestOptions["exportFormat"] {
   const legacyFormat = getLegacyExportItemFormat(format);
-  return PORTAL_EXPORT_TYPES[legacyFormat]
-    ?.name as IExportItemRequestOptions["exportFormat"];
+  return getProp(
+    PORTAL_EXPORT_TYPES,
+    `${legacyFormat}.name`
+  ) as IExportItemRequestOptions["exportFormat"];
 }
 
 function getLegacyExportItemFormat(
@@ -91,11 +100,11 @@ function getLegacyExportItemFormat(
 function getExportParameters(
   options: IFetchDownloadFileUrlOptions
 ): IExportParameters {
-  const { layers, where } = options;
+  const { layers } = options;
   const result: IExportParameters = {};
 
   if (layers) {
-    result.layers = layers.map((id) => ({ id, where }));
+    result.layers = layers.map((id) => ({ id }));
   }
 
   return result;
@@ -105,9 +114,9 @@ async function pollForJobCompletion(
   exportedItemId: string,
   jobId: string,
   context: IArcGISContext,
-  progressCallback?: downloadProgressCallback
+  progressCallback?: downloadProgressCallback,
+  interval = 3000
 ): Promise<void> {
-  const POLL_INTERVAL = 3000;
   const { status } = await getItemStatus({
     id: exportedItemId,
     jobId,
@@ -121,7 +130,7 @@ async function pollForJobCompletion(
 
   if (status !== "completed") {
     progressCallback && progressCallback(DownloadOperationStatus.PROCESSING);
-    await new Promise((resolve) => setTimeout(resolve, POLL_INTERVAL));
+    await new Promise((resolve) => setTimeout(resolve, interval));
     return pollForJobCompletion(exportedItemId, jobId, context);
   }
 }

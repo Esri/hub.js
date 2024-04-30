@@ -132,6 +132,7 @@ export interface IFetchDownloadFileUrlOptions {
   geometry?: __esri.Geometry; // geometry to filter results by
   where?: string; // where clause to filter results by
   progressCallback?: downloadProgressCallback;
+  pollInterval?: number; // interval in milliseconds to poll for job completion
 }
 
 /**
@@ -175,6 +176,7 @@ export class ArcgisHubDownloadError extends Error {
   constructor(options: IArcgisHubDownloadErrorOptions) {
     super(options.rawMessage);
     this.name = "ArcgisHubDownloadError";
+    this.message = options.rawMessage;
     this.messageId = options.messageId;
     this.operation = options.operation;
   }
