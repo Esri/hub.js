@@ -104,6 +104,9 @@ export const PlatformPermissions = [
   "platform:premium:user:networkanalysis",
   "platform:premium:user:places",
   "platform:premium:user:spatialanalysis",
+  "platform:premium",
+  "platform:basic",
+  "platform:portal",
 ];
 
 /**
@@ -710,5 +713,17 @@ export const PlatformPermissionPolicies: IPermissionPolicy[] = [
     services: ["portal"],
     authenticated: true,
     privileges: ["premium:user:spatialanalysis"],
+  },
+  {
+    permission: "platform:premium",
+    licenses: ["hub-premium"],
+  },
+  {
+    permission: "platform:basic",
+    licenses: ["hub-basic"],
+  },
+  {
+    permission: "platform:portal",
+    licenses: ["enterprise-sites"],
   },
 ];
