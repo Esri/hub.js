@@ -347,6 +347,7 @@ export const WellKnownItemPredicates: IWellKnownItemPredicates = {
   $initiative: [
     {
       type: "Hub Initiative",
+      typekeywords: "hubInitiativeV2",
     },
   ],
   $experience: [
