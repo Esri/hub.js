@@ -997,5 +997,5 @@ export const forceUpdateContent = async (
   };
 
   const response = await fetch(url, options);
-  return response.json();
+  return response.ok;
 };
