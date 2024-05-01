@@ -9,6 +9,7 @@ import { IFetchDownloadFileUrlOptions } from "./types";
  * Fetches a download file URL for the given entity and format.
  * @param options options to refine / filter the results of the fetchDownloadFileUrl operation
  * @returns a promise that resolves with the download file URL
+ * @throws {ArcgisHubDownloadError} if the download file URL cannot be fetched for a well-known reason
  */
 export async function fetchDownloadFileUrl(
   options: IFetchDownloadFileUrlOptions

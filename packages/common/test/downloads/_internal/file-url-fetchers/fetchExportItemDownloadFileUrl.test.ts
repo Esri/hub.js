@@ -91,6 +91,10 @@ describe("fetchExportItemDownloadFileUrl", () => {
         context: mockContext,
         pollInterval: 0,
       });
+      expect(true).toBe(
+        false,
+        "fetchExportItemDownloadFileUrl should have thrown an error"
+      );
     } catch (error) {
       expect(error.message).toBe("Export job failed");
       expect(exportItemSpy).toHaveBeenCalledTimes(1);
