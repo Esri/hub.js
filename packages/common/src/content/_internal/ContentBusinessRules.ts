@@ -115,7 +115,7 @@ export const ContentPermissionPolicies: IPermissionPolicy[] = [
     // can view = (alpha org + devext environment) || (permission is passed via query param)
     permission: "hub:content:workspace:settings:schedule",
     availability: ["alpha"],
-    // environments: ["devext"],
+    environments: ["devext"],
   },
   {
     permission: "hub:content:workspace:collaborators",

@@ -41,6 +41,8 @@ import { _getHubUrlFromPortalHostname } from "../../urls/_get-hub-url-from-porta
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { geojsonToArcGIS } from "@terraformer/arcgis";
 import { Polygon } from "geojson";
+import { getHubApiUrl } from "../../api";
+import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 /**
  * Hashmap of Hub environment and application url surfix
@@ -964,4 +966,39 @@ const getUrbanModelEditUrl = (item: IItem, requestOptions: IRequestOptions) => {
 
 const isPortalFromUrl = (portalUrl: string): boolean => {
   return portalUrl.indexOf("arcgis.com") === -1;
+};
+
+export function getSchedulerApiUrl(
+  itemId: string,
+  requestOptions: IRequestOptions
+): string {
+  const hubApiUrlRoot = getHubApiUrlRoot(requestOptions);
+  return `${hubApiUrlRoot}/api/download/v1/items/${itemId}/schedule`;
+}
+
+export function getHubApiUrlRoot(requestOptions: IRequestOptions): string {
+  // sometimes the url has /api/v3 at the end, so we need to remove it
+  const hubApiUrlWithVersion = getHubApiUrl(requestOptions);
+  return hubApiUrlWithVersion.replace(/\/api\/v3$/, "");
+}
+
+export const forceUpdateContent = async (
+  itemId: string,
+  requestOptions: IUserRequestOptions
+) => {
+  // https://opendata{qa|dev}.arcgis.com/api/v3/jobs/item/${itemId}/harvest with a token in the header
+
+  const hubApiUrlRoot = getHubApiUrl(requestOptions);
+  const url = `${hubApiUrlRoot}/api/v3/jobs/item/${itemId}/harvest`;
+  const options = {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      // I see a number of ways to use getToken, but I'm not sure which one is correct
+      authorization: requestOptions.authentication.token,
+    },
+  };
+
+  const response = await fetch(url, options);
+  return response.json();
 };

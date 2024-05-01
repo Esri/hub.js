@@ -39,6 +39,8 @@ import {
   isDownloadSchedulingAvailable,
   maybeUpdateSchedule,
 } from "./manageSchedule";
+import { forceUpdateContent } from "./_internal/internalContentUtils";
+import { deepEqual } from "../objects";
 
 // TODO: move this to defaults?
 const DEFAULT_CONTENT_MODEL: IModel = {
@@ -174,6 +176,14 @@ export async function updateContent(
   }
 
   if (isDownloadSchedulingAvailable(requestOptions, content.access)) {
+    // if schedule has "Force Update" checked and clicked save, initiate an update
+    if (deepEqual((content.schedule as any)._forceUpdate, [true])) {
+      // [true]
+      await forceUpdateContent(item.id, requestOptions);
+    }
+
+    delete (content.schedule as any)._forceUpdate;
+
     await maybeUpdateSchedule(content, requestOptions);
   }
 

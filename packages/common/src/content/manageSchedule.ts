@@ -3,7 +3,7 @@ import { IHubSchedule, IHubScheduleResponse } from "../core/types/IHubSchedule";
 import { cloneObject } from "../util";
 import { deepEqual } from "../objects/deepEqual";
 import { AccessLevel, IHubEditableContent } from "../core";
-import { getSchedulerApiUrl } from "./_internal/getSchedulerApiUrl";
+import { getSchedulerApiUrl } from "./_internal/internalContentUtils";
 
 // Any code referencing these functions must first pass isDownloadSchedulingAvailable
 
@@ -39,6 +39,14 @@ export const getSchedule = async (
         schedule: {
           ...schedule,
           mode: "scheduled",
+        },
+        message: `Download schedule found for item ${itemId}`,
+        statusCode: 200,
+      } as IHubScheduleResponse;
+    case "manual":
+      return {
+        schedule: {
+          mode: "manual",
         },
         message: `Download schedule found for item ${itemId}`,
         statusCode: 200,

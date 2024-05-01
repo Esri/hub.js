@@ -49,28 +49,16 @@ export const buildUiSchema = async (
             ],
           },
         },
+        // force update checkbox -- TODO: replace with button once available
         {
           type: "Control",
           scope: "/properties/schedule/properties/_forceUpdate",
-          rule: {
-            effect: UiSchemaRuleEffects.SHOW,
-            condition: {
-              scope: "/properties/schedule",
-              schema: {
-                enum: [
-                  { mode: "manual" },
-                  { mode: "manual", _forceUpdate: [] },
-                  { mode: "manual", _forceUpdate: [true] },
-                ],
-              },
-            },
-          },
           options: {
             control: "hub-field-input-tile-select",
             type: "checkbox",
             labels: ["Force Update"],
             descriptions: [
-              "Use this option to manually update the search index and cached download files for this item.",
+              'Select this option and then select "Save" to manually update the search index and cached download files for this item as applicable.',
             ],
           },
         },
