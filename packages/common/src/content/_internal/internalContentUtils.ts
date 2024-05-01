@@ -986,15 +986,12 @@ export const forceUpdateContent = async (
   itemId: string,
   requestOptions: IUserRequestOptions
 ) => {
-  // https://opendata{qa|dev}.arcgis.com/api/v3/jobs/item/${itemId}/harvest with a token in the header
-
   const hubApiUrlRoot = getHubApiUrl(requestOptions);
   const url = `${hubApiUrlRoot}/api/v3/jobs/item/${itemId}/harvest`;
   const options = {
     method: "POST",
     headers: {
       "content-type": "application/json",
-      // I see a number of ways to use getToken, but I'm not sure which one is correct
       authorization: requestOptions.authentication.token,
     },
   };

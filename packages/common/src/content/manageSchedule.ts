@@ -27,10 +27,20 @@ export const getSchedule = async (
     } as IHubScheduleResponse;
   }
 
+  // if the schedule mode is set to manual, return it
+  if (schedule.mode === "manual") {
+    return {
+      schedule: {
+        mode: "manual",
+      },
+      message: `Download schedule found for item ${itemId}`,
+      statusCode: 200,
+    } as IHubScheduleResponse;
+  }
+
   // if the schedule is set, return it with added mode
   delete schedule.itemId;
   switch (schedule.cadence) {
-    // TODO: add manual option here when option is viable
     case "daily":
     case "weekly":
     case "monthly":
@@ -39,14 +49,6 @@ export const getSchedule = async (
         schedule: {
           ...schedule,
           mode: "scheduled",
-        },
-        message: `Download schedule found for item ${itemId}`,
-        statusCode: 200,
-      } as IHubScheduleResponse;
-    case "manual":
-      return {
-        schedule: {
-          mode: "manual",
         },
         message: `Download schedule found for item ${itemId}`,
         statusCode: 200,
@@ -66,7 +68,10 @@ export const setSchedule = async (
   requestOptions: IRequestOptions
 ): Promise<IHubScheduleResponse> => {
   const body = cloneObject(schedule);
-  delete body.mode;
+  if (body.mode !== "manual") {
+    // remove mode if not manual
+    delete body.mode;
+  }
   const url = getSchedulerApiUrl(itemId, requestOptions);
   const options = {
     method: "POST",

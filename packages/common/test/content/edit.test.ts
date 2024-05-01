@@ -199,7 +199,8 @@ describe("content editing:", () => {
         // Indicates that Extract should enabled on the service,
         // Since it already is, nothing should change
         serverExtractCapability: true,
-        schedule: { mode: "automatic" },
+        schedule: { mode: "automatic", _forceUpdate: [] } as any,
+        access: "public",
       };
       const chk = await updateContent(content, {
         ...MOCK_HUB_REQOPTS,
@@ -244,7 +245,7 @@ describe("content editing:", () => {
         // Indicates that Extract should enabled on the service,
         // Since it currently isn't, the service will be updated
         serverExtractCapability: true,
-        schedule: { mode: "automatic" },
+        schedule: { mode: "automatic", _forceUpdate: [true] } as any,
         access: "public",
       };
       const chk = await updateContent(content, {

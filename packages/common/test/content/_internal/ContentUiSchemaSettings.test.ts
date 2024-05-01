@@ -43,13 +43,19 @@ describe("buildUiSchema: content settings", () => {
                   { type: "weekly" },
                   { type: "monthly" },
                   { type: "yearly" },
-                  // uncomment this when the manual option is available
-                  // {
-                  //   label: `option.manual.label`,
-                  //   type: "manual",
-                  //   helperActionIcon: "information-f",
-                  //   helperActionText: "option.manual.helperActionText",
-                  // },
+                  { type: "manual" },
+                ],
+              },
+            },
+            {
+              type: "Control",
+              scope: "/properties/schedule/properties/_forceUpdate",
+              options: {
+                control: "hub-field-input-tile-select",
+                type: "checkbox",
+                labels: ["Force Update"],
+                descriptions: [
+                  'Select this option and then select "Save" to manually update the search index and cached download files for this item as applicable.',
                 ],
               },
             },
