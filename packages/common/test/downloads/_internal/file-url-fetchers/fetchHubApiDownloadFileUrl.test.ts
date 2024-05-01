@@ -149,7 +149,6 @@ describe("fetchHubApiDownloadFileUrl", () => {
 
     expect(result).toBe("fake-url");
   });
-
   it("polls with a progress callback", async () => {
     fetchMock.once(
       "https://hubqa.arcgis.com/api/download/v1/items/123/csv?redirect=false&layers=0",
@@ -163,7 +162,7 @@ describe("fetchHubApiDownloadFileUrl", () => {
       "https://hubqa.arcgis.com/api/download/v1/items/123/csv?redirect=false&layers=0",
       {
         body: {
-          status: "InProgress",
+          status: "PagingData",
           recordCount: 100,
           progressInPercent: 50,
         },
@@ -210,5 +209,82 @@ describe("fetchHubApiDownloadFileUrl", () => {
       DownloadOperationStatus.COMPLETED,
       undefined
     );
+  });
+  it("handles geometry, token and where parameters", async () => {
+    fetchMock.once(
+      "https://hubqa.arcgis.com/api/download/v1/items/123/csv?redirect=false&layers=0&geometry=%7B%22type%22%3A%22point%22%2C%22coordinates%22%3A%5B1%2C2%5D%7D&where=1%3D1&token=fake-token",
+      {
+        body: {
+          status: "Completed",
+          resultUrl: "fake-url",
+        },
+      }
+    );
+
+    const result = await fetchHubApiDownloadFileUrl({
+      entity: { id: "123" } as unknown as IHubEditableContent,
+      format: ServiceDownloadFormat.CSV,
+      context: {
+        hubUrl: "https://hubqa.arcgis.com",
+        hubRequestOptions: {
+          authentication: {
+            token: "fake-token",
+          },
+        },
+      } as unknown as IArcGISContext,
+      layers: [0],
+      geometry: {
+        type: "point",
+        toJSON: () => ({ type: "point", coordinates: [1, 2] }),
+      } as unknown as __esri.Point,
+      where: "1=1",
+    });
+
+    expect(result).toBe("fake-url");
+  });
+  it("Explicitly sets the spatialRefId to 4326 for GeoJSON and KML", async () => {
+    fetchMock.once(
+      "https://hubqa.arcgis.com/api/download/v1/items/123/geojson?redirect=false&layers=0&spatialRefId=4326",
+      {
+        body: {
+          status: "Completed",
+          resultUrl: "fake-url",
+        },
+      }
+    );
+
+    const result = await fetchHubApiDownloadFileUrl({
+      entity: { id: "123" } as unknown as IHubEditableContent,
+      format: ServiceDownloadFormat.GEOJSON,
+      context: {
+        hubUrl: "https://hubqa.arcgis.com",
+        hubRequestOptions: {},
+      } as unknown as IArcGISContext,
+      layers: [0],
+    });
+
+    expect(result).toBe("fake-url");
+
+    fetchMock.once(
+      "https://hubqa.arcgis.com/api/download/v1/items/123/kml?redirect=false&layers=0&spatialRefId=4326",
+      {
+        body: {
+          status: "Completed",
+          resultUrl: "fake-url-2",
+        },
+      }
+    );
+
+    const result2 = await fetchHubApiDownloadFileUrl({
+      entity: { id: "123" } as unknown as IHubEditableContent,
+      format: ServiceDownloadFormat.KML,
+      context: {
+        hubUrl: "https://hubqa.arcgis.com",
+        hubRequestOptions: {},
+      } as unknown as IArcGISContext,
+      layers: [0],
+    });
+
+    expect(result2).toBe("fake-url-2");
   });
 });

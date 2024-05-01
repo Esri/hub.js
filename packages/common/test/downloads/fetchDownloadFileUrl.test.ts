@@ -87,10 +87,18 @@ describe("fetchDownloadFileUrl", () => {
       context,
       format: ServiceDownloadFormat.CSV,
       layers: [0],
+      pollInterval: 1000,
     });
     expect(result).toBe("hub-api-download-url");
     expect(canUseHubDownloadApiSpy).toHaveBeenCalledTimes(1);
     expect(fetchHubApiDownloadFileUrlSpy).toHaveBeenCalledTimes(1);
+    expect(fetchHubApiDownloadFileUrlSpy).toHaveBeenCalledWith({
+      entity,
+      context,
+      format: ServiceDownloadFormat.CSV,
+      layers: [0],
+      pollInterval: 1000,
+    });
     expect(canUseExportItemFlowSpy).not.toHaveBeenCalled();
     expect(fetchExportItemDownloadFileUrlSpy).not.toHaveBeenCalled();
     expect(canUseExportImageFlowSpy).not.toHaveBeenCalled();
@@ -116,12 +124,20 @@ describe("fetchDownloadFileUrl", () => {
       context,
       format: ServiceDownloadFormat.CSV,
       layers: [0],
+      pollInterval: 1000,
     });
     expect(result).toBe("export-item-download-url");
     expect(canUseHubDownloadApiSpy).toHaveBeenCalledTimes(1);
     expect(fetchHubApiDownloadFileUrlSpy).not.toHaveBeenCalled();
     expect(canUseExportItemFlowSpy).toHaveBeenCalledTimes(1);
     expect(fetchExportItemDownloadFileUrlSpy).toHaveBeenCalledTimes(1);
+    expect(fetchExportItemDownloadFileUrlSpy).toHaveBeenCalledWith({
+      entity,
+      context,
+      format: ServiceDownloadFormat.CSV,
+      layers: [0],
+      pollInterval: 1000,
+    });
     expect(canUseExportImageFlowSpy).not.toHaveBeenCalled();
     expect(fetchExportImageDownloadFileUrlSpy).not.toHaveBeenCalled();
   });
@@ -144,6 +160,7 @@ describe("fetchDownloadFileUrl", () => {
       entity,
       context,
       format: ServiceDownloadFormat.PNG,
+      pollInterval: 1000,
     });
     expect(result).toBe("export-image-download-url");
     expect(canUseHubDownloadApiSpy).toHaveBeenCalledTimes(1);
@@ -152,5 +169,38 @@ describe("fetchDownloadFileUrl", () => {
     expect(fetchExportItemDownloadFileUrlSpy).not.toHaveBeenCalled();
     expect(canUseExportImageFlowSpy).toHaveBeenCalledTimes(1);
     expect(fetchExportImageDownloadFileUrlSpy).toHaveBeenCalledTimes(1);
+    expect(fetchExportImageDownloadFileUrlSpy).toHaveBeenCalledWith({
+      entity,
+      context,
+      format: ServiceDownloadFormat.PNG,
+      pollInterval: 1000,
+    });
+  });
+
+  it("should set the pollInterval to 3000 if not provided", async () => {
+    canUseHubDownloadApiSpy.and.returnValue(true);
+
+    fetchHubApiDownloadFileUrlSpy.and.returnValue(
+      Promise.resolve("hub-api-download-url")
+    );
+
+    const entity = {
+      id: "123",
+      type: "Map Service",
+    } as unknown as IHubEditableContent;
+    const context = {} as unknown as IArcGISContext;
+    await fetchDownloadFileUrl({
+      entity,
+      context,
+      format: ServiceDownloadFormat.CSV,
+      layers: [0],
+    });
+    expect(fetchHubApiDownloadFileUrlSpy).toHaveBeenCalledWith({
+      entity,
+      context,
+      format: ServiceDownloadFormat.CSV,
+      layers: [0],
+      pollInterval: 3000,
+    });
   });
 });

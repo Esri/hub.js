@@ -4,7 +4,23 @@ import { canUseHubDownloadApi } from "../../src/downloads/canUseHubDownloadApi";
 import * as canUseCreateReplicaModule from "../../src/downloads/canUseCreateReplica";
 
 describe("canUseHubDownloadApi", () => {
-  it("should return false if download API is not available", () => {
+  it("should return false if download API status is not available", () => {
+    const canUseCreateReplicaSpy = spyOn(
+      canUseCreateReplicaModule,
+      "canUseCreateReplica"
+    ).and.returnValue(true);
+    const entity = {
+      type: "Feature Service",
+      access: "public",
+    } as unknown as IHubEditableContent;
+    const context = {} as unknown as IArcGISContext;
+
+    const result = canUseHubDownloadApi(entity, context);
+
+    expect(result).toBe(false);
+    expect(canUseCreateReplicaSpy).not.toHaveBeenCalled();
+  });
+  it("should return false if download API status is not online", () => {
     const canUseCreateReplicaSpy = spyOn(
       canUseCreateReplicaModule,
       "canUseCreateReplica"

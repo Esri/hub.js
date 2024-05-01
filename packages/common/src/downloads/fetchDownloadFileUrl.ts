@@ -1,4 +1,5 @@
 import HubError from "../HubError";
+import { cloneObject } from "../util";
 import { canUseExportImageFlow } from "./_internal/canUseExportImageFlow";
 import { canUseExportItemFlow } from "./_internal/canUseExportItemFlow";
 import { canUseHubDownloadApi } from "./canUseHubDownloadApi";
@@ -12,18 +13,22 @@ import { IFetchDownloadFileUrlOptions } from "./types";
 export async function fetchDownloadFileUrl(
   options: IFetchDownloadFileUrlOptions
 ): Promise<string> {
+  // If the pollInterval is not set, default to 3 seconds
+  const withPollInterval =
+    options.pollInterval == null ? { ...options, pollInterval: 3000 } : options;
+
   let fetchingFn;
-  if (canUseHubDownloadApi(options.entity, options.context)) {
+  if (canUseHubDownloadApi(withPollInterval.entity, withPollInterval.context)) {
     fetchingFn = (
       await import("./_internal/file-url-fetchers/fetchHubApiDownloadFileUrl")
     ).fetchHubApiDownloadFileUrl;
-  } else if (canUseExportItemFlow(options.entity)) {
+  } else if (canUseExportItemFlow(withPollInterval.entity)) {
     fetchingFn = (
       await import(
         "./_internal/file-url-fetchers/fetchExportItemDownloadFileUrl"
       )
     ).fetchExportItemDownloadFileUrl;
-  } else if (canUseExportImageFlow(options.entity)) {
+  } else if (canUseExportImageFlow(withPollInterval.entity)) {
     fetchingFn = (
       await import(
         "./_internal/file-url-fetchers/fetchExportImageDownloadFileUrl"
@@ -35,5 +40,5 @@ export async function fetchDownloadFileUrl(
       "Downloads are not supported for this item in this environment"
     );
   }
-  return fetchingFn(options);
+  return fetchingFn(withPollInterval);
 }

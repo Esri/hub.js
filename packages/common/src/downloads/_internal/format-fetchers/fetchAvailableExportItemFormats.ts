@@ -38,7 +38,7 @@ import { ExportItemFormat } from "../_types";
 export async function fetchAvailableExportItemFormats(
   entity: IHubEditableContent,
   context: IArcGISContext,
-  layers: number[] = []
+  layers: number[]
 ): Promise<IStaticDownloadFormat[]> {
   if (layers.length > 1) {
     throw new HubError(

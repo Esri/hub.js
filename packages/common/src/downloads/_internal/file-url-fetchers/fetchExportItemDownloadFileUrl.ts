@@ -53,8 +53,8 @@ export async function fetchExportItemDownloadFileUrl(
     exportItemId,
     jobId,
     context,
-    progressCallback,
-    pollInterval
+    pollInterval,
+    progressCallback
   );
 
   // TODO: Once the job is completed, we still need to set the special typekeywords needed to find the item later.
@@ -101,12 +101,9 @@ function getExportParameters(
   options: IFetchDownloadFileUrlOptions
 ): IExportParameters {
   const { layers } = options;
-  const result: IExportParameters = {};
-
-  if (layers) {
-    result.layers = layers.map((id) => ({ id }));
-  }
-
+  const result: IExportParameters = {
+    layers: layers.map((id) => ({ id })),
+  };
   return result;
 }
 
@@ -114,8 +111,8 @@ async function pollForJobCompletion(
   exportedItemId: string,
   jobId: string,
   context: IArcGISContext,
-  progressCallback?: downloadProgressCallback,
-  interval = 3000
+  pollInterval: number,
+  progressCallback?: downloadProgressCallback
 ): Promise<void> {
   const { status } = await getItemStatus({
     id: exportedItemId,
@@ -130,7 +127,13 @@ async function pollForJobCompletion(
 
   if (status !== "completed") {
     progressCallback && progressCallback(DownloadOperationStatus.PROCESSING);
-    await new Promise((resolve) => setTimeout(resolve, interval));
-    return pollForJobCompletion(exportedItemId, jobId, context);
+    await new Promise((resolve) => setTimeout(resolve, pollInterval));
+    return pollForJobCompletion(
+      exportedItemId,
+      jobId,
+      context,
+      pollInterval,
+      progressCallback
+    );
   }
 }

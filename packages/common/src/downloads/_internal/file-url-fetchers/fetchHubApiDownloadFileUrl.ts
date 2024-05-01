@@ -101,7 +101,7 @@ function getDownloadApiRequestUrl(options: IFetchDownloadFileUrlOptions) {
  */
 async function pollDownloadApi(
   requestUrl: string,
-  pollInterval = 3000,
+  pollInterval: number,
   progressCallback?: downloadProgressCallback
 ): Promise<string> {
   const response = await fetch(requestUrl);

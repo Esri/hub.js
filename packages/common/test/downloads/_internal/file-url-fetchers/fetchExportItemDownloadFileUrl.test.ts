@@ -178,4 +178,21 @@ describe("fetchExportItemDownloadFileUrl", () => {
       mockContext
     );
   });
+
+  it("should fetch export item data url for a CSV download", async () => {
+    exportItemSpy.and.callFake(async () => ({
+      jobId: "some-job-id",
+      exportItemId: "some-export-id",
+    }));
+    getItemStatusSpy.and.callFake(async () => ({ status: "completed" }));
+    getExportItemDataUrlSpy.and.callFake(() => "https://some-url.com");
+    const result = await fetchExportItemDownloadFileUrl({
+      entity: { id: "some-id" } as IHubEditableContent,
+      layers: [0],
+      format: ServiceDownloadFormat.CSV,
+      context: mockContext,
+      pollInterval: 0,
+    });
+    expect(result).toBe("https://some-url.com");
+  });
 });
