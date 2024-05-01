@@ -1,13 +1,12 @@
+import { IUser } from "@esri/arcgis-rest-portal";
 import {
-  EventAccess,
   EventAttendanceType,
-  EventStatus,
   IPagedRegistrationResponse,
   RegistrationRole,
   RegistrationStatus,
 } from "../../../../src/events/api";
 
-const response: IPagedRegistrationResponse = {
+export const registration: IPagedRegistrationResponse = {
   items: [
     {
       createdAt: "2024-04-17T15:30:42+0000",
@@ -22,57 +21,18 @@ const response: IPagedRegistrationResponse = {
       status: RegistrationStatus.PENDING,
       type: EventAttendanceType.VIRTUAL,
       updatedAt: "2024-04-17T15:30:42+0000",
-      user: {
-        agoId: "an arcgis online id",
-        createdAt: "2024-04-17T15:30:42+0000",
-        deleted: false,
-        email: "anemail@server.com",
-        firstName: "John",
-        lastName: "Green",
-        optedOut: false,
-        updatedAt: "2024-04-17T15:30:42+0000",
-        username: "fishingboatproceeds",
-      },
       userId: "a user id",
-      event: {
-        access: EventAccess.PRIVATE,
-        allDay: false,
-        allowRegistration: true,
-        attendanceType: [EventAttendanceType.VIRTUAL],
-        catalog: null,
-        categories: [],
-        createdAt: "2024-04-17T15:30:42+0000",
-        createdById: "a creator id",
-        description: "",
-        editGroups: [],
-        endDateTime: "2024-04-17T15:30:42+0000",
-        geometry: null,
-        id: "an event id",
-        notifyAttendees: false,
-        orgId: "an organization id",
-        permission: {
-          canDelete: true,
-          canEdit: true,
-          canSetAccessToOrg: true,
-          canSetAccessToPrivate: true,
-          canSetAccessToPublic: true,
-          canSetStatusToCancelled: true,
-          canSetStatusToRemoved: true,
-        },
-        readGroups: [],
-        recurrence: null,
-        startDateTime: "2024-04-17T15:30:42+0000",
-        status: EventStatus.PLANNED,
-        summary: "",
-        tags: [],
-        timeZone: "EST",
-        title: "a title",
-        updatedAt: "2024-04-17T15:30:42+0000",
-      },
     },
   ],
   nextStart: -1,
   total: 1,
 };
 
-export default response;
+export const user: IUser = {
+  access: "private",
+  email: "anemail@server.com",
+  firstName: "John",
+  lastName: "Green",
+  fullName: "John Green",
+  username: "fishingboatproceeds",
+};
