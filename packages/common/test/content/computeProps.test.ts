@@ -1,4 +1,6 @@
+import * as internalContentUtilsModule from "../../src/content/_internal/internalContentUtils";
 import { computeProps } from "../../src/content/_internal/computeProps";
+import { IHubAdditionalResource } from "../../src/core/types/IHubAdditionalResource";
 import { IHubEditableContent } from "../../src/core/types/IHubEditableContent";
 import { IHubEditableContentEnrichments } from "../../src/items/_enrichments";
 import { IHubRequestOptions, IModel } from "../../src/types";
@@ -168,7 +170,21 @@ describe("content computeProps", () => {
     expect(chk.serverExtractFormats).toEqual(["csv", "geojson"]);
   });
 
-  it("adds additionalResources if available", () => {
+  it("calculates additionalResources if available", () => {
+    const metadata = { key: "value" } as any;
+    const enrichments: IHubEditableContentEnrichments = { metadata };
+    const additionalResources: IHubAdditionalResource[] = [
+      {
+        name: "My Resource",
+        url: "https://example.com/my-resource",
+        isDataSource: false,
+      },
+    ];
+    const getAdditionalResourcesSpy = spyOn(
+      internalContentUtilsModule,
+      "getAdditionalResources"
+    ).and.returnValue(additionalResources);
+
     const model: IModel = {
       item: {
         type: "Feature Service",
@@ -182,18 +198,15 @@ describe("content computeProps", () => {
       type: "Feature Service",
       id: "9001",
     };
-    const additionalResources: IHubEditableContentEnrichments["additionalResources"] =
-      [
-        {
-          name: "My Resource",
-          url: "https://example.com/my-resource",
-          isDataSource: false,
-        },
-      ];
-    const enrichments: IHubEditableContentEnrichments = { additionalResources };
 
     const chk = computeProps(model, content, requestOptions, enrichments);
     expect(chk.additionalResources).toEqual(additionalResources);
+    expect(getAdditionalResourcesSpy).toHaveBeenCalledTimes(1);
+    expect(getAdditionalResourcesSpy).toHaveBeenCalledWith(
+      model.item,
+      metadata,
+      requestOptions
+    );
   });
 
   it("handles when authentication isn't defined", () => {

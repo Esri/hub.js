@@ -22,10 +22,7 @@ import {
   fetchHubEnrichmentsBySlug,
   getContentEnrichments,
 } from "./_fetch";
-import {
-  canUseHubApiForItem,
-  fetchAdditionalResources,
-} from "./_internal/internalContentUtils";
+import { canUseHubApiForItem } from "./_internal/internalContentUtils";
 import {
   composeContent,
   getItemLayer,
@@ -270,18 +267,17 @@ export const fetchHubContent = async (
   const model = { item };
   const enrichments: IHubEditableContentEnrichments = {};
 
+  enrichments.metadata = await fetchItemEnrichments(
+    item,
+    ["metadata"],
+    requestOptions as IHubRequestOptions
+  );
+
   if (isHostedFeatureServiceItem(item)) {
     enrichments.server = await getService({
       ...requestOptions,
       url: parseServiceUrl(item.url),
     });
-  }
-
-  if (access === "public") {
-    // NOTE: If we ever want to support fetching additional resouces for private items,
-    // We'll need to refactor `fetchHubContent()` to take an `IHubRequestOptions` so
-    // `fetchAdditionalResources` can access options.authentication.token for url calculations
-    enrichments.additionalResources = await fetchAdditionalResources(item);
   }
 
   if (isDownloadSchedulingAvailable(requestOptions, access)) {

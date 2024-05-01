@@ -454,25 +454,6 @@ interface IAGOAdditionalResource {
 }
 
 /**
- * Fetches and formats additional resources that are defined in the formal item metadata
- *
- * @param item
- * @param requestOptions
- * @returns An array of additional resources, or null if none are available
- */
-export async function fetchAdditionalResources(
-  item: IItem,
-  requestOptions?: IHubRequestOptions
-): Promise<IHubAdditionalResource[]> {
-  const { metadata } = await fetchItemEnrichments(
-    item,
-    ["metadata"],
-    requestOptions
-  );
-  return getAdditionalResources(item, metadata, requestOptions);
-}
-
-/**
  * Extracts additional resources from the provided metadata
  * and transforms them into a hub-friendly format.
  *

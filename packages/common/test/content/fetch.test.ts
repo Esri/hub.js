@@ -13,7 +13,6 @@ import * as _enrichmentsModule from "../../src/items/_enrichments";
 import * as _fetchModule from "../../src/content/_fetch";
 import * as documentItem from "../mocks/items/document.json";
 import * as multiLayerFeatureServiceItem from "../mocks/items/multi-layer-feature-service.json";
-import * as internalContentUtils from "../../src/content/_internal/internalContentUtils";
 import {
   HOSTED_FEATURE_SERVICE_DEFINITION,
   HOSTED_FEATURE_SERVICE_GUID,
@@ -681,10 +680,10 @@ describe("fetchHubContent", () => {
       featureLayerModule,
       "getService"
     ).and.returnValue(HOSTED_FEATURE_SERVICE_DEFINITION);
-    const fetchAdditionalResourcesSpy = spyOn(
-      internalContentUtils,
-      "fetchAdditionalResources"
-    ).and.returnValue(null);
+    const fetchItemEnrichmentsSpy = spyOn(
+      _enrichmentsModule,
+      "fetchItemEnrichments"
+    ).and.returnValue({ metadata: null });
 
     const chk = await fetchHubContent(HOSTED_FEATURE_SERVICE_GUID, {
       portal: MOCK_AUTH.portal,
@@ -700,10 +699,13 @@ describe("fetchHubContent", () => {
     expect(getServiceSpy.calls.argsFor(0)[0].url).toBe(
       HOSTED_FEATURE_SERVICE_URL
     );
-    expect(fetchAdditionalResourcesSpy.calls.count()).toBe(1);
-    expect(fetchAdditionalResourcesSpy.calls.argsFor(0)[0]).toBe(
+    // NOTE: the first call to fetchItemEnrichments is done by fetchContent under the hood,
+    // while the second call is done by fetchHubContent. We only care about the second call here
+    expect(fetchItemEnrichmentsSpy.calls.count()).toBe(2);
+    expect(fetchItemEnrichmentsSpy.calls.argsFor(1)[0]).toBe(
       HOSTED_FEATURE_SERVICE_ITEM
     );
+    expect(fetchItemEnrichmentsSpy.calls.argsFor(1)[1]).toEqual(["metadata"]);
   });
 
   it("gets non-hosted feature service", async () => {
@@ -711,10 +713,10 @@ describe("fetchHubContent", () => {
       Promise.resolve(NON_HOSTED_FEATURE_SERVICE_ITEM)
     );
     const getServiceSpy = spyOn(featureLayerModule, "getService");
-    const fetchAdditionalResourcesSpy = spyOn(
-      internalContentUtils,
-      "fetchAdditionalResources"
-    ).and.returnValue(null);
+    const fetchItemEnrichmentsSpy = spyOn(
+      _enrichmentsModule,
+      "fetchItemEnrichments"
+    ).and.returnValue({ metadata: null });
 
     const chk = await fetchHubContent(NON_HOSTED_FEATURE_SERVICE_GUID, {
       portal: MOCK_AUTH.portal,
@@ -728,10 +730,13 @@ describe("fetchHubContent", () => {
     expect(getItemSpy.calls.argsFor(0)[0]).toBe(
       NON_HOSTED_FEATURE_SERVICE_GUID
     );
-    expect(fetchAdditionalResourcesSpy.calls.count()).toBe(1);
-    expect(fetchAdditionalResourcesSpy.calls.argsFor(0)[0]).toBe(
+    // NOTE: the first call to fetchItemEnrichments is done by fetchContent under the hood,
+    // while the second call is done by fetchHubContent. We only care about the second call here
+    expect(fetchItemEnrichmentsSpy.calls.count()).toBe(2);
+    expect(fetchItemEnrichmentsSpy.calls.argsFor(1)[0]).toBe(
       NON_HOSTED_FEATURE_SERVICE_ITEM
     );
+    expect(fetchItemEnrichmentsSpy.calls.argsFor(1)[1]).toEqual(["metadata"]);
     // Service definition isn't fetched for non-hosted feature services
     expect(getServiceSpy.calls.count()).toBe(0);
   });
@@ -741,10 +746,10 @@ describe("fetchHubContent", () => {
       Promise.resolve(PDF_ITEM)
     );
     const getServiceSpy = spyOn(featureLayerModule, "getService");
-    const fetchAdditionalResourcesSpy = spyOn(
-      internalContentUtils,
-      "fetchAdditionalResources"
-    ).and.returnValue(null);
+    const fetchItemEnrichmentsSpy = spyOn(
+      _enrichmentsModule,
+      "fetchItemEnrichments"
+    ).and.returnValue({ metadata: null });
 
     const chk = await fetchHubContent(PDF_GUID, {
       authentication: MOCK_AUTH,
@@ -755,36 +760,13 @@ describe("fetchHubContent", () => {
 
     expect(getItemSpy.calls.count()).toBe(1);
     expect(getItemSpy.calls.argsFor(0)[0]).toBe(PDF_GUID);
-    expect(fetchAdditionalResourcesSpy.calls.count()).toBe(1);
-    expect(fetchAdditionalResourcesSpy.calls.argsFor(0)[0]).toBe(PDF_ITEM);
+    // NOTE: the first call to fetchItemEnrichments is done by fetchContent under the hood,
+    // while the second call is done by fetchHubContent. We only care about the second call here
+    expect(fetchItemEnrichmentsSpy.calls.count()).toBe(2);
+    expect(fetchItemEnrichmentsSpy.calls.argsFor(1)[0]).toBe(PDF_ITEM);
+    expect(fetchItemEnrichmentsSpy.calls.argsFor(1)[1]).toEqual(["metadata"]);
     // Service definition isn't fetched items that aren't hosted feature services
     expect(getServiceSpy.calls.count()).toBe(0);
-  });
-
-  it("does not fetch additional resources when the item is private", async () => {
-    const PRIVATE_PDF_ITEM = { ...PDF_ITEM, access: "private" };
-    const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
-      Promise.resolve(PRIVATE_PDF_ITEM)
-    );
-    const getServiceSpy = spyOn(featureLayerModule, "getService");
-    const fetchAdditionalResourcesSpy = spyOn(
-      internalContentUtils,
-      "fetchAdditionalResources"
-    ).and.returnValue(null);
-
-    const chk = await fetchHubContent(PDF_GUID, {
-      authentication: MOCK_AUTH,
-    });
-    expect(chk.id).toBe(PDF_GUID);
-    expect(chk.owner).toBe(PRIVATE_PDF_ITEM.owner);
-    expect(chk.serverExtractCapability).toBeFalsy();
-
-    expect(getItemSpy.calls.count()).toBe(1);
-    expect(getItemSpy.calls.argsFor(0)[0]).toBe(PDF_GUID);
-    // Service definition isn't fetched items that aren't hosted feature services
-    expect(getServiceSpy.calls.count()).toBe(0);
-    // Additional Resources aren't fetched for non-public items
-    expect(fetchAdditionalResourcesSpy.calls.count()).toBe(0);
   });
 
   it("normalizes the item type", async () => {

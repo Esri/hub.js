@@ -27,7 +27,6 @@ export interface IHubEditableContent
   serverExtractFormats?: string[];
   /**
    * links to additional resources specified in the formal item metadata
-   * TODO: which items can have these? And is it only available for public items?
    */
   additionalResources?: IHubAdditionalResource[];
   /**

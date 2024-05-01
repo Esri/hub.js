@@ -20,7 +20,6 @@ import { getItemOrgId } from "../content/_internal/internalContentUtils";
 import { fetchOrg } from "../org";
 import { isServicesDirectoryDisabled } from "./is-services-directory-disabled";
 import { IHubSchedule } from "../core/types/IHubSchedule";
-import { IHubAdditionalResource } from "../core/types/IHubAdditionalResource";
 
 /**
  * An object containing the item and fetched enrichments
@@ -45,7 +44,6 @@ export type IItemAndIServerEnrichments = IItemEnrichments & IServerEnrichments;
 export interface IHubEditableContentEnrichments
   extends IItemAndIServerEnrichments {
   schedule?: IHubSchedule;
-  additionalResources?: IHubAdditionalResource[];
 }
 
 /**
