@@ -739,6 +739,7 @@ const HUB_SERVICE_STATUS: HubServiceStatus = {
   notifications: "online",
   "hub-search": "online",
   domains: "online",
+  "hub-downloads": "online",
 };
 
 const ENTERPRISE_SITES_SERVICE_STATUS: HubServiceStatus = {
@@ -749,6 +750,7 @@ const ENTERPRISE_SITES_SERVICE_STATUS: HubServiceStatus = {
   notifications: "not-available",
   "hub-search": "not-available",
   domains: "not-available",
+  "hub-downloads": "not-available",
 };
 
 const DEV_ALPHA_ORGS = [
