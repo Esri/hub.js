@@ -25,7 +25,6 @@ export async function fetchExportImageDownloadFileUrl(
   const requestOptions = { ...context.requestOptions };
   requestOptions.httpMethod = "GET";
   requestOptions.params = {
-    f: "image",
     format,
     mosaicRule:
       '{"ascending":true,"mosaicMethod":"esriMosaicNorthwest","mosaicOperation":"MT_FIRST"}',
@@ -52,8 +51,7 @@ export async function fetchExportImageDownloadFileUrl(
   //   requestOptions.params.size = `${maxImageWidth},${maxImageHeight}`;
   // }
 
-  const blob = await request(`${entity.url}/exportImage`, requestOptions);
-  const url = URL.createObjectURL(blob);
+  const { href } = await request(`${entity.url}/exportImage`, requestOptions);
   progressCallback && progressCallback(DownloadOperationStatus.COMPLETED);
-  return url;
+  return href;
 }

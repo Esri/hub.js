@@ -8,10 +8,7 @@ import { fetchExportImageDownloadFileUrl } from "../../../../src/downloads/_inte
 describe("fetchExportImageDownloadFileUrl", () => {
   it("should call progressCallback with PENDING and COMPLETED statuses", async () => {
     const requestSpy = spyOn(requestModule, "request").and.returnValue(
-      Promise.resolve(null)
-    );
-    const createObjectURLSpy = spyOn(URL, "createObjectURL").and.returnValue(
-      "result-url"
+      Promise.resolve({ href: "result-url" })
     );
     const progressCallback = jasmine
       .createSpy("progressCallback")
@@ -41,23 +38,17 @@ describe("fetchExportImageDownloadFileUrl", () => {
       {
         httpMethod: "GET",
         params: {
-          f: "image",
           format: "png",
           mosaicRule:
             '{"ascending":true,"mosaicMethod":"esriMosaicNorthwest","mosaicOperation":"MT_FIRST"}',
         },
       }
     );
-
-    expect(createObjectURLSpy).toHaveBeenCalledTimes(1);
   });
 
   it("handles when no progressCallback is passed", async () => {
     const requestSpy = spyOn(requestModule, "request").and.returnValue(
-      Promise.resolve(null)
-    );
-    const createObjectURLSpy = spyOn(URL, "createObjectURL").and.returnValue(
-      "result-url"
+      Promise.resolve({ href: "result-url" })
     );
 
     const options = {
@@ -75,23 +66,17 @@ describe("fetchExportImageDownloadFileUrl", () => {
       {
         httpMethod: "GET",
         params: {
-          f: "image",
           format: "png",
           mosaicRule:
             '{"ascending":true,"mosaicMethod":"esriMosaicNorthwest","mosaicOperation":"MT_FIRST"}',
         },
       }
     );
-
-    expect(createObjectURLSpy).toHaveBeenCalledTimes(1);
   });
 
   it("handles a non-extent geometry", async () => {
     const requestSpy = spyOn(requestModule, "request").and.returnValue(
-      Promise.resolve(null)
-    );
-    const createObjectURLSpy = spyOn(URL, "createObjectURL").and.returnValue(
-      "result-url"
+      Promise.resolve({ href: "result-url" })
     );
 
     const options = {
@@ -110,23 +95,17 @@ describe("fetchExportImageDownloadFileUrl", () => {
       {
         httpMethod: "GET",
         params: {
-          f: "image",
           format: "png",
           mosaicRule:
             '{"ascending":true,"mosaicMethod":"esriMosaicNorthwest","mosaicOperation":"MT_FIRST"}',
         },
       }
     );
-
-    expect(createObjectURLSpy).toHaveBeenCalledTimes(1);
   });
 
   it("handles an extent geometry", async () => {
     const requestSpy = spyOn(requestModule, "request").and.returnValue(
-      Promise.resolve(null)
-    );
-    const createObjectURLSpy = spyOn(URL, "createObjectURL").and.returnValue(
-      "result-url"
+      Promise.resolve({ href: "result-url" })
     );
 
     const options = {
@@ -152,7 +131,6 @@ describe("fetchExportImageDownloadFileUrl", () => {
       {
         httpMethod: "GET",
         params: {
-          f: "image",
           format: "png",
           mosaicRule:
             '{"ascending":true,"mosaicMethod":"esriMosaicNorthwest","mosaicOperation":"MT_FIRST"}',
@@ -162,7 +140,5 @@ describe("fetchExportImageDownloadFileUrl", () => {
         },
       }
     );
-
-    expect(createObjectURLSpy).toHaveBeenCalledTimes(1);
   });
 });
