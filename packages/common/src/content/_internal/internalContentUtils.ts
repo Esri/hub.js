@@ -41,6 +41,7 @@ import { _getHubUrlFromPortalHostname } from "../../urls/_get-hub-url-from-porta
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { geojsonToArcGIS } from "@terraformer/arcgis";
 import { Polygon } from "geojson";
+import { fetchItemEnrichments } from "../../items/_enrichments";
 
 /**
  * Hashmap of Hub environment and application url surfix
