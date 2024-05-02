@@ -7,7 +7,6 @@ import { getOgcApiDefinition } from "./getOgcApiDefinition";
 import { shouldUseDiscussionsApi } from "./shouldUseDiscussionsApi";
 import { shouldUseEventsApi } from "./shouldUseEventsApi";
 import { getDiscussionsApiDefinition } from "./getDiscussionsApiDefinition";
-import { getEventsApiDefinition } from "./getEventsApiDefinition";
 
 /**
  * @private
@@ -35,7 +34,10 @@ export function getApi(
   } else if (shouldUseDiscussionsApi(targetEntity, options)) {
     result = getDiscussionsApiDefinition();
   } else if (shouldUseEventsApi(targetEntity, options)) {
-    result = getEventsApiDefinition();
+    // Currently, url is null because this is handled internally by the
+    // events request method called by getEvents, which relies on
+    // the URL defined in the request options.hubApiUrl
+    result = { type: "arcgis-hub", url: null };
   } else if (shouldUseOgcApi(targetEntity, options)) {
     result = getOgcApiDefinition(targetEntity, options);
   } else {
