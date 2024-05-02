@@ -1,3 +1,17 @@
+# @esri/hub-common [14.123.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.122.1...@esri/hub-common@14.123.0) (2024-05-02)
+
+
+### Features
+
+* **hub-common:** add support for searching for Events3 events from h… ([#1476](https://github.com/Esri/hub.js/issues/1476)) ([4afe9a4](https://github.com/Esri/hub.js/commit/4afe9a4e2bf366ebbca39923818cc29ec4121c0f))
+
+## @esri/hub-common [14.122.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.122.0...@esri/hub-common@14.122.1) (2024-05-02)
+
+
+### Bug Fixes
+
+* **hub-common:** restrict temp:hub:content:downloads:unifiedList to be behind a feature flag ([#1495](https://github.com/Esri/hub.js/issues/1495)) ([d53f50f](https://github.com/Esri/hub.js/commit/d53f50fef63edbb63ba3e74a8ccd068799288e54))
+
 # @esri/hub-common [14.122.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.121.2...@esri/hub-common@14.122.0) (2024-05-01)
 
 

@@ -137,7 +137,7 @@ export const ContentPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "temp:hub:content:downloads:unifiedList",
-    availability: ["alpha"],
+    availability: ["flag"],
     environments: ["qaext", "devext"],
   },
 ];

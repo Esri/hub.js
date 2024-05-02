@@ -249,6 +249,7 @@ export const getHubRelativeUrl = (
       "project",
       "initiative",
       "discussion",
+      "event",
     ];
     // default to the catchall content route
     let path = "/content";
