@@ -53,9 +53,11 @@ describe("buildUiSchema: content settings", () => {
               options: {
                 control: "hub-field-input-tile-select",
                 type: "checkbox",
-                labels: ["Force Update"],
+                labels: [
+                  `{{some.scope.fields.schedule.forceUpdateButton.label:translate}}`,
+                ],
                 descriptions: [
-                  'Select this option and then select "Save" to manually update the search index and cached download files for this item as applicable.',
+                  `{{some.scope.fields.schedule.forceUpdateButton.helperActionText:translate}}`,
                 ],
               },
             },
