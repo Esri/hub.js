@@ -43,7 +43,11 @@ describe("buildUiSchema: content settings", () => {
                   { type: "weekly" },
                   { type: "monthly" },
                   { type: "yearly" },
-                  { type: "manual" },
+                  {
+                    type: "manual",
+                    helperActionIcon: "information-f",
+                    helperActionText: `{{some.scope.fields.schedule.manual.helperActionText:translate}}`,
+                  },
                 ],
               },
             },
@@ -57,7 +61,7 @@ describe("buildUiSchema: content settings", () => {
                   `{{some.scope.fields.schedule.forceUpdateButton.label:translate}}`,
                 ],
                 descriptions: [
-                  `{{some.scope.fields.schedule.forceUpdateButton.helperActionText:translate}}`,
+                  `{{some.scope.fields.schedule.forceUpdateButton.description:translate}}`,
                 ],
               },
             },

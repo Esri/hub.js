@@ -45,7 +45,11 @@ export const buildUiSchema = async (
               { type: "weekly" },
               { type: "monthly" },
               { type: "yearly" },
-              { type: "manual" },
+              {
+                type: "manual",
+                helperActionIcon: "information-f",
+                helperActionText: `{{${i18nScope}.fields.schedule.manual.helperActionText:translate}}`,
+              },
             ],
           },
         },
@@ -60,7 +64,7 @@ export const buildUiSchema = async (
               `{{${i18nScope}.fields.schedule.forceUpdateButton.label:translate}}`,
             ],
             descriptions: [
-              `{{${i18nScope}.fields.schedule.forceUpdateButton.helperActionText:translate}}`,
+              `{{${i18nScope}.fields.schedule.forceUpdateButton.description:translate}}`,
             ],
           },
         },
