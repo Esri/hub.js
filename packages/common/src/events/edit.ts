@@ -28,7 +28,6 @@ export async function createHubEvent(
   // so set endDate to startDate
   event.endDate = event.startDate;
 
-  // TODO: how to handle slugs
   // TODO: how to handle events being discussable vs non-discussable
 
   const mapper = new EventPropertyMapper(getPropertyMap());
@@ -79,7 +78,6 @@ export async function updateHubEvent(
 ): Promise<IHubEvent> {
   const eventUpdates = { ...buildDefaultEventEntity(), ...event };
 
-  // TODO: how to handle slugs
   // TODO: how to handle events being discussable vs non-discussable
 
   const mapper = new EventPropertyMapper(getPropertyMap());

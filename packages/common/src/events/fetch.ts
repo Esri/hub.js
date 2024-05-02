@@ -16,8 +16,10 @@ export function fetchEvent(
   eventId: string,
   requestOptions: IHubRequestOptions
 ): Promise<IHubEvent> {
+  const spl = eventId.split("-");
+  const id = spl[spl.length - 1];
   return getEvent({
-    eventId,
+    eventId: id,
     ...requestOptions,
   })
     .then((event) => convertClientEventToHubEvent(event, requestOptions))

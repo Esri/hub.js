@@ -18,7 +18,7 @@ describe("getApi", () => {
     } as unknown as IHubSearchOptions;
     expect(getApi(targetEntity, options)).toBe(SEARCH_APIS.hubQA);
   });
-  it("otherwise returns reference to OGC API if possible", () => {
+  it("returns reference to OGC API", () => {
     const options = {
       site,
       requestOptions: {
@@ -31,7 +31,7 @@ describe("getApi", () => {
       url: `${hubApiUrl}/api/search/v1`,
     });
   });
-  it("otherwise returns reference to Discussions API if possible", () => {
+  it("returns reference to Discussions API", () => {
     const options = {
       requestOptions: {
         hubApiUrl,
@@ -39,6 +39,18 @@ describe("getApi", () => {
       },
     } as unknown as IHubSearchOptions;
     expect(getApi("channel", options)).toEqual({
+      type: "arcgis-hub",
+      url: null,
+    } as any as IApiDefinition);
+  });
+  it("returns reference to Events API if targetEntity is event", () => {
+    const options = {
+      requestOptions: {
+        hubApiUrl,
+        isPortal: false,
+      },
+    } as unknown as IHubSearchOptions;
+    expect(getApi("event", options)).toEqual({
       type: "arcgis-hub",
       url: null,
     } as any as IApiDefinition);
@@ -57,7 +69,7 @@ describe("getApi", () => {
       url: portal,
     });
   });
-  it("otherwise returns reference to OGC API V2 API if targetEntity is discussionPost", () => {
+  it("returns reference to OGC API V2 API if targetEntity is discussionPost", () => {
     const options = {
       site,
       requestOptions: {

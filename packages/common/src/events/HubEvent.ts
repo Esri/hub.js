@@ -61,10 +61,6 @@ export class HubEvent
     partialEvent: Partial<IHubEvent>,
     context: IArcGISContext
   ): IHubEvent {
-    // TODO: Figure out how to approach slugs for Events
-    // TODO: remove orgUrlKey if either:
-    //  1. back-end generates the slug at time of create/update
-    //  2. slug is derived on client from title & ID appears, e.g. `my-event-clu34rsub00003b6thiioms4a`
     // ensure we have the orgUrlKey
     if (!partialEvent.orgUrlKey) {
       partialEvent.orgUrlKey = context.portal.urlKey;

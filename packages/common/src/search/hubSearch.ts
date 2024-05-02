@@ -18,6 +18,7 @@ import {
 } from "./_internal/portalSearchUsers";
 import { hubSearchItems } from "./_internal/hubSearchItems";
 import { hubSearchChannels } from "./_internal/hubSearchChannels";
+import { hubSearchEvents } from "./_internal/hubSearchEvents";
 import { hubSearchEventAttendees } from "./_internal/hubSearchEventAttendees";
 
 /**
@@ -87,6 +88,7 @@ export async function hubSearch(
       item: hubSearchItems,
       channel: hubSearchChannels,
       discussionPost: hubSearchItems,
+      event: hubSearchEvents,
       eventAttendee: hubSearchEventAttendees,
     },
   };
