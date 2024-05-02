@@ -56,9 +56,11 @@ export const buildUiSchema = async (
           options: {
             control: "hub-field-input-tile-select",
             type: "checkbox",
-            labels: ["Force Update"],
+            labels: [
+              `{{${i18nScope}.fields.schedule.forceUpdateButton.label:translate}}`,
+            ],
             descriptions: [
-              'Select this option and then select "Save" to manually update the search index and cached download files for this item as applicable.',
+              `{{${i18nScope}.fields.schedule.forceUpdateButton.helperActionText:translate}}`,
             ],
           },
         },
