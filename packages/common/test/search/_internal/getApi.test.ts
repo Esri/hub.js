@@ -82,16 +82,4 @@ describe("getApi", () => {
       url: `${hubApiUrl}/api/search/v2`,
     });
   });
-  it("otherwise returns reference to Events API if possible", () => {
-    const options = {
-      requestOptions: {
-        hubApiUrl,
-        isPortal: false,
-      },
-    } as unknown as IHubSearchOptions;
-    expect(getApi("eventAttendee", options)).toEqual({
-      type: "arcgis-hub",
-      url: null,
-    } as any as IApiDefinition);
-  });
 });

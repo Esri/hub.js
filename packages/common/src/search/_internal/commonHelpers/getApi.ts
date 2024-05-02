@@ -7,7 +7,6 @@ import { getOgcApiDefinition } from "./getOgcApiDefinition";
 import { shouldUseDiscussionsApi } from "./shouldUseDiscussionsApi";
 import { getDiscussionsApiDefinition } from "./getDiscussionsApiDefinition";
 import { shouldUseEventsApi } from "./shouldUseEventsApi";
-import { getEventsApiDefinition } from "./getEventsApiDefinition";
 
 /**
  * @private
@@ -41,8 +40,6 @@ export function getApi(
     result = { type: "arcgis-hub", url: null };
   } else if (shouldUseOgcApi(targetEntity, options)) {
     result = getOgcApiDefinition(targetEntity, options);
-  } else if (shouldUseEventsApi(targetEntity, options)) {
-    result = getEventsApiDefinition();
   } else {
     result = { type: "arcgis", url: portal };
   }
