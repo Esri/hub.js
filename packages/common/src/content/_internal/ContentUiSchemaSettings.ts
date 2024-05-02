@@ -56,7 +56,7 @@ export const buildUiSchema = async (
         // force update checkbox -- TODO: replace with button once available
         {
           type: "Control",
-          scope: "/properties/schedule/properties/_forceUpdate",
+          scope: "/properties/_forceUpdate",
           options: {
             control: "hub-field-input-tile-select",
             type: "checkbox",

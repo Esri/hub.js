@@ -53,7 +53,7 @@ describe("buildUiSchema: content settings", () => {
             },
             {
               type: "Control",
-              scope: "/properties/schedule/properties/_forceUpdate",
+              scope: "/properties/_forceUpdate",
               options: {
                 control: "hub-field-input-tile-select",
                 type: "checkbox",

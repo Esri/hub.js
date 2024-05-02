@@ -177,7 +177,7 @@ export async function updateContent(
 
   if (isDownloadSchedulingAvailable(requestOptions, content.access)) {
     // if schedule has "Force Update" checked and clicked save, initiate an update
-    if (deepEqual((content.schedule as any)._forceUpdate, [true])) {
+    if (deepEqual(content._forceUpdate, [true])) {
       // [true]
       await forceUpdateContent(item.id, requestOptions);
     }
