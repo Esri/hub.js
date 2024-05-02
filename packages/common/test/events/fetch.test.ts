@@ -12,7 +12,7 @@ import { fetchEvent } from "../../src/events/fetch";
 
 describe("HubEvent fetch module:", () => {
   describe("fetchEvent", () => {
-    it("should fetch the event", async () => {
+    it("should fetch the event by id", async () => {
       const authdCtxMgr = await ArcGISContextManager.create({
         authentication: MOCK_AUTH,
         currentUser: {
@@ -56,6 +56,59 @@ describe("HubEvent fetch module:", () => {
       );
       const res = await fetchEvent(
         "123",
+        authdCtxMgr.context.hubRequestOptions
+      );
+      expect(getEventSpy).toHaveBeenCalledTimes(1);
+      expect(getEventSpy).toHaveBeenCalledWith({
+        eventId: "123",
+        ...authdCtxMgr.context.hubRequestOptions,
+      });
+      expect(res.name).toEqual("my event");
+    });
+    it("should fetch the event by slug", async () => {
+      const authdCtxMgr = await ArcGISContextManager.create({
+        authentication: MOCK_AUTH,
+        currentUser: {
+          username: "casey",
+        } as unknown as PortalModule.IUser,
+        portal: {
+          name: "DC R&D Center",
+          id: "BRXFAKE",
+          urlKey: "fake-org",
+        } as unknown as PortalModule.IPortal,
+        portalUrl: "https://myserver.com",
+      });
+      const event = {
+        id: "123",
+        access: EventAccess.PRIVATE,
+        allDay: false,
+        allowRegistration: true,
+        attendanceType: [EventAttendanceType.IN_PERSON],
+        categories: [],
+        editGroups: [],
+        endDateTime: new Date().toISOString(),
+        notifyAttendees: true,
+        readGroups: [],
+        startDateTime: new Date().toISOString(),
+        status: EventStatus.PLANNED,
+        tags: [],
+        title: "my event",
+        permission: {
+          canDelete: true,
+          canSetAccessToOrg: true,
+          canSetAccessToPrivate: true,
+          canSetStatusToCancelled: true,
+          canEdit: true,
+          canSetAccessToPublic: true,
+          canSetStatusToRemoved: true,
+        },
+        timeZone: "America/New_York",
+      } as unknown as IEvent;
+      const getEventSpy = spyOn(eventModule, "getEvent").and.returnValue(
+        new Promise((resolve) => resolve(event))
+      );
+      const res = await fetchEvent(
+        "my-event-123",
         authdCtxMgr.context.hubRequestOptions
       );
       expect(getEventSpy).toHaveBeenCalledTimes(1);
