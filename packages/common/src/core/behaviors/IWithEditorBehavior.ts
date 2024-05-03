@@ -34,4 +34,6 @@ export interface IWithEditorBehavior {
     editor: HubEntityEditor,
     editorContext?: IEntityEditorContext
   ): Promise<HubEntity>;
+
+  handleWellKnownAction?(action: string): Promise<void>;
 }

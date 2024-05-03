@@ -97,4 +97,10 @@ export class EntityEditor {
   ): Promise<HubEntity> {
     return this.instance.fromEditor(editor, editorContext);
   }
+
+  async handleAction(
+    action: string
+  ): Promise<void> {
+    return this.instance.handleWellKnownAction(action);
+  }
 }

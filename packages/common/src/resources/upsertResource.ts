@@ -1,6 +1,6 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { addItemResource, updateItemResource } from "@esri/arcgis-rest-portal";
-import HubError from "../HubError";
+import HubError, { hubErrors } from "../HubError";
 import { objectToJsonBlob, stringToBlob, doesResourceExist } from ".";
 import { getPortalApiUrl } from "../urls";
 
@@ -26,6 +26,7 @@ export async function upsertResource(
   prefix: string = ""
 ): Promise<string> {
   try {
+    throw new Error("mock upsert resource error");
     const extension = name.split(".").pop();
     // Search against the item resources to see if the resource exists
     const doesResExist: boolean = await doesResourceExist(id, name, ro);
@@ -64,11 +65,13 @@ export async function upsertResource(
     return `${portalRestUrl}/content/items/${id}/resources/${_prefix}${name}`;
   } catch (err) {
     if (err instanceof Error) {
-      throw new HubError("Add Item Resource", err.message, err);
+      throw new HubError("Add Item Resource", err.message, err, hubErrors.HC100.code);
     } else {
       throw new HubError(
         "Add Item Resource",
-        `Error adding resource ${name} to item ${id}.`
+        `Error adding resource ${name} to item ${id}.`,
+        null,
+        hubErrors.HC100.code
       );
     }
   }

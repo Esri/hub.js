@@ -8,6 +8,8 @@ import OperationError from "./OperationError";
  * Also accepts a `rootCause` Error object
  */
 export default class HubError extends OperationError {
+  public hubCode: string;
+
   /**
    * Creates an instance of HubError.
    * @param {string} operation
@@ -15,7 +17,7 @@ export default class HubError extends OperationError {
    * @param {Error} [rootCause]
    * @memberof HubError
    */
-  constructor(operation: string, message?: string, rootCause?: Error) {
+  constructor(operation: string, message?: string, rootCause?: Error, hubCode?: string) {
     message = message || "UNKNOWN_ERROR";
     // if the rootCause has a .rootCause, use that so we don't deeply nest
     rootCause = getWithDefault(rootCause, "rootCause", rootCause);
@@ -31,5 +33,17 @@ export default class HubError extends OperationError {
     // in the HubError constructor. This is only an issue in tests but
     // it can be confusing to debug
     this.stack = getWithDefault(rootCause, "stack", new Error().stack);
+    this.hubCode = hubCode;
+  }
+}
+
+export const hubErrors: Record<string, Record<'message'|'code', string>> = {
+  HC100: {
+    message: 'error adding resource',
+    code: 'HC100'
+  },
+  HC101: {
+    message: 'error saving project',
+    code: 'HC101'
   }
 }

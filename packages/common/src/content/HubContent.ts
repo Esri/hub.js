@@ -170,6 +170,10 @@ export class HubContent
     return this.entity;
   }
 
+  async handleWellKnownAction(action: string): Promise<void> {
+      console.log('CONTENT HANDLE WELL KNOWN ACTION >>>', action);
+  }
+
   // TODO: move this to HubItemEntity
   private _checkDestroyed() {
     if (this.isDestroyed) {

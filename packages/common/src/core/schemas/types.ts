@@ -133,6 +133,7 @@ export enum UiSchemaElementTypes {
   control = "Control",
   layout = "Layout",
   slot = "Slot",
+  action = "Action"
 }
 
 export enum UiSchemaSectionTypes {

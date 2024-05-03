@@ -44,16 +44,19 @@ export const buildUiSchema = async (
               { type: "daily" },
               { type: "weekly" },
               { type: "monthly" },
-              { type: "yearly" },
-              // uncomment this when the manual option is available
-              // {
-              //   label: `option.manual.label`,
-              //   type: "manual",
-              //   helperActionIcon: "information-f",
-              //   helperActionText: "option.manual.helperActionText",
-              // },
+              { type: "yearly" }
             ],
           },
+        },
+        {
+          type: 'Action',
+          options: {
+            action: 'force-update',
+            appearance: 'outline-fill',
+            label: 'Force update',
+            round: true,
+            tooltip: 'Use this option to manually update the search index and cached download files for this item.'
+          }
         },
       ],
     });
