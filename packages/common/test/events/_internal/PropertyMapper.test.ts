@@ -22,8 +22,13 @@ describe("PropertyMapper", () => {
 
   describe("storeToEntity", () => {
     let eventRecord: IEvent;
+    let start: Date;
+    let end: Date;
 
     beforeEach(() => {
+      const now = new Date();
+      start = new Date(now.valueOf() + 1000 * 60 * 60);
+      end = new Date(start.valueOf() + 1000 * 60 * 60);
       eventRecord = {
         access: EventAccess.PRIVATE,
         addresses: [
@@ -48,14 +53,18 @@ describe("PropertyMapper", () => {
         attendanceType: [EventAttendanceType.IN_PERSON],
         catalog: null,
         categories: ["category1"],
-        createdAt: new Date().toISOString(),
+        createdAt: now.toISOString(),
         createdById: "12345",
         creator: {
           username: "jdoe",
         },
         description: "event description",
         editGroups: ["editGroup1"],
-        endDateTime: new Date().toISOString(),
+        endDate: [end.getFullYear(), end.getMonth() + 1, end.getDate()].join(
+          "-"
+        ),
+        endTime: [end.getHours(), end.getMinutes(), end.getSeconds()].join(":"),
+        endDateTime: end.toISOString(),
         geometry: null,
         id: "31c",
         notifyAttendees: false,
@@ -71,13 +80,23 @@ describe("PropertyMapper", () => {
         },
         readGroups: ["readGroup1"],
         recurrence: null,
-        startDateTime: new Date().toISOString(),
+        startDate: [
+          start.getFullYear(),
+          start.getMonth() + 1,
+          start.getDate(),
+        ].join("-"),
+        startTime: [
+          start.getHours(),
+          start.getMinutes(),
+          start.getSeconds(),
+        ].join(":"),
+        startDateTime: start.toISOString(),
         status: EventStatus.PLANNED,
         summary: "event summary",
         tags: ["tag1"],
         timeZone: "America/New_York",
         title: "event title",
-        updatedAt: new Date().toISOString(),
+        updatedAt: now.toISOString(),
       } as IEvent;
     });
 
@@ -179,8 +198,13 @@ describe("PropertyMapper", () => {
 
   describe("entityToStore", () => {
     let eventEntity: IHubEvent;
+    let start: Date;
+    let end: Date;
 
     beforeEach(() => {
+      const now = new Date();
+      start = new Date(now.valueOf() + 1000 * 60 * 60);
+      end = new Date(start.valueOf() + 1000 * 60 * 60);
       eventEntity = {
         isAllDay: false,
         name: "event title",
@@ -212,16 +236,26 @@ describe("PropertyMapper", () => {
         onlineDetails: null,
         onlineUrl: null,
         canChangeAccess: true,
-        createdDate: jasmine.any(Date) as unknown as Date,
-        startDateTime: jasmine.any(Date) as unknown as Date,
-        endDateTime: jasmine.any(Date) as unknown as Date,
+        createdDate: now,
+        startDateTime: start,
+        endDateTime: end,
         createdDateSource: "createdAt",
         updatedDate: jasmine.any(Date) as unknown as Date,
         updatedDateSource: "updatedAt",
-        startDate: "2024-04-01",
-        endDate: "2024-04-01",
-        startTime: "12:00:00",
-        endTime: "01:00:00",
+        startDate: [
+          start.getFullYear(),
+          start.getMonth() + 1,
+          start.getDate(),
+        ].join("-"),
+        startTime: [
+          start.getHours(),
+          start.getMinutes(),
+          start.getSeconds(),
+        ].join(":"),
+        endDate: [end.getFullYear(), end.getMonth() + 1, end.getDate()].join(
+          "-"
+        ),
+        endTime: [end.getHours(), end.getMinutes(), end.getSeconds()].join(":"),
         timeZone: "America/New_York",
       } as IHubEvent;
     });
@@ -252,8 +286,10 @@ describe("PropertyMapper", () => {
         access: EventAccess.PRIVATE,
         status: EventStatus.PLANNED,
         attendanceType: [EventAttendanceType.IN_PERSON],
-        startDateTime: jasmine.any(String) as unknown as string,
-        endDateTime: jasmine.any(String) as unknown as string,
+        startDate: jasmine.any(String) as unknown as string,
+        startTime: jasmine.any(String) as unknown as string,
+        endDate: jasmine.any(String) as unknown as string,
+        endTime: jasmine.any(String) as unknown as string,
       } as IEvent);
     });
 
@@ -284,8 +320,10 @@ describe("PropertyMapper", () => {
         access: EventAccess.PRIVATE,
         status: EventStatus.PLANNED,
         attendanceType: [EventAttendanceType.IN_PERSON],
-        startDateTime: jasmine.any(String) as unknown as string,
-        endDateTime: jasmine.any(String) as unknown as string,
+        startDate: jasmine.any(String) as unknown as string,
+        startTime: jasmine.any(String) as unknown as string,
+        endDate: jasmine.any(String) as unknown as string,
+        endTime: jasmine.any(String) as unknown as string,
       } as IEvent);
     });
 
@@ -327,8 +365,10 @@ describe("PropertyMapper", () => {
             url: "https://somewhere.com/",
           } as IOnlineMeeting,
         ],
-        startDateTime: jasmine.any(String) as unknown as string,
-        endDateTime: jasmine.any(String) as unknown as string,
+        startDate: jasmine.any(String) as unknown as string,
+        startTime: jasmine.any(String) as unknown as string,
+        endDate: jasmine.any(String) as unknown as string,
+        endTime: jasmine.any(String) as unknown as string,
       } as IEvent);
     });
 
@@ -370,8 +410,10 @@ describe("PropertyMapper", () => {
             url: "https://somewhere.com/",
           } as IOnlineMeeting,
         ],
-        startDateTime: jasmine.any(String) as unknown as string,
-        endDateTime: jasmine.any(String) as unknown as string,
+        startDate: jasmine.any(String) as unknown as string,
+        startTime: jasmine.any(String) as unknown as string,
+        endDate: jasmine.any(String) as unknown as string,
+        endTime: jasmine.any(String) as unknown as string,
       } as IEvent);
     });
 
@@ -416,8 +458,10 @@ describe("PropertyMapper", () => {
             url: "https://somewhere.com/",
           } as IOnlineMeeting,
         ],
-        startDateTime: jasmine.any(String) as unknown as string,
-        endDateTime: jasmine.any(String) as unknown as string,
+        startDate: jasmine.any(String) as unknown as string,
+        startTime: jasmine.any(String) as unknown as string,
+        endDate: jasmine.any(String) as unknown as string,
+        endTime: jasmine.any(String) as unknown as string,
       } as IEvent);
     });
 
@@ -448,8 +492,10 @@ describe("PropertyMapper", () => {
         access: EventAccess.PRIVATE,
         status: EventStatus.CANCELED,
         attendanceType: [EventAttendanceType.IN_PERSON],
-        startDateTime: jasmine.any(String) as unknown as string,
-        endDateTime: jasmine.any(String) as unknown as string,
+        startDate: jasmine.any(String) as unknown as string,
+        startTime: jasmine.any(String) as unknown as string,
+        endDate: jasmine.any(String) as unknown as string,
+        endTime: jasmine.any(String) as unknown as string,
       } as IEvent);
     });
 
@@ -480,8 +526,10 @@ describe("PropertyMapper", () => {
         access: EventAccess.PRIVATE,
         status: EventStatus.REMOVED,
         attendanceType: [EventAttendanceType.IN_PERSON],
-        startDateTime: jasmine.any(String) as unknown as string,
-        endDateTime: jasmine.any(String) as unknown as string,
+        startDate: jasmine.any(String) as unknown as string,
+        startTime: jasmine.any(String) as unknown as string,
+        endDate: jasmine.any(String) as unknown as string,
+        endTime: jasmine.any(String) as unknown as string,
       } as IEvent);
     });
   });

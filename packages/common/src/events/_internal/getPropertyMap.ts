@@ -17,6 +17,10 @@ export function getPropertyMap(): IPropertyMap[] {
     "summary",
     "notifyAttendees",
     "allowRegistration",
+    "startDate",
+    "startTime",
+    "endDate",
+    "endTime",
   ];
   return commonPropNames.reduce(
     (acc, propName) => [...acc, { entityKey: propName, storeKey: propName }],
