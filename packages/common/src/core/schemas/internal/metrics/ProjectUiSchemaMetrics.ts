@@ -135,6 +135,14 @@ export const buildUiSchema = async (
             },
           },
           {
+            scope: "/properties/_metric/properties/location",
+            type: "Control",
+            labelKey: "shared.fields.metrics.location.label",
+            options: {
+              control: "hub-field-input-location-picker",
+            },
+          },
+          {
             scope: "/properties/_metric/properties/dynamicMetric",
             type: "Control",
             labelKey: "shared.fields.metrics.dynamicMetric.label",
