@@ -7,10 +7,76 @@
  */
 import { Awaited } from "../awaited-type";
 import { customClient } from "../custom-client";
-export interface IPagedRegistrationResponse {
-  items: IRegistration[];
-  nextStart: number;
-  total: number;
+export type GetEventsParams = {
+  /**
+   * Comma separated string list of EventAccess
+   */
+  access?: string;
+  /**
+   * Comma separated string list of associated entityIds
+   */
+  entityIds?: string;
+  /**
+   * Comma separated string list of associated entity types
+   */
+  entityTypes?: string;
+  /**
+   * Comma separated string list of relation fields to include in response
+   */
+  include?: string;
+  /**
+   * latest ISO8601 start date-time for the events
+   */
+  startDateTimeBefore?: string;
+  /**
+   * earliest ISO8601 start date-time for the events
+   */
+  startDateTimeAfter?: string;
+  /**
+   * Comma separated string list of AttendanceTypes
+   */
+  attendanceTypes?: string;
+  /**
+   * Comma separated string list of categories
+   */
+  categories?: string;
+  /**
+   * comma separated string list of event statuses
+   */
+  status?: string;
+  /**
+   * Comma separated string list of tags
+   */
+  tags?: string;
+  /**
+   * string to match within an event title
+   */
+  title?: string;
+  /**
+   * the max amount of events to return
+   */
+  num?: string;
+  /**
+   * the index to start at
+   */
+  start?: string;
+  /**
+   * Event property to sort results by
+   */
+  sortBy?: EventSort;
+  /**
+   * sort results order desc or asc
+   */
+  sortOrder?: SortOrder;
+};
+
+export interface IUpdateRegistration {
+  /** Role of the user in the event */
+  role?: RegistrationRole;
+  /** Status of the registration */
+  status?: RegistrationStatus;
+  /** Attendance type for this registration */
+  type?: EventAttendanceType;
 }
 
 export enum RegistrationSort {
@@ -100,6 +166,8 @@ export interface IUpdateEvent {
   allDay?: boolean;
   /** Boolean to indicate if users can register for an event */
   allowRegistration?: boolean;
+  /** Items associated with the event */
+  associations?: ICreateAssociation[];
   /** Valid ways to attend the event */
   attendanceType?: EventAttendanceType[];
   /** categories for the event */
@@ -136,12 +204,6 @@ export interface IUpdateEvent {
   title?: string;
 }
 
-export interface IPagedEventResponse {
-  items: IEvent[];
-  nextStart: number;
-  total: number;
-}
-
 export enum SortOrder {
   asc = "asc",
   desc = "desc",
@@ -152,61 +214,6 @@ export enum EventSort {
   createdAt = "createdAt",
   updatedAt = "updatedAt",
 }
-export type GetEventsParams = {
-  /**
-   * Comma separated string list of EventAccess
-   */
-  access?: string;
-  /**
-   * Comma separated string list of relation fields to include in response
-   */
-  include?: string;
-  /**
-   * latest ISO8601 start date-time for the events
-   */
-  startDateTimeBefore?: string;
-  /**
-   * earliest ISO8601 start date-time for the events
-   */
-  startDateTimeAfter?: string;
-  /**
-   * Comma separated string list of AttendanceTypes
-   */
-  attendanceTypes?: string;
-  /**
-   * Comma separated string list of categories
-   */
-  categories?: string;
-  /**
-   * comma separated string list of event statuses
-   */
-  status?: string;
-  /**
-   * Comma separated string list of tags
-   */
-  tags?: string;
-  /**
-   * string to match within an event title
-   */
-  title?: string;
-  /**
-   * the max amount of events to return
-   */
-  num?: string;
-  /**
-   * the index to start at
-   */
-  start?: string;
-  /**
-   * Event property to sort results by
-   */
-  sortBy?: EventSort;
-  /**
-   * sort results order desc or asc
-   */
-  sortOrder?: SortOrder;
-};
-
 export interface IRegistrationPermission {
   canDelete: boolean;
   canEdit: boolean;
@@ -231,6 +238,7 @@ export interface IEvent {
   addresses?: IAddress[];
   allDay: boolean;
   allowRegistration: boolean;
+  associations?: IAssociation[];
   attendanceType: EventAttendanceType[];
   catalog: IEventCatalogItem[] | null;
   categories: string[];
@@ -262,6 +270,12 @@ export interface IEvent {
   updatedAt: string;
 }
 
+export interface IPagedEventResponse {
+  items: IEvent[];
+  nextStart: number;
+  total: number;
+}
+
 export enum RegistrationStatus {
   PENDING = "PENDING",
   ACCEPTED = "ACCEPTED",
@@ -273,13 +287,26 @@ export enum RegistrationRole {
   ORGANIZER = "ORGANIZER",
   ATTENDEE = "ATTENDEE",
 }
-export interface IUpdateRegistration {
-  /** Role of the user in the event */
-  role?: RegistrationRole;
-  /** Status of the registration */
-  status?: RegistrationStatus;
-  /** Attendance type for this registration */
-  type?: EventAttendanceType;
+export interface IRegistration {
+  createdAt: string;
+  createdBy?: IUser;
+  createdById: string;
+  event?: IEvent;
+  eventId: string;
+  id: number;
+  permission: IRegistrationPermission;
+  role: RegistrationRole;
+  status: RegistrationStatus;
+  type: EventAttendanceType;
+  updatedAt: string;
+  user?: IUser;
+  userId: string;
+}
+
+export interface IPagedRegistrationResponse {
+  items: IRegistration[];
+  nextStart: number;
+  total: number;
 }
 
 export enum EventStatus {
@@ -308,20 +335,10 @@ export interface IUser {
   username: string;
 }
 
-export interface IRegistration {
-  createdAt: string;
-  createdBy?: IUser;
-  createdById: string;
-  event?: IEvent;
+export interface IAssociation {
+  entityId: string;
+  entityType: string;
   eventId: string;
-  id: number;
-  permission: IRegistrationPermission;
-  role: RegistrationRole;
-  status: RegistrationStatus;
-  type: EventAttendanceType;
-  updatedAt: string;
-  user?: IUser;
-  userId: string;
 }
 
 export type IAddressLocation = { [key: string]: any };
@@ -362,6 +379,13 @@ export enum EventAttendanceType {
   VIRTUAL = "VIRTUAL",
   IN_PERSON = "IN_PERSON",
 }
+export interface ICreateAssociation {
+  /** Entity Id */
+  entityId: string;
+  /** Entity type */
+  entityType: string;
+}
+
 export enum EventAccess {
   PRIVATE = "PRIVATE",
   ORG = "ORG",
@@ -391,6 +415,8 @@ export interface ICreateEvent {
   allDay?: boolean;
   /** Boolean to indicate if users can register for an event */
   allowRegistration?: boolean;
+  /** Items associated with the event */
+  associations?: ICreateAssociation[];
   /** Valid ways to attend the event */
   attendanceType?: EventAttendanceType[];
   /** categories for the event */
