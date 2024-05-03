@@ -6,9 +6,6 @@ import {
 import { IHubEvent } from "../../core/types/IHubEvent";
 import { SettableAccessLevel } from "../../core/types/types";
 import { cloneObject } from "../../util";
-// import { getDatePickerDate } from "../../utils/date/getDatePickerDate";
-// import { getTimePickerTime } from "../../utils/date/getTimePickerTime";
-// import { getISOStringFromClientDateTime } from "./getISOStringFromClientDateTime";
 import {
   EventAccess,
   EventAttendanceType,
@@ -87,10 +84,6 @@ export class EventPropertyMapper extends PropertyMapper<
     obj.createdDate = new Date(store.createdAt);
     obj.startDateTime = new Date(store.startDateTime);
     obj.endDateTime = new Date(store.endDateTime);
-    // obj.startDate = getDatePickerDate(store.startDateTime, store.timeZone);
-    // obj.endDate = getDatePickerDate(store.endDateTime, store.timeZone);
-    // obj.startTime = getTimePickerTime(store.startDateTime, store.timeZone);
-    // obj.endTime = getTimePickerTime(store.endDateTime, store.timeZone);
     obj.createdDateSource = "createdAt";
     obj.updatedDate = new Date(store.updatedAt);
     obj.updatedDateSource = "updatedAt";
@@ -166,16 +159,6 @@ export class EventPropertyMapper extends PropertyMapper<
       clonedEntity.startTime = "00:00:00";
       clonedEntity.endTime = "23:59:59";
     }
-
-    // build start & end date/time iso strings, adjusted for desired time zone
-    // obj.startDateTime = getISOStringFromClientDateTime(
-    //   clonedEntity.startDate,
-    //   clonedEntity.startTime
-    // );
-    // obj.endDateTime = getISOStringFromClientDateTime(
-    //   clonedEntity.endDate,
-    //   clonedEntity.endTime
-    // );
 
     return obj;
   }

@@ -17,8 +17,6 @@ export function getPropertyMap(): IPropertyMap[] {
     "summary",
     "notifyAttendees",
     "allowRegistration",
-    // "startDateTime",
-    // "endDateTime",
     "startDate",
     "startTime",
     "endDate",
