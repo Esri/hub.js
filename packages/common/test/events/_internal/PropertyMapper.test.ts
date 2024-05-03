@@ -22,10 +22,13 @@ describe("PropertyMapper", () => {
 
   describe("storeToEntity", () => {
     let eventRecord: IEvent;
-    let now: Date;
+    let start: Date;
+    let end: Date;
 
     beforeEach(() => {
-      now = new Date();
+      const now = new Date();
+      start = new Date(now.valueOf() + 1000 * 60 * 60);
+      end = new Date(start.valueOf() + 1000 * 60 * 60);
       eventRecord = {
         access: EventAccess.PRIVATE,
         addresses: [
@@ -57,11 +60,11 @@ describe("PropertyMapper", () => {
         },
         description: "event description",
         editGroups: ["editGroup1"],
-        endDate: [now.getFullYear(), now.getMonth() + 1, now.getDate()].join(
+        endDate: [end.getFullYear(), end.getMonth() + 1, end.getDate()].join(
           "-"
         ),
-        endTime: [now.getHours(), now.getMinutes(), now.getSeconds()].join(":"),
-        endDateTime: now.toISOString(),
+        endTime: [end.getHours(), end.getMinutes(), end.getSeconds()].join(":"),
+        endDateTime: end.toISOString(),
         geometry: null,
         id: "31c",
         notifyAttendees: false,
@@ -77,13 +80,17 @@ describe("PropertyMapper", () => {
         },
         readGroups: ["readGroup1"],
         recurrence: null,
-        startDate: [now.getFullYear(), now.getMonth() + 1, now.getDate()].join(
-          "-"
-        ),
-        startTime: [now.getHours(), now.getMinutes(), now.getSeconds()].join(
-          ":"
-        ),
-        startDateTime: now.toISOString(),
+        startDate: [
+          start.getFullYear(),
+          start.getMonth() + 1,
+          start.getDate(),
+        ].join("-"),
+        startTime: [
+          start.getHours(),
+          start.getMinutes(),
+          start.getSeconds(),
+        ].join(":"),
+        startDateTime: start.toISOString(),
         status: EventStatus.PLANNED,
         summary: "event summary",
         tags: ["tag1"],
@@ -191,10 +198,13 @@ describe("PropertyMapper", () => {
 
   describe("entityToStore", () => {
     let eventEntity: IHubEvent;
-    let now: Date;
+    let start: Date;
+    let end: Date;
 
     beforeEach(() => {
-      now = new Date();
+      const now = new Date();
+      start = new Date(now.valueOf() + 1000 * 60 * 60);
+      end = new Date(start.valueOf() + 1000 * 60 * 60);
       eventEntity = {
         isAllDay: false,
         name: "event title",
@@ -227,15 +237,25 @@ describe("PropertyMapper", () => {
         onlineUrl: null,
         canChangeAccess: true,
         createdDate: now,
-        startDateTime: now,
-        endDateTime: now,
+        startDateTime: start,
+        endDateTime: end,
         createdDateSource: "createdAt",
         updatedDate: jasmine.any(Date) as unknown as Date,
         updatedDateSource: "updatedAt",
-        startDate: "2024-04-01",
-        endDate: "2024-04-01",
-        startTime: "12:00:00",
-        endTime: "01:00:00",
+        startDate: [
+          start.getFullYear(),
+          start.getMonth() + 1,
+          start.getDate(),
+        ].join("-"),
+        startTime: [
+          start.getHours(),
+          start.getMinutes(),
+          start.getSeconds(),
+        ].join(":"),
+        endDate: [end.getFullYear(), end.getMonth() + 1, end.getDate()].join(
+          "-"
+        ),
+        endTime: [end.getHours(), end.getMinutes(), end.getSeconds()].join(":"),
         timeZone: "America/New_York",
       } as IHubEvent;
     });
