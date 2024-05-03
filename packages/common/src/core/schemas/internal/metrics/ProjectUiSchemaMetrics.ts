@@ -1,6 +1,9 @@
 import { IArcGISContext } from "../../../../ArcGISContext";
+import { IHubProject } from "../../../types";
 import { IUiSchema } from "../../types";
 import { EntityEditorOptions } from "../EditorOptions";
+import { getLocationExtent } from "../getLocationExtent";
+import { getLocationOptions } from "../getLocationOptions";
 import {
   SHOW_FOR_STATIC_RULE_ENTITY,
   SHOW_FOR_DYNAMIC_RULE_ENTITY,
@@ -20,7 +23,7 @@ import {
  */
 export const buildUiSchema = async (
   i18nScope: string,
-  config: EntityEditorOptions,
+  config: Partial<IHubProject>,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
   return {
@@ -140,6 +143,18 @@ export const buildUiSchema = async (
             labelKey: "shared.fields.metrics.location.label",
             options: {
               control: "hub-field-input-location-picker",
+
+              extent: await getLocationExtent(
+                config.location,
+                context.hubRequestOptions
+              ),
+              options: await getLocationOptions(
+                config.id,
+                config.type,
+                config.location,
+                context.portal.name,
+                context.hubRequestOptions
+              ),
             },
           },
           {
