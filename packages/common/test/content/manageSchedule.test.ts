@@ -12,6 +12,7 @@ import { MOCK_HUB_REQOPTS } from "../mocks/mock-auth";
 import { IHubEditableContent } from "../../src/core/types/IHubEditableContent";
 import * as fetchMock from "fetch-mock";
 import { getSchedulerApiUrl } from "../../src/content/_internal/internalContentUtils";
+import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 describe("manageSchedule", () => {
   afterEach(() => {
@@ -20,7 +21,7 @@ describe("manageSchedule", () => {
   it("getSchedulerApiUrl: returns the correct url when no version is attached on requestOptions", () => {
     const url = getSchedulerApiUrl("123", MOCK_HUB_REQOPTS);
     expect(url).toEqual(
-      "https://hubqa.arcgis.com/api/download/v1/items/123/schedule"
+      "https://hubqa.arcgis.com/api/download/v1/items/123/schedule?token=fake-token"
     );
   });
   it("getSchedulerApiUrl: returns the correct url when v3 is attached on requestOptions", () => {
@@ -31,13 +32,13 @@ describe("manageSchedule", () => {
 
     const url = getSchedulerApiUrl("123", requestOptions);
     expect(url).toEqual(
-      "https://hubqa.arcgis.com/api/download/v1/items/123/schedule"
+      "https://hubqa.arcgis.com/api/download/v1/items/123/schedule?token=fake-token"
     );
   });
   it("getSchedule: returns an error if no schedule is set", async () => {
     const item = { id: "123" };
     fetchMock.once(
-      `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule`,
+      `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule?token=fake-token`,
       {
         error: "Not Found",
         message: `Download schedule for the item ${item.id} is not found.`,
@@ -56,7 +57,7 @@ describe("manageSchedule", () => {
   it("getSchedule: returns schedule of mode 'scheduled' if set", async () => {
     const item = { id: "123" };
     fetchMock.once(
-      `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule`,
+      `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule?token=fake-token`,
       {
         cadence: "daily",
         hour: 0,
@@ -79,7 +80,7 @@ describe("manageSchedule", () => {
   it("getSchedule: returns schedule of mode 'manual' if set", async () => {
     const item = { id: "123" };
     fetchMock.once(
-      `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule`,
+      `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule?token=fake-token`,
       {
         mode: "manual",
         itemId: "123",
@@ -104,7 +105,7 @@ describe("manageSchedule", () => {
     } as IHubSchedule;
 
     fetchMock.post(
-      `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule`,
+      `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule?token=fake-token`,
       {
         message: "Download schedule set successfully.",
       }
@@ -121,7 +122,7 @@ describe("manageSchedule", () => {
     } as IHubSchedule;
 
     fetchMock.post(
-      `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule`,
+      `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule?token=fake-token`,
       {
         message: "Download schedule set successfully.",
       }
@@ -141,7 +142,7 @@ describe("manageSchedule", () => {
     } as IHubSchedule;
 
     fetchMock.post(
-      `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule`,
+      `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule?token=fake-token`,
       {
         title: "unit out of range",
         message:
@@ -159,7 +160,7 @@ describe("manageSchedule", () => {
     const item = { id: "123" };
 
     fetchMock.delete(
-      `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule`,
+      `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule?token=fake-token`,
       {
         message: "Download schedule deleted successfully.",
       }
@@ -177,7 +178,7 @@ describe("manageSchedule", () => {
     } as IHubEditableContent;
 
     fetchMock.get(
-      `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule`,
+      `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule?token=fake-token`,
       {
         error: "Not Found",
         message: `Download schedule for the item ${item.id} is not found.`,
@@ -205,7 +206,7 @@ describe("manageSchedule", () => {
 
     fetchMock
       .get(
-        `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule`,
+        `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule?token=fake-token`,
         {
           error: "Not Found",
           message: `Download schedule for the item ${item.id} is not found.`,
@@ -213,7 +214,7 @@ describe("manageSchedule", () => {
         }
       )
       .post(
-        `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule`,
+        `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule?token=fake-token`,
         {
           message: "Download schedule set successfully.",
         }
@@ -232,7 +233,7 @@ describe("manageSchedule", () => {
 
     fetchMock
       .get(
-        `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule`,
+        `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule?token=fake-token`,
         {
           cadence: "daily",
           hour: 0,
@@ -240,7 +241,7 @@ describe("manageSchedule", () => {
         }
       )
       .delete(
-        `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule`,
+        `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule?token=fake-token`,
         {
           message: "Download schedule deleted successfully.",
         }
@@ -263,7 +264,7 @@ describe("manageSchedule", () => {
     } as IHubEditableContent;
 
     fetchMock.get(
-      `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule`,
+      `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule?token=fake-token`,
       {
         cadence: "daily",
         hour: 0,

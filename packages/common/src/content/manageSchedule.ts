@@ -4,6 +4,7 @@ import { cloneObject } from "../util";
 import { deepEqual } from "../objects/deepEqual";
 import { AccessLevel, IHubEditableContent } from "../core";
 import { getSchedulerApiUrl } from "./_internal/internalContentUtils";
+import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 // Any code referencing these functions must first pass isDownloadSchedulingAvailable
 
@@ -15,7 +16,7 @@ import { getSchedulerApiUrl } from "./_internal/internalContentUtils";
  */
 export const getSchedule = async (
   itemId: string,
-  requestOptions: IRequestOptions
+  requestOptions: IUserRequestOptions
 ): Promise<IHubScheduleResponse> => {
   const fetchResponse = await fetch(getSchedulerApiUrl(itemId, requestOptions));
   const schedule = await fetchResponse.json();
@@ -65,7 +66,7 @@ export const getSchedule = async (
 export const setSchedule = async (
   itemId: string,
   schedule: IHubSchedule,
-  requestOptions: IRequestOptions
+  requestOptions: IUserRequestOptions
 ): Promise<IHubScheduleResponse> => {
   const body = cloneObject(schedule);
   if (body.mode !== "manual") {
@@ -98,7 +99,7 @@ export const setSchedule = async (
  */
 export const deleteSchedule = async (
   itemId: string,
-  requestOptions: IRequestOptions
+  requestOptions: IUserRequestOptions
 ): Promise<IHubScheduleResponse> => {
   const url = getSchedulerApiUrl(itemId, requestOptions);
   const options = {
@@ -121,7 +122,7 @@ export const deleteSchedule = async (
  */
 export const maybeUpdateSchedule = async (
   content: IHubEditableContent,
-  requestOptions: IRequestOptions
+  requestOptions: IUserRequestOptions
 ): Promise<IHubScheduleResponse> => {
   const scheduleResponse = await getSchedule(content.id, requestOptions);
 
