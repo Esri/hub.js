@@ -36,28 +36,30 @@ export type ExportImageFormat = (typeof EXPORT_IMAGE_FORMATS)[number];
 
 /**
  * Formats supported by the paging operation endpoint of the Hub Download API.
+ * Listed in the default order of appearance in the UI.
  */
 export const HUB_PAGING_JOB_FORMATS = [
   ServiceDownloadFormat.CSV,
+  ServiceDownloadFormat.SHAPEFILE,
   ServiceDownloadFormat.GEOJSON,
   ServiceDownloadFormat.KML,
-  ServiceDownloadFormat.SHAPEFILE,
 ] as const;
 export type HubPagingJobFormat = (typeof HUB_PAGING_JOB_FORMATS)[number];
 
 /**
  * Known formats supported by the /createReplica endpoint of the Hub Download API.
+ * Listed in the default order of appearance in the UI.
  * NOTE: this is may be incomplete and should be updated as needed.
  */
 export const CREATE_REPLICA_FORMATS = [
   ServiceDownloadFormat.CSV,
-  ServiceDownloadFormat.EXCEL,
-  ServiceDownloadFormat.FEATURE_COLLECTION,
-  ServiceDownloadFormat.FILE_GDB,
-  ServiceDownloadFormat.GEOJSON,
-  ServiceDownloadFormat.GEO_PACKAGE,
-  ServiceDownloadFormat.JSON,
   ServiceDownloadFormat.SHAPEFILE,
+  ServiceDownloadFormat.GEOJSON,
+  ServiceDownloadFormat.FILE_GDB,
+  ServiceDownloadFormat.FEATURE_COLLECTION,
+  ServiceDownloadFormat.EXCEL,
+  ServiceDownloadFormat.GEO_PACKAGE,
   ServiceDownloadFormat.SQLITE,
+  ServiceDownloadFormat.JSON,
 ] as const;
 export type CreateReplicaFormat = (typeof CREATE_REPLICA_FORMATS)[number];
