@@ -1,3 +1,10 @@
+## @esri/hub-common [14.125.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.125.0...@esri/hub-common@14.125.1) (2024-05-06)
+
+
+### Bug Fixes
+
+* **hub-common:** fix unified list feature flag, format order, and additional resource calculation ([#1501](https://github.com/Esri/hub.js/issues/1501)) ([46d4715](https://github.com/Esri/hub.js/commit/46d4715bc5f330dc15fda57ee12601a62d80d782))
+
 # @esri/hub-common [14.125.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.124.0...@esri/hub-common@14.125.0) (2024-05-06)
 
 
