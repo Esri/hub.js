@@ -182,7 +182,7 @@ export async function updateContent(
       await forceUpdateContent(item.id, requestOptions);
     }
 
-    delete (content.schedule as any)._forceUpdate;
+    delete content._forceUpdate;
 
     await maybeUpdateSchedule(content, requestOptions);
   }
