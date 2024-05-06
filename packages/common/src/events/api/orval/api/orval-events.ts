@@ -5,7 +5,6 @@
  * Hub Events Service
  * OpenAPI spec version: 0.0.1
  */
-import { AccessLevel } from "../../../../core";
 import { Awaited } from "../awaited-type";
 import { customClient } from "../custom-client";
 export interface IPagedRegistrationResponse {
