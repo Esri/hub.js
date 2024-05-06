@@ -1,4 +1,5 @@
 export {
+  AssociationEntityType,
   EventAccess,
   EventAttendanceType,
   EventStatus,

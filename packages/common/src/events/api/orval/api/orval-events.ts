@@ -7,6 +7,57 @@
  */
 import { Awaited } from "../awaited-type";
 import { customClient } from "../custom-client";
+export type GetRegistrationsParams = {
+  /**
+   * Event id being registered for
+   */
+  eventId?: string;
+  /**
+   * ArcGIS Online id for a user
+   */
+  userId?: string;
+  /**
+   * comma separated string list of registration roles
+   */
+  role?: string;
+  /**
+   * comma separated string list of registration statuses
+   */
+  status?: string;
+  /**
+   * comma separated string list of registration types
+   */
+  type?: string;
+  /**
+   * latest ISO8601 updatedAt for the registrations
+   */
+  updatedAtBefore?: string;
+  /**
+   * earliest ISO8601 updatedAt for the registrations
+   */
+  updatedAtAfter?: string;
+  /**
+   * filter to be matched to firstName, lastName, or username
+   */
+  name?: string;
+  /**
+   * the max amount of registrations to return
+   */
+  num?: string;
+  /**
+   * the index to start at
+   */
+  start?: string;
+  /**
+   * property to sort results by
+   */
+  sortBy?: RegistrationSort;
+  /**
+   * sort order desc or asc
+   */
+  sortOrder?: SortOrder;
+};
+
 export type GetEventsParams = {
   /**
    * Comma separated string list of EventAccess
@@ -79,6 +130,12 @@ export interface IUpdateRegistration {
   type?: EventAttendanceType;
 }
 
+export interface IPagedRegistrationResponse {
+  items: IRegistration[];
+  nextStart: number;
+  total: number;
+}
+
 export enum RegistrationSort {
   createdAt = "createdAt",
   updatedAt = "updatedAt",
@@ -86,53 +143,6 @@ export enum RegistrationSort {
   lastName = "lastName",
   username = "username",
 }
-export type GetRegistrationsParams = {
-  /**
-   * Event id being registered for
-   */
-  eventId?: string;
-  /**
-   * ArcGIS Online id for a user
-   */
-  userId?: string;
-  /**
-   * comma separated string list of registration roles
-   */
-  role?: string;
-  /**
-   * comma separated string list of registration statuses
-   */
-  status?: string;
-  /**
-   * comma separated string list of registration types
-   */
-  type?: string;
-  /**
-   * latest ISO8601 updatedAt for the registrations
-   */
-  updatedAtBefore?: string;
-  /**
-   * earliest ISO8601 updatedAt for the registrations
-   */
-  updatedAtAfter?: string;
-  /**
-   * the max amount of registrations to return
-   */
-  num?: string;
-  /**
-   * the index to start at
-   */
-  start?: string;
-  /**
-   * property to sort results by
-   */
-  sortBy?: RegistrationSort;
-  /**
-   * sort order desc or asc
-   */
-  sortOrder?: SortOrder;
-};
-
 export interface ICreateRegistration {
   /** ArcGIS Online id for a user. Will always be extracted from the token unless service token is used. */
   agoId?: string;
@@ -233,6 +243,49 @@ export interface IEventPermission {
   canSetStatusToRemoved: boolean;
 }
 
+export enum RegistrationStatus {
+  PENDING = "PENDING",
+  ACCEPTED = "ACCEPTED",
+  DECLINED = "DECLINED",
+  BLOCKED = "BLOCKED",
+}
+export enum RegistrationRole {
+  OWNER = "OWNER",
+  ORGANIZER = "ORGANIZER",
+  ATTENDEE = "ATTENDEE",
+}
+export enum EventStatus {
+  PLANNED = "PLANNED",
+  CANCELED = "CANCELED",
+  REMOVED = "REMOVED",
+}
+export interface IOnlineMeeting {
+  capacity: number | null;
+  createdAt: string;
+  details: string | null;
+  eventId: string;
+  updatedAt: string;
+  url: string;
+}
+
+export interface IUser {
+  agoId: string;
+  createdAt: string;
+  deleted: boolean;
+  email: string;
+  firstName: string;
+  lastName: string;
+  optedOut: boolean;
+  updatedAt: string;
+  username: string;
+}
+
+export interface IAssociation {
+  entityId: string;
+  entityType: AssociationEntityType;
+  eventId: string;
+}
+
 export interface IEvent {
   access: EventAccess;
   addresses?: IAddress[];
@@ -276,17 +329,6 @@ export interface IPagedEventResponse {
   total: number;
 }
 
-export enum RegistrationStatus {
-  PENDING = "PENDING",
-  ACCEPTED = "ACCEPTED",
-  DECLINED = "DECLINED",
-  BLOCKED = "BLOCKED",
-}
-export enum RegistrationRole {
-  OWNER = "OWNER",
-  ORGANIZER = "ORGANIZER",
-  ATTENDEE = "ATTENDEE",
-}
 export interface IRegistration {
   createdAt: string;
   createdBy?: IUser;
@@ -301,44 +343,6 @@ export interface IRegistration {
   updatedAt: string;
   user?: IUser;
   userId: string;
-}
-
-export interface IPagedRegistrationResponse {
-  items: IRegistration[];
-  nextStart: number;
-  total: number;
-}
-
-export enum EventStatus {
-  PLANNED = "PLANNED",
-  CANCELED = "CANCELED",
-  REMOVED = "REMOVED",
-}
-export interface IOnlineMeeting {
-  capacity: number | null;
-  createdAt: string;
-  details: string | null;
-  eventId: string;
-  updatedAt: string;
-  url: string;
-}
-
-export interface IUser {
-  agoId: string;
-  createdAt: string;
-  deleted: boolean;
-  email: string;
-  firstName: string;
-  lastName: string;
-  optedOut: boolean;
-  updatedAt: string;
-  username: string;
-}
-
-export interface IAssociation {
-  entityId: string;
-  entityType: string;
-  eventId: string;
 }
 
 export type IAddressLocation = { [key: string]: any };
@@ -379,31 +383,6 @@ export enum EventAttendanceType {
   VIRTUAL = "VIRTUAL",
   IN_PERSON = "IN_PERSON",
 }
-export interface ICreateAssociation {
-  /** Entity Id */
-  entityId: string;
-  /** Entity type */
-  entityType: string;
-}
-
-export enum EventAccess {
-  PRIVATE = "PRIVATE",
-  ORG = "ORG",
-  PUBLIC = "PUBLIC",
-}
-export interface ICreateAddress {
-  /** Street address */
-  address: string;
-  /** Secondary address information (room, etc) */
-  address2?: string;
-  /** Capacity of this location. Minimum value is 1 */
-  capacity?: number;
-  /** Description for the address */
-  description?: string;
-  /** Venue information for the address */
-  venue?: string;
-}
-
 export interface ICreateEvent {
   /** Access level of the event */
   access?: EventAccess;
@@ -457,6 +436,36 @@ export interface ICreateEvent {
   title: string;
   /** Username for the subscriber. Will always be extracted from the token unless service token is used. */
   username?: string;
+}
+
+export enum AssociationEntityType {
+  Hub_Site_Application = "Hub Site Application",
+  Hub_Initiative = "Hub Initiative",
+  Hub_Project = "Hub Project",
+}
+export interface ICreateAssociation {
+  /** Entity Id */
+  entityId: string;
+  /** Entity type */
+  entityType: AssociationEntityType;
+}
+
+export enum EventAccess {
+  PRIVATE = "PRIVATE",
+  ORG = "ORG",
+  PUBLIC = "PUBLIC",
+}
+export interface ICreateAddress {
+  /** Street address */
+  address: string;
+  /** Secondary address information (room, etc) */
+  address2?: string;
+  /** Capacity of this location. Minimum value is 1 */
+  capacity?: number;
+  /** Description for the address */
+  description?: string;
+  /** Venue information for the address */
+  venue?: string;
 }
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
