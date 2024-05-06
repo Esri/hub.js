@@ -1,6 +1,6 @@
 import { IHubEditableContent } from "../../../core/types/IHubEditableContent";
 import { IDynamicDownloadFormat } from "../../types";
-import { CreateReplicaFormat } from "../_types";
+import { CreateReplicaFormat, CREATE_REPLICA_FORMATS } from "../_types";
 
 /**
  * @private
@@ -12,8 +12,19 @@ import { CreateReplicaFormat } from "../_types";
 export function getCreateReplicaFormats(
   entity: IHubEditableContent
 ): IDynamicDownloadFormat[] {
-  return (entity.serverExtractFormats || []).map((format: string) => ({
-    type: "dynamic",
-    format: format as CreateReplicaFormat,
-  }));
+  const allFormats = entity.serverExtractFormats || [];
+  // List recognized formats in the order they are defined in CREATE_REPLICA_FORMATS
+  const recognizedFormats: CreateReplicaFormat[] =
+    CREATE_REPLICA_FORMATS.filter((format) => allFormats.includes(format));
+  // List any unrecognized formats (we'll append these to the end of the final array)
+  const unrecognizedFormats = allFormats.filter(
+    (format) => !CREATE_REPLICA_FORMATS.includes(format as CreateReplicaFormat)
+  );
+
+  return [...recognizedFormats, ...unrecognizedFormats].map(
+    (format: string) => ({
+      type: "dynamic",
+      format: format as CreateReplicaFormat,
+    })
+  );
 }
