@@ -7,6 +7,8 @@ export {
   IAddress,
   IAddressExtent,
   IAddressLocation,
+  IAssociation,
+  ICreateAssociation,
   IOnlineMeeting,
   ICreateOnlineMeeting,
   ICreateAddress,
