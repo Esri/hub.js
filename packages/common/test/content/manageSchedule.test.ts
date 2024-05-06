@@ -11,7 +11,7 @@ import {
 import { MOCK_HUB_REQOPTS } from "../mocks/mock-auth";
 import { IHubEditableContent } from "../../src/core/types/IHubEditableContent";
 import * as fetchMock from "fetch-mock";
-import { getSchedulerApiUrl } from "../../src/content/_internal/getSchedulerApiUrl";
+import { getSchedulerApiUrl } from "../../src/content/_internal/internalContentUtils";
 
 describe("manageSchedule", () => {
   afterEach(() => {
@@ -34,7 +34,6 @@ describe("manageSchedule", () => {
       "https://hubqa.arcgis.com/api/download/v1/items/123/schedule"
     );
   });
-
   it("getSchedule: returns an error if no schedule is set", async () => {
     const item = { id: "123" };
     fetchMock.once(
@@ -54,8 +53,7 @@ describe("manageSchedule", () => {
     );
     expect(fetchMock.calls().length).toBe(1);
   });
-
-  it("getSchedule: returns schedule if set", async () => {
+  it("getSchedule: returns schedule of mode 'scheduled' if set", async () => {
     const item = { id: "123" };
     fetchMock.once(
       `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule`,
@@ -63,6 +61,7 @@ describe("manageSchedule", () => {
         cadence: "daily",
         hour: 0,
         timezone: "America/New_York",
+        itemId: "123",
       }
     );
     const response: IHubScheduleResponse = await getSchedule(
@@ -77,8 +76,25 @@ describe("manageSchedule", () => {
     });
     expect(fetchMock.calls().length).toBe(1);
   });
-
-  it("setSchedule: sets the item's schedule", async () => {
+  it("getSchedule: returns schedule of mode 'manual' if set", async () => {
+    const item = { id: "123" };
+    fetchMock.once(
+      `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule`,
+      {
+        mode: "manual",
+        itemId: "123",
+      }
+    );
+    const response: IHubScheduleResponse = await getSchedule(
+      item.id,
+      MOCK_HUB_REQOPTS
+    );
+    expect(response.schedule).toEqual({
+      mode: "manual",
+    });
+    expect(fetchMock.calls().length).toBe(1);
+  });
+  it("setSchedule: sets the item's schedule of mode 'scheduled'", async () => {
     const item = { id: "123" };
     const schedule = {
       mode: "scheduled",
@@ -98,7 +114,23 @@ describe("manageSchedule", () => {
     expect(response.message).toEqual("Download schedule set successfully.");
     expect(fetchMock.calls().length).toBe(1);
   });
+  it("setSchedule: sets the item's schedule of mode 'manual'", async () => {
+    const item = { id: "123" };
+    const schedule = {
+      mode: "manual",
+    } as IHubSchedule;
 
+    fetchMock.post(
+      `https://hubqa.arcgis.com/api/download/v1/items/${item.id}/schedule`,
+      {
+        message: "Download schedule set successfully.",
+      }
+    );
+
+    const response = await setSchedule(item.id, schedule, MOCK_HUB_REQOPTS);
+    expect(response.message).toEqual("Download schedule set successfully.");
+    expect(fetchMock.calls().length).toBe(1);
+  });
   it("setSchedule: attempts to set an invalid schedule", async () => {
     const item = { id: "123" };
     const schedule = {
@@ -123,7 +155,6 @@ describe("manageSchedule", () => {
     );
     expect(fetchMock.calls().length).toBe(1);
   });
-
   it("deleteSchedule: tries to delete an item's schedule", async () => {
     const item = { id: "123" };
 
@@ -138,7 +169,6 @@ describe("manageSchedule", () => {
     expect(response.message).toEqual("Download schedule deleted successfully.");
     expect(fetchMock.calls().length).toBe(1);
   });
-
   it("maybeUpdateSchedule: no schedule is set, and updating to automatic is not needed", async () => {
     const item = { id: "123" };
     const content = {
@@ -161,7 +191,6 @@ describe("manageSchedule", () => {
     );
     expect(fetchMock.calls().length).toBe(1);
   });
-
   it("maybeUpdateSchedule: no schedule is set, and updating to scheduled is needed", async () => {
     const item = { id: "123" };
     const content = {
@@ -194,7 +223,6 @@ describe("manageSchedule", () => {
     expect(response.message).toEqual("Download schedule set successfully.");
     expect(fetchMock.calls().length).toBe(2);
   });
-
   it("maybeUpdateSchedule: schedule is set, and updating to automatic requires deleting the schedule", async () => {
     const item = { id: "123" };
     const content = {
@@ -222,7 +250,6 @@ describe("manageSchedule", () => {
     expect(response.message).toEqual("Download schedule deleted successfully.");
     expect(fetchMock.calls().length).toBe(2);
   });
-
   it("maybeUpdateSchedule: schedule is set, and no action is needed as schedules deepEqual each other", async () => {
     const item = { id: "123" };
     const content = {
