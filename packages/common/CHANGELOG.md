@@ -1,3 +1,10 @@
+# @esri/hub-common [14.125.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.124.0...@esri/hub-common@14.125.0) (2024-05-06)
+
+
+### Features
+
+* scheduler force update ([#1494](https://github.com/Esri/hub.js/issues/1494)) ([5a8c47b](https://github.com/Esri/hub.js/commit/5a8c47b5499bab2da494003082c38bd8b95aafdf))
+
 # @esri/hub-common [14.124.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.123.1...@esri/hub-common@14.124.0) (2024-05-06)
 
 
