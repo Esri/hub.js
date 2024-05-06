@@ -1,3 +1,17 @@
+# @esri/hub-common [14.124.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.123.1...@esri/hub-common@14.124.0) (2024-05-06)
+
+
+### Features
+
+* remove default groups ([#1483](https://github.com/Esri/hub.js/issues/1483)) ([61a48f4](https://github.com/Esri/hub.js/commit/61a48f4b6082e93862d1e751e482190dfa577044))
+
+## @esri/hub-common [14.123.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.123.0...@esri/hub-common@14.123.1) (2024-05-03)
+
+
+### Bug Fixes
+
+* **hub-common:** fix createHubEvent method and property mappings ([#1496](https://github.com/Esri/hub.js/issues/1496)) ([944dcb8](https://github.com/Esri/hub.js/commit/944dcb8de601368e914e2fa1b077ba265f4820c9))
+
 # @esri/hub-common [14.123.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.122.1...@esri/hub-common@14.123.0) (2024-05-02)
 
 
