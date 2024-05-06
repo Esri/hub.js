@@ -279,34 +279,7 @@ export class HubInitiative
         )) as IHubInitiativeEditor)
       : (cloneObject(this.entity) as IHubInitiativeEditor);
 
-    // 2. on initiative creation, pre-populate the sharing field
-    // with the core + collaobration groups if the user has the
-    // appropriate shareToGroup portal privilege
-    editor._groups = [];
-    const { access: canShare } = this.checkPermission(
-      "platform:portal:user:shareToGroup"
-    );
-    if (!editor.id && canShare) {
-      const currentUserGroups: IGroup[] =
-        getProp(this.context, "currentUser.groups") || [];
-      const defaultShareWithGroups = [
-        editorContext.contentGroupId,
-        editorContext.collaborationGroupId,
-      ].reduce((acc, groupId) => {
-        const group = currentUserGroups.find((g: IGroup) => g.id === groupId);
-        const canShareToGroup =
-          !!group &&
-          (!group.isViewOnly ||
-            (group.isViewOnly &&
-              ["owner", "admin"].includes(group.memberType)));
-
-        canShareToGroup && acc.push(groupId);
-        return acc;
-      }, []);
-      editor._groups = [...editor._groups, ...defaultShareWithGroups];
-    }
-
-    // 3. handle metrics
+    // 2. handle metrics
     const metrics = getEntityMetrics(this.entity);
     const metric = metrics.find((m) => m.id === editorContext.metricId);
     const displays = getWithDefault(this.entity, "view.metricDisplays", []);
@@ -317,7 +290,7 @@ export class HubInitiative
       ) || {};
     editor._metric = metricToEditor(metric, displayConfig);
 
-    // 4. handle association group
+    // 3. handle association group
     const assocGroupId = getProp(this.entity, "associations.groupId");
 
     if (assocGroupId) {

@@ -408,35 +408,6 @@ describe("HubProject Class:", () => {
         );
         const result = await chk.toEditor({ metricId: "metric123" });
       });
-      describe('auto-populating "shareWith" groups', () => {
-        let projectInstance: any;
-        beforeEach(async () => {
-          const _authdCtxMgr = await initContextManager({
-            currentUser: {
-              groups: [
-                { id: "00a", isViewOnly: false },
-                { id: "00b", isViewOnly: true, memberType: "admin" },
-                { id: "00d", isViewOnly: false },
-              ] as PortalModule.IGroup[],
-            },
-          });
-          projectInstance = HubProject.fromJson({}, _authdCtxMgr.context);
-        });
-        it('handles auto-populating "shareWith" groups that the current user can share to', async () => {
-          const result = await projectInstance.toEditor({
-            contentGroupId: "00a",
-            collaborationGroupId: "00b",
-          });
-          expect(result._groups).toEqual(["00a", "00b"]);
-        });
-        it('does not auto-populate "shareWith" gruops that the current user cannot share to', async () => {
-          const result = await projectInstance.toEditor({
-            contentGroupId: "00e",
-            collaborationGroupId: "00f",
-          });
-          expect(result._groups).toEqual([]);
-        });
-      });
     });
 
     describe("fromEditor:", () => {

@@ -379,7 +379,6 @@ describe("HubInitiative Class:", () => {
         expect(result.thumbnailUrl).toEqual(
           "https://myserver.com/thumbnail.png"
         );
-        expect(result._groups).toEqual([]);
         expect(result._associations).toEqual({
           groupAccess: "public",
           membershipAccess: "anyone",
@@ -441,36 +440,6 @@ describe("HubInitiative Class:", () => {
             mockInitiative.view.metricDisplays[0]
           );
           expect(result._metric).toEqual(mockMetric);
-        });
-      });
-      describe('auto-populating "shareWith" groups', () => {
-        let projectInstance: any;
-        beforeEach(async () => {
-          const _authdCtxMgr = await initContextManager({
-            currentUser: {
-              groups: [
-                { id: "00a", isViewOnly: false },
-                { id: "00b", isViewOnly: true, memberType: "admin" },
-                { id: "00d", isViewOnly: false },
-              ] as PortalModule.IGroup[],
-              privileges: ["portal:user:shareToGroup"],
-            },
-          });
-          projectInstance = HubInitiative.fromJson({}, _authdCtxMgr.context);
-        });
-        it('handles auto-populating "shareWith" groups that the current user can share to', async () => {
-          const result = await projectInstance.toEditor({
-            contentGroupId: "00a",
-            collaborationGroupId: "00b",
-          });
-          expect(result._groups).toEqual(["00a", "00b"]);
-        });
-        it('does not auto-populate "shareWith" gruops that the current user cannot share to', async () => {
-          const result = await projectInstance.toEditor({
-            contentGroupId: "00e",
-            collaborationGroupId: "00f",
-          });
-          expect(result._groups).toEqual([]);
         });
       });
     });
