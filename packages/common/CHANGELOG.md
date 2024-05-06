@@ -1,3 +1,10 @@
+# @esri/hub-common [14.124.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.123.1...@esri/hub-common@14.124.0) (2024-05-06)
+
+
+### Features
+
+* remove default groups ([#1483](https://github.com/Esri/hub.js/issues/1483)) ([61a48f4](https://github.com/Esri/hub.js/commit/61a48f4b6082e93862d1e751e482190dfa577044))
+
 ## @esri/hub-common [14.123.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.123.0...@esri/hub-common@14.123.1) (2024-05-03)
 
 
