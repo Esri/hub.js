@@ -19,7 +19,10 @@ describe("manageSchedule", () => {
     fetchMock.restore();
   });
   it("getSchedulerApiUrl: returns the correct url when no version is attached on requestOptions", () => {
-    const url = getSchedulerApiUrl("123", MOCK_HUB_REQOPTS);
+    const url = getSchedulerApiUrl(
+      "123",
+      MOCK_HUB_REQOPTS as IUserRequestOptions
+    );
     expect(url).toEqual(
       "https://hubqa.arcgis.com/api/download/v1/items/123/schedule?token=fake-token"
     );
@@ -30,7 +33,10 @@ describe("manageSchedule", () => {
       hubApiUrl: "https://hubqa.arcgis.com/api/v3",
     };
 
-    const url = getSchedulerApiUrl("123", requestOptions);
+    const url = getSchedulerApiUrl(
+      "123",
+      requestOptions as IUserRequestOptions
+    );
     expect(url).toEqual(
       "https://hubqa.arcgis.com/api/download/v1/items/123/schedule?token=fake-token"
     );
@@ -47,7 +53,7 @@ describe("manageSchedule", () => {
     );
     const response: IHubScheduleResponse = await getSchedule(
       item.id,
-      MOCK_HUB_REQOPTS
+      MOCK_HUB_REQOPTS as IUserRequestOptions
     );
     expect(response.message).toEqual(
       `Download schedule not found for item ${item.id}`
@@ -67,7 +73,7 @@ describe("manageSchedule", () => {
     );
     const response: IHubScheduleResponse = await getSchedule(
       item.id,
-      MOCK_HUB_REQOPTS
+      MOCK_HUB_REQOPTS as IUserRequestOptions
     );
     expect(response.schedule).toEqual({
       mode: "scheduled",
@@ -88,7 +94,7 @@ describe("manageSchedule", () => {
     );
     const response: IHubScheduleResponse = await getSchedule(
       item.id,
-      MOCK_HUB_REQOPTS
+      MOCK_HUB_REQOPTS as IUserRequestOptions
     );
     expect(response.schedule).toEqual({
       mode: "manual",
@@ -111,7 +117,11 @@ describe("manageSchedule", () => {
       }
     );
 
-    const response = await setSchedule(item.id, schedule, MOCK_HUB_REQOPTS);
+    const response = await setSchedule(
+      item.id,
+      schedule,
+      MOCK_HUB_REQOPTS as IUserRequestOptions
+    );
     expect(response.message).toEqual("Download schedule set successfully.");
     expect(fetchMock.calls().length).toBe(1);
   });
@@ -128,7 +138,11 @@ describe("manageSchedule", () => {
       }
     );
 
-    const response = await setSchedule(item.id, schedule, MOCK_HUB_REQOPTS);
+    const response = await setSchedule(
+      item.id,
+      schedule,
+      MOCK_HUB_REQOPTS as IUserRequestOptions
+    );
     expect(response.message).toEqual("Download schedule set successfully.");
     expect(fetchMock.calls().length).toBe(1);
   });
@@ -150,7 +164,11 @@ describe("manageSchedule", () => {
       }
     );
 
-    const response = await setSchedule(item.id, schedule, MOCK_HUB_REQOPTS);
+    const response = await setSchedule(
+      item.id,
+      schedule,
+      MOCK_HUB_REQOPTS as IUserRequestOptions
+    );
     expect(response.message).toEqual(
       "you specified 26 (of type number) as a hour, which is invalid"
     );
@@ -166,7 +184,10 @@ describe("manageSchedule", () => {
       }
     );
 
-    const response = await deleteSchedule(item.id, MOCK_HUB_REQOPTS);
+    const response = await deleteSchedule(
+      item.id,
+      MOCK_HUB_REQOPTS as IUserRequestOptions
+    );
     expect(response.message).toEqual("Download schedule deleted successfully.");
     expect(fetchMock.calls().length).toBe(1);
   });
@@ -186,7 +207,10 @@ describe("manageSchedule", () => {
       }
     );
 
-    const response = await maybeUpdateSchedule(content, MOCK_HUB_REQOPTS);
+    const response = await maybeUpdateSchedule(
+      content,
+      MOCK_HUB_REQOPTS as IUserRequestOptions
+    );
     expect(response.message).toEqual(
       `No schedule set, and incoming schedule is automatic.`
     );
@@ -220,7 +244,10 @@ describe("manageSchedule", () => {
         }
       );
 
-    const response = await maybeUpdateSchedule(content, MOCK_HUB_REQOPTS);
+    const response = await maybeUpdateSchedule(
+      content,
+      MOCK_HUB_REQOPTS as IUserRequestOptions
+    );
     expect(response.message).toEqual("Download schedule set successfully.");
     expect(fetchMock.calls().length).toBe(2);
   });
@@ -247,7 +274,10 @@ describe("manageSchedule", () => {
         }
       );
 
-    const response = await maybeUpdateSchedule(content, MOCK_HUB_REQOPTS);
+    const response = await maybeUpdateSchedule(
+      content,
+      MOCK_HUB_REQOPTS as IUserRequestOptions
+    );
     expect(response.message).toEqual("Download schedule deleted successfully.");
     expect(fetchMock.calls().length).toBe(2);
   });
@@ -272,7 +302,10 @@ describe("manageSchedule", () => {
       }
     );
 
-    const response = await maybeUpdateSchedule(content, MOCK_HUB_REQOPTS);
+    const response = await maybeUpdateSchedule(
+      content,
+      MOCK_HUB_REQOPTS as IUserRequestOptions
+    );
     expect(response.message).toEqual(
       "No action needed as schedules deepEqual each other."
     );
