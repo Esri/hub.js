@@ -50,6 +50,10 @@ export type GetRegistrationsParams = {
    */
   updatedAtAfter?: string;
   /**
+   * filter to be matched to firstName, lastName, or username
+   */
+  name?: string;
+  /**
    * the max amount of registrations to return
    */
   num?: string;
