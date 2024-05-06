@@ -28,7 +28,6 @@ export async function createHubEvent(
   // so set endDate to startDate
   event.endDate = event.startDate;
 
-  // TODO: how to handle slugs
   // TODO: how to handle events being discussable vs non-discussable
 
   const mapper = new EventPropertyMapper(getPropertyMap());
@@ -44,11 +43,13 @@ export async function createHubEvent(
     categories: model.categories,
     description: model.description,
     editGroups: model.editGroups,
-    endDateTime: model.endDateTime,
+    endDate: model.endDate,
+    endTime: model.endTime,
     notifyAttendees: model.notifyAttendees,
     onlineMeetings: model.onlineMeetings,
     readGroups: model.readGroups,
-    startDateTime: model.startDateTime,
+    startDate: model.startDate,
+    startTime: model.startTime,
     summary: model.summary,
     tags: model.tags,
     timeZone: model.timeZone,
@@ -77,7 +78,6 @@ export async function updateHubEvent(
 ): Promise<IHubEvent> {
   const eventUpdates = { ...buildDefaultEventEntity(), ...event };
 
-  // TODO: how to handle slugs
   // TODO: how to handle events being discussable vs non-discussable
 
   const mapper = new EventPropertyMapper(getPropertyMap());
@@ -93,11 +93,13 @@ export async function updateHubEvent(
     categories: model.categories,
     description: model.description,
     editGroups: model.editGroups,
-    endDateTime: model.endDateTime,
+    endDate: model.endDate,
+    endTime: model.endTime,
     notifyAttendees: model.notifyAttendees,
     onlineMeetings: model.onlineMeetings,
     readGroups: model.readGroups,
-    startDateTime: model.startDateTime,
+    startDate: model.startDate,
+    startTime: model.startTime,
     status: model.status,
     summary: model.summary,
     tags: model.tags,

@@ -1,3 +1,81 @@
+## @esri/hub-common [14.123.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.123.0...@esri/hub-common@14.123.1) (2024-05-03)
+
+
+### Bug Fixes
+
+* **hub-common:** fix createHubEvent method and property mappings ([#1496](https://github.com/Esri/hub.js/issues/1496)) ([944dcb8](https://github.com/Esri/hub.js/commit/944dcb8de601368e914e2fa1b077ba265f4820c9))
+
+# @esri/hub-common [14.123.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.122.1...@esri/hub-common@14.123.0) (2024-05-02)
+
+
+### Features
+
+* **hub-common:** add support for searching for Events3 events from h… ([#1476](https://github.com/Esri/hub.js/issues/1476)) ([4afe9a4](https://github.com/Esri/hub.js/commit/4afe9a4e2bf366ebbca39923818cc29ec4121c0f))
+
+## @esri/hub-common [14.122.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.122.0...@esri/hub-common@14.122.1) (2024-05-02)
+
+
+### Bug Fixes
+
+* **hub-common:** restrict temp:hub:content:downloads:unifiedList to be behind a feature flag ([#1495](https://github.com/Esri/hub.js/issues/1495)) ([d53f50f](https://github.com/Esri/hub.js/commit/d53f50fef63edbb63ba3e74a8ccd068799288e54))
+
+# @esri/hub-common [14.122.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.121.2...@esri/hub-common@14.122.0) (2024-05-01)
+
+
+### Features
+
+* **hub-common:** add new utils for a unified download flow ([#1482](https://github.com/Esri/hub.js/issues/1482)) ([7f45d61](https://github.com/Esri/hub.js/commit/7f45d61bec8c8b79227834df6ac02ea4ae7f4328))
+
+## @esri/hub-common [14.121.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.121.1...@esri/hub-common@14.121.2) (2024-04-30)
+
+
+### Bug Fixes
+
+* **hub-common:** add startDate, startTime, endDate, endTime to create… ([#1480](https://github.com/Esri/hub.js/issues/1480)) ([74b4634](https://github.com/Esri/hub.js/commit/74b463485c9583281ed7a919e8974153bcd0ecd2))
+
+## @esri/hub-common [14.121.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.121.0...@esri/hub-common@14.121.1) (2024-04-29)
+
+
+### Bug Fixes
+
+* export IWithFollowers ([#1489](https://github.com/Esri/hub.js/issues/1489)) ([6455b42](https://github.com/Esri/hub.js/commit/6455b421425995f71b3f8578114deea0033b680c))
+
+# @esri/hub-common [14.121.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.120.0...@esri/hub-common@14.121.0) (2024-04-29)
+
+
+### Features
+
+* add helper text to image ([#1488](https://github.com/Esri/hub.js/issues/1488)) ([58f67ec](https://github.com/Esri/hub.js/commit/58f67eca730ef606fe1e432163f942ccf1c1ec19))
+
+# @esri/hub-common [14.120.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.119.4...@esri/hub-common@14.120.0) (2024-04-29)
+
+
+### Features
+
+* initiative workspace gated to alpha, but open to prod ([#1481](https://github.com/Esri/hub.js/issues/1481)) ([46c4f09](https://github.com/Esri/hub.js/commit/46c4f09807b43e7d55b3aa1f9e0e8c14b992498b))
+
+## @esri/hub-common [14.119.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.119.3...@esri/hub-common@14.119.4) (2024-04-26)
+
+
+### Bug Fixes
+
+* update fetchHubGroup ro and follow card permission ([#1484](https://github.com/Esri/hub.js/issues/1484)) ([ef3cabb](https://github.com/Esri/hub.js/commit/ef3cabb9bfa91604585c279acbea294b3a9d983c))
+
+## @esri/hub-common [14.119.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.119.2...@esri/hub-common@14.119.3) (2024-04-25)
+
+
+### Bug Fixes
+
+* broaden check for isDiscussable to handle falsey, not just undefined ([#1487](https://github.com/Esri/hub.js/issues/1487)) ([a298ba3](https://github.com/Esri/hub.js/commit/a298ba3ce8d4bc7f19fb19fb705c9e1b4772661e))
+
+## @esri/hub-common [14.119.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.119.1...@esri/hub-common@14.119.2) (2024-04-25)
+
+
+### Bug Fixes
+
+* isDiscussable handles undefined subject ([#1486](https://github.com/Esri/hub.js/issues/1486)) ([d9ea92a](https://github.com/Esri/hub.js/commit/d9ea92aa7891f812f867769f47682ddd374e65f1))
+* **hub-common:** fix the target api url in getSchedule(), setSchedule(), etc ([#1485](https://github.com/Esri/hub.js/issues/1485)) ([c820942](https://github.com/Esri/hub.js/commit/c820942656f2aec9d0f2a9ac36cf0820f6d1056d))
+
 ## @esri/hub-common [14.119.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.119.0...@esri/hub-common@14.119.1) (2024-04-22)
 
 

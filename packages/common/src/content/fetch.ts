@@ -251,8 +251,7 @@ export const fetchHubContent = async (
   requestOptions: IRequestOptions
 ): Promise<IHubEditableContent> => {
   // NOTE: b/c we have to support slugs we use fetchContent() to get the item
-  // by telling it to not fetch any enrichments
-  // which we then fetch as needed after we have the item
+  // by telling it to not fetch any enrichments which we then fetch as needed after we have the item
   const options = {
     ...requestOptions,
     enrichments: [],
@@ -267,6 +266,13 @@ export const fetchHubContent = async (
 
   const model = { item };
   const enrichments: IHubEditableContentEnrichments = {};
+
+  enrichments.metadata = await fetchItemEnrichments(
+    item,
+    ["metadata"],
+    requestOptions as IHubRequestOptions
+  );
+
   if (isHostedFeatureServiceItem(item)) {
     enrichments.server = await getService({
       ...requestOptions,
