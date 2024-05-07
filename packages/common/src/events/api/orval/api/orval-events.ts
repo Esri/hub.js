@@ -7,19 +7,6 @@
  */
 import { Awaited } from "../awaited-type";
 import { customClient } from "../custom-client";
-export interface IPagedRegistrationResponse {
-  items: IRegistration[];
-  nextStart: number;
-  total: number;
-}
-
-export enum RegistrationSort {
-  createdAt = "createdAt",
-  updatedAt = "updatedAt",
-  firstName = "firstName",
-  lastName = "lastName",
-  username = "username",
-}
 export type GetRegistrationsParams = {
   /**
    * Event id being registered for
@@ -50,6 +37,10 @@ export type GetRegistrationsParams = {
    */
   updatedAtAfter?: string;
   /**
+   * filter to be matched to firstName, lastName, or username
+   */
+  name?: string;
+  /**
    * the max amount of registrations to return
    */
   num?: string;
@@ -67,96 +58,19 @@ export type GetRegistrationsParams = {
   sortOrder?: SortOrder;
 };
 
-export interface ICreateRegistration {
-  /** ArcGIS Online id for a user. Will always be extracted from the token unless service token is used. */
-  agoId?: string;
-  /** Email for the subscriber. Will always be extracted from the token unless service token is used. */
-  email?: string;
-  /** Event id being registered for */
-  eventId: string;
-  /** First name for the subscriber. Will always be extracted from the token unless service token is used. */
-  firstName?: string;
-  /** Last name for the subscriber. Will always be extracted from the token unless service token is used. */
-  lastName?: string;
-  /** Role of the user in the event */
-  role?: RegistrationRole;
-  /** Attendance type for this registration */
-  type: EventAttendanceType;
-  /** Username for the subscriber. Will always be extracted from the token unless service token is used. */
-  username?: string;
-}
-
-/**
- * GeoJSON formatted geometry related to the event
- */
-export type IUpdateEventGeometry = { [key: string]: any };
-
-export interface IUpdateEvent {
-  /** Access level of the event */
-  access?: EventAccess;
-  /** Addresses for the event */
-  addresses?: ICreateAddress[];
-  /** Flag for all day event */
-  allDay?: boolean;
-  /** Boolean to indicate if users can register for an event */
-  allowRegistration?: boolean;
-  /** Valid ways to attend the event */
-  attendanceType?: EventAttendanceType[];
-  /** categories for the event */
-  categories?: string[];
-  /** Description of the event */
-  description?: string;
-  /** Groups with edit access to the event */
-  editGroups?: string[];
-  /** end date string formatted YYYY-MM-DD */
-  endDate?: string;
-  /** end time string 24 hour formatted HH:MM:SS */
-  endTime?: string;
-  /** GeoJSON formatted geometry related to the event */
-  geometry?: IUpdateEventGeometry;
-  /** Flag to notify attendees */
-  notifyAttendees?: boolean;
-  /** Online meetings for the event */
-  onlineMeetings?: ICreateOnlineMeeting[];
-  /** Groups with read access to the event */
-  readGroups?: string[];
-  /** start date string formatted YYYY-MM-DD */
-  startDate?: string;
-  /** start time string 24 hour formatted HH:MM:SS */
-  startTime?: string;
-  /** Status of the event */
-  status?: EventStatus;
-  /** Summary of the event */
-  summary?: string;
-  /** Tags for the event */
-  tags?: string[];
-  /** IANA time zone for the event */
-  timeZone?: string;
-  /** Title of the event */
-  title?: string;
-}
-
-export interface IPagedEventResponse {
-  items: IEvent[];
-  nextStart: number;
-  total: number;
-}
-
-export enum SortOrder {
-  asc = "asc",
-  desc = "desc",
-}
-export enum EventSort {
-  title = "title",
-  startDateTime = "startDateTime",
-  createdAt = "createdAt",
-  updatedAt = "updatedAt",
-}
 export type GetEventsParams = {
   /**
    * Comma separated string list of EventAccess
    */
   access?: string;
+  /**
+   * Comma separated string list of associated entityIds
+   */
+  entityIds?: string;
+  /**
+   * Comma separated string list of associated entity types
+   */
+  entityTypes?: string;
   /**
    * Comma separated string list of relation fields to include in response
    */
@@ -207,6 +121,109 @@ export type GetEventsParams = {
   sortOrder?: SortOrder;
 };
 
+export interface IUpdateRegistration {
+  /** Role of the user in the event */
+  role?: RegistrationRole;
+  /** Status of the registration */
+  status?: RegistrationStatus;
+  /** Attendance type for this registration */
+  type?: EventAttendanceType;
+}
+
+export interface IPagedRegistrationResponse {
+  items: IRegistration[];
+  nextStart: number;
+  total: number;
+}
+
+export enum RegistrationSort {
+  createdAt = "createdAt",
+  updatedAt = "updatedAt",
+  firstName = "firstName",
+  lastName = "lastName",
+  username = "username",
+}
+export interface ICreateRegistration {
+  /** ArcGIS Online id for a user. Will always be extracted from the token unless service token is used. */
+  agoId?: string;
+  /** Email for the subscriber. Will always be extracted from the token unless service token is used. */
+  email?: string;
+  /** Event id being registered for */
+  eventId: string;
+  /** First name for the subscriber. Will always be extracted from the token unless service token is used. */
+  firstName?: string;
+  /** Last name for the subscriber. Will always be extracted from the token unless service token is used. */
+  lastName?: string;
+  /** Role of the user in the event */
+  role?: RegistrationRole;
+  /** Attendance type for this registration */
+  type: EventAttendanceType;
+  /** Username for the subscriber. Will always be extracted from the token unless service token is used. */
+  username?: string;
+}
+
+/**
+ * GeoJSON formatted geometry related to the event
+ */
+export type IUpdateEventGeometry = { [key: string]: any };
+
+export interface IUpdateEvent {
+  /** Access level of the event */
+  access?: EventAccess;
+  /** Addresses for the event */
+  addresses?: ICreateAddress[];
+  /** Flag for all day event */
+  allDay?: boolean;
+  /** Boolean to indicate if users can register for an event */
+  allowRegistration?: boolean;
+  /** Items associated with the event */
+  associations?: ICreateAssociation[];
+  /** Valid ways to attend the event */
+  attendanceType?: EventAttendanceType[];
+  /** categories for the event */
+  categories?: string[];
+  /** Description of the event */
+  description?: string;
+  /** Groups with edit access to the event */
+  editGroups?: string[];
+  /** end date string formatted YYYY-MM-DD */
+  endDate?: string;
+  /** end time string 24 hour formatted HH:MM:SS */
+  endTime?: string;
+  /** GeoJSON formatted geometry related to the event */
+  geometry?: IUpdateEventGeometry;
+  /** Flag to notify attendees */
+  notifyAttendees?: boolean;
+  /** Online meetings for the event */
+  onlineMeetings?: ICreateOnlineMeeting[];
+  /** Groups with read access to the event */
+  readGroups?: string[];
+  /** start date string formatted YYYY-MM-DD */
+  startDate?: string;
+  /** start time string 24 hour formatted HH:MM:SS */
+  startTime?: string;
+  /** Status of the event */
+  status?: EventStatus;
+  /** Summary of the event */
+  summary?: string;
+  /** Tags for the event */
+  tags?: string[];
+  /** IANA time zone for the event */
+  timeZone?: string;
+  /** Title of the event */
+  title?: string;
+}
+
+export enum SortOrder {
+  asc = "asc",
+  desc = "desc",
+}
+export enum EventSort {
+  title = "title",
+  startDateTime = "startDateTime",
+  createdAt = "createdAt",
+  updatedAt = "updatedAt",
+}
 export interface IRegistrationPermission {
   canDelete: boolean;
   canEdit: boolean;
@@ -226,11 +243,55 @@ export interface IEventPermission {
   canSetStatusToRemoved: boolean;
 }
 
+export enum RegistrationStatus {
+  PENDING = "PENDING",
+  ACCEPTED = "ACCEPTED",
+  DECLINED = "DECLINED",
+  BLOCKED = "BLOCKED",
+}
+export enum RegistrationRole {
+  OWNER = "OWNER",
+  ORGANIZER = "ORGANIZER",
+  ATTENDEE = "ATTENDEE",
+}
+export enum EventStatus {
+  PLANNED = "PLANNED",
+  CANCELED = "CANCELED",
+  REMOVED = "REMOVED",
+}
+export interface IOnlineMeeting {
+  capacity: number | null;
+  createdAt: string;
+  details: string | null;
+  eventId: string;
+  updatedAt: string;
+  url: string;
+}
+
+export interface IUser {
+  agoId: string;
+  createdAt: string;
+  deleted: boolean;
+  email: string;
+  firstName: string;
+  lastName: string;
+  optedOut: boolean;
+  updatedAt: string;
+  username: string;
+}
+
+export interface IAssociation {
+  entityId: string;
+  entityType: AssociationEntityType;
+  eventId: string;
+}
+
 export interface IEvent {
   access: EventAccess;
   addresses?: IAddress[];
   allDay: boolean;
   allowRegistration: boolean;
+  associations?: IAssociation[];
   attendanceType: EventAttendanceType[];
   catalog: IEventCatalogItem[] | null;
   categories: string[];
@@ -262,50 +323,10 @@ export interface IEvent {
   updatedAt: string;
 }
 
-export enum RegistrationStatus {
-  PENDING = "PENDING",
-  ACCEPTED = "ACCEPTED",
-  DECLINED = "DECLINED",
-  BLOCKED = "BLOCKED",
-}
-export enum RegistrationRole {
-  OWNER = "OWNER",
-  ORGANIZER = "ORGANIZER",
-  ATTENDEE = "ATTENDEE",
-}
-export interface IUpdateRegistration {
-  /** Role of the user in the event */
-  role?: RegistrationRole;
-  /** Status of the registration */
-  status?: RegistrationStatus;
-  /** Attendance type for this registration */
-  type?: EventAttendanceType;
-}
-
-export enum EventStatus {
-  PLANNED = "PLANNED",
-  CANCELED = "CANCELED",
-  REMOVED = "REMOVED",
-}
-export interface IOnlineMeeting {
-  capacity: number | null;
-  createdAt: string;
-  details: string | null;
-  eventId: string;
-  updatedAt: string;
-  url: string;
-}
-
-export interface IUser {
-  agoId: string;
-  createdAt: string;
-  deleted: boolean;
-  email: string;
-  firstName: string;
-  lastName: string;
-  optedOut: boolean;
-  updatedAt: string;
-  username: string;
+export interface IPagedEventResponse {
+  items: IEvent[];
+  nextStart: number;
+  total: number;
 }
 
 export interface IRegistration {
@@ -362,24 +383,6 @@ export enum EventAttendanceType {
   VIRTUAL = "VIRTUAL",
   IN_PERSON = "IN_PERSON",
 }
-export enum EventAccess {
-  PRIVATE = "PRIVATE",
-  ORG = "ORG",
-  PUBLIC = "PUBLIC",
-}
-export interface ICreateAddress {
-  /** Street address */
-  address: string;
-  /** Secondary address information (room, etc) */
-  address2?: string;
-  /** Capacity of this location. Minimum value is 1 */
-  capacity?: number;
-  /** Description for the address */
-  description?: string;
-  /** Venue information for the address */
-  venue?: string;
-}
-
 export interface ICreateEvent {
   /** Access level of the event */
   access?: EventAccess;
@@ -391,6 +394,8 @@ export interface ICreateEvent {
   allDay?: boolean;
   /** Boolean to indicate if users can register for an event */
   allowRegistration?: boolean;
+  /** Items associated with the event */
+  associations?: ICreateAssociation[];
   /** Valid ways to attend the event */
   attendanceType?: EventAttendanceType[];
   /** categories for the event */
@@ -431,6 +436,36 @@ export interface ICreateEvent {
   title: string;
   /** Username for the subscriber. Will always be extracted from the token unless service token is used. */
   username?: string;
+}
+
+export enum AssociationEntityType {
+  Hub_Site_Application = "Hub Site Application",
+  Hub_Initiative = "Hub Initiative",
+  Hub_Project = "Hub Project",
+}
+export interface ICreateAssociation {
+  /** Entity Id */
+  entityId: string;
+  /** Entity type */
+  entityType: AssociationEntityType;
+}
+
+export enum EventAccess {
+  PRIVATE = "PRIVATE",
+  ORG = "ORG",
+  PUBLIC = "PUBLIC",
+}
+export interface ICreateAddress {
+  /** Street address */
+  address: string;
+  /** Secondary address information (room, etc) */
+  address2?: string;
+  /** Capacity of this location. Minimum value is 1 */
+  capacity?: number;
+  /** Description for the address */
+  description?: string;
+  /** Venue information for the address */
+  venue?: string;
 }
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
