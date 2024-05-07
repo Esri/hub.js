@@ -1,3 +1,10 @@
+# @esri/hub-common [14.126.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.125.2...@esri/hub-common@14.126.0) (2024-05-07)
+
+
+### Features
+
+* **hub-common:** add token to schedule api endpoints ([#1502](https://github.com/Esri/hub.js/issues/1502)) ([3206757](https://github.com/Esri/hub.js/commit/32067577788c1142f9f01e611e0abd6e469d5d27))
+
 ## @esri/hub-common [14.125.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.125.1...@esri/hub-common@14.125.2) (2024-05-07)
 
 
