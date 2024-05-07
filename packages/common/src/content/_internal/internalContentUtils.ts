@@ -971,10 +971,10 @@ const isPortalFromUrl = (portalUrl: string): boolean => {
 
 export function getSchedulerApiUrl(
   itemId: string,
-  requestOptions: IRequestOptions
+  requestOptions: IUserRequestOptions
 ): string {
   const hubApiUrlRoot = getHubApiUrlRoot(requestOptions);
-  return `${hubApiUrlRoot}/api/download/v1/items/${itemId}/schedule`;
+  return `${hubApiUrlRoot}/api/download/v1/items/${itemId}/schedule?token=${requestOptions.authentication.token}`;
 }
 
 export function getHubApiUrlRoot(requestOptions: IRequestOptions): string {
