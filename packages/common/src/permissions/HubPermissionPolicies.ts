@@ -141,6 +141,21 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     availability: ["alpha"],
     environments: ["devext", "qaext"],
   },
+  // checks if using Hub Premium
+  {
+    permission: "hub:license:premium",
+    licenses: ["hub-premium"],
+  },
+  // checks if using Hub Basic
+  {
+    permission: "hub:license:basic",
+    licenses: ["hub-basic"],
+  },
+  // checks if using Enterprise Sites
+  {
+    permission: "hub:license:enterprise",
+    licenses: ["enterprise-sites"],
+  },
 ];
 
 /**

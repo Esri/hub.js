@@ -28,6 +28,9 @@ const SystemPermissions = [
   "hub:feature:workspace:umbrella",
   "hub:feature:keyboardshortcuts",
   "hub:feature:history",
+  "hub:license:premium",
+  "hub:license:basic",
+  "hub:license:enterprise",
 ];
 
 const validPermissions = [
