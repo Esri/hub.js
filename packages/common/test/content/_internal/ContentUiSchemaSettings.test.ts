@@ -43,13 +43,25 @@ describe("buildUiSchema: content settings", () => {
                   { type: "weekly" },
                   { type: "monthly" },
                   { type: "yearly" },
-                  // uncomment this when the manual option is available
-                  // {
-                  //   label: `option.manual.label`,
-                  //   type: "manual",
-                  //   helperActionIcon: "information-f",
-                  //   helperActionText: "option.manual.helperActionText",
-                  // },
+                  {
+                    type: "manual",
+                    helperActionIcon: "information-f",
+                    helperActionText: `{{some.scope.fields.schedule.manual.helperActionText:translate}}`,
+                  },
+                ],
+              },
+            },
+            {
+              type: "Control",
+              scope: "/properties/_forceUpdate",
+              options: {
+                control: "hub-field-input-tile-select",
+                type: "checkbox",
+                labels: [
+                  `{{some.scope.fields.schedule.forceUpdateButton.label:translate}}`,
+                ],
+                descriptions: [
+                  `{{some.scope.fields.schedule.forceUpdateButton.description:translate}}`,
                 ],
               },
             },

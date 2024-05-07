@@ -267,11 +267,13 @@ export const fetchHubContent = async (
   const model = { item };
   const enrichments: IHubEditableContentEnrichments = {};
 
-  enrichments.metadata = await fetchItemEnrichments(
+  const { metadata } = await fetchItemEnrichments(
     item,
     ["metadata"],
     requestOptions as IHubRequestOptions
   );
+
+  enrichments.metadata = metadata;
 
   if (isHostedFeatureServiceItem(item)) {
     enrichments.server = await getService({

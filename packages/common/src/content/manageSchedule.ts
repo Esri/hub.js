@@ -3,7 +3,7 @@ import { IHubSchedule, IHubScheduleResponse } from "../core/types/IHubSchedule";
 import { cloneObject } from "../util";
 import { deepEqual } from "../objects/deepEqual";
 import { AccessLevel, IHubEditableContent } from "../core";
-import { getSchedulerApiUrl } from "./_internal/getSchedulerApiUrl";
+import { getSchedulerApiUrl } from "./_internal/internalContentUtils";
 
 // Any code referencing these functions must first pass isDownloadSchedulingAvailable
 
@@ -27,10 +27,20 @@ export const getSchedule = async (
     } as IHubScheduleResponse;
   }
 
+  // if the schedule mode is set to manual, return it
+  if (schedule.mode === "manual") {
+    return {
+      schedule: {
+        mode: "manual",
+      },
+      message: `Download schedule found for item ${itemId}`,
+      statusCode: 200,
+    } as IHubScheduleResponse;
+  }
+
   // if the schedule is set, return it with added mode
   delete schedule.itemId;
   switch (schedule.cadence) {
-    // TODO: add manual option here when option is viable
     case "daily":
     case "weekly":
     case "monthly":
@@ -58,7 +68,10 @@ export const setSchedule = async (
   requestOptions: IRequestOptions
 ): Promise<IHubScheduleResponse> => {
   const body = cloneObject(schedule);
-  delete body.mode;
+  if (body.mode !== "manual") {
+    // remove mode if not manual
+    delete body.mode;
+  }
   const url = getSchedulerApiUrl(itemId, requestOptions);
   const options = {
     method: "POST",
