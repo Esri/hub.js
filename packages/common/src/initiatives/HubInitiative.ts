@@ -330,7 +330,7 @@ export class HubInitiative
 
     // 3. If the entity hasn't been created then we need to do that before we can
     // create a featured image, if one has been provided.
-    if (!entity.id) {
+    if (!entity.id && featuredImage) {
       // update this.entity so that the save method will work
       this.entity = entity;
       // save the entity to get an id / create it
