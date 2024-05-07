@@ -1,3 +1,10 @@
+## @esri/hub-common [14.125.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.125.1...@esri/hub-common@14.125.2) (2024-05-07)
+
+
+### Bug Fixes
+
+* **hub-common:** add IAssociation, update IEvent with associations, a… ([#1498](https://github.com/Esri/hub.js/issues/1498)) ([2562bd2](https://github.com/Esri/hub.js/commit/2562bd275740b49307375c6013e590fb5e9c28f9))
+
 ## @esri/hub-common [14.125.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.125.0...@esri/hub-common@14.125.1) (2024-05-06)
 
 
