@@ -326,9 +326,20 @@ export class HubInitiative
     const autoShareGroups = editor._groups || [];
 
     // 2. convert the editor values back to a initiative entity
-    const entity = await editorToInitiative(editor, this.context);
+    let entity = await editorToInitiative(editor, this.context);
 
-    // 3. set the thumbnailCache to ensure that
+    // 3. If the entity hasn't been created then we need to do that before we can
+    // create a featured image, if one has been provided.
+    if (!entity.id) {
+      // update this.entity so that the save method will work
+      this.entity = entity;
+      // save the entity to get an id / create it
+      await this.save();
+      // update the local entity let so that the featured image call can pick up the id
+      entity = this.entity;
+    }
+
+    // 4. set the thumbnailCache to ensure that
     // the thumbnail is updated on the next save
     if (thumbnail) {
       if (thumbnail.blob) {
@@ -344,7 +355,7 @@ export class HubInitiative
       }
     }
 
-    // 4. upsert or remove the configured featured image
+    // 5. upsert or remove the configured featured image
     if (featuredImage) {
       let featuredImageUrl: string | null = null;
       if (featuredImage.blob) {
@@ -376,11 +387,11 @@ export class HubInitiative
       };
     }
 
-    // 5. save or create the entity
+    // 6. save or create the entity
     this.entity = entity;
     await this.save();
 
-    // 6. share the entity with the configured groups
+    // 7. share the entity with the configured groups
     const isCreate = !editor.id;
     if (isCreate) {
       await this.setAccess(editor.access as SettableAccessLevel);
