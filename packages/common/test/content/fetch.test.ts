@@ -12,6 +12,7 @@ import {
 import * as _enrichmentsModule from "../../src/items/_enrichments";
 import * as _fetchModule from "../../src/content/_fetch";
 import * as documentItem from "../mocks/items/document.json";
+import * as scheduleModule from "../../src/content/manageSchedule";
 import * as multiLayerFeatureServiceItem from "../mocks/items/multi-layer-feature-service.json";
 import {
   HOSTED_FEATURE_SERVICE_DEFINITION,
@@ -23,7 +24,11 @@ import {
   PDF_GUID,
   PDF_ITEM,
 } from "./fixtures";
-import { MOCK_AUTH } from "../mocks/mock-auth";
+import {
+  MOCK_AUTH,
+  MOCK_HUB_REQOPTS,
+  MOCK_NOAUTH_HUB_REQOPTS,
+} from "../mocks/mock-auth";
 
 // mock the item enrichments that would be returned for a multi-layer service
 const getMultiLayerItemEnrichments = () => {
@@ -680,6 +685,13 @@ describe("fetchHubContent", () => {
       featureLayerModule,
       "getService"
     ).and.returnValue(HOSTED_FEATURE_SERVICE_DEFINITION);
+
+    const getScheduleSpy = spyOn(scheduleModule, "getSchedule").and.returnValue(
+      Promise.resolve({
+        type: "Web Mapping Application",
+        typeKeywords: ["hubSite"],
+      })
+    );
     const fetchItemEnrichmentsSpy = spyOn(
       _enrichmentsModule,
       "fetchItemEnrichments"
@@ -689,6 +701,42 @@ describe("fetchHubContent", () => {
       portal: MOCK_AUTH.portal,
       authentication: MOCK_AUTH,
     });
+    expect(chk.id).toBe(HOSTED_FEATURE_SERVICE_GUID);
+    expect(chk.owner).toBe(HOSTED_FEATURE_SERVICE_ITEM.owner);
+    expect(chk.serverExtractCapability).toBeTruthy();
+
+    expect(getItemSpy.calls.count()).toBe(1);
+    expect(getItemSpy.calls.argsFor(0)[0]).toBe(HOSTED_FEATURE_SERVICE_GUID);
+    expect(getServiceSpy.calls.count()).toBe(1);
+    expect(getServiceSpy.calls.argsFor(0)[0].url).toBe(
+      HOSTED_FEATURE_SERVICE_URL
+    );
+    // NOTE: the first call to fetchItemEnrichments is done by fetchContent under the hood,
+    // while the second call is done by fetchHubContent. We only care about the second call here
+    expect(fetchItemEnrichmentsSpy.calls.count()).toBe(2);
+    expect(fetchItemEnrichmentsSpy.calls.argsFor(1)[0]).toBe(
+      HOSTED_FEATURE_SERVICE_ITEM
+    );
+    expect(fetchItemEnrichmentsSpy.calls.argsFor(1)[1]).toEqual(["metadata"]);
+  });
+
+  it("gets hosted feature service", async () => {
+    const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
+      Promise.resolve(HOSTED_FEATURE_SERVICE_ITEM)
+    );
+    const getServiceSpy = spyOn(
+      featureLayerModule,
+      "getService"
+    ).and.returnValue(HOSTED_FEATURE_SERVICE_DEFINITION);
+    const fetchItemEnrichmentsSpy = spyOn(
+      _enrichmentsModule,
+      "fetchItemEnrichments"
+    ).and.returnValue({ metadata: null });
+
+    const chk = await fetchHubContent(
+      HOSTED_FEATURE_SERVICE_GUID,
+      MOCK_NOAUTH_HUB_REQOPTS
+    );
     expect(chk.id).toBe(HOSTED_FEATURE_SERVICE_GUID);
     expect(chk.owner).toBe(HOSTED_FEATURE_SERVICE_ITEM.owner);
     expect(chk.serverExtractCapability).toBeTruthy();
