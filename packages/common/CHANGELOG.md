@@ -1,3 +1,10 @@
+## @esri/hub-common [14.126.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.126.3...@esri/hub-common@14.126.4) (2024-05-08)
+
+
+### Bug Fixes
+
+* **hub-common:** get-events dto enum array types ([#1507](https://github.com/Esri/hub.js/issues/1507)) ([fb2e67a](https://github.com/Esri/hub.js/commit/fb2e67a5eff93773412e3019e5c674e78c93f008))
+
 ## @esri/hub-common [14.126.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.126.2...@esri/hub-common@14.126.3) (2024-05-08)
 
 
