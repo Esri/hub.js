@@ -1,3 +1,10 @@
+## @esri/hub-common [14.126.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.126.2...@esri/hub-common@14.126.3) (2024-05-08)
+
+
+### Bug Fixes
+
+* **hub-common:** fix undefined token when getting schedule ([#1506](https://github.com/Esri/hub.js/issues/1506)) ([7f8c782](https://github.com/Esri/hub.js/commit/7f8c78214f99401979bcc9c31507f85c2002fff5))
+
 ## @esri/hub-common [14.126.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.126.1...@esri/hub-common@14.126.2) (2024-05-08)
 
 
