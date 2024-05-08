@@ -1,10 +1,10 @@
-import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IHubSchedule, IHubScheduleResponse } from "../core/types/IHubSchedule";
 import { cloneObject } from "../util";
 import { deepEqual } from "../objects/deepEqual";
 import { AccessLevel, IHubEditableContent } from "../core";
 import { getSchedulerApiUrl } from "./_internal/internalContentUtils";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IHubRequestOptions } from "../types";
 
 // Any code referencing these functions must first pass isDownloadSchedulingAvailable
 
@@ -160,8 +160,13 @@ export const maybeUpdateSchedule = async (
  * @returns Whether or not the scheduling feature is available
  */
 export const isDownloadSchedulingAvailable = (
-  requestOptions: IRequestOptions,
+  requestOptions: IHubRequestOptions,
   access: AccessLevel
 ): boolean => {
-  return requestOptions.portal?.includes("arcgis.com") && access === "public";
+  const token = requestOptions.authentication.token;
+  return (
+    requestOptions.portal?.includes("arcgis.com") &&
+    access === "public" &&
+    !!token
+  );
 };
