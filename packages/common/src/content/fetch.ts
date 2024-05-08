@@ -36,6 +36,7 @@ import { computeProps } from "./_internal/computeProps";
 import { isHostedFeatureServiceItem } from "./hostedServiceUtils";
 import { setProp } from "../objects";
 import { getSchedule, isDownloadSchedulingAvailable } from "./manageSchedule";
+import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 const hasFeatures = (contentType: string) =>
   ["Feature Layer", "Table"].includes(contentType);
@@ -282,10 +283,13 @@ export const fetchHubContent = async (
     });
   }
 
-  if (isDownloadSchedulingAvailable(requestOptions, access)) {
+  if (
+    isDownloadSchedulingAvailable(requestOptions as IHubRequestOptions, access)
+  ) {
     // fetch schedule and add it to enrichments if it exists in schedule API
-    enrichments.schedule = (await getSchedule(item.id, requestOptions))
-      .schedule || { mode: "automatic" };
+    enrichments.schedule = (
+      await getSchedule(item.id, requestOptions as IUserRequestOptions)
+    ).schedule || { mode: "automatic" };
   }
 
   return modelToHubEditableContent(model, requestOptions, enrichments);

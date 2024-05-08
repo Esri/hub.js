@@ -1,3 +1,38 @@
+## @esri/hub-common [14.126.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.126.2...@esri/hub-common@14.126.3) (2024-05-08)
+
+
+### Bug Fixes
+
+* **hub-common:** fix undefined token when getting schedule ([#1506](https://github.com/Esri/hub.js/issues/1506)) ([7f8c782](https://github.com/Esri/hub.js/commit/7f8c78214f99401979bcc9c31507f85c2002fff5))
+
+## @esri/hub-common [14.126.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.126.1...@esri/hub-common@14.126.2) (2024-05-08)
+
+
+### Bug Fixes
+
+* **hub-common:** fix undefined token when getSchedule is called ([#1505](https://github.com/Esri/hub.js/issues/1505)) ([9be1d5f](https://github.com/Esri/hub.js/commit/9be1d5fa13471e3715ea3106f75df042e0e6b1c0))
+
+## @esri/hub-common [14.126.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.126.0...@esri/hub-common@14.126.1) (2024-05-08)
+
+
+### Bug Fixes
+
+* updates well known types to fix gallery query ([#1492](https://github.com/Esri/hub.js/issues/1492)) ([24f0f97](https://github.com/Esri/hub.js/commit/24f0f9710f1392c8942d6ef664cfb7877c39c5d8))
+
+# @esri/hub-common [14.126.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.125.2...@esri/hub-common@14.126.0) (2024-05-07)
+
+
+### Features
+
+* **hub-common:** add token to schedule api endpoints ([#1502](https://github.com/Esri/hub.js/issues/1502)) ([3206757](https://github.com/Esri/hub.js/commit/32067577788c1142f9f01e611e0abd6e469d5d27))
+
+## @esri/hub-common [14.125.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.125.1...@esri/hub-common@14.125.2) (2024-05-07)
+
+
+### Bug Fixes
+
+* **hub-common:** add IAssociation, update IEvent with associations, a… ([#1498](https://github.com/Esri/hub.js/issues/1498)) ([2562bd2](https://github.com/Esri/hub.js/commit/2562bd275740b49307375c6013e590fb5e9c28f9))
+
 ## @esri/hub-common [14.125.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.125.0...@esri/hub-common@14.125.1) (2024-05-06)
 
 
