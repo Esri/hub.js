@@ -1,3 +1,10 @@
+## @esri/hub-common [14.126.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.126.0...@esri/hub-common@14.126.1) (2024-05-08)
+
+
+### Bug Fixes
+
+* updates well known types to fix gallery query ([#1492](https://github.com/Esri/hub.js/issues/1492)) ([24f0f97](https://github.com/Esri/hub.js/commit/24f0f9710f1392c8942d6ef664cfb7877c39c5d8))
+
 # @esri/hub-common [14.126.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.125.2...@esri/hub-common@14.126.0) (2024-05-07)
 
 
