@@ -163,7 +163,7 @@ export const isDownloadSchedulingAvailable = (
   requestOptions: IHubRequestOptions,
   access: AccessLevel
 ): boolean => {
-  const token = requestOptions.authentication.token;
+  const token = requestOptions.authentication?.token;
   return (
     requestOptions.portal?.includes("arcgis.com") &&
     access === "public" &&
