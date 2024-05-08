@@ -283,13 +283,12 @@ export const fetchHubContent = async (
     });
   }
 
-  if (isDownloadSchedulingAvailable(requestOptions, access)) {
+  if (
+    isDownloadSchedulingAvailable(requestOptions as IHubRequestOptions, access)
+  ) {
     // fetch schedule and add it to enrichments if it exists in schedule API
     enrichments.schedule = (
-      await getSchedule(
-        item.id,
-        requestOptions as unknown as IUserRequestOptions
-      )
+      await getSchedule(item.id, requestOptions as IUserRequestOptions)
     ).schedule || { mode: "automatic" };
   }
 
