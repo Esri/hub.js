@@ -1,3 +1,108 @@
+## @esri/hub-common [14.127.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.127.0...@esri/hub-common@14.127.1) (2024-05-09)
+
+
+### Bug Fixes
+
+* add content to site propertyMap, allow more props on ICapabilityConfig ([#1508](https://github.com/Esri/hub.js/issues/1508)) ([c947301](https://github.com/Esri/hub.js/commit/c947301d2090e9e3a8a520e92a2026544cf18e15))
+
+# @esri/hub-common [14.127.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.126.4...@esri/hub-common@14.127.0) (2024-05-09)
+
+
+### Features
+
+* **hub-common:** add attendees settings pane ([#1475](https://github.com/Esri/hub.js/issues/1475)) ([0c49423](https://github.com/Esri/hub.js/commit/0c49423ff09d9d540f3598c2daddae00ed805c1a))
+
+## @esri/hub-common [14.126.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.126.3...@esri/hub-common@14.126.4) (2024-05-08)
+
+
+### Bug Fixes
+
+* **hub-common:** get-events dto enum array types ([#1507](https://github.com/Esri/hub.js/issues/1507)) ([fb2e67a](https://github.com/Esri/hub.js/commit/fb2e67a5eff93773412e3019e5c674e78c93f008))
+
+## @esri/hub-common [14.126.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.126.2...@esri/hub-common@14.126.3) (2024-05-08)
+
+
+### Bug Fixes
+
+* **hub-common:** fix undefined token when getting schedule ([#1506](https://github.com/Esri/hub.js/issues/1506)) ([7f8c782](https://github.com/Esri/hub.js/commit/7f8c78214f99401979bcc9c31507f85c2002fff5))
+
+## @esri/hub-common [14.126.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.126.1...@esri/hub-common@14.126.2) (2024-05-08)
+
+
+### Bug Fixes
+
+* **hub-common:** fix undefined token when getSchedule is called ([#1505](https://github.com/Esri/hub.js/issues/1505)) ([9be1d5f](https://github.com/Esri/hub.js/commit/9be1d5fa13471e3715ea3106f75df042e0e6b1c0))
+
+## @esri/hub-common [14.126.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.126.0...@esri/hub-common@14.126.1) (2024-05-08)
+
+
+### Bug Fixes
+
+* updates well known types to fix gallery query ([#1492](https://github.com/Esri/hub.js/issues/1492)) ([24f0f97](https://github.com/Esri/hub.js/commit/24f0f9710f1392c8942d6ef664cfb7877c39c5d8))
+
+# @esri/hub-common [14.126.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.125.2...@esri/hub-common@14.126.0) (2024-05-07)
+
+
+### Features
+
+* **hub-common:** add token to schedule api endpoints ([#1502](https://github.com/Esri/hub.js/issues/1502)) ([3206757](https://github.com/Esri/hub.js/commit/32067577788c1142f9f01e611e0abd6e469d5d27))
+
+## @esri/hub-common [14.125.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.125.1...@esri/hub-common@14.125.2) (2024-05-07)
+
+
+### Bug Fixes
+
+* **hub-common:** add IAssociation, update IEvent with associations, a… ([#1498](https://github.com/Esri/hub.js/issues/1498)) ([2562bd2](https://github.com/Esri/hub.js/commit/2562bd275740b49307375c6013e590fb5e9c28f9))
+
+## @esri/hub-common [14.125.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.125.0...@esri/hub-common@14.125.1) (2024-05-06)
+
+
+### Bug Fixes
+
+* **hub-common:** fix unified list feature flag, format order, and additional resource calculation ([#1501](https://github.com/Esri/hub.js/issues/1501)) ([46d4715](https://github.com/Esri/hub.js/commit/46d4715bc5f330dc15fda57ee12601a62d80d782))
+
+# @esri/hub-common [14.125.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.124.0...@esri/hub-common@14.125.0) (2024-05-06)
+
+
+### Features
+
+* scheduler force update ([#1494](https://github.com/Esri/hub.js/issues/1494)) ([5a8c47b](https://github.com/Esri/hub.js/commit/5a8c47b5499bab2da494003082c38bd8b95aafdf))
+
+# @esri/hub-common [14.124.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.123.1...@esri/hub-common@14.124.0) (2024-05-06)
+
+
+### Features
+
+* remove default groups ([#1483](https://github.com/Esri/hub.js/issues/1483)) ([61a48f4](https://github.com/Esri/hub.js/commit/61a48f4b6082e93862d1e751e482190dfa577044))
+
+## @esri/hub-common [14.123.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.123.0...@esri/hub-common@14.123.1) (2024-05-03)
+
+
+### Bug Fixes
+
+* **hub-common:** fix createHubEvent method and property mappings ([#1496](https://github.com/Esri/hub.js/issues/1496)) ([944dcb8](https://github.com/Esri/hub.js/commit/944dcb8de601368e914e2fa1b077ba265f4820c9))
+
+# @esri/hub-common [14.123.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.122.1...@esri/hub-common@14.123.0) (2024-05-02)
+
+
+### Features
+
+* **hub-common:** add support for searching for Events3 events from h… ([#1476](https://github.com/Esri/hub.js/issues/1476)) ([4afe9a4](https://github.com/Esri/hub.js/commit/4afe9a4e2bf366ebbca39923818cc29ec4121c0f))
+
+## @esri/hub-common [14.122.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.122.0...@esri/hub-common@14.122.1) (2024-05-02)
+
+
+### Bug Fixes
+
+* **hub-common:** restrict temp:hub:content:downloads:unifiedList to be behind a feature flag ([#1495](https://github.com/Esri/hub.js/issues/1495)) ([d53f50f](https://github.com/Esri/hub.js/commit/d53f50fef63edbb63ba3e74a8ccd068799288e54))
+
+# @esri/hub-common [14.122.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.121.2...@esri/hub-common@14.122.0) (2024-05-01)
+
+
+### Features
+
+* **hub-common:** add new utils for a unified download flow ([#1482](https://github.com/Esri/hub.js/issues/1482)) ([7f45d61](https://github.com/Esri/hub.js/commit/7f45d61bec8c8b79227834df6ac02ea4ae7f4328))
+
 ## @esri/hub-common [14.121.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.121.1...@esri/hub-common@14.121.2) (2024-04-30)
 
 

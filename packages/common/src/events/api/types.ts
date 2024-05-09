@@ -1,4 +1,5 @@
 export {
+  AssociationEntityType,
   EventAccess,
   EventAttendanceType,
   EventStatus,
@@ -6,6 +7,8 @@ export {
   IAddress,
   IAddressExtent,
   IAddressLocation,
+  IAssociation,
+  ICreateAssociation,
   IOnlineMeeting,
   ICreateOnlineMeeting,
   ICreateAddress,

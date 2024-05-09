@@ -9,6 +9,8 @@ import { IHubRequestOptions } from "../../../src/types";
 import { cloneObject } from "../../../src/util";
 import { MOCK_HUB_REQOPTS } from "../../mocks/mock-auth";
 import { IHubLocation } from "../../../src";
+import * as _enrichmentsModule from "../../../src/items/_enrichments";
+import { IHubAdditionalResource } from "../../../src/core/types/IHubAdditionalResource";
 
 describe("getContentEditUrl", () => {
   let requestOptions: IHubRequestOptions;

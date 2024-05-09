@@ -36,6 +36,7 @@ import { computeProps } from "./_internal/computeProps";
 import { isHostedFeatureServiceItem } from "./hostedServiceUtils";
 import { setProp } from "../objects";
 import { getSchedule, isDownloadSchedulingAvailable } from "./manageSchedule";
+import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 const hasFeatures = (contentType: string) =>
   ["Feature Layer", "Table"].includes(contentType);
@@ -251,8 +252,7 @@ export const fetchHubContent = async (
   requestOptions: IRequestOptions
 ): Promise<IHubEditableContent> => {
   // NOTE: b/c we have to support slugs we use fetchContent() to get the item
-  // by telling it to not fetch any enrichments
-  // which we then fetch as needed after we have the item
+  // by telling it to not fetch any enrichments which we then fetch as needed after we have the item
   const options = {
     ...requestOptions,
     enrichments: [],
@@ -267,6 +267,15 @@ export const fetchHubContent = async (
 
   const model = { item };
   const enrichments: IHubEditableContentEnrichments = {};
+
+  const { metadata } = await fetchItemEnrichments(
+    item,
+    ["metadata"],
+    requestOptions as IHubRequestOptions
+  );
+
+  enrichments.metadata = metadata;
+
   if (isHostedFeatureServiceItem(item)) {
     enrichments.server = await getService({
       ...requestOptions,
@@ -274,10 +283,13 @@ export const fetchHubContent = async (
     });
   }
 
-  if (isDownloadSchedulingAvailable(requestOptions, access)) {
+  if (
+    isDownloadSchedulingAvailable(requestOptions as IHubRequestOptions, access)
+  ) {
     // fetch schedule and add it to enrichments if it exists in schedule API
-    enrichments.schedule = (await getSchedule(item.id, requestOptions))
-      .schedule || { mode: "automatic" };
+    enrichments.schedule = (
+      await getSchedule(item.id, requestOptions as IUserRequestOptions)
+    ).schedule || { mode: "automatic" };
   }
 
   return modelToHubEditableContent(model, requestOptions, enrichments);

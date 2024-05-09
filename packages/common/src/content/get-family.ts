@@ -46,6 +46,9 @@ export function getFamily(type: string) {
     case "discussion":
       family = "discussion";
       break;
+    case "event":
+      family = "event";
+      break;
     case "hub initiative":
       family = "initiative";
       break;

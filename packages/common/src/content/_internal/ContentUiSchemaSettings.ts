@@ -1,7 +1,7 @@
 import { checkPermission } from "../..";
 import { IArcGISContext } from "../../ArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
-import { IUiSchema } from "../../core/schemas/types";
+import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import { IHubEditableContent } from "../../core/types/IHubEditableContent";
 import { isHostedFeatureServiceEntity } from "../hostedServiceUtils";
 
@@ -45,13 +45,26 @@ export const buildUiSchema = async (
               { type: "weekly" },
               { type: "monthly" },
               { type: "yearly" },
-              // uncomment this when the manual option is available
-              // {
-              //   label: `option.manual.label`,
-              //   type: "manual",
-              //   helperActionIcon: "information-f",
-              //   helperActionText: "option.manual.helperActionText",
-              // },
+              {
+                type: "manual",
+                helperActionIcon: "information-f",
+                helperActionText: `{{${i18nScope}.fields.schedule.manual.helperActionText:translate}}`,
+              },
+            ],
+          },
+        },
+        // force update checkbox -- TODO: replace with button once available
+        {
+          type: "Control",
+          scope: "/properties/_forceUpdate",
+          options: {
+            control: "hub-field-input-tile-select",
+            type: "checkbox",
+            labels: [
+              `{{${i18nScope}.fields.schedule.forceUpdateButton.label:translate}}`,
+            ],
+            descriptions: [
+              `{{${i18nScope}.fields.schedule.forceUpdateButton.description:translate}}`,
             ],
           },
         },

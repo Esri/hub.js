@@ -98,6 +98,7 @@ export function getMockContextWithPrivilenges(
       notifications: "online",
       "hub-search": "online",
       domains: "online",
+      "hub-downloads": "online",
     },
     userHubSettings: {
       schemaVersion: 1,
@@ -130,6 +131,7 @@ export const MOCK_CONTEXT = new ArcGISContext({
     notifications: "online",
     "hub-search": "online",
     domains: "online",
+    "hub-downloads": "online",
   },
   userHubSettings: {
     schemaVersion: 1,
@@ -138,10 +140,10 @@ export const MOCK_CONTEXT = new ArcGISContext({
 
 export const MOCK_ANON_CONTEXT = new ArcGISContext({
   id: 123,
-  currentUser: null,
+  currentUser: undefined,
   portalUrl: "https://qaext.arcgis.com",
   hubUrl: "https://hubqa.arcgis.com",
-  authentication: null,
+  authentication: undefined,
   portalSelf: {
     id: "123",
     name: "My org",
@@ -156,6 +158,7 @@ export const MOCK_ANON_CONTEXT = new ArcGISContext({
     notifications: "online",
     "hub-search": "online",
     domains: "online",
+    "hub-downloads": "online",
   },
   userHubSettings: {
     schemaVersion: 1,
@@ -187,6 +190,7 @@ export function createMockContext(): ArcGISContext {
       notifications: "online",
       "hub-search": "online",
       domains: "online",
+      "hub-downloads": "online",
     },
     userHubSettings: {
       schemaVersion: 1,
@@ -197,10 +201,10 @@ export function createMockContext(): ArcGISContext {
 export function createMockAnonContext(): ArcGISContext {
   return new ArcGISContext({
     id: 123,
-    currentUser: null,
+    currentUser: undefined,
     portalUrl: "https://qaext.arcgis.com",
     hubUrl: "https://hubqa.arcgis.com",
-    authentication: null,
+    authentication: undefined,
     portalSelf: {
       id: "123",
       name: "My org",
@@ -215,6 +219,7 @@ export function createMockAnonContext(): ArcGISContext {
       notifications: "online",
       "hub-search": "online",
       domains: "online",
+      "hub-downloads": "online",
     },
     userHubSettings: {
       schemaVersion: 1,
