@@ -1,3 +1,10 @@
+# @esri/hub-common [14.127.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.126.4...@esri/hub-common@14.127.0) (2024-05-09)
+
+
+### Features
+
+* **hub-common:** add attendees settings pane ([#1475](https://github.com/Esri/hub.js/issues/1475)) ([0c49423](https://github.com/Esri/hub.js/commit/0c49423ff09d9d540f3598c2daddae00ed805c1a))
+
 ## @esri/hub-common [14.126.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.126.3...@esri/hub-common@14.126.4) (2024-05-08)
 
 
