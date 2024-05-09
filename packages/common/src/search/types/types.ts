@@ -24,7 +24,9 @@ export type SortOption =
   | "modified"
   | "username"
   | "joined"
-  | "memberType";
+  | "memberType"
+  | "firstName"
+  | "lastName";
 
 /**
  * Defines a span of time by specifying a `from` and `to` Date
