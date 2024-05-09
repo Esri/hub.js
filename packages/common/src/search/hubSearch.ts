@@ -19,6 +19,7 @@ import {
 import { hubSearchItems } from "./_internal/hubSearchItems";
 import { hubSearchChannels } from "./_internal/hubSearchChannels";
 import { hubSearchEvents } from "./_internal/hubSearchEvents";
+import { hubSearchEventAttendees } from "./_internal/hubSearchEventAttendees";
 
 /**
  * Main entrypoint for searching via Hub
@@ -88,6 +89,7 @@ export async function hubSearch(
       channel: hubSearchChannels,
       discussionPost: hubSearchItems,
       event: hubSearchEvents,
+      eventAttendee: hubSearchEventAttendees,
     },
   };
 

@@ -16,5 +16,5 @@ export function shouldUseEventsApi(
   const {
     requestOptions: { isPortal },
   } = options;
-  return targetEntity === "event" && !isPortal;
+  return ["event", "eventAttendee"].includes(targetEntity) && !isPortal;
 }

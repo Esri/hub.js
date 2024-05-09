@@ -14,7 +14,7 @@ import {
   ISearchChannelsParams,
   channelToSearchResult,
 } from "../../discussions";
-import { IGroup, getGroup } from "@esri/arcgis-rest-portal";
+import { getGroup } from "@esri/arcgis-rest-portal";
 
 /**
  * @private

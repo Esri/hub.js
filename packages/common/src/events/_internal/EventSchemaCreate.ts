@@ -8,7 +8,11 @@ import {
 } from "./validations";
 
 export type EventEditorType = (typeof EventEditorTypes)[number];
-export const EventEditorTypes = ["hub:event:create", "hub:event:edit"] as const;
+export const EventEditorTypes = [
+  "hub:event:create",
+  "hub:event:edit",
+  "hub:event:attendees",
+] as const;
 
 /**
  * @private

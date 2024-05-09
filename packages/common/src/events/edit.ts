@@ -7,6 +7,7 @@ import {
   createEvent as createEventApi,
   updateEvent as updateEventApi,
 } from "./api/events";
+import { deleteRegistration } from "./api";
 
 /**
  * @private
@@ -115,4 +116,18 @@ export async function updateHubEvent(
   });
 
   return mapper.storeToEntity(model, {}) as IHubEvent;
+}
+
+/**
+ * @private
+ * Remove an Event Attendee
+ * @param id event attendee id
+ * @param requestOptions
+ * @returns Promise<void>
+ */
+export async function deleteHubEventAttendee(
+  id: number,
+  requestOptions: IHubRequestOptions
+): Promise<void> {
+  await deleteRegistration({ registrationId: id, ...requestOptions });
 }

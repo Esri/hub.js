@@ -1,3 +1,17 @@
+## @esri/hub-common [14.127.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.127.0...@esri/hub-common@14.127.1) (2024-05-09)
+
+
+### Bug Fixes
+
+* add content to site propertyMap, allow more props on ICapabilityConfig ([#1508](https://github.com/Esri/hub.js/issues/1508)) ([c947301](https://github.com/Esri/hub.js/commit/c947301d2090e9e3a8a520e92a2026544cf18e15))
+
+# @esri/hub-common [14.127.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.126.4...@esri/hub-common@14.127.0) (2024-05-09)
+
+
+### Features
+
+* **hub-common:** add attendees settings pane ([#1475](https://github.com/Esri/hub.js/issues/1475)) ([0c49423](https://github.com/Esri/hub.js/commit/0c49423ff09d9d540f3598c2daddae00ed805c1a))
+
 ## @esri/hub-common [14.126.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.126.3...@esri/hub-common@14.126.4) (2024-05-08)
 
 

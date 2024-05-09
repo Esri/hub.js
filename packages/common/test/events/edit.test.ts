@@ -3,13 +3,18 @@ import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as defaultsModule from "../../src/events/defaults";
 import * as eventsModule from "../../src/events/api/events";
+import * as registrationModule from "../../src/events/api";
 import {
   EventAccess,
   EventAttendanceType,
   EventStatus,
   IEvent,
 } from "../../src/events/api/types";
-import { createHubEvent, updateHubEvent } from "../../src/events/edit";
+import {
+  createHubEvent,
+  deleteHubEventAttendee,
+  updateHubEvent,
+} from "../../src/events/edit";
 import { IHubEvent } from "../../src/core/types/IHubEvent";
 import { HubEventAttendanceType } from "../../src/events/types";
 
@@ -278,6 +283,34 @@ describe("HubEvents edit module", () => {
         ...authdCtxMgr.context.hubRequestOptions,
       });
       expect(res.name).toEqual("my event");
+    });
+  });
+
+  describe("deleteHubEventAttendee", () => {
+    it("calls deleteRegistration", async () => {
+      const authdCtxMgr = await ArcGISContextManager.create({
+        authentication: MOCK_AUTH,
+        currentUser: {
+          username: "casey",
+        } as unknown as PortalModule.IUser,
+        portal: {
+          name: "DC R&D Center",
+          id: "BRXFAKE",
+          urlKey: "fake-org",
+        } as unknown as PortalModule.IPortal,
+        portalUrl: "https://myserver.com",
+      });
+      const deleteRegistrationSpy = spyOn(
+        registrationModule,
+        "deleteRegistration"
+      ).and.callFake(() => {
+        return Promise.resolve();
+      });
+      await deleteHubEventAttendee(0o1, authdCtxMgr.context.hubRequestOptions);
+      expect(deleteRegistrationSpy).toHaveBeenCalledWith({
+        registrationId: 0o1,
+        ...authdCtxMgr.context.hubRequestOptions,
+      });
     });
   });
 });
