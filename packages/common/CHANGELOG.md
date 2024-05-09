@@ -1,3 +1,10 @@
+## @esri/hub-common [14.127.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.127.1...@esri/hub-common@14.127.2) (2024-05-09)
+
+
+### Bug Fixes
+
+* **hub-common:** fix force content endpoint ([#1509](https://github.com/Esri/hub.js/issues/1509)) ([f0283f0](https://github.com/Esri/hub.js/commit/f0283f0c087a02faad98cbfdd2dee1264ceacab2))
+
 ## @esri/hub-common [14.127.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.127.0...@esri/hub-common@14.127.1) (2024-05-09)
 
 
