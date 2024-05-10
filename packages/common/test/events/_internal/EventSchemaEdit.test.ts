@@ -36,7 +36,7 @@ describe("EventSchemaEdit", () => {
       const res = buildSchema();
       expect(getDefaultEventDatesAndTimesSpy).toHaveBeenCalledTimes(1);
       expect(res).toEqual({
-        required: ["name", "description", "startDate", "endDate"],
+        required: ["name", "description", "startDate", "endDate", "timeZone"],
         properties: {
           name: ENTITY_NAME_SCHEMA,
           description: {
