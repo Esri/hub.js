@@ -73,6 +73,9 @@ describe("EventSchemaEdit", () => {
             type: "boolean",
             default: false,
           },
+          timeZone: {
+            type: "string",
+          },
           onlineUrl: {
             type: "string",
           },
