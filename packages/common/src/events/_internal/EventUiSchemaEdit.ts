@@ -186,13 +186,6 @@ export const buildUiSchema = async (
             labelKey: `${i18nScope}.fields.timeZone.label`,
             scope: "/properties/timeZone",
             type: "Control",
-            rule: {
-              condition: {
-                scope: "/properties/isAllDay",
-                schema: { const: false },
-              },
-              effect: UiSchemaRuleEffects.SHOW,
-            },
             options: {
               control: "hub-field-input-time-zone",
               messages: [
