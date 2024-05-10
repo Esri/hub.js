@@ -194,13 +194,13 @@ export const buildUiSchema = async (
               effect: UiSchemaRuleEffects.SHOW,
             },
             options: {
-              control: "hub-field-input-timezone-picker",
+              control: "hub-field-input-time-zone",
               messages: [
                 {
                   type: "ERROR",
                   keyword: "required",
                   icon: true,
-                  labelKey: `${i18nScope}.fields.endTime.requiredError`,
+                  labelKey: `${i18nScope}.fields.timeZone.requiredError`,
                 },
               ],
             },

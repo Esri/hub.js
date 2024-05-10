@@ -53,12 +53,12 @@ export const buildSchema = (): IConfigurationSchema => {
       endTime: {
         type: "string",
       },
-      timeZone: {
-        type: "string",
-      },
       isAllDay: {
         type: "boolean",
         default: false,
+      },
+      timeZone: {
+        type: "string",
       },
       onlineUrl: {
         type: "string",
