@@ -1,3 +1,10 @@
+# @esri/hub-common [14.128.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.127.2...@esri/hub-common@14.128.0) (2024-05-10)
+
+
+### Features
+
+* **hub-common:** removes hub:feature:gallery:map permission policy ([#1500](https://github.com/Esri/hub.js/issues/1500)) ([3c089e1](https://github.com/Esri/hub.js/commit/3c089e1b2b8ddfb92d1dd1e0bc20541e36817167))
+
 ## @esri/hub-common [14.127.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.127.1...@esri/hub-common@14.127.2) (2024-05-09)
 
 
