@@ -182,6 +182,29 @@ export const buildUiSchema = async (
               ],
             },
           },
+          {
+            labelKey: `${i18nScope}.fields.timeZone.label`,
+            scope: "/properties/timeZone",
+            type: "Control",
+            rule: {
+              condition: {
+                scope: "/properties/isAllDay",
+                schema: { const: false },
+              },
+              effect: UiSchemaRuleEffects.SHOW,
+            },
+            options: {
+              control: "hub-field-input-timezone-picker",
+              messages: [
+                {
+                  type: "ERROR",
+                  keyword: "required",
+                  icon: true,
+                  labelKey: `${i18nScope}.fields.endTime.requiredError`,
+                },
+              ],
+            },
+          },
         ],
       },
       {
