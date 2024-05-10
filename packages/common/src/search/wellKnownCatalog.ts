@@ -26,7 +26,8 @@ export type WellKnownCatalog =
 export type WellKnownCollection =
   | Exclude<HubFamily, "app" | "map">
   | "appAndMap"
-  | "solution";
+  | "solution"
+  | "projectAndInitiative";
 
 /**
  * A list of optional arguments to pass into getWellKnownCatalog
@@ -360,6 +361,33 @@ function getAllCollectionsMap(i18nScope: string, entityType: EntityType): any {
         filters: [
           {
             predicates: [
+              {
+                type: getFamilyTypes("initiative"),
+                // only include v2 initiatives
+                typekeywords: ["hubInitiativeV2"],
+              },
+            ],
+          },
+        ],
+      },
+    } as IHubCollection,
+    // note: For now, this is not included in the default collection names.
+    // It would need to be explicitly passed into getWellknownCollections
+    // to be returned
+    projectAndInitiative: {
+      key: "projectAndInitiative",
+      label: `{{${i18nScope}collection.projectsAndInitiatives:translate}}`,
+      targetEntity: entityType,
+      include: [],
+      scope: {
+        targetEntity: entityType,
+        filters: [
+          {
+            operation: "OR",
+            predicates: [
+              {
+                type: getFamilyTypes("project"),
+              },
               {
                 type: getFamilyTypes("initiative"),
                 // only include v2 initiatives
