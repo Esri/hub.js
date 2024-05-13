@@ -35,6 +35,7 @@ export function getPropertyMap(): IPropertyMap[] {
   map.push({ entityKey: "events", storeKey: "data.events" });
   map.push({ entityKey: "initiatives", storeKey: "data.initiatives" });
   map.push({ entityKey: "projects", storeKey: "data.projects" });
+  map.push({ entityKey: "content", storeKey: "data.content" });
 
   // Deeper/Indirect mappings
   map.push({

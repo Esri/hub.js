@@ -192,7 +192,8 @@ export type HubFamily =
   | "template"
   | "project"
   | "channel"
-  | "discussion";
+  | "discussion"
+  | "eventAttendee";
 
 /**
  * Visibility levels of a Hub resource

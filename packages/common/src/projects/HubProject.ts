@@ -198,32 +198,8 @@ export class HubProject
         )) as IHubProjectEditor)
       : (cloneObject(this.entity) as IHubProjectEditor);
 
-    // 2. on project creation, pre-populate the sharing field
-    // with the core + collaobration groups if the user has the
-    // appropriate shareToGroup portal privilege
+    // 2. editor._groups handling
     editor._groups = [];
-    const { access: canShare } = this.checkPermission(
-      "platform:portal:user:shareToGroup"
-    );
-    if (!editor.id && canShare) {
-      const currentUserGroups: IGroup[] =
-        getProp(this.context, "currentUser.groups") || [];
-      const defaultShareWithGroups = [
-        editorContext.contentGroupId,
-        editorContext.collaborationGroupId,
-      ].reduce((acc, groupId) => {
-        const group = currentUserGroups.find((g: IGroup) => g.id === groupId);
-        const canShareToGroup =
-          !!group &&
-          (!group.isViewOnly ||
-            (group.isViewOnly &&
-              ["owner", "admin"].includes(group.memberType)));
-
-        canShareToGroup && acc.push(groupId);
-        return acc;
-      }, []);
-      editor._groups = [...editor._groups, ...defaultShareWithGroups];
-    }
 
     // 3. handle metrics
     const metrics = getEntityMetrics(this.entity);

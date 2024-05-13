@@ -3,6 +3,8 @@ import { AccessLevel, IHubEntityBase, IHubLocation } from "../../core";
 import { HubFamily, IHubGeography } from "../../types";
 import { IOgcItem } from "../_internal/hubSearchItemsHelpers/interfaces";
 import { IChannel } from "../../discussions/api/types";
+import { IRegistration } from "../../events/api";
+import { IEvent } from "../../events/api/orval/api/orval-events";
 
 /**
  * Standardized light-weight search result structure, applicable to all
@@ -67,7 +69,14 @@ export interface IHubSearchResult extends IHubEntityBase {
    * Note: We will need to cast to the approproate type
    * in order to access the properties
    */
-  rawResult?: IItem | IGroup | IUser | IOgcItem | IChannel;
+  rawResult?:
+    | IItem
+    | IGroup
+    | IUser
+    | IOgcItem
+    | IChannel
+    | IEvent
+    | IRegistration;
 
   /** Allow any additional properties to be added */
   [key: string]: any;

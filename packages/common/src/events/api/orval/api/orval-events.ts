@@ -5,8 +5,18 @@
  * Hub Events Service
  * OpenAPI spec version: 0.0.1
  */
-import { Awaited } from "../awaited-type";
 import { customClient } from "../custom-client";
+import { Awaited } from "../awaited-type";
+
+export interface IUpdateRegistration {
+  /** Role of the user in the event */
+  role?: RegistrationRole;
+  /** Status of the registration */
+  status?: RegistrationStatus;
+  /** Attendance type for this registration */
+  type?: EventAttendanceType;
+}
+
 export interface IPagedRegistrationResponse {
   items: IRegistration[];
   nextStart: number;
@@ -50,6 +60,10 @@ export type GetRegistrationsParams = {
    */
   updatedAtAfter?: string;
   /**
+   * filter to be matched to firstName, lastName, or username
+   */
+  name?: string;
+  /**
    * the max amount of registrations to return
    */
   num?: string;
@@ -63,6 +77,69 @@ export type GetRegistrationsParams = {
   sortBy?: RegistrationSort;
   /**
    * sort order desc or asc
+   */
+  sortOrder?: SortOrder;
+};
+
+export type GetEventsParams = {
+  /**
+   * Comma separated string list of EventAccess. Example: PRIVATE,ORG,PUBLIC
+   */
+  access?: string;
+  /**
+   * Comma separated string list of associated entityIds
+   */
+  entityIds?: string;
+  /**
+   * Comma separated string list of associated entity types. Example: associations,registrations,creator,addresses,onlineMeetings
+   */
+  entityTypes?: string;
+  /**
+   * Comma separated string list of relation fields to include in response. Example: associations,registrations,creator,addresses,onlineMeetings
+   */
+  include?: string;
+  /**
+   * latest ISO8601 start date-time for the events
+   */
+  startDateTimeBefore?: string;
+  /**
+   * earliest ISO8601 start date-time for the events
+   */
+  startDateTimeAfter?: string;
+  /**
+   * Comma separated string list of AttendanceTypes. Example:  VIRTUAL,IN_PERSON
+   */
+  attendanceTypes?: string;
+  /**
+   * Comma separated string list of categories
+   */
+  categories?: string;
+  /**
+   * comma separated string list of event statuses. Example: PRIVATE,ORG,PUBLIC
+   */
+  status?: string;
+  /**
+   * Comma separated string list of tags
+   */
+  tags?: string;
+  /**
+   * string to match within an event title
+   */
+  title?: string;
+  /**
+   * the max amount of events to return
+   */
+  num?: string;
+  /**
+   * the index to start at
+   */
+  start?: string;
+  /**
+   * Event property to sort results by
+   */
+  sortBy?: EventSort;
+  /**
+   * sort results order desc or asc
    */
   sortOrder?: SortOrder;
 };
@@ -100,6 +177,8 @@ export interface IUpdateEvent {
   allDay?: boolean;
   /** Boolean to indicate if users can register for an event */
   allowRegistration?: boolean;
+  /** Items associated with the event */
+  associations?: ICreateAssociation[];
   /** Valid ways to attend the event */
   attendanceType?: EventAttendanceType[];
   /** categories for the event */
@@ -136,12 +215,6 @@ export interface IUpdateEvent {
   title?: string;
 }
 
-export interface IPagedEventResponse {
-  items: IEvent[];
-  nextStart: number;
-  total: number;
-}
-
 export enum SortOrder {
   asc = "asc",
   desc = "desc",
@@ -152,61 +225,6 @@ export enum EventSort {
   createdAt = "createdAt",
   updatedAt = "updatedAt",
 }
-export type GetEventsParams = {
-  /**
-   * Comma separated string list of EventAccess
-   */
-  access?: string;
-  /**
-   * Comma separated string list of relation fields to include in response
-   */
-  include?: string;
-  /**
-   * latest ISO8601 start date-time for the events
-   */
-  startDateTimeBefore?: string;
-  /**
-   * earliest ISO8601 start date-time for the events
-   */
-  startDateTimeAfter?: string;
-  /**
-   * Comma separated string list of AttendanceTypes
-   */
-  attendanceTypes?: string;
-  /**
-   * Comma separated string list of categories
-   */
-  categories?: string;
-  /**
-   * comma separated string list of event statuses
-   */
-  status?: string;
-  /**
-   * Comma separated string list of tags
-   */
-  tags?: string;
-  /**
-   * string to match within an event title
-   */
-  title?: string;
-  /**
-   * the max amount of events to return
-   */
-  num?: string;
-  /**
-   * the index to start at
-   */
-  start?: string;
-  /**
-   * Event property to sort results by
-   */
-  sortBy?: EventSort;
-  /**
-   * sort results order desc or asc
-   */
-  sortOrder?: SortOrder;
-};
-
 export interface IRegistrationPermission {
   canDelete: boolean;
   canEdit: boolean;
@@ -226,11 +244,55 @@ export interface IEventPermission {
   canSetStatusToRemoved: boolean;
 }
 
+export enum RegistrationStatus {
+  PENDING = "PENDING",
+  ACCEPTED = "ACCEPTED",
+  DECLINED = "DECLINED",
+  BLOCKED = "BLOCKED",
+}
+export enum RegistrationRole {
+  OWNER = "OWNER",
+  ORGANIZER = "ORGANIZER",
+  ATTENDEE = "ATTENDEE",
+}
+export enum EventStatus {
+  PLANNED = "PLANNED",
+  CANCELED = "CANCELED",
+  REMOVED = "REMOVED",
+}
+export interface IOnlineMeeting {
+  capacity: number | null;
+  createdAt: string;
+  details: string | null;
+  eventId: string;
+  updatedAt: string;
+  url: string;
+}
+
+export interface IUser {
+  agoId: string;
+  createdAt: string;
+  deleted: boolean;
+  email: string;
+  firstName: string;
+  lastName: string;
+  optedOut: boolean;
+  updatedAt: string;
+  username: string;
+}
+
+export interface IAssociation {
+  entityId: string;
+  entityType: AssociationEntityType;
+  eventId: string;
+}
+
 export interface IEvent {
   access: EventAccess;
   addresses?: IAddress[];
   allDay: boolean;
   allowRegistration: boolean;
+  associations?: IAssociation[];
   attendanceType: EventAttendanceType[];
   catalog: IEventCatalogItem[] | null;
   categories: string[];
@@ -262,50 +324,10 @@ export interface IEvent {
   updatedAt: string;
 }
 
-export enum RegistrationStatus {
-  PENDING = "PENDING",
-  ACCEPTED = "ACCEPTED",
-  DECLINED = "DECLINED",
-  BLOCKED = "BLOCKED",
-}
-export enum RegistrationRole {
-  OWNER = "OWNER",
-  ORGANIZER = "ORGANIZER",
-  ATTENDEE = "ATTENDEE",
-}
-export interface IUpdateRegistration {
-  /** Role of the user in the event */
-  role?: RegistrationRole;
-  /** Status of the registration */
-  status?: RegistrationStatus;
-  /** Attendance type for this registration */
-  type?: EventAttendanceType;
-}
-
-export enum EventStatus {
-  PLANNED = "PLANNED",
-  CANCELED = "CANCELED",
-  REMOVED = "REMOVED",
-}
-export interface IOnlineMeeting {
-  capacity: number | null;
-  createdAt: string;
-  details: string | null;
-  eventId: string;
-  updatedAt: string;
-  url: string;
-}
-
-export interface IUser {
-  agoId: string;
-  createdAt: string;
-  deleted: boolean;
-  email: string;
-  firstName: string;
-  lastName: string;
-  optedOut: boolean;
-  updatedAt: string;
-  username: string;
+export interface IPagedEventResponse {
+  items: IEvent[];
+  nextStart: number;
+  total: number;
 }
 
 export interface IRegistration {
@@ -362,24 +384,6 @@ export enum EventAttendanceType {
   VIRTUAL = "VIRTUAL",
   IN_PERSON = "IN_PERSON",
 }
-export enum EventAccess {
-  PRIVATE = "PRIVATE",
-  ORG = "ORG",
-  PUBLIC = "PUBLIC",
-}
-export interface ICreateAddress {
-  /** Street address */
-  address: string;
-  /** Secondary address information (room, etc) */
-  address2?: string;
-  /** Capacity of this location. Minimum value is 1 */
-  capacity?: number;
-  /** Description for the address */
-  description?: string;
-  /** Venue information for the address */
-  venue?: string;
-}
-
 export interface ICreateEvent {
   /** Access level of the event */
   access?: EventAccess;
@@ -391,6 +395,8 @@ export interface ICreateEvent {
   allDay?: boolean;
   /** Boolean to indicate if users can register for an event */
   allowRegistration?: boolean;
+  /** Items associated with the event */
+  associations?: ICreateAssociation[];
   /** Valid ways to attend the event */
   attendanceType?: EventAttendanceType[];
   /** categories for the event */
@@ -431,6 +437,36 @@ export interface ICreateEvent {
   title: string;
   /** Username for the subscriber. Will always be extracted from the token unless service token is used. */
   username?: string;
+}
+
+export enum AssociationEntityType {
+  Hub_Site_Application = "Hub Site Application",
+  Hub_Initiative = "Hub Initiative",
+  Hub_Project = "Hub Project",
+}
+export interface ICreateAssociation {
+  /** Entity Id */
+  entityId: string;
+  /** Entity type */
+  entityType: AssociationEntityType;
+}
+
+export enum EventAccess {
+  PRIVATE = "PRIVATE",
+  ORG = "ORG",
+  PUBLIC = "PUBLIC",
+}
+export interface ICreateAddress {
+  /** Street address */
+  address: string;
+  /** Secondary address information (room, etc) */
+  address2?: string;
+  /** Capacity of this location. Minimum value is 1 */
+  capacity?: number;
+  /** Description for the address */
+  description?: string;
+  /** Venue information for the address */
+  venue?: string;
 }
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];

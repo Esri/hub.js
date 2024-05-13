@@ -1,9 +1,10 @@
-import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IHubSchedule, IHubScheduleResponse } from "../core/types/IHubSchedule";
 import { cloneObject } from "../util";
 import { deepEqual } from "../objects/deepEqual";
 import { AccessLevel, IHubEditableContent } from "../core";
-import { getSchedulerApiUrl } from "./_internal/getSchedulerApiUrl";
+import { getSchedulerApiUrl } from "./_internal/internalContentUtils";
+import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IHubRequestOptions } from "../types";
 
 // Any code referencing these functions must first pass isDownloadSchedulingAvailable
 
@@ -15,7 +16,7 @@ import { getSchedulerApiUrl } from "./_internal/getSchedulerApiUrl";
  */
 export const getSchedule = async (
   itemId: string,
-  requestOptions: IRequestOptions
+  requestOptions: IUserRequestOptions
 ): Promise<IHubScheduleResponse> => {
   const fetchResponse = await fetch(getSchedulerApiUrl(itemId, requestOptions));
   const schedule = await fetchResponse.json();
@@ -27,10 +28,20 @@ export const getSchedule = async (
     } as IHubScheduleResponse;
   }
 
+  // if the schedule mode is set to manual, return it
+  if (schedule.mode === "manual") {
+    return {
+      schedule: {
+        mode: "manual",
+      },
+      message: `Download schedule found for item ${itemId}`,
+      statusCode: 200,
+    } as IHubScheduleResponse;
+  }
+
   // if the schedule is set, return it with added mode
   delete schedule.itemId;
   switch (schedule.cadence) {
-    // TODO: add manual option here when option is viable
     case "daily":
     case "weekly":
     case "monthly":
@@ -55,10 +66,13 @@ export const getSchedule = async (
 export const setSchedule = async (
   itemId: string,
   schedule: IHubSchedule,
-  requestOptions: IRequestOptions
+  requestOptions: IUserRequestOptions
 ): Promise<IHubScheduleResponse> => {
   const body = cloneObject(schedule);
-  delete body.mode;
+  if (body.mode !== "manual") {
+    // remove mode if not manual
+    delete body.mode;
+  }
   const url = getSchedulerApiUrl(itemId, requestOptions);
   const options = {
     method: "POST",
@@ -85,7 +99,7 @@ export const setSchedule = async (
  */
 export const deleteSchedule = async (
   itemId: string,
-  requestOptions: IRequestOptions
+  requestOptions: IUserRequestOptions
 ): Promise<IHubScheduleResponse> => {
   const url = getSchedulerApiUrl(itemId, requestOptions);
   const options = {
@@ -108,7 +122,7 @@ export const deleteSchedule = async (
  */
 export const maybeUpdateSchedule = async (
   content: IHubEditableContent,
-  requestOptions: IRequestOptions
+  requestOptions: IUserRequestOptions
 ): Promise<IHubScheduleResponse> => {
   const scheduleResponse = await getSchedule(content.id, requestOptions);
 
@@ -146,8 +160,13 @@ export const maybeUpdateSchedule = async (
  * @returns Whether or not the scheduling feature is available
  */
 export const isDownloadSchedulingAvailable = (
-  requestOptions: IRequestOptions,
+  requestOptions: IHubRequestOptions,
   access: AccessLevel
 ): boolean => {
-  return requestOptions.portal?.includes("arcgis.com") && access === "public";
+  const token = requestOptions.authentication?.token;
+  return (
+    requestOptions.portal?.includes("arcgis.com") &&
+    access === "public" &&
+    !!token
+  );
 };
