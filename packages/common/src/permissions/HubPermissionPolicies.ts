@@ -141,21 +141,26 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     availability: ["alpha"],
     environments: ["devext", "qaext"],
   },
+  // NOTE: only use this permission if necessary. Use the licenses check on a permission to check license when able instead of a separate permission.
   // checks if using Hub Premium
   {
     permission: "hub:license:premium",
     licenses: ["hub-premium"],
   },
+  // NOTE: only use this permission if necessary. Use the licenses check on a permission to check license when able instead of a separate permission.
   // checks if using Hub Basic
   {
     permission: "hub:license:basic",
     licenses: ["hub-basic"],
   },
+  // NOTE: only use this permission if necessary. Use the licenses check on a permission to check license when able instead of a separate permission.
   // checks if using Enterprise Sites
   {
     permission: "hub:license:enterprise",
     licenses: ["enterprise-sites"],
   },
+  // NOTE: only use this permission if necessary. Use the availability check on a permission to check availability when able instead of a separate permission.
+  // checks if in alpha
   {
     permission: "hub:availability:alpha",
     availability: ["alpha"],
