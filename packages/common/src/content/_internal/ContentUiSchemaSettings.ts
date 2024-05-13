@@ -69,63 +69,10 @@ export const buildUiSchema = async (
       },
     };
 
-    /**
-     * NOTE: Some crazy gymnastics up ahead if the content is not public.
-     *
-     * The entity editor component will re-calculate the _UI Schema_ passed into the configuration editor
-     * if the underlying entity has been changed from the outside (e.g., via the sharing level controls).
-     * However, it will not change _the values_ passed into the configuration editor.
-     *
-     * This means that `options.access` is guaranteed to be up-to-date, but the underlying
-     * configuration editor's `values.access` _will not be updated_.
-     *
-     * As such we cannot rely on an IUiSchemaRule to update the disabled state of the
-     * schedule and force update controls, because the rule will be evaluated against
-     * _the old value_ of `values.access`.
-     *
-     * Also, the configuration editor also does not provide a way to statically set the disabled
-     * state of a control. We have to rely on an IUiSchemaRule to disable a field.
-     *
-     * So, here's what we do as a workaround:
-     *
-     * - Create a "disabled" rule with a condition that always evaluates to true (i.e., this.entity.type === this.entity.type)
-     * - Create a "hide" rule with a condition that always evaluates to true (i.e., this.entity.type === this.entity.type)
-     * - Add a hidden "type" field to the UI Schema (needed so we can use the value of entity.type in a the "disabled" and "hide" rules)
-     * - Add the "disabled" rule to the schedule and force update controls
-     * - Add a special notice to the bottom of the force update control which informs the user that scheduling is unavailable
-     */
     if (options.access !== "public") {
-      // checks if this.values.type === options.type, which is always true
-      const alwaysTrueCondition: IUiSchemaRule["condition"] = {
-        scope: "/properties/type",
-        schema: {
-          const: options.type,
-        },
-      };
-
-      // This rule will cause a control to always be hidden
-      const alwaysHiddenRule: IUiSchemaRule = {
-        effect: UiSchemaRuleEffects.HIDE,
-        condition: alwaysTrueCondition,
-      };
-
-      // This rule will cause a control to always be disabled
-      const alwaysDisabledRule: IUiSchemaRule = {
-        effect: UiSchemaRuleEffects.DISABLE,
-        condition: alwaysTrueCondition,
-      };
-
-      // NOTE: unfortunately we have to add a hidden "type" field to the ui schema. If we don't, we won't
-      // have access to `this.values.type` when evaluating `alwaysDisabledRule` or `alwaysHiddenRule`
-      uiSchema.elements.push({
-        type: "Control",
-        scope: "/properties/type",
-        rule: alwaysHiddenRule,
-      });
-
       // Disable the schedule and force update controls
-      scheduleControlElement.rule = alwaysDisabledRule;
-      forceUpdateControlElement.rule = alwaysDisabledRule;
+      scheduleControlElement.options.disabled = true;
+      forceUpdateControlElement.options.disabled = true;
 
       // Add a notice to the bottom of the force update control
       forceUpdateControlElement.options.messages = [
