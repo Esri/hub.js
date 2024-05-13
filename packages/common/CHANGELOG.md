@@ -1,3 +1,15 @@
+# @esri/hub-common [14.129.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.128.0...@esri/hub-common@14.129.0) (2024-05-13)
+
+
+### Bug Fixes
+
+* **hub-common:** get events by groupid types ([#1513](https://github.com/Esri/hub.js/issues/1513)) ([b8d46a8](https://github.com/Esri/hub.js/commit/b8d46a81f63e6e6134fe083932a1882fb87ac752))
+
+
+### Features
+
+* add projectAndInitiative as a new collection ([#1511](https://github.com/Esri/hub.js/issues/1511)) ([fcf48e2](https://github.com/Esri/hub.js/commit/fcf48e2b1853490e5c49409010385572b31dad1b))
+
 # @esri/hub-common [14.128.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.127.2...@esri/hub-common@14.128.0) (2024-05-10)
 
 
