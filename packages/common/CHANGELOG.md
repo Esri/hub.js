@@ -1,3 +1,15 @@
+# @esri/hub-common [14.130.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.129.0...@esri/hub-common@14.130.0) (2024-05-13)
+
+
+### Bug Fixes
+
+* remove alpha gating from templates ([#1514](https://github.com/Esri/hub.js/issues/1514)) ([25fcca6](https://github.com/Esri/hub.js/commit/25fcca6a20a1641b832c5c4f58592c7033be1be7))
+
+
+### Features
+
+* **hub-common:** add timezone picker ([#1512](https://github.com/Esri/hub.js/issues/1512)) ([eb10b4c](https://github.com/Esri/hub.js/commit/eb10b4c67e55294006c8bc56ea6965401ca6cf89))
+
 # @esri/hub-common [14.129.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.128.0...@esri/hub-common@14.129.0) (2024-05-13)
 
 
