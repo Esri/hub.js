@@ -156,6 +156,10 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:license:enterprise",
     licenses: ["enterprise-sites"],
   },
+  {
+    permission: "hub:availability:alpha",
+    availability: ["alpha"],
+  },
 ];
 
 /**
