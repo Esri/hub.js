@@ -121,16 +121,16 @@ export function createSiteModelFromTemplate(
       }
 
       // create the initiative
-      let handleInitiative = Promise.resolve(null);
+      const handleInitiative = Promise.resolve(null);
 
-      if (product !== "portal") {
-        handleInitiative = _createSiteInitiative(
-          template,
-          settings,
-          transforms,
-          hubRequestOptions
-        );
-      }
+      // if (product !== "portal") {
+      //   handleInitiative = _createSiteInitiative(
+      //     template,
+      //     settings,
+      //     transforms,
+      //     hubRequestOptionsclear
+      //   );
+      // }
       return handleInitiative;
     })
     .then((maybeInitiative) => {
