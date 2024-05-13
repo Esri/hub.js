@@ -31,6 +31,7 @@ const SystemPermissions = [
   "hub:license:premium",
   "hub:license:basic",
   "hub:license:enterprise",
+  "hub:availability:alpha",
 ];
 
 const validPermissions = [
