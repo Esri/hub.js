@@ -1,15 +1,13 @@
-import { checkPermission } from "../..";
 import { IArcGISContext } from "../../ArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 import {
   IUiSchema,
   IUiSchemaElement,
   IUiSchemaMessage,
-  IUiSchemaRule,
   UiSchemaMessageTypes,
-  UiSchemaRuleEffects,
 } from "../../core/schemas/types";
 import { IHubEditableContent } from "../../core/types/IHubEditableContent";
+import { checkPermission } from "../../permissions/checkPermission";
 import { isHostedFeatureServiceEntity } from "../hostedServiceUtils";
 
 /**
@@ -72,7 +70,7 @@ export const buildUiSchema = async (
     if (options.access !== "public") {
       // Disable the schedule and force update controls
       scheduleControlElement.options.disabled = true;
-      forceUpdateControlElement.options.disabled = true;
+      forceUpdateControlElement.options.disabled = [true];
 
       // Add a notice to the bottom of the force update control
       forceUpdateControlElement.options.messages = [
