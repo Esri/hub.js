@@ -127,6 +127,14 @@ export type GetEventsParams = {
    */
   title?: string;
   /**
+   * Comma separated string list of read groupIds
+   */
+  readGroups?: string;
+  /**
+   * Comma separated string list of edit groupIds
+   */
+  editGroups?: string;
+  /**
    * the max amount of events to return
    */
   num?: string;
