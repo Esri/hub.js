@@ -1,3 +1,10 @@
+## @esri/hub-common [14.130.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.130.0...@esri/hub-common@14.130.1) (2024-05-14)
+
+
+### Bug Fixes
+
+* initiative fromEditor creates new initiatives before attempting … ([#1503](https://github.com/Esri/hub.js/issues/1503)) ([bbef6ab](https://github.com/Esri/hub.js/commit/bbef6ab72e1f71a0cbb81b8ec96ca91f74c525c7))
+
 # @esri/hub-common [14.130.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.129.0...@esri/hub-common@14.130.0) (2024-05-13)
 
 
