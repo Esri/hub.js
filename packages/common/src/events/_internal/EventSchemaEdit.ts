@@ -20,7 +20,7 @@ import { getDefaultEventDatesAndTimes } from "./getDefaultEventDatesAndTimes";
 export const buildSchema = (): IConfigurationSchema => {
   const { startDate: minStartDate } = getDefaultEventDatesAndTimes();
   return {
-    required: ["name", "description", "startDate", "endDate"],
+    required: ["name", "description", "startDate", "endDate", "timeZone"],
     properties: {
       name: ENTITY_NAME_SCHEMA,
       description: {
@@ -56,6 +56,9 @@ export const buildSchema = (): IConfigurationSchema => {
       isAllDay: {
         type: "boolean",
         default: false,
+      },
+      timeZone: {
+        type: "string",
       },
       onlineUrl: {
         type: "string",

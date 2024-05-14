@@ -1,3 +1,76 @@
+# @esri/hub-common [14.130.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.129.0...@esri/hub-common@14.130.0) (2024-05-13)
+
+
+### Bug Fixes
+
+* remove alpha gating from templates ([#1514](https://github.com/Esri/hub.js/issues/1514)) ([25fcca6](https://github.com/Esri/hub.js/commit/25fcca6a20a1641b832c5c4f58592c7033be1be7))
+
+
+### Features
+
+* **hub-common:** add timezone picker ([#1512](https://github.com/Esri/hub.js/issues/1512)) ([eb10b4c](https://github.com/Esri/hub.js/commit/eb10b4c67e55294006c8bc56ea6965401ca6cf89))
+
+# @esri/hub-common [14.129.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.128.0...@esri/hub-common@14.129.0) (2024-05-13)
+
+
+### Bug Fixes
+
+* **hub-common:** get events by groupid types ([#1513](https://github.com/Esri/hub.js/issues/1513)) ([b8d46a8](https://github.com/Esri/hub.js/commit/b8d46a81f63e6e6134fe083932a1882fb87ac752))
+
+
+### Features
+
+* add projectAndInitiative as a new collection ([#1511](https://github.com/Esri/hub.js/issues/1511)) ([fcf48e2](https://github.com/Esri/hub.js/commit/fcf48e2b1853490e5c49409010385572b31dad1b))
+
+# @esri/hub-common [14.128.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.127.2...@esri/hub-common@14.128.0) (2024-05-10)
+
+
+### Features
+
+* **hub-common:** removes hub:feature:gallery:map permission policy ([#1500](https://github.com/Esri/hub.js/issues/1500)) ([3c089e1](https://github.com/Esri/hub.js/commit/3c089e1b2b8ddfb92d1dd1e0bc20541e36817167))
+
+## @esri/hub-common [14.127.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.127.1...@esri/hub-common@14.127.2) (2024-05-09)
+
+
+### Bug Fixes
+
+* **hub-common:** fix force content endpoint ([#1509](https://github.com/Esri/hub.js/issues/1509)) ([f0283f0](https://github.com/Esri/hub.js/commit/f0283f0c087a02faad98cbfdd2dee1264ceacab2))
+
+## @esri/hub-common [14.127.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.127.0...@esri/hub-common@14.127.1) (2024-05-09)
+
+
+### Bug Fixes
+
+* add content to site propertyMap, allow more props on ICapabilityConfig ([#1508](https://github.com/Esri/hub.js/issues/1508)) ([c947301](https://github.com/Esri/hub.js/commit/c947301d2090e9e3a8a520e92a2026544cf18e15))
+
+# @esri/hub-common [14.127.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.126.4...@esri/hub-common@14.127.0) (2024-05-09)
+
+
+### Features
+
+* **hub-common:** add attendees settings pane ([#1475](https://github.com/Esri/hub.js/issues/1475)) ([0c49423](https://github.com/Esri/hub.js/commit/0c49423ff09d9d540f3598c2daddae00ed805c1a))
+
+## @esri/hub-common [14.126.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.126.3...@esri/hub-common@14.126.4) (2024-05-08)
+
+
+### Bug Fixes
+
+* **hub-common:** get-events dto enum array types ([#1507](https://github.com/Esri/hub.js/issues/1507)) ([fb2e67a](https://github.com/Esri/hub.js/commit/fb2e67a5eff93773412e3019e5c674e78c93f008))
+
+## @esri/hub-common [14.126.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.126.2...@esri/hub-common@14.126.3) (2024-05-08)
+
+
+### Bug Fixes
+
+* **hub-common:** fix undefined token when getting schedule ([#1506](https://github.com/Esri/hub.js/issues/1506)) ([7f8c782](https://github.com/Esri/hub.js/commit/7f8c78214f99401979bcc9c31507f85c2002fff5))
+
+## @esri/hub-common [14.126.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.126.1...@esri/hub-common@14.126.2) (2024-05-08)
+
+
+### Bug Fixes
+
+* **hub-common:** fix undefined token when getSchedule is called ([#1505](https://github.com/Esri/hub.js/issues/1505)) ([9be1d5f](https://github.com/Esri/hub.js/commit/9be1d5fa13471e3715ea3106f75df042e0e6b1c0))
+
 ## @esri/hub-common [14.126.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.126.0...@esri/hub-common@14.126.1) (2024-05-08)
 
 

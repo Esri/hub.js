@@ -988,7 +988,7 @@ export const forceUpdateContent = async (
   requestOptions: IUserRequestOptions
 ) => {
   const hubApiUrlRoot = getHubApiUrl(requestOptions);
-  const url = `${hubApiUrlRoot}/api/v3/jobs/item/${itemId}/harvest`;
+  const url = `${hubApiUrlRoot}/api/v3/jobs/item/${itemId}/forceUpdate`;
   const options = {
     method: "POST",
     headers: {

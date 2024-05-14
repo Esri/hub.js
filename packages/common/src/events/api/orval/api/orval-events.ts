@@ -5,8 +5,31 @@
  * Hub Events Service
  * OpenAPI spec version: 0.0.1
  */
-import { Awaited } from "../awaited-type";
 import { customClient } from "../custom-client";
+import { Awaited } from "../awaited-type";
+
+export interface IUpdateRegistration {
+  /** Role of the user in the event */
+  role?: RegistrationRole;
+  /** Status of the registration */
+  status?: RegistrationStatus;
+  /** Attendance type for this registration */
+  type?: EventAttendanceType;
+}
+
+export interface IPagedRegistrationResponse {
+  items: IRegistration[];
+  nextStart: number;
+  total: number;
+}
+
+export enum RegistrationSort {
+  createdAt = "createdAt",
+  updatedAt = "updatedAt",
+  firstName = "firstName",
+  lastName = "lastName",
+  username = "username",
+}
 export type GetRegistrationsParams = {
   /**
    * Event id being registered for
@@ -60,7 +83,7 @@ export type GetRegistrationsParams = {
 
 export type GetEventsParams = {
   /**
-   * Comma separated string list of EventAccess
+   * Comma separated string list of EventAccess. Example: PRIVATE,ORG,PUBLIC
    */
   access?: string;
   /**
@@ -68,11 +91,11 @@ export type GetEventsParams = {
    */
   entityIds?: string;
   /**
-   * Comma separated string list of associated entity types
+   * Comma separated string list of associated entity types. Example: associations,registrations,creator,addresses,onlineMeetings
    */
   entityTypes?: string;
   /**
-   * Comma separated string list of relation fields to include in response
+   * Comma separated string list of relation fields to include in response. Example: associations,registrations,creator,addresses,onlineMeetings
    */
   include?: string;
   /**
@@ -84,7 +107,7 @@ export type GetEventsParams = {
    */
   startDateTimeAfter?: string;
   /**
-   * Comma separated string list of AttendanceTypes
+   * Comma separated string list of AttendanceTypes. Example:  VIRTUAL,IN_PERSON
    */
   attendanceTypes?: string;
   /**
@@ -92,7 +115,7 @@ export type GetEventsParams = {
    */
   categories?: string;
   /**
-   * comma separated string list of event statuses
+   * comma separated string list of event statuses. Example: PRIVATE,ORG,PUBLIC
    */
   status?: string;
   /**
@@ -103,6 +126,14 @@ export type GetEventsParams = {
    * string to match within an event title
    */
   title?: string;
+  /**
+   * Comma separated string list of read groupIds
+   */
+  readGroups?: string;
+  /**
+   * Comma separated string list of edit groupIds
+   */
+  editGroups?: string;
   /**
    * the max amount of events to return
    */
@@ -121,28 +152,6 @@ export type GetEventsParams = {
   sortOrder?: SortOrder;
 };
 
-export interface IUpdateRegistration {
-  /** Role of the user in the event */
-  role?: RegistrationRole;
-  /** Status of the registration */
-  status?: RegistrationStatus;
-  /** Attendance type for this registration */
-  type?: EventAttendanceType;
-}
-
-export interface IPagedRegistrationResponse {
-  items: IRegistration[];
-  nextStart: number;
-  total: number;
-}
-
-export enum RegistrationSort {
-  createdAt = "createdAt",
-  updatedAt = "updatedAt",
-  firstName = "firstName",
-  lastName = "lastName",
-  username = "username",
-}
 export interface ICreateRegistration {
   /** ArcGIS Online id for a user. Will always be extracted from the token unless service token is used. */
   agoId?: string;

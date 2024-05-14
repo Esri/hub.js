@@ -5,8 +5,8 @@ import { expandApi } from "../../utils";
 import { shouldUseOgcApi } from "./shouldUseOgcApi";
 import { getOgcApiDefinition } from "./getOgcApiDefinition";
 import { shouldUseDiscussionsApi } from "./shouldUseDiscussionsApi";
-import { shouldUseEventsApi } from "./shouldUseEventsApi";
 import { getDiscussionsApiDefinition } from "./getDiscussionsApiDefinition";
+import { shouldUseEventsApi } from "./shouldUseEventsApi";
 
 /**
  * @private

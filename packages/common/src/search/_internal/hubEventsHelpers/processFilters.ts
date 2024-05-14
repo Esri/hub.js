@@ -1,36 +1,10 @@
-import { IFilter, IPredicate } from "../../types/IHubCatalog";
+import { IFilter } from "../../types/IHubCatalog";
 import {
   EventStatus,
   GetEventsParams,
 } from "../../../events/api/orval/api/orval-events";
-import { unique } from "../../../util";
-
-const getPredicateValuesByKey = (
-  filters: IFilter[],
-  predicateKey: string
-): any[] => {
-  const toPredicateValuesByKey = (a1: any[], filter: IFilter): any[] =>
-    filter.predicates.reduce<any[]>(
-      (a2, predicate) =>
-        Object.entries(predicate).reduce(
-          (a3, [key, val]) => (key === predicateKey ? [...a3, val] : a3),
-          a2
-        ),
-      a1
-    );
-  return filters.reduce(toPredicateValuesByKey, []);
-};
-
-const getOptionalPredicateStringsByKey = (
-  filters: IFilter[],
-  predicateKey: string
-): string => {
-  const predicateValues = getPredicateValuesByKey(filters, predicateKey);
-  const str = predicateValues.filter(unique).join(",");
-  if (str) {
-    return str;
-  }
-};
+import { getOptionalPredicateStringsByKey } from "./getOptionalPredicateStringsByKey";
+import { getPredicateValuesByKey } from "./getPredicateValuesByKey";
 
 /**
  * Builds a Partial<GetEventsParams> given an Array of IFilter objects
