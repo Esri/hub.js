@@ -1,3 +1,41 @@
+# @esri/hub-common [14.130.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.129.0...@esri/hub-common@14.130.0) (2024-05-13)
+
+
+### Bug Fixes
+
+* remove alpha gating from templates ([#1514](https://github.com/Esri/hub.js/issues/1514)) ([25fcca6](https://github.com/Esri/hub.js/commit/25fcca6a20a1641b832c5c4f58592c7033be1be7))
+
+
+### Features
+
+* **hub-common:** add timezone picker ([#1512](https://github.com/Esri/hub.js/issues/1512)) ([eb10b4c](https://github.com/Esri/hub.js/commit/eb10b4c67e55294006c8bc56ea6965401ca6cf89))
+
+# @esri/hub-common [14.129.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.128.0...@esri/hub-common@14.129.0) (2024-05-13)
+
+
+### Bug Fixes
+
+* **hub-common:** get events by groupid types ([#1513](https://github.com/Esri/hub.js/issues/1513)) ([b8d46a8](https://github.com/Esri/hub.js/commit/b8d46a81f63e6e6134fe083932a1882fb87ac752))
+
+
+### Features
+
+* add projectAndInitiative as a new collection ([#1511](https://github.com/Esri/hub.js/issues/1511)) ([fcf48e2](https://github.com/Esri/hub.js/commit/fcf48e2b1853490e5c49409010385572b31dad1b))
+
+# @esri/hub-common [14.128.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.127.2...@esri/hub-common@14.128.0) (2024-05-10)
+
+
+### Features
+
+* **hub-common:** removes hub:feature:gallery:map permission policy ([#1500](https://github.com/Esri/hub.js/issues/1500)) ([3c089e1](https://github.com/Esri/hub.js/commit/3c089e1b2b8ddfb92d1dd1e0bc20541e36817167))
+
+## @esri/hub-common [14.127.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.127.1...@esri/hub-common@14.127.2) (2024-05-09)
+
+
+### Bug Fixes
+
+* **hub-common:** fix force content endpoint ([#1509](https://github.com/Esri/hub.js/issues/1509)) ([f0283f0](https://github.com/Esri/hub.js/commit/f0283f0c087a02faad98cbfdd2dee1264ceacab2))
+
 ## @esri/hub-common [14.127.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.127.0...@esri/hub-common@14.127.1) (2024-05-09)
 
 

@@ -22,7 +22,6 @@ const TempPermissions = ["temp:workspace:released"];
 const SystemPermissions = [
   "hub:feature:privacy",
   "hub:feature:workspace",
-  "hub:feature:gallery:map",
   "hub:feature:user:preferences",
   "hub:card:follow",
   "hub:feature:workspace:umbrella",
