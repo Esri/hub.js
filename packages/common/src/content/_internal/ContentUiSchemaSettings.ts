@@ -51,29 +51,15 @@ export const buildUiSchema = async (
         ],
       },
     };
-    // force update checkbox -- TODO: replace with button once available
-    const forceUpdateControlElement: IUiSchemaElement = {
-      type: "Control",
-      scope: "/properties/_forceUpdate",
-      options: {
-        control: "hub-field-input-tile-select",
-        type: "checkbox",
-        labels: [
-          `{{${i18nScope}.fields.schedule.forceUpdateButton.label:translate}}`,
-        ],
-        descriptions: [
-          `{{${i18nScope}.fields.schedule.forceUpdateButton.description:translate}}`,
-        ],
-      },
-    };
+
+    const scheduleSectionElements: IUiSchemaElement[] = [
+      scheduleControlElement,
+    ];
 
     if (options.access !== "public") {
-      // Disable the schedule and force update controls
+      // Disable the schedule control and add the unavailable notice
       scheduleControlElement.options.disabled = true;
-      forceUpdateControlElement.options.disabled = [true];
-
-      // Add a notice to the bottom of the force update control
-      forceUpdateControlElement.options.messages = [
+      scheduleControlElement.options.messages = [
         {
           type: UiSchemaMessageTypes.custom,
           display: "notice",
@@ -85,12 +71,28 @@ export const buildUiSchema = async (
           alwaysShow: true,
         },
       ] as IUiSchemaMessage[];
+    } else {
+      // force update checkbox -- TODO: replace with button once available
+      scheduleSectionElements.push({
+        type: "Control",
+        scope: "/properties/_forceUpdate",
+        options: {
+          control: "hub-field-input-tile-select",
+          type: "checkbox",
+          labels: [
+            `{{${i18nScope}.fields.schedule.forceUpdateButton.label:translate}}`,
+          ],
+          descriptions: [
+            `{{${i18nScope}.fields.schedule.forceUpdateButton.description:translate}}`,
+          ],
+        },
+      });
     }
 
     uiSchema.elements.push({
       type: "Section",
       labelKey: `${i18nScope}.sections.schedule.label`,
-      elements: [scheduleControlElement, forceUpdateControlElement],
+      elements: scheduleSectionElements,
     });
   }
 

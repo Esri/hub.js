@@ -163,21 +163,6 @@ describe("buildUiSchema: content settings", () => {
                     helperActionText: `{{some.scope.fields.schedule.manual.helperActionText:translate}}`,
                   },
                 ],
-              },
-            },
-            {
-              type: "Control",
-              scope: "/properties/_forceUpdate",
-              options: {
-                control: "hub-field-input-tile-select",
-                disabled: [true],
-                type: "checkbox",
-                labels: [
-                  `{{some.scope.fields.schedule.forceUpdateButton.label:translate}}`,
-                ],
-                descriptions: [
-                  `{{some.scope.fields.schedule.forceUpdateButton.description:translate}}`,
-                ],
                 messages: [
                   {
                     type: "CUSTOM",
