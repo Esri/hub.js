@@ -594,6 +594,41 @@ describe("HubInitiative Class:", () => {
         expect(createSpy).not.toHaveBeenCalled();
         expect(upsertResourceSpy).toHaveBeenCalledTimes(1);
       });
+      it("handles setting featured image on creation", async () => {
+        const chk = HubInitiative.fromJson(
+          {
+            name: "Test Entity",
+          },
+          authdCtxMgr.context
+        );
+        const editor = await chk.toEditor();
+        editor.view = {
+          featuredImage: {
+            blob: "some blob",
+            filename: "some-featuredImage.png",
+          },
+        };
+        const upsertResourceSpy = spyOn(
+          upsertResourceModule,
+          "upsertResource"
+        ).and.returnValue(
+          Promise.resolve("https://blah.com/some-featuredImage.png")
+        );
+
+        editor.access = "org";
+
+        const accessSpy = spyOn(
+          HubItemEntity.prototype,
+          "setAccess"
+        ).and.returnValue(Promise.resolve());
+
+        await chk.fromEditor(editor);
+        expect(createSpy).toHaveBeenCalledTimes(1);
+        expect(updateSpy).toHaveBeenCalledTimes(1);
+        expect(upsertResourceSpy).toHaveBeenCalledTimes(1);
+        expect(accessSpy).toHaveBeenCalledTimes(1);
+        expect(accessSpy).toHaveBeenCalledWith("org");
+      });
       it("handles setting featured image and clearing prior image", async () => {
         const chk = HubInitiative.fromJson(
           {
