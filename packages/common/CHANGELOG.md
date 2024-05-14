@@ -1,3 +1,10 @@
+# @esri/hub-common [14.131.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.130.1...@esri/hub-common@14.131.0) (2024-05-14)
+
+
+### Features
+
+* **hub-common:** show disabled scheduler setting with advisory notice for private items ([#1510](https://github.com/Esri/hub.js/issues/1510)) ([6d856aa](https://github.com/Esri/hub.js/commit/6d856aadd7058e20e04eabb0f484ea13c723b6da))
+
 ## @esri/hub-common [14.130.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.130.0...@esri/hub-common@14.130.1) (2024-05-14)
 
 
