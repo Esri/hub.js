@@ -1,3 +1,10 @@
+# @esri/hub-sites [14.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@14.2.4...@esri/hub-sites@14.3.0) (2024-05-15)
+
+
+### Features
+
+* remove props from site and page draft whitelists ([#1516](https://github.com/Esri/hub.js/issues/1516)) ([3b31602](https://github.com/Esri/hub.js/commit/3b316029e1b49c99c4163a84f5a9461a4bb22407))
+
 ## @esri/hub-sites [14.2.4](https://github.com/Esri/hub.js/compare/@esri/hub-sites@14.2.3...@esri/hub-sites@14.2.4) (2024-03-26)
 
 
