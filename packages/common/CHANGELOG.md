@@ -1,3 +1,10 @@
+# @esri/hub-common [14.132.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.131.0...@esri/hub-common@14.132.0) (2024-05-16)
+
+
+### Features
+
+* **hub-common:** add isHubHome prop ([#1518](https://github.com/Esri/hub.js/issues/1518)) ([f0bbf49](https://github.com/Esri/hub.js/commit/f0bbf498dacf14e7348617010d00bb7f8efed1ef))
+
 # @esri/hub-common [14.131.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.130.1...@esri/hub-common@14.131.0) (2024-05-14)
 
 
