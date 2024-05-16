@@ -79,6 +79,11 @@ export interface IHubSite
 
   /** Legacy teams - list of ids */
   legacyTeams: string[];
+
+  /**
+   * Whether or not the site is an org site--should be removed when no longer necessary
+   */
+  isHubHome: boolean;
 }
 
 export type IHubSiteEditor = IHubItemEntityEditor<IHubSite> & {

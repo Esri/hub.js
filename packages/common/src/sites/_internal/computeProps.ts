@@ -42,6 +42,10 @@ export function computeProps(
   site.updatedDate = new Date(model.item.modified);
   site.updatedDateSource = "item.modified";
   site.isDiscussable = isDiscussable(site);
+
+  // set isHubHome
+  site.isHubHome = Boolean(model.item.properties?.isHubHome);
+
   /**
    * Features that can be disabled by the entity owner
    */
