@@ -81,7 +81,7 @@ export interface IHubSite
   legacyTeams: string[];
 
   /**
-   * Whether or not the site is an org site--should be removed when no longer necessary
+   * True when the site is a "Hub Home" site
    */
   isHubHome: boolean;
 }
