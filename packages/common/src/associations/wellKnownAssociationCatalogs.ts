@@ -160,17 +160,25 @@ export const getAvailableToRequestAssociationCatalogs = (
     entity,
     associationType
   )?.filters;
-  const catalogNames: WellKnownCatalog[] = [
-    "myContent",
-    "favorites",
-    "organization",
-    "world",
-  ];
+  // Get trusted orgs that aren't the current user's org or the community org
+  const trustedOrgIds =
+    context.trustedOrgIds &&
+    context?.trustedOrgIds.filter((orgId) => {
+      return (
+        orgId !== context?.currentUser?.orgId &&
+        orgId !== context?.communityOrgId
+      );
+    });
+  const catalogNames: WellKnownCatalog[] = ["myContent", "organization"];
+  if (trustedOrgIds && trustedOrgIds.length > 0) {
+    catalogNames.push("partners");
+  }
   return catalogNames.map((name: WellKnownCatalog) => {
     const options: IGetWellKnownCatalogOptions = {
       user: context.currentUser,
       filters,
       collectionNames: [associationType as WellKnownCollection],
+      trustedOrgIds,
     };
     return getWellKnownCatalog(i18nScope, name, "item", options);
   });

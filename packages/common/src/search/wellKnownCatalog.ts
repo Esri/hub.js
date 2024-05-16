@@ -16,7 +16,8 @@ export type WellKnownCatalog =
   | "world"
   | "editGroups"
   | "viewGroups"
-  | "allGroups";
+  | "allGroups"
+  | "partners";
 
 /**
  * This is used to determine what IHubCollection definition JSON object
@@ -40,6 +41,8 @@ export interface IGetWellKnownCatalogOptions {
   collectionNames?: WellKnownCollection[];
   /** additional filters to apply to the catalog scope */
   filters?: IFilter[];
+  /** partnered org ids that catalog might need */
+  trustedOrgIds?: string[];
 }
 
 /**
@@ -144,6 +147,26 @@ function getWellknownItemCatalog(
         i18nScope,
         catalogName,
         [{ predicates: [{ orgid: options.user.orgId }] }, ...additionalFilters],
+        collections,
+        "item"
+      );
+      break;
+    case "partners":
+      validateUserExistence(catalogName, options);
+      catalog = buildCatalog(
+        i18nScope,
+        catalogName,
+        [
+          {
+            predicates: [
+              {
+                orgid: options.trustedOrgIds,
+                searchUserAccess: "includeTrustedOrgs",
+              },
+            ],
+          },
+          ...additionalFilters,
+        ],
         collections,
         "item"
       );
