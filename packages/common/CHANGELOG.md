@@ -1,3 +1,10 @@
+# @esri/hub-common [14.133.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.132.0...@esri/hub-common@14.133.0) (2024-05-17)
+
+
+### Features
+
+* add license permissions ([#1493](https://github.com/Esri/hub.js/issues/1493)) ([53d2bcb](https://github.com/Esri/hub.js/commit/53d2bcb74c9fccdb7ed3d6374d3cbdf7ecfde32d))
+
 # @esri/hub-common [14.132.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.131.0...@esri/hub-common@14.132.0) (2024-05-16)
 
 
