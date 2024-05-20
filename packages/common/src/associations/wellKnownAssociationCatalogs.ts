@@ -160,18 +160,27 @@ export const getAvailableToRequestAssociationCatalogs = (
     entity,
     associationType
   )?.filters;
+  // Get Community org id. If the current org is a community org, use the first trusted org id, otherwise fall back to the communityOrgId
+  const communityOrgId = context?.isCommunityOrg
+    ? context?.trustedOrgIds[0]
+    : context?.communityOrgId;
   // Get trusted orgs that aren't the current user's org or the community org
   const trustedOrgIds =
-    context.trustedOrgIds &&
-    context?.trustedOrgIds.filter((orgId) => {
+    context?.trustedOrgIds?.filter((orgId) => {
       return (
         orgId !== context?.currentUser?.orgId &&
         orgId !== context?.communityOrgId
       );
-    });
+    }) || [];
+  // Default catalogs to include
   const catalogNames: WellKnownCatalog[] = ["myContent", "organization"];
+  // If there are trusted orgs, include the partners catalog
   if (trustedOrgIds && trustedOrgIds.length > 0) {
     catalogNames.push("partners");
+  }
+  // If there is a community org id, include the community catalog
+  if (communityOrgId) {
+    catalogNames.push("community");
   }
   return catalogNames.map((name: WellKnownCatalog) => {
     const options: IGetWellKnownCatalogOptions = {
@@ -179,6 +188,7 @@ export const getAvailableToRequestAssociationCatalogs = (
       filters,
       collectionNames: [associationType as WellKnownCollection],
       trustedOrgIds,
+      communityOrgId,
     };
     return getWellKnownCatalog(i18nScope, name, "item", options);
   });
