@@ -175,9 +175,7 @@ export const getAvailableToRequestAssociationCatalogs = (
   // Get trusted orgs that aren't the current user's org or the community org
   const trustedOrgIds =
     context.trustedOrgIds?.filter((orgId) => {
-      return (
-        orgId !== context.currentUser?.orgId && orgId !== context.communityOrgId
-      );
+      return orgId !== context.currentUser?.orgId && orgId !== communityOrgId;
     }) || [];
   // Default catalogs to include
   const catalogNames: WellKnownCatalog[] = ["myContent", "organization"];
