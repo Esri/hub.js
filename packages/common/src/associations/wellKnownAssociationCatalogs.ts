@@ -174,13 +174,13 @@ export const getAvailableToRequestAssociationCatalogs = (
     }) || [];
   // Default catalogs to include
   const catalogNames: WellKnownCatalog[] = ["myContent", "organization"];
-  // If there are trusted orgs, include the partners catalog
-  if (trustedOrgIds && trustedOrgIds.length > 0) {
-    catalogNames.push("partners");
-  }
   // If there is a community org id, include the community catalog
   if (communityOrgId) {
     catalogNames.push("community");
+  }
+  // If there are trusted orgs, include the partners catalog
+  if (trustedOrgIds && trustedOrgIds.length > 0) {
+    catalogNames.push("partners");
   }
   return catalogNames.map((name: WellKnownCatalog) => {
     const options: IGetWellKnownCatalogOptions = {
