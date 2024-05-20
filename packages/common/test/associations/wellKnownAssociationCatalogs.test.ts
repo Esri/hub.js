@@ -163,9 +163,9 @@ describe("getAvailableToRequestAssociationCatalogs", () => {
       "getWellKnownCatalog"
     ).and.returnValues(
       { schemaVersion: 1, title: "mock-myContent" },
-      { schemaVersion: 1, title: "mock-favorites" },
       { schemaVersion: 1, title: "mock-organization" },
-      { schemaVersion: 1, title: "mock-world" }
+      { schemaVersion: 1, title: "mock-community" },
+      { schemaVersion: 1, title: "mock-partners" }
     );
   });
   afterEach(() => {
@@ -206,7 +206,10 @@ describe("getAvailableToRequestAssociationCatalogs", () => {
       "some-scope",
       { type: "Hub Project" } as HubEntity,
       "initiative",
-      {} as ArcGISContext
+      {
+        trustedOrgIds: ["abc123", "def456", "ghi789"],
+        communityOrgId: "mock-community-org",
+      } as ArcGISContext
     );
 
     expect(getAvailableToRequestEntitiesQuerySpy).toHaveBeenCalledTimes(1);
@@ -214,9 +217,32 @@ describe("getAvailableToRequestAssociationCatalogs", () => {
     expect(catalogs.length).toBe(4);
     expect(catalogs).toEqual([
       { schemaVersion: 1, title: "mock-myContent" },
-      { schemaVersion: 1, title: "mock-favorites" },
       { schemaVersion: 1, title: "mock-organization" },
-      { schemaVersion: 1, title: "mock-world" },
+      { schemaVersion: 1, title: "mock-community" },
+      { schemaVersion: 1, title: "mock-partners" },
+    ]);
+  });
+  it('returns an array of valid "availableToRequest" catalogs in a community org', async () => {
+    const catalogs = await getAvailableToRequestAssociationCatalogs(
+      "some-scope",
+      { type: "Hub Project" } as HubEntity,
+      "initiative",
+      {
+        currentUser: { orgId: "abc123" },
+        isCommunityOrg: true,
+        trustedOrgIds: ["abc123", "def456", "ghi789"],
+        trustedOrgs: [{ from: { orgId: "abc123" }, to: { orgId: "def456" } }],
+      } as ArcGISContext
+    );
+
+    expect(getAvailableToRequestEntitiesQuerySpy).toHaveBeenCalledTimes(1);
+    expect(getWellknownCatalogSpy).toHaveBeenCalledTimes(4);
+    expect(catalogs.length).toBe(4);
+    expect(catalogs).toEqual([
+      { schemaVersion: 1, title: "mock-myContent" },
+      { schemaVersion: 1, title: "mock-organization" },
+      { schemaVersion: 1, title: "mock-community" },
+      { schemaVersion: 1, title: "mock-partners" },
     ]);
   });
 });

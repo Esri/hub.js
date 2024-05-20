@@ -16,6 +16,8 @@ describe("WellKnownCatalog", () => {
       options = {
         user: mockUser,
         collectionNames: [],
+        trustedOrgIds: ["abc123", "def456"],
+        communityOrgId: "communityOrgId",
       };
     });
     it("returns the expected catalog for items", () => {
@@ -41,6 +43,32 @@ describe("WellKnownCatalog", () => {
       expect(chk.scopes).toBeDefined();
       expect(chk.scopes?.item?.filters).toEqual([
         { predicates: [{ group: "7654321" }] },
+      ]);
+      expect(chk.collections?.map((c) => c.key)).toEqual([
+        "appAndMap",
+        "dataset",
+        "document",
+        "feedback",
+        "site",
+        "project",
+      ]);
+      chk = getWellKnownCatalog("mockI18nScope", "partners", "item", options);
+      expect(chk.scopes).toBeDefined();
+      expect(chk.scopes?.item?.filters[0].predicates).toEqual([
+        { orgid: ["abc123", "def456"], searchUserAccess: "includeTrustedOrgs" },
+      ]);
+      expect(chk.collections?.map((c) => c.key)).toEqual([
+        "appAndMap",
+        "dataset",
+        "document",
+        "feedback",
+        "site",
+        "project",
+      ]);
+      chk = getWellKnownCatalog("mockI18nScope", "community", "item", options);
+      expect(chk.scopes).toBeDefined();
+      expect(chk.scopes?.item?.filters).toEqual([
+        { predicates: [{ orgid: "communityOrgId" }] },
       ]);
       expect(chk.collections?.map((c) => c.key)).toEqual([
         "appAndMap",
