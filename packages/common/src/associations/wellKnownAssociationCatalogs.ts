@@ -161,15 +161,22 @@ export const getAvailableToRequestAssociationCatalogs = (
     associationType
   )?.filters;
   // Get Community org id. If the current org is a community org, use the first trusted org id, otherwise fall back to the communityOrgId
-  const communityOrgId = context?.isCommunityOrg
-    ? context?.trustedOrgIds[0]
-    : context?.communityOrgId;
+  // First pull out the community org / enterprise org relationship
+  const communityTrustedOrgRelationship = context.trustedOrgs?.find(
+    (org) => org.from.orgId === context.currentUser.orgId
+  );
+  // If we are in a community org, and there is a trusted org relationship, use the orgId from there (which would be the enterprise org id)
+  // Otherwise, use the community org id
+  // If neither exist, the communityOrgId will be undefined (which is fine, as it will not be added as a catalog in that case)
+  const communityOrgId =
+    context.isCommunityOrg && communityTrustedOrgRelationship
+      ? communityTrustedOrgRelationship.to.orgId
+      : context.communityOrgId;
   // Get trusted orgs that aren't the current user's org or the community org
   const trustedOrgIds =
-    context?.trustedOrgIds?.filter((orgId) => {
+    context.trustedOrgIds?.filter((orgId) => {
       return (
-        orgId !== context?.currentUser?.orgId &&
-        orgId !== context?.communityOrgId
+        orgId !== context.currentUser?.orgId && orgId !== context.communityOrgId
       );
     }) || [];
   // Default catalogs to include
