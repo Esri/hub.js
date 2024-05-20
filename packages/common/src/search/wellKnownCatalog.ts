@@ -4,6 +4,7 @@ import { HubFamily } from "../types";
 import { EntityType, IFilter, IHubCatalog, IHubCollection } from "./types";
 import { buildCatalog } from "./_internal/buildCatalog";
 import { getProp } from "../objects";
+import { IArcGISContext } from "..";
 
 /**
  * This is used to determine what IHubCatalog definition JSON object
@@ -42,10 +43,7 @@ export interface IGetWellKnownCatalogOptions {
   collectionNames?: WellKnownCollection[];
   /** additional filters to apply to the catalog scope */
   filters?: IFilter[];
-  /** partnered org ids that catalog might need */
-  trustedOrgIds?: string[];
-  /** community org id that catalog might need */
-  communityOrgId?: string;
+  context?: IArcGISContext;
 }
 
 /**
@@ -112,6 +110,7 @@ function getWellknownItemCatalog(
   i18nScope = dotifyString(i18nScope);
   let catalog;
   const additionalFilters = getProp(options, "filters") || [];
+  const context = getProp(options, "context");
   const collections = getWellknownCollections(
     i18nScope,
     "item",
@@ -156,36 +155,53 @@ function getWellknownItemCatalog(
       break;
     case "partners":
       validateUserExistence(catalogName, options);
-      catalog = buildCatalog(
-        i18nScope,
-        catalogName,
-        [
-          {
-            predicates: [
-              {
-                orgid: options.trustedOrgIds,
-                searchUserAccess: "includeTrustedOrgs",
-              },
-            ],
-          },
-          ...additionalFilters,
-        ],
-        collections,
-        "item"
-      );
+      // Get trusted orgs that aren't the current user's org or the community org
+      const trustedOrgIds =
+        context.trustedOrgIds?.filter((orgId: string) => {
+          return (
+            orgId !== context.currentUser?.orgId &&
+            orgId !== _getCommunityOrgId(context)
+          );
+        }) || [];
+      // only build the catalog if there are trusted orgs
+      if (trustedOrgIds.length) {
+        catalog = buildCatalog(
+          i18nScope,
+          catalogName,
+          [
+            {
+              predicates: [
+                {
+                  orgid: trustedOrgIds,
+                  searchUserAccess: "includeTrustedOrgs",
+                },
+              ],
+            },
+            ...additionalFilters,
+          ],
+          collections,
+          "item"
+        );
+      }
       break;
     case "community":
       validateUserExistence(catalogName, options);
-      catalog = buildCatalog(
-        i18nScope,
-        catalogName,
-        [
-          { predicates: [{ orgid: options.communityOrgId }] },
-          ...additionalFilters,
-        ],
-        collections,
-        "item"
-      );
+      const communityOrgId = _getCommunityOrgId(context);
+      // only build the catalog if there is a community org id
+      if (communityOrgId) {
+        catalog = buildCatalog(
+          i18nScope,
+          catalogName,
+          [{ predicates: [{ orgid: communityOrgId }] }, ...additionalFilters],
+          collections,
+          "item",
+          // If we're in a community org, use the community org name
+          // as the catalog title
+          context.isCommunityOrg
+            ? _getCommunityOrgName(communityOrgId, context)
+            : undefined
+        );
+      }
       break;
     case "world":
       catalog = buildCatalog(
@@ -201,6 +217,34 @@ function getWellknownItemCatalog(
       break;
   }
   return catalog;
+}
+
+// Note: not entirely sure where this and the next function should
+// live. They could be exported as standlone utils?
+function _getCommunityOrgId(context: IArcGISContext): string {
+  // extract the community org / enterprise org relationship
+  const communityTrustedOrgRelationship = context.trustedOrgs?.find(
+    (org) => org.from.orgId === context.currentUser.orgId
+  );
+
+  // if we're in a community org, and there is a trusted org
+  // relationship, use the orgId from there (which would be
+  // the enterprise org id). Otherwise, use the community org id
+  return context.isCommunityOrg && communityTrustedOrgRelationship
+    ? communityTrustedOrgRelationship.to.orgId
+    : context.communityOrgId;
+}
+
+function _getCommunityOrgName(
+  communityOrgId: string,
+  context: IArcGISContext
+): string {
+  // extract the community org / enterprise org relationship
+  const communityTrustedOrgRelationship = context.trustedOrgs?.find(
+    (org) => org.to.orgId === communityOrgId
+  );
+
+  return communityTrustedOrgRelationship.to.name;
 }
 
 /**

@@ -160,41 +160,21 @@ export const getAvailableToRequestAssociationCatalogs = (
     entity,
     associationType
   )?.filters;
-  // Get Community org id. If the current org is a community org, use the first trusted org id, otherwise fall back to the communityOrgId
-  // First pull out the community org / enterprise org relationship
-  const communityTrustedOrgRelationship = context.trustedOrgs?.find(
-    (org) => org.from.orgId === context.currentUser.orgId
-  );
-  // If we are in a community org, and there is a trusted org relationship, use the orgId from there (which would be the enterprise org id)
-  // Otherwise, use the community org id
-  // If neither exist, the communityOrgId will be undefined (which is fine, as it will not be added as a catalog in that case)
-  const communityOrgId =
-    context.isCommunityOrg && communityTrustedOrgRelationship
-      ? communityTrustedOrgRelationship.to.orgId
-      : context.communityOrgId;
-  // Get trusted orgs that aren't the current user's org or the community org
-  const trustedOrgIds =
-    context.trustedOrgIds?.filter((orgId) => {
-      return orgId !== context.currentUser?.orgId && orgId !== communityOrgId;
-    }) || [];
-  // Default catalogs to include
-  const catalogNames: WellKnownCatalog[] = ["myContent", "organization"];
-  // If there is a community org id, include the community catalog
-  if (communityOrgId) {
-    catalogNames.push("community");
-  }
-  // If there are trusted orgs, include the partners catalog
-  if (trustedOrgIds && trustedOrgIds.length > 0) {
-    catalogNames.push("partners");
-  }
-  return catalogNames.map((name: WellKnownCatalog) => {
-    const options: IGetWellKnownCatalogOptions = {
-      user: context.currentUser,
-      filters,
-      collectionNames: [associationType as WellKnownCollection],
-      trustedOrgIds,
-      communityOrgId,
-    };
-    return getWellKnownCatalog(i18nScope, name, "item", options);
-  });
+  const catalogNames: WellKnownCatalog[] = [
+    "myContent",
+    "organization",
+    "community",
+    "partners",
+  ];
+  return catalogNames
+    .map((name: WellKnownCatalog) => {
+      const options: IGetWellKnownCatalogOptions = {
+        user: context.currentUser,
+        filters,
+        collectionNames: [associationType as WellKnownCollection],
+        context,
+      };
+      return getWellKnownCatalog(i18nScope, name, "item", options);
+    })
+    .filter(Boolean);
 };

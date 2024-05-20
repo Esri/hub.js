@@ -8,6 +8,7 @@ import { EntityType, IFilter, IHubCatalog, IHubCollection } from "../types";
  * @param catalogName - well known catalog name
  * @param filters - filters to build the catalog scope
  * @param collections - collections to include in the catalog
+ * @param title - optional hard-coded title for catalog
  * @returns {IHubCatalog}
  */
 export function buildCatalog(
@@ -15,7 +16,8 @@ export function buildCatalog(
   catalogName: string,
   filters: IFilter[],
   collections: IHubCollection[],
-  targetEntity: EntityType
+  targetEntity: EntityType,
+  title?: string
 ): IHubCatalog {
   const scopes = {
     [targetEntity]: {
@@ -25,7 +27,7 @@ export function buildCatalog(
   };
   return {
     schemaVersion: 1,
-    title: `{{${i18nScope}catalog.${catalogName}:translate}}`,
+    title: title || `{{${i18nScope}catalog.${catalogName}:translate}}`,
     scopes,
     collections,
   };
