@@ -162,19 +162,12 @@ describe("EventUiSchemaEdit", () => {
                 type: "Control",
                 options: {
                   control: "hub-field-input-date",
-                  min: "2024-04-03",
                   messages: [
                     {
                       type: "ERROR",
                       keyword: "required",
                       icon: true,
                       labelKey: `myI18nScope.fields.startDate.requiredError`,
-                    },
-                    {
-                      type: "ERROR",
-                      keyword: "formatMinimum",
-                      icon: true,
-                      labelKey: `myI18nScope.fields.startDate.minDateError`,
                     },
                   ],
                 },
@@ -185,19 +178,12 @@ describe("EventUiSchemaEdit", () => {
                 type: "Control",
                 options: {
                   control: "hub-field-input-date",
-                  min: "2024-04-03",
                   messages: [
                     {
                       type: "ERROR",
                       keyword: "required",
                       icon: true,
                       labelKey: `myI18nScope.fields.endDate.requiredError`,
-                    },
-                    {
-                      type: "ERROR",
-                      keyword: "formatMinimum",
-                      icon: true,
-                      labelKey: `myI18nScope.fields.endDate.minDateError`,
                     },
                   ],
                 },
