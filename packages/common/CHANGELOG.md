@@ -1,3 +1,10 @@
+## @esri/hub-common [14.133.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.133.0...@esri/hub-common@14.133.1) (2024-05-21)
+
+
+### Bug Fixes
+
+* **hub-common:** enable editing for past events ([#1521](https://github.com/Esri/hub.js/issues/1521)) ([8d66da4](https://github.com/Esri/hub.js/commit/8d66da4294eb613fd314feb0244ccbf43b9ab8b6))
+
 # @esri/hub-common [14.133.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.132.0...@esri/hub-common@14.133.0) (2024-05-17)
 
 
