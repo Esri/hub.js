@@ -16,7 +16,12 @@ import {
   ISpatialReference,
   IUser,
 } from "@esri/arcgis-rest-types";
-import { IHubContent, IHubLocation, PublisherSource } from "../../core";
+import {
+  IHubContent,
+  IHubLocation,
+  PublisherSource,
+  getTypeFromEntity,
+} from "../../core";
 import {
   IHubGeography,
   GeographyProvenance,
@@ -231,9 +236,10 @@ export const isProxiedCSV = (
  */
 export const getHubRelativeUrl = (
   type: string,
-  identifier: string,
+  identifier?: string,
   typeKeywords?: string[]
 ): string => {
+  const entityType = getTypeFromEntity({ type });
   // solution types have their own logic
   let contentUrl =
     getSolutionUrl(type, identifier, typeKeywords) ||
@@ -254,8 +260,12 @@ export const getHubRelativeUrl = (
     // default to the catchall content route
     let path = "/content";
     if (family === "feedback") {
-      // the exception
-      path = "/feedback/surveys";
+      if (identifier) {
+        // the exception
+        path = "/feedback/surveys";
+      } else {
+        path = "";
+      }
     } else if (isPageType(type, typeKeywords)) {
       // pages are in the document family,
       // but instead of showing the page's metadata on /documents/about
@@ -265,7 +275,16 @@ export const getHubRelativeUrl = (
       // the rule: route name is plural of family name
       path = `/${family}s`;
     }
-    contentUrl = `${path}/${identifier}`;
+    if (identifier) {
+      contentUrl = `${path}/${identifier}`;
+    } else {
+      contentUrl = `${path}`;
+    }
+    const entitiesHaveEntityTypeView = ["initiative", "project", "content"];
+
+    if (!identifier && !entitiesHaveEntityTypeView.includes(entityType)) {
+      contentUrl = "";
+    }
   }
   return contentUrl;
 };
