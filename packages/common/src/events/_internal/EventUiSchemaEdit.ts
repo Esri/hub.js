@@ -105,6 +105,12 @@ export const buildUiSchema = async (
                   icon: true,
                   labelKey: `${i18nScope}.fields.endDate.requiredError`,
                 },
+                {
+                  type: "ERROR",
+                  keyword: "formatMinimum",
+                  icon: true,
+                  labelKey: `${i18nScope}.fields.endDate.minDateError`,
+                },
               ],
             },
           },
