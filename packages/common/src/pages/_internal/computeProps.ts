@@ -9,6 +9,7 @@ import { getItemHomeUrl } from "../../urls/get-item-home-url";
 import { IHubPage } from "../../core/types/IHubPage";
 import { getRelativeWorkspaceUrl } from "../../core/getRelativeWorkspaceUrl";
 import { computeBaseProps } from "../../core/_internal/computeBaseProps";
+import { getHubRelativeUrl } from "../../content/_internal/internalContentUtils";
 
 /**
  * Given a model and a page, set various computed properties that can't be directly mapped
@@ -37,6 +38,7 @@ export function computeProps(
   page.links = {
     self: getItemHomeUrl(page.id, requestOptions),
     siteRelative: `/pages/${page.id}`,
+    siteRelativeEntityType: getHubRelativeUrl(page.type),
     workspaceRelative: getRelativeWorkspaceUrl("page", page.id),
     layoutRelative: `/pages/${page.id}/edit`,
     thumbnail: thumbnailUrl,
