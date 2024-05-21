@@ -82,19 +82,12 @@ export const buildUiSchema = async (
             type: "Control",
             options: {
               control: "hub-field-input-date",
-              min: minStartEndDate,
               messages: [
                 {
                   type: "ERROR",
                   keyword: "required",
                   icon: true,
                   labelKey: `${i18nScope}.fields.startDate.requiredError`,
-                },
-                {
-                  type: "ERROR",
-                  keyword: "formatMinimum",
-                  icon: true,
-                  labelKey: `${i18nScope}.fields.startDate.minDateError`,
                 },
               ],
             },
@@ -105,7 +98,6 @@ export const buildUiSchema = async (
             type: "Control",
             options: {
               control: "hub-field-input-date",
-              min: minStartEndDate,
               messages: [
                 {
                   type: "ERROR",

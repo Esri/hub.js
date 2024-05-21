@@ -38,7 +38,6 @@ export const buildSchema = (): IConfigurationSchema => {
       startDate: {
         type: "string",
         format: "date",
-        formatMinimum: minStartDate,
       },
       endDate: {
         type: "string",
