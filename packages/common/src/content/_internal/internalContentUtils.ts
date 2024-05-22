@@ -246,8 +246,8 @@ export const getHubRelativeUrl = (
   let contentUrl =
     getSolutionUrl(type, identifier, typeKeywords) ||
     getInitiativeTemplateUrl(type, identifier, typeKeywords);
+  const family = getFamily(type);
   if (!contentUrl) {
-    const family = getFamily(type);
     const familiesWithPluralizedRoute = [
       "app",
       "dataset",
@@ -273,15 +273,14 @@ export const getHubRelativeUrl = (
       // the rule: route name is plural of family name
       path = `/${family}s`;
     }
-
     contentUrl = identifier ? `${path}/${identifier}` : `${path}`;
-    const entitiesHaveEntitiesRoute = ["initiative", "project", "content"];
-    const entityType = getTypeFromEntity({ type });
-    // if there is no identifier and the entity does not have the entities route
-    // set up, do not return an url
-    if (!identifier && !entitiesHaveEntitiesRoute.includes(entityType)) {
-      contentUrl = "";
-    }
+  }
+  // TODO: once an entity has its entities route set up, add it to this list
+  const entitiesHaveEntitiesRoute = ["initiative", "project"];
+  // if there is no identifier and the entity does not have the entities route
+  // set up, do not return an url
+  if (!identifier && !entitiesHaveEntitiesRoute.includes(family)) {
+    contentUrl = "";
   }
   return contentUrl;
 };
