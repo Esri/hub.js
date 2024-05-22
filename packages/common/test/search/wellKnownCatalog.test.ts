@@ -1,4 +1,4 @@
-import { EntityType } from "../../src";
+import { ArcGISContext, EntityType } from "../../src";
 import {
   getWellKnownCatalog,
   getWellknownCollection,
@@ -16,8 +16,18 @@ describe("WellKnownCatalog", () => {
       options = {
         user: mockUser,
         collectionNames: [],
-        trustedOrgIds: ["abc123", "def456"],
-        communityOrgId: "communityOrgId",
+        context: {
+          currentUser: { orgId: "abc123" },
+          isCommunityOrg: false,
+          communityOrgId: "def456",
+          trustedOrgIds: ["abc123", "def456", "ghi789", "kjl012", "mno345"],
+          trustedOrgs: [
+            {
+              from: { orgId: "abc123" },
+              to: { orgId: "def456", name: "c-org name" },
+            },
+          ],
+        } as ArcGISContext,
       };
     });
     it("returns the expected catalog for items", () => {
@@ -52,32 +62,192 @@ describe("WellKnownCatalog", () => {
         "site",
         "project",
       ]);
-      chk = getWellKnownCatalog("mockI18nScope", "partners", "item", options);
-      expect(chk.scopes).toBeDefined();
-      expect(chk.scopes?.item?.filters[0].predicates).toEqual([
-        { orgid: ["abc123", "def456"], searchUserAccess: "includeTrustedOrgs" },
-      ]);
-      expect(chk.collections?.map((c) => c.key)).toEqual([
-        "appAndMap",
-        "dataset",
-        "document",
-        "feedback",
-        "site",
-        "project",
-      ]);
-      chk = getWellKnownCatalog("mockI18nScope", "community", "item", options);
-      expect(chk.scopes).toBeDefined();
-      expect(chk.scopes?.item?.filters).toEqual([
-        { predicates: [{ orgid: "communityOrgId" }] },
-      ]);
-      expect(chk.collections?.map((c) => c.key)).toEqual([
-        "appAndMap",
-        "dataset",
-        "document",
-        "feedback",
-        "site",
-        "project",
-      ]);
+    });
+    describe("handles partners catalog for items", () => {
+      it("passes for e-org w/ trusted orgs", () => {
+        const chk = getWellKnownCatalog(
+          "mockI18nScope",
+          "partners",
+          "item",
+          options
+        );
+        expect(chk.scopes).toBeDefined();
+        expect(chk.scopes?.item?.filters[0].predicates).toEqual([
+          {
+            orgid: ["ghi789", "kjl012", "mno345"],
+            searchUserAccess: "includeTrustedOrgs",
+          },
+        ]);
+        expect(chk.collections?.map((c) => c.key)).toEqual([
+          "appAndMap",
+          "dataset",
+          "document",
+          "feedback",
+          "site",
+          "project",
+        ]);
+      });
+      it("passes for c-org w/ trusted orgs", () => {
+        options = {
+          user: mockUser,
+          collectionNames: [],
+          context: {
+            currentUser: { orgId: "def456" },
+            isCommunityOrg: true,
+            communityOrgId: undefined,
+            trustedOrgIds: ["abc123", "def456", "ghi789", "kjl012", "mno345"],
+            trustedOrgs: [
+              {
+                from: { orgId: "def456" },
+                to: { orgId: "abc123", name: "c-org name" },
+              },
+            ],
+          } as unknown as ArcGISContext,
+        };
+        const chk = getWellKnownCatalog(
+          "mockI18nScope",
+          "partners",
+          "item",
+          options
+        );
+        expect(chk.scopes).toBeDefined();
+        expect(chk.scopes?.item?.filters[0].predicates).toEqual([
+          {
+            orgid: ["ghi789", "kjl012", "mno345"],
+            searchUserAccess: "includeTrustedOrgs",
+          },
+        ]);
+        expect(chk.collections?.map((c) => c.key)).toEqual([
+          "appAndMap",
+          "dataset",
+          "document",
+          "feedback",
+          "site",
+          "project",
+        ]);
+      });
+      it("returns undefined when there are no trusted org ids", () => {
+        options = {
+          user: mockUser,
+          collectionNames: [],
+          context: {
+            currentUser: { orgId: "abc123" },
+            isCommunityOrg: false,
+            trustedOrgIds: [],
+          } as unknown as ArcGISContext,
+        };
+        const chk = getWellKnownCatalog(
+          "mockI18nScope",
+          "partners",
+          "item",
+          options
+        );
+        expect(chk).toBeUndefined();
+      });
+      it("returns undefined when there are no trusted org ids other than the community", () => {
+        options = {
+          user: mockUser,
+          collectionNames: [],
+          context: {
+            currentUser: { orgId: "abc123" },
+            isCommunityOrg: false,
+            communityOrgId: "def456",
+            trustedOrgIds: ["abc123", "def456"],
+            trustedOrgs: [
+              {
+                from: { orgId: "abc123" },
+                to: { orgId: "def456", name: "c-org name" },
+              },
+            ],
+          } as ArcGISContext,
+        };
+        const chk = getWellKnownCatalog(
+          "mockI18nScope",
+          "partners",
+          "item",
+          options
+        );
+        expect(chk).toBeUndefined();
+      });
+    });
+    describe("handles community catalog for items", () => {
+      it("passes for e-org w/ community org", () => {
+        const chk = getWellKnownCatalog(
+          "mockI18nScope",
+          "community",
+          "item",
+          options
+        );
+        expect(chk.scopes).toBeDefined();
+        expect(chk.scopes?.item?.filters).toEqual([
+          { predicates: [{ orgid: "def456" }] },
+        ]);
+        expect(chk.collections?.map((c) => c.key)).toEqual([
+          "appAndMap",
+          "dataset",
+          "document",
+          "feedback",
+          "site",
+          "project",
+        ]);
+      });
+      it("passes for c-org w/ community org", () => {
+        options = {
+          user: mockUser,
+          collectionNames: [],
+          context: {
+            currentUser: { orgId: "def456" },
+            isCommunityOrg: true,
+            communityOrgId: undefined,
+            trustedOrgIds: ["abc123", "def456", "ghi789", "kjl012", "mno345"],
+            trustedOrgs: [
+              {
+                from: { orgId: "def456" },
+                to: { orgId: "abc123", name: "c-org name" },
+              },
+            ],
+          } as unknown as ArcGISContext,
+        };
+        const chk = getWellKnownCatalog(
+          "mockI18nScope",
+          "community",
+          "item",
+          options
+        );
+        expect(chk.scopes).toBeDefined();
+        expect(chk.scopes?.item?.filters).toEqual([
+          { predicates: [{ orgid: "abc123" }] },
+        ]);
+        expect(chk.title).toEqual("c-org name");
+        expect(chk.collections?.map((c) => c.key)).toEqual([
+          "appAndMap",
+          "dataset",
+          "document",
+          "feedback",
+          "site",
+          "project",
+        ]);
+      });
+      it("returns undefined when no trusted orgs/community org", () => {
+        options = {
+          user: mockUser,
+          collectionNames: [],
+          context: {
+            currentUser: { orgId: "abc123" },
+            isCommunityOrg: false,
+            communityOrgId: undefined,
+            trustedOrgIds: [],
+            trustedOrgs: [],
+          } as unknown as ArcGISContext,
+        };
+        const chk = getWellKnownCatalog(
+          "mockI18nScope",
+          "community",
+          "item",
+          options
+        );
+        expect(chk).toBeUndefined();
+      });
     });
     it("returns the expected catalog for groups", () => {
       let chk = getWellKnownCatalog(

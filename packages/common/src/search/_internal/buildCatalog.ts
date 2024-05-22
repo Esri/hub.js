@@ -15,7 +15,8 @@ export function buildCatalog(
   catalogName: string,
   filters: IFilter[],
   collections: IHubCollection[],
-  targetEntity: EntityType
+  targetEntity: EntityType,
+  title?: string
 ): IHubCatalog {
   const scopes = {
     [targetEntity]: {
@@ -25,7 +26,7 @@ export function buildCatalog(
   };
   return {
     schemaVersion: 1,
-    title: `{{${i18nScope}catalog.${catalogName}:translate}}`,
+    title: title || `{{${i18nScope}catalog.${catalogName}:translate}}`,
     scopes,
     collections,
   };
