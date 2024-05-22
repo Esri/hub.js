@@ -38,7 +38,7 @@ export function computeProps(
   page.links = {
     self: getItemHomeUrl(page.id, requestOptions),
     siteRelative: `/pages/${page.id}`,
-    siteRelativeEntityType: getHubRelativeUrl(page.type),
+    siteRelativeEntityType: getHubRelativeUrl("page"),
     workspaceRelative: getRelativeWorkspaceUrl("page", page.id),
     layoutRelative: `/pages/${page.id}/edit`,
     thumbnail: thumbnailUrl,
