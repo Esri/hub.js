@@ -54,7 +54,6 @@ describe("EventSchemaEdit", () => {
           startDate: {
             type: "string",
             format: "date",
-            formatMinimum: datesAndTimes.startDate,
           },
           endDate: {
             type: "string",
