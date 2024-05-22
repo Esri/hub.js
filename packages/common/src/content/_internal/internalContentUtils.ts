@@ -43,6 +43,7 @@ import { geojsonToArcGIS } from "@terraformer/arcgis";
 import { Polygon } from "geojson";
 import { getHubApiUrl } from "../../api";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { isSiteType } from "../compose";
 
 /**
  * Hashmap of Hub environment and application url surfix
@@ -141,8 +142,9 @@ export const deriveLocationFromItem = (item: IItem): IHubLocation => {
   const geometry: any = getExtentObject(extent);
   if (geometry) {
     // geometry constructed from bbox
+    const type = isSiteType(item.type) ? "org" : "custom";
     return {
-      type: "custom",
+      type,
       extent,
       geometries: [geometry],
       spatialReference: geometry.spatialReference,
