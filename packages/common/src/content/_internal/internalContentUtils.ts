@@ -229,7 +229,10 @@ export const isProxiedCSV = (
 /**
  * Get the relative URL to use for the item in a hub site
  * @param type
- * @param identifier
+ * @param identifier optional, if not pass, will return a URL to the entities,
+ * e.g. /initiatives, /projects
+ * NOTE: not all entities have the entities route set up, in that case, we will
+ * not return an URL, so they will be redirected back to the site home
  * @param typeKeywords
  * @returns
  * @private
@@ -239,7 +242,6 @@ export const getHubRelativeUrl = (
   identifier?: string,
   typeKeywords?: string[]
 ): string => {
-  const entityType = getTypeFromEntity({ type });
   // solution types have their own logic
   let contentUrl =
     getSolutionUrl(type, identifier, typeKeywords) ||
@@ -259,13 +261,9 @@ export const getHubRelativeUrl = (
     ];
     // default to the catchall content route
     let path = "/content";
+    // the exception
     if (family === "feedback") {
-      if (identifier) {
-        // the exception
-        path = "/feedback/surveys";
-      } else {
-        path = "";
-      }
+      path = identifier ? "/feedback/surveys" : "";
     } else if (isPageType(type, typeKeywords)) {
       // pages are in the document family,
       // but instead of showing the page's metadata on /documents/about
@@ -275,14 +273,13 @@ export const getHubRelativeUrl = (
       // the rule: route name is plural of family name
       path = `/${family}s`;
     }
-    if (identifier) {
-      contentUrl = `${path}/${identifier}`;
-    } else {
-      contentUrl = `${path}`;
-    }
-    const entitiesHaveEntityTypeView = ["initiative", "project", "content"];
 
-    if (!identifier && !entitiesHaveEntityTypeView.includes(entityType)) {
+    contentUrl = identifier ? `${path}/${identifier}` : `${path}`;
+    const entitiesHaveEntitiesRoute = ["initiative", "project", "content"];
+    const entityType = getTypeFromEntity({ type });
+    // if there is no identifier and the entity does not have the entities route
+    // set up, do not return an url
+    if (!identifier && !entitiesHaveEntitiesRoute.includes(entityType)) {
       contentUrl = "";
     }
   }
