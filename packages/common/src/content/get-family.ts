@@ -19,7 +19,7 @@ export function getFamily(type: string) {
   let family;
   // override default behavior for the rows that are highlighted in yellow here:
   // https://esriis.sharepoint.com/:x:/r/sites/ArcGISHub/_layouts/15/Doc.aspx?sourcedoc=%7BADA1C9DC-4F6C-4DE4-92C6-693EF9571CFA%7D&file=Hub%20Routes.xlsx&nav=MTBfe0VENEREQzI4LUZFMDctNEI0Ri04NjcyLThCQUE2MTA0MEZGRn1fezIwMTIwMEJFLTA4MEQtNEExRC05QzA4LTE5MTAzOUQwMEE1RH0&action=default&mobileredirect=true&cid=df1c874b-c367-4cea-bc13-7bebfad3f2ac
-  switch (type.toLowerCase()) {
+  switch (type?.toLowerCase()) {
     // NOTE: we really want to put tiled image services in the maps family
     // but we would need the typekeywords to differentiate them
     // for now send them to the maps route here:

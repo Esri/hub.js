@@ -45,6 +45,7 @@ export function computeProps(
       content.slug || content.id,
       content.typeKeywords
     ),
+    siteRelativeEntityType: getHubRelativeUrl(content.type),
     workspaceRelative: getRelativeWorkspaceUrl("content", content.id),
     thumbnail: thumbnailUrl,
     contentEditUrl: getContentEditUrl(model.item, requestOptions),
