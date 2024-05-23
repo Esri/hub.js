@@ -102,6 +102,5 @@ export const TemplatePermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:template:workspace:settings",
     dependencies: ["hub:template:workspace", "hub:template:manage"],
-    entityOwner: true,
   },
 ];

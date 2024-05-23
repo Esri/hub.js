@@ -1,3 +1,31 @@
+## @esri/hub-common [14.133.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.133.3...@esri/hub-common@14.133.4) (2024-05-23)
+
+
+### Bug Fixes
+
+* remove entityOwner check from template settings permission ([#1520](https://github.com/Esri/hub.js/issues/1520)) ([6d34101](https://github.com/Esri/hub.js/commit/6d34101a20e338e668901343f1537fb3f2cef86d))
+
+## @esri/hub-common [14.133.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.133.2...@esri/hub-common@14.133.3) (2024-05-23)
+
+
+### Bug Fixes
+
+* **hub-common:** fixes issue where derived entity location for site o… ([#1523](https://github.com/Esri/hub.js/issues/1523)) ([7b47641](https://github.com/Esri/hub.js/commit/7b476416ffd64d587c36ebabe1fb18dda5f09482))
+
+## @esri/hub-common [14.133.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.133.1...@esri/hub-common@14.133.2) (2024-05-23)
+
+
+### Bug Fixes
+
+* recommended templates should link to template view ([#1519](https://github.com/Esri/hub.js/issues/1519)) ([c1ceb99](https://github.com/Esri/hub.js/commit/c1ceb99c3d958032d4837833725bf6aa32cbcaf7))
+
+## @esri/hub-common [14.133.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.133.0...@esri/hub-common@14.133.1) (2024-05-21)
+
+
+### Bug Fixes
+
+* **hub-common:** enable editing for past events ([#1521](https://github.com/Esri/hub.js/issues/1521)) ([8d66da4](https://github.com/Esri/hub.js/commit/8d66da4294eb613fd314feb0244ccbf43b9ab8b6))
+
 # @esri/hub-common [14.133.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.132.0...@esri/hub-common@14.133.0) (2024-05-17)
 
 

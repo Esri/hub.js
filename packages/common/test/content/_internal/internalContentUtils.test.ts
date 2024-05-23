@@ -5,12 +5,12 @@ import {
   deriveLocationFromItem,
 } from "../../../src/content/_internal/internalContentUtils";
 import * as internalContentUtils from "../../../src/content/_internal/internalContentUtils";
+import * as Compose from "../../../src/content/compose";
 import { IHubRequestOptions } from "../../../src/types";
-import { cloneObject } from "../../../src/util";
+import { cloneObject, compose } from "../../../src/util";
 import { MOCK_HUB_REQOPTS } from "../../mocks/mock-auth";
 import { IHubLocation } from "../../../src";
 import * as _enrichmentsModule from "../../../src/items/_enrichments";
-import { IHubAdditionalResource } from "../../../src/core/types/IHubAdditionalResource";
 
 describe("getContentEditUrl", () => {
   let requestOptions: IHubRequestOptions;
@@ -348,6 +348,22 @@ describe("deriveLocationFromItem", () => {
     const _item = cloneObject(item);
     const chk = deriveLocationFromItem(_item);
     expect(chk).toEqual({ type: "none" });
+  });
+  it("should set correct location source type based on item type", () => {
+    const isSiteTypeSpy = spyOn(Compose, "isSiteType").and.callThrough();
+    const _item = cloneObject(item);
+    _item.type = "Site Application";
+    _item.extent = [
+      [0, 0],
+      [0, 0],
+    ];
+    const chk = deriveLocationFromItem(_item);
+    expect(chk.type).toEqual("org");
+    expect(isSiteTypeSpy).toHaveBeenCalled();
+    expect(isSiteTypeSpy).toHaveBeenCalledWith("Site Application");
+    _item.type = "Feature Service";
+    const chk2 = deriveLocationFromItem(_item);
+    expect(chk2.type).toEqual("custom");
   });
   it("should create custom location from item extent", () => {
     const getExtentObjectSpy = spyOn(
