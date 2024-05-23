@@ -1,3 +1,10 @@
+## @esri/hub-common [14.133.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.133.1...@esri/hub-common@14.133.2) (2024-05-23)
+
+
+### Bug Fixes
+
+* recommended templates should link to template view ([#1519](https://github.com/Esri/hub.js/issues/1519)) ([c1ceb99](https://github.com/Esri/hub.js/commit/c1ceb99c3d958032d4837833725bf6aa32cbcaf7))
+
 ## @esri/hub-common [14.133.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.133.0...@esri/hub-common@14.133.1) (2024-05-21)
 
 
