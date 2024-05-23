@@ -1,3 +1,10 @@
+# @esri/hub-common [14.134.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.133.5...@esri/hub-common@14.134.0) (2024-05-23)
+
+
+### Features
+
+* alter feature flag for scheduler on content settings ([#1526](https://github.com/Esri/hub.js/issues/1526)) ([0bc522c](https://github.com/Esri/hub.js/commit/0bc522cfd392901d6703e011e3220a96125883e7))
+
 ## @esri/hub-common [14.133.5](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.133.4...@esri/hub-common@14.133.5) (2024-05-23)
 
 
