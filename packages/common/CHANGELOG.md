@@ -1,3 +1,10 @@
+## @esri/hub-common [14.133.5](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.133.4...@esri/hub-common@14.133.5) (2024-05-23)
+
+
+### Bug Fixes
+
+* limit project content and events to qa alpha ([#1525](https://github.com/Esri/hub.js/issues/1525)) ([ddc32d6](https://github.com/Esri/hub.js/commit/ddc32d61081ed577eb7fe99057ba168255d327fd))
+
 ## @esri/hub-common [14.133.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.133.3...@esri/hub-common@14.133.4) (2024-05-23)
 
 
