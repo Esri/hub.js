@@ -1,3 +1,10 @@
+## @esri/hub-common [14.133.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.133.2...@esri/hub-common@14.133.3) (2024-05-23)
+
+
+### Bug Fixes
+
+* **hub-common:** fixes issue where derived entity location for site o… ([#1523](https://github.com/Esri/hub.js/issues/1523)) ([7b47641](https://github.com/Esri/hub.js/commit/7b476416ffd64d587c36ebabe1fb18dda5f09482))
+
 ## @esri/hub-common [14.133.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.133.1...@esri/hub-common@14.133.2) (2024-05-23)
 
 
