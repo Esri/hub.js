@@ -52,7 +52,7 @@
 		"date-fns": "^1.29.0",
 		"dotenv": "^8.2.0",
 		"fetch-mock": "^7.0.0",
-		"gh-pages": "^1.2.0",
+		"gh-pages": "^5.0.0",
 		"gh-release": "^3.4.0",
 		"husky": "^4.3.0",
 		"jasmine": "^3.6.4",
