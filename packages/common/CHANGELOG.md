@@ -1,3 +1,10 @@
+## @esri/hub-common [14.133.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.133.3...@esri/hub-common@14.133.4) (2024-05-23)
+
+
+### Bug Fixes
+
+* remove entityOwner check from template settings permission ([#1520](https://github.com/Esri/hub.js/issues/1520)) ([6d34101](https://github.com/Esri/hub.js/commit/6d34101a20e338e668901343f1537fb3f2cef86d))
+
 ## @esri/hub-common [14.133.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.133.2...@esri/hub-common@14.133.3) (2024-05-23)
 
 
