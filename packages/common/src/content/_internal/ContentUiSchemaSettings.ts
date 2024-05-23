@@ -26,7 +26,11 @@ export const buildUiSchema = async (
     elements: [],
   };
   if (
-    checkPermission("hub:content:workspace:settings:schedule", _context).access
+    checkPermission(
+      "hub:content:workspace:settings:schedule",
+      _context,
+      options
+    ).access
   ) {
     const scheduleControlElement: IUiSchemaElement = {
       type: "Control",
