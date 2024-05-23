@@ -135,7 +135,7 @@ export const buildUiSchema = async (
                 },
               ],
               canReorder: false,
-              linkTarget: "workspaceRelative",
+              linkTarget: "siteRelative",
               pickerTitle: {
                 labelKey: `${i18nScope}.fields.recommendedTemplates.pickerTitle`,
               },

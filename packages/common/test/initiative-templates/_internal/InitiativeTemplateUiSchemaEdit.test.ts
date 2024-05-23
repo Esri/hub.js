@@ -144,7 +144,7 @@ describe("buildUiSchema: initiative template edit", () => {
                   },
                 ],
                 canReorder: false,
-                linkTarget: "workspaceRelative",
+                linkTarget: "siteRelative",
                 pickerTitle: {
                   labelKey: `some.scope.fields.recommendedTemplates.pickerTitle`,
                 },
