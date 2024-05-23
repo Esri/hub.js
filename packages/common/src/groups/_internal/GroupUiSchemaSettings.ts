@@ -1,6 +1,7 @@
 import { IUiSchema } from "../../core";
 import { IArcGISContext } from "../../ArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
+import { IHubGroup } from "../../core";
 
 /**
  * @private
@@ -13,6 +14,7 @@ export const buildUiSchema = async (
   options: EntityEditorOptions,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
+  const entity = options as IHubGroup;
   return {
     type: "Layout",
     elements: [
@@ -31,7 +33,7 @@ export const buildUiSchema = async (
                 `{{${i18nScope}.fields.membershipAccess.collab:translate}}`,
                 `{{${i18nScope}.fields.membershipAccess.any:translate}}`,
               ],
-              disabled: [false, false, options.isSharedUpdate],
+              disabled: [false, false, entity.isSharedUpdate],
             },
           },
           {

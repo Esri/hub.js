@@ -1,6 +1,7 @@
 import { IUiSchema } from "../../core/schemas/types";
 import { IArcGISContext } from "../../ArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
+import { getEntityThumbnailUrl } from "../../core/getEntityThumbnailUrl";
 
 /**
  * @private
@@ -74,7 +75,7 @@ export const buildUiSchema = async (
             type: "Control",
             options: {
               control: "hub-field-input-image-picker",
-              imgSrc: options.thumbnailUrl,
+              imgSrc: getEntityThumbnailUrl(options),
               maxWidth: 727,
               maxHeight: 484,
               aspectRatio: 1,

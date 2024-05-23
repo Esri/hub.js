@@ -11,5 +11,6 @@ export const HUB_ENTITY_TYPES = [
   "template",
   "survey",
   "event",
+  "user",
 ] as const;
 export type HubEntityType = (typeof HUB_ENTITY_TYPES)[number];

@@ -10,6 +10,8 @@ import { InitiativeTemplatePermissions } from "../../initiative-templates/_inter
 import { TemplatePermissions } from "../../templates/_internal/TemplateBusinessRules";
 import { SurveyPermissions } from "../../surveys/_internal/SurveyBusinessRules";
 import { EventPermissions } from "../../events/_internal/EventBusinessRules";
+import { UserPermissions } from "../../users/_internal/UserBusinessRules";
+
 /**
  * Defines the values for Permissions
  * It's critical that the arrays defined in the modules use `as const`
@@ -24,6 +26,9 @@ const SystemPermissions = [
   "hub:feature:workspace",
   "hub:feature:user:preferences",
   "hub:card:follow",
+  "hub:feature:workspace:org",
+  // DEPRECATED: This permission has been replaced by hub:feature:workspace:org,
+  // remove this at the next breaking version
   "hub:feature:workspace:umbrella",
   "hub:feature:keyboardshortcuts",
   "hub:feature:history",
@@ -50,6 +55,7 @@ const validPermissions = [
   ...SystemPermissions,
   ...SurveyPermissions,
   ...EventPermissions,
+  ...UserPermissions,
 ] as const;
 
 /**
@@ -69,7 +75,8 @@ export type Permission =
   | (typeof TemplatePermissions)[number]
   | (typeof SystemPermissions)[number]
   | (typeof SurveyPermissions)[number]
-  | (typeof EventPermissions)[number];
+  | (typeof EventPermissions)[number]
+  | (typeof UserPermissions)[number];
 
 /**
  * Validate a Permission

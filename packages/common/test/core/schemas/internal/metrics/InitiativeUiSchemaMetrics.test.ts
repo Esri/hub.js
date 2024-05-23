@@ -1,11 +1,15 @@
-import { HubEntity } from "../../../../../src/core/types/HubEntity";
 import { buildUiSchema } from "../../../../../src/core/schemas/internal/metrics/InitiativeUiSchemaMetrics";
 import { MOCK_CONTEXT } from "../../../../mocks/mock-auth";
+import { EntityEditorOptions } from "../../../../../src/core/schemas/internal/EditorOptions";
 
 describe("InitiativeUiSchemaMetrics", () => {
   describe("buildUiSchema", () => {
     it("returns the full follow card uiSchema", async () => {
-      const uiSchema = await buildUiSchema("", {} as HubEntity, MOCK_CONTEXT);
+      const uiSchema = await buildUiSchema(
+        "",
+        {} as EntityEditorOptions,
+        MOCK_CONTEXT
+      );
 
       // rather than comparing the entire uiSchema structure (which
       // can be difficult to maintain over time), we simply validate

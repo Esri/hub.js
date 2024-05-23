@@ -43,6 +43,9 @@ export function getTypeFromEntity(
     case "Event":
       type = "event";
       break;
+    case "User":
+      type = "user";
+      break;
     // case "Hub Content": // needed for future ticket in getLocationOptions
     //   type = "content";
     //   break;
