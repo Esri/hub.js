@@ -153,11 +153,13 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:project:workspace:content",
     dependencies: ["hub:project:workspace", "hub:project:edit"],
     availability: ["alpha"],
+    environments: ["qaext"],
   },
   {
     permission: "hub:project:workspace:events",
     dependencies: ["hub:project:workspace", "hub:project:edit"],
     availability: ["alpha"],
+    environments: ["qaext"],
   },
   {
     permission: "hub:project:workspace:metrics",

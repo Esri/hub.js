@@ -765,7 +765,7 @@ const QA_ALPHA_ORGS = [
   "Xj56SBi2udA78cC9",
 ];
 const PROD_ALPHA_ORGS = [
-  "gGHDlz6USftL5Pau",
+  // "gGHDlz6USftL5Pau",
   "CrA5hYOKgL3Vwan8",
   "zj227gjeSqEyG4HF",
   "bkrWlSKcjUDFDtgw",
