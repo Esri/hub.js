@@ -1,4 +1,5 @@
 import { IUser } from "@esri/arcgis-rest-types";
+import { getUser } from "@esri/arcgis-rest-portal";
 import { fetchUserEnrichments } from "./_internal/enrichments";
 import { SettableAccessLevel } from "../core/types";
 import { IHubUser } from "../core/types/IHubUser";
@@ -100,3 +101,14 @@ export async function enrichUserSearchResult(
 
   return result;
 }
+
+export const fetchHubUser = async (
+  username: string,
+  requestOptions?: IHubRequestOptions
+): Promise<IHubUser> => {
+  const user = await getUser({
+    ...requestOptions,
+    username,
+  });
+  return convertUserToHubUser(user);
+};
