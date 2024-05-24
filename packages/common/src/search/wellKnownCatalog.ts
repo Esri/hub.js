@@ -32,6 +32,9 @@ export type WellKnownCollection =
   | "solution"
   | "projectAndInitiative";
 
+/**TODO: On the next breaking change User and context should be
+ * removed from this interface and passed into the function as a single required context.
+ */
 /**
  * A list of optional arguments to pass into getWellKnownCatalog
  * user is the owner of the entity
@@ -96,6 +99,9 @@ function validateUserExistence(
   }
 }
 
+/** TODO: On the next breaking change we need to pull context and user out of options
+ * and make context a required parameter. User can be pulled out of context.
+ */
 /**
  * Get an ITEM catalog based on the name and optional requests
  * @param i18nScope Translation scope to be interpolated into the catalog
