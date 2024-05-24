@@ -1,3 +1,10 @@
+## @esri/hub-common [14.134.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.134.0...@esri/hub-common@14.134.1) (2024-05-24)
+
+
+### Bug Fixes
+
+* deepFilter allows for blobs to pass through ([#1524](https://github.com/Esri/hub.js/issues/1524)) ([b689529](https://github.com/Esri/hub.js/commit/b689529242b177124508657f2fc73e64c8469c40))
+
 # @esri/hub-common [14.134.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.133.5...@esri/hub-common@14.134.0) (2024-05-23)
 
 
