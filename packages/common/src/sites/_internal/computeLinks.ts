@@ -27,6 +27,7 @@ export function computeLinks(
   return {
     self: item.url,
     siteRelative: getHubRelativeUrl(item.type, item.id, item.typeKeywords),
+    siteRelativeEntityType: getHubRelativeUrl(item.type),
     layoutRelative: "/edit",
     workspaceRelative: getRelativeWorkspaceUrl(
       item.type,
