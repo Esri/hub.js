@@ -160,18 +160,24 @@ export const getAvailableToRequestAssociationCatalogs = (
     entity,
     associationType
   )?.filters;
+
+  // Default catalogs to include
   const catalogNames: WellKnownCatalog[] = [
     "myContent",
-    "favorites",
     "organization",
-    "world",
+    "community",
+    "partners",
   ];
-  return catalogNames.map((name: WellKnownCatalog) => {
-    const options: IGetWellKnownCatalogOptions = {
-      user: context.currentUser,
-      filters,
-      collectionNames: [associationType as WellKnownCollection],
-    };
-    return getWellKnownCatalog(i18nScope, name, "item", options);
-  });
+
+  return catalogNames
+    .map((name: WellKnownCatalog) => {
+      const options: IGetWellKnownCatalogOptions = {
+        user: context.currentUser,
+        filters,
+        collectionNames: [associationType as WellKnownCollection],
+        context,
+      };
+      return getWellKnownCatalog(i18nScope, name, "item", options);
+    })
+    .filter(Boolean);
 };

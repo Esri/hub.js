@@ -250,6 +250,11 @@ export interface IArcGISContext {
   survey123Url: string;
 
   /**
+   * Is the current users org type a community org?
+   */
+  isCommunityOrg: boolean;
+
+  /**
    * Return the token for a given app, if defined
    * @param app
    */
@@ -799,6 +804,21 @@ export class ArcGISContext implements IArcGISContext {
    */
   public get trustedOrgs(): IHubTrustedOrgsResponse[] {
     return this._trustedOrgs;
+  }
+
+  /**
+   * Returns whether the current user's org type is a community org
+   */
+  public get isCommunityOrg(): boolean {
+    let result = false;
+    if (this._portalSelf) {
+      const orgType = getProp(
+        this._portalSelf,
+        "portalProperties.hub.settings.orgType"
+      );
+      result = orgType === "community";
+    }
+    return result;
   }
 
   /**

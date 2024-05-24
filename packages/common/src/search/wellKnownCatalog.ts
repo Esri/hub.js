@@ -4,6 +4,7 @@ import { HubFamily } from "../types";
 import { EntityType, IFilter, IHubCatalog, IHubCollection } from "./types";
 import { buildCatalog } from "./_internal/buildCatalog";
 import { getProp } from "../objects";
+import { IArcGISContext } from "..";
 
 /**
  * This is used to determine what IHubCatalog definition JSON object
@@ -16,7 +17,9 @@ export type WellKnownCatalog =
   | "world"
   | "editGroups"
   | "viewGroups"
-  | "allGroups";
+  | "allGroups"
+  | "partners"
+  | "community";
 
 /**
  * This is used to determine what IHubCollection definition JSON object
@@ -29,6 +32,9 @@ export type WellKnownCollection =
   | "solution"
   | "projectAndInitiative";
 
+/**TODO: On the next breaking change User and context should be
+ * removed from this interface and passed into the function as a single required context.
+ */
 /**
  * A list of optional arguments to pass into getWellKnownCatalog
  * user is the owner of the entity
@@ -40,6 +46,8 @@ export interface IGetWellKnownCatalogOptions {
   collectionNames?: WellKnownCollection[];
   /** additional filters to apply to the catalog scope */
   filters?: IFilter[];
+  /** optional context */
+  context?: IArcGISContext;
 }
 
 /**
@@ -91,6 +99,9 @@ function validateUserExistence(
   }
 }
 
+/** TODO: On the next breaking change we need to pull context and user out of options
+ * and make context a required parameter. User can be pulled out of context.
+ */
 /**
  * Get an ITEM catalog based on the name and optional requests
  * @param i18nScope Translation scope to be interpolated into the catalog
@@ -106,6 +117,7 @@ function getWellknownItemCatalog(
   i18nScope = dotifyString(i18nScope);
   let catalog;
   const additionalFilters = getProp(options, "filters") || [];
+  const context = getProp(options, "context");
   const collections = getWellknownCollections(
     i18nScope,
     "item",
@@ -148,6 +160,53 @@ function getWellknownItemCatalog(
         "item"
       );
       break;
+    case "partners":
+      // Get trusted orgs that aren't the current user's org or the community org
+      const trustedOrgIds = context.trustedOrgIds.filter((orgId: string) => {
+        return (
+          orgId !== context.currentUser.orgId &&
+          orgId !== _getCOrgOrEOrgId(context)
+        );
+      });
+      // only build the catalog if there are trusted orgs
+      if (trustedOrgIds.length) {
+        catalog = buildCatalog(
+          i18nScope,
+          catalogName,
+          [
+            {
+              predicates: [
+                {
+                  orgid: trustedOrgIds,
+                  searchUserAccess: "includeTrustedOrgs",
+                },
+              ],
+            },
+            ...additionalFilters,
+          ],
+          collections,
+          "item"
+        );
+      }
+      break;
+    case "community":
+      const communityOrgId = _getCOrgOrEOrgId(context);
+      // only build the catalog if there is a community org id
+      if (communityOrgId) {
+        catalog = buildCatalog(
+          i18nScope,
+          catalogName,
+          [{ predicates: [{ orgid: communityOrgId }] }, ...additionalFilters],
+          collections,
+          "item",
+          // If we're in a community org, use the community org name
+          // as the catalog title
+          context.isCommunityOrg
+            ? _getEOrgName(communityOrgId, context)
+            : undefined
+        );
+      }
+      break;
     case "world":
       catalog = buildCatalog(
         i18nScope,
@@ -162,6 +221,41 @@ function getWellknownItemCatalog(
       break;
   }
   return catalog;
+}
+
+/**
+ * Get the c-org or e-org ID. Defaults to the communityOrgId if the user is currently authed into
+ * an e-org; otherwise it looks up the trusted org relationship to get the e-org id
+ * @param context IArcGISContext
+ * @returns orgid of the c-org or e-org
+ */
+function _getCOrgOrEOrgId(context: IArcGISContext): string {
+  // extract the c-org / e-org relationship
+  const cOrgEOrgTrustedRelationship = context.trustedOrgs.find(
+    (org) => org.from.orgId === context.currentUser.orgId
+  );
+
+  // if we're in a community org, and there is a trusted org
+  // relationship, use the orgId from there (which would be
+  // the e-org id). Otherwise, use the c-org id
+  return context.isCommunityOrg && cOrgEOrgTrustedRelationship
+    ? cOrgEOrgTrustedRelationship.to.orgId
+    : context.communityOrgId;
+}
+
+/**
+ * If the user is in a community org, get the e-org name from the trusted org relationship
+ * @param eOrgId E-org id
+ * @param context IArcGISContext
+ * @returns E-org name
+ */
+function _getEOrgName(eOrgId: string, context: IArcGISContext): string {
+  // extract the c-org / e-org relationship
+  const communityTrustedOrgRelationship = context.trustedOrgs.find(
+    (org) => org.to.orgId === eOrgId
+  );
+
+  return communityTrustedOrgRelationship.to.name;
 }
 
 /**
