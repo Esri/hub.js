@@ -71,9 +71,7 @@ export function deepFilter(
     return Object.keys(object).reduce((acc, entry) => {
       if (predicate(object[entry])) {
         if (isFindable(object[entry])) {
-          // Deep filter will run through a Blob and clear out the Blob specific properties
-          // That we want to keep, so we are explicilty checking for Blob here
-          // and not iterating down into it
+          // Explicilty checking for Blob here, and copying the reference forward so it is maintained
           if (typeof Blob !== "undefined" && object[entry] instanceof Blob) {
             (acc as any)[entry] = object[entry];
           } else {
