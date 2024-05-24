@@ -8,6 +8,8 @@ import { EntityType, IFilter, IHubCatalog, IHubCollection } from "../types";
  * @param catalogName - well known catalog name
  * @param filters - filters to build the catalog scope
  * @param collections - collections to include in the catalog
+ * @param targetEntity - target entity type for the catalog
+ * @param title - optional title override for the catalog
  * @returns {IHubCatalog}
  */
 export function buildCatalog(

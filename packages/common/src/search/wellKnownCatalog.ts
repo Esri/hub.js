@@ -155,7 +155,6 @@ function getWellknownItemCatalog(
       );
       break;
     case "partners":
-      validateUserExistence(catalogName, options);
       // Get trusted orgs that aren't the current user's org or the community org
       const trustedOrgIds = context.trustedOrgIds.filter((orgId: string) => {
         return (
@@ -185,7 +184,6 @@ function getWellknownItemCatalog(
       }
       break;
     case "community":
-      validateUserExistence(catalogName, options);
       const communityOrgId = _getCOrgOrEOrgId(context);
       // only build the catalog if there is a community org id
       if (communityOrgId) {
