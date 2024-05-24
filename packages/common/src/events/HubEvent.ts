@@ -243,7 +243,7 @@ export class HubEvent
           kind: "external",
           label: "Register",
           href: "",
-          disabled: "true",
+          disabled: entity.isCanceled ? null : "true",
         },
       ];
     } else {
