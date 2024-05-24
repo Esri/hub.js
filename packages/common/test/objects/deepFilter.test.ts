@@ -113,6 +113,35 @@ describe("deepFilter:", () => {
       expect(chk.level1.level2.level3a).toBeUndefined();
       expect(chk.level1.level2.level3b.status).toBe("not-started");
     });
+    if (typeof Blob !== "undefined") {
+      it("allows Blobs through and does not filter into the blob", () => {
+        const blob = new Blob(["a"], { type: "text/plain" });
+        const test = {
+          id: "a",
+          image: {
+            blob,
+            name: "my-image",
+          },
+        };
+        const isFieldEmpty = (value: any) => {
+          let isEmpty = false;
+          if (typeof value === "string") {
+            isEmpty = value === "";
+          } else if (value instanceof Blob) {
+            isEmpty = false;
+          } else if (typeof value === "object") {
+            isEmpty = !Object.keys(value)?.length;
+          }
+
+          return isEmpty;
+        };
+        const predicate = (value: any) => !isFieldEmpty(value);
+        const chk = deepFilter(test, predicate);
+
+        expect(chk.id).toBe("a");
+        expect(chk.image.blob instanceof Blob).toBe(true);
+      });
+    }
     it("skips dates", () => {
       const test = new Date();
       const predicate = (obj: any) => obj.id === "b";
