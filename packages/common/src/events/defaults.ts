@@ -35,6 +35,9 @@ export function buildDefaultEventEntity(): Partial<IHubEvent> {
     readGroupIds: [],
     editGroupIds: [],
     ...dates,
+    view: {
+      heroActions: [],
+    },
   };
 }
 
