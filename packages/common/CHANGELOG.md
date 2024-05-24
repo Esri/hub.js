@@ -1,3 +1,10 @@
+## @esri/hub-common [14.135.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.135.0...@esri/hub-common@14.135.1) (2024-05-24)
+
+
+### Bug Fixes
+
+* add siteRelativeEntityType link to multiple entities ([#1522](https://github.com/Esri/hub.js/issues/1522)) ([6557279](https://github.com/Esri/hub.js/commit/6557279ab9dfe23dc8a781cda41a48dbc880c5aa))
+
 # @esri/hub-common [14.135.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.134.1...@esri/hub-common@14.135.0) (2024-05-24)
 
 
