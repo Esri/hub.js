@@ -11,7 +11,6 @@ describe("computeLinks", () => {
     expect(results).toEqual({
       self: "/events/my-events-are-awesome-123-31c",
       siteRelative: "/events/my-events-are-awesome-123-31c",
-      siteRelativeEntityType: "",
       workspaceRelative: "/workspace/events/31c",
     });
   });

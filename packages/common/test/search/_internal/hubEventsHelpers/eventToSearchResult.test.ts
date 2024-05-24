@@ -59,7 +59,6 @@ describe("eventToSearchResult", () => {
       links: {
         self: `/events/my-event-title-${event.id}`,
         siteRelative: `/events/my-event-title-${event.id}`,
-        siteRelativeEntityType: "",
         workspaceRelative: `/workspace/events/${event.id}`,
       },
       tags: event.tags,
@@ -94,7 +93,6 @@ describe("eventToSearchResult", () => {
       links: {
         self: `/events/my-event-title-${event.id}`,
         siteRelative: `/events/my-event-title-${event.id}`,
-        siteRelativeEntityType: "",
         workspaceRelative: `/workspace/events/${event.id}`,
       },
       tags: event.tags,

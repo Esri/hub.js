@@ -16,12 +16,7 @@ import {
   ISpatialReference,
   IUser,
 } from "@esri/arcgis-rest-types";
-import {
-  IHubContent,
-  IHubLocation,
-  PublisherSource,
-  getTypeFromEntity,
-} from "../../core";
+import { IHubContent, IHubLocation, PublisherSource } from "../../core";
 import {
   IHubGeography,
   GeographyProvenance,
@@ -231,25 +226,22 @@ export const isProxiedCSV = (
 /**
  * Get the relative URL to use for the item in a hub site
  * @param type
- * @param identifier optional, if not pass, will return a URL to the entities,
- * e.g. /initiatives, /projects
- * NOTE: not all entities have the entities route set up, in that case, we will
- * not return an URL, so they will be redirected back to the site home
+ * @param identifier
  * @param typeKeywords
  * @returns
  * @private
  */
 export const getHubRelativeUrl = (
   type: string,
-  identifier?: string,
+  identifier: string,
   typeKeywords?: string[]
 ): string => {
   // solution types have their own logic
   let contentUrl =
     getSolutionUrl(type, identifier, typeKeywords) ||
     getInitiativeTemplateUrl(type, identifier, typeKeywords);
-  const family = getFamily(type);
   if (!contentUrl) {
+    const family = getFamily(type);
     const familiesWithPluralizedRoute = [
       "app",
       "dataset",
@@ -263,9 +255,9 @@ export const getHubRelativeUrl = (
     ];
     // default to the catchall content route
     let path = "/content";
-    // the exception
     if (family === "feedback") {
-      path = identifier ? "/feedback/surveys" : "";
+      // the exception
+      path = "/feedback/surveys";
     } else if (isPageType(type, typeKeywords)) {
       // pages are in the document family,
       // but instead of showing the page's metadata on /documents/about
@@ -275,14 +267,7 @@ export const getHubRelativeUrl = (
       // the rule: route name is plural of family name
       path = `/${family}s`;
     }
-    contentUrl = identifier ? `${path}/${identifier}` : `${path}`;
-  }
-  // TODO: once an entity has its entities route set up, add it to this list
-  const entitiesHaveEntitiesRoute = ["initiative", "project"];
-  // if there is no identifier and the entity does not have the entities route
-  // set up, do not return an url
-  if (!identifier && !entitiesHaveEntitiesRoute.includes(family)) {
-    contentUrl = "";
+    contentUrl = `${path}/${identifier}`;
   }
   return contentUrl;
 };

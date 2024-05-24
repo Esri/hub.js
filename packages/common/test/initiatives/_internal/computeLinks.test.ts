@@ -33,14 +33,12 @@ describe("computeLinks", () => {
     const chk = computeLinks(item, authdCtxMgr.context.requestOptions);
 
     expect(chk.siteRelative).toBe("/initiatives/mock-slug");
-    expect(chk.siteRelativeEntityType).toBe("/initiatives");
     expect(chk.workspaceRelative).toBe("/workspace/initiatives/mock-slug");
   });
   it("generates a links hash using the initiative's id when no slug is available", () => {
     const chk = computeLinks(item, authdCtxMgr.context.requestOptions);
 
     expect(chk.siteRelative).toBe("/initiatives/00c");
-    expect(chk.siteRelativeEntityType).toBe("/initiatives");
     expect(chk.workspaceRelative).toBe("/workspace/initiatives/00c");
   });
 });

@@ -39,7 +39,6 @@ describe("computeLinks", () => {
     const chk = computeLinks(item, authdCtxMgr.context.requestOptions);
 
     expect(chk.siteRelative).toBe("/projects/00c");
-    expect(chk.siteRelativeEntityType).toBe("/projects");
     expect(chk.workspaceRelative).toBe("/workspace/projects/00c");
   });
 });

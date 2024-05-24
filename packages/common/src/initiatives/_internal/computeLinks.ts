@@ -28,7 +28,6 @@ export function computeLinks(
   return {
     self: getItemHomeUrl(item.id, requestOptions),
     siteRelative: getHubRelativeUrl(item.type, getItemIdentifier(item)),
-    siteRelativeEntityType: getHubRelativeUrl(item.type),
     workspaceRelative: getRelativeWorkspaceUrl(
       item.type,
       getItemIdentifier(item)

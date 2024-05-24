@@ -31,7 +31,6 @@ describe("computeLinks", () => {
     const chk = computeLinks(group, authdCtxMgr.context.requestOptions);
 
     expect(chk.siteRelative).toBe("/groups/00c");
-    expect(chk.siteRelativeEntityType).toBe("");
     expect(chk.workspaceRelative).toBe("/workspace/groups/00c");
   });
 });

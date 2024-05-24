@@ -5,7 +5,6 @@ import { IHubEntityLinks } from "../../core/types";
 import { getRelativeWorkspaceUrl } from "../../core/getRelativeWorkspaceUrl";
 import { getGroupHomeUrl } from "../../urls/getGroupHomeUrl";
 import { getGroupThumbnailUrl } from "../../search/utils";
-import { getHubRelativeUrl } from "../../content/_internal/internalContentUtils";
 
 /**
  * Compute the links that get appended to a Hub Group
@@ -27,7 +26,6 @@ export function computeLinks(
   return {
     self: getGroupHomeUrl(group.id, requestOptions),
     siteRelative: `/groups/${group.id}`,
-    siteRelativeEntityType: getHubRelativeUrl("Group"),
     workspaceRelative: getRelativeWorkspaceUrl("Group", group.id),
     thumbnail: getGroupThumbnailUrl(requestOptions.portal, group, token),
   };

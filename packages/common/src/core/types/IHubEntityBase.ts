@@ -31,9 +31,6 @@ export interface IHubEntityLinks {
    * Relative url of the entity, within a site
    */
   siteRelative?: string;
-
-  siteRelativeEntityType?: string;
-
   /**
    * Relative workspace url of the entity, within a site
    */

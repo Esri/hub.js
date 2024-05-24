@@ -33,7 +33,6 @@ describe("computeLinks", () => {
     const chk = computeLinks(item, authdCtxMgr.context.requestOptions);
 
     expect(chk.siteRelative).toBe("/initiatives/templates/mock-slug/about");
-    expect(chk.siteRelativeEntityType).toBe("");
     expect(chk.workspaceRelative).toBe(
       "/workspace/initiativeTemplates/mock-slug"
     );

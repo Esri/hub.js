@@ -150,7 +150,6 @@ describe("PropertyMapper", () => {
         links: {
           self: "/events/event-title-31c",
           siteRelative: "/events/event-title-31c",
-          siteRelativeEntityType: "",
           workspaceRelative: "/workspace/events/31c",
         },
         slug: "event-title-31c",

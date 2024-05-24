@@ -34,7 +34,6 @@ describe("computeLinks", () => {
 
     expect(chk.self).toBe("https://some-url.com");
     expect(chk.siteRelative).toBe("/content/00c");
-    expect(chk.siteRelativeEntityType).toBe("");
     expect(chk.workspaceRelative).toBe("/workspace/sites/00c");
     expect(chk.layoutRelative).toBe("/edit");
   });
