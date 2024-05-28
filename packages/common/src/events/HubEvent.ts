@@ -236,19 +236,6 @@ export class HubEvent
    */
   async fromEditor(editor: IHubEventEditor): Promise<IHubEvent> {
     const entity = cloneObject(editor) as IHubEvent;
-    // map allowRegistration to heroActions
-    if (entity.allowRegistration) {
-      entity.view.heroActions = [
-        {
-          kind: "external",
-          label: "Register",
-          href: "",
-          disabled: entity.isCanceled ? null : "true",
-        },
-      ];
-    } else {
-      entity.view.heroActions = [];
-    }
     this.entity = entity;
     await this.save();
     return this.entity;

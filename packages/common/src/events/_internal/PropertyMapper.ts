@@ -5,6 +5,7 @@ import {
 } from "../../core/_internal/PropertyMapper";
 import { IHubEvent } from "../../core/types/IHubEvent";
 import { SettableAccessLevel } from "../../core/types/types";
+import { setProp } from "../../objects/set-prop";
 import { cloneObject } from "../../util";
 import {
   EventAccess,
@@ -89,6 +90,21 @@ export class EventPropertyMapper extends PropertyMapper<
     obj.updatedDateSource = "updatedAt";
     obj.links = computeLinks(store as IEvent);
     obj.slug = getEventSlug(store as IEvent);
+
+    store.allowRegistration
+      ? setProp(
+          "view.heroActions",
+          [
+            {
+              kind: "external",
+              label: "{{arcgis-hub-entity-hero.actions.register}}",
+              href: "",
+              disabled: entity.isCanceled ? null : "true",
+            },
+          ],
+          obj
+        )
+      : setProp("view.heroActions", [], obj);
 
     return obj;
   }
