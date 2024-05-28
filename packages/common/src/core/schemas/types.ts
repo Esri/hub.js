@@ -180,25 +180,6 @@ export interface IValidationResult {
   errors?: Ajv.ErrorObject[];
 }
 
-/**
- * A rule for a uiSchema element.
- * NOTE: 'condition' is deprecated and just exists for backwards compatibility.
- * Please use 'conditions' instead for new rules.
- */
-export interface IUiSchemaRule {
-  effect: UiSchemaRuleEffects;
-  // **DEPRECATED:** defining a single condition is deprecated. Please use .conditions instead
-  condition: {
-    scope?: string;
-    schema: IConfigurationSchema;
-  };
-  conditions?: IUiSchemaRuleCondition[];
-}
-
-export type IUiSchemaRuleCondition =
-  | { scope?: string; schema: IConfigurationSchema }
-  | boolean;
-
 export interface IUiSchemaElement {
   type: string;
   id?: string;
@@ -234,31 +215,8 @@ export interface IUiSchemaComboboxItem {
 
 export interface IUiSchemaRule {
   effect: UiSchemaRuleEffects;
-  condition: IUiSchemaCondition;
-}
-
-export interface IUiSchemaCondition {
-  scope?: string;
-  schema: IConfigurationSchema;
-}
-
-export interface IUiSchemaMessage {
-  type: UiSchemaMessageTypes;
-  display?: "message" | "notice";
-  keyword?: string;
-  label?: string;
-  labelKey?: string;
-  icon?: boolean | string;
-  kind?: "brand" | "danger" | "info" | "success" | "warning";
-  hidden?: boolean;
   condition?: IUiSchemaCondition;
-  allowShowBeforeInteract?: boolean;
-  alwaysShow?: boolean;
-}
-
-export interface IUiSchemaRule {
-  effect: UiSchemaRuleEffects;
-  condition: IUiSchemaCondition;
+  conditions?: Array<IUiSchemaCondition | boolean>;
 }
 
 export interface IUiSchemaCondition {
