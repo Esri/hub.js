@@ -61,6 +61,7 @@ const onlinePortalSelfResponse = {
           orgId: "FAKE_C_ORGID",
           portalHostname: "my-community.maps.arcgis.com",
         },
+        orgType: "enterprise",
       },
     },
   },
@@ -284,6 +285,7 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.hubEnabled).toBeFalsy();
       expect(mgr.context.isAlphaOrg).toBeFalsy();
       expect(mgr.context.isBetaOrg).toBeFalsy();
+      expect(mgr.context.isCommunityOrg).toBeFalsy();
       expect(mgr.context.environment).toBe("production");
       // Hub Urls
       const base = mgr.context.hubUrl;
@@ -489,6 +491,7 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.trustedOrgs).toEqual(
         onlinePartneredOrgResponse.trustedOrgs
       );
+      expect(mgr.context.isCommunityOrg).toBeFalsy();
     });
     it("verify tokens when passed session", async () => {
       const t = new Date().getTime();
