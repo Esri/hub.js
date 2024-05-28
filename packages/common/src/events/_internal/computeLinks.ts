@@ -18,7 +18,7 @@ export function computeLinks(event: IEvent): IHubEntityLinks {
     siteRelative,
     siteRelativeEntityType: getHubRelativeUrl("event"),
     workspaceRelative: getRelativeWorkspaceUrl("Event", event.id),
-    // TODO
-    // thumbnail: "",
+    thumbnail:
+      "https://hubqacdn.arcgis.com/opendata-ui/assets/ember-arcgis-opendata-components/assets/images/placeholders/event.png",
   };
 }

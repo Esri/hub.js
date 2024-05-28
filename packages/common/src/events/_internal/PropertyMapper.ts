@@ -90,7 +90,8 @@ export class EventPropertyMapper extends PropertyMapper<
     obj.updatedDateSource = "updatedAt";
     obj.links = computeLinks(store as IEvent);
     obj.slug = getEventSlug(store as IEvent);
-
+    obj.thumbnailUrl =
+      "https://hubqacdn.arcgis.com/opendata-ui/assets/ember-arcgis-opendata-components/assets/images/placeholders/event.png";
     store.allowRegistration
       ? setProp(
           "view.heroActions",
