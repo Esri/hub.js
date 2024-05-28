@@ -213,8 +213,15 @@ export interface IUiSchemaComboboxItem {
   selected?: boolean;
 }
 
+/**
+ * A rule for a uiSchema element. This rule will be evaluated
+ * to determine if the element should assume the provided effect.
+ *
+ * NOTE: `.condition` is deprecated and remains for backwards compatibility only. Please use `.conditions` instead.
+ */
 export interface IUiSchemaRule {
   effect: UiSchemaRuleEffects;
+  // NOTE: condition is deprecated and remains for backwards compatibility only. Please use conditions instead.
   condition?: IUiSchemaCondition;
   conditions?: Array<IUiSchemaCondition | boolean>;
 }
@@ -224,6 +231,11 @@ export interface IUiSchemaCondition {
   schema: IConfigurationSchema;
 }
 
+/**
+ * A message to display for a uiSchema element.
+ *
+ * NOTE: `.condition` is deprecated and remains for backwards compatibility only. Please use `.conditions` instead.
+ */
 export interface IUiSchemaMessage {
   type: UiSchemaMessageTypes;
   display?: "message" | "notice";
@@ -235,7 +247,9 @@ export interface IUiSchemaMessage {
   icon?: boolean | string;
   kind?: "brand" | "danger" | "info" | "success" | "warning";
   hidden?: boolean;
+  // NOTE: condition is deprecated and remains for backwards compatibility only. Please use conditions instead.
   condition?: IUiSchemaCondition;
+  conditions?: Array<IUiSchemaCondition | boolean>;
   allowShowBeforeInteract?: boolean;
   alwaysShow?: boolean;
 }
