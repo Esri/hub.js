@@ -6,7 +6,6 @@ import {
 import { HubActionLink } from "../../core/types/ActionLinks";
 import { IHubEvent } from "../../core/types/IHubEvent";
 import { SettableAccessLevel } from "../../core/types/types";
-import { setProp } from "../../objects/set-prop";
 import { cloneObject } from "../../util";
 import {
   EventAccess,
