@@ -152,8 +152,15 @@ describe("PropertyMapper", () => {
           siteRelative: "/events/event-title-31c",
           siteRelativeEntityType: "",
           workspaceRelative: "/workspace/events/31c",
+          thumbnail:
+            "https://hubqacdn.arcgis.com/opendata-ui/assets/ember-arcgis-opendata-components/assets/images/placeholders/event.png",
         },
         slug: "event-title-31c",
+        thumbnailUrl:
+          "https://hubqacdn.arcgis.com/opendata-ui/assets/ember-arcgis-opendata-components/assets/images/placeholders/event.png",
+        view: {
+          heroActions: [],
+        },
       });
     });
 
@@ -194,6 +201,22 @@ describe("PropertyMapper", () => {
       ];
       const res = propertyMapper.storeToEntity(eventRecord, {});
       expect(res.attendanceType).toEqual(HubEventAttendanceType.Both);
+    });
+
+    it("disables registration if canceled", () => {
+      eventRecord.allowRegistration = true;
+      eventRecord.status = EventStatus.CANCELED;
+      const res = propertyMapper.storeToEntity(eventRecord, {});
+      expect(res.view).toEqual({
+        heroActions: [
+          {
+            kind: "external",
+            label: "{{actions.register:translate}}",
+            href: "",
+            disabled: "true",
+          },
+        ],
+      });
     });
   });
 

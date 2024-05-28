@@ -100,7 +100,7 @@ export class EventPropertyMapper extends PropertyMapper<
               kind: "external",
               label: "{{actions.register:translate}}",
               href: "",
-              disabled: entity.isCanceled ? null : "true",
+              disabled: obj.isCanceled ? "true" : null,
             },
           ],
           obj

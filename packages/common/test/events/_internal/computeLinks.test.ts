@@ -13,6 +13,8 @@ describe("computeLinks", () => {
       siteRelative: "/events/my-events-are-awesome-123-31c",
       siteRelativeEntityType: "",
       workspaceRelative: "/workspace/events/31c",
+      thumbnail:
+        "https://hubqacdn.arcgis.com/opendata-ui/assets/ember-arcgis-opendata-components/assets/images/placeholders/event.png",
     });
   });
 });

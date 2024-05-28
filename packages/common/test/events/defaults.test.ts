@@ -47,6 +47,9 @@ describe("HubEvent defaults:", () => {
         tags: [],
         readGroupIds: [],
         editGroupIds: [],
+        view: {
+          heroActions: [],
+        },
         ...datesAndTimes,
       });
       expect(getDefaultEventDatesAndTimesSpy).toHaveBeenCalledTimes(1);

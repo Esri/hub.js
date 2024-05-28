@@ -61,6 +61,8 @@ describe("eventToSearchResult", () => {
         siteRelative: `/events/my-event-title-${event.id}`,
         siteRelativeEntityType: "",
         workspaceRelative: `/workspace/events/${event.id}`,
+        thumbnail:
+          "https://hubqacdn.arcgis.com/opendata-ui/assets/ember-arcgis-opendata-components/assets/images/placeholders/event.png",
       },
       tags: event.tags,
       categories: event.categories,
@@ -96,6 +98,8 @@ describe("eventToSearchResult", () => {
         siteRelative: `/events/my-event-title-${event.id}`,
         siteRelativeEntityType: "",
         workspaceRelative: `/workspace/events/${event.id}`,
+        thumbnail:
+          "https://hubqacdn.arcgis.com/opendata-ui/assets/ember-arcgis-opendata-components/assets/images/placeholders/event.png",
       },
       tags: event.tags,
       categories: event.categories,
