@@ -3,6 +3,7 @@ import {
   mapEntityToStore,
   mapStoreToEntity,
 } from "../../core/_internal/PropertyMapper";
+import { HubActionLink } from "../../core/types/ActionLinks";
 import { IHubEvent } from "../../core/types/IHubEvent";
 import { SettableAccessLevel } from "../../core/types/types";
 import { setProp } from "../../objects/set-prop";
@@ -17,6 +18,7 @@ import {
 import { HubEventAttendanceType, HubEventOnlineCapacityType } from "../types";
 import { computeLinks } from "./computeLinks";
 import { getEventSlug } from "./getEventSlug";
+import { getEventThumbnail } from "./getEventThumbnail";
 
 /**
  * @private
@@ -90,22 +92,18 @@ export class EventPropertyMapper extends PropertyMapper<
     obj.updatedDateSource = "updatedAt";
     obj.links = computeLinks(store as IEvent);
     obj.slug = getEventSlug(store as IEvent);
-    obj.thumbnailUrl =
-      "https://hubqacdn.arcgis.com/opendata-ui/assets/ember-arcgis-opendata-components/assets/images/placeholders/event.png";
-    store.allowRegistration
-      ? setProp(
-          "view.heroActions",
-          [
-            {
-              kind: "external",
-              label: "{{actions.register:translate}}",
-              href: "",
-              disabled: obj.isCanceled ? "true" : null,
-            },
-          ],
-          obj
-        )
-      : setProp("view.heroActions", [], obj);
+    obj.thumbnailUrl = getEventThumbnail();
+
+    const heroActions: HubActionLink[] = [];
+    if (store.allowRegistration) {
+      heroActions.push({
+        kind: "well-known",
+        action: "register",
+        label: "{{actions.register:translate}}",
+        disabled: obj.isCanceled,
+      });
+    }
+    obj.view = { heroActions };
 
     return obj;
   }

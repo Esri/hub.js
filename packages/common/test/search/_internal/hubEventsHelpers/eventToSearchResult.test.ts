@@ -3,6 +3,7 @@ import { AccessLevel } from "../../../../src/core/types/types";
 import { EventAccess, IEvent } from "../../../../src/events/api/types";
 import { eventToSearchResult } from "../../../../src/search/_internal/hubEventsHelpers/eventToSearchResult";
 import { IHubSearchOptions } from "../../../../src/search/types/IHubSearchOptions";
+import { getEventThumbnail } from "../../../../src/events/_internal/getEventThumbnail";
 
 describe("eventToSearchResult", () => {
   const options = {
@@ -61,8 +62,7 @@ describe("eventToSearchResult", () => {
         siteRelative: `/events/my-event-title-${event.id}`,
         siteRelativeEntityType: "",
         workspaceRelative: `/workspace/events/${event.id}`,
-        thumbnail:
-          "https://hubqacdn.arcgis.com/opendata-ui/assets/ember-arcgis-opendata-components/assets/images/placeholders/event.png",
+        thumbnail: getEventThumbnail(),
       },
       tags: event.tags,
       categories: event.categories,
@@ -98,8 +98,7 @@ describe("eventToSearchResult", () => {
         siteRelative: `/events/my-event-title-${event.id}`,
         siteRelativeEntityType: "",
         workspaceRelative: `/workspace/events/${event.id}`,
-        thumbnail:
-          "https://hubqacdn.arcgis.com/opendata-ui/assets/ember-arcgis-opendata-components/assets/images/placeholders/event.png",
+        thumbnail: getEventThumbnail(),
       },
       tags: event.tags,
       categories: event.categories,

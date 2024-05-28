@@ -1,5 +1,6 @@
 import { IHubEvent } from "../../../src/core/types/IHubEvent";
 import { EventPropertyMapper } from "../../../src/events/_internal/PropertyMapper";
+import { getEventThumbnail } from "../../../src/events/_internal/getEventThumbnail";
 import { getPropertyMap } from "../../../src/events/_internal/getPropertyMap";
 import { IOnlineMeeting } from "../../../src/events/api/orval/api/orval-events";
 import {
@@ -152,12 +153,10 @@ describe("PropertyMapper", () => {
           siteRelative: "/events/event-title-31c",
           siteRelativeEntityType: "",
           workspaceRelative: "/workspace/events/31c",
-          thumbnail:
-            "https://hubqacdn.arcgis.com/opendata-ui/assets/ember-arcgis-opendata-components/assets/images/placeholders/event.png",
+          thumbnail: getEventThumbnail(),
         },
         slug: "event-title-31c",
-        thumbnailUrl:
-          "https://hubqacdn.arcgis.com/opendata-ui/assets/ember-arcgis-opendata-components/assets/images/placeholders/event.png",
+        thumbnailUrl: getEventThumbnail(),
         view: {
           heroActions: [],
         },
@@ -210,10 +209,10 @@ describe("PropertyMapper", () => {
       expect(res.view).toEqual({
         heroActions: [
           {
-            kind: "external",
+            kind: "well-known",
+            action: "register",
             label: "{{actions.register:translate}}",
-            href: "",
-            disabled: "true",
+            disabled: true,
           },
         ],
       });

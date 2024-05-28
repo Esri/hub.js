@@ -30,7 +30,7 @@ interface IHubBaseActionLink {
   /** action icon */
   icon?: string;
   /** whether or not to disable the button */
-  disabled?: string;
+  disabled?: boolean;
 }
 
 /**

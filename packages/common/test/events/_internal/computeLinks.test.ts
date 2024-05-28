@@ -1,5 +1,6 @@
 import { IEvent } from "../../../src/events/api/orval/api/orval-events";
 import { computeLinks } from "../../../src/events/_internal/computeLinks";
+import { getEventThumbnail } from "../../../src/events/_internal/getEventThumbnail";
 
 describe("computeLinks", () => {
   it("should compute links for an event", () => {
@@ -13,8 +14,7 @@ describe("computeLinks", () => {
       siteRelative: "/events/my-events-are-awesome-123-31c",
       siteRelativeEntityType: "",
       workspaceRelative: "/workspace/events/31c",
-      thumbnail:
-        "https://hubqacdn.arcgis.com/opendata-ui/assets/ember-arcgis-opendata-components/assets/images/placeholders/event.png",
+      thumbnail: getEventThumbnail(),
     });
   });
 });
