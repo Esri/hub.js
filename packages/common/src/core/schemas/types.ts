@@ -180,13 +180,24 @@ export interface IValidationResult {
   errors?: Ajv.ErrorObject[];
 }
 
+/**
+ * A rule for a uiSchema element.
+ * NOTE: 'condition' is deprecated and just exists for backwards compatibility.
+ * Please use 'conditions' instead for new rules.
+ */
 export interface IUiSchemaRule {
   effect: UiSchemaRuleEffects;
+  // **DEPRECATED:** defining a single condition is deprecated. Please use .conditions instead
   condition: {
     scope?: string;
     schema: IConfigurationSchema;
   };
+  conditions?: IUiSchemaRuleCondition[];
 }
+
+export type IUiSchemaRuleCondition =
+  | { scope?: string; schema: IConfigurationSchema }
+  | boolean;
 
 export interface IUiSchemaElement {
   type: string;
