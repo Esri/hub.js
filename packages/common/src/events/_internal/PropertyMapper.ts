@@ -97,7 +97,7 @@ export class EventPropertyMapper extends PropertyMapper<
           [
             {
               kind: "external",
-              label: "{{arcgis-hub-entity-hero.actions.register:translate}}",
+              label: "{{actions.register:translate}}",
               href: "",
               disabled: entity.isCanceled ? null : "true",
             },
