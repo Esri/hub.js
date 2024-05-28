@@ -3,6 +3,7 @@ import {
   getContentEditUrl,
   getExtentObject,
   deriveLocationFromItem,
+  getHubRelativeUrl,
 } from "../../../src/content/_internal/internalContentUtils";
 import * as internalContentUtils from "../../../src/content/_internal/internalContentUtils";
 import * as Compose from "../../../src/content/compose";
@@ -484,6 +485,78 @@ describe("deriveLocationFromItem", () => {
       spatialReference: {
         wkid: 4326,
       },
+    });
+  });
+});
+
+describe("getHubRelativeUrl", () => {
+  describe("handle when there is an identifier", () => {
+    const identifier = "a-slug";
+    it("should handle a family that does not have a puralized route", () => {
+      // 'report template' should be in the 'content' family
+      const result = getHubRelativeUrl("report template", identifier);
+      expect(result).toBe(`/content/${identifier}`);
+    });
+    it("should handle initiatives", () => {
+      const result = getHubRelativeUrl("Hub Initiative", identifier);
+      expect(result).toBe(`/initiatives/${identifier}`);
+    });
+    it("should handle projects", () => {
+      const result = getHubRelativeUrl("Hub Project", identifier);
+      expect(result).toBe(`/projects/${identifier}`);
+    });
+    it("should handle initiative templates", () => {
+      let result = getHubRelativeUrl("Hub Initiative", identifier, [
+        "hubInitiativeTemplate",
+      ]);
+      expect(result).toBe(`/initiatives/templates/${identifier}/about`);
+      result = getHubRelativeUrl("Hub Initiative Template", identifier);
+      expect(result).toBe(`/initiatives/templates/${identifier}/about`);
+    });
+    it("should handle solution templates", () => {
+      let result = getHubRelativeUrl("Web Mapping Application", identifier, [
+        "hubSolutionTemplate",
+      ]);
+      expect(result).toBe(`/templates/${identifier}/about`);
+      result = getHubRelativeUrl("Web Mapping Application", identifier);
+      expect(result).toBe(`/apps/${identifier}`);
+      result = getHubRelativeUrl("Solution", identifier);
+      expect(result).toBe(`/templates/${identifier}/about`);
+      result = getHubRelativeUrl("Solution", identifier, ["Deployed"]);
+      expect(result).toBe(`/content/${identifier}/about`);
+    });
+    it("should handle feedback", () => {
+      const result = getHubRelativeUrl("Form", identifier);
+      expect(result).toBe(`/feedback/surveys/${identifier}`);
+    });
+    it("should handle discussion", () => {
+      const result = getHubRelativeUrl("Discussion", identifier);
+      expect(result).toBe(`/discussions/${identifier}`);
+    });
+  });
+  describe("handle when there is no identifier", () => {
+    it("should handle a family that does not have a puralized route", () => {
+      // 'report template' should be in the 'content' family
+      let result = getHubRelativeUrl("report template");
+      expect(result).toBe("");
+      result = getHubRelativeUrl("StoryMap");
+      expect(result).toBe("");
+    });
+    it("should handle initiatives", () => {
+      const result = getHubRelativeUrl("Hub Initiative");
+      expect(result).toBe(`/initiatives`);
+    });
+    it("should handle projects", () => {
+      const result = getHubRelativeUrl("Hub Project");
+      expect(result).toBe(`/projects`);
+    });
+    it("should handle feedback", () => {
+      const result = getHubRelativeUrl("Form");
+      expect(result).toBe("");
+    });
+    it("should handle discussion", () => {
+      const result = getHubRelativeUrl("Discussion");
+      expect(result).toBe("");
     });
   });
 });

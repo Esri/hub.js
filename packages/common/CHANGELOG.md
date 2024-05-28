@@ -1,3 +1,17 @@
+## @esri/hub-common [14.135.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.135.0...@esri/hub-common@14.135.1) (2024-05-24)
+
+
+### Bug Fixes
+
+* add siteRelativeEntityType link to multiple entities ([#1522](https://github.com/Esri/hub.js/issues/1522)) ([6557279](https://github.com/Esri/hub.js/commit/6557279ab9dfe23dc8a781cda41a48dbc880c5aa))
+
+# @esri/hub-common [14.135.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.134.1...@esri/hub-common@14.135.0) (2024-05-24)
+
+
+### Features
+
+* add a partners case to well known item catalog ([#1517](https://github.com/Esri/hub.js/issues/1517)) ([0ddf25f](https://github.com/Esri/hub.js/commit/0ddf25fb39d3eac051eaac52f7251ff2dfd75407))
+
 ## @esri/hub-common [14.134.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.134.0...@esri/hub-common@14.134.1) (2024-05-24)
 
 
