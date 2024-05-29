@@ -5,7 +5,7 @@
 const fs = require("fs");
 require('dotenv').config();
 
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
     // this allows debugging
     browserNoActivityTimeout: 12000000,
@@ -106,7 +106,12 @@ module.exports = function(config) {
 
     // Expose this as `window.__env__.QACREDS_PSW
     // Used in config files in e2e folders
-    envPreprocessor: ["QACREDS_PSW", "QACREDS_USER_PSW"],
+    envPreprocessor: [
+      "QA_CREDS_PSW",
+      "QA_CREDS_USER_PSW",
+      "PROD_CREDS_PSW",
+      "DEV_CREDS_PSW",
+    ],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'

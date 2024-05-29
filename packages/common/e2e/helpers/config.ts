@@ -6,28 +6,42 @@
  */
 import { getProp } from "../../src";
 
-let PWD;
+let QA_PWD;
 let USER_PWD;
+let PROD_PWD;
+let DEV_PWD;
+const list = [
+  "QA_CREDS_PSW",
+  "QA_CREDS_USER_PSW",
+  "PROD_CREDS_PSW",
+  "DEV_CREDS_PSW",
+];
+
 if (typeof window === "undefined" && process.env) {
-  if (!process.env.QACREDS_PSW || !process.env.QACREDS_USER_PSW) {
+  const missing = list.filter((key) => !getProp(process.env, key));
+  if (missing.length) {
     throw new Error(
-      "QACREDS_PSW or QACREDS_USER_PSW Could not be read! Please ensure you have a .env file configured! Use the .env-example file and ask others on the team where to get the values!"
+      `${missing.join(
+        ", "
+      )} Could not be read! Please ensure you have a .env file configured! Use the .env-example file and ask others on the team where to get the values!`
     );
   } else {
-    PWD = process.env.QACREDS_PSW;
-    USER_PWD = process.env.QACREDS_USER_PSW;
+    QA_PWD = process.env.QA_CREDS_PSW;
+    USER_PWD = process.env.QA_CREDS_USER_PSW;
   }
 } else {
-  if (
-    !getProp(window, "__env__.QACREDS_PSW") ||
-    !getProp(window, "__env__.QACREDS_USER_PSW")
-  ) {
+  const missing = list.filter((key) => !getProp(window, `__env__.${key}`));
+  if (missing.length) {
     throw new Error(
-      "QACREDS_PSW or QACREDS_USER_PSW Could not be read! Please ensure you have a .env file configured! Use the .env-example file and ask others on the team where to get the values!"
+      `${missing.join(
+        ", "
+      )} Could not be read! Please ensure you have a .env file configured! Use the .env-example file and ask others on the team where to get the values!`
     );
   } else {
-    PWD = getProp(window, "__env__.QACREDS_PSW");
-    USER_PWD = getProp(window, "__env__.QACREDS_USER_PSW");
+    QA_PWD = getProp(window, "__env__.QA_CREDS_PSW");
+    USER_PWD = getProp(window, "__env__.QA_CREDS_USER_PSW");
+    PROD_PWD = getProp(window, "__env__.PROD_CREDS_PSW");
+    DEV_PWD = getProp(window, "__env__.DEV_CREDS_PSW");
   }
 }
 
@@ -47,11 +61,11 @@ const config = {
           orgUrl: "https://qa-pre-hub.mapsqa.arcgis.com",
           admin: {
             username: "e2e_pre_pub_admin",
-            password: PWD,
+            password: QA_PWD,
           },
           user: {
             username: "e2e_pre_pub_publisher",
-            password: PWD,
+            password: QA_PWD,
           },
           fixtures: {
             items: {
@@ -65,11 +79,11 @@ const config = {
           orgUrl: "https://qa-pre-a-hub.mapsqa.arcgis.com",
           admin: {
             username: "e2e_pre_a_pub_admin",
-            password: PWD,
+            password: QA_PWD,
           },
           user: {
             username: "e2e_pre_a_pub_publisher",
-            password: PWD,
+            password: QA_PWD,
           },
           paige: {
             username: "paige_pa",
@@ -87,11 +101,11 @@ const config = {
           orgUrl: "https://qa-bas-hub.mapsqa.arcgis.com",
           admin: {
             username: "e2e_bas_pub_admin",
-            password: PWD,
+            password: QA_PWD,
           },
           user: {
             username: "e2e_bas_pub_publisher",
-            password: PWD,
+            password: QA_PWD,
           },
           fixtures: {
             items: {
@@ -111,6 +125,38 @@ const config = {
             password: process.env.QA_PORTAL_CREDS_PSW,
           },
           fixtures: {},
+        },
+      },
+    },
+    devext: {
+      agoBaseDomain: "mapsdevext.arcgis.com",
+      hubBaseDomain: "hubdev.arcgis.com",
+      orgs: {
+        hubPremium: {
+          orgShort: "dev-pre-hub",
+          orgUrl: "https://dev-pre-hub.mapsdevext.arcgis.com",
+          admin: {
+            username: "e2e_pre_pub_admin",
+            password: DEV_PWD,
+          },
+          user: {
+            username: "e2e_pre_pub_publisher",
+            password: DEV_PWD,
+          },
+        },
+      },
+    },
+    prod: {
+      agoBaseDomain: "maps.arcgis.com",
+      hubBaseDomain: "hub.arcgis.com",
+      orgs: {
+        hubPremium: {
+          orgShort: "prod-pre-hub",
+          orgUrl: "https://prod-pre-hub.maps.arcgis.com",
+          admin: {
+            username: "e2e_pre_pub_admin",
+            password: PROD_PWD,
+          },
         },
       },
     },
