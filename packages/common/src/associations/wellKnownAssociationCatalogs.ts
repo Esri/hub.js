@@ -138,13 +138,15 @@ export async function getWellKnownAssociationsCatalog(
  * @param entity - primary entity the catalog is being built for
  * @param associationType - type of entity the primary entity wants to view associations for
  * @param context - contextual auth and portal information
+ * @param catalogs - optional list of well-known catalogs to include
  * @returns {IHubCatalog[]}
  */
 export const getAvailableToRequestAssociationCatalogs = (
   i18nScope: string,
   entity: HubEntity,
   associationType: HubEntityType,
-  context: IArcGISContext
+  context: IArcGISContext,
+  catalogs?: WellKnownCatalog[]
 ) => {
   const entityType = getTypeFromEntity(entity);
   const isSupported = isAssociationSupported(entityType, associationType);
@@ -162,11 +164,11 @@ export const getAvailableToRequestAssociationCatalogs = (
   )?.filters;
 
   // Default catalogs to include
-  const catalogNames: WellKnownCatalog[] = [
+  const catalogNames: WellKnownCatalog[] = catalogs || [
     "myContent",
+    "favorites",
     "organization",
-    "community",
-    "partners",
+    "world",
   ];
 
   return catalogNames
