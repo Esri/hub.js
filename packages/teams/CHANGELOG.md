@@ -1,3 +1,10 @@
+## @esri/hub-teams [14.1.1](https://github.com/Esri/hub.js/compare/@esri/hub-teams@14.1.0...@esri/hub-teams@14.1.1) (2024-05-29)
+
+
+### Bug Fixes
+
+* add e2e to verify site + domain removal ([#1531](https://github.com/Esri/hub.js/issues/1531)) ([e8dd093](https://github.com/Esri/hub.js/commit/e8dd09313c9a783b10e1705fd587a8511ee8c8ce))
+
 # @esri/hub-teams [14.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-teams@14.0.0...@esri/hub-teams@14.1.0) (2023-10-08)
 
 
