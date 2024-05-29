@@ -3,7 +3,7 @@ import { IArcGISContext } from "../../ArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 import { getDatePickerDate } from "../../utils/date/getDatePickerDate";
 import { IHubEvent } from "../../core/types/IHubEvent";
-import { getCategoryItems } from "../../core/schemas/internal/getCategoryItems";
+import { getNestedCategoryItems } from "../../core/schemas/internal/getCategoryItems";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { HubEventAttendanceType, HubEventOnlineCapacityType } from "../types";
 
@@ -356,12 +356,12 @@ export const buildUiSchema = async (
             type: "Control",
             options: {
               control: "hub-field-input-combobox",
-              items: await getCategoryItems(
+              items: await getNestedCategoryItems(
                 context.portal.id,
                 context.hubRequestOptions
               ),
               allowCustomValues: false,
-              selectionMode: "multiple",
+              selectionMode: "ancestors",
               placeholderIcon: "select-category",
               helperText: {
                 labelKey: `${i18nScope}.fields.categories.helperText`,

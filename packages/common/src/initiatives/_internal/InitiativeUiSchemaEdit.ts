@@ -1,10 +1,9 @@
 import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import { IArcGISContext } from "../../ArcGISContext";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
-import { getCategoryItems } from "../../core/schemas/internal/getCategoryItems";
+import { getNestedCategoryItems } from "../../core/schemas/internal/getCategoryItems";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
-import { getFeaturedContentCatalogs } from "../../core/schemas/internal/getFeaturedContentCatalogs";
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 import { IHubInitiative } from "../../core";
 import { getAuthedImageUrl } from "../../core/_internal/getAuthedImageUrl";
@@ -188,12 +187,12 @@ export const buildUiSchema = async (
             type: "Control",
             options: {
               control: "hub-field-input-combobox",
-              items: await getCategoryItems(
+              items: await getNestedCategoryItems(
                 context.portal.id,
                 context.hubRequestOptions
               ),
               allowCustomValues: false,
-              selectionMode: "multiple",
+              selectionMode: "ancestors",
               placeholderIcon: "select-category",
               helperText: {
                 labelKey: `${i18nScope}.fields.categories.helperText`,

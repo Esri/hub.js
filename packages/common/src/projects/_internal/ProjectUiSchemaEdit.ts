@@ -1,6 +1,6 @@
 import { IArcGISContext } from "../../ArcGISContext";
 import { IUiSchema } from "../../core/schemas/types";
-import { getCategoryItems } from "../../core/schemas/internal/getCategoryItems";
+import { getNestedCategoryItems } from "../../core/schemas/internal/getCategoryItems";
 import { getFeaturedContentCatalogs } from "../../core/schemas/internal/getFeaturedContentCatalogs";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
@@ -170,12 +170,12 @@ export const buildUiSchema = async (
             type: "Control",
             options: {
               control: "hub-field-input-combobox",
-              items: await getCategoryItems(
+              items: await getNestedCategoryItems(
                 context.portal.id,
                 context.hubRequestOptions
               ),
               allowCustomValues: false,
-              selectionMode: "multiple",
+              selectionMode: "ancestors",
               placeholderIcon: "select-category",
               helperText: {
                 labelKey: `${i18nScope}.fields.categories.helperText`,
