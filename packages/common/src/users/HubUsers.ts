@@ -26,6 +26,7 @@ export const convertUserToHubUser = (user: IUser): IHubUser => {
     summary: description,
     createdDate: new Date(user.created),
     createdDateSource: "user.created",
+    orgId: user.orgId,
     owner: user.username,
     updatedDate: new Date(user.modified),
     updatedDateSource: "user.modified",

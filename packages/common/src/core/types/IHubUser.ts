@@ -22,6 +22,11 @@ export interface IHubUser extends IHubEntityBase {
    */
   description?: string;
 
+  /**
+   * Id of the org that the user belongs to
+   */
+  orgId?: string;
+
   // NOTE: this is only needed b/c some pre-existing code
   // expects all entities to have an owner
   /**
