@@ -1,6 +1,15 @@
 import { IHubEntityBase } from "./IHubEntityBase";
 import { SettableAccessLevel } from "./types";
 
+/**
+ * Defines the properties of a Hub User object
+ *
+ * NOTE: unlike other entities, we do not support
+ * creating, updating, or deleting users due to
+ * the limitations imposed by the platform on those operations
+ *
+ * @internal
+ */
 export interface IHubUser extends IHubEntityBase {
   /**
    * Access level of the user
