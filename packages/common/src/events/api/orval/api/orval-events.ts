@@ -270,21 +270,21 @@ export interface IOnlineMeeting {
 export type ILocationGeometriesItem = { [key: string]: any };
 
 export interface ILocation {
-  addNum: string;
-  city: string;
-  cntryName: string;
+  addNum: string | null;
+  city: string | null;
+  cntryName: string | null;
   eventId: string;
-  geometries: ILocationGeometriesItem[];
+  geometries: ILocationGeometriesItem[] | null;
   id: number;
-  nbrhd: string;
-  placeAddr: string;
-  placeName: string;
-  postal: number;
-  region: string;
-  stDir: string;
-  stName: string;
-  stType: string;
-  subRegion: string;
+  nbrhd: string | null;
+  placeAddr: string | null;
+  placeName: string | null;
+  postal: number | null;
+  region: string | null;
+  stDir: string | null;
+  stName: string | null;
+  stType: string | null;
+  subRegion: string | null;
 }
 
 export interface IUser {
@@ -315,7 +315,7 @@ export interface IEvent {
   endDateTime: string;
   endTime: string;
   id: string;
-  inPersonCapacity: number;
+  inPersonCapacity: number | null;
   location?: ILocation;
   notifyAttendees: boolean;
   onlineMeetings?: IOnlineMeeting[];
