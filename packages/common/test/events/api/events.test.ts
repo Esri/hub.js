@@ -37,15 +37,6 @@ describe("Events", () => {
       const options: ICreateEventParams = {
         data: {
           access: EventAccess.ORG,
-          addresses: [
-            {
-              address: "111 Crunchy Street Bend, OR 97703",
-              address2: "Room 203",
-              capacity: 100,
-              description: "Tacos are here",
-              venue: "Taco Hall",
-            },
-          ],
           allDay: false,
           attendanceType: [
             EventAttendanceType.IN_PERSON,
@@ -55,10 +46,22 @@ describe("Events", () => {
           editGroups: ["111"],
           endDate: "2023-12-01",
           endTime: "11:30:00",
-          geometry: {
-            type: "Feature",
-            geometry: { type: "Point", coordinates: [0, 0] },
-            properties: {},
+          inPersonCapacity: 50,
+          location: {
+            addNum: "111",
+            city: "Bend",
+            cntryName: "Mexico",
+            geometries: [{ x: 50, y: 100, spatialReference: { wkid: 4326 } }],
+            nbrhd: "Old Mill",
+            placeAddr:
+              "111 Taco Blvd S, Bend, District of Somewhere Else, 97703",
+            placeName: "The Burrito House",
+            postal: 97703,
+            region: "District of Somewhere Else",
+            stDir: "S",
+            stName: "Taco",
+            stType: "Blvd",
+            subRegion: "District of Somewhere Else",
           },
           notifyAttendees: true,
           onlineMeetings: [

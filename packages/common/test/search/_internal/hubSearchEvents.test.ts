@@ -59,11 +59,9 @@ describe("hubSearchEvents", () => {
     items: [
       {
         access: EventAccess.PUBLIC,
-        // addresses: [], // TODO
         allDay: false,
         allowRegistration: true,
         attendanceType: [EventAttendanceType.IN_PERSON],
-        catalog: null,
         categories: ["category1"],
         createdAt: "2024-04-18T20:23:07.149Z",
         createdById: "user1Id",
@@ -73,8 +71,8 @@ describe("hubSearchEvents", () => {
         endDateTime: "2040-07-15T18:00:00.000Z",
         endDate: "2040-07-15",
         endTime: "14:00:00",
-        geometry: {},
         id: "event1Id",
+        inPersonCapacity: null,
         notifyAttendees: true,
         orgId: "org1Id",
         permission: {
@@ -117,11 +115,9 @@ describe("hubSearchEvents", () => {
       },
       {
         access: EventAccess.PUBLIC,
-        // addresses: [], // TODO
         allDay: false,
         allowRegistration: true,
         attendanceType: [EventAttendanceType.VIRTUAL],
-        catalog: null,
         categories: ["category2"],
         createdAt: "2024-04-19T20:23:07.149Z",
         createdById: "user2Id",
@@ -131,8 +127,8 @@ describe("hubSearchEvents", () => {
         endDateTime: "2030-07-15T18:00:00.000Z",
         endDate: "2030-07-15",
         endTime: "11:00:00",
-        geometry: {},
         id: "event2Id",
+        inPersonCapacity: null,
         notifyAttendees: true,
         orgId: "org1Id",
         permission: {
@@ -182,14 +178,12 @@ describe("hubSearchEvents", () => {
     items: [
       {
         access: EventAccess.PRIVATE,
-        // addresses: [], // TODO
         allDay: false,
         allowRegistration: true,
         attendanceType: [
           EventAttendanceType.VIRTUAL,
           EventAttendanceType.IN_PERSON,
         ],
-        catalog: null,
         categories: ["category3"],
         createdAt: "2024-02-25T10:10:10.120",
         createdById: "user3Id",
@@ -199,8 +193,8 @@ describe("hubSearchEvents", () => {
         endDateTime: "2030-05-15T18:00:00.000Z",
         endDate: "2030-05-15",
         endTime: "12:00:00",
-        geometry: {},
         id: "event3Id",
+        inPersonCapacity: null,
         notifyAttendees: true,
         orgId: "org1Id",
         permission: {
