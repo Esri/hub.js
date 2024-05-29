@@ -75,6 +75,7 @@ describe("HubEvents edit module", () => {
         endDate: datesAndTimes.endDate,
         endTime: datesAndTimes.endTime,
         notifyAttendees: true,
+        inPersonCapacity: 50,
         readGroups: [],
         startDateTime: datesAndTimes.startDateTime.toISOString(),
         startDate: datesAndTimes.startDate,
@@ -122,7 +123,6 @@ describe("HubEvents edit module", () => {
       expect(createEventApiSpy).toHaveBeenCalledWith({
         data: {
           access: defaultRecord.access,
-          addresses: defaultRecord.addresses,
           allDay: defaultRecord.allDay,
           allowRegistration: defaultRecord.allowRegistration,
           attendanceType: defaultRecord.attendanceType,
@@ -132,6 +132,7 @@ describe("HubEvents edit module", () => {
           // endDateTime not included
           endDate: defaultRecord.endDate,
           endTime: defaultRecord.endTime,
+          inPersonCapacity: defaultRecord.inPersonCapacity,
           notifyAttendees: defaultRecord.notifyAttendees,
           onlineMeetings: defaultRecord.onlineMeetings,
           readGroups: defaultRecord.readGroups,
@@ -204,6 +205,7 @@ describe("HubEvents edit module", () => {
         endDateTime: datesAndTimes.endDateTime.toISOString(),
         endDate: datesAndTimes.endDate,
         endTime: datesAndTimes.endTime,
+        inPersonCapacity: 50,
         notifyAttendees: true,
         readGroups: [],
         startDateTime: datesAndTimes.startDateTime.toISOString(),
@@ -258,7 +260,6 @@ describe("HubEvents edit module", () => {
         eventId: "31c",
         data: {
           access: defaultRecord.access,
-          addresses: defaultRecord.addresses,
           allDay: defaultRecord.allDay,
           allowRegistration: defaultRecord.allowRegistration,
           attendanceType: defaultRecord.attendanceType,
@@ -268,6 +269,7 @@ describe("HubEvents edit module", () => {
           // endDateTime not included
           endDate: defaultRecord.endDate,
           endTime: defaultRecord.endTime,
+          inPersonCapacity: defaultRecord.inPersonCapacity,
           notifyAttendees: defaultRecord.notifyAttendees,
           onlineMeetings: defaultRecord.onlineMeetings,
           readGroups: defaultRecord.readGroups,
