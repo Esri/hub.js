@@ -3,29 +3,29 @@ import { isComboboxItemSelected } from "../../src/utils/isComboboxItemSelected";
 
 const nodes = [
   {
-    value: "Thing A",
+    value: "/Categories/Thing A",
     label: "Thing A",
   } as IUiSchemaComboboxItem,
   {
-    value: "Thing B",
+    value: "/Categories/Thing B",
     label: "Thing B",
     children: [
       {
-        value: "Thing B / Child of B",
+        value: "/Categories/Thing B/Child of B",
         label: "Child of B",
       },
     ],
   } as IUiSchemaComboboxItem,
   {
-    value: "Thing C",
+    value: "/Categories/Thing C",
     label: "Thing C",
     children: [
       {
-        value: "Thing C / Child of C",
+        value: "/Categories/Thing C/Child of C",
         label: "Child of C",
       } as IUiSchemaComboboxItem,
       {
-        value: "Thing C / Thing A", // note the duplicate label from before, but different value
+        value: "/Categories/Thing C/Thing A", // note the duplicate label from before, but different value
         label: "Thing A",
       } as IUiSchemaComboboxItem,
     ],
@@ -34,7 +34,7 @@ const nodes = [
 
 describe("isComboboxItemSelected:", () => {
   it("will select top level node", async () => {
-    const selected = ["Thing A"];
+    const selected = ["/Categories/Thing A"];
     expect(isComboboxItemSelected(nodes[0], selected)).toBe(true);
     expect(isComboboxItemSelected(nodes[1], selected)).toBe(false);
     expect(isComboboxItemSelected(nodes[1].children![0], selected)).toBe(false);
@@ -44,7 +44,7 @@ describe("isComboboxItemSelected:", () => {
   });
 
   it("will select child node and subsequently its parent node", async () => {
-    const selected = ["Thing B / Child of B"];
+    const selected = ["/Categories/Thing B/Child of B"];
     expect(isComboboxItemSelected(nodes[0], selected)).toBe(false);
     expect(isComboboxItemSelected(nodes[1], selected)).toBe(true);
     expect(isComboboxItemSelected(nodes[1].children![0], selected)).toBe(true);
@@ -54,7 +54,7 @@ describe("isComboboxItemSelected:", () => {
   });
 
   it("will check correct nodes even if there are two nodes with equal labels (but differing values)", async () => {
-    const selected = ["Thing C / Thing A"];
+    const selected = ["/Categories/Thing C/Thing A"];
     expect(isComboboxItemSelected(nodes[0], selected)).toBe(false);
     expect(isComboboxItemSelected(nodes[1], selected)).toBe(false);
     expect(isComboboxItemSelected(nodes[1].children![0], selected)).toBe(false);
