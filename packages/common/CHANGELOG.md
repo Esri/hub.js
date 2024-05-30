@@ -1,3 +1,10 @@
+## @esri/hub-common [14.135.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.135.1...@esri/hub-common@14.135.2) (2024-05-29)
+
+
+### Bug Fixes
+
+* add e2e to verify site + domain removal ([#1531](https://github.com/Esri/hub.js/issues/1531)) ([e8dd093](https://github.com/Esri/hub.js/commit/e8dd09313c9a783b10e1705fd587a8511ee8c8ce))
+
 ## @esri/hub-common [14.135.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.135.0...@esri/hub-common@14.135.1) (2024-05-24)
 
 
