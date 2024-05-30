@@ -6,6 +6,7 @@ import {
 import { getFormInfoJson } from "./get-form-info-json";
 import { isSurvey123Connect } from "./is-survey123-connect";
 import { decodeForm } from "./decode-form";
+import { isDraft } from "./is-draft";
 
 /**
  * Given a Survey Item, return the form json, if it exists.
@@ -17,6 +18,9 @@ export const getFormJson = async (
   item: IItem,
   requestOptions: IGetItemInfoOptions
 ) => {
+  if (isDraft(item)) {
+    return null;
+  }
   const { name } = await getFormInfoJson(item.id, requestOptions);
   let promise;
   if (isSurvey123Connect(item)) {

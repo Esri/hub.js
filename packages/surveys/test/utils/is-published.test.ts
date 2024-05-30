@@ -2,14 +2,15 @@
  * Apache-2.0 */
 
 import { isPublished } from "../../src/utils/is-published";
-import * as publishUtils from "../../src/utils/is-draft";
+import * as publishUtils from "@esri/hub-common";
 import * as FormItemDraft from "../../../common/test/mocks/items/form-item-draft.json";
 import * as FormItemPublished from "../../../common/test/mocks/items/form-item-published.json";
+import { IItem } from "@esri/arcgis-rest-types";
 
 describe("isPublished", function () {
   it("should return true when isDraft returns false", function () {
     const isDraftStub = spyOn(publishUtils, "isDraft").and.returnValue(false);
-    const result = isPublished(FormItemDraft);
+    const result = isPublished(FormItemDraft as unknown as IItem);
     expect(isDraftStub.calls.count()).toBe(1);
     expect(isDraftStub.calls.argsFor(0)).toEqual([FormItemDraft]);
     expect(result).toBe(true);

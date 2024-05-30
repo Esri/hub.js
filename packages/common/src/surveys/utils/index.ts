@@ -9,6 +9,7 @@ export * from "./get-source-feature-service-model-from-fieldworker";
 export * from "./get-stakeholder-model";
 export * from "./get-survey-models";
 export * from "./has-map-question";
+export * from "./is-draft";
 export * from "./is-fieldworker-view";
 export * from "./is-map-question";
 export * from "./is-page-question";
