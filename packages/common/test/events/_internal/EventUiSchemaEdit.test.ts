@@ -434,7 +434,7 @@ describe("EventUiSchemaEdit", () => {
                   control: "hub-field-input-combobox",
                   items: categories,
                   allowCustomValues: false,
-                  selectionMode: "multiple",
+                  selectionMode: "ancestors",
                   placeholderIcon: "select-category",
                   helperText: {
                     labelKey: `myI18nScope.fields.categories.helperText`,
