@@ -125,6 +125,7 @@ export enum UiSchemaRuleEffects {
   SHOW = "SHOW",
   HIDE = "HIDE",
   DISABLE = "DISABLE",
+  ENABLE = "ENABLE",
   NONE = "",
 }
 
@@ -180,14 +181,6 @@ export interface IValidationResult {
   errors?: Ajv.ErrorObject[];
 }
 
-export interface IUiSchemaRule {
-  effect: UiSchemaRuleEffects;
-  condition: {
-    scope?: string;
-    schema: IConfigurationSchema;
-  };
-}
-
 export interface IUiSchemaElement {
   type: string;
   id?: string;
@@ -222,33 +215,17 @@ export interface IUiSchemaComboboxItem {
   children?: IUiSchemaComboboxItem[];
 }
 
+/**
+ * A rule for a uiSchema element. This rule will be evaluated
+ * to determine if the element should assume the provided effect.
+ *
+ * NOTE: `.condition` is deprecated and remains for backwards compatibility only. Please use `.conditions` instead.
+ */
 export interface IUiSchemaRule {
   effect: UiSchemaRuleEffects;
-  condition: IUiSchemaCondition;
-}
-
-export interface IUiSchemaCondition {
-  scope?: string;
-  schema: IConfigurationSchema;
-}
-
-export interface IUiSchemaMessage {
-  type: UiSchemaMessageTypes;
-  display?: "message" | "notice";
-  keyword?: string;
-  label?: string;
-  labelKey?: string;
-  icon?: boolean | string;
-  kind?: "brand" | "danger" | "info" | "success" | "warning";
-  hidden?: boolean;
+  // NOTE: condition is deprecated and remains for backwards compatibility only. Please use conditions instead.
   condition?: IUiSchemaCondition;
-  allowShowBeforeInteract?: boolean;
-  alwaysShow?: boolean;
-}
-
-export interface IUiSchemaRule {
-  effect: UiSchemaRuleEffects;
-  condition: IUiSchemaCondition;
+  conditions?: Array<IUiSchemaCondition | boolean>;
 }
 
 export interface IUiSchemaCondition {
@@ -256,6 +233,11 @@ export interface IUiSchemaCondition {
   schema: IConfigurationSchema;
 }
 
+/**
+ * A message to display for a uiSchema element.
+ *
+ * NOTE: `.condition` is deprecated and remains for backwards compatibility only. Please use `.conditions` instead.
+ */
 export interface IUiSchemaMessage {
   type: UiSchemaMessageTypes;
   display?: "message" | "notice";
@@ -267,7 +249,9 @@ export interface IUiSchemaMessage {
   icon?: boolean | string;
   kind?: "brand" | "danger" | "info" | "success" | "warning";
   hidden?: boolean;
+  // NOTE: condition is deprecated and remains for backwards compatibility only. Please use conditions instead.
   condition?: IUiSchemaCondition;
+  conditions?: Array<IUiSchemaCondition | boolean>;
   allowShowBeforeInteract?: boolean;
   alwaysShow?: boolean;
 }

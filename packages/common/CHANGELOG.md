@@ -1,3 +1,10 @@
+# @esri/hub-common [14.136.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.135.2...@esri/hub-common@14.136.0) (2024-05-30)
+
+
+### Features
+
+* update IUiSchemaRule def ([#1528](https://github.com/Esri/hub.js/issues/1528)) ([efdf9fb](https://github.com/Esri/hub.js/commit/efdf9fb7c68e6fb920b7e793e04c316f68eed57c))
+
 ## @esri/hub-common [14.135.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.135.1...@esri/hub-common@14.135.2) (2024-05-29)
 
 
