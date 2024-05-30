@@ -11,7 +11,7 @@ import { IUiSchemaComboboxItem } from "../types";
  * @param hubRequestOptions The hub request options
  * @returns a _nested_ structure of categories
  */
-export async function getNestedCategoryItems(
+export async function getCategoryItems(
   orgId: string,
   hubRequestOptions: IHubRequestOptions
 ): Promise<IUiSchemaComboboxItem[]> {
@@ -22,50 +22,6 @@ export async function getNestedCategoryItems(
   } catch (e) {
     return [];
   }
-}
-
-/**
- * Fetch the categorySchema for all the categories, including
- * the ones with 0 count, then recursively collet all the child
- * categories on the deepest level.
- *
- * @param orgId The organization id
- * @param hubRequestOptions The hub request options
- * @returns a _flattened_ structure of categories
- */
-export async function getFlattenedCategoryItems(
-  orgId: string,
-  hubRequestOptions: IHubRequestOptions
-): Promise<IUiSchemaComboboxItem[]> {
-  const nestedCategories = await getNestedCategoryItems(
-    orgId,
-    hubRequestOptions
-  );
-  return flattenCategories(nestedCategories, []);
-}
-
-/**
- * Recursively flatten the nested categories
- *
- * @param nestedCategories The nested categories
- * @param allCategories The array to store the flattened categories
- * @param parents The parent categories
- * @returns a _flattened_ structure of categories
- */
-function flattenCategories(
-  nestedCategories: IUiSchemaComboboxItem[],
-  allCategories: any[],
-  parents?: string
-): IUiSchemaComboboxItem[] {
-  nestedCategories.forEach((nestedCategory) => {
-    const { value, label, children } = nestedCategory;
-    const category = { value, label, parents };
-    allCategories.push(category);
-    if (children) {
-      flattenCategories(children, allCategories, value);
-    }
-  });
-  return allCategories;
 }
 
 /**
@@ -80,10 +36,16 @@ function convertCategoryProps(
   parentValue?: string
 ): IUiSchemaComboboxItem[] {
   return arrayOfCategories.map((category: any) => {
+    // if there is a parentValue, append the category title to it to give it a unique value
+    // that can be distinguished from other categories
     const value = parentValue
       ? `${parentValue} / ${category.title}`
       : category.title;
+
+    // use just the title as the label, so we don't have redundant information visually
     const label = category.title;
+
+    // if there are no more categories, return null for children, otherwise recursively call this function
     return {
       value: `${value}`,
       label: `${label}`,

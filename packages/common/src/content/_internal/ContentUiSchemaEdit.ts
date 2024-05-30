@@ -1,6 +1,6 @@
 import { IArcGISContext } from "../../ArcGISContext";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
-import { getNestedCategoryItems } from "../../core/schemas/internal/getCategoryItems";
+import { getCategoryItems } from "../../core/schemas/internal/getCategoryItems";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { IUiSchema } from "../../core/schemas/types";
@@ -115,7 +115,7 @@ export const buildUiSchema = async (
             type: "Control",
             options: {
               control: "hub-field-input-combobox",
-              items: await getNestedCategoryItems(
+              items: await getCategoryItems(
                 context.portal.id,
                 context.hubRequestOptions
               ),
