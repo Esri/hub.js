@@ -61,14 +61,14 @@ function flattenCategories(
     if (!nestedCategory.children?.length) {
       allCategories.push({
         value: parents
-          ? ` ${parents} / ${nestedCategory.value}`
+          ? `${parents} / ${nestedCategory.value}`
           : nestedCategory.value,
       });
     } else {
       flattenCategories(
         nestedCategory.children,
         allCategories,
-        parents ? ` ${parents} / ${nestedCategory.value}` : nestedCategory.value
+        parents ? `${parents} / ${nestedCategory.value}` : nestedCategory.value
       );
     }
   });
@@ -82,22 +82,21 @@ function flattenCategories(
  * @param obj The object to convert
  * @returns the converted object where `title` becomes `value` and `categories` becomes `children`
  */
-function convertCategoryProps(obj: any): any {
-  if (Array.isArray(obj)) {
-    return obj.map(convertCategoryProps);
-  } else if (typeof obj === "object" && obj !== null) {
-    const newObj: any = {};
-    for (const key in obj) {
-      if (key === "title") {
-        newObj.value = obj[key];
-      } else if (key === "categories") {
-        newObj.children = convertCategoryProps(obj[key]);
-      } else {
-        newObj[key] = obj[key];
-      }
-    }
-    return newObj;
-  } else {
-    return obj;
-  }
+function convertCategoryProps(
+  arrayOfCategories: any,
+  parentValue?: string
+): IUiSchemaComboboxItem[] {
+  return arrayOfCategories.map((category: any) => {
+    const value = parentValue
+      ? `${parentValue} / ${category.title}`
+      : category.title;
+    const label = category.title;
+    return {
+      value: `${value}`,
+      label: `${label}`,
+      children: !category.categories?.length
+        ? null
+        : convertCategoryProps(category.categories, value),
+    };
+  });
 }
