@@ -282,6 +282,7 @@ describe("PropertyMapper", () => {
         startTime: jasmine.any(String) as unknown as string,
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
+        inPersonCapacity: 30,
       } as IEvent);
     });
 
@@ -316,6 +317,7 @@ describe("PropertyMapper", () => {
         startTime: jasmine.any(String) as unknown as string,
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
+        inPersonCapacity: 30,
       } as IEvent);
     });
 
@@ -361,6 +363,7 @@ describe("PropertyMapper", () => {
         startTime: jasmine.any(String) as unknown as string,
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
+        inPersonCapacity: 30,
       } as IEvent);
     });
 
@@ -406,6 +409,7 @@ describe("PropertyMapper", () => {
         startTime: jasmine.any(String) as unknown as string,
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
+        inPersonCapacity: 30,
       } as IEvent);
     });
 
@@ -454,6 +458,7 @@ describe("PropertyMapper", () => {
         startTime: jasmine.any(String) as unknown as string,
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
+        inPersonCapacity: 30,
       } as IEvent);
     });
 
@@ -488,6 +493,7 @@ describe("PropertyMapper", () => {
         startTime: jasmine.any(String) as unknown as string,
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
+        inPersonCapacity: 30,
       } as IEvent);
     });
 
@@ -522,6 +528,7 @@ describe("PropertyMapper", () => {
         startTime: jasmine.any(String) as unknown as string,
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
+        inPersonCapacity: 30,
       } as IEvent);
     });
   });

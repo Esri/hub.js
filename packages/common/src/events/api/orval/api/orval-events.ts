@@ -21,6 +21,10 @@ export type GetEventsParams = {
    */
   entityTypes?: string;
   /**
+   * Comma separated string list of event ids
+   */
+  eventIds?: string;
+  /**
    * Comma separated string list of relation fields to include in response. Example: associations,creator,location,onlineMeetings,registrations
    */
   include?: string;
@@ -75,7 +79,7 @@ export type GetEventsParams = {
   /**
    * sort results order desc or asc
    */
-  sortOrder?: SortOrder;
+  sortOrder?: EventSortOrder;
 };
 
 export interface IUpdateRegistration {
@@ -108,7 +112,7 @@ export interface IUpdateEvent {
   /** Boolean to indicate if users can register for an event */
   allowRegistration?: boolean;
   /** Items associated with the event */
-  associations?: ICreateAssociation[];
+  associations?: ICreateEventAssociation[];
   /** Valid ways to attend the event */
   attendanceType?: EventAttendanceType[];
   /** categories for the event */
@@ -124,7 +128,7 @@ export interface IUpdateEvent {
   /** in-person capacity for the event. Minimum value is 1 */
   inPersonCapacity?: number;
   /** Location for the event */
-  location?: ICreateLocation;
+  location?: ICreateEventLocation;
   /** Flag to notify attendees */
   notifyAttendees?: boolean;
   /** Online meetings for the event */
@@ -147,7 +151,7 @@ export interface IUpdateEvent {
   title?: string;
 }
 
-export enum SortOrder {
+export enum EventSortOrder {
   asc = "asc",
   desc = "desc",
 }
@@ -199,7 +203,7 @@ export type GetRegistrationsParams = {
   /**
    * sort order desc or asc
    */
-  sortOrder?: SortOrder;
+  sortOrder?: EventSortOrder;
 };
 
 export enum EventSort {
@@ -267,14 +271,14 @@ export interface IOnlineMeeting {
   url: string;
 }
 
-export type ILocationGeometriesItem = { [key: string]: any };
+export type IEventLocationGeometriesItem = { [key: string]: any };
 
-export interface ILocation {
+export interface IEventLocation {
   addNum: string | null;
   city: string | null;
   cntryName: string | null;
   eventId: string;
-  geometries: ILocationGeometriesItem[] | null;
+  geometries: IEventLocationGeometriesItem[] | null;
   id: number;
   nbrhd: string | null;
   placeAddr: string | null;
@@ -303,7 +307,7 @@ export interface IEvent {
   access: EventAccess;
   allDay: boolean;
   allowRegistration: boolean;
-  associations?: IAssociation[];
+  associations?: IEventAssociation[];
   attendanceType: EventAttendanceType[];
   categories: string[];
   createdAt: string;
@@ -316,7 +320,7 @@ export interface IEvent {
   endTime: string;
   id: string;
   inPersonCapacity: number | null;
-  location?: ILocation;
+  location?: IEventLocation;
   notifyAttendees: boolean;
   onlineMeetings?: IOnlineMeeting[];
   orgId: string;
@@ -366,9 +370,9 @@ export interface ICreateOnlineMeeting {
   url: string;
 }
 
-export type ICreateLocationGeometriesItem = { [key: string]: any };
+export type ICreateEventLocationGeometriesItem = { [key: string]: any };
 
-export interface ICreateLocation {
+export interface ICreateEventLocation {
   /** Address number */
   addNum?: string;
   /** City */
@@ -376,7 +380,7 @@ export interface ICreateLocation {
   /** Country name */
   cntryName?: string;
   /** Array of esri geometry objects */
-  geometries?: ICreateLocationGeometriesItem[];
+  geometries?: ICreateEventLocationGeometriesItem[];
   /** Neighborhood */
   nbrhd?: string;
   /** Place address */
@@ -401,22 +405,22 @@ export enum EventAttendanceType {
   VIRTUAL = "VIRTUAL",
   IN_PERSON = "IN_PERSON",
 }
-export enum AssociationEntityType {
+export enum EventAssociationEntityType {
   Hub_Site_Application = "Hub Site Application",
   Hub_Initiative = "Hub Initiative",
   Hub_Project = "Hub Project",
 }
-export interface IAssociation {
+export interface IEventAssociation {
   entityId: string;
-  entityType: AssociationEntityType;
+  entityType: EventAssociationEntityType;
   eventId: string;
 }
 
-export interface ICreateAssociation {
+export interface ICreateEventAssociation {
   /** Entity Id */
   entityId: string;
   /** Entity type */
-  entityType: AssociationEntityType;
+  entityType: EventAssociationEntityType;
 }
 
 export enum EventAccess {
@@ -434,7 +438,7 @@ export interface ICreateEvent {
   /** Boolean to indicate if users can register for an event */
   allowRegistration?: boolean;
   /** Items associated with the event */
-  associations?: ICreateAssociation[];
+  associations?: ICreateEventAssociation[];
   /** Valid ways to attend the event */
   attendanceType?: EventAttendanceType[];
   /** categories for the event */
@@ -456,7 +460,7 @@ export interface ICreateEvent {
   /** Last name for the subscriber. Will always be extracted from the token unless service token is used. */
   lastName?: string;
   /** Location for the event */
-  location?: ICreateLocation;
+  location?: ICreateEventLocation;
   /** Flag to notify attendees */
   notifyAttendees?: boolean;
   /** Online meetings for the event. Required if attendanceType includes VIRTUAL */
