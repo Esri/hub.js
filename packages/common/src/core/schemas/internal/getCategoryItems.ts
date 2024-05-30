@@ -47,10 +47,10 @@ function convertCategoryProps(
 
     // if there are no more categories, return null for children, otherwise recursively call this function
     return {
-      value: `${value}`,
-      label: `${label}`,
+      value,
+      label,
       children: !category.categories?.length
-        ? null
+        ? []
         : convertCategoryProps(category.categories, value),
     };
   });
