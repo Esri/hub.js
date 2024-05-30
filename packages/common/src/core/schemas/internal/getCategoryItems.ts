@@ -58,18 +58,11 @@ function flattenCategories(
   parents?: string
 ): IUiSchemaComboboxItem[] {
   nestedCategories.forEach((nestedCategory) => {
-    if (!nestedCategory.children?.length) {
-      allCategories.push({
-        value: parents
-          ? `${parents} / ${nestedCategory.value}`
-          : nestedCategory.value,
-      });
-    } else {
-      flattenCategories(
-        nestedCategory.children,
-        allCategories,
-        parents ? `${parents} / ${nestedCategory.value}` : nestedCategory.value
-      );
+    const { value, label, children } = nestedCategory;
+    const category = { value, label, parents };
+    allCategories.push(category);
+    if (children) {
+      flattenCategories(children, allCategories, value);
     }
   });
   return allCategories;
