@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { IItem } from "@esri/arcgis-rest-types";
-import { isDraft } from "./is-draft";
+import { isDraft } from "@esri/hub-common";
 
 /**
  * Determines if a given Form item has been published

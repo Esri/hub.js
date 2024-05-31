@@ -105,4 +105,35 @@ describe("surveys: computeProps:", () => {
     expect(chk.hasMapQuestion).toBeTruthy();
     expect(chk.displayMap).toBeTruthy();
   });
+
+  it("handles a draft survey", async () => {
+    authdCtxMgr = await ArcGISContextManager.create({
+      authentication: MOCK_AUTH,
+      currentUser: {
+        username: "casey",
+        privileges: ["portal:user:updateSurvey"],
+      } as unknown as IUser,
+      portal: {
+        name: "DC R&D Center",
+        id: "BRXFAKE",
+        urlKey: "fake-org",
+        properties: {
+          hub: {
+            enabled: true,
+          },
+        },
+      } as unknown as IPortal,
+      portalUrl: "https://org.maps.arcgis.com",
+    });
+    model.formJSON = null;
+
+    const chk = computeProps(model, survey, authdCtxMgr.context.requestOptions);
+    expect(chk.createdDate).toBeDefined();
+    expect(chk.createdDateSource).toBe("item.created");
+    expect(chk.updatedDate).toBeDefined();
+    expect(chk.updatedDateSource).toBe("item.modified");
+    expect(chk.isDiscussable).toBeTruthy();
+    expect(chk.hasMapQuestion).toBeFalsy();
+    expect(chk.displayMap).toBeTruthy();
+  });
 });
