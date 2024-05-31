@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <meta name="date" content="2024-05-30T21:56:48.329Z">
+    <meta name="date" content="2024-05-31T13:21:29.868Z">
     <title>getCategoryItems | API Reference | @esri/hub.js</title>
     
     <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
@@ -76,7 +76,7 @@
               <path d="M7 4h5l12 12-12 12H7l12-12L7 4z" />
             </svg>
           </button>
-          <a href="/hub.js/api/common/" class="is-active tsd-kind-icon">common</a>&nbsp;<small>v14.136.0</small>
+          <a href="/hub.js/api/common/" class="is-active tsd-kind-icon">common</a>&nbsp;<small>v14.136.1</small>
           <ul id="list1" class="api-package-content-list">
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -1721,6 +1721,10 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/isBBox/" class="tsd-kind-icon padding-right-1">isBBox</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/isComboboxItemSelected/" class="tsd-kind-icon padding-right-1">isComboboxItemSelected</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -6383,12 +6387,8 @@
 
   <p>Fetch the categorySchema for all the categories, including
 the ones with 0 count, then recursively collet all the child
-categories on the deepest level. Parse into a format that
-can be consumed by the combobox field</p>
+categories on the deepest level.</p>
 
-
-  
-    <p>TODO: render nested categories in combobox</p>
 
   
 
@@ -6440,7 +6440,8 @@ can be consumed by the combobox field</p>
             <td class="code-face"></td>
             <td class="body-face api-param-comment">
               
-              
+              <p>The organization id</p>
+
             </td>
           </tr><tr id="getCategoryItems-hubRequestOptions">
             <td class="code-face">
@@ -6468,7 +6469,8 @@ can be consumed by the combobox field</p>
             <td class="code-face"></td>
             <td class="body-face api-param-comment">
               
-              
+              <p>The hub request options</p>
+
             </td>
           </tr>
       </tbody>
@@ -6487,7 +6489,8 @@ can be consumed by the combobox field</p>
     
   
 
-  <h2 class="font-size-1 trailer-half">Returns</h2>
+  <h2 class="font-size-1 trailer-half">Returns</h2><p>a <em>nested</em> structure of categories</p>
+
 
   <div class="fonts-size--1 panel padding-leader-half padding-trailer-half padding-right-half padding-left-half trailer-half">
   <i>Promise</i><i><span class="text-light-gray">&lt;</span><i class="no-wrap"><i>IUiSchemaComboboxItem</i><span class="text-light-gray">[]</span></i><span class="text-light-gray">&gt;</span></i>
@@ -6501,7 +6504,7 @@ can be consumed by the combobox field</p>
 
 
 
-<small class="font-size--2">Function defined in <a href="https://github.com/Esri/hub.js/blob/master/packages/common/src/core/schemas/internal/getCategoryItems.ts#L13">common/src/core/schemas/internal/getCategoryItems.ts:13</a></small>
+<small class="font-size--2">Function defined in <a href="https://github.com/Esri/hub.js/blob/master/packages/common/src/core/schemas/internal/getCategoryItems.ts#L14">common/src/core/schemas/internal/getCategoryItems.ts:14</a></small>
 
 
     </div>
