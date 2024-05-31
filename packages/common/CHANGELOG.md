@@ -1,3 +1,10 @@
+# @esri/hub-common [14.138.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.137.0...@esri/hub-common@14.138.0) (2024-05-31)
+
+
+### Features
+
+* **hub-common:** add user entity ([#1529](https://github.com/Esri/hub.js/issues/1529)) ([5db8e1b](https://github.com/Esri/hub.js/commit/5db8e1bab599558295ba0cf6d5e3f9fd414c7885))
+
 # @esri/hub-common [14.137.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.136.1...@esri/hub-common@14.137.0) (2024-05-31)
 
 
