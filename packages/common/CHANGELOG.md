@@ -1,3 +1,15 @@
+# @esri/hub-common [14.137.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.136.1...@esri/hub-common@14.137.0) (2024-05-31)
+
+
+### Bug Fixes
+
+* **hub-common:** survey workspace handles draft surveys ([#1534](https://github.com/Esri/hub.js/issues/1534)) ([27e3930](https://github.com/Esri/hub.js/commit/27e3930643e8a7b85e4ed46dc56336f616508358))
+
+
+### Features
+
+* **hub-common:** add register button ([#1527](https://github.com/Esri/hub.js/issues/1527)) ([b64c78b](https://github.com/Esri/hub.js/commit/b64c78bb3a598e3a765db3a7e81f718439d209e2))
+
 ## @esri/hub-common [14.136.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.136.0...@esri/hub-common@14.136.1) (2024-05-30)
 
 
