@@ -1,3 +1,10 @@
+## @esri/hub-common [14.136.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.136.0...@esri/hub-common@14.136.1) (2024-05-30)
+
+
+### Bug Fixes
+
+* **hub-common:** remove addresses from event, add more event location… ([#1532](https://github.com/Esri/hub.js/issues/1532)) ([0142d9d](https://github.com/Esri/hub.js/commit/0142d9d979c48a0fa79d7bcb2ddec86ec27d648f))
+
 # @esri/hub-common [14.136.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.135.2...@esri/hub-common@14.136.0) (2024-05-30)
 
 

@@ -1,7 +1,7 @@
 import {
   GetRegistrationsParams,
   RegistrationSort,
-  SortOrder,
+  EventSortOrder,
 } from "../../../events/api/types";
 import { IHubSearchOptions } from "../../types/IHubSearchOptions";
 
@@ -27,6 +27,6 @@ export function processAttendeeOptions(
     processedOptions.sortBy = RegistrationSort.lastName;
   }
   processedOptions.sortOrder =
-    options.sortOrder === "desc" ? SortOrder.desc : SortOrder.asc;
+    options.sortOrder === "desc" ? EventSortOrder.desc : EventSortOrder.asc;
   return processedOptions;
 }

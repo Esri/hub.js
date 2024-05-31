@@ -2,7 +2,7 @@ import { IHubSearchOptions } from "../../types/IHubSearchOptions";
 import {
   EventSort,
   GetEventsParams,
-  SortOrder,
+  EventSortOrder,
 } from "../../../events/api/orval/api/orval-events";
 
 /**
@@ -28,6 +28,6 @@ export function processOptions(
     processedOptions.sortBy = EventSort.title;
   }
   processedOptions.sortOrder =
-    options.sortOrder === "desc" ? SortOrder.desc : SortOrder.asc;
+    options.sortOrder === "desc" ? EventSortOrder.desc : EventSortOrder.asc;
   return processedOptions;
 }

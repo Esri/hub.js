@@ -63,7 +63,6 @@ export class EventPropertyMapper extends PropertyMapper<
     } else {
       obj.attendanceType = HubEventAttendanceType.Online;
     }
-    obj.inPersonCapacity = store.addresses?.[0]?.capacity ?? null;
     obj.onlineCapacity = store.onlineMeetings?.[0]?.capacity ?? null;
     obj.onlineCapacityType = store.onlineMeetings?.[0]?.capacity
       ? HubEventOnlineCapacityType.Fixed
