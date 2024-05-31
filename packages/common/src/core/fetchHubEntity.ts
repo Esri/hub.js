@@ -12,6 +12,7 @@ import { fetchHubGroup } from "../groups/HubGroups";
 import { fetchInitiativeTemplate } from "../initiative-templates/fetch";
 import { fetchSurvey } from "../surveys/fetch";
 import { fetchEvent } from "../events/fetch";
+import { convertUserToHubUser, fetchHubUser } from "../users";
 
 /**
  * Fetch a Hub entity by identifier (id or slug)
@@ -62,6 +63,12 @@ export async function fetchHubEntity(
         identifier,
         context.requestOptions
       );
+      break;
+    case "user":
+      result =
+        identifier === "self"
+          ? convertUserToHubUser(context.currentUser)
+          : await fetchHubUser(identifier, context.hubRequestOptions);
   }
   return result;
 }

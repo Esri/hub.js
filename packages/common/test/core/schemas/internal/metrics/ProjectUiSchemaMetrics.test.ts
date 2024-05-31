@@ -1,14 +1,14 @@
-import { HubEntity } from "../../../../../src/core/types/HubEntity";
 import { buildUiSchema } from "../../../../../src/core/schemas/internal/metrics/ProjectUiSchemaMetrics";
 import { MOCK_CONTEXT } from "../../../../mocks/mock-auth";
 import { UiSchemaRuleEffects } from "../../../../../src/core/schemas/types";
+import { EntityEditorOptions } from "../../../../../src/core/schemas/internal/EditorOptions";
 
 describe("ProjectUiSchemaMetrics", () => {
   describe("buildUiSchema", () => {
     it("returns the full metric uiSchema", async () => {
       const uiSchema = await buildUiSchema(
         "shared",
-        {} as HubEntity,
+        {} as EntityEditorOptions,
         MOCK_CONTEXT
       );
 

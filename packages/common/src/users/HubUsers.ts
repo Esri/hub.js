@@ -1,5 +1,8 @@
 import { IUser } from "@esri/arcgis-rest-types";
+import { getUser } from "@esri/arcgis-rest-portal";
 import { fetchUserEnrichments } from "./_internal/enrichments";
+import { SettableAccessLevel } from "../core/types";
+import { IHubUser } from "../core/types/IHubUser";
 import { getProp } from "../objects";
 import { getUserThumbnailUrl } from "../search/utils";
 import { parseInclude } from "../search/_internal/parseInclude";
@@ -7,8 +10,38 @@ import { IHubRequestOptions } from "../types";
 import { getUserHomeUrl } from "../urls";
 import { unique } from "../util";
 import { mapBy } from "../utils";
-import { AccessLevel } from "../core";
 import { IHubSearchResult } from "../search/types/IHubSearchResult";
+
+export const convertUserToHubUser = (user: IUser): IHubUser => {
+  // A private user will not have a description prop at all
+  // thus we set it to undefined to differentiate from a empty description which would be null
+  const description = user.hasOwnProperty("description")
+    ? user.description
+    : undefined;
+  return {
+    access: user.access as SettableAccessLevel,
+    id: user.username,
+    name: user.fullName,
+    description,
+    summary: description,
+    createdDate: new Date(user.created),
+    createdDateSource: "user.created",
+    orgId: user.orgId,
+    owner: user.username,
+    updatedDate: new Date(user.modified),
+    updatedDateSource: "user.modified",
+    tags: user.tags,
+    thumbnail: user.thumbnail,
+    type: "User",
+    typeKeywords: [],
+    links: {
+      // TODO: implement these
+      self: "not-implemented",
+      siteRelative: "not-implemented",
+      thumbnail: null,
+    },
+  };
+};
 
 /**
  * Enrich a User object
@@ -23,32 +56,10 @@ export async function enrichUserSearchResult(
   requestOptions: IHubRequestOptions
 ): Promise<IHubSearchResult> {
   // Create the basic structure
+  const hubUser = convertUserToHubUser(user);
   const result: IHubSearchResult = {
-    access: user.access as AccessLevel,
-    id: user.username,
-    type: "User",
-    /**
-     * We need to return a valid IHubSearchResult, so we store
-     * IUser information where it makes the most sense - e.g.
-     * we store the user's full name under the "name" property,
-     * and since users don't have an owner, we fill that property
-     * with the user's username
-     */
-    name: user.fullName,
-    owner: user.username,
-    // A private user will not have a description prop at all
-    // thus we set it to undefined to differentiate from a empty description which would be null
-    summary: user.hasOwnProperty("description") ? user.description : undefined,
-    createdDate: new Date(user.created),
-    createdDateSource: "user.created",
-    updatedDate: new Date(user.modified),
-    updatedDateSource: "user.modified",
+    ...hubUser,
     family: "people",
-    links: {
-      self: "not-implemented",
-      siteRelative: "not-implemented",
-      thumbnail: null,
-    },
     rawResult: user,
   };
   // Group Memberships need these additional properties
@@ -91,3 +102,14 @@ export async function enrichUserSearchResult(
 
   return result;
 }
+
+export const fetchHubUser = async (
+  username: string,
+  requestOptions?: IHubRequestOptions
+): Promise<IHubUser> => {
+  const user = await getUser({
+    ...requestOptions,
+    username,
+  });
+  return convertUserToHubUser(user);
+};

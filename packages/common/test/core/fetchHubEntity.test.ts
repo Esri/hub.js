@@ -129,4 +129,26 @@ describe("fetchHubEntity:", () => {
     await fetchHubEntity("event", "123", ctx);
     expect(spy).toHaveBeenCalledWith("123", "fakeRequestOptions");
   });
+  it("fetches user", async () => {
+    const ctx = {
+      hubRequestOptions: "fakeRequestOptions",
+    } as unknown as IArcGISContext;
+    const spy = spyOn(
+      require("../../src/users"),
+      "fetchHubUser"
+    ).and.returnValue(Promise.resolve({}));
+    await fetchHubEntity("user", "123", ctx);
+    expect(spy).toHaveBeenCalledWith("123", "fakeRequestOptions");
+  });
+  it("self returns the current user", async () => {
+    const ctx = {
+      currentUser: {},
+    } as IArcGISContext;
+    const spy = spyOn(
+      require("../../src/users"),
+      "convertUserToHubUser"
+    ).and.returnValue({});
+    await fetchHubEntity("user", "self", ctx);
+    expect(spy).toHaveBeenCalledWith(ctx.currentUser);
+  });
 });

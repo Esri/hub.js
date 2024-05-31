@@ -12,6 +12,7 @@ import { InitiativeTemplatePermissionPolicies } from "../initiative-templates/_i
 import { TemplatePermissionPolicies } from "../templates/_internal/TemplateBusinessRules";
 import { SurveyPermissionPolicies } from "../surveys/_internal/SurveyBusinessRules";
 import { EventPermissionPolicies } from "../events/_internal/EventBusinessRules";
+import { UserPermissionPolicies } from "../users/_internal/UserBusinessRules";
 
 // Examples of possible Permission Policies
 // const DiscussionPermissionPolicies: IPermissionPolicy[] = [
@@ -118,6 +119,14 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     licenses: ["hub-basic", "hub-premium"],
   },
   {
+    // When enabled, the manage links will take the user the org home site
+    permission: "hub:feature:workspace:org",
+    availability: ["alpha"],
+    environments: ["qaext"],
+  },
+  {
+    // DEPRECATED: This permission has been replaced by hub:feature:workspace:org,
+    // remove this at the next breaking version
     // When enabled, the edit & manage links will take the user to umbrella
     permission: "hub:feature:workspace:umbrella",
     availability: ["alpha"],
@@ -191,6 +200,7 @@ export const HubPermissionsPolicies: IPermissionPolicy[] = [
   ...SystemPermissionPolicies,
   ...SurveyPermissionPolicies,
   ...EventPermissionPolicies,
+  ...UserPermissionPolicies,
 ];
 
 /**

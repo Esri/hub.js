@@ -2,7 +2,6 @@ import { getEditorConfig } from "../../../src/core/schemas";
 import { IArcGISContext } from "../../../src/ArcGISContext";
 import { EntityEditorOptions } from "../../../src/core/schemas/internal/EditorOptions";
 import * as GetEntitySchemasModule from "../../../src/core/schemas/internal/getEditorSchemas";
-import { HubEntity } from "../../../src/core/types/HubEntity";
 
 describe("getEditorConfig:", () => {
   it("delegates to getEditorSchemas with entity", async () => {
@@ -16,7 +15,7 @@ describe("getEditorConfig:", () => {
     const chk = await getEditorConfig(
       "someScope",
       "hub:discussion:edit",
-      {} as HubEntity,
+      {} as EntityEditorOptions,
       {} as any
     );
 

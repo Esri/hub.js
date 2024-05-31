@@ -107,7 +107,7 @@ describe("portalSearchGroupMembers:", () => {
       expect(response.results.length).toBe(2);
       const user1 = response.results[0];
       expect(user1.owner).toBe("e2e_pre_hub_c_member");
-      expect(user1.orgId).not.toBeDefined();
+      expect(user1.orgId).toBeNull();
       expect(user1.orgName).not.toBeDefined();
       expect(user1.memberType).toBe("admin");
       expect(user1.family).toBe("people");
@@ -235,7 +235,7 @@ describe("portalSearchGroupMembers:", () => {
       const user1 = response.results[0];
 
       expect(user1.owner).toBe("e2e_pre_hub_c_member");
-      expect(user1.orgId).not.toBeDefined();
+      expect(user1.orgId).toBeNull();
       expect(user1.orgName).not.toBeDefined();
       expect(user1.memberType).toBe("admin");
       expect(user1.family).toBe("people");

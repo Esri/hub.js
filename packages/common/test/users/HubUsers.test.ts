@@ -2,6 +2,7 @@ import { IUser } from "@esri/arcgis-rest-portal";
 import {
   cloneObject,
   enrichUserSearchResult,
+  fetchHubUser,
   IHubRequestOptions,
 } from "../../src";
 import * as FetchEnrichments from "../../src/users/_internal/enrichments";
@@ -43,6 +44,20 @@ const TEST_USER: IUser & Record<string, any> = {
 } as unknown as IUser;
 
 describe("HubUsers Module:", () => {
+  describe("fetchHubUser", () => {
+    it("should fetch a user", async () => {
+      const spy = spyOn(
+        require("@esri/arcgis-rest-portal"),
+        "getUser"
+      ).and.callFake(() => {
+        return Promise.resolve(TEST_USER);
+      });
+      const ro = {} as IHubRequestOptions;
+      const username = TEST_USER.username!;
+      await fetchHubUser(username, ro);
+      expect(spy).toHaveBeenCalledWith({ ...ro, username });
+    });
+  });
   describe("enrichments:", () => {
     let enrichmentSpy: jasmine.Spy;
     let hubRo: IHubRequestOptions;
