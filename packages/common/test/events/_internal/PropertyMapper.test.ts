@@ -1,5 +1,6 @@
 import { IHubEvent } from "../../../src/core/types/IHubEvent";
 import { EventPropertyMapper } from "../../../src/events/_internal/PropertyMapper";
+import { getEventThumbnail } from "../../../src/events/_internal/getEventThumbnail";
 import { getPropertyMap } from "../../../src/events/_internal/getPropertyMap";
 import { IOnlineMeeting } from "../../../src/events/api/orval/api/orval-events";
 import {
@@ -144,8 +145,13 @@ describe("PropertyMapper", () => {
           siteRelative: "/events/event-title-31c",
           siteRelativeEntityType: "",
           workspaceRelative: "/workspace/events/31c",
+          thumbnail: getEventThumbnail(),
         },
         slug: "event-title-31c",
+        thumbnailUrl: getEventThumbnail(),
+        view: {
+          heroActions: [],
+        },
       });
     });
 
@@ -185,6 +191,22 @@ describe("PropertyMapper", () => {
       ];
       const res = propertyMapper.storeToEntity(eventRecord, {});
       expect(res.attendanceType).toEqual(HubEventAttendanceType.Both);
+    });
+
+    it("disables registration if canceled", () => {
+      eventRecord.allowRegistration = true;
+      eventRecord.status = EventStatus.CANCELED;
+      const res = propertyMapper.storeToEntity(eventRecord, {});
+      expect(res.view).toEqual({
+        heroActions: [
+          {
+            kind: "well-known",
+            action: "register",
+            label: "{{actions.register:translate}}",
+            disabled: true,
+          },
+        ],
+      });
     });
   });
 
