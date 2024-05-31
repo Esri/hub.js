@@ -110,7 +110,7 @@ export const buildUiSchema = async (
                 context.hubRequestOptions
               ),
               allowCustomValues: false,
-              selectionMode: "multiple",
+              selectionMode: "ancestors",
               placeholderIcon: "select-category",
             },
           },

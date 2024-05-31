@@ -133,7 +133,7 @@ describe("buildUiSchema: content edit", () => {
                 control: "hub-field-input-combobox",
                 items: [],
                 allowCustomValues: false,
-                selectionMode: "multiple",
+                selectionMode: "ancestors",
                 placeholderIcon: "select-category",
                 helperText: {
                   labelKey: "some.scope.fields.categories.agolHint", // TODO: hint should describe whether it can be set on Enterprise or Online

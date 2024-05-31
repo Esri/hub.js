@@ -120,7 +120,7 @@ export const buildUiSchema = async (
                 context.hubRequestOptions
               ),
               allowCustomValues: false,
-              selectionMode: "multiple",
+              selectionMode: "ancestors",
               placeholderIcon: "select-category",
               helperText: {
                 labelKey: `${i18nScope}.fields.categories.agolHint`, // TODO: hint should describe whether it can be set on Enterprise or Online

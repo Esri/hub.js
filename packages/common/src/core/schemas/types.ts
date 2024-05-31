@@ -212,6 +212,7 @@ export interface IUiSchemaComboboxItem {
   label?: string;
   icon?: string;
   selected?: boolean;
+  children?: IUiSchemaComboboxItem[];
 }
 
 /**
