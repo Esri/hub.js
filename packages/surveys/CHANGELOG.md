@@ -1,3 +1,10 @@
+## @esri/hub-surveys [14.1.1](https://github.com/Esri/hub.js/compare/@esri/hub-surveys@14.1.0...@esri/hub-surveys@14.1.1) (2024-05-31)
+
+
+### Bug Fixes
+
+* **hub-common:** survey workspace handles draft surveys ([#1534](https://github.com/Esri/hub.js/issues/1534)) ([27e3930](https://github.com/Esri/hub.js/commit/27e3930643e8a7b85e4ed46dc56336f616508358))
+
 # @esri/hub-surveys [14.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-surveys@14.0.0...@esri/hub-surveys@14.1.0) (2023-10-08)
 
 

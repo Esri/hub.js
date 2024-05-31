@@ -1,5 +1,6 @@
 import { IHubEvent } from "../../../src/core/types/IHubEvent";
 import { EventPropertyMapper } from "../../../src/events/_internal/PropertyMapper";
+import { getEventThumbnail } from "../../../src/events/_internal/getEventThumbnail";
 import { getPropertyMap } from "../../../src/events/_internal/getPropertyMap";
 import { IOnlineMeeting } from "../../../src/events/api/orval/api/orval-events";
 import {
@@ -31,23 +32,6 @@ describe("PropertyMapper", () => {
       end = new Date(start.valueOf() + 1000 * 60 * 60);
       eventRecord = {
         access: EventAccess.PRIVATE,
-        addresses: [
-          {
-            address: "1600 Pennsylvania Ave NW, Washington, DC 20500",
-            address2: "Suite 200",
-            capacity: 30,
-            createdAt: new Date().toISOString(),
-            description: "in-person description",
-            eventId: "31c",
-            extent: {},
-            geoAddress: "1600 Pennsylvania Ave NW, Washington, DC 20500",
-            geoAddrType: "something",
-            geoScore: 95,
-            location: {},
-            updatedAt: new Date().toISOString(),
-            venue: "The White House",
-          },
-        ],
         allDay: false,
         allowRegistration: false,
         attendanceType: [EventAttendanceType.IN_PERSON],
@@ -56,7 +40,15 @@ describe("PropertyMapper", () => {
         createdAt: now.toISOString(),
         createdById: "12345",
         creator: {
+          agoId: "abc",
           username: "jdoe",
+          email: "mockUser@gmail.com",
+          firstName: "mock",
+          lastName: "user",
+          deleted: false,
+          optedOut: false,
+          createdAt: now.toISOString(),
+          updatedAt: now.toISOString(),
         },
         description: "event description",
         editGroups: ["editGroup1"],
@@ -66,6 +58,7 @@ describe("PropertyMapper", () => {
         endTime: [end.getHours(), end.getMinutes(), end.getSeconds()].join(":"),
         endDateTime: end.toISOString(),
         geometry: null,
+        inPersonCapacity: 30,
         id: "31c",
         notifyAttendees: false,
         orgId: "42b",
@@ -152,8 +145,13 @@ describe("PropertyMapper", () => {
           siteRelative: "/events/event-title-31c",
           siteRelativeEntityType: "",
           workspaceRelative: "/workspace/events/31c",
+          thumbnail: getEventThumbnail(),
         },
         slug: "event-title-31c",
+        thumbnailUrl: getEventThumbnail(),
+        view: {
+          heroActions: [],
+        },
       });
     });
 
@@ -169,7 +167,6 @@ describe("PropertyMapper", () => {
           url: "https://somewhere.com/",
         },
       ];
-      delete eventRecord.addresses;
       const res = propertyMapper.storeToEntity(eventRecord, {});
       expect(res.attendanceType).toEqual(HubEventAttendanceType.Online);
       expect(res.onlineCapacity).toEqual(20);
@@ -194,6 +191,22 @@ describe("PropertyMapper", () => {
       ];
       const res = propertyMapper.storeToEntity(eventRecord, {});
       expect(res.attendanceType).toEqual(HubEventAttendanceType.Both);
+    });
+
+    it("disables registration if canceled", () => {
+      eventRecord.allowRegistration = true;
+      eventRecord.status = EventStatus.CANCELED;
+      const res = propertyMapper.storeToEntity(eventRecord, {});
+      expect(res.view).toEqual({
+        heroActions: [
+          {
+            kind: "well-known",
+            action: "register",
+            label: "{{actions.register:translate}}",
+            disabled: true,
+          },
+        ],
+      });
     });
   });
 
@@ -291,6 +304,7 @@ describe("PropertyMapper", () => {
         startTime: jasmine.any(String) as unknown as string,
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
+        inPersonCapacity: 30,
       } as IEvent);
     });
 
@@ -325,6 +339,7 @@ describe("PropertyMapper", () => {
         startTime: jasmine.any(String) as unknown as string,
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
+        inPersonCapacity: 30,
       } as IEvent);
     });
 
@@ -370,6 +385,7 @@ describe("PropertyMapper", () => {
         startTime: jasmine.any(String) as unknown as string,
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
+        inPersonCapacity: 30,
       } as IEvent);
     });
 
@@ -415,6 +431,7 @@ describe("PropertyMapper", () => {
         startTime: jasmine.any(String) as unknown as string,
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
+        inPersonCapacity: 30,
       } as IEvent);
     });
 
@@ -463,6 +480,7 @@ describe("PropertyMapper", () => {
         startTime: jasmine.any(String) as unknown as string,
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
+        inPersonCapacity: 30,
       } as IEvent);
     });
 
@@ -497,6 +515,7 @@ describe("PropertyMapper", () => {
         startTime: jasmine.any(String) as unknown as string,
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
+        inPersonCapacity: 30,
       } as IEvent);
     });
 
@@ -531,6 +550,7 @@ describe("PropertyMapper", () => {
         startTime: jasmine.any(String) as unknown as string,
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
+        inPersonCapacity: 30,
       } as IEvent);
     });
   });

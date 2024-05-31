@@ -47,6 +47,9 @@ describe("HubEvent defaults:", () => {
         tags: [],
         readGroupIds: [],
         editGroupIds: [],
+        view: {
+          heroActions: [],
+        },
         ...datesAndTimes,
       });
       expect(getDefaultEventDatesAndTimesSpy).toHaveBeenCalledTimes(1);
@@ -73,6 +76,7 @@ describe("HubEvent defaults:", () => {
         allowRegistration: true,
         attendanceType: [EventAttendanceType.IN_PERSON],
         categories: [],
+        inPersonCapacity: null,
         editGroups: [],
         endDateTime: jasmine.any(String) as unknown as string,
         notifyAttendees: true,

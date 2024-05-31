@@ -18,6 +18,12 @@ describe("isSurvey123Connect", () => {
     expect(result).toBeFalsy();
   });
 
+  it("handles when typekeywords is null", () => {
+    const result = isSurvey123Connect({} as any as IItem);
+
+    expect(result).toBeFalsy();
+  });
+
   it("handles null input", () => {
     const result = isSurvey123Connect(null as any);
 

@@ -10,7 +10,8 @@ describe("getCategoryItems:", () => {
     const ro = {} as IHubRequestOptions;
     const items = await getCategoryItems("orgId", ro);
     expect(spy).toHaveBeenCalled();
-    expect(items.length).toBe(3);
+    expect(items.length).toBe(1); // expected changed from 3 to 1 because the response is now nested rather than flattened
+    expect(items[0].children?.length).toBe(3);
   });
 
   it("swallows fetch error", async () => {

@@ -35,6 +35,9 @@ export function buildDefaultEventEntity(): Partial<IHubEvent> {
     readGroupIds: [],
     editGroupIds: [],
     ...dates,
+    view: {
+      heroActions: [],
+    },
   };
 }
 
@@ -49,6 +52,7 @@ export function buildDefaultEventRecord(): Partial<IEvent> {
     allowRegistration: true,
     attendanceType: [EventAttendanceType.IN_PERSON],
     categories: [],
+    inPersonCapacity: null,
     editGroups: [],
     endDateTime: endDateTime.toISOString(),
     notifyAttendees: true,

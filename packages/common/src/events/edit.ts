@@ -37,7 +37,6 @@ export async function createHubEvent(
 
   const data = {
     access: model.access,
-    addresses: model.addresses,
     allDay: model.allDay,
     allowRegistration: model.allowRegistration,
     attendanceType: model.attendanceType,
@@ -46,6 +45,7 @@ export async function createHubEvent(
     editGroups: model.editGroups,
     endDate: model.endDate,
     endTime: model.endTime,
+    inPersonCapacity: model.inPersonCapacity,
     notifyAttendees: model.notifyAttendees,
     onlineMeetings: model.onlineMeetings,
     readGroups: model.readGroups,
@@ -87,7 +87,6 @@ export async function updateHubEvent(
 
   const data = {
     access: model.access,
-    addresses: model.addresses,
     allDay: model.allDay,
     allowRegistration: model.allowRegistration,
     attendanceType: model.attendanceType,
@@ -96,6 +95,7 @@ export async function updateHubEvent(
     editGroups: model.editGroups,
     endDate: model.endDate,
     endTime: model.endTime,
+    inPersonCapacity: model.inPersonCapacity,
     notifyAttendees: model.notifyAttendees,
     onlineMeetings: model.onlineMeetings,
     readGroups: model.readGroups,

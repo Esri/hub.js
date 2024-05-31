@@ -3,6 +3,7 @@ import {
   mapEntityToStore,
   mapStoreToEntity,
 } from "../../core/_internal/PropertyMapper";
+import { HubActionLink } from "../../core/types/ActionLinks";
 import { IHubEvent } from "../../core/types/IHubEvent";
 import { SettableAccessLevel } from "../../core/types/types";
 import { cloneObject } from "../../util";
@@ -16,6 +17,7 @@ import {
 import { HubEventAttendanceType, HubEventOnlineCapacityType } from "../types";
 import { computeLinks } from "./computeLinks";
 import { getEventSlug } from "./getEventSlug";
+import { getEventThumbnail } from "./getEventThumbnail";
 
 /**
  * @private
@@ -63,7 +65,6 @@ export class EventPropertyMapper extends PropertyMapper<
     } else {
       obj.attendanceType = HubEventAttendanceType.Online;
     }
-    obj.inPersonCapacity = store.addresses?.[0]?.capacity ?? null;
     obj.onlineCapacity = store.onlineMeetings?.[0]?.capacity ?? null;
     obj.onlineCapacityType = store.onlineMeetings?.[0]?.capacity
       ? HubEventOnlineCapacityType.Fixed
@@ -89,6 +90,18 @@ export class EventPropertyMapper extends PropertyMapper<
     obj.updatedDateSource = "updatedAt";
     obj.links = computeLinks(store as IEvent);
     obj.slug = getEventSlug(store as IEvent);
+    obj.thumbnailUrl = getEventThumbnail();
+
+    const heroActions: HubActionLink[] = [];
+    if (store.allowRegistration) {
+      heroActions.push({
+        kind: "well-known",
+        action: "register",
+        label: "{{actions.register:translate}}",
+        disabled: obj.isCanceled,
+      });
+    }
+    obj.view = { heroActions };
 
     return obj;
   }

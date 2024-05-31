@@ -26,3 +26,4 @@ export * from "./poll";
 export * from "./hubUserAppResources";
 export * from "./getObjectSize";
 export * from "./date";
+export * from "./isComboboxItemSelected";

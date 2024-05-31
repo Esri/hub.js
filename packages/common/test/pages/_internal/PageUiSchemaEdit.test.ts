@@ -129,7 +129,7 @@ describe("buildUiSchema: page edit", () => {
                 control: "hub-field-input-combobox",
                 items: [],
                 allowCustomValues: false,
-                selectionMode: "multiple",
+                selectionMode: "ancestors",
                 placeholderIcon: "select-category",
                 helperText: {
                   labelKey: "some.scope.fields.categories.helperText",

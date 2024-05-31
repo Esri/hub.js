@@ -217,7 +217,7 @@ describe("HubSites:", () => {
         { key: "components.search.category_tabs.documents" },
         { key: "components.search.category_tabs.apps_and_maps" },
       ];
-      const borkedSite = cloneObject(SITE_MODEL);
+      const borkedSite = cloneObject(SITE_MODEL) as commonModule.IModel;
       borkedSite.data.values.searchCategories = borkedSearchCategories;
       spyOn(
         require("../../src/sites/fetchSiteModel"),
@@ -232,10 +232,10 @@ describe("HubSites:", () => {
       expect(chk.catalog).toBeDefined();
       expect(chk.catalog.schemaVersion).toBeDefined();
       // The all collection is automatically prepended, remove it from our check
-      const collections = chk.catalog.collections.filter(
+      const collections = chk.catalog.collections?.filter(
         (c) => c.key !== "all"
       );
-      expect(collections.length).toBe(4);
+      expect(collections?.length).toBe(4);
     });
 
     it("gets by domain, without auth", async () => {

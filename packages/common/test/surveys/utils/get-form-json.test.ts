@@ -3,6 +3,8 @@ import * as getFormInfoJsonUtil from "../../../src/surveys/utils/get-form-info-j
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { mockUserSession } from "../../test-helpers/fake-user-session";
 import { getFormJson } from "../../../src/surveys/utils/get-form-json";
+import * as FormItemDraft from "../../mocks/items/form-item-draft.json";
+import * as FormItemPublished from "../../mocks/items/form-item-published.json";
 
 describe("getFormJson", () => {
   let requestOptions: IRequestOptions;
@@ -18,7 +20,7 @@ describe("getFormJson", () => {
     spyOn(restPortal, "getItemInfo").and.returnValue(
       Promise.resolve({ questions: [{ description: "hello%20world" }] })
     );
-    const survey = { id: "3ef" } as any as restPortal.IItem;
+    const survey = FormItemPublished as any as restPortal.IItem;
     const result = await getFormJson(survey, requestOptions);
     expect(result).toEqual({ questions: [{ description: "hello world" }] });
   });
@@ -44,9 +46,15 @@ describe("getFormJson", () => {
     });
   });
 
+  it("returns null when survey is draft", async () => {
+    const survey = FormItemDraft as any as restPortal.IItem;
+    const result = await getFormJson(survey, requestOptions);
+    expect(result).toBeFalsy();
+  });
+
   it("handle when form is null", async () => {
     spyOn(restPortal, "getItemInfo").and.returnValues(Promise.resolve(null));
-    const survey = { id: "3ef" } as any as restPortal.IItem;
+    const survey = FormItemPublished as any as restPortal.IItem;
     const result = await getFormJson(survey, requestOptions);
     expect(result).toEqual(null);
   });

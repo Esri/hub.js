@@ -38,7 +38,7 @@ export function computeProps(
   survey.updatedDate = new Date(model.item.modified);
   survey.updatedDateSource = "item.modified";
   survey.isDiscussable = isDiscussable(survey);
-  survey.hasMapQuestion = hasMapQuestion(model.formJSON.questions);
+  survey.hasMapQuestion = hasMapQuestion(model.formJSON?.questions || []);
   survey.displayMap = shouldDisplayMap(model.item);
 
   // cast b/c this takes a partial but returns a full object

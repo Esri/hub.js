@@ -110,7 +110,7 @@ describe("buildUiSchema: survey edit", () => {
                 control: "hub-field-input-combobox",
                 items: [],
                 allowCustomValues: false,
-                selectionMode: "multiple",
+                selectionMode: "ancestors",
                 placeholderIcon: "select-category",
               },
             },
