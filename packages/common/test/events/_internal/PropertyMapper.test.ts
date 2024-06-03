@@ -118,6 +118,7 @@ describe("PropertyMapper", () => {
         isCanceled: false,
         isPlanned: true,
         isRemoved: false,
+        isPast: false,
         attendanceType: HubEventAttendanceType.InPerson,
         inPersonCapacity: 30,
         onlineCapacity: null,

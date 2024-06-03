@@ -85,6 +85,7 @@ export class EventPropertyMapper extends PropertyMapper<
     obj.createdDate = new Date(store.createdAt);
     obj.startDateTime = new Date(store.startDateTime);
     obj.endDateTime = new Date(store.endDateTime);
+    obj.isPast = obj.endDateTime < new Date();
     obj.createdDateSource = "createdAt";
     obj.updatedDate = new Date(store.updatedAt);
     obj.updatedDateSource = "updatedAt";
@@ -94,18 +95,17 @@ export class EventPropertyMapper extends PropertyMapper<
 
     const heroActions: HubActionLink[] = [];
     if (store.allowRegistration) {
-      const eventHasEnded = obj.endDateTime < new Date();
       let tooltip;
       if (obj.isCanceled) {
         tooltip = "{{tooltip:register.isCancelled:translate}}";
-      } else if (eventHasEnded) {
+      } else if (obj.isPast) {
         tooltip = "{{tooltip:register.eventHasEnded:translate}}";
       }
       heroActions.push({
         kind: "well-known",
         action: "register",
         label: "{{actions.register:translate}}",
-        disabled: obj.isCanceled || eventHasEnded,
+        disabled: obj.isCanceled || obj.isPast,
         tooltip,
       });
     }
