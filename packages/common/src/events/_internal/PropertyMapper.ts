@@ -97,9 +97,9 @@ export class EventPropertyMapper extends PropertyMapper<
     if (store.allowRegistration) {
       let tooltip;
       if (obj.isCanceled) {
-        tooltip = "{{tooltip:register.isCancelled:translate}}";
+        tooltip = "{{tooltip.register.isCancelled:translate}}";
       } else if (obj.isPast) {
-        tooltip = "{{tooltip:register.eventHasEnded:translate}}";
+        tooltip = "{{tooltip.register.eventHasEnded:translate}}";
       }
       heroActions.push({
         kind: "well-known",
