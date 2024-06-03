@@ -10,6 +10,7 @@ export interface IWithViewSettings {
    * array of contacts associated with an entity. Contact interface TBD
    */
   contacts?: any[];
+  featuredEmbed?: any;
   /**
    * array of entity's featured content ids to be rendered in a gallery
    */
