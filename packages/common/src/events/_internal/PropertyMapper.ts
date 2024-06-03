@@ -94,11 +94,19 @@ export class EventPropertyMapper extends PropertyMapper<
 
     const heroActions: HubActionLink[] = [];
     if (store.allowRegistration) {
+      const eventHasEnded = obj.endDateTime < new Date();
+      let tooltip;
+      if (obj.isCanceled) {
+        tooltip = "{{tooltip:register.isCancelled:translate}}";
+      } else if (eventHasEnded) {
+        tooltip = "{{tooltip:register.eventHasEnded:translate}}";
+      }
       heroActions.push({
         kind: "well-known",
         action: "register",
         label: "{{actions.register:translate}}",
-        disabled: obj.isCanceled,
+        disabled: obj.isCanceled || eventHasEnded,
+        tooltip,
       });
     }
     obj.view = { heroActions };

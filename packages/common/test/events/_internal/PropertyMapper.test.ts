@@ -204,6 +204,7 @@ describe("PropertyMapper", () => {
             action: "register",
             label: "{{actions.register:translate}}",
             disabled: true,
+            tooltip: "{{tooltip:register.isCancelled:translate}}",
           },
         ],
       });

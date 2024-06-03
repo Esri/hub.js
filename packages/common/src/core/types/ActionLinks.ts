@@ -31,6 +31,10 @@ interface IHubBaseActionLink {
   icon?: string;
   /** whether or not to disable the button */
   disabled?: boolean;
+  /**
+   * optional tooltip string
+   */
+  tooltip?: string;
 }
 
 /**
