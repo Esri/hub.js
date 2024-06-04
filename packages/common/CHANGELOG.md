@@ -1,3 +1,10 @@
+## @esri/hub-common [14.139.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.139.0...@esri/hub-common@14.139.1) (2024-06-04)
+
+
+### Bug Fixes
+
+* pass optional list of catalogs to getAvailableToRequestAssociati… ([#1530](https://github.com/Esri/hub.js/issues/1530)) ([4284149](https://github.com/Esri/hub.js/commit/4284149a876aaeb144aaebafada74528d1114a4e))
+
 # @esri/hub-common [14.139.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.138.0...@esri/hub-common@14.139.0) (2024-06-04)
 
 
