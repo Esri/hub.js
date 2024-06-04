@@ -8,7 +8,6 @@ import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 import { IHubProject } from "../../core/types";
 import { getAuthedImageUrl } from "../../core/_internal/getAuthedImageUrl";
-import { buildUiSchema as buildEmbedUiSchema } from "../../core/schemas/internal/embed/ProjectUiSchemaEmbed";
 
 /**
  * @private
@@ -229,8 +228,15 @@ export const buildUiSchema = async (
             label: "Select an app/map/scene to embed on your project",
           },
         },
-        elements: (await buildEmbedUiSchema(i18nScope, options, context))
-          .elements,
+        elements: [
+          {
+            scope: "/properties/view/properties/featuredEmbed",
+            type: "Control",
+            options: {
+              control: "hub-composite-input-embed",
+            },
+          },
+        ],
       },
       {
         type: "Section",
