@@ -101,6 +101,11 @@ export interface IHubEvent extends IHubItemEntity, IWithPermissions, IWithSlug {
   isRemoved: boolean;
 
   /**
+   * True when the event takes place in the past
+   */
+  isPast: boolean;
+
+  /**
    * If attendees should be notified of event updates
    */
   notifyAttendees: boolean;

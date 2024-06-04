@@ -118,6 +118,7 @@ describe("PropertyMapper", () => {
         isCanceled: false,
         isPlanned: true,
         isRemoved: false,
+        isPast: false,
         attendanceType: HubEventAttendanceType.InPerson,
         inPersonCapacity: 30,
         onlineCapacity: null,
@@ -204,6 +205,24 @@ describe("PropertyMapper", () => {
             action: "register",
             label: "{{actions.register:translate}}",
             disabled: true,
+            tooltip: "{{tooltip.register.isCancelled:translate}}",
+          },
+        ],
+      });
+    });
+
+    it("disables registration if past due", () => {
+      eventRecord.allowRegistration = true;
+      eventRecord.endDateTime = new Date("1/1/2000").toISOString();
+      const res = propertyMapper.storeToEntity(eventRecord, {});
+      expect(res.view).toEqual({
+        heroActions: [
+          {
+            kind: "well-known",
+            action: "register",
+            label: "{{actions.register:translate}}",
+            disabled: true,
+            tooltip: "{{tooltip.register.eventHasEnded:translate}}",
           },
         ],
       });
