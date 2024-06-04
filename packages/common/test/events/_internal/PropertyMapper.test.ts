@@ -210,6 +210,23 @@ describe("PropertyMapper", () => {
         ],
       });
     });
+
+    it("disables registration if past due", () => {
+      eventRecord.allowRegistration = true;
+      eventRecord.endDateTime = new Date("1/1/2000").toISOString();
+      const res = propertyMapper.storeToEntity(eventRecord, {});
+      expect(res.view).toEqual({
+        heroActions: [
+          {
+            kind: "well-known",
+            action: "register",
+            label: "{{actions.register:translate}}",
+            disabled: true,
+            tooltip: "{{tooltip.register.eventHasEnded:translate}}",
+          },
+        ],
+      });
+    });
   });
 
   describe("entityToStore", () => {
