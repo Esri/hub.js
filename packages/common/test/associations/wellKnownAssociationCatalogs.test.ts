@@ -163,9 +163,9 @@ describe("getAvailableToRequestAssociationCatalogs", () => {
       "getWellKnownCatalog"
     ).and.returnValues(
       { schemaVersion: 1, title: "mock-myContent" },
+      { schemaVersion: 1, title: "mock-favorites" },
       { schemaVersion: 1, title: "mock-organization" },
-      { schemaVersion: 1, title: "mock-community" },
-      { schemaVersion: 1, title: "mock-partners" }
+      { schemaVersion: 1, title: "mock-world" }
     );
   });
   afterEach(() => {
@@ -206,10 +206,37 @@ describe("getAvailableToRequestAssociationCatalogs", () => {
       "some-scope",
       { type: "Hub Project" } as HubEntity,
       "initiative",
+      {} as ArcGISContext
+    );
+
+    expect(getAvailableToRequestEntitiesQuerySpy).toHaveBeenCalledTimes(1);
+    expect(getWellknownCatalogSpy).toHaveBeenCalledTimes(4);
+    expect(catalogs.length).toBe(4);
+    expect(catalogs).toEqual([
+      { schemaVersion: 1, title: "mock-myContent" },
+      { schemaVersion: 1, title: "mock-favorites" },
+      { schemaVersion: 1, title: "mock-organization" },
+      { schemaVersion: 1, title: "mock-world" },
+    ]);
+  });
+
+  it('returns an array of valid "availableToRequest" catalogs when given an array of catalogs', async () => {
+    getWellknownCatalogSpy.and.returnValues(
+      { schemaVersion: 1, title: "mock-myContent" },
+      { schemaVersion: 1, title: "mock-organization" },
+      { schemaVersion: 1, title: "mock-community" },
+      { schemaVersion: 1, title: "mock-partners" }
+    );
+
+    const catalogs = await getAvailableToRequestAssociationCatalogs(
+      "some-scope",
+      { type: "Hub Project" } as HubEntity,
+      "initiative",
       {
         trustedOrgIds: ["abc123", "def456", "ghi789"],
         communityOrgId: "mock-community-org",
-      } as ArcGISContext
+      } as ArcGISContext,
+      ["myContent", "organization", "community", "partners"]
     );
 
     expect(getAvailableToRequestEntitiesQuerySpy).toHaveBeenCalledTimes(1);
