@@ -1,3 +1,10 @@
+## @esri/hub-common [14.139.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.139.1...@esri/hub-common@14.139.2) (2024-06-05)
+
+
+### Bug Fixes
+
+* **hub-common:** events can be viewed by anon user ([#1540](https://github.com/Esri/hub.js/issues/1540)) ([879b221](https://github.com/Esri/hub.js/commit/879b221fa611cb41fdabdcd7b74630a10be3b4f0))
+
 ## @esri/hub-common [14.139.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.139.0...@esri/hub-common@14.139.1) (2024-06-04)
 
 
