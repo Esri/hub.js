@@ -10,7 +10,7 @@ import { IHubInitiative } from "../../core/types";
  */
 export const buildUiSchema = async (
   i18nScope: string,
-  initiative: IHubInitiative,
+  options: Partial<IHubInitiative>,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
   return {
