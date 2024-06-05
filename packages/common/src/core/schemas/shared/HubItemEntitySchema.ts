@@ -1,4 +1,5 @@
 import { HubEntityHero } from "../../../types";
+import { MapSchema } from "../internal/map/MapSchema";
 import { IConfigurationSchema } from "../types";
 import {
   ENTITY_ACCESS_SCHEMA,
@@ -67,6 +68,7 @@ export const HubItemEntitySchema: IConfigurationSchema = {
         featuredImage: ENTITY_IMAGE_SCHEMA,
         featuredImageAltText: { type: "string" },
         featuredImageName: { type: "string" },
+        mapSettings: MapSchema,
         timeline: ENTITY_TIMELINE_SCHEMA,
         hero: {
           type: "string",
