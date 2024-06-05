@@ -13,6 +13,22 @@ export type GetEventsParams = {
    */
   access?: string;
   /**
+   * Comma separated string list of AttendanceTypes. Example:  VIRTUAL,IN_PERSON
+   */
+  attendanceTypes?: string;
+  /**
+   * boolean to filter events that can be edited by the user
+   */
+  canEdit?: string;
+  /**
+   * Comma separated string list of categories
+   */
+  categories?: string;
+  /**
+   * Comma separated string list of edit groupIds
+   */
+  editGroups?: string;
+  /**
    * Comma separated string list of associated entityIds
    */
   entityIds?: string;
@@ -29,21 +45,33 @@ export type GetEventsParams = {
    */
   include?: string;
   /**
-   * latest ISO8601 start date-time for the events
+   * the max amount of events to return
    */
-  startDateTimeBefore?: string;
+  num?: string;
+  /**
+   * Comma separated string list of read groupIds
+   */
+  readGroups?: string;
+  /**
+   * Event property to sort results by
+   */
+  sortBy?: EventSort;
+  /**
+   * sort results order desc or asc
+   */
+  sortOrder?: EventSortOrder;
+  /**
+   * the index to start at
+   */
+  start?: string;
   /**
    * earliest ISO8601 start date-time for the events
    */
   startDateTimeAfter?: string;
   /**
-   * Comma separated string list of AttendanceTypes. Example:  VIRTUAL,IN_PERSON
+   * latest ISO8601 start date-time for the events
    */
-  attendanceTypes?: string;
-  /**
-   * Comma separated string list of categories
-   */
-  categories?: string;
+  startDateTimeBefore?: string;
   /**
    * comma separated string list of event statuses. Example: PRIVATE,ORG,PUBLIC
    */
@@ -56,30 +84,6 @@ export type GetEventsParams = {
    * string to match within an event title
    */
   title?: string;
-  /**
-   * Comma separated string list of read groupIds
-   */
-  readGroups?: string;
-  /**
-   * Comma separated string list of edit groupIds
-   */
-  editGroups?: string;
-  /**
-   * the max amount of events to return
-   */
-  num?: string;
-  /**
-   * the index to start at
-   */
-  start?: string;
-  /**
-   * Event property to sort results by
-   */
-  sortBy?: EventSort;
-  /**
-   * sort results order desc or asc
-   */
-  sortOrder?: EventSortOrder;
 };
 
 export interface IUpdateRegistration {
@@ -405,14 +409,14 @@ export enum EventAttendanceType {
   VIRTUAL = "VIRTUAL",
   IN_PERSON = "IN_PERSON",
 }
-export enum EventAssociationEntityType {
+export enum AssociationEntityType {
   Hub_Site_Application = "Hub Site Application",
   Hub_Initiative = "Hub Initiative",
   Hub_Project = "Hub Project",
 }
 export interface IEventAssociation {
   entityId: string;
-  entityType: EventAssociationEntityType;
+  entityType: AssociationEntityType;
   eventId: string;
 }
 
@@ -420,7 +424,7 @@ export interface ICreateEventAssociation {
   /** Entity Id */
   entityId: string;
   /** Entity type */
-  entityType: EventAssociationEntityType;
+  entityType: AssociationEntityType;
 }
 
 export enum EventAccess {
