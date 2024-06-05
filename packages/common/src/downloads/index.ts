@@ -5,3 +5,4 @@ export * from "./fetchDownloadFormats";
 export * from "./canUseCreateReplica";
 export * from "./canUseHubDownloadSystem";
 export * from "./canUseHubDownloadApi";
+export * from "./getHubDownloadApiFormats";
