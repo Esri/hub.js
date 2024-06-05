@@ -409,14 +409,14 @@ export enum EventAttendanceType {
   VIRTUAL = "VIRTUAL",
   IN_PERSON = "IN_PERSON",
 }
-export enum AssociationEntityType {
+export enum EventAssociationEntityType {
   Hub_Site_Application = "Hub Site Application",
   Hub_Initiative = "Hub Initiative",
   Hub_Project = "Hub Project",
 }
 export interface IEventAssociation {
   entityId: string;
-  entityType: AssociationEntityType;
+  entityType: EventAssociationEntityType;
   eventId: string;
 }
 
@@ -424,7 +424,7 @@ export interface ICreateEventAssociation {
   /** Entity Id */
   entityId: string;
   /** Entity type */
-  entityType: AssociationEntityType;
+  entityType: EventAssociationEntityType;
 }
 
 export enum EventAccess {
