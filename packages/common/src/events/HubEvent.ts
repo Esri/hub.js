@@ -63,7 +63,7 @@ export class HubEvent
   ): IHubEvent {
     // ensure we have the orgUrlKey
     if (!partialEvent.orgUrlKey) {
-      partialEvent.orgUrlKey = context.portal.urlKey;
+      partialEvent.orgUrlKey = context.portal?.urlKey;
     }
     // extend the partial over the defaults
     const pojo = {
