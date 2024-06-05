@@ -3,33 +3,75 @@ import { IItem } from "@esri/arcgis-rest-portal";
 import { IHubEditableContent } from "../core/types/IHubEditableContent";
 
 /**
+ * DEPRECATED: This will be removed in the next breaking version. Use "isHostedFeatureServiceMainItem" instead.
  * Determines whether an item represents a hosted feature service
  * @param item item to check
  * @returns whether the item represents a hosted feature service
  */
 export function isHostedFeatureServiceItem(item: IItem): boolean {
-  return isHostedFeatureService(item.type, item.typeKeywords);
+  /* tslint:disable no-console */
+  console.warn(
+    `"isHostedFeatureServiceItem()" is deprecated. Please use "isHostedFeatureServiceMainItem()"`
+  );
+  return isHostedFeatureServiceMainItem(item);
 }
 
 /**
- * Determines whether an entity represents a hosted feature service
+ * Determines whether an item represents the main item of a hosted feature service
+ * (i.e. the item that was created when the service was published, not an item that
+ * referenced the service via url after it was created).
+ *
+ * NOTE: This check works for both hosted feature service items created in ArcGIS Online
+ * and in ArcGIS Enterprise.
+ *
  * @param item item to check
- * @returns whether the item represents a hosted feature service
+ * @returns whether the item passes the hosted feature service check
+ */
+export function isHostedFeatureServiceMainItem(item: IItem): boolean {
+  return isHostedFeatureServiceMain(item.type, item.typeKeywords);
+}
+
+/**
+ * DEPRECATED: This will be removed in the next breaking version Use "isHostedFeatureServiceMainEntity" instead
+ * Determines whether an entity represents a hosted feature service
+ * @param content content entity to check
+ * @returns
  */
 export function isHostedFeatureServiceEntity(
   content: IHubEditableContent
 ): boolean {
-  return isHostedFeatureService(content.type, content.typeKeywords);
+  /* tslint:disable no-console */
+  console.warn(
+    `"isHostedFeatureServiceEntity()" is deprecated. Please use "isHostedFeatureServiceMainEntity()"`
+  );
+  return isHostedFeatureServiceMain(content.type, content.typeKeywords);
+}
+
+/**
+ * Determines whether an entity represents the main entity of a hosted feature service
+ * (i.e. the entity that was created when the service was published, not an entity that
+ * referenced the service via url after it was created)
+ *
+ * NOTE: This check works for both hosted feature service entities created in ArcGIS Online
+ * and in ArcGIS Enterprise.
+ *
+ * @param content content entity to check
+ * @returns
+ */
+export function isHostedFeatureServiceMainEntity(
+  content: IHubEditableContent
+): boolean {
+  return isHostedFeatureServiceMain(content.type, content.typeKeywords);
 }
 
 /**
  * @private
- * base helper to determine whether the arguments correspond to a hosted feature service
+ * base helper to determine whether the arguments correspond to the main item of a hosted feature service.
  * @param type an item type
  * @param typeKeywords an item typeKeywords array
  * @returns whether the arguments correspond to a hosted feature service
  */
-function isHostedFeatureService(
+function isHostedFeatureServiceMain(
   type: string,
   typeKeywords: string[] = []
 ): boolean {
@@ -40,8 +82,17 @@ function isHostedFeatureService(
   return type === "Feature Service" && typeKeywords.includes("Hosted Service");
 }
 
+export function isAGOFeatureServiceUrl(url: string): boolean {
+  // TODO: we should really centralize this regex somewhere
+  const FEATURE_SERVICE_URL_REGEX = /(feature)server(\/|\/(\d+))?$/i;
+  return (
+    !!url && url.includes("arcgis.com") && FEATURE_SERVICE_URL_REGEX.test(url)
+  );
+}
+
 export enum ServiceCapabilities {
   EXTRACT = "Extract",
+  QUERY = "Query",
 }
 
 /**
