@@ -1,6 +1,7 @@
 import { IArcGISContext } from "../ArcGISContext";
 import { IHubEditableContent } from "../core/types/IHubEditableContent";
 import { canUseCreateReplica } from "./canUseCreateReplica";
+import { canUseHubDownloadSystem } from "./canUseHubDownloadSystem";
 
 /**
  * Determines if the Hub Download API can be used for the given entity.
@@ -14,11 +15,9 @@ export function canUseHubDownloadApi(
 ): boolean {
   const isDownloadApiAvailable =
     context.serviceStatus?.["hub-downloads"] === "online";
-  const canUsePagingJobs =
-    ["Feature Service", "Map Service"].includes(entity.type) &&
-    entity.access === "public";
 
   return (
-    isDownloadApiAvailable && (canUsePagingJobs || canUseCreateReplica(entity))
+    isDownloadApiAvailable &&
+    (canUseHubDownloadSystem(entity) || canUseCreateReplica(entity))
   );
 }
