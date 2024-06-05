@@ -33,10 +33,10 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
-import { isHostedFeatureServiceItem } from "./hostedServiceUtils";
 import { setProp } from "../objects";
 import { getSchedule, isDownloadSchedulingAvailable } from "./manageSchedule";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { isMapOrFeatureServerUrl } from "../urls";
 
 const hasFeatures = (contentType: string) =>
   ["Feature Layer", "Table"].includes(contentType);
@@ -276,7 +276,7 @@ export const fetchHubContent = async (
 
   enrichments.metadata = metadata;
 
-  if (isHostedFeatureServiceItem(item)) {
+  if (isMapOrFeatureServerUrl(item.url)) {
     enrichments.server = await getService({
       ...requestOptions,
       url: parseServiceUrl(item.url),
