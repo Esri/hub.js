@@ -11,6 +11,7 @@ import * as shareEventWithGroupsModule from "../../src/events/_internal/shareEve
 import * as unshareEventWithGroupsModule from "../../src/events/_internal/unshareEventWithGroups";
 import * as getEventGroupsModule from "../../src/events/_internal/getEventGroups";
 import * as eventsModule from "../../src/events/api/events";
+import { IArcGISContext } from "../../src";
 
 /* @ts-ignore no-unnecessary-qualifier */
 describe("HubEvent Class:", () => {
@@ -116,6 +117,12 @@ describe("HubEvent Class:", () => {
     } catch (e) {
       expect(e.message).toEqual("HubEvent is already destroyed.");
     }
+  });
+
+  it("functions for anonymous user", () => {
+    const context: IArcGISContext = {} as any;
+    const chk = HubEvent.fromJson({ name: "Test Event" }, context);
+    expect(chk).toBeTruthy();
   });
 
   describe("IWithEditorBehavior:", () => {
