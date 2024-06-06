@@ -4,6 +4,7 @@ import {
   ENTITY_IS_DISCUSSABLE_SCHEMA,
   ENTITY_NAME_SCHEMA,
   ENTITY_SUMMARY_SCHEMA,
+  ENTITY_ACCESS_SCHEMA,
 } from "../../core/schemas/shared";
 
 export type GroupEditorType = (typeof GroupEditorTypes)[number];
@@ -11,12 +12,18 @@ export const GroupEditorTypes = [
   "hub:group:edit",
   "hub:group:settings",
   "hub:group:discussions",
+  // editor to create a view group
+  "hub:group:create:view",
+  // editor to create an edit group
+  "hub:group:create:edit",
   // editor to create a followers group
   "hub:group:create:followers",
+  // enity-specific editors to edit an entity's followers group
+  "hub:group:edit:followers:site",
   // editor to create an association group
   "hub:group:create:association",
-  "hub:group:create:view",
-  "hub:group:create:edit",
+  // entity-sepcific editors to edit an entity's association group
+  "hub:group:edit:association:initiative",
 ] as const;
 
 /**
@@ -46,5 +53,13 @@ export const GroupSchema: IConfigurationSchema = {
       default: false,
     },
     isDiscussable: ENTITY_IS_DISCUSSABLE_SCHEMA,
+    access: {
+      ...ENTITY_ACCESS_SCHEMA,
+      enum: ["private", "org", "public"],
+    },
+    showFollowAction: {
+      type: "boolean",
+      default: true,
+    },
   },
 } as IConfigurationSchema;

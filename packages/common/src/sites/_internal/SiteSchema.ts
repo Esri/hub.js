@@ -9,7 +9,6 @@ export type SiteEditorType = (typeof SiteEditorTypes)[number];
 export const SiteEditorTypes = [
   "hub:site:edit",
   "hub:site:create",
-  "hub:site:followers",
   "hub:site:discussions",
   "hub:site:settings",
 ] as const;

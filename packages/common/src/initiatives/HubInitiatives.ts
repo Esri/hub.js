@@ -164,36 +164,6 @@ export async function editorToInitiative(
     initiative = setMetricAndDisplay(initiative, metric, displayConfig);
   }
 
-  // 5. handle association group settings
-  const assocGroupId = initiative.associations?.groupId;
-
-  if (assocGroupId && _associations) {
-    const associationGroup = convertHubGroupToGroup(_associations as IHubGroup);
-
-    // handle group access
-    if (_associations.groupAccess) {
-      await updateGroup({
-        group: {
-          id: assocGroupId,
-          access: _associations.groupAccess,
-        },
-        authentication: context.hubRequestOptions.authentication,
-      });
-    }
-
-    // handle membership access
-    if (_associations.membershipAccess) {
-      await updateGroup({
-        group: {
-          id: assocGroupId,
-          membershipAccess: associationGroup.membershipAccess,
-          clearEmptyFields: true,
-        },
-        authentication: context.hubRequestOptions.authentication,
-      });
-    }
-  }
-
   return initiative;
 }
 

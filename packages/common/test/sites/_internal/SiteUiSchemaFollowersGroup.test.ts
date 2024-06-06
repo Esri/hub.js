@@ -1,4 +1,4 @@
-import { buildUiSchema } from "../../../src/sites/_internal/SiteUiSchemaFollowers";
+import { buildUiSchema } from "../../../src/sites/_internal/SiteUiSchemaFollowersGroup";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
 import * as getLocationExtentModule from "../../../src/core/schemas/internal/getLocationExtent";
 import * as getLocationOptionsModule from "../../../src/core/schemas/internal/getLocationOptions";

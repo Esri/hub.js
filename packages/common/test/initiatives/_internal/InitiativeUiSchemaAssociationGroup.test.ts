@@ -1,4 +1,4 @@
-import { buildUiSchema } from "../../../src/initiatives/_internal/InitiativeUiSchemaAssociations";
+import { buildUiSchema } from "../../../src/initiatives/_internal/InitiativeUiSchemaAssociationGroup";
 import {
   MOCK_CONTEXT,
   getMockContextWithPrivilenges,

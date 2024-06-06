@@ -31,35 +31,6 @@ export const HubItemEntitySchema: IConfigurationSchema = {
     categories: ENTITY_CATEGORIES_SCHEMA,
     isDiscussable: ENTITY_IS_DISCUSSABLE_SCHEMA,
     _thumbnail: ENTITY_IMAGE_SCHEMA,
-    _followers: {
-      type: "object",
-      properties: {
-        groupAccess: {
-          ...ENTITY_ACCESS_SCHEMA,
-          enum: ["private", "org", "public"],
-        },
-        showFollowAction: {
-          type: "boolean",
-          default: true,
-        },
-        isDiscussable: ENTITY_IS_DISCUSSABLE_SCHEMA,
-      },
-    },
-    _associations: {
-      type: "object",
-      properties: {
-        groupAccess: {
-          ...ENTITY_ACCESS_SCHEMA,
-          enum: ["private", "org", "public"],
-          default: "private",
-        },
-        membershipAccess: {
-          type: "string",
-          enum: ["organization", "collaborators", "anyone"],
-          default: "organization",
-        },
-      },
-    },
     view: {
       type: "object",
       properties: {

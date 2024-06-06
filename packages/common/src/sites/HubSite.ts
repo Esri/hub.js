@@ -464,20 +464,6 @@ export class HubSite
 
     delete editor._thumbnail;
 
-    // set whether or not the followers group is discussable
-    if (editor._followers?.isDiscussable) {
-      await this.setFollowersGroupIsDiscussable(
-        editor._followers.isDiscussable
-      );
-    }
-
-    // set the followers group access
-    if (editor._followers?.groupAccess) {
-      await this.setFollowersGroupAccess(
-        editor._followers.groupAccess as SettableAccessLevel
-      );
-    }
-
     // 2. Convert editor values back to an entity e.g. apply
     // any reverse transforms used in the toEditor method
     const entity = cloneObject(editor) as IHubSite;

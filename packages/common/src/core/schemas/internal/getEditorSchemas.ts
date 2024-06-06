@@ -63,8 +63,6 @@ export async function getEditorSchemas(
           import("../../../sites/_internal/SiteUiSchemaEdit"),
         "hub:site:create": () =>
           import("../../../sites/_internal/SiteUiSchemaCreate"),
-        "hub:site:followers": () =>
-          import("../../../sites/_internal/SiteUiSchemaFollowers"),
         "hub:site:discussions": () =>
           import("../../../sites/_internal/SiteUiSchemaDiscussions"),
         "hub:site:settings": () =>
@@ -170,10 +168,6 @@ export async function getEditorSchemas(
           import("../../../initiatives/_internal/InitiativeUiSchemaCreate"),
         "hub:initiative:metrics": () =>
           import("./metrics/InitiativeUiSchemaMetrics"),
-        "hub:initiative:associations": () =>
-          import(
-            "../../../initiatives/_internal/InitiativeUiSchemaAssociations"
-          ),
       }[type as InitiativeEditorType]();
       uiSchema = await initiativeModule.buildUiSchema(
         i18nScope,
@@ -298,8 +292,14 @@ export async function getEditorSchemas(
       const groupModule: IEntityEditorModuleType = await {
         "hub:group:create:followers": () =>
           import("../../../groups/_internal/GroupUiSchemaCreateFollowers"),
+        "hub:group:edit:followers:site": () =>
+          import("../../../sites/_internal/SiteUiSchemaFollowersGroup"),
         "hub:group:create:association": () =>
           import("../../../groups/_internal/GroupUiSchemaCreateAssociation"),
+        "hub:group:edit:association:initiative": () =>
+          import(
+            "../../../initiatives/_internal/InitiativeUiSchemaAssociationGroup"
+          ),
         "hub:group:create:view": () =>
           import("../../../groups/_internal/GroupUiSchemaCreateView"),
         "hub:group:create:edit": () =>

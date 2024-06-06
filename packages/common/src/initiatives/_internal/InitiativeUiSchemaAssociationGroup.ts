@@ -5,9 +5,7 @@ import { IHubInitiative } from "../../core/types";
 
 /**
  * @private
- * constructs the minimal association group settings uiSchema for Hub Initiatives.
- * This defines how the schema properties should be rendered
- * in the initiative creation experience
+ * constructs the association group settings uiSchema for Hub Initiatives.
  */
 export const buildUiSchema = async (
   i18nScope: string,
@@ -21,24 +19,24 @@ export const buildUiSchema = async (
         type: "Section",
         elements: [
           {
-            labelKey: `${i18nScope}.fields.groupAccess.label`,
-            scope: "/properties/_associations/properties/groupAccess",
+            labelKey: `${i18nScope}.fields.access.label`,
+            scope: "/properties/access",
             type: "Control",
             options: {
               control: "hub-field-input-tile-select",
               layout: "horizontal",
               helperText: {
-                labelKey: `${i18nScope}.fields.groupAccess.helperText`,
+                labelKey: `${i18nScope}.fields.access.helperText.initiativeAssociation`,
               },
               labels: [
-                `{{${i18nScope}.fields.groupAccess.private.label:translate}}`,
-                `{{${i18nScope}.fields.groupAccess.org.label:translate}}`,
-                `{{${i18nScope}.fields.groupAccess.public.label:translate}}`,
+                `{{${i18nScope}.fields.access.private.label:translate}}`,
+                `{{${i18nScope}.fields.access.org.label:translate}}`,
+                `{{${i18nScope}.fields.access.public.label:translate}}`,
               ],
               descriptions: [
-                `{{${i18nScope}.fields.groupAccess.private.description:translate}}`,
-                `{{${i18nScope}.fields.groupAccess.org.description:translate}}`,
-                `{{${i18nScope}.fields.groupAccess.public.description:translate}}`,
+                `{{${i18nScope}.fields.access.private.description.initiativeAssociation:translate}}`,
+                `{{${i18nScope}.fields.access.org.description.initiativeAssociation:translate}}`,
+                `{{${i18nScope}.fields.access.public.description.initiativeAssociation:translate}}`,
               ],
               icons: ["users", "organization", "globe"],
               styles: { "max-width": "45rem" },
@@ -46,7 +44,7 @@ export const buildUiSchema = async (
           },
           {
             labelKey: `${i18nScope}.fields.membershipAccess.label`,
-            scope: "/properties/_associations/properties/membershipAccess",
+            scope: "/properties/membershipAccess",
             type: "Control",
             options: {
               control: "hub-field-input-radio",
