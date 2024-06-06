@@ -27,9 +27,6 @@ export const buildUiSchema = async (
             options: {
               type: "Control",
               control: "hub-field-input-map",
-              pickerTitle: {
-                labelKey: `${i18nScope}.fields.map.pickerTitle`,
-              },
               catalogs: [
                 {
                   schemaVersion: 1,
