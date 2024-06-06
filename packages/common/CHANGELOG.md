@@ -1,3 +1,10 @@
+# @esri/hub-common [14.140.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.139.2...@esri/hub-common@14.140.0) (2024-06-06)
+
+
+### Features
+
+* update IUiSchemaElement interface to include rules ([#1538](https://github.com/Esri/hub.js/issues/1538)) ([f2b0125](https://github.com/Esri/hub.js/commit/f2b0125548adaaa3ca83facff2853d62a05d5ea2))
+
 ## @esri/hub-common [14.139.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.139.1...@esri/hub-common@14.139.2) (2024-06-05)
 
 
