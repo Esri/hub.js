@@ -15,101 +15,108 @@ export const buildUiSchema = async (
 ): Promise<IUiSchema> => {
   return {
     type: "Layout",
-    label: "Map settings",
-    options: {
-      // TODO: i18nScope this string
-      helperText: "Select an existing web map or scene to display",
-    },
     elements: [
       {
-        scope: "/properties/view/properties/mapSettings",
-        type: "Control",
+        type: "Section",
+        labelKey: `${i18nScope}.sections.map.label`,
         options: {
-          control: "hub-field-input-map",
-          type: "Control",
-          // TODO: i18nScope this string
-          pickerTitle: "Select map or scene",
-          catalogs: [
-            {
-              schemaVersion: 1,
-              title: "My content",
-              scopes: {
-                item: {
-                  targetEntity: "item",
-                  filters: [
+          helperText: {
+            labelKey: `${i18nScope}.fields.map.hint`,
+          },
+        },
+        elements: [
+          {
+            type: "Control",
+            scope: "/properties/view/properties/mapSettings",
+            options: {
+              type: "Control",
+              control: "hub-field-input-map",
+              pickerTitle: {
+                labelKey: `${i18nScope}.fields.map.pickerTitle`,
+              },
+              catalogs: [
+                {
+                  schemaVersion: 1,
+                  title: "My content",
+                  scopes: {
+                    item: {
+                      targetEntity: "item",
+                      filters: [
+                        {
+                          predicates: [{ owner: context.currentUser.username }],
+                        },
+                      ],
+                    },
+                  },
+                  collections: [
                     {
-                      predicates: [{ owner: context.currentUser.username }],
+                      label: "Maps",
+                      key: "maps",
+                      targetEntity: "item",
+                      include: [],
+                      scope: {
+                        targetEntity: "item",
+                        filters: [
+                          { predicates: [{ type: ["Web Map", "Web Scene"] }] },
+                        ],
+                      },
                     },
                   ],
                 },
-              },
-              collections: [
                 {
-                  label: "Maps",
-                  key: "maps",
-                  targetEntity: "item",
-                  include: [],
-                  scope: {
-                    targetEntity: "item",
-                    filters: [
-                      { predicates: [{ type: ["Web Map", "Web Scene"] }] },
-                    ],
+                  schemaVersion: 1,
+                  title: "My organization",
+                  scopes: {
+                    item: {
+                      targetEntity: "item",
+                      filters: [
+                        { predicates: [{ orgid: context.currentUser.orgId }] },
+                      ],
+                    },
                   },
-                },
-              ],
-            },
-            {
-              schemaVersion: 1,
-              title: "My organization",
-              scopes: {
-                item: {
-                  targetEntity: "item",
-                  filters: [
-                    { predicates: [{ orgid: context.currentUser.orgId }] },
+                  collections: [
+                    {
+                      label: "Maps",
+                      key: "maps",
+                      targetEntity: "item",
+                      include: [],
+                      scope: {
+                        targetEntity: "item",
+                        filters: [
+                          { predicates: [{ type: ["Web Map", "Web Scene"] }] },
+                        ],
+                      },
+                    },
                   ],
                 },
-              },
-              collections: [
                 {
-                  label: "Maps",
-                  key: "maps",
-                  targetEntity: "item",
-                  include: [],
-                  scope: {
-                    targetEntity: "item",
-                    filters: [
-                      { predicates: [{ type: ["Web Map", "Web Scene"] }] },
-                    ],
+                  schemaVersion: 1,
+                  title: "World (Public)",
+                  scopes: {
+                    item: {
+                      targetEntity: "item",
+                      filters: [{ predicates: [{ access: "public" }] }],
+                    },
                   },
+                  collections: [
+                    {
+                      label: "Maps",
+                      key: "maps",
+                      targetEntity: "item",
+                      include: [],
+                      scope: {
+                        targetEntity: "item",
+                        filters: [
+                          { predicates: [{ type: ["Web Map", "Web Scene"] }] },
+                        ],
+                      },
+                    },
+                  ],
                 },
               ],
             },
-            {
-              schemaVersion: 1,
-              title: "World (Public)",
-              scopes: {
-                item: {
-                  targetEntity: "item",
-                  filters: [{ predicates: [{ access: "public" }] }],
-                },
-              },
-              collections: [
-                {
-                  label: "Maps",
-                  key: "maps",
-                  targetEntity: "item",
-                  include: [],
-                  scope: {
-                    targetEntity: "item",
-                    filters: [
-                      { predicates: [{ type: ["Web Map", "Web Scene"] }] },
-                    ],
-                  },
-                },
-              ],
-            },
-          ],
-        },
+          },
+        ],
       },
     ],
   };
