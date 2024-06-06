@@ -1,3 +1,10 @@
+## @esri/hub-common [14.140.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.140.0...@esri/hub-common@14.140.1) (2024-06-06)
+
+
+### Bug Fixes
+
+* **hub-common:** add canEdit to GetEventsParams ([#1539](https://github.com/Esri/hub.js/issues/1539)) ([e35eba5](https://github.com/Esri/hub.js/commit/e35eba586f29dc1439889dec9ba16e86100fea31))
+
 # @esri/hub-common [14.140.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.139.2...@esri/hub-common@14.140.0) (2024-06-06)
 
 
