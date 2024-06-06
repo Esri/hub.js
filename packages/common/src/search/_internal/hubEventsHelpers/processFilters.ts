@@ -15,9 +15,23 @@ export function processFilters(filters: IFilter[]): Partial<GetEventsParams> {
   const processedFilters: Partial<GetEventsParams> = {};
   const access = getOptionalPredicateStringsByKey(filters, "access");
   if (access?.length) {
-    // TODO: remove ts-ignore once GetEventsParams supports filtering by access
-    // @ts-ignore
     processedFilters.access = access;
+  }
+  const canEdit = getOptionalPredicateStringsByKey(filters, "canEdit");
+  if (canEdit?.length) {
+    processedFilters.canEdit = canEdit;
+  }
+  const entityIds = getOptionalPredicateStringsByKey(filters, "entityIds");
+  if (entityIds?.length) {
+    processedFilters.entityIds = entityIds;
+  }
+  const entityTypes = getOptionalPredicateStringsByKey(filters, "entityTypes");
+  if (entityTypes?.length) {
+    processedFilters.entityTypes = entityTypes;
+  }
+  const eventIds = getOptionalPredicateStringsByKey(filters, "eventIds");
+  if (eventIds?.length) {
+    processedFilters.eventIds = eventIds;
   }
   const term = getPredicateValuesByKey(filters, "term");
   if (term.length) {
@@ -30,6 +44,14 @@ export function processFilters(filters: IFilter[]): Partial<GetEventsParams> {
   const tags = getOptionalPredicateStringsByKey(filters, "tags");
   if (tags?.length) {
     processedFilters.tags = tags;
+  }
+  const readGroups = getOptionalPredicateStringsByKey(filters, "readGroups");
+  if (readGroups?.length) {
+    processedFilters.readGroups = readGroups;
+  }
+  const editGroups = getOptionalPredicateStringsByKey(filters, "editGroups");
+  if (editGroups?.length) {
+    processedFilters.editGroups = editGroups;
   }
   const attendanceType = getOptionalPredicateStringsByKey(
     filters,

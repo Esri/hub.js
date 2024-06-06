@@ -71,6 +71,61 @@ const MULTI_SELECT_FILTERS: IFilter[] = [
     operation: "OR",
     predicates: [
       {
+        entityIds: "entity1",
+      },
+      {
+        entityIds: "entity2",
+      },
+    ],
+  },
+  {
+    operation: "OR",
+    predicates: [
+      {
+        entityTypes: "Hub Initiative",
+      },
+      {
+        entityTypes: "Hub Project",
+      },
+    ],
+  },
+  {
+    operation: "OR",
+    predicates: [
+      {
+        eventIds: "event1",
+      },
+      {
+        eventIds: "event2",
+      },
+    ],
+  },
+  {
+    operation: "OR",
+    predicates: [
+      {
+        readGroups: "group1",
+      },
+      {
+        readGroups: "group2",
+      },
+    ],
+  },
+  {
+    operation: "OR",
+    predicates: [
+      {
+        editGroups: "group1",
+      },
+      {
+        editGroups: "group2",
+      },
+    ],
+  },
+  {
+    operation: "OR",
+    predicates: [
+      {
         startDateRange: {
           from: 1714276800000,
           to: 1714363199999,
@@ -132,6 +187,14 @@ const SINGLE_SELECT_FILTERS: IFilter[] = [
     operation: "OR",
     predicates: [
       {
+        canEdit: "true",
+      },
+    ],
+  },
+  {
+    operation: "OR",
+    predicates: [
+      {
         startDateRange: {
           from: 1714276800000,
           to: 1714363199999,
@@ -148,13 +211,16 @@ describe("processFilters", () => {
       title: "abc",
       categories: "category1,category2",
       tags: "tag1,tag2",
-      // TODO: remove ts-ignore once GetEventsParams supports filtering by access
-      // @ts-ignore
       access: "public,org,private",
       attendanceTypes: "online,in_person",
       status: "planned,canceled",
       startDateTimeAfter: "2024-04-28T04:00:00.000Z",
       startDateTimeBefore: "2024-04-29T03:59:59.999Z",
+      entityIds: "entity1,entity2",
+      entityTypes: "Hub Initiative,Hub Project",
+      eventIds: "event1,event2",
+      readGroups: "group1,group2",
+      editGroups: "group1,group2",
     });
   });
   it("should process single-select filters", () => {
@@ -163,13 +229,12 @@ describe("processFilters", () => {
       title: "abc",
       categories: "category1",
       tags: "tag1",
-      // TODO: remove ts-ignore once GetEventsParams supports filtering by access
-      // @ts-ignore
       access: "public",
       attendanceTypes: "online",
       status: "planned",
       startDateTimeAfter: "2024-04-28T04:00:00.000Z",
       startDateTimeBefore: "2024-04-29T03:59:59.999Z",
+      canEdit: "true",
     });
   });
   it("should set some defaults", () => {
