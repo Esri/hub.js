@@ -19,15 +19,11 @@ export const buildUiSchema = async (
       {
         type: "Section",
         labelKey: `${i18nScope}.sections.map.label`,
-        options: {
-          helperText: {
-            labelKey: `${i18nScope}.fields.map.hint`,
-          },
-        },
         elements: [
           {
             type: "Control",
             scope: "/properties/view/properties/mapSettings",
+            labelKey: `${i18nScope}.fields.map.label`,
             options: {
               type: "Control",
               control: "hub-field-input-map",
