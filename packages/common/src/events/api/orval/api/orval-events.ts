@@ -7,6 +7,57 @@
  */
 import { Awaited } from "../awaited-type";
 import { customClient } from "../custom-client";
+export type GetRegistrationsParams = {
+  /**
+   * Event id being registered for
+   */
+  eventId?: string;
+  /**
+   * ArcGIS Online id for a user
+   */
+  userId?: string;
+  /**
+   * comma separated string list of registration roles
+   */
+  role?: string;
+  /**
+   * comma separated string list of registration statuses
+   */
+  status?: string;
+  /**
+   * comma separated string list of registration types
+   */
+  type?: string;
+  /**
+   * latest ISO8601 updatedAt for the registrations
+   */
+  updatedAtBefore?: string;
+  /**
+   * earliest ISO8601 updatedAt for the registrations
+   */
+  updatedAtAfter?: string;
+  /**
+   * filter to be matched to firstName, lastName, or username
+   */
+  name?: string;
+  /**
+   * the max amount of registrations to return
+   */
+  num?: string;
+  /**
+   * the index to start at
+   */
+  start?: string;
+  /**
+   * property to sort results by
+   */
+  sortBy?: RegistrationSort;
+  /**
+   * sort order desc or asc
+   */
+  sortOrder?: EventSortOrder;
+};
+
 export type GetEventsParams = {
   /**
    * Comma separated string list of EventAccess. Example: PRIVATE,ORG,PUBLIC
@@ -108,6 +159,25 @@ export enum RegistrationSort {
   lastName = "lastName",
   username = "username",
 }
+export interface ICreateRegistration {
+  /** ArcGIS Online id for a user. Will always be extracted from the token unless service token is used. */
+  agoId?: string;
+  /** Email for the subscriber. Will always be extracted from the token unless service token is used. */
+  email?: string;
+  /** Event id being registered for */
+  eventId: string;
+  /** First name for the subscriber. Will always be extracted from the token unless service token is used. */
+  firstName?: string;
+  /** Last name for the subscriber. Will always be extracted from the token unless service token is used. */
+  lastName?: string;
+  /** Role of the user in the event */
+  role?: RegistrationRole;
+  /** Attendance type for this registration */
+  type: EventAttendanceType;
+  /** Username for the subscriber. Will always be extracted from the token unless service token is used. */
+  username?: string;
+}
+
 export interface IUpdateEvent {
   /** Access level of the event */
   access?: EventAccess;
@@ -155,61 +225,16 @@ export interface IUpdateEvent {
   title?: string;
 }
 
+export interface IPagedEventResponse {
+  items: IEvent[];
+  nextStart: number;
+  total: number;
+}
+
 export enum EventSortOrder {
   asc = "asc",
   desc = "desc",
 }
-export type GetRegistrationsParams = {
-  /**
-   * Event id being registered for
-   */
-  eventId?: string;
-  /**
-   * ArcGIS Online id for a user
-   */
-  userId?: string;
-  /**
-   * comma separated string list of registration roles
-   */
-  role?: string;
-  /**
-   * comma separated string list of registration statuses
-   */
-  status?: string;
-  /**
-   * comma separated string list of registration types
-   */
-  type?: string;
-  /**
-   * latest ISO8601 updatedAt for the registrations
-   */
-  updatedAtBefore?: string;
-  /**
-   * earliest ISO8601 updatedAt for the registrations
-   */
-  updatedAtAfter?: string;
-  /**
-   * filter to be matched to firstName, lastName, or username
-   */
-  name?: string;
-  /**
-   * the max amount of registrations to return
-   */
-  num?: string;
-  /**
-   * the index to start at
-   */
-  start?: string;
-  /**
-   * property to sort results by
-   */
-  sortBy?: RegistrationSort;
-  /**
-   * sort order desc or asc
-   */
-  sortOrder?: EventSortOrder;
-};
-
 export enum EventSort {
   title = "title",
   startDateTime = "startDateTime",
@@ -229,82 +254,6 @@ export interface IEventPermission {
   canSetAccessToPublic: boolean;
   canSetStatusToCancelled: boolean;
   canSetStatusToRemoved: boolean;
-}
-
-export enum RegistrationStatus {
-  PENDING = "PENDING",
-  ACCEPTED = "ACCEPTED",
-  DECLINED = "DECLINED",
-  BLOCKED = "BLOCKED",
-}
-export enum RegistrationRole {
-  OWNER = "OWNER",
-  ORGANIZER = "ORGANIZER",
-  ATTENDEE = "ATTENDEE",
-}
-export interface ICreateRegistration {
-  /** ArcGIS Online id for a user. Will always be extracted from the token unless service token is used. */
-  agoId?: string;
-  /** Email for the subscriber. Will always be extracted from the token unless service token is used. */
-  email?: string;
-  /** Event id being registered for */
-  eventId: string;
-  /** First name for the subscriber. Will always be extracted from the token unless service token is used. */
-  firstName?: string;
-  /** Last name for the subscriber. Will always be extracted from the token unless service token is used. */
-  lastName?: string;
-  /** Role of the user in the event */
-  role?: RegistrationRole;
-  /** Attendance type for this registration */
-  type: EventAttendanceType;
-  /** Username for the subscriber. Will always be extracted from the token unless service token is used. */
-  username?: string;
-}
-
-export enum EventStatus {
-  PLANNED = "PLANNED",
-  CANCELED = "CANCELED",
-  REMOVED = "REMOVED",
-}
-export interface IOnlineMeeting {
-  capacity: number | null;
-  createdAt: string;
-  details: string | null;
-  eventId: string;
-  updatedAt: string;
-  url: string;
-}
-
-export type IEventLocationGeometriesItem = { [key: string]: any };
-
-export interface IEventLocation {
-  addNum: string | null;
-  city: string | null;
-  cntryName: string | null;
-  eventId: string;
-  geometries: IEventLocationGeometriesItem[] | null;
-  id: number;
-  nbrhd: string | null;
-  placeAddr: string | null;
-  placeName: string | null;
-  postal: number | null;
-  region: string | null;
-  stDir: string | null;
-  stName: string | null;
-  stType: string | null;
-  subRegion: string | null;
-}
-
-export interface IUser {
-  agoId: string;
-  createdAt: string;
-  deleted: boolean;
-  email: string;
-  firstName: string;
-  lastName: string;
-  optedOut: boolean;
-  updatedAt: string;
-  username: string;
 }
 
 export interface IEvent {
@@ -343,12 +292,17 @@ export interface IEvent {
   updatedAt: string;
 }
 
-export interface IPagedEventResponse {
-  items: IEvent[];
-  nextStart: number;
-  total: number;
+export enum RegistrationStatus {
+  PENDING = "PENDING",
+  ACCEPTED = "ACCEPTED",
+  DECLINED = "DECLINED",
+  BLOCKED = "BLOCKED",
 }
-
+export enum RegistrationRole {
+  OWNER = "OWNER",
+  ORGANIZER = "ORGANIZER",
+  ATTENDEE = "ATTENDEE",
+}
 export interface IRegistration {
   createdAt: string;
   createdBy?: IUser;
@@ -365,6 +319,51 @@ export interface IRegistration {
   userId: string;
 }
 
+export enum EventStatus {
+  PLANNED = "PLANNED",
+  CANCELED = "CANCELED",
+  REMOVED = "REMOVED",
+}
+export interface IOnlineMeeting {
+  capacity: number | null;
+  createdAt: string;
+  details: string | null;
+  eventId: string;
+  updatedAt: string;
+  url: string;
+}
+
+export type IEventLocationGeometriesItem = { [key: string]: any };
+
+export interface ILocationSpatialReference {
+  latestVcsWkid?: number;
+  latestWkid?: number;
+  latestWkt?: string;
+  vcsWkid?: number;
+  wkid?: number;
+  wkt?: string;
+}
+
+export type IEventLocationSpatialReference = ILocationSpatialReference | null;
+
+export interface IUser {
+  agoId: string;
+  createdAt: string;
+  deleted: boolean;
+  email: string;
+  firstName: string;
+  lastName: string;
+  optedOut: boolean;
+  updatedAt: string;
+  username: string;
+}
+
+export interface IEventAssociation {
+  entityId: string;
+  entityType: EventAssociationEntityType;
+  eventId: string;
+}
+
 export interface ICreateOnlineMeeting {
   /** Capacity of the online meeting. Minimum value is 1 */
   capacity?: number;
@@ -376,6 +375,42 @@ export interface ICreateOnlineMeeting {
 
 export type ICreateEventLocationGeometriesItem = { [key: string]: any };
 
+export enum EventLocationType {
+  none = "none",
+  custom = "custom",
+  org = "org",
+  item = "item",
+}
+export interface IEventLocation {
+  addNum: string | null;
+  city: string | null;
+  cntryName: string | null;
+  eventId: string;
+  extent: number[][] | null;
+  geometries: IEventLocationGeometriesItem[] | null;
+  id: number;
+  nbrhd: string | null;
+  placeAddr: string | null;
+  placeName: string | null;
+  postal: number | null;
+  region: string | null;
+  spatialReference: IEventLocationSpatialReference;
+  stDir: string | null;
+  stName: string | null;
+  stType: string | null;
+  subRegion: string | null;
+  type: EventLocationType;
+}
+
+export interface ICreateLocationSpatialReference {
+  latestVcsWkid?: number;
+  latestWkid?: number;
+  latestWkt?: string;
+  vcsWkid?: number;
+  wkid?: number;
+  wkt?: string;
+}
+
 export interface ICreateEventLocation {
   /** Address number */
   addNum?: string;
@@ -383,6 +418,8 @@ export interface ICreateEventLocation {
   city?: string;
   /** Country name */
   cntryName?: string;
+  /** 2D array of numbers */
+  extent?: number[][];
   /** Array of esri geometry objects */
   geometries?: ICreateEventLocationGeometriesItem[];
   /** Neighborhood */
@@ -395,6 +432,8 @@ export interface ICreateEventLocation {
   postal?: number;
   /** Region */
   region?: string;
+  /** Spatial reference */
+  spatialReference?: ICreateLocationSpatialReference;
   /** Street direction */
   stDir?: string;
   /** Street name */
@@ -403,6 +442,8 @@ export interface ICreateEventLocation {
   stType?: string;
   /** Sub region */
   subRegion?: string;
+  /** Location type */
+  type: EventLocationType;
 }
 
 export enum EventAttendanceType {
@@ -414,12 +455,6 @@ export enum EventAssociationEntityType {
   Hub_Initiative = "Hub Initiative",
   Hub_Project = "Hub Project",
 }
-export interface IEventAssociation {
-  entityId: string;
-  entityType: EventAssociationEntityType;
-  eventId: string;
-}
-
 export interface ICreateEventAssociation {
   /** Entity Id */
   entityId: string;

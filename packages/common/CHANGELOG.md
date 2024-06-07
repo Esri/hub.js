@@ -1,3 +1,10 @@
+## @esri/hub-common [14.140.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.140.1...@esri/hub-common@14.140.2) (2024-06-07)
+
+
+### Bug Fixes
+
+* **hub-common:** add extent, spatialReference, and type to event.loca… ([#1544](https://github.com/Esri/hub.js/issues/1544)) ([a0bf8c3](https://github.com/Esri/hub.js/commit/a0bf8c3b305fff631bf847385ad2cb11cca4486c))
+
 ## @esri/hub-common [14.140.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.140.0...@esri/hub-common@14.140.1) (2024-06-06)
 
 

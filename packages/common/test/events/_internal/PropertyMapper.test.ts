@@ -2,12 +2,13 @@ import { IHubEvent } from "../../../src/core/types/IHubEvent";
 import { EventPropertyMapper } from "../../../src/events/_internal/PropertyMapper";
 import { getEventThumbnail } from "../../../src/events/_internal/getEventThumbnail";
 import { getPropertyMap } from "../../../src/events/_internal/getPropertyMap";
-import { IOnlineMeeting } from "../../../src/events/api/orval/api/orval-events";
 import {
   EventAccess,
   EventAttendanceType,
+  EventLocationType,
   EventStatus,
   IEvent,
+  IOnlineMeeting,
 } from "../../../src/events/api/types";
 import {
   HubEventAttendanceType,
