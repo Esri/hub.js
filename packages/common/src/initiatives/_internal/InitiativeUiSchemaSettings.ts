@@ -29,6 +29,8 @@ export const buildUiSchema = async (
               control: "hub-field-input-map",
               // the settings that are visible for configuring the map
               visibleSettings: ["gallery"],
+              // if the map preview is displayed
+              showPreview: true,
               gallery: {
                 catalogs: [
                   {
