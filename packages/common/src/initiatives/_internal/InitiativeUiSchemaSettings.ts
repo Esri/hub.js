@@ -27,86 +27,100 @@ export const buildUiSchema = async (
             options: {
               type: "Control",
               control: "hub-field-input-map",
-              catalogs: [
-                {
-                  schemaVersion: 1,
-                  title: "My content",
-                  scopes: {
-                    item: {
-                      targetEntity: "item",
-                      filters: [
-                        {
-                          predicates: [{ owner: context.currentUser.username }],
+              // the settings that are visible for configuring the map
+              visibleSettings: ["gallery"],
+              gallery: {
+                catalogs: [
+                  {
+                    schemaVersion: 1,
+                    title: "My content",
+                    scopes: {
+                      item: {
+                        targetEntity: "item",
+                        filters: [
+                          {
+                            predicates: [
+                              { owner: context.currentUser.username },
+                            ],
+                          },
+                        ],
+                      },
+                    },
+                    collections: [
+                      {
+                        label: "Maps",
+                        key: "maps",
+                        targetEntity: "item",
+                        include: [],
+                        scope: {
+                          targetEntity: "item",
+                          filters: [
+                            {
+                              predicates: [{ type: ["Web Map", "Web Scene"] }],
+                            },
+                          ],
                         },
-                      ],
-                    },
+                      },
+                    ],
                   },
-                  collections: [
-                    {
-                      label: "Maps",
-                      key: "maps",
-                      targetEntity: "item",
-                      include: [],
-                      scope: {
+                  {
+                    schemaVersion: 1,
+                    title: "My organization",
+                    scopes: {
+                      item: {
                         targetEntity: "item",
                         filters: [
-                          { predicates: [{ type: ["Web Map", "Web Scene"] }] },
+                          {
+                            predicates: [{ orgid: context.currentUser.orgId }],
+                          },
                         ],
                       },
                     },
-                  ],
-                },
-                {
-                  schemaVersion: 1,
-                  title: "My organization",
-                  scopes: {
-                    item: {
-                      targetEntity: "item",
-                      filters: [
-                        { predicates: [{ orgid: context.currentUser.orgId }] },
-                      ],
-                    },
-                  },
-                  collections: [
-                    {
-                      label: "Maps",
-                      key: "maps",
-                      targetEntity: "item",
-                      include: [],
-                      scope: {
+                    collections: [
+                      {
+                        label: "Maps",
+                        key: "maps",
                         targetEntity: "item",
-                        filters: [
-                          { predicates: [{ type: ["Web Map", "Web Scene"] }] },
-                        ],
+                        include: [],
+                        scope: {
+                          targetEntity: "item",
+                          filters: [
+                            {
+                              predicates: [{ type: ["Web Map", "Web Scene"] }],
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    schemaVersion: 1,
+                    title: "World (Public)",
+                    scopes: {
+                      item: {
+                        targetEntity: "item",
+                        filters: [{ predicates: [{ access: "public" }] }],
                       },
                     },
-                  ],
-                },
-                {
-                  schemaVersion: 1,
-                  title: "World (Public)",
-                  scopes: {
-                    item: {
-                      targetEntity: "item",
-                      filters: [{ predicates: [{ access: "public" }] }],
-                    },
-                  },
-                  collections: [
-                    {
-                      label: "Maps",
-                      key: "maps",
-                      targetEntity: "item",
-                      include: [],
-                      scope: {
+                    collections: [
+                      {
+                        label: "Maps",
+                        key: "maps",
                         targetEntity: "item",
-                        filters: [
-                          { predicates: [{ type: ["Web Map", "Web Scene"] }] },
-                        ],
+                        include: [],
+                        scope: {
+                          targetEntity: "item",
+                          filters: [
+                            {
+                              predicates: [{ type: ["Web Map", "Web Scene"] }],
+                            },
+                          ],
+                        },
                       },
-                    },
-                  ],
-                },
-              ],
+                    ],
+                  },
+                ],
+              },
             },
           },
         ],
