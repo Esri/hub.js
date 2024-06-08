@@ -32,6 +32,25 @@ export const buildUiSchema = async (
               // if the map preview is displayed
               showPreview: true,
               gallery: {
+                facets: [
+                  {
+                    label: "Type",
+                    key: "type",
+                    display: "multi-select",
+                    field: "type",
+                    options: [],
+                    operation: "OR",
+                    aggLimit: 100,
+                  },
+                  {
+                    label: "Sharing",
+                    key: "access",
+                    display: "multi-select",
+                    field: "access",
+                    options: [],
+                    operation: "OR",
+                  },
+                ],
                 catalogs: [
                   {
                     schemaVersion: 1,
