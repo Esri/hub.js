@@ -7,154 +7,6 @@
  */
 import { Awaited } from "../awaited-type";
 import { customClient } from "../custom-client";
-export type GetEventsParams = {
-  /**
-   * Comma separated string list of EventAccess. Example: PRIVATE,ORG,PUBLIC
-   */
-  access?: string;
-  /**
-   * Comma separated string list of associated entityIds
-   */
-  entityIds?: string;
-  /**
-   * Comma separated string list of associated entity types. Example: Hub Site Application,Hub Initiative,Hub Project
-   */
-  entityTypes?: string;
-  /**
-   * Comma separated string list of event ids
-   */
-  eventIds?: string;
-  /**
-   * Comma separated string list of relation fields to include in response. Example: associations,creator,location,onlineMeetings,registrations
-   */
-  include?: string;
-  /**
-   * latest ISO8601 start date-time for the events
-   */
-  startDateTimeBefore?: string;
-  /**
-   * earliest ISO8601 start date-time for the events
-   */
-  startDateTimeAfter?: string;
-  /**
-   * Comma separated string list of AttendanceTypes. Example:  VIRTUAL,IN_PERSON
-   */
-  attendanceTypes?: string;
-  /**
-   * Comma separated string list of categories
-   */
-  categories?: string;
-  /**
-   * comma separated string list of event statuses. Example: PRIVATE,ORG,PUBLIC
-   */
-  status?: string;
-  /**
-   * Comma separated string list of tags
-   */
-  tags?: string;
-  /**
-   * string to match within an event title
-   */
-  title?: string;
-  /**
-   * Comma separated string list of read groupIds
-   */
-  readGroups?: string;
-  /**
-   * Comma separated string list of edit groupIds
-   */
-  editGroups?: string;
-  /**
-   * the max amount of events to return
-   */
-  num?: string;
-  /**
-   * the index to start at
-   */
-  start?: string;
-  /**
-   * Event property to sort results by
-   */
-  sortBy?: EventSort;
-  /**
-   * sort results order desc or asc
-   */
-  sortOrder?: EventSortOrder;
-};
-
-export interface IUpdateRegistration {
-  /** Role of the user in the event */
-  role?: RegistrationRole;
-  /** Status of the registration */
-  status?: RegistrationStatus;
-  /** Attendance type for this registration */
-  type?: EventAttendanceType;
-}
-
-export interface IPagedRegistrationResponse {
-  items: IRegistration[];
-  nextStart: number;
-  total: number;
-}
-
-export enum RegistrationSort {
-  createdAt = "createdAt",
-  updatedAt = "updatedAt",
-  firstName = "firstName",
-  lastName = "lastName",
-  username = "username",
-}
-export interface IUpdateEvent {
-  /** Access level of the event */
-  access?: EventAccess;
-  /** Flag for all day event */
-  allDay?: boolean;
-  /** Boolean to indicate if users can register for an event */
-  allowRegistration?: boolean;
-  /** Items associated with the event */
-  associations?: ICreateEventAssociation[];
-  /** Valid ways to attend the event */
-  attendanceType?: EventAttendanceType[];
-  /** categories for the event */
-  categories?: string[];
-  /** Description of the event */
-  description?: string;
-  /** Groups with edit access to the event */
-  editGroups?: string[];
-  /** end date string formatted YYYY-MM-DD */
-  endDate?: string;
-  /** end time string 24 hour formatted HH:MM:SS */
-  endTime?: string;
-  /** in-person capacity for the event. Minimum value is 1 */
-  inPersonCapacity?: number;
-  /** Location for the event */
-  location?: ICreateEventLocation;
-  /** Flag to notify attendees */
-  notifyAttendees?: boolean;
-  /** Online meetings for the event */
-  onlineMeetings?: ICreateOnlineMeeting[];
-  /** Groups with read access to the event */
-  readGroups?: string[];
-  /** start date string formatted YYYY-MM-DD */
-  startDate?: string;
-  /** start time string 24 hour formatted HH:MM:SS */
-  startTime?: string;
-  /** Status of the event */
-  status?: EventStatus;
-  /** Summary of the event */
-  summary?: string;
-  /** Tags for the event */
-  tags?: string[];
-  /** IANA time zone for the event */
-  timeZone?: string;
-  /** Title of the event */
-  title?: string;
-}
-
-export enum EventSortOrder {
-  asc = "asc",
-  desc = "desc",
-}
 export type GetRegistrationsParams = {
   /**
    * Event id being registered for
@@ -206,37 +58,106 @@ export type GetRegistrationsParams = {
   sortOrder?: EventSortOrder;
 };
 
-export enum EventSort {
-  title = "title",
-  startDateTime = "startDateTime",
+export type GetEventsParams = {
+  /**
+   * Comma separated string list of EventAccess. Example: PRIVATE,ORG,PUBLIC
+   */
+  access?: string;
+  /**
+   * Comma separated string list of AttendanceTypes. Example:  VIRTUAL,IN_PERSON
+   */
+  attendanceTypes?: string;
+  /**
+   * boolean to filter events that can be edited by the user
+   */
+  canEdit?: string;
+  /**
+   * Comma separated string list of categories
+   */
+  categories?: string;
+  /**
+   * Comma separated string list of edit groupIds
+   */
+  editGroups?: string;
+  /**
+   * Comma separated string list of associated entityIds
+   */
+  entityIds?: string;
+  /**
+   * Comma separated string list of associated entity types. Example: Hub Site Application,Hub Initiative,Hub Project
+   */
+  entityTypes?: string;
+  /**
+   * Comma separated string list of event ids
+   */
+  eventIds?: string;
+  /**
+   * Comma separated string list of relation fields to include in response. Example: associations,creator,location,onlineMeetings,registrations
+   */
+  include?: string;
+  /**
+   * the max amount of events to return
+   */
+  num?: string;
+  /**
+   * Comma separated string list of read groupIds
+   */
+  readGroups?: string;
+  /**
+   * Event property to sort results by
+   */
+  sortBy?: EventSort;
+  /**
+   * sort results order desc or asc
+   */
+  sortOrder?: EventSortOrder;
+  /**
+   * the index to start at
+   */
+  start?: string;
+  /**
+   * earliest ISO8601 start date-time for the events
+   */
+  startDateTimeAfter?: string;
+  /**
+   * latest ISO8601 start date-time for the events
+   */
+  startDateTimeBefore?: string;
+  /**
+   * comma separated string list of event statuses. Example: PRIVATE,ORG,PUBLIC
+   */
+  status?: string;
+  /**
+   * Comma separated string list of tags
+   */
+  tags?: string;
+  /**
+   * string to match within an event title
+   */
+  title?: string;
+};
+
+export interface IUpdateRegistration {
+  /** Role of the user in the event */
+  role?: RegistrationRole;
+  /** Status of the registration */
+  status?: RegistrationStatus;
+  /** Attendance type for this registration */
+  type?: EventAttendanceType;
+}
+
+export interface IPagedRegistrationResponse {
+  items: IRegistration[];
+  nextStart: number;
+  total: number;
+}
+
+export enum RegistrationSort {
   createdAt = "createdAt",
   updatedAt = "updatedAt",
-}
-export interface IRegistrationPermission {
-  canDelete: boolean;
-  canEdit: boolean;
-}
-
-export interface IEventPermission {
-  canDelete: boolean;
-  canEdit: boolean;
-  canSetAccessToOrg: boolean;
-  canSetAccessToPrivate: boolean;
-  canSetAccessToPublic: boolean;
-  canSetStatusToCancelled: boolean;
-  canSetStatusToRemoved: boolean;
-}
-
-export enum RegistrationStatus {
-  PENDING = "PENDING",
-  ACCEPTED = "ACCEPTED",
-  DECLINED = "DECLINED",
-  BLOCKED = "BLOCKED",
-}
-export enum RegistrationRole {
-  OWNER = "OWNER",
-  ORGANIZER = "ORGANIZER",
-  ATTENDEE = "ATTENDEE",
+  firstName = "firstName",
+  lastName = "lastName",
+  username = "username",
 }
 export interface ICreateRegistration {
   /** ArcGIS Online id for a user. Will always be extracted from the token unless service token is used. */
@@ -257,50 +178,82 @@ export interface ICreateRegistration {
   username?: string;
 }
 
-export enum EventStatus {
-  PLANNED = "PLANNED",
-  CANCELED = "CANCELED",
-  REMOVED = "REMOVED",
-}
-export interface IOnlineMeeting {
-  capacity: number | null;
-  createdAt: string;
-  details: string | null;
-  eventId: string;
-  updatedAt: string;
-  url: string;
+export interface IUpdateEvent {
+  /** Access level of the event */
+  access?: EventAccess;
+  /** Flag for all day event */
+  allDay?: boolean;
+  /** Boolean to indicate if users can register for an event */
+  allowRegistration?: boolean;
+  /** Items associated with the event */
+  associations?: ICreateEventAssociation[];
+  /** Valid ways to attend the event */
+  attendanceType?: EventAttendanceType[];
+  /** categories for the event */
+  categories?: string[];
+  /** Description of the event */
+  description?: string;
+  /** Groups with edit access to the event */
+  editGroups?: string[];
+  /** end date string formatted YYYY-MM-DD */
+  endDate?: string;
+  /** end time string 24 hour formatted HH:MM:SS */
+  endTime?: string;
+  /** in-person capacity for the event. Minimum value is 1 */
+  inPersonCapacity?: number;
+  /** Location for the event */
+  location?: ICreateEventLocation;
+  /** Flag to notify attendees */
+  notifyAttendees?: boolean;
+  /** Online meetings for the event */
+  onlineMeetings?: ICreateOnlineMeeting[];
+  /** Groups with read access to the event */
+  readGroups?: string[];
+  /** start date string formatted YYYY-MM-DD */
+  startDate?: string;
+  /** start time string 24 hour formatted HH:MM:SS */
+  startTime?: string;
+  /** Status of the event */
+  status?: EventStatus;
+  /** Summary of the event */
+  summary?: string;
+  /** Tags for the event */
+  tags?: string[];
+  /** IANA time zone for the event */
+  timeZone?: string;
+  /** Title of the event */
+  title?: string;
 }
 
-export type IEventLocationGeometriesItem = { [key: string]: any };
-
-export interface IEventLocation {
-  addNum: string | null;
-  city: string | null;
-  cntryName: string | null;
-  eventId: string;
-  geometries: IEventLocationGeometriesItem[] | null;
-  id: number;
-  nbrhd: string | null;
-  placeAddr: string | null;
-  placeName: string | null;
-  postal: number | null;
-  region: string | null;
-  stDir: string | null;
-  stName: string | null;
-  stType: string | null;
-  subRegion: string | null;
+export interface IPagedEventResponse {
+  items: IEvent[];
+  nextStart: number;
+  total: number;
 }
 
-export interface IUser {
-  agoId: string;
-  createdAt: string;
-  deleted: boolean;
-  email: string;
-  firstName: string;
-  lastName: string;
-  optedOut: boolean;
-  updatedAt: string;
-  username: string;
+export enum EventSortOrder {
+  asc = "asc",
+  desc = "desc",
+}
+export enum EventSort {
+  title = "title",
+  startDateTime = "startDateTime",
+  createdAt = "createdAt",
+  updatedAt = "updatedAt",
+}
+export interface IRegistrationPermission {
+  canDelete: boolean;
+  canEdit: boolean;
+}
+
+export interface IEventPermission {
+  canDelete: boolean;
+  canEdit: boolean;
+  canSetAccessToOrg: boolean;
+  canSetAccessToPrivate: boolean;
+  canSetAccessToPublic: boolean;
+  canSetStatusToCancelled: boolean;
+  canSetStatusToRemoved: boolean;
 }
 
 export interface IEvent {
@@ -339,12 +292,17 @@ export interface IEvent {
   updatedAt: string;
 }
 
-export interface IPagedEventResponse {
-  items: IEvent[];
-  nextStart: number;
-  total: number;
+export enum RegistrationStatus {
+  PENDING = "PENDING",
+  ACCEPTED = "ACCEPTED",
+  DECLINED = "DECLINED",
+  BLOCKED = "BLOCKED",
 }
-
+export enum RegistrationRole {
+  OWNER = "OWNER",
+  ORGANIZER = "ORGANIZER",
+  ATTENDEE = "ATTENDEE",
+}
 export interface IRegistration {
   createdAt: string;
   createdBy?: IUser;
@@ -361,6 +319,51 @@ export interface IRegistration {
   userId: string;
 }
 
+export enum EventStatus {
+  PLANNED = "PLANNED",
+  CANCELED = "CANCELED",
+  REMOVED = "REMOVED",
+}
+export interface IOnlineMeeting {
+  capacity: number | null;
+  createdAt: string;
+  details: string | null;
+  eventId: string;
+  updatedAt: string;
+  url: string;
+}
+
+export type IEventLocationGeometriesItem = { [key: string]: any };
+
+export interface ILocationSpatialReference {
+  latestVcsWkid?: number;
+  latestWkid?: number;
+  latestWkt?: string;
+  vcsWkid?: number;
+  wkid?: number;
+  wkt?: string;
+}
+
+export type IEventLocationSpatialReference = ILocationSpatialReference | null;
+
+export interface IUser {
+  agoId: string;
+  createdAt: string;
+  deleted: boolean;
+  email: string;
+  firstName: string;
+  lastName: string;
+  optedOut: boolean;
+  updatedAt: string;
+  username: string;
+}
+
+export interface IEventAssociation {
+  entityId: string;
+  entityType: EventAssociationEntityType;
+  eventId: string;
+}
+
 export interface ICreateOnlineMeeting {
   /** Capacity of the online meeting. Minimum value is 1 */
   capacity?: number;
@@ -372,6 +375,42 @@ export interface ICreateOnlineMeeting {
 
 export type ICreateEventLocationGeometriesItem = { [key: string]: any };
 
+export enum EventLocationType {
+  none = "none",
+  custom = "custom",
+  org = "org",
+  item = "item",
+}
+export interface IEventLocation {
+  addNum: string | null;
+  city: string | null;
+  cntryName: string | null;
+  eventId: string;
+  extent: number[][] | null;
+  geometries: IEventLocationGeometriesItem[] | null;
+  id: number;
+  nbrhd: string | null;
+  placeAddr: string | null;
+  placeName: string | null;
+  postal: number | null;
+  region: string | null;
+  spatialReference: IEventLocationSpatialReference;
+  stDir: string | null;
+  stName: string | null;
+  stType: string | null;
+  subRegion: string | null;
+  type: EventLocationType;
+}
+
+export interface ICreateLocationSpatialReference {
+  latestVcsWkid?: number;
+  latestWkid?: number;
+  latestWkt?: string;
+  vcsWkid?: number;
+  wkid?: number;
+  wkt?: string;
+}
+
 export interface ICreateEventLocation {
   /** Address number */
   addNum?: string;
@@ -379,6 +418,8 @@ export interface ICreateEventLocation {
   city?: string;
   /** Country name */
   cntryName?: string;
+  /** 2D array of numbers */
+  extent?: number[][];
   /** Array of esri geometry objects */
   geometries?: ICreateEventLocationGeometriesItem[];
   /** Neighborhood */
@@ -391,6 +432,8 @@ export interface ICreateEventLocation {
   postal?: number;
   /** Region */
   region?: string;
+  /** Spatial reference */
+  spatialReference?: ICreateLocationSpatialReference;
   /** Street direction */
   stDir?: string;
   /** Street name */
@@ -399,6 +442,8 @@ export interface ICreateEventLocation {
   stType?: string;
   /** Sub region */
   subRegion?: string;
+  /** Location type */
+  type: EventLocationType;
 }
 
 export enum EventAttendanceType {
@@ -410,12 +455,6 @@ export enum EventAssociationEntityType {
   Hub_Initiative = "Hub Initiative",
   Hub_Project = "Hub Project",
 }
-export interface IEventAssociation {
-  entityId: string;
-  entityType: EventAssociationEntityType;
-  eventId: string;
-}
-
 export interface ICreateEventAssociation {
   /** Entity Id */
   entityId: string;

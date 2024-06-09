@@ -1,3 +1,31 @@
+## @esri/hub-common [14.140.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.140.1...@esri/hub-common@14.140.2) (2024-06-07)
+
+
+### Bug Fixes
+
+* **hub-common:** add extent, spatialReference, and type to event.loca… ([#1544](https://github.com/Esri/hub.js/issues/1544)) ([a0bf8c3](https://github.com/Esri/hub.js/commit/a0bf8c3b305fff631bf847385ad2cb11cca4486c))
+
+## @esri/hub-common [14.140.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.140.0...@esri/hub-common@14.140.1) (2024-06-06)
+
+
+### Bug Fixes
+
+* **hub-common:** add canEdit to GetEventsParams ([#1539](https://github.com/Esri/hub.js/issues/1539)) ([e35eba5](https://github.com/Esri/hub.js/commit/e35eba586f29dc1439889dec9ba16e86100fea31))
+
+# @esri/hub-common [14.140.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.139.2...@esri/hub-common@14.140.0) (2024-06-06)
+
+
+### Features
+
+* update IUiSchemaElement interface to include rules ([#1538](https://github.com/Esri/hub.js/issues/1538)) ([f2b0125](https://github.com/Esri/hub.js/commit/f2b0125548adaaa3ca83facff2853d62a05d5ea2))
+
+## @esri/hub-common [14.139.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.139.1...@esri/hub-common@14.139.2) (2024-06-05)
+
+
+### Bug Fixes
+
+* **hub-common:** events can be viewed by anon user ([#1540](https://github.com/Esri/hub.js/issues/1540)) ([879b221](https://github.com/Esri/hub.js/commit/879b221fa611cb41fdabdcd7b74630a10be3b4f0))
+
 ## @esri/hub-common [14.139.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.139.0...@esri/hub-common@14.139.1) (2024-06-04)
 
 

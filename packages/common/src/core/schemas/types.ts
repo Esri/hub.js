@@ -190,7 +190,9 @@ export interface IUiSchemaElement {
     [key: string]: any;
   };
   scope?: string;
+  // NOTE: rule is deprecated and remains for backwards compatibility only. Please use rules instead.
   rule?: IUiSchemaRule;
+  rules?: IUiSchemaRule[];
   elements?: IUiSchemaElement[];
   tooltip?: string;
 }

@@ -14,6 +14,9 @@ export {
   IEventPermission,
   IEventLocation,
   IEventLocationGeometriesItem,
+  ILocationSpatialReference,
+  IEventLocationSpatialReference,
+  ICreateLocationSpatialReference,
   ICreateEventLocation,
   ICreateEventLocationGeometriesItem,
   IRegistration,
@@ -27,6 +30,7 @@ export {
   RegistrationSort,
   EventSortOrder,
   EventSort,
+  EventLocationType,
   IPagedRegistrationResponse,
   IPagedEventResponse,
 } from "./orval/api/orval-events";

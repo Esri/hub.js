@@ -12,6 +12,7 @@ import {
   IEvent,
   EventAttendanceType,
   EventAccess,
+  EventLocationType,
 } from "../../../src/events/api";
 import * as authenticateRequestModule from "../../../src/events/api/utils/authenticate-request";
 import * as orvalModule from "../../../src/events/api/orval/api/orval-events";
@@ -62,6 +63,7 @@ describe("Events", () => {
             stName: "Taco",
             stType: "Blvd",
             subRegion: "District of Somewhere Else",
+            type: EventLocationType.custom,
           },
           notifyAttendees: true,
           onlineMeetings: [
