@@ -53,6 +53,22 @@ export const ENTITY_LOCATION_SCHEMA = {
   default: { type: "none" },
 };
 
+/**
+ * defines the JSON schema for the map configuration settings
+ */
+export const ENTITY_MAP_SCHEMA = {
+  type: "object",
+  properties: {
+    itemId: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+      maxItems: 1,
+    },
+  },
+};
+
 export const ENTITY_IMAGE_SCHEMA = {
   type: "object",
   properties: {
