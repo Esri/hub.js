@@ -4,7 +4,7 @@ import {
   RegistrationRole,
   RegistrationStatus,
 } from "../../../events/api/types";
-import { IQuery } from "../../types";
+import { IDateRange, IQuery } from "../../types";
 import { getOptionalPredicateStringsByKey } from "./getOptionalPredicateStringsByKey";
 import { getPredicateValuesByKey } from "./getPredicateValuesByKey";
 
@@ -48,7 +48,7 @@ export function processAttendeeFilters(
     ]
   );
 
-  const updatedDateRange = getPredicateValuesByKey(
+  const updatedDateRange = getPredicateValuesByKey<IDateRange<string | number>>(
     query.filters,
     "updatedDateRange"
   );

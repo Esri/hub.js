@@ -1,11 +1,11 @@
 import { IFilter } from "../../types/IHubCatalog";
 
-export const getPredicateValuesByKey = (
+export const getPredicateValuesByKey = <T>(
   filters: IFilter[],
   predicateKey: string
-): any[] => {
-  const toPredicateValuesByKey = (a1: any[], filter: IFilter): any[] =>
-    filter.predicates.reduce<any[]>(
+): T[] => {
+  const toPredicateValuesByKey = (a1: T[], filter: IFilter): T[] =>
+    filter.predicates.reduce<T[]>(
       (a2, predicate) =>
         Object.entries(predicate).reduce(
           (a3, [key, val]) => (key === predicateKey ? [...a3, val] : a3),
@@ -13,5 +13,5 @@ export const getPredicateValuesByKey = (
         ),
       a1
     );
-  return filters.reduce(toPredicateValuesByKey, []);
+  return filters.reduce<T[]>(toPredicateValuesByKey, []);
 };

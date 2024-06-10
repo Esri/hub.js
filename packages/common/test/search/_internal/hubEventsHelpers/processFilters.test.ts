@@ -104,10 +104,10 @@ const MULTI_SELECT_FILTERS: IFilter[] = [
     operation: "OR",
     predicates: [
       {
-        readGroups: "group1",
+        readGroupsIds: "group1",
       },
       {
-        readGroups: "group2",
+        readGroupsIds: "group2",
       },
     ],
   },
@@ -115,10 +115,26 @@ const MULTI_SELECT_FILTERS: IFilter[] = [
     operation: "OR",
     predicates: [
       {
-        editGroups: "group1",
+        editGroupsIds: "group1",
       },
       {
-        editGroups: "group2",
+        editGroupsIds: "group2",
+      },
+    ],
+  },
+  {
+    operation: "OR",
+    predicates: [
+      {
+        owner: "owner",
+      },
+    ],
+  },
+  {
+    operation: "OR",
+    predicates: [
+      {
+        canEdit: "true",
       },
     ],
   },
@@ -187,6 +203,14 @@ const SINGLE_SELECT_FILTERS: IFilter[] = [
     operation: "OR",
     predicates: [
       {
+        owner: "owner",
+      },
+    ],
+  },
+  {
+    operation: "OR",
+    predicates: [
+      {
         canEdit: "true",
       },
     ],
@@ -221,7 +245,9 @@ describe("processFilters", () => {
       eventIds: "event1,event2",
       readGroups: "group1,group2",
       editGroups: "group1,group2",
-    });
+      createdById: "owner",
+      canEdit: "true",
+    } as any);
   });
   it("should process single-select filters", () => {
     const results = processFilters(SINGLE_SELECT_FILTERS);
@@ -234,8 +260,9 @@ describe("processFilters", () => {
       status: "planned",
       startDateTimeAfter: "2024-04-28T04:00:00.000Z",
       startDateTimeBefore: "2024-04-29T03:59:59.999Z",
+      createdById: "owner",
       canEdit: "true",
-    });
+    } as any);
   });
   it("should set some defaults", () => {
     const results = processFilters([]);

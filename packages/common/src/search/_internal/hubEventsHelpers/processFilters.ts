@@ -5,11 +5,28 @@ import {
 } from "../../../events/api/orval/api/orval-events";
 import { getOptionalPredicateStringsByKey } from "./getOptionalPredicateStringsByKey";
 import { getPredicateValuesByKey } from "./getPredicateValuesByKey";
+import { IDateRange } from "../../types/types";
 
 /**
- * Builds a Partial<GetEventsParams> given an Array of IFilter objects
- * @param filters An Array of IFilter
- * @returns a Partial<GetEventsParams> for the given Array of IFilter objects
+ * Searches for events against the Events 3 API using the given `query` and `options`.
+ * Currently supported filters include:
+ *   access: boolean
+ *   canEdit: boolean
+ *   entityIds: string;
+ *   entityTypes: string;
+ *   eventIds: string;
+ *   term: string;
+ *   categories: string;
+ *   tags: string;
+ *   readGroupIds: string;
+ *   editGroupIds: string;
+ *   attendanceType: string;
+ *   owner: string;
+ *   status: string;
+ *   startDateRange: IDateRange<string | number>
+ * @param query An IQuery object
+ * @param options An IHubSearchOptions object
+ * @returns a promise that resolves a <IHubSearchResponse<IHubSearchResult> object
  */
 export function processFilters(filters: IFilter[]): Partial<GetEventsParams> {
   const processedFilters: Partial<GetEventsParams> = {};
@@ -17,9 +34,9 @@ export function processFilters(filters: IFilter[]): Partial<GetEventsParams> {
   if (access?.length) {
     processedFilters.access = access;
   }
-  const canEdit = getOptionalPredicateStringsByKey(filters, "canEdit");
-  if (canEdit?.length) {
-    processedFilters.canEdit = canEdit;
+  const canEdit = getPredicateValuesByKey<boolean>(filters, "canEdit");
+  if (canEdit.length) {
+    processedFilters.canEdit = canEdit[0].toString();
   }
   const entityIds = getOptionalPredicateStringsByKey(filters, "entityIds");
   if (entityIds?.length) {
@@ -33,7 +50,7 @@ export function processFilters(filters: IFilter[]): Partial<GetEventsParams> {
   if (eventIds?.length) {
     processedFilters.eventIds = eventIds;
   }
-  const term = getPredicateValuesByKey(filters, "term");
+  const term = getPredicateValuesByKey<string>(filters, "term");
   if (term.length) {
     processedFilters.title = term[0];
   }
@@ -45,13 +62,19 @@ export function processFilters(filters: IFilter[]): Partial<GetEventsParams> {
   if (tags?.length) {
     processedFilters.tags = tags;
   }
-  const readGroups = getOptionalPredicateStringsByKey(filters, "readGroups");
-  if (readGroups?.length) {
-    processedFilters.readGroups = readGroups;
+  const readGroupIds = getOptionalPredicateStringsByKey(
+    filters,
+    "readGroupsIds"
+  );
+  if (readGroupIds?.length) {
+    processedFilters.readGroups = readGroupIds;
   }
-  const editGroups = getOptionalPredicateStringsByKey(filters, "editGroups");
-  if (editGroups?.length) {
-    processedFilters.editGroups = editGroups;
+  const editGroupsIds = getOptionalPredicateStringsByKey(
+    filters,
+    "editGroupsIds"
+  );
+  if (editGroupsIds?.length) {
+    processedFilters.editGroups = editGroupsIds;
   }
   const attendanceType = getOptionalPredicateStringsByKey(
     filters,
@@ -60,13 +83,22 @@ export function processFilters(filters: IFilter[]): Partial<GetEventsParams> {
   if (attendanceType?.length) {
     processedFilters.attendanceTypes = attendanceType;
   }
+  const owner = getOptionalPredicateStringsByKey(filters, "owner");
+  if (owner?.length) {
+    // TODO: remove below @ts-ignore once https://devtopia.esri.com/dc/hub/issues/10691 is completed
+    // @ts-ignore
+    processedFilters.createdById = owner;
+  }
   const status = getOptionalPredicateStringsByKey(filters, "status");
   processedFilters.status = status?.length
     ? status
     : [EventStatus.PLANNED, EventStatus.CANCELED]
         .map((val) => val.toLowerCase())
         .join(",");
-  const startDateRange = getPredicateValuesByKey(filters, "startDateRange");
+  const startDateRange = getPredicateValuesByKey<IDateRange<string | number>>(
+    filters,
+    "startDateRange"
+  );
   if (startDateRange.length) {
     processedFilters.startDateTimeBefore = new Date(
       startDateRange[0].to
