@@ -76,6 +76,10 @@ export type GetEventsParams = {
    */
   categories?: string;
   /**
+   * Comma separated string list of createdByIds
+   */
+  createdByIds?: string;
+  /**
    * Comma separated string list of edit groupIds
    */
   editGroups?: string;
