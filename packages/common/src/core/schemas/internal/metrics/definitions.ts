@@ -1,4 +1,5 @@
 // module for shared metric schema definitions
+import { SOURCE } from "./interfaces";
 
 // if metric type = static, require value
 export const IF_STATIC_THEN_REQUIRE_VALUE = {
@@ -76,6 +77,35 @@ export const VALUE_TYPE_MAPPING = {
       _metric: {
         type: "object",
         properties: { value: { type: "number" } },
+      },
+    },
+  },
+};
+
+// if type = "static", then we should format link as a url
+// otherwise, it can take any shape (so that relative links are allowed)
+// NOTE: we can remove this rule once we update the url formatter
+// to allow relative links
+export const IF_STATIC_THEN_URL_FORMAT = {
+  if: {
+    type: "object",
+    properties: {
+      _metric: {
+        properties: {
+          type: { const: SOURCE.static },
+        },
+      },
+    },
+  },
+  then: {
+    type: "object",
+    properties: {
+      _metric: {
+        properties: {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          sourceLink: { format: "url" },
+        },
       },
     },
   },
