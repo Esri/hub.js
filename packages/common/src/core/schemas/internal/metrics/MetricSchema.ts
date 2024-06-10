@@ -66,10 +66,6 @@ export const MetricSchema: IConfigurationSchema = {
     },
     sourceLink: {
       type: "string",
-      if: { minLength: 1 },
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      then: { format: "url" },
     },
     sourceTitle: {
       type: "string",
@@ -116,6 +112,7 @@ export const MetricSchema: IConfigurationSchema = {
   allOf: [
     { $ref: "#/definitions/if-source-title-then-source-link" },
     { $ref: "#/definitions/value-type-value-mapping" },
+    { $ref: "#/definitions/if-static-then-url-format" },
   ],
   definitions: {
     // TODO: reimplement popover with layouts release
@@ -153,6 +150,23 @@ export const MetricSchema: IConfigurationSchema = {
       else: {
         type: "object",
         properties: { value: { type: "number" } },
+      },
+    },
+    "if-static-then-url-format": {
+      if: {
+        type: "object",
+        properties: {
+          type: { const: SOURCE.static },
+          sourceLink: { minLength: 1 },
+        },
+      },
+      then: {
+        type: "object",
+        properties: {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          sourceLink: { format: "url" },
+        },
       },
     },
   },
