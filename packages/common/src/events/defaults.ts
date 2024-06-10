@@ -38,6 +38,12 @@ export function buildDefaultEventEntity(): Partial<IHubEvent> {
     view: {
       heroActions: [],
     },
+    location: {
+      type: "none",
+      spatialReference: {},
+      extent: [],
+      geometries: [],
+    },
   };
 }
 
@@ -61,5 +67,11 @@ export function buildDefaultEventRecord(): Partial<IEvent> {
     status: EventStatus.PLANNED,
     tags: [],
     title: "",
+    location: {
+      type: "none",
+      spatialReference: {},
+      extent: [],
+      geometries: [],
+    },
   } as Partial<IEvent>;
 }

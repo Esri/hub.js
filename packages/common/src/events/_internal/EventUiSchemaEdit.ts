@@ -6,6 +6,8 @@ import { IHubEvent } from "../../core/types/IHubEvent";
 import { getCategoryItems } from "../../core/schemas/internal/getCategoryItems";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { HubEventAttendanceType, HubEventOnlineCapacityType } from "../types";
+import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
+import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 
 /**
  * @private
@@ -15,7 +17,7 @@ import { HubEventAttendanceType, HubEventOnlineCapacityType } from "../types";
  */
 export const buildUiSchema = async (
   i18nScope: string,
-  options: EntityEditorOptions,
+  options: Partial<IHubEvent>,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
   const minStartEndDate = getDatePickerDate(
@@ -203,6 +205,78 @@ export const buildUiSchema = async (
             options: {
               control: "hub-field-input-radio-group",
               enum: { i18nScope: `${i18nScope}.fields.attendanceType` },
+            },
+          },
+          {
+            labelKey: `${i18nScope}.fields.inPersonCapacity.label`,
+            scope: "/properties/inPersonCapacity",
+            type: "Control",
+            rule: {
+              condition: {
+                schema: {
+                  properties: {
+                    attendanceType: {
+                      enum: [
+                        HubEventAttendanceType.InPerson,
+                        HubEventAttendanceType.Both,
+                      ],
+                    },
+                  },
+                },
+              },
+              effect: UiSchemaRuleEffects.SHOW,
+            },
+            options: {
+              control: "hub-field-input-input",
+              type: "number",
+              messages: [
+                {
+                  type: "ERROR",
+                  keyword: "required",
+                  icon: true,
+                  labelKey: `${i18nScope}.fields.inPersonCapacity.requiredError`,
+                },
+                {
+                  type: "ERROR",
+                  keyword: "minimum",
+                  icon: true,
+                  labelKey: `${i18nScope}.fields.inPersonCapacity.minimumError`,
+                },
+              ],
+            },
+          },
+          {
+            scope: "/properties/location",
+            type: "Control",
+            rule: {
+              condition: {
+                schema: {
+                  properties: {
+                    attendanceType: {
+                      enum: [
+                        HubEventAttendanceType.InPerson,
+                        HubEventAttendanceType.Both,
+                      ],
+                    },
+                  },
+                },
+              },
+              effect: UiSchemaRuleEffects.SHOW,
+            },
+            options: {
+              control: "hub-field-input-location-picker",
+              extent: await getLocationExtent(
+                options.location,
+                context.hubRequestOptions
+              ),
+              options: await getLocationOptions(
+                options.id,
+                options.type,
+                options.location,
+                context.portal.name,
+                context.hubRequestOptions
+              ),
+              mapTools: ["polygon", "rectangle"],
             },
           },
           {

@@ -11,6 +11,8 @@ import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
 import * as getDatePickerDateUtils from "../../../src/utils/date/getDatePickerDate";
 import * as getCategoryItemsModule from "../../../src/core/schemas/internal/getCategoryItems";
 import * as getTagItemsModule from "../../../src/core/schemas/internal/getTagItems";
+import * as getLocationExtentModule from "../../../src/core/schemas/internal/getLocationExtent";
+import * as getLocationOptionsModule from "../../../src/core/schemas/internal/getLocationOptions";
 
 describe("EventUiSchemaEdit", () => {
   beforeAll(() => {
@@ -24,6 +26,12 @@ describe("EventUiSchemaEdit", () => {
 
   describe("buildUiSchema", () => {
     it("should return the expected ui schema", async () => {
+      spyOn(getLocationExtentModule, "getLocationExtent").and.returnValue(
+        Promise.resolve([])
+      );
+      spyOn(getLocationOptionsModule, "getLocationOptions").and.returnValue(
+        Promise.resolve([])
+      );
       const authdCtxMgr = await ArcGISContextManager.create({
         authentication: MOCK_AUTH,
         currentUser: {
@@ -283,6 +291,69 @@ describe("EventUiSchemaEdit", () => {
                 options: {
                   control: "hub-field-input-radio-group",
                   enum: { i18nScope: `myI18nScope.fields.attendanceType` },
+                },
+              },
+              {
+                labelKey: `myI18nScope.fields.inPersonCapacity.label`,
+                scope: "/properties/inPersonCapacity",
+                type: "Control",
+                rule: {
+                  condition: {
+                    schema: {
+                      properties: {
+                        attendanceType: {
+                          enum: [
+                            HubEventAttendanceType.InPerson,
+                            HubEventAttendanceType.Both,
+                          ],
+                        },
+                      },
+                    },
+                  },
+                  effect: UiSchemaRuleEffects.SHOW,
+                },
+                options: {
+                  control: "hub-field-input-input",
+                  type: "number",
+                  messages: [
+                    {
+                      type: "ERROR",
+                      keyword: "required",
+                      icon: true,
+                      labelKey: `myI18nScope.fields.inPersonCapacity.requiredError`,
+                    },
+                    {
+                      type: "ERROR",
+                      keyword: "minimum",
+                      icon: true,
+                      labelKey: `myI18nScope.fields.inPersonCapacity.minimumError`,
+                    },
+                  ],
+                },
+              },
+              {
+                scope: "/properties/location",
+                type: "Control",
+                rule: {
+                  condition: {
+                    schema: {
+                      properties: {
+                        attendanceType: {
+                          enum: [
+                            HubEventAttendanceType.InPerson,
+                            HubEventAttendanceType.Both,
+                          ],
+                        },
+                      },
+                    },
+                  },
+                  effect: UiSchemaRuleEffects.SHOW,
+                },
+                options: {
+                  control: "hub-field-input-location-picker",
+                  extent: [],
+                  options: [],
+                  mapTools: ["polygon", "rectangle"],
                 },
               },
               {

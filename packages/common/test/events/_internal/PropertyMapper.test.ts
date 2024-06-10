@@ -95,6 +95,12 @@ describe("PropertyMapper", () => {
     });
 
     it("converts an Event record to an in-person Event entity", () => {
+      eventRecord.location = {
+        type: "none" as EventLocationType,
+        spatialReference: {},
+        extent: [[]],
+        geometries: [],
+      } as any;
       const res = propertyMapper.storeToEntity(eventRecord, {});
       expect(res).toEqual({
         isAllDay: false,
@@ -122,6 +128,12 @@ describe("PropertyMapper", () => {
         isPast: false,
         attendanceType: HubEventAttendanceType.InPerson,
         inPersonCapacity: 30,
+        location: {
+          type: "none",
+          spatialReference: {},
+          extent: [[]],
+          geometries: [],
+        },
         onlineCapacity: null,
         onlineCapacityType: HubEventOnlineCapacityType.Unlimited,
         onlineDetails: null,
@@ -325,7 +337,13 @@ describe("PropertyMapper", () => {
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
         inPersonCapacity: 30,
-      } as IEvent);
+        location: {
+          type: undefined as any,
+          spatialReference: undefined,
+          extent: undefined,
+          geometries: undefined,
+        },
+      } as any as IEvent);
     });
 
     it("converts an IHubEvent to an all-day Event record", () => {
@@ -360,7 +378,13 @@ describe("PropertyMapper", () => {
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
         inPersonCapacity: 30,
-      } as IEvent);
+        location: {
+          type: undefined as any,
+          spatialReference: undefined,
+          extent: undefined,
+          geometries: undefined,
+        },
+      } as any as IEvent);
     });
 
     it("converts an IHubEvent to an online Event record", () => {
@@ -406,7 +430,13 @@ describe("PropertyMapper", () => {
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
         inPersonCapacity: 30,
-      } as IEvent);
+        location: {
+          type: undefined as any,
+          spatialReference: undefined,
+          extent: undefined,
+          geometries: undefined,
+        },
+      } as any as IEvent);
     });
 
     it("converts an IHubEvent to an online Event record with unlimited capacity", () => {
@@ -452,7 +482,13 @@ describe("PropertyMapper", () => {
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
         inPersonCapacity: 30,
-      } as IEvent);
+        location: {
+          type: undefined as any,
+          spatialReference: undefined,
+          extent: undefined,
+          geometries: undefined,
+        },
+      } as any as IEvent);
     });
 
     it("converts an IHubEvent to a hybrid Event record", () => {
@@ -501,7 +537,13 @@ describe("PropertyMapper", () => {
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
         inPersonCapacity: 30,
-      } as IEvent);
+        location: {
+          type: undefined as any,
+          spatialReference: undefined,
+          extent: undefined,
+          geometries: undefined,
+        },
+      } as any as IEvent);
     });
 
     it("converts an IHubEvent to a cancelled Event record", () => {
@@ -536,7 +578,13 @@ describe("PropertyMapper", () => {
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
         inPersonCapacity: 30,
-      } as IEvent);
+        location: {
+          type: undefined as any,
+          spatialReference: undefined,
+          extent: undefined,
+          geometries: undefined,
+        },
+      } as any as IEvent);
     });
 
     it("converts an IHubEvent to a removed Event record", () => {
@@ -571,7 +619,13 @@ describe("PropertyMapper", () => {
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
         inPersonCapacity: 30,
-      } as IEvent);
+        location: {
+          type: undefined as any,
+          spatialReference: undefined,
+          extent: undefined,
+          geometries: undefined,
+        },
+      } as any as IEvent);
     });
   });
 });

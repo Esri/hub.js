@@ -59,6 +59,12 @@ export const buildSchema = (): IConfigurationSchema => {
       timeZone: {
         type: "string",
       },
+      inPersonCapacity: {
+        type: "number",
+      },
+      location: {
+        type: "object",
+      },
       onlineUrl: {
         type: "string",
       },

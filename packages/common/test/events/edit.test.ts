@@ -62,6 +62,12 @@ describe("HubEvents edit module", () => {
         references: [],
         schemaVersion: 1,
         tags: [],
+        location: {
+          type: "custom",
+          spatialReference: {},
+          extent: [[]],
+          geometries: [],
+        },
         ...datesAndTimes,
       };
       const defaultRecord: Partial<IEvent> = {
@@ -143,6 +149,12 @@ describe("HubEvents edit module", () => {
           tags: defaultRecord.tags,
           timeZone: defaultRecord.timeZone,
           title: "my event",
+          location: {
+            type: "custom",
+            spatialReference: {},
+            extent: [[]],
+            geometries: [],
+          },
         },
         ...authdCtxMgr.context.hubRequestOptions,
       });
@@ -193,6 +205,12 @@ describe("HubEvents edit module", () => {
         references: [],
         schemaVersion: 1,
         tags: [],
+        location: {
+          type: "custom",
+          spatialReference: {},
+          extent: [[]],
+          geometries: [],
+        },
         ...datesAndTimes,
       };
       const defaultRecord: Partial<IEvent> = {
@@ -281,6 +299,12 @@ describe("HubEvents edit module", () => {
           tags: defaultRecord.tags,
           timeZone: defaultRecord.timeZone,
           title: "my event",
+          location: {
+            type: "custom",
+            spatialReference: {},
+            extent: [[]],
+            geometries: [],
+          },
         },
         ...authdCtxMgr.context.hubRequestOptions,
       });

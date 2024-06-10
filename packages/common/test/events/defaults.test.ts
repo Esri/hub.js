@@ -2,7 +2,9 @@ import * as getDefaultEventDatesAndTimesModule from "../../src/events/_internal/
 import {
   EventAccess,
   EventAttendanceType,
+  EventLocationType,
   EventStatus,
+  IEventLocation,
 } from "../../src/events/api/types";
 import {
   buildDefaultEventEntity,
@@ -50,6 +52,12 @@ describe("HubEvent defaults:", () => {
         view: {
           heroActions: [],
         },
+        location: {
+          type: "none",
+          spatialReference: {},
+          extent: [],
+          geometries: [],
+        },
         ...datesAndTimes,
       });
       expect(getDefaultEventDatesAndTimesSpy).toHaveBeenCalledTimes(1);
@@ -85,6 +93,12 @@ describe("HubEvent defaults:", () => {
         status: EventStatus.PLANNED,
         tags: [],
         title: "",
+        location: {
+          type: "none" as EventLocationType,
+          spatialReference: {},
+          extent: [],
+          geometries: [],
+        } as any as IEventLocation,
       });
       expect(getDefaultEventDatesAndTimesSpy).toHaveBeenCalledTimes(1);
     });

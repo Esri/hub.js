@@ -10,8 +10,10 @@ import { cloneObject } from "../../util";
 import {
   EventAccess,
   EventAttendanceType,
+  EventLocationType,
   EventStatus,
   IEvent,
+  IEventLocation,
   IOnlineMeeting,
 } from "../api/orval/api/orval-events";
 import { HubEventAttendanceType, HubEventOnlineCapacityType } from "../types";
@@ -45,9 +47,6 @@ export class EventPropertyMapper extends PropertyMapper<
     store: Partial<IEvent>,
     entity: Partial<IHubEvent>
   ): Partial<IHubEvent> {
-    // TODO: support locations
-    // TODO: thumbnail & thumbnail url
-
     const obj = mapStoreToEntity(store, entity, this.mappings);
 
     obj.type = "Event";
@@ -110,6 +109,13 @@ export class EventPropertyMapper extends PropertyMapper<
       });
     }
     obj.view = { heroActions };
+
+    obj.location = {
+      type: store.location?.type,
+      spatialReference: store.location?.spatialReference,
+      extent: store.location?.extent,
+      geometries: store.location?.geometries,
+    };
 
     return obj;
   }
@@ -180,6 +186,13 @@ export class EventPropertyMapper extends PropertyMapper<
       clonedEntity.startTime = "00:00:00";
       clonedEntity.endTime = "23:59:59";
     }
+
+    obj.location = {
+      type: clonedEntity.location?.type as EventLocationType,
+      spatialReference: clonedEntity.location?.spatialReference,
+      extent: clonedEntity.location?.extent,
+      geometries: clonedEntity.location?.geometries,
+    } as IEventLocation;
 
     return obj;
   }
