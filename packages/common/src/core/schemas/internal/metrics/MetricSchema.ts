@@ -157,7 +157,6 @@ export const MetricSchema: IConfigurationSchema = {
         type: "object",
         properties: {
           type: { const: SOURCE.static },
-          sourceLink: { minLength: 1 },
         },
       },
       then: {
