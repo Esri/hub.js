@@ -106,7 +106,7 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:feature:user:preferences",
     // gated to qa/dev for now, but will be accessible on PROD when
     // we pass `?pe=hub:feature:user:preferences` in the URL
-    environments: ["devext", "qaext"],
+    environments: ["devext", "qaext", "production"],
   },
   {
     // When enabled, the new follow card will be loaded
