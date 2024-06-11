@@ -115,8 +115,7 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:project:associations",
-    availability: ["alpha"],
-    dependencies: ["hub:project:view"],
+    dependencies: ["hub:feature:workspace", "hub:project:view"],
   },
   {
     permission: "hub:project:workspace",
