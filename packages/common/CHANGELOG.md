@@ -1,3 +1,10 @@
+## @esri/hub-common [14.140.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.140.3...@esri/hub-common@14.140.4) (2024-06-11)
+
+
+### Bug Fixes
+
+* **hub-common:** added filter for createdByIds ([#1548](https://github.com/Esri/hub.js/issues/1548)) ([7f903ee](https://github.com/Esri/hub.js/commit/7f903ee4e5d3a15664f714b280e596df4bc79103))
+
 ## @esri/hub-common [14.140.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.140.2...@esri/hub-common@14.140.3) (2024-06-10)
 
 
