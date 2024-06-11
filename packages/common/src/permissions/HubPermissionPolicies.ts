@@ -106,7 +106,7 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:feature:user:preferences",
     // gated to qa/dev for now, but will be accessible on PROD when
     // we pass `?pe=hub:feature:user:preferences` in the URL
-    environments: ["devext", "qaext"],
+    environments: ["devext", "qaext", "production"],
   },
   // These should only be used when needing to gate functionality that is not
   // connected to an entity, for example notices. These should NOT be used
