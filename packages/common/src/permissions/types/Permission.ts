@@ -38,6 +38,9 @@ const SystemPermissions = [
   "hub:availability:alpha",
   "hub:availability:beta",
   "hub:availability:general",
+  "hub:environment:qaext",
+  "hub:environment:devext",
+  "hub:environment:production",
 ];
 
 const validPermissions = [
