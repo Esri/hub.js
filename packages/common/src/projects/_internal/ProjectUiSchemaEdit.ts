@@ -222,6 +222,24 @@ export const buildUiSchema = async (
       },
       {
         type: "Section",
+        label: "Featured embed",
+        options: {
+          helperText: {
+            label: "Select an app/map/scene to embed on your project",
+          },
+        },
+        elements: [
+          {
+            scope: "/properties/view/properties/featuredEmbed",
+            type: "Control",
+            options: {
+              control: "hub-composite-input-embed",
+            },
+          },
+        ],
+      },
+      {
+        type: "Section",
         labelKey: `${i18nScope}.sections.featuredContent.label`,
         options: {
           helperText: {

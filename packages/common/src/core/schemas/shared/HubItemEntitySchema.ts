@@ -1,4 +1,5 @@
 import { HubEntityHero } from "../../../types";
+import { EmbedSchema } from "../internal/embed/EmbedSchema";
 import { IConfigurationSchema } from "../types";
 import {
   ENTITY_ACCESS_SCHEMA,
@@ -63,6 +64,7 @@ export const HubItemEntitySchema: IConfigurationSchema = {
     view: {
       type: "object",
       properties: {
+        featuredEmbed: EmbedSchema,
         featuredContentIds: ENTITY_FEATURED_CONTENT_SCHEMA,
         featuredImage: ENTITY_IMAGE_SCHEMA,
         featuredImageAltText: { type: "string" },
