@@ -13,6 +13,7 @@ import { _migrateTelemetryConfig } from "./_internal/_migrate-telemetry-config";
 import { migrateBadBasemap } from "./_internal/migrateBadBasemap";
 import { ensureBaseTelemetry } from "./_internal/ensureBaseTelemetry";
 import { migrateWebMappingApplicationSites } from "./_internal/migrateWebMappingApplicationSites";
+import { _migrateLinkUnderlinesCapability } from "./_internal/_migrate-link-underlines-capability";
 
 /**
  * Upgrades the schema upgrades
@@ -41,5 +42,6 @@ export function upgradeSiteSchema(model: IModel) {
   model = migrateBadBasemap(model);
   model = ensureBaseTelemetry(model);
   model = migrateWebMappingApplicationSites(model);
+  model = _migrateLinkUnderlinesCapability(model);
   return model;
 }

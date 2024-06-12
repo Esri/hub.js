@@ -8,6 +8,7 @@ import * as _migrateFeedConfigModule from "../../src/sites/_internal/_migrate-fe
 import * as _migrateEventListCardConfigs from "../../src/sites/_internal/_migrate-event-list-card-configs";
 import * as migrateLegacyCapabilitiesToFeatures from "../../src/sites/_internal/capabilities/migrateLegacyCapabilitiesToFeatures";
 import * as _migrateTelemetryConfig from "../../src/sites/_internal/_migrate-telemetry-config";
+import * as _migrateLinkUnderlinesCapability from "../../src/sites/_internal/_migrate-link-underlines-capability";
 import * as migrateBadBasemapModule from "../../src/sites/_internal/migrateBadBasemap";
 import * as ensureBaseTelemetry from "../../src/sites/_internal/ensureBaseTelemetry";
 import { IModel } from "../../src";
@@ -24,6 +25,7 @@ describe("upgradeSiteSchema", () => {
   let migrateEventListCardConfigsSpy: jasmine.Spy;
   let migrateLegacyCapabilitiesToFeaturesSpy: jasmine.Spy;
   let migrateTelemetryConfigSpy: jasmine.Spy;
+  let migrateLinkUnderlinesCapabilitySpy: jasmine.Spy;
   let migrateBadBasemapSpy: jasmine.Spy;
   let ensureBaseTelemetrySpy: jasmine.Spy;
   beforeEach(() => {
@@ -62,6 +64,10 @@ describe("upgradeSiteSchema", () => {
       _migrateTelemetryConfig,
       "_migrateTelemetryConfig"
     ).and.callFake((model: IModel) => model);
+    migrateLinkUnderlinesCapabilitySpy = spyOn(
+      _migrateLinkUnderlinesCapability,
+      "_migrateLinkUnderlinesCapability"
+    ).and.callFake((model: IModel) => model);
     migrateBadBasemapSpy = spyOn(
       migrateBadBasemapModule,
       "migrateBadBasemap"
@@ -96,6 +102,7 @@ describe("upgradeSiteSchema", () => {
         migrateTelemetryConfigSpy,
         migrateBadBasemapSpy,
         ensureBaseTelemetrySpy,
+        migrateLinkUnderlinesCapabilitySpy,
       ],
       expect
     );
@@ -130,5 +137,11 @@ describe("upgradeSiteSchema", () => {
     // Versionless migrations should still run
     expectAll([migrateBadBasemapSpy], "toHaveBeenCalled", true, expect);
     expectAll([ensureBaseTelemetrySpy], "toHaveBeenCalled", true, expect);
+    expectAll(
+      [migrateLinkUnderlinesCapabilitySpy],
+      "toHaveBeenCalled",
+      true,
+      expect
+    );
   });
 });
