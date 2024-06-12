@@ -9,7 +9,22 @@ import { processOptions } from "./hubEventsHelpers/processOptions";
 import { processFilters } from "./hubEventsHelpers/processFilters";
 
 /**
- * Searches for events against the Events 3 API using the given `query` and `options`
+ * Searches for events against the Events 3 API using the given `query` and `options`.
+ * Currently supported filters include:
+ *   access: string;
+ *   canEdit: boolean
+ *   entityIds: string;
+ *   entityTypes: string;
+ *   eventIds: string;
+ *   term: string;
+ *   categories: string;
+ *   tags: string;
+ *   readGroupIds: string;
+ *   editGroupIds: string;
+ *   attendanceType: string;
+ *   owner: string;
+ *   status: string;
+ *   startDateRange: IDateRange<string | number>
  * @param query An IQuery object
  * @param options An IHubSearchOptions object
  * @returns a promise that resolves a <IHubSearchResponse<IHubSearchResult> object
