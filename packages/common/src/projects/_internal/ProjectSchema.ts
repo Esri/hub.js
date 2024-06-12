@@ -2,6 +2,7 @@ import { MetricSchema } from "../../core/schemas/internal/metrics/MetricSchema";
 import {
   IF_SOURCE_TITLE_THEN_SOURCE_LINK,
   IF_STATIC_THEN_REQUIRE_VALUE,
+  IF_STATIC_THEN_URL_FORMAT,
   VALUE_TYPE_MAPPING,
 } from "../../core/schemas/internal/metrics/definitions";
 import { HubItemEntitySchema } from "../../core/schemas/shared/HubItemEntitySchema";
@@ -40,6 +41,7 @@ export const ProjectSchema: IConfigurationSchema = {
   allOf: [
     IF_SOURCE_TITLE_THEN_SOURCE_LINK,
     IF_STATIC_THEN_REQUIRE_VALUE,
+    IF_STATIC_THEN_URL_FORMAT,
     VALUE_TYPE_MAPPING,
   ],
 } as IConfigurationSchema;
