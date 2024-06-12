@@ -1,3 +1,18 @@
+# @esri/hub-common [14.141.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.140.4...@esri/hub-common@14.141.0) (2024-06-11)
+
+
+### Features
+
+* expose hub:feature:user:preferences to production ([#1549](https://github.com/Esri/hub.js/issues/1549)) ([23c6731](https://github.com/Esri/hub.js/commit/23c67312eeab34557a25670d916736105bfb989a))
+* new env permissions && permission tweaks ([#1547](https://github.com/Esri/hub.js/issues/1547)) ([36444ae](https://github.com/Esri/hub.js/commit/36444ae45bfdabba04342a54ef16a438be79efdc))
+
+## @esri/hub-common [14.140.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.140.3...@esri/hub-common@14.140.4) (2024-06-11)
+
+
+### Bug Fixes
+
+* **hub-common:** added filter for createdByIds ([#1548](https://github.com/Esri/hub.js/issues/1548)) ([7f903ee](https://github.com/Esri/hub.js/commit/7f903ee4e5d3a15664f714b280e596df4bc79103))
+
 ## @esri/hub-common [14.140.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.140.2...@esri/hub-common@14.140.3) (2024-06-10)
 
 

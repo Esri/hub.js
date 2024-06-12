@@ -106,7 +106,22 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:feature:user:preferences",
     // gated to qa/dev for now, but will be accessible on PROD when
     // we pass `?pe=hub:feature:user:preferences` in the URL
-    environments: ["devext", "qaext"],
+    environments: ["devext", "qaext", "production"],
+  },
+  // These should only be used when needing to gate functionality that is not
+  // connected to an entity, for example notices. These should NOT be used
+  // in dependencies arrays.
+  {
+    permission: "hub:environment:qaext",
+    environments: ["qaext"],
+  },
+  {
+    permission: "hub:environment:devext",
+    environments: ["devext"],
+  },
+  {
+    permission: "hub:environment:production",
+    environments: ["production"],
   },
   {
     // When enabled, the new follow card will be loaded
