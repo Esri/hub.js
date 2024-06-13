@@ -1,5 +1,40 @@
 import { processFilters } from "../../../../src/search/_internal/hubEventsHelpers/processFilters";
 import { IFilter } from "../../../../src/search/types/IHubCatalog";
+import * as arcgisRestPortal from "@esri/arcgis-rest-portal";
+
+const group1 = {
+  title: "This is the fake group",
+  isOpenData: false,
+  capabilities: ["updateitemcontrol"],
+  owner: "jeffvader",
+  id: "group1",
+  protected: false,
+  tags: ["wat"],
+  created: 12345,
+  modified: 23421,
+  isInvitationOnly: false,
+  isFav: false,
+  isViewOnly: false,
+  autoJoin: true,
+  access: "public",
+} as arcgisRestPortal.IGroup;
+
+const group2 = {
+  title: "This is a fake group",
+  isOpenData: false,
+  capabilities: [],
+  owner: "jhonvader",
+  id: "group2",
+  protected: false,
+  tags: ["wat"],
+  created: 12345,
+  modified: 23421,
+  isInvitationOnly: false,
+  isFav: false,
+  isViewOnly: false,
+  autoJoin: true,
+  access: "public",
+} as arcgisRestPortal.IGroup;
 
 const MULTI_SELECT_FILTERS: IFilter[] = [
   {
@@ -229,8 +264,8 @@ const SINGLE_SELECT_FILTERS: IFilter[] = [
 ];
 
 describe("processFilters", () => {
-  it("should process multi-select filters", () => {
-    const results = processFilters(MULTI_SELECT_FILTERS);
+  it("should process multi-select filters", async () => {
+    const results = await processFilters(MULTI_SELECT_FILTERS, {});
     expect(results).toEqual({
       title: "abc",
       categories: "category1,category2",
@@ -249,8 +284,46 @@ describe("processFilters", () => {
       canEdit: "true",
     } as any);
   });
-  it("should process single-select filters", () => {
-    const results = processFilters(SINGLE_SELECT_FILTERS);
+  it("should process groups", async () => {
+    spyOn(arcgisRestPortal, "searchGroups").and.returnValue({
+      results: [group1, group2],
+    });
+    const filters: IFilter[] = [
+      {
+        operation: "OR",
+        predicates: [
+          {
+            group: ["group1", "group2"],
+          },
+        ],
+      },
+    ];
+    const results = await processFilters(filters, {});
+    expect(results).toEqual({
+      readGroups: "group2",
+      editGroups: "group1",
+      status: "planned,canceled",
+    });
+  });
+  it("should process groups when no groups are found", async () => {
+    spyOn(arcgisRestPortal, "searchGroups").and.returnValue({ results: [] });
+    const filters: IFilter[] = [
+      {
+        operation: "OR",
+        predicates: [
+          {
+            group: ["group1", "group2"],
+          },
+        ],
+      },
+    ];
+    const results = await processFilters(filters, {});
+    expect(results).toEqual({
+      status: "planned,canceled",
+    });
+  });
+  it("should process single-select filters", async () => {
+    const results = await processFilters(SINGLE_SELECT_FILTERS, {});
     expect(results).toEqual({
       title: "abc",
       categories: "category1",
@@ -264,10 +337,10 @@ describe("processFilters", () => {
       canEdit: "true",
     } as any);
   });
-  it("should set some defaults", () => {
-    const results = processFilters([]);
+  it("should set some defaults", async () => {
+    const results = await processFilters([], {});
     expect(results).toEqual({
       status: "planned,canceled",
-    });
+    } as any);
   });
 });

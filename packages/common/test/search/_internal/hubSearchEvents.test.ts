@@ -307,7 +307,9 @@ describe("hubSearchEvents", () => {
   it("should call events and resolve with an IHubSearchResponse<IHubSearchResult>", async () => {
     const response = await hubSearchEvents(query, options);
     expect(processFiltersSpy).toHaveBeenCalledTimes(1);
-    expect(processFiltersSpy).toHaveBeenCalledWith(query.filters);
+    expect(processFiltersSpy).toHaveBeenCalledWith(query.filters, {
+      requestOptions: true,
+    });
     expect(processOptionsSpy).toHaveBeenCalledTimes(1);
     expect(processOptionsSpy).toHaveBeenCalledWith(options);
     expect(getEventsSpy).toHaveBeenCalledTimes(1);
@@ -345,7 +347,7 @@ describe("hubSearchEvents", () => {
     const results2 = await response.next();
     expect(processFiltersSpy).toHaveBeenCalledTimes(2);
     expect(processFiltersSpy.calls.argsFor(1)).toEqual(
-      [query.filters],
+      [query.filters, { requestOptions: true }],
       "processFiltersSpy.calls.argsFor(1)"
     );
     expect(processOptionsSpy).toHaveBeenCalledTimes(2);
