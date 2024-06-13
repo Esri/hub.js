@@ -1,3 +1,24 @@
+# @esri/hub-common [14.144.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.143.0...@esri/hub-common@14.144.0) (2024-06-13)
+
+
+### Features
+
+* **hub-common:** add events filters ([#1543](https://github.com/Esri/hub.js/issues/1543)) ([7698062](https://github.com/Esri/hub.js/commit/7698062de2df6006a6218d035ed4a53e45051ae2))
+
+# @esri/hub-common [14.143.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.142.0...@esri/hub-common@14.143.0) (2024-06-13)
+
+
+### Features
+
+* hub:feature:workspace:user permission ([#1553](https://github.com/Esri/hub.js/issues/1553)) ([2f6611c](https://github.com/Esri/hub.js/commit/2f6611c3dc67dce75c41006edf7979dcfca7ee53))
+
+# @esri/hub-common [14.142.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.141.0...@esri/hub-common@14.142.0) (2024-06-12)
+
+
+### Features
+
+* remove underlinedLinks capability ([#1550](https://github.com/Esri/hub.js/issues/1550)) ([e060e52](https://github.com/Esri/hub.js/commit/e060e525c35692ed5cee28e0172f36befcba848c))
+
 # @esri/hub-common [14.141.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.140.4...@esri/hub-common@14.141.0) (2024-06-11)
 
 

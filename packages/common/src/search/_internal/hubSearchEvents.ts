@@ -9,7 +9,23 @@ import { processOptions } from "./hubEventsHelpers/processOptions";
 import { processFilters } from "./hubEventsHelpers/processFilters";
 
 /**
- * Searches for events against the Events 3 API using the given `query` and `options`
+ * Searches for events against the Events 3 API using the given `query` and `options`.
+ * Currently supported filters include:
+ *   access: 'public' | 'private' | 'org' | Array<'public' | 'org' | 'access'>;
+ *   canEdit: boolean
+ *   entityId: string | string[];
+ *   entityType: string | string[];
+ *   id: string | string[];
+ *   term: string;
+ *   categories: string | string[];
+ *   tags: string | string[];
+ *   group: string | string[];
+ *   readGroupId: string | string[];
+ *   editGroupId: string | string[];
+ *   attendanceType: 'virtual' | 'in_person' | Array<'virtual' | 'in_person'>;
+ *   owner: string | string[];
+ *   status: 'planned' | 'canceled' | 'removed' | Array<'planned' | 'canceled' | 'removed'>;
+ *   startDateRange: IDateRange<string | number>
  * @param query An IQuery object
  * @param options An IHubSearchOptions object
  * @returns a promise that resolves a <IHubSearchResponse<IHubSearchResult> object
@@ -18,7 +34,10 @@ export async function hubSearchEvents(
   query: IQuery,
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
-  const processedFilters = processFilters(query.filters);
+  const processedFilters = await processFilters(
+    query.filters,
+    options.requestOptions
+  );
   const processedOptions = processOptions(options);
   const data: GetEventsParams = {
     ...processedFilters,
