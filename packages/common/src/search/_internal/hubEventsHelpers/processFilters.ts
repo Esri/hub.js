@@ -5,21 +5,42 @@ import {
 } from "../../../events/api/orval/api/orval-events";
 import { getOptionalPredicateStringsByKey } from "./getOptionalPredicateStringsByKey";
 import { getPredicateValuesByKey } from "./getPredicateValuesByKey";
+import { IDateRange } from "../../types/types";
+import { searchGroups } from "@esri/arcgis-rest-portal";
+import { IHubRequestOptions } from "../../../types";
+import { isUpdateGroup } from "../../../utils/is-update-group";
 
 /**
  * Builds a Partial<GetEventsParams> given an Array of IFilter objects
  * @param filters An Array of IFilter
  * @returns a Partial<GetEventsParams> for the given Array of IFilter objects
  */
-export function processFilters(filters: IFilter[]): Partial<GetEventsParams> {
+export async function processFilters(
+  filters: IFilter[],
+  requestOptions: IHubRequestOptions
+): Promise<Partial<GetEventsParams>> {
   const processedFilters: Partial<GetEventsParams> = {};
   const access = getOptionalPredicateStringsByKey(filters, "access");
   if (access?.length) {
-    // TODO: remove ts-ignore once GetEventsParams supports filtering by access
-    // @ts-ignore
     processedFilters.access = access;
   }
-  const term = getPredicateValuesByKey(filters, "term");
+  const canEdit = getPredicateValuesByKey<boolean>(filters, "canEdit");
+  if (canEdit.length) {
+    processedFilters.canEdit = canEdit[0].toString();
+  }
+  const entityIds = getOptionalPredicateStringsByKey(filters, "entityId");
+  if (entityIds?.length) {
+    processedFilters.entityIds = entityIds;
+  }
+  const entityTypes = getOptionalPredicateStringsByKey(filters, "entityType");
+  if (entityTypes?.length) {
+    processedFilters.entityTypes = entityTypes;
+  }
+  const eventIds = getOptionalPredicateStringsByKey(filters, "id");
+  if (eventIds?.length) {
+    processedFilters.eventIds = eventIds;
+  }
+  const term = getPredicateValuesByKey<string>(filters, "term");
   if (term.length) {
     processedFilters.title = term[0];
   }
@@ -31,6 +52,42 @@ export function processFilters(filters: IFilter[]): Partial<GetEventsParams> {
   if (tags?.length) {
     processedFilters.tags = tags;
   }
+  const groupIds = getPredicateValuesByKey<string>(filters, "group");
+  if (groupIds.length) {
+    const { results } = await searchGroups({
+      q: `id:(${groupIds.join(" OR ")})`,
+      num: groupIds.length,
+      ...requestOptions,
+    });
+    const { readGroupIds, editGroupIds } = results.reduce(
+      (acc, group) => {
+        const key = isUpdateGroup(group) ? "editGroupIds" : "readGroupIds";
+        return { ...acc, [key]: [...acc[key], group.id] };
+      },
+      { readGroupIds: [], editGroupIds: [] }
+    );
+    if (readGroupIds.length) {
+      processedFilters.readGroups = readGroupIds.join(",");
+    }
+    if (editGroupIds.length) {
+      processedFilters.editGroups = editGroupIds.join(",");
+    }
+  } else {
+    const readGroupIds = getOptionalPredicateStringsByKey(
+      filters,
+      "readGroupId"
+    );
+    if (readGroupIds?.length) {
+      processedFilters.readGroups = readGroupIds;
+    }
+    const editGroupIds = getOptionalPredicateStringsByKey(
+      filters,
+      "editGroupId"
+    );
+    if (editGroupIds?.length) {
+      processedFilters.editGroups = editGroupIds;
+    }
+  }
   const attendanceType = getOptionalPredicateStringsByKey(
     filters,
     "attendanceType"
@@ -38,13 +95,20 @@ export function processFilters(filters: IFilter[]): Partial<GetEventsParams> {
   if (attendanceType?.length) {
     processedFilters.attendanceTypes = attendanceType;
   }
+  const createdByIds = getOptionalPredicateStringsByKey(filters, "owner");
+  if (createdByIds?.length) {
+    processedFilters.createdByIds = createdByIds;
+  }
   const status = getOptionalPredicateStringsByKey(filters, "status");
   processedFilters.status = status?.length
     ? status
     : [EventStatus.PLANNED, EventStatus.CANCELED]
         .map((val) => val.toLowerCase())
         .join(",");
-  const startDateRange = getPredicateValuesByKey(filters, "startDateRange");
+  const startDateRange = getPredicateValuesByKey<IDateRange<string | number>>(
+    filters,
+    "startDateRange"
+  );
   if (startDateRange.length) {
     processedFilters.startDateTimeBefore = new Date(
       startDateRange[0].to
