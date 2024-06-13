@@ -1,3 +1,10 @@
+# @esri/hub-common [14.143.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.142.0...@esri/hub-common@14.143.0) (2024-06-13)
+
+
+### Features
+
+* hub:feature:workspace:user permission ([#1553](https://github.com/Esri/hub.js/issues/1553)) ([2f6611c](https://github.com/Esri/hub.js/commit/2f6611c3dc67dce75c41006edf7979dcfca7ee53))
+
 # @esri/hub-common [14.142.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.141.0...@esri/hub-common@14.142.0) (2024-06-12)
 
 
