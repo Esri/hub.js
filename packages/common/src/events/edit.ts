@@ -55,12 +55,7 @@ export async function createHubEvent(
     tags: model.tags,
     timeZone: model.timeZone,
     title: model.title,
-    location: {
-      type: model.location.type,
-      spatialReference: model.location.spatialReference,
-      extent: model.location.extent,
-      geometries: model.location.geometries,
-    },
+    location: model.location,
   };
 
   model = await createEventApi({
@@ -111,12 +106,7 @@ export async function updateHubEvent(
     tags: model.tags,
     timeZone: model.timeZone,
     title: model.title,
-    location: {
-      type: model.location.type,
-      spatialReference: model.location.spatialReference,
-      extent: model.location.extent,
-      geometries: model.location.geometries,
-    },
+    location: model.location,
   };
 
   model = await updateEventApi({

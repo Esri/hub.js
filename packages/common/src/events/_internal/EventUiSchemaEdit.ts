@@ -1,11 +1,10 @@
 import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import { IArcGISContext } from "../../ArcGISContext";
-import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 import { getDatePickerDate } from "../../utils/date/getDatePickerDate";
 import { IHubEvent } from "../../core/types/IHubEvent";
 import { getCategoryItems } from "../../core/schemas/internal/getCategoryItems";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
-import { HubEventAttendanceType, HubEventOnlineCapacityType } from "../types";
+import { HubEventAttendanceType, HubEventCapacityType } from "../types";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 
@@ -208,6 +207,27 @@ export const buildUiSchema = async (
             },
           },
           {
+            labelKey: `${i18nScope}.fields.inPersonCapacityType.label`,
+            scope: "/properties/inPersonCapacityType",
+            type: "Control",
+            rule: {
+              condition: {
+                scope: "/properties/attendanceType",
+                schema: {
+                  enum: [
+                    HubEventAttendanceType.InPerson,
+                    HubEventAttendanceType.Both,
+                  ],
+                },
+              },
+              effect: UiSchemaRuleEffects.SHOW,
+            },
+            options: {
+              control: "hub-field-input-radio-group",
+              enum: { i18nScope: `${i18nScope}.fields.inPersonCapacityType` },
+            },
+          },
+          {
             labelKey: `${i18nScope}.fields.inPersonCapacity.label`,
             scope: "/properties/inPersonCapacity",
             type: "Control",
@@ -220,6 +240,9 @@ export const buildUiSchema = async (
                         HubEventAttendanceType.InPerson,
                         HubEventAttendanceType.Both,
                       ],
+                    },
+                    inPersonCapacityType: {
+                      const: HubEventCapacityType.Fixed,
                     },
                   },
                 },
@@ -248,6 +271,7 @@ export const buildUiSchema = async (
           {
             scope: "/properties/location",
             type: "Control",
+            labelKey: `${i18nScope}.fields.location.label`,
             rule: {
               condition: {
                 schema: {
@@ -373,7 +397,7 @@ export const buildUiSchema = async (
                       ],
                     },
                     onlineCapacityType: {
-                      const: HubEventOnlineCapacityType.Fixed,
+                      const: HubEventCapacityType.Fixed,
                     },
                   },
                 },

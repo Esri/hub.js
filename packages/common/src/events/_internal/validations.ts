@@ -1,4 +1,4 @@
-import { HubEventAttendanceType, HubEventOnlineCapacityType } from "../types";
+import { HubEventAttendanceType, HubEventCapacityType } from "../types";
 
 export const TIME_VALIDATIONS_WHEN_NOT_ALL_DAY = {
   if: {
@@ -38,7 +38,7 @@ export const URL_VALIDATIONS_WHEN_ONLINE_OR_HYBRID = {
 export const FIXED_ONLINE_ATTENDANCE_VALIDATIONS = {
   if: {
     properties: {
-      onlineCapacityType: { const: HubEventOnlineCapacityType.Fixed },
+      onlineCapacityType: { const: HubEventCapacityType.Fixed },
       attendanceType: {
         enum: [HubEventAttendanceType.Online, HubEventAttendanceType.Both],
       },
@@ -48,6 +48,25 @@ export const FIXED_ONLINE_ATTENDANCE_VALIDATIONS = {
     required: ["onlineCapacity"],
     properties: {
       onlineCapacity: {
+        minimum: 1,
+      },
+    },
+  },
+};
+
+export const FIXED_IN_PERSON_ATTENDANCE_VALIDATIONS = {
+  if: {
+    properties: {
+      inPersonCapacityType: { const: HubEventCapacityType.Fixed },
+      attendanceType: {
+        enum: [HubEventAttendanceType.InPerson, HubEventAttendanceType.Both],
+      },
+    },
+  },
+  then: {
+    required: ["inPersonCapacity"],
+    properties: {
+      inPersonCapacity: {
         minimum: 1,
       },
     },
