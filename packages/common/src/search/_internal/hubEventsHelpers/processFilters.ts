@@ -52,7 +52,7 @@ export async function processFilters(
   if (tags?.length) {
     processedFilters.tags = tags;
   }
-  const groupIds = getPredicateValuesByKey<string>(filters, "groups");
+  const groupIds = getPredicateValuesByKey<string>(filters, "group");
   if (groupIds.length) {
     const { results } = await searchGroups({
       q: `id:(${groupIds.join(" OR ")})`,

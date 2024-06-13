@@ -19,7 +19,7 @@ import { processFilters } from "./hubEventsHelpers/processFilters";
  *   term: string;
  *   categories: string | string[];
  *   tags: string | string[];
- *   groups: string | string[];
+ *   group: string | string[];
  *   readGroupId: string | string[];
  *   editGroupId: string | string[];
  *   attendanceType: 'virtual' | 'in_person' | Array<'virtual' | 'in_person'>;
