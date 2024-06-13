@@ -1,3 +1,10 @@
+# @esri/hub-common [14.144.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.143.0...@esri/hub-common@14.144.0) (2024-06-13)
+
+
+### Features
+
+* **hub-common:** add events filters ([#1543](https://github.com/Esri/hub.js/issues/1543)) ([7698062](https://github.com/Esri/hub.js/commit/7698062de2df6006a6218d035ed4a53e45051ae2))
+
 # @esri/hub-common [14.143.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.142.0...@esri/hub-common@14.143.0) (2024-06-13)
 
 
