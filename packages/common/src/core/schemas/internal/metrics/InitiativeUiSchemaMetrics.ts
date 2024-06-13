@@ -282,7 +282,7 @@ export const buildDefaults = async (
 ): Promise<IConfigurationValues> => {
   return {
     _metric: {
-      cardTitle: `{{${i18nScope}.shared.fields.metrics.cardTitle.label:translate}}`,
+      cardTitle: `{{arcgis-hub-entity-editor.shared.fields.metrics.cardTitle.label:translate}}`,
     },
   };
 };
