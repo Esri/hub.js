@@ -6,13 +6,19 @@ import {
 import { getOptionalPredicateStringsByKey } from "./getOptionalPredicateStringsByKey";
 import { getPredicateValuesByKey } from "./getPredicateValuesByKey";
 import { IDateRange } from "../../types/types";
+import { searchGroups } from "@esri/arcgis-rest-portal";
+import { IHubRequestOptions } from "../../../types";
+import { isUpdateGroup } from "../../../utils/is-update-group";
 
 /**
  * Builds a Partial<GetEventsParams> given an Array of IFilter objects
  * @param filters An Array of IFilter
  * @returns a Partial<GetEventsParams> for the given Array of IFilter objects
  */
-export function processFilters(filters: IFilter[]): Partial<GetEventsParams> {
+export async function processFilters(
+  filters: IFilter[],
+  requestOptions: IHubRequestOptions
+): Promise<Partial<GetEventsParams>> {
   const processedFilters: Partial<GetEventsParams> = {};
   const access = getOptionalPredicateStringsByKey(filters, "access");
   if (access?.length) {
@@ -22,15 +28,15 @@ export function processFilters(filters: IFilter[]): Partial<GetEventsParams> {
   if (canEdit.length) {
     processedFilters.canEdit = canEdit[0].toString();
   }
-  const entityIds = getOptionalPredicateStringsByKey(filters, "entityIds");
+  const entityIds = getOptionalPredicateStringsByKey(filters, "entityId");
   if (entityIds?.length) {
     processedFilters.entityIds = entityIds;
   }
-  const entityTypes = getOptionalPredicateStringsByKey(filters, "entityTypes");
+  const entityTypes = getOptionalPredicateStringsByKey(filters, "entityType");
   if (entityTypes?.length) {
     processedFilters.entityTypes = entityTypes;
   }
-  const eventIds = getOptionalPredicateStringsByKey(filters, "eventIds");
+  const eventIds = getOptionalPredicateStringsByKey(filters, "eventId");
   if (eventIds?.length) {
     processedFilters.eventIds = eventIds;
   }
@@ -46,19 +52,41 @@ export function processFilters(filters: IFilter[]): Partial<GetEventsParams> {
   if (tags?.length) {
     processedFilters.tags = tags;
   }
-  const readGroupIds = getOptionalPredicateStringsByKey(
-    filters,
-    "readGroupsIds"
-  );
-  if (readGroupIds?.length) {
-    processedFilters.readGroups = readGroupIds;
-  }
-  const editGroupsIds = getOptionalPredicateStringsByKey(
-    filters,
-    "editGroupsIds"
-  );
-  if (editGroupsIds?.length) {
-    processedFilters.editGroups = editGroupsIds;
+  const groupIds = getPredicateValuesByKey<string>(filters, "groups");
+  if (groupIds.length) {
+    const { results } = await searchGroups({
+      q: `id:(${groupIds.join(" OR ")})`,
+      num: groupIds.length,
+      ...requestOptions,
+    });
+    const { readGroupIds, editGroupIds } = results.reduce(
+      (acc, group) => {
+        const key = isUpdateGroup(group) ? "editGroupIds" : "readGroupIds";
+        return { ...acc, [key]: [...acc[key], group.id] };
+      },
+      { readGroupIds: [], editGroupIds: [] }
+    );
+    if (readGroupIds.length) {
+      processedFilters.readGroups = readGroupIds.join(",");
+    }
+    if (editGroupIds.length) {
+      processedFilters.editGroups = editGroupIds.join(",");
+    }
+  } else {
+    const readGroupIds = getOptionalPredicateStringsByKey(
+      filters,
+      "readGroupsId"
+    );
+    if (readGroupIds?.length) {
+      processedFilters.readGroups = readGroupIds;
+    }
+    const editGroupsIds = getOptionalPredicateStringsByKey(
+      filters,
+      "editGroupsId"
+    );
+    if (editGroupsIds?.length) {
+      processedFilters.editGroups = editGroupsIds;
+    }
   }
   const attendanceType = getOptionalPredicateStringsByKey(
     filters,
@@ -69,9 +97,7 @@ export function processFilters(filters: IFilter[]): Partial<GetEventsParams> {
   }
   const owner = getOptionalPredicateStringsByKey(filters, "owner");
   if (owner?.length) {
-    // TODO: remove below @ts-ignore once https://devtopia.esri.com/dc/hub/issues/10691 is completed
-    // @ts-ignore
-    processedFilters.createdById = owner;
+    processedFilters.createdByIds = owner;
   }
   const status = getOptionalPredicateStringsByKey(filters, "status");
   processedFilters.status = status?.length
