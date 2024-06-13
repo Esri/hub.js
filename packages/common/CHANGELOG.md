@@ -1,3 +1,10 @@
+# @esri/hub-common [14.142.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.141.0...@esri/hub-common@14.142.0) (2024-06-12)
+
+
+### Features
+
+* remove underlinedLinks capability ([#1550](https://github.com/Esri/hub.js/issues/1550)) ([e060e52](https://github.com/Esri/hub.js/commit/e060e525c35692ed5cee28e0172f36befcba848c))
+
 # @esri/hub-common [14.141.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.140.4...@esri/hub-common@14.141.0) (2024-06-11)
 
 
