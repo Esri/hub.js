@@ -36,7 +36,7 @@ export async function processFilters(
   if (entityTypes?.length) {
     processedFilters.entityTypes = entityTypes;
   }
-  const eventIds = getOptionalPredicateStringsByKey(filters, "eventId");
+  const eventIds = getOptionalPredicateStringsByKey(filters, "id");
   if (eventIds?.length) {
     processedFilters.eventIds = eventIds;
   }

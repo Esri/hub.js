@@ -128,10 +128,10 @@ const MULTI_SELECT_FILTERS: IFilter[] = [
     operation: "OR",
     predicates: [
       {
-        eventId: "event1",
+        id: "event1",
       },
       {
-        eventId: "event2",
+        id: "event2",
       },
     ],
   },
