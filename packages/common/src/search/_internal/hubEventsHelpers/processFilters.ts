@@ -6,13 +6,19 @@ import {
 import { getOptionalPredicateStringsByKey } from "./getOptionalPredicateStringsByKey";
 import { getPredicateValuesByKey } from "./getPredicateValuesByKey";
 import { IDateRange } from "../../types/types";
+import { searchGroups } from "@esri/arcgis-rest-portal";
+import { IHubRequestOptions } from "../../../types";
+import { isUpdateGroup } from "../../../utils/is-update-group";
 
 /**
  * Builds a Partial<GetEventsParams> given an Array of IFilter objects
  * @param filters An Array of IFilter
  * @returns a Partial<GetEventsParams> for the given Array of IFilter objects
  */
-export function processFilters(filters: IFilter[]): Partial<GetEventsParams> {
+export async function processFilters(
+  filters: IFilter[],
+  requestOptions: IHubRequestOptions
+): Promise<Partial<GetEventsParams>> {
   const processedFilters: Partial<GetEventsParams> = {};
   const access = getOptionalPredicateStringsByKey(filters, "access");
   if (access?.length) {
@@ -46,13 +52,41 @@ export function processFilters(filters: IFilter[]): Partial<GetEventsParams> {
   if (tags?.length) {
     processedFilters.tags = tags;
   }
-  const readGroupIds = getOptionalPredicateStringsByKey(filters, "readGroupId");
-  if (readGroupIds?.length) {
-    processedFilters.readGroups = readGroupIds;
-  }
-  const editGroupIds = getOptionalPredicateStringsByKey(filters, "editGroupId");
-  if (editGroupIds?.length) {
-    processedFilters.editGroups = editGroupIds;
+  const groupIds = getPredicateValuesByKey<string>(filters, "group");
+  if (groupIds.length) {
+    const { results } = await searchGroups({
+      q: `id:(${groupIds.join(" OR ")})`,
+      num: groupIds.length,
+      ...requestOptions,
+    });
+    const { readGroupIds, editGroupIds } = results.reduce(
+      (acc, group) => {
+        const key = isUpdateGroup(group) ? "editGroupIds" : "readGroupIds";
+        return { ...acc, [key]: [...acc[key], group.id] };
+      },
+      { readGroupIds: [], editGroupIds: [] }
+    );
+    if (readGroupIds.length) {
+      processedFilters.readGroups = readGroupIds.join(",");
+    }
+    if (editGroupIds.length) {
+      processedFilters.editGroups = editGroupIds.join(",");
+    }
+  } else {
+    const readGroupIds = getOptionalPredicateStringsByKey(
+      filters,
+      "readGroupId"
+    );
+    if (readGroupIds?.length) {
+      processedFilters.readGroups = readGroupIds;
+    }
+    const editGroupIds = getOptionalPredicateStringsByKey(
+      filters,
+      "editGroupId"
+    );
+    if (editGroupIds?.length) {
+      processedFilters.editGroups = editGroupIds;
+    }
   }
   const attendanceType = getOptionalPredicateStringsByKey(
     filters,
