@@ -22,15 +22,15 @@ export function processFilters(filters: IFilter[]): Partial<GetEventsParams> {
   if (canEdit.length) {
     processedFilters.canEdit = canEdit[0].toString();
   }
-  const entityIds = getOptionalPredicateStringsByKey(filters, "entityIds");
+  const entityIds = getOptionalPredicateStringsByKey(filters, "entityId");
   if (entityIds?.length) {
     processedFilters.entityIds = entityIds;
   }
-  const entityTypes = getOptionalPredicateStringsByKey(filters, "entityTypes");
+  const entityTypes = getOptionalPredicateStringsByKey(filters, "entityType");
   if (entityTypes?.length) {
     processedFilters.entityTypes = entityTypes;
   }
-  const eventIds = getOptionalPredicateStringsByKey(filters, "eventIds");
+  const eventIds = getOptionalPredicateStringsByKey(filters, "eventId");
   if (eventIds?.length) {
     processedFilters.eventIds = eventIds;
   }
@@ -46,19 +46,13 @@ export function processFilters(filters: IFilter[]): Partial<GetEventsParams> {
   if (tags?.length) {
     processedFilters.tags = tags;
   }
-  const readGroupIds = getOptionalPredicateStringsByKey(
-    filters,
-    "readGroupsIds"
-  );
+  const readGroupIds = getOptionalPredicateStringsByKey(filters, "readGroupId");
   if (readGroupIds?.length) {
     processedFilters.readGroups = readGroupIds;
   }
-  const editGroupsIds = getOptionalPredicateStringsByKey(
-    filters,
-    "editGroupsIds"
-  );
-  if (editGroupsIds?.length) {
-    processedFilters.editGroups = editGroupsIds;
+  const editGroupIds = getOptionalPredicateStringsByKey(filters, "editGroupId");
+  if (editGroupIds?.length) {
+    processedFilters.editGroups = editGroupIds;
   }
   const attendanceType = getOptionalPredicateStringsByKey(
     filters,
@@ -67,11 +61,9 @@ export function processFilters(filters: IFilter[]): Partial<GetEventsParams> {
   if (attendanceType?.length) {
     processedFilters.attendanceTypes = attendanceType;
   }
-  const owner = getOptionalPredicateStringsByKey(filters, "owner");
-  if (owner?.length) {
-    // TODO: remove below @ts-ignore once https://devtopia.esri.com/dc/hub/issues/10691 is completed
-    // @ts-ignore
-    processedFilters.createdById = owner;
+  const createdByIds = getOptionalPredicateStringsByKey(filters, "owner");
+  if (createdByIds?.length) {
+    processedFilters.createdByIds = createdByIds;
   }
   const status = getOptionalPredicateStringsByKey(filters, "status");
   processedFilters.status = status?.length

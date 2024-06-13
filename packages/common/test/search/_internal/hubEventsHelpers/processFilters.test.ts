@@ -71,21 +71,10 @@ const MULTI_SELECT_FILTERS: IFilter[] = [
     operation: "OR",
     predicates: [
       {
-        entityIds: "entity1",
+        entityId: "entity1",
       },
       {
-        entityIds: "entity2",
-      },
-    ],
-  },
-  {
-    operation: "OR",
-    predicates: [
-      {
-        entityTypes: "Hub Initiative",
-      },
-      {
-        entityTypes: "Hub Project",
+        entityId: "entity2",
       },
     ],
   },
@@ -93,21 +82,10 @@ const MULTI_SELECT_FILTERS: IFilter[] = [
     operation: "OR",
     predicates: [
       {
-        eventIds: "event1",
+        entityType: "Hub Initiative",
       },
       {
-        eventIds: "event2",
-      },
-    ],
-  },
-  {
-    operation: "OR",
-    predicates: [
-      {
-        readGroupsIds: "group1",
-      },
-      {
-        readGroupsIds: "group2",
+        entityType: "Hub Project",
       },
     ],
   },
@@ -115,10 +93,32 @@ const MULTI_SELECT_FILTERS: IFilter[] = [
     operation: "OR",
     predicates: [
       {
-        editGroupsIds: "group1",
+        eventId: "event1",
       },
       {
-        editGroupsIds: "group2",
+        eventId: "event2",
+      },
+    ],
+  },
+  {
+    operation: "OR",
+    predicates: [
+      {
+        readGroupId: "group1",
+      },
+      {
+        readGroupId: "group2",
+      },
+    ],
+  },
+  {
+    operation: "OR",
+    predicates: [
+      {
+        editGroupId: "group1",
+      },
+      {
+        editGroupId: "group2",
       },
     ],
   },
@@ -245,7 +245,7 @@ describe("processFilters", () => {
       eventIds: "event1,event2",
       readGroups: "group1,group2",
       editGroups: "group1,group2",
-      createdById: "owner",
+      createdByIds: "owner",
       canEdit: "true",
     } as any);
   });
@@ -260,7 +260,7 @@ describe("processFilters", () => {
       status: "planned",
       startDateTimeAfter: "2024-04-28T04:00:00.000Z",
       startDateTimeBefore: "2024-04-29T03:59:59.999Z",
-      createdById: "owner",
+      createdByIds: "owner",
       canEdit: "true",
     } as any);
   });

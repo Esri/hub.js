@@ -11,19 +11,19 @@ import { processFilters } from "./hubEventsHelpers/processFilters";
 /**
  * Searches for events against the Events 3 API using the given `query` and `options`.
  * Currently supported filters include:
- *   access: string;
+ *   access: 'public' | 'private' | 'org';
  *   canEdit: boolean
- *   entityIds: string;
- *   entityTypes: string;
- *   eventIds: string;
+ *   entityId: string;
+ *   entityType: string;
+ *   eventId: string;
  *   term: string;
  *   categories: string;
  *   tags: string;
- *   readGroupIds: string;
- *   editGroupIds: string;
- *   attendanceType: string;
+ *   readGroupId: string;
+ *   editGroupId: string;
+ *   attendanceType: 'virtual' | 'in_person';
  *   owner: string;
- *   status: string;
+ *   status: 'planned' | 'canceled' | 'removed';
  *   startDateRange: IDateRange<string | number>
  * @param query An IQuery object
  * @param options An IHubSearchOptions object
