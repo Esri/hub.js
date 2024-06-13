@@ -147,6 +147,7 @@ export async function updateContent(
 
   // update enrichment values
   const enrichments: IItemAndIServerEnrichments = {};
+  // TODO: REMOVE ALL USES OF isHostedFeatureServiceEntity!!!
   if (isHostedFeatureServiceEntity(content)) {
     const currentDefinition = await getService({
       ...requestOptions,
