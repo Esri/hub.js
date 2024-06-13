@@ -39,8 +39,7 @@ describe("InitiativeUiSchemaMetrics", () => {
 
       expect(defaults).toEqual({
         _metric: {
-          cardTitle:
-            "{{arcgis-hub-entity-editor.shared.fields.metrics.cardTitle.label:translate}}",
+          cardTitle: "{{shared.fields.metrics.cardTitle.label:translate}}",
         },
       });
     });
