@@ -207,6 +207,41 @@ export const buildUiSchema = async (
             },
           },
           {
+            scope: "/properties/location",
+            type: "Control",
+            labelKey: `${i18nScope}.fields.location.label`,
+            rule: {
+              condition: {
+                schema: {
+                  properties: {
+                    attendanceType: {
+                      enum: [
+                        HubEventAttendanceType.InPerson,
+                        HubEventAttendanceType.Both,
+                      ],
+                    },
+                  },
+                },
+              },
+              effect: UiSchemaRuleEffects.SHOW,
+            },
+            options: {
+              control: "hub-field-input-location-picker",
+              extent: await getLocationExtent(
+                options.location,
+                context.hubRequestOptions
+              ),
+              options: await getLocationOptions(
+                options.id,
+                options.type,
+                options.location,
+                context.portal.name,
+                context.hubRequestOptions
+              ),
+              mapTools: ["polygon", "rectangle"],
+            },
+          },
+          {
             labelKey: `${i18nScope}.fields.inPersonCapacityType.label`,
             scope: "/properties/inPersonCapacityType",
             type: "Control",
@@ -266,41 +301,6 @@ export const buildUiSchema = async (
                   labelKey: `${i18nScope}.fields.inPersonCapacity.minimumError`,
                 },
               ],
-            },
-          },
-          {
-            scope: "/properties/location",
-            type: "Control",
-            labelKey: `${i18nScope}.fields.location.label`,
-            rule: {
-              condition: {
-                schema: {
-                  properties: {
-                    attendanceType: {
-                      enum: [
-                        HubEventAttendanceType.InPerson,
-                        HubEventAttendanceType.Both,
-                      ],
-                    },
-                  },
-                },
-              },
-              effect: UiSchemaRuleEffects.SHOW,
-            },
-            options: {
-              control: "hub-field-input-location-picker",
-              extent: await getLocationExtent(
-                options.location,
-                context.hubRequestOptions
-              ),
-              options: await getLocationOptions(
-                options.id,
-                options.type,
-                options.location,
-                context.portal.name,
-                context.hubRequestOptions
-              ),
-              mapTools: ["polygon", "rectangle"],
             },
           },
           {

@@ -12,7 +12,7 @@ import {
 } from "../../../src/events/api/types";
 import {
   HubEventAttendanceType,
-  HubEventOnlineCapacityType,
+  HubEventCapacityType,
 } from "../../../src/events/types";
 
 describe("PropertyMapper", () => {
@@ -128,6 +128,7 @@ describe("PropertyMapper", () => {
         isPast: false,
         attendanceType: HubEventAttendanceType.InPerson,
         inPersonCapacity: 30,
+        inPersonCapacityType: "fixed",
         location: {
           type: "none",
           spatialReference: {},
@@ -135,7 +136,7 @@ describe("PropertyMapper", () => {
           geometries: [],
         },
         onlineCapacity: null,
-        onlineCapacityType: HubEventOnlineCapacityType.Unlimited,
+        onlineCapacityType: HubEventCapacityType.Unlimited,
         onlineDetails: null,
         onlineUrl: null,
         canChangeAccess: true,
@@ -337,12 +338,7 @@ describe("PropertyMapper", () => {
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
         inPersonCapacity: 30,
-        location: {
-          type: undefined as any,
-          spatialReference: undefined,
-          extent: undefined,
-          geometries: undefined,
-        },
+        location: null,
       } as any as IEvent);
     });
 
@@ -378,19 +374,14 @@ describe("PropertyMapper", () => {
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
         inPersonCapacity: 30,
-        location: {
-          type: undefined as any,
-          spatialReference: undefined,
-          extent: undefined,
-          geometries: undefined,
-        },
+        location: null,
       } as any as IEvent);
     });
 
     it("converts an IHubEvent to an online Event record", () => {
       eventEntity.attendanceType = HubEventAttendanceType.Online;
       eventEntity.onlineDetails = "online event details";
-      eventEntity.onlineCapacityType = HubEventOnlineCapacityType.Fixed;
+      eventEntity.onlineCapacityType = HubEventCapacityType.Fixed;
       eventEntity.onlineCapacity = 20;
       eventEntity.onlineUrl = "https://somewhere.com/";
       expect(propertyMapper.entityToStore(eventEntity, {})).toEqual({
@@ -430,17 +421,12 @@ describe("PropertyMapper", () => {
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
         inPersonCapacity: 30,
-        location: {
-          type: undefined as any,
-          spatialReference: undefined,
-          extent: undefined,
-          geometries: undefined,
-        },
+        location: null,
       } as any as IEvent);
     });
 
     it("converts an IHubEvent to an online Event record with unlimited capacity", () => {
-      eventEntity.onlineCapacityType = HubEventOnlineCapacityType.Unlimited;
+      eventEntity.onlineCapacityType = HubEventCapacityType.Unlimited;
       eventEntity.attendanceType = HubEventAttendanceType.Online;
       eventEntity.onlineDetails = "online event details";
       eventEntity.onlineCapacity = 20;
@@ -482,18 +468,13 @@ describe("PropertyMapper", () => {
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
         inPersonCapacity: 30,
-        location: {
-          type: undefined as any,
-          spatialReference: undefined,
-          extent: undefined,
-          geometries: undefined,
-        },
+        location: null,
       } as any as IEvent);
     });
 
     it("converts an IHubEvent to a hybrid Event record", () => {
       eventEntity.attendanceType = HubEventAttendanceType.Both;
-      eventEntity.onlineCapacityType = HubEventOnlineCapacityType.Fixed;
+      eventEntity.onlineCapacityType = HubEventCapacityType.Fixed;
       eventEntity.onlineDetails = "online event details";
       eventEntity.onlineCapacity = 20;
       eventEntity.onlineUrl = "https://somewhere.com/";
@@ -537,12 +518,7 @@ describe("PropertyMapper", () => {
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
         inPersonCapacity: 30,
-        location: {
-          type: undefined as any,
-          spatialReference: undefined,
-          extent: undefined,
-          geometries: undefined,
-        },
+        location: null,
       } as any as IEvent);
     });
 
@@ -578,12 +554,7 @@ describe("PropertyMapper", () => {
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
         inPersonCapacity: 30,
-        location: {
-          type: undefined as any,
-          spatialReference: undefined,
-          extent: undefined,
-          geometries: undefined,
-        },
+        location: null,
       } as any as IEvent);
     });
 
@@ -619,12 +590,7 @@ describe("PropertyMapper", () => {
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
         inPersonCapacity: 30,
-        location: {
-          type: undefined as any,
-          spatialReference: undefined,
-          extent: undefined,
-          geometries: undefined,
-        },
+        location: null,
       } as any as IEvent);
     });
   });

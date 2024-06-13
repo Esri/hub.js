@@ -54,9 +54,6 @@ describe("HubEvent defaults:", () => {
         },
         location: {
           type: "none",
-          spatialReference: {},
-          extent: [],
-          geometries: [],
         },
         ...datesAndTimes,
       });
@@ -93,12 +90,7 @@ describe("HubEvent defaults:", () => {
         status: EventStatus.PLANNED,
         tags: [],
         title: "",
-        location: {
-          type: "none" as EventLocationType,
-          spatialReference: {},
-          extent: [],
-          geometries: [],
-        } as any as IEventLocation,
+        location: null as unknown as IEventLocation,
       });
       expect(getDefaultEventDatesAndTimesSpy).toHaveBeenCalledTimes(1);
     });

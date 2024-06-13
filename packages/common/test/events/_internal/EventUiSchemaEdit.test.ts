@@ -5,7 +5,7 @@ import { buildUiSchema } from "../../../src/events/_internal/EventUiSchemaEdit";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
 import {
   HubEventAttendanceType,
-  HubEventOnlineCapacityType,
+  HubEventCapacityType,
 } from "../../../src/events/types";
 import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
 import * as getDatePickerDateUtils from "../../../src/utils/date/getDatePickerDate";
@@ -294,6 +294,55 @@ describe("EventUiSchemaEdit", () => {
                 },
               },
               {
+                scope: "/properties/location",
+                type: "Control",
+                labelKey: `myI18nScope.fields.location.label`,
+                rule: {
+                  condition: {
+                    schema: {
+                      properties: {
+                        attendanceType: {
+                          enum: [
+                            HubEventAttendanceType.InPerson,
+                            HubEventAttendanceType.Both,
+                          ],
+                        },
+                      },
+                    },
+                  },
+                  effect: UiSchemaRuleEffects.SHOW,
+                },
+                options: {
+                  control: "hub-field-input-location-picker",
+                  extent: [],
+                  options: [],
+                  mapTools: ["polygon", "rectangle"],
+                },
+              },
+              {
+                labelKey: `myI18nScope.fields.inPersonCapacityType.label`,
+                scope: "/properties/inPersonCapacityType",
+                type: "Control",
+                rule: {
+                  condition: {
+                    scope: "/properties/attendanceType",
+                    schema: {
+                      enum: [
+                        HubEventAttendanceType.InPerson,
+                        HubEventAttendanceType.Both,
+                      ],
+                    },
+                  },
+                  effect: UiSchemaRuleEffects.SHOW,
+                },
+                options: {
+                  control: "hub-field-input-radio-group",
+                  enum: {
+                    i18nScope: `myI18nScope.fields.inPersonCapacityType`,
+                  },
+                },
+              },
+              {
                 labelKey: `myI18nScope.fields.inPersonCapacity.label`,
                 scope: "/properties/inPersonCapacity",
                 type: "Control",
@@ -306,6 +355,9 @@ describe("EventUiSchemaEdit", () => {
                             HubEventAttendanceType.InPerson,
                             HubEventAttendanceType.Both,
                           ],
+                        },
+                        inPersonCapacityType: {
+                          const: HubEventCapacityType.Fixed,
                         },
                       },
                     },
@@ -329,31 +381,6 @@ describe("EventUiSchemaEdit", () => {
                       labelKey: `myI18nScope.fields.inPersonCapacity.minimumError`,
                     },
                   ],
-                },
-              },
-              {
-                scope: "/properties/location",
-                type: "Control",
-                rule: {
-                  condition: {
-                    schema: {
-                      properties: {
-                        attendanceType: {
-                          enum: [
-                            HubEventAttendanceType.InPerson,
-                            HubEventAttendanceType.Both,
-                          ],
-                        },
-                      },
-                    },
-                  },
-                  effect: UiSchemaRuleEffects.SHOW,
-                },
-                options: {
-                  control: "hub-field-input-location-picker",
-                  extent: [],
-                  options: [],
-                  mapTools: ["polygon", "rectangle"],
                 },
               },
               {
@@ -450,7 +477,7 @@ describe("EventUiSchemaEdit", () => {
                           ],
                         },
                         onlineCapacityType: {
-                          const: HubEventOnlineCapacityType.Fixed,
+                          const: HubEventCapacityType.Fixed,
                         },
                       },
                     },
