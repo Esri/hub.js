@@ -1,4 +1,7 @@
-import { buildUiSchema } from "../../../../../src/core/schemas/internal/metrics/InitiativeUiSchemaMetrics";
+import {
+  buildDefaults,
+  buildUiSchema,
+} from "../../../../../src/core/schemas/internal/metrics/InitiativeUiSchemaMetrics";
 import { MOCK_CONTEXT } from "../../../../mocks/mock-auth";
 import { EntityEditorOptions } from "../../../../../src/core/schemas/internal/EditorOptions";
 
@@ -23,6 +26,23 @@ describe("InitiativeUiSchemaMetrics", () => {
       expect(uiSchema.elements![1].elements![0].options!.control).toBe(
         "hub-field-input-tile-select"
       );
+    });
+  });
+
+  describe("buildDefaults", () => {
+    it("returns the default values for the initiative metrics", async () => {
+      const defaults = await buildDefaults(
+        "some.scope",
+        {} as EntityEditorOptions,
+        MOCK_CONTEXT
+      );
+
+      expect(defaults).toEqual({
+        _metric: {
+          cardTitle:
+            "{{some.scope.shared.fields.metrics.cardTitle.label:translate}}",
+        },
+      });
     });
   });
 });

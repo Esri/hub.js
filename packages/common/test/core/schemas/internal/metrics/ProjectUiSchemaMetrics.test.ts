@@ -1,7 +1,11 @@
-import { buildUiSchema } from "../../../../../src/core/schemas/internal/metrics/ProjectUiSchemaMetrics";
+import {
+  buildUiSchema,
+  buildDefaults,
+} from "../../../../../src/core/schemas/internal/metrics/ProjectUiSchemaMetrics";
 import { MOCK_CONTEXT } from "../../../../mocks/mock-auth";
 import { UiSchemaRuleEffects } from "../../../../../src/core/schemas/types";
 import { EntityEditorOptions } from "../../../../../src/core/schemas/internal/EditorOptions";
+import { IHubProject } from "../../../../../src/core/types";
 
 describe("ProjectUiSchemaMetrics", () => {
   describe("buildUiSchema", () => {
@@ -328,6 +332,22 @@ describe("ProjectUiSchemaMetrics", () => {
             ],
           },
         ],
+      });
+    });
+  });
+
+  describe("buildDefaults: project metrics", () => {
+    it("returns the defaults to create a project metric", async () => {
+      const defaults = await buildDefaults(
+        "some.scope",
+        {} as IHubProject,
+        MOCK_CONTEXT
+      );
+      expect(defaults).toEqual({
+        _metric: {
+          cardTitle:
+            "{{some.scope.shared.fields.metrics.cardTitle.label:translate}}",
+        },
       });
     });
   });

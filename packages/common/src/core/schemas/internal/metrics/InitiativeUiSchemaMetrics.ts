@@ -1,5 +1,5 @@
 import { IArcGISContext } from "../../../../ArcGISContext";
-import { IUiSchema } from "../../types";
+import { IConfigurationValues, IUiSchema } from "../../types";
 import { EntityEditorOptions } from "../EditorOptions";
 import {
   SHOW_FOR_STATIC_RULE_ENTITY,
@@ -261,5 +261,28 @@ export const buildUiSchema = async (
         ],
       },
     ],
+  };
+};
+
+/**
+ * @private
+ * constructs the default values for the initiative metrics editor.
+ * This is used to pre-populate the metrics editor with specific default values
+ * that are different from the Schema default values, or contain translated
+ * values.
+ * @param i18nScope
+ * @param options
+ * @param context
+ * @returns
+ */
+export const buildDefaults = async (
+  i18nScope: string,
+  options: EntityEditorOptions,
+  context: IArcGISContext
+): Promise<IConfigurationValues> => {
+  return {
+    _metric: {
+      cardTitle: `{{${i18nScope}.shared.fields.metrics.cardTitle.label:translate}}`,
+    },
   };
 };
