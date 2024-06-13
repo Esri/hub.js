@@ -75,14 +75,14 @@ export async function processFilters(
   } else {
     const readGroupIds = getOptionalPredicateStringsByKey(
       filters,
-      "readGroupsId"
+      "readGroupId"
     );
     if (readGroupIds?.length) {
       processedFilters.readGroups = readGroupIds;
     }
     const editGroupsIds = getOptionalPredicateStringsByKey(
       filters,
-      "editGroupsId"
+      "editGroupId"
     );
     if (editGroupsIds?.length) {
       processedFilters.editGroups = editGroupsIds;
