@@ -210,21 +210,6 @@ export const buildUiSchema = async (
             scope: "/properties/location",
             type: "Control",
             labelKey: `${i18nScope}.fields.location.label`,
-            rule: {
-              condition: {
-                schema: {
-                  properties: {
-                    attendanceType: {
-                      enum: [
-                        HubEventAttendanceType.InPerson,
-                        HubEventAttendanceType.Both,
-                      ],
-                    },
-                  },
-                },
-              },
-              effect: UiSchemaRuleEffects.SHOW,
-            },
             options: {
               control: "hub-field-input-location-picker",
               extent: await getLocationExtent(

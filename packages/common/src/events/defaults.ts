@@ -6,7 +6,7 @@ import {
   EventStatus,
   IEvent,
 } from "./api/orval/api/orval-events";
-import { HubEventAttendanceType } from "./types";
+import { HubEventAttendanceType, HubEventCapacityType } from "./types";
 
 /**
  * Builds a partial IHubEvent (entity) with default values
@@ -19,6 +19,7 @@ export function buildDefaultEventEntity(): Partial<IHubEvent> {
     attendanceType: HubEventAttendanceType.InPerson,
     categories: [],
     inPersonCapacity: null,
+    inPersonCapacityType: HubEventCapacityType.Unlimited,
     isAllDay: false,
     isCanceled: false,
     isDiscussable: true,
@@ -27,6 +28,7 @@ export function buildDefaultEventEntity(): Partial<IHubEvent> {
     name: "",
     notifyAttendees: true,
     onlineCapacity: null,
+    onlineCapacityType: HubEventCapacityType.Unlimited,
     onlineDetails: null,
     onlineUrl: null,
     references: [],
@@ -37,6 +39,7 @@ export function buildDefaultEventEntity(): Partial<IHubEvent> {
     ...dates,
     view: {
       heroActions: [],
+      showMap: false,
     },
     location: {
       type: "none",
