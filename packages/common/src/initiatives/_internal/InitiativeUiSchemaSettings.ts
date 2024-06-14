@@ -26,7 +26,7 @@ export const buildUiSchema = async (
             labelKey: `${i18nScope}.fields.map.label`,
             options: {
               type: "Control",
-              control: "hub-field-input-map",
+              control: "hub-composite-input-map-settings",
               // the settings that are visible for configuring the map
               visibleSettings: ["gallery"],
               // if the map preview is displayed
