@@ -1,3 +1,10 @@
+# @esri/hub-common [14.146.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.145.0...@esri/hub-common@14.146.0) (2024-06-14)
+
+
+### Features
+
+* **hub-common:** add events location picker ([#1546](https://github.com/Esri/hub.js/issues/1546)) ([0205b32](https://github.com/Esri/hub.js/commit/0205b32e68da3923bfcdf359d9e7becc22c307cf))
+
 # @esri/hub-common [14.145.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.144.0...@esri/hub-common@14.145.0) (2024-06-14)
 
 
