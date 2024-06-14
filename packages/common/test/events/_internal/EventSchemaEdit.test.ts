@@ -9,9 +9,10 @@ import {
 } from "../../../src/core/schemas/shared/subschemas";
 import {
   HubEventAttendanceType,
-  HubEventOnlineCapacityType,
+  HubEventCapacityType,
 } from "../../../src/events/types";
 import {
+  FIXED_IN_PERSON_ATTENDANCE_VALIDATIONS,
   FIXED_ONLINE_ATTENDANCE_VALIDATIONS,
   TIME_VALIDATIONS_WHEN_NOT_ALL_DAY,
   URL_VALIDATIONS_WHEN_ONLINE_OR_HYBRID,
@@ -75,6 +76,17 @@ describe("EventSchemaEdit", () => {
           timeZone: {
             type: "string",
           },
+          inPersonCapacity: {
+            type: "number",
+          },
+          inPersonCapacityType: {
+            type: "string",
+            enum: [HubEventCapacityType.Unlimited, HubEventCapacityType.Fixed],
+            default: HubEventCapacityType.Unlimited,
+          },
+          location: {
+            type: "object",
+          },
           onlineUrl: {
             type: "string",
           },
@@ -86,11 +98,8 @@ describe("EventSchemaEdit", () => {
           },
           onlineCapacityType: {
             type: "string",
-            enum: [
-              HubEventOnlineCapacityType.Unlimited,
-              HubEventOnlineCapacityType.Fixed,
-            ],
-            default: HubEventOnlineCapacityType.Unlimited,
+            enum: [HubEventCapacityType.Unlimited, HubEventCapacityType.Fixed],
+            default: HubEventCapacityType.Unlimited,
           },
           summary: ENTITY_SUMMARY_SCHEMA,
           tags: ENTITY_TAGS_SCHEMA,
@@ -100,6 +109,7 @@ describe("EventSchemaEdit", () => {
           URL_VALIDATIONS_WHEN_ONLINE_OR_HYBRID,
           TIME_VALIDATIONS_WHEN_NOT_ALL_DAY,
           FIXED_ONLINE_ATTENDANCE_VALIDATIONS,
+          FIXED_IN_PERSON_ATTENDANCE_VALIDATIONS,
         ],
       } as IConfigurationSchema);
     });

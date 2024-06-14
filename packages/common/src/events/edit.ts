@@ -55,7 +55,7 @@ export async function createHubEvent(
     tags: model.tags,
     timeZone: model.timeZone,
     title: model.title,
-    // TODO: locations
+    location: model.location,
   };
 
   model = await createEventApi({
@@ -74,10 +74,10 @@ export async function createHubEvent(
  * @returns promise that resolves a IHubEvent
  */
 export async function updateHubEvent(
-  event: IHubEvent,
+  partialEvent: Partial<IHubEvent>,
   requestOptions: IHubRequestOptions
 ): Promise<IHubEvent> {
-  const eventUpdates = { ...buildDefaultEventEntity(), ...event };
+  const eventUpdates = { ...buildDefaultEventEntity(), ...partialEvent };
 
   // TODO: how to handle events being discussable vs non-discussable
 
@@ -106,7 +106,7 @@ export async function updateHubEvent(
     tags: model.tags,
     timeZone: model.timeZone,
     title: model.title,
-    // TODO: locations
+    location: model.location,
   };
 
   model = await updateEventApi({

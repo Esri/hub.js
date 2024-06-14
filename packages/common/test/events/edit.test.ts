@@ -16,7 +16,10 @@ import {
   updateHubEvent,
 } from "../../src/events/edit";
 import { IHubEvent } from "../../src/core/types/IHubEvent";
-import { HubEventAttendanceType } from "../../src/events/types";
+import {
+  HubEventAttendanceType,
+  HubEventCapacityType,
+} from "../../src/events/types";
 
 describe("HubEvents edit module", () => {
   describe("createHubEvent", () => {
@@ -48,6 +51,7 @@ describe("HubEvents edit module", () => {
         attendanceType: HubEventAttendanceType.InPerson,
         categories: [],
         inPersonCapacity: null,
+        inPersonCapacityType: HubEventCapacityType.Unlimited,
         isAllDay: false,
         isCanceled: false,
         isDiscussable: true,
@@ -56,12 +60,21 @@ describe("HubEvents edit module", () => {
         name: "",
         notifyAttendees: true,
         onlineCapacity: null,
+        onlineCapacityType: HubEventCapacityType.Unlimited,
         onlineDetails: null,
         onlineUrl: null,
-        permissions: [],
         references: [],
         schemaVersion: 1,
         tags: [],
+        readGroupIds: [],
+        editGroupIds: [],
+        view: {
+          heroActions: [],
+          showMap: false,
+        },
+        location: {
+          type: "none",
+        },
         ...datesAndTimes,
       };
       const defaultRecord: Partial<IEvent> = {
@@ -74,8 +87,8 @@ describe("HubEvents edit module", () => {
         endDateTime: datesAndTimes.endDateTime.toISOString(),
         endDate: datesAndTimes.endDate,
         endTime: datesAndTimes.endTime,
-        notifyAttendees: true,
         inPersonCapacity: 50,
+        notifyAttendees: true,
         readGroups: [],
         startDateTime: datesAndTimes.startDateTime.toISOString(),
         startDate: datesAndTimes.startDate,
@@ -114,7 +127,18 @@ describe("HubEvents edit module", () => {
         "createEvent"
       ).and.returnValue(new Promise((resolve) => resolve(createdRecord)));
       const res = await createHubEvent(
-        { name: "my event", timeZone: "America/New_York" },
+        {
+          name: "my event",
+          timeZone: "America/New_York",
+          inPersonCapacity: 50,
+          inPersonCapacityType: HubEventCapacityType.Fixed,
+          location: {
+            type: "custom",
+            spatialReference: {},
+            extent: [[]],
+            geometries: [],
+          },
+        },
         authdCtxMgr.context.hubRequestOptions
       );
       expect(buildDefaultEventEntitySpy).toHaveBeenCalledTimes(1);
@@ -143,6 +167,12 @@ describe("HubEvents edit module", () => {
           tags: defaultRecord.tags,
           timeZone: defaultRecord.timeZone,
           title: "my event",
+          location: {
+            type: "custom",
+            spatialReference: {},
+            extent: [[]],
+            geometries: [],
+          },
         },
         ...authdCtxMgr.context.hubRequestOptions,
       });
@@ -179,6 +209,7 @@ describe("HubEvents edit module", () => {
         attendanceType: HubEventAttendanceType.InPerson,
         categories: [],
         inPersonCapacity: null,
+        inPersonCapacityType: HubEventCapacityType.Unlimited,
         isAllDay: false,
         isCanceled: false,
         isDiscussable: true,
@@ -187,12 +218,21 @@ describe("HubEvents edit module", () => {
         name: "",
         notifyAttendees: true,
         onlineCapacity: null,
+        onlineCapacityType: HubEventCapacityType.Unlimited,
         onlineDetails: null,
         onlineUrl: null,
-        permissions: [],
         references: [],
         schemaVersion: 1,
         tags: [],
+        readGroupIds: [],
+        editGroupIds: [],
+        view: {
+          heroActions: [],
+          showMap: false,
+        },
+        location: {
+          type: "none",
+        },
         ...datesAndTimes,
       };
       const defaultRecord: Partial<IEvent> = {
@@ -250,7 +290,15 @@ describe("HubEvents edit module", () => {
           timeZone: "America/New_York",
           id: "31c",
           isCanceled: true,
-        } as IHubEvent,
+          inPersonCapacity: 50,
+          inPersonCapacityType: HubEventCapacityType.Fixed,
+          location: {
+            type: "custom",
+            spatialReference: {},
+            extent: [[]],
+            geometries: [],
+          },
+        },
         authdCtxMgr.context.hubRequestOptions
       );
       expect(buildDefaultEventEntitySpy).toHaveBeenCalledTimes(1);
@@ -281,6 +329,12 @@ describe("HubEvents edit module", () => {
           tags: defaultRecord.tags,
           timeZone: defaultRecord.timeZone,
           title: "my event",
+          location: {
+            type: "custom",
+            spatialReference: {},
+            extent: [[]],
+            geometries: [],
+          },
         },
         ...authdCtxMgr.context.hubRequestOptions,
       });

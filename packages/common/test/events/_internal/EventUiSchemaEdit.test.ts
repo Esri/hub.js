@@ -5,12 +5,14 @@ import { buildUiSchema } from "../../../src/events/_internal/EventUiSchemaEdit";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
 import {
   HubEventAttendanceType,
-  HubEventOnlineCapacityType,
+  HubEventCapacityType,
 } from "../../../src/events/types";
 import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
 import * as getDatePickerDateUtils from "../../../src/utils/date/getDatePickerDate";
 import * as getCategoryItemsModule from "../../../src/core/schemas/internal/getCategoryItems";
 import * as getTagItemsModule from "../../../src/core/schemas/internal/getTagItems";
+import * as getLocationExtentModule from "../../../src/core/schemas/internal/getLocationExtent";
+import * as getLocationOptionsModule from "../../../src/core/schemas/internal/getLocationOptions";
 
 describe("EventUiSchemaEdit", () => {
   beforeAll(() => {
@@ -24,6 +26,12 @@ describe("EventUiSchemaEdit", () => {
 
   describe("buildUiSchema", () => {
     it("should return the expected ui schema", async () => {
+      spyOn(getLocationExtentModule, "getLocationExtent").and.returnValue(
+        Promise.resolve([])
+      );
+      spyOn(getLocationOptionsModule, "getLocationOptions").and.returnValue(
+        Promise.resolve([])
+      );
       const authdCtxMgr = await ArcGISContextManager.create({
         authentication: MOCK_AUTH,
         currentUser: {
@@ -286,6 +294,81 @@ describe("EventUiSchemaEdit", () => {
                 },
               },
               {
+                scope: "/properties/location",
+                type: "Control",
+                labelKey: `myI18nScope.fields.location.label`,
+                options: {
+                  control: "hub-field-input-location-picker",
+                  extent: [],
+                  options: [],
+                  mapTools: ["polygon", "rectangle"],
+                },
+              },
+              {
+                labelKey: `myI18nScope.fields.inPersonCapacityType.label`,
+                scope: "/properties/inPersonCapacityType",
+                type: "Control",
+                rule: {
+                  condition: {
+                    scope: "/properties/attendanceType",
+                    schema: {
+                      enum: [
+                        HubEventAttendanceType.InPerson,
+                        HubEventAttendanceType.Both,
+                      ],
+                    },
+                  },
+                  effect: UiSchemaRuleEffects.SHOW,
+                },
+                options: {
+                  control: "hub-field-input-radio-group",
+                  enum: {
+                    i18nScope: `myI18nScope.fields.inPersonCapacityType`,
+                  },
+                },
+              },
+              {
+                labelKey: `myI18nScope.fields.inPersonCapacity.label`,
+                scope: "/properties/inPersonCapacity",
+                type: "Control",
+                rule: {
+                  condition: {
+                    schema: {
+                      properties: {
+                        attendanceType: {
+                          enum: [
+                            HubEventAttendanceType.InPerson,
+                            HubEventAttendanceType.Both,
+                          ],
+                        },
+                        inPersonCapacityType: {
+                          const: HubEventCapacityType.Fixed,
+                        },
+                      },
+                    },
+                  },
+                  effect: UiSchemaRuleEffects.SHOW,
+                },
+                options: {
+                  control: "hub-field-input-input",
+                  type: "number",
+                  messages: [
+                    {
+                      type: "ERROR",
+                      keyword: "required",
+                      icon: true,
+                      labelKey: `myI18nScope.fields.inPersonCapacity.requiredError`,
+                    },
+                    {
+                      type: "ERROR",
+                      keyword: "minimum",
+                      icon: true,
+                      labelKey: `myI18nScope.fields.inPersonCapacity.minimumError`,
+                    },
+                  ],
+                },
+              },
+              {
                 labelKey: `myI18nScope.fields.onlineUrl.label`,
                 scope: "/properties/onlineUrl",
                 type: "Control",
@@ -379,7 +462,7 @@ describe("EventUiSchemaEdit", () => {
                           ],
                         },
                         onlineCapacityType: {
-                          const: HubEventOnlineCapacityType.Fixed,
+                          const: HubEventCapacityType.Fixed,
                         },
                       },
                     },
