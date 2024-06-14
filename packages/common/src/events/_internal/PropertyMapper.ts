@@ -185,6 +185,16 @@ export class EventPropertyMapper extends PropertyMapper<
         } as IOnlineMeeting,
       ];
     }
+    if (
+      [HubEventAttendanceType.InPerson, HubEventAttendanceType.Both].includes(
+        clonedEntity.attendanceType
+      )
+    ) {
+      obj.inPersonCapacity =
+        clonedEntity.inPersonCapacityType === HubEventCapacityType.Fixed
+          ? clonedEntity.inPersonCapacity
+          : null;
+    }
 
     // override startTime & endTime for all-day events
     if (clonedEntity.isAllDay) {
