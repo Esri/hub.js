@@ -6,10 +6,12 @@ import {
   isHostedFeatureServiceEntity,
   isHostedFeatureServiceItem,
   isHostedFeatureServiceMainEntity,
+  isHostedFeatureServiceMainItem,
   ServiceCapabilities,
   toggleServiceCapability,
 } from "../../src/content/hostedServiceUtils";
 
+// NOTE: isHostedFeatureServiceItem is deprecated. Remove this test when the function is removed.
 describe("isHostedFeatureServiceItem", () => {
   beforeAll(() => {
     // suppress deprecation warnings
@@ -31,8 +33,37 @@ describe("isHostedFeatureServiceItem", () => {
   });
 });
 
+describe("isHostedFeatureServiceMainItem", () => {
+  it("returns true for hosted feature service main items", () => {
+    const item = {
+      type: "Feature Service",
+      typeKeywords: ["Hosted Service"],
+    } as IItem;
+
+    expect(isHostedFeatureServiceMainItem(item)).toBeTruthy();
+  });
+
+  it("returns false for hosted feature service reference items", () => {
+    const item = {
+      type: "Feature Service",
+    } as IItem;
+
+    expect(isHostedFeatureServiceMainItem(item)).toBeFalsy();
+  });
+
+  it("returns false for other items", () => {
+    const item = { type: "PDF" } as IItem;
+    expect(isHostedFeatureServiceMainItem(item)).toBeFalsy();
+  });
+});
+
 // NOTE: isHostedFeatureServiceEntity is deprecated. Remove this test when the function is removed.
 describe("isHostedFeatureServiceEntity", () => {
+  beforeAll(() => {
+    // suppress deprecation warnings
+    // tslint:disable-next-line: no-empty
+    spyOn(console, "warn").and.callFake(() => {});
+  });
   it("returns true for hosted feature service content entities", () => {
     const entity = {
       type: "Feature Service",
@@ -63,7 +94,7 @@ describe("isHostedFeatureServiceMainEntity", () => {
       type: "Feature Service",
     } as IHubEditableContent;
 
-    expect(isHostedFeatureServiceMainEntity(entity)).toBeTruthy();
+    expect(isHostedFeatureServiceMainEntity(entity)).toBeFalsy();
   });
 
   it("returns false for other content entities", () => {
