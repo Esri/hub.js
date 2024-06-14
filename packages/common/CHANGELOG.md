@@ -1,3 +1,10 @@
+# @esri/hub-common [14.145.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.144.0...@esri/hub-common@14.145.0) (2024-06-14)
+
+
+### Features
+
+* add buildDefaults for metrics ([#1551](https://github.com/Esri/hub.js/issues/1551)) ([036bf13](https://github.com/Esri/hub.js/commit/036bf134141c192330fe1afc9c7296317cfcd5bc))
+
 # @esri/hub-common [14.144.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.143.0...@esri/hub-common@14.144.0) (2024-06-13)
 
 
