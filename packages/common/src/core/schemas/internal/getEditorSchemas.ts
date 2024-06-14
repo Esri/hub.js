@@ -144,9 +144,6 @@ export async function getEditorSchemas(
       );
 
       // if we have the buildDefaults fn, then construct the defaults
-      // TODO: when first implementing buildDefaults for projects, remove the ignore line
-
-      /* istanbul ignore next */
       if (projectModule.buildDefaults) {
         defaults = await projectModule.buildDefaults(
           i18nScope,
@@ -184,9 +181,6 @@ export async function getEditorSchemas(
       );
 
       // if we have the buildDefaults fn, then construct the defaults
-      // TODO: when first implementing buildDefaults for initiatives, remove the ignore line
-
-      /* istanbul ignore next */
       if (initiativeModule.buildDefaults) {
         defaults = await initiativeModule.buildDefaults(
           i18nScope,

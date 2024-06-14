@@ -106,7 +106,22 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:feature:user:preferences",
     // gated to qa/dev for now, but will be accessible on PROD when
     // we pass `?pe=hub:feature:user:preferences` in the URL
-    environments: ["devext", "qaext"],
+    environments: ["devext", "qaext", "production"],
+  },
+  // These should only be used when needing to gate functionality that is not
+  // connected to an entity, for example notices. These should NOT be used
+  // in dependencies arrays.
+  {
+    permission: "hub:environment:qaext",
+    environments: ["qaext"],
+  },
+  {
+    permission: "hub:environment:devext",
+    environments: ["devext"],
+  },
+  {
+    permission: "hub:environment:production",
+    environments: ["production"],
   },
   {
     // When enabled, the new follow card will be loaded
@@ -117,6 +132,14 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     environments: ["qaext"],
     availability: ["flag"],
     licenses: ["hub-basic", "hub-premium"],
+  },
+  {
+    // When enabled, the manage links will take the user the org home site
+    permission: "hub:feature:workspace:user",
+    // NOTE: alpha might seem redundant, given that hub:feature:workspace is alpha
+    // but we allow users to "opt-in" which overrides that
+    availability: ["alpha"],
+    dependencies: ["hub:feature:workspace"],
   },
   {
     // When enabled, the manage links will take the user the org home site
