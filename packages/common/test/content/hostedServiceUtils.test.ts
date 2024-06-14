@@ -5,6 +5,7 @@ import {
   hasServiceCapability,
   isHostedFeatureServiceEntity,
   isHostedFeatureServiceItem,
+  isHostedFeatureServiceMainEntity,
   ServiceCapabilities,
   toggleServiceCapability,
 } from "../../src/content/hostedServiceUtils";
@@ -30,6 +31,7 @@ describe("isHostedFeatureServiceItem", () => {
   });
 });
 
+// NOTE: isHostedFeatureServiceEntity is deprecated. Remove this test when the function is removed.
 describe("isHostedFeatureServiceEntity", () => {
   it("returns true for hosted feature service content entities", () => {
     const entity = {
@@ -43,6 +45,30 @@ describe("isHostedFeatureServiceEntity", () => {
   it("returns false for other content entities", () => {
     const entity = { type: "PDF" } as IHubEditableContent;
     expect(isHostedFeatureServiceEntity(entity)).toBeFalsy();
+  });
+});
+
+describe("isHostedFeatureServiceMainEntity", () => {
+  it("returns true for main hosted feature service content entities", () => {
+    const entity = {
+      type: "Feature Service",
+      typeKeywords: ["Hosted Service"],
+    } as IHubEditableContent;
+
+    expect(isHostedFeatureServiceMainEntity(entity)).toBeTruthy();
+  });
+
+  it("returns false for reference hosted feature service content entities", () => {
+    const entity = {
+      type: "Feature Service",
+    } as IHubEditableContent;
+
+    expect(isHostedFeatureServiceMainEntity(entity)).toBeTruthy();
+  });
+
+  it("returns false for other content entities", () => {
+    const entity = { type: "PDF" } as IHubEditableContent;
+    expect(isHostedFeatureServiceMainEntity(entity)).toBeFalsy();
   });
 });
 

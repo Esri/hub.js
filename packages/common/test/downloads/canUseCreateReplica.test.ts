@@ -3,36 +3,36 @@ import * as hostedServiceUtils from "../../src/content/hostedServiceUtils";
 import { IHubEditableContent } from "../../src/core/types/IHubEditableContent";
 
 describe("canUseCreateReplica", () => {
-  it("should return true if entity is a hosted feature service with serverExtractCapability", () => {
+  it("should return true if entity is an AGO hosted feature service with serverExtractCapability", () => {
     const entity = {
       serverExtractCapability: true,
     } as unknown as IHubEditableContent;
 
-    const isHostedFeatureServiceEntitySpy = spyOn(
+    const isAGOFeatureServiceUrlSpy = spyOn(
       hostedServiceUtils,
-      "isHostedFeatureServiceEntity"
+      "isAGOFeatureServiceUrl"
     ).and.returnValue(true);
 
     const result = canUseCreateReplica(entity);
 
     expect(result).toBe(true);
-    expect(isHostedFeatureServiceEntitySpy).toHaveBeenCalled();
+    expect(isAGOFeatureServiceUrlSpy).toHaveBeenCalled();
   });
 
-  it("should return false if entity is not a hosted feature service", () => {
+  it("should return false if entity is not an AGO hosted feature service", () => {
     const entity = {
       serverExtractCapability: true,
     } as unknown as IHubEditableContent;
 
-    const isHostedFeatureServiceEntitySpy = spyOn(
+    const isAGOFeatureServiceUrlSpy = spyOn(
       hostedServiceUtils,
-      "isHostedFeatureServiceEntity"
+      "isAGOFeatureServiceUrl"
     ).and.returnValue(false);
 
     const result = canUseCreateReplica(entity);
 
     expect(result).toBe(false);
-    expect(isHostedFeatureServiceEntitySpy).toHaveBeenCalled();
+    expect(isAGOFeatureServiceUrlSpy).toHaveBeenCalled();
   });
 
   it("should return false if entity does not have serverExtractCapability", () => {
@@ -40,14 +40,14 @@ describe("canUseCreateReplica", () => {
       serverExtractCapability: false,
     } as unknown as IHubEditableContent;
 
-    const isHostedFeatureServiceEntitySpy = spyOn(
+    const isAGOFeatureServiceUrlSpy = spyOn(
       hostedServiceUtils,
-      "isHostedFeatureServiceEntity"
+      "isAGOFeatureServiceUrl"
     ).and.returnValue(true);
 
     const result = canUseCreateReplica(entity);
 
     expect(result).toBe(false);
-    expect(isHostedFeatureServiceEntitySpy).toHaveBeenCalled();
+    expect(isAGOFeatureServiceUrlSpy).toHaveBeenCalled();
   });
 });

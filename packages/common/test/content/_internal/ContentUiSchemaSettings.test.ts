@@ -7,7 +7,7 @@ describe("buildUiSchema: content settings", () => {
   it("includes download fields for hosted feature service entities", async () => {
     spyOn(
       hostedServiceUtilsModule,
-      "isHostedFeatureServiceEntity"
+      "isHostedFeatureServiceMainEntity"
     ).and.returnValue(true);
     spyOn(checkPermissionModule, "checkPermission").and.returnValue({
       access: false,
@@ -48,7 +48,7 @@ describe("buildUiSchema: content settings", () => {
   it("excludes download fields for other entities", async () => {
     spyOn(
       hostedServiceUtilsModule,
-      "isHostedFeatureServiceEntity"
+      "isHostedFeatureServiceMainEntity"
     ).and.returnValue(false);
     spyOn(checkPermissionModule, "checkPermission").and.returnValue({
       access: false,
@@ -62,7 +62,7 @@ describe("buildUiSchema: content settings", () => {
   it("includes enabled schedule fields for public entities", async () => {
     spyOn(
       hostedServiceUtilsModule,
-      "isHostedFeatureServiceEntity"
+      "isHostedFeatureServiceMainEntity"
     ).and.returnValue(false);
     spyOn(checkPermissionModule, "checkPermission").and.returnValue({
       access: true,
@@ -124,7 +124,7 @@ describe("buildUiSchema: content settings", () => {
   it("includes disabled schedule fields for private entities", async () => {
     spyOn(
       hostedServiceUtilsModule,
-      "isHostedFeatureServiceEntity"
+      "isHostedFeatureServiceMainEntity"
     ).and.returnValue(false);
     spyOn(checkPermissionModule, "checkPermission").and.returnValue({
       access: true,
