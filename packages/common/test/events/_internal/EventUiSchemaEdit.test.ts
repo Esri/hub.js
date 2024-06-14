@@ -297,21 +297,6 @@ describe("EventUiSchemaEdit", () => {
                 scope: "/properties/location",
                 type: "Control",
                 labelKey: `myI18nScope.fields.location.label`,
-                rule: {
-                  condition: {
-                    schema: {
-                      properties: {
-                        attendanceType: {
-                          enum: [
-                            HubEventAttendanceType.InPerson,
-                            HubEventAttendanceType.Both,
-                          ],
-                        },
-                      },
-                    },
-                  },
-                  effect: UiSchemaRuleEffects.SHOW,
-                },
                 options: {
                   control: "hub-field-input-location-picker",
                   extent: [],

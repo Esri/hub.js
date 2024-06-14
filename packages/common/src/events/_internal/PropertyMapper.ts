@@ -111,7 +111,10 @@ export class EventPropertyMapper extends PropertyMapper<
         tooltip,
       });
     }
-    obj.view = { heroActions };
+    obj.view = {
+      heroActions,
+      showMap: !!store.location,
+    };
 
     obj.location = store.location
       ? {
