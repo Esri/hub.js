@@ -3,5 +3,5 @@
  */
 export interface IHubMapSettings {
   // the item id for the map or scene
-  itemId: string[];
+  baseViewItemId: string;
 }

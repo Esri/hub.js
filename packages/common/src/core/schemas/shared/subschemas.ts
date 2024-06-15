@@ -59,13 +59,7 @@ export const ENTITY_LOCATION_SCHEMA = {
 export const ENTITY_MAP_SCHEMA = {
   type: "object",
   properties: {
-    itemId: {
-      type: "array",
-      items: {
-        type: "string",
-      },
-      maxItems: 1,
-    },
+    baseViewItemId: { type: "string" },
   },
 };
 
