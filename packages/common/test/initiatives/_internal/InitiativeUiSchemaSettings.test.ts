@@ -14,7 +14,7 @@ describe("buildUiSchema: initiatives settings", () => {
             {
               type: "Control",
               scope: "/properties/view/properties/mapSettings",
-              labelKey: "some.scope.fields.map.label",
+              labelKey: "some.scope.fields.mapSettings.label",
               options: {
                 type: "Control",
                 control: "hub-composite-input-map-settings",
