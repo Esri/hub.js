@@ -9,7 +9,7 @@ describe("buildUiSchema: initiatives settings", () => {
       elements: [
         {
           type: "Section",
-          labelKey: "some.scope.sections.map.label",
+          labelKey: "some.scope.sections.mapSettings.label",
           elements: [
             {
               type: "Control",

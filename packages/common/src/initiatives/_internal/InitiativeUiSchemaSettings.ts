@@ -18,7 +18,7 @@ export const buildUiSchema = async (
     elements: [
       {
         type: "Section",
-        labelKey: `${i18nScope}.sections.map.label`,
+        labelKey: `${i18nScope}.sections.mapSettings.label`,
         elements: [
           {
             type: "Control",
