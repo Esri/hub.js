@@ -12,7 +12,7 @@ import {
 } from "../../../src/events/api/types";
 import {
   HubEventAttendanceType,
-  HubEventOnlineCapacityType,
+  HubEventCapacityType,
 } from "../../../src/events/types";
 
 describe("PropertyMapper", () => {
@@ -95,6 +95,12 @@ describe("PropertyMapper", () => {
     });
 
     it("converts an Event record to an in-person Event entity", () => {
+      eventRecord.location = {
+        type: "none" as EventLocationType,
+        spatialReference: {},
+        extent: [[]],
+        geometries: [],
+      } as any;
       const res = propertyMapper.storeToEntity(eventRecord, {});
       expect(res).toEqual({
         isAllDay: false,
@@ -122,8 +128,15 @@ describe("PropertyMapper", () => {
         isPast: false,
         attendanceType: HubEventAttendanceType.InPerson,
         inPersonCapacity: 30,
+        inPersonCapacityType: "fixed",
+        location: {
+          type: "none",
+          spatialReference: {},
+          extent: [[]],
+          geometries: [],
+        },
         onlineCapacity: null,
-        onlineCapacityType: HubEventOnlineCapacityType.Unlimited,
+        onlineCapacityType: HubEventCapacityType.Unlimited,
         onlineDetails: null,
         onlineUrl: null,
         canChangeAccess: true,
@@ -153,6 +166,7 @@ describe("PropertyMapper", () => {
         thumbnailUrl: getEventThumbnail(),
         view: {
           heroActions: [],
+          showMap: true,
         },
       });
     });
@@ -209,6 +223,7 @@ describe("PropertyMapper", () => {
             tooltip: "{{tooltip.register.isCancelled:translate}}",
           },
         ],
+        showMap: false,
       });
     });
 
@@ -226,6 +241,7 @@ describe("PropertyMapper", () => {
             tooltip: "{{tooltip.register.eventHasEnded:translate}}",
           },
         ],
+        showMap: false,
       });
     });
   });
@@ -266,6 +282,11 @@ describe("PropertyMapper", () => {
         isRemoved: false,
         attendanceType: HubEventAttendanceType.InPerson,
         inPersonCapacity: 30,
+        inPersonCapacityType: HubEventCapacityType.Fixed,
+        editGroupIds: [],
+        readGroupIds: [],
+        isPast: false,
+        references: [],
         onlineCapacity: null,
         onlineDetails: null,
         onlineUrl: null,
@@ -291,7 +312,7 @@ describe("PropertyMapper", () => {
         ),
         endTime: [end.getHours(), end.getMinutes(), end.getSeconds()].join(":"),
         timeZone: "America/New_York",
-      } as IHubEvent;
+      } as unknown as IHubEvent;
     });
 
     it("converts an IHubEvent to an in-person Event record", () => {
@@ -325,7 +346,48 @@ describe("PropertyMapper", () => {
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
         inPersonCapacity: 30,
-      } as IEvent);
+        location: null,
+        readGroups: [],
+        editGroups: [],
+      } as any as IEvent);
+    });
+
+    it("converts an IHubEvent to an in-person Event record with unlimited capacity", () => {
+      eventEntity.inPersonCapacityType = HubEventCapacityType.Unlimited;
+      expect(propertyMapper.entityToStore(eventEntity, {})).toEqual({
+        allDay: false,
+        title: "event title",
+        creator: { username: "jdoe" },
+        permission: {
+          canEdit: true,
+          canDelete: true,
+          canSetAccessToOrg: true,
+          canSetAccessToPrivate: true,
+          canSetAccessToPublic: true,
+          canSetStatusToCancelled: true,
+          canSetStatusToRemoved: true,
+        },
+        orgId: "42b",
+        description: "event description",
+        id: "31c",
+        tags: ["tag1"],
+        categories: ["category1"],
+        timeZone: "America/New_York",
+        summary: "event summary",
+        notifyAttendees: false,
+        allowRegistration: false,
+        access: EventAccess.PRIVATE,
+        status: EventStatus.PLANNED,
+        attendanceType: [EventAttendanceType.IN_PERSON],
+        startDate: jasmine.any(String) as unknown as string,
+        startTime: jasmine.any(String) as unknown as string,
+        endDate: jasmine.any(String) as unknown as string,
+        endTime: jasmine.any(String) as unknown as string,
+        inPersonCapacity: null,
+        location: null,
+        readGroups: [],
+        editGroups: [],
+      } as any as IEvent);
     });
 
     it("converts an IHubEvent to an all-day Event record", () => {
@@ -360,13 +422,16 @@ describe("PropertyMapper", () => {
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
         inPersonCapacity: 30,
-      } as IEvent);
+        location: null,
+        readGroups: [],
+        editGroups: [],
+      } as any as IEvent);
     });
 
     it("converts an IHubEvent to an online Event record", () => {
       eventEntity.attendanceType = HubEventAttendanceType.Online;
       eventEntity.onlineDetails = "online event details";
-      eventEntity.onlineCapacityType = HubEventOnlineCapacityType.Fixed;
+      eventEntity.onlineCapacityType = HubEventCapacityType.Fixed;
       eventEntity.onlineCapacity = 20;
       eventEntity.onlineUrl = "https://somewhere.com/";
       expect(propertyMapper.entityToStore(eventEntity, {})).toEqual({
@@ -406,11 +471,14 @@ describe("PropertyMapper", () => {
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
         inPersonCapacity: 30,
-      } as IEvent);
+        location: null,
+        readGroups: [],
+        editGroups: [],
+      } as any as IEvent);
     });
 
     it("converts an IHubEvent to an online Event record with unlimited capacity", () => {
-      eventEntity.onlineCapacityType = HubEventOnlineCapacityType.Unlimited;
+      eventEntity.onlineCapacityType = HubEventCapacityType.Unlimited;
       eventEntity.attendanceType = HubEventAttendanceType.Online;
       eventEntity.onlineDetails = "online event details";
       eventEntity.onlineCapacity = 20;
@@ -452,12 +520,15 @@ describe("PropertyMapper", () => {
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
         inPersonCapacity: 30,
-      } as IEvent);
+        location: null,
+        readGroups: [],
+        editGroups: [],
+      } as any as IEvent);
     });
 
     it("converts an IHubEvent to a hybrid Event record", () => {
       eventEntity.attendanceType = HubEventAttendanceType.Both;
-      eventEntity.onlineCapacityType = HubEventOnlineCapacityType.Fixed;
+      eventEntity.onlineCapacityType = HubEventCapacityType.Fixed;
       eventEntity.onlineDetails = "online event details";
       eventEntity.onlineCapacity = 20;
       eventEntity.onlineUrl = "https://somewhere.com/";
@@ -501,7 +572,10 @@ describe("PropertyMapper", () => {
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
         inPersonCapacity: 30,
-      } as IEvent);
+        location: null,
+        readGroups: [],
+        editGroups: [],
+      } as any as IEvent);
     });
 
     it("converts an IHubEvent to a cancelled Event record", () => {
@@ -536,7 +610,10 @@ describe("PropertyMapper", () => {
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
         inPersonCapacity: 30,
-      } as IEvent);
+        location: null,
+        readGroups: [],
+        editGroups: [],
+      } as any as IEvent);
     });
 
     it("converts an IHubEvent to a removed Event record", () => {
@@ -571,7 +648,10 @@ describe("PropertyMapper", () => {
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
         inPersonCapacity: 30,
-      } as IEvent);
+        location: null,
+        readGroups: [],
+        editGroups: [],
+      } as any as IEvent);
     });
   });
 });

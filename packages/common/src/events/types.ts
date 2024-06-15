@@ -4,7 +4,7 @@ export enum HubEventAttendanceType {
   Both = "both",
 }
 
-export enum HubEventOnlineCapacityType {
+export enum HubEventCapacityType {
   Unlimited = "unlimited",
   Fixed = "fixed",
 }

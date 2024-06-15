@@ -5,11 +5,12 @@ import {
   ENTITY_TAGS_SCHEMA,
 } from "../../core/schemas/shared/subschemas";
 import { IConfigurationSchema } from "../../core/schemas/types";
-import { HubEventAttendanceType, HubEventOnlineCapacityType } from "../types";
+import { HubEventAttendanceType, HubEventCapacityType } from "../types";
 import {
   URL_VALIDATIONS_WHEN_ONLINE_OR_HYBRID,
   TIME_VALIDATIONS_WHEN_NOT_ALL_DAY,
   FIXED_ONLINE_ATTENDANCE_VALIDATIONS,
+  FIXED_IN_PERSON_ATTENDANCE_VALIDATIONS,
 } from "./validations";
 import { getDefaultEventDatesAndTimes } from "./getDefaultEventDatesAndTimes";
 
@@ -59,6 +60,17 @@ export const buildSchema = (): IConfigurationSchema => {
       timeZone: {
         type: "string",
       },
+      inPersonCapacity: {
+        type: "number",
+      },
+      inPersonCapacityType: {
+        type: "string",
+        enum: [HubEventCapacityType.Unlimited, HubEventCapacityType.Fixed],
+        default: HubEventCapacityType.Unlimited,
+      },
+      location: {
+        type: "object",
+      },
       onlineUrl: {
         type: "string",
       },
@@ -70,11 +82,8 @@ export const buildSchema = (): IConfigurationSchema => {
       },
       onlineCapacityType: {
         type: "string",
-        enum: [
-          HubEventOnlineCapacityType.Unlimited,
-          HubEventOnlineCapacityType.Fixed,
-        ],
-        default: HubEventOnlineCapacityType.Unlimited,
+        enum: [HubEventCapacityType.Unlimited, HubEventCapacityType.Fixed],
+        default: HubEventCapacityType.Unlimited,
       },
       summary: ENTITY_SUMMARY_SCHEMA,
       tags: ENTITY_TAGS_SCHEMA,
@@ -84,6 +93,7 @@ export const buildSchema = (): IConfigurationSchema => {
       URL_VALIDATIONS_WHEN_ONLINE_OR_HYBRID,
       TIME_VALIDATIONS_WHEN_NOT_ALL_DAY,
       FIXED_ONLINE_ATTENDANCE_VALIDATIONS,
+      FIXED_IN_PERSON_ATTENDANCE_VALIDATIONS,
     ],
   } as IConfigurationSchema;
 };

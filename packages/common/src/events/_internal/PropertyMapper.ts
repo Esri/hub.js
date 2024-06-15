@@ -10,11 +10,13 @@ import { cloneObject } from "../../util";
 import {
   EventAccess,
   EventAttendanceType,
+  EventLocationType,
   EventStatus,
   IEvent,
+  IEventLocation,
   IOnlineMeeting,
 } from "../api/orval/api/orval-events";
-import { HubEventAttendanceType, HubEventOnlineCapacityType } from "../types";
+import { HubEventAttendanceType, HubEventCapacityType } from "../types";
 import { computeLinks } from "./computeLinks";
 import { getEventSlug } from "./getEventSlug";
 import { getEventThumbnail } from "./getEventThumbnail";
@@ -45,9 +47,6 @@ export class EventPropertyMapper extends PropertyMapper<
     store: Partial<IEvent>,
     entity: Partial<IHubEvent>
   ): Partial<IHubEvent> {
-    // TODO: support locations
-    // TODO: thumbnail & thumbnail url
-
     const obj = mapStoreToEntity(store, entity, this.mappings);
 
     obj.type = "Event";
@@ -67,8 +66,11 @@ export class EventPropertyMapper extends PropertyMapper<
     }
     obj.onlineCapacity = store.onlineMeetings?.[0]?.capacity ?? null;
     obj.onlineCapacityType = store.onlineMeetings?.[0]?.capacity
-      ? HubEventOnlineCapacityType.Fixed
-      : HubEventOnlineCapacityType.Unlimited;
+      ? HubEventCapacityType.Fixed
+      : HubEventCapacityType.Unlimited;
+    obj.inPersonCapacityType = store.inPersonCapacity
+      ? HubEventCapacityType.Fixed
+      : HubEventCapacityType.Unlimited;
     obj.onlineDetails = store.onlineMeetings?.[0]?.details ?? null;
     obj.onlineUrl = store.onlineMeetings?.[0]?.url ?? null;
     obj.canChangeAccess = [
@@ -109,7 +111,19 @@ export class EventPropertyMapper extends PropertyMapper<
         tooltip,
       });
     }
-    obj.view = { heroActions };
+    obj.view = {
+      heroActions,
+      showMap: !!store.location,
+    };
+
+    obj.location = store.location
+      ? {
+          type: store.location.type,
+          spatialReference: store.location.spatialReference,
+          extent: store.location.extent,
+          geometries: store.location.geometries,
+        }
+      : { type: "none" };
 
     return obj;
   }
@@ -167,12 +181,22 @@ export class EventPropertyMapper extends PropertyMapper<
         {
           details: clonedEntity.onlineDetails,
           capacity:
-            clonedEntity.onlineCapacityType === HubEventOnlineCapacityType.Fixed
+            clonedEntity.onlineCapacityType === HubEventCapacityType.Fixed
               ? clonedEntity.onlineCapacity
               : null,
           url: clonedEntity.onlineUrl,
         } as IOnlineMeeting,
       ];
+    }
+    if (
+      [HubEventAttendanceType.InPerson, HubEventAttendanceType.Both].includes(
+        clonedEntity.attendanceType
+      )
+    ) {
+      obj.inPersonCapacity =
+        clonedEntity.inPersonCapacityType === HubEventCapacityType.Fixed
+          ? clonedEntity.inPersonCapacity
+          : null;
     }
 
     // override startTime & endTime for all-day events
@@ -180,6 +204,16 @@ export class EventPropertyMapper extends PropertyMapper<
       clonedEntity.startTime = "00:00:00";
       clonedEntity.endTime = "23:59:59";
     }
+
+    obj.location =
+      clonedEntity.location && clonedEntity.location.type !== "none"
+        ? ({
+            type: clonedEntity.location.type as EventLocationType,
+            spatialReference: clonedEntity.location.spatialReference,
+            extent: clonedEntity.location.extent,
+            geometries: clonedEntity.location.geometries,
+          } as IEventLocation)
+        : null;
 
     return obj;
   }

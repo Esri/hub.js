@@ -2,13 +2,18 @@ import * as getDefaultEventDatesAndTimesModule from "../../src/events/_internal/
 import {
   EventAccess,
   EventAttendanceType,
+  EventLocationType,
   EventStatus,
+  IEventLocation,
 } from "../../src/events/api/types";
 import {
   buildDefaultEventEntity,
   buildDefaultEventRecord,
 } from "../../src/events/defaults";
-import { HubEventAttendanceType } from "../../src/events/types";
+import {
+  HubEventAttendanceType,
+  HubEventCapacityType,
+} from "../../src/events/types";
 
 describe("HubEvent defaults:", () => {
   describe("buildDefaultEventEntity", () => {
@@ -32,6 +37,7 @@ describe("HubEvent defaults:", () => {
         attendanceType: HubEventAttendanceType.InPerson,
         categories: [],
         inPersonCapacity: null,
+        inPersonCapacityType: HubEventCapacityType.Unlimited,
         isAllDay: false,
         isCanceled: false,
         isDiscussable: true,
@@ -40,6 +46,7 @@ describe("HubEvent defaults:", () => {
         name: "",
         notifyAttendees: true,
         onlineCapacity: null,
+        onlineCapacityType: HubEventCapacityType.Unlimited,
         onlineDetails: null,
         onlineUrl: null,
         references: [],
@@ -49,6 +56,10 @@ describe("HubEvent defaults:", () => {
         editGroupIds: [],
         view: {
           heroActions: [],
+          showMap: false,
+        },
+        location: {
+          type: "none",
         },
         ...datesAndTimes,
       });
@@ -85,6 +96,7 @@ describe("HubEvent defaults:", () => {
         status: EventStatus.PLANNED,
         tags: [],
         title: "",
+        location: null as unknown as IEventLocation,
       });
       expect(getDefaultEventDatesAndTimesSpy).toHaveBeenCalledTimes(1);
     });

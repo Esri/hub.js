@@ -1,6 +1,6 @@
 import {
   HubEventAttendanceType,
-  HubEventOnlineCapacityType,
+  HubEventCapacityType,
 } from "../../events/types";
 import { IWithPermissions, IWithSlug } from "../traits";
 import { IHubItemEntity, IHubItemEntityEditor } from "./IHubItemEntity";
@@ -118,7 +118,7 @@ export interface IHubEvent extends IHubItemEntity, IWithPermissions, IWithSlug {
   /**
    * The capacity type for an online event, either `unlimited` or `fixed`
    */
-  onlineCapacityType?: HubEventOnlineCapacityType;
+  onlineCapacityType?: HubEventCapacityType;
 
   /**
    * The details for an online event
