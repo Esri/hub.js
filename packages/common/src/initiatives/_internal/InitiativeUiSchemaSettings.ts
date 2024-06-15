@@ -23,7 +23,7 @@ export const buildUiSchema = async (
           {
             type: "Control",
             scope: "/properties/view/properties/mapSettings",
-            labelKey: `${i18nScope}.fields.map.label`,
+            labelKey: `${i18nScope}.fields.mapSettings.label`,
             options: {
               type: "Control",
               control: "hub-composite-input-map-settings",
