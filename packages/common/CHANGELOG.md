@@ -1,3 +1,10 @@
+## @esri/hub-common [14.146.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.146.0...@esri/hub-common@14.146.1) (2024-06-17)
+
+
+### Bug Fixes
+
+* actually makes hub:feature:workspace:user a valid permission ([#1555](https://github.com/Esri/hub.js/issues/1555)) ([21ed3a0](https://github.com/Esri/hub.js/commit/21ed3a0fe86b6d22bf1259f404b200311f7d2221))
+
 # @esri/hub-common [14.146.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.145.0...@esri/hub-common@14.146.0) (2024-06-14)
 
 
