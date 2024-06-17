@@ -1,3 +1,10 @@
+# @esri/hub-common [14.147.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.146.1...@esri/hub-common@14.147.0) (2024-06-17)
+
+
+### Features
+
+* **hub-common:** expose additional helpers for download format calculation and fix available format detection logic ([#1542](https://github.com/Esri/hub.js/issues/1542)) ([5b37b68](https://github.com/Esri/hub.js/commit/5b37b68d1a989cd546c012c0d3089dbe4e894f07))
+
 ## @esri/hub-common [14.146.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.146.0...@esri/hub-common@14.146.1) (2024-06-17)
 
 
