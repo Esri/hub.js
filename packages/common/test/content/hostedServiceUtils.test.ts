@@ -3,6 +3,7 @@ import { IFeatureServiceDefinition } from "@esri/arcgis-rest-types";
 import { IHubEditableContent } from "../../src";
 import {
   hasServiceCapability,
+  isAGOFeatureServiceUrl,
   isHostedFeatureServiceEntity,
   isHostedFeatureServiceItem,
   isHostedFeatureServiceMainEntity,
@@ -100,6 +101,29 @@ describe("isHostedFeatureServiceMainEntity", () => {
   it("returns false for other content entities", () => {
     const entity = { type: "PDF" } as IHubEditableContent;
     expect(isHostedFeatureServiceMainEntity(entity)).toBeFalsy();
+  });
+});
+
+describe("isAGOFeatureServiceUrl", () => {
+  it("returns true for AGO feature service URLs", () => {
+    const url =
+      "https://services.arcgis.com/:orgId/arcgis/rest/services/:serviceName/FeatureServer";
+    expect(isAGOFeatureServiceUrl(url)).toBeTruthy();
+  });
+
+  it("returns false for non-AGO feature service URLs", () => {
+    const url =
+      "https://custom-domain.com/rest/services/:serviceName/FeatureServer";
+    expect(isAGOFeatureServiceUrl(url)).toBeFalsy();
+  });
+
+  it("returns false for other URLs", () => {
+    const url = "https://example.com";
+    expect(isAGOFeatureServiceUrl(url)).toBeFalsy();
+  });
+  it("returns false for no URL", () => {
+    const url = undefined as unknown as string;
+    expect(isAGOFeatureServiceUrl(url)).toBeFalsy();
   });
 });
 

@@ -1,9 +1,10 @@
-import { IHubEditableContent } from "../../../../src/core/types/IHubEditableContent";
-import * as canUseCreateReplicaModule from "../../../../src/downloads/canUseCreateReplica";
-import * as getCreateReplicaFormatsModule from "../../../../src/downloads/_internal/format-fetchers/getCreateReplicaFormats";
-import * as getPagingJobFormatsModule from "../../../../src/downloads/_internal/format-fetchers/getPagingJobFormats";
-import { getHubDownloadApiFormats } from "../../../../src/downloads/_internal/format-fetchers/getHubDownloadApiFormats";
-import { ServiceDownloadFormat } from "../../../../src";
+import { IHubEditableContent } from "../../src/core/types/IHubEditableContent";
+import * as canUseCreateReplicaModule from "../../src/downloads/canUseCreateReplica";
+import * as canUseHubDownloadSystemModule from "../../src/downloads/canUseHubDownloadSystem";
+import * as getCreateReplicaFormatsModule from "../../src/downloads/_internal/format-fetchers/getCreateReplicaFormats";
+import * as getPagingJobFormatsModule from "../../src/downloads/_internal/format-fetchers/getPagingJobFormats";
+import { getHubDownloadApiFormats } from "../../src/downloads/getHubDownloadApiFormats";
+import { ServiceDownloadFormat } from "../../src";
 describe("getHubDownloadApiFormats", () => {
   it("should return create replica formats if supported by entity", () => {
     const entity = {
@@ -29,10 +30,14 @@ describe("getHubDownloadApiFormats", () => {
     expect(getCreateReplicaFormatsSpy).toHaveBeenCalledWith(entity);
     expect(getPagingJobFormatsSpy).not.toHaveBeenCalled();
   });
-  it("else should return paging job formats", () => {
+  it("else should should return paging job formats if supported by entity", () => {
     spyOn(canUseCreateReplicaModule, "canUseCreateReplica").and.returnValue(
       false
     );
+    spyOn(
+      canUseHubDownloadSystemModule,
+      "canUseHubDownloadSystem"
+    ).and.returnValue(true);
     const pagingJobFormats = [{ format: ServiceDownloadFormat.JSON }];
     const getCreateReplicaFormatsSpy = spyOn(
       getCreateReplicaFormatsModule,
@@ -50,5 +55,28 @@ describe("getHubDownloadApiFormats", () => {
     );
     expect(getCreateReplicaFormatsSpy).not.toHaveBeenCalled();
     expect(getPagingJobFormatsSpy).toHaveBeenCalledTimes(1);
+  });
+  it("returns an empty array if paging and create replica are not supported by entity", () => {
+    spyOn(canUseCreateReplicaModule, "canUseCreateReplica").and.returnValue(
+      false
+    );
+    spyOn(
+      canUseHubDownloadSystemModule,
+      "canUseHubDownloadSystem"
+    ).and.returnValue(false);
+    const getCreateReplicaFormatsSpy = spyOn(
+      getCreateReplicaFormatsModule,
+      "getCreateReplicaFormats"
+    );
+    const getPagingJobFormatsSpy = spyOn(
+      getPagingJobFormatsModule,
+      "getPagingJobFormats"
+    );
+    const result = getHubDownloadApiFormats(
+      {} as unknown as IHubEditableContent
+    );
+    expect(result).toEqual([]);
+    expect(getCreateReplicaFormatsSpy).not.toHaveBeenCalled();
+    expect(getPagingJobFormatsSpy).not.toHaveBeenCalled();
   });
 });
