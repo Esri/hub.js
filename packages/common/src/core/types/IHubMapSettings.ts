@@ -3,5 +3,6 @@
  */
 export interface IHubMapSettings {
   // the item id for the map or scene
+  // this is an array to support integration with the gallery picker
   baseViewItemId: string[];
 }
