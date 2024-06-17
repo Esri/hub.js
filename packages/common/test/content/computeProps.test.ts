@@ -160,13 +160,14 @@ describe("content computeProps", () => {
     };
     const enrichments: IHubEditableContentEnrichments = {
       server: {
-        capabilities: "Extract",
+        capabilities: "Extract,Query",
         supportedExportFormats: "csv,geojson",
       } as unknown as IHubEditableContentEnrichments["server"],
     };
 
     const chk = computeProps(model, content, requestOptions, enrichments);
     expect(chk.serverExtractCapability).toBeTruthy();
+    expect(chk.serverQueryCapability).toBeTruthy();
     expect(chk.serverExtractFormats).toEqual(["csv", "geojson"]);
   });
 

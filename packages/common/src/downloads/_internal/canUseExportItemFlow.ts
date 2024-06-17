@@ -1,4 +1,4 @@
-import { isHostedFeatureServiceEntity } from "../../content/hostedServiceUtils";
+import { isHostedFeatureServiceMainEntity } from "../../content/hostedServiceUtils";
 import { IHubEditableContent } from "../../core/types/IHubEditableContent";
 
 /**
@@ -8,5 +8,5 @@ import { IHubEditableContent } from "../../core/types/IHubEditableContent";
  * @returns whether the export item flow can be used
  */
 export function canUseExportItemFlow(entity: IHubEditableContent): boolean {
-  return isHostedFeatureServiceEntity(entity);
+  return isHostedFeatureServiceMainEntity(entity);
 }

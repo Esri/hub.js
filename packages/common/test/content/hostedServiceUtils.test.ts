@@ -3,12 +3,16 @@ import { IFeatureServiceDefinition } from "@esri/arcgis-rest-types";
 import { IHubEditableContent } from "../../src";
 import {
   hasServiceCapability,
+  isAGOFeatureServiceUrl,
   isHostedFeatureServiceEntity,
   isHostedFeatureServiceItem,
+  isHostedFeatureServiceMainEntity,
+  isHostedFeatureServiceMainItem,
   ServiceCapabilities,
   toggleServiceCapability,
 } from "../../src/content/hostedServiceUtils";
 
+// NOTE: isHostedFeatureServiceItem is deprecated. Remove this test when the function is removed.
 describe("isHostedFeatureServiceItem", () => {
   beforeAll(() => {
     // suppress deprecation warnings
@@ -30,7 +34,37 @@ describe("isHostedFeatureServiceItem", () => {
   });
 });
 
+describe("isHostedFeatureServiceMainItem", () => {
+  it("returns true for hosted feature service main items", () => {
+    const item = {
+      type: "Feature Service",
+      typeKeywords: ["Hosted Service"],
+    } as IItem;
+
+    expect(isHostedFeatureServiceMainItem(item)).toBeTruthy();
+  });
+
+  it("returns false for hosted feature service reference items", () => {
+    const item = {
+      type: "Feature Service",
+    } as IItem;
+
+    expect(isHostedFeatureServiceMainItem(item)).toBeFalsy();
+  });
+
+  it("returns false for other items", () => {
+    const item = { type: "PDF" } as IItem;
+    expect(isHostedFeatureServiceMainItem(item)).toBeFalsy();
+  });
+});
+
+// NOTE: isHostedFeatureServiceEntity is deprecated. Remove this test when the function is removed.
 describe("isHostedFeatureServiceEntity", () => {
+  beforeAll(() => {
+    // suppress deprecation warnings
+    // tslint:disable-next-line: no-empty
+    spyOn(console, "warn").and.callFake(() => {});
+  });
   it("returns true for hosted feature service content entities", () => {
     const entity = {
       type: "Feature Service",
@@ -43,6 +77,53 @@ describe("isHostedFeatureServiceEntity", () => {
   it("returns false for other content entities", () => {
     const entity = { type: "PDF" } as IHubEditableContent;
     expect(isHostedFeatureServiceEntity(entity)).toBeFalsy();
+  });
+});
+
+describe("isHostedFeatureServiceMainEntity", () => {
+  it("returns true for main hosted feature service content entities", () => {
+    const entity = {
+      type: "Feature Service",
+      typeKeywords: ["Hosted Service"],
+    } as IHubEditableContent;
+
+    expect(isHostedFeatureServiceMainEntity(entity)).toBeTruthy();
+  });
+
+  it("returns false for reference hosted feature service content entities", () => {
+    const entity = {
+      type: "Feature Service",
+    } as IHubEditableContent;
+
+    expect(isHostedFeatureServiceMainEntity(entity)).toBeFalsy();
+  });
+
+  it("returns false for other content entities", () => {
+    const entity = { type: "PDF" } as IHubEditableContent;
+    expect(isHostedFeatureServiceMainEntity(entity)).toBeFalsy();
+  });
+});
+
+describe("isAGOFeatureServiceUrl", () => {
+  it("returns true for AGO feature service URLs", () => {
+    const url =
+      "https://services.arcgis.com/:orgId/arcgis/rest/services/:serviceName/FeatureServer";
+    expect(isAGOFeatureServiceUrl(url)).toBeTruthy();
+  });
+
+  it("returns false for non-AGO feature service URLs", () => {
+    const url =
+      "https://custom-domain.com/rest/services/:serviceName/FeatureServer";
+    expect(isAGOFeatureServiceUrl(url)).toBeFalsy();
+  });
+
+  it("returns false for other URLs", () => {
+    const url = "https://example.com";
+    expect(isAGOFeatureServiceUrl(url)).toBeFalsy();
+  });
+  it("returns false for no URL", () => {
+    const url = undefined as unknown as string;
+    expect(isAGOFeatureServiceUrl(url)).toBeFalsy();
   });
 });
 

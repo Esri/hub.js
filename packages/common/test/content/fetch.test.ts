@@ -19,8 +19,10 @@ import {
   HOSTED_FEATURE_SERVICE_GUID,
   HOSTED_FEATURE_SERVICE_ITEM,
   HOSTED_FEATURE_SERVICE_URL,
-  NON_HOSTED_FEATURE_SERVICE_GUID,
-  NON_HOSTED_FEATURE_SERVICE_ITEM,
+  MAP_SERVICE_DEFINITION,
+  MAP_SERVICE_GUID,
+  MAP_SERVICE_ITEM,
+  MAP_SERVICE_URL,
   PDF_GUID,
   PDF_ITEM,
 } from "./fixtures";
@@ -673,7 +675,7 @@ describe("fetchContent", () => {
 });
 
 describe("fetchHubContent", () => {
-  it("gets hosted feature service", async () => {
+  it("gets feature service content", async () => {
     const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
       Promise.resolve(HOSTED_FEATURE_SERVICE_ITEM)
     );
@@ -693,6 +695,7 @@ describe("fetchHubContent", () => {
     expect(chk.id).toBe(HOSTED_FEATURE_SERVICE_GUID);
     expect(chk.owner).toBe(HOSTED_FEATURE_SERVICE_ITEM.owner);
     expect(chk.serverExtractCapability).toBeTruthy();
+    expect(chk.serverQueryCapability).toBeTruthy();
 
     expect(getItemSpy.calls.count()).toBe(1);
     expect(getItemSpy.calls.argsFor(0)[0]).toBe(HOSTED_FEATURE_SERVICE_GUID);
@@ -709,37 +712,37 @@ describe("fetchHubContent", () => {
     expect(fetchItemEnrichmentsSpy.calls.argsFor(1)[1]).toEqual(["metadata"]);
   });
 
-  it("gets non-hosted feature service", async () => {
+  it("gets map service content", async () => {
     const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
-      Promise.resolve(NON_HOSTED_FEATURE_SERVICE_ITEM)
+      Promise.resolve(MAP_SERVICE_ITEM)
     );
-    const getServiceSpy = spyOn(featureLayerModule, "getService");
+    const getServiceSpy = spyOn(
+      featureLayerModule,
+      "getService"
+    ).and.returnValue(MAP_SERVICE_DEFINITION);
     const fetchItemEnrichmentsSpy = spyOn(
       _enrichmentsModule,
       "fetchItemEnrichments"
     ).and.returnValue({ metadata: null });
 
-    const chk = await fetchHubContent(NON_HOSTED_FEATURE_SERVICE_GUID, {
+    const chk = await fetchHubContent(MAP_SERVICE_GUID, {
       portal: MOCK_AUTH.portal,
       authentication: MOCK_AUTH,
     });
-    expect(chk.id).toBe(NON_HOSTED_FEATURE_SERVICE_GUID);
-    expect(chk.owner).toBe(NON_HOSTED_FEATURE_SERVICE_ITEM.owner);
+    expect(chk.id).toBe(MAP_SERVICE_GUID);
+    expect(chk.owner).toBe(MAP_SERVICE_ITEM.owner);
     expect(chk.serverExtractCapability).toBeFalsy();
+    expect(chk.serverQueryCapability).toBeTruthy();
 
     expect(getItemSpy.calls.count()).toBe(1);
-    expect(getItemSpy.calls.argsFor(0)[0]).toBe(
-      NON_HOSTED_FEATURE_SERVICE_GUID
-    );
+    expect(getItemSpy.calls.argsFor(0)[0]).toBe(MAP_SERVICE_GUID);
+    expect(getServiceSpy.calls.count()).toBe(1);
+    expect(getServiceSpy.calls.argsFor(0)[0].url).toBe(MAP_SERVICE_URL);
     // NOTE: the first call to fetchItemEnrichments is done by fetchContent under the hood,
     // while the second call is done by fetchHubContent. We only care about the second call here
     expect(fetchItemEnrichmentsSpy.calls.count()).toBe(2);
-    expect(fetchItemEnrichmentsSpy.calls.argsFor(1)[0]).toBe(
-      NON_HOSTED_FEATURE_SERVICE_ITEM
-    );
+    expect(fetchItemEnrichmentsSpy.calls.argsFor(1)[0]).toBe(MAP_SERVICE_ITEM);
     expect(fetchItemEnrichmentsSpy.calls.argsFor(1)[1]).toEqual(["metadata"]);
-    // Service definition isn't fetched for non-hosted feature services
-    expect(getServiceSpy.calls.count()).toBe(0);
   });
 
   it("gets non-service content", async () => {

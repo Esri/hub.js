@@ -60,6 +60,10 @@ export function computeProps(
   content.schedule = enrichments.schedule;
 
   if (enrichments.server) {
+    content.serverQueryCapability = hasServiceCapability(
+      ServiceCapabilities.QUERY,
+      enrichments.server
+    );
     content.serverExtractCapability = hasServiceCapability(
       ServiceCapabilities.EXTRACT,
       enrichments.server

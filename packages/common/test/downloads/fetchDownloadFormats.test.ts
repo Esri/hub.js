@@ -1,5 +1,5 @@
 import * as canUseHubDownloadApiModule from "../../src/downloads/canUseHubDownloadApi";
-import * as getHubDownloadApiFormatsModule from "../../src/downloads/_internal/format-fetchers/getHubDownloadApiFormats";
+import * as getHubDownloadApiFormatsModule from "../../src/downloads/getHubDownloadApiFormats";
 import * as canUseExportItemFlowModule from "../../src/downloads/_internal/canUseExportItemFlow";
 import * as fetchExportItemFormatsModule from "../../src/downloads/_internal/format-fetchers/fetchExportItemFormats";
 import * as canUseExportImageFlowModule from "../../src/downloads/_internal/canUseExportImageFlow";

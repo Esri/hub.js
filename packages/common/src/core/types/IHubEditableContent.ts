@@ -16,12 +16,17 @@ export interface IHubEditableContent
    */
   licenseInfo: string;
   /**
-   * If the item represents a hosted feature service, shows whether the service has the "Extract"
-   * capability enabled. This is a pre-requisite for Hosted Downloads to work.
+   * If the item represents a feature or map service, shows whether the service has the
+   * "Query" capability enabled. This is a pre-requisite for the Hub Download System to work.
+   */
+  serverQueryCapability?: boolean;
+  /**
+   * If the item represents a feature service, shows whether the service has the "Extract"
+   * capability enabled. This is a pre-requisite for Create Replica Downloads to work.
    */
   serverExtractCapability?: boolean;
   /**
-   * If the item represents a hosted feature service with "Extract enabled", shows the formats that
+   * If the item represents a feature service with "Extract enabled", shows the formats that
    * can be extracted from the service via the "createReplica" operation.
    */
   serverExtractFormats?: string[];

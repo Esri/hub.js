@@ -1,6 +1,5 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import {
-  IItem,
   IPortal,
   IUserItemOptions,
   getItem,
@@ -19,7 +18,6 @@ import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { cloneObject } from "../util";
 import { IModel } from "../types";
-import { getProp } from "../objects/get-prop";
 import { setDiscussableKeyword } from "../discussions";
 import { modelToHubEditableContent } from "./fetch";
 import {
@@ -30,7 +28,7 @@ import {
 import { updateServiceDefinition } from "@esri/arcgis-rest-service-admin";
 import {
   hasServiceCapability,
-  isHostedFeatureServiceEntity,
+  isHostedFeatureServiceMainEntity,
   ServiceCapabilities,
   toggleServiceCapability,
 } from "./hostedServiceUtils";
@@ -147,7 +145,12 @@ export async function updateContent(
 
   // update enrichment values
   const enrichments: IItemAndIServerEnrichments = {};
-  if (isHostedFeatureServiceEntity(content)) {
+
+  // NOTE: Due to platform limitations, The only way we can guarantee that a user can update the
+  // service definition without performing a no-op update is if the user has edit rights to the
+  // "main" item of the hosted feature service. Just like AGO, we don't allow users to update the
+  // service if the current item is just a reference to a pre-existing service.
+  if (isHostedFeatureServiceMainEntity(content)) {
     const currentDefinition = await getService({
       ...requestOptions,
       url: content.url,
