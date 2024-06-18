@@ -816,7 +816,7 @@ describe("fetchHubContent", () => {
   });
 
   it("handles when an error is thrown", async () => {
-    spyOn(console, "warn").and.callFake(() => null);
+    spyOn(console, "warn").and.callFake((): any => null);
 
     const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
       Promise.resolve(PDF_ITEM)
