@@ -1,3 +1,10 @@
+## @esri/hub-common [14.148.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.148.0...@esri/hub-common@14.148.1) (2024-06-18)
+
+
+### Bug Fixes
+
+* **hub-common:** swallow errors when trying to fetch enrichments in fetchHubContent ([#1557](https://github.com/Esri/hub.js/issues/1557)) ([3b6f37e](https://github.com/Esri/hub.js/commit/3b6f37e722322d7dba2e0beb9f29048da2fb396e))
+
 # @esri/hub-common [14.148.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.147.0...@esri/hub-common@14.148.0) (2024-06-18)
 
 
