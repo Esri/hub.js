@@ -1,3 +1,10 @@
+# @esri/hub-common [14.148.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.147.0...@esri/hub-common@14.148.0) (2024-06-18)
+
+
+### Features
+
+* **hub-common:** adds map settings configuration to initiative entity ([#1541](https://github.com/Esri/hub.js/issues/1541)) ([49e8659](https://github.com/Esri/hub.js/commit/49e8659fb6df828c9ae73933b038a17bd05e04ef))
+
 # @esri/hub-common [14.147.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.146.1...@esri/hub-common@14.147.0) (2024-06-17)
 
 
