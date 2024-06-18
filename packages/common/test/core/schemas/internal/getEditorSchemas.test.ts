@@ -11,6 +11,7 @@ import * as InitiativeBuildEditUiSchema from "../../../../src/initiatives/_inter
 import * as InitiativeBuildCreateUiSchema from "../../../../src/initiatives/_internal/InitiativeUiSchemaCreate";
 import * as InitiativeBuildMetricUiSchema from "../../../../src/core/schemas/internal/metrics/InitiativeUiSchemaMetrics";
 import * as InitiativeBuildAssociationsUiSchema from "../../../../src/initiatives/_internal/InitiativeUiSchemaAssociations";
+import * as InitiativeBuildSettingsUiSchema from "../../../../src/initiatives/_internal/InitiativeUiSchemaSettings";
 
 import { SiteEditorTypes } from "../../../../src/sites/_internal/SiteSchema";
 import * as SiteBuildEditUiSchema from "../../../../src/sites/_internal/SiteUiSchemaEdit";
@@ -84,6 +85,7 @@ describe("getEditorSchemas: ", () => {
       type: InitiativeEditorTypes[3],
       module: InitiativeBuildAssociationsUiSchema,
     },
+    { type: InitiativeEditorTypes[4], module: InitiativeBuildSettingsUiSchema },
 
     { type: SiteEditorTypes[0], module: SiteBuildEditUiSchema },
     { type: SiteEditorTypes[1], module: SiteBuildCreateUiSchema },

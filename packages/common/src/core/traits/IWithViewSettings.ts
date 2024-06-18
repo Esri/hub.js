@@ -1,5 +1,10 @@
 import { HubEntityHero } from "../../types";
-import { IHubTimeline, IMetricDisplayConfig, HubActionLink } from "../types";
+import {
+  IHubTimeline,
+  IMetricDisplayConfig,
+  HubActionLink,
+  IHubMapSettings,
+} from "../types";
 
 /**
  * Properties to be exclusively displayed on an entity's
@@ -26,6 +31,10 @@ export interface IWithViewSettings {
    * name of an entity's featured image
    */
   featuredImageName?: string;
+  /**
+   * configuration settings for the entity map
+   */
+  mapSettings?: IHubMapSettings;
   /**
    * whether the entity should render it's location on a map
    */
