@@ -33,10 +33,10 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
-import { isHostedFeatureServiceItem } from "./hostedServiceUtils";
 import { setProp } from "../objects";
 import { getSchedule, isDownloadSchedulingAvailable } from "./manageSchedule";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { isMapOrFeatureServerUrl } from "../urls";
 
 const hasFeatures = (contentType: string) =>
   ["Feature Layer", "Table"].includes(contentType);
@@ -266,33 +266,36 @@ export const fetchHubContent = async (
   setProp("type", type, item);
 
   const model = { item };
-  const enrichments: IHubEditableContentEnrichments = {};
+  const entityEnrichments: IHubEditableContentEnrichments = {};
 
-  const { metadata } = await fetchItemEnrichments(
+  const enrichmentKeys: ItemOrServerEnrichment[] = ["metadata"];
+  isMapOrFeatureServerUrl(item.url) && enrichmentKeys.push("server");
+
+  const itemAndServerEnrichments = await fetchItemEnrichments(
     item,
-    ["metadata"],
+    enrichmentKeys,
     requestOptions as IHubRequestOptions
   );
 
-  enrichments.metadata = metadata;
+  entityEnrichments.metadata = itemAndServerEnrichments.metadata;
+  entityEnrichments.server = itemAndServerEnrichments.server;
 
-  if (isHostedFeatureServiceItem(item)) {
-    enrichments.server = await getService({
-      ...requestOptions,
-      url: parseServiceUrl(item.url),
-    });
-  }
-
+  // TODO: should we add scheduling to the fetchItemEnrichments() subsystem?
   if (
     isDownloadSchedulingAvailable(requestOptions as IHubRequestOptions, access)
   ) {
-    // fetch schedule and add it to enrichments if it exists in schedule API
-    enrichments.schedule = (
-      await getSchedule(item.id, requestOptions as IUserRequestOptions)
-    ).schedule || { mode: "automatic" };
+    try {
+      // fetch schedule and add it to enrichments if it exists in schedule API
+      entityEnrichments.schedule = (
+        await getSchedule(item.id, requestOptions as IUserRequestOptions)
+      ).schedule || { mode: "automatic" };
+    } catch (error) {
+      /* tslint:disable no-console */
+      console.warn("Failed to fetch schedule for item", item.id, error);
+    }
   }
 
-  return modelToHubEditableContent(model, requestOptions, enrichments);
+  return modelToHubEditableContent(model, requestOptions, entityEnrichments);
 };
 
 export function modelToHubEditableContent(

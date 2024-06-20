@@ -1,3 +1,24 @@
+## @esri/hub-common [14.148.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.148.0...@esri/hub-common@14.148.1) (2024-06-18)
+
+
+### Bug Fixes
+
+* **hub-common:** swallow errors when trying to fetch enrichments in fetchHubContent ([#1557](https://github.com/Esri/hub.js/issues/1557)) ([3b6f37e](https://github.com/Esri/hub.js/commit/3b6f37e722322d7dba2e0beb9f29048da2fb396e))
+
+# @esri/hub-common [14.148.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.147.0...@esri/hub-common@14.148.0) (2024-06-18)
+
+
+### Features
+
+* **hub-common:** adds map settings configuration to initiative entity ([#1541](https://github.com/Esri/hub.js/issues/1541)) ([49e8659](https://github.com/Esri/hub.js/commit/49e8659fb6df828c9ae73933b038a17bd05e04ef))
+
+# @esri/hub-common [14.147.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.146.1...@esri/hub-common@14.147.0) (2024-06-17)
+
+
+### Features
+
+* **hub-common:** expose additional helpers for download format calculation and fix available format detection logic ([#1542](https://github.com/Esri/hub.js/issues/1542)) ([5b37b68](https://github.com/Esri/hub.js/commit/5b37b68d1a989cd546c012c0d3089dbe4e894f07))
+
 ## @esri/hub-common [14.146.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.146.0...@esri/hub-common@14.146.1) (2024-06-17)
 
 

@@ -8,7 +8,7 @@ import {
 } from "../../core/schemas/types";
 import { IHubEditableContent } from "../../core/types/IHubEditableContent";
 import { checkPermission } from "../../permissions/checkPermission";
-import { isHostedFeatureServiceEntity } from "../hostedServiceUtils";
+import { isHostedFeatureServiceMainEntity } from "../hostedServiceUtils";
 
 /**
  * @private
@@ -100,7 +100,7 @@ export const buildUiSchema = async (
     });
   }
 
-  if (isHostedFeatureServiceEntity(options as IHubEditableContent)) {
+  if (isHostedFeatureServiceMainEntity(options as IHubEditableContent)) {
     uiSchema.elements.push({
       type: "Section",
       labelKey: `${i18nScope}.sections.downloads.label`,

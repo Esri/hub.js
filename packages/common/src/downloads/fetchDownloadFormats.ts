@@ -21,7 +21,7 @@ export async function fetchDownloadFormats(
   let baseFormats: IDownloadFormat[] = [];
   if (canUseHubDownloadApi(entity, context)) {
     const { getHubDownloadApiFormats } = await import(
-      "./_internal/format-fetchers/getHubDownloadApiFormats"
+      "./getHubDownloadApiFormats"
     );
     baseFormats = getHubDownloadApiFormats(entity);
   } else if (canUseExportItemFlow(entity)) {
