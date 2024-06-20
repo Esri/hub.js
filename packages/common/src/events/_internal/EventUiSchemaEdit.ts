@@ -2,11 +2,11 @@ import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import { IArcGISContext } from "../../ArcGISContext";
 import { getDatePickerDate } from "../../utils/date/getDatePickerDate";
 import { IHubEvent } from "../../core/types/IHubEvent";
-import { getCategoryItems } from "../../core/schemas/internal/getCategoryItems";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { HubEventAttendanceType, HubEventCapacityType } from "../types";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
+import { fetchCategoriesUiSchemaElement } from "../../core/schemas/internal/fetchCategoriesUiSchemaElement";
 
 /**
  * @private
@@ -433,24 +433,7 @@ export const buildUiSchema = async (
               },
             },
           },
-          {
-            labelKey: `${i18nScope}.fields.categories.label`,
-            scope: "/properties/categories",
-            type: "Control",
-            options: {
-              control: "hub-field-input-combobox",
-              items: await getCategoryItems(
-                context.portal.id,
-                context.hubRequestOptions
-              ),
-              allowCustomValues: false,
-              selectionMode: "ancestors",
-              placeholderIcon: "select-category",
-              helperText: {
-                labelKey: `${i18nScope}.fields.categories.helperText`,
-              },
-            },
-          },
+          await fetchCategoriesUiSchemaElement(i18nScope, context),
           {
             labelKey: `${i18nScope}.fields.summary.label`,
             scope: "/properties/summary",

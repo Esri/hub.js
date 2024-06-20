@@ -1,11 +1,11 @@
 import { IArcGISContext } from "../../ArcGISContext";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
-import { getCategoryItems } from "../../core/schemas/internal/getCategoryItems";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { IUiSchema } from "../../core/schemas/types";
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 import { IHubEditableContent } from "../../core/types";
+import { fetchCategoriesUiSchemaElement } from "../../core/schemas/internal/fetchCategoriesUiSchemaElement";
 
 /**
  * @private
@@ -109,24 +109,7 @@ export const buildUiSchema = async (
             },
           },
           // categories
-          {
-            labelKey: `${i18nScope}.fields.categories.label`,
-            scope: "/properties/categories",
-            type: "Control",
-            options: {
-              control: "hub-field-input-combobox",
-              items: await getCategoryItems(
-                context.portal.id,
-                context.hubRequestOptions
-              ),
-              allowCustomValues: false,
-              selectionMode: "ancestors",
-              placeholderIcon: "select-category",
-              helperText: {
-                labelKey: `${i18nScope}.fields.categories.agolHint`, // TODO: hint should describe whether it can be set on Enterprise or Online
-              },
-            },
-          },
+          await fetchCategoriesUiSchemaElement(i18nScope, context),
           // license
           {
             labelKey: `${i18nScope}.fields.license.label`,
