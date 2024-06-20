@@ -19,7 +19,7 @@ export function processAttendeeFilters(
 
   const userId = getOptionalPredicateStringsByKey(query.filters, "userId");
   if (userId?.length) {
-    processedFilters.userId = userId[0];
+    processedFilters.userId = userId;
   }
 
   const term = getPredicateValuesByKey(query.filters, "term");

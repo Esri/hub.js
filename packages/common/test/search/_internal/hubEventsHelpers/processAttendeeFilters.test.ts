@@ -82,7 +82,7 @@ describe("processAttendeeFilters", () => {
     });
     expect(results).toEqual({
       eventId: "an event id",
-      userId: "u",
+      userId: "user1",
       // @ts-ignore
       name: "abc",
       role: "owner,organizer,attendee",
