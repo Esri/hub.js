@@ -250,6 +250,13 @@ export interface IUiSchemaMessage {
   labelKey?: string;
   icon?: boolean | string;
   kind?: "brand" | "danger" | "info" | "success" | "warning";
+  link?: {
+    href: string;
+    label?: string;
+    labelKey?: string;
+    target?: string;
+    iconEnd?: string;
+  };
   hidden?: boolean;
   // NOTE: condition is deprecated and remains for backwards compatibility only. Please use conditions instead.
   condition?: IUiSchemaCondition;
