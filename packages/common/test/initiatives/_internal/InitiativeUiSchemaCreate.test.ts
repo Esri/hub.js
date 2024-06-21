@@ -127,13 +127,33 @@ describe("buildUiSchema: initiative create", () => {
                 {
                   type: "Section",
                   labelKey: "some.scope.sections.location.label",
-                  rule: {
-                    effect: UiSchemaRuleEffects.HIDE,
-                    condition: {
-                      scope: "/properties/view/properties/hero",
-                      schema: { const: "image" },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.DISABLE,
+                      conditions: [
+                        {
+                          scope: "/properties/name",
+                          schema: { const: "" },
+                        },
+                      ],
                     },
-                  },
+                    {
+                      effect: UiSchemaRuleEffects.DISABLE,
+                      conditions: [
+                        {
+                          scope: "/properties/name",
+                          schema: { minLength: 250 },
+                        },
+                      ],
+                    },
+                    {
+                      effect: UiSchemaRuleEffects.DISABLE,
+                      condition: {
+                        scope: "/properties/summary",
+                        schema: { minLength: 2048 },
+                      },
+                    },
+                  ],
                   options: {
                     helperText: {
                       labelKey: "some.scope.sections.location.helperText",
@@ -442,13 +462,33 @@ describe("buildUiSchema: initiative create", () => {
               options: {
                 section: "step",
               },
-              rule: {
-                effect: UiSchemaRuleEffects.DISABLE,
-                condition: {
-                  scope: "/properties/name",
-                  schema: { const: "" },
+              rules: [
+                {
+                  effect: UiSchemaRuleEffects.DISABLE,
+                  conditions: [
+                    {
+                      scope: "/properties/name",
+                      schema: { const: "" },
+                    },
+                  ],
                 },
-              },
+                {
+                  effect: UiSchemaRuleEffects.DISABLE,
+                  conditions: [
+                    {
+                      scope: "/properties/name",
+                      schema: { minLength: 250 },
+                    },
+                  ],
+                },
+                {
+                  effect: UiSchemaRuleEffects.DISABLE,
+                  condition: {
+                    scope: "/properties/summary",
+                    schema: { minLength: 2048 },
+                  },
+                },
+              ],
               elements: [
                 {
                   scope: "/properties/access",

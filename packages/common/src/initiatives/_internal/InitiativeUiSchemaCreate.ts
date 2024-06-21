@@ -109,13 +109,33 @@ export const buildUiSchema = async (
             options: {
               section: "step",
             },
-            rule: {
-              effect: UiSchemaRuleEffects.DISABLE,
-              condition: {
-                scope: "/properties/name",
-                schema: { const: "" },
+            rules: [
+              {
+                effect: UiSchemaRuleEffects.DISABLE,
+                conditions: [
+                  {
+                    scope: "/properties/name",
+                    schema: { const: "" },
+                  },
+                ],
               },
-            },
+              {
+                effect: UiSchemaRuleEffects.DISABLE,
+                conditions: [
+                  {
+                    scope: "/properties/name",
+                    schema: { minLength: 250 },
+                  },
+                ],
+              },
+              {
+                effect: UiSchemaRuleEffects.DISABLE,
+                condition: {
+                  scope: "/properties/summary",
+                  schema: { minLength: 2048 },
+                },
+              },
+            ],
             elements: [
               {
                 type: "Section",
@@ -206,13 +226,33 @@ export const buildUiSchema = async (
             options: {
               section: "step",
             },
-            rule: {
-              effect: UiSchemaRuleEffects.DISABLE,
-              condition: {
-                scope: "/properties/name",
-                schema: { const: "" },
+            rules: [
+              {
+                effect: UiSchemaRuleEffects.DISABLE,
+                conditions: [
+                  {
+                    scope: "/properties/name",
+                    schema: { const: "" },
+                  },
+                ],
               },
-            },
+              {
+                effect: UiSchemaRuleEffects.DISABLE,
+                conditions: [
+                  {
+                    scope: "/properties/name",
+                    schema: { minLength: 250 },
+                  },
+                ],
+              },
+              {
+                effect: UiSchemaRuleEffects.DISABLE,
+                condition: {
+                  scope: "/properties/summary",
+                  schema: { minLength: 2048 },
+                },
+              },
+            ],
             elements: [
               {
                 scope: "/properties/access",
