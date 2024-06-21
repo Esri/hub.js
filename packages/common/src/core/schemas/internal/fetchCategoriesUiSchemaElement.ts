@@ -48,7 +48,6 @@ export async function fetchCategoriesUiSchemaElement(
         display: "notice",
         kind: "warning",
         icon: "exclamation-mark-triangle",
-        titleKey: "shared.fields.categories.noCategoriesNotice.title",
         labelKey: "shared.fields.categories.noCategoriesNotice.body",
         link: {
           href: "https://doc.arcgis.com/en/arcgis-online/reference/content-categories.htm",
