@@ -37,5 +37,8 @@ describe("fetchCategoriesUiSchemaElement:", () => {
     expect(uiSchema.options?.messages[0].labelKey).toBe(
       "shared.fields.categories.noCategoriesNotice.body"
     );
+    expect(uiSchema.options?.messages[0].link.label).toBe(
+      "{{shared.fields.categories.noCategoriesNotice.link:translate}}"
+    );
   });
 });

@@ -50,10 +50,12 @@ export async function fetchCategoriesUiSchemaElement(
         icon: "exclamation-mark-triangle",
         labelKey: "shared.fields.categories.noCategoriesNotice.body",
         link: {
+          kind: "external",
+          label:
+            "{{shared.fields.categories.noCategoriesNotice.link:translate}}",
           href: "https://doc.arcgis.com/en/arcgis-online/reference/content-categories.htm",
-          labelKey: "shared.fields.categories.noCategoriesNotice.link",
           target: "_blank",
-          iconEnd: "launch",
+          icon: "launch",
         },
         allowShowBeforeInteract: true,
         alwaysShow: true,
