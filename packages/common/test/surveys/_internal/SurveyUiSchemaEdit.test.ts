@@ -6,7 +6,12 @@ import * as getTagItemsModule from "../../../src/core/schemas/internal/getTagIte
 describe("buildUiSchema: survey edit", () => {
   it("returns the full survey edit uiSchema", async () => {
     spyOn(getCategoryItemsModule, "getCategoryItems").and.returnValue(
-      Promise.resolve([])
+      Promise.resolve([
+        {
+          value: "/categories",
+          label: "/categories",
+        },
+      ])
     );
     spyOn(getTagItemsModule, "getTagItems").and.returnValue(
       Promise.resolve([])
@@ -103,15 +108,23 @@ describe("buildUiSchema: survey edit", () => {
               },
             },
             {
-              labelKey: "some.scope.fields.categories.label",
+              labelKey: "shared.fields.categories.label",
               scope: "/properties/categories",
               type: "Control",
               options: {
                 control: "hub-field-input-combobox",
-                items: [],
+                items: [
+                  {
+                    value: "/categories",
+                    label: "/categories",
+                  },
+                ],
                 allowCustomValues: false,
                 selectionMode: "ancestors",
                 placeholderIcon: "select-category",
+                helperText: {
+                  labelKey: "some.scope.fields.categories.helperText",
+                },
               },
             },
             {

@@ -8,7 +8,12 @@ import * as getCategoryItemsModule from "../../../src/core/schemas/internal/getC
 describe("buildUiSchema: page edit", () => {
   it("returns the full page edit uiSchema", async () => {
     spyOn(getCategoryItemsModule, "getCategoryItems").and.returnValue(
-      Promise.resolve([])
+      Promise.resolve([
+        {
+          value: "/categories",
+          label: "/categories",
+        },
+      ])
     );
     spyOn(getLocationExtentModule, "getLocationExtent").and.returnValue(
       Promise.resolve([])
@@ -122,12 +127,17 @@ describe("buildUiSchema: page edit", () => {
               },
             },
             {
-              labelKey: "some.scope.fields.categories.label",
+              labelKey: "shared.fields.categories.label",
               scope: "/properties/categories",
               type: "Control",
               options: {
                 control: "hub-field-input-combobox",
-                items: [],
+                items: [
+                  {
+                    value: "/categories",
+                    label: "/categories",
+                  },
+                ],
                 allowCustomValues: false,
                 selectionMode: "ancestors",
                 placeholderIcon: "select-category",

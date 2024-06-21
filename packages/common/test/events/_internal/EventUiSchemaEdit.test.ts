@@ -510,7 +510,7 @@ describe("EventUiSchemaEdit", () => {
                 },
               },
               {
-                labelKey: `myI18nScope.fields.categories.label`,
+                labelKey: "shared.fields.categories.label",
                 scope: "/properties/categories",
                 type: "Control",
                 options: {
@@ -520,7 +520,7 @@ describe("EventUiSchemaEdit", () => {
                   selectionMode: "ancestors",
                   placeholderIcon: "select-category",
                   helperText: {
-                    labelKey: `myI18nScope.fields.categories.helperText`,
+                    labelKey: "myI18nScope.fields.categories.helperText",
                   },
                 },
               },

@@ -11,7 +11,12 @@ import * as getAuthedImageUrlModule from "../../../src/core/_internal/getAuthedI
 describe("buildUiSchema: initiative edit", () => {
   it("returns the full initiative edit uiSchema", async () => {
     spyOn(getCategoryItemsModule, "getCategoryItems").and.returnValue(
-      Promise.resolve([])
+      Promise.resolve([
+        {
+          value: "/categories",
+          label: "/categories",
+        },
+      ])
     );
     spyOn(getLocationExtentModule, "getLocationExtent").and.returnValue(
       Promise.resolve([])
@@ -189,12 +194,17 @@ describe("buildUiSchema: initiative edit", () => {
           labelKey: "some.scope.sections.searchDiscoverability.label",
           elements: [
             {
-              labelKey: "some.scope.fields.categories.label",
+              labelKey: "shared.fields.categories.label",
               scope: "/properties/categories",
               type: "Control",
               options: {
                 control: "hub-field-input-combobox",
-                items: [],
+                items: [
+                  {
+                    value: "/categories",
+                    label: "/categories",
+                  },
+                ],
                 allowCustomValues: false,
                 selectionMode: "ancestors",
                 placeholderIcon: "select-category",
@@ -301,7 +311,12 @@ describe("buildUiSchema: initiative edit", () => {
   });
   it("returns the full initiative edit uiSchema with a defined view", async () => {
     spyOn(getCategoryItemsModule, "getCategoryItems").and.returnValue(
-      Promise.resolve([])
+      Promise.resolve([
+        {
+          value: "/categories",
+          label: "/categories",
+        },
+      ])
     );
     spyOn(
       getFeaturedContentCatalogsModule,
@@ -482,12 +497,17 @@ describe("buildUiSchema: initiative edit", () => {
           labelKey: "some.scope.sections.searchDiscoverability.label",
           elements: [
             {
-              labelKey: "some.scope.fields.categories.label",
+              labelKey: "shared.fields.categories.label",
               scope: "/properties/categories",
               type: "Control",
               options: {
                 control: "hub-field-input-combobox",
-                items: [],
+                items: [
+                  {
+                    value: "/categories",
+                    label: "/categories",
+                  },
+                ],
                 allowCustomValues: false,
                 selectionMode: "ancestors",
                 placeholderIcon: "select-category",
