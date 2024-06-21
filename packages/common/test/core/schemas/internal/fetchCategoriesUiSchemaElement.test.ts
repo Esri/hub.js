@@ -1,10 +1,10 @@
 import { IArcGISContext } from "../../../../src/ArcGISContext";
 import { fetchCategoriesUiSchemaElement } from "../../../../src/core/schemas/internal/fetchCategoriesUiSchemaElement";
-import * as getCategoryItemsModule from "../../../../src/core/schemas/internal/getCategoryItems";
+import * as fetchCategoryItemsModule from "../../../../src/core/schemas/internal/fetchCategoryItems";
 
 describe("fetchCategoriesUiSchemaElement:", () => {
   it("excludes the no categories notice if category items are available", async () => {
-    spyOn(getCategoryItemsModule, "getCategoryItems").and.returnValue(
+    spyOn(fetchCategoryItemsModule, "fetchCategoryItems").and.returnValue(
       Promise.resolve([
         {
           value: "/categories",
@@ -23,7 +23,7 @@ describe("fetchCategoriesUiSchemaElement:", () => {
   });
 
   it("includes the no categories notice if category items are not available", async () => {
-    spyOn(getCategoryItemsModule, "getCategoryItems").and.returnValue(
+    spyOn(fetchCategoryItemsModule, "fetchCategoryItems").and.returnValue(
       Promise.resolve([])
     );
     const context = {

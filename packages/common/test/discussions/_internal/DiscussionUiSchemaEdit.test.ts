@@ -1,13 +1,13 @@
 import { buildUiSchema } from "../../../src/discussions/_internal/DiscussionUiSchemaEdit";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
-import * as getCategoryItemsModule from "../../../src/core/schemas/internal/getCategoryItems";
+import * as fetchCategoryItemsModule from "../../../src/core/schemas/internal/fetchCategoryItems";
 import * as getLocationExtentModule from "../../../src/core/schemas/internal/getLocationExtent";
 import * as getLocationOptionsModule from "../../../src/core/schemas/internal/getLocationOptions";
 import * as getTagItemsModule from "../../../src/core/schemas/internal/getTagItems";
 
 describe("buildUiSchema: discussion edit", () => {
   it("returns the full discussion edit uiSchema", async () => {
-    spyOn(getCategoryItemsModule, "getCategoryItems").and.returnValue(
+    spyOn(fetchCategoryItemsModule, "fetchCategoryItems").and.returnValue(
       Promise.resolve([
         {
           value: "/categories",
@@ -196,7 +196,7 @@ describe("buildUiSchema: discussion edit", () => {
     });
   });
   it("returns the full discussion edit uiSchema when entity does have a view", async () => {
-    spyOn(getCategoryItemsModule, "getCategoryItems").and.returnValue(
+    spyOn(fetchCategoryItemsModule, "fetchCategoryItems").and.returnValue(
       Promise.resolve([
         {
           value: "/categories",

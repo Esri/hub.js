@@ -11,7 +11,7 @@ import { IUiSchemaComboboxItem } from "../types";
  * @param hubRequestOptions The hub request options
  * @returns a _nested_ structure of categories
  */
-export async function getCategoryItems(
+export async function fetchCategoryItems(
   orgId: string,
   hubRequestOptions: IHubRequestOptions
 ): Promise<IUiSchemaComboboxItem[]> {

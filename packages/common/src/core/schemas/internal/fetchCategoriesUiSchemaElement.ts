@@ -4,7 +4,7 @@ import {
   IUiSchemaMessage,
   UiSchemaMessageTypes,
 } from "../types";
-import { getCategoryItems } from "./getCategoryItems";
+import { fetchCategoryItems } from "./fetchCategoryItems";
 
 /**
  * Returns the UI schema element needed to render
@@ -18,7 +18,7 @@ export async function fetchCategoriesUiSchemaElement(
   i18nScope: string,
   context: IArcGISContext
 ): Promise<IUiSchemaElement> {
-  const categoryItems = await getCategoryItems(
+  const categoryItems = await fetchCategoryItems(
     context.portal.id,
     context.hubRequestOptions
   );

@@ -1,6 +1,6 @@
 import { buildUiSchema } from "../../../src/projects/_internal/ProjectUiSchemaEdit";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
-import * as getCategoryItemsModule from "../../../src/core/schemas/internal/getCategoryItems";
+import * as fetchCategoryItemsModule from "../../../src/core/schemas/internal/fetchCategoryItems";
 import * as getFeaturedContentCatalogsModule from "../../../src/core/schemas/internal/getFeaturedContentCatalogs";
 import * as getAuthedImageUrlModule from "../../../src/core/_internal/getAuthedImageUrl";
 import * as getLocationExtentModule from "../../../src/core/schemas/internal/getLocationExtent";
@@ -9,7 +9,7 @@ import * as getTagItemsModule from "../../../src/core/schemas/internal/getTagIte
 
 describe("buildUiSchema: project edit", () => {
   it("returns the full project edit uiSchema", async () => {
-    spyOn(getCategoryItemsModule, "getCategoryItems").and.returnValue(
+    spyOn(fetchCategoryItemsModule, "fetchCategoryItems").and.returnValue(
       Promise.resolve([
         {
           value: "/categories",
@@ -327,7 +327,7 @@ describe("buildUiSchema: project edit", () => {
     });
   });
   it("returns the full project edit uiSchema with a defined view", async () => {
-    spyOn(getCategoryItemsModule, "getCategoryItems").and.returnValue(
+    spyOn(fetchCategoryItemsModule, "fetchCategoryItems").and.returnValue(
       Promise.resolve([
         {
           value: "/categories",
