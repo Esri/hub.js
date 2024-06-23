@@ -1,3 +1,10 @@
+## @esri/hub-common [14.148.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.148.1...@esri/hub-common@14.148.2) (2024-06-21)
+
+
+### Bug Fixes
+
+* **hub-common:** update event location type ([#1556](https://github.com/Esri/hub.js/issues/1556)) ([d89c187](https://github.com/Esri/hub.js/commit/d89c18775de9831cc5b11954e8db00173eb56a49))
+
 ## @esri/hub-common [14.148.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.148.0...@esri/hub-common@14.148.1) (2024-06-18)
 
 
