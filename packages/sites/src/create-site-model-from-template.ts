@@ -119,37 +119,6 @@ export function createSiteModelFromTemplate(
         settings.solution.defaultHostname = `${uniqueSubdomain}-${portal.urlKey}.${base}`;
         settings.solution.url = `https://${uniqueSubdomain}-${portal.urlKey}.${base}`;
       }
-
-      // create the initiative
-      let handleInitiative = Promise.resolve(null);
-
-      if (product !== "portal") {
-        handleInitiative = _createSiteInitiative(
-          template,
-          settings,
-          transforms,
-          hubRequestOptions
-        );
-      }
-      return handleInitiative;
-    })
-    .then((maybeInitiative) => {
-      // if we got an initiative back...
-      let teamUpdatePromise = Promise.resolve(null);
-      if (maybeInitiative) {
-        // add to settings hash so it's available to the site
-        // typically all that's used is initiative.item.id
-        settings.initiative = maybeInitiative;
-        // directly set the parentInitiativeId vs relying on adlib
-        template.item.properties.parentInitiativeId = maybeInitiative.item.id;
-        // check if we created a followers team because we need to add the initiativeId into a tag
-        teamUpdatePromise = _updateTeamTags(
-          maybeInitiative,
-          state.teams,
-          hubRequestOptions
-        );
-      }
-      return teamUpdatePromise;
     })
     .then((_) => {
       const siteModel = interpolateSite(template, settings, transforms);
