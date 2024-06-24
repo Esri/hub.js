@@ -102,6 +102,7 @@ export function createSiteModelFromTemplate(
       return ensureUniqueDomainName(slugify(domainTitle), hubRequestOptions);
     })
     .then((uniqueSubdomain) => {
+      debugger;
       const portal = hubRequestOptions.portalSelf;
       // TODO: Revisit this if/when we do more site templates which we want to maintain their theme
       settings.solution.theme = getOrgDefaultTheme(portal);
@@ -121,6 +122,7 @@ export function createSiteModelFromTemplate(
       }
     })
     .then((_) => {
+      debugger;
       const siteModel = interpolateSite(template, settings, transforms);
 
       // Special logic for the site title
