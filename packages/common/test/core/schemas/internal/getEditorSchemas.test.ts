@@ -5,6 +5,7 @@ import { ProjectEditorTypes } from "../../../../src/projects/_internal/ProjectSc
 import * as ProjectBuildEditUiSchema from "../../../../src/projects/_internal/ProjectUiSchemaEdit";
 import * as ProjectBuildCreateUiSchema from "../../../../src/projects/_internal/ProjectUiSchemaCreate";
 import * as ProjectBuildMetricUiSchema from "../../../../src/core/schemas/internal/metrics/ProjectUiSchemaMetrics";
+import * as ProjectBuildSettingsUiSchema from "../../../../src/projects/_internal/ProjectUiSchemaSettings";
 
 import { InitiativeEditorTypes } from "../../../../src/initiatives/_internal/InitiativeSchema";
 import * as InitiativeBuildEditUiSchema from "../../../../src/initiatives/_internal/InitiativeUiSchemaEdit";
@@ -78,6 +79,7 @@ describe("getEditorSchemas: ", () => {
     { type: ProjectEditorTypes[0], module: ProjectBuildCreateUiSchema },
     { type: ProjectEditorTypes[1], module: ProjectBuildEditUiSchema },
     { type: ProjectEditorTypes[2], module: ProjectBuildMetricUiSchema },
+    { type: ProjectEditorTypes[3], module: ProjectBuildSettingsUiSchema },
     { type: InitiativeEditorTypes[0], module: InitiativeBuildEditUiSchema },
     { type: InitiativeEditorTypes[1], module: InitiativeBuildCreateUiSchema },
     { type: InitiativeEditorTypes[2], module: InitiativeBuildMetricUiSchema },
