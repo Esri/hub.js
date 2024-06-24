@@ -41,6 +41,8 @@ export function createSiteModelFromTemplate(
   transforms: any,
   hubRequestOptions: IHubRequestOptions
 ) {
+  debugger;
+  console.log('HUB.JS - CREATE SITE MODEL FROM TEMPLATE START')
   // add url to the assets, ref'ing the original location
   template.assets = addSolutionResourceUrlToAssets(template, hubRequestOptions);
   // We may have templates which lack .properties so let's ensure that exists
@@ -102,7 +104,6 @@ export function createSiteModelFromTemplate(
       return ensureUniqueDomainName(slugify(domainTitle), hubRequestOptions);
     })
     .then((uniqueSubdomain) => {
-      debugger;
       const portal = hubRequestOptions.portalSelf;
       // TODO: Revisit this if/when we do more site templates which we want to maintain their theme
       settings.solution.theme = getOrgDefaultTheme(portal);
@@ -122,7 +123,6 @@ export function createSiteModelFromTemplate(
       }
     })
     .then((_) => {
-      debugger;
       const siteModel = interpolateSite(template, settings, transforms);
 
       // Special logic for the site title
@@ -132,6 +132,8 @@ export function createSiteModelFromTemplate(
         siteModel.item.title = getProp(settings, "solution.title");
         siteModel.data.values.title = getProp(settings, "solution.title");
       }
+
+      console.log('HUB.JS - CREATE SITE MODEL FROM TEMPLATE END', siteModel);
 
       return siteModel;
     })
