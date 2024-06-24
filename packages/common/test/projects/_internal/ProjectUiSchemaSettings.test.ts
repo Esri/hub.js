@@ -1,6 +1,7 @@
 import { buildUiSchema } from "../../../src/projects/_internal/ProjectUiSchemaSettings";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
 
+// ProjectUiSchemaSettings tests
 describe("buildUiSchema: projects settings", () => {
   it("returns the full projeccts settings uiSchema", async () => {
     const uiSchema = await buildUiSchema("some.scope", {} as any, MOCK_CONTEXT);
