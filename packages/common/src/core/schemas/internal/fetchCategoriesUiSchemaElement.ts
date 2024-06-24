@@ -55,7 +55,6 @@ export async function fetchCategoriesUiSchemaElement(
             "{{shared.fields.categories.noCategoriesNotice.link:translate}}",
           href: "https://doc.arcgis.com/en/arcgis-online/reference/content-categories.htm",
           target: "_blank",
-          icon: "launch",
         },
         allowShowBeforeInteract: true,
         alwaysShow: true,
