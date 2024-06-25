@@ -1,14 +1,14 @@
 import * as REQUEST_MODULE from "@esri/arcgis-rest-request";
-import { getCategoryItems } from "../../../../src/core/schemas/internal/getCategoryItems";
+import { fetchCategoryItems } from "../../../../src/core/schemas/internal/fetchCategoryItems";
 import { IHubRequestOptions } from "../../../../src";
 
-describe("getCategoryItems:", () => {
+describe("fetchCategoryItems:", () => {
   it("fetch schemas from org", async () => {
     const spy = spyOn(REQUEST_MODULE, "request").and.callFake(() => {
       return Promise.resolve(response);
     });
     const ro = {} as IHubRequestOptions;
-    const items = await getCategoryItems("orgId", ro);
+    const items = await fetchCategoryItems("orgId", ro);
     expect(spy).toHaveBeenCalled();
     expect(items.length).toBe(1); // expected changed from 3 to 1 because the response is now nested rather than flattened
     expect(items[0].children?.length).toBe(3);
@@ -19,7 +19,7 @@ describe("getCategoryItems:", () => {
       return Promise.reject();
     });
     const ro = {} as IHubRequestOptions;
-    const items = await getCategoryItems("orgId", ro);
+    const items = await fetchCategoryItems("orgId", ro);
     expect(spy).toHaveBeenCalled();
     expect(items.length).toBe(0);
   });

@@ -1,5 +1,5 @@
 import { IArcGISContext } from "../../ArcGISContext";
-import { getCategoryItems } from "../../core/schemas/internal/getCategoryItems";
+import { fetchCategoriesUiSchemaElement } from "../../core/schemas/internal/fetchCategoriesUiSchemaElement";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 import { IUiSchema } from "../../core/schemas/types";
@@ -99,21 +99,7 @@ export const buildUiSchema = async (
               placeholderIcon: "label",
             },
           },
-          {
-            labelKey: `${i18nScope}.fields.categories.label`,
-            scope: "/properties/categories",
-            type: "Control",
-            options: {
-              control: "hub-field-input-combobox",
-              items: await getCategoryItems(
-                context.portal.id,
-                context.hubRequestOptions
-              ),
-              allowCustomValues: false,
-              selectionMode: "ancestors",
-              placeholderIcon: "select-category",
-            },
-          },
+          await fetchCategoriesUiSchemaElement(i18nScope, context),
           getThumbnailUiSchemaElement(
             i18nScope,
             options.thumbnail,

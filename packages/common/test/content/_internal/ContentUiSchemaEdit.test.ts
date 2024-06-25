@@ -1,14 +1,19 @@
 import { buildUiSchema } from "../../../src/content/_internal/ContentUiSchemaEdit";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
-import * as getCategoryItemsModule from "../../../src/core/schemas/internal/getCategoryItems";
+import * as fetchCategoryItemsModule from "../../../src/core/schemas/internal/fetchCategoryItems";
 import * as getLocationExtentModule from "../../../src/core/schemas/internal/getLocationExtent";
 import * as getLocationOptionsModule from "../../../src/core/schemas/internal/getLocationOptions";
 import * as getTagItemsModule from "../../../src/core/schemas/internal/getTagItems";
 
 describe("buildUiSchema: content edit", () => {
   it("returns the full content edit uiSchema", async () => {
-    spyOn(getCategoryItemsModule, "getCategoryItems").and.returnValue(
-      Promise.resolve([])
+    spyOn(fetchCategoryItemsModule, "fetchCategoryItems").and.returnValue(
+      Promise.resolve([
+        {
+          value: "/categories",
+          label: "/categories",
+        },
+      ])
     );
     spyOn(getLocationExtentModule, "getLocationExtent").and.returnValue(
       Promise.resolve([])
@@ -126,17 +131,22 @@ describe("buildUiSchema: content edit", () => {
             },
             // categories
             {
-              labelKey: "some.scope.fields.categories.label",
+              labelKey: "shared.fields.categories.label",
               scope: "/properties/categories",
               type: "Control",
               options: {
                 control: "hub-field-input-combobox",
-                items: [],
+                items: [
+                  {
+                    value: "/categories",
+                    label: "/categories",
+                  },
+                ],
                 allowCustomValues: false,
                 selectionMode: "ancestors",
                 placeholderIcon: "select-category",
                 helperText: {
-                  labelKey: "some.scope.fields.categories.agolHint", // TODO: hint should describe whether it can be set on Enterprise or Online
+                  labelKey: "some.scope.fields.categories.helperText",
                 },
               },
             },
