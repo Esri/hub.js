@@ -125,7 +125,7 @@ describe("buildUiSchema: project create", () => {
                   effect: UiSchemaRuleEffects.DISABLE,
                   condition: {
                     scope: "/properties/summary",
-                    schema: { mnLength: 2049 },
+                    schema: { minLength: 2049 },
                   },
                 },
               ],
@@ -181,7 +181,7 @@ describe("buildUiSchema: project create", () => {
                   effect: UiSchemaRuleEffects.DISABLE,
                   condition: {
                     scope: "/properties/summary",
-                    schema: { mnLength: 2049 },
+                    schema: { minLength: 2049 },
                   },
                 },
               ],

@@ -121,7 +121,7 @@ export const buildUiSchema = async (
                 effect: UiSchemaRuleEffects.DISABLE,
                 condition: {
                   scope: "/properties/summary",
-                  schema: { mnLength: 2049 },
+                  schema: { minLength: 2049 },
                 },
               },
             ],
@@ -186,7 +186,7 @@ export const buildUiSchema = async (
                 effect: UiSchemaRuleEffects.DISABLE,
                 condition: {
                   scope: "/properties/summary",
-                  schema: { mnLength: 2049 },
+                  schema: { minLength: 2049 },
                 },
               },
             ],
