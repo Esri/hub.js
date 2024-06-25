@@ -41,8 +41,8 @@ export function createSiteModelFromTemplate(
   transforms: any,
   hubRequestOptions: IHubRequestOptions
 ) {
-  debugger;
-  console.log('HUB.JS - CREATE SITE MODEL FROM TEMPLATE START')
+  console.log("HUB.JS - CREATE SITE MODEL FROM TEMPLATE START");
+  console.trace();
   // add url to the assets, ref'ing the original location
   template.assets = addSolutionResourceUrlToAssets(template, hubRequestOptions);
   // We may have templates which lack .properties so let's ensure that exists
@@ -133,7 +133,8 @@ export function createSiteModelFromTemplate(
         siteModel.data.values.title = getProp(settings, "solution.title");
       }
 
-      console.log('HUB.JS - CREATE SITE MODEL FROM TEMPLATE END', siteModel);
+      console.log("HUB.JS - CREATE SITE MODEL FROM TEMPLATE END", siteModel);
+      console.trace();
 
       return siteModel;
     })
