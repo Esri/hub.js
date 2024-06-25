@@ -32,7 +32,7 @@ describe("buildUiSchema: discussions settings", () => {
         },
         {
           type: "Section",
-          labelKey: "some.scope.sections.mapSettings.label",
+          labelKey: "shared.sections.mapSettings.label",
           elements: [
             {
               type: "Control",
