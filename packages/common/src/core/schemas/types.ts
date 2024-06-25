@@ -17,6 +17,7 @@ import {
 } from "./internal/EditorOptions";
 import { IArcGISContext } from "../../ArcGISContext";
 import { EventEditorTypes } from "../../events/_internal/EventSchemaCreate";
+import { HubActionLink } from "../types";
 
 export interface IEditorConfig {
   schema: IConfigurationSchema;
@@ -250,6 +251,7 @@ export interface IUiSchemaMessage {
   labelKey?: string;
   icon?: boolean | string;
   kind?: "brand" | "danger" | "info" | "success" | "warning";
+  link?: HubActionLink;
   hidden?: boolean;
   // NOTE: condition is deprecated and remains for backwards compatibility only. Please use conditions instead.
   condition?: IUiSchemaCondition;
