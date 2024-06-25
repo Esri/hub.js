@@ -1,10 +1,9 @@
 import {
   getLayer,
-  getService,
   parseServiceUrl,
   queryFeatures,
 } from "@esri/arcgis-rest-feature-layer";
-import { getItem } from "@esri/arcgis-rest-portal";
+import { IItem, getItem } from "@esri/arcgis-rest-portal";
 import { IHubContent, IHubEditableContent } from "../core";
 import {
   ItemOrServerEnrichment,
@@ -12,6 +11,7 @@ import {
   IItemAndEnrichments,
   IItemAndIServerEnrichments,
   IHubEditableContentEnrichments,
+  EditableContentEnrichment,
 } from "../items/_enrichments";
 import { IHubRequestOptions, IModel } from "../types";
 import { isNil } from "../util";
@@ -36,7 +36,7 @@ import { computeProps } from "./_internal/computeProps";
 import { setProp } from "../objects";
 import { getSchedule, isDownloadSchedulingAvailable } from "./manageSchedule";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import { isMapOrFeatureServerUrl } from "../urls";
+import { isService } from "../resources/_internal/_validate-url-helpers";
 
 const hasFeatures = (contentType: string) =>
   ["Feature Layer", "Table"].includes(contentType);
@@ -249,15 +249,22 @@ export const fetchContent = async (
  */
 export const fetchHubContent = async (
   identifier: string,
-  requestOptions: IRequestOptions
+  requestOptions: IRequestOptions,
+  enrichments?: EditableContentEnrichment[]
 ): Promise<IHubEditableContent> => {
-  // NOTE: b/c we have to support slugs we use fetchContent() to get the item
+  // NOTE: b/c we have to support slugs and we use fetchContent() to get the item
   // by telling it to not fetch any enrichments which we then fetch as needed after we have the item
   const options = {
     ...requestOptions,
     enrichments: [],
   } as IFetchContentOptions;
-  const { item, access } = await fetchContent(identifier, options);
+  const { item } = await fetchContent(identifier, options);
+
+  const editableContentEnrichments = await fetchEditableContentEnrichments(
+    item,
+    requestOptions,
+    enrichments
+  );
 
   // we must normalize the underlying item type to account
   // for older items (e.g. sites that are type "Web Mapping
@@ -265,38 +272,77 @@ export const fetchHubContent = async (
   const type = normalizeItemType(item);
   setProp("type", type, item);
 
-  const model = { item };
-  const entityEnrichments: IHubEditableContentEnrichments = {};
-
-  const enrichmentKeys: ItemOrServerEnrichment[] = ["metadata"];
-  isMapOrFeatureServerUrl(item.url) && enrichmentKeys.push("server");
-
-  const itemAndServerEnrichments = await fetchItemEnrichments(
-    item,
-    enrichmentKeys,
-    requestOptions as IHubRequestOptions
+  return modelToHubEditableContent(
+    { item },
+    requestOptions,
+    editableContentEnrichments
   );
+};
 
-  entityEnrichments.metadata = itemAndServerEnrichments.metadata;
-  entityEnrichments.server = itemAndServerEnrichments.server;
+async function fetchEditableContentEnrichments(
+  item: IItem,
+  requestOptions: IRequestOptions,
+  enrichments?: EditableContentEnrichment[]
+) {
+  const result: IHubEditableContentEnrichments = {};
 
+  if (!enrichments) {
+    enrichments = getDefaultEnrichmentKeys(item);
+  }
+
+  // Leverage the existing fetchItemEnrichments() function to fetch supported enrichments
+  const itemOrServerEnrichmentKeys = enrichments.filter(
+    (e) => e !== "schedule"
+  );
+  if (itemOrServerEnrichmentKeys.length) {
+    // TODO: Abstract this into a helper function that can be used by enrichContentSearchResult()
+    const itemOrServerEnrichments = await fetchItemEnrichments(
+      item,
+      itemOrServerEnrichmentKeys as ItemOrServerEnrichment[],
+      requestOptions as IHubRequestOptions
+    );
+
+    itemOrServerEnrichmentKeys.forEach((key) => {
+      result[key] = itemOrServerEnrichments[key as ItemOrServerEnrichment];
+    });
+  }
+
+  // Fetch the schedule separately if it's requested and supported
   // TODO: should we add scheduling to the fetchItemEnrichments() subsystem?
   if (
-    isDownloadSchedulingAvailable(requestOptions as IHubRequestOptions, access)
+    enrichments.includes("schedule") &&
+    isDownloadSchedulingAvailable(
+      requestOptions as IHubRequestOptions,
+      item.access
+    )
   ) {
     try {
       // fetch schedule and add it to enrichments if it exists in schedule API
-      entityEnrichments.schedule = (
-        await getSchedule(item.id, requestOptions as IUserRequestOptions)
-      ).schedule || { mode: "automatic" };
+      const { schedule } = await getSchedule(
+        item.id,
+        requestOptions as IUserRequestOptions
+      );
+      result.schedule = schedule || { mode: "automatic" };
     } catch (error) {
       /* tslint:disable no-console */
       console.warn("Failed to fetch schedule for item", item.id, error);
     }
   }
 
-  return modelToHubEditableContent(model, requestOptions, entityEnrichments);
-};
+  return result;
+}
+
+function getDefaultEnrichmentKeys(item: IItem): EditableContentEnrichment[] {
+  const enrichments: EditableContentEnrichment[] = [
+    "data",
+    "metadata",
+    "schedule",
+  ];
+  if (isService(item.url)) {
+    enrichments.push("server");
+  }
+  return enrichments;
+}
 
 export function modelToHubEditableContent(
   model: IModel,

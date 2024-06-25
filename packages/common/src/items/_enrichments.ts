@@ -41,10 +41,13 @@ export type ItemOrServerEnrichment =
 
 export type IItemAndIServerEnrichments = IItemEnrichments & IServerEnrichments;
 
-export interface IHubEditableContentEnrichments
-  extends IItemAndIServerEnrichments {
+export type IHubEditableContentEnrichments = Pick<
+  IItemAndIServerEnrichments,
+  "data" | "metadata" | "server"
+> & {
   schedule?: IHubSchedule;
-}
+};
+export type EditableContentEnrichment = keyof IHubEditableContentEnrichments;
 
 /**
  * Lazy load XML parsing library and parse metadata XML into JSON
