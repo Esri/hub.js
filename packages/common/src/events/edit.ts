@@ -137,11 +137,11 @@ export async function updateHubEvent(
  * @param requestOptions
  * @returns Promise<void>
  */
-export async function createHubEventRegistration(
+export function createHubEventRegistration(
   data: IHubCreateEventRegistration,
   requestOptions: IHubRequestOptions
 ): Promise<IRegistration> {
-  return await createRegistration({ data, ...requestOptions });
+  return createRegistration({ data, ...requestOptions });
 }
 
 /**
