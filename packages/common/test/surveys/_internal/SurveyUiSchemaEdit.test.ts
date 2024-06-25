@@ -1,12 +1,17 @@
 import { buildUiSchema } from "../../../src/surveys/_internal/SurveyUiSchemaEdit";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
-import * as getCategoryItemsModule from "../../../src/core/schemas/internal/getCategoryItems";
+import * as fetchCategoryItemsModule from "../../../src/core/schemas/internal/fetchCategoryItems";
 import * as getTagItemsModule from "../../../src/core/schemas/internal/getTagItems";
 
 describe("buildUiSchema: survey edit", () => {
   it("returns the full survey edit uiSchema", async () => {
-    spyOn(getCategoryItemsModule, "getCategoryItems").and.returnValue(
-      Promise.resolve([])
+    spyOn(fetchCategoryItemsModule, "fetchCategoryItems").and.returnValue(
+      Promise.resolve([
+        {
+          value: "/categories",
+          label: "/categories",
+        },
+      ])
     );
     spyOn(getTagItemsModule, "getTagItems").and.returnValue(
       Promise.resolve([])
@@ -103,15 +108,23 @@ describe("buildUiSchema: survey edit", () => {
               },
             },
             {
-              labelKey: "some.scope.fields.categories.label",
+              labelKey: "shared.fields.categories.label",
               scope: "/properties/categories",
               type: "Control",
               options: {
                 control: "hub-field-input-combobox",
-                items: [],
+                items: [
+                  {
+                    value: "/categories",
+                    label: "/categories",
+                  },
+                ],
                 allowCustomValues: false,
                 selectionMode: "ancestors",
                 placeholderIcon: "select-category",
+                helperText: {
+                  labelKey: "some.scope.fields.categories.helperText",
+                },
               },
             },
             {

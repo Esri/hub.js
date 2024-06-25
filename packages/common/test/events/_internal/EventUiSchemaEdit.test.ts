@@ -9,7 +9,7 @@ import {
 } from "../../../src/events/types";
 import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
 import * as getDatePickerDateUtils from "../../../src/utils/date/getDatePickerDate";
-import * as getCategoryItemsModule from "../../../src/core/schemas/internal/getCategoryItems";
+import * as fetchCategoryItemsModule from "../../../src/core/schemas/internal/fetchCategoryItems";
 import * as getTagItemsModule from "../../../src/core/schemas/internal/getTagItems";
 import * as getLocationExtentModule from "../../../src/core/schemas/internal/getLocationExtent";
 import * as getLocationOptionsModule from "../../../src/core/schemas/internal/getLocationOptions";
@@ -85,9 +85,9 @@ describe("EventUiSchemaEdit", () => {
         "getTagItems"
       ).and.returnValue(Promise.resolve(tags));
       const categories = [{ value: "category1" }, { value: "category2" }];
-      const getCategoryItemsSpy = spyOn(
-        getCategoryItemsModule,
-        "getCategoryItems"
+      const fetchCategoryItemsSpy = spyOn(
+        fetchCategoryItemsModule,
+        "fetchCategoryItems"
       ).and.returnValue(Promise.resolve(categories));
       const res = await buildUiSchema(
         "myI18nScope",
@@ -105,8 +105,8 @@ describe("EventUiSchemaEdit", () => {
         authdCtxMgr.context.portal.id,
         authdCtxMgr.context.hubRequestOptions
       );
-      expect(getCategoryItemsSpy).toHaveBeenCalledTimes(1);
-      expect(getCategoryItemsSpy).toHaveBeenCalledWith(
+      expect(fetchCategoryItemsSpy).toHaveBeenCalledTimes(1);
+      expect(fetchCategoryItemsSpy).toHaveBeenCalledWith(
         authdCtxMgr.context.portal.id,
         authdCtxMgr.context.hubRequestOptions
       );
@@ -510,7 +510,7 @@ describe("EventUiSchemaEdit", () => {
                 },
               },
               {
-                labelKey: `myI18nScope.fields.categories.label`,
+                labelKey: "shared.fields.categories.label",
                 scope: "/properties/categories",
                 type: "Control",
                 options: {
@@ -520,7 +520,7 @@ describe("EventUiSchemaEdit", () => {
                   selectionMode: "ancestors",
                   placeholderIcon: "select-category",
                   helperText: {
-                    labelKey: `myI18nScope.fields.categories.helperText`,
+                    labelKey: "myI18nScope.fields.categories.helperText",
                   },
                 },
               },

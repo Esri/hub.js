@@ -14,6 +14,7 @@ export const ProjectEditorTypes = [
   "hub:project:create",
   "hub:project:edit",
   "hub:project:metrics",
+  "hub:project:settings",
 ] as const;
 
 /**

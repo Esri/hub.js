@@ -1,3 +1,17 @@
+# @esri/hub-common [14.150.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.149.0...@esri/hub-common@14.150.0) (2024-06-24)
+
+
+### Features
+
+* **hub-common:** disable categories field and provide notice when no options are available ([#1561](https://github.com/Esri/hub.js/issues/1561)) ([95035c0](https://github.com/Esri/hub.js/commit/95035c019fd141e80df8d94ac1dacfb5322ae86f))
+
+# @esri/hub-common [14.149.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.148.2...@esri/hub-common@14.149.0) (2024-06-24)
+
+
+### Features
+
+* **hub-common:** release project map settings ([#1563](https://github.com/Esri/hub.js/issues/1563)) ([fe1e2c1](https://github.com/Esri/hub.js/commit/fe1e2c196c2ec0d2b3c824158c65f9c05447bd53))
+
 ## @esri/hub-common [14.148.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.148.1...@esri/hub-common@14.148.2) (2024-06-21)
 
 
