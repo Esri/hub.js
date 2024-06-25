@@ -117,7 +117,7 @@ describe("buildUiSchema: project create", () => {
                   conditions: [
                     {
                       scope: "/properties/name",
-                      schema: { minLength: 250 },
+                      schema: { minLength: 251 },
                     },
                   ],
                 },
@@ -125,7 +125,7 @@ describe("buildUiSchema: project create", () => {
                   effect: UiSchemaRuleEffects.DISABLE,
                   condition: {
                     scope: "/properties/summary",
-                    schema: { minLength: 2048 },
+                    schema: { mnLength: 2049 },
                   },
                 },
               ],
@@ -173,7 +173,7 @@ describe("buildUiSchema: project create", () => {
                   conditions: [
                     {
                       scope: "/properties/name",
-                      schema: { minLength: 250 },
+                      schema: { minLength: 251 },
                     },
                   ],
                 },
@@ -181,7 +181,7 @@ describe("buildUiSchema: project create", () => {
                   effect: UiSchemaRuleEffects.DISABLE,
                   condition: {
                     scope: "/properties/summary",
-                    schema: { minLength: 2048 },
+                    schema: { mnLength: 2049 },
                   },
                 },
               ],
