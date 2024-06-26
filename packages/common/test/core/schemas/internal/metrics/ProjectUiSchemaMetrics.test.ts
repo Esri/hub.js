@@ -294,43 +294,6 @@ describe("ProjectUiSchemaMetrics", () => {
               },
             ],
           },
-          {
-            type: "Section",
-            labelKey: `shared.sections.metrics.sharing.label`,
-            elements: [
-              {
-                labelKey: `shared.fields.metrics.showShareIcon.label`,
-                scope: "/properties/_metric/properties/shareable",
-                type: "Control",
-                options: {
-                  helperText: {
-                    labelKey: `shared.fields.metrics.showShareIcon.helperText.label`,
-                  },
-                  control: "hub-field-input-switch",
-                  layout: "inline-space-between",
-                },
-              },
-              {
-                labelKey: `shared.fields.metrics.shareableOnHover.label`,
-                scope: "/properties/_metric/properties/shareableOnHover",
-                type: "Control",
-                rule: {
-                  condition: {
-                    scope: "/properties/_metric/properties/shareable",
-                    schema: { const: true },
-                  },
-                  effect: UiSchemaRuleEffects.SHOW,
-                },
-                options: {
-                  control: "hub-field-input-switch",
-                  helperText: {
-                    labelKey: `shared.fields.metrics.shareableOnHover.helperText.label`,
-                  },
-                  layout: "inline-space-between",
-                },
-              },
-            ],
-          },
         ],
       });
     });
