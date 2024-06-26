@@ -1,12 +1,42 @@
-import { IDynamicDownloadFormat } from "../../types";
+import { IHubEditableContent } from "../../../core/types/IHubEditableContent";
+import { getProp } from "../../../objects";
+import { IDynamicDownloadFormat, ServiceDownloadFormat } from "../../types";
 
 /**
  * @private
- * Returns all the download formats that are exposed by Image Services via the /exportImage operation.
- *
- * NOTE: This function is a work-in-progress. Various permissions and logic branches are not yet implemented.
+ * Returns all the download formats that are exposed by an Image Service via the /exportImage operation.
  */
-export function getExportImageFormats(): IDynamicDownloadFormat[] {
-  throw new Error("Not implemented");
-  // return EXPORT_IMAGE_FORMATS.map((format) => ({ type: "dynamic", format }));
+export function getExportImageFormats(
+  entity: IHubEditableContent
+): IDynamicDownloadFormat[] {
+  // TODO: Preserve the order of appearance in the UI
+  const supportedFormats = [
+    ServiceDownloadFormat.BMP,
+    ServiceDownloadFormat.GIF,
+    ServiceDownloadFormat.JPG,
+    ServiceDownloadFormat.PNG,
+    ServiceDownloadFormat.PNG24,
+    ServiceDownloadFormat.PNG8,
+    ServiceDownloadFormat.TIFF,
+  ];
+
+  const serverVersion = getProp(
+    entity,
+    "extendedProps.extendedProps.server.currentVersion"
+  );
+  if (serverVersion >= 10.0) {
+    supportedFormats.push(ServiceDownloadFormat.JPG_PNG);
+  }
+  if (serverVersion >= 10.2) {
+    supportedFormats.push(ServiceDownloadFormat.PNG32);
+  }
+  if (serverVersion >= 10.3) {
+    supportedFormats.push(
+      ServiceDownloadFormat.BIP,
+      ServiceDownloadFormat.BSQ,
+      ServiceDownloadFormat.LERC
+    );
+  }
+
+  return supportedFormats.map((format) => ({ type: "dynamic", format }));
 }

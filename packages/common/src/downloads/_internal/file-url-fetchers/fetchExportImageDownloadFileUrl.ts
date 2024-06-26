@@ -3,6 +3,8 @@ import {
   DownloadOperationStatus,
   IFetchDownloadFileUrlOptions,
 } from "../../types";
+import HubError from "../../../HubError";
+import { getProp } from "../../../objects/get-prop";
 
 /**
  * @private
@@ -17,41 +19,78 @@ import {
 export async function fetchExportImageDownloadFileUrl(
   options: IFetchDownloadFileUrlOptions
 ): Promise<string> {
+  validateOptions(options);
+
   const { entity, format, context, geometry, progressCallback } = options;
   progressCallback && progressCallback(DownloadOperationStatus.PENDING);
 
-  // TODO: validate layers, geometry, where, etc. I don't think all of them are applicable in every permutation
+  const extent = getExportImageExtent(options);
+  const { xmin, xmax, ymin, ymax } = extent;
+  const { wkid } = extent.spatialReference;
 
   const requestOptions = { ...context.requestOptions };
   requestOptions.httpMethod = "GET";
   requestOptions.params = {
+    bbox: `${xmin},${ymin},${xmax},${ymax}`,
+    bboxSR: `${wkid}`,
     format,
     mosaicRule:
       '{"ascending":true,"mosaicMethod":"esriMosaicNorthwest","mosaicOperation":"MT_FIRST"}',
   };
 
-  if (geometry && geometry.type === "extent") {
-    const { xmin, xmax, ymin, ymax } = geometry as __esri.Extent;
-    const { wkid } = geometry.spatialReference;
-    requestOptions.params.bbox = `${xmin},${ymin},${xmax},${ymax}`;
-    requestOptions.params.bboxSR = `${wkid}`;
-    requestOptions.params.imageSR = `${wkid}`;
+  const { maxImageHeight, maxImageWidth } =
+    getProp(entity, "extendedProps.server") || {};
+  if (maxImageWidth && maxImageHeight) {
+    requestOptions.params.size = `${maxImageWidth},${maxImageHeight}`;
   }
-  // Note: validate where "extent" and "layer" are coming from in the old ember code,
-  // check if they are still applicable here
-  // else {
-  //   const coords = entity.extent;
-  //   requestOptions.params.bbox = `${coords[0][0]},${coords[0][1]},${coords[1][0]},${coords[1][1]}`;
-  //   requestOptions.params.bboxSR = "4326";
-  //   requestOptions.params.imageSR = "4326";
-  // }
-
-  // const { maxImageHeight, maxImageWidth } = this.args.model.layer || {};
-  // if (maxImageWidth && maxImageHeight) {
-  //   requestOptions.params.size = `${maxImageWidth},${maxImageHeight}`;
-  // }
 
   const { href } = await request(`${entity.url}/exportImage`, requestOptions);
   progressCallback && progressCallback(DownloadOperationStatus.COMPLETED);
   return href;
+}
+
+function validateOptions(options: IFetchDownloadFileUrlOptions) {
+  const { geometry } = options;
+
+  if (geometry && geometry.type !== "extent") {
+    throw new HubError(
+      "fetchExportImageDownloadFileUrl",
+      "Only extent geometric filters are supported for this type of download"
+    );
+  }
+}
+
+function getExportImageExtent(
+  options: IFetchDownloadFileUrlOptions
+): __esri.Extent {
+  const { entity, geometry } = options;
+  const serverExtent = getProp(entity, "extendedProps.server.extent");
+
+  let result: __esri.Extent = null;
+  if (geometry) {
+    result = geometry as __esri.Extent;
+  } else if (entity.extent) {
+    const [[xmin, ymin], [xmax, ymax]] = entity.extent;
+    result = {
+      type: "extent",
+      xmin,
+      ymin,
+      xmax,
+      ymax,
+      spatialReference: {
+        wkid: 4326,
+      } as __esri.SpatialReference,
+    } as __esri.Extent;
+  } else if (serverExtent) {
+    result = serverExtent;
+  }
+
+  if (!result) {
+    throw new HubError(
+      "fetchExportImageDownloadFileUrl",
+      "Extent required for this download operation"
+    );
+  }
+
+  return result;
 }
