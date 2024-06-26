@@ -10,7 +10,7 @@ describe("buildUiSchema: projects settings", () => {
       elements: [
         {
           type: "Section",
-          labelKey: "some.scope.sections.mapSettings.label",
+          labelKey: "shared.sections.mapSettings.label",
           elements: [
             {
               type: "Control",

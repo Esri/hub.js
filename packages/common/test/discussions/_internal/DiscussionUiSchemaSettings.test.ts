@@ -30,6 +30,23 @@ describe("buildUiSchema: discussions settings", () => {
             },
           ],
         },
+        {
+          type: "Section",
+          labelKey: "shared.sections.mapSettings.label",
+          elements: [
+            {
+              type: "Control",
+              scope: "/properties/view/properties/mapSettings",
+              labelKey: "some.scope.fields.mapSettings.label",
+              options: {
+                type: "Control",
+                control: "hub-composite-input-map-settings",
+                visibleSettings: ["gallery"],
+                showPreview: true,
+              },
+            },
+          ],
+        },
       ],
     });
   });
