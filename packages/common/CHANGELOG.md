@@ -1,3 +1,10 @@
+# @esri/hub-common [14.152.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.151.0...@esri/hub-common@14.152.0) (2024-06-27)
+
+
+### Features
+
+* Removed sharing section on metric pane in initiative and project entities ([#1567](https://github.com/Esri/hub.js/issues/1567)) ([bc8bdd2](https://github.com/Esri/hub.js/commit/bc8bdd21c85a56dfa1308d5d4e5e643f64de9129))
+
 # @esri/hub-common [14.151.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.150.0...@esri/hub-common@14.151.0) (2024-06-26)
 
 
