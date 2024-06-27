@@ -134,7 +134,6 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:project:workspace:initiatives",
-    environments: ["qaext"],
     dependencies: [
       "hub:project:workspace",
       "hub:project:associations",
