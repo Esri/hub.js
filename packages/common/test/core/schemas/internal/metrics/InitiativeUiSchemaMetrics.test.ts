@@ -18,7 +18,7 @@ describe("InitiativeUiSchemaMetrics", () => {
       // can be difficult to maintain over time), we simply validate
       // a minimal set of properties in the uiSchema
       expect(uiSchema.type).toBe("Layout");
-      expect(uiSchema.elements?.length).toBe(4);
+      expect(uiSchema.elements?.length).toBe(3);
       expect(uiSchema.elements![0].type).toBe("Section");
       expect(uiSchema.elements![0].elements![0].scope).toBe(
         "/properties/_metric/properties/cardTitle"
