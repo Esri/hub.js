@@ -1,3 +1,10 @@
+# @esri/hub-common [14.151.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.150.0...@esri/hub-common@14.151.0) (2024-06-26)
+
+
+### Features
+
+* **hub-common:** adds map settings to discussion board settings schema ([#1565](https://github.com/Esri/hub.js/issues/1565)) ([617394e](https://github.com/Esri/hub.js/commit/617394e572495f72db6e0991a26cb296b1d52d6b))
+
 # @esri/hub-common [14.150.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.149.0...@esri/hub-common@14.150.0) (2024-06-24)
 
 
