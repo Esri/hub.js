@@ -133,8 +133,6 @@ describe("createSiteModelFromTemplate", () => {
   let getProductSpy: jasmine.Spy;
   let createTeamsSpy: jasmine.Spy;
   let ensureDomainSpy: jasmine.Spy;
-  let createInitiativeSpy: jasmine.Spy;
-  let updateTeamTagsSpy: jasmine.Spy;
   beforeEach(() => {
     getProductSpy = spyOn(commonModule, "getHubProduct").and.returnValue(
       "premium"
@@ -148,16 +146,6 @@ describe("createSiteModelFromTemplate", () => {
       commonModule,
       "ensureUniqueDomainName"
     ).and.returnValue(Promise.resolve(uniqueDomain));
-
-    createInitiativeSpy = spyOn(
-      createSiteModule,
-      "_createSiteInitiative"
-    ).and.returnValue(Promise.resolve(initiativeResponse));
-
-    updateTeamTagsSpy = spyOn(
-      updateTagsModule,
-      "_updateTeamTags"
-    ).and.returnValue(Promise.resolve());
   });
 
   it("creates the site on premium", async () => {
@@ -189,10 +177,7 @@ describe("createSiteModelFromTemplate", () => {
     );
     expect(createdSite.data.values.subdomain).toBe(`unique-domain`);
 
-    expectAllCalled(
-      [createTeamsSpy, ensureDomainSpy, createInitiativeSpy, updateTeamTagsSpy],
-      expect
-    );
+    expectAllCalled([createTeamsSpy, ensureDomainSpy], expect);
 
     expect(createdSite.item.properties.contentGroupId).toBe(
       teams.props.contentGroupId
@@ -234,10 +219,7 @@ describe("createSiteModelFromTemplate", () => {
     );
     expect(createdSite.data.values.subdomain).toBe(`unique-domain`);
 
-    expectAllCalled(
-      [createTeamsSpy, ensureDomainSpy, createInitiativeSpy, updateTeamTagsSpy],
-      expect
-    );
+    expectAllCalled([createTeamsSpy, ensureDomainSpy], expect);
 
     expect(createdSite.item.properties.contentGroupId).toBe(
       teams.props.contentGroupId
@@ -281,13 +263,6 @@ describe("createSiteModelFromTemplate", () => {
     expect(createdSite.data.values.subdomain).toBe(`unique-domain`);
 
     expectAllCalled([createTeamsSpy, ensureDomainSpy], expect);
-    // create initiative stuff shouldnt be called on portal
-    expectAll(
-      [createInitiativeSpy, updateTeamTagsSpy],
-      "toHaveBeenCalled",
-      false,
-      expect
-    );
 
     expect(createdSite.item.properties.contentGroupId).toBe(
       teams.props.contentGroupId
