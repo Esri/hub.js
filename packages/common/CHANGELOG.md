@@ -1,3 +1,10 @@
+## @esri/hub-common [14.152.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.152.0...@esri/hub-common@14.152.1) (2024-06-28)
+
+
+### Bug Fixes
+
+* hub:project:edit allowed on both prem and basic licenses ([#1568](https://github.com/Esri/hub.js/issues/1568)) ([4236aef](https://github.com/Esri/hub.js/commit/4236aefa70dd8e73dcb72d3b0a4d25bbfe029e0e))
+
 # @esri/hub-common [14.152.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.151.0...@esri/hub-common@14.152.0) (2024-06-27)
 
 
