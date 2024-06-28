@@ -25,6 +25,8 @@ describe("metricToEditor", () => {
       metricId: "test123",
       displayType: "stat",
       cardTitle: "Testing the display config",
+      sourceLink: "https://source-link.hubqa.arcgis.com",
+      sourceTitle: "source title",
     };
 
     const editor = metricToEditor(metric, displayConfig);
@@ -33,6 +35,8 @@ describe("metricToEditor", () => {
       type: "dynamic",
       displayType: "stat",
       cardTitle: "Testing the display config",
+      sourceLink: undefined,
+      sourceTitle: undefined,
       dynamicMetric: {
         serviceUrl: "https://hubqa.arcgis.com",
         layerId: 0,
@@ -40,6 +44,8 @@ describe("metricToEditor", () => {
         statistic: "count",
         where: "caption = 'hello'",
         type: "service-query",
+        sourceLink: "https://source-link.hubqa.arcgis.com",
+        sourceTitle: "source title",
         itemId: undefined,
         expressionSet: undefined,
         allowExpressionSet: undefined,
