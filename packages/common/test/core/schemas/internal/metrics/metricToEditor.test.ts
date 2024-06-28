@@ -68,6 +68,8 @@ describe("metricToEditor", () => {
       metricId: "test123",
       displayType: "stat",
       cardTitle: "Testing the display config",
+      sourceLink: "https://source-link.hubqa.arcgis.com",
+      sourceTitle: "source title",
     };
 
     const editor = metricToEditor(metric, displayConfig);
@@ -77,6 +79,8 @@ describe("metricToEditor", () => {
       cardTitle: "Testing the display config",
       value: "525,600",
       type: "static",
+      sourceLink: "https://source-link.hubqa.arcgis.com",
+      sourceTitle: "source title",
       valueType: undefined,
     });
   });
