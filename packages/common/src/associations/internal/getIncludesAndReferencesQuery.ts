@@ -29,6 +29,14 @@ export const getIncludesAndReferencesQuery = async (
 ): Promise<IQuery> => {
   if (isParent) {
     /**
+     * 0. exit early if the parent's association group
+     * hasn't been created yet - there can be no associations
+     */
+    if (!getProp(entity, "associations")) {
+      return null;
+    }
+
+    /**
      * 1. build query that returns child entities WITH a
      * typeKeyword reference to the parent
      */
