@@ -1,3 +1,10 @@
+## @esri/hub-common [14.152.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.152.1...@esri/hub-common@14.152.2) (2024-06-28)
+
+
+### Bug Fixes
+
+* 10795 10736 project and initiative creation rules updates ([#1562](https://github.com/Esri/hub.js/issues/1562)) ([409edc5](https://github.com/Esri/hub.js/commit/409edc5f6e4ab2c4c41ccad5450938284673abc3))
+
 ## @esri/hub-common [14.152.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.152.0...@esri/hub-common@14.152.1) (2024-06-28)
 
 
