@@ -87,17 +87,10 @@ export function editorToMetric(
     expressionSet,
     allowExpressionSet,
     statistic,
-    // if we are in dynamic mode and have a link, then we use that link
-    // otherwise we use manually input sourceLink on card config
-    sourceLink:
-      values.type === "dynamic" && sourceLink ? sourceLink : config.sourceLink,
-    sourceTitle:
-      values.type === "dynamic" && sourceTitle
-        ? sourceTitle
-        : config.sourceTitle,
     allowLink:
       values.type === "dynamic" ? config.allowDynamicLink : config.allowLink,
     type: values.type,
+    dynamicMetric,
   };
 
   return { metric, displayConfig };
