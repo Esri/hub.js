@@ -42,8 +42,12 @@ export function metricToEditor(
             expressionSet,
             allowExpressionSet,
             fieldType,
+            sourceLink: displayConfig.sourceLink,
+            sourceTitle: displayConfig.sourceTitle,
           },
           ...editor,
+          sourceLink: undefined,
+          sourceTitle: undefined,
         };
         break;
 
