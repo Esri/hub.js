@@ -429,30 +429,51 @@ export class Catalog implements IHubCatalog {
    * @returns
    */
   async searchCollections(
-    query: string,
+    query: string | IQuery,
     options: IHubSearchOptions = {}
   ): Promise<ISearchResponseHash> {
     // build a query
-    const qry: IQuery = {
-      targetEntity: "item", // this gets replaced below, but we need something here
-      filters: [
-        {
-          predicates: [
-            {
-              term: query,
-            },
-          ],
-        },
-      ],
-    };
+    let passedQuery = true;
+    let qry: IQuery;
+    if (typeof query === "string") {
+      passedQuery = false;
+      qry = {
+        targetEntity: "item", // this gets replaced below, but we need something here
+        filters: [
+          {
+            predicates: [
+              {
+                term: query,
+              },
+            ],
+          },
+        ],
+      };
+    } else {
+      qry = query;
+    }
+
     // iterate the colllections, issue searchs for each one
     const promiseKeys: string[] = [];
-    const promises = this.collectionNames.map((name) => {
+    const promises = this.collectionNames.reduce((acc, name) => {
       const col = this.getCollection(name);
-      promiseKeys.push(name);
-      qry.targetEntity = col.targetEntity;
-      return col.search(qry, options);
-    });
+      // if an IQuery was passed in,
+      if (passedQuery) {
+        // we only execute queries on collections that match the targetEntity
+        // and skip the rest
+        if (col.targetEntity === qry.targetEntity) {
+          promiseKeys.push(name);
+          acc.push(col.search(qry, options));
+        }
+      } else {
+        // if a string was passed in, we execute the search on all collections
+        // by replacing the targetEntity in the query to match the collection
+        promiseKeys.push(name);
+        qry.targetEntity = col.targetEntity;
+        acc.push(col.search(qry, options));
+      }
+      return acc;
+    }, []);
 
     const responses = await Promise.all(promises);
 

@@ -1,4 +1,5 @@
 import { Catalog, IHubCatalog } from "../src/search";
+import { searchCatalogs } from "../src/search/searchCatalogs";
 import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
 
@@ -380,7 +381,7 @@ fdescribe("catalog and collection e2e:", () => {
     ],
   };
 
-  describe("catalog search", () => {
+  describe("catalog instance search", () => {
     it("can search all collections", async () => {
       const ctxMgr = await factory.getContextManager(orgName, "admin");
       const instance = Catalog.fromJson(catalog, ctxMgr.context);
@@ -416,6 +417,41 @@ fdescribe("catalog and collection e2e:", () => {
       // results.forEach((result) => {
       //   Object.keys(result).forEach((key) => {
       //     console.log(key, result[key].results.length);
+      //   });
+      // });
+    });
+  });
+  describe("helper functions:", () => {
+    it("can search a set of catalogs", async () => {
+      const ctxMgr = await factory.getContextManager(orgName, "admin");
+      const catalogs = [
+        catalog,
+        waterResourcesCatalog,
+        lotsOfGroupsCatalog,
+        landBaseCatalog,
+        supportingUsersCatalog,
+        supportingGroupsCatalog,
+      ];
+      const start = new Date().getTime();
+
+      const results = await searchCatalogs(
+        catalogs,
+        "water",
+        { sortField: "modified", sortOrder: "desc", num: 20 },
+        ctxMgr.context
+      );
+      const end = new Date().getTime();
+      // console.log("time taken", end - start);
+
+      // results.forEach((result) => {
+      //   console.log(`Catalog: ${result.catalogTitle}`);
+      //   console.log(
+      //     `Collections: ${Object.keys(result.collectionResults).join(", ")}`
+      //   );
+      //   Object.keys(result.collectionResults).forEach((key) => {
+      //     console.log(
+      //       `${key} collection has ${result.collectionResults[key].results.length} results`
+      //     );
       //   });
       // });
     });
