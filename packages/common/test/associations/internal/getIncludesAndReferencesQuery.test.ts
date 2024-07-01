@@ -1,4 +1,4 @@
-import { cloneObject } from "../../../src";
+import { HubEntity, cloneObject } from "../../../src";
 import { IArcGISContext } from "../../../src/ArcGISContext";
 import { getIncludesAndReferencesQuery } from "../../../src/associations/internal/getIncludesAndReferencesQuery";
 import { MOCK_PARENT_ENTITY, MOCK_CHILD_ENTITY } from "../fixtures";
@@ -6,6 +6,16 @@ import * as ItemsModule from "@esri/arcgis-rest-portal";
 
 describe("getIncludesAndReferencesQuery:", () => {
   describe("from the parent entity perspective", () => {
+    it("returns null if the parent's association group hasn't been created yet", async () => {
+      const query = await getIncludesAndReferencesQuery(
+        {} as HubEntity,
+        "project",
+        true,
+        {} as IArcGISContext
+      );
+
+      expect(query).toBeNull();
+    });
     it("returns a valid IQuery to fetch child entities", async () => {
       const query = await getIncludesAndReferencesQuery(
         MOCK_PARENT_ENTITY,
