@@ -2,6 +2,7 @@ import { IExtent } from "@esri/arcgis-rest-feature-layer";
 import { IWithVersioningBehavior } from "../behaviors";
 import {
   IWithCatalog,
+  IWithCatalogs,
   IWithLayout,
   IWithPermissions,
   IWithSlug,
@@ -15,7 +16,8 @@ import { IHubItemEntity, IHubItemEntityEditor } from "./IHubItemEntity";
 export interface IHubSite
   extends IHubItemEntity,
     IWithSlug,
-    IWithCatalog,
+    IWithCatalog, // DEPRECATED: Use IWithCatalogs instead
+    IWithCatalogs,
     IWithLayout,
     IWithPermissions,
     IWithVersioningBehavior {
