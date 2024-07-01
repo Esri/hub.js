@@ -1,3 +1,10 @@
+# @esri/hub-common [14.153.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.152.2...@esri/hub-common@14.153.0) (2024-07-01)
+
+
+### Features
+
+* ungate project workspace initiatives association ([#1569](https://github.com/Esri/hub.js/issues/1569)) ([826e691](https://github.com/Esri/hub.js/commit/826e691d2da4c4f6c319bf79c307f4f1d78a40fc))
+
 ## @esri/hub-common [14.152.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.152.1...@esri/hub-common@14.152.2) (2024-06-28)
 
 
