@@ -1,6 +1,6 @@
 import { IHubEntityBase } from "./IHubEntityBase";
 import { IHubGeography } from "../../types";
-import { AccessLevel, MembershipAccess, SettableAccessLevel } from "./types";
+import { AccessLevel, MembershipAccess } from "./types";
 import {
   IWithPermissions,
   IWithViewSettings,

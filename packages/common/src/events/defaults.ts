@@ -44,6 +44,7 @@ export function buildDefaultEventEntity(): Partial<IHubEvent> {
     location: {
       type: "none",
     },
+    catalogs: [],
   };
 }
 

@@ -26,6 +26,7 @@ describe("setMetricAndDisplay", () => {
       typeKeywords: [],
       orgUrlKey: "",
       catalog: { schemaVersion: 1 },
+      catalogs: [],
       metrics: [
         {
           id: "metric1",
@@ -100,6 +101,7 @@ describe("setMetricAndDisplay", () => {
       typeKeywords: [],
       orgUrlKey: "",
       catalog: { schemaVersion: 1 },
+      catalogs: [],
       metrics: [
         {
           id: "metric1",

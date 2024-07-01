@@ -44,6 +44,7 @@ export const INITIATIVE_ENTITY: IHubInitiative = {
   canDelete: true,
   categories: ["Basemap imagery", "Creative maps"],
   catalog: {} as IHubCatalog,
+  catalogs: [],
   createdDate: new Date(1652819949000),
   createdDateSource: "item.created",
   description: "This is a mock description",
