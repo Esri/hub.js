@@ -1,36 +1,33 @@
+import { IArcGISContext } from "../ArcGISContext";
 import { HubEntity } from "../core";
 import { getWithDefault } from "../objects/get-with-default";
-import { Catalog } from "./Catalog";
+import { searchCatalogs } from "./searchCatalogs";
 import {
+  ICatalogSearchResponse,
   IHubCatalog,
-  IHubSearchOptions,
-  IHubSearchResponse,
-  IHubSearchResult,
+  IPagingOptions,
   IQuery,
+  ISortOptions,
 } from "./types";
 
-export function searchEntityCatalogs(
+/**
+ * Given an entity, execute a search on all the catalogs, and their associated with the entity
+ * If the entity has no catalogs, an empty array is returned
+ * If passed an IQuery, only collections using the same targetEntity will be searched
+ * If passed a string, a query will be executed on all collections in all catalogs
+ * @param entity
+ * @param query
+ * @param options
+ * @param context
+ * @returns
+ */
+export async function searchEntityCatalogs(
   entity: HubEntity,
   query: string | IQuery,
-  options: IHubSearchOptions
-): Promise<Array<IHubSearchResponse<IHubSearchResult>>> {
+  options: IPagingOptions & ISortOptions,
+  context: IArcGISContext
+): Promise<ICatalogSearchResponse[]> {
   // collect all the catalogs from the entity, and search them
   const catalogs = getWithDefault(entity, "catalogs", []) as IHubCatalog[];
-  return searchCatalogs(catalogs, query, options);
-}
-
-export function searchCatalogs(
-  catalogs: IHubCatalog[],
-  query: string | IQuery,
-  options: IHubSearchOptions
-): Promise<Array<IHubSearchResponse<IHubSearchResult>>> {
-  // iterate the passed catalog json objects and instantiate Catalog instances
-  const instances = catalogs.map((catalog) => Catalog.fromJson(catalog));
-  // execute search on all catalogs
-
-  // return Promise.all(
-  //   instances.map(async (cat) => cat.searchCollections(query, options))
-  // );
-
-  throw new Error("Method not implemented.");
+  return searchCatalogs(catalogs, query, options, context);
 }
