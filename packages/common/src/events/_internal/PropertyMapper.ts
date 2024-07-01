@@ -95,27 +95,9 @@ export class EventPropertyMapper extends PropertyMapper<
     obj.slug = getEventSlug(store as IEvent);
     obj.thumbnailUrl = getEventThumbnail();
 
-    const heroActions: HubActionLink[] = [];
-    if (store.allowRegistration) {
-      let tooltip;
-      if (obj.isCanceled) {
-        tooltip = "{{tooltip.register.isCancelled:translate}}";
-      } else if (obj.isPast) {
-        tooltip = "{{tooltip.register.eventHasEnded:translate}}";
-      }
-      heroActions.push({
-        kind: "well-known",
-        action: "register",
-        label: "{{actions.register:translate}}",
-        disabled: obj.isCanceled || obj.isPast,
-        tooltip,
-      });
-    }
     obj.view = {
-      heroActions,
       showMap: !!store.location,
     };
-
     obj.location = store.location
       ? {
           type: store.location.type,

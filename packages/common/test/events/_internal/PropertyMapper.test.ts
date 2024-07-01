@@ -165,7 +165,6 @@ describe("PropertyMapper", () => {
         slug: "event-title-31c",
         thumbnailUrl: getEventThumbnail(),
         view: {
-          heroActions: [],
           showMap: true,
         },
       });
@@ -207,42 +206,6 @@ describe("PropertyMapper", () => {
       ];
       const res = propertyMapper.storeToEntity(eventRecord, {});
       expect(res.attendanceType).toEqual(HubEventAttendanceType.Both);
-    });
-
-    it("disables registration if canceled", () => {
-      eventRecord.allowRegistration = true;
-      eventRecord.status = EventStatus.CANCELED;
-      const res = propertyMapper.storeToEntity(eventRecord, {});
-      expect(res.view).toEqual({
-        heroActions: [
-          {
-            kind: "well-known",
-            action: "register",
-            label: "{{actions.register:translate}}",
-            disabled: true,
-            tooltip: "{{tooltip.register.isCancelled:translate}}",
-          },
-        ],
-        showMap: false,
-      });
-    });
-
-    it("disables registration if past due", () => {
-      eventRecord.allowRegistration = true;
-      eventRecord.endDateTime = new Date("1/1/2000").toISOString();
-      const res = propertyMapper.storeToEntity(eventRecord, {});
-      expect(res.view).toEqual({
-        heroActions: [
-          {
-            kind: "well-known",
-            action: "register",
-            label: "{{actions.register:translate}}",
-            disabled: true,
-            tooltip: "{{tooltip.register.eventHasEnded:translate}}",
-          },
-        ],
-        showMap: false,
-      });
     });
   });
 
