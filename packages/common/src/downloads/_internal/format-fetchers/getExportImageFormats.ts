@@ -1,6 +1,7 @@
 import { IHubEditableContent } from "../../../core/types/IHubEditableContent";
 import { getProp } from "../../../objects";
 import { IDynamicDownloadFormat, ServiceDownloadFormat } from "../../types";
+import { EXPORT_IMAGE_FORMATS } from "../_types";
 
 /**
  * @private
@@ -9,34 +10,18 @@ import { IDynamicDownloadFormat, ServiceDownloadFormat } from "../../types";
 export function getExportImageFormats(
   entity: IHubEditableContent
 ): IDynamicDownloadFormat[] {
-  // TODO: Preserve the order of appearance in the UI
-  const supportedFormats = [
-    ServiceDownloadFormat.BMP,
-    ServiceDownloadFormat.GIF,
-    ServiceDownloadFormat.JPG,
-    ServiceDownloadFormat.PNG,
-    ServiceDownloadFormat.PNG24,
-    ServiceDownloadFormat.PNG8,
-    ServiceDownloadFormat.TIFF,
-  ];
-
   const serverVersion = getProp(
     entity,
     "extendedProps.extendedProps.server.currentVersion"
   );
-  if (serverVersion >= 10.0) {
-    supportedFormats.push(ServiceDownloadFormat.JPG_PNG);
-  }
-  if (serverVersion >= 10.2) {
-    supportedFormats.push(ServiceDownloadFormat.PNG32);
-  }
-  if (serverVersion >= 10.3) {
-    supportedFormats.push(
-      ServiceDownloadFormat.BIP,
-      ServiceDownloadFormat.BSQ,
-      ServiceDownloadFormat.LERC
-    );
-  }
+
+  // NOTE: We have to imperatively exclude formats based on the server version
+  // because there is no other way to determine which formats are supported.
+  // See the EXPORT_IMAGE_FORMATS constant for notes on individual formats.
+  const supportedFormats =
+    serverVersion < 10.2
+      ? EXPORT_IMAGE_FORMATS.filter((f) => f !== ServiceDownloadFormat.PNG32)
+      : EXPORT_IMAGE_FORMATS;
 
   return supportedFormats.map((format) => ({ type: "dynamic", format }));
 }
