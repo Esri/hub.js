@@ -22,6 +22,7 @@ export const DEFAULT_PROJECT: Partial<IHubProject> = {
     metricDisplays: [],
   },
   features: InitiativeDefaultFeatures,
+  catalogs: [],
 };
 
 /**
@@ -43,6 +44,7 @@ export const DEFAULT_PROJECT_MODEL: IModel = {
   data: {
     display: "about",
     permissions: [],
+    catalogs: [],
     status: HubEntityStatus.notStarted,
     view: {
       contacts: [],

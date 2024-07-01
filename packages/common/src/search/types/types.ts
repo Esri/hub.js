@@ -1,4 +1,6 @@
 import { EntityType, IHubCatalog } from "./IHubCatalog";
+import { IHubSearchResponse } from "./IHubSearchResponse";
+import { IHubSearchResult } from "./IHubSearchResult";
 
 /**
  * Sort Option to be displayed in a UI
@@ -145,3 +147,22 @@ export interface IContainsResponse {
    */
   duration?: number;
 }
+
+/**
+ * Response from a search operation on a Catalog
+ */
+export interface ICatalogSearchResponse {
+  /**
+   *
+   */
+  catalogTitle: string;
+  collectionResults: ISearchResponseHash;
+}
+
+/**
+ * Response from a Catalog search operation where the responses for different collections
+ * or entities are grouped into a single object.
+ */
+
+export interface ISearchResponseHash
+  extends Record<string, IHubSearchResponse<IHubSearchResult>> {}

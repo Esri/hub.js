@@ -35,6 +35,7 @@ describe("HubProject Class", () => {
     // refetch the project
     const p2 = await HubProject.fetch(project.id, ctxMgr.context);
     expect(p2.getThumbnailUrl(800)).toEqual(chk);
+
     await project.delete();
   });
   it("crud project", async () => {
@@ -44,6 +45,12 @@ describe("HubProject Class", () => {
     const newProj: Partial<IHubProject> = {
       name: "E2E Test Project",
       summary: "This is the summary. Delete me",
+      catalogs: [
+        {
+          schemaVersion: 1,
+          title: "Test Catalog",
+        },
+      ],
     };
     const project = await HubProject.create(newProj, ctxMgr.context);
     // at this point we have a HubProject instance, but it is not yet saved
@@ -96,12 +103,124 @@ describe("HubProject Class", () => {
       project.toJson().id,
       ctxMgr.context
     );
-    expect(projectById.toJson().id).toBe(project.toJson().id);
+    const chk = projectById.toJson();
+    expect(chk.id).toBe(project.toJson().id);
+    const cats = chk.catalogs || [];
+    expect(cats[0].title).toBe("Test Catalog");
     // ensure differnet instance
     expect(projectById).not.toBe(project);
     const id = projectById.toJson().id;
     // delete project via Hub
     await project.delete();
+
+    // try to get it again - should fail
+    try {
+      await HubProject.fetch(id, ctxMgr.context);
+    } catch (ex) {
+      expect(ex.message).toBe("Project not found.");
+    }
+  });
+  it("add remove clear catalogs", async () => {
+    // create context
+    const ctxMgr = await factory.getContextManager("hubBasic", "admin");
+    // create a project
+    const newProj: Partial<IHubProject> = {
+      name: "E2E Test Project",
+      summary: "This is the summary. Delete me",
+      catalogs: [
+        {
+          schemaVersion: 1,
+          title: "Test Catalog",
+        },
+      ],
+    };
+    const project = await HubProject.create(newProj, ctxMgr.context);
+    // add a collection via json
+    const pojo = project.toJson();
+    if (!pojo.catalogs) {
+      pojo.catalogs = [];
+    }
+    pojo.catalogs.push({
+      schemaVersion: 1,
+      title: "Another Catalog",
+      scopes: {
+        item: {
+          targetEntity: "item",
+          filters: [
+            {
+              predicates: [
+                {
+                  type: "Feature Service",
+                  tags: "approved",
+                },
+              ],
+            },
+          ],
+        },
+      },
+    });
+    pojo.catalogs[0].collections = [
+      {
+        targetEntity: "item",
+        key: "webmaps",
+        label: "Web Maps",
+        scope: {
+          targetEntity: "item",
+          filters: [
+            {
+              predicates: [
+                {
+                  type: {
+                    any: ["Web Map"],
+                    not: ["Web Mapping Application"],
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      },
+    ];
+    // update the project from the pojo
+    project.update(pojo);
+    // save it
+    await project.save();
+    // fetch it again
+    const chk = await HubProject.fetch(project.id, ctxMgr.context);
+    // verify the catalogs against the pojo
+    const chkJson = chk.toJson();
+    if (!chkJson.catalogs) {
+      chkJson.catalogs = [];
+    }
+    expect(chkJson.catalogs.length).toBe(2);
+    // remove the first catalog
+    chkJson.catalogs = chkJson.catalogs.slice(1);
+    chk.update(chkJson);
+    await chk.save();
+    // fetch it again
+    const chk2 = await HubProject.fetch(chk.id, ctxMgr.context);
+    // verify the catalogs against the pojo
+    const chkJson2 = chk2.toJson();
+    if (!chkJson2.catalogs) {
+      chkJson2.catalogs = [];
+    }
+    expect(chkJson2.catalogs.length).toBe(1);
+    // clear the catalogs
+    chkJson2.catalogs = [];
+    chk2.update(chkJson2);
+    await chk2.save();
+    // fetch it again
+    const chk3 = await HubProject.fetch(chk2.id, ctxMgr.context);
+    // verify the catalogs against the pojo
+    const chkJson3 = chk3.toJson();
+    if (!chkJson3.catalogs) {
+      chkJson3.catalogs = [];
+    }
+    expect(chkJson3.catalogs.length).toBe(0);
+    // delete the project
+    const id = chkJson3.id;
+    // delete project via Hub
+    await chk3.delete();
 
     // try to get it again - should fail
     try {
