@@ -1,3 +1,10 @@
+## @esri/hub-common [14.153.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.153.0...@esri/hub-common@14.153.1) (2024-07-01)
+
+
+### Bug Fixes
+
+* getIncludesAndReferencesQuery accounts for no association group ([#1571](https://github.com/Esri/hub.js/issues/1571)) ([7f1d64c](https://github.com/Esri/hub.js/commit/7f1d64c1cc96436e1237b18df923a76016f04fff))
+
 # @esri/hub-common [14.153.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.152.2...@esri/hub-common@14.153.0) (2024-07-01)
 
 
