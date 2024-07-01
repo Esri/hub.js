@@ -1,10 +1,14 @@
 import { request } from "@esri/arcgis-rest-request";
 import {
   DownloadOperationStatus,
-  IFetchDownloadFileUrlOptions,
+  IFetchDownloadFileOptions,
+  IFetchDownloadFileResponse,
+  ServiceDownloadFormat,
 } from "../../types";
 import HubError from "../../../HubError";
 import { getProp } from "../../../objects/get-prop";
+import { IHubEditableContent } from "../../../core/types/IHubEditableContent";
+import { ExportImageFormat } from "../_types";
 
 /**
  * @private
@@ -16,12 +20,12 @@ import { getProp } from "../../../objects/get-prop";
  * @param options options for refining / filtering the resulting download file
  * @returns a url to download the file
  */
-export async function fetchExportImageDownloadFileUrl(
-  options: IFetchDownloadFileUrlOptions
-): Promise<string> {
+export async function fetchExportImageDownloadFile(
+  options: IFetchDownloadFileOptions
+): Promise<IFetchDownloadFileResponse> {
   validateOptions(options);
 
-  const { entity, format, context, geometry, progressCallback } = options;
+  const { entity, format, context, progressCallback } = options;
   progressCallback && progressCallback(DownloadOperationStatus.PENDING);
 
   const extent = getExportImageExtent(options);
@@ -33,6 +37,7 @@ export async function fetchExportImageDownloadFileUrl(
   requestOptions.params = {
     bbox: `${xmin},${ymin},${xmax},${ymax}`,
     bboxSR: `${wkid}`,
+    f: "image",
     format,
     mosaicRule:
       '{"ascending":true,"mosaicMethod":"esriMosaicNorthwest","mosaicOperation":"MT_FIRST"}',
@@ -44,12 +49,16 @@ export async function fetchExportImageDownloadFileUrl(
     requestOptions.params.size = `${maxImageWidth},${maxImageHeight}`;
   }
 
-  const { href } = await request(`${entity.url}/exportImage`, requestOptions);
+  const blob: Blob = await request(`${entity.url}/exportImage`, requestOptions);
   progressCallback && progressCallback(DownloadOperationStatus.COMPLETED);
-  return href;
+  return {
+    type: "blob",
+    blob,
+    filename: getBlobFilename(entity, format as ExportImageFormat),
+  };
 }
 
-function validateOptions(options: IFetchDownloadFileUrlOptions) {
+function validateOptions(options: IFetchDownloadFileOptions) {
   const { geometry } = options;
 
   if (geometry && geometry.type !== "extent") {
@@ -61,7 +70,7 @@ function validateOptions(options: IFetchDownloadFileUrlOptions) {
 }
 
 function getExportImageExtent(
-  options: IFetchDownloadFileUrlOptions
+  options: IFetchDownloadFileOptions
 ): __esri.Extent {
   const { entity, geometry } = options;
   const serverExtent = getProp(entity, "extendedProps.server.extent");
@@ -93,4 +102,16 @@ function getExportImageExtent(
   }
 
   return result;
+}
+
+function getBlobFilename(
+  entity: IHubEditableContent,
+  format: ExportImageFormat
+): string {
+  const name = entity.name || getProp(entity, "extendedProps.server.name");
+  const extension = format.includes(ServiceDownloadFormat.PNG)
+    ? // NOTE: the png family of formats (png8, png24, etc.) share the same extension
+      ServiceDownloadFormat.PNG
+    : format;
+  return `${name}.${extension}`;
 }

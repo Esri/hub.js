@@ -122,9 +122,9 @@ export type downloadProgressCallback = (
 ) => void;
 
 /**
- * Options for refining / filtering the results of the fetchDownloadFileUrl operation.
+ * Options for refining / filtering the results of the fetchDownloadFile operation.
  */
-export interface IFetchDownloadFileUrlOptions {
+export interface IFetchDownloadFileOptions {
   entity: IHubEditableContent;
   format: ServiceDownloadFormat;
   context: IArcGISContext;
@@ -133,6 +133,27 @@ export interface IFetchDownloadFileUrlOptions {
   where?: string; // where clause to filter results by
   progressCallback?: downloadProgressCallback;
   pollInterval?: number; // interval in milliseconds to poll for job completion
+}
+
+export type IFetchDownloadFileResponse =
+  | IFetchDownloadFileBlobResponse
+  | IFetchDownloadFileUrlResponse;
+
+interface IBaseFetchDownloadFileResponse {
+  type: "blob" | "url";
+}
+
+export interface IFetchDownloadFileBlobResponse
+  extends IBaseFetchDownloadFileResponse {
+  type: "blob";
+  blob: Blob;
+  filename: string;
+}
+
+export interface IFetchDownloadFileUrlResponse
+  extends IBaseFetchDownloadFileResponse {
+  type: "url";
+  href: string;
 }
 
 /**

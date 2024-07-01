@@ -1,7 +1,7 @@
 import * as requestModule from "@esri/arcgis-rest-request";
 import {
   DownloadOperationStatus,
-  IFetchDownloadFileUrlOptions,
+  IFetchDownloadFileOptions,
 } from "../../../../src/downloads/types";
 import { fetchExportImageDownloadFileUrl } from "../../../../src/downloads/_internal/file-url-fetchers/fetchExportImageDownloadFileUrl";
 
@@ -19,7 +19,7 @@ describe("fetchExportImageDownloadFileUrl", () => {
       format: "png",
       context: { requestOptions: {} },
       progressCallback,
-    } as unknown as IFetchDownloadFileUrlOptions;
+    } as unknown as IFetchDownloadFileOptions;
 
     const result = await fetchExportImageDownloadFileUrl(options);
     expect(result).toBe("result-url");
@@ -55,7 +55,7 @@ describe("fetchExportImageDownloadFileUrl", () => {
       entity: { type: "Image Service", url: "http://example-service.com" },
       format: "png",
       context: { requestOptions: {} },
-    } as unknown as IFetchDownloadFileUrlOptions;
+    } as unknown as IFetchDownloadFileOptions;
 
     const result = await fetchExportImageDownloadFileUrl(options);
     expect(result).toBe("result-url");
@@ -84,7 +84,7 @@ describe("fetchExportImageDownloadFileUrl", () => {
       format: "png",
       context: { requestOptions: {} },
       geometry: { type: "point" },
-    } as unknown as IFetchDownloadFileUrlOptions;
+    } as unknown as IFetchDownloadFileOptions;
 
     const result = await fetchExportImageDownloadFileUrl(options);
     expect(result).toBe("result-url");
@@ -120,7 +120,7 @@ describe("fetchExportImageDownloadFileUrl", () => {
         ymax: 1,
         spatialReference: { wkid: 4326 },
       },
-    } as unknown as IFetchDownloadFileUrlOptions;
+    } as unknown as IFetchDownloadFileOptions;
 
     const result = await fetchExportImageDownloadFileUrl(options);
     expect(result).toBe("result-url");
