@@ -136,6 +136,7 @@ describe("Collection Class:", () => {
         fake: "response",
       } as unknown as IHubSearchResponse<IHubSearchResult>);
       const [query, opts] = hubSearchSpy.calls.argsFor(0);
+      expect(query).not.toBe(qry); // ensure we don't mutate the original
       expect(query.targetEntity).toBe("item");
       expect(query.filters.length).toBe(2);
       expect(query.filters[0].predicates[0].term).toBe("water");
