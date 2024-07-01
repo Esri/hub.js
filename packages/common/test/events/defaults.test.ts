@@ -61,6 +61,7 @@ describe("HubEvent defaults:", () => {
         location: {
           type: "none",
         },
+        catalogs: [],
         ...datesAndTimes,
       });
       expect(getDefaultEventDatesAndTimesSpy).toHaveBeenCalledTimes(1);
