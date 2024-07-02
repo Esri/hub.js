@@ -73,7 +73,9 @@ export function checkAssertion(
       case "is-group-admin":
       case "is-not-group-admin":
       case "is-group-member":
+      case "is-not-group-member":
       case "is-group-owner":
+      case "is-not-group-owner":
         response = groupAssertions(assertion, propValue, val, context);
         break;
     }
@@ -108,6 +110,11 @@ function groupAssertions(
     groups = filterByMembershipType(userGroups, ["admin", "owner", "member"]);
   }
 
+  if (assertion.type === "is-not-group-member") {
+    failResponse = "user-is-group-member";
+    groups = filterByMembershipType(userGroups, ["admin", "owner", "member"]);
+  }
+
   if (assertion.type === "is-group-admin") {
     failResponse = "user-not-group-manager";
     groups = filterByMembershipType(userGroups, ["admin", "owner"]);
@@ -115,7 +122,7 @@ function groupAssertions(
 
   if (assertion.type === "is-not-group-admin") {
     failResponse = "user-is-group-manager";
-    groups = filterByMembershipType(userGroups, ["member"]);
+    groups = filterByMembershipType(userGroups, ["admin", "owner"]);
   }
 
   if (assertion.type === "is-group-owner") {
@@ -123,8 +130,14 @@ function groupAssertions(
     groups = filterByMembershipType(userGroups, ["owner"]);
   }
 
+  if (assertion.type === "is-not-group-owner") {
+    failResponse = "user-is-group-owner";
+    groups = filterByMembershipType(userGroups, ["owner"]);
+  }
+
   // now, see if the val is in the groups array
-  if (!groups.includes(val)) {
+  const isInverseAssertion = assertion.type.includes("not");
+  if (isInverseAssertion ? groups.includes(val) : !groups.includes(val)) {
     // send a specific response
     response = failResponse;
   }
@@ -284,9 +297,18 @@ function arrayAssertions(
     response = "property-not-array";
   } else {
     const arrayProp = propValue as any[];
-    const arrayContainsValue = arrayProp.includes(val);
-    if (assertion.type === "contains" && !arrayContainsValue) {
-      response = "array-missing-required-value";
+    if (assertion.type === "contains") {
+      if (Array.isArray(val)) {
+        const containsAll = val.every((v) => arrayProp.includes(v));
+        if (!containsAll) {
+          response = "array-missing-required-value";
+        }
+      } else {
+        const containsVal = arrayProp.includes(val);
+        if (!containsVal) {
+          response = "array-missing-required-value";
+        }
+      }
     }
     if (assertion.type === "contains-some") {
       if (!Array.isArray(val)) {
@@ -298,8 +320,18 @@ function arrayAssertions(
         }
       }
     }
-    if (assertion.type === "without" && arrayContainsValue) {
-      response = "array-contains-invalid-value";
+    if (assertion.type === "without") {
+      if (Array.isArray(val)) {
+        const containsNone = val.every((v) => !arrayProp.includes(v));
+        if (!containsNone) {
+          response = "array-contains-invalid-value";
+        }
+      } else {
+        const containsVal = arrayProp.includes(val);
+        if (containsVal) {
+          response = "array-contains-invalid-value";
+        }
+      }
     }
   }
   return response;
