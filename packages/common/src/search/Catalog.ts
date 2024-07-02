@@ -118,7 +118,7 @@ export class Catalog implements IHubCatalog {
    * Return an array of the entity types available in this Catalog
    */
   get availableScopes(): EntityType[] {
-    return Object.keys(this.scopes) as unknown as EntityType[];
+    return Object.keys(this.scopes || {}) as unknown as EntityType[];
   }
 
   /**
@@ -492,35 +492,40 @@ export class Catalog implements IHubCatalog {
    * @returns
    */
   async searchScopes(
-    query: string,
-    options: IHubSearchOptions = {}
+    query: string | IQuery,
+    options: IHubSearchOptions = {},
+    limitTo?: EntityType[]
   ): Promise<ISearchResponseHash> {
-    const qry: IQuery = {
-      targetEntity: "item",
-      filters: [
-        {
-          predicates: [
-            {
-              term: query,
-            },
-          ],
-        },
-      ],
-    };
-    // iterate the scopes, issue searchs for each one
+    let qry: IQuery;
+    if (typeof query === "string") {
+      qry = {
+        targetEntity: "item", // this gets replaced below, but we need something here
+        filters: [
+          {
+            predicates: [
+              {
+                term: query,
+              },
+            ],
+          },
+        ],
+      };
+    } else {
+      qry = query;
+    }
 
     const promiseKeys: string[] = [];
-    const promises = this.availableScopes.map((name) => {
-      promiseKeys.push(name);
-      // make clones
-      const qryClone = cloneObject(qry);
-      const optsClone = cloneObject(options);
-      // set the target entity
-      qryClone.targetEntity = name;
-      optsClone.targetEntity = name;
-      // return the search promise
-      return this.search(qryClone, optsClone);
-    });
+    const promises = this.availableScopes.reduce((acc, entityType) => {
+      if (!limitTo || limitTo.includes(entityType)) {
+        promiseKeys.push(entityType);
+        const qryClone = cloneObject(qry);
+        const optsClone = cloneObject(options);
+        qryClone.targetEntity = entityType;
+        optsClone.targetEntity = entityType;
+        acc.push(this.search(qryClone, optsClone));
+      }
+      return acc;
+    }, []);
 
     // wait for all the searches to complete
     const responses = await Promise.all(promises);

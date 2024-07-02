@@ -380,6 +380,43 @@ fdescribe("catalog and collection e2e:", () => {
       },
     ],
   };
+  const nakedScopeCatalog: IHubCatalog = {
+    title: "Naked Scope Catalog",
+    schemaVersion: 1,
+    scopes: {
+      group: {
+        targetEntity: "group",
+        filters: [
+          {
+            predicates: [
+              {
+                orgid: "1JONy5Qa4xQNSWRJ",
+              },
+            ],
+          },
+        ],
+      },
+    },
+    collections: [
+      {
+        label: "Water Resources",
+        targetEntity: "item",
+        key: "waterResources",
+        scope: {
+          targetEntity: "item",
+          filters: [
+            {
+              predicates: [
+                {
+                  group: "67f5723b1b464ba38be91b91ff3ea442",
+                },
+              ],
+            },
+          ],
+        },
+      },
+    ],
+  };
 
   describe("catalog instance search", () => {
     it("can search all collections", async () => {
@@ -431,6 +468,7 @@ fdescribe("catalog and collection e2e:", () => {
         landBaseCatalog,
         supportingUsersCatalog,
         supportingGroupsCatalog,
+        nakedScopeCatalog,
       ];
       const start = new Date().getTime();
 
@@ -442,9 +480,18 @@ fdescribe("catalog and collection e2e:", () => {
       );
       const end = new Date().getTime();
       // console.log("time taken", end - start);
-
+      // debugger;
       // results.forEach((result) => {
+      //   console.log("---------------------------------------");
       //   console.log(`Catalog: ${result.catalogTitle}`);
+      //   const scopeRes = result.scopeResults || {};
+      //   console.log(`Scopes: ${Object.keys(scopeRes).join(", ")}`);
+
+      //   Object.keys(scopeRes).forEach((key) => {
+      //     console.log(
+      //       `${key} Scope has ${scopeRes[key]?.results?.length} results`
+      //     );
+      //   });
       //   console.log(
       //     `Collections: ${Object.keys(result.collectionResults).join(", ")}`
       //   );
