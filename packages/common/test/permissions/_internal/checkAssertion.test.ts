@@ -318,19 +318,35 @@ describe("checkAssertion:", () => {
         isAuthenticated: true,
       } as unknown as IArcGISContext;
 
+      const chk = checkAssertion(assertion, { colors: ["red", "blue"] }, ctx);
+      expect(chk.response).toBe("granted");
+      const fail = checkAssertion(
+        assertion,
+        { colors: ["redish", "blue"] },
+        ctx
+      );
+      expect(fail.response).toBe("array-missing-required-value");
+    });
+
+    it("entity prop contains all vals in array", () => {
+      const assertion: IPolicyAssertion = {
+        property: "colors",
+        type: "contains",
+        value: ["red", "blue"],
+      };
+      const ctx = {
+        isAuthenticated: true,
+      } as unknown as IArcGISContext;
+
       const chk = checkAssertion(
         assertion,
-        {
-          colors: ["red", "blue"],
-        },
+        { colors: ["red", "blue", "purple"] },
         ctx
       );
       expect(chk.response).toBe("granted");
       const fail = checkAssertion(
         assertion,
-        {
-          colors: ["redish", "blue"],
-        },
+        { colors: ["redish", "blue", "purple"] },
         ctx
       );
       expect(fail.response).toBe("array-missing-required-value");
@@ -364,7 +380,6 @@ describe("checkAssertion:", () => {
       const chk3 = checkAssertion(assertion, {}, ctx);
       expect(chk3.response).toBe("assertion-requires-array-value");
     });
-
     it("entity prop without val", () => {
       const assertion: IPolicyAssertion = {
         property: "colors",
@@ -375,22 +390,27 @@ describe("checkAssertion:", () => {
         isAuthenticated: true,
       } as unknown as IArcGISContext;
 
-      const chk = checkAssertion(
-        assertion,
-        {
-          colors: ["green", "blue"],
-        },
-        ctx
-      );
+      const chk = checkAssertion(assertion, { colors: ["green", "blue"] }, ctx);
       expect(chk.response).toBe("granted");
-      const fail = checkAssertion(
-        assertion,
-        {
-          colors: ["red", "blue"],
-        },
-        ctx
-      );
+      const fail = checkAssertion(assertion, { colors: ["red", "blue"] }, ctx);
       expect(fail.response).toBe("array-contains-invalid-value");
+    });
+    it("entity prop without any vals in array", () => {
+      const assertion: IPolicyAssertion = {
+        property: "colors",
+        type: "without",
+        value: ["red", "blue"],
+      };
+      const ctx = {
+        isAuthenticated: true,
+      } as unknown as IArcGISContext;
+
+      const chk = checkAssertion(assertion, { colors: ["green"] }, ctx);
+      expect(chk.response).toBe("granted");
+      const fail1 = checkAssertion(assertion, { colors: ["blue"] }, ctx);
+      const fail2 = checkAssertion(assertion, { colors: ["blue", "red"] }, ctx);
+      expect(fail1.response).toBe("array-contains-invalid-value");
+      expect(fail2.response).toBe("array-contains-invalid-value");
     });
     it("prop not array error", () => {
       const assertion: IPolicyAssertion = {
@@ -794,6 +814,38 @@ describe("checkAssertion:", () => {
         ctx
       );
       expect(chk3.response).toBe("user-is-group-manager");
+    });
+    it("is-not-group-owner", () => {
+      const assertion: IPolicyAssertion = {
+        property: "context:currentUser",
+        type: "is-not-group-owner",
+        value: "entity:group.id",
+      };
+
+      const chk1 = checkAssertion(assertion, { group: { id: "00c" } }, ctx);
+      const chk2 = checkAssertion(assertion, { group: { id: "00a" } }, ctx);
+      expect(chk1.response).toBe("granted");
+      expect(chk2.response).toBe("granted");
+
+      const fail = checkAssertion(assertion, { group: { id: "00b" } }, ctx);
+      expect(fail.response).toBe("user-is-group-owner");
+    });
+    it("is-not-group-member", () => {
+      const assertion: IPolicyAssertion = {
+        property: "context:currentUser",
+        type: "is-not-group-member",
+        value: "entity:group.id",
+      };
+
+      const chk = checkAssertion(assertion, { group: { id: "00d" } }, ctx);
+      expect(chk.response).toBe("granted");
+
+      const fail1 = checkAssertion(assertion, { group: { id: "00a" } }, ctx);
+      const fail2 = checkAssertion(assertion, { group: { id: "00b" } }, ctx);
+      const fail3 = checkAssertion(assertion, { group: { id: "00c" } }, ctx);
+      expect(fail1.response).toBe("user-is-group-member");
+      expect(fail2.response).toBe("user-is-group-member");
+      expect(fail3.response).toBe("user-is-group-member");
     });
     it("user has no groups", () => {
       const cloneCtx = cloneObject(ctx);
