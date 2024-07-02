@@ -19,6 +19,8 @@ export type PolicyResponse =
   | "not-granted" // user does not have permission
   | "no-edit-access" // user does not have edit access
   | "edit-access" // user has edit access but policy is for non-editors
+  | "no-delete-access" // user does not have delete access
+  | "delete-access" // user has delete access but policy is for non-deleters
   | "invalid-permission" // permission is invalid
   | "invalid-capability" // capability is invalid
   | "privilege-required" // user does not have required privilege
@@ -39,6 +41,8 @@ export type PolicyResponse =
   | "user-not-group-manager"
   | "user-not-group-owner"
   | "user-is-group-manager"
+  | "user-is-group-member"
+  | "user-is-group-owner"
   | "assertion-property-not-found"
   | "assertion-failed" // assertion condition was not met
   | "assertion-requires-numeric-values" // assertion requires numeric values
