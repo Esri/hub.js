@@ -57,7 +57,7 @@ export const PagePermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:page:delete",
     dependencies: ["hub:page"],
     authenticated: true,
-    entityOwner: true,
+    entityDelete: true,
   },
   {
     permission: "hub:page:canChangeAccess",

@@ -56,7 +56,7 @@ export const InitiativeTemplatePermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:initiativeTemplate:delete",
     dependencies: ["hub:initiativeTemplate"],
     authenticated: true,
-    entityOwner: true,
+    entityDelete: true,
   },
   {
     permission: "hub:initiativeTemplate:canChangeAccess",

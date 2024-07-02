@@ -58,7 +58,7 @@ export const EventPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:event:delete",
     authenticated: true,
     dependencies: ["hub:event"],
-    entityOwner: true,
+    entityDelete: true,
   },
   {
     permission: "hub:event:owner",

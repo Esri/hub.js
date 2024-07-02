@@ -71,7 +71,7 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:project:delete",
     dependencies: ["hub:project"],
     authenticated: true,
-    entityOwner: true,
+    entityDelete: true,
   },
   {
     permission: "hub:project:owner",
