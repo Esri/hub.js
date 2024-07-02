@@ -66,6 +66,11 @@ export interface IPermissionPolicy {
   entityEdit?: boolean;
 
   /**
+   * Can the user delete the entity being accessed?
+   */
+  entityDelete?: boolean;
+
+  /**
    * Must the user be the owner of the entity being accessed?
    */
   entityOwner?: boolean;
@@ -145,7 +150,9 @@ export type AssertionType =
   | "is-group-admin"
   | "is-not-group-admin"
   | "is-group-member"
+  | "is-not-group-member"
   | "is-group-owner"
+  | "is-not-group-owner"
   | "starts-with"
   | "ends-with"
   | "not-starts-with"
