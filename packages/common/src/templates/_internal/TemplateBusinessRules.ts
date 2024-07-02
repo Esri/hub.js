@@ -45,7 +45,7 @@ export const TemplatePermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:template:delete",
     dependencies: ["hub:template"],
     authenticated: true,
-    entityOwner: true,
+    entityDelete: true,
   },
   {
     permission: "hub:template:view",
