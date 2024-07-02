@@ -6,6 +6,10 @@ export interface IHubCatalog {
    */
   title?: string;
   /**
+   * Optional Emoji to show in the UI
+   */
+  emojii?: string;
+  /**
    * Filter defines the "scopes" of the Catalog, on a per entity type basis
    */
   scopes?: ICatalogScope;
@@ -17,6 +21,16 @@ export interface IHubCatalog {
    * Schema Version
    */
   schemaVersion: number;
+  /**
+   * Hashes to verify the integrity of the catalog
+   * Only verified when the catalog is loaded into the editor
+   * If the hashes do not match, the catalog will not be loaded
+   * and the user will simply have the option to reset the catalog
+   */
+  integrity?: {
+    scopes: string;
+    collections: string;
+  };
 }
 
 export interface ICatalogScope extends Partial<Record<EntityType, IQuery>> {}
