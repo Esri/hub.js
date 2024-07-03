@@ -479,28 +479,27 @@ fdescribe("catalog and collection e2e:", () => {
         ctxMgr.context
       );
       const end = new Date().getTime();
-      // console.log("time taken", end - start);
-      // debugger;
-      // results.forEach((result) => {
-      //   console.log("---------------------------------------");
-      //   console.log(`Catalog: ${result.catalogTitle}`);
-      //   const scopeRes = result.scopeResults || {};
-      //   console.log(`Scopes: ${Object.keys(scopeRes).join(", ")}`);
+      console.log("time taken", end - start);
+      results.forEach((result) => {
+        console.log("---------------------------------------");
+        console.log(`Catalog: ${result.catalogTitle}`);
+        const scopeRes = result.scopeResults || {};
+        console.log(`Scopes: ${Object.keys(scopeRes).join(", ")}`);
 
-      //   Object.keys(scopeRes).forEach((key) => {
-      //     console.log(
-      //       `${key} Scope has ${scopeRes[key]?.results?.length} results`
-      //     );
-      //   });
-      //   console.log(
-      //     `Collections: ${Object.keys(result.collectionResults).join(", ")}`
-      //   );
-      //   Object.keys(result.collectionResults).forEach((key) => {
-      //     console.log(
-      //       `${key} collection has ${result.collectionResults[key].results.length} results`
-      //     );
-      //   });
-      // });
+        Object.keys(scopeRes).forEach((key) => {
+          console.log(
+            `${key} Scope has ${scopeRes[key]?.results?.length} results`
+          );
+        });
+        console.log(
+          `Collections: ${Object.keys(result.collectionResults).join(", ")}`
+        );
+        Object.keys(result.collectionResults).forEach((key) => {
+          console.log(
+            `${key} collection has ${result.collectionResults[key].results.length} results`
+          );
+        });
+      });
     });
   });
 });
