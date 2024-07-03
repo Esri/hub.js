@@ -62,9 +62,10 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:project:edit",
-    dependencies: ["hub:project"],
+    services: ["portal"],
     authenticated: true,
     entityEdit: true,
+    licenses: ["hub-premium", "hub-basic"],
   },
   {
     permission: "hub:project:delete",
@@ -134,7 +135,6 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:project:workspace:initiatives",
-    environments: ["qaext"],
     dependencies: [
       "hub:project:workspace",
       "hub:project:associations",
