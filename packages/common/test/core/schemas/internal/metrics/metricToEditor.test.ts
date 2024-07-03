@@ -25,6 +25,8 @@ describe("metricToEditor", () => {
       metricId: "test123",
       displayType: "stat",
       cardTitle: "Testing the display config",
+      sourceLink: "https://source-link.hubqa.arcgis.com",
+      sourceTitle: "source title",
     };
 
     const editor = metricToEditor(metric, displayConfig);
@@ -33,6 +35,8 @@ describe("metricToEditor", () => {
       type: "dynamic",
       displayType: "stat",
       cardTitle: "Testing the display config",
+      sourceLink: undefined,
+      sourceTitle: undefined,
       dynamicMetric: {
         serviceUrl: "https://hubqa.arcgis.com",
         layerId: 0,
@@ -40,6 +44,51 @@ describe("metricToEditor", () => {
         statistic: "count",
         where: "caption = 'hello'",
         type: "service-query",
+        sourceLink: "https://source-link.hubqa.arcgis.com",
+        sourceTitle: "source title",
+        itemId: undefined,
+        expressionSet: undefined,
+        allowExpressionSet: undefined,
+        fieldType: undefined,
+      },
+    });
+  });
+  it("converts a service-query metric correctly with missing display config properties", () => {
+    const metric = {
+      id: "test123",
+      name: "TestMetric",
+      description: "Test Metric is a testing metric",
+      source: {
+        serviceUrl: "https://hubqa.arcgis.com",
+        layerId: 0,
+        field: "test",
+        statistic: "count",
+        where: "caption = 'hello'",
+        type: "service-query",
+      } as MetricSource,
+    };
+
+    const displayConfig = {
+      metricId: "test123",
+      displayType: "stat",
+    };
+
+    const editor = metricToEditor(metric, displayConfig);
+    expect(editor).toEqual({
+      metricId: "test123",
+      type: "dynamic",
+      displayType: "stat",
+      sourceLink: undefined,
+      sourceTitle: undefined,
+      dynamicMetric: {
+        serviceUrl: "https://hubqa.arcgis.com",
+        layerId: 0,
+        field: "test",
+        statistic: "count",
+        where: "caption = 'hello'",
+        type: "service-query",
+        sourceLink: undefined,
+        sourceTitle: undefined,
         itemId: undefined,
         expressionSet: undefined,
         allowExpressionSet: undefined,
@@ -62,6 +111,8 @@ describe("metricToEditor", () => {
       metricId: "test123",
       displayType: "stat",
       cardTitle: "Testing the display config",
+      sourceLink: "https://source-link.hubqa.arcgis.com",
+      sourceTitle: "source title",
     };
 
     const editor = metricToEditor(metric, displayConfig);
@@ -71,6 +122,8 @@ describe("metricToEditor", () => {
       cardTitle: "Testing the display config",
       value: "525,600",
       type: "static",
+      sourceLink: "https://source-link.hubqa.arcgis.com",
+      sourceTitle: "source title",
       valueType: undefined,
     });
   });
