@@ -43,11 +43,15 @@ export async function fetchExportImageDownloadFile(
       '{"ascending":true,"mosaicMethod":"esriMosaicNorthwest","mosaicOperation":"MT_FIRST"}',
   };
 
-  const { maxImageHeight, maxImageWidth } =
-    getProp(entity, "extendedProps.server") || {};
-  if (maxImageWidth && maxImageHeight) {
-    requestOptions.params.size = `${maxImageWidth},${maxImageHeight}`;
-  }
+  // TODO: Figure out whether we want to leverage the server's maxImageWidth and maxImageHeight.
+  // While it results in higher quality images, it also creates a lot of variability in the result
+  // when we filter an image by extent.
+  //
+  // const { maxImageHeight, maxImageWidth } =
+  //   getProp(entity, "extendedProps.server") || {};
+  // if (maxImageWidth && maxImageHeight) {
+  //   requestOptions.params.size = `${maxImageWidth},${maxImageHeight}`;
+  // }
 
   const blob: Blob = await request(`${entity.url}/exportImage`, requestOptions);
   progressCallback && progressCallback(DownloadOperationStatus.COMPLETED);
@@ -75,21 +79,10 @@ function getExportImageExtent(
   const { entity, geometry } = options;
   const serverExtent = getProp(entity, "extendedProps.server.extent");
 
+  // TODO: Factor in entity.extent if it exists AND is a valid 4326 bbox
   let result: __esri.Extent = null;
   if (geometry) {
     result = geometry as __esri.Extent;
-  } else if (entity.extent) {
-    const [[xmin, ymin], [xmax, ymax]] = entity.extent;
-    result = {
-      type: "extent",
-      xmin,
-      ymin,
-      xmax,
-      ymax,
-      spatialReference: {
-        wkid: 4326,
-      } as __esri.SpatialReference,
-    } as __esri.Extent;
   } else if (serverExtent) {
     result = serverExtent;
   }

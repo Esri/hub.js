@@ -20,7 +20,10 @@ export type ExportItemFormat = (typeof EXPORT_ITEM_FORMATS)[number];
  * Listed in the default order of appearance in the UI.
  */
 export const EXPORT_IMAGE_FORMATS = [
-  ServiceDownloadFormat.TIFF,
+  // Temporary exclusion until we hammer out the details of how to support it.
+  // Unlike jpg or png, tiff downloads require exact geospatial parameters to be set.
+  // ServiceDownloadFormat.TIFF,
+
   ServiceDownloadFormat.JPG,
   ServiceDownloadFormat.PNG,
   ServiceDownloadFormat.PNG8,
