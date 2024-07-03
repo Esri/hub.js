@@ -3,12 +3,12 @@ import {
   DownloadOperationStatus,
   IFetchDownloadFileOptions,
 } from "../../../../src/downloads/types";
-import { fetchExportImageDownloadFileUrl } from "../../../../src/downloads/_internal/file-url-fetchers/fetchExportImageDownloadFileUrl";
+import { fetchExportImageDownloadFile } from "../../../../src/downloads/_internal/file-url-fetchers/fetchExportImageDownloadFile";
 
-describe("fetchExportImageDownloadFileUrl", () => {
+describe("fetchExportImageDownloadFile", () => {
   it("should call progressCallback with PENDING and COMPLETED statuses", async () => {
     const requestSpy = spyOn(requestModule, "request").and.returnValue(
-      Promise.resolve({ href: "result-url" })
+      Promise.resolve({ size: 1000 } as Blob)
     );
     const progressCallback = jasmine
       .createSpy("progressCallback")
@@ -21,8 +21,12 @@ describe("fetchExportImageDownloadFileUrl", () => {
       progressCallback,
     } as unknown as IFetchDownloadFileOptions;
 
-    const result = await fetchExportImageDownloadFileUrl(options);
-    expect(result).toBe("result-url");
+    const result = await fetchExportImageDownloadFile(options);
+    expect(result).toBe({
+      type: "blob",
+      filename: "entity-name.png",
+      blob: { size: 1000 } as Blob,
+    });
 
     expect(progressCallback).toHaveBeenCalledTimes(2);
     expect(progressCallback).toHaveBeenCalledWith(
@@ -48,7 +52,7 @@ describe("fetchExportImageDownloadFileUrl", () => {
 
   it("handles when no progressCallback is passed", async () => {
     const requestSpy = spyOn(requestModule, "request").and.returnValue(
-      Promise.resolve({ href: "result-url" })
+      Promise.resolve({ size: 1000 } as Blob)
     );
 
     const options = {
@@ -57,8 +61,12 @@ describe("fetchExportImageDownloadFileUrl", () => {
       context: { requestOptions: {} },
     } as unknown as IFetchDownloadFileOptions;
 
-    const result = await fetchExportImageDownloadFileUrl(options);
-    expect(result).toBe("result-url");
+    const result = await fetchExportImageDownloadFile(options);
+    expect(result).toBe({
+      type: "blob",
+      filename: "entity-name.png",
+      blob: { size: 1000 } as Blob,
+    });
 
     expect(requestSpy).toHaveBeenCalledTimes(1);
     expect(requestSpy).toHaveBeenCalledWith(
@@ -76,7 +84,7 @@ describe("fetchExportImageDownloadFileUrl", () => {
 
   it("handles a non-extent geometry", async () => {
     const requestSpy = spyOn(requestModule, "request").and.returnValue(
-      Promise.resolve({ href: "result-url" })
+      Promise.resolve({ size: 1000 } as Blob)
     );
 
     const options = {
@@ -86,8 +94,12 @@ describe("fetchExportImageDownloadFileUrl", () => {
       geometry: { type: "point" },
     } as unknown as IFetchDownloadFileOptions;
 
-    const result = await fetchExportImageDownloadFileUrl(options);
-    expect(result).toBe("result-url");
+    const result = await fetchExportImageDownloadFile(options);
+    expect(result).toBe({
+      type: "blob",
+      filename: "entity-name.png",
+      blob: { size: 1000 } as Blob,
+    });
 
     expect(requestSpy).toHaveBeenCalledTimes(1);
     expect(requestSpy).toHaveBeenCalledWith(
@@ -105,7 +117,7 @@ describe("fetchExportImageDownloadFileUrl", () => {
 
   it("handles an extent geometry", async () => {
     const requestSpy = spyOn(requestModule, "request").and.returnValue(
-      Promise.resolve({ href: "result-url" })
+      Promise.resolve({ size: 1000 } as Blob)
     );
 
     const options = {
@@ -122,8 +134,12 @@ describe("fetchExportImageDownloadFileUrl", () => {
       },
     } as unknown as IFetchDownloadFileOptions;
 
-    const result = await fetchExportImageDownloadFileUrl(options);
-    expect(result).toBe("result-url");
+    const result = await fetchExportImageDownloadFile(options);
+    expect(result).toBe({
+      type: "blob",
+      filename: "entity-name.png",
+      blob: { size: 1000 } as Blob,
+    });
 
     expect(requestSpy).toHaveBeenCalledTimes(1);
     expect(requestSpy).toHaveBeenCalledWith(
