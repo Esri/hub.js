@@ -53,6 +53,49 @@ describe("metricToEditor", () => {
       },
     });
   });
+  it("converts a service-query metric correctly with missing display config properties", () => {
+    const metric = {
+      id: "test123",
+      name: "TestMetric",
+      description: "Test Metric is a testing metric",
+      source: {
+        serviceUrl: "https://hubqa.arcgis.com",
+        layerId: 0,
+        field: "test",
+        statistic: "count",
+        where: "caption = 'hello'",
+        type: "service-query",
+      } as MetricSource,
+    };
+
+    const displayConfig = {
+      metricId: "test123",
+      displayType: "stat",
+    };
+
+    const editor = metricToEditor(metric, displayConfig);
+    expect(editor).toEqual({
+      metricId: "test123",
+      type: "dynamic",
+      displayType: "stat",
+      sourceLink: undefined,
+      sourceTitle: undefined,
+      dynamicMetric: {
+        serviceUrl: "https://hubqa.arcgis.com",
+        layerId: 0,
+        field: "test",
+        statistic: "count",
+        where: "caption = 'hello'",
+        type: "service-query",
+        sourceLink: undefined,
+        sourceTitle: undefined,
+        itemId: undefined,
+        expressionSet: undefined,
+        allowExpressionSet: undefined,
+        fieldType: undefined,
+      },
+    });
+  });
   it("converts a static-value metric correctly", () => {
     const metric = {
       id: "test123",
