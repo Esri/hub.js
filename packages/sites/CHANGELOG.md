@@ -1,3 +1,15 @@
+# @esri/hub-sites [15.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@14.3.0...@esri/hub-sites@15.0.0) (2024-06-27)
+
+
+### Features
+
+* **hub-sites:** initiatives are no longer created during site creation ([#1564](https://github.com/Esri/hub.js/issues/1564)) ([1f54908](https://github.com/Esri/hub.js/commit/1f549085cce485e12d970eb870cc967d55dc4a2d))
+
+
+### BREAKING CHANGES
+
+* **hub-sites:** removes logic to automatically create an initiative during the site creation process
+
 # @esri/hub-sites [14.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@14.2.4...@esri/hub-sites@14.3.0) (2024-05-15)
 
 

@@ -1,3 +1,38 @@
+## @esri/hub-common [14.153.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.153.0...@esri/hub-common@14.153.1) (2024-07-01)
+
+
+### Bug Fixes
+
+* getIncludesAndReferencesQuery accounts for no association group ([#1571](https://github.com/Esri/hub.js/issues/1571)) ([7f1d64c](https://github.com/Esri/hub.js/commit/7f1d64c1cc96436e1237b18df923a76016f04fff))
+
+# @esri/hub-common [14.153.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.152.2...@esri/hub-common@14.153.0) (2024-07-01)
+
+
+### Features
+
+* ungate project workspace initiatives association ([#1569](https://github.com/Esri/hub.js/issues/1569)) ([826e691](https://github.com/Esri/hub.js/commit/826e691d2da4c4f6c319bf79c307f4f1d78a40fc))
+
+## @esri/hub-common [14.152.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.152.1...@esri/hub-common@14.152.2) (2024-06-28)
+
+
+### Bug Fixes
+
+* 10795 10736 project and initiative creation rules updates ([#1562](https://github.com/Esri/hub.js/issues/1562)) ([409edc5](https://github.com/Esri/hub.js/commit/409edc5f6e4ab2c4c41ccad5450938284673abc3))
+
+## @esri/hub-common [14.152.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.152.0...@esri/hub-common@14.152.1) (2024-06-28)
+
+
+### Bug Fixes
+
+* hub:project:edit allowed on both prem and basic licenses ([#1568](https://github.com/Esri/hub.js/issues/1568)) ([4236aef](https://github.com/Esri/hub.js/commit/4236aefa70dd8e73dcb72d3b0a4d25bbfe029e0e))
+
+# @esri/hub-common [14.152.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.151.0...@esri/hub-common@14.152.0) (2024-06-27)
+
+
+### Features
+
+* Removed sharing section on metric pane in initiative and project entities ([#1567](https://github.com/Esri/hub.js/issues/1567)) ([bc8bdd2](https://github.com/Esri/hub.js/commit/bc8bdd21c85a56dfa1308d5d4e5e643f64de9129))
+
 # @esri/hub-common [14.151.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.150.0...@esri/hub-common@14.151.0) (2024-06-26)
 
 

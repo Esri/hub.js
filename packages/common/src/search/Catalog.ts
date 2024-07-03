@@ -127,7 +127,7 @@ export class Catalog implements IHubCatalog {
    * @returns
    */
   getScope(type: EntityType): IQuery | undefined {
-    return this._catalog.scopes[type];
+    return this._catalog.scopes?.[type];
   }
 
   /**
@@ -434,7 +434,7 @@ export class Catalog implements IHubCatalog {
   ): Promise<ISearchResponseHash> {
     // build a query
     const qry: IQuery = {
-      targetEntity: "item",
+      targetEntity: "item", // this gets replaced below, but we need something here
       filters: [
         {
           predicates: [

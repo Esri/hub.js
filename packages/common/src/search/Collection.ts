@@ -95,7 +95,7 @@ export class Collection implements IHubCollection {
         ],
       };
     } else {
-      qry = query;
+      qry = cloneObject(query);
     }
 
     // TODO: What should happen when a Query is passed in that has a targetEntity that doesn't match the collection's targetEntity?
