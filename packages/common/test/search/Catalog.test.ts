@@ -96,6 +96,31 @@ const catalogJson: IHubCatalog = {
   ],
 };
 
+const noScopeCatalog: IHubCatalog = {
+  title: "No Scope Catalog",
+  schemaVersion: 1,
+
+  collections: [
+    {
+      key: "teams",
+      label: "Project Teams",
+      targetEntity: "group",
+      scope: {
+        targetEntity: "group",
+        filters: [
+          {
+            predicates: [
+              {
+                tag: "Project Team",
+              },
+            ],
+          },
+        ],
+      },
+    },
+  ],
+};
+
 describe("Catalog Class:", () => {
   let context: IArcGISContext;
   beforeEach(async () => {
@@ -123,6 +148,7 @@ describe("Catalog Class:", () => {
       expect(instance.getScope("item")).toEqual(
         catalogJson.scopes?.item as IQuery
       );
+      expect(instance.getScope("channel")).toBeUndefined();
       expect(instance.collections).toEqual(
         catalogJson.collections as IHubCollection[]
       );
@@ -130,6 +156,12 @@ describe("Catalog Class:", () => {
       instance.title = "Changed Title";
       expect(instance.title).toBe("Changed Title");
       expect(instance.availableScopes).toEqual(["item", "group", "user"]);
+    });
+    it("allows null scopes", () => {
+      const instance = Catalog.fromJson(cloneObject(noScopeCatalog), context);
+      expect(instance.scopes).toBeUndefined();
+      expect(instance.getScope("item")).toBeUndefined();
+      expect(instance.collectionNames).toEqual(["teams"]);
     });
     it("allows null collections", () => {
       const noCollectionsCatalog = cloneObject(catalogJson);
