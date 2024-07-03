@@ -292,6 +292,11 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
             type: "eq",
             value: false,
           },
+          {
+            property: "context:currentUser.privileges",
+            type: "without",
+            value: ["portal:admin:shareToGroup"],
+          },
         ],
         property: "context:currentUser",
         type: "is-group-member",
@@ -306,6 +311,11 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
             property: "entity:isViewOnly",
             type: "eq",
             value: true,
+          },
+          {
+            property: "context:currentUser.privileges",
+            type: "without",
+            value: ["portal:admin:shareToGroup"],
           },
         ],
         property: "context:currentUser",
