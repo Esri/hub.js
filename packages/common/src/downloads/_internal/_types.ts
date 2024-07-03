@@ -61,5 +61,6 @@ export const CREATE_REPLICA_FORMATS = [
   ServiceDownloadFormat.GEO_PACKAGE,
   ServiceDownloadFormat.SQLITE,
   ServiceDownloadFormat.JSON,
+  ServiceDownloadFormat.KML,
 ] as const;
 export type CreateReplicaFormat = (typeof CREATE_REPLICA_FORMATS)[number];
