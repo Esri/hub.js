@@ -1,3 +1,10 @@
+# @esri/hub-common [14.154.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.153.2...@esri/hub-common@14.154.0) (2024-07-03)
+
+
+### Features
+
+* **hub-common:** support KML format for create replica ([#1575](https://github.com/Esri/hub.js/issues/1575)) ([1a78ad1](https://github.com/Esri/hub.js/commit/1a78ad1ae015de482bf8b28e210d0d1e0438aea6))
+
 ## @esri/hub-common [14.153.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.153.1...@esri/hub-common@14.153.2) (2024-07-03)
 
 
