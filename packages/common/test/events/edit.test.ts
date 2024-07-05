@@ -12,7 +12,9 @@ import {
 } from "../../src/events/api/types";
 import {
   createHubEvent,
-  deleteHubEventAttendee,
+  createHubEventRegistration,
+  deleteHubEventRegistration,
+  IHubCreateEventRegistration,
   updateHubEvent,
 } from "../../src/events/edit";
 import { IHubEvent } from "../../src/core/types/IHubEvent";
@@ -342,7 +344,43 @@ describe("HubEvents edit module", () => {
     });
   });
 
-  describe("deleteHubEventAttendee", () => {
+  describe("createHubEventRegistration", () => {
+    it("calls createRegistration", async () => {
+      const authdCtxMgr = await ArcGISContextManager.create({
+        authentication: MOCK_AUTH,
+        currentUser: {
+          username: "casey",
+        } as unknown as PortalModule.IUser,
+        portal: {
+          name: "DC R&D Center",
+          id: "BRXFAKE",
+          urlKey: "fake-org",
+        } as unknown as PortalModule.IPortal,
+        portalUrl: "https://myserver.com",
+      });
+      const createRegistrationSpy = spyOn(
+        registrationModule,
+        "createRegistration"
+      ).and.callFake(() => {
+        return Promise.resolve();
+      });
+      const data: IHubCreateEventRegistration = {
+        eventId: "0o1",
+        role: registrationModule.RegistrationRole.ATTENDEE,
+        type: registrationModule.EventAttendanceType.IN_PERSON,
+      };
+      await createHubEventRegistration(
+        data,
+        authdCtxMgr.context.hubRequestOptions
+      );
+      expect(createRegistrationSpy).toHaveBeenCalledWith({
+        data,
+        ...authdCtxMgr.context.hubRequestOptions,
+      });
+    });
+  });
+
+  describe("deleteHubEventRegistration", () => {
     it("calls deleteRegistration", async () => {
       const authdCtxMgr = await ArcGISContextManager.create({
         authentication: MOCK_AUTH,
@@ -362,7 +400,10 @@ describe("HubEvents edit module", () => {
       ).and.callFake(() => {
         return Promise.resolve();
       });
-      await deleteHubEventAttendee(0o1, authdCtxMgr.context.hubRequestOptions);
+      await deleteHubEventRegistration(
+        0o1,
+        authdCtxMgr.context.hubRequestOptions
+      );
       expect(deleteRegistrationSpy).toHaveBeenCalledWith({
         registrationId: 0o1,
         ...authdCtxMgr.context.hubRequestOptions,
