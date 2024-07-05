@@ -4,15 +4,11 @@ import {
   queryFeatures,
 } from "@esri/arcgis-rest-feature-layer";
 import { getItem } from "@esri/arcgis-rest-portal";
-import { IHubContent, IHubEditableContent } from "../core";
+import { IHubContent } from "../core";
 import {
-  ItemOrServerEnrichment,
   fetchItemEnrichments,
   IItemAndEnrichments,
-  IItemAndIServerEnrichments,
-  EditableContentEnrichment,
 } from "../items/_enrichments";
-import { IHubRequestOptions, IModel } from "../types";
 import { isNil } from "../util";
 import { maybeConcat } from "../utils/_array";
 import { addContextToSlug, isSlug, parseDatasetId } from "./slugs";
@@ -22,30 +18,12 @@ import {
   getContentEnrichments,
 } from "./_fetch";
 import { canUseHubApiForItem } from "./_internal/internalContentUtils";
-import {
-  composeContent,
-  getItemLayer,
-  getProxyUrl,
-  normalizeItemType,
-} from "./compose";
+import { composeContent, getItemLayer, getProxyUrl } from "./compose";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { PropertyMapper } from "../core/_internal/PropertyMapper";
-import { getPropertyMap } from "./_internal/getPropertyMap";
-import { computeProps } from "./_internal/computeProps";
-import { setProp } from "../objects";
-import { fetchEditableContentEnrichments } from "./_internal/fetchEditableContentEnrichments";
+import { IFetchContentOptions } from "./types";
 
 const hasFeatures = (contentType: string) =>
   ["Feature Layer", "Table"].includes(contentType);
-
-interface IFetchItemAndEnrichmentsOptions extends IHubRequestOptions {
-  enrichments?: ItemOrServerEnrichment[];
-}
-
-export interface IFetchContentOptions extends IFetchItemAndEnrichmentsOptions {
-  layerId?: number;
-  siteOrgKey?: string;
-}
 
 const maybeFetchLayerEnrichments = async (
   itemAndEnrichments: IItemAndEnrichments,
@@ -237,54 +215,3 @@ export const fetchContent = async (
       : content.recordCount;
   return content;
 };
-
-/**
- * fetch a content entity by identifier
- * @param identifier
- * @param requestOptions
- * @returns content entity
- */
-export const fetchHubContent = async (
-  identifier: string,
-  requestOptions: IRequestOptions,
-  enrichments?: EditableContentEnrichment[]
-): Promise<IHubEditableContent> => {
-  // NOTE: b/c we have to support slugs, we use fetchContent() to get the item
-  // by telling it to not fetch any enrichments. We then can fetch enrichments
-  // as needed after we have the item
-  const options = {
-    ...requestOptions,
-    enrichments: [],
-  } as IFetchContentOptions;
-  const { item } = await fetchContent(identifier, options);
-
-  const editableContentEnrichments = await fetchEditableContentEnrichments(
-    item,
-    requestOptions,
-    enrichments
-  );
-
-  // we must normalize the underlying item type to account
-  // for older items (e.g. sites that are type "Web Mapping
-  // Application") before we map the model to a Hub Entity
-  const type = normalizeItemType(item);
-  setProp("type", type, item);
-
-  return modelToHubEditableContent(
-    { item },
-    requestOptions,
-    editableContentEnrichments
-  );
-};
-
-export function modelToHubEditableContent(
-  model: IModel,
-  requestOptions: IRequestOptions,
-  enrichments: IItemAndIServerEnrichments
-) {
-  const mapper = new PropertyMapper<Partial<IHubEditableContent>, IModel>(
-    getPropertyMap()
-  );
-  const content = mapper.storeToEntity(model, {}) as IHubEditableContent;
-  return computeProps(model, content, requestOptions, enrichments);
-}

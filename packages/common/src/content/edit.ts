@@ -19,7 +19,7 @@ import { getPropertyMap } from "./_internal/getPropertyMap";
 import { cloneObject } from "../util";
 import { IModel } from "../types";
 import { setDiscussableKeyword } from "../discussions";
-import { modelToHubEditableContent } from "./fetch";
+import { modelToHubEditableContent } from "./modelToHubEditableContent";
 import {
   getService,
   IFeatureServiceDefinition,

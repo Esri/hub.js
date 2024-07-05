@@ -1,5 +1,7 @@
 import { ResourceObject } from "jsonapi-typescript";
 import { IArcGISContext } from "../ArcGISContext";
+import { IHubRequestOptions } from "../types";
+import { ItemOrServerEnrichment } from "../items/_enrichments";
 
 /**
  * JSONAPI dataset resource returned by the Hub API
@@ -71,4 +73,13 @@ export interface IHubJobRecordRequestOptions {
   to?: string;
   /** Total number of records to return */
   limit?: number;
+}
+
+interface IFetchItemAndEnrichmentsOptions extends IHubRequestOptions {
+  enrichments?: ItemOrServerEnrichment[];
+}
+
+export interface IFetchContentOptions extends IFetchItemAndEnrichmentsOptions {
+  layerId?: number;
+  siteOrgKey?: string;
 }

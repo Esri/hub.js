@@ -1,5 +1,5 @@
 import { fetchDiscussion } from "../discussions/fetch";
-import { fetchHubContent } from "../content/fetch";
+import { fetchHubContent } from "../content/fetchHubContent";
 import { fetchInitiative } from "../initiatives/HubInitiatives";
 import { fetchPage } from "../pages/HubPages";
 import { fetchProject } from "../projects/fetch";
