@@ -2,6 +2,7 @@ import { IQuery } from "../../search/types/IHubCatalog";
 import { FieldType, IField } from "@esri/arcgis-rest-types";
 import { IReference } from "./IReference";
 import { ServiceAggregation } from "../../core/types/DynamicValues";
+import { ITelemetryRequestParams } from "@esri/telemetry-reporting-client";
 
 /**
  * Defines the information required from a Metric
@@ -109,7 +110,8 @@ export interface IServiceQuery {
 export type MetricSource =
   | IStaticValueMetricSource
   | IServiceQueryMetricSource
-  | IItemQueryMetricSource;
+  | IItemQueryMetricSource
+  | ITelemetryQueryMetricSource;
 
 /**
  * Defines a metric source that is a static value
@@ -162,6 +164,17 @@ export interface IItemQueryMetricSource {
    * Scope query. This will be pulled from the collection if `collectionKey` is defined.
    */
   scope?: IQuery;
+}
+
+export interface ITelemetryQueryMetricSource {
+  type: "telemetry-query";
+
+  requestParams: ITelemetryRequestParams;
+
+  telemetryContext: {
+    customDimensionsConfig?: Record<string, number>;
+    customMetricsConfig?: Record<string, number>;
+  };
 }
 
 export interface IMetricAttributes extends IEntityInfo {
