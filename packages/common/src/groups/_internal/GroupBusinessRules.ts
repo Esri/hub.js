@@ -109,13 +109,13 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:group"],
     authenticated: true,
     assertions: [
-      // if the user is not the group owner, they must
-      // have the portal:admin:deleteGroups priv
+      // if the user is not a group admin (owner or manager),
+      // they must have the portal:admin:deleteGroups priv
       {
         conditions: [
           {
             property: "context:currentUser",
-            type: "is-not-group-owner",
+            type: "is-not-group-admin",
             value: "entity:id",
           },
         ],
@@ -124,7 +124,7 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
         value: ["portal:admin:deleteGroups"],
       },
       // if the user does not have the portal:admin:deleteGroups
-      // priv, they must be the group owner
+      // priv, they must be the group admin (owner or manager)
       {
         conditions: [
           {
@@ -134,7 +134,7 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
           },
         ],
         property: "context:currentUser",
-        type: "is-group-owner",
+        type: "is-group-admin",
         value: "entity:id",
       },
     ],
