@@ -1,3 +1,10 @@
+## @esri/hub-common [14.155.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.155.0...@esri/hub-common@14.155.1) (2024-07-05)
+
+
+### Bug Fixes
+
+* **hub-common:** event location picker uses all draw tools ([#1579](https://github.com/Esri/hub.js/issues/1579)) ([69001c6](https://github.com/Esri/hub.js/commit/69001c68c33278a2551f5f371385a6a20eb75776))
+
 # @esri/hub-common [14.155.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.154.0...@esri/hub-common@14.155.0) (2024-07-05)
 
 
