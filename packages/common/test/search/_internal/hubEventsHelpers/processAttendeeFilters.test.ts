@@ -10,6 +10,13 @@ const FILTERS: IFilter[] = [
     ],
   },
   {
+    predicates: [
+      {
+        userId: "user1",
+      },
+    ],
+  },
+  {
     operation: "OR",
     predicates: [
       {
@@ -75,6 +82,7 @@ describe("processAttendeeFilters", () => {
     });
     expect(results).toEqual({
       eventId: "an event id",
+      userId: "user1",
       // @ts-ignore
       name: "abc",
       role: "owner,organizer,attendee",

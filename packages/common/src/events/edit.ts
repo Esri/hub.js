@@ -7,7 +7,19 @@ import {
   createEvent as createEventApi,
   updateEvent as updateEventApi,
 } from "./api/events";
-import { deleteRegistration } from "./api";
+import {
+  createRegistration,
+  deleteRegistration,
+  EventAttendanceType,
+  IRegistration,
+  RegistrationRole,
+} from "./api";
+
+export interface IHubCreateEventRegistration {
+  eventId: string;
+  role: RegistrationRole;
+  type: EventAttendanceType;
+}
 
 /**
  * @private
@@ -120,12 +132,26 @@ export async function updateHubEvent(
 
 /**
  * @private
+ * Create an Event registration
+ * @param data
+ * @param requestOptions
+ * @returns Promise<void>
+ */
+export function createHubEventRegistration(
+  data: IHubCreateEventRegistration,
+  requestOptions: IHubRequestOptions
+): Promise<IRegistration> {
+  return createRegistration({ data, ...requestOptions });
+}
+
+/**
+ * @private
  * Remove an Event Attendee
  * @param id event attendee id
  * @param requestOptions
  * @returns Promise<void>
  */
-export async function deleteHubEventAttendee(
+export async function deleteHubEventRegistration(
   id: number,
   requestOptions: IHubRequestOptions
 ): Promise<void> {
