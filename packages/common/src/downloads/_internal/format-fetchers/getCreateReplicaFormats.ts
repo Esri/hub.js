@@ -20,12 +20,7 @@ export function getCreateReplicaFormats(
 
   // List any unrecognized formats (we'll append these to the end of the final array)
   const unrecognizedFormats = allFormats.filter(
-    (format) =>
-      !CREATE_REPLICA_FORMATS.includes(format as CreateReplicaFormat) &&
-      // KML is a valid createReplica format in QA and Dev, but not Prod.
-      // Once it's enabled in Prod, we can add KML to CREATE_REPLICA_FORMATS
-      // and remove this check.
-      format !== ServiceDownloadFormat.KML
+    (format) => !CREATE_REPLICA_FORMATS.includes(format as CreateReplicaFormat)
   );
 
   return [...recognizedFormats, ...unrecognizedFormats].map(

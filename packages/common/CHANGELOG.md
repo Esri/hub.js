@@ -1,3 +1,18 @@
+# @esri/hub-common [14.154.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.153.2...@esri/hub-common@14.154.0) (2024-07-03)
+
+
+### Features
+
+* **hub-common:** support KML format for create replica ([#1575](https://github.com/Esri/hub.js/issues/1575)) ([1a78ad1](https://github.com/Esri/hub.js/commit/1a78ad1ae015de482bf8b28e210d0d1e0438aea6))
+
+## @esri/hub-common [14.153.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.153.1...@esri/hub-common@14.153.2) (2024-07-03)
+
+
+### Bug Fixes
+
+* remove dynamic link save override ([#1570](https://github.com/Esri/hub.js/issues/1570)) ([4ebff79](https://github.com/Esri/hub.js/commit/4ebff794f228ebfa04daef0efcdd3e5b7c95494e))
+* resolve internal issue with Catalog.searchCollections ([#1572](https://github.com/Esri/hub.js/issues/1572)) ([e41d158](https://github.com/Esri/hub.js/commit/e41d158d4500e12f5896f16c4564394fb857b414))
+
 ## @esri/hub-common [14.153.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.153.0...@esri/hub-common@14.153.1) (2024-07-01)
 
 

@@ -37,19 +37,4 @@ describe("getCreateReplicaFormats", () => {
       "unknown-format" as ServiceDownloadFormat,
     ]);
   });
-  // TODO: Remove once createReplica supports KML in production
-  it("should filter out KML as a format", () => {
-    const entity = {
-      serverExtractFormats: [
-        ServiceDownloadFormat.GEOJSON,
-        ServiceDownloadFormat.KML,
-        ServiceDownloadFormat.JSON,
-      ],
-    } as unknown as IHubEditableContent;
-    const result = getCreateReplicaFormats(entity);
-    expect(result.map((r) => r.format)).toEqual([
-      ServiceDownloadFormat.GEOJSON,
-      ServiceDownloadFormat.JSON,
-    ]);
-  });
 });
