@@ -1,3 +1,10 @@
+# @esri/hub-common [14.155.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.154.0...@esri/hub-common@14.155.0) (2024-07-05)
+
+
+### Features
+
+* **hub-common:** add createRegistration ([#1558](https://github.com/Esri/hub.js/issues/1558)) ([6102280](https://github.com/Esri/hub.js/commit/610228095339d58e0d47e31076c7e9259fe8e9ec))
+
 # @esri/hub-common [14.154.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.153.2...@esri/hub-common@14.154.0) (2024-07-03)
 
 
