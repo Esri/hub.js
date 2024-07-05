@@ -74,7 +74,7 @@ describe("fetchDownloadFile", () => {
     canUseExportItemFlowSpy.and.returnValue(false);
 
     fetchHubApiDownloadFileSpy.and.returnValue(
-      Promise.resolve("hub-api-download-url")
+      Promise.resolve({ type: "url", href: "hub-api-download-url" })
     );
 
     const entity = {
@@ -89,7 +89,7 @@ describe("fetchDownloadFile", () => {
       layers: [0],
       pollInterval: 1000,
     });
-    expect(result).toBe({ type: "url", href: "hub-api-download-url" });
+    expect(result).toEqual({ type: "url", href: "hub-api-download-url" });
     expect(canUseHubDownloadApiSpy).toHaveBeenCalledTimes(1);
     expect(fetchHubApiDownloadFileSpy).toHaveBeenCalledTimes(1);
     expect(fetchHubApiDownloadFileSpy).toHaveBeenCalledWith({
@@ -111,7 +111,7 @@ describe("fetchDownloadFile", () => {
     canUseExportImageFlowSpy.and.returnValue(false);
 
     fetchExportItemDownloadFileSpy.and.returnValue(
-      Promise.resolve("export-item-download-url")
+      Promise.resolve({ type: "url", href: "export-item-download-url" })
     );
 
     const entity = {
@@ -126,7 +126,7 @@ describe("fetchDownloadFile", () => {
       layers: [0],
       pollInterval: 1000,
     });
-    expect(result).toBe({ type: "url", href: "export-item-download-url" });
+    expect(result).toEqual({ type: "url", href: "export-item-download-url" });
     expect(canUseHubDownloadApiSpy).toHaveBeenCalledTimes(1);
     expect(fetchHubApiDownloadFileSpy).not.toHaveBeenCalled();
     expect(canUseExportItemFlowSpy).toHaveBeenCalledTimes(1);
@@ -162,7 +162,7 @@ describe("fetchDownloadFile", () => {
       format: ServiceDownloadFormat.PNG,
       pollInterval: 1000,
     });
-    expect(result).toBe({
+    expect(result).toEqual({
       type: "blob",
       filename: "image.png",
       blob: {} as Blob,
@@ -185,7 +185,7 @@ describe("fetchDownloadFile", () => {
     canUseHubDownloadApiSpy.and.returnValue(true);
 
     fetchHubApiDownloadFileSpy.and.returnValue(
-      Promise.resolve("hub-api-download-url")
+      Promise.resolve({ type: "url", href: "hub-api-download-url" })
     );
 
     const entity = {

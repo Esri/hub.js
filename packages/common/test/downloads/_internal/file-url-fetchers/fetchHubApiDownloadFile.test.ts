@@ -147,7 +147,7 @@ describe("fetchHubApiDownloadFile", () => {
       pollInterval: 0,
     });
 
-    expect(result).toBe({ type: "url", href: "fake-url" });
+    expect(result).toEqual({ type: "url", href: "fake-url" });
   });
   it("polls with a progress callback", async () => {
     fetchMock.once(
@@ -195,7 +195,7 @@ describe("fetchHubApiDownloadFile", () => {
       progressCallback,
     });
 
-    expect(result).toBe({ type: "url", href: "fake-url" });
+    expect(result).toEqual({ type: "url", href: "fake-url" });
     expect(progressCallback).toHaveBeenCalledTimes(3);
     expect(progressCallback).toHaveBeenCalledWith(
       DownloadOperationStatus.PENDING,
@@ -240,7 +240,7 @@ describe("fetchHubApiDownloadFile", () => {
       where: "1=1",
     });
 
-    expect(result).toBe({ type: "url", href: "fake-url" });
+    expect(result).toEqual({ type: "url", href: "fake-url" });
   });
   it("Explicitly sets the spatialRefId to 4326 for GeoJSON and KML", async () => {
     fetchMock.once(
@@ -263,7 +263,7 @@ describe("fetchHubApiDownloadFile", () => {
       layers: [0],
     });
 
-    expect(result).toBe({ type: "url", href: "fake-url" });
+    expect(result).toEqual({ type: "url", href: "fake-url" });
 
     fetchMock.once(
       "https://hubqa.arcgis.com/api/download/v1/items/123/kml?redirect=false&layers=0&spatialRefId=4326",
@@ -285,6 +285,6 @@ describe("fetchHubApiDownloadFile", () => {
       layers: [0],
     });
 
-    expect(result2).toBe({ type: "url", href: "fake-url-2" });
+    expect(result2).toEqual({ type: "url", href: "fake-url-2" });
   });
 });

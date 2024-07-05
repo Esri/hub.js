@@ -145,7 +145,7 @@ describe("fetchExportItemDownloadFile", () => {
       progressCallback,
       pollInterval: 0,
     });
-    expect(result).toBe({ type: "url", href: "https://some-url.com" });
+    expect(result).toEqual({ type: "url", href: "https://some-url.com" });
 
     expect(progressCallback).toHaveBeenCalledTimes(3);
     expect(progressCallback).toHaveBeenCalledWith(
@@ -197,6 +197,6 @@ describe("fetchExportItemDownloadFile", () => {
       context: mockContext,
       pollInterval: 0,
     });
-    expect(result).toBe({ type: "url", href: "https://some-url.com" });
+    expect(result).toEqual({ type: "url", href: "https://some-url.com" });
   });
 });

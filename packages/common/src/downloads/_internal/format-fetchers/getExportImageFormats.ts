@@ -10,10 +10,8 @@ import { EXPORT_IMAGE_FORMATS, ExportImageFormat } from "../_types";
 export function getExportImageFormats(
   entity: IHubEditableContent
 ): IDynamicDownloadFormat[] {
-  const serverVersion = getProp(
-    entity,
-    "extendedProps.extendedProps.server.currentVersion"
-  );
+  const serverVersion =
+    getProp(entity, "extendedProps.server.currentVersion") || 0;
 
   // NOTE: We have to imperatively exclude formats based on the server version
   // because there is no other way to determine which formats are supported.
