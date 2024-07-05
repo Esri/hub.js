@@ -223,7 +223,6 @@ export const buildUiSchema = async (
                 context.portal.name,
                 context.hubRequestOptions
               ),
-              mapTools: ["polygon", "rectangle"],
             },
           },
           {
