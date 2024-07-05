@@ -54,6 +54,14 @@ export const buildUiSchema = async (
             },
           },
           {
+            scope: "/properties/telemetryMetric",
+            type: "Control",
+            rule: SHOW_FOR_TELEMETRY_RULE,
+            options: {
+              control: "hub-composite-input-telemetry-query-metric",
+            },
+          },
+          {
             type: "Section",
             labelKey: `formatting.sectionTitle`,
             scope: "/properties/allowUnitFormatting",
@@ -364,6 +372,14 @@ const SHOW_FOR_DYNAMIC_RULE = {
   condition: {
     scope: "/properties/type",
     schema: { const: "dynamic" },
+  },
+  effect: UiSchemaRuleEffects.SHOW,
+};
+
+const SHOW_FOR_TELEMETRY_RULE = {
+  condition: {
+    scope: "/properties/type",
+    schema: { const: "telemetry" },
   },
   effect: UiSchemaRuleEffects.SHOW,
 };
