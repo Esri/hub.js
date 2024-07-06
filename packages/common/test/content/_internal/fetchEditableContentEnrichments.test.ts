@@ -107,8 +107,9 @@ describe("fetchEditableContentEnrichments", () => {
 
     const item = {
       id: "abc123",
-      type: "Web Map",
+      type: "Feature Service",
       access: "public",
+      url: "my-service-url",
     } as unknown as IItem;
     const requestOptions = {} as IRequestOptions;
     const enrichments = [
@@ -141,8 +142,9 @@ describe("fetchEditableContentEnrichments", () => {
 
     const item = {
       id: "abc123",
-      type: "Web Map",
+      type: "Feature Service",
       access: "public",
+      url: "my-service-url",
     } as unknown as IItem;
     const requestOptions = {} as IRequestOptions;
     const enrichments = [] as enrichmentsModule.EditableContentEnrichment[];
@@ -152,7 +154,7 @@ describe("fetchEditableContentEnrichments", () => {
       requestOptions,
       enrichments
     );
-    expect(chk.data).toBe(undefined);
+    expect(chk.data).toBeUndefined();
     expect(chk.metadata).toBeUndefined();
     expect(chk.schedule).toBeUndefined();
     expect(chk.server).toBeUndefined();

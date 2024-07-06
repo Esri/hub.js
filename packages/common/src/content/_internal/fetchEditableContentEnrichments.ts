@@ -11,11 +11,23 @@ import { IHubRequestOptions } from "../../types";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { fetchItemScheduleEnrichment } from "./fetchItemScheduleEnrichment";
 
+/**
+ * @private
+ *
+ * Fetches the enrichments for a content item to be converted into an IHubEditableContent object.
+ * If no enrichment keys are provided, the default enrichments will be fetched. Default enrichments
+ * vary by item type.
+ *
+ * @param item item to fetch enrichments for
+ * @param requestOptions
+ * @param enrichments optional override for the enrichments to fetch
+ * @returns a hash of enrichments
+ */
 export async function fetchEditableContentEnrichments(
   item: IItem,
   requestOptions: IRequestOptions,
   enrichments?: EditableContentEnrichment[]
-) {
+): Promise<IHubEditableContentEnrichments> {
   const result: IHubEditableContentEnrichments = {};
 
   if (!enrichments) {

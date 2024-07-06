@@ -41,6 +41,9 @@ export type ItemOrServerEnrichment =
 
 export type IItemAndIServerEnrichments = IItemEnrichments & IServerEnrichments;
 
+/**
+ * Enrichments that can be fetched for an IHubEditableContent entity
+ */
 export type IHubEditableContentEnrichments = Pick<
   IItemAndIServerEnrichments,
   "data" | "metadata" | "server"

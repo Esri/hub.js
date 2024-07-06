@@ -101,6 +101,16 @@ export function computeProps(
   return content as IHubEditableContent;
 }
 
+/**
+ * @private
+ *
+ * Compute the extended props for a service-backed item (i.e., feature, map, or image service)
+ *
+ * @param item
+ * @param enrichments
+ * @param requestOptions
+ * @returns extended props for a service-backed item
+ */
 function getServiceExtendedProps(
   item: IItem,
   enrichments: IHubEditableContentEnrichments,
@@ -133,6 +143,16 @@ function getServiceExtendedProps(
   return result;
 }
 
+/**
+ * @private
+ *
+ * Compute the extended props for content items not backed by a service
+ *
+ * @param item
+ * @param enrichments
+ * @param requestOptions
+ * @returns
+ */
 function getContentExtendedProps(
   item: IItem,
   enrichments: IHubEditableContentEnrichments,
@@ -145,6 +165,16 @@ function getContentExtendedProps(
   };
 }
 
+/**
+ * @private
+ *
+ * Compute the extended props common to all content items.
+ *
+ * @param item
+ * @param enrichments
+ * @param requestOptions
+ * @returns
+ */
 function getBaseExtendedProps(
   item: IItem,
   enrichments: IHubEditableContentEnrichments,

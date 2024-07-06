@@ -41,10 +41,11 @@ describe("fetchHubContent", () => {
       HOSTED_FEATURE_SERVICE_GUID,
       requestOptions
     );
+    const extendedProps = chk.extendedProps as IServiceExtendedProps;
     expect(chk.id).toBe(HOSTED_FEATURE_SERVICE_GUID);
     expect(chk.owner).toBe(HOSTED_FEATURE_SERVICE_ITEM.owner);
-    expect(chk.serverExtractCapability).toBeTruthy();
-    expect(chk.serverQueryCapability).toBeTruthy();
+    expect(extendedProps.serverExtractCapability).toBeTruthy();
+    expect(extendedProps.serverQueryCapability).toBeTruthy();
 
     expect(fetchContentSpy).toHaveBeenCalledTimes(1);
     expect(fetchContentSpy.calls.argsFor(0)[0]).toBe(
@@ -67,7 +68,6 @@ describe("fetchHubContent", () => {
     const chk = await fetchHubContent(PDF_GUID, requestOptions);
     expect(chk.id).toBe(PDF_GUID);
     expect(chk.owner).toBe(PDF_ITEM.owner);
-    expect(chk.serverExtractCapability).toBeFalsy();
 
     expect(fetchContentSpy).toHaveBeenCalledTimes(1);
     expect(fetchContentSpy.calls.argsFor(0)[0]).toBe(PDF_GUID);

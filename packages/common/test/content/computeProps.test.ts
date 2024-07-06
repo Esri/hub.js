@@ -218,7 +218,7 @@ describe("content computeProps", () => {
 
     const model: IModel = {
       item: {
-        type: "Web Map",
+        type: "Feature Service",
         id: "9001",
         created: new Date().getTime(),
         modified: new Date().getTime(),
@@ -228,7 +228,7 @@ describe("content computeProps", () => {
       },
     } as IModel;
     const content: Partial<IHubEditableContent> = {
-      type: "Web Map",
+      type: "Feature Service",
       id: "9001",
     };
     const enrichments: IHubEditableContentEnrichments = {
@@ -284,7 +284,7 @@ describe("content computeProps", () => {
 
     const model: IModel = {
       item: {
-        type: "Web Map",
+        type: "Feature Service",
         id: "9001",
         created: new Date().getTime(),
         modified: new Date().getTime(),
@@ -294,7 +294,7 @@ describe("content computeProps", () => {
       },
     } as IModel;
     const content: Partial<IHubEditableContent> = {
-      type: "Web Map",
+      type: "Feature Service",
       id: "9001",
     };
     const enrichments: IHubEditableContentEnrichments = {

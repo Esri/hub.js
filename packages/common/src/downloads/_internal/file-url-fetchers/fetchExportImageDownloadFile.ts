@@ -12,13 +12,11 @@ import { ExportImageFormat } from "../_types";
 
 /**
  * @private
- * Fetches a download file url from an Image Service via the exportImage endpoint
  *
- * NOTE: This function is incomplete and needs various parameters to be validated
- * and implemented. It is a work in progress.
+ * Fetches a download file url from an Image Service via the exportImage endpoint.
  *
  * @param options options for refining / filtering the resulting download file
- * @returns a url to download the file
+ * @returns a blob containing the download file
  */
 export async function fetchExportImageDownloadFile(
   options: IFetchDownloadFileOptions
@@ -30,6 +28,7 @@ export async function fetchExportImageDownloadFile(
 
   const extent = getExportImageExtent(options);
   const { xmin, xmax, ymin, ymax } = extent;
+  // TODO: do we need to handle latestWkid as well?
   const { wkid } = extent.spatialReference;
 
   const requestOptions = { ...context.requestOptions };

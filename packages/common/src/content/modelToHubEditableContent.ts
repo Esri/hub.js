@@ -6,6 +6,13 @@ import { IHubEditableContent } from "../core/types/IHubEditableContent";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
 
+/**
+ * Converts an Imodel to a Hub editable content object
+ *
+ * @param model IModel to convert
+ * @param requestOptions
+ * @param enrichments  hash of enrichments to apply to the content
+ */
 export function modelToHubEditableContent(
   model: IModel,
   requestOptions: IRequestOptions,

@@ -7,7 +7,7 @@ import { IFetchDownloadFileOptions, IFetchDownloadFileResponse } from "./types";
 /**
  * Fetches a download file URL for the given entity and format.
  * @param options options to refine / filter the results of the fetchDownloadFile operation
- * @returns a promise that resolves with the download file URL
+ * @returns a promise that resolves with a download file url or blob
  * @throws {ArcgisHubDownloadError} if the download file URL cannot be fetched for a well-known reason
  */
 export async function fetchDownloadFile(

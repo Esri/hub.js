@@ -5,6 +5,17 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IHubRequestOptions } from "../../types";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
+/**
+ * @private
+ *
+ * Fetches the schedule enrichment for a content item. The enrichment will only be fetched if the item
+ * is eligible for download scheduling and the user has permission to view the schedule. In cases
+ * where the schedule cannot be fetched, the function will return undefined.
+ *
+ * @param item
+ * @param requestOptions
+ * @returns the schedule enrichment or undefined
+ */
 export async function fetchItemScheduleEnrichment(
   item: IItem,
   requestOptions: IRequestOptions
