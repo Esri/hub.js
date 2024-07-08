@@ -287,7 +287,7 @@ export interface IRegistration {
   createdById: string;
   event?: IEvent;
   eventId: string;
-  id: number;
+  id: string;
   permission: IRegistrationPermission;
   role: RegistrationRole;
   status: RegistrationStatus;
@@ -331,7 +331,7 @@ export interface IEventLocation {
   eventId: string;
   extent: number[][] | null;
   geometries: IEventLocationGeometriesItem[] | null;
-  id: number;
+  id: string;
   nbrhd: string | null;
   placeAddr: string | null;
   placeName: string | null;
@@ -631,7 +631,7 @@ export const getRegistrations = (
 };
 
 export const getRegistration = (
-  id: number,
+  id: string,
   options?: SecondParameter<typeof customClient>
 ) => {
   return customClient<IRegistration>(
@@ -641,7 +641,7 @@ export const getRegistration = (
 };
 
 export const updateRegistration = (
-  id: number,
+  id: string,
   iUpdateRegistration: IUpdateRegistration,
   options?: SecondParameter<typeof customClient>
 ) => {
@@ -657,7 +657,7 @@ export const updateRegistration = (
 };
 
 export const deleteRegistration = (
-  id: number,
+  id: string,
   options?: SecondParameter<typeof customClient>
 ) => {
   return customClient<IRegistration>(
