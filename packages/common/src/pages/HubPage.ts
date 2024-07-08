@@ -254,13 +254,8 @@ export class HubPage
     entity.extent = editor.location?.extent;
 
     // create it if it does not yet exist...
-    if (isCreate) {
-      throw new Error("Cannot create content using the Editor.");
-    } else {
-      // ...otherwise, update the in-memory entity and save it
-      this.entity = entity;
-      await this.save();
-    }
+    this.entity = entity;
+    await this.save();
 
     return this.entity;
   }

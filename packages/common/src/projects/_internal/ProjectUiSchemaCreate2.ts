@@ -4,20 +4,17 @@ import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { getSharableGroupsComboBoxItems } from "../../core/schemas/internal/getSharableGroupsComboBoxItems";
-import { IHubSite } from "../../core/types";
+import { IHubProject } from "../../core/types";
 
 /**
  * @private
- * constructs the minimal create uiSchema for Hub Sites.
+ * constructs the minimal create uiSchema for Hub Projects.
  * This defines how the schema properties should be rendered
- * in the site creation experience
- *
- * TODO: this was copied from projects and is just a placeholder
- * for now - it isn't being used anywhere in the application
+ * in the project creation experience
  */
 export const buildUiSchema = async (
   i18nScope: string,
-  options: Partial<IHubSite>,
+  options: Partial<IHubProject>,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
   return {
@@ -60,9 +57,49 @@ export const buildUiSchema = async (
               type: "ERROR",
               keyword: "maxLength",
               icon: true,
-              labelKey: `shared.fields.summary.maxLengthError`,
+              labelKey: `shared.fields.purpose.maxLengthError`,
             },
           ],
+        },
+      },
+      {
+        labelKey: `${i18nScope}.fields.status.label`,
+        scope: "/properties/status",
+        type: "Control",
+        options: {
+          control: "hub-field-input-select",
+          enum: {
+            i18nScope: `${i18nScope}.fields.status.enum`,
+          },
+        },
+      },
+      {
+        scope: "/properties/location",
+        type: "Control",
+        labelKey: `${i18nScope}.sections.location.label`,
+        options: {
+          control: "hub-field-input-location-picker",
+          extent: await getLocationExtent(
+            options.location,
+            context.hubRequestOptions
+          ),
+          options: await getLocationOptions(
+            options.id,
+            options.type,
+            options.location,
+            context.portal.name,
+            context.hubRequestOptions
+          ),
+        },
+      },
+      {
+        scope: "/properties/access",
+        type: "Control",
+        labelKey: `${i18nScope}.sections.sharing.label`,
+        options: {
+          control: "arcgis-hub-access-level-controls",
+          orgName: context.portal.name,
+          itemType: `{{${i18nScope}.fields.access.itemType:translate}}`,
         },
       },
     ],

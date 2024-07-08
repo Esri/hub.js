@@ -1,23 +1,21 @@
+import { IUiSchema } from "../../core/schemas/types";
 import { IArcGISContext } from "../../ArcGISContext";
-import { checkPermission } from "../../permissions/checkPermission";
-import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
+import { getTagItems } from "../../core/schemas/internal/getTagItems";
+import { getCategoryItems } from "../../core/schemas/internal/getCategoryItems";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
-import { getSharableGroupsComboBoxItems } from "../../core/schemas/internal/getSharableGroupsComboBoxItems";
-import { IHubSite } from "../../core/types";
+import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
+import { IHubPage } from "../../core/types";
 
 /**
  * @private
- * constructs the minimal create uiSchema for Hub Sites.
- * This defines how the schema properties should be rendered
- * in the site creation experience
- *
- * TODO: this was copied from projects and is just a placeholder
- * for now - it isn't being used anywhere in the application
+ * constructs the complete edit uiSchema for Hub Pages.
+ * This defines how the schema properties should be
+ * rendered in the page editing experience
  */
 export const buildUiSchema = async (
   i18nScope: string,
-  options: Partial<IHubSite>,
+  options: Partial<IHubPage>,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
   return {
