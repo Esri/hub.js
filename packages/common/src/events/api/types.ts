@@ -17,6 +17,7 @@ export {
   ILocationSpatialReference,
   IEventLocationSpatialReference,
   ICreateLocationSpatialReference,
+  IEventRegistrationCount,
   ICreateEventLocation,
   ICreateEventLocationGeometriesItem,
   IRegistration,
