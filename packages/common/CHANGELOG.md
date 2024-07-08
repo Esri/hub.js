@@ -1,3 +1,10 @@
+# @esri/hub-common [14.156.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.155.1...@esri/hub-common@14.156.0) (2024-07-08)
+
+
+### Features
+
+* **hub-common:** add IEventRegistrationCount to IEvent ([#1580](https://github.com/Esri/hub.js/issues/1580)) ([72128c3](https://github.com/Esri/hub.js/commit/72128c3de8a4b9d4bc9de390ad3384f31ac7e6df))
+
 ## @esri/hub-common [14.155.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.155.0...@esri/hub-common@14.155.1) (2024-07-05)
 
 
