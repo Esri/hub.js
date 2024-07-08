@@ -36,6 +36,10 @@ describe("HubEvent fetch module:", () => {
         endDateTime: new Date().toISOString(),
         notifyAttendees: true,
         readGroups: [],
+        registrationCount: {
+          inPerson: 0,
+          virtual: 0,
+        },
         startDateTime: new Date().toISOString(),
         status: EventStatus.PLANNED,
         tags: [],
@@ -89,6 +93,10 @@ describe("HubEvent fetch module:", () => {
         endDateTime: new Date().toISOString(),
         notifyAttendees: true,
         readGroups: [],
+        registrationCount: {
+          inPerson: 0,
+          virtual: 0,
+        },
         startDateTime: new Date().toISOString(),
         status: EventStatus.PLANNED,
         tags: [],

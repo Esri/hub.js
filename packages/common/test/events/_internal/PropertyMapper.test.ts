@@ -74,6 +74,10 @@ describe("PropertyMapper", () => {
         },
         readGroups: ["readGroup1"],
         recurrence: null,
+        registrationCount: {
+          inPerson: 0,
+          virtual: 0,
+        },
         startDate: [
           start.getFullYear(),
           start.getMonth() + 1,
@@ -128,6 +132,7 @@ describe("PropertyMapper", () => {
         isPast: false,
         attendanceType: HubEventAttendanceType.InPerson,
         inPersonCapacity: 30,
+        inPersonRegistrationCount: 0,
         inPersonCapacityType: "fixed",
         location: {
           type: "none",

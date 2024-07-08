@@ -59,10 +59,14 @@ export class EventPropertyMapper extends PropertyMapper<
       store.attendanceType.includes(EventAttendanceType.VIRTUAL)
     ) {
       obj.attendanceType = HubEventAttendanceType.Both;
+      obj.inPersonRegistrationCount = store.registrationCount.inPerson;
+      obj.onlineRegistrationCount = store.registrationCount.virtual;
     } else if (store.attendanceType.includes(EventAttendanceType.IN_PERSON)) {
       obj.attendanceType = HubEventAttendanceType.InPerson;
+      obj.inPersonRegistrationCount = store.registrationCount.inPerson;
     } else {
       obj.attendanceType = HubEventAttendanceType.Online;
+      obj.onlineRegistrationCount = store.registrationCount.virtual;
     }
     obj.onlineCapacity = store.onlineMeetings?.[0]?.capacity ?? null;
     obj.onlineCapacityType = store.onlineMeetings?.[0]?.capacity
@@ -124,7 +128,6 @@ export class EventPropertyMapper extends PropertyMapper<
     entity: Partial<IHubEvent>,
     store: Partial<IEvent>
   ): Partial<IEvent> {
-    // TODO: support locations
     // TODO: thumbnail & thumbnail url
 
     const clonedEntity = cloneObject(entity);
