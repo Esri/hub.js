@@ -152,7 +152,7 @@ export function createHubEventRegistration(
  * @returns Promise<void>
  */
 export async function deleteHubEventRegistration(
-  id: number,
+  id: string,
   requestOptions: IHubRequestOptions
 ): Promise<void> {
   await deleteRegistration({ registrationId: id, ...requestOptions });
