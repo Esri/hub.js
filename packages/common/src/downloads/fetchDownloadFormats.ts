@@ -37,6 +37,7 @@ export async function fetchDownloadFormats(
   }
 
   // add additional resource links as static formats
+  // TODO: change to use `extendedProps.additionalResources`
   const additionalFormats = (entity.additionalResources || []).map(
     toStaticFormat
   );

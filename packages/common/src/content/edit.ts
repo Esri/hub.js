@@ -160,6 +160,7 @@ export async function updateContent(
       currentDefinition
     );
     // To avoid over-updating the service, we only fire an update call if Extract has changed
+    // TODO: Change the edit flow and entity schema to read from `extendedProps.serverExtractCapability`
     if (currentServerExtractEnabled !== content.serverExtractCapability) {
       const updatedDefinition = toggleServiceCapability(
         ServiceCapabilities.EXTRACT,
