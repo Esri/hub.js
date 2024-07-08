@@ -265,40 +265,9 @@ export interface IEventPermission {
   canSetStatusToRemoved: boolean;
 }
 
-export interface IEvent {
-  access: EventAccess;
-  allDay: boolean;
-  allowRegistration: boolean;
-  associations?: IEventAssociation[];
-  attendanceType: EventAttendanceType[];
-  categories: string[];
-  createdAt: string;
-  createdById: string | null;
-  creator?: IUser;
-  description: string | null;
-  editGroups: string[];
-  endDate: string;
-  endDateTime: string;
-  endTime: string;
-  id: string;
-  inPersonCapacity: number | null;
-  location?: IEventLocation;
-  notifyAttendees: boolean;
-  onlineMeetings?: IOnlineMeeting[];
-  orgId: string;
-  permission: IEventPermission;
-  readGroups: string[];
-  recurrence: string | null;
-  registrations?: IRegistration[];
-  startDate: string;
-  startDateTime: string;
-  startTime: string;
-  status: EventStatus;
-  summary: string | null;
-  tags: string[];
-  timeZone: string;
-  title: string;
-  updatedAt: string;
+export interface IEventRegistrationCount {
+  inPerson: number;
+  virtual: number;
 }
 
 export enum RegistrationStatus {
@@ -392,6 +361,43 @@ export interface IEventAssociation {
   entityId: string;
   entityType: EventAssociationEntityType;
   eventId: string;
+}
+
+export interface IEvent {
+  access: EventAccess;
+  allDay: boolean;
+  allowRegistration: boolean;
+  associations?: IEventAssociation[];
+  attendanceType: EventAttendanceType[];
+  categories: string[];
+  createdAt: string;
+  createdById: string | null;
+  creator?: IUser;
+  description: string | null;
+  editGroups: string[];
+  endDate: string;
+  endDateTime: string;
+  endTime: string;
+  id: string;
+  inPersonCapacity: number | null;
+  location?: IEventLocation;
+  notifyAttendees: boolean;
+  onlineMeetings?: IOnlineMeeting[];
+  orgId: string;
+  permission: IEventPermission;
+  readGroups: string[];
+  recurrence: string | null;
+  registrationCount?: IEventRegistrationCount;
+  registrations?: IRegistration[];
+  startDate: string;
+  startDateTime: string;
+  startTime: string;
+  status: EventStatus;
+  summary: string | null;
+  tags: string[];
+  timeZone: string;
+  title: string;
+  updatedAt: string;
 }
 
 export interface ICreateOnlineMeeting {
