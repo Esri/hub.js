@@ -67,10 +67,6 @@ export interface IBaseExtendedProps {
    */
   kind: "content" | "service";
   /**
-   * Item data
-   */
-  data?: any;
-  /**
    * Formal item metadata
    */
   metadata?: any;

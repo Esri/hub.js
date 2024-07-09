@@ -179,14 +179,12 @@ describe("content computeProps", () => {
       id: "9001",
     };
     const enrichments: IHubEditableContentEnrichments = {
-      data: { data: "enrichment" },
       metadata: { metadata: "enrichment" },
     };
 
     const chk = computeProps(model, content, requestOptions, enrichments);
     const extendedProps = chk.extendedProps as IContentExtendedProps;
 
-    expect(extendedProps.data).toEqual(enrichments.data);
     expect(extendedProps.metadata).toEqual(enrichments.metadata);
     expect(extendedProps.additionalResources).toEqual(additionalResources);
     // NOTE: Remove this check once IHubEditableContent.additionalResources is removed
@@ -232,7 +230,6 @@ describe("content computeProps", () => {
       id: "9001",
     };
     const enrichments: IHubEditableContentEnrichments = {
-      data: { data: "enrichment" },
       metadata: { metadata: "enrichment" },
       server: {
         capabilities: "Extract,Query",
@@ -252,7 +249,6 @@ describe("content computeProps", () => {
     expect(extendedProps.serverQueryCapability).toBeTruthy();
     expect(extendedProps.serverExtractFormats).toEqual(["csv", "geojson"]);
 
-    expect(extendedProps.data).toEqual(enrichments.data);
     expect(extendedProps.metadata).toEqual(enrichments.metadata);
     expect(extendedProps.additionalResources).toEqual(additionalResources);
     // NOTE: Remove this check once IHubEditableContent.additionalResources is removed
@@ -298,7 +294,6 @@ describe("content computeProps", () => {
       id: "9001",
     };
     const enrichments: IHubEditableContentEnrichments = {
-      data: { data: "enrichment" },
       metadata: { metadata: "enrichment" },
     };
 
@@ -314,7 +309,6 @@ describe("content computeProps", () => {
     expect(extendedProps.serverQueryCapability).toBeUndefined();
     expect(extendedProps.serverExtractFormats).toBeUndefined();
 
-    expect(extendedProps.data).toEqual(enrichments.data);
     expect(extendedProps.metadata).toEqual(enrichments.metadata);
     expect(extendedProps.additionalResources).toEqual(additionalResources);
     // NOTE: Remove this check once IHubEditableContent.additionalResources is removed

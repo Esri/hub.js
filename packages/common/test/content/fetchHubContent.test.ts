@@ -85,7 +85,7 @@ describe("fetchHubContent", () => {
       Promise.resolve({ item: HOSTED_FEATURE_SERVICE_ITEM })
     );
     fetchEditableContentEnrichmentsSpy.and.returnValue({
-      data: { data: "value" },
+      metadata: { metadata: "value" },
     });
 
     const requestOptions = {
@@ -96,7 +96,7 @@ describe("fetchHubContent", () => {
     const chk = await fetchHubContent(
       HOSTED_FEATURE_SERVICE_GUID,
       requestOptions,
-      ["data"]
+      ["metadata"]
     );
     expect(chk.id).toBe(HOSTED_FEATURE_SERVICE_GUID);
     expect(chk.owner).toBe(HOSTED_FEATURE_SERVICE_ITEM.owner);
@@ -113,7 +113,7 @@ describe("fetchHubContent", () => {
     expect(fetchEditableContentEnrichmentsSpy).toHaveBeenCalledWith(
       HOSTED_FEATURE_SERVICE_ITEM,
       requestOptions,
-      ["data"]
+      ["metadata"]
     );
   });
 

@@ -77,11 +77,7 @@ export async function fetchEditableContentEnrichments(
 }
 
 function getDefaultEnrichmentKeys(item: IItem): EditableContentEnrichment[] {
-  const enrichments: EditableContentEnrichment[] = [
-    "data",
-    "metadata",
-    "schedule",
-  ];
+  const enrichments: EditableContentEnrichment[] = ["metadata", "schedule"];
   if (isService(item.url)) {
     enrichments.push("server");
   }

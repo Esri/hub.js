@@ -182,7 +182,6 @@ function getBaseExtendedProps(
 ): IBaseExtendedProps {
   return {
     kind: null, // To be populated by the specific extended props function
-    data: enrichments.data,
     metadata: enrichments.metadata,
     additionalResources: getAdditionalResources(
       item,

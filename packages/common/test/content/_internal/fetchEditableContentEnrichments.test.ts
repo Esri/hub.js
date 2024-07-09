@@ -22,11 +22,8 @@ describe("fetchEditableContentEnrichments", () => {
   it("should fetch default enrichments for non-service content", async () => {
     isServiceSpy.and.returnValue(false);
 
-    const data = { data: "value" };
     const metadata = { metadata: "value" };
-    fetchItemEnrichmentsSpy.and.returnValue(
-      Promise.resolve({ data, metadata })
-    );
+    fetchItemEnrichmentsSpy.and.returnValue(Promise.resolve({ metadata }));
 
     const schedule = { mode: "manual" } as unknown as IHubSchedule;
     fetchItemScheduleEnrichmentSpy.and.returnValue(Promise.resolve(schedule));
@@ -39,13 +36,12 @@ describe("fetchEditableContentEnrichments", () => {
     const requestOptions = {} as IRequestOptions;
 
     const chk = await fetchEditableContentEnrichments(item, requestOptions);
-    expect(chk.data).toBe(data);
     expect(chk.metadata).toBe(metadata);
     expect(chk.schedule).toBe(schedule);
     expect(fetchItemEnrichmentsSpy).toHaveBeenCalledTimes(1);
     expect(fetchItemEnrichmentsSpy).toHaveBeenCalledWith(
       item,
-      ["data", "metadata"],
+      ["metadata"],
       requestOptions
     );
     expect(fetchItemScheduleEnrichmentSpy).toHaveBeenCalledTimes(1);
@@ -58,13 +54,12 @@ describe("fetchEditableContentEnrichments", () => {
   it("should fetch default enrichments for service-backed content", async () => {
     isServiceSpy.and.returnValue(true);
 
-    const data = { data: "value" };
     const metadata = { metadata: "value" };
     const server = {
       server: "value",
     } as unknown as enrichmentsModule.IHubEditableContentEnrichments["server"];
     fetchItemEnrichmentsSpy.and.returnValue(
-      Promise.resolve({ data, metadata, server })
+      Promise.resolve({ metadata, server })
     );
 
     const schedule = { mode: "manual" } as unknown as IHubSchedule;
@@ -80,13 +75,12 @@ describe("fetchEditableContentEnrichments", () => {
 
     const chk = await fetchEditableContentEnrichments(item, requestOptions);
     expect(chk.server).toBe(server);
-    expect(chk.data).toBe(data);
     expect(chk.metadata).toBe(metadata);
     expect(chk.schedule).toBe(schedule);
     expect(fetchItemEnrichmentsSpy).toHaveBeenCalledTimes(1);
     expect(fetchItemEnrichmentsSpy).toHaveBeenCalledWith(
       item,
-      ["data", "metadata", "server"],
+      ["metadata", "server"],
       requestOptions
     );
     expect(fetchItemScheduleEnrichmentSpy).toHaveBeenCalledTimes(1);
@@ -99,8 +93,8 @@ describe("fetchEditableContentEnrichments", () => {
   it("should respect custom enrichment requests", async () => {
     isServiceSpy.and.returnValue(true);
 
-    const data = { data: "value" };
-    fetchItemEnrichmentsSpy.and.returnValue(Promise.resolve({ data }));
+    const metadata = { metadata: "value" };
+    fetchItemEnrichmentsSpy.and.returnValue(Promise.resolve({ metadata }));
 
     const schedule = { mode: "manual" } as unknown as IHubSchedule;
     fetchItemScheduleEnrichmentSpy.and.returnValue(Promise.resolve(schedule));
@@ -112,24 +106,23 @@ describe("fetchEditableContentEnrichments", () => {
       url: "my-service-url",
     } as unknown as IItem;
     const requestOptions = {} as IRequestOptions;
-    const enrichments = [
-      "data",
+    const enrichments: enrichmentsModule.EditableContentEnrichment[] = [
+      "metadata",
       "schedule",
-    ] as enrichmentsModule.EditableContentEnrichment[];
+    ];
 
     const chk = await fetchEditableContentEnrichments(
       item,
       requestOptions,
       enrichments
     );
-    expect(chk.data).toBe(data);
-    expect(chk.metadata).toBeUndefined();
+    expect(chk.metadata).toBe(metadata);
     expect(chk.schedule).toBe(schedule);
-    expect(chk.server).toBeUndefined();
+    expect(chk.server).toBeUndefined(); // undefined because we didn't ask for it
     expect(fetchItemEnrichmentsSpy).toHaveBeenCalledTimes(1);
     expect(fetchItemEnrichmentsSpy).toHaveBeenCalledWith(
       item,
-      ["data"],
+      ["metadata"],
       requestOptions
     );
     expect(fetchItemScheduleEnrichmentSpy).toHaveBeenCalledTimes(1);
@@ -147,14 +140,14 @@ describe("fetchEditableContentEnrichments", () => {
       url: "my-service-url",
     } as unknown as IItem;
     const requestOptions = {} as IRequestOptions;
-    const enrichments = [] as enrichmentsModule.EditableContentEnrichment[];
+    const enrichments: enrichmentsModule.EditableContentEnrichment[] = [];
 
     const chk = await fetchEditableContentEnrichments(
       item,
       requestOptions,
       enrichments
     );
-    expect(chk.data).toBeUndefined();
+
     expect(chk.metadata).toBeUndefined();
     expect(chk.schedule).toBeUndefined();
     expect(chk.server).toBeUndefined();

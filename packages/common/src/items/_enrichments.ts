@@ -46,7 +46,7 @@ export type IItemAndIServerEnrichments = IItemEnrichments & IServerEnrichments;
  */
 export type IHubEditableContentEnrichments = Pick<
   IItemAndIServerEnrichments,
-  "data" | "metadata" | "server"
+  "metadata" | "server"
 > & {
   schedule?: IHubSchedule;
 };
