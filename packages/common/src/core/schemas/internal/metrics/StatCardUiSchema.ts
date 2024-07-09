@@ -227,11 +227,10 @@ export const buildUiSchema = async (
             labelKey: `appearance.layout.label`,
             scope: "/properties/layout",
             type: "Control",
-            rule: HIDE_FOR_ALL, // Temporary while no layouts
             options: {
               control: "hub-field-input-select",
               enum: {
-                i18nScope: `layout.enum`,
+                i18nScope: `appearance.layout.enum`,
               },
             },
           },
@@ -239,7 +238,6 @@ export const buildUiSchema = async (
             labelKey: `appearance.textAlign`,
             scope: "/properties/textAlign",
             type: "Control",
-            rule: HIDE_FOR_DATA_VIZ_RULE,
             options: {
               control: "hub-field-input-alignment",
             },
@@ -279,16 +277,51 @@ export const buildUiSchema = async (
             },
           },
           {
-            labelKey: `appearance.popoverTitle`,
-            scope: "/properties/popoverTitle",
-            type: "Control",
+            type: "Section",
+            labelKey: `appearance.styleSpecificInfo.label`,
             rule: SHOW_FOR_MORE_INFO_RULE,
-          },
-          {
-            labelKey: `appearance.popoverDescription`,
-            scope: "/properties/popoverDescription",
-            type: "Control",
-            rule: SHOW_FOR_MORE_INFO_RULE,
+            options: {
+              helperText: {
+                labelKey: `appearance.styleSpecificInfo.helperText`,
+              },
+            },
+            elements: [
+              {
+                labelKey: `appearance.popoverText.label`,
+                scope: "/properties/popoverText",
+                type: "Control",
+                rule: SHOW_FOR_MORE_INFO_RULE,
+                options: {
+                  control: "hub-field-input-input",
+                  type: "textarea",
+                  messages: [
+                    {
+                      type: "ERROR",
+                      keyword: "maxLength",
+                      icon: true,
+                      labelKey: `appearance.popoverText.maxLengthError`,
+                    },
+                  ],
+                },
+              },
+              {
+                labelKey: `appearance.publisherText.label`,
+                scope: "/properties/publisherText",
+                type: "Control",
+                rule: SHOW_FOR_MORE_INFO_RULE,
+                options: {
+                  control: "hub-field-input-input",
+                  messages: [
+                    {
+                      type: "ERROR",
+                      keyword: "maxLength",
+                      icon: true,
+                      labelKey: `appearance.publisherText.maxLengthError`,
+                    },
+                  ],
+                },
+              },
+            ],
           },
         ],
       },
@@ -344,19 +377,11 @@ const HIDE_FOR_ALL = {
   },
 };
 
-const HIDE_FOR_DATA_VIZ_RULE = {
-  effect: UiSchemaRuleEffects.HIDE,
-  condition: {
-    scope: "/properties/layout",
-    schema: { enum: ["dataViz"] },
-  },
-};
-
 const SHOW_FOR_MORE_INFO_RULE = {
   effect: UiSchemaRuleEffects.SHOW,
   condition: {
     scope: "/properties/layout",
-    schema: { const: "moreInfo" },
+    schema: { const: "informational" },
   },
 };
 

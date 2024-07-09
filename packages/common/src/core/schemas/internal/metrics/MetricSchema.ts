@@ -104,9 +104,11 @@ export const MetricSchema: IConfigurationSchema = {
     },
     popoverTitle: {
       type: "string",
+      maxLength: 180,
     },
-    popoverDescription: {
+    publisherText: {
       type: "string",
+      maxLength: 50,
     },
   },
   allOf: [
@@ -119,11 +121,11 @@ export const MetricSchema: IConfigurationSchema = {
     "if-layout-moreinfo-then-require-popover-title-description": {
       if: {
         type: "object",
-        properties: { layout: { const: LAYOUTS.moreInfo } },
+        properties: { layout: { const: LAYOUTS.informational } },
         required: ["layout"],
       },
       then: {
-        required: ["popoverTitle", "popoverDescription"],
+        required: ["popoverText", "publisherText"],
       },
     },
     "if-source-title-then-source-link": {

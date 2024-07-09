@@ -292,17 +292,10 @@ describe("buildUiSchema: stat", () => {
               labelKey: `appearance.layout.label`,
               scope: "/properties/layout",
               type: "Control",
-              rule: {
-                effect: UiSchemaRuleEffects.HIDE,
-                condition: {
-                  scope: "/properties/type",
-                  schema: { enum: ["static", "dynamic"] },
-                },
-              },
               options: {
                 control: "hub-field-input-select",
                 enum: {
-                  i18nScope: `layout.enum`,
+                  i18nScope: `appearance.layout.enum`,
                 },
               },
             },
@@ -310,13 +303,6 @@ describe("buildUiSchema: stat", () => {
               labelKey: `appearance.textAlign`,
               scope: "/properties/textAlign",
               type: "Control",
-              rule: {
-                effect: UiSchemaRuleEffects.HIDE,
-                condition: {
-                  scope: "/properties/layout",
-                  schema: { enum: ["dataViz"] },
-                },
-              },
               options: {
                 control: "hub-field-input-alignment",
               },
@@ -380,28 +366,69 @@ describe("buildUiSchema: stat", () => {
             //   }
             // },
             {
-              labelKey: `appearance.popoverTitle`,
-              scope: "/properties/popoverTitle",
-              type: "Control",
+              type: "Section",
+              labelKey: `appearance.styleSpecificInfo.label`,
               rule: {
                 effect: UiSchemaRuleEffects.SHOW,
                 condition: {
                   scope: "/properties/layout",
-                  schema: { const: "moreInfo" },
+                  schema: { const: "informational" },
                 },
               },
-            },
-            {
-              labelKey: `appearance.popoverDescription`,
-              scope: "/properties/popoverDescription",
-              type: "Control",
-              rule: {
-                effect: UiSchemaRuleEffects.SHOW,
-                condition: {
-                  scope: "/properties/layout",
-                  schema: { const: "moreInfo" },
+              options: {
+                helperText: {
+                  labelKey: `appearance.styleSpecificInfo.helperText`,
                 },
               },
+              elements: [
+                {
+                  labelKey: `appearance.popoverText.label`,
+                  scope: "/properties/popoverText",
+                  type: "Control",
+                  rule: {
+                    effect: UiSchemaRuleEffects.SHOW,
+                    condition: {
+                      scope: "/properties/layout",
+                      schema: { const: "informational" },
+                    },
+                  },
+                  options: {
+                    control: "hub-field-input-input",
+                    type: "textarea",
+                    messages: [
+                      {
+                        type: "ERROR",
+                        keyword: "maxLength",
+                        icon: true,
+                        labelKey: `appearance.popoverText.maxLengthError`,
+                      },
+                    ],
+                  },
+                },
+                {
+                  labelKey: `appearance.publisherText.label`,
+                  scope: "/properties/publisherText",
+                  type: "Control",
+                  rule: {
+                    effect: UiSchemaRuleEffects.SHOW,
+                    condition: {
+                      scope: "/properties/layout",
+                      schema: { const: "informational" },
+                    },
+                  },
+                  options: {
+                    control: "hub-field-input-input",
+                    messages: [
+                      {
+                        type: "ERROR",
+                        keyword: "maxLength",
+                        icon: true,
+                        labelKey: `appearance.publisherText.maxLengthError`,
+                      },
+                    ],
+                  },
+                },
+              ],
             },
           ],
         },
