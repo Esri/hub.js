@@ -94,7 +94,7 @@ describe("HubEvents edit module", () => {
         readGroups: [],
         registrationCount: {
           inPerson: 0,
-          virtual: 0,
+          virtual: 5,
         },
         startDateTime: datesAndTimes.startDateTime.toISOString(),
         startDate: datesAndTimes.startDate,
@@ -256,7 +256,7 @@ describe("HubEvents edit module", () => {
         readGroups: [],
         registrationCount: {
           inPerson: 0,
-          virtual: 0,
+          virtual: 5,
         },
         startDateTime: datesAndTimes.startDateTime.toISOString(),
         startDate: datesAndTimes.startDate,

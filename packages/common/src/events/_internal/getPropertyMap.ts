@@ -65,7 +65,7 @@ export function getPropertyMap(): IPropertyMap[] {
       },
       {
         entityKey: "onlineRegistrationCount",
-        storeKey: "registrationCount.inPerson",
+        storeKey: "registrationCount.virtual",
       },
     ]
   );

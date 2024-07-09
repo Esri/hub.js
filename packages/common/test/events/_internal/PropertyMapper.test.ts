@@ -76,7 +76,7 @@ describe("PropertyMapper", () => {
         recurrence: null,
         registrationCount: {
           inPerson: 0,
-          virtual: 0,
+          virtual: 5,
         },
         startDate: [
           start.getFullYear(),
@@ -143,7 +143,7 @@ describe("PropertyMapper", () => {
         onlineCapacity: null,
         onlineCapacityType: HubEventCapacityType.Unlimited,
         onlineDetails: null,
-        onlineRegistrationCount: 0,
+        onlineRegistrationCount: 5,
         onlineUrl: null,
         canChangeAccess: true,
         createdDate: jasmine.any(Date) as unknown as Date,
