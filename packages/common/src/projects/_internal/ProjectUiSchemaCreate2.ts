@@ -1,9 +1,5 @@
 import { IArcGISContext } from "../../ArcGISContext";
-import { checkPermission } from "../../permissions/checkPermission";
-import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
-import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
-import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
-import { getSharableGroupsComboBoxItems } from "../../core/schemas/internal/getSharableGroupsComboBoxItems";
+import { IUiSchema } from "../../core/schemas/types";
 import { IHubProject } from "../../core/types";
 
 /**
@@ -39,67 +35,6 @@ export const buildUiSchema = async (
               labelKey: `${i18nScope}.fields.name.maxLengthError`,
             },
           ],
-        },
-      },
-      {
-        labelKey: `${i18nScope}.fields.summary.label`,
-        scope: "/properties/summary",
-        type: "Control",
-        options: {
-          control: "hub-field-input-input",
-          type: "textarea",
-          rows: 4,
-          helperText: {
-            labelKey: `${i18nScope}.fields.summary.helperText`,
-          },
-          messages: [
-            {
-              type: "ERROR",
-              keyword: "maxLength",
-              icon: true,
-              labelKey: `shared.fields.purpose.maxLengthError`,
-            },
-          ],
-        },
-      },
-      {
-        labelKey: `${i18nScope}.fields.status.label`,
-        scope: "/properties/status",
-        type: "Control",
-        options: {
-          control: "hub-field-input-select",
-          enum: {
-            i18nScope: `${i18nScope}.fields.status.enum`,
-          },
-        },
-      },
-      {
-        scope: "/properties/location",
-        type: "Control",
-        labelKey: `${i18nScope}.sections.location.label`,
-        options: {
-          control: "hub-field-input-location-picker",
-          extent: await getLocationExtent(
-            options.location,
-            context.hubRequestOptions
-          ),
-          options: await getLocationOptions(
-            options.id,
-            options.type,
-            options.location,
-            context.portal.name,
-            context.hubRequestOptions
-          ),
-        },
-      },
-      {
-        scope: "/properties/access",
-        type: "Control",
-        labelKey: `${i18nScope}.sections.sharing.label`,
-        options: {
-          control: "arcgis-hub-access-level-controls",
-          orgName: context.portal.name,
-          itemType: `{{${i18nScope}.fields.access.itemType:translate}}`,
         },
       },
     ],

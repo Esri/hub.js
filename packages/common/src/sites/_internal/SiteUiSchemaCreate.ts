@@ -1,9 +1,5 @@
 import { IArcGISContext } from "../../ArcGISContext";
-import { checkPermission } from "../../permissions/checkPermission";
-import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
-import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
-import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
-import { getSharableGroupsComboBoxItems } from "../../core/schemas/internal/getSharableGroupsComboBoxItems";
+import { IUiSchema } from "../../core/schemas/types";
 import { IHubSite } from "../../core/types";
 
 /**
@@ -40,27 +36,6 @@ export const buildUiSchema = async (
               keyword: "maxLength",
               icon: true,
               labelKey: `${i18nScope}.fields.name.maxLengthError`,
-            },
-          ],
-        },
-      },
-      {
-        labelKey: `${i18nScope}.fields.summary.label`,
-        scope: "/properties/summary",
-        type: "Control",
-        options: {
-          control: "hub-field-input-input",
-          type: "textarea",
-          rows: 4,
-          helperText: {
-            labelKey: `${i18nScope}.fields.summary.helperText`,
-          },
-          messages: [
-            {
-              type: "ERROR",
-              keyword: "maxLength",
-              icon: true,
-              labelKey: `shared.fields.summary.maxLengthError`,
             },
           ],
         },

@@ -1,7 +1,7 @@
 import { IConfigurationSchema } from "../../core";
 import { HubItemEntitySchema } from "../../core/schemas/shared/HubItemEntitySchema";
 
-export const PageEditorTypes = ["hub:page:edit"] as const;
+export const PageEditorTypes = ["hub:page:edit", "hub:page:create"] as const;
 export type PageEditorType = (typeof PageEditorTypes)[number];
 
 /**
