@@ -1,3 +1,10 @@
+# @esri/hub-common [14.158.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.157.0...@esri/hub-common@14.158.0) (2024-07-09)
+
+
+### Features
+
+* **hub-common:** allow image service downloads ([#1577](https://github.com/Esri/hub.js/issues/1577)) ([dc7d6f8](https://github.com/Esri/hub.js/commit/dc7d6f87be12a06b08a7f9654f9b32e1805e709c))
+
 # @esri/hub-common [14.157.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.156.0...@esri/hub-common@14.157.0) (2024-07-08)
 
 
