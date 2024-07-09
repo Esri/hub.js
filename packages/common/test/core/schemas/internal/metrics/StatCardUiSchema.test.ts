@@ -395,6 +395,7 @@ describe("buildUiSchema: stat", () => {
                   options: {
                     control: "hub-field-input-input",
                     type: "textarea",
+                    rows: 4,
                     messages: [
                       {
                         type: "ERROR",
