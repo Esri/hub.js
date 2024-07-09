@@ -34,7 +34,7 @@ export async function searchCatalogs(
     Catalog.fromJson(catalog, context)
   );
 
-  // Beheavior:
+  // Behavior:
   // Query all the collections in all the catalogs
   // if there is a scope which does not have a collection, query the scope
   const promises = instances.map(async (cat) => {
