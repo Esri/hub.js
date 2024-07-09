@@ -1,3 +1,10 @@
+## @esri/hub-common [14.159.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.159.0...@esri/hub-common@14.159.1) (2024-07-09)
+
+
+### Bug Fixes
+
+* group workspace access ([#1574](https://github.com/Esri/hub.js/issues/1574)) ([044cc26](https://github.com/Esri/hub.js/commit/044cc26d1959003faf8a1fbbb6282c62cd8d5432))
+
 # @esri/hub-common [14.159.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.158.0...@esri/hub-common@14.159.0) (2024-07-09)
 
 
