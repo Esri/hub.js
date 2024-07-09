@@ -9,6 +9,8 @@ import {
   ISortOptions,
 } from "./types";
 import { setProp } from "../objects/set-prop";
+import { unique } from "../util";
+import { mapBy } from "../utils/map-by";
 
 /**
  * Given an array of catalog json objects, execute a search on all the collections
@@ -48,15 +50,17 @@ export async function searchCatalogs(
         } as ICatalogSearchResponse;
       });
     const promiseArray = [collectionPromise];
-    // for this catalog, find any scopes that do not have a collection
-    const collectionTargets = cat.collections
-      .map((collection) => collection.targetEntity)
-      .filter((v, i, self) => self.indexOf(v));
+    // for this catalog, get a list of the unique targetEntities from the collections
+    const collectionTargets = mapBy("targetEntity", cat.collections).filter(
+      unique
+    );
 
-    // find the scopes that are not in the collectionTargets
+    // Now, find the catalog scopes that do not have entries in the collectionTargets
+    // leaving the scopes that need to be directly queries
     const scopesToQuery = cat.availableScopes.filter(
       (scope) => !collectionTargets.includes(scope)
     );
+
     // if there are scopes to query, query them
     if (scopesToQuery.length) {
       const scopePromise = cat
