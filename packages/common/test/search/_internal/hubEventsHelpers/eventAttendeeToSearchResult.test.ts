@@ -18,7 +18,7 @@ describe("event search utils", () => {
           createdAt: "2024-04-17T15:30:42+0000",
           createdById: "a creator id",
           eventId: "an event id",
-          id: 0,
+          id: "0",
           permission: {
             canDelete: true,
             canEdit: true,

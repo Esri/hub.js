@@ -23,7 +23,7 @@ describe("hubSearchEventAttendees", () => {
           createdAt: "2024-04-19T12:15:07.222Z",
           createdById: "t_miller",
           eventId: "event1Id",
-          id: 52123,
+          id: "52123",
           permission: {
             canDelete: false,
             canEdit: false,
@@ -38,7 +38,7 @@ describe("hubSearchEventAttendees", () => {
           createdAt: "2024-04-21T11:15:07.222Z",
           createdById: "t_miller",
           eventId: "event2Id",
-          id: 52124,
+          id: "52124",
           permission: {
             canDelete: false,
             canEdit: false,
@@ -60,7 +60,7 @@ describe("hubSearchEventAttendees", () => {
           createdAt: "2024-06-21T11:15:07.222Z",
           createdById: "c_boyd",
           eventId: "event3Id",
-          id: 52125,
+          id: "52125",
           permission: {
             canDelete: false,
             canEdit: false,
@@ -75,7 +75,7 @@ describe("hubSearchEventAttendees", () => {
           createdAt: "2024-07-21T11:15:07.222Z",
           createdById: "a_burns",
           eventId: "event3Id",
-          id: 52126,
+          id: "52126",
           permission: {
             canDelete: false,
             canEdit: false,
