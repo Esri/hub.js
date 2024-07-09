@@ -83,7 +83,7 @@ export interface IHubEvent extends IHubItemEntity, IWithPermissions, IWithSlug {
   /**
    * The current number of in-person registrants
    */
-  inPersonRegistrationCount?: number | null;
+  inPersonRegistrationCount: number;
 
   /**
    * True when the event is an all day event
@@ -123,7 +123,7 @@ export interface IHubEvent extends IHubItemEntity, IWithPermissions, IWithSlug {
   /**
    * The current number of online registrants
    */
-  onlineRegistrationCount?: number | null;
+  onlineRegistrationCount: number;
 
   /**
    * The capacity type for an online event, either `unlimited` or `fixed`

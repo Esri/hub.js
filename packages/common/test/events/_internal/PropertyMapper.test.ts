@@ -143,6 +143,7 @@ describe("PropertyMapper", () => {
         onlineCapacity: null,
         onlineCapacityType: HubEventCapacityType.Unlimited,
         onlineDetails: null,
+        onlineRegistrationCount: 0,
         onlineUrl: null,
         canChangeAccess: true,
         createdDate: jasmine.any(Date) as unknown as Date,
