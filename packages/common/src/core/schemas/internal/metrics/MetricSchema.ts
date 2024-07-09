@@ -102,7 +102,7 @@ export const MetricSchema: IConfigurationSchema = {
       type: "boolean",
       default: true,
     },
-    popoverTitle: {
+    popoverText: {
       type: "string",
       maxLength: 180,
     },
