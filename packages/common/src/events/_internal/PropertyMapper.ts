@@ -124,7 +124,6 @@ export class EventPropertyMapper extends PropertyMapper<
     entity: Partial<IHubEvent>,
     store: Partial<IEvent>
   ): Partial<IEvent> {
-    // TODO: support locations
     // TODO: thumbnail & thumbnail url
 
     const clonedEntity = cloneObject(entity);

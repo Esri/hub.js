@@ -74,6 +74,10 @@ describe("PropertyMapper", () => {
         },
         readGroups: ["readGroup1"],
         recurrence: null,
+        registrationCount: {
+          inPerson: 0,
+          virtual: 5,
+        },
         startDate: [
           start.getFullYear(),
           start.getMonth() + 1,
@@ -128,6 +132,7 @@ describe("PropertyMapper", () => {
         isPast: false,
         attendanceType: HubEventAttendanceType.InPerson,
         inPersonCapacity: 30,
+        inPersonRegistrationCount: 0,
         inPersonCapacityType: "fixed",
         location: {
           type: "none",
@@ -138,6 +143,7 @@ describe("PropertyMapper", () => {
         onlineCapacity: null,
         onlineCapacityType: HubEventCapacityType.Unlimited,
         onlineDetails: null,
+        onlineRegistrationCount: 5,
         onlineUrl: null,
         canChangeAccess: true,
         createdDate: jasmine.any(Date) as unknown as Date,

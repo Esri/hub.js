@@ -81,6 +81,11 @@ export interface IHubEvent extends IHubItemEntity, IWithPermissions, IWithSlug {
   inPersonCapacity?: number | null;
 
   /**
+   * The current number of in-person registrants with a registration status of `accepted`
+   */
+  inPersonRegistrationCount: number;
+
+  /**
    * True when the event is an all day event
    */
   isAllDay: boolean;
@@ -114,6 +119,11 @@ export interface IHubEvent extends IHubItemEntity, IWithPermissions, IWithSlug {
    * The maximum attendance capacity for an online event
    */
   onlineCapacity?: number | null;
+
+  /**
+   * The current number of online registrants with a registration status of `accepted`
+   */
+  onlineRegistrationCount: number;
 
   /**
    * The capacity type for an online event, either `unlimited` or `fixed`

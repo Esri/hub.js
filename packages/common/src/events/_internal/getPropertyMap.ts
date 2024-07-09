@@ -59,6 +59,14 @@ export function getPropertyMap(): IPropertyMap[] {
         entityKey: "editGroupIds",
         storeKey: "editGroups",
       },
+      {
+        entityKey: "inPersonRegistrationCount",
+        storeKey: "registrationCount.inPerson",
+      },
+      {
+        entityKey: "onlineRegistrationCount",
+        storeKey: "registrationCount.virtual",
+      },
     ]
   );
 }
