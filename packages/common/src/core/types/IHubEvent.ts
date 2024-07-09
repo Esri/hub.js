@@ -81,7 +81,7 @@ export interface IHubEvent extends IHubItemEntity, IWithPermissions, IWithSlug {
   inPersonCapacity?: number | null;
 
   /**
-   * The current number of in-person registrants
+   * The current number of in-person registrants with a registration status of `accepted`
    */
   inPersonRegistrationCount: number;
 
@@ -121,7 +121,7 @@ export interface IHubEvent extends IHubItemEntity, IWithPermissions, IWithSlug {
   onlineCapacity?: number | null;
 
   /**
-   * The current number of online registrants
+   * The current number of online registrants with a registration status of `accepted`
    */
   onlineRegistrationCount: number;
 
