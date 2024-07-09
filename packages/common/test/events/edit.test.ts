@@ -164,7 +164,7 @@ describe("HubEvents edit module", () => {
           endTime: defaultRecord.endTime,
           inPersonCapacity: defaultRecord.inPersonCapacity,
           notifyAttendees: defaultRecord.notifyAttendees,
-          onlineMeetings: defaultRecord.onlineMeetings,
+          onlineMeeting: defaultRecord.onlineMeeting,
           readGroups: defaultRecord.readGroups,
           // startDateTime not included
           startDate: defaultRecord.startDate,
@@ -329,7 +329,7 @@ describe("HubEvents edit module", () => {
           endTime: defaultRecord.endTime,
           inPersonCapacity: defaultRecord.inPersonCapacity,
           notifyAttendees: defaultRecord.notifyAttendees,
-          onlineMeetings: defaultRecord.onlineMeetings,
+          onlineMeeting: defaultRecord.onlineMeeting,
           readGroups: defaultRecord.readGroups,
           // startDateTime not included
           startDate: defaultRecord.startDate,
