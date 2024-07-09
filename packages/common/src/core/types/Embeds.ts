@@ -9,7 +9,7 @@ export type HubEmbed =
   | IHubEmbedExternal;
 
 /** enum to discriminate between embed union members */
-enum EmbedKind {
+export enum EmbedKind {
   app = "app",
   map = "map",
   feedback = "feedback",
@@ -25,14 +25,14 @@ interface IHubEmbedBase {
 }
 
 /** app-specific embed */
-interface IHubEmbedApp extends IHubEmbedBase {
+export interface IHubEmbedApp extends IHubEmbedBase {
   kind: EmbedKind.app;
   /** application id */
   id: string;
 }
 
 /** map-specific embed */
-interface IHubEmbedMap extends IHubEmbedBase {
+export interface IHubEmbedMap extends IHubEmbedBase {
   kind: EmbedKind.map;
   /** web map/scene id */
   id: string;
