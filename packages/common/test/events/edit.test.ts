@@ -401,11 +401,11 @@ describe("HubEvents edit module", () => {
         return Promise.resolve();
       });
       await deleteHubEventRegistration(
-        0o1,
+        "0o1",
         authdCtxMgr.context.hubRequestOptions
       );
       expect(deleteRegistrationSpy).toHaveBeenCalledWith({
-        registrationId: 0o1,
+        registrationId: "0o1",
         ...authdCtxMgr.context.hubRequestOptions,
       });
     });

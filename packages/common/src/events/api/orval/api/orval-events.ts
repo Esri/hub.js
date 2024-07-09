@@ -265,40 +265,9 @@ export interface IEventPermission {
   canSetStatusToRemoved: boolean;
 }
 
-export interface IEvent {
-  access: EventAccess;
-  allDay: boolean;
-  allowRegistration: boolean;
-  associations?: IEventAssociation[];
-  attendanceType: EventAttendanceType[];
-  categories: string[];
-  createdAt: string;
-  createdById: string | null;
-  creator?: IUser;
-  description: string | null;
-  editGroups: string[];
-  endDate: string;
-  endDateTime: string;
-  endTime: string;
-  id: string;
-  inPersonCapacity: number | null;
-  location?: IEventLocation;
-  notifyAttendees: boolean;
-  onlineMeetings?: IOnlineMeeting[];
-  orgId: string;
-  permission: IEventPermission;
-  readGroups: string[];
-  recurrence: string | null;
-  registrations?: IRegistration[];
-  startDate: string;
-  startDateTime: string;
-  startTime: string;
-  status: EventStatus;
-  summary: string | null;
-  tags: string[];
-  timeZone: string;
-  title: string;
-  updatedAt: string;
+export interface IEventRegistrationCount {
+  inPerson: number;
+  virtual: number;
 }
 
 export enum RegistrationStatus {
@@ -318,7 +287,7 @@ export interface IRegistration {
   createdById: string;
   event?: IEvent;
   eventId: string;
-  id: number;
+  id: string;
   permission: IRegistrationPermission;
   role: RegistrationRole;
   status: RegistrationStatus;
@@ -362,7 +331,7 @@ export interface IEventLocation {
   eventId: string;
   extent: number[][] | null;
   geometries: IEventLocationGeometriesItem[] | null;
-  id: number;
+  id: string;
   nbrhd: string | null;
   placeAddr: string | null;
   placeName: string | null;
@@ -392,6 +361,43 @@ export interface IEventAssociation {
   entityId: string;
   entityType: EventAssociationEntityType;
   eventId: string;
+}
+
+export interface IEvent {
+  access: EventAccess;
+  allDay: boolean;
+  allowRegistration: boolean;
+  associations?: IEventAssociation[];
+  attendanceType: EventAttendanceType[];
+  categories: string[];
+  createdAt: string;
+  createdById: string | null;
+  creator?: IUser;
+  description: string | null;
+  editGroups: string[];
+  endDate: string;
+  endDateTime: string;
+  endTime: string;
+  id: string;
+  inPersonCapacity: number | null;
+  location?: IEventLocation;
+  notifyAttendees: boolean;
+  onlineMeetings?: IOnlineMeeting[];
+  orgId: string;
+  permission: IEventPermission;
+  readGroups: string[];
+  recurrence: string | null;
+  registrationCount?: IEventRegistrationCount;
+  registrations?: IRegistration[];
+  startDate: string;
+  startDateTime: string;
+  startTime: string;
+  status: EventStatus;
+  summary: string | null;
+  tags: string[];
+  timeZone: string;
+  title: string;
+  updatedAt: string;
 }
 
 export interface ICreateOnlineMeeting {
@@ -625,7 +631,7 @@ export const getRegistrations = (
 };
 
 export const getRegistration = (
-  id: number,
+  id: string,
   options?: SecondParameter<typeof customClient>
 ) => {
   return customClient<IRegistration>(
@@ -635,7 +641,7 @@ export const getRegistration = (
 };
 
 export const updateRegistration = (
-  id: number,
+  id: string,
   iUpdateRegistration: IUpdateRegistration,
   options?: SecondParameter<typeof customClient>
 ) => {
@@ -651,7 +657,7 @@ export const updateRegistration = (
 };
 
 export const deleteRegistration = (
-  id: number,
+  id: string,
   options?: SecondParameter<typeof customClient>
 ) => {
   return customClient<IRegistration>(
