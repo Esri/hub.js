@@ -1,3 +1,11 @@
+# @esri/hub-common [14.159.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.158.0...@esri/hub-common@14.159.0) (2024-07-09)
+
+
+### Features
+
+* **hub-common:** add event capabilities field ([#1587](https://github.com/Esri/hub.js/issues/1587)) ([ee19ba0](https://github.com/Esri/hub.js/commit/ee19ba00bf485579075e87435fc14330c0cdea2f))
+* **hub-common:** add registration count props ([#1583](https://github.com/Esri/hub.js/issues/1583)) ([55ed1d7](https://github.com/Esri/hub.js/commit/55ed1d7ee01c6562fd5355848980a67283cfba6d))
+
 # @esri/hub-common [14.158.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.157.0...@esri/hub-common@14.158.0) (2024-07-09)
 
 
