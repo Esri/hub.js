@@ -74,12 +74,3 @@ export interface IHubJobRecordRequestOptions {
   /** Total number of records to return */
   limit?: number;
 }
-
-interface IFetchItemAndEnrichmentsOptions extends IHubRequestOptions {
-  enrichments?: ItemOrServerEnrichment[];
-}
-
-export interface IFetchContentOptions extends IFetchItemAndEnrichmentsOptions {
-  layerId?: number;
-  siteOrgKey?: string;
-}

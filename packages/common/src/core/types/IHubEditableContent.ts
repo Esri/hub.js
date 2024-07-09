@@ -51,7 +51,12 @@ export interface IHubEditableContent
   extendedProps?: IExtendedProps;
 }
 
-type IExtendedProps = IContentExtendedProps | IServiceExtendedProps;
+/**
+ * Represents optional enrichments that can be fetched for a content item.
+ * Different groups of content types may have different additional props.
+ * This is a discriminated union of the possible additional props.
+ */
+export type IExtendedProps = IContentExtendedProps | IServiceExtendedProps;
 
 /**
  * Optional enrichments that are common to all content types

@@ -1,8 +1,7 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { EditableContentEnrichment } from "../items/_enrichments";
 import { IHubEditableContent } from "../core/types/IHubEditableContent";
-import { IFetchContentOptions } from "./types";
-import { fetchContent } from "./fetchContent";
+import { fetchContent, IFetchContentOptions } from "./fetchContent";
 import { fetchEditableContentEnrichments } from "./_internal/fetchEditableContentEnrichments";
 import { normalizeItemType } from "./compose";
 import { setProp } from "../objects/set-prop";

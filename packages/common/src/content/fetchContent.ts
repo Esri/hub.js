@@ -8,6 +8,7 @@ import { IHubContent } from "../core";
 import {
   fetchItemEnrichments,
   IItemAndEnrichments,
+  ItemOrServerEnrichment,
 } from "../items/_enrichments";
 import { isNil } from "../util";
 import { maybeConcat } from "../utils/_array";
@@ -20,7 +21,7 @@ import {
 import { canUseHubApiForItem } from "./_internal/internalContentUtils";
 import { composeContent, getItemLayer, getProxyUrl } from "./compose";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IFetchContentOptions } from "./types";
+import { IHubRequestOptions } from "../types";
 
 const hasFeatures = (contentType: string) =>
   ["Feature Layer", "Table"].includes(contentType);
@@ -177,6 +178,15 @@ const fetchContentRecordCount = async (
     return Infinity;
   }
 };
+
+/**
+ * Options object for `fetchContent()`
+ */
+export interface IFetchContentOptions extends IHubRequestOptions {
+  layerId?: number; // layer id to fetch
+  siteOrgKey?: string; // org key for the site
+  enrichments?: ItemOrServerEnrichment[]; // enrichments keys to fetch, defaults to content type specific enrichments
+}
 
 /**
  * Fetch enriched content from the Portal and Hub APIs.

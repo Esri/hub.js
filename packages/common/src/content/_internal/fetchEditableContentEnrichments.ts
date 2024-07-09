@@ -34,19 +34,32 @@ export async function fetchEditableContentEnrichments(
     enrichments = getDefaultEnrichmentKeys(item);
   }
 
-  // Leverage the existing fetchItemEnrichments() function to fetch supported enrichments
-  const itemOrServerEnrichmentKeys = enrichments.filter(
-    (e) => e !== "schedule"
+  // NOTE: Enrichments for IHubEditableContent can be fetched one of two ways:
+  //
+  // 1: Via `fetchItemEnrichments()`. This was the old way that we used to fetch enrichments
+  //    in the `fetchContent()` era. Since the code still works and has great error handling,
+  //    there's no reason to re-invent the wheel.
+  // 2. Via ad-hoc fetch functions. We typically use this for new enrichments that are not
+  //   supported by `fetchItemEnrichments()` (e.g. schedule)
+  //
+  // Eventually we'll want to move all new enrichments to the `fetchItemEnrichments()` subsystem,
+  // but before we do we'll need to evaluate any impacts that would have on existing code, since
+  // `fetchContent()` is still widely used in the codebase.
+
+  const adHocEnrichments = ["schedule"];
+  const fetchItemEnrichmentKeys = enrichments.filter(
+    (e) => !adHocEnrichments.includes(e)
   );
-  if (itemOrServerEnrichmentKeys.length) {
+
+  if (fetchItemEnrichmentKeys.length) {
     // TODO: Abstract this into a helper function that can be used by enrichContentSearchResult()
     const itemOrServerEnrichments = await fetchItemEnrichments(
       item,
-      itemOrServerEnrichmentKeys as ItemOrServerEnrichment[],
+      fetchItemEnrichmentKeys as ItemOrServerEnrichment[],
       requestOptions as IHubRequestOptions
     );
 
-    itemOrServerEnrichmentKeys.forEach((key) => {
+    fetchItemEnrichmentKeys.forEach((key) => {
       result[key] = itemOrServerEnrichments[key as ItemOrServerEnrichment];
     });
   }
