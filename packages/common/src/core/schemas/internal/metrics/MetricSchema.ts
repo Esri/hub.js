@@ -112,6 +112,9 @@ export const MetricSchema: IConfigurationSchema = {
     },
   },
   allOf: [
+    {
+      $ref: "#/definitions/if-layout-moreinfo-then-require-popover-title-description",
+    },
     { $ref: "#/definitions/if-source-title-then-source-link" },
     { $ref: "#/definitions/value-type-value-mapping" },
     { $ref: "#/definitions/if-static-then-url-format" },
