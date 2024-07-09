@@ -322,8 +322,8 @@ function arrayAssertions(
     }
     if (assertion.type === "without") {
       if (Array.isArray(val)) {
-        const containsNone = val.every((v) => !arrayProp.includes(v));
-        if (!containsNone) {
+        const containsSome = val.some((v) => arrayProp.includes(v));
+        if (containsSome) {
           response = "array-contains-invalid-value";
         }
       } else {
