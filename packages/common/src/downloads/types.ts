@@ -58,18 +58,18 @@ export type LegacyExportItemFormat = keyof typeof PORTAL_EXPORT_TYPES;
  */
 export enum ServiceDownloadFormat {
   // Image Service Formats
-  BIP = "bip", // 10.3+
   BMP = "bmp",
-  BSQ = "bsq", // 10.3+
   GIF = "gif",
   JPG = "jpg",
   JPG_PNG = "jpgpng",
-  LERC = "lerc", // 10.3+
   PNG = "png",
   PNG8 = "png8",
   PNG24 = "png24",
-  PNG32 = "png32", // 10.2+
   TIFF = "tiff",
+  PNG32 = "png32", // 10.2+
+  BIP = "bip", // 10.3+
+  BSQ = "bsq", // 10.3+
+  LERC = "lerc", // 10.3+
 
   // Map & Feature Service Formats
   CSV = "csv",
@@ -122,9 +122,9 @@ export type downloadProgressCallback = (
 ) => void;
 
 /**
- * Options for refining / filtering the results of the fetchDownloadFileUrl operation.
+ * Options for refining / filtering the results of the fetchDownloadFile operation.
  */
-export interface IFetchDownloadFileUrlOptions {
+export interface IFetchDownloadFileOptions {
   entity: IHubEditableContent;
   format: ServiceDownloadFormat;
   context: IArcGISContext;
@@ -133,6 +133,27 @@ export interface IFetchDownloadFileUrlOptions {
   where?: string; // where clause to filter results by
   progressCallback?: downloadProgressCallback;
   pollInterval?: number; // interval in milliseconds to poll for job completion
+}
+
+export type IFetchDownloadFileResponse =
+  | IFetchDownloadFileBlobResponse
+  | IFetchDownloadFileUrlResponse;
+
+interface IBaseFetchDownloadFileResponse {
+  type: "blob" | "url";
+}
+
+export interface IFetchDownloadFileBlobResponse
+  extends IBaseFetchDownloadFileResponse {
+  type: "blob";
+  blob: Blob;
+  filename: string;
+}
+
+export interface IFetchDownloadFileUrlResponse
+  extends IBaseFetchDownloadFileResponse {
+  type: "url";
+  href: string;
 }
 
 /**

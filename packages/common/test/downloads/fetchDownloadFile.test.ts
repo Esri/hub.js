@@ -1,45 +1,45 @@
 import * as canUseHubDownloadApiModule from "../../src/downloads/canUseHubDownloadApi";
-import * as fetchHubApiDownloadFileUrlModule from "../../src/downloads/_internal/file-url-fetchers/fetchHubApiDownloadFileUrl";
+import * as fetchHubApiDownloadFileModule from "../../src/downloads/_internal/file-url-fetchers/fetchHubApiDownloadFile";
 import * as canUseExportItemFlowModule from "../../src/downloads/_internal/canUseExportItemFlow";
-import * as fetchExportItemDownloadFileUrlModule from "../../src/downloads/_internal/file-url-fetchers/fetchExportItemDownloadFileUrl";
+import * as fetchExportItemDownloadFileModule from "../../src/downloads/_internal/file-url-fetchers/fetchExportItemDownloadFile";
 import * as canUseExportImageFlowModule from "../../src/downloads/_internal/canUseExportImageFlow";
-import * as fetchExportImageDownloadFileUrlModule from "../../src/downloads/_internal/file-url-fetchers/fetchExportImageDownloadFileUrl";
+import * as fetchExportImageDownloadFileModule from "../../src/downloads/_internal/file-url-fetchers/fetchExportImageDownloadFile";
 import { IHubEditableContent } from "../../src/core/types/IHubEditableContent";
 import { IArcGISContext, ServiceDownloadFormat } from "../../src";
-import { fetchDownloadFileUrl } from "../../src/downloads/fetchDownloadFileUrl";
+import { fetchDownloadFile } from "../../src/downloads/fetchDownloadFile";
 
-describe("fetchDownloadFileUrl", () => {
+describe("fetchDownloadFile", () => {
   let canUseHubDownloadApiSpy: jasmine.Spy;
-  let fetchHubApiDownloadFileUrlSpy: jasmine.Spy;
+  let fetchHubApiDownloadFileSpy: jasmine.Spy;
   let canUseExportItemFlowSpy: jasmine.Spy;
-  let fetchExportItemDownloadFileUrlSpy: jasmine.Spy;
+  let fetchExportItemDownloadFileSpy: jasmine.Spy;
   let canUseExportImageFlowSpy: jasmine.Spy;
-  let fetchExportImageDownloadFileUrlSpy: jasmine.Spy;
+  let fetchExportImageDownloadFileSpy: jasmine.Spy;
 
   beforeEach(() => {
     canUseHubDownloadApiSpy = spyOn(
       canUseHubDownloadApiModule,
       "canUseHubDownloadApi"
     );
-    fetchHubApiDownloadFileUrlSpy = spyOn(
-      fetchHubApiDownloadFileUrlModule,
-      "fetchHubApiDownloadFileUrl"
+    fetchHubApiDownloadFileSpy = spyOn(
+      fetchHubApiDownloadFileModule,
+      "fetchHubApiDownloadFile"
     );
     canUseExportItemFlowSpy = spyOn(
       canUseExportItemFlowModule,
       "canUseExportItemFlow"
     );
-    fetchExportItemDownloadFileUrlSpy = spyOn(
-      fetchExportItemDownloadFileUrlModule,
-      "fetchExportItemDownloadFileUrl"
+    fetchExportItemDownloadFileSpy = spyOn(
+      fetchExportItemDownloadFileModule,
+      "fetchExportItemDownloadFile"
     );
     canUseExportImageFlowSpy = spyOn(
       canUseExportImageFlowModule,
       "canUseExportImageFlow"
     );
-    fetchExportImageDownloadFileUrlSpy = spyOn(
-      fetchExportImageDownloadFileUrlModule,
-      "fetchExportImageDownloadFileUrl"
+    fetchExportImageDownloadFileSpy = spyOn(
+      fetchExportImageDownloadFileModule,
+      "fetchExportImageDownloadFile"
     );
   });
 
@@ -48,7 +48,7 @@ describe("fetchDownloadFileUrl", () => {
     canUseExportItemFlowSpy.and.returnValue(false);
     canUseExportImageFlowSpy.and.returnValue(false);
     try {
-      await fetchDownloadFileUrl({
+      await fetchDownloadFile({
         entity: {} as unknown as IHubEditableContent,
         context: {} as unknown as IArcGISContext,
         format: ServiceDownloadFormat.CSV,
@@ -61,20 +61,20 @@ describe("fetchDownloadFileUrl", () => {
       );
     }
     expect(canUseHubDownloadApiSpy).toHaveBeenCalledTimes(1);
-    expect(fetchHubApiDownloadFileUrlSpy).not.toHaveBeenCalled();
+    expect(fetchHubApiDownloadFileSpy).not.toHaveBeenCalled();
     expect(canUseExportItemFlowSpy).toHaveBeenCalledTimes(1);
-    expect(fetchExportItemDownloadFileUrlSpy).not.toHaveBeenCalled();
+    expect(fetchExportItemDownloadFileSpy).not.toHaveBeenCalled();
     expect(canUseExportImageFlowSpy).toHaveBeenCalledTimes(1);
-    expect(fetchExportImageDownloadFileUrlSpy).not.toHaveBeenCalled();
+    expect(fetchExportImageDownloadFileSpy).not.toHaveBeenCalled();
   });
 
-  it("should delegate to fetchHubApiDownloadFileUrl when the Hub Download API can be used", async () => {
+  it("should delegate to fetchHubApiDownloadFile when the Hub Download API can be used", async () => {
     canUseHubDownloadApiSpy.and.returnValue(true);
     canUseExportImageFlowSpy.and.returnValue(false);
     canUseExportItemFlowSpy.and.returnValue(false);
 
-    fetchHubApiDownloadFileUrlSpy.and.returnValue(
-      Promise.resolve("hub-api-download-url")
+    fetchHubApiDownloadFileSpy.and.returnValue(
+      Promise.resolve({ type: "url", href: "hub-api-download-url" })
     );
 
     const entity = {
@@ -82,17 +82,17 @@ describe("fetchDownloadFileUrl", () => {
       type: "Map Service",
     } as unknown as IHubEditableContent;
     const context = {} as unknown as IArcGISContext;
-    const result = await fetchDownloadFileUrl({
+    const result = await fetchDownloadFile({
       entity,
       context,
       format: ServiceDownloadFormat.CSV,
       layers: [0],
       pollInterval: 1000,
     });
-    expect(result).toBe("hub-api-download-url");
+    expect(result).toEqual({ type: "url", href: "hub-api-download-url" });
     expect(canUseHubDownloadApiSpy).toHaveBeenCalledTimes(1);
-    expect(fetchHubApiDownloadFileUrlSpy).toHaveBeenCalledTimes(1);
-    expect(fetchHubApiDownloadFileUrlSpy).toHaveBeenCalledWith({
+    expect(fetchHubApiDownloadFileSpy).toHaveBeenCalledTimes(1);
+    expect(fetchHubApiDownloadFileSpy).toHaveBeenCalledWith({
       entity,
       context,
       format: ServiceDownloadFormat.CSV,
@@ -100,18 +100,18 @@ describe("fetchDownloadFileUrl", () => {
       pollInterval: 1000,
     });
     expect(canUseExportItemFlowSpy).not.toHaveBeenCalled();
-    expect(fetchExportItemDownloadFileUrlSpy).not.toHaveBeenCalled();
+    expect(fetchExportItemDownloadFileSpy).not.toHaveBeenCalled();
     expect(canUseExportImageFlowSpy).not.toHaveBeenCalled();
-    expect(fetchExportImageDownloadFileUrlSpy).not.toHaveBeenCalled();
+    expect(fetchExportImageDownloadFileSpy).not.toHaveBeenCalled();
   });
 
-  it("should delegate to fetchExportItemDownloadFileUrl when the Hub Download API cannot be used but export item flow can be", async () => {
+  it("should delegate to fetchExportItemDownloadFile when the Hub Download API cannot be used but export item flow can be", async () => {
     canUseHubDownloadApiSpy.and.returnValue(false);
     canUseExportItemFlowSpy.and.returnValue(true);
     canUseExportImageFlowSpy.and.returnValue(false);
 
-    fetchExportItemDownloadFileUrlSpy.and.returnValue(
-      Promise.resolve("export-item-download-url")
+    fetchExportItemDownloadFileSpy.and.returnValue(
+      Promise.resolve({ type: "url", href: "export-item-download-url" })
     );
 
     const entity = {
@@ -119,19 +119,19 @@ describe("fetchDownloadFileUrl", () => {
       type: "Feature Service",
     } as unknown as IHubEditableContent;
     const context = {} as unknown as IArcGISContext;
-    const result = await fetchDownloadFileUrl({
+    const result = await fetchDownloadFile({
       entity,
       context,
       format: ServiceDownloadFormat.CSV,
       layers: [0],
       pollInterval: 1000,
     });
-    expect(result).toBe("export-item-download-url");
+    expect(result).toEqual({ type: "url", href: "export-item-download-url" });
     expect(canUseHubDownloadApiSpy).toHaveBeenCalledTimes(1);
-    expect(fetchHubApiDownloadFileUrlSpy).not.toHaveBeenCalled();
+    expect(fetchHubApiDownloadFileSpy).not.toHaveBeenCalled();
     expect(canUseExportItemFlowSpy).toHaveBeenCalledTimes(1);
-    expect(fetchExportItemDownloadFileUrlSpy).toHaveBeenCalledTimes(1);
-    expect(fetchExportItemDownloadFileUrlSpy).toHaveBeenCalledWith({
+    expect(fetchExportItemDownloadFileSpy).toHaveBeenCalledTimes(1);
+    expect(fetchExportItemDownloadFileSpy).toHaveBeenCalledWith({
       entity,
       context,
       format: ServiceDownloadFormat.CSV,
@@ -139,16 +139,16 @@ describe("fetchDownloadFileUrl", () => {
       pollInterval: 1000,
     });
     expect(canUseExportImageFlowSpy).not.toHaveBeenCalled();
-    expect(fetchExportImageDownloadFileUrlSpy).not.toHaveBeenCalled();
+    expect(fetchExportImageDownloadFileSpy).not.toHaveBeenCalled();
   });
 
-  it("should delegate to fetchExportImageDownloadFileUrl when the Export Image flow can be used", async () => {
+  it("should delegate to fetchExportImageDownloadFile when the Export Image flow can be used", async () => {
     canUseHubDownloadApiSpy.and.returnValue(false);
     canUseExportItemFlowSpy.and.returnValue(false);
     canUseExportImageFlowSpy.and.returnValue(true);
 
-    fetchExportImageDownloadFileUrlSpy.and.returnValue(
-      Promise.resolve("export-image-download-url")
+    fetchExportImageDownloadFileSpy.and.returnValue(
+      Promise.resolve({ type: "blob", filename: "image.png", blob: {} as Blob })
     );
 
     const entity = {
@@ -156,20 +156,24 @@ describe("fetchDownloadFileUrl", () => {
       type: "Image Service",
     } as unknown as IHubEditableContent;
     const context = {} as unknown as IArcGISContext;
-    const result = await fetchDownloadFileUrl({
+    const result = await fetchDownloadFile({
       entity,
       context,
       format: ServiceDownloadFormat.PNG,
       pollInterval: 1000,
     });
-    expect(result).toBe("export-image-download-url");
+    expect(result).toEqual({
+      type: "blob",
+      filename: "image.png",
+      blob: {} as Blob,
+    });
     expect(canUseHubDownloadApiSpy).toHaveBeenCalledTimes(1);
-    expect(fetchHubApiDownloadFileUrlSpy).not.toHaveBeenCalled();
+    expect(fetchHubApiDownloadFileSpy).not.toHaveBeenCalled();
     expect(canUseExportItemFlowSpy).toHaveBeenCalledTimes(1);
-    expect(fetchExportItemDownloadFileUrlSpy).not.toHaveBeenCalled();
+    expect(fetchExportItemDownloadFileSpy).not.toHaveBeenCalled();
     expect(canUseExportImageFlowSpy).toHaveBeenCalledTimes(1);
-    expect(fetchExportImageDownloadFileUrlSpy).toHaveBeenCalledTimes(1);
-    expect(fetchExportImageDownloadFileUrlSpy).toHaveBeenCalledWith({
+    expect(fetchExportImageDownloadFileSpy).toHaveBeenCalledTimes(1);
+    expect(fetchExportImageDownloadFileSpy).toHaveBeenCalledWith({
       entity,
       context,
       format: ServiceDownloadFormat.PNG,
@@ -180,8 +184,8 @@ describe("fetchDownloadFileUrl", () => {
   it("should set the pollInterval to 3000 if not provided", async () => {
     canUseHubDownloadApiSpy.and.returnValue(true);
 
-    fetchHubApiDownloadFileUrlSpy.and.returnValue(
-      Promise.resolve("hub-api-download-url")
+    fetchHubApiDownloadFileSpy.and.returnValue(
+      Promise.resolve({ type: "url", href: "hub-api-download-url" })
     );
 
     const entity = {
@@ -189,13 +193,13 @@ describe("fetchDownloadFileUrl", () => {
       type: "Map Service",
     } as unknown as IHubEditableContent;
     const context = {} as unknown as IArcGISContext;
-    await fetchDownloadFileUrl({
+    await fetchDownloadFile({
       entity,
       context,
       format: ServiceDownloadFormat.CSV,
       layers: [0],
     });
-    expect(fetchHubApiDownloadFileUrlSpy).toHaveBeenCalledWith({
+    expect(fetchHubApiDownloadFileSpy).toHaveBeenCalledWith({
       entity,
       context,
       format: ServiceDownloadFormat.CSV,
