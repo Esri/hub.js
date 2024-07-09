@@ -63,12 +63,12 @@ export const CREATE_REPLICA_FORMATS = [
   ServiceDownloadFormat.CSV,
   ServiceDownloadFormat.SHAPEFILE,
   ServiceDownloadFormat.GEOJSON,
+  ServiceDownloadFormat.KML,
   ServiceDownloadFormat.FILE_GDB,
   ServiceDownloadFormat.FEATURE_COLLECTION,
   ServiceDownloadFormat.EXCEL,
   ServiceDownloadFormat.GEO_PACKAGE,
   ServiceDownloadFormat.SQLITE,
   ServiceDownloadFormat.JSON,
-  ServiceDownloadFormat.KML,
 ] as const;
 export type CreateReplicaFormat = (typeof CREATE_REPLICA_FORMATS)[number];
