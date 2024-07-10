@@ -7,89 +7,6 @@
  */
 import { Awaited } from "../awaited-type";
 import { customClient } from "../custom-client";
-export type GetEventsParams = {
-  /**
-   * Comma separated string list of EventAccess. Example: PRIVATE,ORG,PUBLIC
-   */
-  access?: string;
-  /**
-   * Comma separated string list of AttendanceTypes. Example:  VIRTUAL,IN_PERSON
-   */
-  attendanceTypes?: string;
-  /**
-   * boolean to filter events that can be edited by the user
-   */
-  canEdit?: string;
-  /**
-   * Comma separated string list of categories
-   */
-  categories?: string;
-  /**
-   * Comma separated string list of createdByIds
-   */
-  createdByIds?: string;
-  /**
-   * Comma separated string list of edit groupIds
-   */
-  editGroups?: string;
-  /**
-   * Comma separated string list of associated entityIds
-   */
-  entityIds?: string;
-  /**
-   * Comma separated string list of associated entity types. Example: Hub Site Application,Hub Initiative,Hub Project
-   */
-  entityTypes?: string;
-  /**
-   * Comma separated string list of event ids
-   */
-  eventIds?: string;
-  /**
-   * Comma separated string list of relation fields to include in response. Example: associations,creator,location,onlineMeetings,registrations
-   */
-  include?: string;
-  /**
-   * the max amount of events to return
-   */
-  num?: string;
-  /**
-   * Comma separated string list of read groupIds
-   */
-  readGroups?: string;
-  /**
-   * Event property to sort results by
-   */
-  sortBy?: EventSort;
-  /**
-   * sort results order desc or asc
-   */
-  sortOrder?: EventSortOrder;
-  /**
-   * the index to start at
-   */
-  start?: string;
-  /**
-   * earliest ISO8601 start date-time for the events
-   */
-  startDateTimeAfter?: string;
-  /**
-   * latest ISO8601 start date-time for the events
-   */
-  startDateTimeBefore?: string;
-  /**
-   * comma separated string list of event statuses. Example: PRIVATE,ORG,PUBLIC
-   */
-  status?: string;
-  /**
-   * Comma separated string list of tags
-   */
-  tags?: string;
-  /**
-   * string to match within an event title
-   */
-  title?: string;
-};
-
 export interface IUpdateRegistration {
   /** Role of the user in the event */
   role?: RegistrationRole;
@@ -97,6 +14,12 @@ export interface IUpdateRegistration {
   status?: RegistrationStatus;
   /** Attendance type for this registration */
   type?: EventAttendanceType;
+}
+
+export interface IPagedRegistrationResponse {
+  items: IRegistration[];
+  nextStart: number;
+  total: number;
 }
 
 export enum RegistrationSort {
@@ -177,6 +100,11 @@ export interface ICreateRegistration {
 }
 
 /**
+ * Online meeting for the event
+ */
+export type IUpdateEventOnlineMeeting = ICreateOnlineMeeting | null;
+
+/**
  * Location for the event
  */
 export type IUpdateEventLocation = ICreateEventLocation | null;
@@ -215,8 +143,8 @@ export interface IUpdateEvent {
   location?: IUpdateEventLocation;
   /** Flag to notify attendees */
   notifyAttendees?: boolean;
-  /** Online meetings for the event */
-  onlineMeetings?: ICreateOnlineMeeting[];
+  /** Online meeting for the event */
+  onlineMeeting?: IUpdateEventOnlineMeeting;
   /** Groups with read access to the event */
   readGroups?: string[];
   /** start date string formatted YYYY-MM-DD */
@@ -251,6 +179,89 @@ export enum EventSort {
   createdAt = "createdAt",
   updatedAt = "updatedAt",
 }
+export type GetEventsParams = {
+  /**
+   * Comma separated string list of EventAccess. Example: PRIVATE,ORG,PUBLIC
+   */
+  access?: string;
+  /**
+   * Comma separated string list of AttendanceTypes. Example:  VIRTUAL,IN_PERSON
+   */
+  attendanceTypes?: string;
+  /**
+   * boolean to filter events that can be edited by the user
+   */
+  canEdit?: string;
+  /**
+   * Comma separated string list of categories
+   */
+  categories?: string;
+  /**
+   * Comma separated string list of createdByIds
+   */
+  createdByIds?: string;
+  /**
+   * Comma separated string list of edit groupIds
+   */
+  editGroups?: string;
+  /**
+   * Comma separated string list of associated entityIds
+   */
+  entityIds?: string;
+  /**
+   * Comma separated string list of associated entity types. Example: Hub Site Application,Hub Initiative,Hub Project
+   */
+  entityTypes?: string;
+  /**
+   * Comma separated string list of event ids
+   */
+  eventIds?: string;
+  /**
+   * Comma separated string list of relation fields to include in response. Example: associations,creator,location,onlineMeeting,registrations
+   */
+  include?: string;
+  /**
+   * the max amount of events to return
+   */
+  num?: string;
+  /**
+   * Comma separated string list of read groupIds
+   */
+  readGroups?: string;
+  /**
+   * Event property to sort results by
+   */
+  sortBy?: EventSort;
+  /**
+   * sort results order desc or asc
+   */
+  sortOrder?: EventSortOrder;
+  /**
+   * the index to start at
+   */
+  start?: string;
+  /**
+   * earliest ISO8601 start date-time for the events
+   */
+  startDateTimeAfter?: string;
+  /**
+   * latest ISO8601 start date-time for the events
+   */
+  startDateTimeBefore?: string;
+  /**
+   * comma separated string list of event statuses. Example: PRIVATE,ORG,PUBLIC
+   */
+  status?: string;
+  /**
+   * Comma separated string list of tags
+   */
+  tags?: string;
+  /**
+   * string to match within an event title
+   */
+  title?: string;
+};
+
 export interface IRegistrationPermission {
   canDelete: boolean;
   canEdit: boolean;
@@ -270,12 +281,6 @@ export interface IRegistration {
   updatedAt: string;
   user?: IUser;
   userId: string;
-}
-
-export interface IPagedRegistrationResponse {
-  items: IRegistration[];
-  nextStart: number;
-  total: number;
 }
 
 export type IEventCapabilities = { [key: string]: any } | null;
@@ -392,7 +397,7 @@ export interface IEvent {
   inPersonCapacity: number | null;
   location?: IEventLocation;
   notifyAttendees: boolean;
-  onlineMeetings?: IOnlineMeeting[];
+  onlineMeeting?: IOnlineMeeting;
   orgId: string;
   permission: IEventPermission;
   readGroups: string[];
@@ -461,8 +466,8 @@ export interface ICreateEvent {
   location?: ICreateEventLocationProperty;
   /** Flag to notify attendees */
   notifyAttendees?: boolean;
-  /** Online meetings for the event. Required if attendanceType includes VIRTUAL */
-  onlineMeetings?: ICreateOnlineMeeting[];
+  /** Online meeting for the event. Required if attendanceType includes VIRTUAL */
+  onlineMeeting?: ICreateOnlineMeeting;
   /** Groups with read access to the event */
   readGroups?: string[];
   /** start date string formatted YYYY-MM-DD */
