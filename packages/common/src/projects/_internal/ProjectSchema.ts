@@ -24,6 +24,9 @@ export const ProjectSchema: IConfigurationSchema = {
   ...HubItemEntitySchema,
   properties: {
     ...HubItemEntitySchema.properties,
+    catalogs: {
+      type: "object",
+    },
     _groups: {
       type: "array",
       items: { type: "string" },
