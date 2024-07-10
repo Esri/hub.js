@@ -1,3 +1,10 @@
+# @esri/hub-common [14.160.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.159.1...@esri/hub-common@14.160.0) (2024-07-10)
+
+
+### Features
+
+* **hub-common:** change order of download button for KML format ([#1588](https://github.com/Esri/hub.js/issues/1588)) ([67bc539](https://github.com/Esri/hub.js/commit/67bc53912e13e1df1894f26ed2482a80a018cada))
+
 ## @esri/hub-common [14.159.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.159.0...@esri/hub-common@14.159.1) (2024-07-09)
 
 
