@@ -1,3 +1,10 @@
+## @esri/hub-common [14.160.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.160.0...@esri/hub-common@14.160.1) (2024-07-10)
+
+
+### Bug Fixes
+
+* **hub-common:** change event.onlineMeetings => event.onlineMeeting ([#1589](https://github.com/Esri/hub.js/issues/1589)) ([1d126a0](https://github.com/Esri/hub.js/commit/1d126a0633ac45c2e079f258d4b5ece88fdb2bc5))
+
 # @esri/hub-common [14.160.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.159.1...@esri/hub-common@14.160.0) (2024-07-10)
 
 
