@@ -113,7 +113,7 @@ export const MetricSchema: IConfigurationSchema = {
   },
   allOf: [
     {
-      $ref: "#/definitions/if-layout-moreinfo-then-require-popover-title-description",
+      $ref: "#/definitions/if-layout-informational-then-require-popover-publisher-text",
     },
     { $ref: "#/definitions/if-source-title-then-source-link" },
     { $ref: "#/definitions/value-type-value-mapping" },
@@ -121,7 +121,7 @@ export const MetricSchema: IConfigurationSchema = {
   ],
   definitions: {
     // TODO: reimplement popover with layouts release
-    "if-layout-moreinfo-then-require-popover-title-description": {
+    "if-layout-informational-then-require-popover-publisher-text": {
       if: {
         type: "object",
         properties: { layout: { const: LAYOUTS.informational } },
