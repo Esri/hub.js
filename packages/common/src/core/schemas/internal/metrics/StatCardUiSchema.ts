@@ -41,7 +41,7 @@ export const buildUiSchema = async (
                     condition: checkPermission(
                       "hub:availability:alpha",
                       context
-                    ),
+                    ).access,
                   },
                 ],
               ],
