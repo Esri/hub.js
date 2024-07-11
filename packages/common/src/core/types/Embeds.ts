@@ -20,8 +20,6 @@ export enum EmbedKind {
 interface IHubEmbedBase {
   /** embed height */
   height?: number;
-  /** indicates whether the embed should be scrollable */
-  isScrollable?: boolean;
 }
 
 /** app-specific embed */
