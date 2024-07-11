@@ -68,7 +68,6 @@ export class EventPropertyMapper extends PropertyMapper<
     obj.onlineCapacityType = store.onlineMeeting?.capacity
       ? HubEventCapacityType.Fixed
       : HubEventCapacityType.Unlimited;
-    obj.inPersonCapacity = store.inPersonCapacity ?? null;
     obj.inPersonCapacityType = store.inPersonCapacity
       ? HubEventCapacityType.Fixed
       : HubEventCapacityType.Unlimited;
