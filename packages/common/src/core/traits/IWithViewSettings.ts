@@ -4,6 +4,7 @@ import {
   IMetricDisplayConfig,
   HubActionLink,
   IHubMapSettings,
+  HubEmbed,
 } from "../types";
 
 /**
@@ -58,4 +59,7 @@ export interface IWithViewSettings {
    * array of actions for action links
    */
   heroActions?: HubActionLink[];
+
+  /** array of embedded content */
+  embeds?: HubEmbed[];
 }
