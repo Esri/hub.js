@@ -1,6 +1,7 @@
 import { IArcGISContext } from "../../../../ArcGISContext";
 import { IStatCardEditorOptions } from "../EditorOptions";
 import { UiSchemaRuleEffects, IUiSchema } from "../../types";
+import { checkPermission } from "../../../../permissions/checkPermission";
 
 /**
  * @private
@@ -30,6 +31,20 @@ export const buildUiSchema = async (
             labelKey: `statistic.type.label`,
             options: {
               control: "hub-field-input-tile-select",
+              rules: [
+                undefined,
+                undefined,
+                [
+                  {
+                    effect: UiSchemaRuleEffects.SHOW,
+                    // only show in alpha
+                    condition: checkPermission(
+                      "hub:availability:alpha",
+                      context
+                    ),
+                  },
+                ],
+              ],
               enum: {
                 i18nScope: `statistic.type.enum`,
               },

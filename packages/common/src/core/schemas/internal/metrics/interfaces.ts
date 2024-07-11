@@ -22,4 +22,5 @@ export enum VISUAL_INTEREST {
 export enum SOURCE {
   dynamic = "dynamic",
   static = "static",
+  requesting = "requesting",
 }

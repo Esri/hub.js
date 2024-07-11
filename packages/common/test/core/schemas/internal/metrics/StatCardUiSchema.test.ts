@@ -27,6 +27,17 @@ describe("buildUiSchema: stat", () => {
               labelKey: `statistic.type.label`,
               options: {
                 control: "hub-field-input-tile-select",
+                rules: [
+                  undefined,
+                  undefined,
+                  [
+                    {
+                      effect: UiSchemaRuleEffects.HIDE,
+                      // only show in alpha
+                      condition: false,
+                    },
+                  ],
+                ],
                 enum: {
                   i18nScope: `statistic.type.enum`,
                 },

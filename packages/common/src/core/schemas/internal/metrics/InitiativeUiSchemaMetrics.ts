@@ -1,5 +1,10 @@
+import { checkPermission } from "../../../../permissions/checkPermission";
 import { IArcGISContext } from "../../../../ArcGISContext";
-import { IConfigurationValues, IUiSchema } from "../../types";
+import {
+  IConfigurationValues,
+  IUiSchema,
+  UiSchemaRuleEffects,
+} from "../../types";
 import { EntityEditorOptions } from "../EditorOptions";
 import {
   SHOW_FOR_STATIC_RULE_ENTITY,
@@ -61,6 +66,20 @@ export const buildUiSchema = async (
             type: "Control",
             options: {
               control: "hub-field-input-tile-select",
+              rules: [
+                undefined,
+                undefined,
+                [
+                  {
+                    effect: UiSchemaRuleEffects.SHOW,
+                    // only show in alpha
+                    condition: checkPermission(
+                      "hub:availability:alpha",
+                      context
+                    ),
+                  },
+                ],
+              ],
               enum: {
                 i18nScope: "shared.fields.metrics.type.enum",
               },
