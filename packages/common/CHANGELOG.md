@@ -1,3 +1,10 @@
+## @esri/hub-common [14.160.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.160.1...@esri/hub-common@14.160.2) (2024-07-11)
+
+
+### Bug Fixes
+
+* **hub-common:** add inPersonCapacityType to IHubEvent ([#1591](https://github.com/Esri/hub.js/issues/1591)) ([fdbbfbf](https://github.com/Esri/hub.js/commit/fdbbfbf45d9115d2398045251911d3cfe49a87ff))
+
 ## @esri/hub-common [14.160.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.160.0...@esri/hub-common@14.160.1) (2024-07-10)
 
 
