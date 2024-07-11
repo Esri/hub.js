@@ -32,7 +32,7 @@ describe("buildUiSchema: stat", () => {
                   undefined,
                   [
                     {
-                      effect: UiSchemaRuleEffects.HIDE,
+                      effect: UiSchemaRuleEffects.SHOW,
                       // only show in alpha
                       condition: false,
                     },
