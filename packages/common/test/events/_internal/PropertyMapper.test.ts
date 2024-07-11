@@ -133,7 +133,7 @@ describe("PropertyMapper", () => {
         attendanceType: HubEventAttendanceType.InPerson,
         inPersonCapacity: 30,
         inPersonRegistrationCount: 0,
-        inPersonCapacityType: "fixed",
+        inPersonCapacityType: HubEventCapacityType.Fixed,
         location: {
           type: "none",
           spatialReference: {},
