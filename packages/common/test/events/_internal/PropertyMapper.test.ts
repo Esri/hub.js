@@ -314,6 +314,7 @@ describe("PropertyMapper", () => {
         location: null,
         readGroups: [],
         editGroups: [],
+        onlineMeeting: null,
       } as any as IEvent);
     });
 
@@ -352,6 +353,7 @@ describe("PropertyMapper", () => {
         location: null,
         readGroups: [],
         editGroups: [],
+        onlineMeeting: null,
       } as any as IEvent);
     });
 
@@ -390,6 +392,7 @@ describe("PropertyMapper", () => {
         location: null,
         readGroups: [],
         editGroups: [],
+        onlineMeeting: null,
       } as any as IEvent);
     });
 
@@ -433,7 +436,7 @@ describe("PropertyMapper", () => {
         startTime: jasmine.any(String) as unknown as string,
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
-        inPersonCapacity: 30,
+        inPersonCapacity: null,
         location: null,
         readGroups: [],
         editGroups: [],
@@ -480,7 +483,7 @@ describe("PropertyMapper", () => {
         startTime: jasmine.any(String) as unknown as string,
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
-        inPersonCapacity: 30,
+        inPersonCapacity: null,
         location: null,
         readGroups: [],
         editGroups: [],
@@ -572,6 +575,7 @@ describe("PropertyMapper", () => {
         location: null,
         readGroups: [],
         editGroups: [],
+        onlineMeeting: null,
       } as any as IEvent);
     });
 
@@ -610,6 +614,7 @@ describe("PropertyMapper", () => {
         location: null,
         readGroups: [],
         editGroups: [],
+        onlineMeeting: null,
       } as any as IEvent);
     });
   });
