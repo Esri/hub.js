@@ -167,8 +167,6 @@ export class EventPropertyMapper extends PropertyMapper<
             : null,
         url: clonedEntity.onlineUrl,
       } as IOnlineMeeting;
-    } else {
-      obj.onlineMeeting = null;
     }
     if (
       [HubEventAttendanceType.InPerson, HubEventAttendanceType.Both].includes(

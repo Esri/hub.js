@@ -314,7 +314,6 @@ describe("PropertyMapper", () => {
         location: null,
         readGroups: [],
         editGroups: [],
-        onlineMeeting: null,
       } as any as IEvent);
     });
 
@@ -353,7 +352,6 @@ describe("PropertyMapper", () => {
         location: null,
         readGroups: [],
         editGroups: [],
-        onlineMeeting: null,
       } as any as IEvent);
     });
 
@@ -392,7 +390,6 @@ describe("PropertyMapper", () => {
         location: null,
         readGroups: [],
         editGroups: [],
-        onlineMeeting: null,
       } as any as IEvent);
     });
 
@@ -575,7 +572,6 @@ describe("PropertyMapper", () => {
         location: null,
         readGroups: [],
         editGroups: [],
-        onlineMeeting: null,
       } as any as IEvent);
     });
 
@@ -614,7 +610,6 @@ describe("PropertyMapper", () => {
         location: null,
         readGroups: [],
         editGroups: [],
-        onlineMeeting: null,
       } as any as IEvent);
     });
   });
