@@ -68,6 +68,7 @@ export class EventPropertyMapper extends PropertyMapper<
     obj.onlineCapacityType = store.onlineMeeting?.capacity
       ? HubEventCapacityType.Fixed
       : HubEventCapacityType.Unlimited;
+    obj.inPersonCapacity = store.inPersonCapacity ?? null;
     obj.inPersonCapacityType = store.inPersonCapacity
       ? HubEventCapacityType.Fixed
       : HubEventCapacityType.Unlimited;
@@ -176,6 +177,8 @@ export class EventPropertyMapper extends PropertyMapper<
         clonedEntity.inPersonCapacityType === HubEventCapacityType.Fixed
           ? clonedEntity.inPersonCapacity
           : null;
+    } else {
+      obj.inPersonCapacity = null;
     }
 
     // override startTime & endTime for all-day events
