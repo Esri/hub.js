@@ -112,25 +112,12 @@ export const MetricSchema: IConfigurationSchema = {
     },
   },
   allOf: [
-    {
-      $ref: "#/definitions/if-layout-informational-then-require-popover-publisher-text",
-    },
     { $ref: "#/definitions/if-source-title-then-source-link" },
     { $ref: "#/definitions/value-type-value-mapping" },
     { $ref: "#/definitions/if-static-then-url-format" },
   ],
   definitions: {
     // TODO: reimplement popover with layouts release
-    "if-layout-informational-then-require-popover-publisher-text": {
-      if: {
-        type: "object",
-        properties: { layout: { const: LAYOUTS.informational } },
-        required: ["layout"],
-      },
-      then: {
-        required: ["popoverText", "publisherText"],
-      },
-    },
     "if-source-title-then-source-link": {
       if: {
         type: "object",
