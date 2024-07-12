@@ -396,14 +396,6 @@ describe("buildUiSchema: stat", () => {
                     control: "hub-field-input-input",
                     type: "textarea",
                     rows: 4,
-                    messages: [
-                      {
-                        type: "ERROR",
-                        keyword: "maxLength",
-                        icon: true,
-                        labelKey: `appearance.popoverText.maxLengthError`,
-                      },
-                    ],
                   },
                 },
                 {
@@ -419,14 +411,6 @@ describe("buildUiSchema: stat", () => {
                   },
                   options: {
                     control: "hub-field-input-input",
-                    messages: [
-                      {
-                        type: "ERROR",
-                        keyword: "maxLength",
-                        icon: true,
-                        labelKey: `appearance.publisherText.maxLengthError`,
-                      },
-                    ],
                   },
                 },
               ],

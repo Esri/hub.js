@@ -295,14 +295,6 @@ export const buildUiSchema = async (
                   control: "hub-field-input-input",
                   type: "textarea",
                   rows: 4,
-                  messages: [
-                    {
-                      type: "ERROR",
-                      keyword: "maxLength",
-                      icon: true,
-                      labelKey: `appearance.popoverText.maxLengthError`,
-                    },
-                  ],
                 },
               },
               {
@@ -312,14 +304,6 @@ export const buildUiSchema = async (
                 rule: SHOW_FOR_MORE_INFO_RULE,
                 options: {
                   control: "hub-field-input-input",
-                  messages: [
-                    {
-                      type: "ERROR",
-                      keyword: "maxLength",
-                      icon: true,
-                      labelKey: `appearance.publisherText.maxLengthError`,
-                    },
-                  ],
                 },
               },
             ],

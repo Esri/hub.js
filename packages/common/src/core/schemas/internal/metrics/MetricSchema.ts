@@ -104,11 +104,9 @@ export const MetricSchema: IConfigurationSchema = {
     },
     popoverText: {
       type: "string",
-      maxLength: 180,
     },
     publisherText: {
       type: "string",
-      maxLength: 50,
     },
   },
   allOf: [
