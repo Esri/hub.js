@@ -18,6 +18,8 @@ export enum EmbedKind {
 
 /** base embed */
 interface IHubEmbedBase {
+  /** unique identifier */
+  key: string;
   /** embed height */
   height?: number;
 }
