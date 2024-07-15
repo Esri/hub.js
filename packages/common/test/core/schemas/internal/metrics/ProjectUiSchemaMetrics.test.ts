@@ -57,7 +57,7 @@ describe("ProjectUiSchemaMetrics", () => {
                       {
                         effect: UiSchemaRuleEffects.SHOW,
                         // only show in alpha
-                        condition: false,
+                        conditions: [false],
                       },
                     ],
                   ],

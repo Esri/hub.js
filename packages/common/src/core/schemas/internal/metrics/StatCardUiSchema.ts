@@ -38,10 +38,9 @@ export const buildUiSchema = async (
                   {
                     effect: UiSchemaRuleEffects.SHOW,
                     // only show in alpha
-                    condition: checkPermission(
-                      "hub:availability:alpha",
-                      context
-                    ).access,
+                    conditions: [
+                      checkPermission("hub:availability:alpha", context).access,
+                    ],
                   },
                 ],
               ],
