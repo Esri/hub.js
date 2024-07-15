@@ -1,4 +1,4 @@
-import { buildUiSchema } from "../../../src/sites/_internal/SiteUiSchemaCreate";
+import { buildUiSchema } from "../../../src/pages/_internal/PageUiSchemaCreate";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
 
 describe("buildUiSchema: site create", () => {

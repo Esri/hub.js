@@ -7,7 +7,7 @@ export const HUB_GROUP_TYPE = "Hub Group";
  * Default values of a IHubGroup
  */
 export const DEFAULT_GROUP: Partial<IHubGroup> = {
-  name: "No title provided",
+  name: "",
   access: "private",
   permissions: [],
   typeKeywords: [],
@@ -18,7 +18,7 @@ export const DEFAULT_GROUP: Partial<IHubGroup> = {
  */
 export const DEFAULT_GROUP_MODEL: IGroup = {
   type: HUB_GROUP_TYPE,
-  title: "No Title Provided",
+  title: "",
   description: "",
   access: "",
   snippet: "",

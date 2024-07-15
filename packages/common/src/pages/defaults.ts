@@ -8,7 +8,7 @@ export const PAGE_TYPE_KEYWORD = "hubPage";
  * Default values of a IHubPage
  */
 export const DEFAULT_PAGE: Partial<IHubPage> = {
-  name: "No title provided",
+  name: "",
   permissions: [],
   schemaVersion: 1,
   tags: [],
@@ -18,6 +18,9 @@ export const DEFAULT_PAGE: Partial<IHubPage> = {
     featuredContentIds: [],
     showMap: true,
   },
+  layout: {
+    sections: [],
+  },
 };
 
 /**
@@ -26,7 +29,7 @@ export const DEFAULT_PAGE: Partial<IHubPage> = {
 export const DEFAULT_PAGE_MODEL: IModel = {
   item: {
     type: HUB_PAGE_ITEM_TYPE,
-    title: "No Title Provided",
+    title: "",
     description: "",
     snippet: "",
     tags: [],
