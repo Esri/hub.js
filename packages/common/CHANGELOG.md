@@ -1,3 +1,11 @@
+# @esri/hub-common [14.161.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.160.2...@esri/hub-common@14.161.0) (2024-07-15)
+
+
+### Features
+
+* add embed types/interfaces ([#1585](https://github.com/Esri/hub.js/issues/1585)) ([0529404](https://github.com/Esri/hub.js/commit/05294040b08614379acaabacf56d151b0178f46b))
+* uiSchemas for new create flow ([#1582](https://github.com/Esri/hub.js/issues/1582)) ([68ca656](https://github.com/Esri/hub.js/commit/68ca65659b239740ff942e62040a34caf7d64ef0))
+
 ## @esri/hub-common [14.160.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.160.1...@esri/hub-common@14.160.2) (2024-07-11)
 
 
