@@ -17,6 +17,8 @@ export const GroupEditorTypes = [
   "hub:group:create:association",
   "hub:group:create:view",
   "hub:group:create:edit",
+  "hub:group:create:view2",
+  "hub:group:create:edit2",
 ] as const;
 
 /**
