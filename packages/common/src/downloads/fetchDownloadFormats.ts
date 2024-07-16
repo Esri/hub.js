@@ -33,10 +33,11 @@ export async function fetchDownloadFormats(
     const { getExportImageFormats } = await import(
       "./_internal/format-fetchers/getExportImageFormats"
     );
-    baseFormats = getExportImageFormats();
+    baseFormats = getExportImageFormats(entity);
   }
 
   // add additional resource links as static formats
+  // TODO: change to use `extendedProps.additionalResources`
   const additionalFormats = (entity.additionalResources || []).map(
     toStaticFormat
   );

@@ -1,6 +1,7 @@
 import {
   deleteSchedule,
   getSchedule,
+  isDownloadSchedulingAvailable,
   maybeUpdateSchedule,
   setSchedule,
 } from "../../src/content/manageSchedule";
@@ -8,7 +9,7 @@ import {
   IHubSchedule,
   IHubScheduleResponse,
 } from "../../src/core/types/IHubSchedule";
-import { MOCK_HUB_REQOPTS } from "../mocks/mock-auth";
+import { MOCK_HUB_REQOPTS, MOCK_NOAUTH_HUB_REQOPTS } from "../mocks/mock-auth";
 import { IHubEditableContent } from "../../src/core/types/IHubEditableContent";
 import * as fetchMock from "fetch-mock";
 import { getSchedulerApiUrl } from "../../src/content/_internal/internalContentUtils";
@@ -310,5 +311,32 @@ describe("manageSchedule", () => {
       "No action needed as schedules deepEqual each other."
     );
     expect(fetchMock.calls().length).toBe(1);
+  });
+  it("isDownloadSchedulingAvailable: returns false if the portal is not AGO", () => {
+    const requestOptions = {
+      ...MOCK_HUB_REQOPTS,
+      portal: "https://enterprise.com/portal",
+    };
+    const access = "public";
+    const result = isDownloadSchedulingAvailable(requestOptions, access);
+    expect(result).toBeFalsy();
+  });
+  it("isDownloadSchedulingAvailable: returns false if the access level is not public", () => {
+    const access = "private";
+    const result = isDownloadSchedulingAvailable(MOCK_HUB_REQOPTS, access);
+    expect(result).toBeFalsy();
+  });
+  it("isDownloadSchedulingAvailable: returns false if no token is provided", () => {
+    const access = "public";
+    const result = isDownloadSchedulingAvailable(
+      MOCK_NOAUTH_HUB_REQOPTS,
+      access
+    );
+    expect(result).toBeFalsy();
+  });
+  it("isDownloadSchedulingAvailable: returns true if all conditions are met", () => {
+    const access = "public";
+    const result = isDownloadSchedulingAvailable(MOCK_HUB_REQOPTS, access);
+    expect(result).toBeTruthy();
   });
 });

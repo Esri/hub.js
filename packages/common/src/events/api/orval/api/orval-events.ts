@@ -100,9 +100,19 @@ export interface ICreateRegistration {
 }
 
 /**
+ * Online meeting for the event
+ */
+export type IUpdateEventOnlineMeeting = ICreateOnlineMeeting | null;
+
+/**
  * Location for the event
  */
 export type IUpdateEventLocation = ICreateEventLocation | null;
+
+/**
+ * capabilities for an event
+ */
+export type IUpdateEventCapabilities = { [key: string]: any } | null;
 
 export interface IUpdateEvent {
   /** Access level of the event */
@@ -115,6 +125,8 @@ export interface IUpdateEvent {
   associations?: ICreateEventAssociation[];
   /** Valid ways to attend the event */
   attendanceType?: EventAttendanceType[];
+  /** capabilities for an event */
+  capabilities?: IUpdateEventCapabilities;
   /** categories for the event */
   categories?: string[];
   /** Description of the event */
@@ -131,8 +143,8 @@ export interface IUpdateEvent {
   location?: IUpdateEventLocation;
   /** Flag to notify attendees */
   notifyAttendees?: boolean;
-  /** Online meetings for the event */
-  onlineMeetings?: ICreateOnlineMeeting[];
+  /** Online meeting for the event */
+  onlineMeeting?: IUpdateEventOnlineMeeting;
   /** Groups with read access to the event */
   readGroups?: string[];
   /** start date string formatted YYYY-MM-DD */
@@ -205,7 +217,7 @@ export type GetEventsParams = {
    */
   eventIds?: string;
   /**
-   * Comma separated string list of relation fields to include in response. Example: associations,creator,location,onlineMeetings,registrations
+   * Comma separated string list of relation fields to include in response. Example: associations,creator,location,onlineMeeting,registrations
    */
   include?: string;
   /**
@@ -255,6 +267,24 @@ export interface IRegistrationPermission {
   canEdit: boolean;
 }
 
+export interface IRegistration {
+  createdAt: string;
+  createdBy?: IUser;
+  createdById: string;
+  event?: IEvent;
+  eventId: string;
+  id: string;
+  permission: IRegistrationPermission;
+  role: RegistrationRole;
+  status: RegistrationStatus;
+  type: EventAttendanceType;
+  updatedAt: string;
+  user?: IUser;
+  userId: string;
+}
+
+export type IEventCapabilities = { [key: string]: any } | null;
+
 export interface IEventPermission {
   canDelete: boolean;
   canEdit: boolean;
@@ -281,22 +311,6 @@ export enum RegistrationRole {
   ORGANIZER = "ORGANIZER",
   ATTENDEE = "ATTENDEE",
 }
-export interface IRegistration {
-  createdAt: string;
-  createdBy?: IUser;
-  createdById: string;
-  event?: IEvent;
-  eventId: string;
-  id: string;
-  permission: IRegistrationPermission;
-  role: RegistrationRole;
-  status: RegistrationStatus;
-  type: EventAttendanceType;
-  updatedAt: string;
-  user?: IUser;
-  userId: string;
-}
-
 export enum EventStatus {
   PLANNED = "PLANNED",
   CANCELED = "CANCELED",
@@ -369,6 +383,7 @@ export interface IEvent {
   allowRegistration: boolean;
   associations?: IEventAssociation[];
   attendanceType: EventAttendanceType[];
+  capabilities?: IEventCapabilities;
   categories: string[];
   createdAt: string;
   createdById: string | null;
@@ -382,7 +397,7 @@ export interface IEvent {
   inPersonCapacity: number | null;
   location?: IEventLocation;
   notifyAttendees: boolean;
-  onlineMeetings?: IOnlineMeeting[];
+  onlineMeeting?: IOnlineMeeting;
   orgId: string;
   permission: IEventPermission;
   readGroups: string[];
@@ -400,6 +415,11 @@ export interface IEvent {
   updatedAt: string;
 }
 
+/**
+ * capabilities for an event
+ */
+export type ICreateEventCapabilities = { [key: string]: any } | null;
+
 export interface ICreateOnlineMeeting {
   /** Capacity of the online meeting. Minimum value is 1 */
   capacity?: number;
@@ -407,6 +427,63 @@ export interface ICreateOnlineMeeting {
   details?: string;
   /** Url for the online meeting */
   url: string;
+}
+
+export interface ICreateEvent {
+  /** Access level of the event */
+  access?: EventAccess;
+  /** ArcGIS Online id for a user. Will always be extracted from the token unless service token is used. */
+  agoId?: string;
+  /** Flag for all day event */
+  allDay?: boolean;
+  /** Boolean to indicate if users can register for an event */
+  allowRegistration?: boolean;
+  /** Items associated with the event */
+  associations?: ICreateEventAssociation[];
+  /** Valid ways to attend the event */
+  attendanceType?: EventAttendanceType[];
+  /** capabilities for an event */
+  capabilities?: ICreateEventCapabilities;
+  /** categories for the event */
+  categories?: string[];
+  /** Description of the event */
+  description?: string;
+  /** Groups with edit access to the event */
+  editGroups?: string[];
+  /** Email for the subscriber. Will always be extracted from the token unless service token is used. */
+  email?: string;
+  /** end date string formatted YYYY-MM-DD */
+  endDate: string;
+  /** end time string 24 hour formatted HH:MM:SS */
+  endTime: string;
+  /** First name for the subscriber. Will always be extracted from the token unless service token is used. */
+  firstName?: string;
+  /** in-person capacity for the event. Minimum value is 1 */
+  inPersonCapacity?: number;
+  /** Last name for the subscriber. Will always be extracted from the token unless service token is used. */
+  lastName?: string;
+  /** Location for the event */
+  location?: ICreateEventLocationProperty;
+  /** Flag to notify attendees */
+  notifyAttendees?: boolean;
+  /** Online meeting for the event. Required if attendanceType includes VIRTUAL */
+  onlineMeeting?: ICreateOnlineMeeting;
+  /** Groups with read access to the event */
+  readGroups?: string[];
+  /** start date string formatted YYYY-MM-DD */
+  startDate: string;
+  /** start time string 24 hour formatted HH:MM:SS */
+  startTime: string;
+  /** Summary of the event */
+  summary?: string;
+  /** Tags for the event */
+  tags?: string[];
+  /** IANA time zone for the event */
+  timeZone: string;
+  /** Title of the event */
+  title: string;
+  /** Username for the subscriber. Will always be extracted from the token unless service token is used. */
+  username?: string;
 }
 
 export type ICreateEventLocationGeometriesItem = { [key: string]: any };
@@ -486,60 +563,6 @@ export enum EventAccess {
   PRIVATE = "PRIVATE",
   ORG = "ORG",
   PUBLIC = "PUBLIC",
-}
-export interface ICreateEvent {
-  /** Access level of the event */
-  access?: EventAccess;
-  /** ArcGIS Online id for a user. Will always be extracted from the token unless service token is used. */
-  agoId?: string;
-  /** Flag for all day event */
-  allDay?: boolean;
-  /** Boolean to indicate if users can register for an event */
-  allowRegistration?: boolean;
-  /** Items associated with the event */
-  associations?: ICreateEventAssociation[];
-  /** Valid ways to attend the event */
-  attendanceType?: EventAttendanceType[];
-  /** categories for the event */
-  categories?: string[];
-  /** Description of the event */
-  description?: string;
-  /** Groups with edit access to the event */
-  editGroups?: string[];
-  /** Email for the subscriber. Will always be extracted from the token unless service token is used. */
-  email?: string;
-  /** end date string formatted YYYY-MM-DD */
-  endDate: string;
-  /** end time string 24 hour formatted HH:MM:SS */
-  endTime: string;
-  /** First name for the subscriber. Will always be extracted from the token unless service token is used. */
-  firstName?: string;
-  /** in-person capacity for the event. Minimum value is 1 */
-  inPersonCapacity?: number;
-  /** Last name for the subscriber. Will always be extracted from the token unless service token is used. */
-  lastName?: string;
-  /** Location for the event */
-  location?: ICreateEventLocationProperty;
-  /** Flag to notify attendees */
-  notifyAttendees?: boolean;
-  /** Online meetings for the event. Required if attendanceType includes VIRTUAL */
-  onlineMeetings?: ICreateOnlineMeeting[];
-  /** Groups with read access to the event */
-  readGroups?: string[];
-  /** start date string formatted YYYY-MM-DD */
-  startDate: string;
-  /** start time string 24 hour formatted HH:MM:SS */
-  startTime: string;
-  /** Summary of the event */
-  summary?: string;
-  /** Tags for the event */
-  tags?: string[];
-  /** IANA time zone for the event */
-  timeZone: string;
-  /** Title of the event */
-  title: string;
-  /** Username for the subscriber. Will always be extracted from the token unless service token is used. */
-  username?: string;
 }
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];

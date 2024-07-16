@@ -63,7 +63,7 @@ export const ContentPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:content:delete",
     authenticated: true,
     services: ["portal"],
-    entityEdit: true,
+    entityDelete: true,
   },
   {
     permission: "hub:content:canChangeAccess",

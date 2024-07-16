@@ -3,7 +3,8 @@ import { getProp } from "../../../objects/get-prop";
 import {
   ArcgisHubDownloadError,
   DownloadOperationStatus,
-  IFetchDownloadFileUrlOptions,
+  IFetchDownloadFileOptions,
+  IFetchDownloadFileResponse,
   ServiceDownloadFormat,
   downloadProgressCallback,
 } from "../../types";
@@ -22,16 +23,16 @@ import {
  * @param options options for refining / filtering the resulting download file
  * @returns a url to download the file
  */
-export async function fetchHubApiDownloadFileUrl(
-  options: IFetchDownloadFileUrlOptions
-): Promise<string> {
+export async function fetchHubApiDownloadFile(
+  options: IFetchDownloadFileOptions
+): Promise<IFetchDownloadFileResponse> {
   validateOptions(options);
   const requestUrl = getDownloadApiRequestUrl(options);
   const { pollInterval, progressCallback } = options;
   return pollDownloadApi(requestUrl, pollInterval, progressCallback);
 }
 
-function validateOptions(options: IFetchDownloadFileUrlOptions) {
+function validateOptions(options: IFetchDownloadFileOptions) {
   const { layers = [] } = options;
 
   // The Hub Download API currently requires a target layer to be specified
@@ -59,7 +60,7 @@ function validateOptions(options: IFetchDownloadFileUrlOptions) {
  * @param options options for refining / filtering the resulting download file
  * @returns a download api url that can be polled
  */
-function getDownloadApiRequestUrl(options: IFetchDownloadFileUrlOptions) {
+function getDownloadApiRequestUrl(options: IFetchDownloadFileOptions) {
   const { entity, format, context, layers, geometry, where } = options;
 
   const searchParams = new URLSearchParams({
@@ -103,7 +104,7 @@ async function pollDownloadApi(
   requestUrl: string,
   pollInterval: number,
   progressCallback?: downloadProgressCallback
-): Promise<string> {
+): Promise<IFetchDownloadFileResponse> {
   const response = await fetch(requestUrl);
   if (!response.ok) {
     const errorBody = await response.json();
@@ -125,7 +126,10 @@ async function pollDownloadApi(
 
   // Operation complete, return the download URL
   if (resultUrl) {
-    return resultUrl;
+    return {
+      type: "url",
+      href: resultUrl,
+    };
   }
 
   // Operation still in progress, poll again

@@ -6,7 +6,8 @@ import {
 } from "@esri/arcgis-rest-portal";
 import {
   DownloadOperationStatus,
-  IFetchDownloadFileUrlOptions,
+  IFetchDownloadFileOptions,
+  IFetchDownloadFileResponse,
   LegacyExportItemFormat,
   PORTAL_EXPORT_TYPES,
   ServiceDownloadFormat,
@@ -36,9 +37,9 @@ import { getProp } from "../../../objects/get-prop";
  * @param options options for refining / filtering the resulting download file
  * @returns a url to download the file
  */
-export async function fetchExportItemDownloadFileUrl(
-  options: IFetchDownloadFileUrlOptions
-): Promise<string> {
+export async function fetchExportItemDownloadFile(
+  options: IFetchDownloadFileOptions
+): Promise<IFetchDownloadFileResponse> {
   validateOptions(options);
   const { entity, format, context, progressCallback, pollInterval } = options;
   progressCallback && progressCallback(DownloadOperationStatus.PENDING);
@@ -60,10 +61,13 @@ export async function fetchExportItemDownloadFileUrl(
   // TODO: Once the job is completed, we still need to set the special typekeywords needed to find the item later.
   // Also, I _think_ we can only do one layer at a time (at least with the current typeKeywords schema we're using)
   progressCallback && progressCallback(DownloadOperationStatus.COMPLETED);
-  return getExportItemDataUrl(exportItemId, context);
+  return {
+    type: "url",
+    href: getExportItemDataUrl(exportItemId, context),
+  };
 }
 
-function validateOptions(options: IFetchDownloadFileUrlOptions) {
+function validateOptions(options: IFetchDownloadFileOptions) {
   const { geometry, where } = options;
 
   if (geometry) {
@@ -98,7 +102,7 @@ function getLegacyExportItemFormat(
 }
 
 function getExportParameters(
-  options: IFetchDownloadFileUrlOptions
+  options: IFetchDownloadFileOptions
 ): IExportParameters {
   const { layers } = options;
   const result: IExportParameters = {

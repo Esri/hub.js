@@ -92,6 +92,10 @@ describe("HubEvents edit module", () => {
         inPersonCapacity: 50,
         notifyAttendees: true,
         readGroups: [],
+        registrationCount: {
+          inPerson: 0,
+          virtual: 5,
+        },
         startDateTime: datesAndTimes.startDateTime.toISOString(),
         startDate: datesAndTimes.startDate,
         startTime: datesAndTimes.startTime,
@@ -160,7 +164,7 @@ describe("HubEvents edit module", () => {
           endTime: defaultRecord.endTime,
           inPersonCapacity: defaultRecord.inPersonCapacity,
           notifyAttendees: defaultRecord.notifyAttendees,
-          onlineMeetings: defaultRecord.onlineMeetings,
+          onlineMeeting: defaultRecord.onlineMeeting,
           readGroups: defaultRecord.readGroups,
           // startDateTime not included
           startDate: defaultRecord.startDate,
@@ -250,6 +254,10 @@ describe("HubEvents edit module", () => {
         inPersonCapacity: 50,
         notifyAttendees: true,
         readGroups: [],
+        registrationCount: {
+          inPerson: 0,
+          virtual: 5,
+        },
         startDateTime: datesAndTimes.startDateTime.toISOString(),
         startDate: datesAndTimes.startDate,
         startTime: datesAndTimes.startTime,
@@ -321,7 +329,7 @@ describe("HubEvents edit module", () => {
           endTime: defaultRecord.endTime,
           inPersonCapacity: defaultRecord.inPersonCapacity,
           notifyAttendees: defaultRecord.notifyAttendees,
-          onlineMeetings: defaultRecord.onlineMeetings,
+          onlineMeeting: defaultRecord.onlineMeeting,
           readGroups: defaultRecord.readGroups,
           // startDateTime not included
           startDate: defaultRecord.startDate,

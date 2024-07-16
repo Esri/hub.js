@@ -1,3 +1,54 @@
+# @esri/hub-common [14.161.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.160.2...@esri/hub-common@14.161.0) (2024-07-15)
+
+
+### Features
+
+* add embed types/interfaces ([#1585](https://github.com/Esri/hub.js/issues/1585)) ([0529404](https://github.com/Esri/hub.js/commit/05294040b08614379acaabacf56d151b0178f46b))
+* uiSchemas for new create flow ([#1582](https://github.com/Esri/hub.js/issues/1582)) ([68ca656](https://github.com/Esri/hub.js/commit/68ca65659b239740ff942e62040a34caf7d64ef0))
+
+## @esri/hub-common [14.160.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.160.1...@esri/hub-common@14.160.2) (2024-07-11)
+
+
+### Bug Fixes
+
+* **hub-common:** add inPersonCapacityType to IHubEvent ([#1591](https://github.com/Esri/hub.js/issues/1591)) ([fdbbfbf](https://github.com/Esri/hub.js/commit/fdbbfbf45d9115d2398045251911d3cfe49a87ff))
+
+## @esri/hub-common [14.160.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.160.0...@esri/hub-common@14.160.1) (2024-07-10)
+
+
+### Bug Fixes
+
+* **hub-common:** change event.onlineMeetings => event.onlineMeeting ([#1589](https://github.com/Esri/hub.js/issues/1589)) ([1d126a0](https://github.com/Esri/hub.js/commit/1d126a0633ac45c2e079f258d4b5ece88fdb2bc5))
+
+# @esri/hub-common [14.160.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.159.1...@esri/hub-common@14.160.0) (2024-07-10)
+
+
+### Features
+
+* **hub-common:** change order of download button for KML format ([#1588](https://github.com/Esri/hub.js/issues/1588)) ([67bc539](https://github.com/Esri/hub.js/commit/67bc53912e13e1df1894f26ed2482a80a018cada))
+
+## @esri/hub-common [14.159.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.159.0...@esri/hub-common@14.159.1) (2024-07-09)
+
+
+### Bug Fixes
+
+* group workspace access ([#1574](https://github.com/Esri/hub.js/issues/1574)) ([044cc26](https://github.com/Esri/hub.js/commit/044cc26d1959003faf8a1fbbb6282c62cd8d5432))
+
+# @esri/hub-common [14.159.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.158.0...@esri/hub-common@14.159.0) (2024-07-09)
+
+
+### Features
+
+* **hub-common:** add event capabilities field ([#1587](https://github.com/Esri/hub.js/issues/1587)) ([ee19ba0](https://github.com/Esri/hub.js/commit/ee19ba00bf485579075e87435fc14330c0cdea2f))
+* **hub-common:** add registration count props ([#1583](https://github.com/Esri/hub.js/issues/1583)) ([55ed1d7](https://github.com/Esri/hub.js/commit/55ed1d7ee01c6562fd5355848980a67283cfba6d))
+
+# @esri/hub-common [14.158.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.157.0...@esri/hub-common@14.158.0) (2024-07-09)
+
+
+### Features
+
+* **hub-common:** allow image service downloads ([#1577](https://github.com/Esri/hub.js/issues/1577)) ([dc7d6f8](https://github.com/Esri/hub.js/commit/dc7d6f87be12a06b08a7f9654f9b32e1805e709c))
+
 # @esri/hub-common [14.157.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.156.0...@esri/hub-common@14.157.0) (2024-07-08)
 
 

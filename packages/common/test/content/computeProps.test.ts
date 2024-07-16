@@ -1,11 +1,16 @@
 import * as internalContentUtilsModule from "../../src/content/_internal/internalContentUtils";
 import { computeProps } from "../../src/content/_internal/computeProps";
 import { IHubAdditionalResource } from "../../src/core/types/IHubAdditionalResource";
-import { IHubEditableContent } from "../../src/core/types/IHubEditableContent";
+import {
+  IContentExtendedProps,
+  IHubEditableContent,
+  IServiceExtendedProps,
+} from "../../src/core/types/IHubEditableContent";
 import { IHubEditableContentEnrichments } from "../../src/items/_enrichments";
 import { IHubRequestOptions, IModel } from "../../src/types";
 import { cloneObject } from "../../src/util";
 import { MOCK_HUB_REQOPTS } from "../mocks/mock-auth";
+import * as validateUrlHelpersModule from "../../src/resources/_internal/_validate-url-helpers";
 
 describe("content computeProps", () => {
   let requestOptions: IHubRequestOptions;
@@ -144,36 +149,59 @@ describe("content computeProps", () => {
     expect(chk.links.siteRelative).toBe("/maps/my-slug");
   });
 
-  it("adds server based enrichments if available", () => {
+  it("adds content extended props for non-service items", () => {
+    spyOn(validateUrlHelpersModule, "isService").and.returnValue(false);
+    const additionalResources: IHubAdditionalResource[] = [
+      {
+        name: "My Resource",
+        url: "https://example.com/my-resource",
+        isDataSource: false,
+      },
+    ];
+    const getAdditionalResourcesSpy = spyOn(
+      internalContentUtilsModule,
+      "getAdditionalResources"
+    ).and.returnValue(additionalResources);
+
     const model: IModel = {
       item: {
-        type: "Feature Service",
+        type: "Web Map",
         id: "9001",
         created: new Date().getTime(),
         modified: new Date().getTime(),
-        properties: {},
+        properties: {
+          boundary: "none",
+        },
       },
     } as IModel;
     const content: Partial<IHubEditableContent> = {
-      type: "Feature Service",
+      type: "Web Map",
       id: "9001",
     };
     const enrichments: IHubEditableContentEnrichments = {
-      server: {
-        capabilities: "Extract,Query",
-        supportedExportFormats: "csv,geojson",
-      } as unknown as IHubEditableContentEnrichments["server"],
+      metadata: { metadata: "enrichment" },
     };
 
     const chk = computeProps(model, content, requestOptions, enrichments);
-    expect(chk.serverExtractCapability).toBeTruthy();
-    expect(chk.serverQueryCapability).toBeTruthy();
-    expect(chk.serverExtractFormats).toEqual(["csv", "geojson"]);
+    const extendedProps = chk.extendedProps as IContentExtendedProps;
+
+    expect(extendedProps.metadata).toEqual(enrichments.metadata);
+    expect(extendedProps.additionalResources).toEqual(additionalResources);
+    // NOTE: Remove this check once IHubEditableContent.additionalResources is removed
+    expect(chk.additionalResources).toEqual(additionalResources);
+    // NOTE: the function is called twice because we still support the deprecated
+    // IHubEditableContent.additionalResources property. Once that is removed,
+    // this function will only be called once.
+    expect(getAdditionalResourcesSpy).toHaveBeenCalledTimes(2);
+    expect(getAdditionalResourcesSpy).toHaveBeenCalledWith(
+      model.item,
+      enrichments.metadata,
+      requestOptions
+    );
   });
 
-  it("calculates additionalResources if available", () => {
-    const metadata = { key: "value" } as any;
-    const enrichments: IHubEditableContentEnrichments = { metadata };
+  it("adds service extended props for service items", () => {
+    spyOn(validateUrlHelpersModule, "isService").and.returnValue(true);
     const additionalResources: IHubAdditionalResource[] = [
       {
         name: "My Resource",
@@ -192,20 +220,106 @@ describe("content computeProps", () => {
         id: "9001",
         created: new Date().getTime(),
         modified: new Date().getTime(),
-        properties: {},
+        properties: {
+          boundary: "none",
+        },
       },
     } as IModel;
     const content: Partial<IHubEditableContent> = {
       type: "Feature Service",
       id: "9001",
     };
+    const enrichments: IHubEditableContentEnrichments = {
+      metadata: { metadata: "enrichment" },
+      server: {
+        capabilities: "Extract,Query",
+        supportedExportFormats: "csv,geojson",
+      } as unknown as IHubEditableContentEnrichments["server"],
+    };
 
     const chk = computeProps(model, content, requestOptions, enrichments);
+    const extendedProps = chk.extendedProps as IServiceExtendedProps;
+
+    // TODO: Remove these checks once .serverQueryCapability, .serverExtractCapability, and .serverExtractFormats are removed
+    expect(chk.serverExtractCapability).toBeTruthy();
+    expect(chk.serverQueryCapability).toBeTruthy();
+    expect(chk.serverExtractFormats).toEqual(["csv", "geojson"]);
+
+    expect(extendedProps.serverExtractCapability).toBeTruthy();
+    expect(extendedProps.serverQueryCapability).toBeTruthy();
+    expect(extendedProps.serverExtractFormats).toEqual(["csv", "geojson"]);
+
+    expect(extendedProps.metadata).toEqual(enrichments.metadata);
+    expect(extendedProps.additionalResources).toEqual(additionalResources);
+    // NOTE: Remove this check once IHubEditableContent.additionalResources is removed
     expect(chk.additionalResources).toEqual(additionalResources);
-    expect(getAdditionalResourcesSpy).toHaveBeenCalledTimes(1);
+    // NOTE: the function is called twice because we still support the deprecated
+    // IHubEditableContent.additionalResources property. Once that is removed,
+    // this function will only be called once.
+    expect(getAdditionalResourcesSpy).toHaveBeenCalledTimes(2);
     expect(getAdditionalResourcesSpy).toHaveBeenCalledWith(
       model.item,
-      metadata,
+      enrichments.metadata,
+      requestOptions
+    );
+  });
+
+  it("handles service extended props for service items when enrichments are missing", () => {
+    spyOn(validateUrlHelpersModule, "isService").and.returnValue(true);
+    const additionalResources: IHubAdditionalResource[] = [
+      {
+        name: "My Resource",
+        url: "https://example.com/my-resource",
+        isDataSource: false,
+      },
+    ];
+    const getAdditionalResourcesSpy = spyOn(
+      internalContentUtilsModule,
+      "getAdditionalResources"
+    ).and.returnValue(additionalResources);
+
+    const model: IModel = {
+      item: {
+        type: "Feature Service",
+        id: "9001",
+        created: new Date().getTime(),
+        modified: new Date().getTime(),
+        properties: {
+          boundary: "none",
+        },
+      },
+    } as IModel;
+    const content: Partial<IHubEditableContent> = {
+      type: "Feature Service",
+      id: "9001",
+    };
+    const enrichments: IHubEditableContentEnrichments = {
+      metadata: { metadata: "enrichment" },
+    };
+
+    const chk = computeProps(model, content, requestOptions, enrichments);
+    const extendedProps = chk.extendedProps as IServiceExtendedProps;
+
+    // TODO: Remove these checks once .serverQueryCapability, .serverExtractCapability, and .serverExtractFormats are removed
+    expect(chk.serverExtractCapability).toBeUndefined();
+    expect(chk.serverQueryCapability).toBeUndefined();
+    expect(chk.serverExtractFormats).toBeUndefined();
+
+    expect(extendedProps.serverExtractCapability).toBeUndefined();
+    expect(extendedProps.serverQueryCapability).toBeUndefined();
+    expect(extendedProps.serverExtractFormats).toBeUndefined();
+
+    expect(extendedProps.metadata).toEqual(enrichments.metadata);
+    expect(extendedProps.additionalResources).toEqual(additionalResources);
+    // NOTE: Remove this check once IHubEditableContent.additionalResources is removed
+    expect(chk.additionalResources).toEqual(additionalResources);
+    // NOTE: the function is called twice because we still support the deprecated
+    // IHubEditableContent.additionalResources property. Once that is removed,
+    // this function will only be called once.
+    expect(getAdditionalResourcesSpy).toHaveBeenCalledTimes(2);
+    expect(getAdditionalResourcesSpy).toHaveBeenCalledWith(
+      model.item,
+      enrichments.metadata,
       requestOptions
     );
   });

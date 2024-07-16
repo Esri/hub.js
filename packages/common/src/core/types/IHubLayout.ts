@@ -8,7 +8,7 @@ export interface IHubLayout {
   /**
    * Sections are required for all Layouts
    */
-  sections: [Record<string, any>];
+  sections: Array<Record<string, any>>;
   /**
    * header is optional; Only used in Sites
    */

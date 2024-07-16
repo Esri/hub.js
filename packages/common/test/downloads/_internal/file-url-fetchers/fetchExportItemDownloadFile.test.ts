@@ -1,6 +1,6 @@
 import * as arcgisRestPortalModule from "@esri/arcgis-rest-portal";
 import * as getExportItemDataUrlModule from "../../../../src/downloads/_internal/getExportItemDataUrl";
-import { fetchExportItemDownloadFileUrl } from "../../../../src/downloads/_internal/file-url-fetchers/fetchExportItemDownloadFileUrl";
+import { fetchExportItemDownloadFile } from "../../../../src/downloads/_internal/file-url-fetchers/fetchExportItemDownloadFile";
 import {
   DownloadOperationStatus,
   IArcGISContext,
@@ -8,7 +8,7 @@ import {
   ServiceDownloadFormat,
 } from "../../../../src";
 
-describe("fetchExportItemDownloadFileUrl", () => {
+describe("fetchExportItemDownloadFile", () => {
   let exportItemSpy: jasmine.Spy;
   let getItemStatusSpy: jasmine.Spy;
   let getExportItemDataUrlSpy: jasmine.Spy;
@@ -32,7 +32,7 @@ describe("fetchExportItemDownloadFileUrl", () => {
 
   it("should throw an error if a geometry is provided", async () => {
     try {
-      await fetchExportItemDownloadFileUrl({
+      await fetchExportItemDownloadFile({
         entity: { id: "some-id" } as IHubEditableContent,
         layers: [0],
         format: ServiceDownloadFormat.CSV,
@@ -45,7 +45,7 @@ describe("fetchExportItemDownloadFileUrl", () => {
       });
       expect(true).toBe(
         false,
-        "fetchExportItemDownloadFileUrl should have thrown an error"
+        "fetchExportItemDownloadFile should have thrown an error"
       );
     } catch (error) {
       expect(error.message).toBe(
@@ -56,7 +56,7 @@ describe("fetchExportItemDownloadFileUrl", () => {
 
   it("should throw an error if a where clause is provided", async () => {
     try {
-      await fetchExportItemDownloadFileUrl({
+      await fetchExportItemDownloadFile({
         entity: { id: "some-id" } as IHubEditableContent,
         layers: [0],
         format: ServiceDownloadFormat.CSV,
@@ -65,7 +65,7 @@ describe("fetchExportItemDownloadFileUrl", () => {
       });
       expect(true).toBe(
         false,
-        "fetchExportItemDownloadFileUrl should have thrown an error"
+        "fetchExportItemDownloadFile should have thrown an error"
       );
     } catch (error) {
       expect(error.message).toBe(
@@ -84,7 +84,7 @@ describe("fetchExportItemDownloadFileUrl", () => {
     });
 
     try {
-      await fetchExportItemDownloadFileUrl({
+      await fetchExportItemDownloadFile({
         entity: { id: "some-id" } as IHubEditableContent,
         layers: [0],
         format: ServiceDownloadFormat.FILE_GDB,
@@ -93,7 +93,7 @@ describe("fetchExportItemDownloadFileUrl", () => {
       });
       expect(true).toBe(
         false,
-        "fetchExportItemDownloadFileUrl should have thrown an error"
+        "fetchExportItemDownloadFile should have thrown an error"
       );
     } catch (error) {
       expect(error.message).toBe("Export job failed");
@@ -137,7 +137,7 @@ describe("fetchExportItemDownloadFileUrl", () => {
     const progressCallback = jasmine
       .createSpy("progressCallback")
       .and.callFake((_status: DownloadOperationStatus): any => null);
-    const result = await fetchExportItemDownloadFileUrl({
+    const result = await fetchExportItemDownloadFile({
       entity: { id: "some-id" } as IHubEditableContent,
       layers: [0],
       format: ServiceDownloadFormat.FILE_GDB,
@@ -145,7 +145,7 @@ describe("fetchExportItemDownloadFileUrl", () => {
       progressCallback,
       pollInterval: 0,
     });
-    expect(result).toBe("https://some-url.com");
+    expect(result).toEqual({ type: "url", href: "https://some-url.com" });
 
     expect(progressCallback).toHaveBeenCalledTimes(3);
     expect(progressCallback).toHaveBeenCalledWith(
@@ -190,13 +190,13 @@ describe("fetchExportItemDownloadFileUrl", () => {
     }));
     getItemStatusSpy.and.callFake(async () => ({ status: "completed" }));
     getExportItemDataUrlSpy.and.callFake(() => "https://some-url.com");
-    const result = await fetchExportItemDownloadFileUrl({
+    const result = await fetchExportItemDownloadFile({
       entity: { id: "some-id" } as IHubEditableContent,
       layers: [0],
       format: ServiceDownloadFormat.CSV,
       context: mockContext,
       pollInterval: 0,
     });
-    expect(result).toBe("https://some-url.com");
+    expect(result).toEqual({ type: "url", href: "https://some-url.com" });
   });
 });
