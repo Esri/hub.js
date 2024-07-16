@@ -34,3 +34,4 @@ export * from "./IHubCardViewModel";
 export * from "./Metrics";
 export * from "./types";
 export * from "./IHubUser";
+export * from "./Embeds";

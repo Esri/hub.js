@@ -1,14 +1,14 @@
-import { buildUiSchema } from "../../../src/sites/_internal/SiteUiSchemaCreate";
+import { buildUiSchema } from "../../../src/initiatives/_internal/InitiativeUiSchemaCreate2";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
 
-describe("buildUiSchema: site create", () => {
-  it("returns the full site create uiSchema", async () => {
+describe("buildUiSchema: initiative create", () => {
+  it("returns the full initiative create uiSchema", async () => {
     const uiSchema = await buildUiSchema("some.scope", {} as any, MOCK_CONTEXT);
     expect(uiSchema).toEqual({
       type: "Layout",
       elements: [
         {
-          labelKey: "some.scope.fields.name.label",
+          labelKey: `some.scope.fields.name.label`,
           scope: "/properties/name",
           type: "Control",
           options: {
@@ -17,13 +17,13 @@ describe("buildUiSchema: site create", () => {
                 type: "ERROR",
                 keyword: "required",
                 icon: true,
-                labelKey: "some.scope.fields.name.requiredError",
+                labelKey: `some.scope.fields.name.requiredError`,
               },
               {
                 type: "ERROR",
                 keyword: "maxLength",
                 icon: true,
-                labelKey: "some.scope.fields.name.maxLengthError",
+                labelKey: `some.scope.fields.name.maxLengthError`,
               },
             ],
           },
