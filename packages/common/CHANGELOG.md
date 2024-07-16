@@ -1,3 +1,10 @@
+## @esri/hub-common [14.161.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.161.0...@esri/hub-common@14.161.1) (2024-07-16)
+
+
+### Bug Fixes
+
+* **hub-common:** updates the calcite icon used for hub-site item type ([#1592](https://github.com/Esri/hub.js/issues/1592)) ([d4eef06](https://github.com/Esri/hub.js/commit/d4eef06f89d97758c52c4b8db1a30aa65a2b58cb))
+
 # @esri/hub-common [14.161.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.160.2...@esri/hub-common@14.161.0) (2024-07-15)
 
 
