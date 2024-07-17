@@ -1,3 +1,10 @@
+## @esri/hub-common [14.161.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.161.1...@esri/hub-common@14.161.2) (2024-07-17)
+
+
+### Bug Fixes
+
+* **hub-common:** added orgId filter to GetEventsParams ([#1594](https://github.com/Esri/hub.js/issues/1594)) ([f832165](https://github.com/Esri/hub.js/commit/f83216526382df1a431360d61f8cfb108b3a1518))
+
 ## @esri/hub-common [14.161.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.161.0...@esri/hub-common@14.161.1) (2024-07-16)
 
 
