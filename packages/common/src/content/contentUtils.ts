@@ -5,7 +5,7 @@ import { IModel } from "../types";
 import { getCollection } from "../collections";
 import { categories as allCategories } from "../categories";
 import { includes } from "../utils";
-import { IHubContent } from "../core";
+import { IHubContent, IHubEditableContent } from "../core";
 import { getProp } from "../objects";
 import { getServiceTypeFromUrl } from "../urls";
 import {
@@ -20,7 +20,10 @@ import {
 } from "./compose";
 import { getFamily } from "./get-family";
 import { parseDatasetId, removeContextFromSlug } from "./slugs";
-import { DatasetResource } from "./types";
+import { DatasetResource, IHubServiceBackedContentStatus } from "./types";
+import { IFeatureServiceDefinition } from "@esri/arcgis-rest-types";
+import { getService } from "@esri/arcgis-rest-feature-layer";
+import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 // TODO: remove this at next breaking version
 /**
@@ -437,3 +440,51 @@ const getContentRelativeUrl = (
     content.typeKeywords
   );
 };
+
+/**
+ * Get the status of a content item
+ * @param entity the content item
+ * @returns the status of the content item
+ */
+export async function getContentStatus(
+  entity: IHubEditableContent,
+  requestOptions: IRequestOptions
+): Promise<IHubServiceBackedContentStatus> {
+  const unavailable = {
+    kind: "service",
+    service: {
+      availability: "unavailable",
+    },
+  } as IHubServiceBackedContentStatus;
+
+  if (entity?.url) {
+    // set up our two promises: one to get the service definition and one to sleep for 3 seconds
+    const definitionPromise: Promise<IFeatureServiceDefinition> = getService({
+      url: entity.url,
+      authentication: requestOptions.authentication,
+    });
+    const timeoutPromise = (ms: number) => {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    };
+
+    // race the two promises
+    const status = Promise.race([definitionPromise, timeoutPromise(3000)])
+      .then((result) => {
+        return {
+          kind: "service",
+          service: {
+            // if we got a result, the service is available, otherwise it's slow
+            availability: result ? "available" : "slow",
+          },
+        };
+      })
+      .catch(() => {
+        // if we errored out, the service is unavailable
+        return unavailable;
+      });
+    return status as Promise<IHubServiceBackedContentStatus>;
+  } else {
+    // if we don't have a url, the service is unavailable
+    return unavailable;
+  }
+}

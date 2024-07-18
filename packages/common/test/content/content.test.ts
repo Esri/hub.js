@@ -667,6 +667,8 @@ describe("content: ", () => {
         expect(getContentTypeLabel(undefined, false)).toEqual("");
       });
     });
+
+    // TODO: Add tests for getContentStatus
   });
 
   describe("getProxyUrl", () => {
