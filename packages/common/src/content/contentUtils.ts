@@ -441,6 +441,7 @@ const getContentRelativeUrl = (
   );
 };
 
+// Tests can be found in packages/common/test/content/content.test.ts
 /**
  * Get the status of a content item
  * @param entity the content item
@@ -457,7 +458,7 @@ export async function getContentStatus(
     },
   } as IHubServiceBackedContentStatus;
 
-  if (entity?.url) {
+  if (entity.url) {
     // set up our two promises: one to get the service definition and one to sleep for 3 seconds
     const definitionPromise: Promise<IFeatureServiceDefinition> = getService({
       url: entity.url,
