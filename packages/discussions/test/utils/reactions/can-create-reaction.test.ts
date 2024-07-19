@@ -33,7 +33,7 @@ describe("Util: canCreateReaction", () => {
 
     expect(canCreateReaction(channel, PostReaction.THUMBS_UP)).toBe(true);
     expect(canReadChannelSpy).toHaveBeenCalledTimes(1);
-    expect(canReadChannelSpy).toHaveBeenCalledWith(channel);
+    expect(canReadChannelSpy).toHaveBeenCalledWith(channel, {});
   });
 
   it("returns false if channel allows all reactions and canReadChannel returns false", () => {
