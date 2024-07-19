@@ -21,6 +21,27 @@ describe("Util: canCreateReaction", () => {
     expect(canReadChannelSpy).toHaveBeenCalledWith(channel, user);
   });
 
+  it("returns true if user is undefined, channel allows all reactions, and canReadChannel returns true", () => {
+    const unauthenticatedUser = undefined;
+    const canReadChannelSpy = spyOn(
+      canReadChannelModule,
+      "canReadChannel"
+    ).and.returnValue(true);
+    const channel = {
+      allowReaction: true,
+      allowedReactions: null,
+    } as unknown as IChannel;
+
+    expect(
+      canCreateReaction(channel, PostReaction.THUMBS_UP, unauthenticatedUser)
+    ).toBe(true);
+    expect(canReadChannelSpy).toHaveBeenCalledTimes(1);
+    expect(canReadChannelSpy).toHaveBeenCalledWith(
+      channel,
+      unauthenticatedUser
+    );
+  });
+
   it("returns false if channel allows all reactions and canReadChannel returns false", () => {
     const canReadChannelSpy = spyOn(
       canReadChannelModule,
