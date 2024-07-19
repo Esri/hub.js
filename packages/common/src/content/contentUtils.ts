@@ -20,10 +20,13 @@ import {
 } from "./compose";
 import { getFamily } from "./get-family";
 import { parseDatasetId, removeContextFromSlug } from "./slugs";
-import { DatasetResource, IHubServiceBackedContentStatus } from "./types";
+import {
+  DatasetResource,
+  IGetServiceStatusOptions,
+  IHubServiceBackedContentStatus,
+} from "./types";
 import { IFeatureServiceDefinition } from "@esri/arcgis-rest-types";
 import { getService } from "@esri/arcgis-rest-feature-layer";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 // TODO: remove this at next breaking version
 /**
@@ -447,10 +450,12 @@ const getContentRelativeUrl = (
  * @param entity the content item
  * @returns the status of the content item
  */
-export async function getContentStatus(
+export async function getServiceStatus(
   entity: IHubEditableContent,
-  requestOptions: IRequestOptions
+  options: IGetServiceStatusOptions
 ): Promise<IHubServiceBackedContentStatus> {
+  // get the request options for the `getService` call, and set a default timeout if one is not provided
+  const { timeout = 3000, ...requestOptions } = options;
   const unavailable = {
     kind: "service",
     service: {
@@ -469,7 +474,7 @@ export async function getContentStatus(
     };
 
     // race the two promises
-    const status = Promise.race([definitionPromise, timeoutPromise(3000)])
+    const status = Promise.race([definitionPromise, timeoutPromise(timeout)])
       .then((result) => {
         return {
           kind: "service",

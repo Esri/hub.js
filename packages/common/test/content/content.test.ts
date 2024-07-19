@@ -27,7 +27,7 @@ import {
   IHubRequestOptions,
   PublisherSource,
   IHubEditableContent,
-  getContentStatus,
+  getServiceStatus,
 } from "../../src";
 import {
   isProxiedCSV,
@@ -1416,11 +1416,11 @@ describe("content: ", () => {
   });
 
   // Can be found in packages/common/src/content/contentUtils.ts
-  describe("getContentStatus", () => {
+  describe("getServiceStatus", () => {
     it("entity passed in does not have a url and is unavailable", async () => {
       const entity: IHubEditableContent = {
         id: "abc",
-        url: undefined,
+        url: "",
 
         // not important to this test
         licenseInfo: "",
@@ -1439,7 +1439,10 @@ describe("content: ", () => {
         orgUrlKey: "",
       };
 
-      const result = await getContentStatus(entity, MOCK_REQUEST_OPTIONS);
+      const result = await getServiceStatus(entity, {
+        ...MOCK_REQUEST_OPTIONS,
+        url: "",
+      });
       expect(result.service.availability).toBe("unavailable");
     });
 
@@ -1477,7 +1480,10 @@ describe("content: ", () => {
         })
       );
 
-      const result = await getContentStatus(entity, MOCK_REQUEST_OPTIONS);
+      const result = await getServiceStatus(entity, {
+        ...MOCK_REQUEST_OPTIONS,
+        url: "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/slowpoints/FeatureServer/0?stop=false",
+      });
       expect(result.service.availability).toEqual("available");
     });
 
@@ -1515,7 +1521,10 @@ describe("content: ", () => {
         })
       );
 
-      const result = await getContentStatus(entity, MOCK_REQUEST_OPTIONS);
+      const result = await getServiceStatus(entity, {
+        ...MOCK_REQUEST_OPTIONS,
+        url: "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/slowpoints/FeatureServer/0?stop=false&delay=5000",
+      });
       expect(result.service.availability).toEqual("slow");
     });
 
@@ -1553,7 +1562,10 @@ describe("content: ", () => {
         })
       );
 
-      const result = await getContentStatus(entity, MOCK_REQUEST_OPTIONS);
+      const result = await getServiceStatus(entity, {
+        ...MOCK_REQUEST_OPTIONS,
+        url: "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/multipoints/FeatureServer?stop=true",
+      });
       expect(result.service.availability).toEqual("unavailable");
     });
   });
