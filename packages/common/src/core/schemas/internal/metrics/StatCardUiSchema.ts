@@ -279,7 +279,7 @@ export const buildUiSchema = async (
           {
             type: "Section",
             labelKey: `appearance.styleSpecificInfo.label`,
-            rule: SHOW_FOR_MORE_INFO_RULE,
+            rule: SHOW_FOR_INFORMATIONAL_RULE,
             options: {
               helperText: {
                 labelKey: `appearance.styleSpecificInfo.helperText`,
@@ -290,7 +290,7 @@ export const buildUiSchema = async (
                 labelKey: `appearance.popoverText.label`,
                 scope: "/properties/popoverText",
                 type: "Control",
-                rule: SHOW_FOR_MORE_INFO_RULE,
+                rule: SHOW_FOR_INFORMATIONAL_RULE,
                 options: {
                   control: "hub-field-input-input",
                   type: "textarea",
@@ -301,7 +301,7 @@ export const buildUiSchema = async (
                 labelKey: `appearance.publisherText.label`,
                 scope: "/properties/publisherText",
                 type: "Control",
-                rule: SHOW_FOR_MORE_INFO_RULE,
+                rule: SHOW_FOR_INFORMATIONAL_RULE,
                 options: {
                   control: "hub-field-input-input",
                 },
@@ -362,7 +362,7 @@ const HIDE_FOR_ALL = {
   },
 };
 
-const SHOW_FOR_MORE_INFO_RULE = {
+const SHOW_FOR_INFORMATIONAL_RULE = {
   effect: UiSchemaRuleEffects.SHOW,
   condition: {
     scope: "/properties/layout",
