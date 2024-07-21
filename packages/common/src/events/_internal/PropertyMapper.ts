@@ -64,15 +64,16 @@ export class EventPropertyMapper extends PropertyMapper<
     } else {
       obj.attendanceType = HubEventAttendanceType.Online;
     }
-    obj.onlineCapacity = store.onlineMeetings?.[0]?.capacity ?? null;
-    obj.onlineCapacityType = store.onlineMeetings?.[0]?.capacity
+    obj.onlineCapacity = store.onlineMeeting?.capacity ?? null;
+    obj.onlineCapacityType = store.onlineMeeting?.capacity
       ? HubEventCapacityType.Fixed
       : HubEventCapacityType.Unlimited;
+    obj.inPersonCapacity = store.inPersonCapacity ?? null;
     obj.inPersonCapacityType = store.inPersonCapacity
       ? HubEventCapacityType.Fixed
       : HubEventCapacityType.Unlimited;
-    obj.onlineDetails = store.onlineMeetings?.[0]?.details ?? null;
-    obj.onlineUrl = store.onlineMeetings?.[0]?.url ?? null;
+    obj.onlineDetails = store.onlineMeeting?.details ?? null;
+    obj.onlineUrl = store.onlineMeeting?.url ?? null;
     obj.canChangeAccess = [
       store.permission.canSetAccessToPublic,
       store.permission.canSetAccessToOrg,
@@ -124,7 +125,6 @@ export class EventPropertyMapper extends PropertyMapper<
     entity: Partial<IHubEvent>,
     store: Partial<IEvent>
   ): Partial<IEvent> {
-    // TODO: support locations
     // TODO: thumbnail & thumbnail url
 
     const clonedEntity = cloneObject(entity);
@@ -159,16 +159,14 @@ export class EventPropertyMapper extends PropertyMapper<
         clonedEntity.attendanceType
       )
     ) {
-      obj.onlineMeetings = [
-        {
-          details: clonedEntity.onlineDetails,
-          capacity:
-            clonedEntity.onlineCapacityType === HubEventCapacityType.Fixed
-              ? clonedEntity.onlineCapacity
-              : null,
-          url: clonedEntity.onlineUrl,
-        } as IOnlineMeeting,
-      ];
+      obj.onlineMeeting = {
+        details: clonedEntity.onlineDetails,
+        capacity:
+          clonedEntity.onlineCapacityType === HubEventCapacityType.Fixed
+            ? clonedEntity.onlineCapacity
+            : null,
+        url: clonedEntity.onlineUrl,
+      } as IOnlineMeeting;
     }
     if (
       [HubEventAttendanceType.InPerson, HubEventAttendanceType.Both].includes(
@@ -179,6 +177,8 @@ export class EventPropertyMapper extends PropertyMapper<
         clonedEntity.inPersonCapacityType === HubEventCapacityType.Fixed
           ? clonedEntity.inPersonCapacity
           : null;
+    } else {
+      obj.inPersonCapacity = null;
     }
 
     // override startTime & endTime for all-day events

@@ -12,6 +12,7 @@ import { CreateReplicaFormat, CREATE_REPLICA_FORMATS } from "../_types";
 export function getCreateReplicaFormats(
   entity: IHubEditableContent
 ): IDynamicDownloadFormat[] {
+  // TODO: Change to use `extendedProps.serverExtractFormats`
   const allFormats = entity.serverExtractFormats || [];
 
   // List recognized formats in the order they are defined in CREATE_REPLICA_FORMATS

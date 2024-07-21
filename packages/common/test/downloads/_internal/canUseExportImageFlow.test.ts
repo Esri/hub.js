@@ -7,7 +7,14 @@ describe("canUseExportImageFlow", () => {
     const result = canUseExportImageFlow(entity);
     expect(result).toBe(true);
   });
-
+  it("should return false when entity is a Tiled Image Service", () => {
+    const entity = {
+      type: "Image Service",
+      typeKeywords: ["Tiled Imagery"],
+    } as unknown as IHubEditableContent;
+    const result = canUseExportImageFlow(entity);
+    expect(result).toBe(false);
+  });
   it('should return false when entity type is not "Image Service"', () => {
     const entity = {
       type: "Feature Service",

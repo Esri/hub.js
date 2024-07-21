@@ -74,6 +74,10 @@ describe("PropertyMapper", () => {
         },
         readGroups: ["readGroup1"],
         recurrence: null,
+        registrationCount: {
+          inPerson: 0,
+          virtual: 5,
+        },
         startDate: [
           start.getFullYear(),
           start.getMonth() + 1,
@@ -128,7 +132,8 @@ describe("PropertyMapper", () => {
         isPast: false,
         attendanceType: HubEventAttendanceType.InPerson,
         inPersonCapacity: 30,
-        inPersonCapacityType: "fixed",
+        inPersonRegistrationCount: 0,
+        inPersonCapacityType: HubEventCapacityType.Fixed,
         location: {
           type: "none",
           spatialReference: {},
@@ -138,6 +143,7 @@ describe("PropertyMapper", () => {
         onlineCapacity: null,
         onlineCapacityType: HubEventCapacityType.Unlimited,
         onlineDetails: null,
+        onlineRegistrationCount: 5,
         onlineUrl: null,
         canChangeAccess: true,
         createdDate: jasmine.any(Date) as unknown as Date,
@@ -172,16 +178,14 @@ describe("PropertyMapper", () => {
 
     it("converts an Event record to an online Event entity", () => {
       eventRecord.attendanceType = [EventAttendanceType.VIRTUAL];
-      eventRecord.onlineMeetings = [
-        {
-          capacity: 20,
-          createdAt: new Date().toISOString(),
-          details: "online event details",
-          eventId: eventRecord.id,
-          updatedAt: new Date().toISOString(),
-          url: "https://somewhere.com/",
-        },
-      ];
+      eventRecord.onlineMeeting = {
+        capacity: 20,
+        createdAt: new Date().toISOString(),
+        details: "online event details",
+        eventId: eventRecord.id,
+        updatedAt: new Date().toISOString(),
+        url: "https://somewhere.com/",
+      };
       const res = propertyMapper.storeToEntity(eventRecord, {});
       expect(res.attendanceType).toEqual(HubEventAttendanceType.Online);
       expect(res.onlineCapacity).toEqual(20);
@@ -194,16 +198,14 @@ describe("PropertyMapper", () => {
         EventAttendanceType.VIRTUAL,
         EventAttendanceType.IN_PERSON,
       ];
-      eventRecord.onlineMeetings = [
-        {
-          capacity: 20,
-          createdAt: new Date().toISOString(),
-          details: "online event details",
-          eventId: eventRecord.id,
-          updatedAt: new Date().toISOString(),
-          url: "https://somewhere.com/",
-        },
-      ];
+      eventRecord.onlineMeeting = {
+        capacity: 20,
+        createdAt: new Date().toISOString(),
+        details: "online event details",
+        eventId: eventRecord.id,
+        updatedAt: new Date().toISOString(),
+        url: "https://somewhere.com/",
+      };
       const res = propertyMapper.storeToEntity(eventRecord, {});
       expect(res.attendanceType).toEqual(HubEventAttendanceType.Both);
     });
@@ -422,18 +424,16 @@ describe("PropertyMapper", () => {
         access: EventAccess.PRIVATE,
         status: EventStatus.PLANNED,
         attendanceType: [EventAttendanceType.VIRTUAL],
-        onlineMeetings: [
-          {
-            capacity: 20,
-            details: "online event details",
-            url: "https://somewhere.com/",
-          } as IOnlineMeeting,
-        ],
+        onlineMeeting: {
+          capacity: 20,
+          details: "online event details",
+          url: "https://somewhere.com/",
+        } as IOnlineMeeting,
         startDate: jasmine.any(String) as unknown as string,
         startTime: jasmine.any(String) as unknown as string,
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
-        inPersonCapacity: 30,
+        inPersonCapacity: null,
         location: null,
         readGroups: [],
         editGroups: [],
@@ -471,18 +471,16 @@ describe("PropertyMapper", () => {
         access: EventAccess.PRIVATE,
         status: EventStatus.PLANNED,
         attendanceType: [EventAttendanceType.VIRTUAL],
-        onlineMeetings: [
-          {
-            capacity: null,
-            details: "online event details",
-            url: "https://somewhere.com/",
-          } as IOnlineMeeting,
-        ],
+        onlineMeeting: {
+          capacity: null,
+          details: "online event details",
+          url: "https://somewhere.com/",
+        } as IOnlineMeeting,
         startDate: jasmine.any(String) as unknown as string,
         startTime: jasmine.any(String) as unknown as string,
         endDate: jasmine.any(String) as unknown as string,
         endTime: jasmine.any(String) as unknown as string,
-        inPersonCapacity: 30,
+        inPersonCapacity: null,
         location: null,
         readGroups: [],
         editGroups: [],
@@ -523,13 +521,11 @@ describe("PropertyMapper", () => {
           EventAttendanceType.IN_PERSON,
           EventAttendanceType.VIRTUAL,
         ],
-        onlineMeetings: [
-          {
-            capacity: 20,
-            details: "online event details",
-            url: "https://somewhere.com/",
-          } as IOnlineMeeting,
-        ],
+        onlineMeeting: {
+          capacity: 20,
+          details: "online event details",
+          url: "https://somewhere.com/",
+        } as IOnlineMeeting,
         startDate: jasmine.any(String) as unknown as string,
         startTime: jasmine.any(String) as unknown as string,
         endDate: jasmine.any(String) as unknown as string,

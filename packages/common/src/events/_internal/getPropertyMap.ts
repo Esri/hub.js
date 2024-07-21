@@ -21,7 +21,6 @@ export function getPropertyMap(): IPropertyMap[] {
     "startTime",
     "endDate",
     "endTime",
-    "inPersonCapacity",
   ];
   return commonPropNames.reduce(
     (acc, propName) => [...acc, { entityKey: propName, storeKey: propName }],
@@ -58,6 +57,14 @@ export function getPropertyMap(): IPropertyMap[] {
       {
         entityKey: "editGroupIds",
         storeKey: "editGroups",
+      },
+      {
+        entityKey: "inPersonRegistrationCount",
+        storeKey: "registrationCount.inPerson",
+      },
+      {
+        entityKey: "onlineRegistrationCount",
+        storeKey: "registrationCount.virtual",
       },
     ]
   );

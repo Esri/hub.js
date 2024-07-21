@@ -66,13 +66,11 @@ describe("Events", () => {
             type: EventLocationType.custom,
           },
           notifyAttendees: true,
-          onlineMeetings: [
-            {
-              url: "https://www.esri.com",
-              capacity: 50,
-              details: "Tacos online are here",
-            },
-          ],
+          onlineMeeting: {
+            url: "https://www.esri.com",
+            capacity: 50,
+            details: "Tacos online are here",
+          },
           readGroups: ["111"],
           startDate: "2023-12-01",
           startTime: "10:30:00",

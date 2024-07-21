@@ -73,7 +73,7 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:site:delete",
     dependencies: ["hub:site"],
     authenticated: true,
-    entityOwner: true,
+    entityDelete: true,
   },
   {
     permission: "hub:site:edit",

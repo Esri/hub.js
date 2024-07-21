@@ -135,6 +135,8 @@ export async function getEditorSchemas(
           import("../../../projects/_internal/ProjectUiSchemaEdit"),
         "hub:project:create": () =>
           import("../../../projects/_internal/ProjectUiSchemaCreate"),
+        "hub:project:create2": () =>
+          import("../../../projects/_internal/ProjectUiSchemaCreate2"),
         "hub:project:metrics": () => import("./metrics/ProjectUiSchemaMetrics"),
         "hub:project:settings": () =>
           import("../../../projects/_internal/ProjectUiSchemaSettings"),
@@ -167,6 +169,8 @@ export async function getEditorSchemas(
           import("../../../initiatives/_internal/InitiativeUiSchemaEdit"),
         "hub:initiative:create": () =>
           import("../../../initiatives/_internal/InitiativeUiSchemaCreate"),
+        "hub:initiative:create2": () =>
+          import("../../../initiatives/_internal/InitiativeUiSchemaCreate2"),
         "hub:initiative:metrics": () =>
           import("./metrics/InitiativeUiSchemaMetrics"),
         "hub:initiative:associations": () =>
@@ -202,6 +206,8 @@ export async function getEditorSchemas(
       const pageModule: IEntityEditorModuleType = await {
         "hub:page:edit": () =>
           import("../../../pages/_internal/PageUiSchemaEdit"),
+        "hub:page:create": () =>
+          import("../../../pages/_internal/PageUiSchemaCreate"),
       }[type as PageEditorType]();
       uiSchema = await pageModule.buildUiSchema(
         i18nScope,
@@ -302,6 +308,10 @@ export async function getEditorSchemas(
           import("../../../groups/_internal/GroupUiSchemaCreateView"),
         "hub:group:create:edit": () =>
           import("../../../groups/_internal/GroupUiSchemaCreateEdit"),
+        "hub:group:create:view2": () =>
+          import("../../../groups/_internal/GroupUiSchemaCreateView2"),
+        "hub:group:create:edit2": () =>
+          import("../../../groups/_internal/GroupUiSchemaCreateEdit2"),
         "hub:group:edit": () =>
           import("../../../groups/_internal/GroupUiSchemaEdit"),
         "hub:group:settings": () =>
