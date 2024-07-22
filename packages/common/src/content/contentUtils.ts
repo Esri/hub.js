@@ -4,7 +4,7 @@ import { IItem } from "@esri/arcgis-rest-portal";
 import { IModel } from "../types";
 import { getCollection } from "../collections";
 import { categories as allCategories } from "../categories";
-import { includes } from "../utils";
+import { includes, wait } from "../utils";
 import { IHubContent, IHubEditableContent } from "../core";
 import { getProp } from "../objects";
 import { getServiceTypeFromUrl } from "../urls";
@@ -469,12 +469,9 @@ export async function getServiceStatus(
       url: entity.url,
       authentication: requestOptions.authentication,
     });
-    const timeoutPromise = (ms: number) => {
-      return new Promise((resolve) => setTimeout(resolve, ms));
-    };
 
     // race the two promises
-    const status = Promise.race([definitionPromise, timeoutPromise(timeout)])
+    const status = Promise.race([definitionPromise, await wait(timeout)])
       .then((result) => {
         return {
           kind: "service",
