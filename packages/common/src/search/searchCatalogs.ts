@@ -5,10 +5,8 @@ import {
   IHubCatalog,
   IPagingOptions,
   IQuery,
-  ISearchResponseHash,
   ISortOptions,
 } from "./types";
-import { setProp } from "../objects/set-prop";
 import { unique } from "../util";
 import { mapBy } from "../utils/map-by";
 
@@ -19,12 +17,11 @@ import { mapBy } from "../utils/map-by";
  * If passed an IQuery, only collections using the same targetEntity will be searched
  * If passed a string, a query will be executed on all collections in all catalogs
  * @param catalogs
- * @param query
- * @param options
+ * @param query - string or IQuery
+ * @param options - IPagingOptions & ISortOptions - only num is used
  * @param context
  * @returns
  */
-
 export async function searchCatalogs(
   catalogs: IHubCatalog[],
   query: string | IQuery,
@@ -68,7 +65,7 @@ export async function searchCatalogs(
         .then((response) => {
           // convert the response to a hash
           return {
-            catalogTitle: cat.title,
+            catalogTitle: `${cat.title}`,
             scopeResults: response,
           } as ICatalogSearchResponse;
         });

@@ -235,7 +235,7 @@ export class Catalog implements IHubCatalog {
   /**
    * Search for Items
    * Will throw if the Catalog does not have a scope defined for items
-   * @param query
+   * @param query - string or IQuery
    * @param options
    * @returns
    */
@@ -362,7 +362,7 @@ export class Catalog implements IHubCatalog {
   /**
    * Search for Groups
    * Will throw if the Catalog does not have a scope defined for groups
-   * @param query
+   * @param query  - string or IQuery
    * @param options
    * @returns
    */
@@ -395,7 +395,7 @@ export class Catalog implements IHubCatalog {
   /**
    * Search for Users
    * Will throw if the Catalog does not have a scope defined for users
-   * @param query
+   * @param query  - string or IQuery
    * @param options
    * @returns
    */
@@ -423,8 +423,11 @@ export class Catalog implements IHubCatalog {
   }
 
   /**
-   * Execute a search against all the collections in the Catalog
-   * @param query
+   * Execute a term search against all the collections in the Catalog
+   * or an IQuery against all collections that match the targetEntity.
+   * Note: This will not search scopes which do not have corresponding collections.
+   * If you want that behavior, use `searchCatalogs` function instead.
+   * @param query  - string or IQuery
    * @param options
    * @returns
    */
@@ -486,8 +489,8 @@ export class Catalog implements IHubCatalog {
   }
 
   /**
-   * Execute a search against all the scopes in the Catalog
-   * @param query
+   * Execute a term search against all the scopes in the Catalog
+   * @param query - term or IQuery
    * @param options
    * @returns
    */
@@ -539,16 +542,16 @@ export class Catalog implements IHubCatalog {
   }
 
   /**
-   * Execute a search against the Catalog as a whole
-   * @param query
-   * @param targetEntity
+   * Execute a term search or IQuery search against the Catalog.
+   * @param query - term or IQuery
+   * @param options
    * @returns
    */
   private async search(
     query: string | IQuery,
     options: IHubSearchOptions
   ): Promise<IHubSearchResponse<IHubSearchResult>> {
-    const targetEntity = options.targetEntity;
+    let targetEntity = options.targetEntity;
     let qry: IQuery;
     if (typeof query === "string") {
       qry = {
@@ -564,6 +567,7 @@ export class Catalog implements IHubCatalog {
         ],
       } as IQuery;
     } else {
+      targetEntity = query.targetEntity;
       qry = cloneObject(query);
     }
 

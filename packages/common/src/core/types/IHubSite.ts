@@ -1,13 +1,11 @@
 import { IExtent } from "@esri/arcgis-rest-feature-layer";
 import { IWithVersioningBehavior } from "../behaviors";
-import {
-  IWithCatalog,
-  IWithCatalogs,
-  IWithLayout,
-  IWithPermissions,
-  IWithSlug,
-} from "../traits/index";
+
 import { IHubItemEntity, IHubItemEntityEditor } from "./IHubItemEntity";
+import { IWithSlug } from "../traits/IWithSlug";
+import { IWithCatalog, IWithCatalogs } from "../traits/IWithCatalog";
+import { IWithLayout } from "../traits/IWithLayout";
+import { IWithPermissions } from "../traits/IWithPermissions";
 
 /**
  * DRAFT: Under development and more properties will likely be added
