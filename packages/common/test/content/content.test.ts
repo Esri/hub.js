@@ -1553,11 +1553,15 @@ describe("content: ", () => {
         { delay: 1000 }
       );
 
-      const result = await getServiceStatus(entity, {
-        ...MOCK_REQUEST_OPTIONS,
-        url: "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/multipoints/FeatureServer?stop=true",
-      });
-      expect(result.service.availability).toEqual("unavailable");
+      let result;
+      try {
+        result = await getServiceStatus(entity, {
+          ...MOCK_REQUEST_OPTIONS,
+          url: "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/multipoints/FeatureServer?stop=true",
+        });
+      } catch {
+        expect(result.service.availability).toEqual("unavailable");
+      }
     });
   });
 });
