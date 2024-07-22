@@ -1,6 +1,5 @@
 import { ResourceObject } from "jsonapi-typescript";
 import { IArcGISContext } from "../ArcGISContext";
-import { IGetLayerOptions } from "@esri/arcgis-rest-feature-layer";
 
 /**
  * JSONAPI dataset resource returned by the Hub API
@@ -91,8 +90,5 @@ export interface IHubServiceBackedContentStatus extends IHubBaseContentStatus {
 export interface IHubOtherContentStatus extends IHubBaseContentStatus {
   kind: "other";
   // TODO: expand in the future if needed
-}
-export interface IGetServiceStatusOptions extends IGetLayerOptions {
-  timeout?: number;
 }
 // END of epic types -- https://devtopia.esri.com/dc/hub/issues/10590

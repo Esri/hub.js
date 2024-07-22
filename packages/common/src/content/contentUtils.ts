@@ -26,7 +26,7 @@ import {
   IHubServiceBackedContentStatus,
 } from "./types";
 import { IFeatureServiceDefinition } from "@esri/arcgis-rest-types";
-import { getService } from "@esri/arcgis-rest-feature-layer";
+import { getService, IGetLayerOptions } from "@esri/arcgis-rest-feature-layer";
 
 // TODO: remove this at next breaking version
 /**
@@ -443,6 +443,10 @@ const getContentRelativeUrl = (
     content.typeKeywords
   );
 };
+
+export interface IGetServiceStatusOptions extends IGetLayerOptions {
+  timeout?: number;
+}
 
 // Tests can be found in packages/common/test/content/content.test.ts
 /**
