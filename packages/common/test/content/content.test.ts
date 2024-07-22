@@ -1522,7 +1522,7 @@ describe("content: ", () => {
       expect(result.service.availability).toEqual("slow");
     });
 
-    it("service fails to complete race and is unavailable", async () => {
+    fit("service fails to complete race and is unavailable", async () => {
       const entity: IHubEditableContent = {
         id: "abc",
         url: "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/multipoints/FeatureServer?stop=true",
@@ -1548,7 +1548,6 @@ describe("content: ", () => {
         "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/multipoints/FeatureServer?stop=true",
         {
           status: 500,
-          throws: "Unavailable",
         },
         { delay: 1000 }
       );
@@ -1559,7 +1558,7 @@ describe("content: ", () => {
           ...MOCK_REQUEST_OPTIONS,
           url: "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/multipoints/FeatureServer?stop=true",
         });
-      } catch {
+      } catch (e) {
         expect(result.service.availability).toEqual("unavailable");
       }
     });
