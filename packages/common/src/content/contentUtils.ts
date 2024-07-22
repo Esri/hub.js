@@ -20,11 +20,7 @@ import {
 } from "./compose";
 import { getFamily } from "./get-family";
 import { parseDatasetId, removeContextFromSlug } from "./slugs";
-import {
-  DatasetResource,
-  IGetServiceStatusOptions,
-  IHubServiceBackedContentStatus,
-} from "./types";
+import { DatasetResource, IHubServiceBackedContentStatus } from "./types";
 import { IFeatureServiceDefinition } from "@esri/arcgis-rest-types";
 import { getService, IGetLayerOptions } from "@esri/arcgis-rest-feature-layer";
 
