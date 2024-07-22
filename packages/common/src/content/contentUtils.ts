@@ -491,16 +491,13 @@ export async function getServiceStatus(
       });
 
     // race the two promises
-    const status = Promise.race([definitionPromise, await wait(timeout)])
-      .then((result) => {
+    const status = Promise.race([definitionPromise, await wait(timeout)]).then(
+      (result) => {
         // if result is undefined, the service is slow
         // otherwise, the service is available OR unavailable, depending on how the promise resolves
         return result ? result : slow;
-      })
-      .catch(() => {
-        // if we errored out, the service is unavailable
-        return unavailable;
-      });
+      }
+    );
     return status as Promise<IHubServiceBackedContentStatus>;
   } else {
     // if we don't have a url, the service is unavailable
