@@ -1470,14 +1470,11 @@ describe("content: ", () => {
 
       fetchMock.once(
         "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/slowpoints/FeatureServer/0?stop=false",
-        new Promise((resolve) => {
-          setTimeout(() => {
-            resolve({
-              status: 200,
-              body: { message: "Success" },
-            });
-          }, 1000); // Delay of 1000ms
-        })
+        {
+          status: 200,
+          body: { message: "Success" },
+        },
+        { delay: 1000 }
       );
 
       const result = await getServiceStatus(entity, {
@@ -1511,14 +1508,11 @@ describe("content: ", () => {
 
       fetchMock.once(
         "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/slowpoints/FeatureServer/0?stop=false&delay=5000",
-        new Promise((resolve) => {
-          setTimeout(() => {
-            resolve({
-              status: 200,
-              body: { message: "Success" },
-            });
-          }, 5000); // Delay of 5000ms
-        })
+        {
+          status: 200,
+          body: { message: "Success" },
+        },
+        { delay: 5000 }
       );
 
       const result = await getServiceStatus(entity, {
@@ -1552,14 +1546,11 @@ describe("content: ", () => {
 
       fetchMock.once(
         "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/multipoints/FeatureServer?stop=true",
-        new Promise((resolve) => {
-          setTimeout(() => {
-            resolve({
-              status: 500,
-              body: { message: "Unavailable" },
-            });
-          }, 1000); // Delay of 1000ms
-        })
+        {
+          status: 500,
+          body: { message: "Unavailable" },
+        },
+        { delay: 1000 }
       );
 
       const result = await getServiceStatus(entity, {
