@@ -1548,7 +1548,7 @@ describe("content: ", () => {
         "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/multipoints/FeatureServer?stop=true",
         {
           status: 500,
-          body: { message: "Unavailable" },
+          throws: "Unavailable",
         },
         { delay: 1000 }
       );
