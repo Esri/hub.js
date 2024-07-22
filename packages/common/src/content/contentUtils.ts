@@ -21,7 +21,6 @@ import {
 import { getFamily } from "./get-family";
 import { parseDatasetId, removeContextFromSlug } from "./slugs";
 import { DatasetResource, IHubServiceBackedContentStatus } from "./types";
-import { IFeatureServiceDefinition } from "@esri/arcgis-rest-types";
 import { getService, IGetLayerOptions } from "@esri/arcgis-rest-feature-layer";
 
 // TODO: remove this at next breaking version
@@ -445,6 +444,25 @@ export interface IGetServiceStatusOptions extends IGetLayerOptions {
 }
 
 // Tests can be found in packages/common/test/content/content.test.ts
+const unavailable = {
+  kind: "service",
+  service: {
+    availability: "unavailable",
+  },
+} as IHubServiceBackedContentStatus;
+const slow = {
+  kind: "service",
+  service: {
+    availability: "slow",
+  },
+} as IHubServiceBackedContentStatus;
+const available = {
+  kind: "service",
+  service: {
+    availability: "available",
+  },
+} as IHubServiceBackedContentStatus;
+
 /**
  * Get the status of a content item
  * @param entity the content item
@@ -456,30 +474,28 @@ export async function getServiceStatus(
 ): Promise<IHubServiceBackedContentStatus> {
   // get the request options for the `getService` call, and set a default timeout if one is not provided
   const { timeout = 3000, ...requestOptions } = options;
-  const unavailable = {
-    kind: "service",
-    service: {
-      availability: "unavailable",
-    },
-  } as IHubServiceBackedContentStatus;
 
   if (entity.url) {
     // set up our two promises: one to get the service definition and one to sleep for 3 seconds
-    const definitionPromise: Promise<IFeatureServiceDefinition> = getService({
+    const definitionPromise = getService({
       url: entity.url,
       authentication: requestOptions.authentication,
-    });
+    })
+      .then(() => {
+        // if the service is returned, then we consider it available
+        return available;
+      })
+      .catch(() => {
+        // if the service is not returned, we consider it unavailable
+        return unavailable;
+      });
 
     // race the two promises
     const status = Promise.race([definitionPromise, await wait(timeout)])
       .then((result) => {
-        return {
-          kind: "service",
-          service: {
-            // if we got a result, the service is available, otherwise it's slow
-            availability: result ? "available" : "slow",
-          },
-        };
+        // if result is undefined, the service is slow
+        // otherwise, the service is available OR unavailable, depending on how the promise resolves
+        return result ? result : slow;
       })
       .catch(() => {
         // if we errored out, the service is unavailable

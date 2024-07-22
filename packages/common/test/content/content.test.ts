@@ -1548,19 +1548,16 @@ describe("content: ", () => {
         "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/multipoints/FeatureServer?stop=true",
         {
           status: 500,
+          body: { message: "Special Server Error" },
         },
         { delay: 1000 }
       );
 
-      let result;
-      try {
-        result = await getServiceStatus(entity, {
-          ...MOCK_REQUEST_OPTIONS,
-          url: "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/multipoints/FeatureServer?stop=true",
-        });
-      } catch (e) {
-        expect(result.service.availability).toEqual("unavailable");
-      }
+      const result = await getServiceStatus(entity, {
+        ...MOCK_REQUEST_OPTIONS,
+        url: "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/multipoints/FeatureServer?stop=true",
+      });
+      expect(result.service.availability).toEqual("unavailable");
     });
   });
 });
