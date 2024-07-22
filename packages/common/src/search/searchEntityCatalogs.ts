@@ -16,8 +16,8 @@ import {
  * If passed an IQuery, only collections using the same targetEntity will be searched
  * If passed a string, a query will be executed on all collections in all catalogs
  * @param entity
- * @param query
- * @param options
+ * @param query - string or IQuery
+ * @param options - IPagingOptions & ISortOptions - only num is used
  * @param context
  * @returns
  */

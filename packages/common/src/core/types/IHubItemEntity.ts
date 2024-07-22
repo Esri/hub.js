@@ -1,15 +1,14 @@
 import { IHubEntityBase } from "./IHubEntityBase";
 import { IHubGeography } from "../../types";
 import { AccessLevel, MembershipAccess } from "./types";
-import {
-  IWithPermissions,
-  IWithViewSettings,
-  IWithDiscussions,
-} from "../traits";
+
 import { IHubLocation } from "./IHubLocation";
 import { IWithFollowers } from "../traits/IWithFollowers";
 import { IWithAssociations } from "../traits/IWithAssociations";
 import { IMetricEditorValues } from "./Metrics";
+import { IWithPermissions } from "../traits/IWithPermissions";
+import { IWithDiscussions } from "../traits/IWithDiscussions";
+import { IWithViewSettings } from "../traits/IWithViewSettings";
 
 /**
  * Properties exposed by Entities that are backed by Items
