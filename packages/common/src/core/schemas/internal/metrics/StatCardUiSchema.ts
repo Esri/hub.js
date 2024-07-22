@@ -1,6 +1,7 @@
 import { IArcGISContext } from "../../../../ArcGISContext";
 import { IStatCardEditorOptions } from "../EditorOptions";
 import { UiSchemaRuleEffects, IUiSchema } from "../../types";
+import { ICONS, VISUAL_INTEREST } from "./interfaces";
 
 /**
  * @private
@@ -263,26 +264,78 @@ export const buildUiSchema = async (
               },
             },
           },
-
           {
-            labelKey: `appearance.visualInterest.label`,
-            scope: "/properties/visualInterest",
-            type: "Control",
-            rule: HIDE_FOR_ALL,
+            type: "Section",
+            labelKey: `appearance.styleSpecificSettings.label`,
+            rule: SHOW_FOR_SIMPLE_RULE,
             options: {
-              control: "hub-field-input-select",
-              enum: {
-                i18nScope: `appearance.visualInterest.enum`,
+              helperText: {
+                labelKey: `appearance.styleSpecificSettings.helperVizText`,
               },
             },
+            elements: [
+              {
+                labelKey: `appearance.visualInterest.label`,
+                scope: "/properties/visualInterest",
+                type: "Control",
+                rule: SHOW_FOR_SIMPLE_RULE,
+                options: {
+                  control: "hub-field-input-combobox",
+                  items: [
+                    {
+                      value: VISUAL_INTEREST.none,
+                      labelKey: `appearance.visualInterest.none.label`,
+                    },
+                    {
+                      value: VISUAL_INTEREST.icon,
+                      labelKey: `appearance.visualInterest.icon.label`,
+                    },
+                  ],
+                  selectionMode: "single",
+                  placeholder: {
+                    labelKey: `appearance.visualInterest.placeholderText`,
+                  },
+                },
+              },
+              {
+                labelKey: `appearance.icon.label`,
+                scope: "/properties/icon",
+                type: "Control",
+                rule: SHOW_FOR_ICON_RULE,
+                options: {
+                  control: "hub-field-input-combobox",
+                  items: [
+                    {
+                      value: ICONS.caretUp,
+                      labelKey: `appearance.icon.caretUp.label`,
+                      icon: ICONS.caretUp,
+                    },
+                    {
+                      value: ICONS.caretDown,
+                      labelKey: `appearance.icon.caretDown.label`,
+                      icon: ICONS.caretDown,
+                    },
+                    {
+                      value: ICONS.caretDouble,
+                      labelKey: `appearance.icon.caretDouble.label`,
+                      icon: ICONS.caretDouble,
+                    },
+                  ],
+                  selectionMode: "single",
+                  placeholder: {
+                    labelKey: `appearance.icon.placeholderText`,
+                  },
+                },
+              },
+            ],
           },
           {
             type: "Section",
-            labelKey: `appearance.styleSpecificInfo.label`,
+            labelKey: `appearance.styleSpecificSettings.label`,
             rule: SHOW_FOR_INFORMATIONAL_RULE,
             options: {
               helperText: {
-                labelKey: `appearance.styleSpecificInfo.helperText`,
+                labelKey: `appearance.styleSpecificSettings.helperInfoText`,
               },
             },
             elements: [
@@ -367,6 +420,22 @@ const SHOW_FOR_INFORMATIONAL_RULE = {
   condition: {
     scope: "/properties/layout",
     schema: { const: "informational" },
+  },
+};
+
+const SHOW_FOR_SIMPLE_RULE = {
+  effect: UiSchemaRuleEffects.SHOW,
+  condition: {
+    scope: "/properties/layout",
+    schema: { const: "simple" },
+  },
+};
+
+const SHOW_FOR_ICON_RULE = {
+  effect: UiSchemaRuleEffects.SHOW,
+  condition: {
+    scope: "/properties/icon",
+    schema: { const: "icon" },
   },
 };
 

@@ -1,3 +1,7 @@
+import {
+  ICONS,
+  VISUAL_INTEREST,
+} from "../../../../../src/core/schemas/internal/metrics/interfaces";
 import { buildUiSchema } from "../../../../../src/core/schemas/internal/metrics/StatCardUiSchema";
 import { UiSchemaRuleEffects } from "../../../../../src/core/schemas/types";
 import { MOCK_CONTEXT } from "../../../../mocks/mock-auth";
@@ -334,40 +338,92 @@ describe("buildUiSchema: stat", () => {
                 },
               },
             },
-
             {
-              labelKey: `appearance.visualInterest.label`,
-              scope: "/properties/visualInterest",
-              type: "Control",
+              type: "Section",
+              labelKey: `appearance.styleSpecificSettings.label`,
               rule: {
-                effect: UiSchemaRuleEffects.HIDE,
+                effect: UiSchemaRuleEffects.SHOW,
                 condition: {
-                  scope: "/properties/type",
-                  schema: { enum: ["static", "dynamic"] },
+                  scope: "/properties/layout",
+                  schema: { const: "simple" },
                 },
               },
               options: {
-                control: "hub-field-input-select",
-                enum: {
-                  i18nScope: `appearance.visualInterest.enum`,
+                helperText: {
+                  labelKey: `appearance.styleSpecificSettings.helperVizText`,
                 },
               },
+              elements: [
+                {
+                  labelKey: `appearance.visualInterest.label`,
+                  scope: "/properties/visualInterest",
+                  type: "Control",
+                  rule: {
+                    effect: UiSchemaRuleEffects.SHOW,
+                    condition: {
+                      scope: "/properties/layout",
+                      schema: { const: "simple" },
+                    },
+                  },
+                  options: {
+                    control: "hub-field-input-combobox",
+                    items: [
+                      {
+                        value: VISUAL_INTEREST.none,
+                        labelKey: `appearance.visualInterest.none.label`,
+                      },
+                      {
+                        value: VISUAL_INTEREST.icon,
+                        labelKey: `appearance.visualInterest.icon.label`,
+                      },
+                    ],
+                    selectionMode: "single",
+                    placeholder: {
+                      labelKey: `appearance.visualInterest.placeholderText`,
+                    },
+                  },
+                },
+                {
+                  labelKey: `appearance.icon.label`,
+                  scope: "/properties/icon",
+                  type: "Control",
+                  rule: {
+                    effect: UiSchemaRuleEffects.SHOW,
+                    condition: {
+                      scope: "/properties/icon",
+                      schema: { const: "icon" },
+                    },
+                  },
+                  options: {
+                    control: "hub-field-input-combobox",
+                    items: [
+                      {
+                        value: ICONS.caretUp,
+                        labelKey: `appearance.icon.caretUp.label`,
+                        icon: ICONS.caretUp,
+                      },
+                      {
+                        value: ICONS.caretDown,
+                        labelKey: `appearance.icon.caretDown.label`,
+                        icon: ICONS.caretDown,
+                      },
+                      {
+                        value: ICONS.caretDouble,
+                        labelKey: `appearance.icon.caretDouble.label`,
+                        icon: ICONS.caretDouble,
+                      },
+                    ],
+                    selectionMode: "single",
+                    placeholder: {
+                      labelKey: `appearance.icon.placeholderText`,
+                    },
+                  },
+                },
+              ],
             },
-            // {
-            //   type: 'Control',
-            //   scope: '/properties/icon',
-            //   options: { control: 'hub-composite-input-icon' },
-            //   rule: {
-            //     effect: UiSchemaRuleEffects.SHOW,
-            //     condition: {
-            //       scope: '/properties/visualInterest',
-            //       schema: { const: 'icon' }
-            //     }
-            //   }
-            // },
             {
               type: "Section",
-              labelKey: `appearance.styleSpecificInfo.label`,
+              labelKey: `appearance.styleSpecificSettings.label`,
               rule: {
                 effect: UiSchemaRuleEffects.SHOW,
                 condition: {
@@ -377,7 +433,7 @@ describe("buildUiSchema: stat", () => {
               },
               options: {
                 helperText: {
-                  labelKey: `appearance.styleSpecificInfo.helperText`,
+                  labelKey: `appearance.styleSpecificSettings.helperInfoText`,
                 },
               },
               elements: [
