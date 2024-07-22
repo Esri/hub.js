@@ -1522,7 +1522,7 @@ describe("content: ", () => {
       expect(result.service.availability).toEqual("slow");
     });
 
-    fit("service fails to complete race and is unavailable", async () => {
+    it("service fails to complete race and is unavailable", async () => {
       const entity: IHubEditableContent = {
         id: "abc",
         url: "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/multipoints/FeatureServer?stop=true",
