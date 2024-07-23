@@ -87,7 +87,7 @@ export const MetricSchema: IConfigurationSchema = {
     icon: {
       type: "string",
       default: ICONS.caretUp,
-      enum: Object.keys(ICONS),
+      enum: Object.values(ICONS),
     },
     visualInterest: {
       type: "string",
