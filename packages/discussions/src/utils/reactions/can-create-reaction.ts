@@ -12,15 +12,14 @@ import { canReadChannel } from "../channels";
  */
 export function canCreateReaction(
   channel: IChannel,
-  value: PostReaction
-  // user: IUser | IDiscussionsUser = {}
+  value: PostReaction,
+  user: IUser | IDiscussionsUser = {}
 ): boolean {
-  return channelAllowsReaction(channel, value);
-  // if (!channelAllowsReaction(channel, value)) {
-  //   return false;
-  // }
+  if (!channelAllowsReaction(channel, value)) {
+    return false;
+  }
 
-  // return canReadChannel(channel, user);
+  return canReadChannel(channel, user);
 }
 
 function channelAllowsReaction(
