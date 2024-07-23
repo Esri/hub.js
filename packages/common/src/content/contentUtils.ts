@@ -20,8 +20,13 @@ import {
 } from "./compose";
 import { getFamily } from "./get-family";
 import { parseDatasetId, removeContextFromSlug } from "./slugs";
-import { DatasetResource, IHubServiceBackedContentStatus } from "./types";
+import {
+  DatasetResource,
+  IHubContentStatus,
+  IHubServiceBackedContentStatus,
+} from "./types";
 import { getService, IGetLayerOptions } from "@esri/arcgis-rest-feature-layer";
+import { isService } from "../resources/_internal/_validate-url-helpers";
 
 // TODO: remove this at next breaking version
 /**
@@ -444,24 +449,14 @@ export interface IGetServiceStatusOptions extends IGetLayerOptions {
 }
 
 // Tests can be found in packages/common/test/content/content.test.ts
-const unavailable = {
-  kind: "service",
-  service: {
-    availability: "unavailable",
-  },
-} as IHubServiceBackedContentStatus;
-const slow = {
-  kind: "service",
-  service: {
-    availability: "slow",
-  },
-} as IHubServiceBackedContentStatus;
-const available = {
-  kind: "service",
-  service: {
-    availability: "available",
-  },
-} as IHubServiceBackedContentStatus;
+const availability = (status: string) => {
+  return {
+    kind: "service",
+    service: {
+      availability: status,
+    },
+  } as IHubServiceBackedContentStatus;
+};
 
 /**
  * Get the status of a content item
@@ -471,11 +466,12 @@ const available = {
 export async function getServiceStatus(
   entity: IHubEditableContent,
   options: IGetServiceStatusOptions
-): Promise<IHubServiceBackedContentStatus> {
+): Promise<IHubContentStatus> {
   // get the request options for the `getService` call, and set a default timeout if one is not provided
   const { timeout = 3000, ...requestOptions } = options;
+  const isServiceBackedEntity = isService(entity.url.split("?")[0]); // remove any query params
 
-  if (entity.url) {
+  if (isServiceBackedEntity) {
     // set up our two promises: one to get the service definition and one to sleep for 3 seconds
     const definitionPromise = getService({
       url: entity.url,
@@ -483,11 +479,11 @@ export async function getServiceStatus(
     })
       .then(() => {
         // if the service is returned, then we consider it available
-        return available;
+        return availability("available");
       })
       .catch(() => {
         // if the service is not returned, we consider it unavailable
-        return unavailable;
+        return availability("unavailable");
       });
 
     // race the two promises
@@ -495,12 +491,12 @@ export async function getServiceStatus(
       (result) => {
         // if result is undefined, the service is slow
         // otherwise, the service is available OR unavailable, depending on how the promise resolves
-        return result ? result : slow;
+        return result ? result : availability("slow");
       }
     );
     return status as Promise<IHubServiceBackedContentStatus>;
   } else {
-    // if we don't have a url, the service is unavailable
-    return unavailable;
+    // if we don't have a url or it is not a service backed entity, assume it is available
+    return availability("available");
   }
 }
