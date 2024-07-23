@@ -1,3 +1,10 @@
+## @esri/hub-discussions [27.0.3](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@27.0.2...@esri/hub-discussions@27.0.3) (2024-07-23)
+
+
+### Bug Fixes
+
+* **hub-discussions:** revert breaking change ([#1598](https://github.com/Esri/hub.js/issues/1598)) ([8d80cb1](https://github.com/Esri/hub.js/commit/8d80cb1719ca0759c29257d2d612f810d9fc65ff))
+
 ## @esri/hub-discussions [27.0.2](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@27.0.1...@esri/hub-discussions@27.0.2) (2024-07-23)
 
 
