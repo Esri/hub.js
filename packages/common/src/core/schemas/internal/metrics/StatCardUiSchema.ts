@@ -292,9 +292,6 @@ export const buildUiSchema = async (
                     },
                   ],
                   selectionMode: "single",
-                  placeholder: {
-                    labelKey: `appearance.visualInterest.placeholderText`,
-                  },
                 },
               },
               {
@@ -322,9 +319,6 @@ export const buildUiSchema = async (
                     },
                   ],
                   selectionMode: "single",
-                  placeholder: {
-                    labelKey: `appearance.icon.placeholderText`,
-                  },
                 },
               },
             ],
@@ -434,7 +428,7 @@ const SHOW_FOR_SIMPLE_RULE = {
 const SHOW_FOR_ICON_RULE = {
   effect: UiSchemaRuleEffects.SHOW,
   condition: {
-    scope: "/properties/icon",
+    scope: "/properties/visualInterest",
     schema: { const: "icon" },
   },
 };

@@ -378,9 +378,6 @@ describe("buildUiSchema: stat", () => {
                       },
                     ],
                     selectionMode: "single",
-                    placeholder: {
-                      labelKey: `appearance.visualInterest.placeholderText`,
-                    },
                   },
                 },
                 {
@@ -390,7 +387,7 @@ describe("buildUiSchema: stat", () => {
                   rule: {
                     effect: UiSchemaRuleEffects.SHOW,
                     condition: {
-                      scope: "/properties/icon",
+                      scope: "/properties/visualInterest",
                       schema: { const: "icon" },
                     },
                   },
@@ -414,9 +411,6 @@ describe("buildUiSchema: stat", () => {
                       },
                     ],
                     selectionMode: "single",
-                    placeholder: {
-                      labelKey: `appearance.icon.placeholderText`,
-                    },
                   },
                 },
               ],
