@@ -1,3 +1,10 @@
+## @esri/hub-discussions [27.0.2](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@27.0.1...@esri/hub-discussions@27.0.2) (2024-07-23)
+
+
+### Bug Fixes
+
+* **hub-discussions:** include permissions check in canCreateReaction … ([#1596](https://github.com/Esri/hub.js/issues/1596)) ([04a6d41](https://github.com/Esri/hub.js/commit/04a6d418eef8c98dfbcc190167153af6448ac395))
+
 ## @esri/hub-discussions [27.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@27.0.0...@esri/hub-discussions@27.0.1) (2023-11-22)
 
 
