@@ -1,3 +1,10 @@
+# @esri/hub-discussions [27.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@27.0.3...@esri/hub-discussions@27.1.0) (2024-07-23)
+
+
+### Features
+
+* **hub-discussions:** check channel permissions in function canCreat… ([#1599](https://github.com/Esri/hub.js/issues/1599)) ([ef2adec](https://github.com/Esri/hub.js/commit/ef2adec85c2b33ae5b8506e203ef12ec01666809))
+
 ## @esri/hub-discussions [27.0.3](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@27.0.2...@esri/hub-discussions@27.0.3) (2024-07-23)
 
 
