@@ -260,6 +260,10 @@ export type GetEventsParams = {
    * string to match within an event title
    */
   title?: string;
+  /**
+   * orgId string
+   */
+  orgId?: string;
 };
 
 export interface IRegistrationPermission {

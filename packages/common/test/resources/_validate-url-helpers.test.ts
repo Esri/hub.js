@@ -10,7 +10,6 @@ import {
   getFileName,
   isUrl,
   isFeatureService,
-  isService,
   isFeatureLayer,
   getFeatureServiceTitle,
   getFeatureLayerItem,
@@ -20,6 +19,7 @@ import {
   pingUrl,
   pingFeatureService,
 } from "../../src/resources/_internal/_validate-url-helpers";
+import { isService } from "../../src/resources/is-service";
 
 describe("_validate-url-helpers", () => {
   it("shouldHaveDataUrl", () => {

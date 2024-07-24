@@ -5,7 +5,7 @@ import {
   ItemOrServerEnrichment,
   fetchItemEnrichments,
 } from "../../items/_enrichments";
-import { isService } from "../../resources/_internal/_validate-url-helpers";
+import { isService } from "../../resources/is-service";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { IHubRequestOptions } from "../../types";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
