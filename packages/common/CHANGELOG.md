@@ -1,3 +1,10 @@
+# @esri/hub-common [14.163.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.162.0...@esri/hub-common@14.163.0) (2024-07-24)
+
+
+### Features
+
+* add requesting metrics source option behind feature flag ([#1593](https://github.com/Esri/hub.js/issues/1593)) ([9b01a66](https://github.com/Esri/hub.js/commit/9b01a667f91e0483bf0236e34e558f93fbac64c8))
+
 # @esri/hub-common [14.162.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.161.2...@esri/hub-common@14.162.0) (2024-07-24)
 
 
