@@ -1,3 +1,24 @@
+# @esri/hub-discussions [27.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@27.0.3...@esri/hub-discussions@27.1.0) (2024-07-23)
+
+
+### Features
+
+* **hub-discussions:** check channel permissions in function canCreat… ([#1599](https://github.com/Esri/hub.js/issues/1599)) ([ef2adec](https://github.com/Esri/hub.js/commit/ef2adec85c2b33ae5b8506e203ef12ec01666809))
+
+## @esri/hub-discussions [27.0.3](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@27.0.2...@esri/hub-discussions@27.0.3) (2024-07-23)
+
+
+### Bug Fixes
+
+* **hub-discussions:** revert breaking change ([#1598](https://github.com/Esri/hub.js/issues/1598)) ([8d80cb1](https://github.com/Esri/hub.js/commit/8d80cb1719ca0759c29257d2d612f810d9fc65ff))
+
+## @esri/hub-discussions [27.0.2](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@27.0.1...@esri/hub-discussions@27.0.2) (2024-07-23)
+
+
+### Bug Fixes
+
+* **hub-discussions:** include permissions check in canCreateReaction … ([#1596](https://github.com/Esri/hub.js/issues/1596)) ([04a6d41](https://github.com/Esri/hub.js/commit/04a6d418eef8c98dfbcc190167153af6448ac395))
+
 ## @esri/hub-discussions [27.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@27.0.0...@esri/hub-discussions@27.0.1) (2023-11-22)
 
 
