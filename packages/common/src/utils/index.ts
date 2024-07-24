@@ -27,3 +27,4 @@ export * from "./hubUserAppResources";
 export * from "./getObjectSize";
 export * from "./date";
 export * from "./isComboboxItemSelected";
+export * from "./wait";
