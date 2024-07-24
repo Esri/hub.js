@@ -3,7 +3,7 @@ import { fetchEditableContentEnrichments } from "../../../src/content/_internal/
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import * as enrichmentsModule from "../../../src/items/_enrichments";
 import { IHubSchedule } from "../../../src/core/types/IHubSchedule";
-import * as validateUrlHelpersModule from "../../../src/resources/_internal/_validate-url-helpers";
+import * as isServiceModule from "../../../src/resources/is-service";
 import * as fetchItemScheduleEnrichmentModule from "../../../src/content/_internal/fetchItemScheduleEnrichment";
 
 describe("fetchEditableContentEnrichments", () => {
@@ -11,7 +11,7 @@ describe("fetchEditableContentEnrichments", () => {
   let fetchItemEnrichmentsSpy: jasmine.Spy;
   let fetchItemScheduleEnrichmentSpy: jasmine.Spy;
   beforeEach(() => {
-    isServiceSpy = spyOn(validateUrlHelpersModule, "isService");
+    isServiceSpy = spyOn(isServiceModule, "isService");
     fetchItemEnrichmentsSpy = spyOn(enrichmentsModule, "fetchItemEnrichments");
     fetchItemScheduleEnrichmentSpy = spyOn(
       fetchItemScheduleEnrichmentModule,

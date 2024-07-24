@@ -1418,7 +1418,7 @@ describe("content: ", () => {
 
   // Can be found in packages/common/src/content/contentUtils.ts
   describe("getServiceStatus", () => {
-    it("entity passed in does not have a url and is available / is not a service backed entity", async () => {
+    it("entity passed in does not have a url and is available", async () => {
       const entity: IHubEditableContent = {
         id: "abc",
         url: "",
@@ -1443,6 +1443,35 @@ describe("content: ", () => {
       const result = (await getServiceStatus(entity, {
         ...MOCK_REQUEST_OPTIONS,
         url: "",
+      })) as IHubServiceBackedContentStatus;
+      expect(result.service.availability).toBe("available");
+    });
+
+    it("entity passed in has a url, is not service backed, but is available", async () => {
+      const entity: IHubEditableContent = {
+        id: "abc",
+        url: "www.example.com",
+
+        // not important to this test
+        licenseInfo: "",
+        itemControl: "",
+        owner: "",
+        schemaVersion: 0,
+        tags: [],
+        canEdit: false,
+        canDelete: false,
+        name: "",
+        createdDate: new Date(),
+        createdDateSource: "",
+        updatedDate: new Date(),
+        updatedDateSource: "",
+        type: "",
+        orgUrlKey: "",
+      };
+
+      const result = (await getServiceStatus(entity, {
+        ...MOCK_REQUEST_OPTIONS,
+        url: "www.example.com",
       })) as IHubServiceBackedContentStatus;
       expect(result.service.availability).toBe("available");
     });

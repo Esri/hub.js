@@ -26,7 +26,7 @@ import {
   IHubServiceBackedContentStatus,
 } from "./types";
 import { getService, IGetLayerOptions } from "@esri/arcgis-rest-feature-layer";
-import { isService } from "../resources/_internal/_validate-url-helpers";
+import { isService } from "../resources/is-service";
 
 // TODO: remove this at next breaking version
 /**
@@ -469,14 +469,20 @@ export async function getServiceStatus(
 ): Promise<IHubContentStatus> {
   // get the request options for the `getService` call, and set a default timeout if one is not provided
   const { timeout = 3000, ...requestOptions } = options;
-  const isServiceBackedEntity = isService(entity.url.split("?")[0]); // remove any query params
+  const { url } = entity;
+  const hasUrl = !!url;
+  if (!hasUrl) {
+    return availability("available");
+  }
+
+  const hasQueryParams = url.includes("?");
+  const isServiceBackedEntity = isService(
+    hasQueryParams ? url.split("?")[0] : url
+  ); // remove any query params
 
   if (isServiceBackedEntity) {
     // set up our two promises: one to get the service definition and one to sleep for 3 seconds
-    const definitionPromise = getService({
-      url: entity.url,
-      authentication: requestOptions.authentication,
-    })
+    const definitionPromise = getService({ url, ...requestOptions })
       .then(() => {
         // if the service is returned, then we consider it available
         return availability("available");

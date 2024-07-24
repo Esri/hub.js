@@ -7,7 +7,6 @@ import { ItemType } from "../../types";
 import { Logger } from "../../utils";
 
 const FEATURE_SERVICE_URL_REGEX = /(feature)server(\/|\/(\d+))?$/i;
-const SERVICE_URL_REGEX = /\/[a-zA-Z]+server(\/|\/(\d+))?$/i;
 
 /**
  * Feature service / Doc Links Should not have data urls. Let"s exclude them from that.
@@ -74,16 +73,6 @@ export function isUrl(url: string): boolean {
  */
 export function isFeatureService(url: string): boolean {
   return FEATURE_SERVICE_URL_REGEX.test(url);
-}
-
-/**
- * Tests if url string is a service (map, feature, image, etc)
- *
- * @param {string} url Url to test
- * @return {*}  {boolean}
- */
-export function isService(url: string): boolean {
-  return SERVICE_URL_REGEX.test(url);
 }
 
 /**
