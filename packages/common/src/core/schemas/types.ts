@@ -166,6 +166,7 @@ export interface IChangeEventDetail {
   values?: {
     [key: string]: any;
   };
+  schema?: IConfigurationSchema;
 }
 
 /**
