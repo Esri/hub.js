@@ -1,3 +1,10 @@
+# @esri/hub-discussions [27.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@27.1.0...@esri/hub-discussions@27.2.0) (2024-07-24)
+
+
+### Features
+
+* **hub-discussions:** add user argument to canCreateReaction method ([#1601](https://github.com/Esri/hub.js/issues/1601)) ([426aee8](https://github.com/Esri/hub.js/commit/426aee80adebfa6b7e86c7f83f3a52d33e3478a3))
+
 # @esri/hub-discussions [27.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@27.0.3...@esri/hub-discussions@27.1.0) (2024-07-23)
 
 
