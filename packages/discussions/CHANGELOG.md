@@ -1,3 +1,15 @@
+# @esri/hub-discussions [28.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@27.2.0...@esri/hub-discussions@28.0.0) (2024-07-24)
+
+
+### Features
+
+* **hub-discussions:** attempt to trigger a major version release of … ([#1602](https://github.com/Esri/hub.js/issues/1602)) ([dc3a3fa](https://github.com/Esri/hub.js/commit/dc3a3faac8c39bfbfade33e843e0d487fa38ead3)), closes [#10700](https://github.com/Esri/hub.js/issues/10700)
+
+
+### BREAKING CHANGES
+
+* **hub-discussions:** adds user parameter to function canCreateReaction
+
 # @esri/hub-discussions [27.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@27.1.0...@esri/hub-discussions@27.2.0) (2024-07-24)
 
 
