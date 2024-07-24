@@ -15,7 +15,6 @@ export function canCreateReaction(
   value: PostReaction,
   user: IUser | IDiscussionsUser = {}
 ): boolean {
-  // return false when the channel does not allow reactions
   if (!channelAllowsReaction(channel, value)) {
     return false;
   }
