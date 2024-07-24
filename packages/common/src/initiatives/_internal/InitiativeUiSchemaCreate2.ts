@@ -1,19 +1,16 @@
 import { IArcGISContext } from "../../ArcGISContext";
 import { IUiSchema } from "../../core/schemas/types";
-import { IHubSite } from "../../core/types";
+import { IHubInitiative } from "../../core/types";
 
 /**
  * @private
- * constructs the minimal create uiSchema for Hub Sites.
+ * constructs the minimal create uiSchema for Hub Initiatives.
  * This defines how the schema properties should be rendered
- * in the site creation experience
- *
- * TODO: this was copied from projects and is just a placeholder
- * for now - it isn't being used anywhere in the application
+ * in the initiative creation experience
  */
 export const buildUiSchema = async (
   i18nScope: string,
-  options: Partial<IHubSite>,
+  options: Partial<IHubInitiative>,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
   return {
