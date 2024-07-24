@@ -1,3 +1,10 @@
+# @esri/hub-common [14.162.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.161.2...@esri/hub-common@14.162.0) (2024-07-24)
+
+
+### Features
+
+* moving types and utils ([#1595](https://github.com/Esri/hub.js/issues/1595)) ([e1b9e41](https://github.com/Esri/hub.js/commit/e1b9e41aa424d3d34fb33f7f75d35ea99b6fba1a))
+
 ## @esri/hub-common [14.161.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.161.1...@esri/hub-common@14.161.2) (2024-07-17)
 
 
