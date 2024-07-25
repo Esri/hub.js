@@ -339,7 +339,7 @@ describe("buildUiSchema: stat", () => {
                 effect: UiSchemaRuleEffects.HIDE,
                 condition: {
                   scope: "/properties/type",
-                  schema: { enum: ["static", "dynamic"] },
+                  schema: { enum: ["static", "dynamic", "itemQuery"] },
                 },
               },
               options: {
@@ -377,18 +377,10 @@ describe("buildUiSchema: stat", () => {
                     },
                   },
                   options: {
-                    control: "hub-field-input-combobox",
-                    items: [
-                      {
-                        value: VISUAL_INTEREST.none,
-                        labelKey: `appearance.visualInterest.none.label`,
-                      },
-                      {
-                        value: VISUAL_INTEREST.icon,
-                        labelKey: `appearance.visualInterest.icon.label`,
-                      },
-                    ],
-                    selectionMode: "single",
+                    control: "hub-field-input-select",
+                    enum: {
+                      i18nScope: `appearance.visualInterest.enum`,
+                    },
                   },
                 },
                 {
@@ -505,7 +497,7 @@ describe("buildUiSchema: stat", () => {
                 effect: UiSchemaRuleEffects.HIDE,
                 condition: {
                   scope: "/properties/type",
-                  schema: { enum: ["static", "dynamic"] },
+                  schema: { enum: ["static", "dynamic", "itemQuery"] },
                 },
               },
             },

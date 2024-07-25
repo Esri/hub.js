@@ -294,18 +294,10 @@ export const buildUiSchema = async (
                 type: "Control",
                 rule: SHOW_FOR_SIMPLE_RULE,
                 options: {
-                  control: "hub-field-input-combobox",
-                  items: [
-                    {
-                      value: VISUAL_INTEREST.none,
-                      labelKey: `appearance.visualInterest.none.label`,
-                    },
-                    {
-                      value: VISUAL_INTEREST.icon,
-                      labelKey: `appearance.visualInterest.icon.label`,
-                    },
-                  ],
-                  selectionMode: "single",
+                  control: "hub-field-input-select",
+                  enum: {
+                    i18nScope: `appearance.visualInterest.enum`,
+                  },
                 },
               },
               {
@@ -419,7 +411,7 @@ const HIDE_FOR_ALL = {
   effect: UiSchemaRuleEffects.HIDE,
   condition: {
     scope: "/properties/type",
-    schema: { enum: ["static", "dynamic"] },
+    schema: { enum: ["static", "dynamic", "itemQuery"] },
   },
 };
 
