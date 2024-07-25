@@ -1,16 +1,16 @@
-import { IHubGroup } from "../../../src";
+import { IHubGroup, UiSchemaRuleEffects } from "../../../src";
 import {
   buildUiSchema,
   buildDefaults,
-} from "../../../src/groups/_internal/GroupUiSchemaCreateEdit2";
+} from "../../../src/groups/_internal/GroupUiSchemaCreate";
 import {
   MOCK_CONTEXT,
   getMockContextWithPrivilenges,
 } from "../../mocks/mock-auth";
 
-describe("GroupUiSchemaCreateEdit", () => {
-  describe("buildUiSchema: create edit group", () => {
-    it("returns the uiSchema to create a edit group", async () => {
+describe("GroupUiSchemaCreate", () => {
+  describe("buildUiSchema: create group", () => {
+    it("returns the uiSchema to create a group", async () => {
       const uiSchema = await buildUiSchema(
         "some.scope",
         { isSharedUpdate: true } as IHubGroup,
@@ -41,21 +41,14 @@ describe("GroupUiSchemaCreateEdit", () => {
             },
           },
           {
-            labelKey: `some.scope.fields.summary.label`,
-            scope: "/properties/summary",
+            labelKey: `some.scope.fields.isSharedUpdate.label`,
+            scope: "/properties/isSharedUpdate",
             type: "Control",
             options: {
-              control: "hub-field-input-input",
-              type: "textarea",
-              rows: 4,
-              messages: [
-                {
-                  type: "ERROR",
-                  keyword: "maxLength",
-                  icon: true,
-                  labelKey: `some.scope.fields.summary.maxLengthError`,
-                },
-              ],
+              control: "hub-field-input-switch",
+              helperText: {
+                labelKey: `some.scope.fields.isSharedUpdate.helperText`,
+              },
             },
           },
           {
@@ -69,7 +62,38 @@ describe("GroupUiSchemaCreateEdit", () => {
                 `{{some.scope.fields.membershipAccess.collab:translate}}`,
                 `{{some.scope.fields.membershipAccess.any:translate}}`,
               ],
-              disabled: [false, true, true],
+              rules: [
+                undefined,
+                [
+                  {
+                    effect: UiSchemaRuleEffects.DISABLE,
+                    conditions: [true],
+                  },
+                ],
+                [
+                  {
+                    effect: UiSchemaRuleEffects.DISABLE,
+                    conditions: [true],
+                  },
+                  {
+                    effect: UiSchemaRuleEffects.DISABLE,
+                    conditions: [
+                      {
+                        scope: "/properties/isSharedUpdate",
+                        schema: { const: true },
+                      },
+                    ],
+                  },
+                ],
+              ],
+              messages: [
+                {
+                  type: "ERROR",
+                  keyword: "enum",
+                  icon: true,
+                  labelKey: `some.scope.fields.membershipAccess.enumError`,
+                },
+              ],
             },
           },
           {
@@ -90,16 +114,17 @@ describe("GroupUiSchemaCreateEdit", () => {
   });
 
   describe("buildDefaults", () => {
-    it("builds defaults for create edit group when permission is false", async () => {
+    it("returns the defaults to create a group when platform:portal:user:addExternalMember is false", async () => {
       const defaults = await buildDefaults(
         "some.scope",
         { isSharedUpdate: true } as IHubGroup,
         MOCK_CONTEXT
       );
+
       expect(defaults).toEqual({
         access: "org",
         autoJoin: false,
-        isSharedUpdate: true,
+        isSharedUpdate: false,
         isInvitationOnly: false,
         hiddenMembers: false,
         isViewOnly: false,
@@ -107,7 +132,8 @@ describe("GroupUiSchemaCreateEdit", () => {
         membershipAccess: "organization",
       });
     });
-    it("builds defaults for create edit group when permission is true", async () => {
+
+    it("returns the defaults to create a group when platform:portal:user:addExternalMember is true", async () => {
       const defaults = await buildDefaults(
         "some.scope",
         { isSharedUpdate: true } as IHubGroup,
@@ -116,12 +142,12 @@ describe("GroupUiSchemaCreateEdit", () => {
       expect(defaults).toEqual({
         access: "org",
         autoJoin: false,
-        isSharedUpdate: true,
+        isSharedUpdate: false,
         isInvitationOnly: false,
         hiddenMembers: false,
         isViewOnly: false,
         tags: ["Hub Group"],
-        membershipAccess: "collaborators",
+        membershipAccess: "organization",
       });
     });
   });

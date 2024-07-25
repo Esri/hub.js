@@ -47,9 +47,8 @@ import * as GroupBuildDiscussionsUiSchema from "../../../../src/groups/_internal
 import * as GroupBuildCreateFollowersUiSchema from "../../../../src/groups/_internal/GroupUiSchemaCreateFollowers";
 import * as GroupBuildCreateAssociationUiSchema from "../../../../src/groups/_internal/GroupUiSchemaCreateAssociation";
 import * as GroupBuildCreateViewUiSchema from "../../../../src/groups/_internal/GroupUiSchemaCreateView";
-import * as GroupBuildCreateViewUiSchema2 from "../../../../src/groups/_internal/GroupUiSchemaCreateView2";
 import * as GroupBuildCreateEditUiSchema from "../../../../src/groups/_internal/GroupUiSchemaCreateEdit";
-import * as GroupBuildCreateEditUiSchema2 from "../../../../src/groups/_internal/GroupUiSchemaCreateEdit2";
+import * as GroupBuildCreateUiSchema from "../../../../src/groups/_internal/GroupUiSchemaCreate";
 
 import { InitiativeTemplateEditorTypes } from "../../../../src/initiative-templates/_internal/InitiativeTemplateSchema";
 import * as InitiativeTemplateBuildEditUiSchema from "../../../../src/initiative-templates/_internal/InitiativeTemplateUiSchemaEdit";
@@ -123,8 +122,8 @@ describe("getEditorSchemas: ", () => {
     { type: GroupEditorTypes[4], module: GroupBuildCreateAssociationUiSchema },
     { type: GroupEditorTypes[5], module: GroupBuildCreateViewUiSchema },
     { type: GroupEditorTypes[6], module: GroupBuildCreateEditUiSchema },
-    { type: GroupEditorTypes[7], module: GroupBuildCreateViewUiSchema2 },
-    { type: GroupEditorTypes[8], module: GroupBuildCreateEditUiSchema2 },
+    { type: GroupEditorTypes[7], module: GroupBuildCreateUiSchema },
+
     {
       type: InitiativeTemplateEditorTypes[0],
       module: InitiativeTemplateBuildEditUiSchema,

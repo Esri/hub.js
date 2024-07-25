@@ -44,21 +44,14 @@ export const buildUiSchema = async (
         },
       },
       {
-        labelKey: `${i18nScope}.fields.summary.label`,
-        scope: "/properties/summary",
+        labelKey: `${i18nScope}.fields.isSharedUpdate.label`,
+        scope: "/properties/isSharedUpdate",
         type: "Control",
         options: {
-          control: "hub-field-input-input",
-          type: "textarea",
-          rows: 4,
-          messages: [
-            {
-              type: "ERROR",
-              keyword: "maxLength",
-              icon: true,
-              labelKey: `${i18nScope}.fields.summary.maxLengthError`,
-            },
-          ],
+          control: "hub-field-input-switch",
+          helperText: {
+            labelKey: `${i18nScope}.fields.isSharedUpdate.helperText`,
+          },
         },
       },
       {
@@ -72,16 +65,47 @@ export const buildUiSchema = async (
             `{{${i18nScope}.fields.membershipAccess.collab:translate}}`,
             `{{${i18nScope}.fields.membershipAccess.any:translate}}`,
           ],
-          disabled: [
-            false,
-            !checkPermission(
-              "platform:portal:user:addExternalMembersToGroup",
-              context
-            ).access,
-            !checkPermission(
-              "platform:portal:user:addExternalMembersToGroup",
-              context
-            ).access,
+          rules: [
+            undefined,
+            [
+              {
+                effect: UiSchemaRuleEffects.DISABLE,
+                conditions: [
+                  !checkPermission(
+                    "platform:portal:user:addExternalMembersToGroup",
+                    context
+                  ).access,
+                ],
+              },
+            ],
+            [
+              {
+                effect: UiSchemaRuleEffects.DISABLE,
+                conditions: [
+                  !checkPermission(
+                    "platform:portal:user:addExternalMembersToGroup",
+                    context
+                  ).access,
+                ],
+              },
+              {
+                effect: UiSchemaRuleEffects.DISABLE,
+                conditions: [
+                  {
+                    scope: "/properties/isSharedUpdate",
+                    schema: { const: true },
+                  },
+                ],
+              },
+            ],
+          ],
+          messages: [
+            {
+              type: "ERROR",
+              keyword: "enum",
+              icon: true,
+              labelKey: `${i18nScope}.fields.membershipAccess.enumError`,
+            },
           ],
         },
       },
@@ -118,5 +142,6 @@ export const buildDefaults = async (
 ): Promise<IConfigurationValues> => {
   return {
     ...getWellKnownGroup("hubViewGroup", context),
+    membershipAccess: "organization",
   };
 };
