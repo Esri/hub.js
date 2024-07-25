@@ -1,3 +1,31 @@
+# @esri/hub-common [14.163.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.162.0...@esri/hub-common@14.163.0) (2024-07-24)
+
+
+### Features
+
+* add requesting metrics source option behind feature flag ([#1593](https://github.com/Esri/hub.js/issues/1593)) ([9b01a66](https://github.com/Esri/hub.js/commit/9b01a667f91e0483bf0236e34e558f93fbac64c8))
+
+# @esri/hub-common [14.162.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.161.2...@esri/hub-common@14.162.0) (2024-07-24)
+
+
+### Features
+
+* moving types and utils ([#1595](https://github.com/Esri/hub.js/issues/1595)) ([e1b9e41](https://github.com/Esri/hub.js/commit/e1b9e41aa424d3d34fb33f7f75d35ea99b6fba1a))
+
+## @esri/hub-common [14.161.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.161.1...@esri/hub-common@14.161.2) (2024-07-17)
+
+
+### Bug Fixes
+
+* **hub-common:** added orgId filter to GetEventsParams ([#1594](https://github.com/Esri/hub.js/issues/1594)) ([f832165](https://github.com/Esri/hub.js/commit/f83216526382df1a431360d61f8cfb108b3a1518))
+
+## @esri/hub-common [14.161.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.161.0...@esri/hub-common@14.161.1) (2024-07-16)
+
+
+### Bug Fixes
+
+* **hub-common:** updates the calcite icon used for hub-site item type ([#1592](https://github.com/Esri/hub.js/issues/1592)) ([d4eef06](https://github.com/Esri/hub.js/commit/d4eef06f89d97758c52c4b8db1a30aa65a2b58cb))
+
 # @esri/hub-common [14.161.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.160.2...@esri/hub-common@14.161.0) (2024-07-15)
 
 

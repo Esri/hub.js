@@ -1,3 +1,43 @@
+# @esri/hub-discussions [28.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@27.2.0...@esri/hub-discussions@28.0.0) (2024-07-24)
+
+
+### Features
+
+* **hub-discussions:** attempt to trigger a major version release of … ([#1602](https://github.com/Esri/hub.js/issues/1602)) ([dc3a3fa](https://github.com/Esri/hub.js/commit/dc3a3faac8c39bfbfade33e843e0d487fa38ead3)), closes [#10700](https://github.com/Esri/hub.js/issues/10700)
+
+
+### BREAKING CHANGES
+
+* **hub-discussions:** adds user parameter to function canCreateReaction
+
+# @esri/hub-discussions [27.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@27.1.0...@esri/hub-discussions@27.2.0) (2024-07-24)
+
+
+### Features
+
+* **hub-discussions:** add user argument to canCreateReaction method ([#1601](https://github.com/Esri/hub.js/issues/1601)) ([426aee8](https://github.com/Esri/hub.js/commit/426aee80adebfa6b7e86c7f83f3a52d33e3478a3))
+
+# @esri/hub-discussions [27.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@27.0.3...@esri/hub-discussions@27.1.0) (2024-07-23)
+
+
+### Features
+
+* **hub-discussions:** check channel permissions in function canCreat… ([#1599](https://github.com/Esri/hub.js/issues/1599)) ([ef2adec](https://github.com/Esri/hub.js/commit/ef2adec85c2b33ae5b8506e203ef12ec01666809))
+
+## @esri/hub-discussions [27.0.3](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@27.0.2...@esri/hub-discussions@27.0.3) (2024-07-23)
+
+
+### Bug Fixes
+
+* **hub-discussions:** revert breaking change ([#1598](https://github.com/Esri/hub.js/issues/1598)) ([8d80cb1](https://github.com/Esri/hub.js/commit/8d80cb1719ca0759c29257d2d612f810d9fc65ff))
+
+## @esri/hub-discussions [27.0.2](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@27.0.1...@esri/hub-discussions@27.0.2) (2024-07-23)
+
+
+### Bug Fixes
+
+* **hub-discussions:** include permissions check in canCreateReaction … ([#1596](https://github.com/Esri/hub.js/issues/1596)) ([04a6d41](https://github.com/Esri/hub.js/commit/04a6d418eef8c98dfbcc190167153af6448ac395))
+
 ## @esri/hub-discussions [27.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@27.0.0...@esri/hub-discussions@27.0.1) (2023-11-22)
 
 

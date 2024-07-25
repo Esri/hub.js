@@ -26,6 +26,8 @@ import {
   IHubContent,
   IHubRequestOptions,
   PublisherSource,
+  IHubEditableContent,
+  getServiceStatus,
 } from "../../src";
 import {
   isProxiedCSV,
@@ -46,6 +48,9 @@ import { cloneObject } from "../../src/util";
 import * as documentItem from "../mocks/items/document.json";
 import * as documentsJson from "../mocks/datasets/document.json";
 import * as featureLayerJson from "../mocks/datasets/feature-layer.json";
+import { MOCK_REQUEST_OPTIONS } from "../../../initiatives/test/mocks/fake-session";
+import * as fetchMock from "fetch-mock";
+import { IHubServiceBackedContentStatus } from "../../dist/types/content/types";
 
 describe("content: ", () => {
   beforeAll(() => {
@@ -1408,6 +1413,181 @@ describe("content: ", () => {
         organizationSource: PublisherSource.ItemOwner,
         isExternal: false,
       });
+    });
+  });
+
+  // Can be found in packages/common/src/content/contentUtils.ts
+  describe("getServiceStatus", () => {
+    it("entity passed in does not have a url and is available", async () => {
+      const entity: IHubEditableContent = {
+        id: "abc",
+        url: "",
+
+        // not important to this test
+        licenseInfo: "",
+        itemControl: "",
+        owner: "",
+        schemaVersion: 0,
+        tags: [],
+        canEdit: false,
+        canDelete: false,
+        name: "",
+        createdDate: new Date(),
+        createdDateSource: "",
+        updatedDate: new Date(),
+        updatedDateSource: "",
+        type: "",
+        orgUrlKey: "",
+      };
+
+      const result = (await getServiceStatus(entity, {
+        ...MOCK_REQUEST_OPTIONS,
+        url: "",
+      })) as IHubServiceBackedContentStatus;
+      expect(result.service.availability).toBe("available");
+    });
+
+    it("entity passed in has a url, is not service backed, but is available", async () => {
+      const entity: IHubEditableContent = {
+        id: "abc",
+        url: "www.example.com",
+
+        // not important to this test
+        licenseInfo: "",
+        itemControl: "",
+        owner: "",
+        schemaVersion: 0,
+        tags: [],
+        canEdit: false,
+        canDelete: false,
+        name: "",
+        createdDate: new Date(),
+        createdDateSource: "",
+        updatedDate: new Date(),
+        updatedDateSource: "",
+        type: "",
+        orgUrlKey: "",
+      };
+
+      const result = (await getServiceStatus(entity, {
+        ...MOCK_REQUEST_OPTIONS,
+        url: "www.example.com",
+      })) as IHubServiceBackedContentStatus;
+      expect(result.service.availability).toBe("available");
+    });
+
+    it("service wins race and is available", async () => {
+      const entity: IHubEditableContent = {
+        id: "abc",
+        url: "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/slowpoints/FeatureServer/0?stop=false",
+
+        // not important to this test
+        licenseInfo: "",
+        itemControl: "",
+        owner: "",
+        schemaVersion: 0,
+        tags: [],
+        canEdit: false,
+        canDelete: false,
+        name: "",
+        createdDate: new Date(),
+        createdDateSource: "",
+        updatedDate: new Date(),
+        updatedDateSource: "",
+        type: "",
+        orgUrlKey: "",
+      };
+
+      fetchMock.once(
+        "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/slowpoints/FeatureServer/0?stop=false",
+        {
+          status: 200,
+          body: { message: "Success" },
+        },
+        { delay: 1000 }
+      );
+
+      const result = (await getServiceStatus(entity, {
+        ...MOCK_REQUEST_OPTIONS,
+        url: "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/slowpoints/FeatureServer/0?stop=false",
+      })) as IHubServiceBackedContentStatus;
+      expect(result.service.availability).toEqual("available");
+    });
+
+    it("service loses race and is slow", async () => {
+      const entity: IHubEditableContent = {
+        id: "abc",
+        url: "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/slowpoints/FeatureServer/0?stop=false&delay=5000",
+
+        // not important to this test
+        licenseInfo: "",
+        itemControl: "",
+        owner: "",
+        schemaVersion: 0,
+        tags: [],
+        canEdit: false,
+        canDelete: false,
+        name: "",
+        createdDate: new Date(),
+        createdDateSource: "",
+        updatedDate: new Date(),
+        updatedDateSource: "",
+        type: "",
+        orgUrlKey: "",
+      };
+
+      fetchMock.once(
+        "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/slowpoints/FeatureServer/0?stop=false&delay=5000",
+        {
+          status: 200,
+          body: { message: "Success" },
+        },
+        { delay: 5000 }
+      );
+
+      const result = (await getServiceStatus(entity, {
+        ...MOCK_REQUEST_OPTIONS,
+        url: "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/slowpoints/FeatureServer/0?stop=false&delay=5000",
+      })) as IHubServiceBackedContentStatus;
+      expect(result.service.availability).toEqual("slow");
+    });
+
+    it("service fails to complete race and is unavailable", async () => {
+      const entity: IHubEditableContent = {
+        id: "abc",
+        url: "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/multipoints/FeatureServer?stop=true",
+
+        // not important to this test
+        licenseInfo: "",
+        itemControl: "",
+        owner: "",
+        schemaVersion: 0,
+        tags: [],
+        canEdit: false,
+        canDelete: false,
+        name: "",
+        createdDate: new Date(),
+        createdDateSource: "",
+        updatedDate: new Date(),
+        updatedDateSource: "",
+        type: "",
+        orgUrlKey: "",
+      };
+
+      fetchMock.once(
+        "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/multipoints/FeatureServer?stop=true",
+        {
+          status: 500,
+          body: { message: "Special Server Error" },
+        },
+        { delay: 1000 }
+      );
+
+      const result = (await getServiceStatus(entity, {
+        ...MOCK_REQUEST_OPTIONS,
+        url: "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/multipoints/FeatureServer?stop=true",
+      })) as IHubServiceBackedContentStatus;
+      expect(result.service.availability).toEqual("unavailable");
     });
   });
 });

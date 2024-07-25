@@ -10,7 +10,7 @@ import { IHubEditableContentEnrichments } from "../../src/items/_enrichments";
 import { IHubRequestOptions, IModel } from "../../src/types";
 import { cloneObject } from "../../src/util";
 import { MOCK_HUB_REQOPTS } from "../mocks/mock-auth";
-import * as validateUrlHelpersModule from "../../src/resources/_internal/_validate-url-helpers";
+import * as isServiceModule from "../../src/resources/is-service";
 
 describe("content computeProps", () => {
   let requestOptions: IHubRequestOptions;
@@ -150,7 +150,7 @@ describe("content computeProps", () => {
   });
 
   it("adds content extended props for non-service items", () => {
-    spyOn(validateUrlHelpersModule, "isService").and.returnValue(false);
+    spyOn(isServiceModule, "isService").and.returnValue(false);
     const additionalResources: IHubAdditionalResource[] = [
       {
         name: "My Resource",
@@ -201,7 +201,7 @@ describe("content computeProps", () => {
   });
 
   it("adds service extended props for service items", () => {
-    spyOn(validateUrlHelpersModule, "isService").and.returnValue(true);
+    spyOn(isServiceModule, "isService").and.returnValue(true);
     const additionalResources: IHubAdditionalResource[] = [
       {
         name: "My Resource",
@@ -265,7 +265,7 @@ describe("content computeProps", () => {
   });
 
   it("handles service extended props for service items when enrichments are missing", () => {
-    spyOn(validateUrlHelpersModule, "isService").and.returnValue(true);
+    spyOn(isServiceModule, "isService").and.returnValue(true);
     const additionalResources: IHubAdditionalResource[] = [
       {
         name: "My Resource",
