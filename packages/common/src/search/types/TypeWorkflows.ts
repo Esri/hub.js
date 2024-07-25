@@ -1,6 +1,7 @@
 import { Permission } from "../../permissions/types/Permission";
 
 /**
+ * @internal
  * Structure that defines the permission checks and workflows for each content type
  */
 export interface IContentTypeWorkflow {
@@ -10,14 +11,18 @@ export interface IContentTypeWorkflow {
 }
 
 /**
+ * @internal
  * Define the workflows
  */
 export type ContentWorkflow = "create" | "upload" | "existing";
 
 /**
+ * @internal
  * Define the content types and their workflows
  * Note: This does not include non-item backed types like Event or Group
  * which are handled separately in getQueryContentConfig
+ * Note: This is not exported from the package so changes are non-breaking
+ * in terms of semver.
  */
 export const ContentTypeWorkflows = [
   {
