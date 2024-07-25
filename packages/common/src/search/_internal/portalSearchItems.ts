@@ -71,11 +71,22 @@ export function expandQuery(query: IQuery): IQuery {
   // TODO: Should we remove this with the whole idea of collections?
   updatedQuery = applyWellKnownItemPredicates(updatedQuery);
   // Expand the individual predicates in each filter
-  updatedQuery.filters = updatedQuery.filters.map((filter) => {
+  return expandPredicates(updatedQuery);
+}
+
+/**
+ * Expand the predicates in a query without applying
+ * the well-known type expansions
+ * @param query
+ * @returns
+ */
+export function expandPredicates(query: IQuery): IQuery {
+  const clonedQuery = cloneObject(query);
+  clonedQuery.filters = clonedQuery.filters.map((filter) => {
     filter.predicates = filter.predicates.map(expandPredicate);
     return filter;
   });
-  return updatedQuery;
+  return clonedQuery;
 }
 
 /**

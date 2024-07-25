@@ -51,6 +51,9 @@ export * from "./core/EntityEditor";
 export * from "./search/explainQueryResult";
 export * from "./search/searchEntityCatalogs";
 export * from "./search/searchCatalogs";
+export * from "./search/getQueryContentConfig";
+export * from "./search/getCatalogContentConfig";
+export * from "./search/getPredicateValues";
 export * from "./core/hubHistory";
 
 import OperationStack from "./OperationStack";
