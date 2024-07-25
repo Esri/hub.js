@@ -67,8 +67,8 @@ export const buildUiSchema = async (
             options: {
               control: "hub-field-input-tile-select",
               rules: [
-                undefined,
-                undefined,
+                [],
+                [],
                 [
                   {
                     effect: UiSchemaRuleEffects.SHOW,
