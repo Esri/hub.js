@@ -1,3 +1,10 @@
+# @esri/hub-common [14.164.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.163.0...@esri/hub-common@14.164.0) (2024-07-25)
+
+
+### Features
+
+* consolidate group creation ([#1603](https://github.com/Esri/hub.js/issues/1603)) ([af3a889](https://github.com/Esri/hub.js/commit/af3a88929f1dfc2a9c7f3f09e6297b131be8aaca))
+
 # @esri/hub-common [14.163.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.162.0...@esri/hub-common@14.163.0) (2024-07-24)
 
 
