@@ -19,8 +19,8 @@ export interface IHubProject
     IWithLayout,
     IWithMetrics,
     IWithPermissions,
-    // IWithEvents,
-    // IWithContent,
+    IWithEvents,
+    IWithContent,
     IWithStatus {}
 
 /**
