@@ -259,5 +259,4 @@ export interface IUiSchemaMessage {
   conditions?: Array<IUiSchemaCondition | boolean>;
   allowShowBeforeInteract?: boolean;
   alwaysShow?: boolean;
-  width?: "auto" | "full" | "half";
 }
