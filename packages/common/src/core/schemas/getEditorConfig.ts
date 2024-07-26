@@ -3,6 +3,7 @@ import {
   IEditorConfig,
   StatCardEditorType,
   FollowCardEditorType,
+  EventGalleryCardEditorType,
 } from "./types";
 import { IArcGISContext } from "../../ArcGISContext";
 import {
@@ -10,6 +11,7 @@ import {
   EntityEditorOptions,
   IStatCardEditorOptions,
   CardEditorOptions,
+  EventGalleryCardEditorOptions,
 } from "./internal/EditorOptions";
 import { getEditorSchemas } from "./internal/getEditorSchemas";
 import { EditorType } from "./types";
@@ -52,6 +54,14 @@ export async function getEditorConfig(
   i18nScope: string,
   type: FollowCardEditorType,
   options: CardEditorOptions,
+  context: IArcGISContext
+): Promise<IEditorConfig>;
+
+// Event galery card editor overload
+export async function getEditorConfig(
+  i18nScope: string,
+  type: EventGalleryCardEditorType,
+  options: EventGalleryCardEditorOptions,
   context: IArcGISContext
 ): Promise<IEditorConfig>;
 
