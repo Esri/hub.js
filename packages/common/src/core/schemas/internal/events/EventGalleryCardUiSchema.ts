@@ -5,11 +5,13 @@ import {
   UiSchemaMessageTypes,
   UiSchemaRuleEffects,
 } from "../../types";
+import { EventGalleryCardEditorOptions } from "../EditorOptions";
 import { fetchCategoriesUiSchemaElement } from "../fetchCategoriesUiSchemaElement";
 import { getTagItems } from "../getTagItems";
 
 export async function buildUiSchema(
   i18nScope: string,
+  _options: EventGalleryCardEditorOptions,
   context: IArcGISContext
 ): Promise<IUiSchema> {
   return {

@@ -11,6 +11,7 @@ import {
   EntityEditorOptions,
   IStatCardEditorOptions,
   CardEditorOptions,
+  FollowCardEditorOptions,
   EventGalleryCardEditorOptions,
 } from "./internal/EditorOptions";
 import { getEditorSchemas } from "./internal/getEditorSchemas";
@@ -53,7 +54,7 @@ export async function getEditorConfig(
 export async function getEditorConfig(
   i18nScope: string,
   type: FollowCardEditorType,
-  options: CardEditorOptions,
+  options: FollowCardEditorOptions,
   context: IArcGISContext
 ): Promise<IEditorConfig>;
 

@@ -6,7 +6,7 @@ import {
 } from "../types";
 import { getCardType } from "./getCardType";
 import { filterSchemaToUiSchema } from "./filterSchemaToUiSchema";
-import { CardEditorOptions } from "./EditorOptions";
+import { CardEditorOptions, IStatCardEditorOptions } from "./EditorOptions";
 import { cloneObject } from "../../../util";
 import { IArcGISContext } from "../../../ArcGISContext";
 import { ICardEditorModuleType } from "../types";
@@ -54,7 +54,7 @@ export async function getCardEditorSchemas(
           schema = cloneObject(MetricSchema);
           uiSchema = await uiSchemaModuleResolved.buildUiSchema(
             i18nScope,
-            options,
+            options as IStatCardEditorOptions,
             context
           );
 
@@ -98,7 +98,7 @@ export async function getCardEditorSchemas(
         [schemaPromise, uiSchemaPromise]
       );
       schema = cloneObject(EventGalleryCardSchema);
-      uiSchema = await buildUiSchema(i18nScope, context);
+      uiSchema = await buildUiSchema(i18nScope, options, context);
       break;
   }
   // filter out properties not used in uiSchema
