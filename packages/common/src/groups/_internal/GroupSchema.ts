@@ -60,7 +60,7 @@ export const GroupSchema: IConfigurationSchema = {
       then: {
         properties: {
           membershipAccess: {
-            enum: ["organization", "collaborators"],
+            pattern: "(organization|collaborators)",
           },
         },
       },
