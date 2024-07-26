@@ -89,6 +89,18 @@ export const buildUiSchema = async (
             },
             elements: [
               {
+                // there are schema rules that use this so it must be present or they break, so we hide it when its value is false which is always the case for this uiSchema
+                scope: "/properties/isSharedUpdate",
+                type: "Control",
+                rule: {
+                  effect: UiSchemaRuleEffects.HIDE,
+                  condition: {
+                    scope: "/properties/isSharedUpdate",
+                    schema: { const: false },
+                  },
+                },
+              },
+              {
                 labelKey: `${i18nScope}.fields.membershipAccess.label`,
                 scope: "/properties/membershipAccess",
                 type: "Control",

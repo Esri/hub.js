@@ -66,7 +66,14 @@ export const buildUiSchema = async (
             `{{${i18nScope}.fields.membershipAccess.any:translate}}`,
           ],
           rules: [
-            undefined,
+            [
+              // we should be able to use undefined in this position but when used with entityEditor, we run this through interpolateTranslations
+              // which filters out the undefined which makes this not work as expected
+              // so for now we add a rule that doesn't do anything
+              {
+                effect: UiSchemaRuleEffects.NONE,
+              },
+            ],
             [
               {
                 effect: UiSchemaRuleEffects.DISABLE,

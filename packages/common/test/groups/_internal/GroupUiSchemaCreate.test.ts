@@ -63,7 +63,11 @@ describe("GroupUiSchemaCreate", () => {
                 `{{some.scope.fields.membershipAccess.any:translate}}`,
               ],
               rules: [
-                undefined,
+                [
+                  {
+                    effect: UiSchemaRuleEffects.NONE,
+                  },
+                ],
                 [
                   {
                     effect: UiSchemaRuleEffects.DISABLE,
