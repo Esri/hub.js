@@ -105,6 +105,15 @@ export interface IStaticDownloadFormat extends IDownloadFormat {
 }
 
 /**
+ * Extends the typical static download format, and is used
+ * by `toStaticFormat` in `packages/common/src/downloads/fetchDownloadFormats.ts`
+ */
+export interface IAdditionalResourceDownloadFormat
+  extends IStaticDownloadFormat {
+  isDataSource: boolean;
+}
+
+/**
  * Represents a dynamic download format that is generated on-the-fly when requested.
  * The `format` property will be set to the corresponding service format.
  */
