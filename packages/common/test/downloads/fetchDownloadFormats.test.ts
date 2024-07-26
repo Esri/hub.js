@@ -78,6 +78,8 @@ describe("fetchDownloadFormats", () => {
       additionalResources: [
         { name: "Resource 1", url: "resource-1-url" },
         { name: "Resource 2", url: "resource-2-url" },
+        { url: "resource-3-url", isDataSource: true },
+        { url: "resource-4-url", isDataSource: false },
       ],
     } as unknown as IHubEditableContent;
 
@@ -89,6 +91,12 @@ describe("fetchDownloadFormats", () => {
     const expected = [
       { type: "static", label: "Resource 1", url: "resource-1-url" },
       { type: "static", label: "Resource 2", url: "resource-2-url" },
+      {
+        type: "static",
+        label: "{{dataSource:translate}}",
+        url: "resource-3-url",
+      },
+      { type: "static", label: "{{noTitle:translate}}", url: "resource-4-url" },
     ] as unknown as IDownloadFormat[];
 
     expect(results).toEqual(expected);
