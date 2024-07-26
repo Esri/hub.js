@@ -1,3 +1,10 @@
+# @esri/hub-common [14.165.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.164.1...@esri/hub-common@14.165.0) (2024-07-26)
+
+
+### Features
+
+* extend static download formats to support additional resources ([#1607](https://github.com/Esri/hub.js/issues/1607)) ([e27f83d](https://github.com/Esri/hub.js/commit/e27f83d98a305ce0bb110e6b9773f2d349cbd263))
+
 ## @esri/hub-common [14.164.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.164.0...@esri/hub-common@14.164.1) (2024-07-26)
 
 
