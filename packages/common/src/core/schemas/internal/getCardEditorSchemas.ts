@@ -91,6 +91,15 @@ export async function getCardEditorSchemas(
         }
       );
       break;
+    case "eventGallery":
+      schemaPromise = import("./events/EventGalleryCardSchema");
+      uiSchemaPromise = import("./events/EventGalleryCardUiSchema");
+      const [{ EventGalleryCardSchema }, { buildUiSchema }] = await Promise.all(
+        [schemaPromise, uiSchemaPromise]
+      );
+      schema = cloneObject(EventGalleryCardSchema);
+      uiSchema = await buildUiSchema(i18nScope, context);
+      break;
   }
   // filter out properties not used in uiSchema
   schema = filterSchemaToUiSchema(schema, uiSchema);
