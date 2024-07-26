@@ -3,9 +3,9 @@ import { canUseExportImageFlow } from "./_internal/canUseExportImageFlow";
 import { canUseExportItemFlow } from "./_internal/canUseExportItemFlow";
 import { canUseHubDownloadApi } from "./canUseHubDownloadApi";
 import {
-  IAdditionalResourceDownloadFormat,
   IDownloadFormat,
   IFetchDownloadFormatsOptions,
+  IStaticDownloadFormat,
 } from "./types";
 
 /**
@@ -48,11 +48,13 @@ export async function fetchDownloadFormats(
 
 function toStaticFormat(
   resource: IHubAdditionalResource
-): IAdditionalResourceDownloadFormat {
+): IStaticDownloadFormat {
   return {
     type: "static",
-    label: resource.name,
+    label:
+      resource.name ||
+      (resource.isDataSource && `{{dataSource:translate}}`) || // if the additional resource is the datasource
+      `{{noTitle:translate}}`, // if the additional resource has no name
     url: resource.url,
-    isDataSource: resource.isDataSource,
   };
 }
