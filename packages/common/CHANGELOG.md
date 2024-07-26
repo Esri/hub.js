@@ -1,3 +1,11 @@
+## @esri/hub-common [14.164.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.164.0...@esri/hub-common@14.164.1) (2024-07-26)
+
+
+### Bug Fixes
+
+* update groups uiSchemas ([#1606](https://github.com/Esri/hub.js/issues/1606)) ([2e33d8b](https://github.com/Esri/hub.js/commit/2e33d8b7a39f179ae3aff4598b72058ee0197f16))
+* update uiSchemas ([#1605](https://github.com/Esri/hub.js/issues/1605)) ([2d3f195](https://github.com/Esri/hub.js/commit/2d3f195094ada793923b31550df393be059530e9))
+
 # @esri/hub-common [14.164.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.163.0...@esri/hub-common@14.164.0) (2024-07-25)
 
 
