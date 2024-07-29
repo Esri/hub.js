@@ -1,7 +1,5 @@
 import { ResourceObject } from "jsonapi-typescript";
 import { IArcGISContext } from "../ArcGISContext";
-import { IHubRequestOptions } from "../types";
-import { ItemOrServerEnrichment } from "../items/_enrichments";
 
 /**
  * JSONAPI dataset resource returned by the Hub API
@@ -74,3 +72,23 @@ export interface IHubJobRecordRequestOptions {
   /** Total number of records to return */
   limit?: number;
 }
+
+// START of epic types -- https://devtopia.esri.com/dc/hub/issues/10590
+export type IHubContentStatus =
+  | IHubServiceBackedContentStatus
+  | IHubOtherContentStatus;
+export interface IHubBaseContentStatus {
+  kind: "service" | "other";
+}
+export interface IHubServiceBackedContentStatus extends IHubBaseContentStatus {
+  kind: "service";
+  service: {
+    availability: "available" | "slow" | "unavailable";
+    // TODO: expand in the future if needed
+  };
+}
+export interface IHubOtherContentStatus extends IHubBaseContentStatus {
+  kind: "other";
+  // TODO: expand in the future if needed
+}
+// END of epic types -- https://devtopia.esri.com/dc/hub/issues/10590

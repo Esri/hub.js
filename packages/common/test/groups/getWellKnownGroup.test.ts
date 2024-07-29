@@ -48,6 +48,7 @@ describe("getWellKnownGroup: ", () => {
     expect(resp).toEqual({
       access: "org",
       autoJoin: false,
+      isSharedUpdate: false,
       isInvitationOnly: false,
       hiddenMembers: false,
       isViewOnly: false,
@@ -63,6 +64,7 @@ describe("getWellKnownGroup: ", () => {
     expect(resp).toEqual({
       access: "org",
       autoJoin: false,
+      isSharedUpdate: false,
       isInvitationOnly: false,
       hiddenMembers: false,
       isViewOnly: false,

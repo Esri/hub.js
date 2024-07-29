@@ -1,10 +1,14 @@
+import { checkPermission } from "../../../../permissions/checkPermission";
 import { IArcGISContext } from "../../../../ArcGISContext";
-import { IConfigurationValues, IUiSchema } from "../../types";
+import {
+  IConfigurationValues,
+  IUiSchema,
+  UiSchemaRuleEffects,
+} from "../../types";
 import { EntityEditorOptions } from "../EditorOptions";
 import {
   SHOW_FOR_STATIC_RULE_ENTITY,
   SHOW_FOR_DYNAMIC_RULE_ENTITY,
-  SHOW_FOR_SHARING_RULE_ENTITY,
   SHOW_FOR_STATIC_AND_STRING_RULE_ENTITY,
   SHOW_FOR_STATIC_AND_NUMBER_RULE_ENTITY,
   SHOW_FOR_STATIC_AND_DATE_RULE_ENTITY,
@@ -57,6 +61,19 @@ export const buildUiSchema = async (
             type: "Control",
             options: {
               control: "hub-field-input-tile-select",
+              rules: [
+                [],
+                [],
+                [
+                  {
+                    effect: UiSchemaRuleEffects.SHOW,
+                    // only show in alpha
+                    conditions: [
+                      checkPermission("hub:availability:alpha", context).access,
+                    ],
+                  },
+                ],
+              ],
               enum: {
                 i18nScope: "shared.fields.metrics.type.enum",
               },

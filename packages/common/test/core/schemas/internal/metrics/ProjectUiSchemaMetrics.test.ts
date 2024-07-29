@@ -50,6 +50,17 @@ describe("ProjectUiSchemaMetrics", () => {
                 type: "Control",
                 options: {
                   control: "hub-field-input-tile-select",
+                  rules: [
+                    [],
+                    [],
+                    [
+                      {
+                        effect: UiSchemaRuleEffects.SHOW,
+                        // only show in alpha
+                        conditions: [false],
+                      },
+                    ],
+                  ],
                   enum: {
                     i18nScope: "shared.fields.metrics.type.enum",
                   },

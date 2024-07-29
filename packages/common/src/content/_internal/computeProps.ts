@@ -24,7 +24,7 @@ import { computeBaseProps } from "../../core/_internal/computeBaseProps";
 import { getProp } from "../../objects";
 import { IHubEditableContentEnrichments } from "../../items/_enrichments";
 import { IItem } from "@esri/arcgis-rest-portal";
-import { isService } from "../../resources/_internal/_validate-url-helpers";
+import { isService } from "../../resources/is-service";
 
 export function computeProps(
   model: IModel,

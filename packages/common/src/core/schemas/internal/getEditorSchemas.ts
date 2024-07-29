@@ -308,10 +308,8 @@ export async function getEditorSchemas(
           import("../../../groups/_internal/GroupUiSchemaCreateView"),
         "hub:group:create:edit": () =>
           import("../../../groups/_internal/GroupUiSchemaCreateEdit"),
-        "hub:group:create:view2": () =>
-          import("../../../groups/_internal/GroupUiSchemaCreateView2"),
-        "hub:group:create:edit2": () =>
-          import("../../../groups/_internal/GroupUiSchemaCreateEdit2"),
+        "hub:group:create": () =>
+          import("../../../groups/_internal/GroupUiSchemaCreate"),
         "hub:group:edit": () =>
           import("../../../groups/_internal/GroupUiSchemaEdit"),
         "hub:group:settings": () =>
