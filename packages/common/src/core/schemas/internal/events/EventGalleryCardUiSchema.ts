@@ -274,7 +274,7 @@ export async function buildUiSchema(
                       options: [
                         {
                           // label: 'Public', // TODO: translate
-                          label: "{{facets.sharing.public.label:transate}}",
+                          label: "{{facets.sharing.public.label:translate}}",
                           key: "public",
                           selected: false,
                           predicates: [
