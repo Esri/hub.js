@@ -131,14 +131,14 @@ export async function buildUiSchema(
                   facets: [
                     {
                       // label: this.intl.t("facets.from.label"),
-                      label: "facets.from.label:translate",
+                      label: "{{facets.from.label:translate}}",
                       key: "from",
                       display: "single-select",
                       operation: "OR",
                       options: [
                         {
                           // label: this.intl.t("facets.from.myContent.label"),
-                          label: "facets.from.myContent.label:translate",
+                          label: "{{facets.from.myContent.label:translate}}",
                           key: "myContent",
                           selected: true,
                           predicates: [
@@ -151,7 +151,8 @@ export async function buildUiSchema(
                           // label: this.intl.t(
                           //   "facets.from.myOrganization.label"
                           // ),
-                          label: "facets.from.myOrganization.label:translate",
+                          label:
+                            "{{facets.from.myOrganization.label:translate}}",
                           key: "myOrganization",
                           selected: false,
                           predicates: [
@@ -164,7 +165,7 @@ export async function buildUiSchema(
                     },
                     {
                       // label: this.intl.t("facets.sharing.label"),
-                      label: "facets.sharing.label:translate",
+                      label: "{{facets.sharing.label:translate}}",
                       key: "access",
                       field: "access",
                       display: "multi-select",
@@ -197,7 +198,7 @@ export async function buildUiSchema(
                     {
                       schemaVersion: 1,
                       // title: "World",
-                      title: "catalogs.event.label:translate",
+                      title: "{{catalogs.event.label:translate}}",
                       scopes: {
                         event: {
                           targetEntity: "event",
@@ -215,7 +216,7 @@ export async function buildUiSchema(
                           key: "event",
                           // label: 'Events',
                           label:
-                            "catalogs.event.collections.event.label:translate",
+                            "{{catalogs.event.collections.event.label:translate}}",
                           targetEntity: "event",
                           include: [],
                           scope: {
@@ -233,14 +234,14 @@ export async function buildUiSchema(
                   facets: [
                     {
                       // label: this.intl.t('facets.from.label'),
-                      label: "facets.from.label:translate",
+                      label: "{{facets.from.label:translate}}",
                       key: "from",
                       display: "single-select",
                       operation: "OR",
                       options: [
                         {
                           // label: this.intl.t('facets.from.myContent.label'),
-                          label: "facets.from.myContent.label:translate",
+                          label: "{{facets.from.myContent.label:translate}}",
                           key: "myContent",
                           selected: true,
                           predicates: [
@@ -251,7 +252,8 @@ export async function buildUiSchema(
                         },
                         {
                           // label: this.intl.t('facets.from.myOrganization.label'),
-                          label: "facets.from.myOrganization.label:translate",
+                          label:
+                            "{{facets.from.myOrganization.label:translate}}",
                           key: "myOrganization",
                           selected: false,
                           predicates: [
@@ -264,7 +266,7 @@ export async function buildUiSchema(
                     },
                     {
                       // label: this.intl.t('facets.sharing.label'),
-                      label: "facets.sharing.label:translate",
+                      label: "{{facets.sharing.label:translate}}",
                       key: "access",
                       // field: 'access',
                       display: "multi-select",
@@ -283,7 +285,7 @@ export async function buildUiSchema(
                         },
                         {
                           // label: 'Myself', // TODO: translate
-                          label: "facets.sharing.private.label:translate",
+                          label: "{{facets.sharing.private.label:translate}}",
                           key: "private",
                           selected: false,
                           predicates: [
@@ -294,7 +296,8 @@ export async function buildUiSchema(
                         },
                         {
                           // label: 'Organization', // TODO: translate
-                          label: "facets.sharing.organization.label:translate",
+                          label:
+                            "{{facets.sharing.organization.label:translate}}",
                           key: "org",
                           selected: false,
                           predicates: [
@@ -404,7 +407,7 @@ export async function buildUiSchema(
                       labelKey: `${i18nScope}.options.openIn.notice.body`,
                       link: {
                         kind: "external",
-                        // label: '{{fields.openIn.notice.link:translate}}',
+                        // label: '{{fields.openIn.notice.link:translate}}}}',
                         labelKey: `${i18nScope}.options.openIn.notice.link`,
                         href: "https://www.w3.org/TR/WCAG20-TECHS/G200.html",
                         target: "_blank",
