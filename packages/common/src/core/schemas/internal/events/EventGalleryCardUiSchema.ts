@@ -26,7 +26,8 @@ export async function buildUiSchema(
         elements: [
           {
             type: "Section",
-            labelKey: `${i18nScope}.content.label`,
+            // labelKey: `${i18nScope}.content.label`,
+            label: `{{${i18nScope}.content.label:translate}}`,
             options: {
               section: "accordionItem",
               expanded: true,
@@ -44,7 +45,8 @@ export async function buildUiSchema(
                 },
               },
               {
-                labelKey: `${i18nScope}.content.access.label`,
+                // labelKey: `${i18nScope}.content.access.label`,
+                label: `{{${i18nScope}.content.access.label:translate}}`,
                 scope: "/properties/access",
                 type: "Control",
                 options: {
@@ -66,7 +68,8 @@ export async function buildUiSchema(
                 ],
               },
               {
-                labelKey: `${i18nScope}.content.tags.label`,
+                // labelKey: `${i18nScope}.content.tags.label`,
+                label: `{{${i18nScope}.content.tags.label:translate}}`,
                 scope: "/properties/tags",
                 type: "Control",
                 options: {
@@ -117,12 +120,12 @@ export async function buildUiSchema(
                   targetEntity: "item",
                   catalogs: [
                     getWellKnownCatalog(
-                      "fields.content.entityIds",
+                      `${i18nScope}.content.entityIds`,
                       "organization",
                       "item",
                       {
                         user: context.currentUser,
-                        collectionNames: ["site", "project", "initiative"],
+                        collectionNames: ["site", "initiative", "project"],
                         filters: [],
                         context,
                       }
@@ -130,14 +133,12 @@ export async function buildUiSchema(
                   ],
                   facets: [
                     {
-                      // label: this.intl.t("facets.from.label"),
                       label: "{{facets.from.label:translate}}",
                       key: "from",
                       display: "single-select",
                       operation: "OR",
                       options: [
                         {
-                          // label: this.intl.t("facets.from.myContent.label"),
                           label: "{{facets.from.myContent.label:translate}}",
                           key: "myContent",
                           selected: true,
@@ -148,9 +149,6 @@ export async function buildUiSchema(
                           ],
                         },
                         {
-                          // label: this.intl.t(
-                          //   "facets.from.myOrganization.label"
-                          // ),
                           label:
                             "{{facets.from.myOrganization.label:translate}}",
                           key: "myOrganization",
@@ -164,7 +162,6 @@ export async function buildUiSchema(
                       ],
                     },
                     {
-                      // label: this.intl.t("facets.sharing.label"),
                       label: "{{facets.sharing.label:translate}}",
                       key: "access",
                       field: "access",
@@ -197,7 +194,6 @@ export async function buildUiSchema(
                   catalogs: [
                     {
                       schemaVersion: 1,
-                      // title: "World",
                       title: "{{catalogs.event.label:translate}}",
                       scopes: {
                         event: {
@@ -214,7 +210,6 @@ export async function buildUiSchema(
                       collections: [
                         {
                           key: "event",
-                          // label: 'Events',
                           label:
                             "{{catalogs.event.collections.event.label:translate}}",
                           targetEntity: "event",
@@ -233,14 +228,12 @@ export async function buildUiSchema(
                   ],
                   facets: [
                     {
-                      // label: this.intl.t('facets.from.label'),
                       label: "{{facets.from.label:translate}}",
                       key: "from",
                       display: "single-select",
                       operation: "OR",
                       options: [
                         {
-                          // label: this.intl.t('facets.from.myContent.label'),
                           label: "{{facets.from.myContent.label:translate}}",
                           key: "myContent",
                           selected: true,
@@ -251,7 +244,6 @@ export async function buildUiSchema(
                           ],
                         },
                         {
-                          // label: this.intl.t('facets.from.myOrganization.label'),
                           label:
                             "{{facets.from.myOrganization.label:translate}}",
                           key: "myOrganization",
@@ -265,15 +257,12 @@ export async function buildUiSchema(
                       ],
                     },
                     {
-                      // label: this.intl.t('facets.sharing.label'),
                       label: "{{facets.sharing.label:translate}}",
                       key: "access",
-                      // field: 'access',
                       display: "multi-select",
                       operation: "OR",
                       options: [
                         {
-                          // label: 'Public', // TODO: translate
                           label: "{{facets.sharing.public.label:translate}}",
                           key: "public",
                           selected: false,
@@ -284,7 +273,6 @@ export async function buildUiSchema(
                           ],
                         },
                         {
-                          // label: 'Myself', // TODO: translate
                           label: "{{facets.sharing.private.label:translate}}",
                           key: "private",
                           selected: false,
@@ -295,7 +283,6 @@ export async function buildUiSchema(
                           ],
                         },
                         {
-                          // label: 'Organization', // TODO: translate
                           label:
                             "{{facets.sharing.organization.label:translate}}",
                           key: "org",
@@ -329,13 +316,15 @@ export async function buildUiSchema(
           },
           {
             type: "Section",
-            labelKey: `${i18nScope}.appearance.label`,
+            // labelKey: `${i18nScope}.appearance.label`,
+            label: `{{${i18nScope}.appearance.label:translate}}`,
             options: {
               section: "accordionItem",
             },
             elements: [
               {
-                labelKey: `${i18nScope}.appearance.titleHeading.label`,
+                // labelKey: `${i18nScope}.appearance.titleHeading.label`,
+                label: `{{${i18nScope}.appearance.titleHeading.label:translate}}`,
                 scope: "/properties/titleHeading",
                 type: "Control",
                 options: {
@@ -345,12 +334,14 @@ export async function buildUiSchema(
                   },
                   width: "full",
                   tooltip: {
-                    labelKey: `${i18nScope}.appearance.titleHeading.tooltip`,
+                    // labelKey: `${i18nScope}.appearance.titleHeading.tooltip`,
+                    label: `{{${i18nScope}.appearance.titleHeading.tooltip:translate}}`,
                   },
                 },
               },
               {
-                labelKey: `${i18nScope}.appearance.corners.label`,
+                // labelKey: `${i18nScope}.appearance.corners.label`,
+                label: `{{${i18nScope}.appearance.corners.label:translate}}`,
                 scope: "/properties/corners",
                 type: "Control",
                 options: {
@@ -361,7 +352,8 @@ export async function buildUiSchema(
                 },
               },
               {
-                labelKey: `${i18nScope}.appearance.shadow.label`,
+                // labelKey: `${i18nScope}.appearance.shadow.label`,
+                label: `{{${i18nScope}.appearance.shadow.label:translate}}`,
                 scope: "/properties/shadow",
                 type: "Control",
                 options: {
@@ -372,7 +364,8 @@ export async function buildUiSchema(
                 },
               },
               {
-                labelKey: `${i18nScope}.appearance.showAdditionalInfo.label`,
+                // labelKey: `${i18nScope}.appearance.showAdditionalInfo.label`,
+                label: `{{${i18nScope}.appearance.showAdditionalInfo.label:translate}}`,
                 scope: "/properties/showAdditionalInfo",
                 type: "Control",
                 options: {
@@ -384,13 +377,15 @@ export async function buildUiSchema(
           },
           {
             type: "Section",
-            labelKey: `${i18nScope}.options.label`,
+            // labelKey: `${i18nScope}.options.label`,
+            label: `{{${i18nScope}.options.label:translate}}`,
             options: {
               section: "accordionItem",
             },
             elements: [
               {
-                labelKey: `${i18nScope}.options.openIn.label`,
+                // labelKey: `${i18nScope}.options.openIn.label`,
+                label: `{{${i18nScope}.options.openIn.label:translate}}`,
                 scope: "/properties/openIn",
                 type: "Control",
                 options: {
@@ -404,11 +399,12 @@ export async function buildUiSchema(
                       display: "notice",
                       kind: "brand",
                       titleKey: `${i18nScope}.options.openIn.notice.title`,
-                      labelKey: `${i18nScope}.options.openIn.notice.body`,
+                      // labelKey: `${i18nScope}.options.openIn.notice.body`,
+                      label: `{{${i18nScope}.options.openIn.notice.body:translate}}`,
                       link: {
                         kind: "external",
-                        // label: '{{fields.openIn.notice.link:translate}}}}',
-                        labelKey: `${i18nScope}.options.openIn.notice.link`,
+                        // labelKey: `${i18nScope}.options.openIn.notice.link`,
+                        label: `{{${i18nScope}.options.openIn.notice.link:translate}}`,
                         href: "https://www.w3.org/TR/WCAG20-TECHS/G200.html",
                         target: "_blank",
                       },
