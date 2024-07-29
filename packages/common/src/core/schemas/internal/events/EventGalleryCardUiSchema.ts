@@ -115,17 +115,19 @@ export async function buildUiSchema(
                 options: {
                   control: "hub-field-input-gallery-picker",
                   targetEntity: "item",
-                  catalogs: getWellKnownCatalog(
-                    "fields.content.entityIds",
-                    "organization",
-                    "item",
-                    {
-                      user: context.currentUser,
-                      collectionNames: ["site", "project", "initiative"],
-                      filters: [],
-                      context,
-                    }
-                  ),
+                  catalogs: [
+                    getWellKnownCatalog(
+                      "fields.content.entityIds",
+                      "organization",
+                      "item",
+                      {
+                        user: context.currentUser,
+                        collectionNames: ["site", "project", "initiative"],
+                        filters: [],
+                        context,
+                      }
+                    ),
+                  ],
                   facets: [
                     {
                       // label: this.intl.t("facets.from.label"),
