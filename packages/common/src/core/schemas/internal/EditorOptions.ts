@@ -19,8 +19,8 @@ export type EntityEditorOptions = HubEntity;
  */
 export type CardEditorOptions =
   | IStatCardEditorOptions
-  | FollowCardEditorOptions
-  | EventGalleryCardEditorOptions;
+  | IFollowCardEditorOptions
+  | IEventGalleryCardEditorOptions;
 
 /**
  * Options to use when constructing a schema and uiSchema for
@@ -34,10 +34,12 @@ export interface IStatCardEditorOptions {
  * Options to use when constructing a schema and uiSchema for
  * a follow card editor.
  */
-export type FollowCardEditorOptions = null | undefined | {};
+export interface IFollowCardEditorOptions {}
 
 /**
  * Options to use when constructing a schema and uiSchema for
  * an event gallery card editor.
  */
-export type EventGalleryCardEditorOptions = null | undefined | {};
+export interface IEventGalleryCardEditorOptions {
+  tags: string[];
+}

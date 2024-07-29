@@ -14,8 +14,6 @@ export const EventGalleryCardSchema: IConfigurationSchema = {
     },
     entityIds: {
       type: "array",
-      // any max?, existing upcoming events card doesn't limit, inherently capped at 100
-      // maxItems: 3,
       items: {
         type: "string",
       },
@@ -23,8 +21,6 @@ export const EventGalleryCardSchema: IConfigurationSchema = {
     },
     eventIds: {
       type: "array",
-      // any max?, existing featured event caps at 1
-      // maxItems: 3,
       items: {
         type: "string",
       },

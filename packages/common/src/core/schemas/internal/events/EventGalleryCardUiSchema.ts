@@ -5,13 +5,13 @@ import {
   UiSchemaMessageTypes,
   UiSchemaRuleEffects,
 } from "../../types";
-import { EventGalleryCardEditorOptions } from "../EditorOptions";
+import { IEventGalleryCardEditorOptions } from "../EditorOptions";
 import { fetchCategoriesUiSchemaElement } from "../fetchCategoriesUiSchemaElement";
 import { getTagItems } from "../getTagItems";
 
 export async function buildUiSchema(
   i18nScope: string,
-  _options: EventGalleryCardEditorOptions,
+  options: IEventGalleryCardEditorOptions,
   context: IArcGISContext
 ): Promise<IUiSchema> {
   return {
@@ -26,7 +26,6 @@ export async function buildUiSchema(
         elements: [
           {
             type: "Section",
-            // labelKey: `${i18nScope}.content.label`,
             label: `{{${i18nScope}.content.label:translate}}`,
             options: {
               section: "accordionItem",
@@ -45,7 +44,6 @@ export async function buildUiSchema(
                 },
               },
               {
-                // labelKey: `${i18nScope}.content.access.label`,
                 label: `{{${i18nScope}.content.access.label:translate}}`,
                 scope: "/properties/access",
                 type: "Control",
@@ -68,14 +66,13 @@ export async function buildUiSchema(
                 ],
               },
               {
-                // labelKey: `${i18nScope}.content.tags.label`,
                 label: `{{${i18nScope}.content.tags.label:translate}}`,
                 scope: "/properties/tags",
                 type: "Control",
                 options: {
                   control: "hub-field-input-combobox",
                   items: await getTagItems(
-                    [], // options.tags, // TODO: where do tags come from? current site?
+                    options.tags,
                     context.portal.id,
                     context.hubRequestOptions
                   ),
@@ -316,14 +313,12 @@ export async function buildUiSchema(
           },
           {
             type: "Section",
-            // labelKey: `${i18nScope}.appearance.label`,
             label: `{{${i18nScope}.appearance.label:translate}}`,
             options: {
               section: "accordionItem",
             },
             elements: [
               {
-                // labelKey: `${i18nScope}.appearance.titleHeading.label`,
                 label: `{{${i18nScope}.appearance.titleHeading.label:translate}}`,
                 scope: "/properties/titleHeading",
                 type: "Control",
@@ -334,13 +329,11 @@ export async function buildUiSchema(
                   },
                   width: "full",
                   tooltip: {
-                    // labelKey: `${i18nScope}.appearance.titleHeading.tooltip`,
                     label: `{{${i18nScope}.appearance.titleHeading.tooltip:translate}}`,
                   },
                 },
               },
               {
-                // labelKey: `${i18nScope}.appearance.corners.label`,
                 label: `{{${i18nScope}.appearance.corners.label:translate}}`,
                 scope: "/properties/corners",
                 type: "Control",
@@ -352,7 +345,6 @@ export async function buildUiSchema(
                 },
               },
               {
-                // labelKey: `${i18nScope}.appearance.shadow.label`,
                 label: `{{${i18nScope}.appearance.shadow.label:translate}}`,
                 scope: "/properties/shadow",
                 type: "Control",
@@ -364,7 +356,6 @@ export async function buildUiSchema(
                 },
               },
               {
-                // labelKey: `${i18nScope}.appearance.showAdditionalInfo.label`,
                 label: `{{${i18nScope}.appearance.showAdditionalInfo.label:translate}}`,
                 scope: "/properties/showAdditionalInfo",
                 type: "Control",
@@ -377,14 +368,12 @@ export async function buildUiSchema(
           },
           {
             type: "Section",
-            // labelKey: `${i18nScope}.options.label`,
             label: `{{${i18nScope}.options.label:translate}}`,
             options: {
               section: "accordionItem",
             },
             elements: [
               {
-                // labelKey: `${i18nScope}.options.openIn.label`,
                 label: `{{${i18nScope}.options.openIn.label:translate}}`,
                 scope: "/properties/openIn",
                 type: "Control",
@@ -399,11 +388,9 @@ export async function buildUiSchema(
                       display: "notice",
                       kind: "brand",
                       titleKey: `${i18nScope}.options.openIn.notice.title`,
-                      // labelKey: `${i18nScope}.options.openIn.notice.body`,
                       label: `{{${i18nScope}.options.openIn.notice.body:translate}}`,
                       link: {
                         kind: "external",
-                        // labelKey: `${i18nScope}.options.openIn.notice.link`,
                         label: `{{${i18nScope}.options.openIn.notice.link:translate}}`,
                         href: "https://www.w3.org/TR/WCAG20-TECHS/G200.html",
                         target: "_blank",
