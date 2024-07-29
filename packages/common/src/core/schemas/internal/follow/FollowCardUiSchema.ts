@@ -1,5 +1,5 @@
 import { IArcGISContext } from "../../../../ArcGISContext";
-import { CardEditorOptions, IFollowCardEditorOptions } from "../EditorOptions";
+import { IFollowCardEditorOptions } from "../EditorOptions";
 import { IUiSchema, UiSchemaRuleEffects } from "../../types";
 import {
   WellKnownCatalog,
