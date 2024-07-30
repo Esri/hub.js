@@ -44,7 +44,7 @@ export const EventGalleryCardSchema: IConfigurationSchema = {
       type: "array",
       items: {
         type: "string",
-        enum: ["private", "organization", "public"],
+        enum: ["private", "org", "public"],
       },
       default: [],
     },
