@@ -281,6 +281,23 @@ export const buildUiSchema = async (
           },
         ],
       },
+      {
+        type: "Section",
+        labelKey: `${i18nScope}.sections.embeds.label`,
+        options: {
+          headerTag: "h2",
+          helperText: { labelKey: `${i18nScope}.sections.embeds.helperText` },
+        },
+        elements: [
+          {
+            scope: "/properties/view/properties/embeds",
+            type: "Control",
+            options: {
+              control: "hub-composite-input-embeds",
+            },
+          },
+        ],
+      },
     ],
   };
 };
