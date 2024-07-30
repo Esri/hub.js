@@ -19,8 +19,7 @@ interface IHubBaseActionLink {
    * translated action label - used for the visible label
    * and/or the underlyiing a11y label
    */
-  label?: string;
-  labelKey?: string;
+  label: string;
   /**
    * whether the label should be shown in the UI or just be
    * used for the underlying a11y label

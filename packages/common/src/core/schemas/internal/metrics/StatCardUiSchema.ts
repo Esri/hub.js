@@ -13,6 +13,7 @@ export const buildUiSchema = async (
   config: IStatCardEditorOptions,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
+  const { themeColors } = config;
   return {
     type: "Layout",
     elements: [
@@ -263,7 +264,7 @@ export const buildUiSchema = async (
             type: "Control",
             options: {
               control: "hub-field-input-color",
-              savedColors: config.themeColors,
+              savedColors: themeColors,
             },
           },
           {

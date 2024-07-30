@@ -28,8 +28,8 @@ function getCatalogs(user: IUser): IHubCatalog[] {
 }
 
 export const buildUiSchema = (
-  _i18nScope: string,
-  _config: IFollowCardEditorOptions,
+  i18nScope: string,
+  config: IFollowCardEditorOptions,
   context: IArcGISContext
 ): IUiSchema => {
   return {
