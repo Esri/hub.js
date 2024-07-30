@@ -102,10 +102,10 @@ export const MetricSchema: IConfigurationSchema = {
       type: "boolean",
       default: true,
     },
-    popoverTitle: {
+    popoverText: {
       type: "string",
     },
-    popoverDescription: {
+    publisherText: {
       type: "string",
     },
   },
@@ -116,16 +116,6 @@ export const MetricSchema: IConfigurationSchema = {
   ],
   definitions: {
     // TODO: reimplement popover with layouts release
-    "if-layout-moreinfo-then-require-popover-title-description": {
-      if: {
-        type: "object",
-        properties: { layout: { const: LAYOUTS.moreInfo } },
-        required: ["layout"],
-      },
-      then: {
-        required: ["popoverTitle", "popoverDescription"],
-      },
-    },
     "if-source-title-then-source-link": {
       if: {
         type: "object",

@@ -1,7 +1,6 @@
 export enum LAYOUTS {
   simple = "simple",
-  dataViz = "dataViz",
-  moreInfo = "moreInfo",
+  informational = "informational",
 }
 export enum SCALE {
   small = "s",
