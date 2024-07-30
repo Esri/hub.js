@@ -296,7 +296,7 @@ export const buildUiSchema = async (
               control: "hub-composite-input-embeds",
               facets: [
                 {
-                  label: `{{${i18nScope}.fields.embeds.facets.type.label::translate}}"`,
+                  label: `{{${i18nScope}.fields.embeds.facets.type.label:translate}}"`,
                   key: "type",
                   display: "multi-select",
                   field: "type",
@@ -305,7 +305,7 @@ export const buildUiSchema = async (
                   aggLimit: 100,
                 },
                 {
-                  label: `{{${i18nScope}.fields.embeds.facets.tags.label::translate}}"`,
+                  label: `{{${i18nScope}.fields.embeds.facets.tags.label:translate}}"`,
                   key: "tags",
                   field: "tags",
                   aggLimit: 15,
@@ -314,7 +314,7 @@ export const buildUiSchema = async (
                   options: [],
                 },
                 {
-                  label: `{{${i18nScope}.fields.embeds.facets.categories.label::translate}}"`,
+                  label: `{{${i18nScope}.fields.embeds.facets.categories.label:translate}}"`,
                   key: "categories",
                   field: "categories",
                   aggLimit: 15,
@@ -323,7 +323,7 @@ export const buildUiSchema = async (
                   options: [],
                 },
                 {
-                  label: `{{${i18nScope}.fields.embeds.facets.modified.label::translate}}"`,
+                  label: `{{${i18nScope}.fields.embeds.facets.modified.label:translate}}"`,
                   key: "modified",
                   display: "date-range",
                   state: "closed",
