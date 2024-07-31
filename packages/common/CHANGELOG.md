@@ -1,3 +1,10 @@
+# @esri/hub-common [14.166.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.165.0...@esri/hub-common@14.166.0) (2024-07-31)
+
+
+### Features
+
+* **hub-common:** add EventGalleryCardSchema and EventGalleryCardUiSchema ([#1604](https://github.com/Esri/hub.js/issues/1604)) ([09f197c](https://github.com/Esri/hub.js/commit/09f197ca2520cb2e12a0a20f0fa40f3526475ad6))
+
 # @esri/hub-common [14.165.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.164.1...@esri/hub-common@14.165.0) (2024-07-26)
 
 
