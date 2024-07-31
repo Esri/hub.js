@@ -323,6 +323,60 @@ describe("buildUiSchema: project edit", () => {
             },
           ],
         },
+        {
+          type: "Section",
+          labelKey: `some.scope.sections.embeds.label`,
+          options: {
+            headerTag: "h2",
+            helperText: { labelKey: "some.scope.sections.embeds.helperText" },
+          },
+          elements: [
+            {
+              scope: "/properties/view/properties/embeds",
+              type: "Control",
+              options: {
+                control: "hub-composite-input-embeds",
+                facets: [
+                  {
+                    label: `{{some.scope.fields.embeds.facets.type.label:translate}}"`,
+                    key: "type",
+                    display: "multi-select",
+                    field: "type",
+                    options: [],
+                    operation: "OR",
+                    aggLimit: 100,
+                  },
+                  {
+                    label: `{{some.scope.fields.embeds.facets.tags.label:translate}}"`,
+                    key: "tags",
+                    field: "tags",
+                    aggLimit: 15,
+                    operation: "OR",
+                    display: "multi-select",
+                    options: [],
+                  },
+                  {
+                    label: `{{some.scope.fields.embeds.facets.categories.label:translate}}"`,
+                    key: "categories",
+                    field: "categories",
+                    aggLimit: 15,
+                    operation: "OR",
+                    display: "tree",
+                    options: [],
+                  },
+                  {
+                    label: `{{some.scope.fields.embeds.facets.modified.label:translate}}"`,
+                    key: "modified",
+                    display: "date-range",
+                    state: "open",
+                    field: "modified",
+                    max: new Date().toString(),
+                  },
+                ],
+              },
+            },
+          ],
+        },
       ],
     });
   });
