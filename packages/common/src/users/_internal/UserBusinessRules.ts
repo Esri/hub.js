@@ -12,6 +12,7 @@ export const UserPermissions = [
   "hub:user:owner",
   "hub:user:workspace",
   "hub:user:workspace:overview",
+  "hub:user:workspace:settings",
   "hub:user:manage",
 ] as const;
 
@@ -54,6 +55,10 @@ export const UserPermissionPolicies: IPermissionPolicy[] = [
     // but at least for now this is the only pane for users, so no gating
     // availability: ["alpha"],
     dependencies: ["hub:user:workspace", "hub:user:view"],
+  },
+  {
+    permission: "hub:user:workspace:settings",
+    dependencies: ["hub:user:workspace", "hub:user:edit"],
   },
   {
     permission: "hub:user:manage",
