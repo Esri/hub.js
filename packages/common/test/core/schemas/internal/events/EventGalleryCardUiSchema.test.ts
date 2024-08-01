@@ -1,4 +1,5 @@
 import {
+  cloneObject,
   IArcGISContext,
   IHubCatalog,
   IUiSchemaComboboxItem,
@@ -32,9 +33,17 @@ describe("EventGalleryCardUiSchema", () => {
         type: "Control",
         scope: "/properties/categories",
         rules: [],
-        options: {},
+        options: {
+          helperText: {
+            labelKey: "some.label.key",
+          },
+        },
         label: "Categories",
       } as IUiSchemaElement;
+      const categoriesUiSchemaElementWithoutHelperText = cloneObject(
+        categoriesUiSchemaElement
+      );
+      delete categoriesUiSchemaElementWithoutHelperText.options?.helperText;
       const catalog = {
         title: "My catalog",
         scopes: {},
@@ -153,7 +162,7 @@ describe("EventGalleryCardUiSchema", () => {
                     ],
                   },
                   {
-                    ...categoriesUiSchemaElement,
+                    ...categoriesUiSchemaElementWithoutHelperText,
                     rules: [
                       {
                         effect: UiSchemaRuleEffects.SHOW,

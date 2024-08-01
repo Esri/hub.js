@@ -14,6 +14,11 @@ export async function buildUiSchema(
   options: IEventGalleryCardEditorOptions,
   context: IArcGISContext
 ): Promise<IUiSchema> {
+  const categoriesUiSchema = await fetchCategoriesUiSchemaElement(
+    `${i18nScope}.content`,
+    context
+  );
+  delete categoriesUiSchema.options.helperText;
   return {
     type: "Layout",
     elements: [
@@ -102,10 +107,7 @@ export async function buildUiSchema(
                 ],
               },
               {
-                ...(await fetchCategoriesUiSchemaElement(
-                  `${i18nScope}.content`,
-                  context
-                )),
+                ...categoriesUiSchema,
                 rules: [
                   {
                     effect: UiSchemaRuleEffects.SHOW,
