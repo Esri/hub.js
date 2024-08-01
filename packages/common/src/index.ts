@@ -51,8 +51,8 @@ export * from "./core/EntityEditor";
 export * from "./search/explainQueryResult";
 export * from "./search/searchEntityCatalogs";
 export * from "./search/searchCatalogs";
-export * from "./search/getQueryContentConfig";
-export * from "./search/getCatalogContentConfig";
+export * from "./search/getAddContentConfig";
+export * from "./search/_internal/getCatalogGroups";
 export * from "./search/getPredicateValues";
 export * from "./core/hubHistory";
 

@@ -124,6 +124,10 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     environments: ["production"],
   },
   {
+    permission: "hub:environment:enterprise",
+    environments: ["enterprise"],
+  },
+  {
     // When enabled, the new follow card will be loaded
     // instead of the old follow initiative card.
     // To enable it, we need to pass the feature flag
