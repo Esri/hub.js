@@ -1,4 +1,5 @@
 import {
+  cloneObject,
   IArcGISContext,
   IHubCatalog,
   IUiSchemaComboboxItem,
@@ -32,9 +33,17 @@ describe("EventGalleryCardUiSchema", () => {
         type: "Control",
         scope: "/properties/categories",
         rules: [],
-        options: {},
+        options: {
+          helperText: {
+            labelKey: "some.label.key",
+          },
+        },
         label: "Categories",
       } as IUiSchemaElement;
+      const categoriesUiSchemaElementWithoutHelperText = cloneObject(
+        categoriesUiSchemaElement
+      );
+      delete categoriesUiSchemaElementWithoutHelperText.options?.helperText;
       const catalog = {
         title: "My catalog",
         scopes: {},
@@ -103,8 +112,19 @@ describe("EventGalleryCardUiSchema", () => {
                     scope: "/properties/access",
                     type: "Control",
                     options: {
-                      control: "hub-field-input-checkbox-group",
-                      enum: { i18nScope: "some.scope.content.access" },
+                      control: "hub-field-input-tile-select",
+                      descriptions: [
+                        "{{some.scope.content.access.private.description:translate}}",
+                        "{{some.scope.content.access.org.description:translate}}",
+                        "{{some.scope.content.access.public.description:translate}}",
+                      ],
+                      icons: ["users", "organization", "globe"],
+                      labels: [
+                        "{{some.scope.content.access.private.label:translate}}",
+                        "{{some.scope.content.access.org.label:translate}}",
+                        "{{some.scope.content.access.public.label:translate}}",
+                      ],
+                      type: "checkbox",
                     },
                     rules: [
                       {
@@ -142,7 +162,7 @@ describe("EventGalleryCardUiSchema", () => {
                     ],
                   },
                   {
-                    ...categoriesUiSchemaElement,
+                    ...categoriesUiSchemaElementWithoutHelperText,
                     rules: [
                       {
                         effect: UiSchemaRuleEffects.SHOW,
