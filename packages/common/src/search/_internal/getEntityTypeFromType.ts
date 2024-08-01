@@ -2,7 +2,7 @@ import { EntityType } from "../types";
 
 /**
  * @private
- * Given a type (e.g. Hub Site Application) return the appropriate entity type
+ * Given a type (e.g. "Hub Site Application") return the appropriate entity type
  * that can be used as a `targetEntity` in an `IQuery`
  * @param type
  * @returns

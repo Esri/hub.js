@@ -6,16 +6,31 @@ import {
   IQuery,
   getPredicateValues,
 } from "../../src";
-import { MOCK_AUTH, MOCK_AUTH_QA } from "../mocks/mock-auth";
+import {
+  MOCK_AUTH,
+  MOCK_AUTH_QA,
+  MOCK_ENTERPRISE_AUTH,
+} from "../mocks/mock-auth";
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
 
-const MOCK_PORTAL = {
+const MOCK_HUB_BASIC_PORTAL = {
   name: "DC R&D Center",
   id: "BRXFAKE",
   urlKey: "fake-org",
   portalProperties: {
     hub: {
       enabled: false,
+    },
+  },
+} as unknown as IPortal;
+
+const MOCK_HUB_PREMIUM_PORTAL = {
+  name: "DC R&D Center",
+  id: "BRXFAKE",
+  urlKey: "fake-org",
+  portalProperties: {
+    hub: {
+      enabled: true,
     },
   },
 } as unknown as IPortal;
@@ -89,7 +104,7 @@ describe("getQueryContentConfig:", () => {
           } as unknown as IGroup,
         ],
       } as unknown as IUser,
-      portal: MOCK_PORTAL,
+      portal: MOCK_HUB_BASIC_PORTAL,
       portalUrl: "https://org.maps.arcgis.com",
     });
   });
@@ -129,12 +144,12 @@ describe("getQueryContentConfig:", () => {
     if (chk.create) {
       const create = chk.create;
       expect(create.types).toEqual(["Hub Project"]);
-      expect(Array.isArray(create.groups.owner)).toBeTruthy();
-      expect(Array.isArray(create.groups.admin)).toBeTruthy();
-      expect(Array.isArray(create.groups.member)).toBeTruthy();
-      expect(create.groups.admin).toContain("group1");
-      expect(create.groups.member).toContain("group2");
-      expect(create.groups.owner).toEqual([]);
+      expect(Array.isArray(chk.groups.owner)).toBeTruthy();
+      expect(Array.isArray(chk.groups.admin)).toBeTruthy();
+      expect(Array.isArray(chk.groups.member)).toBeTruthy();
+      expect(chk.groups.admin).toContain("group1");
+      expect(chk.groups.member).toContain("group2");
+      expect(chk.groups.owner).toEqual([]);
     } else {
       fail("missing .create");
     }
@@ -197,12 +212,12 @@ describe("getQueryContentConfig:", () => {
       if (chk.create) {
         const create = chk.create;
         expect(create.types).toEqual(["Event"]);
-        expect(Array.isArray(create.groups.owner)).toBeTruthy();
-        expect(Array.isArray(create.groups.admin)).toBeTruthy();
-        expect(Array.isArray(create.groups.member)).toBeTruthy();
-        expect(create.groups.admin).toContain("group1");
-        expect(create.groups.member).toEqual([]);
-        expect(create.groups.owner).toEqual([]);
+        expect(Array.isArray(chk.groups.owner)).toBeTruthy();
+        expect(Array.isArray(chk.groups.admin)).toBeTruthy();
+        expect(Array.isArray(chk.groups.member)).toBeTruthy();
+        expect(chk.groups.admin).toContain("group1");
+        expect(chk.groups.member).toEqual([]);
+        expect(chk.groups.owner).toEqual([]);
       } else {
         fail("missing .create");
       }
@@ -263,12 +278,12 @@ describe("getQueryContentConfig:", () => {
       if (chk.create) {
         const create = chk.create;
         expect(create.types).toEqual([]);
-        expect(Array.isArray(create.groups.owner)).toBeTruthy();
-        expect(Array.isArray(create.groups.admin)).toBeTruthy();
-        expect(Array.isArray(create.groups.member)).toBeTruthy();
-        expect(create.groups.admin).toEqual([]);
-        expect(create.groups.member).toEqual([]);
-        expect(create.groups.owner).toEqual([]);
+        expect(Array.isArray(chk.groups.owner)).toBeTruthy();
+        expect(Array.isArray(chk.groups.admin)).toBeTruthy();
+        expect(Array.isArray(chk.groups.member)).toBeTruthy();
+        expect(chk.groups.admin).toEqual([]);
+        expect(chk.groups.member).toEqual([]);
+        expect(chk.groups.owner).toEqual([]);
       } else {
         fail("missing .create");
       }
@@ -293,7 +308,7 @@ describe("getQueryContentConfig:", () => {
             } as unknown as IGroup,
           ],
         } as unknown as IUser,
-        portal: MOCK_PORTAL,
+        portal: MOCK_HUB_BASIC_PORTAL,
         portalUrl: "https://org.maps.arcgis.com",
       });
 
@@ -349,7 +364,7 @@ describe("getQueryContentConfig:", () => {
             } as unknown as IGroup,
           ],
         } as unknown as IUser,
-        portal: MOCK_PORTAL,
+        portal: MOCK_HUB_BASIC_PORTAL,
         portalUrl: "https://org.maps.arcgis.com",
       });
 
@@ -401,7 +416,7 @@ describe("getQueryContentConfig:", () => {
             } as unknown as IGroup,
           ],
         } as unknown as IUser,
-        portal: MOCK_PORTAL,
+        portal: MOCK_HUB_BASIC_PORTAL,
         portalUrl: "https://org.maps.arcgis.com",
       });
 
@@ -444,9 +459,9 @@ describe("getQueryContentConfig:", () => {
         currentUser: {
           username: "luke",
           orgId: "BRXFAKE",
-          privileges: ["portal:user:createItem"],
+          privileges: ["portal:user:createItem", "portal:user:shareToGroup"],
         } as unknown as IUser,
-        portal: MOCK_PORTAL,
+        portal: MOCK_HUB_BASIC_PORTAL,
         portalUrl: "https://org.maps.arcgis.com",
       });
 
@@ -483,13 +498,13 @@ describe("getQueryContentConfig:", () => {
       expect(chk.existing?.myOrg).toBeNull();
       expect(chk.existing?.world).toBeNull();
     });
-    it("empty response for type without config", async () => {
+    it("default response for type without config", async () => {
       const ctxMgr = await ArcGISContextManager.create({
         authentication: MOCK_AUTH,
         currentUser: {
           username: "luke",
           orgId: "BRXFAKE",
-          privileges: ["portal:user:createItem"],
+          privileges: ["portal:user:createItem", "portal:user:shareToGroup"],
           groups: [
             {
               id: "group2",
@@ -500,7 +515,7 @@ describe("getQueryContentConfig:", () => {
             } as unknown as IGroup,
           ],
         } as unknown as IUser,
-        portal: MOCK_PORTAL,
+        portal: MOCK_HUB_BASIC_PORTAL,
         portalUrl: "https://org.maps.arcgis.com",
       });
 
@@ -529,10 +544,115 @@ describe("getQueryContentConfig:", () => {
       const chk = getQueryContentConfig(query, ctxMgr.context);
       expect(chk).toBeDefined();
       expect(chk.create?.types).toEqual([]);
-      expect(chk.existing?.types).toEqual([]);
-      expect(chk.existing?.mine).toBeNull();
-      expect(chk.existing?.myOrg).toBeNull();
-      expect(chk.existing?.world).toBeNull();
+      expect(chk.existing?.types).toEqual(["Layer Package"]);
+    });
+    it("default Hub Premium response for query without types", async () => {
+      const ctxMgr = await ArcGISContextManager.create({
+        authentication: MOCK_AUTH_QA,
+        currentUser: {
+          username: "luke",
+          orgId: "BRXFAKE",
+          privileges: ["portal:user:createItem", "portal:user:shareToGroup"],
+          groups: [
+            {
+              id: "group2",
+              isViewOnly: false,
+              userMembership: {
+                memberType: "owner",
+              },
+            } as unknown as IGroup,
+          ],
+        } as unknown as IUser,
+        portal: MOCK_HUB_PREMIUM_PORTAL,
+        portalUrl: "https://org.maps.arcgis.com",
+      });
+
+      const query: IQuery = {
+        targetEntity: "item",
+        filters: [
+          {
+            operation: "AND",
+            predicates: [
+              {
+                group: ["group2"],
+              },
+            ],
+          },
+          {
+            operation: "AND",
+            predicates: [
+              {
+                tag: "Production",
+              },
+            ],
+          },
+        ],
+      };
+
+      const chk = getQueryContentConfig(query, ctxMgr.context);
+      expect(chk).toBeDefined();
+      expect(chk.create?.types.length).toEqual(5);
+      expect(chk.create?.types).toContain("Hub Site Application");
+      expect(chk.create?.types).toContain("Hub Page");
+      expect(chk.create?.types).toContain("Hub Project");
+      expect(chk.create?.types).toContain("Hub Initiative");
+      expect(chk.create?.types).toContain("Discussion");
+      expect(chk.existing?.types.length).toEqual(5);
+      expect(chk.existing?.types).toContain("Hub Site Application");
+      expect(chk.existing?.types).toContain("Hub Page");
+      expect(chk.existing?.types).toContain("Hub Project");
+      expect(chk.existing?.types).toContain("Hub Initiative");
+      expect(chk.existing?.types).toContain("Discussion");
+    });
+    it("default Enterprise response for query without types", async () => {
+      const ctxMgr = await ArcGISContextManager.create({
+        authentication: MOCK_ENTERPRISE_AUTH,
+        currentUser: {
+          username: "luke",
+          orgId: "BRXFAKE",
+          privileges: ["portal:user:createItem", "portal:user:shareToGroup"],
+          groups: [
+            {
+              id: "group2",
+              isViewOnly: false,
+              userMembership: {
+                memberType: "owner",
+              },
+            } as unknown as IGroup,
+          ],
+        } as unknown as IUser,
+        portal: MOCK_HUB_BASIC_PORTAL,
+        portalUrl: "https://org.maps.arcgis.com",
+      });
+
+      const query: IQuery = {
+        targetEntity: "item",
+        filters: [
+          {
+            operation: "AND",
+            predicates: [
+              {
+                group: ["group2"],
+              },
+            ],
+          },
+          {
+            operation: "AND",
+            predicates: [
+              {
+                tag: "Production",
+              },
+            ],
+          },
+        ],
+      };
+
+      const chk = getQueryContentConfig(query, ctxMgr.context);
+      expect(chk).toBeDefined();
+      expect(chk.create?.types.length).toEqual(2);
+      expect(chk.create?.types).toEqual(["Site Application", "Site Page"]);
+      expect(chk.existing?.types.length).toEqual(2);
+      expect(chk.existing?.types).toEqual(["Site Application", "Site Page"]);
     });
   });
 });

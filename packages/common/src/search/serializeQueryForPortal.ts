@@ -249,12 +249,12 @@ function serializeStringOrArray(
   value: string | string[]
 ): string {
   let q = "";
-  if (Array.isArray(value)) {
+  if (Array.isArray(value) && value.length) {
     q = `${key}:"${value.join(`" ${join} ${key}:"`)}"`;
     if (value.length > 1) {
       q = `(${q})`;
     }
-  } else {
+  } else if (typeof value === "string") {
     q = `${key}:"${value}"`;
   }
   return q;
