@@ -1,3 +1,10 @@
+# @esri/hub-common [14.167.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.166.0...@esri/hub-common@14.167.0) (2024-08-01)
+
+
+### Features
+
+* **hub-common:** refactor event gallery card editor uiSchema to use … ([#1610](https://github.com/Esri/hub.js/issues/1610)) ([b2370d1](https://github.com/Esri/hub.js/commit/b2370d1cc95b9f4cc6b9a9dd0952aae0b650474f))
+
 # @esri/hub-common [14.166.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.165.0...@esri/hub-common@14.166.0) (2024-07-31)
 
 
