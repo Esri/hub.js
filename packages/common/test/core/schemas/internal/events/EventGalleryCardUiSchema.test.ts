@@ -103,8 +103,19 @@ describe("EventGalleryCardUiSchema", () => {
                     scope: "/properties/access",
                     type: "Control",
                     options: {
-                      control: "hub-field-input-checkbox-group",
-                      enum: { i18nScope: "some.scope.content.access" },
+                      control: "hub-field-input-tile-select",
+                      descriptions: [
+                        "{{some.scope.content.access.private.description:translate}}",
+                        "{{some.scope.content.access.org.description:translate}}",
+                        "{{some.scope.content.access.public.description:translate}}",
+                      ],
+                      icons: ["users", "organization", "globe"],
+                      labels: [
+                        "{{some.scope.content.access.private.label:translate}}",
+                        "{{some.scope.content.access.org.label:translate}}",
+                        "{{some.scope.content.access.public.label:translate}}",
+                      ],
+                      type: "checkbox",
                     },
                     rules: [
                       {

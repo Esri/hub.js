@@ -48,10 +48,19 @@ export async function buildUiSchema(
                 scope: "/properties/access",
                 type: "Control",
                 options: {
-                  control: "hub-field-input-checkbox-group",
-                  enum: {
-                    i18nScope: `${i18nScope}.content.access`,
-                  },
+                  control: "hub-field-input-tile-select",
+                  descriptions: [
+                    `{{${i18nScope}.content.access.private.description:translate}}`,
+                    `{{${i18nScope}.content.access.org.description:translate}}`,
+                    `{{${i18nScope}.content.access.public.description:translate}}`,
+                  ],
+                  icons: ["users", "organization", "globe"],
+                  labels: [
+                    `{{${i18nScope}.content.access.private.label:translate}}`,
+                    `{{${i18nScope}.content.access.org.label:translate}}`,
+                    `{{${i18nScope}.content.access.public.label:translate}}`,
+                  ],
+                  type: "checkbox",
                 },
                 rules: [
                   {
