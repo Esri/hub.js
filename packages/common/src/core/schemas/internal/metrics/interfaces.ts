@@ -14,9 +14,12 @@ export enum UNIT_POSITIONS {
 }
 export enum VISUAL_INTEREST {
   none = "none",
-  sparkline = "sparkline",
   icon = "icon",
-  logo = "logo",
+}
+export enum ICONS {
+  caretUp = "caret-up",
+  caretDown = "caret-down",
+  caretDouble = "caret-double-horizontal",
 }
 export enum SOURCE {
   dynamic = "dynamic",
