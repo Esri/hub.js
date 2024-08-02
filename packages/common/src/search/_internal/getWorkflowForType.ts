@@ -2,6 +2,7 @@ import { IArcGISContext } from "../../ArcGISContext";
 import { checkPermission } from "../../permissions/checkPermission";
 import { Permission } from "../../permissions/types/Permission";
 import { cloneObject } from "../../util";
+import { EntityType } from "../types/IHubCatalog";
 
 /**
  * @internal
@@ -14,6 +15,11 @@ export interface ITypeWorkflow {
    * or Event which are not item-backed.
    */
   type: string;
+
+  /**
+   * The target entity type for the type
+   */
+  targetEntity: EntityType;
   /**
    * The workflows that are available for the type
    */
@@ -58,6 +64,7 @@ export function getWorkflowForType(
   // meaning the user can not do anything with this type
   const response = {
     type,
+    targetEntity: "item" as EntityType,
     workflows: [] as ContentWorkflow[],
   };
 
@@ -74,6 +81,8 @@ export function getWorkflowForType(
       // FUTURE: Add the failed permisson check to the response
     }
   } else {
+    // ensure the targetEntity is set
+    response.targetEntity = definition.targetEntity;
     // otherwise we check the permission first...
     if (checkPermission(definition.permission, context).access) {
       response.workflows = definition.workflows;
@@ -93,25 +102,46 @@ export function getWorkflowForType(
  * @param context
  * @returns
  */
-export function getDefaultCreateableTypes(context: IArcGISContext): string[] {
-  const defaultCreatableTypes = [
-    "Hub Project",
-    "Hub Initiative",
-    "Discussion",
-    "Event",
-  ];
+export function getDefaultCreateableTypes(
+  context: IArcGISContext,
+  limitTo: EntityType[] = []
+): string[] {
+  const itemCreateableTypes = ["Hub Project", "Hub Initiative", "Discussion"];
   // If the user has the hub:license:enterprise-sites permission
   // they are on Enterprise and the types are "site applications" and "site pages"
   if (checkPermission("hub:environment:enterprise", context).access) {
-    defaultCreatableTypes.push("Site Application");
-    defaultCreatableTypes.push("Site Page");
+    itemCreateableTypes.push("Site Application");
+    itemCreateableTypes.push("Site Page");
   } else {
     // Otherwise we infer they are running on AGO, and can
     // the types are "hub site applications" and "hub pages"
-    defaultCreatableTypes.push("Hub Site Application");
-    defaultCreatableTypes.push("Hub Page");
+    itemCreateableTypes.push("Hub Site Application");
+    itemCreateableTypes.push("Hub Page");
   }
-  return defaultCreatableTypes;
+
+  const eventCreateableTypes = ["Event"];
+  const groupCreateableTypes = ["Group"];
+
+  let response: string[] = [];
+  if (limitTo.length) {
+    if (limitTo.includes("item")) {
+      response = itemCreateableTypes;
+    }
+    if (limitTo.includes("event")) {
+      response = [...response, ...eventCreateableTypes];
+    }
+    if (limitTo.includes("group")) {
+      response = [...response, ...groupCreateableTypes];
+    }
+  } else {
+    response = [
+      ...itemCreateableTypes,
+      ...eventCreateableTypes,
+      ...groupCreateableTypes,
+    ];
+  }
+
+  return response;
 }
 
 /**
@@ -125,46 +155,55 @@ export function getDefaultCreateableTypes(context: IArcGISContext): string[] {
 const TypeWorkflowDefinitions: ITypeWorkflowDefinition[] = [
   {
     type: "Discussion",
+    targetEntity: "item",
     permission: "hub:discussion:create",
     workflows: ["create", "existing"],
   },
   {
     type: "Hub Project",
+    targetEntity: "item",
     permission: "hub:project:create",
     workflows: ["create", "existing"],
   },
   {
     type: "Hub Page",
+    targetEntity: "item",
     permission: "hub:page:create",
     workflows: ["create", "existing"],
   },
   {
     type: "Site Page",
+    targetEntity: "item",
     permission: "hub:page:create",
     workflows: ["create", "existing"],
   },
   {
     type: "Hub Initiative",
+    targetEntity: "item",
     permission: "hub:initiative:create",
     workflows: ["create", "existing"],
   },
   {
     type: "Hub Site Application",
+    targetEntity: "item",
     permission: "hub:site:create",
     workflows: ["create", "existing"],
   },
   {
     type: "Site Application",
+    targetEntity: "item",
     permission: "hub:site:create",
     workflows: ["create", "existing"],
   },
   {
     type: "Group",
+    targetEntity: "group",
     permission: "hub:group:create",
     workflows: ["create"],
   },
   {
     type: "Event",
+    targetEntity: "event",
     permission: "hub:event:create",
     workflows: ["create", "existing"],
   },
@@ -175,6 +214,7 @@ const TypeWorkflowDefinitions: ITypeWorkflowDefinition[] = [
     // which will be created in AGO, and just ADDED
     // via Hub
     type: "$document",
+    targetEntity: "item",
     permission: "hub:content:document:create",
     workflows: ["upload", "existing"],
   },
@@ -184,36 +224,43 @@ const TypeWorkflowDefinitions: ITypeWorkflowDefinition[] = [
   // to define a specific permission for each type
   {
     type: "$application",
+    targetEntity: "item",
     permission: "platform:portal:user:shareToGroup",
     workflows: ["existing"],
   },
   {
     type: "$feedback",
+    targetEntity: "item",
     permission: "platform:portal:user:shareToGroup",
     workflows: ["existing"],
   },
   {
     type: "$dashboard",
+    targetEntity: "item",
     permission: "platform:portal:user:shareToGroup",
     workflows: ["existing"],
   },
   {
     type: "$dataset",
+    targetEntity: "item",
     permission: "platform:portal:user:shareToGroup",
     workflows: ["existing"],
   },
   {
     type: "$experience",
+    targetEntity: "item",
     permission: "platform:portal:user:shareToGroup",
     workflows: ["existing"],
   },
   {
     type: "$storymap",
+    targetEntity: "item",
     permission: "platform:portal:user:shareToGroup",
     workflows: ["existing"],
   },
   {
     type: "$webmap",
+    targetEntity: "item",
     permission: "platform:portal:user:shareToGroup",
     workflows: ["existing"],
   },

@@ -208,15 +208,15 @@ function serializePredicate(predicate: IPredicate): ISearchOptions {
  */
 function serializeMatchOptions(key: string, value: IMatchOptions): string {
   let result = "";
-  if (value.any) {
+  if (value.any && value.any.length) {
     result = `${serializeStringOrArray("OR", key, value.any)}`;
   }
-  if (value.all) {
+  if (value.all && value.not.length) {
     result =
       (result ? result + " AND " : "") +
       `${serializeStringOrArray("AND", key, value.all)}`;
   }
-  if (value.not) {
+  if (value.not && value.not.length) {
     // negate the entries if they are not
     result =
       (result ? result + " AND " : "") +
@@ -254,7 +254,7 @@ function serializeStringOrArray(
     if (value.length > 1) {
       q = `(${q})`;
     }
-  } else if (typeof value === "string") {
+  } else {
     q = `${key}:"${value}"`;
   }
   return q;

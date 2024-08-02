@@ -1,13 +1,13 @@
 import { IGroup } from "@esri/arcgis-rest-types";
 import {
   ArcGISContextManager,
-  getCatalogContentConfig,
+  getCatalogGroups,
   IHubCatalog,
-} from "../../src";
-import { MOCK_AUTH } from "../mocks/mock-auth";
+} from "../../../src";
+import { MOCK_AUTH } from "../../mocks/mock-auth";
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
 
-describe("getCatalogContentConfig:", () => {
+describe("getCatalogGroups:", () => {
   let licensedUserCtxMgr: ArcGISContextManager;
   beforeEach(async () => {
     licensedUserCtxMgr = await ArcGISContextManager.create({
@@ -63,7 +63,9 @@ describe("getCatalogContentConfig:", () => {
       scopes: {
         item: {
           targetEntity: "item",
-          filters: [{ predicates: [{ group: "group1" }] }],
+          filters: [
+            { predicates: [{ group: ["group1", "group2", "group3"] }] },
+          ],
         },
         event: {
           targetEntity: "event",
@@ -83,17 +85,46 @@ describe("getCatalogContentConfig:", () => {
       ],
     };
 
-    const chk = getCatalogContentConfig(catalog, licensedUserCtxMgr.context);
+    const chk = getCatalogGroups(catalog, licensedUserCtxMgr.context);
     // We are not doing in-depth validation of the content config here
     // as that's handled in the tests for `getQueryContentConfig`
     // We are just validating that the expected collections are returned
-    expect(chk.collections.length).toBe(2);
-    expect(chk.collections[0].label).toBe("Collection 1");
-    expect(chk.collections[0].key).toBe("collection1");
-    expect(chk.collections[0].targetEntity).toBe("item");
-    expect(chk.collections[0].create).toBeDefined();
-    expect(chk.collections[0].existing).toBeDefined();
-    expect(chk.collections[1].label).toBe("Synthetic event");
-    expect(chk.collections[1].key).toBe("synthetic-event");
+    // console.log(JSON.stringify(chk, null, 2));
+
+    // TODO: debug the getCatalogGroups function
+
+    expect(chk.admin).toEqual(["group1"]);
+    expect(chk.owner).toEqual([]);
+    expect(chk.member).toEqual(["group2"]);
+  });
+  it("works without collections", () => {
+    const catalog: IHubCatalog = {
+      title: "DC R&D Center",
+      schemaVersion: 1,
+      scopes: {
+        item: {
+          targetEntity: "item",
+          filters: [
+            { predicates: [{ group: ["group1", "group2", "group3"] }] },
+          ],
+        },
+        event: {
+          targetEntity: "event",
+          filters: [{ predicates: [{ group: "group1" }] }],
+        },
+      },
+    };
+
+    const chk = getCatalogGroups(catalog, licensedUserCtxMgr.context);
+    // We are not doing in-depth validation of the content config here
+    // as that's handled in the tests for `getQueryContentConfig`
+    // We are just validating that the expected collections are returned
+    // console.log(JSON.stringify(chk, null, 2));
+
+    // TODO: debug the getCatalogGroups function
+
+    expect(chk.admin).toEqual(["group1"]);
+    expect(chk.owner).toEqual([]);
+    expect(chk.member).toEqual(["group2"]);
   });
 });
