@@ -21,6 +21,7 @@ export function getWellKnownGroup(
     hubViewGroup: {
       access: "org",
       autoJoin: false,
+      isSharedUpdate: false,
       isInvitationOnly: false,
       hiddenMembers: false,
       isViewOnly: false,

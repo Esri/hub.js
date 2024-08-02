@@ -1,3 +1,39 @@
+# @esri/hub-common [14.167.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.166.0...@esri/hub-common@14.167.0) (2024-08-01)
+
+
+### Features
+
+* **hub-common:** refactor event gallery card editor uiSchema to use … ([#1610](https://github.com/Esri/hub.js/issues/1610)) ([b2370d1](https://github.com/Esri/hub.js/commit/b2370d1cc95b9f4cc6b9a9dd0952aae0b650474f))
+
+# @esri/hub-common [14.166.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.165.0...@esri/hub-common@14.166.0) (2024-07-31)
+
+
+### Features
+
+* **hub-common:** add EventGalleryCardSchema and EventGalleryCardUiSchema ([#1604](https://github.com/Esri/hub.js/issues/1604)) ([09f197c](https://github.com/Esri/hub.js/commit/09f197ca2520cb2e12a0a20f0fa40f3526475ad6))
+
+# @esri/hub-common [14.165.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.164.1...@esri/hub-common@14.165.0) (2024-07-26)
+
+
+### Features
+
+* extend static download formats to support additional resources ([#1607](https://github.com/Esri/hub.js/issues/1607)) ([e27f83d](https://github.com/Esri/hub.js/commit/e27f83d98a305ce0bb110e6b9773f2d349cbd263))
+
+## @esri/hub-common [14.164.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.164.0...@esri/hub-common@14.164.1) (2024-07-26)
+
+
+### Bug Fixes
+
+* update groups uiSchemas ([#1606](https://github.com/Esri/hub.js/issues/1606)) ([2e33d8b](https://github.com/Esri/hub.js/commit/2e33d8b7a39f179ae3aff4598b72058ee0197f16))
+* update uiSchemas ([#1605](https://github.com/Esri/hub.js/issues/1605)) ([2d3f195](https://github.com/Esri/hub.js/commit/2d3f195094ada793923b31550df393be059530e9))
+
+# @esri/hub-common [14.164.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.163.0...@esri/hub-common@14.164.0) (2024-07-25)
+
+
+### Features
+
+* consolidate group creation ([#1603](https://github.com/Esri/hub.js/issues/1603)) ([af3a889](https://github.com/Esri/hub.js/commit/af3a88929f1dfc2a9c7f3f09e6297b131be8aaca))
+
 # @esri/hub-common [14.163.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.162.0...@esri/hub-common@14.163.0) (2024-07-24)
 
 

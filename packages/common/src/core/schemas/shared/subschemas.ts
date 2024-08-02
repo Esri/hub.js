@@ -3,6 +3,8 @@
  * re-used subschemas in your schema definitions
  */
 
+import { JSONSchema } from "json-schema-typed";
+
 export const ENTITY_NAME_SCHEMA = {
   type: "string",
   minLength: 1,
@@ -20,14 +22,14 @@ export const ENTITY_ACCESS_SCHEMA = {
   default: "private",
 };
 
-export const ENTITY_TAGS_SCHEMA = {
+export const ENTITY_TAGS_SCHEMA: JSONSchema = {
   type: "array",
   items: {
     type: "string",
   },
 };
 
-export const ENTITY_CATEGORIES_SCHEMA = {
+export const ENTITY_CATEGORIES_SCHEMA: JSONSchema = {
   type: "array",
   items: {
     type: "string",

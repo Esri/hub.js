@@ -17,7 +17,10 @@ export type EntityEditorOptions = HubEntity;
  * a layout card's editor. This should be a union of all of the different
  * layout card editor options, i.e. IStatCardEditorOptions | ICountdownCardEditorOptions | ...
  */
-export type CardEditorOptions = IStatCardEditorOptions;
+export type CardEditorOptions =
+  | IStatCardEditorOptions
+  | IFollowCardEditorOptions
+  | IEventGalleryCardEditorOptions;
 
 /**
  * Options to use when constructing a schema and uiSchema for
@@ -25,4 +28,18 @@ export type CardEditorOptions = IStatCardEditorOptions;
  */
 export interface IStatCardEditorOptions {
   themeColors: string[];
+}
+
+/**
+ * Options to use when constructing a schema and uiSchema for
+ * a follow card editor.
+ */
+export interface IFollowCardEditorOptions {}
+
+/**
+ * Options to use when constructing a schema and uiSchema for
+ * an event gallery card editor.
+ */
+export interface IEventGalleryCardEditorOptions {
+  tags: string[];
 }

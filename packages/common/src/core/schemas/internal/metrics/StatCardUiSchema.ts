@@ -1,7 +1,7 @@
 import { IArcGISContext } from "../../../../ArcGISContext";
 import { IStatCardEditorOptions } from "../EditorOptions";
 import { UiSchemaRuleEffects, IUiSchema } from "../../types";
-import { ICONS, VISUAL_INTEREST } from "./interfaces";
+import { ICONS } from "./interfaces";
 import { checkPermission } from "../../../../permissions/checkPermission";
 
 /**

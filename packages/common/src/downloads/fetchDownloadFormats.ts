@@ -51,7 +51,10 @@ function toStaticFormat(
 ): IStaticDownloadFormat {
   return {
     type: "static",
-    label: resource.name,
+    label:
+      resource.name ||
+      (resource.isDataSource && `{{dataSource:translate}}`) || // if the additional resource is the datasource
+      `{{noTitle:translate}}`, // if the additional resource has no name
     url: resource.url,
   };
 }
