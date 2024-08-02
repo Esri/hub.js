@@ -292,7 +292,6 @@ export const buildUiSchema = async (
                 labelKey: `appearance.visualInterest.label`,
                 scope: "/properties/visualInterest",
                 type: "Control",
-                rule: SHOW_FOR_SIMPLE_RULE,
                 options: {
                   control: "hub-field-input-select",
                   enum: {

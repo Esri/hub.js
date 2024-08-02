@@ -369,13 +369,6 @@ describe("buildUiSchema: stat", () => {
                   labelKey: `appearance.visualInterest.label`,
                   scope: "/properties/visualInterest",
                   type: "Control",
-                  rule: {
-                    effect: UiSchemaRuleEffects.SHOW,
-                    condition: {
-                      scope: "/properties/layout",
-                      schema: { const: "simple" },
-                    },
-                  },
                   options: {
                     control: "hub-field-input-select",
                     enum: {
