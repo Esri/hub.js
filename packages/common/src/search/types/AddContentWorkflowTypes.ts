@@ -16,7 +16,11 @@ export interface IAddContentWorkflowConfig {
   upload?: IAddContentUploadWorkflowConfig;
   existing?: IAddContentExistingWorkflowConfig;
   state: "enabled" | "disabled";
-  reason?: "no-permission" | "not-in-groups";
+  reason?:
+    | "no-permission"
+    | "not-in-groups"
+    | "invalid-object"
+    | "unsupported-target-entity";
   // FUTURE we can add the checks
 }
 

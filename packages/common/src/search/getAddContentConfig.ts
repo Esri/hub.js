@@ -11,7 +11,6 @@ import {
 import { getProp } from "../objects/get-prop";
 import { getUserGroupsFromQuery } from "./_internal/getUserGroupsFromQuery";
 import { IAddContentWorkflowConfig } from "./types/AddContentWorkflowTypes";
-import { Catalog } from "./Catalog";
 import { getCatalogGroups } from "./_internal";
 
 const EmptyAddContentWorkflowConfig: IAddContentWorkflowConfig = {
@@ -42,7 +41,9 @@ export function getAddContentConfig(
       );
     } else {
       // Some other type of object was passed in, so just return an empty config
-      return cloneObject(EmptyAddContentWorkflowConfig);
+      const result = cloneObject(EmptyAddContentWorkflowConfig);
+      result.reason = "invalid-object";
+      return result;
     }
   } else {
     // nothing was passed in, so return the default config
@@ -72,7 +73,7 @@ function getDefaultAddContentConfig(
     if (wft.workflows.includes("create")) {
       if (!response.create) {
         response.create = {
-          targetEntity: "item",
+          targetEntity: wft.targetEntity,
           workflow: "create",
           types: [],
         };
@@ -80,6 +81,12 @@ function getDefaultAddContentConfig(
       response.create.types.push(wft.type);
     }
   });
+
+  response.state = response.create?.types.length ? "enabled" : "disabled";
+
+  if (response.state === "disabled") {
+    response.reason = "no-permission";
+  }
 
   return response;
 }
@@ -135,10 +142,13 @@ function getAddContentConfigForQuery(
 ): IAddContentWorkflowConfig {
   if (query.targetEntity === "item") {
     return getAddContentConfigForItemQuery(query, context);
-  }
-
-  if (query.targetEntity === "event") {
+  } else if (query.targetEntity === "event") {
     return getAddContentConfigForEventQuery(query, context);
+  } else {
+    const response = cloneObject(EmptyAddContentWorkflowConfig);
+    response.state = "disabled";
+    response.reason = "unsupported-target-entity";
+    return response;
   }
 }
 
@@ -169,17 +179,19 @@ function getAddContentConfigForEventQuery(
   // events can be created or added but the user needs permission
   if (checkPermission("hub:event:create", context).access) {
     response.create = {
-      targetEntity: "item",
+      targetEntity: "event",
       workflow: "create",
       types: ["Event"],
+      groups: userGroups,
     };
   }
   // Anyone can add an event (no permission check)
   response.existing = {
-    targetEntity: "item",
+    targetEntity: "event",
     workflow: "existing",
     types: ["Event"],
     query: negateGroupPredicates(query),
+    groups: userGroups,
   };
   response.state = "enabled";
   return response;
@@ -213,7 +225,7 @@ function getAddContentConfigForItemQuery(
 
   // If there are no types we need to use the default creatable types
   if (!queryTypes.length) {
-    queryTypes = getDefaultCreateableTypes(context);
+    queryTypes = getDefaultCreateableTypes(context, [query.targetEntity]);
   }
 
   const workflowTypes = queryTypes.map((type) => {
@@ -228,7 +240,7 @@ function getAddContentConfigForItemQuery(
     if (wft.workflows.includes("create")) {
       if (!response.create) {
         response.create = {
-          targetEntity: "item",
+          targetEntity: wft.targetEntity,
           workflow: "create",
           types: [],
           groups: userGroups,
@@ -239,7 +251,7 @@ function getAddContentConfigForItemQuery(
     if (wft.workflows.includes("existing")) {
       if (!response.existing) {
         response.existing = {
-          targetEntity: "item",
+          targetEntity: wft.targetEntity,
           workflow: "existing",
           types: [],
           groups: userGroups,
