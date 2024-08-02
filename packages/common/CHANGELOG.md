@@ -1,3 +1,10 @@
+# @esri/hub-common [14.168.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.167.0...@esri/hub-common@14.168.0) (2024-08-02)
+
+
+### Features
+
+* stat card supports visual interest ([#1597](https://github.com/Esri/hub.js/issues/1597)) ([2ffc48f](https://github.com/Esri/hub.js/commit/2ffc48f9f77cf33d415432076e69b4e6cb8882f6))
+
 # @esri/hub-common [14.167.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.166.0...@esri/hub-common@14.167.0) (2024-08-01)
 
 
