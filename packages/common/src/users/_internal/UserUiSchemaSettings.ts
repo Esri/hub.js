@@ -27,13 +27,13 @@ export const buildUiSchema = async (
               kind: "info",
               scale: "m",
             },
-            title: "",
+            title: "Organization management",
             message:
-              "Org settings can be managed in the ArcGIS home application",
+              "Moving forward, managing settings for both staff and community organizations will take place in ArcGIS Online.",
             autoShow: true,
             actions: [
               {
-                label: "Go to org settings",
+                label: "Go to organization settings",
                 icon: "launch",
                 href: `${context.portalUrl}/home/organization.html?#settings`,
                 target: "_blank",
