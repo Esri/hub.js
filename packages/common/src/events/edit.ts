@@ -30,8 +30,8 @@ async function reconcileAssociations(
   hubRequestOptions: IHubRequestOptions
 ): Promise<ICreateEventAssociation[]> {
   // filter out any references that were removed
-  const associations = references.filter(
-    ({ entityId }) => !referenceIds.includes(entityId)
+  const associations = references.filter(({ entityId }) =>
+    referenceIds.includes(entityId)
   );
   // get a collection of reference ids being added
   const added = referenceIds.filter(
