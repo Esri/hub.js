@@ -83,6 +83,7 @@ export class EventPropertyMapper extends PropertyMapper<
       store.permission.canSetStatusToCancelled,
       store.permission.canSetStatusToRemoved,
     ].some(Boolean);
+    obj.referenceIds = store.associations.map(({ entityId }) => entityId);
 
     // Handle Dates
     obj.createdDate = new Date(store.createdAt);

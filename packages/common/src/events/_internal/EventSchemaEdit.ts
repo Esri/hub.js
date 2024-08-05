@@ -85,6 +85,14 @@ export const buildSchema = (): IConfigurationSchema => {
         enum: [HubEventCapacityType.Unlimited, HubEventCapacityType.Fixed],
         default: HubEventCapacityType.Unlimited,
       },
+      referenceIds: {
+        type: "array",
+        items: {
+          type: "string",
+        },
+        default: [],
+        maxItems: 1,
+      },
       summary: ENTITY_SUMMARY_SCHEMA,
       tags: ENTITY_TAGS_SCHEMA,
       categories: ENTITY_CATEGORIES_SCHEMA,
