@@ -14,12 +14,45 @@ import {
   EventAttendanceType,
   IRegistration,
   RegistrationRole,
+  ICreateEventAssociation,
 } from "./api";
+import { searchItems } from "@esri/arcgis-rest-portal";
 
 export interface IHubCreateEventRegistration {
   eventId: string;
   role: RegistrationRole;
   type: EventAttendanceType;
+}
+
+async function reconcileAssociations(
+  references: Array<{ entityId: string; entityType: string }>,
+  referenceIds: string[],
+  hubRequestOptions: IHubRequestOptions
+): Promise<ICreateEventAssociation[]> {
+  // filter out any references that were removed
+  const associations = references.filter(
+    ({ entityId }) => !referenceIds.includes(entityId)
+  );
+  // get a collection of reference ids being added
+  const added = referenceIds.filter(
+    (referenceId) =>
+      !associations.find(({ entityId }) => entityId === referenceId)
+  );
+  if (added.length) {
+    // fetch the records for any associations being added
+    const { results } = await searchItems({
+      q: added.map((id) => `id:${id}`).join(" OR "),
+      num: added.length,
+      authentication: hubRequestOptions.authentication,
+    });
+    // map new association records to ICreateEventAssociation structures
+    const addedAssociations = results.map(({ id, type }) => ({
+      entityId: id,
+      entityType: type,
+    }));
+    associations.push(...addedAssociations);
+  }
+  return associations as ICreateEventAssociation[];
 }
 
 /**
@@ -48,10 +81,17 @@ export async function createHubEvent(
 
   let model = mapper.entityToStore(event, buildDefaultEventRecord());
 
+  const associations = await reconcileAssociations(
+    partialEvent.references,
+    partialEvent.referenceIds,
+    requestOptions
+  );
+
   const data = {
     access: model.access,
     allDay: model.allDay,
     allowRegistration: model.allowRegistration,
+    associations,
     attendanceType: model.attendanceType,
     categories: model.categories,
     description: model.description,
@@ -98,10 +138,17 @@ export async function updateHubEvent(
 
   let model = mapper.entityToStore(eventUpdates, buildDefaultEventRecord());
 
+  const associations = await reconcileAssociations(
+    partialEvent.references,
+    partialEvent.referenceIds,
+    requestOptions
+  );
+
   const data = {
     access: model.access,
     allDay: model.allDay,
     allowRegistration: model.allowRegistration,
+    associations,
     attendanceType: model.attendanceType,
     categories: model.categories,
     description: model.description,

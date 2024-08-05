@@ -7,6 +7,7 @@ import { HubEventAttendanceType, HubEventCapacityType } from "../types";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { fetchCategoriesUiSchemaElement } from "../../core/schemas/internal/fetchCategoriesUiSchemaElement";
+import { getWellKnownCatalog } from "../../search/wellKnownCatalog";
 
 /**
  * @private
@@ -395,6 +396,76 @@ export const buildUiSchema = async (
                   keyword: "minimum",
                   icon: true,
                   labelKey: `${i18nScope}.fields.onlineCapacity.minimumError`,
+                },
+              ],
+            },
+          },
+        ],
+      },
+      {
+        type: "Section",
+        labelKey: `${i18nScope}.sections.references.label`,
+        elements: [
+          {
+            scope: "/properties/referenceIds",
+            type: "Control",
+            options: {
+              control: "hub-field-input-gallery-picker",
+              helperText: {
+                labelKey: `${i18nScope}.fields.references.helperText.label`,
+              },
+              pickerTitle: {
+                labelKey: `${i18nScope}.fields.references.pickerTitle.label`,
+              },
+              targetEntity: "item",
+              catalogs: [
+                getWellKnownCatalog(
+                  `${i18nScope}.fields.references`,
+                  "organization",
+                  "item",
+                  {
+                    user: context.currentUser,
+                    collectionNames: ["site", "initiative", "project"],
+                    filters: [],
+                    context,
+                  }
+                ),
+              ],
+              facets: [
+                {
+                  label: `{{${i18nScope}.fields.references.facets.from.label:translate}}`,
+                  key: "from",
+                  display: "single-select",
+                  operation: "OR",
+                  options: [
+                    {
+                      label: `{{${i18nScope}.fields.references.facets.from.myContent.label:translate}}`,
+                      key: "myContent",
+                      selected: true,
+                      predicates: [
+                        {
+                          owner: context.currentUser.username,
+                        },
+                      ],
+                    },
+                    {
+                      label: `{{${i18nScope}.fields.references.facets.from.myOrganization.label:translate}}`,
+                      key: "myOrganization",
+                      selected: false,
+                      predicates: [
+                        {
+                          orgId: context.currentUser.orgId,
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  label: `{{${i18nScope}.fields.references.facets.access.label:translate}}`,
+                  key: "access",
+                  field: "access",
+                  display: "multi-select",
+                  operation: "OR",
                 },
               ],
             },

@@ -20,6 +20,9 @@ export function fetchEvent(
   const id = spl[spl.length - 1];
   return getEvent({
     eventId: id,
+    data: {
+      include: "associations",
+    },
     ...requestOptions,
   })
     .then((event) => convertClientEventToHubEvent(event, requestOptions))
