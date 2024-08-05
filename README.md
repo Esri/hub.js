@@ -118,7 +118,7 @@ If you have another useful extension that you'd like to recommend, add an entry 
 
 ### License
 
-Copyright &copy; 2018-2019 Esri
+Copyright &copy; 2018-2024 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
