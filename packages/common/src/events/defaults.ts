@@ -31,8 +31,7 @@ export function buildDefaultEventEntity(): Partial<IHubEvent> {
     onlineCapacityType: HubEventCapacityType.Unlimited,
     onlineDetails: null,
     onlineUrl: null,
-    references: [],
-    referenceIds: [],
+    featuredContentIdsByType: [],
     schemaVersion: 1,
     tags: [],
     readGroupIds: [],
@@ -41,6 +40,7 @@ export function buildDefaultEventEntity(): Partial<IHubEvent> {
     view: {
       heroActions: [],
       showMap: false,
+      featuredContentIds: [],
     },
     location: {
       type: "none",

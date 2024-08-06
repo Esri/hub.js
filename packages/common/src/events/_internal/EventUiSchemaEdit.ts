@@ -1,6 +1,5 @@
 import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import { IArcGISContext } from "../../ArcGISContext";
-import { getDatePickerDate } from "../../utils/date/getDatePickerDate";
 import { IHubEvent } from "../../core/types/IHubEvent";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { HubEventAttendanceType, HubEventCapacityType } from "../types";
@@ -20,10 +19,6 @@ export const buildUiSchema = async (
   options: Partial<IHubEvent>,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
-  const minStartEndDate = getDatePickerDate(
-    new Date(),
-    (options as IHubEvent).timeZone
-  );
   return {
     type: "Layout",
     elements: [
