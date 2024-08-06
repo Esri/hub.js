@@ -1,8 +1,8 @@
 import { buildSchema } from "../../../src/events/_internal/EventSchemaEdit";
 import { IConfigurationSchema } from "../../../src/core/schemas/types";
-import * as getDefaultEventDatesAndTimesModule from "../../../src/events/_internal/getDefaultEventDatesAndTimes";
 import {
   ENTITY_CATEGORIES_SCHEMA,
+  ENTITY_FEATURED_CONTENT_SCHEMA,
   ENTITY_NAME_SCHEMA,
   ENTITY_SUMMARY_SCHEMA,
   ENTITY_TAGS_SCHEMA,
@@ -30,12 +30,7 @@ describe("EventSchemaEdit", () => {
         endTime: "14:00:00",
         timeZone: "America/New_York",
       };
-      const getDefaultEventDatesAndTimesSpy = spyOn(
-        getDefaultEventDatesAndTimesModule,
-        "getDefaultEventDatesAndTimes"
-      ).and.returnValue(datesAndTimes);
       const res = buildSchema();
-      expect(getDefaultEventDatesAndTimesSpy).toHaveBeenCalledTimes(1);
       expect(res).toEqual({
         required: ["name", "startDate", "endDate", "timeZone"],
         properties: {
@@ -104,6 +99,16 @@ describe("EventSchemaEdit", () => {
           summary: ENTITY_SUMMARY_SCHEMA,
           tags: ENTITY_TAGS_SCHEMA,
           categories: ENTITY_CATEGORIES_SCHEMA,
+          view: {
+            type: "object",
+            properties: {
+              featuredContentIds: {
+                ...ENTITY_FEATURED_CONTENT_SCHEMA,
+                default: [],
+                maxItems: 1,
+              },
+            },
+          },
         },
         allOf: [
           URL_VALIDATIONS_WHEN_ONLINE_OR_HYBRID,

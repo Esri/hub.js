@@ -23,6 +23,7 @@ import {
   HubEventAttendanceType,
   HubEventCapacityType,
 } from "../../src/events/types";
+import * as buildEventAssociationsModule from "../../src/events/_internal/buildEventAssociations";
 
 describe("HubEvents edit module", () => {
   describe("createHubEvent", () => {
@@ -74,6 +75,7 @@ describe("HubEvents edit module", () => {
         view: {
           heroActions: [],
           showMap: false,
+          featuredContentIds: [],
         },
         location: {
           type: "none",
@@ -85,6 +87,7 @@ describe("HubEvents edit module", () => {
         allDay: false,
         allowRegistration: true,
         attendanceType: [EventAttendanceType.IN_PERSON],
+        associations: [],
         categories: [],
         editGroups: [],
         endDateTime: datesAndTimes.endDateTime.toISOString(),
@@ -120,6 +123,16 @@ describe("HubEvents edit module", () => {
         timeZone: "America/New_York",
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
+        associations: [
+          {
+            entityId: "t36",
+            entityType: "Hub Site Application",
+          },
+          {
+            entityId: "8nd",
+            entityType: "Hub Project",
+          },
+        ],
       };
       const buildDefaultEventEntitySpy = spyOn(
         defaultsModule,
@@ -133,6 +146,21 @@ describe("HubEvents edit module", () => {
         eventsModule,
         "createEvent"
       ).and.returnValue(new Promise((resolve) => resolve(createdRecord)));
+      const buildEventAssociationsSpy = spyOn(
+        buildEventAssociationsModule,
+        "buildEventAssociations"
+      ).and.returnValue(
+        Promise.resolve([
+          {
+            entityId: "t36",
+            entityType: "Hub Site Application",
+          },
+          {
+            entityId: "8nd",
+            entityType: "Hub Project",
+          },
+        ])
+      );
       const res = await createHubEvent(
         {
           name: "my event",
@@ -145,11 +173,33 @@ describe("HubEvents edit module", () => {
             extent: [[]],
             geometries: [],
           },
+          view: {
+            featuredContentIds: ["8nd"],
+          },
+          featuredContentIdsByType: [
+            {
+              entityId: "t36",
+              entityType: "Hub Site Application",
+            },
+          ],
         },
         authdCtxMgr.context.hubRequestOptions
       );
       expect(buildDefaultEventEntitySpy).toHaveBeenCalledTimes(1);
+      expect(buildDefaultEventEntitySpy).toHaveBeenCalledWith();
       expect(buildDefaultEventRecordSpy).toHaveBeenCalledTimes(1);
+      expect(buildDefaultEventRecordSpy).toHaveBeenCalledWith();
+      expect(buildEventAssociationsSpy).toHaveBeenCalledTimes(1);
+      expect(buildEventAssociationsSpy).toHaveBeenCalledWith(
+        [
+          {
+            entityId: "t36",
+            entityType: "Hub Site Application",
+          },
+        ],
+        ["8nd"],
+        authdCtxMgr.context.hubRequestOptions
+      );
       expect(createEventApiSpy).toHaveBeenCalledTimes(1);
       expect(createEventApiSpy).toHaveBeenCalledWith({
         data: {
@@ -157,6 +207,16 @@ describe("HubEvents edit module", () => {
           allDay: defaultRecord.allDay,
           allowRegistration: defaultRecord.allowRegistration,
           attendanceType: defaultRecord.attendanceType,
+          associations: [
+            {
+              entityId: "t36",
+              entityType: "Hub Site Application",
+            },
+            {
+              entityId: "8nd",
+              entityType: "Hub Project",
+            },
+          ],
           categories: defaultRecord.categories,
           description: defaultRecord.description,
           editGroups: defaultRecord.editGroups,
@@ -236,6 +296,7 @@ describe("HubEvents edit module", () => {
         view: {
           heroActions: [],
           showMap: false,
+          featuredContentIds: [],
         },
         location: {
           type: "none",
@@ -247,6 +308,7 @@ describe("HubEvents edit module", () => {
         allDay: false,
         allowRegistration: true,
         attendanceType: [EventAttendanceType.IN_PERSON],
+        associations: [],
         categories: [],
         editGroups: [],
         endDateTime: datesAndTimes.endDateTime.toISOString(),
@@ -282,6 +344,16 @@ describe("HubEvents edit module", () => {
         timeZone: "America/New_York",
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
+        associations: [
+          {
+            entityId: "t36",
+            entityType: "Hub Site Application",
+          },
+          {
+            entityId: "8nd",
+            entityType: "Hub Project",
+          },
+        ],
       };
       const buildDefaultEventEntitySpy = spyOn(
         defaultsModule,
@@ -295,6 +367,21 @@ describe("HubEvents edit module", () => {
         eventsModule,
         "updateEvent"
       ).and.returnValue(new Promise((resolve) => resolve(updatedRecord)));
+      const buildEventAssociationsSpy = spyOn(
+        buildEventAssociationsModule,
+        "buildEventAssociations"
+      ).and.returnValue(
+        Promise.resolve([
+          {
+            entityId: "t36",
+            entityType: "Hub Site Application",
+          },
+          {
+            entityId: "8nd",
+            entityType: "Hub Project",
+          },
+        ])
+      );
       const res = await updateHubEvent(
         {
           name: "my event",
@@ -309,11 +396,33 @@ describe("HubEvents edit module", () => {
             extent: [[]],
             geometries: [],
           },
+          view: {
+            featuredContentIds: ["8nd"],
+          },
+          featuredContentIdsByType: [
+            {
+              entityId: "t36",
+              entityType: "Hub Site Application",
+            },
+          ],
         },
         authdCtxMgr.context.hubRequestOptions
       );
       expect(buildDefaultEventEntitySpy).toHaveBeenCalledTimes(1);
+      expect(buildDefaultEventEntitySpy).toHaveBeenCalledWith();
       expect(buildDefaultEventRecordSpy).toHaveBeenCalledTimes(1);
+      expect(buildDefaultEventRecordSpy).toHaveBeenCalledWith();
+      expect(buildEventAssociationsSpy).toHaveBeenCalledTimes(1);
+      expect(buildEventAssociationsSpy).toHaveBeenCalledWith(
+        [
+          {
+            entityId: "t36",
+            entityType: "Hub Site Application",
+          },
+        ],
+        ["8nd"],
+        authdCtxMgr.context.hubRequestOptions
+      );
       expect(updateEventApiSpy).toHaveBeenCalledTimes(1);
       expect(updateEventApiSpy).toHaveBeenCalledWith({
         eventId: "31c",
@@ -322,6 +431,16 @@ describe("HubEvents edit module", () => {
           allDay: defaultRecord.allDay,
           allowRegistration: defaultRecord.allowRegistration,
           attendanceType: defaultRecord.attendanceType,
+          associations: [
+            {
+              entityId: "t36",
+              entityType: "Hub Site Application",
+            },
+            {
+              entityId: "8nd",
+              entityType: "Hub Project",
+            },
+          ],
           categories: defaultRecord.categories,
           description: defaultRecord.description,
           editGroups: defaultRecord.editGroups,

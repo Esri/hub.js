@@ -8,11 +8,11 @@ import {
   HubEventCapacityType,
 } from "../../../src/events/types";
 import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
-import * as getDatePickerDateUtils from "../../../src/utils/date/getDatePickerDate";
 import * as fetchCategoryItemsModule from "../../../src/core/schemas/internal/fetchCategoryItems";
 import * as getTagItemsModule from "../../../src/core/schemas/internal/getTagItems";
 import * as getLocationExtentModule from "../../../src/core/schemas/internal/getLocationExtent";
 import * as getLocationOptionsModule from "../../../src/core/schemas/internal/getLocationOptions";
+import * as getWellKnownCatalogModule from "../../../src/search/wellKnownCatalog";
 
 describe("EventUiSchemaEdit", () => {
   beforeAll(() => {
@@ -26,16 +26,26 @@ describe("EventUiSchemaEdit", () => {
 
   describe("buildUiSchema", () => {
     it("should return the expected ui schema", async () => {
-      spyOn(getLocationExtentModule, "getLocationExtent").and.returnValue(
-        Promise.resolve([])
-      );
-      spyOn(getLocationOptionsModule, "getLocationOptions").and.returnValue(
-        Promise.resolve([])
-      );
+      const getLocationExtentSpy = spyOn(
+        getLocationExtentModule,
+        "getLocationExtent"
+      ).and.returnValue(Promise.resolve([]));
+      const getLocationOptionsSpy = spyOn(
+        getLocationOptionsModule,
+        "getLocationOptions"
+      ).and.returnValue(Promise.resolve([]));
+      const getWellKnownCatalogSpy = spyOn(
+        getWellKnownCatalogModule,
+        "getWellKnownCatalog"
+      ).and.returnValue({
+        title: "My catalog",
+        schemaVersion: 1,
+      });
       const authdCtxMgr = await ArcGISContextManager.create({
         authentication: MOCK_AUTH,
         currentUser: {
           username: "casey",
+          orgId: "9y2",
         } as unknown as PortalModule.IUser,
         portal: {
           name: "DC R&D Center",
@@ -54,6 +64,8 @@ describe("EventUiSchemaEdit", () => {
         timeZone: "America/New_York",
       };
       const entity = {
+        id: "t2c",
+        type: "Event",
         access: "private",
         allowRegistration: true,
         attendanceType: HubEventAttendanceType.InPerson,
@@ -73,12 +85,9 @@ describe("EventUiSchemaEdit", () => {
         references: [],
         schemaVersion: 1,
         tags: ["tag1"],
+        location: { type: "none" },
         ...datesAndTimes,
       } as unknown as IHubEvent;
-      const getDatePickerDateSpy = spyOn(
-        getDatePickerDateUtils,
-        "getDatePickerDate"
-      ).and.returnValue("2024-04-03");
       const tags = [{ value: "tag1" }, { value: "tag2" }];
       const getTagItemsSpy = spyOn(
         getTagItemsModule,
@@ -94,10 +103,30 @@ describe("EventUiSchemaEdit", () => {
         entity,
         authdCtxMgr.context
       );
-      expect(getDatePickerDateSpy).toHaveBeenCalledTimes(1);
-      expect(getDatePickerDateSpy).toHaveBeenCalledWith(
-        jasmine.any(Date),
-        entity.timeZone
+      expect(getLocationExtentSpy).toHaveBeenCalledTimes(1);
+      expect(getLocationExtentSpy).toHaveBeenCalledWith(
+        entity.location,
+        authdCtxMgr.context.hubRequestOptions
+      );
+      expect(getLocationOptionsSpy).toHaveBeenCalledTimes(1);
+      expect(getLocationOptionsSpy).toHaveBeenCalledWith(
+        entity.id,
+        entity.type,
+        entity.location,
+        authdCtxMgr.context.portal.name,
+        authdCtxMgr.context.hubRequestOptions
+      );
+      expect(getWellKnownCatalogSpy).toHaveBeenCalledTimes(1);
+      expect(getWellKnownCatalogSpy).toHaveBeenCalledWith(
+        "myI18nScope.fields.featuredContent",
+        "organization",
+        "item",
+        {
+          user: authdCtxMgr.context.currentUser,
+          collectionNames: ["site", "initiative", "project"],
+          filters: [],
+          context: authdCtxMgr.context,
+        }
       );
       expect(getTagItemsSpy).toHaveBeenCalledTimes(1);
       expect(getTagItemsSpy).toHaveBeenCalledWith(
@@ -115,10 +144,10 @@ describe("EventUiSchemaEdit", () => {
         elements: [
           {
             type: "Section",
-            labelKey: `myI18nScope.sections.eventInfo.label`,
+            labelKey: "myI18nScope.sections.eventInfo.label",
             elements: [
               {
-                labelKey: `myI18nScope.fields.name.label`,
+                labelKey: "myI18nScope.fields.name.label",
                 scope: "/properties/name",
                 type: "Control",
                 options: {
@@ -127,26 +156,26 @@ describe("EventUiSchemaEdit", () => {
                       type: "ERROR",
                       keyword: "required",
                       icon: true,
-                      labelKey: `myI18nScope.fields.name.requiredError`,
+                      labelKey: "myI18nScope.fields.name.requiredError",
                     },
                     {
                       type: "ERROR",
                       keyword: "maxLength",
                       icon: true,
-                      labelKey: `shared.fields.title.maxLengthError`,
+                      labelKey: "shared.fields.title.maxLengthError",
                     },
                   ],
                 },
               },
               {
-                labelKey: `myI18nScope.fields.description.label`,
+                labelKey: "myI18nScope.fields.description.label",
                 scope: "/properties/description",
                 type: "Control",
                 options: {
                   control: "hub-field-input-rich-text",
                   type: "textarea",
                   helperText: {
-                    labelKey: `myI18nScope.fields.description.helperText`,
+                    labelKey: "myI18nScope.fields.description.helperText",
                   },
                 },
               },
@@ -154,10 +183,10 @@ describe("EventUiSchemaEdit", () => {
           },
           {
             type: "Section",
-            labelKey: `myI18nScope.sections.dateTime.label`,
+            labelKey: "myI18nScope.sections.dateTime.label",
             elements: [
               {
-                labelKey: `myI18nScope.fields.startDate.label`,
+                labelKey: "myI18nScope.fields.startDate.label",
                 scope: "/properties/startDate",
                 type: "Control",
                 options: {
@@ -167,13 +196,13 @@ describe("EventUiSchemaEdit", () => {
                       type: "ERROR",
                       keyword: "required",
                       icon: true,
-                      labelKey: `myI18nScope.fields.startDate.requiredError`,
+                      labelKey: "myI18nScope.fields.startDate.requiredError",
                     },
                   ],
                 },
               },
               {
-                labelKey: `myI18nScope.fields.endDate.label`,
+                labelKey: "myI18nScope.fields.endDate.label",
                 scope: "/properties/endDate",
                 type: "Control",
                 options: {
@@ -183,19 +212,19 @@ describe("EventUiSchemaEdit", () => {
                       type: "ERROR",
                       keyword: "required",
                       icon: true,
-                      labelKey: `myI18nScope.fields.endDate.requiredError`,
+                      labelKey: "myI18nScope.fields.endDate.requiredError",
                     },
                     {
                       type: "ERROR",
                       keyword: "formatMinimum",
                       icon: true,
-                      labelKey: `myI18nScope.fields.endDate.minDateError`,
+                      labelKey: "myI18nScope.fields.endDate.minDateError",
                     },
                   ],
                 },
               },
               {
-                labelKey: `myI18nScope.fields.allDay.label`,
+                labelKey: "myI18nScope.fields.allDay.label",
                 type: "Control",
                 scope: "/properties/isAllDay",
                 options: {
@@ -203,7 +232,7 @@ describe("EventUiSchemaEdit", () => {
                 },
               },
               {
-                labelKey: `myI18nScope.fields.startTime.label`,
+                labelKey: "myI18nScope.fields.startTime.label",
                 scope: "/properties/startTime",
                 type: "Control",
                 rule: {
@@ -220,13 +249,13 @@ describe("EventUiSchemaEdit", () => {
                       type: "ERROR",
                       keyword: "required",
                       icon: true,
-                      labelKey: `myI18nScope.fields.startTime.requiredError`,
+                      labelKey: "myI18nScope.fields.startTime.requiredError",
                     },
                   ],
                 },
               },
               {
-                labelKey: `myI18nScope.fields.endTime.label`,
+                labelKey: "myI18nScope.fields.endTime.label",
                 scope: "/properties/endTime",
                 type: "Control",
                 rule: {
@@ -243,19 +272,19 @@ describe("EventUiSchemaEdit", () => {
                       type: "ERROR",
                       keyword: "required",
                       icon: true,
-                      labelKey: `myI18nScope.fields.endTime.requiredError`,
+                      labelKey: "myI18nScope.fields.endTime.requiredError",
                     },
                     {
                       type: "ERROR",
                       keyword: "formatExclusiveMinimum",
                       icon: true,
-                      labelKey: `myI18nScope.fields.endTime.minTimeError`,
+                      labelKey: "myI18nScope.fields.endTime.minTimeError",
                     },
                   ],
                 },
               },
               {
-                labelKey: `myI18nScope.fields.timeZone.label`,
+                labelKey: "myI18nScope.fields.timeZone.label",
                 scope: "/properties/timeZone",
                 type: "Control",
                 options: {
@@ -265,7 +294,7 @@ describe("EventUiSchemaEdit", () => {
                       type: "ERROR",
                       keyword: "required",
                       icon: true,
-                      labelKey: `myI18nScope.fields.timeZone.requiredError`,
+                      labelKey: "myI18nScope.fields.timeZone.requiredError",
                     },
                   ],
                 },
@@ -274,21 +303,21 @@ describe("EventUiSchemaEdit", () => {
           },
           {
             type: "Section",
-            labelKey: `myI18nScope.sections.location.label`,
+            labelKey: "myI18nScope.sections.location.label",
             elements: [
               {
-                labelKey: `myI18nScope.fields.attendanceType.label`,
+                labelKey: "myI18nScope.fields.attendanceType.label",
                 scope: "/properties/attendanceType",
                 type: "Control",
                 options: {
                   control: "hub-field-input-radio-group",
-                  enum: { i18nScope: `myI18nScope.fields.attendanceType` },
+                  enum: { i18nScope: "myI18nScope.fields.attendanceType" },
                 },
               },
               {
                 scope: "/properties/location",
                 type: "Control",
-                labelKey: `myI18nScope.fields.location.label`,
+                labelKey: "myI18nScope.fields.location.label",
                 options: {
                   control: "hub-field-input-location-picker",
                   extent: [],
@@ -296,7 +325,7 @@ describe("EventUiSchemaEdit", () => {
                 },
               },
               {
-                labelKey: `myI18nScope.fields.inPersonCapacityType.label`,
+                labelKey: "myI18nScope.fields.inPersonCapacityType.label",
                 scope: "/properties/inPersonCapacityType",
                 type: "Control",
                 rule: {
@@ -314,12 +343,12 @@ describe("EventUiSchemaEdit", () => {
                 options: {
                   control: "hub-field-input-radio-group",
                   enum: {
-                    i18nScope: `myI18nScope.fields.inPersonCapacityType`,
+                    i18nScope: "myI18nScope.fields.inPersonCapacityType",
                   },
                 },
               },
               {
-                labelKey: `myI18nScope.fields.inPersonCapacity.label`,
+                labelKey: "myI18nScope.fields.inPersonCapacity.label",
                 scope: "/properties/inPersonCapacity",
                 type: "Control",
                 rule: {
@@ -348,19 +377,21 @@ describe("EventUiSchemaEdit", () => {
                       type: "ERROR",
                       keyword: "required",
                       icon: true,
-                      labelKey: `myI18nScope.fields.inPersonCapacity.requiredError`,
+                      labelKey:
+                        "myI18nScope.fields.inPersonCapacity.requiredError",
                     },
                     {
                       type: "ERROR",
                       keyword: "minimum",
                       icon: true,
-                      labelKey: `myI18nScope.fields.inPersonCapacity.minimumError`,
+                      labelKey:
+                        "myI18nScope.fields.inPersonCapacity.minimumError",
                     },
                   ],
                 },
               },
               {
-                labelKey: `myI18nScope.fields.onlineUrl.label`,
+                labelKey: "myI18nScope.fields.onlineUrl.label",
                 scope: "/properties/onlineUrl",
                 type: "Control",
                 rule: {
@@ -382,19 +413,19 @@ describe("EventUiSchemaEdit", () => {
                       type: "ERROR",
                       keyword: "required",
                       icon: true,
-                      labelKey: `myI18nScope.fields.onlineUrl.requiredError`,
+                      labelKey: "myI18nScope.fields.onlineUrl.requiredError",
                     },
                     {
                       type: "ERROR",
                       keyword: "format",
                       icon: true,
-                      labelKey: `shared.errors.urlFormat`,
+                      labelKey: "shared.errors.urlFormat",
                     },
                   ],
                 },
               },
               {
-                labelKey: `myI18nScope.fields.onlineDetails.label`,
+                labelKey: "myI18nScope.fields.onlineDetails.label",
                 scope: "/properties/onlineDetails",
                 type: "Control",
                 rule: {
@@ -413,12 +444,12 @@ describe("EventUiSchemaEdit", () => {
                   control: "hub-field-input-rich-text",
                   type: "textarea",
                   helperText: {
-                    labelKey: `myI18nScope.fields.onlineDetails.helperText`,
+                    labelKey: "myI18nScope.fields.onlineDetails.helperText",
                   },
                 },
               },
               {
-                labelKey: `myI18nScope.fields.onlineCapacityType.label`,
+                labelKey: "myI18nScope.fields.onlineCapacityType.label",
                 scope: "/properties/onlineCapacityType",
                 type: "Control",
                 rule: {
@@ -435,11 +466,11 @@ describe("EventUiSchemaEdit", () => {
                 },
                 options: {
                   control: "hub-field-input-radio-group",
-                  enum: { i18nScope: `myI18nScope.fields.onlineCapacityType` },
+                  enum: { i18nScope: "myI18nScope.fields.onlineCapacityType" },
                 },
               },
               {
-                labelKey: `myI18nScope.fields.onlineCapacity.label`,
+                labelKey: "myI18nScope.fields.onlineCapacity.label",
                 scope: "/properties/onlineCapacity",
                 type: "Control",
                 rule: {
@@ -468,13 +499,15 @@ describe("EventUiSchemaEdit", () => {
                       type: "ERROR",
                       keyword: "required",
                       icon: true,
-                      labelKey: `myI18nScope.fields.onlineCapacity.requiredError`,
+                      labelKey:
+                        "myI18nScope.fields.onlineCapacity.requiredError",
                     },
                     {
                       type: "ERROR",
                       keyword: "minimum",
                       icon: true,
-                      labelKey: `myI18nScope.fields.onlineCapacity.minimumError`,
+                      labelKey:
+                        "myI18nScope.fields.onlineCapacity.minimumError",
                     },
                   ],
                 },
@@ -483,10 +516,75 @@ describe("EventUiSchemaEdit", () => {
           },
           {
             type: "Section",
-            labelKey: `myI18nScope.sections.discoverability.label`,
+            labelKey: "myI18nScope.sections.featuredContent.label",
             elements: [
               {
-                labelKey: `myI18nScope.fields.tags.label`,
+                scope: "/properties/view/properties/featuredContentIds",
+                type: "Control",
+                options: {
+                  control: "hub-field-input-gallery-picker",
+                  helperText: {
+                    labelKey:
+                      "myI18nScope.fields.featuredContent.helperText.label",
+                  },
+                  targetEntity: "item",
+                  catalogs: [
+                    {
+                      title: "My catalog",
+                      schemaVersion: 1,
+                    },
+                  ],
+                  facets: [
+                    {
+                      label:
+                        "{{myI18nScope.fields.featuredContent.facets.from.label:translate}}",
+                      key: "from",
+                      display: "single-select",
+                      operation: "OR",
+                      options: [
+                        {
+                          label:
+                            "{{myI18nScope.fields.featuredContent.facets.from.myContent.label:translate}}",
+                          key: "myContent",
+                          selected: true,
+                          predicates: [
+                            {
+                              owner: authdCtxMgr.context.currentUser.username,
+                            },
+                          ],
+                        },
+                        {
+                          label:
+                            "{{myI18nScope.fields.featuredContent.facets.from.myOrganization.label:translate}}",
+                          key: "myOrganization",
+                          selected: false,
+                          predicates: [
+                            {
+                              orgId: authdCtxMgr.context.currentUser.orgId,
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    {
+                      label:
+                        "{{myI18nScope.fields.featuredContent.facets.access.label:translate}}",
+                      key: "access",
+                      field: "access",
+                      display: "multi-select",
+                      operation: "OR",
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+          {
+            type: "Section",
+            labelKey: "myI18nScope.sections.discoverability.label",
+            elements: [
+              {
+                labelKey: "myI18nScope.fields.tags.label",
                 scope: "/properties/tags",
                 type: "Control",
                 options: {
@@ -496,7 +594,7 @@ describe("EventUiSchemaEdit", () => {
                   selectionMode: "multiple",
                   placeholderIcon: "label",
                   helperText: {
-                    labelKey: `myI18nScope.fields.tags.helperText`,
+                    labelKey: "myI18nScope.fields.tags.helperText",
                   },
                 },
               },
@@ -555,7 +653,7 @@ describe("EventUiSchemaEdit", () => {
                 ],
               },
               {
-                labelKey: `myI18nScope.fields.summary.label`,
+                labelKey: "myI18nScope.fields.summary.label",
                 scope: "/properties/summary",
                 type: "Control",
                 options: {
@@ -563,14 +661,14 @@ describe("EventUiSchemaEdit", () => {
                   type: "textarea",
                   rows: 4,
                   helperText: {
-                    labelKey: `myI18nScope.fields.summary.helperText`,
+                    labelKey: "myI18nScope.fields.summary.helperText",
                   },
                   messages: [
                     {
                       type: "ERROR",
                       keyword: "maxLength",
                       icon: true,
-                      labelKey: `shared.fields.summary.maxLengthError`,
+                      labelKey: "shared.fields.summary.maxLengthError",
                     },
                   ],
                 },

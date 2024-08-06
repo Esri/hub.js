@@ -95,6 +95,13 @@ describe("PropertyMapper", () => {
         timeZone: "America/New_York",
         title: "event title",
         updatedAt: now.toISOString(),
+        associations: [
+          {
+            eventId: "31c",
+            entityId: "9v2",
+            entityType: "Hub Site Application",
+          },
+        ],
       } as IEvent;
     });
 
@@ -172,7 +179,14 @@ describe("PropertyMapper", () => {
         thumbnailUrl: getEventThumbnail(),
         view: {
           showMap: true,
+          featuredContentIds: ["9v2"],
         },
+        featuredContentIdsByType: [
+          {
+            entityId: "9v2",
+            entityType: "Hub Site Application",
+          },
+        ],
       });
     });
 

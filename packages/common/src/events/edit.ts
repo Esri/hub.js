@@ -14,45 +14,13 @@ import {
   EventAttendanceType,
   IRegistration,
   RegistrationRole,
-  ICreateEventAssociation,
 } from "./api";
-import { searchItems } from "@esri/arcgis-rest-portal";
+import { buildEventAssociations } from "./_internal/buildEventAssociations";
 
 export interface IHubCreateEventRegistration {
   eventId: string;
   role: RegistrationRole;
   type: EventAttendanceType;
-}
-
-async function buildAssociations(
-  featuredContentIdsByType: Array<{ entityId: string; entityType: string }>,
-  featuredContentIds: string[],
-  hubRequestOptions: IHubRequestOptions
-): Promise<ICreateEventAssociation[]> {
-  // filter out content that was removed
-  const associations = featuredContentIdsByType.filter(({ entityId }) =>
-    featuredContentIds.includes(entityId)
-  );
-  // get content ids being added
-  const added = featuredContentIds.filter(
-    (featuredContentId) =>
-      !associations.find(({ entityId }) => entityId === featuredContentId)
-  );
-  if (added.length) {
-    // fetch the content being added
-    const { results } = await searchItems({
-      q: added.map((id) => `id:${id}`).join(" OR "),
-      num: added.length,
-      authentication: hubRequestOptions.authentication,
-    });
-    // map content to ICreateEventAssociation structures
-    const addedAssociations = results.map(({ id, type }) => ({
-      entityId: id,
-      entityType: type,
-    }));
-    associations.push(...addedAssociations);
-  }
-  return associations as ICreateEventAssociation[];
 }
 
 /**
@@ -81,7 +49,7 @@ export async function createHubEvent(
 
   let model = mapper.entityToStore(event, buildDefaultEventRecord());
 
-  const associations = await buildAssociations(
+  const associations = await buildEventAssociations(
     partialEvent.featuredContentIdsByType,
     partialEvent.view.featuredContentIds,
     requestOptions
@@ -138,7 +106,7 @@ export async function updateHubEvent(
 
   let model = mapper.entityToStore(eventUpdates, buildDefaultEventRecord());
 
-  const associations = await buildAssociations(
+  const associations = await buildEventAssociations(
     partialEvent.featuredContentIdsByType,
     partialEvent.view.featuredContentIds,
     requestOptions
