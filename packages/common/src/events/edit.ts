@@ -24,28 +24,28 @@ export interface IHubCreateEventRegistration {
   type: EventAttendanceType;
 }
 
-async function reconcileAssociations(
-  references: Array<{ entityId: string; entityType: string }>,
-  referenceIds: string[],
+async function buildAssociations(
+  featuredContentIdsByType: Array<{ entityId: string; entityType: string }>,
+  featuredContentIds: string[],
   hubRequestOptions: IHubRequestOptions
 ): Promise<ICreateEventAssociation[]> {
-  // filter out any references that were removed
-  const associations = references.filter(({ entityId }) =>
-    referenceIds.includes(entityId)
+  // filter out content that was removed
+  const associations = featuredContentIdsByType.filter(({ entityId }) =>
+    featuredContentIds.includes(entityId)
   );
-  // get a collection of reference ids being added
-  const added = referenceIds.filter(
-    (referenceId) =>
-      !associations.find(({ entityId }) => entityId === referenceId)
+  // get content ids being added
+  const added = featuredContentIds.filter(
+    (featuredContentId) =>
+      !associations.find(({ entityId }) => entityId === featuredContentId)
   );
   if (added.length) {
-    // fetch the records for any associations being added
+    // fetch the content being added
     const { results } = await searchItems({
       q: added.map((id) => `id:${id}`).join(" OR "),
       num: added.length,
       authentication: hubRequestOptions.authentication,
     });
-    // map new association records to ICreateEventAssociation structures
+    // map content to ICreateEventAssociation structures
     const addedAssociations = results.map(({ id, type }) => ({
       entityId: id,
       entityType: type,
@@ -81,9 +81,9 @@ export async function createHubEvent(
 
   let model = mapper.entityToStore(event, buildDefaultEventRecord());
 
-  const associations = await reconcileAssociations(
-    partialEvent.references,
-    partialEvent.referenceIds,
+  const associations = await buildAssociations(
+    partialEvent.featuredContentIdsByType,
+    partialEvent.view.featuredContentIds,
     requestOptions
   );
 
@@ -138,9 +138,9 @@ export async function updateHubEvent(
 
   let model = mapper.entityToStore(eventUpdates, buildDefaultEventRecord());
 
-  const associations = await reconcileAssociations(
-    partialEvent.references,
-    partialEvent.referenceIds,
+  const associations = await buildAssociations(
+    partialEvent.featuredContentIdsByType,
+    partialEvent.view.featuredContentIds,
     requestOptions
   );
 
