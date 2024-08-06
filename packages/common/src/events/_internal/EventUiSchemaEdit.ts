@@ -402,15 +402,12 @@ export const buildUiSchema = async (
         labelKey: `${i18nScope}.sections.featuredContent.label`,
         elements: [
           {
-            scope: "/properties/view/featuredContentIds",
+            scope: "/properties/view/properties/featuredContentIds",
             type: "Control",
             options: {
               control: "hub-field-input-gallery-picker",
               helperText: {
                 labelKey: `${i18nScope}.fields.featuredContent.helperText.label`,
-              },
-              pickerTitle: {
-                labelKey: `${i18nScope}.fields.featuredContent.pickerTitle.label`,
               },
               targetEntity: "item",
               catalogs: [
