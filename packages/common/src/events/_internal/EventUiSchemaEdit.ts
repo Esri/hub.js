@@ -399,23 +399,23 @@ export const buildUiSchema = async (
       },
       {
         type: "Section",
-        labelKey: `${i18nScope}.sections.references.label`,
+        labelKey: `${i18nScope}.sections.featuredContent.label`,
         elements: [
           {
-            scope: "/properties/referenceIds",
+            scope: "/properties/view/featuredContentIds",
             type: "Control",
             options: {
               control: "hub-field-input-gallery-picker",
               helperText: {
-                labelKey: `${i18nScope}.fields.references.helperText.label`,
+                labelKey: `${i18nScope}.fields.featuredContent.helperText.label`,
               },
               pickerTitle: {
-                labelKey: `${i18nScope}.fields.references.pickerTitle.label`,
+                labelKey: `${i18nScope}.fields.featuredContent.pickerTitle.label`,
               },
               targetEntity: "item",
               catalogs: [
                 getWellKnownCatalog(
-                  `${i18nScope}.fields.references`,
+                  `${i18nScope}.fields.featuredContent`,
                   "organization",
                   "item",
                   {
@@ -428,13 +428,13 @@ export const buildUiSchema = async (
               ],
               facets: [
                 {
-                  label: `{{${i18nScope}.fields.references.facets.from.label:translate}}`,
+                  label: `{{${i18nScope}.fields.featuredContent.facets.from.label:translate}}`,
                   key: "from",
                   display: "single-select",
                   operation: "OR",
                   options: [
                     {
-                      label: `{{${i18nScope}.fields.references.facets.from.myContent.label:translate}}`,
+                      label: `{{${i18nScope}.fields.featuredContent.facets.from.myContent.label:translate}}`,
                       key: "myContent",
                       selected: true,
                       predicates: [
@@ -444,7 +444,7 @@ export const buildUiSchema = async (
                       ],
                     },
                     {
-                      label: `{{${i18nScope}.fields.references.facets.from.myOrganization.label:translate}}`,
+                      label: `{{${i18nScope}.fields.featuredContent.facets.from.myOrganization.label:translate}}`,
                       key: "myOrganization",
                       selected: false,
                       predicates: [
@@ -456,7 +456,7 @@ export const buildUiSchema = async (
                   ],
                 },
                 {
-                  label: `{{${i18nScope}.fields.references.facets.access.label:translate}}`,
+                  label: `{{${i18nScope}.fields.featuredContent.facets.access.label:translate}}`,
                   key: "access",
                   field: "access",
                   display: "multi-select",

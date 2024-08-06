@@ -1,5 +1,6 @@
 import {
   ENTITY_CATEGORIES_SCHEMA,
+  ENTITY_FEATURED_CONTENT_SCHEMA,
   ENTITY_NAME_SCHEMA,
   ENTITY_SUMMARY_SCHEMA,
   ENTITY_TAGS_SCHEMA,
@@ -83,13 +84,15 @@ export const buildSchema = (): IConfigurationSchema => {
         enum: [HubEventCapacityType.Unlimited, HubEventCapacityType.Fixed],
         default: HubEventCapacityType.Unlimited,
       },
-      referenceIds: {
-        type: "array",
-        items: {
-          type: "string",
+      view: {
+        type: "object",
+        properties: {
+          featuredContentIds: {
+            ...ENTITY_FEATURED_CONTENT_SCHEMA,
+            default: [],
+            maxItems: 1,
+          },
         },
-        default: [],
-        maxItems: 1,
       },
       summary: ENTITY_SUMMARY_SCHEMA,
       tags: ENTITY_TAGS_SCHEMA,
