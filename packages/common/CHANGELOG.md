@@ -1,3 +1,10 @@
+## @esri/hub-common [14.168.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.168.0...@esri/hub-common@14.168.1) (2024-08-06)
+
+
+### Bug Fixes
+
+* **hub-common:** remove unimplemented flow for downloading files via export item ([#1613](https://github.com/Esri/hub.js/issues/1613)) ([c62a9ce](https://github.com/Esri/hub.js/commit/c62a9cebc72020df9f404a334e6db5ef5ea4002d))
+
 # @esri/hub-common [14.168.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.167.0...@esri/hub-common@14.168.0) (2024-08-02)
 
 
