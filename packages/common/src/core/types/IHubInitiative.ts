@@ -1,5 +1,7 @@
-import { IWithSlug, IWithPermissions, IWithCatalog } from "../traits";
+import { IWithCatalog, IWithCatalogs } from "../traits/IWithCatalog";
 import { IWithMetrics } from "../traits/IWithMetrics";
+import { IWithPermissions } from "../traits/IWithPermissions";
+import { IWithSlug } from "../traits/IWithSlug";
 import { IWithStatus } from "../traits/IWithStatus";
 import { IHubItemEntity, IHubItemEntityEditor } from "./IHubItemEntity";
 
@@ -10,7 +12,8 @@ import { IHubItemEntity, IHubItemEntityEditor } from "./IHubItemEntity";
 export interface IHubInitiative
   extends IHubItemEntity,
     IWithSlug,
-    IWithCatalog,
+    IWithCatalog, // DEPRECATED: Use IWithCatalogs instead
+    IWithCatalogs,
     IWithMetrics,
     IWithPermissions,
     IWithStatus {}

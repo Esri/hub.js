@@ -30,6 +30,7 @@ export const ContentPermissions = [
   "hub:content:canRecordDownloadErrors",
   "hub:content:downloads:displayErrors",
   "temp:hub:content:downloads:unifiedList",
+  "hub:content:document:create",
 ] as const;
 
 /**
@@ -138,5 +139,10 @@ export const ContentPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "temp:hub:content:downloads:unifiedList",
     availability: ["flag"],
+  },
+  // Specific permission for creating documents
+  {
+    permission: "hub:content:document:create",
+    dependencies: ["hub:content:create"],
   },
 ];

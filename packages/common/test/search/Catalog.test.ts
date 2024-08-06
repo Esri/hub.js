@@ -188,7 +188,9 @@ describe("Catalog Class:", () => {
       expect(id).toEqual("https://somesite.com");
       expect(hubReqOpts.portal).toEqual("https://www.arcgis.com/sharing/rest");
       expect(hubReqOpts.isPortal).toEqual(false);
+      expect(instance.availableScopes).toEqual(["item", "group", "user"]);
     });
+
     it("fetches the catalog", async () => {
       fetchCatalogSpy = spyOn(FetchCatalogModule, "fetchCatalog").and.callFake(
         () => {
@@ -376,24 +378,6 @@ describe("Catalog Class:", () => {
       expect(query.filters[1]).toEqual(catalogJson.scopes?.user?.filters[0]);
     });
 
-    it("searchCollections by term", async () => {
-      hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
-        return Promise.resolve({ fake: "response" });
-      });
-      const instance = Catalog.fromJson(cloneObject(catalogJson), context);
-      const res = await instance.searchCollections("water");
-      // ensure the spy was called
-      expect(hubSearchSpy.calls.count()).toBe(2);
-      expect(res.teams).toBeDefined();
-      expect(res.teams).toEqual({
-        fake: "response",
-      } as unknown as IHubSearchResponse<IHubSearchResult>);
-      expect(res.environment).toBeDefined();
-      expect(res.environment).toEqual({
-        fake: "response",
-      } as unknown as IHubSearchResponse<IHubSearchResult>);
-    });
-
     it("searchScopes by term", async () => {
       hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
         return Promise.resolve({ fake: "response" });
@@ -448,6 +432,118 @@ describe("Catalog Class:", () => {
       expect(res.messages?.length).toBe(1);
       expect(res.messages?.[0].code).toBe("missingScope");
       expect(res.messages?.[0].data?.scope).toBe("user");
+    });
+  });
+
+  describe("searchScopes", () => {
+    let hubSearchSpy: jasmine.Spy;
+    it("search by term", async () => {
+      hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
+        return Promise.resolve({ fake: "response" });
+      });
+      const instance = Catalog.fromJson(cloneObject(catalogJson), context);
+      const res = await instance.searchScopes("water");
+      // ensure the spy was called
+      expect(hubSearchSpy.calls.count()).toBe(3);
+      expect(res.item).toBeDefined();
+      expect(res.item).toEqual({
+        fake: "response",
+      } as unknown as IHubSearchResponse<IHubSearchResult>);
+      expect(res.group).toBeDefined();
+      expect(res.group).toEqual({
+        fake: "response",
+      } as unknown as IHubSearchResponse<IHubSearchResult>);
+      expect(res.user).toBeDefined();
+      expect(res.user).toEqual({
+        fake: "response",
+      } as unknown as IHubSearchResponse<IHubSearchResult>);
+    });
+    it("search by IQuery", async () => {
+      hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
+        return Promise.resolve({ fake: "response" });
+      });
+      const instance = Catalog.fromJson(cloneObject(catalogJson), context);
+      const qry: IQuery = {
+        targetEntity: "item",
+        filters: [
+          {
+            predicates: [
+              {
+                term: "water",
+              },
+            ],
+          },
+        ],
+      };
+      const res = await instance.searchScopes(qry, { num: 50 }, [
+        "item",
+        "group",
+      ]);
+      expect(hubSearchSpy.calls.count()).toBe(2);
+      expect(res.item).toBeDefined();
+      expect(res.item).toEqual({
+        fake: "response",
+      } as unknown as IHubSearchResponse<IHubSearchResult>);
+      expect(res.group).toBeDefined();
+      expect(res.group).toEqual({
+        fake: "response",
+      } as unknown as IHubSearchResponse<IHubSearchResult>);
+    });
+    it("availableScopes works if no scopes defined", () => {
+      const scopelessCatalog = cloneObject(catalogJson);
+      delete scopelessCatalog.scopes;
+      const instance = Catalog.fromJson(scopelessCatalog, context);
+      expect(instance.availableScopes).toEqual([]);
+    });
+  });
+
+  describe("searchCollections", () => {
+    let hubSearchSpy: jasmine.Spy;
+    it("search by term", async () => {
+      hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
+        return Promise.resolve({ fake: "response" });
+      });
+      const instance = Catalog.fromJson(cloneObject(catalogJson), context);
+      const res = await instance.searchCollections("water");
+      // ensure the spy was called
+      expect(hubSearchSpy.calls.count()).toBe(2);
+      expect(res.teams).toBeDefined();
+      expect(res.teams).toEqual({
+        fake: "response",
+      } as unknown as IHubSearchResponse<IHubSearchResult>);
+      expect(res.environment).toBeDefined();
+      expect(res.environment).toEqual({
+        fake: "response",
+      } as unknown as IHubSearchResponse<IHubSearchResult>);
+    });
+    it("search by IQuery", async () => {
+      hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
+        return Promise.resolve({ fake: "response" });
+      });
+      const instance = Catalog.fromJson(cloneObject(catalogJson), context);
+      const qry: IQuery = {
+        targetEntity: "item",
+        filters: [
+          {
+            predicates: [
+              {
+                term: "water",
+              },
+            ],
+          },
+        ],
+      };
+      const res = await instance.searchCollections(qry, { num: 50 });
+      expect(hubSearchSpy.calls.count()).toBe(1);
+      const chkQry = hubSearchSpy.calls.argsFor(0)[0];
+      expect(chkQry.targetEntity).toBe("item");
+      expect(chkQry.filters[0].predicates[0].term).toBe("water");
+      const chkOpts = hubSearchSpy.calls.argsFor(0)[1];
+      expect(chkOpts.num).toBe(50);
+      expect(res.environment).toBeDefined();
+      expect(res.environment).toEqual({
+        fake: "response",
+      } as unknown as IHubSearchResponse<IHubSearchResult>);
     });
   });
 

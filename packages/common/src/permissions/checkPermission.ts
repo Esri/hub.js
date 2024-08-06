@@ -59,7 +59,7 @@ export function checkPermission(
       code: getPolicyResponseCode("invalid-permission"),
       checks: [],
     } as IPermissionAccessResponse;
-    logResponse(invalidPermissionResponse, label);
+    // logResponse(invalidPermissionResponse, label);
     return invalidPermissionResponse;
   }
 
@@ -75,7 +75,7 @@ export function checkPermission(
       code: getPolicyResponseCode("no-policy-exists"),
       checks: [],
     } as IPermissionAccessResponse;
-    logResponse(missingPolicyResponse, label);
+    // logResponse(missingPolicyResponse, label);
     return missingPolicyResponse;
   }
 
@@ -145,7 +145,7 @@ export function checkPermission(
         },
       ],
     } as IPermissionAccessResponse;
-    logResponse(disabledByFlagResponse, label);
+    // logResponse(disabledByFlagResponse, label);
     return disabledByFlagResponse;
   }
 
@@ -241,20 +241,20 @@ export function checkPermission(
   }
 
   // log response
-  logResponse(response, label);
+  // logResponse(response, label);
 
   return response;
 }
 
-function logResponse(response: IPermissionAccessResponse, label: string): void {
-  if (!response.access) {
-    // tslint:disable-next-line:no-console
-    console.info(
-      `checkPermission: ${label} ${response.policy} : ${response.response}`
-    );
-    // tslint:disable-next-line:no-console
-    console.dir(response);
-    // tslint:disable-next-line:no-console
-    console.info(`-----------------------------------------`);
-  }
-}
+// function logResponse(response: IPermissionAccessResponse, label: string): void {
+//   if (!response.access && logPermissions) {
+//     // tslint:disable-next-line:no-console
+//     console.info(
+//       `checkPermission: ${label} ${response.policy} : ${response.response}`
+//     );
+//     // tslint:disable-next-line:no-console
+//     console.dir(response);
+//     // tslint:disable-next-line:no-console
+//     console.info(`-----------------------------------------`);
+//   }
+// }
