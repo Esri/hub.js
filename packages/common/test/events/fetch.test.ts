@@ -31,6 +31,7 @@ describe("HubEvent fetch module:", () => {
         allDay: false,
         allowRegistration: true,
         attendanceType: [EventAttendanceType.IN_PERSON],
+        associations: [],
         categories: [],
         editGroups: [],
         endDateTime: new Date().toISOString(),
@@ -65,6 +66,9 @@ describe("HubEvent fetch module:", () => {
       expect(getEventSpy).toHaveBeenCalledTimes(1);
       expect(getEventSpy).toHaveBeenCalledWith({
         eventId: "123",
+        data: {
+          include: "associations",
+        },
         ...authdCtxMgr.context.hubRequestOptions,
       });
       expect(res.name).toEqual("my event");
@@ -87,6 +91,7 @@ describe("HubEvent fetch module:", () => {
         access: EventAccess.PRIVATE,
         allDay: false,
         allowRegistration: true,
+        associations: [],
         attendanceType: [EventAttendanceType.IN_PERSON],
         categories: [],
         editGroups: [],
@@ -122,6 +127,9 @@ describe("HubEvent fetch module:", () => {
       expect(getEventSpy).toHaveBeenCalledTimes(1);
       expect(getEventSpy).toHaveBeenCalledWith({
         eventId: "123",
+        data: {
+          include: "associations",
+        },
         ...authdCtxMgr.context.hubRequestOptions,
       });
       expect(res.name).toEqual("my event");
