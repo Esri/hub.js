@@ -16,10 +16,10 @@ export function canCreateChannel(
   channel: IChannel,
   user: IUser | IDiscussionsUser = {}
 ): boolean {
-  const { channelAcl, access, groups, orgs, creator } = channel;
+  const { access, groups, orgs } = channel;
 
-  if (channelAcl) {
-    const channelPermission = new ChannelPermission(channelAcl, creator);
+  if (channel.channelAcl) {
+    const channelPermission = new ChannelPermission(channel);
     return channelPermission.canCreateChannel(user as IDiscussionsUser);
   }
 
@@ -54,7 +54,7 @@ function isAuthorizedToCreateByLegacyPermissions(
   // public or org access
   return (
     canAllowGroupsLegacy(userGroups, channelGroupIds) &&
-    isChannelOrgAdmin(user, channelOrgs)
+    isLegacyChannelOrgAdmin(user, channelOrgs)
   );
 }
 
@@ -85,7 +85,7 @@ function isGroupDiscussable(userGroup: IGroup) {
   return !typeKeywords.includes(CANNOT_DISCUSS);
 }
 
-function isChannelOrgAdmin(
+function isLegacyChannelOrgAdmin(
   user: IUser | IDiscussionsUser,
   channelOrgs: string[]
 ): boolean {

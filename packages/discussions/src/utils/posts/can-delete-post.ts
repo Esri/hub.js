@@ -25,11 +25,10 @@ function isChannelModerator(
   channel: IChannel,
   user: IUser | IDiscussionsUser
 ): boolean {
-  const { channelAcl, creator } = channel;
-  if (!channelAcl) {
+  if (!channel.channelAcl) {
     return false;
   }
 
-  const channelPermission = new ChannelPermission(channelAcl, creator);
+  const channelPermission = new ChannelPermission(channel);
   return channelPermission.canModerateChannel(user);
 }

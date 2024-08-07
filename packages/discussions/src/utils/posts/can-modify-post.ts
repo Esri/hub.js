@@ -20,9 +20,9 @@ export function canModifyPost(
   user: IUser | IDiscussionsUser = {},
   channel: IChannel
 ): boolean {
-  const { access, groups, orgs, allowAnonymous, channelAcl, creator } = channel;
-  if (channelAcl) {
-    const channelPermission = new ChannelPermission(channelAcl, creator);
+  const { access, groups, orgs, allowAnonymous } = channel;
+  if (channel.channelAcl) {
+    const channelPermission = new ChannelPermission(channel);
     return (
       isPostCreator(post, user) && channelPermission.canPostToChannel(user)
     );

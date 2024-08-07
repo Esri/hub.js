@@ -2,6 +2,7 @@ import { IGroup } from "@esri/arcgis-rest-types";
 import {
   AclCategory,
   AclSubCategory,
+  IChannel,
   IChannelAclPermission,
   IChannelAclPermissionDefinition,
   IDiscussionsUser,
@@ -25,13 +26,20 @@ export class ChannelPermission {
   private isChannelAclEmpty: boolean;
   private permissionsByCategory: PermissionsByAclCategoryMap;
   private channelCreator: string;
+  private channelOrgId: string;
 
-  constructor(channelAcl: IChannelAclPermission[], creator: string) {
-    this.isChannelAclEmpty = channelAcl.length === 0;
+  constructor(channel: IChannel) {
+    if (channel.channelAcl === undefined) {
+      throw new Error(
+        "channel.channelAcl is required for ChannelPermission checks"
+      );
+    }
+    this.isChannelAclEmpty = channel.channelAcl.length === 0;
     this.permissionsByCategory = {};
-    this.channelCreator = creator;
+    this.channelCreator = channel.creator;
+    this.channelOrgId = channel.orgId;
 
-    channelAcl.forEach((permission) => {
+    channel.channelAcl.forEach((permission) => {
       const { category } = permission;
       this.permissionsByCategory[category]?.push(permission) ||
         (this.permissionsByCategory[category] = [permission]);

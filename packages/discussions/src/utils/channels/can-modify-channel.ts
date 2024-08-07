@@ -15,10 +15,8 @@ export function canModifyChannel(
   channel: IChannel,
   user: IUser | IDiscussionsUser = {}
 ): boolean {
-  const { channelAcl, creator } = channel;
-
-  if (channelAcl) {
-    const channelPermission = new ChannelPermission(channelAcl, creator);
+  if (channel.channelAcl) {
+    const channelPermission = new ChannelPermission(channel);
     return channelPermission.canModerateChannel(user as IDiscussionsUser);
   }
 
@@ -53,7 +51,7 @@ function isAuthorizedToModifyChannelByLegacyPermissions(
   // public or org access
   return (
     isAuthorizedToModifyChannelByLegacyGroup(channelGroups, userGroups) ||
-    isChannelOrgAdmin(channelOrgs, user)
+    isLegacyChannelOrgAdmin(channelOrgs, user)
   );
 }
 
@@ -79,7 +77,7 @@ function isAuthorizedToModifyChannelByLegacyGroup(
   });
 }
 
-function isChannelOrgAdmin(
+function isLegacyChannelOrgAdmin(
   channelOrgs: string[],
   user: IUser | IDiscussionsUser
 ): boolean {
