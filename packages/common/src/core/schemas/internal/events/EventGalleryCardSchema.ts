@@ -28,8 +28,8 @@ export const EventGalleryCardSchema: IConfigurationSchema = {
     },
     corners: {
       type: "string",
-      enum: ["squared", "rounded"],
-      default: "squared",
+      enum: ["square", "round"],
+      default: "square",
     },
     shadow: {
       type: "string",
