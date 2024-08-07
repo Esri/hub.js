@@ -14,7 +14,7 @@ export async function computeProps(
   user: IHubUser,
   context: IArcGISContext
 ): Promise<IHubUser> {
-  user.settings = await fetchUserHubSettings(context);
+  user.settings = context.userHubSettings;
 
   const signinSettings = await getPortalSigninSettings(context);
   user.hubOrgSettings = {
