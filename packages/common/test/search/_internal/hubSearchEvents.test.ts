@@ -11,8 +11,6 @@ import {
   IEvent,
   IPagedEventResponse,
   IUser,
-  RegistrationRole,
-  RegistrationStatus,
 } from "../../../src/events/api/orval/api/orval-events";
 import { IQuery } from "../../../src/search/types/IHubCatalog";
 import { IHubSearchOptions } from "../../../src/search/types/IHubSearchOptions";
@@ -86,23 +84,6 @@ describe("hubSearchEvents", () => {
         },
         readGroups: ["readGroup1Id"],
         recurrence: null,
-        registrations: [
-          {
-            createdAt: "2024-04-19T12:15:07.222Z",
-            createdById: "t_miller",
-            eventId: "event1Id",
-            id: "52123",
-            permission: {
-              canDelete: false,
-              canEdit: false,
-            },
-            role: RegistrationRole.ATTENDEE,
-            status: RegistrationStatus.ACCEPTED,
-            type: EventAttendanceType.IN_PERSON,
-            updatedAt: "2024-04-19T12:15:07.222Z",
-            userId: "a_brown",
-          },
-        ],
         startDateTime: "2040-07-15T17:00:00.000Z",
         startDate: "2040-07-15",
         startTime: "13:00:00",
@@ -142,23 +123,6 @@ describe("hubSearchEvents", () => {
         },
         readGroups: ["readGroup2Id"],
         recurrence: null,
-        registrations: [
-          {
-            createdAt: "2024-04-21T11:15:07.222Z",
-            createdById: "t_miller",
-            eventId: "event2Id",
-            id: "52124",
-            permission: {
-              canDelete: false,
-              canEdit: false,
-            },
-            role: RegistrationRole.ATTENDEE,
-            status: RegistrationStatus.ACCEPTED,
-            type: EventAttendanceType.VIRTUAL,
-            updatedAt: "2024-04-21T11:15:07.222Z",
-            userId: "b_arnold",
-          },
-        ],
         startDateTime: "2030-07-15T17:00:00.000Z",
         startDate: "2030-07-15",
         startTime: "10:00:00",
@@ -208,38 +172,6 @@ describe("hubSearchEvents", () => {
         },
         readGroups: ["readGroup3Id"],
         recurrence: null,
-        registrations: [
-          {
-            createdAt: "2024-06-21T11:15:07.222Z",
-            createdById: "c_boyd",
-            eventId: "event3Id",
-            id: "52125",
-            permission: {
-              canDelete: false,
-              canEdit: false,
-            },
-            role: RegistrationRole.ATTENDEE,
-            status: RegistrationStatus.ACCEPTED,
-            type: EventAttendanceType.VIRTUAL,
-            updatedAt: "2024-06-21T11:15:07.222Z",
-            userId: "c_boyd",
-          },
-          {
-            createdAt: "2024-07-21T11:15:07.222Z",
-            createdById: "a_burns",
-            eventId: "event3Id",
-            id: "52126",
-            permission: {
-              canDelete: false,
-              canEdit: false,
-            },
-            role: RegistrationRole.ATTENDEE,
-            status: RegistrationStatus.ACCEPTED,
-            type: EventAttendanceType.IN_PERSON,
-            updatedAt: "2024-07-21T11:15:07.222Z",
-            userId: "a_burns",
-          },
-        ],
         startDateTime: "2030-05-15T16:00:00.000Z",
         startDate: "2030-05-15",
         startTime: "10:00:00",
@@ -318,7 +250,7 @@ describe("hubSearchEvents", () => {
       data: {
         ...processedFilters,
         ...processedOptions,
-        include: "creator,registrations",
+        include: "creator",
       },
     });
     expect(eventToSearchResultSpy).toHaveBeenCalledTimes(2);
@@ -363,7 +295,7 @@ describe("hubSearchEvents", () => {
           data: {
             ...processedFilters,
             ...processedOptions2,
-            include: "creator,registrations",
+            include: "creator",
           },
         },
       ],

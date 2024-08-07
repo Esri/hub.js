@@ -42,6 +42,10 @@ describe("processOptions", () => {
       sortBy: EventSort.title,
       sortOrder: EventSortOrder.asc,
     });
+    expect(processOptions({ sortField: "startDate" })).toEqual({
+      sortBy: EventSort.startDateTime,
+      sortOrder: EventSortOrder.asc,
+    });
   });
   it("should process sortOrder", () => {
     expect(processOptions({ sortOrder: "desc" })).toEqual({
