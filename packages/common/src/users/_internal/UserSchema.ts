@@ -6,7 +6,7 @@ export const UserEditorTypes = ["hub:user:settings"] as const;
 export const UserSchema: IConfigurationSchema = {
   type: "object",
   properties: {
-    _userSettings: {
+    settings: {
       type: "object",
       properties: {
         preview: {
@@ -20,40 +20,20 @@ export const UserSchema: IConfigurationSchema = {
         },
       },
     },
-    _portal: {
+    hubOrgSettings: {
       type: "object",
       properties: {
-        portalProperties: {
-          type: "object",
-          properties: {
-            hub: {
-              type: "object",
-              properties: {
-                settings: {
-                  type: "object",
-                  properties: {
-                    informationBanner: {
-                      type: "boolean",
-                      default: false,
-                    },
-                  },
-                },
-              },
-            },
-          },
+        showInformationalBanner: {
+          type: "boolean",
+          default: false,
         },
-        signinSettings: {
-          type: "object",
-          properties: {
-            termsAndConditions: {
-              type: "string",
-              default: "",
-            },
-            signupText: {
-              type: "string",
-              default: "",
-            },
-          },
+        termsAndConditions: {
+          type: "string",
+          default: "",
+        },
+        signupText: {
+          type: "string",
+          default: "",
         },
       },
     },

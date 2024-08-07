@@ -16,40 +16,14 @@ export const buildUiSchema = async (
   return {
     type: "Layout",
     elements: [
-      context.currentUser.role === "org_admin" && {
-        type: "Notice",
-        options: {
-          notice: {
-            id: "org-settings-notice",
-            configuration: {
-              noticeType: "notice",
-              closable: false,
-              kind: "info",
-              scale: "m",
-            },
-            title: "Organization management",
-            message:
-              "Moving forward, managing settings for both staff and community organizations will take place in ArcGIS Online.",
-            autoShow: true,
-            actions: [
-              {
-                label: "Go to organization settings",
-                icon: "launch",
-                href: `${context.portalUrl}/home/organization.html?#settings`,
-                target: "_blank",
-              },
-            ],
-          },
-        },
-      },
       {
         type: "Section",
-        label: "User preferences",
+        label: "User settings",
         elements: [
           {
             type: "Control",
             scope:
-              "/properties/_userSettings/properties/preview/properties/workspace",
+              "/properties/settings/properties/preview/properties/workspace",
             label: "Enable workspace preview",
             options: {
               type: "Control",
@@ -63,84 +37,118 @@ export const buildUiSchema = async (
           },
         ],
       },
-      context.currentUser.role === "org_admin" && {
+      {
         type: "Section",
-        label: "Site display defaults",
+        label: "Organization settings",
         elements: [
-          {
-            type: "Control",
-            scope:
-              "/properties/_portal/properties/portalProperties/properties/hub/properties/settings/properties/informationBanner",
-            label: "Information banner",
+          context.currentUser.role === "org_admin" && {
+            type: "Notice",
             options: {
-              type: "Control",
-              control: "hub-field-input-switch",
-              layout: "inline-space-between",
-              helperText: {
-                label:
-                  "Display your employee organization’s information banner, if configured, across all sites and pages. This is a global setting and cannot be turned on/off for a particular site.",
+              notice: {
+                id: "org-settings-notice",
+                configuration: {
+                  noticeType: "notice",
+                  closable: false,
+                  kind: "info",
+                  scale: "m",
+                },
+                title: "Organization management",
+                message:
+                  "Most staff and community (Hub Premium only) organization settings are now managed in the ArcGIS home application.",
+                autoShow: true,
+                actions: [
+                  {
+                    label: "Go to organization settings",
+                    icon: "launch",
+                    href: `${context.portalUrl}/home/organization.html?#settings`,
+                    target: "_blank",
+                  },
+                ],
               },
             },
           },
+          context.currentUser.role === "org_admin" && {
+            type: "Section",
+            label: "Site display defaults",
+            options: {
+              section: "block",
+            },
+            elements: [
+              {
+                type: "Control",
+                scope:
+                  "/properties/hubOrgSettings/properties/showInformationalBanner",
+                label: "Information banner",
+                options: {
+                  type: "Control",
+                  control: "hub-field-input-switch",
+                  layout: "inline-space-between",
+                  helperText: {
+                    label:
+                      "Display your employee organization’s information banner, if configured, across all sites and pages. This is a global setting and cannot be turned on/off for a particular site.",
+                  },
+                },
+              },
+            ],
+          },
+          !context.isCommunityOrg &&
+            context.currentUser.role === "org_admin" && {
+              type: "Section",
+              label: "Sign in options",
+              options: {
+                section: "block",
+                helperText: {
+                  label:
+                    "Customize the information users will see if they choose to sign up for a Community account in your Hub.",
+                },
+              },
+              elements: [
+                {
+                  type: "Section",
+                  label: "Require custom terms of use on sign up form",
+                  scope:
+                    "/properties/hubOrgSettings/properties/termsAndConditions",
+                  options: {
+                    section: "subblock",
+                    scale: "s",
+                    toggleDisplay: "switch",
+                  },
+                  elements: [
+                    {
+                      type: "Control",
+                      scope:
+                        "/properties/hubOrgSettings/properties/termsAndConditions",
+                      label: "Terms of use",
+                      options: {
+                        control: "hub-field-input-rich-text",
+                      },
+                    },
+                  ],
+                },
+                {
+                  type: "Section",
+                  label: "Configure a custom sign up welcome message",
+                  scope: "/properties/hubOrgSettings/properties/signupText",
+                  options: {
+                    section: "subblock",
+                    scale: "s",
+                    toggleDisplay: "switch",
+                  },
+                  elements: [
+                    {
+                      type: "Control",
+                      scope: "/properties/hubOrgSettings/properties/signupText",
+                      options: {
+                        control: "hub-field-input-input",
+                        type: "textarea",
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
         ],
       },
-      context.isCommunityOrg &&
-        context.currentUser.role === "org_admin" && {
-          type: "Section",
-          label: "Sign in options",
-          options: {
-            helperText: {
-              label:
-                "Customize the information users will see if they choose to sign up for a Community account in your Hub.",
-            },
-          },
-          elements: [
-            {
-              type: "Section",
-              label: "Require custom terms of use on sign up form",
-              scope:
-                "/properties/_portal/properties/signinSettings/properties/termsAndConditions",
-              options: {
-                section: "subblock",
-                scale: "s",
-                toggleDisplay: "switch",
-              },
-              elements: [
-                {
-                  type: "Control",
-                  scope:
-                    "/properties/_portal/properties/signinSettings/properties/termsAndConditions",
-                  label: "Terms of use",
-                  options: {
-                    control: "hub-field-input-rich-text",
-                  },
-                },
-              ],
-            },
-            {
-              type: "Section",
-              label: "Configure a custom sign up welcome message",
-              scope:
-                "/properties/_portal/properties/signinSettings/properties/signupText",
-              options: {
-                section: "subblock",
-                scale: "s",
-                toggleDisplay: "switch",
-              },
-              elements: [
-                {
-                  type: "Control",
-                  scope:
-                    "/properties/_portal/properties/signinSettings/properties/signupText",
-                  options: {
-                    control: "hub-field-input-input",
-                    type: "textarea",
-                  },
-                },
-              ],
-            },
-          ],
-        },
     ],
   };
 };
