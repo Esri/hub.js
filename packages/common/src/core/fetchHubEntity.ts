@@ -65,10 +65,7 @@ export async function fetchHubEntity(
       );
       break;
     case "user":
-      result =
-        identifier === "self"
-          ? convertUserToHubUser(context.currentUser)
-          : await fetchHubUser(identifier, context.hubRequestOptions);
+      result = await fetchHubUser(identifier, context);
   }
   return result;
 }

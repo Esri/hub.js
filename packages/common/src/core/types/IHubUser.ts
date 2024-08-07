@@ -1,3 +1,4 @@
+import { IUserHubSettings } from "../..";
 import { IHubEntityBase } from "./IHubEntityBase";
 import { SettableAccessLevel } from "./types";
 
@@ -33,6 +34,16 @@ export interface IHubUser extends IHubEntityBase {
    * User's own username
    */
   owner?: string;
+
+  /** the user's settings */
+  settings?: IUserHubSettings;
+
+  /** the user's org settings that are configurable from hub */
+  hubOrgSettings?: {
+    showInformationalBanner?: boolean;
+    termsAndConditions?: string;
+    signupText?: string;
+  };
 
   /**
    * User configurable tags
