@@ -37,11 +37,11 @@ export const buildUiSchema = async (
           },
         ],
       },
-      {
+      context.currentUser.role === "org_admin" && {
         type: "Section",
         label: "Organization settings",
         elements: [
-          context.currentUser.role === "org_admin" && {
+          {
             type: "Notice",
             options: {
               notice: {
@@ -91,7 +91,7 @@ export const buildUiSchema = async (
               },
             ],
           },
-          !context.isCommunityOrg &&
+          context.isCommunityOrg &&
             context.currentUser.role === "org_admin" && {
               type: "Section",
               label: "Sign in options",
