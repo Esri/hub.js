@@ -26,6 +26,8 @@ export function processOptions(
     processedOptions.sortBy = EventSort.createdAt;
   } else if (options.sortField === "title") {
     processedOptions.sortBy = EventSort.title;
+  } else if (options.sortField === "startDate") {
+    processedOptions.sortBy = EventSort.startDateTime;
   }
   processedOptions.sortOrder =
     options.sortOrder === "desc" ? EventSortOrder.desc : EventSortOrder.asc;
