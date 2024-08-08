@@ -1,11 +1,12 @@
 import { IConfigurationSchema } from "../../types";
-import { UNIT_POSITIONS, VISUAL_INTEREST, LAYOUTS, SOURCE } from "./interfaces";
+import {
+  UNIT_POSITIONS,
+  VISUAL_INTEREST,
+  LAYOUTS,
+  SOURCE,
+  ICONS,
+} from "./interfaces";
 import { ALIGNMENTS, DROP_SHADOWS } from "../../shared/enums";
-
-// when the user selects the dataViz uiSchema/layout, we show fewer visual interest options
-const ALTERNATE_VISUAL_INTEREST = Object.keys(VISUAL_INTEREST).filter(
-  (x) => x !== VISUAL_INTEREST.sparkline
-);
 
 export const MetricSchema: IConfigurationSchema = {
   type: "object",
@@ -83,12 +84,15 @@ export const MetricSchema: IConfigurationSchema = {
       default: DROP_SHADOWS.none,
       enum: Object.keys(DROP_SHADOWS),
     },
+    icon: {
+      type: "string",
+      default: ICONS.caretUp,
+      enum: Object.values(ICONS),
+    },
     visualInterest: {
       type: "string",
       default: VISUAL_INTEREST.none,
-      if: { properties: { layout: { const: "simple" } } },
-      then: { enum: Object.keys(VISUAL_INTEREST) },
-      else: { enum: ALTERNATE_VISUAL_INTEREST },
+      enum: Object.keys(VISUAL_INTEREST),
     },
     shareable: {
       type: "boolean",
@@ -102,10 +106,10 @@ export const MetricSchema: IConfigurationSchema = {
       type: "boolean",
       default: true,
     },
-    popoverTitle: {
+    popoverText: {
       type: "string",
     },
-    popoverDescription: {
+    publisherText: {
       type: "string",
     },
   },
@@ -116,16 +120,6 @@ export const MetricSchema: IConfigurationSchema = {
   ],
   definitions: {
     // TODO: reimplement popover with layouts release
-    "if-layout-moreinfo-then-require-popover-title-description": {
-      if: {
-        type: "object",
-        properties: { layout: { const: LAYOUTS.moreInfo } },
-        required: ["layout"],
-      },
-      then: {
-        required: ["popoverTitle", "popoverDescription"],
-      },
-    },
     "if-source-title-then-source-link": {
       if: {
         type: "object",

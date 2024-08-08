@@ -1,21 +1,6 @@
 import { ServiceDownloadFormat } from "../types";
 
 /**
- * Formats supported by the /export endpoint of the Portal API.
- */
-export const EXPORT_ITEM_FORMATS = [
-  ServiceDownloadFormat.CSV,
-  ServiceDownloadFormat.KML,
-  ServiceDownloadFormat.SHAPEFILE,
-  ServiceDownloadFormat.FILE_GDB,
-  ServiceDownloadFormat.GEOJSON,
-  ServiceDownloadFormat.EXCEL,
-  ServiceDownloadFormat.FEATURE_COLLECTION,
-] as const;
-
-export type ExportItemFormat = (typeof EXPORT_ITEM_FORMATS)[number];
-
-/**
  * Formats supported by the /exportImage endpoint of Image Services.
  * Listed in the default order of appearance in the UI.
  */

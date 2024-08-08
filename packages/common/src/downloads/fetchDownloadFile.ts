@@ -1,6 +1,5 @@
 import HubError from "../HubError";
 import { canUseExportImageFlow } from "./_internal/canUseExportImageFlow";
-import { canUseExportItemFlow } from "./_internal/canUseExportItemFlow";
 import { canUseHubDownloadApi } from "./canUseHubDownloadApi";
 import { IFetchDownloadFileOptions, IFetchDownloadFileResponse } from "./types";
 
@@ -22,10 +21,6 @@ export async function fetchDownloadFile(
     fetchingFn = (
       await import("./_internal/file-url-fetchers/fetchHubApiDownloadFile")
     ).fetchHubApiDownloadFile;
-  } else if (canUseExportItemFlow(withPollInterval.entity)) {
-    fetchingFn = (
-      await import("./_internal/file-url-fetchers/fetchExportItemDownloadFile")
-    ).fetchExportItemDownloadFile;
   } else if (canUseExportImageFlow(withPollInterval.entity)) {
     fetchingFn = (
       await import("./_internal/file-url-fetchers/fetchExportImageDownloadFile")

@@ -1,3 +1,31 @@
+## @esri/hub-common [14.168.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.168.0...@esri/hub-common@14.168.1) (2024-08-06)
+
+
+### Bug Fixes
+
+* **hub-common:** remove unimplemented flow for downloading files via export item ([#1613](https://github.com/Esri/hub.js/issues/1613)) ([c62a9ce](https://github.com/Esri/hub.js/commit/c62a9cebc72020df9f404a334e6db5ef5ea4002d))
+
+# @esri/hub-common [14.168.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.167.0...@esri/hub-common@14.168.0) (2024-08-02)
+
+
+### Features
+
+* stat card supports visual interest ([#1597](https://github.com/Esri/hub.js/issues/1597)) ([2ffc48f](https://github.com/Esri/hub.js/commit/2ffc48f9f77cf33d415432076e69b4e6cb8882f6))
+
+# @esri/hub-common [14.167.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.166.0...@esri/hub-common@14.167.0) (2024-08-01)
+
+
+### Features
+
+* **hub-common:** refactor event gallery card editor uiSchema to use … ([#1610](https://github.com/Esri/hub.js/issues/1610)) ([b2370d1](https://github.com/Esri/hub.js/commit/b2370d1cc95b9f4cc6b9a9dd0952aae0b650474f))
+
+# @esri/hub-common [14.166.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.165.0...@esri/hub-common@14.166.0) (2024-07-31)
+
+
+### Features
+
+* **hub-common:** add EventGalleryCardSchema and EventGalleryCardUiSchema ([#1604](https://github.com/Esri/hub.js/issues/1604)) ([09f197c](https://github.com/Esri/hub.js/commit/09f197ca2520cb2e12a0a20f0fa40f3526475ad6))
+
 # @esri/hub-common [14.165.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.164.1...@esri/hub-common@14.165.0) (2024-07-26)
 
 

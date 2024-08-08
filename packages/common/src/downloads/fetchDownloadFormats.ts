@@ -1,6 +1,5 @@
 import { IHubAdditionalResource } from "../core/types/IHubAdditionalResource";
 import { canUseExportImageFlow } from "./_internal/canUseExportImageFlow";
-import { canUseExportItemFlow } from "./_internal/canUseExportItemFlow";
 import { canUseHubDownloadApi } from "./canUseHubDownloadApi";
 import {
   IDownloadFormat,
@@ -24,11 +23,6 @@ export async function fetchDownloadFormats(
       "./getHubDownloadApiFormats"
     );
     baseFormats = getHubDownloadApiFormats(entity);
-  } else if (canUseExportItemFlow(entity)) {
-    const { fetchExportItemFormats } = await import(
-      "./_internal/format-fetchers/fetchExportItemFormats"
-    );
-    baseFormats = await fetchExportItemFormats(entity, context, layers);
   } else if (canUseExportImageFlow(entity)) {
     const { getExportImageFormats } = await import(
       "./_internal/format-fetchers/getExportImageFormats"
