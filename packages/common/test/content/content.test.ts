@@ -1578,7 +1578,7 @@ describe("content: ", () => {
         "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/multipoints/FeatureServer?stop=true",
         {
           status: 500,
-          body: { message: "Special Server Error" },
+          body: { message: "Special Server Error", error: { code: 500 } },
         },
         { delay: 1000 }
       );
@@ -1588,6 +1588,47 @@ describe("content: ", () => {
         url: "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/multipoints/FeatureServer?stop=true",
       })) as IHubServiceBackedContentStatus;
       expect(result.service.availability).toEqual("unavailable");
+    });
+
+    it("service requires token making status unknown", async () => {
+      const entity: IHubEditableContent = {
+        id: "abc",
+        url: "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/slowpoints/FeatureServer",
+
+        // not important to this test
+        licenseInfo: "",
+        itemControl: "",
+        owner: "",
+        schemaVersion: 0,
+        tags: [],
+        canEdit: false,
+        canDelete: false,
+        name: "",
+        createdDate: new Date(),
+        createdDateSource: "",
+        updatedDate: new Date(),
+        updatedDateSource: "",
+        type: "",
+        orgUrlKey: "",
+      };
+
+      // For more context on why we're mocking the code inside the body,
+      // see Josh's testing steps in https://devtopia.esri.com/dc/hub/issues/10973
+      // This is how the ArcGISAuthError is formatted
+      fetchMock.once(
+        "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/slowpoints/FeatureServer",
+        {
+          status: 403,
+          body: { message: "Forbidden", error: { code: 403 } },
+        },
+        { delay: 1000 }
+      );
+
+      const result = (await getServiceStatus(entity, {
+        ...MOCK_REQUEST_OPTIONS,
+        url: "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/slowpoints/FeatureServer",
+      })) as IHubServiceBackedContentStatus;
+      expect(result.service.availability).toEqual("unknown");
     });
   });
 });

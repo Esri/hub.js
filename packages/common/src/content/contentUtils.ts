@@ -1,6 +1,6 @@
 /* Copyright (c) 2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
-import { IItem, IUser } from "@esri/arcgis-rest-portal";
+import { IItem } from "@esri/arcgis-rest-portal";
 import { IModel } from "../types";
 import { getCollection } from "../collections";
 import { categories as allCategories } from "../categories";
@@ -487,10 +487,12 @@ export async function getServiceStatus(
         // if the service is returned, then we consider it available
         return availability("available");
       })
-      .catch((error) => {
+      .catch(async (error) => {
         // if the service is not returned, we consider it unavailable
         // if the service responds with a 403, we consider it unknown
-        return error.response.error.code === 403
+        const response = await error.response.json();
+
+        return response.error.code === 403
           ? availability("unknown")
           : availability("unavailable");
       });
