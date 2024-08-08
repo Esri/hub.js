@@ -1,6 +1,6 @@
 /* Copyright (c) 2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
-import { IItem } from "@esri/arcgis-rest-portal";
+import { IItem, IUser } from "@esri/arcgis-rest-portal";
 import { IModel } from "../types";
 import { getCollection } from "../collections";
 import { categories as allCategories } from "../categories";
@@ -465,7 +465,8 @@ const availability = (status: string) => {
  */
 export async function getServiceStatus(
   entity: IHubEditableContent,
-  options: IGetServiceStatusOptions
+  options: IGetServiceStatusOptions,
+  user: IUser
 ): Promise<IHubContentStatus> {
   // get the request options for the `getService` call, and set a default timeout if one is not provided
   const { timeout = 3000, ...requestOptions } = options;
@@ -473,6 +474,12 @@ export async function getServiceStatus(
   const hasUrl = !!url;
   if (!hasUrl) {
     return availability("available");
+  }
+
+  // TODO: if (service org !== user org) return availability("unknown")
+  // 'session.currentUser.orgId', 'appSettings.orgId' or 'this.model.content.orgId
+  if (entity.orgId !== user.orgId) {
+    return availability("unknown");
   }
 
   const hasQueryParams = url.includes("?");

@@ -83,7 +83,7 @@ export interface IHubBaseContentStatus {
 export interface IHubServiceBackedContentStatus extends IHubBaseContentStatus {
   kind: "service";
   service: {
-    availability: "available" | "slow" | "unavailable";
+    availability: "available" | "slow" | "unavailable" | "unknown";
     // TODO: expand in the future if needed
   };
 }
