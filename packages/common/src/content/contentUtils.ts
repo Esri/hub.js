@@ -465,8 +465,7 @@ const availability = (status: string) => {
  */
 export async function getServiceStatus(
   entity: IHubEditableContent,
-  options: IGetServiceStatusOptions,
-  user: IUser
+  options: IGetServiceStatusOptions
 ): Promise<IHubContentStatus> {
   // get the request options for the `getService` call, and set a default timeout if one is not provided
   const { timeout = 3000, ...requestOptions } = options;
@@ -474,12 +473,6 @@ export async function getServiceStatus(
   const hasUrl = !!url;
   if (!hasUrl) {
     return availability("available");
-  }
-
-  // TODO: if (service org !== user org) return availability("unknown")
-  // 'session.currentUser.orgId', 'appSettings.orgId' or 'this.model.content.orgId
-  if (entity.orgId !== user.orgId) {
-    return availability("unknown");
   }
 
   const hasQueryParams = url.includes("?");
@@ -494,9 +487,12 @@ export async function getServiceStatus(
         // if the service is returned, then we consider it available
         return availability("available");
       })
-      .catch(() => {
+      .catch((error) => {
         // if the service is not returned, we consider it unavailable
-        return availability("unavailable");
+        // if the service responds with a 403, we consider it unknown
+        return error.response.error.code === 403
+          ? availability("unknown")
+          : availability("unavailable");
       });
 
     // race the two promises
