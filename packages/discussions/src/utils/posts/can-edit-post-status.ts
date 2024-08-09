@@ -1,12 +1,8 @@
 import { IGroup, IUser } from "@esri/arcgis-rest-types";
 import { IChannel, IDiscussionsUser, SharingAccess } from "../../types";
-import {
-  isOrgAdmin,
-  isOrgAdminInOrg,
-  isUserInOrg,
-  userHasPrivileges,
-} from "../platform";
+import { isOrgAdmin } from "../platform";
 import { ChannelPermission } from "../channel-permission";
+import { hasOrgAdminUpdateRights } from "../portal-privilege";
 
 const ADMIN_GROUP_ROLES = Object.freeze(["owner", "admin"]);
 
@@ -44,20 +40,6 @@ export function canEditPostStatus(
   }
 
   return isAuthorizedToModifyStatusByLegacyPermissions(user, channel);
-}
-
-function hasOrgAdminUpdateRights(
-  user: IUser | IDiscussionsUser = {},
-  orgId: string
-) {
-  return (
-    isOrgAdminInOrg(user, orgId) ||
-    (isUserInOrg(user, orgId) &&
-      userHasPrivileges(user, [
-        "portal:admin:viewItems",
-        "portal:admin:updateItems",
-      ]))
-  );
 }
 
 function isAuthorizedToModifyStatusByLegacyPermissions(
