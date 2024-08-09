@@ -212,6 +212,7 @@ export type UiSchemaElementOptions = Pick<
 
 export interface IUiSchemaComboboxItem {
   value: string;
+  description?: string;
   label?: string;
   icon?: string;
   selected?: boolean;
