@@ -35,15 +35,11 @@ export const buildUiSchema = async (
               rules: [
                 undefined,
                 undefined,
-                [
-                  {
-                    effect: UiSchemaRuleEffects.SHOW,
-                    // only show in alpha
-                    conditions: [
-                      checkPermission("hub:availability:alpha", context).access,
-                    ],
-                  },
-                ],
+                undefined,
+                {
+                  effect: UiSchemaRuleEffects.HIDE,
+                  conditions: [true],
+                },
               ],
               enum: {
                 i18nScope: `statistic.type.enum`,
@@ -66,6 +62,14 @@ export const buildUiSchema = async (
             rule: SHOW_FOR_DYNAMIC_RULE,
             options: {
               control: "hub-composite-input-service-query-metric",
+            },
+          },
+          {
+            scope: "/properties/telemetryMetric",
+            type: "Control",
+            rule: SHOW_FOR_TELEMETRY_RULE,
+            options: {
+              control: "hub-composite-input-telemetry-query-metric",
             },
           },
           {
@@ -442,6 +446,14 @@ const SHOW_FOR_DYNAMIC_RULE = {
   condition: {
     scope: "/properties/type",
     schema: { const: "dynamic" },
+  },
+  effect: UiSchemaRuleEffects.SHOW,
+};
+
+const SHOW_FOR_TELEMETRY_RULE = {
+  condition: {
+    scope: "/properties/type",
+    schema: { const: "telemetry" },
   },
   effect: UiSchemaRuleEffects.SHOW,
 };

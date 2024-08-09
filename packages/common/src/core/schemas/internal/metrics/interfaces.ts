@@ -24,5 +24,6 @@ export enum ICONS {
 export enum SOURCE {
   dynamic = "dynamic",
   static = "static",
+  telemetry = "telemetry",
   itemQuery = "itemQuery",
 }
