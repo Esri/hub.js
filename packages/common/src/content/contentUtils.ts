@@ -487,9 +487,14 @@ export async function getServiceStatus(
         // if the service is returned, then we consider it available
         return availability("available");
       })
-      .catch(() => {
+      .catch(async (error) => {
         // if the service is not returned, we consider it unavailable
-        return availability("unavailable");
+        // if the service responds with a 403, we consider it unknown
+        const response = await error.response.json();
+
+        return response.error.code === 403
+          ? availability("unknown")
+          : availability("unavailable");
       });
 
     // race the two promises
