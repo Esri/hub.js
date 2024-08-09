@@ -35,6 +35,7 @@ export const buildUiSchema = async (
               rules: [
                 undefined,
                 undefined,
+                undefined,
                 [
                   {
                     effect: UiSchemaRuleEffects.SHOW,
