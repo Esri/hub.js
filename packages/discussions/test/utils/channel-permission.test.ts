@@ -567,7 +567,10 @@ describe("ChannelPermission class", () => {
       });
 
       it("returns true with a full valid channelAcl if user is the org_admin, in all groups, and org permissions only relate to users org", () => {
-        const user = buildUser({ role: "org_admin" });
+        const user = buildUser({
+          role: "org_admin",
+          privileges: ["portal:admin:shareToPublic"],
+        });
         const channelAcl = buildCompleteAcl() as IChannelAclPermission[];
         const channel = { channelAcl, creator: "foo" } as IChannel;
 
@@ -590,7 +593,19 @@ describe("ChannelPermission class", () => {
         expect(channelPermission.canCreateChannel(user)).toEqual(true);
       });
 
-      it("returns false if user is not org_admin", () => {
+      it("returns true if user has privilege portal:admin:shareToPublic", () => {
+        const user = buildUser({ privileges: ["portal:admin:shareToPublic"] });
+        const channelAcl = [
+          { category: AclCategory.ANONYMOUS_USER, role: Role.READ },
+        ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+
+        const channelPermission = new ChannelPermission(channel);
+
+        expect(channelPermission.canCreateChannel(user)).toEqual(true);
+      });
+
+      it("returns false if user is not org_admin and does not have privilege portal:admin:shareToPublic", () => {
         const user = buildUser();
         const channelAcl = [
           { category: AclCategory.ANONYMOUS_USER, role: Role.READ },
@@ -616,7 +631,19 @@ describe("ChannelPermission class", () => {
         expect(channelPermission.canCreateChannel(user)).toEqual(true);
       });
 
-      it("returns false if user is not org_admin", () => {
+      it("returns true if user if user has privilege portal:admin:shareToPublic", () => {
+        const user = buildUser({ privileges: ["portal:admin:shareToPublic"] });
+        const channelAcl = [
+          { category: AclCategory.AUTHENTICATED_USER, role: Role.READ },
+        ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+
+        const channelPermission = new ChannelPermission(channel);
+
+        expect(channelPermission.canCreateChannel(user)).toEqual(true);
+      });
+
+      it("returns false if user is not org_admin and does not have privilege portal:admin:shareToPublic", () => {
         const user = buildUser();
         const channelAcl = [
           { category: AclCategory.AUTHENTICATED_USER, role: Role.READ },
@@ -772,6 +799,29 @@ describe("ChannelPermission class", () => {
         expect(channelPermission.canCreateChannel(user)).toEqual(true);
       });
 
+      it("returns true if user if user has privilege portal:admin:shareToOrg and every permission is for the users orgId", () => {
+        const user = buildUser({ privileges: ["portal:admin:shareToOrg"] });
+        const channelAcl = [
+          {
+            category: AclCategory.ORG,
+            subCategory: AclSubCategory.ADMIN,
+            key: orgId1,
+            role: Role.OWNER,
+          },
+          {
+            category: AclCategory.ORG,
+            subCategory: AclSubCategory.MEMBER,
+            key: orgId1,
+            role: Role.READ,
+          },
+        ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+
+        const channelPermission = new ChannelPermission(channel);
+
+        expect(channelPermission.canCreateChannel(user)).toEqual(true);
+      });
+
       it("returns false if user is org_admin and every permission is not for the users orgId", () => {
         const user = buildUser({ role: "org_admin" });
         const channelAcl = [
@@ -795,7 +845,30 @@ describe("ChannelPermission class", () => {
         expect(channelPermission.canCreateChannel(user)).toEqual(false);
       });
 
-      it("returns false if user is not org_admin", () => {
+      it("returns false if user has privilege portal:admin:shareToOrg and every permission is not for the users orgId", () => {
+        const user = buildUser({ privileges: ["portal:admin:shareToOrg"] });
+        const channelAcl = [
+          {
+            category: AclCategory.ORG,
+            subCategory: AclSubCategory.ADMIN,
+            key: orgId1,
+            role: Role.OWNER,
+          },
+          {
+            category: AclCategory.ORG,
+            subCategory: AclSubCategory.MEMBER,
+            key: "unknown",
+            role: Role.READ,
+          },
+        ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+
+        const channelPermission = new ChannelPermission(channel);
+
+        expect(channelPermission.canCreateChannel(user)).toEqual(false);
+      });
+
+      it("returns false if user is not org_admin or does not have privilege portal:admin:shareToOrg", () => {
         const user = buildUser();
         const channelAcl = [
           {

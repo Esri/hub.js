@@ -9,7 +9,7 @@ import {
   Role,
 } from "../types";
 import { CANNOT_DISCUSS } from "./constants";
-import { isOrgAdmin } from "./platform";
+import { isOrgAdmin, userHasPrivilege } from "./platform";
 
 type PermissionsByAclCategoryMap = {
   [key in AclCategory]?: IChannelAclPermission[];
@@ -21,6 +21,10 @@ enum ChannelAction {
   MODERATE_CHANNEL = "moderateChannel",
 }
 
+/**
+ * @internal
+ * @hidden
+ */
 export class ChannelPermission {
   private readonly ALLOWED_GROUP_MEMBER_TYPES = ["owner", "admin", "member"];
   private isChannelAclEmpty: boolean;
@@ -172,21 +176,22 @@ export class ChannelPermission {
     });
   }
 
-  /**
-   * canCreateChannelHelpers
-   */
   private userCanAddAnonymousToAcl(user: IDiscussionsUser) {
     if (!this.permissionsByCategory[AclCategory.ANONYMOUS_USER]) {
       return true;
     }
-    return isOrgAdmin(user);
+    return (
+      isOrgAdmin(user) || userHasPrivilege(user, "portal:admin:shareToPublic")
+    );
   }
 
   private userCanAddUnauthenticatedToAcl(user: IDiscussionsUser) {
     if (!this.permissionsByCategory[AclCategory.AUTHENTICATED_USER]) {
       return true;
     }
-    return isOrgAdmin(user);
+    return (
+      isOrgAdmin(user) || userHasPrivilege(user, "portal:admin:shareToPublic")
+    );
   }
 
   private userCanAddAllGroupsToAcl(user: IDiscussionsUser) {
@@ -216,7 +221,7 @@ export class ChannelPermission {
     }
 
     return (
-      isOrgAdmin(user) &&
+      (isOrgAdmin(user) || userHasPrivilege(user, "portal:admin:shareToOrg")) &&
       this.isEveryPermissionForUserOrg(user.orgId, orgPermissions)
     );
   }
