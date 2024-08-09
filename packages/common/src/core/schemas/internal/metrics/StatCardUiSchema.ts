@@ -32,7 +32,15 @@ export const buildUiSchema = async (
             labelKey: `statistic.type.label`,
             options: {
               control: "hub-field-input-tile-select",
-              rules: [undefined, undefined, undefined, false],
+              rules: [
+                undefined,
+                undefined,
+                undefined,
+                {
+                  effect: UiSchemaRuleEffects.HIDE,
+                  conditions: [true],
+                },
+              ],
               enum: {
                 i18nScope: `statistic.type.enum`,
               },
