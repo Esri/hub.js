@@ -1,5 +1,4 @@
 import * as PortalModule from "@esri/arcgis-rest-portal";
-import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as defaultsModule from "../../src/events/defaults";
 import * as eventsModule from "../../src/events/api/events";
@@ -9,6 +8,7 @@ import {
   EventAttendanceType,
   EventStatus,
   IEvent,
+  IEventAssociation,
 } from "../../src/events/api/types";
 import {
   createHubEvent,
@@ -24,143 +24,159 @@ import {
   HubEventCapacityType,
 } from "../../src/events/types";
 import * as buildEventAssociationsModule from "../../src/events/_internal/buildEventAssociations";
+import { IArcGISContext } from "../../src/ArcGISContext";
 
 describe("HubEvents edit module", () => {
+  const context = {
+    authentication: MOCK_AUTH,
+    currentUser: {
+      username: "casey",
+    } as unknown as PortalModule.IUser,
+    portal: {
+      name: "DC R&D Center",
+      id: "BRXFAKE",
+      urlKey: "fake-org",
+    } as unknown as PortalModule.IPortal,
+    portalUrl: "https://myserver.com",
+  } as unknown as IArcGISContext;
+
+  const datesAndTimes = {
+    startDate: "2024-03-31",
+    startDateTime: new Date(),
+    startTime: "12:00:00",
+    endDate: "2024-03-31",
+    endDateTime: new Date(),
+    endTime: "14:00:00",
+    timeZone: "America/New_York",
+  };
+
+  const defaultRecord: Partial<IEvent> = {
+    access: EventAccess.PRIVATE,
+    allDay: false,
+    allowRegistration: true,
+    attendanceType: [EventAttendanceType.IN_PERSON],
+    associations: [],
+    categories: [],
+    editGroups: [],
+    endDateTime: datesAndTimes.endDateTime.toISOString(),
+    endDate: datesAndTimes.endDate,
+    endTime: datesAndTimes.endTime,
+    inPersonCapacity: 50,
+    notifyAttendees: true,
+    readGroups: [],
+    registrationCount: {
+      inPerson: 0,
+      virtual: 5,
+    },
+    startDateTime: datesAndTimes.startDateTime.toISOString(),
+    startDate: datesAndTimes.startDate,
+    startTime: datesAndTimes.startTime,
+    status: EventStatus.PLANNED,
+    tags: [],
+    title: "",
+    permission: {
+      canDelete: true,
+      canSetAccessToOrg: true,
+      canSetAccessToPrivate: true,
+      canSetStatusToCancelled: true,
+      canEdit: true,
+      canSetAccessToPublic: true,
+      canSetStatusToRemoved: true,
+    },
+    timeZone: "America/New_York",
+  };
+
+  const defaultEntity: Partial<IHubEvent> = {
+    access: "private",
+    allowRegistration: true,
+    attendanceType: HubEventAttendanceType.InPerson,
+    categories: [],
+    inPersonCapacity: null,
+    inPersonCapacityType: HubEventCapacityType.Unlimited,
+    isAllDay: false,
+    isCanceled: false,
+    isDiscussable: true,
+    isPlanned: true,
+    isRemoved: false,
+    name: "",
+    notifyAttendees: true,
+    onlineCapacity: null,
+    onlineCapacityType: HubEventCapacityType.Unlimited,
+    onlineDetails: null,
+    onlineUrl: null,
+    references: [],
+    schemaVersion: 1,
+    tags: [],
+    readGroupIds: [],
+    editGroupIds: [],
+    view: {
+      heroActions: [],
+      showMap: false,
+      featuredContentIds: [],
+    },
+    location: {
+      type: "none",
+    },
+    ...datesAndTimes,
+  };
+
+  let buildDefaultEventEntitySpy: jasmine.Spy;
+  let buildDefaultEventRecordSpy: jasmine.Spy;
+  let buildEventAssociationsSpy: jasmine.Spy;
+
+  beforeEach(() => {
+    buildDefaultEventEntitySpy = spyOn(
+      defaultsModule,
+      "buildDefaultEventEntity"
+    ).and.returnValue(defaultEntity);
+    buildDefaultEventRecordSpy = spyOn(
+      defaultsModule,
+      "buildDefaultEventRecord"
+    ).and.returnValue(defaultRecord);
+    buildEventAssociationsSpy = spyOn(
+      buildEventAssociationsModule,
+      "buildEventAssociations"
+    ).and.returnValue(
+      Promise.resolve([
+        {
+          entityId: "t36",
+          entityType: "Hub Site Application",
+        },
+        {
+          entityId: "8nd",
+          entityType: "Hub Project",
+        },
+      ])
+    );
+  });
+
   describe("createHubEvent", () => {
     it("should create an event", async () => {
-      const authdCtxMgr = await ArcGISContextManager.create({
-        authentication: MOCK_AUTH,
-        currentUser: {
-          username: "casey",
-        } as unknown as PortalModule.IUser,
-        portal: {
-          name: "DC R&D Center",
-          id: "BRXFAKE",
-          urlKey: "fake-org",
-        } as unknown as PortalModule.IPortal,
-        portalUrl: "https://myserver.com",
-      });
-      const datesAndTimes = {
-        startDate: "2024-03-31",
-        startDateTime: new Date(),
-        startTime: "12:00:00",
-        endDate: "2024-03-31",
-        endDateTime: new Date(),
-        endTime: "14:00:00",
-        timeZone: "America/New_York",
-      };
-      const defaultEntity: Partial<IHubEvent> = {
-        access: "private",
-        allowRegistration: true,
-        attendanceType: HubEventAttendanceType.InPerson,
-        categories: [],
-        inPersonCapacity: null,
-        inPersonCapacityType: HubEventCapacityType.Unlimited,
-        isAllDay: false,
-        isCanceled: false,
-        isDiscussable: true,
-        isPlanned: true,
-        isRemoved: false,
-        name: "",
-        notifyAttendees: true,
-        onlineCapacity: null,
-        onlineCapacityType: HubEventCapacityType.Unlimited,
-        onlineDetails: null,
-        onlineUrl: null,
-        references: [],
-        schemaVersion: 1,
-        tags: [],
-        readGroupIds: [],
-        editGroupIds: [],
-        view: {
-          heroActions: [],
-          showMap: false,
-          featuredContentIds: [],
-        },
-        location: {
-          type: "none",
-        },
-        ...datesAndTimes,
-      };
-      const defaultRecord: Partial<IEvent> = {
-        access: EventAccess.PRIVATE,
-        allDay: false,
-        allowRegistration: true,
-        attendanceType: [EventAttendanceType.IN_PERSON],
-        associations: [],
-        categories: [],
-        editGroups: [],
-        endDateTime: datesAndTimes.endDateTime.toISOString(),
-        endDate: datesAndTimes.endDate,
-        endTime: datesAndTimes.endTime,
-        inPersonCapacity: 50,
-        notifyAttendees: true,
-        readGroups: [],
-        registrationCount: {
-          inPerson: 0,
-          virtual: 5,
-        },
-        startDateTime: datesAndTimes.startDateTime.toISOString(),
-        startDate: datesAndTimes.startDate,
-        startTime: datesAndTimes.startTime,
-        status: EventStatus.PLANNED,
-        tags: [],
-        title: "",
-        permission: {
-          canDelete: true,
-          canSetAccessToOrg: true,
-          canSetAccessToPrivate: true,
-          canSetStatusToCancelled: true,
-          canEdit: true,
-          canSetAccessToPublic: true,
-          canSetStatusToRemoved: true,
-        },
-        timeZone: "America/New_York",
-      };
       const createdRecord = {
         ...defaultRecord,
+        id: "92x",
         title: "my event",
         timeZone: "America/New_York",
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
         associations: [
           {
+            eventId: "92x",
             entityId: "t36",
             entityType: "Hub Site Application",
           },
           {
+            eventId: "92x",
             entityId: "8nd",
             entityType: "Hub Project",
           },
         ],
       };
-      const buildDefaultEventEntitySpy = spyOn(
-        defaultsModule,
-        "buildDefaultEventEntity"
-      ).and.returnValue(defaultEntity);
-      const buildDefaultEventRecordSpy = spyOn(
-        defaultsModule,
-        "buildDefaultEventRecord"
-      ).and.returnValue(defaultRecord);
+
       const createEventApiSpy = spyOn(
         eventsModule,
         "createEvent"
       ).and.returnValue(new Promise((resolve) => resolve(createdRecord)));
-      const buildEventAssociationsSpy = spyOn(
-        buildEventAssociationsModule,
-        "buildEventAssociations"
-      ).and.returnValue(
-        Promise.resolve([
-          {
-            entityId: "t36",
-            entityType: "Hub Site Application",
-          },
-          {
-            entityId: "8nd",
-            entityType: "Hub Project",
-          },
-        ])
-      );
       const res = await createHubEvent(
         {
           name: "my event",
@@ -183,7 +199,7 @@ describe("HubEvents edit module", () => {
             },
           ],
         },
-        authdCtxMgr.context.hubRequestOptions
+        context.hubRequestOptions
       );
       expect(buildDefaultEventEntitySpy).toHaveBeenCalledTimes(1);
       expect(buildDefaultEventEntitySpy).toHaveBeenCalledWith();
@@ -198,7 +214,7 @@ describe("HubEvents edit module", () => {
           },
         ],
         ["8nd"],
-        authdCtxMgr.context.hubRequestOptions
+        context.hubRequestOptions
       );
       expect(createEventApiSpy).toHaveBeenCalledTimes(1);
       expect(createEventApiSpy).toHaveBeenCalledWith({
@@ -220,14 +236,12 @@ describe("HubEvents edit module", () => {
           categories: defaultRecord.categories,
           description: defaultRecord.description,
           editGroups: defaultRecord.editGroups,
-          // endDateTime not included
           endDate: defaultRecord.endDate,
           endTime: defaultRecord.endTime,
           inPersonCapacity: defaultRecord.inPersonCapacity,
           notifyAttendees: defaultRecord.notifyAttendees,
           onlineMeeting: defaultRecord.onlineMeeting,
           readGroups: defaultRecord.readGroups,
-          // startDateTime not included
           startDate: defaultRecord.startDate,
           startTime: defaultRecord.startTime,
           summary: defaultRecord.summary,
@@ -241,7 +255,86 @@ describe("HubEvents edit module", () => {
             geometries: [],
           },
         },
-        ...authdCtxMgr.context.hubRequestOptions,
+        ...context.hubRequestOptions,
+      });
+      expect(res.name).toEqual("my event");
+    });
+
+    it("should create an event without associations", async () => {
+      const createdRecord = {
+        ...defaultRecord,
+        id: "92x",
+        title: "my event",
+        timeZone: "America/New_York",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        associations: [] as IEventAssociation[],
+      };
+
+      const createEventApiSpy = spyOn(
+        eventsModule,
+        "createEvent"
+      ).and.returnValue(new Promise((resolve) => resolve(createdRecord)));
+      buildEventAssociationsSpy.and.returnValue(Promise.resolve([]));
+      const res = await createHubEvent(
+        {
+          name: "my event",
+          timeZone: "America/New_York",
+          inPersonCapacity: 50,
+          inPersonCapacityType: HubEventCapacityType.Fixed,
+          location: {
+            type: "custom",
+            spatialReference: {},
+            extent: [[]],
+            geometries: [],
+          },
+          view: {
+            featuredContentIds: [],
+          },
+          featuredContentIdsByType: [],
+        },
+        context.hubRequestOptions
+      );
+      expect(buildDefaultEventEntitySpy).toHaveBeenCalledTimes(1);
+      expect(buildDefaultEventEntitySpy).toHaveBeenCalledWith();
+      expect(buildDefaultEventRecordSpy).toHaveBeenCalledTimes(1);
+      expect(buildDefaultEventRecordSpy).toHaveBeenCalledWith();
+      expect(buildEventAssociationsSpy).toHaveBeenCalledTimes(1);
+      expect(buildEventAssociationsSpy).toHaveBeenCalledWith(
+        [],
+        [],
+        context.hubRequestOptions
+      );
+      expect(createEventApiSpy).toHaveBeenCalledTimes(1);
+      expect(createEventApiSpy).toHaveBeenCalledWith({
+        data: {
+          access: defaultRecord.access,
+          allDay: defaultRecord.allDay,
+          allowRegistration: defaultRecord.allowRegistration,
+          attendanceType: defaultRecord.attendanceType,
+          categories: defaultRecord.categories,
+          description: defaultRecord.description,
+          editGroups: defaultRecord.editGroups,
+          endDate: defaultRecord.endDate,
+          endTime: defaultRecord.endTime,
+          inPersonCapacity: defaultRecord.inPersonCapacity,
+          notifyAttendees: defaultRecord.notifyAttendees,
+          onlineMeeting: defaultRecord.onlineMeeting,
+          readGroups: defaultRecord.readGroups,
+          startDate: defaultRecord.startDate,
+          startTime: defaultRecord.startTime,
+          summary: defaultRecord.summary,
+          tags: defaultRecord.tags,
+          timeZone: defaultRecord.timeZone,
+          title: "my event",
+          location: {
+            type: "custom",
+            spatialReference: {},
+            extent: [[]],
+            geometries: [],
+          },
+        },
+        ...context.hubRequestOptions,
       });
       expect(res.name).toEqual("my event");
     });
@@ -249,144 +342,35 @@ describe("HubEvents edit module", () => {
 
   describe("updateHubEvent", () => {
     it("should update an event", async () => {
-      const authdCtxMgr = await ArcGISContextManager.create({
-        authentication: MOCK_AUTH,
-        currentUser: {
-          username: "casey",
-        } as unknown as PortalModule.IUser,
-        portal: {
-          name: "DC R&D Center",
-          id: "BRXFAKE",
-          urlKey: "fake-org",
-        } as unknown as PortalModule.IPortal,
-        portalUrl: "https://myserver.com",
-      });
-      const datesAndTimes = {
-        startDate: "2024-03-31",
-        startDateTime: new Date(),
-        startTime: "12:00:00",
-        endDate: "2024-03-31",
-        endDateTime: new Date(),
-        endTime: "14:00:00",
-        timeZone: "America/New_York",
-      };
-      const defaultEntity: Partial<IHubEvent> = {
-        access: "private",
-        allowRegistration: true,
-        attendanceType: HubEventAttendanceType.InPerson,
-        categories: [],
-        inPersonCapacity: null,
-        inPersonCapacityType: HubEventCapacityType.Unlimited,
-        isAllDay: false,
-        isCanceled: false,
-        isDiscussable: true,
-        isPlanned: true,
-        isRemoved: false,
-        name: "",
-        notifyAttendees: true,
-        onlineCapacity: null,
-        onlineCapacityType: HubEventCapacityType.Unlimited,
-        onlineDetails: null,
-        onlineUrl: null,
-        references: [],
-        schemaVersion: 1,
-        tags: [],
-        readGroupIds: [],
-        editGroupIds: [],
-        view: {
-          heroActions: [],
-          showMap: false,
-          featuredContentIds: [],
-        },
-        location: {
-          type: "none",
-        },
-        ...datesAndTimes,
-      };
-      const defaultRecord: Partial<IEvent> = {
-        access: EventAccess.PRIVATE,
-        allDay: false,
-        allowRegistration: true,
-        attendanceType: [EventAttendanceType.IN_PERSON],
-        associations: [],
-        categories: [],
-        editGroups: [],
-        endDateTime: datesAndTimes.endDateTime.toISOString(),
-        endDate: datesAndTimes.endDate,
-        endTime: datesAndTimes.endTime,
-        inPersonCapacity: 50,
-        notifyAttendees: true,
-        readGroups: [],
-        registrationCount: {
-          inPerson: 0,
-          virtual: 5,
-        },
-        startDateTime: datesAndTimes.startDateTime.toISOString(),
-        startDate: datesAndTimes.startDate,
-        startTime: datesAndTimes.startTime,
-        status: EventStatus.PLANNED,
-        tags: [],
-        title: "",
-        permission: {
-          canDelete: true,
-          canSetAccessToOrg: true,
-          canSetAccessToPrivate: true,
-          canSetStatusToCancelled: true,
-          canEdit: true,
-          canSetAccessToPublic: true,
-          canSetStatusToRemoved: true,
-        },
-        timeZone: "America/New_York",
-      };
       const updatedRecord = {
         ...defaultRecord,
+        id: "92x",
         title: "my event",
         timeZone: "America/New_York",
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
         associations: [
           {
+            eventId: "92x",
             entityId: "t36",
             entityType: "Hub Site Application",
           },
           {
+            eventId: "92x",
             entityId: "8nd",
             entityType: "Hub Project",
           },
-        ],
+        ] as IEventAssociation[],
       };
-      const buildDefaultEventEntitySpy = spyOn(
-        defaultsModule,
-        "buildDefaultEventEntity"
-      ).and.returnValue(defaultEntity);
-      const buildDefaultEventRecordSpy = spyOn(
-        defaultsModule,
-        "buildDefaultEventRecord"
-      ).and.returnValue(defaultRecord);
       const updateEventApiSpy = spyOn(
         eventsModule,
         "updateEvent"
       ).and.returnValue(new Promise((resolve) => resolve(updatedRecord)));
-      const buildEventAssociationsSpy = spyOn(
-        buildEventAssociationsModule,
-        "buildEventAssociations"
-      ).and.returnValue(
-        Promise.resolve([
-          {
-            entityId: "t36",
-            entityType: "Hub Site Application",
-          },
-          {
-            entityId: "8nd",
-            entityType: "Hub Project",
-          },
-        ])
-      );
       const res = await updateHubEvent(
         {
           name: "my event",
           timeZone: "America/New_York",
-          id: "31c",
+          id: "92x",
           isCanceled: true,
           inPersonCapacity: 50,
           inPersonCapacityType: HubEventCapacityType.Fixed,
@@ -406,7 +390,7 @@ describe("HubEvents edit module", () => {
             },
           ],
         },
-        authdCtxMgr.context.hubRequestOptions
+        context.hubRequestOptions
       );
       expect(buildDefaultEventEntitySpy).toHaveBeenCalledTimes(1);
       expect(buildDefaultEventEntitySpy).toHaveBeenCalledWith();
@@ -421,11 +405,11 @@ describe("HubEvents edit module", () => {
           },
         ],
         ["8nd"],
-        authdCtxMgr.context.hubRequestOptions
+        context.hubRequestOptions
       );
       expect(updateEventApiSpy).toHaveBeenCalledTimes(1);
       expect(updateEventApiSpy).toHaveBeenCalledWith({
-        eventId: "31c",
+        eventId: "92x",
         data: {
           access: defaultRecord.access,
           allDay: defaultRecord.allDay,
@@ -444,14 +428,12 @@ describe("HubEvents edit module", () => {
           categories: defaultRecord.categories,
           description: defaultRecord.description,
           editGroups: defaultRecord.editGroups,
-          // endDateTime not included
           endDate: defaultRecord.endDate,
           endTime: defaultRecord.endTime,
           inPersonCapacity: defaultRecord.inPersonCapacity,
           notifyAttendees: defaultRecord.notifyAttendees,
           onlineMeeting: defaultRecord.onlineMeeting,
           readGroups: defaultRecord.readGroups,
-          // startDateTime not included
           startDate: defaultRecord.startDate,
           startTime: defaultRecord.startTime,
           status: EventStatus.CANCELED,
@@ -466,7 +448,7 @@ describe("HubEvents edit module", () => {
             geometries: [],
           },
         },
-        ...authdCtxMgr.context.hubRequestOptions,
+        ...context.hubRequestOptions,
       });
       expect(res.name).toEqual("my event");
     });
@@ -501,18 +483,6 @@ describe("HubEvents edit module", () => {
 
   describe("createHubEventRegistration", () => {
     it("calls createRegistration", async () => {
-      const authdCtxMgr = await ArcGISContextManager.create({
-        authentication: MOCK_AUTH,
-        currentUser: {
-          username: "casey",
-        } as unknown as PortalModule.IUser,
-        portal: {
-          name: "DC R&D Center",
-          id: "BRXFAKE",
-          urlKey: "fake-org",
-        } as unknown as PortalModule.IPortal,
-        portalUrl: "https://myserver.com",
-      });
       const createRegistrationSpy = spyOn(
         registrationModule,
         "createRegistration"
@@ -524,44 +494,26 @@ describe("HubEvents edit module", () => {
         role: registrationModule.RegistrationRole.ATTENDEE,
         type: registrationModule.EventAttendanceType.IN_PERSON,
       };
-      await createHubEventRegistration(
-        data,
-        authdCtxMgr.context.hubRequestOptions
-      );
+      await createHubEventRegistration(data, context.hubRequestOptions);
       expect(createRegistrationSpy).toHaveBeenCalledWith({
         data,
-        ...authdCtxMgr.context.hubRequestOptions,
+        ...context.hubRequestOptions,
       });
     });
   });
 
   describe("deleteHubEventRegistration", () => {
     it("calls deleteRegistration", async () => {
-      const authdCtxMgr = await ArcGISContextManager.create({
-        authentication: MOCK_AUTH,
-        currentUser: {
-          username: "casey",
-        } as unknown as PortalModule.IUser,
-        portal: {
-          name: "DC R&D Center",
-          id: "BRXFAKE",
-          urlKey: "fake-org",
-        } as unknown as PortalModule.IPortal,
-        portalUrl: "https://myserver.com",
-      });
       const deleteRegistrationSpy = spyOn(
         registrationModule,
         "deleteRegistration"
       ).and.callFake(() => {
         return Promise.resolve();
       });
-      await deleteHubEventRegistration(
-        "0o1",
-        authdCtxMgr.context.hubRequestOptions
-      );
+      await deleteHubEventRegistration("0o1", context.hubRequestOptions);
       expect(deleteRegistrationSpy).toHaveBeenCalledWith({
         registrationId: "0o1",
-        ...authdCtxMgr.context.hubRequestOptions,
+        ...context.hubRequestOptions,
       });
     });
   });
