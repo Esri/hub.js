@@ -19,7 +19,8 @@ export type WellKnownCatalog =
   | "viewGroups"
   | "allGroups"
   | "partners"
-  | "community";
+  | "community"
+  | "livingAtlas";
 
 /**
  * This is used to determine what IHubCollection definition JSON object
@@ -206,6 +207,16 @@ function getWellknownItemCatalog(
             : undefined
         );
       }
+      break;
+    case "livingAtlas":
+      validateUserExistence(catalogName, options);
+      catalog = buildCatalog(
+        i18nScope,
+        catalogName,
+        [{ predicates: [{ owner: "Esri_LivingAtlas" }] }],
+        collections,
+        "item"
+      );
       break;
     case "world":
       catalog = buildCatalog(

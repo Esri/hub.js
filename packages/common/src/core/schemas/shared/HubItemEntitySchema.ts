@@ -64,6 +64,7 @@ export const HubItemEntitySchema: IConfigurationSchema = {
     view: {
       type: "object",
       properties: {
+        embeds: { type: "array" },
         featuredContentIds: ENTITY_FEATURED_CONTENT_SCHEMA,
         featuredImage: ENTITY_IMAGE_SCHEMA,
         featuredImageAltText: { type: "string" },
