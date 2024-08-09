@@ -19,7 +19,7 @@ import { getPropertyMap } from "./_internal/getPropertyMap";
 import { cloneObject } from "../util";
 import { IModel } from "../types";
 import { setDiscussableKeyword } from "../discussions";
-import { modelToHubEditableContent } from "./fetch";
+import { modelToHubEditableContent } from "./modelToHubEditableContent";
 import {
   getService,
   IFeatureServiceDefinition,
@@ -160,6 +160,7 @@ export async function updateContent(
       currentDefinition
     );
     // To avoid over-updating the service, we only fire an update call if Extract has changed
+    // TODO: Change the edit flow and entity schema to read from `extendedProps.serverExtractCapability`
     if (currentServerExtractEnabled !== content.serverExtractCapability) {
       const updatedDefinition = toggleServiceCapability(
         ServiceCapabilities.EXTRACT,

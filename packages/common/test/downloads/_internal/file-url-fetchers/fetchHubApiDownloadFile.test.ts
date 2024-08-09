@@ -5,14 +5,14 @@ import {
   IHubEditableContent,
   ServiceDownloadFormat,
 } from "../../../../src";
-import { fetchHubApiDownloadFileUrl } from "../../../../src/downloads/_internal/file-url-fetchers/fetchHubApiDownloadFileUrl";
+import { fetchHubApiDownloadFile } from "../../../../src/downloads/_internal/file-url-fetchers/fetchHubApiDownloadFile";
 import * as fetchMock from "fetch-mock";
 
-describe("fetchHubApiDownloadFileUrl", () => {
+describe("fetchHubApiDownloadFile", () => {
   afterEach(fetchMock.restore);
   it("throws an error if no layers are provided", async () => {
     try {
-      await fetchHubApiDownloadFileUrl({
+      await fetchHubApiDownloadFile({
         entity: { id: "123" } as unknown as IHubEditableContent,
         format: ServiceDownloadFormat.CSV,
         context: {
@@ -27,7 +27,7 @@ describe("fetchHubApiDownloadFileUrl", () => {
   });
   it("throws an error if empty layers array is provided", async () => {
     try {
-      await fetchHubApiDownloadFileUrl({
+      await fetchHubApiDownloadFile({
         entity: { id: "123" } as unknown as IHubEditableContent,
         format: ServiceDownloadFormat.CSV,
         context: {
@@ -43,7 +43,7 @@ describe("fetchHubApiDownloadFileUrl", () => {
   });
   it("throws an error if multiple layers are provided", async () => {
     try {
-      await fetchHubApiDownloadFileUrl({
+      await fetchHubApiDownloadFile({
         entity: { id: "123" } as unknown as IHubEditableContent,
         format: ServiceDownloadFormat.CSV,
         context: {
@@ -68,7 +68,7 @@ describe("fetchHubApiDownloadFileUrl", () => {
       }
     );
     try {
-      await fetchHubApiDownloadFileUrl({
+      await fetchHubApiDownloadFile({
         entity: { id: "123" } as unknown as IHubEditableContent,
         format: ServiceDownloadFormat.CSV,
         context: {
@@ -90,7 +90,7 @@ describe("fetchHubApiDownloadFileUrl", () => {
       { body: { status: "Failed" } }
     );
     try {
-      await fetchHubApiDownloadFileUrl({
+      await fetchHubApiDownloadFile({
         entity: { id: "123" } as unknown as IHubEditableContent,
         format: ServiceDownloadFormat.CSV,
         context: {
@@ -136,7 +136,7 @@ describe("fetchHubApiDownloadFileUrl", () => {
       { overwriteRoutes: false }
     );
 
-    const result = await fetchHubApiDownloadFileUrl({
+    const result = await fetchHubApiDownloadFile({
       entity: { id: "123" } as unknown as IHubEditableContent,
       format: ServiceDownloadFormat.CSV,
       context: {
@@ -147,7 +147,7 @@ describe("fetchHubApiDownloadFileUrl", () => {
       pollInterval: 0,
     });
 
-    expect(result).toBe("fake-url");
+    expect(result).toEqual({ type: "url", href: "fake-url" });
   });
   it("polls with a progress callback", async () => {
     fetchMock.once(
@@ -183,7 +183,7 @@ describe("fetchHubApiDownloadFileUrl", () => {
     const progressCallback = jasmine
       .createSpy("progressCallback")
       .and.callFake((status: any, percent: any): any => null);
-    const result = await fetchHubApiDownloadFileUrl({
+    const result = await fetchHubApiDownloadFile({
       entity: { id: "123" } as unknown as IHubEditableContent,
       format: ServiceDownloadFormat.CSV,
       context: {
@@ -195,7 +195,7 @@ describe("fetchHubApiDownloadFileUrl", () => {
       progressCallback,
     });
 
-    expect(result).toBe("fake-url");
+    expect(result).toEqual({ type: "url", href: "fake-url" });
     expect(progressCallback).toHaveBeenCalledTimes(3);
     expect(progressCallback).toHaveBeenCalledWith(
       DownloadOperationStatus.PENDING,
@@ -221,7 +221,7 @@ describe("fetchHubApiDownloadFileUrl", () => {
       }
     );
 
-    const result = await fetchHubApiDownloadFileUrl({
+    const result = await fetchHubApiDownloadFile({
       entity: { id: "123" } as unknown as IHubEditableContent,
       format: ServiceDownloadFormat.CSV,
       context: {
@@ -240,7 +240,7 @@ describe("fetchHubApiDownloadFileUrl", () => {
       where: "1=1",
     });
 
-    expect(result).toBe("fake-url");
+    expect(result).toEqual({ type: "url", href: "fake-url" });
   });
   it("Explicitly sets the spatialRefId to 4326 for GeoJSON and KML", async () => {
     fetchMock.once(
@@ -253,7 +253,7 @@ describe("fetchHubApiDownloadFileUrl", () => {
       }
     );
 
-    const result = await fetchHubApiDownloadFileUrl({
+    const result = await fetchHubApiDownloadFile({
       entity: { id: "123" } as unknown as IHubEditableContent,
       format: ServiceDownloadFormat.GEOJSON,
       context: {
@@ -263,7 +263,7 @@ describe("fetchHubApiDownloadFileUrl", () => {
       layers: [0],
     });
 
-    expect(result).toBe("fake-url");
+    expect(result).toEqual({ type: "url", href: "fake-url" });
 
     fetchMock.once(
       "https://hubqa.arcgis.com/api/download/v1/items/123/kml?redirect=false&layers=0&spatialRefId=4326",
@@ -275,7 +275,7 @@ describe("fetchHubApiDownloadFileUrl", () => {
       }
     );
 
-    const result2 = await fetchHubApiDownloadFileUrl({
+    const result2 = await fetchHubApiDownloadFile({
       entity: { id: "123" } as unknown as IHubEditableContent,
       format: ServiceDownloadFormat.KML,
       context: {
@@ -285,6 +285,6 @@ describe("fetchHubApiDownloadFileUrl", () => {
       layers: [0],
     });
 
-    expect(result2).toBe("fake-url-2");
+    expect(result2).toEqual({ type: "url", href: "fake-url-2" });
   });
 });

@@ -49,7 +49,7 @@ export const ENTERPRISE_SITE_ITEM_TYPE = "Site Application";
  * Default values of a IHubSite
  */
 const DEFAULT_SITE: Partial<IHubSite> = {
-  name: "No title provided",
+  name: "",
   tags: [],
   typeKeywords: ["Hub Site", "hubSite", "DELETEMESITE"],
   legacyCapabilities: [
@@ -86,6 +86,22 @@ const DEFAULT_SITE: Partial<IHubSite> = {
     },
   },
   telemetry: {},
+  layout: {
+    sections: [],
+    header: {
+      component: {
+        name: "site-header",
+        settings: {
+          fullWidth: false,
+          title: "",
+          headerType: "default",
+          menuLinks: [],
+          schemaVersion: 3,
+          showTitle: true,
+        },
+      },
+    },
+  },
 };
 
 /**
@@ -95,8 +111,8 @@ const DEFAULT_SITE_MODEL: IModel = {
   item: {
     // type: intentionally left out as we need to
     // set that based on portal/enterprise
-    title: "No Title Provided",
-    description: "No Description Provided",
+    title: "",
+    description: "",
     snippet: "",
     tags: [],
     typeKeywords: ["Hub Site", "hubSite", "DELETEMESITE"],

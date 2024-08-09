@@ -6,7 +6,12 @@ import {
 } from "../types";
 import { getCardType } from "./getCardType";
 import { filterSchemaToUiSchema } from "./filterSchemaToUiSchema";
-import { CardEditorOptions } from "./EditorOptions";
+import {
+  CardEditorOptions,
+  IEventGalleryCardEditorOptions,
+  IFollowCardEditorOptions,
+  IStatCardEditorOptions,
+} from "./EditorOptions";
 import { cloneObject } from "../../../util";
 import { IArcGISContext } from "../../../ArcGISContext";
 import { ICardEditorModuleType } from "../types";
@@ -54,7 +59,7 @@ export async function getCardEditorSchemas(
           schema = cloneObject(MetricSchema);
           uiSchema = await uiSchemaModuleResolved.buildUiSchema(
             i18nScope,
-            options,
+            options as IStatCardEditorOptions,
             context
           );
 
@@ -85,10 +90,23 @@ export async function getCardEditorSchemas(
           schema = cloneObject(FollowSchema);
           uiSchema = uiSchemaModuleResolved.buildUiSchema(
             i18nScope,
-            options,
+            options as IFollowCardEditorOptions,
             context
           );
         }
+      );
+      break;
+    case "eventGallery":
+      schemaPromise = import("./events/EventGalleryCardSchema");
+      uiSchemaPromise = import("./events/EventGalleryCardUiSchema");
+      const [{ EventGalleryCardSchema }, { buildUiSchema }] = await Promise.all(
+        [schemaPromise, uiSchemaPromise]
+      );
+      schema = cloneObject(EventGalleryCardSchema);
+      uiSchema = await buildUiSchema(
+        i18nScope,
+        options as IEventGalleryCardEditorOptions,
+        context
       );
       break;
   }

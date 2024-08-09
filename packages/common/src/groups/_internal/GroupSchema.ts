@@ -17,6 +17,7 @@ export const GroupEditorTypes = [
   "hub:group:create:association",
   "hub:group:create:view",
   "hub:group:create:edit",
+  "hub:group:create",
 ] as const;
 
 /**
@@ -35,6 +36,7 @@ export const GroupSchema: IConfigurationSchema = {
     },
     description: { type: "string" },
     _thumbnail: ENTITY_IMAGE_SCHEMA,
+    isSharedUpdate: { type: "boolean", enum: [false, true], default: false },
     membershipAccess: {
       type: "string",
       enum: ["organization", "collaborators", "anyone"],
@@ -47,4 +49,21 @@ export const GroupSchema: IConfigurationSchema = {
     },
     isDiscussable: ENTITY_IS_DISCUSSABLE_SCHEMA,
   },
+  allOf: [
+    // if the group is a shared update group, it must have a membershipAccess of org or collaborators
+    {
+      if: {
+        properties: {
+          isSharedUpdate: { const: true },
+        },
+      },
+      then: {
+        properties: {
+          membershipAccess: {
+            pattern: "(organization|collaborators)",
+          },
+        },
+      },
+    },
+  ],
 } as IConfigurationSchema;

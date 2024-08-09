@@ -13,7 +13,7 @@ describe("GroupUiSchemaCreateView", () => {
     it("returns the uiSchema to create a view group", async () => {
       const uiSchema = await buildUiSchema(
         "some.scope",
-        { isSharedUpdate: true } as IHubGroup,
+        { isSharedUpdate: false } as IHubGroup,
         MOCK_CONTEXT
       );
       expect(uiSchema).toEqual({
@@ -86,6 +86,17 @@ describe("GroupUiSchemaCreateView", () => {
                 },
                 elements: [
                   {
+                    scope: "/properties/isSharedUpdate",
+                    type: "Control",
+                    rule: {
+                      effect: UiSchemaRuleEffects.HIDE,
+                      condition: {
+                        scope: "/properties/isSharedUpdate",
+                        schema: { const: false },
+                      },
+                    },
+                  },
+                  {
                     labelKey: "some.scope.fields.membershipAccess.label",
                     scope: "/properties/membershipAccess",
                     type: "Control",
@@ -131,6 +142,7 @@ describe("GroupUiSchemaCreateView", () => {
       expect(defaults).toEqual({
         access: "org",
         autoJoin: false,
+        isSharedUpdate: false,
         isInvitationOnly: false,
         hiddenMembers: false,
         isViewOnly: false,
@@ -148,6 +160,7 @@ describe("GroupUiSchemaCreateView", () => {
       expect(defaults).toEqual({
         access: "org",
         autoJoin: false,
+        isSharedUpdate: false,
         isInvitationOnly: false,
         hiddenMembers: false,
         isViewOnly: false,

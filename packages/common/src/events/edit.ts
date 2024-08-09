@@ -7,7 +7,19 @@ import {
   createEvent as createEventApi,
   updateEvent as updateEventApi,
 } from "./api/events";
-import { deleteRegistration } from "./api";
+import {
+  createRegistration,
+  deleteRegistration,
+  EventAttendanceType,
+  IRegistration,
+  RegistrationRole,
+} from "./api";
+
+export interface IHubCreateEventRegistration {
+  eventId: string;
+  role: RegistrationRole;
+  type: EventAttendanceType;
+}
 
 /**
  * @private
@@ -47,7 +59,7 @@ export async function createHubEvent(
     endTime: model.endTime,
     inPersonCapacity: model.inPersonCapacity,
     notifyAttendees: model.notifyAttendees,
-    onlineMeetings: model.onlineMeetings,
+    onlineMeeting: model.onlineMeeting,
     readGroups: model.readGroups,
     startDate: model.startDate,
     startTime: model.startTime,
@@ -97,7 +109,7 @@ export async function updateHubEvent(
     endTime: model.endTime,
     inPersonCapacity: model.inPersonCapacity,
     notifyAttendees: model.notifyAttendees,
-    onlineMeetings: model.onlineMeetings,
+    onlineMeeting: model.onlineMeeting,
     readGroups: model.readGroups,
     startDate: model.startDate,
     startTime: model.startTime,
@@ -120,13 +132,27 @@ export async function updateHubEvent(
 
 /**
  * @private
+ * Create an Event registration
+ * @param data
+ * @param requestOptions
+ * @returns Promise<void>
+ */
+export function createHubEventRegistration(
+  data: IHubCreateEventRegistration,
+  requestOptions: IHubRequestOptions
+): Promise<IRegistration> {
+  return createRegistration({ data, ...requestOptions });
+}
+
+/**
+ * @private
  * Remove an Event Attendee
  * @param id event attendee id
  * @param requestOptions
  * @returns Promise<void>
  */
-export async function deleteHubEventAttendee(
-  id: number,
+export async function deleteHubEventRegistration(
+  id: string,
   requestOptions: IHubRequestOptions
 ): Promise<void> {
   await deleteRegistration({ registrationId: id, ...requestOptions });

@@ -4,6 +4,7 @@ import {
   IMetricDisplayConfig,
   HubActionLink,
   IHubMapSettings,
+  HubEmbed,
 } from "../types";
 
 /**
@@ -58,4 +59,16 @@ export interface IWithViewSettings {
    * array of actions for action links
    */
   heroActions?: HubActionLink[];
+
+  /**
+   * array of embedded content
+   *
+   * Note: for now, we are only allowing a single
+   * embed to be configured, but we've made this
+   * an array for future extensibility. If/when
+   * we do support configuring multiple embeds,
+   * we should revisit if/how this will map to a
+   * future layout system
+   */
+  embeds?: HubEmbed[];
 }

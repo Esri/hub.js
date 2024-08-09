@@ -7,6 +7,7 @@ import { getPolicyResponseCode } from "./_internal/getPolicyResponseCode";
 import { checkAuthentication } from "./_internal/checkAuthentication";
 import { checkOwner } from "./_internal/checkOwner";
 import { checkEdit } from "./_internal/checkEdit";
+import { checkDelete } from "./_internal/checkDelete";
 import { checkPrivileges } from "./_internal/checkPrivileges";
 import { checkEntityPolicy } from "./_internal/checkEntityPolicy";
 import { checkAssertions } from "./_internal/checkAssertions";
@@ -156,6 +157,7 @@ export function checkPermission(
     checkPrivileges,
     checkOwner,
     checkEdit,
+    checkDelete,
     checkLicense,
     checkAssertions,
   ];

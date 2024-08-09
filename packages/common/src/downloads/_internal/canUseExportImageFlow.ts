@@ -1,4 +1,5 @@
 import { IHubEditableContent } from "../../core/types/IHubEditableContent";
+import { ItemType } from "../../types";
 
 /**
  * @private
@@ -7,5 +8,12 @@ import { IHubEditableContent } from "../../core/types/IHubEditableContent";
  * @returns whether the export image flow can be used
  */
 export function canUseExportImageFlow(entity: IHubEditableContent): boolean {
-  return entity.type === "Image Service";
+  const { type, typeKeywords = [] } = entity;
+  // Tiled Imagery services cannot be downloaded. This typeKeyword check
+  // is one way to distinguish between tiled and non-tiled imagery services.
+  // TODO: Consider checking item.url instead so reference items are also excluded.
+  return (
+    type === ItemType["Image Service"] &&
+    !typeKeywords.includes("Tiled Imagery")
+  );
 }

@@ -4,12 +4,14 @@ import * as filterSchemaModule from "../../../../src/core/schemas/internal/filte
 import { ProjectEditorTypes } from "../../../../src/projects/_internal/ProjectSchema";
 import * as ProjectBuildEditUiSchema from "../../../../src/projects/_internal/ProjectUiSchemaEdit";
 import * as ProjectBuildCreateUiSchema from "../../../../src/projects/_internal/ProjectUiSchemaCreate";
+import * as ProjectBuildCreateUiSchema2 from "../../../../src/projects/_internal/ProjectUiSchemaCreate2";
 import * as ProjectBuildMetricUiSchema from "../../../../src/core/schemas/internal/metrics/ProjectUiSchemaMetrics";
 import * as ProjectBuildSettingsUiSchema from "../../../../src/projects/_internal/ProjectUiSchemaSettings";
 
 import { InitiativeEditorTypes } from "../../../../src/initiatives/_internal/InitiativeSchema";
 import * as InitiativeBuildEditUiSchema from "../../../../src/initiatives/_internal/InitiativeUiSchemaEdit";
 import * as InitiativeBuildCreateUiSchema from "../../../../src/initiatives/_internal/InitiativeUiSchemaCreate";
+import * as InitiativeBuildCreateUiSchema2 from "../../../../src/initiatives/_internal/InitiativeUiSchemaCreate2";
 import * as InitiativeBuildMetricUiSchema from "../../../../src/core/schemas/internal/metrics/InitiativeUiSchemaMetrics";
 import * as InitiativeBuildAssociationsUiSchema from "../../../../src/initiatives/_internal/InitiativeUiSchemaAssociations";
 import * as InitiativeBuildSettingsUiSchema from "../../../../src/initiatives/_internal/InitiativeUiSchemaSettings";
@@ -33,6 +35,7 @@ import * as ContentBuildDiscussionsUiSchema from "../../../../src/content/_inter
 
 import { PageEditorTypes } from "../../../../src/pages/_internal/PageSchema";
 import * as PageBuildEditUiSchema from "../../../../src/pages/_internal/PageUiSchemaEdit";
+import * as PageBuildCreateUiSchema from "../../../../src/pages/_internal/PageUiSchemaCreate";
 
 import { TemplateEditorTypes } from "../../../../src/templates/_internal/TemplateSchema";
 import * as TemplateBuildEditUiSchema from "../../../../src/templates/_internal/TemplateUiSchemaEdit";
@@ -45,6 +48,7 @@ import * as GroupBuildCreateFollowersUiSchema from "../../../../src/groups/_inte
 import * as GroupBuildCreateAssociationUiSchema from "../../../../src/groups/_internal/GroupUiSchemaCreateAssociation";
 import * as GroupBuildCreateViewUiSchema from "../../../../src/groups/_internal/GroupUiSchemaCreateView";
 import * as GroupBuildCreateEditUiSchema from "../../../../src/groups/_internal/GroupUiSchemaCreateEdit";
+import * as GroupBuildCreateUiSchema from "../../../../src/groups/_internal/GroupUiSchemaCreate";
 
 import { InitiativeTemplateEditorTypes } from "../../../../src/initiative-templates/_internal/InitiativeTemplateSchema";
 import * as InitiativeTemplateBuildEditUiSchema from "../../../../src/initiative-templates/_internal/InitiativeTemplateUiSchemaEdit";
@@ -77,34 +81,40 @@ describe("getEditorSchemas: ", () => {
   });
   const modules: Array<{ type: EditorType; module: IEditorModuleType }> = [
     { type: ProjectEditorTypes[0], module: ProjectBuildCreateUiSchema },
-    { type: ProjectEditorTypes[1], module: ProjectBuildEditUiSchema },
-    { type: ProjectEditorTypes[2], module: ProjectBuildMetricUiSchema },
-    { type: ProjectEditorTypes[3], module: ProjectBuildSettingsUiSchema },
+    { type: ProjectEditorTypes[1], module: ProjectBuildCreateUiSchema2 },
+    { type: ProjectEditorTypes[2], module: ProjectBuildEditUiSchema },
+    { type: ProjectEditorTypes[3], module: ProjectBuildMetricUiSchema },
+    { type: ProjectEditorTypes[4], module: ProjectBuildSettingsUiSchema },
+
     { type: InitiativeEditorTypes[0], module: InitiativeBuildEditUiSchema },
     { type: InitiativeEditorTypes[1], module: InitiativeBuildCreateUiSchema },
-    { type: InitiativeEditorTypes[2], module: InitiativeBuildMetricUiSchema },
+    { type: InitiativeEditorTypes[2], module: InitiativeBuildCreateUiSchema2 },
+    { type: InitiativeEditorTypes[3], module: InitiativeBuildMetricUiSchema },
     {
-      type: InitiativeEditorTypes[3],
+      type: InitiativeEditorTypes[4],
       module: InitiativeBuildAssociationsUiSchema,
     },
-    { type: InitiativeEditorTypes[4], module: InitiativeBuildSettingsUiSchema },
+    { type: InitiativeEditorTypes[5], module: InitiativeBuildSettingsUiSchema },
 
     { type: SiteEditorTypes[0], module: SiteBuildEditUiSchema },
     { type: SiteEditorTypes[1], module: SiteBuildCreateUiSchema },
     { type: SiteEditorTypes[2], module: SiteBuildFollowersUiSchema },
     { type: SiteEditorTypes[3], module: SiteBuildDiscussionsUiSchema },
     { type: SiteEditorTypes[4], module: SiteBuildTelemetryUiSchema },
+
     { type: DiscussionEditorTypes[0], module: DiscussionBuildEditUiSchema },
     { type: DiscussionEditorTypes[1], module: DiscussionBuildCreateUiSchema },
-    {
-      type: DiscussionEditorTypes[2],
-      module: DiscussionBuildSettingsUiSchema,
-    },
+    { type: DiscussionEditorTypes[2], module: DiscussionBuildSettingsUiSchema },
+
     { type: ContentEditorTypes[0], module: ContentBuildEditUiSchema },
     { type: ContentEditorTypes[1], module: ContentBuildSettingsUiSchema },
     { type: ContentEditorTypes[2], module: ContentBuildDiscussionsUiSchema },
+
     { type: PageEditorTypes[0], module: PageBuildEditUiSchema },
+    { type: PageEditorTypes[1], module: PageBuildCreateUiSchema },
+
     { type: TemplateEditorTypes[0], module: TemplateBuildEditUiSchema },
+
     { type: GroupEditorTypes[0], module: GroupBuildEditUiSchema },
     { type: GroupEditorTypes[1], module: GroupBuildSettingsUiSchema },
     { type: GroupEditorTypes[2], module: GroupBuildDiscussionsUiSchema },
@@ -112,16 +122,24 @@ describe("getEditorSchemas: ", () => {
     { type: GroupEditorTypes[4], module: GroupBuildCreateAssociationUiSchema },
     { type: GroupEditorTypes[5], module: GroupBuildCreateViewUiSchema },
     { type: GroupEditorTypes[6], module: GroupBuildCreateEditUiSchema },
+    { type: GroupEditorTypes[7], module: GroupBuildCreateUiSchema },
+
     {
       type: InitiativeTemplateEditorTypes[0],
       module: InitiativeTemplateBuildEditUiSchema,
     },
+
     { type: SurveyEditorTypes[0], module: SurveyBuildEditUiSchema },
     { type: SurveyEditorTypes[1], module: SurveyBuildSettingsUiSchema },
+
     { type: EventEditorTypes[0], module: EventBuildCreateUiSchema },
     { type: EventEditorTypes[1], module: EventBuildEditUiSchema },
     { type: EventEditorTypes[2], module: EventAttendeesSettingsUiSchema },
-    { type: validCardEditorTypes[0], module: statUiSchemaModule },
+
+    {
+      type: validCardEditorTypes[0],
+      module: statUiSchemaModule as IEditorModuleType,
+    },
   ];
 
   modules.forEach(async ({ type, module }) => {

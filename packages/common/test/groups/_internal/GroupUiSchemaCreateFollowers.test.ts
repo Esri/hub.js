@@ -83,6 +83,17 @@ describe("GroupUiSchemaCreateFollowers", () => {
                 },
                 elements: [
                   {
+                    scope: "/properties/isSharedUpdate",
+                    type: "Control",
+                    rule: {
+                      effect: UiSchemaRuleEffects.HIDE,
+                      condition: {
+                        scope: "/properties/isSharedUpdate",
+                        schema: { const: false },
+                      },
+                    },
+                  },
+                  {
                     labelKey: "some.scope.fields.membershipAccess.label",
                     scope: "/properties/membershipAccess",
                     type: "Control",

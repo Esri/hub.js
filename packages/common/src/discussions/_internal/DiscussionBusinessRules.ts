@@ -57,7 +57,7 @@ export const DiscussionPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:discussion:delete",
     authenticated: true,
     dependencies: ["hub:discussion"],
-    entityOwner: true,
+    entityDelete: true,
     licenses: ["hub-premium"],
   },
   {

@@ -267,7 +267,7 @@ export const getContentTypeIcon = (contentType: string) => {
     hubInitiativeTemplate: "initiative-template",
     hubPage: "browser",
     hubProject: "projects",
-    hubSiteApplication: "web",
+    hubSiteApplication: "browser",
     image: "file-image",
     imageService: "data",
     insightsModel: "file",

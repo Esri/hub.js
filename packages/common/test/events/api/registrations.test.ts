@@ -69,7 +69,7 @@ describe("Registrations", () => {
       ).and.callFake(async () => mockRegistration);
 
       const options: IGetRegistrationParams = {
-        registrationId: 111,
+        registrationId: "111",
       };
 
       const result = await getRegistration(options);
@@ -126,7 +126,7 @@ describe("Registrations", () => {
       ).and.callFake(async () => mockRegistration);
 
       const options: IUpdateRegistrationParams = {
-        registrationId: 111,
+        registrationId: "111",
         data: {
           role: RegistrationRole.ORGANIZER,
           status: RegistrationStatus.DECLINED,
@@ -157,7 +157,7 @@ describe("Registrations", () => {
       ).and.callFake(async () => mockRegistration);
 
       const options: IDeleteRegistrationParams = {
-        registrationId: 111,
+        registrationId: "111",
       };
 
       const result = await deleteRegistration(options);

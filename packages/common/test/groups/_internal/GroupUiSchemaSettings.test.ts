@@ -1,3 +1,4 @@
+import { UiSchemaRuleEffects } from "../../../src";
 import { buildUiSchema } from "../../../src/groups/_internal/GroupUiSchemaSettings";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
 
@@ -15,6 +16,17 @@ describe("buildUiSchema: group settings", () => {
           type: "Section",
           labelKey: "some.scope.sections.membershipAccess.label",
           elements: [
+            {
+              scope: "/properties/isSharedUpdate",
+              type: "Control",
+              rule: {
+                effect: UiSchemaRuleEffects.HIDE,
+                condition: {
+                  scope: "/properties/isSharedUpdate",
+                  schema: { const: false },
+                },
+              },
+            },
             {
               labelKey: "some.scope.fields.membershipAccess.label",
               scope: "/properties/membershipAccess",

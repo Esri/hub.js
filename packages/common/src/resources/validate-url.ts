@@ -3,7 +3,6 @@ import { Logger } from "../utils";
 import {
   isUrl,
   isFeatureService,
-  isService,
   pingFeatureService,
   pingUrl,
   detectDataTypeFromHeader,
@@ -11,6 +10,7 @@ import {
   detectDataTypeFromExtension,
   shouldHaveDataUrl,
 } from "./_internal/_validate-url-helpers";
+import { isService } from "../resources/is-service";
 
 /**
  * Takes in a URL and validates it based on valid url, type of item, etc

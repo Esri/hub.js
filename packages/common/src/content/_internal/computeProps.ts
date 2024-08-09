@@ -8,7 +8,12 @@ import {
   getContentEditUrl,
   getHubRelativeUrl,
 } from "./internalContentUtils";
-import { IHubEditableContent } from "../../core/types/IHubEditableContent";
+import {
+  IBaseExtendedProps,
+  IContentExtendedProps,
+  IHubEditableContent,
+  IServiceExtendedProps,
+} from "../../core/types/IHubEditableContent";
 import { getRelativeWorkspaceUrl } from "../../core/getRelativeWorkspaceUrl";
 import { isDiscussable } from "../../discussions";
 import {
@@ -18,6 +23,8 @@ import {
 import { computeBaseProps } from "../../core/_internal/computeBaseProps";
 import { getProp } from "../../objects";
 import { IHubEditableContentEnrichments } from "../../items/_enrichments";
+import { IItem } from "@esri/arcgis-rest-portal";
+import { isService } from "../../resources/is-service";
 
 export function computeProps(
   model: IModel,
@@ -59,6 +66,12 @@ export function computeProps(
   // when we receive a schedule from the enrichments, we want to use it, otherwise default to automatic
   content.schedule = enrichments.schedule;
 
+  // calculate extendedProps
+  content.extendedProps = isService(content.url)
+    ? getServiceExtendedProps(model.item, enrichments, requestOptions)
+    : getContentExtendedProps(model.item, enrichments, requestOptions);
+
+  // TODO: Remove once .serverQueryCapability, .serverExtractCapability, and .serverExtractFormats are removed
   if (enrichments.server) {
     content.serverQueryCapability = hasServiceCapability(
       ServiceCapabilities.QUERY,
@@ -76,6 +89,7 @@ export function computeProps(
       extractFormatsList && extractFormatsList.split(",");
   }
 
+  // TODO: remove once .additionalResources is removed
   if (enrichments.metadata) {
     content.additionalResources = getAdditionalResources(
       model.item,
@@ -85,4 +99,94 @@ export function computeProps(
   }
 
   return content as IHubEditableContent;
+}
+
+/**
+ * @private
+ *
+ * Compute the extended props for a service-backed item (i.e., feature, map, or image service)
+ *
+ * @param item
+ * @param enrichments
+ * @param requestOptions
+ * @returns extended props for a service-backed item
+ */
+function getServiceExtendedProps(
+  item: IItem,
+  enrichments: IHubEditableContentEnrichments,
+  requestOptions: IRequestOptions
+): IServiceExtendedProps {
+  const baseProps = getBaseExtendedProps(item, enrichments, requestOptions);
+  const result: IServiceExtendedProps = {
+    ...baseProps,
+    kind: "service",
+  };
+
+  if (enrichments.server) {
+    result.server = enrichments.server;
+    result.serverQueryCapability = hasServiceCapability(
+      ServiceCapabilities.QUERY,
+      enrichments.server
+    );
+    result.serverExtractCapability = hasServiceCapability(
+      ServiceCapabilities.EXTRACT,
+      enrichments.server
+    );
+    const extractFormatsList: string = getProp(
+      enrichments,
+      "server.supportedExportFormats"
+    );
+    result.serverExtractFormats =
+      extractFormatsList && extractFormatsList.split(",");
+  }
+
+  return result;
+}
+
+/**
+ * @private
+ *
+ * Compute the extended props for content items not backed by a service
+ *
+ * @param item
+ * @param enrichments
+ * @param requestOptions
+ * @returns
+ */
+function getContentExtendedProps(
+  item: IItem,
+  enrichments: IHubEditableContentEnrichments,
+  requestOptions: IRequestOptions
+): IContentExtendedProps {
+  const baseProps = getBaseExtendedProps(item, enrichments, requestOptions);
+  return {
+    ...baseProps,
+    kind: "content",
+  };
+}
+
+/**
+ * @private
+ *
+ * Compute the extended props common to all content items.
+ *
+ * @param item
+ * @param enrichments
+ * @param requestOptions
+ * @returns
+ */
+function getBaseExtendedProps(
+  item: IItem,
+  enrichments: IHubEditableContentEnrichments,
+  requestOptions: IRequestOptions
+): IBaseExtendedProps {
+  return {
+    kind: null, // To be populated by the specific extended props function
+    metadata: enrichments.metadata,
+    additionalResources: getAdditionalResources(
+      item,
+      enrichments.metadata,
+      requestOptions as IHubRequestOptions
+    ),
+  };
 }

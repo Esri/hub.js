@@ -441,8 +441,6 @@ export class HubSite
    * @returns
    */
   async fromEditor(editor: IHubSiteEditor): Promise<IHubSite> {
-    const isCreate = !editor.id;
-
     // 1. Perform any pre-save operations e.g. storing
     // image resources on the item, setting access, etc.
 
@@ -492,12 +490,8 @@ export class HubSite
     entity.extent = editor.location?.extent;
 
     // 3. create or update the in-memory entity and save
-    if (isCreate) {
-      throw new Error("Cannot create content using the Editor.");
-    } else {
-      this.entity = entity;
-      await this.save();
-    }
+    this.entity = entity;
+    await this.save();
 
     return this.entity;
   }

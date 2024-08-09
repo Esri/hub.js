@@ -301,7 +301,6 @@ describe("EventUiSchemaEdit", () => {
                   control: "hub-field-input-location-picker",
                   extent: [],
                   options: [],
-                  mapTools: ["polygon", "rectangle"],
                 },
               },
               {

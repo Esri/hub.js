@@ -17,6 +17,7 @@ export {
   ILocationSpatialReference,
   IEventLocationSpatialReference,
   ICreateLocationSpatialReference,
+  IEventRegistrationCount,
   ICreateEventLocation,
   ICreateEventLocationGeometriesItem,
   IRegistration,
@@ -86,12 +87,12 @@ export interface IGetRegistrationsParams extends IEventsRequestOptions {
   data: GetRegistrationsParams;
 }
 export interface IGetRegistrationParams extends IEventsRequestOptions {
-  registrationId: number;
+  registrationId: string;
 }
 export interface IUpdateRegistrationParams extends IEventsRequestOptions {
-  registrationId: number;
+  registrationId: string;
   data: IUpdateRegistration;
 }
 export interface IDeleteRegistrationParams extends IEventsRequestOptions {
-  registrationId: number;
+  registrationId: string;
 }

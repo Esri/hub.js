@@ -4,8 +4,8 @@ import { IItem } from "@esri/arcgis-rest-portal";
 import { IModel } from "../types";
 import { getCollection } from "../collections";
 import { categories as allCategories } from "../categories";
-import { includes } from "../utils";
-import { IHubContent } from "../core";
+import { includes, wait } from "../utils";
+import { IHubContent, IHubEditableContent } from "../core";
 import { getProp } from "../objects";
 import { getServiceTypeFromUrl } from "../urls";
 import {
@@ -20,7 +20,13 @@ import {
 } from "./compose";
 import { getFamily } from "./get-family";
 import { parseDatasetId, removeContextFromSlug } from "./slugs";
-import { DatasetResource } from "./types";
+import {
+  DatasetResource,
+  IHubContentStatus,
+  IHubServiceBackedContentStatus,
+} from "./types";
+import { getService, IGetLayerOptions } from "@esri/arcgis-rest-feature-layer";
+import { isService } from "../resources/is-service";
 
 // TODO: remove this at next breaking version
 /**
@@ -437,3 +443,66 @@ const getContentRelativeUrl = (
     content.typeKeywords
   );
 };
+
+export interface IGetServiceStatusOptions extends IGetLayerOptions {
+  timeout?: number;
+}
+
+// Tests can be found in packages/common/test/content/content.test.ts
+const availability = (status: string) => {
+  return {
+    kind: "service",
+    service: {
+      availability: status,
+    },
+  } as IHubServiceBackedContentStatus;
+};
+
+/**
+ * Get the status of a content item
+ * @param entity the content item
+ * @returns the status of the content item
+ */
+export async function getServiceStatus(
+  entity: IHubEditableContent,
+  options: IGetServiceStatusOptions
+): Promise<IHubContentStatus> {
+  // get the request options for the `getService` call, and set a default timeout if one is not provided
+  const { timeout = 3000, ...requestOptions } = options;
+  const { url } = entity;
+  const hasUrl = !!url;
+  if (!hasUrl) {
+    return availability("available");
+  }
+
+  const hasQueryParams = url.includes("?");
+  const isServiceBackedEntity = isService(
+    hasQueryParams ? url.split("?")[0] : url
+  ); // remove any query params
+
+  if (isServiceBackedEntity) {
+    // set up our two promises: one to get the service definition and one to sleep for 3 seconds
+    const definitionPromise = getService({ url, ...requestOptions })
+      .then(() => {
+        // if the service is returned, then we consider it available
+        return availability("available");
+      })
+      .catch(() => {
+        // if the service is not returned, we consider it unavailable
+        return availability("unavailable");
+      });
+
+    // race the two promises
+    const status = Promise.race([definitionPromise, await wait(timeout)]).then(
+      (result) => {
+        // if result is undefined, the service is slow
+        // otherwise, the service is available OR unavailable, depending on how the promise resolves
+        return result ? result : availability("slow");
+      }
+    );
+    return status as Promise<IHubServiceBackedContentStatus>;
+  } else {
+    // if we don't have a url or it is not a service backed entity, assume it is available
+    return availability("available");
+  }
+}

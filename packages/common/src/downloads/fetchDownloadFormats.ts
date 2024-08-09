@@ -1,6 +1,5 @@
 import { IHubAdditionalResource } from "../core/types/IHubAdditionalResource";
 import { canUseExportImageFlow } from "./_internal/canUseExportImageFlow";
-import { canUseExportItemFlow } from "./_internal/canUseExportItemFlow";
 import { canUseHubDownloadApi } from "./canUseHubDownloadApi";
 import {
   IDownloadFormat,
@@ -24,19 +23,15 @@ export async function fetchDownloadFormats(
       "./getHubDownloadApiFormats"
     );
     baseFormats = getHubDownloadApiFormats(entity);
-  } else if (canUseExportItemFlow(entity)) {
-    const { fetchExportItemFormats } = await import(
-      "./_internal/format-fetchers/fetchExportItemFormats"
-    );
-    baseFormats = await fetchExportItemFormats(entity, context, layers);
   } else if (canUseExportImageFlow(entity)) {
     const { getExportImageFormats } = await import(
       "./_internal/format-fetchers/getExportImageFormats"
     );
-    baseFormats = getExportImageFormats();
+    baseFormats = getExportImageFormats(entity);
   }
 
   // add additional resource links as static formats
+  // TODO: change to use `extendedProps.additionalResources`
   const additionalFormats = (entity.additionalResources || []).map(
     toStaticFormat
   );
@@ -50,7 +45,10 @@ function toStaticFormat(
 ): IStaticDownloadFormat {
   return {
     type: "static",
-    label: resource.name,
+    label:
+      resource.name ||
+      (resource.isDataSource && `{{dataSource:translate}}`) || // if the additional resource is the datasource
+      `{{noTitle:translate}}`, // if the additional resource has no name
     url: resource.url,
   };
 }

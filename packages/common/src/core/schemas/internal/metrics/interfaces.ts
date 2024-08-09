@@ -1,7 +1,6 @@
 export enum LAYOUTS {
   simple = "simple",
-  dataViz = "dataViz",
-  moreInfo = "moreInfo",
+  informational = "informational",
 }
 export enum SCALE {
   small = "s",
@@ -15,12 +14,16 @@ export enum UNIT_POSITIONS {
 }
 export enum VISUAL_INTEREST {
   none = "none",
-  sparkline = "sparkline",
   icon = "icon",
-  logo = "logo",
+}
+export enum ICONS {
+  caretUp = "caret-up",
+  caretDown = "caret-down",
+  caretDouble = "caret-double-horizontal",
 }
 export enum SOURCE {
   dynamic = "dynamic",
   static = "static",
   telemetry = "telemetry",
+  itemQuery = "itemQuery",
 }

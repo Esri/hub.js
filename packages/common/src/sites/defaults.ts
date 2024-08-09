@@ -8,7 +8,7 @@ export const HUB_SITE_ITEM_TYPE = "Hub Site Application";
  * Default values of a IHubSite
  */
 export const DEFAULT_SITE: Partial<IHubSite> = {
-  name: "No title provided",
+  name: "",
   tags: [],
   typeKeywords: ["Hub Site", "hubSite"],
   catalog: { schemaVersion: 0 },
@@ -23,7 +23,7 @@ export const DEFAULT_SITE: Partial<IHubSite> = {
 export const DEFAULT_SITE_MODEL: IModel = {
   item: {
     type: HUB_SITE_ITEM_TYPE,
-    title: "No Title Provided",
+    title: "",
     description: "",
     snippet: "",
     tags: [],
