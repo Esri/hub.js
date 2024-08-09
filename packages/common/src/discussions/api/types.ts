@@ -853,6 +853,7 @@ export interface IChannel extends IWithAuthor, IWithEditor, IWithTimestamps {
   metadata: IChannelMetadata | null;
   id: string;
   name: string | null;
+  orgId: string;
   orgs: string[];
   posts?: IPost[];
   softDelete: boolean;
