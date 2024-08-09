@@ -1,12 +1,12 @@
 import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import { IArcGISContext } from "../../ArcGISContext";
-import { getDatePickerDate } from "../../utils/date/getDatePickerDate";
 import { IHubEvent } from "../../core/types/IHubEvent";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { HubEventAttendanceType, HubEventCapacityType } from "../types";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { fetchCategoriesUiSchemaElement } from "../../core/schemas/internal/fetchCategoriesUiSchemaElement";
+import { getWellKnownCatalog } from "../../search/wellKnownCatalog";
 
 /**
  * @private
@@ -19,10 +19,6 @@ export const buildUiSchema = async (
   options: Partial<IHubEvent>,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
-  const minStartEndDate = getDatePickerDate(
-    new Date(),
-    (options as IHubEvent).timeZone
-  );
   return {
     type: "Layout",
     elements: [
@@ -403,6 +399,73 @@ export const buildUiSchema = async (
                   keyword: "minimum",
                   icon: true,
                   labelKey: `${i18nScope}.fields.onlineCapacity.minimumError`,
+                },
+              ],
+            },
+          },
+        ],
+      },
+      {
+        type: "Section",
+        labelKey: `${i18nScope}.sections.featuredContent.label`,
+        elements: [
+          {
+            scope: "/properties/view/properties/featuredContentIds",
+            type: "Control",
+            options: {
+              control: "hub-field-input-gallery-picker",
+              helperText: {
+                labelKey: `${i18nScope}.fields.featuredContent.helperText.label`,
+              },
+              targetEntity: "item",
+              catalogs: [
+                getWellKnownCatalog(
+                  `${i18nScope}.fields.featuredContent`,
+                  "organization",
+                  "item",
+                  {
+                    user: context.currentUser,
+                    collectionNames: ["site", "initiative", "project"],
+                    filters: [],
+                    context,
+                  }
+                ),
+              ],
+              facets: [
+                {
+                  label: `{{${i18nScope}.fields.featuredContent.facets.from.label:translate}}`,
+                  key: "from",
+                  display: "single-select",
+                  operation: "OR",
+                  options: [
+                    {
+                      label: `{{${i18nScope}.fields.featuredContent.facets.from.myContent.label:translate}}`,
+                      key: "myContent",
+                      selected: true,
+                      predicates: [
+                        {
+                          owner: context.currentUser.username,
+                        },
+                      ],
+                    },
+                    {
+                      label: `{{${i18nScope}.fields.featuredContent.facets.from.myOrganization.label:translate}}`,
+                      key: "myOrganization",
+                      selected: false,
+                      predicates: [
+                        {
+                          orgId: context.currentUser.orgId,
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  label: `{{${i18nScope}.fields.featuredContent.facets.access.label:translate}}`,
+                  key: "access",
+                  field: "access",
+                  display: "multi-select",
+                  operation: "OR",
                 },
               ],
             },

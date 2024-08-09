@@ -49,7 +49,6 @@ describe("HubEvent defaults:", () => {
         onlineCapacityType: HubEventCapacityType.Unlimited,
         onlineDetails: null,
         onlineUrl: null,
-        references: [],
         schemaVersion: 1,
         tags: [],
         readGroupIds: [],
@@ -57,7 +56,9 @@ describe("HubEvent defaults:", () => {
         view: {
           heroActions: [],
           showMap: false,
+          featuredContentIds: [],
         },
+        featuredContentIdsByType: [],
         location: {
           type: "none",
         },
@@ -97,6 +98,7 @@ describe("HubEvent defaults:", () => {
         tags: [],
         title: "",
         location: null as unknown as IEventLocation,
+        associations: [],
       });
       expect(getDefaultEventDatesAndTimesSpy).toHaveBeenCalledTimes(1);
     });

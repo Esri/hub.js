@@ -31,7 +31,7 @@ export function buildDefaultEventEntity(): Partial<IHubEvent> {
     onlineCapacityType: HubEventCapacityType.Unlimited,
     onlineDetails: null,
     onlineUrl: null,
-    references: [],
+    featuredContentIdsByType: [],
     schemaVersion: 1,
     tags: [],
     readGroupIds: [],
@@ -40,6 +40,7 @@ export function buildDefaultEventEntity(): Partial<IHubEvent> {
     view: {
       heroActions: [],
       showMap: false,
+      featuredContentIds: [],
     },
     location: {
       type: "none",
@@ -56,6 +57,7 @@ export function buildDefaultEventRecord(): Partial<IEvent> {
     access: EventAccess.PRIVATE,
     allDay: false,
     allowRegistration: true,
+    associations: [],
     attendanceType: [EventAttendanceType.IN_PERSON],
     categories: [],
     inPersonCapacity: null,

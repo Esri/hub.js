@@ -14,6 +14,7 @@ import {
   IRegistration,
   RegistrationRole,
 } from "./api";
+import { buildEventAssociations } from "./_internal/buildEventAssociations";
 
 export interface IHubCreateEventRegistration {
   eventId: string;
@@ -47,6 +48,12 @@ export async function createHubEvent(
 
   let model = mapper.entityToStore(event, buildDefaultEventRecord());
 
+  const associations = await buildEventAssociations(
+    partialEvent.featuredContentIdsByType,
+    partialEvent.view.featuredContentIds,
+    requestOptions
+  );
+
   const data = {
     access: model.access,
     allDay: model.allDay,
@@ -68,6 +75,9 @@ export async function createHubEvent(
     timeZone: model.timeZone,
     title: model.title,
     location: model.location,
+    // TODO: refactor to simply add the `associations` array to the payload regardless of whether
+    // it's empty or not after https://devtopia.esri.com/dc/hub/issues/11107 is resolved
+    ...(associations.length ? { associations } : {}),
   };
 
   model = await createEventApi({
@@ -97,10 +107,17 @@ export async function updateHubEvent(
 
   let model = mapper.entityToStore(eventUpdates, buildDefaultEventRecord());
 
+  const associations = await buildEventAssociations(
+    partialEvent.featuredContentIdsByType,
+    partialEvent.view.featuredContentIds,
+    requestOptions
+  );
+
   const data = {
     access: model.access,
     allDay: model.allDay,
     allowRegistration: model.allowRegistration,
+    associations,
     attendanceType: model.attendanceType,
     categories: model.categories,
     description: model.description,
