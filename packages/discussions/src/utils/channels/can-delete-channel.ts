@@ -1,20 +1,20 @@
 import { IUser } from "@esri/arcgis-rest-types";
-import { IChannel, IDiscussionsUser, SharingAccess } from "../../types";
+import { IChannel, IDiscussionsUser } from "../../types";
 import { ChannelPermission } from "../channel-permission";
 import { isAuthorizedToModifyChannelByLegacyPermissions } from "./is-authorized-to-modify-channel-by-legacy-permissions";
-import { hasOrgAdminUpdateRights } from "../portal-privilege";
+import { hasOrgAdminDeleteRights } from "../portal-privilege";
 
 /**
- * Utility to determine if User has privileges to edit a channel
+ * Utility to determine if User has privileges to delete a channel
  * @param channel
  * @param user
  * @returns {boolean}
  */
-export function canEditChannel(
+export function canDeleteChannel(
   channel: IChannel,
   user: IUser | IDiscussionsUser = {}
 ): boolean {
-  if (hasOrgAdminUpdateRights(user, channel.orgId)) {
+  if (hasOrgAdminDeleteRights(user, channel.orgId)) {
     return true;
   }
 
