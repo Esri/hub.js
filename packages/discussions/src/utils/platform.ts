@@ -56,19 +56,13 @@ export function isOrgAdminInOrg(user: IUser, orgId: string): boolean {
   return isOrgAdmin(user) && isUserInOrg(user, orgId);
 }
 
-// export function isChannelOrgAdmin(
-//   channel: IChannel,
-//   user: IUser | IDiscussionsUser
-// ): boolean {
-//   return isUserInOrg(user, channel.orgId) && isOrgAdmin(user);
-// }
-
 export function userHasPrivilege(
   user: IUser | IDiscussionsUser,
   privilege: Privilege
 ): boolean {
   return !!user?.privileges?.includes(privilege);
 }
+
 export function userHasPrivileges(
   user: IUser | IDiscussionsUser,
   privileges: Privilege[]

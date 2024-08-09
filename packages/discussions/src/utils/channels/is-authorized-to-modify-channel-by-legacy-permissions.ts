@@ -1,30 +1,19 @@
 import { IGroup, IUser } from "@esri/arcgis-rest-types";
-import { IChannel, IDiscussionsUser, SharingAccess } from "../../types";
+import { IChannel, IDiscussionsUser, SharingAccess } from "@esri/hub-common";
 import { isOrgAdmin } from "../platform";
-import { ChannelPermission } from "../channel-permission";
 
-const ADMIN_GROUP_ROLES = Object.freeze(["owner", "admin"]);
+const AGO_ADMIN_GROUP_ROLES = Object.freeze(["owner", "admin"]);
 
 /**
- * Utility to determine if User has privileges to modify the status of a post
+ * Utility to determine if User has privileges to modify a channel by legacy channel permissions
  * @param channel
  * @param user
  * @returns {boolean}
+ * @internal
+ * @hidden
  */
-export function canModifyPostStatus(
-  channel: IChannel,
-  user: IUser | IDiscussionsUser = {}
-): boolean {
-  if (channel.channelAcl) {
-    const channelPermission = new ChannelPermission(channel);
-    return channelPermission.canModerateChannel(user as IDiscussionsUser);
-  }
-
-  return isAuthorizedToModifyStatusByLegacyPermissions(user, channel);
-}
-
-function isAuthorizedToModifyStatusByLegacyPermissions(
-  user: IUser | IDiscussionsUser,
+export function isAuthorizedToModifyChannelByLegacyPermissions(
+  user: IUser | IDiscussionsUser = {},
   channel: IChannel
 ): boolean {
   const { username, groups: userGroups = [] } = user;
@@ -35,29 +24,30 @@ function isAuthorizedToModifyStatusByLegacyPermissions(
     creator: channelCreator,
   } = channel;
 
+  // ensure authenticated
   if (!username) {
     return false;
   }
 
-  if (channelCreator === username) {
+  if (username === channelCreator) {
     return true;
   }
 
   if (access === SharingAccess.PRIVATE) {
-    return isAuthorizedToModifyStatusByLegacyGroup(channelGroups, userGroups);
+    return isAuthorizedToModifyChannelByLegacyGroup(channelGroups, userGroups);
   }
 
   // public or org access
   return (
-    isAuthorizedToModifyStatusByLegacyGroup(channelGroups, userGroups) ||
-    isChannelOrgAdmin(channelOrgs, user)
+    isAuthorizedToModifyChannelByLegacyGroup(channelGroups, userGroups) ||
+    isLegacyChannelOrgAdmin(channelOrgs, user)
   );
 }
 
 /**
  * Ensure the user is an owner/admin of one of the channel groups
  */
-function isAuthorizedToModifyStatusByLegacyGroup(
+function isAuthorizedToModifyChannelByLegacyGroup(
   channelGroups: string[],
   userGroups: IGroup[]
 ) {
@@ -70,13 +60,13 @@ function isAuthorizedToModifyStatusByLegacyGroup(
 
       return (
         channelGroupId === userGroupId &&
-        ADMIN_GROUP_ROLES.includes(userMemberType)
+        AGO_ADMIN_GROUP_ROLES.includes(userMemberType)
       );
     });
   });
 }
 
-function isChannelOrgAdmin(
+function isLegacyChannelOrgAdmin(
   channelOrgs: string[],
   user: IUser | IDiscussionsUser
 ): boolean {

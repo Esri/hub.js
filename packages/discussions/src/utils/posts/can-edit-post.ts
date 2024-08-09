@@ -10,12 +10,28 @@ type ILegacyChannelPermissions = Pick<
 
 /**
  * Utility to determine if User has privileges to modify a post
+ * Deprecating, replace with canEditPost
  * @param post
  * @param user
  * @param channel
  * @returns {boolean}
  */
 export function canModifyPost(
+  post: IPost,
+  user: IUser | IDiscussionsUser = {},
+  channel: IChannel
+): boolean {
+  return canEditPost(post, user, channel);
+}
+
+/**
+ * Utility to determine if User has privileges to modify a post
+ * @param post
+ * @param user
+ * @param channel
+ * @returns {boolean}
+ */
+export function canEditPost(
   post: IPost,
   user: IUser | IDiscussionsUser = {},
   channel: IChannel
