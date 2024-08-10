@@ -24,19 +24,49 @@ interface IHubEmbedBase {
   height?: number;
 }
 
-/** app-specific embed */
+/** app-specific embeds */
 export interface IHubEmbedApp extends IHubEmbedBase {
   kind: EmbedKind.app;
-  /** application id */
   id: string;
+  isScrollable?: boolean;
+  viewportMobile?: IHubEmbedAppViewportMobile;
+  viewportTablet?: IHubEmbedAppViewportTablet;
+  viewportDesktop?: IHubEmbedAppViewportDesktop;
 }
+type IHubEmbedAppViewportMobile = Omit<
+  IHubEmbedApp,
+  "key" | "kind" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
+>;
+type IHubEmbedAppViewportTablet = Omit<
+  IHubEmbedApp,
+  "key" | "kind" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
+>;
+type IHubEmbedAppViewportDesktop = Omit<
+  IHubEmbedApp,
+  "key" | "kind" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
+>;
 
-/** map-specific embed */
+/** map-specific embeds */
 export interface IHubEmbedMap extends IHubEmbedBase {
   kind: EmbedKind.map;
   /** web map/scene id */
   id: string;
+  viewportMobile?: IHubEmbedMapViewportMobile;
+  viewportTablet?: IHubEmbedMapViewportTablet;
+  viewportDesktop?: IHubEmbedMapViewportDesktop;
 }
+type IHubEmbedMapViewportMobile = Omit<
+  IHubEmbedMap,
+  "key" | "kind" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
+>;
+type IHubEmbedMapViewportTablet = Omit<
+  IHubEmbedMap,
+  "key" | "kind" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
+>;
+type IHubEmbedMapViewportDesktop = Omit<
+  IHubEmbedMap,
+  "key" | "kind" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
+>;
 
 /** external embed */
 export interface IHubEmbedExternal extends IHubEmbedBase {
