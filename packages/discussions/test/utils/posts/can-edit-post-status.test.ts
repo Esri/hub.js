@@ -470,6 +470,20 @@ describe("canEditPostStatus", () => {
       canModerateChannelSpy.calls.reset();
     });
 
+    it("return true if user is org_admin", () => {
+      canModerateChannelSpy.and.callFake(() => true);
+
+      const user = { role: "org_admin" } as IDiscussionsUser;
+      const channel = {
+        channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
+        creator: "john",
+      } as IChannel;
+
+      expect(canEditPostStatus(channel, user)).toBe(true);
+
+      expect(canModerateChannelSpy.calls.count()).toBe(0);
+    });
+
     it("return true if channelPermission.canEditPostStatus is true", () => {
       canModerateChannelSpy.and.callFake(() => true);
 

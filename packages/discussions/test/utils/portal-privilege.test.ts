@@ -4,8 +4,15 @@ import {
   hasOrgAdminUpdateRights,
   hasOrgAdminViewRights,
 } from "../../src/utils/portal-privilege";
+import { IUser } from "@esri/arcgis-rest-types";
 
 describe("hasOrgAdminViewRights", () => {
+  it("should return false if user is undefined", () => {
+    const user = undefined as unknown as IUser;
+    const orgId = "aaa";
+    expect(hasOrgAdminViewRights(user, orgId)).toEqual(false);
+  });
+
   it("should return false if user is not in the org", () => {
     const user = {} as IDiscussionsUser;
     const orgId = "aaa";
@@ -44,6 +51,12 @@ describe("hasOrgAdminViewRights", () => {
 });
 
 describe("hasOrgAdminUpdateRights", () => {
+  it("should return false if user is undefined", () => {
+    const user = undefined as unknown as IUser;
+    const orgId = "aaa";
+    expect(hasOrgAdminUpdateRights(user, orgId)).toEqual(false);
+  });
+
   it("should return false if user is not in the org", () => {
     const user = {} as IDiscussionsUser;
     const orgId = "aaa";
@@ -91,6 +104,12 @@ describe("hasOrgAdminUpdateRights", () => {
 });
 
 describe("hasOrgAdminDeleteRights", () => {
+  it("should return false if user is undefined", () => {
+    const user = undefined as unknown as IUser;
+    const orgId = "aaa";
+    expect(hasOrgAdminDeleteRights(user, orgId)).toEqual(false);
+  });
+
   it("should return false if user is not in the org", () => {
     const user = {} as IDiscussionsUser;
     const orgId = "aaa";

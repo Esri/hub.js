@@ -46,10 +46,10 @@ export function isOrgAdmin(user: IUser): boolean {
 }
 
 export function isUserInOrg(
-  user: IUser | IDiscussionsUser,
+  user: IUser | IDiscussionsUser = {},
   orgId: string
 ): boolean {
-  return user?.orgId === orgId;
+  return user.orgId === orgId;
 }
 
 export function isOrgAdminInOrg(user: IUser, orgId: string): boolean {
@@ -57,14 +57,14 @@ export function isOrgAdminInOrg(user: IUser, orgId: string): boolean {
 }
 
 export function userHasPrivilege(
-  user: IUser | IDiscussionsUser,
+  user: IUser | IDiscussionsUser = {},
   privilege: Privilege
 ): boolean {
-  return !!user?.privileges?.includes(privilege);
+  return !!user.privileges?.includes(privilege);
 }
 
 export function userHasPrivileges(
-  user: IUser | IDiscussionsUser,
+  user: IUser | IDiscussionsUser = {},
   privileges: Privilege[]
 ): boolean {
   return privileges.every((privilege) => userHasPrivilege(user, privilege));

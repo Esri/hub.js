@@ -1,4 +1,4 @@
-import { IGroup } from "@esri/arcgis-rest-types";
+import { IGroup, IUser } from "@esri/arcgis-rest-types";
 import {
   AclCategory,
   IChannel,
@@ -94,6 +94,27 @@ describe("canEditChannel", () => {
       expect(canModerateChannelSpy.calls.count()).toBe(1);
       const [arg1] = canModerateChannelSpy.calls.allArgs()[0]; // args for 1st call
       expect(arg1).toBe(user);
+
+      expect(
+        isAuthorizedToModifyChannelByLegacyPermissionsSpy.calls.count()
+      ).toBe(0);
+    });
+
+    it("return false if channelPermission.canModerateChannel is false and user is undefined", () => {
+      hasOrgAdminUpdateRightsSpy.and.callFake(() => false);
+      canModerateChannelSpy.and.callFake(() => false);
+
+      const user = undefined as unknown as IUser;
+      const channel = {
+        channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
+        creator: "john",
+      } as IChannel;
+
+      expect(canEditChannel(channel, user)).toBe(false);
+
+      expect(canModerateChannelSpy.calls.count()).toBe(1);
+      const [arg1] = canModerateChannelSpy.calls.allArgs()[0]; // args for 1st call
+      expect(arg1).toEqual({});
 
       expect(
         isAuthorizedToModifyChannelByLegacyPermissionsSpy.calls.count()
