@@ -73,11 +73,41 @@ export interface IHubEmbedExternal extends IHubEmbedBase {
   kind: EmbedKind.external;
   /** embed url */
   url: string;
+  viewportMobile?: IHubEmbedExternalViewportMobile;
+  viewportTablet?: IHubEmbedExternalViewportTablet;
+  viewportDesktop?: IHubEmbedExternalViewportDesktop;
 }
+type IHubEmbedExternalViewportMobile = Omit<
+  IHubEmbedExternal,
+  "key" | "kind" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
+>;
+type IHubEmbedExternalViewportTablet = Omit<
+  IHubEmbedExternal,
+  "key" | "kind" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
+>;
+type IHubEmbedExternalViewportDesktop = Omit<
+  IHubEmbedExternal,
+  "key" | "kind" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
+>;
 
-/** survey-specific embed */
+/** survey-specific embeds */
 export interface IHubEmbedSurvey extends IHubEmbedBase {
   kind: EmbedKind.feedback;
   /** survey123 id */
   id: string;
+  viewportMobile?: IHubEmbedSurveyViewportMobile;
+  viewportTablet?: IHubEmbedSurveyViewportTablet;
+  viewportDesktop?: IHubEmbedSurveyViewportDesktop;
 }
+type IHubEmbedSurveyViewportMobile = Omit<
+  IHubEmbedSurvey,
+  "key" | "kind" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
+>;
+type IHubEmbedSurveyViewportTablet = Omit<
+  IHubEmbedSurvey,
+  "key" | "kind" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
+>;
+type IHubEmbedSurveyViewportDesktop = Omit<
+  IHubEmbedSurvey,
+  "key" | "kind" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
+>;
