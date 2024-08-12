@@ -1,3 +1,17 @@
+# @esri/hub-common [14.169.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.168.2...@esri/hub-common@14.169.0) (2024-08-09)
+
+
+### Features
+
+* **hub-common:** add orgId to IChannel ([#1621](https://github.com/Esri/hub.js/issues/1621)) ([fafa0b4](https://github.com/Esri/hub.js/commit/fafa0b405050f561bd2a5b94826cc0a2abbb9f35))
+
+## @esri/hub-common [14.168.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.168.1...@esri/hub-common@14.168.2) (2024-08-08)
+
+
+### Bug Fixes
+
+* **hub-common:** hub-common missing @types/arcgis-js-api dependency ([#1620](https://github.com/Esri/hub.js/issues/1620)) ([ed5edec](https://github.com/Esri/hub.js/commit/ed5edeca51f7cb080684c1e8ac748957c4284163))
+
 ## @esri/hub-common [14.168.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.168.0...@esri/hub-common@14.168.1) (2024-08-06)
 
 
