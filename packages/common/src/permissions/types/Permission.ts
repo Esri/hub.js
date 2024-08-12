@@ -42,6 +42,7 @@ const SystemPermissions = [
   "hub:environment:qaext",
   "hub:environment:devext",
   "hub:environment:production",
+  "hub:environment:enterprise",
 ];
 
 const validPermissions = [

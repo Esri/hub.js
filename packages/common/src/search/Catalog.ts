@@ -118,7 +118,7 @@ export class Catalog implements IHubCatalog {
    * Return an array of the entity types available in this Catalog
    */
   get availableScopes(): EntityType[] {
-    return Object.keys(this.scopes) as unknown as EntityType[];
+    return Object.keys(this.scopes || {}) as unknown as EntityType[];
   }
 
   /**
@@ -235,7 +235,7 @@ export class Catalog implements IHubCatalog {
   /**
    * Search for Items
    * Will throw if the Catalog does not have a scope defined for items
-   * @param query
+   * @param query - string or IQuery
    * @param options
    * @returns
    */
@@ -362,7 +362,7 @@ export class Catalog implements IHubCatalog {
   /**
    * Search for Groups
    * Will throw if the Catalog does not have a scope defined for groups
-   * @param query
+   * @param query  - string or IQuery
    * @param options
    * @returns
    */
@@ -395,7 +395,7 @@ export class Catalog implements IHubCatalog {
   /**
    * Search for Users
    * Will throw if the Catalog does not have a scope defined for users
-   * @param query
+   * @param query  - string or IQuery
    * @param options
    * @returns
    */
@@ -423,36 +423,60 @@ export class Catalog implements IHubCatalog {
   }
 
   /**
-   * Execute a search against all the collections in the Catalog
-   * @param query
+   * Execute a term search against all the collections in the Catalog
+   * or an IQuery against all collections that match the targetEntity.
+   * Note: This will not search scopes which do not have corresponding collections.
+   * If you want that behavior, use `searchCatalogs` function instead.
+   * @param query  - string or IQuery
    * @param options
    * @returns
    */
   async searchCollections(
-    query: string,
+    query: string | IQuery,
     options: IHubSearchOptions = {}
   ): Promise<ISearchResponseHash> {
     // build a query
-    const qry: IQuery = {
-      targetEntity: "item", // this gets replaced below, but we need something here
-      filters: [
-        {
-          predicates: [
-            {
-              term: query,
-            },
-          ],
-        },
-      ],
-    };
+    let passedQuery = true;
+    let qry: IQuery;
+    if (typeof query === "string") {
+      passedQuery = false;
+      qry = {
+        targetEntity: "item", // this gets replaced below, but we need something here
+        filters: [
+          {
+            predicates: [
+              {
+                term: query,
+              },
+            ],
+          },
+        ],
+      };
+    } else {
+      qry = query;
+    }
+
     // iterate the colllections, issue searchs for each one
     const promiseKeys: string[] = [];
-    const promises = this.collectionNames.map((name) => {
+    const promises = this.collectionNames.reduce((acc, name) => {
       const col = this.getCollection(name);
-      promiseKeys.push(name);
-      qry.targetEntity = col.targetEntity;
-      return col.search(qry, options);
-    });
+      // if an IQuery was passed in,
+      if (passedQuery) {
+        // we only execute queries on collections that match the targetEntity
+        // and skip the rest
+        if (col.targetEntity === qry.targetEntity) {
+          promiseKeys.push(name);
+          acc.push(col.search(qry, options));
+        }
+      } else {
+        // if a string was passed in, we execute the search on all collections
+        // by replacing the targetEntity in the query to match the collection
+        promiseKeys.push(name);
+        qry.targetEntity = col.targetEntity;
+        acc.push(col.search(qry, options));
+      }
+      return acc;
+    }, []);
 
     const responses = await Promise.all(promises);
 
@@ -465,41 +489,46 @@ export class Catalog implements IHubCatalog {
   }
 
   /**
-   * Execute a search against all the scopes in the Catalog
-   * @param query
+   * Execute a term search against all the scopes in the Catalog
+   * @param query - term or IQuery
    * @param options
    * @returns
    */
   async searchScopes(
-    query: string,
-    options: IHubSearchOptions = {}
+    query: string | IQuery,
+    options: IHubSearchOptions = {},
+    limitTo?: EntityType[]
   ): Promise<ISearchResponseHash> {
-    const qry: IQuery = {
-      targetEntity: "item",
-      filters: [
-        {
-          predicates: [
-            {
-              term: query,
-            },
-          ],
-        },
-      ],
-    };
-    // iterate the scopes, issue searchs for each one
+    let qry: IQuery;
+    if (typeof query === "string") {
+      qry = {
+        targetEntity: "item", // this gets replaced below, but we need something here
+        filters: [
+          {
+            predicates: [
+              {
+                term: query,
+              },
+            ],
+          },
+        ],
+      };
+    } else {
+      qry = query;
+    }
 
     const promiseKeys: string[] = [];
-    const promises = this.availableScopes.map((name) => {
-      promiseKeys.push(name);
-      // make clones
-      const qryClone = cloneObject(qry);
-      const optsClone = cloneObject(options);
-      // set the target entity
-      qryClone.targetEntity = name;
-      optsClone.targetEntity = name;
-      // return the search promise
-      return this.search(qryClone, optsClone);
-    });
+    const promises = this.availableScopes.reduce((acc, entityType) => {
+      if (!limitTo || limitTo.includes(entityType)) {
+        promiseKeys.push(entityType);
+        const qryClone = cloneObject(qry);
+        const optsClone = cloneObject(options);
+        qryClone.targetEntity = entityType;
+        optsClone.targetEntity = entityType;
+        acc.push(this.search(qryClone, optsClone));
+      }
+      return acc;
+    }, []);
 
     // wait for all the searches to complete
     const responses = await Promise.all(promises);
@@ -513,16 +542,16 @@ export class Catalog implements IHubCatalog {
   }
 
   /**
-   * Execute a search against the Catalog as a whole
-   * @param query
-   * @param targetEntity
+   * Execute a term search or IQuery search against the Catalog.
+   * @param query - term or IQuery
+   * @param options
    * @returns
    */
   private async search(
     query: string | IQuery,
     options: IHubSearchOptions
   ): Promise<IHubSearchResponse<IHubSearchResult>> {
-    const targetEntity = options.targetEntity;
+    let targetEntity = options.targetEntity;
     let qry: IQuery;
     if (typeof query === "string") {
       qry = {
@@ -538,6 +567,7 @@ export class Catalog implements IHubCatalog {
         ],
       } as IQuery;
     } else {
+      targetEntity = query.targetEntity;
       qry = cloneObject(query);
     }
 

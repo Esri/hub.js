@@ -1,5 +1,5 @@
 import { IQuery } from "../types/IHubCatalog";
-import { expandQuery } from "./portalSearchItems";
+import { expandPredicates } from "./portalSearchItems";
 
 /**
  * @private
@@ -13,7 +13,7 @@ export function negateGroupPredicates(query: IQuery): IQuery {
   if (!query) {
     return;
   }
-  const expanded = expandQuery(query);
+  const expanded = expandPredicates(query);
   // negate the group predicate on the query
   // we opted to be surgical about this vs attempting a `negateQuery(query)` function
   expanded.filters.forEach((f) => {
