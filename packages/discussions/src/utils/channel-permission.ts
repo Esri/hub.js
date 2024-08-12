@@ -6,6 +6,7 @@ import {
   IChannelAclPermission,
   IChannelAclPermissionDefinition,
   IDiscussionsUser,
+  IUpdateChannel,
   Role,
 } from "../types";
 import { CANNOT_DISCUSS } from "./constants";
@@ -19,7 +20,29 @@ enum ChannelAction {
   READ_POSTS = "readPosts",
   WRITE_POSTS = "writePosts",
   MODERATE_CHANNEL = "moderateChannel",
+  IS_MODERATOR = "isModerator",
+  IS_MANAGER = "isManager",
+  IS_OWNER = "isOwner",
 }
+
+// See confluence for privs documentation: https://confluencewikidev.esri.com/pages/viewpage.action?pageId=153747776#Roles&Privileges-ApplicationtoChannels
+const CHANNEL_ACTION_PRIVS = {
+  ADD_REMOVE_OWNERS: [Role.OWNER],
+  ADD_REMOVE_MANAGERS: [Role.OWNER, Role.MANAGE],
+  ADD_REMOVE_MODERATORS: [Role.OWNER, Role.MANAGE],
+  ADD_REMOVE_ORGS: [Role.OWNER, Role.MANAGE],
+  ADD_REMOVE_GROUPS: [Role.OWNER, Role.MANAGE],
+  ADD_REMOVE_USERS: [Role.OWNER, Role.MANAGE],
+  ADD_REMOVE_AUTHENTICATED_USERS: [Role.OWNER, Role.MANAGE],
+  UPDATE_ANONYMOUS_USERS: [Role.OWNER, Role.MANAGE],
+  ENABLE_DISABLE_POST_REPLIES: [Role.OWNER, Role.MANAGE, Role.MODERATE],
+  ENABLE_DISABLE_POST_REACTIONS: [Role.OWNER, Role.MANAGE, Role.MODERATE],
+  ADD_REMOVE_ALLOWED_REACTIONS: [Role.OWNER, Role.MANAGE, Role.MODERATE],
+  UPDATE_DEFAULT_POST_STATUS: [Role.OWNER, Role.MANAGE, Role.MODERATE],
+  ADD_REMOVE_BLOCKED_WORDS: [Role.OWNER, Role.MANAGE, Role.MODERATE],
+  UPDATE_CHANNEL_NAME: [Role.OWNER, Role.MANAGE],
+  UPDATE_SOFT_DELETE_SETTING: [Role.OWNER, Role.MANAGE],
+};
 
 /**
  * @internal
@@ -109,6 +132,51 @@ export class ChannelPermission {
       this.canSomeUserGroup(ChannelAction.READ_POSTS, user) ||
       this.canSomeUserOrg(ChannelAction.READ_POSTS, user)
     );
+  }
+
+  /**
+   * Expose this function and call from the can-modify-channel.ts file when V2 released
+   * @internal
+   */
+  canUpdateProperties(
+    user: IDiscussionsUser,
+    updates: IUpdateChannel
+  ): boolean {
+    const userRole = this.determineUserRole(user);
+
+    if (
+      // @TODO when we have access to channel ACL obj when v2 udpate-channel-dto is hoisted we can add these additional property action checks
+      // add or remove owners
+      // add or remove managers
+      // add or remove moderators
+      // add or remove orgs
+      // add or remove groups
+      // add or remove users
+      // add or remove authenticated users
+      // update anonymous users
+      (updates.allowReply &&
+        !CHANNEL_ACTION_PRIVS.ENABLE_DISABLE_POST_REPLIES.includes(userRole)) ||
+      (updates.allowReaction &&
+        !CHANNEL_ACTION_PRIVS.ENABLE_DISABLE_POST_REACTIONS.includes(
+          userRole
+        )) ||
+      (updates.allowedReactions &&
+        !CHANNEL_ACTION_PRIVS.ADD_REMOVE_ALLOWED_REACTIONS.includes(
+          userRole
+        )) ||
+      (updates.defaultPostStatus &&
+        !CHANNEL_ACTION_PRIVS.UPDATE_DEFAULT_POST_STATUS.includes(userRole)) ||
+      (updates.blockWords &&
+        !CHANNEL_ACTION_PRIVS.ADD_REMOVE_BLOCKED_WORDS.includes(userRole)) ||
+      (updates.name &&
+        !CHANNEL_ACTION_PRIVS.UPDATE_CHANNEL_NAME.includes(userRole)) ||
+      (updates.softDelete &&
+        !CHANNEL_ACTION_PRIVS.UPDATE_SOFT_DELETE_SETTING.includes(userRole))
+    ) {
+      return false;
+    }
+
+    return true;
   }
 
   private canAnyUser(action: ChannelAction): boolean {
@@ -260,6 +328,42 @@ export class ChannelPermission {
     } = userGroup;
     return this.ALLOWED_GROUP_MEMBER_TYPES.includes(memberType);
   }
+
+  private determineUserRole(user: IDiscussionsUser): Role {
+    if (this.isOwner(user)) {
+      return Role.OWNER;
+    } else if (this.isManager(user)) {
+      return Role.MANAGE;
+    } else if (this.isModerator(user)) {
+      return Role.MODERATE;
+    } else {
+      return Role.READ; // default to null or something else
+    }
+  }
+
+  private isOwner(user: IDiscussionsUser): boolean {
+    return (
+      this.canSomeUser(ChannelAction.IS_OWNER, user) ||
+      this.canSomeUserGroup(ChannelAction.IS_OWNER, user) ||
+      this.canSomeUserOrg(ChannelAction.IS_OWNER, user)
+    );
+  }
+
+  private isManager(user: IDiscussionsUser): boolean {
+    return (
+      this.canSomeUser(ChannelAction.IS_MANAGER, user) ||
+      this.canSomeUserGroup(ChannelAction.IS_MANAGER, user) ||
+      this.canSomeUserOrg(ChannelAction.IS_MANAGER, user)
+    );
+  }
+
+  private isModerator(user: IDiscussionsUser): boolean {
+    return (
+      this.canSomeUser(ChannelAction.IS_MODERATOR, user) ||
+      this.canSomeUserGroup(ChannelAction.IS_MODERATOR, user) ||
+      this.canSomeUserOrg(ChannelAction.IS_MODERATOR, user)
+    );
+  }
 }
 
 function isGroupDiscussable(userGroup: IGroup): boolean {
@@ -304,6 +408,18 @@ function channelActionLookup(action: ChannelAction): Role[] {
 
   if (action === ChannelAction.MODERATE_CHANNEL) {
     return [Role.MODERATE, Role.MANAGE, Role.OWNER];
+  }
+
+  if (action === ChannelAction.IS_MODERATOR) {
+    return [Role.MODERATE];
+  }
+
+  if (action === ChannelAction.IS_MANAGER) {
+    return [Role.MANAGE];
+  }
+
+  if (action === ChannelAction.IS_OWNER) {
+    return [Role.OWNER];
   }
 
   // default to read action
