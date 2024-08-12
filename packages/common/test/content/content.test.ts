@@ -1499,7 +1499,7 @@ describe("content: ", () => {
       };
 
       fetchMock.once(
-        "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/slowpoints/FeatureServer/0?stop=false",
+        entity.url as string,
         {
           status: 200,
           body: { message: "Success" },
@@ -1509,7 +1509,7 @@ describe("content: ", () => {
 
       const result = (await getServiceStatus(entity, {
         ...MOCK_REQUEST_OPTIONS,
-        url: "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/slowpoints/FeatureServer/0?stop=false",
+        url: entity.url as string,
       })) as IHubServiceBackedContentStatus;
       expect(result.service.availability).toEqual("available");
     });
@@ -1537,7 +1537,7 @@ describe("content: ", () => {
       };
 
       fetchMock.once(
-        "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/slowpoints/FeatureServer/0?stop=false&delay=5000",
+        entity.url as string,
         {
           status: 200,
           body: { message: "Success" },
@@ -1547,7 +1547,7 @@ describe("content: ", () => {
 
       const result = (await getServiceStatus(entity, {
         ...MOCK_REQUEST_OPTIONS,
-        url: "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/slowpoints/FeatureServer/0?stop=false&delay=5000",
+        url: entity.url as string,
       })) as IHubServiceBackedContentStatus;
       expect(result.service.availability).toEqual("slow");
     });
@@ -1575,7 +1575,7 @@ describe("content: ", () => {
       };
 
       fetchMock.once(
-        "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/multipoints/FeatureServer?stop=true",
+        entity.url as string,
         {
           status: 500,
           body: { message: "Special Server Error", error: { code: 500 } },
@@ -1585,7 +1585,7 @@ describe("content: ", () => {
 
       const result = (await getServiceStatus(entity, {
         ...MOCK_REQUEST_OPTIONS,
-        url: "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/multipoints/FeatureServer?stop=true",
+        url: entity.url as string,
       })) as IHubServiceBackedContentStatus;
       expect(result.service.availability).toEqual("unavailable");
     });
@@ -1616,7 +1616,7 @@ describe("content: ", () => {
       // see Josh's testing steps in https://devtopia.esri.com/dc/hub/issues/10973
       // This is how the ArcGISAuthError is formatted
       fetchMock.once(
-        "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/slowpoints/FeatureServer",
+        entity.url as string,
         {
           status: 403,
           body: { message: "Forbidden", error: { code: 403 } },
@@ -1626,7 +1626,48 @@ describe("content: ", () => {
 
       const result = (await getServiceStatus(entity, {
         ...MOCK_REQUEST_OPTIONS,
+        url: entity.url as string,
+      })) as IHubServiceBackedContentStatus;
+      expect(result.service.availability).toEqual("unknown");
+    });
+
+    it("client unable to complete request making status unknown", async () => {
+      const entity: IHubEditableContent = {
+        id: "abc",
         url: "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/slowpoints/FeatureServer",
+
+        // not important to this test
+        licenseInfo: "",
+        itemControl: "",
+        owner: "",
+        schemaVersion: 0,
+        tags: [],
+        canEdit: false,
+        canDelete: false,
+        name: "",
+        createdDate: new Date(),
+        createdDateSource: "",
+        updatedDate: new Date(),
+        updatedDateSource: "",
+        type: "",
+        orgUrlKey: "",
+      };
+
+      // For more context on why we're mocking the code inside the body,
+      // see Josh's testing steps in https://devtopia.esri.com/dc/hub/issues/10973
+      // This is how the ArcGISAuthError is formatted
+      fetchMock.once(
+        entity.url as string,
+        {
+          status: 499,
+          body: { message: "Forbidden", error: { code: 499 } },
+        },
+        { delay: 1000 }
+      );
+
+      const result = (await getServiceStatus(entity, {
+        ...MOCK_REQUEST_OPTIONS,
+        url: entity.url as string,
       })) as IHubServiceBackedContentStatus;
       expect(result.service.availability).toEqual("unknown");
     });

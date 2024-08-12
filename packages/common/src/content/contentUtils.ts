@@ -489,10 +489,12 @@ export async function getServiceStatus(
       })
       .catch(async (error) => {
         // if the service is not returned, we consider it unavailable
-        // if the service responds with a 403, we consider it unknown
+        // if the service responds with a 403 or 499, we consider it unknown
         const response = await error.response.json();
+        const isUnknown =
+          response.error.code === 403 || response.error.code === 499;
 
-        return response.error.code === 403
+        return isUnknown
           ? availability("unknown")
           : availability("unavailable");
       });
