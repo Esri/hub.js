@@ -1,3 +1,10 @@
+# @esri/hub-common [14.170.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.169.0...@esri/hub-common@14.170.0) (2024-08-12)
+
+
+### Features
+
+* add entity catalogs, AddContentConfig types & helper functions ([#1573](https://github.com/Esri/hub.js/issues/1573)) ([59a54d1](https://github.com/Esri/hub.js/commit/59a54d1e219b87d66c82b7ced2dbe472c35da5d9))
+
 # @esri/hub-common [14.169.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.168.2...@esri/hub-common@14.169.0) (2024-08-09)
 
 
