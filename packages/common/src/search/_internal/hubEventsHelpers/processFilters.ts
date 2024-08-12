@@ -117,5 +117,21 @@ export async function processFilters(
       startDateRange[0].from
     ).toISOString();
   }
+  const endDateRange = getPredicateValuesByKey<IDateRange<string | number>>(
+    filters,
+    "endDateRange"
+  );
+  if (endDateRange.length) {
+    // TODO: remove below ts-ignore once https://devtopia.esri.com/dc/hub/issues/11097 is resolved
+    // @ts-ignore
+    processedFilters.endDateTimeBefore = new Date(
+      endDateRange[0].to
+    ).toISOString();
+    // TODO: remove below ts-ignore once https://devtopia.esri.com/dc/hub/issues/11097 is resolved
+    // @ts-ignore
+    processedFilters.endDateTimeAfter = new Date(
+      endDateRange[0].from
+    ).toISOString();
+  }
   return processedFilters;
 }

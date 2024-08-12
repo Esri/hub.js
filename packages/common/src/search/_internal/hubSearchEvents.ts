@@ -26,7 +26,8 @@ import { processFilters } from "./hubEventsHelpers/processFilters";
  *   - attendanceType: 'virtual' | 'in_person' | Array<'virtual' | 'in_person'>;
  *   - owner: string | string[];
  *   - status: 'planned' | 'canceled' | 'removed' | Array<'planned' | 'canceled' | 'removed'>;
- *   - startDateRange: IDateRange<string | number>
+ *   - startDateRange: IDateRange<string | number>;
+ *   - endDateRange: IDateRange<string | number>;
  * Currently supported sort fields include:
  *   - created
  *   - modified
