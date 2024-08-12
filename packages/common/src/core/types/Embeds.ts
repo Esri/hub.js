@@ -35,15 +35,15 @@ export interface IHubEmbedApp extends IHubEmbedBase {
 }
 type IHubEmbedAppViewportMobile = Omit<
   IHubEmbedApp,
-  "key" | "kind" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
+  "key" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
 >;
 type IHubEmbedAppViewportTablet = Omit<
   IHubEmbedApp,
-  "key" | "kind" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
+  "key" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
 >;
 type IHubEmbedAppViewportDesktop = Omit<
   IHubEmbedApp,
-  "key" | "kind" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
+  "key" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
 >;
 
 /** map-specific embeds */
@@ -57,15 +57,15 @@ export interface IHubEmbedMap extends IHubEmbedBase {
 }
 type IHubEmbedMapViewportMobile = Omit<
   IHubEmbedMap,
-  "key" | "kind" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
+  "key" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
 >;
 type IHubEmbedMapViewportTablet = Omit<
   IHubEmbedMap,
-  "key" | "kind" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
+  "key" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
 >;
 type IHubEmbedMapViewportDesktop = Omit<
   IHubEmbedMap,
-  "key" | "kind" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
+  "key" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
 >;
 
 /** external embed */
@@ -79,15 +79,15 @@ export interface IHubEmbedExternal extends IHubEmbedBase {
 }
 type IHubEmbedExternalViewportMobile = Omit<
   IHubEmbedExternal,
-  "key" | "kind" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
+  "key" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
 >;
 type IHubEmbedExternalViewportTablet = Omit<
   IHubEmbedExternal,
-  "key" | "kind" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
+  "key" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
 >;
 type IHubEmbedExternalViewportDesktop = Omit<
   IHubEmbedExternal,
-  "key" | "kind" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
+  "key" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
 >;
 
 /** survey-specific embeds */
@@ -101,13 +101,13 @@ export interface IHubEmbedSurvey extends IHubEmbedBase {
 }
 type IHubEmbedSurveyViewportMobile = Omit<
   IHubEmbedSurvey,
-  "key" | "kind" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
+  "key" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
 >;
 type IHubEmbedSurveyViewportTablet = Omit<
   IHubEmbedSurvey,
-  "key" | "kind" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
+  "key" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
 >;
 type IHubEmbedSurveyViewportDesktop = Omit<
   IHubEmbedSurvey,
-  "key" | "kind" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
+  "key" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
 >;
