@@ -1210,7 +1210,7 @@ describe("ChannelPermission class", () => {
     });
   });
 
-  fdescribe("canUpdateProperties", () => {
+  describe("canUpdateProperties", () => {
     describe("update allowReply required role", () => {
       it("returns true if user has a role of moderate", () => {
         const user = buildUser();
