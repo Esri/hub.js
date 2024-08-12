@@ -337,7 +337,7 @@ export class ChannelPermission {
     } else if (this.isModerator(user)) {
       return Role.MODERATE;
     } else {
-      return Role.READ; // default to null or something else
+      return Role.READ;
     }
   }
 
