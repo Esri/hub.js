@@ -8,7 +8,7 @@ const ADMIN_GROUP_ROLES = Object.freeze(["owner", "admin"]);
 
 /**
  * Utility to determine if User has privileges to modify the status of a post
- * Deprecating, replace with canEditPostStatus
+ * @deprecated use `canEditPostStatus` instead
  * @param channel
  * @param user
  * @returns {boolean}

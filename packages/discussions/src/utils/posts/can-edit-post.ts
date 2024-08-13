@@ -10,7 +10,7 @@ type ILegacyChannelPermissions = Pick<
 
 /**
  * Utility to determine if User has privileges to modify a post
- * Deprecating, replace with canEditPost
+ * @deprecated use `canEditPost` instead
  * @param post
  * @param user
  * @param channel
