@@ -136,7 +136,10 @@ describe("getEditorSchemas: ", () => {
     { type: EventEditorTypes[1], module: EventBuildEditUiSchema },
     { type: EventEditorTypes[2], module: EventAttendeesSettingsUiSchema },
 
-    { type: validCardEditorTypes[0], module: statUiSchemaModule },
+    {
+      type: validCardEditorTypes[0],
+      module: statUiSchemaModule as IEditorModuleType,
+    },
   ];
 
   modules.forEach(async ({ type, module }) => {

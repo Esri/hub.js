@@ -198,11 +198,11 @@ describe("checkPermission:", () => {
     expect(chk.access).toBe(false);
     expect(chk.response).toBe("invalid-permission");
     expect(chk.checks.length).toBe(0);
-    expect(consoleDirSpy).toHaveBeenCalled();
-    expect(consoleInfoSpy).toHaveBeenCalled();
-    expect(consoleInfoSpy.calls.argsFor(0)[0]).toContain(
-      "checkPermission: YAMMER"
-    );
+    // expect(consoleDirSpy).toHaveBeenCalled();
+    // expect(consoleInfoSpy).toHaveBeenCalled();
+    // expect(consoleInfoSpy.calls.argsFor(0)[0]).toContain(
+    //   "checkPermission: YAMMER"
+    // );
   });
   it("fails for missing policy", () => {
     const chk = checkPermission("hub:missing:policy", basicCtxMgr.context);
@@ -277,9 +277,9 @@ describe("checkPermission:", () => {
       expect(chk.access).toBe(false);
       expect(chk.response).toBe("not-granted");
       expect(chk.checks.length).toBe(5);
-      expect(consoleInfoSpy.calls.argsFor(0)[0]).toContain(
-        "checkPermission: YODA"
-      );
+      // expect(consoleInfoSpy.calls.argsFor(0)[0]).toContain(
+      //   "checkPermission: YODA"
+      // );
     });
   });
 

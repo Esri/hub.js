@@ -1,5 +1,5 @@
 import { IArcGISContext } from "../../../../ArcGISContext";
-import { CardEditorOptions } from "../EditorOptions";
+import { IFollowCardEditorOptions } from "../EditorOptions";
 import { IUiSchema, UiSchemaRuleEffects } from "../../types";
 import {
   WellKnownCatalog,
@@ -29,7 +29,7 @@ function getCatalogs(user: IUser): IHubCatalog[] {
 
 export const buildUiSchema = (
   i18nScope: string,
-  config: CardEditorOptions,
+  config: IFollowCardEditorOptions,
   context: IArcGISContext
 ): IUiSchema => {
   return {

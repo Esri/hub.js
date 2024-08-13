@@ -1,3 +1,52 @@
+# @esri/hub-common [14.170.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.169.0...@esri/hub-common@14.170.0) (2024-08-12)
+
+
+### Features
+
+* add entity catalogs, AddContentConfig types & helper functions ([#1573](https://github.com/Esri/hub.js/issues/1573)) ([59a54d1](https://github.com/Esri/hub.js/commit/59a54d1e219b87d66c82b7ced2dbe472c35da5d9))
+
+# @esri/hub-common [14.169.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.168.2...@esri/hub-common@14.169.0) (2024-08-09)
+
+
+### Features
+
+* **hub-common:** add orgId to IChannel ([#1621](https://github.com/Esri/hub.js/issues/1621)) ([fafa0b4](https://github.com/Esri/hub.js/commit/fafa0b405050f561bd2a5b94826cc0a2abbb9f35))
+
+## @esri/hub-common [14.168.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.168.1...@esri/hub-common@14.168.2) (2024-08-08)
+
+
+### Bug Fixes
+
+* **hub-common:** hub-common missing @types/arcgis-js-api dependency ([#1620](https://github.com/Esri/hub.js/issues/1620)) ([ed5edec](https://github.com/Esri/hub.js/commit/ed5edeca51f7cb080684c1e8ac748957c4284163))
+
+## @esri/hub-common [14.168.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.168.0...@esri/hub-common@14.168.1) (2024-08-06)
+
+
+### Bug Fixes
+
+* **hub-common:** remove unimplemented flow for downloading files via export item ([#1613](https://github.com/Esri/hub.js/issues/1613)) ([c62a9ce](https://github.com/Esri/hub.js/commit/c62a9cebc72020df9f404a334e6db5ef5ea4002d))
+
+# @esri/hub-common [14.168.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.167.0...@esri/hub-common@14.168.0) (2024-08-02)
+
+
+### Features
+
+* stat card supports visual interest ([#1597](https://github.com/Esri/hub.js/issues/1597)) ([2ffc48f](https://github.com/Esri/hub.js/commit/2ffc48f9f77cf33d415432076e69b4e6cb8882f6))
+
+# @esri/hub-common [14.167.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.166.0...@esri/hub-common@14.167.0) (2024-08-01)
+
+
+### Features
+
+* **hub-common:** refactor event gallery card editor uiSchema to use … ([#1610](https://github.com/Esri/hub.js/issues/1610)) ([b2370d1](https://github.com/Esri/hub.js/commit/b2370d1cc95b9f4cc6b9a9dd0952aae0b650474f))
+
+# @esri/hub-common [14.166.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.165.0...@esri/hub-common@14.166.0) (2024-07-31)
+
+
+### Features
+
+* **hub-common:** add EventGalleryCardSchema and EventGalleryCardUiSchema ([#1604](https://github.com/Esri/hub.js/issues/1604)) ([09f197c](https://github.com/Esri/hub.js/commit/09f197ca2520cb2e12a0a20f0fa40f3526475ad6))
+
 # @esri/hub-common [14.165.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.164.1...@esri/hub-common@14.165.0) (2024-07-26)
 
 

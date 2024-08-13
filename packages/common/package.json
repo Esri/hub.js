@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-common",
-  "version": "14.165.0",
+  "version": "14.170.0",
   "description": "Common TypeScript types and utility functions for @esri/hub.js.",
   "main": "dist/node/index.js",
   "module": "dist/esm/index.js",
@@ -13,6 +13,7 @@
   ],
   "dependencies": {
     "@terraformer/arcgis": "^2.1.2",
+    "@types/arcgis-js-api": "~4.28.0",
     "abab": "^2.0.5",
     "adlib": "^3.0.8",
     "ajv": "^6.12.6",

@@ -1,6 +1,7 @@
 import { IArcGISContext } from "../../../../ArcGISContext";
 import { IStatCardEditorOptions } from "../EditorOptions";
 import { UiSchemaRuleEffects, IUiSchema } from "../../types";
+import { ICONS } from "./interfaces";
 import { checkPermission } from "../../../../permissions/checkPermission";
 
 /**
@@ -241,11 +242,10 @@ export const buildUiSchema = async (
             labelKey: `appearance.layout.label`,
             scope: "/properties/layout",
             type: "Control",
-            rule: HIDE_FOR_ALL, // Temporary while no layouts
             options: {
               control: "hub-field-input-select",
               enum: {
-                i18nScope: `layout.enum`,
+                i18nScope: `appearance.layout.enum`,
               },
             },
           },
@@ -253,7 +253,6 @@ export const buildUiSchema = async (
             labelKey: `appearance.textAlign`,
             scope: "/properties/textAlign",
             type: "Control",
-            rule: HIDE_FOR_DATA_VIZ_RULE,
             options: {
               control: "hub-field-input-alignment",
             },
@@ -279,30 +278,87 @@ export const buildUiSchema = async (
               },
             },
           },
-
           {
-            labelKey: `appearance.visualInterest.label`,
-            scope: "/properties/visualInterest",
-            type: "Control",
-            rule: HIDE_FOR_ALL,
+            type: "Section",
+            labelKey: `appearance.styleSpecificSettings.label`,
+            rule: SHOW_FOR_SIMPLE_RULE,
             options: {
-              control: "hub-field-input-select",
-              enum: {
-                i18nScope: `appearance.visualInterest.enum`,
+              helperText: {
+                labelKey: `appearance.styleSpecificSettings.helperVizText`,
               },
             },
+            elements: [
+              {
+                labelKey: `appearance.visualInterest.label`,
+                scope: "/properties/visualInterest",
+                type: "Control",
+                options: {
+                  control: "hub-field-input-select",
+                  enum: {
+                    i18nScope: `appearance.visualInterest.enum`,
+                  },
+                },
+              },
+              {
+                labelKey: `appearance.icon.label`,
+                scope: "/properties/icon",
+                type: "Control",
+                rule: SHOW_FOR_ICON_RULE,
+                options: {
+                  control: "hub-field-input-combobox",
+                  items: [
+                    {
+                      value: ICONS.caretUp,
+                      labelKey: `appearance.icon.caretUp.label`,
+                      icon: ICONS.caretUp,
+                    },
+                    {
+                      value: ICONS.caretDown,
+                      labelKey: `appearance.icon.caretDown.label`,
+                      icon: ICONS.caretDown,
+                    },
+                    {
+                      value: ICONS.caretDouble,
+                      labelKey: `appearance.icon.caretDouble.label`,
+                      icon: ICONS.caretDouble,
+                    },
+                  ],
+                  selectionMode: "single",
+                },
+              },
+            ],
           },
           {
-            labelKey: `appearance.popoverTitle`,
-            scope: "/properties/popoverTitle",
-            type: "Control",
-            rule: SHOW_FOR_MORE_INFO_RULE,
-          },
-          {
-            labelKey: `appearance.popoverDescription`,
-            scope: "/properties/popoverDescription",
-            type: "Control",
-            rule: SHOW_FOR_MORE_INFO_RULE,
+            type: "Section",
+            labelKey: `appearance.styleSpecificSettings.label`,
+            rule: SHOW_FOR_INFORMATIONAL_RULE,
+            options: {
+              helperText: {
+                labelKey: `appearance.styleSpecificSettings.helperInfoText`,
+              },
+            },
+            elements: [
+              {
+                labelKey: `appearance.popoverText.label`,
+                scope: "/properties/popoverText",
+                type: "Control",
+                rule: SHOW_FOR_INFORMATIONAL_RULE,
+                options: {
+                  control: "hub-field-input-input",
+                  type: "textarea",
+                  rows: 4,
+                },
+              },
+              {
+                labelKey: `appearance.publisherText.label`,
+                scope: "/properties/publisherText",
+                type: "Control",
+                rule: SHOW_FOR_INFORMATIONAL_RULE,
+                options: {
+                  control: "hub-field-input-input",
+                },
+              },
+            ],
           },
         ],
       },
@@ -354,23 +410,31 @@ const HIDE_FOR_ALL = {
   effect: UiSchemaRuleEffects.HIDE,
   condition: {
     scope: "/properties/type",
-    schema: { enum: ["static", "dynamic"] },
+    schema: { enum: ["static", "dynamic", "itemQuery"] },
   },
 };
 
-const HIDE_FOR_DATA_VIZ_RULE = {
-  effect: UiSchemaRuleEffects.HIDE,
-  condition: {
-    scope: "/properties/layout",
-    schema: { enum: ["dataViz"] },
-  },
-};
-
-const SHOW_FOR_MORE_INFO_RULE = {
+const SHOW_FOR_INFORMATIONAL_RULE = {
   effect: UiSchemaRuleEffects.SHOW,
   condition: {
     scope: "/properties/layout",
-    schema: { const: "moreInfo" },
+    schema: { const: "informational" },
+  },
+};
+
+const SHOW_FOR_SIMPLE_RULE = {
+  effect: UiSchemaRuleEffects.SHOW,
+  condition: {
+    scope: "/properties/layout",
+    schema: { const: "simple" },
+  },
+};
+
+const SHOW_FOR_ICON_RULE = {
+  effect: UiSchemaRuleEffects.SHOW,
+  condition: {
+    scope: "/properties/visualInterest",
+    schema: { const: "icon" },
   },
 };
 

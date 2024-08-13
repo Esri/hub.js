@@ -159,6 +159,7 @@ describe("project edit module:", () => {
         catalog: {
           schemaVersion: 0,
         },
+        catalogs: [],
         schemaVersion: 1,
         canEdit: false,
         canDelete: false,

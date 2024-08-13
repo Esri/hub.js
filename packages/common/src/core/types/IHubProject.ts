@@ -1,4 +1,4 @@
-import { IWithCatalog } from "../traits/IWithCatalog";
+import { IWithCatalog, IWithCatalogs } from "../traits/IWithCatalog";
 import { IWithLayout } from "../traits/IWithLayout";
 import { IWithMetrics } from "../traits/IWithMetrics";
 import { IWithPermissions } from "../traits/IWithPermissions";
@@ -14,7 +14,8 @@ import { IHubItemEntity, IHubItemEntityEditor } from "./IHubItemEntity";
 export interface IHubProject
   extends IHubItemEntity,
     IWithSlug,
-    IWithCatalog,
+    IWithCatalog, // DEPRECATED: Use IWithCatalogs instead
+    IWithCatalogs,
     IWithLayout,
     IWithMetrics,
     IWithPermissions,

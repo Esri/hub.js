@@ -2,14 +2,21 @@ import {
   HubEventAttendanceType,
   HubEventCapacityType,
 } from "../../events/types";
-import { IWithPermissions, IWithSlug } from "../traits";
+import { IWithCatalogs } from "../traits/IWithCatalog";
+import { IWithPermissions } from "../traits/IWithPermissions";
+import { IWithSlug } from "../traits/IWithSlug";
+
 import { IHubItemEntity, IHubItemEntityEditor } from "./IHubItemEntity";
 
 /**
  * DRAFT: Under development and more properties will likely be added
  * @internal
  */
-export interface IHubEvent extends IHubItemEntity, IWithPermissions, IWithSlug {
+export interface IHubEvent
+  extends IHubItemEntity,
+    IWithPermissions,
+    IWithSlug,
+    IWithCatalogs {
   /**
    * True when users can be registered to attend the event
    */

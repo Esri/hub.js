@@ -1,3 +1,7 @@
+import {
+  ICONS,
+  VISUAL_INTEREST,
+} from "../../../../../src/core/schemas/internal/metrics/interfaces";
 import { buildUiSchema } from "../../../../../src/core/schemas/internal/metrics/StatCardUiSchema";
 import { UiSchemaRuleEffects } from "../../../../../src/core/schemas/types";
 import { MOCK_CONTEXT } from "../../../../mocks/mock-auth";
@@ -303,17 +307,10 @@ describe("buildUiSchema: stat", () => {
               labelKey: `appearance.layout.label`,
               scope: "/properties/layout",
               type: "Control",
-              rule: {
-                effect: UiSchemaRuleEffects.HIDE,
-                condition: {
-                  scope: "/properties/type",
-                  schema: { enum: ["static", "dynamic"] },
-                },
-              },
               options: {
                 control: "hub-field-input-select",
                 enum: {
-                  i18nScope: `layout.enum`,
+                  i18nScope: `appearance.layout.enum`,
                 },
               },
             },
@@ -321,13 +318,6 @@ describe("buildUiSchema: stat", () => {
               labelKey: `appearance.textAlign`,
               scope: "/properties/textAlign",
               type: "Control",
-              rule: {
-                effect: UiSchemaRuleEffects.HIDE,
-                condition: {
-                  scope: "/properties/layout",
-                  schema: { enum: ["dataViz"] },
-                },
-              },
               options: {
                 control: "hub-field-input-alignment",
               },
@@ -349,7 +339,7 @@ describe("buildUiSchema: stat", () => {
                 effect: UiSchemaRuleEffects.HIDE,
                 condition: {
                   scope: "/properties/type",
-                  schema: { enum: ["static", "dynamic"] },
+                  schema: { enum: ["static", "dynamic", "itemQuery"] },
                 },
               },
               options: {
@@ -359,60 +349,117 @@ describe("buildUiSchema: stat", () => {
                 },
               },
             },
-
             {
-              labelKey: `appearance.visualInterest.label`,
-              scope: "/properties/visualInterest",
-              type: "Control",
+              type: "Section",
+              labelKey: `appearance.styleSpecificSettings.label`,
               rule: {
-                effect: UiSchemaRuleEffects.HIDE,
+                effect: UiSchemaRuleEffects.SHOW,
                 condition: {
-                  scope: "/properties/type",
-                  schema: { enum: ["static", "dynamic"] },
+                  scope: "/properties/layout",
+                  schema: { const: "simple" },
                 },
               },
               options: {
-                control: "hub-field-input-select",
-                enum: {
-                  i18nScope: `appearance.visualInterest.enum`,
+                helperText: {
+                  labelKey: `appearance.styleSpecificSettings.helperVizText`,
                 },
               },
+              elements: [
+                {
+                  labelKey: `appearance.visualInterest.label`,
+                  scope: "/properties/visualInterest",
+                  type: "Control",
+                  options: {
+                    control: "hub-field-input-select",
+                    enum: {
+                      i18nScope: `appearance.visualInterest.enum`,
+                    },
+                  },
+                },
+                {
+                  labelKey: `appearance.icon.label`,
+                  scope: "/properties/icon",
+                  type: "Control",
+                  rule: {
+                    effect: UiSchemaRuleEffects.SHOW,
+                    condition: {
+                      scope: "/properties/visualInterest",
+                      schema: { const: "icon" },
+                    },
+                  },
+                  options: {
+                    control: "hub-field-input-combobox",
+                    items: [
+                      {
+                        value: ICONS.caretUp,
+                        labelKey: `appearance.icon.caretUp.label`,
+                        icon: ICONS.caretUp,
+                      },
+                      {
+                        value: ICONS.caretDown,
+                        labelKey: `appearance.icon.caretDown.label`,
+                        icon: ICONS.caretDown,
+                      },
+                      {
+                        value: ICONS.caretDouble,
+                        labelKey: `appearance.icon.caretDouble.label`,
+                        icon: ICONS.caretDouble,
+                      },
+                    ],
+                    selectionMode: "single",
+                  },
+                },
+              ],
             },
-            // {
-            //   type: 'Control',
-            //   scope: '/properties/icon',
-            //   options: { control: 'hub-composite-input-icon' },
-            //   rule: {
-            //     effect: UiSchemaRuleEffects.SHOW,
-            //     condition: {
-            //       scope: '/properties/visualInterest',
-            //       schema: { const: 'icon' }
-            //     }
-            //   }
-            // },
             {
-              labelKey: `appearance.popoverTitle`,
-              scope: "/properties/popoverTitle",
-              type: "Control",
+              type: "Section",
+              labelKey: `appearance.styleSpecificSettings.label`,
               rule: {
                 effect: UiSchemaRuleEffects.SHOW,
                 condition: {
                   scope: "/properties/layout",
-                  schema: { const: "moreInfo" },
+                  schema: { const: "informational" },
                 },
               },
-            },
-            {
-              labelKey: `appearance.popoverDescription`,
-              scope: "/properties/popoverDescription",
-              type: "Control",
-              rule: {
-                effect: UiSchemaRuleEffects.SHOW,
-                condition: {
-                  scope: "/properties/layout",
-                  schema: { const: "moreInfo" },
+              options: {
+                helperText: {
+                  labelKey: `appearance.styleSpecificSettings.helperInfoText`,
                 },
               },
+              elements: [
+                {
+                  labelKey: `appearance.popoverText.label`,
+                  scope: "/properties/popoverText",
+                  type: "Control",
+                  rule: {
+                    effect: UiSchemaRuleEffects.SHOW,
+                    condition: {
+                      scope: "/properties/layout",
+                      schema: { const: "informational" },
+                    },
+                  },
+                  options: {
+                    control: "hub-field-input-input",
+                    type: "textarea",
+                    rows: 4,
+                  },
+                },
+                {
+                  labelKey: `appearance.publisherText.label`,
+                  scope: "/properties/publisherText",
+                  type: "Control",
+                  rule: {
+                    effect: UiSchemaRuleEffects.SHOW,
+                    condition: {
+                      scope: "/properties/layout",
+                      schema: { const: "informational" },
+                    },
+                  },
+                  options: {
+                    control: "hub-field-input-input",
+                  },
+                },
+              ],
             },
           ],
         },
@@ -443,7 +490,7 @@ describe("buildUiSchema: stat", () => {
                 effect: UiSchemaRuleEffects.HIDE,
                 condition: {
                   scope: "/properties/type",
-                  schema: { enum: ["static", "dynamic"] },
+                  schema: { enum: ["static", "dynamic", "itemQuery"] },
                 },
               },
             },

@@ -20,6 +20,19 @@ export const MOCK_AUTH = new UserSession({
   portal: "https://myorg.maps.arcgis.com/sharing/rest",
 });
 
+export const MOCK_AUTH_QA = new UserSession({
+  clientId: "clientId",
+  redirectUri: "https://example-app.com/redirect-uri",
+  token: "fake-token",
+  tokenExpires: TOMORROW,
+  refreshToken: "refreshToken",
+  refreshTokenExpires: TOMORROW,
+  refreshTokenTTL: 1440,
+  username: "casey",
+  password: "123456",
+  portal: "https://myorg.mapsqa.arcgis.com/sharing/rest",
+});
+
 export const MOCK_HUB_REQOPTS = {
   authentication: MOCK_AUTH,
   portalSelf: {
