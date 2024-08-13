@@ -29,6 +29,8 @@ export interface IHubEmbedApp extends IHubEmbedBase {
   kind: EmbedKind.app;
   /** application id */
   id: string;
+  /** whether the app is scrollable */
+  isScrollable?: boolean;
 }
 
 /** map-specific embed */
