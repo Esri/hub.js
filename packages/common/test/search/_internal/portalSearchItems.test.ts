@@ -466,6 +466,9 @@ describe("portalSearchItems Module:", () => {
                   type: "$dashboard",
                   owner: "dave",
                 },
+                {
+                  group: "00c",
+                },
               ],
             },
           ],
@@ -479,6 +482,7 @@ describe("portalSearchItems Module:", () => {
         expect(chk.filters[0].operation).toBe("OR");
         expect(chk.filters[0].predicates[0].type).toEqual(expected);
         expect(chk.filters[0].predicates[0].owner).not.toBeDefined();
+        expect(chk.filters[0].predicates[1].group).toEqual("00c");
       });
     });
     describe("applyWellKnownCollectionFilters", () => {

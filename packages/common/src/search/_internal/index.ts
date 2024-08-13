@@ -5,3 +5,5 @@ export * from "./portalSearchUsers";
 export * from "./hubSearchChannels";
 export * from "./hubSearchEvents";
 export * from "./hubSearchEventAttendees";
+export * from "./getWorkflowForType";
+export * from "./getCatalogGroups";

@@ -1,4 +1,5 @@
 import { Catalog, IHubCatalog } from "../src/search";
+import { searchCatalogs } from "../src/search/searchCatalogs";
 import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
 
@@ -379,8 +380,45 @@ fdescribe("catalog and collection e2e:", () => {
       },
     ],
   };
+  const nakedScopeCatalog: IHubCatalog = {
+    title: "Naked Scope Catalog",
+    schemaVersion: 1,
+    scopes: {
+      group: {
+        targetEntity: "group",
+        filters: [
+          {
+            predicates: [
+              {
+                orgid: "1JONy5Qa4xQNSWRJ",
+              },
+            ],
+          },
+        ],
+      },
+    },
+    collections: [
+      {
+        label: "Water Resources",
+        targetEntity: "item",
+        key: "waterResources",
+        scope: {
+          targetEntity: "item",
+          filters: [
+            {
+              predicates: [
+                {
+                  group: "67f5723b1b464ba38be91b91ff3ea442",
+                },
+              ],
+            },
+          ],
+        },
+      },
+    ],
+  };
 
-  describe("catalog search", () => {
+  describe("catalog instance search", () => {
     it("can search all collections", async () => {
       const ctxMgr = await factory.getContextManager(orgName, "admin");
       const instance = Catalog.fromJson(catalog, ctxMgr.context);
@@ -418,6 +456,50 @@ fdescribe("catalog and collection e2e:", () => {
       //     console.log(key, result[key].results.length);
       //   });
       // });
+    });
+  });
+  describe("helper functions:", () => {
+    it("can search a set of catalogs", async () => {
+      const ctxMgr = await factory.getContextManager(orgName, "admin");
+      const catalogs = [
+        catalog,
+        waterResourcesCatalog,
+        lotsOfGroupsCatalog,
+        landBaseCatalog,
+        supportingUsersCatalog,
+        supportingGroupsCatalog,
+        nakedScopeCatalog,
+      ];
+      const start = new Date().getTime();
+
+      const results = await searchCatalogs(
+        catalogs,
+        "water",
+        { sortField: "modified", sortOrder: "desc", num: 20 },
+        ctxMgr.context
+      );
+      const end = new Date().getTime();
+      console.log("time taken", end - start);
+      results.forEach((result) => {
+        console.log("---------------------------------------");
+        console.log(`Catalog: ${result.catalogTitle}`);
+        const scopeRes = result.scopeResults || {};
+        console.log(`Scopes: ${Object.keys(scopeRes).join(", ")}`);
+
+        Object.keys(scopeRes).forEach((key) => {
+          console.log(
+            `${key} Scope has ${scopeRes[key]?.results?.length} results`
+          );
+        });
+        console.log(
+          `Collections: ${Object.keys(result.collectionResults).join(", ")}`
+        );
+        Object.keys(result.collectionResults).forEach((key) => {
+          console.log(
+            `${key} collection has ${result.collectionResults[key].results.length} results`
+          );
+        });
+      });
     });
   });
 });

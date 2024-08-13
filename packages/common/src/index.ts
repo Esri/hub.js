@@ -49,6 +49,11 @@ export * from "./core/EntityEditor";
 // Unclear _why_ this needs to be here vs. in search/index.ts
 // but if it's exported there, it's not actually exporeted
 export * from "./search/explainQueryResult";
+export * from "./search/searchEntityCatalogs";
+export * from "./search/searchCatalogs";
+export * from "./search/getAddContentConfig";
+export * from "./search/_internal/getCatalogGroups";
+export * from "./search/getPredicateValues";
 export * from "./core/hubHistory";
 
 import OperationStack from "./OperationStack";

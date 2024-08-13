@@ -13,6 +13,7 @@ export const DEFAULT_SITE: Partial<IHubSite> = {
   typeKeywords: ["Hub Site", "hubSite"],
   catalog: { schemaVersion: 0 },
   permissions: [],
+  catalogs: [],
   schemaVersion: 1,
   features: SiteDefaultFeatures,
 };
@@ -34,6 +35,7 @@ export const DEFAULT_SITE_MODEL: IModel = {
     },
   },
   data: {
+    catalogs: [],
     layout: {},
   },
 } as unknown as IModel;

@@ -11,6 +11,7 @@ export const DEFAULT_DISCUSSION: Partial<IHubDiscussion> = {
   tags: [],
   typeKeywords: ["Hub Discussion"],
   permissions: [],
+  catalogs: [],
   schemaVersion: 1,
   isDiscussable: true,
 };
@@ -32,6 +33,7 @@ export const DEFAULT_DISCUSSION_MODEL: IModel = {
     },
   },
   data: {
+    catalogs: [],
     prompt: "",
   },
 } as unknown as IModel;

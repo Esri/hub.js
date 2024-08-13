@@ -163,6 +163,24 @@ describe("ifilter-utils:", () => {
       expect(chk.q).toEqual(`((owner:"dave"))`);
       expect(chk.searchUserAccess).toBe("groupMember");
     });
+    it("skips empty arrays in match options", () => {
+      const query: IQuery = {
+        targetEntity: "item",
+        filters: [
+          {
+            operation: "AND",
+            predicates: [
+              {
+                group: { any: ["A", "B"], all: [], not: [] },
+              },
+            ],
+          },
+        ],
+      };
+      const chk = serializeQueryForPortal(query);
+
+      expect(chk.q).toEqual(`((group:"A" OR group:"B"))`);
+    });
     it("handles complex filter", () => {
       const p: IPredicate = {
         tags: {
