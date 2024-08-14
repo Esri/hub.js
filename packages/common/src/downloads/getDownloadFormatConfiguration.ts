@@ -51,7 +51,7 @@ export function getDownloadFormatConfiguration(
     });
   additionalResources.forEach((f, idx) => {
     combinedDefaultFormats.push({
-      label: f.label,
+      label: f.label || `additionalResource::${idx}`,
       key: `additionalResource::${idx}`,
       hidden: false,
     });
