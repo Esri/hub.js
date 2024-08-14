@@ -59,6 +59,7 @@ export async function createHubEvent(
     access: model.access,
     allDay: model.allDay,
     allowRegistration: model.allowRegistration,
+    associations,
     attendanceType: model.attendanceType,
     categories: model.categories,
     description: model.description,
@@ -76,9 +77,6 @@ export async function createHubEvent(
     timeZone: model.timeZone,
     title: model.title,
     location: model.location,
-    // TODO: refactor to simply add the `associations` array to the payload regardless of whether
-    // it's empty or not after https://devtopia.esri.com/dc/hub/issues/11107 is resolved
-    ...(associations.length ? { associations } : {}),
   };
 
   model = await createEventApi({
