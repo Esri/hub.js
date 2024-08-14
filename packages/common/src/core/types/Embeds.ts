@@ -27,21 +27,21 @@ interface IHubEmbedBase {
 /** app-specific embeds */
 export interface IHubEmbedApp extends IHubEmbedBase {
   kind: EmbedKind.app;
-  id: string;
+  id?: string;
   isScrollable?: boolean;
   viewportMobile?: IHubEmbedAppViewportMobile;
   viewportTablet?: IHubEmbedAppViewportTablet;
   viewportDesktop?: IHubEmbedAppViewportDesktop;
 }
-type IHubEmbedAppViewportMobile = Omit<
+export type IHubEmbedAppViewportMobile = Omit<
   IHubEmbedApp,
   "key" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
 >;
-type IHubEmbedAppViewportTablet = Omit<
+export type IHubEmbedAppViewportTablet = Omit<
   IHubEmbedApp,
   "key" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
 >;
-type IHubEmbedAppViewportDesktop = Omit<
+export type IHubEmbedAppViewportDesktop = Omit<
   IHubEmbedApp,
   "key" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
 >;
@@ -50,20 +50,20 @@ type IHubEmbedAppViewportDesktop = Omit<
 export interface IHubEmbedMap extends IHubEmbedBase {
   kind: EmbedKind.map;
   /** web map/scene id */
-  id: string;
+  id?: string;
   viewportMobile?: IHubEmbedMapViewportMobile;
   viewportTablet?: IHubEmbedMapViewportTablet;
   viewportDesktop?: IHubEmbedMapViewportDesktop;
 }
-type IHubEmbedMapViewportMobile = Omit<
+export type IHubEmbedMapViewportMobile = Omit<
   IHubEmbedMap,
   "key" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
 >;
-type IHubEmbedMapViewportTablet = Omit<
+export type IHubEmbedMapViewportTablet = Omit<
   IHubEmbedMap,
   "key" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
 >;
-type IHubEmbedMapViewportDesktop = Omit<
+export type IHubEmbedMapViewportDesktop = Omit<
   IHubEmbedMap,
   "key" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
 >;
@@ -72,20 +72,20 @@ type IHubEmbedMapViewportDesktop = Omit<
 export interface IHubEmbedExternal extends IHubEmbedBase {
   kind: EmbedKind.external;
   /** embed url */
-  url: string;
+  url?: string;
   viewportMobile?: IHubEmbedExternalViewportMobile;
   viewportTablet?: IHubEmbedExternalViewportTablet;
   viewportDesktop?: IHubEmbedExternalViewportDesktop;
 }
-type IHubEmbedExternalViewportMobile = Omit<
+export type IHubEmbedExternalViewportMobile = Omit<
   IHubEmbedExternal,
   "key" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
 >;
-type IHubEmbedExternalViewportTablet = Omit<
+export type IHubEmbedExternalViewportTablet = Omit<
   IHubEmbedExternal,
   "key" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
 >;
-type IHubEmbedExternalViewportDesktop = Omit<
+export type IHubEmbedExternalViewportDesktop = Omit<
   IHubEmbedExternal,
   "key" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
 >;
@@ -94,20 +94,20 @@ type IHubEmbedExternalViewportDesktop = Omit<
 export interface IHubEmbedSurvey extends IHubEmbedBase {
   kind: EmbedKind.feedback;
   /** survey123 id */
-  id: string;
+  id?: string;
   viewportMobile?: IHubEmbedSurveyViewportMobile;
   viewportTablet?: IHubEmbedSurveyViewportTablet;
   viewportDesktop?: IHubEmbedSurveyViewportDesktop;
 }
-type IHubEmbedSurveyViewportMobile = Omit<
+export type IHubEmbedSurveyViewportMobile = Omit<
   IHubEmbedSurvey,
   "key" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
 >;
-type IHubEmbedSurveyViewportTablet = Omit<
+export type IHubEmbedSurveyViewportTablet = Omit<
   IHubEmbedSurvey,
   "key" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
 >;
-type IHubEmbedSurveyViewportDesktop = Omit<
+export type IHubEmbedSurveyViewportDesktop = Omit<
   IHubEmbedSurvey,
   "key" | "viewportMobile" | "viewportTablet" | "viewportDesktop"
 >;
