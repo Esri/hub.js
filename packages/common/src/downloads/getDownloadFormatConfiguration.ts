@@ -44,12 +44,14 @@ export function getDownloadFormatConfiguration(
   const combinedDefaultFormats: IDownloadFormatConfiguration[] =
     serverFormats.map((f) => {
       return {
+        label: `{{shared.fields.download.format.${f.format}:translate}}`,
         key: f.format,
         hidden: false,
       };
     });
   additionalResources.forEach((f, idx) => {
     combinedDefaultFormats.push({
+      label: f.label,
       key: `additionalResource::${idx}`,
       hidden: false,
     });
