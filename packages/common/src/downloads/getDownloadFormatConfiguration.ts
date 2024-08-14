@@ -19,7 +19,7 @@ import { IDynamicDownloadFormat, IStaticDownloadFormat } from "./types";
  * @param context
  * @returns IEntityDownloadConfiguration - the download configuration for the entity
  */
-export function getIDownloadFormatConfiguration(
+export function getDownloadFormatConfiguration(
   entity: IHubEditableContent
 ): IEntityDownloadConfiguration {
   let downloadFlow: FlowType;

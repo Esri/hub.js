@@ -6,4 +6,4 @@ export * from "./canUseCreateReplica";
 export * from "./canUseHubDownloadSystem";
 export * from "./canUseHubDownloadApi";
 export * from "./getHubDownloadApiFormats";
-export * from "./getIDownloadFormatConfiguration";
+export * from "./getDownloadFormatConfiguration";
