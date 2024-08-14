@@ -83,7 +83,11 @@ export interface IHubBaseContentStatus {
 export interface IHubServiceBackedContentStatus extends IHubBaseContentStatus {
   kind: "service";
   service: {
-    availability: "available" | "slow" | "unavailable" | "unknown";
+    availability:
+      | "available" // responds in under 3 seconds
+      | "slow" // responds in over 3 seconds
+      | "unavailable" // responds with an error (4xx, 5xx)
+      | "auth-required"; // responds specifically with a 401, 403, or 499
     // TODO: expand in the future if needed
   };
 }

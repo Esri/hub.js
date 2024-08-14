@@ -487,16 +487,19 @@ export async function getServiceStatus(
         // if the service is returned, then we consider it available
         return availability("available");
       })
-      .catch(async (error) => {
-        // if the service is not returned, we consider it unavailable
-        // if the service responds with a 403 or 499, we consider it unknown
-        const response = await error.response.json();
-        const isUnknown =
-          response.error.code === 403 || response.error.code === 499;
-
-        return isUnknown
-          ? availability("unknown")
-          : availability("unavailable");
+      .catch((error) => {
+        // see interface IHubServiceBackedContentStatus for possible
+        // availability values and what each signifies
+        if (error.response) {
+          const statusCode = error.response.error.code;
+          const requiresAuth = [401, 403, 499].includes(statusCode);
+          return requiresAuth
+            ? availability("auth-required")
+            : availability("unavailable");
+        } else {
+          // sometimes, the 499 status code is returned as a "failed to fetch" error
+          return availability("auth-required");
+        }
       });
 
     // race the two promises

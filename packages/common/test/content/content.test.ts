@@ -1,5 +1,6 @@
 import { IItem } from "@esri/arcgis-rest-portal";
 import { ILayerDefinition } from "@esri/arcgis-rest-types";
+import * as featureLayerModule from "@esri/arcgis-rest-feature-layer";
 import {
   DatasetResource,
   datasetToContent,
@@ -51,6 +52,7 @@ import * as featureLayerJson from "../mocks/datasets/feature-layer.json";
 import { MOCK_REQUEST_OPTIONS } from "../../../initiatives/test/mocks/fake-session";
 import * as fetchMock from "fetch-mock";
 import { IHubServiceBackedContentStatus } from "../../dist/types/content/types";
+import { ArcGISRequestError } from "@esri/arcgis-rest-request";
 
 describe("content: ", () => {
   beforeAll(() => {
@@ -1552,6 +1554,16 @@ describe("content: ", () => {
       expect(result.service.availability).toEqual("slow");
     });
 
+    const requestError = {
+      "500": new ArcGISRequestError("Service is unavailable", 500, {
+        error: { code: 500 },
+      }),
+      "403": new ArcGISRequestError("Authentication is needed", 403, {
+        error: { code: 403 },
+      }),
+      "499": new ArcGISRequestError("Authentication is needed", 499),
+    };
+
     it("service fails to complete race and is unavailable", async () => {
       const entity: IHubEditableContent = {
         id: "abc",
@@ -1574,23 +1586,23 @@ describe("content: ", () => {
         orgUrlKey: "",
       };
 
-      fetchMock.once(
-        entity.url as string,
-        {
-          status: 500,
-          body: { message: "Special Server Error", error: { code: 500 } },
-        },
-        { delay: 1000 }
+      // Spy on the `getService` call that happens within `getServiceStatus`
+      spyOn(featureLayerModule, "getService").and.returnValue(
+        Promise.reject(requestError["500"])
       );
 
-      const result = (await getServiceStatus(entity, {
+      // Call `getServiceStatus` and expect the result to be "unavailable"
+      await getServiceStatus(entity, {
         ...MOCK_REQUEST_OPTIONS,
         url: entity.url as string,
-      })) as IHubServiceBackedContentStatus;
-      expect(result.service.availability).toEqual("unavailable");
+      }).then((result) => {
+        expect(
+          (result as IHubServiceBackedContentStatus).service.availability
+        ).toEqual("unavailable");
+      });
     });
 
-    it("service requires token making status unknown", async () => {
+    it("service requires token making status auth-required", async () => {
       const entity: IHubEditableContent = {
         id: "abc",
         url: "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/slowpoints/FeatureServer",
@@ -1612,26 +1624,23 @@ describe("content: ", () => {
         orgUrlKey: "",
       };
 
-      // For more context on why we're mocking the code inside the body,
-      // see Josh's testing steps in https://devtopia.esri.com/dc/hub/issues/10973
-      // This is how the ArcGISAuthError is formatted
-      fetchMock.once(
-        entity.url as string,
-        {
-          status: 403,
-          body: { message: "Forbidden", error: { code: 403 } },
-        },
-        { delay: 1000 }
+      // Spy on the `getService` call that happens within `getServiceStatus`
+      spyOn(featureLayerModule, "getService").and.returnValue(
+        Promise.reject(requestError["403"])
       );
 
-      const result = (await getServiceStatus(entity, {
+      // Call `getServiceStatus` and expect the result to be "auth-required"
+      await getServiceStatus(entity, {
         ...MOCK_REQUEST_OPTIONS,
         url: entity.url as string,
-      })) as IHubServiceBackedContentStatus;
-      expect(result.service.availability).toEqual("unknown");
+      }).then((result) => {
+        expect(
+          (result as IHubServiceBackedContentStatus).service.availability
+        ).toEqual("auth-required");
+      });
     });
 
-    it("client unable to complete request making status unknown", async () => {
+    it("client receives empty response request making status auth-required", async () => {
       const entity: IHubEditableContent = {
         id: "abc",
         url: "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/slowpoints/FeatureServer",
@@ -1653,23 +1662,20 @@ describe("content: ", () => {
         orgUrlKey: "",
       };
 
-      // For more context on why we're mocking the code inside the body,
-      // see Josh's testing steps in https://devtopia.esri.com/dc/hub/issues/10973
-      // This is how the ArcGISAuthError is formatted
-      fetchMock.once(
-        entity.url as string,
-        {
-          status: 499,
-          body: { message: "Forbidden", error: { code: 499 } },
-        },
-        { delay: 1000 }
+      // Spy on the `getService` call that happens within `getServiceStatus`
+      spyOn(featureLayerModule, "getService").and.returnValue(
+        Promise.reject(requestError["499"])
       );
 
-      const result = (await getServiceStatus(entity, {
+      // Call `getServiceStatus` and expect the result to be "auth-required"
+      await getServiceStatus(entity, {
         ...MOCK_REQUEST_OPTIONS,
         url: entity.url as string,
-      })) as IHubServiceBackedContentStatus;
-      expect(result.service.availability).toEqual("unknown");
+      }).then((result) => {
+        expect(
+          (result as IHubServiceBackedContentStatus).service.availability
+        ).toEqual("auth-required");
+      });
     });
   });
 });
