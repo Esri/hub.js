@@ -220,7 +220,9 @@ export function editorToContent(
   portal: IPortal
 ): IHubEditableContent {
   // clone into a IHubContentEditor
-  const content = cloneObject(editor) as IHubEditableContent;
+  const clonedEditor = cloneObject(editor);
+  delete clonedEditor.downloadFormats;
+  const content = cloneObject(clonedEditor) as IHubEditableContent;
 
   // copy the location extent up one level
   content.extent = editor.location?.extent;

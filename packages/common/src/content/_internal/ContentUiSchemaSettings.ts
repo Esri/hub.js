@@ -99,29 +99,46 @@ export const buildUiSchema = async (
       elements: scheduleSectionElements,
     });
   }
+  // TODO: restrict this to only downloadable service entities
+  // add canDownload utility function to check if the entity is downloadable
+  // AND only reference or single layer services
+  const downloadSectionElements: IUiSchemaElement[] = [];
 
   if (isHostedFeatureServiceMainEntity(options as IHubEditableContent)) {
-    uiSchema.elements.push({
-      type: "Section",
-      labelKey: `${i18nScope}.sections.downloads.label`,
+    downloadSectionElements.push({
+      labelKey: `${i18nScope}.fields.serverExtractCapability.label`,
+      scope: "/properties/serverExtractCapability",
+      type: "Control",
       options: {
         helperText: {
-          labelKey: `${i18nScope}.sections.downloads.helperText`,
+          labelKey: `${i18nScope}.fields.serverExtractCapability.helperText`,
         },
       },
-      elements: [
-        {
-          labelKey: `${i18nScope}.fields.serverExtractCapability.label`,
-          scope: "/properties/serverExtractCapability",
-          type: "Control",
-          options: {
-            helperText: {
-              labelKey: `${i18nScope}.fields.serverExtractCapability.helperText`,
-            },
-          },
-        },
-      ],
     });
   }
+
+  downloadSectionElements.push({
+    labelKey: `${i18nScope}.fields.downloadFormats.label`,
+    scope: "/properties/downloadFormats",
+    type: "Control",
+    options: {
+      control: "hub-field-input-list",
+      allowEdit: true,
+      allowReorder: true,
+      allowHide: true,
+    },
+  });
+
+  uiSchema.elements.push({
+    type: "Section",
+    labelKey: `${i18nScope}.sections.downloads.label`,
+    options: {
+      helperText: {
+        labelKey: `${i18nScope}.sections.downloads.helperText`,
+      },
+    },
+    elements: downloadSectionElements,
+  });
+
   return uiSchema;
 };

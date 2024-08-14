@@ -58,6 +58,19 @@ export interface IHubEditableContent
  */
 export type IExtendedProps = IContentExtendedProps | IServiceExtendedProps;
 
+// Represents the download process that the configuration was created for
+export type FlowType = "createReplica" | "paging" | "exportImage";
+
+export interface IDownloadFormatConfiguration {
+  key: string;
+  hidden?: boolean;
+}
+
+export interface IEntityDownloadConfiguration {
+  flowType: FlowType;
+  formats: IDownloadFormatConfiguration[];
+}
+
 /**
  * Optional enrichments that are common to all content types
  */
@@ -74,6 +87,11 @@ export interface IBaseExtendedProps {
    * Convenience links to additional resources specified in the formal item metadata
    */
   additionalResources?: IHubAdditionalResource[];
+
+  /**
+   * Download configuration for the item
+   */
+  downloads?: IEntityDownloadConfiguration;
 }
 
 /**
@@ -113,4 +131,6 @@ export interface IServiceExtendedProps extends IBaseExtendedProps {
   serverExtractFormats?: string[];
 }
 
-export type IHubContentEditor = IHubItemEntityEditor<IHubEditableContent> & {};
+export type IHubContentEditor = IHubItemEntityEditor<IHubEditableContent> & {
+  downloadFormats?: IDownloadFormatConfiguration[];
+};

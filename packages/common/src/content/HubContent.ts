@@ -13,6 +13,7 @@ import { cloneObject } from "../util";
 import { editorToContent } from "./edit";
 import { ContentEditorType } from "./_internal/ContentSchema";
 import { enrichEntity } from "../core/enrichEntity";
+import { getIDownloadFormatConfiguration } from "../downloads/getIDownloadFormatConfiguration";
 
 export class HubContent
   extends HubItemEntity<IHubEditableContent>
@@ -122,6 +123,9 @@ export class HubContent
 
     // 2. Apply transforms to relevant entity values so they
     // can be consumed by the editor
+    editor.downloadFormats = getIDownloadFormatConfiguration(
+      this.entity
+    ).formats;
     return editor;
   }
 

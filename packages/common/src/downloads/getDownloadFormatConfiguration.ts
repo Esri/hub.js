@@ -1,0 +1,77 @@
+import {
+  IDownloadFormatConfiguration,
+  FlowType,
+  IEntityDownloadConfiguration,
+  IHubEditableContent,
+} from "../core/types/IHubEditableContent";
+import { getProp } from "../objects/get-prop";
+import { canUseExportImageFlow } from "./_internal/canUseExportImageFlow";
+import { getCreateReplicaFormats } from "./_internal/format-fetchers/getCreateReplicaFormats";
+import { getExportImageFormats } from "./_internal/format-fetchers/getExportImageFormats";
+import { getPagingJobFormats } from "./_internal/format-fetchers/getPagingJobFormats";
+import { canUseCreateReplica } from "./canUseCreateReplica";
+import { canUseHubDownloadSystem } from "./canUseHubDownloadSystem";
+import { IDynamicDownloadFormat, IStaticDownloadFormat } from "./types";
+
+/**
+ * Given an entity, return the download configuration for the entity
+ * @param entity
+ * @param context
+ * @returns IEntityDownloadConfiguration - the download configuration for the entity
+ */
+export function getIDownloadFormatConfiguration(
+  entity: IHubEditableContent
+): IEntityDownloadConfiguration {
+  let downloadFlow: FlowType;
+  let serverFormats: IDynamicDownloadFormat[] = [];
+  const additionalResources: IStaticDownloadFormat[] =
+    getProp(entity, "extendedProps.additionalResources") || [];
+  const existingConfiguration: IEntityDownloadConfiguration =
+    getProp(entity, "extendedProps.downloads.formats") || [];
+
+  if (canUseCreateReplica(entity)) {
+    downloadFlow = "createReplica";
+    serverFormats = getCreateReplicaFormats(entity);
+  } else if (canUseHubDownloadSystem(entity)) {
+    downloadFlow = "paging";
+    serverFormats = getPagingJobFormats();
+  } else if (canUseExportImageFlow(entity)) {
+    downloadFlow = "exportImage";
+    serverFormats = getExportImageFormats(entity);
+  }
+
+  // Base combined default formats
+  const combinedDefaultFormats: IDownloadFormatConfiguration[] =
+    serverFormats.map((f) => {
+      return {
+        key: f.format,
+        hidden: false,
+      };
+    });
+  additionalResources.forEach((f, idx) => {
+    combinedDefaultFormats.push({
+      key: `additionalResource::${idx}`,
+      hidden: false,
+    });
+  });
+
+  // Existing configuration matches the current flow
+  if (existingConfiguration.flowType === downloadFlow) {
+    const missingDefaultFormats = existingConfiguration.formats.filter((f) => {
+      return !combinedDefaultFormats.some((df) => df.key === f.key);
+    });
+    const validConfiguredFormats = existingConfiguration.formats.filter((f) => {
+      return combinedDefaultFormats.some((df) => df.key === f.key);
+    });
+    return {
+      flowType: downloadFlow,
+      formats: [...validConfiguredFormats, ...missingDefaultFormats],
+    };
+  }
+
+  // Existing configuration does not match the current flow
+  return {
+    flowType: downloadFlow,
+    formats: combinedDefaultFormats,
+  };
+}
