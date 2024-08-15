@@ -118,6 +118,6 @@ describe("getThumbnailUiSchemaElement:", () => {
       requestOptions
     );
     expect(getCdnAssetUrlSpy).toHaveBeenCalled();
-    expect(uiSchema.options?.defaultImgSrc).toBe(defaultImageUrl);
+    expect(uiSchema.options?.defaultImgUrl).toBe(defaultImageUrl);
   });
 });
