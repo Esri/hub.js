@@ -54,7 +54,7 @@ export function getThumbnailUiSchemaElement(
     options: {
       control: "hub-field-input-image-picker",
       imgSrc: thumbnailUrl,
-      defaultImgSrc: defaultImgUrl,
+      defaultImgUrl,
       maxWidth: 727,
       maxHeight: 484,
       aspectRatio: 1.5,
