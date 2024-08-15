@@ -27,8 +27,10 @@ export function getDownloadFormatConfiguration(
   let serverFormats: IDynamicDownloadFormat[] = [];
   const additionalResources: IHubAdditionalResource[] =
     getProp(entity, "extendedProps.additionalResources") || [];
-  const existingConfiguration: IEntityDownloadConfiguration =
-    getProp(entity, "extendedProps.downloads") || {};
+  const existingConfiguration: IEntityDownloadConfiguration = getProp(
+    entity,
+    "extendedProps.downloads"
+  );
 
   if (canUseCreateReplica(entity)) {
     downloadFlow = "createReplica";
@@ -39,6 +41,9 @@ export function getDownloadFormatConfiguration(
   } else if (canUseExportImageFlow(entity)) {
     downloadFlow = "exportImage";
     serverFormats = getExportImageFormats(entity);
+  } else if (["Feature Service", "Map Service"].includes(entity.type)) {
+    downloadFlow = undefined;
+    serverFormats = getPagingJobFormats();
   }
 
   // Base combined default formats
@@ -62,7 +67,11 @@ export function getDownloadFormatConfiguration(
   });
 
   // Existing configuration matches the current flow
-  if (existingConfiguration.flowType === downloadFlow) {
+  if (
+    existingConfiguration &&
+    existingConfiguration.flowType === downloadFlow &&
+    existingConfiguration.formats
+  ) {
     const missingDefaultFormats = existingConfiguration.formats.filter((f) => {
       return !combinedDefaultFormats.some((df) => df.key === f.key);
     });
