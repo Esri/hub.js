@@ -66,9 +66,20 @@ export function getDownloadFormatConfiguration(
     const missingDefaultFormats = existingConfiguration.formats.filter((f) => {
       return !combinedDefaultFormats.some((df) => df.key === f.key);
     });
-    const validConfiguredFormats = existingConfiguration.formats.filter((f) => {
-      return combinedDefaultFormats.some((df) => df.key === f.key);
-    });
+    const validConfiguredFormats = existingConfiguration.formats
+      .filter((f) => {
+        return combinedDefaultFormats.some((df) => df.key === f.key);
+      })
+      .map((f) => {
+        // append label
+        const defaultFormat = combinedDefaultFormats.find(
+          (df) => df.key === f.key
+        );
+        return {
+          ...f,
+          label: defaultFormat?.label || f.label,
+        };
+      });
     return {
       flowType: downloadFlow,
       formats: [...validConfiguredFormats, ...missingDefaultFormats],
