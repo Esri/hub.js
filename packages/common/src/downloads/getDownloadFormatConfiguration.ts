@@ -28,7 +28,7 @@ export function getDownloadFormatConfiguration(
   const additionalResources: IHubAdditionalResource[] =
     getProp(entity, "extendedProps.additionalResources") || [];
   const existingConfiguration: IEntityDownloadConfiguration =
-    getProp(entity, "extendedProps.downloads.formats") || [];
+    getProp(entity, "extendedProps.downloads") || {};
 
   if (canUseCreateReplica(entity)) {
     downloadFlow = "createReplica";
