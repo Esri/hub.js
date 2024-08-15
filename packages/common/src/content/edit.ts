@@ -241,14 +241,16 @@ export function editorToContent(
   const clonedEditor = cloneObject(editor);
   delete clonedEditor.downloadFormats;
   const content = cloneObject(clonedEditor) as IHubEditableContent;
-  const downloadFormatConfiguration = getDownloadFormatConfiguration(content);
-  downloadFormatConfiguration.formats = editor.downloadFormats;
-  setProp(
-    "extendedProps.downloads",
-    downloadFormatConfiguration,
-    content,
-    true
-  );
+  if (clonedEditor.downloadFormats) {
+    const downloadFormatConfiguration = getDownloadFormatConfiguration(content);
+    downloadFormatConfiguration.formats = editor.downloadFormats;
+    setProp(
+      "extendedProps.downloads",
+      downloadFormatConfiguration,
+      content,
+      true
+    );
+  }
 
   // copy the location extent up one level
   content.extent = editor.location?.extent;

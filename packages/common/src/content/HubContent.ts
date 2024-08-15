@@ -14,6 +14,8 @@ import { editorToContent } from "./edit";
 import { ContentEditorType } from "./_internal/ContentSchema";
 import { enrichEntity } from "../core/enrichEntity";
 import { getDownloadFormatConfiguration } from "../downloads/getDownloadFormatConfiguration";
+import { getProp } from "../objects/get-prop";
+import { canUseExportImageFlow } from "../downloads/_internal/canUseExportImageFlow";
 
 export class HubContent
   extends HubItemEntity<IHubEditableContent>
@@ -123,9 +125,19 @@ export class HubContent
 
     // 2. Apply transforms to relevant entity values so they
     // can be consumed by the editor
-    editor.downloadFormats = getDownloadFormatConfiguration(
-      this.entity
-    ).formats;
+    const isReferenceLayer =
+      ["Feature Service", "Map Service"].includes(this.entity.type) &&
+      /\/\d+$/.test((this.entity as IHubEditableContent).url);
+    const isSingleLayer =
+      getProp(this.entity, "extendedProps.server.layers.length") === 1;
+    const isDownloadableImageService = canUseExportImageFlow(
+      this.entity as IHubEditableContent
+    );
+    if (isReferenceLayer || isSingleLayer || isDownloadableImageService) {
+      editor.downloadFormats = getDownloadFormatConfiguration(
+        this.entity
+      ).formats;
+    }
     return editor;
   }
 
