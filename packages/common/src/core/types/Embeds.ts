@@ -52,4 +52,10 @@ export interface IHubEmbedSurvey extends IHubEmbedBase {
   kind: EmbedKind.feedback;
   /** survey123 id */
   id: string;
+  /** whether to show the survey header */
+  showHeader?: boolean;
+  /** whether to show the survey description */
+  showDescription?: boolean;
+  /** whether to show the survey footer */
+  showFooter?: boolean;
 }
