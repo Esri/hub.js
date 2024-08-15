@@ -116,6 +116,25 @@ export const buildUiSchema = async (
         helperText: {
           labelKey: `${i18nScope}.fields.serverExtractCapability.helperText`,
         },
+        messages: [
+          {
+            type: UiSchemaMessageTypes.custom,
+            display: "notice",
+            kind: "warning",
+            icon: "exclamation-mark-triangle",
+            titleKey: `${i18nScope}.fields.serverExtractCapability.noFormatConfigurationNotice.title`,
+            labelKey: `${i18nScope}.fields.serverExtractCapability.noFormatConfigurationNotice.body`,
+            allowShowBeforeInteract: true,
+            conditions: [
+              {
+                scope: "/properties/serverExtractCapability",
+                schema: {
+                  const: false,
+                },
+              },
+            ],
+          },
+        ] as IUiSchemaMessage[],
       },
     });
   }
