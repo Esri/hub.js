@@ -123,7 +123,9 @@ export const buildUiSchema = async (
     type: "Control",
     options: {
       control: "hub-field-input-list",
-      allowEdit: true,
+      helperText: {
+        labelKey: `${i18nScope}.fields.downloadFormats.helperText`,
+      },
       allowReorder: true,
       allowHide: true,
     },
@@ -132,11 +134,7 @@ export const buildUiSchema = async (
   uiSchema.elements.push({
     type: "Section",
     labelKey: `${i18nScope}.sections.downloads.label`,
-    options: {
-      helperText: {
-        labelKey: `${i18nScope}.sections.downloads.helperText`,
-      },
-    },
+    options: {},
     elements: downloadSectionElements,
   });
 

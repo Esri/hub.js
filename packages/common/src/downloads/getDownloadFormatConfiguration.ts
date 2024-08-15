@@ -1,3 +1,4 @@
+import { IHubAdditionalResource } from "../core/types/IHubAdditionalResource";
 import {
   IDownloadFormatConfiguration,
   FlowType,
@@ -24,7 +25,7 @@ export function getDownloadFormatConfiguration(
 ): IEntityDownloadConfiguration {
   let downloadFlow: FlowType;
   let serverFormats: IDynamicDownloadFormat[] = [];
-  const additionalResources: IStaticDownloadFormat[] =
+  const additionalResources: IHubAdditionalResource[] =
     getProp(entity, "extendedProps.additionalResources") || [];
   const existingConfiguration: IEntityDownloadConfiguration =
     getProp(entity, "extendedProps.downloads.formats") || [];
@@ -51,7 +52,10 @@ export function getDownloadFormatConfiguration(
     });
   additionalResources.forEach((f, idx) => {
     combinedDefaultFormats.push({
-      label: f.label || `additionalResource::${idx}`,
+      label:
+        f.name ||
+        (f.isDataSource && `{{shared.fields.download.dataSource:translate}}`) || // if the additional resource is the datasource
+        `{{shared.fields.download.noTitle:translate}}`, // if the additional resource has no name,
       key: `additionalResource::${idx}`,
       hidden: false,
     });
