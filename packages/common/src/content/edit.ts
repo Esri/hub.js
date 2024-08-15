@@ -241,7 +241,7 @@ export function editorToContent(
   const clonedEditor = cloneObject(editor);
   delete clonedEditor.downloadFormats;
   const content = cloneObject(clonedEditor) as IHubEditableContent;
-  if (clonedEditor.downloadFormats) {
+  if (editor.downloadFormats) {
     const downloadFormatConfiguration = getDownloadFormatConfiguration(content);
     downloadFormatConfiguration.formats = editor.downloadFormats;
     setProp(
