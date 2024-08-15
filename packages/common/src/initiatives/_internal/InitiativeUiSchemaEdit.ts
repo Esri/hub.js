@@ -202,7 +202,9 @@ export const buildUiSchema = async (
           getThumbnailUiSchemaElement(
             i18nScope,
             options.thumbnail,
-            options.thumbnailUrl
+            options.thumbnailUrl,
+            "initiative",
+            context.requestOptions
           ),
         ],
       },

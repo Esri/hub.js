@@ -1,5 +1,7 @@
+import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IHubItemEntity } from "../../../../src";
 import { getThumbnailUiSchemaElement } from "../../../../src/core/schemas/internal/getThumbnailUiSchemaElement";
+import { HubEntityType } from "../../../../dist/types/core/types/HubEntityType";
 
 describe("getThumbnailUiSchemaElement:", () => {
   it("excludes the default thumbnail notice if the entity has a thumbnail", () => {
@@ -19,10 +21,13 @@ describe("getThumbnailUiSchemaElement:", () => {
       updatedDateSource: "item.modified",
       type: "Feature Service",
     };
+    const requestOptions = {} as IRequestOptions;
     const uiSchema = getThumbnailUiSchemaElement(
       "scope",
       entity.thumbnail as unknown as string,
-      entity.thumbnailUrl as unknown as string
+      entity.thumbnailUrl as unknown as string,
+      entity.type as HubEntityType,
+      requestOptions
     );
     expect(uiSchema.options?.messages.length).toBe(0);
   });
@@ -43,10 +48,13 @@ describe("getThumbnailUiSchemaElement:", () => {
       updatedDateSource: "item.modified",
       type: "Feature Service",
     };
+    const requestOptions = {} as IRequestOptions;
     const uiSchema = getThumbnailUiSchemaElement(
       "scope",
       entity.thumbnail as unknown as string,
-      entity.thumbnailUrl as unknown as string
+      entity.thumbnailUrl as unknown as string,
+      entity.type as HubEntityType,
+      requestOptions
     );
     expect(uiSchema.options?.messages.length).toBe(1);
   });
@@ -68,10 +76,13 @@ describe("getThumbnailUiSchemaElement:", () => {
       updatedDateSource: "item.modified",
       type: "Feature Service",
     };
+    const requestOptions = {} as IRequestOptions;
     const uiSchema = getThumbnailUiSchemaElement(
       "scope",
       entity.thumbnail as string,
-      entity.thumbnailUrl as unknown as string
+      entity.thumbnailUrl as unknown as string,
+      entity.type as HubEntityType,
+      requestOptions
     );
     expect(uiSchema.options?.messages.length).toBe(1);
   });

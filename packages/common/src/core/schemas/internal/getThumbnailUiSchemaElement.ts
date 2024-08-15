@@ -1,8 +1,28 @@
+import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { getCdnAssetUrl } from "../../../urls";
+import { HubEntityType } from "../../types/HubEntityType";
 import {
   IUiSchemaElement,
   IUiSchemaMessage,
   UiSchemaMessageTypes,
 } from "../types";
+
+const DEFAULT_ENTITY_THUMBNAILS = {
+  discussion:
+    "/ember-arcgis-opendata-components/assets/images/placeholders/discussion.png",
+  site: "",
+  project: "",
+  initiative: "",
+  initiativeTemplate: "",
+  page: "",
+  content: "",
+  org: "",
+  group: "",
+  template: "",
+  survey: "",
+  event: "",
+  user: "",
+};
 
 /**
  * Returns the UI schema element needed to render
@@ -15,7 +35,9 @@ import {
 export function getThumbnailUiSchemaElement(
   i18nScope: string,
   thumbnail: string,
-  thumbnailUrl: string
+  thumbnailUrl: string,
+  entityType: HubEntityType,
+  requestOptions: IRequestOptions
 ): IUiSchemaElement {
   const messages: IUiSchemaMessage[] = [];
   // Advise the user if the entity's thumbnail is either of the default values
@@ -29,6 +51,10 @@ export function getThumbnailUiSchemaElement(
       alwaysShow: true,
     });
   }
+  const defaultImgSrc =
+    DEFAULT_ENTITY_THUMBNAILS[entityType] &&
+    getCdnAssetUrl(DEFAULT_ENTITY_THUMBNAILS[entityType], requestOptions);
+
   return {
     labelKey: "shared.fields._thumbnail.label",
     scope: "/properties/_thumbnail",
@@ -36,6 +62,7 @@ export function getThumbnailUiSchemaElement(
     options: {
       control: "hub-field-input-image-picker",
       imgSrc: thumbnailUrl,
+      defaultImgSrc,
       maxWidth: 727,
       maxHeight: 484,
       aspectRatio: 1.5,
