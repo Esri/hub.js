@@ -5,8 +5,11 @@ import {
   IUiSchemaElement,
   IUiSchemaMessage,
   UiSchemaMessageTypes,
+  UiSchemaRuleEffects,
 } from "../../core/schemas/types";
 import { IHubEditableContent } from "../../core/types/IHubEditableContent";
+import { canUseHubDownloadSystem } from "../../downloads";
+import { canUseCreateReplica } from "../../downloads/canUseCreateReplica";
 import { checkPermission } from "../../permissions/checkPermission";
 import { isHostedFeatureServiceMainEntity } from "../hostedServiceUtils";
 
@@ -117,7 +120,7 @@ export const buildUiSchema = async (
     });
   }
 
-  downloadSectionElements.push({
+  const downloadFormatsControl: IUiSchemaElement = {
     labelKey: `${i18nScope}.fields.downloadFormats.label`,
     scope: "/properties/downloadFormats",
     type: "Control",
@@ -129,7 +132,39 @@ export const buildUiSchema = async (
       allowReorder: true,
       allowHide: true,
     },
-  });
+    rules: [],
+  };
+
+  if (isHostedFeatureServiceMainEntity(options as IHubEditableContent)) {
+    downloadFormatsControl.rules.push({
+      effect: UiSchemaRuleEffects.DISABLE,
+      conditions: [
+        {
+          scope: "/properties/serverExtractCapability",
+          schema: {
+            const: false,
+          },
+        },
+      ],
+    });
+  }
+
+  // conditions that prevent downloads
+  // 1. Is not hosted feature service main entity
+  // 2. Can you use createReplica
+  // 3. Can you use download system
+  if (
+    !isHostedFeatureServiceMainEntity(options as IHubEditableContent) &&
+    !canUseCreateReplica(options as IHubEditableContent) &&
+    !canUseHubDownloadSystem(options as IHubEditableContent)
+  ) {
+    downloadFormatsControl.rules.push({
+      effect: UiSchemaRuleEffects.DISABLE,
+      conditions: [true],
+    });
+  }
+
+  downloadSectionElements.push(downloadFormatsControl);
 
   uiSchema.elements.push({
     type: "Section",
