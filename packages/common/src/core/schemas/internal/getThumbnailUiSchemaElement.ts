@@ -7,21 +7,13 @@ import {
   UiSchemaMessageTypes,
 } from "../types";
 
-const DEFAULT_ENTITY_THUMBNAILS = {
+const DEFAULT_ENTITY_THUMBNAILS: Partial<Record<HubEntityType, string>> = {
   discussion:
     "/ember-arcgis-opendata-components/assets/images/placeholders/discussion.png",
-  site: "",
-  project: "",
-  initiative: "",
-  initiativeTemplate: "",
-  page: "",
-  content: "",
-  org: "",
-  group: "",
-  template: "",
-  survey: "",
-  event: "",
-  user: "",
+  group:
+    "/ember-arcgis-opendata-components/assets/images/placeholders/group.png",
+  content:
+    "/ember-arcgis-opendata-components/assets/images/placeholders/content.png",
 };
 
 /**
@@ -51,9 +43,9 @@ export function getThumbnailUiSchemaElement(
       alwaysShow: true,
     });
   }
-  const defaultImgSrc =
-    DEFAULT_ENTITY_THUMBNAILS[entityType] &&
-    getCdnAssetUrl(DEFAULT_ENTITY_THUMBNAILS[entityType], requestOptions);
+  const defaultEntityThumbnail =
+    DEFAULT_ENTITY_THUMBNAILS[entityType] ?? DEFAULT_ENTITY_THUMBNAILS.content;
+  const defaultImgUrl = getCdnAssetUrl(defaultEntityThumbnail, requestOptions);
 
   return {
     labelKey: "shared.fields._thumbnail.label",
@@ -62,7 +54,7 @@ export function getThumbnailUiSchemaElement(
     options: {
       control: "hub-field-input-image-picker",
       imgSrc: thumbnailUrl,
-      defaultImgSrc,
+      defaultImgSrc: defaultImgUrl,
       maxWidth: 727,
       maxHeight: 484,
       aspectRatio: 1.5,

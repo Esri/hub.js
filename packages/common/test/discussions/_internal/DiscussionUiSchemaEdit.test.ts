@@ -87,7 +87,7 @@ describe("buildUiSchema: discussion edit", () => {
                 control: "hub-field-input-image-picker",
                 imgSrc: "https://some-thumbnail-url.com",
                 defaultImgSrc:
-                  "https://www.undefined/apps/sites/ember-arcgis-opendata-components/assets/images/placeholders/discussion.png",
+                  "https://www.customUrl/apps/sites/ember-arcgis-opendata-components/assets/images/placeholders/discussion.png",
                 maxWidth: 727,
                 maxHeight: 484,
                 aspectRatio: 1.5,
@@ -281,7 +281,7 @@ describe("buildUiSchema: discussion edit", () => {
                 control: "hub-field-input-image-picker",
                 imgSrc: "https://some-thumbnail-url.com",
                 defaultImgSrc:
-                  "https://www.undefined/apps/sites/ember-arcgis-opendata-components/assets/images/placeholders/discussion.png",
+                  "https://www.customUrl/apps/sites/ember-arcgis-opendata-components/assets/images/placeholders/discussion.png",
                 maxWidth: 727,
                 maxHeight: 484,
                 aspectRatio: 1.5,

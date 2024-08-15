@@ -104,7 +104,8 @@ describe("buildUiSchema: content edit", () => {
               options: {
                 control: "hub-field-input-image-picker",
                 imgSrc: "https://some-thumbnail-url.com",
-                defaultImgSrc: "",
+                defaultImgSrc:
+                  "https://www.customUrl/apps/sites/ember-arcgis-opendata-components/assets/images/placeholders/content.png",
                 maxWidth: 727,
                 maxHeight: 484,
                 aspectRatio: 1.5,
