@@ -181,6 +181,19 @@ export const buildUiSchema = async (
       effect: UiSchemaRuleEffects.DISABLE,
       conditions: [true],
     });
+
+    downloadFormatsControl.options.messages = [
+      {
+        type: UiSchemaMessageTypes.custom,
+        display: "notice",
+        kind: "warning",
+        icon: "exclamation-mark-triangle",
+        titleKey: `${i18nScope}.fields.downloadFormats.downloadsUnavailableNotice.title`,
+        labelKey: `${i18nScope}.fields.downloadFormats.downloadsUnavailableNotice.body`,
+        allowShowBeforeInteract: true,
+        alwaysShow: true,
+      },
+    ] as IUiSchemaMessage[];
   }
 
   downloadSectionElements.push(downloadFormatsControl);
