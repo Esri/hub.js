@@ -38,7 +38,8 @@ import {
   maybeUpdateSchedule,
 } from "./manageSchedule";
 import { forceUpdateContent } from "./_internal/internalContentUtils";
-import { deepEqual } from "../objects";
+import { deepEqual, getProp, setProp } from "../objects";
+import { getDownloadFormatConfiguration } from "../downloads";
 
 // TODO: move this to defaults?
 const DEFAULT_CONTENT_MODEL: IModel = {
@@ -130,6 +131,23 @@ export async function updateContent(
   // we are not attempting to handle "concurrent edit" conflict resolution
   // but this is where we would apply that sort of logic
   const modelToUpdate = mapper.entityToStore(content, model);
+
+  if (getProp(content, "extendedProps.downloads.formats")) {
+    const updatedDownloadsConfiguration = cloneObject(
+      content.extendedProps.downloads
+    );
+    updatedDownloadsConfiguration.formats =
+      updatedDownloadsConfiguration.formats.map((format) => {
+        delete format.label;
+        return format;
+      });
+    setProp(
+      "item.properties.downloads",
+      updatedDownloadsConfiguration,
+      modelToUpdate,
+      true
+    );
+  }
 
   // TODO: if we have resources disconnect them from the model for now.
   // if (modelToUpdate.resources) {
@@ -223,6 +241,14 @@ export function editorToContent(
   const clonedEditor = cloneObject(editor);
   delete clonedEditor.downloadFormats;
   const content = cloneObject(clonedEditor) as IHubEditableContent;
+  const downloadFormatConfiguration = getDownloadFormatConfiguration(content);
+  downloadFormatConfiguration.formats = editor.downloadFormats;
+  setProp(
+    "extendedProps.downloads",
+    downloadFormatConfiguration,
+    content,
+    true
+  );
 
   // copy the location extent up one level
   content.extent = editor.location?.extent;
