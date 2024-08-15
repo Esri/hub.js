@@ -191,7 +191,8 @@ export const buildUiSchema = async (
     if (
       !isHostedFeatureServiceMainEntity(options as IHubEditableContent) &&
       !canUseCreateReplica(options as IHubEditableContent) &&
-      !canUseHubDownloadSystem(options as IHubEditableContent)
+      !canUseHubDownloadSystem(options as IHubEditableContent) &&
+      !canUseExportImageFlow(options as IHubEditableContent)
     ) {
       downloadFormatsControl.rules.push({
         effect: UiSchemaRuleEffects.DISABLE,
