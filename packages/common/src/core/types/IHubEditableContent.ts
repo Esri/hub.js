@@ -62,9 +62,13 @@ export type IExtendedProps = IContentExtendedProps | IServiceExtendedProps;
 export type FlowType = "createReplica" | "paging" | "exportImage";
 
 export interface IDownloadFormatConfiguration {
-  label: string;
   key: string;
   hidden?: boolean;
+}
+
+export interface IDownloadFormatConfigurationDisplay
+  extends IDownloadFormatConfiguration {
+  label: string;
 }
 
 export interface IEntityDownloadConfiguration {
