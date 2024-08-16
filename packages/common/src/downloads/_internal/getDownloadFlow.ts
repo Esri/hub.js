@@ -7,7 +7,7 @@ export function getDownloadFlow(
   entity: IHubEditableContent,
   isEnterprise?: boolean
 ) {
-  let downloadFlow: FlowType;
+  let downloadFlow: FlowType = null;
   if (canUseCreateReplica(entity)) {
     downloadFlow = "createReplica";
   } else if (canUseHubDownloadSystem(entity) && !isEnterprise) {

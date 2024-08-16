@@ -6,10 +6,7 @@ import {
   IHubEditableContent,
 } from "../core/types/IHubEditableContent";
 import { getProp } from "../objects/get-prop";
-import { canUseCreateReplica } from "./canUseCreateReplica";
-import { canUseHubDownloadSystem } from "./canUseHubDownloadSystem";
 import { IDynamicDownloadFormat } from "./types";
-import { canUseExportImageFlow } from "./_internal/canUseExportImageFlow";
 import { getCreateReplicaFormats } from "./_internal/format-fetchers/getCreateReplicaFormats";
 import { getExportImageFormats } from "./_internal/format-fetchers/getExportImageFormats";
 import { getPagingJobFormats } from "./_internal/format-fetchers/getPagingJobFormats";
@@ -28,6 +25,16 @@ export function getDownloadConfiguration(
     "extendedProps.downloads"
   );
 
+  // TODO: Could we make a formal helper function instead?
+  // Maybe something like this:
+  //
+  // type LogicByFlowMap = Record<FlowType, () => void>;
+  // function executeLogicByFlow(
+  //  flow: FlowType,
+  //  logicByFlow: LogicByFlowMap
+  // )
+  // OR a switch statement: https://medium.com/technogise/type-safe-and-exhaustive-switch-statements-aka-pattern-matching-in-typescript-e3febd433a7a
+
   const actionsByFlow: Record<FlowType, () => void> = {
     createReplica: () => {
       serverFormats = getCreateReplicaFormats(entity);
@@ -40,7 +47,7 @@ export function getDownloadConfiguration(
     },
   };
 
-  actionsByFlow[downloadFlow]();
+  actionsByFlow[downloadFlow] && actionsByFlow[downloadFlow]();
 
   // Base combined default formats
   const combinedDefaultFormats: IDownloadFormatConfiguration[] =

@@ -1,36 +1,25 @@
-import { getAdditionalResources } from "../../content/_internal/internalContentUtils";
 import { IHubAdditionalResource } from "../../core/types/IHubAdditionalResource";
 import {
-  FlowType,
   IDownloadFormatConfiguration,
   IDownloadFormatConfigurationDisplay,
-  IEntityDownloadConfiguration,
   IHubEditableContent,
 } from "../../core/types/IHubEditableContent";
 import { getProp } from "../../objects/get-prop";
-import { canUseCreateReplica } from "../canUseCreateReplica";
-import { canUseHubDownloadSystem } from "../canUseHubDownloadSystem";
 import { getDownloadConfiguration } from "../getDownloadConfiguration";
-import { IDynamicDownloadFormat } from "../types";
-import { canUseExportImageFlow } from "./canUseExportImageFlow";
-import { getCreateReplicaFormats } from "./format-fetchers/getCreateReplicaFormats";
-import { getExportImageFormats } from "./format-fetchers/getExportImageFormats";
-import { getPagingJobFormats } from "./format-fetchers/getPagingJobFormats";
 
-// if (["Feature Service", "Map Service"].includes(entity.type)) {
-//   downloadFlow = undefined;
-//   serverFormats = getPagingJobFormats();
-// }
+import { getPagingJobFormats } from "./format-fetchers/getPagingJobFormats";
 
 export function getDownloadConfigurationDisplayFormats(
   entity: IHubEditableContent
 ): IDownloadFormatConfigurationDisplay[] {
-  const downloadConfiguration = getDownloadConfiguration(entity);
-  let formats = downloadConfiguration.formats;
-  if (
-    !downloadConfiguration.flowType &&
-    ["Feature Service", "Map Service"].includes(entity.type)
-  ) {
+  const configuration = getDownloadConfiguration(entity);
+  const flowType = configuration.flowType;
+  let formats = configuration.formats;
+
+  // For feature or map services don't meet the criteria to be downloaded (i.e., no flowType)
+  // Product wants to show paging formats as a preview of what _could_ be downloaded should
+  // the criteria be met.
+  if (!flowType && ["Feature Service", "Map Service"].includes(entity.type)) {
     const pagingFormats: IDownloadFormatConfiguration[] =
       getPagingJobFormats().map((f) => {
         return {
@@ -38,17 +27,46 @@ export function getDownloadConfigurationDisplayFormats(
           hidden: false,
         };
       });
+    // TODO: Should we just show paging formats as a preview or include additional resources?
     formats = pagingFormats.concat(formats);
   }
 
   const additionalResources: IHubAdditionalResource[] =
     getProp(entity, "extendedProps.additionalResources") || [];
-  formats = formats.map((f) => {
-    const isAdditionalResource = f.key.startsWith("additionalResource::");
-    // STOPPING POINT
-    return {
-      label: `{{shared.fields.download.format.${f.key}:translate}}`,
-      ...f,
-    };
-  });
+
+  return formats.map((f) =>
+    isAdditionalResourceConfiguration(f)
+      ? toAdditionalResourceConfigurationDisplay(f, additionalResources)
+      : toDownloadFormatConfigurationDisplay(f)
+  );
+}
+
+function isAdditionalResourceConfiguration(
+  config: IDownloadFormatConfiguration
+): boolean {
+  return config.key.startsWith("additionalResource::");
+}
+
+function toDownloadFormatConfigurationDisplay(
+  config: IDownloadFormatConfiguration
+): IDownloadFormatConfigurationDisplay {
+  return {
+    label: `{{shared.fields.download.format.${config.key}:translate}}`,
+    ...config,
+  };
+}
+
+function toAdditionalResourceConfigurationDisplay(
+  config: IDownloadFormatConfiguration,
+  additionalResources: IHubAdditionalResource[]
+): IDownloadFormatConfigurationDisplay {
+  const resourceIndex = parseInt(config.key.split("::")[1], 10);
+  const { name, isDataSource } = additionalResources[resourceIndex] || {};
+  return {
+    label:
+      name ||
+      (isDataSource && `{{shared.fields.download.dataSource:translate}}`) || // if the additional resource is the datasource
+      `{{shared.fields.download.noTitle:translate}}`, // if the additional resource has no name,
+    ...config,
+  };
 }

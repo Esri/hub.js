@@ -5,7 +5,11 @@ import {
   getItem,
   removeItem,
 } from "@esri/arcgis-rest-portal";
-import { IHubContentEditor, IHubEditableContent } from "../core";
+import {
+  IDownloadFormatConfiguration,
+  IHubContentEditor,
+  IHubEditableContent,
+} from "../core";
 
 // Note - we separate these imports so we can cleanly spy on things in tests
 import {
@@ -39,7 +43,8 @@ import {
 } from "./manageSchedule";
 import { forceUpdateContent } from "./_internal/internalContentUtils";
 import { deepEqual, getProp, setProp } from "../objects";
-import { getDownloadFormatConfiguration } from "../downloads";
+import { getDownloadFlow } from "../downloads/_internal/getDownloadFlow";
+import { getDownloadConfiguration } from "../downloads/getDownloadConfiguration";
 
 // TODO: move this to defaults?
 const DEFAULT_CONTENT_MODEL: IModel = {
@@ -132,15 +137,14 @@ export async function updateContent(
   // but this is where we would apply that sort of logic
   const modelToUpdate = mapper.entityToStore(content, model);
 
-  if (getProp(content, "extendedProps.downloads.formats")) {
+  // TODO: should we _only_ update if download flow is available?
+  const downloadFlow = getDownloadFlow(content);
+  const updatedFormats = getProp(content, "extendedProps.downloads.formats");
+  if (downloadFlow && updatedFormats) {
     const updatedDownloadsConfiguration = cloneObject(
       content.extendedProps.downloads
     );
-    updatedDownloadsConfiguration.formats =
-      updatedDownloadsConfiguration.formats.map((format) => {
-        delete format.label;
-        return format;
-      });
+
     setProp(
       "item.properties.downloads",
       updatedDownloadsConfiguration,
@@ -237,19 +241,24 @@ export function editorToContent(
   editor: IHubContentEditor,
   portal: IPortal
 ): IHubEditableContent {
-  // clone into a IHubContentEditor
+  // Clone the editor to prevent mutation
   const clonedEditor = cloneObject(editor);
+  // Remove unneeded properties
   delete clonedEditor.downloadFormats;
+  // Cast the editor to a content
   const content = cloneObject(clonedEditor) as IHubEditableContent;
-  if (editor.downloadFormats) {
-    const downloadFormatConfiguration = getDownloadFormatConfiguration(content);
-    downloadFormatConfiguration.formats = editor.downloadFormats;
-    setProp(
-      "extendedProps.downloads",
-      downloadFormatConfiguration,
-      content,
-      true
-    );
+
+  // Do the rigamarole to get the downloads configuration set
+  const downloadFlow = getDownloadFlow(content);
+  if (downloadFlow && editor.downloadFormats) {
+    const downloadConfiguration = getDownloadConfiguration(content);
+    const forStorage: IDownloadFormatConfiguration[] =
+      editor.downloadFormats.map((format) => {
+        const { label, ...rest } = format;
+        return rest;
+      });
+    downloadConfiguration.formats = forStorage;
+    setProp("extendedProps.downloads", downloadConfiguration, content, true);
   }
 
   // copy the location extent up one level

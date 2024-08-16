@@ -61,6 +61,7 @@ export type IExtendedProps = IContentExtendedProps | IServiceExtendedProps;
 // Represents the download process that the configuration was created for
 export type FlowType = "createReplica" | "paging" | "exportImage";
 
+// TODO: Should this be IDownloadFormatConfigurationStorage?
 export interface IDownloadFormatConfiguration {
   key: string;
   hidden?: boolean;
@@ -137,5 +138,5 @@ export interface IServiceExtendedProps extends IBaseExtendedProps {
 }
 
 export type IHubContentEditor = IHubItemEntityEditor<IHubEditableContent> & {
-  downloadFormats?: IDownloadFormatConfiguration[];
+  downloadFormats?: IDownloadFormatConfigurationDisplay[];
 };

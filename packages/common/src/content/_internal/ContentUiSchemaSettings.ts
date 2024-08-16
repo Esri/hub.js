@@ -17,6 +17,8 @@ import { canUseCreateReplica } from "../../downloads/canUseCreateReplica";
 import { getProp } from "../../objects/get-prop";
 import { checkPermission } from "../../permissions/checkPermission";
 import { isHostedFeatureServiceMainEntity } from "../hostedServiceUtils";
+import { getDownloadsSection } from "./getDownloadsSection";
+import { shouldShowDownloadsConfiguration } from "./shouldShowDownloadsConfiguration";
 
 /**
  * @private
@@ -107,120 +109,13 @@ export const buildUiSchema = async (
       elements: scheduleSectionElements,
     });
   }
-  // TODO: restrict this to only downloadable service entities
-  // add canDownload utility function to check if the entity is downloadable
-  // AND only reference or single layer services
 
-  const isReferenceLayer =
-    ["Feature Service", "Map Service"].includes(options.type) &&
-    /\/\d+$/.test((options as IHubEditableContent).url);
-  const isSingleLayer =
-    getProp(options, "extendedProps.server.layers.length") === 1;
-  const isDownloadableImageService = canUseExportImageFlow(
-    options as IHubEditableContent
-  );
-
-  if (isReferenceLayer || isSingleLayer || isDownloadableImageService) {
-    const downloadSectionElements: IUiSchemaElement[] = [];
-
-    if (isHostedFeatureServiceMainEntity(options as IHubEditableContent)) {
-      downloadSectionElements.push({
-        labelKey: `${i18nScope}.fields.serverExtractCapability.label`,
-        scope: "/properties/serverExtractCapability",
-        type: "Control",
-        options: {
-          helperText: {
-            labelKey: `${i18nScope}.fields.serverExtractCapability.helperText`,
-          },
-          messages: [
-            {
-              type: UiSchemaMessageTypes.custom,
-              display: "notice",
-              kind: "warning",
-              icon: "exclamation-mark-triangle",
-              titleKey: `${i18nScope}.fields.serverExtractCapability.noFormatConfigurationNotice.title`,
-              labelKey: `${i18nScope}.fields.serverExtractCapability.noFormatConfigurationNotice.body`,
-              allowShowBeforeInteract: true,
-              conditions: [
-                {
-                  scope: "/properties/serverExtractCapability",
-                  schema: {
-                    const: false,
-                  },
-                },
-              ],
-            },
-          ] as IUiSchemaMessage[],
-        },
-      });
-    }
-
-    const downloadFormatsControl: IUiSchemaElement = {
-      labelKey: `${i18nScope}.fields.downloadFormats.label`,
-      scope: "/properties/downloadFormats",
-      type: "Control",
-      options: {
-        control: "hub-field-input-list",
-        helperText: {
-          labelKey: `${i18nScope}.fields.downloadFormats.helperText`,
-        },
-        allowReorder: true,
-        allowHide: true,
-      },
-      rules: [],
-    };
-
-    if (isHostedFeatureServiceMainEntity(options as IHubEditableContent)) {
-      downloadFormatsControl.rules.push({
-        effect: UiSchemaRuleEffects.DISABLE,
-        conditions: [
-          {
-            scope: "/properties/serverExtractCapability",
-            schema: {
-              const: false,
-            },
-          },
-        ],
-      });
-    }
-
-    // conditions that prevent downloads
-    // 1. Is not hosted feature service main entity
-    // 2. Can you use createReplica
-    // 3. Can you use download system
-    if (
-      !isHostedFeatureServiceMainEntity(options as IHubEditableContent) &&
-      !canUseCreateReplica(options as IHubEditableContent) &&
-      !canUseHubDownloadSystem(options as IHubEditableContent) &&
-      !canUseExportImageFlow(options as IHubEditableContent)
-    ) {
-      downloadFormatsControl.rules.push({
-        effect: UiSchemaRuleEffects.DISABLE,
-        conditions: [true],
-      });
-
-      downloadFormatsControl.options.messages = [
-        {
-          type: UiSchemaMessageTypes.custom,
-          display: "notice",
-          kind: "warning",
-          icon: "exclamation-mark-triangle",
-          titleKey: `${i18nScope}.fields.downloadFormats.downloadsUnavailableNotice.title`,
-          labelKey: `${i18nScope}.fields.downloadFormats.downloadsUnavailableNotice.body`,
-          allowShowBeforeInteract: true,
-          alwaysShow: true,
-        },
-      ] as IUiSchemaMessage[];
-    }
-
-    downloadSectionElements.push(downloadFormatsControl);
-
-    uiSchema.elements.push({
-      type: "Section",
-      labelKey: `${i18nScope}.sections.downloads.label`,
-      options: {},
-      elements: downloadSectionElements,
-    });
+  if (shouldShowDownloadsConfiguration(options as IHubEditableContent)) {
+    const downloadsSection = getDownloadsSection(
+      i18nScope,
+      options as IHubEditableContent
+    );
+    uiSchema.elements.push(downloadsSection);
   }
 
   return uiSchema;
