@@ -26,7 +26,7 @@ interface IHubEmbedBase {
 
 /** app-specific embeds */
 export interface IHubEmbedApp extends IHubEmbedBase {
-  kind: EmbedKind.app;
+  kind?: EmbedKind.app;
   id?: string;
   isScrollable?: boolean;
   viewportMobile?: IHubEmbedAppViewportMobile;
@@ -48,7 +48,7 @@ export type IHubEmbedAppViewportDesktop = Omit<
 
 /** map-specific embeds */
 export interface IHubEmbedMap extends IHubEmbedBase {
-  kind: EmbedKind.map;
+  kind?: EmbedKind.map;
   /** web map/scene id */
   id?: string;
   viewportMobile?: IHubEmbedMapViewportMobile;
@@ -70,7 +70,7 @@ export type IHubEmbedMapViewportDesktop = Omit<
 
 /** external embed */
 export interface IHubEmbedExternal extends IHubEmbedBase {
-  kind: EmbedKind.external;
+  kind?: EmbedKind.external;
   /** embed url */
   url?: string;
   viewportMobile?: IHubEmbedExternalViewportMobile;
@@ -92,7 +92,7 @@ export type IHubEmbedExternalViewportDesktop = Omit<
 
 /** survey-specific embeds */
 export interface IHubEmbedSurvey extends IHubEmbedBase {
-  kind: EmbedKind.feedback;
+  kind?: EmbedKind.feedback;
   /** survey123 id */
   id?: string;
   viewportMobile?: IHubEmbedSurveyViewportMobile;
