@@ -8,3 +8,4 @@ export * from "./canUseHubDownloadApi";
 export * from "./getHubDownloadApiFormats";
 // TODO: Do we really need to export this?
 export * from "./getDownloadConfiguration";
+export * from "./getDownloadFormats";
