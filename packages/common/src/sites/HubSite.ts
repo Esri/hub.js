@@ -45,6 +45,7 @@ import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 
 import {
+  IHubItemEntity,
   IHubSiteEditor,
   IModel,
   isDiscussable,
@@ -52,6 +53,7 @@ import {
   SettableAccessLevel,
 } from "../index";
 import { SiteEditorType } from "./_internal/SiteSchema";
+import { shouldAllowOnSite } from "../versioning/_internal/shouldAllowOnSite";
 
 /**
  * Hub Site Class
@@ -295,6 +297,15 @@ export class HubSite
     });
 
     return response;
+  }
+
+  /**
+   * Determine if an entity can be rendered on this site
+   * @param entityInstance
+   * @returns
+   */
+  async shouldAllow(entityInstance: IHubItemEntity) {
+    return shouldAllowOnSite(entityInstance, this);
   }
 
   //#region IWithVersioningBehavior
