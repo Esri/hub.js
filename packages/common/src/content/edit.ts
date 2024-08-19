@@ -138,7 +138,10 @@ export async function updateContent(
   // but this is where we would apply that sort of logic
   const modelToUpdate = mapper.entityToStore(content, model);
 
-  // TODO: should we _only_ update if download flow is available?
+  // NOTE: Product has asked that we display a _disabled_ downloads configuration for
+  // certain types of entities, but not allow users to change any settings. The following
+  // checks are in place to make sure we don't accidentally save configurations in
+  // situations where we shouldn't
   const downloadFlow = getDownloadFlow(content);
   const updatedFormats = getProp(content, "extendedProps.downloads.formats");
   const isMainEntityExtractDisabled =
@@ -147,10 +150,10 @@ export async function updateContent(
   const wasDownloadsConfigurationDisplayed =
     shouldShowDownloadsConfiguration(content);
   if (
-    downloadFlow &&
-    updatedFormats &&
-    !isMainEntityExtractDisabled &&
-    wasDownloadsConfigurationDisplayed
+    wasDownloadsConfigurationDisplayed && // whether the downloads configuration was displayed
+    downloadFlow && // whether the entity can be downloaded
+    updatedFormats && // whether download format configuration is present
+    !isMainEntityExtractDisabled
   ) {
     const updatedDownloadsConfiguration = cloneObject(
       content.extendedProps.downloads
@@ -259,10 +262,12 @@ export function editorToContent(
   // Cast the editor to a content
   const content = cloneObject(clonedEditor) as IHubEditableContent;
 
-  // Do the rigamarole to get the downloads configuration set
+  // Conditionally set the downloads configuration. We only want
+  // to set the configuration if the entity is actually downloadable
   const downloadFlow = getDownloadFlow(content);
   if (downloadFlow && editor.downloadFormats) {
     const downloadConfiguration = getDownloadConfiguration(content);
+    // Convert the download format display objects to the stored format
     const forStorage: IDownloadFormatConfiguration[] =
       editor.downloadFormats.map((format) => {
         const { label, ...rest } = format;

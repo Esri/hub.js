@@ -58,22 +58,52 @@ export interface IHubEditableContent
  */
 export type IExtendedProps = IContentExtendedProps | IServiceExtendedProps;
 
-// Represents the download process that the configuration was created for
+/**
+ * Represents the download process that the configuration was created for
+ * TODO: Should we change this to DownloadFlowType?
+ */
 export type FlowType = "createReplica" | "paging" | "exportImage";
 
-// TODO: Should this be IDownloadFormatConfigurationStorage?
+/**
+ * Represents the storage object for configuring a single download format
+ * TODO: Should this be IDownloadFormatConfigurationStorage?
+ */
 export interface IDownloadFormatConfiguration {
+  /**
+   * Key that identifies the download format.
+   */
   key: string;
+  /**
+   * Whether the download format should be hidden from the UI
+   */
   hidden?: boolean;
 }
 
+/**
+ * Represents the display object for configuring a single download format.
+ * To be used in editing contexts rather than user-facing contexts.
+ */
 export interface IDownloadFormatConfigurationDisplay
   extends IDownloadFormatConfiguration {
+  /**
+   * Translated label to display for the download format
+   */
   label: string;
 }
 
+/**
+ * Represents the configurations for downloading an item
+ */
 export interface IEntityDownloadConfiguration {
+  /**
+   * Indicates the download flow that the configuration was created for
+   * (i.e., the download process that would have been used at the time of configuration)
+   */
   flowType: FlowType;
+  /**
+   * Configuration for the download formats that are available for the item.
+   * Saved in the order that they should be displayed in the UI.
+   */
   formats: IDownloadFormatConfiguration[];
 }
 
@@ -138,5 +168,12 @@ export interface IServiceExtendedProps extends IBaseExtendedProps {
 }
 
 export type IHubContentEditor = IHubItemEntityEditor<IHubEditableContent> & {
+  /**
+   * Download formats that should be rendered in the editing UI.
+   *
+   * NOTE: The formats present in this array may or may not be actually accessible.
+   * Product has asked that in certain cases, we display formats that _could_ be available
+   * if the user were to make the necessary changes to the item / service.
+   */
   downloadFormats?: IDownloadFormatConfigurationDisplay[];
 };

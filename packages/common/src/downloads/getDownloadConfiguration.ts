@@ -12,10 +12,19 @@ import { getExportImageFormats } from "./_internal/format-fetchers/getExportImag
 import { getPagingJobFormats } from "./_internal/format-fetchers/getPagingJobFormats";
 import { getDownloadFlow } from "./_internal/getDownloadFlow";
 
+/**
+ * Returns the download configuration for an entity at this moment in time.
+ *
+ * If no configuration exists, a default configuration is returned based on the entity's current download flow.
+ * If a configuration exists but is no longer valid, the default configuration will also be returned.
+ *
+ * @param entity entity to get download configuration for
+ * @returns the current download configuration for the entity
+ */
 export function getDownloadConfiguration(
   entity: IHubEditableContent
 ): IEntityDownloadConfiguration {
-  // TODO: inlcude isEnterprise
+  // TODO: account for enterprise environments
   const downloadFlow = getDownloadFlow(entity);
   let serverFormats: IDynamicDownloadFormat[] = [];
   const additionalResources: IHubAdditionalResource[] =

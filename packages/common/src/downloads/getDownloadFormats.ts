@@ -1,4 +1,5 @@
 import { IHubAdditionalResource } from "../core/types/IHubAdditionalResource";
+import { getProp } from "../objects/get-prop";
 import { canUseExportImageFlow } from "./_internal/canUseExportImageFlow";
 import { getExportImageFormats } from "./_internal/format-fetchers/getExportImageFormats";
 import { canUseHubDownloadApi } from "./canUseHubDownloadApi";
@@ -12,16 +13,19 @@ import {
 } from "./types";
 
 /**
- * Fetches download formats for the given entity. Also folds in any additional resources defined on the entity.
+ * Gets available download formats / additional resources for the given entity in the order they have been configured.
+ * If a format has been configured to be hidden, it will not be included in the results.
+ *
  * @param options options to refine / filter the results of the fetchDownloadFormats operation
- * @returns a promise that resolves with the download formats
+ * @returns The available download formats and additional resources
  */
 export function getDownloadFormats(
   options: IFetchDownloadFormatsOptions
 ): IDownloadFormat[] {
   const { entity, context, layers } = options;
-  // fetch base formats for the item
+  // get the base formats for the item
   let baseFormats: IDynamicDownloadFormat[] = [];
+  // TODO: use typescript to enforce a branch for each flow type
   if (canUseHubDownloadApi(entity, context)) {
     baseFormats = getHubDownloadApiFormats(entity);
   } else if (canUseExportImageFlow(entity)) {
@@ -29,16 +33,16 @@ export function getDownloadFormats(
   }
 
   // add additional resource links as static formats
-  // TODO: change to use `extendedProps.additionalResources`
-  const additionalFormats = (entity.additionalResources || []).map(
-    toStaticFormat
-  );
+  const additionalResources =
+    getProp(entity, "extendedProps.additionalResources") || [];
+  const additionalFormats = additionalResources.map(toStaticFormat);
 
-  // combine formats into single list
+  // Respect the order and visibility of the formats as configured for the entity
   const downloadConfiguration = getDownloadConfiguration(entity);
   return downloadConfiguration.formats.reduce((acc, format) => {
     if (!format.hidden) {
       let includedFormat;
+      // TODO: use utility function to determine if the format is an additional resource
       const isAdditionalResource = format.key.startsWith(
         "additionalResource::"
       );

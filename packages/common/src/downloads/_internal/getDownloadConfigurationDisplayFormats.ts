@@ -11,6 +11,14 @@ import { getCreateReplicaFormats } from "./format-fetchers/getCreateReplicaForma
 
 import { getPagingJobFormats } from "./format-fetchers/getPagingJobFormats";
 
+/**
+ * @private
+ * Returns configuration objects for each download format that should be displayed
+ * in the editing experience of a content entity. This function should not be used
+ * to calculate the download formats that should be present on the live UI.
+ * @param entity entity to get download format configurations for
+ * @returns download format configurations to display
+ */
 export function getDownloadConfigurationDisplayFormats(
   entity: IHubEditableContent
 ): IDownloadFormatConfigurationDisplay[] {
@@ -18,7 +26,7 @@ export function getDownloadConfigurationDisplayFormats(
   const flowType = configuration.flowType;
   let formats = configuration.formats;
 
-  // For feature or map services don't meet the criteria to be downloaded (i.e., no flowType)
+  // For feature or map services that don't meet the criteria to be downloaded (i.e., no flowType)
   // Product wants to show paging formats as a preview of what _could_ be downloaded should
   // the criteria be met.
   if (!flowType && ["Feature Service", "Map Service"].includes(entity.type)) {
@@ -33,11 +41,13 @@ export function getDownloadConfigurationDisplayFormats(
     formats = pagingFormats;
   }
 
+  // For main entities of a hosted feature service with extract disabled, we want to display
+  // the list of createReplica formats as a preview of what _could_ be downloaded should
+  // the extract capability be enabled
   if (
     isHostedFeatureServiceMainEntity(entity) &&
     flowType !== "createReplica"
   ) {
-    // extract not enabled on hosted feature service
     const createReplicaFormats: IDownloadFormatConfiguration[] =
       getCreateReplicaFormats(entity).map((f) => {
         return {
@@ -58,12 +68,16 @@ export function getDownloadConfigurationDisplayFormats(
   );
 }
 
+// Returns true if the configuration is for an additional resource
+// TODO: Export this function as an internal helper
 function isAdditionalResourceConfiguration(
   config: IDownloadFormatConfiguration
 ): boolean {
   return config.key.startsWith("additionalResource::");
 }
 
+// Converts a download format configuration storage object to a display object
+// (i.e., adds appropriate labels, etc.)
 function toDownloadFormatConfigurationDisplay(
   config: IDownloadFormatConfiguration
 ): IDownloadFormatConfigurationDisplay {
@@ -73,6 +87,8 @@ function toDownloadFormatConfigurationDisplay(
   };
 }
 
+// Converts an additional resource configuration storage object to a display object
+// (i.e., adds appropriate labels, etc.)
 function toAdditionalResourceConfigurationDisplay(
   config: IDownloadFormatConfiguration,
   additionalResources: IHubAdditionalResource[]
