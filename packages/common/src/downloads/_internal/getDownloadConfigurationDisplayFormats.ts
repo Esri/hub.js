@@ -1,3 +1,4 @@
+import { isHostedFeatureServiceMainEntity } from "../../content";
 import { IHubAdditionalResource } from "../../core/types/IHubAdditionalResource";
 import {
   IDownloadFormatConfiguration,
@@ -6,6 +7,7 @@ import {
 } from "../../core/types/IHubEditableContent";
 import { getProp } from "../../objects/get-prop";
 import { getDownloadConfiguration } from "../getDownloadConfiguration";
+import { getCreateReplicaFormats } from "./format-fetchers/getCreateReplicaFormats";
 
 import { getPagingJobFormats } from "./format-fetchers/getPagingJobFormats";
 
@@ -28,7 +30,22 @@ export function getDownloadConfigurationDisplayFormats(
         };
       });
     // TODO: Should we just show paging formats as a preview or include additional resources?
-    formats = pagingFormats.concat(formats);
+    formats = pagingFormats;
+  }
+
+  if (
+    isHostedFeatureServiceMainEntity(entity) &&
+    flowType !== "createReplica"
+  ) {
+    // extract not enabled on hosted feature service
+    const createReplicaFormats: IDownloadFormatConfiguration[] =
+      getCreateReplicaFormats(entity).map((f) => {
+        return {
+          key: f.format,
+          hidden: false,
+        };
+      });
+    formats = createReplicaFormats;
   }
 
   const additionalResources: IHubAdditionalResource[] =

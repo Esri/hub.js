@@ -45,6 +45,7 @@ import { forceUpdateContent } from "./_internal/internalContentUtils";
 import { deepEqual, getProp, setProp } from "../objects";
 import { getDownloadFlow } from "../downloads/_internal/getDownloadFlow";
 import { getDownloadConfiguration } from "../downloads/getDownloadConfiguration";
+import { shouldShowDownloadsConfiguration } from "./_internal/shouldShowDownloadsConfiguration";
 
 // TODO: move this to defaults?
 const DEFAULT_CONTENT_MODEL: IModel = {
@@ -140,7 +141,17 @@ export async function updateContent(
   // TODO: should we _only_ update if download flow is available?
   const downloadFlow = getDownloadFlow(content);
   const updatedFormats = getProp(content, "extendedProps.downloads.formats");
-  if (downloadFlow && updatedFormats) {
+  const isMainEntityExtractDisabled =
+    isHostedFeatureServiceMainEntity(content) &&
+    downloadFlow !== "createReplica";
+  const wasDownloadsConfigurationDisplayed =
+    shouldShowDownloadsConfiguration(content);
+  if (
+    downloadFlow &&
+    updatedFormats &&
+    !isMainEntityExtractDisabled &&
+    wasDownloadsConfigurationDisplayed
+  ) {
     const updatedDownloadsConfiguration = cloneObject(
       content.extendedProps.downloads
     );
