@@ -51,9 +51,8 @@ export function getDownloadConfiguration(
 
   // Base combined default formats
   const combinedDefaultFormats: IDownloadFormatConfiguration[] =
-    serverFormats.map((f) => {
+    serverFormats.map((f): IDownloadFormatConfiguration => {
       return {
-        label: `{{shared.fields.download.format.${f.format}:translate}}`,
         key: f.format,
         hidden: false,
       };
@@ -70,11 +69,11 @@ export function getDownloadConfiguration(
 
   // Existing configuration matches the current flow
   if (shouldUseExistingConfiguration) {
-    const missingDefaultFormats = existingConfiguration.formats.filter((f) => {
-      return !combinedDefaultFormats.some((df) => df.key === f.key);
+    const missingDefaultFormats = combinedDefaultFormats.filter((f) => {
+      return !existingConfiguration.formats.find((df) => df.key === f.key);
     });
     const validConfiguredFormats = existingConfiguration.formats.filter((f) => {
-      return combinedDefaultFormats.some((df) => df.key === f.key);
+      return combinedDefaultFormats.find((df) => df.key === f.key);
     });
     return {
       flowType: downloadFlow,
