@@ -1,3 +1,11 @@
+# @esri/hub-common [14.171.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.170.0...@esri/hub-common@14.171.0) (2024-08-19)
+
+
+### Features
+
+* **hub-common:** add HubSite.isUmbrella() and isOpenDataGroup() ([#1631](https://github.com/Esri/hub.js/issues/1631)) ([54ba448](https://github.com/Esri/hub.js/commit/54ba4481b42d782104823ec9af13d59ecdb5ea7d))
+* **hub-common:** set description to optional ([#1629](https://github.com/Esri/hub.js/issues/1629)) ([384cb99](https://github.com/Esri/hub.js/commit/384cb9923701f955fdbfb177890e622bb33aa104))
+
 # @esri/hub-common [14.170.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.169.0...@esri/hub-common@14.170.0) (2024-08-12)
 
 

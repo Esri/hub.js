@@ -21,7 +21,7 @@ import { getDefaultEventDatesAndTimes } from "./getDefaultEventDatesAndTimes";
 export const buildSchema = (): IConfigurationSchema => {
   const { startDate: minStartDate } = getDefaultEventDatesAndTimes();
   return {
-    required: ["name", "description", "startDate", "endDate", "timeZone"],
+    required: ["name", "startDate", "endDate", "timeZone"],
     properties: {
       name: ENTITY_NAME_SCHEMA,
       description: {

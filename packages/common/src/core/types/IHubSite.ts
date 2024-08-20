@@ -81,9 +81,14 @@ export interface IHubSite
   legacyTeams: string[];
 
   /**
-   * True when the site is a "Hub Home" site
+   * True when the site is a "Hub Home" site for an organization
    */
   isHubHome: boolean;
+
+  /**
+   * True when the site is the "Umbrella" site for an environment (i.e. hub.arcgis.com)
+   */
+  isUmbrella: boolean;
 }
 
 export type IHubSiteEditor = IHubItemEntityEditor<IHubSite> & {

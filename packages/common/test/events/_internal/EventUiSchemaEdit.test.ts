@@ -148,14 +148,6 @@ describe("EventUiSchemaEdit", () => {
                   helperText: {
                     labelKey: `myI18nScope.fields.description.helperText`,
                   },
-                  messages: [
-                    {
-                      type: "ERROR",
-                      keyword: "required",
-                      icon: true,
-                      labelKey: `myI18nScope.fields.description.requiredError`,
-                    },
-                  ],
                 },
               },
             ],
