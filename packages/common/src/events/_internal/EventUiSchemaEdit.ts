@@ -402,7 +402,7 @@ export const buildUiSchema = async (
         labelKey: `${i18nScope}.sections.referencedContent.label`,
         elements: [
           {
-            scope: "/properties/view/properties/referencedContentIds",
+            scope: "/properties/referencedContentIds",
             type: "Control",
             options: {
               control: "hub-field-input-gallery-picker",
