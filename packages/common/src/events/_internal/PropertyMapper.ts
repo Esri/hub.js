@@ -83,7 +83,10 @@ export class EventPropertyMapper extends PropertyMapper<
       store.permission.canSetStatusToCancelled,
       store.permission.canSetStatusToRemoved,
     ].some(Boolean);
-    obj.featuredContentIdsByType = store.associations.map(
+    obj.referencedContentIds = store.associations.map(
+      ({ entityId }) => entityId
+    );
+    obj.referencedContentIdsByType = store.associations.map(
       ({ entityId, entityType }) => ({ entityId, entityType })
     );
 
@@ -101,7 +104,6 @@ export class EventPropertyMapper extends PropertyMapper<
 
     obj.view = {
       showMap: !!store.location,
-      featuredContentIds: store.associations.map(({ entityId }) => entityId),
     };
     obj.location = store.location
       ? {

@@ -99,15 +99,13 @@ describe("EventSchemaEdit", () => {
           summary: ENTITY_SUMMARY_SCHEMA,
           tags: ENTITY_TAGS_SCHEMA,
           categories: ENTITY_CATEGORIES_SCHEMA,
-          view: {
-            type: "object",
-            properties: {
-              featuredContentIds: {
-                ...ENTITY_FEATURED_CONTENT_SCHEMA,
-                default: [],
-                maxItems: 1,
-              },
+          referencedContentIds: {
+            type: "array",
+            maxItems: 1,
+            items: {
+              type: "string",
             },
+            default: [],
           },
         },
         allOf: [

@@ -2,7 +2,6 @@ import * as getDefaultEventDatesAndTimesModule from "../../src/events/_internal/
 import {
   EventAccess,
   EventAttendanceType,
-  EventLocationType,
   EventStatus,
   IEventLocation,
 } from "../../src/events/api/types";
@@ -56,9 +55,9 @@ describe("HubEvent defaults:", () => {
         view: {
           heroActions: [],
           showMap: false,
-          featuredContentIds: [],
         },
-        featuredContentIdsByType: [],
+        referencedContentIds: [],
+        referencedContentIdsByType: [],
         location: {
           type: "none",
         },

@@ -3,18 +3,18 @@ import { ICreateEventAssociation } from "../api";
 import { searchItems } from "@esri/arcgis-rest-portal";
 
 export async function buildEventAssociations(
-  featuredContentIdsByType: Array<{ entityId: string; entityType: string }>,
-  featuredContentIds: string[],
+  referencedContentIdsByType: Array<{ entityId: string; entityType: string }>,
+  referencedContentIds: string[],
   hubRequestOptions: IHubRequestOptions
 ): Promise<ICreateEventAssociation[]> {
   // filter out content that was removed
-  const associations = featuredContentIdsByType.filter(({ entityId }) =>
-    featuredContentIds.includes(entityId)
+  const associations = referencedContentIdsByType.filter(({ entityId }) =>
+    referencedContentIds.includes(entityId)
   );
   // get content ids being added
-  const added = featuredContentIds.filter(
-    (featuredContentId) =>
-      !associations.find(({ entityId }) => entityId === featuredContentId)
+  const added = referencedContentIds.filter(
+    (referencedContentId) =>
+      !associations.find(({ entityId }) => entityId === referencedContentId)
   );
   if (added.length) {
     // fetch the content being added

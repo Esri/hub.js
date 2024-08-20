@@ -31,7 +31,7 @@ export interface IHubCreateEventRegistration {
  *
  * @param partialEvent a partial event
  * @param requestOptions user request options
- * @returns promise that resolves a IHubEvent
+ * @returns promise that resolves an IHubEvent
  */
 export async function createHubEvent(
   partialEvent: Partial<IHubEvent>,
@@ -50,8 +50,8 @@ export async function createHubEvent(
   let model = mapper.entityToStore(event, buildDefaultEventRecord());
 
   const associations = await buildEventAssociations(
-    partialEvent.featuredContentIdsByType,
-    partialEvent.view.featuredContentIds,
+    partialEvent.referencedContentIdsByType,
+    partialEvent.referencedContentIds,
     requestOptions
   );
 
@@ -107,8 +107,8 @@ export async function updateHubEvent(
   let model = mapper.entityToStore(eventUpdates, buildDefaultEventRecord());
 
   const associations = await buildEventAssociations(
-    partialEvent.featuredContentIdsByType,
-    partialEvent.view.featuredContentIds,
+    partialEvent.referencedContentIdsByType,
+    partialEvent.referencedContentIds,
     requestOptions
   );
 

@@ -118,7 +118,7 @@ describe("EventUiSchemaEdit", () => {
       );
       expect(getWellKnownCatalogSpy).toHaveBeenCalledTimes(1);
       expect(getWellKnownCatalogSpy).toHaveBeenCalledWith(
-        "myI18nScope.fields.featuredContent",
+        "myI18nScope.fields.referencedContent",
         "organization",
         "item",
         {
@@ -516,16 +516,16 @@ describe("EventUiSchemaEdit", () => {
           },
           {
             type: "Section",
-            labelKey: "myI18nScope.sections.featuredContent.label",
+            labelKey: "myI18nScope.sections.referencedContent.label",
             elements: [
               {
-                scope: "/properties/view/properties/featuredContentIds",
+                scope: "/properties/view/properties/referencedContentIds",
                 type: "Control",
                 options: {
                   control: "hub-field-input-gallery-picker",
                   helperText: {
                     labelKey:
-                      "myI18nScope.fields.featuredContent.helperText.label",
+                      "myI18nScope.fields.referencedContent.helperText.label",
                   },
                   targetEntity: "item",
                   catalogs: [
@@ -537,14 +537,14 @@ describe("EventUiSchemaEdit", () => {
                   facets: [
                     {
                       label:
-                        "{{myI18nScope.fields.featuredContent.facets.from.label:translate}}",
+                        "{{myI18nScope.fields.referencedContent.facets.from.label:translate}}",
                       key: "from",
                       display: "single-select",
                       operation: "OR",
                       options: [
                         {
                           label:
-                            "{{myI18nScope.fields.featuredContent.facets.from.myContent.label:translate}}",
+                            "{{myI18nScope.fields.referencedContent.facets.from.myContent.label:translate}}",
                           key: "myContent",
                           selected: true,
                           predicates: [
@@ -555,7 +555,7 @@ describe("EventUiSchemaEdit", () => {
                         },
                         {
                           label:
-                            "{{myI18nScope.fields.featuredContent.facets.from.myOrganization.label:translate}}",
+                            "{{myI18nScope.fields.referencedContent.facets.from.myOrganization.label:translate}}",
                           key: "myOrganization",
                           selected: false,
                           predicates: [
@@ -568,7 +568,7 @@ describe("EventUiSchemaEdit", () => {
                     },
                     {
                       label:
-                        "{{myI18nScope.fields.featuredContent.facets.access.label:translate}}",
+                        "{{myI18nScope.fields.referencedContent.facets.access.label:translate}}",
                       key: "access",
                       field: "access",
                       display: "multi-select",

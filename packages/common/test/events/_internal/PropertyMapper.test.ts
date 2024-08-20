@@ -179,9 +179,9 @@ describe("PropertyMapper", () => {
         thumbnailUrl: getEventThumbnail(),
         view: {
           showMap: true,
-          featuredContentIds: ["9v2"],
         },
-        featuredContentIdsByType: [
+        referencedContentIds: ["9v2"],
+        referencedContentIdsByType: [
           {
             entityId: "9v2",
             entityType: "Hub Site Application",

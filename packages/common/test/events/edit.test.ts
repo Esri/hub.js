@@ -112,8 +112,9 @@ describe("HubEvents edit module", () => {
     view: {
       heroActions: [],
       showMap: false,
-      featuredContentIds: [],
     },
+    referencedContentIds: [],
+    referencedContentIdsByType: [],
     location: {
       type: "none",
     },
@@ -189,10 +190,8 @@ describe("HubEvents edit module", () => {
             extent: [[]],
             geometries: [],
           },
-          view: {
-            featuredContentIds: ["8nd"],
-          },
-          featuredContentIdsByType: [
+          referencedContentIds: ["8nd"],
+          referencedContentIdsByType: [
             {
               entityId: "t36",
               entityType: "Hub Site Application",
@@ -301,10 +300,8 @@ describe("HubEvents edit module", () => {
             extent: [[]],
             geometries: [],
           },
-          view: {
-            featuredContentIds: ["8nd"],
-          },
-          featuredContentIdsByType: [
+          referencedContentIds: ["8nd"],
+          referencedContentIdsByType: [
             {
               entityId: "t36",
               entityType: "Hub Site Application",
