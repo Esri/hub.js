@@ -47,8 +47,26 @@ export function getThumbnailUiSchemaElement(
     DEFAULT_ENTITY_THUMBNAILS[entityType] ?? DEFAULT_ENTITY_THUMBNAILS.content;
   const defaultImgUrl = getCdnAssetUrl(defaultEntityThumbnail, requestOptions);
 
+  const options =
+    entityType === "group"
+      ? {
+          aspectRatio: 1,
+          sizeDescription: {
+            labelKey: `${i18nScope}.fields._thumbnail.sizeDescription`,
+          },
+        }
+      : {
+          aspectRatio: 1.5,
+          sizeDescription: {
+            labelKey: "shared.fields._thumbnail.sizeDescription",
+          },
+        };
+
   return {
-    labelKey: "shared.fields._thumbnail.label",
+    labelKey:
+      entityType === "group"
+        ? `${i18nScope}.fields._thumbnail.label`
+        : "shared.fields._thumbnail.label",
     scope: "/properties/_thumbnail",
     type: "Control",
     options: {
@@ -57,15 +75,12 @@ export function getThumbnailUiSchemaElement(
       defaultImgUrl,
       maxWidth: 727,
       maxHeight: 484,
-      aspectRatio: 1.5,
       helperText: {
         // helper text varies between entity types
         labelKey: `${i18nScope}.fields._thumbnail.helperText`,
       },
-      sizeDescription: {
-        labelKey: "shared.fields._thumbnail.sizeDescription",
-      },
       messages,
+      ...options,
     },
   };
 }

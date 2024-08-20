@@ -2,6 +2,7 @@ import { IUiSchema } from "../../core/schemas/types";
 import { IArcGISContext } from "../../ArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 import { getEntityThumbnailUrl } from "../../core/getEntityThumbnailUrl";
+import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 
 /**
  * @private
@@ -69,24 +70,13 @@ export const buildUiSchema = async (
               type: "textarea",
             },
           },
-          {
-            labelKey: `${i18nScope}.fields._thumbnail.label`,
-            scope: "/properties/_thumbnail",
-            type: "Control",
-            options: {
-              control: "hub-field-input-image-picker",
-              imgSrc: getEntityThumbnailUrl(options),
-              maxWidth: 727,
-              maxHeight: 484,
-              aspectRatio: 1,
-              helperText: {
-                labelKey: `${i18nScope}.fields._thumbnail.helperText`,
-              },
-              sizeDescription: {
-                labelKey: `${i18nScope}.fields._thumbnail.sizeDescription`,
-              },
-            },
-          },
+          getThumbnailUiSchemaElement(
+            i18nScope,
+            options.thumbnail,
+            getEntityThumbnailUrl(options),
+            "group",
+            context.requestOptions
+          ),
         ],
       },
     ],
