@@ -1,7 +1,13 @@
 import HubError from "../HubError";
 import { canUseExportImageFlow } from "./_internal/canUseExportImageFlow";
 import { canUseHubDownloadApi } from "./canUseHubDownloadApi";
-import { IFetchDownloadFileOptions, IFetchDownloadFileResponse } from "./types";
+import { getDownloadFormats } from "./getDownloadFormats";
+import {
+  IDynamicDownloadFormat,
+  IFetchDownloadFileOptions,
+  IFetchDownloadFileResponse,
+  ServiceDownloadFormat,
+} from "./types";
 
 /**
  * Fetches a download file URL for the given entity and format.
@@ -12,6 +18,9 @@ import { IFetchDownloadFileOptions, IFetchDownloadFileResponse } from "./types";
 export async function fetchDownloadFile(
   options: IFetchDownloadFileOptions
 ): Promise<IFetchDownloadFileResponse> {
+  // Make sure that format requested has been enabled for the entity
+  validateFormat(options);
+
   // If the pollInterval is not set, default to 3 seconds
   const withPollInterval =
     options.pollInterval == null ? { ...options, pollInterval: 3000 } : options;
@@ -32,4 +41,25 @@ export async function fetchDownloadFile(
     );
   }
   return fetchingFn(withPollInterval);
+}
+
+/**
+ * Validates the format requested is enabled for the entity
+ * @param options options for the fetchDownloadFile operation
+ * @throws {HubError} if the format requested is not enabled for the entity
+ */
+function validateFormat(options: IFetchDownloadFileOptions) {
+  const { entity, context, format } = options;
+  const validServerFormats: ServiceDownloadFormat[] = getDownloadFormats({
+    entity,
+    context,
+  })
+    .filter((f) => f.type === "dynamic")
+    .map((f) => (f as IDynamicDownloadFormat).format);
+  if (!validServerFormats.includes(format)) {
+    throw new HubError(
+      "fetchDownloadFile",
+      `The following format is not enabled for the entity: ${format}`
+    );
+  }
 }

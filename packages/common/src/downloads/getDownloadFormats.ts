@@ -22,7 +22,7 @@ import {
 export function getDownloadFormats(
   options: IFetchDownloadFormatsOptions
 ): IDownloadFormat[] {
-  const { entity, context, layers } = options;
+  const { entity, context } = options;
   // get the base formats for the item
   let baseFormats: IDynamicDownloadFormat[] = [];
   // TODO: use typescript to enforce a branch for each flow type
