@@ -5,18 +5,9 @@ import {
   IUiSchemaElement,
   IUiSchemaMessage,
   UiSchemaMessageTypes,
-  UiSchemaRuleEffects,
 } from "../../core/schemas/types";
-import {
-  IHubEditableContent,
-  IServiceExtendedProps,
-} from "../../core/types/IHubEditableContent";
-import { canUseHubDownloadSystem } from "../../downloads";
-import { canUseExportImageFlow } from "../../downloads/_internal/canUseExportImageFlow";
-import { canUseCreateReplica } from "../../downloads/canUseCreateReplica";
-import { getProp } from "../../objects/get-prop";
+import { IHubEditableContent } from "../../core/types/IHubEditableContent";
 import { checkPermission } from "../../permissions/checkPermission";
-import { isHostedFeatureServiceMainEntity } from "../hostedServiceUtils";
 import { getDownloadsSection } from "./getDownloadsSection";
 import { shouldShowDownloadsConfiguration } from "./shouldShowDownloadsConfiguration";
 

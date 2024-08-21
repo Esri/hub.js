@@ -154,8 +154,5 @@ function shouldDisableDownloadFormatsControl(
   entity: IHubEditableContent
 ): boolean {
   const downloadFlow = getDownloadFlow(entity);
-  const isMainEntityExtractDisabled =
-    isHostedFeatureServiceMainEntity(entity) &&
-    downloadFlow !== "createReplica";
-  return !downloadFlow || isMainEntityExtractDisabled;
+  return !downloadFlow;
 }

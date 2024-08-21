@@ -94,7 +94,7 @@ function toAdditionalResourceConfigurationDisplay(
   additionalResources: IHubAdditionalResource[]
 ): IDownloadFormatConfigurationDisplay {
   const resourceIndex = parseInt(config.key.split("::")[1], 10);
-  const { name, isDataSource } = additionalResources[resourceIndex] || {};
+  const { name, isDataSource } = additionalResources[resourceIndex];
   return {
     label:
       name ||

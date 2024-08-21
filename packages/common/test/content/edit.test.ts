@@ -267,6 +267,60 @@ describe("content editing:", () => {
       );
       expect(updateDefinition).toEqual({ capabilities: "Query,Extract" });
     });
+    it("sets the download object on the model", async () => {
+      const currentDefinition: Partial<featureLayerModule.IFeatureServiceDefinition> =
+        { capabilities: "Extract" };
+      getServiceSpy.and.returnValue(Promise.resolve(currentDefinition));
+      const content: IHubEditableContent = {
+        itemControl: "edit",
+        id: GUID,
+        name: "Hello World",
+        tags: ["Transportation"],
+        description: "Some longer description",
+        slug: "dcdev-wat-blarg",
+        orgUrlKey: "dcdev",
+        owner: "dcdev_dude",
+        type: "Feature Service",
+        typeKeywords: ["Hosted Service"],
+        createdDate: new Date(1595878748000),
+        createdDateSource: "item.created",
+        updatedDate: new Date(1595878750000),
+        updatedDateSource: "item.modified",
+        thumbnailUrl: "",
+        permissions: [],
+        schemaVersion: 1,
+        canEdit: false,
+        canDelete: false,
+        location: { type: "item" },
+        licenseInfo: "",
+        url: "https://services.arcgis.com/:orgId/arcgis/rest/services/:serviceName/FeatureServer/0",
+        // Indicates that Extract should enabled on the service,
+        // Since it already is, nothing should change
+        serverExtractCapability: true,
+        schedule: { mode: "automatic" },
+        _forceUpdate: [],
+        access: "public",
+        extendedProps: {
+          downloads: {
+            flowType: "createReplica",
+            formats: [
+              {
+                key: "filegdb",
+                hidden: false,
+              },
+            ],
+          },
+          kind: "content",
+        },
+      };
+      const chk = await updateContent(content, {
+        ...MOCK_HUB_REQOPTS,
+        authentication: myMockAuth,
+      });
+      expect(chk.extendedProps?.downloads).toEqual(
+        content.extendedProps?.downloads
+      );
+    });
   });
   describe("delete content", () => {
     it("deletes the item", async () => {

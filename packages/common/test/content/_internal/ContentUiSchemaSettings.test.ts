@@ -2,6 +2,8 @@ import { buildUiSchema } from "../../../src/content/_internal/ContentUiSchemaSet
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
 import * as hostedServiceUtilsModule from "../../../src/content/hostedServiceUtils";
 import * as checkPermissionModule from "../../../src/permissions/checkPermission";
+import { EntityEditorOptions } from "../../../src/core/schemas/internal/EditorOptions";
+import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
 
 describe("buildUiSchema: content settings", () => {
   it("includes download fields for hosted feature service entities", async () => {
@@ -14,7 +16,11 @@ describe("buildUiSchema: content settings", () => {
     });
     const uiSchema = await buildUiSchema(
       "some.scope",
-      { access: "public" } as any,
+      {
+        access: "public",
+        type: "Feature Service",
+        url: "https://services.arcgis.com/abc/arcgis/rest/services/MyService/FeatureServer/0",
+      } as any as EntityEditorOptions,
       MOCK_CONTEXT
     );
     expect(uiSchema).toEqual({
@@ -23,11 +29,7 @@ describe("buildUiSchema: content settings", () => {
         {
           type: "Section",
           labelKey: "some.scope.sections.downloads.label",
-          options: {
-            helperText: {
-              labelKey: "some.scope.sections.downloads.helperText",
-            },
-          },
+          options: {},
           elements: [
             {
               labelKey: "some.scope.fields.serverExtractCapability.label",
@@ -38,7 +40,54 @@ describe("buildUiSchema: content settings", () => {
                   labelKey:
                     "some.scope.fields.serverExtractCapability.helperText",
                 },
+                messages: [
+                  {
+                    type: "CUSTOM",
+                    display: "notice",
+                    kind: "warning",
+                    icon: "exclamation-mark-triangle",
+                    titleKey:
+                      "some.scope.fields.serverExtractCapability.noFormatConfigurationNotice.title",
+                    labelKey:
+                      "some.scope.fields.serverExtractCapability.noFormatConfigurationNotice.body",
+                    allowShowBeforeInteract: true,
+                    conditions: [
+                      {
+                        scope: "/properties/serverExtractCapability",
+                        schema: {
+                          const: false,
+                        },
+                      },
+                    ],
+                  },
+                ],
               },
+            },
+            {
+              labelKey: "some.scope.fields.downloadFormats.label",
+              scope: "/properties/downloadFormats",
+              type: "Control",
+              options: {
+                control: "hub-field-input-list",
+                helperText: {
+                  labelKey: "some.scope.fields.downloadFormats.helperText",
+                },
+                allowReorder: true,
+                allowHide: true,
+              },
+              rules: [
+                {
+                  effect: UiSchemaRuleEffects.DISABLE,
+                  conditions: [
+                    {
+                      scope: "/properties/serverExtractCapability",
+                      schema: {
+                        const: false,
+                      },
+                    },
+                  ],
+                },
+              ],
             },
           ],
         },
