@@ -325,6 +325,23 @@ describe("buildUiSchema: project edit", () => {
             },
           ],
         },
+        {
+          type: "Section",
+          labelKey: `some.scope.sections.embeds.label`,
+          options: {
+            headerTag: "h2",
+            helperText: { labelKey: "some.scope.sections.embeds.helperText" },
+          },
+          elements: [
+            {
+              scope: "/properties/view/properties/embeds",
+              type: "Control",
+              options: {
+                control: "hub-composite-input-embeds",
+              },
+            },
+          ],
+        },
       ],
     });
   });
@@ -644,6 +661,23 @@ describe("buildUiSchema: project edit", () => {
                     operation: "OR",
                   },
                 ],
+              },
+            },
+          ],
+        },
+        {
+          type: "Section",
+          labelKey: `some.scope.sections.embeds.label`,
+          options: {
+            headerTag: "h2",
+            helperText: { labelKey: "some.scope.sections.embeds.helperText" },
+          },
+          elements: [
+            {
+              scope: "/properties/view/properties/embeds",
+              type: "Control",
+              options: {
+                control: "hub-composite-input-embeds",
               },
             },
           ],
