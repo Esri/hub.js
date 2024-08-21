@@ -1,3 +1,10 @@
+# @esri/hub-common [14.174.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.173.0...@esri/hub-common@14.174.0) (2024-08-21)
+
+
+### Features
+
+* **hub-common:** adds default thumbnail for discussions ([#1627](https://github.com/Esri/hub.js/issues/1627)) ([4fbef75](https://github.com/Esri/hub.js/commit/4fbef757b7a4330d6e1914f415448a0d14530e8d))
+
 # @esri/hub-common [14.173.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.172.0...@esri/hub-common@14.173.0) (2024-08-21)
 
 
