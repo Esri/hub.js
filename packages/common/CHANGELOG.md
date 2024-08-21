@@ -1,3 +1,10 @@
+# @esri/hub-common [14.173.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.172.0...@esri/hub-common@14.173.0) (2024-08-21)
+
+
+### Features
+
+* add notice type to uiSchemaElementTypes ([#1612](https://github.com/Esri/hub.js/issues/1612)) ([bbf5146](https://github.com/Esri/hub.js/commit/bbf51467f547f4fc2bdde615f5a3bf3e3234f5de))
+
 # @esri/hub-common [14.172.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.171.0...@esri/hub-common@14.172.0) (2024-08-21)
 
 
