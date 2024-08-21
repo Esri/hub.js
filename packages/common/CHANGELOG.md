@@ -1,3 +1,10 @@
+# @esri/hub-common [14.175.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.174.0...@esri/hub-common@14.175.0) (2024-08-21)
+
+
+### Features
+
+* add embeds to schema and uiSchema ([#1608](https://github.com/Esri/hub.js/issues/1608)) ([0f6a65b](https://github.com/Esri/hub.js/commit/0f6a65b06502cab7cefcde316e8fd7a62bc56ddc))
+
 # @esri/hub-common [14.174.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.173.0...@esri/hub-common@14.174.0) (2024-08-21)
 
 
