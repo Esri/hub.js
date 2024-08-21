@@ -9,8 +9,10 @@ import { parseInclude } from "../search/_internal/parseInclude";
 import { IHubRequestOptions } from "../types";
 import { getUserHomeUrl } from "../urls";
 import { unique } from "../util";
-import { mapBy } from "../utils";
+import { fetchUserHubSettings, getUserHubSettings, mapBy } from "../utils";
 import { IHubSearchResult } from "../search/types/IHubSearchResult";
+import { IArcGISContext } from "../ArcGISContext";
+import { computeProps } from "./_internal/computeProps";
 
 export const convertUserToHubUser = (user: IUser): IHubUser => {
   // A private user will not have a description prop at all
@@ -105,11 +107,22 @@ export async function enrichUserSearchResult(
 
 export const fetchHubUser = async (
   username: string,
-  requestOptions?: IHubRequestOptions
+  context?: IArcGISContext
 ): Promise<IHubUser> => {
-  const user = await getUser({
-    ...requestOptions,
-    username,
-  });
-  return convertUserToHubUser(user);
+  let user;
+
+  // grab the user
+  user =
+    username === "self"
+      ? context.currentUser
+      : await getUser({
+          ...context.hubRequestOptions,
+          username,
+        });
+
+  // convert to a hubUser
+  let hubUser = convertUserToHubUser(user);
+  hubUser = await computeProps(user, hubUser, context);
+
+  return hubUser;
 };

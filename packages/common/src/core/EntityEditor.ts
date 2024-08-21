@@ -15,6 +15,8 @@ import { getTypeFromEntity } from "./getTypeFromEntity";
 import { HubEntity } from "./types/HubEntity";
 import { HubEntityEditor, IEntityEditorContext } from "./types/HubEntityEditor";
 import { HubEvent } from "../events/HubEvent";
+import { HubUser } from "../users/HubUser";
+import { IHubUser } from "./types";
 
 export class EntityEditor {
   instance: IWithEditorBehavior;
@@ -63,6 +65,12 @@ export class EntityEditor {
     if (entityType === "initiativeTemplate") {
       editor = HubInitiativeTemplate.fromJson(
         entity,
+        context
+      ) as IWithEditorBehavior;
+    }
+    if (entityType === "user") {
+      editor = HubUser.fromJson(
+        entity as IHubUser,
         context
       ) as IWithEditorBehavior;
     }

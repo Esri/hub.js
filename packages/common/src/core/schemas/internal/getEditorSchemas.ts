@@ -27,6 +27,7 @@ import { InitiativeTemplateEditorType } from "../../../initiative-templates/_int
 import { getCardEditorSchemas } from "./getCardEditorSchemas";
 import { SurveyEditorType } from "../../../surveys/_internal/SurveySchema";
 import { EventEditorType } from "../../../events/_internal/EventSchemaCreate";
+import { UserEditorType } from "../../../users/_internal/UserSchema";
 
 /**
  * get the editor schema and uiSchema defined for an editor (either an entity or a card).
@@ -402,6 +403,33 @@ export async function getEditorSchemas(
       /* istanbul ignore next */
       if (initiativeTemplateModule.buildDefaults) {
         defaults = await initiativeTemplateModule.buildDefaults(
+          i18nScope,
+          options as EntityEditorOptions,
+          context
+        );
+      }
+
+      break;
+
+    case "user":
+      const { UserSchema } = await import(
+        "../../../users/_internal/UserSchema"
+      );
+      schema = cloneObject(UserSchema);
+
+      const userModule: IEntityEditorModuleType = await {
+        "hub:user:settings": () =>
+          import("../../../users/_internal/UserUiSchemaSettings"),
+      }[type as UserEditorType]();
+
+      uiSchema = await userModule.buildUiSchema(
+        i18nScope,
+        options as EntityEditorOptions,
+        context
+      );
+
+      if (userModule.buildDefaults) {
+        defaults = await userModule.buildDefaults(
           i18nScope,
           options as EntityEditorOptions,
           context
