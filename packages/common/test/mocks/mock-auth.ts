@@ -135,6 +135,8 @@ export const MOCK_CONTEXT = new ArcGISContext({
     name: "My org",
     isPortal: false,
     urlKey: "www",
+    portalHostname: "host",
+    customBaseUrl: "customUrl",
   },
   serviceStatus: {
     portal: "online",
