@@ -1,3 +1,10 @@
+# @esri/hub-common [14.172.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.171.0...@esri/hub-common@14.172.0) (2024-08-21)
+
+
+### Features
+
+* adding a third content service status ([#1619](https://github.com/Esri/hub.js/issues/1619)) ([a5d4ee5](https://github.com/Esri/hub.js/commit/a5d4ee57c6d034a2d1570b84016946c989ad5dc9))
+
 # @esri/hub-common [14.171.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.170.0...@esri/hub-common@14.171.0) (2024-08-19)
 
 
