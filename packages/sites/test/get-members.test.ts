@@ -79,7 +79,7 @@ describe("getMembers", function () {
           params: {
             filter: `${usernames
               .map((username) => `username:${username}`)
-              .join(" OR ")}`,
+              .join(" AND ")}`,
             num: 2,
           },
           ...requestOptions,
