@@ -5,7 +5,7 @@ import {
   IHubRequestOptions,
   getPortalUrl,
   Logger,
-  batch
+  batch,
 } from "@esri/hub-common";
 
 // TODO: once the Hub API User Search is complete, integrate
@@ -56,15 +56,18 @@ function authenticatedGetMembers(
     chunkedUsernames.push(usernames.slice(i, i + chunkSize));
   }
 
-  const chunkedOptions = chunkedUsernames.map(chunk => {
-    const q = chunk.map(username => `username:${username}`).join(" OR ");
+  const chunkedOptions = chunkedUsernames.map((chunk) => {
+    const filter = chunk.map((username) => `username:${username}`).join(" OR ");
     return {
       urlPath,
-      requestOptions: { params: { q, num: chunk.length }, ...requestOptions }
+      requestOptions: {
+        params: { filter, num: chunk.length },
+        ...requestOptions,
+      },
     };
   });
 
-  return batch(chunkedOptions, batchMemberRequest).then(batchedMembers => {
+  return batch(chunkedOptions, batchMemberRequest).then((batchedMembers) => {
     return batchedMembers.reduce((flat: IUser[], toFlatten: IUser[]) => {
       return flat.concat(toFlatten);
     }, []);
@@ -87,9 +90,9 @@ function unauthenticatedGetMembers(
   requestOptions: IHubRequestOptions
 ): Promise<IUser[]> {
   return Promise.all(
-    usernames.map(username => {
+    usernames.map((username) => {
       return getUser({ username, ...requestOptions })
-        .then(response => {
+        .then((response) => {
           // if the firstname, lastname, and fullname are empty strings, assume that the
           // user is not accessible (i.e. not a public profile) and should not be returned
           // to the unauthenticated user
@@ -97,14 +100,14 @@ function unauthenticatedGetMembers(
             return response;
           }
         })
-        .catch(e => {
+        .catch((e) => {
           Logger.error(
             `Error fetching user, ${username}, from AGO user endpoint, ${e}`
           );
           return null;
         });
     })
-  ).then(members => members.filter(Boolean));
+  ).then((members) => members.filter(Boolean));
 }
 
 interface IBatchMemberRequestOptions {
@@ -124,8 +127,8 @@ function batchMemberRequest(
   options: IBatchMemberRequestOptions
 ): Promise<IUser[][]> {
   return request(options.urlPath, options.requestOptions)
-    .then(response => response.results)
-    .catch(e => {
+    .then((response) => response.results)
+    .catch((e) => {
       Logger.error(
         `Error fetching members from AGO user search endpoint: ${e}`
       );
