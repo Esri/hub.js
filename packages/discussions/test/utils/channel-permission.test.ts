@@ -5,6 +5,8 @@ import {
   IChannel,
   IChannelAclPermission,
   IDiscussionsUser,
+  IUpdateChannel,
+  PostStatus,
   Role,
 } from "../../src/types";
 import { ChannelPermission } from "../../src/utils/channel-permission";
@@ -1204,6 +1206,500 @@ describe("ChannelPermission class", () => {
         const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canModerateChannel(user)).toBe(false);
+      });
+    });
+  });
+
+  describe("canUpdateProperties", () => {
+    describe("update allowReply required role", () => {
+      it("returns true if user has a role of moderate", () => {
+        const user = buildUser();
+        const channelAcl = [
+          {
+            category: AclCategory.USER,
+            key: user.username,
+            role: Role.MODERATE,
+          },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowReply: true,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if user has a role of manage", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.MANAGE },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowReply: true,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if user has a role of owner", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.OWNER },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowReply: true,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns false if user does not have a minimum role of moderate", () => {
+        const user = buildUser();
+        const channelAcl = [
+          {
+            category: AclCategory.USER,
+            key: user.username,
+            role: Role.READWRITE,
+          },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowReply: true,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+          false
+        );
+      });
+    });
+
+    describe("update allowReaction required role", () => {
+      it("returns true if user has a role of moderate", () => {
+        const user = buildUser();
+        const channelAcl = [
+          {
+            category: AclCategory.USER,
+            key: user.username,
+            role: Role.MODERATE,
+          },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowReaction: true,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if user has a role of manage", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.MANAGE },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowReaction: true,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if user has a role of owner", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.OWNER },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowReaction: true,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns false if user does not have a minimum role of moderate", () => {
+        const user = buildUser();
+        const channelAcl = [
+          {
+            category: AclCategory.USER,
+            key: user.username,
+            role: Role.READWRITE,
+          },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowReaction: true,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+          false
+        );
+      });
+    });
+
+    describe("update allowedReactions required role", () => {
+      it("returns true if user has a role of moderate", () => {
+        const user = buildUser();
+        const channelAcl = [
+          {
+            category: AclCategory.USER,
+            key: user.username,
+            role: Role.MODERATE,
+          },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowedReactions: [],
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if user has a role of manage", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.MANAGE },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowedReactions: [],
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if user has a role of owner", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.OWNER },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowedReactions: [],
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns false if user does not have a minimum role of moderate", () => {
+        const user = buildUser();
+        const channelAcl = [
+          {
+            category: AclCategory.USER,
+            key: user.username,
+            role: Role.READWRITE,
+          },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowedReactions: [],
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+          false
+        );
+      });
+    });
+
+    describe("update defaultPostStatus required role", () => {
+      it("returns true if user has a role of moderate", () => {
+        const user = buildUser();
+        const channelAcl = [
+          {
+            category: AclCategory.USER,
+            key: user.username,
+            role: Role.MODERATE,
+          },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          defaultPostStatus: PostStatus.APPROVED,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if user has a role of manage", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.MANAGE },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          defaultPostStatus: PostStatus.APPROVED,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if user has a role of owner", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.OWNER },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          defaultPostStatus: PostStatus.APPROVED,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns false if user does not have a minimum role of moderate", () => {
+        const user = buildUser();
+        const channelAcl = [
+          {
+            category: AclCategory.USER,
+            key: user.username,
+            role: Role.READWRITE,
+          },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          defaultPostStatus: PostStatus.APPROVED,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+          false
+        );
+      });
+    });
+
+    describe("update blockWords required role", () => {
+      it("returns true if user has a role of moderate", () => {
+        const user = buildUser();
+        const channelAcl = [
+          {
+            category: AclCategory.USER,
+            key: user.username,
+            role: Role.MODERATE,
+          },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          blockWords: [],
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if user has a role of manage", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.MANAGE },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          blockWords: [],
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if user has a role of owner", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.OWNER },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          blockWords: [],
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns false if user does not have a minimum role of moderate", () => {
+        const user = buildUser();
+        const channelAcl = [
+          {
+            category: AclCategory.USER,
+            key: user.username,
+            role: Role.READWRITE,
+          },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          blockWords: [],
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+          false
+        );
+      });
+    });
+
+    describe("update softDelete required role", () => {
+      it("returns true if user has a role of manage", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.MANAGE },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          softDelete: true,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if user has a role of owner", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.OWNER },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          softDelete: true,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns false if user does not have a minimum role of manage", () => {
+        const user = buildUser();
+        const channelAcl = [
+          {
+            category: AclCategory.USER,
+            key: user.username,
+            role: Role.MODERATE,
+          },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          softDelete: true,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+          false
+        );
+      });
+    });
+
+    describe("update name required role", () => {
+      it("returns true if user has a role of manage", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.MANAGE },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          name: "foo",
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if user has a role of owner", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.OWNER },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          name: "foo",
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns false if user does not have a minimum role of manage", () => {
+        const user = buildUser();
+        const channelAcl = [
+          {
+            category: AclCategory.USER,
+            key: user.username,
+            role: Role.MODERATE,
+          },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          name: "foo",
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+          false
+        );
       });
     });
   });

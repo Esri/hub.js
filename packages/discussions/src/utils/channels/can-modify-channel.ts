@@ -1,5 +1,8 @@
 import { IUser } from "@esri/arcgis-rest-types";
-import { IChannel, IDiscussionsUser, SharingAccess } from "../../types";
+import {
+  IChannel,
+  IDiscussionsUser,
+} from "../../types";
 import { ChannelPermission } from "../channel-permission";
 import { isOrgAdminInOrg } from "../platform";
 import { isAuthorizedToModifyChannelByLegacyPermissions } from "./is-authorized-to-modify-channel-by-legacy-permissions";
@@ -14,6 +17,7 @@ import { isAuthorizedToModifyChannelByLegacyPermissions } from "./is-authorized-
 export function canModifyChannel(
   channel: IChannel,
   user: IUser | IDiscussionsUser = {}
+  // channelUpdates: IUpdateChannel,
 ): boolean {
   if (isOrgAdminInOrg(user, channel.orgId)) {
     return true;
@@ -22,6 +26,7 @@ export function canModifyChannel(
   if (channel.channelAcl) {
     const channelPermission = new ChannelPermission(channel);
     return channelPermission.canModerateChannel(user as IDiscussionsUser);
+    // for V2: && channelPermission.canUpdateProperties(user as IDiscussionsUser, channelUpdates)
   }
 
   return isAuthorizedToModifyChannelByLegacyPermissions(user, channel);
