@@ -77,9 +77,9 @@ describe("getMembers", function () {
         const expectedUrlPath = "mock/portal/url/sharing/rest/community/users";
         const expectedOptions = {
           params: {
-            filter: `${usernames
-              .map((username) => `username:"${username}"`)
-              .join(" OR ")}`,
+            filter: `username IN (${usernames
+              .map((username) => `"${username}"`)
+              .join(", ")})`,
             num: 2,
           },
           ...requestOptions,
