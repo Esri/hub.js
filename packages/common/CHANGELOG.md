@@ -1,3 +1,10 @@
+# @esri/hub-common [14.176.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.175.0...@esri/hub-common@14.176.0) (2024-08-22)
+
+
+### Features
+
+* **hub-common:** add allowAsAnonymous to IChannel & ICreateChannelSe… ([#1628](https://github.com/Esri/hub.js/issues/1628)) ([d15f831](https://github.com/Esri/hub.js/commit/d15f83158d927857598fe2214968c1d1a5a88a56))
+
 # @esri/hub-common [14.175.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.174.0...@esri/hub-common@14.175.0) (2024-08-21)
 
 
