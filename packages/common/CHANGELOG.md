@@ -1,3 +1,39 @@
+# @esri/hub-common [14.175.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.174.0...@esri/hub-common@14.175.0) (2024-08-21)
+
+
+### Features
+
+* add embeds to schema and uiSchema ([#1608](https://github.com/Esri/hub.js/issues/1608)) ([0f6a65b](https://github.com/Esri/hub.js/commit/0f6a65b06502cab7cefcde316e8fd7a62bc56ddc))
+
+# @esri/hub-common [14.174.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.173.0...@esri/hub-common@14.174.0) (2024-08-21)
+
+
+### Features
+
+* **hub-common:** adds default thumbnail for discussions ([#1627](https://github.com/Esri/hub.js/issues/1627)) ([4fbef75](https://github.com/Esri/hub.js/commit/4fbef757b7a4330d6e1914f415448a0d14530e8d))
+
+# @esri/hub-common [14.173.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.172.0...@esri/hub-common@14.173.0) (2024-08-21)
+
+
+### Features
+
+* add notice type to uiSchemaElementTypes ([#1612](https://github.com/Esri/hub.js/issues/1612)) ([bbf5146](https://github.com/Esri/hub.js/commit/bbf51467f547f4fc2bdde615f5a3bf3e3234f5de))
+
+# @esri/hub-common [14.172.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.171.0...@esri/hub-common@14.172.0) (2024-08-21)
+
+
+### Features
+
+* adding a third content service status ([#1619](https://github.com/Esri/hub.js/issues/1619)) ([a5d4ee5](https://github.com/Esri/hub.js/commit/a5d4ee57c6d034a2d1570b84016946c989ad5dc9))
+
+# @esri/hub-common [14.171.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.170.0...@esri/hub-common@14.171.0) (2024-08-19)
+
+
+### Features
+
+* **hub-common:** add HubSite.isUmbrella() and isOpenDataGroup() ([#1631](https://github.com/Esri/hub.js/issues/1631)) ([54ba448](https://github.com/Esri/hub.js/commit/54ba4481b42d782104823ec9af13d59ecdb5ea7d))
+* **hub-common:** set description to optional ([#1629](https://github.com/Esri/hub.js/issues/1629)) ([384cb99](https://github.com/Esri/hub.js/commit/384cb9923701f955fdbfb177890e622bb33aa104))
+
 # @esri/hub-common [14.170.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.169.0...@esri/hub-common@14.170.0) (2024-08-12)
 
 

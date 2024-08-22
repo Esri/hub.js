@@ -27,6 +27,7 @@ export function getPropertyMap(): IPropertyMap[] {
     "headerSass",
     "headContent",
     "layout",
+    "isUmbrella",
   ];
   valueProps.forEach((entry) => {
     map.push({ entityKey: entry, storeKey: `data.values.${entry}` });
