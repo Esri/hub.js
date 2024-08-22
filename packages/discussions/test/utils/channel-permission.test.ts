@@ -1222,7 +1222,8 @@ describe("ChannelPermission class", () => {
           },
         ] as IChannelAclPermission[];
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
           allowReply: true,
@@ -1237,7 +1238,8 @@ describe("ChannelPermission class", () => {
           { category: AclCategory.USER, key: user.username, role: Role.MANAGE },
         ] as IChannelAclPermission[];
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
           allowReply: true,
@@ -1252,7 +1254,8 @@ describe("ChannelPermission class", () => {
           { category: AclCategory.USER, key: user.username, role: Role.OWNER },
         ] as IChannelAclPermission[];
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
           allowReply: true,
@@ -1271,7 +1274,8 @@ describe("ChannelPermission class", () => {
           },
         ] as IChannelAclPermission[];
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
           allowReply: true,
@@ -1294,7 +1298,8 @@ describe("ChannelPermission class", () => {
           },
         ] as IChannelAclPermission[];
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
           allowReaction: true,
@@ -1309,7 +1314,8 @@ describe("ChannelPermission class", () => {
           { category: AclCategory.USER, key: user.username, role: Role.MANAGE },
         ] as IChannelAclPermission[];
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
           allowReaction: true,
@@ -1324,7 +1330,8 @@ describe("ChannelPermission class", () => {
           { category: AclCategory.USER, key: user.username, role: Role.OWNER },
         ] as IChannelAclPermission[];
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
           allowReaction: true,
@@ -1343,7 +1350,8 @@ describe("ChannelPermission class", () => {
           },
         ] as IChannelAclPermission[];
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
           allowReaction: true,
@@ -1366,7 +1374,8 @@ describe("ChannelPermission class", () => {
           },
         ] as IChannelAclPermission[];
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
           allowedReactions: [],
@@ -1381,7 +1390,8 @@ describe("ChannelPermission class", () => {
           { category: AclCategory.USER, key: user.username, role: Role.MANAGE },
         ] as IChannelAclPermission[];
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
           allowedReactions: [],
@@ -1396,7 +1406,8 @@ describe("ChannelPermission class", () => {
           { category: AclCategory.USER, key: user.username, role: Role.OWNER },
         ] as IChannelAclPermission[];
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
           allowedReactions: [],
@@ -1415,7 +1426,8 @@ describe("ChannelPermission class", () => {
           },
         ] as IChannelAclPermission[];
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
           allowedReactions: [],
@@ -1438,7 +1450,8 @@ describe("ChannelPermission class", () => {
           },
         ] as IChannelAclPermission[];
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
           defaultPostStatus: PostStatus.APPROVED,
@@ -1453,7 +1466,8 @@ describe("ChannelPermission class", () => {
           { category: AclCategory.USER, key: user.username, role: Role.MANAGE },
         ] as IChannelAclPermission[];
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
           defaultPostStatus: PostStatus.APPROVED,
@@ -1468,7 +1482,8 @@ describe("ChannelPermission class", () => {
           { category: AclCategory.USER, key: user.username, role: Role.OWNER },
         ] as IChannelAclPermission[];
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
           defaultPostStatus: PostStatus.APPROVED,
@@ -1487,7 +1502,8 @@ describe("ChannelPermission class", () => {
           },
         ] as IChannelAclPermission[];
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
           defaultPostStatus: PostStatus.APPROVED,
@@ -1510,7 +1526,8 @@ describe("ChannelPermission class", () => {
           },
         ] as IChannelAclPermission[];
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
           blockWords: [],
@@ -1525,7 +1542,8 @@ describe("ChannelPermission class", () => {
           { category: AclCategory.USER, key: user.username, role: Role.MANAGE },
         ] as IChannelAclPermission[];
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
           blockWords: [],
@@ -1540,7 +1558,8 @@ describe("ChannelPermission class", () => {
           { category: AclCategory.USER, key: user.username, role: Role.OWNER },
         ] as IChannelAclPermission[];
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
           blockWords: [],
@@ -1559,7 +1578,8 @@ describe("ChannelPermission class", () => {
           },
         ] as IChannelAclPermission[];
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
           blockWords: [],
@@ -1578,7 +1598,8 @@ describe("ChannelPermission class", () => {
           { category: AclCategory.USER, key: user.username, role: Role.MANAGE },
         ] as IChannelAclPermission[];
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
           softDelete: true,
@@ -1593,7 +1614,8 @@ describe("ChannelPermission class", () => {
           { category: AclCategory.USER, key: user.username, role: Role.OWNER },
         ] as IChannelAclPermission[];
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
           softDelete: true,
@@ -1612,7 +1634,8 @@ describe("ChannelPermission class", () => {
           },
         ] as IChannelAclPermission[];
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
           softDelete: true,
@@ -1631,7 +1654,8 @@ describe("ChannelPermission class", () => {
           { category: AclCategory.USER, key: user.username, role: Role.MANAGE },
         ] as IChannelAclPermission[];
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
           name: "foo",
@@ -1646,7 +1670,8 @@ describe("ChannelPermission class", () => {
           { category: AclCategory.USER, key: user.username, role: Role.OWNER },
         ] as IChannelAclPermission[];
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
           name: "foo",
@@ -1665,7 +1690,8 @@ describe("ChannelPermission class", () => {
           },
         ] as IChannelAclPermission[];
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
           name: "foo",
