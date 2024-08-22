@@ -78,8 +78,8 @@ describe("getMembers", function () {
         const expectedOptions = {
           params: {
             filter: `${usernames
-              .map((username) => `username:${username}`)
-              .join(" AND ")}`,
+              .map((username) => `username:"${username}"`)
+              .join(" OR ")}`,
             num: 2,
           },
           ...requestOptions,

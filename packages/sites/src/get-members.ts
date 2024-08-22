@@ -59,7 +59,7 @@ function authenticatedGetMembers(
   const chunkedOptions = chunkedUsernames.map((chunk) => {
     const filter = chunk
       .map((username) => `username:"${username}"`)
-      .join(" AND ");
+      .join(" OR ");
     return {
       urlPath,
       requestOptions: {
