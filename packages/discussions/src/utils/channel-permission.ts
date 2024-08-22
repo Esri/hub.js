@@ -27,19 +27,19 @@ enum ChannelAction {
 
 // See confluence for privs documentation: https://confluencewikidev.esri.com/pages/viewpage.action?pageId=153747776#Roles&Privileges-ApplicationtoChannels
 const CHANNEL_ACTION_PRIVS = {
-  ADD_REMOVE_OWNERS: [Role.OWNER],
-  ADD_REMOVE_MANAGERS: [Role.OWNER, Role.MANAGE],
-  ADD_REMOVE_MODERATORS: [Role.OWNER, Role.MANAGE],
-  ADD_REMOVE_ORGS: [Role.OWNER, Role.MANAGE],
-  ADD_REMOVE_GROUPS: [Role.OWNER, Role.MANAGE],
-  ADD_REMOVE_USERS: [Role.OWNER, Role.MANAGE],
-  ADD_REMOVE_AUTHENTICATED_USERS: [Role.OWNER, Role.MANAGE],
+  UPDATE_OWNERS: [Role.OWNER],
+  UPDATE_MANAGERS: [Role.OWNER, Role.MANAGE],
+  UPDATE_MODERATORS: [Role.OWNER, Role.MANAGE],
+  UPDATE_ORGS: [Role.OWNER, Role.MANAGE],
+  UPDATE_GROUPS: [Role.OWNER, Role.MANAGE],
+  UPDATE_USERS: [Role.OWNER, Role.MANAGE],
+  UPDATE_AUTHENTICATED_USERS: [Role.OWNER, Role.MANAGE],
   UPDATE_ANONYMOUS_USERS: [Role.OWNER, Role.MANAGE],
-  ENABLE_DISABLE_POST_REPLIES: [Role.OWNER, Role.MANAGE, Role.MODERATE],
-  ENABLE_DISABLE_POST_REACTIONS: [Role.OWNER, Role.MANAGE, Role.MODERATE],
-  ADD_REMOVE_ALLOWED_REACTIONS: [Role.OWNER, Role.MANAGE, Role.MODERATE],
+  UPDATE_POST_REPLIES: [Role.OWNER, Role.MANAGE, Role.MODERATE],
+  UPDATE_POST_REACTIONS: [Role.OWNER, Role.MANAGE, Role.MODERATE],
+  UPDATE_ALLOWED_REACTIONS: [Role.OWNER, Role.MANAGE, Role.MODERATE],
   UPDATE_DEFAULT_POST_STATUS: [Role.OWNER, Role.MANAGE, Role.MODERATE],
-  ADD_REMOVE_BLOCKED_WORDS: [Role.OWNER, Role.MANAGE, Role.MODERATE],
+  UPDATE_BLOCKED_WORDS: [Role.OWNER, Role.MANAGE, Role.MODERATE],
   UPDATE_CHANNEL_NAME: [Role.OWNER, Role.MANAGE],
   UPDATE_SOFT_DELETE_SETTING: [Role.OWNER, Role.MANAGE],
 };
@@ -154,23 +154,19 @@ export class ChannelPermission {
       // add or remove users
       // add or remove authenticated users
       // update anonymous users
-      (updates.allowReply &&
-        !CHANNEL_ACTION_PRIVS.ENABLE_DISABLE_POST_REPLIES.includes(userRole)) ||
-      (updates.allowReaction &&
-        !CHANNEL_ACTION_PRIVS.ENABLE_DISABLE_POST_REACTIONS.includes(
-          userRole
-        )) ||
-      (updates.allowedReactions &&
-        !CHANNEL_ACTION_PRIVS.ADD_REMOVE_ALLOWED_REACTIONS.includes(
-          userRole
-        )) ||
-      (updates.defaultPostStatus &&
+      (updates.hasOwnProperty("allowReply") &&
+        !CHANNEL_ACTION_PRIVS.UPDATE_POST_REPLIES.includes(userRole)) ||
+      (updates.hasOwnProperty("allowReaction") &&
+        !CHANNEL_ACTION_PRIVS.UPDATE_POST_REACTIONS.includes(userRole)) ||
+      (updates.hasOwnProperty("allowedReactions") &&
+        !CHANNEL_ACTION_PRIVS.UPDATE_ALLOWED_REACTIONS.includes(userRole)) ||
+      (updates.hasOwnProperty("defaultPostStatus") &&
         !CHANNEL_ACTION_PRIVS.UPDATE_DEFAULT_POST_STATUS.includes(userRole)) ||
-      (updates.blockWords &&
-        !CHANNEL_ACTION_PRIVS.ADD_REMOVE_BLOCKED_WORDS.includes(userRole)) ||
-      (updates.name &&
+      (updates.hasOwnProperty("blockWords") &&
+        !CHANNEL_ACTION_PRIVS.UPDATE_BLOCKED_WORDS.includes(userRole)) ||
+      (updates.hasOwnProperty("name") &&
         !CHANNEL_ACTION_PRIVS.UPDATE_CHANNEL_NAME.includes(userRole)) ||
-      (updates.softDelete &&
+      (updates.hasOwnProperty("softDelete") &&
         !CHANNEL_ACTION_PRIVS.UPDATE_SOFT_DELETE_SETTING.includes(userRole))
     ) {
       return false;
