@@ -33,6 +33,11 @@ describe("getDownloadConfigurationDisplayFormats", () => {
             url: "withheld",
             isDataSource: true,
           },
+          {
+            url: "withheld",
+            name: "Huey, Dewey, and Louie's Distribution",
+            isDataSource: false,
+          },
         ],
         serverQueryCapability: true,
         serverExtractCapability: true,
@@ -69,6 +74,11 @@ describe("getDownloadConfigurationDisplayFormats", () => {
         {
           url: "withheld",
           isDataSource: true,
+        },
+        {
+          url: "withheld",
+          name: "Huey, Dewey, and Louie's Distribution",
+          isDataSource: false,
         },
       ],
     } as any;
@@ -121,13 +131,19 @@ describe("getDownloadConfigurationDisplayFormats", () => {
         hidden: false,
       },
       {
-        label: "{{shared.fields.download.noTitle:translate}}",
+        label: "{{shared.fields.download.noTitleResource:translate}}",
         key: "additionalResource::0",
         hidden: false,
       },
       {
-        label: "{{shared.fields.download.dataSource:translate}}",
+        label: "{{shared.fields.download.dataSourceResource:translate}}",
         key: "additionalResource::1",
+        hidden: false,
+      },
+      {
+        label:
+          "{{shared.fields.download.additionalResource|resourceName=Huey%2C%20Dewey%2C%20and%20Louie's%20Distribution:translate}}",
+        key: "additionalResource::2",
         hidden: false,
       },
     ]);

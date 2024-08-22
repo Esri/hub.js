@@ -95,11 +95,23 @@ function toAdditionalResourceConfigurationDisplay(
 ): IDownloadFormatConfigurationDisplay {
   const resourceIndex = parseInt(config.key.split("::")[1], 10);
   const { name, isDataSource } = additionalResources[resourceIndex];
+
+  let label;
+  // Prefer the name of the additional resource if it exists
+  if (name) {
+    label = `{{shared.fields.download.additionalResource|resourceName=${encodeURIComponent(
+      name
+    )}:translate}}`;
+    // If the additional resource is the data source...
+  } else if (isDataSource) {
+    label = "{{shared.fields.download.dataSourceResource:translate}}";
+    // If the additional resource has no name...
+  } else {
+    label = "{{shared.fields.download.noTitleResource:translate}}";
+  }
+
   return {
-    label:
-      name ||
-      (isDataSource && `{{shared.fields.download.dataSource:translate}}`) || // if the additional resource is the datasource
-      `{{shared.fields.download.noTitle:translate}}`, // if the additional resource has no name,
+    label,
     ...config,
   };
 }
