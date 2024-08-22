@@ -2,11 +2,13 @@ import { IGroup, IUser } from "@esri/arcgis-rest-types";
 import { IChannel, IDiscussionsUser, SharingAccess } from "../../types";
 import { isOrgAdmin } from "../platform";
 import { ChannelPermission } from "../channel-permission";
+import { hasOrgAdminUpdateRights } from "../portal-privilege";
 
 const ADMIN_GROUP_ROLES = Object.freeze(["owner", "admin"]);
 
 /**
  * Utility to determine if User has privileges to modify the status of a post
+ * @deprecated use `canEditPostStatus` instead
  * @param channel
  * @param user
  * @returns {boolean}
@@ -15,10 +17,25 @@ export function canModifyPostStatus(
   channel: IChannel,
   user: IUser | IDiscussionsUser = {}
 ): boolean {
-  const { channelAcl, creator } = channel;
+  return canEditPostStatus(channel, user);
+}
 
-  if (channelAcl) {
-    const channelPermission = new ChannelPermission(channelAcl, creator);
+/**
+ * Utility to determine if User has privileges to modify the status of a post
+ * @param channel
+ * @param user
+ * @returns {boolean}
+ */
+export function canEditPostStatus(
+  channel: IChannel,
+  user: IUser | IDiscussionsUser = {}
+): boolean {
+  if (hasOrgAdminUpdateRights(user, channel.orgId)) {
+    return true;
+  }
+
+  if (channel.channelAcl) {
+    const channelPermission = new ChannelPermission(channel);
     return channelPermission.canModerateChannel(user as IDiscussionsUser);
   }
 
@@ -52,7 +69,7 @@ function isAuthorizedToModifyStatusByLegacyPermissions(
   // public or org access
   return (
     isAuthorizedToModifyStatusByLegacyGroup(channelGroups, userGroups) ||
-    isChannelOrgAdmin(channelOrgs, user)
+    isLegacyChannelOrgAdmin(channelOrgs, user)
   );
 }
 
@@ -78,7 +95,7 @@ function isAuthorizedToModifyStatusByLegacyGroup(
   });
 }
 
-function isChannelOrgAdmin(
+function isLegacyChannelOrgAdmin(
   channelOrgs: string[],
   user: IUser | IDiscussionsUser
 ): boolean {

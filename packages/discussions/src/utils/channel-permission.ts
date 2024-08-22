@@ -2,13 +2,14 @@ import { IGroup } from "@esri/arcgis-rest-types";
 import {
   AclCategory,
   AclSubCategory,
+  IChannel,
   IChannelAclPermission,
   IChannelAclPermissionDefinition,
   IDiscussionsUser,
   Role,
 } from "../types";
 import { CANNOT_DISCUSS } from "./constants";
-import { isOrgAdmin } from "./platform";
+import { isOrgAdmin, userHasPrivilege } from "./platform";
 
 type PermissionsByAclCategoryMap = {
   [key in AclCategory]?: IChannelAclPermission[];
@@ -20,18 +21,29 @@ enum ChannelAction {
   MODERATE_CHANNEL = "moderateChannel",
 }
 
+/**
+ * @internal
+ * @hidden
+ */
 export class ChannelPermission {
   private readonly ALLOWED_GROUP_MEMBER_TYPES = ["owner", "admin", "member"];
   private isChannelAclEmpty: boolean;
   private permissionsByCategory: PermissionsByAclCategoryMap;
   private channelCreator: string;
+  private channelOrgId: string;
 
-  constructor(channelAcl: IChannelAclPermission[], creator: string) {
-    this.isChannelAclEmpty = channelAcl.length === 0;
+  constructor(channel: IChannel) {
+    if (channel.channelAcl === undefined) {
+      throw new Error(
+        "channel.channelAcl is required for ChannelPermission checks"
+      );
+    }
+    this.isChannelAclEmpty = channel.channelAcl.length === 0;
     this.permissionsByCategory = {};
-    this.channelCreator = creator;
+    this.channelCreator = channel.creator;
+    this.channelOrgId = channel.orgId;
 
-    channelAcl.forEach((permission) => {
+    channel.channelAcl.forEach((permission) => {
       const { category } = permission;
       this.permissionsByCategory[category]?.push(permission) ||
         (this.permissionsByCategory[category] = [permission]);
@@ -164,21 +176,22 @@ export class ChannelPermission {
     });
   }
 
-  /**
-   * canCreateChannelHelpers
-   */
   private userCanAddAnonymousToAcl(user: IDiscussionsUser) {
     if (!this.permissionsByCategory[AclCategory.ANONYMOUS_USER]) {
       return true;
     }
-    return isOrgAdmin(user);
+    return (
+      isOrgAdmin(user) || userHasPrivilege(user, "portal:admin:shareToPublic")
+    );
   }
 
   private userCanAddUnauthenticatedToAcl(user: IDiscussionsUser) {
     if (!this.permissionsByCategory[AclCategory.AUTHENTICATED_USER]) {
       return true;
     }
-    return isOrgAdmin(user);
+    return (
+      isOrgAdmin(user) || userHasPrivilege(user, "portal:admin:shareToPublic")
+    );
   }
 
   private userCanAddAllGroupsToAcl(user: IDiscussionsUser) {
@@ -208,7 +221,7 @@ export class ChannelPermission {
     }
 
     return (
-      isOrgAdmin(user) &&
+      (isOrgAdmin(user) || userHasPrivilege(user, "portal:admin:shareToOrg")) &&
       this.isEveryPermissionForUserOrg(user.orgId, orgPermissions)
     );
   }
