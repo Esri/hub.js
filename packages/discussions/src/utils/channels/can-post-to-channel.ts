@@ -1,17 +1,10 @@
 import { IGroup, IUser } from "@esri/arcgis-rest-types";
-import { IChannel, IDiscussionsUser, Role, SharingAccess } from "../../types";
+import { IChannel, IDiscussionsUser, SharingAccess } from "../../types";
 import { ChannelPermission } from "../channel-permission";
 import { CANNOT_DISCUSS } from "../constants";
+import { hasOrgAdminUpdateRights } from "../portal-privilege";
 
 const ALLOWED_GROUP_ROLES = Object.freeze(["owner", "admin", "member"]);
-
-const ALLOWED_ROLES_FOR_POSTING = Object.freeze([
-  Role.WRITE,
-  Role.READWRITE,
-  Role.MANAGE,
-  Role.MODERATE,
-  Role.OWNER,
-]);
 
 type ILegacyChannelPermissions = Pick<
   IChannel,
@@ -28,10 +21,14 @@ export function canPostToChannel(
   channel: IChannel,
   user: IUser | IDiscussionsUser = {}
 ): boolean {
-  const { channelAcl, access, groups, orgs, allowAnonymous, creator } = channel;
+  const { access, groups, orgs, allowAnonymous } = channel;
 
-  if (channelAcl) {
-    const channelPermission = new ChannelPermission(channelAcl, creator);
+  if (hasOrgAdminUpdateRights(user, channel.orgId)) {
+    return true;
+  }
+
+  if (channel.channelAcl) {
+    const channelPermission = new ChannelPermission(channel);
     return channelPermission.canPostToChannel(user as IDiscussionsUser);
   }
 
