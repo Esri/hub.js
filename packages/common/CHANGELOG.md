@@ -1,3 +1,11 @@
+# @esri/hub-common [14.177.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.176.0...@esri/hub-common@14.177.0) (2024-08-23)
+
+
+### Features
+
+* update embed apps interface ([#1625](https://github.com/Esri/hub.js/issues/1625)) ([2ffc996](https://github.com/Esri/hub.js/commit/2ffc996ba34f3e64d63cd6261912cead893f8de2))
+* **hub-common:** add composeHubContent() for creating an IHubEditableContent from pre-fetched parts ([#1630](https://github.com/Esri/hub.js/issues/1630)) ([2626a26](https://github.com/Esri/hub.js/commit/2626a26e1dc25d4274404ebbf44f2958a70270ec))
+
 # @esri/hub-common [14.176.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.175.0...@esri/hub-common@14.176.0) (2024-08-22)
 
 
