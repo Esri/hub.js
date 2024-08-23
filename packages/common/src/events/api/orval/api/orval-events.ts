@@ -221,6 +221,14 @@ export type GetEventsParams = {
    */
   include?: string;
   /**
+   * Comma separated string list of edit groupIds that event is not shared to
+   */
+  withoutEditGroups?: string;
+  /**
+   * Comma separated string list of read groupIds that event is not shared to
+   */
+  withoutReadGroups?: string;
+  /**
    * the max amount of events to return
    */
   num?: string;
@@ -249,7 +257,7 @@ export type GetEventsParams = {
    */
   startDateTimeBefore?: string;
   /**
-   * comma separated string list of event statuses. Example: PRIVATE,ORG,PUBLIC
+   * comma separated string list of event statuses. Example: PLANNED,CANCELED,REMOVED
    */
   status?: string;
   /**
