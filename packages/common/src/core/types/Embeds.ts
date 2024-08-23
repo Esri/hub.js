@@ -64,6 +64,12 @@ export interface IHubEmbedSurvey {
   kind: EmbedKind.feedback;
   /** survey123 id */
   id: string;
+  /** whether to show the survey header */
+  showHeader?: boolean;
+  /** whether to show the survey description */
+  showDescription?: boolean;
+  /** whether to show the survey footer */
+  showFooter?: boolean;
   /** embed height */
   height?: number;
 }
