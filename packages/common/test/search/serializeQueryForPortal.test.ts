@@ -388,4 +388,87 @@ describe("ifilter-utils:", () => {
       expect(chk.joined).toEqual("1691478000000,1692255599999");
     });
   });
+  describe("verify matchOption serialization", () => {
+    it("handles any", () => {
+      const p: IPredicate = {
+        type: { any: ["Web Map", "Hub Project"] },
+        tags: ["water", "rivers"],
+      };
+
+      const query: IQuery = {
+        targetEntity: "item",
+        filters: [
+          {
+            operation: "AND",
+            predicates: [p],
+          },
+        ],
+      };
+
+      const chk = serializeQueryForPortal(query);
+      expect(chk.q).toEqual(
+        '((type:"Web Map" OR type:"Hub Project") AND (tags:"water" OR tags:"rivers"))'
+      );
+    });
+    it("handles all", () => {
+      const p: IPredicate = {
+        type: { all: ["Web Map", "Hub Project"] },
+      };
+
+      const query: IQuery = {
+        targetEntity: "item",
+        filters: [
+          {
+            operation: "AND",
+            predicates: [p],
+          },
+        ],
+      };
+
+      const chk = serializeQueryForPortal(query);
+      expect(chk.q).toEqual(`((type:"Web Map" AND type:"Hub Project"))`);
+    });
+    it("handles not", () => {
+      const p: IPredicate = {
+        type: { not: ["Web Map", "Hub Project"] },
+      };
+
+      const query: IQuery = {
+        targetEntity: "item",
+        filters: [
+          {
+            operation: "AND",
+            predicates: [p],
+          },
+        ],
+      };
+
+      const chk = serializeQueryForPortal(query);
+      expect(chk.q).toEqual('((-type:"Web Map" OR -type:"Hub Project"))');
+    });
+    it("handles any/all/not", () => {
+      const p: IPredicate = {
+        type: {
+          any: ["Web Map", "Hub Project"],
+          not: ["Feature Layer"],
+          all: ["A", "B"],
+        },
+      };
+
+      const query: IQuery = {
+        targetEntity: "item",
+        filters: [
+          {
+            operation: "AND",
+            predicates: [p],
+          },
+        ],
+      };
+
+      const chk = serializeQueryForPortal(query);
+      expect(chk.q).toEqual(
+        '((type:"Web Map" OR type:"Hub Project") AND (type:"A" AND type:"B") AND -type:"Feature Layer")'
+      );
+    });
+  });
 });
