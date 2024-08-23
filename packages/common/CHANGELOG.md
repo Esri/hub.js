@@ -1,3 +1,10 @@
+## @esri/hub-common [14.177.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.177.0...@esri/hub-common@14.177.1) (2024-08-23)
+
+
+### Bug Fixes
+
+* address invalid query serialization ([#1635](https://github.com/Esri/hub.js/issues/1635)) ([f32fe56](https://github.com/Esri/hub.js/commit/f32fe5628abe9b64b7782317339471d670db211e))
+
 # @esri/hub-common [14.177.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.176.0...@esri/hub-common@14.177.0) (2024-08-23)
 
 
