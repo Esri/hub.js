@@ -1,11 +1,6 @@
 import { IEntityEditorContext, IHubUser } from "../core/types";
 import { IArcGISContext } from "../ArcGISContext";
-import {
-  EditorType,
-  getEditorConfig,
-  IEditorConfig,
-  IWithEditorBehavior,
-} from "../core";
+import { getEditorConfig, IEditorConfig, IWithEditorBehavior } from "../core";
 import { enrichEntity } from "../core/enrichEntity";
 import { cloneObject } from "../util";
 import { UserEditorType } from "./_internal/UserSchema";
