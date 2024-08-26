@@ -29,7 +29,7 @@ export async function computeProps(
 function getPortalSignInSettings(context: IArcGISContext) {
   const url = `${getPortalUrl(
     context.requestOptions
-  )}/portals/self/signinSettings?f=json`;
+  )}/portals/self/signinSettings`;
   const requestOpts = {
     ...context.requestOptions,
     httpMethod: "GET",
