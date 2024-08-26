@@ -135,6 +135,8 @@ export async function deleteHubEvent(
   id: string,
   requestOptions: IHubUserRequestOptions
 ): Promise<void> {
+  // TODO: update `status` of event to `"removed"` when requestOptions.params.parementDelete is `true`
+  // instead of permanently deleting the event when we officially support recycle bin behavior
   await deleteEventApi({
     eventId: id,
     ...requestOptions,

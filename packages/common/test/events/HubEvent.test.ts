@@ -90,9 +90,11 @@ describe("HubEvent Class:", () => {
   });
 
   it("delete", async () => {
-    const deleteSpy = spyOn(eventModule, "deleteEvent").and.callFake(() => {
-      return Promise.resolve();
-    });
+    const deleteSpy = spyOn(eventEditModule, "deleteHubEvent").and.callFake(
+      () => {
+        return Promise.resolve();
+      }
+    );
     const chk = HubEvent.fromJson({ name: "Test Event" }, authdCtxMgr.context);
     await chk.delete();
     expect(deleteSpy).toHaveBeenCalledTimes(1);
