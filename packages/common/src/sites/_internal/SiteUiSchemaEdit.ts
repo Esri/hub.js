@@ -82,7 +82,9 @@ export const buildUiSchema = async (
           getThumbnailUiSchemaElement(
             i18nScope,
             options.thumbnail,
-            options.thumbnailUrl
+            options.thumbnailUrl,
+            "site",
+            context.requestOptions
           ),
           {
             labelKey: `${i18nScope}.fields.tags.label`,

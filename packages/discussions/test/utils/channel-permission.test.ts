@@ -2,8 +2,11 @@ import { IGroup } from "@esri/arcgis-rest-types";
 import {
   AclCategory,
   AclSubCategory,
+  IChannel,
   IChannelAclPermission,
   IDiscussionsUser,
+  IUpdateChannel,
+  PostStatus,
   Role,
 } from "../../src/types";
 import { ChannelPermission } from "../../src/utils/channel-permission";
@@ -91,13 +94,28 @@ function buildCompleteAcl() {
 }
 
 describe("ChannelPermission class", () => {
+  describe("constructor", () => {
+    it("throws error if channel.channelAcl is undefined", () => {
+      try {
+        const channel = {} as IChannel;
+        const a = new ChannelPermission(channel);
+        throw new Error("should have thrown");
+      } catch (error) {
+        expect(error.message).toBe(
+          "channel.channelAcl is required for ChannelPermission checks"
+        );
+      }
+    });
+  });
+
   describe("canPostToChannel", () => {
     describe("all permission cases", () => {
       it("returns false if user logged in and channel permissions are empty", async () => {
         const user = buildUser();
         const channelAcl = [] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canPostToChannel(user)).toBe(false);
       });
@@ -105,8 +123,9 @@ describe("ChannelPermission class", () => {
       it("returns false if user not logged in and channel permissions are empty", async () => {
         const user = buildUser({ username: null });
         const channelAcl = [] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canPostToChannel(user)).toBe(false);
       });
@@ -120,8 +139,9 @@ describe("ChannelPermission class", () => {
           const channelAcl = [
             { category: AclCategory.ANONYMOUS_USER, role: allowedRole },
           ] as IChannelAclPermission[];
+          const channel = { channelAcl, creator: "foo" } as IChannel;
 
-          const channelPermission = new ChannelPermission(channelAcl, "foo");
+          const channelPermission = new ChannelPermission(channel);
 
           expect(channelPermission.canPostToChannel(user)).toBe(true);
         });
@@ -132,8 +152,9 @@ describe("ChannelPermission class", () => {
         const channelAcl = [
           { category: AclCategory.ANONYMOUS_USER, role: Role.READ },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canPostToChannel(user)).toBe(false);
       });
@@ -147,8 +168,9 @@ describe("ChannelPermission class", () => {
           const channelAcl = [
             { category: AclCategory.AUTHENTICATED_USER, role: allowedRole },
           ] as IChannelAclPermission[];
+          const channel = { channelAcl, creator: "foo" } as IChannel;
 
-          const channelPermission = new ChannelPermission(channelAcl, "foo");
+          const channelPermission = new ChannelPermission(channel);
 
           expect(channelPermission.canPostToChannel(user)).toBe(true);
         });
@@ -159,8 +181,9 @@ describe("ChannelPermission class", () => {
         const channelAcl = [
           { category: AclCategory.AUTHENTICATED_USER, role: Role.READ },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canPostToChannel(user)).toBe(false);
       });
@@ -170,8 +193,9 @@ describe("ChannelPermission class", () => {
         const channelAcl = [
           { category: AclCategory.AUTHENTICATED_USER, role: Role.READWRITE },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canPostToChannel(user)).toBe(false);
       });
@@ -200,8 +224,9 @@ describe("ChannelPermission class", () => {
               orgId: orgId1,
               groups: [buildGroup(groupId1, memberType)], // member in groupId1
             });
+            const channel = { channelAcl, creator: "foo" } as IChannel;
 
-            const channelPermission = new ChannelPermission(channelAcl, "foo");
+            const channelPermission = new ChannelPermission(channel);
 
             expect(channelPermission.canPostToChannel(user)).toBe(true);
           });
@@ -224,8 +249,9 @@ describe("ChannelPermission class", () => {
             role: Role.READ,
           },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canPostToChannel(user)).toBe(false);
       });
@@ -248,8 +274,9 @@ describe("ChannelPermission class", () => {
             role: Role.READWRITE, // admins read
           },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canPostToChannel(user)).toBe(false);
       });
@@ -276,8 +303,9 @@ describe("ChannelPermission class", () => {
               orgId: orgId1,
               groups: [buildGroup(groupId1, memberType)], // admin in groupId1
             });
+            const channel = { channelAcl, creator: "foo" } as IChannel;
 
-            const channelPermission = new ChannelPermission(channelAcl, "foo");
+            const channelPermission = new ChannelPermission(channel);
 
             expect(channelPermission.canPostToChannel(user)).toBe(true);
           });
@@ -300,8 +328,9 @@ describe("ChannelPermission class", () => {
             role: Role.READ, // admins read
           },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canPostToChannel(user)).toBe(false);
       });
@@ -340,8 +369,9 @@ describe("ChannelPermission class", () => {
             role: Role.READ,
           },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canPostToChannel(user)).toBe(true);
       });
@@ -367,8 +397,9 @@ describe("ChannelPermission class", () => {
             role: Role.READ,
           },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canPostToChannel(user)).toBe(false);
       });
@@ -394,8 +425,9 @@ describe("ChannelPermission class", () => {
             role: Role.READWRITE, // admin write
           },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canPostToChannel(user)).toBe(false);
       });
@@ -420,8 +452,9 @@ describe("ChannelPermission class", () => {
               role: Role.READ, // admin read
             },
           ] as IChannelAclPermission[];
+          const channel = { channelAcl, creator: "joker" } as IChannel;
 
-          const channelPermission = new ChannelPermission(channelAcl, "joker");
+          const channelPermission = new ChannelPermission(channel);
 
           expect(channelPermission.canPostToChannel(user)).toBe(true);
         });
@@ -445,8 +478,9 @@ describe("ChannelPermission class", () => {
               role: allowedRole, // admin write
             },
           ] as IChannelAclPermission[];
+          const channel = { channelAcl, creator: "foo" } as IChannel;
 
-          const channelPermission = new ChannelPermission(channelAcl, "foo");
+          const channelPermission = new ChannelPermission(channel);
 
           expect(channelPermission.canPostToChannel(user)).toBe(true);
         });
@@ -468,8 +502,9 @@ describe("ChannelPermission class", () => {
             role: Role.READWRITE, // admin write
           },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canPostToChannel(user)).toBe(false);
       });
@@ -487,8 +522,9 @@ describe("ChannelPermission class", () => {
               role: allowedRole,
             },
           ] as IChannelAclPermission[];
+          const channel = { channelAcl, creator: "foo" } as IChannel;
 
-          const channelPermission = new ChannelPermission(channelAcl, "foo");
+          const channelPermission = new ChannelPermission(channel);
 
           expect(channelPermission.canPostToChannel(user)).toBe(true);
         });
@@ -499,8 +535,9 @@ describe("ChannelPermission class", () => {
         const channelAcl = [
           { category: AclCategory.USER, key: user.username, role: Role.READ },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canPostToChannel(user)).toBe(false);
       });
@@ -514,8 +551,9 @@ describe("ChannelPermission class", () => {
         const channelAcl = [
           { category: AclCategory.ANONYMOUS_USER, role: Role.READ },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canCreateChannel(user)).toEqual(false);
       });
@@ -523,17 +561,22 @@ describe("ChannelPermission class", () => {
       it("returns false if permissions list is empty", () => {
         const user = buildUser();
         const channelAcl = [] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canCreateChannel(user)).toEqual(false);
       });
 
       it("returns true with a full valid channelAcl if user is the org_admin, in all groups, and org permissions only relate to users org", () => {
-        const user = buildUser({ role: "org_admin" });
+        const user = buildUser({
+          role: "org_admin",
+          privileges: ["portal:admin:shareToPublic"],
+        });
         const channelAcl = buildCompleteAcl() as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canCreateChannel(user)).toEqual(true);
       });
@@ -545,19 +588,33 @@ describe("ChannelPermission class", () => {
         const channelAcl = [
           { category: AclCategory.ANONYMOUS_USER, role: Role.READ },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canCreateChannel(user)).toEqual(true);
       });
 
-      it("returns false if user is not org_admin", () => {
+      it("returns true if user has privilege portal:admin:shareToPublic", () => {
+        const user = buildUser({ privileges: ["portal:admin:shareToPublic"] });
+        const channelAcl = [
+          { category: AclCategory.ANONYMOUS_USER, role: Role.READ },
+        ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+
+        const channelPermission = new ChannelPermission(channel);
+
+        expect(channelPermission.canCreateChannel(user)).toEqual(true);
+      });
+
+      it("returns false if user is not org_admin and does not have privilege portal:admin:shareToPublic", () => {
         const user = buildUser();
         const channelAcl = [
           { category: AclCategory.ANONYMOUS_USER, role: Role.READ },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canCreateChannel(user)).toEqual(false);
       });
@@ -569,19 +626,33 @@ describe("ChannelPermission class", () => {
         const channelAcl = [
           { category: AclCategory.AUTHENTICATED_USER, role: Role.READ },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canCreateChannel(user)).toEqual(true);
       });
 
-      it("returns false if user is not org_admin", () => {
+      it("returns true if user if user has privilege portal:admin:shareToPublic", () => {
+        const user = buildUser({ privileges: ["portal:admin:shareToPublic"] });
+        const channelAcl = [
+          { category: AclCategory.AUTHENTICATED_USER, role: Role.READ },
+        ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+
+        const channelPermission = new ChannelPermission(channel);
+
+        expect(channelPermission.canCreateChannel(user)).toEqual(true);
+      });
+
+      it("returns false if user is not org_admin and does not have privilege portal:admin:shareToPublic", () => {
         const user = buildUser();
         const channelAcl = [
           { category: AclCategory.AUTHENTICATED_USER, role: Role.READ },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canCreateChannel(user)).toEqual(false);
       });
@@ -616,8 +687,9 @@ describe("ChannelPermission class", () => {
             role: Role.READ,
           },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canCreateChannel(user)).toEqual(true);
       });
@@ -640,8 +712,9 @@ describe("ChannelPermission class", () => {
             role: Role.READ,
           },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canCreateChannel(user)).toEqual(false);
       });
@@ -667,8 +740,9 @@ describe("ChannelPermission class", () => {
             role: Role.READ,
           },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canCreateChannel(user)).toEqual(false);
       });
@@ -695,8 +769,9 @@ describe("ChannelPermission class", () => {
             role: Role.READWRITE,
           },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canCreateChannel(user)).toEqual(false);
       });
@@ -719,8 +794,32 @@ describe("ChannelPermission class", () => {
             role: Role.READ,
           },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
+
+        expect(channelPermission.canCreateChannel(user)).toEqual(true);
+      });
+
+      it("returns true if user if user has privilege portal:admin:shareToOrg and every permission is for the users orgId", () => {
+        const user = buildUser({ privileges: ["portal:admin:shareToOrg"] });
+        const channelAcl = [
+          {
+            category: AclCategory.ORG,
+            subCategory: AclSubCategory.ADMIN,
+            key: orgId1,
+            role: Role.OWNER,
+          },
+          {
+            category: AclCategory.ORG,
+            subCategory: AclSubCategory.MEMBER,
+            key: orgId1,
+            role: Role.READ,
+          },
+        ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canCreateChannel(user)).toEqual(true);
       });
@@ -741,13 +840,37 @@ describe("ChannelPermission class", () => {
             role: Role.READ,
           },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canCreateChannel(user)).toEqual(false);
       });
 
-      it("returns false if user is not org_admin", () => {
+      it("returns false if user has privilege portal:admin:shareToOrg and every permission is not for the users orgId", () => {
+        const user = buildUser({ privileges: ["portal:admin:shareToOrg"] });
+        const channelAcl = [
+          {
+            category: AclCategory.ORG,
+            subCategory: AclSubCategory.ADMIN,
+            key: orgId1,
+            role: Role.OWNER,
+          },
+          {
+            category: AclCategory.ORG,
+            subCategory: AclSubCategory.MEMBER,
+            key: "unknown",
+            role: Role.READ,
+          },
+        ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+
+        const channelPermission = new ChannelPermission(channel);
+
+        expect(channelPermission.canCreateChannel(user)).toEqual(false);
+      });
+
+      it("returns false if user is not org_admin or does not have privilege portal:admin:shareToOrg", () => {
         const user = buildUser();
         const channelAcl = [
           {
@@ -763,8 +886,9 @@ describe("ChannelPermission class", () => {
             role: Role.READ,
           },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canCreateChannel(user)).toEqual(false);
       });
@@ -780,7 +904,9 @@ describe("ChannelPermission class", () => {
             role: Role.READ,
           },
         ] as IChannelAclPermission[];
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canCreateChannel(user)).toEqual(false);
       });
@@ -791,23 +917,20 @@ describe("ChannelPermission class", () => {
     describe("all permission cases", () => {
       it("returns false if user not logged in", async () => {
         const user = buildUser({ username: null });
-        const channelCreator = user.username;
         const channelAcl = [] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: user.username } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canModerateChannel(user)).toBe(false);
       });
 
       it("returns true if the user created the channel", async () => {
         const user = buildUser();
-        const channelCreator = user.username;
         const channelAcl = [] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: user.username } as IChannel;
 
-        const channelPermission = new ChannelPermission(
-          channelAcl,
-          channelCreator as string
-        );
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canModerateChannel(user)).toBe(true);
       });
@@ -815,8 +938,6 @@ describe("ChannelPermission class", () => {
 
     describe("Group Permissions", () => {
       it("returns true if user is group member in group permission list and role is moderate or above", async () => {
-        const channelCreator = "notUser";
-
         ALLOWED_ROLES_FOR_MODERATION.forEach((allowedRole) => {
           const channelAcl = [
             {
@@ -838,11 +959,9 @@ describe("ChannelPermission class", () => {
               orgId: orgId1,
               groups: [buildGroup(groupId1, memberType)], // member in groupId1
             });
+            const channel = { channelAcl, creator: "notUser" } as IChannel;
 
-            const channelPermission = new ChannelPermission(
-              channelAcl,
-              channelCreator
-            );
+            const channelPermission = new ChannelPermission(channel);
 
             expect(channelPermission.canModerateChannel(user)).toBe(true);
           });
@@ -851,7 +970,6 @@ describe("ChannelPermission class", () => {
 
       it("returns false if user is group member in group permission list and role is NOT allowed", async () => {
         const user = buildUser(); // member in groupId1
-        const channelCreator = "notUser";
         const channelAcl = [
           {
             category: AclCategory.GROUP,
@@ -866,8 +984,9 @@ describe("ChannelPermission class", () => {
             role: Role.READ, // admins read
           },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "notUser" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canModerateChannel(user)).toBe(false);
       });
@@ -876,7 +995,6 @@ describe("ChannelPermission class", () => {
         const user = buildUser({
           groups: [buildGroup(groupId1, "none")], // none in groupId1
         });
-        const channelCreator = "notUser";
         const channelAcl = [
           {
             category: AclCategory.GROUP,
@@ -891,15 +1009,14 @@ describe("ChannelPermission class", () => {
             role: Role.MODERATE, // admins moderate
           },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "notUser" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canModerateChannel(user)).toBe(false);
       });
 
       it("returns true if user is group owner/admin in group permission list and role is allowed", async () => {
-        const channelCreator = "notUser";
-
         ALLOWED_ROLES_FOR_MODERATION.forEach((allowedRole) => {
           const channelAcl = [
             {
@@ -921,11 +1038,9 @@ describe("ChannelPermission class", () => {
               orgId: orgId1,
               groups: [buildGroup(groupId1, memberType)], // admin or owner in groupId1
             });
+            const channel = { channelAcl, creator: "notUser" } as IChannel;
 
-            const channelPermission = new ChannelPermission(
-              channelAcl,
-              channelCreator
-            );
+            const channelPermission = new ChannelPermission(channel);
 
             expect(channelPermission.canModerateChannel(user)).toBe(true);
           });
@@ -934,7 +1049,6 @@ describe("ChannelPermission class", () => {
 
       it("returns false if user is group owner/admin in group permission list and role is NOT allowed", async () => {
         const user = buildUser(); // admin in groupId2
-        const channelCreator = "notUser";
         const channelAcl = [
           {
             category: AclCategory.GROUP,
@@ -949,8 +1063,9 @@ describe("ChannelPermission class", () => {
             role: Role.READ, // admins read
           },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "notUser" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canModerateChannel(user)).toBe(false);
       });
@@ -962,7 +1077,6 @@ describe("ChannelPermission class", () => {
             buildGroup("unknownGroupId", "admin"), // admin in unknownGroupId
           ],
         });
-        const channelCreator = "notUser";
         const channelAcl = [
           {
             category: AclCategory.GROUP,
@@ -977,8 +1091,9 @@ describe("ChannelPermission class", () => {
             role: Role.MODERATE, // admin moderate
           },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "notUser" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canModerateChannel(user)).toBe(false);
       });
@@ -987,7 +1102,6 @@ describe("ChannelPermission class", () => {
     describe("Org Permissions", () => {
       it("returns true if user is org member in permissions list and member role is allowed", async () => {
         const user = buildUser();
-        const channelCreator = "notUser";
 
         ALLOWED_ROLES_FOR_MODERATION.forEach((allowedRole) => {
           const channelAcl = [
@@ -1004,8 +1118,9 @@ describe("ChannelPermission class", () => {
               role: Role.READ, // admin read
             },
           ] as IChannelAclPermission[];
+          const channel = { channelAcl, creator: "notUser" } as IChannel;
 
-          const channelPermission = new ChannelPermission(channelAcl, "foo");
+          const channelPermission = new ChannelPermission(channel);
 
           expect(channelPermission.canModerateChannel(user)).toBe(true);
         });
@@ -1013,7 +1128,6 @@ describe("ChannelPermission class", () => {
 
       it("returns true if user is org_admin in permissions list and admin role is allowed", async () => {
         const user = buildUser({ role: "org_admin" });
-        const channelCreator = "notUser";
 
         ALLOWED_ROLES_FOR_MODERATION.forEach((allowedRole) => {
           const channelAcl = [
@@ -1030,8 +1144,9 @@ describe("ChannelPermission class", () => {
               role: allowedRole, // admin moderate
             },
           ] as IChannelAclPermission[];
+          const channel = { channelAcl, creator: "notUser" } as IChannel;
 
-          const channelPermission = new ChannelPermission(channelAcl, "foo");
+          const channelPermission = new ChannelPermission(channel);
 
           expect(channelPermission.canModerateChannel(user)).toBe(true);
         });
@@ -1039,7 +1154,6 @@ describe("ChannelPermission class", () => {
 
       it("returns false if user is not in the permissions org", async () => {
         const user = buildUser({ orgId: "unknownOrgId" }); // unknown org
-        const channelCreator = "notUser";
         const channelAcl = [
           {
             category: AclCategory.ORG,
@@ -1054,8 +1168,9 @@ describe("ChannelPermission class", () => {
             role: Role.MODERATE, // admin moderate
           },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "notUser" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canModerateChannel(user)).toBe(false);
       });
@@ -1064,7 +1179,6 @@ describe("ChannelPermission class", () => {
     describe("User Permissions", () => {
       it("returns true if user is in permissions list and role is allowed", () => {
         const user = buildUser();
-        const channelCreator = "notUser";
 
         ALLOWED_ROLES_FOR_MODERATION.forEach((allowedRole) => {
           const channelAcl = [
@@ -1074,8 +1188,9 @@ describe("ChannelPermission class", () => {
               role: allowedRole,
             },
           ] as IChannelAclPermission[];
+          const channel = { channelAcl, creator: "notUser" } as IChannel;
 
-          const channelPermission = new ChannelPermission(channelAcl, "foo");
+          const channelPermission = new ChannelPermission(channel);
 
           expect(channelPermission.canModerateChannel(user)).toBe(true);
         });
@@ -1083,14 +1198,508 @@ describe("ChannelPermission class", () => {
 
       it("returns false if user is in permissions list but role is not allowed", () => {
         const user = buildUser();
-        const channelCreator = "notUser";
         const channelAcl = [
           { category: AclCategory.USER, key: user.username, role: Role.READ },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "notUser" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canModerateChannel(user)).toBe(false);
+      });
+    });
+  });
+
+  describe("canUpdateProperties", () => {
+    describe("update allowReply required role", () => {
+      it("returns true if user has a role of moderate", () => {
+        const user = buildUser();
+        const channelAcl = [
+          {
+            category: AclCategory.USER,
+            key: user.username,
+            role: Role.MODERATE,
+          },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowReply: true,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if user has a role of manage", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.MANAGE },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowReply: true,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if user has a role of owner", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.OWNER },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowReply: true,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns false if user does not have a minimum role of moderate", () => {
+        const user = buildUser();
+        const channelAcl = [
+          {
+            category: AclCategory.USER,
+            key: user.username,
+            role: Role.READWRITE,
+          },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowReply: true,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+          false
+        );
+      });
+    });
+
+    describe("update allowReaction required role", () => {
+      it("returns true if user has a role of moderate", () => {
+        const user = buildUser();
+        const channelAcl = [
+          {
+            category: AclCategory.USER,
+            key: user.username,
+            role: Role.MODERATE,
+          },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowReaction: true,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if user has a role of manage", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.MANAGE },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowReaction: true,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if user has a role of owner", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.OWNER },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowReaction: true,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns false if user does not have a minimum role of moderate", () => {
+        const user = buildUser();
+        const channelAcl = [
+          {
+            category: AclCategory.USER,
+            key: user.username,
+            role: Role.READWRITE,
+          },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowReaction: true,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+          false
+        );
+      });
+    });
+
+    describe("update allowedReactions required role", () => {
+      it("returns true if user has a role of moderate", () => {
+        const user = buildUser();
+        const channelAcl = [
+          {
+            category: AclCategory.USER,
+            key: user.username,
+            role: Role.MODERATE,
+          },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowedReactions: [],
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if user has a role of manage", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.MANAGE },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowedReactions: [],
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if user has a role of owner", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.OWNER },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowedReactions: [],
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns false if user does not have a minimum role of moderate", () => {
+        const user = buildUser();
+        const channelAcl = [
+          {
+            category: AclCategory.USER,
+            key: user.username,
+            role: Role.READWRITE,
+          },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowedReactions: [],
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+          false
+        );
+      });
+    });
+
+    describe("update defaultPostStatus required role", () => {
+      it("returns true if user has a role of moderate", () => {
+        const user = buildUser();
+        const channelAcl = [
+          {
+            category: AclCategory.USER,
+            key: user.username,
+            role: Role.MODERATE,
+          },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          defaultPostStatus: PostStatus.APPROVED,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if user has a role of manage", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.MANAGE },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          defaultPostStatus: PostStatus.APPROVED,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if user has a role of owner", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.OWNER },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          defaultPostStatus: PostStatus.APPROVED,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns false if user does not have a minimum role of moderate", () => {
+        const user = buildUser();
+        const channelAcl = [
+          {
+            category: AclCategory.USER,
+            key: user.username,
+            role: Role.READWRITE,
+          },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          defaultPostStatus: PostStatus.APPROVED,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+          false
+        );
+      });
+    });
+
+    describe("update blockWords required role", () => {
+      it("returns true if user has a role of moderate", () => {
+        const user = buildUser();
+        const channelAcl = [
+          {
+            category: AclCategory.USER,
+            key: user.username,
+            role: Role.MODERATE,
+          },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          blockWords: [],
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if user has a role of manage", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.MANAGE },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          blockWords: [],
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if user has a role of owner", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.OWNER },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          blockWords: [],
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns false if user does not have a minimum role of moderate", () => {
+        const user = buildUser();
+        const channelAcl = [
+          {
+            category: AclCategory.USER,
+            key: user.username,
+            role: Role.READWRITE,
+          },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          blockWords: [],
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+          false
+        );
+      });
+    });
+
+    describe("update softDelete required role", () => {
+      it("returns true if user has a role of manage", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.MANAGE },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          softDelete: true,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if user has a role of owner", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.OWNER },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          softDelete: true,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns false if user does not have a minimum role of manage", () => {
+        const user = buildUser();
+        const channelAcl = [
+          {
+            category: AclCategory.USER,
+            key: user.username,
+            role: Role.MODERATE,
+          },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          softDelete: true,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+          false
+        );
+      });
+    });
+
+    describe("update name required role", () => {
+      it("returns true if user has a role of manage", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.MANAGE },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          name: "foo",
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if user has a role of owner", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.OWNER },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          name: "foo",
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns false if user does not have a minimum role of manage", () => {
+        const user = buildUser();
+        const channelAcl = [
+          {
+            category: AclCategory.USER,
+            key: user.username,
+            role: Role.MODERATE,
+          },
+        ] as IChannelAclPermission[];
+
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          name: "foo",
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+          false
+        );
       });
     });
   });
@@ -1100,8 +1709,9 @@ describe("ChannelPermission class", () => {
       it("returns false if user logged in and channel permissions are empty", async () => {
         const user = buildUser();
         const channelAcl = [] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canPostToChannel(user)).toBe(false);
       });
@@ -1109,8 +1719,9 @@ describe("ChannelPermission class", () => {
       it("returns false if user not logged in and channel permissions are empty", async () => {
         const user = buildUser({ username: null });
         const channelAcl = [] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canPostToChannel(user)).toBe(false);
       });
@@ -1124,8 +1735,9 @@ describe("ChannelPermission class", () => {
           const channelAcl = [
             { category: AclCategory.ANONYMOUS_USER, role: allowedRole },
           ] as IChannelAclPermission[];
+          const channel = { channelAcl, creator: "foo" } as IChannel;
 
-          const channelPermission = new ChannelPermission(channelAcl, "foo");
+          const channelPermission = new ChannelPermission(channel);
 
           expect(channelPermission.canPostToChannel(user)).toBe(true);
         });
@@ -1136,8 +1748,9 @@ describe("ChannelPermission class", () => {
         const channelAcl = [
           { category: AclCategory.ANONYMOUS_USER, role: Role.READ },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canPostToChannel(user)).toBe(false);
       });
@@ -1151,8 +1764,9 @@ describe("ChannelPermission class", () => {
           const channelAcl = [
             { category: AclCategory.AUTHENTICATED_USER, role: allowedRole },
           ] as IChannelAclPermission[];
+          const channel = { channelAcl, creator: "foo" } as IChannel;
 
-          const channelPermission = new ChannelPermission(channelAcl, "foo");
+          const channelPermission = new ChannelPermission(channel);
 
           expect(channelPermission.canPostToChannel(user)).toBe(true);
         });
@@ -1163,8 +1777,9 @@ describe("ChannelPermission class", () => {
         const channelAcl = [
           { category: AclCategory.AUTHENTICATED_USER, role: Role.READ },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canPostToChannel(user)).toBe(false);
       });
@@ -1174,8 +1789,9 @@ describe("ChannelPermission class", () => {
         const channelAcl = [
           { category: AclCategory.AUTHENTICATED_USER, role: Role.READWRITE },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canPostToChannel(user)).toBe(false);
       });
@@ -1204,8 +1820,9 @@ describe("ChannelPermission class", () => {
               orgId: orgId1,
               groups: [buildGroup(groupId1, memberType)], // member in groupId1
             });
+            const channel = { channelAcl, creator: "foo" } as IChannel;
 
-            const channelPermission = new ChannelPermission(channelAcl, "foo");
+            const channelPermission = new ChannelPermission(channel);
 
             expect(channelPermission.canPostToChannel(user)).toBe(true);
           });
@@ -1228,8 +1845,9 @@ describe("ChannelPermission class", () => {
             role: Role.READ,
           },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canPostToChannel(user)).toBe(false);
       });
@@ -1252,8 +1870,9 @@ describe("ChannelPermission class", () => {
             role: Role.READWRITE, // admins read
           },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canPostToChannel(user)).toBe(false);
       });
@@ -1280,8 +1899,9 @@ describe("ChannelPermission class", () => {
               orgId: orgId1,
               groups: [buildGroup(groupId1, memberType)], // admin in groupId1
             });
+            const channel = { channelAcl, creator: "foo" } as IChannel;
 
-            const channelPermission = new ChannelPermission(channelAcl, "foo");
+            const channelPermission = new ChannelPermission(channel);
 
             expect(channelPermission.canPostToChannel(user)).toBe(true);
           });
@@ -1304,8 +1924,9 @@ describe("ChannelPermission class", () => {
             role: Role.READ, // admins read
           },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canPostToChannel(user)).toBe(false);
       });
@@ -1344,8 +1965,9 @@ describe("ChannelPermission class", () => {
             role: Role.READ,
           },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canPostToChannel(user)).toBe(true);
       });
@@ -1371,8 +1993,9 @@ describe("ChannelPermission class", () => {
             role: Role.READ,
           },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canPostToChannel(user)).toBe(false);
       });
@@ -1398,8 +2021,9 @@ describe("ChannelPermission class", () => {
             role: Role.READWRITE, // admin write
           },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canPostToChannel(user)).toBe(false);
       });
@@ -1424,8 +2048,9 @@ describe("ChannelPermission class", () => {
               role: Role.READ, // admin read
             },
           ] as IChannelAclPermission[];
+          const channel = { channelAcl, creator: "joker" } as IChannel;
 
-          const channelPermission = new ChannelPermission(channelAcl, "joker");
+          const channelPermission = new ChannelPermission(channel);
 
           expect(channelPermission.canPostToChannel(user)).toBe(true);
         });
@@ -1449,8 +2074,9 @@ describe("ChannelPermission class", () => {
               role: allowedRole, // admin write
             },
           ] as IChannelAclPermission[];
+          const channel = { channelAcl, creator: "foo" } as IChannel;
 
-          const channelPermission = new ChannelPermission(channelAcl, "foo");
+          const channelPermission = new ChannelPermission(channel);
 
           expect(channelPermission.canPostToChannel(user)).toBe(true);
         });
@@ -1472,8 +2098,9 @@ describe("ChannelPermission class", () => {
             role: Role.READWRITE, // admin write
           },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canPostToChannel(user)).toBe(false);
       });
@@ -1491,8 +2118,9 @@ describe("ChannelPermission class", () => {
               role: allowedRole,
             },
           ] as IChannelAclPermission[];
+          const channel = { channelAcl, creator: "foo" } as IChannel;
 
-          const channelPermission = new ChannelPermission(channelAcl, "foo");
+          const channelPermission = new ChannelPermission(channel);
 
           expect(channelPermission.canPostToChannel(user)).toBe(true);
         });
@@ -1503,8 +2131,9 @@ describe("ChannelPermission class", () => {
         const channelAcl = [
           { category: AclCategory.USER, key: user.username, role: Role.READ },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canPostToChannel(user)).toBe(false);
       });
@@ -1516,8 +2145,9 @@ describe("ChannelPermission class", () => {
       it("returns false if user logged in and channel permissions are empty", async () => {
         const user = buildUser();
         const channelAcl = [] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canReadChannel(user)).toBe(false);
       });
@@ -1525,8 +2155,9 @@ describe("ChannelPermission class", () => {
       it("returns false if user not logged in and channel permissions are empty", async () => {
         const user = buildUser({ username: null });
         const channelAcl = [] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canReadChannel(user)).toBe(false);
       });
@@ -1549,7 +2180,8 @@ describe("ChannelPermission class", () => {
             role: Role.READ, // members write
           },
         ] as IChannelAclPermission[];
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canReadChannel(user)).toBe(true);
       });
@@ -1563,8 +2195,9 @@ describe("ChannelPermission class", () => {
           const channelAcl = [
             { category: AclCategory.ANONYMOUS_USER, role: allowedRole },
           ] as IChannelAclPermission[];
+          const channel = { channelAcl, creator: "foo" } as IChannel;
 
-          const channelPermission = new ChannelPermission(channelAcl, "foo");
+          const channelPermission = new ChannelPermission(channel);
 
           expect(channelPermission.canReadChannel(user)).toBe(true);
         });
@@ -1575,8 +2208,9 @@ describe("ChannelPermission class", () => {
         const channelAcl = [
           { category: AclCategory.ANONYMOUS_USER, role: Role.WRITE },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canReadChannel(user)).toBe(false);
       });
@@ -1590,8 +2224,9 @@ describe("ChannelPermission class", () => {
           const channelAcl = [
             { category: AclCategory.AUTHENTICATED_USER, role: allowedRole },
           ] as IChannelAclPermission[];
+          const channel = { channelAcl, creator: "foo" } as IChannel;
 
-          const channelPermission = new ChannelPermission(channelAcl, "foo");
+          const channelPermission = new ChannelPermission(channel);
 
           expect(channelPermission.canReadChannel(user)).toBe(true);
         });
@@ -1602,8 +2237,9 @@ describe("ChannelPermission class", () => {
         const channelAcl = [
           { category: AclCategory.AUTHENTICATED_USER, role: Role.WRITE },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canReadChannel(user)).toBe(false);
       });
@@ -1613,8 +2249,9 @@ describe("ChannelPermission class", () => {
         const channelAcl = [
           { category: AclCategory.AUTHENTICATED_USER, role: Role.READWRITE },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canReadChannel(user)).toBe(false);
       });
@@ -1643,8 +2280,9 @@ describe("ChannelPermission class", () => {
               orgId: orgId1,
               groups: [buildGroup(groupId1, memberType)], // member in groupId1
             });
+            const channel = { channelAcl, creator: "foo" } as IChannel;
 
-            const channelPermission = new ChannelPermission(channelAcl, "foo");
+            const channelPermission = new ChannelPermission(channel);
 
             expect(channelPermission.canReadChannel(user)).toBe(true);
           });
@@ -1667,8 +2305,9 @@ describe("ChannelPermission class", () => {
             role: Role.WRITE,
           },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canReadChannel(user)).toBe(false);
       });
@@ -1691,8 +2330,9 @@ describe("ChannelPermission class", () => {
             role: Role.READWRITE, // admins read
           },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canReadChannel(user)).toBe(false);
       });
@@ -1719,8 +2359,9 @@ describe("ChannelPermission class", () => {
               orgId: orgId1,
               groups: [buildGroup(groupId1, memberType)], // admin in groupId1
             });
+            const channel = { channelAcl, creator: "foo" } as IChannel;
 
-            const channelPermission = new ChannelPermission(channelAcl, "foo");
+            const channelPermission = new ChannelPermission(channel);
 
             expect(channelPermission.canReadChannel(user)).toBe(true);
           });
@@ -1743,8 +2384,9 @@ describe("ChannelPermission class", () => {
             role: Role.WRITE,
           },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canReadChannel(user)).toBe(false);
       });
@@ -1783,8 +2425,9 @@ describe("ChannelPermission class", () => {
             role: Role.READ,
           },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canReadChannel(user)).toBe(true);
       });
@@ -1810,8 +2453,9 @@ describe("ChannelPermission class", () => {
             role: Role.WRITE,
           },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canReadChannel(user)).toBe(true);
       });
@@ -1837,8 +2481,9 @@ describe("ChannelPermission class", () => {
             role: Role.READWRITE, // admin write
           },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canReadChannel(user)).toBe(false);
       });
@@ -1863,8 +2508,9 @@ describe("ChannelPermission class", () => {
               role: Role.READ, // admin read
             },
           ] as IChannelAclPermission[];
+          const channel = { channelAcl, creator: "joker" } as IChannel;
 
-          const channelPermission = new ChannelPermission(channelAcl, "joker");
+          const channelPermission = new ChannelPermission(channel);
 
           expect(channelPermission.canReadChannel(user)).toBe(true);
         });
@@ -1888,8 +2534,9 @@ describe("ChannelPermission class", () => {
               role: allowedRole, // admin write
             },
           ] as IChannelAclPermission[];
+          const channel = { channelAcl, creator: "foo" } as IChannel;
 
-          const channelPermission = new ChannelPermission(channelAcl, "foo");
+          const channelPermission = new ChannelPermission(channel);
 
           expect(channelPermission.canReadChannel(user)).toBe(true);
         });
@@ -1911,8 +2558,9 @@ describe("ChannelPermission class", () => {
             role: Role.READWRITE,
           },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canReadChannel(user)).toBe(false);
       });
@@ -1930,8 +2578,9 @@ describe("ChannelPermission class", () => {
               role: allowedRole,
             },
           ] as IChannelAclPermission[];
+          const channel = { channelAcl, creator: "foo" } as IChannel;
 
-          const channelPermission = new ChannelPermission(channelAcl, "foo");
+          const channelPermission = new ChannelPermission(channel);
 
           expect(channelPermission.canReadChannel(user)).toBe(true);
         });
@@ -1942,8 +2591,9 @@ describe("ChannelPermission class", () => {
         const channelAcl = [
           { category: AclCategory.USER, key: user.username, role: Role.WRITE },
         ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "foo" } as IChannel;
 
-        const channelPermission = new ChannelPermission(channelAcl, "foo");
+        const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canReadChannel(user)).toBe(false);
       });

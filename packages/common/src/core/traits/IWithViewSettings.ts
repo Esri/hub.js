@@ -4,7 +4,7 @@ import {
   IMetricDisplayConfig,
   HubActionLink,
   IHubMapSettings,
-  HubEmbed,
+  IHubEmbed,
 } from "../types";
 
 /**
@@ -70,5 +70,5 @@ export interface IWithViewSettings {
    * we should revisit if/how this will map to a
    * future layout system
    */
-  embeds?: HubEmbed[];
+  embeds?: IHubEmbed[];
 }

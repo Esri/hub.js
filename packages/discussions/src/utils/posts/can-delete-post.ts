@@ -1,6 +1,7 @@
 import { IUser } from "@esri/arcgis-rest-types";
 import { IChannel, IDiscussionsUser, IPost } from "../../types";
 import { ChannelPermission } from "../channel-permission";
+import { hasOrgAdminUpdateRights } from "../portal-privilege";
 
 /**
  * Utility to determine if User has privileges to delete a post
@@ -25,11 +26,14 @@ function isChannelModerator(
   channel: IChannel,
   user: IUser | IDiscussionsUser
 ): boolean {
-  const { channelAcl, creator } = channel;
-  if (!channelAcl) {
+  if (hasOrgAdminUpdateRights(user, channel.orgId)) {
+    return true;
+  }
+
+  if (!channel.channelAcl) {
     return false;
   }
 
-  const channelPermission = new ChannelPermission(channelAcl, creator);
+  const channelPermission = new ChannelPermission(channel);
   return channelPermission.canModerateChannel(user);
 }

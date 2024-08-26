@@ -3,9 +3,10 @@ import { GroupMembership } from "@esri/arcgis-rest-portal";
 import { IChannel, IDiscussionsUser } from "../../types";
 import { reduceByGroupMembership } from "../platform";
 import { ChannelPermission } from "../channel-permission";
+import { hasOrgAdminViewRights } from "../portal-privilege";
 
 /**
- * Utility to determine whether User can view channel posts and channel attributes
+ * Utility to determine if User can view channel posts and channel attributes
  *
  * @export
  * @param {IChannel} channel
@@ -16,10 +17,12 @@ export function canReadChannel(
   channel: IChannel,
   user: IUser | IDiscussionsUser = {}
 ): boolean {
-  const { channelAcl, creator } = channel;
+  if (hasOrgAdminViewRights(user, channel.orgId)) {
+    return true;
+  }
 
-  if (channelAcl) {
-    const channelPermission = new ChannelPermission(channelAcl, creator);
+  if (channel.channelAcl) {
+    const channelPermission = new ChannelPermission(channel);
     return channelPermission.canReadChannel(user);
   }
 
@@ -31,7 +34,7 @@ export function canReadChannel(
   if (channel.access === "org") {
     return (
       intersectGroups(["member", "owner", "admin"])(user, channel) ||
-      isChannelOrgMember(channel, user)
+      isLegacyChannelOrgMember(channel, user)
     );
   }
 
@@ -71,7 +74,7 @@ function intersectGroups(
   };
 }
 
-function isChannelOrgMember(
+function isLegacyChannelOrgMember(
   channel: IChannel,
   user: IUser | IDiscussionsUser
 ): boolean {
