@@ -28,13 +28,13 @@ export const buildUiSchema = async (
             type: "Control",
             scope:
               "/properties/settings/properties/preview/properties/workspace",
-            labelKey: `${i18nScope}.fields.preview.label`,
+            labelKey: `${i18nScope}.fields.workspacePreview.label`,
             options: {
               type: "Control",
               control: "hub-field-input-switch",
               layout: "inline-space-between",
               helperText: {
-                labelKey: `${i18nScope}.fields.preview.helperText`,
+                labelKey: `${i18nScope}.fields.workspacePreview.helperText`,
               },
             },
           },

@@ -45,8 +45,10 @@ export class HubUser implements IWithEditorBehavior {
     // 1. update user hub settings
     await this.context.updateUserHubSettings(this.entity.settings);
 
-    // 2. update org hub settings
+    // 2. update portal signin settings
     // TODO in later story
+
+    // 3. update portal settings
 
     return;
   }
