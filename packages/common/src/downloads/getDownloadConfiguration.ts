@@ -1,6 +1,6 @@
 import { IHubAdditionalResource } from "../core/types/IHubAdditionalResource";
 import {
-  FlowType,
+  DownloadFlowType,
   IDownloadFormatConfiguration,
   IEntityDownloadConfiguration,
   IHubEditableContent,
@@ -37,14 +37,14 @@ export function getDownloadConfiguration(
   // TODO: Could we make a formal helper function instead?
   // Maybe something like this:
   //
-  // type LogicByFlowMap = Record<FlowType, () => void>;
+  // type LogicByFlowMap = Record<DownloadFlowType, () => void>;
   // function executeLogicByFlow(
-  //  flow: FlowType,
+  //  flow: DownloadFlowType,
   //  logicByFlow: LogicByFlowMap
   // )
   // OR a switch statement: https://medium.com/technogise/type-safe-and-exhaustive-switch-statements-aka-pattern-matching-in-typescript-e3febd433a7a
 
-  const actionsByFlow: Record<FlowType, () => void> = {
+  const actionsByFlow: Record<DownloadFlowType, () => void> = {
     createReplica: () => {
       serverFormats = getCreateReplicaFormats(entity);
     },

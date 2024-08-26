@@ -60,9 +60,8 @@ export type IExtendedProps = IContentExtendedProps | IServiceExtendedProps;
 
 /**
  * Represents the download process that the configuration was created for
- * TODO: Should we change this to DownloadFlowType?
  */
-export type FlowType = "createReplica" | "paging" | "exportImage";
+export type DownloadFlowType = "createReplica" | "paging" | "exportImage";
 
 /**
  * Represents the storage object for configuring a single download format
@@ -99,7 +98,7 @@ export interface IEntityDownloadConfiguration {
    * Indicates the download flow that the configuration was created for
    * (i.e., the download process that would have been used at the time of configuration)
    */
-  flowType: FlowType;
+  flowType: DownloadFlowType;
   /**
    * Configuration for the download formats that are available for the item.
    * Saved in the order that they should be displayed in the UI.

@@ -1,4 +1,4 @@
-import { FlowType, IHubEditableContent } from "../../core";
+import { DownloadFlowType, IHubEditableContent } from "../../core";
 import { canUseCreateReplica } from "../canUseCreateReplica";
 import { canUseHubDownloadSystem } from "../canUseHubDownloadSystem";
 import { canUseExportImageFlow } from "./canUseExportImageFlow";
@@ -16,7 +16,7 @@ export function getDownloadFlow(
   entity: IHubEditableContent,
   isEnterprise?: boolean
 ) {
-  let downloadFlow: FlowType = null;
+  let downloadFlow: DownloadFlowType = null;
   if (canUseCreateReplica(entity)) {
     downloadFlow = "createReplica";
   } else if (canUseHubDownloadSystem(entity) && !isEnterprise) {
