@@ -2,13 +2,15 @@ import { IGroup } from "@esri/arcgis-rest-types";
 import {
   AclCategory,
   AclSubCategory,
+  IChannel,
   IChannelAclPermission,
   IChannelAclPermissionDefinition,
   IDiscussionsUser,
+  IUpdateChannel,
   Role,
 } from "../types";
 import { CANNOT_DISCUSS } from "./constants";
-import { isOrgAdmin } from "./platform";
+import { isOrgAdmin, userHasPrivilege } from "./platform";
 
 type PermissionsByAclCategoryMap = {
   [key in AclCategory]?: IChannelAclPermission[];
@@ -18,20 +20,53 @@ enum ChannelAction {
   READ_POSTS = "readPosts",
   WRITE_POSTS = "writePosts",
   MODERATE_CHANNEL = "moderateChannel",
+  IS_MODERATOR = "isModerator",
+  IS_MANAGER = "isManager",
+  IS_OWNER = "isOwner",
 }
 
+// See confluence for privs documentation: https://confluencewikidev.esri.com/pages/viewpage.action?pageId=153747776#Roles&Privileges-ApplicationtoChannels
+const CHANNEL_ACTION_PRIVS = {
+  UPDATE_OWNERS: [Role.OWNER],
+  UPDATE_MANAGERS: [Role.OWNER, Role.MANAGE],
+  UPDATE_MODERATORS: [Role.OWNER, Role.MANAGE],
+  UPDATE_ORGS: [Role.OWNER, Role.MANAGE],
+  UPDATE_GROUPS: [Role.OWNER, Role.MANAGE],
+  UPDATE_USERS: [Role.OWNER, Role.MANAGE],
+  UPDATE_AUTHENTICATED_USERS: [Role.OWNER, Role.MANAGE],
+  UPDATE_ANONYMOUS_USERS: [Role.OWNER, Role.MANAGE],
+  UPDATE_POST_REPLIES: [Role.OWNER, Role.MANAGE, Role.MODERATE],
+  UPDATE_POST_REACTIONS: [Role.OWNER, Role.MANAGE, Role.MODERATE],
+  UPDATE_ALLOWED_REACTIONS: [Role.OWNER, Role.MANAGE, Role.MODERATE],
+  UPDATE_DEFAULT_POST_STATUS: [Role.OWNER, Role.MANAGE, Role.MODERATE],
+  UPDATE_BLOCKED_WORDS: [Role.OWNER, Role.MANAGE, Role.MODERATE],
+  UPDATE_CHANNEL_NAME: [Role.OWNER, Role.MANAGE],
+  UPDATE_SOFT_DELETE_SETTING: [Role.OWNER, Role.MANAGE],
+};
+
+/**
+ * @internal
+ * @hidden
+ */
 export class ChannelPermission {
   private readonly ALLOWED_GROUP_MEMBER_TYPES = ["owner", "admin", "member"];
   private isChannelAclEmpty: boolean;
   private permissionsByCategory: PermissionsByAclCategoryMap;
   private channelCreator: string;
+  private channelOrgId: string;
 
-  constructor(channelAcl: IChannelAclPermission[], creator: string) {
-    this.isChannelAclEmpty = channelAcl.length === 0;
+  constructor(channel: IChannel) {
+    if (channel.channelAcl === undefined) {
+      throw new Error(
+        "channel.channelAcl is required for ChannelPermission checks"
+      );
+    }
+    this.isChannelAclEmpty = channel.channelAcl.length === 0;
     this.permissionsByCategory = {};
-    this.channelCreator = creator;
+    this.channelCreator = channel.creator;
+    this.channelOrgId = channel.orgId;
 
-    channelAcl.forEach((permission) => {
+    channel.channelAcl.forEach((permission) => {
       const { category } = permission;
       this.permissionsByCategory[category]?.push(permission) ||
         (this.permissionsByCategory[category] = [permission]);
@@ -99,6 +134,47 @@ export class ChannelPermission {
     );
   }
 
+  /**
+   * Expose this function and call from the can-modify-channel.ts file when V2 released
+   * @internal
+   */
+  canUpdateProperties(
+    user: IDiscussionsUser,
+    updates: IUpdateChannel
+  ): boolean {
+    const userRole = this.determineUserRole(user);
+
+    if (
+      // @TODO when we have access to channel ACL obj when v2 udpate-channel-dto is hoisted we can add these additional property action checks
+      // add or remove owners
+      // add or remove managers
+      // add or remove moderators
+      // add or remove orgs
+      // add or remove groups
+      // add or remove users
+      // add or remove authenticated users
+      // update anonymous users
+      (updates.hasOwnProperty("allowReply") &&
+        !CHANNEL_ACTION_PRIVS.UPDATE_POST_REPLIES.includes(userRole)) ||
+      (updates.hasOwnProperty("allowReaction") &&
+        !CHANNEL_ACTION_PRIVS.UPDATE_POST_REACTIONS.includes(userRole)) ||
+      (updates.hasOwnProperty("allowedReactions") &&
+        !CHANNEL_ACTION_PRIVS.UPDATE_ALLOWED_REACTIONS.includes(userRole)) ||
+      (updates.hasOwnProperty("defaultPostStatus") &&
+        !CHANNEL_ACTION_PRIVS.UPDATE_DEFAULT_POST_STATUS.includes(userRole)) ||
+      (updates.hasOwnProperty("blockWords") &&
+        !CHANNEL_ACTION_PRIVS.UPDATE_BLOCKED_WORDS.includes(userRole)) ||
+      (updates.hasOwnProperty("name") &&
+        !CHANNEL_ACTION_PRIVS.UPDATE_CHANNEL_NAME.includes(userRole)) ||
+      (updates.hasOwnProperty("softDelete") &&
+        !CHANNEL_ACTION_PRIVS.UPDATE_SOFT_DELETE_SETTING.includes(userRole))
+    ) {
+      return false;
+    }
+
+    return true;
+  }
+
   private canAnyUser(action: ChannelAction): boolean {
     const anonymousUserRole =
       this.permissionsByCategory[AclCategory.ANONYMOUS_USER]?.[0].role;
@@ -164,21 +240,22 @@ export class ChannelPermission {
     });
   }
 
-  /**
-   * canCreateChannelHelpers
-   */
   private userCanAddAnonymousToAcl(user: IDiscussionsUser) {
     if (!this.permissionsByCategory[AclCategory.ANONYMOUS_USER]) {
       return true;
     }
-    return isOrgAdmin(user);
+    return (
+      isOrgAdmin(user) || userHasPrivilege(user, "portal:admin:shareToPublic")
+    );
   }
 
   private userCanAddUnauthenticatedToAcl(user: IDiscussionsUser) {
     if (!this.permissionsByCategory[AclCategory.AUTHENTICATED_USER]) {
       return true;
     }
-    return isOrgAdmin(user);
+    return (
+      isOrgAdmin(user) || userHasPrivilege(user, "portal:admin:shareToPublic")
+    );
   }
 
   private userCanAddAllGroupsToAcl(user: IDiscussionsUser) {
@@ -208,7 +285,7 @@ export class ChannelPermission {
     }
 
     return (
-      isOrgAdmin(user) &&
+      (isOrgAdmin(user) || userHasPrivilege(user, "portal:admin:shareToOrg")) &&
       this.isEveryPermissionForUserOrg(user.orgId, orgPermissions)
     );
   }
@@ -246,6 +323,42 @@ export class ChannelPermission {
       userMembership: { memberType },
     } = userGroup;
     return this.ALLOWED_GROUP_MEMBER_TYPES.includes(memberType);
+  }
+
+  private determineUserRole(user: IDiscussionsUser): Role {
+    if (this.isOwner(user)) {
+      return Role.OWNER;
+    } else if (this.isManager(user)) {
+      return Role.MANAGE;
+    } else if (this.isModerator(user)) {
+      return Role.MODERATE;
+    } else {
+      return Role.READ;
+    }
+  }
+
+  private isOwner(user: IDiscussionsUser): boolean {
+    return (
+      this.canSomeUser(ChannelAction.IS_OWNER, user) ||
+      this.canSomeUserGroup(ChannelAction.IS_OWNER, user) ||
+      this.canSomeUserOrg(ChannelAction.IS_OWNER, user)
+    );
+  }
+
+  private isManager(user: IDiscussionsUser): boolean {
+    return (
+      this.canSomeUser(ChannelAction.IS_MANAGER, user) ||
+      this.canSomeUserGroup(ChannelAction.IS_MANAGER, user) ||
+      this.canSomeUserOrg(ChannelAction.IS_MANAGER, user)
+    );
+  }
+
+  private isModerator(user: IDiscussionsUser): boolean {
+    return (
+      this.canSomeUser(ChannelAction.IS_MODERATOR, user) ||
+      this.canSomeUserGroup(ChannelAction.IS_MODERATOR, user) ||
+      this.canSomeUserOrg(ChannelAction.IS_MODERATOR, user)
+    );
   }
 }
 
@@ -291,6 +404,18 @@ function channelActionLookup(action: ChannelAction): Role[] {
 
   if (action === ChannelAction.MODERATE_CHANNEL) {
     return [Role.MODERATE, Role.MANAGE, Role.OWNER];
+  }
+
+  if (action === ChannelAction.IS_MODERATOR) {
+    return [Role.MODERATE];
+  }
+
+  if (action === ChannelAction.IS_MANAGER) {
+    return [Role.MANAGE];
+  }
+
+  if (action === ChannelAction.IS_OWNER) {
+    return [Role.OWNER];
   }
 
   // default to read action

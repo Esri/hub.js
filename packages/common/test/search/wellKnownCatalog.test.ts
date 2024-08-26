@@ -249,6 +249,26 @@ describe("WellKnownCatalog", () => {
         expect(chk).toBeUndefined();
       });
     });
+    it("handles the living atlas catalog for items", () => {
+      const chk = getWellKnownCatalog(
+        "mockI18nScope",
+        "livingAtlas",
+        "item",
+        options
+      );
+      expect(chk.scopes).toBeDefined();
+      expect(chk.scopes?.item?.filters).toEqual([
+        { predicates: [{ owner: "Esri_LivingAtlas" }] },
+      ]);
+      expect(chk.collections?.map((c) => c.key)).toEqual([
+        "appAndMap",
+        "dataset",
+        "document",
+        "feedback",
+        "site",
+        "project",
+      ]);
+    });
     it("returns the expected catalog for groups", () => {
       let chk = getWellKnownCatalog(
         "mockI18nScope",

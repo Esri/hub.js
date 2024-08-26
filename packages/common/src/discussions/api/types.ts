@@ -594,6 +594,7 @@ export interface IUpdatePostStatus {
  * @interface IUpdatePost
  */
 export interface IUpdatePost {
+  asAnonymous?: boolean;
   title?: string;
   body?: string;
   discussion?: string | null;
@@ -771,6 +772,7 @@ export interface IChannelAclPermission
  * @interface ICreateChannelSettings
  */
 export interface ICreateChannelSettings {
+  allowAsAnonymous?: boolean;
   allowedReactions?: PostReaction[];
   allowReaction?: boolean;
   allowReply?: boolean;
@@ -842,6 +844,7 @@ export interface ICreateChannel
  */
 export interface IChannel extends IWithAuthor, IWithEditor, IWithTimestamps {
   access: SharingAccess;
+  allowAsAnonymous: boolean;
   allowAnonymous: boolean;
   allowedReactions: PostReaction[] | null;
   allowReaction: boolean;
