@@ -168,7 +168,9 @@ export const buildUiSchema = async (
           getThumbnailUiSchemaElement(
             i18nScope,
             options.thumbnail,
-            options.thumbnailUrl
+            options.thumbnailUrl,
+            "project",
+            context.requestOptions
           ),
         ],
       },
@@ -277,6 +279,23 @@ export const buildUiSchema = async (
                   operation: "OR",
                 },
               ],
+            },
+          },
+        ],
+      },
+      {
+        type: "Section",
+        labelKey: `${i18nScope}.sections.embeds.label`,
+        options: {
+          headerTag: "h2",
+          helperText: { labelKey: `${i18nScope}.sections.embeds.helperText` },
+        },
+        elements: [
+          {
+            scope: "/properties/view/properties/embeds",
+            type: "Control",
+            options: {
+              control: "hub-composite-input-embeds",
             },
           },
         ],

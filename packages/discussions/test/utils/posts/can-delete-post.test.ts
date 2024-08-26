@@ -40,6 +40,22 @@ describe("canDeletePost", () => {
     expect(canModerateChannelSpy).toHaveBeenCalledWith(user);
   });
 
+  it("returns true when user did not create the post but user is org_admin", () => {
+    const canModerateChannelSpy = spyOn(
+      ChannelPermission.prototype,
+      "canModerateChannel"
+    ).and.returnValue(true);
+    const post = { id: "post1", creator: "user1" } as IPost;
+    const user = { username: "user2", role: "org_admin" } as IUser;
+    const channel = {
+      id: "channel1",
+      channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
+    } as IChannel;
+    const result = canDeletePost(post, channel, user);
+    expect(result).toBe(true);
+    expect(canModerateChannelSpy).toHaveBeenCalledTimes(0);
+  });
+
   it("returns false when user did not create the post", () => {
     const canModerateChannelSpy = spyOn(
       ChannelPermission.prototype,

@@ -1,5 +1,6 @@
 import { IItem } from "@esri/arcgis-rest-portal";
 import { ILayerDefinition } from "@esri/arcgis-rest-types";
+import * as featureLayerModule from "@esri/arcgis-rest-feature-layer";
 import {
   DatasetResource,
   datasetToContent,
@@ -51,6 +52,7 @@ import * as featureLayerJson from "../mocks/datasets/feature-layer.json";
 import { MOCK_REQUEST_OPTIONS } from "../../../initiatives/test/mocks/fake-session";
 import * as fetchMock from "fetch-mock";
 import { IHubServiceBackedContentStatus } from "../../dist/types/content/types";
+import { ArcGISRequestError } from "@esri/arcgis-rest-request";
 
 describe("content: ", () => {
   beforeAll(() => {
@@ -1499,7 +1501,7 @@ describe("content: ", () => {
       };
 
       fetchMock.once(
-        "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/slowpoints/FeatureServer/0?stop=false",
+        entity.url as string,
         {
           status: 200,
           body: { message: "Success" },
@@ -1509,7 +1511,7 @@ describe("content: ", () => {
 
       const result = (await getServiceStatus(entity, {
         ...MOCK_REQUEST_OPTIONS,
-        url: "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/slowpoints/FeatureServer/0?stop=false",
+        url: entity.url as string,
       })) as IHubServiceBackedContentStatus;
       expect(result.service.availability).toEqual("available");
     });
@@ -1537,7 +1539,7 @@ describe("content: ", () => {
       };
 
       fetchMock.once(
-        "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/slowpoints/FeatureServer/0?stop=false&delay=5000",
+        entity.url as string,
         {
           status: 200,
           body: { message: "Success" },
@@ -1547,10 +1549,20 @@ describe("content: ", () => {
 
       const result = (await getServiceStatus(entity, {
         ...MOCK_REQUEST_OPTIONS,
-        url: "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/slowpoints/FeatureServer/0?stop=false&delay=5000",
+        url: entity.url as string,
       })) as IHubServiceBackedContentStatus;
       expect(result.service.availability).toEqual("slow");
     });
+
+    const requestError = {
+      "500": new ArcGISRequestError("Service is unavailable", 500, {
+        error: { code: 500 },
+      }),
+      "403": new ArcGISRequestError("Authentication is needed", 403, {
+        error: { code: 403 },
+      }),
+      "499": new ArcGISRequestError("Authentication is needed", 499),
+    };
 
     it("service fails to complete race and is unavailable", async () => {
       const entity: IHubEditableContent = {
@@ -1574,20 +1586,96 @@ describe("content: ", () => {
         orgUrlKey: "",
       };
 
-      fetchMock.once(
-        "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/multipoints/FeatureServer?stop=true",
-        {
-          status: 500,
-          body: { message: "Special Server Error" },
-        },
-        { delay: 1000 }
+      // Spy on the `getService` call that happens within `getServiceStatus`
+      spyOn(featureLayerModule, "getService").and.returnValue(
+        Promise.reject(requestError["500"])
       );
 
-      const result = (await getServiceStatus(entity, {
+      // Call `getServiceStatus` and expect the result to be "unavailable"
+      await getServiceStatus(entity, {
         ...MOCK_REQUEST_OPTIONS,
-        url: "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/multipoints/FeatureServer?stop=true",
-      })) as IHubServiceBackedContentStatus;
-      expect(result.service.availability).toEqual("unavailable");
+        url: entity.url as string,
+      }).then((result) => {
+        expect(
+          (result as IHubServiceBackedContentStatus).service.availability
+        ).toEqual("unavailable");
+      });
+    });
+
+    it("service requires token making status auth-required", async () => {
+      const entity: IHubEditableContent = {
+        id: "abc",
+        url: "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/slowpoints/FeatureServer",
+
+        // not important to this test
+        licenseInfo: "",
+        itemControl: "",
+        owner: "",
+        schemaVersion: 0,
+        tags: [],
+        canEdit: false,
+        canDelete: false,
+        name: "",
+        createdDate: new Date(),
+        createdDateSource: "",
+        updatedDate: new Date(),
+        updatedDateSource: "",
+        type: "",
+        orgUrlKey: "",
+      };
+
+      // Spy on the `getService` call that happens within `getServiceStatus`
+      spyOn(featureLayerModule, "getService").and.returnValue(
+        Promise.reject(requestError["403"])
+      );
+
+      // Call `getServiceStatus` and expect the result to be "auth-required"
+      await getServiceStatus(entity, {
+        ...MOCK_REQUEST_OPTIONS,
+        url: entity.url as string,
+      }).then((result) => {
+        expect(
+          (result as IHubServiceBackedContentStatus).service.availability
+        ).toEqual("auth-required");
+      });
+    });
+
+    it("client receives empty response request making status auth-required", async () => {
+      const entity: IHubEditableContent = {
+        id: "abc",
+        url: "https://hubqa.arcgis.com/api/v3/connectors/test/file-geojson/rest/services/slowpoints/FeatureServer",
+
+        // not important to this test
+        licenseInfo: "",
+        itemControl: "",
+        owner: "",
+        schemaVersion: 0,
+        tags: [],
+        canEdit: false,
+        canDelete: false,
+        name: "",
+        createdDate: new Date(),
+        createdDateSource: "",
+        updatedDate: new Date(),
+        updatedDateSource: "",
+        type: "",
+        orgUrlKey: "",
+      };
+
+      // Spy on the `getService` call that happens within `getServiceStatus`
+      spyOn(featureLayerModule, "getService").and.returnValue(
+        Promise.reject(requestError["499"])
+      );
+
+      // Call `getServiceStatus` and expect the result to be "auth-required"
+      await getServiceStatus(entity, {
+        ...MOCK_REQUEST_OPTIONS,
+        url: entity.url as string,
+      }).then((result) => {
+        expect(
+          (result as IHubServiceBackedContentStatus).service.availability
+        ).toEqual("auth-required");
+      });
     });
   });
 });

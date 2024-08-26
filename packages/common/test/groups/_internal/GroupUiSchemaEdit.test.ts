@@ -70,6 +70,8 @@ describe("buildUiSchema: group edit", () => {
               options: {
                 control: "hub-field-input-image-picker",
                 imgSrc: "https://some-thumbnail-url.com",
+                defaultImgUrl:
+                  "https://www.customUrl/apps/sites/ember-arcgis-opendata-components/assets/images/placeholders/group.png",
                 maxWidth: 727,
                 maxHeight: 484,
                 aspectRatio: 1,
@@ -79,6 +81,16 @@ describe("buildUiSchema: group edit", () => {
                 sizeDescription: {
                   labelKey: "some.scope.fields._thumbnail.sizeDescription",
                 },
+                messages: [
+                  {
+                    type: "CUSTOM",
+                    display: "notice",
+                    labelKey: "shared.fields._thumbnail.defaultThumbnailNotice",
+                    icon: "lightbulb",
+                    allowShowBeforeInteract: true,
+                    alwaysShow: true,
+                  },
+                ],
               },
             },
           ],

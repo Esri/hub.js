@@ -1,3 +1,53 @@
+## @esri/hub-common [14.177.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.177.0...@esri/hub-common@14.177.1) (2024-08-23)
+
+
+### Bug Fixes
+
+* address invalid query serialization ([#1635](https://github.com/Esri/hub.js/issues/1635)) ([f32fe56](https://github.com/Esri/hub.js/commit/f32fe5628abe9b64b7782317339471d670db211e))
+
+# @esri/hub-common [14.177.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.176.0...@esri/hub-common@14.177.0) (2024-08-23)
+
+
+### Features
+
+* update embed apps interface ([#1625](https://github.com/Esri/hub.js/issues/1625)) ([2ffc996](https://github.com/Esri/hub.js/commit/2ffc996ba34f3e64d63cd6261912cead893f8de2))
+* **hub-common:** add composeHubContent() for creating an IHubEditableContent from pre-fetched parts ([#1630](https://github.com/Esri/hub.js/issues/1630)) ([2626a26](https://github.com/Esri/hub.js/commit/2626a26e1dc25d4274404ebbf44f2958a70270ec))
+
+# @esri/hub-common [14.176.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.175.0...@esri/hub-common@14.176.0) (2024-08-22)
+
+
+### Features
+
+* **hub-common:** add allowAsAnonymous to IChannel & ICreateChannelSe… ([#1628](https://github.com/Esri/hub.js/issues/1628)) ([d15f831](https://github.com/Esri/hub.js/commit/d15f83158d927857598fe2214968c1d1a5a88a56))
+
+# @esri/hub-common [14.175.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.174.0...@esri/hub-common@14.175.0) (2024-08-21)
+
+
+### Features
+
+* add embeds to schema and uiSchema ([#1608](https://github.com/Esri/hub.js/issues/1608)) ([0f6a65b](https://github.com/Esri/hub.js/commit/0f6a65b06502cab7cefcde316e8fd7a62bc56ddc))
+
+# @esri/hub-common [14.174.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.173.0...@esri/hub-common@14.174.0) (2024-08-21)
+
+
+### Features
+
+* **hub-common:** adds default thumbnail for discussions ([#1627](https://github.com/Esri/hub.js/issues/1627)) ([4fbef75](https://github.com/Esri/hub.js/commit/4fbef757b7a4330d6e1914f415448a0d14530e8d))
+
+# @esri/hub-common [14.173.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.172.0...@esri/hub-common@14.173.0) (2024-08-21)
+
+
+### Features
+
+* add notice type to uiSchemaElementTypes ([#1612](https://github.com/Esri/hub.js/issues/1612)) ([bbf5146](https://github.com/Esri/hub.js/commit/bbf51467f547f4fc2bdde615f5a3bf3e3234f5de))
+
+# @esri/hub-common [14.172.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.171.0...@esri/hub-common@14.172.0) (2024-08-21)
+
+
+### Features
+
+* adding a third content service status ([#1619](https://github.com/Esri/hub.js/issues/1619)) ([a5d4ee5](https://github.com/Esri/hub.js/commit/a5d4ee57c6d034a2d1570b84016946c989ad5dc9))
+
 # @esri/hub-common [14.171.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.170.0...@esri/hub-common@14.171.0) (2024-08-19)
 
 

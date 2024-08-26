@@ -1,3 +1,17 @@
+# @esri/hub-discussions [28.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@28.1.0...@esri/hub-discussions@28.2.0) (2024-08-22)
+
+
+### Features
+
+* **hub-discussions:** add future v2 priv checks for updating channel ([#1624](https://github.com/Esri/hub.js/issues/1624)) ([32c17d8](https://github.com/Esri/hub.js/commit/32c17d8afcc0c152ff819c04a39674dce7b928db))
+
+# @esri/hub-discussions [28.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@28.0.0...@esri/hub-discussions@28.1.0) (2024-08-22)
+
+
+### Features
+
+* **hub-discussions:** add org_admin bypasses to channel and post util permission functions ([#1622](https://github.com/Esri/hub.js/issues/1622)) ([a5d5d11](https://github.com/Esri/hub.js/commit/a5d5d111430d16233978cda2f178112845541d81))
+
 # @esri/hub-discussions [28.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@27.2.0...@esri/hub-discussions@28.0.0) (2024-07-24)
 
 
