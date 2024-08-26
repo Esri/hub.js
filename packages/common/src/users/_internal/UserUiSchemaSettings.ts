@@ -22,7 +22,7 @@ export const buildUiSchema = async (
     elements: [
       {
         type: "Section",
-        labelKey: `${i18nScope}.section.userSettings`,
+        labelKey: `${i18nScope}.sections.userSettings`,
         elements: [
           {
             type: "Control",
@@ -37,135 +37,6 @@ export const buildUiSchema = async (
                 labelKey: `${i18nScope}.fields.preview.helperText`,
               },
             },
-          },
-        ],
-      },
-      {
-        type: "Section",
-        labelKey: `${i18nScope}.section.orgSettings`,
-        rules: [
-          {
-            effect: UiSchemaRuleEffects.SHOW,
-            conditions: [context?.currentUser?.role === "org_admin"],
-          },
-        ],
-        elements: [
-          {
-            type: "Notice",
-            options: {
-              notice: {
-                id: "org-settings-notice",
-                configuration: {
-                  noticeType: "notice",
-                  closable: false,
-                  kind: "info",
-                  scale: "m",
-                },
-                title: `{{${i18nScope}.fields.orgSettings.orgManagementNotice.title:translate}}`,
-                message: `{{${i18nScope}.fields.orgSettings.orgManagementNotice.message:translate}}`,
-                autoShow: true,
-                actions: [
-                  {
-                    label: `{{${i18nScope}.fields.orgSettings.orgManagementNotice.action:translate}}`,
-                    icon: "launch",
-                    href: `${context.portalUrl}/home/organization.html?#settings`,
-                    target: "_blank",
-                  },
-                ],
-              },
-            },
-          },
-          {
-            type: "Section",
-            labelKey: `${i18nScope}.sections.orgSettings.sections.siteDefaults`,
-            options: {
-              section: "block",
-            },
-            rules: [
-              {
-                effect: UiSchemaRuleEffects.SHOW,
-                conditions: [context?.currentUser?.role === "org_admin"],
-              },
-            ],
-            elements: [
-              {
-                type: "Control",
-                scope:
-                  "/properties/hubOrgSettings/properties/showInformationalBanner",
-                labelKey: `${i18nScope}.fields.orgSettings.showInformationalBanner.label`,
-                options: {
-                  type: "Control",
-                  control: "hub-field-input-switch",
-                  layout: "inline-space-between",
-                  helperText: {
-                    labelKey: `${i18nScope}.fields.orgSettings.showInformationalBanner.helperText`,
-                  },
-                },
-              },
-            ],
-          },
-          {
-            type: "Section",
-            labelKey: `${i18nScope}.sections.orgSettings.sections.termsAndConditions.label`,
-            options: {
-              section: "block",
-              helperText: {
-                labelKey: `${i18nScope}.fields.orgSettings.termsAndConditions.helperText`,
-              },
-            },
-            rules: [
-              {
-                effect: UiSchemaRuleEffects.SHOW,
-                conditions: [
-                  context?.currentUser?.role === "org_admin",
-                  context.isCommunityOrg,
-                ],
-              },
-            ],
-            elements: [
-              {
-                type: "Section",
-                labelKey: `${i18nScope}.sections.orgSettings.sections.termsAndConditions.section.label`,
-                scope:
-                  "/properties/hubOrgSettings/properties/termsAndConditions",
-                options: {
-                  section: "subblock",
-                  scale: "s",
-                  toggleDisplay: "switch",
-                },
-                elements: [
-                  {
-                    type: "Control",
-                    scope:
-                      "/properties/hubOrgSettings/properties/termsAndConditions",
-                    labelKey: `${i18nScope}.fields.orgSettings.termsAndConditions.field.label`,
-                    options: {
-                      control: "hub-field-input-rich-text",
-                    },
-                  },
-                ],
-              },
-              {
-                type: "Section",
-                label: "Configure a custom sign up welcome message",
-                scope: "/properties/hubOrgSettings/properties/signupText",
-                options: {
-                  section: "subblock",
-                  scale: "s",
-                  toggleDisplay: "switch",
-                },
-                elements: [
-                  {
-                    type: "Control",
-                    scope: "/properties/hubOrgSettings/properties/signupText",
-                    options: {
-                      control: "hub-field-input-input",
-                      type: "textarea",
-                    },
-                  },
-                ],
-              },
-            ],
           },
         ],
       },
