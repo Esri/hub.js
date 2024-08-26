@@ -105,6 +105,12 @@ export async function enrichUserSearchResult(
   return result;
 }
 
+/**
+ * Fetches a hub user by username
+ * @param username - hub username. can also be "self"
+ * @param context
+ * @returns
+ */
 export const fetchHubUser = async (
   username: string,
   context?: IArcGISContext

@@ -42,6 +42,12 @@ export class HubUser implements IWithEditorBehavior {
       throw new Error("HubUser is already destroyed. ");
     }
 
+    // 1. update user hub settings
+    await this.context.updateUserHubSettings(this.entity.settings);
+
+    // 2. update org hub settings
+    // TODO in later story
+
     return;
   }
 
