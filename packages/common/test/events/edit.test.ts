@@ -13,6 +13,7 @@ import {
 import {
   createHubEvent,
   createHubEventRegistration,
+  deleteHubEvent,
   deleteHubEventRegistration,
   IHubCreateEventRegistration,
   updateHubEvent,
@@ -349,6 +350,33 @@ describe("HubEvents edit module", () => {
         ...authdCtxMgr.context.hubRequestOptions,
       });
       expect(res.name).toEqual("my event");
+    });
+  });
+
+  describe("deleteHubEvent", () => {
+    it("calls deleteEvent", async () => {
+      const authdCtxMgr = await ArcGISContextManager.create({
+        authentication: MOCK_AUTH,
+        currentUser: {
+          username: "casey",
+        } as unknown as PortalModule.IUser,
+        portal: {
+          name: "DC R&D Center",
+          id: "BRXFAKE",
+          urlKey: "fake-org",
+        } as unknown as PortalModule.IPortal,
+        portalUrl: "https://myserver.com",
+      });
+      const deleteEventSpy = spyOn(eventsModule, "deleteEvent").and.callFake(
+        () => {
+          return Promise.resolve();
+        }
+      );
+      await deleteHubEvent("0o1", authdCtxMgr.context.userRequestOptions);
+      expect(deleteEventSpy).toHaveBeenCalledWith({
+        eventId: "0o1",
+        ...authdCtxMgr.context.userRequestOptions,
+      });
     });
   });
 
