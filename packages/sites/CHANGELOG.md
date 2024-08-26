@@ -1,3 +1,10 @@
+## @esri/hub-sites [15.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-sites@15.0.0...@esri/hub-sites@15.0.1) (2024-08-26)
+
+
+### Bug Fixes
+
+* **hub-sites:** getMembers call uses filter instead of q in query ([#1633](https://github.com/Esri/hub.js/issues/1633)) ([39a6c44](https://github.com/Esri/hub.js/commit/39a6c4492d1237f32be9e1420a44c708ef58bcdd))
+
 # @esri/hub-sites [15.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@14.3.0...@esri/hub-sites@15.0.0) (2024-06-27)
 
 
