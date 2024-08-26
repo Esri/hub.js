@@ -10,6 +10,10 @@ import { getDownloadConfiguration } from "../getDownloadConfiguration";
 import { getCreateReplicaFormats } from "./format-fetchers/getCreateReplicaFormats";
 
 import { getPagingJobFormats } from "./format-fetchers/getPagingJobFormats";
+import {
+  getAdditionalResourceIndex,
+  isAdditionalResourceConfiguration,
+} from "./additional-resources/utils";
 
 /**
  * @private
@@ -68,14 +72,6 @@ export function getDownloadConfigurationDisplayFormats(
   );
 }
 
-// Returns true if the configuration is for an additional resource
-// TODO: Export this function as an internal helper
-function isAdditionalResourceConfiguration(
-  config: IDownloadFormatConfiguration
-): boolean {
-  return config.key.startsWith("additionalResource::");
-}
-
 // Converts a download format configuration storage object to a display object
 // (i.e., adds appropriate labels, etc.)
 function toDownloadFormatConfigurationDisplay(
@@ -93,7 +89,7 @@ function toAdditionalResourceConfigurationDisplay(
   config: IDownloadFormatConfiguration,
   additionalResources: IHubAdditionalResource[]
 ): IDownloadFormatConfigurationDisplay {
-  const resourceIndex = parseInt(config.key.split("::")[1], 10);
+  const resourceIndex = getAdditionalResourceIndex(config);
   const { name, isDataSource } = additionalResources[resourceIndex];
 
   let label;

@@ -2,6 +2,10 @@ import { IHubAdditionalResource } from "../core/types/IHubAdditionalResource";
 import { getProp } from "../objects/get-prop";
 import { canUseExportImageFlow } from "./_internal/canUseExportImageFlow";
 import { getExportImageFormats } from "./_internal/format-fetchers/getExportImageFormats";
+import {
+  getAdditionalResourceIndex,
+  isAdditionalResourceConfiguration,
+} from "./_internal/additional-resources/utils";
 import { canUseHubDownloadApi } from "./canUseHubDownloadApi";
 import { getDownloadConfiguration } from "./getDownloadConfiguration";
 import { getHubDownloadApiFormats } from "./getHubDownloadApiFormats";
@@ -42,12 +46,8 @@ export function getDownloadFormats(
   return downloadConfiguration.formats.reduce((acc, format) => {
     if (!format.hidden) {
       let includedFormat;
-      // TODO: use utility function to determine if the format is an additional resource
-      const isAdditionalResource = format.key.startsWith(
-        "additionalResource::"
-      );
-      if (isAdditionalResource) {
-        const additionalResourceIndex = parseInt(format.key.split("::")[1], 10);
+      if (isAdditionalResourceConfiguration(format)) {
+        const additionalResourceIndex = getAdditionalResourceIndex(format);
         includedFormat = additionalFormats[additionalResourceIndex];
       } else {
         baseFormats.forEach((baseFormat) => {

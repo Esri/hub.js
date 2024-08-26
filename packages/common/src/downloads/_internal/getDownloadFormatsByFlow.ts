@@ -8,11 +8,12 @@ import { getExportImageFormats } from "./format-fetchers/getExportImageFormats";
 import { getPagingJobFormats } from "./format-fetchers/getPagingJobFormats";
 
 /**
+ * @private
  * Get the download formats for a given download flow and entity.
  *
  * @param downloadFlow DownloadFlowType
  * @param entity IHubEditableContent
- * @returns
+ * @returns IDynamicDownloadFormat[]
  */
 export function getDownloadFormatsByFlow(
   downloadFlow: DownloadFlowType,
