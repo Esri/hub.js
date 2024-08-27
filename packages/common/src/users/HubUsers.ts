@@ -9,7 +9,7 @@ import { parseInclude } from "../search/_internal/parseInclude";
 import { IHubRequestOptions } from "../types";
 import { getUserHomeUrl } from "../urls";
 import { unique } from "../util";
-import { fetchUserHubSettings, getUserHubSettings, mapBy } from "../utils";
+import { mapBy } from "../utils";
 import { IHubSearchResult } from "../search/types/IHubSearchResult";
 import { IArcGISContext } from "../ArcGISContext";
 import { computeProps } from "./_internal/computeProps";

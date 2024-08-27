@@ -1,6 +1,8 @@
 import { IEntityEditorContext, IHubUser } from "../core/types";
 import { IArcGISContext } from "../ArcGISContext";
-import { getEditorConfig, IEditorConfig, IWithEditorBehavior } from "../core";
+import { getEditorConfig } from "../core/schemas/getEditorConfig";
+import { IEditorConfig } from "../core/schemas/types";
+import { IWithEditorBehavior } from "../core/behaviors/IWithEditorBehavior";
 import { enrichEntity } from "../core/enrichEntity";
 import { cloneObject } from "../util";
 import { UserEditorType } from "./_internal/UserSchema";
@@ -34,12 +36,21 @@ export class HubUser implements IWithEditorBehavior {
   }
 
   /**
+   * Method that returns the entity as a JSON object
+   * We have this on the EntityItem class, but we don't implement that here
+   * @returns
+   */
+  toJson(): IHubUser {
+    return cloneObject(this.entity);
+  }
+
+  /**
    * Save the HubUser to the backing store
    * TODO: fill this out
    */
   async save(): Promise<void> {
     if (this.isDestroyed) {
-      throw new Error("HubUser is already destroyed. ");
+      throw new Error("HubUser is already destroyed.");
     }
 
     // 1. update user hub settings
@@ -51,6 +62,14 @@ export class HubUser implements IWithEditorBehavior {
     // 3. update portal settings
 
     return;
+  }
+
+  async delete(): Promise<void> {
+    if (this.isDestroyed) {
+      throw new Error("HubUser is already destroyed.");
+    }
+    // TODO: implement here when we want this functionality
+    this.isDestroyed = true;
   }
 
   /**

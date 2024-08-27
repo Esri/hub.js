@@ -428,6 +428,10 @@ export async function getEditorSchemas(
         context
       );
 
+      // if we have the buildDefaults fn, then construct the defaults
+      // TODO: when first implementing buildDefaults for users, remove the ignore line
+
+      /* istanbul ignore next */
       if (userModule.buildDefaults) {
         defaults = await userModule.buildDefaults(
           i18nScope,

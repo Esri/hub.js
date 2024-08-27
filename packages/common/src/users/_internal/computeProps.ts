@@ -14,7 +14,7 @@ export async function computeProps(
 
   const signinSettings = await getPortalSignInSettings(context);
   user.hubOrgSettings = {
-    showInformationalBanner: getProp(
+    showInformationalBanner: !!getProp(
       context,
       "portal.portalProperties.hub.settings.informationalBanner"
     ),
@@ -26,7 +26,7 @@ export async function computeProps(
 }
 
 /** gets the given portal's signin settings */
-function getPortalSignInSettings(context: IArcGISContext) {
+export function getPortalSignInSettings(context: IArcGISContext) {
   const url = `${getPortalUrl(
     context.requestOptions
   )}/portals/self/signinSettings`;
