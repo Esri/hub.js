@@ -12,6 +12,7 @@
     "dist/**"
   ],
   "dependencies": {
+    "@esri/telemetry-reporting-client": "^3.2.4",
     "@terraformer/arcgis": "^2.1.2",
     "@types/arcgis-js-api": "~4.28.0",
     "abab": "^2.0.5",

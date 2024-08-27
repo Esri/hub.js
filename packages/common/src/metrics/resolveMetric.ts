@@ -6,6 +6,7 @@ import {
   IResolvedMetric,
   IServiceQueryMetricSource,
   IStaticValueMetricSource,
+  ITelemetryQueryMetricSource,
   MetricSource,
 } from "../core/types/Metrics";
 import { queryFeatures } from "@esri/arcgis-rest-feature-layer";
@@ -15,6 +16,11 @@ import { IPredicate, IQuery } from "../search/types/IHubCatalog";
 import { combineQueries } from "../search/_internal/combineQueries";
 import { IHubSearchOptions } from "../search/types/IHubSearchOptions";
 import { portalSearchItemsAsItems } from "../search/_internal/portalSearchItems";
+import {
+  ITelemetryDataEntry,
+  ITelemetryRequestOptions,
+  getTelemetryReport,
+} from "@esri/telemetry-reporting-client";
 
 /**
  * Resolve a Metric into an array of `IMetricFeature` objects.
@@ -42,6 +48,9 @@ export async function resolveMetric(
 
     case "item-query":
       return resolveItemQueryMetric(metric, context);
+
+    case "telemetry-query":
+      return resolveTelemetryQueryMetric(metric, context);
 
     default:
       throw new Error(`Unknown metric type passed in.`);
@@ -73,6 +82,45 @@ function resolveStaticValueMetric(
   };
   return Promise.resolve({
     features: [result],
+    generatedAt: new Date().getTime(),
+  });
+}
+
+async function resolveTelemetryQueryMetric(
+  metric: IMetric,
+  context: IArcGISContext
+): Promise<IResolvedMetric> {
+  const source = metric.source as ITelemetryQueryMetricSource;
+  // cut off the parent identifier from the metric id and use that
+  // as the output field name
+  const fieldName = metric.id.split("_")[0];
+  const requestOptions = {
+    ...(context && context?.hubRequestOptions),
+    ...source.telemetryContext,
+  } as ITelemetryRequestOptions;
+
+  // Execute the report query
+  const response = await getTelemetryReport(
+    source.requestParams,
+    requestOptions
+  );
+
+  const results = response.data.map((entry: ITelemetryDataEntry) => {
+    const key = Object.keys(entry)[0];
+    const result: IMetricFeature = {
+      attributes: {
+        id: metric.entityInfo.id,
+        name: metric.entityInfo.name,
+        type: metric.entityInfo.type,
+        [fieldName]: entry[key],
+        key,
+      },
+    };
+    return result;
+  });
+
+  return Promise.resolve({
+    features: results,
     generatedAt: new Date().getTime(),
   });
 }

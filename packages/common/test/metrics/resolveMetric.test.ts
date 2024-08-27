@@ -5,6 +5,7 @@ import {
   IMetric,
   IQuery,
   IServiceQueryMetricSource,
+  ITelemetryQueryMetricSource,
   clearMemoizedCache,
   cloneObject,
   resolveMetric,
@@ -13,6 +14,7 @@ import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import * as FLModule from "@esri/arcgis-rest-feature-layer";
 import * as PSModule from "../../src/search/_internal/portalSearchItems";
+import * as TelemetryModule from "@esri/telemetry-reporting-client";
 
 describe("resolveMetric:", () => {
   let ctx: IArcGISContext;
@@ -311,6 +313,89 @@ describe("resolveMetric:", () => {
         // call counts out, even though we're clearing the cache
         expect(querySpy).toHaveBeenCalledTimes(1);
       });
+    });
+  });
+
+  describe("telemetry-query", () => {
+    let querySpy: jasmine.Spy;
+
+    const telemetryMetric: IMetric = {
+      id: "initiativeTelemetry_cc0",
+      name: "Initiative Telemetry",
+      source: {
+        type: "telemetry-query",
+        requestParams: {
+          scope: {
+            hostname:
+              "a-site-of-initiatives-and-projects-qa-pre-a-hub.hubqa.arcgis.com",
+          },
+          dateRange: {
+            startDate: "2024-06-05T13:58:22.564Z",
+            endDate: "2024-07-05T13:58:22.565Z",
+          },
+          metrics: ["page-views:count"],
+          dimensionFilters: [
+            {
+              name: "contentId",
+              any: ["portal:bf7c258ad5bc46cea4c1764ca6d59955"],
+            },
+            {
+              name: "action",
+              not: ["Manage"],
+            },
+          ],
+          timeDimension: "day",
+          orderBy: [
+            {
+              name: "day",
+              direction: "asc",
+            },
+          ],
+          emptyRows: true,
+        },
+        telemetryContext: {},
+      } as ITelemetryQueryMetricSource,
+      entityInfo: {
+        id: "00f",
+        name: "Some Initiative Name",
+        type: "Hub Initiative",
+      },
+    };
+
+    const MockResponse = {
+      data: [{ 12345: 100 }, { 123456: 200 }],
+    };
+
+    beforeEach(() => {
+      querySpy = spyOn(TelemetryModule, "getTelemetryReport").and.callFake(
+        () => {
+          return Promise.resolve(MockResponse);
+        }
+      );
+    });
+
+    it("resolves a telemetry metric", async () => {
+      const chk = await resolveMetric(telemetryMetric, ctx);
+      expect(chk.features).toEqual([
+        {
+          attributes: {
+            id: "00f",
+            name: "Some Initiative Name",
+            type: "Hub Initiative",
+            initiativeTelemetry: 100,
+            key: "12345",
+          },
+        },
+        {
+          attributes: {
+            id: "00f",
+            name: "Some Initiative Name",
+            type: "Hub Initiative",
+            initiativeTelemetry: 200,
+            key: "123456",
+          },
+        },
+      ]);
     });
   });
 });

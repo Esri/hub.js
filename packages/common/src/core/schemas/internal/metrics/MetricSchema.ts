@@ -29,6 +29,9 @@ export const MetricSchema: IConfigurationSchema = {
     dynamicMetric: {
       type: "object",
     },
+    telemetryMetric: {
+      type: "object",
+    },
     allowUnitFormatting: {
       type: "boolean",
       default: false,
