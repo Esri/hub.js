@@ -372,10 +372,10 @@ describe("HubEvents edit module", () => {
           return Promise.resolve();
         }
       );
-      await deleteHubEvent("0o1", authdCtxMgr.context.userRequestOptions);
+      await deleteHubEvent("0o1", authdCtxMgr.context.hubRequestOptions);
       expect(deleteEventSpy).toHaveBeenCalledWith({
         eventId: "0o1",
-        ...authdCtxMgr.context.userRequestOptions,
+        ...authdCtxMgr.context.hubRequestOptions,
       });
     });
   });

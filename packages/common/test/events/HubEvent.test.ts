@@ -3,7 +3,6 @@ import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as eventEditModule from "../../src/events/edit";
 import * as eventFetchModule from "../../src/events/fetch";
-import * as eventModule from "../../src/events/api/events";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import { HubEvent } from "../../src/events/HubEvent";
 import { IHubEvent } from "../../src/core/types/IHubEvent";
@@ -98,6 +97,10 @@ describe("HubEvent Class:", () => {
     const chk = HubEvent.fromJson({ name: "Test Event" }, authdCtxMgr.context);
     await chk.delete();
     expect(deleteSpy).toHaveBeenCalledTimes(1);
+    expect(deleteSpy).toHaveBeenCalledWith(
+      chk.id,
+      authdCtxMgr.context.hubRequestOptions
+    );
     // all fns should now throw an error
     expect(() => {
       chk.toJson();
@@ -110,12 +113,14 @@ describe("HubEvent Class:", () => {
     // async calls
     try {
       await chk.delete();
+      fail("delete did not reject");
     } catch (e) {
       expect(e.message).toEqual("HubEvent is already destroyed.");
     }
 
     try {
       await chk.save();
+      fail("save did not reject");
     } catch (e) {
       expect(e.message).toEqual("HubEvent is already destroyed.");
     }

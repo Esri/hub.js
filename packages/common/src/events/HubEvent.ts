@@ -117,7 +117,7 @@ export class HubEvent
       throw new Error("HubEvent is already destroyed.");
     }
     const { deleteHubEvent } = await import("./edit");
-    await deleteHubEvent(this.entity.id, this.context.userRequestOptions);
+    await deleteHubEvent(this.entity.id, this.context.hubRequestOptions);
     this.isDestroyed = true;
   }
 
