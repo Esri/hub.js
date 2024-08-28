@@ -212,20 +212,23 @@ describe("buildUiSchema: content settings", () => {
                     helperActionText: `{{some.scope.fields.schedule.manual.helperActionText:translate}}`,
                   },
                 ],
-                messages: [
-                  {
-                    type: "CUSTOM",
-                    display: "notice",
+              },
+            },
+            {
+              type: "Notice",
+              options: {
+                notice: {
+                  configuration: {
+                    id: "schedule-unavailable-notice",
+                    noticeType: "notice",
+                    closable: false,
                     kind: "warning",
-                    icon: "exclamation-mark-triangle",
-                    titleKey:
-                      "some.scope.fields.schedule.unavailableNotice.title",
-                    labelKey:
-                      "some.scope.fields.schedule.unavailableNotice.body",
-                    allowShowBeforeInteract: true,
-                    alwaysShow: true,
+                    scale: "m",
                   },
-                ],
+                  title: `some.scope.fields.schedule.unavailableNotice.title`,
+                  message: `some.scope.fields.schedule.unavailableNotice.body`,
+                  autoShow: true,
+                },
               },
             },
           ],

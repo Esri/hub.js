@@ -99,7 +99,7 @@ export const buildUiSchema = async (
               placeholderIcon: "label",
             },
           },
-          await fetchCategoriesUiSchemaElement(i18nScope, context),
+          ...(await fetchCategoriesUiSchemaElement(i18nScope, context)),
           getThumbnailUiSchemaElement(
             i18nScope,
             options.thumbnail,

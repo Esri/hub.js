@@ -17,13 +17,13 @@ import { fetchCategoryItems } from "./fetchCategoryItems";
 export async function fetchCategoriesUiSchemaElement(
   i18nScope: string,
   context: IArcGISContext
-): Promise<IUiSchemaElement> {
+): Promise<IUiSchemaElement[]> {
   const categoryItems = await fetchCategoryItems(
     context.portal.id,
     context.hubRequestOptions
   );
 
-  const result: IUiSchemaElement = {
+  const categories: IUiSchemaElement = {
     labelKey: `shared.fields.categories.label`,
     scope: "/properties/categories",
     type: "Control",
@@ -40,26 +40,35 @@ export async function fetchCategoriesUiSchemaElement(
     },
   };
 
+  const result: IUiSchemaElement[] = [categories];
+
   if (!categoryItems.length) {
-    result.options.disabled = true;
-    result.options.messages = [
-      {
-        type: UiSchemaMessageTypes.custom,
-        display: "notice",
-        kind: "warning",
-        icon: "exclamation-mark-triangle",
-        labelKey: "shared.fields.categories.noCategoriesNotice.body",
-        link: {
-          kind: "external",
-          label:
-            "{{shared.fields.categories.noCategoriesNotice.link:translate}}",
-          href: "https://doc.arcgis.com/en/arcgis-online/reference/content-categories.htm",
-          target: "_blank",
+    categories.options.disabled = true;
+    result.push({
+      type: "Notice",
+      options: {
+        notice: {
+          configuration: {
+            id: "no-categories-notice",
+            noticeType: "notice",
+            closable: false,
+            kind: "warning",
+            scale: "m",
+          },
+          message: `shared.fields.categories.noCategoriesNotice.body`,
+          autoShow: true,
+          actions: [
+            {
+              label:
+                "{{shared.fields.categories.noCategoriesNotice.link:translate}}",
+              icon: "launch",
+              href: "https://doc.arcgis.com/en/arcgis-online/reference/content-categories.htm",
+              target: "_blank",
+            },
+          ],
         },
-        allowShowBeforeInteract: true,
-        alwaysShow: true,
-      } as IUiSchemaMessage,
-    ];
+      },
+    });
   }
 
   return result;

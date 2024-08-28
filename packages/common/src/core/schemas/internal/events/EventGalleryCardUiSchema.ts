@@ -18,7 +18,18 @@ export async function buildUiSchema(
     `${i18nScope}.content`,
     context
   );
-  delete categoriesUiSchema.options.helperText;
+  categoriesUiSchema[0].rules = [
+    {
+      effect: UiSchemaRuleEffects.SHOW,
+      conditions: [
+        {
+          scope: "/properties/selectionMode",
+          schema: { const: "dynamic" },
+        },
+      ],
+    },
+  ];
+  delete categoriesUiSchema[0].options.helperText;
   return {
     type: "Layout",
     elements: [
@@ -106,20 +117,7 @@ export async function buildUiSchema(
                   },
                 ],
               },
-              {
-                ...categoriesUiSchema,
-                rules: [
-                  {
-                    effect: UiSchemaRuleEffects.SHOW,
-                    conditions: [
-                      {
-                        scope: "/properties/selectionMode",
-                        schema: { const: "dynamic" },
-                      },
-                    ],
-                  },
-                ],
-              },
+              ...categoriesUiSchema,
               {
                 scope: "/properties/entityIds",
                 type: "Control",

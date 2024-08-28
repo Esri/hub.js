@@ -424,7 +424,7 @@ export const buildUiSchema = async (
               },
             },
           },
-          await fetchCategoriesUiSchemaElement(i18nScope, context),
+          ...(await fetchCategoriesUiSchemaElement(i18nScope, context)),
           {
             labelKey: `${i18nScope}.fields.summary.label`,
             scope: "/properties/summary",

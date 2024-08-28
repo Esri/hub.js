@@ -64,18 +64,23 @@ export const buildUiSchema = async (
     if (options.access !== "public") {
       // Disable the schedule control and add the unavailable notice
       scheduleControlElement.options.disabled = true;
-      scheduleControlElement.options.messages = [
-        {
-          type: UiSchemaMessageTypes.custom,
-          display: "notice",
-          kind: "warning",
-          icon: "exclamation-mark-triangle",
-          titleKey: `${i18nScope}.fields.schedule.unavailableNotice.title`,
-          labelKey: `${i18nScope}.fields.schedule.unavailableNotice.body`,
-          allowShowBeforeInteract: true,
-          alwaysShow: true,
+      scheduleSectionElements.push({
+        type: "Notice",
+        options: {
+          notice: {
+            configuration: {
+              id: "schedule-unavailable-notice",
+              noticeType: "notice",
+              closable: false,
+              kind: "warning",
+              scale: "m",
+            },
+            title: `${i18nScope}.fields.schedule.unavailableNotice.title`,
+            message: `${i18nScope}.fields.schedule.unavailableNotice.body`,
+            autoShow: true,
+          },
         },
-      ] as IUiSchemaMessage[];
+      });
     } else {
       // force update checkbox -- TODO: replace with button once available
       scheduleSectionElements.push({

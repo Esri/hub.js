@@ -164,7 +164,7 @@ export const buildUiSchema = async (
               helperText: { labelKey: `${i18nScope}.fields.tags.helperText` },
             },
           },
-          await fetchCategoriesUiSchemaElement(i18nScope, context),
+          ...(await fetchCategoriesUiSchemaElement(i18nScope, context)),
           getThumbnailUiSchemaElement(
             i18nScope,
             options.thumbnail,

@@ -29,19 +29,21 @@ describe("EventGalleryCardUiSchema", () => {
           children: [],
         } as IUiSchemaComboboxItem,
       ];
-      const categoriesUiSchemaElement = {
-        type: "Control",
-        scope: "/properties/categories",
-        rules: [],
-        options: {
-          helperText: {
-            labelKey: "some.label.key",
+      const categoriesUiSchemaElement = [
+        {
+          type: "Control",
+          scope: "/properties/categories",
+          rules: [],
+          options: {
+            helperText: {
+              labelKey: "some.label.key",
+            },
           },
+          label: "Categories",
         },
-        label: "Categories",
-      } as IUiSchemaElement;
+      ] as IUiSchemaElement[];
       const categoriesUiSchemaElementWithoutHelperText = cloneObject(
-        categoriesUiSchemaElement
+        categoriesUiSchemaElement[0]
       );
       delete categoriesUiSchemaElementWithoutHelperText.options?.helperText;
       const catalog = {
