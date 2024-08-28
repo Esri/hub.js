@@ -5,6 +5,7 @@ import { EventPropertyMapper } from "./_internal/PropertyMapper";
 import { buildDefaultEventEntity, buildDefaultEventRecord } from "./defaults";
 import {
   createEvent as createEventApi,
+  deleteEvent as deleteEventApi,
   updateEvent as updateEventApi,
 } from "./api/events";
 import {
@@ -128,6 +129,18 @@ export async function updateHubEvent(
   });
 
   return mapper.storeToEntity(model, {}) as IHubEvent;
+}
+
+export async function deleteHubEvent(
+  id: string,
+  requestOptions: IHubRequestOptions
+): Promise<void> {
+  // TODO: update `status` of event to `"removed"` when requestOptions.params.parementDelete is `true`
+  // instead of permanently deleting the event when we officially support recycle bin behavior
+  await deleteEventApi({
+    eventId: id,
+    ...requestOptions,
+  });
 }
 
 /**
