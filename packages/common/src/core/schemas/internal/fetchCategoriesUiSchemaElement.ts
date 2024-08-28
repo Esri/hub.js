@@ -52,10 +52,12 @@ export async function fetchCategoriesUiSchemaElement(
             id: "no-categories-notice",
             noticeType: "notice",
             closable: false,
+            icon: "exclamation-mark-triangle",
             kind: "warning",
             scale: "m",
           },
-          message: `shared.fields.categories.noCategoriesNotice.body`,
+          message:
+            "{{shared.fields.categories.noCategoriesNotice.body:translate}}",
           autoShow: true,
           actions: [
             {

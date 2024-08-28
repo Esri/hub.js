@@ -35,7 +35,7 @@ describe("fetchCategoriesUiSchemaElement:", () => {
     const uiSchema = await fetchCategoriesUiSchemaElement("scope", context);
     expect(uiSchema.length).toBe(2);
     expect(uiSchema[1].options?.notice.message).toBe(
-      "shared.fields.categories.noCategoriesNotice.body"
+      "{{shared.fields.categories.noCategoriesNotice.body:translate}}"
     );
     expect(uiSchema[1].options?.notice.actions[0].label).toBe(
       "{{shared.fields.categories.noCategoriesNotice.link:translate}}"

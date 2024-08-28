@@ -150,6 +150,36 @@ describe("buildUiSchema: content settings", () => {
                   },
                 ],
               },
+              rules: [
+                {
+                  effect: UiSchemaRuleEffects.DISABLE,
+                  conditions: [false],
+                },
+              ],
+            },
+            {
+              type: "Notice",
+              options: {
+                notice: {
+                  configuration: {
+                    id: "schedule-unavailable-notice",
+                    noticeType: "notice",
+                    closable: false,
+                    kind: "warning",
+                    icon: "exclamation-mark-triangle",
+                    scale: "m",
+                  },
+                  title: `{{some.scope.fields.schedule.unavailableNotice.title:translate}}`,
+                  message: `{{some.scope.fields.schedule.unavailableNotice.body:translate}}`,
+                  autoShow: true,
+                },
+              },
+              rules: [
+                {
+                  effect: UiSchemaRuleEffects.SHOW,
+                  conditions: [false],
+                },
+              ],
             },
             {
               type: "Control",
@@ -164,6 +194,12 @@ describe("buildUiSchema: content settings", () => {
                   `{{some.scope.fields.schedule.forceUpdateButton.description:translate}}`,
                 ],
               },
+              rules: [
+                {
+                  effect: UiSchemaRuleEffects.SHOW,
+                  conditions: [true],
+                },
+              ],
             },
           ],
         },
@@ -197,7 +233,6 @@ describe("buildUiSchema: content settings", () => {
               options: {
                 type: "Control",
                 control: "hub-field-input-scheduler",
-                disabled: true,
                 labelKey: "fieldHeader",
                 format: "radio",
                 inputs: [
@@ -213,6 +248,12 @@ describe("buildUiSchema: content settings", () => {
                   },
                 ],
               },
+              rules: [
+                {
+                  effect: UiSchemaRuleEffects.DISABLE,
+                  conditions: [true],
+                },
+              ],
             },
             {
               type: "Notice",
@@ -223,13 +264,40 @@ describe("buildUiSchema: content settings", () => {
                     noticeType: "notice",
                     closable: false,
                     kind: "warning",
+                    icon: "exclamation-mark-triangle",
                     scale: "m",
                   },
-                  title: `some.scope.fields.schedule.unavailableNotice.title`,
-                  message: `some.scope.fields.schedule.unavailableNotice.body`,
+                  title: `{{some.scope.fields.schedule.unavailableNotice.title:translate}}`,
+                  message: `{{some.scope.fields.schedule.unavailableNotice.body:translate}}`,
                   autoShow: true,
                 },
               },
+              rules: [
+                {
+                  effect: UiSchemaRuleEffects.SHOW,
+                  conditions: [true],
+                },
+              ],
+            },
+            {
+              type: "Control",
+              scope: "/properties/_forceUpdate",
+              options: {
+                control: "hub-field-input-tile-select",
+                type: "checkbox",
+                labels: [
+                  `{{some.scope.fields.schedule.forceUpdateButton.label:translate}}`,
+                ],
+                descriptions: [
+                  `{{some.scope.fields.schedule.forceUpdateButton.description:translate}}`,
+                ],
+              },
+              rules: [
+                {
+                  effect: UiSchemaRuleEffects.SHOW,
+                  conditions: [false],
+                },
+              ],
             },
           ],
         },
