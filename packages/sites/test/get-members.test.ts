@@ -5,7 +5,7 @@ import * as hubCommon from "@esri/hub-common";
 import * as restPortal from "@esri/arcgis-rest-portal";
 import * as restRequest from "@esri/arcgis-rest-request";
 
-describe("getMembers", function() {
+describe("getMembers", function () {
   let loggerSpy: jasmine.Spy;
   let getPortalUrlSpy: jasmine.Spy;
   let requestSpy: jasmine.Spy;
@@ -14,7 +14,7 @@ describe("getMembers", function() {
   let usernames: string[];
   let requestOptions: hubCommon.IHubRequestOptions;
 
-  const TOMORROW = (function() {
+  const TOMORROW = (function () {
     const now = new Date();
     now.setDate(now.getDate() + 1);
     return now;
@@ -24,12 +24,12 @@ describe("getMembers", function() {
     username: "mockUsername",
     password: "mockPassword",
     token: "mock-token",
-    tokenExpires: TOMORROW
+    tokenExpires: TOMORROW,
   });
 
   const MOCK_MEMBERS = [
     { username: "mockUsername1" } as IUser,
-    { username: "mockUsername2" } as IUser
+    { username: "mockUsername2" } as IUser,
   ];
 
   beforeEach(() => {
@@ -40,7 +40,7 @@ describe("getMembers", function() {
     requestOptions = {
       authentication: MOCK_USER_SESSION,
       hubApiUrl: "mock/hubApi/url",
-      isPortal: false
+      isPortal: false,
     };
   });
 
@@ -48,7 +48,7 @@ describe("getMembers", function() {
     loggerSpy.calls.reset();
   });
 
-  describe("user is authenticated", function() {
+  describe("user is authenticated", function () {
     beforeEach(() => {
       getPortalUrlSpy = spyOn(hubCommon, "getPortalUrl").and.returnValue(
         "mock/portal/url"
@@ -58,7 +58,7 @@ describe("getMembers", function() {
       getPortalUrlSpy.calls.reset();
     });
 
-    describe("network request succeeds", function() {
+    describe("network request succeeds", function () {
       beforeEach(async () => {
         requestSpy = spyOn(restRequest, "request").and.returnValue(
           Promise.resolve({ results: MOCK_MEMBERS })
@@ -69,32 +69,32 @@ describe("getMembers", function() {
         requestSpy.calls.reset();
       });
 
-      it("calls the getPortalUrl function", function() {
+      it("calls the getPortalUrl function", function () {
         expect(getPortalUrlSpy).toHaveBeenCalledTimes(1);
         expect(getPortalUrlSpy).toHaveBeenCalledWith(requestOptions);
       });
-      it("makes a request to the AGO users search endpoint with the correct parameters", function() {
+      it("makes a request to the AGO users search endpoint with the correct parameters", function () {
         const expectedUrlPath = "mock/portal/url/sharing/rest/community/users";
         const expectedOptions = {
           params: {
-            q: `${usernames
-              .map(username => `username:${username}`)
+            filter: `${usernames
+              .map((username) => `username:"${username}"`)
               .join(" OR ")}`,
-            num: 2
+            num: 2,
           },
-          ...requestOptions
+          ...requestOptions,
         };
         expect(requestSpy).toHaveBeenCalledWith(
           expectedUrlPath,
           expectedOptions
         );
       });
-      it("returns the correct result", function() {
+      it("returns the correct result", function () {
         expect(members).toEqual(MOCK_MEMBERS);
       });
     });
 
-    it("handles when more than 100 usernames are supplied", async function() {
+    it("handles when more than 100 usernames are supplied", async function () {
       requestSpy = spyOn(restRequest, "request").and.returnValue(
         Promise.resolve({ results: MOCK_MEMBERS })
       );
@@ -107,7 +107,7 @@ describe("getMembers", function() {
       expect(requestSpy).toHaveBeenCalledTimes(2);
       expect(members.length).toEqual(2 * MOCK_MEMBERS.length);
     });
-    it("handles errors appropriately", async function() {
+    it("handles errors appropriately", async function () {
       hubCommon.Logger.setLogLevel(hubCommon.Level.all);
       requestSpy = spyOn(restRequest, "request").and.returnValue(
         Promise.reject(Error("network request failed"))
@@ -120,39 +120,41 @@ describe("getMembers", function() {
     });
   });
 
-  describe("user is unauthenticated", function() {
+  describe("user is unauthenticated", function () {
     const SCENARIOS = [
       {
         response: { username: "mockUsername1" } as IUser,
         expectedLength: 0,
         description:
-          "member does not have public profile - should not be returned to unauthenticated user"
+          "member does not have public profile - should not be returned to unauthenticated user",
       },
       {
         response: {
           username: "mockUsername1",
-          firstName: "mockFirstName"
+          firstName: "mockFirstName",
         } as IUser,
         expectedLength: 1,
         description:
-          "member has a first name - assume public profile and return"
+          "member has a first name - assume public profile and return",
       },
       {
         response: {
           username: "mockUsername1",
-          lastName: "mockLastName"
+          lastName: "mockLastName",
         } as IUser,
         expectedLength: 1,
-        description: "member has a last name - assume public profile and return"
+        description:
+          "member has a last name - assume public profile and return",
       },
       {
         response: {
           username: "mockUsername1",
-          fullName: "mockFullName"
+          fullName: "mockFullName",
         } as IUser,
         expectedLength: 1,
-        description: "member has a full name - assume public profile and return"
-      }
+        description:
+          "member has a full name - assume public profile and return",
+      },
     ];
 
     beforeEach(async () => {
@@ -162,7 +164,7 @@ describe("getMembers", function() {
       getUserSpy.calls.reset();
     });
 
-    it("calls the getUser function with the correct arguments for each username", async function() {
+    it("calls the getUser function with the correct arguments for each username", async function () {
       getUserSpy = spyOn(restPortal, "getUser").and.returnValue(
         Promise.resolve(MOCK_MEMBERS)
       );
@@ -171,13 +173,11 @@ describe("getMembers", function() {
       expect(getUserSpy).toHaveBeenCalledTimes(usernames.length);
       expect(getUserSpy).toHaveBeenCalledWith({
         username: usernames[0],
-        ...requestOptions
+        ...requestOptions,
       });
     });
-    SCENARIOS.forEach(async scenario => {
-      it(`returns the correct result: ${
-        scenario.description
-      }`, async function() {
+    SCENARIOS.forEach(async (scenario) => {
+      it(`returns the correct result: ${scenario.description}`, async function () {
         usernames = ["mockUsername1"];
         getUserSpy = spyOn(restPortal, "getUser").and.returnValue(
           Promise.resolve(scenario.response)
@@ -188,7 +188,7 @@ describe("getMembers", function() {
         getUserSpy.and.stub();
       });
     });
-    it("handles errors appropriately", async function() {
+    it("handles errors appropriately", async function () {
       hubCommon.Logger.setLogLevel(hubCommon.Level.all);
       getUserSpy = spyOn(restPortal, "getUser").and.returnValue(
         Promise.reject(Error("network request failed"))
