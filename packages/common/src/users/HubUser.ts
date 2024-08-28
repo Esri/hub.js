@@ -6,6 +6,7 @@ import { IWithEditorBehavior } from "../core/behaviors/IWithEditorBehavior";
 import { enrichEntity } from "../core/enrichEntity";
 import { cloneObject } from "../util";
 import { UserEditorType } from "./_internal/UserSchema";
+import { DEFAULT_USER } from "./defaults";
 
 export class HubUser implements IWithEditorBehavior {
   protected context: IArcGISContext;
@@ -29,9 +30,12 @@ export class HubUser implements IWithEditorBehavior {
     return new HubUser(pojo, context);
   }
 
+  /**
+   * Given a partial user object, apply defaults to it to ensure that a baseline of properties are set
+   * @param partialUser
+   * @returns
+   */
   private static applyDefaults(partialUser: Partial<IHubUser>): IHubUser {
-    // TODO: move to defaults
-    const DEFAULT_USER = {};
     return { ...DEFAULT_USER, ...partialUser } as IHubUser;
   }
 
@@ -46,7 +50,6 @@ export class HubUser implements IWithEditorBehavior {
 
   /**
    * Save the HubUser to the backing store
-   * TODO: fill this out
    */
   async save(): Promise<void> {
     if (this.isDestroyed) {
@@ -60,15 +63,21 @@ export class HubUser implements IWithEditorBehavior {
     // TODO in later story
 
     // 3. update portal settings
+    // TODO in later story
 
     return;
   }
 
+  /**
+   * Delete the HubUser from the store
+   * set a flag to indicate that it is destroyed
+   * @returns
+   */
   async delete(): Promise<void> {
     if (this.isDestroyed) {
       throw new Error("HubUser is already destroyed.");
     }
-    // TODO: implement here when we want this functionality
+    // TODO: implement delete here when we want this functionality
     this.isDestroyed = true;
   }
 

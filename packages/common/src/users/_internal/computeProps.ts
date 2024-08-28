@@ -1,10 +1,17 @@
 import { getPortalUrl } from "@esri/arcgis-rest-portal";
-import { IArcGISContext } from "../../ArcGISContext";
-import { getProp } from "../../objects/get-prop";
-import { IHubUser } from "../../core";
 import { IUser } from "@esri/arcgis-rest-types";
 import { IRequestOptions, request } from "@esri/arcgis-rest-request";
+import { IArcGISContext } from "../../ArcGISContext";
+import { getProp } from "../../objects/get-prop";
+import { IHubUser } from "../../core/types";
 
+/**
+ * Given a model and a user, set various computed properties that can't be directly mapped
+ * @param model
+ * @param user
+ * @param context
+ * @returns
+ */
 export async function computeProps(
   model: IUser,
   user: IHubUser,
@@ -25,7 +32,9 @@ export async function computeProps(
   return user;
 }
 
-/** gets the given portal's signin settings */
+/**
+ * gets the given portal's signin settings
+ */
 export function getPortalSignInSettings(context: IArcGISContext) {
   const url = `${getPortalUrl(
     context.requestOptions

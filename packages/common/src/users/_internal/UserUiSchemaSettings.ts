@@ -1,6 +1,5 @@
 import { IArcGISContext } from "../../ArcGISContext";
-import { IUiSchema, UiSchemaRuleEffects } from "../../core";
-import { IHubUser } from "../../core/types/IHubUser";
+import { IUiSchema } from "../../core/schemas/types";
 
 /**
  * @private
