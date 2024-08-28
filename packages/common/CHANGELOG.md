@@ -1,3 +1,11 @@
+# @esri/hub-common [14.178.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.177.1...@esri/hub-common@14.178.0) (2024-08-28)
+
+
+### Features
+
+* **hub-common:** add additional filters for fetching events ([#1636](https://github.com/Esri/hub.js/issues/1636)) ([83c4277](https://github.com/Esri/hub.js/commit/83c4277b98b08df7791293eb255f8311a6102029))
+* **hub-common:** add deleteHubEvent ([#1637](https://github.com/Esri/hub.js/issues/1637)) ([1a9ae87](https://github.com/Esri/hub.js/commit/1a9ae87b10b44e09b37765502d51b467a1b006fd))
+
 ## @esri/hub-common [14.177.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.177.0...@esri/hub-common@14.177.1) (2024-08-23)
 
 
