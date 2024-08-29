@@ -391,23 +391,31 @@ export async function buildUiSchema(
                   enum: {
                     i18nScope: `${i18nScope}.options.openIn`,
                   },
-                  messages: [
-                    {
-                      type: UiSchemaMessageTypes.custom,
-                      display: "notice",
+                },
+              },
+              {
+                type: "Notice",
+                options: {
+                  notice: {
+                    configuration: {
+                      id: "open-in-notice",
+                      noticeType: "notice",
+                      closeable: false,
                       kind: "brand",
-                      titleKey: `${i18nScope}.options.openIn.notice.title`,
-                      label: `{{${i18nScope}.options.openIn.notice.body:translate}}`,
-                      link: {
-                        kind: "external",
+                      scale: "m",
+                    },
+                    title: `{{${i18nScope}.options.openIn.notice.title:translate}}`,
+                    body: `{{${i18nScope}.options.openIn.notice.body:translate}}`,
+                    autoShow: true,
+                    actions: [
+                      {
                         label: `{{${i18nScope}.options.openIn.notice.link:translate}}`,
+                        icon: "launch",
                         href: "https://www.w3.org/TR/WCAG20-TECHS/G200.html",
                         target: "_blank",
                       },
-                      allowShowBeforeInteract: true,
-                      alwaysShow: true,
-                    },
-                  ],
+                    ],
+                  },
                 },
               },
             ],

@@ -199,7 +199,7 @@ export const buildUiSchema = async (
               helperText: { labelKey: `${i18nScope}.fields.tags.helperText` },
             },
           },
-          getThumbnailUiSchemaElement(
+          ...getThumbnailUiSchemaElement(
             i18nScope,
             options.thumbnail,
             options.thumbnailUrl,

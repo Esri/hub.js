@@ -70,7 +70,7 @@ export const buildUiSchema = async (
               type: "textarea",
             },
           },
-          getThumbnailUiSchemaElement(
+          ...getThumbnailUiSchemaElement(
             i18nScope,
             options.thumbnail,
             getEntityThumbnailUrl(options),

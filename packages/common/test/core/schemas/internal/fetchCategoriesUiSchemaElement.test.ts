@@ -19,7 +19,7 @@ describe("fetchCategoriesUiSchemaElement:", () => {
       },
     } as unknown as IArcGISContext;
     const uiSchema = await fetchCategoriesUiSchemaElement("scope", context);
-    expect(uiSchema.length).toBe(1);
+    expect(uiSchema.length).toBe(2);
   });
 
   it("includes the no categories notice if category items are not available", async () => {

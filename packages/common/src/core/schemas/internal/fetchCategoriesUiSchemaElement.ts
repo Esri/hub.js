@@ -1,9 +1,5 @@
 import { IArcGISContext } from "../../../ArcGISContext";
-import {
-  IUiSchemaElement,
-  IUiSchemaMessage,
-  UiSchemaMessageTypes,
-} from "../types";
+import { IUiSchemaElement, UiSchemaRuleEffects } from "../types";
 import { fetchCategoryItems } from "./fetchCategoryItems";
 
 /**
@@ -23,28 +19,30 @@ export async function fetchCategoriesUiSchemaElement(
     context.hubRequestOptions
   );
 
-  const categories: IUiSchemaElement = {
-    labelKey: `shared.fields.categories.label`,
-    scope: "/properties/categories",
-    type: "Control",
-    options: {
-      control: "hub-field-input-combobox",
-      items: categoryItems,
-      allowCustomValues: false,
-      selectionMode: "ancestors",
-      placeholderIcon: "select-category",
-      helperText: {
-        // helper text varies between entity types
-        labelKey: `${i18nScope}.fields.categories.helperText`,
+  return [
+    {
+      labelKey: `shared.fields.categories.label`,
+      scope: "/properties/categories",
+      type: "Control",
+      options: {
+        control: "hub-field-input-combobox",
+        items: categoryItems,
+        allowCustomValues: false,
+        selectionMode: "ancestors",
+        placeholderIcon: "select-category",
+        helperText: {
+          // helper text varies between entity types
+          labelKey: `${i18nScope}.fields.categories.helperText`,
+        },
       },
+      rules: [
+        {
+          effect: UiSchemaRuleEffects.DISABLE,
+          conditions: [!categoryItems.length],
+        },
+      ],
     },
-  };
-
-  const result: IUiSchemaElement[] = [categories];
-
-  if (!categoryItems.length) {
-    categories.options.disabled = true;
-    result.push({
+    {
       type: "Notice",
       options: {
         notice: {
@@ -70,8 +68,12 @@ export async function fetchCategoriesUiSchemaElement(
           ],
         },
       },
-    });
-  }
-
-  return result;
+      rules: [
+        {
+          effect: UiSchemaRuleEffects.SHOW,
+          conditions: [!categoryItems.length],
+        },
+      ],
+    },
+  ];
 }

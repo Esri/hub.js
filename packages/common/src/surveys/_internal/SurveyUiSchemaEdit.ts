@@ -100,7 +100,7 @@ export const buildUiSchema = async (
             },
           },
           ...(await fetchCategoriesUiSchemaElement(i18nScope, context)),
-          getThumbnailUiSchemaElement(
+          ...getThumbnailUiSchemaElement(
             i18nScope,
             options.thumbnail,
             options.thumbnailUrl,

@@ -104,7 +104,7 @@ export const buildUiSchema = async (
               },
             },
           },
-          getThumbnailUiSchemaElement(
+          ...getThumbnailUiSchemaElement(
             i18nScope,
             options.thumbnail,
             getEntityThumbnailUrl(options),

@@ -397,25 +397,31 @@ describe("EventGalleryCardUiSchema", () => {
                     options: {
                       control: "hub-field-input-select",
                       enum: { i18nScope: "some.scope.options.openIn" },
-                      messages: [
-                        {
-                          type: "CUSTOM",
-                          display: "notice",
+                    },
+                  },
+                  {
+                    type: "Notice",
+                    options: {
+                      notice: {
+                        configuration: {
+                          id: "open-in-notice",
+                          noticeType: "notice",
+                          closeable: false,
                           kind: "brand",
-                          titleKey: "some.scope.options.openIn.notice.title",
-                          label:
-                            "{{some.scope.options.openIn.notice.body:translate}}",
-                          link: {
-                            kind: "external",
-                            label:
-                              "{{some.scope.options.openIn.notice.link:translate}}",
+                          scale: "m",
+                        },
+                        title: `{{some.scope.options.openIn.notice.title:translate}}`,
+                        body: `{{some.scope.options.openIn.notice.body:translate}}`,
+                        autoShow: true,
+                        actions: [
+                          {
+                            label: `{{some.scope.options.openIn.notice.link:translate}}`,
+                            icon: "launch",
                             href: "https://www.w3.org/TR/WCAG20-TECHS/G200.html",
                             target: "_blank",
                           },
-                          allowShowBeforeInteract: true,
-                          alwaysShow: true,
-                        },
-                      ],
+                        ],
+                      },
                     },
                   },
                 ],
