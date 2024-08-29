@@ -1,3 +1,10 @@
+# @esri/hub-common [14.179.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.178.0...@esri/hub-common@14.179.0) (2024-08-29)
+
+
+### Features
+
+* **hub-common:** adds downloadFormats property to configure formats … ([#1626](https://github.com/Esri/hub.js/issues/1626)) ([228e6e3](https://github.com/Esri/hub.js/commit/228e6e35bb97bdfa88b1825f215b189b8c70b580))
+
 # @esri/hub-common [14.178.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.177.1...@esri/hub-common@14.178.0) (2024-08-28)
 
 
