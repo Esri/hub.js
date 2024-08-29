@@ -8,7 +8,8 @@ import {
 } from "../../core/schemas/types";
 import { IHubEditableContent } from "../../core/types/IHubEditableContent";
 import { checkPermission } from "../../permissions/checkPermission";
-import { isHostedFeatureServiceMainEntity } from "../hostedServiceUtils";
+import { getDownloadsSection } from "./getDownloadsSection";
+import { shouldShowDownloadsConfiguration } from "./shouldShowDownloadsConfiguration";
 
 /**
  * @private
@@ -100,28 +101,13 @@ export const buildUiSchema = async (
     });
   }
 
-  if (isHostedFeatureServiceMainEntity(options as IHubEditableContent)) {
-    uiSchema.elements.push({
-      type: "Section",
-      labelKey: `${i18nScope}.sections.downloads.label`,
-      options: {
-        helperText: {
-          labelKey: `${i18nScope}.sections.downloads.helperText`,
-        },
-      },
-      elements: [
-        {
-          labelKey: `${i18nScope}.fields.serverExtractCapability.label`,
-          scope: "/properties/serverExtractCapability",
-          type: "Control",
-          options: {
-            helperText: {
-              labelKey: `${i18nScope}.fields.serverExtractCapability.helperText`,
-            },
-          },
-        },
-      ],
-    });
+  if (shouldShowDownloadsConfiguration(options as IHubEditableContent)) {
+    const downloadsSection = getDownloadsSection(
+      i18nScope,
+      options as IHubEditableContent
+    );
+    uiSchema.elements.push(downloadsSection);
   }
+
   return uiSchema;
 };

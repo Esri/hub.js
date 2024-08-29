@@ -188,5 +188,6 @@ function getBaseExtendedProps(
       enrichments.metadata,
       requestOptions as IHubRequestOptions
     ),
+    downloads: getProp(item, "properties.downloads"),
   };
 }

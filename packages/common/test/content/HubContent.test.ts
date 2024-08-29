@@ -7,6 +7,7 @@ import * as editModule from "../../src/content/edit";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import { getProp } from "../../src/objects/get-prop";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
+import * as ShouldShowDownloadsConfigurationModule from "../../src/content/_internal/shouldShowDownloadsConfiguration";
 
 describe("HubContent class", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -175,6 +176,23 @@ describe("HubContent class", () => {
           "https://myserver.com/thumbnail.png"
         );
       });
+      it("should append downloadFormats when entity should show downloads configuration", async () => {
+        const shouldShowDownloadsConfigurationSpy = spyOn(
+          ShouldShowDownloadsConfigurationModule,
+          "shouldShowDownloadsConfiguration"
+        ).and.returnValue(true);
+        const chk = HubContent.fromJson(
+          {
+            id: "bc3",
+            name: "Test Content",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+          },
+          authdCtxMgr.context
+        );
+        const result = await chk.toEditor();
+        expect(shouldShowDownloadsConfigurationSpy).toHaveBeenCalledTimes(1);
+        expect(result.downloadFormats).toBeDefined();
+      });
     });
 
     describe("fromEditor:", () => {
@@ -184,6 +202,15 @@ describe("HubContent class", () => {
             id: "bc3",
             name: "Test Content",
             thumbnailUrl: "https://myserver.com/thumbnail.png",
+            access: "public",
+            serverQueryCapability: true,
+            url: "https://myserver.com/featureServer",
+            downloadFormats: [
+              {
+                label: "CSV",
+                format: "csv",
+              },
+            ],
           },
           authdCtxMgr.context
         );
