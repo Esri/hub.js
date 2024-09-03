@@ -32,6 +32,7 @@ const SystemPermissions = [
   // remove this at the next breaking version
   "hub:feature:workspace:umbrella",
   "hub:feature:keyboardshortcuts",
+  "hub:feature:newentityview",
   "hub:feature:history",
   "hub:license:hub-premium",
   "hub:license:hub-basic",

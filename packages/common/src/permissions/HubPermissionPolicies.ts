@@ -171,6 +171,14 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     availability: ["alpha"],
     environments: ["devext", "qaext"],
   },
+  {
+    // Enables the new entity view to render on a view route
+    // To enable it, we need to pass the feature flag
+    // (?pe=hub:feature:newentityview) into the URL
+    permission: "hub:feature:newentityview",
+    environments: ["qaext"],
+    availability: ["flag"],
+  },
   // NOTE: only use this permission if necessary. Use the licenses check on a permission to check license when able instead of a separate permission.
   // checks if using hub-premium
   {
