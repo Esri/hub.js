@@ -14,6 +14,12 @@ import { IHubSearchResult } from "../search/types/IHubSearchResult";
 import { IArcGISContext } from "../ArcGISContext";
 import { computeProps } from "./_internal/computeProps";
 
+/**
+ * Converts a IUser object into an IHubUser.
+ *
+ * @param user
+ * @returns IHubUser
+ */
 export const convertUserToHubUser = (user: IUser): IHubUser => {
   // A private user will not have a description prop at all
   // thus we set it to undefined to differentiate from a empty description which would be null
@@ -46,7 +52,7 @@ export const convertUserToHubUser = (user: IUser): IHubUser => {
 };
 
 /**
- * Enrich a User object
+ * Enriches an IUser object search result.
  * @param user
  * @param includes
  * @param requestOptions

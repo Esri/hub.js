@@ -4,7 +4,7 @@ export type UserEditorType = (typeof UserEditorTypes)[number];
 export const UserEditorTypes = ["hub:user:settings"] as const;
 
 /**
- * Defines the JSON schema for a Hub User's editable fields
+ * Defines the JSON schema for a Hub User's editable fields.
  */
 export const UserSchema: IConfigurationSchema = {
   type: "object",

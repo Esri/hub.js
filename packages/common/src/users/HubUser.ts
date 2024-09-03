@@ -22,7 +22,7 @@ export class HubUser implements IWithEditorBehavior {
    * Create an instance from a IHubUser object
    * @param json - JSON object to create a HubProject from
    * @param context - ArcGIS context
-   * @returns
+   * @returns HubUser
    */
   static fromJson(json: Partial<IHubUser>, context: IArcGISContext): HubUser {
     // merge what we have with the default values
@@ -33,7 +33,7 @@ export class HubUser implements IWithEditorBehavior {
   /**
    * Given a partial user object, apply defaults to it to ensure that a baseline of properties are set
    * @param partialUser
-   * @returns
+   * @returns IHubUser
    */
   private static applyDefaults(partialUser: Partial<IHubUser>): IHubUser {
     return { ...DEFAULT_USER, ...partialUser } as IHubUser;
@@ -42,14 +42,19 @@ export class HubUser implements IWithEditorBehavior {
   /**
    * Method that returns the entity as a JSON object
    * We have this on the EntityItem class, but we don't implement that here
-   * @returns
+   * @returns IHubUser
    */
   toJson(): IHubUser {
     return cloneObject(this.entity);
   }
 
   /**
-   * Save the HubUser to the backing store
+   * Save the HubUser to the backing store.
+   *
+   * Note that Hub does not currently support the creation of users,
+   * so this function should only be used for updating users.
+   *
+   * @returns
    */
   async save(): Promise<void> {
     if (this.isDestroyed) {
@@ -60,7 +65,9 @@ export class HubUser implements IWithEditorBehavior {
     await this.context.updateUserHubSettings(this.entity.settings);
 
     // 2. update portal signin settings
-    // TODO in later story
+    // TODO in later story -- note that there will need to be a
+    // check for if the user is an org admin -- they cannot
+    // POST to necessary endpoints if not
 
     // 3. update portal settings
     // TODO in later story
@@ -71,6 +78,9 @@ export class HubUser implements IWithEditorBehavior {
   /**
    * Delete the HubUser from the store
    * set a flag to indicate that it is destroyed
+   *
+   * Note that Hub does not currently support the deletion of users,
+   * so this function should not be used as of now.
    * @returns
    */
   async delete(): Promise<void> {
