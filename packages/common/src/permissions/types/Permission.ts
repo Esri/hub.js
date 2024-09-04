@@ -33,6 +33,7 @@ const SystemPermissions = [
   "hub:feature:workspace:umbrella",
   "hub:feature:keyboardshortcuts",
   "hub:feature:history",
+  "hub:feature:catalogs",
   "hub:license:hub-premium",
   "hub:license:hub-basic",
   "hub:license:enterprise-sites",
