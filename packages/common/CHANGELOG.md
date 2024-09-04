@@ -1,3 +1,10 @@
+# @esri/hub-common [14.180.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.179.0...@esri/hub-common@14.180.0) (2024-09-04)
+
+
+### Features
+
+* **hub-common:** add optional ariaLabel to ICardAction link ([#1640](https://github.com/Esri/hub.js/issues/1640)) ([0ce0177](https://github.com/Esri/hub.js/commit/0ce0177312b3ddc93e80822bc0e0558d0d5af4bf))
+
 # @esri/hub-common [14.179.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.178.0...@esri/hub-common@14.179.0) (2024-08-29)
 
 
