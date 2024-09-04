@@ -221,6 +221,7 @@ export class HubEvent
     editorContext: IEntityEditorContext = {},
     include: string[] = []
   ): Promise<IHubEventEditor> {
+    debugger;
     const editor = cloneObject(this.entity) as IHubEventEditor;
     return editor;
   }
@@ -232,6 +233,7 @@ export class HubEvent
    * @returns Promise<IHubEvent>
    */
   async fromEditor(editor: IHubEventEditor): Promise<IHubEvent> {
+    debugger;
     const entity = cloneObject(editor) as IHubEvent;
     this.entity = entity;
     await this.save();
