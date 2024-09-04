@@ -10,7 +10,6 @@
     "only-arrow-functions": [false],
     "object-literal-sort-keys": false,
     "interface-name": [true, "always-prefix"],
-    "no-empty-interface": false,
-    "no-debugger": false
+    "no-empty-interface": false
   }
 }
