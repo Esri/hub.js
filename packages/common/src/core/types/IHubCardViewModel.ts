@@ -48,6 +48,7 @@ export interface IInfoConfig {
 // structure defining a hub card action link
 export interface ICardActionLink {
   action?: string;
+  ariaLabel?: string;
   href?: string;
   i18nKey?: string;
   label?: string;
