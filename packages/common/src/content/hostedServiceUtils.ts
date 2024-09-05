@@ -87,9 +87,8 @@ export function isAGOFeatureServiceUrl(url: string): boolean {
   // TODO: we should really centralize this regex somewhere
   const FEATURE_SERVICE_URL_REGEX = /(feature)server(\/|\/(\d+))?$/i;
 
-  // in AGO the url of a proxied service contains `arcgis.com` (regardless of whether or not the service is hosted)
-  // what needs to be added here is whether or not it starts with `services`, `tiles`, or `features`
-  // we also can't determine if a proxy URL aka a secure service is protecting a _hosted_ vs _non-hosted_ service
+  // NOTE: if this is the URL of a proxied service it will fail the "is hosted" check
+  // even if the proxy points to a hosted service (which should be rare)
   return (
     !!url && isHostedAgolService(url) && FEATURE_SERVICE_URL_REGEX.test(url)
   );
