@@ -1,3 +1,10 @@
+# @esri/hub-common [14.181.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.180.0...@esri/hub-common@14.181.0) (2024-09-05)
+
+
+### Features
+
+* swap to new notice implementation for uiSchemas ([#1638](https://github.com/Esri/hub.js/issues/1638)) ([41fe5ba](https://github.com/Esri/hub.js/commit/41fe5ba364dbbb5b08da52cab49f0f7698962ac5))
+
 # @esri/hub-common [14.180.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.179.0...@esri/hub-common@14.180.0) (2024-09-04)
 
 
