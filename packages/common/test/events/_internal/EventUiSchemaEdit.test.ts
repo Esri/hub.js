@@ -12,12 +12,26 @@ import * as fetchCategoryItemsModule from "../../../src/core/schemas/internal/fe
 import * as getTagItemsModule from "../../../src/core/schemas/internal/getTagItems";
 import * as getLocationExtentModule from "../../../src/core/schemas/internal/getLocationExtent";
 import * as getLocationOptionsModule from "../../../src/core/schemas/internal/getLocationOptions";
-import * as getWellKnownCatalogModule from "../../../src/search/wellKnownCatalog";
+import * as buildReferencedContentSchemaModule from "../../../src/events/_internal/buildReferencedContentSchema";
 
 describe("EventUiSchemaEdit", () => {
+  const referencedContentSchema = {
+    scope: "/properties/referencedContentIds",
+    type: "Control",
+  };
+
+  let buildReferencedContentSchemaSpy: jasmine.Spy;
+
   beforeAll(() => {
     jasmine.clock().uninstall();
     jasmine.clock().mockDate(new Date("2024-04-03T16:30:00.000Z"));
+  });
+
+  beforeEach(() => {
+    buildReferencedContentSchemaSpy = spyOn(
+      buildReferencedContentSchemaModule,
+      "buildReferencedContentSchema"
+    ).and.returnValue(referencedContentSchema);
   });
 
   afterAll(() => {
@@ -34,13 +48,6 @@ describe("EventUiSchemaEdit", () => {
         getLocationOptionsModule,
         "getLocationOptions"
       ).and.returnValue(Promise.resolve([]));
-      const getWellKnownCatalogSpy = spyOn(
-        getWellKnownCatalogModule,
-        "getWellKnownCatalog"
-      ).and.returnValue({
-        title: "My catalog",
-        schemaVersion: 1,
-      });
       const authdCtxMgr = await ArcGISContextManager.create({
         authentication: MOCK_AUTH,
         currentUser: {
@@ -116,18 +123,6 @@ describe("EventUiSchemaEdit", () => {
         authdCtxMgr.context.portal.name,
         authdCtxMgr.context.hubRequestOptions
       );
-      expect(getWellKnownCatalogSpy).toHaveBeenCalledTimes(1);
-      expect(getWellKnownCatalogSpy).toHaveBeenCalledWith(
-        "myI18nScope.fields.referencedContent",
-        "organization",
-        "item",
-        {
-          user: authdCtxMgr.context.currentUser,
-          collectionNames: ["site", "initiative", "project"],
-          filters: [],
-          context: authdCtxMgr.context,
-        }
-      );
       expect(getTagItemsSpy).toHaveBeenCalledTimes(1);
       expect(getTagItemsSpy).toHaveBeenCalledWith(
         entity.tags,
@@ -138,6 +133,11 @@ describe("EventUiSchemaEdit", () => {
       expect(fetchCategoryItemsSpy).toHaveBeenCalledWith(
         authdCtxMgr.context.portal.id,
         authdCtxMgr.context.hubRequestOptions
+      );
+      expect(buildReferencedContentSchemaSpy).toHaveBeenCalledTimes(1);
+      expect(buildReferencedContentSchemaSpy).toHaveBeenCalledWith(
+        "myI18nScope",
+        authdCtxMgr.context
       );
       expect(res).toEqual({
         type: "Layout",
@@ -516,68 +516,8 @@ describe("EventUiSchemaEdit", () => {
           },
           {
             type: "Section",
-            labelKey: "myI18nScope.sections.referencedContent.label",
-            elements: [
-              {
-                scope: "/properties/referencedContentIds",
-                type: "Control",
-                options: {
-                  control: "hub-field-input-gallery-picker",
-                  helperText: {
-                    labelKey:
-                      "myI18nScope.fields.referencedContent.helperText.label",
-                  },
-                  targetEntity: "item",
-                  catalogs: [
-                    {
-                      title: "My catalog",
-                      schemaVersion: 1,
-                    },
-                  ],
-                  facets: [
-                    {
-                      label:
-                        "{{myI18nScope.fields.referencedContent.facets.from.label:translate}}",
-                      key: "from",
-                      display: "single-select",
-                      operation: "OR",
-                      options: [
-                        {
-                          label:
-                            "{{myI18nScope.fields.referencedContent.facets.from.myContent.label:translate}}",
-                          key: "myContent",
-                          selected: true,
-                          predicates: [
-                            {
-                              owner: authdCtxMgr.context.currentUser.username,
-                            },
-                          ],
-                        },
-                        {
-                          label:
-                            "{{myI18nScope.fields.referencedContent.facets.from.myOrganization.label:translate}}",
-                          key: "myOrganization",
-                          selected: false,
-                          predicates: [
-                            {
-                              orgId: authdCtxMgr.context.currentUser.orgId,
-                            },
-                          ],
-                        },
-                      ],
-                    },
-                    {
-                      label:
-                        "{{myI18nScope.fields.referencedContent.facets.access.label:translate}}",
-                      key: "access",
-                      field: "access",
-                      display: "multi-select",
-                      operation: "OR",
-                    },
-                  ],
-                },
-              },
-            ],
+            labelKey: `myI18nScope.sections.referencedContent.label`,
+            elements: [referencedContentSchema],
           },
           {
             type: "Section",

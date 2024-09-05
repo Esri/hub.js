@@ -4,6 +4,7 @@ import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 import { getDatePickerDate } from "../../utils/date/getDatePickerDate";
 import { IHubEvent } from "../../core/types/IHubEvent";
 import { HubEventAttendanceType } from "../types";
+import { buildReferencedContentSchema } from "./buildReferencedContentSchema";
 
 /**
  * @private
@@ -170,6 +171,11 @@ export const buildUiSchema = async (
           ],
         },
       },
+      buildReferencedContentSchema(
+        i18nScope,
+        context,
+        `{{${i18nScope}.fields.referencedContent.label:translate}}`
+      ),
     ],
   };
 };
