@@ -1,6 +1,7 @@
 import { IFeatureServiceDefinition } from "@esri/arcgis-rest-feature-layer";
 import { IItem } from "@esri/arcgis-rest-portal";
 import { IHubEditableContent } from "../core/types/IHubEditableContent";
+import { isHostedAgolService } from "./js-api-utils";
 
 /**
  * DEPRECATED: This will be removed in the next breaking version. Use "isHostedFeatureServiceMainItem" instead.
@@ -85,42 +86,12 @@ function isHostedFeatureServiceMain(
 export function isAGOFeatureServiceUrl(url: string): boolean {
   // TODO: we should really centralize this regex somewhere
   const FEATURE_SERVICE_URL_REGEX = /(feature)server(\/|\/(\d+))?$/i;
-  const isFeatureServer = FEATURE_SERVICE_URL_REGEX.test(url);
 
   // in AGO the url of a proxied service contains `arcgis.com` (regardless of whether or not the service is hosted)
   // what needs to be added here is whether or not it starts with `services`, `tiles`, or `features`
   // we also can't determine if a proxy URL aka a secure service is protecting a _hosted_ vs _non-hosted_ service
-  return !!url && isHostedAgolService(url) && isFeatureServer;
-}
-
-/**
- * Get the origin of a URL
- * @param url the URL to get the origin from
- * @returns the origin of the URL
- */
-function getOrigin(url: string): string {
-  const parsedUrl = new URL(url);
-  return parsedUrl.origin;
-}
-
-// stolen from js-api -- https://devtopia.esri.com/WebGIS/arcgis-js-api/blob/7b493793958948a2b32eb53ef6c7e4b355d0f74d/esri/layers/support/arcgisLayerUrl.ts#L158-L177
-// no tests needed for this
-export function isHostedAgolService(url: string): boolean {
-  let origin = getOrigin(url); // -> www.esri.com
-
-  if (!origin) {
-    return false;
-  }
-
-  origin = origin.toLowerCase();
-
-  // unfortunately, when a service is proxied and requires credentials, we have no way of knowing if it's hosted or not
-  // ... meaning that we are returning false for all services that are proxied
   return (
-    origin.endsWith(".arcgis.com") &&
-    (origin.startsWith("services") ||
-      origin.startsWith("tiles") ||
-      origin.startsWith("features"))
+    !!url && isHostedAgolService(url) && FEATURE_SERVICE_URL_REGEX.test(url)
   );
 }
 
