@@ -85,7 +85,7 @@ export const buildUiSchema = async (
               },
             },
           },
-          getThumbnailUiSchemaElement(
+          ...getThumbnailUiSchemaElement(
             i18nScope,
             options.thumbnail,
             options.thumbnailUrl,
@@ -111,7 +111,7 @@ export const buildUiSchema = async (
             },
           },
           // categories
-          await fetchCategoriesUiSchemaElement(i18nScope, context),
+          ...(await fetchCategoriesUiSchemaElement(i18nScope, context)),
           // license
           {
             labelKey: `${i18nScope}.fields.license.label`,

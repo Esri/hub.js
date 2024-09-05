@@ -514,6 +514,45 @@ describe("EventUiSchemaEdit", () => {
                     labelKey: "myI18nScope.fields.categories.helperText",
                   },
                 },
+                rules: [
+                  {
+                    effect: UiSchemaRuleEffects.DISABLE,
+                    conditions: [false],
+                  },
+                ],
+              },
+              {
+                type: "Notice",
+                options: {
+                  notice: {
+                    configuration: {
+                      id: "no-categories-notice",
+                      noticeType: "notice",
+                      closable: false,
+                      icon: "exclamation-mark-triangle",
+                      kind: "warning",
+                      scale: "m",
+                    },
+                    message:
+                      "{{shared.fields.categories.noCategoriesNotice.body:translate}}",
+                    autoShow: true,
+                    actions: [
+                      {
+                        label:
+                          "{{shared.fields.categories.noCategoriesNotice.link:translate}}",
+                        icon: "launch",
+                        href: "https://doc.arcgis.com/en/arcgis-online/reference/content-categories.htm",
+                        target: "_blank",
+                      },
+                    ],
+                  },
+                },
+                rules: [
+                  {
+                    effect: UiSchemaRuleEffects.SHOW,
+                    conditions: [false],
+                  },
+                ],
               },
               {
                 labelKey: `myI18nScope.fields.summary.label`,

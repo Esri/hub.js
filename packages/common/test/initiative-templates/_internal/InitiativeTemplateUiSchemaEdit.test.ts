@@ -1,6 +1,9 @@
 import { buildUiSchema } from "../../../src/initiative-templates/_internal/InitiativeTemplateUiSchemaEdit";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
-import { UiSchemaMessageTypes } from "../../../src/core/schemas/types";
+import {
+  UiSchemaMessageTypes,
+  UiSchemaRuleEffects,
+} from "../../../src/core/schemas/types";
 import * as getRecommendedTemplatesCatalogModule from "../../../src/initiative-templates/_internal/getRecommendedTemplatesCatalog";
 
 describe("buildUiSchema: initiative template edit", () => {
@@ -119,8 +122,31 @@ describe("buildUiSchema: initiative template edit", () => {
                 sizeDescription: {
                   labelKey: "shared.fields._thumbnail.sizeDescription",
                 },
-                messages: [],
               },
+            },
+            {
+              type: "Notice",
+              options: {
+                notice: {
+                  configuration: {
+                    id: "no-thumbnail-or-png-notice",
+                    noticeType: "notice",
+                    closable: false,
+                    icon: "lightbulb",
+                    kind: "info",
+                    scale: "m",
+                  },
+                  message:
+                    "{{shared.fields._thumbnail.defaultThumbnailNotice:translate}}",
+                  autoShow: true,
+                },
+              },
+              rules: [
+                {
+                  effect: UiSchemaRuleEffects.SHOW,
+                  conditions: [false],
+                },
+              ],
             },
           ],
         },

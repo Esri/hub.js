@@ -1,9 +1,5 @@
 import { IArcGISContext } from "../../../ArcGISContext";
-import {
-  IUiSchemaElement,
-  IUiSchemaMessage,
-  UiSchemaMessageTypes,
-} from "../types";
+import { IUiSchemaElement, UiSchemaRuleEffects } from "../types";
 import { fetchCategoryItems } from "./fetchCategoryItems";
 
 /**
@@ -17,50 +13,67 @@ import { fetchCategoryItems } from "./fetchCategoryItems";
 export async function fetchCategoriesUiSchemaElement(
   i18nScope: string,
   context: IArcGISContext
-): Promise<IUiSchemaElement> {
+): Promise<IUiSchemaElement[]> {
   const categoryItems = await fetchCategoryItems(
     context.portal.id,
     context.hubRequestOptions
   );
 
-  const result: IUiSchemaElement = {
-    labelKey: `shared.fields.categories.label`,
-    scope: "/properties/categories",
-    type: "Control",
-    options: {
-      control: "hub-field-input-combobox",
-      items: categoryItems,
-      allowCustomValues: false,
-      selectionMode: "ancestors",
-      placeholderIcon: "select-category",
-      helperText: {
-        // helper text varies between entity types
-        labelKey: `${i18nScope}.fields.categories.helperText`,
-      },
-    },
-  };
-
-  if (!categoryItems.length) {
-    result.options.disabled = true;
-    result.options.messages = [
-      {
-        type: UiSchemaMessageTypes.custom,
-        display: "notice",
-        kind: "warning",
-        icon: "exclamation-mark-triangle",
-        labelKey: "shared.fields.categories.noCategoriesNotice.body",
-        link: {
-          kind: "external",
-          label:
-            "{{shared.fields.categories.noCategoriesNotice.link:translate}}",
-          href: "https://doc.arcgis.com/en/arcgis-online/reference/content-categories.htm",
-          target: "_blank",
+  return [
+    {
+      labelKey: `shared.fields.categories.label`,
+      scope: "/properties/categories",
+      type: "Control",
+      options: {
+        control: "hub-field-input-combobox",
+        items: categoryItems,
+        allowCustomValues: false,
+        selectionMode: "ancestors",
+        placeholderIcon: "select-category",
+        helperText: {
+          // helper text varies between entity types
+          labelKey: `${i18nScope}.fields.categories.helperText`,
         },
-        allowShowBeforeInteract: true,
-        alwaysShow: true,
-      } as IUiSchemaMessage,
-    ];
-  }
-
-  return result;
+      },
+      rules: [
+        {
+          effect: UiSchemaRuleEffects.DISABLE,
+          conditions: [!categoryItems.length],
+        },
+      ],
+    },
+    {
+      type: "Notice",
+      options: {
+        notice: {
+          configuration: {
+            id: "no-categories-notice",
+            noticeType: "notice",
+            closable: false,
+            icon: "exclamation-mark-triangle",
+            kind: "warning",
+            scale: "m",
+          },
+          message:
+            "{{shared.fields.categories.noCategoriesNotice.body:translate}}",
+          autoShow: true,
+          actions: [
+            {
+              label:
+                "{{shared.fields.categories.noCategoriesNotice.link:translate}}",
+              icon: "launch",
+              href: "https://doc.arcgis.com/en/arcgis-online/reference/content-categories.htm",
+              target: "_blank",
+            },
+          ],
+        },
+      },
+      rules: [
+        {
+          effect: UiSchemaRuleEffects.SHOW,
+          conditions: [!categoryItems.length],
+        },
+      ],
+    },
+  ];
 }

@@ -3,6 +3,7 @@ import { IHubItemEntity } from "../../../../src";
 import { getThumbnailUiSchemaElement } from "../../../../src/core/schemas/internal/getThumbnailUiSchemaElement";
 import { HubEntityType } from "../../../../dist/types/core/types/HubEntityType";
 import * as urlUtils from "../../../../src/urls";
+import { UiSchemaRuleEffects } from "../../../../src/core/schemas/types";
 
 describe("getThumbnailUiSchemaElement:", () => {
   it("excludes the default thumbnail notice if the entity has a thumbnail", () => {
@@ -30,7 +31,13 @@ describe("getThumbnailUiSchemaElement:", () => {
       entity.type as HubEntityType,
       requestOptions
     );
-    expect(uiSchema.options?.messages.length).toBe(0);
+    expect(uiSchema.length).toBe(2);
+    expect(uiSchema[1].rules).toEqual([
+      {
+        effect: UiSchemaRuleEffects.SHOW,
+        conditions: [false],
+      },
+    ]);
   });
 
   it("includes the default thumbnail notice if the entity has no thumbnail", () => {
@@ -57,7 +64,13 @@ describe("getThumbnailUiSchemaElement:", () => {
       entity.type as HubEntityType,
       requestOptions
     );
-    expect(uiSchema.options?.messages.length).toBe(1);
+    expect(uiSchema.length).toBe(2);
+    expect(uiSchema[1].rules).toEqual([
+      {
+        effect: UiSchemaRuleEffects.SHOW,
+        conditions: [true],
+      },
+    ]);
   });
 
   it("includes the default thumbnail notice if the entity has the default thumbnail", () => {
@@ -85,7 +98,13 @@ describe("getThumbnailUiSchemaElement:", () => {
       entity.type as HubEntityType,
       requestOptions
     );
-    expect(uiSchema.options?.messages.length).toBe(1);
+    expect(uiSchema.length).toBe(2);
+    expect(uiSchema[1].rules).toEqual([
+      {
+        effect: UiSchemaRuleEffects.SHOW,
+        conditions: [true],
+      },
+    ]);
   });
 
   it("sets default thumbnail when available", () => {
@@ -118,6 +137,6 @@ describe("getThumbnailUiSchemaElement:", () => {
       requestOptions
     );
     expect(getCdnAssetUrlSpy).toHaveBeenCalled();
-    expect(uiSchema.options?.defaultImgUrl).toBe(defaultImageUrl);
+    expect(uiSchema[0].options?.defaultImgUrl).toBe(defaultImageUrl);
   });
 });

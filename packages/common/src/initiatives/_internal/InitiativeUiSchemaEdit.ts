@@ -181,7 +181,7 @@ export const buildUiSchema = async (
         type: "Section",
         labelKey: `${i18nScope}.sections.searchDiscoverability.label`,
         elements: [
-          await fetchCategoriesUiSchemaElement(i18nScope, context),
+          ...(await fetchCategoriesUiSchemaElement(i18nScope, context)),
           {
             labelKey: `${i18nScope}.fields.tags.label`,
             scope: "/properties/tags",
@@ -199,7 +199,7 @@ export const buildUiSchema = async (
               helperText: { labelKey: `${i18nScope}.fields.tags.helperText` },
             },
           },
-          getThumbnailUiSchemaElement(
+          ...getThumbnailUiSchemaElement(
             i18nScope,
             options.thumbnail,
             options.thumbnailUrl,

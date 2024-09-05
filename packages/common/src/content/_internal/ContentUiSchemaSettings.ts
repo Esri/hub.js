@@ -3,8 +3,7 @@ import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 import {
   IUiSchema,
   IUiSchemaElement,
-  IUiSchemaMessage,
-  UiSchemaMessageTypes,
+  UiSchemaRuleEffects,
 } from "../../core/schemas/types";
 import { IHubEditableContent } from "../../core/types/IHubEditableContent";
 import { checkPermission } from "../../permissions/checkPermission";
@@ -33,52 +32,61 @@ export const buildUiSchema = async (
       options
     ).access
   ) {
-    const scheduleControlElement: IUiSchemaElement = {
-      type: "Control",
-      scope: "/properties/schedule",
-      labelKey: `${i18nScope}.sections.schedule.helperText`,
-      options: {
+    const scheduleSectionElements: IUiSchemaElement[] = [
+      {
         type: "Control",
-        control: "hub-field-input-scheduler",
-        labelKey: "fieldHeader",
-        format: "radio",
-        inputs: [
-          { type: "automatic" },
-          { type: "daily" },
-          { type: "weekly" },
-          { type: "monthly" },
-          { type: "yearly" },
+        scope: "/properties/schedule",
+        labelKey: `${i18nScope}.sections.schedule.helperText`,
+        options: {
+          type: "Control",
+          control: "hub-field-input-scheduler",
+          labelKey: "fieldHeader",
+          format: "radio",
+          inputs: [
+            { type: "automatic" },
+            { type: "daily" },
+            { type: "weekly" },
+            { type: "monthly" },
+            { type: "yearly" },
+            {
+              type: "manual",
+              helperActionIcon: "information-f",
+              helperActionText: `{{${i18nScope}.fields.schedule.manual.helperActionText:translate}}`,
+            },
+          ],
+        },
+        rules: [
           {
-            type: "manual",
-            helperActionIcon: "information-f",
-            helperActionText: `{{${i18nScope}.fields.schedule.manual.helperActionText:translate}}`,
+            effect: UiSchemaRuleEffects.DISABLE,
+            conditions: [options.access !== "public"],
           },
         ],
       },
-    };
-
-    const scheduleSectionElements: IUiSchemaElement[] = [
-      scheduleControlElement,
-    ];
-
-    if (options.access !== "public") {
-      // Disable the schedule control and add the unavailable notice
-      scheduleControlElement.options.disabled = true;
-      scheduleControlElement.options.messages = [
-        {
-          type: UiSchemaMessageTypes.custom,
-          display: "notice",
-          kind: "warning",
-          icon: "exclamation-mark-triangle",
-          titleKey: `${i18nScope}.fields.schedule.unavailableNotice.title`,
-          labelKey: `${i18nScope}.fields.schedule.unavailableNotice.body`,
-          allowShowBeforeInteract: true,
-          alwaysShow: true,
+      {
+        type: "Notice",
+        options: {
+          notice: {
+            configuration: {
+              id: "schedule-unavailable-notice",
+              noticeType: "notice",
+              closable: false,
+              kind: "warning",
+              icon: "exclamation-mark-triangle",
+              scale: "m",
+            },
+            title: `{{${i18nScope}.fields.schedule.unavailableNotice.title:translate}}`,
+            message: `{{${i18nScope}.fields.schedule.unavailableNotice.body:translate}}`,
+            autoShow: true,
+          },
         },
-      ] as IUiSchemaMessage[];
-    } else {
-      // force update checkbox -- TODO: replace with button once available
-      scheduleSectionElements.push({
+        rules: [
+          {
+            effect: UiSchemaRuleEffects.SHOW,
+            conditions: [options.access !== "public"],
+          },
+        ],
+      },
+      {
         type: "Control",
         scope: "/properties/_forceUpdate",
         options: {
@@ -91,8 +99,14 @@ export const buildUiSchema = async (
             `{{${i18nScope}.fields.schedule.forceUpdateButton.description:translate}}`,
           ],
         },
-      });
-    }
+        rules: [
+          {
+            effect: UiSchemaRuleEffects.SHOW,
+            conditions: [options.access === "public"],
+          },
+        ],
+      },
+    ];
 
     uiSchema.elements.push({
       type: "Section",

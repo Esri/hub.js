@@ -39,18 +39,30 @@ describe("buildUiSchema: survey settings", () => {
                 ],
                 icons: ["sidecar", "form-elements"],
                 layout: "horizontal",
-                messages: [
-                  {
-                    type: "CUSTOM",
-                    display: "notice",
-                    keyword: "mapQuestion",
-                    titleKey: "some.scope.fields.displayMap.notice.title",
-                    labelKey: "some.scope.fields.displayMap.notice.message",
-                    allowShowBeforeInteract: true,
-                    alwaysShow: true,
-                  },
-                ],
               },
+            },
+            {
+              type: "Notice",
+              options: {
+                notice: {
+                  configuration: {
+                    id: "map-question-notice",
+                    noticeType: "notice",
+                    closable: false,
+                    kind: "info",
+                    scale: "m",
+                  },
+                  title: `{{some.scope.fields.displayMap.notice.title:translate}}`,
+                  body: `{{some.scope.fields.displayMap.notice.message:translate}}`,
+                  autoShow: true,
+                },
+              },
+              rules: [
+                {
+                  effect: UiSchemaRuleEffects.SHOW,
+                  conditions: [true],
+                },
+              ],
             },
           ],
         },
@@ -97,8 +109,30 @@ describe("buildUiSchema: survey settings", () => {
                 ],
                 icons: ["sidecar", "form-elements"],
                 layout: "horizontal",
-                messages: [],
               },
+            },
+            {
+              type: "Notice",
+              options: {
+                notice: {
+                  configuration: {
+                    id: "map-question-notice",
+                    noticeType: "notice",
+                    closable: false,
+                    kind: "info",
+                    scale: "m",
+                  },
+                  title: `{{some.scope.fields.displayMap.notice.title:translate}}`,
+                  body: `{{some.scope.fields.displayMap.notice.message:translate}}`,
+                  autoShow: true,
+                },
+              },
+              rules: [
+                {
+                  effect: UiSchemaRuleEffects.SHOW,
+                  conditions: [false],
+                },
+              ],
             },
           ],
         },

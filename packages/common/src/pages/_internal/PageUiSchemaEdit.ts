@@ -79,7 +79,7 @@ export const buildUiSchema = async (
               },
             },
           },
-          getThumbnailUiSchemaElement(
+          ...getThumbnailUiSchemaElement(
             i18nScope,
             options.thumbnail,
             options.thumbnailUrl,
@@ -103,7 +103,7 @@ export const buildUiSchema = async (
               helperText: { labelKey: `${i18nScope}.fields.tags.helperText` },
             },
           },
-          await fetchCategoriesUiSchemaElement(i18nScope, context),
+          ...(await fetchCategoriesUiSchemaElement(i18nScope, context)),
         ],
       },
       {
