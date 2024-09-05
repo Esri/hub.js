@@ -1,7 +1,7 @@
 import { IFeatureServiceDefinition } from "@esri/arcgis-rest-feature-layer";
 import { IItem } from "@esri/arcgis-rest-portal";
 import { IHubEditableContent } from "../core/types/IHubEditableContent";
-import { isHostedAgolService } from "./js-api-utils";
+import { isHostedAgolService } from "./isHostedAgolService";
 
 /**
  * DEPRECATED: This will be removed in the next breaking version. Use "isHostedFeatureServiceMainItem" instead.
