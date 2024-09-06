@@ -31,6 +31,10 @@ export interface IHubCatalog {
     scopes: string;
     collections: string;
   };
+  /**
+   * Optional entries to control a catalog's appearance in the UI
+   */
+  displayConfig?: Record<string, any>;
 }
 
 export interface ICatalogScope extends Partial<Record<EntityType, IQuery>> {}
@@ -65,6 +69,10 @@ export interface IHubCollection {
    * ensure we query the correct API
    */
   targetEntity: EntityType;
+  /**
+   * Optional entries to control a collection's appearance in the UI
+   */
+  displayConfig?: Record<string, any>;
 }
 
 export type EntityType =
