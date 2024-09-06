@@ -6,7 +6,7 @@ import { IModel } from "../../types";
 import { IHubDiscussion } from "../../core";
 
 import { isDiscussable } from "../utils";
-import { computeBaseProps } from "../../core/_internal/computeBaseProps";
+import { computeItemProps } from "../../core/_internal/computeItemProps";
 
 /**
  * Given a model and a Discussion, set various computed properties that can't be directly mapped
@@ -27,7 +27,7 @@ export function computeProps(
     token = session.token;
   }
   // compute base properties on discussion
-  discussion = computeBaseProps(model.item, discussion);
+  discussion = computeItemProps(model.item, discussion);
 
   // thumbnail url
   discussion.thumbnailUrl = getItemThumbnailUrl(
@@ -35,13 +35,6 @@ export function computeProps(
     requestOptions,
     token
   );
-
-  // Handle Dates
-  discussion.createdDate = new Date(model.item.created);
-  discussion.createdDateSource = "item.created";
-  discussion.updatedDate = new Date(model.item.modified);
-  discussion.updatedDateSource = "item.modified";
-  discussion.isDiscussable = isDiscussable(discussion);
 
   // cast b/c this takes a partial but returns a full object
   return discussion as IHubDiscussion;
