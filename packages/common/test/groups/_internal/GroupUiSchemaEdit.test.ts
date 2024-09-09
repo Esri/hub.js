@@ -1,3 +1,4 @@
+import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
 import { buildUiSchema } from "../../../src/groups/_internal/GroupUiSchemaEdit";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
 
@@ -81,17 +82,31 @@ describe("buildUiSchema: group edit", () => {
                 sizeDescription: {
                   labelKey: "some.scope.fields._thumbnail.sizeDescription",
                 },
-                messages: [
-                  {
-                    type: "CUSTOM",
-                    display: "notice",
-                    labelKey: "shared.fields._thumbnail.defaultThumbnailNotice",
-                    icon: "lightbulb",
-                    allowShowBeforeInteract: true,
-                    alwaysShow: true,
-                  },
-                ],
               },
+            },
+            {
+              type: "Notice",
+              options: {
+                notice: {
+                  configuration: {
+                    id: "no-thumbnail-or-png-notice",
+                    noticeType: "notice",
+                    closable: false,
+                    icon: "lightbulb",
+                    kind: "info",
+                    scale: "m",
+                  },
+                  message:
+                    "{{shared.fields._thumbnail.defaultThumbnailNotice:translate}}",
+                  autoShow: true,
+                },
+              },
+              rules: [
+                {
+                  effect: UiSchemaRuleEffects.SHOW,
+                  conditions: [true],
+                },
+              ],
             },
           ],
         },

@@ -8,6 +8,8 @@ import {
 } from "./types";
 
 /**
+ * DEPRECATED: This will be removed in the next breaking version. Use "getDownloadFormats()" instead.
+ *
  * Fetches download formats for the given entity. Also folds in any additional resources defined on the entity.
  * @param options options to refine / filter the results of the fetchDownloadFormats operation
  * @returns a promise that resolves with the download formats
@@ -15,6 +17,11 @@ import {
 export async function fetchDownloadFormats(
   options: IFetchDownloadFormatsOptions
 ): Promise<IDownloadFormat[]> {
+  /* tslint:disable no-console */
+  console.warn(
+    `"fetchDownloadFormats()" is deprecated. Please use "getDownloadFormats()"`
+  );
+
   const { entity, context, layers } = options;
   // fetch base formats for the item
   let baseFormats: IDownloadFormat[] = [];

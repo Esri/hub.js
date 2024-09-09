@@ -13,6 +13,8 @@ import { cloneObject } from "../util";
 import { editorToContent } from "./edit";
 import { ContentEditorType } from "./_internal/ContentSchema";
 import { enrichEntity } from "../core/enrichEntity";
+import { shouldShowDownloadsConfiguration } from "./_internal/shouldShowDownloadsConfiguration";
+import { getDownloadConfigurationDisplayFormats } from "../downloads/_internal/getDownloadConfigurationDisplayFormats";
 
 export class HubContent
   extends HubItemEntity<IHubEditableContent>
@@ -122,6 +124,11 @@ export class HubContent
 
     // 2. Apply transforms to relevant entity values so they
     // can be consumed by the editor
+    if (shouldShowDownloadsConfiguration(this.entity)) {
+      editor.downloadFormats = getDownloadConfigurationDisplayFormats(
+        this.entity
+      );
+    }
     return editor;
   }
 

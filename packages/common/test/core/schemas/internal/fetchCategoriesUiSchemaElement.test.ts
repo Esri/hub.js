@@ -19,7 +19,7 @@ describe("fetchCategoriesUiSchemaElement:", () => {
       },
     } as unknown as IArcGISContext;
     const uiSchema = await fetchCategoriesUiSchemaElement("scope", context);
-    expect(uiSchema.options?.messages).toBeUndefined();
+    expect(uiSchema.length).toBe(2);
   });
 
   it("includes the no categories notice if category items are not available", async () => {
@@ -33,11 +33,11 @@ describe("fetchCategoriesUiSchemaElement:", () => {
       },
     } as unknown as IArcGISContext;
     const uiSchema = await fetchCategoriesUiSchemaElement("scope", context);
-    expect(uiSchema.options?.messages?.length).toBe(1);
-    expect(uiSchema.options?.messages[0].labelKey).toBe(
-      "shared.fields.categories.noCategoriesNotice.body"
+    expect(uiSchema.length).toBe(2);
+    expect(uiSchema[1].options?.notice.message).toBe(
+      "{{shared.fields.categories.noCategoriesNotice.body:translate}}"
     );
-    expect(uiSchema.options?.messages[0].link.label).toBe(
+    expect(uiSchema[1].options?.notice.actions[0].label).toBe(
       "{{shared.fields.categories.noCategoriesNotice.link:translate}}"
     );
   });

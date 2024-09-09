@@ -1,3 +1,32 @@
+# @esri/hub-common [14.181.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.180.0...@esri/hub-common@14.181.0) (2024-09-05)
+
+
+### Features
+
+* swap to new notice implementation for uiSchemas ([#1638](https://github.com/Esri/hub.js/issues/1638)) ([41fe5ba](https://github.com/Esri/hub.js/commit/41fe5ba364dbbb5b08da52cab49f0f7698962ac5))
+
+# @esri/hub-common [14.180.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.179.0...@esri/hub-common@14.180.0) (2024-09-04)
+
+
+### Features
+
+* **hub-common:** add optional ariaLabel to ICardAction link ([#1640](https://github.com/Esri/hub.js/issues/1640)) ([0ce0177](https://github.com/Esri/hub.js/commit/0ce0177312b3ddc93e80822bc0e0558d0d5af4bf))
+
+# @esri/hub-common [14.179.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.178.0...@esri/hub-common@14.179.0) (2024-08-29)
+
+
+### Features
+
+* **hub-common:** adds downloadFormats property to configure formats … ([#1626](https://github.com/Esri/hub.js/issues/1626)) ([228e6e3](https://github.com/Esri/hub.js/commit/228e6e35bb97bdfa88b1825f215b189b8c70b580))
+
+# @esri/hub-common [14.178.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.177.1...@esri/hub-common@14.178.0) (2024-08-28)
+
+
+### Features
+
+* **hub-common:** add additional filters for fetching events ([#1636](https://github.com/Esri/hub.js/issues/1636)) ([83c4277](https://github.com/Esri/hub.js/commit/83c4277b98b08df7791293eb255f8311a6102029))
+* **hub-common:** add deleteHubEvent ([#1637](https://github.com/Esri/hub.js/issues/1637)) ([1a9ae87](https://github.com/Esri/hub.js/commit/1a9ae87b10b44e09b37765502d51b467a1b006fd))
+
 ## @esri/hub-common [14.177.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.177.0...@esri/hub-common@14.177.1) (2024-08-23)
 
 

@@ -5,7 +5,11 @@ import {
   getItem,
   removeItem,
 } from "@esri/arcgis-rest-portal";
-import { IHubContentEditor, IHubEditableContent } from "../core";
+import {
+  IDownloadFormatConfiguration,
+  IHubContentEditor,
+  IHubEditableContent,
+} from "../core";
 
 // Note - we separate these imports so we can cleanly spy on things in tests
 import {
@@ -38,7 +42,10 @@ import {
   maybeUpdateSchedule,
 } from "./manageSchedule";
 import { forceUpdateContent } from "./_internal/internalContentUtils";
-import { deepEqual } from "../objects";
+import { deepEqual, getProp, setProp } from "../objects";
+import { getDownloadFlow } from "../downloads/_internal/getDownloadFlow";
+import { getDownloadConfiguration } from "../downloads/getDownloadConfiguration";
+import { shouldShowDownloadsConfiguration } from "./_internal/shouldShowDownloadsConfiguration";
 
 // TODO: move this to defaults?
 const DEFAULT_CONTENT_MODEL: IModel = {
@@ -131,6 +138,35 @@ export async function updateContent(
   // but this is where we would apply that sort of logic
   const modelToUpdate = mapper.entityToStore(content, model);
 
+  // NOTE: Product has asked that we display a _disabled_ downloads configuration for
+  // certain types of entities, but not allow users to change any settings. The following
+  // checks are in place to make sure we don't accidentally save configurations in
+  // situations where we shouldn't
+  const downloadFlow = getDownloadFlow(content);
+  const updatedFormats = getProp(content, "extendedProps.downloads.formats");
+  const isMainEntityExtractDisabled =
+    isHostedFeatureServiceMainEntity(content) &&
+    downloadFlow !== "createReplica";
+  const wasDownloadsConfigurationDisplayed =
+    shouldShowDownloadsConfiguration(content);
+  if (
+    wasDownloadsConfigurationDisplayed && // whether the downloads configuration was displayed
+    downloadFlow && // whether the entity can be downloaded
+    updatedFormats && // whether download format configuration is present
+    !isMainEntityExtractDisabled
+  ) {
+    const updatedDownloadsConfiguration = cloneObject(
+      content.extendedProps.downloads
+    );
+
+    setProp(
+      "item.properties.downloads",
+      updatedDownloadsConfiguration,
+      modelToUpdate,
+      true
+    );
+  }
+
   // TODO: if we have resources disconnect them from the model for now.
   // if (modelToUpdate.resources) {
   //   resources = configureBaseResources(
@@ -219,8 +255,27 @@ export function editorToContent(
   editor: IHubContentEditor,
   portal: IPortal
 ): IHubEditableContent {
-  // clone into a IHubContentEditor
-  const content = cloneObject(editor) as IHubEditableContent;
+  // Clone the editor to prevent mutation
+  const clonedEditor = cloneObject(editor);
+  // Remove unneeded properties
+  delete clonedEditor.downloadFormats;
+  // Cast the editor to a content
+  const content = cloneObject(clonedEditor) as IHubEditableContent;
+
+  // Conditionally set the downloads configuration. We only want
+  // to set the configuration if the entity is actually downloadable
+  const downloadFlow = getDownloadFlow(content);
+  if (downloadFlow && editor.downloadFormats) {
+    const downloadConfiguration = getDownloadConfiguration(content);
+    // Convert the download format display objects to the stored format
+    const forStorage: IDownloadFormatConfiguration[] =
+      editor.downloadFormats.map((format) => {
+        const { label, ...rest } = format;
+        return rest;
+      });
+    downloadConfiguration.formats = forStorage;
+    setProp("extendedProps.downloads", downloadConfiguration, content, true);
+  }
 
   // copy the location extent up one level
   content.extent = editor.location?.extent;

@@ -255,22 +255,29 @@ export interface IUiSchemaCondition {
  * A message to display for a uiSchema element.
  *
  * NOTE: `.condition` is deprecated and remains for backwards compatibility only. Please use `.conditions` instead.
+ * NOTE: `.display`, `.title`, `.titleKey`, `.kind`, `.alwaysShow` are deprecated and remain for backwards compatibility only. Please use the new method of notices in the configuration editor instead.
  */
 export interface IUiSchemaMessage {
   type: UiSchemaMessageTypes;
-  display?: "message" | "notice";
   keyword?: string;
-  title?: string;
-  titleKey?: string;
   label?: string;
   labelKey?: string;
   icon?: boolean | string;
-  kind?: "brand" | "danger" | "info" | "success" | "warning";
   link?: HubActionLink;
   hidden?: boolean;
-  // NOTE: condition is deprecated and remains for backwards compatibility only. Please use conditions instead.
-  condition?: IUiSchemaCondition;
   conditions?: Array<IUiSchemaCondition | boolean>;
   allowShowBeforeInteract?: boolean;
+  /** DEPRECATED */
+  // NOTE: condition is deprecated and remains for backwards compatibility only. Please use conditions instead.
+  condition?: IUiSchemaCondition;
+  // NOTE: display is deprecated and remains for backwards compatibility only. Please use the new method of notices in the configuration editor instead.
+  display?: "message" | "notice";
+  // NOTE: title is deprecated and remains for backwards compatibility only. Please use the new method of notices in the configuration editor instead.
+  title?: string;
+  // NOTE: titleKey is deprecated and remains for backwards compatibility only. Please use the new method of notices in the configuration editor instead.
+  titleKey?: string;
+  // NOTE: kind is deprecated and remains for backwards compatibility only. Please use the new method of notices in the configuration editor instead.
+  kind?: "brand" | "danger" | "info" | "success" | "warning";
+  // NOTE: alwaysShow is deprecated and remains for backwards compatibility only. Please use the new method of notices in the configuration editor instead.
   alwaysShow?: boolean;
 }

@@ -31,5 +31,11 @@ export const ContentSchema: IConfigurationSchema = {
         enum: [true],
       },
     },
+    downloadFormats: {
+      type: "array",
+      items: {
+        type: "object",
+      },
+    },
   },
 } as IConfigurationSchema;

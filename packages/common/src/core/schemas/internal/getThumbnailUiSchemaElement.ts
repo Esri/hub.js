@@ -1,11 +1,7 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getCdnAssetUrl } from "../../../urls";
 import { HubEntityType } from "../../types/HubEntityType";
-import {
-  IUiSchemaElement,
-  IUiSchemaMessage,
-  UiSchemaMessageTypes,
-} from "../types";
+import { IUiSchemaElement, UiSchemaRuleEffects } from "../types";
 
 const DEFAULT_ENTITY_THUMBNAILS: Partial<Record<HubEntityType, string>> = {
   discussion:
@@ -30,19 +26,7 @@ export function getThumbnailUiSchemaElement(
   thumbnailUrl: string,
   entityType: HubEntityType,
   requestOptions: IRequestOptions
-): IUiSchemaElement {
-  const messages: IUiSchemaMessage[] = [];
-  // Advise the user if the entity's thumbnail is either of the default values
-  if (!thumbnail || thumbnail === "thumbnail/ago_downloaded.png") {
-    messages.push({
-      type: UiSchemaMessageTypes.custom,
-      display: "notice",
-      labelKey: "shared.fields._thumbnail.defaultThumbnailNotice",
-      icon: "lightbulb",
-      allowShowBeforeInteract: true,
-      alwaysShow: true,
-    });
-  }
+): IUiSchemaElement[] {
   const defaultEntityThumbnail =
     DEFAULT_ENTITY_THUMBNAILS[entityType] ?? DEFAULT_ENTITY_THUMBNAILS.content;
   const defaultImgUrl = getCdnAssetUrl(defaultEntityThumbnail, requestOptions);
@@ -62,25 +46,53 @@ export function getThumbnailUiSchemaElement(
           },
         };
 
-  return {
-    labelKey:
-      entityType === "group"
-        ? `${i18nScope}.fields._thumbnail.label`
-        : "shared.fields._thumbnail.label",
-    scope: "/properties/_thumbnail",
-    type: "Control",
-    options: {
-      control: "hub-field-input-image-picker",
-      imgSrc: thumbnailUrl,
-      defaultImgUrl,
-      maxWidth: 727,
-      maxHeight: 484,
-      helperText: {
-        // helper text varies between entity types
-        labelKey: `${i18nScope}.fields._thumbnail.helperText`,
+  return [
+    {
+      labelKey:
+        entityType === "group"
+          ? `${i18nScope}.fields._thumbnail.label`
+          : "shared.fields._thumbnail.label",
+      scope: "/properties/_thumbnail",
+      type: "Control",
+      options: {
+        control: "hub-field-input-image-picker",
+        imgSrc: thumbnailUrl,
+        defaultImgUrl,
+        maxWidth: 727,
+        maxHeight: 484,
+        helperText: {
+          // helper text varies between entity types
+          labelKey: `${i18nScope}.fields._thumbnail.helperText`,
+        },
+        ...options,
       },
-      messages,
-      ...options,
     },
-  };
+    // Advise the user if the entity's thumbnail is either of the default values
+    {
+      type: "Notice",
+      options: {
+        notice: {
+          configuration: {
+            id: "no-thumbnail-or-png-notice",
+            noticeType: "notice",
+            closable: false,
+            icon: "lightbulb",
+            kind: "info",
+            scale: "m",
+          },
+          message:
+            "{{shared.fields._thumbnail.defaultThumbnailNotice:translate}}",
+          autoShow: true,
+        },
+      },
+      rules: [
+        {
+          effect: UiSchemaRuleEffects.SHOW,
+          conditions: [
+            !thumbnail || thumbnail === "thumbnail/ago_downloaded.png",
+          ],
+        },
+      ],
+    },
+  ];
 }
