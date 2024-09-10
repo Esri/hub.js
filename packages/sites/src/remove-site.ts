@@ -40,13 +40,6 @@ export function removeSite(
       return unlinkPagesFromSite(siteModel, hubRequestOptions);
     })
     .then(() => {
-      const opts = Object.assign(
-        { id: siteModel.item.id, owner: siteModel.item.owner },
-        hubRequestOptions
-      );
-      return _unprotectAndRemoveItem(opts);
-    })
-    .then(() => {
       // remove the groups
       return _removeSiteGroups(siteModel, hubRequestOptions);
     })
@@ -65,6 +58,13 @@ export function removeSite(
         siteModel,
         hubRequestOptions
       );
+    })
+    .then(() => {
+      const opts = Object.assign(
+        { id: siteModel.item.id, owner: siteModel.item.owner },
+        hubRequestOptions
+      );
+      return _unprotectAndRemoveItem(opts);
     })
     .catch((err) => {
       throw Error(`removeSite: Error removing site: ${err}`);
