@@ -1,3 +1,10 @@
+# @esri/hub-common [14.182.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.181.0...@esri/hub-common@14.182.0) (2024-09-10)
+
+
+### Features
+
+* add catalogs permissions ([#1641](https://github.com/Esri/hub.js/issues/1641)) ([dc33f03](https://github.com/Esri/hub.js/commit/dc33f03666143719ec4bfcf8836fbca42208d7e2))
+
 # @esri/hub-common [14.181.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.180.0...@esri/hub-common@14.181.0) (2024-09-05)
 
 
