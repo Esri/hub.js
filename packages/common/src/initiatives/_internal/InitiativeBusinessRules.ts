@@ -38,6 +38,7 @@ export const InitiativePermissions = [
   "hub:initiative:workspace:content",
   "hub:initiative:workspace:events",
   "hub:initiative:workspace:metrics",
+  "hub:initiative:workspace:catalogs",
   "hub:initiative:workspace:associationGroup:create",
   "hub:initiative:manage",
 ] as const;
@@ -184,6 +185,14 @@ export const InitiativePermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:initiative:workspace:metrics",
     dependencies: ["hub:initiative:workspace", "hub:initiative:edit"],
+  },
+  {
+    permission: "hub:initiative:workspace:catalogs",
+    dependencies: [
+      "hub:initiative:workspace",
+      "hub:feature:catalogs",
+      "hub:initiative:edit",
+    ],
   },
   {
     permission: "hub:initiative:manage",
