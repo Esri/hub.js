@@ -302,7 +302,7 @@ export const getContentTypeIcon = (contentType: string) => {
     orthoMappingProject: "file",
     orthoMappingTemplate: "file",
     pdf: "file-pdf",
-    quickCaptureProject: "mobile",
+    quickcaptureProject: "mobile",
     rasterFunctionTemplate: "file",
     rasterLayer: "map",
     realTimeAnalytic: "file",

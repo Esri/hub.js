@@ -666,6 +666,7 @@ describe("content: ", () => {
         expect(getContentTypeIcon("KML Collection")).toEqual("data");
         expect(getContentTypeIcon("WMS")).toEqual("map");
         expect(getContentTypeIcon("WMTS")).toEqual("map");
+        expect(getContentTypeIcon("QuickCapture Project")).toEqual("mobile");
       });
       it("sets non-existing type icon to file", () => {
         expect(getContentTypeIcon("fooBar")).toEqual("file");
