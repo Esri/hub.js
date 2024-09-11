@@ -4,7 +4,7 @@ import { IHubTemplate } from "../../../src/core/types/IHubTemplate";
 import { IModel } from "../../../src/types";
 import { initContextManager } from "../fixtures";
 import * as computeLinksModule from "../../../src/templates/_internal/computeLinks";
-import * as isDiscussableModule from "../../../src/discussions/utils";
+import * as computeItemPropsModule from "../../../src/core/_internal/computeItemProps";
 import * as processEntityFeaturesModule from "../../../src/permissions/_internal/processEntityFeatures";
 import * as templateUtilsModule from "../../../src/templates/utils";
 
@@ -13,7 +13,7 @@ describe("templates: computeProps:", () => {
   let model: IModel;
   let template: Partial<IHubTemplate>;
   let computeLinksSpy: jasmine.Spy;
-  let isDiscussableSpy: jasmine.Spy;
+  let computeItemPropsSpy: jasmine.Spy;
   let processEntityFeaturesSpy: jasmine.Spy;
   let getDeployedTemplateTypeSpy: jasmine.Spy;
 
@@ -22,10 +22,12 @@ describe("templates: computeProps:", () => {
     computeLinksSpy = spyOn(computeLinksModule, "computeLinks").and.returnValue(
       { self: "some-link", thumbnail: "some-thumbnail-link" }
     );
-    isDiscussableSpy = spyOn(
-      isDiscussableModule,
-      "isDiscussable"
-    ).and.returnValue(true);
+    computeItemPropsSpy = spyOn(
+      computeItemPropsModule,
+      "computeItemProps"
+    ).and.callFake((_item: any, _template: any) => {
+      return { ..._template, isDiscussable: true };
+    });
     processEntityFeaturesSpy = spyOn(
       processEntityFeaturesModule,
       "processEntityFeatures"
@@ -71,13 +73,13 @@ describe("templates: computeProps:", () => {
     expect(computeLinksSpy).toHaveBeenCalledTimes(1);
     expect(chk.thumbnailUrl).toBe("some-thumbnail-link");
   });
-  it("isDiscussable: determines whether the template is discussable", () => {
+  it("computeItemProps: determines whether the template is discussable", () => {
     const chk = computeProps(
       model,
       template,
       authdCtxMgr.context.requestOptions
     );
-    expect(isDiscussableSpy).toHaveBeenCalledTimes(1);
+    expect(computeItemPropsSpy).toHaveBeenCalledTimes(1);
     expect(chk.isDiscussable).toBeTruthy();
   });
   it("features: processes entity-configurable features", () => {

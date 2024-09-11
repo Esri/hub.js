@@ -1,3 +1,10 @@
+## @esri/hub-common [14.184.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.184.0...@esri/hub-common@14.184.1) (2024-09-11)
+
+
+### Bug Fixes
+
+* **hub-common:** getContentIcon returns wrong icon for types w/ acron… ([#1645](https://github.com/Esri/hub.js/issues/1645)) ([7aab426](https://github.com/Esri/hub.js/commit/7aab426860c143c628b3efced51ec13a4ac754e4))
+
 # @esri/hub-common [14.184.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.183.0...@esri/hub-common@14.184.0) (2024-09-11)
 
 

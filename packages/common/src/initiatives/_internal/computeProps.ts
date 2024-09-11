@@ -10,7 +10,7 @@ import { processEntityFeatures } from "../../permissions/_internal/processEntity
 import { InitiativeDefaultFeatures } from "./InitiativeBusinessRules";
 import { computeLinks } from "./computeLinks";
 import { getAuthedImageUrl } from "../../core/_internal/getAuthedImageUrl";
-import { computeBaseProps } from "../../core/_internal/computeBaseProps";
+import { computeItemProps } from "../../core/_internal/computeItemProps";
 
 /**
  * Given a model and an Initiative, set various computed properties that can't be directly mapped
@@ -32,7 +32,7 @@ export function computeProps(
   }
 
   // compute base properties on initiative
-  initiative = computeBaseProps(model.item, initiative);
+  initiative = computeItemProps(model.item, initiative);
 
   // thumbnail url
   initiative.thumbnailUrl = getItemThumbnailUrl(
@@ -45,13 +45,6 @@ export function computeProps(
     ...model.data.view,
     featuredImageUrl: model.data.view?.featuredImageUrl,
   };
-
-  // Handle Dates
-  initiative.createdDate = new Date(model.item.created);
-  initiative.createdDateSource = "item.created";
-  initiative.updatedDate = new Date(model.item.modified);
-  initiative.updatedDateSource = "item.modified";
-  initiative.isDiscussable = isDiscussable(initiative);
 
   /**
    * Features that can be disabled by the entity owner

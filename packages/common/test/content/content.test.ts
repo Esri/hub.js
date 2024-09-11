@@ -655,6 +655,18 @@ describe("content: ", () => {
         expect(getContentTypeIcon("Mobile Application")).toEqual("mobile");
         expect(getContentTypeIcon("Web Map")).toEqual("map");
         expect(getContentTypeIcon("Hub Project")).toEqual("projects");
+        // the following have been problematic due to use of camelize
+        expect(getContentTypeIcon("PDF")).toEqual("file-pdf");
+        expect(getContentTypeIcon("CSV")).toEqual("file-csv");
+        expect(getContentTypeIcon("CSV Collection")).toEqual("file-csv");
+        expect(getContentTypeIcon("iWork keynote")).toEqual("presentation");
+        expect(getContentTypeIcon("iWork Numbers")).toEqual("file-report");
+        expect(getContentTypeIcon("iWork Pages")).toEqual("file-text");
+        expect(getContentTypeIcon("KML")).toEqual("data");
+        expect(getContentTypeIcon("KML Collection")).toEqual("data");
+        expect(getContentTypeIcon("WMS")).toEqual("map");
+        expect(getContentTypeIcon("WMTS")).toEqual("map");
+        expect(getContentTypeIcon("QuickCapture Project")).toEqual("mobile");
       });
       it("sets non-existing type icon to file", () => {
         expect(getContentTypeIcon("fooBar")).toEqual("file");
