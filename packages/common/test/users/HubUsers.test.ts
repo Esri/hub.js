@@ -3,6 +3,7 @@ import {
   cloneObject,
   enrichUserSearchResult,
   fetchHubUser,
+  IArcGISContext,
   IHubRequestOptions,
 } from "../../src";
 import * as FetchEnrichments from "../../src/users/_internal/enrichments";
@@ -54,7 +55,9 @@ describe("HubUsers Module:", () => {
       });
       const ro = {} as IHubRequestOptions;
       const username = TEST_USER.username!;
-      await fetchHubUser(username, ro);
+      await fetchHubUser(username, {
+        requestOptions: ro,
+      } as unknown as IArcGISContext);
       expect(spy).toHaveBeenCalledWith({ ...ro, username });
     });
   });

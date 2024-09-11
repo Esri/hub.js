@@ -1,3 +1,24 @@
+# @esri/hub-common [14.184.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.183.0...@esri/hub-common@14.184.0) (2024-09-11)
+
+
+### Features
+
+* add newentityview flag permission ([#1639](https://github.com/Esri/hub.js/issues/1639)) ([726776d](https://github.com/Esri/hub.js/commit/726776d5420b20ed2223e04b73469531315640ac))
+
+# @esri/hub-common [14.183.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.182.0...@esri/hub-common@14.183.0) (2024-09-11)
+
+
+### Features
+
+* scaffold user workspace ([#1634](https://github.com/Esri/hub.js/issues/1634)) ([8a8e755](https://github.com/Esri/hub.js/commit/8a8e755d37f7b1d060505eb195ff25a7e5fd2849))
+
+# @esri/hub-common [14.182.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.181.0...@esri/hub-common@14.182.0) (2024-09-10)
+
+
+### Features
+
+* add catalogs permissions ([#1641](https://github.com/Esri/hub.js/issues/1641)) ([dc33f03](https://github.com/Esri/hub.js/commit/dc33f03666143719ec4bfcf8836fbca42208d7e2))
+
 # @esri/hub-common [14.181.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.180.0...@esri/hub-common@14.181.0) (2024-09-05)
 
 

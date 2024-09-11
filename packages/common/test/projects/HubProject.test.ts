@@ -1,6 +1,5 @@
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import { IHubProject, IResolvedMetric, getProp, mergeObjects } from "../../src";
-import { MetricVisibility } from "../../src/core/types/Metrics";
 import { Catalog } from "../../src/search";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubProject } from "../../src/projects/HubProject";
