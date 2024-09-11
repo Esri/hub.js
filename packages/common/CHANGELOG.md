@@ -1,3 +1,10 @@
+## @esri/hub-common [14.184.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.184.1...@esri/hub-common@14.184.2) (2024-09-11)
+
+
+### Bug Fixes
+
+* secure proxy servers may not be hosted, so we should return false ([#1642](https://github.com/Esri/hub.js/issues/1642)) ([49bf71c](https://github.com/Esri/hub.js/commit/49bf71cc4a7112684d179083eab47d9380de9813))
+
 ## @esri/hub-common [14.184.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.184.0...@esri/hub-common@14.184.1) (2024-09-11)
 
 
