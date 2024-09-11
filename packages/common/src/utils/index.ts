@@ -9,6 +9,7 @@ export * from "./get-hub-product";
 export * from "./get-subscription-type";
 export * from "./includes";
 export * from "./is-guid";
+export * from "./is-cuid";
 export * from "./map-by";
 export * from "./slugify";
 export * from "./without-by-prop";

@@ -1,4 +1,4 @@
-import { getEventGroups } from "../../../src/events/_internal/getEventGroups";
+import { getEventGroups } from "../../../src/events/getEventGroups";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as eventsModule from "../../../src/events/api/events";
 import { IHubEvent } from "../../../src/core/types/IHubEvent";

@@ -8,7 +8,7 @@ import { HubEvent } from "../../src/events/HubEvent";
 import { IHubEvent } from "../../src/core/types/IHubEvent";
 import * as shareEventWithGroupsModule from "../../src/events/_internal/shareEventWithGroups";
 import * as unshareEventWithGroupsModule from "../../src/events/_internal/unshareEventWithGroups";
-import * as getEventGroupsModule from "../../src/events/_internal/getEventGroups";
+import * as getEventGroupsModule from "../../src/events/getEventGroups";
 import * as eventsModule from "../../src/events/api/events";
 import { IArcGISContext } from "../../src";
 
