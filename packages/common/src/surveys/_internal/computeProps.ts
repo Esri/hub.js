@@ -1,6 +1,6 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { computeBaseProps } from "../../core/_internal/computeBaseProps";
+import { computeItemProps } from "../../core/_internal/computeItemProps";
 import { IHubSurvey } from "../../core/types/IHubSurvey";
 import { IModel } from "../../types";
 import { getItemThumbnailUrl } from "../../resources/get-item-thumbnail-url";
@@ -27,17 +27,12 @@ export function computeProps(
     token = session.token;
   }
   // compute base properties on survey object
-  survey = computeBaseProps(model.item, survey);
+  survey = computeItemProps(model.item, survey);
 
   // thumbnail url
   survey.thumbnailUrl = getItemThumbnailUrl(model.item, requestOptions, token);
 
-  // Handle Dates
-  survey.createdDate = new Date(model.item.created);
-  survey.createdDateSource = "item.created";
-  survey.updatedDate = new Date(model.item.modified);
-  survey.updatedDateSource = "item.modified";
-  survey.isDiscussable = isDiscussable(survey);
+  // map props
   survey.hasMapQuestion = hasMapQuestion(model.formJSON?.questions || []);
   survey.displayMap = shouldDisplayMap(model.item);
 

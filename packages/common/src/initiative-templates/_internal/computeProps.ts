@@ -7,7 +7,7 @@ import { getItemThumbnailUrl } from "../../resources";
 import { IModel } from "../../types";
 import { InitiativeTemplateDefaultFeatures } from "./InitiativeTemplateBusinessRules";
 import { computeLinks } from "./computeLinks";
-import { computeBaseProps } from "../../core/_internal/computeBaseProps";
+import { computeItemProps } from "../../core/_internal/computeItemProps";
 
 /**
  * Given a model and an initiative template, set various computed properties that can't be directly mapped
@@ -29,7 +29,7 @@ export function computeProps(
   }
 
   // compute base properties on initiativeTemplate
-  initiativeTemplate = computeBaseProps(model.item, initiativeTemplate);
+  initiativeTemplate = computeItemProps(model.item, initiativeTemplate);
 
   // thumbnail url
   initiativeTemplate.thumbnailUrl = getItemThumbnailUrl(
@@ -37,13 +37,6 @@ export function computeProps(
     requestOptions,
     token
   );
-
-  // Handle dates
-  initiativeTemplate.createdDate = new Date(model.item.created);
-  initiativeTemplate.createdDateSource = "item.created";
-  initiativeTemplate.updatedDate = new Date(model.item.modified);
-  initiativeTemplate.updatedDateSource = "item.modified";
-  initiativeTemplate.isDiscussable = isDiscussable(initiativeTemplate);
 
   /**
    * Features that can be disabled by the entity owner

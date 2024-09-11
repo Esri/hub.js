@@ -7,7 +7,7 @@ import { isDiscussable } from "../../discussions";
 import { processEntityFeatures } from "../../permissions/_internal/processEntityFeatures";
 import { SiteDefaultFeatures } from "./SiteBusinessRules";
 import { IHubSite } from "../../core/types/IHubSite";
-import { computeBaseProps } from "../../core/_internal/computeBaseProps";
+import { computeItemProps } from "../../core/_internal/computeItemProps";
 import { computeLinks } from "./computeLinks";
 
 /**
@@ -29,19 +29,12 @@ export function computeProps(
     token = session.token;
   }
   // compute base properties on site
-  site = computeBaseProps(model.item, site);
+  site = computeItemProps(model.item, site);
   // thumbnail url
   const thumbnailUrl = getItemThumbnailUrl(model.item, requestOptions, token);
   // TODO: Remove this once opendata-ui starts using `links.thumbnail` instead
   site.thumbnailUrl = thumbnailUrl;
   site.links = computeLinks(model.item, requestOptions);
-
-  // Handle Dates
-  site.createdDate = new Date(model.item.created);
-  site.createdDateSource = "item.created";
-  site.updatedDate = new Date(model.item.modified);
-  site.updatedDateSource = "item.modified";
-  site.isDiscussable = isDiscussable(site);
 
   /**
    * Features that can be disabled by the entity owner

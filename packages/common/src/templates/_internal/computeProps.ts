@@ -7,7 +7,7 @@ import { IHubTemplate } from "../../core/types/IHubTemplate";
 import { computeLinks } from "./computeLinks";
 import { getProp } from "../../objects";
 import { getDeployedTemplateType } from "../utils";
-import { computeBaseProps } from "../../core/_internal/computeBaseProps";
+import { computeItemProps } from "../../core/_internal/computeItemProps";
 
 /**
  * @private
@@ -24,22 +24,13 @@ export function computeProps(
   requestOptions: IRequestOptions
 ): IHubTemplate {
   // 1. compute base properties on template
-  template = computeBaseProps(model.item, template);
+  template = computeItemProps(model.item, template);
 
   // 2. compute relevant template links
   template.links = computeLinks(model.item, requestOptions);
 
   // 3. append the template's thumbnail url at the top-level
   template.thumbnailUrl = template.links.thumbnail;
-
-  // 4. compute relevant template dates
-  template.createdDate = new Date(model.item.created);
-  template.createdDateSource = "item.created";
-  template.updatedDate = new Date(model.item.modified);
-  template.updatedDateSource = "item.modified";
-
-  // 5. determine whether the template is discussable
-  template.isDiscussable = isDiscussable(template);
 
   // 6. process features that can be disabled by the entity owner
   template.features = processEntityFeatures(

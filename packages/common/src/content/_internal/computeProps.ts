@@ -20,7 +20,7 @@ import {
   hasServiceCapability,
   ServiceCapabilities,
 } from "../hostedServiceUtils";
-import { computeBaseProps } from "../../core/_internal/computeBaseProps";
+import { computeItemProps } from "../../core/_internal/computeItemProps";
 import { getProp } from "../../objects";
 import { IHubEditableContentEnrichments } from "../../items/_enrichments";
 import { IItem } from "@esri/arcgis-rest-portal";
@@ -39,12 +39,13 @@ export function computeProps(
   }
 
   // compute base properties on content
-  content = computeBaseProps(model.item, content);
+  content = computeItemProps(model.item, content);
 
   // thumbnail url
   const thumbnailUrl = getItemThumbnailUrl(model.item, requestOptions, token);
-  // TODO: Remove this once opendata-ui starts using `links.thumbnail` instead
   content.thumbnailUrl = thumbnailUrl;
+
+  // NOTE: other entities encapsulate this in a computeLinks function
   content.links = {
     self: getItemHomeUrl(content.id, requestOptions),
     siteRelative: getHubRelativeUrl(
@@ -60,8 +61,6 @@ export function computeProps(
   // cannot be null otherwise we'd get a validation
   // error that doesn't let us save the form
   content.licenseInfo = model.item.licenseInfo || "";
-
-  content.isDiscussable = isDiscussable(content);
 
   // when we receive a schedule from the enrichments, we want to use it, otherwise default to automatic
   content.schedule = enrichments.schedule;

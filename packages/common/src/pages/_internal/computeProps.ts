@@ -8,7 +8,7 @@ import { PageDefaultFeatures } from "./PageBusinessRules";
 import { getItemHomeUrl } from "../../urls/get-item-home-url";
 import { IHubPage } from "../../core/types/IHubPage";
 import { getRelativeWorkspaceUrl } from "../../core/getRelativeWorkspaceUrl";
-import { computeBaseProps } from "../../core/_internal/computeBaseProps";
+import { computeItemProps } from "../../core/_internal/computeItemProps";
 import { getHubRelativeUrl } from "../../content/_internal/internalContentUtils";
 
 /**
@@ -30,7 +30,7 @@ export function computeProps(
     token = session.token;
   }
   // compute base properties on page
-  page = computeBaseProps(model.item, page);
+  page = computeItemProps(model.item, page);
   // thumbnail url
   const thumbnailUrl = getItemThumbnailUrl(model.item, requestOptions, token);
   // TODO: Remove this once opendata-ui starts using `links.thumbnail` instead
@@ -43,12 +43,6 @@ export function computeProps(
     layoutRelative: `/pages/${page.id}/edit`,
     thumbnail: thumbnailUrl,
   };
-
-  // Handle Dates
-  page.createdDate = new Date(model.item.created);
-  page.createdDateSource = "item.created";
-  page.updatedDate = new Date(model.item.modified);
-  page.updatedDateSource = "item.modified";
 
   /**
    * Features that can be disabled by the entity owner

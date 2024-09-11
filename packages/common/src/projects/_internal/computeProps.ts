@@ -8,7 +8,7 @@ import { processEntityFeatures } from "../../permissions/_internal/processEntity
 import { ProjectDefaultFeatures } from "./ProjectBusinessRules";
 import { computeLinks } from "./computeLinks";
 import { getAuthedImageUrl } from "../../core/_internal/getAuthedImageUrl";
-import { computeBaseProps } from "../../core/_internal/computeBaseProps";
+import { computeItemProps } from "../../core/_internal/computeItemProps";
 
 /**
  * Given a model and a project, set various computed properties that can't be directly mapped
@@ -29,16 +29,9 @@ export function computeProps(
     token = session.token;
   }
   // compute base properties on project
-  project = computeBaseProps(model.item, project);
+  project = computeItemProps(model.item, project);
   // thumbnail url
   project.thumbnailUrl = getItemThumbnailUrl(model.item, requestOptions, token);
-
-  // Handle Dates
-  project.createdDate = new Date(model.item.created);
-  project.createdDateSource = "item.created";
-  project.updatedDate = new Date(model.item.modified);
-  project.updatedDateSource = "item.modified";
-  project.isDiscussable = isDiscussable(project);
 
   project.view = {
     ...model.data.view,
