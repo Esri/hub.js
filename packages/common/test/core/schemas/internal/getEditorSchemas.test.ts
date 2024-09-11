@@ -1,5 +1,11 @@
 import { getEditorSchemas } from "../../../../src/core/schemas/internal/getEditorSchemas";
 import * as filterSchemaModule from "../../../../src/core/schemas/internal/filterSchemaToUiSchema";
+import * as checkPermissionModule from "../../../../src/permissions/checkPermission";
+import {
+  EditorType,
+  IEditorModuleType,
+  validCardEditorTypes,
+} from "../../../../src/core/schemas/types";
 
 import { ProjectEditorTypes } from "../../../../src/projects/_internal/ProjectSchema";
 import * as ProjectBuildEditUiSchema from "../../../../src/projects/_internal/ProjectUiSchemaEdit";
@@ -57,17 +63,15 @@ import { SurveyEditorTypes } from "../../../../src/surveys/_internal/SurveySchem
 import * as SurveyBuildEditUiSchema from "../../../../src/surveys/_internal/SurveyUiSchemaEdit";
 import * as SurveyBuildSettingsUiSchema from "../../../../src/surveys/_internal/SurveyUiSchemaSettings";
 
-import {
-  EditorType,
-  IEditorModuleType,
-  validCardEditorTypes,
-} from "../../../../src/core/schemas/types";
-import * as statUiSchemaModule from "../../../../src/core/schemas/internal/metrics/StatCardUiSchema";
-import * as checkPermissionModule from "../../../../src/permissions/checkPermission";
 import { EventEditorTypes } from "../../../../src/events/_internal/EventSchemaCreate";
 import * as EventBuildCreateUiSchema from "../../../../src/events/_internal/EventUiSchemaCreate";
 import * as EventBuildEditUiSchema from "../../../../src/events/_internal/EventUiSchemaEdit";
 import * as EventAttendeesSettingsUiSchema from "../../../../src/events/_internal/EventUiSchemaAttendeesSettings";
+
+import { UserEditorTypes } from "../../../../src/users/_internal/UserSchema";
+import * as UserBuildUiSchemaSettings from "../../../../src/users/_internal/UserUiSchemaSettings";
+
+import * as statUiSchemaModule from "../../../../src/core/schemas/internal/metrics/StatCardUiSchema";
 
 describe("getEditorSchemas: ", () => {
   let uiSchemaBuildFnSpy: any;
@@ -135,6 +139,8 @@ describe("getEditorSchemas: ", () => {
     { type: EventEditorTypes[0], module: EventBuildCreateUiSchema },
     { type: EventEditorTypes[1], module: EventBuildEditUiSchema },
     { type: EventEditorTypes[2], module: EventAttendeesSettingsUiSchema },
+
+    { type: UserEditorTypes[0], module: UserBuildUiSchemaSettings },
 
     {
       type: validCardEditorTypes[0],

@@ -1,3 +1,4 @@
+import { IUserHubSettings } from "../../utils/hubUserAppResources";
 import { IHubEntityBase } from "./IHubEntityBase";
 import { SettableAccessLevel } from "./types";
 
@@ -35,6 +36,23 @@ export interface IHubUser extends IHubEntityBase {
   owner?: string;
 
   /**
+   * the user's settings
+   */
+  settings?: IUserHubSettings;
+
+  /**
+   * the user's org settings that are configurable from hub
+   * IMPT NOTE: this is a TEMPORARY solution and should be used sparingly. We are currently allowing
+   * these settings to live on a user entity to allow for updating these settings in the user workspace
+   * using the entity-editor. In the long term, we'd want these to be updated in an org-specific
+   * workspace, rather than in the user workspace.
+   *
+   * We do NOT EVER want to rely on reading from these props on the user entity to dictate
+   * what an org setting should look like.
+   */
+  hubOrgSettings?: IHubUserOrgSettings;
+
+  /**
    * User configurable tags
    */
   tags?: string[];
@@ -54,4 +72,21 @@ export interface IHubUser extends IHubEntityBase {
 
   // NOTE: may want more like email, role, etc, see:
   // https://developers.arcgis.com/rest/users-groups-and-items/user.htm
+}
+
+/**
+ * Defines the properties of a Hub Org's settings stored on a IHubUser.
+ *
+ * IMPT NOTE: this is a TEMPORARY solution and should be used sparingly. We are currently allowing
+ * these settings to live on a user entity to allow for updating these settings in the user workspace
+ * using the entity-editor. In the long term, we'd want these to be updated in an org-specific
+ * workspace, rather than in the user workspace.
+ *
+ * We do NOT EVER want to rely on reading from these props on the user entity to dictate
+ * what an org setting should look like.
+ */
+export interface IHubUserOrgSettings {
+  showInformationalBanner?: boolean;
+  termsAndConditions?: string;
+  signupText?: string;
 }
