@@ -13,7 +13,7 @@ describe("getDownloadFlow", () => {
 
   it("should return the appropriate create replica download flow", () => {
     const entity: IHubEditableContent = {
-      url: "https://www.arcgis.com/arcgis/rest/services/Hosted/FeatureServer/0",
+      url: "https://services.arcgis.com/arcgis/rest/services/Hosted/FeatureServer/0",
       serverExtractCapability: true,
     } as any;
     const result = getDownloadFlow(entity);
