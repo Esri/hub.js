@@ -1,3 +1,10 @@
+# @esri/hub-common [14.183.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.182.0...@esri/hub-common@14.183.0) (2024-09-11)
+
+
+### Features
+
+* scaffold user workspace ([#1634](https://github.com/Esri/hub.js/issues/1634)) ([8a8e755](https://github.com/Esri/hub.js/commit/8a8e755d37f7b1d060505eb195ff25a7e5fd2849))
+
 # @esri/hub-common [14.182.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.181.0...@esri/hub-common@14.182.0) (2024-09-10)
 
 
