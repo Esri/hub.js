@@ -4,6 +4,7 @@ import * as fetchCategoryItemsModule from "../../../src/core/schemas/internal/fe
 import * as getLocationExtentModule from "../../../src/core/schemas/internal/getLocationExtent";
 import * as getLocationOptionsModule from "../../../src/core/schemas/internal/getLocationOptions";
 import * as getTagItemsModule from "../../../src/core/schemas/internal/getTagItems";
+import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
 
 describe("buildUiSchema: content edit", () => {
   it("returns the full content edit uiSchema", async () => {
@@ -115,8 +116,31 @@ describe("buildUiSchema: content edit", () => {
                 sizeDescription: {
                   labelKey: "shared.fields._thumbnail.sizeDescription",
                 },
-                messages: [],
               },
+            },
+            {
+              type: "Notice",
+              options: {
+                notice: {
+                  configuration: {
+                    id: "no-thumbnail-or-png-notice",
+                    noticeType: "notice",
+                    closable: false,
+                    icon: "lightbulb",
+                    kind: "info",
+                    scale: "m",
+                  },
+                  message:
+                    "{{shared.fields._thumbnail.defaultThumbnailNotice:translate}}",
+                  autoShow: true,
+                },
+              },
+              rules: [
+                {
+                  effect: UiSchemaRuleEffects.SHOW,
+                  conditions: [false],
+                },
+              ],
             },
             {
               labelKey: "some.scope.fields.tags.label",
@@ -151,6 +175,45 @@ describe("buildUiSchema: content edit", () => {
                   labelKey: "some.scope.fields.categories.helperText",
                 },
               },
+              rules: [
+                {
+                  effect: UiSchemaRuleEffects.DISABLE,
+                  conditions: [false],
+                },
+              ],
+            },
+            {
+              type: "Notice",
+              options: {
+                notice: {
+                  configuration: {
+                    id: "no-categories-notice",
+                    noticeType: "notice",
+                    closable: false,
+                    icon: "exclamation-mark-triangle",
+                    kind: "warning",
+                    scale: "m",
+                  },
+                  message:
+                    "{{shared.fields.categories.noCategoriesNotice.body:translate}}",
+                  autoShow: true,
+                  actions: [
+                    {
+                      label:
+                        "{{shared.fields.categories.noCategoriesNotice.link:translate}}",
+                      icon: "launch",
+                      href: "https://doc.arcgis.com/en/arcgis-online/reference/content-categories.htm",
+                      target: "_blank",
+                    },
+                  ],
+                },
+              },
+              rules: [
+                {
+                  effect: UiSchemaRuleEffects.SHOW,
+                  conditions: [false],
+                },
+              ],
             },
             {
               labelKey: "some.scope.fields.license.label",

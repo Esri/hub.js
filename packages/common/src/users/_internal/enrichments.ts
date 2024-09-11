@@ -18,6 +18,9 @@ export interface IUserEnrichments {
   errors?: IEnrichmentErrorInfo[];
 }
 
+/**
+ * Available enrichments for Users
+ */
 export type UserEnrichment = keyof IUserEnrichments;
 
 /**
@@ -36,6 +39,11 @@ interface IUserEnrichmentOperations {
   ) => Promise<IPipeable<IUserAndEnrichments>>;
 }
 
+/**
+ * Fetch the Org for a User and enriches it.
+ * @param input
+ * @returns
+ */
 const enrichUserOrg = (
   input: IPipeable<IUserAndEnrichments>
 ): Promise<IPipeable<IUserAndEnrichments>> => {

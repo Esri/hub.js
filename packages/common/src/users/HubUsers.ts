@@ -11,7 +11,15 @@ import { getUserHomeUrl } from "../urls";
 import { unique } from "../util";
 import { mapBy } from "../utils";
 import { IHubSearchResult } from "../search/types/IHubSearchResult";
+import { IArcGISContext } from "../ArcGISContext";
+import { computeProps } from "./_internal/computeProps";
 
+/**
+ * Converts a IUser object into an IHubUser.
+ *
+ * @param user
+ * @returns IHubUser
+ */
 export const convertUserToHubUser = (user: IUser): IHubUser => {
   // A private user will not have a description prop at all
   // thus we set it to undefined to differentiate from a empty description which would be null
@@ -44,7 +52,7 @@ export const convertUserToHubUser = (user: IUser): IHubUser => {
 };
 
 /**
- * Enrich a User object
+ * Enriches an IUser object search result.
  * @param user
  * @param includes
  * @param requestOptions
@@ -103,13 +111,30 @@ export async function enrichUserSearchResult(
   return result;
 }
 
+/**
+ * Fetches a hub user by username
+ * @param username - hub username. can also be "self"
+ * @param context
+ * @returns
+ */
 export const fetchHubUser = async (
   username: string,
-  requestOptions?: IHubRequestOptions
+  context?: IArcGISContext
 ): Promise<IHubUser> => {
-  const user = await getUser({
-    ...requestOptions,
-    username,
-  });
-  return convertUserToHubUser(user);
+  let user;
+
+  // grab the user
+  user =
+    username === "self"
+      ? context.currentUser
+      : await getUser({
+          ...context.hubRequestOptions,
+          username,
+        });
+
+  // convert to a hubUser
+  let hubUser = convertUserToHubUser(user);
+  hubUser = await computeProps(user, hubUser, context);
+
+  return hubUser;
 };

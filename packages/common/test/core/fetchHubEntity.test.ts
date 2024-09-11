@@ -138,14 +138,16 @@ describe("fetchHubEntity:", () => {
       "fetchHubUser"
     ).and.returnValue(Promise.resolve({}));
     await fetchHubEntity("user", "123", ctx);
-    expect(spy).toHaveBeenCalledWith("123", "fakeRequestOptions");
+    expect(spy).toHaveBeenCalledWith("123", {
+      hubRequestOptions: "fakeRequestOptions",
+    });
   });
   it("self returns the current user", async () => {
     const ctx = {
       currentUser: {},
     } as IArcGISContext;
     const spy = spyOn(
-      require("../../src/users"),
+      require("../../src/users/HubUsers"),
       "convertUserToHubUser"
     ).and.returnValue({});
     await fetchHubEntity("user", "self", ctx);

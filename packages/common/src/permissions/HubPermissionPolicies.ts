@@ -179,6 +179,12 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     environments: ["qaext"],
     availability: ["flag"],
   },
+  {
+    // Enables catalog configuration and viewing
+    permission: "hub:feature:catalogs",
+    environments: ["qaext"],
+    availability: ["alpha"],
+  },
   // NOTE: only use this permission if necessary. Use the licenses check on a permission to check license when able instead of a separate permission.
   // checks if using hub-premium
   {

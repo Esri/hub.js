@@ -1,3 +1,10 @@
+## @esri/hub-sites [15.0.2](https://github.com/Esri/hub.js/compare/@esri/hub-sites@15.0.1...@esri/hub-sites@15.0.2) (2024-09-09)
+
+
+### Bug Fixes
+
+* re-order requests ([#1644](https://github.com/Esri/hub.js/issues/1644)) ([90603ca](https://github.com/Esri/hub.js/commit/90603ca6842890bd9fb1dbe71d283a2c8cfd9699))
+
 ## @esri/hub-sites [15.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-sites@15.0.0...@esri/hub-sites@15.0.1) (2024-08-26)
 
 

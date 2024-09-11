@@ -1,3 +1,31 @@
+# @esri/hub-common [14.183.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.182.0...@esri/hub-common@14.183.0) (2024-09-11)
+
+
+### Features
+
+* scaffold user workspace ([#1634](https://github.com/Esri/hub.js/issues/1634)) ([8a8e755](https://github.com/Esri/hub.js/commit/8a8e755d37f7b1d060505eb195ff25a7e5fd2849))
+
+# @esri/hub-common [14.182.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.181.0...@esri/hub-common@14.182.0) (2024-09-10)
+
+
+### Features
+
+* add catalogs permissions ([#1641](https://github.com/Esri/hub.js/issues/1641)) ([dc33f03](https://github.com/Esri/hub.js/commit/dc33f03666143719ec4bfcf8836fbca42208d7e2))
+
+# @esri/hub-common [14.181.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.180.0...@esri/hub-common@14.181.0) (2024-09-05)
+
+
+### Features
+
+* swap to new notice implementation for uiSchemas ([#1638](https://github.com/Esri/hub.js/issues/1638)) ([41fe5ba](https://github.com/Esri/hub.js/commit/41fe5ba364dbbb5b08da52cab49f0f7698962ac5))
+
+# @esri/hub-common [14.180.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.179.0...@esri/hub-common@14.180.0) (2024-09-04)
+
+
+### Features
+
+* **hub-common:** add optional ariaLabel to ICardAction link ([#1640](https://github.com/Esri/hub.js/issues/1640)) ([0ce0177](https://github.com/Esri/hub.js/commit/0ce0177312b3ddc93e80822bc0e0558d0d5af4bf))
+
 # @esri/hub-common [14.179.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.178.0...@esri/hub-common@14.179.0) (2024-08-29)
 
 

@@ -23,8 +23,10 @@ import {
   IHubEvent,
   IHubTemplate,
   getProp,
+  IHubUser,
 } from "../../src";
 import { IHubGroup } from "../../src/core/types/IHubGroup";
+import { HubUser } from "../../src/users/HubUser";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as PortalModule from "@esri/arcgis-rest-portal";
 
@@ -503,6 +505,46 @@ describe("EntityEditor:", () => {
       expect(getConfigSpy).toHaveBeenCalledWith(
         "someScope",
         "hub:event:create"
+      );
+      const chk = await editor.toEditor();
+      expect(toEditorSpy).toHaveBeenCalled();
+      expect(chk.id).toBe("00c");
+      await editor.save(chk);
+      expect(fromEditorSpy).toHaveBeenCalledWith(chk, undefined);
+    });
+  });
+
+  describe("supports users: ", () => {
+    let fromJsonSpy: jasmine.Spy;
+    let getConfigSpy: jasmine.Spy;
+    let toEditorSpy: jasmine.Spy;
+    let fromEditorSpy: jasmine.Spy;
+
+    beforeEach(() => {
+      fromJsonSpy = spyOn(HubUser, "fromJson").and.callThrough();
+      getConfigSpy = spyOn(HubUser.prototype, "getEditorConfig").and.callFake(
+        () => {
+          return Promise.resolve({} as any);
+        }
+      );
+      toEditorSpy = spyOn(HubUser.prototype, "toEditor").and.callThrough();
+      fromEditorSpy = spyOn(HubUser.prototype, "fromEditor").and.callFake(
+        () => {
+          return Promise.resolve({} as any);
+        }
+      );
+    });
+    it("verify EntityEditor with User", async () => {
+      const u: IHubUser = {
+        id: "00c",
+        type: "User",
+      } as IHubUser;
+      const editor = EntityEditor.fromEntity(u, authdCtxMgr.context);
+      expect(fromJsonSpy).toHaveBeenCalled();
+      await editor.getConfig("someScope", "hub:user:settings");
+      expect(getConfigSpy).toHaveBeenCalledWith(
+        "someScope",
+        "hub:user:settings"
       );
       const chk = await editor.toEditor();
       expect(toEditorSpy).toHaveBeenCalled();

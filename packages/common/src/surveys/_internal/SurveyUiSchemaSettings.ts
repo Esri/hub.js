@@ -1,10 +1,6 @@
 import { IArcGISContext } from "../../ArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
-import {
-  IUiSchema,
-  UiSchemaMessageTypes,
-  UiSchemaRuleEffects,
-} from "../../core/schemas/types";
+import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import { IHubSurvey } from "../../core/types/IHubSurvey";
 
 /**
@@ -18,6 +14,9 @@ export const buildUiSchema = async (
   options: EntityEditorOptions,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
+  // We want to conver it over to a boolean as it can be undefined which doesn't play well
+  // with the rules in our schema system
+  const hasMapQuestion = !(options as IHubSurvey).hasMapQuestion;
   return {
     type: "Layout",
     elements: [
@@ -49,20 +48,30 @@ export const buildUiSchema = async (
               ],
               icons: ["sidecar", "form-elements"],
               layout: "horizontal",
-              messages: (options as IHubSurvey).hasMapQuestion
-                ? []
-                : [
-                    {
-                      type: UiSchemaMessageTypes.custom,
-                      display: "notice",
-                      keyword: "mapQuestion",
-                      titleKey: `${i18nScope}.fields.displayMap.notice.title`,
-                      labelKey: `${i18nScope}.fields.displayMap.notice.message`,
-                      allowShowBeforeInteract: true,
-                      alwaysShow: true,
-                    },
-                  ],
             },
+          },
+          {
+            type: "Notice",
+            options: {
+              notice: {
+                configuration: {
+                  id: "map-question-notice",
+                  noticeType: "notice",
+                  closable: false,
+                  kind: "info",
+                  scale: "m",
+                },
+                title: `{{${i18nScope}.fields.displayMap.notice.title:translate}}`,
+                body: `{{${i18nScope}.fields.displayMap.notice.message:translate}}`,
+                autoShow: true,
+              },
+            },
+            rules: [
+              {
+                effect: UiSchemaRuleEffects.SHOW,
+                conditions: [hasMapQuestion],
+              },
+            ],
           },
         ],
       },
