@@ -1,3 +1,10 @@
+# @esri/hub-common [14.184.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.183.0...@esri/hub-common@14.184.0) (2024-09-11)
+
+
+### Features
+
+* add newentityview flag permission ([#1639](https://github.com/Esri/hub.js/issues/1639)) ([726776d](https://github.com/Esri/hub.js/commit/726776d5420b20ed2223e04b73469531315640ac))
+
 # @esri/hub-common [14.183.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.182.0...@esri/hub-common@14.183.0) (2024-09-11)
 
 
