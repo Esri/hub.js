@@ -1,3 +1,10 @@
+# @esri/hub-common [14.186.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.185.0...@esri/hub-common@14.186.0) (2024-09-12)
+
+
+### Features
+
+* **hub-common:** add new fields for newsletter subscriptions ([#1647](https://github.com/Esri/hub.js/issues/1647)) ([ed6cd52](https://github.com/Esri/hub.js/commit/ed6cd524e86146862b7a7feb04fb92990ea88d3a))
+
 # @esri/hub-common [14.185.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.184.2...@esri/hub-common@14.185.0) (2024-09-12)
 
 
