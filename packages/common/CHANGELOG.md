@@ -1,3 +1,10 @@
+# @esri/hub-common [14.185.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.184.2...@esri/hub-common@14.185.0) (2024-09-12)
+
+
+### Features
+
+* **hub-common:** add support for configuring entity references for E… ([#1611](https://github.com/Esri/hub.js/issues/1611)) ([9435382](https://github.com/Esri/hub.js/commit/94353826fd4835864302ba347c8647ffd353d871))
+
 ## @esri/hub-common [14.184.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.184.1...@esri/hub-common@14.184.2) (2024-09-11)
 
 
