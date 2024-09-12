@@ -257,6 +257,14 @@ export type GetEventsParams = {
    */
   startDateTimeBefore?: string;
   /**
+   * earliest ISO8601 end date-time for the events
+   */
+  endDateTimeAfter?: string;
+  /**
+   * latest ISO8601 end date-time for the events
+   */
+  endDateTimeBefore?: string;
+  /**
    * comma separated string list of event statuses. Example: PLANNED,CANCELED,REMOVED
    */
   status?: string;
