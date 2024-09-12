@@ -110,6 +110,9 @@ export type ICreateSubscriptionMetadata =
   | ICreateEventMetadata
   | ICreateTelemetryReportMetadata;
 
+export enum SubscriptionEntityType {
+  DISCUSSION = "DISCUSSION",
+}
 export enum DeliveryMethod {
   EMAIL = "EMAIL",
 }
@@ -119,39 +122,36 @@ export enum Cadence {
   WEEKLY = "WEEKLY",
   MONTHLY = "MONTHLY",
 }
+export enum SystemNotificationSpecNames {
+  TELEMETRY_REPORT = "TELEMETRY_REPORT",
+  EVENT = "EVENT",
+  DISCUSSION_ON_ENTITY = "DISCUSSION_ON_ENTITY",
+}
+export enum SubscriptionActions {
+  DISCUSSION_POST_PENDING = "DISCUSSION_POST_PENDING",
+}
 export interface IUpdateSubscription {
+  /** An array of actions representing user selections that further customize the subscription behavior */
+  actions?: SubscriptionActions[];
   /** Flag to opt user in or out of subscription */
   active?: boolean;
   /** Frequency of the subscription */
   cadence?: Cadence;
   /** Delivery method for subscription, ie email or text */
   deliveryMethod?: DeliveryMethod;
+  /** The AGO id of the entity associated with the subscription */
+  entityId?: string;
+  /** The type of entity associated with the subscription entityId */
+  entityType?: SubscriptionEntityType;
   /** Last delivered datetime string of the subscription in ISO 8601 format */
   lastDelivery?: string;
   /** ArcGIS Online id for a user. Will always be extracted from the token unless service token is used. */
   userId?: string;
 }
 
-export interface ISubscription {
-  active: boolean;
-  cadence: Cadence;
-  createdAt: string;
-  deliveryMethod: DeliveryMethod;
-  id: number;
-  lastDelivery: string;
-  metadata: ISubscriptionMetadata;
-  notificationSpec?: INotificationSpec;
-  notificationSpecId: number;
-  updatedAt: string;
-  user?: IUser;
-  userId: string;
-}
-
-export enum SystemNotificationSpecNames {
-  TELEMETRY_REPORT = "TELEMETRY_REPORT",
-  EVENT = "EVENT",
-}
 export interface ISubscribe {
+  /** An array of actions representing user selections that further customize the subscription behavior */
+  actions?: SubscriptionActions[];
   /** ArcGIS Online id for a user. Will always be extracted from the token unless service token is used. */
   agoId?: string;
   /** Frequency of the subscription */
@@ -162,6 +162,10 @@ export interface ISubscribe {
   deliveryMethod: DeliveryMethod;
   /** Email for the subscriber. Will always be extracted from the token unless service token is used. */
   email?: string;
+  /** The AGO id of the entity associated with the subscription */
+  entityId?: string;
+  /** The type of entity associated with the subscription entityId */
+  entityType?: SubscriptionEntityType;
   /** First name for the subscriber. Will always be extracted from the token unless service token is used. */
   firstName?: string;
   /** Last name for the subscriber. Will always be extracted from the token unless service token is used. */
@@ -176,11 +180,35 @@ export interface ISubscribe {
   username?: string;
 }
 
+export interface ISubscription {
+  actions: SubscriptionActions[];
+  active: boolean;
+  cadence: Cadence;
+  createdAt: string;
+  deliveryMethod: DeliveryMethod;
+  entityId: string;
+  entityType: SubscriptionEntityType;
+  id: number;
+  lastDelivery: string;
+  metadata: ISubscriptionMetadata;
+  notificationSpec?: INotificationSpec;
+  notificationSpecId: number;
+  updatedAt: string;
+  user?: IUser;
+  userId: string;
+}
+
 export interface ICreateSubscription {
+  /** An array of actions representing user selections that further customize the subscription behavior */
+  actions?: SubscriptionActions[];
   /** Frequency of the subscription */
   cadence: Cadence;
   /** Delivery method for subscription, ie email or text */
   deliveryMethod: DeliveryMethod;
+  /** The AGO id of the entity associated with the subscription */
+  entityId?: string;
+  /** The type of entity associated with the subscription entityId */
+  entityType?: SubscriptionEntityType;
   /** Metadata for the subscription */
   metadata: ICreateSubscriptionMetadata;
   /** Notification spec name for the subscription */
