@@ -2,7 +2,6 @@ import * as getDefaultEventDatesAndTimesModule from "../../src/events/_internal/
 import {
   EventAccess,
   EventAttendanceType,
-  EventLocationType,
   EventStatus,
   IEventLocation,
 } from "../../src/events/api/types";
@@ -49,7 +48,6 @@ describe("HubEvent defaults:", () => {
         onlineCapacityType: HubEventCapacityType.Unlimited,
         onlineDetails: null,
         onlineUrl: null,
-        references: [],
         schemaVersion: 1,
         tags: [],
         readGroupIds: [],
@@ -58,6 +56,8 @@ describe("HubEvent defaults:", () => {
           heroActions: [],
           showMap: false,
         },
+        referencedContentIds: [],
+        referencedContentIdsByType: [],
         location: {
           type: "none",
         },
@@ -98,6 +98,7 @@ describe("HubEvent defaults:", () => {
         tags: [],
         title: "",
         location: null as unknown as IEventLocation,
+        associations: [],
       });
       expect(getDefaultEventDatesAndTimesSpy).toHaveBeenCalledTimes(1);
     });

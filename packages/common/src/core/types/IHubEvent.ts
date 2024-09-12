@@ -158,9 +158,14 @@ export interface IHubEvent
   readGroupIds: string[];
 
   /**
-   * A collection of objects containing the ids & types for entities that the event references
+   * A collection of content ids explicitly referenced by the event
    */
-  references: Array<Record<string, string>>;
+  referencedContentIds: string[];
+
+  /**
+   * A collection of objects containing the ids & types for entities referenced by the event
+   */
+  referencedContentIdsByType: Array<{ entityId: string; entityType: string }>;
 
   /**
    * The start date of the event

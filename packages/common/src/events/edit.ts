@@ -15,6 +15,7 @@ import {
   IRegistration,
   RegistrationRole,
 } from "./api";
+import { buildEventAssociations } from "./_internal/buildEventAssociations";
 
 export interface IHubCreateEventRegistration {
   eventId: string;
@@ -30,7 +31,7 @@ export interface IHubCreateEventRegistration {
  *
  * @param partialEvent a partial event
  * @param requestOptions user request options
- * @returns promise that resolves a IHubEvent
+ * @returns promise that resolves an IHubEvent
  */
 export async function createHubEvent(
   partialEvent: Partial<IHubEvent>,
@@ -48,10 +49,17 @@ export async function createHubEvent(
 
   let model = mapper.entityToStore(event, buildDefaultEventRecord());
 
+  const associations = await buildEventAssociations(
+    partialEvent.referencedContentIdsByType,
+    partialEvent.referencedContentIds,
+    requestOptions
+  );
+
   const data = {
     access: model.access,
     allDay: model.allDay,
     allowRegistration: model.allowRegistration,
+    associations,
     attendanceType: model.attendanceType,
     categories: model.categories,
     description: model.description,
@@ -98,10 +106,17 @@ export async function updateHubEvent(
 
   let model = mapper.entityToStore(eventUpdates, buildDefaultEventRecord());
 
+  const associations = await buildEventAssociations(
+    partialEvent.referencedContentIdsByType,
+    partialEvent.referencedContentIds,
+    requestOptions
+  );
+
   const data = {
     access: model.access,
     allDay: model.allDay,
     allowRegistration: model.allowRegistration,
+    associations,
     attendanceType: model.attendanceType,
     categories: model.categories,
     description: model.description,

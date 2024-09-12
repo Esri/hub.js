@@ -1,12 +1,13 @@
 import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import { IArcGISContext } from "../../ArcGISContext";
-import { getDatePickerDate } from "../../utils/date/getDatePickerDate";
 import { IHubEvent } from "../../core/types/IHubEvent";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { HubEventAttendanceType, HubEventCapacityType } from "../types";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { fetchCategoriesUiSchemaElement } from "../../core/schemas/internal/fetchCategoriesUiSchemaElement";
+import { getWellKnownCatalog } from "../../search/wellKnownCatalog";
+import { buildReferencedContentSchema } from "./buildReferencedContentSchema";
 
 /**
  * @private
@@ -19,10 +20,6 @@ export const buildUiSchema = async (
   options: Partial<IHubEvent>,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
-  const minStartEndDate = getDatePickerDate(
-    new Date(),
-    (options as IHubEvent).timeZone
-  );
   return {
     type: "Layout",
     elements: [
@@ -400,6 +397,11 @@ export const buildUiSchema = async (
             },
           },
         ],
+      },
+      {
+        type: "Section",
+        labelKey: `${i18nScope}.sections.referencedContent.label`,
+        elements: [buildReferencedContentSchema(i18nScope, context)],
       },
       {
         type: "Section",

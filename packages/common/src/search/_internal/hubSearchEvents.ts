@@ -11,22 +11,28 @@ import { processFilters } from "./hubEventsHelpers/processFilters";
 /**
  * Searches for events against the Events 3 API using the given `query` and `options`.
  * Currently supported filters include:
- *   access: 'public' | 'private' | 'org' | Array<'public' | 'org' | 'access'>;
- *   canEdit: boolean
- *   entityId: string | string[];
- *   entityType: string | string[];
- *   id: string | string[];
- *   userId: string;
- *   term: string;
- *   categories: string | string[];
- *   tags: string | string[];
- *   group: string | string[];
- *   readGroupId: string | string[];
- *   editGroupId: string | string[];
- *   attendanceType: 'virtual' | 'in_person' | Array<'virtual' | 'in_person'>;
- *   owner: string | string[];
- *   status: 'planned' | 'canceled' | 'removed' | Array<'planned' | 'canceled' | 'removed'>;
- *   startDateRange: IDateRange<string | number>
+ *   - access: 'public' | 'private' | 'org' | Array<'public' | 'org' | 'access'>;
+ *   - canEdit: boolean
+ *   - entityId: string | string[];
+ *   - entityType: string | string[];
+ *   - id: string | string[];
+ *   - userId: string;
+ *   - term: string;
+ *   - categories: string | string[];
+ *   - tags: string | string[];
+ *   - group: string | string[];
+ *   - readGroupId: string | string[];
+ *   - editGroupId: string | string[];
+ *   - attendanceType: 'virtual' | 'in_person' | Array<'virtual' | 'in_person'>;
+ *   - owner: string | string[];
+ *   - status: 'planned' | 'canceled' | 'removed' | Array<'planned' | 'canceled' | 'removed'>;
+ *   - startDateRange: IDateRange<string | number>;
+ *   - endDateRange: IDateRange<string | number>;
+ * Currently supported sort fields include:
+ *   - created
+ *   - modified
+ *   - title
+ *   - startDate
  * @param query An IQuery object
  * @param options An IHubSearchOptions object
  * @returns a promise that resolves a <IHubSearchResponse<IHubSearchResult> object
@@ -43,7 +49,7 @@ export async function hubSearchEvents(
   const data: GetEventsParams = {
     ...processedFilters,
     ...processedOptions,
-    include: "creator,registrations",
+    include: "creator",
   };
   const { items, nextStart, total } = await getEvents({
     ...options.requestOptions,

@@ -12,14 +12,12 @@ import {
   FIXED_ONLINE_ATTENDANCE_VALIDATIONS,
   FIXED_IN_PERSON_ATTENDANCE_VALIDATIONS,
 } from "./validations";
-import { getDefaultEventDatesAndTimes } from "./getDefaultEventDatesAndTimes";
 
 /**
  * @private
  * Builds a schema for creating a new Event that enforces a startDate relative to the user's locale
  */
 export const buildSchema = (): IConfigurationSchema => {
-  const { startDate: minStartDate } = getDefaultEventDatesAndTimes();
   return {
     required: ["name", "startDate", "endDate", "timeZone"],
     properties: {
@@ -84,6 +82,14 @@ export const buildSchema = (): IConfigurationSchema => {
         type: "string",
         enum: [HubEventCapacityType.Unlimited, HubEventCapacityType.Fixed],
         default: HubEventCapacityType.Unlimited,
+      },
+      referencedContentIds: {
+        type: "array",
+        maxItems: 1,
+        items: {
+          type: "string",
+        },
+        default: [],
       },
       summary: ENTITY_SUMMARY_SCHEMA,
       tags: ENTITY_TAGS_SCHEMA,

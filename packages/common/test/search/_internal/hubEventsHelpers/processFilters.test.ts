@@ -184,6 +184,17 @@ const MULTI_SELECT_FILTERS: IFilter[] = [
       },
     ],
   },
+  {
+    operation: "OR",
+    predicates: [
+      {
+        endDateRange: {
+          from: 1714376800000,
+          to: 1714463199999,
+        },
+      },
+    ],
+  },
 ];
 
 const SINGLE_SELECT_FILTERS: IFilter[] = [
@@ -261,6 +272,17 @@ const SINGLE_SELECT_FILTERS: IFilter[] = [
       },
     ],
   },
+  {
+    operation: "OR",
+    predicates: [
+      {
+        endDateRange: {
+          from: 1714376800000,
+          to: 1714463199999,
+        },
+      },
+    ],
+  },
 ];
 
 describe("processFilters", () => {
@@ -273,6 +295,8 @@ describe("processFilters", () => {
       access: "public,org,private",
       attendanceTypes: "online,in_person",
       status: "planned,canceled",
+      endDateTimeAfter: "2024-04-29T07:46:40.000Z",
+      endDateTimeBefore: "2024-04-30T07:46:39.999Z",
       startDateTimeAfter: "2024-04-28T04:00:00.000Z",
       startDateTimeBefore: "2024-04-29T03:59:59.999Z",
       entityIds: "entity1,entity2",
@@ -331,6 +355,8 @@ describe("processFilters", () => {
       access: "public",
       attendanceTypes: "online",
       status: "planned",
+      endDateTimeAfter: "2024-04-29T07:46:40.000Z",
+      endDateTimeBefore: "2024-04-30T07:46:39.999Z",
       startDateTimeAfter: "2024-04-28T04:00:00.000Z",
       startDateTimeBefore: "2024-04-29T03:59:59.999Z",
       createdByIds: "owner",
