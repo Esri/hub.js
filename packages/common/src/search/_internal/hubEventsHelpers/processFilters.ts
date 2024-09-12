@@ -109,6 +109,8 @@ export async function processFilters(
     filters,
     "startDateRange"
   );
+  // if a startDateRange was provided, we prioritize that over individual startDateBefore or startDateAfter
+  // filters to prevent collisions
   if (startDateRange.length) {
     processedFilters.startDateTimeBefore = new Date(
       startDateRange[0].to
@@ -116,11 +118,33 @@ export async function processFilters(
     processedFilters.startDateTimeAfter = new Date(
       startDateRange[0].from
     ).toISOString();
+  } else {
+    // individual startDateBefore & startDateAfter filters
+    const startDateBefore = getPredicateValuesByKey<string | number>(
+      filters,
+      "startDateBefore"
+    );
+    if (startDateBefore.length) {
+      processedFilters.startDateTimeBefore = new Date(
+        startDateBefore[0]
+      ).toISOString();
+    }
+    const startDateAfter = getPredicateValuesByKey<string | number>(
+      filters,
+      "startDateAfter"
+    );
+    if (startDateAfter.length) {
+      processedFilters.startDateTimeAfter = new Date(
+        startDateAfter[0]
+      ).toISOString();
+    }
   }
   const endDateRange = getPredicateValuesByKey<IDateRange<string | number>>(
     filters,
     "endDateRange"
   );
+  // if a endDateRange was provided, we prioritize that over individual endDateBefore or endDateAfter
+  // filters to prevent collisions
   if (endDateRange.length) {
     // TODO: remove below ts-ignore once https://devtopia.esri.com/dc/hub/issues/11097 is resolved
     // @ts-ignore
@@ -132,6 +156,30 @@ export async function processFilters(
     processedFilters.endDateTimeAfter = new Date(
       endDateRange[0].from
     ).toISOString();
+  } else {
+    // individual endDateBefore & endDateAfter filters
+    const endDateBefore = getPredicateValuesByKey<string | number>(
+      filters,
+      "endDateBefore"
+    );
+    if (endDateBefore.length) {
+      // TODO: remove below ts-ignore once https://devtopia.esri.com/dc/hub/issues/11097 is resolved
+      // @ts-ignore
+      processedFilters.endDateTimeBefore = new Date(
+        endDateBefore[0]
+      ).toISOString();
+    }
+    const endDateAfter = getPredicateValuesByKey<string | number>(
+      filters,
+      "endDateAfter"
+    );
+    if (endDateAfter.length) {
+      // TODO: remove below ts-ignore once https://devtopia.esri.com/dc/hub/issues/11097 is resolved
+      // @ts-ignore
+      processedFilters.endDateTimeAfter = new Date(
+        endDateAfter[0]
+      ).toISOString();
+    }
   }
   return processedFilters;
 }
