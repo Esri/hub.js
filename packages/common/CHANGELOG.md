@@ -1,3 +1,10 @@
+# @esri/hub-common [14.187.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.186.0...@esri/hub-common@14.187.0) (2024-09-12)
+
+
+### Features
+
+* **hub-common:** add additional filter params endDateTimeAfter and e… ([#1649](https://github.com/Esri/hub.js/issues/1649)) ([9682d98](https://github.com/Esri/hub.js/commit/9682d983bcefc2fa0663487afbc12d64fdaa5e59))
+
 # @esri/hub-common [14.186.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.185.0...@esri/hub-common@14.186.0) (2024-09-12)
 
 
