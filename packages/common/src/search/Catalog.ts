@@ -2,7 +2,7 @@ import { IArcGISContext } from "../ArcGISContext";
 import { ArcGISContextManager } from "../ArcGISContextManager";
 import HubError from "../HubError";
 import { cloneObject } from "../util";
-import { isGuid, mapBy } from "../utils";
+import { isGuid, mapBy, isCuid } from "../utils";
 import { Collection } from "./Collection";
 import { fetchCatalog } from "./fetchCatalog";
 import { hubSearch } from "./hubSearch";
@@ -293,7 +293,7 @@ export class Catalog implements IHubCatalog {
       // construct the predicate
       const pred: IPredicate = {};
 
-      if (isGuid(identifier)) {
+      if (isGuid(identifier) || isCuid(identifier)) {
         pred.id = identifier;
       } else {
         // treat as slug

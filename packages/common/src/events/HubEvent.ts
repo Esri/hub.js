@@ -16,7 +16,7 @@ import { unshareEventWithGroups } from "./_internal/unshareEventWithGroups";
 import HubError from "../HubError";
 import { updateEvent } from "./api/events";
 import { EventAccess } from "./api/orval/api/orval-events";
-import { getEventGroups } from "./_internal/getEventGroups";
+import { getEventGroups } from "./getEventGroups";
 
 /**
  * Defines the properties of a Hub Event object

@@ -1,6 +1,6 @@
 import { IHubItemEntity } from "../../src/core/types/IHubItemEntity";
 import { getEntityGroups } from "../../src/core/getEntityGroups";
-import * as getEventGroupsModule from "../../src/events/_internal/getEventGroups";
+import * as getEventGroupsModule from "../../src/events/getEventGroups";
 import { IArcGISContext } from "../../src/ArcGISContext";
 import * as sharedWithModule from "../../src/core/_internal/sharedWith";
 import { IGroup } from "@esri/arcgis-rest-portal";
