@@ -1,3 +1,10 @@
+# @esri/hub-common [14.188.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.187.0...@esri/hub-common@14.188.0) (2024-09-13)
+
+
+### Features
+
+* **hub-common:** add getCuid ([#1646](https://github.com/Esri/hub.js/issues/1646)) ([28ab37c](https://github.com/Esri/hub.js/commit/28ab37c25c77f4f6af73052d6e1e919cf9fb12f1))
+
 # @esri/hub-common [14.187.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.186.0...@esri/hub-common@14.187.0) (2024-09-12)
 
 
