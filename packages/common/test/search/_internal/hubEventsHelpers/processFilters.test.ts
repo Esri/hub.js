@@ -74,7 +74,7 @@ const hubRequestOptions = {
   authentication: true,
 } as unknown as IHubRequestOptions;
 
-fdescribe("processFilters", () => {
+describe("processFilters", () => {
   describe("access", () => {
     it("should return undefined", async () => {
       const result = await processFilters(
