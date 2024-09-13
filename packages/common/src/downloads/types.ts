@@ -133,6 +133,7 @@ export interface IFetchDownloadFileOptions {
   where?: string; // where clause to filter results by
   progressCallback?: downloadProgressCallback;
   pollInterval?: number; // interval in milliseconds to poll for job completion
+  updateCache?: boolean; // whether the request should also update the cache; only valid when targeting the hub download system
 }
 
 export type IFetchDownloadFileResponse =
@@ -141,6 +142,8 @@ export type IFetchDownloadFileResponse =
 
 interface IBaseFetchDownloadFileResponse {
   type: "blob" | "url";
+  // TODO: Add docs, make type
+  cacheStatus?: "ready" | "ready_unknown" | "stale" | "not_ready";
 }
 
 export interface IFetchDownloadFileBlobResponse

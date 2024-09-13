@@ -29,7 +29,13 @@ export async function fetchHubApiDownloadFile(
   validateOptions(options);
   const requestUrl = getDownloadApiRequestUrl(options);
   const { pollInterval, progressCallback } = options;
-  return pollDownloadApi(requestUrl, pollInterval, progressCallback);
+  const temp = await pollDownloadApi(
+    requestUrl,
+    pollInterval,
+    progressCallback
+  );
+  temp.cacheStatus = options.updateCache ? "ready" : "ready_unknown";
+  return temp;
 }
 
 function validateOptions(options: IFetchDownloadFileOptions) {
@@ -61,7 +67,8 @@ function validateOptions(options: IFetchDownloadFileOptions) {
  * @returns a download api url that can be polled
  */
 function getDownloadApiRequestUrl(options: IFetchDownloadFileOptions) {
-  const { entity, format, context, layers, geometry, where } = options;
+  const { entity, format, context, layers, geometry, where, updateCache } =
+    options;
 
   const searchParams = new URLSearchParams({
     redirect: "false", // Needed to get the download URL instead of the file itself
@@ -86,6 +93,8 @@ function getDownloadApiRequestUrl(options: IFetchDownloadFileOptions) {
 
   const token = getProp(context, "hubRequestOptions.authentication.token");
   token && searchParams.append("token", token);
+
+  updateCache && searchParams.append("updateCache", "true");
 
   return `${context.hubUrl}/api/download/v1/items/${
     entity.id
@@ -122,7 +131,6 @@ async function pollDownloadApi(
       "Download operation failed with a 200"
     );
   }
-  progressCallback && progressCallback(operationStatus, progressInPercent);
 
   // Operation complete, return the download URL
   if (resultUrl) {
@@ -131,6 +139,8 @@ async function pollDownloadApi(
       href: resultUrl,
     };
   }
+
+  progressCallback && progressCallback(operationStatus, progressInPercent);
 
   // Operation still in progress, poll again
   await new Promise((resolve) => setTimeout(resolve, pollInterval));
@@ -223,4 +233,6 @@ interface IHubDownloadApiResponse {
   resultUrl?: string;
   recordCount?: number;
   progressInPercent?: number;
+  // TODO: Add docs, make type
+  cacheStatus?: "ready" | "ready_unknown" | "stale" | "not_ready";
 }
