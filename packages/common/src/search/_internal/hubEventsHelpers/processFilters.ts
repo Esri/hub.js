@@ -44,6 +44,10 @@ export async function processFilters(
   if (term.length) {
     processedFilters.title = term[0];
   }
+  const orgId = getPredicateValuesByKey<string>(filters, "orgId");
+  if (orgId.length) {
+    processedFilters.orgId = orgId[0];
+  }
   const categories = getOptionalPredicateStringsByKey(filters, "categories");
   if (categories?.length) {
     processedFilters.categories = categories;
@@ -53,6 +57,8 @@ export async function processFilters(
     processedFilters.tags = tags;
   }
   const groupIds = getPredicateValuesByKey<string>(filters, "group");
+  // if a group was provided, we prioritize that over individual readGroupId or editGroupId
+  // filters to prevent collisions
   if (groupIds.length) {
     const { results } = await searchGroups({
       q: `id:(${groupIds.join(" OR ")})`,
@@ -73,6 +79,7 @@ export async function processFilters(
       processedFilters.editGroups = editGroupIds.join(",");
     }
   } else {
+    // individual readGroupId & editGroupId filters
     const readGroupIds = getOptionalPredicateStringsByKey(
       filters,
       "readGroupId"
@@ -86,6 +93,47 @@ export async function processFilters(
     );
     if (editGroupIds?.length) {
       processedFilters.editGroups = editGroupIds;
+    }
+  }
+  const notGroupIds = getPredicateValuesByKey<string>(filters, "notGroup");
+  // if a notGroup was provided, we prioritize that over individual notReadGroupId or notEditGroupId
+  // filters to prevent collisions
+  if (notGroupIds.length) {
+    const { results } = await searchGroups({
+      q: `id:(${notGroupIds.join(" OR ")})`,
+      num: notGroupIds.length,
+      ...requestOptions,
+    });
+    const { notReadGroupIds, notEditGroupIds } = results.reduce(
+      (acc, group) => {
+        const key = isUpdateGroup(group)
+          ? "notEditGroupIds"
+          : "notReadGroupIds";
+        return { ...acc, [key]: [...acc[key], group.id] };
+      },
+      { notReadGroupIds: [], notEditGroupIds: [] }
+    );
+    if (notReadGroupIds.length) {
+      processedFilters.withoutReadGroups = notReadGroupIds.join(",");
+    }
+    if (notEditGroupIds.length) {
+      processedFilters.withoutEditGroups = notEditGroupIds.join(",");
+    }
+  } else {
+    // individual notReadGroupId & notEditGroupId filters
+    const notReadGroupIds = getOptionalPredicateStringsByKey(
+      filters,
+      "notReadGroupId"
+    );
+    if (notReadGroupIds?.length) {
+      processedFilters.withoutReadGroups = notReadGroupIds;
+    }
+    const notEditGroupIds = getOptionalPredicateStringsByKey(
+      filters,
+      "notEditGroupId"
+    );
+    if (notEditGroupIds?.length) {
+      processedFilters.withoutEditGroups = notEditGroupIds;
     }
   }
   const attendanceType = getOptionalPredicateStringsByKey(
@@ -146,13 +194,9 @@ export async function processFilters(
   // if a endDateRange was provided, we prioritize that over individual endDateBefore or endDateAfter
   // filters to prevent collisions
   if (endDateRange.length) {
-    // TODO: remove below ts-ignore once https://devtopia.esri.com/dc/hub/issues/11097 is resolved
-    // @ts-ignore
     processedFilters.endDateTimeBefore = new Date(
       endDateRange[0].to
     ).toISOString();
-    // TODO: remove below ts-ignore once https://devtopia.esri.com/dc/hub/issues/11097 is resolved
-    // @ts-ignore
     processedFilters.endDateTimeAfter = new Date(
       endDateRange[0].from
     ).toISOString();
@@ -163,8 +207,6 @@ export async function processFilters(
       "endDateBefore"
     );
     if (endDateBefore.length) {
-      // TODO: remove below ts-ignore once https://devtopia.esri.com/dc/hub/issues/11097 is resolved
-      // @ts-ignore
       processedFilters.endDateTimeBefore = new Date(
         endDateBefore[0]
       ).toISOString();
@@ -174,8 +216,6 @@ export async function processFilters(
       "endDateAfter"
     );
     if (endDateAfter.length) {
-      // TODO: remove below ts-ignore once https://devtopia.esri.com/dc/hub/issues/11097 is resolved
-      // @ts-ignore
       processedFilters.endDateTimeAfter = new Date(
         endDateAfter[0]
       ).toISOString();

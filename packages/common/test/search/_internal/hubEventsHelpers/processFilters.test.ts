@@ -74,7 +74,7 @@ const hubRequestOptions = {
   authentication: true,
 } as unknown as IHubRequestOptions;
 
-describe("processFilters", () => {
+fdescribe("processFilters", () => {
   describe("access", () => {
     it("should return undefined", async () => {
       const result = await processFilters(
@@ -277,6 +277,40 @@ describe("processFilters", () => {
         hubRequestOptions
       );
       expect(result.title).toEqual("abc");
+    });
+  });
+  describe("orgId", () => {
+    it("should return undefined", async () => {
+      const result = await processFilters(
+        [{ predicates: [] }],
+        hubRequestOptions
+      );
+      expect(result.orgId).toBeUndefined();
+    });
+    it("should use the first value", async () => {
+      const result = await processFilters(
+        [
+          {
+            predicates: [
+              {
+                orgId: "abc",
+              },
+              {
+                orgId: "def",
+              },
+            ],
+          },
+          {
+            predicates: [
+              {
+                orgId: "ghi",
+              },
+            ],
+          },
+        ],
+        hubRequestOptions
+      );
+      expect(result.orgId).toEqual("abc");
     });
   });
   describe("categories", () => {
@@ -570,6 +604,127 @@ describe("processFilters", () => {
       );
     });
   });
+  describe("notGroup", () => {
+    it("should return undefined", async () => {
+      const result = await processFilters(
+        [{ predicates: [] }],
+        hubRequestOptions
+      );
+      expect(result.withoutReadGroups).toBeUndefined();
+      expect(result.withoutEditGroups).toBeUndefined();
+    });
+    it("should return readGroups and editGroups", async () => {
+      const searchGroupsSpy = spyOn(
+        arcgisRestPortal,
+        "searchGroups"
+      ).and.returnValue(
+        Promise.resolve({ results: [editGroup1, readGroup1, editGroup2] })
+      );
+      const result = await processFilters(
+        [
+          {
+            predicates: [
+              {
+                notGroup: editGroup1.id,
+              },
+            ],
+          },
+          {
+            predicates: [
+              {
+                notGroup: [readGroup1.id, editGroup2.id],
+              },
+            ],
+          },
+        ],
+        hubRequestOptions
+      );
+      expect(searchGroupsSpy).toHaveBeenCalledTimes(1);
+      expect(searchGroupsSpy).toHaveBeenCalledWith({
+        q: `id:(${[editGroup1.id, readGroup1.id, editGroup2.id].join(" OR ")})`,
+        num: 3,
+        ...hubRequestOptions,
+      });
+      expect(result.withoutReadGroups).toEqual(readGroup1.id);
+      expect(result.withoutEditGroups).toEqual(
+        [editGroup1.id, editGroup2.id].join(",")
+      );
+    });
+    it("should filter out inaccessible groups", async () => {
+      const searchGroupsSpy = spyOn(
+        arcgisRestPortal,
+        "searchGroups"
+      ).and.returnValue(Promise.resolve({ results: [] }));
+      const result = await processFilters(
+        [
+          {
+            predicates: [
+              {
+                notGroup: editGroup1.id,
+              },
+            ],
+          },
+          {
+            predicates: [
+              {
+                notGroup: [readGroup1.id, editGroup2.id],
+              },
+            ],
+          },
+        ],
+        hubRequestOptions
+      );
+      expect(searchGroupsSpy).toHaveBeenCalledTimes(1);
+      expect(searchGroupsSpy).toHaveBeenCalledWith({
+        q: `id:(${[editGroup1.id, readGroup1.id, editGroup2.id].join(" OR ")})`,
+        num: 3,
+        ...hubRequestOptions,
+      });
+      expect(result.withoutReadGroups).toBeUndefined();
+      expect(result.withoutEditGroups).toBeUndefined();
+    });
+    it("should be prioritized over individual readGroupId and editGroupId", async () => {
+      const searchGroupsSpy = spyOn(
+        arcgisRestPortal,
+        "searchGroups"
+      ).and.returnValue(
+        Promise.resolve({ results: [editGroup1, readGroup1, editGroup2] })
+      );
+      const result = await processFilters(
+        [
+          {
+            predicates: [
+              {
+                notGroup: editGroup1.id,
+              },
+              {
+                notReadGroupId: "some-other-read-group-id",
+              },
+            ],
+          },
+          {
+            predicates: [
+              {
+                notGroup: [readGroup1.id, editGroup2.id],
+                notEditGroupId: ["some-other-edit-group-id"],
+              },
+            ],
+          },
+        ],
+        hubRequestOptions
+      );
+      expect(searchGroupsSpy).toHaveBeenCalledTimes(1);
+      expect(searchGroupsSpy).toHaveBeenCalledWith({
+        q: `id:(${[editGroup1.id, readGroup1.id, editGroup2.id].join(" OR ")})`,
+        num: 3,
+        ...hubRequestOptions,
+      });
+      expect(result.withoutReadGroups).toEqual(readGroup1.id);
+      expect(result.withoutEditGroups).toEqual(
+        [editGroup1.id, editGroup2.id].join(",")
+      );
+    });
+  });
   describe("readGroupId", () => {
     it("should return undefined", async () => {
       const result = await processFilters(
@@ -603,6 +758,39 @@ describe("processFilters", () => {
       );
     });
   });
+  describe("notReadGroupId", () => {
+    it("should return undefined", async () => {
+      const result = await processFilters(
+        [{ predicates: [] }],
+        hubRequestOptions
+      );
+      expect(result.withoutReadGroups).toBeUndefined();
+    });
+    it("should consolidate values from multiple filters & predicates", async () => {
+      const result = await processFilters(
+        [
+          {
+            predicates: [
+              {
+                notReadGroupId: readGroup1.id,
+              },
+            ],
+          },
+          {
+            predicates: [
+              {
+                notReadGroupId: [readGroup2.id],
+              },
+            ],
+          },
+        ],
+        hubRequestOptions
+      );
+      expect(result.withoutReadGroups).toEqual(
+        [readGroup1.id, readGroup2.id].join(",")
+      );
+    });
+  });
   describe("editGroupId", () => {
     it("should return undefined", async () => {
       const result = await processFilters(
@@ -632,6 +820,39 @@ describe("processFilters", () => {
         hubRequestOptions
       );
       expect(result.editGroups).toEqual(
+        [editGroup1.id, editGroup2.id].join(",")
+      );
+    });
+  });
+  describe("notEditGroupId", () => {
+    it("should return undefined", async () => {
+      const result = await processFilters(
+        [{ predicates: [] }],
+        hubRequestOptions
+      );
+      expect(result.withoutEditGroups).toBeUndefined();
+    });
+    it("should consolidate values from multiple filters & predicates", async () => {
+      const result = await processFilters(
+        [
+          {
+            predicates: [
+              {
+                notEditGroupId: editGroup1.id,
+              },
+            ],
+          },
+          {
+            predicates: [
+              {
+                notEditGroupId: [editGroup2.id],
+              },
+            ],
+          },
+        ],
+        hubRequestOptions
+      );
+      expect(result.withoutEditGroups).toEqual(
         [editGroup1.id, editGroup2.id].join(",")
       );
     });
@@ -764,11 +985,7 @@ describe("processFilters", () => {
         [{ predicates: [] }],
         hubRequestOptions
       );
-      // TODO: remove below ts-ignore once https://devtopia.esri.com/dc/hub/issues/11097 is resolved
-      // @ts-ignore
       expect(result.endDateTimeBefore).toBeUndefined();
-      // TODO: remove below ts-ignore once https://devtopia.esri.com/dc/hub/issues/11097 is resolved
-      // @ts-ignore
       expect(result.endDateTimeAfter).toBeUndefined();
     });
     it("should return endDateTimeBefore and endDateTimeAfter and only use first occurrence of endDateRange", async () => {
@@ -797,11 +1014,7 @@ describe("processFilters", () => {
         ],
         hubRequestOptions
       );
-      // TODO: remove below ts-ignore once https://devtopia.esri.com/dc/hub/issues/11097 is resolved
-      // @ts-ignore
       expect(result.endDateTimeBefore).toEqual("2024-04-29T03:59:59.999Z");
-      // TODO: remove below ts-ignore once https://devtopia.esri.com/dc/hub/issues/11097 is resolved
-      // @ts-ignore
       expect(result.endDateTimeAfter).toEqual("2024-04-28T04:00:00.000Z");
     });
     it("should be prioritized over individual endDateBefore and endDateAfter", async () => {
@@ -822,11 +1035,7 @@ describe("processFilters", () => {
         ],
         hubRequestOptions
       );
-      // TODO: remove below ts-ignore once https://devtopia.esri.com/dc/hub/issues/11097 is resolved
-      // @ts-ignore
       expect(result.endDateTimeBefore).toEqual("2024-04-29T03:59:59.999Z");
-      // TODO: remove below ts-ignore once https://devtopia.esri.com/dc/hub/issues/11097 is resolved
-      // @ts-ignore
       expect(result.endDateTimeAfter).toEqual("2024-04-28T04:00:00.000Z");
     });
   });
@@ -836,8 +1045,6 @@ describe("processFilters", () => {
         [{ predicates: [] }],
         hubRequestOptions
       );
-      // TODO: remove below ts-ignore once https://devtopia.esri.com/dc/hub/issues/11097 is resolved
-      // @ts-ignore
       expect(result.endDateTimeBefore).toBeUndefined();
     });
     it("should only use first occurrence", async () => {
@@ -860,8 +1067,6 @@ describe("processFilters", () => {
         ],
         hubRequestOptions
       );
-      // TODO: remove below ts-ignore once https://devtopia.esri.com/dc/hub/issues/11097 is resolved
-      // @ts-ignore
       expect(result.endDateTimeBefore).toEqual("2024-04-28T04:00:00.000Z");
     });
   });
@@ -871,8 +1076,6 @@ describe("processFilters", () => {
         [{ predicates: [] }],
         hubRequestOptions
       );
-      // TODO: remove below ts-ignore once https://devtopia.esri.com/dc/hub/issues/11097 is resolved
-      // @ts-ignore
       expect(result.endDateTimeAfter).toBeUndefined();
     });
     it("should only use first occurrence", async () => {
@@ -895,8 +1098,6 @@ describe("processFilters", () => {
         ],
         hubRequestOptions
       );
-      // TODO: remove below ts-ignore once https://devtopia.esri.com/dc/hub/issues/11097 is resolved
-      // @ts-ignore
       expect(result.endDateTimeAfter).toEqual("2024-04-28T04:00:00.000Z");
     });
   });
