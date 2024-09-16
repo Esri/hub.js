@@ -1,6 +1,7 @@
 import { IArcGISContext } from "../ArcGISContext";
 import {
   EntityType,
+  IGalleryDisplayConfig,
   IHubCollection,
   IHubSearchOptions,
   IHubSearchResponse,
@@ -67,6 +68,9 @@ export class Collection implements IHubCollection {
   }
   public get targetEntity(): EntityType {
     return this._collection.targetEntity;
+  }
+  public get displayConfig(): IGalleryDisplayConfig {
+    return this._collection.displayConfig;
   }
 
   /**

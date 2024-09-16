@@ -1,3 +1,4 @@
+import { CORNERS, DROP_SHADOWS } from "../../core/schemas/shared/enums";
 import { WellKnownCollection } from "../wellKnownCatalog";
 
 export interface IHubCatalog {
@@ -31,9 +32,55 @@ export interface IHubCatalog {
     scopes: string;
     collections: string;
   };
+  /**
+   * Optional entries to control a catalog's appearance in the UI
+   */
+  displayConfig?: IGalleryDisplayConfig;
 }
 
 export interface ICatalogScope extends Partial<Record<EntityType, IQuery>> {}
+
+/**
+ * Configuration for how to display a gallery. This can apply to any gallery's display,
+ * including a catalog, a collection, or a gallery card.
+ */
+export interface IGalleryDisplayConfig {
+  /**
+   * Optional override prop needed for things like collections; when true, the collection will utilize
+   * its own display configuration instead of the catalog's default display configuration
+   */
+  override?: boolean;
+
+  /**
+   * Whether or not the current item is hidden in the gallery display. i.e.
+   * if this is true on a collection's display config, that collection will not be displayed in the gallery.
+   */
+  hidden?: boolean;
+
+  /**
+   * List of IFacet keys that will be used to build IFacets and display facets in the gallery experience
+   */
+  facets?: string[];
+
+  /**
+   * Determines the type of corners for the cards in the gallery
+   */
+  corners?: CORNERS;
+
+  /**
+   * Determines the type of drop shadow for the cards in the gallery
+   */
+  dropShadow?: DROP_SHADOWS;
+
+  /**
+   * Determines whether to display a thumbnail or an icon for the cards in the gallery
+   */
+  image?: "thumbnail" | "icon";
+
+  /**
+   * Future display props can be added here (heading size, possible gallery layouts, etc.)
+   */
+}
 
 export interface IHubCollection {
   /**
@@ -65,6 +112,10 @@ export interface IHubCollection {
    * ensure we query the correct API
    */
   targetEntity: EntityType;
+  /**
+   * Optional entries to control a collection's appearance in the UI
+   */
+  displayConfig?: IGalleryDisplayConfig;
 }
 
 export type EntityType =
