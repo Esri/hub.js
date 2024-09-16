@@ -1,3 +1,10 @@
+## @esri/hub-common [14.188.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.188.0...@esri/hub-common@14.188.1) (2024-09-16)
+
+
+### Bug Fixes
+
+* revert 11360 changes until we hear from AGO ([#1650](https://github.com/Esri/hub.js/issues/1650)) ([8fb4db1](https://github.com/Esri/hub.js/commit/8fb4db1a01cdc8a29d14d26fdf5f825ad8bd68c6))
+
 # @esri/hub-common [14.188.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.187.0...@esri/hub-common@14.188.0) (2024-09-13)
 
 
