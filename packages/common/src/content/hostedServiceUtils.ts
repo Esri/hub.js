@@ -1,7 +1,6 @@
 import { IFeatureServiceDefinition } from "@esri/arcgis-rest-feature-layer";
 import { IItem } from "@esri/arcgis-rest-portal";
 import { IHubEditableContent } from "../core/types/IHubEditableContent";
-import { isAGOHostedService } from "./isAGOHostedService";
 
 /**
  * DEPRECATED: This will be removed in the next breaking version. Use "isHostedFeatureServiceMainItem" instead.
@@ -86,11 +85,8 @@ function isHostedFeatureServiceMain(
 export function isAGOFeatureServiceUrl(url: string): boolean {
   // TODO: we should really centralize this regex somewhere
   const FEATURE_SERVICE_URL_REGEX = /(feature)server(\/|\/(\d+))?$/i;
-
-  // NOTE: if this is the URL of a proxied service it will fail the "is hosted" check
-  // even if the proxy points to a hosted service (which should be rare)
   return (
-    !!url && isAGOHostedService(url) && FEATURE_SERVICE_URL_REGEX.test(url)
+    !!url && url.includes("arcgis.com") && FEATURE_SERVICE_URL_REGEX.test(url)
   );
 }
 
