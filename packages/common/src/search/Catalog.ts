@@ -167,6 +167,16 @@ export class Catalog implements IHubCatalog {
   }
 
   /**
+   * Add a collection
+   * @param {IHubCollection} collection
+   */
+  addCollection(collection: IHubCollection) {
+    this._catalog.collections?.length
+      ? this._catalog.collections.push(collection)
+      : (this._catalog.collections = [collection]);
+  }
+
+  /**
    * Get the Collection json by name
    * @param name
    * @returns
