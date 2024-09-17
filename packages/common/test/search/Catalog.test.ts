@@ -232,6 +232,36 @@ describe("Catalog Class:", () => {
       expect(teamsCollection.scope.filters.length).toBe(1);
     });
   });
+  describe("addCollection", () => {
+    const newCollection = {
+      key: "new-collection",
+      label: "New Collection",
+      targetEntity: "item",
+      scope: {
+        targetEntity: "item",
+        filters: [{ predicates: [] }],
+      },
+    } as IHubCollection;
+
+    it("adds a new collection to an empty array of collections", () => {
+      const catalogJsonWithNoCollections = cloneObject(catalogJson);
+      delete catalogJsonWithNoCollections.collections;
+
+      const instance = Catalog.fromJson(catalogJsonWithNoCollections, context);
+
+      instance.addCollection(newCollection);
+      expect(instance.collections.length).toBe(1);
+      expect(instance.collections[0].key).toBe("new-collection");
+    });
+    it("adds a new collection to existing collections", () => {
+      const instance = Catalog.fromJson(cloneObject(catalogJson), context);
+      expect(instance.collections.length).toBe(2);
+
+      instance.addCollection(newCollection);
+      expect(instance.collections.length).toBe(3);
+      expect(instance.collections[2].key).toBe("new-collection");
+    });
+  });
   describe("getCustomCollection:", () => {
     it("returns base scope if no filters passed", () => {
       const instance = Catalog.fromJson(cloneObject(catalogJson), context);
