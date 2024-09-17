@@ -1,3 +1,10 @@
+# @esri/hub-common [14.189.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.188.1...@esri/hub-common@14.189.0) (2024-09-17)
+
+
+### Features
+
+* introduce addCollection method to Catalog class ([#1651](https://github.com/Esri/hub.js/issues/1651)) ([3b6507c](https://github.com/Esri/hub.js/commit/3b6507cf6dad73c587301dca67a51f5dcb04f1c6))
+
 ## @esri/hub-common [14.188.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.188.0...@esri/hub-common@14.188.1) (2024-09-16)
 
 
