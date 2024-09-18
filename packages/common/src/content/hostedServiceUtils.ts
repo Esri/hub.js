@@ -100,6 +100,8 @@ export function isAGOFeatureServiceUrl(url: string): boolean {
  * - /usrsvcs/servers/
  * - /usrsvcs/appservices/
  *
+ * This function was given to us by the JSAPI team, so we trust the regex's are correct,
+ * and won't be adding additional tests for it.
  * @param url
  */
 export function isSecureProxyServiceUrl(url: string): boolean {
