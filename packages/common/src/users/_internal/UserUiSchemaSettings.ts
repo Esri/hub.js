@@ -1,5 +1,7 @@
+import { checkPermission } from "../..";
 import { IArcGISContext } from "../../ArcGISContext";
-import { IUiSchema } from "../../core/schemas/types";
+import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
+import { _isOrgAdmin } from "../../groups";
 
 /**
  * @private
@@ -16,6 +18,29 @@ export const buildUiSchema = async (
   options: any,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
+  let communityOrgName;
+  // default Notice action
+  const orgNoticeActions = [
+    {
+      label: `{{${i18nScope}.notice.actions.goToEOrg:translate}}`,
+      icon: "launch",
+      href: `${context.portalUrl}`,
+      target: "_blank",
+    },
+  ];
+  if (context.communityOrgId) {
+    // set the community org name
+    communityOrgName = context.trustedOrgs.find(
+      (org) => org.to.orgId === context.communityOrgId
+    )?.to.name;
+    // add the community org action
+    orgNoticeActions.push({
+      label: `{{${i18nScope}.notice.actions.goToCommunityOrg:translate}}`,
+      icon: "launch",
+      href: `${context.communityOrgUrl}`,
+      target: "_blank",
+    });
+  }
   return {
     type: "Layout",
     elements: [
@@ -34,6 +59,47 @@ export const buildUiSchema = async (
               layout: "inline-space-between",
               helperText: {
                 labelKey: `${i18nScope}.fields.workspacePreview.helperText`,
+              },
+            },
+          },
+        ],
+      },
+      {
+        type: "Section",
+        label: `${i18nScope}.sections.orgSettings`,
+        options: {
+          helperText: {
+            label: `${context.portal.name}`,
+          },
+        },
+        rules: [
+          {
+            effect: UiSchemaRuleEffects.SHOW,
+            conditions: [
+              context.isAlphaOrg &&
+                context.currentUser.role === "org_admin" &&
+                context.currentUser.orgId === context.portal.id,
+            ],
+          },
+        ],
+        elements: [
+          {
+            type: "Notice",
+            options: {
+              notice: {
+                configuration: {
+                  id: "user-org-settings-notice",
+                  noticeType: "notice",
+                  closable: false,
+                  kind: "info",
+                  scale: "m",
+                },
+                title: `{{${i18nScope}.notice.title:translate}}`,
+                message: communityOrgName
+                  ? `{{${i18nScope}.notice.communityMessage:translate}}: ${communityOrgName}`
+                  : `{{${i18nScope}.notice.message:translate}}`,
+                autoShow: true,
+                actions: orgNoticeActions,
               },
             },
           },
