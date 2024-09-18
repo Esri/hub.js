@@ -1,3 +1,4 @@
+import { ISearchOptions } from "@esri/arcgis-rest-portal";
 import { IMessage } from "../../types/IMessage";
 import { IHubAggregation } from "./IHubAggregation";
 
@@ -36,4 +37,9 @@ export interface IHubSearchResponse<T> {
    * Array of messages / warnings
    */
   messages?: IMessage[];
+
+  /**
+   * Search options metadata used to fetch the results
+   */
+  so?: ISearchOptions;
 }

@@ -23,6 +23,7 @@ export interface IOgcItemsResponse {
   numberMatched: number;
   numberReturned: number;
   links: IOgcLink[];
+  searchOptions?: string;
 }
 
 interface IOgcItemFieldAggregation {

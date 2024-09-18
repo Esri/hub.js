@@ -203,6 +203,7 @@ async function searchPortal(
       resp.total,
       searchPortal
     ),
+    so: searchOptions,
   };
 }
 
@@ -232,6 +233,7 @@ async function searchCommunity(
       resp.total,
       searchCommunity
     ),
+    so: searchOptions,
   };
 }
 
