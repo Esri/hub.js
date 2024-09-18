@@ -86,8 +86,24 @@ export function isAGOFeatureServiceUrl(url: string): boolean {
   // TODO: we should really centralize this regex somewhere
   const FEATURE_SERVICE_URL_REGEX = /(feature)server(\/|\/(\d+))?$/i;
   return (
-    !!url && url.includes("arcgis.com") && FEATURE_SERVICE_URL_REGEX.test(url)
+    !!url &&
+    url.includes("arcgis.com") &&
+    FEATURE_SERVICE_URL_REGEX.test(url) &&
+    !isSecureProxyServiceUrl(url)
   );
+}
+
+/**
+ * Portal secure proxy services are identified by looking for these patterns in the `url`:
+ * - /sharing/servers/
+ * - /sharing/appservices/
+ * - /usrsvcs/servers/
+ * - /usrsvcs/appservices/
+ *
+ * @param url
+ */
+export function isSecureProxyServiceUrl(url: string): boolean {
+  return /\/(sharing|usrsvcs)\/(appservices|servers)\//i.test(url);
 }
 
 export enum ServiceCapabilities {
