@@ -69,7 +69,7 @@ function mergeSearchOptions(
  * @param filter
  * @returns
  */
-function serializeFilter(filter: IFilter): ISearchOptions {
+export function serializeFilter(filter: IFilter): ISearchOptions {
   const operation = filter.operation || "AND";
   const predicates = filter.predicates.map(expandPredicate);
 
