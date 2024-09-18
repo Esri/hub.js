@@ -1,4 +1,3 @@
-import { checkPermission } from "../..";
 import { IArcGISContext } from "../../ArcGISContext";
 import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import { _isOrgAdmin } from "../../groups";
@@ -32,7 +31,7 @@ export const buildUiSchema = async (
     // set the community org name
     communityOrgName = context.trustedOrgs.find(
       (org) => org.to.orgId === context.communityOrgId
-    )?.to.name;
+    ).to.name;
     // add the community org action
     orgNoticeActions.push({
       label: `{{${i18nScope}.notice.actions.goToCommunityOrg:translate}}`,
@@ -66,7 +65,7 @@ export const buildUiSchema = async (
       },
       {
         type: "Section",
-        label: `${i18nScope}.sections.orgSettings`,
+        labelKey: `${i18nScope}.sections.orgSettings`,
         options: {
           helperText: {
             label: `${context.portal.name}`,
