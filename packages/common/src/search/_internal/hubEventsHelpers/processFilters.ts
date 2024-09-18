@@ -44,6 +44,10 @@ export async function processFilters(
   if (term.length) {
     processedFilters.title = term[0];
   }
+  const orgId = getPredicateValuesByKey<string>(filters, "orgId");
+  if (orgId.length) {
+    processedFilters.orgId = orgId[0];
+  }
   const categories = getOptionalPredicateStringsByKey(filters, "categories");
   if (categories?.length) {
     processedFilters.categories = categories;
@@ -53,6 +57,8 @@ export async function processFilters(
     processedFilters.tags = tags;
   }
   const groupIds = getPredicateValuesByKey<string>(filters, "group");
+  // if a group was provided, we prioritize that over individual readGroupId or editGroupId
+  // filters to prevent collisions
   if (groupIds.length) {
     const { results } = await searchGroups({
       q: `id:(${groupIds.join(" OR ")})`,
@@ -73,6 +79,7 @@ export async function processFilters(
       processedFilters.editGroups = editGroupIds.join(",");
     }
   } else {
+    // individual readGroupId & editGroupId filters
     const readGroupIds = getOptionalPredicateStringsByKey(
       filters,
       "readGroupId"
@@ -86,6 +93,47 @@ export async function processFilters(
     );
     if (editGroupIds?.length) {
       processedFilters.editGroups = editGroupIds;
+    }
+  }
+  const notGroupIds = getPredicateValuesByKey<string>(filters, "notGroup");
+  // if a notGroup was provided, we prioritize that over individual notReadGroupId or notEditGroupId
+  // filters to prevent collisions
+  if (notGroupIds.length) {
+    const { results } = await searchGroups({
+      q: `id:(${notGroupIds.join(" OR ")})`,
+      num: notGroupIds.length,
+      ...requestOptions,
+    });
+    const { notReadGroupIds, notEditGroupIds } = results.reduce(
+      (acc, group) => {
+        const key = isUpdateGroup(group)
+          ? "notEditGroupIds"
+          : "notReadGroupIds";
+        return { ...acc, [key]: [...acc[key], group.id] };
+      },
+      { notReadGroupIds: [], notEditGroupIds: [] }
+    );
+    if (notReadGroupIds.length) {
+      processedFilters.withoutReadGroups = notReadGroupIds.join(",");
+    }
+    if (notEditGroupIds.length) {
+      processedFilters.withoutEditGroups = notEditGroupIds.join(",");
+    }
+  } else {
+    // individual notReadGroupId & notEditGroupId filters
+    const notReadGroupIds = getOptionalPredicateStringsByKey(
+      filters,
+      "notReadGroupId"
+    );
+    if (notReadGroupIds?.length) {
+      processedFilters.withoutReadGroups = notReadGroupIds;
+    }
+    const notEditGroupIds = getOptionalPredicateStringsByKey(
+      filters,
+      "notEditGroupId"
+    );
+    if (notEditGroupIds?.length) {
+      processedFilters.withoutEditGroups = notEditGroupIds;
     }
   }
   const attendanceType = getOptionalPredicateStringsByKey(
@@ -109,6 +157,8 @@ export async function processFilters(
     filters,
     "startDateRange"
   );
+  // if a startDateRange was provided, we prioritize that over individual startDateBefore or startDateAfter
+  // filters to prevent collisions
   if (startDateRange.length) {
     processedFilters.startDateTimeBefore = new Date(
       startDateRange[0].to
@@ -116,22 +166,60 @@ export async function processFilters(
     processedFilters.startDateTimeAfter = new Date(
       startDateRange[0].from
     ).toISOString();
+  } else {
+    // individual startDateBefore & startDateAfter filters
+    const startDateBefore = getPredicateValuesByKey<string | number>(
+      filters,
+      "startDateBefore"
+    );
+    if (startDateBefore.length) {
+      processedFilters.startDateTimeBefore = new Date(
+        startDateBefore[0]
+      ).toISOString();
+    }
+    const startDateAfter = getPredicateValuesByKey<string | number>(
+      filters,
+      "startDateAfter"
+    );
+    if (startDateAfter.length) {
+      processedFilters.startDateTimeAfter = new Date(
+        startDateAfter[0]
+      ).toISOString();
+    }
   }
   const endDateRange = getPredicateValuesByKey<IDateRange<string | number>>(
     filters,
     "endDateRange"
   );
+  // if a endDateRange was provided, we prioritize that over individual endDateBefore or endDateAfter
+  // filters to prevent collisions
   if (endDateRange.length) {
-    // TODO: remove below ts-ignore once https://devtopia.esri.com/dc/hub/issues/11097 is resolved
-    // @ts-ignore
     processedFilters.endDateTimeBefore = new Date(
       endDateRange[0].to
     ).toISOString();
-    // TODO: remove below ts-ignore once https://devtopia.esri.com/dc/hub/issues/11097 is resolved
-    // @ts-ignore
     processedFilters.endDateTimeAfter = new Date(
       endDateRange[0].from
     ).toISOString();
+  } else {
+    // individual endDateBefore & endDateAfter filters
+    const endDateBefore = getPredicateValuesByKey<string | number>(
+      filters,
+      "endDateBefore"
+    );
+    if (endDateBefore.length) {
+      processedFilters.endDateTimeBefore = new Date(
+        endDateBefore[0]
+      ).toISOString();
+    }
+    const endDateAfter = getPredicateValuesByKey<string | number>(
+      filters,
+      "endDateAfter"
+    );
+    if (endDateAfter.length) {
+      processedFilters.endDateTimeAfter = new Date(
+        endDateAfter[0]
+      ).toISOString();
+    }
   }
   return processedFilters;
 }

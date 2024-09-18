@@ -21,13 +21,21 @@ import { processFilters } from "./hubEventsHelpers/processFilters";
  *   - categories: string | string[];
  *   - tags: string | string[];
  *   - group: string | string[];
+ *   - notGroup: string | string[];
  *   - readGroupId: string | string[];
+ *   - notReadGroupId: string | string[];
  *   - editGroupId: string | string[];
+ *   - notEditGroupId: string | string[];
  *   - attendanceType: 'virtual' | 'in_person' | Array<'virtual' | 'in_person'>;
  *   - owner: string | string[];
  *   - status: 'planned' | 'canceled' | 'removed' | Array<'planned' | 'canceled' | 'removed'>;
+ *   - startDateBefore: string | number;
+ *   - startDateAfter: string | number;
  *   - startDateRange: IDateRange<string | number>;
  *   - endDateRange: IDateRange<string | number>;
+ *   - endDateBefore: string | number;
+ *   - endDateAfter: string | number;
+ *   - orgId: string;
  * Currently supported sort fields include:
  *   - created
  *   - modified
