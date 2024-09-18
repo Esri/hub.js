@@ -165,7 +165,8 @@ export const isDownloadSchedulingAvailable = (
 ): boolean => {
   const token = requestOptions.authentication?.token;
   return (
-    requestOptions.portal?.includes("arcgis.com") &&
+    (requestOptions.portal?.includes("arcgis.com") ||
+      requestOptions.authentication?.portal.includes("arcgis.com")) &&
     access === "public" &&
     !!token
   );
