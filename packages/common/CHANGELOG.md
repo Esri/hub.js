@@ -1,3 +1,15 @@
+# @esri/hub-common [14.190.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.189.0...@esri/hub-common@14.190.0) (2024-09-18)
+
+
+### Bug Fixes
+
+* added util for confirming service is not secure proxy ([#1654](https://github.com/Esri/hub.js/issues/1654)) ([f63927b](https://github.com/Esri/hub.js/commit/f63927ba26efe542f3b88995006acbc13803df10))
+
+
+### Features
+
+* **hub-common:** add support to hubSearch for searching for events 3… ([#1648](https://github.com/Esri/hub.js/issues/1648)) ([c31891e](https://github.com/Esri/hub.js/commit/c31891ee673a573aceee9a3860179c77369fa2fc))
+
 # @esri/hub-common [14.189.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.188.1...@esri/hub-common@14.189.0) (2024-09-17)
 
 
