@@ -21,6 +21,7 @@ export const buildUiSchema = async (
   // default Notice action
   const orgNoticeActions = [
     {
+      ariaLabel: `{{${i18nScope}.notice.actions.goToEOrg:translate}}`,
       label: `{{${i18nScope}.notice.actions.goToEOrg:translate}}`,
       icon: "launch",
       href: `${context.portalUrl}`,
@@ -34,6 +35,7 @@ export const buildUiSchema = async (
     ).to.name;
     // add the community org action
     orgNoticeActions.push({
+      ariaLabel: `{{${i18nScope}.notice.actions.goToCommunityOrg:translate}}`,
       label: `{{${i18nScope}.notice.actions.goToCommunityOrg:translate}}`,
       icon: "launch",
       href: `${context.communityOrgUrl}`,
