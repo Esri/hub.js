@@ -333,6 +333,12 @@ describe("EventGalleryCardUiSchema", () => {
                       },
                     ],
                   },
+                  {
+                    type: "Slot",
+                    options: {
+                      name: "add-content-slot",
+                    },
+                  },
                 ],
               },
               {

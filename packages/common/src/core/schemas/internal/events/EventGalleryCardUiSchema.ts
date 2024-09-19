@@ -318,6 +318,12 @@ export async function buildUiSchema(
                   },
                 ],
               },
+              {
+                type: "Slot",
+                options: {
+                  name: "add-content-slot",
+                },
+              },
             ],
           },
           {
