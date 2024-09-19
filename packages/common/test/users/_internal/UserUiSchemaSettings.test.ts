@@ -81,12 +81,14 @@ describe("UserUiSchemaSettings:", () => {
                   autoShow: true,
                   actions: [
                     {
+                      ariaLabel: `{{some.scope.notice.actions.goToEOrg:translate}}`,
                       label: `{{some.scope.notice.actions.goToEOrg:translate}}`,
                       icon: "launch",
                       href: `https://qaext.arcgis.com`,
                       target: "_blank",
                     },
                     {
+                      ariaLabel: `{{some.scope.notice.actions.goToCommunityOrg:translate}}`,
                       label: `{{some.scope.notice.actions.goToCommunityOrg:translate}}`,
                       icon: "launch",
                       href: `https://qaext.c.arcgis.com`,
@@ -169,6 +171,7 @@ describe("UserUiSchemaSettings:", () => {
                   autoShow: true,
                   actions: [
                     {
+                      ariaLabel: `{{some.scope.notice.actions.goToEOrg:translate}}`,
                       label: `{{some.scope.notice.actions.goToEOrg:translate}}`,
                       icon: "launch",
                       href: `https://qaext.arcgis.com`,
