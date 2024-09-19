@@ -24,7 +24,7 @@ export const buildUiSchema = async (
       ariaLabel: `{{${i18nScope}.notice.actions.goToEOrg:translate}}`,
       label: `{{${i18nScope}.notice.actions.goToEOrg:translate}}`,
       icon: "launch",
-      href: `${context.portalUrl}`,
+      href: `${context.portalUrl}/home/organization.html?tab=general#settings`,
       target: "_blank",
     },
   ];
@@ -38,7 +38,7 @@ export const buildUiSchema = async (
       ariaLabel: `{{${i18nScope}.notice.actions.goToCommunityOrg:translate}}`,
       label: `{{${i18nScope}.notice.actions.goToCommunityOrg:translate}}`,
       icon: "launch",
-      href: `${context.communityOrgUrl}`,
+      href: `${context.communityOrgUrl}/home/organization.html?tab=general#settings`,
       target: "_blank",
     });
   }
