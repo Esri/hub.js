@@ -136,23 +136,54 @@ export interface IFetchDownloadFileOptions {
   updateCache?: boolean; // whether the request should also update the cache; only valid when targeting the hub download system
 }
 
+/**
+ * Response object for the fetchDownloadFile operation.
+ * The response object will contain either a Blob or a URL,
+ * depending on the type of download operation that was performed.
+ */
 export type IFetchDownloadFileResponse =
   | IFetchDownloadFileBlobResponse
   | IFetchDownloadFileUrlResponse;
 
+/**
+ * Base interface for all fetchDownloadFile response objects.
+ */
 interface IBaseFetchDownloadFileResponse {
   type: "blob" | "url";
-  // TODO: Add docs, make type
-  cacheStatus?: "ready" | "ready_unknown" | "stale" | "not_ready";
+  /**
+   * If the response comes from our cache rather than a live download,
+   * indicates the status of the cached file
+   */
+  cacheStatus?: DownloadCacheStatus;
 }
 
+/**
+ * Represents the status of a cached download file.
+ * - `ready` indicates that the file has up-to-date data
+ * - `ready_unknown` indicates that we don't know if the file is up-to-date
+ * - `stale` indicates that the file is out-of-date
+ */
+export type DownloadCacheStatus = "ready" | "ready_unknown" | "stale";
+
+/**
+ * Response object for the fetchDownloadFile operation when the response is a Blob.
+ */
 export interface IFetchDownloadFileBlobResponse
   extends IBaseFetchDownloadFileResponse {
   type: "blob";
+  /**
+   * The Blob object that contains the download file.
+   */
   blob: Blob;
+  /**
+   * The name to assign to the file when saving it to disk.
+   */
   filename: string;
 }
 
+/**
+ * Response object for the fetchDownloadFile operation when the response is a URL.
+ */
 export interface IFetchDownloadFileUrlResponse
   extends IBaseFetchDownloadFileResponse {
   type: "url";
