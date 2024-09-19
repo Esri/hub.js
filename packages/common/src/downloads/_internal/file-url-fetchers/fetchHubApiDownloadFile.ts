@@ -276,4 +276,10 @@ interface IHubDownloadApiResponse {
   cacheStatus?: DownloadCacheStatus;
 }
 
+/**
+ * @private
+ * Query params that can be used to control cache behavior in the Hub Download API.
+ * 'updateCache' is used with the initial request when a download cache update is desired.
+ * 'trackCacheUpdate' is used for subsequent requests while polling the progress of a cache update.
+ */
 type CacheQueryParam = "updateCache" | "trackCacheUpdate";
