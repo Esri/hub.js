@@ -160,12 +160,14 @@ export async function processFilters(
   // if a startDateRange was provided, we prioritize that over individual startDateBefore or startDateAfter
   // filters to prevent collisions
   if (startDateRange.length) {
-    processedFilters.startDateTimeBefore = new Date(
-      startDateRange[0].to
-    ).toISOString();
-    processedFilters.startDateTimeAfter = new Date(
-      startDateRange[0].from
-    ).toISOString();
+    startDateRange[0].to &&
+      (processedFilters.startDateTimeBefore = new Date(
+        startDateRange[0].to
+      ).toISOString());
+    startDateRange[0].from &&
+      (processedFilters.startDateTimeAfter = new Date(
+        startDateRange[0].from
+      ).toISOString());
   } else {
     // individual startDateBefore & startDateAfter filters
     const startDateBefore = getPredicateValuesByKey<string | number>(
@@ -194,12 +196,14 @@ export async function processFilters(
   // if a endDateRange was provided, we prioritize that over individual endDateBefore or endDateAfter
   // filters to prevent collisions
   if (endDateRange.length) {
-    processedFilters.endDateTimeBefore = new Date(
-      endDateRange[0].to
-    ).toISOString();
-    processedFilters.endDateTimeAfter = new Date(
-      endDateRange[0].from
-    ).toISOString();
+    endDateRange[0].to &&
+      (processedFilters.endDateTimeBefore = new Date(
+        endDateRange[0].to
+      ).toISOString());
+    endDateRange[0].from &&
+      (processedFilters.endDateTimeAfter = new Date(
+        endDateRange[0].from
+      ).toISOString());
   } else {
     // individual endDateBefore & endDateAfter filters
     const endDateBefore = getPredicateValuesByKey<string | number>(
