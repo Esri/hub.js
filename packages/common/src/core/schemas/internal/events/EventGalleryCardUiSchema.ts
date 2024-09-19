@@ -98,7 +98,7 @@ export async function buildUiSchema(
               ...categoriesUiSchema,
               {
                 label: `{{${i18nScope}.content.cardsShown.label:translate}}`,
-                scope: "/properties/cardsShow",
+                scope: "/properties/cardsShown",
                 type: "Control",
                 options: {
                   control: "hub-field-input-select",
