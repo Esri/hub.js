@@ -28,14 +28,20 @@ export async function fetchHubApiDownloadFile(
 ): Promise<IFetchDownloadFileResponse> {
   validateOptions(options);
   const requestUrl = getDownloadApiRequestUrl(options);
-  const { pollInterval, progressCallback } = options;
-  const temp = await pollDownloadApi(
+
+  const { pollInterval, updateCache, progressCallback } = options;
+
+  let cacheQueryParam: CacheQueryParam;
+  if (updateCache) {
+    cacheQueryParam = "updateCache";
+  }
+
+  return pollDownloadApi(
     requestUrl,
     pollInterval,
+    cacheQueryParam,
     progressCallback
   );
-  temp.cacheStatus = options.updateCache ? "ready" : "ready_unknown";
-  return temp;
 }
 
 function validateOptions(options: IFetchDownloadFileOptions) {
@@ -94,8 +100,6 @@ function getDownloadApiRequestUrl(options: IFetchDownloadFileOptions) {
   const token = getProp(context, "hubRequestOptions.authentication.token");
   token && searchParams.append("token", token);
 
-  updateCache && searchParams.append("updateCache", "true");
-
   return `${context.hubUrl}/api/download/v1/items/${
     entity.id
   }/${format}?${searchParams.toString()}`;
@@ -112,9 +116,15 @@ function getDownloadApiRequestUrl(options: IFetchDownloadFileOptions) {
 async function pollDownloadApi(
   requestUrl: string,
   pollInterval: number,
+  cacheQueryParam?: CacheQueryParam,
   progressCallback?: downloadProgressCallback
 ): Promise<IFetchDownloadFileResponse> {
-  const response = await fetch(requestUrl);
+  let withCacheQueryParam = requestUrl;
+  if (cacheQueryParam) {
+    withCacheQueryParam = `${requestUrl}&${cacheQueryParam}=true`;
+  }
+
+  const response = await fetch(withCacheQueryParam);
   if (!response.ok) {
     const errorBody = await response.json();
     // TODO: Add standarized messageId when available
@@ -122,8 +132,12 @@ async function pollDownloadApi(
       rawMessage: errorBody.message,
     });
   }
-  const { status, progressInPercent, resultUrl }: IHubDownloadApiResponse =
-    await response.json();
+  const {
+    status,
+    progressInPercent,
+    resultUrl,
+    cacheStatus,
+  }: IHubDownloadApiResponse = await response.json();
   const operationStatus = toDownloadOperationStatus(status);
   if (operationStatus === DownloadOperationStatus.FAILED) {
     throw new HubError(
@@ -137,6 +151,7 @@ async function pollDownloadApi(
     return {
       type: "url",
       href: resultUrl,
+      cacheStatus,
     };
   }
 
@@ -144,7 +159,18 @@ async function pollDownloadApi(
 
   // Operation still in progress, poll again
   await new Promise((resolve) => setTimeout(resolve, pollInterval));
-  return pollDownloadApi(requestUrl, pollInterval, progressCallback);
+
+  let updatedCacheQueryParam: CacheQueryParam;
+  if (cacheQueryParam) {
+    updatedCacheQueryParam = "trackCacheUpdate";
+  }
+
+  return pollDownloadApi(
+    requestUrl,
+    pollInterval,
+    updatedCacheQueryParam,
+    progressCallback
+  );
 }
 
 /**
@@ -236,3 +262,5 @@ interface IHubDownloadApiResponse {
   // TODO: Add docs, make type
   cacheStatus?: "ready" | "ready_unknown" | "stale" | "not_ready";
 }
+
+type CacheQueryParam = "updateCache" | "trackCacheUpdate";
