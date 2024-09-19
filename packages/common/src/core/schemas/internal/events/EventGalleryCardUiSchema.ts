@@ -1,21 +1,13 @@
 import { IArcGISContext } from "../../../../ArcGISContext";
 import { getWellKnownCatalog } from "../../../../search/wellKnownCatalog";
-import { IUiSchema, IUiSchemaRule, UiSchemaRuleEffects } from "../../types";
+import {
+  IUiSchema,
+  UiSchemaMessageTypes,
+  UiSchemaRuleEffects,
+} from "../../types";
 import { IEventGalleryCardEditorOptions } from "../EditorOptions";
 import { fetchCategoriesUiSchemaElement } from "../fetchCategoriesUiSchemaElement";
 import { getTagItems } from "../getTagItems";
-
-export const SHOW_IN_DYNAMIC_MODE_RULES: IUiSchemaRule[] = [
-  {
-    effect: UiSchemaRuleEffects.SHOW,
-    conditions: [
-      {
-        scope: "/properties/selectionMode",
-        schema: { const: "dynamic" },
-      },
-    ],
-  },
-];
 
 export async function buildUiSchema(
   i18nScope: string,
@@ -26,7 +18,17 @@ export async function buildUiSchema(
     `${i18nScope}.content`,
     context
   );
-  categoriesUiSchema[0].rules = SHOW_IN_DYNAMIC_MODE_RULES;
+  categoriesUiSchema[0].rules = [
+    {
+      effect: UiSchemaRuleEffects.SHOW,
+      conditions: [
+        {
+          scope: "/properties/selectionMode",
+          schema: { const: "dynamic" },
+        },
+      ],
+    },
+  ];
   delete categoriesUiSchema[0].options.helperText;
   return {
     type: "Layout",
@@ -76,7 +78,17 @@ export async function buildUiSchema(
                   ],
                   type: "checkbox",
                 },
-                rules: SHOW_IN_DYNAMIC_MODE_RULES,
+                rules: [
+                  {
+                    effect: UiSchemaRuleEffects.SHOW,
+                    conditions: [
+                      {
+                        scope: "/properties/selectionMode",
+                        schema: { const: "dynamic" },
+                      },
+                    ],
+                  },
+                ],
               },
               {
                 label: `{{${i18nScope}.content.tags.label:translate}}`,
@@ -93,18 +105,19 @@ export async function buildUiSchema(
                   selectionMode: "multiple",
                   placeholderIcon: "label",
                 },
-                rules: SHOW_IN_DYNAMIC_MODE_RULES,
+                rules: [
+                  {
+                    effect: UiSchemaRuleEffects.SHOW,
+                    conditions: [
+                      {
+                        scope: "/properties/selectionMode",
+                        schema: { const: "dynamic" },
+                      },
+                    ],
+                  },
+                ],
               },
               ...categoriesUiSchema,
-              {
-                label: `{{${i18nScope}.content.cardsShown.label:translate}}`,
-                scope: "/properties/cardsShow",
-                type: "Control",
-                options: {
-                  control: "hub-field-input-select",
-                },
-                rules: SHOW_IN_DYNAMIC_MODE_RULES,
-              },
               {
                 scope: "/properties/entityIds",
                 type: "Control",
@@ -166,7 +179,17 @@ export async function buildUiSchema(
                   kind: "brand",
                   appearance: "solid",
                 },
-                rules: SHOW_IN_DYNAMIC_MODE_RULES,
+                rules: [
+                  {
+                    effect: UiSchemaRuleEffects.SHOW,
+                    conditions: [
+                      {
+                        scope: "/properties/selectionMode",
+                        schema: { const: "dynamic" },
+                      },
+                    ],
+                  },
+                ],
               },
               {
                 scope: "/properties/eventIds",

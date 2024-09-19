@@ -6,10 +6,7 @@ import {
   IUiSchemaElement,
   UiSchemaRuleEffects,
 } from "../../../../../src";
-import {
-  buildUiSchema,
-  SHOW_IN_DYNAMIC_MODE_RULES,
-} from "../../../../../src/core/schemas/internal/events/EventGalleryCardUiSchema";
+import { buildUiSchema } from "../../../../../src/core/schemas/internal/events/EventGalleryCardUiSchema";
 import * as getTagItemsModule from "../../../../../src/core/schemas/internal/getTagItems";
 import * as fetchCategoriesUiSchemaElementModule from "../../../../../src/core/schemas/internal/fetchCategoriesUiSchemaElement";
 import * as wellKnownCatalogModule from "../../../../../src/search/wellKnownCatalog";
@@ -131,7 +128,17 @@ describe("EventGalleryCardUiSchema", () => {
                       ],
                       type: "checkbox",
                     },
-                    rules: SHOW_IN_DYNAMIC_MODE_RULES,
+                    rules: [
+                      {
+                        effect: UiSchemaRuleEffects.SHOW,
+                        conditions: [
+                          {
+                            scope: "/properties/selectionMode",
+                            schema: { const: "dynamic" },
+                          },
+                        ],
+                      },
+                    ],
                   },
                   {
                     label: "{{some.scope.content.tags.label:translate}}",
@@ -144,20 +151,31 @@ describe("EventGalleryCardUiSchema", () => {
                       selectionMode: "multiple",
                       placeholderIcon: "label",
                     },
-                    rules: SHOW_IN_DYNAMIC_MODE_RULES,
+                    rules: [
+                      {
+                        effect: UiSchemaRuleEffects.SHOW,
+                        conditions: [
+                          {
+                            scope: "/properties/selectionMode",
+                            schema: { const: "dynamic" },
+                          },
+                        ],
+                      },
+                    ],
                   },
                   {
                     ...categoriesUiSchemaElementWithoutHelperText,
-                    rules: SHOW_IN_DYNAMIC_MODE_RULES,
-                  },
-                  {
-                    label: `{{some.scope.content.cardsShown.label:translate}}`,
-                    scope: "/properties/cardsShow",
-                    type: "Control",
-                    options: {
-                      control: "hub-field-input-select",
-                    },
-                    rules: SHOW_IN_DYNAMIC_MODE_RULES,
+                    rules: [
+                      {
+                        effect: UiSchemaRuleEffects.SHOW,
+                        conditions: [
+                          {
+                            scope: "/properties/selectionMode",
+                            schema: { const: "dynamic" },
+                          },
+                        ],
+                      },
+                    ],
                   },
                   {
                     scope: "/properties/entityIds",
@@ -201,7 +219,17 @@ describe("EventGalleryCardUiSchema", () => {
                       kind: "brand",
                       appearance: "solid",
                     },
-                    rules: SHOW_IN_DYNAMIC_MODE_RULES,
+                    rules: [
+                      {
+                        effect: UiSchemaRuleEffects.SHOW,
+                        conditions: [
+                          {
+                            scope: "/properties/selectionMode",
+                            schema: { const: "dynamic" },
+                          },
+                        ],
+                      },
+                    ],
                   },
                   {
                     scope: "/properties/eventIds",

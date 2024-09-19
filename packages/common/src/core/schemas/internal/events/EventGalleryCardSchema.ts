@@ -60,10 +60,5 @@ export const EventGalleryCardSchema: IConfigurationSchema = {
       enum: ["same", "new"],
       default: "same",
     },
-    cardsShown: {
-      type: "string",
-      enum: Array.from({ length: 16 }).map((_, idx) => (idx + 1).toString()),
-      default: "4",
-    },
   },
 };
