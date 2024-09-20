@@ -1,3 +1,10 @@
+# @esri/hub-common [14.191.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.190.0...@esri/hub-common@14.191.0) (2024-09-20)
+
+
+### Features
+
+* **hub-common:** add slot to event gallery card editor ui schema ([#1656](https://github.com/Esri/hub.js/issues/1656)) ([dbb7b55](https://github.com/Esri/hub.js/commit/dbb7b55b1e8129521f9059fd1b3b3e36e36bf6c7))
+
 # @esri/hub-common [14.190.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.189.0...@esri/hub-common@14.190.0) (2024-09-18)
 
 
