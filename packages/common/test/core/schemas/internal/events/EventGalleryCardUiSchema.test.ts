@@ -422,6 +422,7 @@ describe("EventGalleryCardUiSchema", () => {
                         actions: [
                           {
                             label: `{{some.scope.options.openIn.notice.link:translate}}`,
+                            ariaLabel: `{{some.scope.options.openIn.notice.linkAriaLabel:translate}}`,
                             icon: "launch",
                             href: "https://www.w3.org/TR/WCAG20-TECHS/G200.html",
                             target: "_blank",
