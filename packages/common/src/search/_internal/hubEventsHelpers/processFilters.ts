@@ -225,5 +225,23 @@ export async function processFilters(
       ).toISOString();
     }
   }
+
+  const occurrence = getPredicateValuesByKey<string>(filters, "occurrence");
+  if (occurrence.length) {
+    occurrence.forEach((o) => {
+      switch (o) {
+        case "upcoming":
+          processedFilters.startDateTimeAfter = new Date().toISOString();
+          break;
+        case "past":
+          processedFilters.endDateTimeBefore = new Date().toISOString();
+          break;
+        case "inProgress":
+          processedFilters.startDateTimeBefore = new Date().toISOString();
+          processedFilters.endDateTimeAfter = new Date().toISOString();
+          break;
+      }
+    });
+  }
   return processedFilters;
 }
