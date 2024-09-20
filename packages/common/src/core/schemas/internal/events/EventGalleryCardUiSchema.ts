@@ -318,6 +318,12 @@ export async function buildUiSchema(
                   },
                 ],
               },
+              {
+                type: "Slot",
+                options: {
+                  name: "add-content-slot",
+                },
+              },
             ],
           },
           {
@@ -410,6 +416,7 @@ export async function buildUiSchema(
                     actions: [
                       {
                         label: `{{${i18nScope}.options.openIn.notice.link:translate}}`,
+                        ariaLabel: `{{${i18nScope}.options.openIn.notice.linkAriaLabel:translate}}`,
                         icon: "launch",
                         href: "https://www.w3.org/TR/WCAG20-TECHS/G200.html",
                         target: "_blank",
