@@ -1,5 +1,6 @@
 import HubError from "../../../HubError";
 import { getProp } from "../../../objects/get-prop";
+import { wait } from "../../../utils/wait";
 import {
   ArcgisHubDownloadError,
   DownloadCacheStatus,
@@ -170,7 +171,7 @@ async function pollDownloadApi(
 
   // Operation still in progress. Report progress if a callback was provided and poll again.
   progressCallback && progressCallback(operationStatus, progressInPercent);
-  await new Promise((resolve) => setTimeout(resolve, pollInterval));
+  await wait(pollInterval);
 
   let updatedCacheQueryParam: CacheQueryParam;
   if (cacheQueryParam) {
