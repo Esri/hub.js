@@ -1,3 +1,10 @@
+## @esri/hub-common [14.191.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.191.0...@esri/hub-common@14.191.1) (2024-09-24)
+
+
+### Bug Fixes
+
+* **hub-common:** hide showAdditionalInfo field in event gallery card … ([#1659](https://github.com/Esri/hub.js/issues/1659)) ([baf5764](https://github.com/Esri/hub.js/commit/baf5764b5eec61d5444c522c8bf2e12025e1b4cc))
+
 # @esri/hub-common [14.191.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.190.0...@esri/hub-common@14.191.0) (2024-09-20)
 
 
