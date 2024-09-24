@@ -379,16 +379,17 @@ describe("EventGalleryCardUiSchema", () => {
                       enum: { i18nScope: "some.scope.appearance.shadow" },
                     },
                   },
-                  {
-                    label:
-                      "{{some.scope.appearance.showAdditionalInfo.label:translate}}",
-                    scope: "/properties/showAdditionalInfo",
-                    type: "Control",
-                    options: {
-                      control: "hub-field-input-switch",
-                      layout: "inline-space-between",
-                    },
-                  },
+                  // TODO: Re-add this once https://github.com/Esri/calcite-design-system/issues/10152 & https://github.com/Esri/calcite-design-system/issues/6059 are resolved
+                  // {
+                  //   label:
+                  //     "{{some.scope.appearance.showAdditionalInfo.label:translate}}",
+                  //   scope: "/properties/showAdditionalInfo",
+                  //   type: "Control",
+                  //   options: {
+                  //     control: "hub-field-input-switch",
+                  //     layout: "inline-space-between",
+                  //   },
+                  // },
                 ],
               },
               {
