@@ -380,6 +380,15 @@ export async function buildUiSchema(
               //     layout: "inline-space-between",
               //   },
               // },
+              {
+                label: `{{${i18nScope}.appearance.layout.label:translate}}`,
+                options: {
+                  control: "hub-field-input-select",
+                  enum: { i18nScope: `${i18nScope}.appearance.layout` },
+                },
+                scope: "/properties/layout",
+                type: "Control",
+              },
             ],
           },
           {
