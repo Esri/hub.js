@@ -250,7 +250,7 @@ describe("hubSearchEvents", () => {
       data: {
         ...processedFilters,
         ...processedOptions,
-        include: "creator",
+        include: "creator,location",
       },
     });
     expect(eventToSearchResultSpy).toHaveBeenCalledTimes(2);
@@ -295,7 +295,7 @@ describe("hubSearchEvents", () => {
           data: {
             ...processedFilters,
             ...processedOptions2,
-            include: "creator",
+            include: "creator,location",
           },
         },
       ],
