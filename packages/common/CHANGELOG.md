@@ -1,3 +1,10 @@
+# @esri/hub-common [14.192.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.191.1...@esri/hub-common@14.192.0) (2024-09-24)
+
+
+### Features
+
+* **hub-common:** add catalog field for newsletter subscriptions ([#1661](https://github.com/Esri/hub.js/issues/1661)) ([dc53d47](https://github.com/Esri/hub.js/commit/dc53d476d0095892b151e362179a9ab3d3237eff))
+
 ## @esri/hub-common [14.191.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.191.0...@esri/hub-common@14.191.1) (2024-09-24)
 
 
