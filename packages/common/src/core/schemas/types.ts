@@ -171,6 +171,10 @@ export interface IConfigurationSchema extends JSONSchema {
   type?: "object";
 }
 
+export interface IAsyncConfigurationSchema extends IConfigurationSchema {
+  $async: true;
+}
+
 export interface IConfigurationValues {
   [key: string]: any;
 }

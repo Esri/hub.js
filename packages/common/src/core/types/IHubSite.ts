@@ -7,12 +7,31 @@ import { IWithCatalog, IWithCatalogs } from "../traits/IWithCatalog";
 import { IWithLayout } from "../traits/IWithLayout";
 import { IWithPermissions } from "../traits/IWithPermissions";
 
+// this is exported b/c it is also used by the site URL composite field
+export interface IHubSiteUrlInfo {
+  /**
+   * Subdomain of the site
+   * Will be prepended to `<org-key>.hub.arcgis.com`
+   */
+  subdomain?: string;
+  /**
+   * Full hostname
+   * Looks like`<subdomain>-<org-key>.hub.arcgis.com`
+   */
+  defaultHostname?: string;
+  /**
+   * Custom Domain Name
+   */
+  customHostname?: string;
+}
+
 /**
  * DRAFT: Under development and more properties will likely be added
  * @internal
  */
 export interface IHubSite
   extends IHubItemEntity,
+    IHubSiteUrlInfo,
     IWithSlug,
     IWithCatalog, // DEPRECATED: Use IWithCatalogs instead
     IWithCatalogs,
@@ -28,20 +47,6 @@ export interface IHubSite
    */
   theme: Record<string, any>;
 
-  /**
-   * Subdomain of the site
-   * Will be prepended to `<org-key>.hub.arcgis.com`
-   */
-  subdomain: string;
-  /**
-   * Full hostname
-   * Looks like`<subdomain>-<org-key>.hub.arcgis.com`
-   */
-  defaultHostname: string;
-  /**
-   * Custom Domain Name
-   */
-  customHostname: string;
   /**
    * oAuth Client Id for the Site
    */
@@ -93,4 +98,7 @@ export interface IHubSite
 
 export type IHubSiteEditor = IHubItemEntityEditor<IHubSite> & {
   _discussions?: boolean;
+
+  // used by the site URL composite field
+  _urlInfo?: IHubSiteUrlInfo;
 };

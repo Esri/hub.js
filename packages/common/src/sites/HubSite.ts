@@ -432,6 +432,16 @@ export class HubSite
 
     editor._discussions = this.entity.features["hub:site:feature:discussions"];
 
+    // used by the site URL composite field
+    const { subdomain, defaultHostname } = editor;
+    editor._urlInfo = {
+      subdomain,
+      defaultHostname,
+      // NOTE: once the editor handles custom hostnames,
+      // we'll need to add that here
+      // customHostname
+    };
+
     return editor;
   }
 
@@ -488,6 +498,11 @@ export class HubSite
 
     // copy the location extent up one level
     entity.extent = editor.location?.extent;
+
+    // site URL info
+    const { subdomain, defaultHostname } = editor._urlInfo;
+    entity.subdomain = subdomain;
+    entity.defaultHostname = defaultHostname;
 
     // 3. create or update the in-memory entity and save
     this.entity = entity;

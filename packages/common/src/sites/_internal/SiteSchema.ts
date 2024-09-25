@@ -1,4 +1,4 @@
-import { IConfigurationSchema } from "../../core";
+import { IAsyncConfigurationSchema } from "../../core";
 import {
   ENTITY_IS_DISCUSSABLE_SCHEMA,
   PRIVACY_CONFIG_SCHEMA,
@@ -17,11 +17,17 @@ export const SiteEditorTypes = [
 /**
  * defines the JSON schema for a Hub Site's editable fields
  */
-export const SiteSchema: IConfigurationSchema = {
-  ...HubItemEntitySchema,
-  properties: {
-    ...HubItemEntitySchema.properties,
-    _discussions: ENTITY_IS_DISCUSSABLE_SCHEMA,
-    telemetry: PRIVACY_CONFIG_SCHEMA,
-  },
-} as IConfigurationSchema;
+export const getSiteSchema = (siteId: string) =>
+  ({
+    $async: true,
+    ...HubItemEntitySchema,
+    properties: {
+      ...HubItemEntitySchema.properties,
+      _discussions: ENTITY_IS_DISCUSSABLE_SCHEMA,
+      telemetry: PRIVACY_CONFIG_SCHEMA,
+      _urlInfo: {
+        type: "object",
+        isUniqueDomain: { siteId },
+      },
+    },
+  } as IAsyncConfigurationSchema);
