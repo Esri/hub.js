@@ -17,6 +17,7 @@ describe("buildUiSchema: site discussions", () => {
               type: "Control",
               options: {
                 control: "hub-field-input-tile-select",
+                layout: "horizontal",
                 labels: [
                   "{{some.scope.fields.discussable.enabled.label:translate}}",
                   "{{some.scope.fields.discussable.disabled.label:translate}}",
@@ -27,6 +28,7 @@ describe("buildUiSchema: site discussions", () => {
                 ],
                 icons: ["speech-bubbles", "circle-disallowed"],
                 type: "radio",
+                styles: { "max-width": "45rem" },
               },
             },
           ],

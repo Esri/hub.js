@@ -62,6 +62,7 @@ describe("buildUiSchema: site followers", () => {
                   labelKey:
                     "some.scope.fields.followers.showFollowAction.helperText",
                 },
+                styles: { "max-width": "45rem" },
               },
             },
             {
@@ -70,6 +71,7 @@ describe("buildUiSchema: site followers", () => {
               type: "Control",
               options: {
                 control: "hub-field-input-tile-select",
+                layout: "horizontal",
                 labels: [
                   `{{some.scope.fields.followers.discussable.enabled.label:translate}}`,
                   `{{some.scope.fields.followers.discussable.disabled.label:translate}}`,
@@ -80,6 +82,7 @@ describe("buildUiSchema: site followers", () => {
                 ],
                 icons: ["speech-bubbles", "circle-disallowed"],
                 type: "radio",
+                styles: { "max-width": "45rem" },
               },
             },
           ],
