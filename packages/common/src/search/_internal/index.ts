@@ -7,3 +7,4 @@ export * from "./hubSearchEvents";
 export * from "./hubSearchEventAttendees";
 export * from "./getWorkflowForType";
 export * from "./getCatalogGroups";
+export * from "./getUserGroupsByMembership";

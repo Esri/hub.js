@@ -7,6 +7,7 @@ import {
   getPredicateValues,
   IHubCatalog,
 } from "../../src";
+import * as CheckPermissionModule from "../../src/permissions/checkPermission";
 import {
   MOCK_AUTH,
   MOCK_AUTH_QA,
@@ -46,7 +47,11 @@ describe("getAddContentConfig:", () => {
       currentUser: {
         username: "casey",
         orgId: "BRXFAKE",
-        privileges: ["portal:user:createItem", "portal:user:shareToGroup"],
+        privileges: [
+          "portal:user:createItem",
+          "portal:user:shareToGroup",
+          "portal:user:createGroup",
+        ],
         groups: [
           {
             id: "group1",
@@ -465,7 +470,7 @@ describe("getAddContentConfig:", () => {
         expect(chk.reason).toBe("not-in-groups");
       });
       describe("default responses:", () => {
-        it("default response for type without config", async () => {
+        it("default Hub Basic response for query ", async () => {
           const ctxMgr = await ArcGISContextManager.create({
             authentication: MOCK_AUTH,
             currentUser: {
@@ -516,6 +521,52 @@ describe("getAddContentConfig:", () => {
           expect(chk.create).toBeNull();
           expect(chk.existing?.types).toEqual(["Layer Package"]);
           expect(chk.existing?.groups?.owner).toEqual(["group2"]);
+        });
+        it("default response for query without group", async () => {
+          const ctxMgr = await ArcGISContextManager.create({
+            authentication: MOCK_AUTH,
+            currentUser: {
+              username: "luke",
+              orgId: "BRXFAKE",
+              privileges: [
+                "portal:user:createItem",
+                "portal:user:shareToGroup",
+              ],
+              groups: [
+                {
+                  id: "group2",
+                  isViewOnly: false,
+                  userMembership: {
+                    memberType: "owner",
+                  },
+                } as unknown as IGroup,
+              ],
+            } as unknown as IUser,
+            portal: MOCK_HUB_BASIC_PORTAL,
+            portalUrl: "https://org.maps.arcgis.com",
+          });
+
+          const query: IQuery = {
+            targetEntity: "item",
+            filters: [
+              {
+                operation: "AND",
+                predicates: [
+                  {
+                    type: "Hub Site Application",
+                  },
+                ],
+              },
+            ],
+          };
+
+          const chk = getAddContentConfig(ctxMgr.context, query);
+          expect(chk).toBeDefined();
+          expect(chk.state).toBe("enabled");
+          expect(chk.create).toBeDefined();
+          expect(chk.existing).toBeNull();
+          expect(chk.create?.types).toEqual(["Hub Site Application"]);
+          expect(chk.create?.groups?.owner).toEqual(["group2"]);
         });
         it("default Hub Premium response for query without types", async () => {
           const ctxMgr = await ArcGISContextManager.create({
@@ -770,6 +821,48 @@ describe("getAddContentConfig:", () => {
         expect(chk.create).toBeNull();
         expect(chk.upload).toBeNull();
         expect(chk.existing).toBeNull();
+      });
+    });
+
+    describe("targetEntity=group:", () => {
+      it("user can create group", () => {
+        const query: IQuery = {
+          targetEntity: "group",
+          filters: [],
+        };
+        const chk = getAddContentConfig(premiumUserCtxMgr.context, query);
+        expect(chk).toBeDefined();
+        expect(chk.state).toBe("enabled");
+        expect(chk.create).toBeDefined();
+        expect(chk.upload).toBeNull();
+        expect(chk.existing).toBeNull();
+      });
+      it("user can not create group", () => {
+        const query: IQuery = {
+          targetEntity: "group",
+          filters: [],
+        };
+        const chk = getAddContentConfig(noCreateUserCtxMgr.context, query);
+        expect(chk).toBeDefined();
+        expect(chk.state).toBe("disabled");
+        expect(chk.reason).toBe("no-permission");
+        expect(chk.create).toBeDefined();
+        expect(chk.upload).toBeNull();
+        expect(chk.existing).toBeNull();
+      });
+      it("user has too many groups", () => {
+        spyOn(CheckPermissionModule, "checkPermission").and.returnValue({
+          access: false,
+          response: "assertion-failed",
+        });
+        const query: IQuery = {
+          targetEntity: "group",
+          filters: [],
+        };
+        const chk = getAddContentConfig(premiumUserCtxMgr.context, query);
+        expect(chk).toBeDefined();
+        expect(chk.state).toBe("disabled");
+        expect(chk.reason).toBe("too-many-groups");
       });
     });
 
