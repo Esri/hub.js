@@ -25,7 +25,7 @@ export const buildUiSchema = async (
             scope: "/properties/_discussions",
             type: "Control",
             options: {
-              control: "hub-field-input-radio",
+              control: "hub-field-input-tile-select",
               labels: [
                 `{{${i18nScope}.fields.discussable.enabled.label:translate}}`,
                 `{{${i18nScope}.fields.discussable.disabled.label:translate}}`,
@@ -35,6 +35,7 @@ export const buildUiSchema = async (
                 `{{${i18nScope}.fields.discussable.disabled.description:translate}}`,
               ],
               icons: ["speech-bubbles", "circle-disallowed"],
+              type: "radio",
             },
           },
         ],
