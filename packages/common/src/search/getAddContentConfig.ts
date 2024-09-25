@@ -292,7 +292,10 @@ function getAddContentConfigForItemQuery(
       }
       response.create.types.push(wft.type);
     }
-    if (wft.workflows.includes("existing")) {
+    // Only show the add existing workflows if the query includes groups
+    // otherwise the query is defined by other criteria that we likely can't
+    // handle at this time (e.g. items owned by current user)
+    if (wft.workflows.includes("existing") && groups.length) {
       if (!response.existing) {
         response.existing = {
           targetEntity: wft.targetEntity,

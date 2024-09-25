@@ -15,6 +15,7 @@ export const UserPermissions = [
   "hub:user:workspace:settings",
   "hub:user:workspace:content",
   "hub:user:workspace:groups",
+  "hub:user:workspace:shared-with-me",
   "hub:user:manage",
 ] as const;
 
@@ -62,6 +63,11 @@ export const UserPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:user:workspace:groups",
+    availability: ["alpha"],
+    dependencies: ["hub:user:workspace", "hub:user:owner"],
+  },
+  {
+    permission: "hub:user:workspace:shared-with-me",
     availability: ["alpha"],
     dependencies: ["hub:user:workspace", "hub:user:owner"],
   },
