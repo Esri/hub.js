@@ -60,5 +60,10 @@ export const EventGalleryCardSchema: IConfigurationSchema = {
       enum: ["same", "new"],
       default: "same",
     },
+    layout: {
+      type: "string",
+      enum: ["list", "map"],
+      default: "list",
+    },
   },
 };

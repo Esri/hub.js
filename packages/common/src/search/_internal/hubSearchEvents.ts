@@ -57,7 +57,7 @@ export async function hubSearchEvents(
   const data: GetEventsParams = {
     ...processedFilters,
     ...processedOptions,
-    include: "creator",
+    include: "creator,location",
   };
   const { items, nextStart, total } = await getEvents({
     ...options.requestOptions,

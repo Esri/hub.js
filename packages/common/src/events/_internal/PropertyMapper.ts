@@ -20,6 +20,7 @@ import { HubEventAttendanceType, HubEventCapacityType } from "../types";
 import { computeLinks } from "./computeLinks";
 import { getEventSlug } from "./getEventSlug";
 import { getEventThumbnail } from "./getEventThumbnail";
+import { getLocationFromEvent } from "./getLocationFromEvent";
 
 /**
  * @private
@@ -105,14 +106,7 @@ export class EventPropertyMapper extends PropertyMapper<
     obj.view = {
       showMap: !!store.location,
     };
-    obj.location = store.location
-      ? {
-          type: store.location.type,
-          spatialReference: store.location.spatialReference,
-          extent: store.location.extent,
-          geometries: store.location.geometries,
-        }
-      : { type: "none" };
+    obj.location = getLocationFromEvent(store);
 
     return obj;
   }
