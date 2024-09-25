@@ -1,3 +1,4 @@
+import { IHubLocation } from "../../../src/core/types/IHubLocation";
 import { getLocationFromEvent } from "../../../src/events/_internal/getLocationFromEvent";
 import {
   EventLocationType,
@@ -76,7 +77,7 @@ describe("getLocationFromEvent", () => {
           spatialReference: Object({ wkid: 4326 }),
         },
       ],
-    });
+    } as unknown as IHubLocation);
   });
   it('should return a location object of type "custom" with a point', () => {
     const event: Partial<IEvent> = {
@@ -131,7 +132,7 @@ describe("getLocationFromEvent", () => {
           spatialReference: Object({ wkid: 4326 }),
         },
       ],
-    });
+    } as unknown as IHubLocation);
   });
   it('should return a location object of type "custom" with a polyline', () => {
     const event: Partial<IEvent> = {
@@ -202,7 +203,7 @@ describe("getLocationFromEvent", () => {
           spatialReference: { wkid: 4326 },
         },
       ],
-    });
+    } as unknown as IHubLocation);
   });
   it('should return a location object of type "custom" with a polygon', () => {
     const event: Partial<IEvent> = {
@@ -269,7 +270,7 @@ describe("getLocationFromEvent", () => {
           spatialReference: { wkid: 4326 },
         },
       ],
-    });
+    } as unknown as IHubLocation);
   });
   it('should return a location object of type "custom" with a extent', () => {
     const event: Partial<IEvent> = {
@@ -328,6 +329,6 @@ describe("getLocationFromEvent", () => {
           spatialReference: { wkid: 4326 },
         },
       ],
-    });
+    } as unknown as IHubLocation);
   });
 });

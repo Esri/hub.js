@@ -89,7 +89,7 @@ describe("eventToSearchResult", () => {
           spatialReference: Object({ wkid: 4326 }),
         },
       ],
-    };
+    } as unknown as IHubLocation;
     getUserSpy = spyOn(restPortal, "getUser").and.returnValue(
       Promise.resolve(user)
     );
