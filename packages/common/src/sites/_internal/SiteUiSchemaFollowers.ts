@@ -54,6 +54,7 @@ export const buildUiSchema = async (
               helperText: {
                 labelKey: `${i18nScope}.fields.followers.showFollowAction.helperText`,
               },
+              styles: { "max-width": "45rem" },
             },
           },
           {
@@ -62,6 +63,7 @@ export const buildUiSchema = async (
             type: "Control",
             options: {
               control: "hub-field-input-tile-select",
+              layout: "horizontal",
               labels: [
                 `{{${i18nScope}.fields.followers.discussable.enabled.label:translate}}`,
                 `{{${i18nScope}.fields.followers.discussable.disabled.label:translate}}`,
@@ -72,6 +74,7 @@ export const buildUiSchema = async (
               ],
               icons: ["speech-bubbles", "circle-disallowed"],
               type: "radio",
+              styles: { "max-width": "45rem" },
             },
           },
         ],
