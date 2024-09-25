@@ -5,6 +5,7 @@ import { IEvent } from "../../../events/api/orval/api/orval-events";
 import { AccessLevel } from "../../../core/types/types";
 import { HubFamily } from "../../../types";
 import { computeLinks } from "../../../events/_internal/computeLinks";
+import { getLocationFromEvent } from "../../../events/_internal/getLocationFromEvent";
 
 /**
  * Resolves an IHubSearchResult for the given IEvent record
@@ -23,6 +24,7 @@ export async function eventToSearchResult(
   const result = {
     access: event.access.toLowerCase() as AccessLevel,
     id: event.id,
+    location: getLocationFromEvent(event),
     type: "Event",
     name: event.title,
     owner: event.creator.username,

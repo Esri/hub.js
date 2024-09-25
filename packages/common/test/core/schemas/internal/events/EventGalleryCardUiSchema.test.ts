@@ -390,6 +390,15 @@ describe("EventGalleryCardUiSchema", () => {
                   //     layout: "inline-space-between",
                   //   },
                   // },
+                  {
+                    label: `{{some.scope.appearance.layout.label:translate}}`,
+                    options: {
+                      control: "hub-field-input-select",
+                      enum: { i18nScope: `some.scope.appearance.layout` },
+                    },
+                    scope: "/properties/layout",
+                    type: "Control",
+                  },
                 ],
               },
               {
