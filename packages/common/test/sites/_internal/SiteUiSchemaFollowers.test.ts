@@ -69,7 +69,7 @@ describe("buildUiSchema: site followers", () => {
               scope: "/properties/_followers/properties/isDiscussable",
               type: "Control",
               options: {
-                control: "hub-field-input-radio",
+                control: "hub-field-input-tile-select",
                 labels: [
                   `{{some.scope.fields.followers.discussable.enabled.label:translate}}`,
                   `{{some.scope.fields.followers.discussable.disabled.label:translate}}`,
@@ -79,6 +79,7 @@ describe("buildUiSchema: site followers", () => {
                   `{{some.scope.fields.followers.discussable.disabled.description:translate}}`,
                 ],
                 icons: ["speech-bubbles", "circle-disallowed"],
+                type: "radio",
               },
             },
           ],

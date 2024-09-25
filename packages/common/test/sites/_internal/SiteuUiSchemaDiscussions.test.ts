@@ -16,7 +16,7 @@ describe("buildUiSchema: site discussions", () => {
               scope: "/properties/_discussions",
               type: "Control",
               options: {
-                control: "hub-field-input-radio",
+                control: "hub-field-input-tile-select",
                 labels: [
                   "{{some.scope.fields.discussable.enabled.label:translate}}",
                   "{{some.scope.fields.discussable.disabled.label:translate}}",
@@ -26,6 +26,7 @@ describe("buildUiSchema: site discussions", () => {
                   "{{some.scope.fields.discussable.disabled.description:translate}}",
                 ],
                 icons: ["speech-bubbles", "circle-disallowed"],
+                type: "radio",
               },
             },
           ],
