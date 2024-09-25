@@ -1,3 +1,10 @@
+# @esri/hub-common [14.193.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.192.0...@esri/hub-common@14.193.0) (2024-09-25)
+
+
+### Features
+
+* **hub-common:** add layout field for list and map views to event ga… ([#1663](https://github.com/Esri/hub.js/issues/1663)) ([78f2d8c](https://github.com/Esri/hub.js/commit/78f2d8cd365a70e367a968f069628d22ceb801a0))
+
 # @esri/hub-common [14.192.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.191.1...@esri/hub-common@14.192.0) (2024-09-24)
 
 
