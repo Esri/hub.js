@@ -1,3 +1,24 @@
+# @esri/hub-common [14.197.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.196.1...@esri/hub-common@14.197.0) (2024-09-26)
+
+
+### Features
+
+* **hub-common:** add calendar layout option ([#1671](https://github.com/Esri/hub.js/issues/1671)) ([fc6c545](https://github.com/Esri/hub.js/commit/fc6c545921fe1c64ddc3872b16cdf8462e897bb6))
+
+## @esri/hub-common [14.196.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.196.0...@esri/hub-common@14.196.1) (2024-09-26)
+
+
+### Bug Fixes
+
+* **hub-common:** add trackCacheUpdate by default when polling download API ([#1670](https://github.com/Esri/hub.js/issues/1670)) ([0a701c0](https://github.com/Esri/hub.js/commit/0a701c0f55769319bb66e87bd976fd617e6547c3))
+
+# @esri/hub-common [14.196.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.195.0...@esri/hub-common@14.196.0) (2024-09-26)
+
+
+### Features
+
+* adds reset uischema rule effect ([#1664](https://github.com/Esri/hub.js/issues/1664)) ([eb68ed9](https://github.com/Esri/hub.js/commit/eb68ed9ab2401565a1b1981e910fdaa18fed21ef))
+
 # @esri/hub-common [14.195.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.194.0...@esri/hub-common@14.195.0) (2024-09-26)
 
 
