@@ -1,6 +1,7 @@
 import { IArcGISContext } from "../../ArcGISContext";
 import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
-import { _isOrgAdmin } from "../../groups";
+import { fetchOrg } from "../../org/fetch-org";
+import { failSafe } from "../../utils/fail-safe";
 
 /**
  * @private
@@ -17,30 +18,46 @@ export const buildUiSchema = async (
   options: any,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
-  let communityOrgName;
+  let associatedOrgName;
+  let noticeMessage = `{{${i18nScope}.notice.message:translate}}`;
   // default Notice action
   const orgNoticeActions = [
     {
-      ariaLabel: `{{${i18nScope}.notice.actions.goToEOrg:translate}}`,
-      label: `{{${i18nScope}.notice.actions.goToEOrg:translate}}`,
+      ariaLabel: `{{${i18nScope}.notice.actions.goToOrg:translate}}`,
+      label: `{{${i18nScope}.notice.actions.goToOrg:translate}}`,
       icon: "launch",
       href: `${context.portalUrl}/home/organization.html?tab=general#settings`,
       target: "_blank",
     },
   ];
-  if (context.communityOrgId) {
-    // set the community org name
-    communityOrgName = context.trustedOrgs.find(
-      (org) => org.to.orgId === context.communityOrgId
+  // If there is a community org relationship, or we are in a community org with an enterprise org relationship
+  if (context.communityOrgId || context.enterpriseOrgId) {
+    const actionLabelKey = context.enterpriseOrgId
+      ? "goToStaffOrg"
+      : "goToCommunityOrg";
+    // get the org url we will include in the notice action
+    const orgUrl = await _getCommunityOrEnterpriseUrl(context);
+    // We want to always show the associated org name in the notice, if there is one
+    // So we get either the community or enterprise org id
+    const orgId = context.enterpriseOrgId || context.communityOrgId;
+    // then we get the associated org name from trusted orgs.
+    associatedOrgName = context.trustedOrgs.find(
+      (org) => org.to.orgId === orgId
     ).to.name;
-    // add the community org action
-    orgNoticeActions.push({
-      ariaLabel: `{{${i18nScope}.notice.actions.goToCommunityOrg:translate}}`,
-      label: `{{${i18nScope}.notice.actions.goToCommunityOrg:translate}}`,
-      icon: "launch",
-      href: `${context.communityOrgUrl}/home/organization.html?tab=general#settings`,
-      target: "_blank",
-    });
+    // update the notice message with the associated org name
+    noticeMessage = context.enterpriseOrgId
+      ? `{{${i18nScope}.notice.staffMessage:translate}}: ${associatedOrgName}`
+      : `{{${i18nScope}.notice.communityMessage:translate}}: ${associatedOrgName}`;
+    // add the community org action if there is an org url
+    if (orgUrl) {
+      orgNoticeActions.push({
+        ariaLabel: `{{${i18nScope}.notice.actions.${actionLabelKey}:translate}}`,
+        label: `{{${i18nScope}.notice.actions.${actionLabelKey}:translate}}`,
+        icon: "launch",
+        href: orgUrl,
+        target: "_blank",
+      });
+    }
   }
   return {
     type: "Layout",
@@ -77,8 +94,7 @@ export const buildUiSchema = async (
           {
             effect: UiSchemaRuleEffects.SHOW,
             conditions: [
-              context.isAlphaOrg &&
-                context.currentUser.role === "org_admin" &&
+              context.isOrgAdmin &&
                 context.currentUser.orgId === context.portal.id,
             ],
           },
@@ -96,9 +112,7 @@ export const buildUiSchema = async (
                   scale: "m",
                 },
                 title: `{{${i18nScope}.notice.title:translate}}`,
-                message: communityOrgName
-                  ? `{{${i18nScope}.notice.communityMessage:translate}}: ${communityOrgName}`
-                  : `{{${i18nScope}.notice.message:translate}}`,
+                message: noticeMessage,
                 autoShow: true,
                 actions: orgNoticeActions,
               },
@@ -109,3 +123,25 @@ export const buildUiSchema = async (
     ],
   };
 };
+
+async function _getCommunityOrEnterpriseUrl(
+  context: IArcGISContext
+): Promise<string> {
+  let orgUrl = `${context.communityOrgUrl}/home/organization.html`;
+  // if there's an enterprise org, we need to fetch it to get the url
+  if (context.enterpriseOrgId) {
+    // Fail safe fetch the e-org
+    const fsGetOrg = failSafe(fetchOrg, {});
+    const org = await fsGetOrg(context.enterpriseOrgId, context.requestOptions);
+    // If the org response has a urlKey it is a real response. If the urlKey is missing the org is private
+    if (org.urlKey) {
+      // construct the url
+      orgUrl = `https://${org.urlKey}.${org.customBaseUrl}/home/organization.html`;
+    } else {
+      // If the org is private, we can't link to it
+      orgUrl = undefined;
+    }
+  }
+  // return the url
+  return orgUrl;
+}
