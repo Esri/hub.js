@@ -118,6 +118,80 @@ export const buildUiSchema = async (
               },
             },
           },
+          {
+            type: "Section",
+            labelKey: `${i18nScope}.sections.orgSettings.signinSettings.label`,
+            options: {
+              section: "block",
+              helperText: {
+                labelKey: `${i18nScope}.sections.orgSettings.signinSettings.helperText`,
+              },
+            },
+            elements: [
+              {
+                type: "Control",
+                scope:
+                  "/properties/hubOrgSettings/properties/enableTermsAndConditions",
+                labelKey: `${i18nScope}.fields.enableTermsAndConditions.label`,
+                options: {
+                  control: "hub-field-input-switch",
+                  layout: "inline-space-between",
+                },
+              },
+              {
+                type: "Control",
+                scope:
+                  "/properties/hubOrgSettings/properties/termsAndConditions",
+                labelKey: `${i18nScope}.fields.termsAndConditions.label`,
+                options: {
+                  control: "hub-field-input-rich-text",
+                  type: "textarea",
+                },
+                rules: [
+                  {
+                    effect: UiSchemaRuleEffects.SHOW,
+                    conditions: [
+                      {
+                        scope:
+                          "/properties/hubOrgSettings/properties/enableTermsAndConditions",
+                        schema: { const: true },
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                type: "Control",
+                scope: "/properties/hubOrgSettings/properties/enableSignUpText",
+                labelKey: `${i18nScope}.fields.enableSignUpText.label`,
+                options: {
+                  control: "hub-field-input-switch",
+                  layout: "inline-space-between",
+                },
+              },
+              {
+                type: "Control",
+                scope: "/properties/hubOrgSettings/properties/signupText",
+                labelKey: `${i18nScope}.fields.signupText.label`,
+                options: {
+                  control: "hub-field-input-rich-text",
+                  type: "textarea",
+                },
+                rules: [
+                  {
+                    effect: UiSchemaRuleEffects.SHOW,
+                    conditions: [
+                      {
+                        scope:
+                          "/properties/hubOrgSettings/properties/enableSignUpText",
+                        schema: { const: true },
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
         ],
       },
     ],

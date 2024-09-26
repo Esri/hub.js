@@ -104,6 +104,67 @@ describe("UserUiSchemaSettings:", () => {
                 },
               },
             },
+            {
+              type: "Control",
+              scope:
+                "/properties/hubOrgSettings/properties/enableTermsAndConditions",
+              labelKey: `some.scope.fields.enableTermsAndConditions.label`,
+              options: {
+                control: "hub-field-input-switch",
+                layout: "inline-space-between",
+              },
+            },
+            {
+              type: "Control",
+              scope: "/properties/hubOrgSettings/properties/termsAndConditions",
+              labelKey: `some.scope.fields.termsAndConditions.label`,
+              options: {
+                control: "hub-field-input-rich-text",
+                type: "textarea",
+              },
+              rules: [
+                {
+                  effect: UiSchemaRuleEffects.SHOW,
+                  conditions: [
+                    {
+                      scope:
+                        "/properties/hubOrgSettings/properties/enableTermsAndConditions",
+                      schema: { const: true },
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              type: "Control",
+              scope: "/properties/hubOrgSettings/properties/enableSignUpText",
+              labelKey: `some.scope.fields.enableSignUpText.label`,
+              options: {
+                control: "hub-field-input-switch",
+                layout: "inline-space-between",
+              },
+            },
+            {
+              type: "Control",
+              scope: "/properties/hubOrgSettings/properties/signupText",
+              labelKey: `some.scope.fields.signupText.label`,
+              options: {
+                control: "hub-field-input-rich-text",
+                type: "textarea",
+              },
+              rules: [
+                {
+                  effect: UiSchemaRuleEffects.SHOW,
+                  conditions: [
+                    {
+                      scope:
+                        "/properties/hubOrgSettings/properties/enableSignUpText",
+                      schema: { const: true },
+                    },
+                  ],
+                },
+              ],
+            },
           ],
         },
       ],

@@ -30,9 +30,17 @@ export const UserSchema: IConfigurationSchema = {
           type: "boolean",
           default: false,
         },
+        enableTermsAndConditions: {
+          type: "boolean",
+          default: false,
+        },
         termsAndConditions: {
           type: "string",
           default: "",
+        },
+        enableSignUpText: {
+          type: "boolean",
+          default: false,
         },
         signupText: {
           type: "string",
