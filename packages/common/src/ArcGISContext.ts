@@ -154,6 +154,10 @@ export interface IArcGISContext {
    */
   communityOrgId: string;
   /**
+   * If we are in a community org with an associated e-org Return the Hub Enterprise Org Id, if defined
+   */
+  enterpriseOrgId: string;
+  /**
    * Returns the Community Org Hostname, if defined
    */
   communityOrgHostname: string;
@@ -253,6 +257,11 @@ export interface IArcGISContext {
    * Is the current users org type a community org?
    */
   isCommunityOrg: boolean;
+
+  /**
+   * Is the current user an org admin and not in a custom role?
+   */
+  isOrgAdmin: boolean;
 
   /**
    * Return the token for a given app, if defined
@@ -736,6 +745,19 @@ export class ArcGISContext implements IArcGISContext {
   }
 
   /**
+   * If we are in a community org with an associated e-org
+   * Return the Hub Enterprise Org Id, if defined
+   */
+  public get enterpriseOrgId(): string {
+    if (this._portalSelf) {
+      return getProp(
+        this._portalSelf,
+        "portalProperties.hub.settings.enterpriseOrg.orgId"
+      );
+    }
+  }
+
+  /**
    * Returns the Hub Community Org Hostname, if defined
    *
    * i.e. c-org.maps.arcgis.com
@@ -817,6 +839,18 @@ export class ArcGISContext implements IArcGISContext {
         "portalProperties.hub.settings.orgType"
       );
       result = orgType === "community";
+    }
+    return result;
+  }
+
+  /**
+   * Returns whether the current user is an org admin and not in a custom role.
+   */
+  public get isOrgAdmin(): boolean {
+    const { _currentUser } = this;
+    let result = false;
+    if (_currentUser) {
+      result = _currentUser.role === "org_admin" && !_currentUser.roleId;
     }
     return result;
   }
