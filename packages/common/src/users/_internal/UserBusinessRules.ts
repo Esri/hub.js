@@ -13,6 +13,9 @@ export const UserPermissions = [
   "hub:user:workspace",
   "hub:user:workspace:overview",
   "hub:user:workspace:settings",
+  "hub:user:workspace:content",
+  "hub:user:workspace:groups",
+  "hub:user:workspace:shared-with-me",
   "hub:user:manage",
 ] as const;
 
@@ -51,14 +54,26 @@ export const UserPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:user:workspace:overview",
-    // NOTE: other entities like site, group, and content gate this to alpha
-    // but at least for now this is the only pane for users, so no gating
-    // availability: ["alpha"],
-    dependencies: ["hub:user:workspace", "hub:user:view"],
+    dependencies: ["hub:user:workspace"],
+  },
+  {
+    permission: "hub:user:workspace:content",
+    availability: ["alpha"],
+    dependencies: ["hub:user:workspace", "hub:user:owner"],
+  },
+  {
+    permission: "hub:user:workspace:groups",
+    availability: ["alpha"],
+    dependencies: ["hub:user:workspace", "hub:user:owner"],
+  },
+  {
+    permission: "hub:user:workspace:shared-with-me",
+    availability: ["alpha"],
+    dependencies: ["hub:user:workspace", "hub:user:owner"],
   },
   {
     permission: "hub:user:workspace:settings",
-    dependencies: ["hub:user:workspace", "hub:user:edit"],
+    dependencies: ["hub:user:workspace", "hub:user:owner"],
   },
   {
     permission: "hub:user:manage",

@@ -10,8 +10,10 @@ import {
 } from "./_internal/getWorkflowForType";
 import { getProp } from "../objects/get-prop";
 import { getUserGroupsFromQuery } from "./_internal/getUserGroupsFromQuery";
+import { getUserGroupsByMembership } from "./_internal/getUserGroupsByMembership";
 import { IAddContentWorkflowConfig } from "./types/AddContentWorkflowTypes";
 import { getCatalogGroups } from "./_internal";
+import { IGroupsByMembership } from "./types/IGroupsByMembership";
 
 const EmptyAddContentWorkflowConfig: IAddContentWorkflowConfig = {
   create: null,
@@ -144,12 +146,39 @@ function getAddContentConfigForQuery(
     return getAddContentConfigForItemQuery(query, context);
   } else if (query.targetEntity === "event") {
     return getAddContentConfigForEventQuery(query, context);
+  } else if (query.targetEntity === "group") {
+    return getAddContentConfigForGroupQuery(query, context);
   } else {
     const response = cloneObject(EmptyAddContentWorkflowConfig);
     response.state = "disabled";
     response.reason = "unsupported-target-entity";
     return response;
   }
+}
+
+function getAddContentConfigForGroupQuery(
+  _query: IQuery,
+  context: IArcGISContext
+): IAddContentWorkflowConfig {
+  const response = cloneObject(EmptyAddContentWorkflowConfig);
+  // groups can be created or added but the user needs permission
+  const chk = checkPermission("hub:group:create", context);
+  if (chk.access) {
+    response.create = {
+      targetEntity: "group",
+      workflow: "create",
+      types: ["Group"],
+    };
+    response.state = "enabled";
+  } else {
+    response.state = "disabled";
+    response.reason = "no-permission";
+    if (chk.response === "assertion-failed") {
+      response.reason = "too-many-groups";
+    }
+  }
+
+  return response;
 }
 
 /**
@@ -210,16 +239,31 @@ function getAddContentConfigForItemQuery(
   context: IArcGISContext
 ): IAddContentWorkflowConfig {
   const response = cloneObject(EmptyAddContentWorkflowConfig);
-  const userGroups = getUserGroupsFromQuery(query, context.currentUser);
-  if (
-    !userGroups.owner.length &&
-    !userGroups.admin.length &&
-    !userGroups.member.length
-  ) {
-    response.state = "disabled";
-    response.reason = "not-in-groups";
-    return response;
+  // We need to return groups by membership so we can show the group sharing ux
+  let userGroups: IGroupsByMembership = {
+    owner: [],
+    admin: [],
+    member: [],
+  };
+
+  // If the query has groups, then we need to check that the user is a member of those groups
+  const groups: string[] = getPredicateValues("group", query);
+  if (groups.length) {
+    userGroups = getUserGroupsFromQuery(query, context.currentUser);
+    if (
+      !userGroups.owner.length &&
+      !userGroups.admin.length &&
+      !userGroups.member.length
+    ) {
+      response.state = "disabled";
+      response.reason = "not-in-groups";
+      return response;
+    }
+  } else {
+    // we just need all the user's groups, as IGroupsByMembership object
+    userGroups = getUserGroupsByMembership(context.currentUser);
   }
+
   // Get all the types from all the the predicates in all of the filters
   let queryTypes = getPredicateValues("type", query);
 
@@ -248,7 +292,10 @@ function getAddContentConfigForItemQuery(
       }
       response.create.types.push(wft.type);
     }
-    if (wft.workflows.includes("existing")) {
+    // Only show the add existing workflows if the query includes groups
+    // otherwise the query is defined by other criteria that we likely can't
+    // handle at this time (e.g. items owned by current user)
+    if (wft.workflows.includes("existing") && groups.length) {
       if (!response.existing) {
         response.existing = {
           targetEntity: wft.targetEntity,

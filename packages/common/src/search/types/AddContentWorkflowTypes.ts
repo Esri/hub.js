@@ -20,6 +20,7 @@ export interface IAddContentWorkflowConfig {
     | "no-permission"
     | "not-in-groups"
     | "invalid-object"
+    | "too-many-groups"
     | "unsupported-target-entity";
   // FUTURE we can add the checks
 }

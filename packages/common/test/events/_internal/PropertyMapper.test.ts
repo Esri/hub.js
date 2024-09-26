@@ -14,12 +14,23 @@ import {
   HubEventAttendanceType,
   HubEventCapacityType,
 } from "../../../src/events/types";
+import * as getLocationFromEventModule from "../../../src/events/_internal/getLocationFromEvent";
+import { IHubLocation } from "../../../src/core/types/IHubLocation";
 
 describe("PropertyMapper", () => {
   let propertyMapper: EventPropertyMapper;
+  let getLocationFromEventSpy: jasmine.Spy;
+  let locationResult: IHubLocation;
 
   beforeEach(() => {
+    locationResult = {
+      type: "none",
+    };
     propertyMapper = new EventPropertyMapper(getPropertyMap());
+    getLocationFromEventSpy = spyOn(
+      getLocationFromEventModule,
+      "getLocationFromEvent"
+    ).and.returnValue(locationResult);
   });
 
   describe("storeToEntity", () => {
@@ -113,6 +124,8 @@ describe("PropertyMapper", () => {
         geometries: [],
       } as any;
       const res = propertyMapper.storeToEntity(eventRecord, {});
+      expect(getLocationFromEventSpy).toHaveBeenCalledTimes(1);
+      expect(getLocationFromEventSpy).toHaveBeenCalledWith(eventRecord);
       expect(res).toEqual({
         isAllDay: false,
         name: "event title",
@@ -141,12 +154,7 @@ describe("PropertyMapper", () => {
         inPersonCapacity: 30,
         inPersonRegistrationCount: 0,
         inPersonCapacityType: HubEventCapacityType.Fixed,
-        location: {
-          type: "none",
-          spatialReference: {},
-          extent: [[]],
-          geometries: [],
-        },
+        location: locationResult,
         onlineCapacity: null,
         onlineCapacityType: HubEventCapacityType.Unlimited,
         onlineDetails: null,

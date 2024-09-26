@@ -686,6 +686,7 @@ describe("hubSearchItems Module |", () => {
       links: {
         self: "https://www.arcgis.com/home/item.html?id=f4bcc",
         siteRelative: "/maps/f4bcc",
+        workspaceRelative: "/workspace/content/f4bcc",
         thumbnail:
           "https://www.arcgis.com/sharing/rest/content/items/f4bcc/info/thumbnail/hub_thumbnail_1658341016537.png",
       },

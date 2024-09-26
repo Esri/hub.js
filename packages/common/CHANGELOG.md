@@ -1,3 +1,38 @@
+# @esri/hub-common [14.194.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.193.0...@esri/hub-common@14.194.0) (2024-09-25)
+
+
+### Features
+
+* user workspace pane permissions & add content config ([#1667](https://github.com/Esri/hub.js/issues/1667)) ([82bcd8b](https://github.com/Esri/hub.js/commit/82bcd8bc49a709682e26dd9d634f45ac963531c7))
+
+# @esri/hub-common [14.193.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.192.0...@esri/hub-common@14.193.0) (2024-09-25)
+
+
+### Features
+
+* **hub-common:** add layout field for list and map views to event ga… ([#1663](https://github.com/Esri/hub.js/issues/1663)) ([78f2d8c](https://github.com/Esri/hub.js/commit/78f2d8cd365a70e367a968f069628d22ceb801a0))
+
+# @esri/hub-common [14.192.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.191.1...@esri/hub-common@14.192.0) (2024-09-24)
+
+
+### Features
+
+* **hub-common:** add catalog field for newsletter subscriptions ([#1661](https://github.com/Esri/hub.js/issues/1661)) ([dc53d47](https://github.com/Esri/hub.js/commit/dc53d476d0095892b151e362179a9ab3d3237eff))
+
+## @esri/hub-common [14.191.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.191.0...@esri/hub-common@14.191.1) (2024-09-24)
+
+
+### Bug Fixes
+
+* **hub-common:** hide showAdditionalInfo field in event gallery card … ([#1659](https://github.com/Esri/hub.js/issues/1659)) ([baf5764](https://github.com/Esri/hub.js/commit/baf5764b5eec61d5444c522c8bf2e12025e1b4cc))
+
+# @esri/hub-common [14.191.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.190.0...@esri/hub-common@14.191.0) (2024-09-20)
+
+
+### Features
+
+* **hub-common:** add slot to event gallery card editor ui schema ([#1656](https://github.com/Esri/hub.js/issues/1656)) ([dbb7b55](https://github.com/Esri/hub.js/commit/dbb7b55b1e8129521f9059fd1b3b3e36e36bf6c7))
+
 # @esri/hub-common [14.190.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.189.0...@esri/hub-common@14.190.0) (2024-09-18)
 
 

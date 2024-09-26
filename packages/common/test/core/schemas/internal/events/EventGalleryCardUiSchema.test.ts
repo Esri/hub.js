@@ -333,6 +333,12 @@ describe("EventGalleryCardUiSchema", () => {
                       },
                     ],
                   },
+                  {
+                    type: "Slot",
+                    options: {
+                      name: "add-content-slot",
+                    },
+                  },
                 ],
               },
               {
@@ -373,15 +379,25 @@ describe("EventGalleryCardUiSchema", () => {
                       enum: { i18nScope: "some.scope.appearance.shadow" },
                     },
                   },
+                  // TODO: Re-add this once https://github.com/Esri/calcite-design-system/issues/10152 & https://github.com/Esri/calcite-design-system/issues/6059 are resolved
+                  // {
+                  //   label:
+                  //     "{{some.scope.appearance.showAdditionalInfo.label:translate}}",
+                  //   scope: "/properties/showAdditionalInfo",
+                  //   type: "Control",
+                  //   options: {
+                  //     control: "hub-field-input-switch",
+                  //     layout: "inline-space-between",
+                  //   },
+                  // },
                   {
-                    label:
-                      "{{some.scope.appearance.showAdditionalInfo.label:translate}}",
-                    scope: "/properties/showAdditionalInfo",
-                    type: "Control",
+                    label: `{{some.scope.appearance.layout.label:translate}}`,
                     options: {
-                      control: "hub-field-input-switch",
-                      layout: "inline-space-between",
+                      control: "hub-field-input-select",
+                      enum: { i18nScope: `some.scope.appearance.layout` },
                     },
+                    scope: "/properties/layout",
+                    type: "Control",
                   },
                 ],
               },
@@ -416,6 +432,7 @@ describe("EventGalleryCardUiSchema", () => {
                         actions: [
                           {
                             label: `{{some.scope.options.openIn.notice.link:translate}}`,
+                            ariaLabel: `{{some.scope.options.openIn.notice.linkAriaLabel:translate}}`,
                             icon: "launch",
                             href: "https://www.w3.org/TR/WCAG20-TECHS/G200.html",
                             target: "_blank",
