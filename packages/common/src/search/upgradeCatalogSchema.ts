@@ -79,6 +79,7 @@ function applyCatalogSchema(original: any): IHubCatalog {
     }
 
     if (groups.length) {
+      // add the group predicate to all the scope queries
       catalog.scopes = Object.entries(catalog.scopes).reduce<ICatalogScope>(
         (acc, entry) => ({
           ...acc,
@@ -95,26 +96,25 @@ function applyCatalogSchema(original: any): IHubCatalog {
     // for org-level home sites (e.g., "my-org.hub.arcgis.com")
     const orgId = getProp(original, "orgId");
     if (orgId) {
+      // add the org ID predicate to all the scope queries
       catalog.scopes = Object.entries(catalog.scopes).reduce<ICatalogScope>(
         (acc, entry) => {
           const entityType: EntityType = entry[0] as EntityType;
           const query: IQuery = entry[1] as IQuery;
-          return ORG_ID_PREDICATE_FNS_BY_ENTITY_TYPE[entityType]
-            ? {
-                ...acc,
-                [entityType]: {
-                  ...query,
-                  filters: [
-                    ...query.filters,
-                    {
-                      operation: "AND",
-                      predicates:
-                        ORG_ID_PREDICATE_FNS_BY_ENTITY_TYPE[entityType](orgId),
-                    },
-                  ],
+          return {
+            ...acc,
+            [entityType]: {
+              ...query,
+              filters: [
+                ...query.filters,
+                {
+                  operation: "AND",
+                  predicates:
+                    ORG_ID_PREDICATE_FNS_BY_ENTITY_TYPE[entityType](orgId),
                 },
-              }
-            : acc;
+              ],
+            },
+          };
         },
         {}
       );
