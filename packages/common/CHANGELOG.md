@@ -1,3 +1,10 @@
+# @esri/hub-common [14.196.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.195.0...@esri/hub-common@14.196.0) (2024-09-26)
+
+
+### Features
+
+* adds reset uischema rule effect ([#1664](https://github.com/Esri/hub.js/issues/1664)) ([eb68ed9](https://github.com/Esri/hub.js/commit/eb68ed9ab2401565a1b1981e910fdaa18fed21ef))
+
 # @esri/hub-common [14.195.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.194.0...@esri/hub-common@14.195.0) (2024-09-26)
 
 
