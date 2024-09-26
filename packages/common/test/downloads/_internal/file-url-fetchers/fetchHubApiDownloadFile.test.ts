@@ -147,7 +147,11 @@ describe("fetchHubApiDownloadFile", () => {
       pollInterval: 0,
     });
 
-    expect(result).toEqual({ type: "url", href: "fake-url" });
+    expect(result).toEqual({
+      type: "url",
+      href: "fake-url",
+      cacheStatus: undefined,
+    });
   });
   it("polls with a progress callback", async () => {
     fetchMock.once(
@@ -182,7 +186,7 @@ describe("fetchHubApiDownloadFile", () => {
 
     const progressCallback = jasmine
       .createSpy("progressCallback")
-      .and.callFake((status: any, percent: any): any => null);
+      .and.callFake((_status: any, _percent: any): any => null);
     const result = await fetchHubApiDownloadFile({
       entity: { id: "123" } as unknown as IHubEditableContent,
       format: ServiceDownloadFormat.CSV,
@@ -195,8 +199,12 @@ describe("fetchHubApiDownloadFile", () => {
       progressCallback,
     });
 
-    expect(result).toEqual({ type: "url", href: "fake-url" });
-    expect(progressCallback).toHaveBeenCalledTimes(3);
+    expect(result).toEqual({
+      type: "url",
+      href: "fake-url",
+      cacheStatus: undefined,
+    });
+    expect(progressCallback).toHaveBeenCalledTimes(2);
     expect(progressCallback).toHaveBeenCalledWith(
       DownloadOperationStatus.PENDING,
       undefined
@@ -204,10 +212,6 @@ describe("fetchHubApiDownloadFile", () => {
     expect(progressCallback).toHaveBeenCalledWith(
       DownloadOperationStatus.PROCESSING,
       50
-    );
-    expect(progressCallback).toHaveBeenCalledWith(
-      DownloadOperationStatus.COMPLETED,
-      undefined
     );
   });
   it("handles geometry, token and where parameters", async () => {
@@ -240,7 +244,11 @@ describe("fetchHubApiDownloadFile", () => {
       where: "1=1",
     });
 
-    expect(result).toEqual({ type: "url", href: "fake-url" });
+    expect(result).toEqual({
+      type: "url",
+      href: "fake-url",
+      cacheStatus: undefined,
+    });
   });
   it("Explicitly sets the spatialRefId to 4326 for GeoJSON and KML", async () => {
     fetchMock.once(
@@ -263,7 +271,11 @@ describe("fetchHubApiDownloadFile", () => {
       layers: [0],
     });
 
-    expect(result).toEqual({ type: "url", href: "fake-url" });
+    expect(result).toEqual({
+      type: "url",
+      href: "fake-url",
+      cacheStatus: undefined,
+    });
 
     fetchMock.once(
       "https://hubqa.arcgis.com/api/download/v1/items/123/kml?redirect=false&layers=0&spatialRefId=4326",
@@ -285,6 +297,149 @@ describe("fetchHubApiDownloadFile", () => {
       layers: [0],
     });
 
-    expect(result2).toEqual({ type: "url", href: "fake-url-2" });
+    expect(result2).toEqual({
+      type: "url",
+      href: "fake-url-2",
+      cacheStatus: undefined,
+    });
+  });
+  it("polls without a progress callback", async () => {
+    fetchMock.once(
+      "https://hubqa.arcgis.com/api/download/v1/items/123/csv?redirect=false&layers=0",
+      {
+        body: {
+          status: "Pending",
+        },
+      }
+    );
+    fetchMock.once(
+      "https://hubqa.arcgis.com/api/download/v1/items/123/csv?redirect=false&layers=0",
+      {
+        body: {
+          status: "InProgress",
+          recordCount: 100,
+          progressInPercent: 50,
+        },
+      },
+      { overwriteRoutes: false }
+    );
+    fetchMock.once(
+      "https://hubqa.arcgis.com/api/download/v1/items/123/csv?redirect=false&layers=0",
+      {
+        body: {
+          status: "Completed",
+          resultUrl: "fake-url",
+        },
+      },
+      { overwriteRoutes: false }
+    );
+
+    const result = await fetchHubApiDownloadFile({
+      entity: { id: "123" } as unknown as IHubEditableContent,
+      format: ServiceDownloadFormat.CSV,
+      context: {
+        hubUrl: "https://hubqa.arcgis.com",
+        hubRequestOptions: {},
+      } as unknown as IArcGISContext,
+      layers: [0],
+      pollInterval: 0,
+    });
+
+    expect(result).toEqual({
+      type: "url",
+      href: "fake-url",
+      cacheStatus: undefined,
+    });
+  });
+  it("returns the cacheStatus if present", async () => {
+    fetchMock.once(
+      "https://hubqa.arcgis.com/api/download/v1/items/123/csv?redirect=false&layers=0",
+      {
+        body: {
+          status: "Completed",
+          resultUrl: "fake-url",
+          cacheStatus: "ready_unknown",
+        },
+      }
+    );
+
+    const result = await fetchHubApiDownloadFile({
+      entity: { id: "123" } as unknown as IHubEditableContent,
+      format: ServiceDownloadFormat.CSV,
+      context: {
+        hubUrl: "https://hubqa.arcgis.com",
+        hubRequestOptions: {},
+      } as unknown as IArcGISContext,
+      layers: [0],
+      pollInterval: 0,
+    });
+
+    expect(result).toEqual({
+      type: "url",
+      href: "fake-url",
+      cacheStatus: "ready_unknown",
+    });
+  });
+  it("handles the updateCache option", async () => {
+    fetchMock.once(
+      "https://hubqa.arcgis.com/api/download/v1/items/123/csv?redirect=false&layers=0&updateCache=true",
+      {
+        body: {
+          status: "Pending",
+        },
+      }
+    );
+    fetchMock.once(
+      "https://hubqa.arcgis.com/api/download/v1/items/123/csv?redirect=false&layers=0&trackCacheUpdate=true",
+      {
+        body: {
+          status: "PagingData",
+          recordCount: 100,
+          progressInPercent: 50,
+        },
+      },
+      { overwriteRoutes: false }
+    );
+    fetchMock.once(
+      "https://hubqa.arcgis.com/api/download/v1/items/123/csv?redirect=false&layers=0&trackCacheUpdate=true",
+      {
+        body: {
+          status: "Completed",
+          resultUrl: "fake-url",
+        },
+      },
+      { overwriteRoutes: false }
+    );
+
+    const progressCallback = jasmine
+      .createSpy("progressCallback")
+      .and.callFake((_status: any, _percent: any): any => null);
+    const result = await fetchHubApiDownloadFile({
+      entity: { id: "123" } as unknown as IHubEditableContent,
+      format: ServiceDownloadFormat.CSV,
+      context: {
+        hubUrl: "https://hubqa.arcgis.com",
+        hubRequestOptions: {},
+      } as unknown as IArcGISContext,
+      layers: [0],
+      pollInterval: 0,
+      progressCallback,
+      updateCache: true,
+    });
+
+    expect(result).toEqual({
+      type: "url",
+      href: "fake-url",
+      cacheStatus: undefined,
+    });
+    expect(progressCallback).toHaveBeenCalledTimes(2);
+    expect(progressCallback).toHaveBeenCalledWith(
+      DownloadOperationStatus.PENDING,
+      undefined
+    );
+    expect(progressCallback).toHaveBeenCalledWith(
+      DownloadOperationStatus.PROCESSING,
+      50
+    );
   });
 });

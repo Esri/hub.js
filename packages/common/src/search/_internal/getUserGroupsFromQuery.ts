@@ -2,6 +2,7 @@ import { IUser } from "@esri/arcgis-rest-types";
 import { getPredicateValues } from "../getPredicateValues";
 import { IGroupsByMembership } from "../types/IGroupsByMembership";
 import { IQuery } from "../types/IHubCatalog";
+import { getUserGroupsByMembership } from "./getUserGroupsByMembership";
 /**
  * Given a query and a user, return an object with the set of groups
  * that are in the Query, and which the user is a member of, split by
@@ -16,7 +17,7 @@ export function getUserGroupsFromQuery(
   query: IQuery,
   user: IUser
 ): IGroupsByMembership {
-  const response: IGroupsByMembership = {
+  let response: IGroupsByMembership = {
     owner: [],
     member: [],
     admin: [],
@@ -24,29 +25,27 @@ export function getUserGroupsFromQuery(
   // collect up all the group predicates from the query's filters
   // NOTE: this only pulls the all and any predicates
   const groups: string[] = getPredicateValues("group", query);
+  // get the user's groups by membership
+  const allUserGroups = getUserGroupsByMembership(user);
+  // if there are groups in the query, we subset the user's groups
+  // based on the groups in the query
+  if (groups.length) {
+    const props: Array<keyof IGroupsByMembership> = [
+      "owner",
+      "admin",
+      "member",
+    ];
+    groups.forEach((groupId) => {
+      // check each group type and add the group to the response if the user is a member
+      props.forEach((prop) => {
+        if (allUserGroups[prop].includes(groupId)) {
+          response[prop].push(groupId);
+        }
+      });
+    });
+  } else {
+    response = allUserGroups;
+  }
 
-  // get the user's groups
-  const userGroups = user.groups || [];
-  // loop through the groups and determine if the user is an admin or normal member
-  // and add into the response
-  groups.forEach((groupId) => {
-    // get the group from the user's groups array
-    const group = userGroups.find((g) => g.id === groupId);
-    if (group) {
-      if (group.userMembership?.memberType === "owner") {
-        response.owner.push(groupId);
-      }
-      if (group.userMembership?.memberType === "admin") {
-        response.admin.push(groupId);
-      }
-      // If user is just a member and the group is not view only
-      if (group.userMembership?.memberType === "member" && !group.isViewOnly) {
-        response.member.push(groupId);
-      }
-      // there is a `none` option in the userMembership but
-      // that would never be returned in the user's groups
-      // so we don't need to check for it
-    }
-  });
   return response;
 }

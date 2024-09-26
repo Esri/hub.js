@@ -1,3 +1,17 @@
+# @esri/hub-common [14.195.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.194.0...@esri/hub-common@14.195.0) (2024-09-26)
+
+
+### Features
+
+* **hub-common:** allow force updates of cache files as well as cache status reporting ([#1657](https://github.com/Esri/hub.js/issues/1657)) ([e46c6b2](https://github.com/Esri/hub.js/commit/e46c6b2137c10f5e92f17bee57806668c8a0f5f4))
+
+# @esri/hub-common [14.194.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.193.0...@esri/hub-common@14.194.0) (2024-09-25)
+
+
+### Features
+
+* user workspace pane permissions & add content config ([#1667](https://github.com/Esri/hub.js/issues/1667)) ([82bcd8b](https://github.com/Esri/hub.js/commit/82bcd8bc49a709682e26dd9d634f45ac963531c7))
+
 # @esri/hub-common [14.193.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.192.0...@esri/hub-common@14.193.0) (2024-09-25)
 
 

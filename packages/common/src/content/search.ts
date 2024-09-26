@@ -13,6 +13,7 @@ import {
   deriveLocationFromItem,
   getHubRelativeUrl,
 } from "./_internal/internalContentUtils";
+import { getRelativeWorkspaceUrl } from "../core/getRelativeWorkspaceUrl";
 
 /**
  * Enrich a generic search result
@@ -88,6 +89,10 @@ export async function enrichContentSearchResult(
     result.type,
     result.id,
     item.typeKeywords
+  );
+  result.links.workspaceRelative = getRelativeWorkspaceUrl(
+    result.type,
+    result.id
   );
 
   return result;
