@@ -1,6 +1,6 @@
 import { getProp } from "../objects";
 import { cloneObject } from "../util";
-import { IHubCatalog } from "./types";
+import { ICatalogScope, IHubCatalog, IQuery } from "./types";
 
 const CATALOG_SCHEMA_VERSION = 1.0;
 
@@ -39,13 +39,17 @@ function applyCatalogSchema(original: any): IHubCatalog {
           targetEntity: "item",
           filters: [],
         },
+        event: {
+          targetEntity: "event",
+          filters: [],
+        },
       },
       collections: [],
     };
 
     // Handle legacy group structure
     const rawGroups = getProp(original, "groups");
-    let groups = [];
+    let groups: string[] = [];
     if (Array.isArray(rawGroups) && rawGroups.length) {
       groups = rawGroups;
     } else if (typeof rawGroups === "string") {
@@ -53,9 +57,18 @@ function applyCatalogSchema(original: any): IHubCatalog {
     }
 
     if (groups.length) {
-      catalog.scopes.item.filters.push({
-        predicates: [{ group: groups }],
-      });
+      catalog.scopes = Object.entries<IQuery>(
+        catalog.scopes
+      ).reduce<ICatalogScope>(
+        (acc, [entityType, scope]) => ({
+          ...acc,
+          [entityType]: {
+            ...scope,
+            filters: [{ predicates: [{ group: groups }] }],
+          },
+        }),
+        {}
+      );
     }
 
     // Handle legacy orgId value, which should only be present
