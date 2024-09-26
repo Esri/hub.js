@@ -763,12 +763,14 @@ const QA_ALPHA_ORGS = [
   "MiFBHFxEZWumnKCx",
   "8HRYeOqprj872mxP",
   "Xj56SBi2udA78cC9",
+  "uFEMdY4VMonzH8sG",
 ];
 const PROD_ALPHA_ORGS = [
   // "gGHDlz6USftL5Pau",
   "CrA5hYOKgL3Vwan8",
   "zj227gjeSqEyG4HF",
   "bkrWlSKcjUDFDtgw",
+  "vIu5NCxQFilhVymO",
 ];
 
 export const ALPHA_ORGS = [
