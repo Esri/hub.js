@@ -1,8 +1,30 @@
 import { getProp } from "../objects";
 import { cloneObject } from "../util";
-import { ICatalogScope, IHubCatalog, IQuery } from "./types";
+import {
+  EntityType,
+  ICatalogScope,
+  IHubCatalog,
+  IPredicate,
+  IQuery,
+} from "./types";
 
 const CATALOG_SCHEMA_VERSION = 1.0;
+
+const ORG_ID_PREDICATE_FNS_BY_ENTITY_TYPE: Partial<
+  Record<EntityType, (orgId: string) => IPredicate[]>
+> = {
+  item: (orgId) => [
+    // Portal uses `orgid` instead of `orgId`, so we comply.
+    // While `orgid` is valid field for search, it does not count
+    // towards Portal's requirement of needing at least one filter.
+    { orgid: [orgId] },
+    // Hack to force Portal to think that at least one filter has
+    // been provided. 'Code Attachment' is an old AGO type that has
+    // been defunct for some time, so the results won't be affected.
+    { type: { not: ["Code Attachment"] } },
+  ],
+  event: (orgId) => [{ orgId }],
+};
 
 /**
  * Apply schema upgrades to Catalog objects
@@ -57,13 +79,11 @@ function applyCatalogSchema(original: any): IHubCatalog {
     }
 
     if (groups.length) {
-      catalog.scopes = Object.entries<IQuery>(
-        catalog.scopes
-      ).reduce<ICatalogScope>(
-        (acc, [entityType, scope]) => ({
+      catalog.scopes = Object.entries(catalog.scopes).reduce<ICatalogScope>(
+        (acc, entry) => ({
           ...acc,
-          [entityType]: {
-            ...scope,
+          [entry[0] as EntityType]: {
+            ...(entry[1] as IQuery),
             filters: [{ predicates: [{ group: groups }] }],
           },
         }),
@@ -75,19 +95,29 @@ function applyCatalogSchema(original: any): IHubCatalog {
     // for org-level home sites (e.g., "my-org.hub.arcgis.com")
     const orgId = getProp(original, "orgId");
     if (orgId) {
-      catalog.scopes.item.filters.push({
-        operation: "AND",
-        predicates: [
-          // Portal uses `orgid` instead of `orgId`, so we comply.
-          // While `orgid` is valid field for search, it does not count
-          // towards Portal's requirement of needing at least one filter.
-          { orgid: [orgId] },
-          // Hack to force Portal to think that at least one filter has
-          // been provided. 'Code Attachment' is an old AGO type that has
-          // been defunct for some time, so the results won't be affected.
-          { type: { not: ["Code Attachment"] } },
-        ],
-      });
+      catalog.scopes = Object.entries(catalog.scopes).reduce<ICatalogScope>(
+        (acc, entry) => {
+          const entityType: EntityType = entry[0] as EntityType;
+          const query: IQuery = entry[1] as IQuery;
+          return ORG_ID_PREDICATE_FNS_BY_ENTITY_TYPE[entityType]
+            ? {
+                ...acc,
+                [entityType]: {
+                  ...query,
+                  filters: [
+                    ...query.filters,
+                    {
+                      operation: "AND",
+                      predicates:
+                        ORG_ID_PREDICATE_FNS_BY_ENTITY_TYPE[entityType](orgId),
+                    },
+                  ],
+                },
+              }
+            : acc;
+        },
+        {}
+      );
     }
 
     return catalog;
