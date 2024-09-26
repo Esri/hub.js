@@ -54,7 +54,6 @@ export const buildUiSchema = async (
               helperText: {
                 labelKey: `${i18nScope}.fields.followers.showFollowAction.helperText`,
               },
-              styles: { "max-width": "45rem" },
             },
           },
           {

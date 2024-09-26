@@ -62,7 +62,6 @@ describe("buildUiSchema: site followers", () => {
                   labelKey:
                     "some.scope.fields.followers.showFollowAction.helperText",
                 },
-                styles: { "max-width": "45rem" },
               },
             },
             {
