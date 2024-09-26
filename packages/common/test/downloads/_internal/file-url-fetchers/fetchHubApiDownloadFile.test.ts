@@ -61,7 +61,7 @@ describe("fetchHubApiDownloadFile", () => {
   });
   it("throws an ArcgisHubDownloadError if the api returns an error during polling", async () => {
     fetchMock.once(
-      "https://hubqa.arcgis.com/api/download/v1/items/123/csv?redirect=false&layers=0&trackCacheUpdate=true",
+      "https://hubqa.arcgis.com/api/download/v1/items/123/csv?redirect=false&layers=0",
       {
         status: 500,
         body: { message: "Special Server Error" },
@@ -107,7 +107,7 @@ describe("fetchHubApiDownloadFile", () => {
   });
   it("polls without a progress callback", async () => {
     fetchMock.once(
-      "https://hubqa.arcgis.com/api/download/v1/items/123/csv?redirect=false&layers=0&trackCacheUpdate=true",
+      "https://hubqa.arcgis.com/api/download/v1/items/123/csv?redirect=false&layers=0",
       {
         body: {
           status: "Pending",
@@ -155,7 +155,7 @@ describe("fetchHubApiDownloadFile", () => {
   });
   it("polls with a progress callback", async () => {
     fetchMock.once(
-      "https://hubqa.arcgis.com/api/download/v1/items/123/csv?redirect=false&layers=0&trackCacheUpdate=true",
+      "https://hubqa.arcgis.com/api/download/v1/items/123/csv?redirect=false&layers=0",
       {
         body: {
           status: "Pending",
@@ -305,7 +305,7 @@ describe("fetchHubApiDownloadFile", () => {
   });
   it("polls without a progress callback", async () => {
     fetchMock.once(
-      "https://hubqa.arcgis.com/api/download/v1/items/123/csv?redirect=false&layers=0&trackCacheUpdate=true",
+      "https://hubqa.arcgis.com/api/download/v1/items/123/csv?redirect=false&layers=0",
       {
         body: {
           status: "Pending",
