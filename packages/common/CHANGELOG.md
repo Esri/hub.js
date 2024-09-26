@@ -1,3 +1,10 @@
+# @esri/hub-common [14.197.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.196.1...@esri/hub-common@14.197.0) (2024-09-26)
+
+
+### Features
+
+* **hub-common:** add calendar layout option ([#1671](https://github.com/Esri/hub.js/issues/1671)) ([fc6c545](https://github.com/Esri/hub.js/commit/fc6c545921fe1c64ddc3872b16cdf8462e897bb6))
+
 ## @esri/hub-common [14.196.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.196.0...@esri/hub-common@14.196.1) (2024-09-26)
 
 
