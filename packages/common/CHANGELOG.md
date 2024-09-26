@@ -1,3 +1,10 @@
+## @esri/hub-common [14.196.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.196.0...@esri/hub-common@14.196.1) (2024-09-26)
+
+
+### Bug Fixes
+
+* **hub-common:** add trackCacheUpdate by default when polling download API ([#1670](https://github.com/Esri/hub.js/issues/1670)) ([0a701c0](https://github.com/Esri/hub.js/commit/0a701c0f55769319bb66e87bd976fd617e6547c3))
+
 # @esri/hub-common [14.196.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.195.0...@esri/hub-common@14.196.0) (2024-09-26)
 
 
