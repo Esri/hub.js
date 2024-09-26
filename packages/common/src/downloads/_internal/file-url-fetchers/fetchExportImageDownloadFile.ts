@@ -53,7 +53,6 @@ export async function fetchExportImageDownloadFile(
   // }
 
   const blob: Blob = await request(`${entity.url}/exportImage`, requestOptions);
-  progressCallback && progressCallback(DownloadOperationStatus.COMPLETED);
   return {
     type: "blob",
     blob,
