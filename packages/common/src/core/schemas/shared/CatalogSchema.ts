@@ -7,7 +7,6 @@ export const PredicateSchema: IConfigurationSchema = {
 
 export const FilterSchema: IConfigurationSchema = {
   type: "object",
-  required: ["predicates"],
   properties: {
     operation: {
       type: "string",
@@ -15,6 +14,7 @@ export const FilterSchema: IConfigurationSchema = {
     },
     predicates: {
       type: "array",
+      minItems: 1,
       items: PredicateSchema,
     },
   },
