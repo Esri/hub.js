@@ -87,6 +87,8 @@ export interface IHubUser extends IHubEntityBase {
  */
 export interface IHubUserOrgSettings {
   showInformationalBanner?: boolean;
+  enableTermsAndConditions?: boolean;
   termsAndConditions?: string;
+  enableSignupText?: boolean;
   signupText?: string;
 }

@@ -7,6 +7,7 @@ import { enrichEntity } from "../core/enrichEntity";
 import { cloneObject } from "../util";
 import { UserEditorType } from "./_internal/UserSchema";
 import { DEFAULT_USER } from "./defaults";
+import { updateUserCommunityOrgSettings } from "../utils/internal/updateCommunityOrgSettings";
 
 export class HubUser implements IWithEditorBehavior {
   protected context: IArcGISContext;
@@ -68,6 +69,10 @@ export class HubUser implements IWithEditorBehavior {
     // TODO in later story -- note that there will need to be a
     // check for if the user is an org admin -- they cannot
     // POST to necessary endpoints if not
+    await updateUserCommunityOrgSettings(
+      this.entity.hubOrgSettings,
+      this.context
+    );
 
     // 3. update portal settings
     // TODO in later story

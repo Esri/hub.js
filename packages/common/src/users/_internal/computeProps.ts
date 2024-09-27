@@ -28,7 +28,9 @@ export async function computeProps(
       context,
       "portal.portalProperties.hub.settings.informationalBanner"
     ),
+    enableTermsAndConditions: !!signinSettings.termsAndConditions,
     termsAndConditions: signinSettings.termsAndConditions,
+    enableSignupText: !!signinSettings.signupText,
     signupText: signinSettings.signupText,
   };
 
