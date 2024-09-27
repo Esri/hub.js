@@ -1,4 +1,4 @@
-import { _isOrgAdmin, checkPermission, getPortalUrl } from "../..";
+import { _isOrgAdmin, getPortalUrl } from "../..";
 import { IArcGISContext } from "../../ArcGISContext";
 import { IHubUserOrgSettings } from "../../core/types/IHubUser";
 import { request } from "@esri/arcgis-rest-request";
@@ -38,7 +38,7 @@ export async function updateUserCommunityOrgSettings(
 
   // build the url
   const urlPath = "/portals/self/setSigninSettings?f=json";
-  const url = `${getPortalUrl(context.communityOrgHostname)}${urlPath}`;
+  const url = `${getPortalUrl(context.communityOrgUrl)}${urlPath}`;
 
   // send the request to update
   return request(url, {

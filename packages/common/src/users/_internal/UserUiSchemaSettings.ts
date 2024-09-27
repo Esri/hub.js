@@ -84,7 +84,7 @@ export const buildUiSchema = async (
       },
       {
         type: "Section",
-        labelKey: `${i18nScope}.sections.orgSettings`,
+        labelKey: `${i18nScope}.sections.orgSettings.label`,
         options: {
           helperText: {
             label: `${context.portal.name}`,
@@ -162,8 +162,8 @@ export const buildUiSchema = async (
               },
               {
                 type: "Control",
-                scope: "/properties/hubOrgSettings/properties/enableSignUpText",
-                labelKey: `${i18nScope}.fields.enableSignUpText.label`,
+                scope: "/properties/hubOrgSettings/properties/enableSignupText",
+                labelKey: `${i18nScope}.fields.enableSignupText.label`,
                 options: {
                   control: "hub-field-input-switch",
                   layout: "inline-space-between",
@@ -183,7 +183,7 @@ export const buildUiSchema = async (
                     conditions: [
                       {
                         scope:
-                          "/properties/hubOrgSettings/properties/enableSignUpText",
+                          "/properties/hubOrgSettings/properties/enableSignupText",
                         schema: { const: true },
                       },
                     ],
