@@ -15,10 +15,6 @@ const getAgoEntityOrgIdPredicates = (orgId: string): IPredicate[] => [
   // While `orgid` is valid field for search, it does not count
   // towards Portal's requirement of needing at least one filter.
   { orgid: [orgId] },
-];
-
-const getAgoItemEntityOrgIdPredicates = (orgId: string): IPredicate[] => [
-  ...getAgoEntityOrgIdPredicates(orgId),
   // Hack to force Portal to think that at least one filter has
   // been provided. 'Code Attachment' is an old AGO type that has
   // been defunct for some time, so the results won't be affected.
@@ -32,9 +28,7 @@ const getEventEntityOrgIdPredicates = (orgId: string): IPredicate[] => [
 const ORG_ID_PREDICATE_FNS_BY_ENTITY_TYPE: Partial<
   Record<EntityType, (orgId: string) => IPredicate[]>
 > = {
-  item: getAgoItemEntityOrgIdPredicates,
-  group: getAgoEntityOrgIdPredicates,
-  user: getAgoEntityOrgIdPredicates,
+  item: getAgoEntityOrgIdPredicates,
   event: getEventEntityOrgIdPredicates,
 };
 
@@ -44,10 +38,11 @@ const ORG_ID_PREDICATE_FNS_BY_ENTITY_TYPE: Partial<
  * @returns
  */
 export function upgradeCatalogSchema(catalog: any): IHubCatalog {
-  let clone = cloneObject(catalog);
-  if (getProp(clone, "schemaVersion") === CATALOG_SCHEMA_VERSION) {
-    return clone;
+  if (getProp(catalog, "schemaVersion") === CATALOG_SCHEMA_VERSION) {
+    return catalog;
   } else {
+    let clone = cloneObject(catalog);
+
     // apply migrations in order
     clone = applyCatalogSchema(clone);
 
@@ -73,14 +68,6 @@ function applyCatalogSchema(original: any): IHubCatalog {
           targetEntity: "item",
           filters: [],
         },
-        group: {
-          targetEntity: "group",
-          filters: [],
-        },
-        user: {
-          targetEntity: "user",
-          filters: [],
-        },
         event: {
           targetEntity: "event",
           filters: [],
@@ -99,19 +86,17 @@ function applyCatalogSchema(original: any): IHubCatalog {
     }
 
     if (groups.length) {
-      // add the group predicate to all the scope queries
-      catalog.scopes = Object.entries(catalog.scopes)
-        .filter(([entityType]) => ["item", "event"].includes(entityType))
-        .reduce<ICatalogScope>(
-          (acc, entry) => ({
-            ...acc,
-            [entry[0] as EntityType]: {
-              ...(entry[1] as IQuery),
-              filters: [{ predicates: [{ group: groups }] }],
-            },
-          }),
-          {}
-        );
+      // add the group predicate to item & event scope queries
+      catalog.scopes = Object.entries(catalog.scopes).reduce<ICatalogScope>(
+        (acc, entry) => ({
+          ...acc,
+          [entry[0] as EntityType]: {
+            ...(entry[1] as IQuery),
+            filters: [{ predicates: [{ group: groups }] }],
+          },
+        }),
+        {}
+      );
     }
 
     // Handle legacy orgId value, which should only be present

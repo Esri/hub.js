@@ -1,3 +1,4 @@
+import { getWithDefault } from "../../objects/get-with-default";
 import { IHubCatalog } from "../../search/types/IHubCatalog";
 import { upgradeCatalogSchema } from "../../search/upgradeCatalogSchema";
 import { IModel } from "../../types";
@@ -44,6 +45,7 @@ export function applyCatalogStructureMigration(model: IModel): IModel {
 
   // return model;
   const result = cloneObject(model);
-  result.data.catalog = upgradeCatalogSchema(model.data.catalog || {});
+  const catalog = getWithDefault(model.data, "catalog", {});
+  result.data.catalog = upgradeCatalogSchema(catalog);
   return result;
 }
