@@ -100,16 +100,18 @@ function applyCatalogSchema(original: any): IHubCatalog {
 
     if (groups.length) {
       // add the group predicate to all the scope queries
-      catalog.scopes = Object.entries(catalog.scopes).reduce<ICatalogScope>(
-        (acc, entry) => ({
-          ...acc,
-          [entry[0] as EntityType]: {
-            ...(entry[1] as IQuery),
-            filters: [{ predicates: [{ group: groups }] }],
-          },
-        }),
-        {}
-      );
+      catalog.scopes = Object.entries(catalog.scopes)
+        .filter(([entityType]) => ["item", "event"].includes(entityType))
+        .reduce<ICatalogScope>(
+          (acc, entry) => ({
+            ...acc,
+            [entry[0] as EntityType]: {
+              ...(entry[1] as IQuery),
+              filters: [{ predicates: [{ group: groups }] }],
+            },
+          }),
+          {}
+        );
     }
 
     // Handle legacy orgId value, which should only be present
