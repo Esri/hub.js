@@ -538,6 +538,7 @@ export enum ItemType {
   "OneDrive" = "OneDrive",
   "StoryMap" = "StoryMap",
   "Dashboard" = "Dashboard",
+  "Hub Project" = "Hub Project",
   "Hub Initiative" = "Hub Initiative",
   "Hub Site Application" = "Hub Site Application",
   "Web Experience" = "Web Experience",
