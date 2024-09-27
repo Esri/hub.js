@@ -16,14 +16,13 @@ export async function updateUserCommunityOrgSettings(
     throw new Error("User is not authenticated");
   }
 
-  // check that user is an org admin
-  if (!_isOrgAdmin(context.currentUser)) {
-    throw new Error("User is not an org admin");
-  }
-
   // check that we have the community org hostname
   if (!context.communityOrgHostname) {
     throw new Error("No community org hostname found in context");
+  }
+
+  if (!context.isCommunityOrg || context.currentUser.role !== "org_admin") {
+    throw new Error("User is not an org admin in the current community org");
   }
 
   // only if we have them enabled and we have values do we send them in the request
@@ -46,6 +45,7 @@ export async function updateUserCommunityOrgSettings(
     params: {
       termsAndConditions,
       signupText,
+      token: context.hubRequestOptions.authentication.token,
     },
   });
 }

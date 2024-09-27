@@ -121,6 +121,16 @@ export const buildUiSchema = async (
           {
             type: "Section",
             labelKey: `${i18nScope}.sections.orgSettings.signinSettings.label`,
+            rules: [
+              {
+                effect: UiSchemaRuleEffects.SHOW,
+                conditions: [
+                  // only if in community org and admin of the org
+                  context.isCommunityOrg &&
+                    context.currentUser?.role === "org_admin",
+                ],
+              },
+            ],
             options: {
               section: "block",
               helperText: {
