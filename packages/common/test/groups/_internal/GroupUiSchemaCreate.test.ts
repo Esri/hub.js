@@ -20,97 +20,397 @@ describe("GroupUiSchemaCreate", () => {
         type: "Layout",
         elements: [
           {
-            labelKey: `some.scope.fields.name.label`,
-            scope: "/properties/name",
-            type: "Control",
-            options: {
-              messages: [
-                {
-                  type: "ERROR",
-                  keyword: "required",
-                  icon: true,
-                  labelKey: `some.scope.fields.name.requiredError`,
+            type: "Section",
+            labelKey: `some.scope.sections.basicInfo.label`,
+            elements: [
+              {
+                labelKey: `some.scope.fields.name.label`,
+                scope: "/properties/name",
+                type: "Control",
+                options: {
+                  messages: [
+                    {
+                      type: "ERROR",
+                      keyword: "required",
+                      icon: true,
+                      labelKey: `some.scope.fields.name.requiredError`,
+                    },
+                    {
+                      type: "ERROR",
+                      keyword: "maxLength",
+                      icon: true,
+                      labelKey: `some.scope.fields.name.maxLengthError`,
+                    },
+                  ],
                 },
-                {
-                  type: "ERROR",
-                  keyword: "maxLength",
-                  icon: true,
-                  labelKey: `some.scope.fields.name.maxLengthError`,
-                },
-              ],
-            },
-          },
-          {
-            labelKey: `some.scope.fields.isSharedUpdate.label`,
-            scope: "/properties/isSharedUpdate",
-            type: "Control",
-            options: {
-              control: "hub-field-input-switch",
-              helperText: {
-                labelKey: `some.scope.fields.isSharedUpdate.helperText`,
               },
-            },
+              {
+                labelKey: `some.scope.fields.access.label`,
+                scope: "/properties/access",
+                type: "Control",
+                options: {
+                  control: "hub-field-input-tile-select",
+                  descriptions: [
+                    `{{some.scope.fields.access.private.description:translate}}`,
+                    `{{some.scope.fields.access.org.description:translate}}`,
+                    `{{some.scope.fields.access.public.description:translate}}`,
+                  ],
+                  icons: ["users", "organization", "globe"],
+                  labels: [
+                    `{{some.scope.fields.access.private.label:translate}}`,
+                    `{{some.scope.fields.access.org.label:translate}}`,
+                    `{{some.scope.fields.access.public.label:translate}}`,
+                  ],
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.NONE,
+                    },
+                    {
+                      effect: UiSchemaRuleEffects.ENABLE,
+                      conditions: [false],
+                    },
+                    {
+                      effect: UiSchemaRuleEffects.ENABLE,
+                      conditions: [false],
+                    },
+                  ],
+                },
+              },
+            ],
           },
           {
-            labelKey: `some.scope.fields.membershipAccess.label`,
-            scope: "/properties/membershipAccess",
-            type: "Control",
-            options: {
-              control: "hub-field-input-radio",
-              labels: [
-                `{{some.scope.fields.membershipAccess.org:translate}}`,
-                `{{some.scope.fields.membershipAccess.collab:translate}}`,
-                `{{some.scope.fields.membershipAccess.any:translate}}`,
-              ],
-              rules: [
-                [
+            type: "Section",
+            labelKey: `some.scope.sections.capabilities.label`,
+            elements: [
+              {
+                labelKey: `some.scope.fields.isSharedUpdate.label`,
+                scope: "/properties/isSharedUpdate",
+                type: "Control",
+                options: {
+                  control: "hub-field-input-switch",
+                  helperText: {
+                    labelKey: `some.scope.fields.isSharedUpdate.helperText`,
+                  },
+                },
+                rule: {
+                  effect: UiSchemaRuleEffects.ENABLE,
+                  conditions: [false],
+                },
+              },
+              {
+                labelKey: `some.scope.fields.isAdmin.label`,
+                scope: "/properties/leavingDisallowed",
+                type: "Control",
+                options: {
+                  control: "hub-field-input-switch",
+                  helperText: {
+                    labelKey: `some.scope.fields.isAdmin.helperText`,
+                  },
+                },
+                rules: [
                   {
-                    effect: UiSchemaRuleEffects.NONE,
+                    effect: UiSchemaRuleEffects.ENABLE,
+                    conditions: [false],
                   },
                 ],
-                [
+              },
+              {
+                labelKey: `some.scope.fields.isOpenData.label`,
+                scope: "/properties/isOpenData",
+                type: "Control",
+                options: {
+                  control: "hub-field-input-switch",
+                  helperText: {
+                    labelKey: `some.scope.fields.isOpenData.helperText`,
+                  },
+                  messages: [
+                    {
+                      type: "ERROR",
+                      keyword: "const",
+                      icon: true,
+                      labelKey: `some.scope.fields.isOpenData.constError`,
+                    },
+                  ],
+                },
+                rules: [
                   {
-                    effect: UiSchemaRuleEffects.DISABLE,
-                    conditions: [true],
+                    effect: UiSchemaRuleEffects.ENABLE,
+                    conditions: [
+                      {
+                        scope: "/properties/access",
+                        schema: { const: "public" },
+                      },
+                      false,
+                    ],
+                  },
+                  {
+                    effect: UiSchemaRuleEffects.RESET,
+                    conditions: [
+                      {
+                        scope: "/properties/access",
+                        schema: { not: { const: "public" } },
+                      },
+                    ],
+                  },
+                  {
+                    effect: UiSchemaRuleEffects.SHOW,
+                    conditions: [false],
                   },
                 ],
-                [
+              },
+            ],
+          },
+          {
+            type: "Section",
+            labelKey: `some.scope.sections.membershipAccess.label`,
+            elements: [
+              {
+                labelKey: `some.scope.fields.membershipAccess.label`,
+                scope: "/properties/membershipAccess",
+                type: "Control",
+                options: {
+                  control: "hub-field-input-tile-select",
+                  labels: [
+                    `{{some.scope.fields.membershipAccess.org.label:translate}}`,
+                    `{{some.scope.fields.membershipAccess.collab.label:translate}}`,
+                    `{{some.scope.fields.membershipAccess.any.label:translate}}`,
+                  ],
+                  descriptions: [
+                    `{{some.scope.fields.membershipAccess.org.description:translate}}`,
+                    `{{some.scope.fields.membershipAccess.collab.description:translate}}`,
+                    `{{some.scope.fields.membershipAccess.any.description:translate}}`,
+                  ],
+                  // rules that pertain to the individual options
+                  rules: [
+                    [
+                      {
+                        effect: UiSchemaRuleEffects.NONE,
+                      },
+                    ],
+                    [
+                      {
+                        effect: UiSchemaRuleEffects.DISABLE,
+                        conditions: [
+                          {
+                            scope: "/properties/leavingDisallowed",
+                            schema: { const: true },
+                          },
+                        ],
+                      },
+                    ],
+                    [
+                      {
+                        effect: UiSchemaRuleEffects.DISABLE,
+                        conditions: [
+                          {
+                            scope: "/properties/leavingDisallowed",
+                            schema: { const: true },
+                          },
+                        ],
+                      },
+                      {
+                        effect: UiSchemaRuleEffects.DISABLE,
+                        conditions: [
+                          {
+                            scope: "/properties/isSharedUpdate",
+                            schema: { const: true },
+                          },
+                        ],
+                      },
+                    ],
+                  ],
+                  messages: [
+                    {
+                      type: "ERROR",
+                      keyword: "pattern",
+                      icon: true,
+                      labelKey: `some.scope.fields.membershipAccess.patternError`,
+                    },
+                    {
+                      type: "ERROR",
+                      keyword: "const",
+                      icon: true,
+                      labelKey: `some.scope.fields.membershipAccess.constError`,
+                    },
+                  ],
+                },
+                // rules that pertain to the control as a whole
+                rules: [
                   {
-                    effect: UiSchemaRuleEffects.DISABLE,
-                    conditions: [true],
+                    effect: UiSchemaRuleEffects.RESET,
+                    conditions: [
+                      {
+                        scope: "/properties/leavingDisallowed",
+                        schema: { const: true },
+                      },
+                    ],
                   },
                   {
-                    effect: UiSchemaRuleEffects.DISABLE,
+                    effect: UiSchemaRuleEffects.RESET,
                     conditions: [
                       {
                         scope: "/properties/isSharedUpdate",
                         schema: { const: true },
                       },
+                      {
+                        scope: "/properties/membershipAccess",
+                        schema: { const: "anyone" },
+                      },
                     ],
                   },
                 ],
-              ],
-              messages: [
-                {
-                  type: "ERROR",
-                  keyword: "enum",
-                  icon: true,
-                  labelKey: `some.scope.fields.membershipAccess.enumError`,
+              },
+              {
+                labelKey: `some.scope.fields.join.label`,
+                scope: "/properties/_join",
+                type: "Control",
+                options: {
+                  control: "hub-field-input-tile-select",
+                  labels: [
+                    `{{some.scope.fields.join.invite.label:translate}}`,
+                    `{{some.scope.fields.join.request.label:translate}}`,
+                    `{{some.scope.fields.join.auto.label:translate}}`,
+                  ],
+                  descriptions: [
+                    `{{some.scope.fields.join.invite.description:translate}}`,
+                    `{{some.scope.fields.join.request.description:translate}}`,
+                    `{{some.scope.fields.join.auto.description:translate}}`,
+                  ],
+                  // rules that pertain to the individual options
+                  rules: [
+                    [
+                      {
+                        effect: UiSchemaRuleEffects.NONE,
+                      },
+                    ],
+                    [
+                      {
+                        effect: UiSchemaRuleEffects.DISABLE,
+                        conditions: [
+                          {
+                            scope: "/properties/access",
+                            schema: { const: "private" },
+                          },
+                        ],
+                      },
+                    ],
+                    [
+                      {
+                        effect: UiSchemaRuleEffects.DISABLE,
+                        conditions: [
+                          {
+                            scope: "/properties/access",
+                            schema: { const: "private" },
+                          },
+                        ],
+                      },
+                      {
+                        effect: UiSchemaRuleEffects.DISABLE,
+                        conditions: [
+                          {
+                            scope: "/properties/leavingDisallowed",
+                            schema: { const: true },
+                          },
+                        ],
+                      },
+                      {
+                        effect: UiSchemaRuleEffects.DISABLE,
+                        conditions: [
+                          {
+                            scope: "/properties/isSharedUpdate",
+                            schema: { const: true },
+                          },
+                        ],
+                      },
+                    ],
+                  ],
+                  messages: [
+                    {
+                      type: "ERROR",
+                      keyword: "const",
+                      icon: true,
+                      labelKey: `some.scope.fields.join.constError`,
+                    },
+                    {
+                      type: "ERROR",
+                      keyword: "pattern",
+                      icon: true,
+                      labelKey: `some.scope.fields.join.patternError`,
+                    },
+                  ],
                 },
-              ],
-            },
-          },
-          {
-            labelKey: `some.scope.fields.contributeContent.label`,
-            scope: "/properties/isViewOnly",
-            type: "Control",
-            options: {
-              control: "hub-field-input-radio",
-              labels: [
-                `{{some.scope.fields.contributeContent.all:translate}}`,
-                `{{some.scope.fields.contributeContent.admins:translate}}`,
-              ],
-            },
+                // rules that pertain to the control as a whole
+                rules: [
+                  {
+                    effect: UiSchemaRuleEffects.RESET,
+                    conditions: [
+                      {
+                        scope: "/properties/access",
+                        schema: { const: "private" },
+                      },
+                    ],
+                  },
+                  {
+                    effect: UiSchemaRuleEffects.RESET,
+                    conditions: [
+                      {
+                        scope: "/properties/leavingDisallowed",
+                        schema: { const: true },
+                      },
+                      {
+                        scope: "/properties/_join",
+                        schema: { const: "auto" },
+                      },
+                    ],
+                  },
+                  {
+                    effect: UiSchemaRuleEffects.RESET,
+                    conditions: [
+                      {
+                        scope: "/properties/isSharedUpdate",
+                        schema: { const: true },
+                      },
+                      {
+                        scope: "/properties/_join",
+                        schema: { const: "auto" },
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                labelKey: `some.scope.fields.hiddenMembers.label`,
+                scope: "/properties/hiddenMembers",
+                type: "Control",
+                options: {
+                  control: "hub-field-input-tile-select",
+                  labels: [
+                    `{{some.scope.fields.hiddenMembers.members.label:translate}}`,
+                    `{{some.scope.fields.hiddenMembers.admins.label:translate}}`,
+                  ],
+                  descriptions: [
+                    `{{some.scope.fields.hiddenMembers.members.description:translate}}`,
+                    `{{some.scope.fields.hiddenMembers.admins.description:translate}}`,
+                  ],
+                },
+              },
+              {
+                labelKey: `some.scope.fields.contributeContent.label`,
+                scope: "/properties/isViewOnly",
+                type: "Control",
+                options: {
+                  control: "hub-field-input-tile-select",
+                  labels: [
+                    `{{some.scope.fields.contributeContent.members.label:translate}}`,
+                    `{{some.scope.fields.contributeContent.admins.label:translate}}`,
+                  ],
+                  descriptions: [
+                    `{{some.scope.fields.contributeContent.members.description:translate}}`,
+                    `{{some.scope.fields.contributeContent.admins.description:translate}}`,
+                  ],
+                },
+              },
+            ],
           },
         ],
       });
@@ -126,9 +426,9 @@ describe("GroupUiSchemaCreate", () => {
       );
 
       expect(defaults).toEqual({
-        access: "org",
+        access: "private",
         autoJoin: false,
-        isSharedUpdate: false,
+        isSharedUpdate: true,
         isInvitationOnly: false,
         hiddenMembers: false,
         isViewOnly: false,
@@ -144,9 +444,9 @@ describe("GroupUiSchemaCreate", () => {
         getMockContextWithPrivilenges(["portal:user:addExternalMembersToGroup"])
       );
       expect(defaults).toEqual({
-        access: "org",
+        access: "private",
         autoJoin: false,
-        isSharedUpdate: false,
+        isSharedUpdate: true,
         isInvitationOnly: false,
         hiddenMembers: false,
         isViewOnly: false,

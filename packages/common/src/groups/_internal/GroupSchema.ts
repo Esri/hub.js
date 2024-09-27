@@ -36,13 +36,30 @@ export const GroupSchema: IConfigurationSchema = {
     },
     description: { type: "string" },
     _thumbnail: ENTITY_IMAGE_SCHEMA,
+    access: {
+      type: "string",
+      enum: ["private", "org", "public"],
+      default: "private",
+    },
     isSharedUpdate: { type: "boolean", enum: [false, true], default: false },
+    leavingDisallowed: { type: "boolean", enum: [false, true], default: false },
+    isOpenData: { type: "boolean", enum: [false, true], default: false },
     membershipAccess: {
       type: "string",
       enum: ["organization", "collaborators", "anyone"],
-      default: "anyone",
+      default: "organization",
     },
     isViewOnly: {
+      type: "boolean",
+      enum: [false, true],
+      default: false,
+    },
+    _join: {
+      type: "string",
+      enum: ["invite", "request", "auto"],
+      default: "invite",
+    },
+    hiddenMembers: {
       type: "boolean",
       enum: [false, true],
       default: false,
@@ -50,7 +67,36 @@ export const GroupSchema: IConfigurationSchema = {
     isDiscussable: ENTITY_IS_DISCUSSABLE_SCHEMA,
   },
   allOf: [
-    // if the group is a shared update group, it must have a membershipAccess of org or collaborators
+    // if the group is not public, isOpenData must be false
+    {
+      if: {
+        properties: {
+          access: { pattern: "(private|org)" },
+        },
+      },
+      then: {
+        properties: {
+          isOpenData: { const: false },
+        },
+      },
+    },
+    // if the group is is an admin group (leavingDisallowed === true), it must have a membershipAccess of organization
+    {
+      if: {
+        properties: {
+          leavingDisallowed: { const: true },
+        },
+      },
+      then: {
+        properties: {
+          membershipAccess: {
+            type: "string",
+            const: "organization",
+          },
+        },
+      },
+    },
+    // if the group is a shared update group (isSharedUpdate === true), it must have a membershipAccess of org or collaborators
     {
       if: {
         properties: {
@@ -60,8 +106,44 @@ export const GroupSchema: IConfigurationSchema = {
       then: {
         properties: {
           membershipAccess: {
+            type: "string",
             pattern: "(organization|collaborators)",
           },
+        },
+      },
+    },
+    // if the group has access === 'private', then the _join must be 'invite'
+    {
+      if: {
+        properties: {
+          access: { const: "private" },
+        },
+      },
+      then: {
+        properties: {
+          _join: { const: "invite" },
+        },
+      },
+    },
+    // if the group is admin (leavingDisallowed === true) or isSharedUpdate === true, _join must be 'invite' or 'request'
+    {
+      if: {
+        anyOf: [
+          {
+            properties: {
+              leavingDisallowed: { const: true },
+            },
+          },
+          {
+            properties: {
+              isSharedUpdate: { const: true },
+            },
+          },
+        ],
+      },
+      then: {
+        properties: {
+          _join: { pattern: "(invite|request)" },
         },
       },
     },

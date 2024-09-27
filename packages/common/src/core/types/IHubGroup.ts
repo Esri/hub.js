@@ -139,6 +139,23 @@ export interface IHubGroup
 
   /** Whether members of the group are hidden */
   hiddenMembers?: boolean;
+
+  /**
+   * Is it an admin group / is leaving disallowed
+   */
+  leavingDisallowed?: boolean;
+
+  /**
+   * Whether the group is an open data group
+   */
+  isOpenData?: boolean;
+
+  /**
+   * The join type for the group
+   * (invite, request, auto)
+   * This is mapped to isInvitationOnly and autoJoin
+   */
+  _join?: "invite" | "request" | "auto";
 }
 
 /**

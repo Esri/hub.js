@@ -7,6 +7,8 @@ import { IArcGISContext } from "../../ArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 import { checkPermission } from "../../permissions";
 import { getWellKnownGroup } from "../getWellKnownGroup";
+import { IHubGroup } from "../../core";
+import { getProp } from "../../objects";
 
 /**
  * @private
@@ -16,117 +18,433 @@ import { getWellKnownGroup } from "../getWellKnownGroup";
  */
 export const buildUiSchema = async (
   i18nScope: string,
-  options: EntityEditorOptions,
+  options: Partial<IHubGroup>,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
   return {
     type: "Layout",
     elements: [
       {
-        labelKey: `${i18nScope}.fields.name.label`,
-        scope: "/properties/name",
-        type: "Control",
-        options: {
-          messages: [
-            {
-              type: "ERROR",
-              keyword: "required",
-              icon: true,
-              labelKey: `${i18nScope}.fields.name.requiredError`,
+        type: "Section",
+        labelKey: `${i18nScope}.sections.basicInfo.label`,
+        elements: [
+          {
+            labelKey: `${i18nScope}.fields.name.label`,
+            scope: "/properties/name",
+            type: "Control",
+            options: {
+              messages: [
+                {
+                  type: "ERROR",
+                  keyword: "required",
+                  icon: true,
+                  labelKey: `${i18nScope}.fields.name.requiredError`,
+                },
+                {
+                  type: "ERROR",
+                  keyword: "maxLength",
+                  icon: true,
+                  labelKey: `${i18nScope}.fields.name.maxLengthError`,
+                },
+              ],
             },
-            {
-              type: "ERROR",
-              keyword: "maxLength",
-              icon: true,
-              labelKey: `${i18nScope}.fields.name.maxLengthError`,
-            },
-          ],
-        },
-      },
-      {
-        labelKey: `${i18nScope}.fields.isSharedUpdate.label`,
-        scope: "/properties/isSharedUpdate",
-        type: "Control",
-        options: {
-          control: "hub-field-input-switch",
-          helperText: {
-            labelKey: `${i18nScope}.fields.isSharedUpdate.helperText`,
           },
-        },
+          {
+            labelKey: `${i18nScope}.fields.access.label`,
+            scope: "/properties/access",
+            type: "Control",
+            options: {
+              control: "hub-field-input-tile-select",
+              descriptions: [
+                `{{${i18nScope}.fields.access.private.description:translate}}`,
+                `{{${i18nScope}.fields.access.org.description:translate}}`,
+                `{{${i18nScope}.fields.access.public.description:translate}}`,
+              ],
+              icons: ["users", "organization", "globe"],
+              labels: [
+                `{{${i18nScope}.fields.access.private.label:translate}}`,
+                `{{${i18nScope}.fields.access.org.label:translate}}`,
+                `{{${i18nScope}.fields.access.public.label:translate}}`,
+              ],
+              rules: [
+                {
+                  effect: UiSchemaRuleEffects.NONE,
+                },
+                {
+                  effect: UiSchemaRuleEffects.ENABLE,
+                  conditions: [
+                    checkPermission(
+                      "platform:portal:user:shareGroupToOrg",
+                      context
+                    ).access,
+                  ],
+                },
+                {
+                  effect: UiSchemaRuleEffects.ENABLE,
+                  conditions: [
+                    checkPermission(
+                      "platform:portal:user:shareGroupToPublic",
+                      context
+                    ).access,
+                  ],
+                },
+              ],
+            },
+          },
+        ],
       },
       {
-        labelKey: `${i18nScope}.fields.membershipAccess.label`,
-        scope: "/properties/membershipAccess",
-        type: "Control",
-        options: {
-          control: "hub-field-input-radio",
-          labels: [
-            `{{${i18nScope}.fields.membershipAccess.org:translate}}`,
-            `{{${i18nScope}.fields.membershipAccess.collab:translate}}`,
-            `{{${i18nScope}.fields.membershipAccess.any:translate}}`,
-          ],
-          rules: [
-            [
-              // we should be able to use undefined in this position but when used with entityEditor, we run this through interpolateTranslations
-              // which filters out the undefined which makes this not work as expected
-              // so for now we add a rule that doesn't do anything
-              {
-                effect: UiSchemaRuleEffects.NONE,
+        type: "Section",
+        labelKey: `${i18nScope}.sections.capabilities.label`,
+        elements: [
+          {
+            labelKey: `${i18nScope}.fields.isSharedUpdate.label`,
+            scope: "/properties/isSharedUpdate",
+            type: "Control",
+            options: {
+              control: "hub-field-input-switch",
+              helperText: {
+                labelKey: `${i18nScope}.fields.isSharedUpdate.helperText`,
               },
-            ],
-            [
+            },
+            rule: {
+              effect: UiSchemaRuleEffects.ENABLE,
+              conditions: [
+                checkPermission(
+                  "platform:portal:admin:createUpdateCapableGroup",
+                  context
+                ).access,
+              ],
+            },
+          },
+          {
+            labelKey: `${i18nScope}.fields.isAdmin.label`,
+            scope: "/properties/leavingDisallowed",
+            type: "Control",
+            options: {
+              control: "hub-field-input-switch",
+              helperText: {
+                labelKey: `${i18nScope}.fields.isAdmin.helperText`,
+              },
+            },
+            rules: [
               {
-                effect: UiSchemaRuleEffects.DISABLE,
+                effect: UiSchemaRuleEffects.ENABLE,
                 conditions: [
-                  !checkPermission(
-                    "platform:portal:user:addExternalMembersToGroup",
+                  checkPermission(
+                    "platform:portal:admin:createLeavingDisallowedGroup",
                     context
                   ).access,
                 ],
               },
             ],
-            [
+          },
+          {
+            labelKey: `${i18nScope}.fields.isOpenData.label`,
+            scope: "/properties/isOpenData",
+            type: "Control",
+            options: {
+              control: "hub-field-input-switch",
+              helperText: {
+                labelKey: `${i18nScope}.fields.isOpenData.helperText`,
+              },
+              messages: [
+                {
+                  type: "ERROR",
+                  keyword: "const",
+                  icon: true,
+                  labelKey: `${i18nScope}.fields.isOpenData.constError`,
+                },
+              ],
+            },
+            rules: [
               {
-                effect: UiSchemaRuleEffects.DISABLE,
+                effect: UiSchemaRuleEffects.ENABLE,
                 conditions: [
-                  !checkPermission(
-                    "platform:portal:user:addExternalMembersToGroup",
+                  {
+                    scope: "/properties/access",
+                    schema: { const: "public" },
+                  },
+                  checkPermission(
+                    "platform:opendata:user:designateGroup",
                     context
                   ).access,
                 ],
               },
               {
-                effect: UiSchemaRuleEffects.DISABLE,
+                effect: UiSchemaRuleEffects.RESET,
+                conditions: [
+                  {
+                    scope: "/properties/access",
+                    schema: { not: { const: "public" } },
+                  },
+                ],
+              },
+              {
+                effect: UiSchemaRuleEffects.SHOW,
+                conditions: [
+                  // should only exist if user's org has portal.portalProperties.opendata.enabled: true
+                  !!getProp(
+                    context,
+                    "portal.portalProperties.openData.enabled"
+                  ),
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: "Section",
+        labelKey: `${i18nScope}.sections.membershipAccess.label`,
+        elements: [
+          {
+            labelKey: `${i18nScope}.fields.membershipAccess.label`,
+            scope: "/properties/membershipAccess",
+            type: "Control",
+            options: {
+              control: "hub-field-input-tile-select",
+              labels: [
+                `{{${i18nScope}.fields.membershipAccess.org.label:translate}}`,
+                `{{${i18nScope}.fields.membershipAccess.collab.label:translate}}`,
+                `{{${i18nScope}.fields.membershipAccess.any.label:translate}}`,
+              ],
+              descriptions: [
+                `{{${i18nScope}.fields.membershipAccess.org.description:translate}}`,
+                `{{${i18nScope}.fields.membershipAccess.collab.description:translate}}`,
+                `{{${i18nScope}.fields.membershipAccess.any.description:translate}}`,
+              ],
+              // rules that pertain to the individual options
+              rules: [
+                [
+                  {
+                    effect: UiSchemaRuleEffects.NONE,
+                  },
+                ],
+                [
+                  {
+                    effect: UiSchemaRuleEffects.DISABLE,
+                    conditions: [
+                      {
+                        scope: "/properties/leavingDisallowed",
+                        schema: { const: true },
+                      },
+                    ],
+                  },
+                ],
+                [
+                  {
+                    effect: UiSchemaRuleEffects.DISABLE,
+                    conditions: [
+                      {
+                        scope: "/properties/leavingDisallowed",
+                        schema: { const: true },
+                      },
+                    ],
+                  },
+                  {
+                    effect: UiSchemaRuleEffects.DISABLE,
+                    conditions: [
+                      {
+                        scope: "/properties/isSharedUpdate",
+                        schema: { const: true },
+                      },
+                    ],
+                  },
+                ],
+              ],
+              messages: [
+                {
+                  type: "ERROR",
+                  keyword: "pattern",
+                  icon: true,
+                  labelKey: `${i18nScope}.fields.membershipAccess.patternError`,
+                },
+                {
+                  type: "ERROR",
+                  keyword: "const",
+                  icon: true,
+                  labelKey: `${i18nScope}.fields.membershipAccess.constError`,
+                },
+              ],
+            },
+            // rules that pertain to the control as a whole
+            rules: [
+              {
+                effect: UiSchemaRuleEffects.RESET,
+                conditions: [
+                  {
+                    scope: "/properties/leavingDisallowed",
+                    schema: { const: true },
+                  },
+                ],
+              },
+              {
+                effect: UiSchemaRuleEffects.RESET,
                 conditions: [
                   {
                     scope: "/properties/isSharedUpdate",
                     schema: { const: true },
                   },
+                  {
+                    scope: "/properties/membershipAccess",
+                    schema: { const: "anyone" },
+                  },
                 ],
               },
             ],
-          ],
-          messages: [
-            {
-              type: "ERROR",
-              keyword: "enum",
-              icon: true,
-              labelKey: `${i18nScope}.fields.membershipAccess.enumError`,
+          },
+          {
+            labelKey: `${i18nScope}.fields.join.label`,
+            scope: "/properties/_join",
+            type: "Control",
+            options: {
+              control: "hub-field-input-tile-select",
+              labels: [
+                `{{${i18nScope}.fields.join.invite.label:translate}}`,
+                `{{${i18nScope}.fields.join.request.label:translate}}`,
+                `{{${i18nScope}.fields.join.auto.label:translate}}`,
+              ],
+              descriptions: [
+                `{{${i18nScope}.fields.join.invite.description:translate}}`,
+                `{{${i18nScope}.fields.join.request.description:translate}}`,
+                `{{${i18nScope}.fields.join.auto.description:translate}}`,
+              ],
+              // rules that pertain to the individual options
+              rules: [
+                [
+                  {
+                    effect: UiSchemaRuleEffects.NONE,
+                  },
+                ],
+                [
+                  {
+                    effect: UiSchemaRuleEffects.DISABLE,
+                    conditions: [
+                      {
+                        scope: "/properties/access",
+                        schema: { const: "private" },
+                      },
+                    ],
+                  },
+                ],
+                [
+                  {
+                    effect: UiSchemaRuleEffects.DISABLE,
+                    conditions: [
+                      {
+                        scope: "/properties/access",
+                        schema: { const: "private" },
+                      },
+                    ],
+                  },
+                  {
+                    effect: UiSchemaRuleEffects.DISABLE,
+                    conditions: [
+                      {
+                        scope: "/properties/leavingDisallowed",
+                        schema: { const: true },
+                      },
+                    ],
+                  },
+                  {
+                    effect: UiSchemaRuleEffects.DISABLE,
+                    conditions: [
+                      {
+                        scope: "/properties/isSharedUpdate",
+                        schema: { const: true },
+                      },
+                    ],
+                  },
+                ],
+              ],
+              messages: [
+                {
+                  type: "ERROR",
+                  keyword: "const",
+                  icon: true,
+                  labelKey: `${i18nScope}.fields.join.constError`,
+                },
+                {
+                  type: "ERROR",
+                  keyword: "pattern",
+                  icon: true,
+                  labelKey: `${i18nScope}.fields.join.patternError`,
+                },
+              ],
             },
-          ],
-        },
-      },
-      {
-        labelKey: `${i18nScope}.fields.contributeContent.label`,
-        scope: "/properties/isViewOnly",
-        type: "Control",
-        options: {
-          control: "hub-field-input-radio",
-          labels: [
-            `{{${i18nScope}.fields.contributeContent.all:translate}}`,
-            `{{${i18nScope}.fields.contributeContent.admins:translate}}`,
-          ],
-        },
+            // rules that pertain to the control as a whole
+            rules: [
+              {
+                effect: UiSchemaRuleEffects.RESET,
+                conditions: [
+                  {
+                    scope: "/properties/access",
+                    schema: { const: "private" },
+                  },
+                ],
+              },
+              {
+                effect: UiSchemaRuleEffects.RESET,
+                conditions: [
+                  {
+                    scope: "/properties/leavingDisallowed",
+                    schema: { const: true },
+                  },
+                  {
+                    scope: "/properties/_join",
+                    schema: { const: "auto" },
+                  },
+                ],
+              },
+              {
+                effect: UiSchemaRuleEffects.RESET,
+                conditions: [
+                  {
+                    scope: "/properties/isSharedUpdate",
+                    schema: { const: true },
+                  },
+                  {
+                    scope: "/properties/_join",
+                    schema: { const: "auto" },
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            labelKey: `${i18nScope}.fields.hiddenMembers.label`,
+            scope: "/properties/hiddenMembers",
+            type: "Control",
+            options: {
+              control: "hub-field-input-tile-select",
+              labels: [
+                `{{${i18nScope}.fields.hiddenMembers.members.label:translate}}`,
+                `{{${i18nScope}.fields.hiddenMembers.admins.label:translate}}`,
+              ],
+              descriptions: [
+                `{{${i18nScope}.fields.hiddenMembers.members.description:translate}}`,
+                `{{${i18nScope}.fields.hiddenMembers.admins.description:translate}}`,
+              ],
+            },
+          },
+          {
+            labelKey: `${i18nScope}.fields.contributeContent.label`,
+            scope: "/properties/isViewOnly",
+            type: "Control",
+            options: {
+              control: "hub-field-input-tile-select",
+              labels: [
+                `{{${i18nScope}.fields.contributeContent.members.label:translate}}`,
+                `{{${i18nScope}.fields.contributeContent.admins.label:translate}}`,
+              ],
+              descriptions: [
+                `{{${i18nScope}.fields.contributeContent.members.description:translate}}`,
+                `{{${i18nScope}.fields.contributeContent.admins.description:translate}}`,
+              ],
+            },
+          },
+        ],
       },
     ],
   };
@@ -148,7 +466,7 @@ export const buildDefaults = async (
   context: IArcGISContext
 ): Promise<IConfigurationValues> => {
   return {
-    ...getWellKnownGroup("hubViewGroup", context),
-    membershipAccess: "organization",
+    ...getWellKnownGroup("hubGroup", context),
+    ...options,
   };
 };
