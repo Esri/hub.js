@@ -7,8 +7,7 @@ import { IWithCatalog, IWithCatalogs } from "../traits/IWithCatalog";
 import { IWithLayout } from "../traits/IWithLayout";
 import { IWithPermissions } from "../traits/IWithPermissions";
 
-// this is exported b/c it is also used by the site URL composite field
-export interface IHubSiteUrlInfo {
+interface IUrlProperties {
   /**
    * Subdomain of the site
    * Will be prepended to `<org-key>.hub.arcgis.com`
@@ -25,19 +24,27 @@ export interface IHubSiteUrlInfo {
   customHostname?: string;
 }
 
+// this is exported b/c it is also used by the site URL composite field
+export interface IHubSiteUrlInfo extends IUrlProperties {
+  /**
+   * URL of the site
+   */
+  url: string;
+}
+
 /**
  * DRAFT: Under development and more properties will likely be added
  * @internal
  */
 export interface IHubSite
   extends IHubItemEntity,
-    IHubSiteUrlInfo,
     IWithSlug,
     IWithCatalog, // DEPRECATED: Use IWithCatalogs instead
     IWithCatalogs,
     IWithLayout,
     IWithPermissions,
-    IWithVersioningBehavior {
+    IWithVersioningBehavior,
+    IUrlProperties {
   /**
    * Array of minimal page objects
    */

@@ -433,8 +433,9 @@ export class HubSite
     editor._discussions = this.entity.features["hub:site:feature:discussions"];
 
     // used by the site URL composite field
-    const { subdomain, defaultHostname } = editor;
+    const { url, subdomain, defaultHostname } = editor;
     editor._urlInfo = {
+      url,
       subdomain,
       defaultHostname,
       // NOTE: once the editor handles custom hostnames,
@@ -500,7 +501,8 @@ export class HubSite
     entity.extent = editor.location?.extent;
 
     // site URL info
-    const { subdomain, defaultHostname } = editor._urlInfo;
+    const { url, subdomain, defaultHostname } = editor._urlInfo;
+    entity.url = url;
     entity.subdomain = subdomain;
     entity.defaultHostname = defaultHostname;
 
