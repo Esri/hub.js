@@ -10,20 +10,32 @@ import {
 
 const CATALOG_SCHEMA_VERSION = 1.0;
 
+const getAgoEntityOrgIdPredicates = (orgId: string): IPredicate[] => [
+  // Portal uses `orgid` instead of `orgId`, so we comply.
+  // While `orgid` is valid field for search, it does not count
+  // towards Portal's requirement of needing at least one filter.
+  { orgid: [orgId] },
+];
+
+const getAgoItemEntityOrgIdPredicates = (orgId: string): IPredicate[] => [
+  ...getAgoEntityOrgIdPredicates(orgId),
+  // Hack to force Portal to think that at least one filter has
+  // been provided. 'Code Attachment' is an old AGO type that has
+  // been defunct for some time, so the results won't be affected.
+  { type: { not: ["Code Attachment"] } },
+];
+
+const getEventEntityOrgIdPredicates = (orgId: string): IPredicate[] => [
+  { orgId },
+];
+
 const ORG_ID_PREDICATE_FNS_BY_ENTITY_TYPE: Partial<
   Record<EntityType, (orgId: string) => IPredicate[]>
 > = {
-  item: (orgId) => [
-    // Portal uses `orgid` instead of `orgId`, so we comply.
-    // While `orgid` is valid field for search, it does not count
-    // towards Portal's requirement of needing at least one filter.
-    { orgid: [orgId] },
-    // Hack to force Portal to think that at least one filter has
-    // been provided. 'Code Attachment' is an old AGO type that has
-    // been defunct for some time, so the results won't be affected.
-    { type: { not: ["Code Attachment"] } },
-  ],
-  event: (orgId) => [{ orgId }],
+  item: getAgoItemEntityOrgIdPredicates,
+  group: getAgoEntityOrgIdPredicates,
+  user: getAgoEntityOrgIdPredicates,
+  event: getEventEntityOrgIdPredicates,
 };
 
 /**
@@ -32,8 +44,6 @@ const ORG_ID_PREDICATE_FNS_BY_ENTITY_TYPE: Partial<
  * @returns
  */
 export function upgradeCatalogSchema(catalog: any): IHubCatalog {
-  /* tslint:disable-next-line */
-  debugger;
   let clone = cloneObject(catalog);
   if (getProp(clone, "schemaVersion") === CATALOG_SCHEMA_VERSION) {
     return clone;
@@ -61,6 +71,14 @@ function applyCatalogSchema(original: any): IHubCatalog {
       scopes: {
         item: {
           targetEntity: "item",
+          filters: [],
+        },
+        group: {
+          targetEntity: "group",
+          filters: [],
+        },
+        user: {
+          targetEntity: "user",
           filters: [],
         },
         event: {
