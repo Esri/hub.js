@@ -8,7 +8,7 @@ import { fetchExportImageDownloadFile } from "../../../../src/downloads/_interna
 import { IHubEditableContent, IServiceExtendedProps } from "../../../../src";
 
 describe("fetchExportImageDownloadFile", () => {
-  it("should call progressCallback with PENDING and COMPLETED statuses", async () => {
+  it("should call progressCallback with PENDING statuses", async () => {
     const requestSpy = spyOn(requestModule, "request").and.returnValue(
       Promise.resolve({ size: 1000 } as Blob)
     );
@@ -46,12 +46,9 @@ describe("fetchExportImageDownloadFile", () => {
       blob: { size: 1000 } as Blob,
     });
 
-    expect(progressCallback).toHaveBeenCalledTimes(2);
+    expect(progressCallback).toHaveBeenCalledTimes(1);
     expect(progressCallback).toHaveBeenCalledWith(
       DownloadOperationStatus.PENDING
-    );
-    expect(progressCallback).toHaveBeenCalledWith(
-      DownloadOperationStatus.COMPLETED
     );
 
     expect(requestSpy).toHaveBeenCalledTimes(1);

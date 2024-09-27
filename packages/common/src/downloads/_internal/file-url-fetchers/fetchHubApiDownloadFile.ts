@@ -1,7 +1,9 @@
 import HubError from "../../../HubError";
 import { getProp } from "../../../objects/get-prop";
+import { wait } from "../../../utils/wait";
 import {
   ArcgisHubDownloadError,
+  DownloadCacheStatus,
   DownloadOperationStatus,
   IFetchDownloadFileOptions,
   IFetchDownloadFileResponse,
@@ -11,7 +13,8 @@ import {
 
 /**
  * @private
- * Fetches a download file url from the Hub Download API
+ * Fetches a download file url from the Hub Download API. If we know the file will be served from
+ * a cache, we also return the status of the cache.
  *
  * NOTE: The Hub Download API only works with a certain subset of Feature and Map services
  * and performs different operations (i.e., calling createReplica or paging the service's
@@ -21,15 +24,29 @@ import {
  * interface for downloading data from any service supported by the Hub Download API.
  *
  * @param options options for refining / filtering the resulting download file
- * @returns a url to download the file
+ * @returns the url to download the file and cache status
  */
 export async function fetchHubApiDownloadFile(
   options: IFetchDownloadFileOptions
 ): Promise<IFetchDownloadFileResponse> {
   validateOptions(options);
   const requestUrl = getDownloadApiRequestUrl(options);
-  const { pollInterval, progressCallback } = options;
-  return pollDownloadApi(requestUrl, pollInterval, progressCallback);
+
+  const { pollInterval, updateCache, progressCallback } = options;
+
+  let cacheQueryParam: CacheQueryParam;
+  if (updateCache) {
+    // The download api has 2 query params that can be used for controlling cache behavior.
+    // This one should only be used as part of an initial request to update the cache
+    cacheQueryParam = "updateCache";
+  }
+
+  return pollDownloadApi(
+    requestUrl,
+    pollInterval,
+    cacheQueryParam,
+    progressCallback
+  );
 }
 
 function validateOptions(options: IFetchDownloadFileOptions) {
@@ -61,7 +78,8 @@ function validateOptions(options: IFetchDownloadFileOptions) {
  * @returns a download api url that can be polled
  */
 function getDownloadApiRequestUrl(options: IFetchDownloadFileOptions) {
-  const { entity, format, context, layers, geometry, where } = options;
+  const { entity, format, context, layers, geometry, where, updateCache } =
+    options;
 
   const searchParams = new URLSearchParams({
     redirect: "false", // Needed to get the download URL instead of the file itself
@@ -97,15 +115,28 @@ function getDownloadApiRequestUrl(options: IFetchDownloadFileOptions) {
  * Polls the Hub Download API until the download is ready, then returns the download file URL
  *
  * @param requestUrl Hub Download Api URL to poll
+ * @param pollInterval interval in milliseconds to poll for job completion
+ * @param cacheQueryParam an optional query param to control cache behavior. 'updateCache' should
+ * only be used with the initial request when a download cache update is desired. All subsequent
+ * requests should use'trackCacheUpdate' to follow the progress of the cache update.
+ * for subsequent requests when polling the progress of a cache update.
  * @param progressCallback an optional callback to report download generation progress
  * @returns the final file URL
  */
 async function pollDownloadApi(
   requestUrl: string,
   pollInterval: number,
+  cacheQueryParam?: CacheQueryParam,
   progressCallback?: downloadProgressCallback
 ): Promise<IFetchDownloadFileResponse> {
-  const response = await fetch(requestUrl);
+  // If requested, append the cache query param to the request URL
+  let withCacheQueryParam = requestUrl;
+  if (cacheQueryParam) {
+    withCacheQueryParam = `${requestUrl}&${cacheQueryParam}=true`;
+  }
+
+  const response = await fetch(withCacheQueryParam);
+
   if (!response.ok) {
     const errorBody = await response.json();
     // TODO: Add standarized messageId when available
@@ -113,8 +144,14 @@ async function pollDownloadApi(
       rawMessage: errorBody.message,
     });
   }
-  const { status, progressInPercent, resultUrl }: IHubDownloadApiResponse =
-    await response.json();
+
+  const {
+    status,
+    progressInPercent,
+    resultUrl,
+    cacheStatus,
+  }: IHubDownloadApiResponse = await response.json();
+
   const operationStatus = toDownloadOperationStatus(status);
   if (operationStatus === DownloadOperationStatus.FAILED) {
     throw new HubError(
@@ -122,19 +159,31 @@ async function pollDownloadApi(
       "Download operation failed with a 200"
     );
   }
-  progressCallback && progressCallback(operationStatus, progressInPercent);
 
-  // Operation complete, return the download URL
   if (resultUrl) {
+    // Operation complete, return the download URL and cache status
     return {
       type: "url",
       href: resultUrl,
+      cacheStatus,
     };
   }
 
-  // Operation still in progress, poll again
-  await new Promise((resolve) => setTimeout(resolve, pollInterval));
-  return pollDownloadApi(requestUrl, pollInterval, progressCallback);
+  // Operation still in progress. Report progress if a callback was provided and poll again.
+  progressCallback && progressCallback(operationStatus, progressInPercent);
+  await wait(pollInterval);
+
+  // always have `trackCacheUpdate` present when polling Hub download API
+  // because polling is always done to update cache or create a new cache
+  // if not already present
+  const updatedCacheQueryParam: CacheQueryParam = "trackCacheUpdate";
+
+  return pollDownloadApi(
+    requestUrl,
+    pollInterval,
+    updatedCacheQueryParam,
+    progressCallback
+  );
 }
 
 /**
@@ -223,4 +272,13 @@ interface IHubDownloadApiResponse {
   resultUrl?: string;
   recordCount?: number;
   progressInPercent?: number;
+  cacheStatus?: DownloadCacheStatus;
 }
+
+/**
+ * @private
+ * Query params that can be used to control cache behavior in the Hub Download API.
+ * 'updateCache' is used with the initial request when a download cache update is desired.
+ * 'trackCacheUpdate' is used for subsequent requests while polling the progress of a cache update.
+ */
+type CacheQueryParam = "updateCache" | "trackCacheUpdate";
