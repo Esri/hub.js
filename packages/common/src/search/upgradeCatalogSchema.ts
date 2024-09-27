@@ -32,6 +32,8 @@ const ORG_ID_PREDICATE_FNS_BY_ENTITY_TYPE: Partial<
  * @returns
  */
 export function upgradeCatalogSchema(catalog: any): IHubCatalog {
+  /* tslint:disable-next-line */
+  debugger;
   let clone = cloneObject(catalog);
   if (getProp(clone, "schemaVersion") === CATALOG_SCHEMA_VERSION) {
     return clone;
