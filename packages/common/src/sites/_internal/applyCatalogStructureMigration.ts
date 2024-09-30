@@ -1,5 +1,4 @@
 import { getWithDefault } from "../../objects/get-with-default";
-import { IHubCatalog } from "../../search/types/IHubCatalog";
 import { upgradeCatalogSchema } from "../../search/upgradeCatalogSchema";
 import { IModel } from "../../types";
 import { cloneObject } from "../../util";
@@ -14,38 +13,13 @@ import { cloneObject } from "../../util";
  * @returns
  */
 export function applyCatalogStructureMigration(model: IModel): IModel {
-  // let siteCatalog = model.data.catalog || {};
-  // // This _shouldn't_ happen, but some of our testing sites might have this
-  // // migration already persisted in AGO. In that case, we ignore and move on
-  // if (!siteCatalog.schemaVersion) {
-  //   const groups = siteCatalog.groups || [];
-  //   siteCatalog = {
-  //     schemaVersion: 1,
-  //     title: "Default Site Catalog",
-  //     scopes: {
-  //       item: {
-  //         targetEntity: "item",
-  //         filters: [],
-  //       },
-  //     },
-  //     collections: [],
-  //   } as IHubCatalog;
-
-  //   // groups are used to set the item scope for the whole catalog
-  //   siteCatalog.scopes.item.filters.push({
-  //     predicates: [
-  //       {
-  //         group: [...groups],
-  //       },
-  //     ],
-  //   });
-
-  //   model.data.catalog = siteCatalog;
-  // }
-
-  // return model;
-  const result = cloneObject(model);
-  const catalog = getWithDefault(model.data, "catalog", {});
-  result.data.catalog = upgradeCatalogSchema(catalog);
-  return result;
+  const siteCatalog = getWithDefault(model.data, "catalog", {});
+  // This _shouldn't_ happen, but some of our testing sites might have this
+  // migration already persisted in AGO. In that case, we ignore and move on
+  if (!siteCatalog.schemaVersion) {
+    const clonedModel = cloneObject(model);
+    clonedModel.data.catalog = upgradeCatalogSchema(siteCatalog);
+    return clonedModel;
+  }
+  return model;
 }
