@@ -182,7 +182,6 @@ export const buildUiSchema = async (
               {
                 type: "Control",
                 scope: "/properties/hubOrgSettings/properties/signupText",
-                labelKey: `${i18nScope}.fields.signupText.label`,
                 options: {
                   control: "hub-field-input-rich-text",
                   type: "textarea",
