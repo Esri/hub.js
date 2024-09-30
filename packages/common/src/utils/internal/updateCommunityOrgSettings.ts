@@ -16,7 +16,8 @@ export async function updateUserCommunityOrgSettings(
     throw new Error("User is not authenticated");
   }
 
-  if (!context.isCommunityOrg || context.currentUser.role !== "org_admin") {
+  // check that user is in community org and is org admin
+  if (!context.isCommunityOrg || !context.isOrgAdmin) {
     throw new Error("User is not an org admin in the current community org");
   }
 

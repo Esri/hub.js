@@ -16,9 +16,8 @@ describe("updateUserCommunityOrgSettings", () => {
   it("throws an error if the user is not an org admin in the current community org", async () => {
     const settings = {};
     const context: IArcGISContext = {
-      currentUser: {
-        role: "not_org_admin",
-      },
+      currentUser: {},
+      isOrgAdmin: false,
       isCommunityOrg: true,
     } as unknown as IArcGISContext;
 
@@ -34,9 +33,8 @@ describe("updateUserCommunityOrgSettings", () => {
   it("throws an error if the user is not in a community org", async () => {
     const settings = {};
     const context: IArcGISContext = {
-      currentUser: {
-        role: "org_admin",
-      },
+      isOrgAdmin: true,
+      currentUser: {},
       isCommunityOrg: false,
     } as unknown as IArcGISContext;
 
@@ -57,10 +55,9 @@ describe("updateUserCommunityOrgSettings", () => {
       termsAndConditions: "terms and conditions",
     };
     const context: IArcGISContext = {
-      currentUser: {
-        role: "org_admin",
-      },
+      isOrgAdmin: true,
       isCommunityOrg: true,
+      currentUser: {},
       portalUrl: "https://www.community-org.hubqa.arcgis.com",
       hubRequestOptions: {
         authentication: {
@@ -96,10 +93,9 @@ describe("updateUserCommunityOrgSettings", () => {
       termsAndConditions: "terms and conditions",
     };
     const context: IArcGISContext = {
-      currentUser: {
-        role: "org_admin",
-      },
+      isOrgAdmin: true,
       isCommunityOrg: true,
+      currentUser: {},
       portalUrl: "https://www.community-org.hubqa.arcgis.com",
       hubRequestOptions: {
         authentication: {

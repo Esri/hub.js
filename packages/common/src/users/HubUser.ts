@@ -68,10 +68,7 @@ export class HubUser implements IWithEditorBehavior {
     // TODO in later story -- note that there will need to be a
     // check for if the user is an org admin -- they cannot
     // POST to necessary endpoints if not
-    if (
-      this.context.isCommunityOrg &&
-      this.context.currentUser?.role === "org_admin"
-    ) {
+    if (this.context.isCommunityOrg && this.context.isOrgAdmin) {
       await updateUserCommunityOrgSettings(
         this.entity.hubOrgSettings,
         this.context
