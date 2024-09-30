@@ -1,8 +1,36 @@
 import { getProp } from "../objects";
 import { cloneObject } from "../util";
-import { IHubCatalog } from "./types";
+import {
+  EntityType,
+  ICatalogScope,
+  IHubCatalog,
+  IPredicate,
+  IQuery,
+} from "./types";
 
 const CATALOG_SCHEMA_VERSION = 1.0;
+
+const getAgoEntityOrgIdPredicates = (orgId: string): IPredicate[] => [
+  // Portal uses `orgid` instead of `orgId`, so we comply.
+  // While `orgid` is valid field for search, it does not count
+  // towards Portal's requirement of needing at least one filter.
+  { orgid: [orgId] },
+  // Hack to force Portal to think that at least one filter has
+  // been provided. 'Code Attachment' is an old AGO type that has
+  // been defunct for some time, so the results won't be affected.
+  { type: { not: ["Code Attachment"] } },
+];
+
+const getEventEntityOrgIdPredicates = (orgId: string): IPredicate[] => [
+  { orgId },
+];
+
+const ORG_ID_PREDICATE_FNS_BY_ENTITY_TYPE: Partial<
+  Record<EntityType, (orgId: string) => IPredicate[]>
+> = {
+  item: getAgoEntityOrgIdPredicates,
+  event: getEventEntityOrgIdPredicates,
+};
 
 /**
  * Apply schema upgrades to Catalog objects
@@ -10,10 +38,11 @@ const CATALOG_SCHEMA_VERSION = 1.0;
  * @returns
  */
 export function upgradeCatalogSchema(catalog: any): IHubCatalog {
-  let clone = cloneObject(catalog);
-  if (getProp(clone, "schemaVersion") === CATALOG_SCHEMA_VERSION) {
-    return clone;
+  if (getProp(catalog, "schemaVersion") === CATALOG_SCHEMA_VERSION) {
+    return catalog;
   } else {
+    let clone = cloneObject(catalog);
+
     // apply migrations in order
     clone = applyCatalogSchema(clone);
 
@@ -39,13 +68,17 @@ function applyCatalogSchema(original: any): IHubCatalog {
           targetEntity: "item",
           filters: [],
         },
+        event: {
+          targetEntity: "event",
+          filters: [],
+        },
       },
       collections: [],
     };
 
     // Handle legacy group structure
     const rawGroups = getProp(original, "groups");
-    let groups = [];
+    let groups: string[] = [];
     if (Array.isArray(rawGroups) && rawGroups.length) {
       groups = rawGroups;
     } else if (typeof rawGroups === "string") {
@@ -53,28 +86,45 @@ function applyCatalogSchema(original: any): IHubCatalog {
     }
 
     if (groups.length) {
-      catalog.scopes.item.filters.push({
-        predicates: [{ group: groups }],
-      });
+      // add the group predicate to item & event scope queries
+      catalog.scopes = Object.entries(catalog.scopes).reduce<ICatalogScope>(
+        (acc, entry) => ({
+          ...acc,
+          [entry[0] as EntityType]: {
+            ...(entry[1] as IQuery),
+            filters: [{ predicates: [{ group: groups }] }],
+          },
+        }),
+        {}
+      );
     }
 
     // Handle legacy orgId value, which should only be present
     // for org-level home sites (e.g., "my-org.hub.arcgis.com")
     const orgId = getProp(original, "orgId");
     if (orgId) {
-      catalog.scopes.item.filters.push({
-        operation: "AND",
-        predicates: [
-          // Portal uses `orgid` instead of `orgId`, so we comply.
-          // While `orgid` is valid field for search, it does not count
-          // towards Portal's requirement of needing at least one filter.
-          { orgid: [orgId] },
-          // Hack to force Portal to think that at least one filter has
-          // been provided. 'Code Attachment' is an old AGO type that has
-          // been defunct for some time, so the results won't be affected.
-          { type: { not: ["Code Attachment"] } },
-        ],
-      });
+      // add the org ID predicate to all the scope queries
+      catalog.scopes = Object.entries(catalog.scopes).reduce<ICatalogScope>(
+        (acc, entry) => {
+          const entityType: EntityType = entry[0] as EntityType;
+          const query: IQuery = entry[1] as IQuery;
+          return {
+            ...acc,
+            [entityType]: {
+              ...query,
+              filters: [
+                ...query.filters,
+                {
+                  operation: "AND",
+                  predicates:
+                    ORG_ID_PREDICATE_FNS_BY_ENTITY_TYPE[entityType](orgId),
+                },
+              ],
+            },
+          };
+        },
+        {}
+      );
     }
 
     return catalog;

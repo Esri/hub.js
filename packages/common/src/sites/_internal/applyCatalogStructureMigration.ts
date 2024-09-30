@@ -1,5 +1,7 @@
-import { IHubCatalog } from "../../search/types/IHubCatalog";
+import { getWithDefault } from "../../objects/get-with-default";
+import { upgradeCatalogSchema } from "../../search/upgradeCatalogSchema";
 import { IModel } from "../../types";
+import { cloneObject } from "../../util";
 
 /**
  * Add the default catalog structure to the Site model
@@ -11,34 +13,17 @@ import { IModel } from "../../types";
  * @returns
  */
 export function applyCatalogStructureMigration(model: IModel): IModel {
-  let siteCatalog = model.data.catalog || {};
+  const siteCatalog = getWithDefault(model.data, "catalog", {});
   // This _shouldn't_ happen, but some of our testing sites might have this
   // migration already persisted in AGO. In that case, we ignore and move on
   if (!siteCatalog.schemaVersion) {
-    const groups = siteCatalog.groups || [];
-    siteCatalog = {
-      schemaVersion: 1,
-      title: "Default Site Catalog",
-      scopes: {
-        item: {
-          targetEntity: "item",
-          filters: [],
-        },
-      },
-      collections: [],
-    } as IHubCatalog;
-
-    // groups are used to set the item scope for the whole catalog
-    siteCatalog.scopes.item.filters.push({
-      predicates: [
-        {
-          group: [...groups],
-        },
-      ],
-    });
-
-    model.data.catalog = siteCatalog;
+    const clonedModel = cloneObject(model);
+    clonedModel.data.catalog = upgradeCatalogSchema(siteCatalog);
+    // applyCatalogSchema sets the catalog to `Default Catalog` but this fn previously
+    // set it to `Default Site Catalog`. Overriding title to `Default Site Catalog` here
+    // to prevent any potential regressions
+    clonedModel.data.catalog.title = "Default Site Catalog";
+    return clonedModel;
   }
-
   return model;
 }

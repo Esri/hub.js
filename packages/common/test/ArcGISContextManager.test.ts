@@ -38,7 +38,8 @@ const onlineUserResponse = {
       },
     } as portalModule.IGroup,
   ],
-};
+  role: "org_admin",
+} as portalModule.IUser;
 
 const onlinePortalSelfResponse = {
   id: "FAKEID",
@@ -60,6 +61,9 @@ const onlinePortalSelfResponse = {
         communityOrg: {
           orgId: "FAKE_C_ORGID",
           portalHostname: "my-community.maps.arcgis.com",
+        },
+        enterpriseOrg: {
+          orgId: "FAKE_E_ORGID",
         },
         orgType: "enterprise",
       },
@@ -278,6 +282,7 @@ describe("ArcGISContext:", () => {
       });
       expect(mgr.context.userRequestOptions).toBeUndefined();
       expect(mgr.context.communityOrgId).toBeUndefined();
+      expect(mgr.context.enterpriseOrgId).toBeUndefined();
       expect(mgr.context.communityOrgHostname).toBeUndefined();
       expect(mgr.context.communityOrgUrl).toBeUndefined();
       expect(mgr.context.eventsConfig).toBeUndefined();
@@ -307,6 +312,7 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.isBetaOrg).toEqual(false);
       expect(mgr.context.orgThumbnailUrl).toBeNull();
       expect(mgr.context.survey123Url).toEqual("https://survey123.arcgis.com");
+      expect(mgr.context.isOrgAdmin).toBeFalsy();
     });
     it("verify alpha and beta orgs", async () => {
       const mgr = await ArcGISContextManager.create({
@@ -461,6 +467,7 @@ describe("ArcGISContext:", () => {
 
       // Community
       expect(mgr.context.communityOrgId).toBe("FAKE_C_ORGID");
+      expect(mgr.context.enterpriseOrgId).toBe("FAKE_E_ORGID");
       expect(mgr.context.communityOrgHostname).toBe(
         "my-community.maps.arcgis.com"
       );
@@ -492,6 +499,7 @@ describe("ArcGISContext:", () => {
         onlinePartneredOrgResponse.trustedOrgs
       );
       expect(mgr.context.isCommunityOrg).toBeFalsy();
+      expect(mgr.context.isOrgAdmin).toBeTruthy();
     });
     it("verify tokens when passed session", async () => {
       const t = new Date().getTime();
