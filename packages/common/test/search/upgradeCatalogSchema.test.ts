@@ -6,6 +6,7 @@ describe("upgradeCatalogSchema", () => {
     expect(chk.title).toBe("Default Catalog");
     expect(chk.scopes).toBeDefined();
     expect(chk.scopes?.item?.filters.length).toBe(0);
+    expect(chk.scopes?.event?.filters.length).toBe(0);
   });
 
   it("returns default catalog if passed empty object", () => {
@@ -13,6 +14,7 @@ describe("upgradeCatalogSchema", () => {
     expect(chk.title).toBe("Default Catalog");
     expect(chk.scopes).toBeDefined();
     expect(chk.scopes?.item?.filters.length).toBe(0);
+    expect(chk.scopes?.event?.filters.length).toBe(0);
   });
 
   it("does not return groups if passed empty array", () => {
@@ -20,6 +22,7 @@ describe("upgradeCatalogSchema", () => {
     expect(chk.title).toBe("Default Catalog");
     expect(chk.scopes).toBeDefined();
     expect(chk.scopes?.item?.filters.length).toBe(0);
+    expect(chk.scopes?.event?.filters.length).toBe(0);
   });
 
   it("returns groups if passed a string", () => {
@@ -28,6 +31,8 @@ describe("upgradeCatalogSchema", () => {
     expect(chk.scopes).toBeDefined();
     expect(chk.scopes?.item?.filters.length).toBe(1);
     expect(chk.scopes?.item?.filters[0].predicates[0].group).toEqual(["3ef"]);
+    expect(chk.scopes?.event?.filters.length).toBe(1);
+    expect(chk.scopes?.event?.filters[0].predicates[0].group).toEqual(["3ef"]);
   });
 
   it("returns groups if passed an array", () => {
@@ -36,6 +41,11 @@ describe("upgradeCatalogSchema", () => {
     expect(chk.scopes).toBeDefined();
     expect(chk.scopes?.item?.filters.length).toBe(1);
     expect(chk.scopes?.item?.filters[0].predicates[0].group).toEqual([
+      "3ef",
+      "bc4",
+    ]);
+    expect(chk.scopes?.event?.filters.length).toBe(1);
+    expect(chk.scopes?.event?.filters[0].predicates[0].group).toEqual([
       "3ef",
       "bc4",
     ]);
@@ -51,6 +61,10 @@ describe("upgradeCatalogSchema", () => {
     expect(chk.scopes?.item?.filters[0].predicates[1].type).toEqual({
       not: ["Code Attachment"],
     });
+    expect(chk.scopes?.event?.filters.length).toBe(1);
+    expect(chk.scopes?.event?.filters[0].operation).toEqual("AND");
+    expect(chk.scopes?.event?.filters[0].predicates[0].orgId).toEqual("a3g");
+    expect(chk.scopes?.event?.filters[0].predicates[1]).toBeUndefined();
   });
 
   it("skips upgrade if on the same version", () => {
