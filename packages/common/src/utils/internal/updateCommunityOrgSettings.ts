@@ -16,11 +16,6 @@ export async function updateUserCommunityOrgSettings(
     throw new Error("User is not authenticated");
   }
 
-  // check that we have the community org hostname
-  if (!context.communityOrgHostname) {
-    throw new Error("No community org hostname found in context");
-  }
-
   if (!context.isCommunityOrg || context.currentUser.role !== "org_admin") {
     throw new Error("User is not an org admin in the current community org");
   }
@@ -37,7 +32,7 @@ export async function updateUserCommunityOrgSettings(
 
   // build the url
   const urlPath = "/portals/self/setSigninSettings?f=json";
-  const url = `${getPortalUrl(context.communityOrgUrl)}${urlPath}`;
+  const url = `${context.portalUrl}${urlPath}`;
 
   // send the request to update
   return request(url, {
