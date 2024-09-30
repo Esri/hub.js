@@ -131,8 +131,10 @@ export const buildUiSchema = async (
                 effect: UiSchemaRuleEffects.SHOW,
                 conditions: [
                   // only if in community org and admin of the org
-                  context.isCommunityOrg &&
-                    context.currentUser?.role === "org_admin",
+                  !!(
+                    context.isCommunityOrg &&
+                    context.currentUser.role === "org_admin"
+                  ),
                 ],
               },
             ],

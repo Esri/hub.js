@@ -7,6 +7,7 @@ import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import * as HubUsersModule from "../../src/users/HubUsers";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
 import { IHubUser } from "../../src/core/types/IHubUser";
+import * as UpdateCommunityOrgSettingsModule from "../../src/utils/internal/updateCommunityOrgSettings";
 
 const initContextManager = async (opts = {}) => {
   const defaults = {
@@ -128,7 +129,7 @@ describe("HubUser Class:", () => {
   });
 
   describe("save: ", () => {
-    it("saves the user", async () => {
+    it("saves the user but does not try to save hub org settings", async () => {
       const user = {
         id: "123",
         name: "Paige",
@@ -142,11 +143,199 @@ describe("HubUser Class:", () => {
         return Promise.resolve();
       });
 
+      const updateUserCommunityOrgSettings = spyOn(
+        UpdateCommunityOrgSettingsModule,
+        "updateUserCommunityOrgSettings"
+      ).and.callFake(async () => {
+        return Promise.resolve();
+      });
+
       const chk = HubUser.fromJson(user, authdCtxMgr.context);
       await chk.save();
 
       expect(updateUserHubSettingsSpy).toHaveBeenCalledTimes(1);
       expect(updateUserHubSettingsSpy).toHaveBeenCalledWith(user.settings);
+      expect(updateUserCommunityOrgSettings).toHaveBeenCalledTimes(0);
+    });
+    it("saves hub org settings if we are in a community org and user is admin", async () => {
+      const user = {
+        id: "123",
+        name: "Paige",
+        settings: { schemaVersion: 1, preview: { workspace: false } },
+        hubOrgSettings: { schemaVersion: 1, preview: { workspace: false } },
+      } as unknown as IHubUser;
+
+      const updateUserHubSettingsSpy = spyOn(
+        authdCtxMgr.context,
+        "updateUserHubSettings"
+      ).and.callFake(async () => {
+        return Promise.resolve();
+      });
+
+      const updateUserCommunityOrgSettings = spyOn(
+        UpdateCommunityOrgSettingsModule,
+        "updateUserCommunityOrgSettings"
+      ).and.callFake(async () => {
+        return Promise.resolve();
+      });
+
+      const chk = HubUser.fromJson(user, {
+        ...authdCtxMgr.context,
+        isCommunityOrg: true,
+        currentUser: { ...authdCtxMgr.context.currentUser, role: "org_admin" },
+      });
+      await chk.save();
+
+      expect(updateUserHubSettingsSpy).toHaveBeenCalledTimes(1);
+      expect(updateUserHubSettingsSpy).toHaveBeenCalledWith(user.settings);
+      expect(updateUserCommunityOrgSettings).toHaveBeenCalledTimes(1);
+      expect(updateUserCommunityOrgSettings).toHaveBeenCalledWith(
+        user.hubOrgSettings,
+        {
+          ...authdCtxMgr.context,
+          isCommunityOrg: true,
+          currentUser: {
+            ...authdCtxMgr.context.currentUser,
+            role: "org_admin",
+          },
+        }
+      );
+    });
+    it("doesn't call updateUserCommunityOrgSettings if not in a community org", async () => {
+      const user = {
+        id: "123",
+        name: "Paige",
+        settings: { schemaVersion: 1, preview: { workspace: false } },
+        hubOrgSettings: { schemaVersion: 1, preview: { workspace: false } },
+      } as unknown as IHubUser;
+
+      const updateUserHubSettingsSpy = spyOn(
+        authdCtxMgr.context,
+        "updateUserHubSettings"
+      ).and.callFake(async () => {
+        return Promise.resolve();
+      });
+
+      const updateUserCommunityOrgSettings = spyOn(
+        UpdateCommunityOrgSettingsModule,
+        "updateUserCommunityOrgSettings"
+      ).and.callFake(async () => {
+        return Promise.resolve();
+      });
+
+      const chk = HubUser.fromJson(user, {
+        ...authdCtxMgr.context,
+        isCommunityOrg: false,
+      });
+      await chk.save();
+
+      expect(updateUserHubSettingsSpy).toHaveBeenCalledTimes(1);
+      expect(updateUserHubSettingsSpy).toHaveBeenCalledWith(user.settings);
+      expect(updateUserCommunityOrgSettings).toHaveBeenCalledTimes(0);
+    });
+    it("doesn't call updateUserCommunityOrgSettings if user is not an org admin", async () => {
+      const user = {
+        id: "123",
+        name: "Paige",
+        settings: { schemaVersion: 1, preview: { workspace: false } },
+        hubOrgSettings: { schemaVersion: 1, preview: { workspace: false } },
+      } as unknown as IHubUser;
+
+      const updateUserHubSettingsSpy = spyOn(
+        authdCtxMgr.context,
+        "updateUserHubSettings"
+      ).and.callFake(async () => {
+        return Promise.resolve();
+      });
+
+      const updateUserCommunityOrgSettings = spyOn(
+        UpdateCommunityOrgSettingsModule,
+        "updateUserCommunityOrgSettings"
+      ).and.callFake(async () => {
+        return Promise.resolve();
+      });
+
+      const chk = HubUser.fromJson(user, {
+        ...authdCtxMgr.context,
+        isCommunityOrg: true,
+        currentUser: {
+          ...authdCtxMgr.context.currentUser,
+          role: "org_user",
+        },
+      });
+      await chk.save();
+
+      expect(updateUserHubSettingsSpy).toHaveBeenCalledTimes(1);
+      expect(updateUserHubSettingsSpy).toHaveBeenCalledWith(user.settings);
+      expect(updateUserCommunityOrgSettings).toHaveBeenCalledTimes(0);
+    });
+    it("does not break if there is no currentUser on context", async () => {
+      const user = {
+        id: "123",
+        name: "Paige",
+        settings: { schemaVersion: 1, preview: { workspace: false } },
+        hubOrgSettings: { schemaVersion: 1, preview: { workspace: false } },
+      } as unknown as IHubUser;
+
+      const updateUserHubSettingsSpy = spyOn(
+        authdCtxMgr.context,
+        "updateUserHubSettings"
+      ).and.callFake(async () => {
+        return Promise.resolve();
+      });
+
+      const updateUserCommunityOrgSettings = spyOn(
+        UpdateCommunityOrgSettingsModule,
+        "updateUserCommunityOrgSettings"
+      ).and.callFake(async () => {
+        return Promise.resolve();
+      });
+
+      const chk = HubUser.fromJson(user, {
+        ...authdCtxMgr.context,
+        isCommunityOrg: true,
+        currentUser: undefined as unknown as PortalModule.IUser,
+      });
+      await chk.save();
+
+      expect(updateUserHubSettingsSpy).toHaveBeenCalledTimes(1);
+      expect(updateUserHubSettingsSpy).toHaveBeenCalledWith(user.settings);
+      expect(updateUserCommunityOrgSettings).toHaveBeenCalledTimes(0);
+    });
+    it("does not break if the current user does not have a role", async () => {
+      const user = {
+        id: "123",
+        name: "Paige",
+        settings: { schemaVersion: 1, preview: { workspace: false } },
+        hubOrgSettings: { schemaVersion: 1, preview: { workspace: false } },
+      } as unknown as IHubUser;
+
+      const updateUserHubSettingsSpy = spyOn(
+        authdCtxMgr.context,
+        "updateUserHubSettings"
+      ).and.callFake(async () => {
+        return Promise.resolve();
+      });
+
+      const updateUserCommunityOrgSettings = spyOn(
+        UpdateCommunityOrgSettingsModule,
+        "updateUserCommunityOrgSettings"
+      ).and.callFake(async () => {
+        return Promise.resolve();
+      });
+
+      const chk = HubUser.fromJson(user, {
+        ...authdCtxMgr.context,
+        currentUser: {
+          ...authdCtxMgr.context.currentUser,
+          role: undefined,
+        },
+      });
+      await chk.save();
+
+      expect(updateUserHubSettingsSpy).toHaveBeenCalledTimes(1);
+      expect(updateUserHubSettingsSpy).toHaveBeenCalledWith(user.settings);
+      expect(updateUserCommunityOrgSettings).toHaveBeenCalledTimes(0);
     });
     it("throws an error if destroyed", async () => {
       const chk = HubUser.fromJson(
