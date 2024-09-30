@@ -140,9 +140,9 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
   {
     // When enabled, the manage links will take the user the org home site
     permission: "hub:feature:workspace:user",
-    // NOTE: alpha might seem redundant, given that hub:feature:workspace is alpha
+    // NOTE: qaext and devext might seem redundant, given that hub:feature:workspace is alpha
     // but we allow users to "opt-in" which overrides that
-    availability: ["alpha"],
+    environments: ["qaext", "devext"],
     dependencies: ["hub:feature:workspace"],
   },
   {
