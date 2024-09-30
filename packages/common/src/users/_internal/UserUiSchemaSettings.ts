@@ -20,7 +20,7 @@ export const buildUiSchema = async (
 ): Promise<IUiSchema> => {
   let associatedOrgName;
   let noticeMessage = `{{${i18nScope}.notice.message:translate}}`;
-  // default Notice action
+  // default notice action - "Go to organization settings"
   const orgNoticeActions = [
     {
       ariaLabel: `{{${i18nScope}.notice.actions.goToOrg:translate}}`,
@@ -30,13 +30,18 @@ export const buildUiSchema = async (
       target: "_blank",
     },
   ];
-  // If there is a community org relationship, or we are in a community org with an enterprise org relationship
+  /**
+   * If there is a community org relationship, or we are in a community
+   * org with an enterprise org relationship, show another action that
+   * links out to the corresponding relationship org ("Go to community
+   * organization" or "Go to staff organization")
+   */
   if (context.communityOrgId || context.enterpriseOrgId) {
     const actionLabelKey = context.enterpriseOrgId
       ? "goToStaffOrg"
       : "goToCommunityOrg";
     // get the org url we will include in the notice action
-    const orgUrl = await _getCommunityOrEnterpriseUrl(context);
+    const orgUrl = await _getCommunityOrEnterpriseAGOUrl(context);
     // We want to always show the associated org name in the notice, if there is one
     // So we get either the community or enterprise org id
     const orgId = context.enterpriseOrgId || context.communityOrgId;
@@ -207,7 +212,7 @@ export const buildUiSchema = async (
   };
 };
 
-async function _getCommunityOrEnterpriseUrl(
+async function _getCommunityOrEnterpriseAGOUrl(
   context: IArcGISContext
 ): Promise<string> {
   let orgUrl = `${context.communityOrgUrl}/home/organization.html`;

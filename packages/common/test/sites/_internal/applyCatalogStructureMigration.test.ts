@@ -28,6 +28,18 @@ describe("applyCatalogStructureMigration:", () => {
             },
           ],
         },
+        event: {
+          targetEntity: "event",
+          filters: [
+            {
+              predicates: [
+                {
+                  group: ["00c", "00d"],
+                },
+              ],
+            },
+          ],
+        },
       },
       collections: [],
     });

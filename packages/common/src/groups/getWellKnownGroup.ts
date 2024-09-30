@@ -3,6 +3,7 @@ import { checkPermission } from "../permissions";
 import { IArcGISContext } from "../ArcGISContext";
 
 type WellKnownGroup =
+  | "hubGroup"
   | "hubViewGroup"
   | "hubEditGroup"
   | "hubFollowersGroup"
@@ -18,6 +19,16 @@ export function getWellKnownGroup(
   context: IArcGISContext
 ): Partial<IHubGroup> {
   const configs: Record<WellKnownGroup, Partial<IHubGroup>> = {
+    hubGroup: {
+      access: "private",
+      autoJoin: false,
+      isSharedUpdate: false,
+      isInvitationOnly: false,
+      hiddenMembers: false,
+      isViewOnly: false,
+      tags: ["Hub Group"],
+      membershipAccess: "organization",
+    },
     hubViewGroup: {
       access: "org",
       autoJoin: false,

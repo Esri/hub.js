@@ -173,12 +173,10 @@ async function pollDownloadApi(
   progressCallback && progressCallback(operationStatus, progressInPercent);
   await wait(pollInterval);
 
-  let updatedCacheQueryParam: CacheQueryParam;
-  if (cacheQueryParam) {
-    // After an initial request with ?updateCache=true, we need to switch to ?trackCacheUpdate=true.
-    // This enables us to follow the progress of the cache update without causing an infinite update loop.
-    updatedCacheQueryParam = "trackCacheUpdate";
-  }
+  // always have `trackCacheUpdate` present when polling Hub download API
+  // because polling is always done to update cache or create a new cache
+  // if not already present
+  const updatedCacheQueryParam: CacheQueryParam = "trackCacheUpdate";
 
   return pollDownloadApi(
     requestUrl,

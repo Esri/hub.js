@@ -39,6 +39,9 @@ export function getPropertyMap(): IPropertyMap[] {
     "thumbnailUrl",
     "typeKeywords",
     "userMembership",
+    "isOpenData",
+    "hiddenMembers",
+    "leavingDisallowed",
   ];
   groupProps.forEach((entry) => {
     map.push({ entityKey: entry, storeKey: entry });

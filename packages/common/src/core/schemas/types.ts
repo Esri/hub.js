@@ -141,6 +141,7 @@ export enum UiSchemaRuleEffects {
   DISABLE = "DISABLE",
   ENABLE = "ENABLE",
   NONE = "",
+  RESET = "RESET",
 }
 
 export enum UiSchemaElementTypes {

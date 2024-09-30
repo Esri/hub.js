@@ -115,7 +115,7 @@ describe("fetchHubApiDownloadFile", () => {
       }
     );
     fetchMock.once(
-      "https://hubqa.arcgis.com/api/download/v1/items/123/csv?redirect=false&layers=0",
+      "https://hubqa.arcgis.com/api/download/v1/items/123/csv?redirect=false&layers=0&trackCacheUpdate=true",
       {
         body: {
           status: "InProgress",
@@ -126,7 +126,7 @@ describe("fetchHubApiDownloadFile", () => {
       { overwriteRoutes: false }
     );
     fetchMock.once(
-      "https://hubqa.arcgis.com/api/download/v1/items/123/csv?redirect=false&layers=0",
+      "https://hubqa.arcgis.com/api/download/v1/items/123/csv?redirect=false&layers=0&trackCacheUpdate=true",
       {
         body: {
           status: "Completed",
@@ -163,7 +163,7 @@ describe("fetchHubApiDownloadFile", () => {
       }
     );
     fetchMock.once(
-      "https://hubqa.arcgis.com/api/download/v1/items/123/csv?redirect=false&layers=0",
+      "https://hubqa.arcgis.com/api/download/v1/items/123/csv?redirect=false&layers=0&trackCacheUpdate=true",
       {
         body: {
           status: "PagingData",
@@ -174,7 +174,7 @@ describe("fetchHubApiDownloadFile", () => {
       { overwriteRoutes: false }
     );
     fetchMock.once(
-      "https://hubqa.arcgis.com/api/download/v1/items/123/csv?redirect=false&layers=0",
+      "https://hubqa.arcgis.com/api/download/v1/items/123/csv?redirect=false&layers=0&trackCacheUpdate=true",
       {
         body: {
           status: "Completed",
@@ -313,7 +313,7 @@ describe("fetchHubApiDownloadFile", () => {
       }
     );
     fetchMock.once(
-      "https://hubqa.arcgis.com/api/download/v1/items/123/csv?redirect=false&layers=0",
+      "https://hubqa.arcgis.com/api/download/v1/items/123/csv?redirect=false&layers=0&trackCacheUpdate=true",
       {
         body: {
           status: "InProgress",
@@ -324,7 +324,7 @@ describe("fetchHubApiDownloadFile", () => {
       { overwriteRoutes: false }
     );
     fetchMock.once(
-      "https://hubqa.arcgis.com/api/download/v1/items/123/csv?redirect=false&layers=0",
+      "https://hubqa.arcgis.com/api/download/v1/items/123/csv?redirect=false&layers=0&trackCacheUpdate=true",
       {
         body: {
           status: "Completed",
