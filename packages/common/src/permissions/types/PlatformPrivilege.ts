@@ -17,6 +17,7 @@ export type PlatformPrivilege =
   | "portal:admin:changeUserRoles"
   | "portal:admin:createGPWebhook"
   | "portal:admin:createUpdateCapableGroup"
+  | "portal:admin:createLeavingDisallowedGroup"
   | "portal:admin:deleteGroups"
   | "portal:admin:deleteItems"
   | "portal:admin:deleteUsers"

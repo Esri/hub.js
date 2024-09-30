@@ -9,6 +9,22 @@ import { getPropertyMap } from "./getPropertyMap";
  */
 
 export function convertHubGroupToGroup(hubGroup: IHubGroup): IGroup {
+  // take the _join props and map them to isInvitationOnly and autoJoin
+  switch (hubGroup._join) {
+    case "invite":
+      hubGroup.isInvitationOnly = true;
+      hubGroup.autoJoin = false;
+      break;
+    case "request":
+      hubGroup.isInvitationOnly = false;
+      hubGroup.autoJoin = false;
+      break;
+    case "auto":
+      hubGroup.isInvitationOnly = false;
+      hubGroup.autoJoin = true;
+      break;
+  }
+
   const mapper = new PropertyMapper<Partial<IHubGroup>, IGroup>(
     getPropertyMap()
   );

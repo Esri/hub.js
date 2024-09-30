@@ -17,6 +17,7 @@ export const PlatformPermissions = [
   "platform:portal:admin:changeUserRoles",
   "platform:portal:admin:createGPWebhook",
   "platform:portal:admin:createUpdateCapableGroup",
+  "platform:portal:admin:createLeavingDisallowedGroup",
   "platform:portal:admin:deleteGroups",
   "platform:portal:admin:deleteItems",
   "platform:portal:admin:deleteUsers",
@@ -187,6 +188,12 @@ export const PlatformPermissionPolicies: IPermissionPolicy[] = [
     services: ["portal"],
     authenticated: true,
     privileges: ["portal:admin:createUpdateCapableGroup"],
+  },
+  {
+    permission: "platform:portal:admin:createLeavingDisallowedGroup",
+    services: ["portal"],
+    authenticated: true,
+    privileges: ["portal:admin:createLeavingDisallowedGroup"],
   },
   {
     permission: "platform:portal:admin:deleteGroups",

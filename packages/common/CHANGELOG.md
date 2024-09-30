@@ -1,3 +1,10 @@
+# @esri/hub-common [14.198.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.197.0...@esri/hub-common@14.198.0) (2024-09-27)
+
+
+### Features
+
+* group schema and create group uischema ([#1666](https://github.com/Esri/hub.js/issues/1666)) ([d856c49](https://github.com/Esri/hub.js/commit/d856c494bf5d040c1c77c5f7c526b6d5a27538e4))
+
 # @esri/hub-common [14.197.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.196.1...@esri/hub-common@14.197.0) (2024-09-26)
 
 

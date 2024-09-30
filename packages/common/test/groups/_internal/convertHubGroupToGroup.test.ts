@@ -12,9 +12,10 @@ describe("groups: convertHubGroupToGroup:", () => {
       thumbnail: "group.jpg",
       membershipAccess: "collaborators",
       isSharedUpdate: true,
+      _join: "invite",
     } as unknown as IHubGroup;
   });
-  it("converts an HubGroup to a IGroup", async () => {
+  it("converts an HubGroup with _join === invite to a IGroup", async () => {
     const chk = convertHubGroupToGroup(hubGroup);
     // we convert some props in HubGroup to something else
     // in IGroup, checking them is a good way to
@@ -23,6 +24,32 @@ describe("groups: convertHubGroupToGroup:", () => {
     expect(chk.access).toBe("org");
     expect(chk.membershipAccess).toBe("collaboration");
     expect(chk.capabilities).toBe("updateitemcontrol");
+    expect(chk.isInvitationOnly).toBe(true);
+    expect(chk.autoJoin).toBe(false);
+  });
+  it("converts an HubGroup with _join === request to a IGroup", async () => {
+    const chk = convertHubGroupToGroup({ ...hubGroup, _join: "request" });
+    // we convert some props in HubGroup to something else
+    // in IGroup, checking them is a good way to
+    // varify the HubGroup -> IGroup convertion
+    expect(chk.id).toBe("3ef");
+    expect(chk.access).toBe("org");
+    expect(chk.membershipAccess).toBe("collaboration");
+    expect(chk.capabilities).toBe("updateitemcontrol");
+    expect(chk.isInvitationOnly).toBe(false);
+    expect(chk.autoJoin).toBe(false);
+  });
+  it("converts an HubGroup with _join === auto to a IGroup", async () => {
+    const chk = convertHubGroupToGroup({ ...hubGroup, _join: "auto" });
+    // we convert some props in HubGroup to something else
+    // in IGroup, checking them is a good way to
+    // varify the HubGroup -> IGroup convertion
+    expect(chk.id).toBe("3ef");
+    expect(chk.access).toBe("org");
+    expect(chk.membershipAccess).toBe("collaboration");
+    expect(chk.capabilities).toBe("updateitemcontrol");
+    expect(chk.isInvitationOnly).toBe(false);
+    expect(chk.autoJoin).toBe(true);
   });
   it("clears empty fields", async () => {
     hubGroup.membershipAccess = "anyone";
