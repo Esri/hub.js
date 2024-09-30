@@ -1,3 +1,10 @@
+# @esri/hub-common [14.199.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.198.1...@esri/hub-common@14.199.0) (2024-09-30)
+
+
+### Features
+
+* regate user workspace to qaext and devext so we can try outsi… ([#1660](https://github.com/Esri/hub.js/issues/1660)) ([c634773](https://github.com/Esri/hub.js/commit/c634773a1679a1e8ed55458153cadb5220fe74dc))
+
 ## @esri/hub-common [14.198.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.198.0...@esri/hub-common@14.198.1) (2024-09-30)
 
 
