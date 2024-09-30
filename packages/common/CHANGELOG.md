@@ -1,3 +1,10 @@
+## @esri/hub-common [14.198.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.198.0...@esri/hub-common@14.198.1) (2024-09-30)
+
+
+### Bug Fixes
+
+* replace hub-radio input with tile-select to resolve a11y bug ([#1665](https://github.com/Esri/hub.js/issues/1665)) ([80dddc0](https://github.com/Esri/hub.js/commit/80dddc0c7e84b35da1c79f4812bc13ca1297f799))
+
 # @esri/hub-common [14.198.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.197.0...@esri/hub-common@14.198.0) (2024-09-27)
 
 
