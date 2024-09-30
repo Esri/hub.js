@@ -280,6 +280,10 @@ export type GetEventsParams = {
    * orgId string
    */
   orgId?: string;
+  /**
+   * Comma separated string list of shared groupIds
+   */
+  sharedToGroups?: string;
 };
 
 export interface IRegistrationPermission {
