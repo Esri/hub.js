@@ -61,7 +61,8 @@ export const buildUiSchema = async (
             scope: "/properties/_followers/properties/isDiscussable",
             type: "Control",
             options: {
-              control: "hub-field-input-radio",
+              control: "hub-field-input-tile-select",
+              layout: "horizontal",
               labels: [
                 `{{${i18nScope}.fields.followers.discussable.enabled.label:translate}}`,
                 `{{${i18nScope}.fields.followers.discussable.disabled.label:translate}}`,
@@ -71,6 +72,8 @@ export const buildUiSchema = async (
                 `{{${i18nScope}.fields.followers.discussable.disabled.description:translate}}`,
               ],
               icons: ["speech-bubbles", "circle-disallowed"],
+              type: "radio",
+              styles: { "max-width": "45rem" },
             },
           },
         ],
