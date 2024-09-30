@@ -22,13 +22,11 @@ export async function updateUserCommunityOrgSettings(
 
   // only if we have them enabled and we have values do we send them in the request
   const signupText =
-    settings.enableSignupText && settings.signupText
-      ? settings.signupText
-      : null;
+    settings.enableSignupText && settings.signupText ? settings.signupText : "";
   const termsAndConditions =
     settings.enableTermsAndConditions && settings.termsAndConditions
       ? settings.termsAndConditions
-      : null;
+      : "";
 
   // build the url
   const urlPath = "/sharing/rest/portals/self/setSigninSettings?f=json";

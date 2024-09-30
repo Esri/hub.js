@@ -61,30 +61,21 @@ export class HubUser implements IWithEditorBehavior {
     if (this.isDestroyed) {
       throw new Error("HubUser is already destroyed.");
     }
+    // 1. update user hub settings
+    await this.context.updateUserHubSettings(this.entity.settings);
 
-    try {
-      // 1. update user hub settings
-      await this.context.updateUserHubSettings(this.entity.settings);
-    } catch (error) {
-      throw new Error(`Failed to update user hub settings: ${error}`);
-    }
-
-    try {
-      // 2. update portal signin settings
-      // TODO in later story -- note that there will need to be a
-      // check for if the user is an org admin -- they cannot
-      // POST to necessary endpoints if not
-      if (
-        this.context?.isCommunityOrg &&
-        this.context?.currentUser?.role === "org_admin"
-      ) {
-        await updateUserCommunityOrgSettings(
-          this.entity.hubOrgSettings,
-          this.context
-        );
-      }
-    } catch (error) {
-      throw new Error(`Failed to update user org settings: ${error}`);
+    // 2. update portal signin settings
+    // TODO in later story -- note that there will need to be a
+    // check for if the user is an org admin -- they cannot
+    // POST to necessary endpoints if not
+    if (
+      this.context?.isCommunityOrg &&
+      this.context?.currentUser?.role === "org_admin"
+    ) {
+      await updateUserCommunityOrgSettings(
+        this.entity.hubOrgSettings,
+        this.context
+      );
     }
 
     // 3. update portal settings
