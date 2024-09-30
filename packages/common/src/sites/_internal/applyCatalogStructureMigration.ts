@@ -19,6 +19,10 @@ export function applyCatalogStructureMigration(model: IModel): IModel {
   if (!siteCatalog.schemaVersion) {
     const clonedModel = cloneObject(model);
     clonedModel.data.catalog = upgradeCatalogSchema(siteCatalog);
+    // applyCatalogSchema sets the catalog to `Default Catalog` but this fn previously
+    // set it to `Default Site Catalog`. Overriding title to `Default Site Catalog` here
+    // to prevent any potential regressions
+    clonedModel.data.catalog.title = "Default Site Catalog";
     return clonedModel;
   }
   return model;
