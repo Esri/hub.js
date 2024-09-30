@@ -1,3 +1,10 @@
+## @esri/hub-common [14.200.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.200.0...@esri/hub-common@14.200.1) (2024-09-30)
+
+
+### Bug Fixes
+
+* **hub-common:** added sharedToGroups filter for get-events ([#1673](https://github.com/Esri/hub.js/issues/1673)) ([de9f76d](https://github.com/Esri/hub.js/commit/de9f76d586d57bfc602a0fd26e89379abf41558a))
+
 # @esri/hub-common [14.200.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.199.0...@esri/hub-common@14.200.0) (2024-09-30)
 
 
