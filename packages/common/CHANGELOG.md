@@ -1,3 +1,11 @@
+# @esri/hub-common [14.200.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.199.0...@esri/hub-common@14.200.0) (2024-09-30)
+
+
+### Features
+
+* **hub-common:** add event scope to catalog ([#1669](https://github.com/Esri/hub.js/issues/1669)) ([9aa595c](https://github.com/Esri/hub.js/commit/9aa595c0131365679eee41174fd012791079a828))
+* user settings org section & notice ([#1655](https://github.com/Esri/hub.js/issues/1655)) ([868fb26](https://github.com/Esri/hub.js/commit/868fb26a432020d6cb3148fca19d4a5f7e678adb))
+
 # @esri/hub-common [14.199.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.198.1...@esri/hub-common@14.199.0) (2024-09-30)
 
 
