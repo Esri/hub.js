@@ -31,7 +31,7 @@ export async function updateUserCommunityOrgSettings(
       : null;
 
   // build the url
-  const urlPath = "/portals/self/setSigninSettings?f=json";
+  const urlPath = "/sharing/rest/portals/self/setSigninSettings?f=json";
   const url = `${context.portalUrl}${urlPath}`;
 
   // send the request to update
