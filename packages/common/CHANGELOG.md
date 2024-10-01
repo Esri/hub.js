@@ -1,3 +1,10 @@
+# @esri/hub-common [14.202.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.201.0...@esri/hub-common@14.202.0) (2024-10-01)
+
+
+### Features
+
+* add support for httpMethod on IHubSearchOptions ([#1675](https://github.com/Esri/hub.js/issues/1675)) ([3506956](https://github.com/Esri/hub.js/commit/3506956fd44ff4fa2b22fd9b1a240cb5f962af07))
+
 # @esri/hub-common [14.201.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.200.1...@esri/hub-common@14.201.0) (2024-10-01)
 
 
