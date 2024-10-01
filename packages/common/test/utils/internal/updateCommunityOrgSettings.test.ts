@@ -79,6 +79,7 @@ describe("updateUserCommunityOrgSettings", () => {
         params: {
           termsAndConditions: "terms and conditions",
           signupText: "signup text",
+          clearEmptyFields: false,
           token: "fake-token",
         },
       }
@@ -117,6 +118,7 @@ describe("updateUserCommunityOrgSettings", () => {
         params: {
           termsAndConditions: "",
           signupText: "",
+          clearEmptyFields: true,
           token: "fake-token",
         },
       }

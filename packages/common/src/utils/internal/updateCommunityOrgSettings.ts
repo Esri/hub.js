@@ -33,12 +33,16 @@ export async function updateUserCommunityOrgSettings(
   const urlPath = "/sharing/rest/portals/self/setSigninSettings?f=json";
   const url = `${context.portalUrl}${urlPath}`;
 
+  // if we do not have values for one of the fields, we want to clear it
+  const clearEmptyFields: boolean = !signupText || !termsAndConditions;
+
   // send the request to update
   return request(url, {
     httpMethod: "POST",
     params: {
       termsAndConditions,
       signupText,
+      clearEmptyFields,
       token: context.hubRequestOptions.authentication.token,
     },
   });
