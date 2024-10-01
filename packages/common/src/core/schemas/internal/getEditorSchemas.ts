@@ -1,4 +1,5 @@
 import { cloneObject } from "../../../util";
+import { HubEntity } from "../../types/HubEntity";
 import {
   CardEditorType,
   EditorType,
@@ -54,10 +55,11 @@ export async function getEditorSchemas(
   let defaults: IConfigurationValues;
   switch (editorType) {
     case "site":
-      const { SiteSchema } = await import(
+      const { getSiteSchema } = await import(
         "../../../sites/_internal/SiteSchema"
       );
-      schema = cloneObject(SiteSchema);
+      // site id is needed for validation of site url
+      schema = getSiteSchema((options as HubEntity).id);
 
       const siteModule: IEntityEditorModuleType = await {
         "hub:site:edit": () =>
