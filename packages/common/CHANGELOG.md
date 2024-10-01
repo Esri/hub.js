@@ -1,3 +1,24 @@
+# @esri/hub-common [14.202.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.201.0...@esri/hub-common@14.202.0) (2024-10-01)
+
+
+### Features
+
+* add support for httpMethod on IHubSearchOptions ([#1675](https://github.com/Esri/hub.js/issues/1675)) ([3506956](https://github.com/Esri/hub.js/commit/3506956fd44ff4fa2b22fd9b1a240cb5f962af07))
+
+# @esri/hub-common [14.201.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.200.1...@esri/hub-common@14.201.0) (2024-10-01)
+
+
+### Features
+
+* more schema updates ([#1674](https://github.com/Esri/hub.js/issues/1674)) ([30445f8](https://github.com/Esri/hub.js/commit/30445f86f1e6cefb2a9a29cfed73f1d214c3368e))
+
+## @esri/hub-common [14.200.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.200.0...@esri/hub-common@14.200.1) (2024-09-30)
+
+
+### Bug Fixes
+
+* **hub-common:** added sharedToGroups filter for get-events ([#1673](https://github.com/Esri/hub.js/issues/1673)) ([de9f76d](https://github.com/Esri/hub.js/commit/de9f76d586d57bfc602a0fd26e89379abf41558a))
+
 # @esri/hub-common [14.200.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.199.0...@esri/hub-common@14.200.0) (2024-09-30)
 
 

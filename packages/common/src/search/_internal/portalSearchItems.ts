@@ -114,6 +114,7 @@ function processSearchParams(options: IHubSearchOptions, query: IQuery) {
     "sortOrder",
     "include",
     "start",
+    "httpMethod",
     "requestOptions", // although requestOptions is not needed on ISearchOption we send it through so downstream fns have access to it
   ];
   // copy the props over

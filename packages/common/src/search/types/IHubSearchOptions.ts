@@ -3,6 +3,7 @@ import { IHubRequestOptions } from "../../types";
 import { EntityType } from "./IHubCatalog";
 
 import { NamedApis, IApiDefinition, ISortOption } from "./types";
+import { HTTPMethods } from "@esri/arcgis-rest-request";
 
 // @private
 // TODO Deprecate in favor of Includable
@@ -93,4 +94,10 @@ export interface IHubSearchOptions extends IPagingOptions, ISortOptions {
    * LEGACY. Use `start` and `num` instead
    */
   page?: string;
+  /**
+   * Allow override of the default http method. Allows for
+   * POST requests to be made if the query is very large
+   * NOTE: The OGC API will ignore this property
+   */
+  httpMethod?: HTTPMethods;
 }
