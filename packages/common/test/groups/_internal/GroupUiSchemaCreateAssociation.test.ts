@@ -103,8 +103,8 @@ describe("GroupUiSchemaCreateAssociation", () => {
                     options: {
                       control: "hub-field-input-radio",
                       labels: [
-                        "{{some.scope.fields.membershipAccess.org:translate}}",
-                        "{{some.scope.fields.membershipAccess.collab:translate}}",
+                        "{{some.scope.fields.membershipAccess.org.description:translate}}",
+                        "{{some.scope.fields.membershipAccess.collab.description:translate}}",
                         "{{some.scope.fields.membershipAccess.createAssociation.any:translate}}",
                       ],
                       disabled: [false, true, true],
@@ -117,7 +117,7 @@ describe("GroupUiSchemaCreateAssociation", () => {
                     options: {
                       control: "hub-field-input-radio",
                       labels: [
-                        "{{some.scope.fields.contributeContent.all:translate}}",
+                        "{{some.scope.fields.contributeContent.members.description:translate}}",
                         "{{some.scope.fields.contributeContent.createAssociation.admins:translate}}",
                       ],
                     },
@@ -143,6 +143,7 @@ describe("GroupUiSchemaCreateAssociation", () => {
         autoJoin: false,
         isInvitationOnly: false,
         isViewOnly: true,
+        leavingDisallowed: false,
         membershipAccess: "organization",
         protected: true,
       });
@@ -161,6 +162,7 @@ describe("GroupUiSchemaCreateAssociation", () => {
         autoJoin: false,
         isInvitationOnly: false,
         isViewOnly: true,
+        leavingDisallowed: false,
         membershipAccess: "anyone",
         protected: true,
       });

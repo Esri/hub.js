@@ -34,12 +34,73 @@ describe("buildUiSchema: group settings", () => {
               options: {
                 control: "hub-field-input-radio",
                 labels: [
-                  "{{some.scope.fields.membershipAccess.org:translate}}",
-                  "{{some.scope.fields.membershipAccess.collab:translate}}",
-                  "{{some.scope.fields.membershipAccess.any:translate}}",
+                  "{{some.scope.fields.membershipAccess.org.description:translate}}",
+                  "{{some.scope.fields.membershipAccess.collab.description:translate}}",
+                  "{{some.scope.fields.membershipAccess.any.description:translate}}",
                 ],
-                disabled: [false, false, true],
+                rules: [
+                  [
+                    {
+                      effect: UiSchemaRuleEffects.NONE,
+                    },
+                  ],
+                  [
+                    {
+                      effect: UiSchemaRuleEffects.DISABLE,
+                      conditions: [
+                        {
+                          scope: "/properties/leavingDisallowed",
+                          schema: { const: true },
+                        },
+                      ],
+                    },
+                  ],
+                  [
+                    {
+                      effect: UiSchemaRuleEffects.DISABLE,
+                      conditions: [
+                        {
+                          scope: "/properties/leavingDisallowed",
+                          schema: { const: true },
+                        },
+                      ],
+                    },
+                    {
+                      effect: UiSchemaRuleEffects.DISABLE,
+                      conditions: [
+                        {
+                          scope: "/properties/isSharedUpdate",
+                          schema: { const: true },
+                        },
+                      ],
+                    },
+                  ],
+                ],
               },
+              rules: [
+                {
+                  effect: UiSchemaRuleEffects.RESET,
+                  conditions: [
+                    {
+                      scope: "/properties/leavingDisallowed",
+                      schema: { const: true },
+                    },
+                  ],
+                },
+                {
+                  effect: UiSchemaRuleEffects.RESET,
+                  conditions: [
+                    {
+                      scope: "/properties/isSharedUpdate",
+                      schema: { const: true },
+                    },
+                    {
+                      scope: "/properties/membershipAccess",
+                      schema: { const: "anyone" },
+                    },
+                  ],
+                },
+              ],
             },
             {
               labelKey: "some.scope.fields.contributeContent.label",
@@ -48,8 +109,8 @@ describe("buildUiSchema: group settings", () => {
               options: {
                 control: "hub-field-input-radio",
                 labels: [
-                  "{{some.scope.fields.contributeContent.all:translate}}",
-                  "{{some.scope.fields.contributeContent.admins:translate}}",
+                  "{{some.scope.fields.contributeContent.members.description:translate}}",
+                  "{{some.scope.fields.contributeContent.admins.description:translate}}",
                 ],
               },
             },

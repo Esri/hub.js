@@ -1,3 +1,10 @@
+# @esri/hub-common [14.201.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.200.1...@esri/hub-common@14.201.0) (2024-10-01)
+
+
+### Features
+
+* more schema updates ([#1674](https://github.com/Esri/hub.js/issues/1674)) ([30445f8](https://github.com/Esri/hub.js/commit/30445f86f1e6cefb2a9a29cfed73f1d214c3368e))
+
 ## @esri/hub-common [14.200.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.200.0...@esri/hub-common@14.200.1) (2024-09-30)
 
 
