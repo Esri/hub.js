@@ -1,3 +1,10 @@
+# @esri/hub-common [14.203.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.202.0...@esri/hub-common@14.203.0) (2024-10-01)
+
+
+### Features
+
+* **hub-common:** add site URL to settings schema ([#1668](https://github.com/Esri/hub.js/issues/1668)) ([4a36d18](https://github.com/Esri/hub.js/commit/4a36d188aa94ea953b62e0a7dc7f6a1224624f44))
+
 # @esri/hub-common [14.202.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.201.0...@esri/hub-common@14.202.0) (2024-10-01)
 
 
