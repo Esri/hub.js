@@ -4,7 +4,7 @@ import { IHubUserOrgSettings } from "../../core/types/IHubUser";
 import { request } from "@esri/arcgis-rest-request";
 
 /**
- * Function to update a user's community org settings
+ * Function to update a user's community org settings. Expects the user to be an org admin in the current community org.
  * @param settings
  */
 export async function updateUserCommunityOrgSettings(
@@ -21,13 +21,8 @@ export async function updateUserCommunityOrgSettings(
     throw new Error("User is not an org admin in the current community org");
   }
 
-  // only if we have them enabled and we have values do we send them in the request
-  const signupText =
-    settings.enableSignupText && settings.signupText ? settings.signupText : "";
-  const termsAndConditions =
-    settings.enableTermsAndConditions && settings.termsAndConditions
-      ? settings.termsAndConditions
-      : "";
+  // grab settings
+  const { termsAndConditions, signupText } = settings;
 
   // build the url
   const urlPath = "/sharing/rest/portals/self/setSigninSettings?f=json";

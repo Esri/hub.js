@@ -49,9 +49,7 @@ describe("updateUserCommunityOrgSettings", () => {
 
   it("sends a request to the right url with signup text and terms and conditions", () => {
     const settings = {
-      enableSignupText: true,
       signupText: "signup text",
-      enableTermsAndConditions: true,
       termsAndConditions: "terms and conditions",
     };
     const context: IArcGISContext = {
@@ -86,12 +84,10 @@ describe("updateUserCommunityOrgSettings", () => {
     );
   });
 
-  it("sends an empty string for signup text and terms and conditions if they are not enabled", () => {
+  it("sends an empty string for signup text and terms and conditions if values are empty", () => {
     const settings = {
-      enableSignupText: false,
-      signupText: "signup text",
-      enableTermsAndConditions: false,
-      termsAndConditions: "terms and conditions",
+      signupText: "",
+      termsAndConditions: "",
     };
     const context: IArcGISContext = {
       isOrgAdmin: true,

@@ -162,7 +162,12 @@ describe("HubUser Class:", () => {
         id: "123",
         name: "Paige",
         settings: { schemaVersion: 1, preview: { workspace: false } },
-        hubOrgSettings: { schemaVersion: 1, preview: { workspace: false } },
+        hubOrgSettings: {
+          signupText: "testSignup",
+          termsAndConditions: "testTerms",
+          enableSignupText: true,
+          enableTermsAndConditions: true,
+        },
       } as unknown as IHubUser;
 
       const updateUserHubSettingsSpy = spyOn(
@@ -190,7 +195,108 @@ describe("HubUser Class:", () => {
       expect(updateUserHubSettingsSpy).toHaveBeenCalledWith(user.settings);
       expect(updateUserCommunityOrgSettings).toHaveBeenCalledTimes(1);
       expect(updateUserCommunityOrgSettings).toHaveBeenCalledWith(
-        user.hubOrgSettings,
+        {
+          signupText: "testSignup",
+          termsAndConditions: "testTerms",
+        },
+        {
+          ...authdCtxMgr.context,
+          isCommunityOrg: true,
+          isOrgAdmin: true,
+        }
+      );
+    });
+    it("saves hub org settings with signup text and terms and conditions empty if we are in a community org and user is admin and values are disabled", async () => {
+      const user = {
+        id: "123",
+        name: "Paige",
+        settings: { schemaVersion: 1, preview: { workspace: false } },
+        hubOrgSettings: {
+          enableSignupText: false,
+          enableTermsAndConditions: false,
+          signupText: "test",
+          termsAndConditions: "test",
+        },
+      } as unknown as IHubUser;
+
+      const updateUserHubSettingsSpy = spyOn(
+        authdCtxMgr.context,
+        "updateUserHubSettings"
+      ).and.callFake(async () => {
+        return Promise.resolve();
+      });
+
+      const updateUserCommunityOrgSettings = spyOn(
+        UpdateCommunityOrgSettingsModule,
+        "updateUserCommunityOrgSettings"
+      ).and.callFake(async () => {
+        return Promise.resolve();
+      });
+
+      const chk = HubUser.fromJson(user, {
+        ...authdCtxMgr.context,
+        isCommunityOrg: true,
+        isOrgAdmin: true,
+      });
+      await chk.save();
+
+      expect(updateUserHubSettingsSpy).toHaveBeenCalledTimes(1);
+      expect(updateUserHubSettingsSpy).toHaveBeenCalledWith(user.settings);
+      expect(updateUserCommunityOrgSettings).toHaveBeenCalledTimes(1);
+      expect(updateUserCommunityOrgSettings).toHaveBeenCalledWith(
+        {
+          signupText: "",
+          termsAndConditions: "",
+        },
+        {
+          ...authdCtxMgr.context,
+          isCommunityOrg: true,
+          isOrgAdmin: true,
+        }
+      );
+    });
+    it("saves hub org settings with signup text and terms and conditions empty if we are in a community org and user is admin and values are empty", async () => {
+      const user = {
+        id: "123",
+        name: "Paige",
+        settings: { schemaVersion: 1, preview: { workspace: false } },
+        hubOrgSettings: {
+          enableSignupText: true,
+          enableTermsAndConditions: true,
+          signupText: "",
+          termsAndConditions: "",
+        },
+      } as unknown as IHubUser;
+
+      const updateUserHubSettingsSpy = spyOn(
+        authdCtxMgr.context,
+        "updateUserHubSettings"
+      ).and.callFake(async () => {
+        return Promise.resolve();
+      });
+
+      const updateUserCommunityOrgSettings = spyOn(
+        UpdateCommunityOrgSettingsModule,
+        "updateUserCommunityOrgSettings"
+      ).and.callFake(async () => {
+        return Promise.resolve();
+      });
+
+      const chk = HubUser.fromJson(user, {
+        ...authdCtxMgr.context,
+        isCommunityOrg: true,
+        isOrgAdmin: true,
+      });
+      await chk.save();
+
+      expect(updateUserHubSettingsSpy).toHaveBeenCalledTimes(1);
+      expect(updateUserHubSettingsSpy).toHaveBeenCalledWith(user.settings);
+      expect(updateUserCommunityOrgSettings).toHaveBeenCalledTimes(1);
+      expect(updateUserCommunityOrgSettings).toHaveBeenCalledWith(
+        {
+          signupText: "",
+          termsAndConditions: "",
+        },
         {
           ...authdCtxMgr.context,
           isCommunityOrg: true,

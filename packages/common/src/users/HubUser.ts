@@ -65,12 +65,31 @@ export class HubUser implements IWithEditorBehavior {
     await this.context.updateUserHubSettings(this.entity.settings);
 
     // 2. update portal signin settings
-    // TODO in later story -- note that there will need to be a
-    // check for if the user is an org admin -- they cannot
-    // POST to necessary endpoints if not
-    if (this.context.isCommunityOrg && this.context.isOrgAdmin) {
+    // we are in community org, user is org admin, and we have org settings to send
+    if (
+      this.context.isCommunityOrg &&
+      this.context.isOrgAdmin &&
+      this.entity.hubOrgSettings
+    ) {
+      const { hubOrgSettings } = this.entity;
+
+      // only send values if we have settings enabled
+      // else we send an empty string to reset
+      const newCommunityOrgSettings = {
+        signupText:
+          hubOrgSettings.enableSignupText && hubOrgSettings.signupText
+            ? hubOrgSettings.signupText
+            : "",
+        termsAndConditions:
+          hubOrgSettings.enableTermsAndConditions &&
+          hubOrgSettings.termsAndConditions
+            ? hubOrgSettings.termsAndConditions
+            : "",
+      };
+
+      // make the request to update the settings
       await updateUserCommunityOrgSettings(
-        this.entity.hubOrgSettings,
+        newCommunityOrgSettings,
         this.context
       );
     }
