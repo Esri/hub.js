@@ -97,6 +97,7 @@ export interface IHubSearchOptions extends IPagingOptions, ISortOptions {
   /**
    * Allow override of the default http method. Allows for
    * POST requests to be made if the query is very large
+   * NOTE: The OGC API will ignore this property
    */
   httpMethod?: HTTPMethods;
 }
