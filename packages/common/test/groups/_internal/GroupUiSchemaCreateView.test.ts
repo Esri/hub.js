@@ -103,9 +103,9 @@ describe("GroupUiSchemaCreateView", () => {
                     options: {
                       control: "hub-field-input-radio",
                       labels: [
-                        "{{some.scope.fields.membershipAccess.org:translate}}",
-                        "{{some.scope.fields.membershipAccess.collab:translate}}",
-                        "{{some.scope.fields.membershipAccess.any:translate}}",
+                        "{{some.scope.fields.membershipAccess.org.description:translate}}",
+                        "{{some.scope.fields.membershipAccess.collab.description:translate}}",
+                        "{{some.scope.fields.membershipAccess.any.description:translate}}",
                       ],
                       disabled: [false, true, true],
                     },
@@ -117,8 +117,8 @@ describe("GroupUiSchemaCreateView", () => {
                     options: {
                       control: "hub-field-input-radio",
                       labels: [
-                        "{{some.scope.fields.contributeContent.all:translate}}",
-                        "{{some.scope.fields.contributeContent.admins:translate}}",
+                        "{{some.scope.fields.contributeContent.members.description:translate}}",
+                        "{{some.scope.fields.contributeContent.admins.description:translate}}",
                       ],
                     },
                   },
@@ -146,6 +146,7 @@ describe("GroupUiSchemaCreateView", () => {
         isInvitationOnly: false,
         hiddenMembers: false,
         isViewOnly: false,
+        leavingDisallowed: false,
         tags: ["Hub Group"],
         membershipAccess: "organization",
       });
@@ -164,6 +165,7 @@ describe("GroupUiSchemaCreateView", () => {
         isInvitationOnly: false,
         hiddenMembers: false,
         isViewOnly: false,
+        leavingDisallowed: false,
         tags: ["Hub Group"],
         membershipAccess: "anyone",
       });

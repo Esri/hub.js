@@ -107,9 +107,9 @@ export const buildUiSchema = async (
                 options: {
                   control: "hub-field-input-radio",
                   labels: [
-                    `{{${i18nScope}.fields.membershipAccess.org:translate}}`,
-                    `{{${i18nScope}.fields.membershipAccess.collab:translate}}`,
-                    `{{${i18nScope}.fields.membershipAccess.any:translate}}`,
+                    `{{${i18nScope}.fields.membershipAccess.org.description:translate}}`,
+                    `{{${i18nScope}.fields.membershipAccess.collab.description:translate}}`,
+                    `{{${i18nScope}.fields.membershipAccess.any.description:translate}}`,
                   ],
                   disabled: [
                     false,
@@ -131,8 +131,8 @@ export const buildUiSchema = async (
                 options: {
                   control: "hub-field-input-radio",
                   labels: [
-                    `{{${i18nScope}.fields.contributeContent.all:translate}}`,
-                    `{{${i18nScope}.fields.contributeContent.admins:translate}}`,
+                    `{{${i18nScope}.fields.contributeContent.members.description:translate}}`,
+                    `{{${i18nScope}.fields.contributeContent.admins.description:translate}}`,
                   ],
                 },
               },

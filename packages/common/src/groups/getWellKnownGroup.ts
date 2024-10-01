@@ -26,6 +26,7 @@ export function getWellKnownGroup(
       isInvitationOnly: false,
       hiddenMembers: false,
       isViewOnly: false,
+      leavingDisallowed: false,
       tags: ["Hub Group"],
       membershipAccess: "organization",
     },
@@ -36,6 +37,7 @@ export function getWellKnownGroup(
       isInvitationOnly: false,
       hiddenMembers: false,
       isViewOnly: false,
+      leavingDisallowed: false,
       tags: ["Hub Group"],
       membershipAccess: checkPermission(
         "platform:portal:user:addExternalMembersToGroup",
@@ -51,6 +53,7 @@ export function getWellKnownGroup(
       isInvitationOnly: false,
       hiddenMembers: false,
       isViewOnly: false,
+      leavingDisallowed: false,
       tags: ["Hub Group"],
       membershipAccess: checkPermission(
         "platform:portal:user:addExternalMembersToGroup",
@@ -64,12 +67,14 @@ export function getWellKnownGroup(
       autoJoin: true,
       isInvitationOnly: false,
       isViewOnly: true,
+      leavingDisallowed: false,
     },
     hubAssociationsGroup: {
       access: "public",
       autoJoin: false,
       isInvitationOnly: false,
       isViewOnly: true,
+      leavingDisallowed: false,
       membershipAccess: checkPermission(
         "platform:portal:user:addExternalMembersToGroup",
         context

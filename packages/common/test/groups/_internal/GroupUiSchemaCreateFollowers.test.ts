@@ -100,8 +100,8 @@ describe("GroupUiSchemaCreateFollowers", () => {
                     options: {
                       control: "hub-field-input-radio",
                       labels: [
-                        "{{some.scope.fields.membershipAccess.org:translate}}",
-                        "{{some.scope.fields.membershipAccess.collab:translate}}",
+                        "{{some.scope.fields.membershipAccess.org.description:translate}}",
+                        "{{some.scope.fields.membershipAccess.collab.description:translate}}",
                         "{{some.scope.fields.membershipAccess.createFollowers.any:translate}}",
                       ],
                       disabled: [false, false, true],
@@ -114,7 +114,7 @@ describe("GroupUiSchemaCreateFollowers", () => {
                     options: {
                       control: "hub-field-input-radio",
                       labels: [
-                        "{{some.scope.fields.contributeContent.all:translate}}",
+                        "{{some.scope.fields.contributeContent.members.description:translate}}",
                         "{{some.scope.fields.contributeContent.createFollowers.admins:translate}}",
                       ],
                     },
@@ -139,6 +139,7 @@ describe("GroupUiSchemaCreateFollowers", () => {
         autoJoin: true,
         isInvitationOnly: false,
         isViewOnly: true,
+        leavingDisallowed: false,
       });
     });
   });
