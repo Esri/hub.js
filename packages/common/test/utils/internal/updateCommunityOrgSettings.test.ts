@@ -1,13 +1,13 @@
 import { IArcGISContext } from "../../../src/ArcGISContext";
-import { updateUserCommunityOrgSettings } from "../../../src/utils/internal/updateCommunityOrgSettings";
+import { updateCommunityOrgSettings } from "../../../src/utils/internal/updateCommunityOrgSettings";
 import * as requestModule from "@esri/arcgis-rest-request";
 
-describe("updateUserCommunityOrgSettings", () => {
+describe("updateCommunityOrgSettings", () => {
   it("throws an error if there is no current user on the context object", async () => {
     const settings = {};
     const context: IArcGISContext = {} as IArcGISContext;
     try {
-      await updateUserCommunityOrgSettings(settings, context);
+      await updateCommunityOrgSettings(settings, context);
     } catch (error) {
       expect(error).toEqual(new Error("User is not authenticated"));
     }
@@ -22,7 +22,7 @@ describe("updateUserCommunityOrgSettings", () => {
     } as unknown as IArcGISContext;
 
     try {
-      await updateUserCommunityOrgSettings(settings, context);
+      await updateCommunityOrgSettings(settings, context);
     } catch (error) {
       expect(error).toEqual(
         new Error("User is not an org admin in the current community org")
@@ -39,7 +39,7 @@ describe("updateUserCommunityOrgSettings", () => {
     } as unknown as IArcGISContext;
 
     try {
-      await updateUserCommunityOrgSettings(settings, context);
+      await updateCommunityOrgSettings(settings, context);
     } catch (error) {
       expect(error).toEqual(
         new Error("User is not an org admin in the current community org")
@@ -68,7 +68,7 @@ describe("updateUserCommunityOrgSettings", () => {
       Promise.resolve({})
     );
 
-    updateUserCommunityOrgSettings(settings, context);
+    updateCommunityOrgSettings(settings, context);
 
     expect(requestSpy).toHaveBeenCalledWith(
       "https://www.community-org.hubqa.arcgis.com/sharing/rest/portals/self/setSigninSettings?f=json",
@@ -105,7 +105,7 @@ describe("updateUserCommunityOrgSettings", () => {
       Promise.resolve({})
     );
 
-    updateUserCommunityOrgSettings(settings, context);
+    updateCommunityOrgSettings(settings, context);
 
     expect(requestSpy).toHaveBeenCalledWith(
       "https://www.community-org.hubqa.arcgis.com/sharing/rest/portals/self/setSigninSettings?f=json",

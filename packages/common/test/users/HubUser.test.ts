@@ -143,9 +143,9 @@ describe("HubUser Class:", () => {
         return Promise.resolve();
       });
 
-      const updateUserCommunityOrgSettings = spyOn(
+      const updateCommunityOrgSettings = spyOn(
         UpdateCommunityOrgSettingsModule,
-        "updateUserCommunityOrgSettings"
+        "updateCommunityOrgSettings"
       ).and.callFake(async () => {
         return Promise.resolve();
       });
@@ -155,7 +155,7 @@ describe("HubUser Class:", () => {
 
       expect(updateUserHubSettingsSpy).toHaveBeenCalledTimes(1);
       expect(updateUserHubSettingsSpy).toHaveBeenCalledWith(user.settings);
-      expect(updateUserCommunityOrgSettings).toHaveBeenCalledTimes(0);
+      expect(updateCommunityOrgSettings).toHaveBeenCalledTimes(0);
     });
     it("saves hub org settings if we are in a community org and user is admin", async () => {
       const user = {
@@ -177,9 +177,9 @@ describe("HubUser Class:", () => {
         return Promise.resolve();
       });
 
-      const updateUserCommunityOrgSettings = spyOn(
+      const updateCommunityOrgSettings = spyOn(
         UpdateCommunityOrgSettingsModule,
-        "updateUserCommunityOrgSettings"
+        "updateCommunityOrgSettings"
       ).and.callFake(async () => {
         return Promise.resolve();
       });
@@ -193,8 +193,8 @@ describe("HubUser Class:", () => {
 
       expect(updateUserHubSettingsSpy).toHaveBeenCalledTimes(1);
       expect(updateUserHubSettingsSpy).toHaveBeenCalledWith(user.settings);
-      expect(updateUserCommunityOrgSettings).toHaveBeenCalledTimes(1);
-      expect(updateUserCommunityOrgSettings).toHaveBeenCalledWith(
+      expect(updateCommunityOrgSettings).toHaveBeenCalledTimes(1);
+      expect(updateCommunityOrgSettings).toHaveBeenCalledWith(
         {
           signupText: "testSignup",
           termsAndConditions: "testTerms",
@@ -226,9 +226,9 @@ describe("HubUser Class:", () => {
         return Promise.resolve();
       });
 
-      const updateUserCommunityOrgSettings = spyOn(
+      const updateCommunityOrgSettings = spyOn(
         UpdateCommunityOrgSettingsModule,
-        "updateUserCommunityOrgSettings"
+        "updateCommunityOrgSettings"
       ).and.callFake(async () => {
         return Promise.resolve();
       });
@@ -242,8 +242,8 @@ describe("HubUser Class:", () => {
 
       expect(updateUserHubSettingsSpy).toHaveBeenCalledTimes(1);
       expect(updateUserHubSettingsSpy).toHaveBeenCalledWith(user.settings);
-      expect(updateUserCommunityOrgSettings).toHaveBeenCalledTimes(1);
-      expect(updateUserCommunityOrgSettings).toHaveBeenCalledWith(
+      expect(updateCommunityOrgSettings).toHaveBeenCalledTimes(1);
+      expect(updateCommunityOrgSettings).toHaveBeenCalledWith(
         {
           signupText: "",
           termsAndConditions: "",
@@ -275,9 +275,9 @@ describe("HubUser Class:", () => {
         return Promise.resolve();
       });
 
-      const updateUserCommunityOrgSettings = spyOn(
+      const updateCommunityOrgSettings = spyOn(
         UpdateCommunityOrgSettingsModule,
-        "updateUserCommunityOrgSettings"
+        "updateCommunityOrgSettings"
       ).and.callFake(async () => {
         return Promise.resolve();
       });
@@ -291,8 +291,8 @@ describe("HubUser Class:", () => {
 
       expect(updateUserHubSettingsSpy).toHaveBeenCalledTimes(1);
       expect(updateUserHubSettingsSpy).toHaveBeenCalledWith(user.settings);
-      expect(updateUserCommunityOrgSettings).toHaveBeenCalledTimes(1);
-      expect(updateUserCommunityOrgSettings).toHaveBeenCalledWith(
+      expect(updateCommunityOrgSettings).toHaveBeenCalledTimes(1);
+      expect(updateCommunityOrgSettings).toHaveBeenCalledWith(
         {
           signupText: "",
           termsAndConditions: "",
@@ -304,7 +304,7 @@ describe("HubUser Class:", () => {
         }
       );
     });
-    it("doesn't call updateUserCommunityOrgSettings if not in a community org", async () => {
+    it("doesn't call updateCommunityOrgSettings if not in a community org", async () => {
       const user = {
         id: "123",
         name: "Paige",
@@ -319,9 +319,9 @@ describe("HubUser Class:", () => {
         return Promise.resolve();
       });
 
-      const updateUserCommunityOrgSettings = spyOn(
+      const updateCommunityOrgSettings = spyOn(
         UpdateCommunityOrgSettingsModule,
-        "updateUserCommunityOrgSettings"
+        "updateCommunityOrgSettings"
       ).and.callFake(async () => {
         return Promise.resolve();
       });
@@ -334,9 +334,9 @@ describe("HubUser Class:", () => {
 
       expect(updateUserHubSettingsSpy).toHaveBeenCalledTimes(1);
       expect(updateUserHubSettingsSpy).toHaveBeenCalledWith(user.settings);
-      expect(updateUserCommunityOrgSettings).toHaveBeenCalledTimes(0);
+      expect(updateCommunityOrgSettings).toHaveBeenCalledTimes(0);
     });
-    it("doesn't call updateUserCommunityOrgSettings if user is not an org admin", async () => {
+    it("doesn't call updateCommunityOrgSettings if user is not an org admin", async () => {
       const user = {
         id: "123",
         name: "Paige",
@@ -351,9 +351,9 @@ describe("HubUser Class:", () => {
         return Promise.resolve();
       });
 
-      const updateUserCommunityOrgSettings = spyOn(
+      const updateCommunityOrgSettings = spyOn(
         UpdateCommunityOrgSettingsModule,
-        "updateUserCommunityOrgSettings"
+        "updateCommunityOrgSettings"
       ).and.callFake(async () => {
         return Promise.resolve();
       });
@@ -367,7 +367,7 @@ describe("HubUser Class:", () => {
 
       expect(updateUserHubSettingsSpy).toHaveBeenCalledTimes(1);
       expect(updateUserHubSettingsSpy).toHaveBeenCalledWith(user.settings);
-      expect(updateUserCommunityOrgSettings).toHaveBeenCalledTimes(0);
+      expect(updateCommunityOrgSettings).toHaveBeenCalledTimes(0);
     });
     it("throws an error if destroyed", async () => {
       const chk = HubUser.fromJson(

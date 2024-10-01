@@ -7,7 +7,7 @@ import { enrichEntity } from "../core/enrichEntity";
 import { cloneObject } from "../util";
 import { UserEditorType } from "./_internal/UserSchema";
 import { DEFAULT_USER } from "./defaults";
-import { updateUserCommunityOrgSettings } from "../utils/internal/updateCommunityOrgSettings";
+import { updateCommunityOrgSettings } from "../utils/internal/updateCommunityOrgSettings";
 
 export class HubUser implements IWithEditorBehavior {
   protected context: IArcGISContext;
@@ -88,10 +88,7 @@ export class HubUser implements IWithEditorBehavior {
       };
 
       // make the request to update the settings
-      await updateUserCommunityOrgSettings(
-        newCommunityOrgSettings,
-        this.context
-      );
+      await updateCommunityOrgSettings(newCommunityOrgSettings, this.context);
     }
 
     // 3. update portal settings

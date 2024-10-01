@@ -7,7 +7,7 @@ import { request } from "@esri/arcgis-rest-request";
  * Function to update a user's community org settings. Expects the user to be an org admin in the current community org.
  * @param settings
  */
-export async function updateUserCommunityOrgSettings(
+export async function updateCommunityOrgSettings(
   settings: IHubUserOrgSettings,
   context: IArcGISContext
 ) {
