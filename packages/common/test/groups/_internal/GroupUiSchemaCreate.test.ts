@@ -432,6 +432,7 @@ describe("GroupUiSchemaCreate", () => {
         isInvitationOnly: false,
         hiddenMembers: false,
         isViewOnly: false,
+        leavingDisallowed: false,
         tags: ["Hub Group"],
         membershipAccess: "organization",
       });
@@ -450,6 +451,7 @@ describe("GroupUiSchemaCreate", () => {
         isInvitationOnly: false,
         hiddenMembers: false,
         isViewOnly: false,
+        leavingDisallowed: false,
         tags: ["Hub Group"],
         membershipAccess: "organization",
       });

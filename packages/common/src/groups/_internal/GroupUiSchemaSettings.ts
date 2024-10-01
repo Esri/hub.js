@@ -41,12 +41,75 @@ export const buildUiSchema = async (
             options: {
               control: "hub-field-input-radio",
               labels: [
-                `{{${i18nScope}.fields.membershipAccess.org:translate}}`,
-                `{{${i18nScope}.fields.membershipAccess.collab:translate}}`,
-                `{{${i18nScope}.fields.membershipAccess.any:translate}}`,
+                `{{${i18nScope}.fields.membershipAccess.org.description:translate}}`,
+                `{{${i18nScope}.fields.membershipAccess.collab.description:translate}}`,
+                `{{${i18nScope}.fields.membershipAccess.any.description:translate}}`,
               ],
-              disabled: [false, false, entity.isSharedUpdate],
+              // rules that pertain to the individual options
+              rules: [
+                [
+                  {
+                    effect: UiSchemaRuleEffects.NONE,
+                  },
+                ],
+                [
+                  {
+                    effect: UiSchemaRuleEffects.DISABLE,
+                    conditions: [
+                      {
+                        scope: "/properties/leavingDisallowed",
+                        schema: { const: true },
+                      },
+                    ],
+                  },
+                ],
+                [
+                  {
+                    effect: UiSchemaRuleEffects.DISABLE,
+                    conditions: [
+                      {
+                        scope: "/properties/leavingDisallowed",
+                        schema: { const: true },
+                      },
+                    ],
+                  },
+                  {
+                    effect: UiSchemaRuleEffects.DISABLE,
+                    conditions: [
+                      {
+                        scope: "/properties/isSharedUpdate",
+                        schema: { const: true },
+                      },
+                    ],
+                  },
+                ],
+              ],
             },
+            // rules that pertain to the control as a whole
+            rules: [
+              {
+                effect: UiSchemaRuleEffects.RESET,
+                conditions: [
+                  {
+                    scope: "/properties/leavingDisallowed",
+                    schema: { const: true },
+                  },
+                ],
+              },
+              {
+                effect: UiSchemaRuleEffects.RESET,
+                conditions: [
+                  {
+                    scope: "/properties/isSharedUpdate",
+                    schema: { const: true },
+                  },
+                  {
+                    scope: "/properties/membershipAccess",
+                    schema: { const: "anyone" },
+                  },
+                ],
+              },
+            ],
           },
           {
             labelKey: `${i18nScope}.fields.contributeContent.label`,
@@ -55,8 +118,8 @@ export const buildUiSchema = async (
             options: {
               control: "hub-field-input-radio",
               labels: [
-                `{{${i18nScope}.fields.contributeContent.all:translate}}`,
-                `{{${i18nScope}.fields.contributeContent.admins:translate}}`,
+                `{{${i18nScope}.fields.contributeContent.members.description:translate}}`,
+                `{{${i18nScope}.fields.contributeContent.admins.description:translate}}`,
               ],
             },
           },
