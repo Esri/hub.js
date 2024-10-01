@@ -1,10 +1,12 @@
 import { EntityType, targetEntities } from "../../../search/types/IHubCatalog";
 import { IConfigurationSchema } from "../types";
 
+/** JSON schema for an IPredicate */
 export const PredicateSchema: IConfigurationSchema = {
   type: "object",
 };
 
+/** JSON schema for an IFilter */
 export const FilterSchema: IConfigurationSchema = {
   type: "object",
   properties: {
@@ -20,6 +22,7 @@ export const FilterSchema: IConfigurationSchema = {
   },
 };
 
+/** JSON schema for an IQuery */
 export const QuerySchema: IConfigurationSchema = {
   type: "object",
   required: ["targetEntity"],
@@ -35,6 +38,7 @@ export const QuerySchema: IConfigurationSchema = {
   },
 };
 
+/** JSON schema for an IHubCollection */
 export const CollectionSchema: IConfigurationSchema = {
   type: "object",
   required: ["label"],
@@ -46,6 +50,7 @@ export const CollectionSchema: IConfigurationSchema = {
   },
 };
 
+/** JSON schema for an IHubCatalog */
 export const CatalogSchema: IConfigurationSchema = {
   type: "object",
   properties: {
