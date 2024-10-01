@@ -136,7 +136,6 @@ export const buildUiSchema = async (
               },
             ],
             options: {
-              section: "block",
               helperText: {
                 labelKey: `${i18nScope}.sections.orgSettings.signinSettings.helperText`,
               },

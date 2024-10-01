@@ -489,7 +489,6 @@ describe("UserUiSchemaSettings:", () => {
                 },
               ],
               options: {
-                section: "block",
                 helperText: {
                   labelKey: `some.scope.sections.orgSettings.signinSettings.helperText`,
                 },
