@@ -105,6 +105,7 @@ async function searchPortal(
       resp.total,
       searchPortal
     ),
+    so: searchOptions,
   };
 }
 

@@ -209,6 +209,7 @@ async function searchPortalAsHubSearchResult(
       resp.total,
       searchPortalAsHubSearchResult
     ),
+    so: searchOptions,
   };
 }
 
