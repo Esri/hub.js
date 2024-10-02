@@ -86,7 +86,24 @@ export interface IHubUser extends IHubEntityBase {
  * what an org setting should look like.
  */
 export interface IHubUserOrgSettings {
+  /**
+   * Whether or not to show the informational banner
+   */
   showInformationalBanner?: boolean;
+  /**
+   * Whether or not to enable terms and conditions when signing up in a community org
+   */
+  enableTermsAndConditions?: boolean;
+  /**
+   * The terms and conditions text
+   */
   termsAndConditions?: string;
+  /**
+   * Whether or not to enable a custom signup text when signing up in a community org
+   */
+  enableSignupText?: boolean;
+  /**
+   * The custom signup text
+   */
   signupText?: string;
 }

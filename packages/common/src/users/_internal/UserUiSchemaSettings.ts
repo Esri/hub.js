@@ -89,7 +89,7 @@ export const buildUiSchema = async (
       },
       {
         type: "Section",
-        labelKey: `${i18nScope}.sections.orgSettings`,
+        labelKey: `${i18nScope}.sections.orgSettings.label`,
         options: {
           helperText: {
             label: `${context.portal.name}`,
@@ -122,6 +122,87 @@ export const buildUiSchema = async (
                 actions: orgNoticeActions,
               },
             },
+          },
+          {
+            type: "Section",
+            labelKey: `${i18nScope}.sections.orgSettings.signinSettings.label`,
+            rules: [
+              {
+                effect: UiSchemaRuleEffects.SHOW,
+                conditions: [
+                  // only if in community org and admin of the org
+                  !!(context.isCommunityOrg && context.isOrgAdmin),
+                ],
+              },
+            ],
+            options: {
+              helperText: {
+                labelKey: `${i18nScope}.sections.orgSettings.signinSettings.helperText`,
+              },
+            },
+            elements: [
+              {
+                type: "Control",
+                scope:
+                  "/properties/hubOrgSettings/properties/enableTermsAndConditions",
+                labelKey: `${i18nScope}.fields.enableTermsAndConditions.label`,
+                options: {
+                  control: "hub-field-input-switch",
+                  layout: "inline-space-between",
+                },
+              },
+              {
+                type: "Control",
+                scope:
+                  "/properties/hubOrgSettings/properties/termsAndConditions",
+                labelKey: `${i18nScope}.fields.termsAndConditions.label`,
+                options: {
+                  control: "hub-field-input-rich-text",
+                  type: "textarea",
+                },
+                rules: [
+                  {
+                    effect: UiSchemaRuleEffects.SHOW,
+                    conditions: [
+                      {
+                        scope:
+                          "/properties/hubOrgSettings/properties/enableTermsAndConditions",
+                        schema: { const: true },
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                type: "Control",
+                scope: "/properties/hubOrgSettings/properties/enableSignupText",
+                labelKey: `${i18nScope}.fields.enableSignupText.label`,
+                options: {
+                  control: "hub-field-input-switch",
+                  layout: "inline-space-between",
+                },
+              },
+              {
+                type: "Control",
+                scope: "/properties/hubOrgSettings/properties/signupText",
+                options: {
+                  control: "hub-field-input-rich-text",
+                  type: "textarea",
+                },
+                rules: [
+                  {
+                    effect: UiSchemaRuleEffects.SHOW,
+                    conditions: [
+                      {
+                        scope:
+                          "/properties/hubOrgSettings/properties/enableSignupText",
+                        schema: { const: true },
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
           },
         ],
       },

@@ -7,6 +7,7 @@ import { enrichEntity } from "../core/enrichEntity";
 import { cloneObject } from "../util";
 import { UserEditorType } from "./_internal/UserSchema";
 import { DEFAULT_USER } from "./defaults";
+import { updateCommunityOrgSettings } from "../utils/internal/updateCommunityOrgSettings";
 
 export class HubUser implements IWithEditorBehavior {
   protected context: IArcGISContext;
@@ -60,14 +61,35 @@ export class HubUser implements IWithEditorBehavior {
     if (this.isDestroyed) {
       throw new Error("HubUser is already destroyed.");
     }
-
     // 1. update user hub settings
     await this.context.updateUserHubSettings(this.entity.settings);
 
     // 2. update portal signin settings
-    // TODO in later story -- note that there will need to be a
-    // check for if the user is an org admin -- they cannot
-    // POST to necessary endpoints if not
+    // we are in community org, user is org admin, and we have org settings to send
+    if (
+      this.context.isCommunityOrg &&
+      this.context.isOrgAdmin &&
+      this.entity.hubOrgSettings
+    ) {
+      const { hubOrgSettings } = this.entity;
+
+      // only send values if we have settings enabled
+      // else we send an empty string to reset
+      const newCommunityOrgSettings = {
+        signupText:
+          hubOrgSettings.enableSignupText && hubOrgSettings.signupText
+            ? hubOrgSettings.signupText
+            : "",
+        termsAndConditions:
+          hubOrgSettings.enableTermsAndConditions &&
+          hubOrgSettings.termsAndConditions
+            ? hubOrgSettings.termsAndConditions
+            : "",
+      };
+
+      // make the request to update the settings
+      await updateCommunityOrgSettings(newCommunityOrgSettings, this.context);
+    }
 
     // 3. update portal settings
     // TODO in later story
