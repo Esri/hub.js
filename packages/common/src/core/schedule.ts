@@ -6,13 +6,18 @@ import { IHubSchedule } from "./types";
  * Get the next daily occurance of the specified hour in the specified timezone
  * @param hour takes an hour of the day between 0 and 23
  * @param timezone takes a timezone string
+ * @param locale takes a locale string
  * @returns a Date object representing the next daily occurance of the specified hour
  */
-const getNextDailyOccurance = (hour: number, timezone: string): Date => {
+const getNextDailyOccurance = (
+  hour: number,
+  timezone: string,
+  locale: string
+): Date => {
   validateHour(hour);
 
   // Get the time in the specified timezone
-  const targetTime = getInitialTargetTime(timezone, "en-US");
+  const targetTime = getInitialTargetTime(timezone, locale);
 
   if (targetTime.getHours() < hour) {
     targetTime.setHours(hour, 0, 0, 0);
@@ -29,18 +34,20 @@ const getNextDailyOccurance = (hour: number, timezone: string): Date => {
  * @param hour takes an hour of the day between 0 and 23
  * @param timezone takes a timezone string
  * @param dayOfWeek takes a day of the week between 0 (Sunday) and 6 (Saturday)
+ * @param locale takes a locale string
  * @returns a Date object representing the next weekly occurance of the specified hour
  */
 const getNextWeeklyOccurance = (
   hour: number,
   timezone: string,
-  dayOfWeek: number
+  dayOfWeek: number,
+  locale: string
 ): Date => {
   validateHour(hour);
   validateDayOfWeek(dayOfWeek);
 
   // Get the time in the specified timezone
-  const targetTime = getInitialTargetTime(timezone, "en-US");
+  const targetTime = getInitialTargetTime(timezone, locale);
 
   // Calculate the difference in days between today and the next occurrence of the specified day of the week
   const currentDayOfWeek = targetTime.getDay();
@@ -64,18 +71,20 @@ const getNextWeeklyOccurance = (
  * @param hour takes an hour of the day between 0 and 23
  * @param timezone takes a timezone string
  * @param dayOfMonth takes a day of the week between 1 and 28
+ * @param locale takes a locale string
  * @returns a Date object representing the next monthly occurance of the specified hour
  */
 const getNextMonthlyOccurance = (
   hour: number,
   timezone: string,
-  dayOfMonth: number
+  dayOfMonth: number,
+  locale: string
 ): Date => {
   validateHour(hour);
   validateDayOfMonth(dayOfMonth);
 
   // Get the time in the specified timezone
-  const targetTime = getInitialTargetTime(timezone, "en-US");
+  const targetTime = getInitialTargetTime(timezone, locale);
 
   // Calculate the difference in days between today and the next occurrence of the specified day of the month
   const currentDayOfMonth = targetTime.getDate();
@@ -106,20 +115,22 @@ const getNextMonthlyOccurance = (
  * @param timezone takes a timezone string
  * @param dayOfMonth takes a day of the week between 1 and 28
  * @param month takes a month of the year between 0 and 11
+ * @param locale takes a locale string
  * @returns a Date object representing the next yearly occurance of the specified hour
  */
 const getNextYearlyOccurance = (
   hour: number,
   timezone: string,
   dayOfMonth: number,
-  month: number
+  month: number,
+  locale: string
 ): Date => {
   validateHour(hour);
   validateDayOfMonth(dayOfMonth);
   validateMonth(month);
 
   // Get the time in the specified timezone
-  const targetTime = getInitialTargetTime(timezone, "en-US");
+  const targetTime = getInitialTargetTime(timezone, locale);
 
   // Calculate the next occurrence of the specified month and day
   const currentMonth = targetTime.getMonth();
@@ -146,31 +157,38 @@ const getNextYearlyOccurance = (
 /**
  * Get the next occurance of the specified schedule
  * @param schedule takes an IHubSchedule object
+ * @param locale takes a locale string
  * @returns a Date object representing the next occurance of the specified schedule
  */
-export const getNextOccurance = (schedule: IHubSchedule): Date => {
+export const getNextOccurance = (
+  schedule: IHubSchedule,
+  locale: string
+): Date => {
   if (schedule.mode === "scheduled") {
     switch (schedule.cadence) {
       case "daily":
-        return getNextDailyOccurance(schedule.hour, schedule.timezone);
+        return getNextDailyOccurance(schedule.hour, schedule.timezone, locale);
       case "weekly":
         return getNextWeeklyOccurance(
           schedule.hour,
           schedule.timezone,
-          schedule.day
+          schedule.day,
+          locale
         );
       case "monthly":
         return getNextMonthlyOccurance(
           schedule.hour,
           schedule.timezone,
-          schedule.date
+          schedule.date,
+          locale
         );
       case "yearly":
         return getNextYearlyOccurance(
           schedule.hour,
           schedule.timezone,
           schedule.date,
-          schedule.month
+          schedule.month,
+          locale
         );
       default:
         throw new Error("Invalid cadence");
@@ -181,7 +199,12 @@ export const getNextOccurance = (schedule: IHubSchedule): Date => {
   }
 };
 
-/****** REPEATED CODE ******/
+/**
+ * Get the initial target time in the specified timezone
+ * @param timezone the timezone string
+ * @param locale the locale string
+ * @returns a Date object representing the initial target time in the specified timezone
+ */
 const getInitialTargetTime = (timezone: string, locale: string): Date => {
   const now = new Date();
   const utcOffset = now.getTimezoneOffset() * 60000;
