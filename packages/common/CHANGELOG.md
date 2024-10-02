@@ -1,3 +1,10 @@
+# @esri/hub-common [14.204.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.203.0...@esri/hub-common@14.204.0) (2024-10-02)
+
+
+### Features
+
+* update community org settings ([#1672](https://github.com/Esri/hub.js/issues/1672)) ([64cd725](https://github.com/Esri/hub.js/commit/64cd7251755b3d82659160ef9c564981ec14b777))
+
 # @esri/hub-common [14.203.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.202.0...@esri/hub-common@14.203.0) (2024-10-01)
 
 
