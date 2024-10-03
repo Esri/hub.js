@@ -8,6 +8,7 @@ import { cloneObject } from "../util";
 import { UserEditorType } from "./_internal/UserSchema";
 import { DEFAULT_USER } from "./defaults";
 import { updateCommunityOrgSettings } from "../utils/internal/updateCommunityOrgSettings";
+import { updatePortalOrgSettings } from "../utils/internal/updatePortalOrgSettings";
 
 export class HubUser implements IWithEditorBehavior {
   protected context: IArcGISContext;
@@ -92,7 +93,15 @@ export class HubUser implements IWithEditorBehavior {
     }
 
     // 3. update portal settings
-    // TODO in later story
+    // User is org admin, we have org settings to send, and we have a banner to show
+    if (
+      this.context.isOrgAdmin &&
+      this.entity.hubOrgSettings &&
+      this.entity.hubOrgSettings.hasOwnProperty("showInformationalBanner")
+    ) {
+      // update the portal settings
+      await updatePortalOrgSettings(this.entity.hubOrgSettings, this.context);
+    }
 
     return;
   }
