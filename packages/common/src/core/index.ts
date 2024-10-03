@@ -19,3 +19,4 @@ export * from "./getEntityThumbnailUrl";
 // they are not actually exported in the final package.
 // export * from "./updateHubEntity";
 // export * from "./hubHistory";
+// export * from "./deepCatalogContains";
