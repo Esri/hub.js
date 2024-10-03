@@ -1,4 +1,4 @@
-import { _isOrgAdmin } from "../..";
+import { _isOrgAdmin, cloneObject } from "../..";
 import { IArcGISContext } from "../../ArcGISContext";
 import { IHubUserOrgSettings } from "../../core/types/IHubUser";
 import { request } from "@esri/arcgis-rest-request";
@@ -21,18 +21,22 @@ export async function updatePortalOrgSettings(
     throw new Error("User is not an org admin in the current community org");
   }
 
+  // grab and clone portalProperties
+  const portalProperties = cloneObject(context.portal.portalProperties);
   // grab settings
   const { showInformationalBanner } = settings;
+  // update infoBanner value in portalProperties
+  portalProperties.hub.settings.informationalBanner = showInformationalBanner;
 
   // build the url
-  const urlPath = "/sharing/rest/portals/self/setSigninSettings?f=json";
+  const urlPath = `/sharing/rest/portals/self/update?f=json`;
   const url = `${context.portalUrl}${urlPath}`;
 
   // send the request to update
   return request(url, {
     httpMethod: "POST",
     params: {
-      showInformationalBanner,
+      portalProperties: JSON.stringify(portalProperties),
       token: context.hubRequestOptions.authentication.token,
     },
   });
