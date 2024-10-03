@@ -1,7 +1,7 @@
-import { _isOrgAdmin, cloneObject } from "../..";
 import { IArcGISContext } from "../../ArcGISContext";
 import { IHubUserOrgSettings } from "../../core/types/IHubUser";
 import { request } from "@esri/arcgis-rest-request";
+import { cloneObject } from "../../util";
 
 /**
  * Function to update a user's org settings. Expects the user to be an org admin in the current org.
