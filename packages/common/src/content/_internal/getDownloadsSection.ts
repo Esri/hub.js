@@ -55,9 +55,16 @@ function getExtractToggleElement(i18nScope: string): IUiSchemaElement {
     scope: "/properties/serverExtractCapability",
     type: "Control",
     options: {
-      helperText: {
-        labelKey: `${i18nScope}.fields.serverExtractCapability.helperText`,
-      },
+      control: "hub-field-input-tile-select",
+      labels: [
+        `{{${i18nScope}.fields.serverExtractCapability.exportDataSetting.label:translate}}`, // TODO: Translate
+        `{{${i18nScope}.fields.serverExtractCapability.defaultDownloadsSystem.label:translate}}`, // TODO: Translate
+      ],
+      descriptions: [
+        `{{${i18nScope}.fields.serverExtractCapability.exportDataSetting.description:translate}}`, // TODO: Translate
+        `{{${i18nScope}.fields.serverExtractCapability.defaultDownloadsSystem.description:translate}}`, // TODO: Translate
+      ],
+      layout: "vertical",
       messages: [
         {
           type: UiSchemaMessageTypes.custom,
