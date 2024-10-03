@@ -1,4 +1,4 @@
-import { _isOrgAdmin, getPortalUrl } from "../..";
+import { _isOrgAdmin } from "../..";
 import { IArcGISContext } from "../../ArcGISContext";
 import { IHubUserOrgSettings } from "../../core/types/IHubUser";
 import { request } from "@esri/arcgis-rest-request";

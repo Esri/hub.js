@@ -4,7 +4,8 @@ import { IHubUserOrgSettings } from "../../core/types/IHubUser";
 import { request } from "@esri/arcgis-rest-request";
 
 /**
- * Function to update a user's community org settings. Expects the user to be an org admin in the current community org.
+ * Function to update a user's org settings. Expects the user to be an org admin in the current org.
+ * Currently only updates whether to show the informational banner.
  * @param settings
  */
 export async function updatePortalOrgSettings(
@@ -16,9 +17,9 @@ export async function updatePortalOrgSettings(
     throw new Error("User is not authenticated");
   }
 
-  // check that user is in community org and is org admin
+  // check that user is org admin
   if (!context.isOrgAdmin) {
-    throw new Error("User is not an org admin in the current community org");
+    throw new Error("User is not an org admin in the current org");
   }
 
   // grab and clone portalProperties
