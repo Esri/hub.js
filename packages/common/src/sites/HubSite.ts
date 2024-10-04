@@ -283,6 +283,7 @@ export class HubSite
     // delegate to fn
     const response = await deepContains(
       identifier,
+      "item", // NOTE: this is hardcoded for now!
       hierarchyWithSiteCatalog,
       this.context
     );

@@ -6,7 +6,7 @@ import config from "./helpers/config";
 // Water Resources | 67f5723b1b464ba38be91b91ff3ea442
 // Landbase | 202b983812b44e94be74a4d449841a49
 
-fdescribe("catalog and collection e2e:", () => {
+describe("catalog and collection e2e:", () => {
   let factory: Artifactory;
   const orgName = "hubPremium";
   beforeAll(() => {

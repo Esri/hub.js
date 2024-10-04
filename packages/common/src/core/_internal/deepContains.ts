@@ -1,9 +1,113 @@
 import { IArcGISContext } from "../../ArcGISContext";
-import { IContainsResponse, IDeepCatalogInfo } from "../../search";
+import { EntityType, IContainsResponse, IDeepCatalogInfo } from "../../search";
+import { getEntityTypeFromType } from "../../search/_internal/getEntityTypeFromType";
 import { Catalog } from "../../search/Catalog";
 import { asyncForEach } from "../../utils/asyncForEach";
+import { HubEntityType } from "../types/HubEntityType";
 
 /**
+ * @internal
+ * Mapping of path segments to entity types.
+ */
+const pathMap: Record<string, HubEntityType> = {
+  initiatives: "initiative",
+  projects: "project",
+  content: "content",
+  events: "event",
+  discussions: "discussion",
+  sites: "site",
+  apps: "content",
+  surveys: "content",
+  maps: "content",
+  datasets: "content",
+  pages: "page",
+};
+
+/**
+ * @internal
+ * Parsed path object, with validation information.
+ */
+interface IParsedPath {
+  valid: boolean;
+  parts?: string[];
+  reason?: string;
+}
+
+/**
+ * Parse a path string into its parts, and validate that it is a valid path.
+ * @param path
+ * @returns
+ */
+export function parsePath(path: string): IParsedPath {
+  // if the path starts with a /, remove it
+  if (path && path.startsWith("/")) {
+    path = path.slice(1);
+  }
+  // split the path into parts - it will be structured like: /{type}/{id}/{type}/{id}
+  const pathParts = path.split("/");
+
+  const result: IParsedPath = {
+    valid: true,
+    reason: "",
+    parts: pathParts,
+  };
+
+  // if the path is not structured correctly, return false
+  if (pathParts.length % 2 !== 0) {
+    result.valid = false;
+    result.reason = "Path does not contain an even number of parts.";
+  }
+
+  // if the path is > 10 parts, return false
+  if (pathParts.length > 10) {
+    result.valid = false;
+    result.reason = "Path is > 5 entities deep.";
+  }
+
+  // if the path contains invalid types, return false
+  if (result.valid) {
+    const validPaths = Object.keys(pathMap);
+    for (let i = 0; i < pathParts.length; i += 2) {
+      if (!validPaths.includes(pathParts[i])) {
+        result.valid = false;
+        result.reason = `Path contains invalid segment: ${pathParts[i]}.`;
+      }
+    }
+  }
+
+  return result;
+}
+
+/**
+ * Convert a path string into an array of `IDeepCatalogInfo` objects.
+ * e.g. /initiatives/00a/projects/00b => [{entityType: "item", id: "00a"}, {entityType: "item", id: "00b"}]
+ * @param path
+ * @returns
+ */
+export function pathToCatalogInfo(path: string): IDeepCatalogInfo[] {
+  // validate path, throw if invalid
+  const parsedPath = parsePath(path);
+  if (!parsedPath.valid) {
+    throw new Error(parsedPath.reason);
+  }
+
+  const infos: IDeepCatalogInfo[] = [];
+  for (let i = 0; i < parsedPath.parts.length; i += 2) {
+    const type = pathMap[parsedPath.parts[i]] as HubEntityType;
+    const entityType = getEntityTypeFromType(type);
+    infos.push({
+      entityType,
+      id: parsedPath.parts[i + 1],
+    });
+  }
+
+  // infos are currently in the path order, but we need to reverse them
+  // as we check from the leaf to the root
+  return infos.reverse();
+}
+
+/**
+ * @internal
  * Check if a particular entity is contained in a catalog.
  *
  * Unlike `Catalog.contains(...)`, this function can checks multiple catalogs to validate
@@ -28,6 +132,7 @@ import { asyncForEach } from "../../utils/asyncForEach";
  */
 export async function deepContains(
   identifier: string,
+  entityType: EntityType,
   hierarchy: IDeepCatalogInfo[],
   context: IArcGISContext
 ): Promise<IContainsResponse> {
@@ -43,17 +148,21 @@ export async function deepContains(
     return Promise.resolve(response);
   }
 
-  // get the ids, in order from the hiearchy as that
-  // defines to order we need to check.
-  // remove the last entry b/c that's the top level (usually the site)
-  // and we don't need to check if that's contained in itself.
-  const catalogIds = hierarchy.map((c) => c.id).slice(0, -1);
-  // add the passed in identifier as the first id to check
-  const idsToCheck = [identifier, ...catalogIds];
+  // get the id and targetEntity from each of the entries
+  // in the hiearchy
+  let checks = hierarchy
+    .map((c) => {
+      return { id: c.id, entityType: c.entityType };
+    })
+    .slice(0, -1);
+  // prepend in the thing we are checking for
+  // as this allows catalog.contains to be much more efficient
+  checks = [{ id: identifier, entityType }, ...checks];
 
   // iterate the hierarchy
   await asyncForEach(hierarchy, async (catalogInfo, idx) => {
-    const currentIdentifier = idsToCheck[idx];
+    const currentIdentifier = checks[idx].id;
+    const currentEntityType = checks[idx].entityType;
     // create a catalog instance
     let catalog: Catalog;
     if (catalogInfo.catalog) {
@@ -71,7 +180,7 @@ export async function deepContains(
     };
     // check it
     const check = await catalog.contains(currentIdentifier, {
-      entityType: catalogInfo.entityType,
+      entityType: currentEntityType,
     });
     response.isContained = check.isContained;
   });
