@@ -5,6 +5,10 @@ import { Catalog } from "../../search/Catalog";
 import { asyncForEach } from "../../utils/asyncForEach";
 import { HubEntityType } from "../types/HubEntityType";
 
+/**
+ * @internal
+ * Mapping of path segments to entity types.
+ */
 const pathMap: Record<string, HubEntityType> = {
   initiatives: "initiative",
   projects: "project",
@@ -19,6 +23,10 @@ const pathMap: Record<string, HubEntityType> = {
   pages: "page",
 };
 
+/**
+ * @internal
+ * Parsed path object, with validation information.
+ */
 interface IParsedPath {
   valid: boolean;
   parts?: string[];
@@ -99,6 +107,7 @@ export function pathToCatalogInfo(path: string): IDeepCatalogInfo[] {
 }
 
 /**
+ * @internal
  * Check if a particular entity is contained in a catalog.
  *
  * Unlike `Catalog.contains(...)`, this function can checks multiple catalogs to validate
