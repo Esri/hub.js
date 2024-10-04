@@ -1,6 +1,6 @@
 import { IAuthenticationManager } from "@esri/arcgis-rest-request";
 import { INewslettersSchedulerRequestOptions } from "../../../../src/newsletters-scheduler";
-import { authenticateRequest } from "../../../../src/newsletters/api/utils/authenticate-request";
+import { authenticateRequest } from "../../../../src/newsletters-scheduler/api/utils/authenticate-request";
 
 describe("authenticateRequest", () => {
   let getTokenSpy: any;
