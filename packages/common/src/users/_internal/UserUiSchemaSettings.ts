@@ -125,6 +125,26 @@ export const buildUiSchema = async (
           },
           {
             type: "Section",
+            labelKey: `${i18nScope}.sections.orgSettings.siteDefaults.label`,
+            elements: [
+              {
+                type: "Control",
+                scope:
+                  "/properties/hubOrgSettings/properties/showInformationalBanner",
+                labelKey: `${i18nScope}.fields.infoBanner.label`,
+                options: {
+                  type: "Control",
+                  control: "hub-field-input-switch",
+                  layout: "inline-space-between",
+                  helperText: {
+                    labelKey: `${i18nScope}.fields.infoBanner.helperText`,
+                  },
+                },
+              },
+            ],
+          },
+          {
+            type: "Section",
             labelKey: `${i18nScope}.sections.orgSettings.signinSettings.label`,
             rules: [
               {

@@ -106,6 +106,26 @@ describe("UserUiSchemaSettings:", () => {
             },
             {
               type: "Section",
+              labelKey: "some.scope.sections.orgSettings.siteDefaults.label",
+              elements: [
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/showInformationalBanner",
+                  labelKey: "some.scope.fields.infoBanner.label",
+                  options: {
+                    type: "Control",
+                    control: "hub-field-input-switch",
+                    layout: "inline-space-between",
+                    helperText: {
+                      labelKey: "some.scope.fields.infoBanner.helperText",
+                    },
+                  },
+                },
+              ],
+            },
+            {
+              type: "Section",
               labelKey: "some.scope.sections.orgSettings.signinSettings.label",
               rules: [
                 {
@@ -289,6 +309,26 @@ describe("UserUiSchemaSettings:", () => {
                   ],
                 },
               },
+            },
+            {
+              type: "Section",
+              labelKey: "some.scope.sections.orgSettings.siteDefaults.label",
+              elements: [
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/showInformationalBanner",
+                  labelKey: "some.scope.fields.infoBanner.label",
+                  options: {
+                    type: "Control",
+                    control: "hub-field-input-switch",
+                    layout: "inline-space-between",
+                    helperText: {
+                      labelKey: "some.scope.fields.infoBanner.helperText",
+                    },
+                  },
+                },
+              ],
             },
             {
               type: "Section",
@@ -479,6 +519,26 @@ describe("UserUiSchemaSettings:", () => {
             },
             {
               type: "Section",
+              labelKey: "some.scope.sections.orgSettings.siteDefaults.label",
+              elements: [
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/showInformationalBanner",
+                  labelKey: "some.scope.fields.infoBanner.label",
+                  options: {
+                    type: "Control",
+                    control: "hub-field-input-switch",
+                    layout: "inline-space-between",
+                    helperText: {
+                      labelKey: "some.scope.fields.infoBanner.helperText",
+                    },
+                  },
+                },
+              ],
+            },
+            {
+              type: "Section",
               labelKey: "some.scope.sections.orgSettings.signinSettings.label",
               rules: [
                 {
@@ -643,6 +703,26 @@ describe("UserUiSchemaSettings:", () => {
                   ],
                 },
               },
+            },
+            {
+              type: "Section",
+              labelKey: "some.scope.sections.orgSettings.siteDefaults.label",
+              elements: [
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/showInformationalBanner",
+                  labelKey: "some.scope.fields.infoBanner.label",
+                  options: {
+                    type: "Control",
+                    control: "hub-field-input-switch",
+                    layout: "inline-space-between",
+                    helperText: {
+                      labelKey: "some.scope.fields.infoBanner.helperText",
+                    },
+                  },
+                },
+              ],
             },
             {
               type: "Section",
@@ -833,6 +913,26 @@ describe("UserUiSchemaSettings:", () => {
             },
             {
               type: "Section",
+              labelKey: "some.scope.sections.orgSettings.siteDefaults.label",
+              elements: [
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/showInformationalBanner",
+                  labelKey: "some.scope.fields.infoBanner.label",
+                  options: {
+                    type: "Control",
+                    control: "hub-field-input-switch",
+                    layout: "inline-space-between",
+                    helperText: {
+                      labelKey: "some.scope.fields.infoBanner.helperText",
+                    },
+                  },
+                },
+              ],
+            },
+            {
+              type: "Section",
               labelKey: "some.scope.sections.orgSettings.signinSettings.label",
               rules: [
                 {
@@ -997,6 +1097,26 @@ describe("UserUiSchemaSettings:", () => {
                   ],
                 },
               },
+            },
+            {
+              type: "Section",
+              labelKey: "some.scope.sections.orgSettings.siteDefaults.label",
+              elements: [
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/showInformationalBanner",
+                  labelKey: "some.scope.fields.infoBanner.label",
+                  options: {
+                    type: "Control",
+                    control: "hub-field-input-switch",
+                    layout: "inline-space-between",
+                    helperText: {
+                      labelKey: "some.scope.fields.infoBanner.helperText",
+                    },
+                  },
+                },
+              ],
             },
             {
               type: "Section",
@@ -1173,6 +1293,26 @@ describe("UserUiSchemaSettings:", () => {
                   ],
                 },
               },
+            },
+            {
+              type: "Section",
+              labelKey: "some.scope.sections.orgSettings.siteDefaults.label",
+              elements: [
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/showInformationalBanner",
+                  labelKey: "some.scope.fields.infoBanner.label",
+                  options: {
+                    type: "Control",
+                    control: "hub-field-input-switch",
+                    layout: "inline-space-between",
+                    helperText: {
+                      labelKey: "some.scope.fields.infoBanner.helperText",
+                    },
+                  },
+                },
+              ],
             },
             {
               type: "Section",
