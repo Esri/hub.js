@@ -1,6 +1,7 @@
 import { IHubSchedule } from "./types";
 
-// IHubSchedule utils
+// IHubSchedule util
+// TODO: add comments for date math
 
 /**
  * Get the next daily occurance of the specified hour in the specified timezone
