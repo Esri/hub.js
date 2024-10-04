@@ -6,7 +6,7 @@ import {
   notify,
   SubscriptionEntityType,
   SubscriptionActions,
-} from "../../../src/newsletters-scheduler/api";
+} from "../../../src/newsletters-scheduler";
 import * as authenticateRequestModule from "../../../src/newsletters-scheduler/api/utils/authenticate-request";
 import * as orvalModule from "../../../src/newsletters-scheduler/api/orval/api/orval-newsletters-scheduler";
 

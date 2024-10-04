@@ -1,5 +1,5 @@
 import { IAuthenticationManager } from "@esri/arcgis-rest-request";
-import { INewslettersSchedulerRequestOptions } from "../../../../src/newsletters-scheduler/api";
+import { INewslettersSchedulerRequestOptions } from "../../../../src/newsletters-scheduler";
 import { authenticateRequest } from "../../../../src/newsletters/api/utils/authenticate-request";
 
 describe("authenticateRequest", () => {
