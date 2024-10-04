@@ -1,3 +1,10 @@
+# @esri/hub-common [14.205.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.204.0...@esri/hub-common@14.205.0) (2024-10-04)
+
+
+### Features
+
+* showInfoBanner for user org settings ([#1676](https://github.com/Esri/hub.js/issues/1676)) ([ee32bb6](https://github.com/Esri/hub.js/commit/ee32bb6a3ca18245043ece193943b210a9b251d6))
+
 # @esri/hub-common [14.204.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.203.0...@esri/hub-common@14.204.0) (2024-10-02)
 
 
