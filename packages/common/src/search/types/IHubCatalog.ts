@@ -67,18 +67,19 @@ export interface IHubCollection {
   targetEntity: EntityType;
 }
 
-export type EntityType =
-  | "item"
-  | "group"
-  | "user"
-  | "portalUser"
-  | "communityUser"
-  | "groupMember"
-  | "event"
-  | "channel"
-  | "discussionPost"
-  | "event"
-  | "eventAttendee";
+export const targetEntities = [
+  "item",
+  "group",
+  "user",
+  "portalUser",
+  "communityUser",
+  "groupMember",
+  "event",
+  "channel",
+  "discussionPost",
+  "eventAttendee",
+] as const;
+export type EntityType = (typeof targetEntities)[number];
 
 /**
  * @private
