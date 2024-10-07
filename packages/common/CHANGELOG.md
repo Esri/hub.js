@@ -1,3 +1,10 @@
+# @esri/hub-common [14.207.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.206.0...@esri/hub-common@14.207.0) (2024-10-07)
+
+
+### Features
+
+* **hub-common:** reenable additional info ([#1678](https://github.com/Esri/hub.js/issues/1678)) ([ebf08ef](https://github.com/Esri/hub.js/commit/ebf08ef434f6293ce4011e5bfceddcb0e0b4064f))
+
 # @esri/hub-common [14.206.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.205.0...@esri/hub-common@14.206.0) (2024-10-04)
 
 
