@@ -56,7 +56,6 @@ describe("initiative migrations:", () => {
           type: "Hub Initiative",
           owner: "Bob",
           created: 123,
-          properties: {},
         } as unknown as IItem,
         data: {},
       };

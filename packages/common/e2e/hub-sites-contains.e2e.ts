@@ -3,6 +3,7 @@ import config from "./helpers/config";
 import { HubSite } from "../src/sites/HubSite";
 import { IDeepCatalogInfo, IHubCatalog } from "../src/search";
 import { IArcGISContext } from "../src/ArcGISContext";
+import { deepCatalogContains } from "../src/core/deepCatalogContains";
 
 // Fixtures - shared with deep-contains.e2e.ts
 //
@@ -24,7 +25,7 @@ import { IArcGISContext } from "../src/ArcGISContext";
 //     - Unique Web App: a88285b001574cf3bfc91c4da11391cf
 //     - Common Web App: 63c765456d23439e8faf0e4172fc9b23
 
-describe("HubSite.contains:", () => {
+fdescribe("HubSite.contains:", () => {
   const siteItemId: string = "c84347eb5d0a4a7b84c334fe84a5bbfe";
   const siteAppItemId: string = "7da7ea6055d34afd9125a2ccd63be5e1";
   const projectItemId: string = "9c0ecf87bcc04a1d93dec04b54332458";
@@ -47,6 +48,55 @@ describe("HubSite.contains:", () => {
   beforeEach(async () => {
     // re-create site for each test so we can verify the caching works
     siteInstance = await HubSite.fetch(siteItemId, context);
+  });
+
+  fdescribe("deepCatalogContains", () => {
+    it("handles one level deep", async () => {
+      const siteCatalog: IHubCatalog = siteInstance.catalog.toJson();
+      const path = `/initiatives/${initiativeItemId}`;
+      const id = initiativeAppItemId;
+
+      const response = await deepCatalogContains(
+        id,
+        "content",
+        path,
+        context,
+        siteCatalog
+      );
+      expect(response.isContained).toBeTruthy();
+      // tslint:disable-next-line:no-console
+      console.info(
+        `deepCatalogContains: App in Initiative in Site Time: ${response.duration} ms`
+      );
+    });
+    it("handles two levels deep", async () => {
+      const siteCatalog: IHubCatalog = siteInstance.catalog.toJson();
+      const path = `/initiatives/${initiativeItemId}/projects/${projectItemId}`;
+      const id = projectAppItemId;
+
+      const response = await deepCatalogContains(
+        id,
+        "content",
+        path,
+        context,
+        siteCatalog
+      );
+      expect(response.isContained).toBeTruthy();
+      // tslint:disable-next-line:no-console
+      console.info(
+        `deepCatalogContains: App in Project in Initiative in Site Time: ${response.duration} ms`
+      );
+    });
+    fit("handles site in path levels deep", async () => {
+      const path = `/sites/${siteItemId}/initiatives/${initiativeItemId}/projects/${projectItemId}`;
+      const id = projectAppItemId;
+      const response = await deepCatalogContains(id, "content", path, context);
+      expect(response.isContained).toBeTruthy();
+      // tslint:disable-next-line:no-console
+      console.info(
+        `deepCatalogContains: App in Project in Initiative in Site Time: ${response.duration} ms`
+      );
+    });
   });
 
   describe(" passing only id:", () => {

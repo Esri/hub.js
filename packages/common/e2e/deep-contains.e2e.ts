@@ -24,7 +24,7 @@ import { getProp } from "../src/objects/get-prop";
 //     - Unique Web App: a88285b001574cf3bfc91c4da11391cf
 //     - Common Web App: 63c765456d23439e8faf0e4172fc9b23
 
-describe("deepContains:", () => {
+fdescribe("deepContains:", () => {
   const siteItemId: string = "c84347eb5d0a4a7b84c334fe84a5bbfe";
   const siteAppItemId: string = "7da7ea6055d34afd9125a2ccd63be5e1";
   const projectItemId: string = "9c0ecf87bcc04a1d93dec04b54332458";
@@ -49,6 +49,7 @@ describe("deepContains:", () => {
       };
       const chk = await deepContains(
         siteAppItemId,
+        "item",
         [siteCatalogInfo],
         ctxMgr.context
       );
@@ -63,6 +64,7 @@ describe("deepContains:", () => {
       );
       const chk2 = await deepContains(
         commonAppItemId,
+        "item",
         [siteCatalogInfo],
         ctxMgr.context
       );
@@ -84,6 +86,7 @@ describe("deepContains:", () => {
 
       const chk = await deepContains(
         initiativeAppItemId,
+        "item",
         [initiativeCatalogInfo, siteCatalogInfo],
         ctxMgr.context
       );
@@ -110,7 +113,7 @@ describe("deepContains:", () => {
 
       const chk = await deepContains(
         projectAppItemId,
-
+        "item",
         [projectCatalogInfo, initiativeCatalogInfo, siteCatalogInfo],
         ctxMgr.context
       );
@@ -130,7 +133,7 @@ describe("deepContains:", () => {
       };
       const chk = await deepContains(
         siteAppItemId,
-
+        "item",
         [siteCatalogInfo],
         ctxMgr.context
       );
@@ -153,6 +156,7 @@ describe("deepContains:", () => {
 
       const chk = await deepContains(
         initiativeAppItemId,
+        "item",
         [initiativeCatalogInfo, siteCatalogInfo],
         ctxMgr.context
       );
@@ -183,7 +187,7 @@ describe("deepContains:", () => {
 
       const chk = await deepContains(
         initiativeAppItemId,
-
+        "item",
         [projectCatalogInfo, initiativeCatalogInfo, siteCatalogInfo],
         ctxMgr.context
       );

@@ -55,6 +55,7 @@ export * from "./search/getAddContentConfig";
 export * from "./search/_internal/getCatalogGroups";
 export * from "./search/getPredicateValues";
 export * from "./core/hubHistory";
+export * from "./core/deepCatalogContains";
 
 import OperationStack from "./OperationStack";
 import OperationError from "./OperationError";

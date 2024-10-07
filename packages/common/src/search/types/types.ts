@@ -146,6 +146,11 @@ export interface IContainsResponse {
    * How long did it take to check containment?
    */
   duration?: number;
+
+  /**
+   * If the entity is not contained, this will be populated with a reason
+   */
+  reason?: string;
 }
 
 /**

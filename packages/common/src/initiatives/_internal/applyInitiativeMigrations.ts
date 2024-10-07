@@ -66,6 +66,9 @@ function addDefaultCatalog(model: IModel): IModel {
     clone.data.catalog = catalog;
 
     // set the schema version
+    if (!clone.item.properties) {
+      clone.item.properties = {};
+    }
     clone.item.properties.schemaVersion = 1.1;
 
     return clone;

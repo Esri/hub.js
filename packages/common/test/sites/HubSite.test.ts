@@ -251,7 +251,7 @@ describe("HubSite Class:", () => {
   describe(" contains:", () => {
     it("checks site catalog by default", async () => {
       const containsSpy = spyOn(ContainsModule, "deepContains").and.callFake(
-        (id: string, h: IDeepCatalogInfo[]) => {
+        (id: string, et: string, h: IDeepCatalogInfo[]) => {
           return Promise.resolve({
             identifier: id,
             isContained: true,
@@ -268,7 +268,7 @@ describe("HubSite Class:", () => {
       );
       const result = await chk.contains("cc0");
       expect(containsSpy).toHaveBeenCalledTimes(1);
-      const hiearchy = containsSpy.calls.argsFor(0)[1];
+      const hiearchy = containsSpy.calls.argsFor(0)[2];
       expect(hiearchy.length).toBe(1);
       expect(hiearchy[0].catalog).toEqual(
         createCatalog("00a"),
@@ -303,7 +303,7 @@ describe("HubSite Class:", () => {
         { id: "4ef", entityType: "item", catalog: createCatalog("00b") },
       ]);
       expect(containsSpy).toHaveBeenCalledTimes(1);
-      const hiearchy = containsSpy.calls.argsFor(0)[1];
+      const hiearchy = containsSpy.calls.argsFor(0)[2];
       expect(hiearchy.length).toBe(2);
       expect(hiearchy[0].catalog).toEqual(
         createCatalog("00b"),
@@ -350,7 +350,7 @@ describe("HubSite Class:", () => {
       await chk.contains("cc1", [{ id: "4ef", entityType: "item" }]);
       expect(containsSpy).toHaveBeenCalledTimes(2);
       // verify first call does not send the 4ef catalog
-      const hiearchy = containsSpy.calls.argsFor(0)[1];
+      const hiearchy = containsSpy.calls.argsFor(0)[2];
       expect(hiearchy.length).toBe(2);
       expect(hiearchy[0].catalog).not.toBeDefined();
       expect(hiearchy[1].catalog).toEqual(
@@ -358,7 +358,7 @@ describe("HubSite Class:", () => {
         "should pass the site catalog"
       );
       // verify second call does send the 4ef catalog
-      const hiearchy2 = containsSpy.calls.argsFor(1)[1];
+      const hiearchy2 = containsSpy.calls.argsFor(1)[2];
       expect(hiearchy2.length).toBe(2);
       expect(hiearchy2[0].catalog).toEqual(
         createCatalog("00b"),

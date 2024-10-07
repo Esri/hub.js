@@ -4,9 +4,9 @@ import config from "./helpers/config";
 
 // TODO: RE-WRITE USING HubSite Class
 
-fdescribe("Hub Sites", () => {
+describe("Hub Sites", () => {
   let factory: Artifactory;
-  fdescribe("QAEXT:", () => {
+  describe("QAEXT:", () => {
     beforeAll(() => {
       factory = new Artifactory(config, "qaext");
       jasmine.DEFAULT_TIMEOUT_INTERVAL = 200000;

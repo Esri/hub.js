@@ -1,3 +1,24 @@
+# @esri/hub-common [14.207.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.206.0...@esri/hub-common@14.207.0) (2024-10-07)
+
+
+### Features
+
+* **hub-common:** reenable additional info ([#1678](https://github.com/Esri/hub.js/issues/1678)) ([ebf08ef](https://github.com/Esri/hub.js/commit/ebf08ef434f6293ce4011e5bfceddcb0e0b4064f))
+
+# @esri/hub-common [14.206.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.205.0...@esri/hub-common@14.206.0) (2024-10-04)
+
+
+### Features
+
+* deepCatalogContains delegates to deepContains ([#1677](https://github.com/Esri/hub.js/issues/1677)) ([4a6ca57](https://github.com/Esri/hub.js/commit/4a6ca579c71af720a5114ef2b6ab99559a8ecacf))
+
+# @esri/hub-common [14.205.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.204.0...@esri/hub-common@14.205.0) (2024-10-04)
+
+
+### Features
+
+* showInfoBanner for user org settings ([#1676](https://github.com/Esri/hub.js/issues/1676)) ([ee32bb6](https://github.com/Esri/hub.js/commit/ee32bb6a3ca18245043ece193943b210a9b251d6))
+
 # @esri/hub-common [14.204.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.203.0...@esri/hub-common@14.204.0) (2024-10-02)
 
 
