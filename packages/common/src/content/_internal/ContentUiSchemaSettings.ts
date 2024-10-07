@@ -41,7 +41,7 @@ export const buildUiSchema = async (
           type: "Control",
           control: "hub-field-input-scheduler",
           labelKey: "fieldHeader",
-          format: "radio",
+          format: "select",
           inputs: [
             { type: "automatic" },
             { type: "daily" },
