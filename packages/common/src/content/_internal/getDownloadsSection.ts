@@ -24,9 +24,9 @@ export function getDownloadsSection(
 ): IUiSchemaElement {
   const downloadSectionElements: IUiSchemaElement[] = [];
 
-  if (shouldShowExtractToggleElement(entity)) {
-    const extractToggleElement = getExtractToggleElement(i18nScope);
-    downloadSectionElements.push(extractToggleElement);
+  if (shouldShowDownloadSystemElement(entity)) {
+    const downloadSystemElement = getDownloadSystemElement(i18nScope);
+    downloadSectionElements.push(downloadSystemElement);
   }
 
   const downloadFormatsElement = getDownloadFormatsElement(i18nScope, entity);
@@ -41,15 +41,15 @@ export function getDownloadsSection(
 }
 
 /**
- * NOTE: we only show the extract toggle for main entities of a hosted feature service
+ * NOTE: we only show the download system toggle for main entities of a hosted feature service
  * since we can guarantee that the user will have the necessary permissions to enable
  * extract capabilities on the service.
  */
-function shouldShowExtractToggleElement(entity: IHubEditableContent): boolean {
+function shouldShowDownloadSystemElement(entity: IHubEditableContent): boolean {
   return isHostedFeatureServiceMainEntity(entity);
 }
 
-function getExtractToggleElement(i18nScope: string): IUiSchemaElement {
+function getDownloadSystemElement(i18nScope: string): IUiSchemaElement {
   return {
     labelKey: `${i18nScope}.fields.serverExtractCapability.label`,
     scope: "/properties/serverExtractCapability",
@@ -57,12 +57,12 @@ function getExtractToggleElement(i18nScope: string): IUiSchemaElement {
     options: {
       control: "hub-field-input-tile-select",
       labels: [
-        `{{${i18nScope}.fields.serverExtractCapability.exportDataSetting.label:translate}}`, // TODO: Translate
-        `{{${i18nScope}.fields.serverExtractCapability.defaultDownloadsSystem.label:translate}}`, // TODO: Translate
+        `{{${i18nScope}.fields.serverExtractCapability.exportDataSetting.label:translate}}`,
+        `{{${i18nScope}.fields.serverExtractCapability.defaultDownloadsSystem.label:translate}}`,
       ],
       descriptions: [
-        `{{${i18nScope}.fields.serverExtractCapability.exportDataSetting.description:translate}}`, // TODO: Translate
-        `{{${i18nScope}.fields.serverExtractCapability.defaultDownloadsSystem.description:translate}}`, // TODO: Translate
+        `{{${i18nScope}.fields.serverExtractCapability.exportDataSetting.description:translate}}`,
+        `{{${i18nScope}.fields.serverExtractCapability.defaultDownloadsSystem.description:translate}}`,
       ],
       layout: "vertical",
       messages: [
@@ -114,7 +114,7 @@ function getDownloadFormatsElement(
   // Product has asked that if the extract capability toggle is present, we should disable
   // the download formats control when the toggle is off. We hope this will encourage more
   // users to opt into the hosted downloads experience.
-  if (shouldShowExtractToggleElement(entity)) {
+  if (shouldShowDownloadSystemElement(entity)) {
     result.rules.push({
       effect: UiSchemaRuleEffects.DISABLE,
       conditions: [
