@@ -1,3 +1,10 @@
+# @esri/hub-common [14.208.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.207.0...@esri/hub-common@14.208.0) (2024-10-07)
+
+
+### Features
+
+* scaffold catalog configuration experience ([#1662](https://github.com/Esri/hub.js/issues/1662)) ([e9e26cd](https://github.com/Esri/hub.js/commit/e9e26cd08b3ffc41829b0621ddec5e8c6c37e46b))
+
 # @esri/hub-common [14.207.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.206.0...@esri/hub-common@14.207.0) (2024-10-07)
 
 
