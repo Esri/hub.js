@@ -47,6 +47,7 @@ export async function portalSearchGroups(
     "sortOrder",
     "include",
     "start",
+    "httpMethod",
     "requestOptions",
   ];
   // copy the props over
