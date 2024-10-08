@@ -20,6 +20,7 @@ export const ContentSchema: IConfigurationSchema = {
     },
     serverExtractCapability: {
       type: "boolean",
+      enum: [true, false],
     },
     schedule: {
       type: "object",
