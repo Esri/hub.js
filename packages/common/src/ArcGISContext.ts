@@ -43,6 +43,20 @@ const hubApiEndpoints = {
 };
 
 /**
+ * Per-environment Group Ids that contain documents/links to
+ * Hub Resources (help docs, blog posts etc)
+ */
+const HUB_RESOURE_GROUPS: Record<HubEnvironment, string[]> = {
+  qaext: [
+    "da45c26e67764c79840928cd8d05561a", // owner: dcadminqa
+  ],
+  devext: [], // EMPTY
+  production: ["e3db35f7de63451f8243415445694761"],
+  enterprise: [], // EMPTY
+  "enterprise-k8s": [], // EMPTY
+};
+
+/**
  * Defines the properties of the ArcGISContext.
  * Typically components or functions will get an instance
  * of `ArcGISContext` from `ArcGISContetManager`.
@@ -262,6 +276,14 @@ export interface IArcGISContext {
    * Is the current user an org admin and not in a custom role?
    */
   isOrgAdmin: boolean;
+
+  /**
+   * Groups that contain Hub Resources (linkable documents etc)
+   * that are tagged to appear in different areas of the appliation.
+   * Default platform groups are defined per-environment in the
+   * "HUB_RESOURE_GROUPS" const..
+   */
+  resourceGroupIDs: string[];
 
   /**
    * Return the token for a given app, if defined
@@ -920,6 +942,15 @@ export class ArcGISContext implements IArcGISContext {
    */
   public get history(): IHubHistory {
     return this._userHubSettings.history || ({ entries: [] } as IHubHistory);
+  }
+
+  /**
+   * Return an array of GroupIds, per-environment, that contain
+   * Hub Resources (linkable documents etc) that are tagged to appear
+   * in different areas of the appliation.
+   */
+  public get resourceGroupIDs(): string[] {
+    return HUB_RESOURE_GROUPS[this.environment];
   }
 
   /**
