@@ -313,6 +313,7 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.orgThumbnailUrl).toBeNull();
       expect(mgr.context.survey123Url).toEqual("https://survey123.arcgis.com");
       expect(mgr.context.isOrgAdmin).toBeFalsy();
+      expect(mgr.context.resourceGroupIDs).toBeDefined();
     });
     it("verify alpha and beta orgs", async () => {
       const mgr = await ArcGISContextManager.create({
