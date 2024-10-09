@@ -1,3 +1,10 @@
+# @esri/hub-common [14.211.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.210.0...@esri/hub-common@14.211.0) (2024-10-09)
+
+
+### Features
+
+* switch scheduler to select format ([#1680](https://github.com/Esri/hub.js/issues/1680)) ([96c5f79](https://github.com/Esri/hub.js/commit/96c5f79c3378e2d7c775cfdc1c54203099ae1a1b))
+
 # @esri/hub-common [14.210.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.209.0...@esri/hub-common@14.210.0) (2024-10-08)
 
 
