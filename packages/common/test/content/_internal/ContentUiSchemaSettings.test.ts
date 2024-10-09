@@ -36,10 +36,16 @@ describe("buildUiSchema: content settings", () => {
               scope: "/properties/serverExtractCapability",
               type: "Control",
               options: {
-                helperText: {
-                  labelKey:
-                    "some.scope.fields.serverExtractCapability.helperText",
-                },
+                control: "hub-field-input-tile-select",
+                labels: [
+                  `{{some.scope.fields.serverExtractCapability.exportDataSetting.label:translate}}`,
+                  `{{some.scope.fields.serverExtractCapability.defaultDownloadsSystem.label:translate}}`,
+                ],
+                descriptions: [
+                  `{{some.scope.fields.serverExtractCapability.exportDataSetting.description:translate}}`,
+                  `{{some.scope.fields.serverExtractCapability.defaultDownloadsSystem.description:translate}}`,
+                ],
+                layout: "vertical",
                 messages: [
                   {
                     type: "CUSTOM",

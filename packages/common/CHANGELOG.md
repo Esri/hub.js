@@ -1,3 +1,17 @@
+# @esri/hub-common [14.210.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.209.0...@esri/hub-common@14.210.0) (2024-10-08)
+
+
+### Features
+
+* **hub-common:** change content settings schema's extract toggle to be a tile select ([#1681](https://github.com/Esri/hub.js/issues/1681)) ([6445470](https://github.com/Esri/hub.js/commit/64454709271af68fffd3b20db84a0456afba4d17))
+
+# @esri/hub-common [14.209.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.208.0...@esri/hub-common@14.209.0) (2024-10-08)
+
+
+### Features
+
+* user overview resources ([#1682](https://github.com/Esri/hub.js/issues/1682)) ([c0774a4](https://github.com/Esri/hub.js/commit/c0774a490356d89f10d9f5ef798dc103d30a31af))
+
 # @esri/hub-common [14.208.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.207.0...@esri/hub-common@14.208.0) (2024-10-07)
 
 
