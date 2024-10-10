@@ -1014,6 +1014,11 @@ describe("processFilters", () => {
     });
   });
   describe("occurrence", () => {
+    // let nowSpy;
+    const mockedDate = new Date(1711987200000);
+    beforeEach(() => {
+      jasmine.clock().mockDate(mockedDate);
+    });
     it("should return undefined", async () => {
       const result = await processFilters(
         [{ predicates: [] }],
@@ -1035,7 +1040,7 @@ describe("processFilters", () => {
         ],
         hubRequestOptions
       );
-      expect(result.startDateTimeAfter).toEqual(new Date().toISOString());
+      expect(result.startDateTimeAfter).toEqual(mockedDate.toISOString());
     });
     it("should handle past", async () => {
       const result = await processFilters(
@@ -1050,7 +1055,7 @@ describe("processFilters", () => {
         ],
         hubRequestOptions
       );
-      expect(result.endDateTimeBefore).toEqual(new Date().toISOString());
+      expect(result.endDateTimeBefore).toEqual(mockedDate.toISOString());
     });
     it("should handle inProgress", async () => {
       const result = await processFilters(
@@ -1065,8 +1070,8 @@ describe("processFilters", () => {
         ],
         hubRequestOptions
       );
-      expect(result.startDateTimeBefore).toEqual(new Date().toISOString());
-      expect(result.endDateTimeAfter).toEqual(new Date().toISOString());
+      expect(result.startDateTimeBefore).toEqual(mockedDate.toISOString());
+      expect(result.endDateTimeAfter).toEqual(mockedDate.toISOString());
     });
   });
 });
