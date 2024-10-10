@@ -322,6 +322,7 @@ describe("EventUiSchemaEdit", () => {
                   control: "hub-field-input-location-picker",
                   extent: [],
                   options: [],
+                  locationNameRequired: true,
                 },
               },
               {

@@ -32,6 +32,7 @@ export interface IHubLocation {
   orgSpatialReference?: ISpatialReference;
   graphic?: any;
   geoJson?: any;
+  name?: string;
 }
 
 /**
