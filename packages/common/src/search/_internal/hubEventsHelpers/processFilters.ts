@@ -160,12 +160,14 @@ export async function processFilters(
   // if a startDateRange was provided, we prioritize that over individual startDateBefore or startDateAfter
   // filters to prevent collisions
   if (startDateRange.length) {
-    processedFilters.startDateTimeBefore = new Date(
-      startDateRange[0].to
-    ).toISOString();
-    processedFilters.startDateTimeAfter = new Date(
-      startDateRange[0].from
-    ).toISOString();
+    startDateRange[0].to &&
+      (processedFilters.startDateTimeBefore = new Date(
+        startDateRange[0].to
+      ).toISOString());
+    startDateRange[0].from &&
+      (processedFilters.startDateTimeAfter = new Date(
+        startDateRange[0].from
+      ).toISOString());
   } else {
     // individual startDateBefore & startDateAfter filters
     const startDateBefore = getPredicateValuesByKey<string | number>(
@@ -194,12 +196,14 @@ export async function processFilters(
   // if a endDateRange was provided, we prioritize that over individual endDateBefore or endDateAfter
   // filters to prevent collisions
   if (endDateRange.length) {
-    processedFilters.endDateTimeBefore = new Date(
-      endDateRange[0].to
-    ).toISOString();
-    processedFilters.endDateTimeAfter = new Date(
-      endDateRange[0].from
-    ).toISOString();
+    endDateRange[0].to &&
+      (processedFilters.endDateTimeBefore = new Date(
+        endDateRange[0].to
+      ).toISOString());
+    endDateRange[0].from &&
+      (processedFilters.endDateTimeAfter = new Date(
+        endDateRange[0].from
+      ).toISOString());
   } else {
     // individual endDateBefore & endDateAfter filters
     const endDateBefore = getPredicateValuesByKey<string | number>(
@@ -220,6 +224,24 @@ export async function processFilters(
         endDateAfter[0]
       ).toISOString();
     }
+  }
+
+  const occurrence = getPredicateValuesByKey<string>(filters, "occurrence");
+  if (occurrence.length) {
+    occurrence.forEach((o) => {
+      switch (o) {
+        case "upcoming":
+          processedFilters.startDateTimeAfter = new Date().toISOString();
+          break;
+        case "past":
+          processedFilters.endDateTimeBefore = new Date().toISOString();
+          break;
+        case "inProgress":
+          processedFilters.startDateTimeBefore = new Date().toISOString();
+          processedFilters.endDateTimeAfter = new Date().toISOString();
+          break;
+      }
+    });
   }
   return processedFilters;
 }
