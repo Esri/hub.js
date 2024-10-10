@@ -56,28 +56,33 @@ export async function processFilters(
   if (tags?.length) {
     processedFilters.tags = tags;
   }
-  const groupIds = getPredicateValuesByKey<string>(filters, "group");
+  // const groupIds = getPredicateValuesByKey<string>(filters, "group");
+  const groupIds = getOptionalPredicateStringsByKey(filters, "group");
+  // if sharedToGroups were provided, we prioritize that over all groups
+  // if (sharedToGroups.length) {
+  //   processedFilters.sharedToGroups = sharedToGroups;
   // if a group was provided, we prioritize that over individual readGroupId or editGroupId
   // filters to prevent collisions
   if (groupIds.length) {
-    const { results } = await searchGroups({
-      q: `id:(${groupIds.join(" OR ")})`,
-      num: groupIds.length,
-      ...requestOptions,
-    });
-    const { readGroupIds, editGroupIds } = results.reduce(
-      (acc, group) => {
-        const key = isUpdateGroup(group) ? "editGroupIds" : "readGroupIds";
-        return { ...acc, [key]: [...acc[key], group.id] };
-      },
-      { readGroupIds: [], editGroupIds: [] }
-    );
-    if (readGroupIds.length) {
-      processedFilters.readGroups = readGroupIds.join(",");
-    }
-    if (editGroupIds.length) {
-      processedFilters.editGroups = editGroupIds.join(",");
-    }
+    // const { results } = await searchGroups({
+    //   q: `id:(${groupIds.join(" OR ")})`,
+    //   num: groupIds.length,
+    //   ...requestOptions,
+    // });
+    // const { readGroupIds, editGroupIds } = results.reduce(
+    //   (acc, group) => {
+    //     const key = isUpdateGroup(group) ? "editGroupIds" : "readGroupIds";
+    //     return { ...acc, [key]: [...acc[key], group.id] };
+    //   },
+    //   { readGroupIds: [], editGroupIds: [] }
+    // );
+    // if (readGroupIds.length) {
+    //   processedFilters.readGroups = readGroupIds.join(",");
+    // }
+    // if (editGroupIds.length) {
+    //   processedFilters.editGroups = editGroupIds.join(",");
+    // }
+    processedFilters.sharedToGroups = groupIds;
   } else {
     // individual readGroupId & editGroupId filters
     const readGroupIds = getOptionalPredicateStringsByKey(
@@ -160,12 +165,14 @@ export async function processFilters(
   // if a startDateRange was provided, we prioritize that over individual startDateBefore or startDateAfter
   // filters to prevent collisions
   if (startDateRange.length) {
-    processedFilters.startDateTimeBefore = new Date(
-      startDateRange[0].to
-    ).toISOString();
-    processedFilters.startDateTimeAfter = new Date(
-      startDateRange[0].from
-    ).toISOString();
+    startDateRange[0].to &&
+      (processedFilters.startDateTimeBefore = new Date(
+        startDateRange[0].to
+      ).toISOString());
+    startDateRange[0].from &&
+      (processedFilters.startDateTimeAfter = new Date(
+        startDateRange[0].from
+      ).toISOString());
   } else {
     // individual startDateBefore & startDateAfter filters
     const startDateBefore = getPredicateValuesByKey<string | number>(
@@ -194,12 +201,14 @@ export async function processFilters(
   // if a endDateRange was provided, we prioritize that over individual endDateBefore or endDateAfter
   // filters to prevent collisions
   if (endDateRange.length) {
-    processedFilters.endDateTimeBefore = new Date(
-      endDateRange[0].to
-    ).toISOString();
-    processedFilters.endDateTimeAfter = new Date(
-      endDateRange[0].from
-    ).toISOString();
+    endDateRange[0].to &&
+      (processedFilters.endDateTimeBefore = new Date(
+        endDateRange[0].to
+      ).toISOString());
+    endDateRange[0].from &&
+      (processedFilters.endDateTimeAfter = new Date(
+        endDateRange[0].from
+      ).toISOString());
   } else {
     // individual endDateBefore & endDateAfter filters
     const endDateBefore = getPredicateValuesByKey<string | number>(
@@ -220,6 +229,24 @@ export async function processFilters(
         endDateAfter[0]
       ).toISOString();
     }
+  }
+
+  const occurrence = getPredicateValuesByKey<string>(filters, "occurrence");
+  if (occurrence.length) {
+    occurrence.forEach((o) => {
+      switch (o) {
+        case "upcoming":
+          processedFilters.startDateTimeAfter = new Date().toISOString();
+          break;
+        case "past":
+          processedFilters.endDateTimeBefore = new Date().toISOString();
+          break;
+        case "inProgress":
+          processedFilters.startDateTimeBefore = new Date().toISOString();
+          processedFilters.endDateTimeAfter = new Date().toISOString();
+          break;
+      }
+    });
   }
   return processedFilters;
 }
