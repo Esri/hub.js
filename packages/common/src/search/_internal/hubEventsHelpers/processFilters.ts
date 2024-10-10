@@ -56,32 +56,11 @@ export async function processFilters(
   if (tags?.length) {
     processedFilters.tags = tags;
   }
-  // const groupIds = getPredicateValuesByKey<string>(filters, "group");
   const groupIds = getOptionalPredicateStringsByKey(filters, "group");
-  // if sharedToGroups were provided, we prioritize that over all groups
-  // if (sharedToGroups.length) {
-  //   processedFilters.sharedToGroups = sharedToGroups;
   // if a group was provided, we prioritize that over individual readGroupId or editGroupId
   // filters to prevent collisions
-  if (groupIds.length) {
-    // const { results } = await searchGroups({
-    //   q: `id:(${groupIds.join(" OR ")})`,
-    //   num: groupIds.length,
-    //   ...requestOptions,
-    // });
-    // const { readGroupIds, editGroupIds } = results.reduce(
-    //   (acc, group) => {
-    //     const key = isUpdateGroup(group) ? "editGroupIds" : "readGroupIds";
-    //     return { ...acc, [key]: [...acc[key], group.id] };
-    //   },
-    //   { readGroupIds: [], editGroupIds: [] }
-    // );
-    // if (readGroupIds.length) {
-    //   processedFilters.readGroups = readGroupIds.join(",");
-    // }
-    // if (editGroupIds.length) {
-    //   processedFilters.editGroups = editGroupIds.join(",");
-    // }
+  if (groupIds?.length) {
+    // We are explicitly sending groupIds to sharedToGroups
     processedFilters.sharedToGroups = groupIds;
   } else {
     // individual readGroupId & editGroupId filters
@@ -100,6 +79,8 @@ export async function processFilters(
       processedFilters.editGroups = editGroupIds;
     }
   }
+  // NOTE: previously notGroup was an inverse of group, but now they are subtly different
+  // We do not yet have an inverse of sharedToGroups.
   const notGroupIds = getPredicateValuesByKey<string>(filters, "notGroup");
   // if a notGroup was provided, we prioritize that over individual notReadGroupId or notEditGroupId
   // filters to prevent collisions
@@ -164,6 +145,8 @@ export async function processFilters(
   );
   // if a startDateRange was provided, we prioritize that over individual startDateBefore or startDateAfter
   // filters to prevent collisions
+  // We are explicitly checking if the to and from values are present
+  // Because w/ Occurrence, we can have just to or from values
   if (startDateRange.length) {
     startDateRange[0].to &&
       (processedFilters.startDateTimeBefore = new Date(
@@ -200,6 +183,8 @@ export async function processFilters(
   );
   // if a endDateRange was provided, we prioritize that over individual endDateBefore or endDateAfter
   // filters to prevent collisions
+  // We are explicitly checking if the to and from values are present
+  // Because w/ Occurrence, we can have just to or from values
   if (endDateRange.length) {
     endDateRange[0].to &&
       (processedFilters.endDateTimeBefore = new Date(
@@ -231,6 +216,8 @@ export async function processFilters(
     }
   }
 
+  // If there's an occurrence filter, we need to adjust the startDateTimeBefore, startDateTimeAfter
+  // Depending on the occurrence.
   const occurrence = getPredicateValuesByKey<string>(filters, "occurrence");
   if (occurrence.length) {
     occurrence.forEach((o) => {
