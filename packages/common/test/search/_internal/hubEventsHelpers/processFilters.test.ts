@@ -1016,8 +1016,11 @@ describe("processFilters", () => {
   describe("occurrence", () => {
     // let nowSpy;
     const mockedDate = new Date(1711987200000);
-    beforeEach(() => {
+    beforeAll(() => {
       jasmine.clock().mockDate(mockedDate);
+    });
+    afterAll(() => {
+      jasmine.clock().uninstall();
     });
     it("should return undefined", async () => {
       const result = await processFilters(
