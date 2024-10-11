@@ -1,3 +1,10 @@
+# @esri/hub-common [14.213.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.212.0...@esri/hub-common@14.213.0) (2024-10-11)
+
+
+### Features
+
+* **hub-discussions:** discussions can now query by orgId ([#1685](https://github.com/Esri/hub.js/issues/1685)) ([ae51c2f](https://github.com/Esri/hub.js/commit/ae51c2fe8498fe6330874568093a4e27b868ac0c))
+
 # @esri/hub-common [14.212.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.211.0...@esri/hub-common@14.212.0) (2024-10-11)
 
 
