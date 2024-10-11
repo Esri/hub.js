@@ -1014,7 +1014,6 @@ describe("processFilters", () => {
     });
   });
   describe("occurrence", () => {
-    // let nowSpy;
     const mockedDate = new Date(1711987200000);
     beforeAll(() => {
       jasmine.clock().mockDate(mockedDate);
