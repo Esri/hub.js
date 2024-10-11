@@ -489,16 +489,9 @@ describe("processFilters", () => {
         [{ predicates: [] }],
         hubRequestOptions
       );
-      expect(result.readGroups).toBeUndefined();
-      expect(result.editGroups).toBeUndefined();
+      expect(result.sharedToGroups).toBeUndefined();
     });
-    it("should return readGroups and editGroups", async () => {
-      const searchGroupsSpy = spyOn(
-        arcgisRestPortal,
-        "searchGroups"
-      ).and.returnValue(
-        Promise.resolve({ results: [editGroup1, readGroup1, editGroup2] })
-      );
+    it("should return returnToGroups if group has been supplied", async () => {
       const result = await processFilters(
         [
           {
@@ -518,89 +511,8 @@ describe("processFilters", () => {
         ],
         hubRequestOptions
       );
-      expect(searchGroupsSpy).toHaveBeenCalledTimes(1);
-      expect(searchGroupsSpy).toHaveBeenCalledWith({
-        q: `id:(${[editGroup1.id, readGroup1.id, editGroup2.id].join(" OR ")})`,
-        num: 3,
-        ...hubRequestOptions,
-      });
-      expect(result.readGroups).toEqual(readGroup1.id);
-      expect(result.editGroups).toEqual(
-        [editGroup1.id, editGroup2.id].join(",")
-      );
-    });
-    it("should filter out inaccessible groups", async () => {
-      const searchGroupsSpy = spyOn(
-        arcgisRestPortal,
-        "searchGroups"
-      ).and.returnValue(Promise.resolve({ results: [] }));
-      const result = await processFilters(
-        [
-          {
-            predicates: [
-              {
-                group: editGroup1.id,
-              },
-            ],
-          },
-          {
-            predicates: [
-              {
-                group: [readGroup1.id, editGroup2.id],
-              },
-            ],
-          },
-        ],
-        hubRequestOptions
-      );
-      expect(searchGroupsSpy).toHaveBeenCalledTimes(1);
-      expect(searchGroupsSpy).toHaveBeenCalledWith({
-        q: `id:(${[editGroup1.id, readGroup1.id, editGroup2.id].join(" OR ")})`,
-        num: 3,
-        ...hubRequestOptions,
-      });
-      expect(result.readGroups).toBeUndefined();
-      expect(result.editGroups).toBeUndefined();
-    });
-    it("should be prioritized over individual readGroupId and editGroupId", async () => {
-      const searchGroupsSpy = spyOn(
-        arcgisRestPortal,
-        "searchGroups"
-      ).and.returnValue(
-        Promise.resolve({ results: [editGroup1, readGroup1, editGroup2] })
-      );
-      const result = await processFilters(
-        [
-          {
-            predicates: [
-              {
-                group: editGroup1.id,
-              },
-              {
-                readGroupId: "some-other-read-group-id",
-              },
-            ],
-          },
-          {
-            predicates: [
-              {
-                group: [readGroup1.id, editGroup2.id],
-                editGroupId: ["some-other-edit-group-id"],
-              },
-            ],
-          },
-        ],
-        hubRequestOptions
-      );
-      expect(searchGroupsSpy).toHaveBeenCalledTimes(1);
-      expect(searchGroupsSpy).toHaveBeenCalledWith({
-        q: `id:(${[editGroup1.id, readGroup1.id, editGroup2.id].join(" OR ")})`,
-        num: 3,
-        ...hubRequestOptions,
-      });
-      expect(result.readGroups).toEqual(readGroup1.id);
-      expect(result.editGroups).toEqual(
-        [editGroup1.id, editGroup2.id].join(",")
+      expect(result.sharedToGroups).toEqual(
+        [editGroup1.id, readGroup1.id, editGroup2.id].join(",")
       );
     });
   });
@@ -1099,6 +1011,69 @@ describe("processFilters", () => {
         hubRequestOptions
       );
       expect(result.endDateTimeAfter).toEqual("2024-04-28T04:00:00.000Z");
+    });
+  });
+  describe("occurrence", () => {
+    const mockedDate = new Date(1711987200000);
+    beforeAll(() => {
+      jasmine.clock().mockDate(mockedDate);
+    });
+    afterAll(() => {
+      jasmine.clock().uninstall();
+    });
+    it("should return undefined", async () => {
+      const result = await processFilters(
+        [{ predicates: [] }],
+        hubRequestOptions
+      );
+      expect(result.startDateTimeBefore).toBeUndefined();
+      expect(result.startDateTimeAfter).toBeUndefined();
+    });
+    it("should handle upcoming", async () => {
+      const result = await processFilters(
+        [
+          {
+            predicates: [
+              {
+                occurrence: "upcoming",
+              },
+            ],
+          },
+        ],
+        hubRequestOptions
+      );
+      expect(result.startDateTimeAfter).toEqual(mockedDate.toISOString());
+    });
+    it("should handle past", async () => {
+      const result = await processFilters(
+        [
+          {
+            predicates: [
+              {
+                occurrence: "past",
+              },
+            ],
+          },
+        ],
+        hubRequestOptions
+      );
+      expect(result.endDateTimeBefore).toEqual(mockedDate.toISOString());
+    });
+    it("should handle inProgress", async () => {
+      const result = await processFilters(
+        [
+          {
+            predicates: [
+              {
+                occurrence: "inProgress",
+              },
+            ],
+          },
+        ],
+        hubRequestOptions
+      );
+      expect(result.startDateTimeBefore).toEqual(mockedDate.toISOString());
+      expect(result.endDateTimeAfter).toEqual(mockedDate.toISOString());
     });
   });
 });

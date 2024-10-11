@@ -56,28 +56,12 @@ export async function processFilters(
   if (tags?.length) {
     processedFilters.tags = tags;
   }
-  const groupIds = getPredicateValuesByKey<string>(filters, "group");
+  const groupIds = getOptionalPredicateStringsByKey(filters, "group");
   // if a group was provided, we prioritize that over individual readGroupId or editGroupId
   // filters to prevent collisions
-  if (groupIds.length) {
-    const { results } = await searchGroups({
-      q: `id:(${groupIds.join(" OR ")})`,
-      num: groupIds.length,
-      ...requestOptions,
-    });
-    const { readGroupIds, editGroupIds } = results.reduce(
-      (acc, group) => {
-        const key = isUpdateGroup(group) ? "editGroupIds" : "readGroupIds";
-        return { ...acc, [key]: [...acc[key], group.id] };
-      },
-      { readGroupIds: [], editGroupIds: [] }
-    );
-    if (readGroupIds.length) {
-      processedFilters.readGroups = readGroupIds.join(",");
-    }
-    if (editGroupIds.length) {
-      processedFilters.editGroups = editGroupIds.join(",");
-    }
+  if (groupIds?.length) {
+    // We are explicitly sending groupIds to sharedToGroups
+    processedFilters.sharedToGroups = groupIds;
   } else {
     // individual readGroupId & editGroupId filters
     const readGroupIds = getOptionalPredicateStringsByKey(
@@ -95,6 +79,8 @@ export async function processFilters(
       processedFilters.editGroups = editGroupIds;
     }
   }
+  // NOTE: previously notGroup was an inverse of group, but now they are subtly different
+  // We do not yet have an inverse of sharedToGroups.
   const notGroupIds = getPredicateValuesByKey<string>(filters, "notGroup");
   // if a notGroup was provided, we prioritize that over individual notReadGroupId or notEditGroupId
   // filters to prevent collisions
@@ -159,13 +145,17 @@ export async function processFilters(
   );
   // if a startDateRange was provided, we prioritize that over individual startDateBefore or startDateAfter
   // filters to prevent collisions
+  // We are explicitly checking if the to and from values are present
+  // Because w/ Occurrence, we can have just to or from values
   if (startDateRange.length) {
-    processedFilters.startDateTimeBefore = new Date(
-      startDateRange[0].to
-    ).toISOString();
-    processedFilters.startDateTimeAfter = new Date(
-      startDateRange[0].from
-    ).toISOString();
+    startDateRange[0].to &&
+      (processedFilters.startDateTimeBefore = new Date(
+        startDateRange[0].to
+      ).toISOString());
+    startDateRange[0].from &&
+      (processedFilters.startDateTimeAfter = new Date(
+        startDateRange[0].from
+      ).toISOString());
   } else {
     // individual startDateBefore & startDateAfter filters
     const startDateBefore = getPredicateValuesByKey<string | number>(
@@ -193,13 +183,17 @@ export async function processFilters(
   );
   // if a endDateRange was provided, we prioritize that over individual endDateBefore or endDateAfter
   // filters to prevent collisions
+  // We are explicitly checking if the to and from values are present
+  // Because w/ Occurrence, we can have just to or from values
   if (endDateRange.length) {
-    processedFilters.endDateTimeBefore = new Date(
-      endDateRange[0].to
-    ).toISOString();
-    processedFilters.endDateTimeAfter = new Date(
-      endDateRange[0].from
-    ).toISOString();
+    endDateRange[0].to &&
+      (processedFilters.endDateTimeBefore = new Date(
+        endDateRange[0].to
+      ).toISOString());
+    endDateRange[0].from &&
+      (processedFilters.endDateTimeAfter = new Date(
+        endDateRange[0].from
+      ).toISOString());
   } else {
     // individual endDateBefore & endDateAfter filters
     const endDateBefore = getPredicateValuesByKey<string | number>(
@@ -220,6 +214,26 @@ export async function processFilters(
         endDateAfter[0]
       ).toISOString();
     }
+  }
+
+  // If there's an occurrence filter, we need to adjust the startDateTimeBefore, startDateTimeAfter
+  // Depending on the occurrence.
+  const occurrence = getPredicateValuesByKey<string>(filters, "occurrence");
+  if (occurrence.length) {
+    occurrence.forEach((o) => {
+      switch (o) {
+        case "upcoming":
+          processedFilters.startDateTimeAfter = new Date().toISOString();
+          break;
+        case "past":
+          processedFilters.endDateTimeBefore = new Date().toISOString();
+          break;
+        case "inProgress":
+          processedFilters.startDateTimeBefore = new Date().toISOString();
+          processedFilters.endDateTimeAfter = new Date().toISOString();
+          break;
+      }
+    });
   }
   return processedFilters;
 }
