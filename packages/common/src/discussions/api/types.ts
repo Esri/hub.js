@@ -166,6 +166,7 @@ export enum ReactionRelation {
  */
 export enum ChannelFilter {
   HAS_USER_POSTS = "has_user_posts",
+  BY_DISCUSSION_URI = "by_discussion_uri",
 }
 
 /**
