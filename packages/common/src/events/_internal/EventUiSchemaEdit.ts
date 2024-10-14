@@ -216,7 +216,7 @@ export const buildUiSchema = async (
               messages: [
                 {
                   type: "ERROR",
-                  keyword: "then",
+                  keyword: "if",
                   hidden: true,
                 },
               ],
