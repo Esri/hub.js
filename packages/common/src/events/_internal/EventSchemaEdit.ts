@@ -1,5 +1,6 @@
 import {
   ENTITY_CATEGORIES_SCHEMA,
+  ENTITY_LOCATION_SCHEMA,
   ENTITY_NAME_SCHEMA,
   ENTITY_SUMMARY_SCHEMA,
   ENTITY_TAGS_SCHEMA,
@@ -67,7 +68,17 @@ export const buildSchema = (): IConfigurationSchema => {
         default: HubEventCapacityType.Unlimited,
       },
       location: {
-        type: "object",
+        ...ENTITY_LOCATION_SCHEMA,
+        allOf: [
+          {
+            if: {
+              properties: { type: { const: "custom" } },
+            },
+            then: {
+              required: ["name"],
+            },
+          },
+        ],
       },
       onlineUrl: {
         type: "string",
