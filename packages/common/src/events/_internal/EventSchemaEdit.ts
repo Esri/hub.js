@@ -68,6 +68,29 @@ export const buildSchema = (): IConfigurationSchema => {
       },
       location: {
         type: "object",
+        default: { type: "none" },
+        properties: {
+          type: {
+            type: "string",
+            enum: ["none", "org", "custom"],
+            default: "none",
+          },
+          name: {
+            type: "string",
+          },
+        },
+        allOf: [
+          {
+            if: {
+              properties: {
+                type: { const: "custom" },
+              },
+            },
+            then: {
+              required: ["name"],
+            },
+          },
+        ],
       },
       onlineUrl: {
         type: "string",
