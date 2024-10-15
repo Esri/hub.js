@@ -213,6 +213,13 @@ export const buildUiSchema = async (
                 context.hubRequestOptions
               ),
               locationNameRequired: true,
+              messages: [
+                {
+                  type: "ERROR",
+                  keyword: "if",
+                  hidden: true,
+                },
+              ],
             },
           },
           {

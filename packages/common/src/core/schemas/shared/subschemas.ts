@@ -53,6 +53,16 @@ export const ENTITY_FEATURED_CONTENT_SCHEMA = {
 export const ENTITY_LOCATION_SCHEMA = {
   type: "object",
   default: { type: "none" },
+  properties: {
+    type: {
+      type: "string",
+      enum: ["none", "org", "custom"],
+      default: "none",
+    },
+    name: {
+      type: "string",
+    },
+  },
 };
 
 /**
