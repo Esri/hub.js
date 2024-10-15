@@ -2,7 +2,7 @@ import { buildSchema } from "../../../src/events/_internal/EventSchemaEdit";
 import { IConfigurationSchema } from "../../../src/core/schemas/types";
 import {
   ENTITY_CATEGORIES_SCHEMA,
-  ENTITY_FEATURED_CONTENT_SCHEMA,
+  ENTITY_LOCATION_SCHEMA,
   ENTITY_NAME_SCHEMA,
   ENTITY_SUMMARY_SCHEMA,
   ENTITY_TAGS_SCHEMA,
@@ -80,7 +80,17 @@ describe("EventSchemaEdit", () => {
             default: HubEventCapacityType.Unlimited,
           },
           location: {
-            type: "object",
+            ...ENTITY_LOCATION_SCHEMA,
+            allOf: [
+              {
+                if: {
+                  properties: { type: { enum: ["custom", "org"] } },
+                },
+                then: {
+                  required: ["name"],
+                },
+              },
+            ],
           },
           onlineUrl: {
             type: "string",

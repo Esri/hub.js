@@ -323,6 +323,13 @@ describe("EventUiSchemaEdit", () => {
                   extent: [],
                   options: [],
                   locationNameRequired: true,
+                  messages: [
+                    {
+                      type: "ERROR",
+                      keyword: "if",
+                      hidden: true,
+                    },
+                  ],
                 },
               },
               {
