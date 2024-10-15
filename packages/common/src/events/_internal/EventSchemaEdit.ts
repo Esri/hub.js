@@ -72,7 +72,7 @@ export const buildSchema = (): IConfigurationSchema => {
         allOf: [
           {
             if: {
-              properties: { type: { const: "custom" } },
+              properties: { type: { enum: ["custom", "org"] } },
             },
             then: {
               required: ["name"],
