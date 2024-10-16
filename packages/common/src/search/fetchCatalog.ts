@@ -6,6 +6,7 @@ import { stripProtocol } from "../urls/strip-protocol";
 import { isGuid } from "../utils/is-guid";
 import { IHubCatalog } from "./types/IHubCatalog";
 import { upgradeCatalogSchema } from "./upgradeCatalogSchema";
+import { fetchHubEntity } from "../core/fetchHubEntity";
 
 /**
  * Fetch a IHubCatalog from a backing item.
@@ -40,8 +41,20 @@ export async function fetchCatalog(
       });
   } else if (isGuid(identifier)) {
     // get the item's data, and read the catalog out of it
+
+    // TODO: get the entity so the catalog migrations / mappings can be applied
+    // however this requires the HubEntityType and context, which we don't have
     getPrms = getItemData(identifier, requestOptions).then((data) => {
-      return upgradeCatalogSchema(data.catalog || {});
+      // catalogs are moving to an array structure so we need to handle both
+      let catalog = {};
+      if (data.catalog) {
+        catalog = data.catalog;
+      }
+      if (data.catalogs && data.catalogs.length > 0) {
+        catalog = data.catalogs[0];
+      }
+
+      return upgradeCatalogSchema(catalog);
     });
   } else {
     throw new HubError("Catalog.create", "Identifier must be a url, guid");

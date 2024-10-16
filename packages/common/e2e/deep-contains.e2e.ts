@@ -32,6 +32,7 @@ fdescribe("deepContains:", () => {
   const initiativeItemId: string = "270b4696648e4e4a8767a1dc9753ae34";
   const initiativeAppItemId: string = "c4597275ee874820bf578cdee3106e2f";
   const commonAppItemId: string = "63c765456d23439e8faf0e4172fc9b23";
+  const notContainedItemId: string = "00000000000000000000000000000000";
 
   let factory: Artifactory;
   const orgName = "hubBasic";
@@ -71,6 +72,22 @@ fdescribe("deepContains:", () => {
       expect(chk2.isContained).toBeTruthy();
       // tslint:disable-next-line:no-console
       console.info(`App in Site Catalog (cached): Time: ${chk2.duration} ms`);
+    });
+    it("does not finds item in site catalog", async () => {
+      const ctxMgr = await factory.getContextManager(orgName, "admin");
+      const siteCatalogInfo: IDeepCatalogInfo = {
+        id: siteItemId,
+        entityType: "item",
+      };
+      const chk = await deepContains(
+        notContainedItemId,
+        "item",
+        [siteCatalogInfo],
+        ctxMgr.context
+      );
+      expect(chk.isContained).toBeFalsy();
+      // tslint:disable-next-line:no-console
+      console.info(`Item not in Site Catalog: Time: ${chk.duration} ms`);
     });
 
     it("finds app in initiative catalog", async () => {
@@ -121,6 +138,32 @@ fdescribe("deepContains:", () => {
       expect(chk.isContained).toBeTruthy();
       // tslint:disable-next-line:no-console
       console.info(`App in Project Catalog: Time: ${chk.duration} ms`);
+    });
+    it("does not finds item in project catalog", async () => {
+      const ctxMgr = await factory.getContextManager(orgName, "admin");
+      const siteCatalogInfo: IDeepCatalogInfo = {
+        id: siteItemId,
+        entityType: "item",
+      };
+      const initiativeCatalogInfo: IDeepCatalogInfo = {
+        id: initiativeItemId,
+        entityType: "item",
+      };
+      const projectCatalogInfo: IDeepCatalogInfo = {
+        id: projectItemId,
+        entityType: "item",
+      };
+
+      const chk = await deepContains(
+        notContainedItemId,
+        "item",
+        [projectCatalogInfo, initiativeCatalogInfo, siteCatalogInfo],
+        ctxMgr.context
+      );
+
+      expect(chk.isContained).toBeFalsy();
+      // tslint:disable-next-line:no-console
+      console.info(`Item not in Project Catalog: Time: ${chk.duration} ms`);
     });
   });
   describe("pass in catalogs", () => {
@@ -186,7 +229,7 @@ fdescribe("deepContains:", () => {
       };
 
       const chk = await deepContains(
-        initiativeAppItemId,
+        projectAppItemId,
         "item",
         [projectCatalogInfo, initiativeCatalogInfo, siteCatalogInfo],
         ctxMgr.context
