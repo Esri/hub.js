@@ -33,6 +33,7 @@ fdescribe("HubSite.contains:", () => {
   const initiativeItemId: string = "270b4696648e4e4a8767a1dc9753ae34";
   const initiativeAppItemId: string = "c4597275ee874820bf578cdee3106e2f";
   const commonAppItemId: string = "63c765456d23439e8faf0e4172fc9b23";
+  const notContainedItemId: string = "00000000000000000000000000000000";
 
   let factory: Artifactory;
   const orgName = "hubBasic";
@@ -87,11 +88,22 @@ fdescribe("HubSite.contains:", () => {
         `deepCatalogContains: App in Project in Initiative in Site Time: ${response.duration} ms`
       );
     });
-    fit("handles site in path levels deep", async () => {
+    it("handles site in path levels deep", async () => {
       const path = `/sites/${siteItemId}/initiatives/${initiativeItemId}/projects/${projectItemId}`;
       const id = projectAppItemId;
       const response = await deepCatalogContains(id, "content", path, context);
       expect(response.isContained).toBeTruthy();
+      // tslint:disable-next-line:no-console
+      console.info(
+        `deepCatalogContains: App in Project in Initiative in Site Time: ${response.duration} ms`
+      );
+    });
+    it("returns false when item is not in deep path", async () => {
+      const path = `/sites/${siteItemId}/initiatives/${initiativeItemId}/projects/${projectItemId}`;
+      const id = notContainedItemId;
+      const response = await deepCatalogContains(id, "content", path, context);
+
+      expect(response.isContained).toBeFalsy();
       // tslint:disable-next-line:no-console
       console.info(
         `deepCatalogContains: App in Project in Initiative in Site Time: ${response.duration} ms`

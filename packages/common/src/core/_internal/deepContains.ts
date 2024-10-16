@@ -147,6 +147,9 @@ export async function deepContains(
   if (!hierarchy || hierarchy.length === 0) {
     return Promise.resolve(response);
   }
+  // from this point, we assume containment is true
+  // and only change that if one of the checks fails
+  response.isContained = true;
 
   // get the id and targetEntity from each of the entries
   // in the hiearchy
@@ -182,7 +185,13 @@ export async function deepContains(
     const check = await catalog.contains(currentIdentifier, {
       entityType: currentEntityType,
     });
-    response.isContained = check.isContained;
+    // if a containment check fails, update the response
+    // we only update it on failure b/c we don't want a positive
+    // response to override a negative one higher up the hierarchy
+    if (!check.isContained) {
+      response.isContained = check.isContained;
+      response.reason = `Entity ${currentIdentifier} not contained in catalog ${catalogInfo.id}`;
+    }
   });
   const end = new Date().getTime();
   response.duration = end - start;
