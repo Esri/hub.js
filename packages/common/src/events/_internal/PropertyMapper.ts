@@ -194,6 +194,7 @@ export class EventPropertyMapper extends PropertyMapper<
             spatialReference: clonedEntity.location.spatialReference,
             extent: clonedEntity.location.extent,
             geometries: clonedEntity.location.geometries,
+            placeName: clonedEntity.location.name,
           } as IEventLocation)
         : null;
 

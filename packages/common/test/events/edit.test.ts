@@ -189,6 +189,7 @@ describe("HubEvents edit module", () => {
             spatialReference: {},
             extent: [[]],
             geometries: [],
+            name: "",
           },
           referencedContentIds: ["8nd"],
           referencedContentIdsByType: [
@@ -252,6 +253,7 @@ describe("HubEvents edit module", () => {
             spatialReference: {},
             extent: [[]],
             geometries: [],
+            placeName: "",
           },
         },
         ...context.hubRequestOptions,
@@ -299,6 +301,7 @@ describe("HubEvents edit module", () => {
             spatialReference: {},
             extent: [[]],
             geometries: [],
+            name: "",
           },
           referencedContentIds: ["8nd"],
           referencedContentIdsByType: [
@@ -364,6 +367,7 @@ describe("HubEvents edit module", () => {
             spatialReference: {},
             extent: [[]],
             geometries: [],
+            placeName: "",
           },
         },
         ...context.hubRequestOptions,

@@ -8,6 +8,7 @@ export function getLocationFromEvent(event: Partial<IEvent>): IHubLocation {
         spatialReference: event.location.spatialReference,
         extent: event.location.extent,
         geometries: event.location.geometries,
+        name: event.location.placeName,
       }
     : { type: "none" };
 }
