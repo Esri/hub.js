@@ -124,6 +124,7 @@ function setRssConfig(
   throw new Error("Unsupported RSS Version");
 }
 
-function getMajorVersion(version: string) {
+// TODO: move to internal helper instead
+export function getMajorVersion(version: string) {
   return version.split(".")[0];
 }
