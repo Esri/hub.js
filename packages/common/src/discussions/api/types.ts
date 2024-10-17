@@ -910,6 +910,7 @@ export interface ISearchChannels
   relations?: ChannelRelation[];
   name?: string;
   orgId?: string;
+  discussion?: string;
 }
 
 /**
