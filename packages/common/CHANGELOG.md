@@ -1,3 +1,10 @@
+# @esri/hub-common [14.214.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.213.1...@esri/hub-common@14.214.0) (2024-10-17)
+
+
+### Features
+
+* remove alpha gating of user content and groups panes ([#1689](https://github.com/Esri/hub.js/issues/1689)) ([1088642](https://github.com/Esri/hub.js/commit/1088642b50ed69164a0d2f9e9a47c60f13177b1b))
+
 ## @esri/hub-common [14.213.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.213.0...@esri/hub-common@14.213.1) (2024-10-16)
 
 
