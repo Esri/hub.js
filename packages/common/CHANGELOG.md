@@ -1,3 +1,10 @@
+## @esri/hub-common [14.213.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.213.0...@esri/hub-common@14.213.1) (2024-10-16)
+
+
+### Bug Fixes
+
+* update deepCatalogContains to fail correctly; deepContains handles catalogs array ([#1688](https://github.com/Esri/hub.js/issues/1688)) ([94784d9](https://github.com/Esri/hub.js/commit/94784d988cb448d23350f674c96e52727998d5ef))
+
 # @esri/hub-common [14.213.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.212.0...@esri/hub-common@14.213.0) (2024-10-11)
 
 

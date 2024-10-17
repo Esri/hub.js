@@ -1,4 +1,4 @@
-import { IHubRequestOptions } from "../../src";
+import { IHubCatalog, IHubRequestOptions } from "../../src";
 import { fetchCatalog } from "../../src/search/fetchCatalog";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as PortalModule from "@esri/arcgis-rest-portal";
@@ -120,6 +120,48 @@ describe("fetchCatalog:", () => {
     // verify calls
     expect(getItemDataSpy.calls.count()).toBe(1);
     const [id, opts] = getItemDataSpy.calls.argsFor(0);
+    expect(id).toBe("119a6a4051e24a0d956b3006bc2e4bb7");
+  });
+  it("looks up by id; catalog array", async () => {
+    const hro: IHubRequestOptions = {
+      authentication: MOCK_AUTH,
+    };
+
+    const cat: IHubCatalog = {
+      schemaVersion: 1,
+      scopes: {
+        item: {
+          targetEntity: "item",
+          filters: [
+            {
+              predicates: [
+                {
+                  groups: ["00d"],
+                },
+              ],
+            },
+          ],
+        },
+      },
+    };
+
+    const getItemDataSpy = spyOn(PortalModule, "getItemData").and.callFake(
+      () => {
+        return Promise.resolve({
+          catalogs: [cat, { groups: ["fff"] }],
+        });
+      }
+    );
+
+    const chk = await fetchCatalog("119a6a4051e24a0d956b3006bc2e4bb7", hro);
+    // verify response
+    expect(chk.schemaVersion).toBe(1);
+    expect(chk.scopes?.item).toBeDefined();
+    expect(chk.scopes?.item?.filters.length).toBe(1);
+    expect(chk.scopes?.item?.filters[0].predicates[0].groups).toEqual(["00d"]);
+    // verify calls
+    expect(getItemDataSpy.calls.count()).toBe(1);
+    const [id, _opts] = getItemDataSpy.calls.argsFor(0);
     expect(id).toBe("119a6a4051e24a0d956b3006bc2e4bb7");
   });
 });

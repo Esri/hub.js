@@ -11,9 +11,9 @@ import { HubEntityType } from "./types/HubEntityType";
  * Check that a specific entity is contained within a hierarchy of catalogs
  * @param identifier id or slug of the entity to check
  * @param hubEntityType Entity type of the identifier
- * @param rootCatalog root level catalog to start checking from
- * @param context
  * @param path
+ * @param context
+ * @param rootCatalog root level catalog to start checking from
  * @returns
  */
 export async function deepCatalogContains(

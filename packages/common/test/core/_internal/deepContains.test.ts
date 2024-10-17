@@ -115,6 +115,30 @@ describe("deepContains:", () => {
     );
     expect(hubSearchSpy).toHaveBeenCalledTimes(2);
   });
+  it("uses catalog if passed and returns contained", async () => {
+    const fetchCatalogSpy = spyOn(
+      FetchCatalogModule,
+      "fetchCatalog"
+    ).and.callFake(() => {
+      return Promise.resolve(createMockCatalog("ff1"));
+    });
+    const hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(
+      () => {
+        return Promise.resolve({ results: [{ id: AppItemId }] });
+      }
+    );
+
+    const response = await deepContains(
+      AppItemId,
+      "item",
+      [{ id: "00c", entityType: "item", catalog: createMockCatalog("ff1") }],
+      context
+    );
+    expect(response.identifier).toBe(AppItemId);
+    expect(response.isContained).toBe(true);
+    expect(fetchCatalogSpy).toHaveBeenCalledTimes(0);
+    expect(hubSearchSpy).toHaveBeenCalledTimes(1);
+  });
   it("uses catalog if passed", async () => {
     const fetchCatalogSpy = spyOn(
       FetchCatalogModule,
@@ -136,6 +160,7 @@ describe("deepContains:", () => {
     );
     expect(response.identifier).toBe(AppItemId);
     expect(response.isContained).toBe(false);
+    expect(response.reason).toContain("not contained in catalog");
     expect(fetchCatalogSpy).toHaveBeenCalledTimes(0);
     expect(hubSearchSpy).toHaveBeenCalledTimes(1);
   });
