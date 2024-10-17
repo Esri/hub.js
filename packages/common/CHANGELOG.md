@@ -1,3 +1,10 @@
+# @esri/hub-common [14.215.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.214.0...@esri/hub-common@14.215.0) (2024-10-17)
+
+
+### Features
+
+* **hub-common:** add location props ([#1684](https://github.com/Esri/hub.js/issues/1684)) ([5b5e27c](https://github.com/Esri/hub.js/commit/5b5e27ca5e7b7bbedd44496d082837eb67838347))
+
 # @esri/hub-common [14.214.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.213.1...@esri/hub-common@14.214.0) (2024-10-17)
 
 
