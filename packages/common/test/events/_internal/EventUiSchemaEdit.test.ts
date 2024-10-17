@@ -322,6 +322,14 @@ describe("EventUiSchemaEdit", () => {
                   control: "hub-field-input-location-picker",
                   extent: [],
                   options: [],
+                  locationNameRequired: true,
+                  messages: [
+                    {
+                      type: "ERROR",
+                      keyword: "if",
+                      hidden: true,
+                    },
+                  ],
                 },
               },
               {

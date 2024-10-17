@@ -77,6 +77,7 @@ describe("getLocationFromEvent", () => {
           spatialReference: Object({ wkid: 4326 }),
         },
       ],
+      name: null,
     } as unknown as IHubLocation);
   });
   it('should return a location object of type "custom" with a point', () => {
@@ -132,6 +133,7 @@ describe("getLocationFromEvent", () => {
           spatialReference: Object({ wkid: 4326 }),
         },
       ],
+      name: null,
     } as unknown as IHubLocation);
   });
   it('should return a location object of type "custom" with a polyline', () => {
@@ -203,6 +205,7 @@ describe("getLocationFromEvent", () => {
           spatialReference: { wkid: 4326 },
         },
       ],
+      name: null,
     } as unknown as IHubLocation);
   });
   it('should return a location object of type "custom" with a polygon', () => {
@@ -270,6 +273,7 @@ describe("getLocationFromEvent", () => {
           spatialReference: { wkid: 4326 },
         },
       ],
+      name: null,
     } as unknown as IHubLocation);
   });
   it('should return a location object of type "custom" with a extent', () => {
@@ -329,6 +333,7 @@ describe("getLocationFromEvent", () => {
           spatialReference: { wkid: 4326 },
         },
       ],
+      name: null,
     } as unknown as IHubLocation);
   });
 });
