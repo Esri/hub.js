@@ -58,17 +58,10 @@ export const UserPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:user:workspace:content",
-    availability: ["alpha"],
     dependencies: ["hub:user:workspace", "hub:user:owner"],
   },
   {
     permission: "hub:user:workspace:groups",
-    availability: ["alpha"],
-    dependencies: ["hub:user:workspace", "hub:user:owner"],
-  },
-  {
-    permission: "hub:user:workspace:shared-with-me",
-    availability: ["alpha"],
     dependencies: ["hub:user:workspace", "hub:user:owner"],
   },
   {
