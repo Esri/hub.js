@@ -112,7 +112,7 @@ export class Catalog implements IHubCatalog {
    * Return the existing scopes hash
    */
   get scopes(): ICatalogScope {
-    return this._catalog.scopes;
+    return this._catalog.scopes || {};
   }
   /**
    * Return an array of the entity types available in this Catalog
@@ -312,16 +312,39 @@ export class Catalog implements IHubCatalog {
       // construct the queries
       const queries = [];
       if (options.entityType) {
+        // --------------------------------------------------------
+        // Check the scope for the entity type
+        // then check any collections that match the entity type
+        // if there are no scopes or collections with the entity type
+        // then the entity is not contained in the catalog
+        // --------------------------------------------------------
         if (this.scopes[options.entityType]) {
+          // Scope is a "bounding query" for all collections involving the entity type
+          // so we can check if it's in the catalog by checking if it's in the scope
           queries.push({
             targetEntity: options.entityType,
             filters: [{ predicates: [pred] }],
           });
         } else {
-          // no scope for this entity type, thus it cannot be in the catalog
-          response.duration = Date.now() - start;
-          this._containsCache[identifier] = response;
-          return Promise.resolve(response);
+          // If there is no scope for the entity type, we check the collections
+          const typeCollections = this.collections.filter(
+            (c) => c.targetEntity === options.entityType
+          );
+          if (typeCollections.length) {
+            // If there are collections for the entity type, we check them
+            typeCollections.forEach((collection) => {
+              queries.push({
+                targetEntity: collection.targetEntity,
+                filters: [{ predicates: [pred] }, ...collection.scope.filters],
+              });
+            });
+          } else {
+            // no collections or scope for this entity type
+            // thus it cannot be in the catalog
+            response.duration = Date.now() - start;
+            this._containsCache[identifier] = response;
+            return Promise.resolve(response);
+          }
         }
       } else {
         // Construct a query for each scope
@@ -581,8 +604,11 @@ export class Catalog implements IHubCatalog {
       qry = cloneObject(query);
     }
 
-    // Now merge in catalog scope level filters
-    qry.filters = [...qry.filters, ...this.getScope(targetEntity).filters];
+    // Now merge in catalog scope level filters if they exist
+    const scope = this.getScope(targetEntity);
+    if (scope) {
+      qry.filters = [...qry.filters, ...scope.filters];
+    }
 
     const opts = cloneObject(options);
     // An Catalog instance always uses the context so we remove/replace any passed in auth
