@@ -523,6 +523,7 @@ describe("HubSites:", () => {
     let uniqueDomainSpy: jasmine.Spy;
     let createModelSpy: jasmine.Spy;
     let updateModelSpy: jasmine.Spy;
+    let ensureUniqueEntitySlugSpy: jasmine.Spy;
 
     let addDomainsSpy: jasmine.Spy;
     beforeEach(() => {
@@ -547,6 +548,12 @@ describe("HubSites:", () => {
         const newModel = commonModule.cloneObject(m);
         return Promise.resolve(newModel);
       });
+      ensureUniqueEntitySlugSpy = spyOn(
+        require("../../src/items/_internal/slugs"),
+        "ensureUniqueEntitySlug"
+      ).and.callFake((site: commonModule.IHubSite) => {
+        return Promise.resolve(site);
+      });
     });
     describe("online: ", () => {
       beforeEach(() => {
@@ -563,6 +570,7 @@ describe("HubSites:", () => {
 
         const chk = await commonModule.createSite(sparseSite, MOCK_HUB_REQOPTS);
 
+        expect(ensureUniqueEntitySlugSpy.calls.count()).toBe(1);
         expect(uniqueDomainSpy.calls.count()).toBe(1);
         expect(createModelSpy.calls.count()).toBe(1);
         expect(updateModelSpy.calls.count()).toBe(1);
@@ -621,6 +629,7 @@ describe("HubSites:", () => {
 
         const chk = await commonModule.createSite(site, MOCK_HUB_REQOPTS);
 
+        expect(ensureUniqueEntitySlugSpy.calls.count()).toBe(1);
         expect(uniqueDomainSpy.calls.count()).toBe(1);
         expect(createModelSpy.calls.count()).toBe(1);
         expect(updateModelSpy.calls.count()).toBe(1);
@@ -649,6 +658,7 @@ describe("HubSites:", () => {
           MOCK_ENTERPRISE_REQOPTS
         );
 
+        expect(ensureUniqueEntitySlugSpy.calls.count()).toBe(1);
         expect(uniqueDomainSpy.calls.count()).toBe(1);
         expect(createModelSpy.calls.count()).toBe(1);
         expect(updateModelSpy.calls.count()).toBe(1);

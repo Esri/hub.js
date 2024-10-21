@@ -14,13 +14,8 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getItem, IItem } from "@esri/arcgis-rest-portal";
 import { cloneObject, unique } from "../util";
 import { mapBy, isGuid } from "../utils";
-import {
-  constructSlug,
-  getItemBySlug,
-  getUniqueSlug,
-  setSlugKeyword,
-} from "../items/slugs";
-import { IHubPage } from "../core";
+import { constructSlug, getItemBySlug } from "../items/slugs";
+import { IHubItemEntity, IHubPage } from "../core";
 import {
   createModel,
   fetchModelFromItem,
@@ -33,6 +28,7 @@ import { computeProps } from "./_internal/computeProps";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
 import { DEFAULT_PAGE, DEFAULT_PAGE_MODEL } from "./defaults";
+import { ensureUniqueEntitySlug } from "../items/_internal/slugs";
 
 /**
  * @private
@@ -56,9 +52,7 @@ export async function createPage(
     page.slug = constructSlug(page.name, page.orgUrlKey);
   }
   // Ensure slug is  unique
-  page.slug = await getUniqueSlug({ slug: page.slug }, requestOptions);
-  // add slug and status to keywords
-  page.typeKeywords = setSlugKeyword(page.typeKeywords, page.slug);
+  await ensureUniqueEntitySlug(page as IHubItemEntity, requestOptions);
 
   // Map page object onto a default page Model
   const mapper = new PropertyMapper<Partial<IHubPage>, IModel>(
@@ -86,10 +80,7 @@ export async function updatePage(
   requestOptions: IUserRequestOptions
 ): Promise<IHubPage> {
   // verify that the slug is unique, excluding the current page
-  page.slug = await getUniqueSlug(
-    { slug: page.slug, existingId: page.id },
-    requestOptions
-  );
+  await ensureUniqueEntitySlug(page as IHubItemEntity, requestOptions);
 
   // get the backing item & data
   const model = await getModel(page.id, requestOptions);

@@ -15,7 +15,7 @@ import { applyPermissionMigration } from "./_internal/applyPermissionMigration";
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { IHubSite } from "../core/types/IHubSite";
-import { constructSlug, getUniqueSlug, setSlugKeyword } from "../items/slugs";
+import { constructSlug } from "../items/slugs";
 import { slugify } from "../utils/slugify";
 import { ensureUniqueDomainName } from "./domains/ensure-unique-domain-name";
 import { stripProtocol } from "../urls/strip-protocol";
@@ -42,6 +42,8 @@ import { reflectCollectionsToSearchCategories } from "./_internal/reflectCollect
 import { convertCatalogToLegacyFormat } from "./_internal/convertCatalogToLegacyFormat";
 import { convertFeaturesToLegacyCapabilities } from "./_internal/capabilities/convertFeaturesToLegacyCapabilities";
 import { computeLinks } from "./_internal/computeLinks";
+import { ensureUniqueEntitySlug } from "../items/_internal/slugs";
+import { IHubItemEntity } from "../core";
 export const HUB_SITE_ITEM_TYPE = "Hub Site Application";
 export const ENTERPRISE_SITE_ITEM_TYPE = "Site Application";
 
@@ -228,9 +230,7 @@ export async function createSite(
     site.slug = constructSlug(site.name, site.orgUrlKey);
   }
   // Ensure slug is  unique
-  // site.slug = await getUniqueSlug({ slug: site.slug }, requestOptions);
-  // add slug to keywords
-  site.typeKeywords = setSlugKeyword(site.typeKeywords, site.slug);
+  await ensureUniqueEntitySlug(site as IHubItemEntity, requestOptions);
 
   if (!site.subdomain) {
     site.subdomain = slugify(site.name);
@@ -334,10 +334,7 @@ export async function updateSite(
   requestOptions: IHubRequestOptions
 ): Promise<IHubSite> {
   // verify that the slug is unique, excluding the current site
-  site.slug = await getUniqueSlug(
-    { slug: site.slug, existingId: site.id },
-    requestOptions
-  );
+  await ensureUniqueEntitySlug(site as IHubItemEntity, requestOptions);
   site.typeKeywords = setDiscussableKeyword(
     site.typeKeywords,
     site.isDiscussable
