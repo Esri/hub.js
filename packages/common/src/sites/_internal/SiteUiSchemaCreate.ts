@@ -37,6 +37,12 @@ export const buildUiSchema = async (
               icon: true,
               labelKey: `${i18nScope}.fields.name.maxLengthError`,
             },
+            {
+              type: "ERROR",
+              keyword: "format",
+              icon: true,
+              labelKey: `${i18nScope}.fields.name.siteEntityTitleValidator`,
+            },
           ],
         },
       },

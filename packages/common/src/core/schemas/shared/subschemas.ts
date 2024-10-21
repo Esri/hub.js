@@ -9,6 +9,14 @@ export const ENTITY_NAME_SCHEMA = {
   type: "string",
   minLength: 1,
   maxLength: 250,
+  format: "entityTitleValidator",
+};
+
+export const SITE_ENTITY_NAME_SCHEMA = {
+  type: "string",
+  minLength: 1,
+  maxLength: 250,
+  format: "siteEntityTitleValidator",
 };
 
 export const ENTITY_SUMMARY_SCHEMA = {
