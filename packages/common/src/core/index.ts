@@ -14,7 +14,6 @@ export * from "./shareEntityWithGroups";
 export * from "./unshareEntityWithGroups";
 export * from "./getEntityGroups";
 export * from "./getEntityThumbnailUrl";
-export * from "./parseContainmentPath";
 
 // For sme reason, if these are exported here,
 // they are not actually exported in the final package.

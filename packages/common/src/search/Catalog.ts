@@ -118,7 +118,7 @@ export class Catalog implements IHubCatalog {
    * Return an array of the entity types available in this Catalog
    */
   get availableScopes(): EntityType[] {
-    return Object.keys(this.scopes || {}) as unknown as EntityType[];
+    return Object.keys(this.scopes) as unknown as EntityType[];
   }
 
   /**

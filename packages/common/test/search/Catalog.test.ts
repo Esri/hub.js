@@ -159,9 +159,10 @@ describe("Catalog Class:", () => {
     });
     it("allows null scopes", () => {
       const instance = Catalog.fromJson(cloneObject(noScopeCatalog), context);
-      expect(instance.scopes).toBeUndefined();
+      expect(instance.scopes).toEqual({});
       expect(instance.getScope("item")).toBeUndefined();
       expect(instance.collectionNames).toEqual(["teams"]);
+      expect(instance.availableScopes).toEqual([]);
     });
     it("allows null collections", () => {
       const noCollectionsCatalog = cloneObject(catalogJson);
@@ -591,13 +592,41 @@ describe("Catalog Class:", () => {
       expect(res.isContained).toBe(false);
       expect(hubSearchSpy).toHaveBeenCalledTimes(0);
     });
-    it("executes one search if entity type specified", async () => {
+    it("executes scope search if entity type specified and scope exists", async () => {
       hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
         return Promise.resolve({
           results: ["results just needs to have an entry"],
         });
       });
       const instance = Catalog.fromJson(cloneObject(catalogJson), context);
+      const res = await instance.contains("1950189b18a64ab78fc478d97ea502e0", {
+        entityType: "item",
+      });
+      expect(res.isContained).toBe(true);
+      expect(hubSearchSpy).toHaveBeenCalledTimes(1);
+      const chkQry = hubSearchSpy.calls.argsFor(0)[0];
+      const predicates: IPredicate = chkQry.filters.reduce(
+        (acc: IPredicate[], f: IFilter) => {
+          return acc.concat(f.predicates);
+        },
+        []
+      );
+      // one predicate must have the id
+      expect(
+        predicates.some(
+          (p: IPredicate) => p.id === "1950189b18a64ab78fc478d97ea502e0"
+        )
+      ).toBe(true);
+    });
+    it("executes collection search if no scope", async () => {
+      hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
+        return Promise.resolve({
+          results: ["results just needs to have an entry"],
+        });
+      });
+      const scopelessCatalog = cloneObject(catalogJson);
+      delete scopelessCatalog.scopes?.item;
+      const instance = Catalog.fromJson(cloneObject(scopelessCatalog), context);
       const res = await instance.contains("1950189b18a64ab78fc478d97ea502e0", {
         entityType: "item",
       });
