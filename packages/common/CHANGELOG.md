@@ -1,3 +1,10 @@
+## @esri/hub-common [14.215.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.215.0...@esri/hub-common@14.215.1) (2024-10-22)
+
+
+### Bug Fixes
+
+* small fixes for breadcrumbs and deep containment checks ([#1692](https://github.com/Esri/hub.js/issues/1692)) ([8d5597c](https://github.com/Esri/hub.js/commit/8d5597c42861d562d85d42bce31a68c885b19aa2))
+
 # @esri/hub-common [14.215.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.214.0...@esri/hub-common@14.215.0) (2024-10-17)
 
 
