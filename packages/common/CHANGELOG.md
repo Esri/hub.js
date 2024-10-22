@@ -1,3 +1,10 @@
+# @esri/hub-common [14.216.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.215.2...@esri/hub-common@14.216.0) (2024-10-22)
+
+
+### Features
+
+* prescribe order of add content config items ([#1694](https://github.com/Esri/hub.js/issues/1694)) ([cea0885](https://github.com/Esri/hub.js/commit/cea0885ebb8ac2df81740c96dbf5c1ac57eac620))
+
 ## @esri/hub-common [14.215.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.215.1...@esri/hub-common@14.215.2) (2024-10-22)
 
 
