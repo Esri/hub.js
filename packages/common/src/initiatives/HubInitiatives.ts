@@ -7,12 +7,7 @@ import {
   getModel,
   updateModel,
 } from "../models";
-import {
-  constructSlug,
-  getItemBySlug,
-  getUniqueSlug,
-  setSlugKeyword,
-} from "../items/slugs";
+import { constructSlug, getItemBySlug } from "../items/slugs";
 
 import {
   isGuid,
@@ -38,7 +33,7 @@ import {
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
-import { IEntityInfo, IHubInitiative } from "../core/types";
+import { IEntityInfo, IHubInitiative, IHubItemEntity } from "../core/types";
 import { IHubSearchResult } from "../search";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { fetchItemEnrichments } from "../items/_enrichments";
@@ -62,6 +57,7 @@ import { createId } from "../util";
 import { IArcGISContext } from "../ArcGISContext";
 import { convertHubGroupToGroup } from "../groups/_internal/convertHubGroupToGroup";
 import { IHubGroup } from "../core/types/IHubGroup";
+import { ensureUniqueEntitySlug } from "../items/_internal/slugs";
 
 /**
  * @private
@@ -85,15 +81,7 @@ export async function createInitiative(
     initiative.slug = constructSlug(initiative.name, initiative.orgUrlKey);
   }
   // Ensure slug is  unique
-  initiative.slug = await getUniqueSlug(
-    { slug: initiative.slug },
-    requestOptions
-  );
-  // add slug to keywords
-  initiative.typeKeywords = setSlugKeyword(
-    initiative.typeKeywords,
-    initiative.slug
-  );
+  await ensureUniqueEntitySlug(initiative as IHubItemEntity, requestOptions);
   // add the status keyword
   initiative.typeKeywords = setEntityStatusKeyword(
     initiative.typeKeywords,
@@ -208,10 +196,7 @@ export async function updateInitiative(
   requestOptions: IUserRequestOptions
 ): Promise<IHubInitiative> {
   // verify that the slug is unique, excluding the current initiative
-  initiative.slug = await getUniqueSlug(
-    { slug: initiative.slug, existingId: initiative.id },
-    requestOptions
-  );
+  await ensureUniqueEntitySlug(initiative as IHubItemEntity, requestOptions);
   // update the status keyword
   initiative.typeKeywords = setEntityStatusKeyword(
     initiative.typeKeywords,

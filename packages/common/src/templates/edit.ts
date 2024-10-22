@@ -13,6 +13,7 @@ import {
   IUserItemOptions,
   removeItem,
 } from "@esri/arcgis-rest-portal";
+import { ensureUniqueEntitySlug } from "../items/_internal/slugs";
 
 /**
  * @private
@@ -47,10 +48,7 @@ export async function updateTemplate(
   requestOptions: IUserRequestOptions
 ): Promise<IHubTemplate> {
   // 1. Verify the slug is unique, excluding the current template
-  template.slug = await getUniqueSlug(
-    { slug: template.slug, existingId: template.id },
-    requestOptions
-  );
+  await ensureUniqueEntitySlug(template, requestOptions);
 
   // 2. Update relevant typeKeywords
   template.typeKeywords = setDiscussableKeyword(

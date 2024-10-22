@@ -1,7 +1,8 @@
 import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
-import { IHubDiscussion } from "../core/types";
+import { IHubDiscussion, IHubItemEntity } from "../core/types";
 import { createModel, getModel, updateModel } from "../models";
-import { constructSlug, getUniqueSlug, setSlugKeyword } from "../items/slugs";
+import { constructSlug } from "../items/slugs";
+import { ensureUniqueEntitySlug } from "../items/_internal/slugs";
 import {
   createSetting,
   removeSetting,
@@ -41,16 +42,8 @@ export async function createDiscussion(
   if (!discussion.slug) {
     discussion.slug = constructSlug(discussion.name, discussion.orgUrlKey);
   }
-  // Ensure slug is  unique
-  discussion.slug = await getUniqueSlug(
-    { slug: discussion.slug },
-    requestOptions
-  );
-  // add slug to keywords
-  discussion.typeKeywords = setSlugKeyword(
-    discussion.typeKeywords,
-    discussion.slug
-  );
+  // Ensure slug is unique
+  await ensureUniqueEntitySlug(discussion as IHubItemEntity, requestOptions);
   discussion.typeKeywords = setDiscussableKeyword(
     discussion.typeKeywords,
     discussion.isDiscussable
@@ -101,10 +94,7 @@ export async function updateDiscussion(
   requestOptions: IHubRequestOptions
 ): Promise<IHubDiscussion> {
   // verify that the slug is unique, excluding the current discussion
-  discussion.slug = await getUniqueSlug(
-    { slug: discussion.slug, existingId: discussion.id },
-    requestOptions
-  );
+  await ensureUniqueEntitySlug(discussion as IHubItemEntity, requestOptions);
   discussion.typeKeywords = setDiscussableKeyword(
     discussion.typeKeywords,
     discussion.isDiscussable

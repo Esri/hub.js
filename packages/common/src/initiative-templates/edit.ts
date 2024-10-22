@@ -2,7 +2,7 @@ import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 // Note - we separate these imports so we can cleanly spy on things in tests
 import { createModel, getModel, updateModel } from "../models";
-import { constructSlug, getUniqueSlug, setSlugKeyword } from "../items/slugs";
+import { constructSlug } from "../items/slugs";
 import {
   IPortal,
   IUserItemOptions,
@@ -22,6 +22,8 @@ import { getPropertyMap } from "./_internal/getPropertyMap";
 import { cloneObject } from "../util";
 import { setDiscussableKeyword } from "../discussions";
 import { IModel } from "../types";
+import { ensureUniqueEntitySlug } from "../items/_internal/slugs";
+import { IHubItemEntity } from "../core";
 
 /**
  * @private
@@ -48,14 +50,9 @@ export async function createInitiativeTemplate(
   }
 
   // Ensure slug is unique
-  initiativeTemplate.slug = await getUniqueSlug(
-    { slug: initiativeTemplate.slug },
+  await ensureUniqueEntitySlug(
+    initiativeTemplate as IHubItemEntity,
     requestOptions
-  );
-  // add slug to keywords
-  initiativeTemplate.typeKeywords = setSlugKeyword(
-    initiativeTemplate.typeKeywords,
-    initiativeTemplate.slug
   );
   initiativeTemplate.typeKeywords = setDiscussableKeyword(
     initiativeTemplate.typeKeywords,
@@ -115,8 +112,8 @@ export async function updateInitiativeTemplate(
   requestOptions: IUserRequestOptions
 ): Promise<IHubInitiativeTemplate> {
   // verify that the slug is unique, excluding the current initiative template
-  initiativeTemplate.slug = await getUniqueSlug(
-    { slug: initiativeTemplate.slug, existingId: initiativeTemplate.id },
+  await ensureUniqueEntitySlug(
+    initiativeTemplate as IHubItemEntity,
     requestOptions
   );
   // set discussable keyword

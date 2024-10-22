@@ -171,7 +171,7 @@ describe("initiative template edit module:", () => {
       expect(chk.description).toBe("Some longer description");
       expect(chk.typeKeywords).toEqual([
         "Hub Initiative Template",
-        "slug|dcdev-wat-blarg",
+        "slug|dcdev-wat-blarg-1",
         "cannotDiscuss",
       ]);
       expect(chk.location).toEqual({

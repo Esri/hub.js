@@ -9,7 +9,7 @@ import {
   removeItem,
 } from "@esri/arcgis-rest-portal";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
-import { IHubProject, IHubProjectEditor } from "../core/types";
+import { IHubItemEntity, IHubProject, IHubProjectEditor } from "../core/types";
 import { DEFAULT_PROJECT, DEFAULT_PROJECT_MODEL } from "./defaults";
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
@@ -19,6 +19,7 @@ import { IModel } from "../types";
 import { setEntityStatusKeyword } from "../utils/internal/setEntityStatusKeyword";
 import { editorToMetric } from "../core/schemas/internal/metrics/editorToMetric";
 import { setMetricAndDisplay } from "../core/schemas/internal/metrics/setMetricAndDisplay";
+import { ensureUniqueEntitySlug } from "../items/_internal/slugs";
 
 /**
  * @private
@@ -42,9 +43,8 @@ export async function createProject(
     project.slug = constructSlug(project.name, project.orgUrlKey);
   }
   // Ensure slug is  unique
-  project.slug = await getUniqueSlug({ slug: project.slug }, requestOptions);
-  // add slug and status to keywords
-  project.typeKeywords = setSlugKeyword(project.typeKeywords, project.slug);
+  await ensureUniqueEntitySlug(project as IHubItemEntity, requestOptions);
+  // add status to keywords
   project.typeKeywords = setEntityStatusKeyword(
     project.typeKeywords,
     project.status
@@ -121,10 +121,7 @@ export async function updateProject(
   requestOptions: IUserRequestOptions
 ): Promise<IHubProject> {
   // verify that the slug is unique, excluding the current project
-  project.slug = await getUniqueSlug(
-    { slug: project.slug, existingId: project.id },
-    requestOptions
-  );
+  await ensureUniqueEntitySlug(project as IHubItemEntity, requestOptions);
   // update the status keyword
   project.typeKeywords = setEntityStatusKeyword(
     project.typeKeywords,

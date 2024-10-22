@@ -178,7 +178,7 @@ describe("project edit module:", () => {
       expect(chk.description).toBe("Some longer description");
       expect(chk.typeKeywords).toEqual([
         "Hub Project",
-        "slug|dcdev-wat-blarg",
+        "slug|dcdev-wat-blarg-1",
         "status|inProgress",
         "cannotDiscuss",
       ]);
