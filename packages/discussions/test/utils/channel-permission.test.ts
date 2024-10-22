@@ -1225,7 +1225,7 @@ describe("ChannelPermission class", () => {
         } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
-        const updates = undefined;
+        const updates: IUpdateChannel = {};
 
         expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
       });
