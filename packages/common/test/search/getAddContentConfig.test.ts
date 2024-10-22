@@ -1,7 +1,6 @@
 import { IGroup } from "@esri/arcgis-rest-types";
 import {
   ArcGISContextManager,
-  getProp,
   getAddContentConfig,
   IQuery,
   getPredicateValues,
@@ -146,12 +145,12 @@ describe("getAddContentConfig:", () => {
       expect(chk.existing).toBeDefined();
       expect(chk.create?.types.length).toBeGreaterThan(0);
       [
+        "Discussion",
+        "Event",
         "Hub Project",
         "Hub Initiative",
-        "Discussion",
-        "Hub Site Application",
         "Hub Page",
-        "Event",
+        "Hub Site Application",
       ].forEach((t) => {
         expect(chk.create?.types).toContain(t);
       });
@@ -192,11 +191,11 @@ describe("getAddContentConfig:", () => {
         expect(chk.upload).toBeNull();
         expect(chk.existing).toBeDefined();
         [
+          "Discussion",
           "Hub Project",
           "Hub Initiative",
           "Hub Page",
           "Hub Site Application",
-          "Discussion",
         ].forEach((t) => {
           expect(chk.create?.types).toContain(t);
         });
@@ -678,11 +677,11 @@ describe("getAddContentConfig:", () => {
           const chk = getAddContentConfig(ctxMgr.context, query);
           expect(chk).toBeDefined();
           expect(chk.create?.types.length).toEqual(2);
-          expect(chk.create?.types).toEqual(["Site Application", "Site Page"]);
+          expect(chk.create?.types).toEqual(["Site Page", "Site Application"]);
           expect(chk.existing?.types.length).toEqual(2);
           expect(chk.existing?.types).toEqual([
-            "Site Application",
             "Site Page",
+            "Site Application",
           ]);
         });
       });

@@ -63,13 +63,13 @@ describe("getDefaultCreateableTypes:", () => {
     const chk = getDefaultCreateableTypes(premiumUserCtxMgr.context);
     expect(chk.length).toBe(7);
     [
+      "Discussion",
+      "Event",
       "Hub Project",
       "Hub Initiative",
-      "Discussion",
-      "Hub Site Application",
-      "Hub Page",
-      "Event",
       "Group",
+      "Hub Page",
+      "Hub Site Application",
     ].forEach((type) => {
       expect(chk).toContain(type);
     });
@@ -86,11 +86,11 @@ describe("getDefaultCreateableTypes:", () => {
     const chk = getDefaultCreateableTypes(premiumUserCtxMgr.context, ["item"]);
     expect(chk.length).toBe(5);
     [
+      "Discussion",
       "Hub Project",
       "Hub Initiative",
-      "Discussion",
-      "Hub Site Application",
       "Hub Page",
+      "Hub Site Application",
     ].forEach((type) => {
       expect(chk).toContain(type);
     });
@@ -116,12 +116,12 @@ describe("getDefaultCreateableTypes:", () => {
     ]);
     expect(chk.length).toBe(6);
     [
+      "Discussion",
+      "Event",
       "Hub Project",
       "Hub Initiative",
-      "Discussion",
-      "Hub Site Application",
       "Hub Page",
-      "Event",
+      "Hub Site Application",
     ].forEach((type) => {
       expect(chk).toContain(type);
     });
