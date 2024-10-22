@@ -91,7 +91,7 @@ export enum PostStatus {
 }
 
 /**
- * possible discussionn content types, i.e. a post can be about an item, dataset, or group
+ * possible discussion content types, i.e. a post can be about an item, dataset, or group
  *
  * @export
  * @enum {string}
