@@ -1848,16 +1848,17 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: allowedRole,
-              }, // allows change
+                role: allowedRole, // allows change
+              },
               { category: AclCategory.USER, key: "aaa", role: Role.OWNER }, // will be removed
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: allowedRole,
-              }, // no update
+              },
             ] as IChannelAclPermission[];
 
             const channel = { channelAcl, creator: "foo" } as IChannel;
@@ -1880,15 +1881,16 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: allowedRole,
-              }, // allows change
+                role: allowedRole, // allows change
+              },
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: allowedRole,
-              }, // no update
+              },
               { category: AclCategory.USER, key: "bbb", role: Role.OWNER }, // added
             ] as IChannelAclPermission[];
 
@@ -1912,21 +1914,23 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: allowedRole,
-              }, // allows change
+                role: allowedRole, // allows change
+              },
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: allowedRole,
-              }, // no update
+              },
               {
+                // added
                 category: AclCategory.GROUP,
                 subCategory: AclSubCategory.ADMIN,
                 key: "group_id",
                 role: Role.OWNER,
-              }, // added
+              },
             ] as IChannelAclPermission[];
 
             const channel = { channelAcl, creator: "foo" } as IChannel;
@@ -1951,16 +1955,17 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: notAllowedRole,
-              }, // DOES NOT ALLOW CHANGE
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
               { category: AclCategory.USER, key: "aaa", role: Role.OWNER }, // will be removed
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: notAllowedRole,
-              }, // no update
+              },
             ] as IChannelAclPermission[];
 
             const channel = { channelAcl, creator: "foo" } as IChannel;
@@ -1983,15 +1988,16 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: notAllowedRole,
-              }, // DOES NOT ALLOW CHANGE
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: notAllowedRole,
-              }, // no update
+              },
               { category: AclCategory.USER, key: "bbb", role: Role.OWNER }, // added
             ] as IChannelAclPermission[];
 
@@ -2027,16 +2033,17 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: allowedRole,
-              }, // allows change
+                role: allowedRole, // allows change
+              },
               { category: AclCategory.USER, key: "aaa", role: Role.MANAGE }, // will be removed
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: allowedRole,
-              }, // no update
+              },
             ] as IChannelAclPermission[];
 
             const channel = { channelAcl, creator: "foo" } as IChannel;
@@ -2059,15 +2066,16 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: allowedRole,
-              }, // allows change
+                role: allowedRole, // allows change
+              },
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: allowedRole,
-              }, // no update
+              },
               { category: AclCategory.USER, key: "bbb", role: Role.MANAGE }, // added
             ] as IChannelAclPermission[];
 
@@ -2091,21 +2099,23 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: allowedRole,
-              }, // allows change
+                role: allowedRole, // allows change
+              },
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: allowedRole,
-              }, // no update
+              },
               {
+                // added
                 category: AclCategory.GROUP,
                 subCategory: AclSubCategory.ADMIN,
                 key: "group_id",
                 role: Role.MANAGE,
-              }, // added
+              },
             ] as IChannelAclPermission[];
 
             const channel = { channelAcl, creator: "foo" } as IChannel;
@@ -2130,16 +2140,17 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: notAllowedRole,
-              }, // DOES NOT ALLOW CHANGE
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
               { category: AclCategory.USER, key: "aaa", role: Role.MANAGE }, // will be removed
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: notAllowedRole,
-              }, // no update
+              },
             ] as IChannelAclPermission[];
 
             const channel = { channelAcl, creator: "foo" } as IChannel;
@@ -2162,15 +2173,16 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: notAllowedRole,
-              }, // DOES NOT ALLOW CHANGE
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: notAllowedRole,
-              }, // no update
+              },
               { category: AclCategory.USER, key: "bbb", role: Role.MANAGE }, // added
             ] as IChannelAclPermission[];
 
@@ -2206,16 +2218,17 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: allowedRole,
-              }, // allows change
+                role: allowedRole, // allows change
+              },
               { category: AclCategory.USER, key: "aaa", role: Role.MODERATE }, // will be removed
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: allowedRole,
-              }, // no update
+              },
             ] as IChannelAclPermission[];
 
             const channel = { channelAcl, creator: "foo" } as IChannel;
@@ -2238,15 +2251,16 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: allowedRole,
-              }, // allows change
+                role: allowedRole, // allows change
+              },
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: allowedRole,
-              }, // no update
+              },
               { category: AclCategory.USER, key: "bbb", role: Role.MODERATE }, // added
             ] as IChannelAclPermission[];
 
@@ -2270,21 +2284,23 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: allowedRole,
-              }, // allows change
+                role: allowedRole, // allows change
+              },
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: allowedRole,
-              }, // no update
+              },
               {
+                // added
                 category: AclCategory.GROUP,
                 subCategory: AclSubCategory.ADMIN,
                 key: "group_id",
                 role: Role.MODERATE,
-              }, // added
+              },
             ] as IChannelAclPermission[];
 
             const channel = { channelAcl, creator: "foo" } as IChannel;
@@ -2309,16 +2325,17 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: notAllowedRole,
-              }, // DOES NOT ALLOW CHANGE
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
               { category: AclCategory.USER, key: "aaa", role: Role.MODERATE }, // will be removed
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: notAllowedRole,
-              }, // no update
+              },
             ] as IChannelAclPermission[];
 
             const channel = { channelAcl, creator: "foo" } as IChannel;
@@ -2341,15 +2358,16 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: notAllowedRole,
-              }, // DOES NOT ALLOW CHANGE
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: notAllowedRole,
-              }, // no update
+              },
               { category: AclCategory.USER, key: "bbb", role: Role.MODERATE }, // added
             ] as IChannelAclPermission[];
 
@@ -2385,27 +2403,30 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: allowedRole,
-              }, // allows change
+                role: allowedRole, // allows change
+              },
               {
+                // will be removed
                 category: AclCategory.ORG,
                 subCategory: AclSubCategory.ADMIN,
                 key: "aaa",
                 role: Role.MODERATE,
-              }, // will be removed
+              },
               {
+                // will be removed
                 category: AclCategory.ORG,
                 subCategory: AclSubCategory.MEMBER,
                 key: "aaa",
                 role: Role.READ,
-              }, // will be removed
+              },
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: allowedRole,
-              }, // no update
+              },
             ] as IChannelAclPermission[];
 
             const channel = { channelAcl, creator: "foo" } as IChannel;
@@ -2428,45 +2449,49 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: allowedRole,
-              }, // allows change
+                role: allowedRole, // allows change
+              },
               {
                 category: AclCategory.ORG,
                 subCategory: AclSubCategory.ADMIN,
                 key: "aaa",
                 role: Role.MODERATE,
-              }, // existing
+              },
               {
                 category: AclCategory.ORG,
                 subCategory: AclSubCategory.MEMBER,
                 key: "aaa",
                 role: Role.READ,
-              }, // existing
+              },
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: allowedRole,
-              }, // no update
+              },
               {
+                // no update
                 category: AclCategory.ORG,
                 subCategory: AclSubCategory.ADMIN,
                 key: "aaa",
                 role: Role.MODERATE,
-              }, // no update
+              },
               {
+                // no update
                 category: AclCategory.ORG,
                 subCategory: AclSubCategory.MEMBER,
                 key: "aaa",
                 role: Role.READ,
-              }, // no update
+              },
               {
+                // added
                 category: AclCategory.ORG,
                 subCategory: AclSubCategory.ADMIN,
                 key: "bbb",
                 role: Role.MODERATE,
-              }, // added
+              },
             ] as IChannelAclPermission[];
 
             const channel = { channelAcl, creator: "foo" } as IChannel;
@@ -2489,39 +2514,41 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: allowedRole,
-              }, // allows change
+                role: allowedRole, // allows change
+              },
               {
                 category: AclCategory.ORG,
                 subCategory: AclSubCategory.ADMIN,
                 key: "aaa",
                 role: Role.MODERATE,
-              }, // existing
+              },
               {
                 category: AclCategory.ORG,
                 subCategory: AclSubCategory.MEMBER,
                 key: "aaa",
                 role: Role.READ,
-              }, // existing
+              },
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: allowedRole,
-              }, // no update
+              },
               {
+                // no update
                 category: AclCategory.ORG,
                 subCategory: AclSubCategory.ADMIN,
                 key: "aaa",
                 role: Role.MODERATE,
-              }, // no update
+              },
               {
                 category: AclCategory.ORG,
                 subCategory: AclSubCategory.MEMBER,
                 key: "aaa",
-                role: Role.READWRITE,
-              }, // role changed
+                role: Role.READWRITE, // role changed
+              },
             ] as IChannelAclPermission[];
 
             const channel = { channelAcl, creator: "foo" } as IChannel;
@@ -2546,27 +2573,30 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: notAllowedRole,
-              }, // DOES NOT ALLOW CHANGE
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
               {
+                // will be removed
                 category: AclCategory.ORG,
                 subCategory: AclSubCategory.ADMIN,
                 key: "aaa",
                 role: Role.MODERATE,
-              }, // will be removed
+              },
               {
+                // will be removed
                 category: AclCategory.ORG,
                 subCategory: AclSubCategory.MEMBER,
                 key: "aaa",
                 role: Role.READ,
-              }, // will be removed
+              },
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: notAllowedRole,
-              }, // no update
+              },
             ] as IChannelAclPermission[];
 
             const channel = { channelAcl, creator: "foo" } as IChannel;
@@ -2589,45 +2619,49 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: notAllowedRole,
-              }, // DOES NOT ALLOW CHANGE
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
               {
                 category: AclCategory.ORG,
                 subCategory: AclSubCategory.ADMIN,
                 key: "aaa",
                 role: Role.MODERATE,
-              }, // existing
+              },
               {
                 category: AclCategory.ORG,
                 subCategory: AclSubCategory.MEMBER,
                 key: "aaa",
                 role: Role.READ,
-              }, // existing
+              },
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: notAllowedRole,
-              }, // no update
+              },
               {
+                // no update
                 category: AclCategory.ORG,
                 subCategory: AclSubCategory.ADMIN,
                 key: "aaa",
                 role: Role.MODERATE,
-              }, // no update
+              },
               {
+                // no update
                 category: AclCategory.ORG,
                 subCategory: AclSubCategory.MEMBER,
                 key: "aaa",
                 role: Role.READ,
-              }, // no update
+              },
               {
+                // added
                 category: AclCategory.ORG,
                 subCategory: AclSubCategory.ADMIN,
                 key: "bbb",
                 role: Role.MODERATE,
-              }, // added
+              },
             ] as IChannelAclPermission[];
 
             const channel = { channelAcl, creator: "foo" } as IChannel;
@@ -2650,39 +2684,41 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: notAllowedRole,
-              }, // DOES NOT ALLOW CHANGE
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
               {
                 category: AclCategory.ORG,
                 subCategory: AclSubCategory.ADMIN,
                 key: "aaa",
                 role: Role.MODERATE,
-              }, // existing
+              },
               {
                 category: AclCategory.ORG,
                 subCategory: AclSubCategory.MEMBER,
                 key: "aaa",
                 role: Role.READ,
-              }, // existing
+              },
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: notAllowedRole,
-              }, // no update
+              },
               {
+                // no update
                 category: AclCategory.ORG,
                 subCategory: AclSubCategory.ADMIN,
                 key: "aaa",
                 role: Role.MODERATE,
-              }, // no update
+              },
               {
                 category: AclCategory.ORG,
                 subCategory: AclSubCategory.MEMBER,
                 key: "aaa",
-                role: Role.READWRITE,
-              }, // role changed
+                role: Role.READWRITE, // role changed
+              },
             ] as IChannelAclPermission[];
 
             const channel = { channelAcl, creator: "foo" } as IChannel;
@@ -2717,27 +2753,30 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: allowedRole,
-              }, // allows change
+                role: allowedRole, // allows change
+              },
               {
+                // will be removed
                 category: AclCategory.GROUP,
                 subCategory: AclSubCategory.ADMIN,
                 key: "aaa",
                 role: Role.MODERATE,
-              }, // will be removed
+              },
               {
+                // will be removed
                 category: AclCategory.GROUP,
                 subCategory: AclSubCategory.MEMBER,
                 key: "aaa",
                 role: Role.READ,
-              }, // will be removed
+              },
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: allowedRole,
-              }, // no update
+              },
             ] as IChannelAclPermission[];
 
             const channel = { channelAcl, creator: "foo" } as IChannel;
@@ -2760,45 +2799,49 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: allowedRole,
-              }, // allows change
+                role: allowedRole, // allows change
+              },
               {
                 category: AclCategory.GROUP,
                 subCategory: AclSubCategory.ADMIN,
                 key: "aaa",
                 role: Role.MODERATE,
-              }, // existing
+              },
               {
                 category: AclCategory.GROUP,
                 subCategory: AclSubCategory.MEMBER,
                 key: "aaa",
                 role: Role.READ,
-              }, // existing
+              },
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: allowedRole,
-              }, // no update
+              },
               {
+                // no update
                 category: AclCategory.GROUP,
                 subCategory: AclSubCategory.ADMIN,
                 key: "aaa",
                 role: Role.MODERATE,
-              }, // no update
+              },
               {
+                // no update
                 category: AclCategory.GROUP,
                 subCategory: AclSubCategory.MEMBER,
                 key: "aaa",
                 role: Role.READ,
-              }, // no update
+              },
               {
+                // added
                 category: AclCategory.GROUP,
                 subCategory: AclSubCategory.ADMIN,
                 key: "bbb",
                 role: Role.MODERATE,
-              }, // added
+              },
             ] as IChannelAclPermission[];
 
             const channel = { channelAcl, creator: "foo" } as IChannel;
@@ -2821,39 +2864,41 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: allowedRole,
-              }, // allows change
+                role: allowedRole, // allows change
+              },
               {
                 category: AclCategory.GROUP,
                 subCategory: AclSubCategory.ADMIN,
                 key: "aaa",
                 role: Role.MODERATE,
-              }, // existing
+              },
               {
                 category: AclCategory.GROUP,
                 subCategory: AclSubCategory.MEMBER,
                 key: "aaa",
                 role: Role.READ,
-              }, // existing
+              },
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: allowedRole,
-              }, // no update
+              },
               {
+                // no update
                 category: AclCategory.GROUP,
                 subCategory: AclSubCategory.ADMIN,
                 key: "aaa",
                 role: Role.MODERATE,
-              }, // no update
+              },
               {
                 category: AclCategory.GROUP,
                 subCategory: AclSubCategory.MEMBER,
                 key: "aaa",
-                role: Role.READWRITE,
-              }, // role changed
+                role: Role.READWRITE, // role changed
+              },
             ] as IChannelAclPermission[];
 
             const channel = { channelAcl, creator: "foo" } as IChannel;
@@ -2878,27 +2923,30 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: notAllowedRole,
-              }, // DOES NOT ALLOW CHANGE
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
               {
+                // will be removed
                 category: AclCategory.GROUP,
                 subCategory: AclSubCategory.ADMIN,
                 key: "aaa",
                 role: Role.MODERATE,
-              }, // will be removed
+              },
               {
+                // will be removed
                 category: AclCategory.GROUP,
                 subCategory: AclSubCategory.MEMBER,
                 key: "aaa",
                 role: Role.READ,
-              }, // will be removed
+              },
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: notAllowedRole,
-              }, // no update
+              },
             ] as IChannelAclPermission[];
 
             const channel = { channelAcl, creator: "foo" } as IChannel;
@@ -2921,45 +2969,49 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: notAllowedRole,
-              }, // DOES NOT ALLOW CHANGE
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
               {
                 category: AclCategory.GROUP,
                 subCategory: AclSubCategory.ADMIN,
                 key: "aaa",
                 role: Role.MODERATE,
-              }, // existing
+              },
               {
                 category: AclCategory.GROUP,
                 subCategory: AclSubCategory.MEMBER,
                 key: "aaa",
                 role: Role.READ,
-              }, // existing
+              },
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: notAllowedRole,
-              }, // no update
+              },
               {
+                // no update
                 category: AclCategory.GROUP,
                 subCategory: AclSubCategory.ADMIN,
                 key: "aaa",
                 role: Role.MODERATE,
-              }, // no update
+              },
               {
+                // no update
                 category: AclCategory.GROUP,
                 subCategory: AclSubCategory.MEMBER,
                 key: "aaa",
                 role: Role.READ,
-              }, // no update
+              },
               {
+                // added
                 category: AclCategory.GROUP,
                 subCategory: AclSubCategory.ADMIN,
                 key: "bbb",
                 role: Role.MODERATE,
-              }, // added
+              },
             ] as IChannelAclPermission[];
 
             const channel = { channelAcl, creator: "foo" } as IChannel;
@@ -2982,39 +3034,41 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: notAllowedRole,
-              }, // DOES NOT ALLOW CHANGE
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
               {
                 category: AclCategory.GROUP,
                 subCategory: AclSubCategory.ADMIN,
                 key: "aaa",
                 role: Role.MODERATE,
-              }, // existing
+              },
               {
                 category: AclCategory.GROUP,
                 subCategory: AclSubCategory.MEMBER,
                 key: "aaa",
                 role: Role.READ,
-              }, // existing
+              },
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: notAllowedRole,
-              }, // no update
+              },
               {
+                // no update
                 category: AclCategory.GROUP,
                 subCategory: AclSubCategory.ADMIN,
                 key: "aaa",
                 role: Role.MODERATE,
-              }, // no update
+              },
               {
                 category: AclCategory.GROUP,
                 subCategory: AclSubCategory.MEMBER,
                 key: "aaa",
-                role: Role.READWRITE,
-              }, // role changed
+                role: Role.READWRITE, // role changed
+              },
             ] as IChannelAclPermission[];
 
             const channel = { channelAcl, creator: "foo" } as IChannel;
@@ -3049,16 +3103,17 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: allowedRole,
-              }, // allows change
+                role: allowedRole, // allows change
+              },
               { category: AclCategory.USER, key: "aaa", role: Role.READ }, // will be removed
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: allowedRole,
-              }, // no update
+              },
             ] as IChannelAclPermission[];
 
             const channel = { channelAcl, creator: "foo" } as IChannel;
@@ -3081,15 +3136,16 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: allowedRole,
-              }, // allows change
+                role: allowedRole, // allows change
+              },
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: allowedRole,
-              }, // no update
+              },
               { category: AclCategory.USER, key: "aaa", role: Role.READ }, // added
             ] as IChannelAclPermission[];
 
@@ -3113,16 +3169,17 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: allowedRole,
-              }, // allows change
+                role: allowedRole, // allows change
+              },
               { category: AclCategory.USER, key: "aaa", role: Role.READ }, // existing
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: allowedRole,
-              }, // no update
+              },
               { category: AclCategory.USER, key: "aaa", role: Role.READWRITE }, // role changed
             ] as IChannelAclPermission[];
 
@@ -3148,16 +3205,17 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: notAllowedRole,
-              }, // DOES NOT ALLOW CHANGE
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
               { category: AclCategory.USER, key: "aaa", role: Role.READ }, // will be removed
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: notAllowedRole,
-              }, // no update
+              },
             ] as IChannelAclPermission[];
 
             const channel = { channelAcl, creator: "foo" } as IChannel;
@@ -3180,15 +3238,16 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: notAllowedRole,
-              }, // DOES NOT ALLOW CHANGE
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: notAllowedRole,
-              }, // no update
+              },
               { category: AclCategory.USER, key: "aaa", role: Role.READ }, // added
             ] as IChannelAclPermission[];
 
@@ -3212,16 +3271,17 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: notAllowedRole,
-              }, // DOES NOT ALLOW CHANGE
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
               { category: AclCategory.USER, key: "aaa", role: Role.READ }, // existing
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: notAllowedRole,
-              }, // no update
+              },
               { category: AclCategory.USER, key: "aaa", role: Role.READWRITE }, // role changed
             ] as IChannelAclPermission[];
 
@@ -3257,16 +3317,17 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: allowedRole,
-              }, // allows change
+                role: allowedRole, // allows change
+              },
               { category: AclCategory.AUTHENTICATED_USER, role: Role.READ }, // will be removed
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: allowedRole,
-              }, // no update
+              },
             ] as IChannelAclPermission[];
 
             const channel = { channelAcl, creator: "foo" } as IChannel;
@@ -3289,15 +3350,16 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: allowedRole,
-              }, // allows change
+                role: allowedRole, // allows change
+              },
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: allowedRole,
-              }, // no update
+              },
               { category: AclCategory.AUTHENTICATED_USER, role: Role.READ }, // added
             ] as IChannelAclPermission[];
 
@@ -3321,20 +3383,21 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: allowedRole,
-              }, // allows change
-              { category: AclCategory.AUTHENTICATED_USER, role: Role.READ }, // existing
+                role: allowedRole, // allows change
+              },
+              { category: AclCategory.AUTHENTICATED_USER, role: Role.READ },
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: allowedRole,
-              }, // no update
+              },
               {
                 category: AclCategory.AUTHENTICATED_USER,
-                role: Role.READWRITE,
-              }, // role changed
+                role: Role.READWRITE, // role changed
+              },
             ] as IChannelAclPermission[];
 
             const channel = { channelAcl, creator: "foo" } as IChannel;
@@ -3359,16 +3422,17 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: notAllowedRole,
-              }, // DOES NOT ALLOW CHANGE
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
               { category: AclCategory.AUTHENTICATED_USER, role: Role.READ }, // will be removed
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: notAllowedRole,
-              }, // no update
+              },
             ] as IChannelAclPermission[];
 
             const channel = { channelAcl, creator: "foo" } as IChannel;
@@ -3391,15 +3455,16 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: notAllowedRole,
-              }, // DOES NOT ALLOW CHANGE
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: notAllowedRole,
-              }, // no update
+              },
               { category: AclCategory.AUTHENTICATED_USER, role: Role.READ }, // added
             ] as IChannelAclPermission[];
 
@@ -3423,20 +3488,21 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: notAllowedRole,
-              }, // DOES NOT ALLOW CHANGE
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
               { category: AclCategory.AUTHENTICATED_USER, role: Role.READ }, // existing
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: notAllowedRole,
-              }, // no update
+              },
               {
                 category: AclCategory.AUTHENTICATED_USER,
-                role: Role.READWRITE,
-              }, // role changed
+                role: Role.READWRITE, // role changed
+              },
             ] as IChannelAclPermission[];
 
             const channel = { channelAcl, creator: "foo" } as IChannel;
@@ -3471,16 +3537,17 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: allowedRole,
-              }, // allows change
+                role: allowedRole, // allows change
+              },
               { category: AclCategory.ANONYMOUS_USER, role: Role.READ }, // will be removed
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: allowedRole,
-              }, // no update
+              },
             ] as IChannelAclPermission[];
 
             const channel = { channelAcl, creator: "foo" } as IChannel;
@@ -3503,15 +3570,16 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: allowedRole,
-              }, // allows change
+                role: allowedRole, // allows change
+              },
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: allowedRole,
-              }, // no update
+              },
               { category: AclCategory.ANONYMOUS_USER, role: Role.READ }, // added
             ] as IChannelAclPermission[];
 
@@ -3535,16 +3603,17 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: allowedRole,
-              }, // allows change
+                role: allowedRole, // allows change
+              },
               { category: AclCategory.ANONYMOUS_USER, role: Role.READ }, // existing
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: allowedRole,
-              }, // no update
+              },
               { category: AclCategory.ANONYMOUS_USER, role: Role.READWRITE }, // role changed
             ] as IChannelAclPermission[];
 
@@ -3570,16 +3639,17 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: notAllowedRole,
-              }, // DOES NOT ALLOW CHANGE
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
               { category: AclCategory.ANONYMOUS_USER, role: Role.READ }, // will be removed
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: notAllowedRole,
-              }, // no update
+              },
             ] as IChannelAclPermission[];
 
             const channel = { channelAcl, creator: "foo" } as IChannel;
@@ -3602,15 +3672,16 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: notAllowedRole,
-              }, // DOES NOT ALLOW CHANGE
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: notAllowedRole,
-              }, // no update
+              },
               { category: AclCategory.ANONYMOUS_USER, role: Role.READ }, // added
             ] as IChannelAclPermission[];
 
@@ -3634,16 +3705,17 @@ describe("ChannelPermission class", () => {
               {
                 category: AclCategory.USER,
                 key: user.username,
-                role: notAllowedRole,
-              }, // DOES NOT ALLOW CHANGE
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
               { category: AclCategory.ANONYMOUS_USER, role: Role.READ }, // existing
             ] as IChannelAclPermission[];
             const updatedAcl = [
               {
+                // no update
                 category: AclCategory.USER,
                 key: user.username,
                 role: notAllowedRole,
-              }, // no update
+              },
               { category: AclCategory.ANONYMOUS_USER, role: Role.READWRITE }, // role changed
             ] as IChannelAclPermission[];
 
