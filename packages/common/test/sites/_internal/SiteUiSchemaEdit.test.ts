@@ -59,6 +59,12 @@ describe("buildUiSchema: site edit", () => {
                     icon: true,
                     labelKey: `some.scope.fields.name.maxLengthError`,
                   },
+                  {
+                    type: "ERROR",
+                    keyword: "format",
+                    icon: true,
+                    labelKey: `some.scope.fields.name.siteEntityTitleValidatorError`,
+                  },
                 ],
               },
             },
