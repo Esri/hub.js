@@ -1,7 +1,6 @@
 import { IArcGISContext } from "../../ArcGISContext";
 import { checkPermission } from "../../permissions/checkPermission";
 import { Permission } from "../../permissions/types/Permission";
-import { cloneObject } from "../../util";
 import { EntityType } from "../types/IHubCatalog";
 
 /**
@@ -106,17 +105,29 @@ export function getDefaultCreateableTypes(
   context: IArcGISContext,
   limitTo: EntityType[] = []
 ): string[] {
-  const itemCreateableTypes = ["Hub Project", "Hub Initiative", "Discussion"];
+  // NOTE: AT prescribed the order: Discussion Board, Event, Project, Initiative, Group, Site Page | Hub Page, Site Application | Hub Site Application
+  const prescribedOrder = [
+    "Discussion",
+    "Event",
+    "Hub Project",
+    "Hub Initiative",
+    "Group",
+    "Hub Page",
+    "Site Page",
+    "Hub Site Application",
+    "Site Application",
+  ];
+  const itemCreateableTypes = ["Discussion", "Hub Project", "Hub Initiative"];
   // If the user has the hub:license:enterprise-sites permission
   // they are on Enterprise and the types are "site applications" and "site pages"
   if (checkPermission("hub:environment:enterprise", context).access) {
-    itemCreateableTypes.push("Site Application");
     itemCreateableTypes.push("Site Page");
+    itemCreateableTypes.push("Site Application");
   } else {
     // Otherwise we infer they are running on AGO, and can
     // the types are "hub site applications" and "hub pages"
-    itemCreateableTypes.push("Hub Site Application");
     itemCreateableTypes.push("Hub Page");
+    itemCreateableTypes.push("Hub Site Application");
   }
 
   const eventCreateableTypes = ["Event"];
@@ -140,6 +151,12 @@ export function getDefaultCreateableTypes(
       ...groupCreateableTypes,
     ];
   }
+
+  response = response.sort((a, b) => {
+    const aIdx = prescribedOrder.indexOf(a);
+    const bIdx = prescribedOrder.indexOf(b);
+    return aIdx - bIdx;
+  });
 
   return response;
 }
