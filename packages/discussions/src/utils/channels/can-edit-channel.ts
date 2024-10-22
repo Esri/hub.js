@@ -8,7 +8,7 @@ import { hasOrgAdminUpdateRights } from "../portal-privilege";
  * Utility to determine if User has privileges to edit a channel
  * @param channel
  * @param user
- * @param updates - !!! only include for API V2 updates
+ * @param updateData - !!! only include for API V2 updates
  * @returns {boolean}
  */
 export function canEditChannel(
