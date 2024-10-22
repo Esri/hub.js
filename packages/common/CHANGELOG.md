@@ -1,3 +1,10 @@
+## @esri/hub-common [14.215.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.215.1...@esri/hub-common@14.215.2) (2024-10-22)
+
+
+### Bug Fixes
+
+* **hub-common:** ensure entity slug is unique and typekeyword is in sync ([#1693](https://github.com/Esri/hub.js/issues/1693)) ([fdc017f](https://github.com/Esri/hub.js/commit/fdc017f04c1a1de2f3ce0ed0921d7c2f4bf186ca))
+
 ## @esri/hub-common [14.215.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.215.0...@esri/hub-common@14.215.1) (2024-10-22)
 
 
