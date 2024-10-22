@@ -41,7 +41,7 @@ export const buildUiSchema = async (
               type: "ERROR",
               keyword: "format",
               icon: true,
-              labelKey: `${i18nScope}.fields.name.siteEntityTitleValidator`,
+              labelKey: `${i18nScope}.fields.name.siteEntityTitleValidatorError`,
             },
           ],
         },
