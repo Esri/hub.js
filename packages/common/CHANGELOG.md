@@ -1,3 +1,10 @@
+# @esri/hub-common [14.217.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.216.0...@esri/hub-common@14.217.0) (2024-10-23)
+
+
+### Features
+
+* **hub-discussions:** add ChannelFilter to filter channels by disc uri ([#1686](https://github.com/Esri/hub.js/issues/1686)) ([f2d8aaa](https://github.com/Esri/hub.js/commit/f2d8aaa016228a60d4fb68faa747f567feff2985))
+
 # @esri/hub-common [14.216.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.215.2...@esri/hub-common@14.216.0) (2024-10-22)
 
 
