@@ -1,3 +1,10 @@
+# @esri/hub-common [14.218.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.217.0...@esri/hub-common@14.218.0) (2024-10-23)
+
+
+### Features
+
+* **hub-discussions:** channel edit optional update parameter for V2 ([#1695](https://github.com/Esri/hub.js/issues/1695)) ([2096bae](https://github.com/Esri/hub.js/commit/2096bae84628ecdf162d7be9a650ea21adacbcea))
+
 # @esri/hub-common [14.217.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.216.0...@esri/hub-common@14.217.0) (2024-10-23)
 
 
