@@ -14,7 +14,6 @@ import { isAuthorizedToModifyChannelByLegacyPermissions } from "./is-authorized-
 export function canModifyChannel(
   channel: IChannel,
   user: IUser | IDiscussionsUser = {}
-  // channelUpdates: IUpdateChannel,
 ): boolean {
   if (isOrgAdminInOrg(user, channel.orgId)) {
     return true;
@@ -23,7 +22,6 @@ export function canModifyChannel(
   if (channel.channelAcl) {
     const channelPermission = new ChannelPermission(channel);
     return channelPermission.canModerateChannel(user as IDiscussionsUser);
-    // for V2: && channelPermission.canUpdateProperties(user as IDiscussionsUser, channelUpdates)
   }
 
   return isAuthorizedToModifyChannelByLegacyPermissions(user, channel);

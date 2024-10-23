@@ -6,6 +6,7 @@ import {
   IChannelAclPermission,
   IDiscussionsUser,
   IUpdateChannel,
+  PostReaction,
   PostStatus,
   Role,
 } from "../../src/types";
@@ -1211,7 +1212,81 @@ describe("ChannelPermission class", () => {
   });
 
   describe("canUpdateProperties", () => {
-    describe("update allowReply required role", () => {
+    describe("no updates", () => {
+      it("returns true if no updates, regardless of role", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.READ }, // bad role for update
+        ] as IChannelAclPermission[];
+
+        const channel = {
+          allowReply: true,
+          channelAcl,
+        } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {};
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if updates undefined, regardless of role", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.READ }, // bad role for update
+        ] as IChannelAclPermission[];
+
+        const channel = {
+          allowReply: true,
+          channelAcl,
+        } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        expect(channelPermission.canUpdateProperties(user)).toBe(true);
+      });
+    });
+
+    describe("allowReply", () => {
+      it("returns true if value not changed from existing regardless of role", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.READ }, // bad role for update
+        ] as IChannelAclPermission[];
+
+        const channel = {
+          allowReply: true,
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowReply: true,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if update is undefined regardless of role", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.READ }, // bad role for update
+        ] as IChannelAclPermission[];
+
+        const channel = {
+          allowReply: true,
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowReply: undefined,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
       it("returns true if user has a role of moderate", () => {
         const user = buildUser();
         const channelAcl = [
@@ -1222,7 +1297,11 @@ describe("ChannelPermission class", () => {
           },
         ] as IChannelAclPermission[];
 
-        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channel = {
+          allowReply: false,
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
@@ -1238,7 +1317,11 @@ describe("ChannelPermission class", () => {
           { category: AclCategory.USER, key: user.username, role: Role.MANAGE },
         ] as IChannelAclPermission[];
 
-        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channel = {
+          allowReply: false,
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
@@ -1254,7 +1337,11 @@ describe("ChannelPermission class", () => {
           { category: AclCategory.USER, key: user.username, role: Role.OWNER },
         ] as IChannelAclPermission[];
 
-        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channel = {
+          allowReply: false,
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
@@ -1274,7 +1361,11 @@ describe("ChannelPermission class", () => {
           },
         ] as IChannelAclPermission[];
 
-        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channel = {
+          allowReply: false,
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
@@ -1287,7 +1378,47 @@ describe("ChannelPermission class", () => {
       });
     });
 
-    describe("update allowReaction required role", () => {
+    describe("allowReaction", () => {
+      it("returns true if value not changed from existing regardless of role", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.READ }, // bad role for update
+        ] as IChannelAclPermission[];
+
+        const channel = {
+          allowReaction: true,
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowReaction: true,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if update is undefined existing regardless of role", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.READ }, // bad role for update
+        ] as IChannelAclPermission[];
+
+        const channel = {
+          allowReaction: true,
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowReaction: undefined,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
       it("returns true if user has a role of moderate", () => {
         const user = buildUser();
         const channelAcl = [
@@ -1298,7 +1429,11 @@ describe("ChannelPermission class", () => {
           },
         ] as IChannelAclPermission[];
 
-        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channel = {
+          allowReaction: false,
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
@@ -1314,7 +1449,11 @@ describe("ChannelPermission class", () => {
           { category: AclCategory.USER, key: user.username, role: Role.MANAGE },
         ] as IChannelAclPermission[];
 
-        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channel = {
+          allowReaction: false,
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
@@ -1330,7 +1469,11 @@ describe("ChannelPermission class", () => {
           { category: AclCategory.USER, key: user.username, role: Role.OWNER },
         ] as IChannelAclPermission[];
 
-        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channel = {
+          allowReaction: false,
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
@@ -1350,7 +1493,11 @@ describe("ChannelPermission class", () => {
           },
         ] as IChannelAclPermission[];
 
-        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channel = {
+          allowReaction: false,
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
@@ -1363,7 +1510,47 @@ describe("ChannelPermission class", () => {
       });
     });
 
-    describe("update allowedReactions required role", () => {
+    describe("allowAsAnonymous", () => {
+      it("returns true if value not changed from existing regardless of role", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.READ }, // bad role for update
+        ] as IChannelAclPermission[];
+
+        const channel = {
+          allowAsAnonymous: true,
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowAsAnonymous: true,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if update is undefined regardless of role", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.READ }, // bad role for update
+        ] as IChannelAclPermission[];
+
+        const channel = {
+          allowAsAnonymous: true,
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowAsAnonymous: undefined,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
       it("returns true if user has a role of moderate", () => {
         const user = buildUser();
         const channelAcl = [
@@ -1374,11 +1561,15 @@ describe("ChannelPermission class", () => {
           },
         ] as IChannelAclPermission[];
 
-        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channel = {
+          allowAsAnonymous: false,
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
-          allowedReactions: [],
+          allowAsAnonymous: true,
         };
 
         expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
@@ -1390,11 +1581,15 @@ describe("ChannelPermission class", () => {
           { category: AclCategory.USER, key: user.username, role: Role.MANAGE },
         ] as IChannelAclPermission[];
 
-        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channel = {
+          allowAsAnonymous: false,
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
-          allowedReactions: [],
+          allowAsAnonymous: true,
         };
 
         expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
@@ -1406,11 +1601,15 @@ describe("ChannelPermission class", () => {
           { category: AclCategory.USER, key: user.username, role: Role.OWNER },
         ] as IChannelAclPermission[];
 
-        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channel = {
+          allowAsAnonymous: false,
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
-          allowedReactions: [],
+          allowAsAnonymous: true,
         };
 
         expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
@@ -1426,11 +1625,15 @@ describe("ChannelPermission class", () => {
           },
         ] as IChannelAclPermission[];
 
-        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channel = {
+          allowAsAnonymous: false,
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
-          allowedReactions: [],
+          allowAsAnonymous: true,
         };
 
         expect(channelPermission.canUpdateProperties(user, updates)).toBe(
@@ -1439,7 +1642,2175 @@ describe("ChannelPermission class", () => {
       });
     });
 
-    describe("update defaultPostStatus required role", () => {
+    describe("allowedReactions", () => {
+      it("returns true if value not changed from existing regardless of role", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.READ }, // bad role for update
+        ] as IChannelAclPermission[];
+
+        const channel = {
+          allowedReactions: [PostReaction.THUMBS_UP],
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowedReactions: [PostReaction.THUMBS_UP],
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if value not changed (just rearranged) from existing regardless of role", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.READ }, // bad role for update
+        ] as IChannelAclPermission[];
+
+        const channel = {
+          allowedReactions: [PostReaction.THUMBS_UP, PostReaction.LAUGH],
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowedReactions: [PostReaction.LAUGH, PostReaction.THUMBS_UP],
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if user has a role of manage and reaction is removed", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.MANAGE },
+        ] as IChannelAclPermission[];
+
+        const channel = {
+          allowedReactions: [PostReaction.THUMBS_UP, PostReaction.LAUGH],
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowedReactions: [PostReaction.THUMBS_UP],
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if user has a role of manage and reaction is added", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.MANAGE },
+        ] as IChannelAclPermission[];
+
+        const channel = {
+          allowedReactions: [PostReaction.THUMBS_UP],
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowedReactions: [PostReaction.THUMBS_UP, PostReaction.LAUGH],
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if user has a role of owner", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.OWNER },
+        ] as IChannelAclPermission[];
+
+        const channel = {
+          allowedReactions: [PostReaction.THUMBS_UP],
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowedReactions: [PostReaction.LAUGH],
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns false if user does not have a minimum role of moderate", () => {
+        const user = buildUser();
+        const channelAcl = [
+          {
+            category: AclCategory.USER,
+            key: user.username,
+            role: Role.READWRITE,
+          },
+        ] as IChannelAclPermission[];
+
+        const channel = {
+          allowedReactions: [PostReaction.THUMBS_UP],
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          allowedReactions: [PostReaction.LAUGH],
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+          false
+        );
+      });
+    });
+
+    describe("channelAclDefinition", () => {
+      describe("No acl changes", () => {
+        it("should return true if no acl changes, regardless of role", () => {
+          const user = buildUser({ orgId: "aaa", groups: [] });
+          const channelAcl = buildCompleteAcl();
+
+          const channel = { channelAcl, creator: "foo" } as IChannel;
+          const channelPermission = new ChannelPermission(channel);
+
+          const updates: IUpdateChannel = {
+            // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+            // @ts-ignore
+            channelAclDefinition: buildCompleteAcl(),
+          };
+
+          expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+            true
+          );
+        });
+
+        it("should return true if no acl changes, just rearranged, regardless of role", () => {
+          const user = buildUser({ orgId: "aaa", groups: [] });
+          const channelAcl = [
+            { category: AclCategory.ANONYMOUS_USER, role: Role.READ },
+            { category: AclCategory.AUTHENTICATED_USER, role: Role.READ },
+            {
+              category: AclCategory.GROUP,
+              subCategory: AclSubCategory.ADMIN,
+              key: groupId1,
+              role: Role.OWNER,
+            },
+            {
+              category: AclCategory.GROUP,
+              subCategory: AclSubCategory.MEMBER,
+              key: groupId1,
+              role: Role.READ,
+            },
+            {
+              category: AclCategory.ORG,
+              subCategory: AclSubCategory.ADMIN,
+              key: orgId1,
+              role: Role.OWNER,
+            },
+            {
+              category: AclCategory.ORG,
+              subCategory: AclSubCategory.MEMBER,
+              key: orgId1,
+              role: Role.READ,
+            },
+          ];
+
+          const updatedAcl = [
+            {
+              category: AclCategory.GROUP,
+              subCategory: AclSubCategory.MEMBER,
+              key: groupId1,
+              role: Role.READ,
+            },
+            { category: AclCategory.AUTHENTICATED_USER, role: Role.READ },
+            {
+              category: AclCategory.GROUP,
+              subCategory: AclSubCategory.ADMIN,
+              key: groupId1,
+              role: Role.OWNER,
+            },
+            {
+              category: AclCategory.ORG,
+              subCategory: AclSubCategory.MEMBER,
+              key: orgId1,
+              role: Role.READ,
+            },
+            {
+              category: AclCategory.ORG,
+              subCategory: AclSubCategory.ADMIN,
+              key: orgId1,
+              role: Role.OWNER,
+            },
+            { category: AclCategory.ANONYMOUS_USER, role: Role.READ },
+          ];
+
+          const channel = { channelAcl, creator: "foo" } as IChannel;
+          const channelPermission = new ChannelPermission(channel);
+
+          const updates: IUpdateChannel = {
+            // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+            // @ts-ignore
+            channelAclDefinition: updatedAcl,
+          };
+
+          expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+            true
+          );
+        });
+      });
+
+      describe("OWNER added or removed", () => {
+        const allowedRoles = [Role.OWNER];
+        const notAllowedRoles = [
+          Role.READ,
+          Role.WRITE,
+          Role.READWRITE,
+          Role.MODERATE,
+          Role.MANAGE,
+        ];
+
+        allowedRoles.forEach((allowedRole) => {
+          it(`should return true if user has role: ${allowedRole} and owner is removed`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole, // allows change
+              },
+              { category: AclCategory.USER, key: "aaa", role: Role.OWNER }, // will be removed
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole,
+              },
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              true
+            );
+          });
+
+          it(`should return true if user has role: ${allowedRole} and owner is added`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole, // allows change
+              },
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole,
+              },
+              { category: AclCategory.USER, key: "bbb", role: Role.OWNER }, // added
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              true
+            );
+          });
+
+          it(`should return true if user has role: ${allowedRole} and owner is added in another category`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole, // allows change
+              },
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole,
+              },
+              {
+                // added
+                category: AclCategory.GROUP,
+                subCategory: AclSubCategory.ADMIN,
+                key: "group_id",
+                role: Role.OWNER,
+              },
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              true
+            );
+          });
+        });
+
+        notAllowedRoles.forEach((notAllowedRole) => {
+          it(`should return false if user has role: ${notAllowedRole} and owner is removed`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
+              { category: AclCategory.USER, key: "aaa", role: Role.OWNER }, // will be removed
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole,
+              },
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              false
+            );
+          });
+
+          it(`should return false if user has role: ${notAllowedRole} and owner is added`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole,
+              },
+              { category: AclCategory.USER, key: "bbb", role: Role.OWNER }, // added
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              false
+            );
+          });
+        });
+      });
+
+      describe("MANAGER added or removed", () => {
+        const allowedRoles = [Role.OWNER, Role.MANAGE];
+        const notAllowedRoles = [
+          Role.READ,
+          Role.WRITE,
+          Role.READWRITE,
+          Role.MODERATE,
+        ];
+
+        allowedRoles.forEach((allowedRole) => {
+          it(`should return true if user has role: ${allowedRole} and manager is removed`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole, // allows change
+              },
+              { category: AclCategory.USER, key: "aaa", role: Role.MANAGE }, // will be removed
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole,
+              },
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              true
+            );
+          });
+
+          it(`should return true if user has role: ${allowedRole} and manager is added`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole, // allows change
+              },
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole,
+              },
+              { category: AclCategory.USER, key: "bbb", role: Role.MANAGE }, // added
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              true
+            );
+          });
+
+          it(`should return true if user has role: ${allowedRole} and manager is added in another category`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole, // allows change
+              },
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole,
+              },
+              {
+                // added
+                category: AclCategory.GROUP,
+                subCategory: AclSubCategory.ADMIN,
+                key: "group_id",
+                role: Role.MANAGE,
+              },
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              true
+            );
+          });
+        });
+
+        notAllowedRoles.forEach((notAllowedRole) => {
+          it(`should return false if user has role: ${notAllowedRole} and manager is removed`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
+              { category: AclCategory.USER, key: "aaa", role: Role.MANAGE }, // will be removed
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole,
+              },
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              false
+            );
+          });
+
+          it(`should return false if user has role: ${notAllowedRole} and manager is added`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole,
+              },
+              { category: AclCategory.USER, key: "bbb", role: Role.MANAGE }, // added
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              false
+            );
+          });
+        });
+      });
+
+      describe("MODERATOR added or removed", () => {
+        const allowedRoles = [Role.OWNER, Role.MANAGE];
+        const notAllowedRoles = [
+          Role.READ,
+          Role.WRITE,
+          Role.READWRITE,
+          Role.MODERATE,
+        ];
+
+        allowedRoles.forEach((allowedRole) => {
+          it(`should return true if user has role: ${allowedRole} and moderator is removed`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole, // allows change
+              },
+              { category: AclCategory.USER, key: "aaa", role: Role.MODERATE }, // will be removed
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole,
+              },
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              true
+            );
+          });
+
+          it(`should return true if user has role: ${allowedRole} and moderator is added`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole, // allows change
+              },
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole,
+              },
+              { category: AclCategory.USER, key: "bbb", role: Role.MODERATE }, // added
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              true
+            );
+          });
+
+          it(`should return true if user has role: ${allowedRole} and moderator is added in another category`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole, // allows change
+              },
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole,
+              },
+              {
+                // added
+                category: AclCategory.GROUP,
+                subCategory: AclSubCategory.ADMIN,
+                key: "group_id",
+                role: Role.MODERATE,
+              },
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              true
+            );
+          });
+        });
+
+        notAllowedRoles.forEach((notAllowedRole) => {
+          it(`should return false if user has role: ${notAllowedRole} and moderator is removed`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
+              { category: AclCategory.USER, key: "aaa", role: Role.MODERATE }, // will be removed
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole,
+              },
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              false
+            );
+          });
+
+          it(`should return false if user has role: ${notAllowedRole} and moderator is added`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole,
+              },
+              { category: AclCategory.USER, key: "bbb", role: Role.MODERATE }, // added
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              false
+            );
+          });
+        });
+      });
+
+      describe("ORG added or removed or updated", () => {
+        const allowedRoles = [Role.OWNER, Role.MANAGE];
+        const notAllowedRoles = [
+          Role.READ,
+          Role.WRITE,
+          Role.READWRITE,
+          Role.MODERATE,
+        ];
+
+        allowedRoles.forEach((allowedRole) => {
+          it(`should return true if user has role: ${allowedRole} and org is removed`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole, // allows change
+              },
+              {
+                // will be removed
+                category: AclCategory.ORG,
+                subCategory: AclSubCategory.ADMIN,
+                key: "aaa",
+                role: Role.MODERATE,
+              },
+              {
+                // will be removed
+                category: AclCategory.ORG,
+                subCategory: AclSubCategory.MEMBER,
+                key: "aaa",
+                role: Role.READ,
+              },
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole,
+              },
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              true
+            );
+          });
+
+          it(`should return true if user has role: ${allowedRole} and org is added`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole, // allows change
+              },
+              {
+                category: AclCategory.ORG,
+                subCategory: AclSubCategory.ADMIN,
+                key: "aaa",
+                role: Role.MODERATE,
+              },
+              {
+                category: AclCategory.ORG,
+                subCategory: AclSubCategory.MEMBER,
+                key: "aaa",
+                role: Role.READ,
+              },
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole,
+              },
+              {
+                // no update
+                category: AclCategory.ORG,
+                subCategory: AclSubCategory.ADMIN,
+                key: "aaa",
+                role: Role.MODERATE,
+              },
+              {
+                // no update
+                category: AclCategory.ORG,
+                subCategory: AclSubCategory.MEMBER,
+                key: "aaa",
+                role: Role.READ,
+              },
+              {
+                // added
+                category: AclCategory.ORG,
+                subCategory: AclSubCategory.ADMIN,
+                key: "bbb",
+                role: Role.MODERATE,
+              },
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              true
+            );
+          });
+
+          it(`should return true if user has role: ${allowedRole} and org role is updated`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole, // allows change
+              },
+              {
+                category: AclCategory.ORG,
+                subCategory: AclSubCategory.ADMIN,
+                key: "aaa",
+                role: Role.MODERATE,
+              },
+              {
+                category: AclCategory.ORG,
+                subCategory: AclSubCategory.MEMBER,
+                key: "aaa",
+                role: Role.READ,
+              },
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole,
+              },
+              {
+                // no update
+                category: AclCategory.ORG,
+                subCategory: AclSubCategory.ADMIN,
+                key: "aaa",
+                role: Role.MODERATE,
+              },
+              {
+                category: AclCategory.ORG,
+                subCategory: AclSubCategory.MEMBER,
+                key: "aaa",
+                role: Role.READWRITE, // role changed
+              },
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              true
+            );
+          });
+        });
+
+        notAllowedRoles.forEach((notAllowedRole) => {
+          it(`should return false if user has role: ${notAllowedRole} and org is removed`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
+              {
+                // will be removed
+                category: AclCategory.ORG,
+                subCategory: AclSubCategory.ADMIN,
+                key: "aaa",
+                role: Role.MODERATE,
+              },
+              {
+                // will be removed
+                category: AclCategory.ORG,
+                subCategory: AclSubCategory.MEMBER,
+                key: "aaa",
+                role: Role.READ,
+              },
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole,
+              },
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              false
+            );
+          });
+
+          it(`should return false if user has role: ${notAllowedRole} and org is added`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
+              {
+                category: AclCategory.ORG,
+                subCategory: AclSubCategory.ADMIN,
+                key: "aaa",
+                role: Role.MODERATE,
+              },
+              {
+                category: AclCategory.ORG,
+                subCategory: AclSubCategory.MEMBER,
+                key: "aaa",
+                role: Role.READ,
+              },
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole,
+              },
+              {
+                // no update
+                category: AclCategory.ORG,
+                subCategory: AclSubCategory.ADMIN,
+                key: "aaa",
+                role: Role.MODERATE,
+              },
+              {
+                // no update
+                category: AclCategory.ORG,
+                subCategory: AclSubCategory.MEMBER,
+                key: "aaa",
+                role: Role.READ,
+              },
+              {
+                // added
+                category: AclCategory.ORG,
+                subCategory: AclSubCategory.ADMIN,
+                key: "bbb",
+                role: Role.MODERATE,
+              },
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              false
+            );
+          });
+
+          it(`should return false if user has role: ${notAllowedRole} and org role is updated`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
+              {
+                category: AclCategory.ORG,
+                subCategory: AclSubCategory.ADMIN,
+                key: "aaa",
+                role: Role.MODERATE,
+              },
+              {
+                category: AclCategory.ORG,
+                subCategory: AclSubCategory.MEMBER,
+                key: "aaa",
+                role: Role.READ,
+              },
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole,
+              },
+              {
+                // no update
+                category: AclCategory.ORG,
+                subCategory: AclSubCategory.ADMIN,
+                key: "aaa",
+                role: Role.MODERATE,
+              },
+              {
+                category: AclCategory.ORG,
+                subCategory: AclSubCategory.MEMBER,
+                key: "aaa",
+                role: Role.READWRITE, // role changed
+              },
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              false
+            );
+          });
+        });
+      });
+
+      describe("GROUP added or removed or updated", () => {
+        const allowedRoles = [Role.OWNER, Role.MANAGE];
+        const notAllowedRoles = [
+          Role.READ,
+          Role.WRITE,
+          Role.READWRITE,
+          Role.MODERATE,
+        ];
+
+        allowedRoles.forEach((allowedRole) => {
+          it(`should return true if user has role: ${allowedRole} and group is removed`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole, // allows change
+              },
+              {
+                // will be removed
+                category: AclCategory.GROUP,
+                subCategory: AclSubCategory.ADMIN,
+                key: "aaa",
+                role: Role.MODERATE,
+              },
+              {
+                // will be removed
+                category: AclCategory.GROUP,
+                subCategory: AclSubCategory.MEMBER,
+                key: "aaa",
+                role: Role.READ,
+              },
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole,
+              },
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              true
+            );
+          });
+
+          it(`should return true if user has role: ${allowedRole} and GROUP is added`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole, // allows change
+              },
+              {
+                category: AclCategory.GROUP,
+                subCategory: AclSubCategory.ADMIN,
+                key: "aaa",
+                role: Role.MODERATE,
+              },
+              {
+                category: AclCategory.GROUP,
+                subCategory: AclSubCategory.MEMBER,
+                key: "aaa",
+                role: Role.READ,
+              },
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole,
+              },
+              {
+                // no update
+                category: AclCategory.GROUP,
+                subCategory: AclSubCategory.ADMIN,
+                key: "aaa",
+                role: Role.MODERATE,
+              },
+              {
+                // no update
+                category: AclCategory.GROUP,
+                subCategory: AclSubCategory.MEMBER,
+                key: "aaa",
+                role: Role.READ,
+              },
+              {
+                // added
+                category: AclCategory.GROUP,
+                subCategory: AclSubCategory.ADMIN,
+                key: "bbb",
+                role: Role.MODERATE,
+              },
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              true
+            );
+          });
+
+          it(`should return true if user has role: ${allowedRole} and GROUP role is updated`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole, // allows change
+              },
+              {
+                category: AclCategory.GROUP,
+                subCategory: AclSubCategory.ADMIN,
+                key: "aaa",
+                role: Role.MODERATE,
+              },
+              {
+                category: AclCategory.GROUP,
+                subCategory: AclSubCategory.MEMBER,
+                key: "aaa",
+                role: Role.READ,
+              },
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole,
+              },
+              {
+                // no update
+                category: AclCategory.GROUP,
+                subCategory: AclSubCategory.ADMIN,
+                key: "aaa",
+                role: Role.MODERATE,
+              },
+              {
+                category: AclCategory.GROUP,
+                subCategory: AclSubCategory.MEMBER,
+                key: "aaa",
+                role: Role.READWRITE, // role changed
+              },
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              true
+            );
+          });
+        });
+
+        notAllowedRoles.forEach((notAllowedRole) => {
+          it(`should return false if user has role: ${notAllowedRole} and GROUP is removed`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
+              {
+                // will be removed
+                category: AclCategory.GROUP,
+                subCategory: AclSubCategory.ADMIN,
+                key: "aaa",
+                role: Role.MODERATE,
+              },
+              {
+                // will be removed
+                category: AclCategory.GROUP,
+                subCategory: AclSubCategory.MEMBER,
+                key: "aaa",
+                role: Role.READ,
+              },
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole,
+              },
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              false
+            );
+          });
+
+          it(`should return false if user has role: ${notAllowedRole} and GROUP is added`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
+              {
+                category: AclCategory.GROUP,
+                subCategory: AclSubCategory.ADMIN,
+                key: "aaa",
+                role: Role.MODERATE,
+              },
+              {
+                category: AclCategory.GROUP,
+                subCategory: AclSubCategory.MEMBER,
+                key: "aaa",
+                role: Role.READ,
+              },
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole,
+              },
+              {
+                // no update
+                category: AclCategory.GROUP,
+                subCategory: AclSubCategory.ADMIN,
+                key: "aaa",
+                role: Role.MODERATE,
+              },
+              {
+                // no update
+                category: AclCategory.GROUP,
+                subCategory: AclSubCategory.MEMBER,
+                key: "aaa",
+                role: Role.READ,
+              },
+              {
+                // added
+                category: AclCategory.GROUP,
+                subCategory: AclSubCategory.ADMIN,
+                key: "bbb",
+                role: Role.MODERATE,
+              },
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              false
+            );
+          });
+
+          it(`should return false if user has role: ${notAllowedRole} and GROUP role is updated`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
+              {
+                category: AclCategory.GROUP,
+                subCategory: AclSubCategory.ADMIN,
+                key: "aaa",
+                role: Role.MODERATE,
+              },
+              {
+                category: AclCategory.GROUP,
+                subCategory: AclSubCategory.MEMBER,
+                key: "aaa",
+                role: Role.READ,
+              },
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole,
+              },
+              {
+                // no update
+                category: AclCategory.GROUP,
+                subCategory: AclSubCategory.ADMIN,
+                key: "aaa",
+                role: Role.MODERATE,
+              },
+              {
+                category: AclCategory.GROUP,
+                subCategory: AclSubCategory.MEMBER,
+                key: "aaa",
+                role: Role.READWRITE, // role changed
+              },
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              false
+            );
+          });
+        });
+      });
+
+      describe("USER added or removed or updated", () => {
+        const allowedRoles = [Role.OWNER, Role.MANAGE];
+        const notAllowedRoles = [
+          Role.READ,
+          Role.WRITE,
+          Role.READWRITE,
+          Role.MODERATE,
+        ];
+
+        allowedRoles.forEach((allowedRole) => {
+          it(`should return true if user has role: ${allowedRole} and USER is removed`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole, // allows change
+              },
+              { category: AclCategory.USER, key: "aaa", role: Role.READ }, // will be removed
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole,
+              },
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              true
+            );
+          });
+
+          it(`should return true if user has role: ${allowedRole} and USER is added`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole, // allows change
+              },
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole,
+              },
+              { category: AclCategory.USER, key: "aaa", role: Role.READ }, // added
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              true
+            );
+          });
+
+          it(`should return true if user has role: ${allowedRole} and USER role is updated`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole, // allows change
+              },
+              { category: AclCategory.USER, key: "aaa", role: Role.READ }, // existing
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole,
+              },
+              { category: AclCategory.USER, key: "aaa", role: Role.READWRITE }, // role changed
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              true
+            );
+          });
+        });
+
+        notAllowedRoles.forEach((notAllowedRole) => {
+          it(`should return false if user has role: ${notAllowedRole} and USER is removed`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
+              { category: AclCategory.USER, key: "aaa", role: Role.READ }, // will be removed
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole,
+              },
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              false
+            );
+          });
+
+          it(`should return false if user has role: ${notAllowedRole} and USER is added`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole,
+              },
+              { category: AclCategory.USER, key: "aaa", role: Role.READ }, // added
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              false
+            );
+          });
+
+          it(`should return false if user has role: ${notAllowedRole} and USER role is updated`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
+              { category: AclCategory.USER, key: "aaa", role: Role.READ }, // existing
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole,
+              },
+              { category: AclCategory.USER, key: "aaa", role: Role.READWRITE }, // role changed
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              false
+            );
+          });
+        });
+      });
+
+      describe("AUTHENTICATED_USER added or removed or updated", () => {
+        const allowedRoles = [Role.OWNER, Role.MANAGE];
+        const notAllowedRoles = [
+          Role.READ,
+          Role.WRITE,
+          Role.READWRITE,
+          Role.MODERATE,
+        ];
+
+        allowedRoles.forEach((allowedRole) => {
+          it(`should return true if user has role: ${allowedRole} and AUTHENTICATED_USER is removed`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole, // allows change
+              },
+              { category: AclCategory.AUTHENTICATED_USER, role: Role.READ }, // will be removed
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole,
+              },
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              true
+            );
+          });
+
+          it(`should return true if user has role: ${allowedRole} and AUTHENTICATED_USER is added`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole, // allows change
+              },
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole,
+              },
+              { category: AclCategory.AUTHENTICATED_USER, role: Role.READ }, // added
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              true
+            );
+          });
+
+          it(`should return true if user has role: ${allowedRole} and AUTHENTICATED_USER role is updated`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole, // allows change
+              },
+              { category: AclCategory.AUTHENTICATED_USER, role: Role.READ },
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole,
+              },
+              {
+                category: AclCategory.AUTHENTICATED_USER,
+                role: Role.READWRITE, // role changed
+              },
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              true
+            );
+          });
+        });
+
+        notAllowedRoles.forEach((notAllowedRole) => {
+          it(`should return false if user has role: ${notAllowedRole} and AUTHENTICATED_USER is removed`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
+              { category: AclCategory.AUTHENTICATED_USER, role: Role.READ }, // will be removed
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole,
+              },
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              false
+            );
+          });
+
+          it(`should return false if user has role: ${notAllowedRole} and AUTHENTICATED_USER is added`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole,
+              },
+              { category: AclCategory.AUTHENTICATED_USER, role: Role.READ }, // added
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              false
+            );
+          });
+
+          it(`should return false if user has role: ${notAllowedRole} and AUTHENTICATED_USER role is updated`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
+              { category: AclCategory.AUTHENTICATED_USER, role: Role.READ }, // existing
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole,
+              },
+              {
+                category: AclCategory.AUTHENTICATED_USER,
+                role: Role.READWRITE, // role changed
+              },
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              false
+            );
+          });
+        });
+      });
+
+      describe("ANONYMOUS_USER added or removed or updated", () => {
+        const allowedRoles = [Role.OWNER, Role.MANAGE];
+        const notAllowedRoles = [
+          Role.READ,
+          Role.WRITE,
+          Role.READWRITE,
+          Role.MODERATE,
+        ];
+
+        allowedRoles.forEach((allowedRole) => {
+          it(`should return true if user has role: ${allowedRole} and ANONYMOUS_USER is removed`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole, // allows change
+              },
+              { category: AclCategory.ANONYMOUS_USER, role: Role.READ }, // will be removed
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole,
+              },
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              true
+            );
+          });
+
+          it(`should return true if user has role: ${allowedRole} and ANONYMOUS_USER is added`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole, // allows change
+              },
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole,
+              },
+              { category: AclCategory.ANONYMOUS_USER, role: Role.READ }, // added
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              true
+            );
+          });
+
+          it(`should return true if user has role: ${allowedRole} and ANONYMOUS_USER role is updated`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole, // allows change
+              },
+              { category: AclCategory.ANONYMOUS_USER, role: Role.READ }, // existing
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: allowedRole,
+              },
+              { category: AclCategory.ANONYMOUS_USER, role: Role.READWRITE }, // role changed
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              true
+            );
+          });
+        });
+
+        notAllowedRoles.forEach((notAllowedRole) => {
+          it(`should return false if user has role: ${notAllowedRole} and ANONYMOUS_USER is removed`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
+              { category: AclCategory.ANONYMOUS_USER, role: Role.READ }, // will be removed
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole,
+              },
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              false
+            );
+          });
+
+          it(`should return false if user has role: ${notAllowedRole} and ANONYMOUS_USER is added`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole,
+              },
+              { category: AclCategory.ANONYMOUS_USER, role: Role.READ }, // added
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              false
+            );
+          });
+
+          it(`should return false if user has role: ${notAllowedRole} and ANONYMOUS_USER role is updated`, () => {
+            const user = buildUser();
+            const channelAcl = [
+              {
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole, // DOES NOT ALLOW CHANGE
+              },
+              { category: AclCategory.ANONYMOUS_USER, role: Role.READ }, // existing
+            ] as IChannelAclPermission[];
+            const updatedAcl = [
+              {
+                // no update
+                category: AclCategory.USER,
+                key: user.username,
+                role: notAllowedRole,
+              },
+              { category: AclCategory.ANONYMOUS_USER, role: Role.READWRITE }, // role changed
+            ] as IChannelAclPermission[];
+
+            const channel = { channelAcl, creator: "foo" } as IChannel;
+            const channelPermission = new ChannelPermission(channel);
+
+            const updates: IUpdateChannel = {
+              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
+              // @ts-ignore
+              channelAclDefinition: updatedAcl,
+            };
+
+            expect(channelPermission.canUpdateProperties(user, updates)).toBe(
+              false
+            );
+          });
+        });
+      });
+    });
+
+    describe("defaultPostStatus", () => {
+      it("returns true if value not changed regardless of role", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.READ }, // bad role for update
+        ] as IChannelAclPermission[];
+
+        const channel = {
+          defaultPostStatus: PostStatus.APPROVED,
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          defaultPostStatus: PostStatus.APPROVED,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if updated is undefined regardless of role", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.READ }, // bad role for update
+        ] as IChannelAclPermission[];
+
+        const channel = {
+          defaultPostStatus: PostStatus.APPROVED,
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          defaultPostStatus: undefined,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
       it("returns true if user has a role of moderate", () => {
         const user = buildUser();
         const channelAcl = [
@@ -1450,7 +3821,11 @@ describe("ChannelPermission class", () => {
           },
         ] as IChannelAclPermission[];
 
-        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channel = {
+          defaultPostStatus: PostStatus.PENDING,
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
@@ -1466,7 +3841,11 @@ describe("ChannelPermission class", () => {
           { category: AclCategory.USER, key: user.username, role: Role.MANAGE },
         ] as IChannelAclPermission[];
 
-        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channel = {
+          defaultPostStatus: PostStatus.PENDING,
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
@@ -1482,7 +3861,11 @@ describe("ChannelPermission class", () => {
           { category: AclCategory.USER, key: user.username, role: Role.OWNER },
         ] as IChannelAclPermission[];
 
-        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channel = {
+          defaultPostStatus: PostStatus.PENDING,
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
@@ -1502,7 +3885,11 @@ describe("ChannelPermission class", () => {
           },
         ] as IChannelAclPermission[];
 
-        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channel = {
+          defaultPostStatus: PostStatus.PENDING,
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
@@ -1515,8 +3902,48 @@ describe("ChannelPermission class", () => {
       });
     });
 
-    describe("update blockWords required role", () => {
-      it("returns true if user has a role of moderate", () => {
+    describe("blockWords", () => {
+      it("returns true if value not changed from existing regardless of role", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.READ }, // bad role for update
+        ] as IChannelAclPermission[];
+
+        const channel = {
+          blockWords: ["burrito"],
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          blockWords: ["burrito"],
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if value not changed (just rearranged) from existing regardless of role", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.READ }, // bad role for update
+        ] as IChannelAclPermission[];
+
+        const channel = {
+          blockWords: ["burrito", "taco"],
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          blockWords: ["taco", "burrito"],
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if user has a role of moderate and blockWord is removed", () => {
         const user = buildUser();
         const channelAcl = [
           {
@@ -1526,11 +3953,39 @@ describe("ChannelPermission class", () => {
           },
         ] as IChannelAclPermission[];
 
-        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channel = {
+          blockWords: ["burrito", "taco"],
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
-          blockWords: [],
+          blockWords: ["burrito"],
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if user has a role of moderate and blockWord is added", () => {
+        const user = buildUser();
+        const channelAcl = [
+          {
+            category: AclCategory.USER,
+            key: user.username,
+            role: Role.MODERATE,
+          },
+        ] as IChannelAclPermission[];
+
+        const channel = {
+          blockWords: ["burrito", "taco"],
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          blockWords: ["burrito", "taco", "flan"],
         };
 
         expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
@@ -1542,11 +3997,15 @@ describe("ChannelPermission class", () => {
           { category: AclCategory.USER, key: user.username, role: Role.MANAGE },
         ] as IChannelAclPermission[];
 
-        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channel = {
+          blockWords: ["burrito"],
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
-          blockWords: [],
+          blockWords: ["taco"],
         };
 
         expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
@@ -1558,11 +4017,15 @@ describe("ChannelPermission class", () => {
           { category: AclCategory.USER, key: user.username, role: Role.OWNER },
         ] as IChannelAclPermission[];
 
-        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channel = {
+          blockWords: ["burrito"],
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
-          blockWords: [],
+          blockWords: ["taco"],
         };
 
         expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
@@ -1578,11 +4041,15 @@ describe("ChannelPermission class", () => {
           },
         ] as IChannelAclPermission[];
 
-        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channel = {
+          blockWords: ["burrito"],
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
-          blockWords: [],
+          blockWords: ["taco"],
         };
 
         expect(channelPermission.canUpdateProperties(user, updates)).toBe(
@@ -1591,14 +4058,58 @@ describe("ChannelPermission class", () => {
       });
     });
 
-    describe("update softDelete required role", () => {
+    describe("softDelete", () => {
+      it("returns true if value not changed from existing regardless of role", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.READ }, // bad role for update
+        ] as IChannelAclPermission[];
+
+        const channel = {
+          softDelete: true,
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          softDelete: true,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if update is undefined regardless of role", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.READ }, // bad role for update
+        ] as IChannelAclPermission[];
+
+        const channel = {
+          softDelete: true,
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          softDelete: undefined,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
       it("returns true if user has a role of manage", () => {
         const user = buildUser();
         const channelAcl = [
           { category: AclCategory.USER, key: user.username, role: Role.MANAGE },
         ] as IChannelAclPermission[];
 
-        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channel = {
+          softDelete: false,
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
@@ -1614,7 +4125,11 @@ describe("ChannelPermission class", () => {
           { category: AclCategory.USER, key: user.username, role: Role.OWNER },
         ] as IChannelAclPermission[];
 
-        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channel = {
+          softDelete: false,
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
@@ -1634,7 +4149,11 @@ describe("ChannelPermission class", () => {
           },
         ] as IChannelAclPermission[];
 
-        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channel = {
+          softDelete: false,
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
@@ -1647,14 +4166,58 @@ describe("ChannelPermission class", () => {
       });
     });
 
-    describe("update name required role", () => {
+    describe("name", () => {
+      it("returns true if value not changed from existing regardless of role", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.READ }, // bad role for update
+        ] as IChannelAclPermission[];
+
+        const channel = {
+          name: "burrito",
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          name: "burrito",
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
+      it("returns true if update is undefined regardless of role", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.READ }, // bad role for update
+        ] as IChannelAclPermission[];
+
+        const channel = {
+          name: "burrito",
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        const updates: IUpdateChannel = {
+          name: undefined,
+        };
+
+        expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
+      });
+
       it("returns true if user has a role of manage", () => {
         const user = buildUser();
         const channelAcl = [
           { category: AclCategory.USER, key: user.username, role: Role.MANAGE },
         ] as IChannelAclPermission[];
 
-        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channel = {
+          name: "burrito",
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
@@ -1670,7 +4233,11 @@ describe("ChannelPermission class", () => {
           { category: AclCategory.USER, key: user.username, role: Role.OWNER },
         ] as IChannelAclPermission[];
 
-        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channel = {
+          name: "burrito",
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
@@ -1690,7 +4257,11 @@ describe("ChannelPermission class", () => {
           },
         ] as IChannelAclPermission[];
 
-        const channel = { channelAcl, creator: "foo" } as IChannel;
+        const channel = {
+          name: "burrito",
+          channelAcl,
+          creator: "foo",
+        } as IChannel;
         const channelPermission = new ChannelPermission(channel);
 
         const updates: IUpdateChannel = {
@@ -1700,442 +4271,6 @@ describe("ChannelPermission class", () => {
         expect(channelPermission.canUpdateProperties(user, updates)).toBe(
           false
         );
-      });
-    });
-  });
-
-  describe("canPostToChannel", () => {
-    describe("all permission cases", () => {
-      it("returns false if user logged in and channel permissions are empty", async () => {
-        const user = buildUser();
-        const channelAcl = [] as IChannelAclPermission[];
-        const channel = { channelAcl, creator: "foo" } as IChannel;
-
-        const channelPermission = new ChannelPermission(channel);
-
-        expect(channelPermission.canPostToChannel(user)).toBe(false);
-      });
-
-      it("returns false if user not logged in and channel permissions are empty", async () => {
-        const user = buildUser({ username: null });
-        const channelAcl = [] as IChannelAclPermission[];
-        const channel = { channelAcl, creator: "foo" } as IChannel;
-
-        const channelPermission = new ChannelPermission(channel);
-
-        expect(channelPermission.canPostToChannel(user)).toBe(false);
-      });
-    });
-
-    describe("Anonymous User Permissions", () => {
-      it(`returns true if anonymous permission defined and role is allowed`, () => {
-        const user = buildUser({ username: null });
-
-        ALLOWED_ROLES_FOR_POSTING.forEach((allowedRole) => {
-          const channelAcl = [
-            { category: AclCategory.ANONYMOUS_USER, role: allowedRole },
-          ] as IChannelAclPermission[];
-          const channel = { channelAcl, creator: "foo" } as IChannel;
-
-          const channelPermission = new ChannelPermission(channel);
-
-          expect(channelPermission.canPostToChannel(user)).toBe(true);
-        });
-      });
-
-      it("returns false if anonymous permission defined but role is read", () => {
-        const user = buildUser({ username: null });
-        const channelAcl = [
-          { category: AclCategory.ANONYMOUS_USER, role: Role.READ },
-        ] as IChannelAclPermission[];
-        const channel = { channelAcl, creator: "foo" } as IChannel;
-
-        const channelPermission = new ChannelPermission(channel);
-
-        expect(channelPermission.canPostToChannel(user)).toBe(false);
-      });
-    });
-
-    describe("Authenticated User Permissions", () => {
-      it(`returns true if authenticated permission defined, user logged in, and role is allowed`, async () => {
-        const user = buildUser();
-
-        ALLOWED_ROLES_FOR_POSTING.forEach((allowedRole) => {
-          const channelAcl = [
-            { category: AclCategory.AUTHENTICATED_USER, role: allowedRole },
-          ] as IChannelAclPermission[];
-          const channel = { channelAcl, creator: "foo" } as IChannel;
-
-          const channelPermission = new ChannelPermission(channel);
-
-          expect(channelPermission.canPostToChannel(user)).toBe(true);
-        });
-      });
-
-      it("returns false if authenticated permission defined, user logged in, and role is read", async () => {
-        const user = buildUser();
-        const channelAcl = [
-          { category: AclCategory.AUTHENTICATED_USER, role: Role.READ },
-        ] as IChannelAclPermission[];
-        const channel = { channelAcl, creator: "foo" } as IChannel;
-
-        const channelPermission = new ChannelPermission(channel);
-
-        expect(channelPermission.canPostToChannel(user)).toBe(false);
-      });
-
-      it("returns false if authenticated permission defined and user is not logged in", async () => {
-        const user = buildUser({ username: null });
-        const channelAcl = [
-          { category: AclCategory.AUTHENTICATED_USER, role: Role.READWRITE },
-        ] as IChannelAclPermission[];
-        const channel = { channelAcl, creator: "foo" } as IChannel;
-
-        const channelPermission = new ChannelPermission(channel);
-
-        expect(channelPermission.canPostToChannel(user)).toBe(false);
-      });
-    });
-
-    describe("Group Permissions", () => {
-      it("returns true if user is group member in group permission list and role is allowed", async () => {
-        ALLOWED_ROLES_FOR_POSTING.forEach((allowedRole) => {
-          const channelAcl = [
-            {
-              category: AclCategory.GROUP,
-              subCategory: AclSubCategory.MEMBER,
-              key: groupId1,
-              role: allowedRole, // members write
-            },
-            {
-              category: AclCategory.GROUP,
-              subCategory: AclSubCategory.ADMIN,
-              key: groupId1,
-              role: Role.READ,
-            },
-          ] as IChannelAclPermission[];
-
-          ALLOWED_GROUP_ROLES.forEach((memberType) => {
-            const user = buildUser({
-              orgId: orgId1,
-              groups: [buildGroup(groupId1, memberType)], // member in groupId1
-            });
-            const channel = { channelAcl, creator: "foo" } as IChannel;
-
-            const channelPermission = new ChannelPermission(channel);
-
-            expect(channelPermission.canPostToChannel(user)).toBe(true);
-          });
-        });
-      });
-
-      it("returns false if user is group member in group permission list and role is NOT allowed", async () => {
-        const user = buildUser(); // member in groupId1
-        const channelAcl = [
-          {
-            category: AclCategory.GROUP,
-            subCategory: AclSubCategory.MEMBER,
-            key: groupId1,
-            role: Role.READ, // members read
-          },
-          {
-            category: AclCategory.GROUP,
-            subCategory: AclSubCategory.ADMIN,
-            key: groupId1,
-            role: Role.READ,
-          },
-        ] as IChannelAclPermission[];
-        const channel = { channelAcl, creator: "foo" } as IChannel;
-
-        const channelPermission = new ChannelPermission(channel);
-
-        expect(channelPermission.canPostToChannel(user)).toBe(false);
-      });
-
-      it("returns false if user is group member in group permission list, role is allowed, but userMemberType is none", async () => {
-        const user = buildUser({
-          groups: [buildGroup(groupId1, "none")], // none in groupId1
-        });
-        const channelAcl = [
-          {
-            category: AclCategory.GROUP,
-            subCategory: AclSubCategory.MEMBER,
-            key: groupId1,
-            role: Role.READWRITE, // members read
-          },
-          {
-            category: AclCategory.GROUP,
-            subCategory: AclSubCategory.ADMIN,
-            key: groupId1,
-            role: Role.READWRITE, // admins read
-          },
-        ] as IChannelAclPermission[];
-        const channel = { channelAcl, creator: "foo" } as IChannel;
-
-        const channelPermission = new ChannelPermission(channel);
-
-        expect(channelPermission.canPostToChannel(user)).toBe(false);
-      });
-
-      it("returns true if user is group owner/admin in group permission list and role is allowed", async () => {
-        ALLOWED_ROLES_FOR_POSTING.forEach((allowedRole) => {
-          const channelAcl = [
-            {
-              category: AclCategory.GROUP,
-              subCategory: AclSubCategory.MEMBER,
-              key: groupId1,
-              role: Role.READ,
-            },
-            {
-              category: AclCategory.GROUP,
-              subCategory: AclSubCategory.ADMIN,
-              key: groupId1,
-              role: allowedRole, // admins write
-            },
-          ] as IChannelAclPermission[];
-
-          ["owner", "admin"].forEach((memberType) => {
-            const user = buildUser({
-              orgId: orgId1,
-              groups: [buildGroup(groupId1, memberType)], // admin in groupId1
-            });
-            const channel = { channelAcl, creator: "foo" } as IChannel;
-
-            const channelPermission = new ChannelPermission(channel);
-
-            expect(channelPermission.canPostToChannel(user)).toBe(true);
-          });
-        });
-      });
-
-      it("returns false if user is group owner/admin in group permission list and role is NOT allowed", async () => {
-        const user = buildUser(); // admin in groupId2
-        const channelAcl = [
-          {
-            category: AclCategory.GROUP,
-            subCategory: AclSubCategory.MEMBER,
-            key: groupId2,
-            role: Role.READ,
-          },
-          {
-            category: AclCategory.GROUP,
-            subCategory: AclSubCategory.ADMIN,
-            key: groupId2,
-            role: Role.READ, // admins read
-          },
-        ] as IChannelAclPermission[];
-        const channel = { channelAcl, creator: "foo" } as IChannel;
-
-        const channelPermission = new ChannelPermission(channel);
-
-        expect(channelPermission.canPostToChannel(user)).toBe(false);
-      });
-
-      it("returns true if user is group member of at least one group in permissions list that is discussable", async () => {
-        const user = buildUser({
-          orgId: orgId1,
-          groups: [
-            buildGroup(groupId1, "member"), // member in groupId1
-            buildGroup(groupId2, "member", [CANNOT_DISCUSS]), // member in groupId2
-          ],
-        });
-        const channelAcl = [
-          {
-            category: AclCategory.GROUP,
-            subCategory: AclSubCategory.MEMBER,
-            key: groupId1,
-            role: Role.READWRITE, // members write
-          },
-          {
-            category: AclCategory.GROUP,
-            subCategory: AclSubCategory.ADMIN,
-            key: groupId1,
-            role: Role.READ,
-          },
-          {
-            category: AclCategory.GROUP,
-            subCategory: AclSubCategory.MEMBER,
-            key: groupId2,
-            role: Role.READWRITE, // members write, group CANNOT_DISCUSS
-          },
-          {
-            category: AclCategory.GROUP,
-            subCategory: AclSubCategory.ADMIN,
-            key: groupId2,
-            role: Role.READ,
-          },
-        ] as IChannelAclPermission[];
-        const channel = { channelAcl, creator: "foo" } as IChannel;
-
-        const channelPermission = new ChannelPermission(channel);
-
-        expect(channelPermission.canPostToChannel(user)).toBe(true);
-      });
-
-      it("returns false if user is group member in permissions list but the group is not discussable", async () => {
-        const user = buildUser({
-          orgId: orgId1,
-          groups: [
-            buildGroup(groupId1, "member", [CANNOT_DISCUSS]), // member in groupId1
-          ],
-        });
-        const channelAcl = [
-          {
-            category: AclCategory.GROUP,
-            subCategory: AclSubCategory.MEMBER,
-            key: groupId1,
-            role: Role.READWRITE, // members write
-          },
-          {
-            category: AclCategory.GROUP,
-            subCategory: AclSubCategory.ADMIN,
-            key: groupId1,
-            role: Role.READ,
-          },
-        ] as IChannelAclPermission[];
-        const channel = { channelAcl, creator: "foo" } as IChannel;
-
-        const channelPermission = new ChannelPermission(channel);
-
-        expect(channelPermission.canPostToChannel(user)).toBe(false);
-      });
-
-      it("returns false if user is group admin but group is not in permissions list", async () => {
-        const user = buildUser({
-          orgId: orgId1,
-          groups: [
-            buildGroup("unknownGroupId", "admin"), // admin in unknownGroupId
-          ],
-        });
-        const channelAcl = [
-          {
-            category: AclCategory.GROUP,
-            subCategory: AclSubCategory.MEMBER,
-            key: groupId1,
-            role: Role.READWRITE, // members write
-          },
-          {
-            category: AclCategory.GROUP,
-            subCategory: AclSubCategory.ADMIN,
-            key: groupId1,
-            role: Role.READWRITE, // admin write
-          },
-        ] as IChannelAclPermission[];
-        const channel = { channelAcl, creator: "foo" } as IChannel;
-
-        const channelPermission = new ChannelPermission(channel);
-
-        expect(channelPermission.canPostToChannel(user)).toBe(false);
-      });
-    });
-
-    describe("Org Permissions", () => {
-      it("returns true if user is org member in permissions list and member role is allowed", async () => {
-        const user = buildUser();
-
-        ALLOWED_ROLES_FOR_POSTING.forEach((allowedRole) => {
-          const channelAcl = [
-            {
-              category: AclCategory.ORG,
-              subCategory: AclSubCategory.MEMBER,
-              key: user.orgId,
-              role: allowedRole, // members write
-            },
-            {
-              category: AclCategory.ORG,
-              subCategory: AclSubCategory.ADMIN,
-              key: user.orgId,
-              role: Role.READ, // admin read
-            },
-          ] as IChannelAclPermission[];
-          const channel = { channelAcl, creator: "joker" } as IChannel;
-
-          const channelPermission = new ChannelPermission(channel);
-
-          expect(channelPermission.canPostToChannel(user)).toBe(true);
-        });
-      });
-
-      it("returns true if user is org_admin in permissions list and admin role is allowed", async () => {
-        const user = buildUser({ role: "org_admin" });
-
-        ALLOWED_ROLES_FOR_POSTING.forEach((allowedRole) => {
-          const channelAcl = [
-            {
-              category: AclCategory.ORG,
-              subCategory: AclSubCategory.MEMBER,
-              key: user.orgId,
-              role: Role.READ, // members read
-            },
-            {
-              category: AclCategory.ORG,
-              subCategory: AclSubCategory.ADMIN,
-              key: user.orgId,
-              role: allowedRole, // admin write
-            },
-          ] as IChannelAclPermission[];
-          const channel = { channelAcl, creator: "foo" } as IChannel;
-
-          const channelPermission = new ChannelPermission(channel);
-
-          expect(channelPermission.canPostToChannel(user)).toBe(true);
-        });
-      });
-
-      it("returns false if user is not in the permissions org", async () => {
-        const user = buildUser({ orgId: "unknownOrgId" });
-        const channelAcl = [
-          {
-            category: AclCategory.ORG,
-            subCategory: AclSubCategory.MEMBER,
-            key: orgId1,
-            role: Role.READ, // members read
-          },
-          {
-            category: AclCategory.ORG,
-            subCategory: AclSubCategory.ADMIN,
-            key: orgId1,
-            role: Role.READWRITE, // admin write
-          },
-        ] as IChannelAclPermission[];
-        const channel = { channelAcl, creator: "foo" } as IChannel;
-
-        const channelPermission = new ChannelPermission(channel);
-
-        expect(channelPermission.canPostToChannel(user)).toBe(false);
-      });
-    });
-
-    describe("User Permissions", () => {
-      it("returns true if user is in permissions list and role is allowed", () => {
-        const user = buildUser();
-
-        ALLOWED_ROLES_FOR_POSTING.forEach((allowedRole) => {
-          const channelAcl = [
-            {
-              category: AclCategory.USER,
-              key: user.username,
-              role: allowedRole,
-            },
-          ] as IChannelAclPermission[];
-          const channel = { channelAcl, creator: "foo" } as IChannel;
-
-          const channelPermission = new ChannelPermission(channel);
-
-          expect(channelPermission.canPostToChannel(user)).toBe(true);
-        });
-      });
-
-      it("returns false if user is in permissions list but role is read", () => {
-        const user = buildUser();
-        const channelAcl = [
-          { category: AclCategory.USER, key: user.username, role: Role.READ },
-        ] as IChannelAclPermission[];
-        const channel = { channelAcl, creator: "foo" } as IChannel;
-
-        const channelPermission = new ChannelPermission(channel);
-
-        expect(channelPermission.canPostToChannel(user)).toBe(false);
       });
     });
   });

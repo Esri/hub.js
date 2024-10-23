@@ -14,6 +14,7 @@ import * as portalPrivModule from "../../../src/utils/portal-privilege";
 describe("canEditChannel", () => {
   let hasOrgAdminUpdateRightsSpy: jasmine.Spy;
   let canModerateChannelSpy: jasmine.Spy;
+  let canUpdatePropertiesSpy: jasmine.Spy;
   let isAuthorizedToModifyChannelByLegacyPermissionsSpy: jasmine.Spy;
 
   beforeAll(() => {
@@ -25,6 +26,10 @@ describe("canEditChannel", () => {
       ChannelPermission.prototype,
       "canModerateChannel"
     );
+    canUpdatePropertiesSpy = spyOn(
+      ChannelPermission.prototype,
+      "canUpdateProperties"
+    );
     isAuthorizedToModifyChannelByLegacyPermissionsSpy = spyOn(
       isAuthorizedToModifyChannelByLegacyPermissionsModule,
       "isAuthorizedToModifyChannelByLegacyPermissions"
@@ -35,6 +40,7 @@ describe("canEditChannel", () => {
     hasOrgAdminUpdateRightsSpy.calls.reset();
     isAuthorizedToModifyChannelByLegacyPermissionsSpy.calls.reset();
     canModerateChannelSpy.calls.reset();
+    canUpdatePropertiesSpy.calls.reset();
   });
 
   describe("With Org Admin", () => {
@@ -51,6 +57,7 @@ describe("canEditChannel", () => {
       expect(arg2).toBe(channel.orgId);
 
       expect(canModerateChannelSpy.calls.count()).toBe(0);
+      expect(canUpdatePropertiesSpy.calls.count()).toBe(0);
       expect(
         isAuthorizedToModifyChannelByLegacyPermissionsSpy.calls.count()
       ).toBe(0);
@@ -58,9 +65,10 @@ describe("canEditChannel", () => {
   });
 
   describe("With channelAcl Permissions", () => {
-    it("return true if channelPermission.canModerateChannel is true", () => {
+    it("return true if channelPermission.canModerateChannel and channelPermission.canUpdateProperties is true", () => {
       hasOrgAdminUpdateRightsSpy.and.callFake(() => false);
       canModerateChannelSpy.and.callFake(() => true);
+      canUpdatePropertiesSpy.and.callFake(() => true);
 
       const user = {} as IDiscussionsUser;
       const channel = {
@@ -74,6 +82,10 @@ describe("canEditChannel", () => {
       const [arg1] = canModerateChannelSpy.calls.allArgs()[0]; // args for 1st call
       expect(arg1).toBe(user);
 
+      expect(canUpdatePropertiesSpy.calls.count()).toBe(1);
+      const [arg2] = canUpdatePropertiesSpy.calls.allArgs()[0]; // args for 1st call
+      expect(arg2).toEqual({});
+
       expect(
         isAuthorizedToModifyChannelByLegacyPermissionsSpy.calls.count()
       ).toBe(0);
@@ -82,6 +94,7 @@ describe("canEditChannel", () => {
     it("return false if channelPermission.canModerateChannel is false", () => {
       hasOrgAdminUpdateRightsSpy.and.callFake(() => false);
       canModerateChannelSpy.and.callFake(() => false);
+      canUpdatePropertiesSpy.and.callFake(() => true);
 
       const user = {} as IDiscussionsUser;
       const channel = {
@@ -95,14 +108,17 @@ describe("canEditChannel", () => {
       const [arg1] = canModerateChannelSpy.calls.allArgs()[0]; // args for 1st call
       expect(arg1).toBe(user);
 
+      expect(canUpdatePropertiesSpy.calls.count()).toBe(0);
+
       expect(
         isAuthorizedToModifyChannelByLegacyPermissionsSpy.calls.count()
       ).toBe(0);
     });
 
-    it("return false if channelPermission.canModerateChannel is false and user is undefined", () => {
+    it("return false if channelPermission.canModerateChannel is true and channelPermission.canUpdateProperties is false", () => {
       hasOrgAdminUpdateRightsSpy.and.callFake(() => false);
-      canModerateChannelSpy.and.callFake(() => false);
+      canModerateChannelSpy.and.callFake(() => true);
+      canUpdatePropertiesSpy.and.callFake(() => false);
 
       const user = undefined as unknown as IUser;
       const channel = {
@@ -115,6 +131,10 @@ describe("canEditChannel", () => {
       expect(canModerateChannelSpy.calls.count()).toBe(1);
       const [arg1] = canModerateChannelSpy.calls.allArgs()[0]; // args for 1st call
       expect(arg1).toEqual({});
+
+      expect(canUpdatePropertiesSpy.calls.count()).toBe(1);
+      const [arg2] = canUpdatePropertiesSpy.calls.allArgs()[0]; // args for 1st call
+      expect(arg2).toEqual({});
 
       expect(
         isAuthorizedToModifyChannelByLegacyPermissionsSpy.calls.count()
@@ -134,6 +154,7 @@ describe("canEditChannel", () => {
       expect(canEditChannel(channel, user)).toBe(true);
 
       expect(canModerateChannelSpy.calls.count()).toBe(0);
+      expect(canUpdatePropertiesSpy.calls.count()).toBe(0);
 
       expect(
         isAuthorizedToModifyChannelByLegacyPermissionsSpy.calls.count()
@@ -155,6 +176,7 @@ describe("canEditChannel", () => {
       expect(canEditChannel(channel, user)).toBe(false);
 
       expect(canModerateChannelSpy.calls.count()).toBe(0);
+      expect(canUpdatePropertiesSpy.calls.count()).toBe(0);
 
       expect(
         isAuthorizedToModifyChannelByLegacyPermissionsSpy.calls.count()
