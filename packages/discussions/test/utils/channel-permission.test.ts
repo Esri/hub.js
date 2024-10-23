@@ -545,7 +545,7 @@ describe("ChannelPermission class", () => {
     });
   });
 
-  fdescribe("canCreateChannel", () => {
+  describe("canCreateChannel", () => {
     describe("all permissions cases", () => {
       it("returns false if user not authenticated", () => {
         const user = buildUser({ username: null });
