@@ -6,9 +6,13 @@ import { stripProtocol } from "../urls/strip-protocol";
 import { isGuid } from "../utils/is-guid";
 import { IHubCatalog } from "./types/IHubCatalog";
 import { upgradeCatalogSchema } from "./upgradeCatalogSchema";
-import { fetchHubEntity } from "../core/fetchHubEntity";
+import { HubEntityType } from "../core/types/HubEntityType";
 
 /**
+ * @deprecated
+ * NOTE: This assumes the catalog is stored at item.data.catalog and does not handle
+ * events or other entities that may have a catalog.
+ * -----------------------------------
  * Fetch a IHubCatalog from a backing item.
  * This will apply schema upgrades to the structure
  * @param identifier
@@ -57,7 +61,7 @@ export async function fetchCatalog(
       return upgradeCatalogSchema(catalog);
     });
   } else {
-    throw new HubError("Catalog.create", "Identifier must be a url, guid");
+    throw new HubError("fetchCatalog", "Identifier must be a url, guid");
   }
 
   const fetched = await getPrms;

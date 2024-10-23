@@ -1,5 +1,7 @@
 import { WellKnownCollection } from "../wellKnownCatalog";
 
+export type CatalogType = "content" | "exclusion";
+
 export interface IHubCatalog {
   /**
    * Title for the Gallery
@@ -21,6 +23,8 @@ export interface IHubCatalog {
    * Schema Version
    */
   schemaVersion: number;
+
+  type?: CatalogType;
   /**
    * Hashes to verify the integrity of the catalog
    * Only verified when the catalog is loaded into the editor
