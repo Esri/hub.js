@@ -1229,6 +1229,21 @@ describe("ChannelPermission class", () => {
 
         expect(channelPermission.canUpdateProperties(user, updates)).toBe(true);
       });
+
+      it("returns true if updates undefined, regardless of role", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.READ }, // bad role for update
+        ] as IChannelAclPermission[];
+
+        const channel = {
+          allowReply: true,
+          channelAcl,
+        } as IChannel;
+        const channelPermission = new ChannelPermission(channel);
+
+        expect(channelPermission.canUpdateProperties(user)).toBe(true);
+      });
     });
 
     describe("allowReply", () => {
