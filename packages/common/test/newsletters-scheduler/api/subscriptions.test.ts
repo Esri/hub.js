@@ -1,7 +1,7 @@
 import {
-  ISubscription,
-  Cadence,
-  SystemNotificationSpecNames,
+  SchedulerISubscription,
+  SchedulerCadence,
+  SchedulerSystemNotificationSpecNames,
   INotifyParams,
   notify,
   SubscriptionEntityType,
@@ -25,7 +25,7 @@ describe("Subscriptions", () => {
     it("should notify", async () => {
       const mockSubscription = {
         subscription: "mock",
-      } as unknown as ISubscription[];
+      } as unknown as SchedulerISubscription[];
       const notifySpy = spyOn(orvalModule, "notify").and.callFake(
         async () => mockSubscription
       );
@@ -33,9 +33,9 @@ describe("Subscriptions", () => {
       const options: INotifyParams = {
         data: {
           actions: [SubscriptionActions.DISCUSSION_POST_PENDING],
-          cadence: Cadence.WEEKLY,
+          cadence: SchedulerCadence.WEEKLY,
           notificationSpecName:
-            SystemNotificationSpecNames.DISCUSSION_ON_ENTITY,
+            SchedulerSystemNotificationSpecNames.DISCUSSION_ON_ENTITY,
           entityId: "burrito",
           entityType: SubscriptionEntityType.DISCUSSION,
         },

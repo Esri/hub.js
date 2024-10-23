@@ -2,7 +2,7 @@ import {
   ICreateSubscriptionParams,
   ISubscription,
   createSubscription,
-  Cadence,
+  NewsletterCadence,
   DeliveryMethod,
   SystemNotificationSpecNames,
   subscribe,
@@ -39,7 +39,7 @@ describe("Subscriptions", () => {
 
       const options: ISubscribeParams = {
         data: {
-          cadence: Cadence.WEEKLY,
+          cadence: NewsletterCadence.WEEKLY,
           deliveryMethod: DeliveryMethod.EMAIL,
           notificationSpecName: SystemNotificationSpecNames.TELEMETRY_REPORT,
           metadata: {
@@ -71,7 +71,7 @@ describe("Subscriptions", () => {
 
       const options: ICreateSubscriptionParams = {
         data: {
-          cadence: Cadence.WEEKLY,
+          cadence: NewsletterCadence.WEEKLY,
           deliveryMethod: DeliveryMethod.EMAIL,
           notificationSpecName: SystemNotificationSpecNames.TELEMETRY_REPORT,
           metadata: {
@@ -130,7 +130,7 @@ describe("Subscriptions", () => {
       const options: IGetSubscriptionsParams = {
         data: {
           userId: "111",
-          cadence: Cadence.WEEKLY,
+          cadence: NewsletterCadence.WEEKLY,
           active: true,
         },
       };
@@ -158,7 +158,7 @@ describe("Subscriptions", () => {
 
       const options: IUpdateSubscriptionParams = {
         subscriptionId: 111,
-        data: { cadence: Cadence.MONTHLY },
+        data: { cadence: NewsletterCadence.MONTHLY },
       };
 
       const result = await updateSubscription(options);

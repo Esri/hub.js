@@ -1,5 +1,5 @@
 export {
-  Cadence,
+  Cadence as NewsletterCadence,
   DeliveryMethod,
   ICreateEventMetadata,
   ICreateTelemetryReportMetadata,
