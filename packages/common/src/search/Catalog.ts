@@ -1,8 +1,11 @@
 import { IArcGISContext } from "../ArcGISContext";
 import { ArcGISContextManager } from "../ArcGISContextManager";
+import { fetchHubEntity, HubEntity, HubEntityType } from "../core";
 import HubError from "../HubError";
+import { getProp } from "../objects/get-prop";
 import { cloneObject } from "../util";
 import { isGuid, mapBy, isCuid } from "../utils";
+import { fetchEntityCatalog } from "./_internal/fetchEntityCatalog";
 import { Collection } from "./Collection";
 import { fetchCatalog } from "./fetchCatalog";
 import { hubSearch } from "./hubSearch";
@@ -43,9 +46,10 @@ export class Catalog implements IHubCatalog {
   }
 
   /**
+   * DEPRECATED! Use `Catalog.fetch(...)` instead
    * Create a Catalog instance from a site url or itemId
    * '''js
-   * const catalog = await Catalog.create('https://site-org.hub.arcgis.com', context);
+   * const catalog = await Catalog.init('https://site-org.hub.arcgis.com', context);
    * '''
    *
    * @param identifier
@@ -67,6 +71,45 @@ export class Catalog implements IHubCatalog {
     return new Catalog(fetched, context);
   }
 
+  /**
+   * Fetch a catalog
+   * At this point, it returns the `.catalog` property from the entity
+   * @param identifier url, guid, cuid
+   * @param context
+   * @param options is possible, pass the hubEntityType to improve fetching performance
+   * @returns
+   */
+  public static async fetch(
+    identifier: string,
+    context: IArcGISContext,
+    options?: {
+      hubEntityType: HubEntityType;
+      prop: string;
+    }
+  ): Promise<Catalog> {
+    // fetch the catalog
+    let fetched;
+    const isUrl = identifier.indexOf("http") === 0;
+    if (!isUrl && options?.hubEntityType) {
+      const entity = await fetchHubEntity(
+        options.hubEntityType,
+        identifier,
+        context
+      );
+      fetched = getProp(entity, options?.prop || "catalog");
+    } else {
+      // less efficient, but will work for any identifier or a url
+      fetched = await fetchEntityCatalog(identifier, context, {
+        prop: options?.prop,
+      });
+    }
+    // return an instance
+    if (fetched) {
+      return new Catalog(fetched, context);
+    } else {
+      throw new HubError("Caatalog.fetch", "No catalog found for the entity");
+    }
+  }
   /**
    * Create a Catalog instance from a Catalog Definition Json object
    * @param json
