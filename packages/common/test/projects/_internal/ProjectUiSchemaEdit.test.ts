@@ -160,6 +160,31 @@ describe("buildUiSchema: project edit", () => {
           labelKey: "some.scope.sections.searchDiscoverability.label",
           elements: [
             {
+              labelKey: "some.scope.fields.slug.label",
+              scope: "/properties/_slug",
+              type: "Control",
+              options: {
+                control: "hub-field-input-input",
+                helperText: {
+                  labelKey: "some.scope.fields.slug.helperText",
+                },
+                messages: [
+                  {
+                    type: "ERROR",
+                    keyword: "pattern",
+                    icon: true,
+                    labelKey: "some.scope.fields.slug.patternError",
+                  },
+                  {
+                    type: "ERROR",
+                    keyword: "isUniqueSlug",
+                    icon: true,
+                    labelKey: "some.scope.fields.slug.isUniqueError",
+                  },
+                ],
+              },
+            },
+            {
               labelKey: "some.scope.fields.tags.label",
               scope: "/properties/tags",
               type: "Control",
@@ -561,6 +586,31 @@ describe("buildUiSchema: project edit", () => {
           type: "Section",
           labelKey: "some.scope.sections.searchDiscoverability.label",
           elements: [
+            {
+              labelKey: "some.scope.fields.slug.label",
+              scope: "/properties/_slug",
+              type: "Control",
+              options: {
+                control: "hub-field-input-input",
+                helperText: {
+                  labelKey: "some.scope.fields.slug.helperText",
+                },
+                messages: [
+                  {
+                    type: "ERROR",
+                    keyword: "pattern",
+                    icon: true,
+                    labelKey: "some.scope.fields.slug.patternError",
+                  },
+                  {
+                    type: "ERROR",
+                    keyword: "isUniqueSlug",
+                    icon: true,
+                    labelKey: "some.scope.fields.slug.isUniqueError",
+                  },
+                ],
+              },
+            },
             {
               labelKey: "some.scope.fields.tags.label",
               scope: "/properties/tags",
