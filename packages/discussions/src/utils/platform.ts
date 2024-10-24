@@ -2,14 +2,16 @@ import { GroupMembership, IGroup, IUser } from "@esri/arcgis-rest-portal";
 import { IChannel, IDiscussionsUser } from "@esri/hub-common";
 
 type Privilege =
-  | "portal:user:createItem"
-  | "portal:user:shareToGroup"
-  | "portal:user:viewOrgItems"
+  | "portal:admin:deleteItems"
   | "portal:admin:shareToOrg"
   | "portal:admin:shareToPublic"
-  | "portal:admin:viewItems"
   | "portal:admin:updateItems"
-  | "portal:admin:deleteItems";
+  | "portal:admin:viewItems"
+  | "portal:user:createItem"
+  | "portal:user:shareToGroup"
+  | "portal:user:shareToOrg"
+  | "portal:user:shareToPublic"
+  | "portal:user:viewOrgItems";
 
 /**
  * Utility that returns reducer function that filters a user's groups

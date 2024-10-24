@@ -330,7 +330,9 @@ export class ChannelPermission {
       return true;
     }
     return (
-      isOrgAdmin(user) || userHasPrivilege(user, "portal:admin:shareToPublic")
+      isOrgAdmin(user) ||
+      userHasPrivilege(user, "portal:admin:shareToPublic") ||
+      userHasPrivilege(user, "portal:user:shareToPublic")
     );
   }
 
@@ -339,7 +341,9 @@ export class ChannelPermission {
       return true;
     }
     return (
-      isOrgAdmin(user) || userHasPrivilege(user, "portal:admin:shareToPublic")
+      isOrgAdmin(user) ||
+      userHasPrivilege(user, "portal:admin:shareToPublic") ||
+      userHasPrivilege(user, "portal:user:shareToPublic")
     );
   }
 
@@ -370,7 +374,9 @@ export class ChannelPermission {
     }
 
     return (
-      (isOrgAdmin(user) || userHasPrivilege(user, "portal:admin:shareToOrg")) &&
+      (isOrgAdmin(user) ||
+        userHasPrivilege(user, "portal:admin:shareToOrg") ||
+        userHasPrivilege(user, "portal:user:shareToOrg")) &&
       this.isEveryPermissionForUserOrg(user.orgId, orgPermissions)
     );
   }
