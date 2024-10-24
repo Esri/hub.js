@@ -1,3 +1,10 @@
+# @esri/hub-common [14.219.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.218.0...@esri/hub-common@14.219.0) (2024-10-24)
+
+
+### Features
+
+* **hub-common:** export newsletters packages and rename conflicting … ([#1696](https://github.com/Esri/hub.js/issues/1696)) ([7771446](https://github.com/Esri/hub.js/commit/7771446705183886b8e28bd2d76c472909bc3eda))
+
 # @esri/hub-common [14.218.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.217.0...@esri/hub-common@14.218.0) (2024-10-23)
 
 
