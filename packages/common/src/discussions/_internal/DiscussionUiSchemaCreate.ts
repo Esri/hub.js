@@ -33,6 +33,12 @@ export const buildUiSchema = async (
               icon: true,
               labelKey: `shared.fields.title.maxLengthError`,
             },
+            {
+              type: "ERROR",
+              keyword: "format",
+              icon: true,
+              labelKey: `${i18nScope}.fields.name.entityTitleValidatorError`,
+            },
           ],
         },
       },
