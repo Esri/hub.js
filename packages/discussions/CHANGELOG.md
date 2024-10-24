@@ -1,3 +1,10 @@
+# @esri/hub-discussions [28.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@28.4.0...@esri/hub-discussions@28.5.0) (2024-10-24)
+
+
+### Features
+
+* **hub-discussions:** do not restrict channel creation with org or p… ([#1697](https://github.com/Esri/hub.js/issues/1697)) ([8c12020](https://github.com/Esri/hub.js/commit/8c12020e6475540a159421da89002668646e4a6d))
+
 # @esri/hub-discussions [28.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@28.3.0...@esri/hub-discussions@28.4.0) (2024-10-23)
 
 
