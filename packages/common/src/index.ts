@@ -22,6 +22,8 @@ export * from "./surveys";
 export * from "./events";
 export * from "./items";
 export * from "./models";
+export * from "./newsletters";
+export * from "./newsletters-scheduler";
 export * from "./objects";
 export * from "./org";
 export * from "./pages";
