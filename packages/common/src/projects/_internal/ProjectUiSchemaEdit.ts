@@ -148,6 +148,31 @@ export const buildUiSchema = async (
         labelKey: `${i18nScope}.sections.searchDiscoverability.label`,
         elements: [
           {
+            labelKey: `${i18nScope}.fields.slug.label`,
+            scope: "/properties/_slug",
+            type: "Control",
+            options: {
+              control: "hub-field-input-input",
+              helperText: {
+                labelKey: `${i18nScope}.fields.slug.helperText`,
+              },
+              messages: [
+                {
+                  type: "ERROR",
+                  keyword: "pattern",
+                  icon: true,
+                  labelKey: `${i18nScope}.fields.slug.patternError`,
+                },
+                {
+                  type: "ERROR",
+                  keyword: "isUniqueSlug",
+                  icon: true,
+                  labelKey: `${i18nScope}.fields.slug.isUniqueError`,
+                },
+              ],
+            },
+          },
+          {
             labelKey: `${i18nScope}.fields.tags.label`,
             scope: "/properties/tags",
             type: "Control",

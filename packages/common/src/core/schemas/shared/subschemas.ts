@@ -171,3 +171,8 @@ export const PRIVACY_CONFIG_SCHEMA = {
     },
   },
 };
+
+export const SLUG_SCHEMA: JSONSchema = {
+  type: "string",
+  pattern: "^[a-z0-9]+(?:-[a-z0-9]+-*)*$",
+};

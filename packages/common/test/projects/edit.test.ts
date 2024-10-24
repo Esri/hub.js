@@ -208,6 +208,7 @@ describe("project edit module:", () => {
           id: "123",
           cardTitle: "foo",
         },
+        _slug: "new-slug",
       } as unknown as IHubProjectEditor;
 
       const res = editorToProject(editor, {
@@ -218,6 +219,8 @@ describe("project edit module:", () => {
       expect(res._thumbnail).toBeUndefined();
       expect(getProp(res, "view.featuredImage")).toBeUndefined();
       expect(res._metric).toBeUndefined();
+      expect(res._slug).toBeUndefined();
+      expect(res.slug).toEqual("foo|new-slug");
     });
     it("ensures the project has an orgUrlKey", () => {
       const editor: IHubProjectEditor = {
