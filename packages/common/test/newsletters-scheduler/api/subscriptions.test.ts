@@ -1,5 +1,5 @@
 import {
-  SchedulerISubscription,
+  ISchedulerSubscription,
   SchedulerCadence,
   SchedulerSystemNotificationSpecNames,
   INotifyParams,
@@ -25,7 +25,7 @@ describe("Subscriptions", () => {
     it("should notify", async () => {
       const mockSubscription = {
         subscription: "mock",
-      } as unknown as SchedulerISubscription[];
+      } as unknown as ISchedulerSubscription[];
       const notifySpy = spyOn(orvalModule, "notify").and.callFake(
         async () => mockSubscription
       );
