@@ -8,7 +8,7 @@ export {
   SystemNotificationSpecNames as SchedulerSystemNotificationSpecNames,
   SubscriptionEntityType,
   Cadence as SchedulerCadence,
-  SubscriptionActions,
+  SubscriptionAction as SchedulerSubscriptionAction,
   INotify,
 } from "./orval/api/orval-newsletters-scheduler";
 import { IHubRequestOptions } from "../../types";
