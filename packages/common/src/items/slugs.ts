@@ -6,7 +6,7 @@ import { uriSlugToKeywordSlug } from "./_internal/slugConverters";
 
 const TYPEKEYWORD_SLUG_PREFIX = "slug";
 
-const TYPEKEYWORD_MAX_LENGTH = 256;
+export const TYPEKEYWORD_MAX_LENGTH = 256;
 
 /**
  * Create a slug, namespaced to an org and accounting for the 256 character limit

@@ -1,21 +1,22 @@
-import { addConditionalSlugValidation } from "../../../../src/core/schemas/internal/addConditionalSlugValidation";
+import { addDynamicSlugValidation } from "../../../../src/core/schemas/internal/addDynamicSlugValidation";
+import { TYPEKEYWORD_MAX_LENGTH } from "../../../../src/items/slugs";
 
-describe("addConditionalSlugValidation", () => {
-  it("returns the schema if no slug is present on properties", () => {
+describe("addDynamicSlugValidation", () => {
+  it("returns the original schema if no slug is present on properties", () => {
     const schema = {
       properties: {},
     };
     const options = {};
-    const result = addConditionalSlugValidation(schema, options);
+    const result = addDynamicSlugValidation(schema, options);
     expect(result).toBe(schema);
   });
-  it("returns the schema if no properties", () => {
+  it("returns the original schema if no properties", () => {
     const schema = {};
     const options = {};
-    const result = addConditionalSlugValidation(schema, options);
+    const result = addDynamicSlugValidation(schema, options);
     expect(result).toBe(schema);
   });
-  it("adds the conditional validation", () => {
+  it("adds the dynamic validation", () => {
     const schema = {
       properties: {
         _slug: {
@@ -28,11 +29,12 @@ describe("addConditionalSlugValidation", () => {
       orgUrlKey: "orgUrlKey",
       id: "id",
     } as any;
-    const result = addConditionalSlugValidation(schema, options);
+    const result = addDynamicSlugValidation(schema, options);
     expect(result).toEqual({
       properties: {
         _slug: {
           pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+          maxLength: TYPEKEYWORD_MAX_LENGTH - (options.orgUrlKey.length + 1),
         },
       },
       allOf: [
