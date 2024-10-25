@@ -1,5 +1,5 @@
 import { JSONSchema } from "json-schema-typed";
-import { TYPEKEYWORD_MAX_LENGTH } from "../../../items/slugs";
+import { getSlugMaxLength } from "../../../items/slugs";
 import { cloneObject } from "../../../util";
 import { HubEntity } from "../../types/HubEntity";
 import { IWithSlug } from "../../traits";
@@ -23,7 +23,7 @@ export const addDynamicSlugValidation = (
   }
   // add max length to slug
   const { orgUrlKey } = options as IWithSlug;
-  _slug.maxLength = TYPEKEYWORD_MAX_LENGTH - (orgUrlKey.length + 1);
+  _slug.maxLength = getSlugMaxLength(orgUrlKey);
   // add conditional validation to ensure slug is unique
   const allOf = cloneObject(schema.allOf) || [];
   const { pattern } = _slug;

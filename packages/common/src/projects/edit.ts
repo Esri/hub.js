@@ -2,7 +2,12 @@ import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 // Note - we separate these imports so we can cleanly spy on things in tests
 import { createModel, getModel, updateModel } from "../models";
-import { constructSlug, getUniqueSlug, setSlugKeyword } from "../items/slugs";
+import {
+  constructSlug,
+  getUniqueSlug,
+  setSlugKeyword,
+  truncateSlug,
+} from "../items/slugs";
 import {
   IPortal,
   IUserItemOptions,
@@ -95,7 +100,7 @@ export function editorToProject(
 
   // 2.5. slug life
   if (_slug) {
-    project.slug = `${project.orgUrlKey}|${_slug}`;
+    project.slug = truncateSlug(_slug, project.orgUrlKey);
   }
 
   // 3. copy the location extent up one level

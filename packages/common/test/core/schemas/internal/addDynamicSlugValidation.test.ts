@@ -1,5 +1,4 @@
 import { addDynamicSlugValidation } from "../../../../src/core/schemas/internal/addDynamicSlugValidation";
-import { TYPEKEYWORD_MAX_LENGTH } from "../../../../src/items/slugs";
 
 describe("addDynamicSlugValidation", () => {
   it("returns the original schema if no slug is present on properties", () => {
@@ -34,7 +33,7 @@ describe("addDynamicSlugValidation", () => {
       properties: {
         _slug: {
           pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$",
-          maxLength: TYPEKEYWORD_MAX_LENGTH - (options.orgUrlKey.length + 1),
+          maxLength: 256 - ("slug".length + 1) - (options.orgUrlKey.length + 1),
         },
       },
       allOf: [
