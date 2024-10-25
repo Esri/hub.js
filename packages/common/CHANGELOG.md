@@ -1,3 +1,10 @@
+# @esri/hub-common [14.220.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.219.0...@esri/hub-common@14.220.0) (2024-10-25)
+
+
+### Features
+
+* **hub-common:** change subscription actions to singular action ([#1698](https://github.com/Esri/hub.js/issues/1698)) ([b3a60f3](https://github.com/Esri/hub.js/commit/b3a60f34d837951a23cb37597d7b5d24e16b11c5))
+
 # @esri/hub-common [14.219.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.218.0...@esri/hub-common@14.219.0) (2024-10-24)
 
 
