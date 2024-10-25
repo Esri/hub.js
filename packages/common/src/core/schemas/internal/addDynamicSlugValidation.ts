@@ -6,6 +6,13 @@ import { IWithSlug } from "../../traits";
 import { IConfigurationSchema } from "../types";
 import { EditorOptions } from "./EditorOptions";
 
+/**
+ * add slug max length and unique validation to schema
+ * based on the orgUrlKey
+ * @param schema
+ * @param options
+ * @returns
+ */
 export const addDynamicSlugValidation = (
   schema: IConfigurationSchema,
   options: EditorOptions
