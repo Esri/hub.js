@@ -5,7 +5,7 @@ import {
   INotifyParams,
   notify,
   SubscriptionEntityType,
-  SubscriptionActions,
+  SchedulerSubscriptionAction,
 } from "../../../src/newsletters-scheduler";
 import * as authenticateRequestModule from "../../../src/newsletters-scheduler/api/utils/authenticate-request";
 import * as orvalModule from "../../../src/newsletters-scheduler/api/orval/api/orval-newsletters-scheduler";
@@ -32,7 +32,7 @@ describe("Subscriptions", () => {
 
       const options: INotifyParams = {
         data: {
-          actions: [SubscriptionActions.DISCUSSION_POST_PENDING],
+          action: SchedulerSubscriptionAction.DISCUSSION_POST_PENDING,
           cadence: SchedulerCadence.WEEKLY,
           notificationSpecName:
             SchedulerSystemNotificationSpecNames.DISCUSSION_ON_ENTITY,

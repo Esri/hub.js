@@ -79,8 +79,8 @@ export interface ICreateUser {
 export type IUpdateSubscriptionCatalog = ICreateCatalog | null;
 
 export interface IUpdateSubscription {
-  /** An array of actions representing user selections that further customize the subscription behavior */
-  actions?: SubscriptionActions[];
+  /** Type of action representing user selections that further customize the subscription behavior */
+  action?: SubscriptionAction;
   /** Flag to opt user in or out of subscription */
   active?: boolean;
   /** Frequency of the subscription */
@@ -112,8 +112,8 @@ export type ISubscribeMetadata =
 export type ISubscribeCatalog = ICreateCatalog | null;
 
 export interface ISubscribe {
-  /** An array of actions representing user selections that further customize the subscription behavior */
-  actions?: SubscriptionActions[];
+  /** Type of action representing user selections that further customize the subscription behavior */
+  action?: SubscriptionAction;
   /** ArcGIS Online id for a user. Will always be extracted from the token unless service token is used. */
   agoId?: string;
   /** Frequency of the subscription */
@@ -194,7 +194,7 @@ export enum Cadence {
   MONTHLY = "MONTHLY",
 }
 export interface ISubscription {
-  actions: SubscriptionActions[];
+  action: SubscriptionAction;
   active: boolean;
   cadence: Cadence;
   catalog?: ISubscriptionCatalog;
@@ -218,8 +218,8 @@ export enum SystemNotificationSpecNames {
   DISCUSSION_ON_ENTITY = "DISCUSSION_ON_ENTITY",
 }
 export interface ICreateSubscription {
-  /** An array of actions representing user selections that further customize the subscription behavior */
-  actions?: SubscriptionActions[];
+  /** Type of action representing user selections that further customize the subscription behavior */
+  action?: SubscriptionAction;
   /** Frequency of the subscription */
   cadence: Cadence;
   /** catalog for a subscription */
@@ -344,7 +344,7 @@ export interface ICreateCatalogCollectionQuery {
   targetEntity: EntityType;
 }
 
-export enum SubscriptionActions {
+export enum SubscriptionAction {
   DISCUSSION_POST_PENDING = "DISCUSSION_POST_PENDING",
 }
 export interface ICreateEventMetadata {

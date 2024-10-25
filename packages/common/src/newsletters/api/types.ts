@@ -9,6 +9,7 @@ export {
   ISubscriptionMetadata,
   IUser,
   SystemNotificationSpecNames,
+  SubscriptionAction,
 } from "./orval/api/orval-newsletters";
 import { IHubRequestOptions } from "../../types";
 import {

@@ -37,7 +37,7 @@ export enum DeliveryMethod {
   EMAIL = "EMAIL",
 }
 export interface ISubscription {
-  actions: SubscriptionActions[];
+  action: SubscriptionAction;
   active: boolean;
   cadence: Cadence;
   catalog?: ISubscriptionCatalog;
@@ -69,12 +69,12 @@ export enum Cadence {
   WEEKLY = "WEEKLY",
   MONTHLY = "MONTHLY",
 }
-export enum SubscriptionActions {
+export enum SubscriptionAction {
   DISCUSSION_POST_PENDING = "DISCUSSION_POST_PENDING",
 }
 export interface INotify {
-  /** An array of actions representing user selections that further customize the subscription behavior */
-  actions?: SubscriptionActions[];
+  /** Type of action representing user selections that further customize the subscription behavior */
+  action?: SubscriptionAction;
   /** Frequency of the subscription */
   cadence: Cadence;
   /** The AGO id of the entity associated with the subscription */
