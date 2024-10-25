@@ -35,6 +35,7 @@ const SystemPermissions = [
   "hub:feature:newentityview",
   "hub:feature:history",
   "hub:feature:catalogs",
+  "hub:feature:inline-workspace",
   "hub:license:hub-premium",
   "hub:license:hub-basic",
   "hub:license:enterprise-sites",
