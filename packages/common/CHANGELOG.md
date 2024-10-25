@@ -1,3 +1,10 @@
+# @esri/hub-common [14.221.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.220.0...@esri/hub-common@14.221.0) (2024-10-25)
+
+
+### Features
+
+* add inline-workspace flag; limit workspace:org to devext ([#1700](https://github.com/Esri/hub.js/issues/1700)) ([4ad870b](https://github.com/Esri/hub.js/commit/4ad870ba31ea9fd3b6113edc4855e73314d7d301))
+
 # @esri/hub-common [14.220.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.219.0...@esri/hub-common@14.220.0) (2024-10-25)
 
 
