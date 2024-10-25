@@ -147,9 +147,11 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     // When enabled, the manage links will take the user the org home site
+    // Reverting to devext but likely remove and always load workspaces
+    // on the "current site"
     permission: "hub:feature:workspace:org",
     availability: ["alpha"],
-    environments: ["qaext"],
+    environments: ["devext"],
   },
   {
     // DEPRECATED: This permission has been replaced by hub:feature:workspace:org,
@@ -157,7 +159,7 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     // When enabled, the edit & manage links will take the user to umbrella
     permission: "hub:feature:workspace:umbrella",
     availability: ["alpha"],
-    environments: ["qaext"],
+    environments: ["devext"],
   },
   {
     // when enabled keyboard shortcuts will be available
@@ -183,6 +185,13 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     // Enables catalog configuration and viewing
     permission: "hub:feature:catalogs",
     environments: ["qaext"],
+    availability: ["alpha"],
+  },
+  {
+    // Enable inline-workspace for Entity Views
+    // limited to devext alpha so we have to pass as a flag to enable
+    permission: "hub:feature:inline-workspace",
+    environments: ["devext"],
     availability: ["alpha"],
   },
   // NOTE: only use this permission if necessary. Use the licenses check on a permission to check license when able instead of a separate permission.
