@@ -57,7 +57,7 @@ import { createId } from "../util";
 import { IArcGISContext } from "../ArcGISContext";
 import { convertHubGroupToGroup } from "../groups/_internal/convertHubGroupToGroup";
 import { IHubGroup } from "../core/types/IHubGroup";
-import { ensureUniqueEntitySlug } from "../items/_internal/slugs";
+import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlug";
 
 /**
  * @private

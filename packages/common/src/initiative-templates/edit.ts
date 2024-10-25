@@ -22,7 +22,7 @@ import { getPropertyMap } from "./_internal/getPropertyMap";
 import { cloneObject } from "../util";
 import { setDiscussableKeyword } from "../discussions";
 import { IModel } from "../types";
-import { ensureUniqueEntitySlug } from "../items/_internal/slugs";
+import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlug";
 import { IHubItemEntity } from "../core";
 
 /**

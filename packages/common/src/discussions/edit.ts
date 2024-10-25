@@ -2,7 +2,7 @@ import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
 import { IHubDiscussion, IHubItemEntity } from "../core/types";
 import { createModel, getModel, updateModel } from "../models";
 import { constructSlug } from "../items/slugs";
-import { ensureUniqueEntitySlug } from "../items/_internal/slugs";
+import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlug";
 import {
   createSetting,
   removeSetting,
