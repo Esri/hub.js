@@ -29,7 +29,7 @@ import { getCardEditorSchemas } from "./getCardEditorSchemas";
 import { SurveyEditorType } from "../../../surveys/_internal/SurveySchema";
 import { EventEditorType } from "../../../events/_internal/EventSchemaCreate";
 import { UserEditorType } from "../../../users/_internal/UserSchema";
-import { addConditionalSlugValidation } from "./addConditionalSlugValidation";
+import { addDynamicSlugValidation } from "./addDynamicSlugValidation";
 
 /**
  * get the editor schema and uiSchema defined for an editor (either an entity or a card).
@@ -461,7 +461,7 @@ export async function getEditorSchemas(
   schema = filterSchemaToUiSchema(schema, uiSchema);
 
   // if schema includes slug, add conditional validation
-  schema = addConditionalSlugValidation(schema, options);
+  schema = addDynamicSlugValidation(schema, options);
 
   return Promise.resolve({ schema, uiSchema, defaults });
 }
