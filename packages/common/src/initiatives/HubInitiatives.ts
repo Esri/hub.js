@@ -58,6 +58,7 @@ import { IArcGISContext } from "../ArcGISContext";
 import { convertHubGroupToGroup } from "../groups/_internal/convertHubGroupToGroup";
 import { IHubGroup } from "../core/types/IHubGroup";
 import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlug";
+import { truncateSlug } from "../items/_internal/slugs";
 
 /**
  * @private
@@ -121,6 +122,7 @@ export async function editorToInitiative(
 ): Promise<IHubInitiative> {
   const _metric = editor._metric;
   const _associations = editor._associations;
+  const _slug = editor._slug;
 
   // 1. remove the ephemeral props we graft onto the editor
   delete editor._groups;
@@ -129,12 +131,18 @@ export async function editorToInitiative(
   delete editor._metric;
   delete editor._groups;
   delete editor._associations;
+  delete editor._slug;
 
   // 2. clone into a HubInitiative and ensure there's an orgUrlKey
   let initiative = cloneObject(editor) as IHubInitiative;
   initiative.orgUrlKey = editor.orgUrlKey
     ? editor.orgUrlKey
     : context.portal.urlKey;
+
+  // 2.5. slug life
+  if (_slug) {
+    initiative.slug = truncateSlug(_slug, initiative.orgUrlKey);
+  }
 
   // 3. copy the location extent up one level
   initiative.extent = editor.location?.extent;

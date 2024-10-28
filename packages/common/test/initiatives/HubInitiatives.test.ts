@@ -601,6 +601,11 @@ describe("HubInitiatives:", () => {
   });
 
   describe("editor to initiative", () => {
+    const context = {
+      portal: {
+        urlKey: "foo",
+      } as unknown as portalModule.IPortal,
+    } as unknown as IArcGISContext;
     it("removes ephemeral props", async () => {
       const editor: IHubInitiativeEditor = {
         _groups: [],
@@ -615,11 +620,7 @@ describe("HubInitiatives:", () => {
         },
       } as unknown as IHubInitiativeEditor;
 
-      const res = await editorToInitiative(editor, {
-        portal: {
-          urlKey: "foo",
-        } as unknown as portalModule.IPortal,
-      } as unknown as IArcGISContext);
+      const res = await editorToInitiative(editor, context);
 
       expect(res._groups).toBeUndefined();
       expect(res._thumbnail).toBeUndefined();
@@ -632,11 +633,7 @@ describe("HubInitiatives:", () => {
         orgUrlKey: "bar",
       } as unknown as IHubInitiativeEditor;
 
-      const res = await editorToInitiative(editor, {
-        portal: {
-          urlKey: "foo",
-        } as unknown as portalModule.IPortal,
-      } as unknown as IArcGISContext);
+      const res = await editorToInitiative(editor, context);
 
       expect(res.orgUrlKey).toEqual("bar");
     });
@@ -650,16 +647,22 @@ describe("HubInitiatives:", () => {
         },
       } as unknown as IHubInitiativeEditor;
 
-      const res = await editorToInitiative(editor, {
-        portal: {
-          urlKey: "foo",
-        } as unknown as portalModule.IPortal,
-      } as unknown as IArcGISContext);
+      const res = await editorToInitiative(editor, context);
 
       expect(res.extent).toEqual([
         [1, 2],
         [3, 4],
       ]);
+    });
+    it("transforms the slug", async () => {
+      const editor: IHubInitiativeEditor = {
+        _slug: "updated-slug",
+      } as unknown as IHubInitiativeEditor;
+
+      const res = await editorToInitiative(editor, context);
+
+      expect(res.slug).toEqual("foo|updated-slug");
+      expect(res._slug).toBeUndefined();
     });
     describe("metrics", () => {
       let mockMetric: IMetric;
