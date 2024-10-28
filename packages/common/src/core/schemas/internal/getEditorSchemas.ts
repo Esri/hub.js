@@ -140,6 +140,8 @@ export async function getEditorSchemas(
           import("../../../projects/_internal/ProjectUiSchemaCreate"),
         "hub:project:create2": () =>
           import("../../../projects/_internal/ProjectUiSchemaCreate2"),
+        "hub:project:discussions": () =>
+          import("../../../projects/_internal/ProjectUiSchemaDiscussions"),
         "hub:project:metrics": () => import("./metrics/ProjectUiSchemaMetrics"),
         "hub:project:settings": () =>
           import("../../../projects/_internal/ProjectUiSchemaSettings"),
