@@ -4,6 +4,7 @@ import { getMajorVersion } from "./feeds/_internal/getMajorVersion";
 type FeedFormat = "dcat-us" | "dcat-ap" | "rss";
 
 /**
+ * DEPRECATED: This will be removed in the next breaking version. use `getFeedTemplate()` instead
  * Returns feed configuration from a site model
  *
  * @param {IModel} site - site model
@@ -31,6 +32,7 @@ export function getFeedConfiguration(
 }
 
 /**
+ * DEPRECATED: This will be removed in the next breaking version. Use `setFeedTemplate()` instead;
  * Returns feed configuration from a site model
  *
  * @param {IModel} site - site model
