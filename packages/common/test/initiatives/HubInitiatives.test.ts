@@ -628,42 +628,6 @@ describe("HubInitiatives:", () => {
       expect(res._metric).toBeUndefined();
       expect(res._associations).toBeUndefined();
     });
-    // it("ensures the project has an orgUrlKey", async () => {
-    //   const editor: IHubInitiativeEditor = {
-    //     orgUrlKey: "bar",
-    //   } as unknown as IHubInitiativeEditor;
-
-    //   const res = await editorToInitiative(editor, context);
-
-    //   expect(res.orgUrlKey).toEqual("bar");
-    // });
-    // it("copies the location extent up one level", async () => {
-    //   const editor: IHubInitiativeEditor = {
-    //     location: {
-    //       extent: [
-    //         [1, 2],
-    //         [3, 4],
-    //       ],
-    //     },
-    //   } as unknown as IHubInitiativeEditor;
-
-    //   const res = await editorToInitiative(editor, context);
-
-    //   expect(res.extent).toEqual([
-    //     [1, 2],
-    //     [3, 4],
-    //   ]);
-    // });
-    // it("transforms the slug", async () => {
-    //   const editor: IHubInitiativeEditor = {
-    //     _slug: "updated-slug",
-    //   } as unknown as IHubInitiativeEditor;
-
-    //   const res = await editorToInitiative(editor, context);
-
-    //   expect(res.slug).toEqual("foo|updated-slug");
-    //   expect(res._slug).toBeUndefined();
-    // });
     describe("metrics", () => {
       let mockMetric: IMetric;
       let mockMetricDisplay: IMetricDisplayConfig;
