@@ -4,6 +4,7 @@ import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThum
 import { IUiSchema, UiSchemaMessageTypes } from "../../core/schemas/types";
 import { getRecommendedTemplatesCatalog } from "./getRecommendedTemplatesCatalog";
 import { getEntityThumbnailUrl } from "../../core/getEntityThumbnailUrl";
+import { getSlugSchemaElement } from "../../core/schemas/internal/getSlugSchemaElement";
 
 /**
  * @private
@@ -49,6 +50,7 @@ export const buildUiSchema = async (
               ],
             },
           },
+          getSlugSchemaElement(i18nScope),
           {
             type: "Control",
             scope: "/properties/previewUrl",

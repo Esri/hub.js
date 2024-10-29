@@ -5,8 +5,6 @@ import {
   createInitiativeTemplate,
   IHubInitiativeTemplate,
   updateInitiativeTemplate,
-  IHubInitiativeTemplateEditor,
-  editorToInitiativeTemplate,
 } from "../../src";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as portalModule from "@esri/arcgis-rest-portal";
@@ -193,28 +191,6 @@ describe("initiative template edit module:", () => {
       const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
       expect(modelToUpdate.item.description).toBe(it.description);
       expect(modelToUpdate.item.properties.slug).toBe("dcdev-wat-blarg-1");
-    });
-  });
-
-  describe("editor to initiative template", () => {
-    it("basic transform", () => {
-      const editor: IHubInitiativeTemplateEditor = {
-        orgUrlKey: "bar",
-      } as unknown as IHubInitiativeTemplateEditor;
-      const it = editorToInitiativeTemplate(editor, {
-        urlKey: "foo",
-      } as unknown as portalModule.IPortal);
-      expect(it.orgUrlKey).toEqual("bar");
-    });
-
-    it("sparse transform", () => {
-      const editor: IHubInitiativeTemplateEditor =
-        {} as unknown as IHubInitiativeTemplateEditor;
-      const p = editorToInitiativeTemplate(editor, {
-        urlKey: "foo",
-      } as unknown as portalModule.IPortal);
-      expect(p.orgUrlKey).toEqual("foo");
-      expect(p.extent).toBeUndefined();
     });
   });
 });
