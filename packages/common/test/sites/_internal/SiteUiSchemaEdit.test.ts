@@ -5,9 +5,14 @@ import * as getLocationOptionsModule from "../../../src/core/schemas/internal/ge
 import * as getTagItemsModule from "../../../src/core/schemas/internal/getTagItems";
 import * as fetchCategoryItemsModule from "../../../src/core/schemas/internal/fetchCategoryItems";
 import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
+import * as getSlugSchemaElementModule from "../../../src/core/schemas/internal/getSlugSchemaElement";
 
 describe("buildUiSchema: site edit", () => {
-  it("returns the full site edit uiSchema", async () => {
+  const mockSlugElement = {
+    labelKey: "slug",
+    scope: "/properties/_slug",
+  } as any;
+  beforeEach(() => {
     spyOn(fetchCategoryItemsModule, "fetchCategoryItems").and.returnValue(
       Promise.resolve([
         {
@@ -25,7 +30,11 @@ describe("buildUiSchema: site edit", () => {
     spyOn(getTagItemsModule, "getTagItems").and.returnValue(
       Promise.resolve([])
     );
-
+    spyOn(getSlugSchemaElementModule, "getSlugSchemaElement").and.returnValue(
+      mockSlugElement
+    );
+  });
+  it("returns the full site edit uiSchema", async () => {
     const uiSchema = await buildUiSchema(
       "some.scope",
       {
@@ -139,6 +148,7 @@ describe("buildUiSchema: site edit", () => {
                 },
               ],
             },
+            mockSlugElement,
             {
               labelKey: "some.scope.fields.tags.label",
               scope: "/properties/tags",
