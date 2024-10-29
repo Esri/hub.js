@@ -40,6 +40,30 @@ export const buildUiSchema = async (
           ],
         },
       },
+      {
+        type: "Notice",
+        options: {
+          notice: {
+            configuration: {
+              id: "use-template-notice",
+              noticeType: "notice",
+              closable: false,
+              kind: "info",
+              scale: "m",
+              "data-autoclose": true,
+            },
+            message: `{{${i18nScope}.fields.browseTemplate.message:translate}}`,
+            autoShow: true,
+            actions: [
+              {
+                label: `{{${i18nScope}.fields.browseTemplate.action:translate}}`,
+                href: `${context.hubHomeUrl}/edit/new/browse?source=org`,
+                target: "_blank",
+              },
+            ],
+          },
+        },
+      },
     ],
   };
 };
