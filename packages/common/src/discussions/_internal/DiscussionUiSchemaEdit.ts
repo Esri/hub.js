@@ -6,6 +6,7 @@ import { getLocationOptions } from "../../core/schemas/internal/getLocationOptio
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 import { IHubDiscussion } from "../../core/types";
 import { fetchCategoriesUiSchemaElement } from "../../core/schemas/internal/fetchCategoriesUiSchemaElement";
+import { getSlugSchemaElement } from "../../core/schemas/internal/getSlugSchemaElement";
 
 /**
  * @private
@@ -107,6 +108,7 @@ export const buildUiSchema = async (
         type: "Section",
         labelKey: `${i18nScope}.sections.searchDiscoverability.label`,
         elements: [
+          getSlugSchemaElement(i18nScope),
           {
             labelKey: `${i18nScope}.fields.tags.label`,
             scope: "/properties/tags",

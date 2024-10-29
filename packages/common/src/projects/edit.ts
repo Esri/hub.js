@@ -21,6 +21,7 @@ import { setEntityStatusKeyword } from "../utils/internal/setEntityStatusKeyword
 import { editorToMetric } from "../core/schemas/internal/metrics/editorToMetric";
 import { setMetricAndDisplay } from "../core/schemas/internal/metrics/setMetricAndDisplay";
 import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlug";
+import { editorToEntity } from "../core/schemas/internal/metrics/editorToEntity";
 
 /**
  * @private
@@ -80,7 +81,6 @@ export function editorToProject(
   portal: IPortal
 ): IHubProject {
   const _metric = editor._metric;
-  const _slug = editor._slug;
 
   // 1. remove the ephemeral props we graft onto the editor
   delete editor._groups;
@@ -88,19 +88,9 @@ export function editorToProject(
   delete editor.view?.featuredImage;
   delete editor._metric;
   delete editor._groups;
-  delete editor._slug;
 
-  // 2. clone into a HubProject and ensure there's an orgUrlKey
-  let project = cloneObject(editor) as IHubProject;
-  project.orgUrlKey = editor.orgUrlKey ? editor.orgUrlKey : portal.urlKey;
-
-  // 2.5. slug life
-  if (_slug) {
-    project.slug = truncateSlug(_slug, project.orgUrlKey);
-  }
-
-  // 3. copy the location extent up one level
-  project.extent = editor.location?.extent;
+  // 2. clone into a HubProject and extract common properties
+  let project = editorToEntity(editor, portal) as IHubProject;
 
   // 4. handle configured metric:
   //   a. transform editor values into metric + displayConfig

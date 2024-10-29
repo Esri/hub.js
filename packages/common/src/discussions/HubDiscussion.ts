@@ -14,6 +14,9 @@ import { IWithEditorBehavior } from "../core/behaviors/IWithEditorBehavior";
 import { cloneObject } from "../util";
 import { DiscussionEditorType } from "./_internal/DiscussionSchema";
 import { enrichEntity } from "../core/enrichEntity";
+import { getEditorSlug } from "../core/_internal/getEditorSlug";
+import { editorToEntity } from "../core/schemas/internal/metrics/editorToEntity";
+
 /**
  * Hub Discussion Class
  */
@@ -190,6 +193,7 @@ export class HubDiscussion
 
     // 2. Apply transforms to relevant entity values so they
     // can be consumed by the editor
+    editor._slug = getEditorSlug(this.entity);
     return editor;
   }
 
@@ -199,6 +203,7 @@ export class HubDiscussion
    * @returns
    */
   async fromEditor(editor: IHubDiscussionEditor): Promise<IHubDiscussion> {
+    // TODO: move this into a util
     // Setting the thumbnailCache will ensure that
     // the thumbnail is updated on next save
     if (editor._thumbnail) {
@@ -217,15 +222,8 @@ export class HubDiscussion
 
     delete editor._thumbnail;
 
-    // convert back to an entity. Apply any reverse transforms used in
-    // of the toEditor method
-    const entity = cloneObject(editor) as IHubDiscussion;
-
-    // copy the location extent up one level
-    entity.extent = editor.location?.extent;
-
     // Save, which will also create new content if new
-    this.entity = entity;
+    this.entity = editorToEntity(editor, this.context.portal) as IHubDiscussion;
     await this.save();
 
     return this.entity;

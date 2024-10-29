@@ -1,4 +1,5 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { editorToEntity } from "../core/schemas/internal/metrics/editorToEntity";
 
 // Note - we separate these imports so we can cleanly spy on things in tests
 import {
@@ -122,7 +123,6 @@ export async function editorToInitiative(
 ): Promise<IHubInitiative> {
   const _metric = editor._metric;
   const _associations = editor._associations;
-  const _slug = editor._slug;
 
   // 1. remove the ephemeral props we graft onto the editor
   delete editor._groups;
@@ -131,21 +131,9 @@ export async function editorToInitiative(
   delete editor._metric;
   delete editor._groups;
   delete editor._associations;
-  delete editor._slug;
 
-  // 2. clone into a HubInitiative and ensure there's an orgUrlKey
-  let initiative = cloneObject(editor) as IHubInitiative;
-  initiative.orgUrlKey = editor.orgUrlKey
-    ? editor.orgUrlKey
-    : context.portal.urlKey;
-
-  // 2.5. slug life
-  if (_slug) {
-    initiative.slug = truncateSlug(_slug, initiative.orgUrlKey);
-  }
-
-  // 3. copy the location extent up one level
-  initiative.extent = editor.location?.extent;
+  // 2. clone into a HubInitiative and extract common properties
+  let initiative = editorToEntity(editor, context.portal) as IHubInitiative;
 
   // 4. handle configured metric:
   //   a. transform editor values into metric + displayConfig
