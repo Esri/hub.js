@@ -1,3 +1,10 @@
+# @esri/hub-common [14.222.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.221.1...@esri/hub-common@14.222.0) (2024-10-29)
+
+
+### Features
+
+* **hub-common:** add channelAcl to PostRelation ([#1701](https://github.com/Esri/hub.js/issues/1701)) ([5568041](https://github.com/Esri/hub.js/commit/5568041765d4672deb486b485a463c926d7f8257))
+
 ## @esri/hub-common [14.221.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.221.0...@esri/hub-common@14.221.1) (2024-10-29)
 
 
