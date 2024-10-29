@@ -10,6 +10,15 @@ export interface ISetFeedTemplateOptions {
   updatedTemplate: Record<string, any>;
 }
 
+/**
+ * Sets the feed template for a given feed format and version. Always use this function
+ * to update feed templates rather than interacting with the feeds configuration object directly.
+ * @param opts.feedsConfig - the raw feeds configuration object
+ * @param opts.format - the feed format
+ * @param opts.version - the feed version
+ * @param opts.updatedTemplate - the updated feed template
+ * @returns a new feeds configuration object with the updated template
+ */
 export function setFeedTemplate(
   opts: ISetFeedTemplateOptions
 ): Record<string, any> {

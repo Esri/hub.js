@@ -9,6 +9,15 @@ export interface IPreviewFeedOptions {
   context: IArcGISContext;
 }
 
+/**
+ * Preview a feed using the provided template and context
+ * @param opts.format - the feed format
+ * @param opts.version - the feed version
+ * @param opts.previewTemplate - the feed template to preview
+ * @param opts.previewHubId - the Hub ID to preview the feed for
+ * @param opts.context - the ArcGIS context
+ * @returns the previewed feed as a string
+ */
 export async function previewFeed(opts: IPreviewFeedOptions): Promise<string> {
   const { format, version, previewHubId, context } = opts;
   const stringifiedTemplate = JSON.stringify(opts.previewTemplate);
@@ -17,6 +26,8 @@ export async function previewFeed(opts: IPreviewFeedOptions): Promise<string> {
 
   const searchParams = new URLSearchParams();
   searchParams.set("id", previewHubId);
+
+  // The feeds api has different query parameters for rss and dcat feeds
   format === "rss"
     ? searchParams.set("rssConfig", stringifiedTemplate)
     : searchParams.set("dcatConfig", stringifiedTemplate);
@@ -28,6 +39,7 @@ export async function previewFeed(opts: IPreviewFeedOptions): Promise<string> {
 
   let preview: string;
   if (format === "rss") {
+    // RSS feeds are returned as XML text rather than JSON
     const asText = await response.text();
     preview = decodeURIComponent(asText);
   } else {

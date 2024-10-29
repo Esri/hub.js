@@ -1,7 +1,8 @@
 import { IModel } from "../../types";
 import { cloneObject } from "../../util";
-import { getFeedConfiguration, getMajorVersion } from "../feed-configuration";
-import { getDefaultTemplates } from "./defaults";
+import { getMajorVersion } from "./_internal/getMajorVersion";
+import { getFeedConfiguration } from "../feed-configuration";
+import { getDefaultTemplates } from "./_internal/defaults";
 import { FeedFormat, IFeedsConfiguration } from "./types";
 
 export interface IGetFeedTemplateOptions {
@@ -10,6 +11,14 @@ export interface IGetFeedTemplateOptions {
   version: string;
 }
 
+/**
+ * Get the feed template for a given feed format and version, accounting
+ * for version fallbacks and default templates as necessary.
+ * @param opts.feedConfig - the raw feeds configuration object
+ * @param opts.format - the feed format
+ * @param opts.version - the feed version
+ * @returns a feed template object
+ */
 export function getFeedTemplate(
   opts: IGetFeedTemplateOptions
 ): Record<string, any> {

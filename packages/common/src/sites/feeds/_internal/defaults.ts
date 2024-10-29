@@ -1,5 +1,8 @@
-import { FeedFormat } from "./types";
+import { FeedFormat } from "../types";
 
+/**
+ * Returns the default templates for each supported major version of each feed format
+ */
 export function getDefaultTemplates(): Record<FeedFormat, Record<string, any>> {
   return {
     "dcat-us": {

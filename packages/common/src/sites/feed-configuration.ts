@@ -1,4 +1,5 @@
 import { IModel } from "../types";
+import { getMajorVersion } from "./feeds/_internal/getMajorVersion";
 
 type FeedFormat = "dcat-us" | "dcat-ap" | "rss";
 
@@ -122,9 +123,4 @@ function setRssConfig(
   }
 
   throw new Error("Unsupported RSS Version");
-}
-
-// TODO: move to internal helper instead
-export function getMajorVersion(version: string) {
-  return version.split(".")[0];
 }
