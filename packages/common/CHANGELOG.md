@@ -1,3 +1,10 @@
+# @esri/hub-common [14.223.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.222.0...@esri/hub-common@14.223.0) (2024-10-30)
+
+
+### Features
+
+* **hub-common:** add slug to entity edit schemas ([#1706](https://github.com/Esri/hub.js/issues/1706)) ([dc38ff4](https://github.com/Esri/hub.js/commit/dc38ff4fe48386ce1fec59a1f05a14ec23690e62))
+
 # @esri/hub-common [14.222.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.221.1...@esri/hub-common@14.222.0) (2024-10-29)
 
 
