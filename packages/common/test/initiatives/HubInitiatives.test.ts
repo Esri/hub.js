@@ -601,6 +601,11 @@ describe("HubInitiatives:", () => {
   });
 
   describe("editor to initiative", () => {
+    const context = {
+      portal: {
+        urlKey: "foo",
+      } as unknown as portalModule.IPortal,
+    } as unknown as IArcGISContext;
     it("removes ephemeral props", async () => {
       const editor: IHubInitiativeEditor = {
         _groups: [],
@@ -615,51 +620,13 @@ describe("HubInitiatives:", () => {
         },
       } as unknown as IHubInitiativeEditor;
 
-      const res = await editorToInitiative(editor, {
-        portal: {
-          urlKey: "foo",
-        } as unknown as portalModule.IPortal,
-      } as unknown as IArcGISContext);
+      const res = await editorToInitiative(editor, context);
 
       expect(res._groups).toBeUndefined();
       expect(res._thumbnail).toBeUndefined();
       expect(getProp(res, "view.featuredImage")).toBeUndefined();
       expect(res._metric).toBeUndefined();
       expect(res._associations).toBeUndefined();
-    });
-    it("ensures the project has an orgUrlKey", async () => {
-      const editor: IHubInitiativeEditor = {
-        orgUrlKey: "bar",
-      } as unknown as IHubInitiativeEditor;
-
-      const res = await editorToInitiative(editor, {
-        portal: {
-          urlKey: "foo",
-        } as unknown as portalModule.IPortal,
-      } as unknown as IArcGISContext);
-
-      expect(res.orgUrlKey).toEqual("bar");
-    });
-    it("copies the location extent up one level", async () => {
-      const editor: IHubInitiativeEditor = {
-        location: {
-          extent: [
-            [1, 2],
-            [3, 4],
-          ],
-        },
-      } as unknown as IHubInitiativeEditor;
-
-      const res = await editorToInitiative(editor, {
-        portal: {
-          urlKey: "foo",
-        } as unknown as portalModule.IPortal,
-      } as unknown as IArcGISContext);
-
-      expect(res.extent).toEqual([
-        [1, 2],
-        [3, 4],
-      ]);
     });
     describe("metrics", () => {
       let mockMetric: IMetric;

@@ -169,4 +169,10 @@ export type IHubItemEntityEditor<T> = Omit<T, "extent"> & {
     membershipAccess?: MembershipAccess;
   };
   _metric?: IMetricEditorValues;
+
+  /**
+   * user editable portion of the slug
+   * (i.e. w/o the orgUrlKey prefix)
+   */
+  _slug?: string;
 };

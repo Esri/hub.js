@@ -2,7 +2,8 @@ import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 // Note - we separate these imports so we can cleanly spy on things in tests
 import { createModel, getModel, updateModel } from "../models";
-import { constructSlug, getUniqueSlug, setSlugKeyword } from "../items/slugs";
+import { constructSlug } from "../items/slugs";
+import { truncateSlug } from "../items/_internal/slugs";
 import {
   IPortal,
   IUserItemOptions,
@@ -19,7 +20,8 @@ import { IModel } from "../types";
 import { setEntityStatusKeyword } from "../utils/internal/setEntityStatusKeyword";
 import { editorToMetric } from "../core/schemas/internal/metrics/editorToMetric";
 import { setMetricAndDisplay } from "../core/schemas/internal/metrics/setMetricAndDisplay";
-import { ensureUniqueEntitySlug } from "../items/_internal/slugs";
+import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlug";
+import { editorToEntity } from "../core/schemas/internal/metrics/editorToEntity";
 
 /**
  * @private
@@ -87,12 +89,8 @@ export function editorToProject(
   delete editor._metric;
   delete editor._groups;
 
-  // 2. clone into a HubProject and ensure there's an orgUrlKey
-  let project = cloneObject(editor) as IHubProject;
-  project.orgUrlKey = editor.orgUrlKey ? editor.orgUrlKey : portal.urlKey;
-
-  // 3. copy the location extent up one level
-  project.extent = editor.location?.extent;
+  // 2. clone into a HubProject and extract common properties
+  let project = editorToEntity(editor, portal) as IHubProject;
 
   // 4. handle configured metric:
   //   a. transform editor values into metric + displayConfig

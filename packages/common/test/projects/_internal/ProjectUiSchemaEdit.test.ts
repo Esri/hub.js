@@ -7,9 +7,14 @@ import * as getLocationExtentModule from "../../../src/core/schemas/internal/get
 import * as getLocationOptionsModule from "../../../src/core/schemas/internal/getLocationOptions";
 import * as getTagItemsModule from "../../../src/core/schemas/internal/getTagItems";
 import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
+import * as getSlugSchemaElementModule from "../../../src/core/schemas/internal/getSlugSchemaElement";
 
 describe("buildUiSchema: project edit", () => {
-  it("returns the full project edit uiSchema", async () => {
+  const mockSlugElement = {
+    labelKey: "slug",
+    scope: "/properties/_slug",
+  } as any;
+  beforeEach(() => {
     spyOn(fetchCategoryItemsModule, "fetchCategoryItems").and.returnValue(
       Promise.resolve([
         {
@@ -34,7 +39,11 @@ describe("buildUiSchema: project edit", () => {
     spyOn(getTagItemsModule, "getTagItems").and.returnValue(
       Promise.resolve([])
     );
-
+    spyOn(getSlugSchemaElementModule, "getSlugSchemaElement").and.returnValue(
+      mockSlugElement
+    );
+  });
+  it("returns the full project edit uiSchema", async () => {
     const uiSchema = await buildUiSchema(
       "some.scope",
       {
@@ -159,6 +168,7 @@ describe("buildUiSchema: project edit", () => {
           type: "Section",
           labelKey: "some.scope.sections.searchDiscoverability.label",
           elements: [
+            mockSlugElement,
             {
               labelKey: "some.scope.fields.tags.label",
               scope: "/properties/tags",
@@ -409,31 +419,6 @@ describe("buildUiSchema: project edit", () => {
     });
   });
   it("returns the full project edit uiSchema with a defined view", async () => {
-    spyOn(fetchCategoryItemsModule, "fetchCategoryItems").and.returnValue(
-      Promise.resolve([
-        {
-          value: "/categories",
-          label: "/categories",
-        },
-      ])
-    );
-    spyOn(
-      getFeaturedContentCatalogsModule,
-      "getFeaturedContentCatalogs"
-    ).and.returnValue({});
-    spyOn(getAuthedImageUrlModule, "getAuthedImageUrl").and.returnValue(
-      "https://some-image-url.com"
-    );
-    spyOn(getLocationExtentModule, "getLocationExtent").and.returnValue(
-      Promise.resolve([])
-    );
-    spyOn(getLocationOptionsModule, "getLocationOptions").and.returnValue(
-      Promise.resolve([])
-    );
-    spyOn(getTagItemsModule, "getTagItems").and.returnValue(
-      Promise.resolve([])
-    );
-
     const uiSchema = await buildUiSchema(
       "some.scope",
       {
@@ -561,6 +546,7 @@ describe("buildUiSchema: project edit", () => {
           type: "Section",
           labelKey: "some.scope.sections.searchDiscoverability.label",
           elements: [
+            mockSlugElement,
             {
               labelKey: "some.scope.fields.tags.label",
               scope: "/properties/tags",

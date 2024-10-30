@@ -1,5 +1,5 @@
 import { HubEntityHero } from "../../../types";
-import { IConfigurationSchema } from "../types";
+import { IAsyncConfigurationSchema } from "../types";
 import {
   ENTITY_ACCESS_SCHEMA,
   ENTITY_CATEGORIES_SCHEMA,
@@ -12,6 +12,7 @@ import {
   ENTITY_SUMMARY_SCHEMA,
   ENTITY_TAGS_SCHEMA,
   ENTITY_TIMELINE_SCHEMA,
+  SLUG_SCHEMA,
 } from "./subschemas";
 
 /**
@@ -19,7 +20,8 @@ import {
  * All item entity schemas should leverage this base schema.
  * Reference the Project or Initiative schemas as an example
  */
-export const HubItemEntitySchema: IConfigurationSchema = {
+export const HubItemEntitySchema: IAsyncConfigurationSchema = {
+  $async: true,
   type: "object",
   required: ["name"],
   properties: {
@@ -79,5 +81,6 @@ export const HubItemEntitySchema: IConfigurationSchema = {
         heroActions: { type: "array" },
       },
     },
+    _slug: SLUG_SCHEMA,
   },
-} as IConfigurationSchema;
+} as IAsyncConfigurationSchema;

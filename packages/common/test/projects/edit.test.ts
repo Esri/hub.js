@@ -199,6 +199,9 @@ describe("project edit module:", () => {
     });
   });
   describe("editor to project", () => {
+    const portal = {
+      urlKey: "foo",
+    } as unknown as portalModule.IPortal;
     it("removes ephemeral props", () => {
       const editor: IHubProjectEditor = {
         _groups: [],
@@ -208,11 +211,10 @@ describe("project edit module:", () => {
           id: "123",
           cardTitle: "foo",
         },
+        _slug: "new-slug",
       } as unknown as IHubProjectEditor;
 
-      const res = editorToProject(editor, {
-        urlKey: "foo",
-      } as unknown as portalModule.IPortal);
+      const res = editorToProject(editor, portal);
 
       expect(res._groups).toBeUndefined();
       expect(res._thumbnail).toBeUndefined();
@@ -224,9 +226,7 @@ describe("project edit module:", () => {
         orgUrlKey: "bar",
       } as unknown as IHubProjectEditor;
 
-      const res = editorToProject(editor, {
-        urlKey: "foo",
-      } as unknown as portalModule.IPortal);
+      const res = editorToProject(editor, portal);
 
       expect(res.orgUrlKey).toEqual("bar");
     });
@@ -240,14 +240,22 @@ describe("project edit module:", () => {
         },
       } as unknown as IHubProjectEditor;
 
-      const res = editorToProject(editor, {
-        urlKey: "foo",
-      } as unknown as portalModule.IPortal);
+      const res = editorToProject(editor, portal);
 
       expect(res.extent).toEqual([
         [1, 2],
         [3, 4],
       ]);
+    });
+    it("transforms the slug", async () => {
+      const editor: IHubProjectEditor = {
+        _slug: "updated-slug",
+      } as unknown as IHubProjectEditor;
+
+      const res = await editorToProject(editor, portal);
+
+      expect(res.slug).toEqual("foo|updated-slug");
+      expect(res._slug).toBeUndefined();
     });
     describe("metrics", () => {
       let mockMetric: IMetric;
