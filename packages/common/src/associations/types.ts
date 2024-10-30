@@ -50,33 +50,6 @@ export interface IAssociationStats {
 }
 
 /**
- * ** DEPRECATED: This will be removed in the next
- * breaking version **
- *
- * Definition of an Association
- * This will be persisted in the item's typekeywords
- * as `type|id`
- */
-export interface IAssociationInfo {
-  /**
-   * Type of the association. Currently only initiative is supported
-   */
-  type: AssociationType;
-  /**
-   * Id of the associated item
-   */
-  id: string;
-}
-
-/**
- * ** DEPRECATED: This will be removed in the next
- * breaking version **
- *
- * Association type
- */
-export type AssociationType = "initiative";
-
-/**
  * The model for associations is built around platform
  * capabilities. Platform imposes a limit of 128 on the
  * number of typeKeywords that can be set on an item.
