@@ -1,3 +1,4 @@
+import { HubEntityType } from "../../core";
 import { EntityType, IHubCatalog } from "./IHubCatalog";
 import { IHubSearchResponse } from "./IHubSearchResponse";
 import { IHubSearchResult } from "./IHubSearchResult";
@@ -109,6 +110,10 @@ export interface IContainsOptions {
    * Specifing this will allow us to skip a lookup
    */
   entityType?: EntityType;
+  /**
+   * Hub Entity type of the identifier
+   */
+  hubEntityType?: HubEntityType;
 }
 
 /**
@@ -122,9 +127,10 @@ export interface ICatalogInfo extends Partial<IDeepCatalogInfo> {}
 export interface IDeepCatalogInfo {
   // id of the entity with the catalog we are checking
   id: string;
-  // Entity type that the catalog belongs to. This enables us to
-  // fetch the catalog.
-  entityType: EntityType;
+  // Hub Entity type of the entity with the catalog we are checking
+  // This enables us to use the entity functions to fetch the catalog
+  hubEntityType: HubEntityType;
+
   // optional, but if passed it reduces the xhrs to fetch the catalogs
   catalog?: IHubCatalog;
 }

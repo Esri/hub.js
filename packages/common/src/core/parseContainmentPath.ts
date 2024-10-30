@@ -19,6 +19,27 @@ export const pathMap: Record<string, HubEntityType> = {
 };
 
 /**
+ * Given a HubEntityType, return the path segment for that type.
+ * e.g. "site" -> "sites", "page" -> "pages", "content" -> "content"
+ * @param type
+ * @returns
+ */
+export function getPathForHubEntityType(type: HubEntityType): string {
+  const path = Object.keys(pathMap).find((key) => pathMap[key] === type);
+  return path || "";
+}
+
+/**
+ * Given a path segment, return the HubEntityType for that path.
+ * e.g. "sites" -> "site", "pages" -> "page", "content" -> "content"
+ * @param path
+ * @returns
+ */
+export function getHubEntityTypeFromPath(path: string): HubEntityType {
+  return pathMap[path];
+}
+
+/**
  * @internal
  * Parsed path object, with validation information.
  */
@@ -33,7 +54,6 @@ export interface IParsedPath {
  * @param path
  * @returns
  */
-
 export function parseContainmentPath(path: string): IParsedPath {
   // if the path starts with a /, remove it
   if (path && path.startsWith("/")) {

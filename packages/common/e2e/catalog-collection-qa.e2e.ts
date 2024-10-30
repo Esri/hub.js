@@ -3,7 +3,7 @@ import { Collection } from "../src/search/Collection";
 import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
 
-describe("catalog and collection e2e:", () => {
+fdescribe("catalog and collection e2e:", () => {
   let factory: Artifactory;
   const orgName = "hubBasic";
   beforeAll(() => {

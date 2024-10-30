@@ -1,19 +1,11 @@
 import { IHubCatalog } from "../../search";
 
-// DEPRECATED: Use IWithCatalogs instead
+/**
+ * Expose a the content catalog on an entity
+ */
 export interface IWithCatalog {
   /**
    * Catalog
    */
   catalog: IHubCatalog;
-}
-
-/**
- * Expose a set of catalogs on an entity
- */
-export interface IWithCatalogs {
-  /**
-   * Catalogs
-   */
-  catalogs: IHubCatalog[];
 }

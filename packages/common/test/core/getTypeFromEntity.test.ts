@@ -1,4 +1,8 @@
-import { getTypeFromEntity, HubEntity } from "../../src/core";
+import {
+  getTypeFromEntity,
+  getHubTypeFromItemType,
+  HubEntity,
+} from "../../src/core";
 
 describe("getTypeFromEntity:", () => {
   it("defaults to undefined", () => {
@@ -45,5 +49,12 @@ describe("getTypeFromEntity:", () => {
       const entityType = getTypeFromEntity(entity);
       expect(entityType).toBe(expected[i]);
     });
+  });
+});
+
+describe("getHubTypeFromItemType:", () => {
+  it("works for site", () => {
+    expect(getHubTypeFromItemType("Site Application")).toBe("site");
+    expect(getHubTypeFromItemType("Hub Site Application")).toBe("site");
   });
 });

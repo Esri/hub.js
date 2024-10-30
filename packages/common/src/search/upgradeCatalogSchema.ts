@@ -77,7 +77,7 @@ function applyCatalogSchema(original: any): IHubCatalog {
     };
 
     // Handle legacy group structure
-    const rawGroups = getProp(original, "groups");
+    const rawGroups = getProp(original, "groups") || [];
     let groups: string[] = [];
     if (Array.isArray(rawGroups) && rawGroups.length) {
       groups = rawGroups;

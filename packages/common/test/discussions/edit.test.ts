@@ -199,6 +199,7 @@ describe("discussions edit:", () => {
       const disc: IHubDiscussion = {
         itemControl: "edit",
         id: GUID,
+
         name: "Hello World",
         tags: ["Transportation"],
         description: "Some longer description",
@@ -212,7 +213,9 @@ describe("discussions edit:", () => {
         updatedDateSource: "item.modified",
         thumbnailUrl: "",
         permissions: [],
-        catalogs: [],
+        catalog: {
+          schemaVersion: 1,
+        },
         schemaVersion: 1,
         canEdit: false,
         canDelete: false,
@@ -276,7 +279,9 @@ describe("discussions edit:", () => {
         updatedDateSource: "item.modified",
         thumbnailUrl: "",
         permissions: [],
-        catalogs: [],
+        catalog: {
+          schemaVersion: 1,
+        },
         schemaVersion: 1,
         canEdit: false,
         canDelete: false,
@@ -346,7 +351,9 @@ describe("discussions edit:", () => {
           updatedDateSource: "item.modified",
           thumbnailUrl: "",
           permissions: [],
-          catalogs: [],
+          catalog: {
+            schemaVersion: 1,
+          },
           schemaVersion: 1,
           canEdit: false,
           canDelete: false,
@@ -425,7 +432,9 @@ describe("discussions edit:", () => {
           updatedDateSource: "item.modified",
           thumbnailUrl: "",
           permissions: [],
-          catalogs: [],
+          catalog: {
+            schemaVersion: 1,
+          },
           schemaVersion: 1,
           canEdit: false,
           canDelete: false,
@@ -506,7 +515,9 @@ describe("discussions edit:", () => {
           updatedDateSource: "item.modified",
           thumbnailUrl: "",
           permissions: [],
-          catalogs: [],
+          catalog: {
+            schemaVersion: 1,
+          },
           schemaVersion: 1,
           canEdit: false,
           canDelete: false,
