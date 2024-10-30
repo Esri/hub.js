@@ -1,5 +1,4 @@
 import { getFamily } from "../content/get-family";
-import { Hub } from "../Hub";
 import { HubEntity, IHubItemEntity, HubEntityType } from "./types";
 
 /**
