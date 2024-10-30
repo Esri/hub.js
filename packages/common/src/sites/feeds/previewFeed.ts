@@ -28,9 +28,8 @@ export async function previewFeed(opts: IPreviewFeedOptions): Promise<string> {
   searchParams.set("id", previewHubId);
 
   // The feeds api has different query parameters for rss and dcat feeds
-  format === "rss"
-    ? searchParams.set("rssConfig", stringifiedTemplate)
-    : searchParams.set("dcatConfig", stringifiedTemplate);
+  const isRSS = format === "rss";
+  searchParams.set(isRSS ? "rssConfig" : "dcatConfig", stringifiedTemplate);
 
   const response = await fetch(`${baseUrl}?${searchParams.toString()}`);
   if (!response.ok) {
@@ -38,7 +37,7 @@ export async function previewFeed(opts: IPreviewFeedOptions): Promise<string> {
   }
 
   let preview: string;
-  if (format === "rss") {
+  if (isRSS) {
     // RSS feeds are returned as XML text rather than JSON
     const asText = await response.text();
     preview = decodeURIComponent(asText);
