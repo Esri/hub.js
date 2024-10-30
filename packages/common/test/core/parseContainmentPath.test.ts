@@ -1,4 +1,9 @@
-import { parseContainmentPath } from "../../src";
+import {
+  getHubEntityTypeFromPath,
+  getPathForHubEntityType,
+  HubEntityType,
+  parseContainmentPath,
+} from "../../src";
 
 describe("parseContainmentPath:", () => {
   it("path needs even number of parts", () => {
@@ -34,5 +39,24 @@ describe("parseContainmentPath:", () => {
     expect(result.valid).toBeTruthy();
     expect(result.reason).toBe("");
     expect(result.parts).toEqual(path.split("/"));
+  });
+});
+
+describe("getPathForHubEntitType:", () => {
+  it("returns the path for a given HubEntityType", () => {
+    expect(getPathForHubEntityType("site")).toBe("sites");
+    expect(getPathForHubEntityType("project")).toBe("projects");
+    expect(getPathForHubEntityType("content")).toBe("content");
+    expect(getPathForHubEntityType("invalid" as unknown as HubEntityType)).toBe(
+      ""
+    );
+  });
+});
+
+describe("getHubEntityTypeFromPath:", () => {
+  it("returns the HubEntityType for a given path", () => {
+    expect(getHubEntityTypeFromPath("sites")).toBe("site");
+    expect(getHubEntityTypeFromPath("projects")).toBe("project");
+    expect(getHubEntityTypeFromPath("content")).toBe("content");
   });
 });

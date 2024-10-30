@@ -13,7 +13,7 @@ import { IEditorConfig } from "../core/schemas/types";
 import { IWithEditorBehavior } from "../core/behaviors/IWithEditorBehavior";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
 import { IArcGISContext } from "..";
-import { Catalog } from "../search";
+import { Catalog } from "../search/Catalog";
 import { DEFAULT_INITIATIVE_TEMPLATE } from "./defaults";
 import { fetchInitiativeTemplate } from "./fetch";
 import { initiativeTemplateToCardModel } from "./view";

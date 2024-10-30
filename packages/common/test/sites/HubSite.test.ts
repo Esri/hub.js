@@ -14,7 +14,7 @@ import {
   IVersionMetadata,
   getProp,
 } from "../../src";
-import { Catalog } from "../../src/search";
+import { Catalog } from "../../src/search/Catalog";
 import * as ContainsModule from "../../src/core/_internal/deepContains";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
 
@@ -300,7 +300,7 @@ describe("HubSite Class:", () => {
       );
       // pass in a project catalog
       const result = await chk.contains("cc0", [
-        { id: "4ef", entityType: "item", catalog: createCatalog("00b") },
+        { id: "4ef", hubEntityType: "project", catalog: createCatalog("00b") },
       ]);
       expect(containsSpy).toHaveBeenCalledTimes(1);
       const hiearchy = containsSpy.calls.argsFor(0)[2];
@@ -345,9 +345,9 @@ describe("HubSite Class:", () => {
         authdCtxMgr.context
       );
       // First call will warm the cache
-      await chk.contains("cc0", [{ id: "4ef", entityType: "item" }]);
+      await chk.contains("cc0", [{ id: "4ef", hubEntityType: "project" }]);
       // second call will use the cache
-      await chk.contains("cc1", [{ id: "4ef", entityType: "item" }]);
+      await chk.contains("cc1", [{ id: "4ef", hubEntityType: "project" }]);
       expect(containsSpy).toHaveBeenCalledTimes(2);
       // verify first call does not send the 4ef catalog
       const hiearchy = containsSpy.calls.argsFor(0)[2];

@@ -302,6 +302,7 @@ export async function enrichInitiativeSearchResult(
     type: item.type,
     name: item.title,
     owner: item.owner,
+    typeKeywords: item.typeKeywords,
     summary: item.snippet || item.description,
     createdDate: new Date(item.created),
     createdDateSource: "item.created",

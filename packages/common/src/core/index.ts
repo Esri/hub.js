@@ -14,9 +14,12 @@ export * from "./shareEntityWithGroups";
 export * from "./unshareEntityWithGroups";
 export * from "./getEntityGroups";
 export * from "./getEntityThumbnailUrl";
+export * from "./getHubTypeFromItemType";
+export * from "./getEntityTypeFromHubEntityType";
 
 // For sme reason, if these are exported here,
 // they are not actually exported in the final package.
 // export * from "./updateHubEntity";
 // export * from "./hubHistory";
 // export * from "./deepCatalogContains";
+// export * from "./catalogContains";

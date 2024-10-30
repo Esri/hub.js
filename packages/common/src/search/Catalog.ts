@@ -1,13 +1,13 @@
 import { IArcGISContext } from "../ArcGISContext";
 import { ArcGISContextManager } from "../ArcGISContextManager";
-import { fetchHubEntity, HubEntity, HubEntityType } from "../core";
+import { fetchHubEntity, HubEntityType } from "../core";
+import { catalogContains } from "../core/catalogContains";
 import HubError from "../HubError";
 import { getProp } from "../objects/get-prop";
 import { cloneObject } from "../util";
-import { isGuid, mapBy, isCuid } from "../utils";
-import { fetchEntityCatalog } from "./_internal/fetchEntityCatalog";
+import { mapBy } from "../utils";
+import { fetchEntityCatalog } from "./fetchEntityCatalog";
 import { Collection } from "./Collection";
-import { fetchCatalog } from "./fetchCatalog";
 import { hubSearch } from "./hubSearch";
 import {
   EntityType,
@@ -19,7 +19,6 @@ import {
   IHubSearchResult,
   ICatalogScope,
   IHubCatalog,
-  IPredicate,
   IQuery,
   IFilter,
   IHubCollection,
@@ -46,32 +45,6 @@ export class Catalog implements IHubCatalog {
   }
 
   /**
-   * DEPRECATED! Use `Catalog.fetch(...)` instead
-   * Create a Catalog instance from a site url or itemId
-   * '''js
-   * const catalog = await Catalog.init('https://site-org.hub.arcgis.com', context);
-   * '''
-   *
-   * @param identifier
-   * @param context
-   * @returns
-   */
-  public static async init(
-    identifier: string,
-    context?: IArcGISContext
-  ): Promise<Catalog> {
-    // if context is not passed, create a default that point to AGO prod
-    if (!context) {
-      const mgr = await ArcGISContextManager.create();
-      context = mgr.context;
-    }
-    // fetch the catalog
-    const fetched = await fetchCatalog(identifier, context.hubRequestOptions);
-    // return an instance
-    return new Catalog(fetched, context);
-  }
-
-  /**
    * Fetch a catalog
    * At this point, it returns the `.catalog` property from the entity
    * @param identifier url, guid, cuid
@@ -79,35 +52,26 @@ export class Catalog implements IHubCatalog {
    * @param options is possible, pass the hubEntityType to improve fetching performance
    * @returns
    */
-  public static async fetch(
+  public static async init(
     identifier: string,
-    context: IArcGISContext,
+    context?: IArcGISContext,
     options?: {
       hubEntityType: HubEntityType;
       prop: string;
     }
   ): Promise<Catalog> {
-    // fetch the catalog
-    let fetched;
-    const isUrl = identifier.indexOf("http") === 0;
-    if (!isUrl && options?.hubEntityType) {
-      const entity = await fetchHubEntity(
-        options.hubEntityType,
-        identifier,
-        context
-      );
-      fetched = getProp(entity, options?.prop || "catalog");
-    } else {
-      // less efficient, but will work for any identifier or a url
-      fetched = await fetchEntityCatalog(identifier, context, {
-        prop: options?.prop,
-      });
+    // create default context if none passed
+    if (!context) {
+      const mgr = await ArcGISContextManager.create();
+      context = mgr.context;
     }
+    // fetch the catalog
+    const fetched = await fetchEntityCatalog(identifier, context, options);
     // return an instance
     if (fetched) {
       return new Catalog(fetched, context);
     } else {
-      throw new HubError("Caatalog.fetch", "No catalog found for the entity");
+      throw new HubError("Catalog.fetch", "No catalog found for the entity");
     }
   }
   /**
@@ -318,120 +282,28 @@ export class Catalog implements IHubCatalog {
     }
   }
 
-  /**
-   * Does the Catalog contain a specific piece of content?
-   * @param identifier id or slug of the content
-   * @param options entityType if known; otherwise will execute one search for each scope
-   * @returns
-   */
   async contains(
     identifier: string,
     options: IContainsOptions
   ): Promise<IContainsResponse> {
     const start = Date.now();
-    const catalog = this._catalog;
     // check if we have cached results for this identifier
     if (this._containsCache[identifier]) {
       const cachedResult = cloneObject(this._containsCache[identifier]);
       cachedResult.duration = Date.now() - start;
       return Promise.resolve(cachedResult);
     } else {
-      // construct the response
-      const response: IContainsResponse = {
+      // delegate to catalogContains
+      const result = await catalogContains(
         identifier,
-        isContained: false,
-        // no need to return the catalogInfo
-        // in this function.
-      };
-      // construct the predicate
-      const pred: IPredicate = {};
-
-      if (isGuid(identifier) || isCuid(identifier)) {
-        pred.id = identifier;
-      } else {
-        // treat as slug
-        pred.typekeywords = `slug|${identifier}`;
-      }
-      // construct the queries
-      const queries = [];
-      if (options.entityType) {
-        // --------------------------------------------------------
-        // Check the scope for the entity type
-        // then check any collections that match the entity type
-        // if there are no scopes or collections with the entity type
-        // then the entity is not contained in the catalog
-        // --------------------------------------------------------
-        if (this.scopes[options.entityType]) {
-          // Scope is a "bounding query" for all collections involving the entity type
-          // so we can check if it's in the catalog by checking if it's in the scope
-          queries.push({
-            targetEntity: options.entityType,
-            filters: [{ predicates: [pred] }],
-          });
-        } else {
-          // If there is no scope for the entity type, we check the collections
-          const typeCollections = this.collections.filter(
-            (c) => c.targetEntity === options.entityType
-          );
-          if (typeCollections.length) {
-            // If there are collections for the entity type, we check them
-            typeCollections.forEach((collection) => {
-              queries.push({
-                targetEntity: collection.targetEntity,
-                filters: [{ predicates: [pred] }, ...collection.scope.filters],
-              });
-            });
-          } else {
-            // no collections or scope for this entity type
-            // thus it cannot be in the catalog
-            response.duration = Date.now() - start;
-            this._containsCache[identifier] = response;
-            return Promise.resolve(response);
-          }
-        }
-      } else {
-        // Construct a query for each scope
-        Object.keys(catalog.scopes).forEach((type) => {
-          queries.push({
-            targetEntity: type as EntityType,
-            filters: [{ predicates: [pred] }],
-          });
-        });
-      }
-      // execute the queries
-      const results = await Promise.all(
-        queries.map((q) =>
-          // We set num to be 10 to account for api not doing exact matching on slugs
-          this.search(q, { targetEntity: q.targetEntity, num: 10 })
-        )
+        this._catalog,
+        this._context,
+        options
       );
-
-      // if any of the queries returned a result, then the entity is contained
-      response.isContained = results.reduce((isContained, queryResponse) => {
-        if (queryResponse.results.length) {
-          if (pred.id) {
-            isContained = true;
-          } else {
-            // slug based search, which is not exact,
-            // so we manually verify the exact slug matches
-            isContained = queryResponse.results.reduce(
-              (slugKeywordPresent, entry) => {
-                if (entry.typeKeywords.includes(pred.typekeywords)) {
-                  slugKeywordPresent = true;
-                }
-                return slugKeywordPresent;
-              },
-              false as boolean
-            );
-          }
-        }
-        return isContained;
-      }, false as boolean);
-      response.duration = Date.now() - start;
       // add to cache...
-      this._containsCache[identifier] = response;
-      // return the response
-      return response;
+      this._containsCache[identifier] = result;
+      result.duration = Date.now() - start;
+      return result;
     }
   }
 
@@ -649,6 +521,11 @@ export class Catalog implements IHubCatalog {
 
     // Now merge in catalog scope level filters if they exist
     const scope = this.getScope(targetEntity);
+    // Since the public methods (searchItem etc) all
+    // check for the scope before calling this method
+    // we can assume that the scope exists, but this is extra
+    // defensive just to ensure we don't blow up
+    /* istanbul ignore else */
     if (scope) {
       qry.filters = [...qry.filters, ...scope.filters];
     }

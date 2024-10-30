@@ -14,7 +14,7 @@ export function getPropertyMap(): IPropertyMap[] {
   // Type specific mappings
   map.push({ entityKey: "status", storeKey: "data.status" });
   map.push({ entityKey: "catalog", storeKey: "data.catalog" });
-  map.push({ entityKey: "catalogs", storeKey: "data.catalogs" });
+
   map.push({ entityKey: "permissions", storeKey: "data.permissions" });
 
   map.push({ entityKey: "contacts", storeKey: "data.contacts" });

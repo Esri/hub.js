@@ -59,6 +59,7 @@ export * from "./search/getPredicateValues";
 export * from "./core/hubHistory";
 export * from "./core/deepCatalogContains";
 export * from "./core/parseContainmentPath";
+export * from "./core/catalogContains";
 
 import OperationStack from "./OperationStack";
 import OperationError from "./OperationError";
