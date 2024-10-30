@@ -5,13 +5,23 @@ import {
   UiSchemaRuleEffects,
 } from "../../../src/core/schemas/types";
 import * as getRecommendedTemplatesCatalogModule from "../../../src/initiative-templates/_internal/getRecommendedTemplatesCatalog";
+import * as getSlugSchemaElementModule from "../../../src/core/schemas/internal/getSlugSchemaElement";
 
 describe("buildUiSchema: initiative template edit", () => {
-  it("returns the full initiative template edit uiSchema", async () => {
+  const mockSlugElement = {
+    labelKey: "slug",
+    scope: "/properties/_slug",
+  } as any;
+  beforeEach(() => {
     spyOn(
       getRecommendedTemplatesCatalogModule,
       "getRecommendedTemplatesCatalog"
     ).and.returnValue([]);
+    spyOn(getSlugSchemaElementModule, "getSlugSchemaElement").and.returnValue(
+      mockSlugElement
+    );
+  });
+  it("returns the full initiative template edit uiSchema", async () => {
     const uiSchema = await buildUiSchema(
       "some.scope",
       {
@@ -48,6 +58,7 @@ describe("buildUiSchema: initiative template edit", () => {
                 ],
               },
             },
+            mockSlugElement,
             {
               type: "Control",
               scope: "/properties/previewUrl",

@@ -26,6 +26,7 @@ import {
 } from "./edit";
 import { enrichEntity } from "../core/enrichEntity";
 import { InitiativeTemplateEditorType } from "./_internal/InitiativeTemplateSchema";
+import { getEditorSlug } from "../core/_internal/getEditorSlug";
 
 /**
  * Hub Initiative Template Class
@@ -174,6 +175,9 @@ export class HubInitiativeTemplate
           this.context.hubRequestOptions
         )) as IHubInitiativeTemplateEditor)
       : (cloneObject(this.entity) as IHubInitiativeTemplateEditor);
+
+    // slug life
+    editor._slug = getEditorSlug(this.entity);
 
     // for now, just return
     return editor;

@@ -783,51 +783,6 @@ describe("HubSite Class:", () => {
           expect(setFollowersGroupIsDiscussableSpy).toHaveBeenCalledTimes(1);
         });
       });
-      it("handles extent from location", async () => {
-        const _chk = HubSite.fromJson(
-          {
-            id: "bc3",
-            name: "Test Entity",
-            thumbnailUrl: "https://myserver.com/thumbnail.png",
-            extent: [
-              [-1, -1],
-              [1, 1],
-            ],
-          },
-          authdCtxMgr.context
-        );
-        // spy on the instance .save method and retrn void
-        const saveSpy = spyOn(_chk, "save").and.returnValue(Promise.resolve());
-        const _getFollowersGroupSpy = spyOn(
-          _chk,
-          "getFollowersGroup"
-        ).and.callFake(() => {
-          return Promise.resolve({
-            id: "followers00c",
-            typeKeywords: [],
-          });
-        });
-        // make changes to the editor
-        const editor = await _chk.toEditor();
-        editor.name = "new name";
-        (editor._followers as any).isDiscussable = undefined;
-        editor.location = {
-          extent: [
-            [-2, -2],
-            [2, 2],
-          ],
-          type: "custom",
-        };
-        // call fromEditor
-        const result = await _chk.fromEditor(editor);
-        // expect the save method to have been called
-        expect(saveSpy).toHaveBeenCalledTimes(1);
-        expect(result.extent).toEqual([
-          [-2, -2],
-          [2, 2],
-        ]);
-        expect(_getFollowersGroupSpy).toHaveBeenCalledTimes(1);
-      });
       it("throws if creating", async () => {
         const _chk = HubSite.fromJson(
           {

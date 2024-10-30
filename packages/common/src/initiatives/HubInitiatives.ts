@@ -1,4 +1,5 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { editorToEntity } from "../core/schemas/internal/metrics/editorToEntity";
 
 // Note - we separate these imports so we can cleanly spy on things in tests
 import {
@@ -57,7 +58,8 @@ import { createId } from "../util";
 import { IArcGISContext } from "../ArcGISContext";
 import { convertHubGroupToGroup } from "../groups/_internal/convertHubGroupToGroup";
 import { IHubGroup } from "../core/types/IHubGroup";
-import { ensureUniqueEntitySlug } from "../items/_internal/slugs";
+import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlug";
+import { truncateSlug } from "../items/_internal/slugs";
 
 /**
  * @private
@@ -130,14 +132,8 @@ export async function editorToInitiative(
   delete editor._groups;
   delete editor._associations;
 
-  // 2. clone into a HubInitiative and ensure there's an orgUrlKey
-  let initiative = cloneObject(editor) as IHubInitiative;
-  initiative.orgUrlKey = editor.orgUrlKey
-    ? editor.orgUrlKey
-    : context.portal.urlKey;
-
-  // 3. copy the location extent up one level
-  initiative.extent = editor.location?.extent;
+  // 2. clone into a HubInitiative and extract common properties
+  let initiative = editorToEntity(editor, context.portal) as IHubInitiative;
 
   // 4. handle configured metric:
   //   a. transform editor values into metric + displayConfig

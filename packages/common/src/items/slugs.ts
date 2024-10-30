@@ -2,11 +2,8 @@ import { getItem, ISearchOptions, searchItems } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IItem } from "@esri/arcgis-rest-types";
 import { slugify } from "../utils";
+import { TYPEKEYWORD_SLUG_PREFIX, truncateSlug } from "./_internal/slugs";
 import { uriSlugToKeywordSlug } from "./_internal/slugConverters";
-
-const TYPEKEYWORD_SLUG_PREFIX = "slug";
-
-const TYPEKEYWORD_MAX_LENGTH = 256;
 
 /**
  * Create a slug, namespaced to an org and accounting for the 256 character limit
@@ -17,31 +14,15 @@ const TYPEKEYWORD_MAX_LENGTH = 256;
  * @returns
  */
 export function constructSlug(title: string, orgKey: string) {
-  // typekeywords have a max length of 256 characters, so we use the slug
-  // format that gets persisted in typekeywords as our basis
-  return (
-    [
-      // add the typekeyword slug prefix
-      TYPEKEYWORD_SLUG_PREFIX,
-      // add the orgKey segment
-      orgKey.toLowerCase(),
-      // add the slugified title segment
-      slugify(title),
-    ]
-      .join("|")
-      // allow some padding at the end for incrementing so we don't wind up w/ weird, inconsistent slugs
-      // when the increment goes from single to multiple digits, i.e. avoid producing the following when
-      // deduping:
-      // slug|qa-pre-a-hub|some-really-really-...-really-long
-      // slug|qa-pre-a-hub|some-really-really-...-really-lo-1
-      // slug|qa-pre-a-hub|some-really-really-...-really-l-11
-      // slug|qa-pre-a-hub|some-really-really-...-really-100
-      .substring(0, TYPEKEYWORD_MAX_LENGTH - 4)
-      // removing tailing hyphens
-      .replace(/-+$/, "")
-      // remove typekeyword slug prefix, it's re-added in setSlugKeyword
-      .replace(new RegExp(`^${TYPEKEYWORD_SLUG_PREFIX}\\|`), "")
-  );
+  // allow some padding at the end for incrementing so we don't wind up w/ weird, inconsistent slugs
+  // when the increment goes from single to multiple digits,
+  // avoid producing the following when deduping:
+  // slug|qa-pre-a-hub|some-really-really-...-really-long
+  // slug|qa-pre-a-hub|some-really-really-...-really-lo-1
+  // slug|qa-pre-a-hub|some-really-really-...-really-l-11
+  // slug|qa-pre-a-hub|some-really-really-...-really-100
+  const paddingEnd = 4;
+  return truncateSlug(slugify(title), orgKey, paddingEnd);
 }
 
 /**

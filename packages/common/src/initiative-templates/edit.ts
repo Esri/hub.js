@@ -22,8 +22,9 @@ import { getPropertyMap } from "./_internal/getPropertyMap";
 import { cloneObject } from "../util";
 import { setDiscussableKeyword } from "../discussions";
 import { IModel } from "../types";
-import { ensureUniqueEntitySlug } from "../items/_internal/slugs";
+import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlug";
 import { IHubItemEntity } from "../core";
+import { editorToEntity } from "../core/schemas/internal/metrics/editorToEntity";
 
 /**
  * @private
@@ -82,6 +83,7 @@ export async function createInitiativeTemplate(
 }
 
 /**
+ * DEPRECATED: just use editorToEntity instead
  * Convert an IHubInitiativeTemplateEditor back to an IHubInitiativeTemplate
  * @param editor
  * @param portal
@@ -91,14 +93,7 @@ export function editorToInitiativeTemplate(
   editor: IHubInitiativeTemplateEditor,
   portal: IPortal
 ): IHubInitiativeTemplate {
-  // clone into HubInitiativeTemplate
-  const initiativeTemplate = cloneObject(editor) as IHubInitiativeTemplate;
-  // ensure there's an org url key
-  initiativeTemplate.orgUrlKey = editor.orgUrlKey
-    ? editor.orgUrlKey
-    : portal.urlKey;
-  // return initiatve template
-  return initiativeTemplate;
+  return editorToEntity(editor, portal) as IHubInitiativeTemplate;
 }
 
 /**
