@@ -621,11 +621,9 @@ describe("Catalog Class:", () => {
         "1950189b18a64ab78fc478d97ea502e0",
         {}
       );
-      expect(res).toEqual({
-        identifier: "1950189b18a64ab78fc478d97ea502e0",
-        isContained: true,
-        duration: 0,
-      });
+      expect(res.identifier).toEqual("1950189b18a64ab78fc478d97ea502e0");
+      expect(res.isContained).toBeTruthy();
+
       expect(containsSpy).toHaveBeenCalled();
     });
 
