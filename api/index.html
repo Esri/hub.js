@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <meta name="date" content="2024-10-29T18:02:55.332Z">
+    <meta name="date" content="2024-10-30T18:41:32.643Z">
     <title>@esri/hub.js</title>
     
     <link rel="stylesheet" href="/hub.js/css/calcite-web.min.css">
@@ -74,7 +74,7 @@
               <path d="M7 4h5l12 12-12 12H7l12-12L7 4z" />
             </svg>
           </button>
-          <a href="/hub.js/api/common/" class="tsd-kind-icon">common</a>&nbsp;<small>v14.221.1</small>
+          <a href="/hub.js/api/common/" class="tsd-kind-icon">common</a>&nbsp;<small>v14.222.0</small>
           <ul id="list1" class="api-package-content-list">
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -103,6 +103,10 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/addDomain/" class="tsd-kind-icon padding-right-1">addDomain</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/addDynamicSlugValidation/" class="tsd-kind-icon padding-right-1">addDynamicSlugValidation</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -754,6 +758,10 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/editorToEntity/" class="tsd-kind-icon padding-right-1">editorToEntity</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/editorToInitiative/" class="tsd-kind-icon padding-right-1">editorToInitiative</a>
             </li>
             
@@ -1194,6 +1202,10 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/getEditorSlug/" class="tsd-kind-icon padding-right-1">getEditorSlug</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/getEntityDefaultWorkspacePane/" class="tsd-kind-icon padding-right-1">getEntityDefaultWorkspacePane</a>
             </li>
             
@@ -1631,6 +1643,14 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/getSiteSchema/" class="tsd-kind-icon padding-right-1">getSiteSchema</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/getSlugMaxLength/" class="tsd-kind-icon padding-right-1">getSlugMaxLength</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/getSlugSchemaElement/" class="tsd-kind-icon padding-right-1">getSlugSchemaElement</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -2474,6 +2494,10 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/truncateSlug/" class="tsd-kind-icon padding-right-1">truncateSlug</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/unfollowEntity/" class="tsd-kind-icon padding-right-1">unfollowEntity</a>
             </li>
             
@@ -2966,6 +2990,10 @@
             </li>
             
             <li class="tsd-kind-object-literal padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/SLUG_SCHEMA/" class="tsd-kind-icon padding-right-1">SLUG_SCHEMA</a>
+            </li>
+            
+            <li class="tsd-kind-object-literal padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/TemplateSchema/" class="tsd-kind-icon padding-right-1">TemplateSchema</a>
             </li>
             
@@ -3271,6 +3299,10 @@
             
             <li class="tsd-kind-variable padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/TemplateEditorTypes/" class="tsd-kind-icon padding-right-1">TemplateEditorTypes</a>
+            </li>
+            
+            <li class="tsd-kind-variable padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/TYPEKEYWORD_SLUG_PREFIX/" class="tsd-kind-icon padding-right-1">TYPEKEYWORD_SLUG_PREFIX</a>
             </li>
             
             <li class="tsd-kind-variable padding-right-1 visually-hidden api-list-item">
@@ -6999,7 +7031,7 @@
   
   
   
-  <small class="label right">Version 14.221.1</small>
+  <small class="label right">Version 14.222.0</small>
 <h1 class=" font-size-3 trailer-half code-face">
   <a href="/hub.js/api/common/">@esri/hub-common</a>
 </h1>
@@ -7016,6 +7048,7 @@
   addDays,
   addDefaultItemSearchPredicates,
   addDomain,
+  addDynamicSlugValidation,
   addGroupMembers,
   addHistoryEntry,
   addPermissionPolicy,
@@ -7178,6 +7211,7 @@
   domainExistsPortal,
   dotifyString,
   editorToContent,
+  editorToEntity,
   editorToInitiative,
   editorToInitiativeTemplate,
   editorToMetric,
@@ -7288,6 +7322,7 @@
   getDownloadFormats,
   getEditorConfig,
   getEditorSchemas,
+  getEditorSlug,
   getEntityDefaultWorkspacePane,
   getEntityFollowersGroupId,
   getEntityGroups,
@@ -7398,6 +7433,8 @@
   getShortenedCategories,
   getSiteById,
   getSiteSchema,
+  getSlugMaxLength,
+  getSlugSchemaElement,
   getSourceFeatureServiceModelFromFieldworker,
   getStakeholderModel,
   getStructuredLicense,
@@ -7608,6 +7645,7 @@
   templateToCardModel,
   titleize,
   toggleServiceCapability,
+  truncateSlug,
   unfollowEntity,
   unicodeToBase64,
   unique,
@@ -7706,6 +7744,10 @@
   
   <li class="tsd-kind-function">
     <a href="/hub.js/api/common/addDomain/" class="tsd-kind-icon">addDomain</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/addDynamicSlugValidation/" class="tsd-kind-icon">addDynamicSlugValidation</a>
   </li>
   
   <li class="tsd-kind-function">
@@ -8357,6 +8399,10 @@
   </li>
   
   <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/editorToEntity/" class="tsd-kind-icon">editorToEntity</a>
+  </li>
+  
+  <li class="tsd-kind-function">
     <a href="/hub.js/api/common/editorToInitiative/" class="tsd-kind-icon">editorToInitiative</a>
   </li>
   
@@ -8797,6 +8843,10 @@
   </li>
   
   <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/getEditorSlug/" class="tsd-kind-icon">getEditorSlug</a>
+  </li>
+  
+  <li class="tsd-kind-function">
     <a href="/hub.js/api/common/getEntityDefaultWorkspacePane/" class="tsd-kind-icon">getEntityDefaultWorkspacePane</a>
   </li>
   
@@ -9234,6 +9284,14 @@
   
   <li class="tsd-kind-function">
     <a href="/hub.js/api/common/getSiteSchema/" class="tsd-kind-icon">getSiteSchema</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/getSlugMaxLength/" class="tsd-kind-icon">getSlugMaxLength</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/getSlugSchemaElement/" class="tsd-kind-icon">getSlugSchemaElement</a>
   </li>
   
   <li class="tsd-kind-function">
@@ -10077,6 +10135,10 @@
   </li>
   
   <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/truncateSlug/" class="tsd-kind-icon">truncateSlug</a>
+  </li>
+  
+  <li class="tsd-kind-function">
     <a href="/hub.js/api/common/unfollowEntity/" class="tsd-kind-icon">unfollowEntity</a>
   </li>
   
@@ -10569,6 +10631,10 @@
   </li>
   
   <li class="tsd-kind-object-literal">
+    <a href="/hub.js/api/common/SLUG_SCHEMA/" class="tsd-kind-icon">SLUG_SCHEMA</a>
+  </li>
+  
+  <li class="tsd-kind-object-literal">
     <a href="/hub.js/api/common/TemplateSchema/" class="tsd-kind-icon">TemplateSchema</a>
   </li>
   
@@ -10874,6 +10940,10 @@
   
   <li class="tsd-kind-variable">
     <a href="/hub.js/api/common/TemplateEditorTypes/" class="tsd-kind-icon">TemplateEditorTypes</a>
+  </li>
+  
+  <li class="tsd-kind-variable">
+    <a href="/hub.js/api/common/TYPEKEYWORD_SLUG_PREFIX/" class="tsd-kind-icon">TYPEKEYWORD_SLUG_PREFIX</a>
   </li>
   
   <li class="tsd-kind-variable">
@@ -13577,7 +13647,7 @@
   </li>
   
 </ul>
-  <small>v14.221.1</small>
+  <small>v14.222.0</small>
 
   
   <hr>
