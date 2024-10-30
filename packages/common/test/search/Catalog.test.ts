@@ -203,7 +203,7 @@ describe("Catalog Class:", () => {
         return Promise.resolve(null);
       });
       try {
-        Catalog.init("https://somesite.com", context);
+        await Catalog.init("https://somesite.com", context);
       } catch (err) {
         expect(getProp(err, "name")).toBe("HubError");
         expect(getProp(err, "message")).toContain("No catalog found");
