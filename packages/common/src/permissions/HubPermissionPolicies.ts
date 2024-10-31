@@ -67,16 +67,6 @@ import { UserPermissionPolicies } from "../users/_internal/UserBusinessRules";
 //   },
 // ];
 
-// DEPRECATED!
-// NO LONGER USED IN OPENDATA-UI DO NOT ADD MORE TO THIS LIST
-const TempPermissionPolicies: IPermissionPolicy[] = [
-  {
-    permission: "temp:workspace:released", // replace with hub:features:workspace
-    availability: ["alpha"],
-    environments: ["devext", "qaext"],
-  },
-];
-
 /**
  * Highlevel Permission definitions for the Hub System as a whole
  * Typically other permissions depend on these so a whole set of features
@@ -237,7 +227,6 @@ export const HubPermissionsPolicies: IPermissionPolicy[] = [
   ...PagePermissionPolicies,
   ...TemplatePermissionPolicies,
   ...PlatformPermissionPolicies,
-  ...TempPermissionPolicies,
   ...InitiativeTemplatePermissionPolicies,
   ...SystemPermissionPolicies,
   ...SurveyPermissionPolicies,

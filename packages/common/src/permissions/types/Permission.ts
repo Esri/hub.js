@@ -17,9 +17,6 @@ import { UserPermissions } from "../../users/_internal/UserBusinessRules";
  * It's critical that the arrays defined in the modules use `as const`
  * otherwise Permission devolves into just a string type
  */
-// this is a temporary mechanism for gating workspaces or parts of workspaces
-// to be used until we release workspaces or it can be replaced with our new access control (permission/feature/capability) system
-const TempPermissions = ["temp:workspace:released"];
 
 const SystemPermissions = [
   "hub:feature:privacy",
@@ -53,7 +50,6 @@ const validPermissions = [
   ...GroupPermissions,
   ...PagePermissions,
   ...PlatformPermissions,
-  ...TempPermissions,
   ...DiscussionPermissions,
   ...InitiativeTemplatePermissions,
   ...TemplatePermissions,
@@ -74,7 +70,6 @@ export type Permission =
   | (typeof GroupPermissions)[number]
   | (typeof PagePermissions)[number]
   | (typeof PlatformPermissions)[number]
-  | (typeof TempPermissions)[number]
   | (typeof DiscussionPermissions)[number]
   | (typeof InitiativeTemplatePermissions)[number]
   | (typeof TemplatePermissions)[number]
