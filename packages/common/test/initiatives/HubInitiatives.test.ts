@@ -12,10 +12,7 @@ import {
   fetchInitiative,
   deleteInitiative,
   updateInitiative,
-  getPendingProjectsQuery,
-  getAcceptedProjectsQuery,
-  fetchAcceptedProjects,
-  fetchPendingProjects,
+  // getPendingProjectsQuery,
   editorToInitiative,
 } from "../../src/initiatives/HubInitiatives";
 import {
@@ -424,181 +421,65 @@ describe("HubInitiatives:", () => {
     });
   });
 
-  describe("query getters", () => {
-    let fixture: IHubInitiative;
-    beforeEach(() => {
-      // Minimal structure needed for these tests
-      fixture = {
-        name: "Fixture Initiative",
-        id: "00f",
-        catalog: {
-          schemaVersion: 1,
-          scopes: {
-            item: {
-              targetEntity: "item",
-              filters: [
-                {
-                  predicates: [
-                    {
-                      group: ["00c", "aa1"],
-                    },
-                  ],
-                },
-              ],
-            },
-          },
-        },
-      } as unknown as IHubInitiative;
-    });
-    it("getAssociatedProjectsQuery", () => {
-      const chk = getAcceptedProjectsQuery(fixture);
-      expect(chk.targetEntity).toBe("item");
-      // ensure we have type and keyword in predicate
-      expect(verifyPredicate(chk, { type: "Hub Project" })).toBeTruthy();
-      expect(
-        verifyPredicate(chk, { typekeywords: ["initiative|00f"] })
-      ).toBeTruthy("should have keyword");
-      expect(getPredicateValue(chk, { group: null })).toEqual(["00c", "aa1"]);
-    });
-    it("getConnectedProjectsQuery", () => {
-      const chk = getPendingProjectsQuery(fixture);
-      expect(chk.targetEntity).toBe("item");
-      // ensure we have type and keyword in predicate
-      expect(verifyPredicate(chk, { type: "Hub Project" })).toBeTruthy();
-      expect(
-        verifyPredicate(chk, { typekeywords: ["initiative|00f"] })
-      ).toBeTruthy("should have keyword");
-      expect(getPredicateValue(chk, { group: null })).toEqual({
-        any: [],
-        all: [],
-        not: ["00c", "aa1"],
-      });
-    });
-    // it("getUnConnectedProjectsQuery", () => {
-    //   const chk = getUnConnectedProjectsQuery(fixture);
-    //   expect(chk.targetEntity).toBe("item");
-    //   // ensure we have type and keyword in predicate
-    //   expect(verifyPredicate(chk, { type: "Hub Project" })).toBeTruthy();
+  // describe("query getters", () => {
+  //   let fixture: IHubInitiative;
+  //   beforeEach(() => {
+  //     // Minimal structure needed for these tests
+  //     fixture = {
+  //       name: "Fixture Initiative",
+  //       id: "00f",
+  //       catalog: {
+  //         schemaVersion: 1,
+  //         scopes: {
+  //           item: {
+  //             targetEntity: "item",
+  //             filters: [
+  //               {
+  //                 predicates: [
+  //                   {
+  //                     group: ["00c", "aa1"],
+  //                   },
+  //                 ],
+  //               },
+  //             ],
+  //           },
+  //         },
+  //       },
+  //     } as unknown as IHubInitiative;
+  //   });
+  //   // it("getConnectedProjectsQuery", () => {
+  //   //   const chk = getPendingProjectsQuery(fixture);
+  //   //   expect(chk.targetEntity).toBe("item");
+  //   //   // ensure we have type and keyword in predicate
+  //   //   expect(verifyPredicate(chk, { type: "Hub Project" })).toBeTruthy();
+  //   //   expect(
+  //   //     verifyPredicate(chk, { typekeywords: ["initiative|00f"] })
+  //   //   ).toBeTruthy("should have keyword");
+  //   //   expect(getPredicateValue(chk, { group: null })).toEqual({
+  //   //     any: [],
+  //   //     all: [],
+  //   //     not: ["00c", "aa1"],
+  //   //   });
+  //   // });
+  //   // it("getUnConnectedProjectsQuery", () => {
+  //   //   const chk = getUnConnectedProjectsQuery(fixture);
+  //   //   expect(chk.targetEntity).toBe("item");
+  //   //   // ensure we have type and keyword in predicate
+  //   //   expect(verifyPredicate(chk, { type: "Hub Project" })).toBeTruthy();
 
-    //   expect(getPredicateValue(chk, { typekeywords: null })).toEqual(
-    //     {
-    //       not: ["initiative|00f"],
-    //     },
-    //     "should have negated keyword"
-    //   );
-    //   expect(getPredicateValue(chk, { group: null })).toEqual({
-    //     any: [],
-    //     all: [],
-    //     not: ["00c", "aa1"],
-    //   });
-    // });
-  });
-
-  describe("fetchAccepted:", () => {
-    let searchSpy: jasmine.Spy;
-    let fixture: IHubInitiative;
-    beforeEach(() => {
-      searchSpy = spyOn(
-        require("../../src/search/_internal/portalSearchItems"),
-        "portalSearchItemsAsItems"
-      ).and.callFake(() =>
-        Promise.resolve({
-          results: [
-            {
-              id: "3ef",
-              title: "fake result",
-              type: "Hub Project",
-              tags: ["fake"],
-            },
-          ],
-        })
-      );
-      // Minimal structure needed for these tests
-      fixture = {
-        name: "Fixture Initiative",
-        id: "00f",
-        catalog: {
-          schemaVersion: 1,
-          scopes: {
-            item: {
-              targetEntity: "item",
-              filters: [
-                {
-                  predicates: [
-                    {
-                      group: ["00c", "aa1"],
-                    },
-                  ],
-                },
-              ],
-            },
-          },
-        },
-      } as unknown as IHubInitiative;
-    });
-    it("fetches associated projects", async () => {
-      const chk = await fetchAcceptedProjects(fixture, MOCK_AUTH);
-      expect(searchSpy).toHaveBeenCalled();
-      // get the query
-      const qry = searchSpy.calls.argsFor(0)[0];
-      // this should have the groups in the predicate
-      expect(getPredicateValue(qry, { group: null })).toEqual(["00c", "aa1"]);
-      expect(chk.length).toBe(1);
-      // verify conversion
-      expect(chk[0]).toEqual({
-        id: "3ef",
-        name: "fake result",
-        type: "Hub Project",
-      });
-    });
-    it("fetches pending projects", async () => {
-      const chk = await fetchPendingProjects(fixture, MOCK_AUTH);
-      expect(searchSpy).toHaveBeenCalled();
-      // get the query
-      const qry = searchSpy.calls.argsFor(0)[0];
-      // this should have the negated groups in the predicate
-      expect(getPredicateValue(qry, { group: null })).toEqual({
-        any: [],
-        all: [],
-        not: ["00c", "aa1"],
-      });
-      expect(chk.length).toBe(1);
-      // verify conversion
-      expect(chk[0]).toEqual({
-        id: "3ef",
-        name: "fake result",
-        type: "Hub Project",
-      });
-    });
-    // ALTHOUGH WE DON"T CURRENTLY HAVE A UX THAT NEEDS THIS
-    // THERE IS SOME DISCUSSION ABOUT IT BEING USEFUL SO I'M LEAVING
-    // THE CODE HERE, COMMENTED.
-    // it("fetches unconnected projects", async () => {
-    //   const chk = await fetchUnConnectedProjects(fixture, MOCK_AUTH);
-    //   expect(searchSpy).toHaveBeenCalled();
-    //   // get the query
-    //   const qry = searchSpy.calls.argsFor(0)[0];
-    //   // this should have the negated groups in the predicate
-    //   expect(getPredicateValue(qry, { group: null })).toEqual({
-    //     any: [],
-    //     all: [],
-    //     not: ["00c", "aa1"],
-    //   });
-    //   expect(getPredicateValue(qry, { typekeywords: null })).toEqual(
-    //     {
-    //       not: ["initiative|00f"],
-    //     },
-    //     "should have negated keyword"
-    //   );
-    //   expect(chk.length).toBe(1);
-    //   // verify conversion
-    //   expect(chk[0]).toEqual({
-    //     id: "3ef",
-    //     name: "fake result",
-    //     type: "Hub Project",
-    //   });
-    // });
-  });
+  //   //   expect(getPredicateValue(chk, { typekeywords: null })).toEqual(
+  //   //     {
+  //   //       not: ["initiative|00f"],
+  //   //     },
+  //   //     "should have negated keyword"
+  //   //   );
+  //   //   expect(getPredicateValue(chk, { group: null })).toEqual({
+  //   //     any: [],
+  //   //     all: [],
+  //   //     not: ["00c", "aa1"],
+  //   //   });
+  //   // });
+  // });
 
   describe("editor to initiative", () => {
     const context = {

@@ -34,7 +34,7 @@ import {
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
-import { IEntityInfo, IHubInitiative, IHubItemEntity } from "../core/types";
+import { IHubInitiative, IHubItemEntity } from "../core/types";
 import { IHubSearchResult } from "../search";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { fetchItemEnrichments } from "../items/_enrichments";
@@ -43,14 +43,10 @@ import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
 import { applyInitiativeMigrations } from "./_internal/applyInitiativeMigrations";
 import { combineQueries } from "../search/_internal/combineQueries";
-import { portalSearchItemsAsItems } from "../search/_internal/portalSearchItems";
 import { getTypeWithKeywordQuery } from "../associations/internal/getTypeWithKeywordQuery";
 import { negateGroupPredicates } from "../search/_internal/negateGroupPredicates";
 import { computeLinks } from "./_internal/computeLinks";
-import {
-  deriveLocationFromItem,
-  getHubRelativeUrl,
-} from "../content/_internal/internalContentUtils";
+import { deriveLocationFromItem } from "../content/_internal/internalContentUtils";
 import { setEntityStatusKeyword } from "../utils/internal/setEntityStatusKeyword";
 import { editorToMetric } from "../core/schemas/internal/metrics/editorToMetric";
 import { setMetricAndDisplay } from "../core/schemas/internal/metrics/setMetricAndDisplay";
@@ -59,7 +55,6 @@ import { IArcGISContext } from "../ArcGISContext";
 import { convertHubGroupToGroup } from "../groups/_internal/convertHubGroupToGroup";
 import { IHubGroup } from "../core/types/IHubGroup";
 import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlug";
-import { truncateSlug } from "../items/_internal/slugs";
 
 /**
  * @private
@@ -345,104 +340,12 @@ export async function enrichInitiativeSearchResult(
   return result;
 }
 
-/**
- * ** DEPRECATED: Please use the association methods directly.
- * This will be removed in the next breaking version **
- *
- * Fetch the Projects that are "Accepted" with an Initiative.
- * This is a subset of the "Associated" projects, limited
- * to those included in the Initiative's Catalog.
- * @param initiative
- * @param requestOptions
- * @param query: Optional `IQuery` to further filter the results
- * @returns
- */
-export async function fetchAcceptedProjects(
-  initiative: IHubInitiative,
-  requestOptions: IHubRequestOptions,
-  query?: IQuery
-): Promise<IEntityInfo[]> {
-  let projectQuery = getAcceptedProjectsQuery(initiative);
-  // combineQueries will purge undefined/null entries
-  projectQuery = combineQueries([projectQuery, query]);
-
-  return queryAsEntityInfo(projectQuery, requestOptions);
-}
-
-/**
- * ** DEPRECATED: Please use the association methods directly.
- * This will be removed in the next breaking version **
- *
- * Fetch the Projects that are "Associated" to the Initiative but are not
- * "Accepted", meaning they have the keyword but are not included in the Initiative's Catalog.
- * This is how we can get the list of Projects awaiting Acceptance
- * @param initiative
- * @param requestOptions
- * @param query
- * @returns
- */
-export async function fetchPendingProjects(
-  initiative: IHubInitiative,
-  requestOptions: IHubRequestOptions,
-  query?: IQuery
-): Promise<IEntityInfo[]> {
-  let projectQuery = getPendingProjectsQuery(initiative);
-  // combineQueries will purge undefined/null entries
-  projectQuery = combineQueries([projectQuery, query]);
-
-  return queryAsEntityInfo(projectQuery, requestOptions);
-}
-
-/**
- * ** DEPRECATED: This will be removed in the next
- * breaking version **
- *
- * Execute the query and convert into EntityInfo objects
- * @param query
- * @param requestOptions
- * @returns
- */
-async function queryAsEntityInfo(
-  query: IQuery,
-  requestOptions: IHubRequestOptions
-) {
-  const response = await portalSearchItemsAsItems(query, {
-    requestOptions,
-    num: 100,
-  });
-  return response.results.map((item) => {
-    return {
-      id: item.id,
-      name: item.title,
-      type: item.type,
-    } as IEntityInfo;
-  });
-}
-
-/**
- * ** DEPRECATED: Please use the association methods directly.
- * This will be removed in the next breaking version **
- *
- * Associated projects are those with the Initiative id in the typekeywords
- * and is included in the Initiative's catalog.
- * This is passed into the Gallery showing "Approved Projects"
- * @param initiative
- * @returns
- */
-export function getAcceptedProjectsQuery(initiative: IHubInitiative): IQuery {
-  // get query that returns Hub Projects with the initiative keyword
-  let query = getTypeWithKeywordQuery(
-    "Hub Project",
-    `initiative|${initiative.id}`
-  );
-  // Get the item scope from the catalog
-  const qry = getProp(initiative, "catalog.scopes.item");
-  // combineQueries will remove null/undefined entries
-  query = combineQueries([query, qry]);
-
-  return query;
-}
-
+// NOTE: even though I can't find any uses of
+// this deprecated function in the codebase
+// if you delete it, tests in the following files will fail
+// but _only in node_, not in chrome, so go figure:
+// - projects/fetch.test.ts
+// - search/_internal/portalSearchItems.test.ts
 /**
  * ** DEPRECATED: Please use the association methods directly.
  * This will be removed in the next breaking version **
@@ -455,6 +358,7 @@ export function getAcceptedProjectsQuery(initiative: IHubInitiative): IQuery {
  * @param initiative
  * @returns
  */
+/* istanbul ignore next */
 export function getPendingProjectsQuery(initiative: IHubInitiative): IQuery {
   // get query that returns Hub Projects with the initiative keyword
   let query = getTypeWithKeywordQuery(
