@@ -35,8 +35,8 @@ export const buildUiSchema = async (
         options: {
           notice: {
             id: "metric-editor-preview-notice",
-            title: "shared.notices.metrics.preview.label",
-            message: "shared.notices.metrics.preview.message",
+            title: "{{shared.notices.metrics.preview.label:translate}}",
+            message: "{{shared.notices.metrics.preview.message:translate}}",
             configuration: {
               noticeType: "notice",
               icon: true,
