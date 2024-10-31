@@ -378,7 +378,6 @@ describe("HubSite Class:", () => {
         catalog: {
           schemaVersion: 0,
         },
-        catalogs: [],
         permissions: [],
         settings: {
           features: {
@@ -478,7 +477,6 @@ describe("HubSite Class:", () => {
         created: 123456,
         creator: "paige_pa",
         data: {
-          catalogs: [],
           settings: {
             features: {
               "hub:site:content": true,
