@@ -28,9 +28,6 @@ const SystemPermissions = [
   "hub:card:follow",
   "hub:feature:workspace:user",
   "hub:feature:workspace:org",
-  // DEPRECATED: This permission has been replaced by hub:feature:workspace:org,
-  // remove this at the next breaking version
-  "hub:feature:workspace:umbrella",
   "hub:feature:keyboardshortcuts",
   "hub:feature:newentityview",
   "hub:feature:history",

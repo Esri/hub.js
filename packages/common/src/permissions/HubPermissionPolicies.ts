@@ -154,14 +154,6 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     environments: ["devext"],
   },
   {
-    // DEPRECATED: This permission has been replaced by hub:feature:workspace:org,
-    // remove this at the next breaking version
-    // When enabled, the edit & manage links will take the user to umbrella
-    permission: "hub:feature:workspace:umbrella",
-    availability: ["alpha"],
-    environments: ["devext"],
-  },
-  {
     // when enabled keyboard shortcuts will be available
     permission: "hub:feature:keyboardshortcuts",
     availability: ["alpha"],
