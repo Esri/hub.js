@@ -19,11 +19,11 @@ describe("InitiativeUiSchemaMetrics", () => {
       // a minimal set of properties in the uiSchema
       expect(uiSchema.type).toBe("Layout");
       expect(uiSchema.elements?.length).toBe(3);
-      expect(uiSchema.elements![0].type).toBe("Section");
-      expect(uiSchema.elements![0].elements![0].scope).toBe(
+      expect(uiSchema.elements![1].type).toBe("Section");
+      expect(uiSchema.elements![1].elements![0].scope).toBe(
         "/properties/_metric/properties/cardTitle"
       );
-      expect(uiSchema.elements![1].elements![0].options!.control).toBe(
+      expect(uiSchema.elements![2].elements![0].options!.control).toBe(
         "hub-field-input-tile-select"
       );
     });
