@@ -21,10 +21,8 @@ export async function catalogContains(
   identifier: string,
   catalog: IHubCatalog,
   context: IArcGISContext,
-  options?: IContainsOptions
+  options: IContainsOptions = {}
 ): Promise<IContainsResponse> {
-  // Ensure we have options as an object
-  options = options || {};
   // construct a default response
   const response: IContainsResponse = {
     identifier,
