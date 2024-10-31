@@ -38,7 +38,7 @@ export const buildUiSchema = async (
             title: "shared.notices.metrics.preview.label",
             message: "shared.notices.metrics.preview.message",
             configuration: {
-              type: "notice",
+              noticeType: "notice",
               icon: true,
               kind: "info",
               closable: false,

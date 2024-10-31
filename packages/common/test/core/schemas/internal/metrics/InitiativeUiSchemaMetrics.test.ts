@@ -7,7 +7,7 @@ import { EntityEditorOptions } from "../../../../../src/core/schemas/internal/Ed
 
 describe("InitiativeUiSchemaMetrics", () => {
   describe("buildUiSchema", () => {
-    it("returns the full follow card uiSchema", async () => {
+    it("returns the full metrics card uiSchema", async () => {
       const uiSchema = await buildUiSchema(
         "",
         {} as EntityEditorOptions,
@@ -18,7 +18,7 @@ describe("InitiativeUiSchemaMetrics", () => {
       // can be difficult to maintain over time), we simply validate
       // a minimal set of properties in the uiSchema
       expect(uiSchema.type).toBe("Layout");
-      expect(uiSchema.elements?.length).toBe(3);
+      expect(uiSchema.elements?.length).toBe(4);
       expect(uiSchema.elements![1].type).toBe("Section");
       expect(uiSchema.elements![1].elements![0].scope).toBe(
         "/properties/_metric/properties/cardTitle"
