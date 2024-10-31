@@ -1,3 +1,10 @@
+# @esri/hub-common [14.224.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.223.0...@esri/hub-common@14.224.0) (2024-10-31)
+
+
+### Features
+
+* **hub-common:** add updated utils for managing and previewing feeds ([#1690](https://github.com/Esri/hub.js/issues/1690)) ([8556115](https://github.com/Esri/hub.js/commit/8556115ad68dcafbfa8e000dbc0a2b8e2cfb463b))
+
 # @esri/hub-common [14.223.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.222.0...@esri/hub-common@14.223.0) (2024-10-30)
 
 
