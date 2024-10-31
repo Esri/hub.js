@@ -3,20 +3,6 @@ import { IItem } from "@esri/arcgis-rest-portal";
 import { IHubEditableContent } from "../core/types/IHubEditableContent";
 
 /**
- * DEPRECATED: This will be removed in the next breaking version. Use "isHostedFeatureServiceMainItem" instead.
- * Determines whether an item represents a hosted feature service
- * @param item item to check
- * @returns whether the item represents a hosted feature service
- */
-export function isHostedFeatureServiceItem(item: IItem): boolean {
-  /* tslint:disable no-console */
-  console.warn(
-    `"isHostedFeatureServiceItem()" is deprecated. Please use "isHostedFeatureServiceMainItem()"`
-  );
-  return isHostedFeatureServiceMainItem(item);
-}
-
-/**
  * Determines whether an item represents the main item of a hosted feature service
  * (i.e. the item that was created when the service was published, not an item that
  * referenced the service via url after it was created).
