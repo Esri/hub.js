@@ -83,20 +83,6 @@ export async function createInitiativeTemplate(
 }
 
 /**
- * DEPRECATED: just use editorToEntity instead
- * Convert an IHubInitiativeTemplateEditor back to an IHubInitiativeTemplate
- * @param editor
- * @param portal
- * @returns
- */
-export function editorToInitiativeTemplate(
-  editor: IHubInitiativeTemplateEditor,
-  portal: IPortal
-): IHubInitiativeTemplate {
-  return editorToEntity(editor, portal) as IHubInitiativeTemplate;
-}
-
-/**
  * @private
  * Update a Hub Initiative Template
  * @param initiativeTemplate

@@ -20,13 +20,13 @@ import { initiativeTemplateToCardModel } from "./view";
 import { cloneObject } from "../util";
 import {
   createInitiativeTemplate,
-  editorToInitiativeTemplate,
   updateInitiativeTemplate,
   deleteInitiativeTemplate,
 } from "./edit";
 import { enrichEntity } from "../core/enrichEntity";
 import { InitiativeTemplateEditorType } from "./_internal/InitiativeTemplateSchema";
 import { getEditorSlug } from "../core/_internal/getEditorSlug";
+import { editorToEntity } from "../core/schemas/internal/metrics/editorToEntity";
 
 /**
  * Hub Initiative Template Class
@@ -205,7 +205,10 @@ export class HubInitiativeTemplate
 
     delete editor._thumbnail;
 
-    const entity = editorToInitiativeTemplate(editor, this.context.portal);
+    const entity = editorToEntity(
+      editor,
+      this.context.portal
+    ) as IHubInitiativeTemplate;
 
     // save, which will also create an entity if we don't have an id for it
     this.entity = entity;
