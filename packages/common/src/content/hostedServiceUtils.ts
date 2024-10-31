@@ -32,22 +32,6 @@ export function isHostedFeatureServiceMainItem(item: IItem): boolean {
 }
 
 /**
- * DEPRECATED: This will be removed in the next breaking version Use "isHostedFeatureServiceMainEntity" instead
- * Determines whether an entity represents a hosted feature service
- * @param content content entity to check
- * @returns
- */
-export function isHostedFeatureServiceEntity(
-  content: IHubEditableContent
-): boolean {
-  /* tslint:disable no-console */
-  console.warn(
-    `"isHostedFeatureServiceEntity()" is deprecated. Please use "isHostedFeatureServiceMainEntity()"`
-  );
-  return isHostedFeatureServiceMain(content.type, content.typeKeywords);
-}
-
-/**
  * Determines whether an entity represents the main entity of a hosted feature service
  * (i.e. the entity that was created when the service was published, not an entity that
  * referenced the service via url after it was created)
