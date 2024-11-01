@@ -7,7 +7,7 @@ import { EntityEditorOptions } from "../../../../../src/core/schemas/internal/Ed
 
 describe("InitiativeUiSchemaMetrics", () => {
   describe("buildUiSchema", () => {
-    it("returns the full metrics card uiSchema", async () => {
+    it("returns the full metrics uiSchema", async () => {
       const uiSchema = await buildUiSchema(
         "",
         {} as EntityEditorOptions,
