@@ -6,4 +6,3 @@ export * from "./IWithEditorBehavior";
 export * from "./IWithFeaturedImageBehavior";
 export * from "./IWithVersioningBehavior";
 export * from "./IWithCardBehavior";
-export * from "./IWIthAssociationBehavior";

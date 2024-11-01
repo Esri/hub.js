@@ -11,7 +11,7 @@ import {
   IHubCatalog,
 } from "../../../src";
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
-import * as FetchCatalogModule from "../../../src/search/fetchCatalog";
+import * as FetchEntityCatalogModule from "../../../src/search/fetchEntityCatalog";
 import * as HubSearchModule from "../../../src/search/hubSearch";
 // Test GUID
 const AppItemId: string = "63c765456d23439e8faf0e4172fc9b23";
@@ -36,7 +36,7 @@ describe("deepContains:", () => {
   it("returns false if no hiearchy passed", async () => {
     const response = await deepContains(
       "3ef",
-      "item",
+      "project",
       null as unknown as IDeepCatalogInfo[],
       context
     );
@@ -44,14 +44,14 @@ describe("deepContains:", () => {
     expect(response.isContained).toBe(false);
   });
   it("returns false if hiearchy is empty", async () => {
-    const response = await deepContains("3ef", "item", [], context);
+    const response = await deepContains("3ef", "content", [], context);
     expect(response.identifier).toBe("3ef");
     expect(response.isContained).toBe(false);
   });
   it("fetches and returns catalog if only id is passed", async () => {
     const fetchCatalogSpy = spyOn(
-      FetchCatalogModule,
-      "fetchCatalog"
+      FetchEntityCatalogModule,
+      "fetchEntityCatalog"
     ).and.callFake(() => {
       return Promise.resolve(createMockCatalog("ff1"));
     });
@@ -63,8 +63,8 @@ describe("deepContains:", () => {
 
     const response = await deepContains(
       AppItemId,
-      "item",
-      [{ id: "00c", entityType: "item" }],
+      "content",
+      [{ id: "00c", hubEntityType: "site" }],
       context
     );
     expect(response.identifier).toBe(AppItemId);
@@ -81,8 +81,8 @@ describe("deepContains:", () => {
   });
   it("fetches multiple catalogs if only ids are passed", async () => {
     const fetchCatalogSpy = spyOn(
-      FetchCatalogModule,
-      "fetchCatalog"
+      FetchEntityCatalogModule,
+      "fetchEntityCatalog"
     ).and.callFake(() => {
       return Promise.resolve(createMockCatalog("ff1"));
     });
@@ -94,10 +94,10 @@ describe("deepContains:", () => {
 
     const response = await deepContains(
       AppItemId,
-      "item",
+      "content",
       [
-        { id: "00c", entityType: "item" },
-        { id: "00d", entityType: "item" },
+        { id: "00c", hubEntityType: "project" },
+        { id: "00d", hubEntityType: "initiative" },
       ],
       context
     );
@@ -116,8 +116,8 @@ describe("deepContains:", () => {
   });
   it("uses catalog if passed and returns contained", async () => {
     const fetchCatalogSpy = spyOn(
-      FetchCatalogModule,
-      "fetchCatalog"
+      FetchEntityCatalogModule,
+      "fetchEntityCatalog"
     ).and.callFake(() => {
       return Promise.resolve(createMockCatalog("ff1"));
     });
@@ -129,8 +129,14 @@ describe("deepContains:", () => {
 
     const response = await deepContains(
       AppItemId,
-      "item",
-      [{ id: "00c", entityType: "item", catalog: createMockCatalog("ff1") }],
+      "content",
+      [
+        {
+          id: "00c",
+          hubEntityType: "project",
+          catalog: createMockCatalog("ff1"),
+        },
+      ],
       context
     );
     expect(response.identifier).toBe(AppItemId);
@@ -140,8 +146,8 @@ describe("deepContains:", () => {
   });
   it("uses catalog if passed", async () => {
     const fetchCatalogSpy = spyOn(
-      FetchCatalogModule,
-      "fetchCatalog"
+      FetchEntityCatalogModule,
+      "fetchEntityCatalog"
     ).and.callFake(() => {
       return Promise.resolve(createMockCatalog("ff1"));
     });
@@ -153,8 +159,14 @@ describe("deepContains:", () => {
 
     const response = await deepContains(
       AppItemId,
-      "item",
-      [{ id: "00c", entityType: "item", catalog: createMockCatalog("ff1") }],
+      "content",
+      [
+        {
+          id: "00c",
+          hubEntityType: "project",
+          catalog: createMockCatalog("ff1"),
+        },
+      ],
       context
     );
     expect(response.identifier).toBe(AppItemId);
@@ -170,9 +182,9 @@ describe("pathToCatalogInfo:", () => {
     const path = "sites/a00a/initiatives/b00b/projects/c00c";
     const result = pathToCatalogInfo(path);
     expect(result).toEqual([
-      { entityType: "item", id: "c00c" },
-      { entityType: "item", id: "b00b" },
-      { entityType: "item", id: "a00a" },
+      { hubEntityType: "project", id: "c00c" },
+      { hubEntityType: "initiative", id: "b00b" },
+      { hubEntityType: "site", id: "a00a" },
     ]);
   });
 

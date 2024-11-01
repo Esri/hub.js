@@ -24,7 +24,7 @@ import { getProp } from "../src/objects/get-prop";
 //     - Unique Web App: a88285b001574cf3bfc91c4da11391cf
 //     - Common Web App: 63c765456d23439e8faf0e4172fc9b23
 
-fdescribe("deepContains:", () => {
+describe("deepContains:", () => {
   const siteItemId: string = "c84347eb5d0a4a7b84c334fe84a5bbfe";
   const siteAppItemId: string = "7da7ea6055d34afd9125a2ccd63be5e1";
   const projectItemId: string = "9c0ecf87bcc04a1d93dec04b54332458";
@@ -46,11 +46,11 @@ fdescribe("deepContains:", () => {
       const ctxMgr = await factory.getContextManager(orgName, "admin");
       const siteCatalogInfo: IDeepCatalogInfo = {
         id: siteItemId,
-        entityType: "item",
+        hubEntityType: "site",
       };
       const chk = await deepContains(
         siteAppItemId,
-        "item",
+        "content",
         [siteCatalogInfo],
         ctxMgr.context
       );
@@ -65,7 +65,7 @@ fdescribe("deepContains:", () => {
       );
       const chk2 = await deepContains(
         commonAppItemId,
-        "item",
+        "content",
         [siteCatalogInfo],
         ctxMgr.context
       );
@@ -77,11 +77,11 @@ fdescribe("deepContains:", () => {
       const ctxMgr = await factory.getContextManager(orgName, "admin");
       const siteCatalogInfo: IDeepCatalogInfo = {
         id: siteItemId,
-        entityType: "item",
+        hubEntityType: "site",
       };
       const chk = await deepContains(
         notContainedItemId,
-        "item",
+        "content",
         [siteCatalogInfo],
         ctxMgr.context
       );
@@ -94,16 +94,16 @@ fdescribe("deepContains:", () => {
       const ctxMgr = await factory.getContextManager(orgName, "admin");
       const siteCatalogInfo: IDeepCatalogInfo = {
         id: siteItemId,
-        entityType: "item",
+        hubEntityType: "site",
       };
       const initiativeCatalogInfo: IDeepCatalogInfo = {
         id: initiativeItemId,
-        entityType: "item",
+        hubEntityType: "initiative",
       };
 
       const chk = await deepContains(
         initiativeAppItemId,
-        "item",
+        "content",
         [initiativeCatalogInfo, siteCatalogInfo],
         ctxMgr.context
       );
@@ -117,20 +117,20 @@ fdescribe("deepContains:", () => {
       const ctxMgr = await factory.getContextManager(orgName, "admin");
       const siteCatalogInfo: IDeepCatalogInfo = {
         id: siteItemId,
-        entityType: "item",
+        hubEntityType: "site",
       };
       const initiativeCatalogInfo: IDeepCatalogInfo = {
         id: initiativeItemId,
-        entityType: "item",
+        hubEntityType: "initiative",
       };
       const projectCatalogInfo: IDeepCatalogInfo = {
         id: projectItemId,
-        entityType: "item",
+        hubEntityType: "project",
       };
 
       const chk = await deepContains(
         projectAppItemId,
-        "item",
+        "content",
         [projectCatalogInfo, initiativeCatalogInfo, siteCatalogInfo],
         ctxMgr.context
       );
@@ -143,20 +143,20 @@ fdescribe("deepContains:", () => {
       const ctxMgr = await factory.getContextManager(orgName, "admin");
       const siteCatalogInfo: IDeepCatalogInfo = {
         id: siteItemId,
-        entityType: "item",
+        hubEntityType: "site",
       };
       const initiativeCatalogInfo: IDeepCatalogInfo = {
         id: initiativeItemId,
-        entityType: "item",
+        hubEntityType: "initiative",
       };
       const projectCatalogInfo: IDeepCatalogInfo = {
         id: projectItemId,
-        entityType: "item",
+        hubEntityType: "project",
       };
 
       const chk = await deepContains(
         notContainedItemId,
-        "item",
+        "content",
         [projectCatalogInfo, initiativeCatalogInfo, siteCatalogInfo],
         ctxMgr.context
       );
@@ -171,12 +171,12 @@ fdescribe("deepContains:", () => {
       const ctxMgr = await factory.getContextManager(orgName, "admin");
       const siteCatalogInfo: IDeepCatalogInfo = {
         id: siteItemId,
-        entityType: "item",
+        hubEntityType: "site",
         catalog: createCatalog("b29562e1236f4743bc08d2444497b008"),
       };
       const chk = await deepContains(
         siteAppItemId,
-        "item",
+        "content",
         [siteCatalogInfo],
         ctxMgr.context
       );
@@ -188,18 +188,18 @@ fdescribe("deepContains:", () => {
       const ctxMgr = await factory.getContextManager(orgName, "admin");
       const siteCatalogInfo: IDeepCatalogInfo = {
         id: siteItemId,
-        entityType: "item",
+        hubEntityType: "site",
         catalog: createCatalog("b29562e1236f4743bc08d2444497b008"),
       };
       const initiativeCatalogInfo: IDeepCatalogInfo = {
         id: initiativeItemId,
-        entityType: "item",
+        hubEntityType: "initiative",
         catalog: createCatalog("1d568e44a1b043529f67122340a33890"),
       };
 
       const chk = await deepContains(
         initiativeAppItemId,
-        "item",
+        "content",
         [initiativeCatalogInfo, siteCatalogInfo],
         ctxMgr.context
       );
@@ -214,23 +214,23 @@ fdescribe("deepContains:", () => {
       const ctxMgr = await factory.getContextManager(orgName, "admin");
       const siteCatalogInfo: IDeepCatalogInfo = {
         id: siteItemId,
-        entityType: "item",
+        hubEntityType: "site",
         catalog: createCatalog("b29562e1236f4743bc08d2444497b008"),
       };
       const initiativeCatalogInfo: IDeepCatalogInfo = {
         id: initiativeItemId,
-        entityType: "item",
+        hubEntityType: "initiative",
         catalog: createCatalog("1d568e44a1b043529f67122340a33890"),
       };
       const projectCatalogInfo: IDeepCatalogInfo = {
         id: projectItemId,
-        entityType: "item",
+        hubEntityType: "project",
         catalog: createCatalog("5d92405aaa2b414d8632a469f9983be8"),
       };
 
       const chk = await deepContains(
         projectAppItemId,
-        "item",
+        "content",
         [projectCatalogInfo, initiativeCatalogInfo, siteCatalogInfo],
         ctxMgr.context
       );

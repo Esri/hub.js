@@ -12,7 +12,6 @@ export const DEFAULT_INITIATIVE: Partial<IHubInitiative> = {
   tags: [],
   typeKeywords: ["hubInitiativeV2"],
   catalog: { schemaVersion: 0 },
-  catalogs: [],
   permissions: [],
   schemaVersion: 2,
   status: HubEntityStatus.notStarted,
@@ -41,7 +40,7 @@ export const DEFAULT_INITIATIVE_MODEL: IModel = {
     },
   },
   data: {
-    catalogs: [],
+    catalog: { schemaVersion: 0 },
     status: HubEntityStatus.notStarted,
     view: {
       featuredContentIds: [],

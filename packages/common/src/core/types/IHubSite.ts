@@ -3,7 +3,7 @@ import { IWithVersioningBehavior } from "../behaviors";
 
 import { IHubItemEntity, IHubItemEntityEditor } from "./IHubItemEntity";
 import { IWithSlug } from "../traits/IWithSlug";
-import { IWithCatalog, IWithCatalogs } from "../traits/IWithCatalog";
+import { IWithCatalog } from "../traits/IWithCatalog";
 import { IWithLayout } from "../traits/IWithLayout";
 import { IWithPermissions } from "../traits/IWithPermissions";
 
@@ -39,8 +39,7 @@ export interface IHubSiteUrlInfo extends IUrlProperties {
 export interface IHubSite
   extends IHubItemEntity,
     IWithSlug,
-    IWithCatalog, // DEPRECATED: Use IWithCatalogs instead
-    IWithCatalogs,
+    IWithCatalog,
     IWithLayout,
     IWithPermissions,
     IWithVersioningBehavior,

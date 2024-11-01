@@ -889,6 +889,20 @@ describe("getAddContentConfig:", () => {
         expect(chk.existing).toBeNull();
       });
     });
+    describe("invalid query or catalog:", () => {
+      it("returns empty config with reason", () => {
+        const query = {
+          wat: "is this",
+        } as unknown as IQuery;
+        const chk = getAddContentConfig(premiumUserCtxMgr.context, query);
+        expect(chk).toBeDefined();
+        expect(chk.state).toBe("disabled");
+        expect(chk.reason).toBe("invalid-object");
+        expect(chk.create).toBeNull();
+        expect(chk.upload).toBeNull();
+        expect(chk.existing).toBeNull();
+      });
+    });
   });
 
   describe("for catalog:", () => {

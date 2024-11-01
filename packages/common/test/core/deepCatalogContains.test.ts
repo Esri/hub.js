@@ -39,11 +39,11 @@ describe("deepCatalogContains:", () => {
     // validate the args passed to deepContains
     const args = spy.calls.mostRecent().args;
     expect(args[0]).toBe("ff3");
-    expect(args[1]).toBe("item");
+    expect(args[1]).toBe("content");
     expect(args[2]).toEqual([
-      { id: "00c", entityType: "item" },
-      { id: "00b", entityType: "item" },
-      { id: "00a", entityType: "item" },
+      { id: "00c", hubEntityType: "project" },
+      { id: "00b", hubEntityType: "initiative" },
+      { id: "00a", hubEntityType: "site" },
     ]);
     expect(args[3]).toBe(ctx);
   });
@@ -78,11 +78,11 @@ describe("deepCatalogContains:", () => {
     // validate the args passed to deepContains
     const args = spy.calls.mostRecent().args;
     expect(args[0]).toBe("ff3");
-    expect(args[1]).toBe("item");
+    expect(args[1]).toBe("content");
     expect(args[2]).toEqual([
-      { id: "00c", entityType: "item" },
-      { id: "00b", entityType: "item" },
-      { id: "root", entityType: "item", catalog: rootCatalog },
+      { id: "00c", hubEntityType: "project" },
+      { id: "00b", hubEntityType: "initiative" },
+      { id: "root", hubEntityType: "site", catalog: rootCatalog },
     ]);
     expect(args[3]).toBe(ctx);
   });
