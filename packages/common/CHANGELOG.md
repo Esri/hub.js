@@ -1,3 +1,17 @@
+# @esri/hub-common [15.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.225.0...@esri/hub-common@15.0.0) (2024-11-01)
+
+
+### Features
+
+* minor comment change in ts file to try to force release to run ([#1713](https://github.com/Esri/hub.js/issues/1713)) ([568bbe3](https://github.com/Esri/hub.js/commit/568bbe35cf22186a479b777498a09b1c931d861a))
+* remove deprecated functions, rework catalog containment ([4e6816e](https://github.com/Esri/hub.js/commit/4e6816e3043ccf8fea03e0c4d9bae60a45bd82f4))
+* update readme with details on breaking changes ([#1712](https://github.com/Esri/hub.js/issues/1712)) ([8c07681](https://github.com/Esri/hub.js/commit/8c07681178040701f9e872964bab8f6a7be4c33b))
+
+
+### BREAKING CHANGES
+
+* removes deprecated functions
+
 # @esri/hub-common [14.225.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.224.0...@esri/hub-common@14.225.0) (2024-11-01)
 
 
