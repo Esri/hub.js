@@ -468,7 +468,7 @@ export interface IPost
   postType: PostType;
   channelId?: string;
   channel?: IChannel;
-  parentId?: string;
+  parentId: string | null;
   parent?: IPost | null;
   replies?: IPost[] | IPagedResponse<IPost>;
   replyCount?: number;
