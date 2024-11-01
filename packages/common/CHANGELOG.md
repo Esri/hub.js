@@ -1,3 +1,10 @@
+# @esri/hub-common [14.225.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.224.0...@esri/hub-common@14.225.0) (2024-11-01)
+
+
+### Features
+
+* catalog fetch via entity; remove associations ([#1710](https://github.com/Esri/hub.js/issues/1710)) ([a8eec53](https://github.com/Esri/hub.js/commit/a8eec53df0f4bee4ff76332dde9cfc975e5f856e))
+
 # @esri/hub-common [14.224.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.223.0...@esri/hub-common@14.224.0) (2024-10-31)
 
 
