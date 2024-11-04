@@ -7,7 +7,7 @@ import {
   IWithVersioningBehavior,
 } from "../core";
 
-import { Catalog } from "../search";
+import { Catalog } from "../search/Catalog";
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
@@ -52,6 +52,8 @@ import {
   SettableAccessLevel,
 } from "../index";
 import { SiteEditorType } from "./_internal/SiteSchema";
+import { getEditorSlug } from "../core/_internal/getEditorSlug";
+import { editorToEntity } from "../core/schemas/internal/metrics/editorToEntity";
 
 /**
  * Hub Site Class
@@ -275,7 +277,7 @@ export class HubSite
       ...[
         {
           id: this.id,
-          entityType: "item",
+          hubEntityType: "site",
           catalog: this._catalog.toJson(),
         } as IDeepCatalogInfo,
       ],
@@ -283,7 +285,7 @@ export class HubSite
     // delegate to fn
     const response = await deepContains(
       identifier,
-      "item", // NOTE: this is hardcoded for now!
+      "content", // NOTE: this is hardcoded for now!
       hierarchyWithSiteCatalog,
       this.context
     );
@@ -428,6 +430,8 @@ export class HubSite
       editor
     );
 
+    editor._slug = getEditorSlug(this.entity);
+
     const followersGroup = await this.getFollowersGroup();
     setProp("_followers.isDiscussable", isDiscussable(followersGroup), editor);
 
@@ -490,16 +494,13 @@ export class HubSite
 
     // 2. Convert editor values back to an entity e.g. apply
     // any reverse transforms used in the toEditor method
-    const entity = cloneObject(editor) as IHubSite;
+    const entity = editorToEntity(editor, this.context.portal) as IHubSite;
 
     entity.features = {
       ...entity.features,
       "hub:site:feature:follow": editor._followers?.showFollowAction,
       "hub:site:feature:discussions": editor._discussions,
     };
-
-    // copy the location extent up one level
-    entity.extent = editor.location?.extent;
 
     // site URL info
     const { url, subdomain, defaultHostname } = editor._urlInfo;

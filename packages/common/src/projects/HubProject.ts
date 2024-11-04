@@ -41,6 +41,7 @@ import { IMetricDisplayConfig } from "../core/types/Metrics";
 import { upsertResource } from "../resources/upsertResource";
 import { doesResourceExist } from "../resources/doesResourceExist";
 import { removeResource } from "../resources/removeResource";
+import { getEditorSlug } from "../core/_internal/getEditorSlug";
 
 /**
  * Hub Project Class
@@ -211,6 +212,9 @@ export class HubProject
           display.metricId === editorContext.metricId
       ) || {};
     editor._metric = metricToEditor(metric, displayConfig);
+
+    // 4. slug life
+    editor._slug = getEditorSlug(this.entity);
 
     return editor;
   }

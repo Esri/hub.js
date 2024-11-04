@@ -1,3 +1,38 @@
+# @esri/hub-common [15.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.225.0...@esri/hub-common@15.0.0) (2024-11-01)
+
+
+### Features
+
+* minor comment change in ts file to try to force release to run ([#1713](https://github.com/Esri/hub.js/issues/1713)) ([568bbe3](https://github.com/Esri/hub.js/commit/568bbe35cf22186a479b777498a09b1c931d861a))
+* remove deprecated functions, rework catalog containment ([4e6816e](https://github.com/Esri/hub.js/commit/4e6816e3043ccf8fea03e0c4d9bae60a45bd82f4))
+* update readme with details on breaking changes ([#1712](https://github.com/Esri/hub.js/issues/1712)) ([8c07681](https://github.com/Esri/hub.js/commit/8c07681178040701f9e872964bab8f6a7be4c33b))
+
+
+### BREAKING CHANGES
+
+* removes deprecated functions
+
+# @esri/hub-common [14.225.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.224.0...@esri/hub-common@14.225.0) (2024-11-01)
+
+
+### Features
+
+* catalog fetch via entity; remove associations ([#1710](https://github.com/Esri/hub.js/issues/1710)) ([a8eec53](https://github.com/Esri/hub.js/commit/a8eec53df0f4bee4ff76332dde9cfc975e5f856e))
+
+# @esri/hub-common [14.224.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.223.0...@esri/hub-common@14.224.0) (2024-10-31)
+
+
+### Features
+
+* **hub-common:** add updated utils for managing and previewing feeds ([#1690](https://github.com/Esri/hub.js/issues/1690)) ([8556115](https://github.com/Esri/hub.js/commit/8556115ad68dcafbfa8e000dbc0a2b8e2cfb463b))
+
+# @esri/hub-common [14.223.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.222.0...@esri/hub-common@14.223.0) (2024-10-30)
+
+
+### Features
+
+* **hub-common:** add slug to entity edit schemas ([#1706](https://github.com/Esri/hub.js/issues/1706)) ([dc38ff4](https://github.com/Esri/hub.js/commit/dc38ff4fe48386ce1fec59a1f05a14ec23690e62))
+
 # @esri/hub-common [14.222.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.221.1...@esri/hub-common@14.222.0) (2024-10-29)
 
 

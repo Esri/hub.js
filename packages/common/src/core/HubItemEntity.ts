@@ -28,7 +28,6 @@ import {
   IWithStoreBehavior,
   IWithFeaturedImageBehavior,
   IWithPermissionBehavior,
-  IWithAssociationBehavior,
 } from "./behaviors";
 
 import { IWithThumbnailBehavior } from "./behaviors/IWithThumbnailBehavior";
@@ -38,10 +37,6 @@ import { sharedWith } from "./_internal/sharedWith";
 import { IWithDiscussionsBehavior } from "./behaviors/IWithDiscussionsBehavior";
 import { setDiscussableKeyword } from "../discussions";
 import { IWithFollowersBehavior } from "./behaviors/IWithFollowersBehavior";
-import { AssociationType, IAssociationInfo } from "../associations/types";
-import { listAssociations } from "../associations/listAssociations";
-import { addAssociation } from "../associations/addAssociation";
-import { removeAssociation } from "../associations/removeAssociation";
 
 const FEATURED_IMAGE_FILENAME = "featuredImage.png";
 
@@ -56,8 +51,7 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
     IWithFeaturedImageBehavior,
     IWithPermissionBehavior,
     IWithDiscussionsBehavior,
-    IWithFollowersBehavior,
-    IWithAssociationBehavior
+    IWithFollowersBehavior
 {
   protected context: IArcGISContext;
   protected entity: T;
@@ -474,42 +468,5 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
       isDiscussable
     );
     this.update({ typeKeywords, isDiscussable } as Partial<T>);
-  }
-
-  /**
-   * ** DEPRECATED: This will be removed in the next
-   * breaking version **
-   *
-   * Return a list of IAssociationInfo objects representing
-   * the associations this entity has, to the specified type
-   * @param type
-   * @returns
-   */
-  listAssociations(type: AssociationType): IAssociationInfo[] {
-    return listAssociations(this.entity, type);
-  }
-
-  /**
-   * ** DEPRECATED: please use requestAssociation instead.
-   * This will be removed in the next breaking version **
-   *
-   * Add an association to this entity
-   * @param info
-   * @returns
-   */
-  addAssociation(info: IAssociationInfo): void {
-    return addAssociation(this.entity, info);
-  }
-
-  /**
-   * ** DEPRECATED: please use breakAssociation instead.
-   * This will be removed in the next breaking version **
-   *
-   * Remove an association from this entity
-   * @param info
-   * @returns
-   */
-  removeAssociation(info: IAssociationInfo): void {
-    return removeAssociation(this.entity, info);
   }
 }

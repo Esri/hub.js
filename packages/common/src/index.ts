@@ -1,4 +1,4 @@
-/* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
+/* Copyright (c) 2024 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 /* istanbul ignore file */
 
@@ -59,6 +59,7 @@ export * from "./search/getPredicateValues";
 export * from "./core/hubHistory";
 export * from "./core/deepCatalogContains";
 export * from "./core/parseContainmentPath";
+export * from "./core/catalogContains";
 
 import OperationStack from "./OperationStack";
 import OperationError from "./OperationError";

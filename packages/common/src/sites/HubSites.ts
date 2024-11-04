@@ -42,7 +42,7 @@ import { reflectCollectionsToSearchCategories } from "./_internal/reflectCollect
 import { convertCatalogToLegacyFormat } from "./_internal/convertCatalogToLegacyFormat";
 import { convertFeaturesToLegacyCapabilities } from "./_internal/capabilities/convertFeaturesToLegacyCapabilities";
 import { computeLinks } from "./_internal/computeLinks";
-import { ensureUniqueEntitySlug } from "../items/_internal/slugs";
+import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlug";
 import { IHubItemEntity } from "../core";
 export const HUB_SITE_ITEM_TYPE = "Hub Site Application";
 export const ENTERPRISE_SITE_ITEM_TYPE = "Site Application";

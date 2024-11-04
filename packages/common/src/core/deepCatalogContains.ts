@@ -11,9 +11,9 @@ import { HubEntityType } from "./types/HubEntityType";
  * Check that a specific entity is contained within a hierarchy of catalogs
  * @param identifier id or slug of the entity to check
  * @param hubEntityType Entity type of the identifier
- * @param path
+ * @param path definition of the containment hierarchy /site/00c/projects/cc1 etc
  * @param context
- * @param rootCatalog root level catalog to start checking from
+ * @param rootCatalog Optional, root level catalog to start checking from (typically the site)
  * @returns
  */
 export async function deepCatalogContains(
@@ -43,11 +43,11 @@ export async function deepCatalogContains(
       ...infos,
       {
         id: "root",
-        entityType: "item",
+        hubEntityType: "site", // debatable if this is a good idea
         catalog: rootCatalog,
       },
     ];
   }
-  const entityType = getEntityTypeFromType(hubEntityType);
-  return deepContains(identifier, entityType, infos, context);
+
+  return deepContains(identifier, hubEntityType, infos, context);
 }

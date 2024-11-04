@@ -11,6 +11,7 @@ import { InitiativeDefaultFeatures } from "./InitiativeBusinessRules";
 import { computeLinks } from "./computeLinks";
 import { getAuthedImageUrl } from "../../core/_internal/getAuthedImageUrl";
 import { computeItemProps } from "../../core/_internal/computeItemProps";
+import { upgradeCatalogSchema } from "../../search/upgradeCatalogSchema";
 
 /**
  * Given a model and an Initiative, set various computed properties that can't be directly mapped
@@ -45,6 +46,9 @@ export function computeProps(
     ...model.data.view,
     featuredImageUrl: model.data.view?.featuredImageUrl,
   };
+
+  // Ensure we have a catalog and that its at the current schema
+  initiative.catalog = upgradeCatalogSchema(initiative.catalog || {});
 
   /**
    * Features that can be disabled by the entity owner

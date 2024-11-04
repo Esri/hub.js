@@ -171,3 +171,9 @@ export const PRIVACY_CONFIG_SCHEMA = {
     },
   },
 };
+
+export const SLUG_SCHEMA: JSONSchema = {
+  type: "string",
+  /** lower case alpha numeric characters and '-' only */
+  pattern: "^[a-z0-9]+(?:-[a-z0-9]+-*)*$",
+};

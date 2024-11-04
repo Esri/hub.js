@@ -44,13 +44,16 @@ For transparency into the release cycle and in striving to maintain backward com
 
 For more information on SemVer, please visit <http://semver.org/>.
 
+### BREAKING CHANGES
+Before initiating a breaking change, review the commit messages to ensure that intervening squashes have not mangled the commit message such that semantic release will not do a major release. Also - do not push directly to master as the actions won't run.
+
 ### Contributing
 
 Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](CONTRIBUTING.md).
 
 ### License
 
-Copyright &copy; 2022 Esri
+Copyright &copy; 2024 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

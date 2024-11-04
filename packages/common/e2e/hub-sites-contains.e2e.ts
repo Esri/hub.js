@@ -25,7 +25,7 @@ import { deepCatalogContains } from "../src/core/deepCatalogContains";
 //     - Unique Web App: a88285b001574cf3bfc91c4da11391cf
 //     - Common Web App: 63c765456d23439e8faf0e4172fc9b23
 
-fdescribe("HubSite.contains:", () => {
+describe("HubSite.contains:", () => {
   const siteItemId: string = "c84347eb5d0a4a7b84c334fe84a5bbfe";
   const siteAppItemId: string = "7da7ea6055d34afd9125a2ccd63be5e1";
   const projectItemId: string = "9c0ecf87bcc04a1d93dec04b54332458";
@@ -51,7 +51,7 @@ fdescribe("HubSite.contains:", () => {
     siteInstance = await HubSite.fetch(siteItemId, context);
   });
 
-  fdescribe("deepCatalogContains", () => {
+  describe("deepCatalogContains", () => {
     it("handles one level deep", async () => {
       const siteCatalog: IHubCatalog = siteInstance.catalog.toJson();
       const path = `/initiatives/${initiativeItemId}`;
@@ -137,7 +137,7 @@ fdescribe("HubSite.contains:", () => {
     it("finds app in initiative catalog", async () => {
       const initiativeCatalogInfo: IDeepCatalogInfo = {
         id: initiativeItemId,
-        entityType: "item",
+        hubEntityType: "initiative",
       };
 
       const chk = await siteInstance.contains(initiativeAppItemId, [
@@ -154,11 +154,11 @@ fdescribe("HubSite.contains:", () => {
     it("finds app in project catalog", async () => {
       const initiativeCatalogInfo: IDeepCatalogInfo = {
         id: initiativeItemId,
-        entityType: "item",
+        hubEntityType: "initiative",
       };
       const projectCatalogInfo: IDeepCatalogInfo = {
         id: projectItemId,
-        entityType: "item",
+        hubEntityType: "project",
       };
 
       const chk = await siteInstance.contains(
@@ -178,7 +178,7 @@ fdescribe("HubSite.contains:", () => {
     it("find app in initiative catalog", async () => {
       const initiativeCatalogInfo: IDeepCatalogInfo = {
         id: initiativeItemId,
-        entityType: "item",
+        hubEntityType: "initiative",
         catalog: createCatalog("1d568e44a1b043529f67122340a33890"),
       };
 
@@ -195,20 +195,19 @@ fdescribe("HubSite.contains:", () => {
     it("find app in project catalog", async () => {
       const initiativeCatalogInfo: IDeepCatalogInfo = {
         id: initiativeItemId,
-        entityType: "item",
+        hubEntityType: "initiative",
         catalog: createCatalog("1d568e44a1b043529f67122340a33890"),
       };
       const projectCatalogInfo: IDeepCatalogInfo = {
         id: projectItemId,
-        entityType: "item",
+        hubEntityType: "project",
         catalog: createCatalog("5d92405aaa2b414d8632a469f9983be8"),
       };
 
-      const chk = await siteInstance.contains(
-        initiativeAppItemId,
-
-        [projectCatalogInfo, initiativeCatalogInfo]
-      );
+      const chk = await siteInstance.contains(projectAppItemId, [
+        projectCatalogInfo,
+        initiativeCatalogInfo,
+      ]);
 
       expect(chk.isContained).toBeTruthy();
       // tslint:disable-next-line:no-console

@@ -549,7 +549,7 @@ describe("HubSites:", () => {
         return Promise.resolve(newModel);
       });
       ensureUniqueEntitySlugSpy = spyOn(
-        require("../../src/items/_internal/slugs"),
+        require("../../src/items/_internal/ensureUniqueEntitySlug"),
         "ensureUniqueEntitySlug"
       ).and.callFake((site: commonModule.IHubSite) => {
         return Promise.resolve(site);

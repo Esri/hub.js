@@ -22,6 +22,8 @@ import { createPage, deletePage, fetchPage, updatePage } from "./HubPages";
 import { PageEditorType } from "./_internal/PageSchema";
 import { cloneObject } from "../util";
 import { enrichEntity } from "../core/enrichEntity";
+import { getEditorSlug } from "../core/_internal/getEditorSlug";
+import { editorToEntity } from "../core/schemas/internal/metrics/editorToEntity";
 
 /*
   TODO:
@@ -216,6 +218,7 @@ export class HubPage
 
     // 2. Apply transforms to relevant entity values so they
     // can be consumed by the editor
+    editor._slug = getEditorSlug(this.entity);
 
     return editor;
   }
@@ -248,10 +251,7 @@ export class HubPage
 
     // convert back to an entity. Apply any reverse transforms used in
     // of the toEditor method
-    const entity = cloneObject(editor) as IHubPage;
-
-    // copy the location extent up one level
-    entity.extent = editor.location?.extent;
+    const entity = editorToEntity(editor, this.context.portal) as IHubPage;
 
     // create it if it does not yet exist...
     this.entity = entity;
