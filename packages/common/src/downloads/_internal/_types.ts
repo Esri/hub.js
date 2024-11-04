@@ -40,6 +40,19 @@ export const HUB_PAGING_JOB_FORMATS = [
 export type HubPagingJobFormat = (typeof HUB_PAGING_JOB_FORMATS)[number];
 
 /**
+ * Formats supported by the fgdb operation endpoint of the Hub Download API.
+ * Listed in the default order of appearance in the UI.
+ */
+export const HUB_FGDB_JOB_FORMATS = [
+  ServiceDownloadFormat.CSV,
+  ServiceDownloadFormat.SHAPEFILE,
+  ServiceDownloadFormat.GEOJSON,
+  ServiceDownloadFormat.KML,
+  ServiceDownloadFormat.FILE_GDB,
+] as const;
+export type HubFgdbJobFormat = (typeof HUB_FGDB_JOB_FORMATS)[number];
+
+/**
  * Known formats supported by the /createReplica endpoint of the Hub Download API.
  * Listed in the default order of appearance in the UI.
  * NOTE: this is may be incomplete and should be updated as needed.
