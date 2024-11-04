@@ -25,6 +25,12 @@ describe("buildUiSchema: discussion create", () => {
                 icon: true,
                 labelKey: `shared.fields.title.maxLengthError`,
               },
+              {
+                type: "ERROR",
+                keyword: "format",
+                icon: true,
+                labelKey: `some.scope.fields.name.entityTitleValidatorError`,
+              },
             ],
           },
         },
