@@ -32,6 +32,20 @@ describe("getDownloadFlow", () => {
     expect(result).toBe("paging");
   });
 
+  it("should return the appropriate fgdb download flow", () => {
+    const entity: IHubEditableContent = {
+      url: "https://www.self-hosted-server.com/arcgis/rest/services/Hosted/FeatureServer/0",
+      serverQueryCapability: true,
+      extendedProps: {
+        serverExtractCapability: true,
+      },
+      access: "public",
+    } as any;
+    const isEnterprise = false;
+    const result = getDownloadFlow(entity, isEnterprise);
+    expect(result).toBe("fgdb");
+  });
+
   it("should return the appropriate export image download flow", () => {
     const entity: IHubEditableContent = {
       url: "https://www.arcgis.com/arcgis/rest/services/Hosted/FeatureServer/0",
