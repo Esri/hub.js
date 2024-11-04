@@ -973,14 +973,14 @@ describe("ChannelPermission class", () => {
         expect(channelPermission.canModerateChannel(user)).toBe(false);
       });
 
-      it("returns true if the user created the channel", async () => {
+      it("returns false if the user created the channel, without acl permissions (V1 change)", async () => {
         const user = buildUser();
         const channelAcl = [] as IChannelAclPermission[];
         const channel = { channelAcl, creator: user.username } as IChannel;
 
         const channelPermission = new ChannelPermission(channel);
 
-        expect(channelPermission.canModerateChannel(user)).toBe(true);
+        expect(channelPermission.canModerateChannel(user)).toBe(false);
       });
     });
 
