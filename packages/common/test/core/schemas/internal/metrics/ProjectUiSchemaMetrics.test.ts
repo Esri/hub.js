@@ -93,26 +93,44 @@ describe("ProjectUiSchemaMetrics", () => {
                 labelKey: `shared.fields.metrics.value.label`,
                 scope: "/properties/_metric/properties/value",
                 type: "Control",
-                rule: {
-                  condition: {
-                    schema: {
-                      type: "object",
-                      properties: {
-                        _metric: {
-                          type: "object",
-                          properties: {
-                            type: { const: "static" },
-                            valueType: { const: "string" },
+                rules: [
+                  {
+                    condition: {
+                      schema: {
+                        type: "object",
+                        properties: {
+                          _metric: {
+                            type: "object",
+                            properties: {
+                              type: { const: "static" },
+                              valueType: { const: "string" },
+                            },
                           },
                         },
                       },
                     },
+                    effect: UiSchemaRuleEffects.SHOW,
                   },
-                  effect: UiSchemaRuleEffects.SHOW,
-                },
+                  {
+                    condition: {
+                      schema: {
+                        type: "object",
+                        properties: {
+                          _metric: {
+                            type: "object",
+                            properties: {
+                              type: { const: "static" },
+                              valueType: { not: { const: "string" } },
+                            },
+                          },
+                        },
+                      },
+                    },
+                    effect: UiSchemaRuleEffects.RESET,
+                  },
+                ],
                 options: {
                   control: "hub-field-input-input",
-                  clearOnHidden: true,
                   messages: [
                     {
                       type: "ERROR",
@@ -127,27 +145,45 @@ describe("ProjectUiSchemaMetrics", () => {
                 labelKey: `shared.fields.metrics.value.label`,
                 scope: "/properties/_metric/properties/value",
                 type: "Control",
-                rule: {
-                  condition: {
-                    schema: {
-                      type: "object",
-                      properties: {
-                        _metric: {
-                          type: "object",
-                          properties: {
-                            type: { const: "static" },
-                            valueType: { const: "number" },
+                rules: [
+                  {
+                    condition: {
+                      schema: {
+                        type: "object",
+                        properties: {
+                          _metric: {
+                            type: "object",
+                            properties: {
+                              type: { const: "static" },
+                              valueType: { const: "number" },
+                            },
                           },
                         },
                       },
                     },
+                    effect: UiSchemaRuleEffects.SHOW,
                   },
-                  effect: UiSchemaRuleEffects.SHOW,
-                },
+                  {
+                    condition: {
+                      schema: {
+                        type: "object",
+                        properties: {
+                          _metric: {
+                            type: "object",
+                            properties: {
+                              type: { const: "static" },
+                              valueType: { not: { const: "number" } },
+                            },
+                          },
+                        },
+                      },
+                    },
+                    effect: UiSchemaRuleEffects.RESET,
+                  },
+                ],
                 options: {
                   control: "hub-field-input-input",
                   type: "number",
-                  clearOnHidden: true,
                   messages: [
                     {
                       type: "ERROR",
@@ -162,26 +198,43 @@ describe("ProjectUiSchemaMetrics", () => {
                 labelKey: `shared.fields.metrics.value.label`,
                 scope: "/properties/_metric/properties/value",
                 type: "Control",
-                rule: {
-                  condition: {
-                    schema: {
-                      type: "object",
-                      properties: {
-                        _metric: {
-                          type: "object",
-                          properties: {
-                            type: { const: "static" },
-                            valueType: { const: "date" },
+                rules: [
+                  {
+                    condition: {
+                      schema: {
+                        type: "object",
+                        properties: {
+                          _metric: {
+                            type: "object",
+                            properties: {
+                              type: { const: "static" },
+                              valueType: { const: "date" },
+                            },
                           },
                         },
                       },
                     },
+                    effect: UiSchemaRuleEffects.SHOW,
                   },
-                  effect: UiSchemaRuleEffects.SHOW,
-                },
+                  {
+                    condition: {
+                      schema: {
+                        type: "object",
+                        properties: {
+                          _metric: {
+                            type: "object",
+                            properties: {
+                              valueType: { not: { const: "date" } },
+                            },
+                          },
+                        },
+                      },
+                    },
+                    effect: UiSchemaRuleEffects.RESET,
+                  },
+                ],
                 options: {
                   control: "hub-field-input-date",
-                  clearOnHidden: true,
                   messages: [
                     {
                       type: "ERROR",

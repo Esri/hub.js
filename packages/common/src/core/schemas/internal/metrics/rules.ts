@@ -67,6 +67,60 @@ export const SHOW_FOR_STATIC_AND_DATE_RULE_ENTITY: IUiSchemaRule = {
   effect: UiSchemaRuleEffects.SHOW,
 };
 
+/** Resets the field if value type is no longer a string */
+export const RESET_FOR_NOT_STRING_RULE_ENTITY: IUiSchemaRule = {
+  condition: {
+    schema: {
+      type: "object",
+      properties: {
+        _metric: {
+          type: "object",
+          properties: {
+            valueType: { not: { const: "string" } },
+          },
+        },
+      },
+    },
+  },
+  effect: UiSchemaRuleEffects.RESET,
+};
+
+/** Resets the field if value type is no longer a number */
+export const RESET_FOR_NOT_NUMBER_RULE_ENTITY: IUiSchemaRule = {
+  condition: {
+    schema: {
+      type: "object",
+      properties: {
+        _metric: {
+          type: "object",
+          properties: {
+            valueType: { not: { const: "number" } },
+          },
+        },
+      },
+    },
+  },
+  effect: UiSchemaRuleEffects.RESET,
+};
+
+/** Resets the field if value type is no longer a date */
+export const RESET_FOR_NOT_DATE_RULE_ENTITY: IUiSchemaRule = {
+  condition: {
+    schema: {
+      type: "object",
+      properties: {
+        _metric: {
+          type: "object",
+          properties: {
+            valueType: { not: { const: "date" } },
+          },
+        },
+      },
+    },
+  },
+  effect: UiSchemaRuleEffects.RESET,
+};
+
 /** Show if the type is set to dynamic */
 export const SHOW_FOR_DYNAMIC_RULE_ENTITY: IUiSchemaRule = {
   condition: {
