@@ -1,3 +1,10 @@
+# @esri/hub-common [15.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.2.0...@esri/hub-common@15.3.0) (2024-11-05)
+
+
+### Features
+
+* collection appearance ([#1703](https://github.com/Esri/hub.js/issues/1703)) ([bfcfdc2](https://github.com/Esri/hub.js/commit/bfcfdc20d2a1a5235d43ad62786ff82d37b377b9))
+
 # @esri/hub-common [15.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.1.0...@esri/hub-common@15.2.0) (2024-11-05)
 
 
