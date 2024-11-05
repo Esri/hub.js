@@ -69,6 +69,11 @@ export interface IHubCollection {
    * ensure we query the correct API
    */
   targetEntity: EntityType;
+
+  /**
+   * Optional display configuration to control a collection's appearance in the UI
+   */
+  displayConfig?: IGalleryDisplayConfig;
 }
 
 export const targetEntities = [
@@ -168,4 +173,16 @@ export interface IPredicate {
    * in implementation without constantly updates to this interface
    */
   [key: string]: any;
+}
+
+/**
+ * Configuration for how to display a gallery. This can apply to a catalog's display,
+ * a collection's display, the gallery-card's display, etc.
+ */
+export interface IGalleryDisplayConfig {
+  /**s
+   * Used for collections to determine if the collection should be hidden in the gallery.
+   * If this is true on a collection's display config, that collection will not be shown in the gallery.
+   */
+  hidden?: boolean;
 }
