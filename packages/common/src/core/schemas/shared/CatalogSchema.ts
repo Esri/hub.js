@@ -73,3 +73,39 @@ export const CatalogSchema: IConfigurationSchema = {
     },
   },
 };
+
+/**
+ * JSON schema for the appearance of a gallery display
+ * This can be for a catalog, a collection, a gallery card, etc
+ */
+export const GalleryDisplayConfigSchema: IConfigurationSchema = {
+  type: "object",
+  properties: {
+    hidden: { type: "boolean", default: false },
+    // TODO: fill in properties
+  },
+};
+
+/**
+ * JSON schema for the appearance of an IHubCollection
+ */
+export const CollectionAppearanceSchema: IConfigurationSchema = {
+  type: "object",
+  properties: {
+    displayConfig: GalleryDisplayConfigSchema,
+  },
+};
+
+/**
+ * JSON schema for the appearance of a catalog
+ */
+export const CatalogAppearanceSchema: IConfigurationSchema = {
+  type: "object",
+  properties: {
+    displayConfig: GalleryDisplayConfigSchema,
+    collections: {
+      type: "array",
+      items: CollectionAppearanceSchema,
+    },
+  },
+};
