@@ -7,6 +7,7 @@ import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThum
 import { IHubInitiative } from "../../core";
 import { getAuthedImageUrl } from "../../core/_internal/getAuthedImageUrl";
 import { fetchCategoriesUiSchemaElement } from "../../core/schemas/internal/fetchCategoriesUiSchemaElement";
+import { getSlugSchemaElement } from "../../core/schemas/internal/getSlugSchemaElement";
 
 /**
  * @private
@@ -43,6 +44,12 @@ export const buildUiSchema = async (
                   keyword: "maxLength",
                   icon: true,
                   labelKey: `${i18nScope}.fields.name.maxLengthError`,
+                },
+                {
+                  type: "ERROR",
+                  keyword: "format",
+                  icon: true,
+                  labelKey: `${i18nScope}.fields.name.entityTitleValidatorError`,
                 },
               ],
             },
@@ -181,6 +188,7 @@ export const buildUiSchema = async (
         type: "Section",
         labelKey: `${i18nScope}.sections.searchDiscoverability.label`,
         elements: [
+          getSlugSchemaElement(i18nScope),
           ...(await fetchCategoriesUiSchemaElement(i18nScope, context)),
           {
             labelKey: `${i18nScope}.fields.tags.label`,

@@ -20,7 +20,7 @@ import {
  * Gets available download formats / additional resources for the given entity in the order they have been configured.
  * If a format has been configured to be hidden, it will not be included in the results.
  *
- * @param options options to refine / filter the results of the fetchDownloadFormats operation
+ * @param options options to refine / filter the results of the getDownloadFormats operation
  * @returns The available download formats and additional resources
  */
 export function getDownloadFormats(

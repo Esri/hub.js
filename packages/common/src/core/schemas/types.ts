@@ -188,20 +188,6 @@ export interface IChangeEventDetail {
   schema?: IConfigurationSchema;
 }
 
-/**
- * **DEPRECATED:** this should not have been hoisted
- * to hub.js and should live in opendata-ui. It is now
- * duplicated there, and this interface should be removed
- * during the next breaking change
- *
- * Note: once removed, we should also be able to remove
- * ajv as a dependency in this repo
- */
-export interface IValidationResult {
-  valid: boolean;
-  errors?: Ajv.ErrorObject[];
-}
-
 export interface IUiSchemaElement {
   type: string;
   id?: string;

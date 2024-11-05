@@ -9,6 +9,14 @@ export const ENTITY_NAME_SCHEMA = {
   type: "string",
   minLength: 1,
   maxLength: 250,
+  format: "entityTitleValidator",
+};
+
+export const SITE_ENTITY_NAME_SCHEMA = {
+  type: "string",
+  minLength: 1,
+  maxLength: 250,
+  format: "siteEntityTitleValidator",
 };
 
 export const ENTITY_SUMMARY_SCHEMA = {
@@ -170,4 +178,10 @@ export const PRIVACY_CONFIG_SCHEMA = {
       },
     },
   },
+};
+
+export const SLUG_SCHEMA: JSONSchema = {
+  type: "string",
+  /** lower case alpha numeric characters and '-' only */
+  pattern: "^[a-z0-9]+(?:-[a-z0-9]+-*)*$",
 };

@@ -26,12 +26,7 @@ export interface IHubLocation {
   // but for now it is a non-breaking change to relax __esri.Geometry w/ a partial
   geometries?: Array<Partial<__esri.Geometry>>;
 
-  // DEPRECATED: the following will be removed at next breaking version
-  provenance?: "none" | "custom" | "existing";
-  center?: number[];
-  orgSpatialReference?: ISpatialReference;
-  graphic?: any;
-  geoJson?: any;
+  /** The name of the location */
   name?: string;
 }
 

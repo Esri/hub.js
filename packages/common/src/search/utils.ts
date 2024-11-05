@@ -288,7 +288,7 @@ export function migrateToCollectionKey(
  * DEPRECATED: Please use `getGroupPredicate`
  * Searches through a catalog scope and retrieves the predicate responsible
  * for determining group sharing requirements.
- *
+ * Still in use 10/29/2024
  * @param scope Catalog scope to search through
  * @returns The first predicate with a `group` field (if present)
  */

@@ -332,40 +332,6 @@ describe("HubPage Class:", () => {
         // other than via code-coverage
         expect(getProp(result, "_thumbnail")).not.toBeDefined();
       });
-      it("handles extent from location", async () => {
-        const chk = HubPage.fromJson(
-          {
-            id: "bc3",
-            name: "Test Entity",
-            thumbnailUrl: "https://myserver.com/thumbnail.png",
-            extent: [
-              [-1, -1],
-              [1, 1],
-            ],
-          },
-          authdCtxMgr.context
-        );
-        // spy on the instance .save method and retrn void
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
-        // make changes to the editor
-        const editor = await chk.toEditor();
-        editor.name = "new name";
-        editor.location = {
-          extent: [
-            [-2, -2],
-            [2, 2],
-          ],
-          type: "custom",
-        };
-        // call fromEditor
-        const result = await chk.fromEditor(editor);
-        // expect the save method to have been called
-        expect(saveSpy).toHaveBeenCalledTimes(1);
-        expect(result.extent).toEqual([
-          [-2, -2],
-          [2, 2],
-        ]);
-      });
       it("throws if creating", async () => {
         const chk = HubPage.fromJson(
           {

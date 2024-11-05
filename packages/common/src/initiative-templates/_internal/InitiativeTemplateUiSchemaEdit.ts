@@ -4,6 +4,7 @@ import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThum
 import { IUiSchema, UiSchemaMessageTypes } from "../../core/schemas/types";
 import { getRecommendedTemplatesCatalog } from "./getRecommendedTemplatesCatalog";
 import { getEntityThumbnailUrl } from "../../core/getEntityThumbnailUrl";
+import { getSlugSchemaElement } from "../../core/schemas/internal/getSlugSchemaElement";
 
 /**
  * @private
@@ -46,9 +47,16 @@ export const buildUiSchema = async (
                   icon: true,
                   labelKey: `shared.fields.name.maxLengthError`,
                 },
+                {
+                  type: "ERROR",
+                  keyword: "format",
+                  icon: true,
+                  labelKey: `${i18nScope}.fields.name.entityTitleValidatorError`,
+                },
               ],
             },
           },
+          getSlugSchemaElement(i18nScope),
           {
             type: "Control",
             scope: "/properties/previewUrl",

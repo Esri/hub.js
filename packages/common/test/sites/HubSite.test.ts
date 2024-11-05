@@ -14,7 +14,7 @@ import {
   IVersionMetadata,
   getProp,
 } from "../../src";
-import { Catalog } from "../../src/search";
+import { Catalog } from "../../src/search/Catalog";
 import * as ContainsModule from "../../src/core/_internal/deepContains";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
 
@@ -300,7 +300,7 @@ describe("HubSite Class:", () => {
       );
       // pass in a project catalog
       const result = await chk.contains("cc0", [
-        { id: "4ef", entityType: "item", catalog: createCatalog("00b") },
+        { id: "4ef", hubEntityType: "project", catalog: createCatalog("00b") },
       ]);
       expect(containsSpy).toHaveBeenCalledTimes(1);
       const hiearchy = containsSpy.calls.argsFor(0)[2];
@@ -345,9 +345,9 @@ describe("HubSite Class:", () => {
         authdCtxMgr.context
       );
       // First call will warm the cache
-      await chk.contains("cc0", [{ id: "4ef", entityType: "item" }]);
+      await chk.contains("cc0", [{ id: "4ef", hubEntityType: "project" }]);
       // second call will use the cache
-      await chk.contains("cc1", [{ id: "4ef", entityType: "item" }]);
+      await chk.contains("cc1", [{ id: "4ef", hubEntityType: "project" }]);
       expect(containsSpy).toHaveBeenCalledTimes(2);
       // verify first call does not send the 4ef catalog
       const hiearchy = containsSpy.calls.argsFor(0)[2];
@@ -378,7 +378,6 @@ describe("HubSite Class:", () => {
         catalog: {
           schemaVersion: 0,
         },
-        catalogs: [],
         permissions: [],
         settings: {
           features: {
@@ -478,7 +477,6 @@ describe("HubSite Class:", () => {
         created: 123456,
         creator: "paige_pa",
         data: {
-          catalogs: [],
           settings: {
             features: {
               "hub:site:content": true,
@@ -782,51 +780,6 @@ describe("HubSite Class:", () => {
           expect(_getFollowersGroupSpy).toHaveBeenCalledTimes(1);
           expect(setFollowersGroupIsDiscussableSpy).toHaveBeenCalledTimes(1);
         });
-      });
-      it("handles extent from location", async () => {
-        const _chk = HubSite.fromJson(
-          {
-            id: "bc3",
-            name: "Test Entity",
-            thumbnailUrl: "https://myserver.com/thumbnail.png",
-            extent: [
-              [-1, -1],
-              [1, 1],
-            ],
-          },
-          authdCtxMgr.context
-        );
-        // spy on the instance .save method and retrn void
-        const saveSpy = spyOn(_chk, "save").and.returnValue(Promise.resolve());
-        const _getFollowersGroupSpy = spyOn(
-          _chk,
-          "getFollowersGroup"
-        ).and.callFake(() => {
-          return Promise.resolve({
-            id: "followers00c",
-            typeKeywords: [],
-          });
-        });
-        // make changes to the editor
-        const editor = await _chk.toEditor();
-        editor.name = "new name";
-        (editor._followers as any).isDiscussable = undefined;
-        editor.location = {
-          extent: [
-            [-2, -2],
-            [2, 2],
-          ],
-          type: "custom",
-        };
-        // call fromEditor
-        const result = await _chk.fromEditor(editor);
-        // expect the save method to have been called
-        expect(saveSpy).toHaveBeenCalledTimes(1);
-        expect(result.extent).toEqual([
-          [-2, -2],
-          [2, 2],
-        ]);
-        expect(_getFollowersGroupSpy).toHaveBeenCalledTimes(1);
       });
       it("throws if creating", async () => {
         const _chk = HubSite.fromJson(

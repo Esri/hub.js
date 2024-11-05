@@ -45,6 +45,7 @@ import { metricToEditor } from "../core/schemas/internal/metrics/metricToEditor"
 import { getGroup } from "@esri/arcgis-rest-portal";
 import { MembershipAccess } from "../core/types";
 import { convertGroupToHubGroup } from "../groups/_internal/convertGroupToHubGroup";
+import { getEditorSlug } from "../core/_internal/getEditorSlug";
 
 /**
  * Hub Initiative Class
@@ -309,6 +310,9 @@ export class HubInitiative
       };
       editor._associations = _associations;
     }
+
+    // 4. slug life
+    editor._slug = getEditorSlug(this.entity);
 
     return editor;
   }

@@ -5,9 +5,14 @@ import * as getLocationOptionsModule from "../../../src/core/schemas/internal/ge
 import * as getTagItemsModule from "../../../src/core/schemas/internal/getTagItems";
 import * as fetchCategoryItemsModule from "../../../src/core/schemas/internal/fetchCategoryItems";
 import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
+import * as getSlugSchemaElementModule from "../../../src/core/schemas/internal/getSlugSchemaElement";
 
 describe("buildUiSchema: page edit", () => {
-  it("returns the full page edit uiSchema", async () => {
+  const mockSlugElement = {
+    labelKey: "slug",
+    scope: "/properties/_slug",
+  } as any;
+  beforeEach(() => {
     spyOn(fetchCategoryItemsModule, "fetchCategoryItems").and.returnValue(
       Promise.resolve([
         {
@@ -25,7 +30,11 @@ describe("buildUiSchema: page edit", () => {
     spyOn(getTagItemsModule, "getTagItems").and.returnValue(
       Promise.resolve([])
     );
-
+    spyOn(getSlugSchemaElementModule, "getSlugSchemaElement").and.returnValue(
+      mockSlugElement
+    );
+  });
+  it("returns the full page edit uiSchema", async () => {
     const uiSchema = await buildUiSchema(
       "some.scope",
       {
@@ -58,6 +67,12 @@ describe("buildUiSchema: page edit", () => {
                     keyword: "maxLength",
                     icon: true,
                     labelKey: `some.scope.fields.name.maxLengthError`,
+                  },
+                  {
+                    type: "ERROR",
+                    keyword: "format",
+                    icon: true,
+                    labelKey: `some.scope.fields.name.entityTitleValidatorError`,
                   },
                 ],
               },
@@ -139,6 +154,7 @@ describe("buildUiSchema: page edit", () => {
                 },
               ],
             },
+            mockSlugElement,
             {
               labelKey: "some.scope.fields.tags.label",
               scope: "/properties/tags",

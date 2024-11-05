@@ -4,7 +4,11 @@ import { getEntityTypeFromType } from "../../search/_internal/getEntityTypeFromT
 import { Catalog } from "../../search/Catalog";
 import { asyncForEach } from "../../utils/asyncForEach";
 import { HubEntityType } from "../types/HubEntityType";
-import { parseContainmentPath, pathMap } from "../parseContainmentPath";
+import {
+  getHubEntityTypeFromPath,
+  parseContainmentPath,
+} from "../parseContainmentPath";
+import { getEntityTypeFromHubEntityType } from "../getEntityTypeFromHubEntityType";
 
 /**
  * Convert a path string into an array of `IDeepCatalogInfo` objects.
@@ -21,10 +25,9 @@ export function pathToCatalogInfo(path: string): IDeepCatalogInfo[] {
 
   const infos: IDeepCatalogInfo[] = [];
   for (let i = 0; i < parsedPath.parts.length; i += 2) {
-    const type = pathMap[parsedPath.parts[i]] as HubEntityType;
-    const entityType = getEntityTypeFromType(type);
+    const type = getHubEntityTypeFromPath(parsedPath.parts[i]);
     infos.push({
-      entityType,
+      hubEntityType: type,
       id: parsedPath.parts[i + 1],
     });
   }
@@ -34,6 +37,22 @@ export function pathToCatalogInfo(path: string): IDeepCatalogInfo[] {
   return infos.reverse();
 }
 
+/**
+ * @internal
+ * @interface
+ * Extends `IDeepCatalogInfo` to include additional properties for checking containment.
+ */
+interface IDeepContainsCheck extends IDeepCatalogInfo {
+  /**
+   * Identifier to find in the catalog.
+   */
+  idToFind?: string;
+  /**
+   * Enitity type we are looking for. This optimizes performance
+   * by focusing on specific entity types.
+   */
+  entityType?: EntityType;
+}
 /**
  * @internal
  * Check if a particular entity is contained in a catalog.
@@ -60,7 +79,7 @@ export function pathToCatalogInfo(path: string): IDeepCatalogInfo[] {
  */
 export async function deepContains(
   identifier: string,
-  entityType: EntityType,
+  hubEntityType: HubEntityType,
   hierarchy: IDeepCatalogInfo[],
   context: IArcGISContext
 ): Promise<IContainsResponse> {
@@ -79,46 +98,56 @@ export async function deepContains(
   // and only change that if one of the checks fails
   response.isContained = true;
 
-  // get the id and targetEntity from each of the entries
-  // in the hiearchy
-  let checks = hierarchy
-    .map((c) => {
-      return { id: c.id, entityType: c.entityType };
-    })
-    .slice(0, -1);
-  // prepend in the thing we are checking for
-  // as this allows catalog.contains to be much more efficient
-  checks = [{ id: identifier, entityType }, ...checks];
+  // create an array of checks by mapping over the hieararchy array
+  const checks = hierarchy.map((c, idx, arr) => {
+    // if this is the first item in the array, we don't have a previous item
+    // so we use the identifier, and type passed to the function
+    const isFirst = idx === 0;
+    const check: IDeepContainsCheck = {
+      id: c.id,
+      hubEntityType: c.hubEntityType,
+      idToFind: isFirst ? identifier : arr[idx - 1].id,
+      entityType: isFirst
+        ? getEntityTypeFromType(hubEntityType)
+        : getEntityTypeFromHubEntityType(arr[idx - 1].hubEntityType),
+    };
+    if (c.catalog) {
+      check.catalog = c.catalog;
+    }
+
+    return check;
+  });
 
   // iterate the hierarchy
-  await asyncForEach(hierarchy, async (catalogInfo, idx) => {
-    const currentIdentifier = checks[idx].id;
-    const currentEntityType = checks[idx].entityType;
+  await asyncForEach(checks, async (checkDefinition) => {
     // create a catalog instance
     let catalog: Catalog;
-    if (catalogInfo.catalog) {
-      // create instance
-      catalog = Catalog.fromJson(catalogInfo.catalog, context);
+    if (checkDefinition.catalog) {
+      catalog = Catalog.fromJson(checkDefinition.catalog, context);
     } else {
-      // otherwise, fetch the catalog and check it
-      catalog = await Catalog.init(catalogInfo.id, context);
+      // otherwise, fetch the catalog
+      const opts = {
+        hubEntityType: checkDefinition.hubEntityType,
+        prop: "catalog",
+      };
+      catalog = await Catalog.init(checkDefinition.id, context, opts);
     }
-    // add to the response cache
-    response.catalogInfo[catalogInfo.id] = {
-      id: catalogInfo.id,
-      entityType: catalogInfo.entityType,
+    // add to the response for debugging
+    response.catalogInfo[checkDefinition.id] = {
+      id: checkDefinition.id,
+      hubEntityType: checkDefinition.hubEntityType,
       catalog: catalog.toJson(),
     };
-    // check it
-    const check = await catalog.contains(currentIdentifier, {
-      entityType: currentEntityType,
+    // check containment
+    const check = await catalog.contains(checkDefinition.idToFind, {
+      entityType: checkDefinition.entityType,
     });
     // if a containment check fails, update the response
     // we only update it on failure b/c we don't want a positive
     // response to override a negative one higher up the hierarchy
     if (!check.isContained) {
       response.isContained = check.isContained;
-      response.reason = `Entity ${currentIdentifier} not contained in catalog ${catalogInfo.id}`;
+      response.reason = `Entity ${checkDefinition.idToFind} not contained in catalog ${checkDefinition.id}`;
     }
   });
   const end = new Date().getTime();

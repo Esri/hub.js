@@ -1,4 +1,4 @@
-import { Catalog } from "../../search";
+import { Catalog } from "../../search/Catalog";
 
 export interface IWithCatalogBehavior {
   catalog: Catalog;

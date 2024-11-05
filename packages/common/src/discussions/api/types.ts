@@ -146,6 +146,7 @@ export enum PostRelation {
   REACTIONS = "reactions",
   PARENT = "parent",
   CHANNEL = "channel",
+  CHANNEL_ACL = "channelAcl",
 }
 
 /**

@@ -13,7 +13,7 @@ import {
   IUserItemOptions,
   removeItem,
 } from "@esri/arcgis-rest-portal";
-import { ensureUniqueEntitySlug } from "../items/_internal/slugs";
+import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlug";
 
 /**
  * @private

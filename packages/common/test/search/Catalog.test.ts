@@ -11,9 +11,10 @@ import {
   IPredicate,
   IQuery,
 } from "../../src/search";
-import { Catalog } from "../../src/search";
-import * as FetchCatalogModule from "../../src/search/fetchCatalog";
+import { Catalog } from "../../src";
+import * as FetchEntityCatalogModule from "../../src/search/fetchEntityCatalog";
 import * as HubSearchModule from "../../src/search/hubSearch";
+import * as CatalogContainsModule from "../../src/core/catalogContains";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 
 const catalogJson: IHubCatalog = {
@@ -172,39 +173,63 @@ describe("Catalog Class:", () => {
     });
   });
 
-  describe("initialize", () => {
+  describe("init:", () => {
     let fetchCatalogSpy: jasmine.Spy;
-    it("defaults to AGO anonymous", async () => {
-      fetchCatalogSpy = spyOn(FetchCatalogModule, "fetchCatalog").and.callFake(
-        () => {
-          return Promise.resolve(cloneObject(catalogJson));
-        }
-      );
+
+    it("creates default context if not passed", async () => {
+      fetchCatalogSpy = spyOn(
+        FetchEntityCatalogModule,
+        "fetchEntityCatalog"
+      ).and.callFake(() => {
+        return Promise.resolve(cloneObject(catalogJson));
+      });
       const instance = await Catalog.init("https://somesite.com");
       expect(instance.toJson()).toEqual(catalogJson);
       const userQuery: IQuery = { targetEntity: "user", filters: [] };
       instance.setScope("user", userQuery);
       expect(instance.getScope("user")).toEqual(userQuery);
-      const [id, hubReqOpts] = fetchCatalogSpy.calls.argsFor(0);
+
+      const [id, ctx] = fetchCatalogSpy.calls.argsFor(0);
       expect(id).toEqual("https://somesite.com");
-      expect(hubReqOpts.portal).toEqual("https://www.arcgis.com/sharing/rest");
-      expect(hubReqOpts.isPortal).toEqual(false);
+      expect(ctx.portalUrl).toEqual("https://www.arcgis.com");
+      expect(ctx.isPortal).toEqual(false);
       expect(instance.availableScopes).toEqual(["item", "group", "user"]);
     });
-
-    it("fetches the catalog", async () => {
-      fetchCatalogSpy = spyOn(FetchCatalogModule, "fetchCatalog").and.callFake(
-        () => {
-          return Promise.resolve(cloneObject(catalogJson));
-        }
-      );
-      const instance = await Catalog.init("https://somesite.com", context);
+    it("throws if no catalog found", async () => {
+      fetchCatalogSpy = spyOn(
+        FetchEntityCatalogModule,
+        "fetchEntityCatalog"
+      ).and.callFake(() => {
+        return Promise.resolve(null);
+      });
+      try {
+        await Catalog.init("https://somesite.com", context);
+      } catch (err) {
+        expect(getProp(err, "name")).toBe("HubError");
+        expect(getProp(err, "message")).toContain("No catalog found");
+        // verify the context was used
+        expect(fetchCatalogSpy.calls.argsFor(0)[1]).toBe(context);
+      }
+    });
+    it("uses context and options if passed", async () => {
+      fetchCatalogSpy = spyOn(
+        FetchEntityCatalogModule,
+        "fetchEntityCatalog"
+      ).and.callFake(() => {
+        return Promise.resolve(cloneObject(catalogJson));
+      });
+      const instance = await Catalog.init("https://somesite.com", context, {
+        hubEntityType: "project",
+        prop: "catalog",
+      });
+      // verify the context was used
+      expect(fetchCatalogSpy.calls.argsFor(0)[1]).toBe(context);
+      // verify the options were used
+      expect(fetchCatalogSpy.calls.argsFor(0)[2]).toEqual({
+        hubEntityType: "project",
+        prop: "catalog",
+      });
       expect(instance.toJson()).toEqual(catalogJson);
-      const userQuery: IQuery = { targetEntity: "user", filters: [] };
-      instance.setScope("user", userQuery);
-      expect(instance.getScope("user")).toEqual(userQuery);
-      const id = fetchCatalogSpy.calls.argsFor(0)[0];
-      expect(id).toEqual("https://somesite.com");
     });
   });
 
@@ -331,7 +356,7 @@ describe("Catalog Class:", () => {
       expect(query.filters[1]).toEqual(catalogJson.scopes?.item?.filters[0]);
     });
 
-    it("searcheItems with query", async () => {
+    it("searchItems with query", async () => {
       hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
         return Promise.resolve({ fake: "response" });
       });
@@ -579,77 +604,37 @@ describe("Catalog Class:", () => {
   });
 
   describe("contains:", () => {
-    let hubSearchSpy: jasmine.Spy;
+    let containsSpy: jasmine.Spy;
+    it("delegates to catalogContains:", async () => {
+      containsSpy = spyOn(
+        CatalogContainsModule,
+        "catalogContains"
+      ).and.callFake(() => {
+        return Promise.resolve({
+          identifier: "1950189b18a64ab78fc478d97ea502e0",
+          isContained: true,
+        });
+      });
 
-    it("returns false if scope does not exist for entityType ", async () => {
-      hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
-        return Promise.resolve({ fake: "response" });
-      });
       const instance = Catalog.fromJson(cloneObject(catalogJson), context);
-      const res = await instance.contains("1950189b18a64ab78fc478d97ea502e0", {
-        entityType: "event",
-      });
-      expect(res.isContained).toBe(false);
-      expect(hubSearchSpy).toHaveBeenCalledTimes(0);
-    });
-    it("executes scope search if entity type specified and scope exists", async () => {
-      hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
-        return Promise.resolve({
-          results: ["results just needs to have an entry"],
-        });
-      });
-      const instance = Catalog.fromJson(cloneObject(catalogJson), context);
-      const res = await instance.contains("1950189b18a64ab78fc478d97ea502e0", {
-        entityType: "item",
-      });
-      expect(res.isContained).toBe(true);
-      expect(hubSearchSpy).toHaveBeenCalledTimes(1);
-      const chkQry = hubSearchSpy.calls.argsFor(0)[0];
-      const predicates: IPredicate = chkQry.filters.reduce(
-        (acc: IPredicate[], f: IFilter) => {
-          return acc.concat(f.predicates);
-        },
-        []
+      const res = await instance.contains(
+        "1950189b18a64ab78fc478d97ea502e0",
+        {}
       );
-      // one predicate must have the id
-      expect(
-        predicates.some(
-          (p: IPredicate) => p.id === "1950189b18a64ab78fc478d97ea502e0"
-        )
-      ).toBe(true);
+      expect(res.identifier).toEqual("1950189b18a64ab78fc478d97ea502e0");
+      expect(res.isContained).toBeTruthy();
+
+      expect(containsSpy).toHaveBeenCalled();
     });
-    it("executes collection search if no scope", async () => {
-      hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
-        return Promise.resolve({
-          results: ["results just needs to have an entry"],
-        });
-      });
-      const scopelessCatalog = cloneObject(catalogJson);
-      delete scopelessCatalog.scopes?.item;
-      const instance = Catalog.fromJson(cloneObject(scopelessCatalog), context);
-      const res = await instance.contains("1950189b18a64ab78fc478d97ea502e0", {
-        entityType: "item",
-      });
-      expect(res.isContained).toBe(true);
-      expect(hubSearchSpy).toHaveBeenCalledTimes(1);
-      const chkQry = hubSearchSpy.calls.argsFor(0)[0];
-      const predicates: IPredicate = chkQry.filters.reduce(
-        (acc: IPredicate[], f: IFilter) => {
-          return acc.concat(f.predicates);
-        },
-        []
-      );
-      // one predicate must have the id
-      expect(
-        predicates.some(
-          (p: IPredicate) => p.id === "1950189b18a64ab78fc478d97ea502e0"
-        )
-      ).toBe(true);
-    });
+
     it("subsequent calls use a cache", async () => {
-      hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
+      containsSpy = spyOn(
+        CatalogContainsModule,
+        "catalogContains"
+      ).and.callFake(() => {
         return Promise.resolve({
-          results: ["results just needs to have an entry"],
+          identifier: "1950189b18a64ab78fc478d97ea502e0",
+          isContained: true,
         });
       });
       const instance = Catalog.fromJson(cloneObject(catalogJson), context);
@@ -661,59 +646,7 @@ describe("Catalog Class:", () => {
         entityType: "item",
       });
       expect(res2.isContained).toBe(true);
-      expect(hubSearchSpy).toHaveBeenCalledTimes(1);
-    });
-    it("assumes slug if not guid", async () => {
-      hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
-        return Promise.resolve({
-          results: [
-            {
-              typeKeywords: ["slug|org|my-name-is-vader-1"],
-            },
-            {
-              typeKeywords: ["slug|org|my-name-is-vader"],
-            },
-          ],
-        });
-      });
-      const instance = Catalog.fromJson(cloneObject(catalogJson), context);
-      const res = await instance.contains("org|my-name-is-vader", {
-        entityType: "item",
-      });
-
-      expect(res.isContained).toBe(true);
-      expect(hubSearchSpy).toHaveBeenCalledTimes(1);
-      const chkQry = hubSearchSpy.calls.argsFor(0)[0];
-      const predicates: IPredicate = chkQry.filters.reduce(
-        (acc: IPredicate[], f: IFilter) => {
-          return acc.concat(f.predicates);
-        },
-        []
-      );
-      // one predicate must have the slug
-      expect(
-        predicates.some((p: IPredicate) =>
-          p.typekeywords?.includes("slug|org|my-name-is-vader")
-        )
-      ).toBe(true);
-    });
-    it("executes one search per-scope if entity type not specified", async () => {
-      let called = false;
-      hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
-        let response: any = { results: [] };
-        if (!called) {
-          response = { results: ["results just needs to have an entry"] };
-          called = true;
-        }
-        return Promise.resolve(response);
-      });
-      const instance = Catalog.fromJson(cloneObject(catalogJson), context);
-      const res = await instance.contains(
-        "1950189b18a64ab78fc478d97ea502e0",
-        {}
-      );
-      expect(res.isContained).toBe(true);
-      expect(hubSearchSpy).toHaveBeenCalledTimes(3);
+      expect(containsSpy).toHaveBeenCalledTimes(1);
     });
   });
 });
