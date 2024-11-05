@@ -1,3 +1,10 @@
+# @esri/hub-common [15.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.1.0...@esri/hub-common@15.2.0) (2024-11-05)
+
+
+### Features
+
+* **hub-common:** add supported download formats for fgdb job ([#1715](https://github.com/Esri/hub.js/issues/1715)) ([0a8aade](https://github.com/Esri/hub.js/commit/0a8aade73d3003607dd3148c15c9c1ad502e49f7))
+
 # @esri/hub-common [15.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.0.0...@esri/hub-common@15.1.0) (2024-11-04)
 
 
