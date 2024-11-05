@@ -111,26 +111,10 @@ describe("ProjectUiSchemaMetrics", () => {
                     },
                     effect: UiSchemaRuleEffects.SHOW,
                   },
-                  {
-                    condition: {
-                      schema: {
-                        type: "object",
-                        properties: {
-                          _metric: {
-                            type: "object",
-                            properties: {
-                              type: { const: "static" },
-                              valueType: { not: { const: "string" } },
-                            },
-                          },
-                        },
-                      },
-                    },
-                    effect: UiSchemaRuleEffects.RESET,
-                  },
                 ],
                 options: {
                   control: "hub-field-input-input",
+                  clearOnHidden: true,
                   messages: [
                     {
                       type: "ERROR",
@@ -163,27 +147,11 @@ describe("ProjectUiSchemaMetrics", () => {
                     },
                     effect: UiSchemaRuleEffects.SHOW,
                   },
-                  {
-                    condition: {
-                      schema: {
-                        type: "object",
-                        properties: {
-                          _metric: {
-                            type: "object",
-                            properties: {
-                              type: { const: "static" },
-                              valueType: { not: { const: "number" } },
-                            },
-                          },
-                        },
-                      },
-                    },
-                    effect: UiSchemaRuleEffects.RESET,
-                  },
                 ],
                 options: {
                   control: "hub-field-input-input",
                   type: "number",
+                  clearOnHidden: true,
                   messages: [
                     {
                       type: "ERROR",
@@ -216,25 +184,10 @@ describe("ProjectUiSchemaMetrics", () => {
                     },
                     effect: UiSchemaRuleEffects.SHOW,
                   },
-                  {
-                    condition: {
-                      schema: {
-                        type: "object",
-                        properties: {
-                          _metric: {
-                            type: "object",
-                            properties: {
-                              valueType: { not: { const: "date" } },
-                            },
-                          },
-                        },
-                      },
-                    },
-                    effect: UiSchemaRuleEffects.RESET,
-                  },
                 ],
                 options: {
                   control: "hub-field-input-date",
+                  clearOnHidden: true,
                   messages: [
                     {
                       type: "ERROR",

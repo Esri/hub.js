@@ -12,9 +12,6 @@ import {
   SHOW_FOR_STATIC_AND_STRING_RULE_ENTITY,
   SHOW_FOR_STATIC_AND_NUMBER_RULE_ENTITY,
   SHOW_FOR_STATIC_AND_DATE_RULE_ENTITY,
-  RESET_FOR_NOT_STRING_RULE_ENTITY,
-  RESET_FOR_NOT_NUMBER_RULE_ENTITY,
-  RESET_FOR_NOT_DATE_RULE_ENTITY,
 } from "./rules";
 
 /**
@@ -107,12 +104,10 @@ export const buildUiSchema = async (
             labelKey: "shared.fields.metrics.value.label",
             scope: "/properties/_metric/properties/value",
             type: "Control",
-            rules: [
-              SHOW_FOR_STATIC_AND_STRING_RULE_ENTITY,
-              RESET_FOR_NOT_STRING_RULE_ENTITY,
-            ],
+            rules: [SHOW_FOR_STATIC_AND_STRING_RULE_ENTITY],
             options: {
               control: "hub-field-input-input",
+              clearOnHidden: true,
               messages: [
                 {
                   type: "ERROR",
@@ -127,13 +122,11 @@ export const buildUiSchema = async (
             labelKey: "shared.fields.metrics.value.label",
             scope: "/properties/_metric/properties/value",
             type: "Control",
-            rules: [
-              SHOW_FOR_STATIC_AND_NUMBER_RULE_ENTITY,
-              RESET_FOR_NOT_NUMBER_RULE_ENTITY,
-            ],
+            rules: [SHOW_FOR_STATIC_AND_NUMBER_RULE_ENTITY],
             options: {
               control: "hub-field-input-input",
               type: "number",
+              clearOnHidden: true,
               messages: [
                 {
                   type: "ERROR",
@@ -148,12 +141,10 @@ export const buildUiSchema = async (
             labelKey: "shared.fields.metrics.value.label",
             scope: "/properties/_metric/properties/value",
             type: "Control",
-            rules: [
-              SHOW_FOR_STATIC_AND_DATE_RULE_ENTITY,
-              RESET_FOR_NOT_DATE_RULE_ENTITY,
-            ],
+            rules: [SHOW_FOR_STATIC_AND_DATE_RULE_ENTITY],
             options: {
               control: "hub-field-input-date",
+              clearOnHidden: true,
               messages: [
                 {
                   type: "ERROR",
