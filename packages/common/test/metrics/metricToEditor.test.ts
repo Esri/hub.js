@@ -2,8 +2,8 @@ import {
   IMetric,
   IMetricDisplayConfig,
   MetricSource,
-} from "../../../../../src/core/types/Metrics";
-import { metricToEditor } from "../../../../../src/core/schemas/internal/metrics/metricToEditor";
+} from "../../src/core/types/Metrics";
+import { metricToEditor } from "../../src/metrics/metricToEditor";
 
 describe("metricToEditor", () => {
   it("converts a service-query metric correctly", () => {
