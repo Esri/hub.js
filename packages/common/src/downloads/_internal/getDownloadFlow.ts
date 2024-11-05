@@ -1,4 +1,9 @@
-import { DownloadFlowType, IHubEditableContent } from "../../core";
+import {
+  DownloadFlowType,
+  IHubEditableContent,
+  IServiceExtendedProps,
+} from "../../core";
+import { getProp } from "../../objects/get-prop";
 import { canUseCreateReplica } from "../canUseCreateReplica";
 import { canUseHubDownloadSystem } from "../canUseHubDownloadSystem";
 import { canUseExportImageFlow } from "./canUseExportImageFlow";
@@ -20,7 +25,11 @@ export function getDownloadFlow(
   if (canUseCreateReplica(entity)) {
     downloadFlow = "createReplica";
   } else if (canUseHubDownloadSystem(entity) && !isEnterprise) {
-    downloadFlow = "paging";
+    const isExtractEnabled = !!getProp(
+      entity,
+      "extendedProps.serverExtractCapability"
+    );
+    downloadFlow = isExtractEnabled ? "fgdb" : "paging";
   } else if (canUseExportImageFlow(entity)) {
     downloadFlow = "exportImage";
   }
