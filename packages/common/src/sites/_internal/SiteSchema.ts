@@ -2,6 +2,7 @@ import { IAsyncConfigurationSchema } from "../../core";
 import {
   ENTITY_IS_DISCUSSABLE_SCHEMA,
   PRIVACY_CONFIG_SCHEMA,
+  SITE_ENTITY_NAME_SCHEMA,
 } from "../../core/schemas/shared";
 import { HubItemEntitySchema } from "../../core/schemas/shared/HubItemEntitySchema";
 
@@ -23,6 +24,7 @@ export const getSiteSchema = (siteId: string) =>
     ...HubItemEntitySchema,
     properties: {
       ...HubItemEntitySchema.properties,
+      name: SITE_ENTITY_NAME_SCHEMA,
       _discussions: ENTITY_IS_DISCUSSABLE_SCHEMA,
       telemetry: PRIVACY_CONFIG_SCHEMA,
       _urlInfo: {

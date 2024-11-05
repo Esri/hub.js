@@ -55,6 +55,12 @@ describe("buildUiSchema: initiative template edit", () => {
                     icon: true,
                     labelKey: `shared.fields.name.maxLengthError`,
                   },
+                  {
+                    type: "ERROR",
+                    keyword: "format",
+                    icon: true,
+                    labelKey: `some.scope.fields.name.entityTitleValidatorError`,
+                  },
                 ],
               },
             },
