@@ -1,3 +1,17 @@
+# @esri/hub-common [15.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.1.0...@esri/hub-common@15.2.0) (2024-11-05)
+
+
+### Features
+
+* **hub-common:** add supported download formats for fgdb job ([#1715](https://github.com/Esri/hub.js/issues/1715)) ([0a8aade](https://github.com/Esri/hub.js/commit/0a8aade73d3003607dd3148c15c9c1ad502e49f7))
+
+# @esri/hub-common [15.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.0.0...@esri/hub-common@15.1.0) (2024-11-04)
+
+
+### Features
+
+* add create form error validation for site and project entities ([#1691](https://github.com/Esri/hub.js/issues/1691)) ([43dab51](https://github.com/Esri/hub.js/commit/43dab51242653bc2c1e6ce33dfccb27da8ec5fd5))
+
 # @esri/hub-common [15.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.225.0...@esri/hub-common@15.0.0) (2024-11-01)
 
 
