@@ -137,11 +137,9 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     // When enabled, the manage links will take the user the org home site
-    // Reverting to devext but likely remove and always load workspaces
-    // on the "current site"
     permission: "hub:feature:workspace:org",
     availability: ["alpha"],
-    environments: ["devext"],
+    environments: ["devext", "qaext"],
   },
   {
     // when enabled keyboard shortcuts will be available
