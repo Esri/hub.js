@@ -1,3 +1,10 @@
+## @esri/hub-common [15.3.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.3.1...@esri/hub-common@15.3.2) (2024-11-06)
+
+
+### Bug Fixes
+
+* **hub-common:** access is correctly labelled when shared ([#1708](https://github.com/Esri/hub.js/issues/1708)) ([a0bc7da](https://github.com/Esri/hub.js/commit/a0bc7da64c828cfb44aa74d6855de80157edc280))
+
 ## @esri/hub-common [15.3.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.3.0...@esri/hub-common@15.3.1) (2024-11-06)
 
 
