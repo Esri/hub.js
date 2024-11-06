@@ -1,4 +1,4 @@
-import { getPortalUrl } from "@esri/arcgis-rest-portal";
+import { getPortalUrl, getSelf } from "@esri/arcgis-rest-portal";
 import { IUser } from "@esri/arcgis-rest-types";
 import { IRequestOptions, request } from "@esri/arcgis-rest-request";
 import { IArcGISContext } from "../../ArcGISContext";
@@ -23,9 +23,10 @@ export async function computeProps(
   // 2. compute any props for user's org settings
   // TODO: only fetch this if the user has necessary privs (org admin)
   const signinSettings = await getPortalSignInSettings(context);
+  const _portalself = await getSelf(context.requestOptions);
   user.hubOrgSettings = {
     showInformationalBanner: !!getProp(
-      context,
+      _portalself,
       "portal.portalProperties.hub.settings.informationalBanner"
     ),
     enableTermsAndConditions: !!signinSettings.termsAndConditions,
