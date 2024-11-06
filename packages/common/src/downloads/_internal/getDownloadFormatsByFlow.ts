@@ -6,6 +6,7 @@ import { IDynamicDownloadFormat } from "../types";
 import { getCreateReplicaFormats } from "./format-fetchers/getCreateReplicaFormats";
 import { getExportImageFormats } from "./format-fetchers/getExportImageFormats";
 import { getPagingJobFormats } from "./format-fetchers/getPagingJobFormats";
+import { getFgdbJobFormats } from "./format-fetchers/getFgdbJobFormats";
 
 /**
  * @private
@@ -26,6 +27,9 @@ export function getDownloadFormatsByFlow(
     },
     paging: () => {
       downloadFormats = getPagingJobFormats();
+    },
+    fgdb: () => {
+      downloadFormats = getFgdbJobFormats();
     },
     exportImage: () => {
       downloadFormats = getExportImageFormats(entity);

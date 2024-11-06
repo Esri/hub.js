@@ -73,6 +73,43 @@ describe("getDownloadConfiguration", () => {
     });
   });
 
+  it("should return the current download configuration for the entity using fgdb", () => {
+    const entity: IHubEditableContent = {
+      url: "https://www.self-hosted-server.com/arcgis/rest/services/Hosted/FeatureServer/0",
+      extendedProps: {
+        serverExtractCapability: true,
+      },
+      serverQueryCapability: true,
+      access: "public",
+    } as any as IHubEditableContent;
+    const downloadConfig = getDownloadConfiguration(entity);
+    expect(downloadConfig).toEqual({
+      flowType: "fgdb",
+      formats: [
+        {
+          key: "csv",
+          hidden: false,
+        },
+        {
+          key: "shapefile",
+          hidden: false,
+        },
+        {
+          key: "geojson",
+          hidden: false,
+        },
+        {
+          key: "kml",
+          hidden: false,
+        },
+        {
+          key: "filegdb",
+          hidden: false,
+        },
+      ],
+    });
+  });
+
   it("should return the current download configuration for the entity using exportImage", () => {
     const entity: IHubEditableContent = {
       id: "123",

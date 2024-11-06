@@ -7,7 +7,7 @@ import {
   IWithVersioningBehavior,
 } from "../core";
 
-import { Catalog } from "../search";
+import { Catalog } from "../search/Catalog";
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
@@ -277,7 +277,7 @@ export class HubSite
       ...[
         {
           id: this.id,
-          entityType: "item",
+          hubEntityType: "site",
           catalog: this._catalog.toJson(),
         } as IDeepCatalogInfo,
       ],
@@ -285,7 +285,7 @@ export class HubSite
     // delegate to fn
     const response = await deepContains(
       identifier,
-      "item", // NOTE: this is hardcoded for now!
+      "content", // NOTE: this is hardcoded for now!
       hierarchyWithSiteCatalog,
       this.context
     );

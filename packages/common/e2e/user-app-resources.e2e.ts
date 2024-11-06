@@ -4,10 +4,10 @@ import {
   IUserHubSettings,
   IUserSiteSettings,
   UserResourceApp,
-  getUserHubSettings,
-  getUserSiteSettings,
-  setUserHubSettings,
-  setUserSiteSettings,
+  fetchUserHubSettings,
+  fetchUserSiteSettings,
+  updateUserHubSettings,
+  updateUserSiteSettings,
 } from "../src";
 import {
   IAddUserResource,
@@ -264,9 +264,9 @@ describe("user-app-resources harness: ", () => {
       const username = contextMgr.context.currentUser.username as string;
       const portalUrl = contextMgr.context.portalUrl;
       const list = await listUserResources(username, portalUrl, token, true);
-      await setUserSiteSettings(settings, contextMgr.context);
+      await updateUserSiteSettings(settings, contextMgr.context);
       // now get it back
-      const chk = await getUserSiteSettings(contextMgr.context);
+      const chk = await fetchUserSiteSettings(contextMgr.context);
       expect(chk.username).toBe("paige_pa");
       expect(chk.updated).toBeGreaterThanOrEqual(ts);
       await clearUserSiteSettings(contextMgr.context);
@@ -281,15 +281,15 @@ describe("user-app-resources harness: ", () => {
       const username = contextMgr.context.currentUser.username as string;
       const portalUrl = contextMgr.context.portalUrl;
       const list = await listUserResources(username, portalUrl, token, true);
-      await setUserHubSettings(settings, contextMgr.context);
+      await updateUserHubSettings(settings, contextMgr.context);
       // now get it back
-      const chk = await getUserHubSettings(contextMgr.context);
+      const chk = await fetchUserHubSettings(contextMgr.context);
       expect(chk.username).toBe("paige_pa");
       expect(chk.updated).toBeGreaterThanOrEqual(ts);
       // now update it
       settings.schemaVersion = 2;
-      await setUserHubSettings(settings, contextMgr.context, true);
-      const chk2 = await getUserHubSettings(contextMgr.context);
+      await updateUserHubSettings(settings, contextMgr.context, true);
+      const chk2 = await fetchUserHubSettings(contextMgr.context);
       expect(chk2.username).toBe("paige_pa");
       expect(chk2.updated).toBeGreaterThanOrEqual(ts);
       expect(chk2.schemaVersion).toEqual(2);

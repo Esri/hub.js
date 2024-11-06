@@ -20,7 +20,6 @@ describe("isPermission:", () => {
     ...PlatformPermissions,
     ...DiscussionPermissions,
     ...InitiativeTemplatePermissions,
-    "temp:workspace:released",
   ];
 
   allPermissions.forEach((permission) => {

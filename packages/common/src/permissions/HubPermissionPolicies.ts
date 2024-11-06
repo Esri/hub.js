@@ -67,16 +67,6 @@ import { UserPermissionPolicies } from "../users/_internal/UserBusinessRules";
 //   },
 // ];
 
-// DEPRECATED!
-// NO LONGER USED IN OPENDATA-UI DO NOT ADD MORE TO THIS LIST
-const TempPermissionPolicies: IPermissionPolicy[] = [
-  {
-    permission: "temp:workspace:released", // replace with hub:features:workspace
-    availability: ["alpha"],
-    environments: ["devext", "qaext"],
-  },
-];
-
 /**
  * Highlevel Permission definitions for the Hub System as a whole
  * Typically other permissions depend on these so a whole set of features
@@ -147,19 +137,9 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     // When enabled, the manage links will take the user the org home site
-    // Reverting to devext but likely remove and always load workspaces
-    // on the "current site"
     permission: "hub:feature:workspace:org",
     availability: ["alpha"],
-    environments: ["devext"],
-  },
-  {
-    // DEPRECATED: This permission has been replaced by hub:feature:workspace:org,
-    // remove this at the next breaking version
-    // When enabled, the edit & manage links will take the user to umbrella
-    permission: "hub:feature:workspace:umbrella",
-    availability: ["alpha"],
-    environments: ["devext"],
+    environments: ["devext", "qaext"],
   },
   {
     // when enabled keyboard shortcuts will be available
@@ -245,7 +225,6 @@ export const HubPermissionsPolicies: IPermissionPolicy[] = [
   ...PagePermissionPolicies,
   ...TemplatePermissionPolicies,
   ...PlatformPermissionPolicies,
-  ...TempPermissionPolicies,
   ...InitiativeTemplatePermissionPolicies,
   ...SystemPermissionPolicies,
   ...SurveyPermissionPolicies,

@@ -1,3 +1,52 @@
+## @esri/hub-common [15.3.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.3.0...@esri/hub-common@15.3.1) (2024-11-06)
+
+
+### Bug Fixes
+
+* update permissions for user event and discussion pane ([#1718](https://github.com/Esri/hub.js/issues/1718)) ([f5cccc1](https://github.com/Esri/hub.js/commit/f5cccc1dc2044b09595bf06c40a267ff150f37d7))
+
+# @esri/hub-common [15.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.2.0...@esri/hub-common@15.3.0) (2024-11-05)
+
+
+### Features
+
+* collection appearance ([#1703](https://github.com/Esri/hub.js/issues/1703)) ([bfcfdc2](https://github.com/Esri/hub.js/commit/bfcfdc20d2a1a5235d43ad62786ff82d37b377b9))
+
+# @esri/hub-common [15.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.1.0...@esri/hub-common@15.2.0) (2024-11-05)
+
+
+### Features
+
+* **hub-common:** add supported download formats for fgdb job ([#1715](https://github.com/Esri/hub.js/issues/1715)) ([0a8aade](https://github.com/Esri/hub.js/commit/0a8aade73d3003607dd3148c15c9c1ad502e49f7))
+
+# @esri/hub-common [15.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.0.0...@esri/hub-common@15.1.0) (2024-11-04)
+
+
+### Features
+
+* add create form error validation for site and project entities ([#1691](https://github.com/Esri/hub.js/issues/1691)) ([43dab51](https://github.com/Esri/hub.js/commit/43dab51242653bc2c1e6ce33dfccb27da8ec5fd5))
+
+# @esri/hub-common [15.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.225.0...@esri/hub-common@15.0.0) (2024-11-01)
+
+
+### Features
+
+* minor comment change in ts file to try to force release to run ([#1713](https://github.com/Esri/hub.js/issues/1713)) ([568bbe3](https://github.com/Esri/hub.js/commit/568bbe35cf22186a479b777498a09b1c931d861a))
+* remove deprecated functions, rework catalog containment ([4e6816e](https://github.com/Esri/hub.js/commit/4e6816e3043ccf8fea03e0c4d9bae60a45bd82f4))
+* update readme with details on breaking changes ([#1712](https://github.com/Esri/hub.js/issues/1712)) ([8c07681](https://github.com/Esri/hub.js/commit/8c07681178040701f9e872964bab8f6a7be4c33b))
+
+
+### BREAKING CHANGES
+
+* removes deprecated functions
+
+# @esri/hub-common [14.225.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.224.0...@esri/hub-common@14.225.0) (2024-11-01)
+
+
+### Features
+
+* catalog fetch via entity; remove associations ([#1710](https://github.com/Esri/hub.js/issues/1710)) ([a8eec53](https://github.com/Esri/hub.js/commit/a8eec53df0f4bee4ff76332dde9cfc975e5f856e))
+
 # @esri/hub-common [14.224.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.223.0...@esri/hub-common@14.224.0) (2024-10-31)
 
 
