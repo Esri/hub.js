@@ -36,6 +36,23 @@ export const buildUiSchema = async (
     type: "Layout",
     elements: [
       {
+        type: "Notice",
+        options: {
+          notice: {
+            id: "metric-editor-preview-notice",
+            title: "{{shared.notices.metrics.preview.label:translate}}",
+            message: "{{shared.notices.metrics.preview.message:translate}}",
+            configuration: {
+              noticeType: "notice",
+              icon: true,
+              kind: "info",
+              closable: false,
+              scale: "s",
+            },
+          },
+        },
+      },
+      {
         type: "Section",
         labelKey: "shared.sections.metrics.basic.label",
         elements: [
