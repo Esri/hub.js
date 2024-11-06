@@ -597,6 +597,24 @@ describe("HubSites:", () => {
           theme: {
             fake: "theme",
           },
+          catalog: {
+            schemaVersion: 1,
+            title: "Default Site Catalog",
+            scopes: {
+              item: {
+                targetEntity: "item",
+                filters: [
+                  {
+                    predicates: [
+                      {
+                        group: ["9001"],
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+          },
           defaultExtent: {
             xmax: 10,
             ymax: 10,
@@ -638,6 +656,7 @@ describe("HubSites:", () => {
 
         const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
         expect(modelToUpdate.data.values.clientId).toBe("FAKE_CLIENT_KEY");
+        expect(modelToUpdate.data.catalog.groups).toContain("9001");
         expect(chk.name).toBe("Special Site");
         expect(chk.url).toBe("https://site.myorg.com");
         expect(chk.culture).toBe("fr-ca");
