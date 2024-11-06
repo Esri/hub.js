@@ -292,7 +292,7 @@ export function migrateToCollectionKey(
  * @param scope Catalog scope to search through
  * @returns The first predicate with a `group` field (if present)
  */
-// istanbul ignore next
+// istanbul ignore next -- deprecated function
 export function getScopeGroupPredicate(scope: IQuery): IPredicate {
   /* tslint:disable no-console */
   console.warn(
