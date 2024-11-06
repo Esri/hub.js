@@ -1,3 +1,10 @@
+## @esri/hub-common [15.3.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.3.2...@esri/hub-common@15.3.3) (2024-11-06)
+
+
+### Bug Fixes
+
+* add notice to uiSchemas ([#1711](https://github.com/Esri/hub.js/issues/1711)) ([fbf76fb](https://github.com/Esri/hub.js/commit/fbf76fb46434ce76a2e33b18140f3a31dc080430))
+
 ## @esri/hub-common [15.3.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.3.1...@esri/hub-common@15.3.2) (2024-11-06)
 
 
