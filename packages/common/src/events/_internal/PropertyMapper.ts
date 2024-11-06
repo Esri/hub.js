@@ -51,7 +51,15 @@ export class EventPropertyMapper extends PropertyMapper<
     const obj = mapStoreToEntity(store, entity, this.mappings);
 
     obj.type = "Event";
-    obj.access = store.access.toLowerCase() as SettableAccessLevel;
+    const access = store.access.toLowerCase() as SettableAccessLevel;
+    if (
+      access === "private" &&
+      (store.readGroups.length > 0 || store.editGroups.length > 0)
+    ) {
+      obj.access = "shared";
+    } else {
+      obj.access = access;
+    }
     obj.isCanceled = store.status === EventStatus.CANCELED;
     obj.isPlanned = store.status === EventStatus.PLANNED;
     obj.isRemoved = store.status === EventStatus.REMOVED;
@@ -131,7 +139,12 @@ export class EventPropertyMapper extends PropertyMapper<
 
     const obj = mapEntityToStore(clonedEntity, store, this.mappings);
 
-    obj.access = clonedEntity.access.toUpperCase() as EventAccess;
+    const access = clonedEntity.access;
+    if (access === "shared") {
+      obj.access = EventAccess.PRIVATE;
+    } else {
+      obj.access = access.toUpperCase() as EventAccess;
+    }
 
     if (clonedEntity.isRemoved) {
       obj.status = EventStatus.REMOVED;
