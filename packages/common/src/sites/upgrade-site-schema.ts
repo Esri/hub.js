@@ -14,6 +14,7 @@ import { migrateBadBasemap } from "./_internal/migrateBadBasemap";
 import { ensureBaseTelemetry } from "./_internal/ensureBaseTelemetry";
 import { migrateWebMappingApplicationSites } from "./_internal/migrateWebMappingApplicationSites";
 import { _migrateLinkUnderlinesCapability } from "./_internal/_migrate-link-underlines-capability";
+import { _ensureLegacySiteCatalog } from "./_internal/_ensureLegacySiteCatalog";
 
 /**
  * Upgrades the schema upgrades
@@ -43,5 +44,7 @@ export function upgradeSiteSchema(model: IModel) {
   model = ensureBaseTelemetry(model);
   model = migrateWebMappingApplicationSites(model);
   model = _migrateLinkUnderlinesCapability(model);
+  // This will only make changes to sites with schemaVersion 1.5 or lower
+  model = _ensureLegacySiteCatalog(model);
   return model;
 }

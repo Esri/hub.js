@@ -1,6 +1,6 @@
-import { getProp } from "../../objects";
+import { getWithDefault } from "../../objects/get-with-default";
 import { IHubCatalog } from "../../search/types/IHubCatalog";
-import { getScopeGroupPredicate } from "../../search/utils";
+import { getGroupPredicate } from "../../search/utils";
 import { IModel } from "../../types";
 import { cloneObject } from "../../util";
 
@@ -42,14 +42,12 @@ export function catalogToLegacy(catalog: IHubCatalog): Record<string, any> {
   };
 
   if (catalog.scopes?.item) {
-    const groupPredicate = getScopeGroupPredicate(catalog.scopes.item);
+    const groupPredicate = getGroupPredicate(catalog.scopes.item);
     if (groupPredicate) {
-      const groupIds = Array.isArray(groupPredicate.group)
-        ? groupPredicate.group
-        : [groupPredicate.group];
-      legacyCatalog.groups = groupIds;
+      // using getWithDefault to side-step test coverage for a condition
+      // we can't replicate in a typed environment
+      legacyCatalog.groups = getWithDefault(groupPredicate, "group.any", []);
     }
   }
-
   return legacyCatalog;
 }
