@@ -1,3 +1,10 @@
+## @esri/hub-common [15.3.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.3.0...@esri/hub-common@15.3.1) (2024-11-06)
+
+
+### Bug Fixes
+
+* update permissions for user event and discussion pane ([#1718](https://github.com/Esri/hub.js/issues/1718)) ([f5cccc1](https://github.com/Esri/hub.js/commit/f5cccc1dc2044b09595bf06c40a267ff150f37d7))
+
 # @esri/hub-common [15.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.2.0...@esri/hub-common@15.3.0) (2024-11-05)
 
 
