@@ -150,20 +150,6 @@ describe("posts", () => {
       access: SharingAccess.PRIVATE,
       groups: ["groupId"],
       body: "foo",
-      channelAclDefinition: [
-        {
-          category: AclCategory.GROUP,
-          subCategory: AclSubCategory.ADMIN,
-          key: "groupId",
-          role: Role.OWNER,
-        },
-        {
-          category: AclCategory.GROUP,
-          subCategory: AclSubCategory.MEMBER,
-          key: "groupId",
-          role: Role.READ,
-        },
-      ],
     };
 
     const options = { ...baseOpts, data: body };
