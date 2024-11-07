@@ -1827,8 +1827,6 @@ describe("ChannelPermission class", () => {
           const channelPermission = new ChannelPermission(channel);
 
           const updates: IUpdateChannel = {
-            // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-            // @ts-ignore
             channelAclDefinition: buildCompleteAcl(),
           };
 
@@ -1901,8 +1899,6 @@ describe("ChannelPermission class", () => {
           const channelPermission = new ChannelPermission(channel);
 
           const updates: IUpdateChannel = {
-            // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-            // @ts-ignore
             channelAclDefinition: updatedAcl,
           };
 
@@ -1946,8 +1942,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -1979,8 +1973,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -2018,8 +2010,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -2053,8 +2043,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -2086,8 +2074,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -2131,8 +2117,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -2164,8 +2148,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -2203,8 +2185,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -2238,8 +2218,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -2271,8 +2249,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -2316,8 +2292,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -2349,8 +2323,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -2388,8 +2360,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -2423,8 +2393,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -2456,8 +2424,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -2514,8 +2480,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -2579,8 +2543,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -2636,8 +2598,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -2684,8 +2644,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -2749,8 +2707,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -2806,8 +2762,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -2864,8 +2818,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -2929,8 +2881,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -2986,8 +2936,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -3034,8 +2982,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -3099,8 +3045,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -3156,8 +3100,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -3201,8 +3143,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -3234,8 +3174,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -3268,8 +3206,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -3303,8 +3239,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -3336,8 +3270,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -3370,8 +3302,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -3415,8 +3345,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -3448,8 +3376,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -3485,8 +3411,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -3520,8 +3444,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -3553,8 +3475,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -3590,8 +3510,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -3635,8 +3553,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -3668,8 +3584,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -3702,8 +3616,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -3737,8 +3649,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -3770,8 +3680,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
@@ -3804,8 +3712,6 @@ describe("ChannelPermission class", () => {
             const channelPermission = new ChannelPermission(channel);
 
             const updates: IUpdateChannel = {
-              // TODO: remove ts-ignore when V2 interfaces are hoisted from service to hub.js
-              // @ts-ignore
               channelAclDefinition: updatedAcl,
             };
 
