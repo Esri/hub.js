@@ -1,3 +1,10 @@
+## @esri/hub-common [15.3.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.3.3...@esri/hub-common@15.3.4) (2024-11-07)
+
+
+### Bug Fixes
+
+* ensure site created via HubSite class has correct catalog format ([#1719](https://github.com/Esri/hub.js/issues/1719)) ([58dffcf](https://github.com/Esri/hub.js/commit/58dffcf25748080b6420c2ded00c7c9b2b965125))
+
 ## @esri/hub-common [15.3.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.3.2...@esri/hub-common@15.3.3) (2024-11-06)
 
 
