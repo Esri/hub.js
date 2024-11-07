@@ -510,7 +510,16 @@ export interface ICreatePost extends IPostOptions {
  * @extends {IPostOptions}
  * @extends {ICreateChannel}
  */
-export interface ICreateChannelPost extends IPostOptions, ICreateChannel {}
+export interface ICreateChannelPost
+  extends IPostOptions,
+    Omit<ICreateChannel, "name" | "channelAclDefinition"> {
+  name?: string;
+  /**
+   * @hidden
+   * set by the API for the v1 -> v2 conversion
+   */
+  channelAclDefinition?: IChannelAclPermissionDefinition[];
+}
 
 /**
  * request options for creating post
@@ -780,7 +789,7 @@ export interface ICreateChannelSettings {
   blockWords?: string[];
   defaultPostStatus?: PostStatus;
   metadata?: IChannelMetadata;
-  name?: string;
+  name: string;
   softDelete?: boolean;
 }
 
@@ -799,15 +808,7 @@ export interface IChannelMetadata {
  * @interface ICreateChannelPermissions
  */
 export interface ICreateChannelPermissions {
-  access?: SharingAccess;
-  allowAnonymous?: boolean;
-  groups?: string[];
-  orgs?: string[];
-  /**
-   * Not available until the V2 Api is released
-   * @hidden
-   */
-  channelAclDefinition?: IChannelAclPermissionDefinition[];
+  channelAclDefinition: IChannelAclPermissionDefinition[];
 }
 
 /**
@@ -817,13 +818,11 @@ export interface ICreateChannelPermissions {
  * @interface IUpdateChannelPermissions
  */
 export interface IUpdateChannelPermissions {
-  access?: SharingAccess;
-  allowAnonymous?: boolean;
-  groups?: string[];
+  channelAclDefinition?: IChannelAclPermissionDefinition[];
 }
 
 /**
- * permissions and settings options for creating a channel
+ * parameters for creating a channel
  *
  * @export
  * @interface ICreateChannel
@@ -844,38 +843,54 @@ export interface ICreateChannel
  * @extends {IWithTimestamps}
  */
 export interface IChannel extends IWithAuthor, IWithEditor, IWithTimestamps {
-  access: SharingAccess;
+  access: SharingAccess | null;
   allowAsAnonymous: boolean;
-  allowAnonymous: boolean;
+  allowAnonymous: boolean | null;
   allowedReactions: PostReaction[] | null;
   allowReaction: boolean;
   allowReply: boolean;
   blockWords: string[] | null;
   channelAcl?: IChannelAclPermission[];
   defaultPostStatus: PostStatus;
-  groups: string[];
+  groups: string[] | null;
   metadata: IChannelMetadata | null;
   id: string;
   name: string | null;
   orgId: string;
-  orgs: string[];
+  orgs: string[] | null;
   posts?: IPost[];
   softDelete: boolean;
 }
 
 /**
- * parameters/options for updating channel settings
+ * parameters for updating a channel
  *
  * @export
  * @interface IUpdateChannel
- * @extends {ICreateChannelSettings}
+ * @extends {IUpdateChannelSettings}
  * @extends {IUpdateChannelPermissions}
- * @extends {Partial<IWithAuthor>}
  */
 export interface IUpdateChannel
-  extends ICreateChannelSettings,
-    IUpdateChannelPermissions,
-    Partial<IWithAuthor> {}
+  extends IUpdateChannelSettings,
+    IUpdateChannelPermissions {}
+
+/**
+ * settings parameters for updating a channel
+ *
+ * @export
+ * @interface IUpdateChannelSettings
+ */
+export interface IUpdateChannelSettings {
+  allowAsAnonymous?: boolean;
+  allowedReactions?: PostReaction[];
+  allowReaction?: boolean;
+  allowReply?: boolean;
+  blockWords?: string[];
+  defaultPostStatus?: PostStatus;
+  metadata?: IChannelMetadata;
+  name?: string;
+  softDelete?: boolean;
+}
 
 /**
  * dto for decorating found channel with relations
