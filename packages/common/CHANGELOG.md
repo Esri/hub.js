@@ -1,3 +1,10 @@
+## @esri/hub-common [15.3.5](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.3.4...@esri/hub-common@15.3.5) (2024-11-07)
+
+
+### Bug Fixes
+
+* remove troublesome migration that was not really needed ([#1725](https://github.com/Esri/hub.js/issues/1725)) ([a075492](https://github.com/Esri/hub.js/commit/a0754929dcc86b263db3c3ba02d161d31e4a27af))
+
 ## @esri/hub-common [15.3.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.3.3...@esri/hub-common@15.3.4) (2024-11-07)
 
 
