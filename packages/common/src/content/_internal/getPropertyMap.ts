@@ -30,6 +30,11 @@ export function getPropertyMap(): IPropertyMap[] {
     storeKey: "item.licenseInfo",
   });
 
+  map.push({
+    entityKey: "size",
+    storeKey: "item.size",
+  });
+
   // features is intentionally left out
 
   // TODO: look into composeContent() for what we can add here
