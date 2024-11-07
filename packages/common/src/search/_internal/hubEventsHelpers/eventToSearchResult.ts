@@ -17,10 +17,13 @@ export async function eventToSearchResult(
   event: IEvent,
   options: IHubSearchOptions
 ): Promise<IHubSearchResult> {
-  const ownerUser = await getUser({
-    username: event.creator.username,
-    ...options.requestOptions,
-  });
+  let ownerUser: IUser;
+  if (options.include?.includes("ownerUser")) {
+    ownerUser = await getUser({
+      username: event.creator.username,
+      ...options.requestOptions,
+    });
+  }
   const result = {
     access: event.access.toLowerCase() as AccessLevel,
     id: event.id,
