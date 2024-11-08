@@ -383,6 +383,6 @@ The Hub Discussions API has only begun to expose the numerous ways users can int
 
 # Useful links
 
-- [Hub Discussions API root](https://hub.arcgis.com/api/discussions/v1)
-- [Hub Discussions API /posts](https://hub.arcgis.com/api/discussions/v1/posts)
-- [Hub Discussions API /channels](https://hub.arcgis.com/api/discussions/v1/channels)
+- [Hub Discussions API root](https://hub.arcgis.com/api/discussions/v2)
+- [Hub Discussions API /posts](https://hub.arcgis.com/api/discussions/v2/posts)
+- [Hub Discussions API /channels](https://hub.arcgis.com/api/discussions/v2/channels)
