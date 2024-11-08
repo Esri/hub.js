@@ -467,25 +467,25 @@ export interface IPost
     Partial<IWithEditor>,
     IWithTimestamps {
   id: string;
-  title: string | null;
-  body: string;
-  status: PostStatus;
   appInfo: string | null; // this is a catch-all field for app-specific information about a post, added for Urban
-  discussion: string | null;
-  geometry: Geometry | null;
-  featureGeometry: Geometry | null;
-  postType: PostType;
-  channelId?: string;
+  body: string;
   channel?: IChannel;
-  parentId: string | null;
+  channelId?: string;
+  discussion: string | null;
+  featureGeometry: Geometry | null;
+  geometry: Geometry | null;
   parent?: IPost | null;
+  parentId: string | null;
+  postType: PostType;
+  reactions?: IReaction[];
   replies?: IPost[] | IPagedResponse<IPost>;
   replyCount?: number;
-  reactions?: IReaction[];
+  status: PostStatus;
+  title: string | null;
 }
 
 /**
- * base parameters for creating a post
+ * parameters for creating a post
  *
  * @export
  * @interface IPostOptions
@@ -512,25 +512,6 @@ export interface ICreatePost extends IPostOptions {
 }
 
 /**
- * dto for creating a post in a unknown or not yet created channel
- *
- * @export
- * @interface ICreateChannelPost
- * @extends {IPostOptions}
- * @extends {ICreateChannel}
- */
-export interface ICreateChannelPost
-  extends IPostOptions,
-    Omit<ICreateChannel, "name" | "channelAclDefinition"> {
-  name?: string;
-  /**
-   * @hidden
-   * set by the API for the v1 -> v2 conversion
-   */
-  channelAclDefinition?: IChannelAclPermissionDefinition[];
-}
-
-/**
  * request options for creating post
  *
  * @export
@@ -538,7 +519,7 @@ export interface ICreateChannelPost
  * @extends {IHubRequestOptions}
  */
 export interface ICreatePostParams extends IDiscussionsRequestOptions {
-  data: ICreatePost | ICreateChannelPost;
+  data: ICreatePost;
   mentionUrl?: string;
 }
 
@@ -866,8 +847,8 @@ export interface ICreateChannel
  */
 export interface IChannel extends IWithAuthor, IWithEditor, IWithTimestamps {
   id: string;
-  access: SharingAccess;
-  allowAnonymous: boolean;
+  access: SharingAccess | null;
+  allowAnonymous: boolean | null;
   allowAsAnonymous: boolean;
   allowedReactions: PostReaction[] | null;
   allowPost: boolean;
