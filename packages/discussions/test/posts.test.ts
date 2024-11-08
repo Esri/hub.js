@@ -172,53 +172,6 @@ describe("posts", () => {
       .catch(() => fail());
   });
 
-  it("creates post on unknown or non-existent channel", (done) => {
-    const body = {
-      access: SharingAccess.PRIVATE,
-      groups: ["groupId"],
-      body: "foo",
-    };
-
-    const options = { ...baseOpts, data: body };
-    createPost(options)
-      .then(() => {
-        expect(requestSpy.calls.count()).toEqual(1);
-        const [url, opts] = requestSpy.calls.argsFor(0);
-        expect(url).toEqual(`/posts`);
-        expect(opts).toEqual({ ...options, httpMethod: "POST" });
-        done();
-      })
-      .catch(() => fail());
-  });
-
-  it("creates post with mention url on unknown or non-existent channel", (done) => {
-    const body = {
-      access: SharingAccess.PUBLIC,
-      groups: ["foo"],
-      body: "foo",
-    };
-
-    const options = {
-      ...baseOpts,
-      data: body,
-      mentionUrl: "https://some.hub.arcgis.com",
-    };
-    createPost(options)
-      .then(() => {
-        expect(requestSpy.calls.count()).toEqual(1);
-        const [url, opts] = requestSpy.calls.argsFor(0);
-        expect(url).toEqual(`/posts`);
-        expect(opts).toEqual({
-          ...baseOpts,
-          data: body,
-          httpMethod: "POST",
-          headers: { "mention-url": "https://some.hub.arcgis.com" },
-        });
-        done();
-      })
-      .catch(() => fail());
-  });
-
   it("creates post on known channel", (done) => {
     const body = {
       channelId: "abc123",

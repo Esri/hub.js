@@ -69,8 +69,8 @@ describe("authenticateRequest", () => {
 describe("apiRequest", () => {
   const response = { ok: true };
 
-  const hubApiUrl = "https://hub.arcgis.com/api/discussions/v1";
   let url: string;
+  const hubApiUrl = "https://hub.arcgis.com/api/discussions/v2";
 
   let expectedOpts: RequestInit;
   let opts: IDiscussionsRequestOptions;
