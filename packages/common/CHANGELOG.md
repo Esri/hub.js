@@ -1,3 +1,10 @@
+## @esri/hub-common [15.3.6](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.3.5...@esri/hub-common@15.3.6) (2024-11-08)
+
+
+### Bug Fixes
+
+* **hub-common:** make getUser optional ([#1722](https://github.com/Esri/hub.js/issues/1722)) ([b3531bd](https://github.com/Esri/hub.js/commit/b3531bd4c11a0665b8a7f514d637817f71543022))
+
 ## @esri/hub-common [15.3.5](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.3.4...@esri/hub-common@15.3.5) (2024-11-07)
 
 
