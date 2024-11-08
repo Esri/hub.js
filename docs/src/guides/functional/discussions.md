@@ -76,36 +76,6 @@ const params: ICreatePost = {
   title: "Question about updating trees dataset",
   body: "We need to add more details about tree planting date.",
   discussion: "hub://dataset/1234",
-  access: "private",
-  groups: ["someGroupId"],
-};
-
-const opts: ICreatePostOptions = { authentication, params };
-
-const myPost = await createPost(opts);
-/*
-myPost = IPost {
-  id: 'abcdefg',
-  ...
-}
-*/
-```
-
-if a channel for `'someGroupId'` doesn't exist and the authenticated user has sufficient permission to create it (i.e. is group manager/owner), then the channel will be created on-the-fly and the post will be joined to it. If the user lacks the ability to create the channel, the API will return an error.
-
-You can also use an existing Channel to share a Post with a pre-defined list of groups and users:
-
-```ts
-import {
-  createPost,
-  ICreateChannelPost,
-  ICreatePostOptions,
-} from "@esri/hub-discussions";
-
-const params: ICreateChannelPost = {
-  title: "Dataset 1234 is so cool",
-  body: "this data ROCKS",
-  discussion: "hub://dataset/1234",
   channelId: "3efabc",
 };
 
@@ -176,17 +146,16 @@ Additionally, a reply post _cannot be more visible_ than the parent post. That i
 ```js
 import {
   createReply,
-  ICreateChannelPost,
-  ICreateReplyOptions,
+  ICreateReplyParams
+  IPostOptions,
 } from "@esri/hub-discussions";
 
-const params: ICreateChannelPost = {
+const data: IPostOptions = {
   body: "I disagree, I do not like this dataset",
   discussion: "hub://dataset/1234",
-  channelId: "3efabc",
 };
 
-const opts: ICreateReplyOptions = { postId: "abcdefg", authentication, params };
+const opts: ICreateReplyParams = { postId: "abcdefg", authentication, data };
 
 const myReply = await createReply(opts);
 /*
@@ -414,6 +383,6 @@ The Hub Discussions API has only begun to expose the numerous ways users can int
 
 # Useful links
 
-- [Hub Discussions API root](https://hub.arcgis.com/api/discussions/v1)
-- [Hub Discussions API /posts](https://hub.arcgis.com/api/discussions/v1/posts)
-- [Hub Discussions API /channels](https://hub.arcgis.com/api/discussions/v1/channels)
+- [Hub Discussions API root](https://hub.arcgis.com/api/discussions/v2)
+- [Hub Discussions API /posts](https://hub.arcgis.com/api/discussions/v2/posts)
+- [Hub Discussions API /channels](https://hub.arcgis.com/api/discussions/v2/channels)
