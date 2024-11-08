@@ -93,4 +93,30 @@ describe("HubUser computeProps:", () => {
       });
     });
   });
+
+  describe("getSelf:", () => {
+    it("fetches portal self", async () => {
+      const requestSpy = spyOn(requestModule, "request").and.callFake(() => {
+        return Promise.resolve({
+          portalProperties: {
+            hub: {
+              settings: {
+                informationalBanner: true,
+              },
+            },
+          },
+        });
+      });
+
+      PortalModule.getSelf(authdCtxMgr.context.requestOptions);
+      expect(requestSpy).toHaveBeenCalledTimes(1);
+      expect(requestSpy.calls.argsFor(0)[0]).toEqual(
+        "https://www.custom-base-url.com/sharing/rest/portals/self"
+      );
+      expect(requestSpy.calls.argsFor(0)[1]).toEqual({
+        ...authdCtxMgr.context.requestOptions,
+        httpMethod: "GET",
+      });
+    });
+  });
 });
