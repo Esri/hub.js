@@ -287,7 +287,9 @@ async function _getCommunityOrEnterpriseAGOUrl(
   return orgUrl;
 }
 
-async function _getPortalSettings(context: IArcGISContext): Promise<any> {
+export async function _getPortalSettings(
+  context: IArcGISContext
+): Promise<any> {
   if (context.portal) {
     // Fail safe fetch the portal settings
     const fsGetPortalSettings = failSafe(getPortalSettings, {});

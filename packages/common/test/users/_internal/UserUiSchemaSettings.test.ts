@@ -2,6 +2,8 @@ import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
 import { IArcGISContext } from "../../../src/ArcGISContext";
 import * as UserUiSchemaSettings from "../../../src/users/_internal/UserUiSchemaSettings";
 import * as FetchOrgModule from "../../../src/org/fetch-org";
+import * as FailSafeModule from "../../../src/utils/fail-safe";
+import * as ArcGISRestPortal from "@esri/arcgis-rest-portal";
 
 describe("UserUiSchemaSettings:", () => {
   it("creates the uiSchema correctly", async () => {
@@ -1578,6 +1580,64 @@ describe("UserUiSchemaSettings:", () => {
           ],
         },
       ],
+    });
+  });
+  describe("_getPortalSettings:", () => {
+    it("fetches portal settings successfully", async () => {
+      const context = {
+        portal: {
+          id: "123",
+        },
+        sharingApiUrl: "https://qaext.arcgis.com/sharing/rest",
+      } as IArcGISContext;
+
+      const getPortalSettingsSpy = spyOn(
+        ArcGISRestPortal,
+        "getPortalSettings"
+      ).and.returnValue(Promise.resolve({ someSetting: true }));
+      const failSafeSpy = spyOn(FailSafeModule, "failSafe").and.callThrough();
+      const result = await UserUiSchemaSettings._getPortalSettings(context);
+
+      expect(failSafeSpy).toHaveBeenCalledWith(
+        ArcGISRestPortal.getPortalSettings,
+        {}
+      );
+      expect(getPortalSettingsSpy).toHaveBeenCalledWith("123", {
+        portal: "https://qaext.arcgis.com/sharing/rest",
+      });
+      expect(result).toEqual({ someSetting: true });
+    });
+
+    it("returns undefined if context.portal is not defined", async () => {
+      const context = {} as IArcGISContext;
+      const result = await UserUiSchemaSettings._getPortalSettings(context);
+
+      expect(result).toBeUndefined();
+    });
+
+    it("handles failure in fetching portal settings", async () => {
+      const context = {
+        portal: {
+          id: "123",
+        },
+        sharingApiUrl: "https://qaext.arcgis.com/sharing/rest",
+      } as IArcGISContext;
+
+      const getPortalSettingsSpy = spyOn(
+        ArcGISRestPortal,
+        "getPortalSettings"
+      ).and.returnValue(Promise.reject("Error"));
+      const failSafeSpy = spyOn(FailSafeModule, "failSafe").and.callThrough();
+      const result = await UserUiSchemaSettings._getPortalSettings(context);
+
+      expect(failSafeSpy).toHaveBeenCalledWith(
+        ArcGISRestPortal.getPortalSettings,
+        {}
+      );
+      expect(getPortalSettingsSpy).toHaveBeenCalledWith("123", {
+        portal: "https://qaext.arcgis.com/sharing/rest",
+      });
+      expect(result).toEqual({});
     });
   });
 });
