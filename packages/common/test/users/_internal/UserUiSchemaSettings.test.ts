@@ -118,9 +118,35 @@ describe("UserUiSchemaSettings:", () => {
                     control: "hub-field-input-switch",
                     layout: "inline-space-between",
                     helperText: {
-                      labelKey: "some.scope.fields.infoBanner.helperText",
+                      label:
+                        "{{some.scope.fields.infoBanner.helperTextWhenDisabled:translate}}",
                     },
                   },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.DISABLE,
+                      conditions: [true],
+                    },
+                  ],
+                },
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/showInformationalBanner",
+                  options: {
+                    control: "calcite-link",
+                    layout: "inline-space-between",
+                    helperText: {
+                      label:
+                        '<calcite-link href=https://qaext.arcgis.com/home/organization.html?tab=security#settings target="_blank" icon-end="launch">{{some.scope.fields.infoBanner.goToBannerConfig:translate}}</calcite-link>',
+                    },
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.SHOW,
+                      conditions: [true],
+                    },
+                  ],
                 },
               ],
             },
@@ -324,9 +350,35 @@ describe("UserUiSchemaSettings:", () => {
                     control: "hub-field-input-switch",
                     layout: "inline-space-between",
                     helperText: {
-                      labelKey: "some.scope.fields.infoBanner.helperText",
+                      label:
+                        "{{some.scope.fields.infoBanner.helperTextWhenDisabled:translate}}",
                     },
                   },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.DISABLE,
+                      conditions: [true],
+                    },
+                  ],
+                },
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/showInformationalBanner",
+                  options: {
+                    control: "calcite-link",
+                    layout: "inline-space-between",
+                    helperText: {
+                      label:
+                        '<calcite-link href=https://qaext.c.arcgis.com/home/organization.html?tab=security#settings target="_blank" icon-end="launch">{{some.scope.fields.infoBanner.goToBannerConfig:translate}}</calcite-link>',
+                    },
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.SHOW,
+                      conditions: [true],
+                    },
+                  ],
                 },
               ],
             },
@@ -531,9 +583,35 @@ describe("UserUiSchemaSettings:", () => {
                     control: "hub-field-input-switch",
                     layout: "inline-space-between",
                     helperText: {
-                      labelKey: "some.scope.fields.infoBanner.helperText",
+                      label:
+                        "{{some.scope.fields.infoBanner.helperTextWhenDisabled:translate}}",
                     },
                   },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.DISABLE,
+                      conditions: [true],
+                    },
+                  ],
+                },
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/showInformationalBanner",
+                  options: {
+                    control: "calcite-link",
+                    layout: "inline-space-between",
+                    helperText: {
+                      label:
+                        '<calcite-link href=https://qaext.c.arcgis.com/home/organization.html?tab=security#settings target="_blank" icon-end="launch">{{some.scope.fields.infoBanner.goToBannerConfig:translate}}</calcite-link>',
+                    },
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.SHOW,
+                      conditions: [false],
+                    },
+                  ],
                 },
               ],
             },
@@ -718,9 +796,35 @@ describe("UserUiSchemaSettings:", () => {
                     control: "hub-field-input-switch",
                     layout: "inline-space-between",
                     helperText: {
-                      labelKey: "some.scope.fields.infoBanner.helperText",
+                      label:
+                        "{{some.scope.fields.infoBanner.helperTextWhenDisabled:translate}}",
                     },
                   },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.DISABLE,
+                      conditions: [true],
+                    },
+                  ],
+                },
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/showInformationalBanner",
+                  options: {
+                    control: "calcite-link",
+                    layout: "inline-space-between",
+                    helperText: {
+                      label:
+                        '<calcite-link href=https://qaext.arcgis.com/home/organization.html?tab=security#settings target="_blank" icon-end="launch">{{some.scope.fields.infoBanner.goToBannerConfig:translate}}</calcite-link>',
+                    },
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.SHOW,
+                      conditions: [true],
+                    },
+                  ],
                 },
               ],
             },
@@ -925,9 +1029,35 @@ describe("UserUiSchemaSettings:", () => {
                     control: "hub-field-input-switch",
                     layout: "inline-space-between",
                     helperText: {
-                      labelKey: "some.scope.fields.infoBanner.helperText",
+                      label:
+                        "{{some.scope.fields.infoBanner.helperTextWhenDisabled:translate}}",
                     },
                   },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.DISABLE,
+                      conditions: [true],
+                    },
+                  ],
+                },
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/showInformationalBanner",
+                  options: {
+                    control: "calcite-link",
+                    layout: "inline-space-between",
+                    helperText: {
+                      label:
+                        '<calcite-link href=https://qaext.c.arcgis.com/home/organization.html?tab=security#settings target="_blank" icon-end="launch">{{some.scope.fields.infoBanner.goToBannerConfig:translate}}</calcite-link>',
+                    },
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.SHOW,
+                      conditions: [true],
+                    },
+                  ],
                 },
               ],
             },
@@ -1112,9 +1242,35 @@ describe("UserUiSchemaSettings:", () => {
                     control: "hub-field-input-switch",
                     layout: "inline-space-between",
                     helperText: {
-                      labelKey: "some.scope.fields.infoBanner.helperText",
+                      label:
+                        "{{some.scope.fields.infoBanner.helperTextWhenDisabled:translate}}",
                     },
                   },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.DISABLE,
+                      conditions: [true],
+                    },
+                  ],
+                },
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/showInformationalBanner",
+                  options: {
+                    control: "calcite-link",
+                    layout: "inline-space-between",
+                    helperText: {
+                      label:
+                        '<calcite-link href=https://qaext.arcgis.com/home/organization.html?tab=security#settings target="_blank" icon-end="launch">{{some.scope.fields.infoBanner.goToBannerConfig:translate}}</calcite-link>',
+                    },
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.SHOW,
+                      conditions: [true],
+                    },
+                  ],
                 },
               ],
             },
@@ -1308,9 +1464,35 @@ describe("UserUiSchemaSettings:", () => {
                     control: "hub-field-input-switch",
                     layout: "inline-space-between",
                     helperText: {
-                      labelKey: "some.scope.fields.infoBanner.helperText",
+                      label:
+                        "{{some.scope.fields.infoBanner.helperTextWhenDisabled:translate}}",
                     },
                   },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.DISABLE,
+                      conditions: [true],
+                    },
+                  ],
+                },
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/showInformationalBanner",
+                  options: {
+                    control: "calcite-link",
+                    layout: "inline-space-between",
+                    helperText: {
+                      label:
+                        '<calcite-link href=https://qaext.c.arcgis.com/home/organization.html?tab=security#settings target="_blank" icon-end="launch">{{some.scope.fields.infoBanner.goToBannerConfig:translate}}</calcite-link>',
+                    },
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.SHOW,
+                      conditions: [true],
+                    },
+                  ],
                 },
               ],
             },

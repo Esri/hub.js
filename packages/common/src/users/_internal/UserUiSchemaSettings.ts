@@ -169,6 +169,12 @@ export const buildUiSchema = async (
                     label: showInfoBannerLink,
                   },
                 },
+                rules: [
+                  {
+                    effect: UiSchemaRuleEffects.SHOW,
+                    conditions: [context.isOrgAdmin],
+                  },
+                ],
               },
             ],
           },
