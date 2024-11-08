@@ -4,6 +4,7 @@ import { IRequestOptions, request } from "@esri/arcgis-rest-request";
 import { IArcGISContext } from "../../ArcGISContext";
 import { getProp } from "../../objects/get-prop";
 import { IHubUser } from "../../core/types";
+import { failSafe } from "../../utils/fail-safe";
 
 /**
  * Given a model and a user, sets various computed properties that can't be directly mapped.
@@ -22,17 +23,18 @@ export async function computeProps(
 
   // 2. compute any props for user's org settings
   // TODO: only fetch this if the user has necessary privs (org admin)
-  const signinSettings = await getPortalSignInSettings(context);
-  const _portalself = await getSelf(context.requestOptions);
+  const fsGetSignInSettings = failSafe(getPortalSignInSettings, {});
+  const signinSettings = await fsGetSignInSettings(context);
+
+  const fsGetSelf = failSafe(getSelf, {});
+  const _portalself = await fsGetSelf(context.requestOptions);
   user.hubOrgSettings = {
-    showInformationalBanner: !!getProp(
-      _portalself,
-      "portal.portalProperties.hub.settings.informationalBanner"
-    ),
-    enableTermsAndConditions: !!signinSettings.termsAndConditions,
-    termsAndConditions: signinSettings.termsAndConditions,
-    enableSignupText: !!signinSettings.signupText,
-    signupText: signinSettings.signupText,
+    showInformationalBanner:
+      !!_portalself?.portalProperties?.hub?.settings?.informationalBanner,
+    enableTermsAndConditions: !!signinSettings?.termsAndConditions,
+    termsAndConditions: signinSettings?.termsAndConditions,
+    enableSignupText: !!signinSettings?.signupText,
+    signupText: signinSettings?.signupText,
   };
 
   return user;
