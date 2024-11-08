@@ -36,7 +36,6 @@ export {
   IPost,
   IPostOptions,
   ICreatePost,
-  ICreateChannelPost,
   ICreatePostParams,
   ICreateReplyParams,
   IFetchPost,
