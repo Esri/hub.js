@@ -285,10 +285,9 @@ export class HubInitiative
     const metric = metrics.find((m) => m.id === editorContext.metricId);
     const displays = getWithDefault(this.entity, "view.metricDisplays", []);
     const displayConfig =
-      displays.find(
-        (display: IMetricDisplayConfig) =>
-          display.metricId === editorContext.metricId
-      ) || {};
+      editorContext.displayIndex && displays[editorContext.displayIndex]
+        ? displays[editorContext.displayIndex]
+        : {};
     editor._metric = metricToEditor(metric, displayConfig);
 
     // 3. handle association group
@@ -322,7 +321,10 @@ export class HubInitiative
    * @param editor
    * @returns
    */
-  async fromEditor(editor: IHubInitiativeEditor): Promise<IHubInitiative> {
+  async fromEditor(
+    editor: IHubInitiativeEditor,
+    editorContext?: IEntityEditorContext
+  ): Promise<IHubInitiative> {
     // 1. extract the ephemeral props we graft onto the editor
     // note: they will be deleted in the editorToInitiative function
     const thumbnail = editor._thumbnail;
@@ -330,7 +332,7 @@ export class HubInitiative
     const autoShareGroups = editor._groups || [];
 
     // 2. convert the editor values back to a initiative entity
-    let entity = await editorToInitiative(editor, this.context);
+    let entity = await editorToInitiative(editor, this.context, editorContext);
 
     // 3. If the entity hasn't been created then we need to do that before we can
     // create a featured image, if one has been provided.

@@ -22,6 +22,7 @@ import {
   IModel,
   IHubInitiativeEditor,
   camelize,
+  IEntityEditorContext,
 } from "../index";
 import { IQuery } from "../search/types/IHubCatalog";
 import {
@@ -114,10 +115,12 @@ export async function createInitiative(
  */
 export async function editorToInitiative(
   editor: IHubInitiativeEditor,
-  context: IArcGISContext
+  context: IArcGISContext,
+  editorContext: IEntityEditorContext = {}
 ): Promise<IHubInitiative> {
   const _metric = editor._metric;
   const _associations = editor._associations;
+  const _displayIndex = editorContext.displayIndex;
 
   // 1. remove the ephemeral props we graft onto the editor
   delete editor._groups;
@@ -140,7 +143,12 @@ export async function editorToInitiative(
       metricName: _metric.cardTitle,
     });
 
-    initiative = setMetricAndDisplay(initiative, metric, displayConfig);
+    initiative = setMetricAndDisplay(
+      initiative,
+      metric,
+      displayConfig,
+      _displayIndex
+    );
   }
 
   // 5. handle association group settings

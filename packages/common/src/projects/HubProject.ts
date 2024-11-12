@@ -207,8 +207,9 @@ export class HubProject
     const metric = metrics.find((m) => m.id === editorContext.metricId);
     const displays = getWithDefault(this.entity, "view.metricDisplays", []);
     const displayConfig =
-      (editorContext.displayIndex && displays[editorContext.displayIndex]) ||
-      {};
+      editorContext.displayIndex && displays[editorContext.displayIndex]
+        ? displays[editorContext.displayIndex]
+        : {};
 
     editor._metric = metricToEditor(metric, displayConfig);
 
