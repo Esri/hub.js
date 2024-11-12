@@ -48,7 +48,7 @@ import { negateGroupPredicates } from "../search/_internal/negateGroupPredicates
 import { computeLinks } from "./_internal/computeLinks";
 import { deriveLocationFromItem } from "../content/_internal/internalContentUtils";
 import { setEntityStatusKeyword } from "../utils/internal/setEntityStatusKeyword";
-import { editorToMetric } from "../core/schemas/internal/metrics/editorToMetric";
+import { editorToMetric } from "../metrics/editorToMetric";
 import { setMetricAndDisplay } from "../core/schemas/internal/metrics/setMetricAndDisplay";
 import { createId } from "../util";
 import { IArcGISContext } from "../ArcGISContext";

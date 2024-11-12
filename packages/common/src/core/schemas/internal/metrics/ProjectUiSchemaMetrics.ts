@@ -117,7 +117,7 @@ export const buildUiSchema = async (
             labelKey: "shared.fields.metrics.value.label",
             scope: "/properties/_metric/properties/value",
             type: "Control",
-            rule: SHOW_FOR_STATIC_AND_STRING_RULE_ENTITY,
+            rules: [SHOW_FOR_STATIC_AND_STRING_RULE_ENTITY],
             options: {
               control: "hub-field-input-input",
               clearOnHidden: true,
@@ -135,11 +135,11 @@ export const buildUiSchema = async (
             labelKey: "shared.fields.metrics.value.label",
             scope: "/properties/_metric/properties/value",
             type: "Control",
-            rule: SHOW_FOR_STATIC_AND_NUMBER_RULE_ENTITY,
+            rules: [SHOW_FOR_STATIC_AND_NUMBER_RULE_ENTITY],
             options: {
               control: "hub-field-input-input",
+              clearOnHidden: true,
               type: "number",
-              clearOnHidden: true,
               messages: [
                 {
                   type: "ERROR",
@@ -154,7 +154,7 @@ export const buildUiSchema = async (
             labelKey: "shared.fields.metrics.value.label",
             scope: "/properties/_metric/properties/value",
             type: "Control",
-            rule: SHOW_FOR_STATIC_AND_DATE_RULE_ENTITY,
+            rules: [SHOW_FOR_STATIC_AND_DATE_RULE_ENTITY],
             options: {
               control: "hub-field-input-date",
               clearOnHidden: true,
