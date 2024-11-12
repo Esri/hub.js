@@ -30,7 +30,7 @@ import {
   IHubCardViewModel,
 } from "../core/types/IHubCardViewModel";
 import { projectToCardModel } from "./view";
-import { camelize, cloneObject, createId } from "../util";
+import { camelize, cloneObject, createId, isNil } from "../util";
 import { createProject, editorToProject, updateProject } from "./edit";
 import { ProjectEditorType } from "./_internal/ProjectSchema";
 import { enrichEntity } from "../core/enrichEntity";
@@ -207,7 +207,7 @@ export class HubProject
     const metric = metrics.find((m) => m.id === editorContext.metricId);
     const displays = getWithDefault(this.entity, "view.metricDisplays", []);
     const displayConfig =
-      editorContext.displayIndex && displays[editorContext.displayIndex]
+      !isNil(editorContext.displayIndex) && displays[editorContext.displayIndex]
         ? displays[editorContext.displayIndex]
         : {};
 

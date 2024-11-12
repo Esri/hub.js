@@ -1,7 +1,7 @@
 import { DEFAULT_INITIATIVE } from "./defaults";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
 import { IEntityEditorContext } from "../core/types/HubEntityEditor";
-import { cloneObject } from "../util";
+import { cloneObject, isNil } from "../util";
 import {
   createInitiative,
   deleteInitiative,
@@ -285,7 +285,7 @@ export class HubInitiative
     const metric = metrics.find((m) => m.id === editorContext.metricId);
     const displays = getWithDefault(this.entity, "view.metricDisplays", []);
     const displayConfig =
-      editorContext.displayIndex && displays[editorContext.displayIndex]
+      !isNil(editorContext.displayIndex) && displays[editorContext.displayIndex]
         ? displays[editorContext.displayIndex]
         : {};
     editor._metric = metricToEditor(metric, displayConfig);
