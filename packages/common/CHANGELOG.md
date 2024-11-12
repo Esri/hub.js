@@ -1,3 +1,10 @@
+## @esri/hub-common [15.3.7](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.3.6...@esri/hub-common@15.3.7) (2024-11-12)
+
+
+### Bug Fixes
+
+* expose editor to metric functions ([#1717](https://github.com/Esri/hub.js/issues/1717)) ([8664170](https://github.com/Esri/hub.js/commit/86641702afc6b48c81c3b23faa92347a346575a8))
+
 ## @esri/hub-common [15.3.6](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.3.5...@esri/hub-common@15.3.6) (2024-11-08)
 
 
