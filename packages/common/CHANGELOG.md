@@ -1,3 +1,10 @@
+# @esri/hub-common [15.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.3.7...@esri/hub-common@15.4.0) (2024-11-12)
+
+
+### Features
+
+* **hub-common:** add feature flag for site pages via catalog ([#1730](https://github.com/Esri/hub.js/issues/1730)) ([e459c74](https://github.com/Esri/hub.js/commit/e459c7468c01841e1f78dfe55b6014beb6b5abcc))
+
 ## @esri/hub-common [15.3.7](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.3.6...@esri/hub-common@15.3.7) (2024-11-12)
 
 
