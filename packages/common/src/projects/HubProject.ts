@@ -207,10 +207,9 @@ export class HubProject
     const metric = metrics.find((m) => m.id === editorContext.metricId);
     const displays = getWithDefault(this.entity, "view.metricDisplays", []);
     const displayConfig =
-      displays.find(
-        (display: IMetricDisplayConfig) =>
-          display.metricId === editorContext.metricId
-      ) || {};
+      (editorContext.displayIndex && displays[editorContext.displayIndex]) ||
+      {};
+
     editor._metric = metricToEditor(metric, displayConfig);
 
     // 4. slug life
@@ -235,7 +234,7 @@ export class HubProject
     const autoShareGroups = editor._groups || [];
 
     // 2. convert the editor values back to a project entity
-    const entity = editorToProject(editor, this.context.portal);
+    const entity = editorToProject(editor, this.context.portal, editorContext);
 
     // 3. set the thumbnailCache to ensure that
     // the thumbnail is updated on the next save

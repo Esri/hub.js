@@ -16,7 +16,8 @@ import { IMetric, IMetricDisplayConfig } from "../../../types/Metrics";
 export function setMetricAndDisplay(
   entity: IHubProject,
   metric: IMetric,
-  displayConfig: IMetricDisplayConfig
+  displayConfig: IMetricDisplayConfig,
+  displayIndex: number
 ): IHubProject {
   const entityCopy = cloneObject(entity);
   const metricId = metric.id;
@@ -27,9 +28,6 @@ export function setMetricAndDisplay(
 
   // get array in case of undefined displays array
   const displays = getWithDefault(entityCopy, "view.metricDisplays", []);
-  const dIndex = displays.findIndex(
-    (d: IMetricDisplayConfig) => d.metricId === metricId
-  );
 
   // existing vs new metric
   if (mIndex > -1) {
@@ -39,8 +37,8 @@ export function setMetricAndDisplay(
   }
 
   // existing vs new display
-  if (dIndex > -1) {
-    displays[dIndex] = displayConfig;
+  if (displayIndex > -1) {
+    displays[displayIndex] = displayConfig;
   } else {
     displays.push(displayConfig);
   }
