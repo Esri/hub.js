@@ -1,5 +1,6 @@
-import { getProp } from "../../objects";
-import { getScopeGroupPredicate } from "../../search/utils";
+import { getWithDefault } from "../../objects/get-with-default";
+import { IHubCatalog } from "../../search/types/IHubCatalog";
+import { getGroupPredicate } from "../../search/utils";
 import { IModel } from "../../types";
 import { cloneObject } from "../../util";
 
@@ -17,20 +18,36 @@ export function convertCatalogToLegacyFormat(
   currentModel: IModel
 ): IModel {
   const updatedModel = cloneObject(modelToUpdate);
-  const updatedItemScope = getProp(modelToUpdate, "data.catalog.scopes.item");
-  const updatedGroupPredicate = getScopeGroupPredicate(updatedItemScope);
-  if (updatedGroupPredicate) {
-    const updatedLegacyCatalog = cloneObject(currentModel.data.catalog);
-    // TODO: Do we need to worry about whether predicate.group is an IMatchOption?
-    const updatedGroupIds = Array.isArray(updatedGroupPredicate.group)
-      ? updatedGroupPredicate.group
-      : [updatedGroupPredicate.group];
-    updatedLegacyCatalog.groups = updatedGroupIds;
-    updatedModel.data.catalog = updatedLegacyCatalog;
+  const legacyCatalog = catalogToLegacy(updatedModel.data.catalog);
+  // If the catalog has groups, we update the model with the legacy catalog
+  if (legacyCatalog.groups.length) {
+    updatedModel.data.catalog = legacyCatalog;
   } else {
     // This shouldn't happen, but in case something is malformed we protect the data integrity
     // by reverting to the catalog of the most recently fetched model
     updatedModel.data.catalog = cloneObject(currentModel.data.catalog);
+    return updatedModel;
   }
   return updatedModel;
+}
+
+/**
+ * Focused function converting an IHubCatalog to a legacy catalog format.
+ * @param catalog
+ * @returns
+ */
+export function catalogToLegacy(catalog: IHubCatalog): Record<string, any> {
+  const legacyCatalog: Record<string, any> = {
+    groups: [],
+  };
+
+  if (catalog.scopes?.item) {
+    const groupPredicate = getGroupPredicate(catalog.scopes.item);
+    if (groupPredicate) {
+      // using getWithDefault to side-step test coverage for a condition
+      // we can't replicate in a typed environment
+      legacyCatalog.groups = getWithDefault(groupPredicate, "group.any", []);
+    }
+  }
+  return legacyCatalog;
 }

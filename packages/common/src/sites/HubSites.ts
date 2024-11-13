@@ -7,10 +7,7 @@ import { handleDomainChanges } from "./_internal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { fetchItemEnrichments } from "../items/_enrichments";
 import { parseInclude } from "../search/_internal/parseInclude";
-import {
-  deriveLocationFromItem,
-  getHubRelativeUrl,
-} from "../content/_internal/internalContentUtils";
+import { deriveLocationFromItem } from "../content/_internal/internalContentUtils";
 import { applyPermissionMigration } from "./_internal/applyPermissionMigration";
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
@@ -34,12 +31,14 @@ import { removeDomainsBySiteId } from "./domains/remove-domains-by-site-id";
 import { IHubSearchResult } from "../search/types/IHubSearchResult";
 import { mapBy } from "../utils";
 import { getProp, setProp } from "../objects";
-import { getItemThumbnailUrl } from "../resources/get-item-thumbnail-url";
 import { applyCatalogStructureMigration } from "./_internal/applyCatalogStructureMigration";
 import { setDiscussableKeyword } from "../discussions";
 import { applyDefaultCollectionMigration } from "./_internal/applyDefaultCollectionMigration";
 import { reflectCollectionsToSearchCategories } from "./_internal/reflectCollectionsToSearchCategories";
-import { convertCatalogToLegacyFormat } from "./_internal/convertCatalogToLegacyFormat";
+import {
+  catalogToLegacy,
+  convertCatalogToLegacyFormat,
+} from "./_internal/convertCatalogToLegacyFormat";
 import { convertFeaturesToLegacyCapabilities } from "./_internal/capabilities/convertFeaturesToLegacyCapabilities";
 import { computeLinks } from "./_internal/computeLinks";
 import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlug";
@@ -296,6 +295,17 @@ export async function createSite(
     getPropertyMap()
   );
   let model = mapper.entityToStore(site, cloneObject(DEFAULT_SITE_MODEL));
+
+  // At this point `data.catalog` may have become a full IHubCatalog object due to an in-memory
+  // migration. However, we can't persist an IHubCatalog in `data.catalog` without breaking
+  // the application, since most of the app relies on the old catalog structure. As such,
+  // we convert any changes made to the catalog scope into the old format and merge the changes
+  // with the existing structure on the most current model.
+  // TODO: Remove once the application is plumbed to work off an IHubCatalog
+  if (getProp(model, "data.catalog.scopes")) {
+    model.data.catalog = catalogToLegacy(model.data.catalog);
+  }
+
   // create the backing item
   model = await createModel(
     model,

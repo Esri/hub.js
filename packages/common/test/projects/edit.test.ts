@@ -17,7 +17,7 @@ import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as slugUtils from "../../src/items/slugs";
 import * as modelUtils from "../../src/models";
-import * as editorToMetricModule from "../../src/core/schemas/internal/metrics/editorToMetric";
+import * as editorToMetricModule from "../../src/metrics/editorToMetric";
 import * as setMetricAndDisplayModule from "../../src/core/schemas/internal/metrics/setMetricAndDisplay";
 import * as utilModule from "../../src/util";
 

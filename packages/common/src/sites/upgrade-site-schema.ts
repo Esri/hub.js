@@ -43,5 +43,6 @@ export function upgradeSiteSchema(model: IModel) {
   model = ensureBaseTelemetry(model);
   model = migrateWebMappingApplicationSites(model);
   model = _migrateLinkUnderlinesCapability(model);
+
   return model;
 }

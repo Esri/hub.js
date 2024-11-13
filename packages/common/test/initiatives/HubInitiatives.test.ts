@@ -28,7 +28,7 @@ import {
   getProp,
 } from "../../src";
 import { IArcGISContext } from "../../src/ArcGISContext";
-import * as editorToMetricModule from "../../src/core/schemas/internal/metrics/editorToMetric";
+import * as editorToMetricModule from "../../src/metrics/editorToMetric";
 import * as setMetricAndDisplayModule from "../../src/core/schemas/internal/metrics/setMetricAndDisplay";
 
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";

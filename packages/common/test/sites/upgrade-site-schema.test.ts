@@ -11,6 +11,7 @@ import * as _migrateTelemetryConfig from "../../src/sites/_internal/_migrate-tel
 import * as _migrateLinkUnderlinesCapability from "../../src/sites/_internal/_migrate-link-underlines-capability";
 import * as migrateBadBasemapModule from "../../src/sites/_internal/migrateBadBasemap";
 import * as ensureBaseTelemetry from "../../src/sites/_internal/ensureBaseTelemetry";
+
 import { IModel } from "../../src";
 import { SITE_SCHEMA_VERSION } from "../../src/sites/site-schema-version";
 import { expectAllCalled, expectAll } from "./test-helpers.test";
@@ -28,6 +29,7 @@ describe("upgradeSiteSchema", () => {
   let migrateLinkUnderlinesCapabilitySpy: jasmine.Spy;
   let migrateBadBasemapSpy: jasmine.Spy;
   let ensureBaseTelemetrySpy: jasmine.Spy;
+
   beforeEach(() => {
     applySpy = spyOn(_applySiteSchemaModule, "_applySiteSchema").and.callFake(
       (model: IModel) => model
