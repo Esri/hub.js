@@ -36,4 +36,9 @@ export interface IHubSearchResponse<T> {
    * Array of messages / warnings
    */
   messages?: IMessage[];
+
+  /**
+   * The length of the query string that was just executed in the search
+   */
+  executedQueryLength?: number;
 }

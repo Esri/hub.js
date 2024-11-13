@@ -8,6 +8,7 @@ import {
   IGroup,
   ISearchGroupUsersOptions,
   ISearchOptions,
+  SearchQueryBuilder,
 } from "@esri/arcgis-rest-portal";
 import { isPageType } from "../content/_internal/internalContentUtils";
 import { IHubSite } from "../core";
@@ -368,4 +369,18 @@ export function addDefaultItemSearchPredicates(query: IQuery): IQuery {
   };
   queryWithDefaultItemPredicates.filters.push(defaultPredicates);
   return queryWithDefaultItemPredicates;
+}
+
+/**
+ * Returns the length in characters of a query string or a SearchQueryBuilder.
+ * This is used to later determine if a query is too large to be sent to the server.
+ * @param query
+ * @returns
+ */
+export function getQueryLength(query: string | SearchQueryBuilder): number {
+  if (typeof query === "string") {
+    return query.length;
+  } else {
+    return query.toParam().length;
+  }
 }

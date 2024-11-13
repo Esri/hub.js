@@ -18,7 +18,11 @@ import {
   IPredicate,
   IQuery,
 } from "../types";
-import { addDefaultItemSearchPredicates, getNextFunction } from "../utils";
+import {
+  addDefaultItemSearchPredicates,
+  getNextFunction,
+  getQueryLength,
+} from "../utils";
 import { convertPortalAggregations } from "./portalSearchUtils";
 import { expandPredicate } from "./expandPredicate";
 import HubError from "../../HubError";
@@ -166,6 +170,7 @@ async function searchPortalAsItem(
       resp.total,
       searchPortalAsItem
     ),
+    executedQueryLength: getQueryLength(searchOptions.q),
   };
 }
 
@@ -209,6 +214,7 @@ async function searchPortalAsHubSearchResult(
       resp.total,
       searchPortalAsHubSearchResult
     ),
+    executedQueryLength: getQueryLength(searchOptions.q),
   };
 }
 
