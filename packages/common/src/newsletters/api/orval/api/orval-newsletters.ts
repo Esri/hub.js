@@ -78,71 +78,12 @@ export interface ICreateUser {
  */
 export type IUpdateSubscriptionCatalog = ICreateCatalog | null;
 
-export interface IUpdateSubscription {
-  /** Type of action representing user selections that further customize the subscription behavior */
-  action?: SubscriptionAction;
-  /** Flag to opt user in or out of subscription */
-  active?: boolean;
-  /** Frequency of the subscription */
-  cadence?: Cadence;
-  /** catalog for a subscription */
-  catalog?: IUpdateSubscriptionCatalog;
-  /** Delivery method for subscription, ie email or text */
-  deliveryMethod?: DeliveryMethod;
-  /** The AGO id of the entity associated with the subscription */
-  entityId?: string;
-  /** The type of entity associated with the subscription entityId */
-  entityType?: SubscriptionEntityType;
-  /** Last delivered datetime string of the subscription in ISO 8601 format */
-  lastDelivery?: string;
-  /** ArcGIS Online id for a user. Will always be extracted from the token unless service token is used. */
-  userId?: string;
-}
-
 /**
  * Metadata for the subscription
  */
 export type ISubscribeMetadata =
   | ICreateEventMetadata
   | ICreateTelemetryReportMetadata;
-
-/**
- * catalog for a subscription
- */
-export type ISubscribeCatalog = ICreateCatalog | null;
-
-export interface ISubscribe {
-  /** Type of action representing user selections that further customize the subscription behavior */
-  action?: SubscriptionAction;
-  /** ArcGIS Online id for a user. Will always be extracted from the token unless service token is used. */
-  agoId?: string;
-  /** Frequency of the subscription */
-  cadence: Cadence;
-  /** catalog for a subscription */
-  catalog?: ISubscribeCatalog;
-  /** Flag for deleted user */
-  deleted?: boolean;
-  /** Delivery method for subscription, ie email or text */
-  deliveryMethod: DeliveryMethod;
-  /** Email for the subscriber. Will always be extracted from the token unless service token is used. */
-  email?: string;
-  /** The AGO id of the entity associated with the subscription */
-  entityId?: string;
-  /** The type of entity associated with the subscription entityId */
-  entityType?: SubscriptionEntityType;
-  /** First name for the subscriber. Will always be extracted from the token unless service token is used. */
-  firstName?: string;
-  /** Last name for the subscriber. Will always be extracted from the token unless service token is used. */
-  lastName?: string;
-  /** Metadata for the subscription */
-  metadata: ISubscribeMetadata;
-  /** Notification spec name for the subscription */
-  notificationSpecName: SystemNotificationSpecNames;
-  /** Flag for unsubscribed user */
-  optedOut?: boolean;
-  /** Username for the subscriber. Will always be extracted from the token unless service token is used. */
-  username?: string;
-}
 
 export type ISubscriptionMetadata = { [key: string]: any };
 
@@ -193,6 +134,27 @@ export enum Cadence {
   WEEKLY = "WEEKLY",
   MONTHLY = "MONTHLY",
 }
+export interface IUpdateSubscription {
+  /** Type of action representing user selections that further customize the subscription behavior */
+  action?: SubscriptionAction;
+  /** Flag to opt user in or out of subscription */
+  active?: boolean;
+  /** Frequency of the subscription */
+  cadence?: Cadence;
+  /** catalog for a subscription */
+  catalog?: IUpdateSubscriptionCatalog;
+  /** Delivery method for subscription, ie email or text */
+  deliveryMethod?: DeliveryMethod;
+  /** The AGO id of the entity associated with the subscription */
+  entityId?: string;
+  /** The type of entity associated with the subscription entityId */
+  entityType?: SubscriptionEntityType;
+  /** Last delivered datetime string of the subscription in ISO 8601 format */
+  lastDelivery?: string;
+  /** ArcGIS Online id for a user. Will always be extracted from the token unless service token is used. */
+  userId?: string;
+}
+
 export interface ISubscription {
   action: SubscriptionAction;
   active: boolean;
@@ -217,6 +179,39 @@ export enum SystemNotificationSpecNames {
   EVENT = "EVENT",
   DISCUSSION_ON_ENTITY = "DISCUSSION_ON_ENTITY",
 }
+export interface ISubscribe {
+  /** Type of action representing user selections that further customize the subscription behavior */
+  action?: SubscriptionAction;
+  /** ArcGIS Online id for a user. Will always be extracted from the token unless service token is used. */
+  agoId?: string;
+  /** Frequency of the subscription */
+  cadence: Cadence;
+  /** catalog for a subscription */
+  catalog?: ISubscribeCatalog;
+  /** Flag for deleted user */
+  deleted?: boolean;
+  /** Delivery method for subscription, ie email or text */
+  deliveryMethod: DeliveryMethod;
+  /** Email for the subscriber. Will always be extracted from the token unless service token is used. */
+  email?: string;
+  /** The AGO id of the entity associated with the subscription */
+  entityId?: string;
+  /** The type of entity associated with the subscription entityId */
+  entityType?: SubscriptionEntityType;
+  /** First name for the subscriber. Will always be extracted from the token unless service token is used. */
+  firstName?: string;
+  /** Last name for the subscriber. Will always be extracted from the token unless service token is used. */
+  lastName?: string;
+  /** Metadata for the subscription */
+  metadata: ISubscribeMetadata;
+  /** Notification spec name for the subscription */
+  notificationSpecName: SystemNotificationSpecNames;
+  /** Flag for unsubscribed user */
+  optedOut?: boolean;
+  /** Username for the subscriber. Will always be extracted from the token unless service token is used. */
+  username?: string;
+}
+
 export interface ICreateSubscription {
   /** Type of action representing user selections that further customize the subscription behavior */
   action?: SubscriptionAction;
@@ -249,27 +244,6 @@ export interface ICreateCatalogIntegrity {
   scopes: string;
 }
 
-export enum SortOrder {
-  ASC = "ASC",
-  DESC = "DESC",
-}
-export interface ICreateCatalogCollection {
-  /** Specify the includes to be requested when working with this collection */
-  include?: string[];
-  /** Unique key, used for query params and telemetry */
-  key: string;
-  /** String to show in the UI. translated. */
-  label: string;
-  /** Default query for the Collection */
-  scope: ICreateCatalogCollectionQuery;
-  /** Default sort order for the Collection */
-  sortDirection?: SortOrder;
-  /** Default sort field for the Collection */
-  sortField?: string;
-  /** What entity is this query targeting. This is used internally to ensure we query the correct API */
-  targetEntity: EntityType;
-}
-
 export interface ICreateCatalog {
   /** Collections within the catalog */
   collections?: ICreateCatalogCollection[];
@@ -285,6 +259,15 @@ export interface ICreateCatalog {
   title?: string;
 }
 
+/**
+ * catalog for a subscription
+ */
+export type ISubscribeCatalog = ICreateCatalog | null;
+
+export enum SortOrder {
+  ASC = "ASC",
+  DESC = "DESC",
+}
 /**
  * Additional properties. Useful for groupMember queries where we need to send in the groupId to construct the url
  */
@@ -344,9 +327,31 @@ export interface ICreateCatalogCollectionQuery {
   targetEntity: EntityType;
 }
 
+export interface ICreateCatalogCollection {
+  /** Specify the includes to be requested when working with this collection */
+  include?: string[];
+  /** Unique key, used for query params and telemetry */
+  key: string;
+  /** String to show in the UI. translated. */
+  label: string;
+  /** Default query for the Collection */
+  scope: ICreateCatalogCollectionQuery;
+  /** Default sort order for the Collection */
+  sortDirection?: SortOrder;
+  /** Default sort field for the Collection */
+  sortField?: string;
+  /** What entity is this query targeting. This is used internally to ensure we query the correct API */
+  targetEntity: EntityType;
+}
+
 export enum SubscriptionAction {
   DISCUSSION_POST_PENDING = "DISCUSSION_POST_PENDING",
 }
+export interface ICreateDiscussionsOnEntityMetadata {
+  /** Entity name of the discussion */
+  entityName?: string;
+}
+
 export interface ICreateEventMetadata {
   /** Event id for the subscription */
   eventId: string;
