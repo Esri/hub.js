@@ -23,6 +23,7 @@ import {
   IWellKnownApis,
   IApiDefinition,
   NamedApis,
+  Kilobyte,
 } from "./types/types";
 import { WellKnownCollection } from "./wellKnownCatalog";
 import {
@@ -379,7 +380,7 @@ export function addDefaultItemSearchPredicates(query: IQuery): IQuery {
  */
 export function getKilobyteSizeOfQuery(
   query: string | SearchQueryBuilder
-): number {
+): Kilobyte {
   // convert query to string if it isn't already
   const queryString = typeof query === "string" ? query : query.toParam();
 
