@@ -21,7 +21,7 @@ import {
 import {
   addDefaultItemSearchPredicates,
   getNextFunction,
-  getQueryLength,
+  getKilobyteSizeOfQuery,
 } from "../utils";
 import { convertPortalAggregations } from "./portalSearchUtils";
 import { expandPredicate } from "./expandPredicate";
@@ -170,7 +170,7 @@ async function searchPortalAsItem(
       resp.total,
       searchPortalAsItem
     ),
-    executedQueryLength: getQueryLength(searchOptions.q),
+    executedQuerySize: getKilobyteSizeOfQuery(searchOptions.q),
   };
 }
 
@@ -214,7 +214,7 @@ async function searchPortalAsHubSearchResult(
       resp.total,
       searchPortalAsHubSearchResult
     ),
-    executedQueryLength: getQueryLength(searchOptions.q),
+    executedQuerySize: getKilobyteSizeOfQuery(searchOptions.q),
   };
 }
 

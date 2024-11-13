@@ -19,7 +19,7 @@ import {
 import { getNextFunction } from "../utils";
 import { expandPredicate } from "./expandPredicate";
 import { cloneObject } from "../../util";
-import { getQueryLength } from "../utils";
+import { getKilobyteSizeOfQuery } from "../utils";
 
 function buildSearchOptions(
   query: IQuery,
@@ -204,7 +204,7 @@ async function searchPortal(
       resp.total,
       searchPortal
     ),
-    executedQueryLength: getQueryLength(searchOptions.q),
+    executedQuerySize: getKilobyteSizeOfQuery(searchOptions.q),
   };
 }
 
@@ -234,7 +234,7 @@ async function searchCommunity(
       resp.total,
       searchCommunity
     ),
-    executedQueryLength: getQueryLength(searchOptions.q),
+    executedQuerySize: getKilobyteSizeOfQuery(searchOptions.q),
   };
 }
 

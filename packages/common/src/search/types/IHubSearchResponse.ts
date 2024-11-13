@@ -38,7 +38,8 @@ export interface IHubSearchResponse<T> {
   messages?: IMessage[];
 
   /**
-   * The length of the query string that was just executed in the search
+   * The length of the query string that was just executed in the search,
+   * measured in kilobytes
    */
-  executedQueryLength?: number;
+  executedQuerySize?: number;
 }

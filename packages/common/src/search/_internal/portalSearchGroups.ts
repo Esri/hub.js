@@ -11,7 +11,7 @@ import {
   IHubSearchResult,
   IQuery,
 } from "../types";
-import { getNextFunction, getQueryLength } from "../utils";
+import { getNextFunction, getKilobyteSizeOfQuery } from "../utils";
 import { expandPredicate } from "./expandPredicate";
 
 /**
@@ -106,7 +106,7 @@ async function searchPortal(
       resp.total,
       searchPortal
     ),
-    executedQueryLength: getQueryLength(searchOptions.q),
+    executedQuerySize: getKilobyteSizeOfQuery(searchOptions.q),
   };
 }
 

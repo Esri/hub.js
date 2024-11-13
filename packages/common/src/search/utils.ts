@@ -372,15 +372,24 @@ export function addDefaultItemSearchPredicates(query: IQuery): IQuery {
 }
 
 /**
- * Returns the length in characters of a query string or a SearchQueryBuilder.
- * This is used to later determine if a query is too large to be sent to the server.
+ * Returns the size in kilobytes of a query string or a SearchQueryBuilder.
+ * This is used to later determine if a query is too large or almost too large to be sent to the server.
  * @param query
  * @returns
  */
-export function getQueryLength(query: string | SearchQueryBuilder): number {
-  if (typeof query === "string") {
-    return query.length;
-  } else {
-    return query.toParam().length;
-  }
+export function getKilobyteSizeOfQuery(
+  query: string | SearchQueryBuilder
+): number {
+  // convert query to string if it isn't already
+  const queryString = typeof query === "string" ? query : query.toParam();
+
+  // make blob of string so we accurately represent string's binary data,
+  // accounting for special characters and encoding
+  const blob = new Blob([queryString]);
+
+  // size of string in bytes
+  const bytes = blob.size;
+
+  // return size of string in kilobytes
+  return bytes / 1024;
 }
