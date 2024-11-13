@@ -174,6 +174,13 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     environments: ["devext"],
     availability: ["alpha"],
   },
+  {
+    // Enable site getting pages from it's catalog
+    // instead of those linked in the site's data
+    permission: "hub:feature:pagescatalog",
+    environments: ["qaext"],
+    availability: ["alpha"],
+  },
   // NOTE: only use this permission if necessary. Use the licenses check on a permission to check license when able instead of a separate permission.
   // checks if using hub-premium
   {

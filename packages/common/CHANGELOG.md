@@ -1,3 +1,31 @@
+# @esri/hub-common [15.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.3.7...@esri/hub-common@15.4.0) (2024-11-12)
+
+
+### Features
+
+* **hub-common:** add feature flag for site pages via catalog ([#1730](https://github.com/Esri/hub.js/issues/1730)) ([e459c74](https://github.com/Esri/hub.js/commit/e459c7468c01841e1f78dfe55b6014beb6b5abcc))
+
+## @esri/hub-common [15.3.7](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.3.6...@esri/hub-common@15.3.7) (2024-11-12)
+
+
+### Bug Fixes
+
+* expose editor to metric functions ([#1717](https://github.com/Esri/hub.js/issues/1717)) ([8664170](https://github.com/Esri/hub.js/commit/86641702afc6b48c81c3b23faa92347a346575a8))
+
+## @esri/hub-common [15.3.6](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.3.5...@esri/hub-common@15.3.6) (2024-11-08)
+
+
+### Bug Fixes
+
+* **hub-common:** make getUser optional ([#1722](https://github.com/Esri/hub.js/issues/1722)) ([b3531bd](https://github.com/Esri/hub.js/commit/b3531bd4c11a0665b8a7f514d637817f71543022))
+
+## @esri/hub-common [15.3.5](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.3.4...@esri/hub-common@15.3.5) (2024-11-07)
+
+
+### Bug Fixes
+
+* remove troublesome migration that was not really needed ([#1725](https://github.com/Esri/hub.js/issues/1725)) ([a075492](https://github.com/Esri/hub.js/commit/a0754929dcc86b263db3c3ba02d161d31e4a27af))
+
 ## @esri/hub-common [15.3.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.3.3...@esri/hub-common@15.3.4) (2024-11-07)
 
 

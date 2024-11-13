@@ -36,7 +36,7 @@ import { ProjectEditorType } from "./_internal/ProjectSchema";
 import { enrichEntity } from "../core/enrichEntity";
 import { getProp, getWithDefault } from "../objects";
 import { IGroup } from "@esri/arcgis-rest-types";
-import { metricToEditor } from "../core/schemas/internal/metrics/metricToEditor";
+import { metricToEditor } from "../metrics/metricToEditor";
 import { IMetricDisplayConfig } from "../core/types/Metrics";
 import { upsertResource } from "../resources/upsertResource";
 import { doesResourceExist } from "../resources/doesResourceExist";
