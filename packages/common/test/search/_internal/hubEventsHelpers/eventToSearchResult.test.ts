@@ -101,13 +101,47 @@ describe("eventToSearchResult", () => {
 
   it("should return an IHubSearchResult for the event", async () => {
     const result = await eventToSearchResult(event, options);
+    expect(getLocationFromEventSpy).toHaveBeenCalledTimes(1);
+    expect(getLocationFromEventSpy).toHaveBeenCalledWith(event);
+    expect(result).toEqual({
+      access: event.access.toLowerCase() as AccessLevel,
+      id: event.id,
+      type: "Event",
+      name: event.title,
+      owner: event.creator?.username,
+      ownerUser: undefined,
+      summary: event.summary as string,
+      createdDate: jasmine.any(Date) as any,
+      createdDateSource: "event.createdAt",
+      updatedDate: jasmine.any(Date) as any,
+      updatedDateSource: "event.updatedAt",
+      family: "event",
+      links: {
+        self: `/events/my-event-title-${event.id}`,
+        siteRelative: `/events/my-event-title-${event.id}`,
+        siteRelativeEntityType: "",
+        workspaceRelative: `/workspace/events/${event.id}`,
+        thumbnail: getEventThumbnail(),
+      },
+      tags: event.tags,
+      categories: event.categories,
+      rawResult: event,
+      location: locationResult,
+    });
+    expect(result.createdDate.toISOString()).toEqual(event.createdAt);
+    expect(result.updatedDate.toISOString()).toEqual(event.updatedAt);
+  });
+
+  it("should include additional owner details when options includes ownerUser", async () => {
+    const result = await eventToSearchResult(event, {
+      ...options,
+      include: ["ownerUser"],
+    });
     expect(getUserSpy).toHaveBeenCalledTimes(1);
     expect(getUserSpy).toHaveBeenCalledWith({
       username: event.creator?.username,
       ...options.requestOptions,
     });
-    expect(getLocationFromEventSpy).toHaveBeenCalledTimes(1);
-    expect(getLocationFromEventSpy).toHaveBeenCalledWith(event);
     expect(result).toEqual({
       access: event.access.toLowerCase() as AccessLevel,
       id: event.id,
@@ -140,11 +174,6 @@ describe("eventToSearchResult", () => {
   it("should set summary to event.description when event.summary is falsey", async () => {
     event.summary = null;
     const result = await eventToSearchResult(event, options);
-    expect(getUserSpy).toHaveBeenCalledTimes(1);
-    expect(getUserSpy).toHaveBeenCalledWith({
-      username: event.creator?.username,
-      ...options.requestOptions,
-    });
     expect(getLocationFromEventSpy).toHaveBeenCalledTimes(1);
     expect(getLocationFromEventSpy).toHaveBeenCalledWith(event);
     expect(result).toEqual({
@@ -153,7 +182,7 @@ describe("eventToSearchResult", () => {
       type: "Event",
       name: event.title,
       owner: event.creator?.username,
-      ownerUser: user,
+      ownerUser: undefined,
       summary: event.description as string,
       createdDate: jasmine.any(Date) as any,
       createdDateSource: "event.createdAt",

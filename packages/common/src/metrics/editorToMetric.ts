@@ -1,4 +1,4 @@
-import { isNil } from "../../../../util";
+import { isNil } from "../util";
 import {
   IMetric,
   IMetricDisplayConfig,
@@ -8,8 +8,8 @@ import {
   IExpression,
   IMetricEditorValues,
   MetricVisibility,
-} from "../../../types/Metrics";
-import { ServiceAggregation } from "../../../../core/types/DynamicValues";
+} from "../core/types/Metrics";
+import { ServiceAggregation } from "../core/types/DynamicValues";
 
 /**
  * Transforms the IConfigurationValues into an object with IMetric and IMetricDisplayConfig to be saved on an entity or rendered in the ui.
