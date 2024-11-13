@@ -13,6 +13,7 @@ type ILegacyChannelPermissions = Pick<
 
 /**
  * Utility to determine if User has privileges to create a post in a channel
+ * @deprecated use `canCreatePost` or 'canCreateReply` instead
  * @param channel
  * @param user
  * @returns {boolean}
