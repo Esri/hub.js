@@ -30,7 +30,7 @@ import { hubSearchEventAttendees } from "./_internal/hubSearchEventAttendees";
  * @param options
  * @returns
  */
-export async function hubSearch(
+export async function hubSearch (
   query: IQuery,
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
@@ -66,7 +66,7 @@ export async function hubSearch(
   const filterType = query.targetEntity;
 
   // NOTE: We want to clone the `options` object to do some expansion operations,
-  // But if we clone `options.requestOptions`, the underlying `UserSession` will
+  // But if we clone `options.requestOptions`, the underlying `ArcGISIdentityManager` will
   // lose some fundamental functions like `getToken`. As a workaround, we just
   // clone everything else on the `options` object.
   const { requestOptions, ...remainder } = options;

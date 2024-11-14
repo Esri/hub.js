@@ -1,10 +1,9 @@
-import { IUser } from "@esri/arcgis-rest-auth";
+import { IAuthenticationManager, IUser } from "@esri/arcgis-rest-request";
 import {
   ICreateOrgNotificationResult,
   ICreateOrgNotificationOptions,
   createOrgNotification,
 } from "@esri/arcgis-rest-portal";
-import { IAuthenticationManager } from "@esri/arcgis-rest-request";
 import { IEmail } from "./types";
 
 /**
@@ -17,7 +16,7 @@ import { IEmail } from "./types";
  *
  * @returns {object|null} A promise that resolves to the result of the transaction (null if no users are passed in)
  */
-export function emailOrgUsers(
+export function emailOrgUsers (
   users: IUser[],
   email: IEmail,
   authentication: IAuthenticationManager,

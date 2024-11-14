@@ -12,17 +12,15 @@ import {
   eventResponseWithoutSiteId
 } from "./mocks/event_search";
 
-import * as featureService from "@esri/arcgis-rest-feature-layer";
+import * as featureService from "@esri/arcgis-rest-feature-service";
 import * as portal from "@esri/arcgis-rest-portal";
-import { IQueryFeaturesOptions } from "@esri/arcgis-rest-feature-layer";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { ISearchOptions } from "@esri/arcgis-rest-portal";
 
 describe("searchEvents", () => {
   const ro = {
     authentication: {
       portal: "https://some.portal.com/arcgis/sharing/rest",
-      getToken() {
+      getToken () {
         return Promise.resolve("FAKE-TOKEN");
       }
     }
@@ -54,8 +52,8 @@ describe("searchEvents", () => {
         expect(siteParamsSpy.calls.count()).toEqual(1);
         const queryOpts = queryParamsSpy.calls.argsFor(
           0
-        )[0] as IQueryFeaturesOptions;
-        const siteOpts = siteParamsSpy.calls.argsFor(0)[0] as ISearchOptions;
+        )[0] as featureService.IQueryFeaturesOptions;
+        const siteOpts = siteParamsSpy.calls.argsFor(0)[0] as portal.ISearchOptions;
 
         expect(queryOpts.url).toBe(
           publicEventSearchResponse.results[0].url + "/0"
@@ -88,7 +86,7 @@ describe("searchEvents", () => {
 
         const opts = queryParamsSpy.calls.argsFor(
           0
-        )[0] as IQueryFeaturesOptions;
+        )[0] as featureService.IQueryFeaturesOptions;
 
         expect(opts.url).toBe(publicEventSearchResponse.results[0].url + "/0");
         expect(response.data.length).toBe(eventResponseEmpty.data.length);
@@ -122,7 +120,7 @@ describe("searchEvents", () => {
 
         const opts = queryParamsSpy.calls.argsFor(
           0
-        )[0] as IQueryFeaturesOptions;
+        )[0] as featureService.IQueryFeaturesOptions;
 
         expect(opts.url).toBe(publicEventSearchResponse.results[0].url + "/0");
         expect(response.data.length).toBe(
@@ -162,7 +160,7 @@ describe("searchEvents", () => {
         expect(siteParamsSpy.calls.count()).toEqual(1);
         const queryOpts = queryParamsSpy.calls.argsFor(
           0
-        )[0] as IQueryFeaturesOptions;
+        )[0] as featureService.IQueryFeaturesOptions;
         expect(queryOpts.url).toBe(
           publicEventSearchResponse.results[0].url + "/0"
         );
@@ -197,7 +195,7 @@ describe("searchEvents", () => {
         expect(siteParamsSpy.calls.count()).toEqual(1);
         const queryOpts = queryParamsSpy.calls.argsFor(
           0
-        )[0] as IQueryFeaturesOptions;
+        )[0] as featureService.IQueryFeaturesOptions;
         expect(queryOpts.url).toBe(
           publicEventSearchResponse.results[0].url + "/0"
         );

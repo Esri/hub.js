@@ -1,4 +1,4 @@
-import { ILayerDefinition } from "@esri/arcgis-rest-feature-layer";
+import { ILayerDefinition } from "@esri/arcgis-rest-feature-service";
 import { IItem } from "@esri/arcgis-rest-portal";
 import {
   cloneObject,
@@ -25,14 +25,14 @@ const featureServiceItem = {
   created: 1526675011000,
   modified: 1526675614000,
   numViews: 1,
-  size: null,
+  size: 4000000,
 } as IItem;
 
 describe("composeContent", () => {
   beforeAll(() => {
     // suppress deprecation warnings
     // tslint:disable-next-line: no-empty
-    spyOn(console, "warn").and.callFake(() => {});
+    spyOn(console, "warn").and.callFake(() => { });
   });
   let item: IItem;
   // most of compose content is currently covered by

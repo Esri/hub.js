@@ -1,17 +1,16 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request } from "@esri/arcgis-rest-request";
-import { UserSession, IOAuth2Options } from "@esri/arcgis-rest-auth";
+import { request, ArcGISIdentityManager, IOAuth2Options } from "@esri/arcgis-rest-request";
 
 /**
- * A thin wrapper around [`UserSession.completeOAuth2()`](https://esri.github.io/arcgis-rest-js/api/auth/UserSession/#completeOAuth2) that sets search tags and other relevant metadata for newly created community users.
+ * A thin wrapper around [`ArcGISIdentityManager.completeOAuth2()`](https://esri.github.io/arcgis-rest-js/api/auth/UserSession/#completeOAuth2) that sets search tags and other relevant metadata for newly created community users.
  */
 /* istanbul ignore next */
-export function completeOAuth2(
+export function completeOAuth2 (
   options: IOAuth2Options,
   win: any = window
-): Promise<UserSession> {
+): Promise<ArcGISIdentityManager> {
   const match = win.location.href.match(
     /access_token=(.+)&expires_in=.+&username=([^&]+)/
   );
@@ -23,7 +22,7 @@ export function completeOAuth2(
   return request(baseUrl, {
     params: { token },
     httpMethod: "GET"
-  }).then(response => {
+  }).then((response: { created: number; orgId: any; }) => {
     if (Date.now() - response.created < 5000) {
       return request(`${baseUrl}/update`, {
         params: {
@@ -32,10 +31,10 @@ export function completeOAuth2(
           access: "public"
         }
       }).then(() => {
-        return UserSession.completeOAuth2(options);
+        return ArcGISIdentityManager.completeOAuth2(options);
       });
     } else {
-      return UserSession.completeOAuth2(options);
+      return ArcGISIdentityManager.completeOAuth2(options);
     }
   });
 }

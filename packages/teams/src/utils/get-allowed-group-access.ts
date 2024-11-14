@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-auth";
+import { IUser } from "@esri/arcgis-rest-request";
 import { hasAllPrivileges } from "./has-all-privileges";
 import { GROUP_ACCESS_PRIVS } from "./group-access-privs";
 import { AGOAccess } from "../types";
@@ -12,7 +12,7 @@ import { getProp } from "@esri/hub-common";
  * @param user User object w/ privileges array
  * @param portal optional
  */
-export function getAllowedGroupAccess(
+export function getAllowedGroupAccess (
   requestedAccess: AGOAccess,
   user: IUser,
   portal?: IPortal

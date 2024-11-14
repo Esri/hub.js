@@ -1,10 +1,5 @@
-import {
-  IUser,
-  IUserRequestOptions,
-  UserSession,
-} from "@esri/arcgis-rest-auth";
 import { IGetUserOptions, IPortal, getUser } from "@esri/arcgis-rest-portal";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { ArcGISIdentityManager, IRequestOptions, IUser, IUserRequestOptions } from "@esri/arcgis-rest-request";
 import {
   IHubHistory,
   IHubHistoryEntry,
@@ -74,9 +69,9 @@ export interface IArcGISContext {
    */
   id: number;
   /**
-   * Return the UserSession if authenticated
+   * Return the ArcGISIdentityManager if authenticated
    */
-  session: UserSession;
+  session: ArcGISIdentityManager;
   /**
    * Return boolean indicating if authenticatio is present
    */
@@ -289,37 +284,37 @@ export interface IArcGISContext {
    * Return the token for a given app, if defined
    * @param app
    */
-  tokenFor(app: UserResourceApp): string;
+  tokenFor (app: UserResourceApp): string;
 
   /**
    * Refresh the current user, including their groups
    */
-  refreshUser(): Promise<void>;
+  refreshUser (): Promise<void>;
 
   /**
    * Add an entry to the user's history
    * If not authenticated, this function will no-op
    * @param entry
    */
-  addToHistory(entry: IHubHistoryEntry): Promise<void>;
+  addToHistory (entry: IHubHistoryEntry): Promise<void>;
 
   /**
    * Remove a specific entry from the user's history
    * @param entry
    */
-  removeFromHistory(entry: IHubHistoryEntry): Promise<void>;
+  removeFromHistory (entry: IHubHistoryEntry): Promise<void>;
 
   /**
    * Simple clear of the all of the user's history
    */
-  clearHistory(): Promise<void>;
+  clearHistory (): Promise<void>;
 
   /**
    * Check specific permission for the current user, and optionally an entity
    * @param permission
    * @param entity
    */
-  checkPermission(
+  checkPermission (
     permission: Permission,
     entity?: HubEntity
   ): IPermissionAccessResponse;
@@ -328,7 +323,7 @@ export interface IArcGISContext {
    * Update the user's hub settings directly from the Context
    * @param settings
    */
-  updateUserHubSettings(settings: IUserHubSettings): Promise<void>;
+  updateUserHubSettings (settings: IUserHubSettings): Promise<void>;
 }
 
 /**
@@ -353,9 +348,9 @@ export interface IArcGISContextOptions {
    */
   hubUrl?: string;
   /**
-   * The current UserSession
+   * The current ArcGISIdentityManager
    */
-  authentication?: UserSession;
+  authentication?: ArcGISIdentityManager;
   /**
    * If the user is authenticated, the portal should be passed in
    * so various getters can work as expected.
@@ -411,7 +406,7 @@ export interface IArcGISContextOptions {
 }
 
 /**
- * Abstraction that holds a `UserSession`, along with
+ * Abstraction that holds a `ArcGISIdentityManager`, along with
  * getters to streamline access to various platform
  * urls, and common constructs like `IRequestOptions`,
  * `IUserRequestOptions` etc.
@@ -429,7 +424,7 @@ export class ArcGISContext implements IArcGISContext {
    * instances being created.
    */
   public id: number;
-  private _authentication: UserSession;
+  private _authentication: ArcGISIdentityManager;
 
   private _portalUrl: string = "https://www.arcgis.com";
 
@@ -496,16 +491,16 @@ export class ArcGISContext implements IArcGISContext {
   }
 
   /**
-   * Return the UserSession if authenticated
+   * Return the ArcGISIdentityManager if authenticated
    */
-  public get session(): UserSession {
+  public get session (): ArcGISIdentityManager {
     return this._authentication;
   }
 
   /**
    * Return boolean indicating if authenticatio is present
    */
-  public get isAuthenticated(): boolean {
+  public get isAuthenticated (): boolean {
     return !!this._authentication;
   }
 
@@ -513,7 +508,7 @@ export class ArcGISContext implements IArcGISContext {
    * Return hash of feature flags passed into constructor.
    * Default is empty object.
    */
-  public get featureFlags(): IFeatureFlags {
+  public get featureFlags (): IFeatureFlags {
     return this._featureFlags;
   }
 
@@ -521,7 +516,7 @@ export class ArcGISContext implements IArcGISContext {
    * Is the users org in the alpha orgs list?
    * Alpha orgs are passed in via properties.alphaOrgs
    */
-  public get isAlphaOrg(): boolean {
+  public get isAlphaOrg (): boolean {
     let result = false;
     const orgs = this._properties?.alphaOrgs || [];
     const orgId = this._portalSelf?.id;
@@ -535,7 +530,7 @@ export class ArcGISContext implements IArcGISContext {
    * Is the users org in the beta orgs list?
    * Beta orgs are passed in via properties.betaOrgs
    */
-  public get isBetaOrg(): boolean {
+  public get isBetaOrg (): boolean {
     let result = false;
     const orgs = this._properties?.betaOrgs || [];
     const orgId = this._portalSelf?.id;
@@ -548,7 +543,7 @@ export class ArcGISContext implements IArcGISContext {
   /**
    * Return the HubEnvironment of the current context
    */
-  public get environment(): HubEnvironment {
+  public get environment (): HubEnvironment {
     return getEnvironmentFromPortalUrl(this._portalUrl);
   }
 
@@ -558,7 +553,7 @@ export class ArcGISContext implements IArcGISContext {
    *
    * If context is not authenticated, this function will throw
    */
-  public get userRequestOptions(): IUserRequestOptions {
+  public get userRequestOptions (): IUserRequestOptions {
     if (this.isAuthenticated) {
       return {
         authentication: this._authentication,
@@ -575,7 +570,7 @@ export class ArcGISContext implements IArcGISContext {
    * the `portal` property, which informs REST-JS what Sharing API
    * instance to use (i.e. AGO, Enterprise etc)
    */
-  public get requestOptions(): IRequestOptions {
+  public get requestOptions (): IRequestOptions {
     let ro: any = {
       portal: this.sharingApiUrl,
     };
@@ -591,7 +586,7 @@ export class ArcGISContext implements IArcGISContext {
   /**
    * Return a `IHubRequestOptions` object
    */
-  public get hubRequestOptions(): IHubRequestOptions {
+  public get hubRequestOptions (): IHubRequestOptions {
     // We may add more logic around what is returned in some corner cases
 
     return {
@@ -612,7 +607,7 @@ export class ArcGISContext implements IArcGISContext {
    * If authenticated @ ArcGIS Enterprise, it will return
    * https://{portalHostname}/{webadaptor}
    */
-  public get portalUrl(): string {
+  public get portalUrl (): string {
     if (this.isAuthenticated) {
       if (this.isPortal || !this._portalSelf.urlKey) {
         return `https://${this._portalSelf.portalHostname}`;
@@ -628,7 +623,7 @@ export class ArcGISContext implements IArcGISContext {
    * Returns the current user's hub-home url. If not authenticated,
    * returns the Hub Url. If portal, returns undefined
    */
-  public get hubHomeUrl(): string {
+  public get hubHomeUrl (): string {
     if (this.isPortal) {
       return undefined;
     } else {
@@ -644,7 +639,7 @@ export class ArcGISContext implements IArcGISContext {
   /**
    * Returns the current user's Hub License
    */
-  get hubLicense(): HubLicense {
+  get hubLicense (): HubLicense {
     if (this.isPortal) {
       return "enterprise-sites";
     } else {
@@ -659,7 +654,7 @@ export class ArcGISContext implements IArcGISContext {
   /**
    * Returns the current hub service status information
    */
-  get serviceStatus(): HubServiceStatus {
+  get serviceStatus (): HubServiceStatus {
     return this._serviceStatus;
   }
 
@@ -667,7 +662,7 @@ export class ArcGISContext implements IArcGISContext {
    * Returns the url to the sharing api composed from portalUrl
    * i.e. https://myorg.maps.arcgis.com/sharing/rest
    */
-  public get sharingApiUrl(): string {
+  public get sharingApiUrl (): string {
     return `${this.portalUrl}/sharing/rest`;
   }
 
@@ -676,7 +671,7 @@ export class ArcGISContext implements IArcGISContext {
    *
    * For ArcGIS Enterprise this will return `undefined`
    */
-  public get hubUrl(): string {
+  public get hubUrl (): string {
     return this._hubUrl;
   }
 
@@ -684,7 +679,7 @@ export class ArcGISContext implements IArcGISContext {
    * Returns boolean indicating if the backing system
    * is ArcGIS Enterprise (formerly ArcGIS Portal) or not
    */
-  public get isPortal(): boolean {
+  public get isPortal (): boolean {
     return this._portalSelf
       ? this._portalSelf.isPortal
       : this._portalUrl.indexOf("arcgis.com") === -1;
@@ -693,7 +688,7 @@ export class ArcGISContext implements IArcGISContext {
   /**
    * Returns the discussions API URL
    */
-  public get discussionsServiceUrl(): string {
+  public get discussionsServiceUrl (): string {
     if (this._hubUrl) {
       return `${this._hubUrl}${hubApiEndpoints.discussions}`;
     }
@@ -702,7 +697,7 @@ export class ArcGISContext implements IArcGISContext {
   /**
    * Returns the Hub Search API URL
    */
-  public get hubSearchServiceUrl(): string {
+  public get hubSearchServiceUrl (): string {
     if (this._hubUrl) {
       return `${this._hubUrl}${hubApiEndpoints.search}`;
     }
@@ -711,7 +706,7 @@ export class ArcGISContext implements IArcGISContext {
   /**
    * Returns Hub Domain Service URL
    */
-  public get domainServiceUrl(): string {
+  public get domainServiceUrl (): string {
     if (this._hubUrl) {
       return `${this._hubUrl}${hubApiEndpoints.domains}`;
     }
@@ -720,7 +715,7 @@ export class ArcGISContext implements IArcGISContext {
   /**
    * Returns Hub OGCAPI Service URL
    */
-  public get ogcApiUrl(): string {
+  public get ogcApiUrl (): string {
     if (this._hubUrl) {
       // NOTE: In the future, we will be able to use _hubUrl directly
       // but for now, we swap "hub" to "opendata" in _hubUrl so we end
@@ -735,7 +730,7 @@ export class ArcGISContext implements IArcGISContext {
    *
    * `{serviceId: '3ef..', publicViewId: 'bc3...'}`
    */
-  public get eventsConfig(): any {
+  public get eventsConfig (): any {
     if (this._portalSelf) {
       return getProp(this._portalSelf, "portalProperties.hub.settings.events");
     }
@@ -746,7 +741,7 @@ export class ArcGISContext implements IArcGISContext {
    * belongs to an organization that has licensed
    * ArcGIS Hub
    */
-  public get hubEnabled(): boolean {
+  public get hubEnabled (): boolean {
     return getWithDefault(
       this._portalSelf,
       "portalProperties.hub.enabled",
@@ -757,7 +752,7 @@ export class ArcGISContext implements IArcGISContext {
   /**
    * Return the Hub Community Org Id, if defined
    */
-  public get communityOrgId(): string {
+  public get communityOrgId (): string {
     if (this._portalSelf) {
       return getProp(
         this._portalSelf,
@@ -770,7 +765,7 @@ export class ArcGISContext implements IArcGISContext {
    * If we are in a community org with an associated e-org
    * Return the Hub Enterprise Org Id, if defined
    */
-  public get enterpriseOrgId(): string {
+  public get enterpriseOrgId (): string {
     if (this._portalSelf) {
       return getProp(
         this._portalSelf,
@@ -784,7 +779,7 @@ export class ArcGISContext implements IArcGISContext {
    *
    * i.e. c-org.maps.arcgis.com
    */
-  public get communityOrgHostname(): string {
+  public get communityOrgHostname (): string {
     if (this._portalSelf) {
       return getProp(
         this._portalSelf,
@@ -798,7 +793,7 @@ export class ArcGISContext implements IArcGISContext {
    *
    * i.e. https://c-org.maps.arcgis.com
    */
-  public get communityOrgUrl(): string {
+  public get communityOrgUrl (): string {
     if (this.communityOrgHostname) {
       return `https://${this.communityOrgHostname}`;
     }
@@ -807,7 +802,7 @@ export class ArcGISContext implements IArcGISContext {
   /**
    * Returns the hash of helper services from portal self
    */
-  public get helperServices(): any {
+  public get helperServices (): any {
     if (this._portalSelf) {
       return this._portalSelf.helperServices;
     }
@@ -816,14 +811,14 @@ export class ArcGISContext implements IArcGISContext {
   /**
    * Returns the current user as IUser
    */
-  public get currentUser(): IUser {
+  public get currentUser (): IUser {
     return this._currentUser;
   }
 
   /**
    * Returns the portal object as IPortal
    */
-  public get portal(): IPortal {
+  public get portal (): IPortal {
     return this._portalSelf;
   }
 
@@ -832,28 +827,28 @@ export class ArcGISContext implements IArcGISContext {
    * Useful for app-specific context such as the active
    * Site for ArcGIS Hub
    */
-  public get properties(): Record<string, any> {
+  public get properties (): Record<string, any> {
     return this._properties;
   }
 
   /**
    * Returns the array of Trusted Org Ids
    */
-  public get trustedOrgIds(): string[] {
+  public get trustedOrgIds (): string[] {
     return this._trustedOrgIds;
   }
 
   /**
    * Returns the array of Trusted Orgs
    */
-  public get trustedOrgs(): IHubTrustedOrgsResponse[] {
+  public get trustedOrgs (): IHubTrustedOrgsResponse[] {
     return this._trustedOrgs;
   }
 
   /**
    * Returns whether the current user's org type is a community org
    */
-  public get isCommunityOrg(): boolean {
+  public get isCommunityOrg (): boolean {
     let result = false;
     if (this._portalSelf) {
       const orgType = getProp(
@@ -868,7 +863,7 @@ export class ArcGISContext implements IArcGISContext {
   /**
    * Returns whether the current user is an org admin and not in a custom role.
    */
-  public get isOrgAdmin(): boolean {
+  public get isOrgAdmin (): boolean {
     const { _currentUser } = this;
     let result = false;
     if (_currentUser) {
@@ -880,7 +875,7 @@ export class ArcGISContext implements IArcGISContext {
   /**
    * Return the whole array of user resource tokens
    */
-  public get userResourceTokens(): IUserResourceToken[] {
+  public get userResourceTokens (): IUserResourceToken[] {
     return this._userResourceTokens;
   }
 
@@ -888,18 +883,18 @@ export class ArcGISContext implements IArcGISContext {
    * Return the user hub settings.
    * Updates must be done via `contextManager.updateUserHubSettings`
    */
-  public get userHubSettings(): IUserHubSettings {
+  public get userHubSettings (): IUserHubSettings {
     return this._userHubSettings;
   }
 
-  public get orgThumbnailUrl(): string {
+  public get orgThumbnailUrl (): string {
     return getOrgThumbnailUrl(this.portal, this.session?.token);
   }
 
   /**
    * Return the survey123 url
    */
-  public get survey123Url(): string {
+  public get survey123Url (): string {
     const suffixes: Partial<Record<HubEnvironment, string>> = {
       qaext: "qa",
       devext: "dev",
@@ -913,7 +908,7 @@ export class ArcGISContext implements IArcGISContext {
    * @param app
    * @returns
    */
-  public tokenFor(app: UserResourceApp): string {
+  public tokenFor (app: UserResourceApp): string {
     const entry = this._userResourceTokens.find((e) => e.app === app);
     if (entry) {
       return entry.token;
@@ -924,7 +919,7 @@ export class ArcGISContext implements IArcGISContext {
    * Re-fetch the current user, including their groups
    * @returns
    */
-  public refreshUser(): Promise<void> {
+  public refreshUser (): Promise<void> {
     const opts: IGetUserOptions = {
       authentication: this.session,
       portal: this.sharingApiUrl,
@@ -940,7 +935,7 @@ export class ArcGISContext implements IArcGISContext {
    * Return the user's history
    * @returns
    */
-  public get history(): IHubHistory {
+  public get history (): IHubHistory {
     return this._userHubSettings.history || ({ entries: [] } as IHubHistory);
   }
 
@@ -949,7 +944,7 @@ export class ArcGISContext implements IArcGISContext {
    * Hub Resources (linkable documents etc) that are tagged to appear
    * in different areas of the appliation.
    */
-  public get resourceGroupIDs(): string[] {
+  public get resourceGroupIDs (): string[] {
     return HUB_RESOURE_GROUPS[this.environment];
   }
 
@@ -959,7 +954,7 @@ export class ArcGISContext implements IArcGISContext {
    * @param entity
    * @returns
    */
-  checkPermission(
+  checkPermission (
     permission: Permission,
     entity?: HubEntity
   ): IPermissionAccessResponse {
@@ -972,7 +967,7 @@ export class ArcGISContext implements IArcGISContext {
    * @param win
    * @returns
    */
-  public async addToHistory(entry: IHubHistoryEntry): Promise<void> {
+  public async addToHistory (entry: IHubHistoryEntry): Promise<void> {
     // No-op if not authenticated
     if (!this.isAuthenticated) {
       return;
@@ -1004,7 +999,7 @@ export class ArcGISContext implements IArcGISContext {
    * Clear the entire history
    * @returns
    */
-  public async clearHistory(): Promise<void> {
+  public async clearHistory (): Promise<void> {
     // No-op if not authenticated
     if (!this.isAuthenticated) {
       return;
@@ -1029,7 +1024,7 @@ export class ArcGISContext implements IArcGISContext {
    * @param entry
    * @returns
    */
-  public async removeFromHistory(entry: IHubHistoryEntry): Promise<void> {
+  public async removeFromHistory (entry: IHubHistoryEntry): Promise<void> {
     // No-op if not authenticated
     if (!this.isAuthenticated) {
       return;
@@ -1054,7 +1049,7 @@ export class ArcGISContext implements IArcGISContext {
    * ArcGISContext. Unclear if this will be an actual problem.
    * @param settings
    */
-  public async updateUserHubSettings(
+  public async updateUserHubSettings (
     settings: IUserHubSettings
   ): Promise<void> {
     if (!this._authentication) {

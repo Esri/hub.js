@@ -1,9 +1,9 @@
 import { unlinkSiteAndPage } from "../src";
 import * as commonModule from "@esri/hub-common";
 import * as fetchMock from "fetch-mock";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 
-function resetSpys(...args: jasmine.Spy[]) {
+function resetSpys (...args: jasmine.Spy[]) {
   args.forEach(spy => spy.calls.reset());
 }
 
@@ -47,7 +47,7 @@ describe("unlinkSiteAndPage", () => {
     await unlinkSiteAndPage({
       siteModel,
       pageModel,
-      authentication: {} as UserSession
+      authentication: {} as ArcGISIdentityManager
     });
 
     expect(updateSpy).toHaveBeenCalledTimes(2);
@@ -79,7 +79,7 @@ describe("unlinkSiteAndPage", () => {
 
     const fakeSession = ({
       getToken: () => Promise.resolve("token")
-    } as unknown) as UserSession;
+    } as unknown) as ArcGISIdentityManager;
 
     // Non-existant site
     await unlinkSiteAndPage({

@@ -25,7 +25,7 @@ import {
   IHubContentStatus,
   IHubServiceBackedContentStatus,
 } from "./types";
-import { getService, IGetLayerOptions } from "@esri/arcgis-rest-feature-layer";
+import { getService, IGetLayerOptions } from "@esri/arcgis-rest-feature-service";
 import { isService } from "../resources/is-service";
 
 // TODO: remove this at next breaking version
@@ -42,7 +42,7 @@ import { isService } from "../resources/is-service";
  * @returns the category of a given item type.
  */
 /* istanbul ignore next deprecated */
-export function getCategory(itemType: string = ""): string {
+export function getCategory (itemType: string = ""): string {
   /* tslint:disable no-console */
   console.warn(
     "DEPRECATED: Use getFamily() instead. getCategory will be removed at the next breaking version"
@@ -65,7 +65,7 @@ export function getCategory(itemType: string = ""): string {
  * @returns all the item types for the given category.
  *
  */
-export function getTypes(category: string = ""): string[] {
+export function getTypes (category: string = ""): string[] {
   return allCategories[category.toLowerCase()];
 }
 
@@ -82,7 +82,7 @@ export function getTypes(category: string = ""): string[] {
  *
  */
 /* istanbul ignore next deprecated */
-export function getTypeCategories(item: any = {}): string[] {
+export function getTypeCategories (item: any = {}): string[] {
   /* tslint:disable no-console */
   console.warn(
     "DEPRECATED: getTypeCategories will be removed at the next breaking version"
@@ -120,7 +120,7 @@ export function getTypeCategories(item: any = {}): string[] {
  * @param site The site to compare content against
  * @returns the preferred id for the given content.
  */
-export function getContentIdentifier(
+export function getContentIdentifier (
   content: IHubContent,
   site?: IModel
 ): string {
@@ -166,7 +166,7 @@ export function getContentIdentifier(
  * @returns Hub content
  * @export
  */
-export function itemToContent(item: IItem): IHubContent {
+export function itemToContent (item: IItem): IHubContent {
   return composeContent(item);
 }
 
@@ -177,7 +177,7 @@ export function itemToContent(item: IItem): IHubContent {
  * @returns {IHubContent} Hub content object
  * @export
  */
-export function datasetToContent(dataset: DatasetResource): IHubContent {
+export function datasetToContent (dataset: DatasetResource): IHubContent {
   // extract item from dataset, create content from the item
   const item = datasetToItem(dataset);
 
@@ -240,7 +240,7 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
  * @returns {IItem} portal item
  * @export
  */
-export function datasetToItem(dataset: DatasetResource): IItem {
+export function datasetToItem (dataset: DatasetResource): IItem {
   if (!dataset) {
     return;
   }
@@ -346,7 +346,7 @@ export function datasetToItem(dataset: DatasetResource): IItem {
     thumbnail,
     extent:
       itemExtent ||
-      /* istanbul ignore next: API should always return itemExtent, but we default to [] just in case */ [],
+      /* istanbul ignore next: API should always return itemExtent, but we default to [] just in case */[],
     categories,
     contentStatus,
     spatialReference: spatialReference || serviceSpatialReference,
@@ -463,7 +463,7 @@ const availability = (status: string) => {
  * @param entity the content item
  * @returns the status of the content item
  */
-export async function getServiceStatus(
+export async function getServiceStatus (
   entity: IHubEditableContent,
   options: IGetServiceStatusOptions
 ): Promise<IHubContentStatus> {

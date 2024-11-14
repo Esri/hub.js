@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-auth";
+import { IUser } from "@esri/arcgis-rest-request";
 import { IHubRequestOptions } from "@esri/hub-common";
 import { createGroup, protectGroup, IGroup } from "@esri/arcgis-rest-portal";
 import { getUniqueGroupTitle } from "./get-unique-group-title";
@@ -13,7 +13,7 @@ import { IGroupTemplate } from "../types";
  * @param {IHubRequestOptions} hubRequestOptions
  * @private
  */
-export function _createTeamGroup(
+export function _createTeamGroup (
   user: IUser,
   group: IGroupTemplate,
   hubRequestOptions: IHubRequestOptions

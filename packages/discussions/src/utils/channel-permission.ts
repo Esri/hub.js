@@ -1,4 +1,5 @@
-import { IGroup } from "@esri/arcgis-rest-types";
+import { IGroup } from "@esri/arcgis-rest-portal";
+import { IUser } from "@esri/arcgis-rest-request";
 import {
   AclCategory,
   AclSubCategory,
@@ -79,7 +80,7 @@ export class ChannelPermission {
     });
   }
 
-  canPostToChannel(user: IDiscussionsUser): boolean {
+  canPostToChannel (user: IDiscussionsUser): boolean {
     if (this.canAnyUser(ChannelAction.WRITE_POSTS)) {
       return true;
     }
@@ -96,7 +97,7 @@ export class ChannelPermission {
     );
   }
 
-  canCreateChannel(user: IDiscussionsUser): boolean {
+  canCreateChannel (user: IDiscussionsUser): boolean {
     if (this.isUserUnAuthenticated(user) || this.isChannelAclEmpty) {
       return false;
     }
@@ -110,7 +111,7 @@ export class ChannelPermission {
     );
   }
 
-  canModerateChannel(user: IDiscussionsUser): boolean {
+  canModerateChannel (user: IDiscussionsUser): boolean {
     if (this.isUserUnAuthenticated(user)) {
       return false;
     }
@@ -123,7 +124,7 @@ export class ChannelPermission {
     );
   }
 
-  canReadChannel(user: IDiscussionsUser): boolean {
+  canReadChannel (user: IDiscussionsUser | IUser): boolean {
     if (this.canAnyUser(ChannelAction.READ_POSTS)) {
       return true;
     }
@@ -140,7 +141,7 @@ export class ChannelPermission {
     );
   }
 
-  canUpdateProperties(
+  canUpdateProperties (
     user: IDiscussionsUser,
     updateData: IUpdateChannel = {}
   ): boolean {
@@ -210,14 +211,14 @@ export class ChannelPermission {
     return true;
   }
 
-  private isChanged(
+  private isChanged (
     updateValue: number | string | boolean | undefined,
     existingValue: number | string | boolean | undefined
   ): boolean {
     return updateValue !== undefined && updateValue !== existingValue;
   }
 
-  private isStringArrayChanged(
+  private isStringArrayChanged (
     _a: string[] | null | undefined,
     _b: string[] | null | undefined
   ) {
@@ -229,7 +230,7 @@ export class ChannelPermission {
     );
   }
 
-  private isRoleChanged(role: Role, aclUpdates?: IChannelAclPermission[]) {
+  private isRoleChanged (role: Role, aclUpdates?: IChannelAclPermission[]) {
     if (!aclUpdates) {
       return false;
     }
@@ -243,7 +244,7 @@ export class ChannelPermission {
     return this.isStringArrayChanged(existing, changed);
   }
 
-  private isCategoryChanged(
+  private isCategoryChanged (
     category: AclCategory,
     aclUpdates?: IChannelAclPermission[]
   ) {
@@ -260,20 +261,20 @@ export class ChannelPermission {
     return this.isStringArrayChanged(existing, changed);
   }
 
-  private canAnyUser(action: ChannelAction): boolean {
+  private canAnyUser (action: ChannelAction): boolean {
     const anonymousUserRole =
       this.permissionsByCategory[AclCategory.ANONYMOUS_USER]?.[0].role;
 
     return channelActionLookup(action).includes(anonymousUserRole);
   }
 
-  private canAnyAuthenticatedUser(action: ChannelAction): boolean {
+  private canAnyAuthenticatedUser (action: ChannelAction): boolean {
     const role =
       this.permissionsByCategory[AclCategory.AUTHENTICATED_USER]?.[0].role;
     return channelActionLookup(action).includes(role);
   }
 
-  private canSomeUser(action: ChannelAction, user: IDiscussionsUser) {
+  private canSomeUser (action: ChannelAction, user: IDiscussionsUser) {
     const userPermissions = this.permissionsByCategory[AclCategory.USER] ?? [];
     const username = user.username;
 
@@ -284,7 +285,7 @@ export class ChannelPermission {
     });
   }
 
-  private canSomeUserGroup(action: ChannelAction, user: IDiscussionsUser) {
+  private canSomeUserGroup (action: ChannelAction, user: IDiscussionsUser) {
     const groupAccessControls =
       this.permissionsByCategory[AclCategory.GROUP] ?? [];
 
@@ -310,7 +311,7 @@ export class ChannelPermission {
     });
   }
 
-  private canSomeUserOrg(action: ChannelAction, user: IDiscussionsUser) {
+  private canSomeUserOrg (action: ChannelAction, user: IDiscussionsUser) {
     const orgPermissions = this.permissionsByCategory[AclCategory.ORG] ?? [];
 
     return orgPermissions.some((permission) => {
@@ -325,7 +326,7 @@ export class ChannelPermission {
     });
   }
 
-  private userCanAddAnonymousToAcl(user: IDiscussionsUser) {
+  private userCanAddAnonymousToAcl (user: IDiscussionsUser) {
     if (!this.permissionsByCategory[AclCategory.ANONYMOUS_USER]) {
       return true;
     }
@@ -336,7 +337,7 @@ export class ChannelPermission {
     );
   }
 
-  private userCanAddUnauthenticatedToAcl(user: IDiscussionsUser) {
+  private userCanAddUnauthenticatedToAcl (user: IDiscussionsUser) {
     if (!this.permissionsByCategory[AclCategory.AUTHENTICATED_USER]) {
       return true;
     }
@@ -347,7 +348,7 @@ export class ChannelPermission {
     );
   }
 
-  private userCanAddAllGroupsToAcl(user: IDiscussionsUser) {
+  private userCanAddAllGroupsToAcl (user: IDiscussionsUser) {
     const groupPermissions = this.permissionsByCategory[AclCategory.GROUP];
     const userGroupsById = this.mapUserGroupsById(user.groups);
 
@@ -366,7 +367,7 @@ export class ChannelPermission {
     });
   }
 
-  private userCanAddAllOrgsToAcl(user: IDiscussionsUser) {
+  private userCanAddAllOrgsToAcl (user: IDiscussionsUser) {
     const orgPermissions = this.permissionsByCategory[AclCategory.ORG];
 
     if (!orgPermissions) {
@@ -381,7 +382,7 @@ export class ChannelPermission {
     );
   }
 
-  private isEveryPermissionForUserOrg(
+  private isEveryPermissionForUserOrg (
     userOrgId: string,
     orgPermissions: IChannelAclPermissionDefinition[]
   ) {
@@ -393,30 +394,30 @@ export class ChannelPermission {
 
   // for now user permissions are disabled on channel create
   // since users are not notified and cannot opt out
-  private userCanAddUsersToAcl(user: IDiscussionsUser) {
+  private userCanAddUsersToAcl (user: IDiscussionsUser) {
     const userPermissions = this.permissionsByCategory[AclCategory.USER];
     return !userPermissions;
   }
 
-  private isUserUnAuthenticated(user: IDiscussionsUser) {
+  private isUserUnAuthenticated (user: IDiscussionsUser) {
     return user.username === null || user.username === undefined;
   }
 
-  private mapUserGroupsById(groups: IGroup[]) {
+  private mapUserGroupsById (groups: IGroup[]) {
     return groups.reduce((accum, userGroup) => {
       accum[userGroup.id] = userGroup;
       return accum;
     }, {} as Record<string, IGroup>);
   }
 
-  private isMemberTypeAuthorized(userGroup: IGroup) {
+  private isMemberTypeAuthorized (userGroup: IGroup) {
     const {
       userMembership: { memberType },
     } = userGroup;
     return this.ALLOWED_GROUP_MEMBER_TYPES.includes(memberType);
   }
 
-  private determineUserRole(user: IDiscussionsUser): Role {
+  private determineUserRole (user: IDiscussionsUser): Role {
     if (this.isOwner(user)) {
       return Role.OWNER;
     } else if (this.isManager(user)) {
@@ -428,7 +429,7 @@ export class ChannelPermission {
     }
   }
 
-  private isOwner(user: IDiscussionsUser): boolean {
+  private isOwner (user: IDiscussionsUser): boolean {
     return (
       this.canSomeUser(ChannelAction.IS_OWNER, user) ||
       this.canSomeUserGroup(ChannelAction.IS_OWNER, user) ||
@@ -436,7 +437,7 @@ export class ChannelPermission {
     );
   }
 
-  private isManager(user: IDiscussionsUser): boolean {
+  private isManager (user: IDiscussionsUser): boolean {
     return (
       this.canSomeUser(ChannelAction.IS_MANAGER, user) ||
       this.canSomeUserGroup(ChannelAction.IS_MANAGER, user) ||
@@ -444,7 +445,7 @@ export class ChannelPermission {
     );
   }
 
-  private isModerator(user: IDiscussionsUser): boolean {
+  private isModerator (user: IDiscussionsUser): boolean {
     return (
       this.canSomeUser(ChannelAction.IS_MODERATOR, user) ||
       this.canSomeUserGroup(ChannelAction.IS_MODERATOR, user) ||
@@ -453,12 +454,12 @@ export class ChannelPermission {
   }
 }
 
-function isGroupDiscussable(userGroup: IGroup): boolean {
+function isGroupDiscussable (userGroup: IGroup): boolean {
   const { typeKeywords = [] } = userGroup;
   return !typeKeywords.includes(CANNOT_DISCUSS);
 }
 
-function doesPermissionAllowGroupMemberType(
+function doesPermissionAllowGroupMemberType (
   permission: IChannelAclPermission,
   group: IGroup
 ): boolean {
@@ -477,7 +478,7 @@ function doesPermissionAllowGroupMemberType(
   );
 }
 
-function doesPermissionAllowOrgRole(
+function doesPermissionAllowOrgRole (
   permission: IChannelAclPermission,
   user: IDiscussionsUser
 ): boolean {
@@ -488,7 +489,7 @@ function doesPermissionAllowOrgRole(
   );
 }
 
-function channelActionLookup(action: ChannelAction): Role[] {
+function channelActionLookup (action: ChannelAction): Role[] {
   if (action === ChannelAction.WRITE_POSTS) {
     return [Role.WRITE, Role.READWRITE, Role.MODERATE, Role.MANAGE, Role.OWNER];
   }

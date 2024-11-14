@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-auth";
+import { IUser } from "@esri/arcgis-rest-request";
 import { _canEmailUser } from "../../add-users-workflow/utils/_can-email-user";
 import { _isOrgAdmin } from "../../add-users-workflow/utils/_is-org-admin";
 import { getProp, getWithDefault } from "../../../objects";
@@ -15,7 +15,7 @@ import { emailOrgUsers } from "../../emailOrgUsers";
  * Send an email notification to the invited
  * users that are part of the secondary authentication's org
  */
-export function _processSecondaryEmail(
+export function _processSecondaryEmail (
   context: IAddMemberContext
 ): Promise<IAddMemberContext> {
   let response: Promise<IAddMemberContext> = Promise.resolve(context);

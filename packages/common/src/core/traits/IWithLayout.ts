@@ -1,5 +1,4 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { IRequestOptions, IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { IHubLayout } from "../types/IHubLayout";
 
 /**
@@ -22,20 +21,20 @@ export interface IWithLayoutStore {
    * @param id
    * @param ro
    */
-  setActiveVersion(id: string, ro: IUserRequestOptions): Promise<void>;
+  setActiveVersion (id: string, ro: IUserRequestOptions): Promise<void>;
   /**
    * Return a list of all the versions by name
    * @param id
    * @param ro
    */
-  listVersions(id: string, ro: IRequestOptions): Promise<string[]>;
+  listVersions (id: string, ro: IRequestOptions): Promise<string[]>;
   /**
    * Destroy the resource backing a version
    * @param id
    * @param name
    * @param ro
    */
-  destroyVersion(
+  destroyVersion (
     id: string,
     name: string,
     ro: IUserRequestOptions
@@ -47,7 +46,7 @@ export interface IWithLayoutStore {
    * @param layout
    * @param ro
    */
-  saveVersion(
+  saveVersion (
     id: string,
     name: string,
     layout: IHubLayout,
@@ -60,7 +59,7 @@ export interface IWithLayoutStore {
    * @param name
    * @param ro
    */
-  loadVersion(
+  loadVersion (
     id: string,
     name: string,
     ro: IRequestOptions

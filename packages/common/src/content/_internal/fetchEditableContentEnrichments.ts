@@ -6,9 +6,8 @@ import {
   fetchItemEnrichments,
 } from "../../items/_enrichments";
 import { isService } from "../../resources/is-service";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { IHubRequestOptions } from "../../types";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { IRequestOptions, IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { fetchItemScheduleEnrichment } from "./fetchItemScheduleEnrichment";
 
 /**
@@ -23,7 +22,7 @@ import { fetchItemScheduleEnrichment } from "./fetchItemScheduleEnrichment";
  * @param enrichments optional override for the enrichments to fetch
  * @returns a hash of enrichments
  */
-export async function fetchEditableContentEnrichments(
+export async function fetchEditableContentEnrichments (
   item: IItem,
   requestOptions: IRequestOptions,
   enrichments?: EditableContentEnrichment[]
@@ -76,7 +75,7 @@ export async function fetchEditableContentEnrichments(
   return result;
 }
 
-function getDefaultEnrichmentKeys(item: IItem): EditableContentEnrichment[] {
+function getDefaultEnrichmentKeys (item: IItem): EditableContentEnrichment[] {
   const enrichments: EditableContentEnrichment[] = ["metadata", "schedule"];
   if (isService(item.url)) {
     enrichments.push("server");

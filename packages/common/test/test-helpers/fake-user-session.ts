@@ -1,7 +1,7 @@
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { TOMORROW } from "./tomorrow";
 
-export const mockUserSession = new UserSession({
+export const mockUserSession = new ArcGISIdentityManager({
   username: "vader",
   password: "123456",
   token: "fake-token",

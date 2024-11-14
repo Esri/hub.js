@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-auth";
+import { IUser } from "@esri/arcgis-rest-request";
 import {
   IHubRequestOptions,
   getProp,
@@ -15,7 +15,7 @@ import { getOrgGroupLimit } from "./getOrgGroupLimit";
  * @param {HubTeamType} hubTeamType
  * @param {*} hubRequestOptions
  */
-export function canUserCreateTeam(
+export function canUserCreateTeam (
   user: IUser,
   hubTeamType: HubTeamType,
   hubRequestOptions: IHubRequestOptions

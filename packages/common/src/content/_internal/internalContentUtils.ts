@@ -8,14 +8,8 @@
  * It's probably a good pattern to add functions here first and then
  * move them to index.ts only when they are needed by a consumer.
  */
-import { parseServiceUrl } from "@esri/arcgis-rest-feature-layer";
+import { IExtent, ILayerDefinition, ISpatialReference, parseServiceUrl } from "@esri/arcgis-rest-feature-service";
 import { IItem, IPortal } from "@esri/arcgis-rest-portal";
-import {
-  IExtent,
-  ILayerDefinition,
-  ISpatialReference,
-  IUser,
-} from "@esri/arcgis-rest-types";
 import {
   IHubContent,
   IHubLocation,
@@ -43,11 +37,10 @@ import { getItemHomeUrl, getPortalUrl } from "../../urls";
 import { getEnvironmentFromPortalUrl } from "../../utils";
 import { HubEnvironment } from "../../permissions";
 import { _getHubUrlFromPortalHostname } from "../../urls/_get-hub-url-from-portal-hostname";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { IRequestOptions, IUser, IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { geojsonToArcGIS } from "@terraformer/arcgis";
 import { Polygon } from "geojson";
 import { getHubApiUrl } from "../../api";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { isSiteType } from "../compose";
 
 /**
@@ -354,7 +347,7 @@ export interface IMetadataPaths {
  * @returns path to be used like get(metadata, path)
  * @private
  */
-export function getMetadataPath(identifier: keyof IMetadataPaths) {
+export function getMetadataPath (identifier: keyof IMetadataPaths) {
   // NOTE: i have verified that this will work regardless of the "Metadata Style" set on the org
   const metadataPaths: IMetadataPaths = {
     updateFrequency:
@@ -375,7 +368,7 @@ export function getMetadataPath(identifier: keyof IMetadataPaths) {
  * @returns
  * @private
  */
-export function getValueFromMetadata(
+export function getValueFromMetadata (
   metadata: any,
   identifier: keyof IMetadataPaths
 ) {
@@ -405,7 +398,7 @@ export enum DatePrecision {
  * @return { date: Date, precision: DatePrecision }
  * @private
  */
-export function parseISODateString(isoString: string) {
+export function parseISODateString (isoString: string) {
   isoString = `${isoString}`;
   let date;
   let precision;
@@ -457,10 +450,10 @@ export const getItemSpatialReference = (item: IItem): ISpatialReference => {
   const wkid = parseInt(spatialReferenceString, 10);
   return isNaN(wkid)
     ? // It looks like the portal api returns the name of a WKT, but we'd
-      // need to perform a lookup to get the full WKT. Return null for now.
-      null
+    // need to perform a lookup to get the full WKT. Return null for now.
+    null
     : //
-      { wkid };
+    { wkid };
 };
 
 /**
@@ -986,7 +979,7 @@ const isPortalFromUrl = (portalUrl: string): boolean => {
   return portalUrl.indexOf("arcgis.com") === -1;
 };
 
-export function getSchedulerApiUrl(
+export function getSchedulerApiUrl (
   itemId: string,
   requestOptions: IUserRequestOptions
 ): string {
@@ -994,7 +987,7 @@ export function getSchedulerApiUrl(
   return `${hubApiUrlRoot}/api/download/v1/items/${itemId}/schedule?token=${requestOptions.authentication.token}`;
 }
 
-export function getHubApiUrlRoot(requestOptions: IRequestOptions): string {
+export function getHubApiUrlRoot (requestOptions: IRequestOptions): string {
   // sometimes the url has /api/v3 at the end, so we need to remove it
   const hubApiUrlWithVersion = getHubApiUrl(requestOptions);
   return hubApiUrlWithVersion.replace(/\/api\/v3$/, "");

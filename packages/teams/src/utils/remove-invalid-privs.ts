@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-auth";
+import { IUser } from "@esri/arcgis-rest-request";
 import { cloneObject, includes, without } from "@esri/hub-common";
 
 const ALLOWED_SUBSCRIPTION_TYPES = [
@@ -24,7 +24,7 @@ const ALLOWED_SUBSCRIPTION_TYPES = [
  * @param {string} subscriptionInfoType
  * @returns
  */
-export function removeInvalidPrivs(
+export function removeInvalidPrivs (
   user: IUser,
   subscriptionInfoType: string
 ): IUser {

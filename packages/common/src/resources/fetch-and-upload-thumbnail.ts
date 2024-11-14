@@ -1,17 +1,17 @@
 import { fetchImageAsBlob } from "./fetch-image-as-blob";
 import { updateItem } from "@esri/arcgis-rest-portal";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 
 /**
  * Fetch image from a url, then upload to an item as it's thumbnail
  * @param {object} options
  */
-export function fetchAndUploadThumbnail(options: {
+export function fetchAndUploadThumbnail (options: {
   id: string;
   owner: string;
   fileName: string;
   url: string;
-  authentication: UserSession;
+  authentication: ArcGISIdentityManager;
 }): Promise<any> {
   // first fetch it as a blob...
   return fetchImageAsBlob(options.url)

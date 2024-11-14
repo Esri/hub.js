@@ -1,7 +1,6 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
-import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IAuthenticationManager, IRequestOptions, IUserRequestOptions } from "@esri/arcgis-rest-request";
 import {
   addItemResource,
   IItemResourceResponse
@@ -18,7 +17,7 @@ import { getPortalApiUrl } from "@esri/hub-common";
  * @param {IRequestOptions} requestOptions
  * @returns {Promise<boolean>}
  */
-export function copyImageResources(
+export function copyImageResources (
   sourceItemId: string,
   targetItemId: string,
   owner: string,
@@ -29,7 +28,7 @@ export function copyImageResources(
     requestOptions
   )}/content/items/${sourceItemId}/resources`;
   /* istanbul ignore next blob responses are difficult to make cross platform we will just have to trust the isomorphic fetch will do its job */
-  return requestOptions.authentication
+  return (requestOptions.authentication as IAuthenticationManager)
     .getToken(itemResourceUrl)
     .then(token => {
       const assetPromises = assets.map(assetName => {
@@ -61,7 +60,7 @@ export function copyImageResources(
  * @param {IRequestOptions} requestOptions
  * @returns {Promise<boolean>}
  */
-export function copyEmbeddedImageResources(
+export function copyEmbeddedImageResources (
   targetItemId: string,
   owner: string,
   assets: any[],
@@ -99,7 +98,7 @@ export function copyEmbeddedImageResources(
  * @param {IRequestOptions} requestOptions
  * @returns {Promise<boolean>}
  */
-export function addImageAsResource(
+export function addImageAsResource (
   id: string,
   owner: string,
   name: string,

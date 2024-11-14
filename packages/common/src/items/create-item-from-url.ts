@@ -1,6 +1,5 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import { createItem, ICreateItemResponse } from "@esri/arcgis-rest-portal";
-import { IItemAdd } from "@esri/arcgis-rest-types";
+import { IUserRequestOptions } from "@esri/arcgis-rest-request";
+import { createItem, IItemAdd, ICreateItemResponse } from "@esri/arcgis-rest-portal";
 
 /**
  * Create AGO item from a URL
@@ -10,7 +9,7 @@ import { IItemAdd } from "@esri/arcgis-rest-types";
  * @param {IUserRequestOptions} requestOptions
  * @return {*}  {Promise<string>} Newly created item ID
  */
-export async function createItemFromUrl(
+export async function createItemFromUrl (
   item: IItemAdd,
   requestOptions: IUserRequestOptions
 ): Promise<ICreateItemResponse> {

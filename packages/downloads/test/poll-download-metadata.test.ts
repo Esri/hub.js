@@ -1,4 +1,4 @@
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { pollDownloadMetadata } from "../src/poll-download-metadata";
 import * as hubPoller from "../src/hub/hub-poll-download-metadata";
 import * as portalPoller from "../src/portal/portal-poll-export-job-status";
@@ -51,7 +51,7 @@ describe("pollDownloadMetadata", () => {
   });
 
   it("handle portal download", async done => {
-    const authentication = new UserSession({
+    const authentication = new ArcGISIdentityManager({
       username: "portal-user",
       portal: "http://portal.com/sharing/rest",
       token: "123"
@@ -112,7 +112,7 @@ describe("pollDownloadMetadata", () => {
   });
 
   it("handle enterprise download", async done => {
-    const authentication = new UserSession({
+    const authentication = new ArcGISIdentityManager({
       username: "portal-user",
       portal: "http://portal.com/sharing/rest",
       token: "123"

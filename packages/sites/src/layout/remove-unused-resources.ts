@@ -1,7 +1,7 @@
 import { failSafe } from "@esri/hub-common";
 
 import { IHubRequestOptions } from "@esri/hub-common";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 
 import { getItemResources, removeItemResource } from "@esri/arcgis-rest-portal";
 
@@ -21,7 +21,7 @@ import { ILayout, IEntry } from "./types";
  * @param {Object} layout Layout
  * @param {IHubRequestOptions} hubRequestOptions
  */
-export function removeUnusedResources(
+export function removeUnusedResources (
   id: string,
   layout: ILayout,
   hubRequestOptions: IHubRequestOptions
@@ -53,11 +53,11 @@ export function removeUnusedResources(
   });
 }
 
-function extractResourceProperty(entry: IEntry) {
+function extractResourceProperty (entry: IEntry) {
   return entry.resource;
 }
 
-function getUnusedItemCrops(
+function getUnusedItemCrops (
   layoutImageCropIds: string[],
   itemImageResources: string[]
 ) {
@@ -72,24 +72,24 @@ function getUnusedItemCrops(
   );
 }
 
-function layoutContainsImageCards(layoutImageCropIds: string[]) {
+function layoutContainsImageCards (layoutImageCropIds: string[]) {
   return layoutImageCropIds.length > 0;
 }
 
-function resourceStartsWithImageSource(agoResource: string) {
+function resourceStartsWithImageSource (agoResource: string) {
   return agoResource.indexOf("hub-image-card-crop-") === 0;
 }
 
-function isNotACurrentImageCropId(imageCropIds: string[]) {
+function isNotACurrentImageCropId (imageCropIds: string[]) {
   const cropRegex = new RegExp(`-crop-(${imageCropIds.join("|")}).png$`);
 
   return (resource: string) => !resource.match(cropRegex);
 }
 
-function removeUnusedResourcesFromAGO(
+function removeUnusedResourcesFromAGO (
   id: string,
   unusedCrops: string[],
-  authentication: UserSession
+  authentication: ArcGISIdentityManager
 ) {
   // failSafe these calls b/c this is not critical
   const failSaveRemoveItemResources = failSafe(removeItemResource, {

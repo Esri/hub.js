@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-auth";
+import { IUser } from "@esri/arcgis-rest-request";
 import { _getAutoAddUsers } from "./_get-auto-add-users";
 
 /**
@@ -6,7 +6,7 @@ import { _getAutoAddUsers } from "./_get-auto-add-users";
  *
  * A user will be invited if they cannot be auto-added
  */
-export function _getInviteUsers(
+export function _getInviteUsers (
   users: IUser[],
   requestingUser: IUser
 ): IUser[] {

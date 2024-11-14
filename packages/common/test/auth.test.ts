@@ -1,5 +1,5 @@
 import { completeOAuth2 } from "../src/index";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import * as fetchMock from "fetch-mock";
 describe("auth", () => {
   const username = "c@sey";
@@ -18,7 +18,7 @@ describe("auth", () => {
   afterEach(fetchMock.restore);
   beforeEach(() => {
     // stub completeOAuth2 - we only care that it was called w/ the options
-    spyOn(UserSession, "completeOAuth2").and.stub();
+    spyOn(ArcGISIdentityManager, "completeOAuth2").and.stub();
   });
 
   it("should fetch old user metadata and pass options to completeOAuth2", done => {
@@ -34,7 +34,7 @@ describe("auth", () => {
     );
     completeOAuth2(oauth2Options, MockWindow)
       .then(() => {
-        expect(UserSession.completeOAuth2).toHaveBeenCalledWith(oauth2Options);
+        expect(ArcGISIdentityManager.completeOAuth2).toHaveBeenCalledWith(oauth2Options);
         done();
       })
       .catch(() => fail());
@@ -59,7 +59,7 @@ describe("auth", () => {
 
     completeOAuth2(oauth2Options, MockWindow)
       .then(() => {
-        expect(UserSession.completeOAuth2).toHaveBeenCalledWith(oauth2Options);
+        expect(ArcGISIdentityManager.completeOAuth2).toHaveBeenCalledWith(oauth2Options);
 
         const [url, options] = fetchMock.lastCall(
           `https://www.arcgis.com/sharing/rest/community/users/${username}/update`

@@ -4,7 +4,7 @@ import {
   getProp,
   _unprotectAndRemoveGroup
 } from "@esri/hub-common";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IUserRequestOptions } from "@esri/arcgis-rest-request";
 
 /**
  * Remove the well-known team groups
@@ -14,7 +14,7 @@ import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
  * @param {IRequestOptions} requestOptions
  * @private
  */
-export function _removeSiteGroups(
+export function _removeSiteGroups (
   siteModel: IModel,
   requestOptions: IUserRequestOptions
 ) {

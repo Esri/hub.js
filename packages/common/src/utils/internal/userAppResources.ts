@@ -116,7 +116,7 @@ export interface IUserResourceListResponse {
  * @param replace
  * @returns
  */
-export async function setUserResource(
+export async function setUserResource (
   resource: IAddUserResource,
   username: string,
   portalUrl: string,
@@ -152,7 +152,7 @@ export async function setUserResource(
       token,
     },
   };
-  // TODO Experiment w/ how we can make this call w/o creating a UserSession with the token
+  // TODO Experiment w/ how we can make this call w/o creating a ArcGISIdentityManager with the token
   return request(
     `${portalUrl}/sharing/rest/community/users/${username}/addResource`,
     ro
@@ -170,7 +170,7 @@ export async function setUserResource(
  * @param token
  * @returns
  */
-export function getUserResource(
+export function getUserResource (
   username: string,
   key: string,
   portalUrl: string,
@@ -196,7 +196,7 @@ export function getUserResource(
  * @param token
  * @returns
  */
-export function removeUserResource(
+export function removeUserResource (
   username: string,
   key: string,
   portalUrl: string,
@@ -225,7 +225,7 @@ export function removeUserResource(
  * @param token
  * @returns
  */
-export function listUserResources(
+export function listUserResources (
   username: string,
   portalUrl: string,
   token: string,

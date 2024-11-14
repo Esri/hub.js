@@ -1,6 +1,6 @@
 export * from "./serializeModel";
 
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IRequestOptions, IUserRequestOptions } from "@esri/arcgis-rest-request";
 import {
   createItem,
   FetchReadMethodName,
@@ -14,7 +14,6 @@ import {
   protectItem,
   updateItem,
 } from "@esri/arcgis-rest-portal";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { bboxToString } from "../extent";
 import { getItemBySlug } from "../items";
 import { upsertResource } from "../resources";
@@ -27,7 +26,7 @@ import { failSafe } from "../utils";
  * @param {string} id
  * @param {Object} requestOptions
  */
-export function getModel(
+export function getModel (
   id: string,
   requestOptions: IRequestOptions
 ): Promise<IModel> {
@@ -56,7 +55,7 @@ export function getModel(
  * @param requestOptions
  * @returns
  */
-export function getModelBySlug(
+export function getModelBySlug (
   slug: string,
   requestOptions: IRequestOptions
 ): Promise<IModel> {
@@ -89,7 +88,7 @@ export function getModelBySlug(
  * @param {IRequestOptions} requestOptions
  * @returns {Promise<IModel>}
  */
-export async function createModel(
+export async function createModel (
   model: IModel,
   requestOptions: IUserRequestOptions
 ): Promise<IModel> {
@@ -123,7 +122,7 @@ export async function createModel(
  * @param {IRequestOptions} requestOptions
  * @returns {Promise<IModel>}
  */
-export function updateModel(
+export function updateModel (
   model: IModel,
   requestOptions: IUserRequestOptions
 ): Promise<IModel> {
@@ -181,7 +180,7 @@ export function updateModel(
  * @param {IUserRequestOptions} requestOptions
  * @return {*}  {Promise<IModel>}
  */
-export async function upsertModelResources(
+export async function upsertModelResources (
   model: IModel,
   resources: Array<{
     resource: Record<string, any>;
@@ -227,7 +226,7 @@ export async function upsertModelResources(
  * @param requestOptions
  * @returns
  */
-export async function fetchModelFromItem(
+export async function fetchModelFromItem (
   item: IItem,
   requestOptions: IRequestOptions
 ): Promise<IModel> {
@@ -250,7 +249,7 @@ export async function fetchModelFromItem(
  * @param {IRequestOptions} requestOptions
  * @return {*}  {Promise<Record<string, any>>}
  */
-export async function fetchModelResources(
+export async function fetchModelResources (
   item: IItem,
   resourceNamePairs: {
     [key: string]: string;
@@ -286,7 +285,7 @@ export async function fetchModelResources(
  * @param {IItem} item
  * @return {*} boolean
  */
-function shouldClearEmptyFields(item: IItem): boolean {
+function shouldClearEmptyFields (item: IItem): boolean {
   return ["description", "snippet", "tags", "categories", "licenseInfo"].some(
     (field) => item[field] === "" || item[field]?.length === 0
   );

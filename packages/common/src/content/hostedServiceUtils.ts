@@ -1,4 +1,4 @@
-import { IFeatureServiceDefinition } from "@esri/arcgis-rest-feature-layer";
+import { IFeatureServiceDefinition } from "@esri/arcgis-rest-feature-service";
 import { IItem } from "@esri/arcgis-rest-portal";
 import { IHubEditableContent } from "../core/types/IHubEditableContent";
 
@@ -13,7 +13,7 @@ import { IHubEditableContent } from "../core/types/IHubEditableContent";
  * @param item item to check
  * @returns whether the item passes the hosted feature service check
  */
-export function isHostedFeatureServiceMainItem(item: IItem): boolean {
+export function isHostedFeatureServiceMainItem (item: IItem): boolean {
   return isHostedFeatureServiceMain(item.type, item.typeKeywords);
 }
 
@@ -28,7 +28,7 @@ export function isHostedFeatureServiceMainItem(item: IItem): boolean {
  * @param content content entity to check
  * @returns
  */
-export function isHostedFeatureServiceMainEntity(
+export function isHostedFeatureServiceMainEntity (
   content: IHubEditableContent
 ): boolean {
   return isHostedFeatureServiceMain(content.type, content.typeKeywords);
@@ -41,7 +41,7 @@ export function isHostedFeatureServiceMainEntity(
  * @param typeKeywords an item typeKeywords array
  * @returns whether the arguments correspond to a hosted feature service
  */
-function isHostedFeatureServiceMain(
+function isHostedFeatureServiceMain (
   type: string,
   typeKeywords: string[] = []
 ): boolean {
@@ -52,7 +52,7 @@ function isHostedFeatureServiceMain(
   return type === "Feature Service" && typeKeywords.includes("Hosted Service");
 }
 
-export function isAGOFeatureServiceUrl(url: string): boolean {
+export function isAGOFeatureServiceUrl (url: string): boolean {
   // TODO: we should really centralize this regex somewhere
   const FEATURE_SERVICE_URL_REGEX = /(feature)server(\/|\/(\d+))?$/i;
   return (
@@ -74,7 +74,7 @@ export function isAGOFeatureServiceUrl(url: string): boolean {
  * and won't be adding additional tests for it.
  * @param url
  */
-export function isSecureProxyServiceUrl(url: string): boolean {
+export function isSecureProxyServiceUrl (url: string): boolean {
   return /\/(sharing|usrsvcs)\/(appservices|servers)\//i.test(url);
 }
 
@@ -90,7 +90,7 @@ export enum ServiceCapabilities {
  *
  * @returns {boolean}
  */
-export function hasServiceCapability(
+export function hasServiceCapability (
   capability: ServiceCapabilities,
   serviceDefinition: Partial<IFeatureServiceDefinition>
 ) {
@@ -106,7 +106,7 @@ export function hasServiceCapability(
  *
  * @returns updated definition
  */
-export function toggleServiceCapability(
+export function toggleServiceCapability (
   capability: ServiceCapabilities,
   serviceDefinition: Partial<IFeatureServiceDefinition>
 ): Partial<IFeatureServiceDefinition> {
@@ -124,7 +124,7 @@ export function toggleServiceCapability(
  * @param serviceDefinition the definition to modify
  * @returns a copy of the modified definition
  */
-function addServiceCapability(
+function addServiceCapability (
   capability: ServiceCapabilities,
   serviceDefinition: Partial<IFeatureServiceDefinition>
 ): Partial<IFeatureServiceDefinition> {
@@ -144,7 +144,7 @@ function addServiceCapability(
  * @param serviceDefinition the definition to modify
  * @returns a copy of the modified definition
  */
-function removeServiceCapability(
+function removeServiceCapability (
   capability: ServiceCapabilities,
   serviceDefinition: Partial<IFeatureServiceDefinition>
 ): Partial<IFeatureServiceDefinition> {

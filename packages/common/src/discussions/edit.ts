@@ -13,7 +13,7 @@ import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
 import { DEFAULT_DISCUSSION, DEFAULT_DISCUSSION_MODEL } from "./defaults";
 import { getDefaultEntitySettings } from "./api/settings/getDefaultEntitySettings";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { setDiscussableKeyword } from "./utils";
 import { IHubRequestOptions, IModel } from "../types";
 import { cloneObject } from "../util";
@@ -30,7 +30,7 @@ import { Polygon } from "geojson";
  * @param requestOptions user request options
  * @returns promise that resolves a IHubDiscussion
  */
-export async function createDiscussion(
+export async function createDiscussion (
   partialDiscussion: Partial<IHubDiscussion>,
   requestOptions: IHubRequestOptions
 ): Promise<IHubDiscussion> {
@@ -89,7 +89,7 @@ export async function createDiscussion(
  * @param requestOptions user request options
  * @returns promise that resolves a IHubDiscussion
  */
-export async function updateDiscussion(
+export async function updateDiscussion (
   discussion: IHubDiscussion,
   requestOptions: IHubRequestOptions
 ): Promise<IHubDiscussion> {
@@ -143,18 +143,18 @@ export async function updateDiscussion(
   };
   const newOrUpdatedSettings = updatedDiscussion.entitySettingsId
     ? await updateSetting({
-        id: updatedDiscussion.entitySettingsId,
-        data: { settings },
-        ...requestOptions,
-      })
+      id: updatedDiscussion.entitySettingsId,
+      data: { settings },
+      ...requestOptions,
+    })
     : await createSetting({
-        data: {
-          id: updatedDiscussion.id,
-          type: defaultSettings.type,
-          settings,
-        },
-        ...requestOptions,
-      });
+      data: {
+        id: updatedDiscussion.id,
+        type: defaultSettings.type,
+        settings,
+      },
+      ...requestOptions,
+    });
   updatedDiscussion.entitySettingsId = newOrUpdatedSettings.id;
   updatedDiscussion.discussionSettings =
     newOrUpdatedSettings.settings.discussions;
@@ -170,7 +170,7 @@ export async function updateDiscussion(
  * @param requestOptions request options
  * @returns a promise
  */
-export async function deleteDiscussion(
+export async function deleteDiscussion (
   id: string,
   requestOptions: IHubRequestOptions
 ): Promise<void> {

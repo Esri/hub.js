@@ -1,4 +1,4 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IUserRequestOptions } from "@esri/arcgis-rest-request";
 
 // Note - we separate these imports so we can cleanly spy on things in tests
 import { createModel, getModel, updateModel } from "../models";
@@ -33,7 +33,7 @@ import { editorToEntity } from "../core/schemas/internal/metrics/editorToEntity"
  * @param requestOptions
  * @returns
  */
-export async function createInitiativeTemplate(
+export async function createInitiativeTemplate (
   partialInitiativeTemplate: Partial<IHubInitiativeTemplate>,
   requestOptions: IUserRequestOptions
 ): Promise<IHubInitiativeTemplate> {
@@ -88,7 +88,7 @@ export async function createInitiativeTemplate(
  * @param initiativeTemplate
  * @param requestOptions
  */
-export async function updateInitiativeTemplate(
+export async function updateInitiativeTemplate (
   initiativeTemplate: IHubInitiativeTemplate,
   requestOptions: IUserRequestOptions
 ): Promise<IHubInitiativeTemplate> {
@@ -135,7 +135,7 @@ export async function updateInitiativeTemplate(
  * @param id
  * @param requestOptions
  */
-export async function deleteInitiativeTemplate(
+export async function deleteInitiativeTemplate (
   id: string,
   requestOptions: IUserRequestOptions
 ): Promise<void> {

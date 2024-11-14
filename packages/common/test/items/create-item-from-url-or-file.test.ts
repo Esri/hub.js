@@ -1,5 +1,4 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import { IGroup, IItemAdd } from "@esri/arcgis-rest-types";
+import { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { createItemFromUrlOrFile } from "../../src/items/create-item-from-url-or-file";
 import * as createItemFromFileModule from "../../src/items/create-item-from-file";
 import * as createItemFromUrlModule from "../../src/items/create-item-from-url";
@@ -23,7 +22,7 @@ describe("createItemFromUrlOrFile", () => {
       text: "This is a test",
       async: false,
       access: "org",
-    } as IItemAdd;
+    } as portal.IItemAdd;
 
     const createItemFromFileSpy = spyOn(
       createItemFromFileModule,
@@ -52,10 +51,10 @@ describe("createItemFromUrlOrFile", () => {
     const result = await createItemFromUrlOrFile({
       item,
       groups: [
-        { id: "123", capabilities: ["updateitemcontrol"] } as unknown as IGroup,
-        { id: "abc", capabilities: [] } as unknown as IGroup,
-        { id: "456", capabilities: [] } as unknown as IGroup,
-        { id: "def", capabilities: [] } as unknown as IGroup,
+        { id: "123", capabilities: ["updateitemcontrol"] } as unknown as portal.IGroup,
+        { id: "abc", capabilities: [] } as unknown as portal.IGroup,
+        { id: "456", capabilities: [] } as unknown as portal.IGroup,
+        { id: "def", capabilities: [] } as unknown as portal.IGroup,
       ],
       ...ro,
     });
@@ -87,7 +86,7 @@ describe("createItemFromUrlOrFile", () => {
       text: "This is a test",
       async: false,
       access: "org",
-    } as IItemAdd;
+    } as portal.IItemAdd;
 
     const createItemFromFileSpy = spyOn(
       createItemFromFileModule,
@@ -145,7 +144,7 @@ describe("createItemFromUrlOrFile", () => {
         name: "test test test",
       },
       access: "private",
-    } as IItemAdd;
+    } as portal.IItemAdd;
 
     const createItemFromFileSpy = spyOn(
       createItemFromFileModule,

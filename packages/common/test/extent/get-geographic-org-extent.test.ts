@@ -48,7 +48,7 @@ describe("orgExtent", function () {
     expect(result.ymax).toBe(geom.ymax, "correct ymax");
     expect(result.xmin).toBe(geom.xmin, "correct xmin");
     expect(result.ymin).toBe(geom.ymin, "correct ymin");
-    expect(result.spatialReference.wkid).toBe(4326, "Correct WKID");
+    expect(result.spatialReference?.wkid).toBe(4326, "Correct WKID");
 
     // const options: IRequestOptions = {
     //   httpMethod: 'POST',
@@ -69,24 +69,24 @@ describe("orgExtent", function () {
 
     expect(requestUrl).toBe(`${geometryServiceUrl}/project`);
     expect(requestOptions.httpMethod).toBe("POST", "used post");
-    expect(requestOptions.params.transformForward).toBe(
+    expect(requestOptions.params?.transformForward).toBe(
       false,
       "transformForward is false"
     );
-    expect(requestOptions.params.inSR).toBe(
+    expect(requestOptions.params?.inSR).toBe(
       orgWkid,
       "used correct in-reference"
     );
-    expect(requestOptions.params.outSR).toBe(
+    expect(requestOptions.params?.outSR).toBe(
       4326,
       "used correct out-reference"
     );
-    expect(requestOptions.params.f).toBe("json", "requested json format");
+    expect(requestOptions.params?.f).toBe("json", "requested json format");
     expect(requestOptions.authentication).toEqual(
       mockUserSession,
       "attached auth manager"
     );
-    expect(requestOptions.params.geometries).toEqual(
+    expect(requestOptions.params?.geometries).toEqual(
       '{"geometryType":"esriGeometryEnvelope","geometries":[{"spatialReference":{"wkid":1423}}]}',
       "geometries properly serialized"
     );
@@ -175,7 +175,7 @@ describe("orgExtent", function () {
       },
       isPortal: false,
       hubApiUrl: "some-url",
-      authentication: null,
+      authentication: undefined,
     };
 
     const requestSpy = spyOn(request, "request").and.returnValue(

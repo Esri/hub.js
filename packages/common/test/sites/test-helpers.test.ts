@@ -1,11 +1,11 @@
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { IHubRequestOptions } from "../../src";
 
-export function expectAllCalled(spys: jasmine.Spy[], expect: any) {
+export function expectAllCalled (spys: jasmine.Spy[], expect: any) {
   expectAll(spys, "toHaveBeenCalled", true, expect);
 }
 
-export function expectAll(
+export function expectAll (
   args: any[],
   method: string,
   should: boolean,
@@ -25,14 +25,14 @@ export const getTomorrow = function () {
 
 export const TOMORROW = getTomorrow();
 
-export const MOCK_USER_SESSION = new UserSession({
+export const MOCK_USER_SESSION = new ArcGISIdentityManager({
   clientId: "clientId",
   redirectUri: "https://example-app.com/redirect-uri",
   token: "fake-token",
   tokenExpires: TOMORROW,
   refreshToken: "refreshToken",
   refreshTokenExpires: TOMORROW,
-  refreshTokenTTL: 1440,
+  tokenDuration: 1440,
   username: "luke",
   password: "teHf0rc3",
   portal: "https://myorg.maps.arcgis.com/sharing/rest",
@@ -49,14 +49,14 @@ export const MOCK_HUB_REQOPTS = {
   hubApiUrl: "https://hubqa.arcgis.com",
 } as unknown as IHubRequestOptions;
 
-export const MOCK_PORTAL_USER_SESSION = new UserSession({
+export const MOCK_PORTAL_USER_SESSION = new ArcGISIdentityManager({
   clientId: "clientId",
   redirectUri: "https://example-app.com/redirect-uri",
   token: "fake-token",
   tokenExpires: TOMORROW,
   refreshToken: "refreshToken",
   refreshTokenExpires: TOMORROW,
-  refreshTokenTTL: 1440,
+  tokenDuration: 1440,
   username: "luke",
   password: "teHf0rc3",
   portal: "https://myportal.foo.com/instancename/sharing/rest",

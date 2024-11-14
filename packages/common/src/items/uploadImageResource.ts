@@ -1,4 +1,4 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { addItemResource } from "@esri/arcgis-rest-portal";
 import HubError from "../HubError";
 import { getPortalApiUrl } from "../urls";
@@ -13,7 +13,7 @@ import { getPortalApiUrl } from "../urls";
  * @param prefix
  * @returns
  */
-export async function uploadImageResource(
+export async function uploadImageResource (
   id: string,
   owner: string,
   file: any,

@@ -1,4 +1,4 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IRequestOptions, IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { editorToEntity } from "../core/schemas/internal/metrics/editorToEntity";
 
 // Note - we separate these imports so we can cleanly spy on things in tests
@@ -31,7 +31,6 @@ import {
   getItem,
   updateGroup,
 } from "@esri/arcgis-rest-portal";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { IHubInitiative, IHubItemEntity } from "../core/types";
@@ -65,7 +64,7 @@ import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlu
  * @param partialInitiative
  * @param requestOptions
  */
-export async function createInitiative(
+export async function createInitiative (
   partialInitiative: Partial<IHubInitiative>,
   requestOptions: IUserRequestOptions
 ): Promise<IHubInitiative> {
@@ -112,7 +111,7 @@ export async function createInitiative(
  * @param portal
  * @returns
  */
-export async function editorToInitiative(
+export async function editorToInitiative (
   editor: IHubInitiativeEditor,
   context: IArcGISContext
 ): Promise<IHubInitiative> {
@@ -182,7 +181,7 @@ export async function editorToInitiative(
  * @param initiative
  * @param requestOptions
  */
-export async function updateInitiative(
+export async function updateInitiative (
   initiative: IHubInitiative,
   requestOptions: IUserRequestOptions
 ): Promise<IHubInitiative> {
@@ -223,7 +222,7 @@ export async function updateInitiative(
  * @param identifier item id or slug
  * @param requestOptions
  */
-export function fetchInitiative(
+export function fetchInitiative (
   identifier: string,
   requestOptions: IRequestOptions
 ): Promise<IHubInitiative> {
@@ -246,7 +245,7 @@ export function fetchInitiative(
  * @param id
  * @param requestOptions
  */
-export async function deleteInitiative(
+export async function deleteInitiative (
   id: string,
   requestOptions: IUserRequestOptions
 ): Promise<void> {
@@ -263,7 +262,7 @@ export async function deleteInitiative(
  * @param auth
  * @returns
  */
-export async function convertItemToInitiative(
+export async function convertItemToInitiative (
   item: IItem,
   requestOptions: IRequestOptions
 ): Promise<IHubInitiative> {
@@ -285,7 +284,7 @@ export async function convertItemToInitiative(
  * @param requestOptions
  * @returns
  */
-export async function enrichInitiativeSearchResult(
+export async function enrichInitiativeSearchResult (
   item: IItem,
   include: string[],
   requestOptions: IHubRequestOptions
@@ -359,7 +358,7 @@ export async function enrichInitiativeSearchResult(
  * @returns
  */
 /* istanbul ignore next */
-export function getPendingProjectsQuery(initiative: IHubInitiative): IQuery {
+export function getPendingProjectsQuery (initiative: IHubInitiative): IQuery {
   // get query that returns Hub Projects with the initiative keyword
   let query = getTypeWithKeywordQuery(
     "Hub Project",

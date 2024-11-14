@@ -1,5 +1,4 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import { request } from "@esri/arcgis-rest-request";
+import { IUserRequestOptions, request } from "@esri/arcgis-rest-request";
 
 export type OrgLimitType =
   | "ScheduleTask"
@@ -34,7 +33,7 @@ export interface IOrgLimit {
  * @param options
  * @returns
  */
-export function fetchOrgLimits(
+export function fetchOrgLimits (
   orgId: string,
   limitsType: OrgLimitType,
   limitName: string,
@@ -51,7 +50,7 @@ export function fetchOrgLimits(
  * @param options
  * @returns
  */
-export function fetchMaxNumUserGroupsLimit(
+export function fetchMaxNumUserGroupsLimit (
   orgId: string,
   options: IUserRequestOptions
 ): Promise<number> {

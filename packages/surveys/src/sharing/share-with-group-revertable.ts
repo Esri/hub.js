@@ -1,13 +1,12 @@
 /* Copyright (c) 2020 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { ArcGISIdentityManager, IRequestOptions } from "@esri/arcgis-rest-request";
 import {
   unshareItemWithGroup,
-  shareItemWithGroup
+  shareItemWithGroup,
+  IGroup
 } from "@esri/arcgis-rest-portal";
-import { IGroup } from "@esri/arcgis-rest-types";
 import {
   IModel,
   IRevertableTaskResult,
@@ -30,7 +29,7 @@ export const shareWithGroupRevertable = (
 ): Promise<IRevertableTaskResult> => {
   const { id, owner, access: itemAccess } = model.item;
   const { id: groupId } = group;
-  const authentication = requestOptions.authentication as UserSession;
+  const authentication = requestOptions.authentication as ArcGISIdentityManager;
   return runRevertableTask(
     () =>
       shareItemWithGroup({
@@ -52,7 +51,7 @@ export const shareWithGroupRevertable = (
         owner,
         groupId,
         authentication
-      }).catch(() => {})
+      }).catch(() => { })
     /* tslint:enable no-empty */
   );
 };

@@ -1,5 +1,5 @@
 import { IGroupTemplate } from "../types";
-import { IUser } from "@esri/arcgis-rest-types";
+import { IUser } from "@esri/arcgis-rest-request";
 import { cloneObject, getWithDefault, includes } from "@esri/hub-common";
 
 /**
@@ -10,7 +10,7 @@ import { cloneObject, getWithDefault, includes } from "@esri/hub-common";
  * @param {object} template
  * @returns {object} Returns updated template
  */
-export function applyPrivPropValuesToTemplate(
+export function applyPrivPropValuesToTemplate (
   user: IUser,
   template: IGroupTemplate
 ): IGroupTemplate {

@@ -1,4 +1,4 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { addItemResource, updateItemResource } from "@esri/arcgis-rest-portal";
 import HubError from "../HubError";
 import { objectToJsonBlob, stringToBlob, doesResourceExist } from ".";
@@ -17,7 +17,7 @@ import { getPortalApiUrl } from "../urls";
  * @param {string} [prefix=""]
  * @return {*}  {Promise<string>}
  */
-export async function upsertResource(
+export async function upsertResource (
   id: string,
   owner: string,
   resource: any,

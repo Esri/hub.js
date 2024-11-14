@@ -3,7 +3,7 @@
 
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { getProp } from "@esri/hub-common";
 /**
  * @internal
@@ -30,7 +30,7 @@ export default class Artifactory {
    * @returns
    * @memberof Artifactory
    */
-  getPortalUrl(name: string) {
+  getPortalUrl (name: string) {
     return `https://${this.getOrgShort(name)}.${this.agoBaseDomain}`;
   }
 
@@ -38,7 +38,7 @@ export default class Artifactory {
    * Given an identiry name (orgAdmin, orgViewer etc)
    * Return the username/password hash
    */
-  getIdentity(orgType: string, role: string): Record<string, unknown> {
+  getIdentity (orgType: string, role: string): Record<string, unknown> {
     const org = this.getOrg(orgType);
     const id = org[role] as Record<string, unknown>;
     if (!id) {
@@ -53,21 +53,21 @@ export default class Artifactory {
    * @param {string} orgType
    * @param {string} role
    */
-  getSession(orgType: string, role: string): UserSession {
+  getSession (orgType: string, role: string): ArcGISIdentityManager {
     const opts = this.getIdentity(orgType, role);
     opts.portal = this.getPortalUrl(orgType) + `/sharing/rest`;
-    return new UserSession(opts);
+    return new ArcGISIdentityManager(opts);
   }
   /**
    * Get the org-short
    */
-  getOrgShort(name: string): string {
+  getOrgShort (name: string): string {
     return this.getOrg(name).orgShort as string;
   }
   /**
    * Get the org config by name
    */
-  getOrg(name: string): Record<string, unknown> {
+  getOrg (name: string): Record<string, unknown> {
     const org = getProp(this.orgs, name);
     if (!org) {
       throw new Error(
@@ -77,11 +77,11 @@ export default class Artifactory {
     return org;
   }
 
-  getFixtures(name: string): Record<string, unknown> {
+  getFixtures (name: string): Record<string, unknown> {
     return this.getOrg(name).fixtures as Record<string, unknown>;
   }
 
-  getFixtureId(org: string, path: string): string {
+  getFixtureId (org: string, path: string): string {
     return getProp(this.getOrg(org).fixtures, path);
   }
 }

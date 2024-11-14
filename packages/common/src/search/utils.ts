@@ -3,11 +3,12 @@
 
 // TODO: deprecate all private functions in this file and more them to ./_internal
 
-import { IUser, UserSession } from "@esri/arcgis-rest-auth";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import {
   IGroup,
   ISearchGroupUsersOptions,
   ISearchOptions,
+  IUser
 } from "@esri/arcgis-rest-portal";
 import { isPageType } from "../content/_internal/internalContentUtils";
 import { IHubSite } from "../core";
@@ -75,7 +76,7 @@ export const SEARCH_APIS: IWellKnownApis = {
  * @param apis
  * @returns
  */
-export function expandApis(
+export function expandApis (
   apis: Array<NamedApis | IApiDefinition>
 ): IApiDefinition[] {
   return apis.map(expandApi);
@@ -87,7 +88,7 @@ export function expandApis(
  * @param api
  * @returns
  */
-export function expandApi(api: NamedApis | IApiDefinition): IApiDefinition {
+export function expandApi (api: NamedApis | IApiDefinition): IApiDefinition {
   if (typeof api === "string" && api in SEARCH_APIS) {
     return SEARCH_APIS[api];
   } else {
@@ -102,7 +103,7 @@ export function expandApi(api: NamedApis | IApiDefinition): IApiDefinition {
  * @param value
  * @returns
  */
-export function valueToMatchOptions(
+export function valueToMatchOptions (
   value: string | string[] | IMatchOptions
 ): IMatchOptions {
   let result = {};
@@ -130,7 +131,7 @@ export function valueToMatchOptions(
  * @param relative
  * @returns
  */
-export function relativeDateToDateRange(
+export function relativeDateToDateRange (
   relative: IRelativeDate
 ): IDateRange<number> {
   // hash of offsets
@@ -180,18 +181,18 @@ export function relativeDateToDateRange(
  * @param fn
  * @returns
  */
-export function getNextFunction<T>(
+export function getNextFunction<T> (
   request: ISearchOptions | ISearchGroupUsersOptions,
   nextStart: number,
   total: number,
   fn: (r: any) => Promise<ISearchResponse<T>>
-): (authentication?: UserSession) => Promise<ISearchResponse<T>> {
+): (authentication?: ArcGISIdentityManager) => Promise<ISearchResponse<T>> {
   const clonedRequest = cloneObject(request);
 
   // clone will not handle authentication so we do it manually
   if (request.authentication) {
-    clonedRequest.authentication = UserSession.deserialize(
-      (request.authentication as UserSession).serialize()
+    clonedRequest.authentication = ArcGISIdentityManager.deserialize(
+      (request.authentication as ArcGISIdentityManager).serialize()
     );
   }
   // ensure that if we have requestOptions, we have also update the authentication on it
@@ -203,7 +204,7 @@ export function getNextFunction<T>(
   // figure out the start
   clonedRequest.start = nextStart > -1 ? nextStart : total + 1;
 
-  return (authentication?: UserSession) => {
+  return (authentication?: ArcGISIdentityManager) => {
     if (authentication) {
       clonedRequest.authentication = authentication;
       // ensure that if we have requestOptions, we have also update the authentication on it
@@ -226,7 +227,7 @@ export function getNextFunction<T>(
  * @param token
  * @returns
  */
-export function getGroupThumbnailUrl(
+export function getGroupThumbnailUrl (
   portalUrl: string,
   group: IGroup,
   token?: string
@@ -251,7 +252,7 @@ export function getGroupThumbnailUrl(
  * @param token
  * @returns
  */
-export function getUserThumbnailUrl(
+export function getUserThumbnailUrl (
   portalUrl: string,
   user: IUser,
   token?: string
@@ -276,7 +277,7 @@ export function getUserThumbnailUrl(
  * @param collectionOrSearchCategory key to be migrated
  * @returns the migrated wellknown collection key
  */
-export function migrateToCollectionKey(
+export function migrateToCollectionKey (
   collectionOrSearchCategory: LegacySearchCategory | WellKnownCollection
 ): WellKnownCollection {
   return isLegacySearchCategory(collectionOrSearchCategory)
@@ -293,7 +294,7 @@ export function migrateToCollectionKey(
  * @returns The first predicate with a `group` field (if present)
  */
 // istanbul ignore next -- deprecated function
-export function getScopeGroupPredicate(scope: IQuery): IPredicate {
+export function getScopeGroupPredicate (scope: IQuery): IPredicate {
   /* tslint:disable no-console */
   console.warn(
     `"getScopeGroupPredicate(query)" is deprecated. Please use "getGroupPredicate(qyr)`
@@ -311,7 +312,7 @@ export function getScopeGroupPredicate(scope: IQuery): IPredicate {
  * @param query IQuery to search
  * @returns
  */
-export function getGroupPredicate(query: IQuery): IPredicate {
+export function getGroupPredicate (query: IQuery): IPredicate {
   const expandedQuery = expandQuery(query);
   const isGroupPredicate = (predicate: IPredicate) => !!predicate.group;
   const groupFilter = expandedQuery.filters.find((f) =>
@@ -334,7 +335,7 @@ export function getGroupPredicate(query: IQuery): IPredicate {
  * @param site IHubSite that is related to the result
  * @returns a canonical siteRelative link
  */
-export function getResultSiteRelativeLink(
+export function getResultSiteRelativeLink (
   searchResult: IHubSearchResult,
   site?: IHubSite
 ): string {
@@ -357,7 +358,7 @@ export function getResultSiteRelativeLink(
  * @param query IQuery to search items
  * @returns a cloned copy of the query object with default item search predicates
  */
-export function addDefaultItemSearchPredicates(query: IQuery): IQuery {
+export function addDefaultItemSearchPredicates (query: IQuery): IQuery {
   const queryWithDefaultItemPredicates: IQuery = cloneObject(query);
   const defaultPredicates = {
     // 'Code Attachment' is an old AGO type that has

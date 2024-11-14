@@ -1,7 +1,7 @@
 /* Copyright (c) 2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { joinGroup, leaveGroup } from "@esri/arcgis-rest-portal";
 
 export interface IEventRegisterOptions extends IUserRequestOptions {
@@ -24,7 +24,7 @@ export interface IEventRegisterOptions extends IUserRequestOptions {
  * @param requestOptions - request options that include authentication
  * @returns A Promise that will resolve with the response from the service.
  */
-export function registerForEvent(
+export function registerForEvent (
   requestOptions: IEventRegisterOptions
 ): Promise<{ success: boolean; groupId: string }> {
   return joinGroup({
@@ -47,7 +47,7 @@ export function registerForEvent(
  * @param requestOptions - request options that include authentication
  * @returns A Promise that will resolve with the response from the service.
  */
-export function unregisterForEvent(
+export function unregisterForEvent (
   requestOptions: IEventRegisterOptions
 ): Promise<{ success: boolean; groupId: string }> {
   return leaveGroup({

@@ -8,8 +8,8 @@ import {
   IStaticValueMetricSource,
   MetricSource,
 } from "../core/types/Metrics";
-import { queryFeatures } from "@esri/arcgis-rest-feature-layer";
-import { IItem, IStatisticDefinition } from "@esri/arcgis-rest-types";
+import { queryFeatures } from "@esri/arcgis-rest-feature-service";
+import { IItem, IStatisticDefinition } from "@esri/arcgis-rest-portal";
 import { getProp } from "../objects/get-prop";
 import { IPredicate, IQuery } from "../search/types/IHubCatalog";
 import { combineQueries } from "../search/_internal/combineQueries";
@@ -24,7 +24,7 @@ import { portalSearchItemsAsItems } from "../search/_internal/portalSearchItems"
  * @param context
  * @returns
  */
-export async function resolveMetric(
+export async function resolveMetric (
   metric: IMetric,
   context: IArcGISContext
 ): Promise<IResolvedMetric> {
@@ -54,7 +54,7 @@ export async function resolveMetric(
  * @param context
  * @returns
  */
-function resolveStaticValueMetric(
+function resolveStaticValueMetric (
   metric: IMetric,
   context: IArcGISContext
 ): Promise<IResolvedMetric> {
@@ -84,7 +84,7 @@ function resolveStaticValueMetric(
  * @param context
  * @returns
  */
-async function resolveServiceQueryMetric(
+async function resolveServiceQueryMetric (
   metric: IMetric,
   context: IArcGISContext
 ): Promise<IResolvedMetric> {
@@ -131,7 +131,7 @@ async function resolveServiceQueryMetric(
   };
 }
 
-async function resolveItemQueryMetric(
+async function resolveItemQueryMetric (
   metric: IMetric,
   context: IArcGISContext
 ): Promise<IResolvedMetric> {

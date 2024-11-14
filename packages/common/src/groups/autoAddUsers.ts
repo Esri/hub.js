@@ -1,10 +1,9 @@
-import { IUser } from "@esri/arcgis-rest-auth";
 import {
   IAddGroupUsersResult,
   IAddGroupUsersOptions,
   addGroupUsers,
 } from "@esri/arcgis-rest-portal";
-import { IAuthenticationManager } from "@esri/arcgis-rest-request";
+import { IUser, IAuthenticationManager } from "@esri/arcgis-rest-request";
 
 /**
  *
@@ -16,7 +15,7 @@ import { IAuthenticationManager } from "@esri/arcgis-rest-request";
  *
  * @returns {IAddGroupUsersResult|null} Result of the transaction (null if no users are passed in)
  */
-export function autoAddUsers(
+export function autoAddUsers (
   id: string,
   users: IUser[],
   authentication: IAuthenticationManager

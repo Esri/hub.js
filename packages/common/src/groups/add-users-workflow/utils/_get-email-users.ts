@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-auth";
+import { IUser } from "@esri/arcgis-rest-request";
 import { _canEmailUser } from "./_can-email-user";
 import { _getInviteUsers } from "./_get-invite-users";
 
@@ -8,7 +8,7 @@ import { _getInviteUsers } from "./_get-invite-users";
  * A user can be emailed if they are invited (not auto-added)
  * and the _canEmailUser condition is met
  */
-export function _getEmailUsers(
+export function _getEmailUsers (
   users: IUser[],
   requestingUser: IUser,
   includeSelf = false

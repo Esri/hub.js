@@ -1,15 +1,15 @@
 import * as portal from "@esri/arcgis-rest-portal";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { portalPollExportJobStatus } from "../../src/portal/portal-poll-export-job-status";
 import * as EventEmitter from "eventemitter3";
 import * as exportHelper from "../../src/portal/portal-export-success-handler";
 import ExportCompletionError from "../../src/portal/portal-export-completion-error";
-function delay(milliseconds: number) {
+function delay (milliseconds: number) {
   return new Promise(resolve => setTimeout(resolve, milliseconds));
 }
 
 describe("portalPollExportJobStatus", () => {
-  const authentication = new UserSession({
+  const authentication = new ArcGISIdentityManager({
     username: "portal-user",
     portal: "http://portal.com/sharing/rest",
     token: "123"

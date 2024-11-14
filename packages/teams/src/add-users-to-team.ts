@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-auth";
+import { IUser } from "@esri/arcgis-rest-request";
 import {
   addUsersToGroup,
   IConsolidatedResult,
@@ -19,7 +19,7 @@ import {
  *
  * @returns {IConsolidatedResult} The operations attempted, whether they were successful and any errors
  */
-export function addUsersToTeam(
+export function addUsersToTeam (
   teamId: string,
   usersToAdd: IUser[],
   primaryRO: IHubRequestOptions,

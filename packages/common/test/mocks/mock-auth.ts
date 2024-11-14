@@ -1,4 +1,4 @@
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { ArcGISContext, IArcGISContext, IHubRequestOptions } from "../../src";
 
 export const TOMORROW = (function () {
@@ -7,27 +7,27 @@ export const TOMORROW = (function () {
   return now;
 })();
 
-export const MOCK_AUTH = new UserSession({
+export const MOCK_AUTH = new ArcGISIdentityManager({
   clientId: "clientId",
   redirectUri: "https://example-app.com/redirect-uri",
   token: "fake-token",
   tokenExpires: TOMORROW,
   refreshToken: "refreshToken",
   refreshTokenExpires: TOMORROW,
-  refreshTokenTTL: 1440,
+  tokenDuration: 1440,
   username: "casey",
   password: "123456",
   portal: "https://myorg.maps.arcgis.com/sharing/rest",
 });
 
-export const MOCK_AUTH_QA = new UserSession({
+export const MOCK_AUTH_QA = new ArcGISIdentityManager({
   clientId: "clientId",
   redirectUri: "https://example-app.com/redirect-uri",
   token: "fake-token",
   tokenExpires: TOMORROW,
   refreshToken: "refreshToken",
   refreshTokenExpires: TOMORROW,
-  refreshTokenTTL: 1440,
+  tokenDuration: 1440,
   username: "casey",
   password: "123456",
   portal: "https://myorg.mapsqa.arcgis.com/sharing/rest",
@@ -58,14 +58,14 @@ export const MOCK_NOAUTH_HUB_REQOPTS = {
   hubApiUrl: "https://hubqa.arcgis.com",
 } as unknown as IHubRequestOptions;
 
-export const MOCK_ENTERPRISE_AUTH = new UserSession({
+export const MOCK_ENTERPRISE_AUTH = new ArcGISIdentityManager({
   clientId: "clientId",
   redirectUri: "https://example-app.com/redirect-uri",
   token: "fake-token",
   tokenExpires: TOMORROW,
   refreshToken: "refreshToken",
   refreshTokenExpires: TOMORROW,
-  refreshTokenTTL: 1440,
+  tokenDuration: 1440,
   username: "vader",
   password: "123456",
   portal: "https://my-server.com/portal/sharing/rest",
@@ -83,7 +83,7 @@ export const MOCK_ENTERPRISE_REQOPTS = {
   isPortal: true,
 } as unknown as IHubRequestOptions;
 
-export function getMockContextWithPrivilenges(
+export function getMockContextWithPrivilenges (
   privileges: string[]
 ): IArcGISContext {
   return new ArcGISContext({
@@ -180,7 +180,7 @@ export const MOCK_ANON_CONTEXT = new ArcGISContext({
   },
 }) as IArcGISContext;
 
-export function createMockContext(): ArcGISContext {
+export function createMockContext (): ArcGISContext {
   return new ArcGISContext({
     id: 123,
     currentUser: {
@@ -213,7 +213,7 @@ export function createMockContext(): ArcGISContext {
   });
 }
 
-export function createMockAnonContext(): ArcGISContext {
+export function createMockAnonContext (): ArcGISContext {
   return new ArcGISContext({
     id: 123,
     currentUser: undefined,

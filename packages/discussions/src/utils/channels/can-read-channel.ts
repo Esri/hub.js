@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-auth";
+import { IUser } from "@esri/arcgis-rest-request";
 import { GroupMembership } from "@esri/arcgis-rest-portal";
 import { IChannel, IDiscussionsUser } from "../../types";
 import { reduceByGroupMembership } from "../platform";
@@ -13,7 +13,7 @@ import { hasOrgAdminViewRights } from "../portal-privilege";
  * @param {IUser} user
  * @return {*}  {boolean}
  */
-export function canReadChannel(
+export function canReadChannel (
   channel: IChannel,
   user: IUser | IDiscussionsUser = {}
 ): boolean {
@@ -50,14 +50,14 @@ export function canReadChannel(
  * @param {IUser} user
  * @return {*}  {boolean}
  */
-export function canReadFromChannel(
+export function canReadFromChannel (
   channel: IChannel,
   user: IUser | IDiscussionsUser = {}
 ): boolean {
   return canReadChannel(channel, user);
 }
 
-function intersectGroups(
+function intersectGroups (
   membershipTypes: GroupMembership[]
 ): (arg0: IUser, arg1: IChannel) => boolean {
   return (user: IUser | IDiscussionsUser, channel: IChannel): boolean => {
@@ -74,7 +74,7 @@ function intersectGroups(
   };
 }
 
-function isLegacyChannelOrgMember(
+function isLegacyChannelOrgMember (
   channel: IChannel,
   user: IUser | IDiscussionsUser
 ): boolean {

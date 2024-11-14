@@ -1,6 +1,5 @@
-import { IItem } from "@esri/arcgis-rest-types";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { IItem } from "@esri/arcgis-rest-portal";
+import { ArcGISIdentityManager, IRequestOptions } from "@esri/arcgis-rest-request";
 import { IHubEntityLinks } from "../../core/types";
 import { getItemIdentifier } from "../../items";
 import { getRelativeWorkspaceUrl } from "../../core/getRelativeWorkspaceUrl";
@@ -14,13 +13,13 @@ import { getHubRelativeUrl } from "../../content/_internal/internalContentUtils"
  * @param item
  * @param requestOptions
  */
-export function computeLinks(
+export function computeLinks (
   item: IItem,
   requestOptions: IRequestOptions
 ): IHubEntityLinks {
   let token: string;
   if (requestOptions.authentication) {
-    const session: UserSession = requestOptions.authentication as UserSession;
+    const session: ArcGISIdentityManager = requestOptions.authentication as ArcGISIdentityManager;
     token = session.token;
   }
 

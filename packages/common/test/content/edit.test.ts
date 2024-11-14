@@ -1,6 +1,5 @@
 import * as portalModule from "@esri/arcgis-rest-portal";
-import * as featureLayerModule from "@esri/arcgis-rest-feature-layer";
-import * as adminModule from "@esri/arcgis-rest-service-admin";
+import * as featureServiceModule from "@esri/arcgis-rest-feature-service";
 import { MOCK_AUTH, MOCK_HUB_REQOPTS, TOMORROW } from "../mocks/mock-auth";
 import * as modelUtils from "../../src/models";
 import { IModel } from "../../src/types";
@@ -11,17 +10,17 @@ import {
   updateContent,
 } from "../../src/content/edit";
 import { cloneObject } from "../../src/util";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
-const myMockAuth = new UserSession({
+const myMockAuth = new ArcGISIdentityManager({
   clientId: "clientId",
   redirectUri: "https://example-app.com/redirect-uri",
   token: "fake-token",
   tokenExpires: TOMORROW,
   refreshToken: "refreshToken",
   refreshTokenExpires: TOMORROW,
-  refreshTokenTTL: 1440,
+  tokenDuration: 1440,
   username: "casey",
   password: "123456",
   portal: MOCK_HUB_REQOPTS.hubApiUrl,
@@ -31,7 +30,7 @@ describe("content editing:", () => {
   beforeAll(() => {
     // suppress deprecation warnings
     // tslint:disable-next-line: no-empty
-    spyOn(console, "warn").and.callFake(() => {});
+    spyOn(console, "warn").and.callFake(() => { });
   });
   describe("create content:", () => {
     it("converts to a model and creates the item", async () => {
@@ -70,14 +69,14 @@ describe("content editing:", () => {
           },
         })
       );
-      getServiceSpy = spyOn(featureLayerModule, "getService");
+      getServiceSpy = spyOn(featureServiceModule, "getService");
       updateModelSpy = spyOn(modelUtils, "updateModel").and.callFake(
         (m: IModel) => {
           return Promise.resolve(m);
         }
       );
       updateServiceSpy = spyOn(
-        adminModule,
+        featureServiceModule,
         "updateServiceDefinition"
       ).and.callFake((_url: string, opts: any) =>
         Promise.resolve(opts.updateDefinition)
@@ -169,7 +168,7 @@ describe("content editing:", () => {
       expect(updateServiceSpy).not.toHaveBeenCalled();
     });
     it("doesn't update the hosted service if configurations haven't changed", async () => {
-      const currentDefinition: Partial<featureLayerModule.IFeatureServiceDefinition> =
+      const currentDefinition: Partial<featureServiceModule.IFeatureServiceDefinition> =
         { capabilities: "Extract" };
       getServiceSpy.and.returnValue(Promise.resolve(currentDefinition));
 
@@ -216,7 +215,7 @@ describe("content editing:", () => {
       expect(updateServiceSpy).not.toHaveBeenCalled();
     });
     it("updates the hosted service if configurations have changed", async () => {
-      const currentDefinition: Partial<featureLayerModule.IFeatureServiceDefinition> =
+      const currentDefinition: Partial<featureServiceModule.IFeatureServiceDefinition> =
         { currentVersion: 11.2, capabilities: "Query" };
       getServiceSpy.and.returnValue(Promise.resolve(currentDefinition));
 
@@ -268,7 +267,7 @@ describe("content editing:", () => {
       expect(updateDefinition).toEqual({ capabilities: "Query,Extract" });
     });
     it("sets the download object on the model", async () => {
-      const currentDefinition: Partial<featureLayerModule.IFeatureServiceDefinition> =
+      const currentDefinition: Partial<featureServiceModule.IFeatureServiceDefinition> =
         { capabilities: "Extract" };
       getServiceSpy.and.returnValue(Promise.resolve(currentDefinition));
       const content: IHubEditableContent = {

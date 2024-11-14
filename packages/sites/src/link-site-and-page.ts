@@ -13,7 +13,7 @@ import {
   deepSet,
 } from "@esri/hub-common";
 import { updateItem } from "@esri/arcgis-rest-portal";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { isSite } from "./is-site";
 
 /**
@@ -26,13 +26,13 @@ import { isSite } from "./is-site";
  * ensured that the current user has write access to at least one of the main entities
  * @param {ILinkPageAndSiteRequestOptions} linkRequestOptions {siteModel || siteId, pageModel || pageId, authorization }
  */
-export function linkSiteAndPage(linkRequestOptions: {
+export function linkSiteAndPage (linkRequestOptions: {
   siteModel?: IModel;
   siteId?: string;
   pageModel?: IModel;
   pageId?: string;
   pageSlug?: string;
-  authentication: UserSession;
+  authentication: ArcGISIdentityManager;
 }): Promise<{ siteModel: IModel; pageModel: IModel }> {
   let shareGroups: string[] = [];
   const promises: Array<Promise<any>> = [];

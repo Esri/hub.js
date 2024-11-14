@@ -1,8 +1,8 @@
 import * as portal from "@esri/arcgis-rest-portal";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { portalRequestDatasetExport } from "../../src/portal/portal-request-dataset-export";
 
-const authentication = new UserSession({
+const authentication = new ArcGISIdentityManager({
   username: "portal-user",
   portal: "http://portal.com/sharing/rest",
   token: "123"

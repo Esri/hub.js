@@ -1,5 +1,5 @@
 import { IItem, IGroup } from "@esri/arcgis-rest-portal";
-import { ILayerDefinition } from "@esri/arcgis-rest-feature-layer";
+import { ILayerDefinition } from "@esri/arcgis-rest-feature-service";
 import { AccessControl, HubFamily, IActionLink, Visibility } from "../../types";
 import { IStructuredLicense } from "../../items/get-structured-license";
 
@@ -21,8 +21,8 @@ export enum PublisherSource {
  */
 export interface IHubContent
   extends Omit<IHubItemEntity, "schemaVersion" | "permissions">,
-    IHubContentEnrichments,
-    IItem {
+  IHubContentEnrichments,
+  IItem {
   // NOTE: for content we keep and expose a reference to the underlying item
   // b/c some top-level properties like type and categories have been
   // overwritten in a way that prevent us from reconstructing the original value

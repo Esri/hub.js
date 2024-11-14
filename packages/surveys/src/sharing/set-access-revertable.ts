@@ -1,8 +1,7 @@
 /* Copyright (c) 2020 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { ArcGISIdentityManager, IRequestOptions } from "@esri/arcgis-rest-request";
 import { setItemAccess } from "@esri/arcgis-rest-portal";
 import {
   IModel,
@@ -24,7 +23,7 @@ export const setAccessRevertable = (
 ): Promise<IRevertableTaskResult> => {
   const { id, owner, access: itemAccess } = model.item;
   const previousAccess = (itemAccess === "shared" && "private") || itemAccess;
-  const authentication = requestOptions.authentication as UserSession;
+  const authentication = requestOptions.authentication as ArcGISIdentityManager;
   return runRevertableTask(
     () =>
       setItemAccess({
@@ -45,7 +44,7 @@ export const setAccessRevertable = (
         owner,
         access: previousAccess,
         authentication
-      }).catch(() => {})
+      }).catch(() => { })
     /* tslint:enable no-empty */
   );
 };

@@ -1,5 +1,4 @@
-import { UserSession } from "@esri/arcgis-rest-auth";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { ArcGISIdentityManager, IRequestOptions } from "@esri/arcgis-rest-request";
 import { IHubInitiativeTemplate } from "../../core";
 import { isDiscussable } from "../../discussions";
 import { processEntityFeatures } from "../../permissions/_internal/processEntityFeatures";
@@ -17,14 +16,14 @@ import { computeItemProps } from "../../core/_internal/computeItemProps";
  * @param requestOptions
  * @returns
  */
-export function computeProps(
+export function computeProps (
   model: IModel,
   initiativeTemplate: Partial<IHubInitiativeTemplate>,
   requestOptions: IRequestOptions
 ): IHubInitiativeTemplate {
   let token: string;
   if (requestOptions.authentication) {
-    const session: UserSession = requestOptions.authentication as UserSession;
+    const session: ArcGISIdentityManager = requestOptions.authentication as ArcGISIdentityManager;
     token = session.token;
   }
 

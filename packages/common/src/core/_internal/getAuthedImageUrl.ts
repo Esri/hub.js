@@ -1,5 +1,4 @@
-import { UserSession } from "@esri/arcgis-rest-auth";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { ArcGISIdentityManager, IRequestOptions } from "@esri/arcgis-rest-request";
 import { cacheBustUrl } from "../../urls/cacheBustUrl";
 
 /**
@@ -8,13 +7,13 @@ import { cacheBustUrl } from "../../urls/cacheBustUrl";
  * @param url image url
  * @param requestOptions
  */
-export function getAuthedImageUrl(
+export function getAuthedImageUrl (
   url: string,
   requestOptions: IRequestOptions
 ) {
   let token: string;
   if (requestOptions.authentication) {
-    const session: UserSession = requestOptions.authentication as UserSession;
+    const session: ArcGISIdentityManager = requestOptions.authentication as ArcGISIdentityManager;
     token = session.token;
   }
   const queryParams = requestOptions.authentication ? `?token=${token}` : "";

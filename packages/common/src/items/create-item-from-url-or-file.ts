@@ -1,11 +1,12 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import {
   ICreateItemResponse,
+  IGroup,
+  IItemAdd,
   ISharingResponse,
   setItemAccess,
   shareItemWithGroup,
 } from "@esri/arcgis-rest-portal";
-import { IGroup, IItemAdd } from "@esri/arcgis-rest-types";
 import { failSafe, isUpdateGroup } from "../utils";
 import { createItemFromFile } from "./create-item-from-file";
 import { createItemFromUrl } from "./create-item-from-url";
@@ -30,7 +31,7 @@ interface ICreateItemFromUrlOrFileOptions extends IUserRequestOptions {
  *     itemSharingResponse: ISharingResponse[]
  *   } Responses from createdItem, changing item access, and item Sharing to group
  */
-export async function createItemFromUrlOrFile(
+export async function createItemFromUrlOrFile (
   createItemFromUrlOrFileOptions: ICreateItemFromUrlOrFileOptions
 ): Promise<{
   title: string;

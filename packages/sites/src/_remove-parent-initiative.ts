@@ -1,5 +1,5 @@
 import { IModel, getProp, _unprotectAndRemoveItem } from "@esri/hub-common";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IUserRequestOptions } from "@esri/arcgis-rest-request";
 
 /**
  * Remove the parent initiative item, if it exists
@@ -8,7 +8,7 @@ import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
  * @param {IRequestOptions} requestOptions
  * @private
  */
-export function _removeParentInitiative(
+export function _removeParentInitiative (
   siteModel: IModel,
   requestOptions: IUserRequestOptions
 ) {

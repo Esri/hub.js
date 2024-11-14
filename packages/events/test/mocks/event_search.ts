@@ -2,9 +2,8 @@
  * Apache-2.0 */
 
 import { IEventResourceObject } from "../../src/search";
-import { IGeometry, IItem, IField } from "@esri/arcgis-rest-types";
-import { IQueryFeaturesResponse } from "@esri/arcgis-rest-feature-layer";
-import { ISearchResult } from "@esri/arcgis-rest-portal";
+import { IGeometry, IField, IQueryFeaturesResponse } from "@esri/arcgis-rest-feature-service";
+import { IItem, ISearchResult } from "@esri/arcgis-rest-portal";
 
 export const eventQueryResponseEmpty = {
   objectIdFieldName: "OBJECTID",

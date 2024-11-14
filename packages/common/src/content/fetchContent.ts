@@ -1,8 +1,4 @@
-import {
-  getLayer,
-  parseServiceUrl,
-  queryFeatures,
-} from "@esri/arcgis-rest-feature-layer";
+import { getLayer, parseServiceUrl, queryFeatures } from "@esri/arcgis-rest-feature-service";
 import { getItem } from "@esri/arcgis-rest-portal";
 import { IHubContent } from "../core";
 import {
@@ -206,9 +202,9 @@ export const fetchContent = async (
 ) => {
   const content = isSlug(identifier)
     ? await fetchContentBySlug(
-        addContextToSlug(identifier, options?.siteOrgKey),
-        options
-      )
+      addContextToSlug(identifier, options?.siteOrgKey),
+      options
+    )
     : await fetchContentById(identifier, options);
   // fetch record count for content that has features (e.g. layers, tables, or proxied CSVs)
   const { layer, type } = content;
@@ -221,7 +217,7 @@ export const fetchContent = async (
   content.recordCount =
     canQuery && (isNil(content.recordCount) || content.viewDefinition)
       ? // no cached count, or this is client-side layer view, fetch the count
-        await fetchContentRecordCount(content, options)
+      await fetchContentRecordCount(content, options)
       : content.recordCount;
   return content;
 };

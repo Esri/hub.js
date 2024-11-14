@@ -1,4 +1,3 @@
-import { IGroup } from "@esri/arcgis-rest-types";
 import { fetchGroupEnrichments } from "./_internal/enrichments";
 import { getProp, setProp } from "../objects";
 import { parseInclude } from "../search/_internal/parseInclude";
@@ -6,6 +5,7 @@ import { IHubRequestOptions } from "../types";
 import { unique } from "../util";
 import { mapBy } from "../utils";
 import {
+  IGroup,
   getGroup,
   removeGroup,
   createGroup,
@@ -13,9 +13,8 @@ import {
   protectGroup,
   unprotectGroup,
 } from "@esri/arcgis-rest-portal";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { IRequestOptions, IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { IHubGroup } from "../core/types/IHubGroup";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { DEFAULT_GROUP } from "./defaults";
 import { convertHubGroupToGroup } from "./_internal/convertHubGroupToGroup";
 import { convertGroupToHubGroup } from "./_internal/convertGroupToHubGroup";
@@ -31,7 +30,7 @@ import { getUniqueGroupTitle } from "./_internal/getUniqueGroupTitle";
  * @param requestOptions
  * @returns
  */
-export async function enrichGroupSearchResult(
+export async function enrichGroupSearchResult (
   group: IGroup,
   include: string[],
   requestOptions: IHubRequestOptions
@@ -99,7 +98,7 @@ export async function enrichGroupSearchResult(
  * @param partialGroup
  * @param requestOptions
  */
-export async function createHubGroup(
+export async function createHubGroup (
   partialGroup: Partial<IHubGroup>,
   requestOptions: IUserRequestOptions
 ): Promise<IHubGroup> {
@@ -140,7 +139,7 @@ export async function createHubGroup(
  * @param identifier
  * @param requestOptions
  */
-export async function fetchHubGroup(
+export async function fetchHubGroup (
   identifier: string,
   requestOptions: IHubRequestOptions
 ): Promise<IHubGroup> {
@@ -156,7 +155,7 @@ export async function fetchHubGroup(
  * @param hubGroup
  * @param requestOptions
  */
-export async function updateHubGroup(
+export async function updateHubGroup (
   hubGroup: IHubGroup,
   requestOptions: IRequestOptions
 ): Promise<IHubGroup> {
@@ -187,7 +186,7 @@ export async function updateHubGroup(
  * @param id
  * @param requestOptions
  */
-export async function deleteHubGroup(
+export async function deleteHubGroup (
   id: string,
   requestOptions: IUserRequestOptions
 ): Promise<void> {

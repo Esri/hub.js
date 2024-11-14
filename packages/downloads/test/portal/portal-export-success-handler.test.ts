@@ -1,10 +1,10 @@
 import * as portal from "@esri/arcgis-rest-portal";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import * as folderHelper from "../../src/portal/portal-get-exports-folder-id";
 import { exportSuccessHandler } from "../../src/portal/portal-export-success-handler";
 import * as EventEmitter from "eventemitter3";
 
-function delay(milliseconds: number) {
+function delay (milliseconds: number) {
   return new Promise(resolve => setTimeout(resolve, milliseconds));
 }
 
@@ -18,7 +18,7 @@ class RestJsError extends Error {
 }
 
 describe("portalPollExportJobStatus", () => {
-  const authentication = new UserSession({
+  const authentication = new ArcGISIdentityManager({
     username: "portal-user",
     portal: "http://portal.com/sharing/rest",
     token: "123"

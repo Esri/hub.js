@@ -1,12 +1,12 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import {
   addItemPart,
   cancelItemUpload,
   commitItemUpload,
   createItem,
+  IItemAdd,
   ICreateItemResponse,
 } from "@esri/arcgis-rest-portal";
-import { IItemAdd } from "@esri/arcgis-rest-types";
 import { isBBox, bboxToString } from "../extent";
 import { batch } from "../utils";
 import { _prepareUploadRequests } from "./_internal/_prepare-upload-requests";
@@ -20,7 +20,7 @@ import { _prepareUploadRequests } from "./_internal/_prepare-upload-requests";
  * @param {IUserRequestOptions} requestOptions
  * @return {*}  {Promise<string>} Newly created item id
  */
-export async function createItemFromFile(
+export async function createItemFromFile (
   item: IItemAdd,
   requestOptions: IUserRequestOptions
 ): Promise<ICreateItemResponse> {

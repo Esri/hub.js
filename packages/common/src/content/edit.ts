@@ -1,4 +1,4 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import {
   IPortal,
   IUserItemOptions,
@@ -24,12 +24,7 @@ import { cloneObject } from "../util";
 import { IModel } from "../types";
 import { setDiscussableKeyword } from "../discussions";
 import { modelToHubEditableContent } from "./modelToHubEditableContent";
-import {
-  getService,
-  IFeatureServiceDefinition,
-  parseServiceUrl,
-} from "@esri/arcgis-rest-feature-layer";
-import { updateServiceDefinition } from "@esri/arcgis-rest-service-admin";
+import { getService, IFeatureServiceDefinition, parseServiceUrl, updateServiceDefinition } from "@esri/arcgis-rest-feature-service";
 import {
   hasServiceCapability,
   isHostedFeatureServiceMainEntity,
@@ -66,7 +61,7 @@ const DEFAULT_CONTENT_MODEL: IModel = {
  * Minimal properties are name and org
  *
  */
-export async function createContent(
+export async function createContent (
   partialContent: Partial<IHubEditableContent>,
   requestOptions: IUserRequestOptions
 ): Promise<IHubEditableContent> {
@@ -116,7 +111,7 @@ export async function createContent(
  * @param content
  * @param requestOptions
  */
-export async function updateContent(
+export async function updateContent (
   content: IHubEditableContent,
   requestOptions: IUserRequestOptions
 ): Promise<IHubEditableContent> {
@@ -236,7 +231,7 @@ export async function updateContent(
  * @param id
  * @param requestOptions
  */
-export async function deleteContent(
+export async function deleteContent (
   id: string,
   requestOptions: IUserRequestOptions
 ): Promise<void> {
@@ -251,7 +246,7 @@ export async function deleteContent(
  * @param portal
  * @returns
  */
-export function editorToContent(
+export function editorToContent (
   editor: IHubContentEditor,
   portal: IPortal
 ): IHubEditableContent {

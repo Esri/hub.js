@@ -11,11 +11,9 @@
     "tslib": "^1.13.0"
   },
   "peerDependencies": {
-    "@esri/arcgis-rest-auth": "^2.13.0 || 3",
-    "@esri/arcgis-rest-feature-layer": "^2.13.0 || 3",
-    "@esri/arcgis-rest-portal": "^2.13.0 || 3",
-    "@esri/arcgis-rest-request": "^2.13.0 || 3",
-    "@esri/arcgis-rest-types": "^2.13.0 || 3",
+    "@esri/arcgis-rest-feature-service": "^4.0.6",
+    "@esri/arcgis-rest-portal": "^4.4.1",
+    "@esri/arcgis-rest-request": "^4.2.3",
     "@esri/hub-common": "^15.0.0"
   },
   "devDependencies": {

@@ -1,4 +1,4 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { IHubTemplate, IHubTemplateEditor } from "../core/types/IHubTemplate";
 import { getUniqueSlug } from "../items/slugs";
 import { setDiscussableKeyword } from "../discussions";
@@ -27,7 +27,7 @@ import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlu
  * @param partialTemplate
  * @param requestOptions
  */
-export function createTemplate(
+export function createTemplate (
   partialTemplate: Partial<IHubTemplate>,
   requestOptions: IUserRequestOptions
 ): Promise<IHubTemplate> {
@@ -43,7 +43,7 @@ export function createTemplate(
  * @param template
  * @param requestOptions
  */
-export async function updateTemplate(
+export async function updateTemplate (
   template: IHubTemplate,
   requestOptions: IUserRequestOptions
 ): Promise<IHubTemplate> {
@@ -87,7 +87,7 @@ export async function updateTemplate(
  * @param editor
  * @param portal
  */
-export function editorToTemplate(
+export function editorToTemplate (
   editor: IHubTemplateEditor,
   portal: IPortal
 ): IHubTemplate {
@@ -106,7 +106,7 @@ export function editorToTemplate(
  * @param id
  * @param requestOptions
  */
-export async function deleteTemplate(
+export async function deleteTemplate (
   id: string,
   requestOptions: IUserRequestOptions
 ): Promise<void> {

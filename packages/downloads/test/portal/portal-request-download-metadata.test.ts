@@ -1,11 +1,10 @@
 import * as fetchMock from "fetch-mock";
 import * as portalModule from "@esri/arcgis-rest-portal";
-import * as featureLayer from "@esri/arcgis-rest-feature-layer";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import * as featureService from "@esri/arcgis-rest-feature-service";
+import { ArcGISIdentityManager, ArcGISAuthError } from "@esri/arcgis-rest-request";
 import { portalRequestDownloadMetadata } from "../../src/portal/portal-request-download-metadata";
-import { ArcGISAuthError } from "@esri/arcgis-rest-request";
 
-function buildAuth({
+function buildAuth ({
   username,
   portal,
   token,
@@ -14,7 +13,7 @@ function buildAuth({
   portal?: string;
   token: string;
 }) {
-  const authentication = new UserSession({ username, portal, token });
+  const authentication = new ArcGISIdentityManager({ username, portal, token });
   authentication.getToken = () =>
     new Promise((resolve) => {
       resolve(token);
@@ -54,11 +53,11 @@ describe("portalRequestDownloadMetadata", () => {
         })
       );
 
-      spyOn(featureLayer, "getService").and.returnValue(
+      spyOn(featureService, "getService").and.returnValue(
         Promise.reject(mockAuthErrorForServiceCall)
       );
 
-      spyOn(featureLayer, "getLayer").and.returnValue(
+      spyOn(featureService, "getLayer").and.returnValue(
         Promise.reject(mockAuthErrorForLayerCall)
       );
 
@@ -89,7 +88,7 @@ describe("portalRequestDownloadMetadata", () => {
     });
 
     it("rejects if service requests fail for a reason not related to auth", async () => {
-      class NotAnAuthError extends Error {}
+      class NotAnAuthError extends Error { }
 
       spyOn(portalModule, "getItem").and.returnValue(
         Promise.resolve({
@@ -97,11 +96,11 @@ describe("portalRequestDownloadMetadata", () => {
           modified: new Date(1593450876).getTime(),
           url: "http://feature-service.com/FeatureServer",
         })
-        );
+      );
 
-        spyOn(featureLayer, "getService").and.callFake(() => Promise.reject(new NotAnAuthError()));
+      spyOn(featureService, "getService").and.callFake(() => Promise.reject(new NotAnAuthError()));
 
-        spyOn(featureLayer, "getLayer").and.callFake(() => Promise.reject(new NotAnAuthError()));
+      spyOn(featureService, "getLayer").and.callFake(() => Promise.reject(new NotAnAuthError()));
 
       try {
         await portalRequestDownloadMetadata({
@@ -317,7 +316,7 @@ describe("portalRequestDownloadMetadata", () => {
         })
       );
 
-      getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+      getServiceSpy = spyOn(featureService, "getService").and.returnValue(
         new Promise((resolve) => {
           resolve({
             layers: [{ id: 0 }],
@@ -325,7 +324,7 @@ describe("portalRequestDownloadMetadata", () => {
         })
       );
 
-      getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+      getLayerSpy = spyOn(featureService, "getLayer").and.returnValue(
         new Promise((resolve) => {
           resolve({ id: 0 });
         })
@@ -345,7 +344,7 @@ describe("portalRequestDownloadMetadata", () => {
       );
     });
 
-    it("prefers portal param over UserSession portal for base URL", async (done) => {
+    it("prefers portal param over ArcGISIdentityManager portal for base URL", async (done) => {
       try {
         const urlFromPortalParam = "https://my.portal.base.url/sharing/rest";
 
@@ -397,7 +396,7 @@ describe("portalRequestDownloadMetadata", () => {
       }
     });
 
-    it("uses portal param if UserSession doesnt contain a portal URL", async (done) => {
+    it("uses portal param if ArcGISIdentityManager doesnt contain a portal URL", async (done) => {
       try {
         const urlFromPortalParam = "https://my.portal.base.url/sharing/rest";
 
@@ -448,7 +447,7 @@ describe("portalRequestDownloadMetadata", () => {
       }
     });
 
-    it("uses portal param if no UserSession", async (done) => {
+    it("uses portal param if no ArcGISIdentityManager", async (done) => {
       try {
         const urlFromPortalParam = "https://my.portal.base.url/sharing/rest";
 
@@ -493,7 +492,7 @@ describe("portalRequestDownloadMetadata", () => {
       }
     });
 
-    it("uses UserSession portal if no portal param", async (done) => {
+    it("uses ArcGISIdentityManager portal if no portal param", async (done) => {
       try {
         const portalFromAuth = "https://url-from-auth.com/sharing/rest";
         const localAuth = buildAuth({
@@ -557,7 +556,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+        const getServiceSpy = spyOn(featureService, "getService").and.returnValue(
           new Promise((resolve) => {
             resolve({
               layers: [{ id: 0 }],
@@ -565,7 +564,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+        const getLayerSpy = spyOn(featureService, "getLayer").and.returnValue(
           new Promise((resolve) => {
             resolve({ id: 0 });
           })
@@ -646,7 +645,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+        const getServiceSpy = spyOn(featureService, "getService").and.returnValue(
           new Promise((resolve) => {
             resolve({
               layers: [{ id: 0 }],
@@ -654,7 +653,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+        const getLayerSpy = spyOn(featureService, "getLayer").and.returnValue(
           new Promise((resolve) => {
             resolve({ id: 0 });
           })
@@ -737,7 +736,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+        const getServiceSpy = spyOn(featureService, "getService").and.returnValue(
           new Promise((resolve) => {
             resolve({
               layers: [{ id: 0 }],
@@ -745,7 +744,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+        const getLayerSpy = spyOn(featureService, "getLayer").and.returnValue(
           new Promise((resolve) => {
             resolve({
               id: 0,
@@ -831,7 +830,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+        const getServiceSpy = spyOn(featureService, "getService").and.returnValue(
           new Promise((resolve) => {
             resolve({
               layers: [{ id: 0 }],
@@ -839,7 +838,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+        const getLayerSpy = spyOn(featureService, "getLayer").and.returnValue(
           new Promise((resolve) => {
             resolve({
               id: 0,
@@ -925,7 +924,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+        const getServiceSpy = spyOn(featureService, "getService").and.returnValue(
           new Promise((resolve) => {
             resolve({
               layers: [{ id: 0 }],
@@ -933,7 +932,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+        const getLayerSpy = spyOn(featureService, "getLayer").and.returnValue(
           new Promise((resolve) => {
             resolve({
               id: 0,
@@ -1019,14 +1018,14 @@ describe("portalRequestDownloadMetadata", () => {
             });
           })
         );
-        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+        const getServiceSpy = spyOn(featureService, "getService").and.returnValue(
           new Promise((resolve) => {
             resolve({
               layers: [{ id: 0 }],
             });
           })
         );
-        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+        const getLayerSpy = spyOn(featureService, "getLayer").and.returnValue(
           new Promise((resolve) => {
             resolve({
               id: 0,
@@ -1116,7 +1115,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+        const getServiceSpy = spyOn(featureService, "getService").and.returnValue(
           new Promise((resolve) => {
             resolve({
               layers: [{ id: 0 }],
@@ -1124,7 +1123,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+        const getLayerSpy = spyOn(featureService, "getLayer").and.returnValue(
           new Promise((resolve) => {
             resolve({
               id: 0,
@@ -1220,7 +1219,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+        const getServiceSpy = spyOn(featureService, "getService").and.returnValue(
           new Promise((resolve) => {
             resolve({
               layers: [{ id: 0 }],
@@ -1228,7 +1227,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+        const getLayerSpy = spyOn(featureService, "getLayer").and.returnValue(
           new Promise((resolve) => {
             resolve({
               id: 0,
@@ -1313,13 +1312,13 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+        const getServiceSpy = spyOn(featureService, "getService").and.returnValue(
           new Promise((resolve) => {
             resolve({});
           })
         );
 
-        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+        const getLayerSpy = spyOn(featureService, "getLayer").and.returnValue(
           new Promise((resolve) => {
             resolve({});
           })
@@ -1394,7 +1393,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+        const getServiceSpy = spyOn(featureService, "getService").and.returnValue(
           new Promise((resolve) => {
             resolve({
               layers: [{ id: 0 }, { id: 1 }],
@@ -1402,7 +1401,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValues(
+        const getLayerSpy = spyOn(featureService, "getLayer").and.returnValues(
           new Promise((resolve) => {
             resolve({ id: 0 });
           }),
@@ -1494,7 +1493,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+        const getServiceSpy = spyOn(featureService, "getService").and.returnValue(
           new Promise((resolve) => {
             resolve({
               layers: [{ id: 0 }, { id: 1 }],
@@ -1502,7 +1501,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getLayer = spyOn(featureLayer, "getLayer").and.returnValues(
+        const getLayer = spyOn(featureService, "getLayer").and.returnValues(
           new Promise((resolve) => {
             resolve({ id: 0 });
           }),
@@ -1597,7 +1596,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+        const getServiceSpy = spyOn(featureService, "getService").and.returnValue(
           new Promise((resolve) => {
             resolve({
               layers: [{ id: 0 }, { id: 1 }],
@@ -1605,7 +1604,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValues(
+        const getLayerSpy = spyOn(featureService, "getLayer").and.returnValues(
           new Promise((resolve) => {
             resolve({
               id: 0,
@@ -1705,14 +1704,14 @@ describe("portalRequestDownloadMetadata", () => {
             });
           })
         );
-        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+        const getServiceSpy = spyOn(featureService, "getService").and.returnValue(
           new Promise((resolve) => {
             resolve({
               layers: [{ id: 0 }, { id: 1 }],
             });
           })
         );
-        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValues(
+        const getLayerSpy = spyOn(featureService, "getLayer").and.returnValues(
           new Promise((resolve) => {
             resolve({
               id: 0,
@@ -1810,7 +1809,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+        const getServiceSpy = spyOn(featureService, "getService").and.returnValue(
           new Promise((resolve) => {
             resolve({
               layers: [{ id: 0 }, { id: 1 }],
@@ -1818,7 +1817,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValues(
+        const getLayerSpy = spyOn(featureService, "getLayer").and.returnValues(
           new Promise((resolve) => {
             resolve({
               id: 0,
@@ -1919,14 +1918,14 @@ describe("portalRequestDownloadMetadata", () => {
             });
           })
         );
-        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+        const getServiceSpy = spyOn(featureService, "getService").and.returnValue(
           new Promise((resolve) => {
             resolve({
               layers: [{ id: 0 }, { id: 1 }],
             });
           })
         );
-        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValues(
+        const getLayerSpy = spyOn(featureService, "getLayer").and.returnValues(
           new Promise((resolve) => {
             resolve({
               id: 0,
@@ -2031,7 +2030,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+        const getServiceSpy = spyOn(featureService, "getService").and.returnValue(
           new Promise((resolve) => {
             resolve({
               layers: [{ id: 0 }, { id: 1 }],
@@ -2039,7 +2038,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValues(
+        const getLayerSpy = spyOn(featureService, "getLayer").and.returnValues(
           new Promise((resolve) => {
             resolve({
               id: 0,
@@ -2149,7 +2148,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+        const getServiceSpy = spyOn(featureService, "getService").and.returnValue(
           new Promise((resolve) => {
             resolve({
               layers: [{ id: 0 }, { id: 1 }],
@@ -2157,7 +2156,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValues(
+        const getLayerSpy = spyOn(featureService, "getLayer").and.returnValues(
           new Promise((resolve) => {
             resolve({
               id: 0,
@@ -2255,7 +2254,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+        const getServiceSpy = spyOn(featureService, "getService").and.returnValue(
           new Promise((resolve) => {
             resolve({
               layers: [{ id: 0 }],
@@ -2263,7 +2262,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+        const getLayerSpy = spyOn(featureService, "getLayer").and.returnValue(
           new Promise((resolve) => {
             resolve({ id: 0 });
           })
@@ -2355,7 +2354,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+        const getServiceSpy = spyOn(featureService, "getService").and.returnValue(
           new Promise((resolve) => {
             resolve({
               layers: [
@@ -2367,7 +2366,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+        const getLayerSpy = spyOn(featureService, "getLayer").and.returnValue(
           new Promise((resolve) => {
             resolve({
               id: 0,
@@ -2465,7 +2464,7 @@ describe("portalRequestDownloadMetadata", () => {
             });
           })
         );
-        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+        const getServiceSpy = spyOn(featureService, "getService").and.returnValue(
           new Promise((resolve) => {
             resolve({
               layers: [
@@ -2476,7 +2475,7 @@ describe("portalRequestDownloadMetadata", () => {
             });
           })
         );
-        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+        const getLayerSpy = spyOn(featureService, "getLayer").and.returnValue(
           new Promise((resolve) => {
             resolve({
               id: 0,
@@ -2571,7 +2570,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+        const getServiceSpy = spyOn(featureService, "getService").and.returnValue(
           new Promise((resolve) => {
             resolve({
               layers: [
@@ -2583,7 +2582,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+        const getLayerSpy = spyOn(featureService, "getLayer").and.returnValue(
           new Promise((resolve) => {
             resolve({
               id: 0,
@@ -2683,7 +2682,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+        const getServiceSpy = spyOn(featureService, "getService").and.returnValue(
           new Promise((resolve) => {
             resolve({
               layers: [
@@ -2694,7 +2693,7 @@ describe("portalRequestDownloadMetadata", () => {
             });
           })
         );
-        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+        const getLayerSpy = spyOn(featureService, "getLayer").and.returnValue(
           new Promise((resolve) => {
             resolve({
               id: 0,
@@ -2796,7 +2795,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+        const getServiceSpy = spyOn(featureService, "getService").and.returnValue(
           new Promise((resolve) => {
             resolve({
               layers: [
@@ -2808,7 +2807,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+        const getLayerSpy = spyOn(featureService, "getLayer").and.returnValue(
           new Promise((resolve) => {
             resolve({
               id: 0,
@@ -2916,7 +2915,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+        const getServiceSpy = spyOn(featureService, "getService").and.returnValue(
           new Promise((resolve) => {
             resolve({
               layers: [
@@ -2928,7 +2927,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+        const getLayerSpy = spyOn(featureService, "getLayer").and.returnValue(
           new Promise((resolve) => {
             resolve({
               id: 0,
@@ -3026,7 +3025,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+        const getServiceSpy = spyOn(featureService, "getService").and.returnValue(
           new Promise((resolve) => {
             resolve({
               layers: [
@@ -3038,7 +3037,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+        const getLayerSpy = spyOn(featureService, "getLayer").and.returnValue(
           new Promise((resolve) => {
             resolve({
               id: 0,
@@ -3135,7 +3134,7 @@ describe("portalRequestDownloadMetadata", () => {
             });
           })
         );
-        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+        const getServiceSpy = spyOn(featureService, "getService").and.returnValue(
           new Promise((resolve) => {
             resolve({
               layers: [
@@ -3146,7 +3145,7 @@ describe("portalRequestDownloadMetadata", () => {
             });
           })
         );
-        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+        const getLayerSpy = spyOn(featureService, "getLayer").and.returnValue(
           new Promise((resolve) => {
             resolve({
               id: 0,
@@ -3240,7 +3239,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+        const getServiceSpy = spyOn(featureService, "getService").and.returnValue(
           new Promise((resolve) => {
             resolve({
               layers: [
@@ -3252,7 +3251,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+        const getLayerSpy = spyOn(featureService, "getLayer").and.returnValue(
           new Promise((resolve) => {
             resolve({
               id: 0,
@@ -3351,7 +3350,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+        const getServiceSpy = spyOn(featureService, "getService").and.returnValue(
           new Promise((resolve) => {
             resolve({
               layers: [
@@ -3362,7 +3361,7 @@ describe("portalRequestDownloadMetadata", () => {
             });
           })
         );
-        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+        const getLayerSpy = spyOn(featureService, "getLayer").and.returnValue(
           new Promise((resolve) => {
             resolve({
               id: 0,
@@ -3463,7 +3462,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+        const getServiceSpy = spyOn(featureService, "getService").and.returnValue(
           new Promise((resolve) => {
             resolve({
               layers: [
@@ -3475,7 +3474,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+        const getLayerSpy = spyOn(featureService, "getLayer").and.returnValue(
           new Promise((resolve) => {
             resolve({
               id: 0,
@@ -3582,7 +3581,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+        const getServiceSpy = spyOn(featureService, "getService").and.returnValue(
           new Promise((resolve) => {
             resolve({
               layers: [
@@ -3594,7 +3593,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+        const getLayerSpy = spyOn(featureService, "getLayer").and.returnValue(
           new Promise((resolve) => {
             resolve({
               id: 0,
@@ -3693,7 +3692,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+        const getServiceSpy = spyOn(featureService, "getService").and.returnValue(
           new Promise((resolve) => {
             resolve({
               layers: [{ id: 0 }, { id: 1 }],
@@ -3701,7 +3700,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValues(
+        const getLayerSpy = spyOn(featureService, "getLayer").and.returnValues(
           new Promise((resolve) => {
             resolve({
               id: 0,
@@ -3799,7 +3798,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+        const getServiceSpy = spyOn(featureService, "getService").and.returnValue(
           new Promise((resolve) => {
             resolve({
               layers: [{ id: 0 }, { id: 1 }],
@@ -3807,7 +3806,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValues(
+        const getLayerSpy = spyOn(featureService, "getLayer").and.returnValues(
           new Promise((resolve) => {
             resolve({
               id: 0,

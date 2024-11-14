@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-auth";
+import { IUser } from "@esri/arcgis-rest-request";
 import { canCreateReaction } from "../../../src/utils/reactions";
 import { PostReaction, IChannel } from "../../../src/types";
 import * as canReadChannelModule from "../../../src/utils/channels/can-read-channel";

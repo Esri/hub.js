@@ -1,7 +1,6 @@
 import * as LimitsModule from "../../src/org/fetchOrgLimits";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as RequestModule from "@esri/arcgis-rest-request";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 describe("fetchOrgLimits module:", () => {
   describe("fetching any limits", () => {
@@ -13,7 +12,7 @@ describe("fetchOrgLimits module:", () => {
           limitValue: 672,
         });
       });
-      const uro: IUserRequestOptions = {
+      const uro: RequestModule.IUserRequestOptions = {
         authentication: MOCK_AUTH,
       };
       const result = await LimitsModule.fetchOrgLimits(
@@ -40,7 +39,7 @@ describe("fetchOrgLimits module:", () => {
           limitValue: 672,
         });
       });
-      const uro: IUserRequestOptions = {
+      const uro: RequestModule.IUserRequestOptions = {
         authentication: MOCK_AUTH,
       };
       const result = await LimitsModule.fetchMaxNumUserGroupsLimit("self", uro);
@@ -57,7 +56,7 @@ describe("fetchOrgLimits module:", () => {
           zomg: "error",
         });
       });
-      const uro: IUserRequestOptions = {
+      const uro: RequestModule.IUserRequestOptions = {
         authentication: MOCK_AUTH,
       };
       const result = await LimitsModule.fetchMaxNumUserGroupsLimit("self", uro);

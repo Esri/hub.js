@@ -3,7 +3,7 @@
 
 import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
@@ -18,13 +18,13 @@ describe("Team Creation Validation:", () => {
   // test cases (it blocks)
   describe("Hub Basic:", () => {
     const orgName = "hubBasic";
-    let adminSession: UserSession;
+    let adminSession: ArcGISIdentityManager;
     beforeEach(() => {
       adminSession = factory.getSession(orgName, "admin");
     });
     it("gets admin self", () => {
       return adminSession.getUser().then((user) => {
-        expect(user.groups.length).toBeGreaterThan(
+        expect(user.groups?.length).toBeGreaterThan(
           0,
           "user should have groups"
         );
@@ -38,13 +38,13 @@ describe("Team Creation Validation:", () => {
 
   describe("Hub Premium:", () => {
     const orgName = "hubPremium";
-    let adminSession: UserSession;
+    let adminSession: ArcGISIdentityManager;
     beforeEach(() => {
       adminSession = factory.getSession(orgName, "admin");
     });
     it("gets admin self", () => {
       return adminSession.getUser().then((user) => {
-        expect(user.groups.length).toBeGreaterThan(
+        expect(user.groups?.length).toBeGreaterThan(
           0,
           "user should have groups"
         );

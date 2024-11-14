@@ -2,10 +2,10 @@
  * Apache-2.0 */
 
 import { registerForEvent, unregisterForEvent } from "../src/register";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import * as groups from "@esri/arcgis-rest-portal";
 
-export const TOMORROW = (function() {
+export const TOMORROW = (function () {
   const now = new Date();
   now.setDate(now.getDate() + 1);
   return now;
@@ -13,14 +13,14 @@ export const TOMORROW = (function() {
 
 describe("register/unregister methods", () => {
   const MOCK_REQOPTS = {
-    authentication: new UserSession({
+    authentication: new ArcGISIdentityManager({
       clientId: "clientId",
       redirectUri: "https://example-app.com/redirect-uri",
       token: "fake-token",
       tokenExpires: TOMORROW,
       refreshToken: "refreshToken",
       refreshTokenExpires: TOMORROW,
-      refreshTokenTTL: 1440,
+      tokenDuration: 1440,
       username: "casey",
       password: "123456",
       portal: "https://myorg.maps.arcgis.com/sharing/rest"

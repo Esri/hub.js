@@ -1,5 +1,4 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import { request } from "@esri/arcgis-rest-request";
+import { IUserRequestOptions, request } from "@esri/arcgis-rest-request";
 
 /**
  * Delete a group's thumbnail
@@ -8,7 +7,7 @@ import { request } from "@esri/arcgis-rest-request";
  * @param requestOptions
  * @returns
  */
-export async function deleteGroupThumbnail(
+export async function deleteGroupThumbnail (
   id: string,
   requestOptions: IUserRequestOptions
 ) {

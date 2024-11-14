@@ -1,6 +1,6 @@
 import { getMembers } from "../src/get-members";
-import { UserSession } from "@esri/arcgis-rest-auth";
-import { IUser } from "@esri/arcgis-rest-types";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
+import { IUser } from "@esri/arcgis-rest-portal";
 import * as hubCommon from "@esri/hub-common";
 import * as restPortal from "@esri/arcgis-rest-portal";
 import * as restRequest from "@esri/arcgis-rest-request";
@@ -20,7 +20,7 @@ describe("getMembers", function () {
     return now;
   })();
 
-  const MOCK_USER_SESSION = new UserSession({
+  const MOCK_USER_SESSION = new ArcGISIdentityManager({
     username: "mockUsername",
     password: "mockPassword",
     token: "mock-token",
@@ -158,7 +158,7 @@ describe("getMembers", function () {
     ];
 
     beforeEach(async () => {
-      requestOptions.authentication = null;
+      requestOptions.authentication = undefined;
     });
     afterEach(() => {
       getUserSpy.calls.reset();

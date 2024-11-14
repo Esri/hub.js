@@ -1,4 +1,5 @@
-import { IPortal, IUser } from "@esri/arcgis-rest-portal";
+import { IPortal } from "@esri/arcgis-rest-portal";
+import { IUser } from "@esri/arcgis-rest-request";
 import {
   ArcGISContextManager,
   IArcGISContext,
@@ -6,7 +7,7 @@ import {
 } from "../../../src";
 import { resolveServiceQueryValues } from "../../../src/utils/internal/resolveServiceQueryValues";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
-import * as featureLayer from "@esri/arcgis-rest-feature-layer";
+import * as featureService from "@esri/arcgis-rest-feature-service";
 
 describe("resolveServiceQueryValues:", () => {
   let context: IArcGISContext;
@@ -35,7 +36,7 @@ describe("resolveServiceQueryValues:", () => {
     context = authdCtxMgr.context;
   });
   it("makes service query call", async () => {
-    const serviceSpy = spyOn(featureLayer, "queryFeatures").and.callFake(() => {
+    const serviceSpy = spyOn(featureService, "queryFeatures").and.callFake(() => {
       return Promise.resolve({
         features: [{ attributes: { views: 19 } }],
       });
@@ -66,7 +67,7 @@ describe("resolveServiceQueryValues:", () => {
     expect(statsDef.onStatisticField).toEqual(def.options.field);
   });
   it("works if no where is passed", async () => {
-    const serviceSpy = spyOn(featureLayer, "queryFeatures").and.callFake(() => {
+    const serviceSpy = spyOn(featureService, "queryFeatures").and.callFake(() => {
       return Promise.resolve({
         features: [{ attributes: { views: 19 } }],
       });
@@ -96,7 +97,7 @@ describe("resolveServiceQueryValues:", () => {
     expect(statsDef.onStatisticField).toEqual(def.options.field);
   });
   it("returns 0 no stats returned", async () => {
-    const serviceSpy = spyOn(featureLayer, "queryFeatures").and.callFake(() => {
+    const serviceSpy = spyOn(featureService, "queryFeatures").and.callFake(() => {
       return Promise.resolve({});
     });
 

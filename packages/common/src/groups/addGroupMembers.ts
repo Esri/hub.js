@@ -1,9 +1,8 @@
-import { IUser } from "@esri/arcgis-rest-types";
 import { failSafe } from "../utils";
 import { autoAddUsers } from "./autoAddUsers";
 import { inviteUsers } from "./inviteUsers";
 import { IAddGroupMembersResult, IAddOrInviteMemberResponse } from "./types";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IUser, IUserRequestOptions } from "@esri/arcgis-rest-request";
 
 /**
  * Add or invite N users to a single group.
@@ -18,7 +17,7 @@ import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
  * @param {boolean} autoAdd should we auto add users?
  * @return {*}  {Promise<IAddGroupMembersResult>}
  */
-export async function addGroupMembers(
+export async function addGroupMembers (
   groupId: string,
   usernames: string[],
   auth: IUserRequestOptions,

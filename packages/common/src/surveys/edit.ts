@@ -1,4 +1,4 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import {
   IUserItemOptions,
   getItem,
@@ -21,7 +21,7 @@ import { getFormJson } from "./utils/get-form-json";
  * @param requestOptions user request options
  * @returns promise that resolves a IHubSurvey
  */
-export async function updateSurvey(
+export async function updateSurvey (
   survey: IHubSurvey,
   requestOptions: IUserRequestOptions
 ): Promise<IHubSurvey> {
@@ -61,7 +61,7 @@ export async function updateSurvey(
  * @param id
  * @param requestOptions
  */
-export async function deleteSurvey(
+export async function deleteSurvey (
   id: string,
   requestOptions: IUserRequestOptions
 ): Promise<void> {

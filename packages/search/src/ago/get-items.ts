@@ -1,5 +1,5 @@
 import { ISearchParams } from "./params";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { ISearchResult, IItem, searchItems } from "@esri/arcgis-rest-portal";
 import { encodeAgoQuery } from "./encode-ago-query";
 import { getProp, chunkArray } from "@esri/hub-common";
@@ -7,11 +7,11 @@ import { getProp, chunkArray } from "@esri/hub-common";
 const MAX_COUNTFIELDS = 3;
 
 // Search for Items in ArcGIS and return raw ago response
-export async function getItems(
+export async function getItems (
   params: ISearchParams,
   token?: string,
   portal?: string,
-  authentication?: UserSession
+  authentication?: ArcGISIdentityManager
 ): Promise<ISearchResult<IItem>> {
   const agoParams = encodeAgoQuery(params);
   if (agoParams.countFields) {

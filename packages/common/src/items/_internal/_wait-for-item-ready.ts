@@ -1,10 +1,10 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import {
   getItemStatus,
   IGetItemStatusResponse,
 } from "@esri/arcgis-rest-portal";
 
-function delay(milliseconds: number) {
+function delay (milliseconds: number) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
@@ -16,7 +16,7 @@ function delay(milliseconds: number) {
  * @param {string} itemId AGO item id
  * @param {IUserRequestOptions} requestOptions
  */
-export async function _waitForItemReady(
+export async function _waitForItemReady (
   itemId: string,
   requestOptions: IUserRequestOptions,
   milliseconds?: number

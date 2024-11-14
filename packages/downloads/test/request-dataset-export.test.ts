@@ -1,4 +1,4 @@
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { requestDatasetExport } from "../src/request-dataset-export";
 import * as hubExport from "../src/hub/hub-request-dataset-export";
 import * as portalExport from "../src/portal/portal-request-dataset-export";
@@ -60,7 +60,7 @@ describe("requestDownloadMetadata", () => {
         })
       );
 
-      const authentication = new UserSession({
+      const authentication = new ArcGISIdentityManager({
         username: "portal-user",
         portal: "http://portal.com/sharing/rest",
         token: "123"
@@ -117,7 +117,7 @@ describe("requestDownloadMetadata", () => {
         })
       );
 
-      const authentication = new UserSession({
+      const authentication = new ArcGISIdentityManager({
         username: "portal-user",
         portal: "http://portal.com/sharing/rest",
         token: "123"

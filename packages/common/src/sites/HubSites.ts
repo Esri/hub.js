@@ -1,4 +1,4 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { IItem, IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
 import { getFamily } from "../content/get-family";
 import { fetchSiteModel } from "./fetchSiteModel";
@@ -214,7 +214,7 @@ const DEFAULT_SITE_MODEL: IModel = {
  * @param partialSite
  * @param requestOptions
  */
-export async function createSite(
+export async function createSite (
   partialSite: Partial<IHubSite>,
   requestOptions: IHubRequestOptions
 ): Promise<IHubSite> {
@@ -245,9 +245,8 @@ export async function createSite(
     )}`;
 
     // set the url
-    site.url = `https://${
-      site.customHostname ? site.customHostname : site.defaultHostname
-    }`;
+    site.url = `https://${site.customHostname ? site.customHostname : site.defaultHostname
+      }`;
   } else {
     // Portal Sites use subdomain in hash based router
     site.typeKeywords.push(`hubsubdomain|${site.subdomain}`.toLowerCase());
@@ -339,7 +338,7 @@ export async function createSite(
  * @param requestOptions
  * @returns
  */
-export async function updateSite(
+export async function updateSite (
   site: IHubSite,
   requestOptions: IHubRequestOptions
 ): Promise<IHubSite> {
@@ -427,7 +426,7 @@ export async function updateSite(
  * @param requestOptions
  * @returns
  */
-export async function deleteSite(
+export async function deleteSite (
   id: string,
   requestOptions: IHubRequestOptions
 ): Promise<void> {
@@ -448,7 +447,7 @@ export async function deleteSite(
  * @param requestOptions
  * @private // remove when we remove existing fetchSite function
  */
-export async function fetchSite(
+export async function fetchSite (
   identifier: string,
   requestOptions: IHubRequestOptions
 ): Promise<IHubSite> {
@@ -465,7 +464,7 @@ export async function fetchSite(
  * @param requestOptions
  * @returns
  */
-export function convertModelToSite(
+export function convertModelToSite (
   model: IModel,
   requestOptions: IRequestOptions
 ): IHubSite {
@@ -496,7 +495,7 @@ export function convertModelToSite(
  * @param auth
  * @returns
  */
-export async function convertItemToSite(
+export async function convertItemToSite (
   item: IItem,
   requestOptions: IRequestOptions
 ): Promise<IHubSite> {
@@ -511,7 +510,7 @@ export async function convertItemToSite(
  * @param requestOptions
  * @returns
  */
-export async function enrichSiteSearchResult(
+export async function enrichSiteSearchResult (
   item: IItem,
   include: string[],
   requestOptions: IHubRequestOptions

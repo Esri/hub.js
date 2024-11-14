@@ -1,5 +1,4 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import { request } from "@esri/arcgis-rest-request";
+import { IUserRequestOptions, request } from "@esri/arcgis-rest-request";
 
 /**
  * Delete an item's thumbnail
@@ -8,7 +7,7 @@ import { request } from "@esri/arcgis-rest-request";
  * @param requestOptions
  * @returns
  */
-export async function deleteItemThumbnail(
+export async function deleteItemThumbnail (
   id: string,
   owner: string,
   requestOptions: IUserRequestOptions

@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-auth";
+import { IUser } from "@esri/arcgis-rest-request";
 import { PostReaction, IChannel, IDiscussionsUser } from "../../types";
 import { canReadChannel } from "../channels";
 
@@ -10,7 +10,7 @@ import { canReadChannel } from "../channels";
  * @param {PostReaction} value
  * @return {*}  {boolean}
  */
-export function canCreateReaction(
+export function canCreateReaction (
   channel: IChannel,
   value: PostReaction,
   user: IUser | IDiscussionsUser = {}
@@ -22,7 +22,7 @@ export function canCreateReaction(
   return canReadChannel(channel, user);
 }
 
-function channelAllowsReaction(
+function channelAllowsReaction (
   channel: IChannel,
   value: PostReaction
 ): boolean {

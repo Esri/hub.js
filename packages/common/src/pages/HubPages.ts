@@ -10,8 +10,8 @@ import { IHubSearchResult } from "../search";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { IHubRequestOptions, IModel } from "../types";
 import { getItemHomeUrl } from "../urls";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { getItem, IItem } from "@esri/arcgis-rest-portal";
+import { IRequestOptions, IUserRequestOptions } from "@esri/arcgis-rest-request";
+import { getItem, IItem, IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
 import { cloneObject, unique } from "../util";
 import { mapBy, isGuid } from "../utils";
 import { constructSlug, getItemBySlug } from "../items/slugs";
@@ -25,8 +25,6 @@ import {
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
 import { DEFAULT_PAGE, DEFAULT_PAGE_MODEL } from "./defaults";
 import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlug";
 
@@ -39,7 +37,7 @@ import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlu
  * @param partialPage
  * @param requestOptions
  */
-export async function createPage(
+export async function createPage (
   partialPage: Partial<IHubPage>,
   requestOptions: IUserRequestOptions
 ): Promise<IHubPage> {
@@ -75,7 +73,7 @@ export async function createPage(
  * @param page
  * @param requestOptions
  */
-export async function updatePage(
+export async function updatePage (
   page: IHubPage,
   requestOptions: IUserRequestOptions
 ): Promise<IHubPage> {
@@ -108,7 +106,7 @@ export async function updatePage(
  * @param identifier item id or slug
  * @param requestOptions
  */
-export async function fetchPage(
+export async function fetchPage (
   identifier: string,
   requestOptions: IRequestOptions
 ): Promise<IHubPage> {
@@ -132,7 +130,7 @@ export async function fetchPage(
  * @param requestOptions
  * @returns
  */
-export function convertModelToPage(
+export function convertModelToPage (
   model: IModel,
   requestOptions: IRequestOptions
 ): IHubPage {
@@ -151,7 +149,7 @@ export function convertModelToPage(
  * @param auth
  * @returns
  */
-export async function convertItemToPage(
+export async function convertItemToPage (
   item: IItem,
   requestOptions: IRequestOptions
 ): Promise<IHubPage> {
@@ -166,7 +164,7 @@ export async function convertItemToPage(
  * @param id
  * @param requestOptions
  */
-export async function deletePage(
+export async function deletePage (
   id: string,
   requestOptions: IUserRequestOptions
 ): Promise<void> {
@@ -182,7 +180,7 @@ export async function deletePage(
  * @param requestOptions
  * @returns
  */
-export async function enrichPageSearchResult(
+export async function enrichPageSearchResult (
   item: IItem,
   include: string[],
   requestOptions: IHubRequestOptions

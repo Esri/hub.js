@@ -1,5 +1,5 @@
-import { IUser } from "@esri/arcgis-rest-auth";
-import { IGroup } from "@esri/arcgis-rest-types";
+import { IUser } from "@esri/arcgis-rest-request";
+import { IGroup } from "@esri/arcgis-rest-portal";
 import { SharingAccess, IChannel } from "../../../src/types";
 import { canReadFromChannel } from "../../../src/utils/channels";
 

@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-auth";
+import { IUser } from "@esri/arcgis-rest-request";
 import * as commonModule from "@esri/hub-common";
 import {
   IConsolidatedResult,
@@ -15,7 +15,7 @@ describe("addUsersToTeam", () => {
     const primaryRO: IHubRequestOptions = {
       isPortal: false,
       hubApiUrl: "a-url",
-      authentication: null
+      authentication: undefined
     };
     const email: IEmail = {
       subject: "this is a test",
@@ -24,7 +24,7 @@ describe("addUsersToTeam", () => {
     const secondaryRO: IHubRequestOptions = {
       isPortal: false,
       hubApiUrl: "another-url",
-      authentication: null
+      authentication: undefined
     };
 
     const expected: IConsolidatedResult = {

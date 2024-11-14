@@ -1,5 +1,4 @@
-import { UserSession } from "@esri/arcgis-rest-auth";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { ArcGISIdentityManager, IRequestOptions } from "@esri/arcgis-rest-request";
 import { computeItemProps } from "../../core/_internal/computeItemProps";
 import { IHubSurvey } from "../../core/types/IHubSurvey";
 import { IModel } from "../../types";
@@ -16,14 +15,14 @@ import { shouldDisplayMap } from "../utils/should-display-map";
  * @param requestOptions
  * @returns an IHubSurvey object
  */
-export function computeProps(
+export function computeProps (
   model: IModel,
   survey: Partial<IHubSurvey>,
   requestOptions: IRequestOptions
 ): IHubSurvey {
   let token: string;
   if (requestOptions.authentication) {
-    const session: UserSession = requestOptions.authentication as UserSession;
+    const session: ArcGISIdentityManager = requestOptions.authentication as ArcGISIdentityManager;
     token = session.token;
   }
   // compute base properties on survey object

@@ -1,4 +1,4 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { removeItemResource } from "@esri/arcgis-rest-portal";
 import HubError from "../HubError";
 
@@ -14,7 +14,7 @@ import HubError from "../HubError";
  *   success: boolean;
  * }>}
  */
-export async function removeResource(
+export async function removeResource (
   id: string,
   name: string,
   owner: string,

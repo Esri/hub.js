@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-types";
+import { IUser } from "@esri/arcgis-rest-request";
 import { IDiscussionsUser } from "@esri/hub-common";
 import { isOrgAdminInOrg, isUserInOrg, userHasPrivileges } from "./platform";
 
@@ -6,7 +6,7 @@ import { isOrgAdminInOrg, isUserInOrg, userHasPrivileges } from "./platform";
  * @internal
  * @hidden
  */
-export function hasOrgAdminViewRights(
+export function hasOrgAdminViewRights (
   user: IUser | IDiscussionsUser = {},
   orgId: string
 ): boolean {
@@ -21,7 +21,7 @@ export function hasOrgAdminViewRights(
  * @internal
  * @hidden
  */
-export function hasOrgAdminUpdateRights(
+export function hasOrgAdminUpdateRights (
   user: IUser | IDiscussionsUser = {},
   orgId: string
 ): boolean {
@@ -39,7 +39,7 @@ export function hasOrgAdminUpdateRights(
  * @internal
  * @hidden
  */
-export function hasOrgAdminDeleteRights(
+export function hasOrgAdminDeleteRights (
   user: IUser | IDiscussionsUser = {},
   orgId: string
 ): boolean {

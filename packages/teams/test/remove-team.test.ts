@@ -1,5 +1,5 @@
 import * as restPortalModule from "@esri/arcgis-rest-portal";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { removeTeam } from "../src/remove-team";
 
 const TOMORROW = (function () {
@@ -8,7 +8,7 @@ const TOMORROW = (function () {
   return now;
 })();
 
-const MOCK_USER_SESSION = new UserSession({
+const MOCK_USER_SESSION = new ArcGISIdentityManager({
   username: "casey",
   password: "123456",
   token: "fake-token",

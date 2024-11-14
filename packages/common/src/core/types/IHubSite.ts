@@ -1,4 +1,4 @@
-import { IExtent } from "@esri/arcgis-rest-feature-layer";
+import { IExtent } from "@esri/arcgis-rest-feature-service";
 import { IWithVersioningBehavior } from "../behaviors";
 
 import { IHubItemEntity, IHubItemEntityEditor } from "./IHubItemEntity";
@@ -38,12 +38,12 @@ export interface IHubSiteUrlInfo extends IUrlProperties {
  */
 export interface IHubSite
   extends IHubItemEntity,
-    IWithSlug,
-    IWithCatalog,
-    IWithLayout,
-    IWithPermissions,
-    IWithVersioningBehavior,
-    IUrlProperties {
+  IWithSlug,
+  IWithCatalog,
+  IWithLayout,
+  IWithPermissions,
+  IWithVersioningBehavior,
+  IUrlProperties {
   /**
    * Array of minimal page objects
    */

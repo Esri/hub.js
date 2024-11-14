@@ -1,4 +1,4 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { getItemResources } from "@esri/arcgis-rest-portal";
 
 /**
@@ -9,7 +9,7 @@ import { getItemResources } from "@esri/arcgis-rest-portal";
  * @param ro Request options
  * @returns boolean
  */
-export async function doesResourceExist(
+export async function doesResourceExist (
   id: string,
   name: string,
   ro: IUserRequestOptions

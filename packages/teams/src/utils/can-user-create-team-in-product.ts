@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-auth";
+import { IUser } from "@esri/arcgis-rest-request";
 import { hasAllPrivileges } from "./has-all-privileges";
 import { getProp, HubProduct, includes } from "@esri/hub-common";
 import { IGroupTemplate } from "../types";
@@ -12,7 +12,7 @@ import { getOrgGroupLimit } from "./getOrgGroupLimit";
  * @param {string} product basic, premium, portal
  * @param {object} template Team (group) template
  */
-export function canUserCreateTeamInProduct(
+export function canUserCreateTeamInProduct (
   user: IUser,
   product: HubProduct,
   template: IGroupTemplate

@@ -2,7 +2,7 @@ import { IModel } from "../types";
 import { updateItem, IUpdateItemOptions } from "@esri/arcgis-rest-portal";
 import { serializeModel } from "../models/serializeModel";
 import { failSafe } from "../utils";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IUserRequestOptions } from "@esri/arcgis-rest-request";
 
 /**
  * Update a model's item, wrapped in a failSafe so this will not blow up if
@@ -11,7 +11,7 @@ import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
  * @param {Object} model Model object to be updated
  * @param {IRequestOptions} requestOptions
  */
-export function failSafeUpdate(
+export function failSafeUpdate (
   model: IModel,
   requestOptions: IUserRequestOptions
 ) {

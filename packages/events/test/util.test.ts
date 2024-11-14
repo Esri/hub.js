@@ -12,8 +12,8 @@ import {
 import * as portal from "@esri/arcgis-rest-portal";
 
 import { ISearchOptions } from "@esri/arcgis-rest-portal";
-import { IQueryFeaturesOptions } from "@esri/arcgis-rest-feature-layer";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { IQueryFeaturesOptions } from "@esri/arcgis-rest-feature-service";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 
 describe("getEventServiceUrl", () => {
   it("should return admin event service url", done => {
@@ -184,7 +184,7 @@ describe("getEventFeatureServiceUrl", () => {
 });
 
 describe("getEventQueryFromType", () => {
-  const authentication = new UserSession({
+  const authentication = new ArcGISIdentityManager({
     username: "vader"
   });
 
@@ -316,7 +316,7 @@ describe("getEventQueryFromType", () => {
     } as IQueryFeaturesOptions;
     requestOptions.authentication = authentication;
     const newRequestOptions = getEventQueryFromType("draft", requestOptions);
-    const user = (requestOptions.authentication as UserSession).username;
+    const user = (requestOptions.authentication as ArcGISIdentityManager).username;
     expect(newRequestOptions.where).toEqual(
       `Creator = '${user}' AND status = 'draft'`
     );
@@ -341,7 +341,7 @@ describe("getEventQueryFromType", () => {
     } as IQueryFeaturesOptions;
     requestOptions.authentication = authentication;
     const newRequestOptions = getEventQueryFromType("draft", requestOptions);
-    const user = (requestOptions.authentication as UserSession).username;
+    const user = (requestOptions.authentication as ArcGISIdentityManager).username;
     expect(newRequestOptions.where).toContain(
       `AND Creator = '${user}' AND status = 'draft'`
     );
@@ -355,7 +355,7 @@ describe("getEventQueryFromType", () => {
     } as IQueryFeaturesOptions;
     requestOptions.authentication = authentication;
     const newRequestOptions = getEventQueryFromType("draft", requestOptions);
-    const user = (requestOptions.authentication as UserSession).username;
+    const user = (requestOptions.authentication as ArcGISIdentityManager).username;
     expect(newRequestOptions.where).toEqual(
       `Creator = '${user}' AND status = 'draft'`
     );

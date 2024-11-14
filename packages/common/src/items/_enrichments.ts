@@ -3,19 +3,15 @@ import {
   getItem,
   getItemData,
   getItemGroups,
+  getItemMetadata,
   getUser,
 } from "@esri/arcgis-rest-portal";
-import {
-  getAllLayersAndTables,
-  getService,
-  parseServiceUrl,
-} from "@esri/arcgis-rest-feature-layer";
+import { getAllLayersAndTables, getService, parseServiceUrl, } from "@esri/arcgis-rest-feature-service";
 import { IItemEnrichments, IServerEnrichments } from "../core";
 import { IEnrichmentErrorInfo, IHubRequestOptions } from "../types";
 import { IPipeable, createOperationPipeline } from "../utils";
 import OperationStack from "../OperationStack";
 // TODO: move these functions here under /items
-import { getItemMetadata } from "@esri/arcgis-rest-portal";
 import { getItemOrgId } from "../content/_internal/internalContentUtils";
 import { fetchOrg } from "../org";
 import { isServicesDirectoryDisabled } from "./is-services-directory-disabled";
@@ -26,7 +22,7 @@ import { IHubSchedule } from "../core/types/IHubSchedule";
  */
 export interface IItemAndEnrichments
   extends IItemEnrichments,
-    IServerEnrichments {
+  IServerEnrichments {
   item: IItem;
 }
 
@@ -57,7 +53,7 @@ export type EditableContentEnrichment = keyof IHubEditableContentEnrichments;
  * @param metadataXml
  * @returns
  */
-async function parseMetadataXml(metadataXml: string): Promise<any> {
+async function parseMetadataXml (metadataXml: string): Promise<any> {
   // lazy load xml parsing library
   const { parse } = await import("fast-xml-parser");
   // return XML parsed as JSON
@@ -76,7 +72,7 @@ async function parseMetadataXml(metadataXml: string): Promise<any> {
  * @param id item id
  * @param requestOptions
  */
-async function fetchContentMetadata(
+async function fetchContentMetadata (
   id: string,
   requestOptions?: IHubRequestOptions
 ): Promise<any> {
@@ -139,7 +135,7 @@ const enrichOwnerUser = (
   const { data, stack, requestOptions } = input;
   const opId = stack.start("enrichOwner");
   // w/o the : any here, I get a compile error about
-  // .authentication being incompatible w/ UserSession
+  // .authentication being incompatible w/ ArcGISIdentityManager
   const options: any = {
     username: data.item.owner,
     ...requestOptions,
@@ -327,7 +323,7 @@ export const getEnrichmentErrors = (
   const message =
     typeof error === "string"
       ? /* istanbul ignore next our tests only throw Error objects */
-        error
+      error
       : error.message;
   return [
     ...errors,

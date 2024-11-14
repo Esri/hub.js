@@ -1,5 +1,4 @@
-import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { ArcGISIdentityManager, IRequestOptions } from "@esri/arcgis-rest-request";
 import { getItemThumbnailUrl } from "../../resources";
 import { IHubRequestOptions, IModel } from "../../types";
 import { getItemHomeUrl } from "../../urls/get-item-home-url";
@@ -26,7 +25,7 @@ import { IHubEditableContentEnrichments } from "../../items/_enrichments";
 import { IItem } from "@esri/arcgis-rest-portal";
 import { isService } from "../../resources/is-service";
 
-export function computeProps(
+export function computeProps (
   model: IModel,
   content: Partial<IHubEditableContent>,
   requestOptions: IRequestOptions,
@@ -34,7 +33,7 @@ export function computeProps(
 ): IHubEditableContent {
   let token: string;
   if (requestOptions.authentication) {
-    const session: UserSession = requestOptions.authentication as UserSession;
+    const session: ArcGISIdentityManager = requestOptions.authentication as ArcGISIdentityManager;
     token = session.token;
   }
 
@@ -110,7 +109,7 @@ export function computeProps(
  * @param requestOptions
  * @returns extended props for a service-backed item
  */
-function getServiceExtendedProps(
+function getServiceExtendedProps (
   item: IItem,
   enrichments: IHubEditableContentEnrichments,
   requestOptions: IRequestOptions
@@ -152,7 +151,7 @@ function getServiceExtendedProps(
  * @param requestOptions
  * @returns
  */
-function getContentExtendedProps(
+function getContentExtendedProps (
   item: IItem,
   enrichments: IHubEditableContentEnrichments,
   requestOptions: IRequestOptions
@@ -174,7 +173,7 @@ function getContentExtendedProps(
  * @param requestOptions
  * @returns
  */
-function getBaseExtendedProps(
+function getBaseExtendedProps (
   item: IItem,
   enrichments: IHubEditableContentEnrichments,
   requestOptions: IRequestOptions

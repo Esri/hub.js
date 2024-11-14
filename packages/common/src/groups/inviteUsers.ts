@@ -1,10 +1,9 @@
-import { IUser } from "@esri/arcgis-rest-auth";
 import {
   IInviteGroupUsersResult,
   IInviteGroupUsersOptions,
   inviteGroupUsers,
 } from "@esri/arcgis-rest-portal";
-import { IAuthenticationManager } from "@esri/arcgis-rest-request";
+import { IAuthenticationManager, IUser } from "@esri/arcgis-rest-request";
 
 /**
  *
@@ -18,7 +17,7 @@ import { IAuthenticationManager } from "@esri/arcgis-rest-request";
  *
  * @returns {object|null} Result of the transaction (null if no users are passed in)
  */
-export function inviteUsers(
+export function inviteUsers (
   id: string,
   users: IUser[],
   authentication: IAuthenticationManager,

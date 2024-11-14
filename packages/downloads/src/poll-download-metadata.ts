@@ -1,5 +1,5 @@
 import * as EventEmitter from "eventemitter3";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { hubPollDownloadMetadata } from "./hub/hub-poll-download-metadata";
 import { portalPollExportJobStatus } from "./portal/portal-poll-export-job-status";
 import { DownloadFormat } from "./download-format";
@@ -26,7 +26,7 @@ export interface IPollDownloadMetadataRequestParams {
   /* A SQL-style WHERE filter for attribute values.  Applicable to Hub API downloads only. */
   where?: string;
   /* Required for Portal downloads only. */
-  authentication?: UserSession;
+  authentication?: ArcGISIdentityManager;
   /* Identifier for the export job. Required for Portal downloads only. */
   jobId?: string;
   /* Time-stamp for export start. Required for Portal downloads only. */
@@ -41,7 +41,7 @@ export interface IPollDownloadMetadataRequestParams {
  * (with download link) or failed (with error)
  * @param params - parameters defining a dataset export job
  */
-export function pollDownloadMetadata(
+export function pollDownloadMetadata (
   params: IPollDownloadMetadataRequestParams
 ): IPoller {
   const {

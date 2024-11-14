@@ -1,11 +1,11 @@
 import { getItem, IItem, searchItems } from "@esri/arcgis-rest-portal";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { ArcGISIdentityManager, ArcGISAuthError } from "@esri/arcgis-rest-request";
 import {
   getService,
   getLayer,
   IFeatureServiceDefinition,
   ILayerDefinition,
-} from "@esri/arcgis-rest-feature-layer";
+} from "@esri/arcgis-rest-feature-service";
 import { DownloadFormat, DownloadFormats } from "../download-format";
 import { urlBuilder, composeDownloadId } from "../utils";
 import { DownloadTarget } from "../download-target";
@@ -15,7 +15,6 @@ import { isRecentlyUpdated } from "./utils";
 import { buildExistingExportsPortalQuery } from "@esri/hub-common";
 import { parseDatasetId } from "@esri/hub-common";
 import { IDownloadMetadataResults } from "..";
-import { ArcGISAuthError } from "@esri/arcgis-rest-request";
 
 enum ItemTypes {
   FeatureService = "Feature Service",
@@ -31,7 +30,7 @@ const isCollectionType = (format: DownloadFormat) =>
 export interface IPortalDownloadMetadataRequestParams {
   datasetId: string;
   format: DownloadFormat;
-  authentication?: UserSession;
+  authentication?: ArcGISIdentityManager;
   portal?: string; // optional if authentication is provided
   spatialRefId?: string;
   target?: DownloadTarget;
@@ -48,7 +47,7 @@ export interface ICacheSearchMetadata {
 /**
  * @private
  */
-export function portalRequestDownloadMetadata(
+export function portalRequestDownloadMetadata (
   params: IPortalDownloadMetadataRequestParams
 ): Promise<IDownloadMetadataResults> {
   const { datasetId, authentication, format, spatialRefId, target, portal } =
@@ -88,7 +87,7 @@ export function portalRequestDownloadMetadata(
         }),
         num: 1,
         sortField: "modified",
-        sortOrder: "DESC",
+        sortOrder: "desc",
         authentication,
         portal,
       });
@@ -113,7 +112,7 @@ export function portalRequestDownloadMetadata(
     });
 }
 
-function fetchCacheSearchMetadata(params: any): Promise<ICacheSearchMetadata> {
+function fetchCacheSearchMetadata (params: any): Promise<ICacheSearchMetadata> {
   const { format, layerId, url, type, modified, authentication, portal } =
     params;
 
@@ -142,7 +141,7 @@ function fetchCacheSearchMetadata(params: any): Promise<ICacheSearchMetadata> {
     });
 }
 
-function getPortalFormat(params: {
+function getPortalFormat (params: {
   format: DownloadFormat;
   layerId: string;
   layers: ILayerDefinition[];
@@ -154,11 +153,11 @@ function getPortalFormat(params: {
     : format;
 }
 
-function isMultilayerRequest(layerId: string, layers: ILayerDefinition[]) {
+function isMultilayerRequest (layerId: string, layers: ILayerDefinition[]) {
   return layerId === undefined && layers.length > 1;
 }
 
-function extractLastEditDate(layers: ILayerDefinition[]) {
+function extractLastEditDate (layers: ILayerDefinition[]) {
   const result = layers
     .map((layer: ILayerDefinition) => {
       const { editingInfo: { lastEditDate } = {} } = layer;
@@ -173,7 +172,7 @@ function extractLastEditDate(layers: ILayerDefinition[]) {
   return result[0];
 }
 
-function formatDownloadMetadata(params: any): IDownloadMetadataResults {
+function formatDownloadMetadata (params: any): IDownloadMetadataResults {
   const {
     cachedDownload,
     serviceLastEditDate,
@@ -220,7 +219,7 @@ function formatDownloadMetadata(params: any): IDownloadMetadataResults {
   };
 }
 
-function determineStatus(
+function determineStatus (
   serviceLastEditDate: Date,
   exportCreatedDate: Date,
   recentlyUpdated: boolean
@@ -246,7 +245,7 @@ function determineStatus(
  * @param requestPromise
  * @private
  */
-function retryWithoutAuthOnFail<T>(requestPromise: Promise<T>): Promise<T> {
+function retryWithoutAuthOnFail<T> (requestPromise: Promise<T>): Promise<T> {
   return requestPromise.catch((error: ArcGISAuthError | Error) => {
     if (error.name === "ArcGISAuthError") {
       // try again with no auth

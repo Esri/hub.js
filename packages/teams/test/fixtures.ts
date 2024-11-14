@@ -1,4 +1,4 @@
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 
 const TOMORROW = (function () {
   const now = new Date();
@@ -6,14 +6,14 @@ const TOMORROW = (function () {
   return now;
 })();
 
-export const MOCK_AUTH = new UserSession({
+export const MOCK_AUTH = new ArcGISIdentityManager({
   clientId: "clientId",
   redirectUri: "https://example-app.com/redirect-uri",
   token: "fake-token",
   tokenExpires: TOMORROW,
   refreshToken: "refreshToken",
   refreshTokenExpires: TOMORROW,
-  refreshTokenTTL: 1440,
+  tokenDuration: 1440,
   username: "casey",
   password: "123456",
   portal: "https://myorg.maps.arcgis.com/sharing/rest",

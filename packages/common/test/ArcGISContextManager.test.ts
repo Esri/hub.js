@@ -11,7 +11,6 @@ import {
 import { base64ToUnicode, unicodeToBase64 } from "../src/utils/encoding";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as requestModule from "@esri/arcgis-rest-request";
-import * as authModule from "@esri/arcgis-rest-auth";
 import * as appResourcesModule from "../src/utils/hubUserAppResources";
 import * as userResourcesModule from "../src/utils/internal/userAppResources";
 import * as orgLimitsModule from "../src/org/fetchOrgLimits";
@@ -524,7 +523,7 @@ describe("ArcGISContext:", () => {
           },
         });
       });
-      const exchangeTokenSpy = spyOn(authModule, "exchangeToken").and.callFake(
+      const exchangeTokenSpy = spyOn(requestModule, "exchangeToken").and.callFake(
         (_: string, clientId: string) => {
           return Promise.resolve(`FAKE-${clientId}-TOKEN`);
         }
@@ -584,7 +583,7 @@ describe("ArcGISContext:", () => {
           },
         });
       });
-      const exchangeTokenSpy = spyOn(authModule, "exchangeToken").and.callFake(
+      const exchangeTokenSpy = spyOn(requestModule, "exchangeToken").and.callFake(
         (_: string, clientId: string) => {
           return Promise.resolve(`FAKE-${clientId}-TOKEN`);
         }
@@ -638,7 +637,7 @@ describe("ArcGISContext:", () => {
           },
         });
       });
-      const exchangeTokenSpy = spyOn(authModule, "exchangeToken").and.callFake(
+      const exchangeTokenSpy = spyOn(requestModule, "exchangeToken").and.callFake(
         (_: string, clientId: string) => {
           return Promise.resolve(`FAKE-${clientId}-TOKEN`);
         }
@@ -760,7 +759,7 @@ describe("ArcGISContext:", () => {
       const trustedSpy = spyOn(requestModule, "request").and.callFake(() => {
         return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
       });
-      const exchangeSpy = spyOn(authModule, "exchangeToken").and.callFake(
+      const exchangeSpy = spyOn(requestModule, "exchangeToken").and.callFake(
         (_: string, cid: string) => {
           return Promise.resolve(`FAKE-TOKEN-FOR-${cid}`);
         }
@@ -800,7 +799,7 @@ describe("ArcGISContext:", () => {
       const trustedSpy = spyOn(requestModule, "request").and.callFake(() => {
         return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
       });
-      const exchangeSpy = spyOn(authModule, "exchangeToken").and.callFake(
+      const exchangeSpy = spyOn(requestModule, "exchangeToken").and.callFake(
         (_: string, cid: string) => {
           return Promise.resolve(`FAKE-TOKEN-FOR-${cid}`);
         }
@@ -827,19 +826,19 @@ describe("ArcGISContext:", () => {
       const trustedSpy = spyOn(requestModule, "request").and.callFake(() => {
         return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
       });
-      const exchangeSpy = spyOn(authModule, "exchangeToken").and.callFake(
+      const exchangeSpy = spyOn(requestModule, "exchangeToken").and.callFake(
         () => {
           return Promise.reject("FAIL");
         }
       );
       // flex case where auth does not have clientId
-      const MOCK_AUTH_NO_CLIENTID = new authModule.UserSession({
+      const MOCK_AUTH_NO_CLIENTID = new requestModule.ArcGISIdentityManager({
         redirectUri: "https://example-app.com/redirect-uri",
         token: "fake-token",
         tokenExpires: TOMORROW,
         refreshToken: "refreshToken",
         refreshTokenExpires: TOMORROW,
-        refreshTokenTTL: 1440,
+        tokenDuration: 1440,
         username: "casey",
         password: "123456",
         portal: "https://myorg.maps.arcgis.com/sharing/rest",
@@ -1083,7 +1082,7 @@ describe("ArcGISContext:", () => {
         return Promise.resolve(cloneObject(onlinePortalSelfWithLimitsResponse));
       });
       const updatedUserResponse = cloneObject(onlineUserResponse);
-      updatedUserResponse.groups.push({
+      updatedUserResponse?.groups?.push({
         id: "ff0",
         title: "Fake Group 2",
         userMembership: {

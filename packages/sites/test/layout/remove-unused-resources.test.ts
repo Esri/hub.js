@@ -1,15 +1,15 @@
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { IHubRequestOptions } from "@esri/hub-common";
 
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 
 import { removeUnusedResources } from "../../src/layout";
 import * as _getImageCropIdsFromLayout from "../../src/layout/_get-image-crop-ids-from-layout";
 
 import { ISection } from "../../src/layout/types";
 
-describe("removeUnusedResources", function() {
-  const mockUserSession = new UserSession({
+describe("removeUnusedResources", function () {
+  const mockUserSession = new ArcGISIdentityManager({
     username: "vader",
     password: "123456",
     token: "fake-token",
@@ -29,7 +29,7 @@ describe("removeUnusedResources", function() {
     authentication: mockUserSession
   };
 
-  it("all cards in all row in section should should have dependencies extracted", async function() {
+  it("all cards in all row in section should should have dependencies extracted", async function () {
     spyOn(
       _getImageCropIdsFromLayout,
       "_getImageCropIdsFromLayout"
@@ -92,7 +92,7 @@ describe("removeUnusedResources", function() {
     ]);
   });
 
-  it("layout with 0 cropIds should remove all ", async function() {
+  it("layout with 0 cropIds should remove all ", async function () {
     spyOn(
       _getImageCropIdsFromLayout,
       "_getImageCropIdsFromLayout"
@@ -147,7 +147,7 @@ describe("removeUnusedResources", function() {
     ]);
   });
 
-  it("layout containing 0 imageCropIds should remove all resources that start with 'hub-image-card-crop-'", async function() {
+  it("layout containing 0 imageCropIds should remove all resources that start with 'hub-image-card-crop-'", async function () {
     spyOn(
       _getImageCropIdsFromLayout,
       "_getImageCropIdsFromLayout"
@@ -220,7 +220,7 @@ describe("removeUnusedResources", function() {
     ]);
   });
 
-  it("getItemResources returning 0 resources should not call removeItemResource at all", async function() {
+  it("getItemResources returning 0 resources should not call removeItemResource at all", async function () {
     spyOn(
       _getImageCropIdsFromLayout,
       "_getImageCropIdsFromLayout"
@@ -250,7 +250,7 @@ describe("removeUnusedResources", function() {
     expect(res).toEqual([]);
   });
 
-  it("getItemResources throwing error should rethrow it", async function() {
+  it("getItemResources throwing error should rethrow it", async function () {
     spyOn(portalModule, "getItemResources").and.throwError(
       "getItemResources threw an error for some reason"
     );

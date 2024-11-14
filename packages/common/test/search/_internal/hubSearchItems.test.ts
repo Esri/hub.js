@@ -10,7 +10,7 @@ import {
   IQuery,
 } from "../../../src";
 
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import {
   formatPredicate,
   formatFilterBlock,
@@ -241,10 +241,10 @@ describe("hubSearchItems Module |", () => {
         const result = formatPredicate(predicate);
         expect(result).toEqual(
           "(" +
-            "tags IN ('tag A', tagB) AND tags='tag C' AND tags=tagD" +
-            " AND " +
-            "type IN ('type A', typeB) AND type NOT IN ('type C', typeD)" +
-            ")"
+          "tags IN ('tag A', tagB) AND tags='tag C' AND tags=tagD" +
+          " AND " +
+          "type IN ('type A', typeB) AND type NOT IN ('type C', typeD)" +
+          ")"
         );
       });
 
@@ -263,12 +263,12 @@ describe("hubSearchItems Module |", () => {
 
         expect(result).toEqual(
           "(" +
-            "type='type A'" +
-            " AND " +
-            "tags IN ('tag A', tagB)" +
-            " AND " +
-            "categories IN ('category A', categoryB) AND categories='category C' AND categories=categoryD AND categories NOT IN ('category E', categoryF)" +
-            ")"
+          "type='type A'" +
+          " AND " +
+          "tags IN ('tag A', tagB)" +
+          " AND " +
+          "categories IN ('category A', categoryB) AND categories='category C' AND categories=categoryD AND categories NOT IN ('category E', categoryF)" +
+          ")"
         );
       });
     });
@@ -335,8 +335,8 @@ describe("hubSearchItems Module |", () => {
 
         expect(result).toEqual(
           "((type=typeA) OR (tags=tagA))" +
-            " AND " +
-            "((type=typeB) OR (tags=tagB))"
+          " AND " +
+          "((type=typeB) OR (tags=tagB))"
         );
       });
       it("ignores term filters / predicates", () => {
@@ -368,8 +368,8 @@ describe("hubSearchItems Module |", () => {
 
         expect(result).toEqual(
           "((type=typeA) AND (tags=tagA))" +
-            " AND " +
-            "((type=typeB) OR (tags=tagB))"
+          " AND " +
+          "((type=typeB) OR (tags=tagB))"
         );
       });
     });
@@ -405,7 +405,7 @@ describe("hubSearchItems Module |", () => {
           requestOptions: {
             authentication: {
               token: "abc",
-            } as UserSession,
+            } as ArcGISIdentityManager,
           },
         };
 
@@ -427,7 +427,7 @@ describe("hubSearchItems Module |", () => {
           requestOptions: {
             authentication: {
               token: "abc",
-            } as UserSession,
+            } as ArcGISIdentityManager,
           },
           num: 9,
         };
@@ -450,7 +450,7 @@ describe("hubSearchItems Module |", () => {
           requestOptions: {
             authentication: {
               token: "abc",
-            } as UserSession,
+            } as ArcGISIdentityManager,
           },
           num: 9,
           start: 10,
@@ -474,7 +474,7 @@ describe("hubSearchItems Module |", () => {
           requestOptions: {
             authentication: {
               token: "abc",
-            } as UserSession,
+            } as ArcGISIdentityManager,
           },
           num: 9,
           start: 10,
@@ -501,7 +501,7 @@ describe("hubSearchItems Module |", () => {
           requestOptions: {
             authentication: {
               token: "abc",
-            } as UserSession,
+            } as ArcGISIdentityManager,
           },
           num: 9,
           start: 10,
@@ -591,7 +591,7 @@ describe("hubSearchItems Module |", () => {
           requestOptions: {
             authentication: {
               token: "abc",
-            } as UserSession,
+            } as ArcGISIdentityManager,
           },
         };
         const opendataQuery = cloneObject(baseQuery);

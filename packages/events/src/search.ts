@@ -2,14 +2,15 @@
  * Apache-2.0 */
 
 import {
+  IGeometry,
+  IFeature,
   IQueryFeaturesOptions,
   queryFeatures,
   IQueryFeaturesResponse
-} from "@esri/arcgis-rest-feature-layer";
+} from "@esri/arcgis-rest-feature-service";
 
 import { ISearchOptions, searchItems } from "@esri/arcgis-rest-portal";
-import { IGeometry, IFeature } from "@esri/arcgis-rest-types";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { IAuthenticationManager, IRequestOptions } from "@esri/arcgis-rest-request";
 
 export interface IEventResourceObject {
   id: number | string;
@@ -53,7 +54,7 @@ export interface IEventResourceObject {
  * @param requestOptions - request options that may include authentication
  * @returns A Promise that will resolve with decorated features from the event feature service for a Hub enabled ArcGIS Online organization.
  */
-export function searchEvents(
+export function searchEvents (
   requestOptions: IQueryFeaturesOptions
 ): Promise<{ data: IEventResourceObject[]; included: IEventResourceObject[] }> {
   const queryOptions: IQueryFeaturesOptions = {
@@ -70,7 +71,7 @@ export function searchEvents(
     }
     // if authentication is passed, get a reference to the token to tack onto image urls
     if (queryOptions.authentication) {
-      return queryOptions.authentication
+      return (queryOptions.authentication as IAuthenticationManager)
         .getToken(queryOptions.url)
         .then(token => {
           return buildEventResponse(
@@ -90,7 +91,7 @@ export function searchEvents(
   });
 }
 
-function buildEventResponse(
+function buildEventResponse (
   features: IFeature[],
   url: string,
   requestOptions: IRequestOptions,
@@ -102,16 +103,15 @@ function buildEventResponse(
   const cacheBust = new Date().getTime();
   let siteSearchQuery = "";
 
-  features.forEach(function(event) {
+  features.forEach(function (event) {
     const attributes = event.attributes;
     const geometry = event.geometry;
     let imageUrl = null;
     if (attributes.imageAttributes) {
       const imageAttributes = JSON.parse(attributes.imageAttributes);
       if (imageAttributes.crop) {
-        imageUrl = `${url}/${attributes.OBJECTID}/attachments/${
-          imageAttributes.crop
-        }?v=${cacheBust}`;
+        imageUrl = `${url}/${attributes.OBJECTID}/attachments/${imageAttributes.crop
+          }?v=${cacheBust}`;
         if (token) {
           imageUrl += `&token=${token}`;
         }
@@ -140,7 +140,7 @@ function buildEventResponse(
   // search for site items and include those in the response
   const searchRequestOptions = requestOptions as ISearchOptions;
   searchRequestOptions.q = siteSearchQuery;
-  return searchItems(searchRequestOptions).then(function(siteInfo) {
+  return searchItems(searchRequestOptions).then(function (siteInfo) {
     siteInfo.results.forEach(siteItem => {
       included.push({
         id: siteItem.id,

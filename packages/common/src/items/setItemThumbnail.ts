@@ -1,4 +1,4 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { updateItem } from "@esri/arcgis-rest-portal";
 import HubError from "../HubError";
 
@@ -9,7 +9,7 @@ import HubError from "../HubError";
  * @param filename
  * @param requestOptions
  */
-export async function setItemThumbnail(
+export async function setItemThumbnail (
   id: string,
   file: any,
   filename: string,

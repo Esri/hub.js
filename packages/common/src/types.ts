@@ -5,13 +5,11 @@ import {
   IItem,
   IUser,
   IGroup,
-  IPolygon,
-  ISpatialReference,
-  IGeometry,
-} from "@esri/arcgis-rest-types";
-import { IPortal, ISearchResult } from "@esri/arcgis-rest-portal";
-import { UserSession } from "@esri/arcgis-rest-auth";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
+  IPortal,
+  ISearchResult
+} from "@esri/arcgis-rest-portal";
+import { ISpatialReference, IGeometry } from "@esri/arcgis-rest-feature-service";
+import { ArcGISIdentityManager, IPolygon, IRequestOptions } from "@esri/arcgis-rest-request";
 
 /**
  * Generic Model, used with all items that have a json
@@ -110,7 +108,7 @@ export interface IHubRequestOptionsPortalSelf extends IPortal {
 }
 
 export interface IHubRequestOptions extends IRequestOptions {
-  authentication?: UserSession;
+  authentication?: ArcGISIdentityManager;
   isPortal?: boolean;
   hubApiUrl?: string;
   portalSelf?: IHubRequestOptionsPortalSelf;
@@ -120,7 +118,7 @@ export interface IHubRequestOptions extends IRequestOptions {
  * Options for requests that require an authenticated user.
  */
 export interface IHubUserRequestOptions extends IHubRequestOptions {
-  authentication: UserSession;
+  authentication: ArcGISIdentityManager;
 }
 
 export interface IHubTrustedOrgsResponse {

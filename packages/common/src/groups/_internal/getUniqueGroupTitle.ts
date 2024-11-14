@@ -1,6 +1,6 @@
 import { IQuery } from "../../search/types";
 import { hubSearch } from "../../search/hubSearch";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IUserRequestOptions } from "@esri/arcgis-rest-request";
 
 /**
  * @private
@@ -16,7 +16,7 @@ import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
  * @param {IUserRequestOptions} requestOptions
  * @param {Number} step Number to increment. Defaults to 0
  */
-export async function getUniqueGroupTitle(
+export async function getUniqueGroupTitle (
   title: string,
   requestOptions: IUserRequestOptions,
   step = 0
@@ -48,7 +48,7 @@ export async function getUniqueGroupTitle(
  * @param {String} title Group Title
  * @param {IUserRequestOptions} requestOptions
  */
-async function doesGroupExist(
+async function doesGroupExist (
   title: string,
   requestOptions: IUserRequestOptions
 ) {

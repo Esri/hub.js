@@ -1,5 +1,5 @@
 import * as portalModule from "@esri/arcgis-rest-portal";
-import * as featureLayerModule from "@esri/arcgis-rest-feature-layer";
+import * as featureLayerModule from "@esri/arcgis-rest-feature-service";
 import {
   IHubRequestOptions,
   fetchContent,
@@ -45,7 +45,7 @@ describe("fetchContent", () => {
   beforeAll(() => {
     // suppress deprecation warnings
     // tslint:disable-next-line: no-empty
-    spyOn(console, "warn").and.callFake(() => {});
+    spyOn(console, "warn").and.callFake(() => { });
   });
   let portal: string;
   let hubApiUrl: string;

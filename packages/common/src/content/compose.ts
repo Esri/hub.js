@@ -2,8 +2,8 @@ import { IItem } from "@esri/arcgis-rest-portal";
 import {
   ILayerDefinition,
   IFeatureServiceDefinition,
-  parseServiceUrl,
-} from "@esri/arcgis-rest-feature-layer";
+  parseServiceUrl
+} from "@esri/arcgis-rest-feature-service";
 import { BBox, IHubRequestOptions } from "../types";
 import { getHubApiUrl } from "../api";
 import { isDownloadable } from "../categories";
@@ -417,7 +417,7 @@ export const isFeatureService = (type: string) => {
  * @param typeKeywords - the typeKeywords on the item
  */
 
-export function isSiteType(type: string, typeKeywords: string[] = []) {
+export function isSiteType (type: string, typeKeywords: string[] = []) {
   return (
     type === "Site Application" ||
     type === "Hub Site Application" ||
@@ -436,7 +436,7 @@ export function isSiteType(type: string, typeKeywords: string[] = []) {
  * @returns type of the input item.
  *
  */
-export function normalizeItemType(item: any = {}): string {
+export function normalizeItemType (item: any = {}): string {
   let ret = item.type;
   const typeKeywords = item.typeKeywords || [];
   if (isSiteType(item.type, typeKeywords)) {
@@ -511,7 +511,7 @@ export const getItemHubId = (item: IItem) => {
  * @param categories - an array of strings
  * @private
  */
-export function parseItemCategories(categories: string[]) {
+export function parseItemCategories (categories: string[]) {
   if (!categories) return categories;
 
   const exclude = ["categories", ""];
@@ -560,9 +560,9 @@ export const getItemLayer = (
     layers &&
     (!isNil(_layerId)
       ? // find the explicitly set layer id
-        layers.find((_layer) => _layer.id === _layerId)
+      layers.find((_layer) => _layer.id === _layerId)
       : // for feature servers with a single layer always show the layer
-        isFeatureService(item.type) && getOnlyQueryLayer(layers))
+      isFeatureService(item.type) && getOnlyQueryLayer(layers))
   );
 };
 
@@ -641,9 +641,9 @@ export const composeContent = (
   // so much depends on type
   const type = layer
     ? // use layer type (Feature Layer, Table, etc) for layer content
-      layer.type
+    layer.type
     : // otherwise use the normalized item type
-      normalizeItemType(item);
+    normalizeItemType(item);
   // all the urls
   const urls = {
     relative: getHubRelativeUrl(type, identifier, item.typeKeywords),
@@ -694,67 +694,67 @@ export const composeContent = (
     // especially where we want to defer computation of less used props
     hubId,
     identifier,
-    get isProxied() {
+    get isProxied () {
       return !!_proxyUrl;
     },
     layer,
     name,
-    get canEdit() {
+    get canEdit () {
       return _canEdit;
     },
-    get canDelete() {
+    get canDelete () {
       return _canDelete;
     },
-    get title() {
+    get title () {
       return name;
     },
-    get description() {
+    get description () {
       return _layerDescription || item.description;
     },
     type,
-    get family() {
+    get family () {
       return getFamily(type);
     },
-    get url() {
+    get url () {
       return _proxyUrl
         ? _proxyUrl
         : layer
-        ? `${parseServiceUrl(item.url)}/${layer.id}`
-        : item.url;
+          ? `${parseServiceUrl(item.url)}/${layer.id}`
+          : item.url;
     },
-    get categories() {
+    get categories () {
       return parseItemCategories(item.categories);
     },
-    get actionLinks() {
+    get actionLinks () {
       return item.properties && item.properties.links;
     },
-    get hubActions() {
+    get hubActions () {
       return item.properties && item.properties.actions;
     },
-    get isDownloadable() {
+    get isDownloadable () {
       return isDownloadable(item);
     },
-    get structuredLicense() {
+    get structuredLicense () {
       return getStructuredLicense(item.licenseInfo);
     },
-    get permissions() {
+    get permissions () {
       return {
         visibility: item.access,
         control: item.itemControl || "view",
         // TODO: groups?
       };
     },
-    get extent() {
+    get extent () {
       return determineExtent(item, extent, layer);
     },
     // would require us to do client-side projection of server/layer extent
-    get boundary() {
+    get boundary () {
       // NOTE: the boundary from the Hub API will be undefined if item.properties.boundary === 'none'
       return boundary?.provenance === "automatic"
         ? boundary
         : getContentBoundary(item);
     },
-    get summary() {
+    get summary () {
       return (
         searchDescription ||
         // TODO: this should use the logic for the Hub API's searchDescription
@@ -764,74 +764,74 @@ export const composeContent = (
       );
     },
     urls,
-    get portalHomeUrl() {
+    get portalHomeUrl () {
       return urls.portalHome;
     },
-    get portalDataUrl() {
+    get portalDataUrl () {
       return urls.portalData;
     },
-    get portalApiUrl() {
+    get portalApiUrl () {
       return urls.portalApi;
     },
-    get thumbnailUrl() {
+    get thumbnailUrl () {
       return urls.thumbnail;
     },
     /** The date the item was created */
-    get createdDate() {
+    get createdDate () {
       return new Date(item.created);
     },
     createdDateSource: "item.created",
-    get updatedDate() {
+    get updatedDate () {
       return _updatedDateInfo.date;
     },
-    get updatedDateSource() {
+    get updatedDateSource () {
       return _updatedDateInfo.source;
     },
-    get updatedDatePrecision() {
+    get updatedDatePrecision () {
       return _updatedDateInfo.precision;
     },
-    get modified() {
+    get modified () {
       return _updatedDateInfo.date.getTime();
     },
-    get publishedDate() {
+    get publishedDate () {
       return _publishedDateInfo.date;
     },
-    get publishedDateSource() {
+    get publishedDateSource () {
       return _publishedDateInfo.source;
     },
-    get publishedDatePrecision() {
+    get publishedDatePrecision () {
       return _publishedDateInfo.precision;
     },
-    get metadataUpdatedDate() {
+    get metadataUpdatedDate () {
       return _metadataUpdatedDateInfo.date;
     },
-    get metadataUpdatedDateSource() {
+    get metadataUpdatedDateSource () {
       return _metadataUpdatedDateInfo.source;
     },
-    get metadataUpdatedDatePrecision() {
+    get metadataUpdatedDatePrecision () {
       return _metadataUpdatedDateInfo.precision;
     },
-    get updateFrequency() {
+    get updateFrequency () {
       return getUpdateFrequencyFromMetadata(metadata);
     },
-    get metadataUpdateFrequency() {
+    get metadataUpdateFrequency () {
       return getUpdateFrequencyFromMetadata(
         metadata,
         "metadataUpdateFrequency"
       );
     },
 
-    get publisher() {
+    get publisher () {
       return getPublisherInfo(item, metadata, org, ownerUser);
     },
     // TODO: is metrics in use?
-    get metrics() {
+    get metrics () {
       return item.properties && item.properties.metrics;
     },
-    get spatialReference() {
+    get spatialReference () {
       return layer?.extent?.spatialReference || getItemSpatialReference(item);
     },
-    get viewDefinition() {
+    get viewDefinition () {
       // if this is a layer view and we have the item data
       // find the definition that corresponds to the current layer
       const dataLayer =
@@ -842,17 +842,17 @@ export const composeContent = (
         data.layers.find((_layer) => _layer.id === layer.id);
       return dataLayer ? dataLayer.layerDefinition : undefined;
     },
-    get orgId() {
+    get orgId () {
       return org ? org.id : getItemOrgId(item, ownerUser);
     },
-    get contentTypeIcon() {
+    get contentTypeIcon () {
       /* Note: only returns calcite-icons */
       return getContentTypeIcon(type);
     },
-    get additionalResources() {
+    get additionalResources () {
       return getAdditionalResources(item, metadata);
     },
-    get itemControl() {
+    get itemControl () {
       return item.itemControl || "view";
     },
   } as IHubContent;

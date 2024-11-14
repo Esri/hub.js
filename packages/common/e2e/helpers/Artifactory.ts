@@ -3,7 +3,7 @@
 
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 
 import {
   ArcGISContextManager,
@@ -35,7 +35,7 @@ export default class Artifactory {
    * @returns
    * @memberof Artifactory
    */
-  getPortalUrl(name: string) {
+  getPortalUrl (name: string) {
     return `https://${this.getOrgShort(name)}.${this.agoBaseDomain}`;
   }
 
@@ -43,7 +43,7 @@ export default class Artifactory {
    * Given an identiry name (orgAdmin, orgViewer etc)
    * Return the username/password hash
    */
-  getIdentity(orgType: string, role: string): Record<string, unknown> {
+  getIdentity (orgType: string, role: string): Record<string, unknown> {
     const org = this.getOrg(orgType);
     const id = org[role] as Record<string, unknown>;
     if (!id) {
@@ -58,7 +58,7 @@ export default class Artifactory {
    * @param {string} orgType
    * @param {string} role
    */
-  getSession(orgType: string, role: string): UserSession {
+  getSession (orgType: string, role: string): ArcGISIdentityManager {
     const org = this.getOrg(orgType);
     const opts = this.getIdentity(orgType, role);
     if (!org.isPortal) {
@@ -67,10 +67,10 @@ export default class Artifactory {
       opts.portal = org.orgUrl;
     }
 
-    return new UserSession(opts);
+    return new ArcGISIdentityManager(opts);
   }
 
-  async getContextManager(
+  async getContextManager (
     orgType: string,
     role: string
   ): Promise<ArcGISContextManager> {
@@ -83,7 +83,7 @@ export default class Artifactory {
     return ArcGISContextManager.create(opts);
   }
 
-  async getAnonContextManager(orgType: string): Promise<ArcGISContextManager> {
+  async getAnonContextManager (orgType: string): Promise<ArcGISContextManager> {
     const org = this.getOrg(orgType);
     const opts: IArcGISContextManagerOptions = {
       portalUrl: org.orgUrl as unknown as string,
@@ -93,13 +93,13 @@ export default class Artifactory {
   /**
    * Get the org-short
    */
-  getOrgShort(name: string): string {
+  getOrgShort (name: string): string {
     return this.getOrg(name).orgShort as string;
   }
   /**
    * Get the org config by name
    */
-  getOrg(name: string): Record<string, unknown> {
+  getOrg (name: string): Record<string, unknown> {
     const org = getProp(this.orgs, name);
     if (!org) {
       throw new Error(
@@ -109,7 +109,7 @@ export default class Artifactory {
     return org;
   }
 
-  getFixtures(name: string): Record<string, unknown> {
+  getFixtures (name: string): Record<string, unknown> {
     return this.getOrg(name).fixtures as Record<string, unknown>;
   }
 }

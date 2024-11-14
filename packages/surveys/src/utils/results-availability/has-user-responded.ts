@@ -1,4 +1,4 @@
-import { queryFeatures, IQueryResponse } from "@esri/arcgis-rest-feature-layer";
+import { queryFeatures, IQueryResponse } from "@esri/arcgis-rest-feature-service";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 /**

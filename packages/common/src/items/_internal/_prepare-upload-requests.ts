@@ -1,4 +1,4 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { IBatch } from "../../types";
 
 /**
@@ -14,7 +14,7 @@ import { IBatch } from "../../types";
  * @param {IUserRequestOptions} requestOptions
  * @return {*}  {IBatch}
  */
-export function _prepareUploadRequests(
+export function _prepareUploadRequests (
   file: any,
   owner: string,
   id: string,

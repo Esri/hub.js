@@ -1,4 +1,4 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { IHubImage, IHubImageOptions } from "../types/IHubImage";
 
 /**
@@ -22,7 +22,7 @@ export interface IWithBannerImageStore {
    * @param opts
    * @param ro
    */
-  setBannerImage(
+  setBannerImage (
     id: string,
     opts: IHubImageOptions,
     ro: IUserRequestOptions
@@ -32,5 +32,5 @@ export interface IWithBannerImageStore {
    * @param id
    * @param ro
    */
-  clearBannerImage(id: string, ro: IUserRequestOptions): Promise<void>;
+  clearBannerImage (id: string, ro: IUserRequestOptions): Promise<void>;
 }

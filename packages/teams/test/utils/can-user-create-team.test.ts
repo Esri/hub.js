@@ -1,6 +1,6 @@
 import { canUserCreateTeam } from "../../src/utils/can-user-create-team";
 import { IHubRequestOptions } from "@esri/hub-common";
-import { IUser, UserSession } from "@esri/arcgis-rest-auth";
+import { IUser, ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import * as getUserCreatableTeamsModule from "../../src/utils/get-user-creatable-teams";
 
 describe("Name of the group", () => {
@@ -38,7 +38,7 @@ describe("Name of the group", () => {
           type: "In House"
         }
       },
-      authentication: {} as UserSession
+      authentication: {} as ArcGISIdentityManager
     } as IHubRequestOptions;
 
     const spy = spyOn(

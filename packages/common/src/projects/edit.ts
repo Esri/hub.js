@@ -1,4 +1,4 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IUserRequestOptions } from "@esri/arcgis-rest-request";
 
 // Note - we separate these imports so we can cleanly spy on things in tests
 import { createModel, getModel, updateModel } from "../models";
@@ -32,7 +32,7 @@ import { editorToEntity } from "../core/schemas/internal/metrics/editorToEntity"
  * @param project
  * @param requestOptions
  */
-export async function createProject(
+export async function createProject (
   partialProject: Partial<IHubProject>,
   requestOptions: IUserRequestOptions
 ): Promise<IHubProject> {
@@ -76,7 +76,7 @@ export async function createProject(
  * @param portal
  * @returns
  */
-export function editorToProject(
+export function editorToProject (
   editor: IHubProjectEditor,
   portal: IPortal
 ): IHubProject {
@@ -114,7 +114,7 @@ export function editorToProject(
  * @param project
  * @param requestOptions
  */
-export async function updateProject(
+export async function updateProject (
   project: IHubProject,
   requestOptions: IUserRequestOptions
 ): Promise<IHubProject> {
@@ -158,7 +158,7 @@ export async function updateProject(
  * @param id
  * @param requestOptions
  */
-export async function deleteProject(
+export async function deleteProject (
   id: string,
   requestOptions: IUserRequestOptions
 ): Promise<void> {

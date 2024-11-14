@@ -1,11 +1,11 @@
 import { linkSiteAndPage } from "../src";
 import * as commonModule from "@esri/hub-common";
 import * as portalModule from "@esri/arcgis-rest-portal";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import * as fetchMock from "fetch-mock";
 import { cloneObject } from "@esri/hub-common";
 
-function resetSpys(...args: jasmine.Spy[]) {
+function resetSpys (...args: jasmine.Spy[]) {
   args.forEach(spy => spy.calls.reset());
 }
 
@@ -56,7 +56,7 @@ describe("linkSiteAndPage", () => {
     await linkSiteAndPage({
       siteModel: cloneObject(siteModel),
       pageModel: cloneObject(pageModel),
-      authentication: {} as UserSession
+      authentication: {} as ArcGISIdentityManager
     });
 
     expect(updateSpy).toHaveBeenCalledTimes(2);
@@ -90,12 +90,12 @@ describe("linkSiteAndPage", () => {
     // make an old site
     const oldSite = commonModule.cloneObject(siteModel);
     oldSite.item.type = "Web Mapping Application";
-    oldSite.item.typeKeywords.push("hubSite");
+    oldSite.item.typeKeywords?.push("hubSite");
 
     await linkSiteAndPage({
       siteModel: oldSite,
       pageModel: cloneObject(pageModel),
-      authentication: {} as UserSession
+      authentication: {} as ArcGISIdentityManager
     });
 
     expect(updateSpy).toHaveBeenCalledTimes(2);
@@ -113,7 +113,7 @@ describe("linkSiteAndPage", () => {
     await linkSiteAndPage({
       siteModel: site,
       pageModel: page,
-      authentication: {} as UserSession
+      authentication: {} as ArcGISIdentityManager
     });
 
     expect(updateSpy).toHaveBeenCalledTimes(2);
@@ -136,7 +136,7 @@ describe("linkSiteAndPage", () => {
     await linkSiteAndPage({
       siteModel: site,
       pageModel: page,
-      authentication: {} as UserSession
+      authentication: {} as ArcGISIdentityManager
     });
 
     expect(updateSpy).not.toHaveBeenCalled();
@@ -153,7 +153,7 @@ describe("linkSiteAndPage", () => {
 
     const fakeSession = ({
       getToken: () => Promise.resolve("token")
-    } as unknown) as UserSession;
+    } as unknown) as ArcGISIdentityManager;
 
     // Non-existant site
     try {
@@ -208,7 +208,7 @@ describe("linkSiteAndPage", () => {
     await linkSiteAndPage({
       siteModel: cloneObject(siteModel),
       pageModel: notPage,
-      authentication: {} as UserSession
+      authentication: {} as ArcGISIdentityManager
     });
 
     expect(updateSpy).not.toHaveBeenCalled();

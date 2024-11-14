@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-auth";
+import { IUser } from "@esri/arcgis-rest-request";
 import { cloneObject, HubProduct } from "@esri/hub-common";
 import { WELLKNOWNTEAMS } from "../well-known-teams";
 import { canUserCreateTeamInProduct } from "./can-user-create-team-in-product";
@@ -15,7 +15,7 @@ import { applyPrivPropValuesToTemplate } from "./apply-priv-prop-values-to-templ
  * @param {string} portalApiVersion
  * @param {string} subscriptionInfoType
  */
-export function getUserCreatableTeams(
+export function getUserCreatableTeams (
   user: IUser,
   environment: HubProduct,
   subscriptionInfoType: string = ""

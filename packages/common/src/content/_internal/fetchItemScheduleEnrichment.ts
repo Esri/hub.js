@@ -1,9 +1,8 @@
 import { IItem } from "@esri/arcgis-rest-portal";
 import { IHubSchedule } from "../../core/types/IHubSchedule";
 import { getSchedule, isDownloadSchedulingAvailable } from "../manageSchedule";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { IRequestOptions, IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { IHubRequestOptions } from "../../types";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 /**
  * @private
@@ -16,7 +15,7 @@ import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
  * @param requestOptions
  * @returns the schedule enrichment or undefined
  */
-export async function fetchItemScheduleEnrichment(
+export async function fetchItemScheduleEnrichment (
   item: IItem,
   requestOptions: IRequestOptions
 ): Promise<IHubSchedule> {

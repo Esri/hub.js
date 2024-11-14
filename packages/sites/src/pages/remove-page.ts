@@ -8,14 +8,14 @@ import {
 } from "@esri/hub-common";
 import { unlinkSiteAndPage } from "../unlink-site-and-page";
 import { removeItem } from "@esri/arcgis-rest-portal";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IUserRequestOptions } from "@esri/arcgis-rest-request";
 
 /**
  * Remove a Page Item. This deletes the item.
  * @param {Object | String} idOrModel Model object or Item Id
  * @param {IRequestOptions} requestOptions
  */
-export function removePage(
+export function removePage (
   idOrModel: string | IModel,
   requestOptions: IUserRequestOptions
 ) {

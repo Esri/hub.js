@@ -3,8 +3,8 @@
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { searchItems, ISearchResult, IItem } from "@esri/arcgis-rest-portal";
-import { IQueryFeaturesOptions } from "@esri/arcgis-rest-feature-layer";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { IQueryFeaturesOptions } from "@esri/arcgis-rest-feature-service";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { getHubApiUrl } from "@esri/hub-common";
 
 /**
@@ -24,7 +24,7 @@ import { getHubApiUrl } from "@esri/hub-common";
  * @param requestOptions - request options that may include authentication
  * @returns A Promise that will resolve with the events API url for a Hub enabled ArcGIS Online organization.
  */
-export function getEventServiceUrl(
+export function getEventServiceUrl (
   orgId: string,
   requestOptions?: IRequestOptions
 ): Promise<string> {
@@ -60,7 +60,7 @@ export function getEventServiceUrl(
  * @param requestOptions - request options that may include authentication
  * @returns A Promise that will resolve with the events feature service url for a Hub enabled ArcGIS Online organization.
  */
-export function getEventFeatureServiceUrl(
+export function getEventFeatureServiceUrl (
   orgId: string,
   requestOptions?: IRequestOptions
 ): Promise<string> {
@@ -79,7 +79,7 @@ export function getEventFeatureServiceUrl(
  * @param options - query features request options
  * @returns an IQueryFeaturesOptions that has the same values as `options` but for the modified Where and OrderBy properties
  */
-export function getEventQueryFromType(
+export function getEventQueryFromType (
   type: "upcoming" | "past" | "cancelled" | "draft",
   options: IQueryFeaturesOptions
 ): IQueryFeaturesOptions {
@@ -97,7 +97,7 @@ export function getEventQueryFromType(
     if (!options.orderByFields) {
       newOptions.orderByFields = "EditDate DESC";
     }
-    const session = options.authentication as UserSession;
+    const session = options.authentication as ArcGISIdentityManager;
     const user = session ? session.username : null;
     typeWhere = `Creator = '${user}' AND status = 'draft'`;
   } else {
@@ -133,7 +133,7 @@ export function getEventQueryFromType(
  * @param requestOptions - request options that may include authentication
  * @returns A Promise that will resolve with the events item for a Hub enabled ArcGIS Online organization.
  */
-export function getEventServiceItem(
+export function getEventServiceItem (
   orgId: string,
   requestOptions?: IRequestOptions
 ): Promise<IItem> {

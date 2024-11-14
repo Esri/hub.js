@@ -1,6 +1,5 @@
 import { IItem } from "@esri/arcgis-rest-portal";
-import { ILayerDefinition } from "@esri/arcgis-rest-types";
-import * as featureLayerModule from "@esri/arcgis-rest-feature-layer";
+import * as featureLayerModule from "@esri/arcgis-rest-feature-service";
 import {
   DatasetResource,
   datasetToContent,
@@ -58,7 +57,7 @@ describe("content: ", () => {
   beforeAll(() => {
     // suppress deprecation warnings
     // tslint:disable-next-line: no-empty
-    spyOn(console, "warn").and.callFake(() => {});
+    spyOn(console, "warn").and.callFake(() => { });
   });
 
   describe("getTypes", () => {
@@ -491,7 +490,7 @@ describe("content: ", () => {
       item = cloneObject(documentItem) as IItem;
     });
     it("gets summary from description when no snippet", () => {
-      item.snippet = null;
+      item.snippet = undefined;
       const content = itemToContent(item);
       expect(content.summary).toBe(item.description);
     });
@@ -593,9 +592,9 @@ describe("content: ", () => {
       // but only the following line is needed
       attributes.layers[0].editingInfo = editingInfo;
       const content = datasetToContent(dataset);
-      expect(content.modified).toBe(attributes.modified);
-      expect(content.updatedDate).toEqual(new Date(attributes.modified));
-      expect(content.updatedDateSource).toBe(attributes.modifiedProvenance);
+      expect(content.modified).toBe(attributes?.modified);
+      expect(content.updatedDate).toEqual(new Date(attributes?.modified));
+      expect(content.updatedDateSource).toBe(attributes?.modifiedProvenance);
     });
     it("has org", () => {
       const dataset = cloneObject(featureLayerJson.data) as DatasetResource;
@@ -607,7 +606,7 @@ describe("content: ", () => {
       } = dataset.attributes;
       let content = datasetToContent(dataset);
       expect(content.org).toEqual({ id, extent, name });
-      delete dataset.attributes.orgName;
+      delete dataset.attributes?.orgName;
       content = datasetToContent(dataset);
       expect(content.org).toEqual(
         { id, extent, name: organization },
@@ -618,10 +617,10 @@ describe("content: ", () => {
       const dataset = cloneObject(documentsJson.data) as DatasetResource;
       // NOTE: I don't necessarily expect the API to return w/o these
       // but our code depends on them, this test is mostly here for coverage
-      delete dataset.attributes.searchDescription;
-      delete dataset.attributes.errors;
+      delete dataset.attributes?.searchDescription;
+      delete dataset.attributes?.errors;
       const content = datasetToContent(dataset);
-      expect(content.summary).toBe(dataset.attributes.snippet);
+      expect(content.summary).toBe(dataset.attributes?.snippet);
       expect(content.extent).toBeUndefined();
       // NOTE: the document JSON does not have org attributes
       expect(content.org).toBeUndefined();
@@ -629,7 +628,7 @@ describe("content: ", () => {
     it("has extent returned from hub API", () => {
       const dataset = cloneObject(featureLayerJson.data) as DatasetResource;
       const content = datasetToContent(dataset);
-      expect(content.extent).toEqual(dataset.attributes.extent.coordinates);
+      expect(content.extent).toEqual(dataset.attributes?.extent.coordinates);
     });
     // NOTE: other use cases are covered by getContent() tests
   });
@@ -1210,7 +1209,7 @@ describe("content: ", () => {
           ymin: 3,
           ymax: 4,
         },
-      } as unknown as ILayerDefinition;
+      } as unknown as featureLayerModule.ILayerDefinition;
       const result = determineExtent(item, extentEnrichment, layer);
       expect(result).toEqual([
         [1, 3],

@@ -4,7 +4,7 @@ import {
 } from "@esri/arcgis-rest-portal";
 import { DownloadFormat } from "../download-format";
 import * as EventEmitter from "eventemitter3";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { IPoller } from "../poller";
 import { exportSuccessHandler } from "./portal-export-success-handler";
 import { DownloadStatus } from "../download-status";
@@ -17,7 +17,7 @@ interface IPortalPollExportJobStatusParams {
   downloadId: string;
   datasetId: string;
   format: DownloadFormat;
-  authentication: UserSession;
+  authentication: ArcGISIdentityManager;
   jobId: string;
   exportCreated: number;
   eventEmitter: EventEmitter;
@@ -30,12 +30,12 @@ interface IPortalPollExportJobStatusParams {
 class PortalPoller implements IPoller {
   pollTimer: any;
 
-  disablePoll() {
+  disablePoll () {
     clearInterval(this.pollTimer);
     this.pollTimer = null;
   }
 
-  activatePoll(params: IPortalPollExportJobStatusParams) {
+  activatePoll (params: IPortalPollExportJobStatusParams) {
     const {
       downloadId,
       datasetId,
@@ -114,7 +114,7 @@ class PortalPoller implements IPoller {
 /**
  * @private
  */
-export function portalPollExportJobStatus(
+export function portalPollExportJobStatus (
   params: IPortalPollExportJobStatusParams
 ): PortalPoller {
   const poller = new PortalPoller();
