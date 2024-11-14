@@ -186,8 +186,8 @@ export enum CommonSort {
  * @enum {string}
  */
 export enum SearchPostsFormat {
-  CSV = "CSV",
-  JSON = "JSON",
+  CSV = "csv",
+  JSON = "json",
 }
 
 /**
