@@ -182,6 +182,15 @@ export enum CommonSort {
 }
 
 /**
+ * @export
+ * @enum {string}
+ */
+export enum SearchPostsFormat {
+  CSV = "CSV",
+  JSON = "JSON",
+}
+
+/**
  * creator property
  *
  * @export
@@ -576,6 +585,7 @@ export interface ISearchPosts
   groups?: string[];
   access?: SharingAccess[];
   channels?: string[];
+  f?: SearchPostsFormat;
 }
 
 /**
