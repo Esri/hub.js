@@ -1,6 +1,6 @@
 import { parseServiceUrl } from "@esri/arcgis-rest-feature-service";
 import { getItem, IItem } from "@esri/arcgis-rest-portal";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { IAuthenticationManager, IRequestOptions } from "@esri/arcgis-rest-request";
 
 /**
  * Checks if a server's services directory is disabled. Consider hoisting this to RESTJS
@@ -21,7 +21,7 @@ export const isServicesDirectoryDisabled = async (
     if (item.url) {
       let url = parseServiceUrl(item.url);
       if (item.access !== "public" && requestOptions.authentication) {
-        const token = await requestOptions.authentication.getToken(
+        const token = await (requestOptions.authentication as IAuthenticationManager).getToken(
           item.url,
           requestOptions
         );

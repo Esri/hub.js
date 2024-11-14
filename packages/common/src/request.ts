@@ -30,7 +30,7 @@ export class RemoteServerError extends Error {
  * @param route API route
  * @param requestOptions request options
  */
-export function hubApiRequest(
+export function hubApiRequest (
   route: string,
   requestOptions?: IHubRequestOptions
 ) {
@@ -40,8 +40,7 @@ export function hubApiRequest(
     httpMethod: "GET",
     ...requestOptions,
   };
-  // use fetch override if any
-  const _fetch = options.fetch || fetch;
+
   // merge in default headers
   const headers = {
     "Content-Type": "application/json",
@@ -63,7 +62,8 @@ export function hubApiRequest(
     path: `/api/v3/${route}`.replace(/\/\//g, "/"),
     query,
   });
-  return _fetch(url, {
+  //options.fetch no longer exists in IRequestOptions
+  return fetch(url, {
     method: options.httpMethod,
     headers,
     body,

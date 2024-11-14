@@ -27,7 +27,7 @@ import { getQueryString } from "./getQueryString";
  * @param options options to customize the search, such as the site whose catalogs we're targeting
  * @returns the JSON response from the endpoint
  */
-export async function ogcApiRequest(
+export async function ogcApiRequest (
   url: string,
   queryParams: Record<string, any>,
   options: IHubSearchOptions
@@ -42,9 +42,8 @@ export async function ogcApiRequest(
 
   const withQueryString = url + getQueryString(updatedQueryParams);
 
-  // use fetch override if any
-  const _fetch = options.requestOptions?.fetch || fetch;
-  const response = await _fetch(withQueryString, { method: "GET" });
+  //options.fetch no longer exists in IRequestOptions
+  const response = await fetch(withQueryString, { method: "GET" });
 
   if (!response.ok) {
     throw new RemoteServerError(

@@ -8,8 +8,8 @@ import {
   IStaticValueMetricSource,
   MetricSource,
 } from "../core/types/Metrics";
-import { queryFeatures } from "@esri/arcgis-rest-feature-service";
-import { IItem, IStatisticDefinition } from "@esri/arcgis-rest-portal";
+import { IStatisticDefinition, queryFeatures } from "@esri/arcgis-rest-feature-service";
+import { IItem } from "@esri/arcgis-rest-portal";
 import { getProp } from "../objects/get-prop";
 import { IPredicate, IQuery } from "../search/types/IHubCatalog";
 import { combineQueries } from "../search/_internal/combineQueries";
