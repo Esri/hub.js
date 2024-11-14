@@ -37,16 +37,10 @@ export function canEditPost(
   channel: IChannel
 ): boolean {
   const { access, groups, orgs, allowAnonymous } = channel;
-
   if (channel.channelAcl) {
-    const canPostOrReply = post.parentId
-      ? channel.allowReply
-      : channel.allowPost;
     const channelPermission = new ChannelPermission(channel);
     return (
-      isPostCreator(post, user) &&
-      canPostOrReply &&
-      channelPermission.canPostToChannel(user)
+      isPostCreator(post, user) && channelPermission.canPostToChannel(user)
     );
   }
 
