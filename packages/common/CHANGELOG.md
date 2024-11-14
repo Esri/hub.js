@@ -1,3 +1,10 @@
+# @esri/hub-common [15.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.5.0...@esri/hub-common@15.6.0) (2024-11-14)
+
+
+### Features
+
+* **hub-discussions:** added enum and parameter for downloading posts as csv ([#1734](https://github.com/Esri/hub.js/issues/1734)) ([19af95f](https://github.com/Esri/hub.js/commit/19af95f7d97eaf4ae5020c07cc6103e7902f33e1))
+
 # @esri/hub-common [15.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.4.0...@esri/hub-common@15.5.0) (2024-11-13)
 
 
