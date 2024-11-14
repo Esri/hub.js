@@ -3,6 +3,9 @@ import * as slugModule from "../../src/items/slugs";
 import { MOCK_AUTH } from "../groups/add-users-workflow/fixtures";
 import { ISearchOptions } from "@esri/arcgis-rest-portal";
 
+// an id that is an actual guid
+const guidId = "c90c8745f1854420b1c23e407941fd45";
+
 describe("slug utils: ", () => {
   describe("createSlug:", () => {
     it("combined org and dasherized title", () => {
@@ -146,6 +149,30 @@ describe("slug utils: ", () => {
         expect(ex.message).toBe("An error occurred");
         expect(searchSpy.calls.count()).toBe(1);
       }
+    });
+    it("handles slug w/ an id", async () => {
+      const id = guidId;
+      const itemResult = {
+        id,
+        title: "Fake",
+        typeKeywords: ["one", "slug|foo-bar"],
+        orgId: "ghi",
+      } as any as portalModule.IItem;
+      const requestOptions = {
+        authentication: MOCK_AUTH,
+      };
+      const getByIdSpy = spyOn(portalModule, "getItem").and.returnValue(
+        Promise.resolve(itemResult)
+      );
+
+      const result = await slugModule.getItemBySlug(
+        `foo-bar~${id}`,
+        requestOptions
+      );
+      expect(result).toBe(itemResult);
+      // check if
+      expect(getByIdSpy).toHaveBeenCalledTimes(1);
+      expect(getByIdSpy).toHaveBeenCalledWith(id, requestOptions);
     });
   });
 
@@ -405,8 +432,7 @@ describe("slug utils: ", () => {
   });
   describe("parseIdFromSlug", () => {
     it("parses valid id from slug", () => {
-      // NOTE: this needs to be an actual guid
-      const id = "c90c8745f1854420b1c23e407941fd45";
+      const id = guidId;
       const slug = `foo-bar~${id}`;
       const result = slugModule.parseIdFromSlug(slug);
       expect(result).toBe(id);

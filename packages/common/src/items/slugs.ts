@@ -64,6 +64,11 @@ export function getItemBySlug(
   slug: string,
   requestOptions: IRequestOptions
 ): Promise<IItem> {
+  const id = parseIdFromSlug(slug);
+  if (id) {
+    // no need to do a typekeyword search if we have an id
+    return getItem(id, requestOptions);
+  }
   const slugKeyword = uriSlugToKeywordSlug(slug);
   return findItemsBySlug({ slug: slugKeyword }, requestOptions).then(
     (results) => {
