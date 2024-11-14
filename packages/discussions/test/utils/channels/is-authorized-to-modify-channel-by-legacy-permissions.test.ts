@@ -1,4 +1,4 @@
-import { IGroup } from "@esri/arcgis-rest-types";
+import { IGroup } from "@esri/arcgis-rest-portal";
 import { IChannel, IDiscussionsUser, SharingAccess } from "../../../src/types";
 import { isAuthorizedToModifyChannelByLegacyPermissions } from "../../../src/utils/channels/is-authorized-to-modify-channel-by-legacy-permissions";
 

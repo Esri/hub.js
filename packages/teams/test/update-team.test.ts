@@ -1,11 +1,10 @@
 import * as restPortalModule from "@esri/arcgis-rest-portal";
 import { MOCK_AUTH } from "./fixtures";
 import { updateTeam } from "../src/update-team";
-import { IGroup } from "@esri/arcgis-rest-types";
 
 describe("update-team", function () {
   let updateTeamSpy: jasmine.Spy;
-  const getGroup = (props: any) => props as IGroup;
+  const getGroup = (props: any) => props as restPortalModule.IGroup;
 
   beforeEach(() => {
     updateTeamSpy = spyOn(restPortalModule, "updateGroup");

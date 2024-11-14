@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-types";
+import { IUser } from "@esri/arcgis-rest-request";
 import { IChannel, IDiscussionsUser, IUpdateChannel } from "../../types";
 import { ChannelPermission } from "../channel-permission";
 import { isAuthorizedToModifyChannelByLegacyPermissions } from "./is-authorized-to-modify-channel-by-legacy-permissions";
@@ -11,7 +11,7 @@ import { hasOrgAdminUpdateRights } from "../portal-privilege";
  * @param updateData - !!! only include for API V2 updates
  * @returns {boolean}
  */
-export function canEditChannel(
+export function canEditChannel (
   channel: IChannel,
   user: IUser | IDiscussionsUser = {},
   updateData?: IUpdateChannel // !!! only include for API V2 updates

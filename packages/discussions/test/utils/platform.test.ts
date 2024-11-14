@@ -1,4 +1,5 @@
-import { IGroup, IUser } from "@esri/arcgis-rest-types";
+import { IUser } from "@esri/arcgis-rest-request";
+import { IGroup } from "@esri/arcgis-rest-portal";
 import {
   isOrgAdmin,
   isUserInOrg,

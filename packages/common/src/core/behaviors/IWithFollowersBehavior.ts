@@ -1,4 +1,4 @@
-import { IGroup } from "@esri/arcgis-rest-types";
+import { IGroup } from "@esri/arcgis-rest-portal";
 import { SettableAccessLevel } from "../types";
 
 /**
@@ -8,13 +8,13 @@ export interface IWithFollowersBehavior {
   /**
    * Get the followers group
    */
-  getFollowersGroup(): Promise<IGroup>;
+  getFollowersGroup (): Promise<IGroup>;
   /**
    * Set the access level of the followers group
    */
-  setFollowersGroupAccess(access: SettableAccessLevel): Promise<void>;
+  setFollowersGroupAccess (access: SettableAccessLevel): Promise<void>;
   /**
    * Set whether or not the followers group is discussable
    */
-  setFollowersGroupIsDiscussable(isDiscussable: boolean): Promise<void>;
+  setFollowersGroupIsDiscussable (isDiscussable: boolean): Promise<void>;
 }

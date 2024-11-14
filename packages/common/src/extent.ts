@@ -1,7 +1,7 @@
-import { IExtent, IPoint, IPolygon, Position } from "@esri/arcgis-rest-types";
+import { IExtent } from "@esri/arcgis-rest-feature-service";
 import { IHubRequestOptions, BBox } from "./types";
 import { getProp } from "./objects";
-import { IRequestOptions, request } from "@esri/arcgis-rest-request";
+import { IPoint, IPolygon, Position, IRequestOptions, request } from "@esri/arcgis-rest-request";
 import { Polygon } from "geojson";
 
 /**
@@ -24,7 +24,7 @@ export const bboxToString = (extent: BBox): string => {
   return extent.map((a) => a.join(", ")).join(", ");
 };
 
-export function createExtent(
+export function createExtent (
   xmin: number,
   ymin: number,
   xmax: number,
@@ -47,7 +47,7 @@ export function createExtent(
  * Turns an extent object into a bounding box coordinate array
  * @param extent extent
  */
-export function extentToBBox(extent: IExtent): BBox {
+export function extentToBBox (extent: IExtent): BBox {
   return [
     [extent.xmin, extent.ymin],
     [extent.xmax, extent.ymax],
@@ -68,7 +68,7 @@ export const GLOBAL_EXTENT: IExtent = {
  * Gets the geographic extent for an org
  * @param hubRequestOptions
  */
-export function orgExtent(
+export function orgExtent (
   hubRequestOptions: IHubRequestOptions
 ): Promise<IExtent> {
   const portal = hubRequestOptions.portalSelf;
@@ -124,7 +124,7 @@ export function orgExtent(
  * Get the default org extent as a bbox for use on item.extent
  * @param {IHubRequestOptions} hubRequestOptions
  */
-export function getOrgExtentAsBBox(
+export function getOrgExtentAsBBox (
   hubRequestOptions: IHubRequestOptions
 ): Promise<BBox> {
   return orgExtent(hubRequestOptions).then((extent) => extentToBBox(extent));
@@ -143,7 +143,7 @@ export const isBBox = (extent: unknown): boolean => {
   );
 };
 
-function isExtentJSON(extent: any) {
+function isExtentJSON (extent: any) {
   return ["xmin", "ymin", "xmax", "ymax"].every(
     (key) => typeof extent[key] === "number"
   );
@@ -154,7 +154,7 @@ function isExtentJSON(extent: any) {
  * @param  {Object} extent extent in any format
  * @return {Boolean}       indicator
  */
-export function isValidExtent(extent: object) {
+export function isValidExtent (extent: object) {
   return !!extent && [isBBox, isExtentJSON].some((test) => test(extent));
 }
 

@@ -1,5 +1,5 @@
 import { getItem } from "@esri/arcgis-rest-portal";
-import { IItem } from "@esri/arcgis-rest-types";
+import { IItem } from "@esri/arcgis-rest-portal";
 import { IHubSurvey } from "../core/types/IHubSurvey";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { computeProps } from "./_internal/computeProps";
@@ -16,7 +16,7 @@ import { getItemBySlug } from "../items/slugs";
  * @param requestOptions request options
  * @returns a promise that resolves a IHubSurvey object
  */
-export async function fetchSurvey(
+export async function fetchSurvey (
   identifier: string,
   requestOptions: IHubRequestOptions
 ): Promise<IHubSurvey> {
@@ -41,7 +41,7 @@ export async function fetchSurvey(
  * @param auth request options
  * @returns a promise that resolves a IHubSurvey object
  */
-export async function convertItemToSurvey(
+export async function convertItemToSurvey (
   item: IItem,
   requestOptions: IHubRequestOptions
 ): Promise<IHubSurvey> {

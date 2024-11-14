@@ -274,7 +274,7 @@ export class ChannelPermission {
     return channelActionLookup(action).includes(role);
   }
 
-  private canSomeUser (action: ChannelAction, user: IDiscussionsUser) {
+  private canSomeUser (action: ChannelAction, user: IDiscussionsUser | IUser) {
     const userPermissions = this.permissionsByCategory[AclCategory.USER] ?? [];
     const username = user.username;
 
@@ -285,7 +285,7 @@ export class ChannelPermission {
     });
   }
 
-  private canSomeUserGroup (action: ChannelAction, user: IDiscussionsUser) {
+  private canSomeUserGroup (action: ChannelAction, user: IDiscussionsUser | IUser) {
     const groupAccessControls =
       this.permissionsByCategory[AclCategory.GROUP] ?? [];
 
@@ -311,7 +311,7 @@ export class ChannelPermission {
     });
   }
 
-  private canSomeUserOrg (action: ChannelAction, user: IDiscussionsUser) {
+  private canSomeUserOrg (action: ChannelAction, user: IDiscussionsUser | IUser) {
     const orgPermissions = this.permissionsByCategory[AclCategory.ORG] ?? [];
 
     return orgPermissions.some((permission) => {
@@ -399,7 +399,7 @@ export class ChannelPermission {
     return !userPermissions;
   }
 
-  private isUserUnAuthenticated (user: IDiscussionsUser) {
+  private isUserUnAuthenticated (user: IDiscussionsUser | IUser) {
     return user.username === null || user.username === undefined;
   }
 
@@ -480,7 +480,7 @@ function doesPermissionAllowGroupMemberType (
 
 function doesPermissionAllowOrgRole (
   permission: IChannelAclPermission,
-  user: IDiscussionsUser
+  user: IDiscussionsUser | IUser
 ): boolean {
   return (
     permission.category === AclCategory.ORG &&

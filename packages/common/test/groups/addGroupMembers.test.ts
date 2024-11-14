@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-types";
+import { IUser } from "@esri/arcgis-rest-request";
 import { addGroupMembers } from "../../src/groups/addGroupMembers";
 import * as autoAddUsersModule from "../../src/groups/autoAddUsers";
 import * as inviteUsersModule from "../../src/groups/inviteUsers";

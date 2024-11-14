@@ -1,4 +1,4 @@
-import { IItem } from "@esri/arcgis-rest-types";
+import { IItem } from "@esri/arcgis-rest-portal";
 
 /**
  * Determines if the provided Feature Service item is a
@@ -6,7 +6,7 @@ import { IItem } from "@esri/arcgis-rest-types";
  * @param {IItem} featureServiceItem
  * @returns {boolean}
  */
-export function isFieldworkerView(featureServiceItem: IItem): boolean {
+export function isFieldworkerView (featureServiceItem: IItem): boolean {
   const hasTypekeyword = (typeKeyword: string): boolean =>
     featureServiceItem.typeKeywords.indexOf(typeKeyword) > -1;
 

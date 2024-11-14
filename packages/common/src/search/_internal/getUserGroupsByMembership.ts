@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-types";
+import { IUser } from "@esri/arcgis-rest-request";
 import { IGroupsByMembership } from "../types/IGroupsByMembership";
 
 /**
@@ -15,7 +15,7 @@ import { IGroupsByMembership } from "../types/IGroupsByMembership";
  * Note: The `none` membership type is not considered as it is not expected to be present in the user's groups.
  */
 
-export function getUserGroupsByMembership(user: IUser): IGroupsByMembership {
+export function getUserGroupsByMembership (user: IUser): IGroupsByMembership {
   const response: IGroupsByMembership = {
     owner: [],
     member: [],

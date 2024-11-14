@@ -1,6 +1,4 @@
-import { ISearchOptions, searchGroups } from "@esri/arcgis-rest-portal";
-import { IGroup } from "@esri/arcgis-rest-types";
-
+import { IGroup, ISearchOptions, searchGroups } from "@esri/arcgis-rest-portal";
 import { enrichGroupSearchResult } from "../../groups/HubGroups";
 import HubError from "../../HubError";
 import { IHubRequestOptions } from "../../types";
@@ -21,7 +19,7 @@ import { expandPredicate } from "./expandPredicate";
  * @param options
  * @returns
  */
-export async function portalSearchGroups(
+export async function portalSearchGroups (
   query: IQuery,
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
@@ -74,7 +72,7 @@ export async function portalSearchGroups(
  * @param searchOptions
  * @returns
  */
-async function searchPortal(
+async function searchPortal (
   searchOptions: ISearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
   // Execute portal search
@@ -117,7 +115,7 @@ async function searchPortal(
  * @param requestOptions
  * @returns
  */
-async function groupToSearchResult(
+async function groupToSearchResult (
   group: IGroup,
   includes: string[] = [],
   requestOptions?: IHubRequestOptions

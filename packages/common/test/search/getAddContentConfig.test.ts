@@ -1,4 +1,3 @@
-import { IGroup } from "@esri/arcgis-rest-types";
 import {
   ArcGISContextManager,
   getAddContentConfig,
@@ -12,7 +11,7 @@ import {
   MOCK_AUTH_QA,
   MOCK_ENTERPRISE_AUTH,
 } from "../mocks/mock-auth";
-import { IPortal, IUser } from "@esri/arcgis-rest-portal";
+import { IGroup, IPortal, IUser } from "@esri/arcgis-rest-portal";
 
 const MOCK_HUB_BASIC_PORTAL = {
   name: "DC R&D Center",
@@ -1045,13 +1044,13 @@ describe("getAddContentConfig:", () => {
   });
 });
 
-function hasTypePredicate(query: IQuery, type: string): boolean {
+function hasTypePredicate (query: IQuery, type: string): boolean {
   const vals = getPredicateValues("type", query);
 
   return vals.includes(type);
 }
 
-function hasNegatedGroupPredicate(query: IQuery, group: string): boolean {
+function hasNegatedGroupPredicate (query: IQuery, group: string): boolean {
   const vals = getPredicateValues("group", query, ["not"]);
 
   return vals.includes(group);

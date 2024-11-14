@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-types";
+import { IUser } from "@esri/arcgis-rest-request";
 import { getPredicateValues } from "../getPredicateValues";
 import { IGroupsByMembership } from "../types/IGroupsByMembership";
 import { IQuery } from "../types/IHubCatalog";
@@ -13,7 +13,7 @@ import { getUserGroupsByMembership } from "./getUserGroupsByMembership";
  * @returns
  */
 
-export function getUserGroupsFromQuery(
+export function getUserGroupsFromQuery (
   query: IQuery,
   user: IUser
 ): IGroupsByMembership {

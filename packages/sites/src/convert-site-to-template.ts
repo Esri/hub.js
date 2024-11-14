@@ -11,7 +11,7 @@ import {
   getItemAssets,
 } from "@esri/hub-common";
 import { getSiteItemType } from "./get-site-item-type";
-import { IItem } from "@esri/arcgis-rest-types";
+import { IItem } from "@esri/arcgis-rest-portal";
 import { SITE_SCHEMA_VERSION } from "./site-schema-version";
 import { convertLayoutToTemplate } from "./layout";
 import { getSiteDependencies } from "./get-site-dependencies";
@@ -22,7 +22,7 @@ import { DRAFT_RESOURCE_REGEX } from "./drafts/_draft-resource-regex";
  * @param {Object} model Site Model
  * @param {IHubRequestOptions} hubRequestOptions
  */
-export function convertSiteToTemplate(
+export function convertSiteToTemplate (
   model: IModel,
   hubRequestOptions: IHubRequestOptions
 ) {

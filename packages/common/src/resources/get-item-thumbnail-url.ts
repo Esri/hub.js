@@ -1,5 +1,5 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IItem } from "@esri/arcgis-rest-types";
+import { IItem } from "@esri/arcgis-rest-portal";
 import { IPortal } from "@esri/arcgis-rest-portal";
 import { IHubRequestOptions } from "../types";
 import { getItemApiUrl } from "../urls/get-item-api-url";
@@ -16,7 +16,7 @@ export interface IThumbnailOptions {
  * @param optionsOrToken options including width and/or token for the current user's session; will only be appended as a query parameter if the item's access is **not** `public`
  * @returns URL to the item's thumbnail, defaults to `https://www.arcgis.com/sharing/rest/content/items/{item.id}/info/{item.thumbnail}`. Returns `null` if the item does not have a thumbnail assigned.
  */
-export function getItemThumbnailUrl(
+export function getItemThumbnailUrl (
   item: IItem,
   portalUrlOrObject?: string | IPortal | IHubRequestOptions | IRequestOptions,
   optionsOrToken?: IThumbnailOptions | string

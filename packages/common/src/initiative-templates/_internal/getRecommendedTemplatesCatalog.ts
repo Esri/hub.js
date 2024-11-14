@@ -3,7 +3,7 @@ import {
   getWellKnownCatalog,
   WellKnownCatalog,
 } from "../../search/wellKnownCatalog";
-import { IUser } from "@esri/arcgis-rest-types";
+import { IUser } from "@esri/arcgis-rest-request";
 
 export const getRecommendedTemplatesCatalog = (
   user: IUser,

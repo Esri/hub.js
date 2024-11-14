@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-types";
+import { IUser } from "@esri/arcgis-rest-request";
 import {
   AclCategory,
   IChannel,

@@ -1,4 +1,4 @@
-import { IGroup } from "@esri/arcgis-rest-types";
+import { IGroup } from "@esri/arcgis-rest-portal";
 import { HubItemEntity } from "../core/HubItemEntity";
 import { IHubEventEditor, IHubEvent } from "../core/types/IHubEvent";
 import { IWithEditorBehavior } from "../core/behaviors";
@@ -24,15 +24,14 @@ import { getEventGroups } from "./getEventGroups";
  */
 export class HubEvent
   extends HubItemEntity<IHubEvent>
-  implements IWithEditorBehavior
-{
+  implements IWithEditorBehavior {
   /**
    * Create an instance from a HubEvent object
    * @param json - JSON object to create a HubEvent from
    * @param context - ArcGIS context
    * @returns HubEvent
    */
-  static fromJson(json: Partial<IHubEvent>, context: IArcGISContext): HubEvent {
+  static fromJson (json: Partial<IHubEvent>, context: IArcGISContext): HubEvent {
     // merge what we have with the default values
     const pojo = this.applyDefaults(json, context);
     return new HubEvent(pojo, context);
@@ -44,7 +43,7 @@ export class HubEvent
    * @param context ArcGIS context
    * @returns Promise<HubEvent>
    */
-  static async fetch(
+  static async fetch (
     identifier: string,
     context: IArcGISContext
   ): Promise<HubEvent> {
@@ -57,7 +56,7 @@ export class HubEvent
     }
   }
 
-  private static applyDefaults(
+  private static applyDefaults (
     partialEvent: Partial<IHubEvent>,
     context: IArcGISContext
   ): IHubEvent {
@@ -77,7 +76,7 @@ export class HubEvent
    * Apply a new state to the instance
    * @param changes A partial IHubEvent
    */
-  update(changes: Partial<IHubEvent>): void {
+  update (changes: Partial<IHubEvent>): void {
     if (this.isDestroyed) {
       throw new Error("HubEvent is already destroyed.");
     }
@@ -87,7 +86,7 @@ export class HubEvent
   /**
    * Creates or saves the Event.
    */
-  async save(): Promise<void> {
+  async save (): Promise<void> {
     if (this.isDestroyed) {
       throw new Error("HubEvent is already destroyed.");
     }
@@ -112,7 +111,7 @@ export class HubEvent
   /**
    * Deletes the Event
    */
-  async delete(): Promise<void> {
+  async delete (): Promise<void> {
     if (this.isDestroyed) {
       throw new Error("HubEvent is already destroyed.");
     }
@@ -125,7 +124,7 @@ export class HubEvent
    * Share the Entity with the specified group id
    * @param groupId The ID of the group to share the Event to
    */
-  async shareWithGroup(groupId: string): Promise<void> {
+  async shareWithGroup (groupId: string): Promise<void> {
     if (!this.context.currentUser) {
       throw new HubError(
         "Share Event With Group",
@@ -143,7 +142,7 @@ export class HubEvent
    * Share the Entity with the specified group ids
    * @param groupIds The IDs of the groups to share the Event to
    */
-  async shareWithGroups(groupIds: string[]): Promise<void> {
+  async shareWithGroups (groupIds: string[]): Promise<void> {
     this.entity = (await shareEventWithGroups(
       groupIds,
       this.entity,
@@ -155,7 +154,7 @@ export class HubEvent
    * Unshare the Event with the specified group id
    * @param groupId The ID of the group to unshar ethe Event with
    */
-  async unshareWithGroup(groupId: string): Promise<void> {
+  async unshareWithGroup (groupId: string): Promise<void> {
     this.entity = (await unshareEventWithGroups(
       [groupId],
       this.entity,
@@ -167,7 +166,7 @@ export class HubEvent
    * Unshare the Event with the specified group ids
    * @param groupIds The IDs of the groups to unshare the Event with
    */
-  async unshareWithGroups(groupIds: string[]): Promise<void> {
+  async unshareWithGroups (groupIds: string[]): Promise<void> {
     this.entity = (await unshareEventWithGroups(
       groupIds,
       this.entity,
@@ -179,7 +178,7 @@ export class HubEvent
    * Sets the access level of the event
    * @param access The access level to set the Event to
    */
-  async setAccess(access: SettableAccessLevel): Promise<void> {
+  async setAccess (access: SettableAccessLevel): Promise<void> {
     await updateEvent({
       eventId: this.entity.id,
       data: {
@@ -193,7 +192,7 @@ export class HubEvent
   /**
    * Return a list of groups the Entity is shared to.
    */
-  async sharedWith(): Promise<IGroup[]> {
+  async sharedWith (): Promise<IGroup[]> {
     return getEventGroups(this.entity.id, this.context);
   }
 
@@ -203,7 +202,7 @@ export class HubEvent
    * @param type editor type - corresonds to the returned uiSchema
    * @returns Promise<IEditorConfig>
    */
-  async getEditorConfig(
+  async getEditorConfig (
     i18nScope: string,
     type: EventEditorType
   ): Promise<IEditorConfig> {
@@ -217,7 +216,7 @@ export class HubEvent
    * @param include
    * @returns Promise<IHubEventEditor>
    */
-  async toEditor(
+  async toEditor (
     editorContext: IEntityEditorContext = {},
     include: string[] = []
   ): Promise<IHubEventEditor> {
@@ -231,7 +230,7 @@ export class HubEvent
    * @param editorContext
    * @returns Promise<IHubEvent>
    */
-  async fromEditor(editor: IHubEventEditor): Promise<IHubEvent> {
+  async fromEditor (editor: IHubEventEditor): Promise<IHubEvent> {
     const entity = cloneObject(editor) as IHubEvent;
     this.entity = entity;
     await this.save();

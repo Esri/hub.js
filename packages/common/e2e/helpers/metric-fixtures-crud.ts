@@ -1,5 +1,4 @@
-import { createGroup, removeGroup } from "@esri/arcgis-rest-portal";
-import { IGroup, IGroupAdd } from "@esri/arcgis-rest-types";
+import { createGroup, IGroup, IGroupAdd, removeGroup } from "@esri/arcgis-rest-portal";
 import {
   IArcGISContext,
   HubInitiative,
@@ -10,7 +9,7 @@ import {
   IMetric,
 } from "../../src";
 
-export async function createScopeGroup(
+export async function createScopeGroup (
   config: { key: string; count: number },
   context: IArcGISContext
 ): Promise<IGroup> {
@@ -27,7 +26,7 @@ export async function createScopeGroup(
   return resp.group;
 }
 
-export async function createInitiative(
+export async function createInitiative (
   config: { key: string; count: number; groupId: string },
   context: IArcGISContext,
   skipMetrics: boolean = false
@@ -125,7 +124,7 @@ export async function createInitiative(
   return instance;
 }
 
-export async function createProjects(
+export async function createProjects (
   config: { key: string; count: number; groupId: string },
   parentId: string,
   context: IArcGISContext,
@@ -151,7 +150,7 @@ export async function createProjects(
   return projects;
 }
 
-export async function createChildProject(
+export async function createChildProject (
   key: string,
   num: number,
   parentId: string,
@@ -185,7 +184,7 @@ export async function createChildProject(
   return instance;
 }
 
-function getMetrics(parentId: string): IMetric[] {
+function getMetrics (parentId: string): IMetric[] {
   const metrics: IMetric[] = [];
 
   /**
@@ -246,7 +245,7 @@ export interface ICreateOutput {
   projects: HubProject[];
 }
 
-export async function cleanupItems(
+export async function cleanupItems (
   created: ICreateOutput,
   context: IArcGISContext
 ): Promise<any> {

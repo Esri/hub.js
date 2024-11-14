@@ -1,4 +1,4 @@
-import { IGroup } from "@esri/arcgis-rest-types";
+import { IGroup } from "@esri/arcgis-rest-portal";
 import {
   AclCategory,
   AclSubCategory,
@@ -42,7 +42,7 @@ const groupId1 = "aaa";
 const groupId2 = "bbb";
 const groupId3 = "ccc";
 
-function buildUser(overrides = {}) {
+function buildUser (overrides = {}) {
   const defaultUser = {
     username: "john",
     orgId: orgId1,
@@ -53,7 +53,7 @@ function buildUser(overrides = {}) {
   return { ...defaultUser, ...overrides } as IDiscussionsUser;
 }
 
-function buildGroup(id: string, memberType: string, typeKeywords?: string[]) {
+function buildGroup (id: string, memberType: string, typeKeywords?: string[]) {
   return {
     id,
     userMembership: { memberType },
@@ -61,7 +61,7 @@ function buildGroup(id: string, memberType: string, typeKeywords?: string[]) {
   } as any as IGroup;
 }
 
-function buildCompleteAcl() {
+function buildCompleteAcl () {
   return [
     { category: AclCategory.ANONYMOUS_USER, role: Role.READ },
     { category: AclCategory.AUTHENTICATED_USER, role: Role.READ },

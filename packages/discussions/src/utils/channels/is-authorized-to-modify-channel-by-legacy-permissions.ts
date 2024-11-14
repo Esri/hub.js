@@ -1,4 +1,5 @@
-import { IGroup, IUser } from "@esri/arcgis-rest-types";
+import { IUser } from "@esri/arcgis-rest-request";
+import { IGroup } from "@esri/arcgis-rest-portal";
 import { IChannel, IDiscussionsUser, SharingAccess } from "@esri/hub-common";
 import { isOrgAdmin } from "../platform";
 
@@ -12,7 +13,7 @@ const AGO_ADMIN_GROUP_ROLES = Object.freeze(["owner", "admin"]);
  * @internal
  * @hidden
  */
-export function isAuthorizedToModifyChannelByLegacyPermissions(
+export function isAuthorizedToModifyChannelByLegacyPermissions (
   user: IUser | IDiscussionsUser = {},
   channel: IChannel
 ): boolean {
@@ -47,7 +48,7 @@ export function isAuthorizedToModifyChannelByLegacyPermissions(
 /**
  * Ensure the user is an owner/admin of one of the channel groups
  */
-function isAuthorizedToModifyChannelByLegacyGroup(
+function isAuthorizedToModifyChannelByLegacyGroup (
   channelGroups: string[],
   userGroups: IGroup[]
 ) {
@@ -66,7 +67,7 @@ function isAuthorizedToModifyChannelByLegacyGroup(
   });
 }
 
-function isLegacyChannelOrgAdmin(
+function isLegacyChannelOrgAdmin (
   channelOrgs: string[],
   user: IUser | IDiscussionsUser
 ): boolean {

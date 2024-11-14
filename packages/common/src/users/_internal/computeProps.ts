@@ -1,6 +1,5 @@
 import { getPortalUrl } from "@esri/arcgis-rest-portal";
-import { IUser } from "@esri/arcgis-rest-types";
-import { IRequestOptions, request } from "@esri/arcgis-rest-request";
+import { IUser, IRequestOptions, request } from "@esri/arcgis-rest-request";
 import { IArcGISContext } from "../../ArcGISContext";
 import { getProp } from "../../objects/get-prop";
 import { IHubUser } from "../../core/types";
@@ -12,7 +11,7 @@ import { IHubUser } from "../../core/types";
  * @param context
  * @returns
  */
-export async function computeProps(
+export async function computeProps (
   model: IUser,
   user: IHubUser,
   context: IArcGISContext
@@ -45,7 +44,7 @@ export async function computeProps(
  *
  * @param context
  */
-export function getPortalSignInSettings(context: IArcGISContext) {
+export function getPortalSignInSettings (context: IArcGISContext) {
   const url = `${getPortalUrl(
     context.requestOptions
   )}/portals/self/signinSettings`;

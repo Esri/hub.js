@@ -2,7 +2,7 @@ import { extentToBBox, orgExtent as orgExtent } from "../../../extent";
 import { IHubRequestOptions } from "../../../types";
 import { getTypeFromEntity } from "../../getTypeFromEntity";
 import { IHubLocation, IHubLocationOption } from "../../types/IHubLocation";
-import { IExtent } from "@esri/arcgis-rest-types";
+import { IExtent } from "@esri/arcgis-rest-feature-service";
 
 /**
  * Construct the dynamic location picker options with the entity's
@@ -16,7 +16,7 @@ import { IExtent } from "@esri/arcgis-rest-types";
  * current option, select it and update the option with the entity's
  * location
  */
-export async function getLocationOptions(
+export async function getLocationOptions (
   id: string,
   type: string,
   location: IHubLocation,

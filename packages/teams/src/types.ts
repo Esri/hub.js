@@ -1,8 +1,9 @@
 import {
   ArcGISRequestError,
   IAuthenticationManager,
+  IUser
 } from "@esri/arcgis-rest-request";
-import { IGroup, IUser } from "@esri/arcgis-rest-types";
+import { IGroup } from "@esri/arcgis-rest-portal";
 import { IEmail } from "@esri/hub-common";
 
 export type AGOAccess = "public" | "org" | "private";
@@ -79,11 +80,11 @@ export interface ITeamsStatus {
  */
 export interface IUserWithOrgType extends IUser {
   orgType:
-    | "world"
-    | "org"
-    | "community"
-    | "partnered"
-    | "collaborationCoordinator";
+  | "world"
+  | "org"
+  | "community"
+  | "partnered"
+  | "collaborationCoordinator";
 }
 
 /**

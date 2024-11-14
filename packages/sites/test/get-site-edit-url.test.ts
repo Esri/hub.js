@@ -1,5 +1,5 @@
 import { getSiteEditUrl } from "../src";
-import { IItem } from "@esri/arcgis-rest-types";
+import { IItem } from "@esri/arcgis-rest-portal";
 
 describe("getEditUrl", () => {
   it("gets the edit url for a site item", () => {

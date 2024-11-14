@@ -1,9 +1,8 @@
-import { IGroup } from "@esri/arcgis-rest-types";
+import { getGroup, IGroup } from "@esri/arcgis-rest-portal";
 import { HubEntity } from "./types";
 import { IHubRequestOptions } from "../types";
 import { mapBy } from "../utils";
 import { getProp, setProp } from "../objects";
-import { getGroup } from "@esri/arcgis-rest-portal";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { unique } from "../util";
 

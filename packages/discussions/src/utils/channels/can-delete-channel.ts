@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-types";
+import { IUser } from "@esri/arcgis-rest-request";
 import { IChannel, IDiscussionsUser } from "../../types";
 import { ChannelPermission } from "../channel-permission";
 import { isAuthorizedToModifyChannelByLegacyPermissions } from "./is-authorized-to-modify-channel-by-legacy-permissions";
@@ -10,7 +10,7 @@ import { hasOrgAdminDeleteRights } from "../portal-privilege";
  * @param user
  * @returns {boolean}
  */
-export function canDeleteChannel(
+export function canDeleteChannel (
   channel: IChannel,
   user: IUser | IDiscussionsUser = {}
 ): boolean {

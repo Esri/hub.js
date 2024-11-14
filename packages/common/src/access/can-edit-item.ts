@@ -1,4 +1,5 @@
-import { IItem, IUser, IGroup } from "@esri/arcgis-rest-types";
+import { IItem, IGroup } from "@esri/arcgis-rest-portal";
+import { IUser } from "@esri/arcgis-rest-request";
 import { isUpdateGroup, includes } from "../utils";
 import { getProp } from "../objects";
 import { hasBasePriv } from "./has-base-priv";
@@ -9,7 +10,7 @@ import { hasBasePriv } from "./has-base-priv";
  * @param {IUser} user
  * @returns {boolean}
  */
-export function canEditItem(item: IItem, user: IUser): boolean {
+export function canEditItem (item: IItem, user: IUser): boolean {
   let res = false;
   const itemControls = ["admin", "update"];
   const { itemControl, owner, orgId: itemOrgId } = item;

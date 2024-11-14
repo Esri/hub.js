@@ -1,5 +1,4 @@
-import { ArcGISRequestError } from "@esri/arcgis-rest-request";
-import { IUser } from "@esri/arcgis-rest-types";
+import { ArcGISRequestError, IUser } from "@esri/arcgis-rest-request";
 import { autoAddUsers, getProp } from "@esri/hub-common";
 import { IAddOrInviteContext, IAddOrInviteResponse } from "../types";
 import { autoAddUsersAsAdmins } from "./auto-add-users-as-admins";
@@ -18,7 +17,7 @@ import { processEmailUsers } from "./process-email-users";
  * @param {boolean} [shouldEmail=false] should the user be emailed?
  * @return {IAddOrInviteResponse} response object
  */
-export async function processAutoAddUsers(
+export async function processAutoAddUsers (
   context: IAddOrInviteContext,
   userType:
     | "world"

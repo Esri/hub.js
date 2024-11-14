@@ -1,4 +1,5 @@
-import { IGroup, IUser } from "@esri/arcgis-rest-types";
+import { IGroup } from "@esri/arcgis-rest-portal";
+import { IUser } from "@esri/arcgis-rest-request";
 import { IChannel, IDiscussionsUser, SharingAccess } from "../../types";
 import { ChannelPermission } from "../channel-permission";
 import { CANNOT_DISCUSS } from "../constants";
@@ -12,7 +13,7 @@ type ILegacyChannelPermissions = Pick<IChannel, "access" | "groups" | "orgs">;
  * @param user
  * @returns {boolean}
  */
-export function canCreateChannel(
+export function canCreateChannel (
   channel: IChannel,
   user: IUser | IDiscussionsUser = {}
 ): boolean {
@@ -31,7 +32,7 @@ export function canCreateChannel(
 }
 
 // Once ACL usage is enforced, we will remove authorization by legacy permissions
-function isAuthorizedToCreateByLegacyPermissions(
+function isAuthorizedToCreateByLegacyPermissions (
   user: IUser | IDiscussionsUser,
   channelParams: ILegacyChannelPermissions
 ): boolean {
@@ -58,7 +59,7 @@ function isAuthorizedToCreateByLegacyPermissions(
   );
 }
 
-function canAllowGroupsLegacy(
+function canAllowGroupsLegacy (
   userGroups: IGroup[],
   channelGroupIds: string[]
 ): boolean {
@@ -73,19 +74,19 @@ function canAllowGroupsLegacy(
   });
 }
 
-function isMemberTypeAuthorized(userGroup: IGroup) {
+function isMemberTypeAuthorized (userGroup: IGroup) {
   const {
     userMembership: { memberType },
   } = userGroup;
   return ["owner", "admin", "member"].includes(memberType);
 }
 
-function isGroupDiscussable(userGroup: IGroup) {
+function isGroupDiscussable (userGroup: IGroup) {
   const { typeKeywords = [] } = userGroup;
   return !typeKeywords.includes(CANNOT_DISCUSS);
 }
 
-function isLegacyChannelOrgAdmin(
+function isLegacyChannelOrgAdmin (
   user: IUser | IDiscussionsUser,
   channelOrgs: string[]
 ): boolean {

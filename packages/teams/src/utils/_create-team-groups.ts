@@ -2,7 +2,7 @@ import { IGroupTemplate } from "../types";
 import { IHubRequestOptions } from "@esri/hub-common";
 import { _translateTeamTemplate } from "./_translate-team-template";
 import { _createTeamGroup } from "./_create-team-group";
-import { IGroup } from "@esri/arcgis-rest-types";
+import { IGroup } from "@esri/arcgis-rest-portal";
 
 /**
  * Internal: Actually create the team groups
@@ -11,7 +11,7 @@ import { IGroup } from "@esri/arcgis-rest-types";
  * @param {IHubRequestOptions} hubRequestOptions
  * @private
  */
-export function _createTeamGroups(
+export function _createTeamGroups (
   title: string,
   groupTemplates: IGroupTemplate[],
   translations: Record<string, any>,

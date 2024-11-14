@@ -1,4 +1,4 @@
-import { IItem } from "@esri/arcgis-rest-types";
+import { IItem } from "@esri/arcgis-rest-portal";
 import { IItemTemplate } from "../types";
 import { cloneObject } from "../util";
 
@@ -36,7 +36,7 @@ export const itemPropsNotInTemplates = [
  * TODO: This should land in a templating helper lib in hub.js
  * @param {Object} item Item to be normalized
  */
-export function normalizeSolutionTemplateItem(item: IItem): IItemTemplate {
+export function normalizeSolutionTemplateItem (item: IItem): IItemTemplate {
   const template = cloneObject(item) as IItemTemplate;
 
   itemPropsNotInTemplates.forEach(prop => {

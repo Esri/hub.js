@@ -36,7 +36,6 @@ import {
 } from "../core";
 import { IEditorConfig } from "../core/schemas/types";
 import { enrichEntity } from "../core/enrichEntity";
-import { IGroup } from "@esri/arcgis-rest-types";
 import { getProp, getWithDefault } from "../objects";
 import { upsertResource } from "../resources/upsertResource";
 import { doesResourceExist } from "../resources/doesResourceExist";
@@ -53,13 +52,12 @@ import { getEditorSlug } from "../core/_internal/getEditorSlug";
 export class HubInitiative
   extends HubItemEntity<IHubInitiative>
   implements
-    IWithStoreBehavior<IHubInitiative>,
-    IWithCatalogBehavior,
-    IWithMetricsBehavior,
-    IWithSharingBehavior,
-    IWithCardBehavior,
-    IWithEditorBehavior
-{
+  IWithStoreBehavior<IHubInitiative>,
+  IWithCatalogBehavior,
+  IWithMetricsBehavior,
+  IWithSharingBehavior,
+  IWithCardBehavior,
+  IWithEditorBehavior {
   private _catalog: Catalog;
 
   /**
@@ -76,7 +74,7 @@ export class HubInitiative
    * Catalog instance for this Initiative. Note: Do not hold direct references to this object; always access it from the Initiative.
    * @returns Catalog
    */
-  get catalog(): Catalog {
+  get catalog (): Catalog {
     return this._catalog;
   }
 
@@ -86,7 +84,7 @@ export class HubInitiative
    * @param context - ArcGIS context
    * @returns
    */
-  static fromJson(
+  static fromJson (
     json: Partial<IHubInitiative>,
     context: IArcGISContext
   ): HubInitiative {
@@ -102,7 +100,7 @@ export class HubInitiative
    * @param context
    * @returns
    */
-  static async create(
+  static async create (
     partialInitiative: Partial<IHubInitiative>,
     context: IArcGISContext,
     save: boolean = false
@@ -122,7 +120,7 @@ export class HubInitiative
    * @param context
    * @returns
    */
-  static async fetch(
+  static async fetch (
     identifier: string,
     context: IArcGISContext
   ): Promise<HubInitiative> {
@@ -143,7 +141,7 @@ export class HubInitiative
     }
   }
 
-  private static applyDefaults(
+  private static applyDefaults (
     partialInitiative: Partial<IHubInitiative>,
     context: IArcGISContext
   ): IHubInitiative {
@@ -163,7 +161,7 @@ export class HubInitiative
    * Apply a new state to the instance
    * @param changes
    */
-  update(changes: Partial<IHubInitiative>): void {
+  update (changes: Partial<IHubInitiative>): void {
     if (this.isDestroyed) {
       throw new Error("HubInitiative is already destroyed.");
     }
@@ -181,7 +179,7 @@ export class HubInitiative
    * Currently Initiatives are stored as Items in Portal
    * @returns
    */
-  async save(): Promise<void> {
+  async save (): Promise<void> {
     if (this.isDestroyed) {
       throw new Error("HubInitiative is already destroyed.");
     }
@@ -213,7 +211,7 @@ export class HubInitiative
    * set a flag to indicate that it is destroyed
    * @returns
    */
-  async delete(): Promise<void> {
+  async delete (): Promise<void> {
     if (this.isDestroyed) {
       throw new Error("HubInitiative is already destroyed.");
     }
@@ -227,7 +225,7 @@ export class HubInitiative
    * @param metricId
    * @returns
    */
-  resolveMetric(metricId: string): Promise<IResolvedMetric> {
+  resolveMetric (metricId: string): Promise<IResolvedMetric> {
     const metrics = getEntityMetrics(this.entity);
     const metric = metrics.find((m) => m.id === metricId);
     // TODO: Add caching
@@ -244,7 +242,7 @@ export class HubInitiative
    *
    * @param opts view model options
    */
-  convertToCardModel(opts?: IConvertToCardModelOpts): IHubCardViewModel {
+  convertToCardModel (opts?: IConvertToCardModelOpts): IHubCardViewModel {
     return initiativeToCardModel(this.entity, this.context, opts);
   }
 
@@ -254,7 +252,7 @@ export class HubInitiative
    * @param type editor type - corresonds to the returned uiSchema
    * @param options optional hash of dynamic uiSchema element options
    */
-  async getEditorConfig(
+  async getEditorConfig (
     i18nScope: string,
     type: InitiativeEditorType
   ): Promise<IEditorConfig> {
@@ -267,17 +265,17 @@ export class HubInitiative
    * @param editorContext
    * @returns
    */
-  async toEditor(
+  async toEditor (
     editorContext: IEntityEditorContext = {},
     include: string[] = []
   ): Promise<IHubInitiativeEditor> {
     // 1. optionally enrich entity and cast to editor
     const editor = include.length
       ? ((await enrichEntity(
-          cloneObject(this.entity),
-          include,
-          this.context.hubRequestOptions
-        )) as IHubInitiativeEditor)
+        cloneObject(this.entity),
+        include,
+        this.context.hubRequestOptions
+      )) as IHubInitiativeEditor)
       : (cloneObject(this.entity) as IHubInitiativeEditor);
 
     // 2. handle metrics
@@ -322,7 +320,7 @@ export class HubInitiative
    * @param editor
    * @returns
    */
-  async fromEditor(editor: IHubInitiativeEditor): Promise<IHubInitiative> {
+  async fromEditor (editor: IHubInitiativeEditor): Promise<IHubInitiative> {
     // 1. extract the ephemeral props we graft onto the editor
     // note: they will be deleted in the editorToInitiative function
     const thumbnail = editor._thumbnail;

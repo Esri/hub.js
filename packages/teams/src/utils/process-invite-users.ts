@@ -1,5 +1,4 @@
-import { ArcGISRequestError } from "@esri/arcgis-rest-request";
-import { IUser } from "@esri/arcgis-rest-types";
+import { ArcGISRequestError, IUser } from "@esri/arcgis-rest-request";
 import { getProp, inviteUsers } from "@esri/hub-common";
 import { IAddOrInviteContext, IAddOrInviteResponse } from "../types";
 
@@ -14,7 +13,7 @@ import { IAddOrInviteContext, IAddOrInviteResponse } from "../types";
  * @param {string} userType what type of user is it: org | world | community
  * @return {IAddOrInviteResponse} response object
  */
-export async function processInviteUsers(
+export async function processInviteUsers (
   context: IAddOrInviteContext,
   userType: "world" | "org" | "community" | "partnered"
 ): Promise<IAddOrInviteResponse> {

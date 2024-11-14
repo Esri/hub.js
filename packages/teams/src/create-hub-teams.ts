@@ -9,7 +9,7 @@ import {
 import { getUserCreatableTeams } from "./utils/get-user-creatable-teams";
 import { _createTeamGroups } from "./utils/_create-team-groups";
 import { HubTeamType } from "./types";
-import { IGroup } from "@esri/arcgis-rest-types";
+import { IGroup } from "@esri/arcgis-rest-portal";
 
 /**
  * Create all the groups (aka Teams) required for a Site or Initiative
@@ -19,7 +19,7 @@ import { IGroup } from "@esri/arcgis-rest-types";
  * use the teams-service::addTeams function
  * @param {ICreateHubTeamsOptions} createHubTeamsOptions
  */
-export function createHubTeams(opts: {
+export function createHubTeams (opts: {
   title: string;
   types: HubTeamType[];
   hubRequestOptions: IHubRequestOptions;

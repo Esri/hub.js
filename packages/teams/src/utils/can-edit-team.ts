@@ -1,4 +1,5 @@
-import { IGroup, IUser } from "@esri/arcgis-rest-types";
+import { IUser } from "@esri/arcgis-rest-request";
+import { IGroup } from "@esri/arcgis-rest-portal";
 
 /**
  * Checks if user has access to edit a team
@@ -6,7 +7,7 @@ import { IGroup, IUser } from "@esri/arcgis-rest-types";
  * @param {IUser} user
  * @returns {boolean}
  */
-export function canEditTeam(group: IGroup, user: IUser): boolean {
+export function canEditTeam (group: IGroup, user: IUser): boolean {
   const memberType = group.userMembership?.memberType;
   const userName = group.userMembership?.username;
   return (

@@ -1,4 +1,5 @@
-import { IGroup, IUser } from "@esri/arcgis-rest-types";
+import { IUser } from "@esri/arcgis-rest-request";
+import { IGroup } from "@esri/arcgis-rest-portal";
 import { IChannel, IDiscussionsUser, SharingAccess } from "../../types";
 import { isOrgAdmin } from "../platform";
 import { ChannelPermission } from "../channel-permission";
@@ -13,7 +14,7 @@ const ADMIN_GROUP_ROLES = Object.freeze(["owner", "admin"]);
  * @param user
  * @returns {boolean}
  */
-export function canModifyPostStatus(
+export function canModifyPostStatus (
   channel: IChannel,
   user: IUser | IDiscussionsUser = {}
 ): boolean {
@@ -26,7 +27,7 @@ export function canModifyPostStatus(
  * @param user
  * @returns {boolean}
  */
-export function canEditPostStatus(
+export function canEditPostStatus (
   channel: IChannel,
   user: IUser | IDiscussionsUser = {}
 ): boolean {
@@ -42,7 +43,7 @@ export function canEditPostStatus(
   return isAuthorizedToModifyStatusByLegacyPermissions(user, channel);
 }
 
-function isAuthorizedToModifyStatusByLegacyPermissions(
+function isAuthorizedToModifyStatusByLegacyPermissions (
   user: IUser | IDiscussionsUser,
   channel: IChannel
 ): boolean {
@@ -76,7 +77,7 @@ function isAuthorizedToModifyStatusByLegacyPermissions(
 /**
  * Ensure the user is an owner/admin of one of the channel groups
  */
-function isAuthorizedToModifyStatusByLegacyGroup(
+function isAuthorizedToModifyStatusByLegacyGroup (
   channelGroups: string[],
   userGroups: IGroup[]
 ) {
@@ -95,7 +96,7 @@ function isAuthorizedToModifyStatusByLegacyGroup(
   });
 }
 
-function isLegacyChannelOrgAdmin(
+function isLegacyChannelOrgAdmin (
   channelOrgs: string[],
   user: IUser | IDiscussionsUser
 ): boolean {

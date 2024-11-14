@@ -1,4 +1,4 @@
-import { IItem } from "@esri/arcgis-rest-types";
+import { IItem } from "@esri/arcgis-rest-portal";
 
 export const SITE_ITEM_RESPONSE = {
   id: "27b9d9a977a14ac28800282fe01d8c2d",
@@ -30,10 +30,12 @@ export const SITE_ITEM_RESPONSE = {
   snippet:
     "Create your own initiative by combining existing applications with a custom site. Use this initiative to form teams around a problem and invite your community to participate.",
   thumbnail: null,
-  documentation: null,
+  documentation: "",
   extent: [],
   categories: [],
-  spatialReference: null,
+  spatialReference: {
+    wkid: 4326
+  },
   accessInformation: null,
   licenseInfo: "null",
   culture: "en-us",

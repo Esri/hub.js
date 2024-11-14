@@ -1,4 +1,5 @@
-import { IItem, IUser } from "@esri/arcgis-rest-types";
+import { IUser } from "@esri/arcgis-rest-request";
+import { IItem } from "@esri/arcgis-rest-portal";
 import { getProp, IHubRequestOptions } from "@esri/hub-common";
 import { getTeamById } from "./get-team-by-id";
 import { ITeamStatus } from "../types";
@@ -27,7 +28,7 @@ import { TYPEMAP } from "./type-map";
  * @param {IHubRequestOptions} ro Auth
  * @return {*}  {Promise<ITeamStatus>}
  */
-export async function getTeamStatus(
+export async function getTeamStatus (
   item: IItem,
   teamType: "core" | "content" | "followers",
   user: IUser,

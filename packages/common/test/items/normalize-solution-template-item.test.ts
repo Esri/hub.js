@@ -2,10 +2,10 @@ import {
   normalizeSolutionTemplateItem,
   itemPropsNotInTemplates
 } from "../../src";
-import { IItem } from "@esri/arcgis-rest-types";
+import { IItem } from "@esri/arcgis-rest-portal";
 
-describe("normalizeSolutionTemplateItem", function() {
-  it("removes the right attributes and templatizes extent", function() {
+describe("normalizeSolutionTemplateItem", function () {
+  it("removes the right attributes and templatizes extent", function () {
     const item: IItem = {
       id: "c9929fca0892406da79f38fe4efcc116",
       owner: "dcadminqa",
@@ -32,10 +32,12 @@ describe("normalizeSolutionTemplateItem", function() {
       tags: [],
       snippet: "null",
       thumbnail: "thumbnail/ago_downloaded.png",
-      documentation: null,
+      documentation: "",
       extent: [],
       categories: [],
-      spatialReference: null,
+      spatialReference: {
+        wkid: 4326
+      },
       accessInformation: "null",
       licenseInfo: "null",
       culture: "en-us",

@@ -1,10 +1,10 @@
-import { IItem } from "@esri/arcgis-rest-types";
+import { IItem } from "@esri/arcgis-rest-portal";
 import { IHubRequestOptions } from "../../../types";
 import { IHubSearchResult } from "../../types/IHubSearchResult";
 import { itemToSearchResult } from "../portalSearchItems";
 import { IOgcItem } from "./interfaces";
 
-export async function ogcItemToSearchResult(
+export async function ogcItemToSearchResult (
   ogcItem: IOgcItem,
   includes?: string[],
   requestOptions?: IHubRequestOptions

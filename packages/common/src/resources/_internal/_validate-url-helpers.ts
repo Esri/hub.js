@@ -2,7 +2,7 @@ import {
   IExtent,
   IFeatureServiceDefinition,
   ILayerDefinition,
-} from "@esri/arcgis-rest-types";
+} from "@esri/arcgis-rest-feature-service";
 import { ItemType } from "../../types";
 import { Logger } from "../../utils";
 
@@ -15,7 +15,7 @@ const FEATURE_SERVICE_URL_REGEX = /(feature)server(\/|\/(\d+))?$/i;
  * @param {string} itemType What type of item is it?
  * @return {*}  {boolean}
  */
-export function shouldHaveDataUrl(itemType: string): boolean {
+export function shouldHaveDataUrl (itemType: string): boolean {
   // Specifically we want to avoid FS / DL from having a data url.
   return !["Feature Service", "Document Link"].includes(itemType);
 }
@@ -28,7 +28,7 @@ export function shouldHaveDataUrl(itemType: string): boolean {
  * @param {string} url Url to get a file name out of
  * @return {*}  {string}
  */
-export function getFileName(url: string): string {
+export function getFileName (url: string): string {
   let filename: string;
 
   try {
@@ -53,7 +53,7 @@ export function getFileName(url: string): string {
  * @param {string} url Url to validate
  * @return {*}  {boolean}
  */
-export function isUrl(url: string): boolean {
+export function isUrl (url: string): boolean {
   // Use try / catch as a simple string "test" will cause new URL() to throw an error.
   try {
     const result = new URL(url);
@@ -71,7 +71,7 @@ export function isUrl(url: string): boolean {
  * @param {string} url URL to test
  * @return {*}  {boolean}
  */
-export function isFeatureService(url: string): boolean {
+export function isFeatureService (url: string): boolean {
   return FEATURE_SERVICE_URL_REGEX.test(url);
 }
 
@@ -81,7 +81,7 @@ export function isFeatureService(url: string): boolean {
  * @param {string} url
  * @return {*}  {boolean}
  */
-export function isFeatureLayer(url: string): boolean {
+export function isFeatureLayer (url: string): boolean {
   const results = url.match(FEATURE_SERVICE_URL_REGEX);
   return results && !!results[3];
 }
@@ -92,7 +92,7 @@ export function isFeatureLayer(url: string): boolean {
  * @param {string} url item url
  * @return {*}  {string}
  */
-export function getFeatureServiceTitle(url: string): string {
+export function getFeatureServiceTitle (url: string): string {
   return url.match(/\/services\/(.+)\/(feature|map|image)server/i)[1];
 }
 
@@ -104,7 +104,7 @@ export function getFeatureServiceTitle(url: string): string {
  * @param body Item body.
  * @return Item info (title, description, extent, url)
  */
-export function getFeatureLayerItem(
+export function getFeatureLayerItem (
   url: string,
   body: Partial<ILayerDefinition>
 ): {
@@ -129,7 +129,7 @@ export function getFeatureLayerItem(
  * @param {*} body
  * @return {*}
  */
-export function getFeatureServiceItem(
+export function getFeatureServiceItem (
   url: string,
   body: Partial<IFeatureServiceDefinition>
 ): {
@@ -152,7 +152,7 @@ export function getFeatureServiceItem(
  * @param {string} url Non FS URL
  * @return {*}  {Promise<{ ok: boolean, headers: Headers }>}
  */
-export async function pingUrl(
+export async function pingUrl (
   url: string
 ): Promise<{ ok: boolean; headers?: Headers }> {
   const response = await fetch(url, { method: "HEAD" });
@@ -170,7 +170,7 @@ export async function pingUrl(
  * @param {string} url
  * @return {*}  {Promise<{ ok: boolean, item?: any }>}
  */
-export async function pingFeatureService(
+export async function pingFeatureService (
   url: string
 ): Promise<{ ok: boolean; item?: any }> {
   // make sure the response is in json format
@@ -204,7 +204,7 @@ export async function pingFeatureService(
   };
 }
 
-export function detectDataTypeFromHeader(headers: Headers): ItemType {
+export function detectDataTypeFromHeader (headers: Headers): ItemType {
   let contentType = headers.get("Content-Type");
   let dataType: ItemType;
 
@@ -219,7 +219,7 @@ export function detectDataTypeFromHeader(headers: Headers): ItemType {
   } else if (
     contentType === "application/vnd.ms-excel" ||
     contentType ===
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
   ) {
     dataType = ItemType["Microsoft Excel"];
   } else if (contentType === "application/pdf") {
@@ -236,7 +236,7 @@ export function detectDataTypeFromHeader(headers: Headers): ItemType {
   return dataType;
 }
 
-export function detectDataTypeFromExtension(url: string): ItemType {
+export function detectDataTypeFromExtension (url: string): ItemType {
   const contentType = url.toLowerCase().split(".").pop();
   let dataType;
 

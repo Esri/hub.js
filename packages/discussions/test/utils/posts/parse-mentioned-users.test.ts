@@ -1,4 +1,4 @@
-import { IGroup } from "@esri/arcgis-rest-types";
+import { IGroup } from "@esri/arcgis-rest-portal";
 import { isDiscussable, parseMentionedUsers } from "../../../src/utils/posts";
 import {
   CANNOT_DISCUSS,

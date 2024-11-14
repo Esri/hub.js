@@ -8,7 +8,7 @@ import {
 import { canModifyChannel } from "../../../src/utils/channels";
 import { ChannelPermission } from "../../../src/utils/channel-permission";
 import * as isAuthorizedToModifyChannelByLegacyPermissionsModule from "../../../src/utils/channels/is-authorized-to-modify-channel-by-legacy-permissions";
-import { IUser } from "@esri/arcgis-rest-types";
+import { IUser } from "@esri/arcgis-rest-request";
 
 describe("canModifyChannel", () => {
   let canModerateChannelSpy: jasmine.Spy;

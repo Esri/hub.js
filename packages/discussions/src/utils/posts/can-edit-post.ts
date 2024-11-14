@@ -1,4 +1,5 @@
-import { IGroup, IUser } from "@esri/arcgis-rest-types";
+import { IUser } from "@esri/arcgis-rest-request";
+import { IGroup } from "@esri/arcgis-rest-portal";
 import { IChannel, IDiscussionsUser, IPost, SharingAccess } from "../../types";
 import { CANNOT_DISCUSS } from "../constants";
 import { ChannelPermission } from "../channel-permission";
@@ -16,7 +17,7 @@ type ILegacyChannelPermissions = Pick<
  * @param channel
  * @returns {boolean}
  */
-export function canModifyPost(
+export function canModifyPost (
   post: IPost,
   user: IUser | IDiscussionsUser = {},
   channel: IChannel
@@ -31,7 +32,7 @@ export function canModifyPost(
  * @param channel
  * @returns {boolean}
  */
-export function canEditPost(
+export function canEditPost (
   post: IPost,
   user: IUser | IDiscussionsUser = {},
   channel: IChannel
@@ -55,11 +56,11 @@ export function canEditPost(
   );
 }
 
-function isPostCreator(post: IPost, user: IUser | IDiscussionsUser) {
+function isPostCreator (post: IPost, user: IUser | IDiscussionsUser) {
   return !!user.username && post.creator === user.username;
 }
 
-function isAuthorizedToModifyByLegacyPermissions(
+function isAuthorizedToModifyByLegacyPermissions (
   user: IUser | IDiscussionsUser,
   channelParams: ILegacyChannelPermissions
 ) {
@@ -85,7 +86,7 @@ function isAuthorizedToModifyByLegacyPermissions(
  * Ensure the user is a member of one of the channel groups
  * and the group is not marked as non-discussable
  */
-function isAuthorizedToModifyPostByLegacyGroup(
+function isAuthorizedToModifyPostByLegacyGroup (
   channelGroups: string[],
   userGroups: IGroup[]
 ) {

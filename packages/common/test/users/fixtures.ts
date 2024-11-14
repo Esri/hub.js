@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-types";
+import { IUser } from "@esri/arcgis-rest-request";
 import { ArcGISContext, IHubSearchResult } from "../../src";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import { IPortal } from "@esri/arcgis-rest-portal";

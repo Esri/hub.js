@@ -1,4 +1,4 @@
-import { IItem } from "@esri/arcgis-rest-types";
+import { IItem } from "@esri/arcgis-rest-portal";
 import { fetchItemEnrichments } from "../items/_enrichments";
 import { getProp } from "../objects";
 import { getItemThumbnailUrl } from "../resources";
@@ -22,7 +22,7 @@ import { getRelativeWorkspaceUrl } from "../core/getRelativeWorkspaceUrl";
  * @param requestOptions
  * @returns
  */
-export async function enrichContentSearchResult(
+export async function enrichContentSearchResult (
   item: IItem,
   include: string[],
   requestOptions: IHubRequestOptions

@@ -1,5 +1,6 @@
 import { IQuery } from "../../search/types/IHubCatalog";
-import { FieldType, IField } from "@esri/arcgis-rest-types";
+import { IField } from "@esri/arcgis-rest-feature-service";
+import { FieldType } from "@esri/arcgis-rest-request";
 import { IReference } from "./IReference";
 import { ServiceAggregation } from "../../core/types/DynamicValues";
 

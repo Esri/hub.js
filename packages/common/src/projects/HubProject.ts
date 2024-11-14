@@ -35,7 +35,6 @@ import { createProject, editorToProject, updateProject } from "./edit";
 import { ProjectEditorType } from "./_internal/ProjectSchema";
 import { enrichEntity } from "../core/enrichEntity";
 import { getProp, getWithDefault } from "../objects";
-import { IGroup } from "@esri/arcgis-rest-types";
 import { metricToEditor } from "../metrics/metricToEditor";
 import { IMetricDisplayConfig } from "../core/types/Metrics";
 import { upsertResource } from "../resources/upsertResource";
@@ -49,13 +48,12 @@ import { getEditorSlug } from "../core/_internal/getEditorSlug";
 export class HubProject
   extends HubItemEntity<IHubProject>
   implements
-    IWithStoreBehavior<IHubProject>,
-    IWithCatalogBehavior,
-    IWithMetricsBehavior,
-    IWithSharingBehavior,
-    IWithCardBehavior,
-    IWithEditorBehavior
-{
+  IWithStoreBehavior<IHubProject>,
+  IWithCatalogBehavior,
+  IWithMetricsBehavior,
+  IWithSharingBehavior,
+  IWithCardBehavior,
+  IWithEditorBehavior {
   private _catalog: Catalog;
 
   /**
@@ -72,7 +70,7 @@ export class HubProject
    * Catalog instance for this project. Note: Do not hold direct references to this object; always access it from the project.
    * @returns
    */
-  get catalog(): Catalog {
+  get catalog (): Catalog {
     return this._catalog;
   }
 
@@ -82,7 +80,7 @@ export class HubProject
    * @param context - ArcGIS context
    * @returns
    */
-  static fromJson(
+  static fromJson (
     json: Partial<IHubProject>,
     context: IArcGISContext
   ): HubProject {
@@ -98,7 +96,7 @@ export class HubProject
    * @param context
    * @returns
    */
-  static async create(
+  static async create (
     partialProject: Partial<IHubProject>,
     context: IArcGISContext,
     save: boolean = false
@@ -118,7 +116,7 @@ export class HubProject
    * @param context
    * @returns
    */
-  static async fetch(
+  static async fetch (
     identifier: string,
     context: IArcGISContext
   ): Promise<HubProject> {
@@ -145,7 +143,7 @@ export class HubProject
    * @param context
    * @returns
    */
-  private static applyDefaults(
+  private static applyDefaults (
     partialProject: Partial<IHubProject>,
     context: IArcGISContext
   ): IHubProject {
@@ -164,7 +162,7 @@ export class HubProject
    *
    * @param opts view model options
    */
-  convertToCardModel(opts?: IConvertToCardModelOpts): IHubCardViewModel {
+  convertToCardModel (opts?: IConvertToCardModelOpts): IHubCardViewModel {
     return projectToCardModel(this.entity, this.context, opts);
   }
   /*
@@ -173,7 +171,7 @@ export class HubProject
    * @param type editor type - corresponds to the returned uiSchema
    * @param options optional hash of dynamic uiSchema element options
    */
-  async getEditorConfig(
+  async getEditorConfig (
     i18nScope: string,
     type: ProjectEditorType
   ): Promise<IEditorConfig> {
@@ -186,17 +184,17 @@ export class HubProject
    * @param editorContext
    * @returns
    */
-  async toEditor(
+  async toEditor (
     editorContext: IEntityEditorContext = {},
     include: string[] = []
   ): Promise<IHubProjectEditor> {
     // 1. optionally enrich entity and cast to editor
     const editor = include.length
       ? ((await enrichEntity(
-          cloneObject(this.entity),
-          include,
-          this.context.hubRequestOptions
-        )) as IHubProjectEditor)
+        cloneObject(this.entity),
+        include,
+        this.context.hubRequestOptions
+      )) as IHubProjectEditor)
       : (cloneObject(this.entity) as IHubProjectEditor);
 
     // 2. editor._groups handling
@@ -224,7 +222,7 @@ export class HubProject
    * @param editor
    * @returns
    */
-  async fromEditor(
+  async fromEditor (
     editor: IHubProjectEditor,
     editorContext?: IEntityEditorContext
   ): Promise<IHubProject> {
@@ -309,7 +307,7 @@ export class HubProject
    * Apply a new state to the instance
    * @param changes
    */
-  update(changes: Partial<IHubProject>): void {
+  update (changes: Partial<IHubProject>): void {
     if (this.isDestroyed) {
       throw new Error("HubProject is already destroyed.");
     }
@@ -326,7 +324,7 @@ export class HubProject
    * Save the HubProject to the backing store. Currently Projects are stored as Items in Portal
    * @returns
    */
-  async save(): Promise<void> {
+  async save (): Promise<void> {
     if (this.isDestroyed) {
       throw new Error("HubProject is already destroyed.");
     }
@@ -357,7 +355,7 @@ export class HubProject
    * set a flag to indicate that it is destroyed
    * @returns
    */
-  async delete(): Promise<void> {
+  async delete (): Promise<void> {
     if (this.isDestroyed) {
       throw new Error("HubProject is already destroyed.");
     }
@@ -372,7 +370,7 @@ export class HubProject
    * @param metricId
    * @returns
    */
-  resolveMetric(metricId: string): Promise<IResolvedMetric> {
+  resolveMetric (metricId: string): Promise<IResolvedMetric> {
     const metrics = getEntityMetrics(this.entity);
     const metric = metrics.find((m) => m.id === metricId);
     // TODO: add caching

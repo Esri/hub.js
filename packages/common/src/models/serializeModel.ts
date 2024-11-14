@@ -1,6 +1,6 @@
 import { IModel } from "../types";
 import { cloneObject } from "../util";
-import { IItem } from "@esri/arcgis-rest-types";
+import { IItem } from "@esri/arcgis-rest-portal";
 
 interface ISerializedModel extends IItem {
   text: string;
@@ -10,7 +10,7 @@ interface ISerializedModel extends IItem {
  * the items api
  * @param {Object} model Item model {item:{}, data:{}}
  */
-export function serializeModel(model: IModel): ISerializedModel {
+export function serializeModel (model: IModel): ISerializedModel {
   const serialized = cloneObject(model.item) as ISerializedModel;
   serialized.text = JSON.stringify(model.data);
   return serialized;

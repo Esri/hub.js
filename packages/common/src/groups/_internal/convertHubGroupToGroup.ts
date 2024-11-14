@@ -1,4 +1,4 @@
-import { IGroup } from "@esri/arcgis-rest-types";
+import { IGroup } from "@esri/arcgis-rest-portal";
 import { PropertyMapper } from "../../core/_internal/PropertyMapper";
 import { IHubGroup } from "../../core/types/IHubGroup";
 import { getPropertyMap } from "./getPropertyMap";
@@ -8,7 +8,7 @@ import { getPropertyMap } from "./getPropertyMap";
  * @param hubGroup
  */
 
-export function convertHubGroupToGroup(hubGroup: IHubGroup): IGroup {
+export function convertHubGroupToGroup (hubGroup: IHubGroup): IGroup {
   // take the _join props and map them to isInvitationOnly and autoJoin
   switch (hubGroup._join) {
     case "invite":

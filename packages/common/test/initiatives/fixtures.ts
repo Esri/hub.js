@@ -1,4 +1,4 @@
-import { IItem, IUser } from "@esri/arcgis-rest-types";
+import { IUser } from "@esri/arcgis-rest-request";
 import {
   ArcGISContext,
   HubEntityStatus,
@@ -9,7 +9,7 @@ import {
   IModel,
 } from "../../src";
 import { MOCK_AUTH } from "../mocks/mock-auth";
-import { IPortal } from "@esri/arcgis-rest-portal";
+import { IItem, IPortal } from "@esri/arcgis-rest-portal";
 
 export const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
 

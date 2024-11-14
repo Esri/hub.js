@@ -1,4 +1,4 @@
-import { IItem } from "@esri/arcgis-rest-types";
+import { IItem } from "@esri/arcgis-rest-portal";
 import { computeLinks } from "../../../src/templates/_internal/computeLinks";
 import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
 import { IHubEntityLinks } from "../../../src/core/types";

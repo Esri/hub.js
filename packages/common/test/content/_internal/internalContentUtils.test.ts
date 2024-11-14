@@ -1,4 +1,4 @@
-import { IItem } from "@esri/arcgis-rest-types";
+import { IItem } from "@esri/arcgis-rest-portal";
 import {
   getContentEditUrl,
   getExtentObject,
@@ -18,7 +18,7 @@ describe("getContentEditUrl", () => {
   beforeAll(() => {
     // suppress deprecation warnings
     // tslint:disable-next-line: no-empty
-    spyOn(console, "warn").and.callFake(() => {});
+    spyOn(console, "warn").and.callFake(() => { });
   });
   beforeEach(async () => {
     requestOptions = cloneObject(MOCK_HUB_REQOPTS);

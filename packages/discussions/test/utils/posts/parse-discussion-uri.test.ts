@@ -1,4 +1,3 @@
-import { IGroup } from "@esri/arcgis-rest-types";
 import { IDiscussionParams } from "../../../src/types";
 import { parseDiscussionURI } from "../../../src/utils/posts";
 import { MENTION_ATTRIBUTE } from "../../../src/utils/constants";

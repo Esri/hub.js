@@ -1,11 +1,10 @@
-import { IGroup } from "@esri/arcgis-rest-types";
 import {
   ArcGISContextManager,
   getCatalogGroups,
   IHubCatalog,
 } from "../../../src";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
-import { IPortal, IUser } from "@esri/arcgis-rest-portal";
+import { IGroup, IPortal, IUser } from "@esri/arcgis-rest-portal";
 
 describe("getCatalogGroups:", () => {
   let licensedUserCtxMgr: ArcGISContextManager;

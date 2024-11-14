@@ -1,4 +1,4 @@
-import { IGroup } from "@esri/arcgis-rest-types";
+import { IGroup } from "@esri/arcgis-rest-portal";
 import { PropertyMapper } from "../../core/_internal/PropertyMapper";
 import { IHubGroup } from "../../core/types/IHubGroup";
 import { computeProps } from "./computeProps";
@@ -11,7 +11,7 @@ import { IHubRequestOptions } from "../../types";
  * @param requestOptions
  */
 
-export function convertGroupToHubGroup(
+export function convertGroupToHubGroup (
   group: IGroup,
   requestOptions: IHubRequestOptions
 ): IHubGroup {

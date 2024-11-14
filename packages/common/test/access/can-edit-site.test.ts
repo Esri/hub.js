@@ -1,9 +1,10 @@
-import { IUser, IItem } from "@esri/arcgis-rest-types";
+import { IItem } from "@esri/arcgis-rest-portal";
+import { IUser } from "@esri/arcgis-rest-request";
 import * as baseUtils from "../../src/access/has-base-priv";
 import * as itemUtils from "../../src/access/can-edit-item";
 import { canEditSite } from "../../src/access/can-edit-site";
 
-describe("canEditSite", function() {
+describe("canEditSite", function () {
   const getModel = (props: any) => props as IItem;
   const getUser = (props: any = {}) => props as IUser;
   let hasBasePrivSpy: jasmine.Spy;
@@ -19,7 +20,7 @@ describe("canEditSite", function() {
     canEditItemSpy.calls.reset();
   });
 
-  it("calls thru to canEditItem if user has base priv and context is not hub home", function() {
+  it("calls thru to canEditItem if user has base priv and context is not hub home", function () {
     const model = getModel({ properties: { isDefaultHubHome: false } });
     const user = getUser();
     canEditSite(model, user);
@@ -29,7 +30,7 @@ describe("canEditSite", function() {
     expect(canEditItemSpy.calls.argsFor(0)).toEqual([model, user]);
   });
 
-  it("returns false if context is hub home", function() {
+  it("returns false if context is hub home", function () {
     const model = getModel({ properties: { isDefaultHubHome: true } });
     const user = getUser();
     const res = canEditSite(model, user);
@@ -38,7 +39,7 @@ describe("canEditSite", function() {
     expect(canEditItemSpy.calls.count()).toBe(0);
   });
 
-  it("returns false if user lacks base priv", function() {
+  it("returns false if user lacks base priv", function () {
     hasBasePrivSpy.and.returnValue(false);
     const model = getModel({});
     const user = getUser();

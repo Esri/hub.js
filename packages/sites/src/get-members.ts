@@ -1,6 +1,5 @@
 import { getUser } from "@esri/arcgis-rest-portal";
-import { request } from "@esri/arcgis-rest-request";
-import { IUser } from "@esri/arcgis-rest-types";
+import { IUser, request } from "@esri/arcgis-rest-request";
 import {
   IHubRequestOptions,
   getPortalUrl,
@@ -24,7 +23,7 @@ import {
  * @param {string[]} usernames List of usernames to search for
  * @param {object} requestOptions IHubRequestOptions
  */
-export function getMembers(
+export function getMembers (
   usernames: string[],
   requestOptions: IHubRequestOptions
 ): Promise<IUser[]> {
@@ -42,7 +41,7 @@ export function getMembers(
  * @param {Array} usernames List of usernames to search for
  * @param {object} requestOptions IHubRequestOptions
  */
-function authenticatedGetMembers(
+function authenticatedGetMembers (
   usernames: string[],
   requestOptions: IHubRequestOptions
 ): Promise<IUser[]> {
@@ -87,7 +86,7 @@ function authenticatedGetMembers(
  * @param {Array} usernames List of usernames to search for
  * @param {object} requestOptions IHubRequestOptions
  */
-function unauthenticatedGetMembers(
+function unauthenticatedGetMembers (
   usernames: string[],
   requestOptions: IHubRequestOptions
 ): Promise<IUser[]> {
@@ -125,7 +124,7 @@ interface IBatchMemberRequestOptions {
  *
  * @param options IBatchMemberRequestOptions
  */
-function batchMemberRequest(
+function batchMemberRequest (
   options: IBatchMemberRequestOptions
 ): Promise<IUser[][]> {
   return request(options.urlPath, options.requestOptions)

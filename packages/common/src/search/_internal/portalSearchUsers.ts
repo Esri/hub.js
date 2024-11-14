@@ -5,7 +5,7 @@ import {
   searchUsers,
   searchCommunityUsers as _searchCommunityUsers,
 } from "@esri/arcgis-rest-portal";
-import { IUser } from "@esri/arcgis-rest-types";
+import { IUser } from "@esri/arcgis-rest-request";
 import { enrichUserSearchResult } from "../../users";
 import { serializeQueryForPortal } from "../serializeQueryForPortal";
 import HubError from "../../HubError";
@@ -20,7 +20,7 @@ import { getNextFunction } from "../utils";
 import { expandPredicate } from "./expandPredicate";
 import { cloneObject } from "../../util";
 
-function buildSearchOptions(
+function buildSearchOptions (
   query: IQuery,
   options: IHubSearchOptions,
   operation: string
@@ -98,7 +98,7 @@ function buildSearchOptions(
  * @param options An IHubSearchOptions of search options
  * @returns a promise that resolves an IHubSearchResponse<IHubSearchResult> of users results
  */
-export function searchPortalUsersLegacy(
+export function searchPortalUsersLegacy (
   query: IQuery,
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
@@ -124,7 +124,7 @@ export function searchPortalUsersLegacy(
  * @param options An IHubSearchOptions of search options
  * @returns a promise that resolves an IHubSearchResponse<IHubSearchResult> of users results
  */
-export function searchPortalUsers(
+export function searchPortalUsers (
   query: IQuery,
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
@@ -143,7 +143,7 @@ export function searchPortalUsers(
  * @param options An IHubSearchOptions of search options
  * @returns a promise that resolves an IHubSearchResponse<IHubSearchResult> of users results
  */
-export function searchCommunityUsers(
+export function searchCommunityUsers (
   query: IQuery,
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
@@ -162,7 +162,7 @@ export function searchCommunityUsers(
  * @param searchResponse A ISearchResult<IUser> object
  * @returns
  */
-function mapUsersToSearchResults(
+function mapUsersToSearchResults (
   searchOptions: IUserSearchOptions,
   searchResponse: ISearchResult<IUser>
 ): Promise<IHubSearchResult[]> {
@@ -184,7 +184,7 @@ function mapUsersToSearchResults(
  * @param searchOptions
  * @returns a promise that resolves enriched internal portal user search results
  */
-async function searchPortal(
+async function searchPortal (
   searchOptions: IUserSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
   // Execute portal search
@@ -213,7 +213,7 @@ async function searchPortal(
  * @param searchOptions
  * @returns a promise that resolves enriched community user search results
  */
-async function searchCommunity(
+async function searchCommunity (
   searchOptions: IUserSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
   // Execute portal search
@@ -243,7 +243,7 @@ async function searchCommunity(
  * @param requestOptions
  * @returns
  */
-function userToSearchResult(
+function userToSearchResult (
   user: IUser,
   include: string[] = [],
   requestOptions?: IHubRequestOptions

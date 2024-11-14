@@ -1,8 +1,8 @@
+import { IUser } from "@esri/arcgis-rest-request";
 import {
   IPagingParams,
   IPagedResponse as IRestPagedResponse,
-  IUser,
-} from "@esri/arcgis-rest-types";
+} from "@esri/arcgis-rest-portal";
 import { Geometry, Polygon } from "geojson";
 import { IHubRequestOptions } from "../../types";
 
@@ -306,7 +306,7 @@ export interface IChannelNotificationOptOut {
 // picking fields from requestInit for development against local api
 export interface IDiscussionsRequestOptions
   extends Omit<IHubRequestOptions, "httpMethod" | "isPortal">,
-    Pick<RequestInit, "mode" | "cache" | "credentials"> {
+  Pick<RequestInit, "mode" | "cache" | "credentials"> {
   httpMethod?: "GET" | "POST" | "PATCH" | "DELETE";
   isPortal?: boolean;
   token?: string;
@@ -455,8 +455,8 @@ export enum PostType {
  */
 export interface IPost
   extends Partial<IWithAuthor>,
-    Partial<IWithEditor>,
-    IWithTimestamps {
+  Partial<IWithEditor>,
+  IWithTimestamps {
   id: string;
   title: string | null;
   body: string;
@@ -510,7 +510,7 @@ export interface ICreatePost extends IPostOptions {
  * @extends {IPostOptions}
  * @extends {ICreateChannel}
  */
-export interface ICreateChannelPost extends IPostOptions, ICreateChannel {}
+export interface ICreateChannelPost extends IPostOptions, ICreateChannel { }
 
 /**
  * request options for creating post
@@ -561,10 +561,10 @@ export interface IFetchPost extends Partial<IPagingParams> {
  */
 export interface ISearchPosts
   extends Partial<IWithAuthor>,
-    Partial<IWithEditor>,
-    Partial<IPagingParams>,
-    Partial<IWithSorting<PostSort>>,
-    Partial<IWithTimeQueries> {
+  Partial<IWithEditor>,
+  Partial<IPagingParams>,
+  Partial<IWithSorting<PostSort>>,
+  Partial<IWithTimeQueries> {
   title?: string;
   body?: string;
   discussion?: string;
@@ -759,9 +759,9 @@ export interface IChannelAclPermissionUpdateDefinition
  */
 export interface IChannelAclPermission
   extends Omit<IChannelAclPermissionDefinition, "restrictedBefore">,
-    IWithAuthor,
-    IWithEditor,
-    IWithTimestamps {
+  IWithAuthor,
+  IWithEditor,
+  IWithTimestamps {
   id: string;
   restrictedBefore: string;
 }
@@ -832,7 +832,7 @@ export interface IUpdateChannelPermissions {
  */
 export interface ICreateChannel
   extends ICreateChannelSettings,
-    ICreateChannelPermissions {}
+  ICreateChannelPermissions { }
 
 /**
  * representation of channel from service
@@ -874,8 +874,8 @@ export interface IChannel extends IWithAuthor, IWithEditor, IWithTimestamps {
  */
 export interface IUpdateChannel
   extends ICreateChannelSettings,
-    IUpdateChannelPermissions,
-    Partial<IWithAuthor> {}
+  IUpdateChannelPermissions,
+  Partial<IWithAuthor> { }
 
 /**
  * dto for decorating found channel with relations
@@ -901,11 +901,11 @@ export interface IFetchChannel {
  */
 export interface ISearchChannels
   extends Partial<IPagingParams>,
-    Partial<IWithSorting<ChannelSort>>,
-    Partial<IWithTimeQueries>,
-    Partial<IWithFiltering<ChannelFilter>>,
-    Partial<IWithAuthor>,
-    Partial<IWithEditor> {
+  Partial<IWithSorting<ChannelSort>>,
+  Partial<IWithTimeQueries>,
+  Partial<IWithFiltering<ChannelFilter>>,
+  Partial<IWithAuthor>,
+  Partial<IWithEditor> {
   groups?: string[];
   access?: SharingAccess[];
   relations?: ChannelRelation[];
@@ -1040,8 +1040,8 @@ export interface IRemoveChannelActivityParams
  */
 export interface IEntitySetting
   extends IWithAuthor,
-    IWithEditor,
-    IWithTimestamps {
+  IWithEditor,
+  IWithTimestamps {
   id: string;
   type: EntitySettingType;
   settings: IEntitySettings;

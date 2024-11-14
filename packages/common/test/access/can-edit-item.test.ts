@@ -1,8 +1,9 @@
 import { canEditItem } from "../../src/access/can-edit-item";
-import { IUser, IItem, IGroup } from "@esri/arcgis-rest-types";
+import { IItem, IGroup } from "@esri/arcgis-rest-portal";
+import { IUser } from "@esri/arcgis-rest-request";
 import * as baseUtils from "../../src/access/has-base-priv";
 
-describe("canEditItem", function() {
+describe("canEditItem", function () {
   const getModel = (props: any) => props as IItem;
   const getUser = (props: any = {}) => props as IUser;
   const getGroup = (props: any) => props as IGroup;
@@ -17,7 +18,7 @@ describe("canEditItem", function() {
     hasBasePrivSpy.calls.reset();
   });
 
-  it("returns true if user has priv and itemControl", function() {
+  it("returns true if user has priv and itemControl", function () {
     const model = getModel({ itemControl: "admin" });
     const user = getUser();
     const result = canEditItem(model, user);
@@ -26,7 +27,7 @@ describe("canEditItem", function() {
     expect(hasBasePrivSpy.calls.argsFor(0)).toEqual([user]);
   });
 
-  it("returns true if user has priv and is owner", function() {
+  it("returns true if user has priv and is owner", function () {
     const username = "jdoe";
     const model = getModel({ owner: username });
     const user = getUser({ username });
@@ -36,7 +37,7 @@ describe("canEditItem", function() {
     expect(hasBasePrivSpy.calls.argsFor(0)).toEqual([user]);
   });
 
-  it("returns true if user has priv and is itemOrgAdmin", function() {
+  it("returns true if user has priv and is itemOrgAdmin", function () {
     const orgId = "foo";
     const model = getModel({ orgId });
     const user = getUser({ orgId, role: "org_admin", roleId: null });
@@ -46,7 +47,7 @@ describe("canEditItem", function() {
     expect(hasBasePrivSpy.calls.argsFor(0)).toEqual([user]);
   });
 
-  it("returns true if user has priv and belongs to any item update groups", function() {
+  it("returns true if user has priv and belongs to any item update groups", function () {
     const groupId = "foo";
     const group = getGroup({
       id: groupId,
@@ -66,7 +67,7 @@ describe("canEditItem", function() {
     expect(hasBasePrivSpy.calls.argsFor(1)).toEqual([user]);
   });
 
-  it("returns false if user lacks basic priv", function() {
+  it("returns false if user lacks basic priv", function () {
     hasBasePrivSpy.and.returnValue(false);
     const model = getModel({ itemControl: "admin" });
     const user = getUser();

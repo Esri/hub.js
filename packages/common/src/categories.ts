@@ -1,4 +1,4 @@
-import { IItem } from "@esri/arcgis-rest-types";
+import { IItem } from "@esri/arcgis-rest-portal";
 import { collections } from "./collections";
 
 const {
@@ -86,7 +86,7 @@ export const categories: { [key: string]: string[] } = {
  * Is the item type downloadable in the Hub app
  * @param item ArcGIS item with type and type keywords
  */
-export function isDownloadable(item: IItem) {
+export function isDownloadable (item: IItem) {
   return (
     downloadableTypes.indexOf(item.type) !== -1 ||
     (item.typeKeywords &&

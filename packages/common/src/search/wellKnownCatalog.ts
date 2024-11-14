@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-types";
+import { IUser } from "@esri/arcgis-rest-request";
 import { getFamilyTypes } from "../content/get-family";
 import { HubFamily } from "../types";
 import { EntityType, IFilter, IHubCatalog, IHubCollection } from "./types";
@@ -58,7 +58,7 @@ export interface IGetWellKnownCatalogOptions {
  * @param i18nScope
  * @returns i18nScope with a "." at the end if it is defined
  */
-export function dotifyString(i18nScope: string): string {
+export function dotifyString (i18nScope: string): string {
   return i18nScope && i18nScope.slice(-1) !== "." ? `${i18nScope}.` : i18nScope;
 }
 
@@ -69,7 +69,7 @@ export function dotifyString(i18nScope: string): string {
  * @param options An opitional IGetWellKnownCatalogOptions definition JSON object
  * @returns An IHubCatalog definition JSON object
  */
-export function getWellKnownCatalog(
+export function getWellKnownCatalog (
   i18nScope: string,
   catalogName: WellKnownCatalog,
   entityType: EntityType,
@@ -91,7 +91,7 @@ export function getWellKnownCatalog(
  * @param catalogName
  * @param options Options that contains user
  */
-function validateUserExistence(
+function validateUserExistence (
   catalogName: WellKnownCatalog,
   options: IGetWellKnownCatalogOptions
 ) {
@@ -110,7 +110,7 @@ function validateUserExistence(
  * @param options An opitional IGetWellKnownCatalogOptions definition JSON object
  * @returns An ITEM IHubCatalog definition JSON object
  */
-function getWellknownItemCatalog(
+function getWellknownItemCatalog (
   i18nScope: string,
   catalogName: WellKnownCatalog,
   options?: IGetWellKnownCatalogOptions
@@ -240,7 +240,7 @@ function getWellknownItemCatalog(
  * @param context IArcGISContext
  * @returns orgid of the c-org or e-org
  */
-function _getCOrgOrEOrgId(context: IArcGISContext): string {
+function _getCOrgOrEOrgId (context: IArcGISContext): string {
   // extract the c-org / e-org relationship
   const cOrgEOrgTrustedRelationship = context.trustedOrgs.find(
     (org) => org.from.orgId === context.currentUser.orgId
@@ -260,7 +260,7 @@ function _getCOrgOrEOrgId(context: IArcGISContext): string {
  * @param context IArcGISContext
  * @returns E-org name
  */
-function _getEOrgName(eOrgId: string, context: IArcGISContext): string {
+function _getEOrgName (eOrgId: string, context: IArcGISContext): string {
   // extract the c-org / e-org relationship
   const communityTrustedOrgRelationship = context.trustedOrgs.find(
     (org) => org.to.orgId === eOrgId
@@ -276,7 +276,7 @@ function _getEOrgName(eOrgId: string, context: IArcGISContext): string {
  * @param options An opitional IGetWellKnownCatalogOptions definition JSON object
  * @returns A group IHubCatalog definition JSON object
  */
-function getWellknownGroupCatalog(
+function getWellknownGroupCatalog (
   i18nScope: string,
   catalogName: WellKnownCatalog,
   options?: IGetWellKnownCatalogOptions
@@ -349,7 +349,7 @@ function getWellknownGroupCatalog(
  * @param entityType
  * @returns an object that contains properties of all the collections
  */
-function getAllCollectionsMap(i18nScope: string, entityType: EntityType): any {
+function getAllCollectionsMap (i18nScope: string, entityType: EntityType): any {
   return {
     appAndMap: {
       key: "appAndMap",
@@ -510,7 +510,7 @@ function getAllCollectionsMap(i18nScope: string, entityType: EntityType): any {
  * Get a list of collection names we want to use to build the default collections if no specific collection names are passed
  * @returns a list of WellKnownCollection definition strings
  */
-function getDefaultCollectionNames(): WellKnownCollection[] {
+function getDefaultCollectionNames (): WellKnownCollection[] {
   return ["appAndMap", "dataset", "document", "feedback", "site", "project"];
 }
 
@@ -523,7 +523,7 @@ function getDefaultCollectionNames(): WellKnownCollection[] {
  * only those collections will be returned
  * @returns A list of IHubCollection definition JSON objects
  */
-export function getWellknownCollections(
+export function getWellknownCollections (
   i18nScope: string,
   entityType: EntityType,
   collectionNames?: WellKnownCollection[]
@@ -554,7 +554,7 @@ export function getWellknownCollections(
  * @param collectionName Name of the collection requested
  * @returns An IHubCollection definition JSON object
  */
-export function getWellknownCollection(
+export function getWellknownCollection (
   i18nScope: string,
   entityType: EntityType,
   collectionName: WellKnownCollection

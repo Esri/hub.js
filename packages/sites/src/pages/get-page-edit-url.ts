@@ -1,4 +1,4 @@
-import { IItem } from "@esri/arcgis-rest-types";
+import { IItem } from "@esri/arcgis-rest-portal";
 
 /**
  * Get the correct url used to edit the page
@@ -6,7 +6,7 @@ import { IItem } from "@esri/arcgis-rest-types";
  * @param isPortal from appSettings.isPortal
  * @param siteUrl the url of the parent site
  */
-export function getPageEditUrl(
+export function getPageEditUrl (
   item: IItem,
   isPortal: boolean,
   siteUrl: string

@@ -6,11 +6,11 @@ import {
   WellKnownCollection,
   getWellKnownCatalog,
 } from "../../../../search/wellKnownCatalog";
-import { IUser } from "@esri/arcgis-rest-types";
+import { IUser } from "@esri/arcgis-rest-request";
 import { IHubCatalog } from "../../../../search/types/IHubCatalog";
 
 // Get the catalogs for the entity gallery picker
-function getCatalogs(user: IUser): IHubCatalog[] {
+function getCatalogs (user: IUser): IHubCatalog[] {
   const catalogNames: WellKnownCatalog[] = ["myContent", "organization"];
   return catalogNames.map((name: WellKnownCatalog) => {
     const opts = {

@@ -1,9 +1,9 @@
-import { IItem, IUser } from "@esri/arcgis-rest-types";
+import { IUser } from "@esri/arcgis-rest-request";
 import { IHubCatalog, IHubSearchResult } from "../../src/search/types";
 import { IModel } from "../../src/types";
 import { IHubTemplate } from "../../src/core/types/IHubTemplate";
 import { MOCK_AUTH } from "../mocks/mock-auth";
-import { IPortal } from "@esri/arcgis-rest-portal";
+import { IItem, IPortal } from "@esri/arcgis-rest-portal";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { mergeObjects } from "../../src/objects";
 

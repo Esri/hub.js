@@ -1,4 +1,5 @@
-import { IItem, IUser } from "@esri/arcgis-rest-types";
+import { IUser } from "@esri/arcgis-rest-request";
+import { IItem } from "@esri/arcgis-rest-portal";
 import { IInitiativeModel } from "../types";
 import { getProp } from "../objects";
 import { findBy } from "../util";
@@ -16,7 +17,7 @@ export interface IEventModel {
  * @param {IUser} user
  * @returns {boolean}
  */
-export function canEditEvent(model: IEventModel, user: IUser): boolean {
+export function canEditEvent (model: IEventModel, user: IUser): boolean {
   let res = false;
   if (hasBasePriv(user)) {
     const coreTeamId = model.initiative

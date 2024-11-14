@@ -1,4 +1,4 @@
-import { IGroup, IItem } from "@esri/arcgis-rest-types";
+import { IGroup, IItem } from "@esri/arcgis-rest-portal";
 import { IHubContent, IHubItemEntity } from "../core";
 import { CANNOT_DISCUSS } from "./constants";
 import {
@@ -15,7 +15,7 @@ import { IFilter, IHubSearchResult, IPredicate, IQuery } from "../search";
  * @param {IGroup|IItem|IHubContent|IHubItemEntity} subject
  * @return {boolean}
  */
-export function isDiscussable(
+export function isDiscussable (
   subject: Partial<IGroup | IItem | IHubContent | IHubItemEntity>
 ) {
   let result = false;
@@ -32,7 +32,7 @@ export function isDiscussable(
  * @param {boolean} discussable
  * @returns {string[]} updated list of type keywords
  */
-export function setDiscussableKeyword(
+export function setDiscussableKeyword (
   typeKeywords: string[],
   discussable: boolean
 ): string[] {
@@ -51,11 +51,11 @@ export function setDiscussableKeyword(
  * @param channel An IChannel record
  * @returns true if the channel is considered `public`
  */
-export function isPublicChannel(channel: IChannel): boolean {
+export function isPublicChannel (channel: IChannel): boolean {
   return channel.channelAcl
     ? channel.channelAcl.some(
-        ({ category }) => category === AclCategory.AUTHENTICATED_USER
-      )
+      ({ category }) => category === AclCategory.AUTHENTICATED_USER
+    )
     : channel.access === SharingAccess.PUBLIC;
 }
 
@@ -65,14 +65,14 @@ export function isPublicChannel(channel: IChannel): boolean {
  * @param channel An IChannel record
  * @returns true if the channel is considered `org`
  */
-export function isOrgChannel(channel: IChannel): boolean {
+export function isOrgChannel (channel: IChannel): boolean {
   return channel.channelAcl
     ? !isPublicChannel(channel) &&
-        channel.channelAcl.some(
-          ({ category, subCategory }) =>
-            category === AclCategory.ORG &&
-            subCategory === AclSubCategory.MEMBER
-        )
+    channel.channelAcl.some(
+      ({ category, subCategory }) =>
+        category === AclCategory.ORG &&
+        subCategory === AclSubCategory.MEMBER
+    )
     : channel.access === SharingAccess.ORG;
 }
 
@@ -82,7 +82,7 @@ export function isOrgChannel(channel: IChannel): boolean {
  * @param channel An IChannel record
  * @returns true if the channel is considered `private`
  */
-export function isPrivateChannel(channel: IChannel): boolean {
+export function isPrivateChannel (channel: IChannel): boolean {
   return !isPublicChannel(channel) && !isOrgChannel(channel);
 }
 
@@ -92,7 +92,7 @@ export function isPrivateChannel(channel: IChannel): boolean {
  * @param channel An IChannel record
  * @returns `public`, `org` or `private`
  */
-export function getChannelAccess(channel: IChannel): SharingAccess {
+export function getChannelAccess (channel: IChannel): SharingAccess {
   let access = SharingAccess.PRIVATE;
   if (isPublicChannel(channel)) {
     access = SharingAccess.PUBLIC;
@@ -108,16 +108,16 @@ export function getChannelAccess(channel: IChannel): SharingAccess {
  * @param channel An IChannel record
  * @returns an array of org ids for the given channel
  */
-export function getChannelOrgIds(channel: IChannel): string[] {
+export function getChannelOrgIds (channel: IChannel): string[] {
   return channel.channelAcl
     ? channel.channelAcl.reduce(
-        (acc, permission) =>
-          permission.category === AclCategory.ORG &&
+      (acc, permission) =>
+        permission.category === AclCategory.ORG &&
           permission.subCategory === AclSubCategory.MEMBER
-            ? [...acc, permission.key]
-            : acc,
-        []
-      )
+          ? [...acc, permission.key]
+          : acc,
+      []
+    )
     : channel.orgs;
 }
 
@@ -127,16 +127,16 @@ export function getChannelOrgIds(channel: IChannel): string[] {
  * @param channel An IChannel record
  * @returns an array of group ids for the given channel
  */
-export function getChannelGroupIds(channel: IChannel): string[] {
+export function getChannelGroupIds (channel: IChannel): string[] {
   return channel.channelAcl
     ? channel.channelAcl.reduce(
-        (acc, permission) =>
-          permission.category === AclCategory.GROUP &&
+      (acc, permission) =>
+        permission.category === AclCategory.GROUP &&
           permission.subCategory === AclSubCategory.MEMBER
-            ? [...acc, permission.key]
-            : acc,
-        []
-      )
+          ? [...acc, permission.key]
+          : acc,
+      []
+    )
     : channel.groups;
 }
 
@@ -148,7 +148,7 @@ export function getChannelGroupIds(channel: IChannel): string[] {
  * @param options An IHubSearchOptions object
  * @returns a promise that resolves an IHubSearchResponse<IHubSearchResult>
  */
-export function getChannelUsersQuery(
+export function getChannelUsersQuery (
   inputs: string[],
   channel: IChannel,
   currentUsername?: string

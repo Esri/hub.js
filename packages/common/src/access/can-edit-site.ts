@@ -1,4 +1,5 @@
-import { IItem, IUser } from "@esri/arcgis-rest-types";
+import { IItem } from "@esri/arcgis-rest-portal";
+import { IUser } from "@esri/arcgis-rest-request";
 import { getProp } from "../objects";
 import { hasBasePriv } from "./has-base-priv";
 import { canEditItem } from "./can-edit-item";
@@ -11,7 +12,7 @@ import { canEditItem } from "./can-edit-item";
  * @param {IUser} user
  * @returns {boolean}
  */
-export function canEditSite(model: IItem, user: IUser): boolean {
+export function canEditSite (model: IItem, user: IUser): boolean {
   let res = false;
   const isDefaultHubHome = getProp(model, "properties.isDefaultHubHome");
   if (!isDefaultHubHome && hasBasePriv(user)) {

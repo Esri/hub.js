@@ -1,6 +1,5 @@
-import { getItem, ISearchOptions, searchItems } from "@esri/arcgis-rest-portal";
+import { getItem, IItem, ISearchOptions, searchItems } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IItem } from "@esri/arcgis-rest-types";
 import { slugify } from "../utils";
 import { TYPEKEYWORD_SLUG_PREFIX, truncateSlug } from "./_internal/slugs";
 import { uriSlugToKeywordSlug } from "./_internal/slugConverters";
@@ -13,7 +12,7 @@ import { uriSlugToKeywordSlug } from "./_internal/slugConverters";
  * @param orgKey
  * @returns
  */
-export function constructSlug(title: string, orgKey: string) {
+export function constructSlug (title: string, orgKey: string) {
   // allow some padding at the end for incrementing so we don't wind up w/ weird, inconsistent slugs
   // when the increment goes from single to multiple digits,
   // avoid producing the following when deduping:
@@ -33,7 +32,7 @@ export function constructSlug(title: string, orgKey: string) {
  * @param slug The slug to add/update
  * @returns An updated collection of typekeywords
  */
-export function setSlugKeyword(typeKeywords: string[], slug: string): string[] {
+export function setSlugKeyword (typeKeywords: string[], slug: string): string[] {
   // remove slug entry from array
   const updatedTypekeywords = typeKeywords.filter(
     (entry: string) => !entry.startsWith(`${TYPEKEYWORD_SLUG_PREFIX}|`)
@@ -57,7 +56,7 @@ export function setSlugKeyword(typeKeywords: string[], slug: string): string[] {
  * @param requestOptions
  * @returns
  */
-export function getItemBySlug(
+export function getItemBySlug (
   slug: string,
   requestOptions: IRequestOptions
 ): Promise<IItem> {
@@ -87,7 +86,7 @@ export function getItemBySlug(
  * @param requestOptions
  * @returns
  */
-export async function findItemsBySlug(
+export async function findItemsBySlug (
   slugInfo: {
     slug: string;
     exclude?: string;
@@ -137,7 +136,7 @@ export async function findItemsBySlug(
  * @param step
  * @returns
  */
-export function getUniqueSlug(
+export function getUniqueSlug (
   slugInfo: {
     slug: string;
     existingId?: string;

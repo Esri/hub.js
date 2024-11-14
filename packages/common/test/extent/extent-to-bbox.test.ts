@@ -1,8 +1,8 @@
 import { extentToBBox } from "../../src";
-import { IExtent } from "@esri/arcgis-rest-types";
+import { IExtent } from "@esri/arcgis-rest-feature-service";
 
-describe("extentToBBox", function() {
-  it("converts extent to bbox", function() {
+describe("extentToBBox", function () {
+  it("converts extent to bbox", function () {
     const extent: IExtent = {
       xmin: 132,
       ymin: 435,

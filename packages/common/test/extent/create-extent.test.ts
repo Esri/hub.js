@@ -1,8 +1,8 @@
 import { createExtent } from "../../src";
-import { IExtent } from "@esri/arcgis-rest-types";
+import { IExtent } from "@esri/arcgis-rest-feature-service";
 
-describe("createExtent", function() {
-  it("creates an extent with default spatial reference", function() {
+describe("createExtent", function () {
+  it("creates an extent with default spatial reference", function () {
     const extent: IExtent = {
       xmin: -122.68,
       ymin: 45.53,
@@ -15,7 +15,7 @@ describe("createExtent", function() {
     const result = createExtent(-122.68, 45.53, -122.45, 45.6);
     expect(result).toEqual(extent);
   });
-  it("creates an extent with explicit spatial reference", function() {
+  it("creates an extent with explicit spatial reference", function () {
     const extent: IExtent = {
       // autocasts as new Extent()
       xmin: -9177811,

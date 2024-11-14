@@ -1,5 +1,5 @@
 import { IHubRequestOptions, ITemplateAsset } from "../types";
-import { IItem } from "@esri/arcgis-rest-types";
+import { IItem } from "@esri/arcgis-rest-portal";
 import { getPortalApiUrl } from "../urls";
 import { getItemThumbnailUrl } from "./get-item-thumbnail-url";
 import { getItemResources } from "@esri/arcgis-rest-portal";
@@ -10,7 +10,7 @@ import { getItemResources } from "@esri/arcgis-rest-portal";
  * @param {object} item Item
  * @param {IHubRequestOptions} IHubRequestOptions
  */
-export function getItemAssets(
+export function getItemAssets (
   item: IItem,
   hubRequestOptions: IHubRequestOptions
 ): Promise<ITemplateAsset[]> {

@@ -1,4 +1,4 @@
-import { IItem } from "@esri/arcgis-rest-types";
+import { IItem } from "@esri/arcgis-rest-portal";
 import { IHubItemEntity } from "../types";
 import { deriveLocationFromItem } from "../../content/_internal/internalContentUtils";
 import { isDiscussable } from "../../discussions";
@@ -9,7 +9,7 @@ import { isDiscussable } from "../../discussions";
  * @param entity IHubItemEntity
  * @returns
  */
-export function computeItemProps<T extends Partial<IHubItemEntity>>(
+export function computeItemProps<T extends Partial<IHubItemEntity>> (
   item: IItem,
   entity: T
 ): T {

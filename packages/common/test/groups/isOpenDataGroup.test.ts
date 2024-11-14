@@ -1,4 +1,4 @@
-import { IGroup } from "@esri/arcgis-rest-types";
+import { IGroup } from "@esri/arcgis-rest-portal";
 import { isOpenDataGroup } from "../../src/groups/isOpenDataGroup";
 
 describe("isOpenDataGroup: ", () => {

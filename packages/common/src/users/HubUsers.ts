@@ -1,5 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-types";
-import { getUser } from "@esri/arcgis-rest-portal";
+import { getUser, IUser } from "@esri/arcgis-rest-portal";
 import { fetchUserEnrichments } from "./_internal/enrichments";
 import { SettableAccessLevel } from "../core/types";
 import { IHubUser } from "../core/types/IHubUser";
@@ -58,7 +57,7 @@ export const convertUserToHubUser = (user: IUser): IHubUser => {
  * @param requestOptions
  * @returns
  */
-export async function enrichUserSearchResult(
+export async function enrichUserSearchResult (
   user: IUser & Record<string, any>,
   include: string[],
   requestOptions: IHubRequestOptions
@@ -128,9 +127,9 @@ export const fetchHubUser = async (
     username === "self"
       ? context.currentUser
       : await getUser({
-          ...context.hubRequestOptions,
-          username,
-        });
+        ...context.hubRequestOptions,
+        username,
+      });
 
   // convert to a hubUser
   let hubUser = convertUserToHubUser(user);

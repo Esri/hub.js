@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-types";
+import { IUser } from "@esri/arcgis-rest-request";
 import { includes } from "../utils";
 
 /**
@@ -6,7 +6,7 @@ import { includes } from "../utils";
  * @param {IUser} user
  * @returns {boolean}
  */
-export function hasBasePriv(user: IUser): boolean {
+export function hasBasePriv (user: IUser): boolean {
   const { privileges = [] } = user;
   return includes(privileges, "portal:user:createItem");
 }

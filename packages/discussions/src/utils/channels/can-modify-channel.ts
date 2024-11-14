@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-types";
+import { IUser } from "@esri/arcgis-rest-request";
 import { IChannel, IDiscussionsUser } from "../../types";
 import { ChannelPermission } from "../channel-permission";
 import { isOrgAdminInOrg } from "../platform";
@@ -11,7 +11,7 @@ import { isAuthorizedToModifyChannelByLegacyPermissions } from "./is-authorized-
  * @param user
  * @returns {boolean}
  */
-export function canModifyChannel(
+export function canModifyChannel (
   channel: IChannel,
   user: IUser | IDiscussionsUser = {}
 ): boolean {

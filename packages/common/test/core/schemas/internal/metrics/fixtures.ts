@@ -1,4 +1,4 @@
-import { IField } from "@esri/arcgis-rest-types";
+import { IField } from "@esri/arcgis-rest-feature-service";
 
 export const MOCK_STRING_FIELD: IField = {
   name: "category",

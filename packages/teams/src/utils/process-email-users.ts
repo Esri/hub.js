@@ -1,5 +1,4 @@
-import { ArcGISRequestError } from "@esri/arcgis-rest-request";
-import { IUser } from "@esri/arcgis-rest-types";
+import { ArcGISRequestError, IUser } from "@esri/arcgis-rest-request";
 import { getProp, emailOrgUsers } from "@esri/hub-common";
 import { IAddOrInviteContext, IAddOrInviteResponse } from "../types";
 
@@ -15,7 +14,7 @@ import { IAddOrInviteContext, IAddOrInviteResponse } from "../types";
  * @param {IAddOrInviteContext} context context object
  * @return {IAddOrInviteResponse} response object
  */
-export async function processEmailUsers(
+export async function processEmailUsers (
   context: IAddOrInviteContext
 ): Promise<IAddOrInviteResponse> {
   // Fetch users out of context. We only email community users so we are

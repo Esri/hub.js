@@ -1,5 +1,5 @@
 import { SearchQueryBuilder } from "@esri/arcgis-rest-portal";
-import { ISpatialReference } from "@esri/arcgis-rest-types";
+import { ISpatialReference } from "@esri/arcgis-rest-feature-service";
 import { btoa } from "abab";
 import { flattenArray } from "../util";
 import { PORTAL_EXPORT_TYPES } from "./types";
@@ -26,7 +26,7 @@ interface IExistingExportsPortalQueryOptions {
  * Check https://developers.arcgis.com/web-map-specification/objects/spatialReference/
  * for more details on what this object looks like.
  */
-export function serializeSpatialReference(
+export function serializeSpatialReference (
   spatialReference: ISpatialReference | string
 ): string {
   if (typeof spatialReference === "object") {
@@ -46,7 +46,7 @@ export function serializeSpatialReference(
  *
  * @private
  */
-function parseSpatialRefId(spatialRefId: string): string | ISpatialReference {
+function parseSpatialRefId (spatialRefId: string): string | ISpatialReference {
   let _spatialRefId;
   try {
     _spatialRefId = JSON.parse(spatialRefId) as ISpatialReference;
@@ -64,7 +64,7 @@ function parseSpatialRefId(spatialRefId: string): string | ISpatialReference {
  * @param options - A set of options including item types, layerId, and spatialRefId
  * @returns
  */
-export function buildExistingExportsPortalQuery(
+export function buildExistingExportsPortalQuery (
   itemId: string,
   options?: IExistingExportsPortalQueryOptions
 ) {
@@ -109,7 +109,7 @@ export function buildExistingExportsPortalQuery(
   return queryBuilder.toParam();
 }
 
-function maybeExtractOptions(options: IExistingExportsPortalQueryOptions) {
+function maybeExtractOptions (options: IExistingExportsPortalQueryOptions) {
   if (options) {
     return {
       onlyTypes: options.onlyTypes,
@@ -120,7 +120,7 @@ function maybeExtractOptions(options: IExistingExportsPortalQueryOptions) {
   return {};
 }
 
-function buildExportTypesClause(
+function buildExportTypesClause (
   builder: SearchQueryBuilder,
   options: {
     types: string[];
@@ -169,7 +169,7 @@ function buildExportTypesClause(
  * @param spatialRefId - either a WKID, WKT, or stringified ISpatialReference
  * @private
  */
-export function getSpatialRefTypeKeyword(spatialRefId: string) {
+export function getSpatialRefTypeKeyword (spatialRefId: string) {
   const parsedSpatialReference = parseSpatialRefId(spatialRefId);
   const serializedSpatialReference = serializeSpatialReference(
     parsedSpatialReference
@@ -182,7 +182,7 @@ export function getSpatialRefTypeKeyword(spatialRefId: string) {
  * @param itemId - ID for the item from which the export originated
  * @private
  */
-export function getExportItemTypeKeyword(itemId: string) {
+export function getExportItemTypeKeyword (itemId: string) {
   return `exportItem:${itemId}`;
 }
 
@@ -191,7 +191,7 @@ export function getExportItemTypeKeyword(itemId: string) {
  * @param layerId - ID for the layer from which the export originated
  * @private
  */
-export function getExportLayerTypeKeyword(layerId?: number | string) {
+export function getExportLayerTypeKeyword (layerId?: number | string) {
   // NOTE - Layer Id's need to be padded with "0" so that /search results are predictable. Searches for typeKeywords:"exportLayer:1" don't work.
   // See https://github.com/Esri/hub.js/pull/472 for more information.
   // TODO - use `filter` when Enterprise Sites adds support.

@@ -1,8 +1,8 @@
-import { IItem, IUser } from "@esri/arcgis-rest-types";
+import { IUser } from "@esri/arcgis-rest-request";
+import { IItem, IPortal } from "@esri/arcgis-rest-portal";
 import { computeLinks } from "../../../src/initiatives/_internal/computeLinks";
 import { ArcGISContextManager, setProp } from "../../../src";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
-import { IPortal } from "@esri/arcgis-rest-portal";
 
 describe("computeLinks", () => {
   let authdCtxMgr: ArcGISContextManager;

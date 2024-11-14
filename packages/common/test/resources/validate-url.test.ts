@@ -1,4 +1,4 @@
-import { IExtent } from "@esri/arcgis-rest-types";
+import { IExtent } from "@esri/arcgis-rest-feature-service";
 import * as fetchMock from "fetch-mock";
 import { validateUrl } from "../../src";
 

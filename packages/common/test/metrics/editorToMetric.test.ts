@@ -14,7 +14,7 @@ import {
   MOCK_NUMERIC_FIELD,
   MOCK_STRING_FIELD,
 } from "../core/schemas/internal/metrics/fixtures";
-import { FieldType } from "@esri/arcgis-rest-types";
+import { FieldType } from "@esri/arcgis-rest-request";
 
 describe("editorToMetric", () => {
   describe("buildWhereClause", () => {

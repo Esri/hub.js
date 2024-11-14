@@ -1,4 +1,5 @@
-import { IGroup, IUser } from "@esri/arcgis-rest-types";
+import { IUser } from "@esri/arcgis-rest-request";
+import { IGroup } from "@esri/arcgis-rest-portal";
 import { IChannel, IDiscussionsUser, SharingAccess } from "../../types";
 import { ChannelPermission } from "../channel-permission";
 import { CANNOT_DISCUSS } from "../constants";
@@ -17,7 +18,7 @@ type ILegacyChannelPermissions = Pick<
  * @param user
  * @returns {boolean}
  */
-export function canPostToChannel(
+export function canPostToChannel (
   channel: IChannel,
   user: IUser | IDiscussionsUser = {}
 ): boolean {
@@ -41,7 +42,7 @@ export function canPostToChannel(
   });
 }
 
-function isAuthorizedToPostByLegacyPermissions(
+function isAuthorizedToPostByLegacyPermissions (
   user: IUser | IDiscussionsUser,
   channelParams: ILegacyChannelPermissions
 ): boolean {
@@ -72,7 +73,7 @@ function isAuthorizedToPostByLegacyPermissions(
   return false;
 }
 
-function isAuthorizedToPostByLegacyGroup(
+function isAuthorizedToPostByLegacyGroup (
   channelGroups: string[] = [],
   userGroups: IGroup[] = []
 ) {
