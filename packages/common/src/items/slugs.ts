@@ -4,6 +4,9 @@ import { IItem } from "@esri/arcgis-rest-types";
 import { slugify } from "../utils";
 import { TYPEKEYWORD_SLUG_PREFIX, truncateSlug } from "./_internal/slugs";
 import { uriSlugToKeywordSlug } from "./_internal/slugConverters";
+import { isGuid } from "../utils/is-guid";
+
+const SLUG_ID_SEPARATOR = "~";
 
 /**
  * Create a slug, namespaced to an org and accounting for the 256 character limit
@@ -159,3 +162,24 @@ export function getUniqueSlug(
       throw Error(`Error in getUniqueSlug ${e}`);
     });
 }
+
+/**
+ * parse out the id from a slug
+ * @param slug
+ * @returns
+ */
+export const parseIdFromSlug = (slug: string) => {
+  // try to parse the id from the slug
+  const parts = slug.split(SLUG_ID_SEPARATOR);
+  return parts.length === 2 && isGuid(parts[1]) ? parts[1] : undefined;
+};
+
+/**
+ * append an id to a slug
+ * @param slug
+ * @param id
+ * @returns
+ */
+export const appendIdToSlug = (slug: string, id: string) => {
+  return `${slug}${SLUG_ID_SEPARATOR}${id}`;
+};

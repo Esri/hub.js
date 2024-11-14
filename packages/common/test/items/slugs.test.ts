@@ -395,4 +395,32 @@ describe("slug utils: ", () => {
       }
     });
   });
+  describe("appendIdToSlug", () => {
+    it("appends id to slug", () => {
+      const slug = "foo-bar";
+      const id = "3ef";
+      const result = slugModule.appendIdToSlug(slug, id);
+      expect(result).toBe(`${slug}~${id}`);
+    });
+  });
+  describe("parseIdFromSlug", () => {
+    it("parses valid id from slug", () => {
+      // NOTE: this needs to be an actual guid
+      const id = "c90c8745f1854420b1c23e407941fd45";
+      const slug = `foo-bar~${id}`;
+      const result = slugModule.parseIdFromSlug(slug);
+      expect(result).toBe(id);
+    });
+    it("returns undefined for invalid id", () => {
+      const id = "notaguid";
+      const slug = `foo-bar~${id}`;
+      const result = slugModule.parseIdFromSlug(slug);
+      expect(result).toBeUndefined();
+    });
+    it("returns undefined for missing id", () => {
+      const slug = "foo-bar";
+      const result = slugModule.parseIdFromSlug(slug);
+      expect(result).toBeUndefined();
+    });
+  });
 });
