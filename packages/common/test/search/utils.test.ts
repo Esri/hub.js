@@ -489,66 +489,71 @@ describe("Search Utils:", () => {
 
   describe("getKilobyteSizeOfQuery", () => {
     // These tests create a blob
-    if (typeof Blob !== "undefined") {
-      it("returns the size of the query in kilobytes", () => {
-        const query = {
-          targetEntity: "item",
-          filters: [],
-        } as IQuery;
-        const stringQuery = serializeQueryForPortal(query).q;
-        const size = 10;
-        const chk = getKilobyteSizeOfQuery(stringQuery);
-        expect(chk).toEqual(size);
-      });
+    it("returns the size of the query in kilobytes", () => {
+      const query = {
+        targetEntity: "item",
+        filters: [
+          {
+            predicates: [
+              {
+                type: "Web Map",
+                typekeywords: { any: ["my|web|map"] },
+              },
+            ],
+          },
+        ],
+      } as IQuery;
+      const stringQuery = serializeQueryForPortal(query).q;
+      const size = 0.044921875;
+      const chk = getKilobyteSizeOfQuery(stringQuery);
+      expect(chk).toEqual(size);
+    });
 
-      it("returns 0 if the query is empty", () => {
-        const queryString = "";
-        const size = 0;
-        const chk = getKilobyteSizeOfQuery(queryString);
-        expect(chk).toEqual(size);
-      });
+    it("returns 0 if the query is empty", () => {
+      const queryString = "";
+      const size = 0;
+      const chk = getKilobyteSizeOfQuery(queryString);
+      expect(chk).toEqual(size);
+    });
 
-      it("handles special characters in the query", () => {
-        const query = {
-          targetEntity: "item",
-          filters: [
-            {
-              predicates: [
-                {
-                  type: "Web Map",
-                  title: "🚀🚀🚀",
-                },
-              ],
-            },
-          ],
-        } as IQuery;
-        const stringQuery = serializeQueryForPortal(query).q;
-        const size = 14;
-        const chk = getKilobyteSizeOfQuery(stringQuery);
-        expect(chk).toEqual(size);
-      });
+    it("handles special characters in the query", () => {
+      const query = {
+        targetEntity: "item",
+        filters: [
+          {
+            predicates: [
+              {
+                type: "Web Map",
+                title: "🚀🚀🚀",
+              },
+            ],
+          },
+        ],
+      } as IQuery;
+      const stringQuery = serializeQueryForPortal(query).q;
+      const size = 0.0400390625;
+      const chk = getKilobyteSizeOfQuery(stringQuery);
+      expect(chk).toEqual(size);
+    });
 
-      it("handles a SearchQueryBuilder object", () => {
-        const query = new SearchQueryBuilder()
-          .match("Patrick")
-          .in("owner")
-          .and()
-          .startGroup()
-          .match("Web Mapping Application")
-          .in("type")
-          .or()
-          .match("Mobile Application")
-          .in("type")
-          .or()
-          .match("Application")
-          .in("type")
-          .endGroup();
-        const size = 14;
-        const chk = getKilobyteSizeOfQuery(query);
-        expect(chk).toEqual(size);
-      });
-    } else {
-      it("does not test in node", () => true);
-    }
+    it("handles a SearchQueryBuilder object", () => {
+      const query = new SearchQueryBuilder()
+        .match("Patrick")
+        .in("owner")
+        .and()
+        .startGroup()
+        .match("Web Mapping Application")
+        .in("type")
+        .or()
+        .match("Mobile Application")
+        .in("type")
+        .or()
+        .match("Application")
+        .in("type")
+        .endGroup();
+      const size = 0.0966796875;
+      const chk = getKilobyteSizeOfQuery(query);
+      expect(chk).toEqual(size);
+    });
   });
 });

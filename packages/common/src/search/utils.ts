@@ -384,13 +384,10 @@ export function getKilobyteSizeOfQuery(
   // convert query to string if it isn't already
   const queryString = typeof query === "string" ? query : query.toParam();
 
-  // make blob of string so we accurately represent string's binary data,
-  // accounting for special characters and encoding
-  const blob = new Blob([queryString]);
-
-  // size of string in bytes
-  const bytes = blob.size;
-
-  // return size of string in kilobytes
-  return bytes / 1024;
+  // get the size of the query string using the TextEncoder api
+  const encoder = new TextEncoder();
+  const encodedString = encoder.encode(queryString);
+  const sizeInBytes = encodedString.length;
+  const sizeInKB = sizeInBytes / 1024; // Convert bytes to kilobytes
+  return sizeInKB;
 }
