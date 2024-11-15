@@ -1,3 +1,17 @@
+# @esri/hub-discussions [29.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@29.1.0...@esri/hub-discussions@29.2.0) (2024-11-14)
+
+
+### Features
+
+* **hub-discussions:** added enum and parameter for downloading posts as csv ([#1734](https://github.com/Esri/hub.js/issues/1734)) ([19af95f](https://github.com/Esri/hub.js/commit/19af95f7d97eaf4ae5020c07cc6103e7902f33e1))
+
+# @esri/hub-discussions [29.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@29.0.0...@esri/hub-discussions@29.1.0) (2024-11-13)
+
+
+### Features
+
+* **hub-discussions:** canEditPost is a breaking change until prod migrations are unblocked ([#1731](https://github.com/Esri/hub.js/issues/1731)) ([4914ee2](https://github.com/Esri/hub.js/commit/4914ee28406378a2e8f7cdb47ba9ea50b30ca1b5))
+
 # @esri/hub-discussions [29.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@28.5.0...@esri/hub-discussions@29.0.0) (2024-11-01)
 
 

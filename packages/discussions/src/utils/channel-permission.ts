@@ -51,7 +51,6 @@ const CHANNEL_ACTION_PRIVS: Record<string, Role[]> = {
 /**
  * @internal
  * @hidden
- *
  */
 export class ChannelPermission {
   private readonly ALLOWED_GROUP_MEMBER_TYPES = ["owner", "admin", "member"];

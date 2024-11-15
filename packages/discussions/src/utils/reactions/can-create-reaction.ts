@@ -27,13 +27,11 @@ function channelAllowsReaction(
   value: PostReaction
 ): boolean {
   const { allowReaction, allowedReactions } = channel;
-  if (!allowReaction) {
-    return false;
+  if (allowReaction) {
+    if (allowedReactions) {
+      return allowedReactions.includes(value);
+    }
+    return true;
   }
-
-  if (allowedReactions) {
-    return allowedReactions.includes(value);
-  }
-
-  return true;
+  return false;
 }
