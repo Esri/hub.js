@@ -95,8 +95,8 @@ describe("HubUser computeProps:", () => {
   });
 
   describe("getSelf:", () => {
-    it("fetches portal self", async () => {
-      const requestSpy = spyOn(requestModule, "request").and.callFake(() => {
+    it("fetches portal self successfully", async () => {
+      const getSelfSpy = spyOn(PortalModule, "getSelf").and.callFake(() => {
         return Promise.resolve({
           portalProperties: {
             hub: {
@@ -108,15 +108,25 @@ describe("HubUser computeProps:", () => {
         });
       });
 
-      PortalModule.getSelf(authdCtxMgr.context.requestOptions);
-      expect(requestSpy).toHaveBeenCalledTimes(1);
-      expect(requestSpy.calls.argsFor(0)[0]).toEqual(
-        "https://www.custom-base-url.com/sharing/rest/portals/self"
+      const user = {
+        hubOrgSettings: {
+          showInformationalBanner: true,
+          termsAndConditions: "termsOld",
+          signupText: "signupOld",
+        },
+      } as unknown as IHubUser;
+
+      const chk = await computePropsModule.computeProps(
+        {},
+        user,
+        authdCtxMgr.context
       );
-      expect(requestSpy.calls.argsFor(0)[1]).toEqual({
-        ...authdCtxMgr.context.requestOptions,
-        httpMethod: "GET",
-      });
+
+      expect(getSelfSpy).toHaveBeenCalledTimes(1);
+      expect(getSelfSpy).toHaveBeenCalledWith(
+        authdCtxMgr.context.requestOptions
+      );
+      expect(chk.hubOrgSettings?.showInformationalBanner).toBeTruthy();
     });
   });
 });

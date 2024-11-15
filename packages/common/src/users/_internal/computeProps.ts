@@ -29,11 +29,11 @@ export async function computeProps(
   const _portalself = await fsGetSelf(context.requestOptions);
   user.hubOrgSettings = {
     showInformationalBanner:
-      !!_portalself?.portalProperties?.hub?.settings?.informationalBanner,
-    enableTermsAndConditions: !!signinSettings?.termsAndConditions,
-    termsAndConditions: signinSettings?.termsAndConditions,
-    enableSignupText: !!signinSettings?.signupText,
-    signupText: signinSettings?.signupText,
+      !!_portalself.portalProperties?.hub?.settings?.informationalBanner,
+    enableTermsAndConditions: !!signinSettings.termsAndConditions,
+    termsAndConditions: signinSettings.termsAndConditions,
+    enableSignupText: !!signinSettings.signupText,
+    signupText: signinSettings.signupText,
   };
 
   return user;

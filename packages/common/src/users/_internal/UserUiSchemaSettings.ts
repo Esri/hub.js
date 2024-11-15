@@ -290,12 +290,10 @@ async function _getCommunityOrEnterpriseAGOUrl(
 export async function _getPortalSettings(
   context: IArcGISContext
 ): Promise<any> {
-  if (context.portal) {
-    // Fail safe fetch the portal settings
-    const fsGetPortalSettings = failSafe(getPortalSettings, {});
-    const settings = await fsGetPortalSettings(context.portal.id, {
-      portal: context.sharingApiUrl,
-    });
-    return settings;
-  }
+  // Fail safe fetch the portal settings
+  const fsGetPortalSettings = failSafe(getPortalSettings, {});
+  const settings = await fsGetPortalSettings(context.portal.id, {
+    portal: context.sharingApiUrl,
+  });
+  return settings;
 }

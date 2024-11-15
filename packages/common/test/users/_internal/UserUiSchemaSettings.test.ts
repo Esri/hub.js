@@ -2,14 +2,1670 @@ import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
 import { IArcGISContext } from "../../../src/ArcGISContext";
 import * as UserUiSchemaSettings from "../../../src/users/_internal/UserUiSchemaSettings";
 import * as FetchOrgModule from "../../../src/org/fetch-org";
-import * as FailSafeModule from "../../../src/utils/fail-safe";
-import * as ArcGISRestPortal from "@esri/arcgis-rest-portal";
+import * as PortalModule from "@esri/arcgis-rest-portal";
 
 describe("UserUiSchemaSettings:", () => {
+  let portalSettingsSpy: jasmine.Spy;
+
+  afterAll(() => {
+    portalSettingsSpy.calls.reset();
+  });
+
   it("creates the uiSchema correctly", async () => {
     const fetchOrgSpy = spyOn(FetchOrgModule, "fetchOrg").and.callFake(() => {
       return Promise.resolve({});
     });
+
+    portalSettingsSpy = spyOn(PortalModule, "getPortalSettings").and.callFake(
+      () => {
+        return Promise.resolve({
+          informationalBanner: {
+            enabled: true,
+          },
+        });
+      }
+    );
+
+    const chk = await UserUiSchemaSettings.buildUiSchema("some.scope", {}, {
+      portalUrl: "https://qaext.arcgis.com",
+      communityOrgId: "abc",
+      trustedOrgs: [
+        {
+          to: {
+            orgId: "abc",
+            name: "Community org",
+          },
+        },
+      ],
+      communityOrgUrl: "https://qaext.c.arcgis.com",
+      portal: {
+        id: "123",
+        name: "My org",
+      },
+      currentUser: {
+        role: "org_admin",
+        orgId: "123",
+      },
+      isAlphaOrg: true,
+      isOrgAdmin: true,
+    } as IArcGISContext);
+
+    expect(fetchOrgSpy).not.toHaveBeenCalled();
+    expect(chk).toEqual({
+      type: "Layout",
+      elements: [
+        {
+          type: "Section",
+          labelKey: "some.scope.sections.userSettings",
+          elements: [
+            {
+              type: "Control",
+              scope:
+                "/properties/settings/properties/preview/properties/workspace",
+              labelKey: "some.scope.fields.workspacePreview.label",
+              options: {
+                type: "Control",
+                control: "hub-field-input-switch",
+                layout: "inline-space-between",
+                helperText: {
+                  labelKey: "some.scope.fields.workspacePreview.helperText",
+                },
+              },
+            },
+          ],
+        },
+        {
+          type: "Section",
+          labelKey: `some.scope.sections.orgSettings.label`,
+          options: {
+            helperText: {
+              label: `My org`,
+            },
+          },
+          rules: [
+            {
+              effect: UiSchemaRuleEffects.SHOW,
+              conditions: [true],
+            },
+          ],
+          elements: [
+            {
+              type: "Notice",
+              options: {
+                notice: {
+                  configuration: {
+                    id: "user-org-settings-notice",
+                    noticeType: "notice",
+                    closable: false,
+                    kind: "info",
+                    scale: "m",
+                  },
+                  title: `{{some.scope.notice.title:translate}}`,
+                  message: `{{some.scope.notice.communityMessage:translate}}: Community org`,
+                  autoShow: true,
+                  actions: [
+                    {
+                      ariaLabel: `{{some.scope.notice.actions.goToOrg:translate}}`,
+                      label: `{{some.scope.notice.actions.goToOrg:translate}}`,
+                      icon: "launch",
+                      href: `https://qaext.arcgis.com/home/organization.html?tab=general#settings`,
+                      target: "_blank",
+                    },
+                    {
+                      ariaLabel: `{{some.scope.notice.actions.goToCommunityOrg:translate}}`,
+                      label: `{{some.scope.notice.actions.goToCommunityOrg:translate}}`,
+                      icon: "launch",
+                      href: `https://qaext.c.arcgis.com/home/organization.html`,
+                      target: "_blank",
+                    },
+                  ],
+                },
+              },
+            },
+            {
+              type: "Section",
+              labelKey: "some.scope.sections.orgSettings.siteDefaults.label",
+              elements: [
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/showInformationalBanner",
+                  labelKey: "some.scope.fields.infoBanner.label",
+                  options: {
+                    type: "Control",
+                    control: "hub-field-input-switch",
+                    layout: "inline-space-between",
+                    helperText: {
+                      label:
+                        "{{some.scope.fields.infoBanner.helperText:translate}}",
+                    },
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.DISABLE,
+                      conditions: [false],
+                    },
+                  ],
+                },
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/showInformationalBanner",
+                  options: {
+                    control: "calcite-link",
+                    layout: "inline-space-between",
+                    helperText: {
+                      label:
+                        '<calcite-link href=https://qaext.arcgis.com/home/organization.html?tab=security#settings target="_blank" icon-end="launch">{{some.scope.fields.infoBanner.goToBannerConfig:translate}}</calcite-link>',
+                    },
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.SHOW,
+                      conditions: [true],
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              type: "Section",
+              labelKey: "some.scope.sections.orgSettings.signinSettings.label",
+              rules: [
+                {
+                  effect: UiSchemaRuleEffects.SHOW,
+                  conditions: [false],
+                },
+              ],
+              options: {
+                helperText: {
+                  labelKey: `some.scope.sections.orgSettings.signinSettings.helperText`,
+                },
+              },
+              elements: [
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/enableTermsAndConditions",
+                  labelKey: "some.scope.fields.enableTermsAndConditions.label",
+                  options: {
+                    control: "hub-field-input-switch",
+                    layout: "inline-space-between",
+                  },
+                },
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/termsAndConditions",
+                  labelKey: `some.scope.fields.termsAndConditions.label`,
+                  options: {
+                    control: "hub-field-input-rich-text",
+                    type: "textarea",
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.SHOW,
+                      conditions: [
+                        {
+                          scope:
+                            "/properties/hubOrgSettings/properties/enableTermsAndConditions",
+                          schema: { const: true },
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/enableSignupText",
+                  labelKey: `some.scope.fields.enableSignupText.label`,
+                  options: {
+                    control: "hub-field-input-switch",
+                    layout: "inline-space-between",
+                  },
+                },
+                {
+                  type: "Control",
+                  scope: "/properties/hubOrgSettings/properties/signupText",
+                  options: {
+                    control: "hub-field-input-rich-text",
+                    type: "textarea",
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.SHOW,
+                      conditions: [
+                        {
+                          scope:
+                            "/properties/hubOrgSettings/properties/enableSignupText",
+                          schema: { const: true },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+  });
+  it("creates the uiSchema correctly when authed as a community org with an e-org attached", async () => {
+    const fetchOrgSpy = spyOn(FetchOrgModule, "fetchOrg").and.callFake(() => {
+      return Promise.resolve({
+        urlKey: "qaext",
+        customBaseUrl: "arcgis.com",
+      });
+    });
+    portalSettingsSpy = spyOn(PortalModule, "getPortalSettings").and.callFake(
+      () => {
+        return Promise.resolve({
+          informationalBanner: {
+            enabled: true,
+          },
+        });
+      }
+    );
+    const chk = await UserUiSchemaSettings.buildUiSchema("some.scope", {}, {
+      portalUrl: "https://qaext.c.arcgis.com",
+      enterpriseOrgId: "1234",
+      trustedOrgs: [
+        {
+          to: {
+            orgId: "1234",
+            name: "Staff org",
+          },
+        },
+      ],
+      portal: {
+        id: "123",
+        name: "My org",
+      },
+      currentUser: {
+        role: "org_admin",
+        orgId: "123",
+      },
+      isAlphaOrg: true,
+      isOrgAdmin: true,
+    } as IArcGISContext);
+
+    expect(fetchOrgSpy).toHaveBeenCalled();
+    expect(chk).toEqual({
+      type: "Layout",
+      elements: [
+        {
+          type: "Section",
+          labelKey: "some.scope.sections.userSettings",
+          elements: [
+            {
+              type: "Control",
+              scope:
+                "/properties/settings/properties/preview/properties/workspace",
+              labelKey: "some.scope.fields.workspacePreview.label",
+              options: {
+                type: "Control",
+                control: "hub-field-input-switch",
+                layout: "inline-space-between",
+                helperText: {
+                  labelKey: "some.scope.fields.workspacePreview.helperText",
+                },
+              },
+            },
+          ],
+        },
+        {
+          type: "Section",
+          labelKey: `some.scope.sections.orgSettings.label`,
+          options: {
+            helperText: {
+              label: `My org`,
+            },
+          },
+          rules: [
+            {
+              effect: UiSchemaRuleEffects.SHOW,
+              conditions: [true],
+            },
+          ],
+          elements: [
+            {
+              type: "Notice",
+              options: {
+                notice: {
+                  configuration: {
+                    id: "user-org-settings-notice",
+                    noticeType: "notice",
+                    closable: false,
+                    kind: "info",
+                    scale: "m",
+                  },
+                  title: `{{some.scope.notice.title:translate}}`,
+                  message: `{{some.scope.notice.staffMessage:translate}}: Staff org`,
+                  autoShow: true,
+                  actions: [
+                    {
+                      ariaLabel: `{{some.scope.notice.actions.goToOrg:translate}}`,
+                      label: `{{some.scope.notice.actions.goToOrg:translate}}`,
+                      icon: "launch",
+                      href: `https://qaext.c.arcgis.com/home/organization.html?tab=general#settings`,
+                      target: "_blank",
+                    },
+                    {
+                      ariaLabel: `{{some.scope.notice.actions.goToStaffOrg:translate}}`,
+                      label: `{{some.scope.notice.actions.goToStaffOrg:translate}}`,
+                      icon: "launch",
+                      href: `https://qaext.arcgis.com/home/organization.html`,
+                      target: "_blank",
+                    },
+                  ],
+                },
+              },
+            },
+            {
+              type: "Section",
+              labelKey: "some.scope.sections.orgSettings.siteDefaults.label",
+              elements: [
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/showInformationalBanner",
+                  labelKey: "some.scope.fields.infoBanner.label",
+                  options: {
+                    type: "Control",
+                    control: "hub-field-input-switch",
+                    layout: "inline-space-between",
+                    helperText: {
+                      label:
+                        "{{some.scope.fields.infoBanner.helperText:translate}}",
+                    },
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.DISABLE,
+                      conditions: [false],
+                    },
+                  ],
+                },
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/showInformationalBanner",
+                  options: {
+                    control: "calcite-link",
+                    layout: "inline-space-between",
+                    helperText: {
+                      label:
+                        '<calcite-link href=https://qaext.c.arcgis.com/home/organization.html?tab=security#settings target="_blank" icon-end="launch">{{some.scope.fields.infoBanner.goToBannerConfig:translate}}</calcite-link>',
+                    },
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.SHOW,
+                      conditions: [true],
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              type: "Section",
+              labelKey: "some.scope.sections.orgSettings.signinSettings.label",
+              rules: [
+                {
+                  effect: UiSchemaRuleEffects.SHOW,
+                  conditions: [false],
+                },
+              ],
+              options: {
+                helperText: {
+                  labelKey: `some.scope.sections.orgSettings.signinSettings.helperText`,
+                },
+              },
+              elements: [
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/enableTermsAndConditions",
+                  labelKey: "some.scope.fields.enableTermsAndConditions.label",
+                  options: {
+                    control: "hub-field-input-switch",
+                    layout: "inline-space-between",
+                  },
+                },
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/termsAndConditions",
+                  labelKey: `some.scope.fields.termsAndConditions.label`,
+                  options: {
+                    control: "hub-field-input-rich-text",
+                    type: "textarea",
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.SHOW,
+                      conditions: [
+                        {
+                          scope:
+                            "/properties/hubOrgSettings/properties/enableTermsAndConditions",
+                          schema: { const: true },
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/enableSignupText",
+                  labelKey: `some.scope.fields.enableSignupText.label`,
+                  options: {
+                    control: "hub-field-input-switch",
+                    layout: "inline-space-between",
+                  },
+                },
+                {
+                  type: "Control",
+                  scope: "/properties/hubOrgSettings/properties/signupText",
+                  options: {
+                    control: "hub-field-input-rich-text",
+                    type: "textarea",
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.SHOW,
+                      conditions: [
+                        {
+                          scope:
+                            "/properties/hubOrgSettings/properties/enableSignupText",
+                          schema: { const: true },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+  });
+  it("creates the uiSchema correctly when authed as a community org with an e-org attached but not an org admin", async () => {
+    const fetchOrgSpy = spyOn(FetchOrgModule, "fetchOrg").and.callFake(() => {
+      return Promise.resolve({
+        urlKey: "qaext",
+        customBaseUrl: "arcgis.com",
+      });
+    });
+    portalSettingsSpy = spyOn(PortalModule, "getPortalSettings").and.callFake(
+      () => {
+        return Promise.resolve({
+          informationalBanner: {
+            enabled: true,
+          },
+        });
+      }
+    );
+    const chk = await UserUiSchemaSettings.buildUiSchema("some.scope", {}, {
+      portalUrl: "https://qaext.c.arcgis.com",
+      enterpriseOrgId: "1234",
+      trustedOrgs: [
+        {
+          to: {
+            orgId: "1234",
+            name: "Staff org",
+          },
+        },
+      ],
+      portal: {
+        id: "123",
+        name: "My org",
+      },
+      currentUser: {
+        role: "org_user",
+        orgId: "123",
+      },
+      isAlphaOrg: true,
+      isOrgAdmin: false,
+      isCommunityOrg: true,
+    } as IArcGISContext);
+
+    expect(fetchOrgSpy).toHaveBeenCalled();
+    expect(chk).toEqual({
+      type: "Layout",
+      elements: [
+        {
+          type: "Section",
+          labelKey: "some.scope.sections.userSettings",
+          elements: [
+            {
+              type: "Control",
+              scope:
+                "/properties/settings/properties/preview/properties/workspace",
+              labelKey: "some.scope.fields.workspacePreview.label",
+              options: {
+                type: "Control",
+                control: "hub-field-input-switch",
+                layout: "inline-space-between",
+                helperText: {
+                  labelKey: "some.scope.fields.workspacePreview.helperText",
+                },
+              },
+            },
+          ],
+        },
+        {
+          type: "Section",
+          labelKey: `some.scope.sections.orgSettings.label`,
+          options: {
+            helperText: {
+              label: `My org`,
+            },
+          },
+          rules: [
+            {
+              effect: UiSchemaRuleEffects.SHOW,
+              conditions: [false],
+            },
+          ],
+          elements: [
+            {
+              type: "Notice",
+              options: {
+                notice: {
+                  configuration: {
+                    id: "user-org-settings-notice",
+                    noticeType: "notice",
+                    closable: false,
+                    kind: "info",
+                    scale: "m",
+                  },
+                  title: `{{some.scope.notice.title:translate}}`,
+                  message: `{{some.scope.notice.staffMessage:translate}}: Staff org`,
+                  autoShow: true,
+                  actions: [
+                    {
+                      ariaLabel: `{{some.scope.notice.actions.goToOrg:translate}}`,
+                      label: `{{some.scope.notice.actions.goToOrg:translate}}`,
+                      icon: "launch",
+                      href: `https://qaext.c.arcgis.com/home/organization.html?tab=general#settings`,
+                      target: "_blank",
+                    },
+                    {
+                      ariaLabel: `{{some.scope.notice.actions.goToStaffOrg:translate}}`,
+                      label: `{{some.scope.notice.actions.goToStaffOrg:translate}}`,
+                      icon: "launch",
+                      href: `https://qaext.arcgis.com/home/organization.html`,
+                      target: "_blank",
+                    },
+                  ],
+                },
+              },
+            },
+            {
+              type: "Section",
+              labelKey: "some.scope.sections.orgSettings.siteDefaults.label",
+              elements: [
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/showInformationalBanner",
+                  labelKey: "some.scope.fields.infoBanner.label",
+                  options: {
+                    type: "Control",
+                    control: "hub-field-input-switch",
+                    layout: "inline-space-between",
+                    helperText: {
+                      label:
+                        "{{some.scope.fields.infoBanner.helperText:translate}}",
+                    },
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.DISABLE,
+                      conditions: [false],
+                    },
+                  ],
+                },
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/showInformationalBanner",
+                  options: {
+                    control: "calcite-link",
+                    layout: "inline-space-between",
+                    helperText: {
+                      label:
+                        '<calcite-link href=https://qaext.c.arcgis.com/home/organization.html?tab=security#settings target="_blank" icon-end="launch">{{some.scope.fields.infoBanner.goToBannerConfig:translate}}</calcite-link>',
+                    },
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.SHOW,
+                      conditions: [false],
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              type: "Section",
+              labelKey: "some.scope.sections.orgSettings.signinSettings.label",
+              rules: [
+                {
+                  effect: UiSchemaRuleEffects.SHOW,
+                  conditions: [false],
+                },
+              ],
+              options: {
+                helperText: {
+                  labelKey: `some.scope.sections.orgSettings.signinSettings.helperText`,
+                },
+              },
+              elements: [
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/enableTermsAndConditions",
+                  labelKey: "some.scope.fields.enableTermsAndConditions.label",
+                  options: {
+                    control: "hub-field-input-switch",
+                    layout: "inline-space-between",
+                  },
+                },
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/termsAndConditions",
+                  labelKey: `some.scope.fields.termsAndConditions.label`,
+                  options: {
+                    control: "hub-field-input-rich-text",
+                    type: "textarea",
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.SHOW,
+                      conditions: [
+                        {
+                          scope:
+                            "/properties/hubOrgSettings/properties/enableTermsAndConditions",
+                          schema: { const: true },
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/enableSignupText",
+                  labelKey: `some.scope.fields.enableSignupText.label`,
+                  options: {
+                    control: "hub-field-input-switch",
+                    layout: "inline-space-between",
+                  },
+                },
+                {
+                  type: "Control",
+                  scope: "/properties/hubOrgSettings/properties/signupText",
+                  options: {
+                    control: "hub-field-input-rich-text",
+                    type: "textarea",
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.SHOW,
+                      conditions: [
+                        {
+                          scope:
+                            "/properties/hubOrgSettings/properties/enableSignupText",
+                          schema: { const: true },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+  });
+  it("creates the uiSchema correctly when no community org", async () => {
+    const fetchOrgSpy = spyOn(FetchOrgModule, "fetchOrg").and.callFake(() => {
+      return Promise.resolve({});
+    });
+    portalSettingsSpy = spyOn(PortalModule, "getPortalSettings").and.callFake(
+      () => {
+        return Promise.resolve({
+          informationalBanner: {
+            enabled: true,
+          },
+        });
+      }
+    );
+    const chk = await UserUiSchemaSettings.buildUiSchema("some.scope", {}, {
+      portalUrl: "https://qaext.arcgis.com",
+      portal: {
+        id: "123",
+        name: "My org",
+      },
+      currentUser: {
+        role: "org_admin",
+        orgId: "123",
+      },
+      isAlphaOrg: true,
+      isOrgAdmin: true,
+    } as IArcGISContext);
+
+    expect(fetchOrgSpy).not.toHaveBeenCalled();
+    expect(chk).toEqual({
+      type: "Layout",
+      elements: [
+        {
+          type: "Section",
+          labelKey: "some.scope.sections.userSettings",
+          elements: [
+            {
+              type: "Control",
+              scope:
+                "/properties/settings/properties/preview/properties/workspace",
+              labelKey: "some.scope.fields.workspacePreview.label",
+              options: {
+                type: "Control",
+                control: "hub-field-input-switch",
+                layout: "inline-space-between",
+                helperText: {
+                  labelKey: "some.scope.fields.workspacePreview.helperText",
+                },
+              },
+            },
+          ],
+        },
+        {
+          type: "Section",
+          labelKey: `some.scope.sections.orgSettings.label`,
+          options: {
+            helperText: {
+              label: `My org`,
+            },
+          },
+          rules: [
+            {
+              effect: UiSchemaRuleEffects.SHOW,
+              conditions: [true],
+            },
+          ],
+          elements: [
+            {
+              type: "Notice",
+              options: {
+                notice: {
+                  configuration: {
+                    id: "user-org-settings-notice",
+                    noticeType: "notice",
+                    closable: false,
+                    kind: "info",
+                    scale: "m",
+                  },
+                  title: `{{some.scope.notice.title:translate}}`,
+                  message: `{{some.scope.notice.message:translate}}`,
+                  autoShow: true,
+                  actions: [
+                    {
+                      ariaLabel: `{{some.scope.notice.actions.goToOrg:translate}}`,
+                      label: `{{some.scope.notice.actions.goToOrg:translate}}`,
+                      icon: "launch",
+                      href: `https://qaext.arcgis.com/home/organization.html?tab=general#settings`,
+                      target: "_blank",
+                    },
+                  ],
+                },
+              },
+            },
+            {
+              type: "Section",
+              labelKey: "some.scope.sections.orgSettings.siteDefaults.label",
+              elements: [
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/showInformationalBanner",
+                  labelKey: "some.scope.fields.infoBanner.label",
+                  options: {
+                    type: "Control",
+                    control: "hub-field-input-switch",
+                    layout: "inline-space-between",
+                    helperText: {
+                      label:
+                        "{{some.scope.fields.infoBanner.helperText:translate}}",
+                    },
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.DISABLE,
+                      conditions: [false],
+                    },
+                  ],
+                },
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/showInformationalBanner",
+                  options: {
+                    control: "calcite-link",
+                    layout: "inline-space-between",
+                    helperText: {
+                      label:
+                        '<calcite-link href=https://qaext.arcgis.com/home/organization.html?tab=security#settings target="_blank" icon-end="launch">{{some.scope.fields.infoBanner.goToBannerConfig:translate}}</calcite-link>',
+                    },
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.SHOW,
+                      conditions: [true],
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              type: "Section",
+              labelKey: "some.scope.sections.orgSettings.signinSettings.label",
+              rules: [
+                {
+                  effect: UiSchemaRuleEffects.SHOW,
+                  conditions: [false],
+                },
+              ],
+              options: {
+                helperText: {
+                  labelKey: `some.scope.sections.orgSettings.signinSettings.helperText`,
+                },
+              },
+              elements: [
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/enableTermsAndConditions",
+                  labelKey: "some.scope.fields.enableTermsAndConditions.label",
+                  options: {
+                    control: "hub-field-input-switch",
+                    layout: "inline-space-between",
+                  },
+                },
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/termsAndConditions",
+                  labelKey: `some.scope.fields.termsAndConditions.label`,
+                  options: {
+                    control: "hub-field-input-rich-text",
+                    type: "textarea",
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.SHOW,
+                      conditions: [
+                        {
+                          scope:
+                            "/properties/hubOrgSettings/properties/enableTermsAndConditions",
+                          schema: { const: true },
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/enableSignupText",
+                  labelKey: `some.scope.fields.enableSignupText.label`,
+                  options: {
+                    control: "hub-field-input-switch",
+                    layout: "inline-space-between",
+                  },
+                },
+                {
+                  type: "Control",
+                  scope: "/properties/hubOrgSettings/properties/signupText",
+                  options: {
+                    control: "hub-field-input-rich-text",
+                    type: "textarea",
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.SHOW,
+                      conditions: [
+                        {
+                          scope:
+                            "/properties/hubOrgSettings/properties/enableSignupText",
+                          schema: { const: true },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+  });
+  it("creates the uiSchema correctly when authed as a community org with an e-org attached", async () => {
+    const fetchOrgSpy = spyOn(FetchOrgModule, "fetchOrg").and.callFake(() => {
+      return Promise.resolve({
+        urlKey: "qaext",
+        customBaseUrl: "arcgis.com",
+      });
+    });
+    portalSettingsSpy = spyOn(PortalModule, "getPortalSettings").and.callFake(
+      () => {
+        return Promise.resolve({
+          informationalBanner: {
+            enabled: true,
+          },
+        });
+      }
+    );
+    const chk = await UserUiSchemaSettings.buildUiSchema("some.scope", {}, {
+      portalUrl: "https://qaext.c.arcgis.com",
+      enterpriseOrgId: "1234",
+      trustedOrgs: [
+        {
+          to: {
+            orgId: "1234",
+            name: "Staff org",
+          },
+        },
+      ],
+      portal: {
+        id: "123",
+        name: "My org",
+      },
+      currentUser: {
+        role: "org_admin",
+        orgId: "123",
+      },
+      isAlphaOrg: true,
+      isOrgAdmin: true,
+      isCommunityOrg: true,
+    } as IArcGISContext);
+
+    expect(fetchOrgSpy).toHaveBeenCalled();
+    expect(chk).toEqual({
+      type: "Layout",
+      elements: [
+        {
+          type: "Section",
+          labelKey: "some.scope.sections.userSettings",
+          elements: [
+            {
+              type: "Control",
+              scope:
+                "/properties/settings/properties/preview/properties/workspace",
+              labelKey: "some.scope.fields.workspacePreview.label",
+              options: {
+                type: "Control",
+                control: "hub-field-input-switch",
+                layout: "inline-space-between",
+                helperText: {
+                  labelKey: "some.scope.fields.workspacePreview.helperText",
+                },
+              },
+            },
+          ],
+        },
+        {
+          type: "Section",
+          labelKey: `some.scope.sections.orgSettings.label`,
+          options: {
+            helperText: {
+              label: `My org`,
+            },
+          },
+          rules: [
+            {
+              effect: UiSchemaRuleEffects.SHOW,
+              conditions: [true],
+            },
+          ],
+          elements: [
+            {
+              type: "Notice",
+              options: {
+                notice: {
+                  configuration: {
+                    id: "user-org-settings-notice",
+                    noticeType: "notice",
+                    closable: false,
+                    kind: "info",
+                    scale: "m",
+                  },
+                  title: `{{some.scope.notice.title:translate}}`,
+                  message: `{{some.scope.notice.staffMessage:translate}}: Staff org`,
+                  autoShow: true,
+                  actions: [
+                    {
+                      ariaLabel: `{{some.scope.notice.actions.goToOrg:translate}}`,
+                      label: `{{some.scope.notice.actions.goToOrg:translate}}`,
+                      icon: "launch",
+                      href: `https://qaext.c.arcgis.com/home/organization.html?tab=general#settings`,
+                      target: "_blank",
+                    },
+                    {
+                      ariaLabel: `{{some.scope.notice.actions.goToStaffOrg:translate}}`,
+                      label: `{{some.scope.notice.actions.goToStaffOrg:translate}}`,
+                      icon: "launch",
+                      href: `https://qaext.arcgis.com/home/organization.html`,
+                      target: "_blank",
+                    },
+                  ],
+                },
+              },
+            },
+            {
+              type: "Section",
+              labelKey: "some.scope.sections.orgSettings.siteDefaults.label",
+              elements: [
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/showInformationalBanner",
+                  labelKey: "some.scope.fields.infoBanner.label",
+                  options: {
+                    type: "Control",
+                    control: "hub-field-input-switch",
+                    layout: "inline-space-between",
+                    helperText: {
+                      label:
+                        "{{some.scope.fields.infoBanner.helperText:translate}}",
+                    },
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.DISABLE,
+                      conditions: [false],
+                    },
+                  ],
+                },
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/showInformationalBanner",
+                  options: {
+                    control: "calcite-link",
+                    layout: "inline-space-between",
+                    helperText: {
+                      label:
+                        '<calcite-link href=https://qaext.c.arcgis.com/home/organization.html?tab=security#settings target="_blank" icon-end="launch">{{some.scope.fields.infoBanner.goToBannerConfig:translate}}</calcite-link>',
+                    },
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.SHOW,
+                      conditions: [true],
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              type: "Section",
+              labelKey: "some.scope.sections.orgSettings.signinSettings.label",
+              rules: [
+                {
+                  effect: UiSchemaRuleEffects.SHOW,
+                  conditions: [true],
+                },
+              ],
+              options: {
+                helperText: {
+                  labelKey: `some.scope.sections.orgSettings.signinSettings.helperText`,
+                },
+              },
+              elements: [
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/enableTermsAndConditions",
+                  labelKey: "some.scope.fields.enableTermsAndConditions.label",
+                  options: {
+                    control: "hub-field-input-switch",
+                    layout: "inline-space-between",
+                  },
+                },
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/termsAndConditions",
+                  labelKey: `some.scope.fields.termsAndConditions.label`,
+                  options: {
+                    control: "hub-field-input-rich-text",
+                    type: "textarea",
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.SHOW,
+                      conditions: [
+                        {
+                          scope:
+                            "/properties/hubOrgSettings/properties/enableTermsAndConditions",
+                          schema: { const: true },
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/enableSignupText",
+                  labelKey: `some.scope.fields.enableSignupText.label`,
+                  options: {
+                    control: "hub-field-input-switch",
+                    layout: "inline-space-between",
+                  },
+                },
+                {
+                  type: "Control",
+                  scope: "/properties/hubOrgSettings/properties/signupText",
+                  options: {
+                    control: "hub-field-input-rich-text",
+                    type: "textarea",
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.SHOW,
+                      conditions: [
+                        {
+                          scope:
+                            "/properties/hubOrgSettings/properties/enableSignupText",
+                          schema: { const: true },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+  });
+  it("creates the uiSchema correctly when no community org", async () => {
+    const fetchOrgSpy = spyOn(FetchOrgModule, "fetchOrg").and.callFake(() => {
+      return Promise.resolve({});
+    });
+    portalSettingsSpy = spyOn(PortalModule, "getPortalSettings").and.callFake(
+      () => {
+        return Promise.resolve({
+          informationalBanner: {
+            enabled: true,
+          },
+        });
+      }
+    );
+    const chk = await UserUiSchemaSettings.buildUiSchema("some.scope", {}, {
+      portalUrl: "https://qaext.arcgis.com",
+      portal: {
+        id: "123",
+        name: "My org",
+      },
+      currentUser: {
+        role: "org_admin",
+        orgId: "123",
+      },
+      isAlphaOrg: true,
+      isOrgAdmin: true,
+    } as IArcGISContext);
+
+    expect(fetchOrgSpy).not.toHaveBeenCalled();
+    expect(chk).toEqual({
+      type: "Layout",
+      elements: [
+        {
+          type: "Section",
+          labelKey: "some.scope.sections.userSettings",
+          elements: [
+            {
+              type: "Control",
+              scope:
+                "/properties/settings/properties/preview/properties/workspace",
+              labelKey: "some.scope.fields.workspacePreview.label",
+              options: {
+                type: "Control",
+                control: "hub-field-input-switch",
+                layout: "inline-space-between",
+                helperText: {
+                  labelKey: "some.scope.fields.workspacePreview.helperText",
+                },
+              },
+            },
+          ],
+        },
+        {
+          type: "Section",
+          labelKey: `some.scope.sections.orgSettings.label`,
+          options: {
+            helperText: {
+              label: `My org`,
+            },
+          },
+          rules: [
+            {
+              effect: UiSchemaRuleEffects.SHOW,
+              conditions: [true],
+            },
+          ],
+          elements: [
+            {
+              type: "Notice",
+              options: {
+                notice: {
+                  configuration: {
+                    id: "user-org-settings-notice",
+                    noticeType: "notice",
+                    closable: false,
+                    kind: "info",
+                    scale: "m",
+                  },
+                  title: `{{some.scope.notice.title:translate}}`,
+                  message: `{{some.scope.notice.message:translate}}`,
+                  autoShow: true,
+                  actions: [
+                    {
+                      ariaLabel: `{{some.scope.notice.actions.goToOrg:translate}}`,
+                      label: `{{some.scope.notice.actions.goToOrg:translate}}`,
+                      icon: "launch",
+                      href: `https://qaext.arcgis.com/home/organization.html?tab=general#settings`,
+                      target: "_blank",
+                    },
+                  ],
+                },
+              },
+            },
+            {
+              type: "Section",
+              labelKey: "some.scope.sections.orgSettings.siteDefaults.label",
+              elements: [
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/showInformationalBanner",
+                  labelKey: "some.scope.fields.infoBanner.label",
+                  options: {
+                    type: "Control",
+                    control: "hub-field-input-switch",
+                    layout: "inline-space-between",
+                    helperText: {
+                      label:
+                        "{{some.scope.fields.infoBanner.helperText:translate}}",
+                    },
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.DISABLE,
+                      conditions: [false],
+                    },
+                  ],
+                },
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/showInformationalBanner",
+                  options: {
+                    control: "calcite-link",
+                    layout: "inline-space-between",
+                    helperText: {
+                      label:
+                        '<calcite-link href=https://qaext.arcgis.com/home/organization.html?tab=security#settings target="_blank" icon-end="launch">{{some.scope.fields.infoBanner.goToBannerConfig:translate}}</calcite-link>',
+                    },
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.SHOW,
+                      conditions: [true],
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              type: "Section",
+              labelKey: "some.scope.sections.orgSettings.signinSettings.label",
+              rules: [
+                {
+                  effect: UiSchemaRuleEffects.SHOW,
+                  conditions: [false],
+                },
+              ],
+              options: {
+                helperText: {
+                  labelKey: `some.scope.sections.orgSettings.signinSettings.helperText`,
+                },
+              },
+              elements: [
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/enableTermsAndConditions",
+                  labelKey: "some.scope.fields.enableTermsAndConditions.label",
+                  options: {
+                    control: "hub-field-input-switch",
+                    layout: "inline-space-between",
+                  },
+                },
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/termsAndConditions",
+                  labelKey: `some.scope.fields.termsAndConditions.label`,
+                  options: {
+                    control: "hub-field-input-rich-text",
+                    type: "textarea",
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.SHOW,
+                      conditions: [
+                        {
+                          scope:
+                            "/properties/hubOrgSettings/properties/enableTermsAndConditions",
+                          schema: { const: true },
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/enableSignupText",
+                  labelKey: `some.scope.fields.enableSignupText.label`,
+                  options: {
+                    control: "hub-field-input-switch",
+                    layout: "inline-space-between",
+                  },
+                },
+                {
+                  type: "Control",
+                  scope: "/properties/hubOrgSettings/properties/signupText",
+                  options: {
+                    control: "hub-field-input-rich-text",
+                    type: "textarea",
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.SHOW,
+                      conditions: [
+                        {
+                          scope:
+                            "/properties/hubOrgSettings/properties/enableSignupText",
+                          schema: { const: true },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+  });
+  it("creates the uiSchema correctly when authed as a community org with an e-org attached that is private", async () => {
+    const fetchOrgSpy = spyOn(FetchOrgModule, "fetchOrg").and.callFake(() => {
+      return Promise.resolve({});
+    });
+    portalSettingsSpy = spyOn(PortalModule, "getPortalSettings").and.callFake(
+      () => {
+        return Promise.resolve({
+          informationalBanner: {
+            enabled: true,
+          },
+        });
+      }
+    );
+    const chk = await UserUiSchemaSettings.buildUiSchema("some.scope", {}, {
+      portalUrl: "https://qaext.c.arcgis.com",
+      enterpriseOrgId: "1234",
+      trustedOrgs: [
+        {
+          to: {
+            orgId: "1234",
+            name: "Staff org",
+          },
+        },
+      ],
+      portal: {
+        id: "123",
+        name: "My org",
+      },
+      currentUser: {
+        role: "org_admin",
+        orgId: "123",
+      },
+      isAlphaOrg: true,
+      isOrgAdmin: true,
+    } as IArcGISContext);
+
+    expect(fetchOrgSpy).toHaveBeenCalled();
+    expect(chk).toEqual({
+      type: "Layout",
+      elements: [
+        {
+          type: "Section",
+          labelKey: "some.scope.sections.userSettings",
+          elements: [
+            {
+              type: "Control",
+              scope:
+                "/properties/settings/properties/preview/properties/workspace",
+              labelKey: "some.scope.fields.workspacePreview.label",
+              options: {
+                type: "Control",
+                control: "hub-field-input-switch",
+                layout: "inline-space-between",
+                helperText: {
+                  labelKey: "some.scope.fields.workspacePreview.helperText",
+                },
+              },
+            },
+          ],
+        },
+        {
+          type: "Section",
+          labelKey: `some.scope.sections.orgSettings.label`,
+          options: {
+            helperText: {
+              label: `My org`,
+            },
+          },
+          rules: [
+            {
+              effect: UiSchemaRuleEffects.SHOW,
+              conditions: [true],
+            },
+          ],
+          elements: [
+            {
+              type: "Notice",
+              options: {
+                notice: {
+                  configuration: {
+                    id: "user-org-settings-notice",
+                    noticeType: "notice",
+                    closable: false,
+                    kind: "info",
+                    scale: "m",
+                  },
+                  title: `{{some.scope.notice.title:translate}}`,
+                  message: `{{some.scope.notice.staffMessage:translate}}: Staff org`,
+                  autoShow: true,
+                  actions: [
+                    {
+                      ariaLabel: `{{some.scope.notice.actions.goToOrg:translate}}`,
+                      label: `{{some.scope.notice.actions.goToOrg:translate}}`,
+                      icon: "launch",
+                      href: `https://qaext.c.arcgis.com/home/organization.html?tab=general#settings`,
+                      target: "_blank",
+                    },
+                  ],
+                },
+              },
+            },
+            {
+              type: "Section",
+              labelKey: "some.scope.sections.orgSettings.siteDefaults.label",
+              elements: [
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/showInformationalBanner",
+                  labelKey: "some.scope.fields.infoBanner.label",
+                  options: {
+                    type: "Control",
+                    control: "hub-field-input-switch",
+                    layout: "inline-space-between",
+                    helperText: {
+                      label:
+                        "{{some.scope.fields.infoBanner.helperText:translate}}",
+                    },
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.DISABLE,
+                      conditions: [false],
+                    },
+                  ],
+                },
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/showInformationalBanner",
+                  options: {
+                    control: "calcite-link",
+                    layout: "inline-space-between",
+                    helperText: {
+                      label:
+                        '<calcite-link href=https://qaext.c.arcgis.com/home/organization.html?tab=security#settings target="_blank" icon-end="launch">{{some.scope.fields.infoBanner.goToBannerConfig:translate}}</calcite-link>',
+                    },
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.SHOW,
+                      conditions: [true],
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              type: "Section",
+              labelKey: "some.scope.sections.orgSettings.signinSettings.label",
+              rules: [
+                {
+                  effect: UiSchemaRuleEffects.SHOW,
+                  conditions: [false],
+                },
+              ],
+              options: {
+                helperText: {
+                  labelKey: `some.scope.sections.orgSettings.signinSettings.helperText`,
+                },
+              },
+              elements: [
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/enableTermsAndConditions",
+                  labelKey: "some.scope.fields.enableTermsAndConditions.label",
+                  options: {
+                    control: "hub-field-input-switch",
+                    layout: "inline-space-between",
+                  },
+                },
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/termsAndConditions",
+                  labelKey: `some.scope.fields.termsAndConditions.label`,
+                  options: {
+                    control: "hub-field-input-rich-text",
+                    type: "textarea",
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.SHOW,
+                      conditions: [
+                        {
+                          scope:
+                            "/properties/hubOrgSettings/properties/enableTermsAndConditions",
+                          schema: { const: true },
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  type: "Control",
+                  scope:
+                    "/properties/hubOrgSettings/properties/enableSignupText",
+                  labelKey: `some.scope.fields.enableSignupText.label`,
+                  options: {
+                    control: "hub-field-input-switch",
+                    layout: "inline-space-between",
+                  },
+                },
+                {
+                  type: "Control",
+                  scope: "/properties/hubOrgSettings/properties/signupText",
+                  options: {
+                    control: "hub-field-input-rich-text",
+                    type: "textarea",
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.SHOW,
+                      conditions: [
+                        {
+                          scope:
+                            "/properties/hubOrgSettings/properties/enableSignupText",
+                          schema: { const: true },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+  });
+
+  it("creates the uiSchema correctly when portalSettings.informationalBanner not enabled", async () => {
+    const fetchOrgSpy = spyOn(FetchOrgModule, "fetchOrg").and.callFake(() => {
+      return Promise.resolve({});
+    });
+    portalSettingsSpy = spyOn(PortalModule, "getPortalSettings").and.callFake(
+      () => {
+        return Promise.resolve({
+          informationalBanner: {
+            enabled: false,
+          },
+        });
+      }
+    );
     const chk = await UserUiSchemaSettings.buildUiSchema("some.scope", {}, {
       portalUrl: "https://qaext.arcgis.com",
       communityOrgId: "abc",
@@ -236,477 +1892,27 @@ describe("UserUiSchemaSettings:", () => {
       ],
     });
   });
-  it("creates the uiSchema correctly when authed as a community org with an e-org attached", async () => {
-    const fetchOrgSpy = spyOn(FetchOrgModule, "fetchOrg").and.callFake(() => {
-      return Promise.resolve({
-        urlKey: "qaext",
-        customBaseUrl: "arcgis.com",
-      });
-    });
-    const chk = await UserUiSchemaSettings.buildUiSchema("some.scope", {}, {
-      portalUrl: "https://qaext.c.arcgis.com",
-      enterpriseOrgId: "1234",
-      trustedOrgs: [
-        {
-          to: {
-            orgId: "1234",
-            name: "Staff org",
-          },
-        },
-      ],
-      portal: {
-        id: "123",
-        name: "My org",
-      },
-      currentUser: {
-        role: "org_admin",
-        orgId: "123",
-      },
-      isAlphaOrg: true,
-      isOrgAdmin: true,
-    } as IArcGISContext);
-
-    expect(fetchOrgSpy).toHaveBeenCalled();
-    expect(chk).toEqual({
-      type: "Layout",
-      elements: [
-        {
-          type: "Section",
-          labelKey: "some.scope.sections.userSettings",
-          elements: [
-            {
-              type: "Control",
-              scope:
-                "/properties/settings/properties/preview/properties/workspace",
-              labelKey: "some.scope.fields.workspacePreview.label",
-              options: {
-                type: "Control",
-                control: "hub-field-input-switch",
-                layout: "inline-space-between",
-                helperText: {
-                  labelKey: "some.scope.fields.workspacePreview.helperText",
-                },
-              },
-            },
-          ],
-        },
-        {
-          type: "Section",
-          labelKey: `some.scope.sections.orgSettings.label`,
-          options: {
-            helperText: {
-              label: `My org`,
-            },
-          },
-          rules: [
-            {
-              effect: UiSchemaRuleEffects.SHOW,
-              conditions: [true],
-            },
-          ],
-          elements: [
-            {
-              type: "Notice",
-              options: {
-                notice: {
-                  configuration: {
-                    id: "user-org-settings-notice",
-                    noticeType: "notice",
-                    closable: false,
-                    kind: "info",
-                    scale: "m",
-                  },
-                  title: `{{some.scope.notice.title:translate}}`,
-                  message: `{{some.scope.notice.staffMessage:translate}}: Staff org`,
-                  autoShow: true,
-                  actions: [
-                    {
-                      ariaLabel: `{{some.scope.notice.actions.goToOrg:translate}}`,
-                      label: `{{some.scope.notice.actions.goToOrg:translate}}`,
-                      icon: "launch",
-                      href: `https://qaext.c.arcgis.com/home/organization.html?tab=general#settings`,
-                      target: "_blank",
-                    },
-                    {
-                      ariaLabel: `{{some.scope.notice.actions.goToStaffOrg:translate}}`,
-                      label: `{{some.scope.notice.actions.goToStaffOrg:translate}}`,
-                      icon: "launch",
-                      href: `https://qaext.arcgis.com/home/organization.html`,
-                      target: "_blank",
-                    },
-                  ],
-                },
-              },
-            },
-            {
-              type: "Section",
-              labelKey: "some.scope.sections.orgSettings.siteDefaults.label",
-              elements: [
-                {
-                  type: "Control",
-                  scope:
-                    "/properties/hubOrgSettings/properties/showInformationalBanner",
-                  labelKey: "some.scope.fields.infoBanner.label",
-                  options: {
-                    type: "Control",
-                    control: "hub-field-input-switch",
-                    layout: "inline-space-between",
-                    helperText: {
-                      label:
-                        "{{some.scope.fields.infoBanner.helperTextWhenDisabled:translate}}",
-                    },
-                  },
-                  rules: [
-                    {
-                      effect: UiSchemaRuleEffects.DISABLE,
-                      conditions: [true],
-                    },
-                  ],
-                },
-                {
-                  type: "Control",
-                  scope:
-                    "/properties/hubOrgSettings/properties/showInformationalBanner",
-                  options: {
-                    control: "calcite-link",
-                    layout: "inline-space-between",
-                    helperText: {
-                      label:
-                        '<calcite-link href=https://qaext.c.arcgis.com/home/organization.html?tab=security#settings target="_blank" icon-end="launch">{{some.scope.fields.infoBanner.goToBannerConfig:translate}}</calcite-link>',
-                    },
-                  },
-                  rules: [
-                    {
-                      effect: UiSchemaRuleEffects.SHOW,
-                      conditions: [true],
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              type: "Section",
-              labelKey: "some.scope.sections.orgSettings.signinSettings.label",
-              rules: [
-                {
-                  effect: UiSchemaRuleEffects.SHOW,
-                  conditions: [false],
-                },
-              ],
-              options: {
-                helperText: {
-                  labelKey: `some.scope.sections.orgSettings.signinSettings.helperText`,
-                },
-              },
-              elements: [
-                {
-                  type: "Control",
-                  scope:
-                    "/properties/hubOrgSettings/properties/enableTermsAndConditions",
-                  labelKey: "some.scope.fields.enableTermsAndConditions.label",
-                  options: {
-                    control: "hub-field-input-switch",
-                    layout: "inline-space-between",
-                  },
-                },
-                {
-                  type: "Control",
-                  scope:
-                    "/properties/hubOrgSettings/properties/termsAndConditions",
-                  labelKey: `some.scope.fields.termsAndConditions.label`,
-                  options: {
-                    control: "hub-field-input-rich-text",
-                    type: "textarea",
-                  },
-                  rules: [
-                    {
-                      effect: UiSchemaRuleEffects.SHOW,
-                      conditions: [
-                        {
-                          scope:
-                            "/properties/hubOrgSettings/properties/enableTermsAndConditions",
-                          schema: { const: true },
-                        },
-                      ],
-                    },
-                  ],
-                },
-                {
-                  type: "Control",
-                  scope:
-                    "/properties/hubOrgSettings/properties/enableSignupText",
-                  labelKey: `some.scope.fields.enableSignupText.label`,
-                  options: {
-                    control: "hub-field-input-switch",
-                    layout: "inline-space-between",
-                  },
-                },
-                {
-                  type: "Control",
-                  scope: "/properties/hubOrgSettings/properties/signupText",
-                  options: {
-                    control: "hub-field-input-rich-text",
-                    type: "textarea",
-                  },
-                  rules: [
-                    {
-                      effect: UiSchemaRuleEffects.SHOW,
-                      conditions: [
-                        {
-                          scope:
-                            "/properties/hubOrgSettings/properties/enableSignupText",
-                          schema: { const: true },
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    });
-  });
-  it("creates the uiSchema correctly when authed as a community org with an e-org attached but not an org admin", async () => {
-    const fetchOrgSpy = spyOn(FetchOrgModule, "fetchOrg").and.callFake(() => {
-      return Promise.resolve({
-        urlKey: "qaext",
-        customBaseUrl: "arcgis.com",
-      });
-    });
-    const chk = await UserUiSchemaSettings.buildUiSchema("some.scope", {}, {
-      portalUrl: "https://qaext.c.arcgis.com",
-      enterpriseOrgId: "1234",
-      trustedOrgs: [
-        {
-          to: {
-            orgId: "1234",
-            name: "Staff org",
-          },
-        },
-      ],
-      portal: {
-        id: "123",
-        name: "My org",
-      },
-      currentUser: {
-        role: "org_user",
-        orgId: "123",
-      },
-      isAlphaOrg: true,
-      isOrgAdmin: false,
-      isCommunityOrg: true,
-    } as IArcGISContext);
-
-    expect(fetchOrgSpy).toHaveBeenCalled();
-    expect(chk).toEqual({
-      type: "Layout",
-      elements: [
-        {
-          type: "Section",
-          labelKey: "some.scope.sections.userSettings",
-          elements: [
-            {
-              type: "Control",
-              scope:
-                "/properties/settings/properties/preview/properties/workspace",
-              labelKey: "some.scope.fields.workspacePreview.label",
-              options: {
-                type: "Control",
-                control: "hub-field-input-switch",
-                layout: "inline-space-between",
-                helperText: {
-                  labelKey: "some.scope.fields.workspacePreview.helperText",
-                },
-              },
-            },
-          ],
-        },
-        {
-          type: "Section",
-          labelKey: `some.scope.sections.orgSettings.label`,
-          options: {
-            helperText: {
-              label: `My org`,
-            },
-          },
-          rules: [
-            {
-              effect: UiSchemaRuleEffects.SHOW,
-              conditions: [false],
-            },
-          ],
-          elements: [
-            {
-              type: "Notice",
-              options: {
-                notice: {
-                  configuration: {
-                    id: "user-org-settings-notice",
-                    noticeType: "notice",
-                    closable: false,
-                    kind: "info",
-                    scale: "m",
-                  },
-                  title: `{{some.scope.notice.title:translate}}`,
-                  message: `{{some.scope.notice.staffMessage:translate}}: Staff org`,
-                  autoShow: true,
-                  actions: [
-                    {
-                      ariaLabel: `{{some.scope.notice.actions.goToOrg:translate}}`,
-                      label: `{{some.scope.notice.actions.goToOrg:translate}}`,
-                      icon: "launch",
-                      href: `https://qaext.c.arcgis.com/home/organization.html?tab=general#settings`,
-                      target: "_blank",
-                    },
-                    {
-                      ariaLabel: `{{some.scope.notice.actions.goToStaffOrg:translate}}`,
-                      label: `{{some.scope.notice.actions.goToStaffOrg:translate}}`,
-                      icon: "launch",
-                      href: `https://qaext.arcgis.com/home/organization.html`,
-                      target: "_blank",
-                    },
-                  ],
-                },
-              },
-            },
-            {
-              type: "Section",
-              labelKey: "some.scope.sections.orgSettings.siteDefaults.label",
-              elements: [
-                {
-                  type: "Control",
-                  scope:
-                    "/properties/hubOrgSettings/properties/showInformationalBanner",
-                  labelKey: "some.scope.fields.infoBanner.label",
-                  options: {
-                    type: "Control",
-                    control: "hub-field-input-switch",
-                    layout: "inline-space-between",
-                    helperText: {
-                      label:
-                        "{{some.scope.fields.infoBanner.helperTextWhenDisabled:translate}}",
-                    },
-                  },
-                  rules: [
-                    {
-                      effect: UiSchemaRuleEffects.DISABLE,
-                      conditions: [true],
-                    },
-                  ],
-                },
-                {
-                  type: "Control",
-                  scope:
-                    "/properties/hubOrgSettings/properties/showInformationalBanner",
-                  options: {
-                    control: "calcite-link",
-                    layout: "inline-space-between",
-                    helperText: {
-                      label:
-                        '<calcite-link href=https://qaext.c.arcgis.com/home/organization.html?tab=security#settings target="_blank" icon-end="launch">{{some.scope.fields.infoBanner.goToBannerConfig:translate}}</calcite-link>',
-                    },
-                  },
-                  rules: [
-                    {
-                      effect: UiSchemaRuleEffects.SHOW,
-                      conditions: [false],
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              type: "Section",
-              labelKey: "some.scope.sections.orgSettings.signinSettings.label",
-              rules: [
-                {
-                  effect: UiSchemaRuleEffects.SHOW,
-                  conditions: [false],
-                },
-              ],
-              options: {
-                helperText: {
-                  labelKey: `some.scope.sections.orgSettings.signinSettings.helperText`,
-                },
-              },
-              elements: [
-                {
-                  type: "Control",
-                  scope:
-                    "/properties/hubOrgSettings/properties/enableTermsAndConditions",
-                  labelKey: "some.scope.fields.enableTermsAndConditions.label",
-                  options: {
-                    control: "hub-field-input-switch",
-                    layout: "inline-space-between",
-                  },
-                },
-                {
-                  type: "Control",
-                  scope:
-                    "/properties/hubOrgSettings/properties/termsAndConditions",
-                  labelKey: `some.scope.fields.termsAndConditions.label`,
-                  options: {
-                    control: "hub-field-input-rich-text",
-                    type: "textarea",
-                  },
-                  rules: [
-                    {
-                      effect: UiSchemaRuleEffects.SHOW,
-                      conditions: [
-                        {
-                          scope:
-                            "/properties/hubOrgSettings/properties/enableTermsAndConditions",
-                          schema: { const: true },
-                        },
-                      ],
-                    },
-                  ],
-                },
-                {
-                  type: "Control",
-                  scope:
-                    "/properties/hubOrgSettings/properties/enableSignupText",
-                  labelKey: `some.scope.fields.enableSignupText.label`,
-                  options: {
-                    control: "hub-field-input-switch",
-                    layout: "inline-space-between",
-                  },
-                },
-                {
-                  type: "Control",
-                  scope: "/properties/hubOrgSettings/properties/signupText",
-                  options: {
-                    control: "hub-field-input-rich-text",
-                    type: "textarea",
-                  },
-                  rules: [
-                    {
-                      effect: UiSchemaRuleEffects.SHOW,
-                      conditions: [
-                        {
-                          scope:
-                            "/properties/hubOrgSettings/properties/enableSignupText",
-                          schema: { const: true },
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    });
-  });
-  it("creates the uiSchema correctly when no community org", async () => {
+  it("creates the uiSchema correctly when unable to access portalSettings.informationalBanner", async () => {
     const fetchOrgSpy = spyOn(FetchOrgModule, "fetchOrg").and.callFake(() => {
       return Promise.resolve({});
     });
+    portalSettingsSpy = spyOn(PortalModule, "getPortalSettings").and.callFake(
+      () => {
+        return Promise.resolve(new Error("Unable to access portal settings"));
+      }
+    );
     const chk = await UserUiSchemaSettings.buildUiSchema("some.scope", {}, {
       portalUrl: "https://qaext.arcgis.com",
+      communityOrgId: "abc",
+      trustedOrgs: [
+        {
+          to: {
+            orgId: "abc",
+            name: "Community org",
+          },
+        },
+      ],
+      communityOrgUrl: "https://qaext.c.arcgis.com",
       portal: {
         id: "123",
         name: "My org",
@@ -770,7 +1976,7 @@ describe("UserUiSchemaSettings:", () => {
                     scale: "m",
                   },
                   title: `{{some.scope.notice.title:translate}}`,
-                  message: `{{some.scope.notice.message:translate}}`,
+                  message: `{{some.scope.notice.communityMessage:translate}}: Community org`,
                   autoShow: true,
                   actions: [
                     {
@@ -778,6 +1984,13 @@ describe("UserUiSchemaSettings:", () => {
                       label: `{{some.scope.notice.actions.goToOrg:translate}}`,
                       icon: "launch",
                       href: `https://qaext.arcgis.com/home/organization.html?tab=general#settings`,
+                      target: "_blank",
+                    },
+                    {
+                      ariaLabel: `{{some.scope.notice.actions.goToCommunityOrg:translate}}`,
+                      label: `{{some.scope.notice.actions.goToCommunityOrg:translate}}`,
+                      icon: "launch",
+                      href: `https://qaext.c.arcgis.com/home/organization.html`,
                       target: "_blank",
                     },
                   ],
@@ -912,732 +2125,6 @@ describe("UserUiSchemaSettings:", () => {
           ],
         },
       ],
-    });
-  });
-  it("creates the uiSchema correctly when authed as a community org with an e-org attached", async () => {
-    const fetchOrgSpy = spyOn(FetchOrgModule, "fetchOrg").and.callFake(() => {
-      return Promise.resolve({
-        urlKey: "qaext",
-        customBaseUrl: "arcgis.com",
-      });
-    });
-    const chk = await UserUiSchemaSettings.buildUiSchema("some.scope", {}, {
-      portalUrl: "https://qaext.c.arcgis.com",
-      enterpriseOrgId: "1234",
-      trustedOrgs: [
-        {
-          to: {
-            orgId: "1234",
-            name: "Staff org",
-          },
-        },
-      ],
-      portal: {
-        id: "123",
-        name: "My org",
-      },
-      currentUser: {
-        role: "org_admin",
-        orgId: "123",
-      },
-      isAlphaOrg: true,
-      isOrgAdmin: true,
-      isCommunityOrg: true,
-    } as IArcGISContext);
-
-    expect(fetchOrgSpy).toHaveBeenCalled();
-    expect(chk).toEqual({
-      type: "Layout",
-      elements: [
-        {
-          type: "Section",
-          labelKey: "some.scope.sections.userSettings",
-          elements: [
-            {
-              type: "Control",
-              scope:
-                "/properties/settings/properties/preview/properties/workspace",
-              labelKey: "some.scope.fields.workspacePreview.label",
-              options: {
-                type: "Control",
-                control: "hub-field-input-switch",
-                layout: "inline-space-between",
-                helperText: {
-                  labelKey: "some.scope.fields.workspacePreview.helperText",
-                },
-              },
-            },
-          ],
-        },
-        {
-          type: "Section",
-          labelKey: `some.scope.sections.orgSettings.label`,
-          options: {
-            helperText: {
-              label: `My org`,
-            },
-          },
-          rules: [
-            {
-              effect: UiSchemaRuleEffects.SHOW,
-              conditions: [true],
-            },
-          ],
-          elements: [
-            {
-              type: "Notice",
-              options: {
-                notice: {
-                  configuration: {
-                    id: "user-org-settings-notice",
-                    noticeType: "notice",
-                    closable: false,
-                    kind: "info",
-                    scale: "m",
-                  },
-                  title: `{{some.scope.notice.title:translate}}`,
-                  message: `{{some.scope.notice.staffMessage:translate}}: Staff org`,
-                  autoShow: true,
-                  actions: [
-                    {
-                      ariaLabel: `{{some.scope.notice.actions.goToOrg:translate}}`,
-                      label: `{{some.scope.notice.actions.goToOrg:translate}}`,
-                      icon: "launch",
-                      href: `https://qaext.c.arcgis.com/home/organization.html?tab=general#settings`,
-                      target: "_blank",
-                    },
-                    {
-                      ariaLabel: `{{some.scope.notice.actions.goToStaffOrg:translate}}`,
-                      label: `{{some.scope.notice.actions.goToStaffOrg:translate}}`,
-                      icon: "launch",
-                      href: `https://qaext.arcgis.com/home/organization.html`,
-                      target: "_blank",
-                    },
-                  ],
-                },
-              },
-            },
-            {
-              type: "Section",
-              labelKey: "some.scope.sections.orgSettings.siteDefaults.label",
-              elements: [
-                {
-                  type: "Control",
-                  scope:
-                    "/properties/hubOrgSettings/properties/showInformationalBanner",
-                  labelKey: "some.scope.fields.infoBanner.label",
-                  options: {
-                    type: "Control",
-                    control: "hub-field-input-switch",
-                    layout: "inline-space-between",
-                    helperText: {
-                      label:
-                        "{{some.scope.fields.infoBanner.helperTextWhenDisabled:translate}}",
-                    },
-                  },
-                  rules: [
-                    {
-                      effect: UiSchemaRuleEffects.DISABLE,
-                      conditions: [true],
-                    },
-                  ],
-                },
-                {
-                  type: "Control",
-                  scope:
-                    "/properties/hubOrgSettings/properties/showInformationalBanner",
-                  options: {
-                    control: "calcite-link",
-                    layout: "inline-space-between",
-                    helperText: {
-                      label:
-                        '<calcite-link href=https://qaext.c.arcgis.com/home/organization.html?tab=security#settings target="_blank" icon-end="launch">{{some.scope.fields.infoBanner.goToBannerConfig:translate}}</calcite-link>',
-                    },
-                  },
-                  rules: [
-                    {
-                      effect: UiSchemaRuleEffects.SHOW,
-                      conditions: [true],
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              type: "Section",
-              labelKey: "some.scope.sections.orgSettings.signinSettings.label",
-              rules: [
-                {
-                  effect: UiSchemaRuleEffects.SHOW,
-                  conditions: [true],
-                },
-              ],
-              options: {
-                helperText: {
-                  labelKey: `some.scope.sections.orgSettings.signinSettings.helperText`,
-                },
-              },
-              elements: [
-                {
-                  type: "Control",
-                  scope:
-                    "/properties/hubOrgSettings/properties/enableTermsAndConditions",
-                  labelKey: "some.scope.fields.enableTermsAndConditions.label",
-                  options: {
-                    control: "hub-field-input-switch",
-                    layout: "inline-space-between",
-                  },
-                },
-                {
-                  type: "Control",
-                  scope:
-                    "/properties/hubOrgSettings/properties/termsAndConditions",
-                  labelKey: `some.scope.fields.termsAndConditions.label`,
-                  options: {
-                    control: "hub-field-input-rich-text",
-                    type: "textarea",
-                  },
-                  rules: [
-                    {
-                      effect: UiSchemaRuleEffects.SHOW,
-                      conditions: [
-                        {
-                          scope:
-                            "/properties/hubOrgSettings/properties/enableTermsAndConditions",
-                          schema: { const: true },
-                        },
-                      ],
-                    },
-                  ],
-                },
-                {
-                  type: "Control",
-                  scope:
-                    "/properties/hubOrgSettings/properties/enableSignupText",
-                  labelKey: `some.scope.fields.enableSignupText.label`,
-                  options: {
-                    control: "hub-field-input-switch",
-                    layout: "inline-space-between",
-                  },
-                },
-                {
-                  type: "Control",
-                  scope: "/properties/hubOrgSettings/properties/signupText",
-                  options: {
-                    control: "hub-field-input-rich-text",
-                    type: "textarea",
-                  },
-                  rules: [
-                    {
-                      effect: UiSchemaRuleEffects.SHOW,
-                      conditions: [
-                        {
-                          scope:
-                            "/properties/hubOrgSettings/properties/enableSignupText",
-                          schema: { const: true },
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    });
-  });
-  it("creates the uiSchema correctly when no community org", async () => {
-    const fetchOrgSpy = spyOn(FetchOrgModule, "fetchOrg").and.callFake(() => {
-      return Promise.resolve({});
-    });
-    const chk = await UserUiSchemaSettings.buildUiSchema("some.scope", {}, {
-      portalUrl: "https://qaext.arcgis.com",
-      portal: {
-        id: "123",
-        name: "My org",
-      },
-      currentUser: {
-        role: "org_admin",
-        orgId: "123",
-      },
-      isAlphaOrg: true,
-      isOrgAdmin: true,
-    } as IArcGISContext);
-
-    expect(fetchOrgSpy).not.toHaveBeenCalled();
-    expect(chk).toEqual({
-      type: "Layout",
-      elements: [
-        {
-          type: "Section",
-          labelKey: "some.scope.sections.userSettings",
-          elements: [
-            {
-              type: "Control",
-              scope:
-                "/properties/settings/properties/preview/properties/workspace",
-              labelKey: "some.scope.fields.workspacePreview.label",
-              options: {
-                type: "Control",
-                control: "hub-field-input-switch",
-                layout: "inline-space-between",
-                helperText: {
-                  labelKey: "some.scope.fields.workspacePreview.helperText",
-                },
-              },
-            },
-          ],
-        },
-        {
-          type: "Section",
-          labelKey: `some.scope.sections.orgSettings.label`,
-          options: {
-            helperText: {
-              label: `My org`,
-            },
-          },
-          rules: [
-            {
-              effect: UiSchemaRuleEffects.SHOW,
-              conditions: [true],
-            },
-          ],
-          elements: [
-            {
-              type: "Notice",
-              options: {
-                notice: {
-                  configuration: {
-                    id: "user-org-settings-notice",
-                    noticeType: "notice",
-                    closable: false,
-                    kind: "info",
-                    scale: "m",
-                  },
-                  title: `{{some.scope.notice.title:translate}}`,
-                  message: `{{some.scope.notice.message:translate}}`,
-                  autoShow: true,
-                  actions: [
-                    {
-                      ariaLabel: `{{some.scope.notice.actions.goToOrg:translate}}`,
-                      label: `{{some.scope.notice.actions.goToOrg:translate}}`,
-                      icon: "launch",
-                      href: `https://qaext.arcgis.com/home/organization.html?tab=general#settings`,
-                      target: "_blank",
-                    },
-                  ],
-                },
-              },
-            },
-            {
-              type: "Section",
-              labelKey: "some.scope.sections.orgSettings.siteDefaults.label",
-              elements: [
-                {
-                  type: "Control",
-                  scope:
-                    "/properties/hubOrgSettings/properties/showInformationalBanner",
-                  labelKey: "some.scope.fields.infoBanner.label",
-                  options: {
-                    type: "Control",
-                    control: "hub-field-input-switch",
-                    layout: "inline-space-between",
-                    helperText: {
-                      label:
-                        "{{some.scope.fields.infoBanner.helperTextWhenDisabled:translate}}",
-                    },
-                  },
-                  rules: [
-                    {
-                      effect: UiSchemaRuleEffects.DISABLE,
-                      conditions: [true],
-                    },
-                  ],
-                },
-                {
-                  type: "Control",
-                  scope:
-                    "/properties/hubOrgSettings/properties/showInformationalBanner",
-                  options: {
-                    control: "calcite-link",
-                    layout: "inline-space-between",
-                    helperText: {
-                      label:
-                        '<calcite-link href=https://qaext.arcgis.com/home/organization.html?tab=security#settings target="_blank" icon-end="launch">{{some.scope.fields.infoBanner.goToBannerConfig:translate}}</calcite-link>',
-                    },
-                  },
-                  rules: [
-                    {
-                      effect: UiSchemaRuleEffects.SHOW,
-                      conditions: [true],
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              type: "Section",
-              labelKey: "some.scope.sections.orgSettings.signinSettings.label",
-              rules: [
-                {
-                  effect: UiSchemaRuleEffects.SHOW,
-                  conditions: [false],
-                },
-              ],
-              options: {
-                helperText: {
-                  labelKey: `some.scope.sections.orgSettings.signinSettings.helperText`,
-                },
-              },
-              elements: [
-                {
-                  type: "Control",
-                  scope:
-                    "/properties/hubOrgSettings/properties/enableTermsAndConditions",
-                  labelKey: "some.scope.fields.enableTermsAndConditions.label",
-                  options: {
-                    control: "hub-field-input-switch",
-                    layout: "inline-space-between",
-                  },
-                },
-                {
-                  type: "Control",
-                  scope:
-                    "/properties/hubOrgSettings/properties/termsAndConditions",
-                  labelKey: `some.scope.fields.termsAndConditions.label`,
-                  options: {
-                    control: "hub-field-input-rich-text",
-                    type: "textarea",
-                  },
-                  rules: [
-                    {
-                      effect: UiSchemaRuleEffects.SHOW,
-                      conditions: [
-                        {
-                          scope:
-                            "/properties/hubOrgSettings/properties/enableTermsAndConditions",
-                          schema: { const: true },
-                        },
-                      ],
-                    },
-                  ],
-                },
-                {
-                  type: "Control",
-                  scope:
-                    "/properties/hubOrgSettings/properties/enableSignupText",
-                  labelKey: `some.scope.fields.enableSignupText.label`,
-                  options: {
-                    control: "hub-field-input-switch",
-                    layout: "inline-space-between",
-                  },
-                },
-                {
-                  type: "Control",
-                  scope: "/properties/hubOrgSettings/properties/signupText",
-                  options: {
-                    control: "hub-field-input-rich-text",
-                    type: "textarea",
-                  },
-                  rules: [
-                    {
-                      effect: UiSchemaRuleEffects.SHOW,
-                      conditions: [
-                        {
-                          scope:
-                            "/properties/hubOrgSettings/properties/enableSignupText",
-                          schema: { const: true },
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    });
-  });
-  it("creates the uiSchema correctly when authed as a community org with an e-org attached that is private", async () => {
-    const fetchOrgSpy = spyOn(FetchOrgModule, "fetchOrg").and.callFake(() => {
-      return Promise.resolve({});
-    });
-    const chk = await UserUiSchemaSettings.buildUiSchema("some.scope", {}, {
-      portalUrl: "https://qaext.c.arcgis.com",
-      enterpriseOrgId: "1234",
-      trustedOrgs: [
-        {
-          to: {
-            orgId: "1234",
-            name: "Staff org",
-          },
-        },
-      ],
-      portal: {
-        id: "123",
-        name: "My org",
-      },
-      currentUser: {
-        role: "org_admin",
-        orgId: "123",
-      },
-      isAlphaOrg: true,
-      isOrgAdmin: true,
-    } as IArcGISContext);
-
-    expect(fetchOrgSpy).toHaveBeenCalled();
-    expect(chk).toEqual({
-      type: "Layout",
-      elements: [
-        {
-          type: "Section",
-          labelKey: "some.scope.sections.userSettings",
-          elements: [
-            {
-              type: "Control",
-              scope:
-                "/properties/settings/properties/preview/properties/workspace",
-              labelKey: "some.scope.fields.workspacePreview.label",
-              options: {
-                type: "Control",
-                control: "hub-field-input-switch",
-                layout: "inline-space-between",
-                helperText: {
-                  labelKey: "some.scope.fields.workspacePreview.helperText",
-                },
-              },
-            },
-          ],
-        },
-        {
-          type: "Section",
-          labelKey: `some.scope.sections.orgSettings.label`,
-          options: {
-            helperText: {
-              label: `My org`,
-            },
-          },
-          rules: [
-            {
-              effect: UiSchemaRuleEffects.SHOW,
-              conditions: [true],
-            },
-          ],
-          elements: [
-            {
-              type: "Notice",
-              options: {
-                notice: {
-                  configuration: {
-                    id: "user-org-settings-notice",
-                    noticeType: "notice",
-                    closable: false,
-                    kind: "info",
-                    scale: "m",
-                  },
-                  title: `{{some.scope.notice.title:translate}}`,
-                  message: `{{some.scope.notice.staffMessage:translate}}: Staff org`,
-                  autoShow: true,
-                  actions: [
-                    {
-                      ariaLabel: `{{some.scope.notice.actions.goToOrg:translate}}`,
-                      label: `{{some.scope.notice.actions.goToOrg:translate}}`,
-                      icon: "launch",
-                      href: `https://qaext.c.arcgis.com/home/organization.html?tab=general#settings`,
-                      target: "_blank",
-                    },
-                  ],
-                },
-              },
-            },
-            {
-              type: "Section",
-              labelKey: "some.scope.sections.orgSettings.siteDefaults.label",
-              elements: [
-                {
-                  type: "Control",
-                  scope:
-                    "/properties/hubOrgSettings/properties/showInformationalBanner",
-                  labelKey: "some.scope.fields.infoBanner.label",
-                  options: {
-                    type: "Control",
-                    control: "hub-field-input-switch",
-                    layout: "inline-space-between",
-                    helperText: {
-                      label:
-                        "{{some.scope.fields.infoBanner.helperTextWhenDisabled:translate}}",
-                    },
-                  },
-                  rules: [
-                    {
-                      effect: UiSchemaRuleEffects.DISABLE,
-                      conditions: [true],
-                    },
-                  ],
-                },
-                {
-                  type: "Control",
-                  scope:
-                    "/properties/hubOrgSettings/properties/showInformationalBanner",
-                  options: {
-                    control: "calcite-link",
-                    layout: "inline-space-between",
-                    helperText: {
-                      label:
-                        '<calcite-link href=https://qaext.c.arcgis.com/home/organization.html?tab=security#settings target="_blank" icon-end="launch">{{some.scope.fields.infoBanner.goToBannerConfig:translate}}</calcite-link>',
-                    },
-                  },
-                  rules: [
-                    {
-                      effect: UiSchemaRuleEffects.SHOW,
-                      conditions: [true],
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              type: "Section",
-              labelKey: "some.scope.sections.orgSettings.signinSettings.label",
-              rules: [
-                {
-                  effect: UiSchemaRuleEffects.SHOW,
-                  conditions: [false],
-                },
-              ],
-              options: {
-                helperText: {
-                  labelKey: `some.scope.sections.orgSettings.signinSettings.helperText`,
-                },
-              },
-              elements: [
-                {
-                  type: "Control",
-                  scope:
-                    "/properties/hubOrgSettings/properties/enableTermsAndConditions",
-                  labelKey: "some.scope.fields.enableTermsAndConditions.label",
-                  options: {
-                    control: "hub-field-input-switch",
-                    layout: "inline-space-between",
-                  },
-                },
-                {
-                  type: "Control",
-                  scope:
-                    "/properties/hubOrgSettings/properties/termsAndConditions",
-                  labelKey: `some.scope.fields.termsAndConditions.label`,
-                  options: {
-                    control: "hub-field-input-rich-text",
-                    type: "textarea",
-                  },
-                  rules: [
-                    {
-                      effect: UiSchemaRuleEffects.SHOW,
-                      conditions: [
-                        {
-                          scope:
-                            "/properties/hubOrgSettings/properties/enableTermsAndConditions",
-                          schema: { const: true },
-                        },
-                      ],
-                    },
-                  ],
-                },
-                {
-                  type: "Control",
-                  scope:
-                    "/properties/hubOrgSettings/properties/enableSignupText",
-                  labelKey: `some.scope.fields.enableSignupText.label`,
-                  options: {
-                    control: "hub-field-input-switch",
-                    layout: "inline-space-between",
-                  },
-                },
-                {
-                  type: "Control",
-                  scope: "/properties/hubOrgSettings/properties/signupText",
-                  options: {
-                    control: "hub-field-input-rich-text",
-                    type: "textarea",
-                  },
-                  rules: [
-                    {
-                      effect: UiSchemaRuleEffects.SHOW,
-                      conditions: [
-                        {
-                          scope:
-                            "/properties/hubOrgSettings/properties/enableSignupText",
-                          schema: { const: true },
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    });
-  });
-  describe("_getPortalSettings:", () => {
-    it("fetches portal settings successfully", async () => {
-      const context = {
-        portal: {
-          id: "123",
-        },
-        sharingApiUrl: "https://qaext.arcgis.com/sharing/rest",
-      } as IArcGISContext;
-
-      const getPortalSettingsSpy = spyOn(
-        ArcGISRestPortal,
-        "getPortalSettings"
-      ).and.returnValue(Promise.resolve({ someSetting: true }));
-      const failSafeSpy = spyOn(FailSafeModule, "failSafe").and.callThrough();
-      const result = await UserUiSchemaSettings._getPortalSettings(context);
-
-      expect(failSafeSpy).toHaveBeenCalledWith(
-        ArcGISRestPortal.getPortalSettings,
-        {}
-      );
-      expect(getPortalSettingsSpy).toHaveBeenCalledWith("123", {
-        portal: "https://qaext.arcgis.com/sharing/rest",
-      });
-      expect(result).toEqual({ someSetting: true });
-    });
-
-    it("returns undefined if context.portal is not defined", async () => {
-      const context = {} as IArcGISContext;
-      const result = await UserUiSchemaSettings._getPortalSettings(context);
-
-      expect(result).toBeUndefined();
-    });
-
-    it("handles failure in fetching portal settings", async () => {
-      const context = {
-        portal: {
-          id: "123",
-        },
-        sharingApiUrl: "https://qaext.arcgis.com/sharing/rest",
-      } as IArcGISContext;
-
-      const getPortalSettingsSpy = spyOn(
-        ArcGISRestPortal,
-        "getPortalSettings"
-      ).and.returnValue(Promise.reject("Error"));
-      const failSafeSpy = spyOn(FailSafeModule, "failSafe").and.callThrough();
-      const result = await UserUiSchemaSettings._getPortalSettings(context);
-
-      expect(failSafeSpy).toHaveBeenCalledWith(
-        ArcGISRestPortal.getPortalSettings,
-        {}
-      );
-      expect(getPortalSettingsSpy).toHaveBeenCalledWith("123", {
-        portal: "https://qaext.arcgis.com/sharing/rest",
-      });
-      expect(result).toEqual({});
     });
   });
 });
