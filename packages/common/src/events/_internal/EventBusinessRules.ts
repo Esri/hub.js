@@ -19,7 +19,7 @@ export const EventPermissions = [
   "hub:event:workspace:settings",
   "hub:event:workspace:collaborators",
   "hub:event:workspace:manage",
-  "hub:event:workspace:attendees",
+  "hub:event:workspace:registrants",
   "hub:event:workspace:content",
   "hub:event:manage",
 ] as const;
@@ -108,7 +108,7 @@ export const EventPermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:event:workspace", "hub:event:edit"],
   },
   {
-    permission: "hub:event:workspace:attendees",
+    permission: "hub:event:workspace:registrants",
     dependencies: ["hub:event:workspace", "hub:event:edit"],
   },
   {
