@@ -1,3 +1,10 @@
+## @esri/hub-common [15.6.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.6.0...@esri/hub-common@15.6.1) (2024-11-15)
+
+
+### Bug Fixes
+
+* add new item types from AGO to collections ([#1724](https://github.com/Esri/hub.js/issues/1724)) ([c87c8ef](https://github.com/Esri/hub.js/commit/c87c8ef55e797d66f61ff3865cffd7ed984a3879))
+
 # @esri/hub-common [15.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.5.0...@esri/hub-common@15.6.0) (2024-11-14)
 
 
