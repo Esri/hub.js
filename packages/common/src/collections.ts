@@ -259,7 +259,7 @@ export const getCollection = (type?: string) => {
 /**
  * The converse of getCollection, returns associated types of provided collection
  * @param collection The Hub collection
- * @returns An array of types or undefined if collection is not found
+ * @returns An array of types, or undefined if collection is not found
  * @private
  */
 export const getCollectionTypes = (collection?: string) => {
