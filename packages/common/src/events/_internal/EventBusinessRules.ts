@@ -35,7 +35,8 @@ export const EventPermissionPolicies: IPermissionPolicy[] = [
     licenses: ["hub-premium"],
     // gating
     environments: ["devext", "qaext"],
-    availability: ["alpha"],
+    // TODO: temp, uncomment this until we're ready to release Events 3
+    // availability: ["alpha"],
   },
   {
     permission: "hub:event:create",
