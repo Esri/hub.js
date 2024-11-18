@@ -31,7 +31,12 @@ import {
   LegacySearchCategory,
 } from "./_internal/commonHelpers/isLegacySearchCategory";
 import { toCollectionKey } from "./_internal/commonHelpers/toCollectionKey";
-import { expandQuery } from "./_internal/portalSearchItems";
+import {
+  applyWellKnownCollectionFilters,
+  applyWellKnownItemPredicates,
+  expandPredicates,
+  expandQuery,
+} from "./_internal/portalSearchItems";
 
 /**
  * Well known APIs
@@ -390,4 +395,19 @@ export function getKilobyteSizeOfQuery(
   const sizeInBytes = encodedString.length;
   const sizeInKB = sizeInBytes / 1024; // Convert bytes to kilobytes
   return sizeInKB;
+}
+
+/**
+ * Expand an item IQuery for portal by applying well-known filters and predicates,
+ * and then expanding all the predicates into IMatchOption objects.
+ * @param query `IQuery` to expand
+ * @returns IQuery
+ */
+export function expandPortalQuery(query: IQuery): IQuery {
+  let updatedQuery = applyWellKnownCollectionFilters(query);
+  // Expand well-known filterGroups
+  // TODO: Should we remove this with the whole idea of collections?
+  updatedQuery = applyWellKnownItemPredicates(updatedQuery);
+  // Expand the individual predicates in each filter
+  return expandPredicates(updatedQuery);
 }

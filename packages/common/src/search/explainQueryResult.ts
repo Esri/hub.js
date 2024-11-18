@@ -3,6 +3,7 @@ import { IFilter, IPredicate, IQuery } from "./types";
 import { expandQuery } from "./_internal/portalSearchItems";
 import { cloneObject } from "../util";
 import { explainFilter } from "./_internal/explainFilter";
+import { expandPortalQuery } from "./utils";
 
 /**
  * Explanation of why a result matched a query
@@ -123,7 +124,7 @@ export async function explainQueryResult(
   }
 
   // Expand the query so we have a standardized structure to work with
-  const expandedQuery = expandQuery(query);
+  const expandedQuery = expandPortalQuery(query);
 
   // iterate the filters on the query and get explanations for each
   const filterExplanations: IFilterExplanation[] = [];
