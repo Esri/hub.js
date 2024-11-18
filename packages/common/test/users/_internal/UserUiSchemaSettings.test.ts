@@ -7,7 +7,7 @@ import * as PortalModule from "@esri/arcgis-rest-portal";
 describe("UserUiSchemaSettings:", () => {
   let portalSettingsSpy: jasmine.Spy;
 
-  afterAll(() => {
+  afterEach(() => {
     portalSettingsSpy.calls.reset();
   });
 

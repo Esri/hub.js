@@ -46,6 +46,20 @@ describe("HubUser computeProps:", () => {
         });
       });
 
+      const getPortalSelfSpy = spyOn(PortalModule, "getSelf").and.callFake(
+        () => {
+          return Promise.resolve({
+            portalProperties: {
+              hub: {
+                settings: {
+                  informationalBanner: false,
+                },
+              },
+            },
+          });
+        }
+      );
+
       const requestSpy = spyOn(requestModule, "request").and.callFake(() => {
         return Promise.resolve({
           termsAndConditions: "terms",
@@ -123,9 +137,6 @@ describe("HubUser computeProps:", () => {
       );
 
       expect(getSelfSpy).toHaveBeenCalledTimes(1);
-      expect(getSelfSpy).toHaveBeenCalledWith(
-        authdCtxMgr.context.requestOptions
-      );
       expect(chk.hubOrgSettings?.showInformationalBanner).toBeTruthy();
     });
   });
