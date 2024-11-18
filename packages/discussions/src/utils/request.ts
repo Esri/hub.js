@@ -84,10 +84,13 @@ export function apiRequest<T>(
     }
   }
 
+  const isCSV =
+    options.data?.f === "csv" || headers.get("Accept") === "text/csv";
+
   const url = [apiBase.replace(/\/$/, ""), route.replace(/^\//, "")].join("/");
   return fetch(url, opts).then((res) => {
     if (res.ok) {
-      return res.json();
+      return isCSV ? res.text() : res.json();
     } else {
       const { statusText, status } = res;
       return res.json().then((err) => {
