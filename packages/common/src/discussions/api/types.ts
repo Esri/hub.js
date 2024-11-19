@@ -321,19 +321,13 @@ export interface IDiscussionsRequestOptions
  */
 export enum Role {
   MANAGE = "manage",
-  /**
-   * Not API supported
-   */
+  /** Not API supported */
   MODERATE = "moderate",
-  /**
-   * Not API supported
-   */
+  /** Not API supported */
   OWNER = "owner",
   READ = "read",
   READWRITE = "readWrite",
-  /**
-   * Not API supported
-   */
+  /** Not API supported */
   WRITE = "write",
 }
 
@@ -708,9 +702,7 @@ export enum AclCategory {
   AUTHENTICATED_USER = "authenticatedUser",
   GROUP = "group",
   ORG = "org",
-  /**
-   * Not API supported
-   */
+  /** Not API supported */
   USER = "user",
 }
 
@@ -719,13 +711,9 @@ export enum AclCategory {
  * @enum {string}
  */
 export enum AclSubCategory {
-  /**
-   * Only valid for category: `group` or `org`
-   */
+  /** Only valid for category: `group` or `org` */
   ADMIN = "admin",
-  /**
-   * Only valid for category: `group` or `org`
-   */
+  /** Only valid for category: `group` or `org` */
   MEMBER = "member",
 }
 
@@ -845,21 +833,13 @@ export interface ICreateChannel
  */
 export interface IChannel extends IWithAuthor, IWithEditor, IWithTimestamps {
   id: string;
-  /**
-   * deprecated V1 permissions field, use channelAcl
-   */
+  /** deprecated V1 permissions field, use channelAcl */
   access: SharingAccess | null;
-  /**
-   * deprecated V1 permissions field, use channelAcl
-   */
+  /** deprecated V1 permissions field, use channelAcl */
   orgs: string[] | null;
-  /**
-   * deprecated V1 permissions field, use channelAcl
-   */
+  /** deprecated V1 permissions field, use channelAcl */
   allowAnonymous: boolean | null;
-  /**
-   * deprecated V1 permissions field, use channelAcl
-   */
+  /** deprecated V1 permissions field, use channelAcl */
   groups: string[] | null;
   allowAsAnonymous: boolean;
   allowedReactions: PostReaction[] | null;
