@@ -1,4 +1,4 @@
-import { request } from "../request";
+import { discussionsApiRequest } from "../discussions-api-request";
 import {
   ICreateSettingParams,
   IEntitySetting,
@@ -19,7 +19,7 @@ export function createSetting(
   options: ICreateSettingParams
 ): Promise<IEntitySetting> {
   options.httpMethod = "POST";
-  return request(`/settings`, options);
+  return discussionsApiRequest(`/settings`, options);
 }
 
 /**
@@ -33,7 +33,7 @@ export function fetchSetting(
   options: IFetchSettingParams
 ): Promise<IEntitySetting> {
   options.httpMethod = "GET";
-  return request(`/settings/${options.id}`, options);
+  return discussionsApiRequest(`/settings/${options.id}`, options);
 }
 
 /**
@@ -47,7 +47,7 @@ export function updateSetting(
   options: IUpdateSettingParams
 ): Promise<IEntitySetting> {
   options.httpMethod = "PATCH";
-  return request(`/settings/${options.id}`, options);
+  return discussionsApiRequest(`/settings/${options.id}`, options);
 }
 
 /**
@@ -61,5 +61,5 @@ export function removeSetting(
   options: IRemoveSettingParams
 ): Promise<IRemoveSettingResponse> {
   options.httpMethod = "DELETE";
-  return request(`/settings/${options.id}`, options);
+  return discussionsApiRequest(`/settings/${options.id}`, options);
 }
