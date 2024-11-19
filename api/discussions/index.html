@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <meta name="date" content="2024-11-19T20:41:54.372Z">
+    <meta name="date" content="2024-11-19T21:43:21.867Z">
     <title>discussions | API Reference | @esri/hub.js</title>
     
     <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
@@ -76,7 +76,7 @@
               <path d="M7 4h5l12 12-12 12H7l12-12L7 4z" />
             </svg>
           </button>
-          <a href="/hub.js/api/common/" class="tsd-kind-icon">common</a>&nbsp;<small>v15.7.0</small>
+          <a href="/hub.js/api/common/" class="tsd-kind-icon">common</a>&nbsp;<small>v15.7.1</small>
           <ul id="list1" class="api-package-content-list">
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -6037,14 +6037,6 @@
           <ul id="list2" class="api-package-content-list">
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
-              <a href="/hub.js/api/discussions/apiRequest/" class="tsd-kind-icon padding-right-1">apiRequest</a>
-            </li>
-            
-            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
-              <a href="/hub.js/api/discussions/authenticateRequest/" class="tsd-kind-icon padding-right-1">authenticateRequest</a>
-            </li>
-            
-            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/discussions/canCreateChannel/" class="tsd-kind-icon padding-right-1">canCreateChannel</a>
             </li>
             
@@ -6177,10 +6169,6 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
-              <a href="/hub.js/api/discussions/request/" class="tsd-kind-icon padding-right-1">request</a>
-            </li>
-            
-            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/discussions/searchPosts/" class="tsd-kind-icon padding-right-1">searchPosts</a>
             </li>
             
@@ -6202,10 +6190,6 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/discussions/userHasPrivileges/" class="tsd-kind-icon padding-right-1">userHasPrivileges</a>
-            </li>
-            
-            <li class="tsd-kind-class padding-right-1 visually-hidden api-list-item">
-              <a href="/hub.js/api/discussions/RemoteServerError/" class="tsd-kind-icon padding-right-1">RemoteServerError</a>
             </li>
             
             <li class="tsd-kind-variable padding-right-1 visually-hidden api-list-item">
@@ -7049,12 +7033,10 @@
 </h1>
 <p class="font-size--1 trailer-1 avenir-regular">Module to interact with ArcGIS Hub Discussions API in Node.js and modern browsers.</p>
 <h2 class="font-size-0 trailer-quarter">npm install:</h2>
-<pre><code>npm install @esri/hub-discussions @esri/arcgis-rest-auth@^2.14.0 || 3  @esri/arcgis-rest-request@^2.14.0 || 3  @esri/hub-common@^15.0.0 </code></pre>
+<pre><code>npm install @esri/hub-discussions @esri/arcgis-rest-auth@^2.14.0 || 3  @esri/arcgis-rest-request@^2.14.0 || 3  @esri/hub-common@^15.7.1 </code></pre>
 <h2 class="font-size-0 trailer-quarter">Module Import:</h2>
 
 <pre><code class="js"><span class="hljs-keyword">import</span> {
-  apiRequest,
-  authenticateRequest,
   canCreateChannel,
   canCreateReaction,
   canDeleteChannel,
@@ -7088,26 +7070,16 @@
   removeChannelNotificationOptOut,
   removePost,
   removeReaction,
-  request,
   searchPosts,
   updateChannel,
   updatePost,
   updatePostStatus,
   userHasPrivilege,
   userHasPrivileges,
-  RemoteServerError,
 } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/hub-discussions"</span>;</code></pre>
 
 <hr class="leader-half trailer-quarter" />
 <ul class="list-plain package-contents">
-  
-  <li class="tsd-kind-function">
-    <a href="/hub.js/api/discussions/apiRequest/" class="tsd-kind-icon">apiRequest</a>
-  </li>
-  
-  <li class="tsd-kind-function">
-    <a href="/hub.js/api/discussions/authenticateRequest/" class="tsd-kind-icon">authenticateRequest</a>
-  </li>
   
   <li class="tsd-kind-function">
     <a href="/hub.js/api/discussions/canCreateChannel/" class="tsd-kind-icon">canCreateChannel</a>
@@ -7242,10 +7214,6 @@
   </li>
   
   <li class="tsd-kind-function">
-    <a href="/hub.js/api/discussions/request/" class="tsd-kind-icon">request</a>
-  </li>
-  
-  <li class="tsd-kind-function">
     <a href="/hub.js/api/discussions/searchPosts/" class="tsd-kind-icon">searchPosts</a>
   </li>
   
@@ -7267,10 +7235,6 @@
   
   <li class="tsd-kind-function">
     <a href="/hub.js/api/discussions/userHasPrivileges/" class="tsd-kind-icon">userHasPrivileges</a>
-  </li>
-  
-  <li class="tsd-kind-class">
-    <a href="/hub.js/api/discussions/RemoteServerError/" class="tsd-kind-icon">RemoteServerError</a>
   </li>
   
   <li class="tsd-kind-variable">
