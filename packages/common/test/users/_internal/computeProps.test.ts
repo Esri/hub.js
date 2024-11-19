@@ -36,10 +36,7 @@ describe("HubUser computeProps:", () => {
 
   describe("computeProps: ", () => {
     it("computes props correctly", async () => {
-      const getPortalSignInSettingsSpy = spyOn(
-        computePropsModule,
-        "getPortalSignInSettings"
-      ).and.callFake(() => {
+      spyOn(computePropsModule, "getPortalSignInSettings").and.callFake(() => {
         return Promise.resolve({
           termsAndConditions: "terms",
           signupText: "signup",
@@ -60,7 +57,7 @@ describe("HubUser computeProps:", () => {
         }
       );
 
-      const requestSpy = spyOn(requestModule, "request").and.callFake(() => {
+      spyOn(requestModule, "request").and.callFake(() => {
         return Promise.resolve({
           termsAndConditions: "terms",
           signupText: "signup",
@@ -81,6 +78,7 @@ describe("HubUser computeProps:", () => {
         authdCtxMgr.context
       );
 
+      expect(getPortalSelfSpy).toHaveBeenCalledTimes(1);
       expect(chk.hubOrgSettings?.termsAndConditions).toEqual("terms");
       expect(chk.hubOrgSettings?.signupText).toEqual("signup");
       expect(chk.hubOrgSettings?.showInformationalBanner).toBeFalsy();
@@ -105,39 +103,6 @@ describe("HubUser computeProps:", () => {
         ...authdCtxMgr.context.requestOptions,
         httpMethod: "GET",
       });
-    });
-  });
-
-  describe("getSelf:", () => {
-    it("fetches portal self successfully", async () => {
-      const getSelfSpy = spyOn(PortalModule, "getSelf").and.callFake(() => {
-        return Promise.resolve({
-          portalProperties: {
-            hub: {
-              settings: {
-                informationalBanner: true,
-              },
-            },
-          },
-        });
-      });
-
-      const user = {
-        hubOrgSettings: {
-          showInformationalBanner: true,
-          termsAndConditions: "termsOld",
-          signupText: "signupOld",
-        },
-      } as unknown as IHubUser;
-
-      const chk = await computePropsModule.computeProps(
-        {},
-        user,
-        authdCtxMgr.context
-      );
-
-      expect(getSelfSpy).toHaveBeenCalledTimes(1);
-      expect(chk.hubOrgSettings?.showInformationalBanner).toBeTruthy();
     });
   });
 });
