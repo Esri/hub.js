@@ -1,6 +1,6 @@
 import { buildUrl } from "../../../urls";
 import { RemoteServerError as _RemoteServerError } from "../../../request";
-import { IDiscussionsRequestOptions } from "../types";
+import { IDiscussionsRequestOptions, SearchPostsFormat } from "../types";
 
 export class RemoteServerError extends _RemoteServerError {
   error: string;
@@ -54,6 +54,7 @@ export function apiRequest<T>(
 ): Promise<T> {
   const headers = new Headers(options.headers);
   headers.append("Content-Type", "application/json");
+  let routeWithParams = route;
   if (token) {
     headers.append("Authorization", `Bearer ${token}`);
   }
@@ -76,16 +77,26 @@ export function apiRequest<T>(
   if (options.data) {
     if (options.httpMethod === "GET") {
       const queryParams = new URLSearchParams(options.data).toString();
-      route += `?${queryParams}`;
+      routeWithParams += `?${queryParams}`;
     } else {
       opts.body = JSON.stringify(options.data);
     }
   }
 
-  const url = [apiBase.replace(/\/$/, ""), route.replace(/^\//, "")].join("/");
+  // this currently only applies to the search post route. we should rework things in the future such that we don't need
+  // to do this sort of evaluation in common logic.
+  const isCSV =
+    route === "/posts" &&
+    (options.data?.f === SearchPostsFormat.CSV ||
+      headers.get("Accept") === "text/csv");
+
+  const url = [
+    apiBase.replace(/\/$/, ""),
+    routeWithParams.replace(/^\//, ""),
+  ].join("/");
   return fetch(url, opts).then((res) => {
     if (res.ok) {
-      return res.json();
+      return isCSV ? res.text() : res.json();
     } else {
       const { statusText, status } = res;
       return res.json().then((err) => {

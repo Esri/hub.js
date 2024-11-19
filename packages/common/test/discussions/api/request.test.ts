@@ -1,8 +1,11 @@
-import { request } from "../../../src/discussions/api/request";
+import { discussionsApiRequest } from "../../../src/discussions/api/discussions-api-request";
 import * as utils from "../../../src/discussions/api/utils/request";
 import * as fetchMock from "fetch-mock";
 import { IAuthenticationManager } from "@esri/arcgis-rest-request";
-import { IDiscussionsRequestOptions } from "../../../src/discussions/api/types";
+import {
+  IDiscussionsRequestOptions,
+  SearchPostsFormat,
+} from "../../../src/discussions/api/types";
 
 describe("request", () => {
   const url = "foo";
@@ -15,7 +18,7 @@ describe("request", () => {
     ).and.callFake(async () => token);
     const apiRequestSpy = spyOn(utils, "apiRequest");
 
-    request(url, options as unknown as IDiscussionsRequestOptions)
+    discussionsApiRequest(url, options as unknown as IDiscussionsRequestOptions)
       .then(() => {
         expect(authenticateRequestSpy).toHaveBeenCalledWith(options);
         expect(apiRequestSpy).toHaveBeenCalledWith(url, options, token);
@@ -67,12 +70,13 @@ describe("apiRequest", () => {
   const response = { ok: true };
 
   const hubApiUrl = "https://hub.arcgis.com/api/discussions/v1";
-  const url = "foo";
+  let url: string;
 
   let expectedOpts: RequestInit;
   let opts: IDiscussionsRequestOptions;
 
   beforeEach(() => {
+    url = "foo";
     fetchMock.mock("*", { status: 200, body: response });
 
     const headers = new Headers();
@@ -217,6 +221,50 @@ describe("apiRequest", () => {
 
     const [calledUrl, calledOpts] = fetchMock.calls()[0];
     expect(calledUrl).toEqual([hubApiUrl, url].join("/"));
+    expect(calledOpts).toEqual(expectedOpts);
+  });
+
+  it("resolves plain-text when f=csv for search posts route", async () => {
+    url = "/posts";
+    const options = {
+      data: {
+        f: SearchPostsFormat.CSV,
+      },
+      httpMethod: "GET",
+    } as IDiscussionsRequestOptions;
+    const result = await utils.apiRequest(url, options);
+
+    expect(result).toEqual(JSON.stringify(response));
+
+    const [calledUrl, calledOpts] = fetchMock.calls()[0];
+    expect(calledUrl).toEqual(
+      "https://hub.arcgis.com/api/discussions/v1/posts?f=csv"
+    );
+    expect(calledOpts).toEqual(expectedOpts);
+  });
+
+  it('resolves plain-text when HTTP "Accept" header has a value of "text/csv" for search posts route', async () => {
+    url = "/posts";
+    const options = {
+      headers: {
+        Accept: "text/csv",
+      },
+      httpMethod: "GET",
+    } as IDiscussionsRequestOptions;
+    const result = await utils.apiRequest(url, options);
+    const expectedHeaders = new Headers(expectedOpts.headers);
+    expectedHeaders.set("accept", "text/csv");
+    expectedOpts = {
+      ...expectedOpts,
+      headers: expectedHeaders,
+    };
+
+    expect(result).toEqual(JSON.stringify(response));
+
+    const [calledUrl, calledOpts] = fetchMock.calls()[0];
+    expect(calledUrl).toEqual(
+      "https://hub.arcgis.com/api/discussions/v1/posts"
+    );
     expect(calledOpts).toEqual(expectedOpts);
   });
 });
