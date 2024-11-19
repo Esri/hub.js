@@ -1,3 +1,10 @@
+## @esri/hub-common [15.7.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.7.0...@esri/hub-common@15.7.1) (2024-11-19)
+
+
+### Bug Fixes
+
+* **hub-common:** rename "request" method used by Discussions API fns … ([#1742](https://github.com/Esri/hub.js/issues/1742)) ([72af97d](https://github.com/Esri/hub.js/commit/72af97da770c373781e91d40b4e872de96e928a3))
+
 # @esri/hub-common [15.7.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.6.1...@esri/hub-common@15.7.0) (2024-11-19)
 
 
