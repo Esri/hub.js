@@ -12,11 +12,11 @@ Hub Discussions will be available in mid-2021 starting with private discussions 
 
 ## Common Terms
 
-A **Post** is created by a User that reference a _topic_ and _location_ within datasets, documents, teams, sites, and any Hub resource.
+A **Post** is created by a User with a reference to a _topic_ and _location_ within datasets, documents, teams, sites, and any Hub resource.
 
 Users can **Reply** to a Post, or add a **Reaction** to quickly indicate support or other feeling.
 
-Posts can be public or shared privately to a **Channel**. A Channel can include one or multiple Groups or Users.
+Posts are shared in a **Channel**. The Channel defines which groups/organizations can participate in the discussion, who can manage posts, and whether the discussion allows public participation.
 
 **Table of Contents**
 
@@ -34,8 +34,8 @@ Posts can be public or shared privately to a **Channel**. A Channel can include 
   - [Expanded Search](#expanded-search)
   - [More Search Examples](#more-search-examples)
 - [Channels](#channels)
-  - [Basic channel configuration](#basic-channel-configuration)
-  - [Advanced channel configuration](#advanced-channel-configuration)
+  - [Channel configuration](#channel-configuration)
+  - [Channel participation configuration](#channel-participation-configuration)
   - [Moderation](#moderation)
 - [Authentication and Authorization](#authentication-and-authorization)
 - [In Conclusion](#in-conclusion)
@@ -61,25 +61,26 @@ const authentication = new UserSession({
 
 ## Creating posts
 
-To create a post using [createPost](https://esri.github.io/hub.js/api/discussions/createPost/).
+To create a post use [createPost](https://esri.github.io/hub.js/api/discussions/createPost/).
 
+<!-- !!! TODO: expand on discussionURI ? -->
 The `post.discussion` is important as a reference for the Post to some content item. Currently `discussion` uses a URI like `hub://item/{itemId}`. This allows for getting all Posts about a content item using this property.
 
 ```js
 import {
   createPost,
   ICreatePost,
-  ICreatePostOptions,
+  ICreatePostParams,
 } from "@esri/hub-discussions";
 
-const params: ICreatePost = {
+const data: ICreatePost = {
   title: "Question about updating trees dataset",
   body: "We need to add more details about tree planting date.",
   discussion: "hub://dataset/1234",
   channelId: "3efabc",
 };
 
-const opts: ICreatePostOptions = { authentication, params };
+const opts: ICreatePostOptions = { authentication, data };
 
 const myPost = await createPost(opts);
 /*
@@ -92,18 +93,21 @@ myPost = IPost {
 
 # Posts
 
-A Post is the primary forum for dialogue between users in a Channel. Posts are organized into "threads" using a self-join: a post can have many replies, or a post can belong to a single "parent" post. Posts are required to have a `body`, and optionally a `title` (perhaps best suited for parent posts). Posts may also encode a content subject (called `discussion`) and geography (called `geometry`). Posts additionally have a `status`, which dictates visibility and can currently be used by channel managers to employ light-weight moderation. The full data model for posts is described below:
+A Post is the primary forum for dialogue between users in a Channel. Posts are organized into "threads" using a self-join: a post can have many replies, and a post can belong to a single "parent" post. Posts are required to have a `body`, and optionally a `title` (perhaps best suited for parent posts). Posts may also encode a content subject (called `discussion`) and geography (called `geometry`). Posts additionally have a `status`, which dictates visibility and can be used by channel managers to employ light-weight moderation. The full data model for posts is described below:
 
-| **property** | **type**                                                                | **nullable** | **description**                                                                                                                                                                                                                                 |
-| ------------ | ----------------------------------------------------------------------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| body         | string                                                                  | false        | Main content of post                                                                                                                                                                                                                            |
-| title        | string                                                                  | true         | Optional title for post                                                                                                                                                                                                                         |
-| status       | [PostStatus](https://esri.github.io/hub.js/api/discussions/PostStatus/) | false        | Describes a post's visibility                                                                                                                                                                                                                   |
-| discussion   | string                                                                  | true         | See the [Discussion URI](#posting-about-content) section for details. Note that this attribute is optional. A post with no discussion could be viewed as a "general" post ("nice weather we're having" or "let's grab lunch") made in a channel |
-| geometry     | Geometry                                                                | true         | Geometry property of GeoJSON spec. Note that the spec requires geometries be projected in WGS84                                                                                                                                                 |
-| appInfo      | string                                                                  | true         | Used to store additional information about a post in specific app context                                                                                                                                                                       |
-| channelId    | string (UUID v4)                                                        | false        | Join field for channel                                                                                                                                                                                                                          |
-| parentId     | string (UUID v4)                                                        | true         | Join field for parent post if reply                                                                                                                                                                                                             |
+| **property** | **type** | **nullable** | **description** |
+| :----------- | :------  | :----------- | :-------------- |
+| body         | string   | false        | Main content of post  |
+| title        | string   | true         | Optional title for post |
+| status       | [PostStatus](https://esri.github.io/hub.js/api/common/PostStatus/) | false        | Describes a post's visibility  |
+| discussion   | string   | true         | See the [Discussion URI](#posting-about-content) section for details. Note that this attribute is optional. A post with no discussion could be viewed as a "general" post ("nice weather we're having" or "let's grab lunch") made in a channel |
+| geometry     | Geometry         | true         | Geometry property of GeoJSON spec, projected in WGS84 |
+| featureGeometry | Geometry      | true         | Geometry property of GeoJSON spec, projected in WGS84 |
+| appInfo      | string           | true         | Used to store additional information about a post in specific app context |
+| postType     | [PostType](https://esri.github.io/hub.js/api/common/PostType/) | true | Post type
+| id           | string (UUID v4) | false        | Identifier for the post |
+| channelId    | string (UUID v4) | false        | Join field for channel |
+| parentId     | string (UUID v4) | true         | Join field for parent post if reply |
 
 ## Posting about content
 
@@ -168,7 +172,7 @@ myPost = IPost {
 
 # Reactions
 
-The Reaction model is not central to the objective of enabling in-app communication between ArcGIS Online users, but it offers users the ability to engage with posts in an expressive manner familiar to other popular collaboration platforms (think Slack, GitHub, MS Teams, etc). Reactions encode a user's sentiment ("thumbs up", "crying face", "thinking face", etc) onto a post [using emojis or symbols](https://esri.github.io/hub.js/api/discussions/PostReaction/).
+The Reaction model is not central to the objective of enabling in-app communication between ArcGIS Online users, but it offers users the ability to engage with posts in an expressive manner familiar to other popular collaboration platforms (think Slack, GitHub, MS Teams, etc). Reactions encode a user's sentiment ("thumbs up", "crying face", "thinking face", etc) onto a post [using emojis or symbols](https://esri.github.io/hub.js/api/common/PostReaction/).
 
 ## Creating reactions
 
@@ -182,32 +186,32 @@ import {
   PostReaction,
 } from "@esri/hub-discussions";
 
-const params: ICreateReaction = {
+const data: ICreateReaction = {
   postId: "abd123",
   value: PostReaction.THUMBS_UP,
 };
 
-const opts: ICreateReactionOptions = { authentication, params };
+const opts: ICreateReactionOptions = { authentication, data };
 
 const thumbs_up = await createReaction(opts);
 ```
 
 # Searching Posts
 
-In all of these examples, we created a post about Dataset ID 1234. These posts are linked to that dataset through the `params.discussion` property. If we wanted to search for posts about this dataset, the code would look something like this:
+In all of these examples, we created a post about Dataset ID 1234. These posts are linked to that dataset through the `data.discussion` property. If we wanted to search for posts about this dataset, the code would look something like this:
 
 ```js
 import {
   searchPosts,
   ISearchPosts,
-  ISearchPostsOptions,
+  ISearchPostsParams,
 } from "@esri/hub-discussions";
 
-const params: ISearchPosts = {
+const data: ISearchPosts = {
   discussion: "hub://dataset/1234",
 };
 
-const opts: ISearchPostsOptions = { authentication, params };
+const opts: ISearchPostsParams = { authentication, data };
 
 const dataset1234Posts = await searchPosts(opts);
 /*
@@ -231,14 +235,14 @@ Note that this means any _actual_ percent signs or underscores must be backslash
 import {
   searchPosts,
   ISearchPosts,
-  ISearchPostsOptions,
+  ISearchPostsParams,
 } from "@esri/hub-discussions";
 
-const params: ISearchPosts = {
+const data: ISearchPosts = {
   discussion: "%://dataset/1234%",
 };
 
-const opts: ISearchPostsOptions = { authentication, params };
+const opts: ISearchPostsParams = { authentication, data };
 
 const allDataset1234Posts = await searchPosts(opts);
 /*
@@ -253,112 +257,162 @@ allDataset1234Posts = IPagedResponse<IPost> {
 ## More Search Examples
 
 The query above will return posts from all application contexts (instead of just `hub://`) and about any layer, feature, or attribute of that dataset.
-Some other common query params are enumerated below:
+Some other common query data are enumerated below:
 
 ```js
-import { searchPosts, ISearchPosts, ISearchPostsOptions } from '@esri/hub-discussions';
+import { searchPosts, ISearchPosts, ISearchPostsParams } from '@esri/hub-discussions';
 
 // search for posts by jdoe made in hub about dataset 1234
-const params: ISearchPosts = {
+const data: ISearchPosts = {
   creator: 'jdoe'
   discussion: 'hub://dataset/1234',
 };
 
 // search for posts about trees that are replies to post abcdefg
-const params: ISearchPosts = {
+const data: ISearchPosts = {
   body: '%trees%',
   parents: 'abcdefg'
 };
 
-// search for posts about trees in team channels only
-const params: ISearchPosts = {
+// search for posts about trees in private channels only
+const data: ISearchPosts = {
   body: '%trees%',
   access: 'private'
 };
 ```
 
-Searchable properties are enumerated on the [`ISearchPosts`](https://esri.github.io/hub.js/api/discussions/ISearchPosts/) interface. All properties that are type `string` can leverage the LIKE operator shown in the previous examples.
+Searchable properties are enumerated on the [`ISearchPosts`](https://esri.github.io/hub.js/api/common/ISearchPosts/) interface.
 
 # Channels
 
-Discussions are shared with users through Channels -- Channels are the mechanism that determine whether a user can view or reply to a channel's posts.
+Discussions are shared with users through [Channels](https://esri.github.io/hub.js/api/common/IChannel/) -- Channels are the mechanism that determine whether a user can view, reply, or manage a channel's posts.
 
-Channels are configured with permissions properties for who can view or create posts:
+## Channel configuration
 
-- `channel.access` specifies who can view the channel's posts. It uses the ArcGIS Portal model for **[sharing access](https://esri.github.io/hub.js/api/discussions/SharingAccess/)**, **groups**, and **orgs**. Possible values include `private`, `org` and `public`
-- `channel.groups` is an optional array of ArcGIS Online Group ID for users who can create posts or view `access = private` channels.
-- `channel.orgs` is an optional array of ArcGIS Online Organization ID for users who can create posts or view `access = private` channels.
+Channels include configurations that set the "rules of engagement" for the discourse that occurs within it. These settings are outlined below:
 
-Combining these three fields results in a flexible configuration that can make discussion content interactable to a select few users or widely visible to an entire organization or open to the public.
+| **property** | **type** | **default** | **description**  |
+| :----------- | :------- | :---------- | :--------------- |
+| allowAsAnonymous | boolean  | false   | Enables authenticated users to create posts with author details hidden  |
+| allowReaction    | boolean  | true    | Enables users to react to posts in channel |
+| allowReply       | boolean  | true    | Enables users to reply to posts |
+| allowedReactions | [PostReaction](https://esri.github.io/hub.js/api/common/PostReaction/)[] | null | Array of allowed post reactions in channel. If null, all reactions are allowed |
+| blockWords       | string[] | null    | Array of words or phrases that should trigger moderation |
+| defaultPostStatus | [PostStatus](https://esri.github.io/hub.js/api/common/PostStatus/) | "approved"  | Posts made in channel will have this status by default. Enables posts to be reviewed before making them visible to other users. |
+| metadata         | [IChannelMetadata](https://esri.github.io/hub.js/api/common/IChannelMetadata/) | null | Metadata associated with the channel |
+| name             | string   |         | Name for the channel |
+| softDelete       | boolean  | true    | Enables soft-delete strategy for posts in channels, meaning that DELETE actions flag posts as "deleted" instead of permanent deletion |
+| channelAcl       | [IChannelAclPermission](https://esri.github.io/hub.js/api/common/IChannelAclPermission/)[] |  | Array of allowed post reactions in channel. If null, all reactions are allowed |
 
-## Basic channel configuration
+## Channel participation configuration
 
-A channel describes a channel model where `channel.access: 'private'` and the groups array contains a single [ArcGIS Online group](https://doc.arcgis.com/en/arcgis-online/share-maps/groups.htm) ID, `channel.groups: ['someGroupId']` (By default, `channel.orgs` is populated with the channel-creating user's org ID). In effect, any posts that belong to this channel can be viewed and responded to by members of `'someGroupId'` group only. In the first iteration of Hub Discussions, we will limit users to only create "team" channels.
+The channel access control list [channel.channelAcl](https://esri.github.io/hub.js/api/common/IChannelAclPermission/) is an array that allows variations of users, organizations, or the public to participate in the discussion. Each entry in channelAcl has the following shape:
 
-Following along, other channel types not yet implemented will include "shared", "org", and "public". A "shared" channel will be similar to a "team" channel, except that its `channel.groups` array includes more than one group ID, enabling collaboration between members of multiple teams. An "org" channel will consist of `channel.access: 'org'` and `channel.orgs: ['someOrgId]`, and only members of `'someOrgId'` organization will be granted access to engage with discussion content related to it. Finally, "public" channels are configured using `channel.access: 'public'` and `channel.orgs: ['someOrgId']`, and while only members of `'someOrgId'` can author content in the channel anyone can view its discussions posts.
+- `channelAcl.category` is one of [AclCategory](https://esri.github.io/hub.js/api/common/AclCategory/):
+  - *group*
+  - *org*
+  - *anonymousUser*: defines anonymous user access
+  - *authenticatedUser*: defines authenticated ArcGIS Online user access
+  - *user*: not API supported yet
+- `channelAcl.subCategory` is one of [AclSubCategory](https://esri.github.io/hub.js/api/common/AclSubCategory/) and is only valid for *group* and *org* categories:
+  - *admin*
+  - *member*
+- `channelAcl.key` is the identifier for the category
+  - for group: key is the [ArcGIS Online Group ID]
+  - for org: key is the [ArcGIS Online Organization ID]
+  - for authenticatedUser: key is not defined
+  - for anonymousUser: key is not defined
+  - for user: key is the user's [ArcGIS Online username] (not API supported yet)
+- `channelAcl.role` is one of [Role](https://esri.github.io/hub.js/api/common/Role/).
+  - *manage*
+  - *readWrite*
+  - *read*
+  - *owner* - Not API supported yet
+  - *moderate* - Not API supported yet
+  - *write* - Not API supported yet
+
+The level of participation is set by the defined role. A role of `readWrite` allows creating, updating, and viewing posts in the channel. A role of `read` only allows viewing posts in the channel. A role of `manage` allows creating, updating, and viewing posts in the channel, as well as moderation and channel re-configuration.
+
 
 ```js
-// Simple channel configurations
+// Example Channel configurations
 import { IChannel } from '@esri/hub-discussions';
 
-// team channel
-const teamChannel: IChannel = {
-  access: 'private',
-  orgs: ['myUserOrg'],
-  groups: ['someGroupId'],
+// group channel
+const groupChannel: IChannel = {
+  channelAcl: [
+    { category: 'group', subCategory: 'admin', key: 'group_id', role: 'manage' },
+    { category: 'group', subCategory: 'member', key: 'group_id', role: 'readWrite' },
+  ];
   ...
 };
 
-// shared channel
-const sharedChannel: IChannel = {
-  access: 'private',
-  orgs: ['myUserOrg'],
-  groups: ['someGroupId', 'someOtherGroupId'],
+// multiple group channel
+const groupChannel: IChannel = {
+  channelAcl: [
+    { category: 'group', subCategory: 'admin', key: 'group_id', role: 'manage' },
+    { category: 'group', subCategory: 'member', key: 'group_id', role: 'readWrite' },
+    { category: 'group', subCategory: 'admin', key: 'group_id_2', role: 'manage' },
+    { category: 'group', subCategory: 'member', key: 'group_id_2', role: 'readWrite' },
+  ];
+  ...
+};
+
+// group channel with public participation
+const groupChannel: IChannel = {
+  channelAcl: [
+    { category: 'group', subCategory: 'admin', key: 'group_id', role: 'manage' },
+    { category: 'group', subCategory: 'member', key: 'group_id', role: 'readWrite' },
+    { category: 'authenticatedUser', role: 'readWrite' },
+  ];
+  ...
+};
+
+// group channel with public view only participation
+const groupChannel: IChannel = {
+  channelAcl: [
+    { category: 'group', subCategory: 'admin', key: 'group_id', role: 'manage' },
+    { category: 'group', subCategory: 'member', key: 'group_id', role: 'readWrite' },
+    { category: 'authenticatedUser', role: 'read' },
+  ];
   ...
 };
 
 // org channel
 const orgChannel: IChannel = {
-  access: 'org',
-  orgs: ['myUserOrg'],
-  groups: [],
+  channelAcl: [
+    { category: 'org', subCategory: 'admin', key: 'org_id', role: 'manage' },
+    { category: 'org', subCategory: 'member', key: 'org_id', role: 'readWrite' },
+  ];
   ...
 };
 
-// cross-org channel? (tbd)
-const xOrgChannel: IChannel = {
-  access: 'org',
-  orgs: ['myUserOrg', 'someOtherOrgId'],
-  groups: [],
+// org channel with group participation
+const orgChannel: IChannel = {
+  channelAcl: [
+    { category: 'group', subCategory: 'member', key: 'group_id', role: 'readWrite' },
+    { category: 'org', subCategory: 'admin', key: 'org_id', role: 'manage' },
+    { category: 'org', subCategory: 'member', key: 'org_id', role: 'readWrite' },
+  ];
   ...
 };
 
-// public channel
-const publicChannel: IChannel = {
-  access: 'public',
-  orgs: ['myUserOrg'],
-  groups: [],
+// org channel with group management and public participation
+const orgChannel: IChannel = {
+  channelAcl: [
+    { category: 'group', subCategory: 'member', key: 'group_id', role: 'manage' },
+    { category: 'org', subCategory: 'admin', key: 'org_id', role: 'manage' },
+    { category: 'org', subCategory: 'member', key: 'org_id', role: 'readWrite' },
+    { category: 'authenticatedUser', role: 'readWrite' },
+  ];
   ...
 };
+
 ```
-
-## Advanced channel configuration
-
-Channels include some advanced configurations that set the "rules of engagement" for the discourse that occurs within it. These settings are outlined below:
-
-| **property**      | **type**                                                                      | **default** | **description**                                                                                                                       |
-| ----------------- | ----------------------------------------------------------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| allowReply        | boolean                                                                       | true        | Enables users to reply to posts                                                                                                       |
-| allowAnonymous    | boolean                                                                       | false       | Enables anonymous users to create posts (in public channels only)                                                                     |
-| softDelete        | boolean                                                                       | true        | Enables soft-delete strategy for posts in channels, meaning that DELETE actions flag posts as "deleted" instead of permanent deletion |
-| defaultPostStatus | [PostStatus](https://esri.github.io/hub.js/api/discussions/PostStatus/)       | "approved"  | Posts made in channel will have this status by default. Enables posts to be reviewed before making them visible to other users.       |
-| allowReaction     | boolean                                                                       | true        | Enables users to react to posts in channel                                                                                            |
-| allowedReactions  | [PostReaction](https://esri.github.io/hub.js/api/discussions/PostReaction/)[] | null        | Array of allowed post reactions in channel. If null, all reactions are allowed.                                                       |
-| blockWords        | string[]                                                                      | []          | Array of words or phrases that should trigger moderation. Not yet implemented in API.                                                 |
 
 ## Moderation
 
-Channels can only be created by an "administrator"-like user. For "team" channels, that is the ArcGIS Online **group owner** or a **group manager**. For "org" and "public" channels, that is a user with the **"Administrator" role**. Similarly, these channel creators are effectively channel **moderators**, and are granted the ability to hide, obscure, and delete other user's posts at their discretion. Only moderators can update [**`post.status`**](https://esri.github.io/hub.js/api/discussions/PostStatus/) -- non-moderators can only view posts where `post.status` equals `'approved'`.
+Users in the channelAcl category/subCategory with a role of `manage` can moderate posts within the channel. **Moderators** are granted the ability to hide, obscure, and delete other user's posts at their discretion. Only moderators can update [**`post.status`**](https://esri.github.io/hub.js/api/common/PostStatus/) -- non-moderators can only view posts where `post.status` equals `'approved'`.
 
 # Authentication and Authorization
 
@@ -368,14 +422,14 @@ In the `@esri/hub-discussions` library, authentication is handled using the fami
 
 A user's access to content stored in the Discussions API is determined by their platform identity -- that is their organization and group memberships and manage roles. As noted above, ArcGIS Online access and permissions are encoded in Channels. Currently, most API methods employ one or many checks comparing Channel specs to the requesting user's identity.
 
-A summary of authorization checks are in the table below ([source code](https://github.com/Esri/hub.js/blob/master/packages/discussions/src/utils/channels.ts)):
+A summary of authorization checks are in the table below ([source code](https://github.com/Esri/hub.js/blob/master/packages/discussions/src/utils/channel-permission.ts)):
 
-| **Permission**          | **Description**                                                                                                                                                                                                                                                                                                      |
-| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| view posts in Channel   | If Channel.access is "private", then user must be member of at least one group in Channel.groups If Channel.access is "org", then user must be member of at least one org in Channel.orgs If Channel.access is "public", then any user can view posts                                                                |
-| create posts in Channel | If Channel.access is "private", then user must be member of at least one group in Channel.groups If Channel.access is "org" or "public", then user must be member of at least one org in Channel.orgs Additionally, if Channel.access is "public" and Channel.allowAnonymous is true, then any user can create posts |
-| modify posts in Channel | If Channel.access is "private", then user must be manager of at least one group in Channel.groups If Channel.access is "org" or "public", then user must be admin of at least one org in Channel.orgs                                                                                                                |
-| create Channel          | If Channel.access is "private", then user must be manager of ALL groups in Channel.groups If Channel.access is "org" or "public", then user must be admin of org in Channel.orgs \*                                                                                                                                  |
+| **Permission** | **Description** |
+| :------------- | :-------------- |
+| create a channel | - create acl entry with category: `anonymousUser OR authenticatedUser` -  user has portal privilege `portal:admin:shareToPublic` or `portal:user:shareToPublic` <br> - create acl entry with category: `group`, subCategory: `admin` - user is the group owner or admin <br> - create acl entry with category: `group`, subCategory: `member` - user is a group member <br> - create acl entry with category: `org`, subCategory: `admin or member` - user has portal privilege `portal:admin:shareToOrg` or `portal:user:shareToOrg` |
+| view posts in channel | - an acl entry has category: `anonymousUser` with role: `read` <br> - OR acl entry has category: `authenticatedUser` with role: `read OR readWrite` <br> - OR acl entry has category: `group`, subCategory: `admin OR member` with role `read or readWrite or manage`, and the user is in the group, as a member or admin <br> - OR acl entry has category: `org`, subCategory: `admin OR member` with role `read or readWrite or manage`, and the user is in the org, as a member or admin |
+| create post in channel | - acl entry has category: `authenticatedUser` with role: `readWrite` <br> - OR acl entry has category: `group`, subCategory: `admin OR member` with role `readWrite or manage`, and the user is in the group, as a member or admin <br> - OR acl entry has category: `org`, subCategory: `admin OR member` with role `readWrite or manage`, and the user is in the org, as a member or admin |
+| moderate post in channel | - acl entry has category: `group`, subCategory: `admin OR member` with role `manage`, and the user is in the group, as a member or admin <br> - OR acl entry has category: `org`, subCategory: `admin OR member` with role `manage`, and the user is in the org, as a member or admin |
 
 # In Conclusion
 
