@@ -1,4 +1,4 @@
-import { request } from "../request";
+import { discussionsApiRequest } from "@esri/hub-common";
 import {
   ICreateChannelParams,
   IFetchChannelParams,
@@ -28,7 +28,7 @@ export function createChannel(
   options: ICreateChannelParams
 ): Promise<IChannel> {
   options.httpMethod = "POST";
-  return request(`/channels`, options);
+  return discussionsApiRequest(`/channels`, options);
 }
 
 /**
@@ -40,7 +40,7 @@ export function createChannel(
  */
 export function fetchChannel(options: IFetchChannelParams): Promise<IChannel> {
   options.httpMethod = "GET";
-  return request(`/channels/${options.channelId}`, options);
+  return discussionsApiRequest(`/channels/${options.channelId}`, options);
 }
 
 /**
@@ -56,7 +56,7 @@ export function updateChannel(
   options: IUpdateChannelParams
 ): Promise<IChannel> {
   options.httpMethod = "PATCH";
-  return request(`/channels/${options.channelId}`, options);
+  return discussionsApiRequest(`/channels/${options.channelId}`, options);
 }
 
 /**
@@ -70,7 +70,7 @@ export function removeChannel(
   options: IRemoveChannelParams
 ): Promise<IRemoveChannelResponse> {
   options.httpMethod = "DELETE";
-  return request(`/channels/${options.channelId}`, options);
+  return discussionsApiRequest(`/channels/${options.channelId}`, options);
 }
 
 /**
@@ -84,7 +84,7 @@ export function fetchChannelNotifcationOptOut(
   options: IFetchChannelNotificationOptOutParams
 ): Promise<IChannelNotificationOptOut> {
   options.httpMethod = "GET";
-  return request(
+  return discussionsApiRequest(
     `/channels/${options.channelId}/notifications/opt-out`,
     options
   );
@@ -101,7 +101,7 @@ export function createChannelNotificationOptOut(
   options: ICreateChannelNotificationOptOutParams
 ): Promise<IChannelNotificationOptOut> {
   options.httpMethod = "POST";
-  return request(
+  return discussionsApiRequest(
     `/channels/${options.channelId}/notifications/opt-out`,
     options
   );
@@ -118,7 +118,7 @@ export function removeChannelNotificationOptOut(
   options: IRemoveChannelNotificationOptOutParams
 ): Promise<IRemoveChannelNotificationOptOutResult> {
   options.httpMethod = "DELETE";
-  return request(
+  return discussionsApiRequest(
     `/channels/${options.channelId}/notifications/opt-out`,
     options
   );
@@ -135,5 +135,8 @@ export function removeChannelActivity(
   options: IRemoveChannelActivityParams
 ): Promise<IRemoveChannelActivityResult> {
   options.httpMethod = "DELETE";
-  return request(`/channels/${options.channelId}/activity`, options);
+  return discussionsApiRequest(
+    `/channels/${options.channelId}/activity`,
+    options
+  );
 }
