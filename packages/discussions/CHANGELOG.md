@@ -1,3 +1,10 @@
+## @esri/hub-discussions [29.2.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@29.2.0...@esri/hub-discussions@29.2.1) (2024-11-19)
+
+
+### Bug Fixes
+
+* **hub-discussions:** remove files/fns that were duplicated between h… ([#1743](https://github.com/Esri/hub.js/issues/1743)) ([04a7067](https://github.com/Esri/hub.js/commit/04a706726b1effb2f0a016e771f3fc4e9a409de8))
+
 # @esri/hub-discussions [29.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@29.1.0...@esri/hub-discussions@29.2.0) (2024-11-14)
 
 
