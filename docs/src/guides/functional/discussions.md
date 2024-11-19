@@ -306,36 +306,22 @@ Channels include configurations that set the "rules of engagement" for the disco
 
 ## Channel participation configuration
 
-The channel access control list [channel.channelAcl](https://esri.github.io/hub.js/api/common/IChannelAclPermission/) is an array that allows variations of users, organizations, or the public to participate in the discussion. Each entry in channelAcl has the following shape:
+The [channel.channelAcl](https://esri.github.io/hub.js/api/common/IChannelAclPermission/) is an array that allows variations of users, organizations, or the public to participate in the discussion. The level of participation is set by the defined role. A role of `readWrite` allows creating, updating, and viewing posts in the channel. A role of `read` only allows viewing posts in the channel. A role of `manage` allows creating, updating, and viewing posts in the channel, as well as moderation and channel re-configuration.
 
-- `channelAcl.category` is one of [AclCategory](https://esri.github.io/hub.js/api/common/AclCategory/):
-  - *group*
-  - *org*
-  - *anonymousUser*: defines anonymous user access
-  - *authenticatedUser*: defines authenticated ArcGIS Online user access
-  - *user*: not API supported yet
-- `channelAcl.subCategory` is one of [AclSubCategory](https://esri.github.io/hub.js/api/common/AclSubCategory/) and is only valid for *group* and *org* categories:
-  - *admin*
-  - *member*
-- `channelAcl.key` is the identifier for the category
-  - for group: key is the [ArcGIS Online Group ID]
-  - for org: key is the [ArcGIS Online Organization ID]
-  - for authenticatedUser: key is not defined
-  - for anonymousUser: key is not defined
-  - for user: key is the user's [ArcGIS Online username] (not API supported yet)
-- `channelAcl.role` is one of [Role](https://esri.github.io/hub.js/api/common/Role/).
-  - *manage*
-  - *readWrite*
-  - *read*
-  - *owner* - Not API supported yet
-  - *moderate* - Not API supported yet
-  - *write* - Not API supported yet
+Each entry in `channel.channelAcl` has the following shape:
 
-The level of participation is set by the defined role. A role of `readWrite` allows creating, updating, and viewing posts in the channel. A role of `read` only allows viewing posts in the channel. A role of `manage` allows creating, updating, and viewing posts in the channel, as well as moderation and channel re-configuration.
+| **property** | **type** | **description**  |
+| :----------- | :------- | :--------------- |
+| category     | [AclCategory](https://esri.github.io/hub.js/api/common/AclCategory/)    | Category for the permission (`group`, `org`, `anonymousUser`, `authenticatedUser`) <br> Category: `user` not API supported  |
+| subCategory  | [AclSubCategory](https://esri.github.io/hub.js/api/common/AclSubCategory/) | SubCategory for the permission (`admin`, `member`) <br> Only valid for category: `group` or `org` |
+| key          | string                                                                  | Identifier for the category <br> Only valid for category: `group` or `org` or `user` <br> For category: `group` - key is the [ArcGIS Online Group ID] <br> For category: `org` - key is the [ArcGIS Online Organization ID] <br> For category: `user` - key is the user's [ArcGIS Online username] (not API supported) |
+| role         | [Role](https://esri.github.io/hub.js/api/common/Role/)    | Role for the permission (`manage`, `readWrite`, `read`) <br> Role: `owner`, `moderate`, `write` not API supported  |
 
 
 ```js
-// Example Channel configurations
+/**
+ * Example Channel configurations
+ */
 import { IChannel } from '@esri/hub-discussions';
 
 // group channel
@@ -390,9 +376,9 @@ const orgChannel: IChannel = {
 // org channel with group participation
 const orgChannel: IChannel = {
   channelAcl: [
-    { category: 'group', subCategory: 'member', key: 'group_id', role: 'readWrite' },
     { category: 'org', subCategory: 'admin', key: 'org_id', role: 'manage' },
     { category: 'org', subCategory: 'member', key: 'org_id', role: 'readWrite' },
+    { category: 'group', subCategory: 'member', key: 'group_id', role: 'readWrite' },
   ];
   ...
 };
@@ -400,9 +386,9 @@ const orgChannel: IChannel = {
 // org channel with group management and public participation
 const orgChannel: IChannel = {
   channelAcl: [
-    { category: 'group', subCategory: 'member', key: 'group_id', role: 'manage' },
     { category: 'org', subCategory: 'admin', key: 'org_id', role: 'manage' },
     { category: 'org', subCategory: 'member', key: 'org_id', role: 'readWrite' },
+    { category: 'group', subCategory: 'member', key: 'group_id', role: 'manage' },
     { category: 'authenticatedUser', role: 'readWrite' },
   ];
   ...
