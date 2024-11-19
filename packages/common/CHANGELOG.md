@@ -1,3 +1,10 @@
+# @esri/hub-common [15.7.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.6.1...@esri/hub-common@15.7.0) (2024-11-19)
+
+
+### Features
+
+* hub page layoutRelative and workspaceRelative links ([#1740](https://github.com/Esri/hub.js/issues/1740)) ([0b2a281](https://github.com/Esri/hub.js/commit/0b2a2817ba974ed70063f9507fe3263ba1ce75ba))
+
 ## @esri/hub-common [15.6.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.6.0...@esri/hub-common@15.6.1) (2024-11-15)
 
 
