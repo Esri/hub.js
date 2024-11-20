@@ -1,4 +1,4 @@
-import * as req from "../../../src/discussions/api/request";
+import * as req from "../../../src/discussions/api/discussions-api-request";
 import { Geometry } from "geojson";
 import {
   createSetting,
@@ -40,7 +40,7 @@ describe("settings", () => {
   };
 
   beforeEach(() => {
-    requestSpy = spyOn(req, "request").and.returnValue(
+    requestSpy = spyOn(req, "discussionsApiRequest").and.returnValue(
       Promise.resolve(response)
     );
   });
