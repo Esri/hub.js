@@ -1,3 +1,10 @@
+# @esri/hub-common [15.9.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.8.0...@esri/hub-common@15.9.0) (2024-11-20)
+
+
+### Features
+
+* expose item size for content entities ([#1720](https://github.com/Esri/hub.js/issues/1720)) ([e4e6c86](https://github.com/Esri/hub.js/commit/e4e6c867507cd28f184796fbbd590631edf0b106))
+
 # @esri/hub-common [15.8.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.7.1...@esri/hub-common@15.8.0) (2024-11-20)
 
 
