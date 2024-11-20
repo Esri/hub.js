@@ -1,10 +1,15 @@
 /* tslint:disable unified-signatures */
-import { discussionsApiRequest } from "@esri/hub-common";
+import {
+  discussionsApiRequest,
+  ISearchPosts,
+  SearchPostsFormat,
+} from "@esri/hub-common";
 import {
   ICreatePostParams,
   ICreateReplyParams,
   IPost,
   ISearchPostsParams,
+  IExportPostsParams,
   IFetchPostParams,
   IRemovePostParams,
   IRemovePostResponse,
@@ -12,6 +17,21 @@ import {
   IUpdatePostStatusParams,
   IPagedResponse,
 } from "../types";
+
+const stringifySearchParams = (data: ISearchPosts): any => {
+  // need to serialize geometry and featureGeometry since this
+  // is a GET request. we should consider requiring this to be
+  // a base64 string to safeguard against large geometries that
+  // will exceed URL character limits
+  const paramsToStringify = ["geometry", "featureGeometry"];
+  return Object.entries(data ?? {}).reduce(
+    (acc, [key, val]) => ({
+      ...acc,
+      [key]: paramsToStringify.includes(key) ? JSON.stringify(val) : val,
+    }),
+    {}
+  );
+};
 
 /**
  * search posts
@@ -24,20 +44,30 @@ export function searchPosts(
   options: ISearchPostsParams
 ): Promise<IPagedResponse<IPost>> {
   const url = `/posts`;
-  // need to serialize geometry and featureGeometry since this
-  // is a GET request. we should consider requiring this to be
-  // a base64 string to safeguard against large geometries that
-  // will exceed URL character limits
-  const data = ["geometry", "featureGeometry"].reduce(
-    (acc, property) =>
-      acc[property]
-        ? { ...acc, [property]: JSON.stringify(acc[property]) }
-        : acc,
-    { ...(options.data ?? {}) } as any
-  );
-  return discussionsApiRequest(url, {
+  const data = stringifySearchParams(options.data);
+  return discussionsApiRequest<IPagedResponse<IPost>>(url, {
     ...options,
     data,
+    httpMethod: "GET",
+  });
+}
+
+/**
+ * searches for posts and resolves a promise with CSV string representing the results
+ *
+ * @export
+ * @param {IExportPostsParams} options
+ * @return {*}  {Promise<string>}
+ */
+export function exportPosts(options: IExportPostsParams): Promise<string> {
+  const url = `/posts`;
+  const data = stringifySearchParams(options.data);
+  return discussionsApiRequest<string>(url, {
+    ...options,
+    data: {
+      ...data,
+      f: SearchPostsFormat.CSV,
+    },
     httpMethod: "GET",
   });
 }
