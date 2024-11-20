@@ -14,7 +14,7 @@ import { apiRequest, authenticateRequest } from "./utils/request";
 // if that method didn't prepend `/api/v3` to the supplied path. Additionally,
 // there is the difference that hubApiRequest sets Authorization header without `Bearer`
 // https://github.com/Esri/hub.js/blob/f35b1a0a868916bd07e1dfd84cb084bc2c876267/packages/common/src/request.ts#L62
-export function request<T>(
+export function discussionsApiRequest<T>(
   url: string,
   options: IDiscussionsRequestOptions
 ): Promise<T> {

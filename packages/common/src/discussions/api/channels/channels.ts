@@ -1,4 +1,4 @@
-import { request } from "../request";
+import { discussionsApiRequest } from "../discussions-api-request";
 import { IChannel, IPagedResponse, ISearchChannelsParams } from "../types";
 
 /**
@@ -13,5 +13,5 @@ export function searchChannels(
   options: ISearchChannelsParams
 ): Promise<IPagedResponse<IChannel>> {
   options.httpMethod = "GET";
-  return request(`/channels`, options);
+  return discussionsApiRequest(`/channels`, options);
 }
