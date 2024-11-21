@@ -18,7 +18,7 @@ import { camelize, cloneObject, createId } from "../util";
 import { setDiscussableKeyword } from "../discussions";
 import { IModel } from "../types";
 import { setEntityStatusKeyword } from "../utils/internal/setEntityStatusKeyword";
-import { editorToMetric } from "../core/schemas/internal/metrics/editorToMetric";
+import { editorToMetric } from "../metrics/editorToMetric";
 import { setMetricAndDisplay } from "../core/schemas/internal/metrics/setMetricAndDisplay";
 import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlug";
 import { editorToEntity } from "../core/schemas/internal/metrics/editorToEntity";

@@ -11,6 +11,7 @@ export {
   ReactionRelation,
   ChannelFilter,
   CommonSort,
+  SearchPostsFormat,
   IWithAuthor,
   IWithEditor,
   IWithSorting,

@@ -5,15 +5,15 @@ import {
   IServiceQueryMetricSource,
   IStaticValueMetricSource,
   MetricVisibility,
-} from "../../../../../src/core/types/Metrics";
-import * as EditorToMetric from "../../../../../src/core/schemas/internal/metrics/editorToMetric";
+} from "../../src/core/types/Metrics";
+import * as EditorToMetric from "../../src/metrics/editorToMetric";
 
 import {
   MOCK_DATE_FIELD,
   MOCK_ID_FIELD,
   MOCK_NUMERIC_FIELD,
   MOCK_STRING_FIELD,
-} from "./fixtures";
+} from "../core/schemas/internal/metrics/fixtures";
 import { FieldType } from "@esri/arcgis-rest-types";
 
 describe("editorToMetric", () => {

@@ -9,7 +9,7 @@ import {
   removeChannelNotificationOptOut,
   removeChannelActivity,
 } from "../src/channels";
-import * as req from "../src/request";
+import * as hubCommon from "@esri/hub-common";
 import {
   AclCategory,
   AclSubCategory,
@@ -30,7 +30,7 @@ describe("channels", () => {
   } as unknown as IDiscussionsRequestOptions;
 
   beforeEach(() => {
-    requestSpy = spyOn(req, "request").and.returnValue(
+    requestSpy = spyOn(hubCommon, "discussionsApiRequest").and.returnValue(
       Promise.resolve(response)
     );
   });
