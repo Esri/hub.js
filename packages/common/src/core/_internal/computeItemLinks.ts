@@ -29,10 +29,12 @@ export function computeItemLinks(
     self: getItemHomeUrl(item.id, requestOptions),
     siteRelative: getHubRelativeUrl(
       item.type,
+      // use slug if available, otherwise id
       getItemIdentifier(item),
       item.typeKeywords
     ),
     siteRelativeEntityType: getHubRelativeUrl(item.type),
+    // no SEO for workspace, so we always use id instead of slug
     workspaceRelative: getRelativeWorkspaceUrl(item.type, item.id),
     thumbnail: getItemThumbnailUrl(item, requestOptions, token),
   };
