@@ -626,6 +626,17 @@ export interface ISearchPostsParams extends IDiscussionsRequestOptions {
 }
 
 /**
+ * request options for exporting posts as CSV
+ *
+ * @export
+ * @interface IExportPostsParams
+ * @extends {IDiscussionsRequestOptions}
+ */
+export interface IExportPostsParams extends IDiscussionsRequestOptions {
+  data?: ISearchPosts;
+}
+
+/**
  * request params for getting post
  *
  * @export
