@@ -287,6 +287,12 @@ async function _getCommunityOrEnterpriseAGOUrl(
   return orgUrl;
 }
 
+/**
+ * Fetches the portal settings in a fail-safe manner.
+ *
+ * @param context - The context containing the ArcGIS portal information.
+ * @returns A promise that resolves to the portal settings.
+ */
 export async function _getPortalSettings(
   context: IArcGISContext
 ): Promise<any> {
