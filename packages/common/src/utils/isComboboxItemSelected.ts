@@ -19,6 +19,7 @@ export function isComboboxItemSelected(
     isSelected =
       isSelected || // if this node is selected
       (!!node.children?.length &&
+        // or any of its children are selected
         node.children.some((child: IUiSchemaComboboxItem) =>
           isComboboxItemSelected(child, values, selectionMode)
         ));
