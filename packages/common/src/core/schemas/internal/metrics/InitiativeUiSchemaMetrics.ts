@@ -9,7 +9,6 @@ import { EntityEditorOptions } from "../EditorOptions";
 import {
   SHOW_FOR_STATIC_RULE_ENTITY,
   SHOW_FOR_DYNAMIC_RULE_ENTITY,
-  SHOW_FOR_SHARING_RULE_ENTITY,
   SHOW_FOR_STATIC_AND_STRING_RULE_ENTITY,
   SHOW_FOR_STATIC_AND_NUMBER_RULE_ENTITY,
   SHOW_FOR_STATIC_AND_DATE_RULE_ENTITY,
@@ -122,7 +121,7 @@ export const buildUiSchema = async (
             labelKey: "shared.fields.metrics.value.label",
             scope: "/properties/_metric/properties/value",
             type: "Control",
-            rule: SHOW_FOR_STATIC_AND_STRING_RULE_ENTITY,
+            rules: [SHOW_FOR_STATIC_AND_STRING_RULE_ENTITY],
             options: {
               control: "hub-field-input-input",
               clearOnHidden: true,
@@ -140,7 +139,7 @@ export const buildUiSchema = async (
             labelKey: "shared.fields.metrics.value.label",
             scope: "/properties/_metric/properties/value",
             type: "Control",
-            rule: SHOW_FOR_STATIC_AND_NUMBER_RULE_ENTITY,
+            rules: [SHOW_FOR_STATIC_AND_NUMBER_RULE_ENTITY],
             options: {
               control: "hub-field-input-input",
               type: "number",
@@ -159,7 +158,7 @@ export const buildUiSchema = async (
             labelKey: "shared.fields.metrics.value.label",
             scope: "/properties/_metric/properties/value",
             type: "Control",
-            rule: SHOW_FOR_STATIC_AND_DATE_RULE_ENTITY,
+            rules: [SHOW_FOR_STATIC_AND_DATE_RULE_ENTITY],
             options: {
               control: "hub-field-input-date",
               clearOnHidden: true,

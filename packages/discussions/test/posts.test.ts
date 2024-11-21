@@ -8,7 +8,7 @@ import {
   createReply,
   updatePostStatus,
 } from "../src/posts";
-import * as req from "../src/request";
+import * as hubCommon from "@esri/hub-common";
 import {
   AclCategory,
   AclSubCategory,
@@ -28,7 +28,7 @@ describe("posts", () => {
   } as unknown as IDiscussionsRequestOptions;
 
   beforeEach(() => {
-    requestSpy = spyOn(req, "request").and.returnValue(
+    requestSpy = spyOn(hubCommon, "discussionsApiRequest").and.returnValue(
       Promise.resolve(response)
     );
   });

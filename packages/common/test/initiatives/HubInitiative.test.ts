@@ -12,7 +12,7 @@ import * as EnrichEntityModule from "../../src/core/enrichEntity";
 import * as upsertResourceModule from "../../src/resources/upsertResource";
 import * as doesResourceExistModule from "../../src/resources/doesResourceExist";
 import * as removeResourceModule from "../../src/resources/removeResource";
-import * as metricToEditorModule from "../../src/core/schemas/internal/metrics/metricToEditor";
+import * as metricToEditorModule from "../../src/metrics/metricToEditor";
 import * as restPortalModule from "@esri/arcgis-rest-portal";
 import { HubItemEntity } from "../../src/core/HubItemEntity";
 import { initContextManager } from "../templates/fixtures";

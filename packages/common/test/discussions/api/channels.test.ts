@@ -3,7 +3,7 @@ import {
   SharingAccess,
 } from "../../../src/discussions/api/types";
 import { searchChannels } from "../../../src/discussions/api/channels";
-import * as req from "../../../src/discussions/api/request";
+import * as req from "../../../src/discussions/api/discussions-api-request";
 
 describe("channels", () => {
   let requestSpy: any;
@@ -14,7 +14,7 @@ describe("channels", () => {
   } as unknown as IDiscussionsRequestOptions;
 
   beforeEach(() => {
-    requestSpy = spyOn(req, "request").and.returnValue(
+    requestSpy = spyOn(req, "discussionsApiRequest").and.returnValue(
       Promise.resolve(response)
     );
   });

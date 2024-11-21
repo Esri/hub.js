@@ -5,7 +5,7 @@ import {
   IServiceQueryMetricSource,
   IStaticValueMetricSource,
   MetricSource,
-} from "../../../types/Metrics";
+} from "../core/types/Metrics";
 
 /**
  * Util to convert a metric into editor values consumable by the configuration editor

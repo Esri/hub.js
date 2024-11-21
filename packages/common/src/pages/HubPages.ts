@@ -1,15 +1,10 @@
 import { getFamily } from "../content/get-family";
-import {
-  deriveLocationFromItem,
-  getHubRelativeUrl,
-} from "../content/_internal/internalContentUtils";
+import { deriveLocationFromItem } from "../content/_internal/internalContentUtils";
 import { fetchItemEnrichments } from "../items/_enrichments";
 import { getProp } from "../objects";
-import { getItemThumbnailUrl } from "../resources";
 import { IHubSearchResult } from "../search";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { IHubRequestOptions, IModel } from "../types";
-import { getItemHomeUrl } from "../urls";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getItem, IItem } from "@esri/arcgis-rest-portal";
 import { cloneObject, unique } from "../util";
@@ -29,6 +24,7 @@ import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
 import { DEFAULT_PAGE, DEFAULT_PAGE_MODEL } from "./defaults";
 import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlug";
+import { computeLinks } from "./_internal/computeLinks";
 
 /**
  * @private
@@ -232,14 +228,8 @@ export async function enrichPageSearchResult(
     result[spec.prop] = getProp(enriched, spec.path);
   });
 
-  // Handle Links
-  result.links.thumbnail = getItemThumbnailUrl(item, requestOptions);
-  result.links.self = getItemHomeUrl(result.id, requestOptions);
-  result.links.siteRelative = getHubRelativeUrl(
-    result.type,
-    result.id,
-    item.typeKeywords
-  );
+  // Handle links
+  result.links = computeLinks(item, requestOptions);
 
   return result;
 }
