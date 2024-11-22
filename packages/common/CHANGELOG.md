@@ -1,3 +1,10 @@
+# @esri/hub-common [15.12.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.11.0...@esri/hub-common@15.12.0) (2024-11-22)
+
+
+### Features
+
+* **hub-common:** added dcat us template ([#1736](https://github.com/Esri/hub.js/issues/1736)) ([651d04c](https://github.com/Esri/hub.js/commit/651d04ca050f370d7d73a1080fc6afa2fea9b8c2))
+
 # @esri/hub-common [15.11.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.10.0...@esri/hub-common@15.11.0) (2024-11-22)
 
 
