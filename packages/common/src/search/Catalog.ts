@@ -22,6 +22,7 @@ import {
   IQuery,
   IFilter,
   IHubCollection,
+  IGalleryDisplayConfig,
 } from "./types";
 import { upgradeCatalogSchema } from "./upgradeCatalogSchema";
 
@@ -126,6 +127,10 @@ export class Catalog implements IHubCatalog {
    */
   get availableScopes(): EntityType[] {
     return Object.keys(this.scopes) as unknown as EntityType[];
+  }
+
+  get displayConfig(): IGalleryDisplayConfig {
+    return this._catalog.displayConfig;
   }
 
   /**

@@ -82,7 +82,34 @@ export const GalleryDisplayConfigSchema: IConfigurationSchema = {
   type: "object",
   properties: {
     hidden: { type: "boolean", default: false },
-    // TODO: fill in properties
+    layout: {
+      type: "string",
+      enum: ["list", "grid", "table", "map"],
+      default: "list",
+    },
+    cardTitleTag: {
+      type: "string",
+      enum: ["h1", "h2", "h3", "h4", "h5", "h6"],
+      default: "h3",
+    },
+    showThumbnail: {
+      oneOf: [{ type: "string" }, { type: "boolean" }],
+      enum: [true, false, "grid"],
+      default: true,
+    },
+    corners: { type: "string", enum: ["square", "round"], default: "square" },
+    shadow: {
+      type: "string",
+      enum: ["none", "low", "medium", "heavy"],
+      default: "none",
+    },
+    showLinkButton: { type: "boolean", default: false },
+    linkButtonStyle: {
+      type: "string",
+      enum: ["outline", "outline-filled"],
+      default: "outline-filled",
+    },
+    linkButtonText: { type: "string" },
   },
 };
 

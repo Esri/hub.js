@@ -35,6 +35,11 @@ export interface IHubCatalog {
     scopes: string;
     collections: string;
   };
+
+  /**
+   * Optional display configuration to control a catalog's appearance in the UI
+   */
+  displayConfig?: IGalleryDisplayConfig;
 }
 
 export interface ICatalogScope extends Partial<Record<EntityType, IQuery>> {}
@@ -185,4 +190,12 @@ export interface IGalleryDisplayConfig {
    * If this is true on a collection's display config, that collection will not be shown in the gallery.
    */
   hidden?: boolean;
+  layout?: "list" | "grid" | "map";
+  cardTitleTag?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+  showThumbnail: boolean;
+  corners: "square" | "round";
+  shadow: "none" | "light" | "medium" | "heavy";
+  showLinkButton: boolean;
+  linkButtonStyle: "solid" | "outline" | "outline-fill" | "transparent";
+  linkButtonText: string;
 }
