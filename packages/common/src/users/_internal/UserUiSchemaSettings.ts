@@ -2,6 +2,7 @@ import { IArcGISContext } from "../../ArcGISContext";
 import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import { fetchOrg } from "../../org/fetch-org";
 import { failSafe } from "../../utils/fail-safe";
+import { getPortalSettings } from "@esri/arcgis-rest-portal";
 
 /**
  * @private
@@ -30,6 +31,16 @@ export const buildUiSchema = async (
       target: "_blank",
     },
   ];
+
+  // we have to make this xhr to fetch the portal settings to determine if
+  // the banner is enabled as it's only exposed in appSettings/ember
+  const portalSettings = await _getPortalSettings(context);
+  const bannerString = portalSettings.informationalBanner?.enabled
+    ? `{{${i18nScope}.fields.infoBanner.helperText:translate}}`
+    : `{{${i18nScope}.fields.infoBanner.helperTextWhenDisabled:translate}}`;
+  const configureBannerString = `{{${i18nScope}.fields.infoBanner.goToBannerConfig:translate}}`;
+  const showInfoBannerLink = `<calcite-link href=${context.portalUrl}/home/organization.html?tab=security#settings target=\"_blank\" icon-end=\"launch\">${configureBannerString}</calcite-link>`;
+
   /**
    * If there is a community org relationship, or we are in a community
    * org with an enterprise org relationship, show another action that
@@ -137,9 +148,33 @@ export const buildUiSchema = async (
                   control: "hub-field-input-switch",
                   layout: "inline-space-between",
                   helperText: {
-                    labelKey: `${i18nScope}.fields.infoBanner.helperText`,
+                    label: bannerString,
                   },
                 },
+                rules: [
+                  {
+                    effect: UiSchemaRuleEffects.DISABLE,
+                    conditions: [!portalSettings.informationalBanner?.enabled],
+                  },
+                ],
+              },
+              {
+                type: "Control",
+                scope:
+                  "/properties/hubOrgSettings/properties/showInformationalBanner",
+                options: {
+                  control: "calcite-link",
+                  layout: "inline-space-between",
+                  helperText: {
+                    label: showInfoBannerLink,
+                  },
+                },
+                rules: [
+                  {
+                    effect: UiSchemaRuleEffects.SHOW,
+                    conditions: [context.isOrgAdmin],
+                  },
+                ],
               },
             ],
           },
@@ -250,4 +285,21 @@ async function _getCommunityOrEnterpriseAGOUrl(
   }
   // return the url
   return orgUrl;
+}
+
+/**
+ * Fetches the portal settings in a fail-safe manner.
+ *
+ * @param context - The context containing the ArcGIS portal information.
+ * @returns A promise that resolves to the portal settings.
+ */
+export async function _getPortalSettings(
+  context: IArcGISContext
+): Promise<any> {
+  // Fail safe fetch the portal settings
+  const fsGetPortalSettings = failSafe(getPortalSettings, {});
+  const settings = await fsGetPortalSettings(context.portal.id, {
+    portal: context.sharingApiUrl,
+  });
+  return settings;
 }

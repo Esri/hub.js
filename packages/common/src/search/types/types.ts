@@ -176,3 +176,10 @@ export interface ICatalogSearchResponse {
 
 export interface ISearchResponseHash
   extends Record<string, IHubSearchResponse<IHubSearchResult>> {}
+
+/**
+ * Type wrapper for a kilobyte
+ * This is complete syntactic sugar, it makes sizes easier to understand
+ * with units as a type
+ */
+export type Kilobyte = number;
