@@ -192,10 +192,10 @@ export interface IGalleryDisplayConfig {
   hidden?: boolean;
   layout?: "list" | "grid" | "map";
   cardTitleTag?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
-  showThumbnail: boolean;
-  corners: "square" | "round";
-  shadow: "none" | "light" | "medium" | "heavy";
-  showLinkButton: boolean;
-  linkButtonStyle: "solid" | "outline" | "outline-fill" | "transparent";
-  linkButtonText: string;
+  showThumbnail?: boolean;
+  corners?: "square" | "round";
+  shadow?: "none" | "light" | "medium" | "heavy";
+  showLinkButton?: boolean;
+  linkButtonStyle?: "solid" | "outline" | "outline-fill" | "transparent";
+  linkButtonText?: string;
 }
