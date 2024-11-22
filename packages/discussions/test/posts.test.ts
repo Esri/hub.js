@@ -7,6 +7,7 @@ import {
   removePost,
   createReply,
   updatePostStatus,
+  exportPosts,
 } from "../src/posts";
 import * as hubCommon from "@esri/hub-common";
 import {
@@ -16,6 +17,7 @@ import {
   IFetchPostParams,
   PostStatus,
   Role,
+  SearchPostsFormat,
   SharingAccess,
 } from "../src/types";
 
@@ -137,6 +139,31 @@ describe("posts", () => {
               ...query,
               featureGeometry: JSON.stringify(query.featureGeometry),
             },
+          },
+          httpMethod: "GET",
+        });
+        done();
+      })
+      .catch(() => fail());
+  });
+
+  it("exports posts as a CSV string", (done) => {
+    const query = {
+      access: [SharingAccess.PUBLIC],
+      groups: ["foo"],
+    };
+
+    const options = { ...baseOpts, data: query };
+    exportPosts(options)
+      .then(() => {
+        expect(requestSpy.calls.count()).toEqual(1);
+        const [url, opts] = requestSpy.calls.argsFor(0);
+        expect(url).toEqual(`/posts`);
+        expect(opts).toEqual({
+          ...options,
+          data: {
+            ...options.data,
+            f: SearchPostsFormat.CSV,
           },
           httpMethod: "GET",
         });
