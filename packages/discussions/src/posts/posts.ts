@@ -1,5 +1,5 @@
 /* tslint:disable unified-signatures */
-import { request } from "../request";
+import { discussionsApiRequest } from "@esri/hub-common";
 import {
   ICreatePostParams,
   ICreateReplyParams,
@@ -35,7 +35,7 @@ export function searchPosts(
         : acc,
     { ...(options.data ?? {}) } as any
   );
-  return request(url, {
+  return discussionsApiRequest(url, {
     ...options,
     data,
     httpMethod: "GET",
@@ -51,7 +51,7 @@ export function searchPosts(
  */
 export function createPost(options: ICreatePostParams): Promise<IPost> {
   const url = `/posts`;
-  return request(url, {
+  return discussionsApiRequest(url, {
     httpMethod: "POST",
     ...getCreateUpdateRequestParams(options),
   });
@@ -67,7 +67,7 @@ export function createPost(options: ICreatePostParams): Promise<IPost> {
  */
 export function createReply(options: ICreateReplyParams): Promise<IPost> {
   const url = `/posts/${options.postId}/reply`;
-  return request(url, {
+  return discussionsApiRequest(url, {
     httpMethod: "POST",
     ...getCreateUpdateRequestParams(options),
   });
@@ -83,7 +83,7 @@ export function createReply(options: ICreateReplyParams): Promise<IPost> {
 export function fetchPost(params: IFetchPostParams): Promise<IPost> {
   const url = `/posts/${params.postId}`;
   params.httpMethod = "GET";
-  return request(url, params);
+  return discussionsApiRequest(url, params);
 }
 
 /**
@@ -98,7 +98,7 @@ export function removePost(
 ): Promise<IRemovePostResponse> {
   const url = `/posts/${options.postId}`;
   options.httpMethod = "DELETE";
-  return request(url, options);
+  return discussionsApiRequest(url, options);
 }
 
 /**
@@ -111,7 +111,7 @@ export function removePost(
  */
 export function updatePost(options: IUpdatePostParams): Promise<IPost> {
   const url = `/posts/${options.postId}`;
-  return request(url, {
+  return discussionsApiRequest(url, {
     httpMethod: "PATCH",
     ...getCreateUpdateRequestParams(options),
   });
@@ -130,7 +130,7 @@ export function updatePostStatus(
 ): Promise<IPost> {
   const url = `/posts/${options.postId}/status`;
   options.httpMethod = "PATCH";
-  return request(url, options);
+  return discussionsApiRequest(url, options);
 }
 
 /**

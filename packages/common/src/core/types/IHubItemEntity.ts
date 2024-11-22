@@ -78,6 +78,13 @@ export interface IHubItemEntity
   schemaVersion: number;
 
   /**
+   * The size of the item in bytes
+   *
+   * Use `formatBytes` util in hub.js for all your formatting needs
+   */
+  size?: number;
+
+  /**
    * User configurable tags
    */
   tags: string[];

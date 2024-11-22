@@ -6,6 +6,7 @@ import { getItemIdentifier } from "../../items";
 import { getRelativeWorkspaceUrl } from "../../core/getRelativeWorkspaceUrl";
 import { getItemThumbnailUrl } from "../../resources/get-item-thumbnail-url";
 import { getHubRelativeUrl } from "../../content/_internal/internalContentUtils";
+import { getItemHomeUrl } from "../../urls";
 
 /**
  * Compute the links that get appended to a Hub Site
@@ -25,10 +26,10 @@ export function computeLinks(
   }
 
   return {
-    self: item.url,
+    self: getItemHomeUrl(item.id, requestOptions),
     siteRelative: getHubRelativeUrl(item.type, item.id, item.typeKeywords),
-    siteRelativeEntityType: getHubRelativeUrl(item.type),
-    layoutRelative: "/edit",
+    siteRelativeEntityType: getHubRelativeUrl("page"),
+    layoutRelative: `/pages/${item.id}/edit`,
     workspaceRelative: getRelativeWorkspaceUrl(item.type, item.id),
     thumbnail: getItemThumbnailUrl(item, requestOptions, token),
   };
