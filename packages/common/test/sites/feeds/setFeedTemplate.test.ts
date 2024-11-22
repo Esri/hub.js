@@ -30,7 +30,7 @@ describe("setFeedTemplate", () => {
       title: "{{new_title}}",
     };
     const feedsConfig: IFeedsConfiguration = {
-      dcatUS1X: {
+      dcatUS3X: {
         title: "{{old_title}}",
       },
     };
