@@ -1,4 +1,4 @@
-import { request } from "../request";
+import { discussionsApiRequest } from "@esri/hub-common";
 import {
   ICreateReactionOptions,
   IRemoveReactionOptions,
@@ -17,7 +17,7 @@ export function createReaction(
   options: ICreateReactionOptions
 ): Promise<IReaction> {
   options.httpMethod = "POST";
-  return request(`/reactions`, options);
+  return discussionsApiRequest(`/reactions`, options);
 }
 
 /**
@@ -32,5 +32,5 @@ export function removeReaction(
 ): Promise<IRemoveReactionResponse> {
   const { reactionId } = options;
   options.httpMethod = "DELETE";
-  return request(`/reactions/${reactionId}`, options);
+  return discussionsApiRequest(`/reactions/${reactionId}`, options);
 }

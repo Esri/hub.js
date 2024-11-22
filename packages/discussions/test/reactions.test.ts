@@ -1,5 +1,5 @@
 import { createReaction, removeReaction } from "../src/reactions";
-import * as req from "../src/request";
+import * as hubCommon from "@esri/hub-common";
 import { IDiscussionsRequestOptions, PostReaction } from "../src/types";
 
 describe("reactions", () => {
@@ -11,7 +11,7 @@ describe("reactions", () => {
   };
 
   beforeEach(() => {
-    requestSpy = spyOn(req, "request").and.returnValue(
+    requestSpy = spyOn(hubCommon, "discussionsApiRequest").and.returnValue(
       Promise.resolve(response)
     );
   });

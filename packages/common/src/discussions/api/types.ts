@@ -182,6 +182,15 @@ export enum CommonSort {
 }
 
 /**
+ * @export
+ * @enum {string}
+ */
+export enum SearchPostsFormat {
+  CSV = "csv",
+  JSON = "json",
+}
+
+/**
  * creator property
  *
  * @export
@@ -576,6 +585,7 @@ export interface ISearchPosts
   groups?: string[];
   access?: SharingAccess[];
   channels?: string[];
+  f?: SearchPostsFormat;
 }
 
 /**
@@ -612,6 +622,17 @@ export interface IUpdatePost {
  * @extends {IDiscussionsRequestOptions}
  */
 export interface ISearchPostsParams extends IDiscussionsRequestOptions {
+  data?: ISearchPosts;
+}
+
+/**
+ * request options for exporting posts as CSV
+ *
+ * @export
+ * @interface IExportPostsParams
+ * @extends {IDiscussionsRequestOptions}
+ */
+export interface IExportPostsParams extends IDiscussionsRequestOptions {
   data?: ISearchPosts;
 }
 
@@ -775,7 +796,6 @@ export interface IChannelAclPermission
 export interface ICreateChannelSettings {
   allowAsAnonymous?: boolean;
   allowedReactions?: PostReaction[];
-  allowPost?: boolean;
   allowReaction?: boolean;
   allowReply?: boolean;
   blockWords?: string[];
@@ -845,12 +865,10 @@ export interface ICreateChannel
  * @extends {IWithTimestamps}
  */
 export interface IChannel extends IWithAuthor, IWithEditor, IWithTimestamps {
-  id: string;
   access: SharingAccess;
-  allowAnonymous: boolean;
   allowAsAnonymous: boolean;
+  allowAnonymous: boolean;
   allowedReactions: PostReaction[] | null;
-  allowPost: boolean;
   allowReaction: boolean;
   allowReply: boolean;
   blockWords: string[] | null;
@@ -858,6 +876,7 @@ export interface IChannel extends IWithAuthor, IWithEditor, IWithTimestamps {
   defaultPostStatus: PostStatus;
   groups: string[];
   metadata: IChannelMetadata | null;
+  id: string;
   name: string | null;
   orgId: string;
   orgs: string[];

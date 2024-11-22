@@ -1,3 +1,45 @@
+# @esri/hub-common [15.9.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.8.0...@esri/hub-common@15.9.0) (2024-11-20)
+
+
+### Features
+
+* expose item size for content entities ([#1720](https://github.com/Esri/hub.js/issues/1720)) ([e4e6c86](https://github.com/Esri/hub.js/commit/e4e6c867507cd28f184796fbbd590631edf0b106))
+
+# @esri/hub-common [15.8.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.7.1...@esri/hub-common@15.8.0) (2024-11-20)
+
+
+### Features
+
+* **hub-common:** add IExportPostsParams interface ([#1744](https://github.com/Esri/hub.js/issues/1744)) ([7fd02ec](https://github.com/Esri/hub.js/commit/7fd02ec2e0239baa79b7f541a05ff2671f359710))
+
+## @esri/hub-common [15.7.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.7.0...@esri/hub-common@15.7.1) (2024-11-19)
+
+
+### Bug Fixes
+
+* **hub-common:** rename "request" method used by Discussions API fns … ([#1742](https://github.com/Esri/hub.js/issues/1742)) ([72af97d](https://github.com/Esri/hub.js/commit/72af97da770c373781e91d40b4e872de96e928a3))
+
+# @esri/hub-common [15.7.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.6.1...@esri/hub-common@15.7.0) (2024-11-19)
+
+
+### Features
+
+* hub page layoutRelative and workspaceRelative links ([#1740](https://github.com/Esri/hub.js/issues/1740)) ([0b2a281](https://github.com/Esri/hub.js/commit/0b2a2817ba974ed70063f9507fe3263ba1ce75ba))
+
+## @esri/hub-common [15.6.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.6.0...@esri/hub-common@15.6.1) (2024-11-15)
+
+
+### Bug Fixes
+
+* add new item types from AGO to collections ([#1724](https://github.com/Esri/hub.js/issues/1724)) ([c87c8ef](https://github.com/Esri/hub.js/commit/c87c8ef55e797d66f61ff3865cffd7ed984a3879))
+
+# @esri/hub-common [15.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.5.0...@esri/hub-common@15.6.0) (2024-11-14)
+
+
+### Features
+
+* **hub-discussions:** added enum and parameter for downloading posts as csv ([#1734](https://github.com/Esri/hub.js/issues/1734)) ([19af95f](https://github.com/Esri/hub.js/commit/19af95f7d97eaf4ae5020c07cc6103e7902f33e1))
+
 # @esri/hub-common [15.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.4.0...@esri/hub-common@15.5.0) (2024-11-13)
 
 

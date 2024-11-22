@@ -31,6 +31,7 @@ describe("Pages: computeProps:", () => {
         item: {
           created: new Date().getTime(),
           modified: new Date().getTime(),
+          type: "Hub Page",
         },
         data: {},
       } as IModel;
