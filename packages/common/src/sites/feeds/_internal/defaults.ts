@@ -7,6 +7,7 @@ export function getDefaultTemplates(): Record<FeedFormat, Record<string, any>> {
   return {
     "dcat-us": {
       "1": DCAT_US_1X_DEFAULT,
+      "3": DCAT_US_3X_DEFAULT,
     },
     "dcat-ap": {
       "2": DCAT_AP_2XX_DEFAULT,
@@ -31,6 +32,16 @@ const DCAT_US_1X_DEFAULT = {
     hasEmail: "{{orgContactEmail}}",
   },
   spatial: "{{extent}}",
+};
+
+const DCAT_US_3X_DEFAULT = {
+  "dct:title": "{{ name}}",
+  "dct:description": "{{ description}}",
+  "dct:issued": {
+    "@value":
+      "{{ metadata.metadata.dataIdInfo.idCitation.date.pubDate:toISO || metadata.metadata.dataIdInfo.idCitation.date.createDate:toISO || created:toISO }}",
+    "@type": "xsd:dateTime",
+  },
 };
 
 const DCAT_AP_2XX_DEFAULT = {
