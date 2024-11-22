@@ -1,3 +1,10 @@
+# @esri/hub-common [15.10.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.9.0...@esri/hub-common@15.10.0) (2024-11-22)
+
+
+### Features
+
+* add executed query length to search response ([#1733](https://github.com/Esri/hub.js/issues/1733)) ([1388046](https://github.com/Esri/hub.js/commit/138804661a4d5c868aae2839b94d70db1241490d))
+
 # @esri/hub-common [15.9.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.8.0...@esri/hub-common@15.9.0) (2024-11-20)
 
 
