@@ -36,17 +36,28 @@ describe("HubUser computeProps:", () => {
 
   describe("computeProps: ", () => {
     it("computes props correctly", async () => {
-      const getPortalSignInSettingsSpy = spyOn(
-        computePropsModule,
-        "getPortalSignInSettings"
-      ).and.callFake(() => {
+      spyOn(computePropsModule, "getPortalSignInSettings").and.callFake(() => {
         return Promise.resolve({
           termsAndConditions: "terms",
           signupText: "signup",
         });
       });
 
-      const requestSpy = spyOn(requestModule, "request").and.callFake(() => {
+      const getPortalSelfSpy = spyOn(PortalModule, "getSelf").and.callFake(
+        () => {
+          return Promise.resolve({
+            portalProperties: {
+              hub: {
+                settings: {
+                  informationalBanner: false,
+                },
+              },
+            },
+          });
+        }
+      );
+
+      spyOn(requestModule, "request").and.callFake(() => {
         return Promise.resolve({
           termsAndConditions: "terms",
           signupText: "signup",
@@ -67,6 +78,7 @@ describe("HubUser computeProps:", () => {
         authdCtxMgr.context
       );
 
+      expect(getPortalSelfSpy).toHaveBeenCalledTimes(1);
       expect(chk.hubOrgSettings?.termsAndConditions).toEqual("terms");
       expect(chk.hubOrgSettings?.signupText).toEqual("signup");
       expect(chk.hubOrgSettings?.showInformationalBanner).toBeFalsy();

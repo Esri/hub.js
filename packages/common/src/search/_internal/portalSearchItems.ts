@@ -18,7 +18,12 @@ import {
   IPredicate,
   IQuery,
 } from "../types";
-import { addDefaultItemSearchPredicates, getNextFunction } from "../utils";
+import {
+  addDefaultItemSearchPredicates,
+  getNextFunction,
+  getKilobyteSizeOfQuery,
+  expandPortalQuery,
+} from "../utils";
 import { convertPortalAggregations } from "./portalSearchUtils";
 import { expandPredicate } from "./expandPredicate";
 import HubError from "../../HubError";
@@ -59,6 +64,9 @@ export function portalSearchItemsAsItems(
 }
 
 /**
+ * DEPRECATED - use expandPortalQuery instead
+ *
+ *
  * @internal
  * Expand an IQuery by applying well-known filters and predicates,
  * and then expanding all the predicates into IMatchOption objects.
@@ -103,7 +111,7 @@ function processSearchParams(options: IHubSearchOptions, query: IQuery) {
     );
   }
 
-  const updatedQuery = expandQuery(query);
+  const updatedQuery = expandPortalQuery(query);
 
   // Serialize the all the groups for portal
   const so = serializeQueryForPortal(updatedQuery);
@@ -166,6 +174,7 @@ async function searchPortalAsItem(
       resp.total,
       searchPortalAsItem
     ),
+    executedQuerySize: getKilobyteSizeOfQuery(searchOptions.q),
   };
 }
 
@@ -209,6 +218,7 @@ async function searchPortalAsHubSearchResult(
       resp.total,
       searchPortalAsHubSearchResult
     ),
+    executedQuerySize: getKilobyteSizeOfQuery(searchOptions.q),
   };
 }
 

@@ -1,10 +1,15 @@
 /* tslint:disable unified-signatures */
-import { request } from "../request";
+import {
+  discussionsApiRequest,
+  ISearchPosts,
+  SearchPostsFormat,
+} from "@esri/hub-common";
 import {
   ICreatePostParams,
   ICreateReplyParams,
   IPost,
   ISearchPostsParams,
+  IExportPostsParams,
   IFetchPostParams,
   IRemovePostParams,
   IRemovePostResponse,
@@ -12,6 +17,21 @@ import {
   IUpdatePostStatusParams,
   IPagedResponse,
 } from "../types";
+
+const stringifySearchParams = (data: ISearchPosts): any => {
+  // need to serialize geometry and featureGeometry since this
+  // is a GET request. we should consider requiring this to be
+  // a base64 string to safeguard against large geometries that
+  // will exceed URL character limits
+  const paramsToStringify = ["geometry", "featureGeometry"];
+  return Object.entries(data ?? {}).reduce(
+    (acc, [key, val]) => ({
+      ...acc,
+      [key]: paramsToStringify.includes(key) ? JSON.stringify(val) : val,
+    }),
+    {}
+  );
+};
 
 /**
  * search posts
@@ -24,20 +44,30 @@ export function searchPosts(
   options: ISearchPostsParams
 ): Promise<IPagedResponse<IPost>> {
   const url = `/posts`;
-  // need to serialize geometry and featureGeometry since this
-  // is a GET request. we should consider requiring this to be
-  // a base64 string to safeguard against large geometries that
-  // will exceed URL character limits
-  const data = ["geometry", "featureGeometry"].reduce(
-    (acc, property) =>
-      acc[property]
-        ? { ...acc, [property]: JSON.stringify(acc[property]) }
-        : acc,
-    { ...(options.data ?? {}) } as any
-  );
-  return request(url, {
+  const data = stringifySearchParams(options.data);
+  return discussionsApiRequest<IPagedResponse<IPost>>(url, {
     ...options,
     data,
+    httpMethod: "GET",
+  });
+}
+
+/**
+ * searches for posts and resolves a promise with CSV string representing the results
+ *
+ * @export
+ * @param {IExportPostsParams} options
+ * @return {*}  {Promise<string>}
+ */
+export function exportPosts(options: IExportPostsParams): Promise<string> {
+  const url = `/posts`;
+  const data = stringifySearchParams(options.data);
+  return discussionsApiRequest<string>(url, {
+    ...options,
+    data: {
+      ...data,
+      f: SearchPostsFormat.CSV,
+    },
     httpMethod: "GET",
   });
 }
@@ -51,7 +81,7 @@ export function searchPosts(
  */
 export function createPost(options: ICreatePostParams): Promise<IPost> {
   const url = `/posts`;
-  return request(url, {
+  return discussionsApiRequest(url, {
     httpMethod: "POST",
     ...getCreateUpdateRequestParams(options),
   });
@@ -67,7 +97,7 @@ export function createPost(options: ICreatePostParams): Promise<IPost> {
  */
 export function createReply(options: ICreateReplyParams): Promise<IPost> {
   const url = `/posts/${options.postId}/reply`;
-  return request(url, {
+  return discussionsApiRequest(url, {
     httpMethod: "POST",
     ...getCreateUpdateRequestParams(options),
   });
@@ -83,7 +113,7 @@ export function createReply(options: ICreateReplyParams): Promise<IPost> {
 export function fetchPost(params: IFetchPostParams): Promise<IPost> {
   const url = `/posts/${params.postId}`;
   params.httpMethod = "GET";
-  return request(url, params);
+  return discussionsApiRequest(url, params);
 }
 
 /**
@@ -98,7 +128,7 @@ export function removePost(
 ): Promise<IRemovePostResponse> {
   const url = `/posts/${options.postId}`;
   options.httpMethod = "DELETE";
-  return request(url, options);
+  return discussionsApiRequest(url, options);
 }
 
 /**
@@ -111,7 +141,7 @@ export function removePost(
  */
 export function updatePost(options: IUpdatePostParams): Promise<IPost> {
   const url = `/posts/${options.postId}`;
-  return request(url, {
+  return discussionsApiRequest(url, {
     httpMethod: "PATCH",
     ...getCreateUpdateRequestParams(options),
   });
@@ -130,7 +160,7 @@ export function updatePostStatus(
 ): Promise<IPost> {
   const url = `/posts/${options.postId}/status`;
   options.httpMethod = "PATCH";
-  return request(url, options);
+  return discussionsApiRequest(url, options);
 }
 
 /**

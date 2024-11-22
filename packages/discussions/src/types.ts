@@ -44,6 +44,7 @@ export {
   IUpdatePostStatus,
   IUpdatePost,
   ISearchPostsParams,
+  IExportPostsParams,
   IFetchPostParams,
   IUpdatePostParams,
   IUpdatePostStatusParams,

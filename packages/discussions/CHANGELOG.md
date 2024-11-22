@@ -1,3 +1,17 @@
+# @esri/hub-discussions [29.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@29.2.1...@esri/hub-discussions@29.3.0) (2024-11-22)
+
+
+### Features
+
+* **hub-discussions:** add exportPosts fn to export discussion posts as CSV string ([#1745](https://github.com/Esri/hub.js/issues/1745)) ([5dba4b4](https://github.com/Esri/hub.js/commit/5dba4b4967643d6dc23ca687df4ba9251395e336))
+
+## @esri/hub-discussions [29.2.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@29.2.0...@esri/hub-discussions@29.2.1) (2024-11-19)
+
+
+### Bug Fixes
+
+* **hub-discussions:** remove files/fns that were duplicated between h… ([#1743](https://github.com/Esri/hub.js/issues/1743)) ([04a7067](https://github.com/Esri/hub.js/commit/04a706726b1effb2f0a016e771f3fc4e9a409de8))
+
 # @esri/hub-discussions [29.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@29.1.0...@esri/hub-discussions@29.2.0) (2024-11-14)
 
 
