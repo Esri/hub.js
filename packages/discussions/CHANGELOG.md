@@ -1,3 +1,10 @@
+# @esri/hub-discussions [29.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@29.2.1...@esri/hub-discussions@29.3.0) (2024-11-22)
+
+
+### Features
+
+* **hub-discussions:** add exportPosts fn to export discussion posts as CSV string ([#1745](https://github.com/Esri/hub.js/issues/1745)) ([5dba4b4](https://github.com/Esri/hub.js/commit/5dba4b4967643d6dc23ca687df4ba9251395e336))
+
 ## @esri/hub-discussions [29.2.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@29.2.0...@esri/hub-discussions@29.2.1) (2024-11-19)
 
 

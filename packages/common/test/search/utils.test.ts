@@ -1,6 +1,15 @@
-import { IGroup, ISearchOptions, IUser } from "@esri/arcgis-rest-portal";
+import {
+  IGroup,
+  ISearchOptions,
+  IUser,
+  SearchQueryBuilder,
+} from "@esri/arcgis-rest-portal";
 import { IHubSite, IQuery, ISearchResponse } from "../../src";
-import { IHubSearchResult, IRelativeDate } from "../../src/search";
+import {
+  IHubSearchResult,
+  IRelativeDate,
+  serializeQueryForPortal,
+} from "../../src/search";
 import {
   expandApis,
   getUserThumbnailUrl,
@@ -11,6 +20,7 @@ import {
   migrateToCollectionKey,
   getResultSiteRelativeLink,
   getGroupPredicate,
+  getKilobyteSizeOfQuery,
 } from "../../src/search/utils";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import { mockUserSession } from "../test-helpers/fake-user-session";
@@ -474,6 +484,76 @@ describe("Search Utils:", () => {
           any: ["00c"],
         },
       });
+    });
+  });
+
+  describe("getKilobyteSizeOfQuery", () => {
+    // These tests create a blob
+    it("returns the size of the query in kilobytes", () => {
+      const query = {
+        targetEntity: "item",
+        filters: [
+          {
+            predicates: [
+              {
+                type: "Web Map",
+                typekeywords: { any: ["my|web|map"] },
+              },
+            ],
+          },
+        ],
+      } as IQuery;
+      const stringQuery = serializeQueryForPortal(query).q;
+      const size = 0.044921875;
+      const chk = getKilobyteSizeOfQuery(stringQuery);
+      expect(chk).toEqual(size);
+    });
+
+    it("returns 0 if the query is empty", () => {
+      const queryString = "";
+      const size = 0;
+      const chk = getKilobyteSizeOfQuery(queryString);
+      expect(chk).toEqual(size);
+    });
+
+    it("handles special characters in the query", () => {
+      const query = {
+        targetEntity: "item",
+        filters: [
+          {
+            predicates: [
+              {
+                type: "Web Map",
+                title: "🚀🚀🚀",
+              },
+            ],
+          },
+        ],
+      } as IQuery;
+      const stringQuery = serializeQueryForPortal(query).q;
+      const size = 0.0400390625;
+      const chk = getKilobyteSizeOfQuery(stringQuery);
+      expect(chk).toEqual(size);
+    });
+
+    it("handles a SearchQueryBuilder object", () => {
+      const query = new SearchQueryBuilder()
+        .match("Patrick")
+        .in("owner")
+        .and()
+        .startGroup()
+        .match("Web Mapping Application")
+        .in("type")
+        .or()
+        .match("Mobile Application")
+        .in("type")
+        .or()
+        .match("Application")
+        .in("type")
+        .endGroup();
+      const size = 0.0966796875;
+      const chk = getKilobyteSizeOfQuery(query);
+      expect(chk).toEqual(size);
     });
   });
 });
