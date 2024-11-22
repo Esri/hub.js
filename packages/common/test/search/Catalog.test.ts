@@ -4,11 +4,11 @@ import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import {
   ICatalogScope,
   IFilter,
+  IGalleryDisplayConfig,
   IHubCatalog,
   IHubCollection,
   IHubSearchResponse,
   IHubSearchResult,
-  IPredicate,
   IQuery,
 } from "../../src/search";
 import { Catalog } from "../../src";
@@ -95,6 +95,16 @@ const catalogJson: IHubCatalog = {
       },
     },
   ],
+  displayConfig: {
+    hidden: false,
+    showThumbnail: true,
+    showLinkButton: true,
+    linkButtonStyle: "outline",
+    linkButtonText: "Explore",
+    corners: "square",
+    shadow: "none",
+    layout: "list",
+  },
 };
 
 const noScopeCatalog: IHubCatalog = {
@@ -157,6 +167,9 @@ describe("Catalog Class:", () => {
       instance.title = "Changed Title";
       expect(instance.title).toBe("Changed Title");
       expect(instance.availableScopes).toEqual(["item", "group", "user"]);
+      expect(instance.displayConfig).toEqual(
+        catalogJson.displayConfig as IGalleryDisplayConfig
+      );
     });
     it("allows null scopes", () => {
       const instance = Catalog.fromJson(cloneObject(noScopeCatalog), context);

@@ -129,6 +129,9 @@ export class Catalog implements IHubCatalog {
     return Object.keys(this.scopes) as unknown as EntityType[];
   }
 
+  /**
+   * Return the display configuration for the gallery
+   */
   get displayConfig(): IGalleryDisplayConfig {
     return this._catalog.displayConfig;
   }

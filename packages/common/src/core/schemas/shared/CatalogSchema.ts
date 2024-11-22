@@ -109,7 +109,7 @@ export const GalleryDisplayConfigSchema: IConfigurationSchema = {
       enum: ["outline", "outline-filled"],
       default: "outline-filled",
     },
-    linkButtonText: { type: "string" },
+    linkButtonText: { type: "string", default: "Explore" },
   },
 };
 
