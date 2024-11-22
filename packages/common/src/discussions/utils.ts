@@ -234,3 +234,29 @@ export const channelToSearchResult = (
     rawResult: channel,
   };
 };
+
+/**
+ * Constructs file name for exported csvs
+ * @param entityTitle
+ * @returns string
+ */
+export function getPostCSVFileName(entityTitle: string): string {
+  const et = entityTitle;
+  const suffix = `_${new Date(Date.now())
+    .toISOString()
+    .replace(/[^a-z0-9]/gi, "-")}.csv`;
+  const prefix = et
+    // coerce to lower case
+    .toLowerCase()
+    // replace non-alpha-numeric chars with hyphens
+    .replace(/[^a-z0-9]/g, "-")
+    // replace consecutive hyphens with single hyphen
+    .replace(/-{2,}/g, "-")
+    // replace leading hyphens with empty string
+    .replace(/^-/, "")
+    // truncate filename so it doesn't exceed 250 chars to avoid OS filename length limitations
+    .substring(0, 250 - suffix.length)
+    // replace trailing hyphens
+    .replace(/-$/, "");
+  return [prefix, suffix].join("");
+}

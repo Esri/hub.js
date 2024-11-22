@@ -13,6 +13,7 @@ import {
   IChannel,
   AclCategory,
   AclSubCategory,
+  getPostCSVFileName,
 } from "../../src";
 
 describe("discussions utils", () => {
@@ -566,6 +567,21 @@ describe("discussions utils", () => {
           ],
         });
       });
+    });
+  });
+  describe("getPostCSVFileName", () => {
+    beforeAll(() => {
+      jasmine.clock().install();
+      jasmine.clock().mockDate(new Date(1711987200000));
+    });
+
+    afterAll(() => {
+      jasmine.clock().uninstall();
+    });
+
+    it("constructs file name", () => {
+      const result = getPostCSVFileName("an entity name");
+      expect(result).toEqual("an-entity-name_2024-04-01T16-00-00-000Z.csv");
     });
   });
 });
