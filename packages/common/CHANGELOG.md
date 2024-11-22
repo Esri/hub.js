@@ -1,3 +1,10 @@
+# @esri/hub-common [15.11.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.10.0...@esri/hub-common@15.11.0) (2024-11-22)
+
+
+### Features
+
+* add link org settings in user workspace ([#1707](https://github.com/Esri/hub.js/issues/1707)) ([83ddde5](https://github.com/Esri/hub.js/commit/83ddde516dc06f37f2a7b87abe6089efbdbd32c3))
+
 # @esri/hub-common [15.10.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.9.0...@esri/hub-common@15.10.0) (2024-11-22)
 
 
