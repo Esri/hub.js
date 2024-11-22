@@ -190,7 +190,7 @@ export interface IGalleryDisplayConfig {
    * If this is true on a collection's display config, that collection will not be shown in the gallery.
    */
   hidden?: boolean;
-  layout?: "list" | "grid" | "map";
+  layout?: "list" | "grid" | "map" | "table" | "calendar" | "compact";
   cardTitleTag?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
   showThumbnail?: boolean;
   corners?: "square" | "round";

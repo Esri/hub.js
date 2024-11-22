@@ -92,6 +92,9 @@ export const GalleryDisplayConfigSchema: IConfigurationSchema = {
       enum: ["h1", "h2", "h3", "h4", "h5", "h6"],
       default: "h3",
     },
+    // showThumbnail can be either a boolean or a string,
+    // if it's a string, it can be "grid" which means show
+    // the thumbnail in grid layout only
     showThumbnail: {
       oneOf: [{ type: "string" }, { type: "boolean" }],
       enum: [true, false, "grid"],
