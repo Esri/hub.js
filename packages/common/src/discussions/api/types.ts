@@ -329,12 +329,15 @@ export interface IDiscussionsRequestOptions
  * @enum {string}
  */
 export enum Role {
-  READ = "read",
-  WRITE = "write",
-  READWRITE = "readWrite",
-  MODERATE = "moderate",
   MANAGE = "manage",
+  /** Not API supported */
+  MODERATE = "moderate",
+  /** Not API supported */
   OWNER = "owner",
+  READ = "read",
+  READWRITE = "readWrite",
+  /** Not API supported */
+  WRITE = "write",
 }
 
 /**
@@ -571,6 +574,7 @@ export interface ISearchPosts
   geometry?: Geometry;
   groups?: string[] | null;
   parents?: string[] | null;
+  postType?: PostType;
   relations?: PostRelation[];
   status?: PostStatus[];
   title?: string;
@@ -714,11 +718,12 @@ export enum ChannelRelation {
  * @enum {string}
  */
 export enum AclCategory {
-  GROUP = "group",
-  ORG = "org",
-  USER = "user",
   ANONYMOUS_USER = "anonymousUser",
   AUTHENTICATED_USER = "authenticatedUser",
+  GROUP = "group",
+  ORG = "org",
+  /** Not API supported */
+  USER = "user",
 }
 
 /**
@@ -726,7 +731,9 @@ export enum AclCategory {
  * @enum {string}
  */
 export enum AclSubCategory {
+  /** Only valid for category: `group` or `org` */
   ADMIN = "admin",
+  /** Only valid for category: `group` or `org` */
   MEMBER = "member",
 }
 
@@ -738,7 +745,9 @@ export enum AclSubCategory {
  */
 export interface IChannelAclPermissionDefinition {
   category: AclCategory;
+  /** Only valid for category: `group` or `org` */
   subCategory?: AclSubCategory;
+  /** Ago `group_id` or `org_id` or `user.username` <br> Invalid for category: `anonymousUser, authenticatedUser` */
   key?: string;
   role: Role;
   restrictedBefore?: string;
@@ -757,17 +766,17 @@ export interface IChannelAclPermissionUpdateDefinition
 }
 
 /**
- * representation of channel Acl permission from service
+ * representation of channelAcl permission from service
  *
  * @export
  * @interface IChannelAclPermission
- * @extends {IChannelAclDefinition}
+ * @extends {IChannelAclPermissionDefinition}
  * @extends {IWithAuthor}
  * @extends {IWithEditor}
  * @extends {IWithTimestamps}
  */
 export interface IChannelAclPermission
-  extends Omit<IChannelAclPermissionDefinition, "restrictedBefore">,
+  extends IChannelAclPermissionDefinition,
     IWithAuthor,
     IWithEditor,
     IWithTimestamps {
@@ -845,8 +854,14 @@ export interface ICreateChannel
  */
 export interface IChannel extends IWithAuthor, IWithEditor, IWithTimestamps {
   id: string;
+  /** deprecated V1 permissions field, use channelAcl */
   access: SharingAccess | null;
+  /** deprecated V1 permissions field, use channelAcl */
+  orgs: string[] | null;
+  /** deprecated V1 permissions field, use channelAcl */
   allowAnonymous: boolean | null;
+  /** deprecated V1 permissions field, use channelAcl */
+  groups: string[] | null;
   allowAsAnonymous: boolean;
   allowedReactions: PostReaction[] | null;
   allowPost: boolean;
@@ -855,11 +870,9 @@ export interface IChannel extends IWithAuthor, IWithEditor, IWithTimestamps {
   blockWords: string[] | null;
   channelAcl?: IChannelAclPermission[];
   defaultPostStatus: PostStatus;
-  groups: string[] | null;
   metadata: IChannelMetadata | null;
   name: string | null;
   orgId: string;
-  orgs: string[] | null;
   posts?: IPost[];
   softDelete: boolean;
 }
