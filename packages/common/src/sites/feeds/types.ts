@@ -31,7 +31,10 @@ type DcatUSTemplatePaths =
   | "dcatUS11"
   // Updated path for the primary DCAT-US 1.X template. This should be the default
   // template for all DCAT-US 1.X feeds (unless overriden by a more specific version)
-  | "dcatUS1X";
+  | "dcatUS1X"
+  // Primary DCAT-US 3.X template. This should be the default template for all
+  // DCAT-US 3.X feeds (unless overriden by a more specific version)
+  | "dcatUS3X";
 
 type DcatAPTemplatePaths =
   // Original path for DCAT-AP 2.0.1 configuration. We no longer support editing 2.0.1

@@ -24,9 +24,16 @@ export function getFeedTemplate(
 ): Record<string, any> {
   const { feedsConfig, format, version } = opts;
 
-  // TODO: Remove once we have successfully removed the old feed configuration helpers
-  const mockedSite = { data: { feeds: feedsConfig } } as unknown as IModel;
-  const configuredTemplate = getFeedConfiguration(mockedSite, format, version);
+  let configuredTemplate;
+  if (format === "dcat-us") {
+    configuredTemplate = getDcatUsConfig(feedsConfig, version);
+  } else if (format === "dcat-ap") {
+    configuredTemplate = getDcatApConfig(feedsConfig, version);
+  } else if (format === "rss") {
+    configuredTemplate = getRssConfig(feedsConfig, version);
+  } else {
+    throw new Error("Unsupported feed format");
+  }
 
   return configuredTemplate || getDefaultTemplate(format, version);
 }
@@ -39,4 +46,32 @@ function getDefaultTemplate(
   const defaultTemplates = getDefaultTemplates();
 
   return cloneObject(defaultTemplates[format][majorVersion]);
+}
+
+function getDcatApConfig(feedsConfig: IFeedsConfiguration, version: string) {
+  if (getMajorVersion(version) === "2") {
+    return feedsConfig.dcatAP2XX || feedsConfig.dcatAP201;
+  }
+
+  throw new Error("Unsupported DCAT AP version");
+}
+
+function getDcatUsConfig(feedsConfig: IFeedsConfiguration, version: string) {
+  if (getMajorVersion(version) === "1") {
+    return feedsConfig.dcatUS1X || feedsConfig.dcatUS11;
+  }
+
+  if (getMajorVersion(version) === "3") {
+    return feedsConfig.dcatUS3X;
+  }
+
+  throw new Error("Unsupported DCAT US version");
+}
+
+function getRssConfig(feedsConfig: IFeedsConfiguration, version: string) {
+  if (getMajorVersion(version) === "2") {
+    return feedsConfig.rss2;
+  }
+
+  throw new Error("Unsupported RSS version");
 }
