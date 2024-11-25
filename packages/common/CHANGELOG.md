@@ -1,3 +1,10 @@
+# @esri/hub-common [15.13.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.12.1...@esri/hub-common@15.13.0) (2024-11-25)
+
+
+### Features
+
+* **hub-common:** add csv file name function ([#1748](https://github.com/Esri/hub.js/issues/1748)) ([1aa14a9](https://github.com/Esri/hub.js/commit/1aa14a9257fb25cec24affa98f6e0da480f1b9a2))
+
 ## @esri/hub-common [15.12.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.12.0...@esri/hub-common@15.12.1) (2024-11-25)
 
 
