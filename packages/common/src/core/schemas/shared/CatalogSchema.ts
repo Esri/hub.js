@@ -84,7 +84,7 @@ export const GalleryDisplayConfigSchema: IConfigurationSchema = {
     hidden: { type: "boolean", default: false },
     layout: {
       type: "string",
-      enum: ["list", "grid", "table", "map"],
+      enum: ["list", "grid", "table", "map", "compact"],
       default: "list",
     },
     cardTitleTag: {
