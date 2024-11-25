@@ -1,3 +1,10 @@
+## @esri/hub-common [15.12.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.12.0...@esri/hub-common@15.12.1) (2024-11-25)
+
+
+### Bug Fixes
+
+* **hub-common:** rename hub:event:workspace:attendees permission ([#1737](https://github.com/Esri/hub.js/issues/1737)) ([a96ecdc](https://github.com/Esri/hub.js/commit/a96ecdcec164640478c8a3606d9d5a6700102d22))
+
 # @esri/hub-common [15.12.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.11.0...@esri/hub-common@15.12.0) (2024-11-22)
 
 
