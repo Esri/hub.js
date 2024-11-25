@@ -6,9 +6,16 @@ order: 80
 group: 3-functional-api
 ---
 
+# Overview
+
 As organizations use ArcGIS Hub to support community engagement and collaboration, **ArcGIS Hub Discussions** provides an integrated capability for organizations to meet their varied needs for internal & external collaborative communication around Hub initiatives, content and data.
 
 Hub Discussions will be available in mid-2021 starting with private discussions within Hub Teams. Through the rest of the year, Hub Discussions will expand to support focused public feedback, dataset comments or corrections, and possibly public forums.
+
+## Useful links
+
+- [Hub Discussions API Swagger Docs](https://hub.arcgis.com/api/discussions/v1/docs)
+- [Hub Discussions API root](https://hub.arcgis.com/api/discussions/v2)
 
 ## Common Terms
 
@@ -36,6 +43,7 @@ Posts are shared in a **Channel**. The Channel defines which groups/organization
 - [Channels](#channels)
   - [Channel configuration](#channel-configuration)
   - [Channel participation configuration](#channel-participation-configuration)
+  - [Channel participation configuration examples](#channel-participation-configuration-examples)
   - [Moderation](#moderation)
 - [Authentication and Authorization](#authentication-and-authorization)
 - [In Conclusion](#in-conclusion)
@@ -63,8 +71,7 @@ const authentication = new UserSession({
 
 To create a post use [createPost](https://esri.github.io/hub.js/api/discussions/createPost/).
 
-<!-- !!! TODO: expand on discussionURI ? -->
-The `post.discussion` is important as a reference for the Post to some content item. Currently `discussion` uses a URI like `hub://item/{itemId}`. This allows for getting all Posts about a content item using this property.
+The `post.discussion` is important as a reference for the Post to some content item. Currently `discussion` uses a URI like `hub://item/{itemId}`. See [Posting about content](#posting-about-content) for details.
 
 ```js
 import {
@@ -102,7 +109,7 @@ A Post is the primary forum for dialogue between users in a Channel. Posts are o
 | status       | [PostStatus](https://esri.github.io/hub.js/api/common/PostStatus/) | false        | Describes a post's visibility  |
 | discussion   | string   | true         | See the [Discussion URI](#posting-about-content) section for details. Note that this attribute is optional. A post with no discussion could be viewed as a "general" post ("nice weather we're having" or "let's grab lunch") made in a channel |
 | geometry     | Geometry         | true         | Geometry property of GeoJSON spec, projected in WGS84 |
-| featureGeometry | Geometry      | true         | Geometry property of GeoJSON spec, projected in WGS84 |
+| featureGeometry | Geometry      | true         | Geometry property from related feature of GeoJSON spec, projected in WGS84 |
 | appInfo      | string           | true         | Used to store additional information about a post in specific app context |
 | postType     | [PostType](https://esri.github.io/hub.js/api/common/PostType/) | true | Post type
 | id           | string (UUID v4) | false        | Identifier for the post |
@@ -163,7 +170,7 @@ const opts: ICreateReplyParams = { postId: "abcdefg", authentication, data };
 
 const myReply = await createReply(opts);
 /*
-myPost = IPost {
+myReply = IPost {
   id: 'gjahsdkj',
   ...
 }
@@ -197,6 +204,8 @@ const thumbs_up = await createReaction(opts);
 ```
 
 # Searching Posts
+
+Searchable properties are enumerated on the [`ISearchPosts`](https://esri.github.io/hub.js/api/common/ISearchPosts/) interface.
 
 In all of these examples, we created a post about Dataset ID 1234. These posts are linked to that dataset through the `data.discussion` property. If we wanted to search for posts about this dataset, the code would look something like this:
 
@@ -281,8 +290,6 @@ const data: ISearchPosts = {
 };
 ```
 
-Searchable properties are enumerated on the [`ISearchPosts`](https://esri.github.io/hub.js/api/common/ISearchPosts/) interface.
-
 # Channels
 
 Discussions are shared with users through [Channels](https://esri.github.io/hub.js/api/common/IChannel/) -- Channels are the mechanism that determine whether a user can view, reply, or manage a channel's posts.
@@ -298,7 +305,7 @@ Channels include configurations that set the "rules of engagement" for the disco
 | allowReply       | boolean  | true    | Enables users to reply to posts |
 | allowedReactions | [PostReaction](https://esri.github.io/hub.js/api/common/PostReaction/)[] | null | Array of allowed post reactions in channel. If null, all reactions are allowed |
 | blockWords       | string[] | null    | Array of words or phrases that should trigger moderation |
-| defaultPostStatus | [PostStatus](https://esri.github.io/hub.js/api/common/PostStatus/) | "approved"  | Posts made in channel will have this status by default. Enables posts to be reviewed before making them visible to other users. |
+| defaultPostStatus | [PostStatus](https://esri.github.io/hub.js/api/common/PostStatus/) | "approved"  | Enables posts to be reviewed before making them visible to other users |
 | metadata         | [IChannelMetadata](https://esri.github.io/hub.js/api/common/IChannelMetadata/) | null | Metadata associated with the channel |
 | name             | string   |         | Name for the channel |
 | softDelete       | boolean  | true    | Enables soft-delete strategy for posts in channels, meaning that DELETE actions flag posts as "deleted" instead of permanent deletion |
@@ -306,7 +313,7 @@ Channels include configurations that set the "rules of engagement" for the disco
 
 ## Channel participation configuration
 
-The [channel.channelAcl](https://esri.github.io/hub.js/api/common/IChannelAclPermission/) is an array that allows variations of users, organizations, or the public to participate in the discussion. The level of participation is set by the defined role. A role of `readWrite` allows creating, updating, and viewing posts in the channel. A role of `read` only allows viewing posts in the channel. A role of `manage` allows creating, updating, and viewing posts in the channel, as well as moderation and channel re-configuration.
+The [channel.channelAcl](https://esri.github.io/hub.js/api/common/IChannelAclPermission/) is an array that defines variations of users, organizations, or the public to participate in the discussion. The level of participation is set by the defined [role](https://esri.github.io/hub.js/api/common/Role/). A role of `readWrite` allows creating, updating, and viewing posts in the channel. A role of `read` only allows viewing posts in the channel. A role of `manage` allows creating, updating, and viewing posts in the channel, as well as moderation and channel re-configuration.
 
 Each entry in `channel.channelAcl` has the following shape:
 
@@ -314,14 +321,12 @@ Each entry in `channel.channelAcl` has the following shape:
 | :----------- | :------- | :--------------- |
 | category     | [AclCategory](https://esri.github.io/hub.js/api/common/AclCategory/)    | Category for the permission (`group`, `org`, `anonymousUser`, `authenticatedUser`) <br> Category: `user` not API supported  |
 | subCategory  | [AclSubCategory](https://esri.github.io/hub.js/api/common/AclSubCategory/) | SubCategory for the permission (`admin`, `member`) <br> Only valid for category: `group` or `org` |
-| key          | string                                                                  | Identifier for the category <br> Only valid for category: `group` or `org` or `user` <br> For category: `group` - key is the [ArcGIS Online Group ID] <br> For category: `org` - key is the [ArcGIS Online Organization ID] <br> For category: `user` - key is the user's [ArcGIS Online username] (not API supported) |
+| key          | string   | Identifier for the category <br> Only valid for category: `group` or `org` or `user` <br> For category: `group` - key is the `ArcGIS Online Group ID` <br> For category: `org` - key is the `ArcGIS Online Organization ID` <br> For category: `user` - key is the user's `ArcGIS Online username` (not API supported) |
 | role         | [Role](https://esri.github.io/hub.js/api/common/Role/)    | Role for the permission (`manage`, `readWrite`, `read`) <br> Role: `owner`, `moderate`, `write` not API supported  |
 
 
+## Channel participation configuration examples
 ```js
-/**
- * Example Channel configurations
- */
 import { IChannel } from '@esri/hub-discussions';
 
 // group channel
@@ -383,7 +388,27 @@ const orgChannel: IChannel = {
   ...
 };
 
-// org channel with group management and public participation
+// org channel with group management
+const orgChannel: IChannel = {
+  channelAcl: [
+    { category: 'org', subCategory: 'admin', key: 'org_id', role: 'manage' },
+    { category: 'org', subCategory: 'member', key: 'org_id', role: 'readWrite' },
+    { category: 'group', subCategory: 'member', key: 'group_id', role: 'manage' },
+  ];
+  ...
+};
+
+// org channel with public participation
+const orgChannel: IChannel = {
+  channelAcl: [
+    { category: 'org', subCategory: 'admin', key: 'org_id', role: 'manage' },
+    { category: 'org', subCategory: 'member', key: 'org_id', role: 'readWrite' },
+    { category: 'authenticatedUser', role: 'readWrite' },
+  ];
+  ...
+};
+
+// org channel with group management public participation
 const orgChannel: IChannel = {
   channelAcl: [
     { category: 'org', subCategory: 'admin', key: 'org_id', role: 'manage' },
@@ -408,7 +433,7 @@ In the `@esri/hub-discussions` library, authentication is handled using the fami
 
 A user's access to content stored in the Discussions API is determined by their platform identity -- that is their organization and group memberships and manage roles. As noted above, ArcGIS Online access and permissions are encoded in Channels. Currently, most API methods employ one or many checks comparing Channel specs to the requesting user's identity.
 
-A summary of authorization checks are in the table below ([source code](https://github.com/Esri/hub.js/blob/master/packages/discussions/src/utils/channel-permission.ts)):
+A summary of authorization checks are in the table below (source code: [channels](https://github.com/Esri/hub.js/blob/master/packages/discussions/src/utils/channels/index.ts), [posts](https://github.com/Esri/hub.js/blob/master/packages/discussions/src/utils/channels/index.ts)):
 
 | **Permission** | **Description** |
 | :------------- | :-------------- |
@@ -420,9 +445,3 @@ A summary of authorization checks are in the table below ([source code](https://
 # In Conclusion
 
 The Hub Discussions API has only begun to expose the numerous ways users can interact with each other around data and content in Hub. The API is under continuous development. The `@esri/hub-discussions` package provides a familar Hub.js interface to the API. There is much more that can be done with the Discussions API and library than what is expressed in this guide. Please add an issue to this repo if you have any questions or if something does not work as expected.
-
-# Useful links
-
-- [Hub Discussions API root](https://hub.arcgis.com/api/discussions/v2)
-- [Hub Discussions API /posts](https://hub.arcgis.com/api/discussions/v2/posts)
-- [Hub Discussions API /channels](https://hub.arcgis.com/api/discussions/v2/channels)

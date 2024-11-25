@@ -558,17 +558,18 @@ export interface ISearchPosts
     Partial<IPagingParams>,
     Partial<IWithSorting<PostSort>>,
     Partial<IWithTimeQueries> {
-  title?: string;
-  body?: string;
-  discussion?: string;
-  geometry?: Geometry;
-  featureGeometry?: Geometry;
-  parents?: Array<string | null>;
-  status?: PostStatus[];
-  relations?: PostRelation[];
-  groups?: string[];
   access?: SharingAccess[];
+  body?: string;
   channels?: string[];
+  discussion?: string;
+  featureGeometry?: Geometry;
+  geometry?: Geometry;
+  groups?: string[];
+  parents?: string[];
+  postType?: PostType;
+  relations?: PostRelation[];
+  status?: PostStatus[];
+  title?: string;
 }
 
 /**
