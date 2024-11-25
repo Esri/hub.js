@@ -1,3 +1,31 @@
+# @esri/hub-common [15.13.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.12.1...@esri/hub-common@15.13.0) (2024-11-25)
+
+
+### Features
+
+* **hub-common:** add csv file name function ([#1748](https://github.com/Esri/hub.js/issues/1748)) ([1aa14a9](https://github.com/Esri/hub.js/commit/1aa14a9257fb25cec24affa98f6e0da480f1b9a2))
+
+## @esri/hub-common [15.12.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.12.0...@esri/hub-common@15.12.1) (2024-11-25)
+
+
+### Bug Fixes
+
+* **hub-common:** rename hub:event:workspace:attendees permission ([#1737](https://github.com/Esri/hub.js/issues/1737)) ([a96ecdc](https://github.com/Esri/hub.js/commit/a96ecdcec164640478c8a3606d9d5a6700102d22))
+
+# @esri/hub-common [15.12.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.11.0...@esri/hub-common@15.12.0) (2024-11-22)
+
+
+### Features
+
+* **hub-common:** added dcat us template ([#1736](https://github.com/Esri/hub.js/issues/1736)) ([651d04c](https://github.com/Esri/hub.js/commit/651d04ca050f370d7d73a1080fc6afa2fea9b8c2))
+
+# @esri/hub-common [15.11.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.10.0...@esri/hub-common@15.11.0) (2024-11-22)
+
+
+### Features
+
+* add link org settings in user workspace ([#1707](https://github.com/Esri/hub.js/issues/1707)) ([83ddde5](https://github.com/Esri/hub.js/commit/83ddde516dc06f37f2a7b87abe6089efbdbd32c3))
+
 # @esri/hub-common [15.10.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.9.0...@esri/hub-common@15.10.0) (2024-11-22)
 
 
