@@ -497,6 +497,7 @@ describe("portalSearchItems Module:", () => {
                   type: ["Hub Initiative"],
                 },
               ],
+              operation: "AND",
             },
           ],
         };
