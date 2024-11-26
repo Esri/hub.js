@@ -6,6 +6,7 @@ import {
   IQuery,
   WellKnownCollection,
 } from "../../../src";
+import { getFamilyTypes } from "../../../src/content/get-family";
 
 import * as SimpleResponse from "../../mocks/portal-search/simple-response.json";
 import * as AllTypesResponse from "../../mocks/portal-search/response-with-key-types.json";
@@ -13,6 +14,7 @@ import { MOCK_AUTH } from "../../mocks/mock-auth";
 import {
   applyWellKnownCollectionFilters,
   applyWellKnownItemPredicates,
+  isFamilyExpansionType,
   portalSearchItems,
   portalSearchItemsAsItems,
   WellKnownItemPredicates,
@@ -484,6 +486,38 @@ describe("portalSearchItems Module:", () => {
         expect(chk.filters[0].predicates[0].owner).not.toBeDefined();
         expect(chk.filters[0].predicates[1].group).toEqual("00c");
       });
+
+      it("handles a match options object with expansions", () => {
+        const qry: IQuery = {
+          targetEntity: "item",
+          filters: [
+            {
+              predicates: [
+                {
+                  type: {
+                    any: ["$content", "$app"],
+                    not: ["$site", "Hub Initiative"],
+                  },
+                },
+              ],
+              operation: "AND",
+            },
+          ],
+        };
+
+        const chk = applyWellKnownItemPredicates(qry);
+        expect(chk.filters.length).toBe(1);
+        expect(chk.filters[0].operation).toBe("AND");
+        expect(chk.filters[0].predicates.length).toBe(1);
+        expect(chk.filters[0].predicates[0].type.any).toEqual([
+          ...getFamilyTypes("content"),
+          ...getFamilyTypes("app"),
+        ]);
+        expect(chk.filters[0].predicates[0].type.not).toEqual([
+          ...getFamilyTypes("site"),
+          "Hub Initiative",
+        ]);
+      });
     });
     describe("applyWellKnownCollectionFilters", () => {
       const baseQuery: IQuery = {
@@ -524,6 +558,24 @@ describe("portalSearchItems Module:", () => {
         ];
 
         expect(result).toEqual(expected);
+      });
+
+      describe("isFamilyExpansionType", () => {
+        it("returns true for a family type", () => {
+          expect(isFamilyExpansionType("$content")).toBe(true);
+        });
+
+        it("returns false for a non-family type", () => {
+          expect(isFamilyExpansionType("$webmap")).toBe(false);
+        });
+
+        it("returns false for a family type that does not have a dollar sign in front", () => {
+          expect(isFamilyExpansionType("content")).toBe(false);
+        });
+
+        it("returns false for an empty key", () => {
+          expect(isFamilyExpansionType("")).toBe(false);
+        });
       });
     });
   });
