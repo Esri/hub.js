@@ -487,6 +487,27 @@ describe("portalSearchItems Module:", () => {
         expect(chk.filters[0].predicates[1].group).toEqual("00c");
       });
 
+      it("handles when type is an array", () => {
+        const qry: IQuery = {
+          targetEntity: "item",
+          filters: [
+            {
+              predicates: [
+                {
+                  type: ["Hub Initiative"],
+                },
+              ],
+            },
+          ],
+        };
+
+        const chk = applyWellKnownItemPredicates(qry);
+        expect(chk.filters.length).toBe(1);
+        expect(chk.filters[0].operation).toBe("AND");
+        expect(chk.filters[0].predicates.length).toBe(1);
+        expect(chk.filters[0].predicates[0].type).toEqual(["Hub Initiative"]);
+      });
+
       it("handles a match options object with expansions", () => {
         const qry: IQuery = {
           targetEntity: "item",
