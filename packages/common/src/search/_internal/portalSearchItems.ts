@@ -477,22 +477,22 @@ export function applyWellKnownItemPredicates(query: IQuery): IQuery {
           acc = [...acc, ...replacements];
           replacedPredicates = true;
         } else if (
-        /**
-         * NOTE: as of Nov. 26 2024, we have elected to start using the family types
-         * for a type replacement rather than the entire replacement itself. This updates
-         * a well-known predicate to only have type values, rather than types, typekeywords, etc etc.
-         * We also use the family types to replace the type values. Almost all of our current type
-         * replacements include typekeywords only to also retrieve old items -- i.e. having  -- we need to be aware
-         * that by using family types, we are not including these old items in results in these cases.
-         *
-         * This clause is primarily used by custom-build catalogs using the new catalog editor.
-         *
-         * We specifically do not say that we have replaced filters here either as we want to leave the
-         * operator as is.
-         */
+          /**
+           * NOTE: as of Nov. 26 2024, we have elected to start using the family types
+           * for a type replacement rather than the entire replacement itself. This updates
+           * a well-known predicate to only have type values, rather than types, typekeywords, etc etc.
+           * We also use the family types to replace the type values. Almost all of our current type
+           * replacements include typekeywords only to also retrieve old items -- i.e. having  -- we need to be aware
+           * that by using family types, we are not including these old items in results in these cases.
+           *
+           * This clause is primarily used by custom-build catalogs using the new catalog editor.
+           *
+           * We specifically do not say that we have replaced filters here either as we want to leave the
+           * operator as is.
+           */
           predicate.type &&
           typeof predicate.type !== "string" &&
-          typeof predicate.type === "object"
+          !Array.isArray(predicate.type)
         ) {
           // we have an IMatchOptions object, so we have to iterate over the all/any/not
           Object.keys(predicate.type)?.forEach((key) => {
