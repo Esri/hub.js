@@ -66,10 +66,10 @@ describe("EventSchemaCreate", () => {
             default: [],
           },
         },
-        allOf: [
-          URL_VALIDATIONS_WHEN_ONLINE_OR_HYBRID,
-          TIME_VALIDATIONS_WHEN_NOT_ALL_DAY,
-        ],
+        allOf: [URL_VALIDATIONS_WHEN_ONLINE_OR_HYBRID],
+        dependencies: {
+          isAllDay: TIME_VALIDATIONS_WHEN_NOT_ALL_DAY,
+        },
       } as IConfigurationSchema);
     });
   });
