@@ -495,7 +495,7 @@ export function applyWellKnownItemPredicates(query: IQuery): IQuery {
           !Array.isArray(predicate.type)
         ) {
           // we have an IMatchOptions object, so we have to iterate over the all/any/not
-          Object.keys(predicate.type)?.forEach((key) => {
+          Object.keys(predicate.type).forEach((key) => {
             const types = predicate.type[key];
 
             // for each type, try to replace it with the family types if it is an expansion
