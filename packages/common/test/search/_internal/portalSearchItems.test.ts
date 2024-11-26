@@ -569,6 +569,10 @@ describe("portalSearchItems Module:", () => {
           expect(isFamilyExpansionType("$webmap")).toBe(false);
         });
 
+        it("returns false for a dollar sign type that is not a family", () => {
+          expect(isFamilyExpansionType("$storymap")).toBe(false);
+        });
+
         it("returns false for a family type that does not have a dollar sign in front", () => {
           expect(isFamilyExpansionType("content")).toBe(false);
         });
