@@ -13,6 +13,7 @@ import {
   IChannel,
   AclCategory,
   AclSubCategory,
+  getPostCSVFileName,
 } from "../../src";
 
 describe("discussions utils", () => {
@@ -566,6 +567,25 @@ describe("discussions utils", () => {
           ],
         });
       });
+    });
+  });
+  describe("getPostCSVFileName", () => {
+    beforeAll(() => {
+      jasmine.clock().install();
+      jasmine.clock().mockDate(new Date(1711987200000));
+    });
+
+    afterAll(() => {
+      jasmine.clock().uninstall();
+    });
+
+    it("constructs file name", () => {
+      const result = getPostCSVFileName(
+        " Some really-really really--REALLY long title with non alpha-numeric characters!@ I can't believe how long this title is. It exceeds 250 characters yet we're still able to produce a reasonable file name from it. Geesh, I'm running out of things to type to reach 250 characters "
+      );
+      expect(result).toEqual(
+        "some-really-really-really-really-long-title-with-non-alpha-numeric-characters-i-can-t-believe-how-long-this-title-is-it-exceeds-250-characters-yet-we-re-still-able-to-produce-a-reasonable-file-name-from-it-geesh-i-m-runni_2024-04-01T16-00-00-000Z.csv"
+      );
     });
   });
 });
