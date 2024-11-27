@@ -106,11 +106,11 @@ export const buildSchema = (): IConfigurationSchema => {
       tags: ENTITY_TAGS_SCHEMA,
       categories: ENTITY_CATEGORIES_SCHEMA,
     },
-    allOf: [URL_VALIDATIONS_WHEN_ONLINE_OR_HYBRID],
-    dependencies: {
-      isAllDay: TIME_VALIDATIONS_WHEN_NOT_ALL_DAY,
-      onlineCapacity: FIXED_ONLINE_ATTENDANCE_VALIDATIONS,
-      inPersonCapacity: FIXED_IN_PERSON_ATTENDANCE_VALIDATIONS,
-    },
+    allOf: [
+      URL_VALIDATIONS_WHEN_ONLINE_OR_HYBRID,
+      TIME_VALIDATIONS_WHEN_NOT_ALL_DAY,
+      FIXED_ONLINE_ATTENDANCE_VALIDATIONS,
+      FIXED_IN_PERSON_ATTENDANCE_VALIDATIONS,
+    ],
   } as IConfigurationSchema;
 };
