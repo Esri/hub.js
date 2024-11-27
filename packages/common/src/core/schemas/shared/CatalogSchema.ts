@@ -1,5 +1,6 @@
 import { EntityType, targetEntities } from "../../../search/types/IHubCatalog";
 import { IConfigurationSchema } from "../types";
+import { CARD_TITLE_TAG, CORNERS, DROP_SHADOWS, SHOW_THUMBNAIL } from "./enums";
 
 /** JSON schema for an IPredicate */
 export const PredicateSchema: IConfigurationSchema = {
@@ -89,22 +90,23 @@ export const GalleryDisplayConfigSchema: IConfigurationSchema = {
     },
     cardTitleTag: {
       type: "string",
-      enum: ["h1", "h2", "h3", "h4", "h5", "h6"],
-      default: "h3",
+      enum: Object.keys(CARD_TITLE_TAG),
+      default: CARD_TITLE_TAG.h3,
     },
-    // showThumbnail can be either a boolean or a string,
-    // if it's a string, it can be "grid" which means show
-    // the thumbnail in grid layout only
     showThumbnail: {
-      oneOf: [{ type: "string" }, { type: "boolean" }],
-      enum: [true, false, "grid"],
-      default: true,
+      type: "string",
+      enum: Object.keys(SHOW_THUMBNAIL),
+      default: SHOW_THUMBNAIL.show,
     },
-    corners: { type: "string", enum: ["square", "round"], default: "square" },
+    corners: {
+      type: "string",
+      enum: Object.keys(CORNERS),
+      default: CORNERS.square,
+    },
     shadow: {
       type: "string",
-      enum: ["none", "low", "medium", "heavy"],
-      default: "none",
+      enum: Object.keys(DROP_SHADOWS),
+      default: DROP_SHADOWS.none,
     },
     showLinkButton: { type: "boolean", default: false },
     linkButtonStyle: {

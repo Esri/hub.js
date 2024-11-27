@@ -1,3 +1,10 @@
+import {
+  BUTTON_STYLES,
+  CARD_TITLE_TAG,
+  CORNERS,
+  DROP_SHADOWS,
+  LAYOUT_OPTIONS,
+} from "../../core/schemas/shared/enums";
 import { WellKnownCollection } from "../wellKnownCatalog";
 
 export type CatalogType = "content" | "exclusion";
@@ -190,12 +197,12 @@ export interface IGalleryDisplayConfig {
    * If this is true on a collection's display config, that collection will not be shown in the gallery.
    */
   hidden?: boolean;
-  layout?: "list" | "grid" | "map" | "table" | "calendar" | "compact";
-  cardTitleTag?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+  layout?: LAYOUT_OPTIONS;
+  cardTitleTag?: CARD_TITLE_TAG;
   showThumbnail?: boolean;
-  corners?: "square" | "round";
-  shadow?: "none" | "light" | "medium" | "heavy";
+  corners?: CORNERS;
+  shadow?: DROP_SHADOWS;
   showLinkButton?: boolean;
-  linkButtonStyle?: "solid" | "outline" | "outline-fill" | "transparent";
+  linkButtonStyle?: BUTTON_STYLES;
   linkButtonText?: string;
 }

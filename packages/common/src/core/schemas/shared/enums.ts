@@ -28,3 +28,47 @@ export enum DROP_SHADOWS {
   medium = "medium",
   heavy = "heavy",
 }
+
+/**
+ * Tags to wrap the title on each card
+ */
+export enum CARD_TITLE_TAG {
+  h1 = "h1",
+  h2 = "h2",
+  h3 = "h3",
+  h4 = "h4",
+  h5 = "h5",
+  h6 = "h6",
+}
+
+/**
+ * Show thumbnail options,
+ * show | hide | only show in grid layout
+ */
+export enum SHOW_THUMBNAIL {
+  show = "show",
+  hide = "hide",
+  grid = "grid",
+}
+
+/**
+ * Options for the layout of a gallery
+ */
+export enum LAYOUT_OPTIONS {
+  list = "list",
+  grid = "grid",
+  table = "table",
+  map = "map",
+  compact = "compact",
+  calendar = "calendar",
+}
+
+/**
+ * Button styles
+ */
+export enum BUTTON_STYLES {
+  outline = "outline",
+  solid = "solid",
+  filled = "outline-filled",
+  transparent = "transparent",
+}
