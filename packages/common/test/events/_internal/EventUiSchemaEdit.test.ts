@@ -251,12 +251,6 @@ describe("EventUiSchemaEdit", () => {
                       icon: true,
                       labelKey: "myI18nScope.fields.startTime.requiredError",
                     },
-                    {
-                      type: "ERROR",
-                      keyword: "format",
-                      icon: true,
-                      labelKey: "event.fields.startTime.invalidTime",
-                    },
                   ],
                 },
               },
@@ -285,12 +279,6 @@ describe("EventUiSchemaEdit", () => {
                       keyword: "formatExclusiveMinimum",
                       icon: true,
                       labelKey: "myI18nScope.fields.endTime.minTimeError",
-                    },
-                    {
-                      type: "ERROR",
-                      keyword: "format",
-                      icon: true,
-                      labelKey: "event.fields.endTime.invalidTime",
                     },
                   ],
                 },
@@ -406,12 +394,6 @@ describe("EventUiSchemaEdit", () => {
                       icon: true,
                       labelKey:
                         "myI18nScope.fields.inPersonCapacity.minimumError",
-                    },
-                    {
-                      type: "ERROR",
-                      keyword: "type",
-                      icon: true,
-                      labelKey: "event.fields.inPersonCapacity.type",
                     },
                   ],
                 },
@@ -534,12 +516,6 @@ describe("EventUiSchemaEdit", () => {
                       icon: true,
                       labelKey:
                         "myI18nScope.fields.onlineCapacity.minimumError",
-                    },
-                    {
-                      type: "ERROR",
-                      keyword: "type",
-                      icon: true,
-                      labelKey: "event.fields.onlineCapacity.type",
                     },
                   ],
                 },
