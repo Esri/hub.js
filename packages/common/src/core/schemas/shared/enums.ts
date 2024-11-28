@@ -32,7 +32,7 @@ export enum DROP_SHADOWS {
 /**
  * Tags to wrap the title on each card
  */
-export enum CARD_TITLE_TAG {
+export enum CARD_TITLE_TAGS {
   h1 = "h1",
   h2 = "h2",
   h3 = "h3",
@@ -52,9 +52,9 @@ export enum SHOW_THUMBNAIL {
 }
 
 /**
- * Options for the layout of a gallery
+ * Layouts for gallery
  */
-export enum LAYOUT_OPTIONS {
+export enum LAYOUTS {
   list = "list",
   grid = "grid",
   table = "table",
@@ -69,6 +69,6 @@ export enum LAYOUT_OPTIONS {
 export enum BUTTON_STYLES {
   outline = "outline",
   solid = "solid",
-  filled = "outline-filled",
+  outlineFilled = "outline-filled",
   transparent = "transparent",
 }
