@@ -498,22 +498,25 @@ export function applyWellKnownItemPredicates(query: IQuery): IQuery {
           Object.keys(predicate.type).forEach((key) => {
             const types = predicate.type[key];
 
-            // for each type, try to replace it with the family types if it is an expansion
-            predicate.type[key] = types.reduce(
-              (typesAcc: string[], type: string) => {
-                if (isFamilyExpansionType(type)) {
-                  // we need the type keyword without the dollar sign
-                  const family = type.slice(1);
-                  // get the family types from the given expansion
-                  const familyTypes = getFamilyTypes(family as HubFamily);
-                  typesAcc = [...typesAcc, ...familyTypes];
-                } else {
-                  typesAcc.push(type);
-                }
-                return typesAcc;
-              },
-              []
-            );
+            // try to reduce the array if it is an array
+            if (Array.isArray(types)) {
+              // for each type, try to replace it with the family types if it is an expansion
+              predicate.type[key] = types.reduce(
+                (typesAcc: string[], type: string) => {
+                  if (isFamilyExpansionType(type)) {
+                    // we need the type keyword without the dollar sign
+                    const family = type.slice(1);
+                    // get the family types from the given expansion
+                    const familyTypes = getFamilyTypes(family as HubFamily);
+                    typesAcc = [...typesAcc, ...familyTypes];
+                  } else {
+                    typesAcc.push(type);
+                  }
+                  return typesAcc;
+                },
+                []
+              );
+            }
           });
 
           // keep the updated predicate
