@@ -1,11 +1,6 @@
 import { EntityType, targetEntities } from "../../../search/types/IHubCatalog";
 import { IConfigurationSchema } from "../types";
-import {
-  CARD_TITLE_TAGS,
-  CORNERS,
-  DROP_SHADOWS,
-  SHOW_THUMBNAIL,
-} from "./enums";
+import { CARD_TITLE_TAGS, CORNERS, DROP_SHADOWS } from "./enums";
 
 /** JSON schema for an IPredicate */
 export const PredicateSchema: IConfigurationSchema = {
@@ -100,8 +95,8 @@ export const GalleryDisplayConfigSchema: IConfigurationSchema = {
     },
     showThumbnail: {
       type: "string",
-      enum: Object.keys(SHOW_THUMBNAIL),
-      default: SHOW_THUMBNAIL.show,
+      enum: ["show", "hide", "grid"],
+      default: "show",
     },
     corners: {
       type: "string",

@@ -40,35 +40,3 @@ export enum CARD_TITLE_TAGS {
   h5 = "h5",
   h6 = "h6",
 }
-
-/**
- * Show thumbnail options,
- * show | hide | only show in grid layout
- */
-export enum SHOW_THUMBNAIL {
-  show = "show",
-  hide = "hide",
-  grid = "grid",
-}
-
-/**
- * Layouts for gallery
- */
-export enum LAYOUTS {
-  list = "list",
-  grid = "grid",
-  table = "table",
-  map = "map",
-  compact = "compact",
-  calendar = "calendar",
-}
-
-/**
- * Button styles
- */
-export enum BUTTON_STYLES {
-  outline = "outline",
-  solid = "solid",
-  outlineFilled = "outline-filled",
-  transparent = "transparent",
-}

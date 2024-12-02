@@ -1,10 +1,7 @@
-import { LAYOUTS } from "../../core/schemas/internal/metrics/interfaces";
 import {
-  BUTTON_STYLES,
   CARD_TITLE_TAGS,
   CORNERS,
   DROP_SHADOWS,
-  SHOW_THUMBNAIL,
 } from "../../core/schemas/shared/enums";
 import { WellKnownCollection } from "../wellKnownCatalog";
 
@@ -198,12 +195,12 @@ export interface IGalleryDisplayConfig {
    * If this is true on a collection's display config, that collection will not be shown in the gallery.
    */
   hidden?: boolean;
-  layout?: LAYOUTS;
+  layout?: "list" | "grid" | "map" | "table" | "calendar" | "compact";
   cardTitleTag?: CARD_TITLE_TAGS;
-  showThumbnail?: SHOW_THUMBNAIL;
+  showThumbnail?: "show" | "hide" | "grid";
   corners?: CORNERS;
   shadow?: DROP_SHADOWS;
   showLinkButton?: boolean;
-  linkButtonStyle?: BUTTON_STYLES;
+  linkButtonStyle?: "solid" | "outline" | "outline-fill" | "transparent";
   linkButtonText?: string;
 }
