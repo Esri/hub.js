@@ -16,6 +16,7 @@ import * as FetchEntityCatalogModule from "../../src/search/fetchEntityCatalog";
 import * as HubSearchModule from "../../src/search/hubSearch";
 import * as CatalogContainsModule from "../../src/core/catalogContains";
 import { MOCK_AUTH } from "../mocks/mock-auth";
+import { CORNERS, DROP_SHADOWS } from "../../src/core/schemas/shared/enums";
 
 const catalogJson: IHubCatalog = {
   title: "Demo Catalog",
@@ -97,12 +98,12 @@ const catalogJson: IHubCatalog = {
   ],
   displayConfig: {
     hidden: false,
-    showThumbnail: true,
+    showThumbnail: "show",
     showLinkButton: true,
     linkButtonStyle: "outline",
     linkButtonText: "Explore",
-    corners: "square",
-    shadow: "none",
+    corners: CORNERS.square,
+    shadow: DROP_SHADOWS.none,
     layout: "list",
   },
 };
