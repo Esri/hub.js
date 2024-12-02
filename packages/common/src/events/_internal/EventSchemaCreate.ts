@@ -11,7 +11,7 @@ export type EventEditorType = (typeof EventEditorTypes)[number];
 export const EventEditorTypes = [
   "hub:event:create",
   "hub:event:edit",
-  "hub:event:attendees",
+  "hub:event:registrants",
 ] as const;
 
 /**
@@ -21,6 +21,7 @@ export const EventEditorTypes = [
 export const buildSchema = (): IConfigurationSchema => {
   const { startDate } = getDefaultEventDatesAndTimes();
   return {
+    $async: true,
     required: ["name", "startDate", "endDate"],
     properties: {
       name: ENTITY_NAME_SCHEMA,

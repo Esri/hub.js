@@ -8,6 +8,7 @@ import {
   IGroup,
   ISearchGroupUsersOptions,
   ISearchOptions,
+  SearchQueryBuilder,
 } from "@esri/arcgis-rest-portal";
 import { isPageType } from "../content/_internal/internalContentUtils";
 import { IHubSite } from "../core";
@@ -22,6 +23,7 @@ import {
   IWellKnownApis,
   IApiDefinition,
   NamedApis,
+  Kilobyte,
 } from "./types/types";
 import { WellKnownCollection } from "./wellKnownCatalog";
 import {
@@ -29,7 +31,12 @@ import {
   LegacySearchCategory,
 } from "./_internal/commonHelpers/isLegacySearchCategory";
 import { toCollectionKey } from "./_internal/commonHelpers/toCollectionKey";
-import { expandQuery } from "./_internal/portalSearchItems";
+import {
+  applyWellKnownCollectionFilters,
+  applyWellKnownItemPredicates,
+  expandPredicates,
+  expandQuery,
+} from "./_internal/portalSearchItems";
 
 /**
  * Well known APIs
@@ -368,4 +375,39 @@ export function addDefaultItemSearchPredicates(query: IQuery): IQuery {
   };
   queryWithDefaultItemPredicates.filters.push(defaultPredicates);
   return queryWithDefaultItemPredicates;
+}
+
+/**
+ * Returns the size in kilobytes of a query string or a SearchQueryBuilder.
+ * This is used to later determine if a query is too large or almost too large to be sent to the server.
+ * @param query
+ * @returns
+ */
+export function getKilobyteSizeOfQuery(
+  query: string | SearchQueryBuilder
+): Kilobyte {
+  // convert query to string if it isn't already
+  const queryString = typeof query === "string" ? query : query.toParam();
+
+  // get the size of the query string using the TextEncoder api
+  const encoder = new TextEncoder();
+  const encodedString = encoder.encode(queryString);
+  const sizeInBytes = encodedString.length;
+  const sizeInKB = sizeInBytes / 1024; // Convert bytes to kilobytes
+  return sizeInKB;
+}
+
+/**
+ * Expand an item IQuery for portal by applying well-known filters and predicates,
+ * and then expanding all the predicates into IMatchOption objects.
+ * @param query `IQuery` to expand
+ * @returns IQuery
+ */
+export function expandPortalQuery(query: IQuery): IQuery {
+  let updatedQuery = applyWellKnownCollectionFilters(query);
+  // Expand well-known filterGroups
+  // TODO: Should we remove this with the whole idea of collections?
+  updatedQuery = applyWellKnownItemPredicates(updatedQuery);
+  // Expand the individual predicates in each filter
+  return expandPredicates(updatedQuery);
 }

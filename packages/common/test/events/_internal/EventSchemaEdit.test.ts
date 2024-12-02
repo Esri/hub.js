@@ -21,17 +21,9 @@ import {
 describe("EventSchemaEdit", () => {
   describe("buildSchema", () => {
     it("should return the expected ui schema", async () => {
-      const datesAndTimes = {
-        startDate: "2024-03-31",
-        startDateTime: new Date(),
-        startTime: "12:00:00",
-        endDate: "2024-03-31",
-        endDateTime: new Date(),
-        endTime: "14:00:00",
-        timeZone: "America/New_York",
-      };
       const res = buildSchema();
       expect(res).toEqual({
+        $async: true,
         required: ["name", "startDate", "endDate", "timeZone"],
         properties: {
           name: ENTITY_NAME_SCHEMA,
