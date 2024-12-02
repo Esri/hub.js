@@ -20,6 +20,7 @@ import {
  */
 export const buildSchema = (): IConfigurationSchema => {
   return {
+    $async: true,
     required: ["name", "startDate", "endDate", "timeZone"],
     properties: {
       name: ENTITY_NAME_SCHEMA,

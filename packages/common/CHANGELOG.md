@@ -1,3 +1,10 @@
+## @esri/hub-common [15.13.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.13.0...@esri/hub-common@15.13.1) (2024-11-27)
+
+
+### Bug Fixes
+
+* **hub-common:** fix Events 3 create and edit form validations ([#1749](https://github.com/Esri/hub.js/issues/1749)) ([5a20b99](https://github.com/Esri/hub.js/commit/5a20b999ec88248c0beb16aed7ac4de365d14191))
+
 # @esri/hub-common [15.13.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.12.1...@esri/hub-common@15.13.0) (2024-11-25)
 
 

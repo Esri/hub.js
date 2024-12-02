@@ -21,6 +21,7 @@ export const EventEditorTypes = [
 export const buildSchema = (): IConfigurationSchema => {
   const { startDate } = getDefaultEventDatesAndTimes();
   return {
+    $async: true,
     required: ["name", "startDate", "endDate"],
     properties: {
       name: ENTITY_NAME_SCHEMA,
