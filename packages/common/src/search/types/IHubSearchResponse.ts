@@ -1,5 +1,6 @@
 import { IMessage } from "../../types/IMessage";
 import { IHubAggregation } from "./IHubAggregation";
+import { Kilobyte } from "./types";
 
 /**
  * Defines a generic search response interface with parameterized result type
@@ -36,4 +37,10 @@ export interface IHubSearchResponse<T> {
    * Array of messages / warnings
    */
   messages?: IMessage[];
+
+  /**
+   * The length of the query string that was just executed in the search,
+   * measured in kilobytes
+   */
+  executedQuerySize?: Kilobyte;
 }
