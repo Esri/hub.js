@@ -27,6 +27,7 @@ describe("EventSchemaCreate", () => {
       const res = buildSchema();
       expect(getDefaultEventDatesAndTimesSpy).toHaveBeenCalledTimes(1);
       expect(res).toEqual({
+        $async: true,
         required: ["name", "startDate", "endDate"],
         properties: {
           name: ENTITY_NAME_SCHEMA,
