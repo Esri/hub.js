@@ -1,4 +1,3 @@
-import { checkPermission } from "../../../../permissions/checkPermission";
 import { IArcGISContext } from "../../../../ArcGISContext";
 import {
   IConfigurationValues,
@@ -84,9 +83,11 @@ export const buildUiSchema = async (
                 [
                   {
                     effect: UiSchemaRuleEffects.SHOW,
-                    // only show in alpha
                     conditions: [
-                      checkPermission("hub:availability:alpha", context).access,
+                      // commented out for now, as itemQuery was a prototyped fearure that was not implemented.
+                      // will be replaced with requestings metrics in the near future
+                      // checkPermission("hub:availability:alpha", context).access,
+                      false,
                     ],
                   },
                 ],
