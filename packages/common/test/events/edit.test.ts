@@ -84,6 +84,8 @@ describe("HubEvents edit module", () => {
       canSetStatusToRemoved: true,
     },
     timeZone: "America/New_York",
+    description: null,
+    summary: null,
   };
 
   const defaultEntity: Partial<IHubEvent> = {
@@ -310,6 +312,120 @@ describe("HubEvents edit module", () => {
               entityType: "Hub Site Application",
             },
           ],
+        },
+        context.hubRequestOptions
+      );
+      expect(buildDefaultEventEntitySpy).toHaveBeenCalledTimes(1);
+      expect(buildDefaultEventEntitySpy).toHaveBeenCalledWith();
+      expect(buildDefaultEventRecordSpy).toHaveBeenCalledTimes(1);
+      expect(buildDefaultEventRecordSpy).toHaveBeenCalledWith();
+      expect(buildEventAssociationsSpy).toHaveBeenCalledTimes(1);
+      expect(buildEventAssociationsSpy).toHaveBeenCalledWith(
+        [
+          {
+            entityId: "t36",
+            entityType: "Hub Site Application",
+          },
+        ],
+        ["8nd"],
+        context.hubRequestOptions
+      );
+      expect(updateEventApiSpy).toHaveBeenCalledTimes(1);
+      expect(updateEventApiSpy).toHaveBeenCalledWith({
+        eventId: "92x",
+        data: {
+          access: defaultRecord.access,
+          allDay: defaultRecord.allDay,
+          allowRegistration: defaultRecord.allowRegistration,
+          attendanceType: defaultRecord.attendanceType,
+          associations: [
+            {
+              entityId: "t36",
+              entityType: "Hub Site Application",
+            },
+            {
+              entityId: "8nd",
+              entityType: "Hub Project",
+            },
+          ],
+          categories: defaultRecord.categories,
+          description: defaultRecord.description,
+          editGroups: defaultRecord.editGroups,
+          endDate: defaultRecord.endDate,
+          endTime: defaultRecord.endTime,
+          inPersonCapacity: defaultRecord.inPersonCapacity,
+          notifyAttendees: defaultRecord.notifyAttendees,
+          onlineMeeting: defaultRecord.onlineMeeting,
+          readGroups: defaultRecord.readGroups,
+          startDate: defaultRecord.startDate,
+          startTime: defaultRecord.startTime,
+          status: EventStatus.CANCELED,
+          summary: defaultRecord.summary,
+          tags: defaultRecord.tags,
+          timeZone: defaultRecord.timeZone,
+          title: "my event",
+          location: {
+            type: "custom",
+            spatialReference: {},
+            extent: [[]],
+            geometries: [],
+            placeName: "",
+          },
+        },
+        ...context.hubRequestOptions,
+      });
+      expect(res.name).toEqual("my event");
+    });
+
+    it("should handle empty summary and description", async () => {
+      const updatedRecord = {
+        ...defaultRecord,
+        id: "92x",
+        title: "my event",
+        timeZone: "America/New_York",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        associations: [
+          {
+            eventId: "92x",
+            entityId: "t36",
+            entityType: "Hub Site Application",
+          },
+          {
+            eventId: "92x",
+            entityId: "8nd",
+            entityType: "Hub Project",
+          },
+        ] as IEventAssociation[],
+      };
+      const updateEventApiSpy = spyOn(
+        eventsModule,
+        "updateEvent"
+      ).and.returnValue(new Promise((resolve) => resolve(updatedRecord)));
+      const res = await updateHubEvent(
+        {
+          name: "my event",
+          timeZone: "America/New_York",
+          id: "92x",
+          isCanceled: true,
+          inPersonCapacity: 50,
+          inPersonCapacityType: HubEventCapacityType.Fixed,
+          location: {
+            type: "custom",
+            spatialReference: {},
+            extent: [[]],
+            geometries: [],
+            name: "",
+          },
+          referencedContentIds: ["8nd"],
+          referencedContentIdsByType: [
+            {
+              entityId: "t36",
+              entityType: "Hub Site Application",
+            },
+          ],
+          summary: " ",
+          description: " ",
         },
         context.hubRequestOptions
       );

@@ -1,3 +1,10 @@
+## @esri/hub-common [15.13.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.13.1...@esri/hub-common@15.13.2) (2024-12-02)
+
+
+### Bug Fixes
+
+* **hub-common:** fix event summary validation error ([#1751](https://github.com/Esri/hub.js/issues/1751)) ([1ceb5ef](https://github.com/Esri/hub.js/commit/1ceb5efe1e585ee1230741f5e1670fa564df9ce7))
+
 ## @esri/hub-common [15.13.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.13.0...@esri/hub-common@15.13.1) (2024-11-27)
 
 
