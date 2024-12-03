@@ -1,3 +1,8 @@
+import {
+  CARD_TITLE_TAGS,
+  CORNERS,
+  DROP_SHADOWS,
+} from "../../core/schemas/shared/enums";
 import { WellKnownCollection } from "../wellKnownCatalog";
 
 export type CatalogType = "content" | "exclusion";
@@ -35,6 +40,11 @@ export interface IHubCatalog {
     scopes: string;
     collections: string;
   };
+
+  /**
+   * Optional display configuration to control a catalog's appearance in the UI
+   */
+  displayConfig?: IGalleryDisplayConfig;
 }
 
 export interface ICatalogScope extends Partial<Record<EntityType, IQuery>> {}
@@ -185,4 +195,12 @@ export interface IGalleryDisplayConfig {
    * If this is true on a collection's display config, that collection will not be shown in the gallery.
    */
   hidden?: boolean;
+  layout?: "list" | "grid" | "map" | "table" | "calendar" | "compact";
+  cardTitleTag?: CARD_TITLE_TAGS;
+  showThumbnail?: "show" | "hide" | "grid";
+  corners?: CORNERS;
+  shadow?: DROP_SHADOWS;
+  showLinkButton?: boolean;
+  linkButtonStyle?: "solid" | "outline" | "outline-fill" | "transparent";
+  linkButtonText?: string;
 }

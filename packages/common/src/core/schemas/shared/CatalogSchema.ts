@@ -1,5 +1,6 @@
 import { EntityType, targetEntities } from "../../../search/types/IHubCatalog";
 import { IConfigurationSchema } from "../types";
+import { CARD_TITLE_TAGS, CORNERS, DROP_SHADOWS } from "./enums";
 
 /** JSON schema for an IPredicate */
 export const PredicateSchema: IConfigurationSchema = {
@@ -82,7 +83,38 @@ export const GalleryDisplayConfigSchema: IConfigurationSchema = {
   type: "object",
   properties: {
     hidden: { type: "boolean", default: false },
-    // TODO: fill in properties
+    layout: {
+      type: "string",
+      enum: ["list", "grid", "table", "map", "compact"],
+      default: "list",
+    },
+    cardTitleTag: {
+      type: "string",
+      enum: Object.keys(CARD_TITLE_TAGS),
+      default: CARD_TITLE_TAGS.h3,
+    },
+    showThumbnail: {
+      type: "string",
+      enum: ["show", "hide", "grid"],
+      default: "show",
+    },
+    corners: {
+      type: "string",
+      enum: Object.keys(CORNERS),
+      default: CORNERS.square,
+    },
+    shadow: {
+      type: "string",
+      enum: Object.keys(DROP_SHADOWS),
+      default: DROP_SHADOWS.none,
+    },
+    showLinkButton: { type: "boolean", default: false },
+    linkButtonStyle: {
+      type: "string",
+      enum: ["outline", "outline-filled"],
+      default: "outline-filled",
+    },
+    linkButtonText: { type: "string", default: "Explore" },
   },
 };
 
