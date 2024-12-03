@@ -1,3 +1,10 @@
+# @esri/hub-common [15.14.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.13.2...@esri/hub-common@15.14.0) (2024-12-03)
+
+
+### Features
+
+* add displayConfig in Hub Catalog, update GalleryDisplayConfigSchema ([#1747](https://github.com/Esri/hub.js/issues/1747)) ([5d1cb18](https://github.com/Esri/hub.js/commit/5d1cb18cb145bc930874ebf188acbd85408a845a))
+
 ## @esri/hub-common [15.13.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.13.1...@esri/hub-common@15.13.2) (2024-12-02)
 
 
