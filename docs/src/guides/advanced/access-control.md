@@ -35,6 +35,7 @@ The `checkPermission(...)` call takes the following into account:
 - if user has edit access to the entity
 - entity specific feature flags
 - system feature flags
+- overrides passed into the app via query params (`pe=permission:to:enable` or `pd=permission:to:disable`)
 
 ## General Logic when not passed an entity
 `checkPermission(permission, context): IPermissionAccessResponse`
@@ -76,3 +77,12 @@ The `checkPermission(...)` call takes the following into account:
 ### Developer Guidance
 
 As we build the next generation of the ArcGIS Hub system, want behavior to be “configurable by default” - meaning that we should design and build the UI layer by querying the Permissions subsystem, instead of implementing custom checks in-place. This will enable the system to adapt to different licensing, or packaging strategies, simply by changing the business rules, instead of making sweeping code changes.
+
+## Overriding Permissions in the Hub Applications
+In order to flex some conditions in the application, the Hub applications can be passed query params which allow individual permissions to be enabed/disabled. This is supported in the Ember and React applications. In both, the host application is responsible for extracting the params and passing into the `ArcGISContextManager`, as well as removing the params from the uri once it's processed. 
+
+### Enabling Permissions
+To enable a permission in the hub applications, pass `?pe=permission:to:enable`. This will only override the `environment` and `availability` checks - meaning this can be used to verify behavior gated to QA, on PROD before full release. However, this can not be used to circumvent license, privilege or group membership checks.
+
+### Disabling Permissions
+To enable a permission in the hub applications, pass `?pd=permission:to:disable`. Unlike enabling a permission, any permission may be disabled regardless of it's definition. As noted above, in this case, the `checkPermission` call will return `{access:false, reason: "disabled-by-<feature>-flag" ...}`
