@@ -26,7 +26,7 @@ export const buildUiSchema = async (
         labelKey: `${i18nScope}.sections.siteUrl.label`,
         options: {
           requiredHelperText: {
-            labelKey: `${i18nScope}.shared.sections.defaultRequiredHelperText`,
+            labelKey: `${i18nScope}.sections.defaultRequiredHelperText`,
           },
         },
         elements: [
