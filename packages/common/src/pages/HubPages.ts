@@ -6,10 +6,10 @@ import { IHubSearchResult } from "../search";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { IHubRequestOptions, IModel } from "../types";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { getItem, IItem } from "@esri/arcgis-rest-portal";
+import { IItem } from "@esri/arcgis-rest-portal";
 import { cloneObject, unique } from "../util";
-import { mapBy, isGuid } from "../utils";
-import { constructSlug, getItemBySlug } from "../items/slugs";
+import { mapBy } from "../utils";
+import { constructSlug } from "../items/slugs";
 import { IHubItemEntity, IHubPage } from "../core";
 import {
   createModel,
@@ -25,6 +25,7 @@ import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
 import { DEFAULT_PAGE, DEFAULT_PAGE_MODEL } from "./defaults";
 import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlug";
 import { computeLinks } from "./_internal/computeLinks";
+import { IFetchItemOptions, fetchItem } from "../items/fetch";
 
 /**
  * @private
@@ -106,19 +107,10 @@ export async function updatePage(
  */
 export async function fetchPage(
   identifier: string,
-  requestOptions: IRequestOptions
+  requestOptions: IFetchItemOptions
 ): Promise<IHubPage> {
-  let getPrms;
-  if (isGuid(identifier)) {
-    // get item by id
-    getPrms = getItem(identifier, requestOptions);
-  } else {
-    getPrms = getItemBySlug(identifier, requestOptions);
-  }
-  return getPrms.then((item) => {
-    if (!item) return null;
-    return convertItemToPage(item, requestOptions);
-  });
+  const item = await fetchItem(identifier, requestOptions);
+  return item ? convertItemToPage(item, requestOptions) : null;
 }
 
 /**
