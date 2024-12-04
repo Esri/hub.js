@@ -16,15 +16,17 @@ describe("buildUiSchema: site settings", () => {
         {
           type: "Section",
           labelKey: `${i18nScope}.sections.siteUrl.label`,
+          options: {
+            requiredHelperText: {
+              labelKey: `${i18nScope}.shared.sections.defaultRequiredHelperText`,
+            },
+          },
           elements: [
             {
               scope: "/properties/_urlInfo",
               type: "Control",
               options: {
                 type: "Control",
-                requiredHelperText: {
-                  labelKey: `${i18nScope}.shared.sections.defaultRequiredHelperText`,
-                },
                 control: "hub-composite-input-site-url",
                 orgUrlKey,
                 messages: [
