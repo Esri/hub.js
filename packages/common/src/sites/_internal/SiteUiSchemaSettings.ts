@@ -32,6 +32,9 @@ export const buildUiSchema = async (
               type: "Control",
               control: "hub-composite-input-site-url",
               orgUrlKey,
+              requiredHelperText: {
+                labelKey: `${i18nScope}.shared.sections.defaultRequiredHelperText`,
+              },
               messages: [
                 {
                   type: "ERROR",
