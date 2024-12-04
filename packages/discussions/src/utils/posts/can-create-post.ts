@@ -13,19 +13,22 @@ type ILegacyChannelPermissions = Pick<
 
 /**
  * Utility to determine if User has privileges to create a post in a channel
- * @deprecated use `canCreatePost` or 'canCreateReply` instead
  * @param channel
  * @param user
  * @returns {boolean}
  */
-export function canPostToChannel(
+export function canCreatePost(
   channel: IChannel,
   user: IUser | IDiscussionsUser = {}
 ): boolean {
-  const { access, groups, orgs, allowAnonymous } = channel;
+  const { access, groups, orgs, allowAnonymous, allowPost } = channel;
 
   if (hasOrgAdminUpdateRights(user, channel.orgId)) {
     return true;
+  }
+
+  if (!allowPost) {
+    return false;
   }
 
   if (channel.channelAcl) {
