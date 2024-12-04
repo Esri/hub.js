@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <meta name="date" content="2024-12-04T16:23:16.180Z">
+    <meta name="date" content="2024-12-04T22:45:02.255Z">
     <title>Access Control | Guide | @esri/hub.js</title>
     
     <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
@@ -176,6 +176,7 @@
 <li>if user has edit access to the entity</li>
 <li>entity specific feature flags</li>
 <li>system feature flags</li>
+<li>overrides passed into the app via query params (<code>pe=permission:to:enable</code> or <code>pd=permission:to:disable</code>)</li>
 </ul>
 <h2>General Logic when not passed an entity</h2>
 <p><code>checkPermission(permission, context): IPermissionAccessResponse</code></p>
@@ -242,6 +243,12 @@
 </ul>
 <h3>Developer Guidance</h3>
 <p>As we build the next generation of the ArcGIS Hub system, want behavior to be “configurable by default” - meaning that we should design and build the UI layer by querying the Permissions subsystem, instead of implementing custom checks in-place. This will enable the system to adapt to different licensing, or packaging strategies, simply by changing the business rules, instead of making sweeping code changes.</p>
+<h2>Overriding Permissions in the Hub Applications</h2>
+<p>In order to flex some conditions in the application, the Hub applications can be passed query params which allow individual permissions to be enabed/disabled. This is supported in the Ember and React applications. In both, the host application is responsible for extracting the params and passing into the <code>ArcGISContextManager</code>, as well as removing the params from the uri once it's processed.</p>
+<h3>Enabling Permissions</h3>
+<p>To enable a permission in the hub applications, pass <code>?pe=permission:to:enable</code>. This will only override the <code>environment</code> and <code>availability</code> checks - meaning this can be used to verify behavior gated to QA, on PROD before full release. However, this can not be used to circumvent license, privilege or group membership checks.</p>
+<h3>Disabling Permissions</h3>
+<p>To enable a permission in the hub applications, pass <code>?pd=permission:to:disable</code>. Unlike enabling a permission, any permission may be disabled regardless of it's definition. As noted above, in this case, the <code>checkPermission</code> call will return <code>{access:false, reason: &quot;disabled-by-&lt;feature&gt;-flag&quot; ...}</code></p>
       </div>
     </div>
   </div>

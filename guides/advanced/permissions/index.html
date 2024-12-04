@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <meta name="date" content="2024-12-04T16:23:16.180Z">
+    <meta name="date" content="2024-12-04T22:45:02.255Z">
     <title>Permissions and Access Controls | Guide | @esri/hub.js</title>
     
     <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
@@ -163,7 +163,8 @@
 <p><strong>entityOwner</strong>: Does this policy require that the user be the owner of the entity?</p>
 <p><strong>entityEdit</strong>: Does this policy require that the user be able to edit the entity?</p>
 <p><strong>licenses</strong>: What Hub Licenses are required? Only specify this if the permission is limited to a subset of licenses.</p>
-<p><strong>availability</strong>: <code>alpha</code>, <code>beta</code> or <code>general</code> availability.</p>
+<p><strong>availability</strong>: <code>alpha</code>, <code>beta</code> or <code>general</code> availability. Can be overridden by passing <code>?pe=permission:to:enable</code> in uri</p>
+<p><strong>environments</strong>: <code>devext</code>, <code>qaext</code> or <code>production</code> etc. Can be overridden by passing <code>?pe=permission:to:enable</code> in uri</p>
 <p><strong>assertions</strong>: additional checks that can address custom scenarios not covered by the other properties. (example shown below)</p>
 <p><strong>entityConfigurable</strong>: can an entity enable/disable this?</p>
 <p>Please see the <a href="/hub.js/api/common/IPermissionPolicy/"><code>IPermissionPolicy</code> documentation</a> for list of all available properties and theur detailed definitions.</p>
