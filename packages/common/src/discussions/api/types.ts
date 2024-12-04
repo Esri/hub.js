@@ -866,9 +866,10 @@ export interface ICreateChannel
  * @extends {IWithTimestamps}
  */
 export interface IChannel extends IWithAuthor, IWithEditor, IWithTimestamps {
+  id: string;
   access: SharingAccess;
-  allowAsAnonymous: boolean;
   allowAnonymous: boolean;
+  allowAsAnonymous: boolean;
   allowedReactions: PostReaction[] | null;
   allowPost: boolean;
   allowReaction: boolean;
@@ -878,7 +879,6 @@ export interface IChannel extends IWithAuthor, IWithEditor, IWithTimestamps {
   defaultPostStatus: PostStatus;
   groups: string[];
   metadata: IChannelMetadata | null;
-  id: string;
   name: string | null;
   orgId: string;
   orgs: string[];
