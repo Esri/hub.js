@@ -186,6 +186,9 @@ export interface IChangeEventDetail {
     [key: string]: any;
   };
   schema?: IConfigurationSchema;
+  /**
+   * The currently required properties in the schema
+   */
   required?: string[];
 }
 
