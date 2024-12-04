@@ -16,7 +16,7 @@
     "@esri/hub-common": "^15.8.0"
   },
   "devDependencies": {
-    "@esri/hub-common": "^15.8.0",
+    "@esri/hub-common": "^15.16.0",
     "@types/geojson": "^7946.0.7",
     "typescript": "^3.8.1"
   },
