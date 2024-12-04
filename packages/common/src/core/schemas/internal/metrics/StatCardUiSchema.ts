@@ -97,6 +97,10 @@ export const buildUiSchema = async (
                 type: "Control",
                 rule: SHOW_FOR_UNITS_SECTION_ENABLED,
                 options: {
+                  helperText: {
+                    labelKey: `formatting.unitPosition.helperText`,
+                    placement: "bottom",
+                  },
                   control: "hub-field-input-select",
                   enum: {
                     i18nScope: `formatting.unitPosition.enum`,
@@ -170,9 +174,15 @@ export const buildUiSchema = async (
             type: "Control",
           },
           {
-            labelKey: `details.trailingText`,
+            labelKey: `details.trailingText.label`,
             scope: "/properties/trailingText",
             type: "Control",
+            options: {
+              helperText: {
+                labelKey: `details.trailingText.helperText`,
+                placement: "bottom",
+              },
+            },
           },
           {
             type: "Section",
