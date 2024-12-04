@@ -186,6 +186,7 @@ export interface IChangeEventDetail {
     [key: string]: any;
   };
   schema?: IConfigurationSchema;
+  required?: string[];
 }
 
 export interface IUiSchemaElement {
