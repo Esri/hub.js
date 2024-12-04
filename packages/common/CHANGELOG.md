@@ -1,3 +1,10 @@
+# @esri/hub-common [15.16.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.15.0...@esri/hub-common@15.16.0) (2024-12-04)
+
+
+### Features
+
+* **hub-common:** add allowPost to IChannel and ICreateChannelSettings ([#1761](https://github.com/Esri/hub.js/issues/1761)) ([4fe3f57](https://github.com/Esri/hub.js/commit/4fe3f5742807f0b629365a83bfc7f4244b5fc333))
+
 # @esri/hub-common [15.15.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.14.0...@esri/hub-common@15.15.0) (2024-12-04)
 
 
