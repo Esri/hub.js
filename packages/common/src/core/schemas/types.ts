@@ -189,7 +189,7 @@ export interface IChangeEventDetail {
   /**
    * The currently required properties in the schema
    */
-  required?: string[];
+  required?: Set<string>;
 }
 
 export interface IUiSchemaElement {
