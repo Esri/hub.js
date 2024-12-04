@@ -870,7 +870,7 @@ export interface IChannel extends IWithAuthor, IWithEditor, IWithTimestamps {
   allowAsAnonymous: boolean;
   allowAnonymous: boolean;
   allowedReactions: PostReaction[] | null;
-  allowPost?: boolean;
+  allowPost: boolean;
   allowReaction: boolean;
   allowReply: boolean;
   blockWords: string[] | null;
