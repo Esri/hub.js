@@ -933,7 +933,7 @@ export interface ISearchChannels
   access?: SharingAccess[];
   relations?: ChannelRelation[];
   name?: string;
-  orgId?: string;
+  orgIds?: string[];
   discussion?: string;
 }
 
