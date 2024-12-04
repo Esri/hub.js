@@ -6,8 +6,10 @@ import { MOCK_AUTH } from "../groups/add-users-workflow/fixtures";
 
 describe("fetchItem", () => {
   const authentication = MOCK_AUTH;
+  const siteOrgKey = "site-org";
   const requestOptions = {
     authentication,
+    siteOrgKey,
   };
   it("calls getItem with id when identifier is or contains an id", async () => {
     const identifier = "67be0486253a423891042361843d1b0a";
@@ -48,6 +50,34 @@ describe("fetchItem", () => {
         orgKey,
       };
       const slugInfo = { slug: `${orgKey}|${slug}` };
+      const parseIdentifierSpy = spyOn(
+        _internalSlugModule,
+        "parseIdentifier"
+      ).and.returnValue(parsedIdentifier);
+      const findItemsBySlugSpy = spyOn(
+        slugModule,
+        "findItemsBySlug"
+      ).and.returnValue(Promise.resolve([searchResult]));
+      const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
+        Promise.resolve(item)
+      );
+
+      const result = await fetchItem(identifier, requestOptions);
+
+      expect(result).toBe(item);
+      expect(parseIdentifierSpy.calls.count()).toBe(1);
+      expect(parseIdentifierSpy).toHaveBeenCalledWith(identifier);
+      expect(findItemsBySlugSpy.calls.count()).toBe(1);
+      expect(findItemsBySlugSpy).toHaveBeenCalledWith(slugInfo, requestOptions);
+      expect(getItemSpy.calls.count()).toBe(1);
+      expect(getItemSpy).toHaveBeenCalledWith(searchResult.id, requestOptions);
+    });
+    it('falls back to "siteOrgKey" when org key is missing from slug', async () => {
+      const identifier = slug;
+      const parsedIdentifier = {
+        slug,
+      };
+      const slugInfo = { slug: `${siteOrgKey}|${slug}` };
       const parseIdentifierSpy = spyOn(
         _internalSlugModule,
         "parseIdentifier"

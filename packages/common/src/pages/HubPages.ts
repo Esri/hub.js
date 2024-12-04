@@ -25,7 +25,7 @@ import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
 import { DEFAULT_PAGE, DEFAULT_PAGE_MODEL } from "./defaults";
 import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlug";
 import { computeLinks } from "./_internal/computeLinks";
-import { fetchItem } from "../items/fetch";
+import { IFetchItemOptions, fetchItem } from "../items/fetch";
 
 /**
  * @private
@@ -107,7 +107,7 @@ export async function updatePage(
  */
 export async function fetchPage(
   identifier: string,
-  requestOptions: IRequestOptions
+  requestOptions: IFetchItemOptions
 ): Promise<IHubPage> {
   const item = await fetchItem(identifier, requestOptions);
   return item ? convertItemToPage(item, requestOptions) : null;

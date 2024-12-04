@@ -5,6 +5,15 @@ import { findItemsBySlug } from "./slugs";
 import { uriSlugToKeywordSlug } from "./_internal/slugConverters";
 import { parseIdentifier } from "./_internal/slugs";
 
+export interface IFetchItemOptions extends IRequestOptions {
+  /**
+   * Org key of the site for which this item is being fetched.
+   * This is used as a fallback when looking up by a slug
+   * that is missing the org key prefix.
+   */
+  siteOrgKey?: string;
+}
+
 /**
  * Fetch an item by its identifier
  * @param identifier item id or slug, which may or may not include the org key
@@ -12,7 +21,7 @@ import { parseIdentifier } from "./_internal/slugs";
  */
 export function fetchItem(
   identifier: string,
-  requestOptions: IRequestOptions
+  requestOptions: IFetchItemOptions
 ): Promise<IItem> {
   const { id, slug, orgKey } = parseIdentifier(identifier);
   if (id) {
@@ -21,8 +30,10 @@ export function fetchItem(
   }
   // we'll have to look up by slug
   // first, ensure the slug has the org key
-  // TODO: fallback to site org key if none parsed from slug
-  const fullyQualifiedSlug = addContextToSlug(slug, orgKey);
+  const fullyQualifiedSlug = addContextToSlug(
+    slug,
+    orgKey || requestOptions.siteOrgKey
+  );
   const slugKeyword = uriSlugToKeywordSlug(fullyQualifiedSlug);
   return findItemsBySlug({ slug: slugKeyword }, requestOptions).then(
     (results) => {
