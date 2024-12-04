@@ -1,12 +1,7 @@
 import { IItem } from "@esri/arcgis-rest-types";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { UserSession } from "@esri/arcgis-rest-auth";
-import { getItemHomeUrl } from "../../urls";
 import { IHubEntityLinks } from "../../core/types";
-import { getItemIdentifier } from "../../items";
-import { getHubRelativeUrl } from "../../content/_internal/internalContentUtils";
-import { getRelativeWorkspaceUrl } from "../../core/getRelativeWorkspaceUrl";
-import { getItemThumbnailUrl } from "../../resources/get-item-thumbnail-url";
+import { computeItemLinks } from "../../core/_internal/computeItemLinks";
 
 /**
  * Compute the links that get appended to a Hub Template
@@ -19,32 +14,22 @@ export function computeLinks(
   item: IItem,
   requestOptions: IRequestOptions
 ): IHubEntityLinks {
-  let token: string;
-  if (requestOptions.authentication) {
-    const session: UserSession = requestOptions.authentication as UserSession;
-    token = session.token;
-  }
+  const links = computeItemLinks(item, requestOptions);
 
   // If a solution template is deployed, we don't support
   // managing it in the workspace, so we kick users to AGO
   const isDeployed = item.typeKeywords?.includes("Deployed");
-  const itemHomeUrl = getItemHomeUrl(item.id, requestOptions);
-  const siteRelativeUrl = getHubRelativeUrl(
-    item.type,
-    getItemIdentifier(item),
-    item.typeKeywords
-  );
+  const { self, siteRelative, workspaceRelative } = links;
+  // templates have an advanced edit link
+  const advancedEditRelative = `${(siteRelative as string)
+    .split("/")
+    .slice(0, -1)
+    .join("/")}/edit/advanced`;
   return {
-    self: itemHomeUrl,
-    siteRelative: siteRelativeUrl,
-    siteRelativeEntityType: getHubRelativeUrl(item.type),
-    workspaceRelative: isDeployed
-      ? itemHomeUrl
-      : getRelativeWorkspaceUrl(item.type, getItemIdentifier(item)),
-    advancedEditRelative: `${siteRelativeUrl
-      .split("/")
-      .slice(0, -1)
-      .join("/")}/edit/advanced`,
-    thumbnail: getItemThumbnailUrl(item, requestOptions, token),
+    ...links,
+    // handle deployed templates
+    workspaceRelative: isDeployed ? self : workspaceRelative,
+    // add advanced edit relative link
+    advancedEditRelative,
   };
 }

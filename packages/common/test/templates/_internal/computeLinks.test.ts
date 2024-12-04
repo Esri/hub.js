@@ -37,7 +37,7 @@ describe("templates: computeLinks", () => {
 
     expect(chk.self).toBe("/some-item-home-url");
     expect(chk.siteRelative).toBe("/templates/mock-slug/about");
-    expect(chk.workspaceRelative).toBe("/workspace/templates/mock-slug");
+    expect(chk.workspaceRelative).toBe("/workspace/templates/00c");
     expect(chk.advancedEditRelative).toBe("/templates/mock-slug/edit/advanced");
     expect(chk.thumbnail).toBe("/some-thumbnail-url");
   });
