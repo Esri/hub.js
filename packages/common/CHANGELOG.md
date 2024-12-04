@@ -1,3 +1,10 @@
+# @esri/hub-common [15.15.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.14.0...@esri/hub-common@15.15.0) (2024-12-04)
+
+
+### Features
+
+* **hub-common:** add fetchItem and call it from fetchPage ([#1756](https://github.com/Esri/hub.js/issues/1756)) ([e3fa5af](https://github.com/Esri/hub.js/commit/e3fa5afdd1248f89799cd10543d924184bf1d15e))
+
 # @esri/hub-common [15.14.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.13.2...@esri/hub-common@15.14.0) (2024-12-03)
 
 
