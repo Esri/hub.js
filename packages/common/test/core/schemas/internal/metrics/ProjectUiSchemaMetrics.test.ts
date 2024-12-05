@@ -246,6 +246,10 @@ describe("ProjectUiSchemaMetrics", () => {
                 scope: "/properties/_metric/properties/unitPosition",
                 type: "Control",
                 options: {
+                  helperText: {
+                    labelKey: "shared.fields.metrics.unitPosition.helperText",
+                    placement: "bottom",
+                  },
                   control: "hub-field-input-select",
                   enum: {
                     i18nScope: `shared.fields.metrics.unitPosition.enum`,
@@ -262,6 +266,12 @@ describe("ProjectUiSchemaMetrics", () => {
                 labelKey: `shared.fields.metrics.trailingText.label`,
                 scope: "/properties/_metric/properties/trailingText",
                 type: "Control",
+                options: {
+                  helperText: {
+                    labelKey: "shared.fields.metrics.trailingText.helperText",
+                    placement: "bottom",
+                  },
+                },
               },
               {
                 labelKey: `shared.fields.metrics.sourceLink.label`,

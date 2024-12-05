@@ -117,6 +117,10 @@ describe("buildUiSchema: stat", () => {
                     effect: UiSchemaRuleEffects.SHOW,
                   },
                   options: {
+                    helperText: {
+                      labelKey: `formatting.unitPosition.helperText`,
+                      placement: "bottom",
+                    },
                     control: "hub-field-input-select",
                     enum: {
                       i18nScope: `formatting.unitPosition.enum`,
@@ -202,9 +206,15 @@ describe("buildUiSchema: stat", () => {
               type: "Control",
             },
             {
-              labelKey: `details.trailingText`,
+              labelKey: `details.trailingText.label`,
               scope: "/properties/trailingText",
               type: "Control",
+              options: {
+                helperText: {
+                  labelKey: `details.trailingText.helperText`,
+                  placement: "bottom",
+                },
+              },
             },
             {
               type: "Section",

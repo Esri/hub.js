@@ -2,7 +2,6 @@ import { IArcGISContext } from "../../../../ArcGISContext";
 import { IStatCardEditorOptions } from "../EditorOptions";
 import { UiSchemaRuleEffects, IUiSchema } from "../../types";
 import { ICONS } from "./interfaces";
-import { checkPermission } from "../../../../permissions/checkPermission";
 
 /**
  * @private
@@ -38,9 +37,11 @@ export const buildUiSchema = async (
                 [
                   {
                     effect: UiSchemaRuleEffects.SHOW,
-                    // only show in alpha
                     conditions: [
-                      checkPermission("hub:availability:alpha", context).access,
+                      // commented out for now, as itemQuery was a prototyped fearure that was not implemented.
+                      // will be replaced with requestings metrics in the near future
+                      // checkPermission("hub:availability:alpha", context).access,
+                      false,
                     ],
                   },
                 ],
@@ -96,6 +97,10 @@ export const buildUiSchema = async (
                 type: "Control",
                 rule: SHOW_FOR_UNITS_SECTION_ENABLED,
                 options: {
+                  helperText: {
+                    labelKey: `formatting.unitPosition.helperText`,
+                    placement: "bottom",
+                  },
                   control: "hub-field-input-select",
                   enum: {
                     i18nScope: `formatting.unitPosition.enum`,
@@ -169,9 +174,15 @@ export const buildUiSchema = async (
             type: "Control",
           },
           {
-            labelKey: `details.trailingText`,
+            labelKey: `details.trailingText.label`,
             scope: "/properties/trailingText",
             type: "Control",
+            options: {
+              helperText: {
+                labelKey: `details.trailingText.helperText`,
+                placement: "bottom",
+              },
+            },
           },
           {
             type: "Section",
