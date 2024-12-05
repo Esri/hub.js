@@ -1,3 +1,10 @@
+## @esri/hub-common [15.17.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.17.0...@esri/hub-common@15.17.1) (2024-12-05)
+
+
+### Bug Fixes
+
+* **hub-common:** modify ISearchCHannels interface orgId => orgIds ([#1762](https://github.com/Esri/hub.js/issues/1762)) ([56b2131](https://github.com/Esri/hub.js/commit/56b2131b0eab8abc83dcc326a2bd8ceac75d613a))
+
 # @esri/hub-common [15.17.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.16.0...@esri/hub-common@15.17.0) (2024-12-04)
 
 
