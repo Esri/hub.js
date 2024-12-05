@@ -1,3 +1,10 @@
+## @esri/hub-common [15.18.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.18.0...@esri/hub-common@15.18.1) (2024-12-05)
+
+
+### Bug Fixes
+
+* **hub-common:** updated metrics editors  ([#1757](https://github.com/Esri/hub.js/issues/1757)) ([b0de73f](https://github.com/Esri/hub.js/commit/b0de73f6dff3218e2a7f520fa5c1634f3885ef64))
+
 # @esri/hub-common [15.18.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.17.1...@esri/hub-common@15.18.0) (2024-12-05)
 
 
