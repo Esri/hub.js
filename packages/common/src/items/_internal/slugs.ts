@@ -1,9 +1,10 @@
 import { isGuid } from "../../utils/is-guid";
+import {
+  SLUG_ORG_SEPARATOR_KEYWORD,
+  SLUG_ORG_SEPARATOR_URI,
+} from "./slugConverters";
 
 const SLUG_ID_SEPARATOR = "~";
-
-// TODO: use this const in other utils
-const SLUG_ORG_KEY_SEPARATOR = "::";
 
 const TYPEKEYWORD_MAX_LENGTH = 256;
 
@@ -72,7 +73,7 @@ export const parseIdentifier = (identifier: string): IParsedIdentifier => {
     let slugParts;
     [slugParts, id] = identifier.split(SLUG_ID_SEPARATOR);
     const match = slugParts.match(
-      new RegExp(`^((.*)${SLUG_ORG_KEY_SEPARATOR})?(.*)$`)
+      new RegExp(`^((.*)${SLUG_ORG_SEPARATOR_URI})?(.*)$`)
     );
     // istanbul ignore next - I think that regex will always match at least the slug
     if (match) {
@@ -85,4 +86,15 @@ export const parseIdentifier = (identifier: string): IParsedIdentifier => {
     slug,
     orgKey,
   };
+};
+
+/**
+ * strip org key prefix from a slug and append an id
+ * @param slug
+ * @param id
+ * @returns
+ */
+export const appendIdToSlug = (slug: string, id: string): string => {
+  const slugWithoutOrgKey = slug.split(SLUG_ORG_SEPARATOR_KEYWORD).pop();
+  return `${slugWithoutOrgKey}${SLUG_ID_SEPARATOR}${id}`;
 };
