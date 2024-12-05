@@ -177,23 +177,32 @@ export type IRevertableTaskResult =
   | IRevertableTaskSuccess
   | IRevertableTaskFailed;
 
-export type HubFamily =
-  | "app"
-  | "content"
-  | "dataset"
-  | "document"
-  | "event"
-  | "feedback"
-  | "initiative"
-  | "map"
-  | "people"
-  | "site"
-  | "team"
-  | "template"
-  | "project"
-  | "channel"
-  | "discussion"
-  | "eventAttendee";
+/**
+ * All Hub families
+ */
+export const HubFamilies = [
+  "app",
+  "content",
+  "dataset",
+  "document",
+  "event",
+  "feedback",
+  "initiative",
+  "map",
+  "people",
+  "site",
+  "team",
+  "template",
+  "project",
+  "channel",
+  "discussion",
+  "eventAttendee",
+] as const;
+
+/**
+ * All Hub families
+ */
+export type HubFamily = (typeof HubFamilies)[number];
 
 /**
  * Visibility levels of a Hub resource
