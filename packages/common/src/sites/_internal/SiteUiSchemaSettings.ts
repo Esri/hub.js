@@ -24,6 +24,11 @@ export const buildUiSchema = async (
       {
         type: "Section",
         labelKey: `${i18nScope}.sections.siteUrl.label`,
+        options: {
+          requiredHelperText: {
+            labelKey: `${i18nScope}.sections.defaultRequiredHelperText`,
+          },
+        },
         elements: [
           {
             scope: "/properties/_urlInfo",
