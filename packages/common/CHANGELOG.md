@@ -1,3 +1,10 @@
+# @esri/hub-common [15.18.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.17.1...@esri/hub-common@15.18.0) (2024-12-05)
+
+
+### Features
+
+* **hub-common:** add optional includeIdInSlug arg to getItemIdentifier ([#1759](https://github.com/Esri/hub.js/issues/1759)) ([f54ca6d](https://github.com/Esri/hub.js/commit/f54ca6da621319e5c47c4551431ce2dc1a297c39)), closes [#1746](https://github.com/Esri/hub.js/issues/1746)
+
 ## @esri/hub-common [15.17.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.17.0...@esri/hub-common@15.17.1) (2024-12-05)
 
 
