@@ -1,3 +1,24 @@
+## @esri/hub-common [15.17.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.17.0...@esri/hub-common@15.17.1) (2024-12-05)
+
+
+### Bug Fixes
+
+* **hub-common:** modify ISearchCHannels interface orgId => orgIds ([#1762](https://github.com/Esri/hub.js/issues/1762)) ([56b2131](https://github.com/Esri/hub.js/commit/56b2131b0eab8abc83dcc326a2bd8ceac75d613a))
+
+# @esri/hub-common [15.17.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.16.0...@esri/hub-common@15.17.0) (2024-12-04)
+
+
+### Features
+
+* **hub-common:** add allowPost to IChannel ([#1755](https://github.com/Esri/hub.js/issues/1755)) ([d500a53](https://github.com/Esri/hub.js/commit/d500a5312e069432988725d776c0753c2a897519))
+
+# @esri/hub-common [15.16.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.15.0...@esri/hub-common@15.16.0) (2024-12-04)
+
+
+### Features
+
+* **hub-common:** add allowPost to IChannel and ICreateChannelSettings ([#1761](https://github.com/Esri/hub.js/issues/1761)) ([4fe3f57](https://github.com/Esri/hub.js/commit/4fe3f5742807f0b629365a83bfc7f4244b5fc333))
+
 # @esri/hub-common [15.15.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.14.0...@esri/hub-common@15.15.0) (2024-12-04)
 
 
