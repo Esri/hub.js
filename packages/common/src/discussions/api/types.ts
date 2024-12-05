@@ -898,6 +898,7 @@ export interface IUpdateChannel
 export interface IUpdateChannelSettings {
   allowAsAnonymous?: boolean;
   allowedReactions?: PostReaction[];
+  allowPost?: boolean;
   allowReaction?: boolean;
   allowReply?: boolean;
   blockWords?: string[];
