@@ -1,3 +1,10 @@
+## @esri/hub-common [15.18.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.18.1...@esri/hub-common@15.18.2) (2024-12-09)
+
+
+### Bug Fixes
+
+* add required type to IChangeEventDetail ([#1760](https://github.com/Esri/hub.js/issues/1760)) ([1adc7fb](https://github.com/Esri/hub.js/commit/1adc7fb722578ecf4943736965bdd765eeb691d6))
+
 ## @esri/hub-common [15.18.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.18.0...@esri/hub-common@15.18.1) (2024-12-05)
 
 
