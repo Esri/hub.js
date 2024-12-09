@@ -16,6 +16,11 @@ describe("buildUiSchema: site settings", () => {
         {
           type: "Section",
           labelKey: `${i18nScope}.sections.siteUrl.label`,
+          options: {
+            requiredHelperText: {
+              labelKey: `${i18nScope}.sections.defaultRequiredHelperText`,
+            },
+          },
           elements: [
             {
               scope: "/properties/_urlInfo",
