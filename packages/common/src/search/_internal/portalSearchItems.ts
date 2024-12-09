@@ -7,7 +7,7 @@ import { enrichProjectSearchResult } from "../../projects";
 import { enrichSiteSearchResult } from "../../sites";
 import { enrichInitiativeSearchResult } from "../../initiatives/HubInitiatives";
 import { enrichTemplateSearchResult } from "../../templates/fetch";
-import { IHubRequestOptions } from "../../types";
+import { HubFamilies, HubFamily, IHubRequestOptions } from "../../types";
 
 import {
   IFilter,
@@ -31,6 +31,7 @@ import { enrichContentSearchResult } from "../../content/search";
 import { cloneObject } from "../../util";
 import { getWellknownCollection } from "../wellKnownCatalog";
 import { getProp } from "../../objects";
+import { getFamilyTypes } from "../../content/get-family";
 
 /**
  * @internal
@@ -485,6 +486,51 @@ export function applyWellKnownItemPredicates(query: IQuery): IQuery {
           );
           acc = [...acc, ...replacements];
           replacedPredicates = true;
+        } else if (
+          /**
+           * NOTE: as of Nov. 26 2024, we have elected to start using the family types
+           * for a type replacement rather than the entire replacement itself. This updates
+           * a well-known predicate to only have type values, rather than types, typekeywords, etc etc.
+           * We also use the family types to replace the type values. Almost all of our current type
+           * replacements include typekeywords only to also retrieve old items -- i.e. having  -- we need to be aware
+           * that by using family types, we are not including these old items in results in these cases.
+           *
+           * This clause is primarily used by custom-build catalogs using the new catalog editor.
+           *
+           * We specifically do not say that we have replaced filters here either as we want to leave the
+           * operator as is.
+           */
+          predicate.type &&
+          typeof predicate.type !== "string" &&
+          !Array.isArray(predicate.type)
+        ) {
+          // we have an IMatchOptions object, so we have to iterate over the all/any/not
+          Object.keys(predicate.type).forEach((key) => {
+            const types = predicate.type[key];
+
+            // try to reduce the array if it is an array
+            if (Array.isArray(types)) {
+              // for each type, try to replace it with the family types if it is an expansion
+              predicate.type[key] = types.reduce(
+                (typesAcc: string[], type: string) => {
+                  if (isFamilyExpansionType(type)) {
+                    // we need the type keyword without the dollar sign
+                    const family = type.slice(1);
+                    // get the family types from the given expansion
+                    const familyTypes = getFamilyTypes(family as HubFamily);
+                    typesAcc = [...typesAcc, ...familyTypes];
+                  } else {
+                    typesAcc.push(type);
+                  }
+                  return typesAcc;
+                },
+                []
+              );
+            }
+          });
+
+          // keep the updated predicate
+          acc.push(predicate);
         } else {
           // this predicate does not have a well-known type
           // so we just keep it
@@ -521,6 +567,27 @@ export function isWellKnownTypeFilter(
   let result = false;
   if (typeof key === "string") {
     result = key in WellKnownItemPredicates;
+  }
+  return result;
+}
+
+/**
+ * Checks to see if our type is a family expansion,
+ * i.e. our type is a key in HubFamilies and it begins with a dollar sign
+ *
+ * $content, $site, etc.
+ * @param key
+ * @returns
+ */
+export function isFamilyExpansionType(key: string): boolean {
+  let result = false;
+  // if we have a key, the first character of the key is a $, and the key without the $ is in Hub Families
+  if (
+    key &&
+    key.charAt(0) === "$" &&
+    HubFamilies.includes(key.slice(1) as HubFamily)
+  ) {
+    result = true;
   }
   return result;
 }
