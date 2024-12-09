@@ -57,7 +57,6 @@ export class ChannelPermission {
   private isChannelAclEmpty: boolean;
   private existingChannel: IChannel;
   private permissionsByCategory: PermissionsByAclCategoryMap;
-  private channelCreator: string;
   private channelOrgId: string;
 
   constructor(channel: IChannel) {
@@ -69,7 +68,6 @@ export class ChannelPermission {
     this.existingChannel = channel;
     this.isChannelAclEmpty = channel.channelAcl.length === 0;
     this.permissionsByCategory = {};
-    this.channelCreator = channel.creator;
     this.channelOrgId = channel.orgId;
 
     channel.channelAcl.forEach((permission) => {
@@ -116,7 +114,6 @@ export class ChannelPermission {
     }
 
     return (
-      user.username === this.channelCreator ||
       this.canSomeUser(ChannelAction.MODERATE_CHANNEL, user) ||
       this.canSomeUserGroup(ChannelAction.MODERATE_CHANNEL, user) ||
       this.canSomeUserOrg(ChannelAction.MODERATE_CHANNEL, user)

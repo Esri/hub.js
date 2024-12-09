@@ -295,7 +295,7 @@ describe("ArcGISContext:", () => {
       // Hub Urls
       const base = mgr.context.hubUrl;
       expect(mgr.context.discussionsServiceUrl).toBe(
-        `${base}/api/discussions/v1`
+        `${base}/api/discussions/v2`
       );
       expect(mgr.context.hubSearchServiceUrl).toBe(`${base}/api/v3/datasets`);
       expect(mgr.context.domainServiceUrl).toBe(`${base}/api/v3/domains`);
@@ -461,7 +461,7 @@ describe("ArcGISContext:", () => {
       // Hub Urls
       const base = mgr.context.hubUrl;
       expect(mgr.context.discussionsServiceUrl).toBe(
-        `${base}/api/discussions/v1`
+        `${base}/api/discussions/v2`
       );
       expect(mgr.context.hubSearchServiceUrl).toBe(`${base}/api/v3/datasets`);
       expect(mgr.context.domainServiceUrl).toBe(`${base}/api/v3/domains`);
