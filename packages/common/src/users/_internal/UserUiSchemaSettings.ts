@@ -26,7 +26,6 @@ export const buildUiSchema = async (
     {
       ariaLabel: `{{${i18nScope}.notice.actions.goToOrg:translate}}`,
       label: `{{${i18nScope}.notice.actions.goToOrg:translate}}`,
-      icon: "launch",
       href: `${context.portalUrl}/home/organization.html?tab=general#settings`,
       target: "_blank",
     },
@@ -69,7 +68,6 @@ export const buildUiSchema = async (
       orgNoticeActions.push({
         ariaLabel: `{{${i18nScope}.notice.actions.${actionLabelKey}:translate}}`,
         label: `{{${i18nScope}.notice.actions.${actionLabelKey}:translate}}`,
-        icon: "launch",
         href: orgUrl,
         target: "_blank",
       });
