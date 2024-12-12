@@ -1,3 +1,73 @@
+## @esri/hub-common [15.18.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.18.2...@esri/hub-common@15.18.3) (2024-12-12)
+
+
+### Bug Fixes
+
+* removing extra launch icons on user settings ([#1764](https://github.com/Esri/hub.js/issues/1764)) ([3a1f607](https://github.com/Esri/hub.js/commit/3a1f607b48f9d160ae7a6671989620af769dee31))
+
+## @esri/hub-common [15.18.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.18.1...@esri/hub-common@15.18.2) (2024-12-09)
+
+
+### Bug Fixes
+
+* add required type to IChangeEventDetail ([#1760](https://github.com/Esri/hub.js/issues/1760)) ([1adc7fb](https://github.com/Esri/hub.js/commit/1adc7fb722578ecf4943736965bdd765eeb691d6))
+
+## @esri/hub-common [15.18.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.18.0...@esri/hub-common@15.18.1) (2024-12-05)
+
+
+### Bug Fixes
+
+* **hub-common:** updated metrics editors  ([#1757](https://github.com/Esri/hub.js/issues/1757)) ([b0de73f](https://github.com/Esri/hub.js/commit/b0de73f6dff3218e2a7f520fa5c1634f3885ef64))
+
+# @esri/hub-common [15.18.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.17.1...@esri/hub-common@15.18.0) (2024-12-05)
+
+
+### Features
+
+* **hub-common:** add optional includeIdInSlug arg to getItemIdentifier ([#1759](https://github.com/Esri/hub.js/issues/1759)) ([f54ca6d](https://github.com/Esri/hub.js/commit/f54ca6da621319e5c47c4551431ce2dc1a297c39)), closes [#1746](https://github.com/Esri/hub.js/issues/1746)
+
+## @esri/hub-common [15.17.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.17.0...@esri/hub-common@15.17.1) (2024-12-05)
+
+
+### Bug Fixes
+
+* **hub-common:** modify ISearchCHannels interface orgId => orgIds ([#1762](https://github.com/Esri/hub.js/issues/1762)) ([56b2131](https://github.com/Esri/hub.js/commit/56b2131b0eab8abc83dcc326a2bd8ceac75d613a))
+
+# @esri/hub-common [15.17.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.16.0...@esri/hub-common@15.17.0) (2024-12-04)
+
+
+### Features
+
+* **hub-common:** add allowPost to IChannel ([#1755](https://github.com/Esri/hub.js/issues/1755)) ([d500a53](https://github.com/Esri/hub.js/commit/d500a5312e069432988725d776c0753c2a897519))
+
+# @esri/hub-common [15.16.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.15.0...@esri/hub-common@15.16.0) (2024-12-04)
+
+
+### Features
+
+* **hub-common:** add allowPost to IChannel and ICreateChannelSettings ([#1761](https://github.com/Esri/hub.js/issues/1761)) ([4fe3f57](https://github.com/Esri/hub.js/commit/4fe3f5742807f0b629365a83bfc7f4244b5fc333))
+
+# @esri/hub-common [15.15.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.14.0...@esri/hub-common@15.15.0) (2024-12-04)
+
+
+### Features
+
+* **hub-common:** add fetchItem and call it from fetchPage ([#1756](https://github.com/Esri/hub.js/issues/1756)) ([e3fa5af](https://github.com/Esri/hub.js/commit/e3fa5afdd1248f89799cd10543d924184bf1d15e))
+
+# @esri/hub-common [15.14.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.13.2...@esri/hub-common@15.14.0) (2024-12-03)
+
+
+### Features
+
+* add displayConfig in Hub Catalog, update GalleryDisplayConfigSchema ([#1747](https://github.com/Esri/hub.js/issues/1747)) ([5d1cb18](https://github.com/Esri/hub.js/commit/5d1cb18cb145bc930874ebf188acbd85408a845a))
+
+## @esri/hub-common [15.13.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.13.1...@esri/hub-common@15.13.2) (2024-12-02)
+
+
+### Bug Fixes
+
+* **hub-common:** fix event summary validation error ([#1751](https://github.com/Esri/hub.js/issues/1751)) ([1ceb5ef](https://github.com/Esri/hub.js/commit/1ceb5efe1e585ee1230741f5e1670fa564df9ce7))
+
 ## @esri/hub-common [15.13.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.13.0...@esri/hub-common@15.13.1) (2024-11-27)
 
 

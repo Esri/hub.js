@@ -1,3 +1,10 @@
+# @esri/hub-discussions [29.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@29.3.0...@esri/hub-discussions@29.4.0) (2024-12-04)
+
+
+### Features
+
+* **hub-common:** add allowPost to IChannel ([#1755](https://github.com/Esri/hub.js/issues/1755)) ([d500a53](https://github.com/Esri/hub.js/commit/d500a5312e069432988725d776c0753c2a897519))
+
 # @esri/hub-discussions [29.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@29.2.1...@esri/hub-discussions@29.3.0) (2024-11-22)
 
 

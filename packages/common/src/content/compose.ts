@@ -219,6 +219,9 @@ const getMetadataUpdatedDateInfo = (item: IItem, metadata?: any) => {
 };
 
 // public API
+// AGO has a util for determining display name and item type icons
+// that we can use for reference
+// https://devtopia.esri.com/WebGIS/arcgis-app-components/blob/master/src/components/arcgis-item-type/utils.ts
 /**
  * Compute the content type calcite-icon based on the content type
  * @param content type

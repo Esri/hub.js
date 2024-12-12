@@ -2,19 +2,20 @@ import { IItem } from "@esri/arcgis-rest-portal";
 import { getItemIdentifier } from "../../src";
 
 describe("getItemIdentifier:", () => {
+  const item = {
+    id: "3ef",
+  } as unknown as IItem;
+  const properties = {
+    slug: "myorg|the-slug",
+  };
+  const itemWithSlug = { ...item, properties };
   it("returns id by default", () => {
-    const item = {
-      id: "3ef",
-    } as unknown as IItem;
     expect(getItemIdentifier(item)).toBe("3ef");
   });
   it("returns slug if defined", () => {
-    const item = {
-      id: "3ef",
-      properties: {
-        slug: "myorg|the-slug",
-      },
-    } as unknown as IItem;
-    expect(getItemIdentifier(item)).toBe("myorg::the-slug");
+    expect(getItemIdentifier(itemWithSlug)).toBe("myorg::the-slug");
+  });
+  it("injects id into slug if requested", () => {
+    expect(getItemIdentifier(itemWithSlug, true)).toBe("the-slug~3ef");
   });
 });

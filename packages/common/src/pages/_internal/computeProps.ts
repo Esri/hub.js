@@ -26,6 +26,7 @@ export function computeProps(
   requestOptions: IRequestOptions
 ): IHubPage {
   let token: string;
+  // istanbul ignore next - this logic is covered elsewhere and should be refactored into a shared util
   if (requestOptions.authentication) {
     const session: UserSession = requestOptions.authentication as UserSession;
     token = session.token;

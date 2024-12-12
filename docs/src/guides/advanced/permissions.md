@@ -31,7 +31,9 @@ For an overview of how permissons work, see the [Access Control Guide](../access
 
 **licenses**: What Hub Licenses are required? Only specify this if the permission is limited to a subset of licenses. 
 
-**availability**: `alpha`, `beta` or `general` availability.
+**availability**: `alpha`, `beta` or `general` availability. Can be overridden by passing `?pe=permission:to:enable` in uri
+
+**environments**: `devext`, `qaext` or `production` etc. Can be overridden by passing `?pe=permission:to:enable` in uri
 
 **assertions**: additional checks that can address custom scenarios not covered by the other properties. (example shown below)
 

@@ -1,4 +1,3 @@
-import { checkPermission } from "../../../../permissions/checkPermission";
 import { IArcGISContext } from "../../../../ArcGISContext";
 import {
   IConfigurationValues,
@@ -84,9 +83,11 @@ export const buildUiSchema = async (
                 [
                   {
                     effect: UiSchemaRuleEffects.SHOW,
-                    // only show in alpha
                     conditions: [
-                      checkPermission("hub:availability:alpha", context).access,
+                      // commented out for now, as itemQuery was a prototyped fearure that was not implemented.
+                      // will be replaced with requestings metrics in the near future
+                      // checkPermission("hub:availability:alpha", context).access,
+                      false,
                     ],
                   },
                 ],
@@ -193,6 +194,10 @@ export const buildUiSchema = async (
             scope: "/properties/_metric/properties/unitPosition",
             type: "Control",
             options: {
+              helperText: {
+                labelKey: "shared.fields.metrics.unitPosition.helperText",
+                placement: "bottom",
+              },
               control: "hub-field-input-select",
               enum: {
                 i18nScope: "shared.fields.metrics.unitPosition.enum",
@@ -209,6 +214,12 @@ export const buildUiSchema = async (
             labelKey: "shared.fields.metrics.trailingText.label",
             scope: "/properties/_metric/properties/trailingText",
             type: "Control",
+            options: {
+              helperText: {
+                labelKey: "shared.fields.metrics.trailingText.helperText",
+                placement: "bottom",
+              },
+            },
           },
           {
             labelKey: "shared.fields.metrics.sourceLink.label",

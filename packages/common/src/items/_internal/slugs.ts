@@ -1,3 +1,11 @@
+import { isGuid } from "../../utils/is-guid";
+import {
+  SLUG_ORG_SEPARATOR_KEYWORD,
+  SLUG_ORG_SEPARATOR_URI,
+} from "./slugConverters";
+
+const SLUG_ID_SEPARATOR = "~";
+
 const TYPEKEYWORD_MAX_LENGTH = 256;
 
 export const TYPEKEYWORD_SLUG_PREFIX = "slug";
@@ -40,3 +48,53 @@ export function getSlugMaxLength(orgKey: string) {
   const prefix = `${TYPEKEYWORD_SLUG_PREFIX}|${orgKey}|`;
   return TYPEKEYWORD_MAX_LENGTH - prefix.length;
 }
+
+export interface IParsedIdentifier {
+  /* ArcGIS Online item Id */
+  id?: string;
+  /* slug (without org prefix) */
+  slug?: string;
+  /* org key */
+  orgKey?: string;
+}
+
+/**
+ * parse out the item's id, slug, and org key out of an identifier
+ * @param identifier
+ * @returns
+ */
+export const parseIdentifier = (identifier: string): IParsedIdentifier => {
+  let orgKey;
+  let slug;
+  // if identifier is a guid, we just return that as the id below
+  let id = isGuid(identifier) && identifier;
+  if (!id) {
+    // otherwise try parsing id, slug, and org key from the identifier
+    let slugParts;
+    [slugParts, id] = identifier.split(SLUG_ID_SEPARATOR);
+    const match = slugParts.match(
+      new RegExp(`^((.*)${SLUG_ORG_SEPARATOR_URI})?(.*)$`)
+    );
+    // istanbul ignore next - I think that regex will always match at least the slug
+    if (match) {
+      orgKey = match[2];
+      slug = match[3];
+    }
+  }
+  return {
+    id,
+    slug,
+    orgKey,
+  };
+};
+
+/**
+ * strip org key prefix from a slug and append an id
+ * @param slug
+ * @param id
+ * @returns
+ */
+export const appendIdToSlug = (slug: string, id: string): string => {
+  const slugWithoutOrgKey = slug.split(SLUG_ORG_SEPARATOR_KEYWORD).pop();
+  return `${slugWithoutOrgKey}${SLUG_ID_SEPARATOR}${id}`;
+};

@@ -1,3 +1,7 @@
+// TODO: use these const in other utils
+export const SLUG_ORG_SEPARATOR_URI = "::";
+export const SLUG_ORG_SEPARATOR_KEYWORD = "|";
+
 // TODO: work out how to unify content slug fns
 // https: github.com/Esri/hub.js/blob/master/packages/common/src/content/index.ts#L301-L348
 /**
@@ -8,8 +12,8 @@
  */
 
 export function uriSlugToKeywordSlug(slug: string): string {
-  if (slug.indexOf("::") > -1) {
-    slug = slug.replace("::", "|");
+  if (slug.indexOf(SLUG_ORG_SEPARATOR_URI) > -1) {
+    slug = slug.replace(SLUG_ORG_SEPARATOR_URI, SLUG_ORG_SEPARATOR_KEYWORD);
   }
   return slug;
 }
@@ -20,8 +24,8 @@ export function uriSlugToKeywordSlug(slug: string): string {
  */
 
 export function keywordSlugToUriSlug(slug: string): string {
-  if (slug.indexOf("|") > -1) {
-    slug = slug.replace("|", "::");
+  if (slug.indexOf(SLUG_ORG_SEPARATOR_KEYWORD) > -1) {
+    slug = slug.replace(SLUG_ORG_SEPARATOR_KEYWORD, SLUG_ORG_SEPARATOR_URI);
   }
   return slug;
 }

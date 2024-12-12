@@ -107,14 +107,12 @@ describe("UserUiSchemaSettings:", () => {
                     {
                       ariaLabel: `{{some.scope.notice.actions.goToOrg:translate}}`,
                       label: `{{some.scope.notice.actions.goToOrg:translate}}`,
-                      icon: "launch",
                       href: `https://qaext.arcgis.com/home/organization.html?tab=general#settings`,
                       target: "_blank",
                     },
                     {
                       ariaLabel: `{{some.scope.notice.actions.goToCommunityOrg:translate}}`,
                       label: `{{some.scope.notice.actions.goToCommunityOrg:translate}}`,
-                      icon: "launch",
                       href: `https://qaext.c.arcgis.com/home/organization.html`,
                       target: "_blank",
                     },
@@ -348,14 +346,12 @@ describe("UserUiSchemaSettings:", () => {
                     {
                       ariaLabel: `{{some.scope.notice.actions.goToOrg:translate}}`,
                       label: `{{some.scope.notice.actions.goToOrg:translate}}`,
-                      icon: "launch",
                       href: `https://qaext.c.arcgis.com/home/organization.html?tab=general#settings`,
                       target: "_blank",
                     },
                     {
                       ariaLabel: `{{some.scope.notice.actions.goToStaffOrg:translate}}`,
                       label: `{{some.scope.notice.actions.goToStaffOrg:translate}}`,
-                      icon: "launch",
                       href: `https://qaext.arcgis.com/home/organization.html`,
                       target: "_blank",
                     },
@@ -590,14 +586,12 @@ describe("UserUiSchemaSettings:", () => {
                     {
                       ariaLabel: `{{some.scope.notice.actions.goToOrg:translate}}`,
                       label: `{{some.scope.notice.actions.goToOrg:translate}}`,
-                      icon: "launch",
                       href: `https://qaext.c.arcgis.com/home/organization.html?tab=general#settings`,
                       target: "_blank",
                     },
                     {
                       ariaLabel: `{{some.scope.notice.actions.goToStaffOrg:translate}}`,
                       label: `{{some.scope.notice.actions.goToStaffOrg:translate}}`,
-                      icon: "launch",
                       href: `https://qaext.arcgis.com/home/organization.html`,
                       target: "_blank",
                     },
@@ -819,7 +813,6 @@ describe("UserUiSchemaSettings:", () => {
                     {
                       ariaLabel: `{{some.scope.notice.actions.goToOrg:translate}}`,
                       label: `{{some.scope.notice.actions.goToOrg:translate}}`,
-                      icon: "launch",
                       href: `https://qaext.arcgis.com/home/organization.html?tab=general#settings`,
                       target: "_blank",
                     },
@@ -1054,14 +1047,12 @@ describe("UserUiSchemaSettings:", () => {
                     {
                       ariaLabel: `{{some.scope.notice.actions.goToOrg:translate}}`,
                       label: `{{some.scope.notice.actions.goToOrg:translate}}`,
-                      icon: "launch",
                       href: `https://qaext.c.arcgis.com/home/organization.html?tab=general#settings`,
                       target: "_blank",
                     },
                     {
                       ariaLabel: `{{some.scope.notice.actions.goToStaffOrg:translate}}`,
                       label: `{{some.scope.notice.actions.goToStaffOrg:translate}}`,
-                      icon: "launch",
                       href: `https://qaext.arcgis.com/home/organization.html`,
                       target: "_blank",
                     },
@@ -1283,7 +1274,6 @@ describe("UserUiSchemaSettings:", () => {
                     {
                       ariaLabel: `{{some.scope.notice.actions.goToOrg:translate}}`,
                       label: `{{some.scope.notice.actions.goToOrg:translate}}`,
-                      icon: "launch",
                       href: `https://qaext.arcgis.com/home/organization.html?tab=general#settings`,
                       target: "_blank",
                     },
@@ -1514,7 +1504,6 @@ describe("UserUiSchemaSettings:", () => {
                     {
                       ariaLabel: `{{some.scope.notice.actions.goToOrg:translate}}`,
                       label: `{{some.scope.notice.actions.goToOrg:translate}}`,
-                      icon: "launch",
                       href: `https://qaext.c.arcgis.com/home/organization.html?tab=general#settings`,
                       target: "_blank",
                     },
@@ -1747,14 +1736,12 @@ describe("UserUiSchemaSettings:", () => {
                     {
                       ariaLabel: `{{some.scope.notice.actions.goToOrg:translate}}`,
                       label: `{{some.scope.notice.actions.goToOrg:translate}}`,
-                      icon: "launch",
                       href: `https://qaext.arcgis.com/home/organization.html?tab=general#settings`,
                       target: "_blank",
                     },
                     {
                       ariaLabel: `{{some.scope.notice.actions.goToCommunityOrg:translate}}`,
                       label: `{{some.scope.notice.actions.goToCommunityOrg:translate}}`,
-                      icon: "launch",
                       href: `https://qaext.c.arcgis.com/home/organization.html`,
                       target: "_blank",
                     },
@@ -1982,14 +1969,12 @@ describe("UserUiSchemaSettings:", () => {
                     {
                       ariaLabel: `{{some.scope.notice.actions.goToOrg:translate}}`,
                       label: `{{some.scope.notice.actions.goToOrg:translate}}`,
-                      icon: "launch",
                       href: `https://qaext.arcgis.com/home/organization.html?tab=general#settings`,
                       target: "_blank",
                     },
                     {
                       ariaLabel: `{{some.scope.notice.actions.goToCommunityOrg:translate}}`,
                       label: `{{some.scope.notice.actions.goToCommunityOrg:translate}}`,
-                      icon: "launch",
                       href: `https://qaext.c.arcgis.com/home/organization.html`,
                       target: "_blank",
                     },
