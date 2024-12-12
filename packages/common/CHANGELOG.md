@@ -1,3 +1,10 @@
+## @esri/hub-common [15.18.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.18.2...@esri/hub-common@15.18.3) (2024-12-12)
+
+
+### Bug Fixes
+
+* removing extra launch icons on user settings ([#1764](https://github.com/Esri/hub.js/issues/1764)) ([3a1f607](https://github.com/Esri/hub.js/commit/3a1f607b48f9d160ae7a6671989620af769dee31))
+
 ## @esri/hub-common [15.18.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.18.1...@esri/hub-common@15.18.2) (2024-12-09)
 
 
