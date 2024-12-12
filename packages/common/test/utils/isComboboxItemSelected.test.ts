@@ -35,31 +35,65 @@ const nodes = [
 describe("isComboboxItemSelected:", () => {
   it("will select top level node", async () => {
     const selected = ["/Categories/Thing A"];
-    expect(isComboboxItemSelected(nodes[0], selected)).toBe(true);
-    expect(isComboboxItemSelected(nodes[1], selected)).toBe(false);
-    expect(isComboboxItemSelected(nodes[1].children![0], selected)).toBe(false);
-    expect(isComboboxItemSelected(nodes[2], selected)).toBe(false);
-    expect(isComboboxItemSelected(nodes[2].children![0], selected)).toBe(false);
-    expect(isComboboxItemSelected(nodes[2].children![1], selected)).toBe(false);
+    expect(isComboboxItemSelected(nodes[0], selected, "single")).toBe(true);
+    expect(isComboboxItemSelected(nodes[1], selected, "single")).toBe(false);
+    expect(
+      isComboboxItemSelected(nodes[1].children![0], selected, "single")
+    ).toBe(false);
+    expect(isComboboxItemSelected(nodes[2], selected, "single")).toBe(false);
+    expect(
+      isComboboxItemSelected(nodes[2].children![0], selected, "single")
+    ).toBe(false);
+    expect(
+      isComboboxItemSelected(nodes[2].children![1], selected, "single")
+    ).toBe(false);
   });
 
-  it("will select child node and subsequently its parent node", async () => {
+  it("will select child node and subsequently its parent node with ancestors selection mode", async () => {
     const selected = ["/Categories/Thing B/Child of B"];
-    expect(isComboboxItemSelected(nodes[0], selected)).toBe(false);
-    expect(isComboboxItemSelected(nodes[1], selected)).toBe(true);
-    expect(isComboboxItemSelected(nodes[1].children![0], selected)).toBe(true);
-    expect(isComboboxItemSelected(nodes[2], selected)).toBe(false);
-    expect(isComboboxItemSelected(nodes[2].children![0], selected)).toBe(false);
-    expect(isComboboxItemSelected(nodes[2].children![1], selected)).toBe(false);
+    expect(isComboboxItemSelected(nodes[0], selected, "ancestors")).toBe(false);
+    expect(isComboboxItemSelected(nodes[1], selected, "ancestors")).toBe(true);
+    expect(
+      isComboboxItemSelected(nodes[1].children![0], selected, "ancestors")
+    ).toBe(true);
+    expect(isComboboxItemSelected(nodes[2], selected, "ancestors")).toBe(false);
+    expect(
+      isComboboxItemSelected(nodes[2].children![0], selected, "ancestors")
+    ).toBe(false);
+    expect(
+      isComboboxItemSelected(nodes[2].children![1], selected, "ancestors")
+    ).toBe(false);
   });
 
   it("will check correct nodes even if there are two nodes with equal labels (but differing values)", async () => {
     const selected = ["/Categories/Thing C/Thing A"];
-    expect(isComboboxItemSelected(nodes[0], selected)).toBe(false);
-    expect(isComboboxItemSelected(nodes[1], selected)).toBe(false);
-    expect(isComboboxItemSelected(nodes[1].children![0], selected)).toBe(false);
-    expect(isComboboxItemSelected(nodes[2], selected)).toBe(true);
-    expect(isComboboxItemSelected(nodes[2].children![0], selected)).toBe(false);
-    expect(isComboboxItemSelected(nodes[2].children![1], selected)).toBe(true);
+    expect(isComboboxItemSelected(nodes[0], selected, "ancestors")).toBe(false);
+    expect(isComboboxItemSelected(nodes[1], selected, "ancestors")).toBe(false);
+    expect(
+      isComboboxItemSelected(nodes[1].children![0], selected, "ancestors")
+    ).toBe(false);
+    expect(isComboboxItemSelected(nodes[2], selected, "ancestors")).toBe(true);
+    expect(
+      isComboboxItemSelected(nodes[2].children![0], selected, "ancestors")
+    ).toBe(false);
+    expect(
+      isComboboxItemSelected(nodes[2].children![1], selected, "ancestors")
+    ).toBe(true);
+  });
+
+  it("will select child node but will not select parent node with multiple selection mode", async () => {
+    const selected = ["/Categories/Thing B/Child of B"];
+    expect(isComboboxItemSelected(nodes[0], selected, "multiple")).toBe(false);
+    expect(isComboboxItemSelected(nodes[1], selected, "multiple")).toBe(false);
+    expect(
+      isComboboxItemSelected(nodes[1].children![0], selected, "multiple")
+    ).toBe(true);
+    expect(isComboboxItemSelected(nodes[2], selected, "multiple")).toBe(false);
+    expect(
+      isComboboxItemSelected(nodes[2].children![0], selected, "multiple")
+    ).toBe(false);
+    expect(
+      isComboboxItemSelected(nodes[2].children![1], selected, "multiple")
+    ).toBe(false);
   });
 });
