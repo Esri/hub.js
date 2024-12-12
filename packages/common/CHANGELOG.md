@@ -1,3 +1,10 @@
+# @esri/hub-common [15.19.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.18.3...@esri/hub-common@15.19.0) (2024-12-12)
+
+
+### Features
+
+* handle item type combobox with nested selections ([#1726](https://github.com/Esri/hub.js/issues/1726)) ([6a504f1](https://github.com/Esri/hub.js/commit/6a504f16b970998b15e26a8a38c1cebc53c60ccc))
+
 ## @esri/hub-common [15.18.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.18.2...@esri/hub-common@15.18.3) (2024-12-12)
 
 
