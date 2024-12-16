@@ -157,6 +157,8 @@ export interface IUpdateEvent {
   summary?: string;
   /** Tags for the event */
   tags?: string[];
+  /** Url for the thumbnail image */
+  thumbnailUrl?: string;
   /** IANA time zone for the event */
   timeZone?: string;
   /** Title of the event */
@@ -221,13 +223,9 @@ export type GetEventsParams = {
    */
   include?: string;
   /**
-   * Comma separated string list of edit groupIds that event is not shared to
+   * orgId string
    */
-  withoutEditGroups?: string;
-  /**
-   * Comma separated string list of read groupIds that event is not shared to
-   */
-  withoutReadGroups?: string;
+  orgId?: string;
   /**
    * the max amount of events to return
    */
@@ -236,6 +234,10 @@ export type GetEventsParams = {
    * Comma separated string list of read groupIds
    */
   readGroups?: string;
+  /**
+   * Comma separated string list of shared groupIds
+   */
+  sharedToGroups?: string;
   /**
    * Event property to sort results by
    */
@@ -277,13 +279,13 @@ export type GetEventsParams = {
    */
   title?: string;
   /**
-   * orgId string
+   * Comma separated string list of edit groupIds that event is not shared to
    */
-  orgId?: string;
+  withoutEditGroups?: string;
   /**
-   * Comma separated string list of shared groupIds
+   * Comma separated string list of read groupIds that event is not shared to
    */
-  sharedToGroups?: string;
+  withoutReadGroups?: string;
 };
 
 export interface IRegistrationPermission {
@@ -434,6 +436,7 @@ export interface IEvent {
   status: EventStatus;
   summary: string | null;
   tags: string[];
+  thumbnailUrl: string | null;
   timeZone: string;
   title: string;
   updatedAt: string;
@@ -502,6 +505,8 @@ export interface ICreateEvent {
   summary?: string;
   /** Tags for the event */
   tags?: string[];
+  /** Url for the thumbnail image */
+  thumbnailUrl?: string;
   /** IANA time zone for the event */
   timeZone: string;
   /** Title of the event */

@@ -103,6 +103,7 @@ describe("PropertyMapper", () => {
         status: EventStatus.PLANNED,
         summary: "event summary",
         tags: ["tag1"],
+        thumbnailUrl: null,
         timeZone: "America/New_York",
         title: "event title",
         updatedAt: now.toISOString(),
