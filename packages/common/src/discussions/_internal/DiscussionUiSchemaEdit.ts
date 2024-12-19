@@ -106,6 +106,7 @@ export const buildUiSchema = async (
                 context.hubRequestOptions
               ),
               mapTools: ["polygon", "rectangle"],
+              noticeTitleElementAriaLevel: 3,
             },
           },
         ],
