@@ -220,6 +220,7 @@ export const buildUiSchema = async (
                   hidden: true,
                 },
               ],
+              noticeTitleElementAriaLevel: 3,
             },
           },
           {
