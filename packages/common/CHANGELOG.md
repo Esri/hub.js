@@ -1,3 +1,10 @@
+# @esri/hub-common [15.20.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.19.0...@esri/hub-common@15.20.0) (2024-12-20)
+
+
+### Features
+
+* **hub-common:** update orval events to include event thumbnail ([#1765](https://github.com/Esri/hub.js/issues/1765)) ([b94fa14](https://github.com/Esri/hub.js/commit/b94fa142eb6b1bb30cf43d0a482489d9abd1aca6))
+
 # @esri/hub-common [15.19.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.18.3...@esri/hub-common@15.19.0) (2024-12-12)
 
 
