@@ -330,6 +330,7 @@ describe("EventUiSchemaEdit", () => {
                       hidden: true,
                     },
                   ],
+                  noticeTitleElementAriaLevel: 3,
                 },
               },
               {

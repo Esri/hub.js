@@ -146,6 +146,7 @@ export const buildUiSchema = async (
                 context.portal.name,
                 context.hubRequestOptions
               ),
+              noticeTitleElementAriaLevel: 3,
             },
           },
         ],
