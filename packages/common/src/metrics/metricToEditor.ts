@@ -42,6 +42,9 @@ export function metricToEditor(
             expressionSet,
             allowExpressionSet,
             fieldType,
+            statistic:
+              displayConfig.statistic ||
+              (metric.source as IServiceQueryMetricSource).statistic,
             sourceLink: displayConfig.sourceLink,
             sourceTitle: displayConfig.sourceTitle,
           },

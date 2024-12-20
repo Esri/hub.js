@@ -10,7 +10,12 @@ import {
   removeItem,
 } from "@esri/arcgis-rest-portal";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
-import { IHubItemEntity, IHubProject, IHubProjectEditor } from "../core/types";
+import {
+  IEntityEditorContext,
+  IHubItemEntity,
+  IHubProject,
+  IHubProjectEditor,
+} from "../core/types";
 import { DEFAULT_PROJECT, DEFAULT_PROJECT_MODEL } from "./defaults";
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
@@ -78,9 +83,11 @@ export async function createProject(
  */
 export function editorToProject(
   editor: IHubProjectEditor,
-  portal: IPortal
+  portal: IPortal,
+  editorContext: IEntityEditorContext = {}
 ): IHubProject {
   const _metric = editor._metric;
+  const _displayIndex = editorContext.displayIndex;
 
   // 1. remove the ephemeral props we graft onto the editor
   delete editor._groups;
@@ -102,7 +109,12 @@ export function editorToProject(
       metricName: _metric.cardTitle,
     });
 
-    project = setMetricAndDisplay(project, metric, displayConfig);
+    project = setMetricAndDisplay(
+      project,
+      metric,
+      displayConfig,
+      _displayIndex
+    );
   }
 
   return project;
