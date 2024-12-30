@@ -130,6 +130,7 @@ export interface IFetchDownloadFileOptions {
   format: ServiceDownloadFormat;
   context: IArcGISContext;
   geometry?: __esri.Geometry; // geometry to filter results by
+  layers: number[]; // layers to filter results by
   where?: string; // where clause to filter results by
   progressCallback?: downloadProgressCallback;
   pollInterval?: number; // interval in milliseconds to poll for job completion

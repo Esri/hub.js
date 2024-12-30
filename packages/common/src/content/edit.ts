@@ -142,30 +142,32 @@ export async function updateContent(
   // certain types of entities, but not allow users to change any settings. The following
   // checks are in place to make sure we don't accidentally save configurations in
   // situations where we shouldn't
-  const downloadFlow = getDownloadFlow(content);
-  const updatedFormats = getProp(content, "extendedProps.downloads.formats");
-  const isMainEntityExtractDisabled =
-    isHostedFeatureServiceMainEntity(content) &&
-    downloadFlow !== "createReplica";
-  const wasDownloadsConfigurationDisplayed =
-    shouldShowDownloadsConfiguration(content);
-  if (
-    wasDownloadsConfigurationDisplayed && // whether the downloads configuration was displayed
-    downloadFlow && // whether the entity can be downloaded
-    updatedFormats && // whether download format configuration is present
-    !isMainEntityExtractDisabled
-  ) {
-    const updatedDownloadsConfiguration = cloneObject(
-      content.extendedProps.downloads
-    );
 
-    setProp(
-      "item.properties.downloads",
-      updatedDownloadsConfiguration,
-      modelToUpdate,
-      true
-    );
-  }
+  // TODO: RE-IMPLEMENT THIS
+  // const downloadFlow = getDownloadFlow(content);
+  // const updatedFormats = getProp(content, "extendedProps.downloads.formats");
+  // const isMainEntityExtractDisabled =
+  //   isHostedFeatureServiceMainEntity(content) &&
+  //   downloadFlow !== "createReplica";
+  // const wasDownloadsConfigurationDisplayed =
+  //   shouldShowDownloadsConfiguration(content);
+  // if (
+  //   wasDownloadsConfigurationDisplayed && // whether the downloads configuration was displayed
+  //   downloadFlow && // whether the entity can be downloaded
+  //   updatedFormats && // whether download format configuration is present
+  //   !isMainEntityExtractDisabled
+  // ) {
+  //   const updatedDownloadsConfiguration = cloneObject(
+  //     content.extendedProps.downloads
+  //   );
+
+  //   setProp(
+  //     "item.properties.downloads",
+  //     updatedDownloadsConfiguration,
+  //     modelToUpdate,
+  //     true
+  //   );
+  // }
 
   // TODO: if we have resources disconnect them from the model for now.
   // if (modelToUpdate.resources) {
@@ -264,18 +266,20 @@ export function editorToContent(
 
   // Conditionally set the downloads configuration. We only want
   // to set the configuration if the entity is actually downloadable
-  const downloadFlow = getDownloadFlow(content);
-  if (downloadFlow && editor.downloadFormats) {
-    const downloadConfiguration = getDownloadConfiguration(content);
-    // Convert the download format display objects to the stored format
-    const forStorage: IDownloadFormatConfiguration[] =
-      editor.downloadFormats.map((format) => {
-        const { label, ...rest } = format;
-        return rest;
-      });
-    downloadConfiguration.formats = forStorage;
-    setProp("extendedProps.downloads", downloadConfiguration, content, true);
-  }
+
+  // TODO: RE-IMPLEMENT THIS
+  // const downloadFlow = getDownloadFlow(content);
+  // if (downloadFlow && editor.downloadFormats) {
+  //   const downloadConfiguration = getDownloadConfiguration(content);
+  //   // Convert the download format display objects to the stored format
+  //   const forStorage: IDownloadFormatConfiguration[] =
+  //     editor.downloadFormats.map((format) => {
+  //       const { label, ...rest } = format;
+  //       return rest;
+  //     });
+  //   downloadConfiguration.formats = forStorage;
+  //   setProp("extendedProps.downloads", downloadConfiguration, content, true);
+  // }
 
   // copy the location extent up one level
   content.extent = editor.location?.extent;

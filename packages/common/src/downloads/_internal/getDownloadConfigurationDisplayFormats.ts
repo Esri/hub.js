@@ -24,52 +24,54 @@ import {
  * @returns download format configurations to display
  */
 export function getDownloadConfigurationDisplayFormats(
-  entity: IHubEditableContent
+  _entity: IHubEditableContent
 ): IDownloadFormatConfigurationDisplay[] {
-  const configuration = getDownloadConfiguration(entity);
-  const flowType = configuration.flowType;
-  let formats = configuration.formats;
+  // TODO: RE-IMPLEMENT THIS
+  // const configuration = getDownloadConfiguration(entity);
+  // const flowType = configuration.flowType;
+  // let formats = configuration.formats;
 
-  // For feature or map services that don't meet the criteria to be downloaded (i.e., no flowType)
-  // Product wants to show paging formats as a preview of what _could_ be downloaded should
-  // the criteria be met.
-  if (!flowType && ["Feature Service", "Map Service"].includes(entity.type)) {
-    const pagingFormats: IDownloadFormatConfiguration[] =
-      getPagingJobFormats().map((f) => {
-        return {
-          key: f.format,
-          hidden: false,
-        };
-      });
-    // TODO: Should we just show paging formats as a preview or include additional resources?
-    formats = pagingFormats;
-  }
+  // // For feature or map services that don't meet the criteria to be downloaded (i.e., no flowType)
+  // // Product wants to show paging formats as a preview of what _could_ be downloaded should
+  // // the criteria be met.
+  // if (!flowType && ["Feature Service", "Map Service"].includes(entity.type)) {
+  //   const pagingFormats: IDownloadFormatConfiguration[] =
+  //     getPagingJobFormats().map((f) => {
+  //       return {
+  //         key: f.format,
+  //         hidden: false,
+  //       };
+  //     });
+  //   // TODO: Should we just show paging formats as a preview or include additional resources?
+  //   formats = pagingFormats;
+  // }
 
-  // For main entities of a hosted feature service with extract disabled, we want to display
-  // the list of createReplica formats as a preview of what _could_ be downloaded should
-  // the extract capability be enabled
-  if (
-    isHostedFeatureServiceMainEntity(entity) &&
-    flowType !== "createReplica"
-  ) {
-    const createReplicaFormats: IDownloadFormatConfiguration[] =
-      getCreateReplicaFormats(entity).map((f) => {
-        return {
-          key: f.format,
-          hidden: false,
-        };
-      });
-    formats = createReplicaFormats;
-  }
+  // // For main entities of a hosted feature service with extract disabled, we want to display
+  // // the list of createReplica formats as a preview of what _could_ be downloaded should
+  // // the extract capability be enabled
+  // if (
+  //   isHostedFeatureServiceMainEntity(entity) &&
+  //   flowType !== "createReplica"
+  // ) {
+  //   const createReplicaFormats: IDownloadFormatConfiguration[] =
+  //     getCreateReplicaFormats(entity).map((f) => {
+  //       return {
+  //         key: f.format,
+  //         hidden: false,
+  //       };
+  //     });
+  //   formats = createReplicaFormats;
+  // }
 
-  const additionalResources: IHubAdditionalResource[] =
-    getProp(entity, "extendedProps.additionalResources") || [];
+  // const additionalResources: IHubAdditionalResource[] =
+  //   getProp(entity, "extendedProps.additionalResources") || [];
 
-  return formats.map((f) =>
-    isAdditionalResourceConfiguration(f)
-      ? toAdditionalResourceConfigurationDisplay(f, additionalResources)
-      : toDownloadFormatConfigurationDisplay(f)
-  );
+  // return formats.map((f) =>
+  //   isAdditionalResourceConfiguration(f)
+  //     ? toAdditionalResourceConfigurationDisplay(f, additionalResources)
+  //     : toDownloadFormatConfigurationDisplay(f)
+  // );
+  return [];
 }
 
 // Converts a download format configuration storage object to a display object

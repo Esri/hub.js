@@ -158,8 +158,10 @@ function getDownloadFormatsElement(
  * cannot be downloaded with its current configuration.
  */
 function shouldDisableDownloadFormatsControl(
-  entity: IHubEditableContent
+  _entity: IHubEditableContent
 ): boolean {
-  const downloadFlow = getDownloadFlow(entity);
-  return !downloadFlow;
+  // TODO: re-implement this function
+  return false;
+  // const downloadFlow = getDownloadFlow(entity);
+  // return !downloadFlow;
 }
