@@ -1,6 +1,10 @@
+import { DownloadFlowType, IHubEditableContent } from "../core";
 import HubError from "../HubError";
-import { canUseExportImageFlow } from "./_internal/canUseExportImageFlow";
-import { canUseHubDownloadApi } from "./canUseHubDownloadApi";
+import { getDownloadFlow } from "./_internal/getDownloadFlow";
+import {
+  getAvailableDownloadFlows,
+  IDownloadFlowFlags,
+} from "./getAvailableDownloadFlows";
 import { getDownloadFormats } from "./getDownloadFormats";
 import {
   IDynamicDownloadFormat,
@@ -18,28 +22,71 @@ import {
 export async function fetchDownloadFile(
   options: IFetchDownloadFileOptions
 ): Promise<IFetchDownloadFileResponse> {
-  // Make sure that format requested has been enabled for the entity
-  validateFormat(options);
+  const { entity, context } = options;
+  const availableDownloadFlows = getAvailableDownloadFlows(context);
+  const downloadFlow = getDownloadFlow(entity, availableDownloadFlows);
+
+  // Throw an error if the entity cannot be downloaded (i.e., no download flow)
+  if (!downloadFlow) {
+    throw new HubError(
+      "fetchDownloadFile",
+      "Downloads are not available for this item"
+    );
+  }
+
+  // Throw an error if the download flow is not enabled in the current environment
+  if (!availableDownloadFlows[downloadFlow]) {
+    throw new HubError(
+      "fetchDownloadFile",
+      "Downloads are not available for this item in this environment"
+    );
+  }
+
+  // Throw an error if the format requested is not enabled for the entity
+  const { format } = options;
+  validateFormat(entity, format, availableDownloadFlows);
 
   // If the pollInterval is not set, default to 3 seconds
   const withPollInterval =
     options.pollInterval == null ? { ...options, pollInterval: 3000 } : options;
 
-  let fetchingFn;
-  if (canUseHubDownloadApi(withPollInterval.entity, withPollInterval.context)) {
-    fetchingFn = (
-      await import("./_internal/file-url-fetchers/fetchHubApiDownloadFile")
-    ).fetchHubApiDownloadFile;
-  } else if (canUseExportImageFlow(withPollInterval.entity)) {
-    fetchingFn = (
-      await import("./_internal/file-url-fetchers/fetchExportImageDownloadFile")
-    ).fetchExportImageDownloadFile;
-  } else {
-    throw new HubError(
-      "fetchDownloadFile",
-      "Downloads are not supported for this item in this environment"
-    );
-  }
+  let fetchingFn: (
+    options: IFetchDownloadFileOptions
+  ) => Promise<IFetchDownloadFileResponse>;
+
+  // Note: We use a record rather than a switch statement so typescript can verify that all flows are handled
+  const actionsByFlow: Record<DownloadFlowType, () => Promise<void>> = {
+    hubCreateReplica: async () => {
+      fetchingFn = (
+        await import("./_internal/file-url-fetchers/fetchHubApiDownloadFile")
+      ).fetchHubApiDownloadFile;
+    },
+    paging: async () => {
+      fetchingFn = (
+        await import("./_internal/file-url-fetchers/fetchHubApiDownloadFile")
+      ).fetchHubApiDownloadFile;
+    },
+    fgdb: async () => {
+      fetchingFn = (
+        await import("./_internal/file-url-fetchers/fetchHubApiDownloadFile")
+      ).fetchHubApiDownloadFile;
+    },
+    portalCreateReplica: async () => {
+      throw new HubError(
+        "fetchDownloadFile",
+        "Portal create replica is not yet supported"
+      );
+    },
+    exportImage: async () => {
+      fetchingFn = (
+        await import(
+          "./_internal/file-url-fetchers/fetchExportImageDownloadFile"
+        )
+      ).fetchExportImageDownloadFile;
+    },
+  };
+
+  await actionsByFlow[downloadFlow]();
   return fetchingFn(withPollInterval);
 }
 
@@ -48,11 +95,14 @@ export async function fetchDownloadFile(
  * @param options options for the fetchDownloadFile operation
  * @throws {HubError} if the format requested is not enabled for the entity
  */
-function validateFormat(options: IFetchDownloadFileOptions) {
-  const { entity, context, format } = options;
+function validateFormat(
+  entity: IHubEditableContent,
+  format: ServiceDownloadFormat,
+  availableDownloadFlows: IDownloadFlowFlags
+) {
   const validServerFormats: ServiceDownloadFormat[] = getDownloadFormats({
     entity,
-    context,
+    availableDownloadFlows,
   })
     .filter((f) => f.type === "dynamic")
     .map((f) => (f as IDynamicDownloadFormat).format);

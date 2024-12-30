@@ -1,5 +1,6 @@
 import { IArcGISContext } from "../ArcGISContext";
 import { IHubEditableContent } from "../core/types/IHubEditableContent";
+import { IDownloadFlowFlags } from "./getAvailableDownloadFlows";
 
 /**
  * This hash map was defined to support the previous implementation of the export item flow.
@@ -128,7 +129,6 @@ export interface IFetchDownloadFileOptions {
   entity: IHubEditableContent;
   format: ServiceDownloadFormat;
   context: IArcGISContext;
-  layers?: number[]; // layers to download; when not specified, all layers will be downloaded
   geometry?: __esri.Geometry; // geometry to filter results by
   where?: string; // where clause to filter results by
   progressCallback?: downloadProgressCallback;
@@ -205,10 +205,9 @@ export enum DownloadOperationStatus {
 /**
  * Options for fetching download formats for an entity.
  */
-export interface IFetchDownloadFormatsOptions {
+export interface IGetDownloadFormatsOptions {
   entity: IHubEditableContent;
-  context: IArcGISContext;
-  layers?: number[];
+  availableDownloadFlows: IDownloadFlowFlags;
 }
 
 /**

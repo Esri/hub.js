@@ -1,18 +1,14 @@
 import { IHubAdditionalResource } from "../core/types/IHubAdditionalResource";
 import { getProp } from "../objects/get-prop";
-import { canUseExportImageFlow } from "./_internal/canUseExportImageFlow";
-import { getExportImageFormats } from "./_internal/format-fetchers/getExportImageFormats";
 import {
   getAdditionalResourceIndex,
   isAdditionalResourceConfiguration,
 } from "./_internal/additional-resources/utils";
-import { canUseHubDownloadApi } from "./canUseHubDownloadApi";
 import { getDownloadConfiguration } from "./getDownloadConfiguration";
-import { getHubDownloadApiFormats } from "./getHubDownloadApiFormats";
 import {
   IDownloadFormat,
   IDynamicDownloadFormat,
-  IFetchDownloadFormatsOptions,
+  IGetDownloadFormatsOptions,
   IStaticDownloadFormat,
 } from "./types";
 
@@ -24,39 +20,30 @@ import {
  * @returns The available download formats and additional resources
  */
 export function getDownloadFormats(
-  options: IFetchDownloadFormatsOptions
+  options: IGetDownloadFormatsOptions
 ): IDownloadFormat[] {
-  const { entity, context } = options;
-  // get the base formats for the item
-  let baseFormats: IDynamicDownloadFormat[] = [];
-  // TODO: use typescript to enforce a branch for each flow type
-  if (canUseHubDownloadApi(entity, context)) {
-    baseFormats = getHubDownloadApiFormats(entity);
-  } else if (canUseExportImageFlow(entity)) {
-    baseFormats = getExportImageFormats(entity);
-  }
+  const { entity, availableDownloadFlows } = options;
 
-  // add additional resource links as static formats
   const additionalResources =
     getProp(entity, "extendedProps.additionalResources") || [];
-  const additionalFormats = additionalResources.map(toStaticFormat);
 
   // Respect the order and visibility of the formats as configured for the entity
-  const downloadConfiguration = getDownloadConfiguration(entity);
+  const downloadConfiguration = getDownloadConfiguration(
+    entity,
+    availableDownloadFlows
+  );
   return downloadConfiguration.formats.reduce((acc, format) => {
     if (!format.hidden) {
-      let includedFormat;
       if (isAdditionalResourceConfiguration(format)) {
-        const additionalResourceIndex = getAdditionalResourceIndex(format);
-        includedFormat = additionalFormats[additionalResourceIndex];
+        const index = getAdditionalResourceIndex(format);
+        const additionalResource = additionalResources[index];
+        additionalResource && acc.push(toStaticFormat(additionalResource));
       } else {
-        baseFormats.forEach((baseFormat) => {
-          if (baseFormat.format === format.key) {
-            includedFormat = baseFormat;
-          }
-        });
+        acc.push({
+          type: "dynamic",
+          format: format.key,
+        } as IDynamicDownloadFormat);
       }
-      acc.push(includedFormat);
     }
     return acc;
   }, []);
