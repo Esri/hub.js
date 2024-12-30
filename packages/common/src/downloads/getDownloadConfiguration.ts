@@ -7,6 +7,7 @@ import {
 import { getProp } from "../objects/get-prop";
 import { getDownloadFlow } from "./_internal/getDownloadFlow";
 import { getDownloadFormatsByFlow } from "./_internal/getDownloadFormatsByFlow";
+import { IDownloadFlowFlags } from "./getAvailableDownloadFlows";
 
 /**
  * Returns the download configuration for an entity at this moment in time.
@@ -15,13 +16,14 @@ import { getDownloadFormatsByFlow } from "./_internal/getDownloadFormatsByFlow";
  * If a configuration exists but is no longer valid, the default configuration will also be returned.
  *
  * @param entity entity to get download configuration for
+ * TODO: Document changes
  * @returns the current download configuration for the entity
  */
 export function getDownloadConfiguration(
-  entity: IHubEditableContent
+  entity: IHubEditableContent,
+  availableDownloadFlows: IDownloadFlowFlags
 ): IEntityDownloadConfiguration {
-  // TODO: account for enterprise environments
-  const downloadFlow = getDownloadFlow(entity);
+  const downloadFlow = getDownloadFlow(entity, availableDownloadFlows);
   const serverFormats = getDownloadFormatsByFlow(downloadFlow, entity);
   const additionalResources: IHubAdditionalResource[] =
     getProp(entity, "extendedProps.additionalResources") || [];
@@ -45,8 +47,19 @@ export function getDownloadConfiguration(
     });
   });
 
+  // While the 'hubCreateReplica' and 'portalCreateReplica' follow different logic flows,
+  // they both ultimately hit the same endpoint and _should_ have the same formats available.
+  const hasCompatibleCreateReplicaFlowType =
+    existingConfiguration.flowType &&
+    ["hubCreateReplica", "portalCreateReplica"].includes(
+      existingConfiguration.flowType
+    ) &&
+    ["hubCreateReplica", "portalCreateReplica"].includes(downloadFlow);
+
   const shouldUseExistingConfiguration =
-    existingConfiguration && existingConfiguration.flowType === downloadFlow;
+    existingConfiguration &&
+    (hasCompatibleCreateReplicaFlowType ||
+      existingConfiguration.flowType === downloadFlow);
 
   // Existing configuration matches the current flow
   if (shouldUseExistingConfiguration) {

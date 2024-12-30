@@ -11,7 +11,7 @@ import { getFgdbJobFormats } from "./format-fetchers/getFgdbJobFormats";
 /**
  * @private
  * Get the download formats for a given download flow and entity.
- *
+ * // TODO: Refactor this to return ServiceDownloadFormat[] instead of IDynamicDownloadFormat[]
  * @param downloadFlow DownloadFlowType
  * @param entity IHubEditableContent
  * @returns IDynamicDownloadFormat[]
@@ -22,7 +22,10 @@ export function getDownloadFormatsByFlow(
 ): IDynamicDownloadFormat[] {
   let downloadFormats: IDynamicDownloadFormat[] = [];
   const actionsByFlow: Record<DownloadFlowType, () => void> = {
-    createReplica: () => {
+    hubCreateReplica: () => {
+      downloadFormats = getCreateReplicaFormats(entity);
+    },
+    portalCreateReplica: () => {
       downloadFormats = getCreateReplicaFormats(entity);
     },
     paging: () => {

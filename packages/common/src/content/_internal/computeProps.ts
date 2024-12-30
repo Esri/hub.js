@@ -15,7 +15,6 @@ import {
   IServiceExtendedProps,
 } from "../../core/types/IHubEditableContent";
 import { getRelativeWorkspaceUrl } from "../../core/getRelativeWorkspaceUrl";
-import { isDiscussable } from "../../discussions";
 import {
   hasServiceCapability,
   ServiceCapabilities,
@@ -179,6 +178,13 @@ function getBaseExtendedProps(
   enrichments: IHubEditableContentEnrichments,
   requestOptions: IRequestOptions
 ): IBaseExtendedProps {
+  const downloads = getProp(item, "properties.downloads");
+
+  // Migrate legacy 'createReplica' flowType to 'hubCreateReplica' flowType if necessary
+  if (downloads && downloads.flowType === "createReplica") {
+    downloads.flowType = "hubCreateReplica";
+  }
+
   return {
     kind: null, // To be populated by the specific extended props function
     metadata: enrichments.metadata,
@@ -187,6 +193,6 @@ function getBaseExtendedProps(
       enrichments.metadata,
       requestOptions as IHubRequestOptions
     ),
-    downloads: getProp(item, "properties.downloads"),
+    downloads,
   };
 }

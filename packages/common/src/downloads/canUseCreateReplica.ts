@@ -1,5 +1,9 @@
-import { isAGOFeatureServiceUrl } from "../content/hostedServiceUtils";
+import {
+  isAGOFeatureServiceUrl,
+  isHostedFeatureServiceMainEntity,
+} from "../content/hostedServiceUtils";
 import { IHubEditableContent } from "../core/types/IHubEditableContent";
+import { getProp } from "../objects/get-prop";
 
 /**
  * Determines whether Hub can perform the /createReplica operation on a given service entity.
@@ -7,9 +11,14 @@ import { IHubEditableContent } from "../core/types/IHubEditableContent";
  * @returns whether the /createReplica operation can be used
  */
 export function canUseCreateReplica(entity: IHubEditableContent): boolean {
-  // NOTE: We currently do not allow Hub to perform the /createReplica operation on enterprise / self-hosted
-  // feature services due to known limitations with the enterprise implementation of /createReplica.
-  // This is a temporary restriction until the enterprise implementation is improved.
-  // TODO: change to use `extendedProps.serverExtractCapability`
-  return isAGOFeatureServiceUrl(entity.url) && !!entity.serverExtractCapability;
+  // All AGO feature services can use the /createReplica operation
+  // TODO: Note why only some enterprise services can use the /createReplica operation
+  const isEligibleService =
+    isAGOFeatureServiceUrl(entity.url) ||
+    isHostedFeatureServiceMainEntity(entity);
+  const hasExtractCapability = !!getProp(
+    entity,
+    "extendedProps.serverExtractCapability"
+  );
+  return isEligibleService && hasExtractCapability;
 }

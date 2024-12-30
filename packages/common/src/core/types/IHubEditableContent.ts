@@ -62,10 +62,11 @@ export type IExtendedProps = IContentExtendedProps | IServiceExtendedProps;
  * Represents the download process that the configuration was created for
  */
 export type DownloadFlowType =
-  | "createReplica"
+  | "hubCreateReplica"
   | "paging"
-  | "exportImage"
-  | "fgdb";
+  | "fgdb"
+  | "portalCreateReplica"
+  | "exportImage";
 
 /**
  * Represents the storage object for configuring a single download format
