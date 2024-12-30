@@ -72,10 +72,11 @@ export async function fetchDownloadFile(
       ).fetchHubApiDownloadFile;
     },
     portalCreateReplica: async () => {
-      throw new HubError(
-        "fetchDownloadFile",
-        "Portal create replica is not yet supported"
-      );
+      fetchingFn = (
+        await import(
+          "./_internal/file-url-fetchers/fetchCreateReplicaDownloadFile"
+        )
+      ).fetchCreateReplicaDownloadFile;
     },
     exportImage: async () => {
       fetchingFn = (

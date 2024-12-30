@@ -191,7 +191,7 @@ async function pollDownloadApi(
  * Returns a standardized status string based on what is returned by the Hub Download API.
  * This is necessary because the Hub Download API returns a variety of statuses that are too
  * technical in nature that need to be translated into a more user-friendly status.
- *
+ * TODO: Export this for use in fetchCreateReplicaDownloadFile
  * @param status status returned by the Hub Download API
  * @returns a standardized download operation status
  */
