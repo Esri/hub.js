@@ -46,7 +46,7 @@ export async function fetchCreateReplicaDownloadFile(
 
   let withOptionalToken = resultUrl;
   if (authRequired) {
-    const token = await authentication.getToken(resultUrl);
+    const token = await authentication.getToken(authentication.portal);
     withOptionalToken = `${resultUrl}?token=${token}`;
   }
 
@@ -71,6 +71,7 @@ function getCreateReplicaOptions(opts: IFetchDownloadFileOptions): any {
     targetType: "client",
     syncDirection: "bidirectional",
     attachmentsSyncDirection: "bidirectional",
+    dataFormat: opts.format,
   };
 }
 
