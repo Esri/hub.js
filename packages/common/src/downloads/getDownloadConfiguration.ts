@@ -50,7 +50,7 @@ export function getDownloadConfiguration(
   // While the 'hubCreateReplica' and 'portalCreateReplica' follow different logic flows,
   // they both ultimately hit the same endpoint and _should_ have the same formats available.
   const hasCompatibleCreateReplicaFlowType =
-    existingConfiguration.flowType &&
+    existingConfiguration &&
     ["hubCreateReplica", "portalCreateReplica"].includes(
       existingConfiguration.flowType
     ) &&

@@ -7,3 +7,4 @@ export * from "./canUseHubDownloadApi";
 export * from "./getHubDownloadApiFormats";
 export * from "./getDownloadConfiguration";
 export * from "./getDownloadFormats";
+export * from "./getAvailableDownloadFlows";

@@ -80,14 +80,15 @@ async function getTotalRecordCount(opts: {
   authentication: IAuthenticationManager;
 }): Promise<number> {
   // TODO: RE-IMPLEMENT THIS
-  // const { layerQueries, geometry, geometryType, inSR } = options;
-  // const layerDefinitions =
-  //   Object.keys(layerQueries).reduce((acc, key) => {
-  //     acc[key] =
-  //       layerQueries[key].queryOption === 'useFilter' ? layerQueries[key].where : '1=1';
-  //       return acc;
-  //     },
-  //   {});
+  const { layerQueries /* geometry, geometryType, inSR */ } =
+    opts.createReplicaOptions;
+  const layerDefinitions = Object.keys(layerQueries).reduce((acc: any, key) => {
+    acc[key] =
+      layerQueries[key].queryOption === "useFilter"
+        ? layerQueries[key].where
+        : "1=1";
+    return acc;
+  }, {});
   const requestOptions: IRequestOptions = {
     // Use POST to avoid URL length limits with complex geometries
     httpMethod: "POST",
@@ -95,7 +96,7 @@ async function getTotalRecordCount(opts: {
       f: "json",
       returnCountOnly: true,
       spatialRel: "esriSpatialRelIntersects",
-      // layerDefs: layerDefinitions,
+      layerDefs: layerDefinitions,
       // geometry,
       // geometryType,
       // inSR
@@ -169,7 +170,7 @@ async function _pollUntilComplete(
     status,
     resultUrl,
     recordCount = 0,
-    error = {},
+    error,
   } = result.response as ICreateReplicaStatusResponse;
 
   // If an error was captured by `request()` during the polling operation, throw it
