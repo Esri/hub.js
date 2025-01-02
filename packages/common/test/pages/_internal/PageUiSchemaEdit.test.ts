@@ -245,6 +245,7 @@ describe("buildUiSchema: page edit", () => {
                 control: "hub-field-input-location-picker",
                 extent: [],
                 options: [],
+                noticeTitleElementAriaLevel: 3,
               },
             },
           ],
