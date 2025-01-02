@@ -1,3 +1,10 @@
+# @esri/hub-common [15.21.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.20.1...@esri/hub-common@15.21.0) (2025-01-02)
+
+
+### Features
+
+* set the aria level for all location pickers ([#1767](https://github.com/Esri/hub.js/issues/1767)) ([51095fd](https://github.com/Esri/hub.js/commit/51095fd10e86b64ef84d9e48a1b5bd1628539946))
+
 ## @esri/hub-common [15.20.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.20.0...@esri/hub-common@15.20.1) (2024-12-27)
 
 
