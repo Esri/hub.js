@@ -32,21 +32,21 @@ export function getDownloadFormats(
     entity,
     availableDownloadFlows
   );
-  return downloadConfiguration.formats.reduce((acc, format) => {
-    if (!format.hidden) {
-      if (isAdditionalResourceConfiguration(format)) {
-        const index = getAdditionalResourceIndex(format);
+  return downloadConfiguration.formats
+    .filter((f) => !f.hidden)
+    .reduce((acc, configFormat) => {
+      if (isAdditionalResourceConfiguration(configFormat)) {
+        const index = getAdditionalResourceIndex(configFormat);
         const additionalResource = additionalResources[index];
         additionalResource && acc.push(toStaticFormat(additionalResource));
       } else {
         acc.push({
           type: "dynamic",
-          format: format.key,
+          format: configFormat.key,
         } as IDynamicDownloadFormat);
       }
-    }
-    return acc;
-  }, []);
+      return acc;
+    }, []);
 }
 
 function toStaticFormat(
