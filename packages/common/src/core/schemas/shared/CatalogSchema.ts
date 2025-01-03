@@ -23,58 +23,6 @@ export const FilterSchema: IConfigurationSchema = {
   },
 };
 
-/** JSON schema for an IQuery */
-export const QuerySchema: IConfigurationSchema = {
-  type: "object",
-  required: ["targetEntity"],
-  properties: {
-    targetEntity: {
-      type: "string",
-      enum: [...targetEntities],
-    },
-    filters: {
-      type: "array",
-      items: FilterSchema,
-    },
-  },
-};
-
-/** JSON schema for an IHubCollection */
-export const CollectionSchema: IConfigurationSchema = {
-  type: "object",
-  required: ["label"],
-  properties: {
-    label: {
-      type: "string",
-    },
-    scope: QuerySchema,
-  },
-};
-
-/** JSON schema for an IHubCatalog */
-export const CatalogSchema: IConfigurationSchema = {
-  type: "object",
-  properties: {
-    title: {
-      type: "string",
-    },
-    scopes: {
-      type: "object",
-      properties: targetEntities.reduce(
-        (acc: Record<EntityType, any>, targetEntity: EntityType) => {
-          acc[targetEntity] = QuerySchema;
-          return acc;
-        },
-        {} as Record<EntityType, any>
-      ),
-    },
-    collections: {
-      type: "array",
-      items: CollectionSchema,
-    },
-  },
-};
-
 /**
  * JSON schema for the appearance of a gallery display
  * This can be for a catalog, a collection, a gallery card, etc
@@ -118,26 +66,56 @@ export const GalleryDisplayConfigSchema: IConfigurationSchema = {
   },
 };
 
-/**
- * JSON schema for the appearance of an IHubCollection
- */
-export const CollectionAppearanceSchema: IConfigurationSchema = {
+/** JSON schema for an IQuery */
+export const QuerySchema: IConfigurationSchema = {
   type: "object",
+  required: ["targetEntity"],
   properties: {
+    targetEntity: {
+      type: "string",
+      enum: [...targetEntities],
+    },
+    filters: {
+      type: "array",
+      items: FilterSchema,
+    },
+  },
+};
+
+/** JSON schema for an IHubCollection */
+export const CollectionSchema: IConfigurationSchema = {
+  type: "object",
+  required: ["label"],
+  properties: {
+    label: {
+      type: "string",
+    },
+    scope: QuerySchema,
     displayConfig: GalleryDisplayConfigSchema,
   },
 };
 
-/**
- * JSON schema for the appearance of a catalog
- */
-export const CatalogAppearanceSchema: IConfigurationSchema = {
+/** JSON schema for an IHubCatalog */
+export const CatalogSchema: IConfigurationSchema = {
   type: "object",
   properties: {
-    displayConfig: GalleryDisplayConfigSchema,
+    title: {
+      type: "string",
+    },
+    scopes: {
+      type: "object",
+      properties: targetEntities.reduce(
+        (acc: Record<EntityType, any>, targetEntity: EntityType) => {
+          acc[targetEntity] = QuerySchema;
+          return acc;
+        },
+        {} as Record<EntityType, any>
+      ),
+    },
     collections: {
       type: "array",
-      items: CollectionAppearanceSchema,
+      items: CollectionSchema,
     },
+    displayConfig: GalleryDisplayConfigSchema,
   },
 };
