@@ -8,7 +8,6 @@ on:
       - next
       - alpha
       - beta
-      - v2-discussions-release
     paths-ignore:
       - "**.md"
       - "docs/**"
