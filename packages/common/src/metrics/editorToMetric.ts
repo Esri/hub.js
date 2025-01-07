@@ -13,6 +13,7 @@ import { ServiceAggregation } from "../core/types/DynamicValues";
 
 /**
  * Transforms the IConfigurationValues into an object with IMetric and IMetricDisplayConfig to be saved on an entity or rendered in the ui.
+ * Anytime we transform editor values into a metric, we should use this function.
  * @param values IConfigurationValues for the arcgis-hub-metric-card to use
  * @param metricId what should be the id of the transformed metric
  * @param entityInfo what should be the entityInfo of the transformed metric
@@ -42,7 +43,10 @@ export function editorToMetric(
   } = dynamicMetric || {};
   const { entityInfo, metricName } = opts || {};
 
-  // create source
+  /**
+   * We create the source object here based on the type of metric. When we have more types (requesting, item query, telemetry),
+   * we need to expand this to allow us to create the correct source object from the editor's values.
+   */
   const source: MetricSource =
     values.type === "dynamic"
       ? {
@@ -69,7 +73,7 @@ export function editorToMetric(
       id: undefined,
       name: undefined,
       type: undefined,
-    }, // ensure entity info has id, name, type
+    }, // ensure entity info has id, name, type -- this is required in resolveMetric or things will break...but it really shouldn't be
     id: metricId,
   };
 
@@ -87,7 +91,7 @@ export function editorToMetric(
     expressionSet,
     allowExpressionSet,
     statistic,
-    // if we are in dynamic mode and have a link, then we use that link
+    // if we are in dynamic mode and have a link, then we use that link as it comes from the dynamicMetric obj
     // otherwise we use manually input sourceLink on card config
     sourceLink:
       values.type === "dynamic" && sourceLink ? sourceLink : config.sourceLink,
@@ -105,6 +109,9 @@ export function editorToMetric(
 
 /**
  * Constructs a where clause from a given expression set.
+ *
+ * Be super careful changing this function, as it is used for backwards compatibility with very old stat cards,
+ * pre-new stat card editor.
  *
  * @param {Array} fields the available fields for a given dataset
  * @param {Object} values the selected values

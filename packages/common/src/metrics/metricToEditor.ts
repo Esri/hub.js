@@ -8,7 +8,9 @@ import {
 } from "../core/types/Metrics";
 
 /**
- * Util to convert a metric into editor values consumable by the configuration editor
+ * Util to convert a metric into editor values consumable by the configuration editor.
+ *
+ * We should use this function any time we want to convert a metric into editor values.
  * @param metric - IMetric metric
  * @param displayConfig - display configuration for the metric
  * @returns
@@ -33,6 +35,8 @@ export function metricToEditor(
     const metricType = (metric.source as MetricSource).type || "";
 
     switch (metricType) {
+      // if we have a dynamic metric, we want to load the values into the dynamicMetric composite field, so many of the values
+      // are nested into dynamicMetric
       case "service-query":
         editor = {
           type: "dynamic",
