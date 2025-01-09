@@ -4,6 +4,9 @@ import { DynamicAggregation } from "../core/types/DynamicValues";
 /**
  * Given an array of metrics, aggregate them using the specified aggregation
  * Consumer must be aware of the type of the metrics and pass an appropriate aggregation
+ *
+ * NOTE: we don't currently use this function -- this is for combining multiple metrics, which we don't have implemented yet.
+ * When we implement requesting metrics, we'd use this.
  * @param metrics
  * @param aggregation
  * @returns
