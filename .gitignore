@@ -1,3 +1,6 @@
+# Generated TypeDoc site that isn't used
+typedoc
+
 # Logs
 logs
 *.log

@@ -150,7 +150,8 @@
 		"y:push": "lerna run y:push",
 		"release:dry": "multi-semantic-release --dry-run --deps.prefix=^ --deps.bump=satisfy --deps.release=inherit --ignore-private-packages --debug",
 		"prerelease": "npm config set workspaces-update false",
-		"release": "multi-semantic-release --deps.prefix=^ --deps.bump=satisfy --deps.release=inherit --ignore-private-packages"
+	"release": "multi-semantic-release --deps.prefix=^ --deps.bump=satisfy --deps.release=inherit --ignore-private-packages",
+		"typedoc": "typedoc --options ./typedoc.json"
 	},
 	"husky": {
 		"hooks": {

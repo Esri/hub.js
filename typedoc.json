@@ -1,0 +1,20 @@
+{
+  "out": "typedoc",
+  "json": "typedoc/doc.json",
+  "excludeInternal": true,
+  "excludePrivate": true,
+  "excludeExternals": true,
+  "packages": [
+    "./packages/common/",
+    "./packages/discussions/",
+    "./packages/downloads/",
+    "./packages/events/",
+    "./packages/initiatives/",
+    "./packages/search/",
+    "./packages/sites/",
+    "./packages/surveys/",
+    "./packages/teams/"
+  ],
+  "exclude":["**/*test.ts"],
+  "ignoreCompilerErrors": true
+} 
