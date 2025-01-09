@@ -1,3 +1,10 @@
+# @esri/hub-common [15.22.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.21.0...@esri/hub-common@15.22.0) (2025-01-07)
+
+
+### Features
+
+* **hub-common:** replace temporary workspace feeds permission with hub:site:workspace:feeds ([#1766](https://github.com/Esri/hub.js/issues/1766)) ([4471d8e](https://github.com/Esri/hub.js/commit/4471d8e5ecd48845a849fd930cd4ec389a72f071))
+
 # @esri/hub-common [15.21.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.20.1...@esri/hub-common@15.21.0) (2025-01-02)
 
 
