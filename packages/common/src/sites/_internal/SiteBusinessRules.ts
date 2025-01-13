@@ -46,7 +46,7 @@ export const SitePermissions = [
   "hub:site:workspace:projects",
   "hub:site:workspace:initiatives",
   "hub:site:manage",
-  "temp:hub:site:workspace:feeds",
+  "hub:site:workspace:feeds",
 ] as const;
 
 /**
@@ -228,8 +228,9 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:site:edit"],
   },
   {
-    permission: "temp:hub:site:workspace:feeds",
-    availability: ["flag"],
+    permission: "hub:site:workspace:feeds",
+    dependencies: ["hub:site:workspace", "hub:site:edit"],
+    environments: ["devext", "qaext", "production"],
   },
 ];
 
