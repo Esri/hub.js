@@ -604,6 +604,23 @@ describe("HubSite Class:", () => {
         expect(enrichEntitySpy).toHaveBeenCalledTimes(1);
         expect(getFollowersGroupSpy).toHaveBeenCalledTimes(1);
       });
+      it("uses _urlInfo if provided", async () => {
+        const site = HubSite.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            _urlInfo: {
+              subdomain: "my-subdomain",
+            },
+          },
+          authdCtxMgr.context
+        );
+        getFollowersGroupSpy = spyOn(site, "getFollowersGroup").and.returnValue(
+          Promise.resolve({ typeKeywords: ["cannotDiscuss"] })
+        );
+        const result = await site.toEditor();
+        expect(result._urlInfo.subdomain).toEqual("my-subdomain");
+      });
       describe("entity transforms", () => {
         it("sets the _followers.showFollowAction property based on the presence of the hub:site:feature:follow feature", async () => {
           getFollowersGroupSpy = spyOn(

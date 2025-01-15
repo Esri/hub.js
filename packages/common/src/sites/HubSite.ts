@@ -438,15 +438,17 @@ export class HubSite
     editor._discussions = this.entity.features["hub:site:feature:discussions"];
 
     // used by the site URL composite field
-    const { url, subdomain, defaultHostname } = editor;
-    editor._urlInfo = {
-      url,
-      subdomain,
-      defaultHostname,
-      // NOTE: once the editor handles custom hostnames,
-      // we'll need to add that here
-      // customHostname
-    };
+    if (!editor._urlInfo) {
+      const { url, subdomain, defaultHostname } = editor;
+      editor._urlInfo = {
+        url,
+        subdomain,
+        defaultHostname,
+        // NOTE: once the editor handles custom hostnames,
+        // we'll need to add that here
+        // customHostname
+      };
+    }
 
     return editor;
   }
