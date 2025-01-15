@@ -1,10 +1,9 @@
 {
   "out": "typedoc",
   "json": "typedoc/doc.json",
-  "excludeInternal": true,
-  "excludePrivate": true,
   "excludeExternals": true,
-  "packages": [
+  "entryPointStrategy": "packages",
+  "entryPoints": [
     "./packages/common/",
     "./packages/discussions/",
     "./packages/downloads/",
@@ -16,5 +15,4 @@
     "./packages/teams/"
   ],
   "exclude":["**/*test.ts"],
-  "ignoreCompilerErrors": true
 } 
