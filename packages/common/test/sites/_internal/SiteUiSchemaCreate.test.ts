@@ -3,7 +3,11 @@ import { MOCK_CONTEXT } from "../../mocks/mock-auth";
 
 describe("buildUiSchema: site create", () => {
   it("returns the full site create uiSchema", async () => {
-    const uiSchema = await buildUiSchema("some.scope", {} as any, MOCK_CONTEXT);
+    const uiSchema = await buildUiSchema(
+      "some.scope",
+      { orgUrlKey: "org-url-key" } as any,
+      MOCK_CONTEXT
+    );
     expect(uiSchema).toEqual({
       type: "Layout",
       elements: [
@@ -30,6 +34,23 @@ describe("buildUiSchema: site create", () => {
                 keyword: "format",
                 icon: true,
                 labelKey: `some.scope.fields.name.siteEntityTitleValidatorError`,
+              },
+            ],
+          },
+        },
+        {
+          scope: "/properties/_urlInfo",
+          type: "Control",
+          options: {
+            type: "Control",
+            control: "hub-composite-input-site-url",
+            orgUrlKey: "org-url-key",
+            messages: [
+              {
+                type: "ERROR",
+                keyword: "isUniqueDomain",
+                labelKey: `some.scope.fields.siteUrl.isUniqueError`,
+                icon: true,
               },
             ],
           },

@@ -30,6 +30,12 @@ export const getSiteSchema = (siteId: string) =>
       _urlInfo: {
         type: "object",
         isUniqueDomain: { siteId },
+        required: ["subdomain"],
+        properties: {
+          subdomain: {
+            type: "string",
+          },
+        },
       },
     },
   } as IAsyncConfigurationSchema);
