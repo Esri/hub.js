@@ -1,3 +1,10 @@
+## @esri/hub-common [15.23.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.23.0...@esri/hub-common@15.23.1) (2025-01-16)
+
+
+### Bug Fixes
+
+* fix hub_cdn_urls ([#1774](https://github.com/Esri/hub.js/issues/1774)) ([c9b1a7f](https://github.com/Esri/hub.js/commit/c9b1a7f157180a6be9d0c841d41359ad1dc62214))
+
 # @esri/hub-common [15.23.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.22.1...@esri/hub-common@15.23.0) (2025-01-15)
 
 
