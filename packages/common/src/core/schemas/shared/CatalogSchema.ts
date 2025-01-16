@@ -51,6 +51,30 @@ export const CollectionSchema: IConfigurationSchema = {
   },
 };
 
+/** JSON schema for an IHubCatalog */
+export const CatalogSchema: IConfigurationSchema = {
+  type: "object",
+  properties: {
+    title: {
+      type: "string",
+    },
+    scopes: {
+      type: "object",
+      properties: targetEntities.reduce(
+        (acc: Record<EntityType, any>, targetEntity: EntityType) => {
+          acc[targetEntity] = QuerySchema;
+          return acc;
+        },
+        {} as Record<EntityType, any>
+      ),
+    },
+    collections: {
+      type: "array",
+      items: CollectionSchema,
+    },
+  },
+};
+
 /**
  * JSON schema for the appearance of a gallery display
  * This can be for a catalog, a collection, a gallery card, etc
@@ -94,31 +118,6 @@ export const GalleryDisplayConfigSchema: IConfigurationSchema = {
   },
 };
 
-/** JSON schema for an IHubCatalog */
-export const CatalogSchema: IConfigurationSchema = {
-  type: "object",
-  properties: {
-    title: {
-      type: "string",
-    },
-    scopes: {
-      type: "object",
-      properties: targetEntities.reduce(
-        (acc: Record<EntityType, any>, targetEntity: EntityType) => {
-          acc[targetEntity] = QuerySchema;
-          return acc;
-        },
-        {} as Record<EntityType, any>
-      ),
-    },
-    collections: {
-      type: "array",
-      items: CollectionSchema,
-    },
-    displayConfig: GalleryDisplayConfigSchema,
-  },
-};
-
 /**
  * JSON schema for the appearance of an IHubCollection
  */
@@ -126,5 +125,19 @@ export const CollectionAppearanceSchema: IConfigurationSchema = {
   type: "object",
   properties: {
     displayConfig: GalleryDisplayConfigSchema,
+  },
+};
+
+/**
+ * JSON schema for the appearance of a catalog
+ */
+export const CatalogAppearanceSchema: IConfigurationSchema = {
+  type: "object",
+  properties: {
+    displayConfig: GalleryDisplayConfigSchema,
+    collections: {
+      type: "array",
+      items: CollectionAppearanceSchema,
+    },
   },
 };
