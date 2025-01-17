@@ -44,6 +44,7 @@ export * from "./get-data-for-site-item";
 export * from "./is-site";
 export * from "./get-members";
 export * from "./interpolate-site";
+export * from "./_get-sharing-eligible-models"; // exporting because we need to use the _getSharingEligibleModels fn to share eligible models to groups in the solutions-service
 
 // Re-exports to avoid breaking changes
 export {
