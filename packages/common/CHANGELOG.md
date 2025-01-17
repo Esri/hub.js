@@ -1,3 +1,10 @@
+## @esri/hub-common [15.23.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.23.1...@esri/hub-common@15.23.2) (2025-01-17)
+
+
+### Bug Fixes
+
+* update correct schemas for catalog editing ([#1776](https://github.com/Esri/hub.js/issues/1776)) ([d48f8c0](https://github.com/Esri/hub.js/commit/d48f8c0840f8998d2d26e6299ff929ddbae3b696))
+
 ## @esri/hub-common [15.23.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.23.0...@esri/hub-common@15.23.1) (2025-01-16)
 
 
