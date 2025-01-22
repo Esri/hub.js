@@ -33,6 +33,7 @@ export async function createEvent(
 
 /**
  * get events
+ * @deprecated use searchEvents instead
  *
  * @param {IGetEventsParams} options
  * @return {Promise<IPagedEventResponse>}
