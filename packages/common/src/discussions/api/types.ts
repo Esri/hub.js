@@ -323,7 +323,7 @@ export interface IDiscussionsRequestOptions
 }
 
 /**
- * Role types
+ * ChannelAcl Role types
  *
  * @export
  * @enum {string}
