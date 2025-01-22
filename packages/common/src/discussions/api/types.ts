@@ -329,12 +329,15 @@ export interface IDiscussionsRequestOptions
  * @enum {string}
  */
 export enum Role {
-  READ = "read",
-  WRITE = "write",
-  READWRITE = "readWrite",
-  MODERATE = "moderate",
   MANAGE = "manage",
+  /** Not API supported */
+  MODERATE = "moderate",
+  /** Not API supported */
   OWNER = "owner",
+  READ = "read",
+  READWRITE = "readWrite",
+  /** Not API supported */
+  WRITE = "write",
 }
 
 /**
@@ -467,25 +470,25 @@ export interface IPost
     Partial<IWithEditor>,
     IWithTimestamps {
   id: string;
-  title: string | null;
-  body: string;
-  status: PostStatus;
   appInfo: string | null; // this is a catch-all field for app-specific information about a post, added for Urban
-  discussion: string | null;
-  geometry: Geometry | null;
-  featureGeometry: Geometry | null;
-  postType: PostType;
-  channelId?: string;
+  body: string;
   channel?: IChannel;
-  parentId?: string;
+  channelId?: string;
+  discussion: string | null;
+  featureGeometry: Geometry | null;
+  geometry: Geometry | null;
   parent?: IPost | null;
+  parentId: string | null;
+  postType: PostType;
+  reactions?: IReaction[];
   replies?: IPost[] | IPagedResponse<IPost>;
   replyCount?: number;
-  reactions?: IReaction[];
+  status: PostStatus;
+  title: string | null;
 }
 
 /**
- * base parameters for creating a post
+ * parameters for creating a post
  *
  * @export
  * @interface IPostOptions
@@ -512,16 +515,6 @@ export interface ICreatePost extends IPostOptions {
 }
 
 /**
- * dto for creating a post in a unknown or not yet created channel
- *
- * @export
- * @interface ICreateChannelPost
- * @extends {IPostOptions}
- * @extends {ICreateChannel}
- */
-export interface ICreateChannelPost extends IPostOptions, ICreateChannel {}
-
-/**
  * request options for creating post
  *
  * @export
@@ -529,7 +522,7 @@ export interface ICreateChannelPost extends IPostOptions, ICreateChannel {}
  * @extends {IHubRequestOptions}
  */
 export interface ICreatePostParams extends IDiscussionsRequestOptions {
-  data: ICreatePost | ICreateChannelPost;
+  data: ICreatePost;
   mentionUrl?: string;
 }
 
@@ -724,11 +717,12 @@ export enum ChannelRelation {
  * @enum {string}
  */
 export enum AclCategory {
-  GROUP = "group",
-  ORG = "org",
-  USER = "user",
   ANONYMOUS_USER = "anonymousUser",
   AUTHENTICATED_USER = "authenticatedUser",
+  GROUP = "group",
+  ORG = "org",
+  /** Not API supported */
+  USER = "user",
 }
 
 /**
@@ -736,7 +730,9 @@ export enum AclCategory {
  * @enum {string}
  */
 export enum AclSubCategory {
+  /** Only valid for category: `group` or `org` */
   ADMIN = "admin",
+  /** Only valid for category: `group` or `org` */
   MEMBER = "member",
 }
 
@@ -748,7 +744,9 @@ export enum AclSubCategory {
  */
 export interface IChannelAclPermissionDefinition {
   category: AclCategory;
+  /** Only valid for category: `group` or `org` */
   subCategory?: AclSubCategory;
+  /** Ago `group_id` or `org_id` or `user.username` <br> Invalid for category: `anonymousUser, authenticatedUser` */
   key?: string;
   role: Role;
   restrictedBefore?: string;
@@ -767,17 +765,17 @@ export interface IChannelAclPermissionUpdateDefinition
 }
 
 /**
- * representation of channel Acl permission from service
+ * representation of channelAcl permission from service
  *
  * @export
  * @interface IChannelAclPermission
- * @extends {IChannelAclDefinition}
+ * @extends {IChannelAclPermissionDefinition}
  * @extends {IWithAuthor}
  * @extends {IWithEditor}
  * @extends {IWithTimestamps}
  */
 export interface IChannelAclPermission
-  extends Omit<IChannelAclPermissionDefinition, "restrictedBefore">,
+  extends IChannelAclPermissionDefinition,
     IWithAuthor,
     IWithEditor,
     IWithTimestamps {
@@ -800,7 +798,7 @@ export interface ICreateChannelSettings {
   blockWords?: string[];
   defaultPostStatus?: PostStatus;
   metadata?: IChannelMetadata;
-  name?: string;
+  name: string;
   softDelete?: boolean;
 }
 
@@ -819,15 +817,7 @@ export interface IChannelMetadata {
  * @interface ICreateChannelPermissions
  */
 export interface ICreateChannelPermissions {
-  access?: SharingAccess;
-  allowAnonymous?: boolean;
-  groups?: string[];
-  orgs?: string[];
-  /**
-   * Not available until the V2 Api is released
-   * @hidden
-   */
-  channelAclDefinition?: IChannelAclPermissionDefinition[];
+  channelAclDefinition: IChannelAclPermissionDefinition[];
 }
 
 /**
@@ -837,13 +827,11 @@ export interface ICreateChannelPermissions {
  * @interface IUpdateChannelPermissions
  */
 export interface IUpdateChannelPermissions {
-  access?: SharingAccess;
-  allowAnonymous?: boolean;
-  groups?: string[];
+  channelAclDefinition?: IChannelAclPermissionDefinition[];
 }
 
 /**
- * permissions and settings options for creating a channel
+ * parameters for creating a channel
  *
  * @export
  * @interface ICreateChannel
@@ -865,8 +853,14 @@ export interface ICreateChannel
  */
 export interface IChannel extends IWithAuthor, IWithEditor, IWithTimestamps {
   id: string;
-  access: SharingAccess;
-  allowAnonymous: boolean;
+  /** deprecated V1 permissions field, use channelAcl */
+  access: SharingAccess | null;
+  /** deprecated V1 permissions field, use channelAcl */
+  orgs: string[] | null;
+  /** deprecated V1 permissions field, use channelAcl */
+  allowAnonymous: boolean | null;
+  /** deprecated V1 permissions field, use channelAcl */
+  groups: string[] | null;
   allowAsAnonymous: boolean;
   allowedReactions: PostReaction[] | null;
   allowPost: boolean;
@@ -875,28 +869,43 @@ export interface IChannel extends IWithAuthor, IWithEditor, IWithTimestamps {
   blockWords: string[] | null;
   channelAcl?: IChannelAclPermission[];
   defaultPostStatus: PostStatus;
-  groups: string[];
   metadata: IChannelMetadata | null;
   name: string | null;
   orgId: string;
-  orgs: string[];
   posts?: IPost[];
   softDelete: boolean;
 }
 
 /**
- * parameters/options for updating channel settings
+ * parameters for updating a channel
  *
  * @export
  * @interface IUpdateChannel
- * @extends {ICreateChannelSettings}
+ * @extends {IUpdateChannelSettings}
  * @extends {IUpdateChannelPermissions}
- * @extends {Partial<IWithAuthor>}
  */
 export interface IUpdateChannel
-  extends ICreateChannelSettings,
-    IUpdateChannelPermissions,
-    Partial<IWithAuthor> {}
+  extends IUpdateChannelSettings,
+    IUpdateChannelPermissions {}
+
+/**
+ * settings parameters for updating a channel
+ *
+ * @export
+ * @interface IUpdateChannelSettings
+ */
+export interface IUpdateChannelSettings {
+  allowAsAnonymous?: boolean;
+  allowedReactions?: PostReaction[];
+  allowPost?: boolean;
+  allowReaction?: boolean;
+  allowReply?: boolean;
+  blockWords?: string[];
+  defaultPostStatus?: PostStatus;
+  metadata?: IChannelMetadata;
+  name?: string;
+  softDelete?: boolean;
+}
 
 /**
  * dto for decorating found channel with relations
