@@ -1,3 +1,13 @@
+# @esri/hub-surveys [15.1.0-next.1](https://github.com/Esri/hub.js/compare/@esri/hub-surveys@15.0.0...@esri/hub-surveys@15.1.0-next.1) (2025-01-22)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 15.22.0-next.1
+
 # @esri/hub-surveys [15.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-surveys@14.1.1...@esri/hub-surveys@15.0.0) (2024-11-01)
 
 
