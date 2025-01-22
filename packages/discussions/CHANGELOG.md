@@ -12,6 +12,18 @@
 
 * **hub-common:** add allowPost to IChannel ([#1755](https://github.com/Esri/hub.js/issues/1755)) ([d500a53](https://github.com/Esri/hub.js/commit/d500a5312e069432988725d776c0753c2a897519))
 
+# @esri/hub-discussions [29.5.0-next.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@29.4.0...@esri/hub-discussions@29.5.0-next.1) (2025-01-22)
+
+
+### Features
+
+* **hub-discussions:** v2 breaking changes ([#1770](https://github.com/Esri/hub.js/issues/1770)) ([666cf91](https://github.com/Esri/hub.js/commit/666cf91c2b0126efd87104587d189fd96f17cbb7))
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 15.22.0-next.1
+
 # @esri/hub-discussions [29.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@29.2.1...@esri/hub-discussions@29.3.0) (2024-11-22)
 
 
