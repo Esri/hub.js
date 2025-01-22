@@ -5,6 +5,8 @@
 
 * **hub-common:** add content home url util ([#1791](https://github.com/Esri/hub.js/issues/1791)) ([efdf12b](https://github.com/Esri/hub.js/commit/efdf12bd32bc1a727effd9d601b52bdc731312a9))
 
+
+
 # @esri/hub-common [15.27.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.26.1...@esri/hub-common@15.27.0) (2025-02-04)
 
 
@@ -90,6 +92,13 @@
 * adds domain to site creation uiSchema ([#1772](https://github.com/Esri/hub.js/issues/1772)) ([55c5453](https://github.com/Esri/hub.js/commit/55c545300b0520378a80b7bbafa6320b648069d7))
 
 ## @esri/hub-common [15.22.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.22.0...@esri/hub-common@15.22.1) (2025-01-13)
+
+# @esri/hub-common [15.22.0-next.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.22.0-next.1...@esri/hub-common@15.22.0-next.2) (2025-01-22)
+
+
+### Features
+
+* **hub-common:** update Role enum comment ([#1780](https://github.com/Esri/hub.js/issues/1780)) ([9298a5d](https://github.com/Esri/hub.js/commit/9298a5d27e5d38be9793c30870b6b303b79a0342))
 
 
 ### Bug Fixes
