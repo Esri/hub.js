@@ -7,10 +7,6 @@
 
 # @esri/hub-sites [16.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@15.0.2...@esri/hub-sites@16.0.0) (2024-11-01)
 
-
-
-
-
 ### Dependencies
 
 * **@esri/hub-common:** upgraded to 15.0.0
@@ -30,6 +26,15 @@
 ### Bug Fixes
 
 * **hub-sites:** getMembers call uses filter instead of q in query ([#1633](https://github.com/Esri/hub.js/issues/1633)) ([39a6c44](https://github.com/Esri/hub.js/commit/39a6c4492d1237f32be9e1420a44c708ef58bcdd))
+
+
+# @esri/hub-sites [16.1.0-next.1](https://github.com/Esri/hub.js/compare/@esri/hub-sites@16.0.0...@esri/hub-sites@16.1.0-next.1) (2025-01-22)
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 15.22.0-next.1
+* **@esri/hub-initiatives:** upgraded to 15.1.0-next.1
+* **@esri/hub-teams:** upgraded to 15.1.0-next.1
 
 # @esri/hub-sites [15.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@14.3.0...@esri/hub-sites@15.0.0) (2024-06-27)
 
