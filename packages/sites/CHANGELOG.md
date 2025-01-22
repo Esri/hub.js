@@ -1,3 +1,10 @@
+## @esri/hub-sites [16.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-sites@16.0.0...@esri/hub-sites@16.0.1) (2025-01-22)
+
+
+### Bug Fixes
+
+* export _get-sharing-eligible-models ([#1777](https://github.com/Esri/hub.js/issues/1777)) ([18a3026](https://github.com/Esri/hub.js/commit/18a3026c8ce834d086158dabe51b0da3de02ca9c))
+
 # @esri/hub-sites [16.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@15.0.2...@esri/hub-sites@16.0.0) (2024-11-01)
 
 
