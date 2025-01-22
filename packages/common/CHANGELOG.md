@@ -1,3 +1,10 @@
+# @esri/hub-common [15.22.0-next.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.22.0-next.1...@esri/hub-common@15.22.0-next.2) (2025-01-22)
+
+
+### Features
+
+* **hub-common:** update Role enum comment ([#1780](https://github.com/Esri/hub.js/issues/1780)) ([9298a5d](https://github.com/Esri/hub.js/commit/9298a5d27e5d38be9793c30870b6b303b79a0342))
+
 # @esri/hub-common [15.22.0-next.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.21.0...@esri/hub-common@15.22.0-next.1) (2025-01-22)
 
 
