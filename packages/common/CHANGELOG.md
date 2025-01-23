@@ -1,3 +1,10 @@
+## @esri/hub-common [15.23.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.23.2...@esri/hub-common@15.23.3) (2025-01-23)
+
+
+### Bug Fixes
+
+* add format for subdomain field ([#1782](https://github.com/Esri/hub.js/issues/1782)) ([aed32b0](https://github.com/Esri/hub.js/commit/aed32b0d0d25618b597c1ba8e615abfb100a0ae3))
+
 ## @esri/hub-common [15.23.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.23.1...@esri/hub-common@15.23.2) (2025-01-17)
 
 
