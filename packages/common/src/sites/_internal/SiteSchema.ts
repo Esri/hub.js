@@ -34,6 +34,7 @@ export const getSiteSchema = (siteId: string) =>
         properties: {
           subdomain: {
             type: "string",
+            format: "slug" as any,
           },
         },
       },
