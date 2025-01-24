@@ -106,6 +106,8 @@ export interface IUpdateEvent {
   summary?: string;
   /** Tags for the event */
   tags?: string[];
+  /** Url for the thumbnail image */
+  thumbnailUrl?: string;
   /** IANA time zone for the event */
   timeZone?: string;
   /** Title of the event */
@@ -569,6 +571,8 @@ export interface ICreateEvent {
   summary?: string;
   /** Tags for the event */
   tags?: string[];
+  /** Url for the thumbnail image */
+  thumbnailUrl?: string;
   /** IANA time zone for the event */
   timeZone: string;
   /** Title of the event */
