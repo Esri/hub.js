@@ -558,34 +558,32 @@ export interface IFetchPost extends Partial<IPagingParams> {
 }
 
 /**
- * dto for querying posts in a single channel
+ * dto for searching posts
  *
  * @export
  * @interface ISearchChannelPosts
- * @extends {Partial<IWithAuthor>}
- * @extends {Partial<IWithEditor>}
  * @extends {Partial<IPagingParams>}
  * @extends {Partial<IWithSorting<PostSort>>}
  * @extends {Partial<IWithTimeQueries>}
  */
 export interface ISearchPosts
-  extends Partial<IWithAuthor>,
-    Partial<IWithEditor>,
-    Partial<IPagingParams>,
+  extends Partial<IPagingParams>,
     Partial<IWithSorting<PostSort>>,
     Partial<IWithTimeQueries> {
-  title?: string;
-  body?: string;
-  discussion?: string;
-  geometry?: Geometry;
-  featureGeometry?: Geometry;
-  parents?: Array<string | null>;
-  status?: PostStatus[];
-  relations?: PostRelation[];
-  groups?: string[];
   access?: SharingAccess[];
+  body?: string;
   channels?: string[];
+  creator?: string | null;
+  discussion?: string;
+  editor?: string | null;
   f?: SearchPostsFormat;
+  featureGeometry?: Geometry;
+  geometry?: Geometry;
+  groups?: string[] | null;
+  parents?: string[] | null;
+  relations?: PostRelation[];
+  status?: PostStatus[];
+  title?: string;
 }
 
 /**
