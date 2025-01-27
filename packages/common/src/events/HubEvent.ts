@@ -232,7 +232,14 @@ export class HubEvent
    * @returns Promise<IHubEvent>
    */
   async fromEditor(editor: IHubEventEditor): Promise<IHubEvent> {
+    const thumbnail = editor._thumbnail;
     const entity = cloneObject(editor) as IHubEvent;
+
+    if (thumbnail) {
+      if (thumbnail.url) {
+        entity.thumbnailUrl = thumbnail.url;
+      }
+    }
     this.entity = entity;
     await this.save();
     return this.entity;
