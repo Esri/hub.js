@@ -1,3 +1,10 @@
+## @esri/hub-discussions [29.4.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@29.4.0...@esri/hub-discussions@29.4.1) (2025-01-29)
+
+
+### Bug Fixes
+
+* **hub-discussions:** use POST /posts/search to search and export posts ([#1781](https://github.com/Esri/hub.js/issues/1781)) ([04698e7](https://github.com/Esri/hub.js/commit/04698e72f7572a1804051db8a9dd0d2a5069c538))
+
 # @esri/hub-discussions [29.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@29.3.0...@esri/hub-discussions@29.4.0) (2024-12-04)
 
 
