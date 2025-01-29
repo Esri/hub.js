@@ -306,7 +306,7 @@ export enum EventSort {
 }
 export interface ISearchEvents {
   /** Array of EventAccess. Example: PRIVATE,ORG,PUBLIC */
-  access?: EventAccess;
+  access?: EventAccess[];
   /** Array of AttendanceTypes. Example: VIRTUAL,IN_PERSON */
   attendanceTypes?: EventAttendanceType[];
   /** boolean to filter events that can be edited by the user */
