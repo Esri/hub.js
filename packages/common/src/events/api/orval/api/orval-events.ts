@@ -5,30 +5,8 @@
  * Hub Events Service
  * OpenAPI spec version: 0.0.1
  */
-import { Awaited } from "../awaited-type";
 import { customClient } from "../custom-client";
-export interface IUpdateRegistration {
-  /** Role of the user in the event */
-  role?: RegistrationRole;
-  /** Status of the registration */
-  status?: RegistrationStatus;
-  /** Attendance type for this registration */
-  type?: EventAttendanceType;
-}
-
-export interface IPagedRegistrationResponse {
-  items: IRegistration[];
-  nextStart: number;
-  total: number;
-}
-
-export enum RegistrationSort {
-  createdAt = "createdAt",
-  updatedAt = "updatedAt",
-  firstName = "firstName",
-  lastName = "lastName",
-  username = "username",
-}
+import { Awaited } from "../awaited-type";
 export type GetRegistrationsParams = {
   /**
    * Event id being registered for
@@ -80,6 +58,139 @@ export type GetRegistrationsParams = {
   sortOrder?: EventSortOrder;
 };
 
+export type GetEventsParams = {
+  /**
+   * Comma separated string list of EventAccess. Example: PRIVATE,ORG,PUBLIC
+   */
+  access?: string;
+  /**
+   * Comma separated string list of AttendanceTypes. Example:  VIRTUAL,IN_PERSON
+   */
+  attendanceTypes?: string;
+  /**
+   * boolean to filter events that can be edited by the user
+   */
+  canEdit?: string;
+  /**
+   * Comma separated string list of categories
+   */
+  categories?: string;
+  /**
+   * Comma separated string list of createdByIds
+   */
+  createdByIds?: string;
+  /**
+   * Comma separated string list of edit groupIds
+   */
+  editGroups?: string;
+  /**
+   * earliest ISO8601 end date-time for the events
+   */
+  endDateTimeAfter?: string;
+  /**
+   * latest ISO8601 end date-time for the events
+   */
+  endDateTimeBefore?: string;
+  /**
+   * Comma separated string list of associated entityIds
+   */
+  entityIds?: string;
+  /**
+   * Comma separated string list of associated entity types. Example: Hub Site Application,Hub Initiative,Hub Project
+   */
+  entityTypes?: string;
+  /**
+   * Comma separated string list of event ids
+   */
+  eventIds?: string;
+  /**
+   * JSON stringified esri geometry object
+   */
+  geometry?: string;
+  /**
+   * Comma separated string list of relation fields to include in response. Example: associations,creator,location,onlineMeeting,registrations
+   */
+  include?: string;
+  /**
+   * orgId string
+   */
+  orgId?: string;
+  /**
+   * the max amount of events to return
+   */
+  num?: string;
+  /**
+   * Comma separated string list of read groupIds
+   */
+  readGroups?: string;
+  /**
+   * Comma separated string list of shared groupIds
+   */
+  sharedToGroups?: string;
+  /**
+   * Event property to sort results by
+   */
+  sortBy?: EventSort;
+  /**
+   * sort results order desc or asc
+   */
+  sortOrder?: EventSortOrder;
+  /**
+   * the index to start at
+   */
+  start?: string;
+  /**
+   * earliest ISO8601 start date-time for the events
+   */
+  startDateTimeAfter?: string;
+  /**
+   * latest ISO8601 start date-time for the events
+   */
+  startDateTimeBefore?: string;
+  /**
+   * comma separated string list of event statuses. Example: PLANNED,CANCELED,REMOVED
+   */
+  status?: string;
+  /**
+   * Comma separated string list of tags
+   */
+  tags?: string;
+  /**
+   * string to match within an event title
+   */
+  title?: string;
+  /**
+   * Comma separated string list of edit groupIds that event is not shared to
+   */
+  withoutEditGroups?: string;
+  /**
+   * Comma separated string list of read groupIds that event is not shared to
+   */
+  withoutReadGroups?: string;
+};
+
+export interface IUpdateRegistration {
+  /** Role of the user in the event */
+  role?: RegistrationRole;
+  /** Status of the registration */
+  status?: RegistrationStatus;
+  /** Attendance type for this registration */
+  type?: EventAttendanceType;
+}
+
+export interface IPagedRegistrationResponse {
+  items: IRegistration[];
+  nextStart: number;
+  total: number;
+}
+
+export enum RegistrationSort {
+  createdAt = "createdAt",
+  updatedAt = "updatedAt",
+  firstName = "firstName",
+  lastName = "lastName",
+  username = "username",
+}
 export interface ICreateRegistration {
   /** ArcGIS Online id for a user. Will always be extracted from the token unless service token is used. */
   agoId?: string;
@@ -165,6 +276,18 @@ export interface IUpdateEvent {
   title?: string;
 }
 
+/**
+ * esri geometry object
+ */
+export type ISearchEventsGeometry = { [key: string]: any };
+
+export enum GetEventsInclude {
+  associations = "associations",
+  creator = "creator",
+  location = "location",
+  onlineMeeting = "onlineMeeting",
+  registrations = "registrations",
+}
 export interface IPagedEventResponse {
   items: IEvent[];
   nextStart: number;
@@ -181,112 +304,62 @@ export enum EventSort {
   createdAt = "createdAt",
   updatedAt = "updatedAt",
 }
-export type GetEventsParams = {
-  /**
-   * Comma separated string list of EventAccess. Example: PRIVATE,ORG,PUBLIC
-   */
-  access?: string;
-  /**
-   * Comma separated string list of AttendanceTypes. Example:  VIRTUAL,IN_PERSON
-   */
-  attendanceTypes?: string;
-  /**
-   * boolean to filter events that can be edited by the user
-   */
-  canEdit?: string;
-  /**
-   * Comma separated string list of categories
-   */
-  categories?: string;
-  /**
-   * Comma separated string list of createdByIds
-   */
-  createdByIds?: string;
-  /**
-   * Comma separated string list of edit groupIds
-   */
-  editGroups?: string;
-  /**
-   * Comma separated string list of associated entityIds
-   */
-  entityIds?: string;
-  /**
-   * Comma separated string list of associated entity types. Example: Hub Site Application,Hub Initiative,Hub Project
-   */
-  entityTypes?: string;
-  /**
-   * Comma separated string list of event ids
-   */
-  eventIds?: string;
-  /**
-   * Comma separated string list of relation fields to include in response. Example: associations,creator,location,onlineMeeting,registrations
-   */
-  include?: string;
-  /**
-   * orgId string
-   */
-  orgId?: string;
-  /**
-   * the max amount of events to return
-   */
-  num?: string;
-  /**
-   * Comma separated string list of read groupIds
-   */
-  readGroups?: string;
-  /**
-   * Comma separated string list of shared groupIds
-   */
-  sharedToGroups?: string;
-  /**
-   * Event property to sort results by
-   */
-  sortBy?: EventSort;
-  /**
-   * sort results order desc or asc
-   */
-  sortOrder?: EventSortOrder;
-  /**
-   * the index to start at
-   */
-  start?: string;
-  /**
-   * earliest ISO8601 start date-time for the events
-   */
-  startDateTimeAfter?: string;
-  /**
-   * latest ISO8601 start date-time for the events
-   */
-  startDateTimeBefore?: string;
-  /**
-   * earliest ISO8601 end date-time for the events
-   */
+export interface ISearchEvents {
+  /** Array of EventAccess. Example: PRIVATE,ORG,PUBLIC */
+  access?: EventAccess[];
+  /** Array of AttendanceTypes. Example: VIRTUAL,IN_PERSON */
+  attendanceTypes?: EventAttendanceType[];
+  /** boolean to filter events that can be edited by the user */
+  canEdit?: boolean;
+  /** Array of categories */
+  categories?: string[];
+  /** Array of user ids */
+  createdByIds?: string[];
+  /** Array of edit groupIds */
+  editGroups?: string[];
+  /** earliest ISO8601 end date-time for the events */
   endDateTimeAfter?: string;
-  /**
-   * latest ISO8601 end date-time for the events
-   */
+  /** latest ISO8601 end date-time for the events */
   endDateTimeBefore?: string;
-  /**
-   * comma separated string list of event statuses. Example: PLANNED,CANCELED,REMOVED
-   */
-  status?: string;
-  /**
-   * Comma separated string list of tags
-   */
-  tags?: string;
-  /**
-   * string to match within an event title
-   */
+  /** Array of associated entityIds */
+  entityIds?: string[];
+  /** Array of associated entity types. Example: Hub Site Application,Hub Initiative,Hub Project */
+  entityTypes?: EventAssociationEntityType[];
+  /** Array of event ids */
+  eventIds?: string[];
+  /** esri geometry object */
+  geometry?: ISearchEventsGeometry;
+  /** Array of relation fields to include in response. Example: associations,creator,location,onlineMeeting,registrations */
+  include?: GetEventsInclude[];
+  /** the max amount of events to return */
+  num?: number;
+  /** orgId string */
+  orgId?: string;
+  /** Array of read groupIds */
+  readGroups?: string[];
+  /** Array of shared groupIds */
+  sharedToGroups?: string[];
+  /** Event property to sort results by */
+  sortBy?: EventSort;
+  /** sort results order desc or asc */
+  sortOrder?: EventSortOrder;
+  /** the index to start at */
+  start?: number;
+  /** earliest ISO8601 start date-time for the events */
+  startDateTimeAfter?: string;
+  /** latest ISO8601 start date-time for the events */
+  startDateTimeBefore?: string;
+  /** Array of event statuses. Example: PLANNED,CANCELED,REMOVED */
+  status?: EventStatus[];
+  /** Array of tags */
+  tags?: string[];
+  /** string to match within an event title */
   title?: string;
-  /**
-   * Comma separated string list of edit groupIds that event is not shared to
-   */
-  withoutEditGroups?: string;
-  /**
-   * Comma separated string list of read groupIds that event is not shared to
-   */
-  withoutReadGroups?: string;
-};
+  /** Array of edit groupIds that event is not shared to */
+  withoutEditGroups?: string[];
+  /** Array of read groupIds that event is not shared to */
+  withoutReadGroups?: string[];
+}
 
 export interface IRegistrationPermission {
   canDelete: boolean;
@@ -621,6 +694,21 @@ export const getEvents = (
   );
 };
 
+export const searchEvents = (
+  iSearchEvents: ISearchEvents,
+  options?: SecondParameter<typeof customClient>
+) => {
+  return customClient<IPagedEventResponse>(
+    {
+      url: `/api/events/v1/events/search`,
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      data: iSearchEvents,
+    },
+    options
+  );
+};
+
 export const getEvent = (
   id: string,
   options?: SecondParameter<typeof customClient>
@@ -723,6 +811,9 @@ export type CreateEventResult = NonNullable<
 >;
 export type GetEventsResult = NonNullable<
   Awaited<ReturnType<typeof getEvents>>
+>;
+export type SearchEventsResult = NonNullable<
+  Awaited<ReturnType<typeof searchEvents>>
 >;
 export type GetEventResult = NonNullable<Awaited<ReturnType<typeof getEvent>>>;
 export type UpdateEventResult = NonNullable<

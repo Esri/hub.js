@@ -4,6 +4,7 @@ export {
   EventAttendanceType,
   EventStatus,
   GetEventsParams,
+  ISearchEvents,
   IEventAssociation,
   ICreateEventAssociation,
   IOnlineMeeting,
@@ -40,6 +41,7 @@ import {
   ICreateEvent,
   IUpdateEvent,
   GetEventsParams,
+  ISearchEvents,
   ICreateRegistration,
   IUpdateRegistration,
   GetRegistrationsParams,
@@ -68,6 +70,9 @@ export interface ICreateEventParams extends IEventsRequestOptions {
 }
 export interface IGetEventsParams extends IEventsRequestOptions {
   data: GetEventsParams;
+}
+export interface ISearchEventsParams extends IEventsRequestOptions {
+  data: ISearchEvents;
 }
 export interface IGetEventParams extends IEventsRequestOptions {
   eventId: string;
