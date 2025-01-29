@@ -1,3 +1,10 @@
+# @esri/hub-common [15.24.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.23.5...@esri/hub-common@15.24.0) (2025-01-29)
+
+
+### Features
+
+* **hub-common:** add searchEvents function ([#1778](https://github.com/Esri/hub.js/issues/1778)) ([2996bc8](https://github.com/Esri/hub.js/commit/2996bc86cde76caa07ee3c18fec36c59b6d0babf))
+
 ## @esri/hub-common [15.23.5](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.23.4...@esri/hub-common@15.23.5) (2025-01-29)
 
 
