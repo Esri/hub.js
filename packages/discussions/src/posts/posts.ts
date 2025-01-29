@@ -18,21 +18,6 @@ import {
   IPagedResponse,
 } from "../types";
 
-const stringifySearchParams = (data: ISearchPosts): any => {
-  // need to serialize geometry and featureGeometry since this
-  // is a GET request. we should consider requiring this to be
-  // a base64 string to safeguard against large geometries that
-  // will exceed URL character limits
-  const paramsToStringify = ["geometry", "featureGeometry"];
-  return Object.entries(data ?? {}).reduce(
-    (acc, [key, val]) => ({
-      ...acc,
-      [key]: paramsToStringify.includes(key) ? JSON.stringify(val) : val,
-    }),
-    {}
-  );
-};
-
 /**
  * search posts
  *
@@ -43,12 +28,13 @@ const stringifySearchParams = (data: ISearchPosts): any => {
 export function searchPosts(
   options: ISearchPostsParams
 ): Promise<IPagedResponse<IPost>> {
-  const url = `/posts`;
-  const data = stringifySearchParams(options.data);
+  const url = `/posts/search`;
   return discussionsApiRequest<IPagedResponse<IPost>>(url, {
     ...options,
-    data,
-    httpMethod: "GET",
+    data: {
+      ...options.data,
+    },
+    httpMethod: "POST",
   });
 }
 
@@ -60,15 +46,14 @@ export function searchPosts(
  * @return {*}  {Promise<string>}
  */
 export function exportPosts(options: IExportPostsParams): Promise<string> {
-  const url = `/posts`;
-  const data = stringifySearchParams(options.data);
+  const url = `/posts/search`;
   return discussionsApiRequest<string>(url, {
     ...options,
     data: {
-      ...data,
+      ...options.data,
       f: SearchPostsFormat.CSV,
     },
-    httpMethod: "GET",
+    httpMethod: "POST",
   });
 }
 

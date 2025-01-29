@@ -196,7 +196,7 @@ describe("apiRequest", () => {
     expect(calledOpts).toEqual(expectedOpts);
   });
 
-  it(`cleans up baseUrl and enpoint`, async () => {
+  it(`cleans up baseUrl and endpoint`, async () => {
     const options = { ...opts, hubApiUrl: `${hubApiUrl}/` };
     const result = await utils.apiRequest(
       `/${url}`,
@@ -224,7 +224,7 @@ describe("apiRequest", () => {
     expect(calledOpts).toEqual(expectedOpts);
   });
 
-  it("resolves plain-text when f=csv for search posts route", async () => {
+  it("resolves plain-text when f=csv for GET search posts route", async () => {
     url = "/posts";
     const options = {
       data: {
@@ -243,7 +243,30 @@ describe("apiRequest", () => {
     expect(calledOpts).toEqual(expectedOpts);
   });
 
-  it('resolves plain-text when HTTP "Accept" header has a value of "text/csv" for search posts route', async () => {
+  it("resolves plain-text when f=csv for POST search posts route", async () => {
+    url = "/posts/search";
+    const options = {
+      data: {
+        f: SearchPostsFormat.CSV,
+      },
+      httpMethod: "POST",
+    } as IDiscussionsRequestOptions;
+    expectedOpts.method = "POST";
+    expectedOpts.body = JSON.stringify({
+      f: SearchPostsFormat.CSV,
+    });
+    const result = await utils.apiRequest(url, options);
+
+    expect(result).toEqual(JSON.stringify(response));
+
+    const [calledUrl, calledOpts] = fetchMock.calls()[0];
+    expect(calledUrl).toEqual(
+      "https://hub.arcgis.com/api/discussions/v1/posts/search"
+    );
+    expect(calledOpts).toEqual(expectedOpts);
+  });
+
+  it('resolves plain-text when HTTP "Accept" header has a value of "text/csv" for GET search posts route', async () => {
     url = "/posts";
     const options = {
       headers: {
@@ -264,6 +287,32 @@ describe("apiRequest", () => {
     const [calledUrl, calledOpts] = fetchMock.calls()[0];
     expect(calledUrl).toEqual(
       "https://hub.arcgis.com/api/discussions/v1/posts"
+    );
+    expect(calledOpts).toEqual(expectedOpts);
+  });
+
+  it('resolves plain-text when HTTP "Accept" header has a value of "text/csv" for POST search posts route', async () => {
+    url = "/posts/search";
+    const options = {
+      headers: {
+        Accept: "text/csv",
+      },
+      httpMethod: "POST",
+    } as IDiscussionsRequestOptions;
+    expectedOpts.method = "POST";
+    const result = await utils.apiRequest(url, options);
+    const expectedHeaders = new Headers(expectedOpts.headers);
+    expectedHeaders.set("accept", "text/csv");
+    expectedOpts = {
+      ...expectedOpts,
+      headers: expectedHeaders,
+    };
+
+    expect(result).toEqual(JSON.stringify(response));
+
+    const [calledUrl, calledOpts] = fetchMock.calls()[0];
+    expect(calledUrl).toEqual(
+      "https://hub.arcgis.com/api/discussions/v1/posts/search"
     );
     expect(calledOpts).toEqual(expectedOpts);
   });

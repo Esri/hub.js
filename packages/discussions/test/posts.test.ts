@@ -41,11 +41,11 @@ describe("posts", () => {
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
-        expect(url).toEqual(`/posts`);
+        expect(url).toEqual(`/posts/search`);
         expect(opts).toEqual({
           ...options,
           data: {},
-          httpMethod: "GET",
+          httpMethod: "POST",
         });
         done();
       })
@@ -63,8 +63,8 @@ describe("posts", () => {
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
-        expect(url).toEqual(`/posts`);
-        expect(opts).toEqual({ ...options, httpMethod: "GET" });
+        expect(url).toEqual(`/posts/search`);
+        expect(opts).toEqual({ ...options, httpMethod: "POST" });
         done();
       })
       .catch(() => fail());
@@ -94,13 +94,10 @@ describe("posts", () => {
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
-        expect(url).toEqual(`/posts`);
+        expect(url).toEqual(`/posts/search`);
         expect(opts).toEqual({
-          ...{
-            ...options,
-            data: { ...query, geometry: JSON.stringify(query.geometry) },
-          },
-          httpMethod: "GET",
+          ...options,
+          httpMethod: "POST",
         });
         done();
       })
@@ -131,16 +128,10 @@ describe("posts", () => {
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
-        expect(url).toEqual(`/posts`);
+        expect(url).toEqual(`/posts/search`);
         expect(opts).toEqual({
-          ...{
-            ...options,
-            data: {
-              ...query,
-              featureGeometry: JSON.stringify(query.featureGeometry),
-            },
-          },
-          httpMethod: "GET",
+          ...options,
+          httpMethod: "POST",
         });
         done();
       })
@@ -158,14 +149,14 @@ describe("posts", () => {
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
-        expect(url).toEqual(`/posts`);
+        expect(url).toEqual(`/posts/search`);
         expect(opts).toEqual({
           ...options,
           data: {
             ...options.data,
             f: SearchPostsFormat.CSV,
           },
-          httpMethod: "GET",
+          httpMethod: "POST",
         });
         done();
       })

@@ -86,7 +86,7 @@ export function apiRequest<T>(
   // this currently only applies to the search post route. we should rework things in the future such that we don't need
   // to do this sort of evaluation in common logic.
   const isCSV =
-    route === "/posts" &&
+    ["/posts", "/posts/search"].includes(route) &&
     (options.data?.f === SearchPostsFormat.CSV ||
       headers.get("Accept") === "text/csv");
 

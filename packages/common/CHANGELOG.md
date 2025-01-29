@@ -1,3 +1,17 @@
+## @esri/hub-common [15.23.5](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.23.4...@esri/hub-common@15.23.5) (2025-01-29)
+
+
+### Bug Fixes
+
+* **hub-common:** adjust discussions apiRequest response for text from… ([#1786](https://github.com/Esri/hub.js/issues/1786)) ([69c0a9e](https://github.com/Esri/hub.js/commit/69c0a9e96a82dc8096f68ee3d11d5ea52fdac0ac))
+
+## @esri/hub-common [15.23.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.23.3...@esri/hub-common@15.23.4) (2025-01-29)
+
+
+### Bug Fixes
+
+* **hub-discussions:** use POST /posts/search to search and export posts ([#1781](https://github.com/Esri/hub.js/issues/1781)) ([04698e7](https://github.com/Esri/hub.js/commit/04698e72f7572a1804051db8a9dd0d2a5069c538))
+
 ## @esri/hub-common [15.23.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.23.2...@esri/hub-common@15.23.3) (2025-01-23)
 
 
