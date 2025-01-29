@@ -1,3 +1,10 @@
+## @esri/hub-common [15.23.5](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.23.4...@esri/hub-common@15.23.5) (2025-01-29)
+
+
+### Bug Fixes
+
+* **hub-common:** adjust discussions apiRequest response for text from… ([#1786](https://github.com/Esri/hub.js/issues/1786)) ([69c0a9e](https://github.com/Esri/hub.js/commit/69c0a9e96a82dc8096f68ee3d11d5ea52fdac0ac))
+
 ## @esri/hub-common [15.23.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.23.3...@esri/hub-common@15.23.4) (2025-01-29)
 
 
