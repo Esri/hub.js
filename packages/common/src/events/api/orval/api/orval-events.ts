@@ -7,6 +7,168 @@
  */
 import { customClient } from "../custom-client";
 import { Awaited } from "../awaited-type";
+export type GetRegistrationsParams = {
+  /**
+   * Event id being registered for
+   */
+  eventId?: string;
+  /**
+   * ArcGIS Online id for a user
+   */
+  userId?: string;
+  /**
+   * comma separated string list of registration roles
+   */
+  role?: string;
+  /**
+   * comma separated string list of registration statuses
+   */
+  status?: string;
+  /**
+   * comma separated string list of registration types
+   */
+  type?: string;
+  /**
+   * latest ISO8601 updatedAt for the registrations
+   */
+  updatedAtBefore?: string;
+  /**
+   * earliest ISO8601 updatedAt for the registrations
+   */
+  updatedAtAfter?: string;
+  /**
+   * filter to be matched to firstName, lastName, or username
+   */
+  name?: string;
+  /**
+   * the max amount of registrations to return
+   */
+  num?: string;
+  /**
+   * the index to start at
+   */
+  start?: string;
+  /**
+   * property to sort results by
+   */
+  sortBy?: RegistrationSort;
+  /**
+   * sort order desc or asc
+   */
+  sortOrder?: EventSortOrder;
+};
+
+export type GetEventsParams = {
+  /**
+   * Comma separated string list of EventAccess. Example: PRIVATE,ORG,PUBLIC
+   */
+  access?: string;
+  /**
+   * Comma separated string list of AttendanceTypes. Example:  VIRTUAL,IN_PERSON
+   */
+  attendanceTypes?: string;
+  /**
+   * boolean to filter events that can be edited by the user
+   */
+  canEdit?: string;
+  /**
+   * Comma separated string list of categories
+   */
+  categories?: string;
+  /**
+   * Comma separated string list of createdByIds
+   */
+  createdByIds?: string;
+  /**
+   * Comma separated string list of edit groupIds
+   */
+  editGroups?: string;
+  /**
+   * earliest ISO8601 end date-time for the events
+   */
+  endDateTimeAfter?: string;
+  /**
+   * latest ISO8601 end date-time for the events
+   */
+  endDateTimeBefore?: string;
+  /**
+   * Comma separated string list of associated entityIds
+   */
+  entityIds?: string;
+  /**
+   * Comma separated string list of associated entity types. Example: Hub Site Application,Hub Initiative,Hub Project
+   */
+  entityTypes?: string;
+  /**
+   * Comma separated string list of event ids
+   */
+  eventIds?: string;
+  /**
+   * JSON stringified esri geometry object
+   */
+  geometry?: string;
+  /**
+   * Comma separated string list of relation fields to include in response. Example: associations,creator,location,onlineMeeting,registrations
+   */
+  include?: string;
+  /**
+   * orgId string
+   */
+  orgId?: string;
+  /**
+   * the max amount of events to return
+   */
+  num?: string;
+  /**
+   * Comma separated string list of read groupIds
+   */
+  readGroups?: string;
+  /**
+   * Comma separated string list of shared groupIds
+   */
+  sharedToGroups?: string;
+  /**
+   * Event property to sort results by
+   */
+  sortBy?: EventSort;
+  /**
+   * sort results order desc or asc
+   */
+  sortOrder?: EventSortOrder;
+  /**
+   * the index to start at
+   */
+  start?: string;
+  /**
+   * earliest ISO8601 start date-time for the events
+   */
+  startDateTimeAfter?: string;
+  /**
+   * latest ISO8601 start date-time for the events
+   */
+  startDateTimeBefore?: string;
+  /**
+   * comma separated string list of event statuses. Example: PLANNED,CANCELED,REMOVED
+   */
+  status?: string;
+  /**
+   * Comma separated string list of tags
+   */
+  tags?: string;
+  /**
+   * string to match within an event title
+   */
+  title?: string;
+  /**
+   * Comma separated string list of edit groupIds that event is not shared to
+   */
+  withoutEditGroups?: string;
+  /**
+   * Comma separated string list of read groupIds that event is not shared to
+   */
+  withoutReadGroups?: string;
+};
+
 export interface IUpdateRegistration {
   /** Role of the user in the event */
   role?: RegistrationRole;
@@ -119,6 +281,13 @@ export interface IUpdateEvent {
  */
 export type ISearchEventsGeometry = { [key: string]: any };
 
+export enum GetEventsInclude {
+  associations = "associations",
+  creator = "creator",
+  location = "location",
+  onlineMeeting = "onlineMeeting",
+  registrations = "registrations",
+}
 export interface IPagedEventResponse {
   items: IEvent[];
   nextStart: number;
@@ -129,229 +298,67 @@ export enum EventSortOrder {
   asc = "asc",
   desc = "desc",
 }
-export type GetRegistrationsParams = {
-  /**
-   * Event id being registered for
-   */
-  eventId?: string;
-  /**
-   * ArcGIS Online id for a user
-   */
-  userId?: string;
-  /**
-   * comma separated string list of registration roles
-   */
-  role?: string;
-  /**
-   * comma separated string list of registration statuses
-   */
-  status?: string;
-  /**
-   * comma separated string list of registration types
-   */
-  type?: string;
-  /**
-   * latest ISO8601 updatedAt for the registrations
-   */
-  updatedAtBefore?: string;
-  /**
-   * earliest ISO8601 updatedAt for the registrations
-   */
-  updatedAtAfter?: string;
-  /**
-   * filter to be matched to firstName, lastName, or username
-   */
-  name?: string;
-  /**
-   * the max amount of registrations to return
-   */
-  num?: string;
-  /**
-   * the index to start at
-   */
-  start?: string;
-  /**
-   * property to sort results by
-   */
-  sortBy?: RegistrationSort;
-  /**
-   * sort order desc or asc
-   */
-  sortOrder?: EventSortOrder;
-};
-
 export enum EventSort {
   title = "title",
   startDateTime = "startDateTime",
   createdAt = "createdAt",
   updatedAt = "updatedAt",
 }
-export type GetEventsParams = {
-  /**
-   * Comma separated string list of EventAccess. Example: PRIVATE,ORG,PUBLIC
-   */
-  access?: string;
-  /**
-   * Comma separated string list of AttendanceTypes. Example:  VIRTUAL,IN_PERSON
-   */
-  attendanceTypes?: string;
-  /**
-   * boolean to filter events that can be edited by the user
-   */
-  canEdit?: string;
-  /**
-   * Comma separated string list of categories
-   */
-  categories?: string;
-  /**
-   * Comma separated string list of createdByIds
-   */
-  createdByIds?: string;
-  /**
-   * Comma separated string list of edit groupIds
-   */
-  editGroups?: string;
-  /**
-   * earliest ISO8601 end date-time for the events
-   */
-  endDateTimeAfter?: string;
-  /**
-   * latest ISO8601 end date-time for the events
-   */
-  endDateTimeBefore?: string;
-  /**
-   * Comma separated string list of associated entityIds
-   */
-  entityIds?: string;
-  /**
-   * Comma separated string list of associated entity types. Example: Hub Site Application,Hub Initiative,Hub Project
-   */
-  entityTypes?: string;
-  /**
-   * Comma separated string list of event ids
-   */
-  eventIds?: string;
-  /**
-   * JSON stringified esri geometry object
-   */
-  geometry?: string;
-  /**
-   * Comma separated string list of relation fields to include in response. Example: associations,creator,location,onlineMeeting,registrations
-   */
-  include?: string;
-  /**
-   * orgId string
-   */
-  orgId?: string;
-  /**
-   * the max amount of events to return
-   */
-  num?: string;
-  /**
-   * Comma separated string list of read groupIds
-   */
-  readGroups?: string;
-  /**
-   * Comma separated string list of shared groupIds
-   */
-  sharedToGroups?: string;
-  /**
-   * Event property to sort results by
-   */
-  sortBy?: EventSort;
-  /**
-   * sort results order desc or asc
-   */
-  sortOrder?: EventSortOrder;
-  /**
-   * the index to start at
-   */
-  start?: string;
-  /**
-   * earliest ISO8601 start date-time for the events
-   */
-  startDateTimeAfter?: string;
-  /**
-   * latest ISO8601 start date-time for the events
-   */
-  startDateTimeBefore?: string;
-  /**
-   * comma separated string list of event statuses. Example: PLANNED,CANCELED,REMOVED
-   */
-  status?: string;
-  /**
-   * Comma separated string list of tags
-   */
-  tags?: string;
-  /**
-   * string to match within an event title
-   */
-  title?: string;
-  /**
-   * Comma separated string list of edit groupIds that event is not shared to
-   */
-  withoutEditGroups?: string;
-  /**
-   * Comma separated string list of read groupIds that event is not shared to
-   */
-  withoutReadGroups?: string;
-};
-
 export interface ISearchEvents {
-  /** Comma separated string list of EventAccess. Example: PRIVATE,ORG,PUBLIC */
-  access?: string;
-  /** Comma separated string list of AttendanceTypes. Example:  VIRTUAL,IN_PERSON */
-  attendanceTypes?: string;
+  /** Array of EventAccess. Example: PRIVATE,ORG,PUBLIC */
+  access?: EventAccess;
+  /** Array of AttendanceTypes. Example: VIRTUAL,IN_PERSON */
+  attendanceTypes?: EventAttendanceType[];
   /** boolean to filter events that can be edited by the user */
-  canEdit?: string;
-  /** Comma separated string list of categories */
-  categories?: string;
-  /** Comma separated string list of createdByIds */
-  createdByIds?: string;
-  /** Comma separated string list of edit groupIds */
-  editGroups?: string;
+  canEdit?: boolean;
+  /** Array of categories */
+  categories?: string[];
+  /** Array of user ids */
+  createdByIds?: string[];
+  /** Array of edit groupIds */
+  editGroups?: string[];
   /** earliest ISO8601 end date-time for the events */
   endDateTimeAfter?: string;
   /** latest ISO8601 end date-time for the events */
   endDateTimeBefore?: string;
-  /** Comma separated string list of associated entityIds */
-  entityIds?: string;
-  /** Comma separated string list of associated entity types. Example: Hub Site Application,Hub Initiative,Hub Project */
-  entityTypes?: string;
-  /** Comma separated string list of event ids */
-  eventIds?: string;
+  /** Array of associated entityIds */
+  entityIds?: string[];
+  /** Array of associated entity types. Example: Hub Site Application,Hub Initiative,Hub Project */
+  entityTypes?: EventAssociationEntityType[];
+  /** Array of event ids */
+  eventIds?: string[];
   /** esri geometry object */
   geometry?: ISearchEventsGeometry;
-  /** Comma separated string list of relation fields to include in response. Example: associations,creator,location,onlineMeeting,registrations */
-  include?: string;
+  /** Array of relation fields to include in response. Example: associations,creator,location,onlineMeeting,registrations */
+  include?: GetEventsInclude[];
   /** the max amount of events to return */
-  num?: string;
+  num?: number;
   /** orgId string */
   orgId?: string;
-  /** Comma separated string list of read groupIds */
-  readGroups?: string;
-  /** Comma separated string list of shared groupIds */
-  sharedToGroups?: string;
+  /** Array of read groupIds */
+  readGroups?: string[];
+  /** Array of shared groupIds */
+  sharedToGroups?: string[];
   /** Event property to sort results by */
   sortBy?: EventSort;
   /** sort results order desc or asc */
   sortOrder?: EventSortOrder;
   /** the index to start at */
-  start?: string;
+  start?: number;
   /** earliest ISO8601 start date-time for the events */
   startDateTimeAfter?: string;
   /** latest ISO8601 start date-time for the events */
   startDateTimeBefore?: string;
-  /** comma separated string list of event statuses. Example: PLANNED,CANCELED,REMOVED */
-  status?: string;
-  /** Comma separated string list of tags */
-  tags?: string;
+  /** Array of event statuses. Example: PLANNED,CANCELED,REMOVED */
+  status?: EventStatus[];
+  /** Array of tags */
+  tags?: string[];
   /** string to match within an event title */
   title?: string;
-  /** Comma separated string list of edit groupIds that event is not shared to */
-  withoutEditGroups?: string;
-  /** Comma separated string list of read groupIds that event is not shared to */
-  withoutReadGroups?: string;
+  /** Array of edit groupIds that event is not shared to */
+  withoutEditGroups?: string[];
+  /** Array of read groupIds that event is not shared to */
+  withoutReadGroups?: string[];
 }
 
 export interface IRegistrationPermission {
