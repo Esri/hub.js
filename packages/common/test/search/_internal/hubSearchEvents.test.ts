@@ -7,7 +7,7 @@ import {
   EventAccess,
   EventAttendanceType,
   EventStatus,
-  GetEventsParams,
+  ISearchEvents,
   IEvent,
   IPagedEventResponse,
   IUser,
@@ -205,21 +205,21 @@ describe("hubSearchEvents", () => {
   } as unknown as IHubSearchOptions;
   const processedFilters = {
     processedFilters: true,
-  } as unknown as Partial<GetEventsParams>;
+  } as unknown as Partial<ISearchEvents>;
   const processedOptions = {
     processedOptions: true,
-  } as unknown as Partial<GetEventsParams>;
+  } as unknown as Partial<ISearchEvents>;
   const processedOptions2 = {
     processedOptions: true,
     start: PAGE_1.nextStart,
-  } as unknown as Partial<GetEventsParams>;
-  let getEventsSpy: jasmine.Spy;
+  } as unknown as Partial<ISearchEvents>;
+  let searchEventsSpy: jasmine.Spy;
   let processFiltersSpy: jasmine.Spy;
   let processOptionsSpy: jasmine.Spy;
   let eventToSearchResultSpy: jasmine.Spy;
 
   beforeEach(() => {
-    getEventsSpy = spyOn(eventsModule, "getEvents").and.returnValues(
+    searchEventsSpy = spyOn(eventsModule, "searchEvents").and.returnValues(
       Promise.resolve(PAGE_1),
       Promise.resolve(PAGE_2)
     );
@@ -247,13 +247,13 @@ describe("hubSearchEvents", () => {
     });
     expect(processOptionsSpy).toHaveBeenCalledTimes(1);
     expect(processOptionsSpy).toHaveBeenCalledWith(options);
-    expect(getEventsSpy).toHaveBeenCalledTimes(1);
-    expect(getEventsSpy).toHaveBeenCalledWith({
+    expect(searchEventsSpy).toHaveBeenCalledTimes(1);
+    expect(searchEventsSpy).toHaveBeenCalledWith({
       ...options.requestOptions,
       data: {
         ...processedFilters,
         ...processedOptions,
-        include: "creator,location",
+        include: ["creator", "location"],
       },
     });
     expect(eventToSearchResultSpy).toHaveBeenCalledTimes(2);
@@ -290,19 +290,19 @@ describe("hubSearchEvents", () => {
       [options2],
       "processOptionsSpy.calls.argsFor(1)"
     );
-    expect(getEventsSpy).toHaveBeenCalledTimes(2);
-    expect(getEventsSpy.calls.argsFor(1)).toEqual(
+    expect(searchEventsSpy).toHaveBeenCalledTimes(2);
+    expect(searchEventsSpy.calls.argsFor(1)).toEqual(
       [
         {
           ...options2.requestOptions,
           data: {
             ...processedFilters,
             ...processedOptions2,
-            include: "creator,location",
+            include: ["creator", "location"],
           },
         },
       ],
-      "getEventsSpy.calls.argsFor(1)"
+      "searchEventsSpy.calls.argsFor(1)"
     );
     expect(eventToSearchResultSpy).toHaveBeenCalledTimes(3);
     expect(eventToSearchResultSpy.calls.argsFor(2)).toEqual(
@@ -324,7 +324,7 @@ describe("hubSearchEvents", () => {
       await results2.next();
       fail("did not reject");
     } catch (e) {
-      expect(e.message).toEqual(
+      expect((e as Error).message).toEqual(
         "No more hub events for the given query and options"
       );
     }

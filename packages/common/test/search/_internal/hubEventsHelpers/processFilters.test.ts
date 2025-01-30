@@ -1,4 +1,10 @@
 import { IHubRequestOptions } from "../../../../src";
+import {
+  EventAccess,
+  EventAssociationEntityType,
+  EventAttendanceType,
+  EventStatus,
+} from "../../../../src/events/api";
 import { processFilters } from "../../../../src/search/_internal/hubEventsHelpers/processFilters";
 import * as arcgisRestPortal from "@esri/arcgis-rest-portal";
 
@@ -83,30 +89,37 @@ describe("processFilters", () => {
       );
       expect(result.access).toBeUndefined();
     });
-    it("should consolidate values from multiple filters & predicates", async () => {
+    it("should consolidate and unique values from multiple filters & predicates", async () => {
       const result = await processFilters(
         [
           {
             predicates: [
               {
-                access: "public",
+                access: EventAccess.PUBLIC,
+              },
+              {
+                access: EventAccess.ORG,
               },
             ],
           },
           {
             predicates: [
               {
-                access: "org",
+                access: EventAccess.ORG,
               },
               {
-                access: ["private"],
+                access: [EventAccess.PRIVATE],
               },
             ],
           },
         ],
         hubRequestOptions
       );
-      expect(result.access).toEqual("public,org,private");
+      expect(result.access).toEqual([
+        EventAccess.PUBLIC,
+        EventAccess.ORG,
+        EventAccess.PRIVATE,
+      ]);
     });
   });
   describe("canEdit", () => {
@@ -140,7 +153,7 @@ describe("processFilters", () => {
         ],
         hubRequestOptions
       );
-      expect(result.canEdit).toEqual("true");
+      expect(result.canEdit).toEqual(true);
     });
   });
   describe("entityId", () => {
@@ -151,13 +164,16 @@ describe("processFilters", () => {
       );
       expect(result.entityIds).toBeUndefined();
     });
-    it("should consolidate values from multiple filters & predicates", async () => {
+    it("should consolidate and unique values from multiple filters & predicates", async () => {
       const result = await processFilters(
         [
           {
             predicates: [
               {
                 entityId: "abc",
+              },
+              {
+                entityId: "def",
               },
             ],
           },
@@ -174,7 +190,7 @@ describe("processFilters", () => {
         ],
         hubRequestOptions
       );
-      expect(result.entityIds).toEqual("abc,def,ghi");
+      expect(result.entityIds).toEqual(["abc", "def", "ghi"]);
     });
   });
   describe("entityType", () => {
@@ -185,30 +201,37 @@ describe("processFilters", () => {
       );
       expect(result.entityTypes).toBeUndefined();
     });
-    it("should consolidate values from multiple filters & predicates", async () => {
+    it("should consolidate and unique values from multiple filters & predicates", async () => {
       const result = await processFilters(
         [
           {
             predicates: [
               {
-                entityType: "abc",
+                entityType: EventAssociationEntityType.Hub_Site_Application,
+              },
+              {
+                entityType: EventAssociationEntityType.Hub_Initiative,
               },
             ],
           },
           {
             predicates: [
               {
-                entityType: "def",
+                entityType: EventAssociationEntityType.Hub_Initiative,
               },
               {
-                entityType: ["ghi"],
+                entityType: [EventAssociationEntityType.Hub_Project],
               },
             ],
           },
         ],
         hubRequestOptions
       );
-      expect(result.entityTypes).toEqual("abc,def,ghi");
+      expect(result.entityTypes).toEqual([
+        EventAssociationEntityType.Hub_Site_Application,
+        EventAssociationEntityType.Hub_Initiative,
+        EventAssociationEntityType.Hub_Project,
+      ]);
     });
   });
   describe("id", () => {
@@ -219,13 +242,16 @@ describe("processFilters", () => {
       );
       expect(result.eventIds).toBeUndefined();
     });
-    it("should consolidate values from multiple filters & predicates", async () => {
+    it("should consolidate and unique values from multiple filters & predicates", async () => {
       const result = await processFilters(
         [
           {
             predicates: [
               {
                 id: "abc",
+              },
+              {
+                id: "def",
               },
             ],
           },
@@ -242,7 +268,7 @@ describe("processFilters", () => {
         ],
         hubRequestOptions
       );
-      expect(result.eventIds).toEqual("abc,def,ghi");
+      expect(result.eventIds).toEqual(["abc", "def", "ghi"]);
     });
   });
   describe("term", () => {
@@ -321,13 +347,16 @@ describe("processFilters", () => {
       );
       expect(result.categories).toBeUndefined();
     });
-    it("should consolidate values from multiple filters & predicates", async () => {
+    it("should consolidate and unique values from multiple filters & predicates", async () => {
       const result = await processFilters(
         [
           {
             predicates: [
               {
                 categories: "abc",
+              },
+              {
+                categories: "def",
               },
             ],
           },
@@ -344,7 +373,7 @@ describe("processFilters", () => {
         ],
         hubRequestOptions
       );
-      expect(result.categories).toEqual("abc,def,ghi");
+      expect(result.categories).toEqual(["abc", "def", "ghi"]);
     });
   });
   describe("tags", () => {
@@ -355,13 +384,16 @@ describe("processFilters", () => {
       );
       expect(result.tags).toBeUndefined();
     });
-    it("should consolidate values from multiple filters & predicates", async () => {
+    it("should consolidate and unique values from multiple filters & predicates", async () => {
       const result = await processFilters(
         [
           {
             predicates: [
               {
                 tags: "abc",
+              },
+              {
+                tags: "def",
               },
             ],
           },
@@ -378,7 +410,7 @@ describe("processFilters", () => {
         ],
         hubRequestOptions
       );
-      expect(result.tags).toEqual("abc,def,ghi");
+      expect(result.tags).toEqual(["abc", "def", "ghi"]);
     });
   });
   describe("attendanceType", () => {
@@ -389,30 +421,36 @@ describe("processFilters", () => {
       );
       expect(result.attendanceTypes).toBeUndefined();
     });
-    it("should consolidate values from multiple filters & predicates", async () => {
+    it("should consolidate and unique values from multiple filters & predicates", async () => {
       const result = await processFilters(
         [
           {
             predicates: [
               {
-                attendanceType: "abc",
+                attendanceType: EventAttendanceType.VIRTUAL,
+              },
+              {
+                attendanceType: EventAttendanceType.IN_PERSON,
               },
             ],
           },
           {
             predicates: [
               {
-                attendanceType: "def",
+                attendanceType: EventAttendanceType.VIRTUAL,
               },
               {
-                attendanceType: ["ghi"],
+                attendanceType: [EventAttendanceType.IN_PERSON],
               },
             ],
           },
         ],
         hubRequestOptions
       );
-      expect(result.attendanceTypes).toEqual("abc,def,ghi");
+      expect(result.attendanceTypes).toEqual([
+        EventAttendanceType.VIRTUAL,
+        EventAttendanceType.IN_PERSON,
+      ]);
     });
   });
   describe("owner", () => {
@@ -423,13 +461,16 @@ describe("processFilters", () => {
       );
       expect(result.createdByIds).toBeUndefined();
     });
-    it("should consolidate values from multiple filters & predicates", async () => {
+    it("should consolidate and unique values from multiple filters & predicates", async () => {
       const result = await processFilters(
         [
           {
             predicates: [
               {
                 owner: "abc",
+              },
+              {
+                owner: "def",
               },
             ],
           },
@@ -446,7 +487,7 @@ describe("processFilters", () => {
         ],
         hubRequestOptions
       );
-      expect(result.createdByIds).toEqual("abc,def,ghi");
+      expect(result.createdByIds).toEqual(["abc", "def", "ghi"]);
     });
   });
   describe("status", () => {
@@ -455,32 +496,42 @@ describe("processFilters", () => {
         [{ predicates: [] }],
         hubRequestOptions
       );
-      expect(result.status).toEqual("planned,canceled");
+      expect(result.status).toEqual([
+        EventStatus.PLANNED,
+        EventStatus.CANCELED,
+      ]);
     });
-    it("should consolidate values from multiple filters & predicates", async () => {
+    it("should consolidate and unique values from multiple filters & predicates", async () => {
       const result = await processFilters(
         [
           {
             predicates: [
               {
-                status: "planned",
+                status: EventStatus.PLANNED,
+              },
+              {
+                status: EventStatus.CANCELED,
               },
             ],
           },
           {
             predicates: [
               {
-                status: "canceled",
+                status: EventStatus.CANCELED,
               },
               {
-                status: ["removed"],
+                status: [EventStatus.REMOVED],
               },
             ],
           },
         ],
         hubRequestOptions
       );
-      expect(result.status).toEqual("planned,canceled,removed");
+      expect(result.status).toEqual([
+        EventStatus.PLANNED,
+        EventStatus.CANCELED,
+        EventStatus.REMOVED,
+      ]);
     });
   });
   describe("group", () => {
@@ -491,13 +542,16 @@ describe("processFilters", () => {
       );
       expect(result.sharedToGroups).toBeUndefined();
     });
-    it("should return returnToGroups if group has been supplied", async () => {
+    it("should return and unique sharedToGroups if group has been supplied", async () => {
       const result = await processFilters(
         [
           {
             predicates: [
               {
                 group: editGroup1.id,
+              },
+              {
+                group: readGroup1.id,
               },
             ],
           },
@@ -511,9 +565,11 @@ describe("processFilters", () => {
         ],
         hubRequestOptions
       );
-      expect(result.sharedToGroups).toEqual(
-        [editGroup1.id, readGroup1.id, editGroup2.id].join(",")
-      );
+      expect(result.sharedToGroups).toEqual([
+        editGroup1.id,
+        readGroup1.id,
+        editGroup2.id,
+      ]);
     });
   });
   describe("notGroup", () => {
@@ -525,7 +581,7 @@ describe("processFilters", () => {
       expect(result.withoutReadGroups).toBeUndefined();
       expect(result.withoutEditGroups).toBeUndefined();
     });
-    it("should return readGroups and editGroups", async () => {
+    it("should return and unique withoutReadGroups and withoutEditGroups", async () => {
       const searchGroupsSpy = spyOn(
         arcgisRestPortal,
         "searchGroups"
@@ -538,6 +594,9 @@ describe("processFilters", () => {
             predicates: [
               {
                 notGroup: editGroup1.id,
+              },
+              {
+                notGroup: readGroup1.id,
               },
             ],
           },
@@ -557,10 +616,8 @@ describe("processFilters", () => {
         num: 3,
         ...hubRequestOptions,
       });
-      expect(result.withoutReadGroups).toEqual(readGroup1.id);
-      expect(result.withoutEditGroups).toEqual(
-        [editGroup1.id, editGroup2.id].join(",")
-      );
+      expect(result.withoutReadGroups).toEqual([readGroup1.id]);
+      expect(result.withoutEditGroups).toEqual([editGroup1.id, editGroup2.id]);
     });
     it("should filter out inaccessible groups", async () => {
       const searchGroupsSpy = spyOn(
@@ -631,10 +688,8 @@ describe("processFilters", () => {
         num: 3,
         ...hubRequestOptions,
       });
-      expect(result.withoutReadGroups).toEqual(readGroup1.id);
-      expect(result.withoutEditGroups).toEqual(
-        [editGroup1.id, editGroup2.id].join(",")
-      );
+      expect(result.withoutReadGroups).toEqual([readGroup1.id]);
+      expect(result.withoutEditGroups).toEqual([editGroup1.id, editGroup2.id]);
     });
   });
   describe("readGroupId", () => {
@@ -645,13 +700,16 @@ describe("processFilters", () => {
       );
       expect(result.readGroups).toBeUndefined();
     });
-    it("should consolidate values from multiple filters & predicates", async () => {
+    it("should consolidate and unique values from multiple filters & predicates", async () => {
       const result = await processFilters(
         [
           {
             predicates: [
               {
                 readGroupId: readGroup1.id,
+              },
+              {
+                readGroupId: readGroup2.id,
               },
             ],
           },
@@ -665,9 +723,7 @@ describe("processFilters", () => {
         ],
         hubRequestOptions
       );
-      expect(result.readGroups).toEqual(
-        [readGroup1.id, readGroup2.id].join(",")
-      );
+      expect(result.readGroups).toEqual([readGroup1.id, readGroup2.id]);
     });
   });
   describe("notReadGroupId", () => {
@@ -678,13 +734,16 @@ describe("processFilters", () => {
       );
       expect(result.withoutReadGroups).toBeUndefined();
     });
-    it("should consolidate values from multiple filters & predicates", async () => {
+    it("should consolidate and unique values from multiple filters & predicates", async () => {
       const result = await processFilters(
         [
           {
             predicates: [
               {
                 notReadGroupId: readGroup1.id,
+              },
+              {
+                notReadGroupId: readGroup2.id,
               },
             ],
           },
@@ -698,9 +757,7 @@ describe("processFilters", () => {
         ],
         hubRequestOptions
       );
-      expect(result.withoutReadGroups).toEqual(
-        [readGroup1.id, readGroup2.id].join(",")
-      );
+      expect(result.withoutReadGroups).toEqual([readGroup1.id, readGroup2.id]);
     });
   });
   describe("editGroupId", () => {
@@ -711,13 +768,16 @@ describe("processFilters", () => {
       );
       expect(result.editGroups).toBeUndefined();
     });
-    it("should consolidate values from multiple filters & predicates", async () => {
+    it("should consolidate and unique values from multiple filters & predicates", async () => {
       const result = await processFilters(
         [
           {
             predicates: [
               {
                 editGroupId: editGroup1.id,
+              },
+              {
+                editGroupId: editGroup2.id,
               },
             ],
           },
@@ -731,9 +791,7 @@ describe("processFilters", () => {
         ],
         hubRequestOptions
       );
-      expect(result.editGroups).toEqual(
-        [editGroup1.id, editGroup2.id].join(",")
-      );
+      expect(result.editGroups).toEqual([editGroup1.id, editGroup2.id]);
     });
   });
   describe("notEditGroupId", () => {
@@ -744,13 +802,16 @@ describe("processFilters", () => {
       );
       expect(result.withoutEditGroups).toBeUndefined();
     });
-    it("should consolidate values from multiple filters & predicates", async () => {
+    it("should consolidate and unique values from multiple filters & predicates", async () => {
       const result = await processFilters(
         [
           {
             predicates: [
               {
                 notEditGroupId: editGroup1.id,
+              },
+              {
+                notEditGroupId: editGroup2.id,
               },
             ],
           },
@@ -764,9 +825,7 @@ describe("processFilters", () => {
         ],
         hubRequestOptions
       );
-      expect(result.withoutEditGroups).toEqual(
-        [editGroup1.id, editGroup2.id].join(",")
-      );
+      expect(result.withoutEditGroups).toEqual([editGroup1.id, editGroup2.id]);
     });
   });
   describe("startDateRange", () => {

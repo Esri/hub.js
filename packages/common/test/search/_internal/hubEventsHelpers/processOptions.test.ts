@@ -11,7 +11,7 @@ describe("processOptions", () => {
       sortOrder: EventSortOrder.asc,
     });
     expect(processOptions({ num: 2 })).toEqual({
-      num: "2",
+      num: 2,
       sortOrder: EventSortOrder.asc,
     });
   });
@@ -21,7 +21,7 @@ describe("processOptions", () => {
       sortOrder: EventSortOrder.asc,
     });
     expect(processOptions({ start: 2 })).toEqual({
-      start: "2",
+      start: 2,
       sortOrder: EventSortOrder.asc,
     });
   });
