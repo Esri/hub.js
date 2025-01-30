@@ -40,14 +40,14 @@ export async function processFilters(
     filters,
     "entityType"
   );
-  if (entityTypes?.length) {
+  if (entityTypes.length) {
     processedFilters.entityTypes = toEnums(
       entityTypes,
       EventAssociationEntityType
     );
   }
   const eventIds = getUniquePredicateValuesByKey<string>(filters, "id");
-  if (eventIds?.length) {
+  if (eventIds.length) {
     processedFilters.eventIds = eventIds;
   }
   const term = getPredicateValuesByKey<string>(filters, "term");
@@ -62,17 +62,17 @@ export async function processFilters(
     filters,
     "categories"
   );
-  if (categories?.length) {
+  if (categories.length) {
     processedFilters.categories = categories;
   }
   const tags = getUniquePredicateValuesByKey<string>(filters, "tags");
-  if (tags?.length) {
+  if (tags.length) {
     processedFilters.tags = tags;
   }
   const groupIds = getUniquePredicateValuesByKey<string>(filters, "group");
   // if a group was provided, we prioritize that over individual readGroupId or editGroupId
   // filters to prevent collisions
-  if (groupIds?.length) {
+  if (groupIds.length) {
     // We are explicitly sending groupIds to sharedToGroups
     processedFilters.sharedToGroups = groupIds;
   } else {
@@ -81,14 +81,14 @@ export async function processFilters(
       filters,
       "readGroupId"
     );
-    if (readGroupIds?.length) {
+    if (readGroupIds.length) {
       processedFilters.readGroups = readGroupIds;
     }
     const editGroupIds = getUniquePredicateValuesByKey<string>(
       filters,
       "editGroupId"
     );
-    if (editGroupIds?.length) {
+    if (editGroupIds.length) {
       processedFilters.editGroups = editGroupIds;
     }
   }
@@ -127,35 +127,33 @@ export async function processFilters(
       filters,
       "notReadGroupId"
     );
-    if (notReadGroupIds?.length) {
+    if (notReadGroupIds.length) {
       processedFilters.withoutReadGroups = notReadGroupIds;
     }
     const notEditGroupIds = getUniquePredicateValuesByKey<string>(
       filters,
       "notEditGroupId"
     );
-    if (notEditGroupIds?.length) {
+    if (notEditGroupIds.length) {
       processedFilters.withoutEditGroups = notEditGroupIds;
     }
   }
-  // todo: <enums or strings?> (API is upper casing each value in the array, but throws off the typing here)
   const attendanceType = getUniquePredicateValuesByKey<string>(
     filters,
     "attendanceType"
   );
-  if (attendanceType?.length) {
+  if (attendanceType.length) {
     processedFilters.attendanceTypes = toEnums(
       attendanceType,
       EventAttendanceType
     );
   }
   const createdByIds = getUniquePredicateValuesByKey<string>(filters, "owner");
-  if (createdByIds?.length) {
+  if (createdByIds.length) {
     processedFilters.createdByIds = createdByIds;
   }
-  // todo: <enums or strings?> (API is upper casing each value in the array, but throws off the typing here)
   const status = getUniquePredicateValuesByKey<string>(filters, "status");
-  processedFilters.status = status?.length
+  processedFilters.status = status.length
     ? toEnums(status, EventStatus)
     : [EventStatus.PLANNED, EventStatus.CANCELED];
 
