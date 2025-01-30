@@ -12,6 +12,7 @@ import { IDateRange } from "../../types/types";
 import { searchGroups } from "@esri/arcgis-rest-portal";
 import { IHubRequestOptions } from "../../../types";
 import { isUpdateGroup } from "../../../utils/is-update-group";
+import { toEnums } from "./toEnumConverters";
 
 /**
  * Builds a Partial<ISearchEvents> given an Array of IFilter objects
@@ -23,10 +24,9 @@ export async function processFilters(
   requestOptions: IHubRequestOptions
 ): Promise<Partial<ISearchEvents>> {
   const processedFilters: Partial<ISearchEvents> = {};
-  // todo: <enums or strings?> (API is upper casing each value in the array, but throws off the typing here)
-  const access = getUniquePredicateValuesByKey<EventAccess>(filters, "access");
-  if (access?.length) {
-    processedFilters.access = access;
+  const access = getUniquePredicateValuesByKey<string>(filters, "access");
+  if (access.length) {
+    processedFilters.access = toEnums(access, EventAccess);
   }
   const canEdit = getPredicateValuesByKey<boolean>(filters, "canEdit");
   if (canEdit.length) {
@@ -36,13 +36,15 @@ export async function processFilters(
   if (entityIds?.length) {
     processedFilters.entityIds = entityIds;
   }
-  // todo: <enums or strings?> (NO API conversion here)
-  const entityTypes = getUniquePredicateValuesByKey<EventAssociationEntityType>(
+  const entityTypes = getUniquePredicateValuesByKey<string>(
     filters,
     "entityType"
   );
   if (entityTypes?.length) {
-    processedFilters.entityTypes = entityTypes;
+    processedFilters.entityTypes = toEnums(
+      entityTypes,
+      EventAssociationEntityType
+    );
   }
   const eventIds = getUniquePredicateValuesByKey<string>(filters, "id");
   if (eventIds?.length) {
@@ -137,21 +139,24 @@ export async function processFilters(
     }
   }
   // todo: <enums or strings?> (API is upper casing each value in the array, but throws off the typing here)
-  const attendanceType = getUniquePredicateValuesByKey<EventAttendanceType>(
+  const attendanceType = getUniquePredicateValuesByKey<string>(
     filters,
     "attendanceType"
   );
   if (attendanceType?.length) {
-    processedFilters.attendanceTypes = attendanceType;
+    processedFilters.attendanceTypes = toEnums(
+      attendanceType,
+      EventAttendanceType
+    );
   }
   const createdByIds = getUniquePredicateValuesByKey<string>(filters, "owner");
   if (createdByIds?.length) {
     processedFilters.createdByIds = createdByIds;
   }
   // todo: <enums or strings?> (API is upper casing each value in the array, but throws off the typing here)
-  const status = getUniquePredicateValuesByKey<EventStatus>(filters, "status");
+  const status = getUniquePredicateValuesByKey<string>(filters, "status");
   processedFilters.status = status?.length
-    ? status
+    ? toEnums(status, EventStatus)
     : [EventStatus.PLANNED, EventStatus.CANCELED];
 
   const startDateRange = getPredicateValuesByKey<IDateRange<string | number>>(

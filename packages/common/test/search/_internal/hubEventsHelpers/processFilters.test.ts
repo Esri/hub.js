@@ -95,20 +95,20 @@ describe("processFilters", () => {
           {
             predicates: [
               {
-                access: EventAccess.PUBLIC,
+                access: "public",
               },
               {
-                access: EventAccess.ORG,
+                access: "org",
               },
             ],
           },
           {
             predicates: [
               {
-                access: EventAccess.ORG,
+                access: "org",
               },
               {
-                access: [EventAccess.PRIVATE],
+                access: "private",
               },
             ],
           },
@@ -130,7 +130,7 @@ describe("processFilters", () => {
       );
       expect(result.canEdit).toBeUndefined();
     });
-    it("should use the first value and coerce to a string", async () => {
+    it("should use the first value", async () => {
       const result = await processFilters(
         [
           {
@@ -207,20 +207,20 @@ describe("processFilters", () => {
           {
             predicates: [
               {
-                entityType: EventAssociationEntityType.Hub_Site_Application,
+                entityType: "Hub Site Application",
               },
               {
-                entityType: EventAssociationEntityType.Hub_Initiative,
+                entityType: "Hub Initiative",
               },
             ],
           },
           {
             predicates: [
               {
-                entityType: EventAssociationEntityType.Hub_Initiative,
+                entityType: "Hub Initiative",
               },
               {
-                entityType: [EventAssociationEntityType.Hub_Project],
+                entityType: ["Hub Project"],
               },
             ],
           },
@@ -427,20 +427,20 @@ describe("processFilters", () => {
           {
             predicates: [
               {
-                attendanceType: EventAttendanceType.VIRTUAL,
+                attendanceType: "virtual",
               },
               {
-                attendanceType: EventAttendanceType.IN_PERSON,
+                attendanceType: "in_person",
               },
             ],
           },
           {
             predicates: [
               {
-                attendanceType: EventAttendanceType.VIRTUAL,
+                attendanceType: "virtual",
               },
               {
-                attendanceType: [EventAttendanceType.IN_PERSON],
+                attendanceType: ["in_person"],
               },
             ],
           },
@@ -507,20 +507,20 @@ describe("processFilters", () => {
           {
             predicates: [
               {
-                status: EventStatus.PLANNED,
+                status: "planned",
               },
               {
-                status: EventStatus.CANCELED,
+                status: "canceled",
               },
             ],
           },
           {
             predicates: [
               {
-                status: EventStatus.CANCELED,
+                status: "canceled",
               },
               {
-                status: [EventStatus.REMOVED],
+                status: ["removed"],
               },
             ],
           },
