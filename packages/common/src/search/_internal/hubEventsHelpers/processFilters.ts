@@ -33,7 +33,7 @@ export async function processFilters(
     processedFilters.canEdit = canEdit[0];
   }
   const entityIds = getUniquePredicateValuesByKey<string>(filters, "entityId");
-  if (entityIds?.length) {
+  if (entityIds.length) {
     processedFilters.entityIds = entityIds;
   }
   const entityTypes = getUniquePredicateValuesByKey<string>(
