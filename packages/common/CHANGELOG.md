@@ -1,3 +1,10 @@
+# @esri/hub-common [15.25.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.24.0...@esri/hub-common@15.25.0) (2025-01-30)
+
+
+### Features
+
+* **hub-common:** add hub:feature:catalogs:edit:advanced permission for controlling catalog editing ([#1785](https://github.com/Esri/hub.js/issues/1785)) ([d3fd836](https://github.com/Esri/hub.js/commit/d3fd8361e11133d62293dd76e1e45316791e3126))
+
 # @esri/hub-common [15.24.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.23.5...@esri/hub-common@15.24.0) (2025-01-29)
 
 
