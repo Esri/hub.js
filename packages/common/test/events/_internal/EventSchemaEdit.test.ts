@@ -2,6 +2,7 @@ import { buildSchema } from "../../../src/events/_internal/EventSchemaEdit";
 import { IConfigurationSchema } from "../../../src/core/schemas/types";
 import {
   ENTITY_CATEGORIES_SCHEMA,
+  ENTITY_IMAGE_SCHEMA,
   ENTITY_LOCATION_SCHEMA,
   ENTITY_NAME_SCHEMA,
   ENTITY_SUMMARY_SCHEMA,
@@ -30,6 +31,7 @@ describe("EventSchemaEdit", () => {
           description: {
             type: "string",
           },
+          _thumbnail: ENTITY_IMAGE_SCHEMA,
           attendanceType: {
             type: "string",
             enum: [
