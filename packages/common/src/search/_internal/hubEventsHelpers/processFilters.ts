@@ -1,43 +1,53 @@
 import { IFilter } from "../../types/IHubCatalog";
 import {
+  EventAccess,
+  EventAssociationEntityType,
+  EventAttendanceType,
   EventStatus,
-  GetEventsParams,
+  ISearchEvents,
 } from "../../../events/api/orval/api/orval-events";
-import { getOptionalPredicateStringsByKey } from "./getOptionalPredicateStringsByKey";
 import { getPredicateValuesByKey } from "./getPredicateValuesByKey";
+import { getUniquePredicateValuesByKey } from "./getUniquePredicateValuesByKey";
 import { IDateRange } from "../../types/types";
 import { searchGroups } from "@esri/arcgis-rest-portal";
 import { IHubRequestOptions } from "../../../types";
 import { isUpdateGroup } from "../../../utils/is-update-group";
+import { toEnums } from "./toEnumConverters";
 
 /**
- * Builds a Partial<GetEventsParams> given an Array of IFilter objects
+ * Builds a Partial<ISearchEvents> given an Array of IFilter objects
  * @param filters An Array of IFilter
- * @returns a Partial<GetEventsParams> for the given Array of IFilter objects
+ * @returns a Partial<ISearchEvents> for the given Array of IFilter objects
  */
 export async function processFilters(
   filters: IFilter[],
   requestOptions: IHubRequestOptions
-): Promise<Partial<GetEventsParams>> {
-  const processedFilters: Partial<GetEventsParams> = {};
-  const access = getOptionalPredicateStringsByKey(filters, "access");
-  if (access?.length) {
-    processedFilters.access = access;
+): Promise<Partial<ISearchEvents>> {
+  const processedFilters: Partial<ISearchEvents> = {};
+  const access = getUniquePredicateValuesByKey<string>(filters, "access");
+  if (access.length) {
+    processedFilters.access = toEnums(access, EventAccess);
   }
   const canEdit = getPredicateValuesByKey<boolean>(filters, "canEdit");
   if (canEdit.length) {
-    processedFilters.canEdit = canEdit[0].toString();
+    processedFilters.canEdit = canEdit[0];
   }
-  const entityIds = getOptionalPredicateStringsByKey(filters, "entityId");
-  if (entityIds?.length) {
+  const entityIds = getUniquePredicateValuesByKey<string>(filters, "entityId");
+  if (entityIds.length) {
     processedFilters.entityIds = entityIds;
   }
-  const entityTypes = getOptionalPredicateStringsByKey(filters, "entityType");
-  if (entityTypes?.length) {
-    processedFilters.entityTypes = entityTypes;
+  const entityTypes = getUniquePredicateValuesByKey<string>(
+    filters,
+    "entityType"
+  );
+  if (entityTypes.length) {
+    processedFilters.entityTypes = toEnums(
+      entityTypes,
+      EventAssociationEntityType
+    );
   }
-  const eventIds = getOptionalPredicateStringsByKey(filters, "id");
-  if (eventIds?.length) {
+  const eventIds = getUniquePredicateValuesByKey<string>(filters, "id");
+  if (eventIds.length) {
     processedFilters.eventIds = eventIds;
   }
   const term = getPredicateValuesByKey<string>(filters, "term");
@@ -48,40 +58,46 @@ export async function processFilters(
   if (orgId.length) {
     processedFilters.orgId = orgId[0];
   }
-  const categories = getOptionalPredicateStringsByKey(filters, "categories");
-  if (categories?.length) {
+  const categories = getUniquePredicateValuesByKey<string>(
+    filters,
+    "categories"
+  );
+  if (categories.length) {
     processedFilters.categories = categories;
   }
-  const tags = getOptionalPredicateStringsByKey(filters, "tags");
-  if (tags?.length) {
+  const tags = getUniquePredicateValuesByKey<string>(filters, "tags");
+  if (tags.length) {
     processedFilters.tags = tags;
   }
-  const groupIds = getOptionalPredicateStringsByKey(filters, "group");
+  const groupIds = getUniquePredicateValuesByKey<string>(filters, "group");
   // if a group was provided, we prioritize that over individual readGroupId or editGroupId
   // filters to prevent collisions
-  if (groupIds?.length) {
+  if (groupIds.length) {
     // We are explicitly sending groupIds to sharedToGroups
     processedFilters.sharedToGroups = groupIds;
   } else {
     // individual readGroupId & editGroupId filters
-    const readGroupIds = getOptionalPredicateStringsByKey(
+    const readGroupIds = getUniquePredicateValuesByKey<string>(
       filters,
       "readGroupId"
     );
-    if (readGroupIds?.length) {
+    if (readGroupIds.length) {
       processedFilters.readGroups = readGroupIds;
     }
-    const editGroupIds = getOptionalPredicateStringsByKey(
+    const editGroupIds = getUniquePredicateValuesByKey<string>(
       filters,
       "editGroupId"
     );
-    if (editGroupIds?.length) {
+    if (editGroupIds.length) {
       processedFilters.editGroups = editGroupIds;
     }
   }
   // NOTE: previously notGroup was an inverse of group, but now they are subtly different
   // We do not yet have an inverse of sharedToGroups.
-  const notGroupIds = getPredicateValuesByKey<string>(filters, "notGroup");
+  const notGroupIds = getUniquePredicateValuesByKey<string>(
+    filters,
+    "notGroup"
+  );
   // if a notGroup was provided, we prioritize that over individual notReadGroupId or notEditGroupId
   // filters to prevent collisions
   if (notGroupIds.length) {
@@ -100,45 +116,47 @@ export async function processFilters(
       { notReadGroupIds: [], notEditGroupIds: [] }
     );
     if (notReadGroupIds.length) {
-      processedFilters.withoutReadGroups = notReadGroupIds.join(",");
+      processedFilters.withoutReadGroups = notReadGroupIds;
     }
     if (notEditGroupIds.length) {
-      processedFilters.withoutEditGroups = notEditGroupIds.join(",");
+      processedFilters.withoutEditGroups = notEditGroupIds;
     }
   } else {
     // individual notReadGroupId & notEditGroupId filters
-    const notReadGroupIds = getOptionalPredicateStringsByKey(
+    const notReadGroupIds = getUniquePredicateValuesByKey<string>(
       filters,
       "notReadGroupId"
     );
-    if (notReadGroupIds?.length) {
+    if (notReadGroupIds.length) {
       processedFilters.withoutReadGroups = notReadGroupIds;
     }
-    const notEditGroupIds = getOptionalPredicateStringsByKey(
+    const notEditGroupIds = getUniquePredicateValuesByKey<string>(
       filters,
       "notEditGroupId"
     );
-    if (notEditGroupIds?.length) {
+    if (notEditGroupIds.length) {
       processedFilters.withoutEditGroups = notEditGroupIds;
     }
   }
-  const attendanceType = getOptionalPredicateStringsByKey(
+  const attendanceType = getUniquePredicateValuesByKey<string>(
     filters,
     "attendanceType"
   );
-  if (attendanceType?.length) {
-    processedFilters.attendanceTypes = attendanceType;
+  if (attendanceType.length) {
+    processedFilters.attendanceTypes = toEnums(
+      attendanceType,
+      EventAttendanceType
+    );
   }
-  const createdByIds = getOptionalPredicateStringsByKey(filters, "owner");
-  if (createdByIds?.length) {
+  const createdByIds = getUniquePredicateValuesByKey<string>(filters, "owner");
+  if (createdByIds.length) {
     processedFilters.createdByIds = createdByIds;
   }
-  const status = getOptionalPredicateStringsByKey(filters, "status");
-  processedFilters.status = status?.length
-    ? status
-    : [EventStatus.PLANNED, EventStatus.CANCELED]
-        .map((val) => val.toLowerCase())
-        .join(",");
+  const status = getUniquePredicateValuesByKey<string>(filters, "status");
+  processedFilters.status = status.length
+    ? toEnums(status, EventStatus)
+    : [EventStatus.PLANNED, EventStatus.CANCELED];
+
   const startDateRange = getPredicateValuesByKey<IDateRange<string | number>>(
     filters,
     "startDateRange"
