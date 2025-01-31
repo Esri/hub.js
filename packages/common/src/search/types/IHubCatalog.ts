@@ -203,9 +203,25 @@ export interface IGalleryDisplayConfig {
   showLinkButton?: boolean;
   linkButtonStyle?: "solid" | "outline" | "outline-fill" | "transparent";
   linkButtonText?: string;
-  sort?: string;
+  sort?: "relevance" | "title" | "created" | "modified";
   filters?: Array<{
-    key: string;
+    key:
+      | "location"
+      | "type"
+      | "source"
+      | "event-occurrence"
+      | "event-from"
+      | "event-attendance"
+      | "tags"
+      | "categories"
+      | "license"
+      | "modified"
+      | "access"
+      | "group-role"
+      | "group-type"
+      | "group-access"
+      | "event-access"
+      | "event-date";
     hidden: boolean;
     label?: string;
   }>;
