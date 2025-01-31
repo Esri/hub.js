@@ -204,9 +204,9 @@ export interface IGalleryDisplayConfig {
   linkButtonStyle?: "solid" | "outline" | "outline-fill" | "transparent";
   linkButtonText?: string;
   sort?: string;
-  filters?: {
+  filters?: Array<{
     key: string;
     hidden: boolean;
     label?: string;
-  };
+  }>;
 }
