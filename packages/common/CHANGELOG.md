@@ -1,3 +1,10 @@
+# @esri/hub-common [15.26.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.25.1...@esri/hub-common@15.26.0) (2025-01-31)
+
+
+### Features
+
+* **hub-common:** hubSearchEvents switch to new POST events search route ([#1787](https://github.com/Esri/hub.js/issues/1787)) ([8fbb944](https://github.com/Esri/hub.js/commit/8fbb944668a75bf4326d34c995b91b95e109b5dd))
+
 ## @esri/hub-common [15.25.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.25.0...@esri/hub-common@15.25.1) (2025-01-31)
 
 
