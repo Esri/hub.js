@@ -238,10 +238,11 @@ export class HubEvent
     if (thumbnail) {
       if (thumbnail.url) {
         entity.thumbnailUrl = thumbnail.url;
-      } else {
-        entity.thumbnailUrl = null;
       }
+    } else {
+      entity.thumbnailUrl = null;
     }
+
     this.entity = entity;
     await this.save();
     return this.entity;
