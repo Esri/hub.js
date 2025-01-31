@@ -167,6 +167,19 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     environments: ["qaext"],
     availability: ["alpha"],
   },
+  // TODO: Remove this permission once all catalog configuration features are supported by sites
+  {
+    permission: "hub:feature:catalogs:edit:advanced",
+    dependencies: ["hub:feature:catalogs"],
+    entityEdit: true,
+    assertions: [
+      {
+        property: "entity:type",
+        type: "neq",
+        value: "Hub Site Application",
+      },
+    ],
+  },
   {
     // Enable inline-workspace for Entity Views
     // limited to devext alpha so we have to pass as a flag to enable

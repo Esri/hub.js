@@ -58,7 +58,20 @@ function getDcatApConfig(feedsConfig: IFeedsConfiguration, version: string) {
 
 function getDcatUsConfig(feedsConfig: IFeedsConfiguration, version: string) {
   if (getMajorVersion(version) === "1") {
-    return feedsConfig.dcatUS1X || feedsConfig.dcatUS11;
+    const dcatUsConfig = feedsConfig.dcatUS1X || feedsConfig.dcatUS11;
+    // Some sites may have dcat us config with invalid
+    // extent value for spatial property i.e. '{{extent}}'
+    //
+    // Following fixes that by replacing invalid default extent
+    // value to valid one i.e. '{{{extent:computeSpatialProperty}}'
+    if (
+      dcatUsConfig &&
+      typeof dcatUsConfig.spatial === "string" &&
+      dcatUsConfig.spatial.replace(/\s/g, "") === "{{extent}}"
+    ) {
+      dcatUsConfig.spatial = "{{extent:computeSpatialProperty}}";
+    }
+    return dcatUsConfig;
   }
 
   if (getMajorVersion(version) === "3") {

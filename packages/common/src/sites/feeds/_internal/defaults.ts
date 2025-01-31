@@ -31,7 +31,7 @@ const DCAT_US_1X_DEFAULT = {
     fn: "{{owner}}",
     hasEmail: "{{orgContactEmail}}",
   },
-  spatial: "{{extent}}",
+  spatial: "{{extent:computeSpatialProperty}}",
 };
 
 const DCAT_US_3X_DEFAULT = {

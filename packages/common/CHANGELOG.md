@@ -1,3 +1,17 @@
+## @esri/hub-common [15.25.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.25.0...@esri/hub-common@15.25.1) (2025-01-31)
+
+
+### Bug Fixes
+
+* **hub-common:** update spatial element from default dcat us template ([#1788](https://github.com/Esri/hub.js/issues/1788)) ([064deea](https://github.com/Esri/hub.js/commit/064deea7d18175c6d13848cc9026740e59d322f1))
+
+# @esri/hub-common [15.25.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.24.0...@esri/hub-common@15.25.0) (2025-01-30)
+
+
+### Features
+
+* **hub-common:** add hub:feature:catalogs:edit:advanced permission for controlling catalog editing ([#1785](https://github.com/Esri/hub.js/issues/1785)) ([d3fd836](https://github.com/Esri/hub.js/commit/d3fd8361e11133d62293dd76e1e45316791e3126))
+
 # @esri/hub-common [15.24.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.23.5...@esri/hub-common@15.24.0) (2025-01-29)
 
 
