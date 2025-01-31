@@ -40,6 +40,22 @@ describe("getFeedTemplate", () => {
     const chk = getFeedTemplate({ feedsConfig, format, version });
     expect(chk).toEqual(dcatUsConfig);
   });
+  it("gets DCAT US configuration containing spatial field with valid extent value", async () => {
+    const dcatUsConfig = {
+      title: "{{title}}",
+      spatial: "   {{  extent  }}   ",
+    };
+    const feedsConfig: IFeedsConfiguration = {
+      dcatUS1X: dcatUsConfig,
+    };
+    const format: FeedFormat = "dcat-us";
+    const version = "1.1";
+    const chk = getFeedTemplate({ feedsConfig, format, version });
+    expect(chk).toEqual(dcatUsConfig);
+    expect(chk).toBeDefined();
+    expect(chk.spatial).toEqual("{{extent:computeSpatialProperty}}");
+    expect(chk.title).toEqual("{{title}}");
+  });
   it("throws error if DCAT US version is not supported", async () => {
     const dcatUsConfig = {
       title: "{{title}}",
