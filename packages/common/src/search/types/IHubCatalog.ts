@@ -203,4 +203,10 @@ export interface IGalleryDisplayConfig {
   showLinkButton?: boolean;
   linkButtonStyle?: "solid" | "outline" | "outline-fill" | "transparent";
   linkButtonText?: string;
+  sort?: string;
+  filters?: {
+    key: string;
+    hidden: boolean;
+    label?: string;
+  };
 }
