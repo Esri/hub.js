@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <meta name="date" content="2025-01-31T00:26:32.076Z">
+    <meta name="date" content="2025-01-31T17:53:01.786Z">
     <title>processFilters | API Reference | @esri/hub.js</title>
     
     <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
@@ -76,7 +76,7 @@
               <path d="M7 4h5l12 12-12 12H7l12-12L7 4z" />
             </svg>
           </button>
-          <a href="/hub.js/api/common/" class="is-active tsd-kind-icon">common</a>&nbsp;<small>v15.25.0</small>
+          <a href="/hub.js/api/common/" class="is-active tsd-kind-icon">common</a>&nbsp;<small>v15.25.1</small>
           <ul id="list1" class="api-package-content-list">
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -1760,6 +1760,10 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/getUniquePredicateValuesByKey/" class="tsd-kind-icon padding-right-1">getUniquePredicateValuesByKey</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/getUniqueSlug/" class="tsd-kind-icon padding-right-1">getUniqueSlug</a>
             </li>
             
@@ -2517,6 +2521,14 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/titleize/" class="tsd-kind-icon padding-right-1">titleize</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/toEnum/" class="tsd-kind-icon padding-right-1">toEnum</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/toEnums/" class="tsd-kind-icon padding-right-1">toEnums</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -7177,7 +7189,7 @@
 
 
 
-  <p>Builds a Partial<GetEventsParams> given an Array of IFilter objects</p>
+  <p>Builds a Partial<ISearchEvents> given an Array of IFilter objects</p>
 
 
   
@@ -7185,7 +7197,7 @@
   <div class="panel padding-leader-half padding-trailer-half padding-right-quarter padding-left-half trailer-half">
     <ul class="list-plain tsd-signatures tsd-kind-function trailer-0 leader-0">
       
-        <li class="code-face tsd-signature tsd-kind-icon trailer-0 leader-0">processFilters<span class="text-light-gray">(</span>filters: <i class="no-wrap"><i><a href="/hub.js/api/common/IFilter/">IFilter</a></i><span class="text-light-gray">[]</span></i>, requestOptions: <i><a href="/hub.js/api/common/IHubRequestOptions/">IHubRequestOptions</a></i><span class="text-light-gray">) : </span><i>Promise</i><i><span class="text-light-gray">&lt;</span><i>Partial</i><i><span class="text-light-gray">&lt;</span><i><a href="/hub.js/api/common/GetEventsParams/">GetEventsParams</a></i><span class="text-light-gray">&gt;</span></i><span class="text-light-gray">&gt;</span></i></li>
+        <li class="code-face tsd-signature tsd-kind-icon trailer-0 leader-0">processFilters<span class="text-light-gray">(</span>filters: <i class="no-wrap"><i><a href="/hub.js/api/common/IFilter/">IFilter</a></i><span class="text-light-gray">[]</span></i>, requestOptions: <i><a href="/hub.js/api/common/IHubRequestOptions/">IHubRequestOptions</a></i><span class="text-light-gray">) : </span><i>Promise</i><i><span class="text-light-gray">&lt;</span><i>Partial</i><i><span class="text-light-gray">&lt;</span><i><a href="/hub.js/api/common/ISearchEvents/">ISearchEvents</a></i><span class="text-light-gray">&gt;</span></i><span class="text-light-gray">&gt;</span></i></li>
       
     </ul>
   </div>
@@ -7735,11 +7747,11 @@ exists, otherwise to '<a href="https://www.arcgis.com/sharing/rest">https://www.
     
   
 
-  <h2 class="font-size-1 trailer-half">Returns</h2><p>a Partial<GetEventsParams> for the given Array of IFilter objects</p>
+  <h2 class="font-size-1 trailer-half">Returns</h2><p>a Partial<ISearchEvents> for the given Array of IFilter objects</p>
 
 
   <div class="fonts-size--1 panel padding-leader-half padding-trailer-half padding-right-half padding-left-half trailer-half">
-  <i>Promise</i><i><span class="text-light-gray">&lt;</span><i>Partial</i><i><span class="text-light-gray">&lt;</span><i><a href="/hub.js/api/common/GetEventsParams/">GetEventsParams</a></i><span class="text-light-gray">&gt;</span></i><span class="text-light-gray">&gt;</span></i>
+  <i>Promise</i><i><span class="text-light-gray">&lt;</span><i>Partial</i><i><span class="text-light-gray">&lt;</span><i><a href="/hub.js/api/common/ISearchEvents/">ISearchEvents</a></i><span class="text-light-gray">&gt;</span></i><span class="text-light-gray">&gt;</span></i>
   </div>
 
   
@@ -7770,7 +7782,7 @@ exists, otherwise to '<a href="https://www.arcgis.com/sharing/rest">https://www.
 
 
 
-<small class="font-size--2">Function defined in <a href="https://github.com/Esri/hub.js/blob/master/packages/common/src/search/_internal/hubEventsHelpers/processFilters.ts#L18">common/src/search/_internal/hubEventsHelpers/processFilters.ts:18</a></small>
+<small class="font-size--2">Function defined in <a href="https://github.com/Esri/hub.js/blob/master/packages/common/src/search/_internal/hubEventsHelpers/processFilters.ts#L22">common/src/search/_internal/hubEventsHelpers/processFilters.ts:22</a></small>
 
 
     </div>
