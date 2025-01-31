@@ -20,7 +20,6 @@ import { processFilters } from "./hubEventsHelpers/processFilters";
  *   - entityId: string | string[];
  *   - entityType: string | string[];
  *   - id: string | string[];
- *   - userId: string;
  *   - term: string;
  *   - categories: string | string[];
  *   - tags: string | string[];
