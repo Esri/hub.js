@@ -1,3 +1,10 @@
+## @esri/hub-common [15.25.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.25.0...@esri/hub-common@15.25.1) (2025-01-31)
+
+
+### Bug Fixes
+
+* **hub-common:** update spatial element from default dcat us template ([#1788](https://github.com/Esri/hub.js/issues/1788)) ([064deea](https://github.com/Esri/hub.js/commit/064deea7d18175c6d13848cc9026740e59d322f1))
+
 # @esri/hub-common [15.25.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.24.0...@esri/hub-common@15.25.0) (2025-01-30)
 
 
