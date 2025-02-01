@@ -49,7 +49,7 @@ export const buildUiSchema = async (
             scope: "/properties/_associations/properties/membershipAccess",
             type: "Control",
             options: {
-              control: "hub-field-input-radio",
+              control: "hub-field-input-tile-select",
               labels: [
                 `{{${i18nScope}.fields.membershipAccess.org:translate}}`,
                 `{{${i18nScope}.fields.membershipAccess.collab:translate}}`,
@@ -66,6 +66,32 @@ export const buildUiSchema = async (
                   context
                 ).access,
               ],
+            },
+          },
+          {
+            labelKey: `${i18nScope}.fields.associationRequestDiscoverability.label`,
+            scope:
+              "/properties/_associations/properties/associationRequestDiscoverability",
+            type: "Control",
+            options: {
+              control: "hub-field-input-tile-select",
+              labels: [
+                `{{${i18nScope}.fields.associationRequestDiscoverability.unlisted:translate}}`,
+                `{{${i18nScope}.fields.associationRequestDiscoverability.org:translate}}`,
+                `{{${i18nScope}.fields.associationRequestDiscoverability.community:translate}}`,
+                `{{${i18nScope}.fields.associationRequestDiscoverability.public:translate}}`,
+              ],
+              // disabled: [
+              //   false,
+              //   !checkPermission(
+              //     "platform:portal:user:addExternalMembersToGroup",
+              //     context
+              //   ).access,
+              //   !checkPermission(
+              //     "platform:portal:user:addExternalMembersToGroup",
+              //     context
+              //   ).access,
+              // ],
             },
           },
         ],
