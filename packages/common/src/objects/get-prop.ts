@@ -13,6 +13,7 @@
  * getProp({a: [{key: "x", val:1}, {key: "y", val:3}]}, "a[1].val") => 3
  * getProp({a: [{key: "x", val:1}, {key: "y", val:3}]}, "a[findBy(key,y)].val") => 3
  * getProp({a: [{key: "x", val:1}, {key: "y", val:3}]}, "a[findBy(val,1)].key") => "x"
+ * getProp({a: [{key: [{ innerkey: "100" }], val:1}, {key: [{ innerkey: "3" }], val:3}]}, "a[deepFindBy(key|innerkey, "100")].val") => 1
  * ```
  */
 export const getProp = (obj: { [index: string]: any }, path: string): any => {
@@ -56,6 +57,7 @@ function applyOperation(arr: any[], operation: string): any {
   if (!parts || parts.length !== 2) return undefined;
 
   let result: any;
+  let val: number | string;
 
   const fnName = parts[0];
   const args = parts[1]
@@ -65,14 +67,43 @@ function applyOperation(arr: any[], operation: string): any {
   switch (fnName) {
     case "findBy":
       const prop = args[0];
-      let val: number | string;
       if (isNumeric(args[1])) {
         val = parseFloat(args[1]);
       } else {
         val = args[1].replace(/'/g, "");
       }
+
       result = arr.find((p: any) => p[prop] === val);
       break;
+
+    case "deepFindBy":
+      const splitProps = args[0].split("|");
+      const firstProp = splitProps.shift();
+      const restOfProps = splitProps.join("|");
+
+      // call deep find by recursively
+      if (splitProps.length >= 1) {
+        result = arr.find((p: any) => {
+          const getPropVal = getProp(
+            p,
+            `${firstProp}[deepFindBy(${restOfProps}, ${args[1]})]`
+          );
+          return getPropVal;
+        });
+      }
+
+      // find the value
+      else {
+        if (isNumeric(args[1])) {
+          val = parseFloat(args[1]);
+        } else {
+          val = args[1].replace(/'/g, "");
+        }
+        result = arr.find((p: any) => p[firstProp] === val);
+      }
+
+      break;
+
     default:
       result = undefined;
   }
