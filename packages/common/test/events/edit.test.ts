@@ -362,7 +362,7 @@ describe("HubEvents edit module", () => {
           status: EventStatus.CANCELED,
           summary: defaultRecord.summary,
           tags: defaultRecord.tags,
-          thumbnailUrl: undefined,
+          thumbnailUrl: null,
           timeZone: defaultRecord.timeZone,
           title: "my event",
           location: {
@@ -477,7 +477,7 @@ describe("HubEvents edit module", () => {
           status: EventStatus.CANCELED,
           summary: defaultRecord.summary,
           tags: defaultRecord.tags,
-          thumbnailUrl: undefined,
+          thumbnailUrl: null,
           timeZone: defaultRecord.timeZone,
           title: "my event",
           location: {
