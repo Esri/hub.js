@@ -1,6 +1,7 @@
 /**
  * Generated and copied from the [events service](https://github.com/ArcGIS/hub-newsletters/blob/master/orval/custom-client.ts)
  * Do not edit manually
+ * tests for opendata-ui
  */
 export interface IOrvalParams {
   url: string;
