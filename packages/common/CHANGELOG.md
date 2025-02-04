@@ -1,3 +1,17 @@
+# @esri/hub-common [15.27.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.26.1...@esri/hub-common@15.27.0) (2025-02-04)
+
+
+### Features
+
+* expand gallerydisplayconfig with sort and filters ([#1789](https://github.com/Esri/hub.js/issues/1789)) ([0f733dd](https://github.com/Esri/hub.js/commit/0f733dde0df136e4abcbd569931507053d94e298))
+
+## @esri/hub-common [15.26.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.26.0...@esri/hub-common@15.26.1) (2025-02-03)
+
+
+### Bug Fixes
+
+* **hub-common:** modify IUpdateEvent to allow null for description, s… ([#1790](https://github.com/Esri/hub.js/issues/1790)) ([6ac1f02](https://github.com/Esri/hub.js/commit/6ac1f02ec9e61fb5f837fcd34f60f648329bc0ed))
+
 # @esri/hub-common [15.26.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.25.1...@esri/hub-common@15.26.0) (2025-01-31)
 
 
