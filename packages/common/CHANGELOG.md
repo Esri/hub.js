@@ -1,3 +1,10 @@
+# @esri/hub-common [15.27.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.26.1...@esri/hub-common@15.27.0) (2025-02-04)
+
+
+### Features
+
+* expand gallerydisplayconfig with sort and filters ([#1789](https://github.com/Esri/hub.js/issues/1789)) ([0f733dd](https://github.com/Esri/hub.js/commit/0f733dde0df136e4abcbd569931507053d94e298))
+
 ## @esri/hub-common [15.26.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.26.0...@esri/hub-common@15.26.1) (2025-02-03)
 
 
