@@ -187,7 +187,7 @@ describe("EventUiSchemaEdit", () => {
                   control: "hub-field-input-image-picker",
                   imgSrc: undefined,
                   defaultImgUrl:
-                    "https://fake-org.undefined/apps/sites/ember-arcgis-opendata-components/assets/images/placeholders/content.png",
+                    "https://fake-org.undefined/apps/sites/ember-arcgis-opendata-components/assets/images/placeholders/event.png",
                   sources: ["url"],
                   maxWidth: 727,
                   maxHeight: 484,

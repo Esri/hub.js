@@ -2,12 +2,15 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getCdnAssetUrl } from "../../../urls";
 import { HubEntityType } from "../../types/HubEntityType";
 import { IUiSchemaElement, UiSchemaRuleEffects } from "../types";
+import { getEventThumbnail } from "../../../events/_internal/getEventThumbnail";
 
 const DEFAULT_ENTITY_THUMBNAILS: Partial<Record<HubEntityType, string>> = {
   discussion:
     "/ember-arcgis-opendata-components/assets/images/placeholders/discussion.png",
   group:
     "/ember-arcgis-opendata-components/assets/images/placeholders/group.png",
+  event:
+    "/ember-arcgis-opendata-components/assets/images/placeholders/event.png",
   content:
     "/ember-arcgis-opendata-components/assets/images/placeholders/content.png",
 };
