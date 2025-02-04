@@ -2,7 +2,6 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getCdnAssetUrl } from "../../../urls";
 import { HubEntityType } from "../../types/HubEntityType";
 import { IUiSchemaElement, UiSchemaRuleEffects } from "../types";
-import { getEventThumbnail } from "../../../events/_internal/getEventThumbnail";
 
 const DEFAULT_ENTITY_THUMBNAILS: Partial<Record<HubEntityType, string>> = {
   discussion:

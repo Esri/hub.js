@@ -236,10 +236,8 @@ export class HubEvent
     const entity = cloneObject(editor) as IHubEvent;
 
     if (thumbnail) {
-      if (thumbnail.url) {
-        entity.thumbnailUrl = thumbnail.url;
-      } else {
-        entity.thumbnailUrl = null;
+      if (thumbnail) {
+        entity.thumbnailUrl = thumbnail.url || null;
       }
     }
 
