@@ -4,7 +4,7 @@ import { IPortal } from "@esri/arcgis-rest-portal";
 import { IHubRequestOptions } from "../../src/types";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
-fdescribe("getContentHomeUrl", () => {
+describe("getContentHomeUrl", () => {
   const portalUrl = "https://portal.com";
   const portal: IPortal = {
     id: "31c",
