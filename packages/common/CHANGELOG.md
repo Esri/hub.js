@@ -1,3 +1,10 @@
+# @esri/hub-common [15.28.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.27.0...@esri/hub-common@15.28.0) (2025-02-04)
+
+
+### Features
+
+* **hub-common:** add content home url util ([#1791](https://github.com/Esri/hub.js/issues/1791)) ([efdf12b](https://github.com/Esri/hub.js/commit/efdf12bd32bc1a727effd9d601b52bdc731312a9))
+
 # @esri/hub-common [15.27.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.26.1...@esri/hub-common@15.27.0) (2025-02-04)
 
 
