@@ -11,6 +11,7 @@
 [coverage-img]: https://codecov.io/gh/Esri/hub.js/branch/master/graph/badge.svg
 [coverage-url]: https://codecov.io/gh/Esri/hub.js
 
+
 # @esri/hub-common
 
 > Common TypeScript types and utility functions for [`@esri/hub.js`](https://github.com/Esri/hub.js).
