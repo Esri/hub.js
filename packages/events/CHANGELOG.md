@@ -1,3 +1,13 @@
+# @esri/hub-events [15.1.0-next.1](https://github.com/Esri/hub.js/compare/@esri/hub-events@15.0.0...@esri/hub-events@15.1.0-next.1) (2025-02-05)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 15.29.0-next.1
+
 # @esri/hub-events [15.1.0-next.1](https://github.com/Esri/hub.js/compare/@esri/hub-events@15.0.0...@esri/hub-events@15.1.0-next.1) (2025-01-22)
 
 
