@@ -13,7 +13,7 @@
   ],
   "dependencies": {
     "@terraformer/arcgis": "^2.1.2",
-    "@arcgis/core": "~4.31.0",
+    "@arcgis/core": "~4.32.0-next.20250206",
     "abab": "^2.0.5",
     "adlib": "^3.0.8",
     "ajv": "^6.12.6",
