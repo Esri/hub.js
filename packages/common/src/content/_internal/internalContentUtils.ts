@@ -8,7 +8,6 @@
  * It's probably a good pattern to add functions here first and then
  * move them to index.ts only when they are needed by a consumer.
  */
-import type { Geometry } from "@arcgis/core/geometry";
 import { parseServiceUrl } from "@esri/arcgis-rest-feature-layer";
 import { IItem, IPortal } from "@esri/arcgis-rest-portal";
 import {
@@ -164,7 +163,7 @@ export const deriveLocationFromItem = (item: IItem): IHubLocation => {
       // determine the spatial reference of the extent.
       const bbox = GeoJSONPolygonToBBox(extent as any as Polygon);
       const defaultSpatialReference = { wkid: 4326 };
-      const _geometry: Partial<Geometry> = {
+      const _geometry = {
         type: "polygon",
         ...geojsonToArcGIS(extent as any as Polygon),
         spatialReference: allCoordinatesPossiblyWGS84(bbox)

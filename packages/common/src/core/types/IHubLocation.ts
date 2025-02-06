@@ -1,4 +1,3 @@
-import type { Geometry } from "@arcgis/core/geometry";
 import { ISpatialReference } from "@esri/arcgis-rest-types";
 import { IHubLocationType } from "./types";
 import { HubEntityType } from "./HubEntityType";
@@ -19,13 +18,11 @@ export interface IHubLocation {
   extent?: number[][];
 
   // array of geometries representing the location
-  // NOTE: we use partial here b/c Geometry
-  // is the type for instances and includes methods, etc
-  // but we want to be able to pass around POJOs as well as instances
-  // instead, we might want to use GeometryProperties or
-  // a discriminated union of the point, line, polygon, and extent _property_ types
-  // but for now it is a non-breaking change to relax Geometry w/ a partial
-  geometries?: Array<Partial<Geometry>>;
+  // NOTE: we use any here b/c it's silly to add @arcgis/core
+  // just to get the Geometry type, which is basically an any anyway
+  // and as of 4.32 next we see (non-fatal) TS errors when running karma tests
+  // but for now it is a non-breaking change to relax Geometry to any
+  geometries?: any[];
 
   /** The name of the location */
   name?: string;

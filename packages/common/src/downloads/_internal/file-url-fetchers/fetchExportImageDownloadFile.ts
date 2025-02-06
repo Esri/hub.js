@@ -1,4 +1,4 @@
-import type { Extent } from "@arcgis/core/geometry";
+import { IExtent } from "@esri/arcgis-rest-types";
 import { request } from "@esri/arcgis-rest-request";
 import {
   DownloadOperationStatus,
@@ -72,14 +72,17 @@ function validateOptions(options: IFetchDownloadFileOptions) {
   }
 }
 
-function getExportImageExtent(options: IFetchDownloadFileOptions): Extent {
+function getExportImageExtent(options: IFetchDownloadFileOptions): IExtent {
   const { entity, geometry } = options;
-  const serverExtent = getProp(entity, "extendedProps.server.extent");
+  const serverExtent = getProp(
+    entity,
+    "extendedProps.server.extent"
+  ) as IExtent;
 
   // TODO: Factor in entity.extent if it exists AND is a valid 4326 bbox
-  let result: Extent = null;
+  let result: IExtent = null;
   if (geometry) {
-    result = geometry as Extent;
+    result = geometry as IExtent;
   } else if (serverExtent) {
     result = serverExtent;
   }

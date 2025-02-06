@@ -1,4 +1,3 @@
-import type { Geometry } from "@arcgis/core/geometry";
 import { IArcGISContext } from "../ArcGISContext";
 import { IHubEditableContent } from "../core/types/IHubEditableContent";
 
@@ -130,7 +129,7 @@ export interface IFetchDownloadFileOptions {
   format: ServiceDownloadFormat;
   context: IArcGISContext;
   layers?: number[]; // layers to download; when not specified, all layers will be downloaded
-  geometry?: Geometry; // geometry to filter results by
+  geometry?: any; // geometry to filter results by
   where?: string; // where clause to filter results by
   progressCallback?: downloadProgressCallback;
   pollInterval?: number; // interval in milliseconds to poll for job completion
