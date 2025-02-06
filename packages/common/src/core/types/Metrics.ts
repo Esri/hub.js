@@ -1,3 +1,4 @@
+import type { Geometry } from "@arcgis/core/geometry";
 import { IQuery } from "../../search/types/IHubCatalog";
 import { FieldType, IField } from "@esri/arcgis-rest-types";
 import { IReference } from "./IReference";
@@ -173,7 +174,7 @@ export interface IMetricAttributes extends IEntityInfo {
  */
 export interface IMetricFeature {
   attributes: IMetricAttributes;
-  geometry?: __esri.Geometry;
+  geometry?: Geometry;
 }
 
 /**

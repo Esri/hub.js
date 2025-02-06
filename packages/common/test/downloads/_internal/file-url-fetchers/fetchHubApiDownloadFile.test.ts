@@ -240,7 +240,7 @@ describe("fetchHubApiDownloadFile", () => {
       geometry: {
         type: "point",
         toJSON: () => ({ type: "point", coordinates: [1, 2] }),
-      } as unknown as __esri.Point,
+      } as any,
       where: "1=1",
     });
 

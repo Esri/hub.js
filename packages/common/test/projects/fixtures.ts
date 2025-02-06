@@ -34,7 +34,7 @@ export const PROJECT_LOCATION: IHubLocation = {
           [-76.8191059305754, 39.08220981728297],
         ],
       ],
-    } as unknown as __esri.Geometry,
+    } as any,
   ],
 };
 

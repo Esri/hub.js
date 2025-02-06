@@ -57,7 +57,12 @@ module.exports = function (config) {
       tsconfig: "./tsconfig.json",
       bundlerOptions: {
         transforms: [require("karma-typescript-es6-transform")()],
-        exclude: ["@esri/arcgis-rest-types"],
+        exclude: [
+          "@esri/arcgis-rest-types",
+          // NOTE: I tried "@arcgis/core/*" but that didn't work
+          // so you'll have to add @arcgis/core modules here as needed
+          "@arcgis/core/geometry"
+        ],
         resolve: {
           // karmas resolver cant figure out the symlinked deps from lerna
           // so we need to manually alias each package here.
