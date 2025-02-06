@@ -1,3 +1,4 @@
+import type { Extent } from "@arcgis/core/geometry";
 import { request } from "@esri/arcgis-rest-request";
 import {
   DownloadOperationStatus,
@@ -71,16 +72,14 @@ function validateOptions(options: IFetchDownloadFileOptions) {
   }
 }
 
-function getExportImageExtent(
-  options: IFetchDownloadFileOptions
-): __esri.Extent {
+function getExportImageExtent(options: IFetchDownloadFileOptions): Extent {
   const { entity, geometry } = options;
   const serverExtent = getProp(entity, "extendedProps.server.extent");
 
   // TODO: Factor in entity.extent if it exists AND is a valid 4326 bbox
-  let result: __esri.Extent = null;
+  let result: Extent = null;
   if (geometry) {
-    result = geometry as __esri.Extent;
+    result = geometry as Extent;
   } else if (serverExtent) {
     result = serverExtent;
   }
