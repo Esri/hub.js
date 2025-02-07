@@ -1,3 +1,4 @@
+import { getWithDefault } from "../../objects";
 import { IHubCollectionPersistance } from "../../search/types/IHubCatalog";
 import { WellKnownCollection } from "../../search/wellKnownCatalog";
 import { IModel } from "../../types";
@@ -77,7 +78,8 @@ export function applyDefaultCollectionMigration(model: IModel): IModel {
     { key: SearchCategories.APPS_AND_MAPS },
   ];
   const legacySearchCategories: any[] =
-    model.data.values.searchCategories || DEFAULT_SEARCH_CATEGORIES;
+    getWithDefault(model.data, "values.searchCategories", undefined) ||
+    DEFAULT_SEARCH_CATEGORIES;
 
   const configuredCollections = legacySearchCategories
     // The new search view doesn't currently allow for searching events
