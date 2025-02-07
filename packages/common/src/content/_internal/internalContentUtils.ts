@@ -17,11 +17,11 @@ import {
   IUser,
 } from "@esri/arcgis-rest-types";
 import {
+  IGeometryInstance,
   IHubContent,
   IHubLocation,
   PublisherSource,
-  getTypeFromEntity,
-} from "../../core";
+} from "../../core/types";
 import {
   IHubGeography,
   GeographyProvenance,
@@ -169,7 +169,7 @@ export const deriveLocationFromItem = (item: IItem): IHubLocation => {
         spatialReference: allCoordinatesPossiblyWGS84(bbox)
           ? defaultSpatialReference
           : (getItemSpatialReference(item) as any) || defaultSpatialReference,
-      };
+      } as IGeometryInstance;
       return {
         type: "custom",
         extent: bbox,

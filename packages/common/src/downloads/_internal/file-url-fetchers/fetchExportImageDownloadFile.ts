@@ -8,8 +8,18 @@ import {
 } from "../../types";
 import HubError from "../../../HubError";
 import { getProp } from "../../../objects/get-prop";
-import { IHubEditableContent } from "../../../core/types/IHubEditableContent";
+import {
+  IHubEditableContent,
+  ISpatialReferenceInstance,
+} from "../../../core/types";
 import { ExportImageFormat } from "../_types";
+
+/**
+ * Extent object with a spatial reference instance defined
+ */
+interface IExtentWithSpatialReference extends IExtent {
+  spatialReference: ISpatialReferenceInstance;
+}
 
 /**
  * @private
@@ -72,17 +82,18 @@ function validateOptions(options: IFetchDownloadFileOptions) {
   }
 }
 
-function getExportImageExtent(options: IFetchDownloadFileOptions): IExtent {
+function getExportImageExtent(options: IFetchDownloadFileOptions) {
   const { entity, geometry } = options;
   const serverExtent = getProp(
     entity,
     "extendedProps.server.extent"
-  ) as IExtent;
+  ) as IExtentWithSpatialReference;
 
   // TODO: Factor in entity.extent if it exists AND is a valid 4326 bbox
-  let result: IExtent = null;
+  let result: IExtentWithSpatialReference = null;
   if (geometry) {
-    result = geometry as IExtent;
+    // NOTE: we already confirmed that geometry is an extent in validateOptions
+    result = geometry as unknown as IExtentWithSpatialReference;
   } else if (serverExtent) {
     result = serverExtent;
   }

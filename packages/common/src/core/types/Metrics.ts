@@ -1,7 +1,7 @@
 import { IQuery } from "../../search/types/IHubCatalog";
 import { FieldType, IField } from "@esri/arcgis-rest-types";
 import { IReference } from "./IReference";
-import { ServiceAggregation } from "../../core/types/DynamicValues";
+import { IGeometryInstance, ServiceAggregation } from "../../core/types";
 
 /**
  * Defines the information required from a Metric
@@ -173,7 +173,7 @@ export interface IMetricAttributes extends IEntityInfo {
  */
 export interface IMetricFeature {
   attributes: IMetricAttributes;
-  geometry?: any;
+  geometry?: IGeometryInstance;
 }
 
 /**

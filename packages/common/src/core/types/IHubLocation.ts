@@ -1,6 +1,7 @@
 import { ISpatialReference } from "@esri/arcgis-rest-types";
 import { IHubLocationType } from "./types";
 import { HubEntityType } from "./HubEntityType";
+import { IGeometryInstance } from "../..";
 
 /**
  * A location associated with an item and stored as a json resource.
@@ -17,12 +18,9 @@ export interface IHubLocation {
   // the extent of the location
   extent?: number[][];
 
-  // array of geometries representing the location
-  // NOTE: we use any here b/c it's silly to add @arcgis/core
-  // just to get the Geometry type, which is basically an any anyway
-  // and as of 4.32 next we see (non-fatal) TS errors when running karma tests
-  // but for now it is a non-breaking change to relax Geometry to any
-  geometries?: any[];
+  // NOTE: at next major release or breaking change we can probably remove the Partial here
+  /** array of[geometries](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html) representing the location */
+  geometries?: Array<Partial<IGeometryInstance>>;
 
   /** The name of the location */
   name?: string;
