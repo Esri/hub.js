@@ -45,7 +45,7 @@ export function computeProps(
     SiteDefaultFeatures
   );
 
-  // get new catalog structure
+  // Get new catalog structure
   site.catalog = getCatalogFromSiteModel(model);
 
   // Perform schema upgrades on the new catalog structure

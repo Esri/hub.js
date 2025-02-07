@@ -7,19 +7,18 @@ import { applyDefaultCollectionMigration } from "./_internal/applyDefaultCollect
 /**
  * Gets new catalog from site model
  *
- * Migration is performed if legacy catalog
- * is present in site's model. Otherwise, new
- * catalog is returned as is.
+ * Catalog migration is performed from legacy catalog in `data.catalog`
+ * if new catalog in `data.catalogV2` is not present in site's model.
+ * Otherwise, new catalog in `data.catalogV2` is returned as is.
  *
  * @param {IModel} model
  */
 export function getCatalogFromSiteModel(model: IModel): IHubCatalog {
-  // catalogV2 contains site's updated catalog
+  // data.catalogV2 contains site's updated catalog
   if (model.data.catalogV2) {
     return model.data.catalogV2;
   }
 
-  // migrate legacy catalog in `data.catalog` to IHubCatalog
   let migrated = cloneObject(model);
 
   // Ensure we have the new Catalog structure

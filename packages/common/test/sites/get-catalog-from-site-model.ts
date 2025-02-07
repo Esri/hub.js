@@ -3,7 +3,7 @@ import { getCatalogFromSiteModel } from "../../src/sites/get-catalog-from-site-m
 import { IModel } from "../../src/types";
 
 describe("getCatalogFromSiteModel", () => {
-  it("gets updated catalog from legacy catalog", async () => {
+  it("gets new catalog from legacy catalog", async () => {
     const model = {
       data: {
         catalog: { groups: ["00c", "00d"] },
@@ -26,7 +26,7 @@ describe("getCatalogFromSiteModel", () => {
       "00d",
     ]);
 
-    // check for collection
+    // check for collections
     expect(chk.collections?.map((c) => c.key)).toEqual([
       "all",
       "site",
@@ -36,7 +36,7 @@ describe("getCatalogFromSiteModel", () => {
     ]);
   });
 
-  it("gets IHubCatalog from legacy catalog", async () => {
+  it("gets new catalog if new catalog is available", async () => {
     const catalogV2 = {
       schemaVersion: 1,
       title: "Default Site Catalog",
@@ -58,7 +58,6 @@ describe("getCatalogFromSiteModel", () => {
 
     const chk = getCatalogFromSiteModel(model);
 
-    // check for collection
     expect(chk).toEqual(catalogV2);
   });
 });
