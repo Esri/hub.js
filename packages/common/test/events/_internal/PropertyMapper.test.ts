@@ -229,6 +229,7 @@ describe("PropertyMapper", () => {
         updatedAt: new Date().toISOString(),
         url: "https://somewhere.com/",
       };
+      eventRecord.thumbnailUrl = "https://thumbnail.jpg";
       const res = propertyMapper.storeToEntity(eventRecord, {});
       expect(res.attendanceType).toEqual(HubEventAttendanceType.Both);
     });

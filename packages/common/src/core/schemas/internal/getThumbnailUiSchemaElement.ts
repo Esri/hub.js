@@ -8,6 +8,8 @@ const DEFAULT_ENTITY_THUMBNAILS: Partial<Record<HubEntityType, string>> = {
     "/ember-arcgis-opendata-components/assets/images/placeholders/discussion.png",
   group:
     "/ember-arcgis-opendata-components/assets/images/placeholders/group.png",
+  event:
+    "/ember-arcgis-opendata-components/assets/images/placeholders/event.png",
   content:
     "/ember-arcgis-opendata-components/assets/images/placeholders/content.png",
 };
@@ -31,20 +33,30 @@ export function getThumbnailUiSchemaElement(
     DEFAULT_ENTITY_THUMBNAILS[entityType] ?? DEFAULT_ENTITY_THUMBNAILS.content;
   const defaultImgUrl = getCdnAssetUrl(defaultEntityThumbnail, requestOptions);
 
-  const options =
-    entityType === "group"
-      ? {
-          aspectRatio: 1,
-          sizeDescription: {
-            labelKey: `${i18nScope}.fields._thumbnail.sizeDescription`,
-          },
-        }
-      : {
-          aspectRatio: 1.5,
-          sizeDescription: {
-            labelKey: "shared.fields._thumbnail.sizeDescription",
-          },
-        };
+  let options;
+  if (entityType === "group") {
+    options = {
+      aspectRatio: 1,
+      sizeDescription: {
+        labelKey: `${i18nScope}.fields._thumbnail.sizeDescription`,
+      },
+    };
+  } else if (entityType === "event") {
+    options = {
+      aspectRatio: 1.5,
+      sizeDescription: {
+        labelKey: "shared.fields._thumbnail.sizeDescription",
+      },
+      sources: ["url"],
+    };
+  } else {
+    options = {
+      aspectRatio: 1.5,
+      sizeDescription: {
+        labelKey: "shared.fields._thumbnail.sizeDescription",
+      },
+    };
+  }
 
   return [
     {

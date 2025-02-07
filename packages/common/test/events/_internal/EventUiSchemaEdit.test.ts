@@ -179,6 +179,51 @@ describe("EventUiSchemaEdit", () => {
                   },
                 },
               },
+              {
+                labelKey: "shared.fields._thumbnail.label",
+                scope: "/properties/_thumbnail",
+                type: "Control",
+                options: {
+                  control: "hub-field-input-image-picker",
+                  imgSrc: undefined,
+                  defaultImgUrl:
+                    "https://fake-org.undefined/apps/sites/ember-arcgis-opendata-components/assets/images/placeholders/event.png",
+                  sources: ["url"],
+                  maxWidth: 727,
+                  maxHeight: 484,
+                  aspectRatio: 1.5,
+                  helperText: {
+                    labelKey: "myI18nScope.fields._thumbnail.helperText",
+                  },
+                  sizeDescription: {
+                    labelKey: "shared.fields._thumbnail.sizeDescription",
+                  },
+                },
+              },
+              {
+                type: "Notice",
+                options: {
+                  notice: {
+                    configuration: {
+                      id: "no-thumbnail-or-png-notice",
+                      noticeType: "notice",
+                      closable: false,
+                      icon: "lightbulb",
+                      kind: "info",
+                      scale: "m",
+                    },
+                    message:
+                      "{{shared.fields._thumbnail.defaultThumbnailNotice:translate}}",
+                    autoShow: true,
+                  },
+                },
+                rules: [
+                  {
+                    effect: UiSchemaRuleEffects.SHOW,
+                    conditions: [true],
+                  },
+                ],
+              },
             ],
           },
           {

@@ -19,6 +19,6 @@ export function computeLinks(event: IEvent): IHubEntityLinks {
     siteRelative,
     siteRelativeEntityType: getHubRelativeUrl("event"),
     workspaceRelative: getRelativeWorkspaceUrl("Event", event.id),
-    thumbnail: getEventThumbnail(),
+    thumbnail: event.thumbnailUrl ?? getEventThumbnail(),
   };
 }

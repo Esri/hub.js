@@ -132,6 +132,7 @@ export async function updateHubEvent(
     status: model.status,
     summary: model.summary?.trim() || null,
     tags: model.tags,
+    thumbnailUrl: model.thumbnailUrl || null,
     timeZone: model.timeZone,
     title: model.title,
     location: model.location,

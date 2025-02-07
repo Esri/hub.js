@@ -1,3 +1,10 @@
+# @esri/hub-common [15.29.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.28.0...@esri/hub-common@15.29.0) (2025-02-07)
+
+
+### Features
+
+* **hub-common:** event implements image picker ([#1784](https://github.com/Esri/hub.js/issues/1784)) ([3916521](https://github.com/Esri/hub.js/commit/39165218ddf19267cff85c2236d43ea8409c1cb0))
+
 # @esri/hub-common [15.28.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.27.0...@esri/hub-common@15.28.0) (2025-02-04)
 
 
