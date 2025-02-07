@@ -17,4 +17,20 @@ describe("computeLinks", () => {
       thumbnail: getEventThumbnail(),
     });
   });
+
+  it("should implement event thumbnail url", () => {
+    const event = {
+      id: "31c",
+      title: "My Event's are awesome! 123 - ",
+      thumbnailUrl: "https://thumbnail.jpg",
+    } as IEvent;
+    const results = computeLinks(event);
+    expect(results).toEqual({
+      self: "/events/my-events-are-awesome-123-31c",
+      siteRelative: "/events/my-events-are-awesome-123-31c",
+      siteRelativeEntityType: "",
+      workspaceRelative: "/workspace/events/31c",
+      thumbnail: "https://thumbnail.jpg",
+    });
+  });
 });

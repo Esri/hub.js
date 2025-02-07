@@ -102,6 +102,7 @@ export const ENTITY_IMAGE_SCHEMA = {
         size: { type: "number" },
       },
     },
+    url: { type: "string" },
   },
 };
 

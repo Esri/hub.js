@@ -8,6 +8,9 @@ import { getLocationOptions } from "../../core/schemas/internal/getLocationOptio
 import { fetchCategoriesUiSchemaElement } from "../../core/schemas/internal/fetchCategoriesUiSchemaElement";
 import { getWellKnownCatalog } from "../../search/wellKnownCatalog";
 import { buildReferencedContentSchema } from "./buildReferencedContentSchema";
+import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
+import { getEntityThumbnailUrl } from "../../core/getEntityThumbnailUrl";
+import { HubEntity } from "../../core";
 
 /**
  * @private
@@ -60,6 +63,13 @@ export const buildUiSchema = async (
               },
             },
           },
+          ...getThumbnailUiSchemaElement(
+            i18nScope,
+            options.thumbnail,
+            getEntityThumbnailUrl(options as HubEntity),
+            "event",
+            context.requestOptions
+          ),
         ],
       },
       {
