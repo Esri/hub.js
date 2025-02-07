@@ -12,6 +12,7 @@ import { applyDefaultCollectionMigration } from "./_internal/applyDefaultCollect
  * Otherwise, new catalog in `data.catalogV2` is returned as is.
  *
  * @param {IModel} model
+ * @returns {IHubCatalog}
  */
 export function getCatalogFromSiteModel(model: IModel): IHubCatalog {
   // data.catalogV2 contains site's updated catalog
