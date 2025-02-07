@@ -472,13 +472,7 @@ export function convertModelToSite(
   // Add permissions based on Groups
   // This may get moved to a formal schema migration in the future but for now
   // we can do it here as there is no ux for managing permissions yet.
-  let migrated = applyPermissionMigration(model);
-
-  // Ensure we have the new Catalog structure
-  migrated = applyCatalogStructureMigration(migrated);
-
-  // Add default collections while preserving configuration from `data.values.searchCategories`
-  migrated = applyDefaultCollectionMigration(migrated);
+  const migrated = applyPermissionMigration(model);
 
   // convert to site
   const mapper = new PropertyMapper<Partial<IHubSite>, IModel>(

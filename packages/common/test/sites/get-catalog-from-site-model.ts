@@ -13,6 +13,19 @@ describe("getCatalogFromSiteModel", () => {
 
     const chk = getCatalogFromSiteModel(model);
 
+    expect(chk.title).toBe("Default Site Catalog");
+    expect(chk.scopes).toBeDefined();
+    expect(chk.scopes?.item?.filters.length).toBe(1);
+    expect(chk.scopes?.item?.filters[0].predicates[0].group).toEqual([
+      "00c",
+      "00d",
+    ]);
+    expect(chk.scopes?.event?.filters.length).toBe(1);
+    expect(chk.scopes?.event?.filters[0].predicates[0].group).toEqual([
+      "00c",
+      "00d",
+    ]);
+
     // check for collection
     expect(chk.collections?.map((c) => c.key)).toEqual([
       "all",
