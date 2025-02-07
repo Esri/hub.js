@@ -1,3 +1,10 @@
+# @esri/hub-common [15.30.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.29.0...@esri/hub-common@15.30.0) (2025-02-07)
+
+
+### Features
+
+* **hub-common:** add minimal definitions of ArcGIS types and drop arcgis-js-api ([#1797](https://github.com/Esri/hub.js/issues/1797)) ([27c08b8](https://github.com/Esri/hub.js/commit/27c08b87bccd15b60c1d2563479bdf1dc1f21c3c))
+
 # @esri/hub-common [15.29.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.28.0...@esri/hub-common@15.29.0) (2025-02-07)
 
 
