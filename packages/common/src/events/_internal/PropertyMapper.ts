@@ -107,9 +107,12 @@ export class EventPropertyMapper extends PropertyMapper<
     obj.createdDateSource = "createdAt";
     obj.updatedDate = new Date(store.updatedAt);
     obj.updatedDateSource = "updatedAt";
+
     obj.links = computeLinks(store as IEvent);
     obj.slug = getEventSlug(store as IEvent);
-    obj.thumbnailUrl = getEventThumbnail();
+    if (!obj.thumbnailUrl) {
+      obj.thumbnailUrl = getEventThumbnail();
+    }
 
     obj.view = {
       showMap: !!store.location,
@@ -133,8 +136,6 @@ export class EventPropertyMapper extends PropertyMapper<
     entity: Partial<IHubEvent>,
     store: Partial<IEvent>
   ): Partial<IEvent> {
-    // TODO: thumbnail & thumbnail url
-
     const clonedEntity = cloneObject(entity);
 
     const obj = mapEntityToStore(clonedEntity, store, this.mappings);

@@ -21,6 +21,7 @@ export function getPropertyMap(): IPropertyMap[] {
     "startTime",
     "endDate",
     "endTime",
+    "thumbnailUrl",
   ];
   return commonPropNames.reduce(
     (acc, propName) => [...acc, { entityKey: propName, storeKey: propName }],

@@ -203,6 +203,52 @@ describe("HubEvent Class:", () => {
         expect(result.name).toEqual("new name");
       });
 
+      it("sets thumbnail url if available", async () => {
+        const chk = HubEvent.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+          },
+          authdCtxMgr.context
+        );
+        // spy on the instance .save method and retrn void
+        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        // make changes to the editor
+        const editor = await chk.toEditor();
+        editor.name = "new name";
+        editor._thumbnail = { url: "https://thumbnail.jpg" };
+        // call fromEditor
+        const result = await chk.fromEditor(editor);
+        // expect the save method to have been called
+        expect(saveSpy).toHaveBeenCalledTimes(1);
+        // expect the name to have been updated
+        expect(result.name).toEqual("new name");
+      });
+
+      it("does not set thumbnail if url is not available", async () => {
+        const chk = HubEvent.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+          },
+          authdCtxMgr.context
+        );
+        // spy on the instance .save method and retrn void
+        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        // make changes to the editor
+        const editor = await chk.toEditor();
+        editor.name = "new name";
+        editor._thumbnail = {};
+        // call fromEditor
+        const result = await chk.fromEditor(editor);
+        // expect the save method to have been called
+        expect(saveSpy).toHaveBeenCalledTimes(1);
+        // expect the name to have been updated
+        expect(result.name).toEqual("new name");
+      });
+
       it("throws if creating", async () => {
         const chk = HubEvent.fromJson(
           {

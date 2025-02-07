@@ -1,5 +1,6 @@
 import {
   ENTITY_CATEGORIES_SCHEMA,
+  ENTITY_IMAGE_SCHEMA,
   ENTITY_LOCATION_SCHEMA,
   ENTITY_NAME_SCHEMA,
   ENTITY_SUMMARY_SCHEMA,
@@ -27,6 +28,7 @@ export const buildSchema = (): IConfigurationSchema => {
       description: {
         type: "string",
       },
+      _thumbnail: ENTITY_IMAGE_SCHEMA,
       attendanceType: {
         type: "string",
         enum: [
