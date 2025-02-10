@@ -9,6 +9,7 @@ import { SiteDefaultFeatures } from "./SiteBusinessRules";
 import { IHubSite } from "../../core/types/IHubSite";
 import { computeItemProps } from "../../core/_internal/computeItemProps";
 import { computeLinks } from "./computeLinks";
+import { getCatalogFromSiteModel } from "../get-catalog-from-site-model";
 
 /**
  * Given a model and a site, set various computed properties that can't be directly mapped
@@ -43,6 +44,9 @@ export function computeProps(
     model.data.settings?.features || {},
     SiteDefaultFeatures
   );
+
+  // Get new catalog structure
+  site.catalog = getCatalogFromSiteModel(model);
 
   // Perform schema upgrades on the new catalog structure
   site.catalog = upgradeCatalogSchema(site.catalog);
