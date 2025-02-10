@@ -5,7 +5,7 @@ import { getProp } from "../../objects/get-prop";
 import { IQuery } from "../../search/types";
 import { combineQueries } from "../../search/_internal/combineQueries";
 import { getTypeWithKeywordQuery } from "./getTypeWithKeywordQuery";
-import { negateGroupPredicates } from "../../search/_internal/negateGroupPredicates";
+import { negateGroupPredicates } from "../../search/negateGroupPredicates";
 import { IArcGISContext } from "../../ArcGISContext";
 import { getTypeByIdsQuery } from "./getTypeByIdsQuery";
 import { getTypeFromEntity } from "../../core/getTypeFromEntity";

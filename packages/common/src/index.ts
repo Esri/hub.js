@@ -54,7 +54,7 @@ export * from "./search/explainQueryResult";
 export * from "./search/searchEntityCatalogs";
 export * from "./search/searchCatalogs";
 export * from "./search/getAddContentConfig";
-export * from "./search/_internal/getCatalogGroups";
+export * from "./search/getCatalogGroups";
 export * from "./search/getPredicateValues";
 export * from "./core/hubHistory";
 export * from "./core/deepCatalogContains";

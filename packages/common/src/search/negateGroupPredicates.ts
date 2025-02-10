@@ -1,8 +1,7 @@
-import { IQuery } from "../types/IHubCatalog";
-import { expandPredicates } from "./portalSearchItems";
+import { IQuery } from "./types/IHubCatalog";
+import { expandPredicates } from "./_internal/portalSearchItems";
 
 /**
- * @private
  * Helper function that locates group predicates and "negates" them
  * so we get a query that is `not in groups ...` vs `in groups ...`
  * @param query

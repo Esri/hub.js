@@ -1,8 +1,9 @@
 import { IUser } from "@esri/arcgis-rest-types";
-import { getPredicateValues } from "../getPredicateValues";
-import { IGroupsByMembership } from "../types/IGroupsByMembership";
-import { IQuery } from "../types/IHubCatalog";
+import { getPredicateValues } from "./getPredicateValues";
+import { IGroupsByMembership } from "./types/IGroupsByMembership";
+import { IQuery } from "./types/IHubCatalog";
 import { getUserGroupsByMembership } from "./getUserGroupsByMembership";
+
 /**
  * Given a query and a user, return an object with the set of groups
  * that are in the Query, and which the user is a member of, split by

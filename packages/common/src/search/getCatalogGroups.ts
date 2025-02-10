@@ -1,9 +1,9 @@
-import { IArcGISContext } from "../../ArcGISContext";
-import { unique } from "../../util";
-import { Catalog } from "../Catalog";
-import { IGroupsByMembership } from "../types/IGroupsByMembership";
+import { IArcGISContext } from "../ArcGISContext";
+import { unique } from "../util";
+import { Catalog } from "./Catalog";
+import { IGroupsByMembership } from "./types/IGroupsByMembership";
 import { getUserGroupsFromQuery } from "./getUserGroupsFromQuery";
-import { IHubCatalog, IQuery } from "../types/IHubCatalog";
+import { IHubCatalog, IQuery } from "./types/IHubCatalog";
 
 /**
  * Return an IGroupsByMembership object that contains all the groups, from all the

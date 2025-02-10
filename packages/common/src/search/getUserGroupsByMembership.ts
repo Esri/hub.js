@@ -1,5 +1,5 @@
 import { IUser } from "@esri/arcgis-rest-types";
-import { IGroupsByMembership } from "../types/IGroupsByMembership";
+import { IGroupsByMembership } from "./types/IGroupsByMembership";
 
 /**
  * Retrieves the user's groups categorized by their membership type.

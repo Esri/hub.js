@@ -1,19 +1,23 @@
 import { IArcGISContext } from "../ArcGISContext";
 import { checkPermission } from "../permissions/checkPermission";
 import { cloneObject } from "../util";
-import { negateGroupPredicates } from "./_internal/negateGroupPredicates";
+import { getProp } from "../objects/get-prop";
 import { IHubCatalog, IQuery } from "./types/IHubCatalog";
 import { getPredicateValues } from "./getPredicateValues";
+import { IGroupsByMembership } from "./types/IGroupsByMembership";
+
+// shared - hoist and export
+import { getCatalogGroups } from "./getCatalogGroups";
+import { negateGroupPredicates } from "./negateGroupPredicates";
+import { getUserGroupsFromQuery } from "./getUserGroupsFromQuery";
+import { getUserGroupsByMembership } from "./getUserGroupsByMembership";
+
+// Exclusive to this file - move to hub-components
+import { IAddContentWorkflowConfig } from "./types/AddContentWorkflowTypes";
 import {
   getDefaultCreateableTypes,
   getWorkflowForType,
 } from "./_internal/getWorkflowForType";
-import { getProp } from "../objects/get-prop";
-import { getUserGroupsFromQuery } from "./_internal/getUserGroupsFromQuery";
-import { getUserGroupsByMembership } from "./_internal/getUserGroupsByMembership";
-import { IAddContentWorkflowConfig } from "./types/AddContentWorkflowTypes";
-import { getCatalogGroups } from "./_internal";
-import { IGroupsByMembership } from "./types/IGroupsByMembership";
 
 const EmptyAddContentWorkflowConfig: IAddContentWorkflowConfig = {
   create: null,
@@ -23,6 +27,8 @@ const EmptyAddContentWorkflowConfig: IAddContentWorkflowConfig = {
 };
 
 /**
+ * @deprecated
+ * MOVED TO hub-components
  * Get the add content configuration, given nothing, or a catalog or query.
  * Delegates to the appropriate function based on the type of the input.
  * @param context

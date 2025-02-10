@@ -1,7 +1,7 @@
-import { IQuery } from "../../../src";
-import { IUser } from "../../../src/events/api";
-import { getUserGroupsFromQuery } from "../../../src/search/_internal/getUserGroupsFromQuery";
-import * as GetUserGroupsByMembershipModule from "../../../src/search/_internal/getUserGroupsByMembership";
+import { IQuery } from "../../src";
+import { IUser } from "../../src/events/api";
+import { getUserGroupsFromQuery } from "../../src/search/getUserGroupsFromQuery";
+import * as GetUserGroupsByMembershipModule from "../../src/search/getUserGroupsByMembership";
 
 describe("getUserGroupsFromQuery:", () => {
   it("returns all user groups by membership if query lacks group predicate", async () => {
