@@ -1,3 +1,10 @@
+# @esri/hub-common [15.31.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.30.0...@esri/hub-common@15.31.0) (2025-02-10)
+
+
+### Features
+
+* **hub-common:** implement getCatalogFromModel() ([#1796](https://github.com/Esri/hub.js/issues/1796)) ([d9846de](https://github.com/Esri/hub.js/commit/d9846de7fe705ee9d5e090a04c74431dbefbbcf1))
+
 # @esri/hub-common [15.30.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.29.0...@esri/hub-common@15.30.0) (2025-02-07)
 
 
