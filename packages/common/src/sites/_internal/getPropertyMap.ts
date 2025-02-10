@@ -71,7 +71,6 @@ export function getPropertyMap(): IPropertyMap[] {
     entityKey: "isHubHome",
     storeKey: "item.properties.isHubHome",
   });
-  map.push({ entityKey: "catalog", storeKey: "data.catalog" });
 
   map.push({
     entityKey: "features",
