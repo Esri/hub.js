@@ -1,5 +1,5 @@
 import { IArcGISContext } from "../ArcGISContext";
-import { IHubEditableContent } from "../core/types/IHubEditableContent";
+import { IHubEditableContent, IGeometryInstance } from "../core/types";
 
 /**
  * This hash map was defined to support the previous implementation of the export item flow.
@@ -129,7 +129,11 @@ export interface IFetchDownloadFileOptions {
   format: ServiceDownloadFormat;
   context: IArcGISContext;
   layers?: number[]; // layers to download; when not specified, all layers will be downloaded
-  geometry?: __esri.Geometry; // geometry to filter results by
+  /**
+   * [Geometry](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html) to filter results by
+   * NOTE: image downloads only support [Extent](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html) or an extent-like object
+   */
+  geometry?: IGeometryInstance;
   where?: string; // where clause to filter results by
   progressCallback?: downloadProgressCallback;
   pollInterval?: number; // interval in milliseconds to poll for job completion
