@@ -504,7 +504,7 @@ export interface IPostOptions {
 }
 
 /**
- * dto for creating a post in a known channel
+ * dto for creating a post
  *
  * @export
  * @interface ICreatePost
