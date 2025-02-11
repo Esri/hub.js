@@ -1,3 +1,10 @@
+## @esri/hub-common [15.31.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.31.0...@esri/hub-common@15.31.1) (2025-02-11)
+
+
+### Bug Fixes
+
+* exports for extracted getAddWorkflowConfig ([#1799](https://github.com/Esri/hub.js/issues/1799)) ([28e746c](https://github.com/Esri/hub.js/commit/28e746cdb075a1097635dd2b818634d424cd763b))
+
 # @esri/hub-common [15.31.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.30.0...@esri/hub-common@15.31.0) (2025-02-10)
 
 
