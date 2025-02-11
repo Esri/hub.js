@@ -35,6 +35,7 @@ export const QuerySchema: IConfigurationSchema = {
     filters: {
       type: "array",
       items: FilterSchema,
+      default: [{ predicates: [] }],
     },
   },
 };
