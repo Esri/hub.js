@@ -5,3 +5,4 @@ export * from "./IHubSearchResponse";
 export * from "./types";
 export * from "./IHubCatalog";
 export * from "./AddContentWorkflowTypes";
+export * from "./IGroupsByMembership";

@@ -4,6 +4,7 @@ import { Permission } from "../../permissions/types/Permission";
 import { EntityType } from "../types/IHubCatalog";
 
 /**
+ * DEPRECATED: moved to hub-components
  * @internal
  * Define the workflows that are available for each content type
  */
@@ -31,6 +32,7 @@ export interface ITypeWorkflow {
 }
 
 /**
+ * DEPRECATED: moved to hub-components
  * @internal
  * Structure that defines the permission checks and workflows for each content type
  */
@@ -42,12 +44,14 @@ export interface ITypeWorkflowDefinition extends ITypeWorkflow {
 }
 
 /**
+ * DEPRECATED: moved to hub-components
  * @internal
  * Define the workflows
  */
 export type ContentWorkflow = "create" | "upload" | "existing";
 
 /**
+ * DEPRECATED: moved to hub-components
  * Given a type and context, return the workflows that are available to the user.
  * This checks the permissions for defined for the type, and if the user has the
  * permission, returns the workflows defined for the type.
@@ -94,6 +98,7 @@ export function getWorkflowForType(
 }
 
 /**
+ * DEPRECATED: moved to hub-components
  * Return a list of types to use as the "default" types a user could possibly
  * create / add (depending on permissions and group access).
  * This list is used when an IQuery does not have type predicates, which

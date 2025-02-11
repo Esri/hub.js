@@ -44,7 +44,7 @@ import { computeProps } from "./_internal/computeProps";
 import { applyInitiativeMigrations } from "./_internal/applyInitiativeMigrations";
 import { combineQueries } from "../search/_internal/combineQueries";
 import { getTypeWithKeywordQuery } from "../associations/internal/getTypeWithKeywordQuery";
-import { negateGroupPredicates } from "../search/_internal/negateGroupPredicates";
+import { negateGroupPredicates } from "../search/negateGroupPredicates";
 import { computeLinks } from "./_internal/computeLinks";
 import { deriveLocationFromItem } from "../content/_internal/internalContentUtils";
 import { setEntityStatusKeyword } from "../utils/internal/setEntityStatusKeyword";

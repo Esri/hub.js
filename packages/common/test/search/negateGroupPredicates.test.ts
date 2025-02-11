@@ -1,5 +1,5 @@
-import { IQuery } from "../../../src";
-import { negateGroupPredicates } from "../../../src/search/_internal/negateGroupPredicates";
+import { IQuery } from "../../src";
+import { negateGroupPredicates } from "../../src/search/negateGroupPredicates";
 
 describe("negateGroupPredicates:", () => {
   it("returns undefined if not passed a query", () => {
