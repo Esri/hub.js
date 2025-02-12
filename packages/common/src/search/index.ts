@@ -3,7 +3,6 @@ export * from "./Collection";
 export * from "./getUserGroupsByMembership";
 export * from "./getUserGroupsFromQuery";
 export * from "./hubSearch";
-export * from "./negateGroupPredicates";
 export * from "./serializeQueryForPortal";
 export * from "./types";
 export * from "./upgradeCatalogSchema";

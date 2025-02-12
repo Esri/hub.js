@@ -56,6 +56,8 @@ export * from "./search/searchCatalogs";
 export * from "./search/getAddContentConfig";
 export * from "./search/getCatalogGroups";
 export * from "./search/getPredicateValues";
+export * from "./search/negateGroupPredicates";
+
 export * from "./core/hubHistory";
 export * from "./core/deepCatalogContains";
 export * from "./core/parseContainmentPath";
