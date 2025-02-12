@@ -51,11 +51,15 @@ export * from "./core/EntityEditor";
 // Unclear _why_ this needs to be here vs. in search/index.ts
 // but if it's exported there, it's not actually exporeted
 export * from "./search/explainQueryResult";
-export * from "./search/searchEntityCatalogs";
-export * from "./search/searchCatalogs";
 export * from "./search/getAddContentConfig";
 export * from "./search/getCatalogGroups";
 export * from "./search/getPredicateValues";
+export * from "./search/getUserGroupsByMembership";
+export * from "./search/getUserGroupsFromQuery";
+export * from "./search/negateGroupPredicates";
+export * from "./search/searchCatalogs";
+export * from "./search/searchEntityCatalogs";
+
 export * from "./core/hubHistory";
 export * from "./core/deepCatalogContains";
 export * from "./core/parseContainmentPath";
