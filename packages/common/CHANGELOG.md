@@ -1,3 +1,10 @@
+## @esri/hub-common [15.31.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.31.1...@esri/hub-common@15.31.2) (2025-02-12)
+
+
+### Bug Fixes
+
+* change export location ([#1802](https://github.com/Esri/hub.js/issues/1802)) ([cc19da5](https://github.com/Esri/hub.js/commit/cc19da50b7ef0db93234517dff39b685d1adda10))
+
 ## @esri/hub-common [15.31.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.31.0...@esri/hub-common@15.31.1) (2025-02-11)
 
 
