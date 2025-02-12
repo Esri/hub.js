@@ -1,7 +1,5 @@
 export * from "./Catalog";
 export * from "./Collection";
-export * from "./getUserGroupsByMembership";
-export * from "./getUserGroupsFromQuery";
 export * from "./hubSearch";
 export * from "./serializeQueryForPortal";
 export * from "./types";
