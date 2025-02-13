@@ -197,11 +197,7 @@ export const InitiativePermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:initiative:workspace:catalog",
-    dependencies: [
-      "hub:initiative:workspace",
-      "hub:feature:catalogs",
-      "hub:initiative:edit",
-    ],
+    dependencies: ["hub:initiative:workspace", "hub:initiative:edit"],
   },
   {
     permission: "hub:initiative:manage",
