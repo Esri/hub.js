@@ -9,6 +9,7 @@ export const SiteDefaultFeatures: IFeatureFlags = {
   "hub:site:discussions": false,
   "hub:site:feature:follow": true,
   "hub:site:feature:discussions": true,
+  "hub:feature:ai-assistant": false,
 };
 
 /**
