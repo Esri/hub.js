@@ -76,6 +76,12 @@ import { UserPermissionPolicies } from "../users/_internal/UserBusinessRules";
  */
 const SystemPermissionPolicies: IPermissionPolicy[] = [
   {
+    permission: "hub:feature:ai-assistant",
+    availability: ["alpha"],
+    flagValue: false, // default to not enabled; site must opt-in
+    entityConfigurable: true,
+  },
+  {
     permission: "hub:feature:privacy",
     // alpha does not do what we want here, it says "grant if the _logged in user_ is in an alpha org"
     // but what we really want is "grant if the _current site_ is in an alpha org" which we can't do

@@ -19,6 +19,7 @@ import { UserPermissions } from "../../users/_internal/UserBusinessRules";
  */
 
 const SystemPermissions = [
+  "hub:feature:ai-assistant",
   "hub:feature:privacy",
   "hub:feature:workspace",
   "hub:feature:user:preferences",
