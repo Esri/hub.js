@@ -1,3 +1,10 @@
+# @esri/hub-common [15.32.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.31.2...@esri/hub-common@15.32.0) (2025-02-13)
+
+
+### Features
+
+* add ai-assistant permission ([#1803](https://github.com/Esri/hub.js/issues/1803)) ([2144f67](https://github.com/Esri/hub.js/commit/2144f67bbbb2b4e4fe10ff79e3c369f38f37ccc9))
+
 ## @esri/hub-common [15.31.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.31.1...@esri/hub-common@15.31.2) (2025-02-12)
 
 
