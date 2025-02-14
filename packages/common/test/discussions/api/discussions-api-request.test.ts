@@ -261,7 +261,7 @@ describe("apiRequest", () => {
 
     const [calledUrl, calledOpts] = fetchMock.calls()[0];
     expect(calledUrl).toEqual(
-      "https://hub.arcgis.com/api/discussions/v1/posts/search"
+      "https://hub.arcgis.com/api/discussions/v2/posts/search"
     );
     expect(calledOpts).toEqual(expectedOpts);
   });
@@ -312,7 +312,7 @@ describe("apiRequest", () => {
 
     const [calledUrl, calledOpts] = fetchMock.calls()[0];
     expect(calledUrl).toEqual(
-      "https://hub.arcgis.com/api/discussions/v1/posts/search"
+      "https://hub.arcgis.com/api/discussions/v2/posts/search"
     );
     expect(calledOpts).toEqual(expectedOpts);
   });
