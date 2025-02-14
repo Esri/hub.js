@@ -69,8 +69,8 @@ describe("authenticateRequest", () => {
 describe("apiRequest", () => {
   const response = { ok: true };
 
-  const hubApiUrl = "https://hub.arcgis.com/api/discussions/v1";
   let url: string;
+  const hubApiUrl = "https://hub.arcgis.com/api/discussions/v2";
 
   let expectedOpts: RequestInit;
   let opts: IDiscussionsRequestOptions;
@@ -238,7 +238,7 @@ describe("apiRequest", () => {
 
     const [calledUrl, calledOpts] = fetchMock.calls()[0];
     expect(calledUrl).toEqual(
-      "https://hub.arcgis.com/api/discussions/v1/posts?f=csv"
+      "https://hub.arcgis.com/api/discussions/v2/posts?f=csv"
     );
     expect(calledOpts).toEqual(expectedOpts);
   });
@@ -261,7 +261,7 @@ describe("apiRequest", () => {
 
     const [calledUrl, calledOpts] = fetchMock.calls()[0];
     expect(calledUrl).toEqual(
-      "https://hub.arcgis.com/api/discussions/v1/posts/search"
+      "https://hub.arcgis.com/api/discussions/v2/posts/search"
     );
     expect(calledOpts).toEqual(expectedOpts);
   });
@@ -286,7 +286,7 @@ describe("apiRequest", () => {
 
     const [calledUrl, calledOpts] = fetchMock.calls()[0];
     expect(calledUrl).toEqual(
-      "https://hub.arcgis.com/api/discussions/v1/posts"
+      "https://hub.arcgis.com/api/discussions/v2/posts"
     );
     expect(calledOpts).toEqual(expectedOpts);
   });
@@ -312,7 +312,7 @@ describe("apiRequest", () => {
 
     const [calledUrl, calledOpts] = fetchMock.calls()[0];
     expect(calledUrl).toEqual(
-      "https://hub.arcgis.com/api/discussions/v1/posts/search"
+      "https://hub.arcgis.com/api/discussions/v2/posts/search"
     );
     expect(calledOpts).toEqual(expectedOpts);
   });

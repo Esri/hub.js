@@ -71,7 +71,7 @@ export function apiRequest<T>(
     // TODO: we _want_ to use getHubApiUrl(),
     // but have to deal w/ the fact that this package overwrites IHubRequestOptions
     host: options.hubApiUrl || "https://hub.arcgis.com",
-    path: "/api/discussions/v1",
+    path: "/api/discussions/v2",
   });
 
   if (options.data) {

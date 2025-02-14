@@ -38,7 +38,7 @@ import { getOrgThumbnailUrl } from "./resources/get-org-thumbnail-url";
 const hubApiEndpoints = {
   domains: "/api/v3/domains",
   search: "/api/v3/datasets",
-  discussions: "/api/discussions/v1",
+  discussions: "/api/discussions/v2",
   ogcRecords: "/api/search/v1",
 };
 
