@@ -485,6 +485,37 @@ export interface IPost
 }
 
 /**
+ * representation of v2 post from service
+ *
+ * @export
+ * @interface IPostV2
+ * @extends {IWithAuthor}
+ * @extends {IWithEditor}
+ * @extends {IWithTimestamps}
+ */
+export interface IPostV2
+  extends Partial<IWithAuthor>,
+    Partial<IWithEditor>,
+    IWithTimestamps {
+  id: string;
+  title: string | null;
+  body: string;
+  status: PostStatus;
+  appInfo: string | null; // this is a catch-all field for app-specific information about a post, added for Urban
+  discussion: string | null;
+  geometry: Geometry | null;
+  featureGeometry: Geometry | null;
+  postType: PostType;
+  channelId: string;
+  channel?: IChannelV2;
+  parentId: string | null;
+  parent?: IPostV2 | null;
+  replies?: IPostV2[] | IPagedResponse<IPostV2>;
+  replyCount?: number;
+  reactions?: IReaction[];
+}
+
+/**
  * base parameters for creating a post
  *
  * @export
@@ -954,6 +985,32 @@ export interface IChannel extends IWithAuthor, IWithEditor, IWithTimestamps {
   name: string | null;
   orgId: string;
   posts?: IPost[];
+  softDelete: boolean;
+}
+
+/**
+ * representation of V2 channel from service
+ *
+ * @export
+ * @interface IChannelV2
+ * @extends {IWithAuthor}
+ * @extends {IWithEditor}
+ * @extends {IWithTimestamps}
+ */
+export interface IChannelV2 extends IWithAuthor, IWithEditor, IWithTimestamps {
+  id: string;
+  allowAsAnonymous: boolean;
+  allowedReactions: PostReaction[] | null;
+  allowPost: boolean;
+  allowReaction: boolean;
+  allowReply: boolean;
+  blockWords: string[] | null;
+  channelAcl?: IChannelAclPermission[];
+  defaultPostStatus: PostStatus;
+  metadata: IChannelMetadata | null;
+  name: string | null;
+  orgId: string;
+  posts?: IPostV2[];
   softDelete: boolean;
 }
 
