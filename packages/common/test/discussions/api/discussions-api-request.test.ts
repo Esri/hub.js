@@ -1,4 +1,7 @@
-import { discussionsApiRequest } from "../../../src/discussions/api/discussions-api-request";
+import {
+  discussionsApiRequest,
+  discussionsApiRequestV2,
+} from "../../../src/discussions/api/discussions-api-request";
 import * as utils from "../../../src/discussions/api/utils/request";
 import * as fetchMock from "fetch-mock";
 import { IAuthenticationManager } from "@esri/arcgis-rest-request";
@@ -21,7 +24,31 @@ describe("discussionsApiRequest", () => {
     discussionsApiRequest(url, options as unknown as IDiscussionsRequestOptions)
       .then(() => {
         expect(authenticateRequestSpy).toHaveBeenCalledWith(options);
-        expect(apiRequestSpy).toHaveBeenCalledWith(url, options, token);
+        expect(apiRequestSpy).toHaveBeenCalledWith(url, options, "v1", token);
+        done();
+      })
+      .catch(() => fail());
+  });
+});
+
+describe("discussionsApiRequestV2", () => {
+  const url = "foo";
+  const options = { params: { foo: "bar" } };
+  it("resolves token before making api request", (done) => {
+    const token = "thisisatoken";
+    const authenticateRequestSpy = spyOn(
+      utils,
+      "authenticateRequest"
+    ).and.callFake(async () => token);
+    const apiRequestSpy = spyOn(utils, "apiRequest");
+
+    discussionsApiRequestV2(
+      url,
+      options as unknown as IDiscussionsRequestOptions
+    )
+      .then(() => {
+        expect(authenticateRequestSpy).toHaveBeenCalledWith(options);
+        expect(apiRequestSpy).toHaveBeenCalledWith(url, options, "v2", token);
         done();
       })
       .catch(() => fail());
@@ -69,7 +96,8 @@ describe("authenticateRequest", () => {
 describe("apiRequest", () => {
   const response = { ok: true };
 
-  const hubApiUrl = "https://hub.arcgis.com/api/discussions/v1";
+  const hubApiUrlV2 = "https://hub.arcgis.com/api/discussions/v2";
+  const hubApiUrlV1 = "https://hub.arcgis.com/api/discussions/v1";
   let url: string;
 
   let expectedOpts: RequestInit;
@@ -89,7 +117,7 @@ describe("apiRequest", () => {
       credentials: undefined,
     } as RequestInit;
 
-    opts = { hubApiUrl } as IDiscussionsRequestOptions;
+    opts = { hubApiUrlV2 } as IDiscussionsRequestOptions;
   });
 
   afterEach(fetchMock.restore);
@@ -100,22 +128,22 @@ describe("apiRequest", () => {
     fetchMock.reset();
     fetchMock.mock("*", { status, body: { message } });
 
-    utils.apiRequest(url, opts).catch((e) => {
+    utils.apiRequest(url, opts, "v2").catch((e) => {
       expect(e.message).toBe("Bad Request");
       expect(e.status).toBe(status);
-      expect(e.url).toBe(`${hubApiUrl}/${url}`);
+      expect(e.url).toBe(`${hubApiUrlV2}/${url}`);
       expect(e.error).toBe(JSON.stringify(message));
       done();
     });
   });
 
   it("appends headers to request options", async () => {
-    const result = await utils.apiRequest(url, opts);
+    const result = await utils.apiRequest(url, opts, "v2");
 
     expect(result).toEqual(response);
 
     const [calledUrl, calledOpts] = fetchMock.calls()[0];
-    expect(calledUrl).toEqual([hubApiUrl, url].join("/"));
+    expect(calledUrl).toEqual([hubApiUrlV2, url].join("/"));
     expect(calledOpts).toEqual(expectedOpts);
   });
 
@@ -126,22 +154,26 @@ describe("apiRequest", () => {
       ...expectedOpts,
       headers: expectedHeaders,
     };
-    const result = await utils.apiRequest(url, {
-      ...opts,
-      headers: { "mention-url": "https://some.hub.arcgis.com" },
-    });
+    const result = await utils.apiRequest(
+      url,
+      {
+        ...opts,
+        headers: { "mention-url": "https://some.hub.arcgis.com" },
+      },
+      "v2"
+    );
 
     expect(result).toEqual(response);
 
     const [calledUrl, calledOpts] = fetchMock.calls()[0];
-    expect(calledUrl).toEqual([hubApiUrl, url].join("/"));
+    expect(calledUrl).toEqual([hubApiUrlV2, url].join("/"));
     expect(calledOpts).toEqual(expectedOpts);
   });
 
   it(`appends token header to request options if supplied`, async () => {
     const token = "bar";
 
-    const result = await utils.apiRequest(url, opts, token);
+    const result = await utils.apiRequest(url, opts, "v2", token);
 
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
@@ -151,7 +183,7 @@ describe("apiRequest", () => {
     expect(result).toEqual(response);
 
     const [calledUrl, calledOpts] = fetchMock.calls()[0];
-    expect(calledUrl).toEqual([hubApiUrl, url].join("/"));
+    expect(calledUrl).toEqual([hubApiUrlV2, url].join("/"));
     expect(calledOpts).toEqual(expectedOpts);
   });
 
@@ -163,12 +195,13 @@ describe("apiRequest", () => {
 
     const result = await utils.apiRequest(
       url,
-      options as IDiscussionsRequestOptions
+      options as IDiscussionsRequestOptions,
+      "v2"
     );
 
     expect(result).toEqual(response);
     const queryParams = new URLSearchParams(query).toString();
-    const baseUrl = [hubApiUrl, url].join("/");
+    const baseUrl = [hubApiUrlV2, url].join("/");
 
     const [calledUrl, calledOpts] = fetchMock.calls()[0];
     expect(calledUrl).toEqual(baseUrl + `?${queryParams}`);
@@ -183,7 +216,8 @@ describe("apiRequest", () => {
 
     const result = await utils.apiRequest(
       url,
-      options as IDiscussionsRequestOptions
+      options as IDiscussionsRequestOptions,
+      "v2"
     );
 
     expectedOpts.method = "POST";
@@ -192,35 +226,52 @@ describe("apiRequest", () => {
     expect(result).toEqual(response);
 
     const [calledUrl, calledOpts] = fetchMock.calls()[0];
-    expect(calledUrl).toEqual([hubApiUrl, url].join("/"));
+    expect(calledUrl).toEqual([hubApiUrlV2, url].join("/"));
     expect(calledOpts).toEqual(expectedOpts);
   });
 
   it(`cleans up baseUrl and endpoint`, async () => {
-    const options = { ...opts, hubApiUrl: `${hubApiUrl}/` };
+    const options = { ...opts, hubApiUrlV2: `${hubApiUrlV2}/` };
     const result = await utils.apiRequest(
       `/${url}`,
-      options as IDiscussionsRequestOptions
+      options as IDiscussionsRequestOptions,
+      "v2"
     );
 
     expect(result).toEqual(response);
 
     const [calledUrl, calledOpts] = fetchMock.calls()[0];
-    expect(calledUrl).toEqual([hubApiUrl, url].join("/"));
+    expect(calledUrl).toEqual([hubApiUrlV2, url].join("/"));
     expect(calledOpts).toEqual(expectedOpts);
   });
 
-  it(`uses default hubApiUrl if none provided`, async () => {
+  it(`uses default hubApiUrlV2 if none provided`, async () => {
     const options = {};
     const result = await utils.apiRequest(
       url,
-      options as IDiscussionsRequestOptions
+      options as IDiscussionsRequestOptions,
+      "v2"
     );
 
     expect(result).toEqual(response);
 
     const [calledUrl, calledOpts] = fetchMock.calls()[0];
-    expect(calledUrl).toEqual([hubApiUrl, url].join("/"));
+    expect(calledUrl).toEqual([hubApiUrlV2, url].join("/"));
+    expect(calledOpts).toEqual(expectedOpts);
+  });
+
+  it(`modifies url for v1 passed in`, async () => {
+    const options = {};
+    const result = await utils.apiRequest(
+      url,
+      options as IDiscussionsRequestOptions,
+      "v1"
+    );
+
+    expect(result).toEqual(response);
+
+    const [calledUrl, calledOpts] = fetchMock.calls()[0];
+    expect(calledUrl).toEqual([hubApiUrlV1, url].join("/"));
     expect(calledOpts).toEqual(expectedOpts);
   });
 
@@ -232,13 +283,13 @@ describe("apiRequest", () => {
       },
       httpMethod: "GET",
     } as IDiscussionsRequestOptions;
-    const result = await utils.apiRequest(url, options);
+    const result = await utils.apiRequest(url, options, "v2");
 
     expect(result).toEqual(JSON.stringify(response));
 
     const [calledUrl, calledOpts] = fetchMock.calls()[0];
     expect(calledUrl).toEqual(
-      "https://hub.arcgis.com/api/discussions/v1/posts?f=csv"
+      "https://hub.arcgis.com/api/discussions/v2/posts?f=csv"
     );
     expect(calledOpts).toEqual(expectedOpts);
   });
@@ -255,13 +306,13 @@ describe("apiRequest", () => {
     expectedOpts.body = JSON.stringify({
       f: SearchPostsFormat.CSV,
     });
-    const result = await utils.apiRequest(url, options);
+    const result = await utils.apiRequest(url, options, "v2");
 
     expect(result).toEqual(JSON.stringify(response));
 
     const [calledUrl, calledOpts] = fetchMock.calls()[0];
     expect(calledUrl).toEqual(
-      "https://hub.arcgis.com/api/discussions/v1/posts/search"
+      "https://hub.arcgis.com/api/discussions/v2/posts/search"
     );
     expect(calledOpts).toEqual(expectedOpts);
   });
@@ -274,7 +325,7 @@ describe("apiRequest", () => {
       },
       httpMethod: "GET",
     } as IDiscussionsRequestOptions;
-    const result = await utils.apiRequest(url, options);
+    const result = await utils.apiRequest(url, options, "v2");
     const expectedHeaders = new Headers(expectedOpts.headers);
     expectedHeaders.set("accept", "text/csv");
     expectedOpts = {
@@ -286,7 +337,7 @@ describe("apiRequest", () => {
 
     const [calledUrl, calledOpts] = fetchMock.calls()[0];
     expect(calledUrl).toEqual(
-      "https://hub.arcgis.com/api/discussions/v1/posts"
+      "https://hub.arcgis.com/api/discussions/v2/posts"
     );
     expect(calledOpts).toEqual(expectedOpts);
   });
@@ -300,7 +351,7 @@ describe("apiRequest", () => {
       httpMethod: "POST",
     } as IDiscussionsRequestOptions;
     expectedOpts.method = "POST";
-    const result = await utils.apiRequest(url, options);
+    const result = await utils.apiRequest(url, options, "v2");
     const expectedHeaders = new Headers(expectedOpts.headers);
     expectedHeaders.set("accept", "text/csv");
     expectedOpts = {
@@ -312,7 +363,7 @@ describe("apiRequest", () => {
 
     const [calledUrl, calledOpts] = fetchMock.calls()[0];
     expect(calledUrl).toEqual(
-      "https://hub.arcgis.com/api/discussions/v1/posts/search"
+      "https://hub.arcgis.com/api/discussions/v2/posts/search"
     );
     expect(calledOpts).toEqual(expectedOpts);
   });
