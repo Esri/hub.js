@@ -1,6 +1,10 @@
 import { IChannel, IUpdateChannel } from "@esri/hub-common";
 
 // TODO: V2 use IUpdateChannel as param type when hoisted to hub.js from service
+/**
+ * @hidden
+ * @internal
+ */
 export function dtoToChannel(dto: any): IChannel {
   const { channelAclDefinition, ...rest } = dto;
 

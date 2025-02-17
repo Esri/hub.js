@@ -8,6 +8,7 @@ import { IChannel, IPagedResponse, ISearchChannelsParams } from "../types";
  * Search for Channels in the Discussions API.  Channels define the capabilities,
  * permissions, and configuration for Discussion posts.
  *
+ * @deprecated replace with searchChannelsV2 for v2 discussions
  * @export
  * @param {ISearchChannelsParams} options
  * @return {*}  {Promise<IPagedResponse<IChannel>>}
