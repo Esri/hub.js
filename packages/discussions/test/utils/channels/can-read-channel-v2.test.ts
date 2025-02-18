@@ -86,5 +86,23 @@ describe("canReadChannelV2", () => {
       const [arg] = canReadChannelSpy.calls.allArgs()[0]; // arg for 1st call
       expect(arg).toBe(user);
     });
+
+    it("return false if user is undefined", () => {
+      hasOrgAdminViewRightsSpy.and.callFake(() => false);
+      canReadChannelSpy.and.callFake(() => false);
+
+      const user = undefined as IDiscussionsUser;
+      const channel = {
+        channelAcl: [
+          { category: AclCategory.ANONYMOUS_USER, role: Role.WRITE },
+        ],
+      } as IChannelV2;
+
+      expect(canReadChannelV2(channel, user)).toBe(false);
+
+      expect(canReadChannelSpy.calls.count()).toBe(1);
+      const [arg] = canReadChannelSpy.calls.allArgs()[0]; // arg for 1st call
+      expect(arg).toEqual({});
+    });
   });
 });

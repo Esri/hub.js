@@ -425,6 +425,17 @@ describe("canEditPostStatus", () => {
       expect(canEditPostStatus(channel, user)).toBe(true);
     });
 
+    it("returns true if the user is org_admin and the channel org is in the user orgs", () => {
+      const user = {
+        username: "john",
+        orgId: "aaa",
+        role: "org_admin",
+      } as IDiscussionsUser;
+      const channel = { orgId: "aaa" } as IChannel;
+
+      expect(canEditPostStatus(channel, user)).toBe(true);
+    });
+
     describe("public channel", () => {
       it("returns true if the user is an admin of one of the channel groups", () => {
         const user = {

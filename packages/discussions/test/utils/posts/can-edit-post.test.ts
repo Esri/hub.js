@@ -88,6 +88,18 @@ describe("canModifyPost", () => {
         const result = canModifyPost(post, user, channel);
         expect(result).toBe(false);
       });
+
+      it("returns false if user is undefined", () => {
+        const post = { id: "postId", creator: "john" } as IPost;
+        const user = undefined as IDiscussionsUser;
+        const channel = {
+          allowPost: true,
+          access: SharingAccess.PRIVATE,
+        } as IChannel;
+
+        const result = canModifyPost(post, user, channel);
+        expect(result).toBe(false);
+      });
     });
 
     describe("org channel", () => {
@@ -258,6 +270,17 @@ describe("canEditPost", () => {
         const user = {
           username: "john",
         } as IDiscussionsUser;
+        const channel = {
+          access: SharingAccess.PRIVATE,
+        } as IChannel;
+
+        const result = canEditPost(post, user, channel);
+        expect(result).toBe(false);
+      });
+
+      it("returns false if user is undefined", () => {
+        const post = { id: "postId", creator: "john" } as IPost;
+        const user = undefined as IDiscussionsUser;
         const channel = {
           access: SharingAccess.PRIVATE,
         } as IChannel;

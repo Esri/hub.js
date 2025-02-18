@@ -35,7 +35,7 @@ describe("canCreatePost", () => {
   describe("with legacy permissions", () => {
     it("returns false if undefined user attempts to create post in public allowAnonymous === true channel", () => {
       hasOrgAdminUpdateRightsSpy.and.callFake(() => false);
-      const user: IDiscussionsUser = { username: null };
+      const user: IDiscussionsUser = undefined;
       const channel = {
         allowPost: true,
         allowAnonymous: true,

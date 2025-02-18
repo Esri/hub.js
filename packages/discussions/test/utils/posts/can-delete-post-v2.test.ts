@@ -120,4 +120,28 @@ describe("canDeletePostV2", () => {
     expect(canModerateChannelSpy).toHaveBeenCalledTimes(1);
     expect(canModerateChannelSpy).toHaveBeenCalledWith(user);
   });
+
+  it("returns false when user is undefined", () => {
+    hasOrgAdminUpdateRightsSpy.and.callFake(() => false);
+    canModerateChannelSpy.and.returnValue(false);
+
+    const post = { id: "post1", creator: "user1" } as IPost;
+    const user = undefined as IUser;
+    const channel = {
+      id: "channel1",
+      channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
+      orgId: "aaa",
+    } as IChannelV2;
+
+    const result = canDeletePostV2(post, channel, user);
+    expect(result).toBe(false);
+
+    expect(hasOrgAdminUpdateRightsSpy.calls.count()).toBe(1);
+    const [arg1, arg2] = hasOrgAdminUpdateRightsSpy.calls.allArgs()[0]; // args for 1st call
+    expect(arg1).toEqual({});
+    expect(arg2).toBe(channel.orgId);
+
+    expect(canModerateChannelSpy).toHaveBeenCalledTimes(1);
+    expect(canModerateChannelSpy).toHaveBeenCalledWith({});
+  });
 });

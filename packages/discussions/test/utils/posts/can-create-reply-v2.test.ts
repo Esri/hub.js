@@ -99,6 +99,25 @@ describe("canCreateReplyV2", () => {
       expect(arg).toBe(user);
     });
 
+    it("return false if user is undefined", () => {
+      hasOrgAdminUpdateRightsSpy.and.callFake(() => false);
+      canPostToChannelSpy.and.callFake(() => false);
+
+      const user = undefined as IDiscussionsUser;
+      const channel = {
+        allowReply: true,
+        channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
+      } as IChannelV2;
+
+      expect(canCreateReplyV2(channel, user)).toBe(false);
+
+      expect(hasOrgAdminUpdateRightsSpy.calls.count()).toBe(1);
+
+      expect(canPostToChannelSpy.calls.count()).toBe(1);
+      const [arg] = canPostToChannelSpy.calls.allArgs()[0]; // arg for 1st call
+      expect(arg).toEqual({});
+    });
+
     it("return false if channel.allowReply is false", () => {
       hasOrgAdminUpdateRightsSpy.and.callFake(() => false);
       canPostToChannelSpy.and.callFake(() => true);

@@ -104,7 +104,7 @@ describe("canDeleteChannelV2", () => {
         creator: "john",
       } as IChannelV2;
 
-      expect(canDeleteChannelV2(channel, undefined)).toBe(false);
+      expect(canDeleteChannelV2(channel, user)).toBe(false);
 
       expect(canModerateChannelSpy.calls.count()).toBe(1);
       const [arg1] = canModerateChannelSpy.calls.allArgs()[0]; // args for 1st call

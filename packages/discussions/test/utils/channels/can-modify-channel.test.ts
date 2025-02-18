@@ -65,5 +65,23 @@ describe("canModifyChannel", () => {
       expect(arg1).toBe(user);
       expect(arg2).toBe(channel);
     });
+
+    it("returns false if user is undefined", () => {
+      isAuthorizedToModifyChannelByLegacyPermissionsSpy.and.callFake(
+        () => false
+      );
+      const user = undefined as IDiscussionsUser;
+      const channel = { access: SharingAccess.PUBLIC } as IChannel;
+
+      expect(canModifyChannel(channel, user)).toBe(false);
+
+      expect(
+        isAuthorizedToModifyChannelByLegacyPermissionsSpy.calls.count()
+      ).toBe(1);
+      const [arg1, arg2] =
+        isAuthorizedToModifyChannelByLegacyPermissionsSpy.calls.allArgs()[0]; // args for 1st call
+      expect(arg1).toEqual({});
+      expect(arg2).toBe(channel);
+    });
   });
 });

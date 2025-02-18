@@ -140,5 +140,26 @@ describe("canEditChannelV2", () => {
       expect(updateArg1).toEqual(user);
       expect(updateArg2).toEqual(updateData);
     });
+
+    it("return false if user is undefined", () => {
+      hasOrgAdminUpdateRightsSpy.and.callFake(() => false);
+      canModerateChannelSpy.and.callFake(() => false);
+      canUpdatePropertiesSpy.and.callFake(() => false);
+
+      const user = undefined as IDiscussionsUser;
+      const channel = {
+        channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
+        creator: "john",
+      } as IChannelV2;
+      const updateData = { allowPost: false } as IUpdateChannelV2;
+
+      expect(canEditChannelV2(channel, user, updateData)).toBe(false);
+
+      expect(canModerateChannelSpy.calls.count()).toBe(1);
+      const [arg1] = canModerateChannelSpy.calls.allArgs()[0]; // args for 1st call
+      expect(arg1).toEqual({});
+
+      expect(canUpdatePropertiesSpy.calls.count()).toBe(0);
+    });
   });
 });

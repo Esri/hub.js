@@ -50,6 +50,29 @@ describe("canEditPostStatusV2", () => {
       expect(canModerateChannelSpy.calls.count()).toBe(0);
     });
 
+    it("return false if user is undefined", () => {
+      hasOrgAdminUpdateRightsSpy.and.callFake(() => false);
+      canModerateChannelSpy.and.callFake(() => false);
+
+      const user = undefined as IDiscussionsUser;
+      const channel = {
+        channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
+        creator: "john",
+        orgId: "aaa",
+      } as IChannelV2;
+
+      expect(canEditPostStatusV2(channel, user)).toBe(false);
+
+      expect(hasOrgAdminUpdateRightsSpy.calls.count()).toBe(1);
+      const [arg1, arg2] = hasOrgAdminUpdateRightsSpy.calls.allArgs()[0]; // args for 1st call
+      expect(arg1).toEqual({});
+      expect(arg2).toBe(channel.orgId);
+
+      expect(canModerateChannelSpy.calls.count()).toBe(1);
+      const [canModerateArg1] = canModerateChannelSpy.calls.allArgs()[0]; // args for 1st call
+      expect(canModerateArg1).toEqual({});
+    });
+
     it("return true if channelPermission.canEditPostStatus is true", () => {
       hasOrgAdminUpdateRightsSpy.and.callFake(() => false);
       canModerateChannelSpy.and.callFake(() => true);
