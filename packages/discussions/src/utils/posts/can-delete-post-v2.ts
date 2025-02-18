@@ -1,20 +1,19 @@
 import { IUser } from "@esri/arcgis-rest-types";
-import { IChannel, IDiscussionsUser, IPost } from "../../types";
+import { IChannelV2, IDiscussionsUser, IPost } from "../../types";
 import { ChannelPermission } from "../channel-permission";
 import { hasOrgAdminUpdateRights } from "../portal-privilege";
 
 /**
  * Utility to determine if User has privileges to delete a post
- * @deprecated replace with canDeletePostV2 for v2 discussions
  * @export
  * @param post
  * @param user
  * @param channel
  * @returns {boolean}
  */
-export function canDeletePost(
+export function canDeletePostV2(
   post: IPost,
-  channel: IChannel,
+  channel: IChannelV2,
   user: IUser | IDiscussionsUser = {}
 ): boolean {
   return isPostCreator(post, user) || isChannelModerator(channel, user);
@@ -25,15 +24,11 @@ function isPostCreator(post: IPost, user: IUser | IDiscussionsUser) {
 }
 
 function isChannelModerator(
-  channel: IChannel,
+  channel: IChannelV2,
   user: IUser | IDiscussionsUser
 ): boolean {
   if (hasOrgAdminUpdateRights(user, channel.orgId)) {
     return true;
-  }
-
-  if (!channel.channelAcl) {
-    return false;
   }
 
   const channelPermission = new ChannelPermission(channel);

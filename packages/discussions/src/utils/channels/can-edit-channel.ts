@@ -6,29 +6,18 @@ import { hasOrgAdminUpdateRights } from "../portal-privilege";
 
 /**
  * Utility to determine if User has privileges to edit a channel
+ * @export
+ * @deprecated replace with canEditChannelV2 for v2 discussions
  * @param channel
  * @param user
- * @param updateData - !!! only include for API V2 updates
  * @returns {boolean}
  */
 export function canEditChannel(
   channel: IChannel,
-  user: IUser | IDiscussionsUser = {},
-  updateData?: IUpdateChannel // !!! only include for API V2 updates
+  user: IUser | IDiscussionsUser = {}
 ): boolean {
   if (hasOrgAdminUpdateRights(user, channel.orgId)) {
     return true;
-  }
-
-  if (channel.channelAcl) {
-    const channelPermission = new ChannelPermission(channel);
-    return (
-      channelPermission.canModerateChannel(user as IDiscussionsUser) &&
-      channelPermission.canUpdateProperties(
-        user as IDiscussionsUser,
-        updateData
-      )
-    );
   }
 
   return isAuthorizedToModifyChannelByLegacyPermissions(user, channel);

@@ -1,13 +1,5 @@
 import { IGroup } from "@esri/arcgis-rest-types";
-import {
-  AclCategory,
-  AclSubCategory,
-  IChannel,
-  IDiscussionsUser,
-  Role,
-  SharingAccess,
-} from "../../../src/types";
-import { ChannelPermission } from "../../../src/utils/channel-permission";
+import { IChannel, IDiscussionsUser, SharingAccess } from "../../../src/types";
 import { canCreateChannel } from "../../../src/utils/channels";
 import { CANNOT_DISCUSS } from "../../../src/utils/constants";
 
@@ -35,82 +27,7 @@ function buildGroup(id: string, memberType: string, typeKeywords?: string[]) {
   } as any as IGroup;
 }
 
-function buildCompleteAcl() {
-  return [
-    { category: AclCategory.ANONYMOUS_USER, role: Role.READ },
-    { category: AclCategory.AUTHENTICATED_USER, role: Role.READ },
-    {
-      category: AclCategory.GROUP,
-      subCategory: AclSubCategory.ADMIN,
-      key: groupId1,
-      role: Role.OWNER,
-    },
-    {
-      category: AclCategory.GROUP,
-      subCategory: AclSubCategory.MEMBER,
-      key: groupId2,
-      role: Role.READ,
-    },
-    {
-      category: AclCategory.ORG,
-      subCategory: AclSubCategory.ADMIN,
-      key: orgId1,
-      role: Role.OWNER,
-    },
-    {
-      category: AclCategory.ORG,
-      subCategory: AclSubCategory.MEMBER,
-      key: orgId1,
-      role: Role.READ,
-    },
-    // this permission currently disabled on channel create
-    // { category: AclCategory.USER, key: 'bob', role: Role.READ },
-  ];
-}
-
 describe("canCreateChannel", () => {
-  describe("with channelAcl", () => {
-    let canCreateChannelSpy: jasmine.Spy;
-
-    beforeAll(() => {
-      canCreateChannelSpy = spyOn(
-        ChannelPermission.prototype,
-        "canCreateChannel"
-      );
-    });
-
-    beforeEach(() => {
-      canCreateChannelSpy.calls.reset();
-    });
-
-    it("return true if channelPermission.canCreateChannel is true", () => {
-      canCreateChannelSpy.and.callFake(() => true);
-
-      const user = buildUser();
-      const channel = {
-        channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
-      } as IChannel;
-
-      expect(canCreateChannel(channel, user)).toBe(true);
-
-      expect(canCreateChannelSpy.calls.count()).toBe(1);
-      const [arg] = canCreateChannelSpy.calls.allArgs()[0]; // arg for 1st call
-      expect(arg).toBe(user);
-    });
-
-    it("return false if channelPermission.canCreateChannel is false", () => {
-      canCreateChannelSpy.and.callFake(() => false);
-
-      const user = buildUser();
-      const channel = {
-        channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
-      } as IChannel;
-
-      expect(canCreateChannel(channel, user)).toBe(false);
-
-      expect(canCreateChannelSpy.calls.count()).toBe(1);
-    });
-  });
   describe("With Legacy Permissions", () => {
     it("returns false if user not authenticated", () => {
       const channel = {

@@ -5,6 +5,7 @@ import {
   IChannel,
   IChannelAclPermission,
   IChannelAclPermissionDefinition,
+  IChannelV2,
   IDiscussionsUser,
   IUpdateChannel,
   Role,
@@ -55,12 +56,10 @@ const CHANNEL_ACTION_PRIVS: Record<string, Role[]> = {
 export class ChannelPermission {
   private readonly ALLOWED_GROUP_MEMBER_TYPES = ["owner", "admin", "member"];
   private isChannelAclEmpty: boolean;
-  private existingChannel: IChannel;
+  private existingChannel: IChannel | IChannelV2;
   private permissionsByCategory: PermissionsByAclCategoryMap;
-  private channelCreator: string;
-  private channelOrgId: string;
 
-  constructor(channel: IChannel) {
+  constructor(channel: IChannel | IChannelV2) {
     if (channel.channelAcl === undefined) {
       throw new Error(
         "channel.channelAcl is required for ChannelPermission checks"
@@ -69,8 +68,6 @@ export class ChannelPermission {
     this.existingChannel = channel;
     this.isChannelAclEmpty = channel.channelAcl.length === 0;
     this.permissionsByCategory = {};
-    this.channelCreator = channel.creator;
-    this.channelOrgId = channel.orgId;
 
     channel.channelAcl.forEach((permission) => {
       const { category } = permission;
@@ -116,7 +113,6 @@ export class ChannelPermission {
     }
 
     return (
-      user.username === this.channelCreator ||
       this.canSomeUser(ChannelAction.MODERATE_CHANNEL, user) ||
       this.canSomeUserGroup(ChannelAction.MODERATE_CHANNEL, user) ||
       this.canSomeUserOrg(ChannelAction.MODERATE_CHANNEL, user)
