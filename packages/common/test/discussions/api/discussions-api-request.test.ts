@@ -230,8 +230,8 @@ describe("apiRequest", () => {
     expect(calledOpts).toEqual(expectedOpts);
   });
 
-  it(`cleans up baseUrl and endpoint`, async () => {
-    const options = { ...opts, hubApiUrlV2: `${hubApiUrlV2}/` };
+  it(`cleans up baseUrl and endpoint (for V2)`, async () => {
+    const options = { ...opts, hubApiUrl: `${hubApiUrlV2}/` };
     const result = await utils.apiRequest(
       `/${url}`,
       options as IDiscussionsRequestOptions,
@@ -245,7 +245,22 @@ describe("apiRequest", () => {
     expect(calledOpts).toEqual(expectedOpts);
   });
 
-  it(`uses default hubApiUrlV2 if none provided`, async () => {
+  it(`cleans up baseUrl and endpoint (for V1)`, async () => {
+    const options = { ...opts, hubApiUrl: `${hubApiUrlV1}/` };
+    const result = await utils.apiRequest(
+      `/${url}`,
+      options as IDiscussionsRequestOptions,
+      "v1"
+    );
+
+    expect(result).toEqual(response);
+
+    const [calledUrl, calledOpts] = fetchMock.calls()[0];
+    expect(calledUrl).toEqual([hubApiUrlV1, url].join("/"));
+    expect(calledOpts).toEqual(expectedOpts);
+  });
+
+  it(`uses default hubApiUrlV2 (for v2) if none provided`, async () => {
     const options = {};
     const result = await utils.apiRequest(
       url,
@@ -257,6 +272,21 @@ describe("apiRequest", () => {
 
     const [calledUrl, calledOpts] = fetchMock.calls()[0];
     expect(calledUrl).toEqual([hubApiUrlV2, url].join("/"));
+    expect(calledOpts).toEqual(expectedOpts);
+  });
+
+  it(`uses default hubApiUrl (for v1) if none provided`, async () => {
+    const options = {};
+    const result = await utils.apiRequest(
+      url,
+      options as IDiscussionsRequestOptions,
+      "v1"
+    );
+
+    expect(result).toEqual(response);
+
+    const [calledUrl, calledOpts] = fetchMock.calls()[0];
+    expect(calledUrl).toEqual([hubApiUrlV1, url].join("/"));
     expect(calledOpts).toEqual(expectedOpts);
   });
 
