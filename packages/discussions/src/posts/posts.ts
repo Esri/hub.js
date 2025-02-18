@@ -223,7 +223,7 @@ export function exportPostsV2(options: IExportPostsParams): Promise<string> {
  *
  * @export
  * @param {ICreatePostParamsV2} options
- * @return {*}  {Promise<IPost>}
+ * @return {*}  {Promise<IPostV2>}
  */
 export function createPostV2(options: ICreatePostParamsV2): Promise<IPostV2> {
   const url = `/posts`;

@@ -14,7 +14,7 @@ type ILegacyChannelPermissions = Pick<
 // NO V2 EQUIVALENT. Use canCreatePostV2 or canCreateReplyV2
 /**
  * Utility to determine if User has privileges to create a post in a channel
- * @deprecated use `canCreatePost` or 'canCreateReply` instead
+ * @deprecated use `canCreatePostV2` or 'canCreateReplyV2` instead
  * @export
  * @param channel
  * @param user

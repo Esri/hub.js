@@ -7,7 +7,7 @@ import { isAuthorizedToModifyChannelByLegacyPermissions } from "./is-authorized-
 // NO V2 EQUIVALENT. Use canEditChannelV2 or canDeleteChannelV2
 /**
  * Utility to determine if User has privileges to modify a channel
- * @deprecated use `canEditChannel` or `canDeleteChannel` instead.
+ * @deprecated use `canEditChannelV2` or `canDeleteChannelV2` instead.
  * @export
  * @param channel
  * @param user
