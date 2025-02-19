@@ -2,12 +2,7 @@ import {
   discussionsApiRequest,
   discussionsApiRequestV2,
 } from "../discussions-api-request";
-import {
-  IChannel,
-  IChannelV2,
-  IPagedResponse,
-  ISearchChannelsParams,
-} from "../types";
+import { IChannel, IPagedResponse, ISearchChannelsParams } from "../types";
 
 /**
  * Search for Channels in the Discussions API.  Channels define the capabilities,
@@ -30,11 +25,11 @@ export function searchChannels(
  *
  * @export
  * @param {ISearchChannelsParams} options
- * @return {*}  {Promise<IPagedResponse<IChannelV2>>}
+ * @return {*}  {Promise<IPagedResponse<IChannel>>}
  */
 export function searchChannelsV2(
   options: ISearchChannelsParams
-): Promise<IPagedResponse<IChannelV2>> {
+): Promise<IPagedResponse<IChannel>> {
   options.httpMethod = "GET";
   return discussionsApiRequestV2(`/channels`, options);
 }
