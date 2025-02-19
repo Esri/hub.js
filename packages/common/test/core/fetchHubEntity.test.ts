@@ -30,6 +30,17 @@ describe("fetchHubEntity:", () => {
     await fetchHubEntity("site", "123", ctx);
     expect(spy).toHaveBeenCalledWith("123", "fakeRequestOptions");
   });
+  it("fetches organization", async () => {
+    const ctx = {
+      requestOptions: "fakeRequestOptions",
+    } as unknown as IArcGISContext;
+    const spy = spyOn(
+      require("../../src/org/HubOrganizations"),
+      "fetchOrganization"
+    ).and.returnValue(Promise.resolve({}));
+    await fetchHubEntity("organization", "123", ctx);
+    expect(spy).toHaveBeenCalledWith("123", "fakeRequestOptions");
+  });
   it("fetches initiative", async () => {
     const ctx = {
       requestOptions: "fakeRequestOptions",

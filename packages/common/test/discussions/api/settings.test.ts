@@ -207,9 +207,9 @@ describe("settings", () => {
 
     it("throws error if entity type not valid", () => {
       try {
-        getDefaultEntitySettings("org");
+        getDefaultEntitySettings("site");
       } catch (e) {
-        expect(e.message).toBe("no default entity settings defined for org");
+        expect(e.message).toBe("no default entity settings defined for site");
       }
     });
   });

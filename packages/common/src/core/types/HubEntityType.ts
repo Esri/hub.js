@@ -5,7 +5,8 @@ export const HUB_ENTITY_TYPES = [
   "group",
   "initiative",
   "initiativeTemplate",
-  "org",
+  // "org", // TODO: Remove at breaking change
+  "organization",
   "page",
   "project",
   "site",

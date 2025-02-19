@@ -13,6 +13,7 @@ import { fetchInitiativeTemplate } from "../initiative-templates/fetch";
 import { fetchSurvey } from "../surveys/fetch";
 import { fetchEvent } from "../events/fetch";
 import { convertUserToHubUser, fetchHubUser } from "../users";
+import { fetchOrganization } from "../org/HubOrganizations";
 
 /**
  * Fetch a Hub entity by identifier (id or slug)
@@ -57,6 +58,9 @@ export async function fetchHubEntity(
       break;
     case "event":
       result = await fetchEvent(identifier, context.hubRequestOptions);
+      break;
+    case "organization":
+      result = await fetchOrganization(identifier, context.requestOptions);
       break;
     case "initiativeTemplate":
       result = await fetchInitiativeTemplate(
