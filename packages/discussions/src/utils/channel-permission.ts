@@ -5,7 +5,6 @@ import {
   IChannel,
   IChannelAclPermission,
   IChannelAclPermissionDefinition,
-  IChannelV2,
   IDiscussionsUser,
   IUpdateChannel,
   Role,
@@ -56,10 +55,10 @@ const CHANNEL_ACTION_PRIVS: Record<string, Role[]> = {
 export class ChannelPermission {
   private readonly ALLOWED_GROUP_MEMBER_TYPES = ["owner", "admin", "member"];
   private isChannelAclEmpty: boolean;
-  private existingChannel: IChannel | IChannelV2;
+  private existingChannel: IChannel | IChannel;
   private permissionsByCategory: PermissionsByAclCategoryMap;
 
-  constructor(channel: IChannel | IChannelV2) {
+  constructor(channel: IChannel | IChannel) {
     if (channel.channelAcl === undefined) {
       throw new Error(
         "channel.channelAcl is required for ChannelPermission checks"

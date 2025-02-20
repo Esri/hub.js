@@ -1,7 +1,7 @@
 import { IGroup, IUser } from "@esri/arcgis-rest-types";
 import {
   AclCategory,
-  IChannelV2,
+  IChannel,
   IDiscussionsUser,
   IUpdateChannelV2,
   Role,
@@ -40,7 +40,7 @@ describe("canEditChannelV2", () => {
     it("return true if hasOrgAdminUpdateRights returns true", () => {
       hasOrgAdminUpdateRightsSpy.and.callFake(() => true);
       const user = {} as IDiscussionsUser;
-      const channel = { orgId: "aaa" } as IChannelV2;
+      const channel = { orgId: "aaa" } as IChannel;
       const updateData = { allowPost: false } as IUpdateChannelV2;
 
       expect(canEditChannelV2(channel, user, updateData)).toBe(true);
@@ -62,7 +62,7 @@ describe("canEditChannelV2", () => {
       const user = {} as IDiscussionsUser;
       const channel = {
         channelAcl: undefined,
-      } as IChannelV2;
+      } as IChannel;
       const updateData = { allowPost: false } as IUpdateChannelV2;
 
       expect(() => canEditChannelV2(channel, user, updateData)).toThrow(
@@ -79,7 +79,7 @@ describe("canEditChannelV2", () => {
       const channel = {
         channelAcl: [{ category: AclCategory.GROUP, role: Role.MANAGE }],
         creator: "john",
-      } as IChannelV2;
+      } as IChannel;
       const updateData = { allowPost: false } as IUpdateChannelV2;
 
       expect(canEditChannelV2(channel, user, updateData)).toBe(true);
@@ -104,7 +104,7 @@ describe("canEditChannelV2", () => {
       const channel = {
         channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
         creator: "john",
-      } as IChannelV2;
+      } as IChannel;
       const updateData = { allowPost: false } as IUpdateChannelV2;
 
       expect(canEditChannelV2(channel, user, updateData)).toBe(false);
@@ -125,7 +125,7 @@ describe("canEditChannelV2", () => {
       const channel = {
         channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
         creator: "john",
-      } as IChannelV2;
+      } as IChannel;
       const updateData = { allowPost: false } as IUpdateChannelV2;
 
       expect(canEditChannelV2(channel, user, updateData)).toBe(false);
@@ -150,7 +150,7 @@ describe("canEditChannelV2", () => {
       const channel = {
         channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
         creator: "john",
-      } as IChannelV2;
+      } as IChannel;
       const updateData = { allowPost: false } as IUpdateChannelV2;
 
       expect(canEditChannelV2(channel, user, updateData)).toBe(false);

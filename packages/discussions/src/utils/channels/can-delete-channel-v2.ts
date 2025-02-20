@@ -1,5 +1,5 @@
 import { IUser } from "@esri/arcgis-rest-types";
-import { IChannelV2, IDiscussionsUser } from "../../types";
+import { IChannel, IDiscussionsUser } from "../../types";
 import { ChannelPermission } from "../channel-permission";
 import { hasOrgAdminDeleteRights } from "../portal-privilege";
 
@@ -11,7 +11,7 @@ import { hasOrgAdminDeleteRights } from "../portal-privilege";
  * @returns {boolean}
  */
 export function canDeleteChannelV2(
-  channel: IChannelV2,
+  channel: IChannel,
   user: IUser | IDiscussionsUser = {}
 ): boolean {
   if (hasOrgAdminDeleteRights(user, channel.orgId)) {

@@ -1,4 +1,4 @@
-import { IChannelV2, IDiscussionsUser, IPost } from "../../../src/types";
+import { IChannel, IDiscussionsUser, IPost } from "../../../src/types";
 import { canEditPostV2 } from "../../../src/utils/posts";
 import { ChannelPermission } from "../../../src/utils/channel-permission";
 
@@ -23,7 +23,7 @@ describe("canEditPostV2", () => {
       const channel = {
         allowPost: true,
         channelAcl: [],
-      } as unknown as IChannelV2;
+      } as unknown as IChannel;
 
       const result = canEditPostV2(post, user, channel);
       expect(result).toBe(false);
@@ -36,7 +36,7 @@ describe("canEditPostV2", () => {
       const channel = {
         allowPost: true,
         channelAcl: [],
-      } as unknown as IChannelV2;
+      } as unknown as IChannel;
 
       const result = canEditPostV2(post, user, channel);
       expect(result).toBe(false);
@@ -49,7 +49,7 @@ describe("canEditPostV2", () => {
       const channel = {
         allowPost: true,
         channelAcl: [],
-      } as unknown as IChannelV2;
+      } as unknown as IChannel;
 
       const result = canEditPostV2(post, user, channel);
       expect(result).toBe(false);
@@ -64,7 +64,7 @@ describe("canEditPostV2", () => {
       const channel = {
         allowPost: false,
         channelAcl: [],
-      } as unknown as IChannelV2;
+      } as unknown as IChannel;
 
       const result = canEditPostV2(post, user, channel);
       expect(result).toBe(false);
@@ -79,7 +79,7 @@ describe("canEditPostV2", () => {
       const channel = {
         allowPost: true,
         channelAcl: [],
-      } as unknown as IChannelV2;
+      } as unknown as IChannel;
 
       const result = canEditPostV2(post, user, channel);
       expect(result).toBe(false);
@@ -96,7 +96,7 @@ describe("canEditPostV2", () => {
       const channel = {
         allowPost: true,
         channelAcl: [],
-      } as unknown as IChannelV2;
+      } as unknown as IChannel;
 
       const result = canEditPostV2(post, user, channel);
       expect(result).toBe(true);
@@ -114,7 +114,7 @@ describe("canEditPostV2", () => {
       const channel = {
         allowReply: true,
         channelAcl: [],
-      } as unknown as IChannelV2;
+      } as unknown as IChannel;
 
       const result = canEditPostV2(post, user, channel);
       expect(result).toBe(false);
@@ -127,7 +127,7 @@ describe("canEditPostV2", () => {
       const channel = {
         allowReply: true,
         channelAcl: [],
-      } as unknown as IChannelV2;
+      } as unknown as IChannel;
 
       const result = canEditPostV2(post, user, channel);
       expect(result).toBe(false);
@@ -140,7 +140,7 @@ describe("canEditPostV2", () => {
       const channel = {
         allowReply: true,
         channelAcl: [],
-      } as unknown as IChannelV2;
+      } as unknown as IChannel;
 
       const result = canEditPostV2(post, user, channel);
       expect(result).toBe(false);
@@ -155,7 +155,7 @@ describe("canEditPostV2", () => {
       const channel = {
         allowReply: false,
         channelAcl: [],
-      } as unknown as IChannelV2;
+      } as unknown as IChannel;
 
       const result = canEditPostV2(post, user, channel);
       expect(result).toBe(false);
@@ -171,7 +171,7 @@ describe("canEditPostV2", () => {
       const channel = {
         allowReply: true,
         channelAcl: [],
-      } as unknown as IChannelV2;
+      } as unknown as IChannel;
 
       const result = canEditPostV2(post, user, channel);
       expect(result).toBe(false);
@@ -189,7 +189,7 @@ describe("canEditPostV2", () => {
       const channel = {
         allowReply: true,
         channelAcl: [],
-      } as unknown as IChannelV2;
+      } as unknown as IChannel;
 
       const result = canEditPostV2(post, user, channel);
       expect(result).toBe(true);

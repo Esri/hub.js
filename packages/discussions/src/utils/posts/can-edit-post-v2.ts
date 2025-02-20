@@ -1,5 +1,5 @@
 import { IUser } from "@esri/arcgis-rest-types";
-import { IChannelV2, IDiscussionsUser, IPost } from "../../types";
+import { IChannel, IDiscussionsUser, IPost } from "../../types";
 import { ChannelPermission } from "../channel-permission";
 
 /**
@@ -12,7 +12,7 @@ import { ChannelPermission } from "../channel-permission";
 export function canEditPostV2(
   post: IPost,
   user: IUser | IDiscussionsUser = {},
-  channel: IChannelV2
+  channel: IChannel
 ): boolean {
   const canReplyOrPost = post.parentId ? channel.allowReply : channel.allowPost;
   const channelPermission = new ChannelPermission(channel);

@@ -1,5 +1,5 @@
 import { IUser } from "@esri/arcgis-rest-auth";
-import { IChannelV2, IDiscussionsUser } from "../../types";
+import { IChannel, IDiscussionsUser } from "../../types";
 import { ChannelPermission } from "../channel-permission";
 import { hasOrgAdminViewRights } from "../portal-privilege";
 
@@ -7,12 +7,12 @@ import { hasOrgAdminViewRights } from "../portal-privilege";
  * Utility to determine if User can view channel posts and channel attributes
  *
  * @export
- * @param {IChannelV2} channel
+ * @param {IChannel} channel
  * @param {IUser} user
  * @return {*}  {boolean}
  */
 export function canReadChannelV2(
-  channel: IChannelV2,
+  channel: IChannel,
   user: IUser | IDiscussionsUser = {}
 ): boolean {
   if (hasOrgAdminViewRights(user, channel.orgId)) {

@@ -1,6 +1,6 @@
 import {
   AclCategory,
-  IChannelV2,
+  IChannel,
   IDiscussionsUser,
   Role,
 } from "../../../src/types";
@@ -26,7 +26,7 @@ describe("canReadChannelV2", () => {
     it("return true if hasOrgAdminUpdateRights returns true", () => {
       hasOrgAdminViewRightsSpy.and.callFake(() => true);
       const user = {} as IDiscussionsUser;
-      const channel = { orgId: "aaa" } as IChannelV2;
+      const channel = { orgId: "aaa" } as IChannel;
 
       expect(canReadChannelV2(channel, user)).toBe(true);
 
@@ -46,7 +46,7 @@ describe("canReadChannelV2", () => {
       const user = {} as IDiscussionsUser;
       const channel = {
         channelAcl: undefined,
-      } as IChannelV2;
+      } as IChannel;
 
       expect(() => canReadChannelV2(channel, user)).toThrow(
         new Error("channel.channelAcl is required for ChannelPermission checks")
@@ -60,7 +60,7 @@ describe("canReadChannelV2", () => {
       const user = {} as IDiscussionsUser;
       const channel = {
         channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
-      } as IChannelV2;
+      } as IChannel;
 
       expect(canReadChannelV2(channel, user)).toBe(true);
 
@@ -78,7 +78,7 @@ describe("canReadChannelV2", () => {
         channelAcl: [
           { category: AclCategory.ANONYMOUS_USER, role: Role.WRITE },
         ],
-      } as IChannelV2;
+      } as IChannel;
 
       expect(canReadChannelV2(channel, user)).toBe(false);
 
@@ -96,7 +96,7 @@ describe("canReadChannelV2", () => {
         channelAcl: [
           { category: AclCategory.ANONYMOUS_USER, role: Role.WRITE },
         ],
-      } as IChannelV2;
+      } as IChannel;
 
       expect(canReadChannelV2(channel, user)).toBe(false);
 

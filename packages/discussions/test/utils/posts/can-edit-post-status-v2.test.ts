@@ -1,7 +1,7 @@
 import { IGroup } from "@esri/arcgis-rest-types";
 import {
   AclCategory,
-  IChannelV2,
+  IChannel,
   IDiscussionsUser,
   Role,
 } from "../../../src/types";
@@ -38,7 +38,7 @@ describe("canEditPostStatusV2", () => {
       const channel = {
         channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
         creator: "john",
-      } as IChannelV2;
+      } as IChannel;
 
       expect(canEditPostStatusV2(channel, user)).toBe(true);
 
@@ -59,7 +59,7 @@ describe("canEditPostStatusV2", () => {
         channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
         creator: "john",
         orgId: "aaa",
-      } as IChannelV2;
+      } as IChannel;
 
       expect(canEditPostStatusV2(channel, user)).toBe(false);
 
@@ -81,7 +81,7 @@ describe("canEditPostStatusV2", () => {
       const channel = {
         channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
         creator: "john",
-      } as IChannelV2;
+      } as IChannel;
 
       expect(canEditPostStatusV2(channel, user)).toBe(true);
 
@@ -103,7 +103,7 @@ describe("canEditPostStatusV2", () => {
       const channel = {
         channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
         creator: "john",
-      } as IChannelV2;
+      } as IChannel;
 
       expect(canEditPostStatusV2(channel, user)).toBe(false);
 

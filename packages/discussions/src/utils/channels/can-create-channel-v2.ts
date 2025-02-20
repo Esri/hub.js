@@ -1,5 +1,5 @@
 import { IUser } from "@esri/arcgis-rest-types";
-import { IChannelV2, IDiscussionsUser } from "../../types";
+import { IChannel, IDiscussionsUser } from "../../types";
 import { ChannelPermission } from "../channel-permission";
 
 /**
@@ -10,7 +10,7 @@ import { ChannelPermission } from "../channel-permission";
  * @returns {boolean}
  */
 export function canCreateChannelV2(
-  channel: IChannelV2,
+  channel: IChannel,
   user: IUser | IDiscussionsUser = {}
 ): boolean {
   const channelPermission = new ChannelPermission(channel);

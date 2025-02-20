@@ -1,6 +1,6 @@
 import { IUser } from "@esri/arcgis-rest-auth";
 import { canCreateReactionV2 } from "../../../src/utils/reactions";
-import { PostReaction, IChannelV2 } from "../../../src/types";
+import { PostReaction, IChannel } from "../../../src/types";
 import * as canReadChannelV2Module from "../../../src/utils/channels/can-read-channel-v2";
 
 describe("canCreateReactionV2", () => {
@@ -21,7 +21,7 @@ describe("canCreateReactionV2", () => {
     const channel = {
       allowReaction: true,
       allowedReactions: null,
-    } as unknown as IChannelV2;
+    } as unknown as IChannel;
 
     expect(canCreateReactionV2(channel, PostReaction.THUMBS_UP, user)).toBe(
       true
@@ -36,7 +36,7 @@ describe("canCreateReactionV2", () => {
     const channel = {
       allowReaction: true,
       allowedReactions: null,
-    } as unknown as IChannelV2;
+    } as unknown as IChannel;
 
     expect(canCreateReactionV2(channel, PostReaction.THUMBS_UP)).toBe(true);
     expect(canReadChannelV2Spy).toHaveBeenCalledTimes(1);
@@ -49,7 +49,7 @@ describe("canCreateReactionV2", () => {
     const channel = {
       allowReaction: true,
       allowedReactions: null,
-    } as unknown as IChannelV2;
+    } as unknown as IChannel;
 
     expect(canCreateReactionV2(channel, PostReaction.THUMBS_UP, user)).toBe(
       false
@@ -64,7 +64,7 @@ describe("canCreateReactionV2", () => {
     const channel = {
       allowReaction: true,
       allowedReactions: ["thumbs_up"],
-    } as IChannelV2;
+    } as IChannel;
 
     expect(canCreateReactionV2(channel, PostReaction.THUMBS_UP, user)).toBe(
       true
@@ -79,7 +79,7 @@ describe("canCreateReactionV2", () => {
     const channel = {
       allowReaction: true,
       allowedReactions: ["thumbs_up"],
-    } as IChannelV2;
+    } as IChannel;
 
     expect(canCreateReactionV2(channel, PostReaction.THUMBS_DOWN, user)).toBe(
       false
@@ -90,7 +90,7 @@ describe("canCreateReactionV2", () => {
   it("returns false if channel does not allow reaction", () => {
     canReadChannelV2Spy.and.returnValue(true);
 
-    const channel = { allowReaction: false } as IChannelV2;
+    const channel = { allowReaction: false } as IChannel;
 
     expect(canCreateReactionV2(channel, PostReaction.THUMBS_DOWN, user)).toBe(
       false

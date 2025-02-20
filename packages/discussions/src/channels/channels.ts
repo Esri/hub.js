@@ -10,7 +10,6 @@ import {
   IUpdateChannelParamsV2,
   IRemoveChannelParams,
   IChannel,
-  IChannelV2,
   IRemoveChannelResponse,
   IFetchChannelNotificationOptOutParams,
   ICreateChannelNotificationOptOutParams,
@@ -162,11 +161,11 @@ export function removeChannelActivity(
  *
  * @export
  * @param {ICreateChannelParamsV2} options
- * @return {*}  {Promise<IChannelV2>}
+ * @return {*}  {Promise<IChannel>}
  */
 export function createChannelV2(
   options: ICreateChannelParamsV2
-): Promise<IChannelV2> {
+): Promise<IChannel> {
   options.httpMethod = "POST";
   return discussionsApiRequestV2(`/channels`, options);
 }
@@ -176,11 +175,11 @@ export function createChannelV2(
  *
  * @export
  * @param {IFetchChannelParams} options
- * @return {*}  {Promise<IChannelV2>}
+ * @return {*}  {Promise<IChannel>}
  */
 export function fetchChannelV2(
   options: IFetchChannelParams
-): Promise<IChannelV2> {
+): Promise<IChannel> {
   options.httpMethod = "GET";
   return discussionsApiRequestV2(`/channels/${options.channelId}`, options);
 }
@@ -190,11 +189,11 @@ export function fetchChannelV2(
  *
  * @export
  * @param {IUpdateChannelParamsV2} options
- * @return {*}  {Promise<IChannelV2>}
+ * @return {*}  {Promise<IChannel>}
  */
 export function updateChannelV2(
   options: IUpdateChannelParamsV2
-): Promise<IChannelV2> {
+): Promise<IChannel> {
   options.httpMethod = "PATCH";
   return discussionsApiRequestV2(`/channels/${options.channelId}`, options);
 }

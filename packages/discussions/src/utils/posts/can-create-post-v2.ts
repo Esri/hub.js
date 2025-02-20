@@ -1,5 +1,5 @@
 import { IUser } from "@esri/arcgis-rest-types";
-import { IChannelV2, IDiscussionsUser } from "../../types";
+import { IChannel, IDiscussionsUser } from "../../types";
 import { ChannelPermission } from "../channel-permission";
 import { hasOrgAdminUpdateRights } from "../portal-privilege";
 
@@ -11,7 +11,7 @@ import { hasOrgAdminUpdateRights } from "../portal-privilege";
  * @returns {boolean}
  */
 export function canCreatePostV2(
-  channel: IChannelV2,
+  channel: IChannel,
   user: IUser | IDiscussionsUser = {}
 ): boolean {
   if (hasOrgAdminUpdateRights(user, channel.orgId)) {

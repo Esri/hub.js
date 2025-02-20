@@ -1,7 +1,7 @@
 import { IGroup } from "@esri/arcgis-rest-types";
 import {
   AclCategory,
-  IChannelV2,
+  IChannel,
   IDiscussionsUser,
   Role,
 } from "../../../src/types";
@@ -50,7 +50,7 @@ describe("canCreateChannelV2", () => {
       const user = buildUser();
       const channel = {
         channelAcl: undefined,
-      } as IChannelV2;
+      } as IChannel;
 
       expect(() => canCreateChannelV2(channel, user)).toThrow(
         new Error("channel.channelAcl is required for ChannelPermission checks")
@@ -63,7 +63,7 @@ describe("canCreateChannelV2", () => {
       const user = buildUser();
       const channel = {
         channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
-      } as IChannelV2;
+      } as IChannel;
 
       expect(canCreateChannelV2(channel, user)).toBe(true);
 
@@ -78,7 +78,7 @@ describe("canCreateChannelV2", () => {
       const user = buildUser();
       const channel = {
         channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
-      } as IChannelV2;
+      } as IChannel;
 
       expect(canCreateChannelV2(channel, user)).toBe(false);
 
@@ -93,7 +93,7 @@ describe("canCreateChannelV2", () => {
       const user = undefined as IDiscussionsUser;
       const channel = {
         channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
-      } as IChannelV2;
+      } as IChannel;
 
       expect(canCreateChannelV2(channel, user)).toBe(false);
 

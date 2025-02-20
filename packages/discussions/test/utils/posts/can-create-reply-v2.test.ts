@@ -1,6 +1,6 @@
 import {
   AclCategory,
-  IChannelV2,
+  IChannel,
   IDiscussionsUser,
   Role,
 } from "../../../src/types";
@@ -34,7 +34,7 @@ describe("canCreateReplyV2", () => {
       canPostToChannelSpy.and.callFake(() => false);
 
       const user = {} as IDiscussionsUser;
-      const channel = { orgId: "aaa", allowReply: false } as IChannelV2;
+      const channel = { orgId: "aaa", allowReply: false } as IChannel;
 
       expect(canCreateReplyV2(channel, user)).toBe(true);
 
@@ -54,7 +54,7 @@ describe("canCreateReplyV2", () => {
       const channel = {
         allowReply: true,
         channelAcl: undefined,
-      } as IChannelV2;
+      } as IChannel;
 
       expect(() => canCreateReplyV2(channel, user)).toThrow(
         new Error("channel.channelAcl is required for ChannelPermission checks")
@@ -69,7 +69,7 @@ describe("canCreateReplyV2", () => {
       const channel = {
         allowReply: true,
         channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
-      } as IChannelV2;
+      } as IChannel;
 
       expect(canCreateReplyV2(channel, user)).toBe(true);
 
@@ -88,7 +88,7 @@ describe("canCreateReplyV2", () => {
       const channel = {
         allowReply: true,
         channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
-      } as IChannelV2;
+      } as IChannel;
 
       expect(canCreateReplyV2(channel, user)).toBe(false);
 
@@ -107,7 +107,7 @@ describe("canCreateReplyV2", () => {
       const channel = {
         allowReply: true,
         channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
-      } as IChannelV2;
+      } as IChannel;
 
       expect(canCreateReplyV2(channel, user)).toBe(false);
 
@@ -126,7 +126,7 @@ describe("canCreateReplyV2", () => {
       const channel = {
         allowReply: false,
         channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
-      } as IChannelV2;
+      } as IChannel;
 
       expect(canCreateReplyV2(channel, user)).toBe(false);
 

@@ -1,7 +1,7 @@
 import { IGroup, IUser } from "@esri/arcgis-rest-types";
 import {
   AclCategory,
-  IChannelV2,
+  IChannel,
   IDiscussionsUser,
   Role,
 } from "../../../src/types";
@@ -33,7 +33,7 @@ describe("canDeleteChannelV2", () => {
     it("return true if hasOrgAdminDeleteRights returns true", () => {
       hasOrgAdminDeleteRightsSpy.and.callFake(() => true);
       const user = {} as IDiscussionsUser;
-      const channel = { orgId: "aaa" } as IChannelV2;
+      const channel = { orgId: "aaa" } as IChannel;
 
       expect(canDeleteChannelV2(channel, user)).toBe(true);
 
@@ -53,7 +53,7 @@ describe("canDeleteChannelV2", () => {
       const user = {} as IDiscussionsUser;
       const channel = {
         channelAcl: undefined,
-      } as IChannelV2;
+      } as IChannel;
 
       expect(() => canDeleteChannelV2(channel, user)).toThrow(
         new Error("channel.channelAcl is required for ChannelPermission checks")
@@ -68,7 +68,7 @@ describe("canDeleteChannelV2", () => {
       const channel = {
         channelAcl: [{ category: AclCategory.GROUP, role: Role.MANAGE }],
         creator: "john",
-      } as IChannelV2;
+      } as IChannel;
 
       expect(canDeleteChannelV2(channel, user)).toBe(true);
 
@@ -85,7 +85,7 @@ describe("canDeleteChannelV2", () => {
       const channel = {
         channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
         creator: "john",
-      } as IChannelV2;
+      } as IChannel;
 
       expect(canDeleteChannelV2(channel, user)).toBe(false);
 
@@ -102,7 +102,7 @@ describe("canDeleteChannelV2", () => {
       const channel = {
         channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
         creator: "john",
-      } as IChannelV2;
+      } as IChannel;
 
       expect(canDeleteChannelV2(channel, user)).toBe(false);
 

@@ -1,5 +1,5 @@
 import { IUser } from "@esri/arcgis-rest-types";
-import { AclCategory, IChannelV2, IPost, Role } from "../../../src/types";
+import { AclCategory, IChannel, IPost, Role } from "../../../src/types";
 import { canDeletePostV2 } from "../../../src/utils/posts";
 import { ChannelPermission } from "../../../src/utils/channel-permission";
 import * as portalPrivModule from "../../../src/utils/portal-privilege";
@@ -30,7 +30,7 @@ describe("canDeletePostV2", () => {
 
     const post = { id: "post1", creator: "user1" } as IPost;
     const user = { username: "user1" } as IUser;
-    const channel = { id: "channel1" } as IChannelV2;
+    const channel = { id: "channel1" } as IChannel;
 
     const result = canDeletePostV2(post, channel, user);
     expect(result).toBe(true);
@@ -46,7 +46,7 @@ describe("canDeletePostV2", () => {
     const user = {} as IUser;
     const channel = {
       channelAcl: undefined,
-    } as IChannelV2;
+    } as IChannel;
 
     expect(() => canDeletePostV2(post, channel, user)).toThrow(
       new Error("channel.channelAcl is required for ChannelPermission checks")
@@ -62,7 +62,7 @@ describe("canDeletePostV2", () => {
     const channel = {
       id: "channel1",
       channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
-    } as IChannelV2;
+    } as IChannel;
 
     const result = canDeletePostV2(post, channel, user);
     expect(result).toBe(true);
@@ -84,7 +84,7 @@ describe("canDeletePostV2", () => {
     const channel = {
       id: "channel1",
       channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
-    } as IChannelV2;
+    } as IChannel;
 
     const result = canDeletePostV2(post, channel, user);
     expect(result).toBe(true);
@@ -107,7 +107,7 @@ describe("canDeletePostV2", () => {
     const channel = {
       id: "channel1",
       channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
-    } as IChannelV2;
+    } as IChannel;
 
     const result = canDeletePostV2(post, channel, user);
     expect(result).toBe(false);
@@ -131,7 +131,7 @@ describe("canDeletePostV2", () => {
       id: "channel1",
       channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
       orgId: "aaa",
-    } as IChannelV2;
+    } as IChannel;
 
     const result = canDeletePostV2(post, channel, user);
     expect(result).toBe(false);

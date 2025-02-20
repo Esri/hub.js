@@ -9,7 +9,6 @@ import {
   ICreatePostParamsV2,
   ICreateReplyParams,
   IPost,
-  IPostV2,
   ISearchPostsParams,
   IExportPostsParams,
   IFetchPostParams,
@@ -184,13 +183,13 @@ function getCreateUpdateRequestParams<
  *
  * @export
  * @param {ISearchPostsParams} options
- * @return {*}  {Promise<IPagedResponse<IPostV2>>}
+ * @return {*}  {Promise<IPagedResponse<IPost>>}
  */
 export function searchPostsV2(
   options: ISearchPostsParams
-): Promise<IPagedResponse<IPostV2>> {
+): Promise<IPagedResponse<IPost>> {
   const url = `/posts/search`;
-  return discussionsApiRequestV2<IPagedResponse<IPostV2>>(url, {
+  return discussionsApiRequestV2<IPagedResponse<IPost>>(url, {
     ...options,
     data: {
       ...options.data,
@@ -223,9 +222,9 @@ export function exportPostsV2(options: IExportPostsParams): Promise<string> {
  *
  * @export
  * @param {ICreatePostParamsV2} options
- * @return {*}  {Promise<IPostV2>}
+ * @return {*}  {Promise<IPost>}
  */
-export function createPostV2(options: ICreatePostParamsV2): Promise<IPostV2> {
+export function createPostV2(options: ICreatePostParamsV2): Promise<IPost> {
   const url = `/posts`;
   return discussionsApiRequestV2(url, {
     httpMethod: "POST",
@@ -239,9 +238,9 @@ export function createPostV2(options: ICreatePostParamsV2): Promise<IPostV2> {
  * @export
  * @param {string} parentId
  * @param {ICreateReplyParams} options
- * @return {*}  {Promise<IPostV2>}
+ * @return {*}  {Promise<IPost>}
  */
-export function createReplyV2(options: ICreateReplyParams): Promise<IPostV2> {
+export function createReplyV2(options: ICreateReplyParams): Promise<IPost> {
   const url = `/posts/${options.postId}/reply`;
   return discussionsApiRequestV2(url, {
     httpMethod: "POST",
@@ -254,9 +253,9 @@ export function createReplyV2(options: ICreateReplyParams): Promise<IPostV2> {
  *
  * @export
  * @param {IFetchPostParams} params
- * @return {*}  {Promise<IPostV2>}
+ * @return {*}  {Promise<IPost>}
  */
-export function fetchPostV2(params: IFetchPostParams): Promise<IPostV2> {
+export function fetchPostV2(params: IFetchPostParams): Promise<IPost> {
   const url = `/posts/${params.postId}`;
   params.httpMethod = "GET";
   return discussionsApiRequestV2(url, params);
@@ -283,9 +282,9 @@ export function removePostV2(
  *
  * @export
  * @param {IUpdatePostParams} options
- * @return {*}  {Promise<IPostV2>}
+ * @return {*}  {Promise<IPost>}
  */
-export function updatePostV2(options: IUpdatePostParams): Promise<IPostV2> {
+export function updatePostV2(options: IUpdatePostParams): Promise<IPost> {
   const url = `/posts/${options.postId}`;
   return discussionsApiRequestV2(url, {
     httpMethod: "PATCH",
@@ -299,11 +298,11 @@ export function updatePostV2(options: IUpdatePostParams): Promise<IPostV2> {
  *
  * @export
  * @param {IUpdatePostStatusParams} options
- * @return {*}  {Promise<IPostV2>}
+ * @return {*}  {Promise<IPost>}
  */
 export function updatePostStatusV2(
   options: IUpdatePostStatusParams
-): Promise<IPostV2> {
+): Promise<IPost> {
   const url = `/posts/${options.postId}/status`;
   options.httpMethod = "PATCH";
   return discussionsApiRequestV2(url, options);
