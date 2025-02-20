@@ -6,7 +6,7 @@ import {
   IChannelAclPermission,
   IChannelAclPermissionDefinition,
   IDiscussionsUser,
-  IUpdateChannel,
+  IUpdateChannelV2,
   Role,
 } from "../types";
 import { CANNOT_DISCUSS } from "./constants";
@@ -55,7 +55,7 @@ const CHANNEL_ACTION_PRIVS: Record<string, Role[]> = {
 export class ChannelPermission {
   private readonly ALLOWED_GROUP_MEMBER_TYPES = ["owner", "admin", "member"];
   private isChannelAclEmpty: boolean;
-  private existingChannel: IChannel | IChannel;
+  private existingChannel: IChannel;
   private permissionsByCategory: PermissionsByAclCategoryMap;
 
   constructor(channel: IChannel) {
@@ -137,7 +137,7 @@ export class ChannelPermission {
 
   canUpdateProperties(
     user: IDiscussionsUser,
-    updateData: IUpdateChannel = {}
+    updateData: IUpdateChannelV2 = {}
   ): boolean {
     if (Object.keys(updateData).length === 0) {
       return true;
