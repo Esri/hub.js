@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta name="date" content="2025-02-20T19:47:34.331Z">
+    <title>Working with Hub Discussions v2 | Guide | @esri/hub.js</title>
+    
+    <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
+    
+    <link rel="stylesheet" href="/hub.js/css/calcite-web.min.css">
+    <link rel="stylesheet" href="/hub.js/css/style.css">
+    
+    
+  </head>
+  <body>
+  <!-- Drawer -->
+    <div class="drawer drawer-left js-drawer" data-drawer="top-nav" tabindex="0">
+      <nav class="drawer-nav" role="navigation">
+        <aside class="side-nav">
+          <h2 class="side-nav-title">@esri/hub.js</h2>
+          <a href="/hub.js/guides/" class="is-active side-nav-link">Guides</a>
+          <a href="/hub.js/api/" class="side-nav-link">API Reference</a>
+        </aside>
+      </nav>
+    </div>
+
+    <div id="page" class="wrapper">
+      <!-- Sample HTML -->
+      <header class="top-nav">
+        <div class="grid-container">
+          <div class="column-24">
+            <!-- desktop sized navigation -->
+            <div class="tablet-hide">
+              <!-- logo / home -->
+              <a href="/hub.js/" class="top-nav-title">@esri/hub.js</a>
+              <!-- primary navigation sections -->
+              <nav class="top-nav-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/guides/" class="is-active top-nav-link">Guides</a>
+                <a href="/hub.js/api/" class="top-nav-link">API Reference</a>
+                <a href="https://github.com/Esri/hub.js" class="top-nav-link">GitHub</a>
+              </nav>
+            </div>
+
+            <!-- tablet and mobile sized navigation -->
+            <div class="tablet-show top-nav-flex">
+              <!-- open primary navigation drawer -->
+              <nav class="top-nav-flex-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/" class="icon-ui-menu top-nav-link js-drawer-toggle" data-drawer="top-nav"><span class="phone-hide">Menu</span></a>
+              </nav>
+              <!-- logo / home -->
+              <header class="top-nav-flex-title">
+                <a href="/hub.js/" class="top-nav-link">@esri/hub.js</a>
+              </header>
+            </div>
+          </div>
+
+        </div>
+      </header>
+
+
+      <main id="#skip-to-content">
+        
+  <div class="grid-container trailer-1 leader-1">
+    <div class="column-6">
+      <ul class="list-plain">
+        
+          <li>Intro</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/intro/overview/">Overview</a></li>
+            
+              <li><a href="/hub.js/guides/intro/getting-started/">Getting Started</a></li>
+            
+          </ul>
+        
+          <li>Class Api</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/classes/overview/">Overview</a></li>
+            
+              <li><a href="/hub.js/guides/classes/arcgiscontext/">Authentication</a></li>
+            
+              <li><a href="/hub.js/guides/classes/sites/">Sites (WIP)</a></li>
+            
+              <li><a href="/hub.js/guides/classes/pages/">Pages (WIP)</a></li>
+            
+              <li><a href="/hub.js/guides/classes/initiatives/">Initiatives (WIP)</a></li>
+            
+              <li><a href="/hub.js/guides/classes/projects/">Projects</a></li>
+            
+          </ul>
+        
+          <li>Functional Api</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/functional/overview/">Overview</a></li>
+            
+              <li><a href="/hub.js/guides/functional/authentication/">Authentication</a></li>
+            
+              <li><a href="/hub.js/guides/functional/hub-search/">Hub Search</a></li>
+            
+              <li><a href="/hub.js/guides/functional/utilities/">Utilities</a></li>
+            
+              <li><a href="/hub.js/guides/functional/discussions-v2/" class="is-active">Discussions v2</a></li>
+            
+              <li><a href="/hub.js/guides/functional/discussions/">Discussions</a></li>
+            
+              <li><a href="/hub.js/guides/functional/teams/">Teams</a></li>
+            
+              <li><a href="/hub.js/guides/functional/versioning/">Versioning</a></li>
+            
+          </ul>
+        
+          <li>Advanced</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/advanced/access-control/">Access Control</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/permissions/">Permissions</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/operation-stack/">OperationStack</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/metrics/">Metrics</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/queries-and-filters/">Queries & Filters</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/catalog-collection/">Catalogs & Collections</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/composing-workflows/">Composing Workflows</a></li>
+            
+          </ul>
+        
+          <li>Developers</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/developers/e2e-tests/">E2E Testing</a></li>
+            
+          </ul>
+        
+          <li>Legacy</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/legacy/content-search/">Search Service</a></li>
+            
+              <li><a href="/hub.js/guides/legacy/sites-and-pages/">Sites and Pages</a></li>
+            
+          </ul>
+        
+      </ul>
+    </div>
+
+    <div class="column-18">
+      <div class="panel">
+        <h1>Overview</h1>
+<p>As organizations use ArcGIS Hub to support community engagement and collaboration, <strong>ArcGIS Hub Discussions</strong> provides an integrated capability for organizations to meet their varied needs for internal &amp; external collaborative communication around Hub initiatives, content and data.</p>
+<p>Hub Discussions will be available in mid-2021 starting with private discussions within Hub Teams. Through the rest of the year, Hub Discussions will expand to support focused public feedback, dataset comments or corrections, and possibly public forums.</p>
+<h2>Useful links</h2>
+<ul>
+<li><a href="https://hub.arcgis.com/api/discussions/v2/docs">Hub Discussions API Swagger Docs</a></li>
+<li><a href="https://hub.arcgis.com/api/discussions/v2">Hub Discussions API root</a></li>
+</ul>
+<h2>Common Terms</h2>
+<p>A <strong>Post</strong> is created by a User with a reference to a <em>topic</em> and <em>location</em> within datasets, documents, teams, sites, and any Hub resource.</p>
+<p>Users can <strong>Reply</strong> to a Post, or add a <strong>Reaction</strong> to quickly indicate support or other feeling.</p>
+<p>Posts are shared in a <strong>Channel</strong>. The Channel defines which groups/organizations can participate in the discussion, who can manage posts, and whether the discussion allows public participation.</p>
+<p><strong>Table of Contents</strong></p>
+<ul>
+<li><a href="#overview">Overview</a>
+<ul>
+<li><a href="#common-terms">Common Terms</a></li>
+</ul>
+</li>
+<li><a href="#getting-started">Getting Started</a>
+<ul>
+<li><a href="#authentication">Authentication</a></li>
+<li><a href="#creating-posts">Creating posts</a></li>
+</ul>
+</li>
+<li><a href="#posts">Posts</a>
+<ul>
+<li><a href="#posting-about-content">Posting about content</a></li>
+<li><a href="#replying-to-posts">Replying to posts</a></li>
+</ul>
+</li>
+<li><a href="#reactions">Reactions</a>
+<ul>
+<li><a href="#creating-reactions">Creating reactions</a></li>
+</ul>
+</li>
+<li><a href="#searching-posts">Searching Posts</a>
+<ul>
+<li><a href="#expanded-search">Expanded Search</a></li>
+<li><a href="#more-search-examples">More Search Examples</a></li>
+</ul>
+</li>
+<li><a href="#channels">Channels</a>
+<ul>
+<li><a href="#channel-configuration">Channel configuration</a></li>
+<li><a href="#channel-participation-configuration">Channel participation configuration</a></li>
+<li><a href="#channel-participation-configuration-examples">Channel participation configuration examples</a></li>
+<li><a href="#moderation">Moderation</a></li>
+</ul>
+</li>
+<li><a href="#authentication-and-authorization">Authentication and Authorization</a></li>
+<li><a href="#in-conclusion">In Conclusion</a></li>
+<li><a href="#useful-links">Useful links</a></li>
+</ul>
+<h1>Getting Started</h1>
+<p>This is a quick introduction to using <code>@esri/hub-discussions</code> in your own application or service. You can find more details on each topic further below.</p>
+<h2>Authentication</h2>
+<p>Authentication is provided using <a href="https://github.com/esri/arcgis-rest-js">arcgis-rest-js</a>.</p>
+<pre><code class="js"><span class="hljs-keyword">import</span> { UserSession } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/arcgis-rest-auth"</span>;
+
+<span class="hljs-keyword">const</span> authentication = <span class="hljs-keyword">new</span> UserSession({
+  <span class="hljs-attr">username</span>: <span class="hljs-string">"jdoe"</span>,
+  <span class="hljs-attr">password</span>: <span class="hljs-string">"########"</span>,
+  <span class="hljs-attr">portal</span>: <span class="hljs-string">"https://www.arcgis.com/sharing/rest"</span>,
+});
+</code></pre>
+<h2>Creating posts</h2>
+<p>To create a post use <a href="https://esri.github.io/hub.js/api/discussions/createPost/">createPost</a>.</p>
+<p>The <code>post.discussion</code> is important as a reference for the Post to some content item. Currently <code>discussion</code> uses a URI like <code>hub://item/{itemId}</code>. See <a href="#posting-about-content">Posting about content</a> for details.</p>
+<pre><code class="js"><span class="hljs-keyword">import</span> {
+  createPostV2,
+  ICreatePost,
+  ICreatePostParamsV2,
+} <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/hub-discussions"</span>;
+
+<span class="hljs-keyword">const</span> data: ICreatePost = {
+  <span class="hljs-attr">title</span>: <span class="hljs-string">"Question about updating trees dataset"</span>,
+  <span class="hljs-attr">body</span>: <span class="hljs-string">"We need to add more details about tree planting date."</span>,
+  <span class="hljs-attr">discussion</span>: <span class="hljs-string">"hub://dataset/1234"</span>,
+  <span class="hljs-attr">channelId</span>: <span class="hljs-string">"3efabc"</span>,
+};
+
+<span class="hljs-keyword">const</span> opts: ICreatePostOptions = { authentication, data };
+
+<span class="hljs-keyword">const</span> myPost = <span class="hljs-keyword">await</span> createPostV2(opts);
+<span class="hljs-comment">/*
+myPost = IPost {
+  id: 'abcdefg',
+  ...
+}
+*/</span>
+</code></pre>
+<h1>Posts</h1>
+<p>A Post is the primary forum for dialogue between users in a Channel. Posts are organized into &quot;threads&quot; using a self-join: a post can have many replies, and a post can belong to a single &quot;parent&quot; post. Posts are required to have a <code>body</code>, and optionally a <code>title</code> (perhaps best suited for parent posts). Posts may also encode a content subject (called <code>discussion</code>) and geography (called <code>geometry</code>). Posts additionally have a <code>status</code>, which dictates visibility and can be used by channel managers to employ light-weight moderation. The full data model for posts is described below:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><strong>property</strong></th>
+<th style="text-align:left"><strong>type</strong></th>
+<th style="text-align:left"><strong>nullable</strong></th>
+<th style="text-align:left"><strong>description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">body</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">false</td>
+<td style="text-align:left">Main content of post</td>
+</tr>
+<tr>
+<td style="text-align:left">title</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">true</td>
+<td style="text-align:left">Optional title for post</td>
+</tr>
+<tr>
+<td style="text-align:left">status</td>
+<td style="text-align:left"><a href="https://esri.github.io/hub.js/api/common/PostStatus/">PostStatus</a></td>
+<td style="text-align:left">false</td>
+<td style="text-align:left">Describes a post's visibility</td>
+</tr>
+<tr>
+<td style="text-align:left">discussion</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">true</td>
+<td style="text-align:left">See the <a href="#posting-about-content">Discussion URI</a> section for details. Note that this attribute is optional. A post with no discussion could be viewed as a &quot;general&quot; post (&quot;nice weather we're having&quot; or &quot;let's grab lunch&quot;) made in a channel</td>
+</tr>
+<tr>
+<td style="text-align:left">geometry</td>
+<td style="text-align:left">Geometry</td>
+<td style="text-align:left">true</td>
+<td style="text-align:left">Geometry property of GeoJSON spec, projected in WGS84</td>
+</tr>
+<tr>
+<td style="text-align:left">featureGeometry</td>
+<td style="text-align:left">Geometry</td>
+<td style="text-align:left">true</td>
+<td style="text-align:left">Geometry property from related feature of GeoJSON spec, projected in WGS84</td>
+</tr>
+<tr>
+<td style="text-align:left">appInfo</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">true</td>
+<td style="text-align:left">Used to store additional information about a post in specific app context</td>
+</tr>
+<tr>
+<td style="text-align:left">postType</td>
+<td style="text-align:left"><a href="https://esri.github.io/hub.js/api/common/PostType/">PostType</a></td>
+<td style="text-align:left">true</td>
+<td style="text-align:left">Post type</td>
+</tr>
+<tr>
+<td style="text-align:left">id</td>
+<td style="text-align:left">string (UUID v4)</td>
+<td style="text-align:left">false</td>
+<td style="text-align:left">Identifier for the post</td>
+</tr>
+<tr>
+<td style="text-align:left">channelId</td>
+<td style="text-align:left">string (UUID v4)</td>
+<td style="text-align:left">false</td>
+<td style="text-align:left">Join field for channel</td>
+</tr>
+<tr>
+<td style="text-align:left">parentId</td>
+<td style="text-align:left">string (UUID v4)</td>
+<td style="text-align:left">true</td>
+<td style="text-align:left">Join field for parent post if reply</td>
+</tr>
+</tbody>
+</table>
+<h2>Posting about content</h2>
+<p>At the core of the Hub Discussions API is the ability to create posts and drive conversation about data. This data can be a literal dataset, a feature in a dataset, an attribute of a feature of a dataset, or it could be an item, or a sentence in a pdf. The idea is that anything can be discussed with this platform. The property <code>post.discussion</code> expects a specifically formatted URI string to encapsulate the following information: the application context the post originated from (i.e. Hub, Urban), content type, content id, and optionally for datasets identification of specific layers, features, and attribute. The format allows posts to target coarsely-grained and highly-specific content. See the URI format and examples below:</p>
+<pre><code><span class="hljs-meta"># coarsely-grained</span>
+&lt;application context&gt;:<span class="hljs-comment">//&lt;content type&gt;/&lt;content id&gt;</span>
+
+<span class="hljs-meta"># highly-specific</span>
+&lt;application context&gt;:<span class="hljs-comment">//dataset/&lt;dataset id&gt;_&lt;layer id&gt;?id=&lt;feature id&gt;&amp;attribute=&lt;feature attribute&gt;</span>
+
+<span class="hljs-meta">## examples</span>
+
+<span class="hljs-meta"># commenting on item ab4</span>
+hub:<span class="hljs-comment">//item/ab4</span>
+
+<span class="hljs-meta"># commenting on layer 1 of dataset 3ef</span>
+hub:<span class="hljs-comment">//dataset/3ef_1</span>
+
+<span class="hljs-meta"># commenting on feature #5 of layer 1 of dataset 3ef</span>
+hub:<span class="hljs-comment">//dataset/3ef_1?id=5</span>
+
+<span class="hljs-meta"># commenting on features #5 &amp; #7</span>
+hub:<span class="hljs-comment">//dataset/3ef_1?id=5,7</span>
+
+<span class="hljs-meta"># commenting on the species attribute of layer 1 of dataset 3ef</span>
+hub:<span class="hljs-comment">//dataset/3ef_1?attribute=species</span>
+
+<span class="hljs-meta"># commenting on the species attributet of feature 5 of layer 1 of 3ef dataset</span>
+hub:<span class="hljs-comment">//dataset/3ef_1?id=5&amp;attribute=species</span>
+</code></pre>
+<h2>Replying to posts</h2>
+<p>A core tenet of any discussion system is the ability to reply to posts. Reply posts are just <em>posts</em> using <a href="https://esri.github.io/hub.js/api/discussions/createReply/">createReply</a>, except they have a <code>postId</code> which links them to the &quot;parent&quot; post. All of the same validation for creating a post is applied when creating a reply.</p>
+<p>Additionally, a reply post <em>cannot be more visible</em> than the parent post. That is to say, a user cannot reply to a post from a private channel in a public channel; however, a user can reply to a post from a public channel in a private channel. As such, replies in private channels must be made to the same channel.</p>
+<pre><code class="js"><span class="hljs-keyword">import</span> {
+  createReplyV2,
+  ICreateReplyParams
+  IPostOptions,
+} <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/hub-discussions"</span>;
+
+<span class="hljs-keyword">const</span> data: IPostOptions = {
+  <span class="hljs-attr">body</span>: <span class="hljs-string">"I disagree, I do not like this dataset"</span>,
+  <span class="hljs-attr">discussion</span>: <span class="hljs-string">"hub://dataset/1234"</span>,
+};
+
+<span class="hljs-keyword">const</span> opts: ICreateReplyParams = { <span class="hljs-attr">postId</span>: <span class="hljs-string">"abcdefg"</span>, authentication, data };
+
+<span class="hljs-keyword">const</span> myReply = <span class="hljs-keyword">await</span> createReplyV2(opts);
+<span class="hljs-comment">/*
+myReply = IPost {
+  id: 'gjahsdkj',
+  ...
+}
+*/</span>
+</code></pre>
+<h1>Reactions</h1>
+<p>The Reaction model is not central to the objective of enabling in-app communication between ArcGIS Online users, but it offers users the ability to engage with posts in an expressive manner familiar to other popular collaboration platforms (think Slack, GitHub, MS Teams, etc). Reactions encode a user's sentiment (&quot;thumbs up&quot;, &quot;crying face&quot;, &quot;thinking face&quot;, etc) onto a post <a href="https://esri.github.io/hub.js/api/common/PostReaction/">using emojis or symbols</a>.</p>
+<h2>Creating reactions</h2>
+<p>If you want to show support for a post, you can add a thumbs up reaction:</p>
+<pre><code class="js"><span class="hljs-keyword">import</span> {
+  createReactionV2,
+  ICreateReaction,
+  ICreateReactionOptions,
+  PostReaction,
+} <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/hub-discussions"</span>;
+
+<span class="hljs-keyword">const</span> data: ICreateReaction = {
+  <span class="hljs-attr">postId</span>: <span class="hljs-string">"abd123"</span>,
+  <span class="hljs-attr">value</span>: PostReaction.THUMBS_UP,
+};
+
+<span class="hljs-keyword">const</span> opts: ICreateReactionOptions = { authentication, data };
+
+<span class="hljs-keyword">const</span> thumbs_up = <span class="hljs-keyword">await</span> createReactionV2(opts);
+</code></pre>
+<h1>Searching Posts</h1>
+<p>Searchable properties are enumerated on the <a href="https://esri.github.io/hub.js/api/common/ISearchPosts/"><code>ISearchPosts</code></a> interface.</p>
+<p>In all of these examples, we created a post about Dataset ID 1234. These posts are linked to that dataset through the <code>data.discussion</code> property. If we wanted to search for posts about this dataset, the code would look something like this:</p>
+<pre><code class="js"><span class="hljs-keyword">import</span> {
+  searchPostsV2,
+  ISearchPosts,
+  ISearchPostsParams,
+} <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/hub-discussions"</span>;
+
+<span class="hljs-keyword">const</span> data: ISearchPosts = {
+  <span class="hljs-attr">discussion</span>: <span class="hljs-string">"hub://dataset/1234"</span>,
+};
+
+<span class="hljs-keyword">const</span> opts: ISearchPostsParams = { authentication, data };
+
+<span class="hljs-keyword">const</span> dataset1234Posts = <span class="hljs-keyword">await</span> searchPostsV2(opts);
+<span class="hljs-comment">/*
+dataset1234Posts = IPagedResponse&lt;IPost&gt; {
+  items: [&lt;IPost&gt;, ...],
+  total: 3,
+  nextStart: -1
+}
+*/</span>
+</code></pre>
+<h2>Expanded Search</h2>
+<p>This would return all posts about dataset 1234 in a general sense. But remember that the <code>discussion</code> parameter can point to layers, features, and attributes of datasets as well.</p>
+<p>What if we wanted to find posts about any and every layer and feature included in the dataset, and not just general posts about the dataset? In the Discussions API, all string parameters utilize PostgreSQL's <a href="https://www.postgresql.org/docs/9.0/functions-matching.html">LIKE operator</a> when performing queries, so the provided value is actually a pattern and can use % and _ characters to match sequences and characters, respectively.</p>
+<p>Note that this means any <em>actual</em> percent signs or underscores must be backslash escaped. To return <em>every</em> post about dataset 1234, we can change the example above to:</p>
+<pre><code class="js"><span class="hljs-keyword">import</span> {
+  searchPostsV2,
+  ISearchPosts,
+  ISearchPostsParams,
+} <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/hub-discussions"</span>;
+
+<span class="hljs-keyword">const</span> data: ISearchPosts = {
+  <span class="hljs-attr">discussion</span>: <span class="hljs-string">"%://dataset/1234%"</span>,
+};
+
+<span class="hljs-keyword">const</span> opts: ISearchPostsParams = { authentication, data };
+
+<span class="hljs-keyword">const</span> allDataset1234Posts = <span class="hljs-keyword">await</span> searchPostsV2(opts);
+<span class="hljs-comment">/*
+allDataset1234Posts = IPagedResponse&lt;IPost&gt; {
+  items: [&lt;IPost&gt;, ...],
+  total: 6,
+  nextStart: -1
+}
+*/</span>
+</code></pre>
+<h2>More Search Examples</h2>
+<p>The query above will return posts from all application contexts (instead of just <code>hub://</code>) and about any layer, feature, or attribute of that dataset.
+Some other common query data are enumerated below:</p>
+<pre><code class="js"><span class="hljs-keyword">import</span> { ISearchPosts } <span class="hljs-keyword">from</span> <span class="hljs-string">'@esri/hub-discussions'</span>;
+
+<span class="hljs-comment">// search for posts by jdoe made in hub about dataset 1234</span>
+<span class="hljs-keyword">const</span> data: ISearchPosts = {
+  <span class="hljs-attr">creator</span>: <span class="hljs-string">'jdoe'</span>
+  <span class="hljs-attr">discussion</span>: <span class="hljs-string">'hub://dataset/1234'</span>,
+};
+
+<span class="hljs-comment">// search for posts about trees that are replies to post abcdefg</span>
+<span class="hljs-keyword">const</span> data: ISearchPosts = {
+  <span class="hljs-attr">body</span>: <span class="hljs-string">'%trees%'</span>,
+  <span class="hljs-attr">parents</span>: <span class="hljs-string">'abcdefg'</span>
+};
+
+<span class="hljs-comment">// search for posts about trees in private channels only</span>
+<span class="hljs-keyword">const</span> data: ISearchPosts = {
+  <span class="hljs-attr">body</span>: <span class="hljs-string">'%trees%'</span>,
+  <span class="hljs-attr">access</span>: <span class="hljs-string">'private'</span>
+};
+</code></pre>
+<h1>Channels</h1>
+<p>Discussions are shared with users through <a href="https://esri.github.io/hub.js/api/common/IChannel/">Channels</a> -- Channels are the mechanism that determine whether a user can view, reply, or manage a channel's posts.</p>
+<h2>Channel configuration</h2>
+<p>Channels include configurations that set the &quot;rules of engagement&quot; for the discourse that occurs within it. These settings are outlined below:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><strong>property</strong></th>
+<th style="text-align:left"><strong>type</strong></th>
+<th style="text-align:left"><strong>default</strong></th>
+<th style="text-align:left"><strong>description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">allowAsAnonymous</td>
+<td style="text-align:left">boolean</td>
+<td style="text-align:left">false</td>
+<td style="text-align:left">Enables authenticated users to create posts with author details hidden</td>
+</tr>
+<tr>
+<td style="text-align:left">allowReaction</td>
+<td style="text-align:left">boolean</td>
+<td style="text-align:left">true</td>
+<td style="text-align:left">Enables users to react to posts in channel</td>
+</tr>
+<tr>
+<td style="text-align:left">allowReply</td>
+<td style="text-align:left">boolean</td>
+<td style="text-align:left">true</td>
+<td style="text-align:left">Enables users to reply to posts</td>
+</tr>
+<tr>
+<td style="text-align:left">allowedReactions</td>
+<td style="text-align:left"><a href="https://esri.github.io/hub.js/api/common/PostReaction/">PostReaction</a>[]</td>
+<td style="text-align:left">null</td>
+<td style="text-align:left">Array of allowed post reactions in channel. If null, all reactions are allowed</td>
+</tr>
+<tr>
+<td style="text-align:left">blockWords</td>
+<td style="text-align:left">string[]</td>
+<td style="text-align:left">null</td>
+<td style="text-align:left">Array of words or phrases that should trigger moderation</td>
+</tr>
+<tr>
+<td style="text-align:left">defaultPostStatus</td>
+<td style="text-align:left"><a href="https://esri.github.io/hub.js/api/common/PostStatus/">PostStatus</a></td>
+<td style="text-align:left">&quot;approved&quot;</td>
+<td style="text-align:left">Enables posts to be reviewed before making them visible to other users</td>
+</tr>
+<tr>
+<td style="text-align:left">metadata</td>
+<td style="text-align:left"><a href="https://esri.github.io/hub.js/api/common/IChannelMetadata/">IChannelMetadata</a></td>
+<td style="text-align:left">null</td>
+<td style="text-align:left">Metadata associated with the channel</td>
+</tr>
+<tr>
+<td style="text-align:left">name</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">Name for the channel</td>
+</tr>
+<tr>
+<td style="text-align:left">softDelete</td>
+<td style="text-align:left">boolean</td>
+<td style="text-align:left">true</td>
+<td style="text-align:left">Enables soft-delete strategy for posts in channels, meaning that DELETE actions flag posts as &quot;deleted&quot; instead of permanent deletion</td>
+</tr>
+<tr>
+<td style="text-align:left">channelAcl</td>
+<td style="text-align:left"><a href="https://esri.github.io/hub.js/api/common/IChannelAclPermission/">IChannelAclPermission</a>[]</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">Participation configuration for the channel (see next section)</td>
+</tr>
+</tbody>
+</table>
+<h2>Channel participation configuration</h2>
+<p>The <a href="https://esri.github.io/hub.js/api/common/IChannelAclPermission/">channel.channelAcl</a> is an array that defines variations of users, organizations, or the public to participate in the discussion. The level of participation is set by the defined <a href="https://esri.github.io/hub.js/api/common/Role/">role</a>. A role of <code>readWrite</code> allows creating, updating, and viewing posts in the channel. A role of <code>read</code> only allows viewing posts in the channel. A role of <code>manage</code> allows creating, updating, and viewing posts in the channel, as well as moderation and channel re-configuration.</p>
+<p>Each entry in <code>channel.channelAcl</code> has the following shape:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><strong>property</strong></th>
+<th style="text-align:left"><strong>type</strong></th>
+<th style="text-align:left"><strong>description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">category</td>
+<td style="text-align:left"><a href="https://esri.github.io/hub.js/api/common/AclCategory/">AclCategory</a></td>
+<td style="text-align:left">Category for the permission (<code>group</code>, <code>org</code>, <code>anonymousUser</code>, <code>authenticatedUser</code>) <br> Category: <code>user</code> not API supported</td>
+</tr>
+<tr>
+<td style="text-align:left">subCategory</td>
+<td style="text-align:left"><a href="https://esri.github.io/hub.js/api/common/AclSubCategory/">AclSubCategory</a></td>
+<td style="text-align:left">SubCategory for the permission (<code>admin</code>, <code>member</code>) <br> Only valid for category: <code>group</code> or <code>org</code></td>
+</tr>
+<tr>
+<td style="text-align:left">key</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">Identifier for the category <br> Only valid for category: <code>group</code> or <code>org</code> or <code>user</code> <br> For category: <code>group</code> - key is the <code>ArcGIS Online Group ID</code> <br> For category: <code>org</code> - key is the <code>ArcGIS Online Organization ID</code> <br> For category: <code>user</code> - key is the user's <code>ArcGIS Online username</code> (not API supported)</td>
+</tr>
+<tr>
+<td style="text-align:left">role</td>
+<td style="text-align:left"><a href="https://esri.github.io/hub.js/api/common/Role/">Role</a></td>
+<td style="text-align:left">Role for the permission (<code>manage</code>, <code>readWrite</code>, <code>read</code>) <br> Role: <code>owner</code>, <code>moderate</code>, <code>write</code> not API supported</td>
+</tr>
+</tbody>
+</table>
+<h2>Channel participation configuration examples</h2>
+<pre><code class="js"><span class="hljs-keyword">import</span> { IChannel } <span class="hljs-keyword">from</span> <span class="hljs-string">'@esri/hub-discussions'</span>;
+
+<span class="hljs-comment">// group channel</span>
+<span class="hljs-keyword">const</span> groupChannel: IChannel = {
+  <span class="hljs-attr">channelAcl</span>: [
+    { <span class="hljs-attr">category</span>: <span class="hljs-string">'group'</span>, <span class="hljs-attr">subCategory</span>: <span class="hljs-string">'admin'</span>, <span class="hljs-attr">key</span>: <span class="hljs-string">'group_id'</span>, <span class="hljs-attr">role</span>: <span class="hljs-string">'owner'</span> },
+    { <span class="hljs-attr">category</span>: <span class="hljs-string">'group'</span>, <span class="hljs-attr">subCategory</span>: <span class="hljs-string">'member'</span>, <span class="hljs-attr">key</span>: <span class="hljs-string">'group_id'</span>, <span class="hljs-attr">role</span>: <span class="hljs-string">'readWrite'</span> },
+  ];
+  ...
+};
+
+<span class="hljs-comment">// multiple group channel</span>
+<span class="hljs-keyword">const</span> groupChannel: IChannel = {
+  <span class="hljs-attr">channelAcl</span>: [
+    { <span class="hljs-attr">category</span>: <span class="hljs-string">'group'</span>, <span class="hljs-attr">subCategory</span>: <span class="hljs-string">'admin'</span>, <span class="hljs-attr">key</span>: <span class="hljs-string">'group_id'</span>, <span class="hljs-attr">role</span>: <span class="hljs-string">'owner'</span> },
+    { <span class="hljs-attr">category</span>: <span class="hljs-string">'group'</span>, <span class="hljs-attr">subCategory</span>: <span class="hljs-string">'member'</span>, <span class="hljs-attr">key</span>: <span class="hljs-string">'group_id'</span>, <span class="hljs-attr">role</span>: <span class="hljs-string">'readWrite'</span> },
+    { <span class="hljs-attr">category</span>: <span class="hljs-string">'group'</span>, <span class="hljs-attr">subCategory</span>: <span class="hljs-string">'admin'</span>, <span class="hljs-attr">key</span>: <span class="hljs-string">'group_id_2'</span>, <span class="hljs-attr">role</span>: <span class="hljs-string">'manage'</span> },
+    { <span class="hljs-attr">category</span>: <span class="hljs-string">'group'</span>, <span class="hljs-attr">subCategory</span>: <span class="hljs-string">'member'</span>, <span class="hljs-attr">key</span>: <span class="hljs-string">'group_id_2'</span>, <span class="hljs-attr">role</span>: <span class="hljs-string">'readWrite'</span> },
+  ];
+  ...
+};
+
+<span class="hljs-comment">// group channel with public participation</span>
+<span class="hljs-keyword">const</span> groupChannel: IChannel = {
+  <span class="hljs-attr">channelAcl</span>: [
+    { <span class="hljs-attr">category</span>: <span class="hljs-string">'group'</span>, <span class="hljs-attr">subCategory</span>: <span class="hljs-string">'admin'</span>, <span class="hljs-attr">key</span>: <span class="hljs-string">'group_id'</span>, <span class="hljs-attr">role</span>: <span class="hljs-string">'owner'</span> },
+    { <span class="hljs-attr">category</span>: <span class="hljs-string">'group'</span>, <span class="hljs-attr">subCategory</span>: <span class="hljs-string">'member'</span>, <span class="hljs-attr">key</span>: <span class="hljs-string">'group_id'</span>, <span class="hljs-attr">role</span>: <span class="hljs-string">'readWrite'</span> },
+    { <span class="hljs-attr">category</span>: <span class="hljs-string">'authenticatedUser'</span>, <span class="hljs-attr">role</span>: <span class="hljs-string">'readWrite'</span> },
+  ];
+  ...
+};
+
+<span class="hljs-comment">// group channel with public view only participation</span>
+<span class="hljs-keyword">const</span> groupChannel: IChannel = {
+  <span class="hljs-attr">channelAcl</span>: [
+    { <span class="hljs-attr">category</span>: <span class="hljs-string">'group'</span>, <span class="hljs-attr">subCategory</span>: <span class="hljs-string">'admin'</span>, <span class="hljs-attr">key</span>: <span class="hljs-string">'group_id'</span>, <span class="hljs-attr">role</span>: <span class="hljs-string">'owner'</span> },
+    { <span class="hljs-attr">category</span>: <span class="hljs-string">'group'</span>, <span class="hljs-attr">subCategory</span>: <span class="hljs-string">'member'</span>, <span class="hljs-attr">key</span>: <span class="hljs-string">'group_id'</span>, <span class="hljs-attr">role</span>: <span class="hljs-string">'readWrite'</span> },
+    { <span class="hljs-attr">category</span>: <span class="hljs-string">'authenticatedUser'</span>, <span class="hljs-attr">role</span>: <span class="hljs-string">'read'</span> },
+  ];
+  ...
+};
+
+<span class="hljs-comment">// org channel</span>
+<span class="hljs-keyword">const</span> orgChannel: IChannel = {
+  <span class="hljs-attr">channelAcl</span>: [
+    { <span class="hljs-attr">category</span>: <span class="hljs-string">'org'</span>, <span class="hljs-attr">subCategory</span>: <span class="hljs-string">'admin'</span>, <span class="hljs-attr">key</span>: <span class="hljs-string">'org_id'</span>, <span class="hljs-attr">role</span>: <span class="hljs-string">'owner'</span> },
+    { <span class="hljs-attr">category</span>: <span class="hljs-string">'org'</span>, <span class="hljs-attr">subCategory</span>: <span class="hljs-string">'member'</span>, <span class="hljs-attr">key</span>: <span class="hljs-string">'org_id'</span>, <span class="hljs-attr">role</span>: <span class="hljs-string">'readWrite'</span> },
+  ];
+  ...
+};
+
+<span class="hljs-comment">// org channel with group participation</span>
+<span class="hljs-keyword">const</span> orgChannel: IChannel = {
+  <span class="hljs-attr">channelAcl</span>: [
+    { <span class="hljs-attr">category</span>: <span class="hljs-string">'org'</span>, <span class="hljs-attr">subCategory</span>: <span class="hljs-string">'admin'</span>, <span class="hljs-attr">key</span>: <span class="hljs-string">'org_id'</span>, <span class="hljs-attr">role</span>: <span class="hljs-string">'owner'</span> },
+    { <span class="hljs-attr">category</span>: <span class="hljs-string">'org'</span>, <span class="hljs-attr">subCategory</span>: <span class="hljs-string">'member'</span>, <span class="hljs-attr">key</span>: <span class="hljs-string">'org_id'</span>, <span class="hljs-attr">role</span>: <span class="hljs-string">'readWrite'</span> },
+    { <span class="hljs-attr">category</span>: <span class="hljs-string">'group'</span>, <span class="hljs-attr">subCategory</span>: <span class="hljs-string">'member'</span>, <span class="hljs-attr">key</span>: <span class="hljs-string">'group_id'</span>, <span class="hljs-attr">role</span>: <span class="hljs-string">'readWrite'</span> },
+  ];
+  ...
+};
+
+<span class="hljs-comment">// org channel with group management</span>
+<span class="hljs-keyword">const</span> orgChannel: IChannel = {
+  <span class="hljs-attr">channelAcl</span>: [
+    { <span class="hljs-attr">category</span>: <span class="hljs-string">'org'</span>, <span class="hljs-attr">subCategory</span>: <span class="hljs-string">'admin'</span>, <span class="hljs-attr">key</span>: <span class="hljs-string">'org_id'</span>, <span class="hljs-attr">role</span>: <span class="hljs-string">'owner'</span> },
+    { <span class="hljs-attr">category</span>: <span class="hljs-string">'org'</span>, <span class="hljs-attr">subCategory</span>: <span class="hljs-string">'member'</span>, <span class="hljs-attr">key</span>: <span class="hljs-string">'org_id'</span>, <span class="hljs-attr">role</span>: <span class="hljs-string">'readWrite'</span> },
+    { <span class="hljs-attr">category</span>: <span class="hljs-string">'group'</span>, <span class="hljs-attr">subCategory</span>: <span class="hljs-string">'member'</span>, <span class="hljs-attr">key</span>: <span class="hljs-string">'group_id'</span>, <span class="hljs-attr">role</span>: <span class="hljs-string">'manage'</span> },
+  ];
+  ...
+};
+
+<span class="hljs-comment">// org channel with public participation</span>
+<span class="hljs-keyword">const</span> orgChannel: IChannel = {
+  <span class="hljs-attr">channelAcl</span>: [
+    { <span class="hljs-attr">category</span>: <span class="hljs-string">'org'</span>, <span class="hljs-attr">subCategory</span>: <span class="hljs-string">'admin'</span>, <span class="hljs-attr">key</span>: <span class="hljs-string">'org_id'</span>, <span class="hljs-attr">role</span>: <span class="hljs-string">'owner'</span> },
+    { <span class="hljs-attr">category</span>: <span class="hljs-string">'org'</span>, <span class="hljs-attr">subCategory</span>: <span class="hljs-string">'member'</span>, <span class="hljs-attr">key</span>: <span class="hljs-string">'org_id'</span>, <span class="hljs-attr">role</span>: <span class="hljs-string">'readWrite'</span> },
+    { <span class="hljs-attr">category</span>: <span class="hljs-string">'authenticatedUser'</span>, <span class="hljs-attr">role</span>: <span class="hljs-string">'readWrite'</span> },
+  ];
+  ...
+};
+
+<span class="hljs-comment">// org channel with group management and public participation</span>
+<span class="hljs-keyword">const</span> orgChannel: IChannel = {
+  <span class="hljs-attr">channelAcl</span>: [
+    { <span class="hljs-attr">category</span>: <span class="hljs-string">'org'</span>, <span class="hljs-attr">subCategory</span>: <span class="hljs-string">'admin'</span>, <span class="hljs-attr">key</span>: <span class="hljs-string">'org_id'</span>, <span class="hljs-attr">role</span>: <span class="hljs-string">'owner'</span> },
+    { <span class="hljs-attr">category</span>: <span class="hljs-string">'org'</span>, <span class="hljs-attr">subCategory</span>: <span class="hljs-string">'member'</span>, <span class="hljs-attr">key</span>: <span class="hljs-string">'org_id'</span>, <span class="hljs-attr">role</span>: <span class="hljs-string">'readWrite'</span> },
+    { <span class="hljs-attr">category</span>: <span class="hljs-string">'group'</span>, <span class="hljs-attr">subCategory</span>: <span class="hljs-string">'member'</span>, <span class="hljs-attr">key</span>: <span class="hljs-string">'group_id'</span>, <span class="hljs-attr">role</span>: <span class="hljs-string">'manage'</span> },
+    { <span class="hljs-attr">category</span>: <span class="hljs-string">'authenticatedUser'</span>, <span class="hljs-attr">role</span>: <span class="hljs-string">'readWrite'</span> },
+  ];
+  ...
+};
+
+</code></pre>
+<h2>Moderation</h2>
+<p>Users in the channelAcl category/subCategory with a role of <code>manage</code> can moderate posts within the channel. <strong>Moderators</strong> are granted the ability to hide, obscure, and delete other user's posts at their discretion. Only moderators can update <a href="https://esri.github.io/hub.js/api/common/PostStatus/"><strong><code>post.status</code></strong></a> -- non-moderators can only view posts where <code>post.status</code> equals <code>'approved'</code>.</p>
+<h1>Authentication and Authorization</h1>
+<p>All requests to the Hub Discussions API rely on ArcGIS Online for authentication.</p>
+<p>In the <code>@esri/hub-discussions</code> library, authentication is handled using the familiar <a href="https://esri.github.io/hub.js/api/common/IHubRequestOptions/#authentication"><code>IHubRequestOptions</code></a> interface, and specifically the <a href="https://esri.github.io/arcgis-rest-js/api/auth/UserSession/"><code>UserSession</code></a> instance attached to it.</p>
+<p>A user's access to content stored in the Discussions API is determined by their platform identity -- that is their organization and group memberships and manage roles. As noted above, ArcGIS Online access and permissions are encoded in Channels. Currently, most API methods employ one or many checks comparing Channel specs to the requesting user's identity.</p>
+<p>A summary of authorization checks are in the table below (source code: <a href="https://github.com/Esri/hub.js/blob/master/packages/discussions/src/utils/channels/index.ts">channels</a>, <a href="https://github.com/Esri/hub.js/blob/master/packages/discussions/src/utils/channels/index.ts">posts</a>):</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><strong>Permission</strong></th>
+<th style="text-align:left"><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">create a channel</td>
+<td style="text-align:left">- create acl entry with category: <code>anonymousUser OR authenticatedUser</code> -  user has portal privilege <code>portal:admin:shareToPublic</code> or <code>portal:user:shareToPublic</code> <br> - create acl entry with category: <code>group</code>, subCategory: <code>admin</code> - user is the group owner or admin <br> - create acl entry with category: <code>group</code>, subCategory: <code>member</code> - user is a group member <br> - create acl entry with category: <code>org</code>, subCategory: <code>admin or member</code> - user has portal privilege <code>portal:admin:shareToOrg</code> or <code>portal:user:shareToOrg</code></td>
+</tr>
+<tr>
+<td style="text-align:left">view posts in channel</td>
+<td style="text-align:left">- an acl entry has category: <code>anonymousUser</code> with role: <code>read</code> <br> - OR acl entry has category: <code>authenticatedUser</code> with role: <code>read OR readWrite</code> <br> - OR acl entry has category: <code>group</code>, subCategory: <code>admin OR member</code> with role <code>read or readWrite or manage</code>, and the user is in the group, as a member or admin <br> - OR acl entry has category: <code>org</code>, subCategory: <code>admin OR member</code> with role <code>read or readWrite or manage</code>, and the user is in the org, as a member or admin</td>
+</tr>
+<tr>
+<td style="text-align:left">create post in channel</td>
+<td style="text-align:left">- acl entry has category: <code>authenticatedUser</code> with role: <code>readWrite</code> <br> - OR acl entry has category: <code>group</code>, subCategory: <code>admin OR member</code> with role <code>readWrite or manage</code>, and the user is in the group, as a member or admin <br> - OR acl entry has category: <code>org</code>, subCategory: <code>admin OR member</code> with role <code>readWrite or manage</code>, and the user is in the org, as a member or admin</td>
+</tr>
+<tr>
+<td style="text-align:left">moderate post in channel</td>
+<td style="text-align:left">- acl entry has category: <code>group</code>, subCategory: <code>admin OR member</code> with role <code>manage</code>, and the user is in the group, as a member or admin <br> - OR acl entry has category: <code>org</code>, subCategory: <code>admin OR member</code> with role <code>manage</code>, and the user is in the org, as a member or admin</td>
+</tr>
+</tbody>
+</table>
+<h1>In Conclusion</h1>
+<p>The Hub Discussions API has only begun to expose the numerous ways users can interact with each other around data and content in Hub. The API is under continuous development. The <code>@esri/hub-discussions</code> package provides a familar Hub.js interface to the API. There is much more that can be done with the Discussions API and library than what is expressed in this guide. Please add an issue to this repo if you have any questions or if something does not work as expected.</p>
+      </div>
+    </div>
+  </div>
+
+      </main>
+    </div>
+
+    <footer class="footer">
+      
+      <div class="panel panel-white">
+        <div class="grid-container">
+          <div class="column-24">
+            <a href="https://github.com/Esri/hub.js" class="font-size--2">Fork this project</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    
+    <script src="hub.js/js/calcite-web.min.js"></script>
+
+    <script>
+       calcite.init()
+    </script>
+
+    
+  </body>
+</html>
