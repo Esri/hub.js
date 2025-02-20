@@ -874,7 +874,7 @@ export interface ICreateChannelPermissions {
  * @interface ICreateChannelPermissionsV2
  */
 export interface ICreateChannelPermissionsV2 {
-  channelAclDefinition?: IChannelAclPermissionDefinition[];
+  channelAclDefinition: IChannelAclPermissionDefinition[];
 }
 
 /**
