@@ -4,6 +4,7 @@ import { fetchOrg } from "./fetch-org";
 import { IPortal } from "@esri/arcgis-rest-portal";
 import { getOrgThumbnailUrl } from "../resources";
 import { UserSession } from "@esri/arcgis-rest-auth";
+import { IHubSearchResult } from "../search/types/IHubSearchResult";
 
 /**
  * Fetch an organization from the portal
@@ -22,6 +23,36 @@ export async function fetchOrganization(
   const session = requestOptions.authentication as UserSession;
   const token = session.token;
   return portalToOrganization(portal, token);
+}
+
+/**
+ * Convert an IHubOrganization to an IHubSearchResult
+ * @param org
+ * @returns
+ */
+export function organizationToSearchResult(
+  org: IHubOrganization
+): IHubSearchResult {
+  // simple transform
+  return {
+    id: org.id,
+    title: org.name,
+    name: org.name,
+    url: org.url,
+    type: "Organization",
+    family: "organization",
+    source: "portal",
+    createdDate: org.createdDate,
+    createdDateSource: org.createdDateSource,
+    updatedDate: org.updatedDate,
+    updatedDateSource: org.updatedDateSource,
+    thumbnailUrl: org.thumbnailUrl,
+    thumbnail: org.thumbnail,
+    description: org.description,
+    access: org.access,
+    tags: org.tags,
+    typeKeywords: org.typeKeywords,
+  };
 }
 
 /**

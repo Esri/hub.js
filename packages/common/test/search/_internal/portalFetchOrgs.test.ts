@@ -1,105 +1,72 @@
+import { portalFetchOrgs } from "../../../src/search/_internal/portalFetchOrgs";
+import * as fetchOrgModule from "../../../src/org";
+import { IHubSearchOptions, IQuery } from "../../../src/search/types";
 import { IPortal } from "@esri/arcgis-rest-portal";
-import { IArcGISContext } from "../../src/ArcGISContext";
-import * as FetchOrgModule from "../../src/org/fetch-org";
-import {
-  cloneObject,
-  fetchOrganization,
-  IHubOrganization,
-  organizationToSearchResult,
-} from "../../src";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { cloneObject } from "../../../src";
 
-describe("HubOrganizations", () => {
-  describe("convert to searchResult", () => {
-    it("converts", () => {
-      const org: IHubOrganization = {
-        id: "123",
-        orgId: "123",
-        access: "public",
-        name: "name",
-        summary: "summary",
-        description: "description",
-        type: "Organization",
-        source: "portal",
-        createdDate: new Date(),
-        createdDateSource: "portal",
-        updatedDate: new Date(),
-        updatedDateSource: "portal",
-        thumbnail: "thumbnail",
-        url: "url",
-        thumbnailUrl: "thumbnailUrl",
-        portal: {} as IPortal,
-        tags: ["tag"],
-        typeKeywords: ["typeKeyword"],
-      };
-      const result = organizationToSearchResult(org);
-      expect(result.id).toBe(org.id);
-      expect(result.title).toBe(org.name);
-      expect(result.name).toBe(org.name);
-      expect(result.url).toBe(org.url);
-      expect(result.type).toBe("Organization");
-      expect(result.family).toBe("organization");
-      expect(result.source).toBe("portal");
-      expect(result.createdDate).toBe(org.createdDate);
-      expect(result.createdDateSource).toBe(org.createdDateSource);
-      expect(result.updatedDate).toBe(org.updatedDate);
-      expect(result.updatedDateSource).toBe(org.updatedDateSource);
-      expect(result.thumbnailUrl).toBe(org.thumbnailUrl);
-      expect(result.thumbnail).toBe(org.thumbnail);
-      expect(result.description).toBe(org.description);
-      expect(result.access).toBe(org.access);
-    });
+describe("portalFetchOrgs:", () => {
+  let fetchOrgSpy: jasmine.Spy;
+
+  it("should fetch organizations based on id predicate", async () => {
+    fetchOrgSpy = spyOn(fetchOrgModule, "fetchOrg").and.returnValue(
+      Promise.resolve(cloneObject(PORTAL))
+    );
+    const query: IQuery = {
+      targetEntity: "organization",
+      filters: [
+        {
+          predicates: [
+            {
+              id: ["Xj56SBi2udA78cC9"],
+            },
+          ],
+        },
+      ],
+    };
+    const options: IHubSearchOptions = { requestOptions: {} };
+
+    const response = await portalFetchOrgs(query, options);
+
+    expect(fetchOrgSpy).toHaveBeenCalledTimes(1);
+    expect(response.total).toBe(1);
+    expect(response.results[0].id).toBe(PORTAL.id);
   });
-  describe("fetchOrganization", () => {
-    it("fetches an organization from the portal", async () => {
-      const ro = {
-        authentication: {
-          token: "FAKETOKEN",
-        },
-      } as unknown as IRequestOptions;
-      const spy = spyOn(
-        require("../../src/org/fetch-org"),
-        "fetchOrg"
-      ).and.returnValue(Promise.resolve(cloneObject(PORTAL)));
-      const org = await fetchOrganization("123", ro);
-      expect(org.portal).toEqual(PORTAL);
-      expect(spy).toHaveBeenCalledWith("123", ro);
-      expect(org.id).toBe(PORTAL.id);
-      expect(org.orgId).toBe(PORTAL.id);
-      expect(org.access).toBe(PORTAL.access);
-      expect(org.name).toBe(PORTAL.name);
-      expect(org.summary).toBe(PORTAL.description);
-      expect(org.description).toBe(PORTAL.description);
-      expect(org.type).toBe("Organization");
-      expect(org.source).toBe("portal");
-      expect(org.createdDate).toEqual(new Date(PORTAL.created));
-      expect(org.createdDateSource).toBe("portal");
-      expect(org.updatedDate).toEqual(new Date(PORTAL.modified));
-      expect(org.updatedDateSource).toBe("portal");
-      expect(org.thumbnail).toBe(PORTAL.thumbnail);
-      expect(org.url).toBe(`https://${PORTAL.urlKey}.${PORTAL.customBaseUrl}`);
-      expect(org.thumbnailUrl).toBe(
-        "https://qa-pre-a-hub.mapsqa.arcgis.com/sharing/rest/portals/Xj56SBi2udA78cC9/resources/thumbnail1707251441205.png"
+
+  it("should throw an error if no id predicate is found", async () => {
+    const query: IQuery = { targetEntity: "organization", filters: [] };
+    const options: IHubSearchOptions = { requestOptions: {} };
+    try {
+      await portalFetchOrgs(query, options);
+    } catch (e) {
+      expect(e.message).toBe(
+        "Organization query must contain an id predicate."
       );
-    });
+    }
+  });
 
-    it("org url handled for enterprise", async () => {
-      const ro = {
-        authentication: {
-          token: "FAKETOKEN",
+  it("should handle null organizations from failSafe", async () => {
+    fetchOrgSpy = spyOn(fetchOrgModule, "fetchOrg").and.returnValue(
+      Promise.resolve(null)
+    );
+
+    const query: IQuery = {
+      targetEntity: "organization",
+      filters: [
+        {
+          predicates: [
+            {
+              id: ["Xj56SBi2udA78cC9"],
+            },
+          ],
         },
-      } as unknown as IRequestOptions;
+      ],
+    };
+    const options: IHubSearchOptions = { requestOptions: {} };
 
-      const portal = cloneObject(PORTAL);
-      delete portal.urlKey;
+    const response = await portalFetchOrgs(query, options);
 
-      const spy = spyOn(
-        require("../../src/org/fetch-org"),
-        "fetchOrg"
-      ).and.returnValue(Promise.resolve(portal));
-      const org = await fetchOrganization("123", ro);
-      expect(org.url).toBe(`https://${PORTAL.portalHostname}`);
-    });
+    expect(response.total).toBe(0);
+    expect(response.results.length).toBe(0);
   });
 });
 
