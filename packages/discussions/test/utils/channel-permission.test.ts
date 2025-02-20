@@ -102,7 +102,7 @@ describe("ChannelPermission class", () => {
         const a = new ChannelPermission(channel);
         throw new Error("should have thrown");
       } catch (error) {
-        expect(error.message).toBe(
+        expect((error as Error).message).toBe(
           "channel.channelAcl is required for ChannelPermission checks"
         );
       }
