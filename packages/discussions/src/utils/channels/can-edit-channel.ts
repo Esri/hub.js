@@ -1,6 +1,5 @@
 import { IUser } from "@esri/arcgis-rest-types";
-import { IChannel, IDiscussionsUser, IUpdateChannel } from "../../types";
-import { ChannelPermission } from "../channel-permission";
+import { IChannel, IDiscussionsUser } from "../../types";
 import { isAuthorizedToModifyChannelByLegacyPermissions } from "./is-authorized-to-modify-channel-by-legacy-permissions";
 import { hasOrgAdminUpdateRights } from "../portal-privilege";
 

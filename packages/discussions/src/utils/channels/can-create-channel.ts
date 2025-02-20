@@ -1,6 +1,5 @@
 import { IGroup, IUser } from "@esri/arcgis-rest-types";
 import { IChannel, IDiscussionsUser, SharingAccess } from "../../types";
-import { ChannelPermission } from "../channel-permission";
 import { CANNOT_DISCUSS } from "../constants";
 import { isOrgAdmin } from "../platform";
 
