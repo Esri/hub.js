@@ -1,4 +1,4 @@
-import { IItem } from "@esri/arcgis-rest-types";
+import { IItem } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IHubEntityLinks } from "../../core/types";
 import { computeItemLinks } from "../../core/_internal/computeItemLinks";

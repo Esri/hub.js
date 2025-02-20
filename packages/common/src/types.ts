@@ -1,17 +1,12 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import {
-  IItem,
-  IUser,
-  IGroup,
-  IPolygon,
-  ISpatialReference,
-  IGeometry,
-} from "@esri/arcgis-rest-types";
+import { IItem, IUser, IGroup } from "@esri/arcgis-rest-portal";
 import { IPortal, ISearchResult } from "@esri/arcgis-rest-portal";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { IGeometry } from "@esri/arcgis-rest-feature-layer";
+import { IPolygon, ISpatialReference } from "@esri/arcgis-rest-types";
 
 /**
  * Generic Model, used with all items that have a json

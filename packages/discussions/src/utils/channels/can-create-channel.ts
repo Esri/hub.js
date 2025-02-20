@@ -1,4 +1,4 @@
-import { IGroup, IUser } from "@esri/arcgis-rest-types";
+import { IGroup, IUser } from "@esri/arcgis-rest-portal";
 import { IChannel, IDiscussionsUser, SharingAccess } from "../../types";
 import { CANNOT_DISCUSS } from "../constants";
 import { isOrgAdmin } from "../platform";

@@ -1,4 +1,4 @@
-import { IItem, IUser } from "@esri/arcgis-rest-types";
+import { IItem, IUser } from "@esri/arcgis-rest-portal";
 import {
   ArcGISContext,
   HubEntityStatus,

@@ -36,7 +36,7 @@ import {
 } from "../core";
 import { IEditorConfig } from "../core/schemas/types";
 import { enrichEntity } from "../core/enrichEntity";
-import { IGroup } from "@esri/arcgis-rest-types";
+import { IGroup } from "@esri/arcgis-rest-portal";
 import { getProp, getWithDefault } from "../objects";
 import { upsertResource } from "../resources/upsertResource";
 import { doesResourceExist } from "../resources/doesResourceExist";

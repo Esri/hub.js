@@ -2,7 +2,7 @@ import { IGroupTemplate } from "../types";
 import { IHubRequestOptions } from "@esri/hub-common";
 import { _translateTeamTemplate } from "./_translate-team-template";
 import { _createTeamGroup } from "./_create-team-group";
-import { IGroup } from "@esri/arcgis-rest-types";
+import { IGroup } from "@esri/arcgis-rest-portal";
 
 /**
  * Internal: Actually create the team groups
@@ -18,12 +18,12 @@ export function _createTeamGroups(
   hubRequestOptions: IHubRequestOptions
 ): Promise<{ props: any; groups: IGroup[] }> {
   // now translate the templates...
-  const translatedTemplates = groupTemplates.map(tmpl => {
+  const translatedTemplates = groupTemplates.map((tmpl) => {
     return _translateTeamTemplate(tmpl, title, translations);
   });
   // now we actually create the groups... obvs async...
   return Promise.all(
-    translatedTemplates.map(grpTmpl => {
+    translatedTemplates.map((grpTmpl) => {
       return _createTeamGroup(
         hubRequestOptions.portalSelf.user,
         grpTmpl,
@@ -31,31 +31,28 @@ export function _createTeamGroups(
       );
     })
   )
-    .then(groups => {
+    .then((groups) => {
       // hoist out the id's into a structure that has the groupnameProperty: id
-      const props = groups.reduce(
-        (acc, grp) => {
-          // assign to the property, if one is specified
-          if (grp.config.propertyName) {
-            acc[grp.config.propertyName] = grp.id;
-          }
-          return acc;
-        },
-        {} as any
-      );
+      const props = groups.reduce((acc, grp) => {
+        // assign to the property, if one is specified
+        if (grp.config.propertyName) {
+          acc[grp.config.propertyName] = grp.id;
+        }
+        return acc;
+      }, {} as any);
 
       // remove config node
-      groups.forEach(g => delete g.config);
+      groups.forEach((g) => delete g.config);
 
       // construct the return the hash...
       // props: the props which can be spread into the item.properties hash..
       // groups: the array of groups that were created
       return {
         props,
-        groups: groups as IGroup[]
+        groups: groups as IGroup[],
       };
     })
-    .catch(ex => {
+    .catch((ex) => {
       throw Error(`Error in team-utils::_createTeamGroups ${ex}`);
     });
 }

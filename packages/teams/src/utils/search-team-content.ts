@@ -1,9 +1,9 @@
 import {
   searchGroupContent,
   ISearchResult,
-  ISearchGroupContentOptions
+  ISearchGroupContentOptions,
 } from "@esri/arcgis-rest-portal";
-import { IItem } from "@esri/arcgis-rest-types";
+import { IItem } from "@esri/arcgis-rest-portal";
 /**
  * Get the content of a team
  * @param {ISearchGroupContentOptions} searchOptions
