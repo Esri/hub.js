@@ -1,4 +1,4 @@
-import { IGroup, IItem } from "@esri/arcgis-rest-types";
+import { IGroup, IItem } from "@esri/arcgis-rest-portal";
 import { IHubContent, IHubItemEntity } from "../core";
 import { CANNOT_DISCUSS } from "./constants";
 import {

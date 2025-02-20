@@ -1,4 +1,4 @@
-import { IItem, IUser } from "@esri/arcgis-rest-types";
+import { IItem, IUser } from "@esri/arcgis-rest-portal";
 import { IInitiativeModel } from "../types";
 import { getProp } from "../objects";
 import { findBy } from "../util";

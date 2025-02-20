@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-types";
+import { IUser } from "@esri/arcgis-rest-portal";
 import { IDiscussionsUser } from "@esri/hub-common";
 import { isOrgAdminInOrg, isUserInOrg, userHasPrivileges } from "./platform";
 

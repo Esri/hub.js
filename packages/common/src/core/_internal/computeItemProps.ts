@@ -1,4 +1,4 @@
-import { IItem } from "@esri/arcgis-rest-types";
+import { IItem } from "@esri/arcgis-rest-portal";
 import { IHubItemEntity } from "../types";
 import { deriveLocationFromItem } from "../../content/_internal/internalContentUtils";
 import { isDiscussable } from "../../discussions";

@@ -3,7 +3,7 @@ import { DownloadFormat } from "../download-format";
 import { DownloadTarget } from "../download-target";
 
 const DOWNLOADS_LOCK_MS = 10 * 60 * 1000;
-import { IItem } from "@esri/arcgis-rest-types";
+import { IItem } from "@esri/arcgis-rest-portal";
 
 /**
  * @private
