@@ -13,7 +13,7 @@ import { fetchInitiativeTemplate } from "../initiative-templates/fetch";
 import { fetchSurvey } from "../surveys/fetch";
 import { fetchEvent } from "../events/fetch";
 import { convertUserToHubUser, fetchHubUser } from "../users";
-import { fetchOrganization } from "../org/HubOrganizations";
+import { fetchOrganization } from "../org/fetch";
 
 /**
  * Fetch a Hub entity by identifier (id or slug)

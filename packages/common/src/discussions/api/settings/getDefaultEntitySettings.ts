@@ -23,6 +23,7 @@ const DEFAULT_ENTITY_SETTINGS_BY_ENTITY_TYPE: Record<
   page: null,
   content: null,
   organization: null,
+  org: null,
   group: null,
   template: null,
   survey: null,
