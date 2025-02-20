@@ -58,7 +58,7 @@ export class ChannelPermission {
   private existingChannel: IChannel | IChannel;
   private permissionsByCategory: PermissionsByAclCategoryMap;
 
-  constructor(channel: IChannel | IChannel) {
+  constructor(channel: IChannel) {
     if (channel.channelAcl === undefined) {
       throw new Error(
         "channel.channelAcl is required for ChannelPermission checks"
