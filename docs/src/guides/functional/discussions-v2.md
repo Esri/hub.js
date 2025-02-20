@@ -75,9 +75,9 @@ The `post.discussion` is important as a reference for the Post to some content i
 
 ```js
 import {
-  createPost,
+  createPostV2,
   ICreatePost,
-  ICreatePostParams,
+  ICreatePostParamsV2,
 } from "@esri/hub-discussions";
 
 const data: ICreatePost = {
@@ -89,7 +89,7 @@ const data: ICreatePost = {
 
 const opts: ICreatePostOptions = { authentication, data };
 
-const myPost = await createPost(opts);
+const myPost = await createPostV2(opts);
 /*
 myPost = IPost {
   id: 'abcdefg',
@@ -156,7 +156,7 @@ Additionally, a reply post _cannot be more visible_ than the parent post. That i
 
 ```js
 import {
-  createReply,
+  createReplyV2,
   ICreateReplyParams
   IPostOptions,
 } from "@esri/hub-discussions";
@@ -168,7 +168,7 @@ const data: IPostOptions = {
 
 const opts: ICreateReplyParams = { postId: "abcdefg", authentication, data };
 
-const myReply = await createReply(opts);
+const myReply = await createReplyV2(opts);
 /*
 myReply = IPost {
   id: 'gjahsdkj',
@@ -187,7 +187,7 @@ If you want to show support for a post, you can add a thumbs up reaction:
 
 ```js
 import {
-  createReaction,
+  createReactionV2,
   ICreateReaction,
   ICreateReactionOptions,
   PostReaction,
@@ -200,7 +200,7 @@ const data: ICreateReaction = {
 
 const opts: ICreateReactionOptions = { authentication, data };
 
-const thumbs_up = await createReaction(opts);
+const thumbs_up = await createReactionV2(opts);
 ```
 
 # Searching Posts
@@ -211,7 +211,7 @@ In all of these examples, we created a post about Dataset ID 1234. These posts a
 
 ```js
 import {
-  searchPosts,
+  searchPostsV2,
   ISearchPosts,
   ISearchPostsParams,
 } from "@esri/hub-discussions";
@@ -222,7 +222,7 @@ const data: ISearchPosts = {
 
 const opts: ISearchPostsParams = { authentication, data };
 
-const dataset1234Posts = await searchPosts(opts);
+const dataset1234Posts = await searchPostsV2(opts);
 /*
 dataset1234Posts = IPagedResponse<IPost> {
   items: [<IPost>, ...],
@@ -242,7 +242,7 @@ Note that this means any _actual_ percent signs or underscores must be backslash
 
 ```js
 import {
-  searchPosts,
+  searchPostsV2,
   ISearchPosts,
   ISearchPostsParams,
 } from "@esri/hub-discussions";
@@ -253,7 +253,7 @@ const data: ISearchPosts = {
 
 const opts: ISearchPostsParams = { authentication, data };
 
-const allDataset1234Posts = await searchPosts(opts);
+const allDataset1234Posts = await searchPostsV2(opts);
 /*
 allDataset1234Posts = IPagedResponse<IPost> {
   items: [<IPost>, ...],
@@ -269,7 +269,7 @@ The query above will return posts from all application contexts (instead of just
 Some other common query data are enumerated below:
 
 ```js
-import { searchPosts, ISearchPosts, ISearchPostsParams } from '@esri/hub-discussions';
+import { ISearchPosts } from '@esri/hub-discussions';
 
 // search for posts by jdoe made in hub about dataset 1234
 const data: ISearchPosts = {
@@ -309,7 +309,7 @@ Channels include configurations that set the "rules of engagement" for the disco
 | metadata         | [IChannelMetadata](https://esri.github.io/hub.js/api/common/IChannelMetadata/) | null | Metadata associated with the channel |
 | name             | string   |         | Name for the channel |
 | softDelete       | boolean  | true    | Enables soft-delete strategy for posts in channels, meaning that DELETE actions flag posts as "deleted" instead of permanent deletion |
-| channelAcl       | [IChannelAclPermission](https://esri.github.io/hub.js/api/common/IChannelAclPermission/)[] |  | Array of allowed post reactions in channel. If null, all reactions are allowed |
+| channelAcl       | [IChannelAclPermission](https://esri.github.io/hub.js/api/common/IChannelAclPermission/)[] |  | Participation configuration for the channel (see next section) |
 
 ## Channel participation configuration
 
