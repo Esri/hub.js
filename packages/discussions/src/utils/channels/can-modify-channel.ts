@@ -1,12 +1,13 @@
 import { IUser } from "@esri/arcgis-rest-types";
 import { IChannel, IDiscussionsUser } from "../../types";
-import { ChannelPermission } from "../channel-permission";
 import { isOrgAdminInOrg } from "../platform";
 import { isAuthorizedToModifyChannelByLegacyPermissions } from "./is-authorized-to-modify-channel-by-legacy-permissions";
 
+// NO V2 EQUIVALENT. Use canEditChannelV2 or canDeleteChannelV2
 /**
  * Utility to determine if User has privileges to modify a channel
- * @deprecated use `canEditChannel` or `canDeleteChannel` instead
+ * @deprecated use `canEditChannelV2` or `canDeleteChannelV2` instead.
+ * @export
  * @param channel
  * @param user
  * @returns {boolean}
@@ -17,11 +18,6 @@ export function canModifyChannel(
 ): boolean {
   if (isOrgAdminInOrg(user, channel.orgId)) {
     return true;
-  }
-
-  if (channel.channelAcl) {
-    const channelPermission = new ChannelPermission(channel);
-    return channelPermission.canModerateChannel(user as IDiscussionsUser);
   }
 
   return isAuthorizedToModifyChannelByLegacyPermissions(user, channel);

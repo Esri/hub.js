@@ -1,14 +1,14 @@
 import { IGroup, IUser } from "@esri/arcgis-rest-types";
 import { IChannel, IDiscussionsUser, SharingAccess } from "../../types";
 import { isOrgAdmin } from "../platform";
-import { ChannelPermission } from "../channel-permission";
 import { hasOrgAdminUpdateRights } from "../portal-privilege";
 
 const ADMIN_GROUP_ROLES = Object.freeze(["owner", "admin"]);
 
 /**
  * Utility to determine if User has privileges to modify the status of a post
- * @deprecated use `canEditPostStatus` instead
+ * @export
+ * @deprecated replace with canEditPostStatusV2 for v2 discussions
  * @param channel
  * @param user
  * @returns {boolean}
@@ -22,6 +22,8 @@ export function canModifyPostStatus(
 
 /**
  * Utility to determine if User has privileges to modify the status of a post
+ * @export
+ * @deprecated replace with canEditPostStatusV2 for v2 discussions
  * @param channel
  * @param user
  * @returns {boolean}
@@ -32,11 +34,6 @@ export function canEditPostStatus(
 ): boolean {
   if (hasOrgAdminUpdateRights(user, channel.orgId)) {
     return true;
-  }
-
-  if (channel.channelAcl) {
-    const channelPermission = new ChannelPermission(channel);
-    return channelPermission.canModerateChannel(user as IDiscussionsUser);
   }
 
   return isAuthorizedToModifyStatusByLegacyPermissions(user, channel);

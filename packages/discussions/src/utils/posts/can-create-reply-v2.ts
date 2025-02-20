@@ -1,17 +1,15 @@
 import { IUser } from "@esri/arcgis-rest-types";
 import { IChannel, IDiscussionsUser } from "../../types";
-import { isAuthorizedToModifyChannelByLegacyPermissions } from "./is-authorized-to-modify-channel-by-legacy-permissions";
+import { ChannelPermission } from "../channel-permission";
 import { hasOrgAdminUpdateRights } from "../portal-privilege";
 
 /**
- * Utility to determine if User has privileges to edit a channel
- * @export
- * @deprecated replace with canEditChannelV2 for v2 discussions
+ * Utility to determine if User has privileges to create a reply in a channel
  * @param channel
  * @param user
  * @returns {boolean}
  */
-export function canEditChannel(
+export function canCreateReplyV2(
   channel: IChannel,
   user: IUser | IDiscussionsUser = {}
 ): boolean {
@@ -19,5 +17,10 @@ export function canEditChannel(
     return true;
   }
 
-  return isAuthorizedToModifyChannelByLegacyPermissions(user, channel);
+  if (!channel.allowReply) {
+    return false;
+  }
+
+  const channelPermission = new ChannelPermission(channel);
+  return channelPermission.canPostToChannel(user as IDiscussionsUser);
 }

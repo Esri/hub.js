@@ -10,7 +10,8 @@ type ILegacyChannelPermissions = Pick<
 
 /**
  * Utility to determine if User has privileges to modify a post
- * @deprecated use `canEditPost` instead
+ * @export
+ * @deprecated replace with canEditPostV2 for v2 discussions
  * @param post
  * @param user
  * @param channel
@@ -26,6 +27,8 @@ export function canModifyPost(
 
 /**
  * Utility to determine if User has privileges to modify a post
+ * @export
+ * @deprecated replace with canEditPostV2 for v2 discussions
  * @param post
  * @param user
  * @param channel
@@ -37,18 +40,6 @@ export function canEditPost(
   channel: IChannel
 ): boolean {
   const { access, groups, orgs, allowAnonymous } = channel;
-
-  if (channel.channelAcl) {
-    const canReplyOrPost = post.parentId
-      ? channel.allowReply
-      : channel.allowPost;
-    const channelPermission = new ChannelPermission(channel);
-    return (
-      isPostCreator(post, user) &&
-      canReplyOrPost &&
-      channelPermission.canPostToChannel(user)
-    );
-  }
 
   return (
     isPostCreator(post, user) &&

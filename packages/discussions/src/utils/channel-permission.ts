@@ -6,7 +6,7 @@ import {
   IChannelAclPermission,
   IChannelAclPermissionDefinition,
   IDiscussionsUser,
-  IUpdateChannel,
+  IUpdateChannelV2,
   Role,
 } from "../types";
 import { CANNOT_DISCUSS } from "./constants";
@@ -57,8 +57,6 @@ export class ChannelPermission {
   private isChannelAclEmpty: boolean;
   private existingChannel: IChannel;
   private permissionsByCategory: PermissionsByAclCategoryMap;
-  private channelCreator: string;
-  private channelOrgId: string;
 
   constructor(channel: IChannel) {
     if (channel.channelAcl === undefined) {
@@ -69,8 +67,6 @@ export class ChannelPermission {
     this.existingChannel = channel;
     this.isChannelAclEmpty = channel.channelAcl.length === 0;
     this.permissionsByCategory = {};
-    this.channelCreator = channel.creator;
-    this.channelOrgId = channel.orgId;
 
     channel.channelAcl.forEach((permission) => {
       const { category } = permission;
@@ -116,7 +112,6 @@ export class ChannelPermission {
     }
 
     return (
-      user.username === this.channelCreator ||
       this.canSomeUser(ChannelAction.MODERATE_CHANNEL, user) ||
       this.canSomeUserGroup(ChannelAction.MODERATE_CHANNEL, user) ||
       this.canSomeUserOrg(ChannelAction.MODERATE_CHANNEL, user)
@@ -142,7 +137,7 @@ export class ChannelPermission {
 
   canUpdateProperties(
     user: IDiscussionsUser,
-    updateData: IUpdateChannel = {}
+    updateData: IUpdateChannelV2 = {}
   ): boolean {
     if (Object.keys(updateData).length === 0) {
       return true;

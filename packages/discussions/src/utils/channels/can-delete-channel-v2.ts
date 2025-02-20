@@ -1,17 +1,16 @@
 import { IUser } from "@esri/arcgis-rest-types";
 import { IChannel, IDiscussionsUser } from "../../types";
-import { isAuthorizedToModifyChannelByLegacyPermissions } from "./is-authorized-to-modify-channel-by-legacy-permissions";
+import { ChannelPermission } from "../channel-permission";
 import { hasOrgAdminDeleteRights } from "../portal-privilege";
 
 /**
  * Utility to determine if User has privileges to delete a channel
- * @deprecated replace with canDeleteChannelV2 for v2 discussions
  * @export
  * @param channel
  * @param user
  * @returns {boolean}
  */
-export function canDeleteChannel(
+export function canDeleteChannelV2(
   channel: IChannel,
   user: IUser | IDiscussionsUser = {}
 ): boolean {
@@ -19,5 +18,6 @@ export function canDeleteChannel(
     return true;
   }
 
-  return isAuthorizedToModifyChannelByLegacyPermissions(user, channel);
+  const channelPermission = new ChannelPermission(channel);
+  return channelPermission.canModerateChannel(user as IDiscussionsUser);
 }

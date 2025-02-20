@@ -5,14 +5,13 @@ import { hasOrgAdminUpdateRights } from "../portal-privilege";
 
 /**
  * Utility to determine if User has privileges to delete a post
- * @deprecated replace with canDeletePostV2 for v2 discussions
  * @export
  * @param post
  * @param user
  * @param channel
  * @returns {boolean}
  */
-export function canDeletePost(
+export function canDeletePostV2(
   post: IPost,
   channel: IChannel,
   user: IUser | IDiscussionsUser = {}
@@ -30,10 +29,6 @@ function isChannelModerator(
 ): boolean {
   if (hasOrgAdminUpdateRights(user, channel.orgId)) {
     return true;
-  }
-
-  if (!channel.channelAcl) {
-    return false;
   }
 
   const channelPermission = new ChannelPermission(channel);
