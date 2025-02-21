@@ -1,4 +1,3 @@
-import { IGroup } from "@esri/arcgis-rest-types";
 import {
   AclCategory,
   IChannel,
