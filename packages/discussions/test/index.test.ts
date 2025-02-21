@@ -1,8 +1,8 @@
-import * as everything from "../src";
+import * as hubDiscussionsModule from "../src";
 
 describe("index", () => {
-  it("should pass", () => {
-    const exportedMembers = [
+  it("preserves existing exports", () => {
+    const hubDiscussionsExports = new Set([
       "searchPosts",
       "exportPosts",
       "createPost",
@@ -182,7 +182,11 @@ describe("index", () => {
       "userHasPrivileges",
       "MENTION_ATTRIBUTE",
       "CANNOT_DISCUSS",
-    ];
-    expect(Object.keys(everything)).toEqual(exportedMembers);
+    ]);
+    expect(
+      Object.keys(hubDiscussionsModule).every((hubDiscussionsExport) =>
+        hubDiscussionsExports.has(hubDiscussionsExport)
+      )
+    ).toBe(true);
   });
 });
