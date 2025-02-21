@@ -3,9 +3,11 @@ import { PostReaction, IChannel, IDiscussionsUser } from "../../types";
 import { canReadChannel } from "../channels";
 
 /**
- * Utility that determines whether a Channel allows a given PostReaction and whether the User has permissions to create it
+ * Utility that determines whether a Channel allows a given PostReaction
+ * and whether the User has permissions to create it
  *
  * @export
+ * @deprecated replace with canCreateReactionV2 for v2 discussions
  * @param {IChannel} channel
  * @param {PostReaction} value
  * @return {*}  {boolean}

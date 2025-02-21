@@ -1,12 +1,5 @@
 import { IGroup, IUser } from "@esri/arcgis-rest-types";
-import {
-  AclCategory,
-  IChannel,
-  IDiscussionsUser,
-  Role,
-  SharingAccess,
-} from "../../../src/types";
-import { ChannelPermission } from "../../../src/utils/channel-permission";
+import { IChannel, IDiscussionsUser, SharingAccess } from "../../../src/types";
 import { canReadChannel } from "../../../src/utils/channels";
 import * as portalPrivModule from "../../../src/utils/portal-privilege";
 
@@ -24,37 +17,15 @@ const fakeGroup = (id: string, memberType: string) =>
   ({ id, userMembership: { memberType } } as IGroup);
 const fakeChannel = (props: any) => props as IChannel;
 
-function buildUser(overrides = {}) {
-  const defaultUser = {
-    username: "john",
-    orgId: orgId1,
-    role: "org_user",
-    groups: [buildGroup(groupId1, "member"), buildGroup(groupId2, "admin")],
-  };
-
-  return { ...defaultUser, ...overrides } as IDiscussionsUser;
-}
-
-function buildGroup(id: string, memberType: string, typeKeywords?: string[]) {
-  return {
-    id,
-    userMembership: { memberType },
-    typeKeywords,
-  } as any as IGroup;
-}
-
 describe("canReadChannel", () => {
-  let canReadChannelSpy: jasmine.Spy;
   let hasOrgAdminViewRightsSpy: jasmine.Spy;
 
   beforeAll(() => {
     hasOrgAdminViewRightsSpy = spyOn(portalPrivModule, "hasOrgAdminViewRights");
-    canReadChannelSpy = spyOn(ChannelPermission.prototype, "canReadChannel");
   });
 
   beforeEach(() => {
     hasOrgAdminViewRightsSpy.calls.reset();
-    canReadChannelSpy.calls.reset();
   });
 
   describe("With Org Admin", () => {
@@ -69,42 +40,6 @@ describe("canReadChannel", () => {
       const [arg1, arg2] = hasOrgAdminViewRightsSpy.calls.allArgs()[0]; // args for 1st call
       expect(arg1).toBe(user);
       expect(arg2).toBe(channel.orgId);
-
-      expect(canReadChannelSpy.calls.count()).toBe(0);
-    });
-  });
-
-  describe("with channelAcl", () => {
-    it("return true if channelPermission.canReadChannel is true", () => {
-      hasOrgAdminViewRightsSpy.and.callFake(() => false);
-      canReadChannelSpy.and.callFake(() => true);
-
-      const user = buildUser();
-      const channel = {
-        channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
-      } as IChannel;
-
-      expect(canReadChannel(channel, user)).toBe(true);
-
-      expect(canReadChannelSpy.calls.count()).toBe(1);
-      const [arg] = canReadChannelSpy.calls.allArgs()[0]; // arg for 1st call
-      expect(arg).toBe(user);
-    });
-
-    it("return false if channelPermission.canReadChannel is false", () => {
-      hasOrgAdminViewRightsSpy.and.callFake(() => false);
-      canReadChannelSpy.and.callFake(() => false);
-
-      const user = buildUser();
-      const channel = {
-        channelAcl: [
-          { category: AclCategory.ANONYMOUS_USER, role: Role.WRITE },
-        ],
-      } as IChannel;
-
-      expect(canReadChannel(channel, user)).toBe(false);
-
-      expect(canReadChannelSpy.calls.count()).toBe(1);
     });
   });
 
@@ -144,7 +79,6 @@ describe("canReadChannel", () => {
           groups: [groupId1],
         });
         expect(canReadChannel(channel, user)).toBeTruthy();
-        expect(canReadChannelSpy.calls.count()).toBe(0);
       });
       it("returns true for user that is admin of channel group", () => {
         hasOrgAdminViewRightsSpy.and.callFake(() => false);
@@ -154,7 +88,6 @@ describe("canReadChannel", () => {
           groups: [groupId2],
         });
         expect(canReadChannel(channel, user)).toBeTruthy();
-        expect(canReadChannelSpy.calls.count()).toBe(0);
       });
       it("returns true for user that is owner of channel group", () => {
         hasOrgAdminViewRightsSpy.and.callFake(() => false);
@@ -164,7 +97,6 @@ describe("canReadChannel", () => {
           groups: [groupId3],
         });
         expect(canReadChannel(channel, user)).toBeTruthy();
-        expect(canReadChannelSpy.calls.count()).toBe(0);
       });
       it("returns false for user that is not in channel group", () => {
         hasOrgAdminViewRightsSpy.and.callFake(() => false);
@@ -174,7 +106,6 @@ describe("canReadChannel", () => {
           groups: ["unknown"],
         });
         expect(canReadChannel(channel, user)).toBeFalsy();
-        expect(canReadChannelSpy.calls.count()).toBe(0);
       });
       it("returns false undefined user", () => {
         hasOrgAdminViewRightsSpy.and.callFake(() => false);
@@ -194,7 +125,6 @@ describe("canReadChannel", () => {
           groups: ["unknown"],
         });
         expect(canReadChannel(channel, userNoGroups)).toBeFalsy();
-        expect(canReadChannelSpy.calls.count()).toBe(0);
       });
     });
 
@@ -207,7 +137,6 @@ describe("canReadChannel", () => {
           groups: [groupId1],
         });
         expect(canReadChannel(channel, user3)).toBeTruthy();
-        expect(canReadChannelSpy.calls.count()).toBe(0);
       });
       it("returns true for user that is admin of channel group but not in org", () => {
         hasOrgAdminViewRightsSpy.and.callFake(() => false);
@@ -217,7 +146,6 @@ describe("canReadChannel", () => {
           groups: [groupId2],
         });
         expect(canReadChannel(channel, user3)).toBeTruthy();
-        expect(canReadChannelSpy.calls.count()).toBe(0);
       });
       it("returns true for user that is owner of channel group but not in org", () => {
         hasOrgAdminViewRightsSpy.and.callFake(() => false);
@@ -227,7 +155,6 @@ describe("canReadChannel", () => {
           groups: [groupId3],
         });
         expect(canReadChannel(channel, user3)).toBeTruthy();
-        expect(canReadChannelSpy.calls.count()).toBe(0);
       });
 
       it("returns true for user that not in channel groups but is member of channel org", () => {
@@ -237,7 +164,6 @@ describe("canReadChannel", () => {
           orgs: [orgId1],
         });
         expect(canReadChannel(channel, user)).toBeTruthy();
-        expect(canReadChannelSpy.calls.count()).toBe(0);
       });
       it("returns false for user that is not in channel groups and not member of channel org", () => {
         hasOrgAdminViewRightsSpy.and.callFake(() => false);
@@ -246,7 +172,6 @@ describe("canReadChannel", () => {
           orgs: [orgId2], // user not in this org
         });
         expect(canReadChannel(channel, user)).toBeFalsy();
-        expect(canReadChannelSpy.calls.count()).toBe(0);
       });
     });
 
@@ -258,7 +183,6 @@ describe("canReadChannel", () => {
           orgs: [orgId2],
         });
         expect(canReadChannel(channel, user)).toBeTruthy();
-        expect(canReadChannelSpy.calls.count()).toBe(0);
       });
     });
   });

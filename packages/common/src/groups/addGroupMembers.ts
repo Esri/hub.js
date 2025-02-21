@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-types";
+import { IUser } from "@esri/arcgis-rest-portal";
 import { failSafe } from "../utils";
 import { autoAddUsers } from "./autoAddUsers";
 import { inviteUsers } from "./inviteUsers";

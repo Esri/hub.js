@@ -1,3 +1,10 @@
+# @esri/hub-discussions [29.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@29.4.1...@esri/hub-discussions@29.5.0) (2025-02-20)
+
+
+### Features
+
+* **hub-discussions:** add separate v2 route functions for channels, posts, reactions ([#1806](https://github.com/Esri/hub.js/issues/1806)) ([4a42d5f](https://github.com/Esri/hub.js/commit/4a42d5f5129e4a4eead04cc7d26559dae549435e))
+
 ## @esri/hub-discussions [29.4.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@29.4.0...@esri/hub-discussions@29.4.1) (2025-01-29)
 
 

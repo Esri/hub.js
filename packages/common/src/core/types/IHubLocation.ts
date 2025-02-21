@@ -1,7 +1,7 @@
 import { ISpatialReference } from "@esri/arcgis-rest-types";
 import { IHubLocationType } from "./types";
 import { HubEntityType } from "./HubEntityType";
-import { IGeometryInstance } from "../..";
+import { IGeometryInstance } from "./IGeometryInstance";
 
 /**
  * A location associated with an item and stored as a json resource.

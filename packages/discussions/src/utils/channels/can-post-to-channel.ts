@@ -1,6 +1,5 @@
-import { IGroup, IUser } from "@esri/arcgis-rest-types";
+import { IGroup, IUser } from "@esri/arcgis-rest-portal";
 import { IChannel, IDiscussionsUser, SharingAccess } from "../../types";
-import { ChannelPermission } from "../channel-permission";
 import { CANNOT_DISCUSS } from "../constants";
 import { hasOrgAdminUpdateRights } from "../portal-privilege";
 
@@ -11,9 +10,11 @@ type ILegacyChannelPermissions = Pick<
   "groups" | "orgs" | "access" | "allowAnonymous"
 >;
 
+// NO V2 EQUIVALENT. Use canCreatePostV2 or canCreateReplyV2
 /**
  * Utility to determine if User has privileges to create a post in a channel
- * @deprecated use `canCreatePost` or 'canCreateReply` instead
+ * @deprecated use `canCreatePostV2` or 'canCreateReplyV2` instead
+ * @export
  * @param channel
  * @param user
  * @returns {boolean}
@@ -28,12 +29,6 @@ export function canPostToChannel(
     return true;
   }
 
-  if (channel.channelAcl) {
-    const channelPermission = new ChannelPermission(channel);
-    return channelPermission.canPostToChannel(user as IDiscussionsUser);
-  }
-
-  // Once channelAcl usage is enforced, we will remove authorization by legacy permissions
   return isAuthorizedToPostByLegacyPermissions(user, {
     access,
     groups,

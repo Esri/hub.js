@@ -2,7 +2,7 @@ import {
   IPagingParams,
   IPagedResponse as IRestPagedResponse,
   IUser,
-} from "@esri/arcgis-rest-types";
+} from "@esri/arcgis-rest-portal";
 import { Geometry, Polygon } from "geojson";
 import { IHubRequestOptions } from "../../types";
 
@@ -526,10 +526,22 @@ export interface ICreateChannelPost extends IPostOptions, ICreateChannel {}
  *
  * @export
  * @interface ICreatePostParams
- * @extends {IHubRequestOptions}
+ * @extends {IDiscussionsRequestOptions}
  */
 export interface ICreatePostParams extends IDiscussionsRequestOptions {
   data: ICreatePost | ICreateChannelPost;
+  mentionUrl?: string;
+}
+
+/**
+ * request options for creating v2 post
+ *
+ * @export
+ * @interface ICreatePostParamsV2
+ * @extends {IDiscussionsRequestOptions}
+ */
+export interface ICreatePostParamsV2 extends IDiscussionsRequestOptions {
+  data: ICreatePost;
   mentionUrl?: string;
 }
 
@@ -581,6 +593,7 @@ export interface ISearchPosts
   geometry?: Geometry;
   groups?: string[] | null;
   parents?: string[] | null;
+  postType?: PostType;
   relations?: PostRelation[];
   status?: PostStatus[];
   title?: string;
@@ -724,11 +737,12 @@ export enum ChannelRelation {
  * @enum {string}
  */
 export enum AclCategory {
-  GROUP = "group",
-  ORG = "org",
-  USER = "user",
   ANONYMOUS_USER = "anonymousUser",
   AUTHENTICATED_USER = "authenticatedUser",
+  GROUP = "group",
+  ORG = "org",
+  /** Not API supported */
+  USER = "user",
 }
 
 /**
@@ -736,7 +750,9 @@ export enum AclCategory {
  * @enum {string}
  */
 export enum AclSubCategory {
+  /** Only valid for category: `group` or `org` */
   ADMIN = "admin",
+  /** Only valid for category: `group` or `org` */
   MEMBER = "member",
 }
 
@@ -748,7 +764,9 @@ export enum AclSubCategory {
  */
 export interface IChannelAclPermissionDefinition {
   category: AclCategory;
+  /** Only valid for category: `group` or `org` */
   subCategory?: AclSubCategory;
+  /** Ago `group_id` or `org_id` or `user.username`. Invalid for category: `anonymousUser, authenticatedUser` */
   key?: string;
   role: Role;
   restrictedBefore?: string;
@@ -767,17 +785,17 @@ export interface IChannelAclPermissionUpdateDefinition
 }
 
 /**
- * representation of channel Acl permission from service
+ * representation of channelAcl permission from service
  *
  * @export
  * @interface IChannelAclPermission
- * @extends {IChannelAclDefinition}
+ * @extends {IChannelAclPermissionDefinition}
  * @extends {IWithAuthor}
  * @extends {IWithEditor}
  * @extends {IWithTimestamps}
  */
 export interface IChannelAclPermission
-  extends Omit<IChannelAclPermissionDefinition, "restrictedBefore">,
+  extends IChannelAclPermissionDefinition,
     IWithAuthor,
     IWithEditor,
     IWithTimestamps {
@@ -801,6 +819,25 @@ export interface ICreateChannelSettings {
   defaultPostStatus?: PostStatus;
   metadata?: IChannelMetadata;
   name?: string;
+  softDelete?: boolean;
+}
+
+/**
+ * settings parameters for creating a V2 channel
+ *
+ * @export
+ * @interface ICreateChannelSettingsV2
+ */
+export interface ICreateChannelSettingsV2 {
+  allowAsAnonymous?: boolean;
+  allowedReactions?: PostReaction[];
+  allowPost?: boolean;
+  allowReaction?: boolean;
+  allowReply?: boolean;
+  blockWords?: string[];
+  defaultPostStatus?: PostStatus;
+  metadata?: IChannelMetadata;
+  name: string;
   softDelete?: boolean;
 }
 
@@ -831,6 +868,16 @@ export interface ICreateChannelPermissions {
 }
 
 /**
+ * permissions parameters for creating a V2 channel
+ *
+ * @export
+ * @interface ICreateChannelPermissionsV2
+ */
+export interface ICreateChannelPermissionsV2 {
+  channelAclDefinition: IChannelAclPermissionDefinition[];
+}
+
+/**
  * permissions parameters for updating a channel
  *
  * @export
@@ -843,7 +890,17 @@ export interface IUpdateChannelPermissions {
 }
 
 /**
- * permissions and settings options for creating a channel
+ * permissions parameters for updating a V2 channel
+ *
+ * @export
+ * @interface IUpdateChannelPermissionsV2
+ */
+export interface IUpdateChannelPermissionsV2 {
+  channelAclDefinition?: IChannelAclPermissionDefinition[];
+}
+
+/**
+ * parameters for creating a channel
  *
  * @export
  * @interface ICreateChannel
@@ -853,6 +910,18 @@ export interface IUpdateChannelPermissions {
 export interface ICreateChannel
   extends ICreateChannelSettings,
     ICreateChannelPermissions {}
+
+/**
+ * parameters for creating a V2 channel
+ *
+ * @export
+ * @interface ICreateChannelV2
+ * @extends {ICreateChannelSettingsV2}
+ * @extends {ICreateChannelPermissionsV2}
+ */
+export interface ICreateChannelV2
+  extends ICreateChannelSettingsV2,
+    ICreateChannelPermissionsV2 {}
 
 /**
  * representation of channel from service
@@ -865,8 +934,14 @@ export interface ICreateChannel
  */
 export interface IChannel extends IWithAuthor, IWithEditor, IWithTimestamps {
   id: string;
-  access: SharingAccess;
-  allowAnonymous: boolean;
+  /** deprecated V1 permissions field, use channelAcl */
+  access: SharingAccess | null;
+  /** deprecated V1 permissions field, use channelAcl */
+  allowAnonymous: boolean | null;
+  /** deprecated V1 permissions field, use channelAcl */
+  groups: string[] | null;
+  /** deprecated V1 permissions field, use channelAcl */
+  orgs: string[] | null;
   allowAsAnonymous: boolean;
   allowedReactions: PostReaction[] | null;
   allowPost: boolean;
@@ -875,11 +950,9 @@ export interface IChannel extends IWithAuthor, IWithEditor, IWithTimestamps {
   blockWords: string[] | null;
   channelAcl?: IChannelAclPermission[];
   defaultPostStatus: PostStatus;
-  groups: string[];
   metadata: IChannelMetadata | null;
   name: string | null;
   orgId: string;
-  orgs: string[];
   posts?: IPost[];
   softDelete: boolean;
 }
@@ -897,6 +970,37 @@ export interface IUpdateChannel
   extends ICreateChannelSettings,
     IUpdateChannelPermissions,
     Partial<IWithAuthor> {}
+
+/**
+ * parameters for updating a channel
+ *
+ * @export
+ * @interface IUpdateChannelV2
+ * @extends {IUpdateChannelSettingsV2}
+ * @extends {IUpdateChannelPermissionsV2}
+ */
+export interface IUpdateChannelV2
+  extends IUpdateChannelSettingsV2,
+    IUpdateChannelPermissionsV2 {}
+
+/**
+ * settings parameters for updating a channel
+ *
+ * @export
+ * @interface IUpdateChannelSettingsV2
+ */
+export interface IUpdateChannelSettingsV2 {
+  allowAsAnonymous?: boolean;
+  allowedReactions?: PostReaction[];
+  allowPost?: boolean;
+  allowReaction?: boolean;
+  allowReply?: boolean;
+  blockWords?: string[];
+  defaultPostStatus?: PostStatus;
+  metadata?: IChannelMetadata;
+  name?: string;
+  softDelete?: boolean;
+}
 
 /**
  * dto for decorating found channel with relations
@@ -947,6 +1051,17 @@ export interface ICreateChannelParams extends IDiscussionsRequestOptions {
 }
 
 /**
+ * request params for creating a V2 channel
+ *
+ * @export
+ * @interface ICreateChannelParamsV2
+ * @extends {IDiscussionsRequestOptions}
+ */
+export interface ICreateChannelParamsV2 extends IDiscussionsRequestOptions {
+  data: ICreateChannelV2;
+}
+
+/**
  * request params for getting a channel
  *
  * @export
@@ -968,8 +1083,9 @@ export interface IFetchChannelParams extends IDiscussionsRequestOptions {
 export interface ISearchChannelsParams extends IDiscussionsRequestOptions {
   data?: ISearchChannels;
 }
+
 /**
- * request params for updating a channel's settings
+ * request params for updating a channel
  *
  * @export
  * @interface IUpdateChannelParams
@@ -978,6 +1094,18 @@ export interface ISearchChannelsParams extends IDiscussionsRequestOptions {
 export interface IUpdateChannelParams extends IDiscussionsRequestOptions {
   channelId: string;
   data: IUpdateChannel;
+}
+
+/**
+ * request params for updating a V2 channel
+ *
+ * @export
+ * @interface IUpdateChannelParamsV2
+ * @extends {IDiscussionsRequestOptions}
+ */
+export interface IUpdateChannelParamsV2 extends IDiscussionsRequestOptions {
+  channelId: string;
+  data: IUpdateChannelV2;
 }
 
 /**

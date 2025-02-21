@@ -1,6 +1,5 @@
-import { IGroup, IUser } from "@esri/arcgis-rest-types";
+import { IGroup, IUser } from "@esri/arcgis-rest-portal";
 import { IChannel, IDiscussionsUser, SharingAccess } from "../../types";
-import { ChannelPermission } from "../channel-permission";
 import { CANNOT_DISCUSS } from "../constants";
 import { isOrgAdmin } from "../platform";
 
@@ -8,6 +7,8 @@ type ILegacyChannelPermissions = Pick<IChannel, "access" | "groups" | "orgs">;
 
 /**
  * Utility to determine if User has privileges to create a channel with the defined permissions
+ * @deprecated replace with canCreateChannelV2 for v2 discussions
+ * @export
  * @param channel
  * @param user
  * @returns {boolean}
@@ -17,11 +18,6 @@ export function canCreateChannel(
   user: IUser | IDiscussionsUser = {}
 ): boolean {
   const { access, groups, orgs } = channel;
-
-  if (channel.channelAcl) {
-    const channelPermission = new ChannelPermission(channel);
-    return channelPermission.canCreateChannel(user as IDiscussionsUser);
-  }
 
   return isAuthorizedToCreateByLegacyPermissions(user, {
     access,

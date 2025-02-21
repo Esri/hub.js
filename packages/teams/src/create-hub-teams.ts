@@ -9,7 +9,7 @@ import {
 import { getUserCreatableTeams } from "./utils/get-user-creatable-teams";
 import { _createTeamGroups } from "./utils/_create-team-groups";
 import { HubTeamType } from "./types";
-import { IGroup } from "@esri/arcgis-rest-types";
+import { IGroup } from "@esri/arcgis-rest-portal";
 
 /**
  * Create all the groups (aka Teams) required for a Site or Initiative

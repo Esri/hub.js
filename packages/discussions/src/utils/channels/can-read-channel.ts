@@ -2,12 +2,12 @@ import { IUser } from "@esri/arcgis-rest-auth";
 import { GroupMembership } from "@esri/arcgis-rest-portal";
 import { IChannel, IDiscussionsUser } from "../../types";
 import { reduceByGroupMembership } from "../platform";
-import { ChannelPermission } from "../channel-permission";
 import { hasOrgAdminViewRights } from "../portal-privilege";
 
 /**
  * Utility to determine if User can view channel posts and channel attributes
  *
+ * @deprecated replace with canReadChannelV2 for v2 discussions
  * @export
  * @param {IChannel} channel
  * @param {IUser} user
@@ -19,11 +19,6 @@ export function canReadChannel(
 ): boolean {
   if (hasOrgAdminViewRights(user, channel.orgId)) {
     return true;
-  }
-
-  if (channel.channelAcl) {
-    const channelPermission = new ChannelPermission(channel);
-    return channelPermission.canReadChannel(user);
   }
 
   if (channel.access === "private") {
@@ -46,6 +41,7 @@ export function canReadChannel(
  * Utility (deprecated) to determine whether User can view posts belonging to Channel
  *
  * @export
+ * @deprecated replace with canReadChannelV2 for v2 discussions
  * @param {IChannel} channel
  * @param {IUser} user
  * @return {*}  {boolean}

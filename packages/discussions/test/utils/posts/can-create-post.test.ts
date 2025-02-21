@@ -1,39 +1,8 @@
-import { IGroup } from "@esri/arcgis-rest-types";
-import {
-  AclCategory,
-  IChannel,
-  IDiscussionsUser,
-  Role,
-} from "../../../src/types";
-import { ChannelPermission } from "../../../src/utils/channel-permission";
+import { IChannel, IDiscussionsUser } from "../../../src/types";
 import { canCreatePost } from "../../../src/utils/posts/can-create-post";
 import * as portalPrivModule from "../../../src/utils/portal-privilege";
 
-const orgId1 = "3ef";
-const groupId1 = "aaa";
-const groupId2 = "bbb";
-
-function buildUser(overrides = {}) {
-  const defaultUser = {
-    username: "john",
-    orgId: orgId1,
-    role: "org_user",
-    groups: [buildGroup(groupId1, "member"), buildGroup(groupId2, "admin")],
-  };
-
-  return { ...defaultUser, ...overrides } as IDiscussionsUser;
-}
-
-function buildGroup(id: string, memberType: string, typeKeywords?: string[]) {
-  return {
-    id,
-    userMembership: { memberType },
-    typeKeywords,
-  } as any as IGroup;
-}
-
 describe("canCreatePost", () => {
-  let canPostToChannelSpy: jasmine.Spy;
   let hasOrgAdminUpdateRightsSpy: jasmine.Spy;
 
   beforeAll(() => {
@@ -41,21 +10,15 @@ describe("canCreatePost", () => {
       portalPrivModule,
       "hasOrgAdminUpdateRights"
     );
-    canPostToChannelSpy = spyOn(
-      ChannelPermission.prototype,
-      "canPostToChannel"
-    );
   });
 
   beforeEach(() => {
     hasOrgAdminUpdateRightsSpy.calls.reset();
-    canPostToChannelSpy.calls.reset();
   });
 
   describe("With Org Admin", () => {
     it("return true if hasOrgAdminUpdateRights returns true", () => {
       hasOrgAdminUpdateRightsSpy.and.callFake(() => true);
-      canPostToChannelSpy.and.callFake(() => false); // bypass permissions check
 
       const user = {} as IDiscussionsUser;
       const channel = { orgId: "aaa", allowPost: false } as IChannel; // bypass channel setting check
@@ -66,102 +29,44 @@ describe("canCreatePost", () => {
       const [arg1, arg2] = hasOrgAdminUpdateRightsSpy.calls.allArgs()[0]; // args for 1st call
       expect(arg1).toBe(user);
       expect(arg2).toBe(channel.orgId);
-
-      expect(canPostToChannelSpy.calls.count()).toBe(0);
-    });
-  });
-
-  describe("with channelAcl", () => {
-    it("return true if channelPermission.canPostToChannel is true", () => {
-      hasOrgAdminUpdateRightsSpy.and.callFake(() => false);
-      canPostToChannelSpy.and.callFake(() => true);
-
-      const user = buildUser();
-      const channel = {
-        allowPost: true,
-        channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
-      } as IChannel;
-
-      expect(canCreatePost(channel, user)).toBe(true);
-
-      expect(hasOrgAdminUpdateRightsSpy.calls.count()).toBe(1);
-
-      expect(canPostToChannelSpy.calls.count()).toBe(1);
-      const [arg] = canPostToChannelSpy.calls.allArgs()[0]; // arg for 1st call
-      expect(arg).toBe(user);
-    });
-
-    it("return false if channelPermission.canPostToChannel is false", () => {
-      hasOrgAdminUpdateRightsSpy.and.callFake(() => false);
-      canPostToChannelSpy.and.callFake(() => false);
-
-      const user = buildUser();
-      const channel = {
-        allowPost: true,
-        channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
-      } as IChannel;
-
-      expect(canCreatePost(channel, user)).toBe(false);
-
-      expect(hasOrgAdminUpdateRightsSpy.calls.count()).toBe(1);
-
-      expect(canPostToChannelSpy.calls.count()).toBe(1);
-      const [arg] = canPostToChannelSpy.calls.allArgs()[0]; // arg for 1st call
-      expect(arg).toBe(user);
-    });
-
-    it("return false if channel.allowPost is false", () => {
-      hasOrgAdminUpdateRightsSpy.and.callFake(() => false);
-      canPostToChannelSpy.and.callFake(() => true);
-
-      const user = buildUser();
-      const channel = {
-        allowPost: false,
-        channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
-      } as IChannel;
-
-      expect(canCreatePost(channel, user)).toBe(false);
-
-      expect(hasOrgAdminUpdateRightsSpy.calls.count()).toBe(1);
-
-      expect(canPostToChannelSpy.calls.count()).toBe(0);
     });
   });
 
   describe("with legacy permissions", () => {
-    it("returns true if undefined user attempts to create post in allowAnonymous === true channel", () => {
+    it("returns false if undefined user attempts to create post in public allowAnonymous === true channel", () => {
       hasOrgAdminUpdateRightsSpy.and.callFake(() => false);
+      const user: IDiscussionsUser = undefined;
       const channel = {
         allowPost: true,
         allowAnonymous: true,
+        access: "public",
       } as IChannel;
 
-      expect(canCreatePost(channel)).toBe(true);
-      expect(canPostToChannelSpy.calls.count()).toBe(0);
+      expect(canCreatePost(channel, user)).toBe(false);
     });
 
-    it("returns true if anonymous user attempts to create post in allowAnonymous === true channel", () => {
+    it("returns false if anonymous user attempts to create post in public allowAnonymous === true channel", () => {
       hasOrgAdminUpdateRightsSpy.and.callFake(() => false);
       const user: IDiscussionsUser = { username: null };
       const channel = {
         allowPost: true,
         allowAnonymous: true,
+        access: "public",
       } as IChannel;
 
-      expect(canCreatePost(channel, user)).toBe(true);
-      expect(canPostToChannelSpy.calls.count()).toBe(0);
+      expect(canCreatePost(channel, user)).toBe(false);
     });
 
-    it("returns false if anonymous user attempts to create post in allowAnonymous === false channel", () => {
+    it("returns false if anonymous user attempts to create post in public allowAnonymous === false channel", () => {
       hasOrgAdminUpdateRightsSpy.and.callFake(() => false);
       const user: IDiscussionsUser = { username: null };
       const channel = {
         allowPost: true,
         allowAnonymous: false,
+        access: "public",
       } as IChannel;
 
       expect(canCreatePost(channel, user)).toBe(false);
-      expect(canPostToChannelSpy.calls.count()).toBe(0);
     });
 
     it("returns true if authenticated user attempts to create post in public-access channel", () => {
@@ -174,7 +79,6 @@ describe("canCreatePost", () => {
       } as IChannel;
 
       expect(canCreatePost(channel, user)).toBe(true);
-      expect(canPostToChannelSpy.calls.count()).toBe(0);
     });
 
     it("returns true if group authorized user attempts to create post in private-access channel", () => {
@@ -197,7 +101,6 @@ describe("canCreatePost", () => {
       } as any;
 
       expect(canCreatePost(channel, user)).toBe(true);
-      expect(canPostToChannelSpy.calls.count()).toBe(0);
     });
 
     it("returns true if a group authorized user attempts to create post in private-access channel, but at least one group is NOT marked cannotDiscuss", () => {
@@ -225,7 +128,6 @@ describe("canCreatePost", () => {
       } as any;
 
       expect(canCreatePost(channel, user)).toBe(true);
-      expect(canPostToChannelSpy.calls.count()).toBe(0);
     });
 
     it("returns false if group authorized user attempts to create post in private-access channel, but the only group is marked cannotDiscuss", () => {
@@ -248,7 +150,6 @@ describe("canCreatePost", () => {
       } as any;
 
       expect(canCreatePost(channel, user)).toBe(false);
-      expect(canPostToChannelSpy.calls.count()).toBe(0);
     });
 
     it("returns false if group unauthorized user attempts to create post in private-access channel", () => {
@@ -272,7 +173,6 @@ describe("canCreatePost", () => {
       } as any;
 
       expect(canCreatePost(channel, user)).toBe(false);
-      expect(canPostToChannelSpy.calls.count()).toBe(0);
     });
 
     it("handles missing user/channel groups", () => {
@@ -287,7 +187,6 @@ describe("canCreatePost", () => {
       } as any;
 
       expect(canCreatePost(channel, user)).toBe(false);
-      expect(canPostToChannelSpy.calls.count()).toBe(0);
     });
 
     it("returns true if org authorized user attempts to create post in org-access channel", () => {
@@ -304,7 +203,6 @@ describe("canCreatePost", () => {
       } as any;
 
       expect(canCreatePost(channel, user)).toBe(true);
-      expect(canPostToChannelSpy.calls.count()).toBe(0);
     });
 
     it("returns false if unknown access value", () => {
@@ -321,7 +219,6 @@ describe("canCreatePost", () => {
       } as any;
 
       expect(canCreatePost(channel, user)).toBe(false);
-      expect(canPostToChannelSpy.calls.count()).toBe(0);
     });
   });
 });

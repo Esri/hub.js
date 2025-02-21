@@ -1,4 +1,4 @@
-import { IItem, IUser } from "@esri/arcgis-rest-types";
+import { IItem, IUser } from "@esri/arcgis-rest-portal";
 import { includes } from "../utils";
 import { getProp } from "../objects";
 import { hasBasePriv } from "./has-base-priv";
@@ -9,7 +9,7 @@ export const REQUIRED_PRIVS = [
   "portal:user:createItem",
   "portal:user:shareToGroup",
   "portal:user:viewOrgGroups",
-  "portal:user:viewOrgItems"
+  "portal:user:viewOrgItems",
 ];
 
 /**
@@ -32,7 +32,9 @@ export function canEditSiteContent(item: IItem, user: IUser): boolean {
     const sameOrg = !!userOrgId && userOrgId === itemOrgId;
     if (sameOrg) {
       const privileges = user.privileges || [];
-      res = REQUIRED_PRIVS.every(privilege => includes(privileges, privilege));
+      res = REQUIRED_PRIVS.every((privilege) =>
+        includes(privileges, privilege)
+      );
     }
   }
   return res;

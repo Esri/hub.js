@@ -1,10 +1,12 @@
-import { IUser } from "@esri/arcgis-rest-types";
+import { IUser } from "@esri/arcgis-rest-portal";
 import { IChannel, IDiscussionsUser, IPost } from "../../types";
 import { ChannelPermission } from "../channel-permission";
 import { hasOrgAdminUpdateRights } from "../portal-privilege";
 
 /**
  * Utility to determine if User has privileges to delete a post
+ * @deprecated replace with canDeletePostV2 for v2 discussions
+ * @export
  * @param post
  * @param user
  * @param channel

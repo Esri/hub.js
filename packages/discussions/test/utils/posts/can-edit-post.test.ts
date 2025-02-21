@@ -7,71 +7,8 @@ import {
 } from "../../../src/types";
 import { CANNOT_DISCUSS } from "../../../src/utils/constants";
 import { canEditPost, canModifyPost } from "../../../src/utils/posts";
-import { ChannelPermission } from "../../../src/utils/channel-permission";
 
 describe("canModifyPost", () => {
-  it("returns false if the user did not create the post", () => {
-    const post = { id: "postId", creator: "john" } as IPost;
-    const user = { username: "notJohn" } as IDiscussionsUser;
-    const channel = {
-      allowPost: true,
-      access: SharingAccess.PUBLIC,
-    } as IChannel;
-
-    const result = canModifyPost(post, user, channel);
-    expect(result).toBe(false);
-  });
-
-  it("returns false if the user is not logged in", () => {
-    const post = { id: "postId" } as IPost; // asAnonymous post
-    const user = {} as IDiscussionsUser;
-    const channel = {
-      allowPost: true,
-      access: SharingAccess.PUBLIC,
-    } as IChannel;
-
-    const result = canModifyPost(post, user, channel);
-    expect(result).toBe(false);
-  });
-
-  it("returns false if the user undefined", () => {
-    const post = { id: "postId" } as IPost; // asAnonymous post
-    const user = undefined as unknown as IDiscussionsUser;
-    const channel = {
-      allowPost: true,
-      access: SharingAccess.PUBLIC,
-    } as IChannel;
-
-    const result = canModifyPost(post, user, channel);
-    expect(result).toBe(false);
-  });
-
-  it("returns false if the user created the post but can longer write to channel", () => {
-    const canModerateChannelSpy = spyOn(
-      ChannelPermission.prototype,
-      "canPostToChannel"
-    ).and.returnValue(false);
-    const post = { id: "postId", creator: "john" } as IPost;
-    const user = { username: "john" } as IDiscussionsUser;
-    const channel = { allowPost: true, channelAcl: [] } as unknown as IChannel;
-
-    const result = canModifyPost(post, user, channel);
-    expect(result).toBe(false);
-  });
-
-  it("returns true if the user created the post and can still write to channel", () => {
-    const canModerateChannelSpy = spyOn(
-      ChannelPermission.prototype,
-      "canPostToChannel"
-    ).and.returnValue(true);
-    const post = { id: "postId", creator: "john" } as IPost;
-    const user = { username: "john" } as IDiscussionsUser;
-    const channel = { allowPost: true, channelAcl: [] } as unknown as IChannel;
-
-    const result = canModifyPost(post, user, channel);
-    expect(result).toBe(true);
-  });
-
   describe("Legacy Permissions", () => {
     describe("public channel", () => {
       it("returns true if user is creator", () => {
@@ -143,6 +80,18 @@ describe("canModifyPost", () => {
         const user = {
           username: "john",
         } as IDiscussionsUser;
+        const channel = {
+          allowPost: true,
+          access: SharingAccess.PRIVATE,
+        } as IChannel;
+
+        const result = canModifyPost(post, user, channel);
+        expect(result).toBe(false);
+      });
+
+      it("returns false if user is undefined", () => {
+        const post = { id: "postId", creator: "john" } as IPost;
+        const user = undefined as IDiscussionsUser;
         const channel = {
           allowPost: true,
           access: SharingAccess.PRIVATE,
@@ -256,197 +205,6 @@ describe("canModifyPost", () => {
 });
 
 describe("canEditPost", () => {
-  let canPostToChannelSpy: jasmine.Spy;
-
-  beforeAll(() => {
-    canPostToChannelSpy = spyOn(
-      ChannelPermission.prototype,
-      "canPostToChannel"
-    );
-  });
-
-  beforeEach(() => {
-    canPostToChannelSpy.calls.reset();
-  });
-
-  describe("POST", () => {
-    it("returns false if the user did not create the post", () => {
-      const post = { id: "postId", creator: "john" } as IPost;
-      const user = { username: "notJohn" } as IDiscussionsUser;
-      const channel = {
-        allowPost: true,
-        channelAcl: [],
-      } as unknown as IChannel;
-
-      const result = canEditPost(post, user, channel);
-      expect(result).toBe(false);
-      expect(canPostToChannelSpy.calls.count()).toBe(0);
-    });
-
-    it("returns false if the user is not logged in", () => {
-      const post = { id: "postId" } as IPost; // asAnonymous post
-      const user = {} as IDiscussionsUser;
-      const channel = {
-        allowPost: true,
-        channelAcl: [],
-      } as unknown as IChannel;
-
-      const result = canEditPost(post, user, channel);
-      expect(result).toBe(false);
-      expect(canPostToChannelSpy.calls.count()).toBe(0);
-    });
-
-    it("returns false if the user undefined", () => {
-      const post = { id: "postId" } as IPost; // asAnonymous post
-      const user = undefined as unknown as IDiscussionsUser;
-      const channel = {
-        allowPost: true,
-        channelAcl: [],
-      } as unknown as IChannel;
-
-      const result = canEditPost(post, user, channel);
-      expect(result).toBe(false);
-      expect(canPostToChannelSpy.calls.count()).toBe(0);
-    });
-
-    it("returns false if channel.allowPost is false", () => {
-      canPostToChannelSpy.and.callFake(() => true); // bypass permissions check
-      const post = { id: "postId", creator: "john" } as IPost;
-      const user = { username: "john" } as IDiscussionsUser;
-      const channel = {
-        allowPost: false,
-        channelAcl: [],
-      } as unknown as IChannel;
-
-      const result = canEditPost(post, user, channel);
-      expect(result).toBe(false);
-      expect(canPostToChannelSpy.calls.count()).toBe(0);
-    });
-
-    it("returns false if the user created the post but can longer write to channel", () => {
-      canPostToChannelSpy.and.callFake(() => false);
-      const post = { id: "postId", creator: "john" } as IPost;
-      const user = { username: "john" } as IDiscussionsUser;
-      const channel = {
-        allowPost: true,
-        channelAcl: [],
-      } as unknown as IChannel;
-
-      const result = canEditPost(post, user, channel);
-      expect(result).toBe(false);
-      expect(canPostToChannelSpy.calls.count()).toBe(1);
-      const [arg] = canPostToChannelSpy.calls.allArgs()[0]; // arg for 1st call
-      expect(arg).toBe(user);
-    });
-
-    it("returns true if the user created the post and can still write to channel", () => {
-      canPostToChannelSpy.and.callFake(() => true);
-      const post = { id: "postId", creator: "john" } as IPost;
-      const user = { username: "john" } as IDiscussionsUser;
-      const channel = {
-        allowPost: true,
-        channelAcl: [],
-      } as unknown as IChannel;
-
-      const result = canEditPost(post, user, channel);
-      expect(result).toBe(true);
-
-      expect(canPostToChannelSpy.calls.count()).toBe(1);
-      const [arg] = canPostToChannelSpy.calls.allArgs()[0]; // arg for 1st call
-      expect(arg).toBe(user);
-    });
-  });
-
-  describe("REPLY", () => {
-    it("returns false if the user did not create the reply", () => {
-      const post = { id: "postId", creator: "john", parentId: "aaa" } as IPost;
-      const user = { username: "notJohn" } as IDiscussionsUser;
-      const channel = {
-        allowReply: true,
-        channelAcl: [],
-      } as unknown as IChannel;
-
-      const result = canEditPost(post, user, channel);
-      expect(result).toBe(false);
-      expect(canPostToChannelSpy.calls.count()).toBe(0);
-    });
-
-    it("returns false if the user is not logged in", () => {
-      const post = { id: "postId", parentId: "aaa" } as IPost; // asAnonymous post
-      const user = {} as IDiscussionsUser;
-      const channel = {
-        allowReply: true,
-        channelAcl: [],
-      } as unknown as IChannel;
-
-      const result = canEditPost(post, user, channel);
-      expect(result).toBe(false);
-      expect(canPostToChannelSpy.calls.count()).toBe(0);
-    });
-
-    it("returns false if the user undefined", () => {
-      const post = { id: "postId", parentId: "aaa" } as IPost; // asAnonymous post
-      const user = undefined as unknown as IDiscussionsUser;
-      const channel = {
-        allowReply: true,
-        channelAcl: [],
-      } as unknown as IChannel;
-
-      const result = canEditPost(post, user, channel);
-      expect(result).toBe(false);
-      expect(canPostToChannelSpy.calls.count()).toBe(0);
-    });
-
-    it("returns false channel.allowReply is false", () => {
-      canPostToChannelSpy.and.callFake(() => true); // bypass permissions check
-      const post = { id: "postId", creator: "john", parentId: "aaa" } as IPost;
-      const user = { username: "john" } as IDiscussionsUser;
-      const channel = {
-        allowReply: false,
-        channelAcl: [],
-      } as unknown as IChannel;
-
-      const result = canEditPost(post, user, channel);
-      expect(result).toBe(false);
-
-      expect(canPostToChannelSpy.calls.count()).toBe(0);
-    });
-
-    it("returns false if the user created the post but can longer write to channel", () => {
-      canPostToChannelSpy.and.callFake(() => false);
-      const post = { id: "postId", creator: "john", parentId: "aaa" } as IPost;
-      const user = { username: "john" } as IDiscussionsUser;
-      const channel = {
-        allowReply: true,
-        channelAcl: [],
-      } as unknown as IChannel;
-
-      const result = canEditPost(post, user, channel);
-      expect(result).toBe(false);
-
-      expect(canPostToChannelSpy.calls.count()).toBe(1);
-      const [arg] = canPostToChannelSpy.calls.allArgs()[0]; // arg for 1st call
-      expect(arg).toBe(user);
-    });
-
-    it("returns true if the user created the post and can still write to channel", () => {
-      canPostToChannelSpy.and.callFake(() => true);
-      const post = { id: "postId", creator: "john", parentId: "aaa" } as IPost;
-      const user = { username: "john" } as IDiscussionsUser;
-      const channel = {
-        allowReply: true,
-        channelAcl: [],
-      } as unknown as IChannel;
-
-      const result = canEditPost(post, user, channel);
-      expect(result).toBe(true);
-
-      expect(canPostToChannelSpy.calls.count()).toBe(1);
-      const [arg] = canPostToChannelSpy.calls.allArgs()[0]; // arg for 1st call
-      expect(arg).toBe(user);
-    });
-  });
-
   describe("Legacy Permissions", () => {
     describe("public channel", () => {
       it("returns true if user is creator", () => {
@@ -512,6 +270,17 @@ describe("canEditPost", () => {
         const user = {
           username: "john",
         } as IDiscussionsUser;
+        const channel = {
+          access: SharingAccess.PRIVATE,
+        } as IChannel;
+
+        const result = canEditPost(post, user, channel);
+        expect(result).toBe(false);
+      });
+
+      it("returns false if user is undefined", () => {
+        const post = { id: "postId", creator: "john" } as IPost;
+        const user = undefined as IDiscussionsUser;
         const channel = {
           access: SharingAccess.PRIVATE,
         } as IChannel;

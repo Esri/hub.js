@@ -1,65 +1,11 @@
 import { IGroup } from "@esri/arcgis-rest-types";
-import {
-  AclCategory,
-  IChannel,
-  IDiscussionsUser,
-  Role,
-  SharingAccess,
-} from "../../../src/types";
+import { IChannel, IDiscussionsUser, SharingAccess } from "../../../src/types";
 import {
   canEditPostStatus,
   canModifyPostStatus,
 } from "../../../src/utils/posts";
-import { ChannelPermission } from "../../../src/utils/channel-permission";
 
 describe("canModifyPostStatus", () => {
-  describe("With channelAcl Permissions", () => {
-    let canModerateChannelSpy: jasmine.Spy;
-
-    beforeAll(() => {
-      canModerateChannelSpy = spyOn(
-        ChannelPermission.prototype,
-        "canModerateChannel"
-      );
-    });
-
-    beforeEach(() => {
-      canModerateChannelSpy.calls.reset();
-    });
-
-    it("return true if channelPermission.canModifyPostStatus is true", () => {
-      canModerateChannelSpy.and.callFake(() => true);
-
-      const user = {} as IDiscussionsUser;
-      const channel = {
-        channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
-        creator: "john",
-      } as IChannel;
-
-      expect(canModifyPostStatus(channel, user)).toBe(true);
-
-      expect(canModerateChannelSpy.calls.count()).toBe(1);
-      const [arg1] = canModerateChannelSpy.calls.allArgs()[0]; // args for 1st call
-      expect(arg1).toBe(user);
-    });
-
-    it("return false if channelPermission.canModifyPostStatus is false", () => {
-      canModerateChannelSpy.and.callFake(() => false);
-
-      const user = {} as IDiscussionsUser;
-      const channel = {
-        channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
-        creator: "john",
-      } as IChannel;
-
-      expect(canModifyPostStatus(channel, user)).toBe(false);
-
-      expect(canModerateChannelSpy.calls.count()).toBe(1);
-      const [arg1] = canModerateChannelSpy.calls.allArgs()[0]; // args for 1st call
-      expect(arg1).toBe(user);
-    });
-  });
-
   describe("With Legacy Permissions", () => {
     it("returns false if the user is not authenticated", () => {
       const user = {} as IDiscussionsUser;
@@ -456,67 +402,6 @@ describe("canModifyPostStatus", () => {
 });
 
 describe("canEditPostStatus", () => {
-  describe("With channelAcl Permissions", () => {
-    let canModerateChannelSpy: jasmine.Spy;
-
-    beforeAll(() => {
-      canModerateChannelSpy = spyOn(
-        ChannelPermission.prototype,
-        "canModerateChannel"
-      );
-    });
-
-    beforeEach(() => {
-      canModerateChannelSpy.calls.reset();
-    });
-
-    it("return true if user is org_admin", () => {
-      canModerateChannelSpy.and.callFake(() => true);
-
-      const user = { role: "org_admin" } as IDiscussionsUser;
-      const channel = {
-        channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
-        creator: "john",
-      } as IChannel;
-
-      expect(canEditPostStatus(channel, user)).toBe(true);
-
-      expect(canModerateChannelSpy.calls.count()).toBe(0);
-    });
-
-    it("return true if channelPermission.canEditPostStatus is true", () => {
-      canModerateChannelSpy.and.callFake(() => true);
-
-      const user = {} as IDiscussionsUser;
-      const channel = {
-        channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
-        creator: "john",
-      } as IChannel;
-
-      expect(canEditPostStatus(channel, user)).toBe(true);
-
-      expect(canModerateChannelSpy.calls.count()).toBe(1);
-      const [arg1] = canModerateChannelSpy.calls.allArgs()[0]; // args for 1st call
-      expect(arg1).toBe(user);
-    });
-
-    it("return false if channelPermission.canEditPostStatus is false", () => {
-      canModerateChannelSpy.and.callFake(() => false);
-
-      const user = {} as IDiscussionsUser;
-      const channel = {
-        channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
-        creator: "john",
-      } as IChannel;
-
-      expect(canEditPostStatus(channel, user)).toBe(false);
-
-      expect(canModerateChannelSpy.calls.count()).toBe(1);
-      const [arg1] = canModerateChannelSpy.calls.allArgs()[0]; // args for 1st call
-      expect(arg1).toBe(user);
-    });
-  });
-
   describe("With Legacy Permissions", () => {
     it("returns false if the user is not authenticated", () => {
       const user = {} as IDiscussionsUser;
@@ -536,6 +421,17 @@ describe("canEditPostStatus", () => {
     it("returns true if the user created the channel", () => {
       const user = { username: "john" } as IDiscussionsUser;
       const channel = { creator: "john" } as IChannel;
+
+      expect(canEditPostStatus(channel, user)).toBe(true);
+    });
+
+    it("returns true if the user is org_admin and the channel org is in the user orgs", () => {
+      const user = {
+        username: "john",
+        orgId: "aaa",
+        role: "org_admin",
+      } as IDiscussionsUser;
+      const channel = { orgId: "aaa" } as IChannel;
 
       expect(canEditPostStatus(channel, user)).toBe(true);
     });
