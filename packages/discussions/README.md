@@ -13,6 +13,18 @@
 
 # @esri/hub-discussions
 
+## IMPORTANT NOTICE:
+
+> **This package will be deprecated in a future breaking release.**
+
+ `@esri/hub-discussions` has been merged into `@esri/hub-common` beginning with `@esri/hub-common` version `15.34.0`. Please update your project dependencies and import statements to use `@esri/hub-common`.
+
+<br>
+<br>
+<br>
+<br>
+
+
 > Module to interact with ArcGIS Hub Discussions API in Node.js and modern browsers.
 
 ### Example
