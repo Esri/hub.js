@@ -192,6 +192,7 @@ export const HubFamilies = [
   "channel",
   "discussion",
   "eventAttendee",
+  "organization",
 ] as const;
 
 /**

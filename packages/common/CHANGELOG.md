@@ -1,3 +1,10 @@
+# @esri/hub-common [15.35.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.34.0...@esri/hub-common@15.35.0) (2025-02-21)
+
+
+### Features
+
+* add IHubOrganization with fetch and hubSearch support ([#1808](https://github.com/Esri/hub.js/issues/1808)) ([ef89d09](https://github.com/Esri/hub.js/commit/ef89d09d50cd6fc625738d37ae7d6f35bd2053d4))
+
 # @esri/hub-common [15.34.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.33.0...@esri/hub-common@15.34.0) (2025-02-20)
 
 
