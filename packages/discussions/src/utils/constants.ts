@@ -1,2 +1,1 @@
-export { CANNOT_DISCUSS } from "@esri/hub-common";
-export const MENTION_ATTRIBUTE = "data-mention";
+export { CANNOT_DISCUSS, MENTION_ATTRIBUTE } from "@esri/hub-common";

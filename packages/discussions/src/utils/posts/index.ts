@@ -1,16 +1,19 @@
-// V1
-export { canCreatePost } from "./can-create-post";
-export { canCreateReply } from "./can-create-reply";
-export { canDeletePost } from "./can-delete-post";
-export { canModifyPostStatus, canEditPostStatus } from "./can-edit-post-status";
-export { canModifyPost, canEditPost } from "./can-edit-post";
-
-// V2
-export { isDiscussable } from "@esri/hub-common";
-export { parseDiscussionURI } from "./parse-discussion-uri";
-export { parseMentionedUsers } from "./parse-mentioned-users";
-export { canCreatePostV2 } from "./can-create-post-v2";
-export { canCreateReplyV2 } from "./can-create-reply-v2";
-export { canDeletePostV2 } from "./can-delete-post-v2";
-export { canEditPostStatusV2 } from "./can-edit-post-status-v2";
-export { canEditPostV2 } from "./can-edit-post-v2";
+export {
+  // V1
+  canCreatePost,
+  canCreateReply,
+  canDeletePost,
+  canModifyPostStatus,
+  canEditPostStatus,
+  canModifyPost,
+  canEditPost,
+  // V2
+  isDiscussable,
+  parseDiscussionURI,
+  parseMentionedUsers,
+  canCreatePostV2,
+  canCreateReplyV2,
+  canDeletePostV2,
+  canEditPostStatusV2,
+  canEditPostV2,
+} from "@esri/hub-common";
