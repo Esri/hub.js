@@ -1,4 +1,3 @@
-import { IGroup, IUser } from "@esri/arcgis-rest-types";
 import {
   IChannel,
   IDiscussionsUser,
