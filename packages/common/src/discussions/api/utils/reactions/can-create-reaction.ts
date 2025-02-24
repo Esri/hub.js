@@ -1,6 +1,6 @@
 import { IUser } from "@esri/arcgis-rest-auth";
 import { PostReaction, IChannel, IDiscussionsUser } from "../../types";
-import { canReadChannel } from "../channels";
+import { canReadChannel } from "../channels/can-read-channel";
 
 /**
  * Utility that determines whether a Channel allows a given PostReaction
