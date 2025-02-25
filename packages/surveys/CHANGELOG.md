@@ -1,3 +1,10 @@
+## @esri/hub-surveys [15.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-surveys@15.0.0...@esri/hub-surveys@15.0.1) (2025-02-25)
+
+
+### Bug Fixes
+
+* revert "refactor: minimize use of rest-types package" ([#1813](https://github.com/Esri/hub.js/issues/1813)) ([11e151b](https://github.com/Esri/hub.js/commit/11e151b3d13b1a04e73cb85330a606c2dcb749d7))
+
 # @esri/hub-surveys [15.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-surveys@14.1.1...@esri/hub-surveys@15.0.0) (2024-11-01)
 
 

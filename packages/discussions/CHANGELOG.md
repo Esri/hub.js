@@ -1,3 +1,10 @@
+## @esri/hub-discussions [29.5.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@29.5.0...@esri/hub-discussions@29.5.1) (2025-02-25)
+
+
+### Bug Fixes
+
+* revert "refactor: minimize use of rest-types package" ([#1813](https://github.com/Esri/hub.js/issues/1813)) ([11e151b](https://github.com/Esri/hub.js/commit/11e151b3d13b1a04e73cb85330a606c2dcb749d7))
+
 # @esri/hub-discussions [29.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@29.4.1...@esri/hub-discussions@29.5.0) (2025-02-20)
 
 
