@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-portal";
+import { IUser } from "@esri/arcgis-rest-types";
 import { IChannel, IDiscussionsUser, IPost } from "../../types";
 import { ChannelPermission } from "../channel-permission";
 
