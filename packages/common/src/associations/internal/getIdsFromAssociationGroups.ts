@@ -1,4 +1,4 @@
-import { IGroup } from "@esri/arcgis-rest-portal";
+import { IGroup } from "@esri/arcgis-rest-types";
 import { HubEntityType } from "../../core";
 
 /**

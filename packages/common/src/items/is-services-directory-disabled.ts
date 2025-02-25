@@ -1,7 +1,7 @@
 import { parseServiceUrl } from "@esri/arcgis-rest-feature-layer";
 import { getItem } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IItem } from "@esri/arcgis-rest-portal";
+import { IItem } from "@esri/arcgis-rest-types";
 
 /**
  * Checks if a server's services directory is disabled. Consider hoisting this to RESTJS

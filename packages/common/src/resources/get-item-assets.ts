@@ -1,5 +1,5 @@
 import { IHubRequestOptions, ITemplateAsset } from "../types";
-import { IItem } from "@esri/arcgis-rest-portal";
+import { IItem } from "@esri/arcgis-rest-types";
 import { getPortalApiUrl } from "../urls";
 import { getItemThumbnailUrl } from "./get-item-thumbnail-url";
 import { getItemResources } from "@esri/arcgis-rest-portal";
@@ -23,17 +23,17 @@ export function getItemAssets(
     assets.push({
       name: item.thumbnail,
       url: thumbnailUrl,
-      type: "thumbnail",
+      type: "thumbnail"
     });
   }
   // get all the other resources
   // TODO: see how this works w/ folders
-  return getItemResources(item.id, hubRequestOptions).then((response) => {
+  return getItemResources(item.id, hubRequestOptions).then(response => {
     const resourceAssets = response.resources.map((e: any) => {
       return {
         name: e.resource,
         type: "resource",
-        url: `${itemUrl}/resources/${e.resource}`,
+        url: `${itemUrl}/resources/${e.resource}`
       };
     });
     return assets.concat(resourceAssets);
