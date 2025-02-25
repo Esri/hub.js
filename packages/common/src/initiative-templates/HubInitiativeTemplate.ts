@@ -12,7 +12,7 @@ import {
 import { IEditorConfig } from "../core/schemas/types";
 import { IWithEditorBehavior } from "../core/behaviors/IWithEditorBehavior";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
-import { IArcGISContext } from "..";
+import type { IArcGISContext } from "../IArcGISContext";
 import { Catalog } from "../search/Catalog";
 import { DEFAULT_INITIATIVE_TEMPLATE } from "./defaults";
 import { fetchInitiativeTemplate } from "./fetch";

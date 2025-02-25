@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../ArcGISContext";
+import type { IArcGISContext } from "../IArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
 import { IWithEditorBehavior } from "../core/behaviors/IWithEditorBehavior";
 import { enrichEntity } from "../core/enrichEntity";

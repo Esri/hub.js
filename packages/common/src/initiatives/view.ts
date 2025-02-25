@@ -1,16 +1,18 @@
-import { IArcGISContext, IHubSearchResult, getFamily } from "..";
 import { getShortenedCategories } from "../content/_internal/internalContentUtils";
-import { IHubInitiative } from "../core";
+import type { IHubInitiative } from "../core/types/IHubInitiative";
 import {
   getCardModelUrlFromEntity,
   getCardModelUrlFromResult,
 } from "../urls/getCardModelUrl";
-import {
+import type {
   EntityToCardModelFn,
   ResultToCardModelFn,
   IConvertToCardModelOpts,
   IHubCardViewModel,
 } from "../core/types/IHubCardViewModel";
+import type { IArcGISContext } from "../IArcGISContext";
+import { IHubSearchResult } from "../search/types/IHubSearchResult";
+import { getFamily } from "../content/get-family";
 
 /**
  * Convert an initiative entity in a card view model

@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../../ArcGISContext";
+import type { IArcGISContext } from "../../IArcGISContext";
 import { getWithDefault } from "../../objects";
 import { IPermissionPolicy, PolicyResponse, IPolicyCheck } from "../types";
 import { getPolicyResponseCode } from "./getPolicyResponseCode";

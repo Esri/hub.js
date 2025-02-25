@@ -1,5 +1,5 @@
-import { IArcGISContext } from "../../ArcGISContext";
-import { UserResourceApp } from "../../ArcGISContextManager";
+import type { IArcGISContext } from "../../IArcGISContext";
+import type { UserResourceApp } from "../../types";
 import { removeUserResource } from "./userAppResources";
 
 export const USER_SITE_SETTINGS_APP: UserResourceApp = "self";

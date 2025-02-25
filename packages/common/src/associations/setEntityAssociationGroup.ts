@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../ArcGISContext";
+import type { IArcGISContext } from "../IArcGISContext";
 import { IHubGroup, getTypeFromEntity } from "../core";
 import { HubEntity } from "../core/types/HubEntity";
 import { updateHubEntity } from "../core/updateHubEntity";

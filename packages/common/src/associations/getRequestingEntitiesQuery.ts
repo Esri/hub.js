@@ -5,7 +5,7 @@ import { getAssociationHierarchy } from "./internal/getAssociationHierarchy";
 import { getReferencesDoesNotIncludeQuery } from "./internal/getReferencesDoesNotIncludeQuery";
 import { getIncludesDoesNotReferenceQuery } from "./internal/getIncludesDoesNotReferenceQuery";
 import { isAssociationSupported } from "./internal/isAssociationSupported";
-import { IArcGISContext } from "..";
+import type { IArcGISContext } from "../IArcGISContext";
 
 /**
  * Requesting entities represent "incoming" requests that are

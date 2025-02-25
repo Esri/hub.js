@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../ArcGISContext";
+import type { IArcGISContext } from "../IArcGISContext";
 import { shareEventWithGroups } from "../events/_internal/shareEventWithGroups";
 import { IHubEvent } from "./types/IHubEvent";
 import { IHubItemEntity } from "./types/IHubItemEntity";

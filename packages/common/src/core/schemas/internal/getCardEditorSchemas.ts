@@ -13,7 +13,7 @@ import {
   IStatCardEditorOptions,
 } from "./EditorOptions";
 import { cloneObject } from "../../../util";
-import { IArcGISContext } from "../../../ArcGISContext";
+import type { IArcGISContext } from "../../../IArcGISContext";
 import { ICardEditorModuleType } from "../types";
 
 /**

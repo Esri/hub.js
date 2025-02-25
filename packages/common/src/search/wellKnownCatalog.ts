@@ -4,7 +4,7 @@ import { HubFamily } from "../types";
 import { EntityType, IFilter, IHubCatalog, IHubCollection } from "./types";
 import { buildCatalog } from "./_internal/buildCatalog";
 import { getProp } from "../objects";
-import { IArcGISContext } from "..";
+import type { IArcGISContext } from "../IArcGISContext";
 
 /**
  * This is used to determine what IHubCatalog definition JSON object
@@ -243,7 +243,7 @@ function getWellknownItemCatalog(
 function _getCOrgOrEOrgId(context: IArcGISContext): string {
   // extract the c-org / e-org relationship
   const cOrgEOrgTrustedRelationship = context.trustedOrgs.find(
-    (org) => org.from.orgId === context.currentUser.orgId
+    (org: any) => org.from.orgId === context.currentUser.orgId
   );
 
   // if we're in a community org, and there is a trusted org
@@ -263,7 +263,7 @@ function _getCOrgOrEOrgId(context: IArcGISContext): string {
 function _getEOrgName(eOrgId: string, context: IArcGISContext): string {
   // extract the c-org / e-org relationship
   const communityTrustedOrgRelationship = context.trustedOrgs.find(
-    (org) => org.to.orgId === eOrgId
+    (org: any) => org.to.orgId === eOrgId
   );
 
   return communityTrustedOrgRelationship.to.name;

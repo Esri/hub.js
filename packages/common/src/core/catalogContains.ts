@@ -6,7 +6,7 @@ import {
 import { IContainsOptions, IContainsResponse } from "../search/types/types";
 import { isCuid } from "../utils/is-cuid";
 import { isGuid } from "../utils/is-guid";
-import { IArcGISContext } from "../ArcGISContext";
+import type { IArcGISContext } from "../IArcGISContext";
 import { hubSearch } from "../search/hubSearch";
 import { getWithDefault } from "../objects/get-with-default";
 

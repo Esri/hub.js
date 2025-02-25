@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../../ArcGISContext";
+import type { IArcGISContext } from "../../IArcGISContext";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";

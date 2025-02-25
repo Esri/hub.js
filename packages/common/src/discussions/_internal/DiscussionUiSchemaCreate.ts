@@ -1,5 +1,5 @@
 import { IUiSchema } from "../../core";
-import { IArcGISContext } from "../../ArcGISContext";
+import type { IArcGISContext } from "../../IArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 /**
  * @private

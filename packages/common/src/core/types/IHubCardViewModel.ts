@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../../ArcGISContext";
+import type { IArcGISContext } from "../../IArcGISContext";
 import { IHubSearchResult } from "../../search/types/IHubSearchResult";
 import { AccessLevel } from "./types";
 

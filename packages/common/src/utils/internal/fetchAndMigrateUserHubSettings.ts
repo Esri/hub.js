@@ -1,5 +1,5 @@
 import { failSafe } from "../fail-safe";
-import { IUserHubSettings } from "../hubUserAppResources";
+import { IUserHubSettings } from "../IUserHubSettings";
 import { USER_HUB_SETTINGS_KEY } from "./clearUserHubSettings";
 import { applyHubSettingsMigrations } from "./siteSettingsMigrations";
 import { getUserResource } from "./userAppResources";

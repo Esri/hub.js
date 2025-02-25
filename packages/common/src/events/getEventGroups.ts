@@ -1,6 +1,6 @@
 import { IGroup, ISearchResult, searchGroups } from "@esri/arcgis-rest-portal";
 import { getEvent } from "./api/events";
-import { IArcGISContext } from "../ArcGISContext";
+import type { IArcGISContext } from "../IArcGISContext";
 
 /**
  * Fetches the groups an event is shared with

@@ -1,6 +1,6 @@
 import { queryFeatures } from "@esri/arcgis-rest-feature-layer";
 import { IStatisticDefinition } from "@esri/arcgis-rest-types";
-import { IArcGISContext } from "../../ArcGISContext";
+import type { IArcGISContext } from "../../IArcGISContext";
 import {
   DynamicValues,
   IDynamicServiceQueryDefinition,

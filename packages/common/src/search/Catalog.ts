@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../ArcGISContext";
+import type { IArcGISContext } from "../IArcGISContext";
 import { ArcGISContextManager } from "../ArcGISContextManager";
 import { fetchHubEntity, HubEntityType } from "../core";
 import { catalogContains } from "../core/catalogContains";

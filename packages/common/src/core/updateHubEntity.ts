@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../ArcGISContext";
+import type { IArcGISContext } from "../IArcGISContext";
 import { updateContent } from "../content/edit";
 import { updateDiscussion } from "../discussions/edit";
 import { updateInitiative } from "../initiatives/HubInitiatives";

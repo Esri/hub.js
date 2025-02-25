@@ -1,5 +1,5 @@
 import { IEntityEditorContext, IHubUser } from "../core/types";
-import { IArcGISContext } from "../ArcGISContext";
+import type { IArcGISContext } from "../IArcGISContext";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
 import { IEditorConfig } from "../core/schemas/types";
 import { IWithEditorBehavior } from "../core/behaviors/IWithEditorBehavior";

@@ -51,7 +51,7 @@ import { setEntityStatusKeyword } from "../utils/internal/setEntityStatusKeyword
 import { editorToMetric } from "../metrics/editorToMetric";
 import { setMetricAndDisplay } from "../core/schemas/internal/metrics/setMetricAndDisplay";
 import { createId } from "../util";
-import { IArcGISContext } from "../ArcGISContext";
+import type { IArcGISContext } from "../IArcGISContext";
 import { convertHubGroupToGroup } from "../groups/_internal/convertHubGroupToGroup";
 import { IHubGroup } from "../core/types/IHubGroup";
 import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlug";

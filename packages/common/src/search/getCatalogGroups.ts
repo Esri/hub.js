@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../ArcGISContext";
+import type { IArcGISContext } from "../IArcGISContext";
 import { unique } from "../util";
 import { Catalog } from "./Catalog";
 import { IGroupsByMembership } from "./types/IGroupsByMembership";

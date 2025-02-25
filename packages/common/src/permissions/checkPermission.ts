@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../ArcGISContext";
+import type { IArcGISContext } from "../IArcGISContext";
 import { getProp, getWithDefault } from "../objects";
 import { checkLicense } from "./_internal/checkLicense";
 import { getPermissionPolicy } from "./HubPermissionPolicies";
@@ -20,7 +20,7 @@ import { IPermissionAccessResponse } from "./types/IPermissionAccessResponse";
 import { PolicyResponse } from "./types/PolicyResponse";
 import { IPolicyCheck } from "./types/IPolicyCheck";
 import { IEntityPermissionPolicy } from "./types/IEntityPermissionPolicy";
-import { IUserHubSettings } from "../utils";
+import { IUserHubSettings } from "../utils/IUserHubSettings";
 
 /**
  * Type to allow either an entity or and entity and label to be

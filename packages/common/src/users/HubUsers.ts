@@ -11,7 +11,7 @@ import { getUserHomeUrl } from "../urls";
 import { unique } from "../util";
 import { mapBy } from "../utils";
 import { IHubSearchResult } from "../search/types/IHubSearchResult";
-import { IArcGISContext } from "../ArcGISContext";
+import type { IArcGISContext } from "../IArcGISContext";
 import { computeProps } from "./_internal/computeProps";
 
 /**

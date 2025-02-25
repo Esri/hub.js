@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../ArcGISContext";
+import type { IArcGISContext } from "../IArcGISContext";
 import { HubEntity } from "../core";
 import { getWithDefault } from "../objects/get-with-default";
 import { searchCatalogs } from "./searchCatalogs";

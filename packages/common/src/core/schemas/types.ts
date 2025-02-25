@@ -15,7 +15,7 @@ import {
   CardEditorOptions,
   EntityEditorOptions,
 } from "./internal/EditorOptions";
-import { IArcGISContext } from "../../ArcGISContext";
+import type { IArcGISContext } from "../../IArcGISContext";
 import { EventEditorTypes } from "../../events/_internal/EventSchemaCreate";
 import { HubActionLink } from "../types";
 import { UserEditorTypes } from "../../users/_internal/UserSchema";

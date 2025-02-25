@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../../../ArcGISContext";
+import type { IArcGISContext } from "../../../IArcGISContext";
 import { IUiSchemaElement, UiSchemaRuleEffects } from "../types";
 import { fetchCategoryItems } from "./fetchCategoryItems";
 

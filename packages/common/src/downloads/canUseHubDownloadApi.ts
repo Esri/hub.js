@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../ArcGISContext";
+import type { IArcGISContext } from "../IArcGISContext";
 import { IHubEditableContent } from "../core/types/IHubEditableContent";
 import { canUseCreateReplica } from "./canUseCreateReplica";
 import { canUseHubDownloadSystem } from "./canUseHubDownloadSystem";

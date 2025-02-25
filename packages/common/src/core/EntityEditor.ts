@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../ArcGISContext";
+import type { IArcGISContext } from "../IArcGISContext";
 import { HubContent } from "../content/HubContent";
 import { HubDiscussion } from "../discussions/HubDiscussion";
 import { HubGroup } from "../groups/HubGroup";

@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../../ArcGISContext";
+import type { IArcGISContext } from "../../IArcGISContext";
 import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import { fetchOrg } from "../../org/fetch-org";
 import { failSafe } from "../../utils/fail-safe";
