@@ -34,7 +34,7 @@ import * as hubCommon from "../src";
  *
  * I highly suspect this is related to cyclic dependencies within this package, our current export strategy/order,
  * or a combination of both. We should revisit unskipping this test once cyclic deps are eliminated from hub-common,
- * and again if/when we change our export strategy/order.
+ * and again if/when we change our export strategy/order...
  */
 
 xdescribe("index", () => {
