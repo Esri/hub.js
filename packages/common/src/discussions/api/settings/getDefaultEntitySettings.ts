@@ -22,7 +22,6 @@ const DEFAULT_ENTITY_SETTINGS_BY_ENTITY_TYPE: Record<
   initiativeTemplate: null,
   page: null,
   content: null,
-  organization: null,
   org: null,
   group: null,
   template: null,

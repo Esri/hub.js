@@ -319,13 +319,12 @@ export function getScopeGroupPredicate(scope: IQuery): IPredicate {
  * @returns
  */
 export function getGroupPredicate(query: IQuery): IPredicate {
-  const predicate = "group";
   const expandedQuery = expandQuery(query);
-  const isTargetPredicate = (p: IPredicate) => !!p[predicate];
-  const filter = expandedQuery.filters.find((f) =>
-    f.predicates.find(isTargetPredicate)
+  const isGroupPredicate = (predicate: IPredicate) => !!predicate.group;
+  const groupFilter = expandedQuery.filters.find((f) =>
+    f.predicates.find(isGroupPredicate)
   );
-  return filter && filter.predicates.find(isTargetPredicate);
+  return groupFilter && groupFilter.predicates.find(isGroupPredicate);
 }
 
 /**

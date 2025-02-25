@@ -8,17 +8,15 @@ import { IHubTemplate } from "./IHubTemplate";
 import { IHubSurvey } from "./IHubSurvey";
 import { IHubEvent } from "./IHubEvent";
 import { IHubUser } from "./IHubUser";
-import { IHubOrganization } from "../..";
 
 export type HubEntity =
-  | IHubDiscussion
-  | IHubEvent
-  | IHubGroup
-  | IHubInitiative
-  | IHubOrganization
-  | IHubPage
-  | IHubProject
   | IHubSite
-  | IHubSurvey
+  | IHubProject
+  | IHubDiscussion
+  | IHubInitiative
+  | IHubPage
+  | IHubGroup
   | IHubTemplate
+  | IHubSurvey
+  | IHubEvent
   | IHubUser;

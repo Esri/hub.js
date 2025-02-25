@@ -19,7 +19,6 @@ export * from "./IHubItemEntity";
 export * from "./IHubLayout";
 export * from "./IHubLocation";
 export * from "./IHubMapSettings";
-export * from "./IHubOrganization";
 export * from "./IHubPage";
 export * from "./IHubProject";
 export * from "./IHubTemplate";

@@ -20,7 +20,6 @@ import { hubSearchItems } from "./_internal/hubSearchItems";
 import { hubSearchChannels } from "./_internal/hubSearchChannels";
 import { hubSearchEvents } from "./_internal/hubSearchEvents";
 import { hubSearchEventAttendees } from "./_internal/hubSearchEventAttendees";
-import { portalFetchOrgs } from "./_internal/portalFetchOrgs";
 
 /**
  * Main entrypoint for searching via Hub
@@ -84,7 +83,6 @@ export async function hubSearch(
       portalUser: searchPortalUsers,
       communityUser: searchCommunityUsers,
       groupMember: portalSearchGroupMembers,
-      organization: portalFetchOrgs,
     },
     "arcgis-hub": {
       item: hubSearchItems,
