@@ -1,3 +1,10 @@
+# @esri/hub-common [15.36.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.35.0...@esri/hub-common@15.36.0) (2025-02-25)
+
+
+### Features
+
+* ungate project/initiative catalog panes ([#1804](https://github.com/Esri/hub.js/issues/1804)) ([a980be6](https://github.com/Esri/hub.js/commit/a980be6016760c1963e4ec0e0372864ab04ebafa))
+
 # @esri/hub-common [15.35.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.34.0...@esri/hub-common@15.35.0) (2025-02-21)
 
 
