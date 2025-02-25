@@ -1,4 +1,4 @@
-import { IItem } from "@esri/arcgis-rest-portal";
+import { IItem } from "@esri/arcgis-rest-types";
 import { IHubRequestOptions, upgradeSiteSchema } from "@esri/hub-common";
 import { getItemData } from "@esri/arcgis-rest-portal";
 

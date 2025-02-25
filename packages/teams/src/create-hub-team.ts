@@ -10,7 +10,7 @@ import {
 } from "@esri/hub-common";
 import { getUserCreatableTeams } from "./utils/get-user-creatable-teams";
 import { _createTeamGroups } from "./utils/_create-team-groups";
-import { IGroup } from "@esri/arcgis-rest-portal";
+import { IGroup } from "@esri/arcgis-rest-types";
 
 /**
  * Create a single Team, using the same logic as creating multiple Teams.

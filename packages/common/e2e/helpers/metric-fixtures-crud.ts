@@ -1,5 +1,5 @@
 import { createGroup, removeGroup } from "@esri/arcgis-rest-portal";
-import { IGroup, IGroupAdd } from "@esri/arcgis-rest-portal";
+import { IGroup, IGroupAdd } from "@esri/arcgis-rest-types";
 import {
   IArcGISContext,
   HubInitiative,

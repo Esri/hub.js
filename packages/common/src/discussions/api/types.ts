@@ -2,7 +2,7 @@ import {
   IPagingParams,
   IPagedResponse as IRestPagedResponse,
   IUser,
-} from "@esri/arcgis-rest-portal";
+} from "@esri/arcgis-rest-types";
 import { Geometry, Polygon } from "geojson";
 import { IHubRequestOptions } from "../../types";
 

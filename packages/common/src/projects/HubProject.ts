@@ -35,7 +35,7 @@ import { createProject, editorToProject, updateProject } from "./edit";
 import { ProjectEditorType } from "./_internal/ProjectSchema";
 import { enrichEntity } from "../core/enrichEntity";
 import { getProp, getWithDefault } from "../objects";
-import { IGroup } from "@esri/arcgis-rest-portal";
+import { IGroup } from "@esri/arcgis-rest-types";
 import { metricToEditor } from "../metrics/metricToEditor";
 import { IMetricDisplayConfig } from "../core/types/Metrics";
 import { upsertResource } from "../resources/upsertResource";

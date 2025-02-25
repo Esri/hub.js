@@ -2,7 +2,7 @@ import { extentToBBox, orgExtent as orgExtent } from "../../../extent";
 import { IHubRequestOptions } from "../../../types";
 import { getTypeFromEntity } from "../../getTypeFromEntity";
 import { IHubLocation, IHubLocationOption } from "../../types/IHubLocation";
-import { IExtent } from "@esri/arcgis-rest-feature-layer";
+import { IExtent } from "@esri/arcgis-rest-types";
 
 /**
  * Construct the dynamic location picker options with the entity's
