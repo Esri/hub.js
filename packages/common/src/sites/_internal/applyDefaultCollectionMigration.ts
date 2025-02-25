@@ -4,6 +4,17 @@ import { WellKnownCollection } from "../../search/wellKnownCatalog";
 import { IModel } from "../../types";
 import { SearchCategories } from "./types";
 
+export const defaultSiteCollectionKeys: WellKnownCollection[] = [
+  // TODO: add 'all' as a wellknown collection and figure out the
+  // ramifications of doing so across the app. (or create a new
+  // type that includes 'all')
+  "all" as any,
+  "dataset",
+  "document",
+  "site",
+  "appAndMap",
+];
+
 /**
  * In-Memory migration that adds default collections to site models that have the
  * new catalog structure. These default collections will have the same names and
@@ -24,17 +35,7 @@ import { SearchCategories } from "./types";
  * to the catalog
  */
 export function applyDefaultCollectionMigration(model: IModel): IModel {
-  const baseCollectionKeys: WellKnownCollection[] = [
-    // TODO: add 'all' as a wellknown collection and figure out the
-    // ramifications of doing so across the app. (or create a new
-    // type that includes 'all')
-    "all" as any,
-    "dataset",
-    "document",
-    "site",
-    "appAndMap",
-  ];
-  const baseCollectionMap = baseCollectionKeys.reduce((map, key) => {
+  const baseCollectionMap = defaultSiteCollectionKeys.reduce((map, key) => {
     map[key] = {
       // We chose to leave the label as "null" for a couple of reasons. First off,
       // the default collection names are supposed to be translated and we don't
