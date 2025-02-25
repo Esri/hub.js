@@ -3,7 +3,7 @@ import {
   IPreviewFeedOptions,
 } from "../../../src/sites/feeds/previewFeed";
 import * as fetchMock from "fetch-mock";
-import { IArcGISContext } from "../../../src/ArcGISContext";
+import { IArcGISContext } from "../../../src/IArcGISContext";
 
 describe("previewFeed", () => {
   const context = {

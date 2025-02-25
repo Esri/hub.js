@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../../src/ArcGISContext";
+import { IArcGISContext } from "../../src/IArcGISContext";
 import { IHubEditableContent } from "../../src/core/types/IHubEditableContent";
 import { canUseHubDownloadApi } from "../../src/downloads/canUseHubDownloadApi";
 import * as canUseCreateReplicaModule from "../../src/downloads/canUseCreateReplica";

@@ -2,7 +2,7 @@ import { IHubItemEntity } from "../../src/core/types/IHubItemEntity";
 import { setEntityAccess } from "../../src/core/setEntityAccess";
 import * as updateEventModule from "../../src/events/api/events";
 import * as portalModule from "@esri/arcgis-rest-portal";
-import { IArcGISContext } from "../../src/ArcGISContext";
+import { IArcGISContext } from "../../src/IArcGISContext";
 import { HubEntity } from "../../src/core/types/HubEntity";
 
 describe("setEntityAccess", () => {

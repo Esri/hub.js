@@ -24,7 +24,7 @@ import {
   HubEventCapacityType,
 } from "../../src/events/types";
 import * as buildEventAssociationsModule from "../../src/events/_internal/buildEventAssociations";
-import { IArcGISContext } from "../../src/ArcGISContext";
+import { IArcGISContext } from "../../src/IArcGISContext";
 
 describe("HubEvents edit module", () => {
   const context = {

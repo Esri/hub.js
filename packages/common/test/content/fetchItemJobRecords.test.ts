@@ -6,7 +6,7 @@ import {
   JobRecordStatus,
   JobRecordType,
 } from "../../src/content/types";
-import { IArcGISContext } from "../../src/ArcGISContext";
+import { IArcGISContext } from "../../src/IArcGISContext";
 import * as fetchMock from "fetch-mock";
 
 describe("fetchItemJobRecords", () => {

@@ -2,7 +2,7 @@ import { getEventGroups } from "../../src/events/getEventGroups";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as eventsModule from "../../src/events/api/events";
 import { IHubEvent } from "../../src/core/types/IHubEvent";
-import { IArcGISContext } from "../../src/ArcGISContext";
+import { IArcGISContext } from "../../src/IArcGISContext";
 import { IEvent } from "../../src/events/api/orval/api/orval-events";
 
 describe("getEventGroups", () => {

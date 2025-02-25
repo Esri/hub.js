@@ -1,5 +1,5 @@
 import { HubEntity, cloneObject } from "../../../src";
-import { IArcGISContext } from "../../../src/ArcGISContext";
+import { IArcGISContext } from "../../../src/IArcGISContext";
 import { getIncludesAndReferencesQuery } from "../../../src/associations/internal/getIncludesAndReferencesQuery";
 import { MOCK_PARENT_ENTITY, MOCK_CHILD_ENTITY } from "../fixtures";
 import * as ItemsModule from "@esri/arcgis-rest-portal";

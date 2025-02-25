@@ -27,7 +27,7 @@ import {
   IQuery,
   getProp,
 } from "../../src";
-import { IArcGISContext } from "../../src/ArcGISContext";
+import { IArcGISContext } from "../../src/IArcGISContext";
 import * as editorToMetricModule from "../../src/metrics/editorToMetric";
 import * as setMetricAndDisplayModule from "../../src/core/schemas/internal/metrics/setMetricAndDisplay";
 

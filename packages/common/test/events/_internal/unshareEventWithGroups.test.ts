@@ -2,7 +2,7 @@ import { unshareEventWithGroups } from "../../../src/events/_internal/unshareEve
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { IHubEvent } from "../../../src/core/types/IHubEvent";
 import * as eventsModule from "../../../src/events/api/events";
-import { IArcGISContext } from "../../../src/ArcGISContext";
+import { IArcGISContext } from "../../../src/IArcGISContext";
 
 describe("unshareEventWithGroups", () => {
   let updateEventSpy: jasmine.Spy;

@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../../../src/ArcGISContext";
+import { IArcGISContext } from "../../../src/IArcGISContext";
 import { getExportItemDataUrl } from "../../../src/downloads/_internal/getExportItemDataUrl";
 
 describe("getExportItemDataUrl", () => {

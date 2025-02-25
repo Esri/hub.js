@@ -5,11 +5,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { UserSession } from "@esri/arcgis-rest-auth";
 
-import {
-  ArcGISContextManager,
-  IArcGISContextManagerOptions,
-} from "../../src/ArcGISContextManager";
+import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { getProp } from "../../src/objects";
+import type { IArcGISContextManagerOptions } from "../../src/IArcGISContextManagerOptions";
+
 /**
  * @internal
  */

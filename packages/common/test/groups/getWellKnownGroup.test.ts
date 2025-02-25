@@ -1,6 +1,7 @@
 import { getWellKnownGroup } from "../../src/groups/getWellKnownGroup";
 import { MOCK_CONTEXT, MOCK_AUTH } from "../mocks/mock-auth";
-import { ArcGISContext, IArcGISContext } from "../../src/ArcGISContext";
+import { ArcGISContext } from "../../src/ArcGISContext";
+import type { IArcGISContext } from "../../src/IArcGISContext";
 
 describe("getWellKnownGroup: ", () => {
   const MOCK_CONTEXT_WITH_PRIVILEGES = new ArcGISContext({

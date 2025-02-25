@@ -1,4 +1,4 @@
-import type { IArcGISContext } from "../src/ArcGISContext";
+import type { IArcGISContext } from "../src/IArcGISContext";
 import { fetchHubEntity } from "../src/core/fetchHubEntity";
 import { HubEntity } from "../src/core/types/HubEntity";
 import { checkPermission } from "../src/permissions/checkPermission";
