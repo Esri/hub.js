@@ -1,9 +1,8 @@
-import { IExtent } from "@esri/arcgis-rest-feature-layer";
+import { IExtent, IPoint, IPolygon, Position } from "@esri/arcgis-rest-types";
 import { IHubRequestOptions, BBox } from "./types";
 import { getProp } from "./objects";
 import { IRequestOptions, request } from "@esri/arcgis-rest-request";
 import { Polygon } from "geojson";
-import { IPoint, IPolygon, Position } from "@esri/arcgis-rest-types";
 
 /**
  * Turns an bounding box coordinate array into an extent object

@@ -10,11 +10,11 @@
  */
 import { parseServiceUrl } from "@esri/arcgis-rest-feature-layer";
 import { IItem, IPortal } from "@esri/arcgis-rest-portal";
-import { IUser } from "@esri/arcgis-rest-portal";
 import {
   IExtent,
   ILayerDefinition,
   ISpatialReference,
+  IUser,
 } from "@esri/arcgis-rest-types";
 import {
   IGeometryInstance,

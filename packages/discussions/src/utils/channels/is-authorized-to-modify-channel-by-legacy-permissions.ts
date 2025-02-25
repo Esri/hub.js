@@ -1,4 +1,4 @@
-import { IGroup, IUser } from "@esri/arcgis-rest-portal";
+import { IGroup, IUser } from "@esri/arcgis-rest-types";
 import { IChannel, IDiscussionsUser, SharingAccess } from "@esri/hub-common";
 import { isOrgAdmin } from "../platform";
 

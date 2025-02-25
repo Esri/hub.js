@@ -1,6 +1,6 @@
 import { IModel } from "../types";
 import { cloneObject } from "../util";
-import { IItem } from "@esri/arcgis-rest-portal";
+import { IItem } from "@esri/arcgis-rest-types";
 
 interface ISerializedModel extends IItem {
   text: string;

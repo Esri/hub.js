@@ -9,13 +9,12 @@ import {
   MetricSource,
 } from "../core/types/Metrics";
 import { queryFeatures } from "@esri/arcgis-rest-feature-layer";
-import { IItem } from "@esri/arcgis-rest-portal";
+import { IItem, IStatisticDefinition } from "@esri/arcgis-rest-types";
 import { getProp } from "../objects/get-prop";
 import { IPredicate, IQuery } from "../search/types/IHubCatalog";
 import { combineQueries } from "../search/_internal/combineQueries";
 import { IHubSearchOptions } from "../search/types/IHubSearchOptions";
 import { portalSearchItemsAsItems } from "../search/_internal/portalSearchItems";
-import { IStatisticDefinition } from "@esri/arcgis-rest-types";
 
 /**
  * Resolve a Metric into an array of `IMetricFeature` objects.
