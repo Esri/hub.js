@@ -3,17 +3,7 @@ import { IHubCollectionPersistance } from "../../search/types/IHubCatalog";
 import { WellKnownCollection } from "../../search/wellKnownCatalog";
 import { IModel } from "../../types";
 import { SearchCategories } from "./types";
-
-export const defaultSiteCollectionKeys: WellKnownCollection[] = [
-  // TODO: add 'all' as a wellknown collection and figure out the
-  // ramifications of doing so across the app. (or create a new
-  // type that includes 'all')
-  "all" as any,
-  "dataset",
-  "document",
-  "site",
-  "appAndMap",
-];
+import { defaultSiteCollectionKeys } from "../defaultSiteCollectionKeys";
 
 /**
  * In-Memory migration that adds default collections to site models that have the

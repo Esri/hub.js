@@ -29,4 +29,4 @@ export * from "./feeds/types";
 export * from "./get-catalog-from-site-model";
 // Exporting these keys to access in the catalog builder so
 // we can apply translated labels to default site collections
-export { defaultSiteCollectionKeys } from "./_internal/applyDefaultCollectionMigration";
+export { defaultSiteCollectionKeys } from "./defaultSiteCollectionKeys";
