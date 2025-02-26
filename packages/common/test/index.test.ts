@@ -775,6 +775,7 @@ describe("index", () => {
     "catalogContains",
     "btoa",
     "atob",
+    "defaultSiteCollectionKeys",
   ];
   const exportedMembers = Object.keys(hubCommon);
 
