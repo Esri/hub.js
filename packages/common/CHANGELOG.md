@@ -1,3 +1,10 @@
+# @esri/hub-common [15.37.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.36.1...@esri/hub-common@15.37.0) (2025-02-26)
+
+
+### Features
+
+* add logic/permissions to enable site catalog config in new UI ([#1812](https://github.com/Esri/hub.js/issues/1812)) ([510603b](https://github.com/Esri/hub.js/commit/510603bafc6b1954571c378933842f68d65a18ed))
+
 ## @esri/hub-common [15.36.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.36.0...@esri/hub-common@15.36.1) (2025-02-25)
 
 
