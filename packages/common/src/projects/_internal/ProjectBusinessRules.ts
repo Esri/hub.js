@@ -167,8 +167,10 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:project:workspace:metrics",
     dependencies: ["hub:project:workspace", "hub:project:edit"],
   },
+  // DEPRECATED - use hub:project:workspace:catalog instead
+  // TODO: remove in next breaking change
   {
-    permission: "hub:project:workspace:catalogs", // TODO: remove plural permission
+    permission: "hub:project:workspace:catalogs",
     dependencies: [
       "hub:project:workspace",
       "hub:feature:catalogs",

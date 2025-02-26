@@ -27,3 +27,6 @@ export * from "./feeds/types";
 // by the domain service due to requirement to send signed HMAC request
 // export * from "./registerSiteAsApplication";
 export * from "./get-catalog-from-site-model";
+// Exporting these keys to access in the catalog builder so
+// we can apply translated labels to default site collections
+export { defaultSiteCollectionKeys } from "./defaultSiteCollectionKeys";
