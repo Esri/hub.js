@@ -1,4 +1,4 @@
-import { HubEntityStatus } from "../../types";
+import { HubEntityStatus } from "../../hub-types";
 
 /**
  * adds/updates the entity status typekeyword and returns

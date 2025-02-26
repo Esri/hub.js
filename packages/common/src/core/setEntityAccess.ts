@@ -1,5 +1,5 @@
 import { setItemAccess, updateGroup } from "@esri/arcgis-rest-portal";
-import { IArcGISContext } from "../ArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 import { SettableAccessLevel } from "./types/types";
 import { getTypeFromEntity } from "./getTypeFromEntity";
 import { EventAccess } from "../events/api/orval/api/orval-events";

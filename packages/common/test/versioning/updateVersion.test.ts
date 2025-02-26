@@ -1,7 +1,7 @@
-import { IModel } from "../../src/types";
+import { IModel } from "../../src/hub-types";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { updateVersion } from "../../src/versioning/updateVersion";
-import { IHubUserRequestOptions } from "../../src/types";
+import { IHubUserRequestOptions } from "../../src/hub-types";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import { VERSION_RESOURCE_NAME } from "../../src/versioning/_internal/constants";
 import * as objectToJsonBlobModule from "../../src/resources/object-to-json-blob";

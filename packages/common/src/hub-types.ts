@@ -14,6 +14,11 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 /**
+ * App keys for User Resources used in Hub
+ */
+export type UserResourceApp = "self" | "hubforarcgis" | "arcgisonline";
+
+/**
  * Generic Model, used with all items that have a json
  * `/data` payload
  *

@@ -1,6 +1,6 @@
 import { getProp, setProp } from "../../../objects";
 import { IFeatureFlags } from "../../../permissions";
-import { IModel } from "../../../types";
+import { IModel } from "../../../hub-types";
 import { capabilityToFeatureMap } from "./capabilityToFeatureMap";
 import {
   ICapabilityToFeatureMap,

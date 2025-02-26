@@ -3,7 +3,7 @@
 
 import { cloneObject, createId } from "./util";
 import { getWithDefault } from "./objects/get-with-default";
-import { IOperation, ISerializedOperationStack } from "./types";
+import { IOperation, ISerializedOperationStack } from "./hub-types";
 
 /**
  * Allows an application to track a series of operations, storing information
@@ -112,7 +112,7 @@ export default class OperationStack {
       inputs: getWithDefault(params, "inputs", {}),
       cleanup: getWithDefault(params, "cleanup", "n/a"),
       startedAt: new Date().getTime(),
-      state: "working"
+      state: "working",
     } as IOperation;
 
     this.operations.push(op);
@@ -127,7 +127,7 @@ export default class OperationStack {
    * @memberof OperationStack
    */
   getOperation(id: string): IOperation {
-    return this.operations.find(o => o.id === id);
+    return this.operations.find((o) => o.id === id);
   }
 
   /**
@@ -224,7 +224,7 @@ export default class OperationStack {
    * @memberof OperationStack
    */
   getCompleted(): IOperation[] {
-    return cloneObject(this.operations.filter(e => e.state === "completed"));
+    return cloneObject(this.operations.filter((e) => e.state === "completed"));
   }
 
   /**
@@ -234,7 +234,7 @@ export default class OperationStack {
    * @memberof OperationStack
    */
   getWorking(): IOperation[] {
-    return cloneObject(this.operations.filter(e => e.state === "working"));
+    return cloneObject(this.operations.filter((e) => e.state === "working"));
   }
 
   /**
@@ -267,7 +267,7 @@ export default class OperationStack {
    */
   serialize(): ISerializedOperationStack {
     return {
-      operations: cloneObject(this.getOperations())
+      operations: cloneObject(this.getOperations()),
     };
   }
 }

@@ -1,4 +1,4 @@
-import { IHubRequestOptions } from "../../types";
+import { IHubRequestOptions } from "../../hub-types";
 import { _getAuthHeader } from "./_get-auth-header";
 import { _getDomainServiceUrl } from "./_get-domain-service-url";
 import { _checkStatusAndParseJson } from "./_check-status-and-parse-json";

@@ -1,4 +1,4 @@
-import { IHubRequestOptions } from "../../src/types";
+import { IHubRequestOptions } from "../../src/hub-types";
 import { isSafeRedirectUrl } from "../../src/urls/is-safe-redirect-url";
 import * as domainExistsUtils from "../../src/sites/domains/domain-exists";
 

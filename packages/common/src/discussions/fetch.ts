@@ -6,7 +6,7 @@ import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
 import { getDefaultEntitySettings } from "./api/settings/getDefaultEntitySettings";
-import { IHubRequestOptions, IModel } from "../types";
+import { IHubRequestOptions, IModel } from "../hub-types";
 import { isGuid } from "../utils/is-guid";
 import { fetchSetting } from "./api/settings/settings";
 

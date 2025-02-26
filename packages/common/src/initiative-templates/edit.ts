@@ -21,7 +21,7 @@ import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { cloneObject } from "../util";
 import { setDiscussableKeyword } from "../discussions";
-import { IModel } from "../types";
+import { IModel } from "../hub-types";
 import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlug";
 import { IHubItemEntity } from "../core";
 import { editorToEntity } from "../core/schemas/internal/metrics/editorToEntity";

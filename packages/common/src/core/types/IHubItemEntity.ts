@@ -1,5 +1,5 @@
 import { IHubEntityBase } from "./IHubEntityBase";
-import { IHubGeography } from "../../types";
+import { IHubGeography } from "../../hub-types";
 import { AccessLevel, MembershipAccess } from "./types";
 
 import { IHubLocation } from "./IHubLocation";

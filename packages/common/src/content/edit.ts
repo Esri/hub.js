@@ -21,7 +21,7 @@ import {
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { cloneObject } from "../util";
-import { IModel } from "../types";
+import { IModel } from "../hub-types";
 import { setDiscussableKeyword } from "../discussions";
 import { modelToHubEditableContent } from "./modelToHubEditableContent";
 import {

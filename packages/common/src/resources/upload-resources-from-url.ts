@@ -1,4 +1,4 @@
-import { IModel, IHubRequestOptions, IItemResource } from "../types";
+import { IModel, IHubRequestOptions, IItemResource } from "../hub-types";
 import { fetchAndUploadResource } from "./fetch-and-upload-resource";
 import { fetchAndUploadThumbnail } from "./fetch-and-upload-thumbnail";
 import { _addTokenToResourceUrl } from "./_add-token-to-resource-url";
@@ -22,7 +22,7 @@ export function uploadResourcesFromUrl(
           owner: itemModel.item.owner,
           fileName: resource.name,
           url: _addTokenToResourceUrl(resource.url, requestOptions),
-          authentication: requestOptions.authentication
+          authentication: requestOptions.authentication,
         };
         if (resource.type === "thumbnail") {
           acc.push(fetchAndUploadThumbnail(opts));

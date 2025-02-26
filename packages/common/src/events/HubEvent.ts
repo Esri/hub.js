@@ -3,7 +3,7 @@ import { HubItemEntity } from "../core/HubItemEntity";
 import { IHubEventEditor, IHubEvent } from "../core/types/IHubEvent";
 import { IWithEditorBehavior } from "../core/behaviors";
 import { SettableAccessLevel } from "../core/types/types";
-import { IArcGISContext } from "../ArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 import { fetchEvent } from "./fetch";
 import { buildDefaultEventEntity } from "./defaults";
 import { IEntityEditorContext } from "../core/types";

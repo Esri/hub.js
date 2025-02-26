@@ -5,7 +5,7 @@ import { getProp } from "../objects";
 import { fetchSite } from "../sites/HubSites";
 import { stripProtocol } from "../urls";
 import { isGuid, isCuid } from "../utils";
-import { IArcGISContext } from "../ArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 import { IHubCatalog } from "./types/IHubCatalog";
 import { lookupDomain } from "../sites/domains/lookup-domain";
 import { HubEntityType } from "../core/types/HubEntityType";

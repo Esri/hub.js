@@ -1,7 +1,7 @@
 import { getContentHomeUrl } from "../../src/urls/getContentHomeUrl";
 import * as getPortalUrlModule from "../../src/urls/get-portal-url";
 import { IPortal } from "@esri/arcgis-rest-portal";
-import { IHubRequestOptions } from "../../src/types";
+import { IHubRequestOptions } from "../../src/hub-types";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 describe("getContentHomeUrl", () => {

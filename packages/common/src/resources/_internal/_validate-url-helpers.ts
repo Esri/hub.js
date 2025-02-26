@@ -3,7 +3,7 @@ import {
   IFeatureServiceDefinition,
   ILayerDefinition,
 } from "@esri/arcgis-rest-types";
-import { ItemType } from "../../types";
+import { ItemType } from "../../hub-types";
 import { Logger } from "../../utils";
 
 const FEATURE_SERVICE_URL_REGEX = /(feature)server(\/|\/(\d+))?$/i;

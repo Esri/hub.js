@@ -1,6 +1,6 @@
 import { deleteProp } from "../../items";
 import { getProp, setProp } from "../../objects";
-import { IDraft, IModel } from "../../types";
+import { IDraft, IModel } from "../../hub-types";
 import { cloneObject } from "../../util";
 
 /**

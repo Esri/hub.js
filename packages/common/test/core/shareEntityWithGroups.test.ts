@@ -2,7 +2,7 @@ import { IHubItemEntity } from "../../src/core/types/IHubItemEntity";
 import { shareEntityWithGroups } from "../../src/core/shareEntityWithGroups";
 import * as shareEventWithGroupsModule from "../../src/events/_internal/shareEventWithGroups";
 import * as shareItemToGroupsModule from "../../src/items/share-item-to-groups";
-import { IArcGISContext } from "../../src/ArcGISContext";
+import { IArcGISContext } from "../../src";
 
 describe("shareEntityWithGroups", () => {
   let entity: IHubItemEntity;

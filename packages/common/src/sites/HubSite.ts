@@ -8,7 +8,7 @@ import {
 } from "../core";
 
 import { Catalog } from "../search/Catalog";
-import { IArcGISContext } from "../ArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
 import { enrichEntity } from "../core/enrichEntity";

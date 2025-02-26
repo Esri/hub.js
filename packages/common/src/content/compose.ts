@@ -4,7 +4,7 @@ import {
   IFeatureServiceDefinition,
   parseServiceUrl,
 } from "@esri/arcgis-rest-feature-layer";
-import { BBox, IHubRequestOptions } from "../types";
+import { BBox, IHubRequestOptions } from "../hub-types";
 import { getHubApiUrl } from "../api";
 import { isDownloadable } from "../categories";
 import { IHubContentEnrichments, IHubContent } from "../core";

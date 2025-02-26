@@ -7,7 +7,7 @@ import { enrichProjectSearchResult } from "../../projects";
 import { enrichSiteSearchResult } from "../../sites";
 import { enrichInitiativeSearchResult } from "../../initiatives/HubInitiatives";
 import { enrichTemplateSearchResult } from "../../templates/fetch";
-import { HubFamilies, HubFamily, IHubRequestOptions } from "../../types";
+import { HubFamilies, HubFamily, IHubRequestOptions } from "../../hub-types";
 
 import {
   IFilter,

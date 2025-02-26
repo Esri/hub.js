@@ -1,4 +1,5 @@
-import { IArcGISContext, IHubSearchResult } from "..";
+import { IArcGISContext } from "../types/IArcGISContext";
+import { IHubSearchResult } from "../search/types/IHubSearchResult";
 import { IHubInitiativeTemplate } from "../core/types/IHubInitiativeTemplate";
 import {
   getCardModelUrlFromEntity,

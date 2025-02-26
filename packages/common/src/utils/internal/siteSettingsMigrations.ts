@@ -1,5 +1,6 @@
 import { cloneObject } from "../../util";
-import { IUserHubSettings, IUserSiteSettings } from "../hubUserAppResources";
+import { IUserHubSettings } from "../IUserHubSettings";
+import { IUserSiteSettings } from "../IUserSiteSettings";
 
 /**
  * Apply migrations for Site Settings

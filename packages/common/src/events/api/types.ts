@@ -36,7 +36,7 @@ export {
   IPagedRegistrationResponse,
   IPagedEventResponse,
 } from "./orval/api/orval-events";
-import { IHubRequestOptions } from "../../types";
+import { IHubRequestOptions } from "../../hub-types";
 import {
   ICreateEvent,
   IUpdateEvent,

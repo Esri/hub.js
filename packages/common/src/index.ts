@@ -34,6 +34,7 @@ export * from "./resources";
 export * from "./search";
 export * from "./sites";
 export * from "./templates";
+export * from "./hub-types";
 export * from "./types";
 export * from "./urls";
 export * from "./users";

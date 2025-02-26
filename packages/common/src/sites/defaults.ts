@@ -1,5 +1,5 @@
 import { IHubSite } from "../core";
-import { IModel } from "../types";
+import { IModel } from "../hub-types";
 import { SiteDefaultFeatures } from "./_internal/SiteBusinessRules";
 
 export const HUB_SITE_ITEM_TYPE = "Hub Site Application";

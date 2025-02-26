@@ -26,7 +26,7 @@ import {
   IHubGeography,
   GeographyProvenance,
   IHubRequestOptions,
-} from "../../types";
+} from "../../hub-types";
 import {
   GeoJSONPolygonToBBox,
   allCoordinatesPossiblyWGS84,

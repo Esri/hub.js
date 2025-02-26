@@ -1,5 +1,5 @@
 import { IGroup, ISearchResult, searchGroups } from "@esri/arcgis-rest-portal";
-import { IArcGISContext } from "../../ArcGISContext";
+import type { IArcGISContext } from "../../types/IArcGISContext";
 import { IHubEvent } from "../../core/types/IHubEvent";
 import { unique } from "../../util";
 import { updateEvent } from "../api/events";

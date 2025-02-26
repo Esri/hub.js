@@ -1,4 +1,4 @@
-import { GenericAsyncFunc } from "../types";
+import { GenericAsyncFunc } from "../hub-types";
 
 /**
  * Wrap an async function such that it will never reject

@@ -1,7 +1,7 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IHubItemEntity } from "../../../../src";
 import { getThumbnailUiSchemaElement } from "../../../../src/core/schemas/internal/getThumbnailUiSchemaElement";
-import { HubEntityType } from "../../../../dist/types/core/types/HubEntityType";
+import { HubEntityType } from "../../../../src/core/types/HubEntityType";
 import * as urlUtils from "../../../../src/urls";
 import { UiSchemaRuleEffects } from "../../../../src/core/schemas/types";
 

@@ -8,7 +8,7 @@ import {
   IHubRequestOptions,
   IHubGeography,
   IEnrichmentErrorInfo,
-} from "../types";
+} from "../hub-types";
 import { isMapOrFeatureServerUrl } from "../urls";
 import { cloneObject } from "../util";
 import { includes } from "../utils";

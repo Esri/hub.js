@@ -1,6 +1,11 @@
 import { IItem, IGroup } from "@esri/arcgis-rest-portal";
 import { ILayerDefinition } from "@esri/arcgis-rest-feature-layer";
-import { AccessControl, HubFamily, IActionLink, Visibility } from "../../types";
+import {
+  AccessControl,
+  HubFamily,
+  IActionLink,
+  Visibility,
+} from "../../hub-types";
 import { IStructuredLicense } from "../../items/get-structured-license";
 
 import { IHubContentEnrichments } from "./IHubContentEnrichments";

@@ -1,4 +1,4 @@
-import { IUserHubSettings } from "../../utils/hubUserAppResources";
+import { IUserHubSettings } from "../../utils/IUserHubSettings";
 import { IHubEntityBase } from "./IHubEntityBase";
 import { SettableAccessLevel } from "./types";
 

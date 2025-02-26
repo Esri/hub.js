@@ -1,4 +1,4 @@
-import { IBatch, IBatchTransform } from "../types";
+import { IBatch, IBatchTransform } from "../hub-types";
 
 /**
  * Helper to split a large number of calls into
@@ -28,8 +28,8 @@ export function batch(
     batchOfValues: IBatch
   ): Promise<any> => {
     const executeBatch = (prevResults: any[]) => {
-      const batchResults = batchOfValues.map(id => fn(id));
-      return Promise.all(batchResults).then(results =>
+      const batchResults = batchOfValues.map((id) => fn(id));
+      return Promise.all(batchResults).then((results) =>
         prevResults.concat(results)
       );
     };

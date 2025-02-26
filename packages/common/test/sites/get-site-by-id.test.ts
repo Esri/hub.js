@@ -1,6 +1,6 @@
 import * as upgradeSchemaModule from "../../src/sites/upgrade-site-schema";
 import * as modelModule from "../../src/models";
-import { IHubRequestOptions, IModel } from "../../src/types";
+import { IHubRequestOptions, IModel } from "../../src/hub-types";
 import { getSiteById } from "../../src/sites";
 
 describe("getDataForSiteItem", () => {

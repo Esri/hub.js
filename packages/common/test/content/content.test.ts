@@ -51,7 +51,7 @@ import * as documentsJson from "../mocks/datasets/document.json";
 import * as featureLayerJson from "../mocks/datasets/feature-layer.json";
 import { MOCK_REQUEST_OPTIONS } from "../../../initiatives/test/mocks/fake-session";
 import * as fetchMock from "fetch-mock";
-import { IHubServiceBackedContentStatus } from "../../dist/types/content/types";
+import { IHubServiceBackedContentStatus } from "../../src/content/types";
 import { ArcGISRequestError } from "@esri/arcgis-rest-request";
 
 describe("content: ", () => {
@@ -1518,7 +1518,7 @@ describe("content: ", () => {
           status: 200,
           body: { message: "Success" },
         },
-        { delay: 1000 }
+        { delay: 1000 } as fetchMock.MockOptions
       );
 
       const result = (await getServiceStatus(entity, {
@@ -1556,7 +1556,7 @@ describe("content: ", () => {
           status: 200,
           body: { message: "Success" },
         },
-        { delay: 5000 }
+        { delay: 5000 } as fetchMock.MockOptions
       );
 
       const result = (await getServiceStatus(entity, {

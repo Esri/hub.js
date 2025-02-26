@@ -1,4 +1,4 @@
-import { IModel } from "../../types";
+import { IModel } from "../../hub-types";
 import { cloneObject } from "../../util";
 import { getMajorVersion } from "./_internal/getMajorVersion";
 import { getFeedConfiguration } from "../feed-configuration";

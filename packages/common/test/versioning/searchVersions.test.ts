@@ -1,6 +1,6 @@
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { searchVersions } from "../../src/versioning/searchVersions";
-import { IHubUserRequestOptions } from "../../src/types";
+import { IHubUserRequestOptions } from "../../src/hub-types";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as ResourcesResponse from "../mocks/versioning/resources.json";
 

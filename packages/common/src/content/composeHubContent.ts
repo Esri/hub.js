@@ -5,7 +5,7 @@ import { setProp } from "../objects/set-prop";
 import { modelToHubEditableContent } from "./modelToHubEditableContent";
 import { cloneObject } from "../util";
 import { IItem } from "@esri/arcgis-rest-portal";
-import { IHubRequestOptions } from "../types";
+import { IHubRequestOptions } from "../hub-types";
 
 /**
  * composes a Hub content entity from an item and optional enrichments

@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../../../../ArcGISContext";
+import type { IArcGISContext } from "../../../../types/IArcGISContext";
 import { getWellKnownCatalog } from "../../../../search/wellKnownCatalog";
 import {
   IUiSchema,

@@ -1,6 +1,6 @@
 import { DEFAULT_DISCUSSION } from "./defaults";
 import { IWithSharingBehavior, IWithStoreBehavior } from "../core/behaviors";
-import { IArcGISContext } from "../ArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 import {
   IEntityEditorContext,
   IHubDiscussion,

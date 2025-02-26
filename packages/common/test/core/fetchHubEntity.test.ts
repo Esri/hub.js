@@ -1,6 +1,5 @@
-import { IArcGISContext } from "../../src/ArcGISContext";
+import type { IArcGISContext, HubEntityType } from "../../src";
 import { fetchHubEntity } from "../../src/core/fetchHubEntity";
-import { HubEntityType } from "../../src/core/types/HubEntityType";
 
 describe("fetchHubEntity:", () => {
   it("returns undefined for non-hub types", async () => {

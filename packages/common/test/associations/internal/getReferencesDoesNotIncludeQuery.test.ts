@@ -1,5 +1,5 @@
 import { cloneObject } from "../../../src";
-import { IArcGISContext } from "../../../src/ArcGISContext";
+import type { IArcGISContext } from "../../../src";
 import { getReferencesDoesNotIncludeQuery } from "../../../src/associations/internal/getReferencesDoesNotIncludeQuery";
 import { MOCK_PARENT_ENTITY, MOCK_CHILD_ENTITY } from "../fixtures";
 import * as ItemsModule from "@esri/arcgis-rest-portal";
