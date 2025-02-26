@@ -4,33 +4,33 @@ import * as hubCommon from "../src";
  * Skipping this test b/c it passes 100% of the time when running locally via `npm run test:node`
  * but fails 100% of the time in CI. Specifically, when it runs in CI, this test suggests the
  * following are not importable from the index.ts file:
- *   - fetchHubEntity‌
- *   - getTypeFromEntity‌
- *   - getTypesFromEntityType‌
- *   - getRelativeWorkspaceUrl‌
- *   - isValidEntityType‌
- *   - processActionLinks‌
- *   - processActionLink‌
- *   - setEntityAccess‌
- *   - shareEntityWithGroups‌
- *   - unshareEntityWithGroups‌
- *   - getEntityGroups‌
- *   - getEntityThumbnailUrl‌
- *   - getHubTypeFromItemType‌
- *   - getEntityTypeFromHubEntityType‌
- *   - ICreateEventMetadata‌
- *   - ICreateTelemetryReportMetadata‌
- *   - INotificationSpec‌
- *   - ISubscribeMetadata‌
- *   - ISubscription‌
- *   - ISubscriptionMetadata‌
- *   - IUser‌
- *   - ISchedulerSubscriptionMetadata‌
- *   - ISubscriptionCatalog‌
- *   - ISchedulerUser‌
- *   - ISchedulerNotificationSpec‌
- *   - ISchedulerSubscription‌
- *   - INotify‌
+ *   - fetchHubEntity
+ *   - getTypeFromEntity
+ *   - getTypesFromEntityType
+ *   - getRelativeWorkspaceUrl
+ *   - isValidEntityType
+ *   - processActionLinks
+ *   - processActionLink
+ *   - setEntityAccess
+ *   - shareEntityWithGroups
+ *   - unshareEntityWithGroups
+ *   - getEntityGroups
+ *   - getEntityThumbnailUrl
+ *   - getHubTypeFromItemType
+ *   - getEntityTypeFromHubEntityType
+ *   - ICreateEventMetadata
+ *   - ICreateTelemetryReportMetadata
+ *   - INotificationSpec
+ *   - ISubscribeMetadata
+ *   - ISubscription
+ *   - ISubscriptionMetadata
+ *   - IUser
+ *   - ISchedulerSubscriptionMetadata
+ *   - ISubscriptionCatalog
+ *   - ISchedulerUser
+ *   - ISchedulerNotificationSpec
+ *   - ISchedulerSubscription
+ *   - INotify
  *
  * I highly suspect this is related to cyclic dependencies within this package, our current export strategy/order,
  * or a combination of both. We should revisit unskipping this test once cyclic deps are eliminated from hub-common,
