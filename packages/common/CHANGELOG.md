@@ -1,3 +1,10 @@
+## @esri/hub-common [15.37.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.37.0...@esri/hub-common@15.37.1) (2025-02-26)
+
+
+### Bug Fixes
+
+* resolve circular deps related to ArcGISContext ([#1815](https://github.com/Esri/hub.js/issues/1815)) ([05d8e4d](https://github.com/Esri/hub.js/commit/05d8e4d40f4b67e10b3fa214899e6a490acf88a7))
+
 # @esri/hub-common [15.37.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.36.1...@esri/hub-common@15.37.0) (2025-02-26)
 
 
