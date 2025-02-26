@@ -1,7 +1,7 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { getItemThumbnailUrl } from "../../resources";
-import { IHubRequestOptions, IModel } from "../../types";
+import { IHubRequestOptions, IModel } from "../../hub-types";
 import { getItemHomeUrl } from "../../urls/get-item-home-url";
 import {
   getAdditionalResources,

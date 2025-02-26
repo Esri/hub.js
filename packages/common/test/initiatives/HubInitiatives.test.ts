@@ -5,7 +5,11 @@ import { MOCK_AUTH, MOCK_CONTEXT } from "../mocks/mock-auth";
 import * as modelUtils from "../../src/models";
 import * as slugUtils from "../../src/items/slugs";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { HubEntityStatus, IHubRequestOptions, IModel } from "../../src/types";
+import {
+  HubEntityStatus,
+  IHubRequestOptions,
+  IModel,
+} from "../../src/hub-types";
 import {
   createInitiative,
   enrichInitiativeSearchResult,
@@ -27,7 +31,7 @@ import {
   IQuery,
   getProp,
 } from "../../src";
-import { IArcGISContext } from "../../src/ArcGISContext";
+import { IArcGISContext } from "../../src";
 import * as editorToMetricModule from "../../src/metrics/editorToMetric";
 import * as setMetricAndDisplayModule from "../../src/core/schemas/internal/metrics/setMetricAndDisplay";
 

@@ -11,7 +11,7 @@ import { IHubSurvey } from "../core/types/IHubSurvey";
 import { setDiscussableKeyword } from "../discussions/utils";
 import { setDisplayMapKeyword } from "./utils/set-display-map-keyword";
 import { updateModel } from "../models";
-import { IModel } from "../types";
+import { IModel } from "../hub-types";
 import { getFormJson } from "./utils/get-form-json";
 
 /**

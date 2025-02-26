@@ -1,6 +1,6 @@
 import { IGroup, IItem, IUser } from "@esri/arcgis-rest-portal";
 import { AccessLevel, IHubEntityBase, IHubLocation } from "../../core";
-import { HubFamily, IHubGeography } from "../../types";
+import { HubFamily, IHubGeography } from "../../hub-types";
 import { IOgcItem } from "../_internal/hubSearchItemsHelpers/interfaces";
 import { IChannel } from "../../discussions/api/types";
 import { IRegistration } from "../../events/api";

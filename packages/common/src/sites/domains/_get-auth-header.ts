@@ -1,5 +1,5 @@
 import { getProp } from "../../objects";
-import { IHubRequestOptions } from "../../types";
+import { IHubRequestOptions } from "../../hub-types";
 
 interface IHeaders {
   Authorization?: string;

@@ -1,7 +1,7 @@
 import { getWithDefault } from "../../objects/get-with-default";
 import { IHubCatalog } from "../../search/types/IHubCatalog";
 import { getGroupPredicate } from "../../search/utils";
-import { IModel } from "../../types";
+import { IModel } from "../../hub-types";
 import { cloneObject } from "../../util";
 
 /**

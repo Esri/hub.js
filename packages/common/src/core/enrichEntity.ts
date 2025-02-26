@@ -1,6 +1,6 @@
 import { IGroup } from "@esri/arcgis-rest-types";
 import { HubEntity } from "./types";
-import { IHubRequestOptions } from "../types";
+import { IHubRequestOptions } from "../hub-types";
 import { mapBy } from "../utils";
 import { getProp, setProp } from "../objects";
 import { getGroup } from "@esri/arcgis-rest-portal";

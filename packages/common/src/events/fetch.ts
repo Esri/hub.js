@@ -1,6 +1,6 @@
 import { EventPropertyMapper } from "./_internal/PropertyMapper";
 import { IHubEvent } from "../core/types/IHubEvent";
-import { IHubRequestOptions } from "../types";
+import { IHubRequestOptions } from "../hub-types";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { getEvent } from "./api/events";
 import { IEvent } from "./api/orval/api/orval-events";

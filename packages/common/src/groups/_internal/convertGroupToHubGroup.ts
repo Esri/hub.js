@@ -3,7 +3,7 @@ import { PropertyMapper } from "../../core/_internal/PropertyMapper";
 import { IHubGroup } from "../../core/types/IHubGroup";
 import { computeProps } from "./computeProps";
 import { getPropertyMap } from "./getPropertyMap";
-import { IHubRequestOptions } from "../../types";
+import { IHubRequestOptions } from "../../hub-types";
 
 /**
  * Convert an IGroup to a Hub Group

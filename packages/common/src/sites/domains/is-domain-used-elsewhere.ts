@@ -1,4 +1,4 @@
-import { IHubRequestOptions } from "../../types";
+import { IHubRequestOptions } from "../../hub-types";
 import { lookupDomain } from "./lookup-domain";
 
 /**

@@ -1,5 +1,5 @@
 import { _getAuthHeader } from "./_get-auth-header";
-import { IHubRequestOptions } from "../../types";
+import { IHubRequestOptions } from "../../hub-types";
 import { _getDomainServiceUrl } from "./_get-domain-service-url";
 
 /**

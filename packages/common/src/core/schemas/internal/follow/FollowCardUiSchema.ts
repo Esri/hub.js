@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../../../../ArcGISContext";
+import type { IArcGISContext } from "../../../../types/IArcGISContext";
 import { IFollowCardEditorOptions } from "../EditorOptions";
 import { IUiSchema, UiSchemaRuleEffects } from "../../types";
 import {

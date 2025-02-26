@@ -4,7 +4,7 @@ import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
 import { computeProps } from "../../../src/surveys/_internal/computeProps";
 import { IHubSurvey } from "../../../src/core/types/IHubSurvey";
 import { MAP_SURVEY_TYPEKEYWORD } from "../../../src/surveys/constants";
-import { IModel } from "../../../src/types";
+import { IModel } from "../../../src/hub-types";
 
 describe("surveys: computeProps:", () => {
   let model: IModel;

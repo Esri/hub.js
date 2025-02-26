@@ -7,7 +7,7 @@ import {
   IServiceExtendedProps,
 } from "../../src/core/types/IHubEditableContent";
 import { IHubEditableContentEnrichments } from "../../src/items/_enrichments";
-import { IHubRequestOptions, IModel } from "../../src/types";
+import { IHubRequestOptions, IModel } from "../../src/hub-types";
 import { cloneObject } from "../../src/util";
 import { MOCK_HUB_REQOPTS } from "../mocks/mock-auth";
 import * as isServiceModule from "../../src/resources/is-service";

@@ -10,7 +10,7 @@ import {
   TEMPLATE_ENTITY,
   initContextManager,
 } from "./fixtures";
-import { IModel } from "../../src/types";
+import { IModel } from "../../src/hub-types";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import {
   IHubTemplate,

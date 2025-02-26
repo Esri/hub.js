@@ -15,7 +15,7 @@ import { DEFAULT_DISCUSSION, DEFAULT_DISCUSSION_MODEL } from "./defaults";
 import { getDefaultEntitySettings } from "./api/settings/getDefaultEntitySettings";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { setDiscussableKeyword } from "./utils";
-import { IHubRequestOptions, IModel } from "../types";
+import { IHubRequestOptions, IModel } from "../hub-types";
 import { cloneObject } from "../util";
 import { arcgisToGeoJSON } from "@terraformer/arcgis";
 import { Polygon } from "geojson";

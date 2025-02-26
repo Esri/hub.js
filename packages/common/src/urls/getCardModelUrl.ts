@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../ArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 import { HubEntity } from "../core/types/HubEntity";
 import { CardModelTarget } from "../core/types/IHubCardViewModel";
 import { IHubSearchResult } from "../search/types/IHubSearchResult";

@@ -3,7 +3,7 @@ import * as featureLayerModule from "@esri/arcgis-rest-feature-layer";
 import * as adminModule from "@esri/arcgis-rest-service-admin";
 import { MOCK_AUTH, MOCK_HUB_REQOPTS, TOMORROW } from "../mocks/mock-auth";
 import * as modelUtils from "../../src/models";
-import { IModel } from "../../src/types";
+import { IModel } from "../../src/hub-types";
 import { IHubEditableContent } from "../../src/core/types";
 import {
   createContent,

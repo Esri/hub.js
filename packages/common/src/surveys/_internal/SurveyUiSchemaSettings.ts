@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../../ArcGISContext";
+import type { IArcGISContext } from "../../types/IArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import { IHubSurvey } from "../../core/types/IHubSurvey";

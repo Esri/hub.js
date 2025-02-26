@@ -7,7 +7,7 @@ import {
 } from "../../core/schemas/internal/metrics/definitions";
 import { HubItemEntitySchema } from "../../core/schemas/shared/HubItemEntitySchema";
 import { IConfigurationSchema } from "../../core/schemas/types";
-import { HubEntityStatus } from "../../types";
+import { HubEntityStatus } from "../../hub-types";
 
 export type ProjectEditorType = (typeof ProjectEditorTypes)[number];
 export const ProjectEditorTypes = [

@@ -1,5 +1,5 @@
 import { IHubEditableContent } from "../../core/types/IHubEditableContent";
-import { ItemType } from "../../types";
+import { ItemType } from "../../hub-types";
 
 /**
  * @private

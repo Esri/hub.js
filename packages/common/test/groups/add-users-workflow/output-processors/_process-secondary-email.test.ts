@@ -4,7 +4,7 @@ import { IEmail } from "../../../../src/groups/types";
 import { _processSecondaryEmail } from "../../../../src/groups/add-users-workflow/output-processors/_process-secondary-email";
 import * as emailModule from "../../../../src/groups/emailOrgUsers";
 import * as isAdminModule from "../../../../src/groups/add-users-workflow/utils/_is-org-admin";
-import { IHubRequestOptions } from "../../../../src/types";
+import { IHubRequestOptions } from "../../../../src/hub-types";
 import { cloneObject } from "../../../../src/util";
 describe("_processSecondaryEmail", () => {
   const orgId = "Shermer High";

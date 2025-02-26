@@ -4,7 +4,7 @@ import {
   IMetric,
   IMetricDisplayConfig,
 } from "../../../../../src/core/types/Metrics";
-import { HubEntityStatus } from "../../../../../src/types";
+import { HubEntityStatus } from "../../../../../src/hub-types";
 
 describe("setMetricAndDisplay", () => {
   it("sets an existing metric and display correctly", () => {

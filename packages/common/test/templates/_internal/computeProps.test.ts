@@ -1,7 +1,7 @@
 import { computeProps } from "../../../src/templates/_internal/computeProps";
 import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
 import { IHubTemplate } from "../../../src/core/types/IHubTemplate";
-import { IModel } from "../../../src/types";
+import { IModel } from "../../../src/hub-types";
 import { initContextManager } from "../fixtures";
 import * as computeLinksModule from "../../../src/templates/_internal/computeLinks";
 import * as computeItemPropsModule from "../../../src/core/_internal/computeItemProps";

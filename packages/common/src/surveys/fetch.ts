@@ -6,7 +6,7 @@ import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { getFormJson } from "./utils/get-form-json";
 import { isGuid } from "../utils/is-guid";
-import { IHubRequestOptions, IModel } from "../types";
+import { IHubRequestOptions, IModel } from "../hub-types";
 import { getItemBySlug } from "../items/slugs";
 
 /**

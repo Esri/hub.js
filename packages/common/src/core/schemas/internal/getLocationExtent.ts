@@ -1,5 +1,5 @@
 import { bBoxToExtent, orgExtent } from "../../../extent";
-import { IHubRequestOptions } from "../../../types";
+import { IHubRequestOptions } from "../../../hub-types";
 import { IHubLocation } from "../../types";
 
 /**

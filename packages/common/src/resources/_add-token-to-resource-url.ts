@@ -1,4 +1,4 @@
-import { IHubRequestOptions } from "../types";
+import { IHubRequestOptions } from "../hub-types";
 
 /**
  * Add a token to the resource request if the request is to the portal

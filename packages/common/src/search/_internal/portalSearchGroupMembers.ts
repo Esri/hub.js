@@ -14,7 +14,7 @@ import {
 import { expandPredicate } from "./expandPredicate";
 import { getNextFunction } from "../utils";
 import HubError from "../../HubError";
-import { IHubRequestOptions } from "../../types";
+import { IHubRequestOptions } from "../../hub-types";
 import { enrichUserSearchResult } from "../../users";
 import { failSafe } from "../../utils";
 import { getProp, pickProps, setProp } from "../../objects";

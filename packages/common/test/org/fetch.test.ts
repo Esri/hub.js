@@ -1,6 +1,4 @@
 import { IPortal } from "@esri/arcgis-rest-portal";
-import { IArcGISContext } from "../../src/ArcGISContext";
-import * as FetchOrgModule from "../../src/org/fetch-org";
 import {
   cloneObject,
   fetchOrganization,

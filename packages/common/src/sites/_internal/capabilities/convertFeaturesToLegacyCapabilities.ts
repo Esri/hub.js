@@ -1,4 +1,4 @@
-import { IModel } from "../../../types";
+import { IModel } from "../../../hub-types";
 import { getProp } from "../../../objects/get-prop";
 import { capabilityToFeatureMap } from "./capabilityToFeatureMap";
 import {

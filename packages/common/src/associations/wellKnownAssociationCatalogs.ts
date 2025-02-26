@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../ArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 import { getTypeFromEntity } from "../core";
 import { HubEntity, HubEntityType } from "../core/types";
 import { buildCatalog } from "../search/_internal/buildCatalog";

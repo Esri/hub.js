@@ -1,4 +1,4 @@
-import { IHubRequestOptions } from "../types";
+import { IHubRequestOptions } from "../hub-types";
 import { stripProtocol } from "../urls";
 import { isGuid } from "../utils";
 import { lookupDomain } from "./domains";

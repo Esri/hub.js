@@ -1,5 +1,5 @@
 import { IHubInitiativeTemplate } from "../core/types/IHubInitiativeTemplate";
-import { IModel } from "../types";
+import { IModel } from "../hub-types";
 import { InitiativeTemplateDefaultFeatures } from "./_internal/InitiativeTemplateBusinessRules";
 
 export const HUB_INITIATIVE_TEMPLATE_ITEM_TYPE = "Hub Initiative Template";

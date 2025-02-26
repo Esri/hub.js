@@ -1,5 +1,5 @@
 import { getItemResource } from "@esri/arcgis-rest-portal";
-import { IHubUserRequestOptions } from "../types";
+import { IHubUserRequestOptions } from "../hub-types";
 import { IVersion } from "./types";
 import { getResourceNameFromVersionId } from "./_internal/getResourceNameFromVersionId";
 

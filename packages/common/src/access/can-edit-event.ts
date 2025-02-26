@@ -1,5 +1,5 @@
 import { IItem, IUser } from "@esri/arcgis-rest-types";
-import { IInitiativeModel } from "../types";
+import { IInitiativeModel } from "../hub-types";
 import { getProp } from "../objects";
 import { findBy } from "../util";
 import { hasBasePriv } from "./has-base-priv";

@@ -1,6 +1,6 @@
 import { IItem, IUser } from "@esri/arcgis-rest-types";
 import { IHubCatalog, IHubSearchResult } from "../../src/search/types";
-import { IModel } from "../../src/types";
+import { IModel } from "../../src/hub-types";
 import { IHubTemplate } from "../../src/core/types/IHubTemplate";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import { IPortal } from "@esri/arcgis-rest-portal";

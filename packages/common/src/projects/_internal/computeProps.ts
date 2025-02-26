@@ -2,7 +2,7 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { getItemThumbnailUrl } from "../../resources";
 import { IHubProject } from "../../core";
-import { IModel } from "../../types";
+import { IModel } from "../../hub-types";
 import { isDiscussable } from "../../discussions";
 import { processEntityFeatures } from "../../permissions/_internal/processEntityFeatures";
 import { ProjectDefaultFeatures } from "./ProjectBusinessRules";

@@ -1,4 +1,4 @@
-import { HubFamily } from "../types";
+import { HubFamily } from "../hub-types";
 import { getCollection, getCollectionTypes } from "../collections";
 
 // private helper functions

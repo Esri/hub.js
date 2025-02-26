@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../ArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 import {
   USER_SITE_SETTINGS_APP,
   USER_SITE_SETTINGS_KEY,
@@ -14,48 +14,8 @@ import {
   setUserResource,
 } from "./internal/userAppResources";
 import { fetchAndMigrateUserHubSettings } from "./internal/fetchAndMigrateUserHubSettings";
-import { IHubHistory } from "../core/hubHistory";
-
-/**
- * Site Level Settings
- */
-export interface IUserSiteSettings {
-  schemaVersion: number;
-  username?: string;
-  updated?: number;
-}
-
-/**
- * Hub Level Settings
- */
-export interface IUserHubSettings {
-  schemaVersion: number;
-  username?: string;
-  updated?: number;
-  /**
-   * Track notices the user has dismissed
-   * stored as an object so we can add more types in the future
-   */
-  notices?: {
-    /**
-     * Ids of notices the user has dismissed
-     */
-    dismissed?: string[];
-  };
-  /**
-   * Features that are enabled for the user in preview mode
-   */
-  preview?: {
-    /**
-     * Enable the workspace feature
-     */
-    workspace: boolean;
-  };
-  /**
-   * Optional history of sites/content the user has visited
-   */
-  history?: IHubHistory;
-}
+import { IUserSiteSettings } from "./IUserSiteSettings";
+import { IUserHubSettings } from "./IUserHubSettings";
 
 /**
  * Store User settings in the Site App's cache

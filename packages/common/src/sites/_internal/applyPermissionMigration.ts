@@ -4,7 +4,7 @@ import {
   IEntityPermissionPolicy,
   Permission,
 } from "../../permissions";
-import { IModel } from "../../types";
+import { IModel } from "../../hub-types";
 import { cloneObject } from "../../util";
 
 /**

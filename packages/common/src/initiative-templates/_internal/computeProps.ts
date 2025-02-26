@@ -4,7 +4,7 @@ import { IHubInitiativeTemplate } from "../../core";
 import { isDiscussable } from "../../discussions";
 import { processEntityFeatures } from "../../permissions/_internal/processEntityFeatures";
 import { getItemThumbnailUrl } from "../../resources";
-import { IModel } from "../../types";
+import { IModel } from "../../hub-types";
 import { InitiativeTemplateDefaultFeatures } from "./InitiativeTemplateBusinessRules";
 import { computeLinks } from "./computeLinks";
 import { computeItemProps } from "../../core/_internal/computeItemProps";
