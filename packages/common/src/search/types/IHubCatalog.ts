@@ -196,7 +196,14 @@ export interface IGalleryDisplayConfig {
    * If this is true on a collection's display config, that collection will not be shown in the gallery.
    */
   hidden?: boolean;
-  layout?: "list" | "grid" | "map" | "table" | "calendar" | "compact";
+  layout?:
+    | "list"
+    | "grid"
+    | "map"
+    | "table"
+    | "calendar"
+    | "compact"
+    | "grid-filled";
   cardTitleTag?: CARD_TITLE_TAGS;
   showThumbnail?: "show" | "hide" | "grid";
   corners?: CORNERS;
