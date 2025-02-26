@@ -93,7 +93,7 @@ export const buildUiSchema = async (
             "site",
             context.requestOptions
           ),
-          getSlugSchemaElement(i18nScope),
+          ...(context.isPortal ? [getSlugSchemaElement(i18nScope)] : []),
           {
             labelKey: `${i18nScope}.fields.tags.label`,
             scope: "/properties/tags",
