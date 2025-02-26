@@ -51,7 +51,7 @@ import * as documentsJson from "../mocks/datasets/document.json";
 import * as featureLayerJson from "../mocks/datasets/feature-layer.json";
 import { MOCK_REQUEST_OPTIONS } from "../../../initiatives/test/mocks/fake-session";
 import * as fetchMock from "fetch-mock";
-import { IHubServiceBackedContentStatus } from "../../dist/types/content/types";
+import { IHubServiceBackedContentStatus } from "../../src/content/types";
 import { ArcGISRequestError } from "@esri/arcgis-rest-request";
 
 describe("content: ", () => {
