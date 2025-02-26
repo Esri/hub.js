@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../../../../src/IArcGISContext";
+import type { IArcGISContext } from "../../../../src";
 import { fetchCategoriesUiSchemaElement } from "../../../../src/core/schemas/internal/fetchCategoriesUiSchemaElement";
 import * as fetchCategoryItemsModule from "../../../../src/core/schemas/internal/fetchCategoryItems";
 

@@ -1,5 +1,5 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IModel } from "../types";
+import { IModel } from "../hub-types";
 import { IItemAndIServerEnrichments } from "../items/_enrichments";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { IHubEditableContent } from "../core/types/IHubEditableContent";

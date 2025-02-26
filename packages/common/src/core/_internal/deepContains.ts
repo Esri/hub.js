@@ -1,4 +1,4 @@
-import type { IArcGISContext } from "../../IArcGISContext";
+import type { IArcGISContext } from "../../types/IArcGISContext";
 import { EntityType, IContainsResponse, IDeepCatalogInfo } from "../../search";
 import { getEntityTypeFromType } from "../../search/_internal/getEntityTypeFromType";
 import { Catalog } from "../../search/Catalog";

@@ -7,7 +7,7 @@ import { fetchSite } from "../sites/HubSites";
 import { fetchTemplate } from "../templates/fetch";
 import { HubEntity } from "./types/HubEntity";
 import { HubEntityType } from "./types/HubEntityType";
-import type { IArcGISContext } from "../IArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 import { fetchHubGroup } from "../groups/HubGroups";
 import { fetchInitiativeTemplate } from "../initiative-templates/fetch";
 import { fetchSurvey } from "../surveys/fetch";

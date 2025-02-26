@@ -1,4 +1,4 @@
-import type { IArcGISContext } from "../../IArcGISContext";
+import type { IArcGISContext } from "../../types/IArcGISContext";
 import { IHubEvent } from "../../core/types/IHubEvent";
 import { updateEvent } from "../api/events";
 

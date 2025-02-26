@@ -1,4 +1,4 @@
-import { IHubRequestOptions } from "../../types";
+import { IHubRequestOptions } from "../../hub-types";
 import { ICreateEventAssociation } from "../api";
 import { searchItems } from "@esri/arcgis-rest-portal";
 

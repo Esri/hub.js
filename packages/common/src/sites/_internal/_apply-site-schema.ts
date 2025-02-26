@@ -1,5 +1,5 @@
 import { getProp } from "../../objects";
-import { IModel } from "../../types";
+import { IModel } from "../../hub-types";
 import { cloneObject } from "../../util";
 
 /**

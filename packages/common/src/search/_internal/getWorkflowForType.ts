@@ -1,4 +1,4 @@
-import type { IArcGISContext } from "../../IArcGISContext";
+import type { IArcGISContext } from "../../types/IArcGISContext";
 import { checkPermission } from "../../permissions/checkPermission";
 import { Permission } from "../../permissions/types/Permission";
 import { EntityType } from "../types/IHubCatalog";

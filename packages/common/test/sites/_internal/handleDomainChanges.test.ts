@@ -2,7 +2,7 @@ import { handleDomainChanges } from "../../../src/sites/_internal/handleDomainCh
 import * as domainModule from "../../../src/sites/domains";
 import { MOCK_HUB_REQOPTS } from "../test-helpers.test";
 import { cloneObject } from "../../../src/util";
-import { IModel } from "../../../src/types";
+import { IModel } from "../../../src/hub-types";
 
 const currentModel = {
   item: {

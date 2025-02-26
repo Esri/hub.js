@@ -1,10 +1,10 @@
 import { IUser } from "@esri/arcgis-rest-types";
 import { getFamilyTypes } from "../content/get-family";
-import { HubFamily } from "../types";
+import { HubFamily } from "../hub-types";
 import { EntityType, IFilter, IHubCatalog, IHubCollection } from "./types";
 import { buildCatalog } from "./_internal/buildCatalog";
 import { getProp } from "../objects";
-import type { IArcGISContext } from "../IArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 
 /**
  * This is used to determine what IHubCatalog definition JSON object

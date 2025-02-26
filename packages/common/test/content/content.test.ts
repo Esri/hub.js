@@ -1518,7 +1518,7 @@ describe("content: ", () => {
           status: 200,
           body: { message: "Success" },
         },
-        { delay: 1000 }
+        { delay: 1000 } as fetchMock.MockOptions
       );
 
       const result = (await getServiceStatus(entity, {
@@ -1556,7 +1556,7 @@ describe("content: ", () => {
           status: 200,
           body: { message: "Success" },
         },
-        { delay: 5000 }
+        { delay: 5000 } as fetchMock.MockOptions
       );
 
       const result = (await getServiceStatus(entity, {

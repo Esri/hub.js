@@ -17,7 +17,7 @@ import {
 } from "../permissions";
 import { IWithStoreBehavior } from "../core/behaviors/IWithStoreBehavior";
 import { IWithPermissionBehavior } from "../core/behaviors/IWithPermissionBehavior";
-import type { IArcGISContext } from "../IArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 import { cloneObject } from "../util";
 import { IEditorConfig } from "../core/schemas/types";
 import { IWithEditorBehavior } from "../core/behaviors/IWithEditorBehavior";

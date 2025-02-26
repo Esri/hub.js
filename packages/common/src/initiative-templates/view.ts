@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../IArcGISContext";
+import { IArcGISContext } from "../types/IArcGISContext";
 import { IHubSearchResult } from "../search/types/IHubSearchResult";
 import { IHubInitiativeTemplate } from "../core/types/IHubInitiativeTemplate";
 import {

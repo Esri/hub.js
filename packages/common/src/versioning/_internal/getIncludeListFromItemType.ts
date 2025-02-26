@@ -1,4 +1,4 @@
-import { IModel } from "../../types";
+import { IModel } from "../../hub-types";
 import { isSiteType } from "../../content/compose";
 import { isPageType } from "../../content/_internal/internalContentUtils";
 import { SiteVersionIncludeList } from "../../sites/_internal/SiteBusinessRules";

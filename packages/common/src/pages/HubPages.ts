@@ -4,7 +4,7 @@ import { fetchItemEnrichments } from "../items/_enrichments";
 import { getProp } from "../objects";
 import { IHubSearchResult } from "../search";
 import { parseInclude } from "../search/_internal/parseInclude";
-import { IHubRequestOptions, IModel } from "../types";
+import { IHubRequestOptions, IModel } from "../hub-types";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IItem } from "@esri/arcgis-rest-portal";
 import { cloneObject, unique } from "../util";

@@ -10,7 +10,7 @@ import type {
   IConvertToCardModelOpts,
   IHubCardViewModel,
 } from "../core/types/IHubCardViewModel";
-import type { IArcGISContext } from "../IArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 import { IHubSearchResult } from "../search/types/IHubSearchResult";
 import { getFamily } from "../content/get-family";
 

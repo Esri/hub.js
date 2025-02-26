@@ -1,4 +1,4 @@
-import type { IArcGISContext } from "../IArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
 import { IEditorConfig } from "../core/schemas/types";
 import { HubItemEntity } from "../core/HubItemEntity";

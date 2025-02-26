@@ -1,4 +1,4 @@
-import type { IArcGISContext } from "../IArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 import { IHubEditableContent, IGeometryInstance } from "../core/types";
 
 /**

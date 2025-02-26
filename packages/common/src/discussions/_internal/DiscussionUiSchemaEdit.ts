@@ -1,5 +1,5 @@
 import { IUiSchema } from "../../core/schemas/types";
-import type { IArcGISContext } from "../../IArcGISContext";
+import type { IArcGISContext } from "../../types/IArcGISContext";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";

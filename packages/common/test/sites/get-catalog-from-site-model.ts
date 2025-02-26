@@ -1,6 +1,6 @@
 import { IHubCatalog } from "../../src";
 import { getCatalogFromSiteModel } from "../../src/sites/get-catalog-from-site-model";
-import { IModel } from "../../src/types";
+import { IModel } from "../../src/hub-types";
 
 describe("getCatalogFromSiteModel", () => {
   it("gets new catalog from legacy catalog", async () => {

@@ -1,4 +1,4 @@
-import { IModel } from "../../src/types";
+import { IModel } from "../../src/hub-types";
 import { IVersion } from "../../src/versioning/types/IVersion";
 import { applyVersion } from "../../src/versioning/utils";
 

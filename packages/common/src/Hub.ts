@@ -1,5 +1,5 @@
 import { ArcGISContextManager } from "./ArcGISContextManager";
-import { IArcGISContextManagerOptions } from "./IArcGISContextManagerOptions";
+import { IArcGISContextManagerOptions } from "./types/IArcGISContextManagerOptions";
 
 /**
  * Options for instantiating a Hub instance

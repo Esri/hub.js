@@ -34,6 +34,7 @@ export * from "./resources";
 export * from "./search";
 export * from "./sites";
 export * from "./templates";
+export * from "./hub-types";
 export * from "./types";
 export * from "./urls";
 export * from "./users";
@@ -41,11 +42,6 @@ export * from "./util";
 export * from "./utils";
 export * from "./versioning";
 export * from "./metrics";
-export * from "./IArcGISContext";
-export * from "./IArcGISContextManagerOptions";
-export * from "./IArcGISContextOptions";
-export * from "./IUserResourceConfig";
-export * from "./IUserResourceToken";
 // Unclear _why_ this needs to be here vs in core/index.ts
 // but if it's not here, the function is not exported
 export * from "./core/updateHubEntity";

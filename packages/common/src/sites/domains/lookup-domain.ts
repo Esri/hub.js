@@ -1,4 +1,4 @@
-import { IHubRequestOptions, IDomainEntry } from "../../types";
+import { IHubRequestOptions, IDomainEntry } from "../../hub-types";
 import { _lookupPortal } from "./_lookup-portal";
 import { _getDomainServiceUrl } from "./_get-domain-service-url";
 import { _getAuthHeader } from "./_get-auth-header";

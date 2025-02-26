@@ -1,7 +1,7 @@
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as modelUtils from "../../src/models";
-import { IModel } from "../../src/types";
+import { IModel } from "../../src/hub-types";
 import { deleteSurvey, updateSurvey } from "../../src/surveys/edit";
 import * as getFormJsonUtil from "../../src/surveys/utils/get-form-json";
 import { IHubSurvey } from "../../src/core/types/IHubSurvey";

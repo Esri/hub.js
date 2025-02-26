@@ -5,7 +5,7 @@ import { getAssociationHierarchy } from "./internal/getAssociationHierarchy";
 import { getReferencesDoesNotIncludeQuery } from "./internal/getReferencesDoesNotIncludeQuery";
 import { getIncludesDoesNotReferenceQuery } from "./internal/getIncludesDoesNotReferenceQuery";
 import { isAssociationSupported } from "./internal/isAssociationSupported";
-import type { IArcGISContext } from "../IArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 
 /**
  * Pending entities represent "outgoing" requests that are

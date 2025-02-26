@@ -1,4 +1,4 @@
-import type { IArcGISContext } from "../IArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 import { IHubSearchResult } from "../search/types";
 import { getFamily } from "../content/get-family";
 import { IHubTemplate } from "../core/types/IHubTemplate";

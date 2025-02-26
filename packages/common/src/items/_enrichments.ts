@@ -11,7 +11,7 @@ import {
   parseServiceUrl,
 } from "@esri/arcgis-rest-feature-layer";
 import { IItemEnrichments, IServerEnrichments } from "../core";
-import { IEnrichmentErrorInfo, IHubRequestOptions } from "../types";
+import { IEnrichmentErrorInfo, IHubRequestOptions } from "../hub-types";
 import { IPipeable, createOperationPipeline } from "../utils";
 import OperationStack from "../OperationStack";
 // TODO: move these functions here under /items

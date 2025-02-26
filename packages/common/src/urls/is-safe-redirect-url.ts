@@ -1,5 +1,5 @@
 import { domainExists } from "../sites/domains/domain-exists";
-import { IHubRequestOptions } from "../types";
+import { IHubRequestOptions } from "../hub-types";
 
 const SAFE_REDIRECT_URL = new RegExp(
   "^https?:\\/\\/([a-z0-9-]+\\.)*(arcgis|esri)\\.com"

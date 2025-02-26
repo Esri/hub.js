@@ -1,6 +1,6 @@
 import { unprotectItem, IUserItemOptions } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IModel } from "../types";
+import { IModel } from "../hub-types";
 
 /**
  * Given a model, determine if it is protected, and unprotect it if it is.

@@ -1,5 +1,5 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { IHubRequestOptions } from "../../types";
+import { IHubRequestOptions } from "../../hub-types";
 import { EntityType } from "./IHubCatalog";
 
 import { NamedApis, IApiDefinition, ISortOption } from "./types";

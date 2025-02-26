@@ -1,5 +1,5 @@
 import { ResourceObject } from "jsonapi-typescript";
-import type { IArcGISContext } from "../IArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 
 /**
  * JSONAPI dataset resource returned by the Hub API

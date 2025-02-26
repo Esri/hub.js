@@ -23,7 +23,7 @@ import {
   EditorOptions,
   EntityEditorOptions,
 } from "./EditorOptions";
-import type { IArcGISContext } from "../../../IArcGISContext";
+import type { IArcGISContext } from "../../../types/IArcGISContext";
 import { InitiativeTemplateEditorType } from "../../../initiative-templates/_internal/InitiativeTemplateSchema";
 import { getCardEditorSchemas } from "./getCardEditorSchemas";
 import { SurveyEditorType } from "../../../surveys/_internal/SurveySchema";

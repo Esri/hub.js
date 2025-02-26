@@ -16,7 +16,7 @@ import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { camelize, cloneObject, createId } from "../util";
 import { setDiscussableKeyword } from "../discussions";
-import { IModel } from "../types";
+import { IModel } from "../hub-types";
 import { setEntityStatusKeyword } from "../utils/internal/setEntityStatusKeyword";
 import { editorToMetric } from "../metrics/editorToMetric";
 import { setMetricAndDisplay } from "../core/schemas/internal/metrics/setMetricAndDisplay";

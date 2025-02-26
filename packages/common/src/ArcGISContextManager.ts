@@ -1,8 +1,8 @@
 import { getSelf, getUser, IPortal } from "@esri/arcgis-rest-portal";
 import { exchangeToken, IUser, UserSession } from "@esri/arcgis-rest-auth";
 import { ArcGISContext } from "./ArcGISContext";
-import { IArcGISContextOptions } from "./IArcGISContextOptions";
-import type { IArcGISContext } from "./IArcGISContext";
+import type { IArcGISContextOptions } from "./types/IArcGISContextOptions";
+import type { IArcGISContext } from "./types/IArcGISContext";
 
 import { getHubApiFromPortalUrl } from "./urls/getHubApiFromPortalUrl";
 import { getPortalBaseFromOrgUrl } from "./urls/getPortalBaseFromOrgUrl";
@@ -11,7 +11,7 @@ import { HubServiceStatus } from "./core";
 import { cloneObject, maybeAdd } from "./util";
 import { base64ToUnicode, unicodeToBase64 } from "./utils/encoding";
 import { IFeatureFlags } from "./permissions";
-import { IHubTrustedOrgsResponse } from "./types";
+import { IHubTrustedOrgsResponse } from "./hub-types";
 import { request } from "@esri/arcgis-rest-request";
 import { failSafe } from "./utils/fail-safe";
 
@@ -20,9 +20,9 @@ import { IUserHubSettings } from "./utils/IUserHubSettings";
 import { fetchAndMigrateUserHubSettings } from "./utils/internal/fetchAndMigrateUserHubSettings";
 import { getProp, getWithDefault, setProp } from "./objects";
 import { fetchOrgLimits, IOrgLimit, OrgLimitType } from "./org/fetchOrgLimits";
-import { IArcGISContextManagerOptions } from "./IArcGISContextManagerOptions";
-import { IUserResourceConfig } from "./IUserResourceConfig";
-import { IUserResourceToken } from "./IUserResourceToken";
+import type { IArcGISContextManagerOptions } from "./types/IArcGISContextManagerOptions";
+import type { IUserResourceConfig } from "./types/IUserResourceConfig";
+import type { IUserResourceToken } from "./types/IUserResourceToken";
 
 /**
  * Properties that we can always serialize/deserialize regardless of authentication status
@@ -378,7 +378,7 @@ export class ArcGISContextManager {
         app: "self",
         token,
         clientId: this._authentication.clientId || "self",
-      });
+      } as IUserResourceToken);
     }
     // Await promises
     let results: any[];
@@ -425,7 +425,7 @@ export class ArcGISContextManager {
     // fetch the users IUserHubSettings extract out the
     // preview properties and cross-walk to permissions
     const hubAppToken = this._userResourceTokens.find(
-      (e) => e.app === "hubforarcgis"
+      (e: any) => e.app === "hubforarcgis"
     );
     if (this._authentication && hubAppToken) {
       this._userHubSettings = await fetchAndMigrateUserHubSettings(

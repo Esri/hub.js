@@ -4,8 +4,8 @@
 import {
   IRevertableTaskResult,
   IRevertableTaskSuccess,
-  IRevertableTaskFailed
-} from "../types";
+  IRevertableTaskFailed,
+} from "../hub-types";
 
 /**
  * Runs the given task and returns a IRevertableTaskResult
@@ -18,14 +18,14 @@ export const runRevertableTask = (
   revert: (...args: any[]) => Promise<any>
 ): Promise<IRevertableTaskResult> => {
   return task()
-    .then(results => {
+    .then((results) => {
       return {
         status: "fullfilled",
         results,
-        revert
+        revert,
       } as IRevertableTaskSuccess;
     })
-    .catch(error => {
+    .catch((error) => {
       return { status: "rejected", error };
     });
 };
@@ -41,7 +41,7 @@ export const runRevertableTask = (
 export const processRevertableTasks = (
   revertableTasks: Array<Promise<IRevertableTaskResult>>
 ): Promise<any[]> => {
-  return Promise.all(revertableTasks).then(results => {
+  return Promise.all(revertableTasks).then((results) => {
     const isFullfilled = (result: IRevertableTaskResult) =>
       result.status === "fullfilled";
     const successfulTasks = results.filter(
@@ -51,7 +51,7 @@ export const processRevertableTasks = (
       (result: IRevertableTaskResult) => !isFullfilled(result)
     ) as IRevertableTaskFailed[];
     if (failedTasks.length) {
-      const reverts = successfulTasks.map(task => task.revert());
+      const reverts = successfulTasks.map((task) => task.revert());
 
       // fire & forget
       /* tslint:disable no-empty */

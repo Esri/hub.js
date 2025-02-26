@@ -1,6 +1,6 @@
 import { IHubGroup } from "../core/types/IHubGroup";
 import { checkPermission } from "../permissions";
-import type { IArcGISContext } from "../IArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 
 type WellKnownGroup =
   | "hubGroup"

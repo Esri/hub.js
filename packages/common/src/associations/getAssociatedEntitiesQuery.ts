@@ -4,7 +4,7 @@ import { HubEntity, HubEntityType } from "../core/types";
 import { getAssociationHierarchy } from "./internal/getAssociationHierarchy";
 import { isAssociationSupported } from "./internal/isAssociationSupported";
 import { getIncludesAndReferencesQuery } from "./internal/getIncludesAndReferencesQuery";
-import type { IArcGISContext } from "../IArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 
 /**
  * Associated entities are those which have mutually

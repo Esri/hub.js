@@ -1,5 +1,5 @@
 import { IGroup } from "@esri/arcgis-rest-portal";
-import type { IArcGISContext } from "../../IArcGISContext";
+import type { IArcGISContext } from "../../types/IArcGISContext";
 import { getProp } from "../../objects";
 import { mapBy } from "../../utils";
 import { IPolicyAssertion, IPolicyCheck, PolicyResponse } from "../types";

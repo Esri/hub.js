@@ -1,5 +1,5 @@
 import { IGroup } from "@esri/arcgis-rest-portal";
-import type { IArcGISContext } from "../IArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 import { getEventGroups } from "../events/getEventGroups";
 import { sharedWith } from "./_internal/sharedWith";
 import { getTypeFromEntity } from "./getTypeFromEntity";

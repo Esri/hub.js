@@ -1,4 +1,4 @@
-import type { IArcGISContext } from "../IArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 import { getProp } from "../objects/get-prop";
 import { getEntityTypeFromType } from "../search/_internal/getEntityTypeFromType";
 import { IHubCatalog } from "../search/types/IHubCatalog";

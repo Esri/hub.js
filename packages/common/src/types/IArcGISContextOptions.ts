@@ -1,11 +1,11 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { IPortal } from "@esri/arcgis-rest-portal";
-import { IUser } from "@esri/arcgis-rest-types";
-import { IUserResourceToken } from "./IUserResourceToken";
-import { HubServiceStatus } from "./core";
-import { IFeatureFlags } from "./permissions";
-import { IHubTrustedOrgsResponse } from "./types";
-import { IUserHubSettings } from "./utils/IUserHubSettings";
+import type { IPortal } from "@esri/arcgis-rest-portal";
+import type { IUser } from "@esri/arcgis-rest-types";
+import type { IUserResourceToken } from "./IUserResourceToken";
+import type { HubServiceStatus } from "../core/types/ISystemStatus";
+import type { IFeatureFlags } from "../permissions";
+import type { IHubTrustedOrgsResponse } from "../hub-types";
+import type { IUserHubSettings } from "../utils/IUserHubSettings";
 
 /**
  * Options for the ArcGISContext constructor

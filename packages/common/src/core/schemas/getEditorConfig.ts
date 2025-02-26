@@ -5,7 +5,7 @@ import {
   FollowCardEditorType,
   EventGalleryCardEditorType,
 } from "./types";
-import type { IArcGISContext } from "../../IArcGISContext";
+import type { IArcGISContext } from "../../types/IArcGISContext";
 import {
   EditorOptions,
   EntityEditorOptions,

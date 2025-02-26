@@ -1,6 +1,6 @@
 import { IQuery } from "../search/types";
 import { hubSearch } from "../search/hubSearch";
-import { IHubRequestOptions } from "../types";
+import { IHubRequestOptions } from "../hub-types";
 import {
   HubActionLink,
   IHubContentActionLink,

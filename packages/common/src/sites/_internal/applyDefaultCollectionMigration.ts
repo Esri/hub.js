@@ -1,7 +1,7 @@
 import { getWithDefault } from "../../objects";
 import { IHubCollectionPersistance } from "../../search/types/IHubCatalog";
 import { WellKnownCollection } from "../../search/wellKnownCatalog";
-import { IModel } from "../../types";
+import { IModel } from "../../hub-types";
 import { SearchCategories } from "./types";
 import { defaultSiteCollectionKeys } from "../defaultSiteCollectionKeys";
 

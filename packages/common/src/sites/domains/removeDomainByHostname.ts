@@ -2,7 +2,7 @@
 import { lookupDomain } from "./lookup-domain";
 import { removeDomain } from "./remove-domain";
 
-import { IHubRequestOptions } from "../../types";
+import { IHubRequestOptions } from "../../hub-types";
 import { getProp } from "../../objects";
 
 /**

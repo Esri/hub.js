@@ -1,7 +1,7 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import OperationError from "../OperationError";
 import OperationStack from "../OperationStack";
-import { IHubRequestOptions } from "../types";
+import { IHubRequestOptions } from "../hub-types";
 
 /**
  * Container type for Piping in Hub

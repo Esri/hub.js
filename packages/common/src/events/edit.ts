@@ -1,5 +1,5 @@
 import { IHubEvent } from "../core/types/IHubEvent";
-import { IHubRequestOptions } from "../types";
+import { IHubRequestOptions } from "../hub-types";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { EventPropertyMapper } from "./_internal/PropertyMapper";
 import { buildDefaultEventEntity, buildDefaultEventRecord } from "./defaults";

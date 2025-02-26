@@ -1,4 +1,4 @@
-import type { IArcGISContext } from "../../IArcGISContext";
+import type { IArcGISContext } from "../../types/IArcGISContext";
 import { IHubUserOrgSettings } from "../../core/types/IHubUser";
 import { request } from "@esri/arcgis-rest-request";
 import { cloneObject } from "../../util";

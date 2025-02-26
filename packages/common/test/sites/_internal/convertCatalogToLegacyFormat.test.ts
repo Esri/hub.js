@@ -3,7 +3,7 @@ import {
   convertCatalogToLegacyFormat,
   catalogToLegacy,
 } from "../../../src/sites/_internal/convertCatalogToLegacyFormat";
-import { IModel } from "../../../src/types";
+import { IModel } from "../../../src/hub-types";
 import { IHubCatalog } from "../../../src";
 
 describe("utils:", () => {

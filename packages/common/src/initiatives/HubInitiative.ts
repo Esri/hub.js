@@ -11,7 +11,7 @@ import {
 } from "./HubInitiatives";
 
 import { Catalog } from "../search/Catalog";
-import type { IArcGISContext } from "../IArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
 import { InitiativeEditorType } from "./_internal/InitiativeSchema";
 import { IWithMetricsBehavior } from "../core/behaviors/IWithMetricsBehavior";

@@ -1,5 +1,5 @@
 import { IPermissionPolicy } from "../../../src";
-import { IArcGISContext } from "../../../src/IArcGISContext";
+import { IArcGISContext } from "../../../src";
 import { checkParents } from "../../../src/permissions/_internal/checkParents";
 import * as CheckPermissionModule from "../../../src/permissions/checkPermission";
 

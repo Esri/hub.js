@@ -3,7 +3,7 @@ import { IHubSearchOptions } from "../../types/IHubSearchOptions";
 import { IHubSearchResult } from "../../types/IHubSearchResult";
 import { IEvent } from "../../../events/api/orval/api/orval-events";
 import { AccessLevel } from "../../../core/types/types";
-import { HubFamily } from "../../../types";
+import { HubFamily } from "../../../hub-types";
 import { computeLinks } from "../../../events/_internal/computeLinks";
 import { getLocationFromEvent } from "../../../events/_internal/getLocationFromEvent";
 

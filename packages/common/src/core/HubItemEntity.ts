@@ -6,7 +6,7 @@ import {
   setItemAccess,
   updateGroup,
 } from "@esri/arcgis-rest-portal";
-import type { IArcGISContext } from "../IArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 import HubError from "../HubError";
 import { uploadImageResource } from "../items/uploadImageResource";
 import { unshareItemFromGroups } from "../items/unshare-item-from-groups";

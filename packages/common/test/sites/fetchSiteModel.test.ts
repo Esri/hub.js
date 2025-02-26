@@ -1,7 +1,7 @@
 import * as domainModule from "../../src/sites/domains";
 import * as getSiteModule from "../../src/sites/get-site-by-id";
 import { fetchSiteModel } from "../../src/sites/fetchSiteModel";
-import { IHubRequestOptions, IModel } from "../../src/types";
+import { IHubRequestOptions, IModel } from "../../src/hub-types";
 
 describe("fetchSiteModel", () => {
   const siteId = "042584cf391c428e995e97eccdebb8f8";

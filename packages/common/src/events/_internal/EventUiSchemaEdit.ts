@@ -1,5 +1,5 @@
 import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
-import type { IArcGISContext } from "../../IArcGISContext";
+import type { IArcGISContext } from "../../types/IArcGISContext";
 import { IHubEvent } from "../../core/types/IHubEvent";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { HubEventAttendanceType, HubEventCapacityType } from "../types";

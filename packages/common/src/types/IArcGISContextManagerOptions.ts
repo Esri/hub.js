@@ -3,11 +3,11 @@ import { IPortal } from "@esri/arcgis-rest-portal";
 import { IUser } from "@esri/arcgis-rest-types";
 import { IUserResourceToken } from "./IUserResourceToken";
 import { IUserResourceConfig } from "./IUserResourceConfig";
-import { HubServiceStatus } from "./core";
-import { IFeatureFlags } from "./permissions";
-import { IHubTrustedOrgsResponse } from "./types";
-import { Level } from "./utils";
-import { IUserHubSettings } from "./utils/IUserHubSettings";
+import { HubServiceStatus } from "../core/types/ISystemStatus";
+import { IFeatureFlags } from "../permissions";
+import { IHubTrustedOrgsResponse } from "../hub-types";
+import { Level } from "../utils";
+import { IUserHubSettings } from "../utils/IUserHubSettings";
 
 /**
  * Options that can be passed into `ArcGISContextManager.create`

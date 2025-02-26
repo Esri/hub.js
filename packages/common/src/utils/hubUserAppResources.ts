@@ -1,4 +1,4 @@
-import type { IArcGISContext } from "../IArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 import {
   USER_SITE_SETTINGS_APP,
   USER_SITE_SETTINGS_KEY,

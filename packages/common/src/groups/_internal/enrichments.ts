@@ -9,7 +9,7 @@ import {
 import { getEnrichmentErrors } from "../../items/_enrichments";
 import { getProp } from "../../objects/get-prop";
 import OperationStack from "../../OperationStack";
-import { IEnrichmentErrorInfo, IHubRequestOptions } from "../../types";
+import { IEnrichmentErrorInfo, IHubRequestOptions } from "../../hub-types";
 import { createOperationPipeline, IPipeable } from "../../utils";
 import { IGroupMembershipSummary } from "../types";
 

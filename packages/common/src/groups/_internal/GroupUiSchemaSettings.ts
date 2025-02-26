@@ -1,5 +1,5 @@
 import { IUiSchema, UiSchemaRuleEffects } from "../../core";
-import type { IArcGISContext } from "../../IArcGISContext";
+import type { IArcGISContext } from "../../types/IArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 import { IHubGroup } from "../../core";
 

@@ -2,22 +2,22 @@ import { UserSession, IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import type { IPortal } from "@esri/arcgis-rest-portal";
 import type { IRequestOptions } from "@esri/arcgis-rest-request";
 import type { IUser } from "@esri/arcgis-rest-types";
-import { HubServiceStatus, HubEntity } from "./core";
-import type { IHubHistory, IHubHistoryEntry } from "./core/hubHistory";
+import { HubServiceStatus, HubEntity } from "../core";
+import type { IHubHistory, IHubHistoryEntry } from "../core/hubHistory";
 import type {
   HubLicense,
   HubEnvironment,
   IFeatureFlags,
   Permission,
   IPermissionAccessResponse,
-} from "./permissions";
+} from "../permissions";
 import type {
   IHubRequestOptions,
   IHubTrustedOrgsResponse,
   UserResourceApp,
-} from "./types";
+} from "../hub-types";
 import type { IUserResourceToken } from "./IUserResourceToken";
-import type { IUserHubSettings } from "./utils/IUserHubSettings";
+import type { IUserHubSettings } from "../utils/IUserHubSettings";
 
 /**
  * Defines the properties of the ArcGISContext.

@@ -1,4 +1,4 @@
-import type { IArcGISContext } from "../../IArcGISContext";
+import type { IArcGISContext } from "../../types/IArcGISContext";
 import { checkPermission } from "../checkPermission";
 import { IPermissionPolicy } from "../types/IPermissionPolicy";
 import { IPolicyCheck } from "../types/IPolicyCheck";

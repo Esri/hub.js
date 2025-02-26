@@ -19,18 +19,18 @@ import {
   IPermissionAccessResponse,
   Permission,
 } from "./permissions/types";
-import { IHubRequestOptions, IHubTrustedOrgsResponse } from "./types";
+import { IHubRequestOptions, IHubTrustedOrgsResponse } from "./hub-types";
 import { getEnvironmentFromPortalUrl } from "./utils/getEnvironmentFromPortalUrl";
-import { UserResourceApp } from "./types";
-import { IUserResourceToken } from "./IUserResourceToken";
+import { UserResourceApp } from "./hub-types";
+import type { IUserResourceToken } from "./types/IUserResourceToken";
 import { updateUserHubSettings } from "./utils/hubUserAppResources";
 import { IUserHubSettings } from "./utils/IUserHubSettings";
 import { HubServiceStatus } from "./core/types/ISystemStatus";
 import { checkPermission } from "./permissions/checkPermission";
 import { HubEntity } from "./core/types/HubEntity";
 import { getOrgThumbnailUrl } from "./resources/get-org-thumbnail-url";
-import type { IArcGISContext } from "./IArcGISContext";
-import { IArcGISContextOptions } from "./IArcGISContextOptions";
+import type { IArcGISContext } from "./types/IArcGISContext";
+import type { IArcGISContextOptions } from "./types/IArcGISContextOptions";
 
 /**
  * Hash of Hub API end points so updates
@@ -561,7 +561,7 @@ export class ArcGISContext implements IArcGISContext {
    * @returns
    */
   public tokenFor(app: UserResourceApp): string {
-    const entry = this._userResourceTokens.find((e) => e.app === app);
+    const entry = this._userResourceTokens.find((e: any) => e.app === app);
     if (entry) {
       return entry.token;
     }

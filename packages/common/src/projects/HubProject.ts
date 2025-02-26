@@ -12,7 +12,7 @@ import {
 } from "../core";
 
 import { Catalog } from "../search/Catalog";
-import type { IArcGISContext } from "../IArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
 import { IEditorConfig } from "../core/schemas/types";
 import { IWithEditorBehavior } from "../core/behaviors/IWithEditorBehavior";

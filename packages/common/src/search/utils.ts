@@ -12,7 +12,7 @@ import {
 } from "@esri/arcgis-rest-portal";
 import { isPageType } from "../content/_internal/internalContentUtils";
 import { IHubSite } from "../core";
-import { ISearchResponse } from "../types";
+import { ISearchResponse } from "../hub-types";
 import { cloneObject } from "../util";
 import { IHubSearchResult } from "./types";
 import { IPredicate, IQuery } from "./types/IHubCatalog";

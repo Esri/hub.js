@@ -9,7 +9,7 @@ import {
 import * as statUiSchemaModule from "../../../../src/core/schemas/internal/metrics/StatCardUiSchema";
 import * as followUiSchemaModule from "../../../../src/core/schemas/internal/follow/FollowCardUiSchema";
 import * as eventGalleryUiSchemaModule from "../../../../src/core/schemas/internal/events/EventGalleryCardUiSchema";
-import { IArcGISContext } from "../../../../src/IArcGISContext";
+import { IArcGISContext } from "../../../../src";
 import { IEventGalleryCardEditorOptions } from "../../../../src/core/schemas/internal/EditorOptions";
 import { EventGalleryCardSchema } from "../../../../src/core/schemas/internal/events/EventGalleryCardSchema";
 

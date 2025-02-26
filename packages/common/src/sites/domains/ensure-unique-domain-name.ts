@@ -1,7 +1,7 @@
 import { getUniqueDomainNamePortal } from "./get-unique-domain-name-portal";
 import { getUniqueDomainName } from "./get-unique-domain-name";
 import { _ensureSafeDomainLength } from "./_ensure-safe-domain-length";
-import { IHubRequestOptions } from "../../types";
+import { IHubRequestOptions } from "../../hub-types";
 import { stripProtocol } from "../../urls";
 import { getHubApiUrl } from "../../api";
 

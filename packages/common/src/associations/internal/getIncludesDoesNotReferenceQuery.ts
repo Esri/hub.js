@@ -5,7 +5,7 @@ import { getProp } from "../../objects/get-prop";
 import { IQuery } from "../../search/types";
 import { combineQueries } from "../../search/_internal/combineQueries";
 import { getTypeWithoutKeywordQuery } from "./getTypeWithoutKeywordQuery";
-import type { IArcGISContext } from "../../IArcGISContext";
+import type { IArcGISContext } from "../../types/IArcGISContext";
 import { getTypeByIdsQuery } from "./getTypeByIdsQuery";
 import { getTypeFromEntity } from "../../core/getTypeFromEntity";
 import { getIdsFromKeywords } from "./getIdsFromKeywords";

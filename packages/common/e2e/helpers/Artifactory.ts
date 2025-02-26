@@ -7,7 +7,7 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { getProp } from "../../src/objects";
-import type { IArcGISContextManagerOptions } from "../../src/IArcGISContextManagerOptions";
+import type { IArcGISContextManagerOptions } from "../../src/types/IArcGISContextManagerOptions";
 
 /**
  * @internal

@@ -2,7 +2,7 @@ import * as portalModule from "@esri/arcgis-rest-portal";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as modelUtils from "../../src/models";
 import * as slugUtils from "../../src/items/slugs";
-import { IModel } from "../../src/types";
+import { IModel } from "../../src/hub-types";
 import {
   createDiscussion,
   deleteDiscussion,

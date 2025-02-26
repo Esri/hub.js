@@ -1,6 +1,6 @@
 import { IHubTemplate } from "../core/types/IHubTemplate";
 import { TemplateDefaultFeatures } from "./_internal/TemplateBusinessRules";
-import { IModel } from "../types";
+import { IModel } from "../hub-types";
 
 /**
  * NOTE: this file provides default values for new

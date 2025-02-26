@@ -1,5 +1,5 @@
 import { IPermissionPolicy } from "../../../src";
-import { IArcGISContext } from "../../../src/IArcGISContext";
+import { IArcGISContext } from "../../../src";
 import { checkEntityFeature } from "../../../src/permissions/_internal/checkEntityFeature";
 
 describe("checkEntityFeatures:", () => {

@@ -1,4 +1,4 @@
-import type { IArcGISContext } from "../IArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 import { checkPermission } from "../permissions/checkPermission";
 import { cloneObject } from "../util";
 import { getProp } from "../objects/get-prop";

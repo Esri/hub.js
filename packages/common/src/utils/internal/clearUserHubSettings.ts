@@ -1,5 +1,5 @@
-import type { IArcGISContext } from "../../IArcGISContext";
-import type { UserResourceApp } from "../../types";
+import type { IArcGISContext } from "../../types/IArcGISContext";
+import type { UserResourceApp } from "../../hub-types";
 import { removeUserResource } from "./userAppResources";
 
 export const USER_HUB_SETTINGS_APP: UserResourceApp = "hubforarcgis";

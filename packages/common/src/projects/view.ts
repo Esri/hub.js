@@ -11,7 +11,7 @@ import {
   ResultToCardModelFn,
   EntityToCardModelFn,
 } from "../core/types/IHubCardViewModel";
-import type { IArcGISContext } from "../IArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 import type { IHubSearchResult } from "../search/types/IHubSearchResult";
 
 /**

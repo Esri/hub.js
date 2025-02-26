@@ -1,4 +1,4 @@
-import type { IArcGISContext } from "../../../../IArcGISContext";
+import type { IArcGISContext } from "../../../../types/IArcGISContext";
 import { IStatCardEditorOptions } from "../EditorOptions";
 import { UiSchemaRuleEffects, IUiSchema } from "../../types";
 import { ICONS } from "./interfaces";
