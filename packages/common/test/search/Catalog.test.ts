@@ -271,6 +271,20 @@ describe("Catalog Class:", () => {
       const teamsCollection = instance.getCollection("teams");
       expect(teamsCollection.scope.filters.length).toBe(1);
     });
+    it("get collection works without collection scope filters", () => {
+      const instance = Catalog.fromJson(cloneObject(catalogJson), context);
+      instance.addCollection({
+        key: "documents",
+        label: "Documents",
+        targetEntity: "item",
+        scope: {
+          targetEntity: "item",
+          collection: "document",
+        } as IQuery,
+      });
+      const docCollection = instance.getCollection("documents");
+      expect(docCollection.scope.filters.length).toBe(1);
+    });
   });
   describe("addCollection", () => {
     const newCollection = {
