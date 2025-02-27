@@ -203,7 +203,10 @@ export class Catalog implements IHubCatalog {
       const clone = cloneObject(json);
       const catalogScope = this.getScope(clone.scope.targetEntity);
       if (catalogScope?.filters) {
-        clone.scope.filters = [...clone.scope.filters, ...catalogScope.filters];
+        clone.scope.filters = [
+          ...(clone.scope.filters || []),
+          ...catalogScope.filters,
+        ];
       }
       return clone;
     } else {

@@ -1,3 +1,10 @@
+## @esri/hub-common [15.38.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.38.0...@esri/hub-common@15.38.1) (2025-02-27)
+
+
+### Bug Fixes
+
+* account for empty collection filters when merging with scope filters ([#1819](https://github.com/Esri/hub.js/issues/1819)) ([e494d77](https://github.com/Esri/hub.js/commit/e494d770a6c7741986d925551315d27de3285603))
+
 # @esri/hub-common [15.38.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.37.1...@esri/hub-common@15.38.0) (2025-02-26)
 
 
