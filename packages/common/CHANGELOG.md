@@ -1,3 +1,10 @@
+## @esri/hub-common [15.38.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.38.1...@esri/hub-common@15.38.2) (2025-02-27)
+
+
+### Bug Fixes
+
+* **hub-common:** site entity only displays slug on enterprise ([#1817](https://github.com/Esri/hub.js/issues/1817)) ([2090f98](https://github.com/Esri/hub.js/commit/2090f981e001a2bd8b8256e3f6af64a19a3944e5))
+
 ## @esri/hub-common [15.38.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.38.0...@esri/hub-common@15.38.1) (2025-02-27)
 
 
