@@ -1,3 +1,4 @@
+export * from "./LogLevel";
 export * from "./asyncForEach";
 export * from "./batch";
 export * from "./encoding";
