@@ -1,6 +1,6 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IHubTemplate } from "../core/types/IHubTemplate";
-import { IHubRequestOptions, IModel } from "../types";
+import { IHubRequestOptions, IModel } from "../hub-types";
 import { isGuid, mapBy } from "../utils";
 import { IItem, getItem } from "@esri/arcgis-rest-portal";
 import { getItemBySlug } from "../items/slugs";

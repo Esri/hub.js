@@ -1,6 +1,6 @@
 import { getResourceNameFromVersionId } from "./_internal/getResourceNameFromVersionId";
 import { removeItemResource } from "@esri/arcgis-rest-portal";
-import { IHubUserRequestOptions } from "../types";
+import { IHubUserRequestOptions } from "../hub-types";
 
 /**
  * Deletes the version specified by the entity id and versionId

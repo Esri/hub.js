@@ -1,4 +1,4 @@
-import { HubEntityHero } from "../../types";
+import { HubEntityHero } from "../../hub-types";
 import {
   IHubTimeline,
   IMetricDisplayConfig,

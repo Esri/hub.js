@@ -1,5 +1,5 @@
 import { IHubDiscussion } from "../core/types";
-import { IModel } from "../types";
+import { IModel } from "../hub-types";
 
 export const HUB_DISCUSSION_ITEM_TYPE = "Discussion";
 

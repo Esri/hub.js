@@ -1,4 +1,4 @@
-import { IModel } from "../types";
+import { IModel } from "../hub-types";
 import { getProp } from "../objects";
 import { SITE_SCHEMA_VERSION } from "./site-schema-version";
 import { _applySiteSchema } from "./_internal/_apply-site-schema";

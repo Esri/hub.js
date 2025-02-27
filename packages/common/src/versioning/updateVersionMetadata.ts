@@ -1,4 +1,4 @@
-import { IHubUserRequestOptions } from "../types";
+import { IHubUserRequestOptions } from "../hub-types";
 import { mergeObjects } from "../objects/merge-objects";
 import { objectToJsonBlob } from "../resources/object-to-json-blob";
 import { IVersionMetadata } from "./types";

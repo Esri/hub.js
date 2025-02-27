@@ -1,5 +1,5 @@
 import { request } from "@esri/arcgis-rest-request";
-import { IHubRequestOptions } from "../../../types";
+import { IHubRequestOptions } from "../../../hub-types";
 import { IUiSchemaComboboxItem } from "../types";
 
 /**

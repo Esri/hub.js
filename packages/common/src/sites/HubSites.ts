@@ -26,7 +26,7 @@ import {
   updateModel,
 } from "../models";
 import { addSiteDomains } from "./domains/addSiteDomains";
-import { IHubRequestOptions, IModel } from "../types";
+import { IHubRequestOptions, IModel } from "../hub-types";
 import { removeDomainsBySiteId } from "./domains/remove-domains-by-site-id";
 import { IHubSearchResult } from "../search/types/IHubSearchResult";
 import { mapBy } from "../utils";

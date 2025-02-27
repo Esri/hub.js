@@ -11,7 +11,7 @@ export {
   SubscriptionAction as SchedulerSubscriptionAction,
   INotify,
 } from "./orval/api/orval-newsletters-scheduler";
-import { IHubRequestOptions } from "../../types";
+import { IHubRequestOptions } from "../../hub-types";
 import { INotify } from "./orval/api/orval-newsletters-scheduler";
 
 /**

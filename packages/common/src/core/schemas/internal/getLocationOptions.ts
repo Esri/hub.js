@@ -1,5 +1,5 @@
 import { extentToBBox, orgExtent as orgExtent } from "../../../extent";
-import { IHubRequestOptions } from "../../../types";
+import { IHubRequestOptions } from "../../../hub-types";
 import { getTypeFromEntity } from "../../getTypeFromEntity";
 import { IHubLocation, IHubLocationOption } from "../../types/IHubLocation";
 import { IExtent } from "@esri/arcgis-rest-types";

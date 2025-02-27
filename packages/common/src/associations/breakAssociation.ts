@@ -1,5 +1,5 @@
 import { unshareItemWithGroup } from "@esri/arcgis-rest-portal";
-import { IArcGISContext } from "../ArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 import { getProp } from "../objects";
 import { fetchHubEntity } from "../core";
 import { HubEntity, HubEntityType } from "../core/types";

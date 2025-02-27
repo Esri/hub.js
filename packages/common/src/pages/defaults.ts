@@ -1,5 +1,5 @@
 import { IHubPage } from "../core";
-import { IModel } from "../types";
+import { IModel } from "../hub-types";
 
 export const HUB_PAGE_ITEM_TYPE = "Hub Page";
 export const ENTERPRISE_PAGE_ITEM_TYPE = "Site Page";

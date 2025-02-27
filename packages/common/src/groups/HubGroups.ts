@@ -2,7 +2,7 @@ import { IGroup } from "@esri/arcgis-rest-types";
 import { fetchGroupEnrichments } from "./_internal/enrichments";
 import { getProp, setProp } from "../objects";
 import { parseInclude } from "../search/_internal/parseInclude";
-import { IHubRequestOptions } from "../types";
+import { IHubRequestOptions } from "../hub-types";
 import { unique } from "../util";
 import { mapBy } from "../utils";
 import {

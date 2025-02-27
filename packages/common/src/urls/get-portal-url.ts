@@ -3,7 +3,7 @@ import {
   IPortal,
   getPortalUrl as getPortalApiUrl,
 } from "@esri/arcgis-rest-portal";
-import { IHubRequestOptions } from "../types";
+import { IHubRequestOptions } from "../hub-types";
 
 /**
  * ```js

@@ -1,6 +1,6 @@
 import { getHubApiUrl } from "../src/api";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IHubRequestOptions } from "../src/types";
+import { IHubRequestOptions } from "../src/hub-types";
 
 describe("getHubApiUrl", () => {
   let ro: IRequestOptions;

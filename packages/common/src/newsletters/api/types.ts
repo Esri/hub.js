@@ -11,7 +11,7 @@ export {
   SystemNotificationSpecNames,
   SubscriptionAction,
 } from "./orval/api/orval-newsletters";
-import { IHubRequestOptions } from "../../types";
+import { IHubRequestOptions } from "../../hub-types";
 import {
   GetSubscriptionsParams,
   ICreateSubscription,

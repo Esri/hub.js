@@ -1,4 +1,4 @@
-import { IModel } from "../types";
+import { IModel } from "../hub-types";
 import { updateItem, IUpdateItemOptions } from "@esri/arcgis-rest-portal";
 import { serializeModel } from "../models/serializeModel";
 import { failSafe } from "../utils";

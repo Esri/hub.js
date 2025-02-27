@@ -1,6 +1,6 @@
 import { registerBrowserApp } from "../items/registerBrowserApp";
 import { getProp } from "../objects";
-import { IHubRequestOptions, IModel } from "../types";
+import { IHubRequestOptions, IModel } from "../hub-types";
 import { _getHttpAndHttpsUris } from "../urls";
 /**
  * @private

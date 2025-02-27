@@ -4,7 +4,7 @@ import {
   IUser,
 } from "@esri/arcgis-rest-types";
 import { Geometry, Polygon } from "geojson";
-import { IHubRequestOptions } from "../../types";
+import { IHubRequestOptions } from "../../hub-types";
 
 /**
  * sort orders

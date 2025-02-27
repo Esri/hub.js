@@ -1,5 +1,9 @@
 import { getPortalApiUrl } from "../urls";
-import { IHubRequestOptions, ITemplateAsset, IModelTemplate } from "../types";
+import {
+  IHubRequestOptions,
+  ITemplateAsset,
+  IModelTemplate,
+} from "../hub-types";
 
 /**
  * Convert the resources array on an individual template in a solution
@@ -17,20 +21,18 @@ export function convertSolutionTemplateResourcesToAssets(
     const portalRestUrl = getPortalApiUrl(hubRequestOptions.portalSelf);
     // the resources are stored on the solution item, and that Id is attached
     // into the template as .bundleItemId
-    const solutionItemUrl = `${portalRestUrl}/content/items/${
-      template.bundleItemId
-    }`;
+    const solutionItemUrl = `${portalRestUrl}/content/items/${template.bundleItemId}`;
     // the resources on the solution are prefixed with the item id of the item the
     // template was created from, which is stored as .itemId
     const prefix = template.itemId;
     // map over the resources and convert them into assets
-    assets = template.resources.map(name => {
+    assets = template.resources.map((name) => {
       // we fetch the resource from .url property
       // and we upload it using the .name property
       return {
         name,
         type: "resource",
-        url: `${solutionItemUrl}/resources/${prefix}-${name}`
+        url: `${solutionItemUrl}/resources/${prefix}-${name}`,
       };
     });
   }

@@ -4,7 +4,7 @@ import { getProp } from "../objects";
 import { getItemThumbnailUrl } from "../resources";
 import { IHubSearchResult } from "../search";
 import { parseInclude } from "../search/_internal/parseInclude";
-import { IHubRequestOptions } from "../types";
+import { IHubRequestOptions } from "../hub-types";
 import { getItemHomeUrl } from "../urls";
 import { unique } from "../util";
 import { mapBy } from "../utils";

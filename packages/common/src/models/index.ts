@@ -18,7 +18,7 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { bboxToString } from "../extent";
 import { getItemBySlug } from "../items";
 import { upsertResource } from "../resources";
-import { IModel } from "../types";
+import { IModel } from "../hub-types";
 import { cloneObject } from "../util";
 import { failSafe } from "../utils";
 

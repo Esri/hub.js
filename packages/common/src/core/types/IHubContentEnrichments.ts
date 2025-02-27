@@ -1,4 +1,4 @@
-import { IHubGeography } from "../../types";
+import { IHubGeography } from "../../hub-types";
 
 import { IItemEnrichments } from "./IItemEnrichments";
 import { IServerEnrichments } from "./IServerEnrichments";

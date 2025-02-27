@@ -1,5 +1,6 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { ArcGISContext, IArcGISContext, IHubRequestOptions } from "../../src";
+import { ArcGISContext, IHubRequestOptions } from "../../src";
+import type { IArcGISContext } from "../../src";
 
 export const TOMORROW = (function () {
   const now = new Date();

@@ -9,7 +9,7 @@ import { IUser } from "@esri/arcgis-rest-types";
 import { enrichUserSearchResult } from "../../users";
 import { serializeQueryForPortal } from "../serializeQueryForPortal";
 import HubError from "../../HubError";
-import { IHubRequestOptions } from "../../types";
+import { IHubRequestOptions } from "../../hub-types";
 import {
   IHubSearchOptions,
   IHubSearchResponse,

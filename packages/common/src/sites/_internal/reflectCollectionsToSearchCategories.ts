@@ -1,6 +1,6 @@
 import { WellKnownCollection } from "../../search";
 import { IHubCollectionPersistance } from "../../search/types/IHubCatalog";
-import { IModel } from "../../types";
+import { IModel } from "../../hub-types";
 import { cloneObject } from "../../util";
 import { SearchCategories } from "./types";
 

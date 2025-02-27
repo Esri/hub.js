@@ -1,3 +1,10 @@
+# @esri/hub-discussions [29.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@29.5.1...@esri/hub-discussions@29.6.0) (2025-02-26)
+
+
+### Features
+
+* **hub-common:** move all fns and types from discussions package to common package ([#1810](https://github.com/Esri/hub.js/issues/1810)) ([dbab1e0](https://github.com/Esri/hub.js/commit/dbab1e0cd700c46e08756c0c2e9169c0299cbe50))
+
 ## @esri/hub-discussions [29.5.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@29.5.0...@esri/hub-discussions@29.5.1) (2025-02-25)
 
 

@@ -1,7 +1,7 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getProp } from "../../objects/get-prop";
 import { IHubCatalog } from "../../search/types/IHubCatalog";
-import { IModel } from "../../types";
+import { IModel } from "../../hub-types";
 import { cloneObject } from "../../util";
 
 export const INITIATIVE_SCHEMA_VERSION = 2;

@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../../../src/ArcGISContext";
+import { IArcGISContext } from "../../../src";
 import { IUiSchemaElement } from "../../../src/core/schemas/types";
 import { buildReferencedContentSchema } from "../../../src/events/_internal/buildReferencedContentSchema";
 import * as wellKnownCatalogModule from "../../../src/search/wellKnownCatalog";

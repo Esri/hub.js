@@ -1,4 +1,4 @@
-import { IModelTemplate } from "../types";
+import { IModelTemplate } from "../hub-types";
 import { interpolate } from "./interpolate";
 
 /**
@@ -13,7 +13,7 @@ export function interpolateItemId(
   const transforms = {
     toISO(_: string, v: any) {
       return v;
-    }
+    },
   };
   return interpolate(model, settings, transforms);
 }

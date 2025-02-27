@@ -10,7 +10,7 @@ import { getPredicateValuesByKey } from "./getPredicateValuesByKey";
 import { getUniquePredicateValuesByKey } from "./getUniquePredicateValuesByKey";
 import { IDateRange } from "../../types/types";
 import { searchGroups } from "@esri/arcgis-rest-portal";
-import { IHubRequestOptions } from "../../../types";
+import { IHubRequestOptions } from "../../../hub-types";
 import { isUpdateGroup } from "../../../utils/is-update-group";
 import { toEnums } from "./toEnumConverters";
 

@@ -1,5 +1,6 @@
+import type { IHubRequestOptions, IModel } from "../../../src/hub-types";
 import * as addDomainModule from "../../../src/sites/domains/add-domain";
-import { IHubRequestOptions, IModel } from "@esri/hub-common";
+
 import { addSiteDomains } from "../../../src/sites/domains/addSiteDomains";
 
 describe("addSiteDomains", () => {

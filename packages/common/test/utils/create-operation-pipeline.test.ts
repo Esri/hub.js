@@ -3,7 +3,7 @@ import {
   IPipeable,
 } from "../../src/utils/create-operation-pipeline";
 import OperationStack from "../../src/OperationStack";
-import { IHubRequestOptions } from "../../src/types";
+import { IHubRequestOptions } from "../../src/hub-types";
 import OperationError from "../../src/OperationError";
 // Test Fakes
 interface IFakeItem {

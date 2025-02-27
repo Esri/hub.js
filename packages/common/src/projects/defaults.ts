@@ -1,6 +1,6 @@
 import { IHubProject } from "../core";
 import { InitiativeDefaultFeatures } from "../initiatives/_internal/InitiativeBusinessRules";
-import { IModel, HubEntityStatus } from "../types";
+import { IModel, HubEntityStatus } from "../hub-types";
 
 export const HUB_PROJECT_ITEM_TYPE = "Hub Project";
 

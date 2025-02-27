@@ -1,4 +1,4 @@
-import { IModel } from "../../src/types";
+import { IModel } from "../../src/hub-types";
 import { getIncludeListFromItemType } from "../../src/versioning/_internal/getIncludeListFromItemType";
 
 describe("getIncludeListFromItemType", () => {

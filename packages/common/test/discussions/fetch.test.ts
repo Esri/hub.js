@@ -1,7 +1,7 @@
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as slugUtils from "../../src/items/slugs";
-import { IHubRequestOptions } from "../../src/types";
+import { IHubRequestOptions } from "../../src/hub-types";
 import { fetchDiscussion } from "../../src/discussions/fetch";
 import { IHubDiscussion } from "../../src/core/types/IHubDiscussion";
 import * as settingUtils from "../../src/discussions/api/settings/settings";
