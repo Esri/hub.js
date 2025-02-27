@@ -17,7 +17,7 @@
 
 > **This package will be deprecated in a future breaking release.**
 
- `@esri/hub-discussions` has been merged into `@esri/hub-common` beginning with `@esri/hub-common` version `15.34.0`. Please update your project dependencies and import statements to use `@esri/hub-common`.
+ `@esri/hub-discussions` has been merged into `@esri/hub-common` beginning with `@esri/hub-common` version `15.38.0`. Please update your project dependencies and import statements to use `@esri/hub-common`.
 
 <br>
 <br>
