@@ -7,8 +7,8 @@ export * from "./settings";
 export * from "./reactions";
 export * from "./types";
 
-export * from "./utils/channels/";
-export * from "./utils/posts/";
-export * from "./utils/reactions/";
+export * from "./utils/channels";
+export * from "./utils/posts";
+export * from "./utils/reactions";
 export * from "./utils/platform";
 export * from "./utils/constants";

@@ -1,3 +1,10 @@
+# @esri/hub-discussions [29.7.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@29.6.0...@esri/hub-discussions@29.7.0) (2025-02-27)
+
+
+### Features
+
+* **hub-discussions:** remove all fns, types & tests from hub-discuss… ([#1811](https://github.com/Esri/hub.js/issues/1811)) ([58c1b1d](https://github.com/Esri/hub.js/commit/58c1b1d5403e322739dbb53667758cbaf5ac7cf6))
+
 # @esri/hub-discussions [29.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@29.5.1...@esri/hub-discussions@29.6.0) (2025-02-26)
 
 
