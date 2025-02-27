@@ -88,7 +88,7 @@ import * as hubDiscussions from "../src";
  * and again if/when we change our export strategy/order...
  */
 
-xdescribe("index", () => {
+describe("index", () => {
   const expectedMembers = [
     "searchPosts",
     "exportPosts",
