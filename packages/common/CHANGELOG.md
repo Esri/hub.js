@@ -1,3 +1,10 @@
+## @esri/hub-common [15.38.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.38.2...@esri/hub-common@15.38.3) (2025-02-28)
+
+
+### Bug Fixes
+
+* add grid-filled to IGalleryDisplayConfig ([#1818](https://github.com/Esri/hub.js/issues/1818)) ([3ec828f](https://github.com/Esri/hub.js/commit/3ec828fedefb89d8106af992839fa054259be625))
+
 ## @esri/hub-common [15.38.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.38.1...@esri/hub-common@15.38.2) (2025-02-27)
 
 
