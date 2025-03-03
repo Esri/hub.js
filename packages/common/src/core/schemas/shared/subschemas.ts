@@ -42,6 +42,7 @@ export const ENTITY_CATEGORIES_SCHEMA: JSONSchema = {
   items: {
     type: "string",
   },
+  maxItems: 20,
 };
 
 export const ENTITY_IS_DISCUSSABLE_SCHEMA = {
