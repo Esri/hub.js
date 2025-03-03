@@ -80,8 +80,6 @@ export class ArcGISContextManager {
 
   private _currentUser: IUser;
 
-  private _logLevel: Level = Level.error;
-
   private _serviceStatus: HubServiceStatus;
 
   private _featureFlags: IFeatureFlags = {};
@@ -104,10 +102,12 @@ export class ArcGISContextManager {
   private constructor(opts: IArcGISContextManagerOptions) {
     // Having a unique id makes debugging easier
     this.id = new Date().getTime();
+
+    // TODO: remove all log level logic at next breaking change
     if (opts.logLevel) {
-      this._logLevel = opts.logLevel;
+      Logger.setLogLevel(opts.logLevel);
     }
-    Logger.setLogLevel(this._logLevel);
+
     Logger.debug(`ArcGISContextManager:ctor: Creating ${this.id}`);
 
     if (opts.properties) {

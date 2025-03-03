@@ -54,9 +54,8 @@ export interface IArcGISContextManagerOptions {
   properties?: Record<string, any>;
 
   /**
+   * DEPRECATED: use `globalThis.arcgisHubConfig.logLevel` instead
    * Logging level
-   * off > error > warn > info > debug > all
-   * defaults to 'error'
    */
   logLevel?: Level;
 

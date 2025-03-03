@@ -1,5 +1,8 @@
 /* tslint:disable no-console */
+import { _setConfigSetting, _getConfigSetting } from "./internal/config";
 
+// TODO: stop exporting this at the next breaking change
+// only exporting for backward compatibility
 /**
  * Enum for Logger Levels
  */
@@ -9,12 +12,12 @@ export enum Level {
   info,
   warn,
   error,
-  off
+  off,
 }
 
 /**
  * ```js
- * import { Logger, Level } from '@esri/hub-common'
+ * import { Logger } from '@esri/hub-common'
  * ```
  * Functions share the console interface
  * ```js
@@ -22,7 +25,7 @@ export enum Level {
  * Logger.warn('Watch out!', { threat: 'Charizard' });
  * // etc, etc
  * ```
- * Available logging levels are specified in the Level enum. The hierarchy is as follows:
+ * Available logging levels are specified in the LogLevel type. The hierarchy is as follows:
  * ```
  * off > error > warn > info > debug > all
  * ```
@@ -32,20 +35,17 @@ export enum Level {
  * Logger.info('This message won't log');
  * Logger.error('But this one will!');
  * ```
- * Logger's default level is 'off', so set desired level before use
- * ```js
- * Logger.setLogLevel(Level.all);
- * ```
  */
 export class Logger {
-  private static logLevel = Level.off;
-
+  // TODO: remove this at next breaking change
   /**
+   * DEPRECATED: configure log level with `globalThis.arcgisHubConfig.logLevel` instead
    * Sets the global log level
    * @param {Level} level
    */
   public static setLogLevel(level: Level) {
-    this.logLevel = level;
+    const levelName = Level[level];
+    _setConfigSetting("logLevel", levelName);
   }
 
   /**
@@ -104,6 +104,8 @@ export class Logger {
   }
 
   private static isLevelPermitted(level: Level) {
-    return this.logLevel <= level;
+    const configuredLevel =
+      Level[_getConfigSetting("logLevel") as keyof typeof Level];
+    return configuredLevel <= level;
   }
 }
