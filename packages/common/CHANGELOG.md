@@ -1,3 +1,10 @@
+## @esri/hub-common [15.38.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.38.3...@esri/hub-common@15.38.4) (2025-03-03)
+
+
+### Bug Fixes
+
+* add maxItems to ENTITY_CATEGORIES_SCHEMA ([#1822](https://github.com/Esri/hub.js/issues/1822)) ([b0b6d21](https://github.com/Esri/hub.js/commit/b0b6d210560ca75f363758de3cd932f65f59ad01))
+
 ## @esri/hub-common [15.38.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.38.2...@esri/hub-common@15.38.3) (2025-02-28)
 
 
