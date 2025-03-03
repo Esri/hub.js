@@ -22,7 +22,7 @@ export const FilterSchema: IConfigurationSchema = {
       // around for now, and isn't currently doing much in the UI.
       // Eventually, we'll want to use this to render an error message
       // if a predicate hasn't been fully configured
-      // minItems: 1,
+      minItems: 1,
       items: PredicateSchema,
     },
   },
@@ -40,6 +40,7 @@ export const QuerySchema: IConfigurationSchema = {
     filters: {
       type: "array",
       items: FilterSchema,
+      minItems: 1,
     },
   },
 };
