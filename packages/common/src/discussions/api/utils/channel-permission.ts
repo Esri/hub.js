@@ -21,6 +21,7 @@ enum ChannelAction {
   READ_POSTS = "readPosts",
   WRITE_POSTS = "writePosts",
   MODERATE_CHANNEL = "moderateChannel",
+  DELETE_CHANNEL = "deleteChannel",
   IS_MODERATOR = "isModerator",
   IS_MANAGER = "isManager",
   IS_OWNER = "isOwner",
@@ -135,6 +136,22 @@ export class ChannelPermission {
     );
   }
 
+  canDeleteChannel(user: IDiscussionsUser): boolean {
+    if (this.isUserUnAuthenticated(user)) {
+      return false;
+    }
+
+    return (
+      this.canSomeUser(ChannelAction.DELETE_CHANNEL, user) ||
+      this.canSomeUserGroup(ChannelAction.DELETE_CHANNEL, user) ||
+      this.canSomeUserOrg(ChannelAction.DELETE_CHANNEL, user)
+    );
+  }
+
+  /**
+   * Ensure the user has rights to update the channel before calling this method
+   * Ex: canModerateChannel
+   */
   canUpdateProperties(
     user: IDiscussionsUser,
     updateData: IUpdateChannelV2 = {}
@@ -484,14 +501,23 @@ function doesPermissionAllowOrgRole(
 }
 
 function channelActionLookup(action: ChannelAction): Role[] {
+  // channel actions
   if (action === ChannelAction.WRITE_POSTS) {
     return [Role.WRITE, Role.READWRITE, Role.MODERATE, Role.MANAGE, Role.OWNER];
   }
 
+  if (action === ChannelAction.READ_POSTS) {
+    return [Role.READ, Role.READWRITE, Role.MODERATE, Role.MANAGE, Role.OWNER];
+  }
   if (action === ChannelAction.MODERATE_CHANNEL) {
     return [Role.MODERATE, Role.MANAGE, Role.OWNER];
   }
 
+  if (action === ChannelAction.DELETE_CHANNEL) {
+    return [Role.OWNER];
+  }
+
+  // channel update actions
   if (action === ChannelAction.IS_MODERATOR) {
     return [Role.MODERATE];
   }
@@ -503,7 +529,4 @@ function channelActionLookup(action: ChannelAction): Role[] {
   if (action === ChannelAction.IS_OWNER) {
     return [Role.OWNER];
   }
-
-  // default to read action
-  return [Role.READ, Role.READWRITE, Role.MODERATE, Role.MANAGE, Role.OWNER];
 }
