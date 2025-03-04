@@ -1,3 +1,10 @@
+# @esri/hub-common [15.39.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.38.4...@esri/hub-common@15.39.0) (2025-03-04)
+
+
+### Features
+
+* **hub-common:** add arcgisHubConfig global variable ([#1820](https://github.com/Esri/hub.js/issues/1820)) ([5ffd3fa](https://github.com/Esri/hub.js/commit/5ffd3fa379158f19f61a6130e82a74b3f8ca5969))
+
 ## @esri/hub-common [15.38.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.38.3...@esri/hub-common@15.38.4) (2025-03-03)
 
 
