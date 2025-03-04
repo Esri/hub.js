@@ -53,6 +53,9 @@ export const CollectionSchema: IConfigurationSchema = {
       type: "string",
     },
     scope: QuerySchema,
+    displayConfig: {
+      type: "object",
+    },
   },
 };
 
