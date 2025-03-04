@@ -104,12 +104,6 @@ export const FilterSchema: IConfigurationSchema = {
     },
     predicates: {
       type: "array",
-      // TODO: uncomment this once site catalogs have been migrated
-      // to the new catalog structure. This is too difficult to work
-      // around for now, and isn't currently doing much in the UI.
-      // Eventually, we'll want to use this to render an error message
-      // if a predicate hasn't been fully configured
-      // minItems: 1,
       items: PredicateSchema,
     },
   },
@@ -127,6 +121,7 @@ export const QuerySchema: IConfigurationSchema = {
     filters: {
       type: "array",
       items: FilterSchema,
+      minItems: 1,
     },
   },
 };
