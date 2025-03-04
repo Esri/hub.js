@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <meta name="date" content="2025-03-03T21:04:10.107Z">
+    <meta name="date" content="2025-03-04T00:10:05.712Z">
     <title>Logger | API Reference | @esri/hub.js</title>
     
     <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
@@ -76,8 +76,12 @@
               <path d="M7 4h5l12 12-12 12H7l12-12L7 4z" />
             </svg>
           </button>
-          <a href="/hub.js/api/common/" class="is-active tsd-kind-icon">common</a>&nbsp;<small>v15.38.3</small>
+          <a href="/hub.js/api/common/" class="is-active tsd-kind-icon">common</a>&nbsp;<small>v15.38.4</small>
           <ul id="list1" class="api-package-content-list">
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/_getConfigSetting/" class="tsd-kind-icon padding-right-1">_getConfigSetting</a>
+            </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/_getPortalSettings/" class="tsd-kind-icon padding-right-1">_getPortalSettings</a>
@@ -85,6 +89,10 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/_prepareUploadRequests/" class="tsd-kind-icon padding-right-1">_prepareUploadRequests</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/_setConfigSetting/" class="tsd-kind-icon padding-right-1">_setConfigSetting</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -4616,6 +4624,10 @@
             </li>
             
             <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/LogLevel/" class="tsd-kind-icon padding-right-1">LogLevel</a>
+            </li>
+            
+            <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/MatchCondition/" class="tsd-kind-icon padding-right-1">MatchCondition</a>
             </li>
             
@@ -5489,6 +5501,10 @@
             
             <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/IHubCollection/" class="tsd-kind-icon padding-right-1">IHubCollection</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/IHubConfig/" class="tsd-kind-icon padding-right-1">IHubConfig</a>
             </li>
             
             <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
@@ -7374,23 +7390,20 @@
 </div>
 
 
-  <pre><code class="js"><span class="hljs-keyword">import</span> { Logger, Level } <span class="hljs-keyword">from</span> <span class="hljs-string">'@esri/hub-common'</span>
+  <pre><code class="js"><span class="hljs-keyword">import</span> { Logger } <span class="hljs-keyword">from</span> <span class="hljs-string">'@esri/hub-common'</span>
 </code></pre>
 <p>Functions share the console interface</p>
 <pre><code class="js">Logger.log(<span class="hljs-string">'My Message'</span>);
 Logger.warn(<span class="hljs-string">'Watch out!'</span>, { <span class="hljs-attr">threat</span>: <span class="hljs-string">'Charizard'</span> });
 <span class="hljs-comment">// etc, etc</span>
 </code></pre>
-<p>Available logging levels are specified in the Level enum. The hierarchy is as follows:</p>
+<p>Available logging levels are specified in the LogLevel type. The hierarchy is as follows:</p>
 <pre><code>off &gt; <span class="hljs-builtin-name">error</span> &gt; warn &gt; <span class="hljs-builtin-name">info</span> &gt; <span class="hljs-builtin-name">debug</span> &gt; all
 </code></pre>
 <p>Logger only sends messages whose level is greater than or equal to the global log level</p>
 <pre><code class="js">// Global level is 'warn'
 Logger.info('This message won't log');
 Logger.error('But this one will!');
-</code></pre>
-<p>Logger's default level is 'off', so set desired level before use</p>
-<pre><code class="js">Logger.setLogLevel(Level.all);
 </code></pre>
 
 
@@ -7522,7 +7535,8 @@ Logger.error('But this one will!');
             </td>
             <td class="code-face"><i class="text-purple">void</i></td>
             <td class="body-face api-param-comment">
-              <p>Sets the global log level</p>
+              <p>DEPRECATED: configure log level with <code>globalThis.arcgisHubConfig.logLevel</code> instead
+Sets the global log level</p>
 
               
             </td>
@@ -8114,7 +8128,8 @@ Logger.error('But this one will!');
       <hr class="leader-half trailer-half">
 
       <div class="api-function-comment">
-        <p>Sets the global log level</p>
+        <p>DEPRECATED: configure log level with <code>globalThis.arcgisHubConfig.logLevel</code> instead
+Sets the global log level</p>
 
       </div>
 
@@ -8330,7 +8345,7 @@ Logger.error('But this one will!');
 
 
 
-<small class="font-size--2">Class defined in <a href="https://github.com/Esri/hub.js/blob/master/packages/common/src/utils/logger.ts#L40">common/src/utils/logger.ts:40</a></small>
+<small class="font-size--2">Class defined in <a href="https://github.com/Esri/hub.js/blob/master/packages/common/src/utils/logger.ts#L39">common/src/utils/logger.ts:39</a></small>
 
 
     </div>
