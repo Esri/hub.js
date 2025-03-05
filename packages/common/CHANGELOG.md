@@ -1,3 +1,10 @@
+# @esri/hub-common [15.40.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.39.0...@esri/hub-common@15.40.0) (2025-03-05)
+
+
+### Features
+
+* **hub-common:** restrict v2 channel delete to org admins or channel permission OWNER roles ([#1824](https://github.com/Esri/hub.js/issues/1824)) ([972af97](https://github.com/Esri/hub.js/commit/972af9762c049c3ddc4975e7e9c71194da8a87a4))
+
 # @esri/hub-common [15.39.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.38.4...@esri/hub-common@15.39.0) (2025-03-04)
 
 
