@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <meta name="date" content="2025-03-04T00:10:05.712Z">
+    <meta name="date" content="2025-03-05T18:44:26.234Z">
     <title>Working with Hub Discussions v2 | Guide | @esri/hub.js</title>
     
     <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
@@ -679,7 +679,7 @@ Some other common query data are enumerated below:</p>
 <p>All requests to the Hub Discussions API rely on ArcGIS Online for authentication.</p>
 <p>In the <code>@esri/hub-discussions</code> library, authentication is handled using the familiar <a href="https://esri.github.io/hub.js/api/common/IHubRequestOptions/#authentication"><code>IHubRequestOptions</code></a> interface, and specifically the <a href="https://esri.github.io/arcgis-rest-js/api/auth/UserSession/"><code>UserSession</code></a> instance attached to it.</p>
 <p>A user's access to content stored in the Discussions API is determined by their platform identity -- that is their organization and group memberships and manage roles. As noted above, ArcGIS Online access and permissions are encoded in Channels. Currently, most API methods employ one or many checks comparing Channel specs to the requesting user's identity.</p>
-<p>A summary of authorization checks are in the table below (source code: <a href="https://github.com/Esri/hub.js/blob/master/packages/discussions/src/utils/channels/index.ts">channels</a>, <a href="https://github.com/Esri/hub.js/blob/master/packages/discussions/src/utils/channels/index.ts">posts</a>):</p>
+<p>A summary of authorization checks are in the table below (source code: <a href="https://github.com/Esri/hub.js/blob/master/packages/common/src/discussions/api/utils/channels/index.ts">channels</a>, <a href="https://github.com/Esri/hub.js/blob/master/packages/common/src/discussions/api/utils/posts/index.ts">posts</a>):</p>
 <table>
 <thead>
 <tr>
