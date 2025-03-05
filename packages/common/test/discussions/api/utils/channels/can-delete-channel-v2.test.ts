@@ -1,4 +1,4 @@
-import { IGroup, IUser } from "@esri/arcgis-rest-types";
+import { IUser } from "@esri/arcgis-rest-types";
 import {
   AclCategory,
   IChannel,
@@ -11,22 +11,22 @@ import * as portalPrivModule from "../../../../../src/discussions/api//utils/por
 
 describe("canDeleteChannelV2", () => {
   let hasOrgAdminDeleteRightsSpy: jasmine.Spy;
-  let canModerateChannelSpy: jasmine.Spy;
+  let canDeleteChannelSpy: jasmine.Spy;
 
   beforeAll(() => {
     hasOrgAdminDeleteRightsSpy = spyOn(
       portalPrivModule,
       "hasOrgAdminDeleteRights"
     );
-    canModerateChannelSpy = spyOn(
+    canDeleteChannelSpy = spyOn(
       ChannelPermission.prototype,
-      "canModerateChannel"
+      "canDeleteChannel"
     );
   });
 
   beforeEach(() => {
     hasOrgAdminDeleteRightsSpy.calls.reset();
-    canModerateChannelSpy.calls.reset();
+    canDeleteChannelSpy.calls.reset();
   });
 
   describe("With Org Admin", () => {
@@ -42,7 +42,7 @@ describe("canDeleteChannelV2", () => {
       expect(arg1).toBe(user);
       expect(arg2).toBe(channel.orgId);
 
-      expect(canModerateChannelSpy.calls.count()).toBe(0);
+      expect(canDeleteChannelSpy.calls.count()).toBe(0);
     });
   });
 
@@ -62,7 +62,7 @@ describe("canDeleteChannelV2", () => {
 
     it("return true if channelPermission.canModerateChannel is true", () => {
       hasOrgAdminDeleteRightsSpy.and.callFake(() => false);
-      canModerateChannelSpy.and.callFake(() => true);
+      canDeleteChannelSpy.and.callFake(() => true);
 
       const user = {} as IDiscussionsUser;
       const channel = {
@@ -72,14 +72,14 @@ describe("canDeleteChannelV2", () => {
 
       expect(canDeleteChannelV2(channel, user)).toBe(true);
 
-      expect(canModerateChannelSpy.calls.count()).toBe(1);
-      const [arg1] = canModerateChannelSpy.calls.allArgs()[0]; // args for 1st call
+      expect(canDeleteChannelSpy.calls.count()).toBe(1);
+      const [arg1] = canDeleteChannelSpy.calls.allArgs()[0]; // args for 1st call
       expect(arg1).toBe(user);
     });
 
     it("return false if channelPermission.canModerateChannel is false", () => {
       hasOrgAdminDeleteRightsSpy.and.callFake(() => false);
-      canModerateChannelSpy.and.callFake(() => false);
+      canDeleteChannelSpy.and.callFake(() => false);
 
       const user = {} as IDiscussionsUser;
       const channel = {
@@ -89,14 +89,14 @@ describe("canDeleteChannelV2", () => {
 
       expect(canDeleteChannelV2(channel, user)).toBe(false);
 
-      expect(canModerateChannelSpy.calls.count()).toBe(1);
-      const [arg1] = canModerateChannelSpy.calls.allArgs()[0]; // args for 1st call
+      expect(canDeleteChannelSpy.calls.count()).toBe(1);
+      const [arg1] = canDeleteChannelSpy.calls.allArgs()[0]; // args for 1st call
       expect(arg1).toBe(user);
     });
 
     it("return false if channelPermission.canModerateChannel is false and user is undefined", () => {
       hasOrgAdminDeleteRightsSpy.and.callFake(() => false);
-      canModerateChannelSpy.and.callFake(() => false);
+      canDeleteChannelSpy.and.callFake(() => false);
 
       const user = undefined as unknown as IUser;
       const channel = {
@@ -106,8 +106,8 @@ describe("canDeleteChannelV2", () => {
 
       expect(canDeleteChannelV2(channel, user)).toBe(false);
 
-      expect(canModerateChannelSpy.calls.count()).toBe(1);
-      const [arg1] = canModerateChannelSpy.calls.allArgs()[0]; // args for 1st call
+      expect(canDeleteChannelSpy.calls.count()).toBe(1);
+      const [arg1] = canDeleteChannelSpy.calls.allArgs()[0]; // args for 1st call
       expect(arg1).toEqual({});
     });
   });
