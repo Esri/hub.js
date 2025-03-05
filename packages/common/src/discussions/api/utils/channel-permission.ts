@@ -506,9 +506,6 @@ function channelActionLookup(action: ChannelAction): Role[] {
     return [Role.WRITE, Role.READWRITE, Role.MODERATE, Role.MANAGE, Role.OWNER];
   }
 
-  if (action === ChannelAction.READ_POSTS) {
-    return [Role.READ, Role.READWRITE, Role.MODERATE, Role.MANAGE, Role.OWNER];
-  }
   if (action === ChannelAction.MODERATE_CHANNEL) {
     return [Role.MODERATE, Role.MANAGE, Role.OWNER];
   }
@@ -529,4 +526,7 @@ function channelActionLookup(action: ChannelAction): Role[] {
   if (action === ChannelAction.IS_OWNER) {
     return [Role.OWNER];
   }
+
+  // default to read action
+  return [Role.READ, Role.READWRITE, Role.MODERATE, Role.MANAGE, Role.OWNER];
 }
