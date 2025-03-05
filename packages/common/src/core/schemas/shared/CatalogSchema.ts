@@ -18,6 +18,7 @@ export const FilterSchema: IConfigurationSchema = {
     predicates: {
       type: "array",
       items: PredicateSchema,
+      minItems: 1,
     },
   },
 };
