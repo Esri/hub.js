@@ -2,6 +2,85 @@ import { EntityType, targetEntities } from "../../../search/types/IHubCatalog";
 import { IConfigurationSchema } from "../types";
 import { CARD_TITLE_TAGS, CORNERS, DROP_SHADOWS } from "./enums";
 
+/**
+ * JSON schema for the appearance of a gallery display
+ * This can be for a catalog, a collection, a gallery card, etc
+ */
+export const GalleryDisplayConfigSchema: IConfigurationSchema = {
+  type: "object",
+  properties: {
+    hidden: { type: "boolean", default: false },
+    layout: {
+      type: "string",
+      enum: ["list", "grid", "table", "map", "compact"],
+      default: "list",
+    },
+    cardTitleTag: {
+      type: "string",
+      enum: Object.keys(CARD_TITLE_TAGS),
+      default: CARD_TITLE_TAGS.h3,
+    },
+    showThumbnail: {
+      type: "string",
+      enum: ["show", "hide", "grid"],
+      default: "show",
+    },
+    corners: {
+      type: "string",
+      enum: Object.keys(CORNERS),
+      default: CORNERS.square,
+    },
+    shadow: {
+      type: "string",
+      enum: Object.keys(DROP_SHADOWS),
+      default: DROP_SHADOWS.none,
+    },
+    showLinkButton: { type: "boolean", default: false },
+    linkButtonStyle: {
+      type: "string",
+      enum: ["outline", "outline-filled"],
+      default: "outline-filled",
+    },
+    linkButtonText: { type: "string", default: "Explore" },
+    sort: {
+      type: "string",
+      enum: ["relevance", "title", "created", "modified"],
+      default: "relevance",
+    },
+    filters: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          key: {
+            type: "string",
+            enum: [
+              "location",
+              "type",
+              "source",
+              "event-occurrence",
+              "event-from",
+              "event-attendance",
+              "tags",
+              "categories",
+              "license",
+              "modified",
+              "access",
+              "group-role",
+              "group-type",
+              "group-access",
+              "event-access",
+              "event-date",
+            ],
+          },
+          hidden: { type: "boolean" },
+          label: { type: "string" },
+        },
+      },
+    },
+  },
+};
+
 /** JSON schema for an IPredicate */
 export const PredicateSchema: IConfigurationSchema = {
   type: "object",
@@ -53,52 +132,7 @@ export const CollectionSchema: IConfigurationSchema = {
       type: "string",
     },
     scope: QuerySchema,
-    displayConfig: {
-      type: "object",
-    },
-  },
-};
-
-/**
- * JSON schema for the appearance of a gallery display
- * This can be for a catalog, a collection, a gallery card, etc
- */
-export const GalleryDisplayConfigSchema: IConfigurationSchema = {
-  type: "object",
-  properties: {
-    hidden: { type: "boolean", default: false },
-    layout: {
-      type: "string",
-      enum: ["list", "grid", "table", "map", "compact"],
-      default: "list",
-    },
-    cardTitleTag: {
-      type: "string",
-      enum: Object.keys(CARD_TITLE_TAGS),
-      default: CARD_TITLE_TAGS.h3,
-    },
-    showThumbnail: {
-      type: "string",
-      enum: ["show", "hide", "grid"],
-      default: "show",
-    },
-    corners: {
-      type: "string",
-      enum: Object.keys(CORNERS),
-      default: CORNERS.square,
-    },
-    shadow: {
-      type: "string",
-      enum: Object.keys(DROP_SHADOWS),
-      default: DROP_SHADOWS.none,
-    },
-    showLinkButton: { type: "boolean", default: false },
-    linkButtonStyle: {
-      type: "string",
-      enum: ["outline", "outline-filled"],
-      default: "outline-filled",
-    },
-    linkButtonText: { type: "string", default: "Explore" },
+    displayConfig: GalleryDisplayConfigSchema,
   },
 };
 
@@ -123,16 +157,6 @@ export const CatalogSchema: IConfigurationSchema = {
       type: "array",
       items: CollectionSchema,
     },
-    displayConfig: GalleryDisplayConfigSchema,
-  },
-};
-
-/**
- * JSON schema for the appearance of an IHubCollection
- */
-export const CollectionAppearanceSchema: IConfigurationSchema = {
-  type: "object",
-  properties: {
     displayConfig: GalleryDisplayConfigSchema,
   },
 };
