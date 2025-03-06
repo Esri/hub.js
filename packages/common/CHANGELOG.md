@@ -1,3 +1,10 @@
+# @esri/hub-common [15.41.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.40.0...@esri/hub-common@15.41.0) (2025-03-06)
+
+
+### Features
+
+* **hub-common:** update organization entity and search results to ha… ([#1826](https://github.com/Esri/hub.js/issues/1826)) ([6e3a321](https://github.com/Esri/hub.js/commit/6e3a321741dfd9a68e9d69d5a9b25c5420454982))
+
 # @esri/hub-common [15.40.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.39.0...@esri/hub-common@15.40.0) (2025-03-05)
 
 
