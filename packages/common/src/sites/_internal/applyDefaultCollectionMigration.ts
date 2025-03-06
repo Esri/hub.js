@@ -89,7 +89,7 @@ export function applyDefaultCollectionMigration(model: IModel): IModel {
         searchCategoryToCollection[searchCategory.key as SearchCategories];
       const collection = baseCollectionMap[collectionKey];
       collection.label = searchCategory.overrideText || null;
-      collection.displayConfig.hidden = searchCategory.hidden;
+      collection.displayConfig.hidden = !!searchCategory.hidden;
       return collection;
     });
 
