@@ -26,13 +26,12 @@ export async function fetchOrganization(
 }
 
 /**
- * Convert an IHubOrganization to an IHubSearchResult
- * @param org
+ * Convert an IPortal to an IHubSearchResult
+ * @param portal
  * @returns
  */
-export function organizationToSearchResult(
-  org: IHubOrganization
-): IHubSearchResult {
+export function portalToSearchResult(portal: IPortal): IHubSearchResult {
+  const org = portalToOrganization(portal);
   // simple transform
   return {
     id: org.id,
@@ -52,6 +51,7 @@ export function organizationToSearchResult(
     access: org.access,
     tags: org.tags,
     typeKeywords: org.typeKeywords,
+    links: org.links,
   };
 }
 
@@ -86,6 +86,10 @@ export function portalToOrganization(
     thumbnail: portal.thumbnail,
     thumbnailUrl: getOrgThumbnailUrl(portal, token),
     url: portalUrl,
+    links: {
+      self: portalUrl,
+      thumbnail: getOrgThumbnailUrl(portal, token),
+    },
     // Props needed to be a HubEntity, but which don't apply to a portal
     typeKeywords: [],
     tags: [],

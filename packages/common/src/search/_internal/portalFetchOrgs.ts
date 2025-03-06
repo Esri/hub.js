@@ -1,5 +1,5 @@
-import { IHubOrganization } from "../../core";
-import { fetchOrg, organizationToSearchResult } from "../../org";
+import { IPortal } from "@esri/arcgis-rest-portal";
+import { fetchOrg, portalToSearchResult } from "../../org";
 import { failSafe } from "../../utils";
 import { batch } from "../../utils/batch";
 import { getPredicateValues } from "../getPredicateValues";
@@ -35,14 +35,14 @@ export async function portalFetchOrgs(
     return failSafeFetchOrg(id, options.requestOptions);
   };
   // fetch the orgs and remove any nulls from the failsafe
-  const results = (
-    (await batch(ids, fetchOrgFn, 8)) as IHubOrganization[]
-  ).filter((org) => org !== null);
+  const results = ((await batch(ids, fetchOrgFn, 8)) as IPortal[]).filter(
+    (org) => org !== null
+  );
   // convert to a search result
   return {
     total: results.length,
     hasNext: false,
     next: null,
-    results: results.map((org) => organizationToSearchResult(org)),
+    results: results.map((org) => portalToSearchResult(org)),
   };
 }

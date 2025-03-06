@@ -60,6 +60,7 @@ export interface ICardActionLink {
   showLabel?: boolean;
   icon?: string;
   buttonStyle?: "outline" | "outline-fill" | "solid" | "transparent";
+  buttonKind?: "brand" | "danger" | "inverse" | "neutral";
   disabled?: boolean;
   tooltip?: string;
 }
