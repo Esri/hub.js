@@ -1,5 +1,5 @@
 import { getWithDefault } from "../../objects";
-import { IHubCollectionPersistance } from "../../search/types/IHubCatalog";
+import { IHubCollection } from "../../search/types/IHubCatalog";
 import { WellKnownCollection } from "../../search/wellKnownCatalog";
 import { IModel } from "../../hub-types";
 import { SearchCategories } from "./types";
@@ -21,7 +21,7 @@ import { defaultSiteCollectionKeys } from "../defaultSiteCollectionKeys";
  * NOTE: The changes made in this migration will not be persisted to AGO at this time
  *
  * @param model site model to migrate
- * @returns a migrated model with default `IHubCollectionPersistance` objects added
+ * @returns a migrated model with default `IHubCollection` objects added
  * to the catalog
  */
 export function applyDefaultCollectionMigration(model: IModel): IModel {
@@ -44,9 +44,12 @@ export function applyDefaultCollectionMigration(model: IModel): IModel {
         collection: key,
         filters: [],
       },
+      displayConfig: {
+        hidden: false,
+      },
     };
     return map;
-  }, {} as Record<string, IHubCollectionPersistance>);
+  }, {} as Record<string, IHubCollection>);
   const searchCategoryToCollection: Partial<
     Record<SearchCategories, WellKnownCollection>
   > = {
@@ -86,7 +89,7 @@ export function applyDefaultCollectionMigration(model: IModel): IModel {
         searchCategoryToCollection[searchCategory.key as SearchCategories];
       const collection = baseCollectionMap[collectionKey];
       collection.label = searchCategory.overrideText || null;
-      collection.hidden = searchCategory.hidden;
+      collection.displayConfig.hidden = searchCategory.hidden;
       return collection;
     });
 

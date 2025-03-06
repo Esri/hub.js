@@ -11,7 +11,7 @@ import {
   cloneObject,
   enrichSiteSearchResult,
   fetchSite,
-  IHubCollectionPersistance,
+  IHubCollection,
   IHubRequestOptions,
 } from "../../src";
 import * as slugUtils from "../../src/items/slugs";
@@ -477,13 +477,15 @@ describe("HubSites:", () => {
           label: "My Datasets",
           key: "dataset",
           targetEntity: "item",
-          hidden: true,
           scope: {
             targetEntity: "item",
             collection: "dataset",
             filters: [],
           },
-        } as IHubCollectionPersistance,
+          displayConfig: {
+            hidden: true,
+          },
+        } as IHubCollection,
       ];
       const chk = await commonModule.updateSite(updatedSite, MOCK_HUB_REQOPTS);
 
