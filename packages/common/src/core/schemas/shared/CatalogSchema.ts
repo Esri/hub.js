@@ -157,6 +157,15 @@ export const CatalogSchema: IConfigurationSchema = {
       type: "array",
       items: CollectionSchema,
     },
-    displayConfig: GalleryDisplayConfigSchema,
+    displayConfig: {
+      type: "object",
+      properties: targetEntities.reduce(
+        (acc: Record<EntityType, any>, targetEntity: EntityType) => {
+          acc[targetEntity] = GalleryDisplayConfigSchema;
+          return acc;
+        },
+        {} as Record<EntityType, any>
+      ),
+    },
   },
 };
