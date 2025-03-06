@@ -97,14 +97,16 @@ const catalogJson: IHubCatalog = {
     },
   ],
   displayConfig: {
-    hidden: false,
-    showThumbnail: "show",
-    showLinkButton: true,
-    linkButtonStyle: "outline",
-    linkButtonText: "Explore",
-    corners: CORNERS.square,
-    shadow: DROP_SHADOWS.none,
-    layout: "list",
+    item: {
+      hidden: false,
+      showThumbnail: "show",
+      showLinkButton: true,
+      linkButtonStyle: "outline",
+      linkButtonText: "Explore",
+      corners: CORNERS.square,
+      shadow: DROP_SHADOWS.none,
+      layout: "list",
+    },
   },
 };
 
@@ -168,9 +170,7 @@ describe("Catalog Class:", () => {
       instance.title = "Changed Title";
       expect(instance.title).toBe("Changed Title");
       expect(instance.availableScopes).toEqual(["item", "group", "user"]);
-      expect(instance.displayConfig).toEqual(
-        catalogJson.displayConfig as IGalleryDisplayConfig
-      );
+      expect(instance.displayConfig).toEqual(catalogJson.displayConfig);
     });
     it("allows null scopes", () => {
       const instance = Catalog.fromJson(cloneObject(noScopeCatalog), context);
