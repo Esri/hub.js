@@ -45,7 +45,7 @@ export function reflectCollectionsToSearchCategories(model: IModel) {
       const searchCategoryKey =
         collectionToSearchCategory[c.key as WellKnownCollection];
       const updated: any = {
-        hidden: c.displayConfig?.hidden,
+        hidden: !!c.displayConfig?.hidden,
         key: searchCategoryKey,
         queryParams: {
           collection: searchCategoryToQueryParam[searchCategoryKey],

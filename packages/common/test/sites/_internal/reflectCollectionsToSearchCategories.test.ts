@@ -55,6 +55,17 @@ describe("reflectCollectionsToSearchCategories", () => {
           filters: [],
         },
       } as IHubCollection,
+      {
+        label: null,
+        key: "appAndMap",
+        targetEntity: "item",
+        // intentionally leaving out displayConfig.hidden for branch coverage
+        scope: {
+          targetEntity: "item",
+          collection: "appAndMap",
+          filters: [],
+        },
+      } as IHubCollection,
     ];
 
     const result = reflectCollectionsToSearchCategories(site);
@@ -71,6 +82,13 @@ describe("reflectCollectionsToSearchCategories", () => {
         hidden: false,
         queryParams: {
           collection: "Document",
+        },
+      },
+      {
+        key: SearchCategories.APPS_AND_MAPS,
+        hidden: false,
+        queryParams: {
+          collection: "App,Map",
         },
       },
     ]);
