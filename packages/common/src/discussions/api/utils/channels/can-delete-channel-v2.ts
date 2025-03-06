@@ -19,5 +19,5 @@ export function canDeleteChannelV2(
   }
 
   const channelPermission = new ChannelPermission(channel);
-  return channelPermission.canModerateChannel(user as IDiscussionsUser);
+  return channelPermission.canDeleteChannel(user as IDiscussionsUser);
 }

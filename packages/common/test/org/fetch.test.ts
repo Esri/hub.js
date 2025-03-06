@@ -3,49 +3,39 @@ import {
   cloneObject,
   fetchOrganization,
   IHubOrganization,
-  organizationToSearchResult,
+  portalToSearchResult,
 } from "../../src";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 describe("HubOrganizations", () => {
   describe("convert to searchResult", () => {
     it("converts", () => {
-      const org: IHubOrganization = {
-        id: "123",
-        orgId: "123",
-        access: "public",
-        name: "name",
-        summary: "summary",
-        description: "description",
+      const result = portalToSearchResult(PORTAL);
+      expect(result).toEqual({
+        id: "Xj56SBi2udA78cC9",
+        title: "QA Premium Alpha Hub",
+        name: "QA Premium Alpha Hub",
+        url: "https://qa-pre-a-hub.mapsqa.arcgis.com",
         type: "Organization",
+        family: "organization",
         source: "portal",
-        createdDate: new Date(),
+        createdDate: new Date(PORTAL.created),
         createdDateSource: "portal",
-        updatedDate: new Date(),
+        updatedDate: new Date(PORTAL.modified),
         updatedDateSource: "portal",
-        thumbnail: "thumbnail",
-        url: "url",
-        thumbnailUrl: "thumbnailUrl",
-        portal: {} as IPortal,
-        tags: ["tag"],
-        typeKeywords: ["typeKeyword"],
-      };
-      const result = organizationToSearchResult(org);
-      expect(result.id).toBe(org.id);
-      expect(result.title).toBe(org.name);
-      expect(result.name).toBe(org.name);
-      expect(result.url).toBe(org.url);
-      expect(result.type).toBe("Organization");
-      expect(result.family).toBe("organization");
-      expect(result.source).toBe("portal");
-      expect(result.createdDate).toBe(org.createdDate);
-      expect(result.createdDateSource).toBe(org.createdDateSource);
-      expect(result.updatedDate).toBe(org.updatedDate);
-      expect(result.updatedDateSource).toBe(org.updatedDateSource);
-      expect(result.thumbnailUrl).toBe(org.thumbnailUrl);
-      expect(result.thumbnail).toBe(org.thumbnail);
-      expect(result.description).toBe(org.description);
-      expect(result.access).toBe(org.access);
+        thumbnailUrl:
+          "https://qa-pre-a-hub.mapsqa.arcgis.com/sharing/rest/portals/Xj56SBi2udA78cC9/resources/thumbnail1707251441205.png",
+        thumbnail: "thumbnail1707251441205.png",
+        description: "<br>",
+        access: "public",
+        tags: [],
+        typeKeywords: [],
+        links: {
+          self: "https://qa-pre-a-hub.mapsqa.arcgis.com",
+          thumbnail:
+            "https://qa-pre-a-hub.mapsqa.arcgis.com/sharing/rest/portals/Xj56SBi2udA78cC9/resources/thumbnail1707251441205.png",
+        },
+      });
     });
   });
   describe("fetchOrganization", () => {

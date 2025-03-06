@@ -433,7 +433,7 @@ In the `@esri/hub-discussions` library, authentication is handled using the fami
 
 A user's access to content stored in the Discussions API is determined by their platform identity -- that is their organization and group memberships and manage roles. As noted above, ArcGIS Online access and permissions are encoded in Channels. Currently, most API methods employ one or many checks comparing Channel specs to the requesting user's identity.
 
-A summary of authorization checks are in the table below (source code: [channels](https://github.com/Esri/hub.js/blob/master/packages/discussions/src/utils/channels/index.ts), [posts](https://github.com/Esri/hub.js/blob/master/packages/discussions/src/utils/channels/index.ts)):
+A summary of authorization checks are in the table below (source code: [channels](https://github.com/Esri/hub.js/blob/master/packages/common/src/discussions/api/utils/channels/index.ts), [posts](https://github.com/Esri/hub.js/blob/master/packages/common/src/discussions/api/utils/posts/index.ts)):
 
 | **Permission** | **Description** |
 | :------------- | :-------------- |

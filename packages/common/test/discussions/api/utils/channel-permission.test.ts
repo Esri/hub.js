@@ -36,6 +36,7 @@ const ALLOWED_ROLES_FOR_MODERATION = Object.freeze([
   Role.MANAGE,
   Role.OWNER,
 ]);
+const ALLOWED_ROLES_FOR_CHANNEL_DELETE = Object.freeze([Role.OWNER]);
 
 const orgId1 = "3ef";
 const groupId1 = "aaa";
@@ -4778,6 +4779,282 @@ describe("ChannelPermission class", () => {
         const channelPermission = new ChannelPermission(channel);
 
         expect(channelPermission.canReadChannel(user)).toBe(false);
+      });
+    });
+  });
+
+  describe("canDeleteChannel", () => {
+    describe("Unauthenticated user", () => {
+      it("returns false if user not logged in", async () => {
+        const user = buildUser({ username: null });
+        const channelAcl = [] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: user.username } as IChannel;
+
+        const channelPermission = new ChannelPermission(channel);
+
+        expect(channelPermission.canDeleteChannel(user)).toBe(false);
+      });
+    });
+
+    describe("Group Permissions", () => {
+      it("returns true if user is group member in group permission list and role is owner", async () => {
+        const channelAcl = [
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.MEMBER,
+            key: groupId1,
+            role: Role.OWNER, // members are owner
+          },
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.ADMIN,
+            key: groupId1,
+            role: Role.READ, // admins can only read
+          },
+        ] as IChannelAclPermission[];
+
+        ALLOWED_GROUP_ROLES.forEach((memberType) => {
+          const user = buildUser({
+            orgId: orgId1,
+            groups: [buildGroup(groupId1, memberType)], // member in groupId1
+          });
+          const channel = { channelAcl, creator: "notUser" } as IChannel;
+
+          const channelPermission = new ChannelPermission(channel);
+
+          expect(channelPermission.canDeleteChannel(user)).toBe(true);
+        });
+      });
+
+      it("returns false if user is group member in group permission list and role is NOT allowed", async () => {
+        const user = buildUser(); // member in groupId1
+        const channelAcl = [
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.MEMBER,
+            key: groupId1,
+            role: Role.READ, // members read
+          },
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.ADMIN,
+            key: groupId1,
+            role: Role.READ, // admins read
+          },
+        ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "notUser" } as IChannel;
+
+        const channelPermission = new ChannelPermission(channel);
+
+        expect(channelPermission.canDeleteChannel(user)).toBe(false);
+      });
+
+      it("returns false if user is group member in group permission list, role is allowed, but userMemberType is none", async () => {
+        const user = buildUser({
+          groups: [buildGroup(groupId1, "none")], // memberType none in groupId1
+        });
+        const channelAcl = [
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.MEMBER,
+            key: groupId1,
+            role: Role.OWNER, // members owner
+          },
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.ADMIN,
+            key: groupId1,
+            role: Role.OWNER, // admins owner
+          },
+        ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "notUser" } as IChannel;
+
+        const channelPermission = new ChannelPermission(channel);
+
+        expect(channelPermission.canDeleteChannel(user)).toBe(false);
+      });
+
+      it("returns true if user is group owner/admin in group permission list and role is allowed", async () => {
+        const channelAcl = [
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.MEMBER,
+            key: groupId1,
+            role: Role.READ, // members read
+          },
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.ADMIN,
+            key: groupId1,
+            role: Role.OWNER, // admins owner
+          },
+        ] as IChannelAclPermission[];
+
+        ADMIN_GROUP_MEMBER_TYPES.forEach((memberType) => {
+          const user = buildUser({
+            orgId: orgId1,
+            groups: [buildGroup(groupId1, memberType)], // admin or owner in groupId1
+          });
+          const channel = { channelAcl, creator: "notUser" } as IChannel;
+
+          const channelPermission = new ChannelPermission(channel);
+
+          expect(channelPermission.canDeleteChannel(user)).toBe(true);
+        });
+      });
+
+      it("returns false if user is group owner/admin in group permission list and role is NOT allowed", async () => {
+        const user = buildUser(); // admin in groupId2
+        const channelAcl = [
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.MEMBER,
+            key: groupId2,
+            role: Role.READ, // members read
+          },
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.ADMIN,
+            key: groupId2,
+            role: Role.READ, // admins read
+          },
+        ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "notUser" } as IChannel;
+
+        const channelPermission = new ChannelPermission(channel);
+
+        expect(channelPermission.canDeleteChannel(user)).toBe(false);
+      });
+
+      it("returns false if user is group admin but group is not in permissions list", async () => {
+        const user = buildUser({
+          orgId: orgId1,
+          groups: [
+            buildGroup("unknownGroupId", "admin"), // admin in unknownGroupId
+          ],
+        });
+        const channelAcl = [
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.MEMBER,
+            key: groupId1,
+            role: Role.READWRITE, // members write
+          },
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.ADMIN,
+            key: groupId1,
+            role: Role.OWNER, // admin owner
+          },
+        ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "notUser" } as IChannel;
+
+        const channelPermission = new ChannelPermission(channel);
+
+        expect(channelPermission.canDeleteChannel(user)).toBe(false);
+      });
+    });
+
+    describe("Org Permissions", () => {
+      it("returns true if user is org member in permissions list and member role is allowed", async () => {
+        const user = buildUser();
+
+        const channelAcl = [
+          {
+            category: AclCategory.ORG,
+            subCategory: AclSubCategory.MEMBER,
+            key: user.orgId,
+            role: Role.OWNER, // members owner
+          },
+          {
+            category: AclCategory.ORG,
+            subCategory: AclSubCategory.ADMIN,
+            key: user.orgId,
+            role: Role.READ, // admin read
+          },
+        ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "notUser" } as IChannel;
+
+        const channelPermission = new ChannelPermission(channel);
+
+        expect(channelPermission.canDeleteChannel(user)).toBe(true);
+      });
+
+      it("returns true if user is org_admin in permissions list and admin role is allowed", async () => {
+        const user = buildUser({ role: "org_admin" });
+        const channelAcl = [
+          {
+            category: AclCategory.ORG,
+            subCategory: AclSubCategory.MEMBER,
+            key: user.orgId,
+            role: Role.READ, // members read
+          },
+          {
+            category: AclCategory.ORG,
+            subCategory: AclSubCategory.ADMIN,
+            key: user.orgId,
+            role: Role.OWNER, // admin owner
+          },
+        ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "notUser" } as IChannel;
+
+        const channelPermission = new ChannelPermission(channel);
+
+        expect(channelPermission.canDeleteChannel(user)).toBe(true);
+      });
+
+      it("returns false if user is not in the permissions org", async () => {
+        const user = buildUser({ orgId: "unknownOrgId" }); // unknown org
+        const channelAcl = [
+          {
+            category: AclCategory.ORG,
+            subCategory: AclSubCategory.MEMBER,
+            key: orgId1,
+            role: Role.READ, // members read
+          },
+          {
+            category: AclCategory.ORG,
+            subCategory: AclSubCategory.ADMIN,
+            key: orgId1,
+            role: Role.OWNER, // admin owner
+          },
+        ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "notUser" } as IChannel;
+
+        const channelPermission = new ChannelPermission(channel);
+
+        expect(channelPermission.canDeleteChannel(user)).toBe(false);
+      });
+    });
+
+    describe("User Permissions", () => {
+      it("returns true if user is in permissions list and role is allowed", () => {
+        const user = buildUser();
+
+        const channelAcl = [
+          {
+            category: AclCategory.USER,
+            key: user.username,
+            role: Role.OWNER, // user owner
+          },
+        ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "notUser" } as IChannel;
+
+        const channelPermission = new ChannelPermission(channel);
+
+        expect(channelPermission.canDeleteChannel(user)).toBe(true);
+      });
+
+      it("returns false if user is in permissions list but role is not allowed", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.READ },
+        ] as IChannelAclPermission[];
+        const channel = { channelAcl, creator: "notUser" } as IChannel;
+
+        const channelPermission = new ChannelPermission(channel);
+
+        expect(channelPermission.canDeleteChannel(user)).toBe(false);
       });
     });
   });
