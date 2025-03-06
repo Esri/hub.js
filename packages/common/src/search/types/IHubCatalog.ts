@@ -44,11 +44,13 @@ export interface IHubCatalog {
   /**
    * Optional display configuration to control a catalog's appearance in the UI
    */
-  displayConfig?: Partial<Record<EntityType, IGalleryDisplayConfig>>;
+  displayConfig?: ICatalogDisplayConfig;
 }
 
 export interface ICatalogScope extends Partial<Record<EntityType, IQuery>> {}
 
+export interface ICatalogDisplayConfig
+  extends Partial<Record<EntityType, IGalleryDisplayConfig>> {}
 export interface IHubCollection {
   /**
    * String to show in the UI. translated.
