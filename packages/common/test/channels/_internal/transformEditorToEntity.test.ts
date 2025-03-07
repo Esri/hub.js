@@ -1,0 +1,189 @@
+import { transformEditorToEntity } from "../../../src/channels/_internal/transformEditorToEntity";
+import {
+  IHubChannel,
+  IHubChannelEditor,
+  IHubRoleConfigValue,
+} from "../../../src/core/types/IHubChannel";
+import * as transformFormValuesToEntityPermissionPoliciesModule from "../../../src/channels/_internal/transformFormValuesToEntityPermissionPolicies";
+import { IEntityPermissionPolicy } from "../../../src/permissions/types";
+import {
+  CHANNEL_PERMISSIONS,
+  ChannelNonePermission,
+} from "../../../src/channels/_internal/ChannelBusinessRules";
+
+describe("transformEditorToEntity", () => {
+  it("should transform an IHubChannelEditor to a partial IHubChannel", () => {
+    const editor: IHubChannelEditor = {
+      id: "31c",
+      name: "My channel",
+      blockWords: "baad, baaaad",
+      publicConfigs: [
+        {
+          key: "public",
+          entityId: null,
+          entityType: null,
+          roles: {
+            anonymous: {
+              value: ChannelNonePermission,
+              id: "11a",
+            },
+            authenticated: {
+              value: CHANNEL_PERMISSIONS.channelRead,
+              id: "11b",
+            },
+          },
+        },
+      ],
+      orgConfigs: [
+        {
+          key: "orgId123",
+          entityId: "orgId123",
+          entityType: "organization",
+          roles: {
+            member: {
+              value: CHANNEL_PERMISSIONS.channelReadWrite,
+              id: "11c",
+            },
+            admin: {
+              value: CHANNEL_PERMISSIONS.channelManage,
+              id: "11d",
+            },
+          },
+        },
+      ],
+      groupConfigs: [
+        {
+          key: "groupId123",
+          entityId: "groupId123",
+          entityType: "group",
+          roles: {
+            member: {
+              value: CHANNEL_PERMISSIONS.channelReadWrite,
+              id: "11e",
+            },
+            admin: {
+              value: CHANNEL_PERMISSIONS.channelModerate,
+              id: "11f",
+            },
+          },
+        },
+      ],
+      userConfigs: [
+        {
+          key: "userId123",
+          entityId: "userId123",
+          entityType: "user",
+          roles: {
+            user: {
+              value: CHANNEL_PERMISSIONS.channelReadWrite,
+              id: "11g",
+            },
+          },
+        },
+      ],
+      ownerConfig: null,
+      allowAsAnonymous: true,
+    };
+    const permissionPolicies: IEntityPermissionPolicy[] = [
+      {
+        permission: CHANNEL_PERMISSIONS.channelRead,
+        collaborationType: "authenticated",
+        collaborationId: null,
+        id: "11b",
+      },
+      {
+        permission: CHANNEL_PERMISSIONS.channelReadWrite,
+        collaborationType: "org",
+        collaborationId: "orgId123",
+        id: "11c",
+      },
+      {
+        permission: CHANNEL_PERMISSIONS.channelManage,
+        collaborationType: "org-admin",
+        collaborationId: "orgId123",
+        id: "11d",
+      },
+      {
+        permission: CHANNEL_PERMISSIONS.channelReadWrite,
+        collaborationType: "group",
+        collaborationId: "groupId123",
+        id: "11e",
+      },
+      {
+        permission: CHANNEL_PERMISSIONS.channelModerate,
+        collaborationType: "group-admin",
+        collaborationId: "groupId123",
+        id: "11f",
+      },
+      {
+        permission: CHANNEL_PERMISSIONS.channelReadWrite,
+        collaborationType: "user",
+        collaborationId: "userId123",
+        id: "11g",
+      },
+    ];
+    const ownerPolicy: IEntityPermissionPolicy = {
+      permission: CHANNEL_PERMISSIONS.channelOwner,
+      collaborationType: "user",
+      collaborationId: "userId456",
+      id: "11h",
+    };
+    const ownerRoleValue: IHubRoleConfigValue = {
+      key: "userId456",
+      entityId: "userId456",
+      entityType: "user",
+      roles: {
+        user: {
+          value: CHANNEL_PERMISSIONS.channelOwner,
+          id: "11h",
+        },
+      },
+    };
+    const transformFormValuesToEntityPermissionPoliciesSpy = spyOn(
+      transformFormValuesToEntityPermissionPoliciesModule,
+      "transformFormValuesToEntityPermissionPolicies"
+    ).and.returnValues(permissionPolicies, [
+      ...permissionPolicies,
+      ownerPolicy,
+    ]);
+    let results = transformEditorToEntity(editor);
+    const expected: Partial<IHubChannel> = {
+      name: "My channel",
+      blockWords: ["baad", "baaaad"],
+      allowAsAnonymous: true,
+      permissions: permissionPolicies,
+    };
+    expect(results).toEqual(expected);
+    expect(
+      transformFormValuesToEntityPermissionPoliciesSpy
+    ).toHaveBeenCalledTimes(1);
+    expect(
+      transformFormValuesToEntityPermissionPoliciesSpy
+    ).toHaveBeenCalledWith([
+      ...editor.publicConfigs,
+      ...editor.orgConfigs,
+      ...editor.groupConfigs,
+      ...editor.userConfigs,
+    ]);
+
+    // w/ owner config
+    editor.ownerConfig = ownerRoleValue;
+    results = transformEditorToEntity(editor);
+    expect(
+      transformFormValuesToEntityPermissionPoliciesSpy
+    ).toHaveBeenCalledTimes(2);
+    expect(
+      transformFormValuesToEntityPermissionPoliciesSpy
+    ).toHaveBeenCalledWith([
+      ...editor.publicConfigs,
+      ...editor.orgConfigs,
+      ...editor.groupConfigs,
+      ...editor.userConfigs,
+      ownerRoleValue,
+    ]);
+    expect(results).toEqual({
+      ...expected,
+      permissions: [...expected.permissions, ownerPolicy],
+    });
+  });
+});

@@ -31,6 +31,9 @@ export function getTypeFromEntity(
     case "Solution":
       type = "template";
       break;
+    case "Channel":
+      type = "channel";
+      break;
     case "Group":
       type = "group";
       break;

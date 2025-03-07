@@ -29,6 +29,7 @@ const DEFAULT_ENTITY_SETTINGS_BY_ENTITY_TYPE: Record<
   survey: null,
   event: null,
   user: null,
+  channel: null,
 };
 
 export function getDefaultEntitySettings(
