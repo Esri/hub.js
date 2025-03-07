@@ -22,9 +22,11 @@ import {
   IHubSurvey,
   IHubEvent,
   IHubTemplate,
+  IHubChannel,
   getProp,
   IHubUser,
 } from "../../src";
+import { HubChannel } from "../../src/channels/HubChannel";
 import { IHubGroup } from "../../src/core/types/IHubGroup";
 import { HubUser } from "../../src/users/HubUser";
 import { MOCK_AUTH } from "../mocks/mock-auth";
@@ -173,6 +175,47 @@ describe("EntityEditor:", () => {
       expect(getConfigSpy).toHaveBeenCalledWith(
         "someScope",
         "hub:discussion:edit"
+      );
+      const chk = await editor.toEditor();
+      expect(toEditorSpy).toHaveBeenCalled();
+      expect(chk.id).toBe("00c");
+      await editor.save(chk);
+      expect(fromEditorSpy).toHaveBeenCalledWith(chk, undefined);
+    });
+  });
+
+  describe("supports channels:", () => {
+    let fromJsonSpy: jasmine.Spy;
+    let getConfigSpy: jasmine.Spy;
+    let toEditorSpy: jasmine.Spy;
+    let fromEditorSpy: jasmine.Spy;
+    beforeEach(() => {
+      fromJsonSpy = spyOn(HubChannel, "fromJson").and.callThrough();
+      getConfigSpy = spyOn(
+        HubChannel.prototype,
+        "getEditorConfig"
+      ).and.callFake(() => {
+        return Promise.resolve({} as any);
+      });
+      toEditorSpy = spyOn(HubChannel.prototype, "toEditor").and.callThrough();
+      fromEditorSpy = spyOn(HubChannel.prototype, "fromEditor").and.callFake(
+        () => {
+          return Promise.resolve({} as any);
+        }
+      );
+    });
+
+    it("verify EntityEditor with Channel", async () => {
+      const p: IHubChannel = {
+        id: "00c",
+        type: "Channel",
+      } as IHubChannel;
+      const editor = EntityEditor.fromEntity(p, authdCtxMgr.context);
+      expect(fromJsonSpy).toHaveBeenCalled();
+      await editor.getConfig("someScope", "hub:channel:edit");
+      expect(getConfigSpy).toHaveBeenCalledWith(
+        "someScope",
+        "hub:channel:edit"
       );
       const chk = await editor.toEditor();
       expect(toEditorSpy).toHaveBeenCalled();

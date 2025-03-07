@@ -8,7 +8,8 @@ import { IHubTemplate } from "./IHubTemplate";
 import { IHubSurvey } from "./IHubSurvey";
 import { IHubEvent } from "./IHubEvent";
 import { IHubUser } from "./IHubUser";
-import { IHubOrganization } from "../..";
+import { IHubOrganization } from "./IHubOrganization";
+import { IHubChannel } from "./IHubChannel";
 
 export type HubEntity =
   | IHubDiscussion
@@ -21,4 +22,5 @@ export type HubEntity =
   | IHubSite
   | IHubSurvey
   | IHubTemplate
-  | IHubUser;
+  | IHubUser
+  | IHubChannel;
