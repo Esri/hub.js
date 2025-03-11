@@ -14,6 +14,13 @@ export const buildUiSchema = async (
   options: Partial<IHubChannel>,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
-  // the create and edit schemas are the same at this time, this leaves the door open for them to change over time
-  return buildUiSchemaCreate(i18nScope, options, context);
+  const uiSchema = await buildUiSchemaCreate(i18nScope, options, context);
+  // the create and edit schemas are the same with the exception of the edit notice
+  uiSchema.elements.splice(0, 0, {
+    type: "Notice",
+    options: {
+      noticeId: "20250311-channel-edit-warning",
+    },
+  });
+  return uiSchema;
 };

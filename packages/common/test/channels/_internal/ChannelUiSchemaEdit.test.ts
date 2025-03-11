@@ -16,13 +16,25 @@ describe("ChannelUiSchemaEdit", () => {
     } as unknown as IArcGISContext;
 
     it("should return the schema from buildUiSchemaCreate", async () => {
-      const expected: IUiSchema = {
+      const createSchema: IUiSchema = {
         type: "Layout",
+        elements: [],
       };
       const buildUiSchemaCreateSpy = spyOn(
         ChannelUiSchemaCreateModule,
         "buildUiSchema"
-      ).and.returnValue(expected);
+      ).and.returnValue(createSchema);
+      const expected: IUiSchema = {
+        ...createSchema,
+        elements: [
+          {
+            type: "Notice",
+            options: {
+              noticeId: "20250311-channel-edit-warning",
+            },
+          },
+        ],
+      };
       const result = await buildUiSchema(i18nScope, options, context);
       expect(result).toEqual(expected);
       expect(buildUiSchemaCreateSpy).toHaveBeenCalledTimes(1);

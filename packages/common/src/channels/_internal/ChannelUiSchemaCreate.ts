@@ -143,24 +143,7 @@ export const buildUiSchema = async (
           {
             type: "Notice",
             options: {
-              notice: {
-                configuration: {
-                  noticeType: "notice",
-                  closable: false,
-                  kind: "info",
-                  scale: "m",
-                },
-                title: `{{${i18nScope}.sections.permissions.notice.title:translate}}`,
-                message: `{{${i18nScope}.sections.permissions.notice.message:translate}}`,
-                autoShow: true,
-                actions: [
-                  {
-                    label: `{{${i18nScope}.sections.permissions.notice.action:translate}}`,
-                    href: "#readMore",
-                    target: "_blank",
-                  },
-                ],
-              },
+              noticeId: "20250311-channel-permissions-info",
             },
           },
           {
