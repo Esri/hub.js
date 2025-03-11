@@ -17,13 +17,13 @@ export const buildUiSchema = async (
   context: IArcGISContext
 ): Promise<IUiSchema> => {
   const facet = {
-    labelKey: `${i18nScope}.fields.group.picker.facets.label`,
+    label: `{{${i18nScope}.sections.group.picker.facets.label:translate}}`,
     key: "groups",
     display: "single-select",
     operation: "OR",
     options: [
       {
-        labelKey: `${i18nScope}.fields.group.picker.facets.myGroups.label`,
+        label: `{{${i18nScope}.sections.group.picker.facets.myGroups.label:translate}}`,
         key: "my-group",
         selected: true,
         predicates: [
@@ -34,7 +34,7 @@ export const buildUiSchema = async (
         ],
       },
       {
-        labelKey: `${i18nScope}.fields.group.picker.facets.myOrganization.label`,
+        label: `{{${i18nScope}.sections.group.picker.facets.myOrganization.label:translate}}`,
         key: "my-organization",
         selected: false,
         predicates: [
@@ -50,7 +50,7 @@ export const buildUiSchema = async (
   };
   if (context.communityOrgId) {
     facet.options.push({
-      labelKey: `${i18nScope}.fields.group.picker.facets.myCommunity.label`,
+      label: `{{${i18nScope}.sections.group.picker.facets.myCommunity.label:translate}}`,
       key: "my-community",
       selected: false,
       predicates: [
@@ -126,7 +126,7 @@ export const buildUiSchema = async (
                   type: "ERROR",
                   keyword: "format",
                   icon: true,
-                  label: `${i18nScope}.fields.blockWords.formatError`,
+                  labelKey: `${i18nScope}.fields.blockWords.formatError`,
                 },
               ],
             },
@@ -260,7 +260,7 @@ export const buildUiSchema = async (
                         entityType: "group",
                         catalogs: [
                           getWellKnownCatalog(i18nScope, "allGroups", "group", {
-                            user: context?.currentUser,
+                            user: context.currentUser,
                           }),
                         ],
                         facets: [facet],

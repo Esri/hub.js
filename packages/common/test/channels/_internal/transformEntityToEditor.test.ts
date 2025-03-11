@@ -7,8 +7,14 @@ import {
 } from "../../../src/core/types/IHubChannel";
 import { CHANNEL_PERMISSIONS } from "../../../src/channels/_internal/ChannelBusinessRules";
 import { COLLABORATION_TYPES } from "../../../src/permissions/types/IEntityPermissionPolicy";
+import { IArcGISContext } from "../../../src/types/IArcGISContext";
 
 describe("transformEntityToEditor", () => {
+  const context: IArcGISContext = {
+    currentUser: {
+      orgId: "userOrgId123",
+    },
+  } as IArcGISContext;
   it("should transform an IHubChannel object to an IHubChannelEditor object", () => {
     const entity: IHubChannel = {
       id: "31c",
@@ -128,17 +134,19 @@ describe("transformEntityToEditor", () => {
         },
       },
     ];
-    const ownerConfig: IHubRoleConfigValue = {
-      key: "userId2",
-      entityId: "userId2",
-      entityType: "user",
-      roles: {
-        user: {
-          value: CHANNEL_PERMISSIONS.channelOwner,
-          id: "8aa",
+    const ownerConfigs: IHubRoleConfigValue[] = [
+      {
+        key: "userId2",
+        entityId: "userId2",
+        entityType: "user",
+        roles: {
+          user: {
+            value: CHANNEL_PERMISSIONS.channelOwner,
+            id: "8aa",
+          },
         },
       },
-    };
+    ];
     const transformEntityPermissionPoliciesToPublicFormValuesSpy = spyOn(
       transformEntityPermissionPoliciesToFormValuesModule,
       "transformEntityPermissionPoliciesToPublicFormValues"
@@ -155,10 +163,10 @@ describe("transformEntityToEditor", () => {
       transformEntityPermissionPoliciesToFormValuesModule,
       "transformEntityPermissionPoliciesToUserFormValues"
     ).and.returnValue(userConfigs);
-    const transformEntityPermissionPoliciesToOwnerFormValueSpy = spyOn(
+    const transformEntityPermissionPoliciesToOwnerFormValuesSpy = spyOn(
       transformEntityPermissionPoliciesToFormValuesModule,
-      "transformEntityPermissionPoliciesToOwnerFormValue"
-    ).and.returnValue(ownerConfig);
+      "transformEntityPermissionPoliciesToOwnerFormValues"
+    ).and.returnValue(ownerConfigs);
     const expected: IHubChannelEditor = {
       id: "31c",
       name: "My channel",
@@ -168,9 +176,9 @@ describe("transformEntityToEditor", () => {
       orgConfigs,
       groupConfigs,
       userConfigs,
-      ownerConfig,
+      ownerConfigs,
     };
-    const result = transformEntityToEditor(entity);
+    const result = transformEntityToEditor(entity, context);
     expect(result).toEqual(expected);
     expect(
       transformEntityPermissionPoliciesToPublicFormValuesSpy
@@ -183,7 +191,7 @@ describe("transformEntityToEditor", () => {
     ).toHaveBeenCalledTimes(1);
     expect(
       transformEntityPermissionPoliciesToOrgFormValuesSpy
-    ).toHaveBeenCalledWith(entity.permissions);
+    ).toHaveBeenCalledWith(entity.permissions, context.currentUser.orgId);
     expect(
       transformEntityPermissionPoliciesToGroupFormValuesSpy
     ).toHaveBeenCalledTimes(1);
@@ -197,10 +205,10 @@ describe("transformEntityToEditor", () => {
       transformEntityPermissionPoliciesToUserFormValuesSpy
     ).toHaveBeenCalledWith(entity.permissions);
     expect(
-      transformEntityPermissionPoliciesToOwnerFormValueSpy
+      transformEntityPermissionPoliciesToOwnerFormValuesSpy
     ).toHaveBeenCalledTimes(1);
     expect(
-      transformEntityPermissionPoliciesToOwnerFormValueSpy
-    ).toHaveBeenCalledWith(entity.permissions);
+      transformEntityPermissionPoliciesToOwnerFormValuesSpy
+    ).toHaveBeenCalledWith(entity.permissions, context.currentUser.orgId);
   });
 });

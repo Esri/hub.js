@@ -1,10 +1,11 @@
 import { IHubChannel, IHubChannelEditor } from "../../core/types/IHubChannel";
+import { IArcGISContext } from "../../types/IArcGISContext";
 import {
   transformEntityPermissionPoliciesToGroupFormValues,
   transformEntityPermissionPoliciesToOrgFormValues,
   transformEntityPermissionPoliciesToPublicFormValues,
   transformEntityPermissionPoliciesToUserFormValues,
-  transformEntityPermissionPoliciesToOwnerFormValue,
+  transformEntityPermissionPoliciesToOwnerFormValues,
 } from "./transformEntityPermissionPoliciesToFormValues";
 
 /**
@@ -14,7 +15,8 @@ import {
  * @returns an IHubChannelEditor object
  */
 export function transformEntityToEditor(
-  entity: IHubChannel
+  entity: IHubChannel,
+  context: IArcGISContext
 ): IHubChannelEditor {
   return {
     id: entity.id,
@@ -25,7 +27,8 @@ export function transformEntityToEditor(
       entity.permissions
     ),
     orgConfigs: transformEntityPermissionPoliciesToOrgFormValues(
-      entity.permissions
+      entity.permissions,
+      context.currentUser.orgId
     ),
     groupConfigs: transformEntityPermissionPoliciesToGroupFormValues(
       entity.permissions
@@ -33,8 +36,9 @@ export function transformEntityToEditor(
     userConfigs: transformEntityPermissionPoliciesToUserFormValues(
       entity.permissions
     ),
-    ownerConfig: transformEntityPermissionPoliciesToOwnerFormValue(
-      entity.permissions
+    ownerConfigs: transformEntityPermissionPoliciesToOwnerFormValues(
+      entity.permissions,
+      context.currentUser.orgId
     ),
   };
 }

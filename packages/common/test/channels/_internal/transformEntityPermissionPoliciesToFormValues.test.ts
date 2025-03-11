@@ -9,7 +9,7 @@ import {
   transformEntityPermissionPoliciesToOrgFormValues,
   transformEntityPermissionPoliciesToGroupFormValues,
   transformEntityPermissionPoliciesToUserFormValues,
-  transformEntityPermissionPoliciesToOwnerFormValue,
+  transformEntityPermissionPoliciesToOwnerFormValues,
 } from "../../../src/channels/_internal/transformEntityPermissionPoliciesToFormValues";
 
 describe("transformEntityPermissionPoliciesToFormValues", () => {
@@ -314,8 +314,8 @@ describe("transformEntityPermissionPoliciesToFormValues", () => {
     });
   });
 
-  describe("transformEntityPermissionPoliciesToOwnerFormValue", () => {
-    it("should return null when no channel owner exists", () => {
+  describe("transformEntityPermissionPoliciesToOwnerFormValues", () => {
+    it("should build an owner role for admins of the currently authenticated user's org", () => {
       const input: IEntityPermissionPolicy[] = [
         {
           collaborationType: COLLABORATION_TYPES.user,
@@ -329,8 +329,23 @@ describe("transformEntityPermissionPoliciesToFormValues", () => {
           permission: CHANNEL_PERMISSIONS.channelReadWrite,
         },
       ];
-      const results = transformEntityPermissionPoliciesToOwnerFormValue(input);
-      expect(results).toBeNull();
+      const results = transformEntityPermissionPoliciesToOwnerFormValues(
+        input,
+        "userOrgId123"
+      );
+      expect(results).toEqual([
+        {
+          key: "userOrgId123",
+          entityId: "userOrgId123",
+          entityType: "organization",
+          roles: {
+            admin: {
+              value: CHANNEL_PERMISSIONS.channelOwner,
+              id: undefined,
+            },
+          },
+        },
+      ]);
     });
     it("should build an owner role config for a user", () => {
       const input: IEntityPermissionPolicy[] = [
@@ -347,18 +362,23 @@ describe("transformEntityPermissionPoliciesToFormValues", () => {
           id: "11b",
         },
       ];
-      const expected: IHubRoleConfigValue = {
-        key: "userId345",
-        entityId: "userId345",
-        entityType: "user",
-        roles: {
-          user: {
-            value: CHANNEL_PERMISSIONS.channelOwner,
-            id: "11b",
+      const expected: IHubRoleConfigValue[] = [
+        {
+          key: "userId345",
+          entityId: "userId345",
+          entityType: "user",
+          roles: {
+            user: {
+              value: CHANNEL_PERMISSIONS.channelOwner,
+              id: "11b",
+            },
           },
         },
-      };
-      const results = transformEntityPermissionPoliciesToOwnerFormValue(input);
+      ];
+      const results = transformEntityPermissionPoliciesToOwnerFormValues(
+        input,
+        "userOrgId123"
+      );
       expect(results).toEqual(expected);
     });
     it("should build an owner role config for a group", () => {
@@ -376,18 +396,23 @@ describe("transformEntityPermissionPoliciesToFormValues", () => {
           id: "11b",
         },
       ];
-      const expected: IHubRoleConfigValue = {
-        key: "groupId345",
-        entityId: "groupId345",
-        entityType: "group",
-        roles: {
-          member: {
-            value: CHANNEL_PERMISSIONS.channelOwner,
-            id: "11b",
+      const expected: IHubRoleConfigValue[] = [
+        {
+          key: "groupId345",
+          entityId: "groupId345",
+          entityType: "group",
+          roles: {
+            member: {
+              value: CHANNEL_PERMISSIONS.channelOwner,
+              id: "11b",
+            },
           },
         },
-      };
-      const results = transformEntityPermissionPoliciesToOwnerFormValue(input);
+      ];
+      const results = transformEntityPermissionPoliciesToOwnerFormValues(
+        input,
+        "userOrgId123"
+      );
       expect(results).toEqual(expected);
     });
     it("should build an owner role config for a group admin", () => {
@@ -405,18 +430,23 @@ describe("transformEntityPermissionPoliciesToFormValues", () => {
           id: "11b",
         },
       ];
-      const expected: IHubRoleConfigValue = {
-        key: "groupId345",
-        entityId: "groupId345",
-        entityType: "group",
-        roles: {
-          admin: {
-            value: CHANNEL_PERMISSIONS.channelOwner,
-            id: "11b",
+      const expected: IHubRoleConfigValue[] = [
+        {
+          key: "groupId345",
+          entityId: "groupId345",
+          entityType: "group",
+          roles: {
+            admin: {
+              value: CHANNEL_PERMISSIONS.channelOwner,
+              id: "11b",
+            },
           },
         },
-      };
-      const results = transformEntityPermissionPoliciesToOwnerFormValue(input);
+      ];
+      const results = transformEntityPermissionPoliciesToOwnerFormValues(
+        input,
+        "userOrgId123"
+      );
       expect(results).toEqual(expected);
     });
     it("should build an owner role config for an org", () => {
@@ -434,18 +464,23 @@ describe("transformEntityPermissionPoliciesToFormValues", () => {
           id: "11b",
         },
       ];
-      const expected: IHubRoleConfigValue = {
-        key: "orgId345",
-        entityId: "orgId345",
-        entityType: "org",
-        roles: {
-          member: {
-            value: CHANNEL_PERMISSIONS.channelOwner,
-            id: "11b",
+      const expected: IHubRoleConfigValue[] = [
+        {
+          key: "orgId345",
+          entityId: "orgId345",
+          entityType: "organization",
+          roles: {
+            member: {
+              value: CHANNEL_PERMISSIONS.channelOwner,
+              id: "11b",
+            },
           },
         },
-      };
-      const results = transformEntityPermissionPoliciesToOwnerFormValue(input);
+      ];
+      const results = transformEntityPermissionPoliciesToOwnerFormValues(
+        input,
+        "userOrgId123"
+      );
       expect(results).toEqual(expected);
     });
     it("should build an owner role config for an org admin", () => {
@@ -463,18 +498,23 @@ describe("transformEntityPermissionPoliciesToFormValues", () => {
           id: "11b",
         },
       ];
-      const expected: IHubRoleConfigValue = {
-        key: "orgId345",
-        entityId: "orgId345",
-        entityType: "org",
-        roles: {
-          admin: {
-            value: CHANNEL_PERMISSIONS.channelOwner,
-            id: "11b",
+      const expected: IHubRoleConfigValue[] = [
+        {
+          key: "orgId345",
+          entityId: "orgId345",
+          entityType: "organization",
+          roles: {
+            admin: {
+              value: CHANNEL_PERMISSIONS.channelOwner,
+              id: "11b",
+            },
           },
         },
-      };
-      const results = transformEntityPermissionPoliciesToOwnerFormValue(input);
+      ];
+      const results = transformEntityPermissionPoliciesToOwnerFormValues(
+        input,
+        "userOrgId123"
+      );
       expect(results).toEqual(expected);
     });
   });
