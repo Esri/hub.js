@@ -18,6 +18,7 @@ export * from "./i18n";
 export * from "./initiatives";
 export * from "./initiative-templates";
 export * from "./discussions";
+export * from "./channels";
 export * from "./surveys";
 export * from "./events";
 export * from "./items";

@@ -257,7 +257,7 @@ describe("HubChannel", () => {
         orgConfigs: [],
         groupConfigs: [],
         userConfigs: [],
-        ownerConfig: null,
+        ownerConfigs: [],
       };
       const transformEntityToEditorSpy = spyOn(
         transformEntityToEditorModule,
@@ -267,7 +267,7 @@ describe("HubChannel", () => {
       const result = await instance.toEditor({}, []);
       expect(result).toEqual(editor);
       expect(transformEntityToEditorSpy).toHaveBeenCalledTimes(1);
-      expect(transformEntityToEditorSpy).toHaveBeenCalledWith(entity);
+      expect(transformEntityToEditorSpy).toHaveBeenCalledWith(entity, context);
     });
   });
   describe("fromEditor", () => {
@@ -281,7 +281,7 @@ describe("HubChannel", () => {
         orgConfigs: [],
         groupConfigs: [],
         userConfigs: [],
-        ownerConfig: null,
+        ownerConfigs: [],
       };
       const transformedEntity: IHubChannel = {
         updatedDate: new Date(1741107657268),
@@ -291,6 +291,9 @@ describe("HubChannel", () => {
         "transformEditorToEntity"
       ).and.returnValue(transformedEntity);
       const instance = new HubChannel(entity, context);
+      const saveSpy = spyOn(instance, "save").and.returnValue(
+        Promise.resolve()
+      );
       const result = await instance.fromEditor(editor);
       expect(result).toEqual({
         ...entity,
@@ -298,6 +301,7 @@ describe("HubChannel", () => {
       });
       expect(transformEditorToEntitySpy).toHaveBeenCalledTimes(1);
       expect(transformEditorToEntitySpy).toHaveBeenCalledWith(editor);
+      expect(saveSpy).toHaveBeenCalledTimes(1);
     });
   });
   describe("fromJson", () => {

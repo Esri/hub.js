@@ -15,10 +15,8 @@ export function transformEditorToEntity(
     ...editor.orgConfigs,
     ...editor.groupConfigs,
     ...editor.userConfigs,
+    ...editor.ownerConfigs,
   ];
-  if (editor.ownerConfig) {
-    permissionValues.push(editor.ownerConfig);
-  }
   return {
     name: editor.name,
     blockWords: editor.blockWords.split(",").map((val) => val.trim()),

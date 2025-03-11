@@ -210,7 +210,7 @@ export class HubChannel
     const { transformEntityToEditor } = await import(
       "./_internal/transformEntityToEditor"
     );
-    return transformEntityToEditor(this.entity);
+    return transformEntityToEditor(this.entity, this.context);
   }
 
   /**
@@ -222,9 +222,11 @@ export class HubChannel
     const { transformEditorToEntity } = await import(
       "./_internal/transformEditorToEntity"
     );
-    return {
+    this.entity = {
       ...this.entity,
       ...transformEditorToEntity(editor),
     };
+    await this.save();
+    return this.entity;
   }
 }

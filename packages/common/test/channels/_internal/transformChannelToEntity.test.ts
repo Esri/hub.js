@@ -32,6 +32,7 @@ describe("transformChannelToEntity", () => {
       ],
       allowAsAnonymous: true,
       orgId: "orgId123",
+      access: "private",
     } as IChannel;
     const user: IUser = {
       username: "user123",
@@ -79,7 +80,13 @@ describe("transformChannelToEntity", () => {
       orgId: "orgId123",
       owner: "creator123",
       typeKeywords: [],
+      tags: [],
       access: "private",
+      channel,
+      thumbnail: undefined,
+      view: undefined,
+      description: undefined,
+      location: undefined,
     };
     const result = transformChannelToEntity(channel, user);
     expect(result).toEqual(expected);

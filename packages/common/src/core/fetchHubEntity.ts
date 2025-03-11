@@ -14,6 +14,7 @@ import { fetchSurvey } from "../surveys/fetch";
 import { fetchEvent } from "../events/fetch";
 import { convertUserToHubUser, fetchHubUser } from "../users";
 import { fetchOrganization } from "../org/fetch";
+import { fetchHubChannel } from "../channels/fetch";
 
 /**
  * Fetch a Hub entity by identifier (id or slug)
@@ -40,6 +41,9 @@ export async function fetchHubEntity(
       break;
     case "discussion":
       result = await fetchDiscussion(identifier, context.hubRequestOptions);
+      break;
+    case "channel":
+      result = await fetchHubChannel(identifier, context);
       break;
     case "page":
       result = await fetchPage(identifier, context.hubRequestOptions);

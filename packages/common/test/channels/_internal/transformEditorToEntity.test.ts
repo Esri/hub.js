@@ -2,7 +2,6 @@ import { transformEditorToEntity } from "../../../src/channels/_internal/transfo
 import {
   IHubChannel,
   IHubChannelEditor,
-  IHubRoleConfigValue,
 } from "../../../src/core/types/IHubChannel";
 import * as transformFormValuesToEntityPermissionPoliciesModule from "../../../src/channels/_internal/transformFormValuesToEntityPermissionPolicies";
 import { IEntityPermissionPolicy } from "../../../src/permissions/types";
@@ -81,7 +80,19 @@ describe("transformEditorToEntity", () => {
           },
         },
       ],
-      ownerConfig: null,
+      ownerConfigs: [
+        {
+          key: "userId456",
+          entityId: "userId456",
+          entityType: "user",
+          roles: {
+            user: {
+              value: CHANNEL_PERMISSIONS.channelOwner,
+              id: "11h",
+            },
+          },
+        },
+      ],
       allowAsAnonymous: true,
     };
     const permissionPolicies: IEntityPermissionPolicy[] = [
@@ -121,32 +132,18 @@ describe("transformEditorToEntity", () => {
         collaborationId: "userId123",
         id: "11g",
       },
-    ];
-    const ownerPolicy: IEntityPermissionPolicy = {
-      permission: CHANNEL_PERMISSIONS.channelOwner,
-      collaborationType: "user",
-      collaborationId: "userId456",
-      id: "11h",
-    };
-    const ownerRoleValue: IHubRoleConfigValue = {
-      key: "userId456",
-      entityId: "userId456",
-      entityType: "user",
-      roles: {
-        user: {
-          value: CHANNEL_PERMISSIONS.channelOwner,
-          id: "11h",
-        },
+      {
+        permission: CHANNEL_PERMISSIONS.channelOwner,
+        collaborationType: "user",
+        collaborationId: "userId456",
+        id: "11h",
       },
-    };
+    ];
     const transformFormValuesToEntityPermissionPoliciesSpy = spyOn(
       transformFormValuesToEntityPermissionPoliciesModule,
       "transformFormValuesToEntityPermissionPolicies"
-    ).and.returnValues(permissionPolicies, [
-      ...permissionPolicies,
-      ownerPolicy,
-    ]);
-    let results = transformEditorToEntity(editor);
+    ).and.returnValue(permissionPolicies);
+    const results = transformEditorToEntity(editor);
     const expected: Partial<IHubChannel> = {
       name: "My channel",
       blockWords: ["baad", "baaaad"],
@@ -164,26 +161,7 @@ describe("transformEditorToEntity", () => {
       ...editor.orgConfigs,
       ...editor.groupConfigs,
       ...editor.userConfigs,
+      ...editor.ownerConfigs,
     ]);
-
-    // w/ owner config
-    editor.ownerConfig = ownerRoleValue;
-    results = transformEditorToEntity(editor);
-    expect(
-      transformFormValuesToEntityPermissionPoliciesSpy
-    ).toHaveBeenCalledTimes(2);
-    expect(
-      transformFormValuesToEntityPermissionPoliciesSpy
-    ).toHaveBeenCalledWith([
-      ...editor.publicConfigs,
-      ...editor.orgConfigs,
-      ...editor.groupConfigs,
-      ...editor.userConfigs,
-      ownerRoleValue,
-    ]);
-    expect(results).toEqual({
-      ...expected,
-      permissions: [...expected.permissions, ownerPolicy],
-    });
   });
 });
