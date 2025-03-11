@@ -1,3 +1,10 @@
+## @esri/hub-common [15.41.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.41.0...@esri/hub-common@15.41.1) (2025-03-10)
+
+
+### Bug Fixes
+
+* add displayConfig to CollectionSchema ([#1823](https://github.com/Esri/hub.js/issues/1823)) ([a42f3bd](https://github.com/Esri/hub.js/commit/a42f3bd5f5fda5de4591493bb1bc3839e0bac59c))
+
 # @esri/hub-common [15.41.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.40.0...@esri/hub-common@15.41.0) (2025-03-06)
 
 

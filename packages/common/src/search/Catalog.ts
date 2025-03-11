@@ -22,7 +22,7 @@ import {
   IQuery,
   IFilter,
   IHubCollection,
-  IGalleryDisplayConfig,
+  ICatalogDisplayConfig,
 } from "./types";
 import { upgradeCatalogSchema } from "./upgradeCatalogSchema";
 
@@ -132,7 +132,7 @@ export class Catalog implements IHubCatalog {
   /**
    * Return the display configuration for the gallery
    */
-  get displayConfig(): IGalleryDisplayConfig {
+  get displayConfig(): ICatalogDisplayConfig {
     return this._catalog.displayConfig;
   }
 
