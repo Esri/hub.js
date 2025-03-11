@@ -17,6 +17,8 @@ export const InitiativeEditorTypes = [
   "hub:initiative:metrics",
   "hub:initiative:associations",
   "hub:initiative:settings",
+  "hub:initiative:view:hero",
+  "hub:initiative:view:description"
 ] as const;
 
 /**

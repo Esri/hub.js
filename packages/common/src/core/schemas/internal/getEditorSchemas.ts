@@ -181,6 +181,10 @@ export async function getEditorSchemas(
           import(
             "../../../initiatives/_internal/InitiativeUiSchemaAssociations"
           ),
+        "hub:initiative:view:hero": () =>
+          import("../../../initiatives/_internal/InitiativeUiSchemaHero"),
+        "hub:initiative:view:description": () =>
+          import("../../../initiatives/_internal/InitiativeUiSchemaDescription"),
         "hub:initiative:settings": () =>
           import("../../../initiatives/_internal/InitiativeUiSchemaSettings"),
       }[type as InitiativeEditorType]();
