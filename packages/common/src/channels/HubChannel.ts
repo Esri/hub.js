@@ -150,11 +150,11 @@ export class HubChannel
       throw new Error("HubChannel is already destroyed.");
     }
 
-    const { updateHubChannel, createHubChannel } = await import("./edit");
-
     if (this.entity.id) {
+      const { updateHubChannel } = await import("./edit");
       this.entity = await updateHubChannel(this.entity, this.context);
     } else {
+      const { createHubChannel } = await import("./edit");
       this.entity = await createHubChannel(this.entity, this.context);
     }
   }
