@@ -1,3 +1,10 @@
+## @esri/hub-common [15.41.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.41.1...@esri/hub-common@15.41.2) (2025-03-11)
+
+
+### Bug Fixes
+
+* **hub-common:** site collections not hidden properly ([#1827](https://github.com/Esri/hub.js/issues/1827)) ([c0a0bb8](https://github.com/Esri/hub.js/commit/c0a0bb841ee93f9df755fc9ddfd9031d5a130c51))
+
 ## @esri/hub-common [15.41.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.41.0...@esri/hub-common@15.41.1) (2025-03-10)
 
 
