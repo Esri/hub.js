@@ -1,4 +1,4 @@
-import { IHubCollectionPersistance } from "../../../src/search/types/IHubCatalog";
+import { IHubCollection } from "../../../src/search/types/IHubCatalog";
 import { WellKnownCollection } from "../../../src/search/wellKnownCatalog";
 import { reflectCollectionsToSearchCategories } from "../../../src/sites/_internal/reflectCollectionsToSearchCategories";
 import { SearchCategories } from "../../../src/sites/_internal/types";
@@ -33,24 +33,39 @@ describe("reflectCollectionsToSearchCategories", () => {
         label: null,
         key: "dataset",
         targetEntity: "item",
-        hidden: true,
         scope: {
           targetEntity: "item",
           collection: "dataset",
           filters: [],
         },
-      } as IHubCollectionPersistance,
+        displayConfig: {
+          hidden: true,
+        },
+      } as IHubCollection,
       {
         label: null,
         key: "document",
         targetEntity: "item",
-        hidden: false,
+        displayConfig: {
+          hidden: false,
+        },
         scope: {
           targetEntity: "item",
           collection: "document",
           filters: [],
         },
-      } as IHubCollectionPersistance,
+      } as IHubCollection,
+      {
+        label: null,
+        key: "appAndMap",
+        targetEntity: "item",
+        // intentionally leaving out displayConfig.hidden for branch coverage
+        scope: {
+          targetEntity: "item",
+          collection: "appAndMap",
+          filters: [],
+        },
+      } as IHubCollection,
     ];
 
     const result = reflectCollectionsToSearchCategories(site);
@@ -69,6 +84,13 @@ describe("reflectCollectionsToSearchCategories", () => {
           collection: "Document",
         },
       },
+      {
+        key: SearchCategories.APPS_AND_MAPS,
+        hidden: false,
+        queryParams: {
+          collection: "App,Map",
+        },
+      },
     ]);
   });
   it("handles re-labeled collections", () => {
@@ -77,24 +99,28 @@ describe("reflectCollectionsToSearchCategories", () => {
         label: "My Cool Sites!",
         key: "site",
         targetEntity: "item",
-        hidden: false,
+        displayConfig: {
+          hidden: false,
+        },
         scope: {
           targetEntity: "item",
           collection: "site",
           filters: [],
         },
-      } as IHubCollectionPersistance,
+      } as IHubCollection,
       {
         label: "Apps & Maps",
         key: "appAndMap",
         targetEntity: "item",
-        hidden: false,
+        displayConfig: {
+          hidden: false,
+        },
         scope: {
           targetEntity: "item",
           collection: "appAndMap",
           filters: [],
         },
-      } as IHubCollectionPersistance,
+      } as IHubCollection,
     ];
 
     const result = reflectCollectionsToSearchCategories(site);
@@ -124,36 +150,42 @@ describe("reflectCollectionsToSearchCategories", () => {
         label: null,
         key: "dataset",
         targetEntity: "item",
-        hidden: false,
+        displayConfig: {
+          hidden: false,
+        },
         scope: {
           targetEntity: "item",
           collection: "dataset",
           filters: [],
         },
-      } as IHubCollectionPersistance,
+      } as IHubCollection,
       // 'all' _can_ be converted to a search category, but we explicitly do not persist it
       {
         label: null,
         key: "all",
         targetEntity: "item",
-        hidden: false,
+        displayConfig: {
+          hidden: false,
+        },
         scope: {
           targetEntity: "item",
           collection: "all" as WellKnownCollection,
           filters: [],
         },
-      } as IHubCollectionPersistance,
+      } as IHubCollection,
       // Customer-defined collection, cannot be converted to search category
       {
         label: "My Custom Collection",
         key: "custom-collection",
         targetEntity: "event",
-        hidden: false,
+        displayConfig: {
+          hidden: false,
+        },
         scope: {
           targetEntity: "event",
           filters: [],
         },
-      } as IHubCollectionPersistance,
+      } as IHubCollection,
     ];
 
     const result = reflectCollectionsToSearchCategories(site);

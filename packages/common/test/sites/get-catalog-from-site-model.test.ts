@@ -15,19 +15,19 @@ describe("getCatalogFromSiteModel", () => {
 
     expect(chk.title).toBe("Default Site Catalog");
     expect(chk.scopes).toBeDefined();
-    expect(chk.scopes?.item?.filters.length).toBe(1);
-    expect(chk.scopes?.item?.filters[0].predicates[0].group).toEqual([
+    expect(chk.scopes.item.filters.length).toBe(1);
+    expect(chk.scopes.item.filters[0].predicates[0].group).toEqual([
       "00c",
       "00d",
     ]);
-    expect(chk.scopes?.event?.filters.length).toBe(1);
-    expect(chk.scopes?.event?.filters[0].predicates[0].group).toEqual([
+    expect(chk.scopes.event.filters.length).toBe(1);
+    expect(chk.scopes.event.filters[0].predicates[0].group).toEqual([
       "00c",
       "00d",
     ]);
 
     // check for collections
-    expect(chk.collections?.map((c) => c.key)).toEqual([
+    expect(chk.collections.map((c) => c.key)).toEqual([
       "all",
       "site",
       "dataset",
