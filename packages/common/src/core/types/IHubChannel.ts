@@ -122,6 +122,5 @@ export interface IHubChannelEditor {
   orgConfigs: IHubRoleConfigValue[];
   groupConfigs: IHubRoleConfigValue[];
   userConfigs: IHubRoleConfigValue[];
-  ownerConfigs: IHubRoleConfigValue[];
   allowAsAnonymous: boolean;
 }

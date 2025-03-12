@@ -213,7 +213,7 @@ export const buildUiSchema = async (
                       label: `{{${i18nScope}.fields.organization.admin.label:translate}}`,
                       disabled: true,
                       permissionLabels: [
-                        `{{${i18nScope}.sections.permissions.options.manage:translate}}`,
+                        `{{${i18nScope}.sections.permissions.options.owner:translate}}`,
                       ],
                     },
                   ],

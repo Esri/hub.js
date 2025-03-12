@@ -5,7 +5,6 @@ import {
   transformEntityPermissionPoliciesToOrgFormValues,
   transformEntityPermissionPoliciesToPublicFormValues,
   transformEntityPermissionPoliciesToUserFormValues,
-  transformEntityPermissionPoliciesToOwnerFormValues,
 } from "./transformEntityPermissionPoliciesToFormValues";
 
 /**
@@ -35,10 +34,6 @@ export function transformEntityToEditor(
     ),
     userConfigs: transformEntityPermissionPoliciesToUserFormValues(
       entity.permissions
-    ),
-    ownerConfigs: transformEntityPermissionPoliciesToOwnerFormValues(
-      entity.permissions,
-      context.currentUser.orgId
     ),
   };
 }

@@ -15,7 +15,6 @@ export function transformEditorToEntity(
     ...editor.orgConfigs,
     ...editor.groupConfigs,
     ...editor.userConfigs,
-    ...editor.ownerConfigs,
   ];
   return {
     name: editor.name,
