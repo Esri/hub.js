@@ -223,7 +223,7 @@ export const channelToSearchResult = (
     updatedDate: new Date(channel.updatedAt),
     updatedDateSource: "channel",
     type: "channel",
-    access: channel.access,
+    access: getChannelAccess(channel),
     family: "channel",
     owner: channel.creator,
     links: {
