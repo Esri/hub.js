@@ -8,6 +8,7 @@ import {
 import HubError from "../../HubError";
 import { searchChannels } from "../../discussions/api/channels";
 import {
+  ChannelRelation,
   IChannel,
   IPagedResponse,
   ISearchChannels,
@@ -101,6 +102,7 @@ export const processSearchParams = (
     data: {
       ...paginationProps,
       ...filterProps,
+      relations: [ChannelRelation.CHANNEL_ACL],
     },
   };
 };
