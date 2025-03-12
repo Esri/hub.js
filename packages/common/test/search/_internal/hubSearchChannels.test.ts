@@ -5,6 +5,7 @@ import {
   IHubSearchOptions,
   IHubRequestOptions,
   ISearchChannels,
+  ChannelRelation,
 } from "../../../src";
 import SEARCH_CHANNELS_RESPONSE from "./mocks/searchChannelsResponse";
 import * as arcgisRestPortal from "@esri/arcgis-rest-portal";
@@ -161,6 +162,7 @@ describe("discussionsSearchItems Module |", () => {
       sortOrder: "DESC",
       access: ["private", "org"],
       name: ["Foo"],
+      relations: [ChannelRelation.CHANNEL_ACL],
     } as any as ISearchChannels);
   });
   it("excludes group enrichment when include groups not requested", async () => {
