@@ -47,15 +47,7 @@ export function transformFormValuesToEntityPermissionPolicies(
           "collaborationType" | "collaborationId"
         >;
 
-        if (role.value === CHANNEL_PERMISSIONS.channelOwner) {
-          permissionPolicy = {
-            collaborationType:
-              ENTITY_TYPE_TO_COLLABORATION_TYPE_MAP[
-                roleConfiguration.entityType
-              ][roleKey],
-            collaborationId: roleConfiguration.entityId,
-          };
-        } else if (roleConfiguration.key === "public") {
+        if (roleConfiguration.key === "public") {
           permissionPolicy = {
             collaborationType:
               roleKey === "authenticated"

@@ -257,7 +257,6 @@ describe("HubChannel", () => {
         orgConfigs: [],
         groupConfigs: [],
         userConfigs: [],
-        ownerConfigs: [],
       };
       const transformEntityToEditorSpy = spyOn(
         transformEntityToEditorModule,
@@ -281,7 +280,6 @@ describe("HubChannel", () => {
         orgConfigs: [],
         groupConfigs: [],
         userConfigs: [],
-        ownerConfigs: [],
       };
       const transformedEntity: IHubChannel = {
         updatedDate: new Date(1741107657268),

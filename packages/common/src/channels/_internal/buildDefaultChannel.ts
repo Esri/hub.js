@@ -17,7 +17,7 @@ export function buildDefaultChannel(orgId: string): Partial<IHubChannel> {
       transformAclPermissionToEntityPermissionPolicy({
         category: AclCategory.ORG,
         subCategory: AclSubCategory.ADMIN,
-        role: Role.MANAGE,
+        role: Role.OWNER,
         key: orgId,
       }),
     ],

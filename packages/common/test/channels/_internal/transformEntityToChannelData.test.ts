@@ -53,36 +53,6 @@ describe("transformEntityToChannelData", () => {
           permission: CHANNEL_PERMISSIONS.channelModerate,
         },
         {
-          collaborationType: COLLABORATION_TYPES.owner,
-          collaborationId: "userId1",
-          id: "7aa",
-          permission: CHANNEL_PERMISSIONS.channelOwner,
-        },
-        {
-          collaborationType: COLLABORATION_TYPES.org,
-          collaborationId: "orgId1",
-          id: "8aa",
-          permission: CHANNEL_PERMISSIONS.channelOwner,
-        },
-        {
-          collaborationType: COLLABORATION_TYPES.orgAdmin,
-          collaborationId: "orgId1",
-          id: "9aa",
-          permission: CHANNEL_PERMISSIONS.channelOwner,
-        },
-        {
-          collaborationType: COLLABORATION_TYPES.group,
-          collaborationId: "groupId1",
-          id: "1bb",
-          permission: CHANNEL_PERMISSIONS.channelOwner,
-        },
-        {
-          collaborationType: COLLABORATION_TYPES.groupAdmin,
-          collaborationId: "groupId1",
-          id: "2bb",
-          permission: CHANNEL_PERMISSIONS.channelOwner,
-        },
-        {
           collaborationType: "unsupported",
           collaborationId: "groupId1",
           id: "2bb",
@@ -130,36 +100,6 @@ describe("transformEntityToChannelData", () => {
           subCategory: AclSubCategory.ADMIN,
           key: "groupId1",
           role: Role.MODERATE,
-        },
-        {
-          category: AclCategory.USER,
-          subCategory: null,
-          key: "userId1",
-          role: Role.OWNER,
-        },
-        {
-          category: AclCategory.ORG,
-          subCategory: AclSubCategory.MEMBER,
-          key: "orgId1",
-          role: Role.OWNER,
-        },
-        {
-          category: AclCategory.ORG,
-          subCategory: AclSubCategory.ADMIN,
-          key: "orgId1",
-          role: Role.OWNER,
-        },
-        {
-          category: AclCategory.GROUP,
-          subCategory: AclSubCategory.MEMBER,
-          key: "groupId1",
-          role: Role.OWNER,
-        },
-        {
-          category: AclCategory.GROUP,
-          subCategory: AclSubCategory.ADMIN,
-          key: "groupId1",
-          role: Role.OWNER,
         },
       ],
     };

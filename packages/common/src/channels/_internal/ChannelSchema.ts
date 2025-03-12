@@ -111,8 +111,8 @@ export const ChannelSchema: IConfigurationSchema = {
                 properties: {
                   value: {
                     type: "string",
-                    enum: [CHANNEL_PERMISSIONS.channelManage],
-                    default: CHANNEL_PERMISSIONS.channelManage,
+                    enum: [CHANNEL_PERMISSIONS.channelOwner],
+                    default: CHANNEL_PERMISSIONS.channelOwner,
                   },
                   id: { type: "string" },
                 },
@@ -194,64 +194,6 @@ export const ChannelSchema: IConfigurationSchema = {
                   },
                   id: { type: "string" },
                 },
-              },
-            },
-          },
-        },
-      },
-    },
-    ownerConfig: {
-      type: "object",
-      properties: {
-        key: { type: "string" },
-        entityId: { type: "string" },
-        entityType: { type: "string" },
-        roles: {
-          type: "object",
-          properties: {
-            user: {
-              type: "object",
-              properties: {
-                value: {
-                  type: "string",
-                  enum: [
-                    ChannelNonePermission,
-                    CHANNEL_PERMISSIONS.channelRead,
-                    CHANNEL_PERMISSIONS.channelReadWrite,
-                  ],
-                  default: ChannelNonePermission,
-                },
-                id: { type: "string" },
-              },
-            },
-            group: {
-              type: "object",
-              properties: {
-                value: {
-                  type: "string",
-                  enum: [
-                    ChannelNonePermission,
-                    CHANNEL_PERMISSIONS.channelRead,
-                    CHANNEL_PERMISSIONS.channelReadWrite,
-                  ],
-                  default: ChannelNonePermission,
-                },
-                id: { type: "string" },
-              },
-            },
-            org: {
-              type: "object",
-              properties: {
-                value: {
-                  type: "string",
-                  enum: [
-                    ChannelNonePermission,
-                    CHANNEL_PERMISSIONS.channelRead,
-                    CHANNEL_PERMISSIONS.channelReadWrite,
-                  ],
-                  default: ChannelNonePermission,
-                },
-                id: { type: "string" },
               },
             },
           },

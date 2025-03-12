@@ -98,8 +98,8 @@ describe("ChannelSchema", () => {
                       properties: {
                         value: {
                           type: "string",
-                          enum: ["hub:channel:manage"],
-                          default: "hub:channel:manage",
+                          enum: ["hub:channel:owner"],
+                          default: "hub:channel:owner",
                         },
                         id: { type: "string" },
                       },
@@ -181,64 +181,6 @@ describe("ChannelSchema", () => {
                         },
                         id: { type: "string" },
                       },
-                    },
-                  },
-                },
-              },
-            },
-          },
-          ownerConfig: {
-            type: "object",
-            properties: {
-              key: { type: "string" },
-              entityId: { type: "string" },
-              entityType: { type: "string" },
-              roles: {
-                type: "object",
-                properties: {
-                  user: {
-                    type: "object",
-                    properties: {
-                      value: {
-                        type: "string",
-                        enum: [
-                          "hub:channel:none",
-                          "hub:channel:read",
-                          "hub:channel:readWrite",
-                        ],
-                        default: "hub:channel:none",
-                      },
-                      id: { type: "string" },
-                    },
-                  },
-                  group: {
-                    type: "object",
-                    properties: {
-                      value: {
-                        type: "string",
-                        enum: [
-                          "hub:channel:none",
-                          "hub:channel:read",
-                          "hub:channel:readWrite",
-                        ],
-                        default: "hub:channel:none",
-                      },
-                      id: { type: "string" },
-                    },
-                  },
-                  org: {
-                    type: "object",
-                    properties: {
-                      value: {
-                        type: "string",
-                        enum: [
-                          "hub:channel:none",
-                          "hub:channel:read",
-                          "hub:channel:readWrite",
-                        ],
-                        default: "hub:channel:none",
-                      },
-                      id: { type: "string" },
                     },
                   },
                 },

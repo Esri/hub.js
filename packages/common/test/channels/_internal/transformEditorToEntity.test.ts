@@ -44,7 +44,7 @@ describe("transformEditorToEntity", () => {
               id: "11c",
             },
             admin: {
-              value: CHANNEL_PERMISSIONS.channelManage,
+              value: CHANNEL_PERMISSIONS.channelOwner,
               id: "11d",
             },
           },
@@ -80,19 +80,6 @@ describe("transformEditorToEntity", () => {
           },
         },
       ],
-      ownerConfigs: [
-        {
-          key: "userId456",
-          entityId: "userId456",
-          entityType: "user",
-          roles: {
-            user: {
-              value: CHANNEL_PERMISSIONS.channelOwner,
-              id: "11h",
-            },
-          },
-        },
-      ],
       allowAsAnonymous: true,
     };
     const permissionPolicies: IEntityPermissionPolicy[] = [
@@ -109,7 +96,7 @@ describe("transformEditorToEntity", () => {
         id: "11c",
       },
       {
-        permission: CHANNEL_PERMISSIONS.channelManage,
+        permission: CHANNEL_PERMISSIONS.channelOwner,
         collaborationType: "org-admin",
         collaborationId: "orgId123",
         id: "11d",
@@ -131,12 +118,6 @@ describe("transformEditorToEntity", () => {
         collaborationType: "user",
         collaborationId: "userId123",
         id: "11g",
-      },
-      {
-        permission: CHANNEL_PERMISSIONS.channelOwner,
-        collaborationType: "user",
-        collaborationId: "userId456",
-        id: "11h",
       },
     ];
     const transformFormValuesToEntityPermissionPoliciesSpy = spyOn(
@@ -161,7 +142,6 @@ describe("transformEditorToEntity", () => {
       ...editor.orgConfigs,
       ...editor.groupConfigs,
       ...editor.userConfigs,
-      ...editor.ownerConfigs,
     ]);
   });
 });

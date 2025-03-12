@@ -36,7 +36,7 @@ describe("buildDefaultChannel", () => {
     ).toHaveBeenCalledWith({
       category: AclCategory.ORG,
       subCategory: AclSubCategory.ADMIN,
-      role: Role.MANAGE,
+      role: Role.OWNER,
       key: "orgId1",
     });
   });

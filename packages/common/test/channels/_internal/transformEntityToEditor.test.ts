@@ -41,7 +41,7 @@ describe("transformEntityToEditor", () => {
           id: "3aa",
         },
         {
-          permission: CHANNEL_PERMISSIONS.channelManage,
+          permission: CHANNEL_PERMISSIONS.channelOwner,
           collaborationType: COLLABORATION_TYPES.orgAdmin,
           collaborationId: "orgId1",
           id: "4aa",
@@ -98,7 +98,7 @@ describe("transformEntityToEditor", () => {
             id: "3aa",
           },
           admin: {
-            value: CHANNEL_PERMISSIONS.channelManage,
+            value: CHANNEL_PERMISSIONS.channelOwner,
             id: "4aa",
           },
         },
@@ -134,19 +134,6 @@ describe("transformEntityToEditor", () => {
         },
       },
     ];
-    const ownerConfigs: IHubRoleConfigValue[] = [
-      {
-        key: "userId2",
-        entityId: "userId2",
-        entityType: "user",
-        roles: {
-          user: {
-            value: CHANNEL_PERMISSIONS.channelOwner,
-            id: "8aa",
-          },
-        },
-      },
-    ];
     const transformEntityPermissionPoliciesToPublicFormValuesSpy = spyOn(
       transformEntityPermissionPoliciesToFormValuesModule,
       "transformEntityPermissionPoliciesToPublicFormValues"
@@ -163,10 +150,6 @@ describe("transformEntityToEditor", () => {
       transformEntityPermissionPoliciesToFormValuesModule,
       "transformEntityPermissionPoliciesToUserFormValues"
     ).and.returnValue(userConfigs);
-    const transformEntityPermissionPoliciesToOwnerFormValuesSpy = spyOn(
-      transformEntityPermissionPoliciesToFormValuesModule,
-      "transformEntityPermissionPoliciesToOwnerFormValues"
-    ).and.returnValue(ownerConfigs);
     const expected: IHubChannelEditor = {
       id: "31c",
       name: "My channel",
@@ -176,7 +159,6 @@ describe("transformEntityToEditor", () => {
       orgConfigs,
       groupConfigs,
       userConfigs,
-      ownerConfigs,
     };
     const result = transformEntityToEditor(entity, context);
     expect(result).toEqual(expected);
@@ -204,11 +186,5 @@ describe("transformEntityToEditor", () => {
     expect(
       transformEntityPermissionPoliciesToUserFormValuesSpy
     ).toHaveBeenCalledWith(entity.permissions);
-    expect(
-      transformEntityPermissionPoliciesToOwnerFormValuesSpy
-    ).toHaveBeenCalledTimes(1);
-    expect(
-      transformEntityPermissionPoliciesToOwnerFormValuesSpy
-    ).toHaveBeenCalledWith(entity.permissions, context.currentUser.orgId);
   });
 });

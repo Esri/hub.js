@@ -151,8 +151,7 @@ export const transformEntityPermissionPoliciesToOrgFormValues = (
     if (
       [COLLABORATION_TYPES.org, COLLABORATION_TYPES.orgAdmin].includes(
         permissionPolicy.collaborationType
-      ) &&
-      permissionPolicy.permission !== CHANNEL_PERMISSIONS.channelOwner
+      )
     ) {
       return {
         ...acc,
@@ -180,8 +179,8 @@ export const transformEntityPermissionPoliciesToOrgFormValues = (
             id: org?.id,
           },
           admin: {
-            value: CHANNEL_PERMISSIONS.channelManage,
-            id: orgAdmin.id,
+            value: orgAdmin?.permission || ChannelNonePermission,
+            id: orgAdmin?.id,
           },
         },
       },
@@ -198,7 +197,7 @@ export const transformEntityPermissionPoliciesToOrgFormValues = (
           id: undefined,
         },
         admin: {
-          value: CHANNEL_PERMISSIONS.channelManage,
+          value: CHANNEL_PERMISSIONS.channelOwner,
           id: undefined,
         },
       },
@@ -219,8 +218,7 @@ export const transformEntityPermissionPoliciesToUserFormValues = (
 ): IHubRoleConfigValue[] => {
   return permissionPolicies.reduce<IHubRoleConfigValue[]>(
     (acc, permissionPolicy) => {
-      return permissionPolicy.collaborationType === COLLABORATION_TYPES.user &&
-        permissionPolicy.permission !== CHANNEL_PERMISSIONS.channelOwner
+      return permissionPolicy.collaborationType === COLLABORATION_TYPES.user
         ? [
             ...acc,
             {
@@ -249,48 +247,49 @@ export const transformEntityPermissionPoliciesToUserFormValues = (
  * @param defaultOrgId The current user's orgId
  * @returns an IHubRoleConfigValue object
  */
-export const transformEntityPermissionPoliciesToOwnerFormValues = (
-  permissionPolicies: IEntityPermissionPolicy[],
-  defaultOrgId: string
-): IHubRoleConfigValue[] => {
-  const ownerConfigs: IHubRoleConfigValue[] = permissionPolicies.reduce<
-    IHubRoleConfigValue[]
-  >((acc, permissionPolicy) => {
-    if (permissionPolicy.permission === CHANNEL_PERMISSIONS.channelOwner) {
-      return [
-        ...acc,
-        {
-          key: permissionPolicy.collaborationId,
-          entityId: permissionPolicy.collaborationId,
-          entityType:
-            COLLABORATION_TYPE_TO_ENTITY_TYPE_MAP[
-              permissionPolicy.collaborationType
-            ],
-          roles: {
-            [COLLABORATION_TYPE_TO_ROLE_MAP[
-              permissionPolicy.collaborationType
-            ]]: {
-              value: permissionPolicy.permission,
-              id: permissionPolicy.id,
-            },
-          },
-        },
-      ];
-    }
-    return acc;
-  }, []);
-  if (!ownerConfigs.length) {
-    ownerConfigs.push({
-      key: defaultOrgId,
-      entityId: defaultOrgId,
-      entityType: COLLABORATION_TYPE_TO_ENTITY_TYPE_MAP["org-admin"],
-      roles: {
-        [COLLABORATION_TYPE_TO_ROLE_MAP["org-admin"]]: {
-          value: CHANNEL_PERMISSIONS.channelOwner,
-          id: undefined,
-        },
-      },
-    });
-  }
-  return ownerConfigs;
-};
+// export const transformEntityPermissionPoliciesToOwnerFormValues = (
+//   permissionPolicies: IEntityPermissionPolicy[],
+//   defaultOrgId: string
+// ): IHubRoleConfigValue[] => {
+//   const ownerConfigs: IHubRoleConfigValue[] = permissionPolicies.reduce<
+//     IHubRoleConfigValue[]
+//   >((acc, permissionPolicy) => {
+//     if (permissionPolicy.permission === CHANNEL_PERMISSIONS.channelOwner) {
+//       return [
+//         ...acc,
+//         {
+//           key: permissionPolicy.collaborationId,
+//           entityId: permissionPolicy.collaborationId,
+//           entityType:
+//             COLLABORATION_TYPE_TO_ENTITY_TYPE_MAP[
+//               permissionPolicy.collaborationType
+//             ],
+//           roles: {
+//             [COLLABORATION_TYPE_TO_ROLE_MAP[
+//               permissionPolicy.collaborationType
+//             ]]: {
+//               value: permissionPolicy.permission,
+//               id: permissionPolicy.id,
+//             },
+//           },
+//         },
+//       ];
+//     }
+//     return acc;
+//   }, []);
+//   // create a channel owner config if one doesn't exist
+//   if (!ownerConfigs.length) {
+//     ownerConfigs.push({
+//       key: defaultOrgId,
+//       entityId: defaultOrgId,
+//       entityType: COLLABORATION_TYPE_TO_ENTITY_TYPE_MAP["org-admin"],
+//       roles: {
+//         [COLLABORATION_TYPE_TO_ROLE_MAP["org-admin"]]: {
+//           value: CHANNEL_PERMISSIONS.channelOwner,
+//           id: undefined,
+//         },
+//       },
+//     });
+//   }
+//   return ownerConfigs;
+// };
