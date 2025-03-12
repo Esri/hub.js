@@ -14,6 +14,7 @@ import {
   ISearchChannelsParams,
   channelToSearchResult,
 } from "../../discussions";
+import { getChannelGroupIds } from "../../discussions/utils";
 import { getGroup } from "@esri/arcgis-rest-portal";
 
 /**
@@ -122,9 +123,10 @@ export const toHubSearchResults = async (
   // Convert IChannel to IHubSearchResult
   const itemsAndGroups = await Promise.all(
     items.map(async (channel) => {
+      const groupIds = getChannelGroupIds(channel);
       const groups = options.include?.includes("groups")
         ? await Promise.all(
-            channel.groups.map(async (groupId) => {
+            groupIds.map(async (groupId) => {
               let group;
               try {
                 group = await getGroup(groupId, options.requestOptions);

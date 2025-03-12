@@ -88,7 +88,7 @@ describe("discussionsSearchItems Module |", () => {
     try {
       await hubSearchChannels.hubSearchChannels(qry, opts);
     } catch (err) {
-      expect(err.name).toBe("HubError");
+      expect((err as any).name).toBe("HubError");
     }
   });
   it("handles undefined values", async () => {
