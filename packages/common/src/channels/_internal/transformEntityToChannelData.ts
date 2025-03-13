@@ -84,6 +84,7 @@ export function transformEntityToChannelData<
       ? [
           ...acc,
           {
+            // TODO: tack `id` on once the API is ready
             ...permissionDefinition,
             key: permissionPolicy.collaborationId || null,
             role: PERMISSION_TO_ROLE_MAP[

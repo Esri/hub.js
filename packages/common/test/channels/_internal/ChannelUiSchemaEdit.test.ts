@@ -2,7 +2,10 @@ import { buildUiSchema } from "../../../src/channels/_internal/ChannelUiSchemaEd
 import * as ChannelUiSchemaCreateModule from "../../../src/channels/_internal/ChannelUiSchemaCreate";
 import { IChannel } from "../../../src/discussions/api/types";
 import { IArcGISContext } from "../../../src/types/IArcGISContext";
-import { IUiSchema } from "../../../src/core/schemas/types";
+import {
+  IUiSchema,
+  UiSchemaRuleEffects,
+} from "../../../src/core/schemas/types";
 
 describe("ChannelUiSchemaEdit", () => {
   describe("buildUiSchema", () => {
@@ -15,7 +18,29 @@ describe("ChannelUiSchemaEdit", () => {
       },
     } as unknown as IArcGISContext;
 
-    it("should return the schema from buildUiSchemaCreate", async () => {
+    it("should build an edit schema for a user who cannot edit the channel", async () => {
+      const createSchema: IUiSchema = {
+        type: "Layout",
+        elements: [],
+      };
+      const buildUiSchemaCreateSpy = spyOn(
+        ChannelUiSchemaCreateModule,
+        "buildUiSchema"
+      ).and.returnValue(createSchema);
+      const expected: IUiSchema = {
+        ...createSchema,
+      };
+      const result = await buildUiSchema(i18nScope, options, context);
+      expect(result).toEqual(expected);
+      expect(buildUiSchemaCreateSpy).toHaveBeenCalledTimes(1);
+      expect(buildUiSchemaCreateSpy).toHaveBeenCalledWith(
+        i18nScope,
+        options,
+        context
+      );
+    });
+
+    it("should build an edit schema for a user who can edit the channel", async () => {
       const createSchema: IUiSchema = {
         type: "Layout",
         elements: [],
@@ -35,12 +60,16 @@ describe("ChannelUiSchemaEdit", () => {
           },
         ],
       };
-      const result = await buildUiSchema(i18nScope, options, context);
+      const result = await buildUiSchema(
+        i18nScope,
+        { ...options, canEdit: true },
+        context
+      );
       expect(result).toEqual(expected);
       expect(buildUiSchemaCreateSpy).toHaveBeenCalledTimes(1);
       expect(buildUiSchemaCreateSpy).toHaveBeenCalledWith(
         i18nScope,
-        options,
+        { ...options, canEdit: true },
         context
       );
     });

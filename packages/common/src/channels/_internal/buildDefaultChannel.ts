@@ -13,6 +13,8 @@ export function buildDefaultChannel(orgId: string): Partial<IHubChannel> {
     name: "",
     blockWords: [],
     allowAsAnonymous: false,
+    canEdit: true,
+    canDelete: true,
     permissions: [
       transformAclPermissionToEntityPermissionPolicy({
         category: AclCategory.ORG,
