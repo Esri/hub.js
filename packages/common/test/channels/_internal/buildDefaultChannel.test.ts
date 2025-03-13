@@ -25,6 +25,8 @@ describe("buildDefaultChannel", () => {
       blockWords: [] as string[],
       allowAsAnonymous: false,
       permissions: [entityPermissionPolicy],
+      canEdit: true,
+      canDelete: true,
     };
     const result = buildDefaultChannel("orgId1");
     expect(result).toEqual(expected);

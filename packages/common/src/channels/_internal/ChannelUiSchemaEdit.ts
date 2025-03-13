@@ -1,4 +1,4 @@
-import { IUiSchema } from "../../core/schemas/types";
+import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import { IArcGISContext } from "../../types";
 import { IHubChannel } from "../../core/types";
 import { buildUiSchema as buildUiSchemaCreate } from "./ChannelUiSchemaCreate";
@@ -15,12 +15,13 @@ export const buildUiSchema = async (
   context: IArcGISContext
 ): Promise<IUiSchema> => {
   const uiSchema = await buildUiSchemaCreate(i18nScope, options, context);
-  // the create and edit schemas are the same with the exception of the edit notice
-  uiSchema.elements.splice(0, 0, {
-    type: "Notice",
-    options: {
-      noticeId: "20250311-channel-edit-warning",
-    },
-  });
+  if (options.canEdit) {
+    uiSchema.elements.splice(0, 0, {
+      type: "Notice",
+      options: {
+        noticeId: "20250311-channel-edit-warning",
+      },
+    });
+  }
   return uiSchema;
 };
