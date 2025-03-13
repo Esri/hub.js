@@ -1,5 +1,9 @@
 import { DEFAULT_DISCUSSION } from "./defaults";
-import { IWithSharingBehavior, IWithStoreBehavior } from "../core/behaviors";
+import {
+  IWithSharingBehavior,
+  IWithStoreBehavior,
+  IWithCatalogBehavior,
+} from "../core/behaviors";
 import type { IArcGISContext } from "../types/IArcGISContext";
 import {
   IEntityEditorContext,
@@ -16,6 +20,7 @@ import { DiscussionEditorType } from "./_internal/DiscussionSchema";
 import { enrichEntity } from "../core/enrichEntity";
 import { getEditorSlug } from "../core/_internal/getEditorSlug";
 import { editorToEntity } from "../core/schemas/internal/metrics/editorToEntity";
+import { Catalog } from "../search/Catalog";
 
 /**
  * Hub Discussion Class
@@ -26,8 +31,28 @@ export class HubDiscussion
   implements
     IWithStoreBehavior<IHubDiscussion>,
     IWithSharingBehavior,
-    IWithEditorBehavior
+    IWithEditorBehavior,
+    IWithCatalogBehavior
 {
+  private _catalog: Catalog;
+
+  /**
+   * Private constructor so we don't have `new` all over the place.
+   * @param context
+   */
+  private constructor(entity: IHubDiscussion, context: IArcGISContext) {
+    super(entity, context);
+    this._catalog = Catalog.fromJson(entity.catalog, this.context);
+  }
+
+  /**
+   * Catalog instance for this Initiative. Note: Do not hold direct references to this object; always access it from the Initiative.
+   * @returns Catalog
+   */
+  get catalog(): Catalog {
+    return this._catalog;
+  }
+
   /**
    * Create an instance from an IHubDiscussion object
    * @param json JSON object to create a HubDiscussion from
@@ -115,12 +140,20 @@ export class HubDiscussion
     }
     // merge partial onto existing entity
     this.entity = { ...this.entity, ...changes };
+
+    // update internal instances
+    if (changes.catalog) {
+      this._catalog = Catalog.fromJson(this.entity.catalog, this.context);
+    }
   }
 
   async save(): Promise<void> {
     if (this.isDestroyed) {
       throw new Error("HubDiscussion is already destroyed.");
     }
+
+    // get the catalog, and permission configs
+    this.entity.catalog = this._catalog.toJson();
 
     if (this.entity.id) {
       const { updateDiscussion } = await import("./edit");
