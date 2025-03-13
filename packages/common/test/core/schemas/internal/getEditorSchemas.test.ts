@@ -34,6 +34,10 @@ import * as DiscussionBuildEditUiSchema from "../../../../src/discussions/_inter
 import * as DiscussionBuildCreateUiSchema from "../../../../src/discussions/_internal/DiscussionUiSchemaCreate";
 import * as DiscussionBuildSettingsUiSchema from "../../../../src/discussions/_internal/DiscussionUiSchemaSettings";
 
+import { ChannelEditorTypes } from "../../../../src/channels/_internal/ChannelSchema";
+import * as ChannelBuildEditUiSchema from "../../../../src/channels/_internal/ChannelUiSchemaEdit";
+import * as ChannelBuildCreateUiSchema from "../../../../src/channels/_internal/ChannelUiSchemaCreate";
+
 import { ContentEditorTypes } from "../../../../src/content/_internal/ContentSchema";
 import * as ContentBuildEditUiSchema from "../../../../src/content/_internal/ContentUiSchemaEdit";
 import * as ContentBuildSettingsUiSchema from "../../../../src/content/_internal/ContentUiSchemaSettings";
@@ -127,6 +131,8 @@ describe("getEditorSchemas: ", () => {
     { type: GroupEditorTypes[5], module: GroupBuildCreateViewUiSchema },
     { type: GroupEditorTypes[6], module: GroupBuildCreateEditUiSchema },
     { type: GroupEditorTypes[7], module: GroupBuildCreateUiSchema },
+    { type: ChannelEditorTypes[0], module: ChannelBuildCreateUiSchema },
+    { type: ChannelEditorTypes[1], module: ChannelBuildEditUiSchema },
 
     {
       type: InitiativeTemplateEditorTypes[0],

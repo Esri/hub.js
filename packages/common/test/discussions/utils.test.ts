@@ -32,6 +32,10 @@ describe("discussions utils", () => {
       const result = isDiscussable(subject);
       expect(result).toBeFalsy();
     });
+    it("returns false when subject is falsey", () => {
+      const result = isDiscussable(null);
+      expect(result).toBeFalsy();
+    });
     it("returns true if typeKeywords property does not exist", () => {
       const subject = {};
       const result = isDiscussable(subject);
@@ -39,6 +43,10 @@ describe("discussions utils", () => {
     });
   });
   describe("setDiscussableKeyword", () => {
+    it("handles falsey typeKeywords value", () => {
+      const result = setDiscussableKeyword(null, true);
+      expect(result).toEqual([]);
+    });
     it("returns array without CANNOT_DISCUSS when isDiscussable is true", () => {
       const result = setDiscussableKeyword([CANNOT_DISCUSS], true);
       expect(result).toEqual([]);
@@ -63,6 +71,11 @@ describe("discussions utils", () => {
       expect(
         isPublicChannel({
           channelAcl: [{ category: AclCategory.AUTHENTICATED_USER }],
+        } as IChannel)
+      ).toBe(true);
+      expect(
+        isPublicChannel({
+          channelAcl: [{ category: AclCategory.ANONYMOUS_USER }],
         } as IChannel)
       ).toBe(true);
     });

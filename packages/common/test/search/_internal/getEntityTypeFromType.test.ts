@@ -19,7 +19,7 @@ describe("getEntityTypeFromType:", () => {
       "case does not matter"
     );
     expect(getEntityTypeFromType("Channel")).toEqual("channel");
-
+    expect(getEntityTypeFromType("Organization")).toEqual("organization");
     expect(getEntityTypeFromType("GROUP member")).toEqual("groupMember");
   });
 });
