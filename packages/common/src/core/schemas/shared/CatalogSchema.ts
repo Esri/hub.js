@@ -92,11 +92,13 @@ export const GalleryDisplayConfigSchema: IConfigurationSchema = {
 /** JSON schema for an IPredicate */
 export const PredicateSchema: IConfigurationSchema = {
   type: "object",
+  minProperties: 1,
 };
 
 /** JSON schema for an IFilter */
 export const FilterSchema: IConfigurationSchema = {
   type: "object",
+  minProperties: 1,
   properties: {
     operation: {
       type: "string",
