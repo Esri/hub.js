@@ -20,5 +20,7 @@ export function getPropertyMap(): IPropertyMap[] {
     entityKey: "location",
     storeKey: "item.properties.location",
   });
+  map.push({ entityKey: "catalog", storeKey: "data.catalog" });
+
   return map;
 }
