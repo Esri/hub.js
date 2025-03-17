@@ -7,11 +7,12 @@ export const HUB_DISCUSSION_ITEM_TYPE = "Discussion";
  * Default values of a IHubDiscussion
  */
 export const DEFAULT_DISCUSSION: Partial<IHubDiscussion> = {
+  catalog: { schemaVersion: 0 },
   name: "",
   tags: [],
   typeKeywords: ["Hub Discussion"],
   permissions: [],
-  catalogs: [],
+  catalogs: [], // TODO: confirm if this can be removed
   schemaVersion: 1,
   isDiscussable: true,
 };
@@ -33,7 +34,8 @@ export const DEFAULT_DISCUSSION_MODEL: IModel = {
     },
   },
   data: {
-    catalogs: [],
+    catalogs: [], // TODO: confirm if this can be removed
+    catalog: { schemaVersion: 0 },
     prompt: "",
   },
 } as unknown as IModel;
