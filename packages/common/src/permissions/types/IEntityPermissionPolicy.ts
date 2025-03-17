@@ -15,7 +15,11 @@ export interface IEntityPermissionPolicy {
   /**
    * Id of the collaboration set
    */
-  collaborationId: string;
+  collaborationId?: string | null;
+  /**
+   * Id of the permission record
+   */
+  id?: string | null;
 }
 
 /**
@@ -26,5 +30,31 @@ export type CollaborationType =
   | "group"
   | "group-admin"
   | "org"
+  | "org-admin"
   | "authenticated"
-  | "anonymous";
+  | "anonymous"
+  | "owner";
+
+/**
+ * A map of supported collaboration set types
+ */
+export const COLLABORATION_TYPES: Record<
+  | "user"
+  | "group"
+  | "groupAdmin"
+  | "org"
+  | "orgAdmin"
+  | "authenticated"
+  | "anonymous"
+  | "owner",
+  CollaborationType
+> = {
+  user: "user",
+  group: "group",
+  groupAdmin: "group-admin",
+  org: "org",
+  orgAdmin: "org-admin",
+  authenticated: "authenticated",
+  anonymous: "anonymous",
+  owner: "owner",
+};

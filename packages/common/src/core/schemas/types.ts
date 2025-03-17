@@ -19,6 +19,7 @@ import type { IArcGISContext } from "../../types/IArcGISContext";
 import { EventEditorTypes } from "../../events/_internal/EventSchemaCreate";
 import { HubActionLink } from "../types";
 import { UserEditorTypes } from "../../users/_internal/UserSchema";
+import { ChannelEditorTypes } from "../../channels/_internal/ChannelSchema";
 
 export interface IEditorConfig {
   schema: IConfigurationSchema;
@@ -44,6 +45,7 @@ export const validEntityEditorTypes = [
   ...SurveyEditorTypes,
   ...EventEditorTypes,
   ...UserEditorTypes,
+  ...ChannelEditorTypes,
 ] as const;
 
 /** Defines the possible editor type values for a stat card. These

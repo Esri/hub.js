@@ -40,6 +40,17 @@ describe("fetchHubEntity:", () => {
     await fetchHubEntity("organization", "123", ctx);
     expect(spy).toHaveBeenCalledWith("123", "fakeRequestOptions");
   });
+  it("fetches channel", async () => {
+    const ctx = {
+      requestOptions: "fakeRequestOptions",
+    } as unknown as IArcGISContext;
+    const spy = spyOn(
+      require("../../src/channels/fetch"),
+      "fetchHubChannel"
+    ).and.returnValue(Promise.resolve({}));
+    await fetchHubEntity("channel", "123", ctx);
+    expect(spy).toHaveBeenCalledWith("123", ctx);
+  });
   it("fetches initiative", async () => {
     const ctx = {
       requestOptions: "fakeRequestOptions",

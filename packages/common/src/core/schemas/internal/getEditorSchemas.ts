@@ -14,6 +14,7 @@ import { SiteEditorType } from "../../../sites/_internal/SiteSchema";
 import { ProjectEditorType } from "../../../projects/_internal/ProjectSchema";
 import { InitiativeEditorType } from "../../../initiatives/_internal/InitiativeSchema";
 import { DiscussionEditorType } from "../../../discussions/_internal/DiscussionSchema";
+import { ChannelEditorType } from "../../../channels/_internal/ChannelSchema";
 import { PageEditorType } from "../../../pages/_internal/PageSchema";
 import { ContentEditorType } from "../../../content/_internal/ContentSchema";
 import { TemplateEditorType } from "../../../templates/_internal/TemplateSchema";
@@ -120,6 +121,38 @@ export async function getEditorSchemas(
       /* istanbul ignore next */
       if (discussionModule.buildDefaults) {
         defaults = await discussionModule.buildDefaults(
+          i18nScope,
+          options as EntityEditorOptions,
+          context
+        );
+      }
+
+      break;
+    // ----------------------------------------------------
+    case "channel":
+      const { ChannelSchema } = await import(
+        "../../../channels/_internal/ChannelSchema"
+      );
+      schema = cloneObject(ChannelSchema);
+
+      const channelModule: IEntityEditorModuleType = await {
+        "hub:channel:edit": () =>
+          import("../../../channels/_internal/ChannelUiSchemaEdit"),
+        "hub:channel:create": () =>
+          import("../../../channels/_internal/ChannelUiSchemaCreate"),
+      }[type as ChannelEditorType]();
+      uiSchema = await channelModule.buildUiSchema(
+        i18nScope,
+        options as EntityEditorOptions,
+        context
+      );
+
+      // if we have the buildDefaults fn, then construct the defaults
+      // TODO: when first implementing buildDefaults for discussions, remove the ignore line
+
+      /* istanbul ignore next */
+      if (channelModule.buildDefaults) {
+        defaults = await channelModule.buildDefaults(
           i18nScope,
           options as EntityEditorOptions,
           context

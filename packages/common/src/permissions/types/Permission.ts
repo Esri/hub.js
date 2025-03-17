@@ -2,6 +2,7 @@ import { ProjectPermissions } from "../../projects/_internal/ProjectBusinessRule
 import { SitePermissions } from "../../sites/_internal/SiteBusinessRules";
 import { InitiativePermissions } from "../../initiatives/_internal/InitiativeBusinessRules";
 import { DiscussionPermissions } from "../../discussions/_internal/DiscussionBusinessRules";
+import { ChannelPermissions } from "../../channels/_internal/ChannelBusinessRules";
 import { ContentPermissions } from "../../content/_internal/ContentBusinessRules";
 import { GroupPermissions } from "../../groups/_internal/GroupBusinessRules";
 import { PagePermissions } from "../../pages/_internal/PageBusinessRules";
@@ -61,6 +62,7 @@ const validPermissions = [
   ...SurveyPermissions,
   ...EventPermissions,
   ...UserPermissions,
+  ...ChannelPermissions,
 ] as const;
 
 /**
@@ -80,7 +82,8 @@ export type Permission =
   | (typeof SystemPermissions)[number]
   | (typeof SurveyPermissions)[number]
   | (typeof EventPermissions)[number]
-  | (typeof UserPermissions)[number];
+  | (typeof UserPermissions)[number]
+  | (typeof ChannelPermissions)[number];
 
 /**
  * Validate a Permission

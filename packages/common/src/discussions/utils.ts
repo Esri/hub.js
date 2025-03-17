@@ -53,8 +53,10 @@ export function setDiscussableKeyword(
  */
 export function isPublicChannel(channel: IChannel): boolean {
   return channel.channelAcl
-    ? channel.channelAcl.some(
-        ({ category }) => category === AclCategory.AUTHENTICATED_USER
+    ? channel.channelAcl.some(({ category }) =>
+        [AclCategory.AUTHENTICATED_USER, AclCategory.ANONYMOUS_USER].includes(
+          category
+        )
       )
     : channel.access === SharingAccess.PUBLIC;
 }
@@ -132,7 +134,7 @@ export function getChannelGroupIds(channel: IChannel): string[] {
     ? channel.channelAcl.reduce(
         (acc, permission) =>
           permission.category === AclCategory.GROUP &&
-          permission.subCategory === AclSubCategory.MEMBER
+          !acc.includes(permission.key)
             ? [...acc, permission.key]
             : acc,
         []
@@ -221,7 +223,7 @@ export const channelToSearchResult = (
     updatedDate: new Date(channel.updatedAt),
     updatedDateSource: "channel",
     type: "channel",
-    access: channel.access,
+    access: getChannelAccess(channel),
     family: "channel",
     owner: channel.creator,
     links: {
