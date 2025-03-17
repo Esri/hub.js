@@ -140,12 +140,12 @@ export const buildUiSchema = async (
           headerTag: "h3",
         },
         elements: [
-          {
-            type: "Notice",
-            options: {
-              noticeId: "20250311-channel-permissions-info",
-            },
-          },
+          // {
+          //   type: "Notice",
+          //   options: {
+          //     noticeId: "20250311-channel-permissions-info",
+          //   },
+          // },
           {
             type: "Section",
             labelKey: `${i18nScope}.sections.public.label`,
