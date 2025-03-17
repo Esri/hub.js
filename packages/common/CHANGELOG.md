@@ -1,3 +1,10 @@
+## @esri/hub-common [15.41.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.41.3...@esri/hub-common@15.41.4) (2025-03-17)
+
+
+### Bug Fixes
+
+* add minProperties validation to catalog schemas ([#1832](https://github.com/Esri/hub.js/issues/1832)) ([a95de50](https://github.com/Esri/hub.js/commit/a95de5048ac454344f68de7c86e8eebd476308f5))
+
 ## @esri/hub-common [15.41.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.41.2...@esri/hub-common@15.41.3) (2025-03-13)
 
 
