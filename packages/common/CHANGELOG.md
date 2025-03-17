@@ -1,3 +1,10 @@
+# @esri/hub-common [15.42.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.41.4...@esri/hub-common@15.42.0) (2025-03-17)
+
+
+### Features
+
+* **hub-common:** add channel entity, schema, uischema & supporting fns ([#1829](https://github.com/Esri/hub.js/issues/1829)) ([6148236](https://github.com/Esri/hub.js/commit/61482361f421c377ea39420c808d0ce3215cebf0))
+
 ## @esri/hub-common [15.41.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.41.3...@esri/hub-common@15.41.4) (2025-03-17)
 
 
