@@ -93,8 +93,6 @@ export function applyDefaultCollectionMigration(model: IModel): IModel {
       return collection;
     });
 
-  // the "all" collection always goes first
-  configuredCollections.unshift(baseCollectionMap.all);
   model.data.catalog.collections = configuredCollections;
 
   return model;

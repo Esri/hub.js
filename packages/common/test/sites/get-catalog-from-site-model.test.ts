@@ -28,7 +28,6 @@ describe("getCatalogFromSiteModel", () => {
 
     // check for collections
     expect(chk.collections.map((c) => c.key)).toEqual([
-      "all",
       "site",
       "dataset",
       "document",
