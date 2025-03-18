@@ -221,6 +221,7 @@ export const buildUiSchema = async (
           helperText: {
             labelKey: `${i18nScope}.sections.featuredContent.helperText`,
           },
+          canDelete: true,
         },
         elements: [
           {
