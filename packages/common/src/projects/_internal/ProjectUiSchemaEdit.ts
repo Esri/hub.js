@@ -221,7 +221,6 @@ export const buildUiSchema = async (
           helperText: {
             labelKey: `${i18nScope}.sections.featuredContent.helperText`,
           },
-          canDelete: true,
         },
         elements: [
           {
@@ -250,6 +249,7 @@ export const buildUiSchema = async (
                   operation: "OR",
                 },
               ],
+              canDelete: true,
             },
           },
         ],
