@@ -231,10 +231,7 @@ describe("HubSites:", () => {
       expect(chk.owner).toBe("vader");
       expect(chk.catalog).toBeDefined();
       expect(chk.catalog.schemaVersion).toBeDefined();
-      // The all collection is automatically prepended, remove it from our check
-      const collections = chk.catalog.collections?.filter(
-        (c) => c.key !== "all"
-      );
+      const collections = chk.catalog.collections;
       expect(collections?.length).toBe(4);
     });
 
