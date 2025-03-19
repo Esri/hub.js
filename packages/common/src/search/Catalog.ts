@@ -1,9 +1,8 @@
 import type { IArcGISContext } from "../types/IArcGISContext";
 import { ArcGISContextManager } from "../ArcGISContextManager";
-import { fetchHubEntity, HubEntityType } from "../core";
+import { HubEntityType } from "../core";
 import { catalogContains } from "../core/catalogContains";
 import HubError from "../HubError";
-import { getProp } from "../objects/get-prop";
 import { cloneObject } from "../util";
 import { mapBy } from "../utils";
 import { fetchEntityCatalog } from "./fetchEntityCatalog";

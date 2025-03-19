@@ -5,7 +5,6 @@ import { IModel } from "../../hub-types";
 
 import { IHubDiscussion } from "../../core";
 
-import { isDiscussable } from "../utils";
 import { computeItemProps } from "../../core/_internal/computeItemProps";
 
 /**

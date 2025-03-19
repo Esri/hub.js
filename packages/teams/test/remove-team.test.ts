@@ -31,14 +31,14 @@ describe("remove-team", function () {
   it("Properly delegates to unprotectGroup and removeGroup arcgis-rest-portal", async () => {
     unprotectGroupSpy.and.callFake(() => Promise.resolve({ success: true }));
     removeGroupSpy.and.callFake(() => Promise.resolve());
-    const result = await removeTeam("1234", MOCK_USER_SESSION);
+    await removeTeam("1234", MOCK_USER_SESSION);
     expect(unprotectGroupSpy).toHaveBeenCalled();
     expect(removeGroupSpy).toHaveBeenCalled();
   });
   it("Does not remove group if unprotext call fails", async () => {
     unprotectGroupSpy.and.callFake(() => Promise.resolve({ success: false }));
     removeGroupSpy.and.callFake(() => Promise.resolve());
-    const result = await removeTeam("1234", MOCK_USER_SESSION);
+    await removeTeam("1234", MOCK_USER_SESSION);
     expect(unprotectGroupSpy).toHaveBeenCalled();
     expect(removeGroupSpy).not.toHaveBeenCalled();
   });

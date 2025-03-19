@@ -2,7 +2,7 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import { IHubRequestOptions } from "../../hub-types";
 import { EntityType } from "./IHubCatalog";
 
-import { NamedApis, IApiDefinition, ISortOption } from "./types";
+import { NamedApis, IApiDefinition } from "./types";
 import { HTTPMethods } from "@esri/arcgis-rest-request";
 
 // @private

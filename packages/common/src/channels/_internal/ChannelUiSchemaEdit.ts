@@ -1,4 +1,4 @@
-import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
+import { IUiSchema } from "../../core/schemas/types";
 import { IArcGISContext } from "../../types";
 import { IHubChannel } from "../../core/types";
 import { buildUiSchema as buildUiSchemaCreate } from "./ChannelUiSchemaCreate";

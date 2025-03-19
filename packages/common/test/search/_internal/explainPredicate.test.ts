@@ -7,7 +7,7 @@ import { GenericResult } from "../../../src";
 // so we'll just verify that it does that, not that the specific
 // functions work - those are tested elsewhere
 describe("explainPredicate:", () => {
-  it("matchOptionsPredicate", () => {
+  it("matchOptionsPredicate", async () => {
     const fn = spyOn(
       require("../../../src/search/_internal/explainHelpers"),
       "explainMatchOptionPredicate"
@@ -20,10 +20,10 @@ describe("explainPredicate:", () => {
     const result: GenericResult = {
       tags: ["b", "c", "d"],
     };
-    explainPredicate(predicate, result, {} as IRequestOptions);
+    await explainPredicate(predicate, result, {} as IRequestOptions);
     expect(fn).toHaveBeenCalled();
   });
-  it("DatePredicate", () => {
+  it("DatePredicate", async () => {
     const fn = spyOn(
       require("../../../src/search/_internal/explainHelpers"),
       "explainDatePredicate"
@@ -38,10 +38,10 @@ describe("explainPredicate:", () => {
     const result: GenericResult = {
       created: new Date().getTime(),
     };
-    explainPredicate(predicate, result, {} as IRequestOptions);
+    await explainPredicate(predicate, result, {} as IRequestOptions);
     expect(fn).toHaveBeenCalled();
   });
-  it("PropPredicate", () => {
+  it("PropPredicate", async () => {
     const fn = spyOn(
       require("../../../src/search/_internal/explainHelpers"),
       "explainPropPredicate"
@@ -52,7 +52,7 @@ describe("explainPredicate:", () => {
     const result: GenericResult = {
       name: "vader",
     };
-    explainPredicate(predicate, result, {} as IRequestOptions);
+    await explainPredicate(predicate, result, {} as IRequestOptions);
     expect(fn).toHaveBeenCalled();
   });
 });

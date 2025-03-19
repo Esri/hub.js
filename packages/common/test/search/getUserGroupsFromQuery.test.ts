@@ -4,7 +4,7 @@ import { getUserGroupsFromQuery } from "../../src/search/getUserGroupsFromQuery"
 import * as GetUserGroupsByMembershipModule from "../../src/search/getUserGroupsByMembership";
 
 describe("getUserGroupsFromQuery:", () => {
-  it("returns all user groups by membership if query lacks group predicate", async () => {
+  it("returns all user groups by membership if query lacks group predicate", () => {
     const query: IQuery = {
       targetEntity: "item",
       filters: [],
@@ -24,7 +24,7 @@ describe("getUserGroupsFromQuery:", () => {
       };
     });
 
-    const result = await getUserGroupsFromQuery(query, user);
+    const result = getUserGroupsFromQuery(query, user);
     expect(result).toEqual({
       owner: ["o00"],
       member: ["m00"],
@@ -33,7 +33,7 @@ describe("getUserGroupsFromQuery:", () => {
     expect(getUserGroupsByMembershipSpy).toHaveBeenCalled();
   });
 
-  it("returns only groups user is a member of, from groups in query", async () => {
+  it("returns only groups user is a member of, from groups in query", () => {
     const query: IQuery = {
       targetEntity: "item",
       filters: [
@@ -60,7 +60,7 @@ describe("getUserGroupsFromQuery:", () => {
         admin: ["a00"],
       };
     });
-    const result = await getUserGroupsFromQuery(query, user);
+    const result = getUserGroupsFromQuery(query, user);
     expect(result).toEqual({
       owner: [],
       member: ["m00"],

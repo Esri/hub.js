@@ -1,4 +1,4 @@
-import { IGroup, getItemGroups } from "@esri/arcgis-rest-portal";
+import { getItemGroups } from "@esri/arcgis-rest-portal";
 import { HubEntity, HubEntityType } from "../../core/types";
 import { getTypesFromEntityType } from "../../core/getTypesFromEntityType";
 import { getProp } from "../../objects/get-prop";

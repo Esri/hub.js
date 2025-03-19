@@ -1,7 +1,6 @@
 import { HubEntityType } from "../../core/types";
 import {
   COLLABORATION_TYPES,
-  CollaborationType,
   IEntityPermissionPolicy,
 } from "../../permissions/types/IEntityPermissionPolicy";
 import {
@@ -16,26 +15,6 @@ export interface IHubRoleConfigValue {
   entityType?: HubEntityType;
   roles: Record<string, { value: string; id?: string }>;
 }
-
-const COLLABORATION_TYPE_TO_ENTITY_TYPE_MAP: Partial<
-  Record<CollaborationType, HubEntityType>
-> = {
-  [COLLABORATION_TYPES.user]: "user",
-  [COLLABORATION_TYPES.group]: "group",
-  [COLLABORATION_TYPES.groupAdmin]: "group",
-  [COLLABORATION_TYPES.org]: "organization",
-  [COLLABORATION_TYPES.orgAdmin]: "organization",
-};
-
-const COLLABORATION_TYPE_TO_ROLE_MAP: Partial<
-  Record<CollaborationType, string>
-> = {
-  [COLLABORATION_TYPES.user]: "user",
-  [COLLABORATION_TYPES.group]: "member",
-  [COLLABORATION_TYPES.groupAdmin]: "admin",
-  [COLLABORATION_TYPES.org]: "member",
-  [COLLABORATION_TYPES.orgAdmin]: "admin",
-};
 
 /**
  * @private

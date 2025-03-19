@@ -247,12 +247,12 @@ describe("project edit module:", () => {
         [3, 4],
       ]);
     });
-    it("transforms the slug", async () => {
+    it("transforms the slug", () => {
       const editor: IHubProjectEditor = {
         _slug: "updated-slug",
       } as unknown as IHubProjectEditor;
 
-      const res = await editorToProject(editor, portal);
+      const res = editorToProject(editor, portal);
 
       expect(res.slug).toEqual("foo|updated-slug");
       expect(res._slug).toBeUndefined();

@@ -3,11 +3,9 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import { getItemThumbnailUrl } from "../../resources";
 import { IHubProject } from "../../core";
 import { IModel } from "../../hub-types";
-import { isDiscussable } from "../../discussions";
 import { processEntityFeatures } from "../../permissions/_internal/processEntityFeatures";
 import { ProjectDefaultFeatures } from "./ProjectBusinessRules";
 import { computeLinks } from "./computeLinks";
-import { getAuthedImageUrl } from "../../core/_internal/getAuthedImageUrl";
 import { computeItemProps } from "../../core/_internal/computeItemProps";
 import { upgradeCatalogSchema } from "../../search";
 

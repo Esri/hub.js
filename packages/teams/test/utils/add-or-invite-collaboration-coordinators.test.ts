@@ -22,11 +22,9 @@ describe("addOrInviteCollaborationCoordinators: ", () => {
     const handleNoUsersSpy = spyOn(
       handleNoUsersModule,
       "handleNoUsers"
-    ).and.callFake(() => {
-      Promise.resolve();
-    });
+    ).and.callFake(() => Promise.resolve());
 
-    const actual = await addOrInviteCollaborationCoordinators(context);
+    await addOrInviteCollaborationCoordinators(context);
     expect(handleNoUsersSpy).toHaveBeenCalled();
   });
   it("Properly autoAdds when canAutoAdd is supplied", async () => {
@@ -46,11 +44,9 @@ describe("addOrInviteCollaborationCoordinators: ", () => {
     const processAutoAddUsersSpy = spyOn(
       processAutoAddUsersModule,
       "processAutoAddUsers"
-    ).and.callFake(() => {
-      Promise.resolve();
-    });
+    ).and.callFake(() => Promise.resolve());
 
-    const actual = await addOrInviteCollaborationCoordinators(context);
+    await addOrInviteCollaborationCoordinators(context);
     expect(processAutoAddUsersSpy).toHaveBeenCalled();
   });
 });

@@ -7,11 +7,8 @@ import {
   getItem,
   getItemData,
   getItemResource,
-  ICreateItemOptions,
-  ICreateItemResponse,
   IItem,
   IUpdateItemOptions,
-  protectItem,
   updateItem,
 } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";

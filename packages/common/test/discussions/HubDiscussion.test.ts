@@ -92,7 +92,7 @@ describe("HubDiscussion Class:", () => {
         await HubDiscussion.fetch("3ef", authdCtxMgr.context);
       } catch (ex) {
         expect(fetchSpy).toHaveBeenCalledTimes(1);
-        expect(ex.message).toBe("ZOMG!");
+        expect((ex as any).message).toBe("ZOMG!");
       }
     });
   });
@@ -104,7 +104,7 @@ describe("HubDiscussion Class:", () => {
     ).and.callFake((p: IHubDiscussion) => {
       return Promise.resolve(p);
     });
-    const chk = await HubDiscussion.fromJson(
+    const chk = HubDiscussion.fromJson(
       { name: "Test Discussion" },
       authdCtxMgr.context
     );

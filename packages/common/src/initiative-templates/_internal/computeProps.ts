@@ -1,7 +1,6 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IHubInitiativeTemplate } from "../../core";
-import { isDiscussable } from "../../discussions";
 import { processEntityFeatures } from "../../permissions/_internal/processEntityFeatures";
 import { getItemThumbnailUrl } from "../../resources";
 import { IModel } from "../../hub-types";

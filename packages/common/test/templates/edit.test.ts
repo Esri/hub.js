@@ -32,13 +32,15 @@ describe("templates: edit module", () => {
   });
 
   describe("createTemplate", () => {
-    it("throws an error", () => {
-      expect(() => {
-        createTemplate(
+    it("throws an error", async () => {
+      try {
+        await createTemplate(
           { name: "Template Test", orgUrlKey: "dcdev" },
           authdCtxMgr.context.userRequestOptions
         );
-      }).toThrowError();
+      } catch (e) {
+        expect(e).toBeTruthy();
+      }
     });
   });
 

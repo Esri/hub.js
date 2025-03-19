@@ -1,4 +1,3 @@
-import { IModel } from "../../../src";
 import { _migrateLinkUnderlinesCapability } from "../../../src/sites/_internal/_migrate-link-underlines-capability";
 
 describe("_migrateLinkUnderlinesCapability", () => {

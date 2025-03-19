@@ -257,12 +257,12 @@ describe("HubTemplate Class", () => {
   });
 
   describe("update", () => {
-    it("updates the instance's internal entity state", async () => {
+    it("updates the instance's internal entity state", () => {
       const chk = HubTemplate.fromJson(
         { id: "00c", name: "Test Template" },
         authdCtxMgr.context
       );
-      await chk.update({
+      chk.update({
         name: "Test Template Updated",
       });
 

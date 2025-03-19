@@ -105,7 +105,7 @@ describe("setAccess", function () {
 
   it("should resolve the results from processRevertableTasks for a draft survey", async function () {
     setAccessRevertableResults.pop();
-    setAccessRevertablePromiseResults.pop();
+    await setAccessRevertablePromiseResults.pop();
     processRevertableTasksResults.pop();
     const getSurveyModelsSpy = spyOn(
       hubCommon,
@@ -155,7 +155,7 @@ describe("setAccess", function () {
       stakeholder: undefined,
     };
     setAccessRevertableResults.pop();
-    setAccessRevertablePromiseResults.pop();
+    await setAccessRevertablePromiseResults.pop();
     const getSurveyModelsSpy = spyOn(
       hubCommon,
       "getSurveyModels"

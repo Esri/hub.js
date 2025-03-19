@@ -1,6 +1,5 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { IHubTemplate, IHubTemplateEditor } from "../core/types/IHubTemplate";
-import { getUniqueSlug } from "../items/slugs";
 import { setDiscussableKeyword } from "../discussions";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { IModel } from "../hub-types";

@@ -3,7 +3,6 @@ import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 // Note - we separate these imports so we can cleanly spy on things in tests
 import { createModel, getModel, updateModel } from "../models";
 import { constructSlug } from "../items/slugs";
-import { truncateSlug } from "../items/_internal/slugs";
 import {
   IPortal,
   IUserItemOptions,

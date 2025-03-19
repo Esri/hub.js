@@ -20,7 +20,7 @@ describe("update-team", function () {
       id: "1234",
       capabilities: ["updateitemcontrol"],
     });
-    const result = await updateTeam(group, MOCK_AUTH);
+    await updateTeam(group, MOCK_AUTH);
     expect(updateTeamSpy).toHaveBeenCalled();
   });
 });

@@ -24,10 +24,10 @@ describe("addOrInviteOrgUsers: ", () => {
       handleNoUsersModule,
       "handleNoUsers"
     ).and.callFake(() => {
-      Promise.resolve();
+      return Promise.resolve();
     });
 
-    const actual = await addOrInviteOrgUsers(context);
+    await addOrInviteOrgUsers(context);
     expect(handleNoUsersSpy).toHaveBeenCalled();
   });
   it("Properly autoAdds when canAutoAdd is supplied", async () => {
@@ -48,10 +48,10 @@ describe("addOrInviteOrgUsers: ", () => {
       processAutoAddUsersModule,
       "processAutoAddUsers"
     ).and.callFake(() => {
-      Promise.resolve();
+      return Promise.resolve();
     });
 
-    const actual = await addOrInviteOrgUsers(context);
+    await addOrInviteOrgUsers(context);
     expect(processAutoAddUsersSpy).toHaveBeenCalled();
   });
   it("Properly falls back to inviting users", async () => {
@@ -72,10 +72,10 @@ describe("addOrInviteOrgUsers: ", () => {
       processInviteUsersModule,
       "processInviteUsers"
     ).and.callFake(() => {
-      Promise.resolve();
+      return Promise.resolve();
     });
 
-    const actual = await addOrInviteOrgUsers(context);
+    await addOrInviteOrgUsers(context);
     expect(processInviteUsersSpy).toHaveBeenCalled();
   });
 });

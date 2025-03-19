@@ -1,8 +1,4 @@
-import {
-  DownloadFlowType,
-  IHubEditableContent,
-  IServiceExtendedProps,
-} from "../../core";
+import { DownloadFlowType, IHubEditableContent } from "../../core";
 import { getProp } from "../../objects/get-prop";
 import { canUseCreateReplica } from "../canUseCreateReplica";
 import { canUseHubDownloadSystem } from "../canUseHubDownloadSystem";

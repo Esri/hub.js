@@ -129,10 +129,7 @@ export function checkAny(
     message: "No match",
   };
 
-  const { options, matches } = getMatches(
-    arrayify(option),
-    arrayify(resultValue)
-  );
+  const { matches } = getMatches(arrayify(option), arrayify(resultValue));
 
   result.matched = matches.length > 0;
 
@@ -202,10 +199,7 @@ export function checkNot(
     message: "No match",
   };
 
-  const { options, values, matches } = getMatches(
-    arrayify(option),
-    arrayify(resultValue)
-  );
+  const { matches } = getMatches(arrayify(option), arrayify(resultValue));
 
   result.matched = matches.length === 0;
 

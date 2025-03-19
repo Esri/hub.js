@@ -129,14 +129,14 @@ describe("HubInitiativeTemplate Class: ", () => {
     // });
   });
 
-  it("convertToCardModel: delegates to the initiativeTemplateToCardModel util", async () => {
+  it("convertToCardModel: delegates to the initiativeTemplateToCardModel util", () => {
     const spy = spyOn(viewModule, "initiativeTemplateToCardModel");
 
-    const chk = await HubInitiativeTemplate.fromJson(
+    const chk = HubInitiativeTemplate.fromJson(
       { name: "Test Project" },
       authdCtxMgr.context
     );
-    await chk.convertToCardModel();
+    chk.convertToCardModel();
 
     expect(spy).toHaveBeenCalledTimes(1);
   });
@@ -148,7 +148,7 @@ describe("HubInitiativeTemplate Class: ", () => {
     ).and.callFake((p: IHubInitiativeTemplate) => {
       return Promise.resolve(p);
     });
-    const chk = await HubInitiativeTemplate.fromJson(
+    const chk = HubInitiativeTemplate.fromJson(
       { name: "Test Initiative Template" },
       authdCtxMgr.context
     );

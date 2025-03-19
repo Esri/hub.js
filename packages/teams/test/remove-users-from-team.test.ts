@@ -14,7 +14,7 @@ describe("remove-users-from-team", function () {
 
   it("Properly delegates to removeGroupUsers in arcgis-rest-portal", async () => {
     removeUsersFromTeamSpy.and.callFake(() => Promise.resolve());
-    const result = await removeUsersFromTeam("1234", ["bob"], MOCK_AUTH);
+    await removeUsersFromTeam("1234", ["bob"], MOCK_AUTH);
     expect(removeUsersFromTeamSpy).toHaveBeenCalled();
   });
 });

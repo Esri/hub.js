@@ -156,7 +156,6 @@ export const buildDefaults = async (
   options: EntityEditorOptions,
   context: IArcGISContext
 ): Promise<IConfigurationValues> => {
-  const { name } = options;
   return {
     ...getWellKnownGroup("hubFollowersGroup", context),
   };

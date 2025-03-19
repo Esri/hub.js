@@ -31,9 +31,7 @@ import { removeDomainsBySiteId } from "./domains/remove-domains-by-site-id";
 import { IHubSearchResult } from "../search/types/IHubSearchResult";
 import { mapBy } from "../utils";
 import { getProp, setProp } from "../objects";
-import { applyCatalogStructureMigration } from "./_internal/applyCatalogStructureMigration";
 import { setDiscussableKeyword } from "../discussions";
-import { applyDefaultCollectionMigration } from "./_internal/applyDefaultCollectionMigration";
 import { reflectCollectionsToSearchCategories } from "./_internal/reflectCollectionsToSearchCategories";
 import {
   catalogToLegacy,

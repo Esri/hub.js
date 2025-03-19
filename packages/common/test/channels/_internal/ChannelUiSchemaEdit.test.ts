@@ -2,10 +2,7 @@ import { buildUiSchema } from "../../../src/channels/_internal/ChannelUiSchemaEd
 import * as ChannelUiSchemaCreateModule from "../../../src/channels/_internal/ChannelUiSchemaCreate";
 import { IChannel } from "../../../src/discussions/api/types";
 import { IArcGISContext } from "../../../src/types/IArcGISContext";
-import {
-  IUiSchema,
-  UiSchemaRuleEffects,
-} from "../../../src/core/schemas/types";
+import { IUiSchema } from "../../../src/core/schemas/types";
 
 describe("ChannelUiSchemaEdit", () => {
   describe("buildUiSchema", () => {

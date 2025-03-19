@@ -6,7 +6,6 @@ import { HubEventAttendanceType, HubEventCapacityType } from "../types";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { fetchCategoriesUiSchemaElement } from "../../core/schemas/internal/fetchCategoriesUiSchemaElement";
-import { getWellKnownCatalog } from "../../search/wellKnownCatalog";
 import { buildReferencedContentSchema } from "./buildReferencedContentSchema";
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 import { getEntityThumbnailUrl } from "../../core/getEntityThumbnailUrl";

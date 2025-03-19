@@ -29,7 +29,7 @@ describe("updatePortalOrgSettings", () => {
     }
   });
 
-  it("sends a request to the right url w/ showInformationalBanner", () => {
+  it("sends a request to the right url w/ showInformationalBanner", async () => {
     const settings = {
       showInformationalBanner: true,
     };
@@ -55,7 +55,7 @@ describe("updatePortalOrgSettings", () => {
     const requestSpy = spyOn(requestModule, "request").and.returnValue(
       Promise.resolve()
     );
-    updatePortalOrgSettings(settings, context);
+    await updatePortalOrgSettings(settings, context);
     expect(requestSpy).toHaveBeenCalledWith(
       "https://www.community-org.hubqa.arcgis.com/sharing/rest/portals/self/update?f=json",
       {

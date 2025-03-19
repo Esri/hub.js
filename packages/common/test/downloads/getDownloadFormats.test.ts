@@ -1,7 +1,6 @@
 import { getDownloadFormats } from "../../src/downloads/getDownloadFormats";
 import {
   IFetchDownloadFormatsOptions,
-  IDownloadFormat,
   ServiceDownloadFormat,
 } from "../../src/downloads/types";
 import * as CanUseExportImageFlowModule from "../../src/downloads/_internal/canUseExportImageFlow";

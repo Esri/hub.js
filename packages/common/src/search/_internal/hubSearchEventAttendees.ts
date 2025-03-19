@@ -1,14 +1,10 @@
 import { getRegistrations } from "../../events/api/registrations";
 import { eventAttendeeToSearchResult } from "./hubEventsHelpers/eventAttendeeToSearchResult";
-import { IPredicate, IQuery } from "../types/IHubCatalog";
+import { IQuery } from "../types/IHubCatalog";
 import { IHubSearchOptions } from "../types/IHubSearchOptions";
 import { IHubSearchResponse } from "../types/IHubSearchResponse";
 import { IHubSearchResult } from "../types/IHubSearchResult";
-import {
-  GetRegistrationsParams,
-  IGetRegistrationsParams,
-  IPagedRegistrationResponse,
-} from "../../events/api/types";
+import { GetRegistrationsParams } from "../../events/api/types";
 import { processAttendeeOptions } from "./hubEventsHelpers/processAttendeeOptions";
 import { processAttendeeFilters } from "./hubEventsHelpers/processAttendeeFilters";
 

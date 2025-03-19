@@ -10,7 +10,7 @@ import { expandPredicates } from "./_internal/portalSearchItems";
 export function negateGroupPredicates(query: IQuery): IQuery {
   // if nothing is passed in just return undefined
   if (!query) {
-    return;
+    return undefined;
   }
   const expanded = expandPredicates(query);
   // negate the group predicate on the query

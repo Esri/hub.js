@@ -42,6 +42,8 @@ export async function getCardEditorSchemas(
   let uiSchema;
   let schemaPromise;
   let uiSchemaPromise;
+  // defaults is used below... but maybe in a closure?
+  // tslint:disable-next-line:no-unused-variable
   let defaults;
 
   switch (cardType) {

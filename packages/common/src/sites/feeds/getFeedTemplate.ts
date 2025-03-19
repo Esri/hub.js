@@ -1,7 +1,5 @@
-import { IModel } from "../../hub-types";
 import { cloneObject } from "../../util";
 import { getMajorVersion } from "./_internal/getMajorVersion";
-import { getFeedConfiguration } from "../feed-configuration";
 import { getDefaultTemplates } from "./_internal/defaults";
 import { FeedFormat, IFeedsConfiguration } from "./types";
 

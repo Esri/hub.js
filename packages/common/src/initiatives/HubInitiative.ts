@@ -36,14 +36,12 @@ import {
 } from "../core";
 import { IEditorConfig } from "../core/schemas/types";
 import { enrichEntity } from "../core/enrichEntity";
-import { IGroup } from "@esri/arcgis-rest-types";
 import { getProp, getWithDefault } from "../objects";
 import { upsertResource } from "../resources/upsertResource";
 import { doesResourceExist } from "../resources/doesResourceExist";
 import { removeResource } from "../resources/removeResource";
 import { metricToEditor } from "../metrics/metricToEditor";
 import { getGroup } from "@esri/arcgis-rest-portal";
-import { MembershipAccess } from "../core/types";
 import { convertGroupToHubGroup } from "../groups/_internal/convertGroupToHubGroup";
 import { getEditorSlug } from "../core/_internal/getEditorSlug";
 

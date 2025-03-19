@@ -30,12 +30,11 @@ import {
   IHubCardViewModel,
 } from "../core/types/IHubCardViewModel";
 import { projectToCardModel } from "./view";
-import { camelize, cloneObject, createId } from "../util";
+import { cloneObject } from "../util";
 import { createProject, editorToProject, updateProject } from "./edit";
 import { ProjectEditorType } from "./_internal/ProjectSchema";
 import { enrichEntity } from "../core/enrichEntity";
-import { getProp, getWithDefault } from "../objects";
-import { IGroup } from "@esri/arcgis-rest-types";
+import { getWithDefault } from "../objects";
 import { metricToEditor } from "../metrics/metricToEditor";
 import { IMetricDisplayConfig } from "../core/types/Metrics";
 import { upsertResource } from "../resources/upsertResource";
