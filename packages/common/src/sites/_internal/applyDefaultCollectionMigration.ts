@@ -26,6 +26,13 @@ import { defaultSiteCollectionKeys } from "../defaultSiteCollectionKeys";
  */
 export function applyDefaultCollectionMigration(model: IModel): IModel {
   const baseCollectionMap = defaultSiteCollectionKeys.reduce((map, key) => {
+    // We use well-known predicates for the default collections,
+    // but "Apps & Maps" is a special case since it includes both the app and map families
+    const predicates =
+      key === "appAndMap"
+        ? [{ type: { any: ["$app", "$map"] } }]
+        : [{ type: { any: [`$${key}`] } }];
+
     map[key] = {
       // We chose to leave the label as "null" for a couple of reasons. First off,
       // the default collection names are supposed to be translated and we don't
@@ -41,8 +48,7 @@ export function applyDefaultCollectionMigration(model: IModel): IModel {
       targetEntity: "item",
       scope: {
         targetEntity: "item",
-        collection: key,
-        filters: [],
+        filters: [{ predicates }],
       },
       displayConfig: {
         hidden: false,
