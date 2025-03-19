@@ -2,7 +2,6 @@ import { IPortal } from "@esri/arcgis-rest-portal";
 import {
   cloneObject,
   fetchOrganization,
-  IHubOrganization,
   portalToSearchResult,
 } from "../../src";
 import { IRequestOptions } from "@esri/arcgis-rest-request";

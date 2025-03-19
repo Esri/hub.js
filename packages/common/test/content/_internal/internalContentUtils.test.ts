@@ -8,7 +8,7 @@ import {
 import * as internalContentUtils from "../../../src/content/_internal/internalContentUtils";
 import * as Compose from "../../../src/content/compose";
 import { IHubRequestOptions } from "../../../src/hub-types";
-import { cloneObject, compose } from "../../../src/util";
+import { cloneObject } from "../../../src/util";
 import { MOCK_HUB_REQOPTS } from "../../mocks/mock-auth";
 import { IHubLocation } from "../../../src";
 import * as _enrichmentsModule from "../../../src/items/_enrichments";

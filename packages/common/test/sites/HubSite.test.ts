@@ -121,10 +121,7 @@ describe("HubSite Class:", () => {
         return Promise.resolve(p);
       }
     );
-    const chk = await HubSite.fromJson(
-      { name: "Test Site" },
-      authdCtxMgr.context
-    );
+    const chk = HubSite.fromJson({ name: "Test Site" }, authdCtxMgr.context);
     await chk.save();
     expect(createSpy).toHaveBeenCalledTimes(1);
     expect(chk.toJson().name).toEqual("Test Site");

@@ -6,7 +6,7 @@ import type { IArcGISContext } from "./types/IArcGISContext";
 
 import { getHubApiFromPortalUrl } from "./urls/getHubApiFromPortalUrl";
 import { getPortalBaseFromOrgUrl } from "./urls/getPortalBaseFromOrgUrl";
-import { Level, Logger } from "./utils/logger";
+import { Logger } from "./utils/logger";
 import { HubServiceStatus } from "./core";
 import { cloneObject, maybeAdd } from "./util";
 import { base64ToUnicode, unicodeToBase64 } from "./utils/encoding";
@@ -18,7 +18,7 @@ import { failSafe } from "./utils/fail-safe";
 import { updateUserHubSettings } from "./utils/hubUserAppResources";
 import { IUserHubSettings } from "./utils/IUserHubSettings";
 import { fetchAndMigrateUserHubSettings } from "./utils/internal/fetchAndMigrateUserHubSettings";
-import { getProp, getWithDefault, setProp } from "./objects";
+import { getProp, getWithDefault } from "./objects";
 import { fetchOrgLimits, IOrgLimit, OrgLimitType } from "./org/fetchOrgLimits";
 import type { IArcGISContextManagerOptions } from "./types/IArcGISContextManagerOptions";
 import type { IUserResourceConfig } from "./types/IUserResourceConfig";

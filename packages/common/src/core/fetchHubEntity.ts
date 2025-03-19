@@ -12,7 +12,7 @@ import { fetchHubGroup } from "../groups/HubGroups";
 import { fetchInitiativeTemplate } from "../initiative-templates/fetch";
 import { fetchSurvey } from "../surveys/fetch";
 import { fetchEvent } from "../events/fetch";
-import { convertUserToHubUser, fetchHubUser } from "../users";
+import { fetchHubUser } from "../users";
 import { fetchOrganization } from "../org/fetch";
 import { fetchHubChannel } from "../channels/fetch";
 

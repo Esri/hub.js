@@ -1,5 +1,4 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { isDiscussable } from "../../discussions/utils";
 import { processEntityFeatures } from "../../permissions/_internal/processEntityFeatures";
 import { IModel } from "../../hub-types";
 import { TemplateDefaultFeatures } from "./TemplateBusinessRules";

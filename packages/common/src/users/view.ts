@@ -18,12 +18,7 @@ export const userResultToCardModel: ResultToCardModelFn = (
   searchResult: IHubSearchResult,
   opts?: IConvertToCardModelOpts
 ): IHubCardViewModel => {
-  const {
-    actionLinks = [],
-    baseUrl = "",
-    locale = "en-US",
-    target = "self",
-  } = opts || {};
+  const { actionLinks = [], baseUrl = "", target = "self" } = opts || {};
 
   const titleUrl = getCardModelUrlFromResult(searchResult, target, baseUrl);
   return {

@@ -41,9 +41,9 @@ describe("getAvailableToRequestEntitiesQuery:", () => {
       ],
     });
   });
-  it("throws an error if the association is not supported", async () => {
+  it("throws an error if the association is not supported", () => {
     try {
-      await getAvailableToRequestEntitiesQuery(MOCK_PARENT_ENTITY, "group");
+      getAvailableToRequestEntitiesQuery(MOCK_PARENT_ENTITY, "group");
     } catch (err) {
       expect(err).toEqual(
         new Error(

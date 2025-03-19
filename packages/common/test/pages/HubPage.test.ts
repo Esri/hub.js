@@ -109,10 +109,7 @@ describe("HubPage Class:", () => {
         return Promise.resolve(p);
       }
     );
-    const chk = await HubPage.fromJson(
-      { name: "Test Page" },
-      authdCtxMgr.context
-    );
+    const chk = HubPage.fromJson({ name: "Test Page" }, authdCtxMgr.context);
     await chk.save();
     expect(createSpy).toHaveBeenCalledTimes(1);
     expect(chk.toJson().name).toEqual("Test Page");

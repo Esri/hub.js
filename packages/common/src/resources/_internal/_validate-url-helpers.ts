@@ -209,7 +209,7 @@ export function detectDataTypeFromHeader(headers: Headers): ItemType {
   let dataType: ItemType;
 
   if (!contentType) {
-    return;
+    return undefined;
   }
   // Only get the "media-type"
   contentType = contentType.split(";").shift();

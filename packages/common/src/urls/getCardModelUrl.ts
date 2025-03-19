@@ -2,7 +2,6 @@ import type { IArcGISContext } from "../types/IArcGISContext";
 import { HubEntity } from "../core/types/HubEntity";
 import { CardModelTarget } from "../core/types/IHubCardViewModel";
 import { IHubSearchResult } from "../search/types/IHubSearchResult";
-import { getItemHomeUrl } from "./get-item-home-url";
 
 /**
  * given a target and hub search result, this util

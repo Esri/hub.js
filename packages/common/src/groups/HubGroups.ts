@@ -11,7 +11,6 @@ import {
   createGroup,
   updateGroup,
   protectGroup,
-  unprotectGroup,
 } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IHubGroup } from "../core/types/IHubGroup";

@@ -47,7 +47,6 @@ export function checkPermission(
   context: IArcGISContext,
   entityOrOptions?: EntityOrOptions
 ): IPermissionAccessResponse {
-  const label = entityOrOptions?.label || "";
   const entity = entityOrOptions?.entity || entityOrOptions;
 
   // Is this even a valid permission?

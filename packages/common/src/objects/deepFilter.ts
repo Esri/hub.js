@@ -1,5 +1,4 @@
 import { isFindable } from "./internal/isFindable";
-import { setProp } from "./set-prop";
 
 /**
  * Traverse a graph filtering out entries that do

@@ -78,8 +78,7 @@ function validateOptions(options: IFetchDownloadFileOptions) {
  * @returns a download api url that can be polled
  */
 function getDownloadApiRequestUrl(options: IFetchDownloadFileOptions) {
-  const { entity, format, context, layers, geometry, where, updateCache } =
-    options;
+  const { entity, format, context, layers, geometry, where } = options;
 
   const searchParams = new URLSearchParams({
     redirect: "false", // Needed to get the download URL instead of the file itself

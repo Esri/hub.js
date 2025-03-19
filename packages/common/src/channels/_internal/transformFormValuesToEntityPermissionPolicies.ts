@@ -1,30 +1,9 @@
-import { HubEntityType } from "../../core/types/HubEntityType";
 import {
   COLLABORATION_TYPES,
-  CollaborationType,
   IEntityPermissionPolicy,
 } from "../../permissions/types";
-import {
-  CHANNEL_PERMISSIONS,
-  ChannelNonePermission,
-} from "./ChannelBusinessRules";
+import { ChannelNonePermission } from "./ChannelBusinessRules";
 import { IHubRoleConfigValue } from "./transformEntityPermissionPoliciesToFormValues";
-
-const ENTITY_TYPE_TO_COLLABORATION_TYPE_MAP: Partial<
-  Record<HubEntityType, { [key: string]: CollaborationType }>
-> = {
-  user: {
-    user: COLLABORATION_TYPES.user,
-  },
-  organization: {
-    admin: COLLABORATION_TYPES.orgAdmin,
-    member: COLLABORATION_TYPES.org,
-  },
-  group: {
-    admin: COLLABORATION_TYPES.groupAdmin,
-    member: COLLABORATION_TYPES.group,
-  },
-};
 
 /**
  * @private

@@ -1,5 +1,4 @@
 import { JSONSchema } from "json-schema-typed";
-import Ajv from "ajv";
 
 import { ProjectEditorTypes } from "../../projects/_internal/ProjectSchema";
 import { InitiativeEditorTypes } from "../../initiatives/_internal/InitiativeSchema";

@@ -6,6 +6,7 @@
   ],
   "rules": {
     "strict-type-predicates": false,
+    "no-use-before-declare": false,
     "ordered-imports": ["any"],
     "only-arrow-functions": [false],
     "object-literal-sort-keys": false,

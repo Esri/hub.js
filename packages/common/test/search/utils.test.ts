@@ -211,12 +211,7 @@ describe("Search Utils:", () => {
       };
       const fnSpy = spyOn(Module, "fn").and.callThrough();
 
-      const chk = await getNextFunction<IHubSearchResult>(
-        request,
-        10,
-        20,
-        fnSpy
-      );
+      const chk = getNextFunction<IHubSearchResult>(request, 10, 20, fnSpy);
       await chk();
       expect(fnSpy).toHaveBeenCalled();
       // verify it's called with the MOCK_AUTH
@@ -236,12 +231,7 @@ describe("Search Utils:", () => {
       };
       const fnSpy = spyOn(Module, "fn").and.callThrough();
 
-      const chk = await getNextFunction<IHubSearchResult>(
-        request,
-        10,
-        20,
-        fnSpy
-      );
+      const chk = getNextFunction<IHubSearchResult>(request, 10, 20, fnSpy);
       await chk();
       expect(fnSpy).toHaveBeenCalled();
       // verify it's called with the MOCK_AUTH
@@ -264,12 +254,7 @@ describe("Search Utils:", () => {
       };
       const fnSpy = spyOn(Module, "fn").and.callThrough();
 
-      const chk = await getNextFunction<IHubSearchResult>(
-        request,
-        10,
-        20,
-        fnSpy
-      );
+      const chk = getNextFunction<IHubSearchResult>(request, 10, 20, fnSpy);
       await chk();
       expect(fnSpy).toHaveBeenCalled();
       // verify it's called with the MOCK_AUTH
@@ -292,12 +277,7 @@ describe("Search Utils:", () => {
       };
       const fnSpy = spyOn(Module, "fn").and.callThrough();
 
-      const chk = await getNextFunction<IHubSearchResult>(
-        request,
-        10,
-        20,
-        fnSpy
-      );
+      const chk = getNextFunction<IHubSearchResult>(request, 10, 20, fnSpy);
       await chk();
       expect(fnSpy).toHaveBeenCalled();
       // verify it's called with the MOCK_AUTH
@@ -319,7 +299,7 @@ describe("Search Utils:", () => {
       };
       const fnSpy = spyOn(Module, "fn").and.callThrough();
 
-      const chk = await getNextFunction<IHubSearchResult>(
+      const chk = getNextFunction<IHubSearchResult>(
         request,
         -2, // weird guard in code, not 100% sure what it's for but I don't want to change it
         20,

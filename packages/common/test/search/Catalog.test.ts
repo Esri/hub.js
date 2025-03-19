@@ -4,7 +4,6 @@ import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import {
   ICatalogScope,
   IFilter,
-  IGalleryDisplayConfig,
   IHubCatalog,
   IHubCollection,
   IHubSearchResponse,

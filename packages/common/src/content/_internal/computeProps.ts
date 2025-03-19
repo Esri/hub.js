@@ -15,7 +15,6 @@ import {
   IServiceExtendedProps,
 } from "../../core/types/IHubEditableContent";
 import { getRelativeWorkspaceUrl } from "../../core/getRelativeWorkspaceUrl";
-import { isDiscussable } from "../../discussions";
 import {
   hasServiceCapability,
   ServiceCapabilities,

@@ -4,7 +4,6 @@ import { computeItemProps } from "../../core/_internal/computeItemProps";
 import { IHubSurvey } from "../../core/types/IHubSurvey";
 import { IModel } from "../../hub-types";
 import { getItemThumbnailUrl } from "../../resources/get-item-thumbnail-url";
-import { isDiscussable } from "../../discussions/utils";
 import { hasMapQuestion } from "../utils/has-map-question";
 import { shouldDisplayMap } from "../utils/should-display-map";
 

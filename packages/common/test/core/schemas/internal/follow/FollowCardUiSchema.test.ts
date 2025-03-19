@@ -8,12 +8,8 @@ import { MOCK_CONTEXT } from "../../../../mocks/mock-auth";
 // reason why they are failing
 
 describe("buildUiSchema: follow", () => {
-  it("returns the correct follow card uiSchema", async () => {
-    const uiSchema = await buildUiSchema(
-      "",
-      {} as CardEditorOptions,
-      MOCK_CONTEXT
-    );
+  it("returns the correct follow card uiSchema", () => {
+    const uiSchema = buildUiSchema("", {} as CardEditorOptions, MOCK_CONTEXT);
 
     expect(uiSchema.type).toBe("Layout");
     expect(uiSchema.elements?.length).toBe(3);

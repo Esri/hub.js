@@ -1,10 +1,6 @@
-import { IGroup, IPortal, IUser } from "@esri/arcgis-rest-portal";
+import { IPortal, IUser } from "@esri/arcgis-rest-portal";
 import { ArcGISContextManager } from "../../../src";
-import {
-  MOCK_AUTH,
-  MOCK_AUTH_QA,
-  MOCK_ENTERPRISE_AUTH,
-} from "../../mocks/mock-auth";
+import { MOCK_AUTH_QA, MOCK_ENTERPRISE_AUTH } from "../../mocks/mock-auth";
 import { getDefaultCreateableTypes } from "../../../src/search/_internal/getWorkflowForType";
 
 const MOCK_HUB_BASIC_PORTAL = {

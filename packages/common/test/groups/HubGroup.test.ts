@@ -141,7 +141,7 @@ describe("HubGroup class:", () => {
           return Promise.resolve(group);
         }
       );
-      const chk = await HubGroup.fromJson(
+      const chk = HubGroup.fromJson(
         { name: "Test Group" },
         authdCtxMgr.context
       );

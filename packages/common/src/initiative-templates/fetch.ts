@@ -2,10 +2,7 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getItem, IItem } from "@esri/arcgis-rest-portal";
 
 import { getFamily } from "../content/get-family";
-import {
-  deriveLocationFromItem,
-  getHubRelativeUrl,
-} from "../content/_internal/internalContentUtils";
+import { deriveLocationFromItem } from "../content/_internal/internalContentUtils";
 import { IHubInitiativeTemplate } from "../core/types";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getItemBySlug } from "../items/slugs";
@@ -13,13 +10,9 @@ import { getItemBySlug } from "../items/slugs";
 import { fetchModelFromItem } from "../models";
 import { IHubSearchResult } from "../search";
 import { IHubRequestOptions, IModel } from "../hub-types";
-import { isGuid, mapBy } from "../utils";
+import { isGuid } from "../utils";
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
-import { getItemThumbnailUrl } from "../resources/get-item-thumbnail-url";
-import { getItemHomeUrl } from "../urls/get-item-home-url";
-import { getItemIdentifier } from "../items";
-import { getRelativeWorkspaceUrl } from "../core/getRelativeWorkspaceUrl";
 import { computeLinks } from "./_internal/computeLinks";
 
 export async function fetchInitiativeTemplate(

@@ -4,7 +4,6 @@ import { IWithEditorBehavior } from "../core/behaviors/IWithEditorBehavior";
 import { enrichEntity } from "../core/enrichEntity";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
 import { IEditorConfig } from "../core/schemas/types";
-import { HubEntity } from "../core/types/HubEntity";
 import { DEFAULT_SURVEY } from "./defaults";
 import {
   HubEntityEditor,

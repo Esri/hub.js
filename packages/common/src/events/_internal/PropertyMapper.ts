@@ -3,7 +3,6 @@ import {
   mapEntityToStore,
   mapStoreToEntity,
 } from "../../core/_internal/PropertyMapper";
-import { HubActionLink } from "../../core/types/ActionLinks";
 import { IHubEvent } from "../../core/types/IHubEvent";
 import { SettableAccessLevel } from "../../core/types/types";
 import { cloneObject } from "../../util";

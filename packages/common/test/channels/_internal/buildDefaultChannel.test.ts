@@ -4,7 +4,6 @@ import {
   Role,
 } from "../../../src/discussions/api/types";
 import { buildDefaultChannel } from "../../../src/channels/_internal/buildDefaultChannel";
-import { IHubChannel } from "../../../src/core/types/IHubChannel";
 import { IEntityPermissionPolicy } from "../../../src/permissions/types";
 import * as transformAclPermissionToEntityPermissionPolicyModule from "../../../src/channels/_internal/transformAclPermissionToEntityPermissionPolicy";
 

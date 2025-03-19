@@ -3,7 +3,6 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import { getItemThumbnailUrl } from "../../resources";
 import { IModel } from "../../hub-types";
 import { upgradeCatalogSchema } from "../../search/upgradeCatalogSchema";
-import { isDiscussable } from "../../discussions";
 import { processEntityFeatures } from "../../permissions/_internal/processEntityFeatures";
 import { SiteDefaultFeatures } from "./SiteBusinessRules";
 import { IHubSite } from "../../core/types/IHubSite";

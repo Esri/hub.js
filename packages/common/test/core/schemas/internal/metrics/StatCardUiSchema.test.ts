@@ -1,7 +1,4 @@
-import {
-  ICONS,
-  VISUAL_INTEREST,
-} from "../../../../../src/core/schemas/internal/metrics/interfaces";
+import { ICONS } from "../../../../../src/core/schemas/internal/metrics/interfaces";
 import { buildUiSchema } from "../../../../../src/core/schemas/internal/metrics/StatCardUiSchema";
 import { UiSchemaRuleEffects } from "../../../../../src/core/schemas/types";
 import { MOCK_CONTEXT } from "../../../../mocks/mock-auth";

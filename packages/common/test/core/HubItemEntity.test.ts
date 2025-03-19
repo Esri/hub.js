@@ -426,7 +426,7 @@ describe("HubItemEntity Class: ", () => {
       await instance.save();
       expect(spy).toHaveBeenCalledTimes(1);
     });
-    it("can clear thumbnail", () => {
+    it("can clear thumbnail", async () => {
       const deleteSpy = spyOn(
         deleteItemThumbnailModule,
         "deleteItemThumbnail"
@@ -441,7 +441,7 @@ describe("HubItemEntity Class: ", () => {
         authdCtxMgr.context
       );
       instance.clearThumbnail();
-      instance.save();
+      await instance.save();
       expect(deleteSpy).toHaveBeenCalledTimes(1);
     });
   });

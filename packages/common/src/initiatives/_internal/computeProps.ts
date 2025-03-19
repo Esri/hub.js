@@ -5,11 +5,9 @@ import { getItemThumbnailUrl } from "../../resources";
 import { IModel } from "../../hub-types";
 
 import { IHubInitiative } from "../../core";
-import { isDiscussable } from "../../discussions";
 import { processEntityFeatures } from "../../permissions/_internal/processEntityFeatures";
 import { InitiativeDefaultFeatures } from "./InitiativeBusinessRules";
 import { computeLinks } from "./computeLinks";
-import { getAuthedImageUrl } from "../../core/_internal/getAuthedImageUrl";
 import { computeItemProps } from "../../core/_internal/computeItemProps";
 import { upgradeCatalogSchema } from "../../search/upgradeCatalogSchema";
 

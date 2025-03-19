@@ -229,8 +229,6 @@ export class HubPage
    * @returns
    */
   async fromEditor(editor: IHubPageEditor): Promise<IHubPage> {
-    const isCreate = !editor.id;
-
     // Setting the thumbnailCache will ensure that
     // the thumbnail is updated on next save
     if (editor._thumbnail) {

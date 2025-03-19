@@ -15,7 +15,6 @@ import * as removeResourceModule from "../../src/resources/removeResource";
 import * as metricToEditorModule from "../../src/metrics/metricToEditor";
 import * as restPortalModule from "@esri/arcgis-rest-portal";
 import { HubItemEntity } from "../../src/core/HubItemEntity";
-import { initContextManager } from "../templates/fixtures";
 import { IHubAssociationRules } from "../../src/associations/types";
 
 describe("HubInitiative Class:", () => {
@@ -115,7 +114,7 @@ describe("HubInitiative Class:", () => {
     ).and.callFake((p: IHubInitiative) => {
       return Promise.resolve(p);
     });
-    const chk = await HubInitiative.fromJson(
+    const chk = HubInitiative.fromJson(
       { name: "Test Initiative" },
       authdCtxMgr.context
     );
@@ -248,14 +247,14 @@ describe("HubInitiative Class:", () => {
     expect(chk.catalog.schemaVersion).toEqual(2);
   });
 
-  it("convertToCardModel: delegates to the initiativeToCardModel util", async () => {
+  it("convertToCardModel: delegates to the initiativeToCardModel util", () => {
     const spy = spyOn(viewModule, "initiativeToCardModel");
 
-    const chk = await HubInitiative.fromJson(
+    const chk = HubInitiative.fromJson(
       { name: "Test Initiative" },
       authdCtxMgr.context
     );
-    await chk.convertToCardModel();
+    chk.convertToCardModel();
 
     expect(spy).toHaveBeenCalledTimes(1);
   });

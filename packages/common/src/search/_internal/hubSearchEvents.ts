@@ -5,7 +5,6 @@ import { IHubSearchResult } from "../types/IHubSearchResult";
 import { searchEvents } from "../../events/api/events";
 import {
   GetEventsInclude,
-  GetEventsParams,
   ISearchEvents,
 } from "../../events/api/orval/api/orval-events";
 import { eventToSearchResult } from "./hubEventsHelpers/eventToSearchResult";
