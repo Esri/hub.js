@@ -23,10 +23,10 @@ describe("addOrInviteWorldUsers: ", () => {
       handleNoUsersModule,
       "handleNoUsers"
     ).and.callFake(() => {
-      Promise.resolve();
+      return Promise.resolve();
     });
 
-    const actual = await addOrInviteWorldUsers(context);
+    await addOrInviteWorldUsers(context);
     expect(handleNoUsersSpy).toHaveBeenCalled();
   });
   it("Properly falls back to inviting users", async () => {
@@ -47,10 +47,10 @@ describe("addOrInviteWorldUsers: ", () => {
       processInviteUsersModule,
       "processInviteUsers"
     ).and.callFake(() => {
-      Promise.resolve();
+      return Promise.resolve();
     });
 
-    const actual = await addOrInviteWorldUsers(context);
+    await addOrInviteWorldUsers(context);
     expect(processInviteUsersSpy).toHaveBeenCalled();
   });
 });
