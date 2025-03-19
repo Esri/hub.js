@@ -9,9 +9,9 @@ import {
   removeItem,
   unprotectItem,
   getSelf,
-  IUserItemOptions
+  IUserItemOptions,
 } from "@esri/arcgis-rest-portal";
-import { getProp, createId } from "@esri/hub-common";
+import { getProp } from "@esri/hub-common";
 
 /**
  * Remove an Initiative, and its associated groups.
@@ -27,19 +27,17 @@ export function removeInitiative(
   requestOptions: IRequestOptions
 ): Promise<any> {
   const state = {
-    id
+    id,
   } as any;
-  const processId = createId("remove-");
-  const startTS = new Date().getTime();
   // first get the item, because we need to also remove the
   // collaboration and open data groups...
   // and the Portal because w need the org's default
   // collaboration group id
   return Promise.all([
     getInitiative(id, requestOptions),
-    getSelf(requestOptions)
+    getSelf(requestOptions),
   ])
-    .then(async results => {
+    .then(async (results) => {
       const model = results[0];
       const portal = results[1];
       const siteId = model.item.properties.siteId;
@@ -62,7 +60,7 @@ export function removeInitiative(
       // remove the groups...
       const prms = [] as any[];
       ["collaborationGroupId", "contentGroupId", "followersGroupId"].forEach(
-        prop => {
+        (prop) => {
           if (model.item.properties[prop]) {
             prms.push(
               removeInitiativeGroup(
@@ -77,7 +75,7 @@ export function removeInitiative(
       if (model.item.protected) {
         const opts = {
           id,
-          ...requestOptions
+          ...requestOptions,
         } as IUserItemOptions;
         prms.push(unprotectItem(opts));
       }
@@ -88,7 +86,7 @@ export function removeInitiative(
       const opts = {
         id,
         owner: state.initiativeOwner,
-        ...requestOptions
+        ...requestOptions,
       } as IUserItemOptions;
       prms.push(removeItem(opts));
       // if we have a site, let's detach it from the initiative

@@ -42,7 +42,7 @@ describe("follow/unfollowInitiative", () => {
       created: 1539911814000,
       modified: 1545167865000,
       provider: "arcgis",
-      groups: []
+      groups: [],
     };
 
     const FOLLOWER: IUser = {
@@ -75,7 +75,7 @@ describe("follow/unfollowInitiative", () => {
       created: 1539911814000,
       modified: 1545167865000,
       provider: "arcgis",
-      groups: []
+      groups: [],
     };
 
     const ANOTHER_FOLLOWER: IUser = {
@@ -108,15 +108,15 @@ describe("follow/unfollowInitiative", () => {
       created: 1539911814000,
       modified: 1545167865000,
       provider: "arcgis",
-      groups: []
+      groups: [],
     };
 
     const INITIATIVE_ITEM = {
       id: "",
-      properties: {}
+      properties: {},
     };
 
-    it("should add user tags if they arent already following", done => {
+    it("should add user tags if they arent already following", (done) => {
       // mock two fetch calls...
       // user metadata
       fetchMock.post(
@@ -129,7 +129,7 @@ describe("follow/unfollowInitiative", () => {
         `https://www.arcgis.com/sharing/rest/community/users/vader/update`,
         {
           success: true,
-          username: "vader"
+          username: "vader",
         }
       );
 
@@ -145,9 +145,9 @@ describe("follow/unfollowInitiative", () => {
 
       followInitiative({
         initiativeId: `fe8`,
-        ...MOCK_REQUEST_OPTIONS
+        ...MOCK_REQUEST_OPTIONS,
       })
-        .then(response => {
+        .then((response) => {
           // check that the mocks were called
           expect(fetchMock.done()).toBeTruthy();
           // inspect the POST call...
@@ -177,7 +177,7 @@ describe("follow/unfollowInitiative", () => {
         });
     });
 
-    it("should not add user tags if they are already following", done => {
+    it("should not add user tags if they are already following", (done) => {
       // mock two fetch calls...
       // user metadata
       fetchMock.post(
@@ -190,7 +190,7 @@ describe("follow/unfollowInitiative", () => {
         `https://www.arcgis.com/sharing/rest/community/users/vader/update`,
         {
           success: true,
-          username: "vader"
+          username: "vader",
         }
       );
 
@@ -206,14 +206,14 @@ describe("follow/unfollowInitiative", () => {
 
       followInitiative({
         initiativeId: `fe8`,
-        ...MOCK_REQUEST_OPTIONS
-      }).catch(err => {
+        ...MOCK_REQUEST_OPTIONS,
+      }).catch((err) => {
         expect(err).toBe(`user is already following this initiative.`);
         done();
       });
     });
 
-    it("should remove a user tag if they were already following an initiative", done => {
+    it("should remove a user tag if they were already following an initiative", (done) => {
       // mock two fetch calls...
       // user metadata
       fetchMock.post(
@@ -226,7 +226,7 @@ describe("follow/unfollowInitiative", () => {
         `https://www.arcgis.com/sharing/rest/community/users/vader/update`,
         {
           success: true,
-          username: "vader"
+          username: "vader",
         }
       );
 
@@ -242,9 +242,9 @@ describe("follow/unfollowInitiative", () => {
 
       unfollowInitiative({
         initiativeId: `fe8`,
-        ...MOCK_REQUEST_OPTIONS
+        ...MOCK_REQUEST_OPTIONS,
       })
-        .then(response => {
+        .then((response) => {
           // check that the mocks were called
           expect(fetchMock.done()).toBeTruthy();
           // inspect the POST call...
@@ -274,7 +274,7 @@ describe("follow/unfollowInitiative", () => {
         });
     });
 
-    it("should remove a tag if they are already following and other tags are present", done => {
+    it("should remove a tag if they are already following and other tags are present", (done) => {
       // mock two fetch calls...
       // user metadata
       fetchMock.post(
@@ -287,7 +287,7 @@ describe("follow/unfollowInitiative", () => {
         `https://www.arcgis.com/sharing/rest/community/users/vader/update`,
         {
           success: true,
-          username: "vader"
+          username: "vader",
         }
       );
 
@@ -303,9 +303,9 @@ describe("follow/unfollowInitiative", () => {
 
       unfollowInitiative({
         initiativeId: `fe8`,
-        ...MOCK_REQUEST_OPTIONS
+        ...MOCK_REQUEST_OPTIONS,
       })
-        .then(response => {
+        .then((response) => {
           // check that the mocks were called
           expect(fetchMock.done()).toBeTruthy();
           // inspect the POST call...
@@ -335,7 +335,7 @@ describe("follow/unfollowInitiative", () => {
         });
     });
 
-    it("should not add user tags if they are already following", done => {
+    it("should not add user tags if they are already following", (done) => {
       // mock two fetch calls...
       // user metadata
       fetchMock.post(
@@ -348,7 +348,7 @@ describe("follow/unfollowInitiative", () => {
         `https://www.arcgis.com/sharing/rest/community/users/vader/update`,
         {
           success: true,
-          username: "vader"
+          username: "vader",
         }
       );
 
@@ -364,8 +364,8 @@ describe("follow/unfollowInitiative", () => {
 
       unfollowInitiative({
         initiativeId: `fe8`,
-        ...MOCK_REQUEST_OPTIONS
-      }).catch(err => {
+        ...MOCK_REQUEST_OPTIONS,
+      }).catch((err) => {
         expect(err).toBe(`user is not following this initiative.`);
         done();
       });
@@ -403,7 +403,7 @@ describe("follow/unfollowInitiative", () => {
       created: 1539911814000,
       modified: 1545167865000,
       provider: "arcgis",
-      groups: []
+      groups: [],
     };
 
     const FOLLOWER: IUser = {
@@ -449,81 +449,19 @@ describe("follow/unfollowInitiative", () => {
           modified: 1234567,
           owner: "ldksjf",
           protected: true,
-          tags: ["hubInitiativeFollowers|fe8"]
-        }
-      ]
-    };
-
-    const ANOTHER_FOLLOWER: IUser = {
-      username: "vader",
-      fullName: "Anakin Skywalker",
-      availableCredits: 54161.586,
-      assignedCredits: -1,
-      firstName: "Anakin",
-      lastName: "Skywalker",
-      preferredView: null,
-      description: null,
-      email: "darth@earthlink.net",
-      idpUsername: null,
-      favGroupId: "3746d652b4c44a3fa7b778631145298c",
-      lastLogin: 1552516637000,
-      mfaEnabled: false,
-      access: "org",
-      storageUsage: 1394828039,
-      storageQuota: 2199023255552,
-      orgId: "uCXeTVveQzP4IIcx",
-      role: "org_user",
-      privileges: [],
-      level: "2",
-      disabled: false,
-      tags: ["I drive a Dodge Stratus"],
-      culture: "en-US",
-      region: "WO",
-      units: "english",
-      thumbnail: null,
-      created: 1539911814000,
-      modified: 1545167865000,
-      provider: "arcgis",
-      groups: [
-        {
-          id: "def456",
-          access: "public",
-          title: "",
-          autoJoin: true,
-          created: 1234567,
-          isFav: false,
-          isInvitationOnly: false,
-          isViewOnly: false,
-          modified: 1234567,
-          owner: "ldksjf",
-          protected: true,
-          tags: []
+          tags: ["hubInitiativeFollowers|fe8"],
         },
-        {
-          id: "abc123",
-          access: "public",
-          title: "",
-          autoJoin: true,
-          created: 1234567,
-          isFav: false,
-          isInvitationOnly: false,
-          isViewOnly: false,
-          modified: 1234567,
-          owner: "ldksjf",
-          protected: true,
-          tags: ["hubInitiativeFollowers|fe8"]
-        }
-      ]
+      ],
     };
 
     const INITIATIVE_ITEM = {
       id: "",
       properties: {
-        followersGroupId: "ghi789"
-      }
+        followersGroupId: "ghi789",
+      },
     };
 
-    it("should join the followers group if they arent already following", done => {
+    it("should join the followers group if they arent already following", (done) => {
       // mock two fetch calls...
       // user metadata
       fetchMock.post(
@@ -545,15 +483,15 @@ describe("follow/unfollowInitiative", () => {
         "https://www.arcgis.com/sharing/rest/community/groups/ghi789/join",
         {
           success: true,
-          groupId: "ghi789"
+          groupId: "ghi789",
         }
       );
 
       followInitiative({
         initiativeId: `fe8`,
-        ...MOCK_REQUEST_OPTIONS
+        ...MOCK_REQUEST_OPTIONS,
       })
-        .then(response => {
+        .then((response) => {
           const [updateUrl, updateOptions] = fetchMock.lastCall(
             `https://www.arcgis.com/sharing/rest/community/groups/ghi789/join`
           );
@@ -569,7 +507,7 @@ describe("follow/unfollowInitiative", () => {
         });
     });
 
-    it("should not join the followers group if they are already following", done => {
+    it("should not join the followers group if they are already following", (done) => {
       // mock two fetch calls...
       // user metadata
       fetchMock.post(
@@ -589,14 +527,14 @@ describe("follow/unfollowInitiative", () => {
 
       followInitiative({
         initiativeId: `fe8`,
-        ...MOCK_REQUEST_OPTIONS
-      }).catch(err => {
+        ...MOCK_REQUEST_OPTIONS,
+      }).catch((err) => {
         expect(err).toBe(`user is already following this initiative.`);
         done();
       });
     });
 
-    it("should leave followers group if they were already following an initiative", done => {
+    it("should leave followers group if they were already following an initiative", (done) => {
       // mock two fetch calls...
       // user metadata
       fetchMock.post(
@@ -618,17 +556,17 @@ describe("follow/unfollowInitiative", () => {
         "https://www.arcgis.com/sharing/rest/community/groups/ghi789/leave",
         {
           success: true,
-          groupId: "ghi789"
+          groupId: "ghi789",
         }
       );
 
       unfollowInitiative({
         initiativeId: `fe8`,
-        ...MOCK_REQUEST_OPTIONS
+        ...MOCK_REQUEST_OPTIONS,
       })
-        .then(response => {
+        .then((response) => {
           // check that the mocks were called
-          const [updateUrl, updateOptions] = fetchMock.lastCall(
+          const [_updateUrl, updateOptions] = fetchMock.lastCall(
             `https://www.arcgis.com/sharing/rest/community/groups/ghi789/leave`
           );
           expect(updateOptions.method).toBe("POST");
