@@ -145,4 +145,26 @@ describe("applyDefaultCollectionMigration", () => {
     );
     expect(hiddenStatuses).toEqual([]);
   });
+  it("adds additional predicates for the appAndMap collection", () => {
+    site.data.values.searchCategories = [
+      {
+        key: SearchCategories.APPS_AND_MAPS,
+      },
+    ];
+    const result = applyDefaultCollectionMigration(site);
+    const collectionKeys = result.data.catalog.collections.map(
+      (c: IHubCollection) => c.key
+    );
+    expect(collectionKeys).toEqual(["appAndMap"]);
+
+    const collectionPredicates =
+      result.data.catalog.collections[0].scope.filters[0].predicates;
+    expect(collectionPredicates).toEqual([
+      {
+        type: {
+          any: ["$app", "$map"],
+        },
+      },
+    ]);
+  });
 });
