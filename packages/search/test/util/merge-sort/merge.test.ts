@@ -31,19 +31,24 @@ describe("Binary Heap", () => {
 
   it("should fail to initialize if falsey comparators are explicitly provided", () => {
     // Setup
+    // tslint:disable-next-line:no-unused-variable - this is used below, but tslint doesn't know it
     let heap: BinaryHeap<string>;
 
     // Test
     try {
       heap = new BinaryHeap(null, undefined);
     } catch (err) {
-      expect(err.message).toEqual("Comparator function must be defined");
+      expect((err as any).message).toEqual(
+        "Comparator function must be defined"
+      );
     }
 
     try {
       heap = new BinaryHeap(null, null);
     } catch (err) {
-      expect(err.message).toEqual("Comparator function must be defined");
+      expect((err as any).message).toEqual(
+        "Comparator function must be defined"
+      );
     }
   });
 
@@ -55,19 +60,24 @@ describe("Binary Heap", () => {
       return one[0] - two[0];
     };
 
+    // tslint:disable-next-line:no-unused-variable - this is used below, but tslint doesn't know it
     let heap: BinaryHeap<number[]>;
 
     // Test
     try {
       heap = new BinaryHeap(null, comparator, undefined);
     } catch (err) {
-      expect(err.message).toEqual("Provided heap direction is invalid");
+      expect((err as any).message).toEqual(
+        "Provided heap direction is invalid"
+      );
     }
 
     try {
       heap = new BinaryHeap(null, comparator, null);
     } catch (err) {
-      expect(err.message).toEqual("Provided heap direction is invalid");
+      expect((err as any).message).toEqual(
+        "Provided heap direction is invalid"
+      );
     }
   });
 });

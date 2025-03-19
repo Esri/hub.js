@@ -1,6 +1,6 @@
 import {
   encodeParams,
-  getPaths
+  getPaths,
 } from "../../../../src/ago/helpers/filters/encode-params";
 
 describe("encodeParams test", () => {
@@ -11,18 +11,18 @@ describe("encodeParams test", () => {
       agg: {
         fields: "tags,collection,owner,source,hasApi,downloadable",
         size: 10,
-        mode: "uniqueCount"
+        mode: "uniqueCount",
       },
       page: {
         hub: {
           start: 1,
-          size: 10
+          size: 10,
         },
         ago: {
           start: 1,
-          size: 10
-        }
-      }
+          size: 10,
+        },
+      },
     };
     const actual = encodeParams(input);
     const expected =
@@ -44,7 +44,7 @@ describe("getPaths test", () => {
 
   it("gets paths for deeply nested object correctly", () => {
     const input = {
-      a: { b: { c: 1, d: 2 }, e: [5, 6] }
+      a: { b: { c: 1, d: 2 }, e: [5, 6] },
     };
     const actual = getPaths(input);
     const expected = [
@@ -54,8 +54,8 @@ describe("getPaths test", () => {
       ["a", "b", "c"],
       ["a", "b", "d"],
       ["a", "e", "0"],
-      ["a", "e", "1"]
+      ["a", "e", "1"],
     ];
-    expect(actual).toEqual(actual);
+    expect(actual).toEqual(expected);
   });
 });
