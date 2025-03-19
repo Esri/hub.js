@@ -67,7 +67,7 @@ describe("shouldDisplayResults", function () {
       "hasUserResponded"
     ).and.returnValue(Promise.resolve(true));
     const form = getFormItem(false, "after");
-    const result = await shouldDisplayResults(
+    await shouldDisplayResults(
       form,
       StakeholderItem as IStakeholderItem,
       "jdoe",

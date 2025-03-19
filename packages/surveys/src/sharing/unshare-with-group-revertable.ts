@@ -5,14 +5,14 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import {
   unshareItemWithGroup,
-  shareItemWithGroup
+  shareItemWithGroup,
 } from "@esri/arcgis-rest-portal";
 import { IGroup } from "@esri/arcgis-rest-types";
 import {
   IModel,
   IRevertableTaskResult,
   runRevertableTask,
-  isUpdateGroup
+  isUpdateGroup,
 } from "@esri/hub-common";
 
 /**
@@ -28,7 +28,7 @@ export const unshareWithGroupRevertable = (
   group: IGroup,
   requestOptions: IRequestOptions
 ): Promise<IRevertableTaskResult> => {
-  const { id, owner, access: itemAccess } = model.item;
+  const { id, owner } = model.item;
   const { id: groupId } = group;
   const authentication = requestOptions.authentication as UserSession;
   return runRevertableTask(
@@ -37,8 +37,8 @@ export const unshareWithGroupRevertable = (
         id,
         owner,
         groupId,
-        authentication
-      }).then(result => {
+        authentication,
+      }).then((result) => {
         if (result.notUnsharedFrom.length) {
           throw new Error(`Failed to unshare item ${id} from group ${groupId}`);
         }
@@ -51,7 +51,7 @@ export const unshareWithGroupRevertable = (
         owner,
         groupId,
         confirmItemControl: isUpdateGroup(group),
-        authentication
+        authentication,
       }).catch(() => {})
     /* tslint:enable no-empty */
   );
