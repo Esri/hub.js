@@ -1,7 +1,6 @@
 import {
   IModelTemplate,
   IHubRequestOptions,
-  getHubProduct,
   getOrgDefaultTheme,
   getProp,
   cloneObject,
@@ -59,8 +58,6 @@ export function createSiteModelFromTemplate(
   ].forEach((prop) => {
     delete template.data.values[prop];
   });
-
-  const product = getHubProduct(hubRequestOptions.portalSelf);
 
   let title = getProp(settings, "solution.title") || "New Site";
   // handle issue with titles that are just numbers

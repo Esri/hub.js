@@ -1,14 +1,11 @@
 import { createSiteModelFromTemplate } from "../src";
 import * as teamsModule from "@esri/hub-teams";
 import * as commonModule from "@esri/hub-common";
-import * as createSiteModule from "../src/_create-site-initiative";
-import * as updateTagsModule from "../src/_update-team-tags";
 import * as getPortalSiteHostnameModule from "../src/get-portal-site-hostname";
 import {
   MOCK_HUB_REQOPTS,
   expectAllCalled,
   MOCK_PORTAL_REQOPTS,
-  expectAll,
 } from "./test-helpers.test";
 import { cloneObject } from "@esri/hub-common";
 
@@ -123,12 +120,6 @@ describe("createSiteModelFromTemplate", () => {
   };
 
   const uniqueDomain = "unique-domain";
-
-  const initiativeResponse = {
-    item: {
-      id: "initiative-parent",
-    },
-  };
 
   let getProductSpy: jasmine.Spy;
   let createTeamsSpy: jasmine.Spy;
