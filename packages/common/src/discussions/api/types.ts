@@ -1031,12 +1031,13 @@ export interface ISearchChannels
     Partial<IWithFiltering<ChannelFilter>>,
     Partial<IWithAuthor>,
     Partial<IWithEditor> {
-  groups?: string[];
   access?: SharingAccess[];
-  relations?: ChannelRelation[];
+  discussion?: string;
+  groups?: string[];
+  ids?: string[];
   name?: string;
   orgIds?: string[];
-  discussion?: string;
+  relations?: ChannelRelation[];
 }
 
 /**
