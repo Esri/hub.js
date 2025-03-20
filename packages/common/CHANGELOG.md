@@ -1,3 +1,10 @@
+# @esri/hub-common [15.43.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.42.0...@esri/hub-common@15.43.0) (2025-03-20)
+
+
+### Features
+
+* **hub-common:** add optional filter ids to discussions ISearchChannels ([#1837](https://github.com/Esri/hub.js/issues/1837)) ([b9c28e9](https://github.com/Esri/hub.js/commit/b9c28e90d2a0a42bb567ed2f573f5dea0c5864fe))
+
 # @esri/hub-common [15.42.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.41.4...@esri/hub-common@15.42.0) (2025-03-17)
 
 
