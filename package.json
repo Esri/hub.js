@@ -161,7 +161,7 @@
 	"lint-staged": {
 		"*.ts": [
 			"prettier --write --parser typescript --tab-width 2 --use-tabs false",
-			"tslint",
+			"tslint --project tsconfig.json --fix",
 			"git add"
 		]
 	},
