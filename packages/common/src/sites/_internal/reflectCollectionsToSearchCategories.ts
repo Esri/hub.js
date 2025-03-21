@@ -3,6 +3,7 @@ import { IHubCollection } from "../../search/types/IHubCatalog";
 import { IModel } from "../../hub-types";
 import { cloneObject } from "../../util";
 import { SearchCategories } from "./types";
+import { getCatalogFromSiteModel } from "../get-catalog-from-site-model";
 
 /**
  * Reflects changes from a site model's collections to the `site.data.values.searchCategories`
@@ -35,7 +36,8 @@ export function reflectCollectionsToSearchCategories(model: IModel) {
       [SearchCategories.APPS_AND_MAPS]: "App,Map",
       [SearchCategories.DOCUMENTS]: "Document",
     };
-  const collections: IHubCollection[] = clone.data.catalog.collections;
+  const collections: IHubCollection[] =
+    getCatalogFromSiteModel(clone).collections;
 
   const updatedSearchCategories = collections
     // We don't want to persist any non-standard collection as a search category,

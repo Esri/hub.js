@@ -7,7 +7,7 @@ import { cloneObject } from "../../../src/util";
 
 const BASE_MODEL = {
   data: {
-    catalog: {
+    catalogV2: {
       schemaVersion: 1,
       title: "Default Site Catalog",
       scopes: {
@@ -28,7 +28,7 @@ describe("reflectCollectionsToSearchCategories", () => {
     site = cloneObject(BASE_MODEL);
   });
   it('handles the collection "hidden" configuration', () => {
-    site.data.catalog.collections = [
+    site.data.catalogV2.collections = [
       {
         label: null,
         key: "dataset",
@@ -94,7 +94,7 @@ describe("reflectCollectionsToSearchCategories", () => {
     ]);
   });
   it("handles re-labeled collections", () => {
-    site.data.catalog.collections = [
+    site.data.catalogV2.collections = [
       {
         label: "My Cool Sites!",
         key: "site",
@@ -144,7 +144,7 @@ describe("reflectCollectionsToSearchCategories", () => {
     ]);
   });
   it("filters out collections that searchCategories does not support", () => {
-    site.data.catalog.collections = [
+    site.data.catalogV2.collections = [
       // Can be converted to search category, will be persisted
       {
         label: null,

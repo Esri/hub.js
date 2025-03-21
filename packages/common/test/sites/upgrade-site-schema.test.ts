@@ -11,6 +11,7 @@ import * as _migrateTelemetryConfig from "../../src/sites/_internal/_migrate-tel
 import * as _migrateLinkUnderlinesCapability from "../../src/sites/_internal/_migrate-link-underlines-capability";
 import * as migrateBadBasemapModule from "../../src/sites/_internal/migrateBadBasemap";
 import * as ensureBaseTelemetry from "../../src/sites/_internal/ensureBaseTelemetry";
+import * as _migrateToV2CatalogModule from "../../src/sites/_internal/_migrate-to-v2-catalog";
 
 import { IModel } from "../../src";
 import { SITE_SCHEMA_VERSION } from "../../src/sites/site-schema-version";
@@ -29,6 +30,7 @@ describe("upgradeSiteSchema", () => {
   let migrateLinkUnderlinesCapabilitySpy: jasmine.Spy;
   let migrateBadBasemapSpy: jasmine.Spy;
   let ensureBaseTelemetrySpy: jasmine.Spy;
+  let migrateToV2CatalogSpy: jasmine.Spy;
 
   beforeEach(() => {
     applySpy = spyOn(_applySiteSchemaModule, "_applySiteSchema").and.callFake(
@@ -78,6 +80,10 @@ describe("upgradeSiteSchema", () => {
       ensureBaseTelemetry,
       "ensureBaseTelemetry"
     ).and.callFake((model: IModel) => model);
+    migrateToV2CatalogSpy = spyOn(
+      _migrateToV2CatalogModule,
+      "_migrateToV2Catalog"
+    ).and.callFake((model: IModel) => model);
   });
 
   it("runs schema upgrades", async () => {
@@ -105,6 +111,7 @@ describe("upgradeSiteSchema", () => {
         migrateBadBasemapSpy,
         ensureBaseTelemetrySpy,
         migrateLinkUnderlinesCapabilitySpy,
+        migrateToV2CatalogSpy,
       ],
       expect
     );
@@ -131,6 +138,7 @@ describe("upgradeSiteSchema", () => {
         migrateFeedConfigSpy,
         migrateEventListCardConfigsSpy,
         migrateLegacyCapabilitiesToFeaturesSpy,
+        migrateToV2CatalogSpy,
       ],
       "toHaveBeenCalled",
       false,

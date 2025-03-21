@@ -88,6 +88,10 @@ const SITE: commonModule.IHubSite = {
         targetEntity: "item",
         filters: [],
       },
+      event: {
+        targetEntity: "event",
+        filters: [],
+      },
     },
     collections: [],
   },
@@ -499,7 +503,7 @@ describe("HubSites:", () => {
         },
       ]);
     });
-    it("converts catalog group changes to the old catalog format", async () => {
+    it("converts catalog group changes to the old catalog format and stores the new catalog in data.catalogv2", async () => {
       const updatedSite = commonModule.cloneObject(SITE);
       updatedSite.catalog.scopes.item.filters = [
         {
@@ -510,12 +514,23 @@ describe("HubSites:", () => {
           ],
         },
       ];
+      updatedSite.catalog.scopes.event.filters = [
+        {
+          predicates: [
+            {
+              group: ["1006"],
+            },
+          ],
+        },
+      ];
+      const expectedCatalogV2 = commonModule.cloneObject(updatedSite.catalog);
       const chk = await commonModule.updateSite(updatedSite, MOCK_HUB_REQOPTS);
 
       expect(chk.id).toBe(GUID);
       expect(getModelSpy).toHaveBeenCalledTimes(1);
       const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
       expect(modelToUpdate.data.catalog).toEqual({ groups: ["9001"] });
+      expect(modelToUpdate.data.catalogV2).toEqual(expectedCatalogV2);
     });
   });
   describe("createSite:", () => {

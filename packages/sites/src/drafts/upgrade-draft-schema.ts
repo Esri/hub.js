@@ -11,6 +11,7 @@ import {
   _migrateEventListCardConfigs,
   _migrateTelemetryConfig,
   migrateBadBasemap,
+  _migrateToV2Catalog,
 } from "@esri/hub-common";
 
 const schemaVersionPath = "item.properties.schemaVersion";
@@ -40,6 +41,7 @@ export function upgradeDraftSchema(draft: IDraft) {
     migrated = _migrateFeedConfig<IDraft>(draft);
     migrated = _migrateEventListCardConfigs<IDraft>(draft);
     migrated = _migrateTelemetryConfig<IDraft>(draft);
+    migrated = _migrateToV2Catalog<IDraft>(draft);
     return migrated;
   }
 }
