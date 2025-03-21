@@ -1,1 +1,1 @@
-export const SITE_SCHEMA_VERSION = 1.8;
+export const SITE_SCHEMA_VERSION = 1.9;

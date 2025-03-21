@@ -45,7 +45,7 @@ describe("utils:", () => {
       const modelToUpdate = {
         item: {} as IItem,
         data: {
-          catalog: {
+          catalogV2: {
             scopes: {
               item: {
                 targetEntity: "item",
@@ -78,7 +78,7 @@ describe("utils:", () => {
       const modelToUpdate = {
         item: {} as IItem,
         data: {
-          catalog: {
+          catalogV2: {
             scopes: {
               item: {
                 targetEntity: "item",
@@ -111,7 +111,7 @@ describe("utils:", () => {
       const modelToUpdate = {
         item: {} as IItem,
         data: {
-          catalog: {
+          catalogV2: {
             scopes: {
               item: {
                 targetEntity: "item",

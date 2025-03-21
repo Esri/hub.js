@@ -378,12 +378,14 @@ export async function updateSite(
   // handle any domain changes
   await handleDomainChanges(modelToUpdate, currentModel, requestOptions);
 
+  // Persist the new catalog to new property until the app is fully migrated
+  modelToUpdate.data.catalogV2 = site.catalog;
   // Because some old (but critical) application code still uses `data.values.searchCategories`
   // as the source of truth for collection display configuration, we port all display changes
   // in `data.catalog.collections` to the search category format.
   // TODO: Remove once the app no longer relies on `data.values.searchCategories`
   modelToUpdate = reflectCollectionsToSearchCategories(modelToUpdate);
-  // At this point `data.catalog` has become a full IHubCatalog object due to an in-memory
+  // At this point `data.catalogV2` has become a full IHubCatalog object due to an in-memory
   // migration. However, we can't persist an IHubCatalog in `data.catalog` without breaking
   // the application, since most of the app relies on the old catalog structure. As such,
   // we convert any changes made to the catalog scope into the old format and merge the changes

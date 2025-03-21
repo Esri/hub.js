@@ -14,6 +14,7 @@ import { migrateBadBasemap } from "./_internal/migrateBadBasemap";
 import { ensureBaseTelemetry } from "./_internal/ensureBaseTelemetry";
 import { migrateWebMappingApplicationSites } from "./_internal/migrateWebMappingApplicationSites";
 import { _migrateLinkUnderlinesCapability } from "./_internal/_migrate-link-underlines-capability";
+import { _migrateToV2Catalog } from "./_internal/_migrate-to-v2-catalog";
 
 /**
  * Upgrades the schema upgrades
@@ -36,6 +37,7 @@ export function upgradeSiteSchema(model: IModel) {
     model = _migrateEventListCardConfigs(model);
     model = migrateLegacyCapabilitiesToFeatures(model);
     model = _migrateTelemetryConfig(model);
+    model = _migrateToV2Catalog(model);
   }
 
   // apply versionless migrations
