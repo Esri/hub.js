@@ -8,6 +8,7 @@ export * from "./_internal/_migrate-telemetry-config";
 export * from "./_internal/migrateBadBasemap";
 export * from "./_internal/_migrate-link-underlines-capability";
 export * from "./_internal/migrateWebMappingApplicationSites";
+export * from "./_internal/_migrate-to-v2-catalog";
 export * from "./domains";
 export * from "./drafts";
 export * from "./fetchSiteModel";

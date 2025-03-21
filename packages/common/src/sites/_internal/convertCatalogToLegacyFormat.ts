@@ -3,6 +3,7 @@ import { IHubCatalog } from "../../search/types/IHubCatalog";
 import { getGroupPredicate } from "../../search/utils";
 import { IModel } from "../../hub-types";
 import { cloneObject } from "../../util";
+import { getCatalogFromSiteModel } from "../get-catalog-from-site-model";
 
 /**
  * Converts the migrated catalog of a site model back into a legacy catalog format.
@@ -18,7 +19,8 @@ export function convertCatalogToLegacyFormat(
   currentModel: IModel
 ): IModel {
   const updatedModel = cloneObject(modelToUpdate);
-  const legacyCatalog = catalogToLegacy(updatedModel.data.catalog);
+  const catalog = getCatalogFromSiteModel(updatedModel);
+  const legacyCatalog = catalogToLegacy(catalog);
   // If the catalog has groups, we update the model with the legacy catalog
   if (legacyCatalog.groups.length) {
     updatedModel.data.catalog = legacyCatalog;
