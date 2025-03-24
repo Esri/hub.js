@@ -350,7 +350,7 @@ describe("portalRequestDownloadMetadata", () => {
       );
     });
 
-    it("prefers portal param over UserSession portal for base URL", async (done) => {
+    it("prefers portal param over authentication portal for base URL", async (done) => {
       try {
         const urlFromPortalParam = "https://my.portal.base.url/sharing/rest";
 
@@ -402,7 +402,7 @@ describe("portalRequestDownloadMetadata", () => {
       }
     });
 
-    it("uses portal param if UserSession doesnt contain a portal URL", async (done) => {
+    it("uses portal param if authentication doesnt contain a portal URL", async (done) => {
       try {
         const urlFromPortalParam = "https://my.portal.base.url/sharing/rest";
 
@@ -453,7 +453,7 @@ describe("portalRequestDownloadMetadata", () => {
       }
     });
 
-    it("uses portal param if no UserSession", async (done) => {
+    it("uses portal param if no authentication", async (done) => {
       try {
         const urlFromPortalParam = "https://my.portal.base.url/sharing/rest";
 
@@ -498,7 +498,7 @@ describe("portalRequestDownloadMetadata", () => {
       }
     });
 
-    it("uses UserSession portal if no portal param", async (done) => {
+    it("uses authentication portal if no portal param", async (done) => {
       try {
         const portalFromAuth = "https://url-from-auth.com/sharing/rest";
         const localAuth = buildAuth({

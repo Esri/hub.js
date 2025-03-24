@@ -1,7 +1,6 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { UserSession } from "@esri/arcgis-rest-auth";
 import { IHubRequestOptions } from "@esri/hub-common";
 // Fake Session for use in tests...
 
@@ -11,12 +10,17 @@ export const TOMORROW = (function () {
   return now;
 })();
 
-export const MOCK_USER_SESSION = new UserSession({
-  username: "vader",
+const token = "fake-token";
+const username = "vader";
+export const MOCK_USER_SESSION = {
+  getToken: () => Promise.resolve(token),
+  getUsername: () => Promise.resolve(username),
+  portal: "https://www.arcgis.com/sharing/rest",
+  username,
   password: "123456",
-  token: "fake-token",
+  token,
   tokenExpires: TOMORROW,
-});
+} as any;
 
 export const MOCK_REQUEST_OPTIONS = {
   authentication: MOCK_USER_SESSION,
