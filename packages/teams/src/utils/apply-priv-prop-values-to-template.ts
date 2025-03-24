@@ -1,5 +1,5 @@
 import { IGroupTemplate } from "../types";
-import { IUser } from "@esri/arcgis-rest-types";
+import type { IUser } from "@esri/arcgis-rest-types";
 import { cloneObject, getWithDefault, includes } from "@esri/hub-common";
 
 /**

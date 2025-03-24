@@ -1,6 +1,6 @@
 import { updateGroup } from "@esri/arcgis-rest-portal";
 import { IAuthenticationManager } from "@esri/arcgis-rest-request";
-import { IGroup } from "@esri/arcgis-rest-types";
+import type { IGroup } from "@esri/arcgis-rest-types";
 
 /**
  * Updates a group. Wrapper around updateGroup from arcgis-rest-portal

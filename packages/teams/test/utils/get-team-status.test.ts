@@ -1,4 +1,4 @@
-import { IUser, IItem } from "@esri/arcgis-rest-types";
+import type { IUser, IItem } from "@esri/arcgis-rest-types";
 import * as canUserCreateTeamModule from "../../src/utils/can-user-create-team";
 import * as getTeamByIdModule from "../../src/utils/get-team-by-id";
 import { IHubRequestOptions } from "@esri/hub-common";

@@ -1,5 +1,5 @@
 import { canEditTeam } from "../../src/utils/can-edit-team";
-import { IGroup, IUser } from "@esri/arcgis-rest-types";
+import type { IGroup, IUser } from "@esri/arcgis-rest-types";
 
 describe("canEditTeam", function () {
   it("returns true if user is an admin or owner of the team", function () {
