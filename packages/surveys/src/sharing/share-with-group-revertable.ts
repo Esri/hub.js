@@ -7,7 +7,7 @@ import {
   unshareItemWithGroup,
   shareItemWithGroup,
 } from "@esri/arcgis-rest-portal";
-import { IGroup } from "@esri/arcgis-rest-types";
+import type { IGroup } from "@esri/arcgis-rest-types";
 import {
   IModel,
   IRevertableTaskResult,
