@@ -1,31 +1,30 @@
 import {
   getEventServiceUrl,
   getEventFeatureServiceUrl,
-  getEventQueryFromType
+  getEventQueryFromType,
 } from "../src/util";
 import {
   adminEventSearchResponse,
   orgEventSearchResponse,
   publicEventSearchResponse,
-  emptyEventSearchResponse
+  emptyEventSearchResponse,
 } from "./mocks/ago_search";
 import * as portal from "@esri/arcgis-rest-portal";
 
 import { ISearchOptions } from "@esri/arcgis-rest-portal";
 import { IQueryFeaturesOptions } from "@esri/arcgis-rest-feature-layer";
-import { UserSession } from "@esri/arcgis-rest-auth";
 
 describe("getEventServiceUrl", () => {
-  it("should return admin event service url", done => {
+  it("should return admin event service url", (done) => {
     // stub searchItems
     const paramsSpy = spyOn(portal, "searchItems").and.returnValue(
-      new Promise(resolve => {
+      new Promise((resolve) => {
         resolve(adminEventSearchResponse);
       })
     );
 
     getEventServiceUrl("5bc")
-      .then(result => {
+      .then((result) => {
         expect(paramsSpy.calls.count()).toEqual(1);
         const opts = paramsSpy.calls.argsFor(0)[0] as ISearchOptions;
         expect(opts.q).toContain("typekeywords:hubEventsLayer AND orgid:5bc");
@@ -37,16 +36,16 @@ describe("getEventServiceUrl", () => {
       .catch(() => fail());
   });
 
-  it("should return org event service url", done => {
+  it("should return org event service url", (done) => {
     // stub searchItems
     const paramsSpy = spyOn(portal, "searchItems").and.returnValue(
-      new Promise(resolve => {
+      new Promise((resolve) => {
         resolve(orgEventSearchResponse);
       })
     );
 
     getEventServiceUrl("5bc")
-      .then(result => {
+      .then((result) => {
         expect(paramsSpy.calls.count()).toEqual(1);
         const opts = paramsSpy.calls.argsFor(0)[0] as ISearchOptions;
         expect(opts.q).toContain("typekeywords:hubEventsLayer AND orgid:5bc");
@@ -58,16 +57,16 @@ describe("getEventServiceUrl", () => {
       .catch(() => fail());
   });
 
-  it("should return the public event service url", done => {
+  it("should return the public event service url", (done) => {
     // stub searchItems
     const paramsSpy = spyOn(portal, "searchItems").and.returnValue(
-      new Promise(resolve => {
+      new Promise((resolve) => {
         resolve(publicEventSearchResponse);
       })
     );
 
     getEventServiceUrl("5bc")
-      .then(result => {
+      .then((result) => {
         expect(paramsSpy.calls.count()).toEqual(1);
         const opts = paramsSpy.calls.argsFor(0)[0] as ISearchOptions;
         expect(opts.q).toContain("typekeywords:hubEventsLayer AND orgid:5bc");
@@ -79,15 +78,15 @@ describe("getEventServiceUrl", () => {
       .catch(() => fail());
   });
 
-  it("should throw if no event layer is found", done => {
+  it("should throw if no event layer is found", (done) => {
     // stub searchItems
     const paramsSpy = spyOn(portal, "searchItems").and.returnValue(
-      new Promise(resolve => {
+      new Promise((resolve) => {
         resolve(emptyEventSearchResponse);
       })
     );
 
-    getEventServiceUrl("v8b").catch(error => {
+    getEventServiceUrl("v8b").catch((error) => {
       expect(paramsSpy.calls.count()).toEqual(1);
       const opts = paramsSpy.calls.argsFor(0)[0] as ISearchOptions;
       expect(opts.q).toContain("typekeywords:hubEventsLayer AND orgid:v8b");
@@ -100,16 +99,16 @@ describe("getEventServiceUrl", () => {
 });
 
 describe("getEventFeatureServiceUrl", () => {
-  it("should return admin event service url", done => {
+  it("should return admin event service url", (done) => {
     // stub searchItems
     const paramsSpy = spyOn(portal, "searchItems").and.returnValue(
-      new Promise(resolve => {
+      new Promise((resolve) => {
         resolve(adminEventSearchResponse);
       })
     );
 
     getEventFeatureServiceUrl("5bc")
-      .then(result => {
+      .then((result) => {
         expect(paramsSpy.calls.count()).toEqual(1);
         const opts = paramsSpy.calls.argsFor(0)[0] as ISearchOptions;
         expect(opts.q).toContain("typekeywords:hubEventsLayer AND orgid:5bc");
@@ -121,16 +120,16 @@ describe("getEventFeatureServiceUrl", () => {
       .catch(() => fail());
   });
 
-  it("should return org event service url", done => {
+  it("should return org event service url", (done) => {
     // stub searchItems
     const paramsSpy = spyOn(portal, "searchItems").and.returnValue(
-      new Promise(resolve => {
+      new Promise((resolve) => {
         resolve(orgEventSearchResponse);
       })
     );
 
     getEventFeatureServiceUrl("5bc")
-      .then(result => {
+      .then((result) => {
         expect(paramsSpy.calls.count()).toEqual(1);
         const opts = paramsSpy.calls.argsFor(0)[0] as ISearchOptions;
         expect(opts.q).toContain("typekeywords:hubEventsLayer AND orgid:5bc");
@@ -142,16 +141,16 @@ describe("getEventFeatureServiceUrl", () => {
       .catch(() => fail());
   });
 
-  it("should return the public event service url", done => {
+  it("should return the public event service url", (done) => {
     // stub searchItems
     const paramsSpy = spyOn(portal, "searchItems").and.returnValue(
-      new Promise(resolve => {
+      new Promise((resolve) => {
         resolve(publicEventSearchResponse);
       })
     );
 
     getEventFeatureServiceUrl("5bc")
-      .then(result => {
+      .then((result) => {
         expect(paramsSpy.calls.count()).toEqual(1);
         const opts = paramsSpy.calls.argsFor(0)[0] as ISearchOptions;
         expect(opts.q).toContain("typekeywords:hubEventsLayer AND orgid:5bc");
@@ -163,15 +162,15 @@ describe("getEventFeatureServiceUrl", () => {
       .catch(() => fail());
   });
 
-  it("should throw if no event layer is found", done => {
+  it("should throw if no event layer is found", (done) => {
     // stub searchItems
     const paramsSpy = spyOn(portal, "searchItems").and.returnValue(
-      new Promise(resolve => {
+      new Promise((resolve) => {
         resolve(emptyEventSearchResponse);
       })
     );
 
-    getEventFeatureServiceUrl("v8b").catch(error => {
+    getEventFeatureServiceUrl("v8b").catch((error) => {
       expect(paramsSpy.calls.count()).toEqual(1);
       const opts = paramsSpy.calls.argsFor(0)[0] as ISearchOptions;
       expect(opts.q).toContain("typekeywords:hubEventsLayer AND orgid:v8b");
@@ -184,13 +183,13 @@ describe("getEventFeatureServiceUrl", () => {
 });
 
 describe("getEventQueryFromType", () => {
-  const authentication = new UserSession({
-    username: "vader"
-  });
+  const authentication = {
+    username: "vader",
+  } as any;
 
   it("should return the event where clause for 'upcoming' type", () => {
     const requestOptions = {
-      outFields: "*"
+      outFields: "*",
     } as IQueryFeaturesOptions;
     const newRequestOptions = getEventQueryFromType("upcoming", requestOptions);
     expect(newRequestOptions.where).toEqual(
@@ -202,7 +201,7 @@ describe("getEventQueryFromType", () => {
   it("should return the modified event where clause for 'upcoming' type and orderByFields is not set", () => {
     const requestOptions = {
       where: "1=1",
-      outFields: "*"
+      outFields: "*",
     } as IQueryFeaturesOptions;
 
     const newRequestOptions = getEventQueryFromType("upcoming", requestOptions);
@@ -215,7 +214,7 @@ describe("getEventQueryFromType", () => {
   it("should return the modified event where clause for 'upcoming' type and orderByFields is set", () => {
     const requestOptions = {
       outFields: "*",
-      orderByFields: "startDate ASC"
+      orderByFields: "startDate ASC",
     } as IQueryFeaturesOptions;
     const newRequestOptions = getEventQueryFromType("upcoming", requestOptions);
     expect(newRequestOptions.where).toEqual(
@@ -228,7 +227,7 @@ describe("getEventQueryFromType", () => {
 
   it("should return the event where clause for 'past' type", () => {
     const requestOptions = {
-      outFields: "*"
+      outFields: "*",
     } as IQueryFeaturesOptions;
     const newRequestOptions = getEventQueryFromType("past", requestOptions);
     expect(newRequestOptions.where).toEqual(
@@ -240,7 +239,7 @@ describe("getEventQueryFromType", () => {
   it("should return the modified event where clause for 'past' type and orderByFields is not set", () => {
     const requestOptions = {
       where: "1=1",
-      outFields: "*"
+      outFields: "*",
     } as IQueryFeaturesOptions;
     const newRequestOptions = getEventQueryFromType("past", requestOptions);
     expect(newRequestOptions.where).toContain(
@@ -253,7 +252,7 @@ describe("getEventQueryFromType", () => {
   it("should return the modified event where clause for 'past' type and orderByFields is set", () => {
     const requestOptions = {
       outFields: "*",
-      orderByFields: "startDate ASC"
+      orderByFields: "startDate ASC",
     } as IQueryFeaturesOptions;
     const newRequestOptions = getEventQueryFromType("past", requestOptions);
     expect(newRequestOptions.where).toEqual(
@@ -266,7 +265,7 @@ describe("getEventQueryFromType", () => {
 
   it("should return the event where clause for 'cancelled' type", () => {
     const requestOptions = {
-      outFields: "*"
+      outFields: "*",
     } as IQueryFeaturesOptions;
     const newRequestOptions = getEventQueryFromType(
       "cancelled",
@@ -281,7 +280,7 @@ describe("getEventQueryFromType", () => {
   it("should return the modified event where clause for 'cancelled' type and orderByFields is not set", () => {
     const requestOptions = {
       where: "1=1",
-      outFields: "*"
+      outFields: "*",
     } as IQueryFeaturesOptions;
     const newRequestOptions = getEventQueryFromType(
       "cancelled",
@@ -296,7 +295,7 @@ describe("getEventQueryFromType", () => {
   it("should return the modified event where clause for 'cancelled' type and orderByFields is set", () => {
     const requestOptions = {
       outFields: "*",
-      orderByFields: "startDate ASC"
+      orderByFields: "startDate ASC",
     } as IQueryFeaturesOptions;
     const newRequestOptions = getEventQueryFromType(
       "cancelled",
@@ -312,11 +311,11 @@ describe("getEventQueryFromType", () => {
 
   it("should return the event where clause for 'draft' type", () => {
     const requestOptions = {
-      outFields: "*"
+      outFields: "*",
     } as IQueryFeaturesOptions;
     requestOptions.authentication = authentication;
     const newRequestOptions = getEventQueryFromType("draft", requestOptions);
-    const user = (requestOptions.authentication as UserSession).username;
+    const user = (requestOptions.authentication as any).username;
     expect(newRequestOptions.where).toEqual(
       `Creator = '${user}' AND status = 'draft'`
     );
@@ -325,7 +324,7 @@ describe("getEventQueryFromType", () => {
 
   it("should return the event where clause for 'draft' type when no user is set", () => {
     const requestOptions = {
-      outFields: "*"
+      outFields: "*",
     } as IQueryFeaturesOptions;
     const newRequestOptions = getEventQueryFromType("draft", requestOptions);
     expect(newRequestOptions.where).toEqual(
@@ -337,11 +336,11 @@ describe("getEventQueryFromType", () => {
   it("should return the modified event where clause for 'draft' type and orderByFields is not set", () => {
     const requestOptions = {
       where: "1=1",
-      outFields: "*"
+      outFields: "*",
     } as IQueryFeaturesOptions;
     requestOptions.authentication = authentication;
     const newRequestOptions = getEventQueryFromType("draft", requestOptions);
-    const user = (requestOptions.authentication as UserSession).username;
+    const user = (requestOptions.authentication as any).username;
     expect(newRequestOptions.where).toContain(
       `AND Creator = '${user}' AND status = 'draft'`
     );
@@ -351,11 +350,11 @@ describe("getEventQueryFromType", () => {
   it("should return the modified event where clause for 'draft' type and orderByFields is set", () => {
     const requestOptions = {
       outFields: "*",
-      orderByFields: "startDate ASC"
+      orderByFields: "startDate ASC",
     } as IQueryFeaturesOptions;
     requestOptions.authentication = authentication;
     const newRequestOptions = getEventQueryFromType("draft", requestOptions);
-    const user = (requestOptions.authentication as UserSession).username;
+    const user = (requestOptions.authentication as any).username;
     expect(newRequestOptions.where).toEqual(
       `Creator = '${user}' AND status = 'draft'`
     );

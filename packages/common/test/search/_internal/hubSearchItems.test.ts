@@ -10,7 +10,6 @@ import {
   IQuery,
 } from "../../../src";
 
-import { UserSession } from "@esri/arcgis-rest-auth";
 import {
   formatPredicate,
   formatFilterBlock,
@@ -405,7 +404,7 @@ describe("hubSearchItems Module |", () => {
           requestOptions: {
             authentication: {
               token: "abc",
-            } as UserSession,
+            } as any,
           },
         };
 
@@ -427,7 +426,7 @@ describe("hubSearchItems Module |", () => {
           requestOptions: {
             authentication: {
               token: "abc",
-            } as UserSession,
+            } as any,
           },
           num: 9,
         };
@@ -450,7 +449,7 @@ describe("hubSearchItems Module |", () => {
           requestOptions: {
             authentication: {
               token: "abc",
-            } as UserSession,
+            } as any,
           },
           num: 9,
           start: 10,
@@ -474,7 +473,7 @@ describe("hubSearchItems Module |", () => {
           requestOptions: {
             authentication: {
               token: "abc",
-            } as UserSession,
+            } as any,
           },
           num: 9,
           start: 10,
@@ -501,7 +500,7 @@ describe("hubSearchItems Module |", () => {
           requestOptions: {
             authentication: {
               token: "abc",
-            } as UserSession,
+            } as any,
           },
           num: 9,
           start: 10,
@@ -591,7 +590,7 @@ describe("hubSearchItems Module |", () => {
           requestOptions: {
             authentication: {
               token: "abc",
-            } as UserSession,
+            } as any,
           },
         };
         const opendataQuery = cloneObject(baseQuery);
