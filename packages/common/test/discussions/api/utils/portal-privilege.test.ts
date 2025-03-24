@@ -4,7 +4,7 @@ import {
   hasOrgAdminUpdateRights,
   hasOrgAdminViewRights,
 } from "../../../../src/discussions/api/utils/portal-privilege";
-import { IUser } from "@esri/arcgis-rest-types";
+import type { IUser } from "@esri/arcgis-rest-types";
 
 describe("hasOrgAdminViewRights", () => {
   it("should return false if user is undefined", () => {

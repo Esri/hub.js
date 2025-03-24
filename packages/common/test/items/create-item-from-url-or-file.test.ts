@@ -1,5 +1,5 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import { IGroup, IItemAdd } from "@esri/arcgis-rest-types";
+import type { IGroup, IItemAdd } from "@esri/arcgis-rest-types";
 import { createItemFromUrlOrFile } from "../../src/items/create-item-from-url-or-file";
 import * as createItemFromFileModule from "../../src/items/create-item-from-file";
 import * as createItemFromUrlModule from "../../src/items/create-item-from-url";

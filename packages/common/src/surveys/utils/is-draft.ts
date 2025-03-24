@@ -1,4 +1,4 @@
-import { IItem } from "@esri/arcgis-rest-types";
+import type { IItem } from "@esri/arcgis-rest-types";
 
 /**
  * Determines if a given Form item is a draft

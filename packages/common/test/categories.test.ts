@@ -1,4 +1,4 @@
-import { IItem } from "@esri/arcgis-rest-types";
+import type { IItem } from "@esri/arcgis-rest-types";
 import { isDownloadable } from "../src/categories";
 
 describe("isDownloadable", () => {

@@ -1,5 +1,5 @@
 import { interpolateItemId } from "../../src";
-import { IItem } from "@esri/arcgis-rest-types";
+import type { IItem } from "@esri/arcgis-rest-types";
 
 describe("interpolateItemId", function() {
   it("interpolates the item id", function() {

@@ -6,7 +6,7 @@ import {
   WellKnownCollection,
   getWellKnownCatalog,
 } from "../../../../search/wellKnownCatalog";
-import { IUser } from "@esri/arcgis-rest-types";
+import type { IUser } from "@esri/arcgis-rest-types";
 import { IHubCatalog } from "../../../../search/types/IHubCatalog";
 
 // Get the catalogs for the entity gallery picker

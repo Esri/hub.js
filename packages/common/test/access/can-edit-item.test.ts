@@ -1,5 +1,5 @@
 import { canEditItem } from "../../src/access/can-edit-item";
-import { IUser, IItem, IGroup } from "@esri/arcgis-rest-types";
+import type { IUser, IItem, IGroup } from "@esri/arcgis-rest-types";
 import * as baseUtils from "../../src/access/has-base-priv";
 
 describe("canEditItem", function() {

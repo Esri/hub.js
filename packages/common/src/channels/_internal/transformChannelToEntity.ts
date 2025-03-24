@@ -4,7 +4,7 @@ import {
   canDeleteChannelV2,
 } from "../../discussions/api/utils/channels";
 import { IChannel } from "../../discussions/api/types";
-import { IUser } from "@esri/arcgis-rest-types";
+import type { IUser } from "@esri/arcgis-rest-types";
 import { transformAclPermissionToEntityPermissionPolicy } from "./transformAclPermissionToEntityPermissionPolicy";
 
 /**

@@ -1,4 +1,4 @@
-import { IGroup, IUser } from "@esri/arcgis-rest-types";
+import type { IGroup, IUser } from "@esri/arcgis-rest-types";
 import { computeLinks } from "../../../src/groups/_internal/computeLinks";
 import { ArcGISContextManager } from "../../../src";
 import { MOCK_AUTH } from "../../mocks/mock-auth";

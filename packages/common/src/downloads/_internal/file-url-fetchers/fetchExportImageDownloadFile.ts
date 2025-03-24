@@ -1,4 +1,4 @@
-import { IExtent } from "@esri/arcgis-rest-types";
+import type { IExtent } from "@esri/arcgis-rest-types";
 import { request } from "@esri/arcgis-rest-request";
 import {
   DownloadOperationStatus,

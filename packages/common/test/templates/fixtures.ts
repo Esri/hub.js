@@ -1,4 +1,4 @@
-import { IItem, IUser } from "@esri/arcgis-rest-types";
+import type { IItem, IUser } from "@esri/arcgis-rest-types";
 import { IHubCatalog, IHubSearchResult } from "../../src/search/types";
 import { IModel } from "../../src/hub-types";
 import { IHubTemplate } from "../../src/core/types/IHubTemplate";

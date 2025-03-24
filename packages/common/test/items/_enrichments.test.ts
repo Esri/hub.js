@@ -5,7 +5,7 @@ import { fetchItemEnrichments } from "../../src/items/_enrichments";
 import * as featureServiceItem from "../mocks/items/feature-service-item.json";
 import * as datasetWithMetadata from "../mocks/datasets/feature-layer-with-metadata.json";
 import * as servicesDirectory from "../../src/items/is-services-directory-disabled";
-import { IFeatureServiceDefinition } from "@esri/arcgis-rest-types";
+import type { IFeatureServiceDefinition } from "@esri/arcgis-rest-types";
 
 describe("_enrichments", () => {
   describe("fetchItemEnrichments", () => {

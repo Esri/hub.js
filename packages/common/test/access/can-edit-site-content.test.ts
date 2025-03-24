@@ -1,4 +1,4 @@
-import { IUser, IItem } from "@esri/arcgis-rest-types";
+import type { IUser, IItem } from "@esri/arcgis-rest-types";
 import * as baseUtils from "../../src/access/has-base-priv";
 import * as itemUtils from "../../src/access/can-edit-item";
 import {

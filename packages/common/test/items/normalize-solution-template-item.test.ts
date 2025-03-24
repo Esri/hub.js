@@ -2,7 +2,7 @@ import {
   normalizeSolutionTemplateItem,
   itemPropsNotInTemplates
 } from "../../src";
-import { IItem } from "@esri/arcgis-rest-types";
+import type { IItem } from "@esri/arcgis-rest-types";
 
 describe("normalizeSolutionTemplateItem", function() {
   it("removes the right attributes and templatizes extent", function() {

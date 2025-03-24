@@ -1,5 +1,5 @@
 import { hasBasePriv } from "../../src/access/has-base-priv";
-import { IUser } from "@esri/arcgis-rest-types";
+import type { IUser } from "@esri/arcgis-rest-types";
 
 describe("hasBasePriv", function() {
   it("returns true if user has portal:user:createItem privilege", function() {

@@ -1,4 +1,4 @@
-import { IExtent, IPoint, IPolygon, Position } from "@esri/arcgis-rest-types";
+import type { IExtent, IPoint, IPolygon, Position } from "@esri/arcgis-rest-types";
 import { IHubRequestOptions, BBox } from "./hub-types";
 import { getProp } from "./objects";
 import { IRequestOptions, request } from "@esri/arcgis-rest-request";

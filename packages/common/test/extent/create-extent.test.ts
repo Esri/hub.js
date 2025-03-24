@@ -1,5 +1,5 @@
 import { createExtent } from "../../src";
-import { IExtent } from "@esri/arcgis-rest-types";
+import type { IExtent } from "@esri/arcgis-rest-types";
 
 describe("createExtent", function() {
   it("creates an extent with default spatial reference", function() {

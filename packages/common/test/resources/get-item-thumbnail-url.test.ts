@@ -1,5 +1,5 @@
 import { getItemThumbnailUrl } from "../../src";
-import { IItem } from "@esri/arcgis-rest-types";
+import type { IItem } from "@esri/arcgis-rest-types";
 
 describe("getItemThumbnailUrl", function() {
   const portalApiUrl = "https://portal-api-url/sharing/rest";

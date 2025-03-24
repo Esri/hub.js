@@ -1,4 +1,4 @@
-import { IGroup } from "@esri/arcgis-rest-types";
+import type { IGroup } from "@esri/arcgis-rest-types";
 import { IHubGroup } from "../core/types/IHubGroup";
 
 export const HUB_GROUP_TYPE = "Hub Group";
