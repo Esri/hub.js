@@ -8,31 +8,33 @@ describe("_updatePages", () => {
     fetchMock
       .post(`glob:*/ef1/update*`, {
         status: 200,
-        body: JSON.stringify({ success: true, id: "3ef" })
+        body: JSON.stringify({ success: true, id: "3ef" }),
       })
       .post(`glob:*/ef2/update*`, {
         status: 200,
-        body: JSON.stringify({ success: true, id: "3ef" })
+        body: JSON.stringify({ success: true, id: "3ef" }),
       });
 
-    const site = ({
+    const site = {
       item: {
         id: "bc3",
-        type: "Hub Site Application"
+        type: "Hub Site Application",
       },
       key: "bleep-boop",
-      data: {}
-    } as unknown) as IModel;
-    const models = ([
+      data: {},
+    } as unknown as IModel;
+    // NOTE: owner is needed b/c mock authentication lacks the getUser method
+    const owner = "owner";
+    const models = [
       {
-        item: { id: "ef1", type: "Hub Page" },
-        data: { values: { sites: [] } }
+        item: { id: "ef1", owner, type: "Hub Page" },
+        data: { values: { sites: [] } },
       },
       {
-        item: { id: "ef2", type: "Hub Page" },
-        data: { values: { sites: [{ id: "other", title: "other" }] } }
-      }
-    ] as unknown) as IModelTemplate[];
+        item: { id: "ef2", owner, type: "Hub Page" },
+        data: { values: { sites: [{ id: "other", title: "other" }] } },
+      },
+    ] as unknown as IModelTemplate[];
 
     const results = await _updatePages(site, models, MOCK_HUB_REQOPTS);
 
@@ -40,21 +42,21 @@ describe("_updatePages", () => {
     expect(fetchMock.called()).toBeTruthy("fetch should be intercepted");
   });
   it("_updatePages returns not promises if no Page", async () => {
-    const site = ({
+    const site = {
       item: {
         id: "bc3",
-        type: "Hub Site Application"
+        type: "Hub Site Application",
       },
       key: "bleep-boop",
-      data: {}
-    } as unknown) as IModel;
-    const models = ([
+      data: {},
+    } as unknown as IModel;
+    const models = [
       { item: { id: "ef1", type: "Web Map" }, data: { values: { sites: [] } } },
       {
         item: { id: "ef2", type: "Web Map" },
-        data: { values: { sites: [{ id: "other", title: "other" }] } }
-      }
-    ] as unknown) as IModelTemplate[];
+        data: { values: { sites: [{ id: "other", title: "other" }] } },
+      },
+    ] as unknown as IModelTemplate[];
 
     const results = await _updatePages(site, models, MOCK_HUB_REQOPTS);
 

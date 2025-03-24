@@ -1,43 +1,42 @@
 import { linkSiteAndPage } from "../src";
 import * as commonModule from "@esri/hub-common";
 import * as portalModule from "@esri/arcgis-rest-portal";
-import { UserSession } from "@esri/arcgis-rest-auth";
 import * as fetchMock from "fetch-mock";
 import { cloneObject } from "@esri/hub-common";
 
 function resetSpys(...args: jasmine.Spy[]) {
-  args.forEach(spy => spy.calls.reset());
+  args.forEach((spy) => spy.calls.reset());
 }
 
 describe("linkSiteAndPage", () => {
-  const siteModel = ({
+  const siteModel = {
     item: {
       id: "bazsite",
       type: "Hub Site Application",
       typeKeywords: [],
       properties: {
         collaborationGroupId: "collab-id",
-        contentGroupId: "content-id"
-      }
+        contentGroupId: "content-id",
+      },
     },
     data: {
       values: {
-        pages: [{ id: "foopage" }, { id: "bazpage" }]
-      }
-    }
-  } as unknown) as commonModule.IModel;
+        pages: [{ id: "foopage" }, { id: "bazpage" }],
+      },
+    },
+  } as unknown as commonModule.IModel;
 
-  const pageModel = ({
+  const pageModel = {
     item: {
       id: "barpage",
-      type: "Hub Page"
+      type: "Hub Page",
     },
     data: {
       values: {
-        sites: [{ id: "foosite" }, { id: "barsite" }]
-      }
-    }
-  } as unknown) as commonModule.IModel;
+        sites: [{ id: "foosite" }, { id: "barsite" }],
+      },
+    },
+  } as unknown as commonModule.IModel;
 
   let shareSpy: jasmine.Spy;
   let updateSpy: jasmine.Spy;
@@ -56,7 +55,7 @@ describe("linkSiteAndPage", () => {
     await linkSiteAndPage({
       siteModel: cloneObject(siteModel),
       pageModel: cloneObject(pageModel),
-      authentication: {} as UserSession
+      authentication: {} as any,
     });
 
     expect(updateSpy).toHaveBeenCalledTimes(2);
@@ -65,14 +64,14 @@ describe("linkSiteAndPage", () => {
     const serializedPage = updateSpy.calls.argsFor(0)[0].item;
     const updatePageModel = {
       item: serializedPage,
-      data: JSON.parse(serializedPage.text)
+      data: JSON.parse(serializedPage.text),
     };
     expect(updatePageModel.data.values.sites).toContain({ id: "bazsite" });
 
     const serializedSite = updateSpy.calls.argsFor(1)[0].item;
     const updateSiteModel = {
       item: serializedSite,
-      data: JSON.parse(serializedSite.text)
+      data: JSON.parse(serializedSite.text),
     };
     expect(updateSiteModel.data.values.pages.map((p: any) => p.id)).toContain(
       "barpage"
@@ -95,7 +94,7 @@ describe("linkSiteAndPage", () => {
     await linkSiteAndPage({
       siteModel: oldSite,
       pageModel: cloneObject(pageModel),
-      authentication: {} as UserSession
+      authentication: {} as any,
     });
 
     expect(updateSpy).toHaveBeenCalledTimes(2);
@@ -113,7 +112,7 @@ describe("linkSiteAndPage", () => {
     await linkSiteAndPage({
       siteModel: site,
       pageModel: page,
-      authentication: {} as UserSession
+      authentication: {} as any,
     });
 
     expect(updateSpy).toHaveBeenCalledTimes(2);
@@ -136,7 +135,7 @@ describe("linkSiteAndPage", () => {
     await linkSiteAndPage({
       siteModel: site,
       pageModel: page,
-      authentication: {} as UserSession
+      authentication: {} as any,
     });
 
     expect(updateSpy).not.toHaveBeenCalled();
@@ -151,16 +150,16 @@ describe("linkSiteAndPage", () => {
   it("rejects if one or both are non-existant", async () => {
     fetchMock.mock("*", 404); // make all model requests fail
 
-    const fakeSession = ({
-      getToken: () => Promise.resolve("token")
-    } as unknown) as UserSession;
+    const fakeSession = {
+      getToken: () => Promise.resolve("token"),
+    } as unknown as any;
 
     // Non-existant site
     try {
       await linkSiteAndPage({
         siteId: "no-exist",
         pageModel: cloneObject(pageModel),
-        authentication: fakeSession
+        authentication: fakeSession,
       });
       fail("should reject");
     } catch (err) {
@@ -175,7 +174,7 @@ describe("linkSiteAndPage", () => {
       await linkSiteAndPage({
         siteModel: cloneObject(siteModel),
         pageId: "no-exist",
-        authentication: fakeSession
+        authentication: fakeSession,
       });
       fail("should reject");
     } catch (err) {
@@ -190,7 +189,7 @@ describe("linkSiteAndPage", () => {
       await linkSiteAndPage({
         siteId: "no-exist",
         pageId: "no-exist",
-        authentication: fakeSession
+        authentication: fakeSession,
       });
       fail("should reject");
     } catch (err) {
@@ -208,7 +207,7 @@ describe("linkSiteAndPage", () => {
     await linkSiteAndPage({
       siteModel: cloneObject(siteModel),
       pageModel: notPage,
-      authentication: {} as UserSession
+      authentication: {} as any,
     });
 
     expect(updateSpy).not.toHaveBeenCalled();

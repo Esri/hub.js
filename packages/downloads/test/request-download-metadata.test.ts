@@ -1,5 +1,4 @@
 import * as fetchMock from "fetch-mock";
-import { UserSession } from "@esri/arcgis-rest-auth";
 import { requestDownloadMetadata } from "../src/request-download-metadata";
 
 describe("requestDownloadMetadata", () => {
@@ -74,11 +73,11 @@ describe("requestDownloadMetadata", () => {
 
   it("handle portal download", async (done) => {
     const host = `http://portal.com`;
-    const authentication = new UserSession({
+    const authentication = {
       username: "portal-user",
       portal: `${host}/sharing/rest`,
       token: "123",
-    });
+    } as any;
     authentication.getToken = () =>
       new Promise((resolve) => {
         resolve("123");
@@ -146,11 +145,11 @@ describe("requestDownloadMetadata", () => {
 
   it("handle enterprise download", async (done) => {
     const host = "https://my-enterprise-box.portal.com";
-    const authentication = new UserSession({
+    const authentication = {
       username: "portal-user",
       portal: `${host}/sharing/rest`,
       token: "123",
-    });
+    } as any;
     authentication.getToken = () =>
       new Promise((resolve) => {
         resolve("123");

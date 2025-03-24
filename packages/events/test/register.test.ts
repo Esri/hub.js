@@ -2,10 +2,9 @@
  * Apache-2.0 */
 
 import { registerForEvent, unregisterForEvent } from "../src/register";
-import { UserSession } from "@esri/arcgis-rest-auth";
 import * as groups from "@esri/arcgis-rest-portal";
 
-export const TOMORROW = (function() {
+export const TOMORROW = (function () {
   const now = new Date();
   now.setDate(now.getDate() + 1);
   return now;
@@ -13,7 +12,7 @@ export const TOMORROW = (function() {
 
 describe("register/unregister methods", () => {
   const MOCK_REQOPTS = {
-    authentication: new UserSession({
+    authentication: {
       clientId: "clientId",
       redirectUri: "https://example-app.com/redirect-uri",
       token: "fake-token",
@@ -23,13 +22,13 @@ describe("register/unregister methods", () => {
       refreshTokenTTL: 1440,
       username: "casey",
       password: "123456",
-      portal: "https://myorg.maps.arcgis.com/sharing/rest"
-    })
+      portal: "https://myorg.maps.arcgis.com/sharing/rest",
+    } as any,
   };
 
-  it("should help a user register for an event", done => {
+  it("should help a user register for an event", (done) => {
     const joinGroupParamsSpy = spyOn(groups, "joinGroup").and.returnValue(
-      new Promise(resolve => {
+      new Promise((resolve) => {
         resolve({ success: true, groupId: "5bc" });
       })
     );
@@ -44,14 +43,14 @@ describe("register/unregister methods", () => {
         expect(opts.authentication).toBe(MOCK_REQOPTS.authentication);
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should help a user unregister for an event.", done => {
+  it("should help a user unregister for an event.", (done) => {
     const leaveGroupParamsSpy = spyOn(groups, "leaveGroup").and.returnValue(
-      new Promise(resolve => {
+      new Promise((resolve) => {
         resolve({ success: true, groupId: "5bc" });
       })
     );
@@ -66,7 +65,7 @@ describe("register/unregister methods", () => {
         expect(opts.authentication).toBe(MOCK_REQOPTS.authentication);
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });

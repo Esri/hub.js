@@ -1,38 +1,37 @@
 import { unlinkSiteAndPage } from "../src";
 import * as commonModule from "@esri/hub-common";
 import * as fetchMock from "fetch-mock";
-import { UserSession } from "@esri/arcgis-rest-auth";
 
 function resetSpys(...args: jasmine.Spy[]) {
-  args.forEach(spy => spy.calls.reset());
+  args.forEach((spy) => spy.calls.reset());
 }
 
 describe("unlinkSiteAndPage", () => {
-  const siteModel = ({
+  const siteModel = {
     item: {
       id: "bazsite",
       properties: {
         collaborationGroupId: "collab-id",
-        contentGroupId: "content-id"
-      }
+        contentGroupId: "content-id",
+      },
     },
     data: {
       values: {
-        pages: [{ id: "foopage" }, { id: "barpage" }, { id: "bazpage" }]
-      }
-    }
-  } as unknown) as commonModule.IModel;
+        pages: [{ id: "foopage" }, { id: "barpage" }, { id: "bazpage" }],
+      },
+    },
+  } as unknown as commonModule.IModel;
 
-  const pageModel = ({
+  const pageModel = {
     item: {
-      id: "barpage"
+      id: "barpage",
     },
     data: {
       values: {
-        sites: [{ id: "foosite" }, { id: "barsite" }, { id: "bazsite" }]
-      }
-    }
-  } as unknown) as commonModule.IModel;
+        sites: [{ id: "foosite" }, { id: "barsite" }, { id: "bazsite" }],
+      },
+    },
+  } as unknown as commonModule.IModel;
 
   it("removes site and page from corresponding item arrays and unshares site with site groups", async () => {
     const updateSpy = spyOn(commonModule, "failSafeUpdate").and.callFake(
@@ -47,7 +46,7 @@ describe("unlinkSiteAndPage", () => {
     await unlinkSiteAndPage({
       siteModel,
       pageModel,
-      authentication: {} as UserSession
+      authentication: {} as any,
     });
 
     expect(updateSpy).toHaveBeenCalledTimes(2);
@@ -77,15 +76,15 @@ describe("unlinkSiteAndPage", () => {
       "unshareItemFromGroups"
     ).and.returnValue(Promise.resolve({}));
 
-    const fakeSession = ({
-      getToken: () => Promise.resolve("token")
-    } as unknown) as UserSession;
+    const fakeSession = {
+      getToken: () => Promise.resolve("token"),
+    } as unknown as any;
 
     // Non-existant site
     await unlinkSiteAndPage({
       siteId: "no-exist",
       pageModel,
-      authentication: fakeSession
+      authentication: fakeSession,
     });
     expect(updateSpy).toHaveBeenCalledTimes(1);
     expect(unshareSpy.calls.argsFor(0)[1]).toEqual(
@@ -98,7 +97,7 @@ describe("unlinkSiteAndPage", () => {
     await unlinkSiteAndPage({
       siteModel,
       pageId: "no-exist",
-      authentication: fakeSession
+      authentication: fakeSession,
     });
     expect(updateSpy).toHaveBeenCalledTimes(1);
     expect(unshareSpy).not.toHaveBeenCalled();
@@ -108,7 +107,7 @@ describe("unlinkSiteAndPage", () => {
     await unlinkSiteAndPage({
       siteId: "no-exist",
       pageId: "no-exist",
-      authentication: fakeSession
+      authentication: fakeSession,
     });
     expect(updateSpy).not.toHaveBeenCalled();
     expect(unshareSpy).not.toHaveBeenCalled();

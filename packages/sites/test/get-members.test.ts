@@ -1,5 +1,4 @@
 import { getMembers } from "../src/get-members";
-import { UserSession } from "@esri/arcgis-rest-auth";
 import { IUser } from "@esri/arcgis-rest-types";
 import * as hubCommon from "@esri/hub-common";
 import * as restPortal from "@esri/arcgis-rest-portal";
@@ -20,12 +19,12 @@ describe("getMembers", function () {
     return now;
   })();
 
-  const MOCK_USER_SESSION = new UserSession({
+  const MOCK_USER_SESSION = {
     username: "mockUsername",
     password: "mockPassword",
     token: "mock-token",
     tokenExpires: TOMORROW,
-  });
+  } as any;
 
   const MOCK_MEMBERS = [
     { username: "mockUsername1" } as IUser,

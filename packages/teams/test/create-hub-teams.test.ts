@@ -1,5 +1,4 @@
 import * as commonModule from "@esri/hub-common";
-import { UserSession } from "@esri/arcgis-rest-auth";
 import { IGroup } from "@esri/arcgis-rest-types";
 import * as _createTeamGroupsModule from "../src/utils/_create-team-groups";
 import { createHubTeams } from "../src/create-hub-teams";
@@ -30,7 +29,7 @@ describe("createHubTeams", () => {
         type: "In House",
       },
     },
-    authentication: {} as UserSession,
+    authentication: {} as any,
   } as commonModule.IHubRequestOptions;
 
   it("creates the correct hub teams", async () => {
