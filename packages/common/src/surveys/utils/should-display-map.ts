@@ -1,4 +1,4 @@
-import type { IItem } from "@esri/arcgis-rest-types";
+import type { IItem } from "../../rest/types";
 import { MAP_SURVEY_TYPEKEYWORD } from "../constants";
 
 /**

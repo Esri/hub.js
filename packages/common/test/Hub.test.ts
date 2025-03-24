@@ -1,5 +1,5 @@
 import { IPortal } from "@esri/arcgis-rest-portal";
-import type { IUser } from "@esri/arcgis-rest-types";
+import type { IUser } from "../src/rest/types";
 // For node jasmine tests to work, contextmanager needs to be
 // imported with a full path
 import { ArcGISContextManager } from "../src/ArcGISContextManager";

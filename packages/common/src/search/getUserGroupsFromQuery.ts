@@ -1,4 +1,4 @@
-import type { IUser } from "@esri/arcgis-rest-types";
+import type { IUser } from "../rest/types";
 import { getPredicateValues } from "./getPredicateValues";
 import { IGroupsByMembership } from "./types/IGroupsByMembership";
 import { IQuery } from "./types/IHubCatalog";

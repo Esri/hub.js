@@ -1,5 +1,5 @@
 import { computeItemProps } from "../../../src/core/_internal/computeItemProps";
-import type { IItem } from "@esri/arcgis-rest-types";
+import type { IItem } from "../../../src/rest/types";
 import { IHubItemEntity } from "../../../src";
 import * as internalContentUtils from "../../../src/content/_internal/internalContentUtils";
 

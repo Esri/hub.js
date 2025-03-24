@@ -1,5 +1,5 @@
 import { IUser } from "@esri/arcgis-rest-auth";
-import type { IGroup } from "@esri/arcgis-rest-types";
+import type { IGroup } from "../../../../../src/rest/types";
 import {
   SharingAccess,
   IChannel,

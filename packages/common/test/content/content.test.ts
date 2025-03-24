@@ -1,5 +1,5 @@
 import { IItem } from "@esri/arcgis-rest-portal";
-import type { ILayerDefinition } from "@esri/arcgis-rest-types";
+import type { ILayerDefinition } from "../../src/rest/types";
 import * as featureLayerModule from "@esri/arcgis-rest-feature-layer";
 import {
   DatasetResource,

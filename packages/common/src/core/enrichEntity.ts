@@ -1,4 +1,4 @@
-import type { IGroup } from "@esri/arcgis-rest-types";
+import type { IGroup } from "../rest/types";
 import { HubEntity } from "./types";
 import { IHubRequestOptions } from "../hub-types";
 import { mapBy } from "../utils";

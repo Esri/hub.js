@@ -1,4 +1,4 @@
-import type { IGroup } from "@esri/arcgis-rest-types";
+import type { IGroup } from "../../../../src/rest/types";
 import {
   AclCategory,
   AclSubCategory,

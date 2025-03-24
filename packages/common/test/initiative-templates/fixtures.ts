@@ -1,5 +1,5 @@
 import { IPortal } from "@esri/arcgis-rest-portal";
-import type { IItem, IUser } from "@esri/arcgis-rest-types";
+import type { IItem, IUser } from "../../src/rest/types";
 import {
   ArcGISContext,
   IHubCatalog,

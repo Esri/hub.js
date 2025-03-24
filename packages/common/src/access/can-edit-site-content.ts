@@ -1,4 +1,4 @@
-import type { IItem, IUser } from "@esri/arcgis-rest-types";
+import type { IItem, IUser } from "../rest/types";
 import { includes } from "../utils";
 import { getProp } from "../objects";
 import { hasBasePriv } from "./has-base-priv";

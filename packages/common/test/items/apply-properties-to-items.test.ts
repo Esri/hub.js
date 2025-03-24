@@ -1,4 +1,4 @@
-import type { IItem } from "@esri/arcgis-rest-types";
+import type { IItem } from "../../src/rest/types";
 import { applyPropertiesToItems } from "../../src";
 
 describe("applyPropertiesToItems", () => {
@@ -6,12 +6,12 @@ describe("applyPropertiesToItems", () => {
     const items = [{}, { properties: { baz: "boop" } }] as IItem[];
 
     const out = applyPropertiesToItems(items, {
-      foo: "bar"
+      foo: "bar",
     });
 
     expect(out).toEqual([
       { properties: { foo: "bar" } },
-      { properties: { baz: "boop", foo: "bar" } }
+      { properties: { baz: "boop", foo: "bar" } },
     ] as IItem[]);
   });
 });

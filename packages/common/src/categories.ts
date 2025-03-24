@@ -1,4 +1,4 @@
-import type { IItem } from "@esri/arcgis-rest-types";
+import type { IItem } from "./rest/types";
 import { collections } from "./collections";
 
 const {

@@ -1,4 +1,4 @@
-import type { IItem } from "@esri/arcgis-rest-types";
+import type { IItem } from "../../rest/types";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { getItemHomeUrl } from "../../urls";

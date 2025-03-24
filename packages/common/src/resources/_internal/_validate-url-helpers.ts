@@ -2,7 +2,7 @@ import {
   IExtent,
   IFeatureServiceDefinition,
   ILayerDefinition,
-} from "@esri/arcgis-rest-types";
+} from "../../rest/types";
 import { ItemType } from "../../hub-types";
 import { Logger } from "../../utils";
 

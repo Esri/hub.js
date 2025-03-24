@@ -1,4 +1,4 @@
-import type { IGroup } from "@esri/arcgis-rest-types";
+import type { IGroup } from "../rest/types";
 import { fetchGroupEnrichments } from "./_internal/enrichments";
 import { getProp, setProp } from "../objects";
 import { parseInclude } from "../search/_internal/parseInclude";

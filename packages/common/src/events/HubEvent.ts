@@ -1,4 +1,4 @@
-import type { IGroup } from "@esri/arcgis-rest-types";
+import type { IGroup } from "../rest/types";
 import { HubItemEntity } from "../core/HubItemEntity";
 import { IHubEventEditor, IHubEvent } from "../core/types/IHubEvent";
 import { IWithEditorBehavior } from "../core/behaviors";

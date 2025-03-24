@@ -1,3 +1,3 @@
-import type { IGroup } from "@esri/arcgis-rest-types";
+import type { IGroup } from "../rest/types";
 
 export const isOpenDataGroup = (group: IGroup) => !!group.isOpenData;

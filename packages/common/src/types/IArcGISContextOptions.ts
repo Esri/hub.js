@@ -1,6 +1,6 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
 import type { IPortal } from "@esri/arcgis-rest-portal";
-import type { IUser } from "@esri/arcgis-rest-types";
+import type { IUser } from "../rest/types";
 import type { IUserResourceToken } from "./IUserResourceToken";
 import type { HubServiceStatus } from "../core/types/ISystemStatus";
 import type { IFeatureFlags } from "../permissions";

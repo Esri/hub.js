@@ -8,7 +8,7 @@ import {
   IPolygon,
   ISpatialReference,
   IGeometry,
-} from "@esri/arcgis-rest-types";
+} from "./rest/types";
 import { IPortal, ISearchResult } from "@esri/arcgis-rest-portal";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { IRequestOptions } from "@esri/arcgis-rest-request";

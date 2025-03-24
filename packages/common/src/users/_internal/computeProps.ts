@@ -1,5 +1,5 @@
 import { getPortalUrl, getSelf } from "@esri/arcgis-rest-portal";
-import type { IUser } from "@esri/arcgis-rest-types";
+import type { IUser } from "../../rest/types";
 import { IRequestOptions, request } from "@esri/arcgis-rest-request";
 import type { IArcGISContext } from "../../types/IArcGISContext";
 import { IHubUser } from "../../core/types";

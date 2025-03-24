@@ -1,4 +1,4 @@
-import type { IItem, IUser } from "@esri/arcgis-rest-types";
+import type { IItem, IUser } from "../rest/types";
 import { getProp } from "../objects";
 import { hasBasePriv } from "./has-base-priv";
 import { canEditItem } from "./can-edit-item";

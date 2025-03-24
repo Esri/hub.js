@@ -1,4 +1,4 @@
-import type { IUser, IItem, IGroup } from "@esri/arcgis-rest-types";
+import type { IUser, IItem, IGroup } from "../../src/rest/types";
 import { canEditEvent, IEventModel } from "../../src/access/can-edit-event";
 import * as baseUtils from "../../src/access/has-base-priv";
 import { IModel } from "../../src/hub-types";

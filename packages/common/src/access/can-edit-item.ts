@@ -1,4 +1,4 @@
-import type { IItem, IUser, IGroup } from "@esri/arcgis-rest-types";
+import type { IItem, IUser, IGroup } from "../rest/types";
 import { isUpdateGroup, includes } from "../utils";
 import { getProp } from "../objects";
 import { hasBasePriv } from "./has-base-priv";

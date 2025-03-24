@@ -2,7 +2,7 @@ import {
   IExtent,
   IFeatureServiceDefinition,
   ILayerDefinition,
-} from "@esri/arcgis-rest-types";
+} from "../../src/rest/types";
 import * as fetchMock from "fetch-mock";
 import { ItemType } from "../../src";
 import {

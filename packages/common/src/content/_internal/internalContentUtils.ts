@@ -15,7 +15,7 @@ import {
   ILayerDefinition,
   ISpatialReference,
   IUser,
-} from "@esri/arcgis-rest-types";
+} from "../../rest/types";
 import {
   IGeometryInstance,
   IHubContent,

@@ -1,4 +1,4 @@
-import type { IItem } from "@esri/arcgis-rest-types";
+import type { IItem } from "../../../rest/types";
 import { IHubRequestOptions } from "../../../hub-types";
 import { IHubSearchResult } from "../../types/IHubSearchResult";
 import { itemToSearchResult } from "../portalSearchItems";

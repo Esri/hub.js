@@ -1,5 +1,5 @@
 import { queryFeatures } from "@esri/arcgis-rest-feature-layer";
-import type { IStatisticDefinition } from "@esri/arcgis-rest-types";
+import type { IStatisticDefinition } from "../../rest/types";
 import type { IArcGISContext } from "../../types/IArcGISContext";
 import {
   DynamicValues,

@@ -1,5 +1,5 @@
 import { IPortal } from "@esri/arcgis-rest-portal";
-import type { IUser } from "@esri/arcgis-rest-types";
+import type { IUser } from "../../src/rest/types";
 import {
   cloneObject,
   IArcGISContext,

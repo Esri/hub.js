@@ -1,7 +1,7 @@
 import { UserSession, IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import type { IPortal } from "@esri/arcgis-rest-portal";
 import type { IRequestOptions } from "@esri/arcgis-rest-request";
-import type { IUser } from "@esri/arcgis-rest-types";
+import type { IUser } from "../rest/types";
 import { HubServiceStatus, HubEntity } from "../core";
 import type { IHubHistory, IHubHistoryEntry } from "../core/hubHistory";
 import type {

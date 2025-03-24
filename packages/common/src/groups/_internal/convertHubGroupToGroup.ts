@@ -1,4 +1,4 @@
-import type { IGroup } from "@esri/arcgis-rest-types";
+import type { IGroup } from "../../rest/types";
 import { PropertyMapper } from "../../core/_internal/PropertyMapper";
 import { IHubGroup } from "../../core/types/IHubGroup";
 import { getPropertyMap } from "./getPropertyMap";

@@ -1,4 +1,4 @@
-import type { IGroup } from "@esri/arcgis-rest-types";
+import type { IGroup } from "../../../../../src/rest/types";
 import { parseMentionedUsers } from "../../../../../src/discussions/api//utils/posts";
 import {
   CANNOT_DISCUSS,

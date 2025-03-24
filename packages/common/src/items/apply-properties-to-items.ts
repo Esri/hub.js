@@ -1,4 +1,4 @@
-import type { IItem } from "@esri/arcgis-rest-types";
+import type { IItem } from "../rest/types";
 
 /**
  * Apply a hash of properties to an array of items.

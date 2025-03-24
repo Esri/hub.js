@@ -1,4 +1,4 @@
-import type { IItem, IUser } from "@esri/arcgis-rest-types";
+import type { IItem, IUser } from "../../../src/rest/types";
 import { computeLinks } from "../../../src/sites/_internal/computeLinks";
 import { ArcGISContextManager } from "../../../src";
 import { MOCK_AUTH } from "../../mocks/mock-auth";

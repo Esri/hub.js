@@ -1,6 +1,6 @@
 import { IModel } from "../hub-types";
 import { cloneObject } from "../util";
-import type { IItem } from "@esri/arcgis-rest-types";
+import type { IItem } from "../rest/types";
 
 interface ISerializedModel extends IItem {
   text: string;

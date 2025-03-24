@@ -1,4 +1,4 @@
-import type { IUser } from "@esri/arcgis-rest-types";
+import type { IUser } from "../../src/rest/types";
 
 export const mockUser = {
   username: "vader",

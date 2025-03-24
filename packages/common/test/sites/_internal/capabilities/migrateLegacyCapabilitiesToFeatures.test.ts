@@ -1,4 +1,4 @@
-import type { IItem } from "@esri/arcgis-rest-types";
+import type { IItem } from "../../../../src/rest/types";
 import { IModel } from "../../../../src";
 import { migrateLegacyCapabilitiesToFeatures } from "../../../../src/sites/_internal/capabilities/migrateLegacyCapabilitiesToFeatures";
 
