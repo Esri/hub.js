@@ -1,30 +1,29 @@
 import * as portal from "@esri/arcgis-rest-portal";
-import { UserSession } from "@esri/arcgis-rest-auth";
 import { portalPollExportJobStatus } from "../../src/portal/portal-poll-export-job-status";
 import * as EventEmitter from "eventemitter3";
 import * as exportHelper from "../../src/portal/portal-export-success-handler";
 import ExportCompletionError from "../../src/portal/portal-export-completion-error";
 function delay(milliseconds: number) {
-  return new Promise(resolve => setTimeout(resolve, milliseconds));
+  return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
 describe("portalPollExportJobStatus", () => {
-  const authentication = new UserSession({
+  const authentication = {
     username: "portal-user",
     portal: "http://portal.com/sharing/rest",
-    token: "123"
-  });
+    token: "123",
+  } as any;
   authentication.getToken = () =>
-    new Promise(resolve => {
+    new Promise((resolve) => {
       resolve("123");
     });
 
-  it("handle export failure", async done => {
+  it("handle export failure", async (done) => {
     try {
       spyOn(portal, "getItemStatus").and.callFake(async () => {
         return Promise.resolve({
           status: "failed",
-          statusMessage: "Export failed"
+          statusMessage: "Export failed",
         });
       });
 
@@ -38,7 +37,7 @@ describe("portalPollExportJobStatus", () => {
         authentication,
         exportCreated: 1000,
         pollingInterval: 10,
-        eventEmitter: mockEventEmitter
+        eventEmitter: mockEventEmitter,
       });
       expect(poller.pollTimer !== null).toEqual(true);
       await delay(100);
@@ -48,8 +47,8 @@ describe("portalPollExportJobStatus", () => {
           id: "download-id",
           jobId: "test-id",
           jobType: "export",
-          authentication
-        }
+          authentication,
+        },
       ]);
       expect(mockEventEmitter.emit as any).toHaveBeenCalledTimes(1);
       expect((mockEventEmitter.emit as any).calls.first().args).toEqual([
@@ -57,9 +56,9 @@ describe("portalPollExportJobStatus", () => {
         {
           detail: {
             error: new Error("Export failed"),
-            metadata: { status: "error", errors: [new Error("Export failed")] }
-          }
-        }
+            metadata: { status: "error", errors: [new Error("Export failed")] },
+          },
+        },
       ]);
       expect(poller.pollTimer === null).toEqual(true);
     } catch (err) {
@@ -69,7 +68,7 @@ describe("portalPollExportJobStatus", () => {
     }
   });
 
-  it("handle polling error", async done => {
+  it("handle polling error", async (done) => {
     try {
       spyOn(portal, "getItemStatus").and.callFake(async () => {
         return Promise.reject(new Error("Not Found"));
@@ -85,7 +84,7 @@ describe("portalPollExportJobStatus", () => {
         authentication,
         exportCreated: 1000,
         pollingInterval: 10,
-        eventEmitter: mockEventEmitter
+        eventEmitter: mockEventEmitter,
       });
 
       expect(poller.pollTimer !== null).toEqual(true);
@@ -96,8 +95,8 @@ describe("portalPollExportJobStatus", () => {
           id: "download-id",
           jobId: "test-id",
           jobType: "export",
-          authentication
-        }
+          authentication,
+        },
       ]);
       expect(mockEventEmitter.emit as any).toHaveBeenCalledTimes(1);
       expect((mockEventEmitter.emit as any).calls.first().args).toEqual([
@@ -105,9 +104,9 @@ describe("portalPollExportJobStatus", () => {
         {
           detail: {
             error: new Error("Not Found"),
-            metadata: { status: "error", errors: [new Error("Not Found")] }
-          }
-        }
+            metadata: { status: "error", errors: [new Error("Not Found")] },
+          },
+        },
       ]);
       expect(poller.pollTimer === null).toEqual(true);
     } catch (err) {
@@ -117,7 +116,7 @@ describe("portalPollExportJobStatus", () => {
     }
   });
 
-  it("handle job incomplete", async done => {
+  it("handle job incomplete", async (done) => {
     try {
       spyOn(portal, "getItemStatus").and.callFake(async () => {
         return Promise.resolve({ status: "in progress" });
@@ -133,7 +132,7 @@ describe("portalPollExportJobStatus", () => {
         authentication,
         exportCreated: 1000,
         pollingInterval: 10,
-        eventEmitter: mockEventEmitter
+        eventEmitter: mockEventEmitter,
       });
 
       expect(poller.pollTimer !== null).toEqual(true);
@@ -144,8 +143,8 @@ describe("portalPollExportJobStatus", () => {
           id: "download-id",
           jobId: "test-id",
           jobType: "export",
-          authentication
-        }
+          authentication,
+        },
       ]);
       expect(mockEventEmitter.emit as any).toHaveBeenCalledTimes(0);
       expect(poller.pollTimer === null).toEqual(false);
@@ -158,7 +157,7 @@ describe("portalPollExportJobStatus", () => {
     }
   });
 
-  it("exportSuccessHandler other failure", async done => {
+  it("exportSuccessHandler other failure", async (done) => {
     try {
       spyOn(portal, "getItemStatus").and.callFake(async () => {
         return Promise.resolve({ status: "completed" });
@@ -180,7 +179,7 @@ describe("portalPollExportJobStatus", () => {
         authentication,
         exportCreated: 1000,
         pollingInterval: 10,
-        eventEmitter: mockEventEmitter
+        eventEmitter: mockEventEmitter,
       });
       expect(poller.pollTimer !== null).toEqual(true);
       await delay(100);
@@ -190,8 +189,8 @@ describe("portalPollExportJobStatus", () => {
           id: "download-id",
           jobId: "test-id",
           jobType: "export",
-          authentication
-        }
+          authentication,
+        },
       ]);
       expect(exportHelper.exportSuccessHandler).toHaveBeenCalledTimes(1);
       expect(
@@ -204,8 +203,8 @@ describe("portalPollExportJobStatus", () => {
           exportCreated: 1000,
           format: "CSV",
           spatialRefId: undefined,
-          eventEmitter: mockEventEmitter
-        }
+          eventEmitter: mockEventEmitter,
+        },
       ]);
 
       expect(mockEventEmitter.emit as any).toHaveBeenCalledTimes(1);
@@ -214,9 +213,9 @@ describe("portalPollExportJobStatus", () => {
         {
           detail: {
             error: new Error("5xx"),
-            metadata: { status: "error", errors: [new Error("5xx")] }
-          }
-        }
+            metadata: { status: "error", errors: [new Error("5xx")] },
+          },
+        },
       ]);
       expect(poller.pollTimer === null).toEqual(true);
     } catch (err) {
@@ -226,7 +225,7 @@ describe("portalPollExportJobStatus", () => {
     }
   });
 
-  it("exportSuccessHandler other failure", async done => {
+  it("exportSuccessHandler other failure", async (done) => {
     try {
       spyOn(portal, "getItemStatus").and.callFake(async () => {
         return Promise.resolve({ status: "completed" });
@@ -249,7 +248,7 @@ describe("portalPollExportJobStatus", () => {
         authentication,
         exportCreated: 1000,
         pollingInterval: 10,
-        eventEmitter: mockEventEmitter
+        eventEmitter: mockEventEmitter,
       });
       expect(poller.pollTimer !== null).toEqual(true);
       await delay(100);
@@ -259,8 +258,8 @@ describe("portalPollExportJobStatus", () => {
           id: "download-id",
           jobId: "test-id",
           jobType: "export",
-          authentication
-        }
+          authentication,
+        },
       ]);
       expect(exportHelper.exportSuccessHandler).toHaveBeenCalledTimes(1);
       expect(
@@ -273,8 +272,8 @@ describe("portalPollExportJobStatus", () => {
           exportCreated: 1000,
           format: "CSV",
           spatialRefId: undefined,
-          eventEmitter: mockEventEmitter
-        }
+          eventEmitter: mockEventEmitter,
+        },
       ]);
       expect(mockEventEmitter.emit as any).toHaveBeenCalledTimes(1);
       expect((mockEventEmitter.emit as any).calls.first().args).toEqual([
@@ -282,9 +281,9 @@ describe("portalPollExportJobStatus", () => {
         {
           detail: {
             error: new Error("5xx"),
-            metadata: { status: "error", errors: [new Error("5xx")] }
-          }
-        }
+            metadata: { status: "error", errors: [new Error("5xx")] },
+          },
+        },
       ]);
       expect(poller.pollTimer === null).toEqual(true);
     } catch (err) {
@@ -294,7 +293,7 @@ describe("portalPollExportJobStatus", () => {
     }
   });
 
-  it("exportSuccessHandler success", async done => {
+  it("exportSuccessHandler success", async (done) => {
     try {
       spyOn(portal, "getItemStatus").and.callFake(async () => {
         return Promise.resolve({ status: "completed" });
@@ -315,7 +314,7 @@ describe("portalPollExportJobStatus", () => {
         authentication,
         exportCreated: 1000,
         pollingInterval: 10,
-        eventEmitter: mockEventEmitter
+        eventEmitter: mockEventEmitter,
       });
       expect(poller.pollTimer !== null).toEqual(true);
       await delay(100);
@@ -325,8 +324,8 @@ describe("portalPollExportJobStatus", () => {
           id: "download-id",
           jobId: "test-id",
           jobType: "export",
-          authentication
-        }
+          authentication,
+        },
       ]);
       expect(mockEventEmitter.emit as any).toHaveBeenCalledTimes(1);
       expect(poller.pollTimer === null).toEqual(true);

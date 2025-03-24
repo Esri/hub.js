@@ -1,11 +1,10 @@
-import { UserSession } from "@esri/arcgis-rest-auth";
 import { pollDownloadMetadata } from "../src/poll-download-metadata";
 import * as hubPoller from "../src/hub/hub-poll-download-metadata";
 import * as portalPoller from "../src/portal/portal-poll-export-job-status";
 import * as EventEmitter from "eventemitter3";
 
 describe("pollDownloadMetadata", () => {
-  it("handle hub polling", async done => {
+  it("handle hub polling", async (done) => {
     try {
       const mockEventEmitter = new EventEmitter();
       spyOn(mockEventEmitter, "emit");
@@ -23,7 +22,7 @@ describe("pollDownloadMetadata", () => {
         format: "CSV",
         downloadId: "download-id",
         eventEmitter: mockEventEmitter,
-        pollingInterval: 10
+        pollingInterval: 10,
       });
 
       expect(hubPoller.hubPollDownloadMetadata as any).toHaveBeenCalledTimes(1);
@@ -40,8 +39,8 @@ describe("pollDownloadMetadata", () => {
           spatialRefId: "4326",
           geometry: undefined,
           where: undefined,
-          existingFileDate: undefined
-        }
+          existingFileDate: undefined,
+        },
       ]);
     } catch (err) {
       expect(err).toBeUndefined();
@@ -50,14 +49,14 @@ describe("pollDownloadMetadata", () => {
     }
   });
 
-  it("handle portal download", async done => {
-    const authentication = new UserSession({
+  it("handle portal download", async (done) => {
+    const authentication = {
       username: "portal-user",
       portal: "http://portal.com/sharing/rest",
-      token: "123"
-    });
+      token: "123",
+    } as any;
     authentication.getToken = () =>
-      new Promise(resolve => {
+      new Promise((resolve) => {
         resolve("123");
       });
 
@@ -81,7 +80,7 @@ describe("pollDownloadMetadata", () => {
         exportCreated: 1000,
         eventEmitter: mockEventEmitter,
         pollingInterval: 10,
-        authentication
+        authentication,
       });
 
       expect(
@@ -101,8 +100,8 @@ describe("pollDownloadMetadata", () => {
           authentication,
           exportCreated: 1000,
           geometry: undefined,
-          where: undefined
-        }
+          where: undefined,
+        },
       ]);
     } catch (err) {
       expect(err).toBeUndefined();
@@ -111,14 +110,14 @@ describe("pollDownloadMetadata", () => {
     }
   });
 
-  it("handle enterprise download", async done => {
-    const authentication = new UserSession({
+  it("handle enterprise download", async (done) => {
+    const authentication = {
       username: "portal-user",
       portal: "http://portal.com/sharing/rest",
-      token: "123"
-    });
+      token: "123",
+    } as any;
     authentication.getToken = () =>
-      new Promise(resolve => {
+      new Promise((resolve) => {
         resolve("123");
       });
 
@@ -142,7 +141,7 @@ describe("pollDownloadMetadata", () => {
         exportCreated: 1000,
         eventEmitter: mockEventEmitter,
         pollingInterval: 10,
-        authentication
+        authentication,
       });
 
       expect(
@@ -162,8 +161,8 @@ describe("pollDownloadMetadata", () => {
           authentication,
           exportCreated: 1000,
           geometry: undefined,
-          where: undefined
-        }
+          where: undefined,
+        },
       ]);
     } catch (err) {
       expect(err).toBeUndefined();
