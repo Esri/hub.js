@@ -65,7 +65,6 @@ xdescribe("index", () => {
     "ArcGISContext",
     "ArcGISContextManager",
     "ALPHA_ORGS",
-    "completeOAuth2",
     "categories",
     "isDownloadable",
     "UpdateFrequency",

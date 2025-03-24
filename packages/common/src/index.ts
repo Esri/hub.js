@@ -7,7 +7,6 @@ export * from "./access";
 export * from "./api";
 export * from "./ArcGISContext";
 export * from "./ArcGISContextManager";
-export * from "./auth";
 export * from "./categories";
 export * from "./content";
 export * from "./core";
