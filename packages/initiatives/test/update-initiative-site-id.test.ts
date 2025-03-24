@@ -6,7 +6,7 @@ import { MOCK_HUB_REQOPTS } from "./mocks/fake-session";
 import * as fetchMock from "fetch-mock";
 import { IItem } from "@esri/arcgis-rest-portal";
 import { IModel } from "@esri/hub-common";
-const apiBaseUrl = "https://www.arcgis.com/sharing/rest";
+const apiBaseUrl = MOCK_HUB_REQOPTS.authentication.portal;
 const itemBaseUrl = `${apiBaseUrl}/content/items`;
 const userItemBaseUrl = `${apiBaseUrl}/content/users`;
 
@@ -25,9 +25,9 @@ function bodyToJson(body: string): any {
 describe("update-initiative-site-id ::", () => {
   afterEach(fetchMock.restore);
   describe("accepts a string ::", () => {
-    it("should throw if string is not a guid", done => {
+    it("should throw if string is not a guid", (done) => {
       return updateInitiativeSiteId("bargle", "3ef", MOCK_HUB_REQOPTS).catch(
-        ex => {
+        (ex) => {
           expect(ex.message).toBe(
             "updateInitiativeSiteId was passed a string that is not a GUID.",
             "should throw when non-guid passed"
@@ -41,12 +41,12 @@ describe("update-initiative-site-id ::", () => {
         item: {
           id: "c90c8745f1854420b1c23e407941fd45",
           title: "Fake initiative 1",
-          type: "Hub Initiative"
+          type: "Hub Initiative",
         },
         data: {
           source: "bc3",
-          values: {}
-        }
+          values: {},
+        },
       };
 
       fetchMock
@@ -63,7 +63,7 @@ describe("update-initiative-site-id ::", () => {
         "c90c8745f1854420b1c23e407941fd45",
         "3ef",
         MOCK_HUB_REQOPTS
-      ).then(result => {
+      ).then((result) => {
         expect(result.success).toBeTruthy(
           "should return the update xhr result"
         );
@@ -99,37 +99,39 @@ describe("update-initiative-site-id ::", () => {
         title: "Fake initiative 1",
         type: "Hub Initiative",
         properties: {
-          otherProp: "present"
-        }
+          otherProp: "present",
+        },
       } as IItem;
       fetchMock.post(
         `${userItemBaseUrl}/vader/items/c90c8745f1854420b1c23e407941fd45/update`,
         { success: true, itemId: "c90c8745f1854420b1c23e407941fd45" }
       );
 
-      return updateInitiativeSiteId(i, "3ef", MOCK_HUB_REQOPTS).then(result => {
-        expect(result.success).toBeTruthy(
-          "should return the update xhr result"
-        );
-        expect(fetchMock.done()).toBeTruthy();
-
-        const updateCall = fetchMock.lastCall(
-          `${userItemBaseUrl}/vader/items/c90c8745f1854420b1c23e407941fd45/update`
-        );
-        const updateOptions = updateCall[1];
-        expect(updateOptions.method).toBe("POST");
-        expect(updateOptions.body).toContain("f=json");
-        expect(updateOptions.body).toContain("token=fake-token");
-        const bodyJson = bodyToJson(updateOptions.body as string);
-        if (bodyJson.properties) {
-          const props = JSON.parse(bodyJson.properties);
-          expect(props.siteId).toBe("3ef", "properties.siteId should be set");
-          expect(props.otherProp).toBe(
-            "present",
-            "existing properties should be kept"
+      return updateInitiativeSiteId(i, "3ef", MOCK_HUB_REQOPTS).then(
+        (result) => {
+          expect(result.success).toBeTruthy(
+            "should return the update xhr result"
           );
+          expect(fetchMock.done()).toBeTruthy();
+
+          const updateCall = fetchMock.lastCall(
+            `${userItemBaseUrl}/vader/items/c90c8745f1854420b1c23e407941fd45/update`
+          );
+          const updateOptions = updateCall[1];
+          expect(updateOptions.method).toBe("POST");
+          expect(updateOptions.body).toContain("f=json");
+          expect(updateOptions.body).toContain("token=fake-token");
+          const bodyJson = bodyToJson(updateOptions.body as string);
+          if (bodyJson.properties) {
+            const props = JSON.parse(bodyJson.properties);
+            expect(props.siteId).toBe("3ef", "properties.siteId should be set");
+            expect(props.otherProp).toBe(
+              "present",
+              "existing properties should be kept"
+            );
+          }
         }
-      });
+      );
     });
   });
 
@@ -139,12 +141,12 @@ describe("update-initiative-site-id ::", () => {
         item: {
           id: "c90c8745f1854420b1c23e407941fd45",
           title: "Fake initiative 1",
-          type: "Hub Initiative"
+          type: "Hub Initiative",
         } as IItem,
         data: {
           source: "bc3",
-          values: {}
-        }
+          values: {},
+        },
       } as IModel;
 
       fetchMock.post(
@@ -152,25 +154,27 @@ describe("update-initiative-site-id ::", () => {
         { success: true, itemId: "c90c8745f1854420b1c23e407941fd45" }
       );
 
-      return updateInitiativeSiteId(m, "3ef", MOCK_HUB_REQOPTS).then(result => {
-        expect(result.success).toBeTruthy(
-          "should return the update xhr result"
-        );
-        expect(fetchMock.done()).toBeTruthy();
+      return updateInitiativeSiteId(m, "3ef", MOCK_HUB_REQOPTS).then(
+        (result) => {
+          expect(result.success).toBeTruthy(
+            "should return the update xhr result"
+          );
+          expect(fetchMock.done()).toBeTruthy();
 
-        const updateCall = fetchMock.lastCall(
-          `${userItemBaseUrl}/vader/items/c90c8745f1854420b1c23e407941fd45/update`
-        );
-        const updateOptions = updateCall[1];
-        expect(updateOptions.method).toBe("POST");
-        expect(updateOptions.body).toContain("f=json");
-        expect(updateOptions.body).toContain("token=fake-token");
-        const bodyJson = bodyToJson(updateOptions.body as string);
-        if (bodyJson.properties) {
-          const props = JSON.parse(bodyJson.properties);
-          expect(props.siteId).toBe("3ef", "properties.siteId should be set");
+          const updateCall = fetchMock.lastCall(
+            `${userItemBaseUrl}/vader/items/c90c8745f1854420b1c23e407941fd45/update`
+          );
+          const updateOptions = updateCall[1];
+          expect(updateOptions.method).toBe("POST");
+          expect(updateOptions.body).toContain("f=json");
+          expect(updateOptions.body).toContain("token=fake-token");
+          const bodyJson = bodyToJson(updateOptions.body as string);
+          if (bodyJson.properties) {
+            const props = JSON.parse(bodyJson.properties);
+            expect(props.siteId).toBe("3ef", "properties.siteId should be set");
+          }
         }
-      });
+      );
     });
   });
 });

@@ -1,4 +1,3 @@
-import { UserSession } from "@esri/arcgis-rest-auth";
 import { ArcGISContext, IHubRequestOptions } from "../../src";
 import type { IArcGISContext } from "../../src";
 
@@ -8,10 +7,14 @@ export const TOMORROW = (function () {
   return now;
 })();
 
-export const MOCK_AUTH = new UserSession({
+const token = "fake-token";
+
+export const MOCK_AUTH = {
   clientId: "clientId",
+  getToken: () => Promise.resolve(token),
+  serialize: () => JSON.stringify({ token }),
   redirectUri: "https://example-app.com/redirect-uri",
-  token: "fake-token",
+  token,
   tokenExpires: TOMORROW,
   refreshToken: "refreshToken",
   refreshTokenExpires: TOMORROW,
@@ -19,12 +22,14 @@ export const MOCK_AUTH = new UserSession({
   username: "casey",
   password: "123456",
   portal: "https://myorg.maps.arcgis.com/sharing/rest",
-});
+} as any;
 
-export const MOCK_AUTH_QA = new UserSession({
+export const MOCK_AUTH_QA = {
   clientId: "clientId",
+  getToken: () => Promise.resolve(token),
+  serialize: () => JSON.stringify({ token }),
   redirectUri: "https://example-app.com/redirect-uri",
-  token: "fake-token",
+  token,
   tokenExpires: TOMORROW,
   refreshToken: "refreshToken",
   refreshTokenExpires: TOMORROW,
@@ -32,7 +37,7 @@ export const MOCK_AUTH_QA = new UserSession({
   username: "casey",
   password: "123456",
   portal: "https://myorg.mapsqa.arcgis.com/sharing/rest",
-});
+} as any;
 
 export const MOCK_HUB_REQOPTS = {
   authentication: MOCK_AUTH,
@@ -59,10 +64,12 @@ export const MOCK_NOAUTH_HUB_REQOPTS = {
   hubApiUrl: "https://hubqa.arcgis.com",
 } as unknown as IHubRequestOptions;
 
-export const MOCK_ENTERPRISE_AUTH = new UserSession({
+export const MOCK_ENTERPRISE_AUTH = {
   clientId: "clientId",
+  getToken: () => Promise.resolve(token),
+  serialize: () => JSON.stringify({ token }),
   redirectUri: "https://example-app.com/redirect-uri",
-  token: "fake-token",
+  token,
   tokenExpires: TOMORROW,
   refreshToken: "refreshToken",
   refreshTokenExpires: TOMORROW,
@@ -70,7 +77,7 @@ export const MOCK_ENTERPRISE_AUTH = new UserSession({
   username: "vader",
   password: "123456",
   portal: "https://my-server.com/portal/sharing/rest",
-});
+} as any;
 
 export const MOCK_ENTERPRISE_REQOPTS = {
   authentication: MOCK_ENTERPRISE_AUTH,
