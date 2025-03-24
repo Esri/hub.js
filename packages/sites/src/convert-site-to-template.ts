@@ -11,7 +11,7 @@ import {
   getItemAssets,
 } from "@esri/hub-common";
 import { getSiteItemType } from "./get-site-item-type";
-import { IItem } from "@esri/arcgis-rest-types";
+import type { IItem } from "@esri/arcgis-rest-types";
 import { SITE_SCHEMA_VERSION } from "./site-schema-version";
 import { convertLayoutToTemplate } from "./layout";
 import { getSiteDependencies } from "./get-site-dependencies";

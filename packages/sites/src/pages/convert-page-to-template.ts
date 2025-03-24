@@ -12,7 +12,7 @@ import {
 import { getPageItemType } from "./get-page-item-type";
 import { convertLayoutToTemplate } from "../layout";
 import { getSiteDependencies } from "../get-site-dependencies";
-import { IItem } from "@esri/arcgis-rest-types";
+import type { IItem } from "@esri/arcgis-rest-types";
 import { DRAFT_RESOURCE_REGEX } from "../drafts/_draft-resource-regex";
 
 /**
