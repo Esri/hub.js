@@ -1,15 +1,16 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import {
-  IQueryFeaturesOptions,
-  queryFeatures,
-  IQueryFeaturesResponse,
-} from "@esri/arcgis-rest-feature-layer";
+import { queryFeatures } from "@esri/arcgis-rest-feature-layer";
 
 import { ISearchOptions, searchItems } from "@esri/arcgis-rest-portal";
-import type { IGeometry, IFeature } from "@esri/arcgis-rest-types";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
+import type {
+  IGeometry,
+  IFeature,
+  IQueryFeaturesOptions,
+  IQueryFeaturesResponse,
+} from "@esri/arcgis-rest-feature-layer";
+import type { IRequestOptions } from "@esri/arcgis-rest-request";
 
 export interface IEventResourceObject {
   id: number | string;
