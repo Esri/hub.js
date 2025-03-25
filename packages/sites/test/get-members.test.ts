@@ -1,5 +1,5 @@
 import { getMembers } from "../src/get-members";
-import type { IUser } from "@esri/arcgis-rest-types";
+import type { IUser } from "@esri/arcgis-rest-portal";
 import * as hubCommon from "@esri/hub-common";
 import * as restPortal from "@esri/arcgis-rest-portal";
 import * as restRequest from "@esri/arcgis-rest-request";

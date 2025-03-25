@@ -1,6 +1,6 @@
 import { _ensureTypeAndTags } from "../src";
 import { IModel } from "@esri/hub-common";
-import type { IItem } from "@esri/arcgis-rest-types";
+import type { IItem } from "@esri/arcgis-rest-portal";
 
 describe("_ensureTypeAndTags", () => {
   it("adds type and tags when not present", () => {

@@ -1,5 +1,5 @@
 import { getPageEditUrl } from "../../src";
-import type { IItem } from "@esri/arcgis-rest-types";
+import type { IItem } from "@esri/arcgis-rest-portal";
 
 describe("getPageEditUrl", () => {
   it("gets edit url", function () {
