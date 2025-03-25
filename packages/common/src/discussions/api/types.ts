@@ -1034,7 +1034,10 @@ export interface ISearchChannels
   access?: SharingAccess[];
   discussion?: string;
   groups?: string[];
+  /** cannot be used with notIds */
   ids?: string[];
+  /** cannot be used with ids */
+  notIds?: string[];
   name?: string;
   orgIds?: string[];
   relations?: ChannelRelation[];
