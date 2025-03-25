@@ -1,12 +1,12 @@
 import { getItemThumbnailUrl } from "../../src";
-import type { IItem } from "@esri/arcgis-rest-types";
+import type { IItem } from "@esri/arcgis-rest-portal";
 
-describe("getItemThumbnailUrl", function() {
+describe("getItemThumbnailUrl", function () {
   const portalApiUrl = "https://portal-api-url/sharing/rest";
   let item: IItem;
   let itemApiUrlBase: string;
 
-  beforeEach(function() {
+  beforeEach(function () {
     item = {
       id: "abcitemid",
       thumbnail: "thumbnail.png",
@@ -17,29 +17,29 @@ describe("getItemThumbnailUrl", function() {
       numViews: 1,
       size: 1,
       title: "title",
-      type: "CSV"
+      type: "CSV",
     };
     itemApiUrlBase = `${portalApiUrl}/content/items/${item.id}`;
   });
 
-  it("computes url without a token", function() {
+  it("computes url without a token", function () {
     const url = getItemThumbnailUrl(item, portalApiUrl);
     expect(url).toBe(`${itemApiUrlBase}/info/thumbnail.png`);
   });
 
-  it("computes url with a token", function() {
+  it("computes url with a token", function () {
     const token = "token";
     const url = getItemThumbnailUrl(item, portalApiUrl, token);
     expect(url).toBe(`${itemApiUrlBase}/info/thumbnail.png?token=${token}`);
   });
 
-  it("returns null when no item.thumbnail", function() {
+  it("returns null when no item.thumbnail", function () {
     delete item.thumbnail;
     const url = getItemThumbnailUrl(item, portalApiUrl);
     expect(url).toBeNull();
   });
 
-  it("computes url with options", function() {
+  it("computes url with options", function () {
     const token = "token";
     const width = 1200;
     const url = getItemThumbnailUrl(item, portalApiUrl, { token, width });

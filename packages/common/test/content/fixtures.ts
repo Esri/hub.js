@@ -1,5 +1,5 @@
-import { IItem } from "@esri/arcgis-rest-portal";
-import type { IFeatureServiceDefinition } from "@esri/arcgis-rest-types";
+import type { IItem } from "@esri/arcgis-rest-portal";
+import type { IFeatureServiceDefinition } from "@esri/arcgis-rest-service-admin";
 
 export const HOSTED_FEATURE_SERVICE_GUID = "A1295DEF67814571B99EDDEA65748143";
 export const HOSTED_FEATURE_SERVICE_URL =

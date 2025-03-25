@@ -1,8 +1,8 @@
-import {
+import type {
   IExtent,
   IFeatureServiceDefinition,
   ILayerDefinition,
-} from "@esri/arcgis-rest-types";
+} from "@esri/arcgis-rest-feature-layer";
 import { ItemType } from "../../hub-types";
 import { Logger } from "../../utils";
 

@@ -1,4 +1,4 @@
-import type { IUser } from "@esri/arcgis-rest-types";
+import type { IUser } from "@esri/arcgis-rest-portal";
 import { getUser } from "@esri/arcgis-rest-portal";
 import { fetchUserEnrichments } from "./_internal/enrichments";
 import { SettableAccessLevel } from "../core/types";

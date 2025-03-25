@@ -5,7 +5,7 @@ import {
   searchUsers,
   searchCommunityUsers as _searchCommunityUsers,
 } from "@esri/arcgis-rest-portal";
-import type { IUser } from "@esri/arcgis-rest-types";
+import type { IUser } from "@esri/arcgis-rest-portal";
 import { enrichUserSearchResult } from "../../users";
 import { serializeQueryForPortal } from "../serializeQueryForPortal";
 import HubError from "../../HubError";

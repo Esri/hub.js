@@ -1,4 +1,4 @@
-import type { IGroup } from "@esri/arcgis-rest-types";
+import type { IGroup } from "@esri/arcgis-rest-portal";
 import { getIdsFromAssociationGroups } from "../../../src/associations/internal/getIdsFromAssociationGroups";
 
 describe("getIdsFromAssociationGroups:", () => {

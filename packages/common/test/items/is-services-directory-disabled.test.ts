@@ -1,5 +1,5 @@
 import { isServicesDirectoryDisabled } from "../../src/items/is-services-directory-disabled";
-import type { IItem } from "@esri/arcgis-rest-types";
+import type { IItem } from "@esri/arcgis-rest-portal";
 import * as fetchMock from "fetch-mock";
 import * as restPortal from "@esri/arcgis-rest-portal";
 import {

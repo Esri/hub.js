@@ -1,4 +1,4 @@
-import type { IUser } from "@esri/arcgis-rest-types";
+import type { IUser } from "@esri/arcgis-rest-portal";
 import { getFamilyTypes } from "../content/get-family";
 import { HubFamily } from "../hub-types";
 import { EntityType, IFilter, IHubCatalog, IHubCollection } from "./types";

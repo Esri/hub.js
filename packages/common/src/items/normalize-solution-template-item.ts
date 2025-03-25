@@ -1,4 +1,4 @@
-import type { IItem } from "@esri/arcgis-rest-types";
+import type { IItem } from "@esri/arcgis-rest-portal";
 import { IItemTemplate } from "../hub-types";
 import { cloneObject } from "../util";
 

@@ -1,12 +1,12 @@
-import type { IUser, IItem } from "@esri/arcgis-rest-types";
+import type { IUser, IItem } from "@esri/arcgis-rest-portal";
 import * as baseUtils from "../../src/access/has-base-priv";
 import * as itemUtils from "../../src/access/can-edit-item";
 import {
   canEditSiteContent,
-  REQUIRED_PRIVS
+  REQUIRED_PRIVS,
 } from "../../src/access/can-edit-site-content";
 
-describe("canEditSiteContent", function() {
+describe("canEditSiteContent", function () {
   const getModel = (props: any) => props as IItem;
   const getUser = (props: any = {}) => props as IUser;
   let hasBasePrivSpy: jasmine.Spy;
@@ -22,7 +22,7 @@ describe("canEditSiteContent", function() {
     canEditItemSpy.calls.reset();
   });
 
-  it("calls thru to canEditItem if user has base priv and context is not hub home", function() {
+  it("calls thru to canEditItem if user has base priv and context is not hub home", function () {
     const model = getModel({ properties: { isDefaultHubHome: false } });
     const user = getUser();
     canEditSiteContent(model, user);
@@ -32,7 +32,7 @@ describe("canEditSiteContent", function() {
     expect(canEditItemSpy.calls.argsFor(0)).toEqual([model, user]);
   });
 
-  it("calls checks for additional privs if user has base priv and context is hub home", function() {
+  it("calls checks for additional privs if user has base priv and context is hub home", function () {
     const orgId = "foo";
     const model = getModel({ orgId, properties: { isDefaultHubHome: true } });
     let user = getUser({ orgId, privileges: REQUIRED_PRIVS });
@@ -57,7 +57,7 @@ describe("canEditSiteContent", function() {
     expect(canEditItemSpy.calls.count()).toBe(0);
   });
 
-  it("returns false if user lacks base priv", function() {
+  it("returns false if user lacks base priv", function () {
     hasBasePrivSpy.and.returnValue(false);
     const model = getModel({});
     const user = getUser();
