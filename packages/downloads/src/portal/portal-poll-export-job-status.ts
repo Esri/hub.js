@@ -1,10 +1,10 @@
 import {
   getItemStatus,
-  IGetItemStatusResponse
+  IGetItemStatusResponse,
 } from "@esri/arcgis-rest-portal";
 import { DownloadFormat } from "../download-format";
 import * as EventEmitter from "eventemitter3";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { UserSession } from "@esri/arcgis-rest-auth";
 import { IPoller } from "../poller";
 import { exportSuccessHandler } from "./portal-export-success-handler";
 import { DownloadStatus } from "../download-status";
@@ -45,7 +45,7 @@ class PortalPoller implements IPoller {
       authentication,
       exportCreated,
       eventEmitter,
-      pollingInterval
+      pollingInterval,
     } = params;
 
     this.pollTimer = setInterval(() => {
@@ -53,7 +53,7 @@ class PortalPoller implements IPoller {
         id: downloadId,
         jobId,
         jobType: "export",
-        authentication
+        authentication,
       })
         .then((metadata: IGetItemStatusResponse) => {
           if (metadata.status === "completed") {
@@ -64,7 +64,7 @@ class PortalPoller implements IPoller {
               downloadId,
               spatialRefId,
               exportCreated,
-              eventEmitter
+              eventEmitter,
             }).then(() => {
               this.disablePoll();
             });
@@ -76,9 +76,9 @@ class PortalPoller implements IPoller {
                 error: new Error(metadata.statusMessage),
                 metadata: {
                   status: DownloadStatus.ERROR,
-                  errors: [new Error(metadata.statusMessage)]
-                }
-              }
+                  errors: [new Error(metadata.statusMessage)],
+                },
+              },
             });
             return this.disablePoll();
           }
@@ -90,9 +90,9 @@ class PortalPoller implements IPoller {
                 error,
                 metadata: {
                   status: DownloadStatus.ERROR,
-                  errors: [error]
-                }
-              }
+                  errors: [error],
+                },
+              },
             });
           } else {
             eventEmitter.emit(`${downloadId}PollingError`, {
@@ -100,9 +100,9 @@ class PortalPoller implements IPoller {
                 error,
                 metadata: {
                   status: DownloadStatus.ERROR,
-                  errors: [error]
-                }
-              }
+                  errors: [error],
+                },
+              },
             });
           }
           return this.disablePoll();

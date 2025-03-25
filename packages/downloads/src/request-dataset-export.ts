@@ -1,4 +1,4 @@
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { UserSession } from "@esri/arcgis-rest-auth";
 import { hubRequestDatasetExport } from "./hub/hub-request-dataset-export";
 import { portalRequestDatasetExport } from "./portal/portal-request-dataset-export";
 import { DownloadFormat } from "./download-format";
@@ -54,7 +54,7 @@ export function requestDatasetExport(
     where,
     title,
     target,
-    authentication
+    authentication,
   } = params;
 
   if (!target || target === "hub") {
@@ -64,7 +64,7 @@ export function requestDatasetExport(
       format,
       spatialRefId,
       geometry,
-      where
+      where,
     });
   }
 
@@ -74,6 +74,6 @@ export function requestDatasetExport(
     title,
     authentication,
     spatialRefId,
-    where
+    where,
   });
 }

@@ -3,7 +3,7 @@ import { IHubOrganization } from "../core/types/IHubOrganization";
 import { fetchOrg } from "./fetch-org";
 import { IPortal } from "@esri/arcgis-rest-portal";
 import { getOrgThumbnailUrl } from "../resources";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { UserSession } from "@esri/arcgis-rest-auth";
 import { IHubSearchResult } from "../search/types/IHubSearchResult";
 
 /**

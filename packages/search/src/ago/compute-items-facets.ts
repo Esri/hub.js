@@ -1,4 +1,4 @@
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { UserSession } from "@esri/arcgis-rest-auth";
 import { ISearchParams } from "./params";
 import { getProp } from "@esri/hub-common";
 import {
@@ -6,7 +6,7 @@ import {
   hasApiAgg,
   collectionAgg,
   downloadableAgg,
-  flattenCategories
+  flattenCategories,
 } from "./helpers/aggs";
 import { getItems } from "./get-items";
 
@@ -19,7 +19,7 @@ const customAggsSupportedByAgo = ["hasApi", "collection"];
 const customAggsFunctions: { [key: string]: any } = {
   downloadable: downloadableAgg,
   hasApi: hasApiAgg,
-  collection: collectionAgg
+  collection: collectionAgg,
 };
 
 /**
@@ -49,7 +49,7 @@ export async function computeItemsFacets(
     const paramsCopy = { ...params, ...{ start: 1, num: 100 } };
     paramsCopy.agg = {};
     const response = await getItems(paramsCopy, token, portal, authentication);
-    customAggs.forEach(customAgg => {
+    customAggs.forEach((customAgg) => {
       const rawCounts = customAggsFunctions[customAgg](response);
       facets1 = { ...facets1, ...format(rawCounts) };
     });
@@ -60,7 +60,7 @@ export async function computeItemsFacets(
       formattedAggs[agg.fieldName] = agg.fieldValues.map((fieldVal: any) => {
         return {
           key: fieldVal.value,
-          docCount: fieldVal.count
+          docCount: fieldVal.count,
         };
       });
       return formattedAggs;
@@ -71,7 +71,7 @@ export async function computeItemsFacets(
   customAggs = intersection(aggs, customAggsSupportedByAgo);
   let facets3 = {};
   if (customAggs.length > 0) {
-    customAggs.forEach(customAgg => {
+    customAggs.forEach((customAgg) => {
       const rawCounts = { ...customAggsFunctions[customAgg](agoAggregations) };
       facets3 = { ...facets3, ...format(rawCounts) };
     });
@@ -85,5 +85,5 @@ export async function computeItemsFacets(
 }
 
 function intersection(arr1: any[], arr2: any[]): any[] {
-  return arr1.filter(val => arr2.indexOf(val) !== -1);
+  return arr1.filter((val) => arr2.indexOf(val) !== -1);
 }

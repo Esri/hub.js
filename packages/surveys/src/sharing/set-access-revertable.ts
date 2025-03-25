@@ -2,12 +2,12 @@
  * Apache-2.0 */
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { UserSession } from "@esri/arcgis-rest-auth";
 import { setItemAccess } from "@esri/arcgis-rest-portal";
 import {
   IModel,
   IRevertableTaskResult,
-  runRevertableTask
+  runRevertableTask,
 } from "@esri/hub-common";
 
 /**
@@ -31,8 +31,8 @@ export const setAccessRevertable = (
         id,
         owner,
         access,
-        authentication
-      }).then(result => {
+        authentication,
+      }).then((result) => {
         if (result.notSharedWith.length) {
           throw new Error(`Failed to set item ${id} access to ${access}`);
         }
@@ -44,7 +44,7 @@ export const setAccessRevertable = (
         id,
         owner,
         access: previousAccess,
-        authentication
+        authentication,
       }).catch(() => {})
     /* tslint:enable no-empty */
   );

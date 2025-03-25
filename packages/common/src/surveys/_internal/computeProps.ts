@@ -1,4 +1,4 @@
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { UserSession } from "@esri/arcgis-rest-auth";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { computeItemProps } from "../../core/_internal/computeItemProps";
 import { IHubSurvey } from "../../core/types/IHubSurvey";
