@@ -1,5 +1,5 @@
 import * as portal from "@esri/arcgis-rest-portal";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { _waitForItemReady } from "../../src/items/_internal/_wait-for-item-ready";
 
 describe("_waitForItemReady", () => {

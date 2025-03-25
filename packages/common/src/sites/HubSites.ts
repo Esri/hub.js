@@ -1,4 +1,4 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { IItem, IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
 import { getFamily } from "../content/get-family";
 import { fetchSiteModel } from "./fetchSiteModel";

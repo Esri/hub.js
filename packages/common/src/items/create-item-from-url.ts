@@ -1,4 +1,4 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { createItem, ICreateItemResponse } from "@esri/arcgis-rest-portal";
 import type { IItemAdd } from "@esri/arcgis-rest-portal";
 
