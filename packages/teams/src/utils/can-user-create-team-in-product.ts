@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-auth";
+import type { IUser } from "@esri/arcgis-rest-portal";
 import { hasAllPrivileges } from "./has-all-privileges";
 import { getProp, HubProduct, includes } from "@esri/hub-common";
 import { IGroupTemplate } from "../types";
