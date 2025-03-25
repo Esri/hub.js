@@ -1,4 +1,4 @@
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { UserSession } from "@esri/arcgis-rest-auth";
 import { IUpdateItemResponse, updateItem } from "@esri/arcgis-rest-portal";
 import { cloneObject, IModel, without } from "@esri/hub-common";
 
@@ -29,15 +29,16 @@ export async function removeTeamFromItems(
         teamId
       );
       // Check if the user has access to edit the item. itemControl is only present when the item is directly fetched
-      // 
-      return clonedModel.item.itemControl === "admin" || clonedModel.item.itemControl === "update"
-        // If yes, then update the item
-        ? updateItem({
-          item: clonedModel.item,
-          authentication,
-        })
-        // Otherwise return a 'fail' state for that item specifically
-        : { id: clonedModel.item.id, success: false};
+      //
+      return clonedModel.item.itemControl === "admin" ||
+        clonedModel.item.itemControl === "update"
+        ? // If yes, then update the item
+          updateItem({
+            item: clonedModel.item,
+            authentication,
+          })
+        : // Otherwise return a 'fail' state for that item specifically
+          { id: clonedModel.item.id, success: false };
     })
   );
 }

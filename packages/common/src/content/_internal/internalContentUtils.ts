@@ -46,7 +46,7 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { geojsonToArcGIS } from "@terraformer/arcgis";
 import { Polygon } from "geojson";
 import { getHubApiUrl } from "../../api";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { isSiteType } from "../compose";
 
 /**

@@ -1,6 +1,6 @@
 export * from "./serializeModel";
 
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import {
   createItem,
   FetchReadMethodName,

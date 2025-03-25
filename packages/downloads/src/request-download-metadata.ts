@@ -3,7 +3,7 @@ import { hubRequestDownloadMetadata } from "./hub/hub-request-download-metadata"
 import { DownloadFormat } from "./download-format";
 import { DownloadTarget } from "./download-target";
 import { DownloadStatuses } from "./download-status";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { UserSession } from "@esri/arcgis-rest-auth";
 
 export interface IDownloadMetadataRequestParams {
   /* API target for downloads: 'hub' (default), 'portal', 'enterprise' */

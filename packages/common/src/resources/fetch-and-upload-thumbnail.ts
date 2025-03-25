@@ -1,6 +1,6 @@
 import { fetchImageAsBlob } from "./fetch-image-as-blob";
 import { updateItem } from "@esri/arcgis-rest-portal";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { UserSession } from "@esri/arcgis-rest-auth";
 
 /**
  * Fetch image from a url, then upload to an item as it's thumbnail
@@ -15,23 +15,23 @@ export function fetchAndUploadThumbnail(options: {
 }): Promise<any> {
   // first fetch it as a blob...
   return fetchImageAsBlob(options.url)
-    .then(file => {
+    .then((file) => {
       return updateItem({
         item: {
           id: options.id,
-          owner: options.owner
+          owner: options.owner,
         },
         params: {
           fileName: options.fileName,
-          thumbnail: file
+          thumbnail: file,
         },
-        authentication: options.authentication
-      }).catch(_ => {
+        authentication: options.authentication,
+      }).catch((_) => {
         // resolve b/c this is not crtical
         return Promise.resolve();
       });
     })
-    .catch(_ => {
+    .catch((_) => {
       return Promise.resolve();
     });
 }

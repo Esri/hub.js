@@ -1,6 +1,6 @@
 import { canUserCreateTeam } from "../../src/utils/can-user-create-team";
 import { IHubRequestOptions } from "@esri/hub-common";
-import { IUser } from "@esri/arcgis-rest-auth";
+import type { IUser } from "@esri/arcgis-rest-portal";
 import * as getUserCreatableTeamsModule from "../../src/utils/get-user-creatable-teams";
 
 describe("Name of the group", () => {

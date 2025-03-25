@@ -3,19 +3,19 @@ import * as portalModule from "@esri/arcgis-rest-portal";
 import { IHubRequestOptions, cloneObject } from "@esri/hub-common";
 import { IGroupTemplate } from "../../src/types";
 import { _createTeamGroup } from "../../src/utils/_create-team-group";
-import { IUser } from "@esri/arcgis-rest-auth";
+import type { IUser } from "@esri/arcgis-rest-portal";
 import { IPortal } from "@esri/arcgis-rest-portal";
 
 describe("_createTeamGroup", () => {
   const user = {
     username: "andrew",
-    privileges: ["portal:user:createGroup"]
+    privileges: ["portal:user:createGroup"],
   } as IUser;
   const ro = {
     authentication: { token: "foobar" },
-    portalSelf: ({
-      canSharePublic: true
-    } as unknown) as IPortal
+    portalSelf: {
+      canSharePublic: true,
+    } as unknown as IPortal,
   } as IHubRequestOptions;
 
   it("should create team group correctly", async () => {
@@ -33,7 +33,7 @@ describe("_createTeamGroup", () => {
 
     const groupTemplate = {
       title: "some-group-title",
-      access: "public"
+      access: "public",
     } as IGroupTemplate;
 
     const res = await _createTeamGroup(user, cloneObject(groupTemplate), ro);
@@ -43,7 +43,7 @@ describe("_createTeamGroup", () => {
       {
         username: user.username,
         memberType: "owner",
-        applications: 0
+        applications: 0,
       },
       "attaches group membership"
     );
@@ -93,7 +93,7 @@ describe("_createTeamGroup", () => {
 
     const groupTemplate = {
       title: "some-group-title",
-      access: "public"
+      access: "public",
     } as IGroupTemplate;
 
     try {

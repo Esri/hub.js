@@ -1,4 +1,4 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { getItemResources } from "@esri/arcgis-rest-portal";
 
 /**

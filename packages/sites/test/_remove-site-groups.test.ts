@@ -1,6 +1,6 @@
 import * as commonModule from "@esri/hub-common";
 import { _removeSiteGroups } from "../src";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 describe("_removeSiteGroups", () => {
   it("removes the groups", async () => {
@@ -13,9 +13,9 @@ describe("_removeSiteGroups", () => {
       item: {
         properties: {
           collaborationGroupId: "abc",
-          contentGroupId: "123"
-        }
-      }
+          contentGroupId: "123",
+        },
+      },
     } as commonModule.IModel;
 
     const res = await _removeSiteGroups(siteModel, {} as IUserRequestOptions);

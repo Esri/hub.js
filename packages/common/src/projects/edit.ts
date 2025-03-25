@@ -1,4 +1,4 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 // Note - we separate these imports so we can cleanly spy on things in tests
 import { createModel, getModel, updateModel } from "../models";

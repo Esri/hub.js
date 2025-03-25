@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-auth";
+import type { IUser } from "@esri/arcgis-rest-portal";
 import { hasAllPrivileges } from "./has-all-privileges";
 import { GROUP_ACCESS_PRIVS } from "./group-access-privs";
 import { AGOAccess } from "../types";

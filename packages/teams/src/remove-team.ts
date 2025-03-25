@@ -1,4 +1,4 @@
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { UserSession } from "@esri/arcgis-rest-auth";
 import { removeGroup, unprotectGroup } from "@esri/arcgis-rest-portal";
 
 /**
@@ -12,13 +12,13 @@ import { removeGroup, unprotectGroup } from "@esri/arcgis-rest-portal";
 export async function removeTeam(
   id: string,
   authentication: UserSession
-): Promise<{groupId: string; success: boolean}> {
+): Promise<{ groupId: string; success: boolean }> {
   // unprotect the group
   const unprotectResult = await unprotectGroup({ id, authentication });
   // If that succeeded...
   return unprotectResult.success
-    // Remove it.
-    ? removeGroup({ id, authentication })
-    // Otherwise return a fail state
-    : { groupId: id, success: false };
+    ? // Remove it.
+      removeGroup({ id, authentication })
+    : // Otherwise return a fail state
+      { groupId: id, success: false };
 }

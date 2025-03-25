@@ -1,7 +1,7 @@
 import * as LimitsModule from "../../src/org/fetchOrgLimits";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as RequestModule from "@esri/arcgis-rest-request";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 describe("fetchOrgLimits module:", () => {
   describe("fetching any limits", () => {

@@ -1,5 +1,5 @@
 import { getItem, IItem, searchItems } from "@esri/arcgis-rest-portal";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { UserSession } from "@esri/arcgis-rest-auth";
 import {
   getService,
   getLayer,
