@@ -1,11 +1,11 @@
-import { IItem } from "@esri/arcgis-rest-types";
+import type { IItem } from "@esri/arcgis-rest-portal";
 import { isDownloadable } from "../src/categories";
 
 describe("isDownloadable", () => {
   const getModel = (type: string, typeKeywords: string[] = []) => {
     const item = {
       type,
-      typeKeywords
+      typeKeywords,
     } as IItem;
     return item;
   };

@@ -1,6 +1,6 @@
 import { getUser } from "@esri/arcgis-rest-portal";
 import { request } from "@esri/arcgis-rest-request";
-import { IUser } from "@esri/arcgis-rest-types";
+import type { IUser } from "@esri/arcgis-rest-portal";
 import {
   IHubRequestOptions,
   getPortalUrl,

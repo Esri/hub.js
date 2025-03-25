@@ -1,4 +1,4 @@
-import { IItem } from "@esri/arcgis-rest-types";
+import type { IItem } from "@esri/arcgis-rest-portal";
 
 /**
  * Returns true if the given Form item is a Survey123 Connect

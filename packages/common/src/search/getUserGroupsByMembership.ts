@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-types";
+import type { IUser } from "@esri/arcgis-rest-portal";
 import { IGroupsByMembership } from "./types/IGroupsByMembership";
 
 /**

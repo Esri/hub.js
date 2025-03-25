@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IItem } from "@esri/arcgis-rest-types";
+import type { IItem } from "@esri/arcgis-rest-portal";
 import { isDraft } from "../../../src/surveys/utils/is-draft";
 import * as FormItemDraft from "../../mocks/items/form-item-draft.json";
 import * as FormItemPublished from "../../mocks/items/form-item-published.json";

@@ -1,5 +1,5 @@
 import { ArcGISRequestError } from "@esri/arcgis-rest-request";
-import { IUser } from "@esri/arcgis-rest-types";
+import type { IUser } from "@esri/arcgis-rest-portal";
 import { autoAddUsers, getProp } from "@esri/hub-common";
 import { IAddOrInviteContext, IAddOrInviteResponse } from "../types";
 import { autoAddUsersAsAdmins } from "./auto-add-users-as-admins";

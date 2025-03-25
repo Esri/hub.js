@@ -9,13 +9,12 @@
  * move them to index.ts only when they are needed by a consumer.
  */
 import { parseServiceUrl } from "@esri/arcgis-rest-feature-layer";
-import { IItem, IPortal } from "@esri/arcgis-rest-portal";
-import {
+import type { IItem, IPortal, IUser } from "@esri/arcgis-rest-portal";
+import type {
   IExtent,
   ILayerDefinition,
   ISpatialReference,
-  IUser,
-} from "@esri/arcgis-rest-types";
+} from "@esri/arcgis-rest-feature-layer";
 import {
   IGeometryInstance,
   IHubContent,
