@@ -21,10 +21,16 @@ export function formatFilterBlock(filter: IFilter) {
 export function formatPredicate(predicate: IPredicate) {
   const formatted = Object.entries(predicate)
     // Remove predicates that use `term` (handled in `getQQueryParam`),
-    // `bbox` (handled in `getBboxQueryParam) or have undefined entries
+    // `bbox` (handled in `getBboxQueryParam),
+    // `fields` (handled in `getFieldsQueryParam)
+    // `flatten` (handled in `getFlattenQueryParam) or have undefined entries
     .filter(
       ([field, value]) =>
-        field !== "term" && field !== "bbox" && !isNilOrEmptyString(value)
+        field !== "term" &&
+        field !== "bbox" &&
+        field !== "fields" &&
+        field !== "flatten" &&
+        !isNilOrEmptyString(value)
     )
     // Create sections for each field
     .reduce((acc, [field, value]) => {
