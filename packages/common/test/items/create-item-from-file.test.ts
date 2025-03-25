@@ -1,7 +1,7 @@
 import { createItemFromFile } from "../../src/items/create-item-from-file";
 import * as portal from "@esri/arcgis-rest-portal";
 import * as _prepareUploadRequestsModule from "../../src/items/_internal/_prepare-upload-requests";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import type { IItemAdd } from "@esri/arcgis-rest-portal";
 
 describe("createItemFromFile", () => {

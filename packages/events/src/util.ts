@@ -4,7 +4,7 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { searchItems, ISearchResult, IItem } from "@esri/arcgis-rest-portal";
 import { IQueryFeaturesOptions } from "@esri/arcgis-rest-feature-layer";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { UserSession } from "@esri/arcgis-rest-auth";
 import { getHubApiUrl } from "@esri/hub-common";
 
 /**
@@ -28,7 +28,7 @@ export function getEventServiceUrl(
   orgId: string,
   requestOptions?: IRequestOptions
 ): Promise<string> {
-  return getEventServiceItem(orgId, requestOptions).then(response => {
+  return getEventServiceItem(orgId, requestOptions).then((response) => {
     const host = getHubApiUrl(requestOptions);
 
     // Extract the Event service's view name; the view returned depends
@@ -64,7 +64,7 @@ export function getEventFeatureServiceUrl(
   orgId: string,
   requestOptions?: IRequestOptions
 ): Promise<string> {
-  return getEventServiceItem(orgId, requestOptions).then(response => {
+  return getEventServiceItem(orgId, requestOptions).then((response) => {
     // single-layer service
     let url = `${response.url}/0`;
     // force https
@@ -140,8 +140,8 @@ export function getEventServiceItem(
   return searchItems({
     q: `typekeywords:hubEventsLayer AND orgid:${orgId}`,
     // mixin requestOptions (if present)
-    ...requestOptions
-  }).then(response => {
+    ...requestOptions,
+  }).then((response) => {
     const eventResponse = response as ISearchResult<IItem>;
     if (eventResponse.results && eventResponse.results.length > 0) {
       let result;

@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-auth";
+import type { IUser } from "@esri/arcgis-rest-portal";
 import { _canEmailUser } from "./_can-email-user";
 import { _getInviteUsers } from "./_get-invite-users";
 
@@ -14,7 +14,7 @@ export function _getEmailUsers(
   includeSelf = false
 ): IUser[] {
   const invitedUsers = _getInviteUsers(users, requestingUser);
-  const emailUsers = invitedUsers.filter(user =>
+  const emailUsers = invitedUsers.filter((user) =>
     _canEmailUser(user, requestingUser)
   );
   if (includeSelf) {

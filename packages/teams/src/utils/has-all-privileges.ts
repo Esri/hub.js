@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-auth";
+import type { IUser } from "@esri/arcgis-rest-portal";
 
 /**
  * Does a user have all the privileges in the passed in array
@@ -9,7 +9,7 @@ export function hasAllPrivileges(user: IUser, privileges: string[]) {
   let result = false;
   // ensure we were passed an array...
   if (Array.isArray(privileges)) {
-    result = privileges.every(priv => user.privileges.indexOf(priv) > -1);
+    result = privileges.every((priv) => user.privileges.indexOf(priv) > -1);
   }
   return result;
 }

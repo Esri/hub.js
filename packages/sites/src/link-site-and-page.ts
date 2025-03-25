@@ -13,7 +13,7 @@ import {
   deepSet,
 } from "@esri/hub-common";
 import { updateItem } from "@esri/arcgis-rest-portal";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { UserSession } from "@esri/arcgis-rest-auth";
 import { isSite } from "./is-site";
 
 /**

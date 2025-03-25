@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-auth";
+import type { IUser } from "@esri/arcgis-rest-portal";
 import { _getAutoAddUsers } from "./_get-auto-add-users";
 
 /**
@@ -12,6 +12,6 @@ export function _getInviteUsers(
 ): IUser[] {
   const autoAddedUsers = _getAutoAddUsers(users, requestingUser);
   return users.filter(
-    user => !autoAddedUsers.some(aau => aau.username === user.username)
+    (user) => !autoAddedUsers.some((aau) => aau.username === user.username)
   );
 }

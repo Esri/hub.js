@@ -2,7 +2,7 @@ import * as _createTeamModule from "../../src/utils/_create-team-group";
 import { IGroupTemplate } from "../../src/types";
 import { _createTeamGroups } from "../../src/utils/_create-team-groups";
 import { IHubRequestOptions, cloneObject } from "@esri/hub-common";
-import { IUser } from "@esri/arcgis-rest-auth";
+import type { IUser } from "@esri/arcgis-rest-portal";
 
 const templates: IGroupTemplate[] = [
   {
@@ -14,7 +14,7 @@ const templates: IGroupTemplate[] = [
       requiredPrivs: ["portal:admin:createUpdateCapableGroup"],
       titleI18n: "collaborationTitle",
       descriptionI18n: "collaborationDesc",
-      snippetI18n: "collaborationSnippet"
+      snippetI18n: "collaborationSnippet",
     },
     access: "org",
     autoJoin: false,
@@ -30,8 +30,8 @@ const templates: IGroupTemplate[] = [
       "Hub Initiative Group",
       "Hub Site Group",
       "Hub Core Team Group",
-      "Hub Team Group"
-    ]
+      "Hub Team Group",
+    ],
   },
   {
     config: {
@@ -42,7 +42,7 @@ const templates: IGroupTemplate[] = [
       requiredPrivs: ["portal:user:createGroup"],
       titleI18n: "contentTitle",
       descriptionI18n: "contentDesc",
-      snippetI18n: "contentSnippet"
+      snippetI18n: "contentSnippet",
     },
     access: "public",
     autoJoin: false,
@@ -54,8 +54,8 @@ const templates: IGroupTemplate[] = [
       "Hub Group",
       "Hub Content Group",
       "Hub Site Group",
-      "Hub Initiative Group"
-    ]
+      "Hub Initiative Group",
+    ],
   },
   {
     config: {
@@ -65,7 +65,7 @@ const templates: IGroupTemplate[] = [
       requiredPrivs: ["portal:user:createGroup"],
       titleI18n: "eventTeamTitle",
       descriptionI18n: "eventTeamDesc",
-      snippetI18n: "eventTeamSnippet"
+      snippetI18n: "eventTeamSnippet",
     },
     access: "public",
     autoJoin: true,
@@ -73,8 +73,8 @@ const templates: IGroupTemplate[] = [
     isViewOnly: false,
     sortField: "title",
     sortOrder: "asc",
-    tags: ["Hub Group", "Hub Event Group", "Hub Initiative Group"]
-  }
+    tags: ["Hub Group", "Hub Event Group", "Hub Initiative Group"],
+  },
 ];
 
 const translations = {
@@ -90,17 +90,17 @@ const translations = {
           contentSnippet: "{title} content snippet",
           eventTeamTitle: "{title} eventTeam title",
           eventTeamDesc: "{title} eventTeam desc",
-          eventTeamSnippet: "{title} eventTeam snippet"
-        }
-      }
-    }
-  }
+          eventTeamSnippet: "{title} eventTeam snippet",
+        },
+      },
+    },
+  },
 };
 
 describe("_createTeamGroups", () => {
   it("creates team groups", async () => {
     const ro = {
-      portalSelf: {}
+      portalSelf: {},
     } as IHubRequestOptions;
 
     const createGroupSpy = spyOn(
@@ -144,7 +144,7 @@ describe("_createTeamGroups", () => {
     expect(res.props).toEqual(
       {
         collaborationGroupId: "some-id",
-        contentGroupId: "some-id"
+        contentGroupId: "some-id",
       },
       "returns correct properties hash"
     );
@@ -152,7 +152,7 @@ describe("_createTeamGroups", () => {
 
   it("rejects if error", async () => {
     const ro = {
-      portalSelf: {}
+      portalSelf: {},
     } as IHubRequestOptions;
 
     spyOn(_createTeamModule, "_createTeamGroup").and.returnValue(

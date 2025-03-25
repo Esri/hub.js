@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { ISearchParams, IHubResults } from "./params";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { UserSession } from "@esri/arcgis-rest-auth";
 import { computeItemsFacets } from "./compute-items-facets";
 import { agoFormatItemCollection } from "./format-item-collection";
 import { getItems } from "./get-items";

@@ -1,5 +1,5 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { UserSession } from "@esri/arcgis-rest-auth";
 
 import { IHubGroup } from "../../core/types/IHubGroup";
 import type { IGroup } from "@esri/arcgis-rest-portal";

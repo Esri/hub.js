@@ -1,8 +1,8 @@
 import {
   addItemResource,
-  IItemResourceResponse
+  IItemResourceResponse,
 } from "@esri/arcgis-rest-portal";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { UserSession } from "@esri/arcgis-rest-auth";
 import { fetchImageAsBlob } from "./fetch-image-as-blob";
 
 /**
@@ -24,7 +24,7 @@ export function fetchAndUploadResource(options: {
       owner: options.owner,
       name: options.fileName,
       resource: file,
-      authentication: options.authentication
+      authentication: options.authentication,
     });
   });
 }

@@ -1,9 +1,9 @@
 import {
   createFolder,
   IAddFolderResponse,
-  getUserContent
+  getUserContent,
 } from "@esri/arcgis-rest-portal";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { UserSession } from "@esri/arcgis-rest-auth";
 
 /**
  * @private

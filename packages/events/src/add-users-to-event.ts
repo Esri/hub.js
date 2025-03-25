@@ -1,9 +1,9 @@
-import { IUser } from "@esri/arcgis-rest-auth";
+import type { IUser } from "@esri/arcgis-rest-portal";
 import {
   addUsersToGroup,
   IConsolidatedResult,
   IEmail,
-  IHubRequestOptions
+  IHubRequestOptions,
 } from "@esri/hub-common";
 
 /**
