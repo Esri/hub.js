@@ -526,6 +526,45 @@ describe("hubSearchItems Module |", () => {
         } as IOgcItemQueryParams;
         expect(result).toEqual(expected);
       });
+
+      it("handles query, auth, limit, startindex, q, flatten, fields and sortBy", () => {
+        const options: IHubSearchOptions = {
+          requestOptions: {
+            authentication: {
+              token: "abc",
+            } as any,
+          },
+          num: 9,
+          start: 10,
+          sortField: "title",
+          sortOrder: "asc",
+        };
+
+        const termQuery: IQuery = cloneObject(query);
+        termQuery.filters.push({
+          operation: "AND",
+          predicates: [
+            { term: "term1" },
+            { bbox: "1,2,3,4" },
+            { flatten: true },
+            { fields: "id, slugs" },
+          ],
+        });
+
+        const result = getOgcItemQueryParams(termQuery, options);
+        const expected = {
+          filter: "((type=typeA))",
+          token: "abc",
+          limit: 9,
+          startindex: 10,
+          q: "term1",
+          sortBy: "properties.title",
+          bbox: "1,2,3,4",
+          flatten: true,
+          fields: "id, slugs",
+        } as IOgcItemQueryParams;
+        expect(result).toEqual(expected);
+      });
     });
 
     describe("getQueryString", () => {

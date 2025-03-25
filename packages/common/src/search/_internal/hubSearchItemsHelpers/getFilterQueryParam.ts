@@ -24,7 +24,11 @@ export function formatPredicate(predicate: IPredicate) {
     // `bbox` (handled in `getBboxQueryParam) or have undefined entries
     .filter(
       ([field, value]) =>
-        field !== "term" && field !== "bbox" && !isNilOrEmptyString(value)
+        field !== "term" &&
+        field !== "bbox" &&
+        field !== "fields" &&
+        field !== "flatten" &&
+        !isNilOrEmptyString(value)
     )
     // Create sections for each field
     .reduce((acc, [field, value]) => {
