@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-auth";
+import type { IUser } from "@esri/arcgis-rest-portal";
 import { _canEmailUser } from "../../add-users-workflow/utils/_can-email-user";
 import { _isOrgAdmin } from "../../add-users-workflow/utils/_is-org-admin";
 import { getProp, getWithDefault } from "../../../objects";
