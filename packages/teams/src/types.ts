@@ -2,7 +2,7 @@ import {
   ArcGISRequestError,
   IAuthenticationManager,
 } from "@esri/arcgis-rest-request";
-import type { IGroup, IUser } from "@esri/arcgis-rest-types";
+import type { IGroup, IUser } from "@esri/arcgis-rest-portal";
 import { IEmail } from "@esri/hub-common";
 
 export type AGOAccess = "public" | "org" | "private";

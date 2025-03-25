@@ -1,7 +1,7 @@
 import * as restPortalModule from "@esri/arcgis-rest-portal";
 import { MOCK_AUTH } from "./fixtures";
 import { updateTeam } from "../src/update-team";
-import type { IGroup } from "@esri/arcgis-rest-types";
+import type { IGroup } from "@esri/arcgis-rest-portal";
 
 describe("update-team", function () {
   let updateTeamSpy: jasmine.Spy;

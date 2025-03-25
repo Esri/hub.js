@@ -1,4 +1,4 @@
-import type { IItem, IUser } from "@esri/arcgis-rest-types";
+import type { IItem, IUser } from "@esri/arcgis-rest-portal";
 import { getProp, IHubRequestOptions } from "@esri/hub-common";
 import { getTeamById } from "./get-team-by-id";
 import { ITeamStatus } from "../types";
