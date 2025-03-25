@@ -3,7 +3,7 @@
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import * as hubCommon from "@esri/hub-common";
-import type { IGroup } from "@esri/arcgis-rest-types";
+import type { IGroup } from "@esri/arcgis-rest-portal";
 import { mockUserSession as authentication } from "@esri/hub-common/test/test-helpers/fake-user-session";
 import * as FormItemPublished from "../../../common/test/mocks/items/form-item-published.json";
 import * as FeatureServiceItem from "../../../common/test/mocks/items/feature-service-item.json";

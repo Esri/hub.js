@@ -5,7 +5,7 @@ import { isPublished } from "../../src/utils/is-published";
 import * as publishUtils from "@esri/hub-common";
 import * as FormItemDraft from "../../../common/test/mocks/items/form-item-draft.json";
 import * as FormItemPublished from "../../../common/test/mocks/items/form-item-published.json";
-import type { IItem } from "@esri/arcgis-rest-types";
+import type { IItem } from "@esri/arcgis-rest-portal";
 
 describe("isPublished", function () {
   it("should return true when isDraft returns false", function () {
