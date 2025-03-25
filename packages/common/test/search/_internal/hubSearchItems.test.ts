@@ -395,6 +395,8 @@ describe("hubSearchItems Module |", () => {
           q: undefined,
           sortBy: undefined,
           bbox: undefined,
+          flatten: undefined,
+          fields: undefined,
         } as IOgcItemQueryParams;
         expect(result).toEqual(expected);
       });
@@ -417,6 +419,8 @@ describe("hubSearchItems Module |", () => {
           q: undefined,
           sortBy: undefined,
           bbox: undefined,
+          flatten: undefined,
+          fields: undefined,
         } as IOgcItemQueryParams;
         expect(result).toEqual(expected);
       });
@@ -440,6 +444,8 @@ describe("hubSearchItems Module |", () => {
           q: undefined,
           sortBy: undefined,
           bbox: undefined,
+          flatten: undefined,
+          fields: undefined,
         } as IOgcItemQueryParams;
         expect(result).toEqual(expected);
       });
@@ -464,6 +470,8 @@ describe("hubSearchItems Module |", () => {
           q: undefined,
           sortBy: undefined,
           bbox: undefined,
+          flatten: undefined,
+          fields: undefined,
         } as IOgcItemQueryParams;
         expect(result).toEqual(expected);
       });
@@ -491,6 +499,8 @@ describe("hubSearchItems Module |", () => {
           q: "term1",
           sortBy: undefined,
           bbox: undefined,
+          flatten: undefined,
+          fields: undefined,
         } as IOgcItemQueryParams;
         expect(result).toEqual(expected);
       });
@@ -523,6 +533,8 @@ describe("hubSearchItems Module |", () => {
           q: "term1",
           sortBy: "properties.title",
           bbox: "1,2,3,4",
+          flatten: undefined,
+          fields: undefined,
         } as IOgcItemQueryParams;
         expect(result).toEqual(expected);
       });
