@@ -1,3 +1,10 @@
+# @esri/hub-common [15.45.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.44.0...@esri/hub-common@15.45.0) (2025-03-26)
+
+
+### Features
+
+* **hub-common:** add optional param notIds to ISearchChannels ([#1844](https://github.com/Esri/hub.js/issues/1844)) ([0b57b8f](https://github.com/Esri/hub.js/commit/0b57b8fb4150545553bd377855321996dfd03263))
+
 # @esri/hub-common [15.44.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.43.0...@esri/hub-common@15.44.0) (2025-03-25)
 
 
