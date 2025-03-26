@@ -1,12 +1,10 @@
 /* tslint:disable no-console */
-import { _setConfigSetting, _getConfigSetting } from "./internal/config";
+import { logLevel } from "./internal/config";
 
-// TODO: stop exporting this at the next breaking change
-// only exporting for backward compatibility
 /**
  * Enum for Logger Levels
  */
-export enum Level {
+enum Level {
   all,
   debug,
   info,
@@ -37,17 +35,6 @@ export enum Level {
  * ```
  */
 export class Logger {
-  // TODO: remove this at next breaking change
-  /**
-   * DEPRECATED: configure log level with `globalThis.arcgisHubConfig.logLevel` instead
-   * Sets the global log level
-   * @param {Level} level
-   */
-  public static setLogLevel(level: Level) {
-    const levelName = Level[level];
-    _setConfigSetting("logLevel", levelName);
-  }
-
   /**
    * Logs to debug if level is enabled
    * @param {string} message
@@ -104,8 +91,7 @@ export class Logger {
   }
 
   private static isLevelPermitted(level: Level) {
-    const configuredLevel =
-      Level[_getConfigSetting("logLevel") as keyof typeof Level];
+    const configuredLevel = Level[logLevel as keyof typeof Level];
     return configuredLevel <= level;
   }
 }

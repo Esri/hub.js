@@ -717,7 +717,6 @@ xdescribe("index", () => {
     "withoutByProp",
     "propifyString",
     "incrementString",
-    "Level",
     "Logger",
     "isUpdateGroup",
     "runRevertableTask",
