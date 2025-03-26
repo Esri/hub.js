@@ -9,13 +9,12 @@
  * move them to index.ts only when they are needed by a consumer.
  */
 import { parseServiceUrl } from "@esri/arcgis-rest-feature-layer";
-import { IItem, IPortal } from "@esri/arcgis-rest-portal";
-import {
+import type { IItem, IPortal, IUser } from "@esri/arcgis-rest-portal";
+import type {
   IExtent,
   ILayerDefinition,
   ISpatialReference,
-  IUser,
-} from "@esri/arcgis-rest-types";
+} from "@esri/arcgis-rest-feature-layer";
 import {
   IGeometryInstance,
   IHubContent,
@@ -47,7 +46,7 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { geojsonToArcGIS } from "@terraformer/arcgis";
 import { Polygon } from "geojson";
 import { getHubApiUrl } from "../../api";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { isSiteType } from "../compose";
 
 /**

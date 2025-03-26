@@ -4,14 +4,14 @@
 import {
   saveModel,
   updateModel,
-  getProjectedExtentAsBBOXString
+  getProjectedExtentAsBBOXString,
 } from "../src/model";
 import * as fetchMock from "fetch-mock";
 import { MOCK_REQUEST_OPTIONS } from "./mocks/fake-session";
 import geometryService from "../src/geometry";
 import { IModel } from "@esri/hub-common/src";
 
-const REST_URL = "https://www.arcgis.com/sharing/rest";
+const REST_URL = MOCK_REQUEST_OPTIONS.authentication.portal;
 
 describe("model functions ::", () => {
   afterEach(() => {
@@ -19,29 +19,29 @@ describe("model functions ::", () => {
   });
 
   describe("saving a model item ::", () => {
-    it("should convert data to .text, attach the id", done => {
-      const m = ({
+    it("should convert data to .text, attach the id", (done) => {
+      const m = {
         item: {
           owner: "vader",
           type: "Web Map",
-          tags: ["test webmap"]
+          tags: ["test webmap"],
         },
         data: {
           some: {
-            content: "nested deep"
-          }
-        }
-      } as any) as IModel;
+            content: "nested deep",
+          },
+        },
+      } as any as IModel;
 
       // expect a fetch...
       fetchMock.post(`${REST_URL}/content/users/vader/addItem`, {
         success: true,
-        id: "from-mock"
+        id: "from-mock",
       });
 
       // call the fn...
       saveModel(m, MOCK_REQUEST_OPTIONS)
-        .then(result => {
+        .then((result) => {
           expect(result).not.toBe(m, "should return a clone");
           expect(result.item.id).toEqual(
             "from-mock",
@@ -59,30 +59,30 @@ describe("model functions ::", () => {
   });
 
   describe("updating a model item ::", () => {
-    it("should post", done => {
-      const m = ({
+    it("should post", (done) => {
+      const m = {
         item: {
           id: "bc7",
           owner: "vader",
           type: "Web Map",
-          tags: ["test webmap"]
+          tags: ["test webmap"],
         },
         data: {
           some: {
-            content: "nested deep"
-          }
-        }
-      } as any) as IModel;
+            content: "nested deep",
+          },
+        },
+      } as any as IModel;
 
       // expect a fetch...
       fetchMock.post(`${REST_URL}/content/users/vader/items/bc7/update`, {
         success: true,
-        id: "bc7"
+        id: "bc7",
       });
 
       // call the fn...
       updateModel(m, MOCK_REQUEST_OPTIONS)
-        .then(result => {
+        .then((result) => {
           expect(result).not.toBe(m, "should return a clone");
           expect(result.item.id).toEqual("bc7", "should keep the id");
           expect(fetchMock.done()).toBeTruthy();
@@ -99,21 +99,21 @@ describe("model functions ::", () => {
       xmax: -8560023.564032335,
       ymax: 4726686.262982995,
       spatialReference: {
-        wkid: 102100
-      }
+        wkid: 102100,
+      },
     };
-    it("should call public geometryService if no portal passed", done => {
+    it("should call public geometryService if no portal passed", (done) => {
       const opts = {
-        extent
+        extent,
       };
       const projSpy = spyOn(geometryService, "project").and.callFake(() => {
         const result = {
-          geometries: [{ xmin: -77, ymin: 38, xmax: -76, ymax: 39 }]
+          geometries: [{ xmin: -77, ymin: 38, xmax: -76, ymax: 39 }],
         };
         return Promise.resolve(result);
       });
       getProjectedExtentAsBBOXString(opts, MOCK_REQUEST_OPTIONS)
-        .then(bbox => {
+        .then((bbox) => {
           expect(bbox).toEqual(
             "-77,38,-76,39",
             "should format at WESN bbox string"
@@ -139,25 +139,25 @@ describe("model functions ::", () => {
         .catch(() => fail());
     });
 
-    it("should use portal geometryService if portal passed", done => {
+    it("should use portal geometryService if portal passed", (done) => {
       const opts = {
         extent,
         portal: {
           helperServices: {
             geometry: {
-              url: "https://some.other.server.com/Geometry/GeometryServer"
-            }
-          }
-        }
+              url: "https://some.other.server.com/Geometry/GeometryServer",
+            },
+          },
+        },
       };
       const projSpy = spyOn(geometryService, "project").and.callFake(() => {
         const result = {
-          geometries: [{ xmin: -77, ymin: 38, xmax: -76, ymax: 39 }]
+          geometries: [{ xmin: -77, ymin: 38, xmax: -76, ymax: 39 }],
         };
         return Promise.resolve(result);
       });
       getProjectedExtentAsBBOXString(opts, MOCK_REQUEST_OPTIONS)
-        .then(bbox => {
+        .then((bbox) => {
           expect(projSpy.calls.count()).toEqual(
             1,
             "should make one call to geometry.project"

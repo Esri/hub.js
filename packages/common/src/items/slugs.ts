@@ -1,6 +1,6 @@
 import { getItem, ISearchOptions, searchItems } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IItem } from "@esri/arcgis-rest-types";
+import type { IItem } from "@esri/arcgis-rest-portal";
 import { slugify } from "../utils";
 import { TYPEKEYWORD_SLUG_PREFIX, truncateSlug } from "./_internal/slugs";
 import { uriSlugToKeywordSlug } from "./_internal/slugConverters";

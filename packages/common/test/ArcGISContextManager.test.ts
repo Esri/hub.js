@@ -833,9 +833,11 @@ describe("ArcGISContext:", () => {
         }
       );
       // flex case where auth does not have clientId
-      const MOCK_AUTH_NO_CLIENTID = new authModule.UserSession({
+      const token = "fake-token";
+      const MOCK_AUTH_NO_CLIENTID = {
+        getToken: () => Promise.resolve(token),
         redirectUri: "https://example-app.com/redirect-uri",
-        token: "fake-token",
+        token,
         tokenExpires: TOMORROW,
         refreshToken: "refreshToken",
         refreshTokenExpires: TOMORROW,
@@ -843,7 +845,7 @@ describe("ArcGISContext:", () => {
         username: "casey",
         password: "123456",
         portal: "https://myorg.maps.arcgis.com/sharing/rest",
-      });
+      } as any;
 
       await ArcGISContextManager.create({
         authentication: MOCK_AUTH_NO_CLIENTID,

@@ -1,5 +1,5 @@
 import { ISearchParams } from "./params";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { UserSession } from "@esri/arcgis-rest-auth";
 import { ISearchResult, IItem, searchItems } from "@esri/arcgis-rest-portal";
 import { encodeAgoQuery } from "./encode-ago-query";
 import { getProp, chunkArray } from "@esri/hub-common";

@@ -1,3 +1,10 @@
+# @esri/hub-common [15.44.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.43.0...@esri/hub-common@15.44.0) (2025-03-25)
+
+
+### Features
+
+* **hub-common:** support flatten and fields predicates in hubSearch() ([#1842](https://github.com/Esri/hub.js/issues/1842)) ([cf737a0](https://github.com/Esri/hub.js/commit/cf737a0860ceea29aeb7ec7d6635d8f1542b16c6))
+
 # @esri/hub-common [15.43.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.42.0...@esri/hub-common@15.43.0) (2025-03-20)
 
 

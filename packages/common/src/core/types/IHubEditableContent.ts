@@ -1,4 +1,4 @@
-import { IFeatureServiceDefinition } from "@esri/arcgis-rest-types";
+import type { IFeatureServiceDefinition } from "@esri/arcgis-rest-feature-layer";
 import { IWithPermissions, IWithSlug } from "../traits/index";
 import { IHubAdditionalResource } from "./IHubAdditionalResource";
 import { IHubItemEntity, IHubItemEntityEditor } from "./IHubItemEntity";

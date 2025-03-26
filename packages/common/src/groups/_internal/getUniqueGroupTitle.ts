@@ -1,6 +1,6 @@
 import { IQuery } from "../../search/types";
 import { hubSearch } from "../../search/hubSearch";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 /**
  * @private

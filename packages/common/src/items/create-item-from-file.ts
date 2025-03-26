@@ -1,4 +1,4 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import {
   addItemPart,
   cancelItemUpload,
@@ -6,7 +6,7 @@ import {
   createItem,
   ICreateItemResponse,
 } from "@esri/arcgis-rest-portal";
-import { IItemAdd } from "@esri/arcgis-rest-types";
+import type { IItemAdd } from "@esri/arcgis-rest-portal";
 import { isBBox, bboxToString } from "../extent";
 import { batch } from "../utils";
 import { _prepareUploadRequests } from "./_internal/_prepare-upload-requests";

@@ -1,11 +1,11 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import {
   ICreateItemResponse,
   ISharingResponse,
   setItemAccess,
   shareItemWithGroup,
 } from "@esri/arcgis-rest-portal";
-import { IGroup, IItemAdd } from "@esri/arcgis-rest-types";
+import type { IGroup, IItemAdd } from "@esri/arcgis-rest-portal";
 import { failSafe, isUpdateGroup } from "../utils";
 import { createItemFromFile } from "./create-item-from-file";
 import { createItemFromUrl } from "./create-item-from-url";

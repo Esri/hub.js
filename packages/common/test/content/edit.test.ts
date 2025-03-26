@@ -11,10 +11,9 @@ import {
   updateContent,
 } from "../../src/content/edit";
 import { cloneObject } from "../../src/util";
-import { UserSession } from "@esri/arcgis-rest-auth";
 
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
-const myMockAuth = new UserSession({
+const myMockAuth = {
   clientId: "clientId",
   redirectUri: "https://example-app.com/redirect-uri",
   token: "fake-token",
@@ -25,7 +24,7 @@ const myMockAuth = new UserSession({
   username: "casey",
   password: "123456",
   portal: MOCK_HUB_REQOPTS.hubApiUrl,
-});
+} as any;
 
 describe("content editing:", () => {
   beforeAll(() => {

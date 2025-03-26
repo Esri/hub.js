@@ -1,16 +1,14 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import {
-  IItem,
-  IUser,
-  IGroup,
+import type { IItem, IUser, IGroup } from "@esri/arcgis-rest-portal";
+import type {
   IPolygon,
   ISpatialReference,
   IGeometry,
 } from "@esri/arcgis-rest-types";
 import { IPortal, ISearchResult } from "@esri/arcgis-rest-portal";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { UserSession } from "@esri/arcgis-rest-auth";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 /**

@@ -1,6 +1,6 @@
-import { IGroup } from "@esri/arcgis-rest-types";
+import type { IGroup } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { UserSession } from "@esri/arcgis-rest-auth";
 import { IHubEntityLinks } from "../../core/types";
 import { getRelativeWorkspaceUrl } from "../../core/getRelativeWorkspaceUrl";
 import { getGroupHomeUrl } from "../../urls/getGroupHomeUrl";

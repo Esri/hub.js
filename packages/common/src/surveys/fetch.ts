@@ -1,5 +1,5 @@
 import { getItem } from "@esri/arcgis-rest-portal";
-import { IItem } from "@esri/arcgis-rest-types";
+import type { IItem } from "@esri/arcgis-rest-portal";
 import { IHubSurvey } from "../core/types/IHubSurvey";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { computeProps } from "./_internal/computeProps";

@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-auth";
+import type { IUser } from "@esri/arcgis-rest-portal";
 import { cloneObject, HubProduct } from "@esri/hub-common";
 import { WELLKNOWNTEAMS } from "../well-known-teams";
 import { canUserCreateTeamInProduct } from "./can-user-create-team-in-product";

@@ -1,7 +1,6 @@
 import * as fetchMock from "fetch-mock";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as featureLayer from "@esri/arcgis-rest-feature-layer";
-import { UserSession } from "@esri/arcgis-rest-auth";
 import { portalRequestDownloadMetadata } from "../../src/portal/portal-request-download-metadata";
 import { ArcGISAuthError } from "@esri/arcgis-rest-request";
 
@@ -14,7 +13,7 @@ function buildAuth({
   portal?: string;
   token: string;
 }) {
-  const authentication = new UserSession({ username, portal, token });
+  const authentication = { username, portal, token } as any;
   authentication.getToken = () =>
     new Promise((resolve) => {
       resolve(token);
@@ -31,7 +30,7 @@ describe("portalRequestDownloadMetadata", () => {
   });
   afterEach(() => fetchMock.restore());
 
-  describe('failed service requests', () => {
+  describe("failed service requests", () => {
     // See https://github.com/Esri/arcgis-rest-js/issues/920 for context
     it("retries failed service requests without token if they threw auth error", async () => {
       const featureServiceResponse = { layers: [{ id: 0 }] };
@@ -84,7 +83,9 @@ describe("portalRequestDownloadMetadata", () => {
       expect(mockAuthErrorForServiceCall.retry).toHaveBeenCalled();
       expect(mockAuthErrorForLayerCall.retry).toHaveBeenCalled();
 
-      const getSessionFunc = (mockAuthErrorForServiceCall.retry as jasmine.Spy).calls.argsFor(0)[0];
+      const getSessionFunc = (
+        mockAuthErrorForServiceCall.retry as jasmine.Spy
+      ).calls.argsFor(0)[0];
       expect(await getSessionFunc()).toBeNull();
     });
 
@@ -97,11 +98,15 @@ describe("portalRequestDownloadMetadata", () => {
           modified: new Date(1593450876).getTime(),
           url: "http://feature-service.com/FeatureServer",
         })
-        );
+      );
 
-        spyOn(featureLayer, "getService").and.callFake(() => Promise.reject(new NotAnAuthError()));
+      spyOn(featureLayer, "getService").and.callFake(() =>
+        Promise.reject(new NotAnAuthError())
+      );
 
-        spyOn(featureLayer, "getLayer").and.callFake(() => Promise.reject(new NotAnAuthError()));
+      spyOn(featureLayer, "getLayer").and.callFake(() =>
+        Promise.reject(new NotAnAuthError())
+      );
 
       try {
         await portalRequestDownloadMetadata({
@@ -110,7 +115,7 @@ describe("portalRequestDownloadMetadata", () => {
           authentication,
         });
 
-        fail('should reject!');
+        fail("should reject!");
       } catch (err) {
         expect(err).toEqual(jasmine.any(NotAnAuthError));
       }
@@ -345,7 +350,7 @@ describe("portalRequestDownloadMetadata", () => {
       );
     });
 
-    it("prefers portal param over UserSession portal for base URL", async (done) => {
+    it("prefers portal param over authentication portal for base URL", async (done) => {
       try {
         const urlFromPortalParam = "https://my.portal.base.url/sharing/rest";
 
@@ -397,7 +402,7 @@ describe("portalRequestDownloadMetadata", () => {
       }
     });
 
-    it("uses portal param if UserSession doesnt contain a portal URL", async (done) => {
+    it("uses portal param if authentication doesnt contain a portal URL", async (done) => {
       try {
         const urlFromPortalParam = "https://my.portal.base.url/sharing/rest";
 
@@ -448,7 +453,7 @@ describe("portalRequestDownloadMetadata", () => {
       }
     });
 
-    it("uses portal param if no UserSession", async (done) => {
+    it("uses portal param if no authentication", async (done) => {
       try {
         const urlFromPortalParam = "https://my.portal.base.url/sharing/rest";
 
@@ -493,7 +498,7 @@ describe("portalRequestDownloadMetadata", () => {
       }
     });
 
-    it("uses UserSession portal if no portal param", async (done) => {
+    it("uses authentication portal if no portal param", async (done) => {
       try {
         const portalFromAuth = "https://url-from-auth.com/sharing/rest";
         const localAuth = buildAuth({

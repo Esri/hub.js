@@ -1,8 +1,8 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { UserSession } from "@esri/arcgis-rest-auth";
 
 import { IHubGroup } from "../../core/types/IHubGroup";
-import { IGroup } from "@esri/arcgis-rest-types";
+import type { IGroup } from "@esri/arcgis-rest-portal";
 import { isDiscussable } from "../../discussions";
 import { getGroupThumbnailUrl } from "../../search/utils";
 import { computeLinks } from "./computeLinks";

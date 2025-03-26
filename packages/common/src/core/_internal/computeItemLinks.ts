@@ -1,6 +1,6 @@
-import { IItem } from "@esri/arcgis-rest-types";
+import type { IItem } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { UserSession } from "@esri/arcgis-rest-auth";
 import { getItemHomeUrl } from "../../urls";
 import { IHubEntityLinks } from "../../core/types";
 import { getItemIdentifier } from "../../items";

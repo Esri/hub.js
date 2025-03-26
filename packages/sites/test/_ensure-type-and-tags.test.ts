@@ -1,6 +1,6 @@
 import { _ensureTypeAndTags } from "../src";
 import { IModel } from "@esri/hub-common";
-import { IItem } from "@esri/arcgis-rest-types";
+import type { IItem } from "@esri/arcgis-rest-portal";
 
 describe("_ensureTypeAndTags", () => {
   it("adds type and tags when not present", () => {
@@ -9,8 +9,8 @@ describe("_ensureTypeAndTags", () => {
     expect(_ensureTypeAndTags(model, false)).toEqual({
       item: {
         type: "Hub Site Application",
-        typeKeywords: ["hubSite"]
-      } as IItem
+        typeKeywords: ["hubSite"],
+      } as IItem,
     });
   });
 
@@ -18,15 +18,15 @@ describe("_ensureTypeAndTags", () => {
     const model = {
       item: {
         type: "Foo Bar",
-        typeKeywords: ["hubSite"]
-      }
+        typeKeywords: ["hubSite"],
+      },
     } as IModel;
 
     expect(_ensureTypeAndTags(model, false)).toEqual({
       item: {
         type: "Hub Site Application",
-        typeKeywords: ["hubSite"]
-      } as IItem
+        typeKeywords: ["hubSite"],
+      } as IItem,
     });
   });
 });

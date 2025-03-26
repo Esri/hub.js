@@ -1,5 +1,5 @@
 import { SearchQueryBuilder } from "@esri/arcgis-rest-portal";
-import { ISpatialReference } from "@esri/arcgis-rest-types";
+import type { ISpatialReference } from "@esri/arcgis-rest-feature-layer";
 import { btoa } from "abab";
 import { flattenArray } from "../util";
 import { PORTAL_EXPORT_TYPES } from "./types";

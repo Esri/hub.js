@@ -1,4 +1,4 @@
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { get } from "fetch-mock";
 import { IHubRequestOptions } from "../../src";
 
 export function expectAllCalled(spys: jasmine.Spy[], expect: any) {
@@ -25,10 +25,12 @@ export const getTomorrow = function () {
 
 export const TOMORROW = getTomorrow();
 
-export const MOCK_USER_SESSION = new UserSession({
+const token = "fake-token";
+export const MOCK_USER_SESSION = {
   clientId: "clientId",
+  getToken: () => Promise.resolve(token),
   redirectUri: "https://example-app.com/redirect-uri",
-  token: "fake-token",
+  token,
   tokenExpires: TOMORROW,
   refreshToken: "refreshToken",
   refreshTokenExpires: TOMORROW,
@@ -36,7 +38,7 @@ export const MOCK_USER_SESSION = new UserSession({
   username: "luke",
   password: "teHf0rc3",
   portal: "https://myorg.maps.arcgis.com/sharing/rest",
-});
+} as any;
 
 export const MOCK_HUB_REQOPTS = {
   authentication: MOCK_USER_SESSION,
@@ -49,10 +51,11 @@ export const MOCK_HUB_REQOPTS = {
   hubApiUrl: "https://hubqa.arcgis.com",
 } as unknown as IHubRequestOptions;
 
-export const MOCK_PORTAL_USER_SESSION = new UserSession({
+export const MOCK_PORTAL_USER_SESSION = {
   clientId: "clientId",
+  getToken: () => Promise.resolve(token),
   redirectUri: "https://example-app.com/redirect-uri",
-  token: "fake-token",
+  token,
   tokenExpires: TOMORROW,
   refreshToken: "refreshToken",
   refreshTokenExpires: TOMORROW,
@@ -60,7 +63,7 @@ export const MOCK_PORTAL_USER_SESSION = new UserSession({
   username: "luke",
   password: "teHf0rc3",
   portal: "https://myportal.foo.com/instancename/sharing/rest",
-});
+} as any;
 
 export const MOCK_PORTAL_REQOPTS = {
   authentication: MOCK_PORTAL_USER_SESSION,
