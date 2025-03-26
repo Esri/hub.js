@@ -76,6 +76,8 @@ export interface IHubCollection {
    * Default sort direction for the Collection
    */
   sortDirection?: "asc" | "desc";
+  /** default number of results to return */
+  limit?: number;
   /**
    * What entity is this query targeting. This is used internally to
    * ensure we query the correct API
@@ -202,7 +204,6 @@ export interface IGalleryDisplayConfig {
   showLinkButton?: boolean;
   linkButtonStyle?: "solid" | "outline" | "outline-fill" | "transparent";
   linkButtonText?: string;
-  sort?: "relevance" | "title" | "created" | "modified";
   filters?: Array<{
     key:
       | "location"

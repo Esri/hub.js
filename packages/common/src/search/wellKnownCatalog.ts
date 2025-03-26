@@ -80,6 +80,8 @@ export function getWellKnownCatalog(
       return getWellknownItemCatalog(i18nScope, catalogName, options);
     case "group":
       return getWellknownGroupCatalog(i18nScope, catalogName, options);
+    case "user":
+      return getWellKnownUserCatalog(i18nScope, catalogName, options);
     /* Add other entity handlers here, e.g. getWellknownEventCatalog */
     default:
       throw new Error(`Wellknown catalog not implemented for "${entityType}"`);
@@ -337,6 +339,63 @@ function getWellknownGroupCatalog(
         [{ predicates: [{ capabilities: [""] }] }, ...additionalFilters],
         collections,
         "group"
+      );
+      break;
+  }
+  return catalog;
+}
+
+function getWellKnownUserCatalog(
+  i18nScope: string,
+  catalogName: WellKnownCatalog,
+  options?: IGetWellKnownCatalogOptions
+): IHubCatalog {
+  
+  i18nScope = dotifyString(i18nScope);
+  let catalog;
+  const additionalFilters = getProp(options, "filters") || [];
+  const context = getProp(options, "context");
+  const collections = [] as IHubCollection[];
+
+  switch (catalogName) {
+    case "organization":
+      validateUserExistence(catalogName, options);
+      catalog = buildCatalog(
+        i18nScope,
+        catalogName,
+        [{ predicates: [{ orgid: options.user.orgId }] }, ...additionalFilters],
+        collections,
+        "user"
+      );
+      break;
+    case "community":
+      const communityOrgId = _getCOrgOrEOrgId(context);
+      // only build the catalog if there is a community org id
+      if (communityOrgId) {
+        catalog = buildCatalog(
+          i18nScope,
+          catalogName,
+          [{ predicates: [{ orgid: communityOrgId }] }, ...additionalFilters],
+          collections,
+          "user",
+          // If we're in a community org, use the community org name
+          // as the catalog title
+          context.isCommunityOrg
+            ? _getEOrgName(communityOrgId, context)
+            : undefined
+        );
+      }
+      break;
+    case "world":
+      catalog = buildCatalog(
+        i18nScope,
+        catalogName,
+        [
+          { predicates: [{ type: { not: ["code attachment"] } }] },
+          ...additionalFilters,
+        ],
+        collections,
+        "user"
       );
       break;
   }
