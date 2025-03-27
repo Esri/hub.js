@@ -385,7 +385,7 @@ export async function updateSite(
   // in `data.catalog.collections` to the search category format.
   // TODO: Remove once the app no longer relies on `data.values.searchCategories`
   modelToUpdate = reflectCollectionsToSearchCategories(modelToUpdate);
-  // At this point `data.catalogV2` has become a full IHubCatalog object due to an in-memory
+  // At this point `data.catalog` has become a full IHubCatalog object due to an in-memory
   // migration. However, we can't persist an IHubCatalog in `data.catalog` without breaking
   // the application, since most of the app relies on the old catalog structure. As such,
   // we convert any changes made to the catalog scope into the old format and merge the changes

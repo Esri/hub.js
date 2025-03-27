@@ -21,8 +21,8 @@ export function convertCatalogToLegacyFormat(
   const updatedModel = cloneObject(modelToUpdate);
   const catalog = getCatalogFromSiteModel(updatedModel);
   const legacyCatalog = catalogToLegacy(catalog);
-  // If the catalog has groups, we update the model with the legacy catalog
-  if (legacyCatalog.groups.length) {
+  // If the catalog has groups array, we update the model with the legacy catalog
+  if (Array.isArray(legacyCatalog.groups)) {
     updatedModel.data.catalog = legacyCatalog;
   } else {
     // This shouldn't happen, but in case something is malformed we protect the data integrity
