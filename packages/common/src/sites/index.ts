@@ -31,3 +31,5 @@ export * from "./get-catalog-from-site-model";
 // Exporting these keys to access in the catalog builder so
 // we can apply translated labels to default site collections
 export { defaultSiteCollectionKeys } from "./defaultSiteCollectionKeys";
+// Exporting temporarily since the content library needs this until it's deleted
+export * from "./searchCategoriesToCollections";
