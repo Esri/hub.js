@@ -36,7 +36,6 @@ export const ProjectPermissions = [
   "hub:project:workspace:content",
   "hub:project:workspace:events",
   "hub:project:workspace:metrics",
-  "hub:project:workspace:catalogs", // deprecated - should be removed
   "hub:project:workspace:catalog",
   "hub:project:manage",
 ] as const;
@@ -166,16 +165,6 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:project:workspace:metrics",
     dependencies: ["hub:project:workspace", "hub:project:edit"],
-  },
-  // DEPRECATED - use hub:project:workspace:catalog instead
-  // TODO: remove in next breaking change
-  {
-    permission: "hub:project:workspace:catalogs",
-    dependencies: [
-      "hub:project:workspace",
-      "hub:feature:catalogs",
-      "hub:project:edit",
-    ],
   },
   {
     permission: "hub:project:workspace:catalog",
