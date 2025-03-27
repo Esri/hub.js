@@ -35,7 +35,6 @@ import {
   applyWellKnownCollectionFilters,
   applyWellKnownItemPredicates,
   expandPredicates,
-  expandQuery,
 } from "./_internal/portalSearchItems";
 
 /**
@@ -295,7 +294,7 @@ export function migrateToCollectionKey(
  * DEPRECATED: Please use `getGroupPredicate`
  * Searches through a catalog scope and retrieves the predicate responsible
  * for determining group sharing requirements.
- * Still in use 10/29/2024
+ * Still in use in opendata-ui as of 03/26/2025
  * @param scope Catalog scope to search through
  * @returns The first predicate with a `group` field (if present)
  */
@@ -320,7 +319,7 @@ export function getScopeGroupPredicate(scope: IQuery): IPredicate {
  */
 export function getGroupPredicate(query: IQuery): IPredicate {
   const predicate = "group";
-  const expandedQuery = expandQuery(query);
+  const expandedQuery = expandPortalQuery(query);
   const isTargetPredicate = (p: IPredicate) => !!p[predicate];
   const filter = expandedQuery.filters.find((f) =>
     f.predicates.find(isTargetPredicate)
