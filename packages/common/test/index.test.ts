@@ -755,7 +755,6 @@ xdescribe("index", () => {
     "getCardModelUrlFromEntity",
     "EntityEditor",
     "explainQueryResult",
-    "getAddContentConfig",
     "getCatalogGroups",
     "getPredicateValues",
     "getUserGroupsByMembership",
