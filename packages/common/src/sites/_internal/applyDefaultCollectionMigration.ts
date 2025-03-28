@@ -5,7 +5,7 @@ import { searchCategoriesToCollections } from "../searchCategoriesToCollections"
 /**
  * In-Memory migration that adds default collections to site models that have the
  * new catalog structure. These default collections will have the same names and
- * display order found in `site.data.values.searchCategories`
+ * display order as found in `site.data.values.searchCategories`
  *
  * This migration simplifies display logic, as consuming components no longer
  * have to merge `catalog.collections` with the default collection definitions.
