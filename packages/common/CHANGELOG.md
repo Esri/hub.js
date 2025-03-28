@@ -1,3 +1,10 @@
+# @esri/hub-common [15.46.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.45.0...@esri/hub-common@15.46.0) (2025-03-28)
+
+
+### Features
+
+* **hub-common:** remove all collection, update default collection definitions, start persisting IHubCatalog to sites ([#1833](https://github.com/Esri/hub.js/issues/1833)) ([0d09013](https://github.com/Esri/hub.js/commit/0d090137e829d7c0c31e7f0f5021f37ef9c1b75a))
+
 # @esri/hub-common [15.45.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.44.0...@esri/hub-common@15.45.0) (2025-03-26)
 
 
