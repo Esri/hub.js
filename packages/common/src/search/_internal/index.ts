@@ -1,4 +1,3 @@
-export * from "./getWorkflowForType";
 export * from "./hubSearchChannels";
 export * from "./hubSearchEventAttendees";
 export * from "./hubSearchEvents";

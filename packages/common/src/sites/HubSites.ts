@@ -378,6 +378,8 @@ export async function updateSite(
   // handle any domain changes
   await handleDomainChanges(modelToUpdate, currentModel, requestOptions);
 
+  // Persist the new catalog to new property until the app is fully migrated
+  modelToUpdate.data.catalogV2 = site.catalog;
   // Because some old (but critical) application code still uses `data.values.searchCategories`
   // as the source of truth for collection display configuration, we port all display changes
   // in `data.catalog.collections` to the search category format.

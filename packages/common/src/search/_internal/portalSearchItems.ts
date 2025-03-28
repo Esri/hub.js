@@ -65,25 +65,6 @@ export function portalSearchItemsAsItems(
 }
 
 /**
- * DEPRECATED - use expandPortalQuery instead
- *
- *
- * @internal
- * Expand an IQuery by applying well-known filters and predicates,
- * and then expanding all the predicates into IMatchOption objects.
- * @param query `IQuery` to expand
- * @returns IQuery
- */
-export function expandQuery(query: IQuery): IQuery {
-  let updatedQuery = applyWellKnownCollectionFilters(query);
-  // Expand well-known filterGroups
-  // TODO: Should we remove this with the whole idea of collections?
-  updatedQuery = applyWellKnownItemPredicates(updatedQuery);
-  // Expand the individual predicates in each filter
-  return expandPredicates(updatedQuery);
-}
-
-/**
  * Expand the predicates in a query without applying
  * the well-known type expansions
  * @param query

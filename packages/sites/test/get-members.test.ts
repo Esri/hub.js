@@ -32,7 +32,7 @@ describe("getMembers", function () {
   ];
 
   beforeEach(() => {
-    loggerSpy = spyOn(console, "error").and.stub();
+    loggerSpy = spyOn(hubCommon.Logger, "error").and.stub();
 
     members = [];
     usernames = ["username1", "username2"];
@@ -107,7 +107,6 @@ describe("getMembers", function () {
       expect(members.length).toEqual(2 * MOCK_MEMBERS.length);
     });
     it("handles errors appropriately", async function () {
-      hubCommon.Logger.setLogLevel(hubCommon.Level.all);
       requestSpy = spyOn(restRequest, "request").and.returnValue(
         Promise.reject(Error("network request failed"))
       );
@@ -188,7 +187,6 @@ describe("getMembers", function () {
       });
     });
     it("handles errors appropriately", async function () {
-      hubCommon.Logger.setLogLevel(hubCommon.Level.all);
       getUserSpy = spyOn(restPortal, "getUser").and.returnValue(
         Promise.reject(Error("network request failed"))
       );

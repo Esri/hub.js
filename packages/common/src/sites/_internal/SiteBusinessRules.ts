@@ -35,6 +35,7 @@ export const SitePermissions = [
   "hub:site:workspace:details",
   "hub:site:workspace:settings",
   "hub:site:workspace:collaborators",
+  // DEPRECATED - use hub:site:workspace:catalog instead
   "hub:site:workspace:content",
   "hub:site:workspace:catalog",
   "hub:site:workspace:catalog:content",
@@ -156,6 +157,7 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:site:workspace", "hub:site:edit"],
   },
   // DEPRECATED - use hub:site:workspace:catalog instead
+  // NOTE: this is still used in opendata-ui as of 03/26/2025
   // TODO: remove in next breaking change
   {
     permission: "hub:site:workspace:content",

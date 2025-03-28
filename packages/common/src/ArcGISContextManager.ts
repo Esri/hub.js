@@ -103,11 +103,6 @@ export class ArcGISContextManager {
     // Having a unique id makes debugging easier
     this.id = new Date().getTime();
 
-    // TODO: remove all log level logic at next breaking change
-    if (opts.logLevel) {
-      Logger.setLogLevel(opts.logLevel);
-    }
-
     Logger.debug(`ArcGISContextManager:ctor: Creating ${this.id}`);
 
     if (opts.properties) {

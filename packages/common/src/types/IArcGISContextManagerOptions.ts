@@ -6,7 +6,6 @@ import { IUserResourceConfig } from "./IUserResourceConfig";
 import { HubServiceStatus } from "../core/types/ISystemStatus";
 import { IFeatureFlags } from "../permissions";
 import { IHubTrustedOrgsResponse } from "../hub-types";
-import { Level } from "../utils";
 import { IUserHubSettings } from "../utils/IUserHubSettings";
 
 /**
@@ -52,12 +51,6 @@ export interface IArcGISContextManagerOptions {
    * as a node on a properties object.
    */
   properties?: Record<string, any>;
-
-  /**
-   * DEPRECATED: use `globalThis.arcgisHubConfig.logLevel` instead
-   * Logging level
-   */
-  logLevel?: Level;
 
   /**
    * Option to pass in service status vs fetching it

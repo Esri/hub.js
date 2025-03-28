@@ -6,7 +6,6 @@ import {
   IFeatureFlags,
   IHubRequestOptionsPortalSelf,
   IUserHubSettings,
-  Level,
 } from "../src";
 import { base64ToUnicode, unicodeToBase64 } from "../src/utils/encoding";
 import * as portalModule from "@esri/arcgis-rest-portal";
@@ -356,7 +355,6 @@ describe("ArcGISContext:", () => {
       };
       const mgr = await ArcGISContextManager.create({
         portalUrl: "https://myserver.com/gis",
-        logLevel: Level.debug,
         properties: { site },
       });
       expect(mgr.context.id).toBeGreaterThanOrEqual(t);
