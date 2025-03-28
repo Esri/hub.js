@@ -1,3 +1,10 @@
+# @esri/hub-common [15.47.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.46.0...@esri/hub-common@15.47.0) (2025-03-28)
+
+
+### Features
+
+* **hub-common:** trigger major version release ([#1847](https://github.com/Esri/hub.js/issues/1847)) ([16730ac](https://github.com/Esri/hub.js/commit/16730ac0be7b4152fdc016fcdfe315c33e4217ff))
+
 # @esri/hub-common [15.46.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.45.0...@esri/hub-common@15.46.0) (2025-03-28)
 
 
