@@ -3,8 +3,8 @@
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { searchItems, ISearchResult, IItem } from "@esri/arcgis-rest-portal";
-import { IQueryFeaturesOptions } from "@esri/arcgis-rest-feature-layer";
-import type { UserSession } from "@esri/arcgis-rest-auth";
+import { IQueryFeaturesOptions } from "@esri/arcgis-rest-feature-service";
+import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { getHubApiUrl } from "@esri/hub-common";
 
 /**
@@ -97,7 +97,7 @@ export function getEventQueryFromType(
     if (!options.orderByFields) {
       newOptions.orderByFields = "EditDate DESC";
     }
-    const session = options.authentication as UserSession;
+    const session = options.authentication as ArcGISIdentityManager;
     const user = session ? session.username : null;
     typeWhere = `Creator = '${user}' AND status = 'draft'`;
   } else {
