@@ -1,4 +1,4 @@
-import type { UserSession } from "@esri/arcgis-rest-auth";
+import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { removeGroup, unprotectGroup } from "@esri/arcgis-rest-portal";
 
 /**
@@ -6,12 +6,12 @@ import { removeGroup, unprotectGroup } from "@esri/arcgis-rest-portal";
  *
  * @export
  * @param {string} id Team Id
- * @param {UserSession} authentication authentication
+ * @param {ArcGISIdentityManager} authentication authentication
  * @return {*}  {Promise<{groupId: string; success: boolean}>}
  */
 export async function removeTeam(
   id: string,
-  authentication: UserSession
+  authentication: ArcGISIdentityManager
 ): Promise<{ groupId: string; success: boolean }> {
   // unprotect the group
   const unprotectResult = await unprotectGroup({ id, authentication });
