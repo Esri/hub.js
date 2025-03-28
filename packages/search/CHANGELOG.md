@@ -1,3 +1,13 @@
+# @esri/hub-search [16.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-search@15.0.0...@esri/hub-search@16.0.0) (2025-03-28)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 16.0.0
+
 # @esri/hub-search [15.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-search@14.2.0...@esri/hub-search@15.0.0) (2024-11-01)
 
 
