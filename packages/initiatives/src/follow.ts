@@ -1,5 +1,5 @@
 import { request, IRequestOptions } from "@esri/arcgis-rest-request";
-import type { UserSession } from "@esri/arcgis-rest-auth";
+import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import {
   IUser,
   getUserUrl,
@@ -11,7 +11,7 @@ import { getInitiative } from "./get";
 
 export interface IFollowInitiativeOptions extends IRequestOptions {
   initiativeId: string;
-  authentication: UserSession;
+  authentication: ArcGISIdentityManager;
 }
 
 const getUserTag = (initiativeId: string) => `hubInitiativeId|${initiativeId}`;
@@ -21,7 +21,8 @@ const initiativeIdFromUserTag = (tag: string) =>
 const initiativeIdFromGroupTag = (tag: string) =>
   tag.replace(/^hubInitiativeFollowers\|/, "");
 
-const getUpdateUrl = (session: UserSession) => `${getUserUrl(session)}/update`;
+const getUpdateUrl = (session: ArcGISIdentityManager) =>
+  `${getUserUrl(session)}/update`;
 
 const currentlyFollowedInitiativesByUserTag = (user: IUser): string[] =>
   user.tags.map(initiativeIdFromUserTag);
