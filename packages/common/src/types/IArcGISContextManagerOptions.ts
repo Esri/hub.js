@@ -1,4 +1,4 @@
-import type { UserSession } from "@esri/arcgis-rest-auth";
+import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { IPortal } from "@esri/arcgis-rest-portal";
 import type { IUser } from "@esri/arcgis-rest-portal";
 import { IUserResourceToken } from "./IUserResourceToken";
@@ -15,9 +15,9 @@ import { IUserHubSettings } from "../utils/IUserHubSettings";
 export interface IArcGISContextManagerOptions {
   /**
    * Existing user session, which may be created from Identity Manager
-   * `const session = UserSession.fromCredential(idMgr.getCredential());`
+   * `const session = ArcGISIdentityManager.fromCredential(idMgr.getCredential());`
    */
-  authentication?: UserSession;
+  authentication?: ArcGISIdentityManager;
 
   /**
    * ArcGIS Online or ArcGIS Enterprise portal url.
@@ -26,19 +26,19 @@ export interface IArcGISContextManagerOptions {
    * For ArcGIS Enterprise, you must include the webadaptor name.
    * i.e. https://gis.mytown.gov/portal
    *
-   * When Authentication is present, the UserSession.portal value is
+   * When Authentication is present, the ArcGISIdentityManager.portal value is
    * used instead of this property.
    */
   portalUrl?: string;
 
   /**
    * Portal self for the authenticated user. If not passed into `.create`
-   * with the UserSession, it will be fetched
+   * with the ArcGISIdentityManager, it will be fetched
    */
   portal?: IPortal;
 
   /**
-   * Current user as `IUser`. If not passed into `.create` with the UserSession
+   * Current user as `IUser`. If not passed into `.create` with the ArcGISIdentityManager
    * it will be fetched.
    */
   currentUser?: IUser;

@@ -1,4 +1,4 @@
-import type { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { IHubTemplate, IHubTemplateEditor } from "../core/types/IHubTemplate";
 import { setDiscussableKeyword } from "../discussions";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";

@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import type { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import {
   addItemResource,
   IItemResourceResponse,
@@ -23,7 +23,7 @@ export function copyImageResources(
   targetItemId: string,
   owner: string,
   assets: string[],
-  requestOptions: IRequestOptions
+  requestOptions: IUserRequestOptions
 ): Promise<boolean> {
   const itemResourceUrl = `${getPortalApiUrl(
     requestOptions

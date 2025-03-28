@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import type { UserSession } from "@esri/arcgis-rest-auth";
+import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { setItemAccess } from "@esri/arcgis-rest-portal";
 import {
   IModel,
@@ -24,7 +24,7 @@ export const setAccessRevertable = (
 ): Promise<IRevertableTaskResult> => {
   const { id, owner, access: itemAccess } = model.item;
   const previousAccess = (itemAccess === "shared" && "private") || itemAccess;
-  const authentication = requestOptions.authentication as UserSession;
+  const authentication = requestOptions.authentication as ArcGISIdentityManager;
   return runRevertableTask(
     () =>
       setItemAccess({

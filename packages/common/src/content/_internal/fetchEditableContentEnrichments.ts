@@ -6,7 +6,7 @@ import {
   fetchItemEnrichments,
 } from "../../items/_enrichments";
 import { isService } from "../../resources/is-service";
-import type { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { IHubRequestOptions } from "../../hub-types";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { fetchItemScheduleEnrichment } from "./fetchItemScheduleEnrichment";

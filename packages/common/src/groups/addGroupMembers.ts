@@ -3,7 +3,7 @@ import { failSafe } from "../utils";
 import { autoAddUsers } from "./autoAddUsers";
 import { inviteUsers } from "./inviteUsers";
 import { IAddGroupMembersResult, IAddOrInviteMemberResponse } from "./types";
-import type { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 
 /**
  * Add or invite N users to a single group.

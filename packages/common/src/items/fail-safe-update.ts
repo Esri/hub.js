@@ -2,7 +2,7 @@ import { IModel } from "../hub-types";
 import { updateItem, IUpdateItemOptions } from "@esri/arcgis-rest-portal";
 import { serializeModel } from "../models/serializeModel";
 import { failSafe } from "../utils";
-import type { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 
 /**
  * Update a model's item, wrapped in a failSafe so this will not blow up if

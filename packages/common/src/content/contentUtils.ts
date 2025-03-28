@@ -25,7 +25,10 @@ import {
   IHubContentStatus,
   IHubServiceBackedContentStatus,
 } from "./types";
-import { getService, IGetLayerOptions } from "@esri/arcgis-rest-feature-layer";
+import {
+  getService,
+  IGetLayerOptions,
+} from "@esri/arcgis-rest-feature-service";
 import { isService } from "../resources/is-service";
 
 // TODO: remove this at next breaking version
