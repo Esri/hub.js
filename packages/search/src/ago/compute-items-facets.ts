@@ -1,4 +1,4 @@
-import type { UserSession } from "@esri/arcgis-rest-auth";
+import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { ISearchParams } from "./params";
 import { getProp } from "@esri/hub-common";
 import {
@@ -29,7 +29,7 @@ const customAggsFunctions: { [key: string]: any } = {
  * @param {ISearchParams} params search params
  * @param {String} token AGO token to make a search if calculating custom aggs like downloadable
  * @param {String} portal AGO portal against which search is being done
- * @param {UserSession} authentication UserSession object
+ * @param {ArcGISIdentityManager} authentication ArcGISIdentityManager object
  * @returns {Promise<any>}
  */
 export async function computeItemsFacets(
@@ -37,7 +37,7 @@ export async function computeItemsFacets(
   params: ISearchParams, // query params are needed to another search for custom facets
   token?: string,
   portal?: string,
-  authentication?: UserSession
+  authentication?: ArcGISIdentityManager
 ): Promise<any> {
   const aggFields = getProp(params, "agg.fields");
   const aggs = aggFields ? aggFields.split(",") : [];
