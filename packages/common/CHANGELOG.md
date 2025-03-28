@@ -1,3 +1,15 @@
+# @esri/hub-common [16.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.47.0...@esri/hub-common@16.0.0) (2025-03-28)
+
+
+### Features
+
+* remove deprecated functions ([#1848](https://github.com/Esri/hub.js/issues/1848)) ([8f2d2da](https://github.com/Esri/hub.js/commit/8f2d2dae3f3c0ebfb25e4fa0b31d51bcf7281757))
+
+
+### BREAKING CHANGES
+
+* removes deprecated functions
+
 # @esri/hub-common [15.47.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.46.0...@esri/hub-common@15.47.0) (2025-03-28)
 
 
