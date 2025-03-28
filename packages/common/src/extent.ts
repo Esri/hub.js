@@ -1,8 +1,13 @@
-import type { IExtent } from "@esri/arcgis-rest-feature-layer";
-import type { IPoint, IPolygon, Position } from "@esri/arcgis-rest-types";
+import type { IExtent } from "@esri/arcgis-rest-feature-service";
+import type {
+  IPoint,
+  IPolygon,
+  IRequestOptions,
+  Position,
+} from "@esri/arcgis-rest-request";
+import { request } from "@esri/arcgis-rest-request";
 import { IHubRequestOptions, BBox } from "./hub-types";
 import { getProp } from "./objects";
-import { IRequestOptions, request } from "@esri/arcgis-rest-request";
 import { Polygon } from "geojson";
 
 /**

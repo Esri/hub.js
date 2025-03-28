@@ -11,7 +11,7 @@ describe("buildExistingExportsPortalQuery", () => {
     const q = buildExistingExportsPortalQuery("123456789");
 
     expect(q).toEqual(
-      '(typekeywords:"exportItem:123456789" AND typekeywords:"exportLayer:null") AND ( (type:"CSV" AND typekeywords:"spatialRefId:4326") OR  (type:"CSV Collection" AND typekeywords:"spatialRefId:4326") OR  (type:"KML" AND typekeywords:"spatialRefId:4326") OR  (type:"KML Collection" AND typekeywords:"spatialRefId:4326") OR  (type:"Shapefile" AND typekeywords:"spatialRefId:4326") OR  (type:"File Geodatabase" AND typekeywords:"spatialRefId:4326") OR  (type:"GeoJson" AND typekeywords:"spatialRefId:4326") OR  (type:"Microsoft Excel" AND typekeywords:"spatialRefId:4326") OR  (type:"Feature Collection" AND typekeywords:"spatialRefId:4326"))'
+      '(typekeywords:exportItem:123456789 AND typekeywords:exportLayer:null) AND ( (type:"CSV" AND typekeywords:spatialRefId:4326) OR  (type:"CSV Collection" AND typekeywords:spatialRefId:4326) OR  (type:"KML" AND typekeywords:spatialRefId:4326) OR  (type:"KML Collection" AND typekeywords:spatialRefId:4326) OR  (type:"Shapefile" AND typekeywords:spatialRefId:4326) OR  (type:"File Geodatabase" AND typekeywords:spatialRefId:4326) OR  (type:"GeoJson" AND typekeywords:spatialRefId:4326) OR  (type:"Microsoft Excel" AND typekeywords:spatialRefId:4326) OR  (type:"Feature Collection" AND typekeywords:spatialRefId:4326))'
     );
   });
 
@@ -21,7 +21,7 @@ describe("buildExistingExportsPortalQuery", () => {
     });
 
     expect(q).toEqual(
-      '(typekeywords:"exportItem:123456789" AND typekeywords:"exportLayer:02") AND ( (type:"CSV" AND typekeywords:"spatialRefId:4326") OR  (type:"CSV Collection" AND typekeywords:"spatialRefId:4326") OR  (type:"KML" AND typekeywords:"spatialRefId:4326") OR  (type:"KML Collection" AND typekeywords:"spatialRefId:4326") OR  (type:"Shapefile" AND typekeywords:"spatialRefId:4326") OR  (type:"File Geodatabase" AND typekeywords:"spatialRefId:4326") OR  (type:"GeoJson" AND typekeywords:"spatialRefId:4326") OR  (type:"Microsoft Excel" AND typekeywords:"spatialRefId:4326") OR  (type:"Feature Collection" AND typekeywords:"spatialRefId:4326"))'
+      '(typekeywords:exportItem:123456789 AND typekeywords:exportLayer:02) AND ( (type:"CSV" AND typekeywords:spatialRefId:4326) OR  (type:"CSV Collection" AND typekeywords:spatialRefId:4326) OR  (type:"KML" AND typekeywords:spatialRefId:4326) OR  (type:"KML Collection" AND typekeywords:spatialRefId:4326) OR  (type:"Shapefile" AND typekeywords:spatialRefId:4326) OR  (type:"File Geodatabase" AND typekeywords:spatialRefId:4326) OR  (type:"GeoJson" AND typekeywords:spatialRefId:4326) OR  (type:"Microsoft Excel" AND typekeywords:spatialRefId:4326) OR  (type:"Feature Collection" AND typekeywords:spatialRefId:4326))'
     );
   });
 
@@ -32,7 +32,7 @@ describe("buildExistingExportsPortalQuery", () => {
     });
 
     expect(q).toEqual(
-      '(typekeywords:"exportItem:123456789" AND typekeywords:"exportLayer:02") AND ( (type:"CSV Collection" AND typekeywords:"spatialRefId:4326") OR  (type:"KML Collection" AND typekeywords:"spatialRefId:4326"))'
+      '(typekeywords:exportItem:123456789 AND typekeywords:exportLayer:02) AND ( (type:"CSV Collection" AND typekeywords:spatialRefId:4326) OR  (type:"KML Collection" AND typekeywords:spatialRefId:4326))'
     );
   });
 
@@ -44,7 +44,7 @@ describe("buildExistingExportsPortalQuery", () => {
     });
 
     expect(q).toEqual(
-      '(typekeywords:"exportItem:123456789" AND typekeywords:"exportLayer:02") AND ( (type:"CSV Collection" AND typekeywords:"spatialRefId:10200") OR  (type:"KML Collection" AND typekeywords:"spatialRefId:4326"))'
+      '(typekeywords:exportItem:123456789 AND typekeywords:exportLayer:02) AND ( (type:"CSV Collection" AND typekeywords:spatialRefId:10200) OR  (type:"KML Collection" AND typekeywords:spatialRefId:4326))'
     );
   });
 });
