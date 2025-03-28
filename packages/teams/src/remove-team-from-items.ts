@@ -1,4 +1,4 @@
-import type { UserSession } from "@esri/arcgis-rest-auth";
+import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { IUpdateItemResponse, updateItem } from "@esri/arcgis-rest-portal";
 import { cloneObject, IModel, without } from "@esri/hub-common";
 
@@ -10,13 +10,13 @@ import { cloneObject, IModel, without } from "@esri/hub-common";
  * @export
  * @param {string} teamId Team ID of the team we are removing
  * @param {IModel[]} models Array of IModels
- * @param {UserSession} authentication Auth
+ * @param {ArcGISIdentityManager} authentication Auth
  * @return {*}  {Promise<IUpdateItemResponse[]>}
  */
 export async function removeTeamFromItems(
   teamId: string,
   models: IModel[],
-  authentication: UserSession
+  authentication: ArcGISIdentityManager
 ): Promise<IUpdateItemResponse[]> {
   // Iterate over all items...
   return Promise.all(
