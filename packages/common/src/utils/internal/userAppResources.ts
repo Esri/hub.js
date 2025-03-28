@@ -152,7 +152,7 @@ export async function setUserResource(
       token,
     },
   };
-  // TODO Experiment w/ how we can make this call w/o creating a UserSession with the token
+  // TODO Experiment w/ how we can make this call w/o creating a ArcGISIdentityManager with the token
   return request(
     `${portalUrl}/sharing/rest/community/users/${username}/addResource`,
     ro

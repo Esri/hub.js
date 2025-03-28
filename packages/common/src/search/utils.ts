@@ -3,7 +3,7 @@
 
 // TODO: deprecate all private functions in this file and more them to ./_internal
 
-import { IUser, UserSession } from "@esri/arcgis-rest-auth";
+import { IUser, ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import {
   IGroup,
   ISearchGroupUsersOptions,
@@ -191,13 +191,13 @@ export function getNextFunction<T>(
   nextStart: number,
   total: number,
   fn: (r: any) => Promise<ISearchResponse<T>>
-): (authentication?: UserSession) => Promise<ISearchResponse<T>> {
+): (authentication?: ArcGISIdentityManager) => Promise<ISearchResponse<T>> {
   const clonedRequest = cloneObject(request);
 
   // clone will not handle authentication so we do it manually
   if (request.authentication) {
-    clonedRequest.authentication = UserSession.deserialize(
-      (request.authentication as UserSession).serialize()
+    clonedRequest.authentication = ArcGISIdentityManager.deserialize(
+      (request.authentication as ArcGISIdentityManager).serialize()
     );
   }
   // ensure that if we have requestOptions, we have also update the authentication on it
@@ -209,7 +209,7 @@ export function getNextFunction<T>(
   // figure out the start
   clonedRequest.start = nextStart > -1 ? nextStart : total + 1;
 
-  return (authentication?: UserSession) => {
+  return (authentication?: ArcGISIdentityManager) => {
     if (authentication) {
       clonedRequest.authentication = authentication;
       // ensure that if we have requestOptions, we have also update the authentication on it

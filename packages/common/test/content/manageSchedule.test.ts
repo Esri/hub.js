@@ -13,7 +13,7 @@ import { MOCK_HUB_REQOPTS, MOCK_NOAUTH_HUB_REQOPTS } from "../mocks/mock-auth";
 import { IHubEditableContent } from "../../src/core/types/IHubEditableContent";
 import * as fetchMock from "fetch-mock";
 import { getSchedulerApiUrl } from "../../src/content/_internal/internalContentUtils";
-import type { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 
 describe("manageSchedule", () => {
   afterEach(() => {

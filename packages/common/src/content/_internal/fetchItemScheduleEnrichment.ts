@@ -3,7 +3,7 @@ import { IHubSchedule } from "../../core/types/IHubSchedule";
 import { getSchedule, isDownloadSchedulingAvailable } from "../manageSchedule";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IHubRequestOptions } from "../../hub-types";
-import type { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 
 /**
  * @private

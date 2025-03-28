@@ -8,13 +8,13 @@
  * It's probably a good pattern to add functions here first and then
  * move them to index.ts only when they are needed by a consumer.
  */
-import { parseServiceUrl } from "@esri/arcgis-rest-feature-layer";
+import { parseServiceUrl } from "@esri/arcgis-rest-feature-service";
 import type { IItem, IPortal, IUser } from "@esri/arcgis-rest-portal";
 import type {
   IExtent,
   ILayerDefinition,
   ISpatialReference,
-} from "@esri/arcgis-rest-feature-layer";
+} from "@esri/arcgis-rest-feature-service";
 import {
   IGeometryInstance,
   IHubContent,
@@ -46,7 +46,7 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { geojsonToArcGIS } from "@terraformer/arcgis";
 import { Polygon } from "geojson";
 import { getHubApiUrl } from "../../api";
-import type { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { isSiteType } from "../compose";
 
 /**

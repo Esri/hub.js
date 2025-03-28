@@ -2,7 +2,7 @@ import {
   addItemResource,
   IItemResourceResponse,
 } from "@esri/arcgis-rest-portal";
-import type { UserSession } from "@esri/arcgis-rest-auth";
+import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { fetchImageAsBlob } from "./fetch-image-as-blob";
 
 /**
@@ -14,7 +14,7 @@ export function fetchAndUploadResource(options: {
   owner: string;
   fileName: string;
   url: string;
-  authentication: UserSession;
+  authentication: ArcGISIdentityManager;
 }): Promise<IItemResourceResponse> {
   // first fetch it as a blob...
   return fetchImageAsBlob(options.url).then((file: any) => {

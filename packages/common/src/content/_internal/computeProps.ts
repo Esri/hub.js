@@ -1,5 +1,5 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import type { UserSession } from "@esri/arcgis-rest-auth";
+import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { getItemThumbnailUrl } from "../../resources";
 import { IHubRequestOptions, IModel } from "../../hub-types";
 import { getItemHomeUrl } from "../../urls/get-item-home-url";
@@ -33,7 +33,8 @@ export function computeProps(
 ): IHubEditableContent {
   let token: string;
   if (requestOptions.authentication) {
-    const session: UserSession = requestOptions.authentication as UserSession;
+    const session: ArcGISIdentityManager =
+      requestOptions.authentication as ArcGISIdentityManager;
     token = session.token;
   }
 

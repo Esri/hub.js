@@ -1,6 +1,6 @@
 import type { IItem } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import type { UserSession } from "@esri/arcgis-rest-auth";
+import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { getItemHomeUrl } from "../../urls";
 import { IHubEntityLinks } from "../../core/types";
 import { getItemIdentifier } from "../../items";
@@ -21,7 +21,8 @@ export function computeItemLinks(
 ): IHubEntityLinks {
   let token: string;
   if (requestOptions.authentication) {
-    const session: UserSession = requestOptions.authentication as UserSession;
+    const session: ArcGISIdentityManager =
+      requestOptions.authentication as ArcGISIdentityManager;
     token = session.token;
   }
 

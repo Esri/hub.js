@@ -1,4 +1,4 @@
-import type { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { editorToEntity } from "../core/schemas/internal/metrics/editorToEntity";
 
 // Note - we separate these imports so we can cleanly spy on things in tests

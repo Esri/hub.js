@@ -1,6 +1,6 @@
 import * as portalModule from "@esri/arcgis-rest-portal";
-import * as featureLayerModule from "@esri/arcgis-rest-feature-layer";
-import * as adminModule from "@esri/arcgis-rest-service-admin";
+import * as featureLayerModule from "@esri/arcgis-rest-feature-service";
+import * as adminModule from "@esri/arcgis-rest-feature-service";
 import { MOCK_AUTH, MOCK_HUB_REQOPTS, TOMORROW } from "../mocks/mock-auth";
 import * as modelUtils from "../../src/models";
 import { IModel } from "../../src/hub-types";

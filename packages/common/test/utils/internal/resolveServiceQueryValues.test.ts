@@ -6,7 +6,7 @@ import {
 } from "../../../src";
 import { resolveServiceQueryValues } from "../../../src/utils/internal/resolveServiceQueryValues";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
-import * as featureLayer from "@esri/arcgis-rest-feature-layer";
+import * as featureLayer from "@esri/arcgis-rest-feature-service";
 
 describe("resolveServiceQueryValues:", () => {
   let context: IArcGISContext;

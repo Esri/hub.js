@@ -1,7 +1,7 @@
 import {
   IFeatureServiceDefinition,
   ILayerDefinition,
-} from "@esri/arcgis-rest-feature-layer";
+} from "@esri/arcgis-rest-feature-service";
 
 export interface IServerEnrichments {
   /** Information about the service referenced by this content (currentVersion, capabilities, maxRecordCount etc) */

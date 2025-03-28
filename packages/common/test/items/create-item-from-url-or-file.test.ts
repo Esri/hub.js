@@ -1,4 +1,4 @@
-import type { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import type { IGroup, IItemAdd } from "@esri/arcgis-rest-portal";
 import { createItemFromUrlOrFile } from "../../src/items/create-item-from-url-or-file";
 import * as createItemFromFileModule from "../../src/items/create-item-from-file";

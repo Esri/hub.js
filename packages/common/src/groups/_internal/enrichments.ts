@@ -70,7 +70,7 @@ const enrichGroupContentCount = (
   const { data, stack, requestOptions } = input;
   const opId = stack.start("enrichGroupContentCount");
   // w/o the : any here, I get a compile error about
-  // .authentication being incompatible w/ UserSession
+  // .authentication being incompatible w/ ArcGISIdentityManager
   const options: any = {
     groupId: data.group.id,
     num: 1,
@@ -100,7 +100,7 @@ const enrichGroupMembershipSummary = (
   const { data, stack, requestOptions } = input;
   const opId = stack.start("enrichGroupMembershipSummary");
   // w/o the `: any` here, I get a compile error about
-  // .authentication being incompatible w/ UserSession
+  // .authentication being incompatible w/ ArcGISIdentityManager
   const options: any = {
     num: 3,
     ...requestOptions,

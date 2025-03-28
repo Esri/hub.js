@@ -1,4 +1,7 @@
-import { IUserRequestOptions, UserSession } from "@esri/arcgis-rest-auth";
+import {
+  IUserRequestOptions,
+  ArcGISIdentityManager,
+} from "@esri/arcgis-rest-request";
 import { resetConfig } from "./fixtures/resetConfig";
 import { request } from "@esri/arcgis-rest-request";
 import { getProp } from "../src";
@@ -29,7 +32,7 @@ xdescribe("reset-users harness: ", () => {
         const adminPwd = getProp(adminInfo, `${adminUser.env}.admin`) as string;
         const newPwd = getProp(adminInfo, `${adminUser.env}.user`) as string;
         // create session as this user
-        const session = new UserSession({
+        const session = new ArcGISIdentityManager({
           username: adminUser.user,
           portal: `${org.url}/sharing/rest`,
           password: adminPwd,
@@ -77,7 +80,7 @@ xdescribe("reset-users harness: ", () => {
 });
 
 function resetPassword(
-  session: UserSession,
+  session: ArcGISIdentityManager,
   username: string,
   password: string,
   newPassword: string,
