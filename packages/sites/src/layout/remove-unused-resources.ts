@@ -1,7 +1,7 @@
 import { failSafe } from "@esri/hub-common";
 
 import { IHubRequestOptions } from "@esri/hub-common";
-import type { UserSession } from "@esri/arcgis-rest-auth";
+import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 
 import { getItemResources, removeItemResource } from "@esri/arcgis-rest-portal";
 
@@ -89,7 +89,7 @@ function isNotACurrentImageCropId(imageCropIds: string[]) {
 function removeUnusedResourcesFromAGO(
   id: string,
   unusedCrops: string[],
-  authentication: UserSession
+  authentication: ArcGISIdentityManager
 ) {
   // failSafe these calls b/c this is not critical
   const failSaveRemoveItemResources = failSafe(removeItemResource, {

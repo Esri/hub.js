@@ -4,7 +4,7 @@ import {
   getProp,
   _unprotectAndRemoveGroup,
 } from "@esri/hub-common";
-import type { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 
 /**
  * Remove the well-known team groups

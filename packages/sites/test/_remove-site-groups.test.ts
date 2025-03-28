@@ -1,6 +1,6 @@
 import * as commonModule from "@esri/hub-common";
 import { _removeSiteGroups } from "../src";
-import type { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 
 describe("_removeSiteGroups", () => {
   it("removes the groups", async () => {
