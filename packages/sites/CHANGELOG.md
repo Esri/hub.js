@@ -1,3 +1,15 @@
+# @esri/hub-sites [17.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@16.1.0...@esri/hub-sites@17.0.0) (2025-03-28)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 16.0.0
+* **@esri/hub-initiatives:** upgraded to 16.0.0
+* **@esri/hub-teams:** upgraded to 16.0.0
+
 # @esri/hub-sites [16.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@16.0.2...@esri/hub-sites@16.1.0) (2025-03-28)
 
 
