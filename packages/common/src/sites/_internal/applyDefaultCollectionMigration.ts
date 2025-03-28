@@ -15,8 +15,6 @@ import { searchCategoriesToCollections } from "../searchCategoriesToCollections"
  * change the default labels, display order, or mark a default as "hidden" so the
  * public can't see it.
  *
- * NOTE: The changes made in this migration will not be persisted to AGO at this time
- *
  * @param model site model to migrate
  * @returns a migrated model with default `IHubCollection` objects added
  * to the catalog
