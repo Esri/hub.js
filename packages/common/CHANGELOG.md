@@ -1,3 +1,10 @@
+## @esri/hub-common [16.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.0.0...@esri/hub-common@16.0.1) (2025-03-31)
+
+
+### Bug Fixes
+
+* **hub-common:** update "hub:site:workspace:catalog:events" permission to include license checks ([#1849](https://github.com/Esri/hub.js/issues/1849)) ([fabc8e7](https://github.com/Esri/hub.js/commit/fabc8e71bbfeee014dbc09a20410ada25da2286d))
+
 # @esri/hub-common [16.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@15.47.0...@esri/hub-common@16.0.0) (2025-03-28)
 
 
