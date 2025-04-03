@@ -149,7 +149,7 @@ describe("EntityUiSchemaDiscussionsSettings", () => {
             //       },
             //     ],
             //     include: "groups",
-            //     reorderable: false,
+            //     canReorder: false,
             //   },
             // },
           ],

@@ -140,7 +140,7 @@ export const buildUiSchema = async (
   //         },
   //       ],
   //       include: "groups",
-  //       reorderable: false,
+  //       canReorder: false,
   //     },
   //   });
   // }
