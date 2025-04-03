@@ -3,7 +3,7 @@ import { IHubDiscussion } from "../../../../../src/core/types/IHubDiscussion";
 import { buildUiSchema } from "../../../../../src/core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettings";
 
 describe("EntityUiSchemaDiscussionsSettings", () => {
-  it("should support num", async () => {
+  it("should build a ui schema for a premium user", async () => {
     const entity: IHubDiscussion = { id: "31c" } as unknown as IHubDiscussion;
     const context: IArcGISContext = {
       hubLicense: "hub-premium",
