@@ -1,3 +1,11 @@
+## @esri/hub-common [16.0.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.0.1...@esri/hub-common@16.0.2) (2025-04-03)
+
+
+### Bug Fixes
+
+* removed unused layout options in catalog schema  ([#1855](https://github.com/Esri/hub.js/issues/1855)) ([326925d](https://github.com/Esri/hub.js/commit/326925d709618dc90481725cff50390f04368e67))
+* removed unused layout options in catalog schema ([#1851](https://github.com/Esri/hub.js/issues/1851)) ([2ff71e0](https://github.com/Esri/hub.js/commit/2ff71e0d0edcbfcf19a0e414a0f898d026a14601))
+
 ## @esri/hub-common [16.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.0.0...@esri/hub-common@16.0.1) (2025-03-31)
 
 
