@@ -37,6 +37,8 @@ export const ProjectPermissions = [
   "hub:project:workspace:events",
   "hub:project:workspace:metrics",
   "hub:project:workspace:catalog",
+  "hub:project:workspace:catalog:content",
+  "hub:project:workspace:catalog:events",
   "hub:project:manage",
 ] as const;
 
@@ -169,6 +171,14 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:project:workspace:catalog",
     dependencies: ["hub:project:workspace", "hub:project:edit"],
+  },
+  {
+    permission: "hub:project:workspace:catalog:content",
+    dependencies: ["hub:project:workspace:catalog"],
+  },
+  {
+    permission: "hub:project:workspace:catalog:events",
+    dependencies: ["hub:project:workspace:catalog", "hub:event"],
   },
   {
     permission: "hub:project:manage",
