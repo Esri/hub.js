@@ -18,8 +18,10 @@ export const DiscussionPermissions = [
   "hub:discussion:workspace:details",
   "hub:discussion:workspace:settings",
   "hub:discussion:workspace:collaborators",
+  // TODO: remove `hub:discussion:workspace:discussion` when we deprecate the discussion board participation workspace pane
   "hub:discussion:workspace:discussion",
   "hub:discussion:workspace:metrics",
+  "hub:discussion:workspace:settings:discussions",
   "hub:discussion:manage",
   "temp:hub:discussion:create",
 ] as const;
@@ -51,14 +53,12 @@ export const DiscussionPermissionPolicies: IPermissionPolicy[] = [
     authenticated: true,
     dependencies: ["hub:discussion"],
     entityEdit: true,
-    licenses: ["hub-premium"],
   },
   {
     permission: "hub:discussion:delete",
     authenticated: true,
     dependencies: ["hub:discussion"],
     entityDelete: true,
-    licenses: ["hub-premium"],
   },
   {
     permission: "hub:discussion:owner",
@@ -105,12 +105,34 @@ export const DiscussionPermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:discussion:edit"],
   },
   {
+    permission: "hub:discussion:workspace:settings:discussions",
+    dependencies: ["hub:discussion:edit"],
+    // TODO: remove the following `environments` and `availability` properties when we're ready to cut over to V2 discussions API
+    // environments: ["devext", "qaext"],
+    // availability: ["alpha"],
+  },
+  {
     permission: "hub:discussion:workspace:collaborators",
     dependencies: ["hub:discussion:edit"],
   },
+  // TODO: remove the following IPermissionPolicy when we're ready to cut over to V2 discussions API
   {
     permission: "hub:discussion:workspace:discussion",
     dependencies: ["hub:discussion:edit"],
+    assertions: [
+      {
+        property: "context:isAlphaOrg",
+        type: "eq",
+        value: false,
+        conditions: [
+          {
+            property: "context:environment",
+            type: "included-in",
+            value: ["devext", "qaext"],
+          },
+        ],
+      },
+    ],
   },
   {
     permission: "hub:discussion:workspace:metrics",
