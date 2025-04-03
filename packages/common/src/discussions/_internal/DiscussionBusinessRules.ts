@@ -112,26 +112,11 @@ export const DiscussionPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:discussion:workspace:collaborators",
     dependencies: ["hub:discussion:edit"],
   },
-  // TODO: remove the following IPermissionPolicy when we're ready to cut over to V2 discussions API
   {
     // TODO: remove this IPermissionPolicy when we deprecate the discussion board participation workspace pane
     permission: "hub:discussion:workspace:discussion",
     services: ["discussions"],
     dependencies: ["hub:discussion:edit"],
-    assertions: [
-      {
-        property: "context:isAlphaOrg",
-        type: "eq",
-        value: false,
-        conditions: [
-          {
-            property: "context:environment",
-            type: "included-in",
-            value: ["devext", "qaext"],
-          },
-        ],
-      },
-    ],
   },
   {
     permission: "hub:discussion:workspace:metrics",
