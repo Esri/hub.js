@@ -60,18 +60,25 @@ export async function createDiscussion(
   // create the item
   model = await createModel(model, requestOptions as IUserRequestOptions);
   const defaultSettings = getDefaultEntitySettings("discussion");
+  const settings = {
+    ...defaultSettings.settings,
+    discussions: {
+      ...defaultSettings.settings.discussions,
+      ...discussion.discussionSettings,
+    },
+  };
+  if (!settings.discussions.allowedChannelIds?.length) {
+    settings.discussions.allowedChannelIds = null;
+  }
+  if (!settings.discussions.allowedLocations?.length) {
+    settings.discussions.allowedLocations = null;
+  }
   // create the entity settings
   model.entitySettings = await createSetting({
     data: {
       id: model.item.id,
       type: defaultSettings.type,
-      settings: {
-        ...defaultSettings.settings,
-        discussions: {
-          ...defaultSettings.settings.discussions,
-          ...discussion.discussionSettings,
-        },
-      },
+      settings,
     },
     ...requestOptions,
   });
@@ -141,6 +148,12 @@ export async function updateDiscussion(
       allowedLocations,
     },
   };
+  if (!settings.discussions.allowedChannelIds?.length) {
+    settings.discussions.allowedChannelIds = null;
+  }
+  if (!settings.discussions.allowedLocations?.length) {
+    settings.discussions.allowedLocations = null;
+  }
   const newOrUpdatedSettings = updatedDiscussion.entitySettingsId
     ? await updateSetting({
         id: updatedDiscussion.entitySettingsId,
