@@ -12,7 +12,7 @@ export const maybeConcat = (arrays: any[][]) => {
 };
 
 /**
- * Splits a single array into many arrays of max a given max length.
+ * Splits a single array into many arrays of a given max length.
  * E.g. splitArrayByLength(['a', 'b', 'c'], 2); // => [['a', 'b'], ['c']]
  * @param originalValues The original array of values
  * @param length The max length of the resulting arrays
