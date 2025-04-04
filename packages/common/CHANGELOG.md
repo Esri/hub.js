@@ -1,3 +1,10 @@
+# @esri/hub-common [16.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.0.2...@esri/hub-common@16.1.0) (2025-04-04)
+
+
+### Features
+
+* **hub-common:** search events download as csv ([#1846](https://github.com/Esri/hub.js/issues/1846)) ([ef72381](https://github.com/Esri/hub.js/commit/ef7238142bdbf37ddf561ed4c66f81a945f394f3))
+
 ## @esri/hub-common [16.0.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.0.1...@esri/hub-common@16.0.2) (2025-04-03)
 
 
