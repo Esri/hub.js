@@ -42,11 +42,6 @@ export const GalleryDisplayConfigSchema: IConfigurationSchema = {
       default: "outline-filled",
     },
     linkButtonText: { type: "string", default: "Explore" },
-    sort: {
-      type: "string",
-      enum: ["relevance", "title", "created", "modified"],
-      default: "relevance",
-    },
     filters: {
       type: "array",
       items: {
@@ -130,6 +125,17 @@ export const CollectionSchema: IConfigurationSchema = {
       type: "string",
     },
     scope: QuerySchema,
+    limit: {
+      type: "integer",
+      minimum: 1,
+      maximum: 16,
+      default: 3
+    },
+    sortField: {
+      type: "string",
+      enum: ["relevance", "title", "created", "modified"],
+      default: "relevance",
+    },
     displayConfig: GalleryDisplayConfigSchema,
   },
 };
