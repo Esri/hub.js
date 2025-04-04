@@ -1,4 +1,4 @@
-import type { UserSession } from "@esri/arcgis-rest-auth";
+import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IHubInitiativeTemplate } from "../../core";
 import { processEntityFeatures } from "../../permissions/_internal/processEntityFeatures";
@@ -23,7 +23,8 @@ export function computeProps(
 ): IHubInitiativeTemplate {
   let token: string;
   if (requestOptions.authentication) {
-    const session: UserSession = requestOptions.authentication as UserSession;
+    const session: ArcGISIdentityManager =
+      requestOptions.authentication as ArcGISIdentityManager;
     token = session.token;
   }
 

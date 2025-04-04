@@ -1,4 +1,4 @@
-import type { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { request } from "@esri/arcgis-rest-request";
 
 /**

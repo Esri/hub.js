@@ -1,7 +1,7 @@
 /* Copyright (c) 2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import type { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { joinGroup, leaveGroup } from "@esri/arcgis-rest-portal";
 
 export interface IEventRegisterOptions extends IUserRequestOptions {

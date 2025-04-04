@@ -20,7 +20,7 @@ import {
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
-import type { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
 import { DEFAULT_PAGE, DEFAULT_PAGE_MODEL } from "./defaults";
 import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlug";

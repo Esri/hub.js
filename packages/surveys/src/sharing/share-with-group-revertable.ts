@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import type { UserSession } from "@esri/arcgis-rest-auth";
+import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import {
   unshareItemWithGroup,
   shareItemWithGroup,
@@ -30,7 +30,7 @@ export const shareWithGroupRevertable = (
 ): Promise<IRevertableTaskResult> => {
   const { id, owner } = model.item;
   const { id: groupId } = group;
-  const authentication = requestOptions.authentication as UserSession;
+  const authentication = requestOptions.authentication as ArcGISIdentityManager;
   return runRevertableTask(
     () =>
       shareItemWithGroup({
