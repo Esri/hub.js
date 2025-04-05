@@ -27,7 +27,8 @@ import { portalSearchItemsAsItems } from "../search/_internal/portalSearchItems"
  */
 export async function resolveMetric(
   metric: IMetric,
-  context: IArcGISContext
+  context: IArcGISContext,
+  options?: { defaultFieldName?: string }
 ): Promise<IResolvedMetric> {
   // At this point the source references should have been resolved
   // so we can force case to a MetricSource and switch on the type
@@ -36,10 +37,10 @@ export async function resolveMetric(
   // call the appropriate resolver
   switch (source.type) {
     case "static-value":
-      return resolveStaticValueMetric(metric, context);
+      return resolveStaticValueMetric(metric, context, options);
 
     case "service-query":
-      return resolveServiceQueryMetric(metric, context);
+      return resolveServiceQueryMetric(metric, context, options);
 
     case "item-query":
       return resolveItemQueryMetric(metric, context);
@@ -57,12 +58,14 @@ export async function resolveMetric(
  */
 function resolveStaticValueMetric(
   metric: IMetric,
-  context: IArcGISContext
+  context: IArcGISContext,
+  options: { defaultFieldName?: string } = {}
 ): Promise<IResolvedMetric> {
+  const { defaultFieldName } = options;
   const source = metric.source as IStaticValueMetricSource;
   // cut off the parent identifier from the metric id and use that
   // as the output field name
-  const fieldName = metric.id.split("_")[0];
+  const fieldName = defaultFieldName || metric.id.split("_")[0];
   const result: IMetricFeature = {
     attributes: {
       id: metric.entityInfo.id,
@@ -72,6 +75,10 @@ function resolveStaticValueMetric(
       valueType: source.valueType,
     },
   };
+
+  // if we are using a default field name, save the metric id onto the feature
+  defaultFieldName && (result.attributes.metricId = metric.id);
+
   return Promise.resolve({
     features: [result],
     generatedAt: new Date().getTime(),
@@ -87,12 +94,14 @@ function resolveStaticValueMetric(
  */
 async function resolveServiceQueryMetric(
   metric: IMetric,
-  context: IArcGISContext
+  context: IArcGISContext,
+  options: { defaultFieldName?: string } = {}
 ): Promise<IResolvedMetric> {
+  const { defaultFieldName } = options;
   const source = metric.source as IServiceQueryMetricSource;
   // cut off the parent identifier from the metric id and use that
   // as the output field name
-  const fieldName = metric.id.split("_")[0];
+  const fieldName = defaultFieldName || metric.id.split("_")[0];
   // If no where is provided, default to "1=1"
   source.where = source.where || "1=1";
 
@@ -125,6 +134,9 @@ async function resolveServiceQueryMetric(
       [fieldName]: aggregate,
     },
   };
+
+  // if we are using a default field name, save the metric id onto the feature
+  defaultFieldName && (result.attributes.metricId = metric.id);
 
   return {
     features: [result],
@@ -211,7 +223,9 @@ async function resolveItemQueryMetric(
           // valueFromItem is itself a metric so we call resolveDynamicValues again
           // attach in the entity info, so it's present for the next level of recursion
           valueFromItem.entityInfo = result.attributes;
-          const vResult = await resolveMetric(valueFromItem, context);
+          const vResult = await resolveMetric(valueFromItem, context, {
+            defaultFieldName: fieldName,
+          });
           vals.push(...vResult.features);
         }
       }
