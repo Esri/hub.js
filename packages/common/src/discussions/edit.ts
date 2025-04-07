@@ -4,9 +4,9 @@ import { createModel, getModel, updateModel } from "../models";
 import { constructSlug } from "../items/slugs";
 import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlug";
 import {
-  createSetting,
-  removeSetting,
-  updateSetting,
+  createSettingV2,
+  removeSettingV2,
+  updateSettingV2,
 } from "./api/settings/settings";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
@@ -74,7 +74,7 @@ export async function createDiscussion(
     settings.discussions.allowedLocations = null;
   }
   // create the entity settings
-  model.entitySettings = await createSetting({
+  model.entitySettings = await createSettingV2({
     data: {
       id: model.item.id,
       type: defaultSettings.type,
@@ -155,12 +155,12 @@ export async function updateDiscussion(
     settings.discussions.allowedLocations = null;
   }
   const newOrUpdatedSettings = updatedDiscussion.entitySettingsId
-    ? await updateSetting({
+    ? await updateSettingV2({
         id: updatedDiscussion.entitySettingsId,
         data: { settings },
         ...requestOptions,
       })
-    : await createSetting({
+    : await createSettingV2({
         data: {
           id: updatedDiscussion.id,
           type: defaultSettings.type,
@@ -189,7 +189,7 @@ export async function deleteDiscussion(
 ): Promise<void> {
   const ro = { ...requestOptions, ...{ id } } as IUserItemOptions;
   try {
-    await removeSetting({ id, ...requestOptions });
+    await removeSettingV2({ id, ...requestOptions });
   } catch (e) {
     // suppress error
   }
