@@ -108,6 +108,10 @@ export async function getEditorSchemas(
           import("../../../discussions/_internal/DiscussionUiSchemaCreate"),
         "hub:discussion:settings": () =>
           import("../../../discussions/_internal/DiscussionUiSchemaSettings"),
+        "hub:discussion:settings:discussions": () =>
+          import(
+            "../../../core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettings"
+          ),
       }[type as DiscussionEditorType]();
       uiSchema = await discussionModule.buildUiSchema(
         i18nScope,

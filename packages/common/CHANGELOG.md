@@ -1,3 +1,10 @@
+# @esri/hub-common [16.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.1.0...@esri/hub-common@16.2.0) (2025-04-07)
+
+
+### Features
+
+* **hub-common:** add entity discussion settings ui schema ([#1852](https://github.com/Esri/hub.js/issues/1852)) ([878b482](https://github.com/Esri/hub.js/commit/878b48245d2a85b735b56fc4b15d659a008b0422))
+
 # @esri/hub-common [16.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.0.2...@esri/hub-common@16.1.0) (2025-04-04)
 
 
