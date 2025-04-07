@@ -4,7 +4,7 @@
 
 1. Closes Issues: #<number> (if appropriate)
 
-1. [ ] Updated meaningful TSDoc to methods including Parameters and Returns, see [Documentation Guide](https://esri.github.io/hub-components/storybook/?path=/story/guides-documentation--page)
+1. [ ] Updated meaningful TSDoc to methods including Parameters and Returns, see [Documentation Guide](https://friendly-adventure-7w1eyl2.pages.github.io/storybook/?path=/story/guides-documentation--page)
 
 1. [ ] used semantic commit messages
   
