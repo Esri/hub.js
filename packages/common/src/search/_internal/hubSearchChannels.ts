@@ -5,7 +5,7 @@ import {
   IQuery,
 } from "../types";
 import HubError from "../../HubError";
-import { searchChannels } from "../../discussions/api/channels";
+import { searchChannelsV2 } from "../../discussions/api/channels";
 import { processChannelFilters } from "./hubDiscussionsHelpers/processChannelFilters";
 import { processChannelOptions } from "./hubDiscussionsHelpers/processChannelOptions";
 import { channelResultsToSearchResults } from "./hubDiscussionsHelpers/channelResultsToSearchResults";
@@ -29,7 +29,7 @@ export const hubSearchChannels = async (
   }
   const filters = processChannelFilters(query.filters);
   const options = processChannelOptions(searchOptions);
-  const { total, nextStart, items } = await searchChannels({
+  const { total, nextStart, items } = await searchChannelsV2({
     data: {
       ...filters,
       ...options,
