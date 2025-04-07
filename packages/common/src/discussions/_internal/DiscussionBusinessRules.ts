@@ -18,8 +18,6 @@ export const DiscussionPermissions = [
   "hub:discussion:workspace:details",
   "hub:discussion:workspace:settings",
   "hub:discussion:workspace:collaborators",
-  // TODO: remove `hub:discussion:workspace:discussion` when we deprecate the discussion board participation workspace pane
-  "hub:discussion:workspace:discussion",
   "hub:discussion:workspace:metrics",
   "hub:discussion:workspace:settings:discussions",
   "hub:discussion:manage",
@@ -110,11 +108,6 @@ export const DiscussionPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:discussion:workspace:collaborators",
-    dependencies: ["hub:discussion:edit"],
-  },
-  {
-    // TODO: remove this IPermissionPolicy when we deprecate the discussion board participation workspace pane
-    permission: "hub:discussion:workspace:discussion",
     dependencies: ["hub:discussion:edit"],
   },
   {
