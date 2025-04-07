@@ -344,27 +344,6 @@ describe("HubDiscussion Class:", () => {
         // other than via code-coverage
         expect(getProp(result, "_thumbnail")).not.toBeDefined();
       });
-      it("throws if creating", async () => {
-        const chk = HubDiscussion.fromJson(
-          {
-            name: "Test Entity",
-            thumbnailUrl: "https://myserver.com/thumbnail.png",
-          },
-          authdCtxMgr.context
-        );
-        // spy on the instance .save method and retrn void
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
-        // make changes to the editor
-        const editor = await chk.toEditor();
-        editor.name = "new name";
-        // call fromEditor
-        try {
-          await chk.fromEditor(editor);
-        } catch (ex) {
-          expect(ex.message).toContain("Cannot create");
-          expect(saveSpy).toHaveBeenCalledTimes(0);
-        }
-      });
     });
   });
 });

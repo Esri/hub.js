@@ -6,6 +6,7 @@ export const DiscussionEditorTypes = [
   "hub:discussion:edit",
   "hub:discussion:create",
   "hub:discussion:settings",
+  "hub:discussion:settings:discussions",
 ] as const;
 
 /**
@@ -20,6 +21,24 @@ export const DiscussionSchema: IConfigurationSchema = {
       type: "string",
       default: "",
       maxLength: 150,
+    },
+    // TODO: externalize & spread onto HubItemEntitySchema rather than here
+    discussionSettings: {
+      type: "object",
+      properties: {
+        allowedChannelIds: {
+          type: "array",
+          items: {
+            type: "string",
+          },
+        },
+        allowedLocations: {
+          type: "array",
+          items: {
+            type: "object",
+          },
+        },
+      },
     },
   },
 } as IConfigurationSchema;

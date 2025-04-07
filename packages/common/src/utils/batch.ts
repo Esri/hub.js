@@ -1,4 +1,5 @@
 import { IBatch, IBatchTransform } from "../hub-types";
+import { splitArrayByLength } from "./_array";
 
 /**
  * Helper to split a large number of calls into
@@ -13,16 +14,6 @@ export function batch(
   fn: IBatchTransform,
   batchSize: number = 5
 ): Promise<any> {
-  const toBatches = (_batches: IBatch[], value: any): IBatch[] => {
-    let _batch = _batches[_batches.length - 1];
-    if (!_batch || _batch.length === batchSize) {
-      _batch = [];
-      _batches.push(_batch);
-    }
-    _batch.push(value);
-    return _batches;
-  };
-
   const toSerialBatchChain = (
     promise: Promise<any>,
     batchOfValues: IBatch
@@ -37,7 +28,7 @@ export function batch(
   };
 
   // split values into batches of values
-  const batches = values.reduce(toBatches, []);
+  const batches = splitArrayByLength<IBatch>(values, batchSize);
 
   // batches are processed serially, however
   // all calls within a batch are concurrent
