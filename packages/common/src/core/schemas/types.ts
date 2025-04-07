@@ -151,6 +151,7 @@ export enum UiSchemaElementTypes {
   layout = "Layout",
   slot = "Slot",
   notice = "Notice",
+  text = "Text",
 }
 
 export enum UiSchemaSectionTypes {
