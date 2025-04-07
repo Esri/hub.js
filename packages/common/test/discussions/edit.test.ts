@@ -70,7 +70,7 @@ describe("discussions edit:", () => {
       );
       const removeSettingSpy = spyOn(
         settingUtils,
-        "removeSetting"
+        "removeSettingV2"
       ).and.returnValue(Promise.resolve({ success: true }));
 
       const result = await deleteDiscussion("3ef", {
@@ -104,7 +104,7 @@ describe("discussions edit:", () => {
       );
       const createSettingsSpy = spyOn(
         settingUtils,
-        "createSetting"
+        "createSettingV2"
       ).and.returnValue(
         Promise.resolve({
           id: GUID,
@@ -164,7 +164,7 @@ describe("discussions edit:", () => {
       );
       const createSettingsSpy = spyOn(
         settingUtils,
-        "createSetting"
+        "createSettingV2"
       ).and.returnValue(
         Promise.resolve({
           id: GUID,
@@ -231,7 +231,7 @@ describe("discussions edit:", () => {
       );
       const createSettingsSpy = spyOn(
         settingUtils,
-        "createSetting"
+        "createSettingV2"
       ).and.returnValue(
         Promise.resolve({
           id: GUID,
@@ -301,7 +301,7 @@ describe("discussions edit:", () => {
       );
       const createSettingsSpy = spyOn(
         settingUtils,
-        "createSetting"
+        "createSettingV2"
       ).and.returnValue(
         Promise.resolve({
           id: GUID,
@@ -380,7 +380,7 @@ describe("discussions edit:", () => {
       );
       const updateSettingsSpy = spyOn(
         settingUtils,
-        "updateSetting"
+        "updateSettingV2"
       ).and.returnValue(
         Promise.resolve({
           id: GUID,
@@ -475,7 +475,7 @@ describe("discussions edit:", () => {
         ).and.returnValue(geometryTransformed);
         const updateSettingsSpy = spyOn(
           settingUtils,
-          "updateSetting"
+          "updateSettingV2"
         ).and.returnValue(
           Promise.resolve({
             id: GUID,
@@ -556,7 +556,7 @@ describe("discussions edit:", () => {
         ).and.returnValue(geometryTransformed);
         const updateSettingsSpy = spyOn(
           settingUtils,
-          "updateSetting"
+          "updateSettingV2"
         ).and.returnValue(
           Promise.resolve({
             id: GUID,
@@ -639,7 +639,7 @@ describe("discussions edit:", () => {
         });
         const updateSettingsSpy = spyOn(
           settingUtils,
-          "updateSetting"
+          "updateSettingV2"
         ).and.returnValue(
           Promise.resolve({
             id: GUID,
