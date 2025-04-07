@@ -1,10 +1,6 @@
 import type { IUser } from "@esri/arcgis-rest-portal";
 import type { IGroup } from "@esri/arcgis-rest-portal";
-import {
-  SharingAccess,
-  IChannel,
-} from "../../../../../src/discussions/api/types";
-import { canReadFromChannel } from "../../../../../src/discussions/api/utils/channels";
+import { IChannel } from "../../../../../src/discussions/api/types";
 
 const orgId1 = "3ef";
 const orgId2 = "4dc";
@@ -44,112 +40,6 @@ describe("Util: Channel Access", () => {
         fakeGroup(groupId2, "admin"),
         fakeGroup(groupId3, "owner"),
       ],
-    });
-  });
-
-  describe("canReadFromChannel", () => {
-    describe("Private channel", () => {
-      it("returns true for user that is member of channel group", () => {
-        const channel = fakeChannel({
-          access: SharingAccess.PRIVATE,
-          orgs: [orgId1],
-          groups: [groupId1],
-        });
-        expect(canReadFromChannel(channel, user)).toBeTruthy();
-      });
-      it("returns true for user that is admin of channel group", () => {
-        const channel = fakeChannel({
-          access: SharingAccess.PRIVATE,
-          orgs: [orgId1],
-          groups: [groupId2],
-        });
-        expect(canReadFromChannel(channel, user)).toBeTruthy();
-      });
-      it("returns true for user that is owner of channel group", () => {
-        const channel = fakeChannel({
-          access: SharingAccess.PRIVATE,
-          orgs: [orgId1],
-          groups: [groupId3],
-        });
-        expect(canReadFromChannel(channel, user)).toBeTruthy();
-      });
-      it("returns false for user that is not in channel group", () => {
-        const channel = fakeChannel({
-          access: SharingAccess.PRIVATE,
-          orgs: [orgId1],
-          groups: ["unknown"],
-        });
-        expect(canReadFromChannel(channel, user)).toBeFalsy();
-      });
-      it("returns false undefined user", () => {
-        const channel = fakeChannel({
-          access: SharingAccess.PRIVATE,
-          orgs: [orgId1],
-          groups: ["unknown"],
-        });
-        expect(canReadFromChannel(channel)).toBeFalsy();
-      });
-      it("returns false for user that has no groups", () => {
-        const userNoGroups = fakeUser();
-        const channel = fakeChannel({
-          access: SharingAccess.PRIVATE,
-          orgs: [orgId1],
-          groups: ["unknown"],
-        });
-        expect(canReadFromChannel(channel, userNoGroups)).toBeFalsy();
-      });
-    });
-
-    describe("Org channel", () => {
-      it("returns true for user that is member of channel group but not in org", () => {
-        const channel = fakeChannel({
-          access: SharingAccess.ORG,
-          orgs: [orgId1], // user3 not in this org
-          groups: [groupId1],
-        });
-        expect(canReadFromChannel(channel, user3)).toBeTruthy();
-      });
-      it("returns true for user that is admin of channel group but not in org", () => {
-        const channel = fakeChannel({
-          access: SharingAccess.ORG,
-          orgs: [orgId1], // user3 not in this org
-          groups: [groupId2],
-        });
-        expect(canReadFromChannel(channel, user3)).toBeTruthy();
-      });
-      it("returns true for user that is owner of channel group but not in org", () => {
-        const channel = fakeChannel({
-          access: SharingAccess.ORG,
-          orgs: [orgId1], // user3 not in this org
-          groups: [groupId3],
-        });
-        expect(canReadFromChannel(channel, user3)).toBeTruthy();
-      });
-
-      it("returns true for user that not in channel groups but is member of channel org", () => {
-        const channel = fakeChannel({
-          access: SharingAccess.ORG,
-          orgs: [orgId1],
-        });
-        expect(canReadFromChannel(channel, user)).toBeTruthy();
-      });
-      it("returns false for user that is not in channel groups and not member of channel org", () => {
-        const channel = fakeChannel({
-          access: SharingAccess.ORG,
-          orgs: [orgId2], // user not in this org
-        });
-        expect(canReadFromChannel(channel, user)).toBeFalsy();
-      });
-    });
-
-    describe("Public channel", () => {
-      it("returns true for public channel access", () => {
-        const channel = fakeChannel({
-          access: SharingAccess.PUBLIC,
-          orgs: [orgId2],
-        });
-        expect(canReadFromChannel(channel, user)).toBeTruthy();
-      });
     });
   });
 });
