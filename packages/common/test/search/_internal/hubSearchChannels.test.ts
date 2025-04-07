@@ -34,7 +34,7 @@ describe("hubSearchChannels", () => {
       processChannelOptionsModule,
       "processChannelOptions"
     );
-    const searchChannelsSpy = spyOn(channelsModule, "searchChannels");
+    const searchChannelsSpy = spyOn(channelsModule, "searchChannelsV2");
     const channelResultsToSearchResultsSpy = spyOn(
       channelResultsToSearchResultsModule,
       "channelResultsToSearchResults"
@@ -123,7 +123,7 @@ describe("hubSearchChannels", () => {
     );
     const searchChannelsSpy = spyOn(
       channelsModule,
-      "searchChannels"
+      "searchChannelsV2"
     ).and.returnValues(
       Promise.resolve(channelResultsPage1),
       Promise.resolve(channelResultsPage2)
