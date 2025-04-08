@@ -1,4 +1,4 @@
-import type { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { _prepareUploadRequests } from "../../src/items/_internal/_prepare-upload-requests";
 describe("_prepareUploadRequests", () => {
   if (typeof Blob !== "undefined") {

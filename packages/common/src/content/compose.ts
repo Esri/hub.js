@@ -3,7 +3,7 @@ import {
   ILayerDefinition,
   IFeatureServiceDefinition,
   parseServiceUrl,
-} from "@esri/arcgis-rest-feature-layer";
+} from "@esri/arcgis-rest-feature-service";
 import { BBox, IHubRequestOptions } from "../hub-types";
 import { getHubApiUrl } from "../api";
 import { isDownloadable } from "../categories";

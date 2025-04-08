@@ -9,7 +9,7 @@ import {
   failSafe,
   unshareItemFromGroups,
 } from "@esri/hub-common";
-import type { UserSession } from "@esri/arcgis-rest-auth";
+import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 
 /**
  * Unlink a Page from a Site and vice-versa
@@ -26,7 +26,7 @@ export function unlinkSiteAndPage(unlinkRequestOptions: {
   siteId?: string;
   pageModel?: IModel;
   pageId?: string;
-  authentication: UserSession;
+  authentication: ArcGISIdentityManager;
 }): Promise<{ siteModel: IModel; pageModel: IModel }> {
   let unshareGroups: string[] = [];
   const promises: Array<Promise<any>> = [];

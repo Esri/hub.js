@@ -11,7 +11,7 @@ describe("isServicesDirectoryDisabled", function () {
   const url =
     "https://maps.bouldercounty.org/arcgis/rest/services/PublicSafety/POLICE_STATIONS/MapServer";
   let item: IItem;
-  let requestOptions: IRequestOptions;
+  let requestOptions: any;
   let getItemSpy: jasmine.Spy;
 
   beforeEach(() => {
@@ -20,7 +20,7 @@ describe("isServicesDirectoryDisabled", function () {
       url,
     } as IItem;
 
-    requestOptions = {} as IRequestOptions;
+    requestOptions = {};
 
     getItemSpy = spyOn(restPortal, "getItem").and.returnValue(
       Promise.resolve(item)

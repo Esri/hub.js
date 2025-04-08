@@ -3,7 +3,7 @@ import { IHubOrganization } from "../core/types/IHubOrganization";
 import { fetchOrg } from "./fetch-org";
 import { IPortal } from "@esri/arcgis-rest-portal";
 import { getOrgThumbnailUrl } from "../resources";
-import type { UserSession } from "@esri/arcgis-rest-auth";
+import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { IHubSearchResult } from "../search/types/IHubSearchResult";
 
 /**
@@ -20,7 +20,7 @@ export async function fetchOrganization(
 ): Promise<IHubOrganization> {
   const portal = await fetchOrg(identifier, requestOptions);
 
-  const session = requestOptions.authentication as UserSession;
+  const session = requestOptions.authentication as ArcGISIdentityManager;
   const token = session.token;
   return portalToOrganization(portal, token);
 }

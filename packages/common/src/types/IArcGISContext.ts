@@ -1,4 +1,7 @@
-import { UserSession, IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import {
+  ArcGISIdentityManager,
+  IUserRequestOptions,
+} from "@esri/arcgis-rest-request";
 import type { IPortal } from "@esri/arcgis-rest-portal";
 import type { IRequestOptions } from "@esri/arcgis-rest-request";
 import type { IUser } from "@esri/arcgis-rest-portal";
@@ -38,9 +41,9 @@ export interface IArcGISContext {
    */
   id: number;
   /**
-   * Return the UserSession if authenticated
+   * Return the ArcGISIdentityManager if authenticated
    */
-  session: UserSession;
+  session: ArcGISIdentityManager;
   /**
    * Return boolean indicating if authenticatio is present
    */
