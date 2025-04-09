@@ -70,8 +70,7 @@ export const transformEntityPermissionPoliciesToGroupFormValues = (
     if (
       [COLLABORATION_TYPES.group, COLLABORATION_TYPES.groupAdmin].includes(
         permissionPolicy.collaborationType
-      ) &&
-      permissionPolicy.permission !== CHANNEL_PERMISSIONS.channelOwner
+      )
     ) {
       return {
         ...acc,
