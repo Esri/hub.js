@@ -53,7 +53,6 @@ describe("EntityUiSchemaDiscussionsSettings", () => {
                 showSelection: false,
                 showAllCollectionFacet: false,
                 canReorder: false,
-                linkTarget: "event",
                 catalogs: [
                   {
                     schemaVersion: 1,
