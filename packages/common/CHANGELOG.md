@@ -1,3 +1,10 @@
+# @esri/hub-common [16.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.2.1...@esri/hub-common@16.3.0) (2025-04-09)
+
+
+### Features
+
+* add new Text UiSchemaElementType ([#1856](https://github.com/Esri/hub.js/issues/1856)) ([2b5b125](https://github.com/Esri/hub.js/commit/2b5b125a6fe1e86d8cb3886bca80bc2cbf972f50))
+
 ## @esri/hub-common [16.2.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.2.0...@esri/hub-common@16.2.1) (2025-04-09)
 
 
