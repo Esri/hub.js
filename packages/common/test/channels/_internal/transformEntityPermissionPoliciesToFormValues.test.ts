@@ -221,9 +221,9 @@ describe("transformEntityPermissionPoliciesToFormValues", () => {
           permission: CHANNEL_PERMISSIONS.channelManage,
         },
         {
-          collaborationType: COLLABORATION_TYPES.group,
+          collaborationType: COLLABORATION_TYPES.groupAdmin,
           collaborationId: "groupId555",
-          id: "725",
+          id: "825",
           permission: CHANNEL_PERMISSIONS.channelOwner,
         },
       ]);
@@ -270,6 +270,21 @@ describe("transformEntityPermissionPoliciesToFormValues", () => {
             admin: {
               value: CHANNEL_PERMISSIONS.channelManage,
               id: "7l3",
+            },
+          },
+        },
+        {
+          key: "groupId555",
+          entityId: "groupId555",
+          entityType: "group",
+          roles: {
+            member: {
+              value: ChannelNonePermission,
+              id: undefined,
+            },
+            admin: {
+              value: CHANNEL_PERMISSIONS.channelOwner,
+              id: "825",
             },
           },
         },
