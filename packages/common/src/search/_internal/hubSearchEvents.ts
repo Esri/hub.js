@@ -22,13 +22,9 @@ import { processFilters } from "./hubEventsHelpers/processFilters";
  *   - term: string;
  *   - categories: string | string[];
  *   - tags: string | string[];
- *   - group: string | string[];
- *   - notGroup: string | string[];
- *   - readGroupId: string | string[];
- *   - notReadGroupId: string | string[];
- *   - editGroupId: string | string[];
- *   - notEditGroupId: string | string[];
+ *   - group: string | string[] | { not: string } | { not: string[] };
  *   - attendanceType: 'virtual' | 'in_person' | Array<'virtual' | 'in_person'>;
+ *   - occurrence: 'upcoming' | 'past' | 'inProgress'
  *   - owner: string | string[];
  *   - status: 'planned' | 'canceled' | 'removed' | Array<'planned' | 'canceled' | 'removed'>;
  *   - startDateBefore: string | number;
@@ -51,10 +47,7 @@ export async function hubSearchEvents(
   query: IQuery,
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
-  const processedFilters = await processFilters(
-    query.filters,
-    options.requestOptions
-  );
+  const processedFilters = await processFilters(query.filters);
   const processedOptions = processOptions(options);
   const data: ISearchEvents = {
     ...processedFilters,

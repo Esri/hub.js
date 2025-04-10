@@ -1,4 +1,3 @@
-import { IHubRequestOptions } from "../../../../src";
 import {
   EventAccess,
   EventAssociationEntityType,
@@ -76,45 +75,35 @@ const readGroup2 = {
   access: "public",
 } as arcgisRestPortal.IGroup;
 
-const hubRequestOptions = {
-  authentication: true,
-} as unknown as IHubRequestOptions;
-
 describe("processFilters", () => {
   describe("access", () => {
     it("should return undefined", async () => {
-      const result = await processFilters(
-        [{ predicates: [] }],
-        hubRequestOptions
-      );
+      const result = await processFilters([{ predicates: [] }]);
       expect(result.access).toBeUndefined();
     });
     it("should consolidate and unique values from multiple filters & predicates", async () => {
-      const result = await processFilters(
-        [
-          {
-            predicates: [
-              {
-                access: "public",
-              },
-              {
-                access: "org",
-              },
-            ],
-          },
-          {
-            predicates: [
-              {
-                access: "org",
-              },
-              {
-                access: "private",
-              },
-            ],
-          },
-        ],
-        hubRequestOptions
-      );
+      const result = await processFilters([
+        {
+          predicates: [
+            {
+              access: "public",
+            },
+            {
+              access: "org",
+            },
+          ],
+        },
+        {
+          predicates: [
+            {
+              access: "org",
+            },
+            {
+              access: "private",
+            },
+          ],
+        },
+      ]);
       expect(result.access).toEqual([
         EventAccess.PUBLIC,
         EventAccess.ORG,
@@ -124,109 +113,91 @@ describe("processFilters", () => {
   });
   describe("canEdit", () => {
     it("should return undefined", async () => {
-      const result = await processFilters(
-        [{ predicates: [] }],
-        hubRequestOptions
-      );
+      const result = await processFilters([{ predicates: [] }]);
       expect(result.canEdit).toBeUndefined();
     });
     it("should use the first value", async () => {
-      const result = await processFilters(
-        [
-          {
-            predicates: [
-              {
-                canEdit: true,
-              },
-              {
-                canEdit: false,
-              },
-            ],
-          },
-          {
-            predicates: [
-              {
-                canEdit: false,
-              },
-            ],
-          },
-        ],
-        hubRequestOptions
-      );
+      const result = await processFilters([
+        {
+          predicates: [
+            {
+              canEdit: true,
+            },
+            {
+              canEdit: false,
+            },
+          ],
+        },
+        {
+          predicates: [
+            {
+              canEdit: false,
+            },
+          ],
+        },
+      ]);
       expect(result.canEdit).toEqual(true);
     });
   });
   describe("entityId", () => {
     it("should return undefined", async () => {
-      const result = await processFilters(
-        [{ predicates: [] }],
-        hubRequestOptions
-      );
+      const result = await processFilters([{ predicates: [] }]);
       expect(result.entityIds).toBeUndefined();
     });
     it("should consolidate and unique values from multiple filters & predicates", async () => {
-      const result = await processFilters(
-        [
-          {
-            predicates: [
-              {
-                entityId: "abc",
-              },
-              {
-                entityId: "def",
-              },
-            ],
-          },
-          {
-            predicates: [
-              {
-                entityId: "def",
-              },
-              {
-                entityId: ["ghi"],
-              },
-            ],
-          },
-        ],
-        hubRequestOptions
-      );
+      const result = await processFilters([
+        {
+          predicates: [
+            {
+              entityId: "abc",
+            },
+            {
+              entityId: "def",
+            },
+          ],
+        },
+        {
+          predicates: [
+            {
+              entityId: "def",
+            },
+            {
+              entityId: ["ghi"],
+            },
+          ],
+        },
+      ]);
       expect(result.entityIds).toEqual(["abc", "def", "ghi"]);
     });
   });
   describe("entityType", () => {
     it("should return undefined", async () => {
-      const result = await processFilters(
-        [{ predicates: [] }],
-        hubRequestOptions
-      );
+      const result = await processFilters([{ predicates: [] }]);
       expect(result.entityTypes).toBeUndefined();
     });
     it("should consolidate and unique values from multiple filters & predicates", async () => {
-      const result = await processFilters(
-        [
-          {
-            predicates: [
-              {
-                entityType: "Hub Site Application",
-              },
-              {
-                entityType: "Hub Initiative",
-              },
-            ],
-          },
-          {
-            predicates: [
-              {
-                entityType: "Hub Initiative",
-              },
-              {
-                entityType: ["Hub Project"],
-              },
-            ],
-          },
-        ],
-        hubRequestOptions
-      );
+      const result = await processFilters([
+        {
+          predicates: [
+            {
+              entityType: "Hub Site Application",
+            },
+            {
+              entityType: "Hub Initiative",
+            },
+          ],
+        },
+        {
+          predicates: [
+            {
+              entityType: "Hub Initiative",
+            },
+            {
+              entityType: ["Hub Project"],
+            },
+          ],
+        },
+      ]);
       expect(result.entityTypes).toEqual([
         EventAssociationEntityType.Hub_Site_Application,
         EventAssociationEntityType.Hub_Initiative,
@@ -236,217 +207,181 @@ describe("processFilters", () => {
   });
   describe("id", () => {
     it("should return undefined", async () => {
-      const result = await processFilters(
-        [{ predicates: [] }],
-        hubRequestOptions
-      );
+      const result = await processFilters([{ predicates: [] }]);
       expect(result.eventIds).toBeUndefined();
     });
     it("should consolidate and unique values from multiple filters & predicates", async () => {
-      const result = await processFilters(
-        [
-          {
-            predicates: [
-              {
-                id: "abc",
-              },
-              {
-                id: "def",
-              },
-            ],
-          },
-          {
-            predicates: [
-              {
-                id: "def",
-              },
-              {
-                id: ["ghi"],
-              },
-            ],
-          },
-        ],
-        hubRequestOptions
-      );
+      const result = await processFilters([
+        {
+          predicates: [
+            {
+              id: "abc",
+            },
+            {
+              id: "def",
+            },
+          ],
+        },
+        {
+          predicates: [
+            {
+              id: "def",
+            },
+            {
+              id: ["ghi"],
+            },
+          ],
+        },
+      ]);
       expect(result.eventIds).toEqual(["abc", "def", "ghi"]);
     });
   });
   describe("term", () => {
     it("should return undefined", async () => {
-      const result = await processFilters(
-        [{ predicates: [] }],
-        hubRequestOptions
-      );
+      const result = await processFilters([{ predicates: [] }]);
       expect(result.title).toBeUndefined();
     });
     it("should use the first value", async () => {
-      const result = await processFilters(
-        [
-          {
-            predicates: [
-              {
-                term: "abc",
-              },
-              {
-                term: "def",
-              },
-            ],
-          },
-          {
-            predicates: [
-              {
-                term: "ghi",
-              },
-            ],
-          },
-        ],
-        hubRequestOptions
-      );
+      const result = await processFilters([
+        {
+          predicates: [
+            {
+              term: "abc",
+            },
+            {
+              term: "def",
+            },
+          ],
+        },
+        {
+          predicates: [
+            {
+              term: "ghi",
+            },
+          ],
+        },
+      ]);
       expect(result.title).toEqual("abc");
     });
   });
   describe("orgId", () => {
     it("should return undefined", async () => {
-      const result = await processFilters(
-        [{ predicates: [] }],
-        hubRequestOptions
-      );
+      const result = await processFilters([{ predicates: [] }]);
       expect(result.orgId).toBeUndefined();
     });
     it("should use the first value", async () => {
-      const result = await processFilters(
-        [
-          {
-            predicates: [
-              {
-                orgId: "abc",
-              },
-              {
-                orgId: "def",
-              },
-            ],
-          },
-          {
-            predicates: [
-              {
-                orgId: "ghi",
-              },
-            ],
-          },
-        ],
-        hubRequestOptions
-      );
+      const result = await processFilters([
+        {
+          predicates: [
+            {
+              orgId: "abc",
+            },
+            {
+              orgId: "def",
+            },
+          ],
+        },
+        {
+          predicates: [
+            {
+              orgId: "ghi",
+            },
+          ],
+        },
+      ]);
       expect(result.orgId).toEqual("abc");
     });
   });
   describe("categories", () => {
     it("should return undefined", async () => {
-      const result = await processFilters(
-        [{ predicates: [] }],
-        hubRequestOptions
-      );
+      const result = await processFilters([{ predicates: [] }]);
       expect(result.categories).toBeUndefined();
     });
     it("should consolidate and unique values from multiple filters & predicates", async () => {
-      const result = await processFilters(
-        [
-          {
-            predicates: [
-              {
-                categories: "abc",
-              },
-              {
-                categories: "def",
-              },
-            ],
-          },
-          {
-            predicates: [
-              {
-                categories: "def",
-              },
-              {
-                categories: ["ghi"],
-              },
-            ],
-          },
-        ],
-        hubRequestOptions
-      );
+      const result = await processFilters([
+        {
+          predicates: [
+            {
+              categories: "abc",
+            },
+            {
+              categories: "def",
+            },
+          ],
+        },
+        {
+          predicates: [
+            {
+              categories: "def",
+            },
+            {
+              categories: ["ghi"],
+            },
+          ],
+        },
+      ]);
       expect(result.categories).toEqual(["abc", "def", "ghi"]);
     });
   });
   describe("tags", () => {
     it("should return undefined", async () => {
-      const result = await processFilters(
-        [{ predicates: [] }],
-        hubRequestOptions
-      );
+      const result = await processFilters([{ predicates: [] }]);
       expect(result.tags).toBeUndefined();
     });
     it("should consolidate and unique values from multiple filters & predicates", async () => {
-      const result = await processFilters(
-        [
-          {
-            predicates: [
-              {
-                tags: "abc",
-              },
-              {
-                tags: "def",
-              },
-            ],
-          },
-          {
-            predicates: [
-              {
-                tags: "def",
-              },
-              {
-                tags: ["ghi"],
-              },
-            ],
-          },
-        ],
-        hubRequestOptions
-      );
+      const result = await processFilters([
+        {
+          predicates: [
+            {
+              tags: "abc",
+            },
+            {
+              tags: "def",
+            },
+          ],
+        },
+        {
+          predicates: [
+            {
+              tags: "def",
+            },
+            {
+              tags: ["ghi"],
+            },
+          ],
+        },
+      ]);
       expect(result.tags).toEqual(["abc", "def", "ghi"]);
     });
   });
   describe("attendanceType", () => {
     it("should return undefined", async () => {
-      const result = await processFilters(
-        [{ predicates: [] }],
-        hubRequestOptions
-      );
+      const result = await processFilters([{ predicates: [] }]);
       expect(result.attendanceTypes).toBeUndefined();
     });
     it("should consolidate and unique values from multiple filters & predicates", async () => {
-      const result = await processFilters(
-        [
-          {
-            predicates: [
-              {
-                attendanceType: "virtual",
-              },
-              {
-                attendanceType: "in_person",
-              },
-            ],
-          },
-          {
-            predicates: [
-              {
-                attendanceType: "virtual",
-              },
-              {
-                attendanceType: ["in_person"],
-              },
-            ],
-          },
-        ],
-        hubRequestOptions
-      );
+      const result = await processFilters([
+        {
+          predicates: [
+            {
+              attendanceType: "virtual",
+            },
+            {
+              attendanceType: "in_person",
+            },
+          ],
+        },
+        {
+          predicates: [
+            {
+              attendanceType: "virtual",
+            },
+            {
+              attendanceType: ["in_person"],
+            },
+          ],
+        },
+      ]);
       expect(result.attendanceTypes).toEqual([
         EventAttendanceType.VIRTUAL,
         EventAttendanceType.IN_PERSON,
@@ -455,78 +390,66 @@ describe("processFilters", () => {
   });
   describe("owner", () => {
     it("should return undefined", async () => {
-      const result = await processFilters(
-        [{ predicates: [] }],
-        hubRequestOptions
-      );
+      const result = await processFilters([{ predicates: [] }]);
       expect(result.createdByIds).toBeUndefined();
     });
     it("should consolidate and unique values from multiple filters & predicates", async () => {
-      const result = await processFilters(
-        [
-          {
-            predicates: [
-              {
-                owner: "abc",
-              },
-              {
-                owner: "def",
-              },
-            ],
-          },
-          {
-            predicates: [
-              {
-                owner: "def",
-              },
-              {
-                owner: ["ghi"],
-              },
-            ],
-          },
-        ],
-        hubRequestOptions
-      );
+      const result = await processFilters([
+        {
+          predicates: [
+            {
+              owner: "abc",
+            },
+            {
+              owner: "def",
+            },
+          ],
+        },
+        {
+          predicates: [
+            {
+              owner: "def",
+            },
+            {
+              owner: ["ghi"],
+            },
+          ],
+        },
+      ]);
       expect(result.createdByIds).toEqual(["abc", "def", "ghi"]);
     });
   });
   describe("status", () => {
     it("should default to planned and canceled", async () => {
-      const result = await processFilters(
-        [{ predicates: [] }],
-        hubRequestOptions
-      );
+      const result = await processFilters([{ predicates: [] }]);
       expect(result.status).toEqual([
         EventStatus.PLANNED,
         EventStatus.CANCELED,
       ]);
     });
     it("should consolidate and unique values from multiple filters & predicates", async () => {
-      const result = await processFilters(
-        [
-          {
-            predicates: [
-              {
-                status: "planned",
-              },
-              {
-                status: "canceled",
-              },
-            ],
-          },
-          {
-            predicates: [
-              {
-                status: "canceled",
-              },
-              {
-                status: ["removed"],
-              },
-            ],
-          },
-        ],
-        hubRequestOptions
-      );
+      const result = await processFilters([
+        {
+          predicates: [
+            {
+              status: "planned",
+            },
+            {
+              status: "canceled",
+            },
+          ],
+        },
+        {
+          predicates: [
+            {
+              status: "canceled",
+            },
+            {
+              status: ["removed"],
+            },
+          ],
+        },
+      ]);
       expect(result.status).toEqual([
         EventStatus.PLANNED,
         EventStatus.CANCELED,
@@ -536,539 +459,266 @@ describe("processFilters", () => {
   });
   describe("group", () => {
     it("should return undefined", async () => {
-      const result = await processFilters(
-        [{ predicates: [] }],
-        hubRequestOptions
-      );
+      const result = await processFilters([{ predicates: [] }]);
       expect(result.sharedToGroups).toBeUndefined();
     });
-    it("should return and unique sharedToGroups if group has been supplied", async () => {
-      const result = await processFilters(
-        [
-          {
-            predicates: [
-              {
-                group: editGroup1.id,
-              },
-              {
-                group: readGroup1.id,
-              },
-            ],
-          },
-          {
-            predicates: [
-              {
-                group: [readGroup1.id, editGroup2.id],
-              },
-            ],
-          },
-        ],
-        hubRequestOptions
-      );
+    it("should return a unique sharedToGroups if group has been supplied", async () => {
+      const result = await processFilters([
+        {
+          predicates: [
+            {
+              group: editGroup1.id,
+            },
+            {
+              group: readGroup1.id,
+            },
+          ],
+        },
+        {
+          predicates: [
+            {
+              group: [readGroup1.id, editGroup2.id],
+            },
+          ],
+        },
+      ]);
       expect(result.sharedToGroups).toEqual([
         editGroup1.id,
         readGroup1.id,
         editGroup2.id,
       ]);
     });
-  });
-  describe("notGroup", () => {
-    it("should return undefined", async () => {
-      const result = await processFilters(
-        [{ predicates: [] }],
-        hubRequestOptions
-      );
-      expect(result.withoutReadGroups).toBeUndefined();
-      expect(result.withoutEditGroups).toBeUndefined();
-    });
-    it("should return and unique withoutReadGroups and withoutEditGroups", async () => {
-      const searchGroupsSpy = spyOn(
-        arcgisRestPortal,
-        "searchGroups"
-      ).and.returnValue(
-        Promise.resolve({ results: [editGroup1, readGroup1, editGroup2] })
-      );
-      const result = await processFilters(
-        [
-          {
-            predicates: [
-              {
-                notGroup: editGroup1.id,
-              },
-              {
-                notGroup: readGroup1.id,
-              },
-            ],
-          },
-          {
-            predicates: [
-              {
-                notGroup: [readGroup1.id, editGroup2.id],
-              },
-            ],
-          },
-        ],
-        hubRequestOptions
-      );
-      expect(searchGroupsSpy).toHaveBeenCalledTimes(1);
-      expect(searchGroupsSpy).toHaveBeenCalledWith({
-        q: `id:(${[editGroup1.id, readGroup1.id, editGroup2.id].join(" OR ")})`,
-        num: 3,
-        ...hubRequestOptions,
-      });
-      expect(result.withoutReadGroups).toEqual([readGroup1.id]);
-      expect(result.withoutEditGroups).toEqual([editGroup1.id, editGroup2.id]);
-    });
-    it("should filter out inaccessible groups", async () => {
-      const searchGroupsSpy = spyOn(
-        arcgisRestPortal,
-        "searchGroups"
-      ).and.returnValue(Promise.resolve({ results: [] }));
-      const result = await processFilters(
-        [
-          {
-            predicates: [
-              {
-                notGroup: editGroup1.id,
-              },
-            ],
-          },
-          {
-            predicates: [
-              {
-                notGroup: [readGroup1.id, editGroup2.id],
-              },
-            ],
-          },
-        ],
-        hubRequestOptions
-      );
-      expect(searchGroupsSpy).toHaveBeenCalledTimes(1);
-      expect(searchGroupsSpy).toHaveBeenCalledWith({
-        q: `id:(${[editGroup1.id, readGroup1.id, editGroup2.id].join(" OR ")})`,
-        num: 3,
-        ...hubRequestOptions,
-      });
-      expect(result.withoutReadGroups).toBeUndefined();
-      expect(result.withoutEditGroups).toBeUndefined();
-    });
-    it("should be prioritized over individual readGroupId and editGroupId", async () => {
-      const searchGroupsSpy = spyOn(
-        arcgisRestPortal,
-        "searchGroups"
-      ).and.returnValue(
-        Promise.resolve({ results: [editGroup1, readGroup1, editGroup2] })
-      );
-      const result = await processFilters(
-        [
-          {
-            predicates: [
-              {
-                notGroup: editGroup1.id,
-              },
-              {
-                notReadGroupId: "some-other-read-group-id",
-              },
-            ],
-          },
-          {
-            predicates: [
-              {
-                notGroup: [readGroup1.id, editGroup2.id],
-                notEditGroupId: ["some-other-edit-group-id"],
-              },
-            ],
-          },
-        ],
-        hubRequestOptions
-      );
-      expect(searchGroupsSpy).toHaveBeenCalledTimes(1);
-      expect(searchGroupsSpy).toHaveBeenCalledWith({
-        q: `id:(${[editGroup1.id, readGroup1.id, editGroup2.id].join(" OR ")})`,
-        num: 3,
-        ...hubRequestOptions,
-      });
-      expect(result.withoutReadGroups).toEqual([readGroup1.id]);
-      expect(result.withoutEditGroups).toEqual([editGroup1.id, editGroup2.id]);
-    });
-  });
-  describe("readGroupId", () => {
-    it("should return undefined", async () => {
-      const result = await processFilters(
-        [{ predicates: [] }],
-        hubRequestOptions
-      );
-      expect(result.readGroups).toBeUndefined();
-    });
-    it("should consolidate and unique values from multiple filters & predicates", async () => {
-      const result = await processFilters(
-        [
-          {
-            predicates: [
-              {
-                readGroupId: readGroup1.id,
-              },
-              {
-                readGroupId: readGroup2.id,
-              },
-            ],
-          },
-          {
-            predicates: [
-              {
-                readGroupId: [readGroup2.id],
-              },
-            ],
-          },
-        ],
-        hubRequestOptions
-      );
-      expect(result.readGroups).toEqual([readGroup1.id, readGroup2.id]);
-    });
-  });
-  describe("notReadGroupId", () => {
-    it("should return undefined", async () => {
-      const result = await processFilters(
-        [{ predicates: [] }],
-        hubRequestOptions
-      );
-      expect(result.withoutReadGroups).toBeUndefined();
-    });
-    it("should consolidate and unique values from multiple filters & predicates", async () => {
-      const result = await processFilters(
-        [
-          {
-            predicates: [
-              {
-                notReadGroupId: readGroup1.id,
-              },
-              {
-                notReadGroupId: readGroup2.id,
-              },
-            ],
-          },
-          {
-            predicates: [
-              {
-                notReadGroupId: [readGroup2.id],
-              },
-            ],
-          },
-        ],
-        hubRequestOptions
-      );
-      expect(result.withoutReadGroups).toEqual([readGroup1.id, readGroup2.id]);
-    });
-  });
-  describe("editGroupId", () => {
-    it("should return undefined", async () => {
-      const result = await processFilters(
-        [{ predicates: [] }],
-        hubRequestOptions
-      );
-      expect(result.editGroups).toBeUndefined();
-    });
-    it("should consolidate and unique values from multiple filters & predicates", async () => {
-      const result = await processFilters(
-        [
-          {
-            predicates: [
-              {
-                editGroupId: editGroup1.id,
-              },
-              {
-                editGroupId: editGroup2.id,
-              },
-            ],
-          },
-          {
-            predicates: [
-              {
-                editGroupId: [editGroup2.id],
-              },
-            ],
-          },
-        ],
-        hubRequestOptions
-      );
-      expect(result.editGroups).toEqual([editGroup1.id, editGroup2.id]);
-    });
-  });
-  describe("notEditGroupId", () => {
-    it("should return undefined", async () => {
-      const result = await processFilters(
-        [{ predicates: [] }],
-        hubRequestOptions
-      );
-      expect(result.withoutEditGroups).toBeUndefined();
-    });
-    it("should consolidate and unique values from multiple filters & predicates", async () => {
-      const result = await processFilters(
-        [
-          {
-            predicates: [
-              {
-                notEditGroupId: editGroup1.id,
-              },
-              {
-                notEditGroupId: editGroup2.id,
-              },
-            ],
-          },
-          {
-            predicates: [
-              {
-                notEditGroupId: [editGroup2.id],
-              },
-            ],
-          },
-        ],
-        hubRequestOptions
-      );
-      expect(result.withoutEditGroups).toEqual([editGroup1.id, editGroup2.id]);
+    it("should return a unique withoutEditGroups & withoutReadGroups if group has been supplied with inverses", async () => {
+      const result = await processFilters([
+        {
+          predicates: [
+            {
+              group: { not: editGroup1.id },
+            },
+            {
+              group: { not: readGroup1.id },
+            },
+          ],
+        },
+        {
+          predicates: [
+            {
+              group: { not: [readGroup1.id, editGroup2.id] },
+            },
+          ],
+        },
+      ]);
+      expect(result.withoutEditGroups).toEqual([
+        editGroup1.id,
+        readGroup1.id,
+        editGroup2.id,
+      ]);
+      expect(result.withoutReadGroups).toEqual([
+        editGroup1.id,
+        readGroup1.id,
+        editGroup2.id,
+      ]);
     });
   });
   describe("startDateRange", () => {
     it("should return undefined", async () => {
-      const result = await processFilters(
-        [{ predicates: [] }],
-        hubRequestOptions
-      );
+      const result = await processFilters([{ predicates: [] }]);
       expect(result.startDateTimeBefore).toBeUndefined();
       expect(result.startDateTimeAfter).toBeUndefined();
     });
     it("should return startDateTimeBefore and startDateTimeAfter and only use first occurrence of startDateRange", async () => {
-      const result = await processFilters(
-        [
-          {
-            predicates: [
-              {
-                startDateRange: {
-                  from: 1714276800000,
-                  to: 1714363199999,
-                },
+      const result = await processFilters([
+        {
+          predicates: [
+            {
+              startDateRange: {
+                from: 1714276800000,
+                to: 1714363199999,
               },
-            ],
-          },
-          {
-            predicates: [
-              {
-                startDateRange: {
-                  from: 1814276800000,
-                  to: 1814363199999,
-                },
+            },
+          ],
+        },
+        {
+          predicates: [
+            {
+              startDateRange: {
+                from: 1814276800000,
+                to: 1814363199999,
               },
-            ],
-          },
-        ],
-        hubRequestOptions
-      );
+            },
+          ],
+        },
+      ]);
       expect(result.startDateTimeBefore).toEqual("2024-04-29T03:59:59.999Z");
       expect(result.startDateTimeAfter).toEqual("2024-04-28T04:00:00.000Z");
     });
     it("should be prioritized over individual startDateBefore and startDateAfter", async () => {
-      const result = await processFilters(
-        [
-          {
-            predicates: [
-              {
-                startDateRange: {
-                  from: 1714276800000,
-                  to: 1714363199999,
-                },
-                startDateBefore: 1814363199999,
-                startDateAfter: 1814276800000,
+      const result = await processFilters([
+        {
+          predicates: [
+            {
+              startDateRange: {
+                from: 1714276800000,
+                to: 1714363199999,
               },
-            ],
-          },
-        ],
-        hubRequestOptions
-      );
+              startDateBefore: 1814363199999,
+              startDateAfter: 1814276800000,
+            },
+          ],
+        },
+      ]);
       expect(result.startDateTimeBefore).toEqual("2024-04-29T03:59:59.999Z");
       expect(result.startDateTimeAfter).toEqual("2024-04-28T04:00:00.000Z");
     });
   });
   describe("startDateBefore", () => {
     it("should return undefined", async () => {
-      const result = await processFilters(
-        [{ predicates: [] }],
-        hubRequestOptions
-      );
+      const result = await processFilters([{ predicates: [] }]);
       expect(result.startDateTimeBefore).toBeUndefined();
     });
     it("should only use first occurrence", async () => {
-      const result = await processFilters(
-        [
-          {
-            predicates: [
-              {
-                startDateBefore: 1714276800000,
-              },
-            ],
-          },
-          {
-            predicates: [
-              {
-                startDateBefore: 1814276800000,
-              },
-            ],
-          },
-        ],
-        hubRequestOptions
-      );
+      const result = await processFilters([
+        {
+          predicates: [
+            {
+              startDateBefore: 1714276800000,
+            },
+          ],
+        },
+        {
+          predicates: [
+            {
+              startDateBefore: 1814276800000,
+            },
+          ],
+        },
+      ]);
       expect(result.startDateTimeBefore).toEqual("2024-04-28T04:00:00.000Z");
     });
   });
   describe("startDateAfter", () => {
     it("should return undefined", async () => {
-      const result = await processFilters(
-        [{ predicates: [] }],
-        hubRequestOptions
-      );
+      const result = await processFilters([{ predicates: [] }]);
       expect(result.startDateTimeAfter).toBeUndefined();
     });
     it("should only use first occurrence", async () => {
-      const result = await processFilters(
-        [
-          {
-            predicates: [
-              {
-                startDateAfter: 1714276800000,
-              },
-            ],
-          },
-          {
-            predicates: [
-              {
-                startDateAfter: 1814276800000,
-              },
-            ],
-          },
-        ],
-        hubRequestOptions
-      );
+      const result = await processFilters([
+        {
+          predicates: [
+            {
+              startDateAfter: 1714276800000,
+            },
+          ],
+        },
+        {
+          predicates: [
+            {
+              startDateAfter: 1814276800000,
+            },
+          ],
+        },
+      ]);
       expect(result.startDateTimeAfter).toEqual("2024-04-28T04:00:00.000Z");
     });
   });
   describe("endDateRange", () => {
     it("should return undefined", async () => {
-      const result = await processFilters(
-        [{ predicates: [] }],
-        hubRequestOptions
-      );
+      const result = await processFilters([{ predicates: [] }]);
       expect(result.endDateTimeBefore).toBeUndefined();
       expect(result.endDateTimeAfter).toBeUndefined();
     });
     it("should return endDateTimeBefore and endDateTimeAfter and only use first occurrence of endDateRange", async () => {
-      const result = await processFilters(
-        [
-          {
-            predicates: [
-              {
-                endDateRange: {
-                  from: 1714276800000,
-                  to: 1714363199999,
-                },
+      const result = await processFilters([
+        {
+          predicates: [
+            {
+              endDateRange: {
+                from: 1714276800000,
+                to: 1714363199999,
               },
-            ],
-          },
-          {
-            predicates: [
-              {
-                endDateRange: {
-                  from: 1814276800000,
-                  to: 1814363199999,
-                },
+            },
+          ],
+        },
+        {
+          predicates: [
+            {
+              endDateRange: {
+                from: 1814276800000,
+                to: 1814363199999,
               },
-            ],
-          },
-        ],
-        hubRequestOptions
-      );
+            },
+          ],
+        },
+      ]);
       expect(result.endDateTimeBefore).toEqual("2024-04-29T03:59:59.999Z");
       expect(result.endDateTimeAfter).toEqual("2024-04-28T04:00:00.000Z");
     });
     it("should be prioritized over individual endDateBefore and endDateAfter", async () => {
-      const result = await processFilters(
-        [
-          {
-            predicates: [
-              {
-                endDateRange: {
-                  from: 1714276800000,
-                  to: 1714363199999,
-                },
-                endDateBefore: 1814363199999,
-                endDateAfter: 1814276800000,
+      const result = await processFilters([
+        {
+          predicates: [
+            {
+              endDateRange: {
+                from: 1714276800000,
+                to: 1714363199999,
               },
-            ],
-          },
-        ],
-        hubRequestOptions
-      );
+              endDateBefore: 1814363199999,
+              endDateAfter: 1814276800000,
+            },
+          ],
+        },
+      ]);
       expect(result.endDateTimeBefore).toEqual("2024-04-29T03:59:59.999Z");
       expect(result.endDateTimeAfter).toEqual("2024-04-28T04:00:00.000Z");
     });
   });
   describe("endDateBefore", () => {
     it("should return undefined", async () => {
-      const result = await processFilters(
-        [{ predicates: [] }],
-        hubRequestOptions
-      );
+      const result = await processFilters([{ predicates: [] }]);
       expect(result.endDateTimeBefore).toBeUndefined();
     });
     it("should only use first occurrence", async () => {
-      const result = await processFilters(
-        [
-          {
-            predicates: [
-              {
-                endDateBefore: 1714276800000,
-              },
-            ],
-          },
-          {
-            predicates: [
-              {
-                endDateBefore: 1814276800000,
-              },
-            ],
-          },
-        ],
-        hubRequestOptions
-      );
+      const result = await processFilters([
+        {
+          predicates: [
+            {
+              endDateBefore: 1714276800000,
+            },
+          ],
+        },
+        {
+          predicates: [
+            {
+              endDateBefore: 1814276800000,
+            },
+          ],
+        },
+      ]);
       expect(result.endDateTimeBefore).toEqual("2024-04-28T04:00:00.000Z");
     });
   });
   describe("endDateAfter", () => {
     it("should return undefined", async () => {
-      const result = await processFilters(
-        [{ predicates: [] }],
-        hubRequestOptions
-      );
+      const result = await processFilters([{ predicates: [] }]);
       expect(result.endDateTimeAfter).toBeUndefined();
     });
     it("should only use first occurrence", async () => {
-      const result = await processFilters(
-        [
-          {
-            predicates: [
-              {
-                endDateAfter: 1714276800000,
-              },
-            ],
-          },
-          {
-            predicates: [
-              {
-                endDateAfter: 1814276800000,
-              },
-            ],
-          },
-        ],
-        hubRequestOptions
-      );
+      const result = await processFilters([
+        {
+          predicates: [
+            {
+              endDateAfter: 1714276800000,
+            },
+          ],
+        },
+        {
+          predicates: [
+            {
+              endDateAfter: 1814276800000,
+            },
+          ],
+        },
+      ]);
       expect(result.endDateTimeAfter).toEqual("2024-04-28T04:00:00.000Z");
     });
   });
@@ -1081,56 +731,57 @@ describe("processFilters", () => {
       jasmine.clock().uninstall();
     });
     it("should return undefined", async () => {
-      const result = await processFilters(
-        [{ predicates: [] }],
-        hubRequestOptions
-      );
+      const result = await processFilters([{ predicates: [] }]);
+      expect(result.startDateTimeBefore).toBeUndefined();
+      expect(result.startDateTimeAfter).toBeUndefined();
+    });
+    it("should ignore unsupported values", async () => {
+      const result = await processFilters([
+        {
+          predicates: [
+            {
+              occurrence: "other",
+            },
+          ],
+        },
+      ]);
       expect(result.startDateTimeBefore).toBeUndefined();
       expect(result.startDateTimeAfter).toBeUndefined();
     });
     it("should handle upcoming", async () => {
-      const result = await processFilters(
-        [
-          {
-            predicates: [
-              {
-                occurrence: "upcoming",
-              },
-            ],
-          },
-        ],
-        hubRequestOptions
-      );
+      const result = await processFilters([
+        {
+          predicates: [
+            {
+              occurrence: "upcoming",
+            },
+          ],
+        },
+      ]);
       expect(result.startDateTimeAfter).toEqual(mockedDate.toISOString());
     });
     it("should handle past", async () => {
-      const result = await processFilters(
-        [
-          {
-            predicates: [
-              {
-                occurrence: "past",
-              },
-            ],
-          },
-        ],
-        hubRequestOptions
-      );
+      const result = await processFilters([
+        {
+          predicates: [
+            {
+              occurrence: "past",
+            },
+          ],
+        },
+      ]);
       expect(result.endDateTimeBefore).toEqual(mockedDate.toISOString());
     });
     it("should handle inProgress", async () => {
-      const result = await processFilters(
-        [
-          {
-            predicates: [
-              {
-                occurrence: "inProgress",
-              },
-            ],
-          },
-        ],
-        hubRequestOptions
-      );
+      const result = await processFilters([
+        {
+          predicates: [
+            {
+              occurrence: "inProgress",
+            },
+          ],
+        },
+      ]);
       expect(result.startDateTimeBefore).toEqual(mockedDate.toISOString());
       expect(result.endDateTimeAfter).toEqual(mockedDate.toISOString());
     });

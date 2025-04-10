@@ -6,13 +6,9 @@ import {
   EventStatus,
   ISearchEvents,
 } from "../../../events/api/orval/api/orval-events";
-import { getPredicateValuesByKey } from "./getPredicateValuesByKey";
-import { getUniquePredicateValuesByKey } from "./getUniquePredicateValuesByKey";
-import { IDateRange } from "../../types/types";
-import { searchGroups } from "@esri/arcgis-rest-portal";
-import { IHubRequestOptions } from "../../../hub-types";
-import { isUpdateGroup } from "../../../utils/is-update-group";
 import { toEnums } from "./toEnumConverters";
+import { flattenFilters } from "../hubDiscussionsHelpers/processChannelFilters";
+import { unique } from "../../../util";
 
 /**
  * Builds a Partial<ISearchEvents> given an Array of IFilter objects
@@ -20,238 +16,187 @@ import { toEnums } from "./toEnumConverters";
  * @returns a Partial<ISearchEvents> for the given Array of IFilter objects
  */
 export async function processFilters(
-  filters: IFilter[],
-  requestOptions: IHubRequestOptions
+  filters: IFilter[]
 ): Promise<Partial<ISearchEvents>> {
-  const processedFilters: Partial<ISearchEvents> = {};
-  const access = getUniquePredicateValuesByKey<string>(filters, "access");
-  if (access.length) {
-    processedFilters.access = toEnums(access, EventAccess);
+  const flattenedFilters = flattenFilters(filters);
+  const eventOptions: Partial<ISearchEvents> = {};
+
+  // access
+  if (flattenedFilters.access?.length) {
+    eventOptions.access = toEnums(flattenedFilters.access, EventAccess);
   }
-  const canEdit = getPredicateValuesByKey<boolean>(filters, "canEdit");
-  if (canEdit.length) {
-    processedFilters.canEdit = canEdit[0];
+
+  // canEdit
+  if (flattenedFilters.canEdit?.length) {
+    eventOptions.canEdit = flattenedFilters.canEdit[0];
   }
-  const entityIds = getUniquePredicateValuesByKey<string>(filters, "entityId");
-  if (entityIds.length) {
-    processedFilters.entityIds = entityIds;
+
+  // entityId
+  if (flattenedFilters.entityId?.length) {
+    eventOptions.entityIds = flattenedFilters.entityId;
   }
-  const entityTypes = getUniquePredicateValuesByKey<string>(
-    filters,
-    "entityType"
-  );
-  if (entityTypes.length) {
-    processedFilters.entityTypes = toEnums(
-      entityTypes,
+
+  // entityType
+  if (flattenedFilters.entityType?.length) {
+    eventOptions.entityTypes = toEnums(
+      flattenedFilters.entityType,
       EventAssociationEntityType
     );
   }
-  const eventIds = getUniquePredicateValuesByKey<string>(filters, "id");
-  if (eventIds.length) {
-    processedFilters.eventIds = eventIds;
+
+  // id
+  if (flattenedFilters.id?.length) {
+    eventOptions.eventIds = flattenedFilters.id;
   }
-  const term = getPredicateValuesByKey<string>(filters, "term");
-  if (term.length) {
-    processedFilters.title = term[0];
+
+  // term
+  if (flattenedFilters.term?.length) {
+    eventOptions.title = flattenedFilters.term[0];
   }
-  const orgId = getPredicateValuesByKey<string>(filters, "orgId");
-  if (orgId.length) {
-    processedFilters.orgId = orgId[0];
+
+  // orgId
+  if (flattenedFilters.orgId?.length) {
+    eventOptions.orgId = flattenedFilters.orgId[0];
   }
-  const categories = getUniquePredicateValuesByKey<string>(
-    filters,
-    "categories"
-  );
-  if (categories.length) {
-    processedFilters.categories = categories;
+
+  // categories
+  if (flattenedFilters.categories?.length) {
+    eventOptions.categories = flattenedFilters.categories;
   }
-  const tags = getUniquePredicateValuesByKey<string>(filters, "tags");
-  if (tags.length) {
-    processedFilters.tags = tags;
+
+  // tags
+  if (flattenedFilters.tags?.length) {
+    eventOptions.tags = flattenedFilters.tags;
   }
-  const groupIds = getUniquePredicateValuesByKey<string>(filters, "group");
-  // if a group was provided, we prioritize that over individual readGroupId or editGroupId
-  // filters to prevent collisions
-  if (groupIds.length) {
-    // We are explicitly sending groupIds to sharedToGroups
-    processedFilters.sharedToGroups = groupIds;
-  } else {
-    // individual readGroupId & editGroupId filters
-    const readGroupIds = getUniquePredicateValuesByKey<string>(
-      filters,
-      "readGroupId"
+
+  // group
+  if (flattenedFilters.group?.length) {
+    const { ids, notIds } = flattenedFilters.group.reduce(
+      (acc, id) =>
+        id.not
+          ? {
+              ...acc,
+              notIds: [
+                ...acc.notIds,
+                ...(Array.isArray(id.not) ? id.not : [id.not]),
+              ],
+            }
+          : {
+              ...acc,
+              ids: [...acc.ids, id],
+            },
+      { ids: [], notIds: [] }
     );
-    if (readGroupIds.length) {
-      processedFilters.readGroups = readGroupIds;
+    if (ids.length) {
+      eventOptions.sharedToGroups = ids;
     }
-    const editGroupIds = getUniquePredicateValuesByKey<string>(
-      filters,
-      "editGroupId"
-    );
-    if (editGroupIds.length) {
-      processedFilters.editGroups = editGroupIds;
-    }
-  }
-  // NOTE: previously notGroup was an inverse of group, but now they are subtly different
-  // We do not yet have an inverse of sharedToGroups.
-  const notGroupIds = getUniquePredicateValuesByKey<string>(
-    filters,
-    "notGroup"
-  );
-  // if a notGroup was provided, we prioritize that over individual notReadGroupId or notEditGroupId
-  // filters to prevent collisions
-  if (notGroupIds.length) {
-    const { results } = await searchGroups({
-      q: `id:(${notGroupIds.join(" OR ")})`,
-      num: notGroupIds.length,
-      ...requestOptions,
-    });
-    const { notReadGroupIds, notEditGroupIds } = results.reduce(
-      (acc, group) => {
-        const key = isUpdateGroup(group)
-          ? "notEditGroupIds"
-          : "notReadGroupIds";
-        return { ...acc, [key]: [...acc[key], group.id] };
-      },
-      { notReadGroupIds: [], notEditGroupIds: [] }
-    );
-    if (notReadGroupIds.length) {
-      processedFilters.withoutReadGroups = notReadGroupIds;
-    }
-    if (notEditGroupIds.length) {
-      processedFilters.withoutEditGroups = notEditGroupIds;
-    }
-  } else {
-    // individual notReadGroupId & notEditGroupId filters
-    const notReadGroupIds = getUniquePredicateValuesByKey<string>(
-      filters,
-      "notReadGroupId"
-    );
-    if (notReadGroupIds.length) {
-      processedFilters.withoutReadGroups = notReadGroupIds;
-    }
-    const notEditGroupIds = getUniquePredicateValuesByKey<string>(
-      filters,
-      "notEditGroupId"
-    );
-    if (notEditGroupIds.length) {
-      processedFilters.withoutEditGroups = notEditGroupIds;
+    if (notIds.length) {
+      const uniqueIds = notIds.filter(unique);
+      // we do not currently have an inverse parameter for `sharedToGroups` at this time. instead, we have separate
+      // params for `withoutEditGroups` and `withoutReadGroups`. rather than trying to reconcile whether
+      // any given group ID belongs to a view or update group (which would require additional HTTP requests),
+      // we simply pass all the ids to both `withoutEditGroups` and `withoutReadGroups`.
+      eventOptions.withoutEditGroups = uniqueIds;
+      eventOptions.withoutReadGroups = uniqueIds;
     }
   }
-  const attendanceType = getUniquePredicateValuesByKey<string>(
-    filters,
-    "attendanceType"
-  );
-  if (attendanceType.length) {
-    processedFilters.attendanceTypes = toEnums(
-      attendanceType,
+
+  // attendanceType
+  if (flattenedFilters.attendanceType?.length) {
+    eventOptions.attendanceTypes = toEnums(
+      flattenedFilters.attendanceType,
       EventAttendanceType
     );
   }
-  const createdByIds = getUniquePredicateValuesByKey<string>(filters, "owner");
-  if (createdByIds.length) {
-    processedFilters.createdByIds = createdByIds;
+
+  // owner
+  if (flattenedFilters.owner?.length) {
+    eventOptions.createdByIds = flattenedFilters.owner;
   }
-  const status = getUniquePredicateValuesByKey<string>(filters, "status");
-  processedFilters.status = status.length
-    ? toEnums(status, EventStatus)
+
+  // status
+  eventOptions.status = flattenedFilters.status?.length
+    ? toEnums(flattenedFilters.status, EventStatus)
     : [EventStatus.PLANNED, EventStatus.CANCELED];
 
-  const startDateRange = getPredicateValuesByKey<IDateRange<string | number>>(
-    filters,
-    "startDateRange"
-  );
-  // if a startDateRange was provided, we prioritize that over individual startDateBefore or startDateAfter
-  // filters to prevent collisions
-  // We are explicitly checking if the to and from values are present
-  // Because w/ Occurrence, we can have just to or from values
-  if (startDateRange.length) {
-    startDateRange[0].to &&
-      (processedFilters.startDateTimeBefore = new Date(
-        startDateRange[0].to
-      ).toISOString());
-    startDateRange[0].from &&
-      (processedFilters.startDateTimeAfter = new Date(
-        startDateRange[0].from
-      ).toISOString());
+  // we support searching for events using date inputs in a few different ways. an `occurrence`
+  // filter was implemented as a convenient way to search for events occurring in the past, currently
+  // taking place, or in the future. These `occurrence` values need to be mapped to very specific API
+  // parameters and values. Additionally, we support searching for events using `startDateRange` and
+  // `endDateRange`, which similarly need to be mapped to very specific API parameters and values, which
+  // could conflict with `occurrence`. For that reason, if `occurrence` is provided, we ignore any
+  // additionally provided `startDateRange` and `endDateRange` predicates. If `occurrence` is omitted but
+  // `startDateRange` is provided, `startDateBefore` and `startDateAfter` predicates would be ignored. If
+  // `occurrence` is omitted but `endDateRange` is provided, `endDateBefore` and `endDateAfter` predicates
+  // would be ignored. If no `occurrence` or `startDateRange` are provided, `startDateBefore` and
+  // `startDateAfter` can be used. If no `occurrence` or `endDateRange` are provided, `endDateBefore` and
+  // `endDateAfter` can be used.
+  if (flattenedFilters.occurrence?.length) {
+    // `occurrence` provided, ignore `startDateRange`, `endDateRange`, `startDateBefore`, `startDateAfter`, `endDateBefore` & `endDateAfter`
+    const params =
+      {
+        upcoming: {
+          startDateTimeAfter: new Date().toISOString(),
+        },
+        past: {
+          endDateTimeBefore: new Date().toISOString(),
+        },
+        inProgress: {
+          startDateTimeBefore: new Date().toISOString(),
+          endDateTimeAfter: new Date().toISOString(),
+        },
+      }[flattenedFilters.occurrence[0] as "upcoming" | "past" | "inProgress"] ||
+      {};
+    Object.assign(eventOptions, params);
   } else {
-    // individual startDateBefore & startDateAfter filters
-    const startDateBefore = getPredicateValuesByKey<string | number>(
-      filters,
-      "startDateBefore"
-    );
-    if (startDateBefore.length) {
-      processedFilters.startDateTimeBefore = new Date(
-        startDateBefore[0]
+    // `startDateRange` provided, ignore `startDateBefore` & `startDateAfter`
+    if (flattenedFilters.startDateRange?.length) {
+      eventOptions.startDateTimeBefore = new Date(
+        flattenedFilters.startDateRange[0].to
       ).toISOString();
+      eventOptions.startDateTimeAfter = new Date(
+        flattenedFilters.startDateRange[0].from
+      ).toISOString();
+    } else {
+      // startDateBefore
+      if (flattenedFilters.startDateBefore?.length) {
+        eventOptions.startDateTimeBefore = new Date(
+          flattenedFilters.startDateBefore[0]
+        ).toISOString();
+      }
+
+      // startDateAfter
+      if (flattenedFilters.startDateAfter?.length) {
+        eventOptions.startDateTimeAfter = new Date(
+          flattenedFilters.startDateAfter[0]
+        ).toISOString();
+      }
     }
-    const startDateAfter = getPredicateValuesByKey<string | number>(
-      filters,
-      "startDateAfter"
-    );
-    if (startDateAfter.length) {
-      processedFilters.startDateTimeAfter = new Date(
-        startDateAfter[0]
+
+    // `endDateRange` provided, ignore `endDateBefore` & `endDateAfter`
+    if (flattenedFilters.endDateRange?.length) {
+      eventOptions.endDateTimeBefore = new Date(
+        flattenedFilters.endDateRange[0].to
       ).toISOString();
-    }
-  }
-  const endDateRange = getPredicateValuesByKey<IDateRange<string | number>>(
-    filters,
-    "endDateRange"
-  );
-  // if a endDateRange was provided, we prioritize that over individual endDateBefore or endDateAfter
-  // filters to prevent collisions
-  // We are explicitly checking if the to and from values are present
-  // Because w/ Occurrence, we can have just to or from values
-  if (endDateRange.length) {
-    endDateRange[0].to &&
-      (processedFilters.endDateTimeBefore = new Date(
-        endDateRange[0].to
-      ).toISOString());
-    endDateRange[0].from &&
-      (processedFilters.endDateTimeAfter = new Date(
-        endDateRange[0].from
-      ).toISOString());
-  } else {
-    // individual endDateBefore & endDateAfter filters
-    const endDateBefore = getPredicateValuesByKey<string | number>(
-      filters,
-      "endDateBefore"
-    );
-    if (endDateBefore.length) {
-      processedFilters.endDateTimeBefore = new Date(
-        endDateBefore[0]
+      eventOptions.endDateTimeAfter = new Date(
+        flattenedFilters.endDateRange[0].from
       ).toISOString();
-    }
-    const endDateAfter = getPredicateValuesByKey<string | number>(
-      filters,
-      "endDateAfter"
-    );
-    if (endDateAfter.length) {
-      processedFilters.endDateTimeAfter = new Date(
-        endDateAfter[0]
-      ).toISOString();
+    } else {
+      // endDateBefore
+      if (flattenedFilters.endDateBefore?.length) {
+        eventOptions.endDateTimeBefore = new Date(
+          flattenedFilters.endDateBefore[0]
+        ).toISOString();
+      }
+
+      // endDateAfter
+      if (flattenedFilters.endDateAfter?.length) {
+        eventOptions.endDateTimeAfter = new Date(
+          flattenedFilters.endDateAfter[0]
+        ).toISOString();
+      }
     }
   }
 
-  // If there's an occurrence filter, we need to adjust the startDateTimeBefore, startDateTimeAfter
-  // Depending on the occurrence.
-  const occurrence = getPredicateValuesByKey<string>(filters, "occurrence");
-  if (occurrence.length) {
-    occurrence.forEach((o) => {
-      switch (o) {
-        case "upcoming":
-          processedFilters.startDateTimeAfter = new Date().toISOString();
-          break;
-        case "past":
-          processedFilters.endDateTimeBefore = new Date().toISOString();
-          break;
-        case "inProgress":
-          processedFilters.startDateTimeBefore = new Date().toISOString();
-          processedFilters.endDateTimeAfter = new Date().toISOString();
-          break;
-      }
-    });
-  }
-  return processedFilters;
+  return eventOptions;
 }

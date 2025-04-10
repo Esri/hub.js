@@ -1,18 +1,42 @@
 import { ISearchChannels } from "../../../discussions/api/types";
+import { unique } from "../../../util";
 import { IFilter, IPredicate } from "../../types/IHubCatalog";
 
-function flattenFilters(filters: IFilter[]): Record<string, any[]> {
+/**
+ * Flattens an array of IFilter objects into a map of key/value pairs where the key is the name of the
+ * predicate and the value is a unique array of all values for that predicate name spanning all collections
+ * and predicates. Uniqueness is only guaranteed for primitives (i.e. strings, boolean, number, etc). E.g.
+ *
+ * const x = flattenFilters([{
+ *   predicates: [{
+ *     access: 'public',
+ *   }, {
+ *     access: 'org',
+ *   }],
+ * }, {
+ *   predicates: [{
+ *     access: ['private', 'org]
+ *   }]
+ * }]);
+ *
+ * x // => { access: ['public', 'org', 'private']}
+ * @param filters An array of IFilter objects
+ * @returns an object containing key/value pairs of parameter values
+ */
+export function flattenFilters(filters: IFilter[]): Record<string, any[]> {
   return filters.reduce<Record<string, any[]>>(
     (acc1, filter) =>
       filter.predicates.reduce<Record<string, any[]>>(
         (acc2, predicate: IPredicate) =>
           Object.keys(predicate).reduce<Record<string, any[]>>(
             (acc3, predicateKey) => {
-              const values: any[] = acc3[predicateKey] || [];
-              values.push(
-                ...(Array.isArray(predicate[predicateKey])
-                  ? predicate[predicateKey]
-                  : [predicate[predicateKey]])
+              const valuesToAdd: any[] = Array.isArray(predicate[predicateKey])
+                ? predicate[predicateKey]
+                : [predicate[predicateKey]];
+              const values = valuesToAdd.reduce(
+                (acc4, valueToAdd) =>
+                  acc4.includes(valueToAdd) ? acc4 : [...acc4, valueToAdd],
+                acc3[predicateKey] || ([] as any[])
               );
               return {
                 ...acc3,
@@ -69,7 +93,7 @@ export function processChannelFilters(
       channelOptions.ids = ids;
     }
     if (notIds.length) {
-      channelOptions.notIds = notIds;
+      channelOptions.notIds = notIds.filter(unique);
     }
   }
   return channelOptions;
