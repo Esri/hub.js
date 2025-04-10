@@ -79,6 +79,7 @@ describe("buildReferencedContentSchema", () => {
             operation: "OR",
           },
         ],
+        showAllCollectionFacet: true,
       },
     });
   });
@@ -145,6 +146,7 @@ describe("buildReferencedContentSchema", () => {
             operation: "OR",
           },
         ],
+        showAllCollectionFacet: true,
       },
     });
   });

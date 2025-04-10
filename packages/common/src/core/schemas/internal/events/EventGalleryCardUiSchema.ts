@@ -174,6 +174,7 @@ export async function buildUiSchema(
                   width: "full",
                   kind: "brand",
                   appearance: "solid",
+                  showAllCollectionFacet: true,
                 },
                 rules: [
                   {
