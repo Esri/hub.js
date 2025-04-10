@@ -218,7 +218,6 @@ describe("EventGalleryCardUiSchema", () => {
                       width: "full",
                       kind: "brand",
                       appearance: "solid",
-                      showAllCollectionFacet: true,
                     },
                     rules: [
                       {
