@@ -56,6 +56,7 @@ export const buildUiSchema = async (
         showSelection: false,
         showAllCollectionFacet: false,
         canReorder: false,
+        linkTarget: "event",
         catalogs: [
           {
             schemaVersion: 1,
