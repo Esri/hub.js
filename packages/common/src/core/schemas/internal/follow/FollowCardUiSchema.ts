@@ -53,8 +53,6 @@ export const buildUiSchema = (
               operation: "OR",
             },
           ],
-          showAddContent: true,
-          addContentTypes: ["Hub Site Application"],
         },
       },
       {
