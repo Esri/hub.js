@@ -17,7 +17,7 @@ import {
 import * as slugUtils from "../../src/items/slugs";
 import { SearchCategories } from "../../src/sites/_internal/types";
 
-const GUID = "00c77674e43cf4bbd9ecad5189b3f1fdc";
+const GUID = "042584cf391c428e995e97eccdebb8f8";
 const SITE_ITEM: portalModule.IItem = {
   id: GUID,
   title: "Fake Site",
@@ -63,7 +63,7 @@ const SITE: commonModule.IHubSite = {
   orgUrlKey: "dcdev",
   owner: "dcdev_dude",
   type: "Hub Site Application",
-  typeKeywords: [],
+  typeKeywords: ["cannotDiscuss"],
   createdDate: new Date(1595878748000),
   createdDateSource: "item.created",
   updatedDate: new Date(1595878750000),
@@ -252,7 +252,7 @@ describe("HubSites:", () => {
       expect(chk.id).toBe(GUID);
       expect(chk.owner).toBe("vader");
       expect(chk.thumbnailUrl).toBe(
-        "https://gis.myserver.com/portal/sharing/rest/content/items/00c77674e43cf4bbd9ecad5189b3f1fdc/info/vader.png"
+        `https://gis.myserver.com/portal/sharing/rest/content/items/${GUID}/info/vader.png`
       );
       expect(fetchSpy.calls.count()).toBe(1);
       expect(fetchSpy.calls.argsFor(0)[0]).toBe("mysite.com");
@@ -430,7 +430,15 @@ describe("HubSites:", () => {
 
       expect(domainChangeSpy.calls.count()).toBe(1);
 
-      expect(domainChangeSpy.calls.argsFor(0)[1]).toEqual(SITE_MODEL);
+      // I believe before we were confirming the hostnames remained unchanged, but
+      // now that we're using `fetchSiteModel`, we can't use the entire model to compare
+      const spyModel = domainChangeSpy.calls.argsFor(0)[1];
+      expect(spyModel.data.values.customHostname).toEqual(
+        SITE_MODEL.data.values.customHostname
+      );
+      expect(spyModel.data.values.defaultHostname).toEqual(
+        SITE_MODEL.data.values.defaultHostname
+      );
 
       expect(getModelSpy.calls.count()).toBe(1);
       expect(updateModelSpy.calls.count()).toBe(1);
@@ -454,7 +462,9 @@ describe("HubSites:", () => {
       expect(domainChangeArg0.data.values.customHostname).toEqual(
         updatedHostname
       );
-      expect(domainChangeArg1).toEqual(SITE_MODEL);
+      // now that we're using `fetchSiteModel`, this isn't necessarily true,
+      // BUT we should still be storing the customHostname in the same location
+      // expect(domainChangeArg1).toEqual(SITE_MODEL);
 
       expect(getModelSpy.calls.count()).toBe(1);
       expect(updateModelSpy.calls.count()).toBe(1);

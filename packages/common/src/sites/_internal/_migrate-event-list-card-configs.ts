@@ -16,7 +16,7 @@ export function _migrateEventListCardConfigs<T extends IModel | IDraft>(
 
   // apply migration
   const clone = cloneObject(model);
-  clone.data.values.layout.sections.map((section: any) => ({
+  (clone.data.values.layout?.sections || []).map((section: any) => ({
     ...section,
     rows: (section.rows || []).map((row: any) => ({
       ...row,
