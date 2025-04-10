@@ -249,6 +249,7 @@ export const buildUiSchema = async (
                   operation: "OR",
                 },
               ],
+              showAddContent: true,
             },
           },
         ],
