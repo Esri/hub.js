@@ -44,44 +44,6 @@ describe("convertFeaturesToLegacyCapabilities", () => {
     ]);
   });
 
-  it("missing capabilities and features", () => {
-    // this test is a simple duplicate of the one above, added for branch coverage when props are undefined
-    const modelToUpdate = {
-      item: {} as IItem,
-      data: {
-        settings: {
-          features: undefined,
-        },
-        values: {
-          capabilities: [],
-        },
-      },
-    } as IModel;
-    const currentModel = {
-      item: {} as IItem,
-      data: {
-        settings: {
-          features: {
-            "hub:site:content": true,
-          },
-        },
-        values: {
-          capabilities: undefined,
-        },
-      },
-    } as IModel;
-
-    const chk = convertFeaturesToLegacyCapabilities(
-      modelToUpdate,
-      currentModel
-    );
-
-    expect(chk.data?.values.capabilities).toEqual([
-      "hideFollow",
-      "disableDiscussions",
-    ]);
-  });
-
   it("removes relevant features from the site's legacy capabilities array", () => {
     const modelToUpdate = {
       item: {} as IItem,

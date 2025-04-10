@@ -326,7 +326,7 @@ describe("HubSites:", () => {
   describe("updateSite removes properties:", () => {
     let domainChangeSpy: jasmine.Spy;
     let updateModelSpy: jasmine.Spy;
-    let getModelSpy: jasmine.Spy;
+    let fetchSiteModelSpy: jasmine.Spy;
     let getUniqueSlugSpy: jasmine.Spy;
     beforeEach(() => {
       domainChangeSpy = spyOn(
@@ -365,9 +365,9 @@ describe("HubSites:", () => {
         SiteModelWithExtraProps
       );
 
-      getModelSpy = spyOn(
-        require("../../src/models"),
-        "getModel"
+      fetchSiteModelSpy = spyOn(
+        require("../../src/sites/fetchSiteModel"),
+        "fetchSiteModel"
       ).and.returnValue(Promise.resolve(SiteModelWithExtraProps));
 
       getUniqueSlugSpy = spyOn(slugUtils, "getUniqueSlug").and.callFake(
@@ -381,7 +381,7 @@ describe("HubSites:", () => {
       const chk = await commonModule.updateSite(updatedSite, MOCK_HUB_REQOPTS);
 
       expect(chk.id).toBe(GUID);
-      expect(getModelSpy).toHaveBeenCalledTimes(1);
+      expect(fetchSiteModelSpy).toHaveBeenCalledTimes(1);
       const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
       expect(modelToUpdate.data.values.map.baseMapLayers).not.toBeDefined();
       expect(modelToUpdate.data.values.map.basemaps.primary).toBeDefined();
@@ -393,7 +393,7 @@ describe("HubSites:", () => {
   describe("updateSite:", () => {
     let domainChangeSpy: jasmine.Spy;
     let updateModelSpy: jasmine.Spy;
-    let getModelSpy: jasmine.Spy;
+    let fetchSiteModelSpy: jasmine.Spy;
     let getUniqueSlugSpy: jasmine.Spy;
     beforeEach(() => {
       domainChangeSpy = spyOn(
@@ -408,9 +408,9 @@ describe("HubSites:", () => {
         return Promise.resolve(m);
       });
 
-      getModelSpy = spyOn(
-        require("../../src/models"),
-        "getModel"
+      fetchSiteModelSpy = spyOn(
+        require("../../src/sites/fetchSiteModel"),
+        "fetchSiteModel"
       ).and.returnValue(Promise.resolve(SITE_MODEL));
 
       getUniqueSlugSpy = spyOn(slugUtils, "getUniqueSlug").and.callFake(
@@ -430,17 +430,9 @@ describe("HubSites:", () => {
 
       expect(domainChangeSpy.calls.count()).toBe(1);
 
-      // I believe before we were confirming the hostnames remained unchanged, but
-      // now that we're using `fetchSiteModel`, we can't use the entire model to compare
-      const spyModel = domainChangeSpy.calls.argsFor(0)[1];
-      expect(spyModel.data.values.customHostname).toEqual(
-        SITE_MODEL.data.values.customHostname
-      );
-      expect(spyModel.data.values.defaultHostname).toEqual(
-        SITE_MODEL.data.values.defaultHostname
-      );
+      expect(domainChangeSpy.calls.argsFor(0)[1]).toEqual(SITE_MODEL);
 
-      expect(getModelSpy.calls.count()).toBe(1);
+      expect(fetchSiteModelSpy.calls.count()).toBe(1);
       expect(updateModelSpy.calls.count()).toBe(1);
       const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
       expect(modelToUpdate.item.title).toBe(updatedSite.name);
@@ -462,11 +454,9 @@ describe("HubSites:", () => {
       expect(domainChangeArg0.data.values.customHostname).toEqual(
         updatedHostname
       );
-      // now that we're using `fetchSiteModel`, this isn't necessarily true,
-      // BUT we should still be storing the customHostname in the same location
-      // expect(domainChangeArg1).toEqual(SITE_MODEL);
+      expect(domainChangeArg1).toEqual(SITE_MODEL);
 
-      expect(getModelSpy.calls.count()).toBe(1);
+      expect(fetchSiteModelSpy.calls.count()).toBe(1);
       expect(updateModelSpy.calls.count()).toBe(1);
       const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
       expect(modelToUpdate.item.title).toBe(updatedSite.name);
@@ -537,7 +527,7 @@ describe("HubSites:", () => {
       const chk = await commonModule.updateSite(updatedSite, MOCK_HUB_REQOPTS);
 
       expect(chk.id).toBe(GUID);
-      expect(getModelSpy).toHaveBeenCalledTimes(1);
+      expect(fetchSiteModelSpy).toHaveBeenCalledTimes(1);
       const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
       expect(modelToUpdate.data.catalog).toEqual({ groups: ["9001"] });
       expect(modelToUpdate.data.catalogV2).toEqual(expectedCatalogV2);
