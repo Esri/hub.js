@@ -67,7 +67,6 @@ export function buildReferencedContentSchema(
           operation: "OR",
         },
       ],
-      showAllCollectionFacet: true,
     },
   };
 }

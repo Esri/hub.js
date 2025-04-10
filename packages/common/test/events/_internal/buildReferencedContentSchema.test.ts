@@ -146,7 +146,6 @@ describe("buildReferencedContentSchema", () => {
             operation: "OR",
           },
         ],
-        showAllCollectionFacet: true,
       },
     });
   });
