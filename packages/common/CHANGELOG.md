@@ -1,3 +1,10 @@
+## @esri/hub-common [16.3.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.3.0...@esri/hub-common@16.3.1) (2025-04-10)
+
+
+### Bug Fixes
+
+* enable "Add content" in project featured content ([#1857](https://github.com/Esri/hub.js/issues/1857)) ([64070a4](https://github.com/Esri/hub.js/commit/64070a486d81c8816fc69082cfbf3d9634b58fcf))
+
 # @esri/hub-common [16.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.2.1...@esri/hub-common@16.3.0) (2025-04-09)
 
 

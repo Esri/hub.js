@@ -250,6 +250,7 @@ export const buildUiSchema = async (
                 },
               ],
               showAllCollectionFacet: true,
+              showAddContent: true,
             },
           },
         ],
