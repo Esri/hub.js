@@ -130,7 +130,7 @@ export const CollectionSchema: IConfigurationSchema = {
       type: "string",
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      format: "isOnlyWhitespace",
+      format: "isNotWhitespace",
     },
     scope: QuerySchema,
     displayConfig: GalleryDisplayConfigSchema,
