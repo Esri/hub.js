@@ -1,3 +1,10 @@
+## @esri/hub-common [16.3.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.3.1...@esri/hub-common@16.3.2) (2025-04-11)
+
+
+### Bug Fixes
+
+* update site now uses fetch site model ([#1859](https://github.com/Esri/hub.js/issues/1859)) ([90f1b11](https://github.com/Esri/hub.js/commit/90f1b119857220b2e96f0bebf1504e1257a9566b))
+
 ## @esri/hub-common [16.3.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.3.0...@esri/hub-common@16.3.1) (2025-04-10)
 
 
