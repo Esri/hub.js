@@ -1,3 +1,24 @@
+## @esri/hub-common [16.3.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.3.2...@esri/hub-common@16.3.3) (2025-04-11)
+
+
+### Bug Fixes
+
+* **hub-common:** simplify the filter processing logic for events 3 wh… ([#1862](https://github.com/Esri/hub.js/issues/1862)) ([7d87b7c](https://github.com/Esri/hub.js/commit/7d87b7c50d2b418bdb499d92fb0ea45d5931b6b2))
+
+## @esri/hub-common [16.3.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.3.1...@esri/hub-common@16.3.2) (2025-04-11)
+
+
+### Bug Fixes
+
+* update site now uses fetch site model ([#1859](https://github.com/Esri/hub.js/issues/1859)) ([90f1b11](https://github.com/Esri/hub.js/commit/90f1b119857220b2e96f0bebf1504e1257a9566b))
+
+## @esri/hub-common [16.3.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.3.0...@esri/hub-common@16.3.1) (2025-04-10)
+
+
+### Bug Fixes
+
+* enable "Add content" in project featured content ([#1857](https://github.com/Esri/hub.js/issues/1857)) ([64070a4](https://github.com/Esri/hub.js/commit/64070a486d81c8816fc69082cfbf3d9634b58fcf))
+
 # @esri/hub-common [16.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.2.1...@esri/hub-common@16.3.0) (2025-04-09)
 
 
