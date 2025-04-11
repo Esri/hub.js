@@ -128,6 +128,9 @@ export const CollectionSchema: IConfigurationSchema = {
   properties: {
     label: {
       type: "string",
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      format: "isNotWhitespace",
     },
     scope: QuerySchema,
     displayConfig: GalleryDisplayConfigSchema,
