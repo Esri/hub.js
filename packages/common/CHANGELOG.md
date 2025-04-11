@@ -1,3 +1,10 @@
+## @esri/hub-common [16.3.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.3.3...@esri/hub-common@16.3.4) (2025-04-11)
+
+
+### Bug Fixes
+
+* adds isOnlyWhitespace format to collectionschema ([#1860](https://github.com/Esri/hub.js/issues/1860)) ([43a07ff](https://github.com/Esri/hub.js/commit/43a07ff646ab38a293771ef76e8cedd196e0c873))
+
 ## @esri/hub-common [16.3.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.3.2...@esri/hub-common@16.3.3) (2025-04-11)
 
 
