@@ -17,7 +17,7 @@ import {
 import * as slugUtils from "../../src/items/slugs";
 import { SearchCategories } from "../../src/sites/_internal/types";
 
-const GUID = "00c77674e43cf4bbd9ecad5189b3f1fdc";
+const GUID = "042584cf391c428e995e97eccdebb8f8";
 const SITE_ITEM: portalModule.IItem = {
   id: GUID,
   title: "Fake Site",
@@ -252,7 +252,7 @@ describe("HubSites:", () => {
       expect(chk.id).toBe(GUID);
       expect(chk.owner).toBe("vader");
       expect(chk.thumbnailUrl).toBe(
-        "https://gis.myserver.com/portal/sharing/rest/content/items/00c77674e43cf4bbd9ecad5189b3f1fdc/info/vader.png"
+        `https://gis.myserver.com/portal/sharing/rest/content/items/${GUID}/info/vader.png`
       );
       expect(fetchSpy.calls.count()).toBe(1);
       expect(fetchSpy.calls.argsFor(0)[0]).toBe("mysite.com");
@@ -326,7 +326,7 @@ describe("HubSites:", () => {
   describe("updateSite removes properties:", () => {
     let domainChangeSpy: jasmine.Spy;
     let updateModelSpy: jasmine.Spy;
-    let getModelSpy: jasmine.Spy;
+    let fetchSiteModelSpy: jasmine.Spy;
     let getUniqueSlugSpy: jasmine.Spy;
     beforeEach(() => {
       domainChangeSpy = spyOn(
@@ -365,9 +365,9 @@ describe("HubSites:", () => {
         SiteModelWithExtraProps
       );
 
-      getModelSpy = spyOn(
-        require("../../src/models"),
-        "getModel"
+      fetchSiteModelSpy = spyOn(
+        require("../../src/sites/fetchSiteModel"),
+        "fetchSiteModel"
       ).and.returnValue(Promise.resolve(SiteModelWithExtraProps));
 
       getUniqueSlugSpy = spyOn(slugUtils, "getUniqueSlug").and.callFake(
@@ -381,7 +381,7 @@ describe("HubSites:", () => {
       const chk = await commonModule.updateSite(updatedSite, MOCK_HUB_REQOPTS);
 
       expect(chk.id).toBe(GUID);
-      expect(getModelSpy).toHaveBeenCalledTimes(1);
+      expect(fetchSiteModelSpy).toHaveBeenCalledTimes(1);
       const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
       expect(modelToUpdate.data.values.map.baseMapLayers).not.toBeDefined();
       expect(modelToUpdate.data.values.map.basemaps.primary).toBeDefined();
@@ -393,7 +393,7 @@ describe("HubSites:", () => {
   describe("updateSite:", () => {
     let domainChangeSpy: jasmine.Spy;
     let updateModelSpy: jasmine.Spy;
-    let getModelSpy: jasmine.Spy;
+    let fetchSiteModelSpy: jasmine.Spy;
     let getUniqueSlugSpy: jasmine.Spy;
     beforeEach(() => {
       domainChangeSpy = spyOn(
@@ -408,9 +408,9 @@ describe("HubSites:", () => {
         return Promise.resolve(m);
       });
 
-      getModelSpy = spyOn(
-        require("../../src/models"),
-        "getModel"
+      fetchSiteModelSpy = spyOn(
+        require("../../src/sites/fetchSiteModel"),
+        "fetchSiteModel"
       ).and.returnValue(Promise.resolve(SITE_MODEL));
 
       getUniqueSlugSpy = spyOn(slugUtils, "getUniqueSlug").and.callFake(
@@ -432,7 +432,7 @@ describe("HubSites:", () => {
 
       expect(domainChangeSpy.calls.argsFor(0)[1]).toEqual(SITE_MODEL);
 
-      expect(getModelSpy.calls.count()).toBe(1);
+      expect(fetchSiteModelSpy.calls.count()).toBe(1);
       expect(updateModelSpy.calls.count()).toBe(1);
       const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
       expect(modelToUpdate.item.title).toBe(updatedSite.name);
@@ -456,7 +456,7 @@ describe("HubSites:", () => {
       );
       expect(domainChangeArg1).toEqual(SITE_MODEL);
 
-      expect(getModelSpy.calls.count()).toBe(1);
+      expect(fetchSiteModelSpy.calls.count()).toBe(1);
       expect(updateModelSpy.calls.count()).toBe(1);
       const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
       expect(modelToUpdate.item.title).toBe(updatedSite.name);
@@ -527,7 +527,7 @@ describe("HubSites:", () => {
       const chk = await commonModule.updateSite(updatedSite, MOCK_HUB_REQOPTS);
 
       expect(chk.id).toBe(GUID);
-      expect(getModelSpy).toHaveBeenCalledTimes(1);
+      expect(fetchSiteModelSpy).toHaveBeenCalledTimes(1);
       const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
       expect(modelToUpdate.data.catalog).toEqual({ groups: ["9001"] });
       expect(modelToUpdate.data.catalogV2).toEqual(expectedCatalogV2);
