@@ -22,10 +22,8 @@ export function processAttendeeFilters(
     processedFilters.userId = userId;
   }
 
-  const term = getPredicateValuesByKey(query.filters, "term");
+  const term = getPredicateValuesByKey<string>(query.filters, "term");
   if (term.length) {
-    // TODO: remove ts-ignore once GetEventsParams supports filtering by username, firstName, lastName https://devtopia.esri.com/dc/hub/issues/10153
-    // @ts-ignore
     processedFilters.name = term[0];
   }
 
