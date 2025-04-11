@@ -55,6 +55,7 @@ describe("ChannelSchema", () => {
                           enum: [
                             "hub:channel:none",
                             "hub:channel:read",
+                            "hub:channel:write",
                             "hub:channel:readWrite",
                           ],
                           default: "hub:channel:none",
@@ -86,6 +87,7 @@ describe("ChannelSchema", () => {
                           enum: [
                             "hub:channel:none",
                             "hub:channel:read",
+                            "hub:channel:write",
                             "hub:channel:readWrite",
                           ],
                           default: "hub:channel:none",
@@ -128,6 +130,7 @@ describe("ChannelSchema", () => {
                           enum: [
                             "hub:channel:none",
                             "hub:channel:read",
+                            "hub:channel:write",
                             "hub:channel:readWrite",
                             "hub:channel:moderate",
                             "hub:channel:manage",
@@ -146,6 +149,7 @@ describe("ChannelSchema", () => {
                           enum: [
                             "hub:channel:none",
                             "hub:channel:read",
+                            "hub:channel:write",
                             "hub:channel:readWrite",
                             "hub:channel:moderate",
                             "hub:channel:manage",
