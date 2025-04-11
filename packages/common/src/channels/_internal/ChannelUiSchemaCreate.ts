@@ -175,6 +175,7 @@ export const buildUiSchema = async (
                       permissionLabels: [
                         `{{${i18nScope}.sections.permissions.options.noAccess:translate}}`,
                         `{{${i18nScope}.sections.permissions.options.view:translate}}`,
+                        `{{${i18nScope}.sections.permissions.options.post:translate}}`,
                         `{{${i18nScope}.sections.permissions.options.participate:translate}}`,
                       ],
                     },
@@ -204,6 +205,7 @@ export const buildUiSchema = async (
                       permissionLabels: [
                         `{{${i18nScope}.sections.permissions.options.noAccess:translate}}`,
                         `{{${i18nScope}.sections.permissions.options.view:translate}}`,
+                        `{{${i18nScope}.sections.permissions.options.post:translate}}`,
                         `{{${i18nScope}.sections.permissions.options.participate:translate}}`,
                       ],
                     },
@@ -269,7 +271,11 @@ export const buildUiSchema = async (
                       permissionLabels: [
                         `{{${i18nScope}.sections.permissions.options.noAccess:translate}}`,
                         `{{${i18nScope}.sections.permissions.options.view:translate}}`,
+                        `{{${i18nScope}.sections.permissions.options.post:translate}}`,
                         `{{${i18nScope}.sections.permissions.options.participate:translate}}`,
+                        `{{${i18nScope}.sections.permissions.options.moderate:translate}}`,
+                        `{{${i18nScope}.sections.permissions.options.manage:translate}}`,
+                        `{{${i18nScope}.sections.permissions.options.owner:translate}}`,
                       ],
                     },
                     {
@@ -279,8 +285,11 @@ export const buildUiSchema = async (
                       permissionLabels: [
                         `{{${i18nScope}.sections.permissions.options.noAccess:translate}}`,
                         `{{${i18nScope}.sections.permissions.options.view:translate}}`,
+                        `{{${i18nScope}.sections.permissions.options.post:translate}}`,
                         `{{${i18nScope}.sections.permissions.options.participate:translate}}`,
+                        `{{${i18nScope}.sections.permissions.options.moderate:translate}}`,
                         `{{${i18nScope}.sections.permissions.options.manage:translate}}`,
+                        `{{${i18nScope}.sections.permissions.options.owner:translate}}`,
                       ],
                     },
                   ],
