@@ -160,6 +160,14 @@ export type GetEventsParams = {
    */
   title?: string;
   /**
+   * earliest ISO8601 updatedAt for the events
+   */
+  updatedAtAfter?: string;
+  /**
+   * latest ISO8601 updatedAt for the events
+   */
+  updatedAtBefore?: string;
+  /**
    * Comma separated string list of edit groupIds that event is not shared to
    */
   withoutEditGroups?: string;
@@ -361,6 +369,10 @@ export interface ISearchEvents {
   tags?: string[];
   /** string to match within an event title */
   title?: string;
+  /** earliest ISO8601 updatedAt for the events */
+  updatedAtAfter?: string;
+  /** latest ISO8601 updatedAt for the events */
+  updatedAtBefore?: string;
   /** Array of edit groupIds that event is not shared to */
   withoutEditGroups?: string[];
   /** Array of read groupIds that event is not shared to */
