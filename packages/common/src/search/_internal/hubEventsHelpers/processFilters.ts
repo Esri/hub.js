@@ -15,30 +15,28 @@ import { unique } from "../../../util";
  * @param filters An Array of IFilter
  * @returns a Partial<ISearchEvents> for the given Array of IFilter objects
  */
-export async function processFilters(
-  filters: IFilter[]
-): Promise<Partial<ISearchEvents>> {
+export function processFilters(filters: IFilter[]): Partial<ISearchEvents> {
   const flattenedFilters = flattenFilters(filters);
-  const eventOptions: Partial<ISearchEvents> = {};
+  const processedFilters: Partial<ISearchEvents> = {};
 
   // access
   if (flattenedFilters.access?.length) {
-    eventOptions.access = toEnums(flattenedFilters.access, EventAccess);
+    processedFilters.access = toEnums(flattenedFilters.access, EventAccess);
   }
 
   // canEdit
   if (flattenedFilters.canEdit?.length) {
-    eventOptions.canEdit = flattenedFilters.canEdit[0];
+    processedFilters.canEdit = flattenedFilters.canEdit[0];
   }
 
   // entityId
   if (flattenedFilters.entityId?.length) {
-    eventOptions.entityIds = flattenedFilters.entityId;
+    processedFilters.entityIds = flattenedFilters.entityId;
   }
 
   // entityType
   if (flattenedFilters.entityType?.length) {
-    eventOptions.entityTypes = toEnums(
+    processedFilters.entityTypes = toEnums(
       flattenedFilters.entityType,
       EventAssociationEntityType
     );
@@ -46,27 +44,27 @@ export async function processFilters(
 
   // id
   if (flattenedFilters.id?.length) {
-    eventOptions.eventIds = flattenedFilters.id;
+    processedFilters.eventIds = flattenedFilters.id;
   }
 
   // term
   if (flattenedFilters.term?.length) {
-    eventOptions.title = flattenedFilters.term[0];
+    processedFilters.title = flattenedFilters.term[0];
   }
 
   // orgId
   if (flattenedFilters.orgId?.length) {
-    eventOptions.orgId = flattenedFilters.orgId[0];
+    processedFilters.orgId = flattenedFilters.orgId[0];
   }
 
   // categories
   if (flattenedFilters.categories?.length) {
-    eventOptions.categories = flattenedFilters.categories;
+    processedFilters.categories = flattenedFilters.categories;
   }
 
   // tags
   if (flattenedFilters.tags?.length) {
-    eventOptions.tags = flattenedFilters.tags;
+    processedFilters.tags = flattenedFilters.tags;
   }
 
   // group
@@ -88,7 +86,7 @@ export async function processFilters(
       { ids: [], notIds: [] }
     );
     if (ids.length) {
-      eventOptions.sharedToGroups = ids;
+      processedFilters.sharedToGroups = ids;
     }
     if (notIds.length) {
       const uniqueIds = notIds.filter(unique);
@@ -96,14 +94,14 @@ export async function processFilters(
       // params for `withoutEditGroups` and `withoutReadGroups`. rather than trying to reconcile whether
       // any given group ID belongs to a view or update group (which would require additional HTTP requests),
       // we simply pass all the ids to both `withoutEditGroups` and `withoutReadGroups`.
-      eventOptions.withoutEditGroups = uniqueIds;
-      eventOptions.withoutReadGroups = uniqueIds;
+      processedFilters.withoutEditGroups = uniqueIds;
+      processedFilters.withoutReadGroups = uniqueIds;
     }
   }
 
   // attendanceType
   if (flattenedFilters.attendanceType?.length) {
-    eventOptions.attendanceTypes = toEnums(
+    processedFilters.attendanceTypes = toEnums(
       flattenedFilters.attendanceType,
       EventAttendanceType
     );
@@ -111,92 +109,109 @@ export async function processFilters(
 
   // owner
   if (flattenedFilters.owner?.length) {
-    eventOptions.createdByIds = flattenedFilters.owner;
+    processedFilters.createdByIds = flattenedFilters.owner;
   }
 
   // status
-  eventOptions.status = flattenedFilters.status?.length
+  processedFilters.status = flattenedFilters.status?.length
     ? toEnums(flattenedFilters.status, EventStatus)
     : [EventStatus.PLANNED, EventStatus.CANCELED];
 
-  // we support searching for events using date inputs in a few different ways. an `occurrence`
-  // filter was implemented as a convenient way to search for events occurring in the past, currently
-  // taking place, or in the future. These `occurrence` values need to be mapped to very specific API
-  // parameters and values. Additionally, we support searching for events using `startDateRange` and
-  // `endDateRange`, which similarly need to be mapped to very specific API parameters and values, which
-  // could conflict with `occurrence`. For that reason, if `occurrence` is provided, we ignore any
-  // additionally provided `startDateRange` and `endDateRange` predicates. If `occurrence` is omitted but
-  // `startDateRange` is provided, `startDateBefore` and `startDateAfter` predicates would be ignored. If
-  // `occurrence` is omitted but `endDateRange` is provided, `endDateBefore` and `endDateAfter` predicates
-  // would be ignored. If no `occurrence` or `startDateRange` are provided, `startDateBefore` and
-  // `startDateAfter` can be used. If no `occurrence` or `endDateRange` are provided, `endDateBefore` and
-  // `endDateAfter` can be used.
-  if (flattenedFilters.occurrence?.length) {
-    // `occurrence` provided, ignore `startDateRange`, `endDateRange`, `startDateBefore`, `startDateAfter`, `endDateBefore` & `endDateAfter`
-    const params =
-      {
-        upcoming: {
-          startDateTimeAfter: new Date().toISOString(),
-        },
-        past: {
-          endDateTimeBefore: new Date().toISOString(),
-        },
-        inProgress: {
-          startDateTimeBefore: new Date().toISOString(),
-          endDateTimeAfter: new Date().toISOString(),
-        },
-      }[flattenedFilters.occurrence[0] as "upcoming" | "past" | "inProgress"] ||
-      {};
-    Object.assign(eventOptions, params);
-  } else {
-    // `startDateRange` provided, ignore `startDateBefore` & `startDateAfter`
-    if (flattenedFilters.startDateRange?.length) {
-      eventOptions.startDateTimeBefore = new Date(
+  // if a startDateRange was provided, we prioritize that over individual startDateBefore or startDateAfter
+  // filters to prevent collisions
+  if (flattenedFilters.startDateRange?.length) {
+    // We are explicitly checking if the to and from values are present
+    // Because w/ Occurrence, we can have just to or from values
+    flattenedFilters.startDateRange[0].to &&
+      (processedFilters.startDateTimeBefore = new Date(
         flattenedFilters.startDateRange[0].to
-      ).toISOString();
-      eventOptions.startDateTimeAfter = new Date(
+      ).toISOString());
+    flattenedFilters.startDateRange[0].from &&
+      (processedFilters.startDateTimeAfter = new Date(
         flattenedFilters.startDateRange[0].from
+      ).toISOString());
+  } else {
+    // startDateBefore
+    if (flattenedFilters.startDateBefore?.length) {
+      processedFilters.startDateTimeBefore = new Date(
+        flattenedFilters.startDateBefore[0]
       ).toISOString();
-    } else {
-      // startDateBefore
-      if (flattenedFilters.startDateBefore?.length) {
-        eventOptions.startDateTimeBefore = new Date(
-          flattenedFilters.startDateBefore[0]
-        ).toISOString();
-      }
-
-      // startDateAfter
-      if (flattenedFilters.startDateAfter?.length) {
-        eventOptions.startDateTimeAfter = new Date(
-          flattenedFilters.startDateAfter[0]
-        ).toISOString();
-      }
     }
 
-    // `endDateRange` provided, ignore `endDateBefore` & `endDateAfter`
-    if (flattenedFilters.endDateRange?.length) {
-      eventOptions.endDateTimeBefore = new Date(
-        flattenedFilters.endDateRange[0].to
+    // startDateAfter
+    if (flattenedFilters.startDateAfter?.length) {
+      processedFilters.startDateTimeAfter = new Date(
+        flattenedFilters.startDateAfter[0]
       ).toISOString();
-      eventOptions.endDateTimeAfter = new Date(
-        flattenedFilters.endDateRange[0].from
-      ).toISOString();
-    } else {
-      // endDateBefore
-      if (flattenedFilters.endDateBefore?.length) {
-        eventOptions.endDateTimeBefore = new Date(
-          flattenedFilters.endDateBefore[0]
-        ).toISOString();
-      }
-
-      // endDateAfter
-      if (flattenedFilters.endDateAfter?.length) {
-        eventOptions.endDateTimeAfter = new Date(
-          flattenedFilters.endDateAfter[0]
-        ).toISOString();
-      }
     }
   }
 
-  return eventOptions;
+  // if a endDateRange was provided, we prioritize that over individual endDateBefore or endDateAfter
+  // filters to prevent collisions
+  if (flattenedFilters.endDateRange?.length) {
+    // We are explicitly checking if the to and from values are present
+    // Because w/ Occurrence, we can have just to or from values
+    flattenedFilters.endDateRange[0].to &&
+      (processedFilters.endDateTimeBefore = new Date(
+        flattenedFilters.endDateRange[0].to
+      ).toISOString());
+    flattenedFilters.endDateRange[0].from &&
+      (processedFilters.endDateTimeAfter = new Date(
+        flattenedFilters.endDateRange[0].from
+      ).toISOString());
+  } else {
+    // endDateBefore
+    if (flattenedFilters.endDateBefore?.length) {
+      processedFilters.endDateTimeBefore = new Date(
+        flattenedFilters.endDateBefore[0]
+      ).toISOString();
+    }
+
+    // endDateAfter
+    if (flattenedFilters.endDateAfter?.length) {
+      processedFilters.endDateTimeAfter = new Date(
+        flattenedFilters.endDateAfter[0]
+      ).toISOString();
+    }
+  }
+
+  // If there's an occurrence filter, we need to adjust the startDateTimeBefore, startDateTimeAfter
+  // Depending on the occurrence.
+  if (flattenedFilters.occurrence?.length) {
+    flattenedFilters.occurrence.forEach((o) => {
+      switch (o) {
+        case "upcoming":
+          processedFilters.startDateTimeAfter = new Date().toISOString();
+          break;
+        case "past":
+          processedFilters.endDateTimeBefore = new Date().toISOString();
+          break;
+        case "inProgress":
+          processedFilters.startDateTimeBefore = new Date().toISOString();
+          processedFilters.endDateTimeAfter = new Date().toISOString();
+          break;
+      }
+    });
+  }
+
+  // modified
+  if (
+    flattenedFilters.modified?.length &&
+    flattenedFilters.modified[0].to &&
+    flattenedFilters.modified[0].from
+  ) {
+    // range
+    // TODO: remove ts-ignore once ISearchEvents supports filtering by updatedAtBefore https://devtopia.esri.com/dc/hub/issues/12925
+    // @ts-ignore
+    processedFilters.updatedAtBefore = new Date(
+      flattenedFilters.modified[0].to
+    ).toISOString();
+    // TODO: remove ts-ignore once ISearchEvents supports filtering by updatedAtAfter https://devtopia.esri.com/dc/hub/issues/12925
+    // @ts-ignore
+    processedFilters.updatedAtAfter = new Date(
+      flattenedFilters.modified[0].from
+    ).toISOString();
+  }
+
+  return processedFilters;
 }

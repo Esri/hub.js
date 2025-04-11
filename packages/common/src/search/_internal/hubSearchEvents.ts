@@ -34,6 +34,7 @@ import { processFilters } from "./hubEventsHelpers/processFilters";
  *   - endDateBefore: string | number;
  *   - endDateAfter: string | number;
  *   - orgId: string;
+ *   - modified: IDateRange<string | number>;
  * Currently supported sort fields include:
  *   - created
  *   - modified
@@ -47,7 +48,7 @@ export async function hubSearchEvents(
   query: IQuery,
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
-  const processedFilters = await processFilters(query.filters);
+  const processedFilters = processFilters(query.filters);
   const processedOptions = processOptions(options);
   const data: ISearchEvents = {
     ...processedFilters,

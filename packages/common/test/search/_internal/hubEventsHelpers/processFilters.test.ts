@@ -77,12 +77,12 @@ const readGroup2 = {
 
 describe("processFilters", () => {
   describe("access", () => {
-    it("should return undefined", async () => {
-      const result = await processFilters([{ predicates: [] }]);
+    it("should return undefined", () => {
+      const result = processFilters([{ predicates: [] }]);
       expect(result.access).toBeUndefined();
     });
-    it("should consolidate and unique values from multiple filters & predicates", async () => {
-      const result = await processFilters([
+    it("should consolidate and unique values from multiple filters & predicates", () => {
+      const result = processFilters([
         {
           predicates: [
             {
@@ -112,12 +112,12 @@ describe("processFilters", () => {
     });
   });
   describe("canEdit", () => {
-    it("should return undefined", async () => {
-      const result = await processFilters([{ predicates: [] }]);
+    it("should return undefined", () => {
+      const result = processFilters([{ predicates: [] }]);
       expect(result.canEdit).toBeUndefined();
     });
-    it("should use the first value", async () => {
-      const result = await processFilters([
+    it("should use the first value", () => {
+      const result = processFilters([
         {
           predicates: [
             {
@@ -140,12 +140,12 @@ describe("processFilters", () => {
     });
   });
   describe("entityId", () => {
-    it("should return undefined", async () => {
-      const result = await processFilters([{ predicates: [] }]);
+    it("should return undefined", () => {
+      const result = processFilters([{ predicates: [] }]);
       expect(result.entityIds).toBeUndefined();
     });
-    it("should consolidate and unique values from multiple filters & predicates", async () => {
-      const result = await processFilters([
+    it("should consolidate and unique values from multiple filters & predicates", () => {
+      const result = processFilters([
         {
           predicates: [
             {
@@ -171,12 +171,12 @@ describe("processFilters", () => {
     });
   });
   describe("entityType", () => {
-    it("should return undefined", async () => {
-      const result = await processFilters([{ predicates: [] }]);
+    it("should return undefined", () => {
+      const result = processFilters([{ predicates: [] }]);
       expect(result.entityTypes).toBeUndefined();
     });
-    it("should consolidate and unique values from multiple filters & predicates", async () => {
-      const result = await processFilters([
+    it("should consolidate and unique values from multiple filters & predicates", () => {
+      const result = processFilters([
         {
           predicates: [
             {
@@ -206,12 +206,12 @@ describe("processFilters", () => {
     });
   });
   describe("id", () => {
-    it("should return undefined", async () => {
-      const result = await processFilters([{ predicates: [] }]);
+    it("should return undefined", () => {
+      const result = processFilters([{ predicates: [] }]);
       expect(result.eventIds).toBeUndefined();
     });
-    it("should consolidate and unique values from multiple filters & predicates", async () => {
-      const result = await processFilters([
+    it("should consolidate and unique values from multiple filters & predicates", () => {
+      const result = processFilters([
         {
           predicates: [
             {
@@ -237,12 +237,12 @@ describe("processFilters", () => {
     });
   });
   describe("term", () => {
-    it("should return undefined", async () => {
-      const result = await processFilters([{ predicates: [] }]);
+    it("should return undefined", () => {
+      const result = processFilters([{ predicates: [] }]);
       expect(result.title).toBeUndefined();
     });
-    it("should use the first value", async () => {
-      const result = await processFilters([
+    it("should use the first value", () => {
+      const result = processFilters([
         {
           predicates: [
             {
@@ -265,12 +265,12 @@ describe("processFilters", () => {
     });
   });
   describe("orgId", () => {
-    it("should return undefined", async () => {
-      const result = await processFilters([{ predicates: [] }]);
+    it("should return undefined", () => {
+      const result = processFilters([{ predicates: [] }]);
       expect(result.orgId).toBeUndefined();
     });
-    it("should use the first value", async () => {
-      const result = await processFilters([
+    it("should use the first value", () => {
+      const result = processFilters([
         {
           predicates: [
             {
@@ -293,12 +293,12 @@ describe("processFilters", () => {
     });
   });
   describe("categories", () => {
-    it("should return undefined", async () => {
-      const result = await processFilters([{ predicates: [] }]);
+    it("should return undefined", () => {
+      const result = processFilters([{ predicates: [] }]);
       expect(result.categories).toBeUndefined();
     });
-    it("should consolidate and unique values from multiple filters & predicates", async () => {
-      const result = await processFilters([
+    it("should consolidate and unique values from multiple filters & predicates", () => {
+      const result = processFilters([
         {
           predicates: [
             {
@@ -324,12 +324,12 @@ describe("processFilters", () => {
     });
   });
   describe("tags", () => {
-    it("should return undefined", async () => {
-      const result = await processFilters([{ predicates: [] }]);
+    it("should return undefined", () => {
+      const result = processFilters([{ predicates: [] }]);
       expect(result.tags).toBeUndefined();
     });
-    it("should consolidate and unique values from multiple filters & predicates", async () => {
-      const result = await processFilters([
+    it("should consolidate and unique values from multiple filters & predicates", () => {
+      const result = processFilters([
         {
           predicates: [
             {
@@ -355,12 +355,12 @@ describe("processFilters", () => {
     });
   });
   describe("attendanceType", () => {
-    it("should return undefined", async () => {
-      const result = await processFilters([{ predicates: [] }]);
+    it("should return undefined", () => {
+      const result = processFilters([{ predicates: [] }]);
       expect(result.attendanceTypes).toBeUndefined();
     });
-    it("should consolidate and unique values from multiple filters & predicates", async () => {
-      const result = await processFilters([
+    it("should consolidate and unique values from multiple filters & predicates", () => {
+      const result = processFilters([
         {
           predicates: [
             {
@@ -389,12 +389,12 @@ describe("processFilters", () => {
     });
   });
   describe("owner", () => {
-    it("should return undefined", async () => {
-      const result = await processFilters([{ predicates: [] }]);
+    it("should return undefined", () => {
+      const result = processFilters([{ predicates: [] }]);
       expect(result.createdByIds).toBeUndefined();
     });
-    it("should consolidate and unique values from multiple filters & predicates", async () => {
-      const result = await processFilters([
+    it("should consolidate and unique values from multiple filters & predicates", () => {
+      const result = processFilters([
         {
           predicates: [
             {
@@ -420,15 +420,15 @@ describe("processFilters", () => {
     });
   });
   describe("status", () => {
-    it("should default to planned and canceled", async () => {
-      const result = await processFilters([{ predicates: [] }]);
+    it("should default to planned and canceled", () => {
+      const result = processFilters([{ predicates: [] }]);
       expect(result.status).toEqual([
         EventStatus.PLANNED,
         EventStatus.CANCELED,
       ]);
     });
-    it("should consolidate and unique values from multiple filters & predicates", async () => {
-      const result = await processFilters([
+    it("should consolidate and unique values from multiple filters & predicates", () => {
+      const result = processFilters([
         {
           predicates: [
             {
@@ -458,12 +458,12 @@ describe("processFilters", () => {
     });
   });
   describe("group", () => {
-    it("should return undefined", async () => {
-      const result = await processFilters([{ predicates: [] }]);
+    it("should return undefined", () => {
+      const result = processFilters([{ predicates: [] }]);
       expect(result.sharedToGroups).toBeUndefined();
     });
-    it("should return a unique sharedToGroups if group has been supplied", async () => {
-      const result = await processFilters([
+    it("should return a unique sharedToGroups if group has been supplied", () => {
+      const result = processFilters([
         {
           predicates: [
             {
@@ -488,8 +488,8 @@ describe("processFilters", () => {
         editGroup2.id,
       ]);
     });
-    it("should return a unique withoutEditGroups & withoutReadGroups if group has been supplied with inverses", async () => {
-      const result = await processFilters([
+    it("should return a unique withoutEditGroups & withoutReadGroups if group has been supplied with inverses", () => {
+      const result = processFilters([
         {
           predicates: [
             {
@@ -521,13 +521,13 @@ describe("processFilters", () => {
     });
   });
   describe("startDateRange", () => {
-    it("should return undefined", async () => {
-      const result = await processFilters([{ predicates: [] }]);
+    it("should return undefined", () => {
+      const result = processFilters([{ predicates: [] }]);
       expect(result.startDateTimeBefore).toBeUndefined();
       expect(result.startDateTimeAfter).toBeUndefined();
     });
-    it("should return startDateTimeBefore and startDateTimeAfter and only use first occurrence of startDateRange", async () => {
-      const result = await processFilters([
+    it("should return startDateTimeBefore and startDateTimeAfter and only use first occurrence of startDateRange", () => {
+      const result = processFilters([
         {
           predicates: [
             {
@@ -552,8 +552,8 @@ describe("processFilters", () => {
       expect(result.startDateTimeBefore).toEqual("2024-04-29T03:59:59.999Z");
       expect(result.startDateTimeAfter).toEqual("2024-04-28T04:00:00.000Z");
     });
-    it("should be prioritized over individual startDateBefore and startDateAfter", async () => {
-      const result = await processFilters([
+    it("should be prioritized over individual startDateBefore and startDateAfter", () => {
+      const result = processFilters([
         {
           predicates: [
             {
@@ -572,12 +572,12 @@ describe("processFilters", () => {
     });
   });
   describe("startDateBefore", () => {
-    it("should return undefined", async () => {
-      const result = await processFilters([{ predicates: [] }]);
+    it("should return undefined", () => {
+      const result = processFilters([{ predicates: [] }]);
       expect(result.startDateTimeBefore).toBeUndefined();
     });
-    it("should only use first occurrence", async () => {
-      const result = await processFilters([
+    it("should only use first occurrence", () => {
+      const result = processFilters([
         {
           predicates: [
             {
@@ -597,12 +597,12 @@ describe("processFilters", () => {
     });
   });
   describe("startDateAfter", () => {
-    it("should return undefined", async () => {
-      const result = await processFilters([{ predicates: [] }]);
+    it("should return undefined", () => {
+      const result = processFilters([{ predicates: [] }]);
       expect(result.startDateTimeAfter).toBeUndefined();
     });
-    it("should only use first occurrence", async () => {
-      const result = await processFilters([
+    it("should only use first occurrence", () => {
+      const result = processFilters([
         {
           predicates: [
             {
@@ -622,13 +622,13 @@ describe("processFilters", () => {
     });
   });
   describe("endDateRange", () => {
-    it("should return undefined", async () => {
-      const result = await processFilters([{ predicates: [] }]);
+    it("should return undefined", () => {
+      const result = processFilters([{ predicates: [] }]);
       expect(result.endDateTimeBefore).toBeUndefined();
       expect(result.endDateTimeAfter).toBeUndefined();
     });
-    it("should return endDateTimeBefore and endDateTimeAfter and only use first occurrence of endDateRange", async () => {
-      const result = await processFilters([
+    it("should return endDateTimeBefore and endDateTimeAfter and only use first occurrence of endDateRange", () => {
+      const result = processFilters([
         {
           predicates: [
             {
@@ -653,8 +653,8 @@ describe("processFilters", () => {
       expect(result.endDateTimeBefore).toEqual("2024-04-29T03:59:59.999Z");
       expect(result.endDateTimeAfter).toEqual("2024-04-28T04:00:00.000Z");
     });
-    it("should be prioritized over individual endDateBefore and endDateAfter", async () => {
-      const result = await processFilters([
+    it("should be prioritized over individual endDateBefore and endDateAfter", () => {
+      const result = processFilters([
         {
           predicates: [
             {
@@ -673,12 +673,12 @@ describe("processFilters", () => {
     });
   });
   describe("endDateBefore", () => {
-    it("should return undefined", async () => {
-      const result = await processFilters([{ predicates: [] }]);
+    it("should return undefined", () => {
+      const result = processFilters([{ predicates: [] }]);
       expect(result.endDateTimeBefore).toBeUndefined();
     });
-    it("should only use first occurrence", async () => {
-      const result = await processFilters([
+    it("should only use first occurrence", () => {
+      const result = processFilters([
         {
           predicates: [
             {
@@ -698,12 +698,12 @@ describe("processFilters", () => {
     });
   });
   describe("endDateAfter", () => {
-    it("should return undefined", async () => {
-      const result = await processFilters([{ predicates: [] }]);
+    it("should return undefined", () => {
+      const result = processFilters([{ predicates: [] }]);
       expect(result.endDateTimeAfter).toBeUndefined();
     });
-    it("should only use first occurrence", async () => {
-      const result = await processFilters([
+    it("should only use first occurrence", () => {
+      const result = processFilters([
         {
           predicates: [
             {
@@ -730,13 +730,13 @@ describe("processFilters", () => {
     afterAll(() => {
       jasmine.clock().uninstall();
     });
-    it("should return undefined", async () => {
-      const result = await processFilters([{ predicates: [] }]);
+    it("should return undefined", () => {
+      const result = processFilters([{ predicates: [] }]);
       expect(result.startDateTimeBefore).toBeUndefined();
       expect(result.startDateTimeAfter).toBeUndefined();
     });
-    it("should ignore unsupported values", async () => {
-      const result = await processFilters([
+    it("should ignore unsupported values", () => {
+      const result = processFilters([
         {
           predicates: [
             {
@@ -748,8 +748,8 @@ describe("processFilters", () => {
       expect(result.startDateTimeBefore).toBeUndefined();
       expect(result.startDateTimeAfter).toBeUndefined();
     });
-    it("should handle upcoming", async () => {
-      const result = await processFilters([
+    it("should handle upcoming", () => {
+      const result = processFilters([
         {
           predicates: [
             {
@@ -760,8 +760,8 @@ describe("processFilters", () => {
       ]);
       expect(result.startDateTimeAfter).toEqual(mockedDate.toISOString());
     });
-    it("should handle past", async () => {
-      const result = await processFilters([
+    it("should handle past", () => {
+      const result = processFilters([
         {
           predicates: [
             {
@@ -772,8 +772,8 @@ describe("processFilters", () => {
       ]);
       expect(result.endDateTimeBefore).toEqual(mockedDate.toISOString());
     });
-    it("should handle inProgress", async () => {
-      const result = await processFilters([
+    it("should handle inProgress", () => {
+      const result = processFilters([
         {
           predicates: [
             {
@@ -784,6 +784,47 @@ describe("processFilters", () => {
       ]);
       expect(result.startDateTimeBefore).toEqual(mockedDate.toISOString());
       expect(result.endDateTimeAfter).toEqual(mockedDate.toISOString());
+    });
+  });
+  describe("modified", () => {
+    it("should return undefined", () => {
+      const result = processFilters([{ predicates: [] }]);
+      // TODO: remove ts-ignore once ISearchEvents supports filtering by updatedAtBefore https://devtopia.esri.com/dc/hub/issues/12925
+      // @ts-ignore
+      expect(result.updatedAtBefore).toBeUndefined();
+      // TODO: remove ts-ignore once ISearchEvents supports filtering by updatedAtBefore https://devtopia.esri.com/dc/hub/issues/12925
+      // @ts-ignore
+      expect(result.updatedAtBefore).toBeUndefined();
+    });
+    it("should return updatedAtBefore and updatedAtAfter and only use first occurrence of modified", () => {
+      const result = processFilters([
+        {
+          predicates: [
+            {
+              modified: {
+                from: 1714276800000,
+                to: 1714363199999,
+              },
+            },
+          ],
+        },
+        {
+          predicates: [
+            {
+              modified: {
+                from: 1814276800000,
+                to: 1814363199999,
+              },
+            },
+          ],
+        },
+      ]);
+      // TODO: remove ts-ignore once ISearchEvents supports filtering by updatedAtBefore https://devtopia.esri.com/dc/hub/issues/12925
+      // @ts-ignore
+      expect(result.updatedAtBefore).toEqual("2024-04-29T03:59:59.999Z");
+      // TODO: remove ts-ignore once ISearchEvents supports filtering by updatedAtBefore https://devtopia.esri.com/dc/hub/issues/12925
+      // @ts-ignore
+      expect(result.updatedAtAfter).toEqual("2024-04-28T04:00:00.000Z");
     });
   });
 });
