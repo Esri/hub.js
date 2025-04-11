@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <meta name="date" content="2025-04-11T15:08:50.268Z">
+    <meta name="date" content="2025-04-11T18:31:04.751Z">
     <title>hubSearchEvents | API Reference | @esri/hub.js</title>
     
     <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
@@ -76,7 +76,7 @@
               <path d="M7 4h5l12 12-12 12H7l12-12L7 4z" />
             </svg>
           </button>
-          <a href="/hub.js/api/common/" class="is-active tsd-kind-icon">common</a>&nbsp;<small>v16.3.1</small>
+          <a href="/hub.js/api/common/" class="is-active tsd-kind-icon">common</a>&nbsp;<small>v16.3.2</small>
           <ul id="list1" class="api-package-content-list">
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -1228,6 +1228,10 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/flattenFilters/" class="tsd-kind-icon padding-right-1">flattenFilters</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/followEntity/" class="tsd-kind-icon padding-right-1">followEntity</a>
             </li>
             
@@ -1949,10 +1953,6 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/getUniqueItemTitle/" class="tsd-kind-icon padding-right-1">getUniqueItemTitle</a>
-            </li>
-            
-            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
-              <a href="/hub.js/api/common/getUniquePredicateValuesByKey/" class="tsd-kind-icon padding-right-1">getUniquePredicateValuesByKey</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -7407,13 +7407,9 @@ Currently supported filters include:</p>
 <li>term: string;</li>
 <li>categories: string | string[];</li>
 <li>tags: string | string[];</li>
-<li>group: string | string[];</li>
-<li>notGroup: string | string[];</li>
-<li>readGroupId: string | string[];</li>
-<li>notReadGroupId: string | string[];</li>
-<li>editGroupId: string | string[];</li>
-<li>notEditGroupId: string | string[];</li>
+<li>group: string | string[] | { not: string } | { not: string[] };</li>
 <li>attendanceType: 'virtual' | 'in_person' | Array&lt;'virtual' | 'in_person'&gt;;</li>
+<li>occurrence: 'upcoming' | 'past' | 'inProgress'</li>
 <li>owner: string | string[];</li>
 <li>status: 'planned' | 'canceled' | 'removed' | Array&lt;'planned' | 'canceled' | 'removed'&gt;;</li>
 <li>startDateBefore: string | number;</li>
@@ -7422,7 +7418,8 @@ Currently supported filters include:</p>
 <li>endDateRange: IDateRange&lt;string | number&gt;;</li>
 <li>endDateBefore: string | number;</li>
 <li>endDateAfter: string | number;</li>
-<li>orgId: string;
+<li>orgId: string;</li>
+<li>modified: IDateRange&lt;string | number&gt;;
 Currently supported sort fields include:</li>
 <li>created</li>
 <li>modified</li>
@@ -7782,7 +7779,7 @@ measured in kilobytes</p>
 
 
 
-<small class="font-size--2">Function defined in <a href="https://github.com/Esri/hub.js/blob/master/packages/common/src/search/_internal/hubSearchEvents.ts#L50">common/src/search/_internal/hubSearchEvents.ts:50</a></small>
+<small class="font-size--2">Function defined in <a href="https://github.com/Esri/hub.js/blob/master/packages/common/src/search/_internal/hubSearchEvents.ts#L47">common/src/search/_internal/hubSearchEvents.ts:47</a></small>
 
 
     </div>
