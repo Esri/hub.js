@@ -1,3 +1,10 @@
+## @esri/hub-common [16.3.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.3.2...@esri/hub-common@16.3.3) (2025-04-11)
+
+
+### Bug Fixes
+
+* **hub-common:** simplify the filter processing logic for events 3 wh… ([#1862](https://github.com/Esri/hub.js/issues/1862)) ([7d87b7c](https://github.com/Esri/hub.js/commit/7d87b7c50d2b418bdb499d92fb0ea45d5931b6b2))
+
 ## @esri/hub-common [16.3.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.3.1...@esri/hub-common@16.3.2) (2025-04-11)
 
 
