@@ -68,6 +68,7 @@ export const ChannelSchema: IConfigurationSchema = {
                     enum: [
                       ChannelNonePermission,
                       CHANNEL_PERMISSIONS.channelRead,
+                      CHANNEL_PERMISSIONS.channelWrite,
                       CHANNEL_PERMISSIONS.channelReadWrite,
                     ],
                     default: ChannelNonePermission,
@@ -99,6 +100,7 @@ export const ChannelSchema: IConfigurationSchema = {
                     enum: [
                       ChannelNonePermission,
                       CHANNEL_PERMISSIONS.channelRead,
+                      CHANNEL_PERMISSIONS.channelWrite,
                       CHANNEL_PERMISSIONS.channelReadWrite,
                     ],
                     default: ChannelNonePermission,
@@ -141,6 +143,7 @@ export const ChannelSchema: IConfigurationSchema = {
                     enum: [
                       ChannelNonePermission,
                       CHANNEL_PERMISSIONS.channelRead,
+                      CHANNEL_PERMISSIONS.channelWrite,
                       CHANNEL_PERMISSIONS.channelReadWrite,
                       CHANNEL_PERMISSIONS.channelModerate,
                       CHANNEL_PERMISSIONS.channelManage,
@@ -159,6 +162,7 @@ export const ChannelSchema: IConfigurationSchema = {
                     enum: [
                       ChannelNonePermission,
                       CHANNEL_PERMISSIONS.channelRead,
+                      CHANNEL_PERMISSIONS.channelWrite,
                       CHANNEL_PERMISSIONS.channelReadWrite,
                       CHANNEL_PERMISSIONS.channelModerate,
                       CHANNEL_PERMISSIONS.channelManage,
