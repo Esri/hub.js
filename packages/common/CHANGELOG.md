@@ -1,3 +1,10 @@
+# @esri/hub-common [16.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.3.4...@esri/hub-common@16.4.0) (2025-04-12)
+
+
+### Features
+
+* **hub-common:** add updatedAtAfter and updatedAtBefore to interface… ([#1864](https://github.com/Esri/hub.js/issues/1864)) ([02d955b](https://github.com/Esri/hub.js/commit/02d955bae6e3ce5cc349e083bf0bfc11b32fbd4e))
+
 ## @esri/hub-common [16.3.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.3.3...@esri/hub-common@16.3.4) (2025-04-11)
 
 
