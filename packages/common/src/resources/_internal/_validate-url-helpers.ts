@@ -160,6 +160,7 @@ export async function pingUrl(
   url: string
 ): Promise<{ ok: boolean; headers?: Headers }> {
   // ensure that we handle any no-cors requirements
+  /* istanbul ignore next */
   if (isNoCorsRequestRequired(url)) {
     await sendNoCorsRequest(url);
   }
@@ -187,6 +188,7 @@ export async function pingFeatureService(
   parsed.searchParams.set("f", "json");
 
   // ensure that we handle any no-cors requirements
+  /* istanbul ignore next */
   if (isNoCorsRequestRequired(url)) {
     await sendNoCorsRequest(url);
   }

@@ -38,12 +38,13 @@ export const isServicesDirectoryDisabled = async (
 
       // We use rawResponse to get the status code
       // without having to parse the response body
-      const { status } = await request(url, {
+      const raw = await request(url, {
         ...requestOptions,
         rawResponse: true,
+        httpMethod: "GET",
       });
-      // const { status } = await fetch(url, requestOptions);
-      disabled = status !== 200;
+
+      disabled = raw.status !== 200;
     } else {
       disabled = true;
     }
