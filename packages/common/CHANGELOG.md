@@ -1,3 +1,10 @@
+## @esri/hub-common [16.5.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.5.0...@esri/hub-common@16.5.1) (2025-04-14)
+
+
+### Bug Fixes
+
+* site event catalog gating ([#1865](https://github.com/Esri/hub.js/issues/1865)) ([c704b37](https://github.com/Esri/hub.js/commit/c704b3732e4a4fb48029ce3776ae104fdb6b7c5e))
+
 # @esri/hub-common [16.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.4.0...@esri/hub-common@16.5.0) (2025-04-14)
 
 
