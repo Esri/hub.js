@@ -1,6 +1,11 @@
 import { parseServiceUrl } from "@esri/arcgis-rest-feature-layer";
 import { getItem } from "@esri/arcgis-rest-portal";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
+import {
+  IRequestOptions,
+  isNoCorsRequestRequired,
+  request,
+  sendNoCorsRequest,
+} from "@esri/arcgis-rest-request";
 import { IItem } from "@esri/arcgis-rest-types";
 
 /**
@@ -30,7 +35,14 @@ export const isServicesDirectoryDisabled = async (
           url = `${url}?token=${token}`;
         }
       }
-      const { status } = await fetch(url);
+
+      // We use rawResponse to get the status code
+      // without having to parse the response body
+      const { status } = await request(url, {
+        ...requestOptions,
+        rawResponse: true,
+      });
+      // const { status } = await fetch(url, requestOptions);
       disabled = status !== 200;
     } else {
       disabled = true;
