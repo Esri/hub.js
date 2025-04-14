@@ -1,3 +1,10 @@
+## @esri/hub-common [16.5.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.5.1...@esri/hub-common@16.5.2) (2025-04-14)
+
+
+### Bug Fixes
+
+* show all collection facets for project featured content and action links ([#1861](https://github.com/Esri/hub.js/issues/1861)) ([3e884df](https://github.com/Esri/hub.js/commit/3e884df9e90a834ad53438065839ba62765edc33))
+
 ## @esri/hub-common [16.5.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.5.0...@esri/hub-common@16.5.1) (2025-04-14)
 
 
