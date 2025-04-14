@@ -177,11 +177,8 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:site:workspace:catalog:events",
-    dependencies: [
-      "hub:site:workspace:catalog",
-      "hub:event",
-      "hub:feature:catalogs:edit:advanced",
-    ],
+    licenses: ["hub-premium"],
+    dependencies: ["hub:site:workspace:catalog", "hub:event"],
   },
   {
     permission: "hub:site:workspace:pages",
