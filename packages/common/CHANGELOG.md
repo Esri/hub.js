@@ -1,3 +1,10 @@
+# @esri/hub-common [16.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.4.0...@esri/hub-common@16.5.0) (2025-04-14)
+
+
+### Features
+
+* add hub-premium gating to hub:feature:catalogs:edit:advanced permission ([#1854](https://github.com/Esri/hub.js/issues/1854)) ([4f2ee37](https://github.com/Esri/hub.js/commit/4f2ee376517375982d77ad51cee278e574e5e83d))
+
 # @esri/hub-common [16.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.3.4...@esri/hub-common@16.4.0) (2025-04-12)
 
 
