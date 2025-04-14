@@ -13,7 +13,7 @@ import { getSiteById } from "./get-site-by-id";
 export function fetchSiteModel(
   identifier: string,
   hubRequestOptions: IHubRequestOptions,
-  logger: any,
+  logger: any | undefined = null,
   reqID = ""
 ) {
   let prms;
