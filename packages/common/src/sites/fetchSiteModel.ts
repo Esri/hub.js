@@ -12,7 +12,9 @@ import { getSiteById } from "./get-site-by-id";
  */
 export function fetchSiteModel(
   identifier: string,
-  hubRequestOptions: IHubRequestOptions
+  hubRequestOptions: IHubRequestOptions,
+  logger: any,
+  reqID = ""
 ) {
   let prms;
 
@@ -24,9 +26,23 @@ export function fetchSiteModel(
     // get down the the hostname
     hostnameOrSlug = stripProtocol(hostnameOrSlug);
     hostnameOrSlug = hostnameOrSlug.split("/")[0];
+    if (logger) {
+      logger.log(`looking-up-domain-${reqID}-${hostnameOrSlug}`);
+    }
 
-    prms = lookupDomain(hostnameOrSlug, hubRequestOptions).then(({ siteId }) =>
-      getSiteById(siteId, hubRequestOptions)
+    prms = lookupDomain(hostnameOrSlug, hubRequestOptions).then(
+      ({ siteId }) => {
+        if (logger) {
+          logger.log(`success-lookup-domain-${reqID}`);
+          logger.log(`fetching-siteid-${reqID}-${siteId}`);
+        }
+        return getSiteById(siteId, hubRequestOptions).then((res) => {
+          if (logger) {
+            logger.log(`success-site-id-${reqID}-${siteId}`);
+          }
+          return res;
+        });
+      }
     );
   }
 
