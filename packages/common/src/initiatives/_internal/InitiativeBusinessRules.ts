@@ -40,6 +40,8 @@ export const InitiativePermissions = [
   "hub:initiative:workspace:metrics",
   "hub:initiative:workspace:catalogs", // deprecated -- should be removed
   "hub:initiative:workspace:catalog",
+  "hub:initiative:workspace:catalog:content",
+  "hub:initiative:workspace:catalog:events",
   "hub:initiative:workspace:associationGroup:create",
   "hub:initiative:manage",
 ] as const;
@@ -198,6 +200,18 @@ export const InitiativePermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:initiative:workspace:catalog",
     dependencies: ["hub:initiative:workspace", "hub:initiative:edit"],
+  },
+  {
+    permission: "hub:initiative:workspace:catalog:content",
+    dependencies: ["hub:initiative:workspace:catalog"],
+  },
+  {
+    permission: "hub:initiative:workspace:catalog:events",
+    dependencies: [
+      "hub:initiative:workspace:catalog",
+      "hub:event",
+      "hub:feature:catalogs:edit:advanced",
+    ],
   },
   {
     permission: "hub:initiative:manage",

@@ -173,12 +173,18 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     environments: ["qaext"],
     availability: ["alpha"],
   },
-  // gates advanced editing (e.g. adding new collections, adding
-  // additional scope filters, etc.) for site entities
-  // TODO: Remove this permission once all catalog configuration features are supported by sites
+  /**
+   * Gates advanced editing (e.g. adding new collections, adding
+   * additional scope filters, appearance settings, etc.) in
+   * the catalog configuration experince.
+   *
+   * TODO: Remove the site entity assertion once all catalog
+   * configuration features are supported by sites
+   */
   {
     permission: "hub:feature:catalogs:edit:advanced",
     entityEdit: true,
+    licenses: ["hub-premium"],
     assertions: [
       {
         property: "entity:type",
