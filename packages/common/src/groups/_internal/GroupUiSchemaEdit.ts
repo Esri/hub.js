@@ -21,6 +21,11 @@ export const buildUiSchema = async (
       {
         type: "Section",
         labelKey: `${i18nScope}.sections.basicInfo.label`,
+        options: {
+          helperText: {
+            labelKey: `${i18nScope}.sections.basicInfo.helperText`,
+          },
+        },
         elements: [
           {
             labelKey: `${i18nScope}.fields.name.label`,
