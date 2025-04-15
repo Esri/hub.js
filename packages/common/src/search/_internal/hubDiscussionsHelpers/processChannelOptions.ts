@@ -1,4 +1,5 @@
 import {
+  ChannelRelation,
   ChannelSort,
   ISearchChannels,
   SortOrder,
@@ -27,7 +28,9 @@ const SORT_ORDER_MAP: Record<"desc" | "asc", SortOrder> = {
 export function processChannelOptions(
   options: IHubSearchOptions
 ): Partial<ISearchChannels> {
-  const channelOptions: Partial<ISearchChannels> = {};
+  const channelOptions: Partial<ISearchChannels> = {
+    relations: [ChannelRelation.CHANNEL_ACL],
+  };
   if (options.num) {
     channelOptions.num = options.num;
   }

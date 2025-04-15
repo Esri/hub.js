@@ -125,6 +125,7 @@ describe("discussions index", () => {
     "isOrgAdminInOrg",
     "userHasPrivilege",
     "userHasPrivileges",
+    "deriveUserRoleV2",
   ];
   const exportedMembers = Object.keys(discussions);
 
