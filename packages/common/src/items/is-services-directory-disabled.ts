@@ -1,11 +1,6 @@
 import { parseServiceUrl } from "@esri/arcgis-rest-feature-layer";
 import { getItem } from "@esri/arcgis-rest-portal";
-import {
-  IRequestOptions,
-  isNoCorsRequestRequired,
-  request,
-  sendNoCorsRequest,
-} from "@esri/arcgis-rest-request";
+import { IRequestOptions, request } from "@esri/arcgis-rest-request";
 import { IItem } from "@esri/arcgis-rest-types";
 
 /**
