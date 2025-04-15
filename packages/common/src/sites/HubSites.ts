@@ -19,12 +19,7 @@ import { stripProtocol } from "../urls/strip-protocol";
 import { getHubApiUrl } from "../api";
 import { getOrgDefaultTheme } from "./themes";
 import { cloneObject, unique } from "../util";
-import {
-  createModel,
-  fetchModelFromItem,
-  getModel,
-  updateModel,
-} from "../models";
+import { createModel, fetchModelFromItem, updateModel } from "../models";
 import { addSiteDomains } from "./domains/addSiteDomains";
 import { IHubRequestOptions, IModel } from "../hub-types";
 import { removeDomainsBySiteId } from "./domains/remove-domains-by-site-id";
@@ -348,7 +343,7 @@ export async function updateSite(
     site.isDiscussable
   );
   // Fetch backing model from the portal
-  const currentModel = await getModel(site.id, requestOptions);
+  const currentModel = await fetchSiteModel(site.id, requestOptions);
   // Note: Although we are fetching the model, and applying changes onto it,
   // we are not attempting to handle "concurrent edit" conflict resolution
   // but this is where we would apply that sort of logic

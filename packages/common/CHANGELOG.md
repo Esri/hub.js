@@ -1,3 +1,87 @@
+## @esri/hub-common [16.5.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.5.1...@esri/hub-common@16.5.2) (2025-04-14)
+
+
+### Bug Fixes
+
+* show all collection facets for project featured content and action links ([#1861](https://github.com/Esri/hub.js/issues/1861)) ([3e884df](https://github.com/Esri/hub.js/commit/3e884df9e90a834ad53438065839ba62765edc33))
+
+## @esri/hub-common [16.5.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.5.0...@esri/hub-common@16.5.1) (2025-04-14)
+
+
+### Bug Fixes
+
+* site event catalog gating ([#1865](https://github.com/Esri/hub.js/issues/1865)) ([c704b37](https://github.com/Esri/hub.js/commit/c704b3732e4a4fb48029ce3776ae104fdb6b7c5e))
+
+# @esri/hub-common [16.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.4.0...@esri/hub-common@16.5.0) (2025-04-14)
+
+
+### Features
+
+* add hub-premium gating to hub:feature:catalogs:edit:advanced permission ([#1854](https://github.com/Esri/hub.js/issues/1854)) ([4f2ee37](https://github.com/Esri/hub.js/commit/4f2ee376517375982d77ad51cee278e574e5e83d))
+
+# @esri/hub-common [16.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.3.4...@esri/hub-common@16.4.0) (2025-04-12)
+
+
+### Features
+
+* **hub-common:** add updatedAtAfter and updatedAtBefore to interface… ([#1864](https://github.com/Esri/hub.js/issues/1864)) ([02d955b](https://github.com/Esri/hub.js/commit/02d955bae6e3ce5cc349e083bf0bfc11b32fbd4e))
+
+## @esri/hub-common [16.3.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.3.3...@esri/hub-common@16.3.4) (2025-04-11)
+
+
+### Bug Fixes
+
+* adds isOnlyWhitespace format to collectionschema ([#1860](https://github.com/Esri/hub.js/issues/1860)) ([43a07ff](https://github.com/Esri/hub.js/commit/43a07ff646ab38a293771ef76e8cedd196e0c873))
+
+## @esri/hub-common [16.3.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.3.2...@esri/hub-common@16.3.3) (2025-04-11)
+
+
+### Bug Fixes
+
+* **hub-common:** simplify the filter processing logic for events 3 wh… ([#1862](https://github.com/Esri/hub.js/issues/1862)) ([7d87b7c](https://github.com/Esri/hub.js/commit/7d87b7c50d2b418bdb499d92fb0ea45d5931b6b2))
+
+## @esri/hub-common [16.3.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.3.1...@esri/hub-common@16.3.2) (2025-04-11)
+
+
+### Bug Fixes
+
+* update site now uses fetch site model ([#1859](https://github.com/Esri/hub.js/issues/1859)) ([90f1b11](https://github.com/Esri/hub.js/commit/90f1b119857220b2e96f0bebf1504e1257a9566b))
+
+## @esri/hub-common [16.3.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.3.0...@esri/hub-common@16.3.1) (2025-04-10)
+
+
+### Bug Fixes
+
+* enable "Add content" in project featured content ([#1857](https://github.com/Esri/hub.js/issues/1857)) ([64070a4](https://github.com/Esri/hub.js/commit/64070a486d81c8816fc69082cfbf3d9634b58fcf))
+
+# @esri/hub-common [16.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.2.1...@esri/hub-common@16.3.0) (2025-04-09)
+
+
+### Features
+
+* add new Text UiSchemaElementType ([#1856](https://github.com/Esri/hub.js/issues/1856)) ([2b5b125](https://github.com/Esri/hub.js/commit/2b5b125a6fe1e86d8cb3886bca80bc2cbf972f50))
+
+## @esri/hub-common [16.2.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.2.0...@esri/hub-common@16.2.1) (2025-04-09)
+
+
+### Bug Fixes
+
+* update slug validation rules ([#1858](https://github.com/Esri/hub.js/issues/1858)) ([be2150f](https://github.com/Esri/hub.js/commit/be2150f2b11d02942980cdbe8d1abdc08a89dfa8))
+
+# @esri/hub-common [16.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.1.0...@esri/hub-common@16.2.0) (2025-04-07)
+
+
+### Features
+
+* **hub-common:** add entity discussion settings ui schema ([#1852](https://github.com/Esri/hub.js/issues/1852)) ([878b482](https://github.com/Esri/hub.js/commit/878b48245d2a85b735b56fc4b15d659a008b0422))
+
+# @esri/hub-common [16.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.0.2...@esri/hub-common@16.1.0) (2025-04-04)
+
+
+### Features
+
+* **hub-common:** search events download as csv ([#1846](https://github.com/Esri/hub.js/issues/1846)) ([ef72381](https://github.com/Esri/hub.js/commit/ef7238142bdbf37ddf561ed4c66f81a945f394f3))
+
 ## @esri/hub-common [16.0.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.0.1...@esri/hub-common@16.0.2) (2025-04-03)
 
 
