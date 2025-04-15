@@ -61,6 +61,10 @@ export interface IHubCollection {
    */
   key: string;
   /**
+   * ISOString creation date
+   */
+  created?: string;
+  /**
    * Specify the includes to be requested when working with this collection
    */
   include?: string[];
