@@ -965,6 +965,7 @@ describe("hubSearchItems Module |", () => {
 
     describe("getNextOgcCallback", () => {
       const { getNextOgcCallback } = getNextOgcCallbackModule;
+      const url = "https://my-hub.com/api/search/v1/collections/all/items";
       const query: IQuery = {
         targetEntity: "item",
         filters: [],
@@ -986,7 +987,12 @@ describe("hubSearchItems Module |", () => {
       });
 
       it("returns an empty callback when no next link is present", async () => {
-        const callback = getNextOgcCallback(ogcItemsResponse, query, options);
+        const callback = getNextOgcCallback(
+          ogcItemsResponse,
+          url,
+          query,
+          options
+        );
         const callbackResult = await callback();
         expect(callbackResult).toBeNull();
         // NOTE: using `toHaveBeenCalled` throws a fatal error ONLY in Karma
@@ -998,6 +1004,7 @@ describe("hubSearchItems Module |", () => {
       it("returns a callback with modified options when next link is present", async () => {
         const callback = getNextOgcCallback(
           ogcItemsResponseWithNext,
+          url,
           query,
           options
         );
@@ -1009,7 +1016,7 @@ describe("hubSearchItems Module |", () => {
         const numCalls = searchOgcItemsSpy.calls.count();
         expect(numCalls).toBe(1);
         const callInfo = searchOgcItemsSpy.calls.first();
-        expect(callInfo.args).toEqual([query, { ...options, start: 2 }]);
+        expect(callInfo.args).toEqual([url, query, { ...options, start: 2 }]);
       });
     });
 
@@ -1017,6 +1024,7 @@ describe("hubSearchItems Module |", () => {
     // Ends up throwing errors ONLY in Karma. Figure out why that is and
     // test that `formatOgcItemsResponse` is delegating accordingly
     describe("formatOgcItemsResponse |", () => {
+      const url = "https://my-hub.com/api/search/v1/collections/all/items";
       const query: IQuery = {
         targetEntity: "item",
         filters: [],
@@ -1029,6 +1037,7 @@ describe("hubSearchItems Module |", () => {
       it("correctly handles when no next link is present", async () => {
         const formattedResponse = await formatOgcItemsResponse(
           ogcItemsResponse,
+          url,
           query,
           requestOptions
         );
@@ -1040,6 +1049,7 @@ describe("hubSearchItems Module |", () => {
       it("correctly handles when the next link is present", async () => {
         const formattedResponse = await formatOgcItemsResponse(
           ogcItemsResponseWithNext,
+          url,
           query,
           requestOptions
         );
@@ -1052,6 +1062,7 @@ describe("hubSearchItems Module |", () => {
       it("correctly handles discussion posts", async () => {
         const formattedResponse = await formatOgcItemsResponse(
           ogcDiscussionPostResponseWithNext,
+          url,
           { targetEntity: "discussionPost", filters: [] },
           requestOptions
         );
@@ -1174,7 +1185,7 @@ describe("hubSearchItems Module |", () => {
           await ogcApiRequest(hubApiUrl, queryParams, options);
           expect(true).toBe(false);
         } catch (err) {
-          expect(err.message).toEqual("404: Not Found");
+          expect((err as any).message).toEqual("404: Not Found");
         }
       });
     });

@@ -2,10 +2,7 @@ import { HubEntity } from "../core/types/HubEntity";
 import { IHubRequestOptions } from "../hub-types";
 import HubError from "../HubError";
 import { getOgcApiDefinition } from "./_internal/commonHelpers/getOgcApiDefinition";
-import { formatOgcItemsResponse } from "./_internal/hubSearchItemsHelpers/formatOgcItemsResponse";
-import { getOgcItemQueryParams } from "./_internal/hubSearchItemsHelpers/getOgcItemQueryParams";
-import { IOgcItemsResponse } from "./_internal/hubSearchItemsHelpers/interfaces";
-import { ogcApiRequest } from "./_internal/hubSearchItemsHelpers/ogcApiRequest";
+import { searchOgcItems } from "./_internal/hubSearchItemsHelpers/searchOgcItems";
 import {
   IHubSearchOptions,
   IHubSearchResponse,
@@ -50,18 +47,5 @@ export async function searchAssociatedContent(
   const api = getOgcApiDefinition(scope.targetEntity, searchOptions);
   const url = `${api.url}/collections/all/items/${hubId}/${association}`;
 
-  // Build query params
-  const queryParams = getOgcItemQueryParams(scope, searchOptions);
-
-  // Make the API request
-  const rawResponse: IOgcItemsResponse = await ogcApiRequest(
-    url,
-    queryParams,
-    searchOptions
-  );
-
-  // Return formatted the response
-  // NOTE: We're not currently allowing pagination, so we manually remove the "next" link
-  rawResponse.links = rawResponse.links.filter((link) => link.rel !== "next");
-  return formatOgcItemsResponse(rawResponse, scope, searchOptions);
+  return searchOgcItems(url, scope, searchOptions);
 }
