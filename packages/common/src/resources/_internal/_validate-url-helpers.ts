@@ -5,6 +5,10 @@ import {
 } from "@esri/arcgis-rest-types";
 import { ItemType } from "../../types";
 import { Logger } from "../../utils";
+import {
+  isNoCorsRequestRequired,
+  sendNoCorsRequest,
+} from "@esri/arcgis-rest-request";
 
 const FEATURE_SERVICE_URL_REGEX = /(feature)server(\/|\/(\d+))?$/i;
 
@@ -155,6 +159,12 @@ export function getFeatureServiceItem(
 export async function pingUrl(
   url: string
 ): Promise<{ ok: boolean; headers?: Headers }> {
+  // ensure that we handle any no-cors requirements
+  /* istanbul ignore next */
+  if (isNoCorsRequestRequired(url)) {
+    await sendNoCorsRequest(url);
+  }
+  // If may be possible to use request, and set rawResponse to true and method: Head
   const response = await fetch(url, { method: "HEAD" });
 
   return {
@@ -176,6 +186,12 @@ export async function pingFeatureService(
   // make sure the response is in json format
   const parsed = new URL(url);
   parsed.searchParams.set("f", "json");
+
+  // ensure that we handle any no-cors requirements
+  /* istanbul ignore next */
+  if (isNoCorsRequestRequired(url)) {
+    await sendNoCorsRequest(url);
+  }
 
   // Since the feature service can return a 200 response with error (e.g. for
   // non-existing layer), we can only request the full metadata by a GET, not HEAD
