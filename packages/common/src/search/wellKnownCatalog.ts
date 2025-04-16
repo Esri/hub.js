@@ -6,21 +6,42 @@ import { buildCatalog } from "./_internal/buildCatalog";
 import { getProp } from "../objects";
 import type { IArcGISContext } from "../types/IArcGISContext";
 
-/**
- * This is used to determine what IHubCatalog definition JSON object
- * can be created
- */
+/** well known item catalogs */
+export const WELL_KNOWN_ITEM_CATALOGS = [
+  "myContent",
+  "favorites",
+  "organization",
+  "world",
+  "partners",
+  "community",
+  "livingAtlas",
+] as const;
+export type WellKnownItemCatalog = (typeof WELL_KNOWN_ITEM_CATALOGS)[number];
+
+/** well known group catalogs */
+export const WELL_KNOWN_GROUP_CATALOGS = [
+  "editGroups",
+  "viewGroups",
+  "allGroups",
+  "myGroups",
+  "orgGroups",
+  "communityGroups",
+  "publicGroups",
+] as const;
+export type WellKnownGroupCatalog = (typeof WELL_KNOWN_GROUP_CATALOGS)[number];
+
+export const WELL_KNOWN_EVENT_CATALOGS = [
+  "myEvents",
+  "orgEvents",
+  "worldEvents",
+] as const;
+export type WellKnownEventCatalog = (typeof WELL_KNOWN_EVENT_CATALOGS)[number];
+
+/** well known catalogs */
 export type WellKnownCatalog =
-  | "myContent"
-  | "favorites"
-  | "organization"
-  | "world"
-  | "editGroups"
-  | "viewGroups"
-  | "allGroups"
-  | "partners"
-  | "community"
-  | "livingAtlas";
+  | WellKnownItemCatalog
+  | WellKnownGroupCatalog
+  | WellKnownEventCatalog;
 
 /**
  * This is used to determine what IHubCollection definition JSON object
@@ -62,6 +83,32 @@ export function dotifyString(i18nScope: string): string {
   return i18nScope && i18nScope.slice(-1) !== "." ? `${i18nScope}.` : i18nScope;
 }
 
+/**
+ * Helper function to build an array of well known Catalogs
+ *
+ * @param i18nScope Translation scope to be interpolated into the catalog
+ * @param targetEntity The type of entity to query for
+ * @param catalogNames Names of the catalog requested
+ * @param context contextual portal & auth information
+ * @param opts optional IGetWellKnownCatalogOptions args
+ */
+export function getWellKnownCatalogs(
+  i18nScope: string,
+  targetEntity: EntityType,
+  catalogNames: WellKnownCatalog[],
+  context: IArcGISContext,
+  opts?: Exclude<IGetWellKnownCatalogOptions, "context" | "user">
+): IHubCatalog[] {
+  return catalogNames.map((name: WellKnownCatalog) => {
+    const catalog = getWellKnownCatalog(i18nScope, name, targetEntity, {
+      ...(opts || {}),
+      user: context.currentUser,
+      context,
+    });
+    return catalog;
+  });
+}
+
 /** Get a single catalog based on the catalog name, entity type and optional requests
  * @param i18nScope Translation scope to be interpolated into the catalog
  * @param name Name of the catalog requested
@@ -80,7 +127,8 @@ export function getWellKnownCatalog(
       return getWellknownItemCatalog(i18nScope, catalogName, options);
     case "group":
       return getWellknownGroupCatalog(i18nScope, catalogName, options);
-    /* Add other entity handlers here, e.g. getWellknownEventCatalog */
+    case "event":
+      return getWellknownEventCatalog(i18nScope, catalogName, options);
     default:
       throw new Error(`Wellknown catalog not implemented for "${entityType}"`);
   }
@@ -281,9 +329,10 @@ function getWellknownGroupCatalog(
   catalogName: WellKnownCatalog,
   options?: IGetWellKnownCatalogOptions
 ): IHubCatalog {
-  i18nScope = dotifyString(i18nScope);
   let catalog;
-  const additionalFilters = getProp(options, "filters") || [];
+  const { context, filters: additionalFilters = [] } = options || {};
+  i18nScope = dotifyString(i18nScope);
+
   // because collections are needed in arcgis-hub-catalog and
   // "searchGroups" allows 'q: "*"', we use this as the collection
   const collections = [
@@ -301,6 +350,14 @@ function getWellknownGroupCatalog(
       },
     },
   ];
+
+  const idsOfUserAdminGroups = (context.currentUser.groups as any[]).reduce(
+    (acc, group) => {
+      group.userMembership.memberType === "admin" && acc.push(group.id);
+      return acc;
+    },
+    [] as string[]
+  );
 
   switch (catalogName) {
     case "editGroups":
@@ -339,7 +396,155 @@ function getWellknownGroupCatalog(
         "group"
       );
       break;
+    case "myGroups":
+      validateUserExistence(catalogName, options);
+      catalog = buildCatalog(
+        i18nScope,
+        catalogName,
+        [
+          { predicates: [{ owner: context?.currentUser?.username }] },
+          ...additionalFilters,
+        ],
+        collections,
+        "group"
+      );
+      break;
+    case "orgGroups":
+      validateUserExistence(catalogName, options);
+      catalog = buildCatalog(
+        i18nScope,
+        catalogName,
+        [
+          {
+            predicates: [
+              {
+                orgid: context?.currentUser?.orgId,
+                searchUserAccess: "groupMember",
+                searchUserName: context?.currentUser?.username,
+                isviewonly: false,
+              },
+              {
+                orgid: context?.currentUser?.orgId,
+                id: idsOfUserAdminGroups,
+              },
+            ],
+          },
+          ...additionalFilters,
+        ],
+        collections,
+        "group"
+      );
+      break;
+    case "communityGroups":
+      validateUserExistence(catalogName, options);
+      catalog = buildCatalog(
+        i18nScope,
+        catalogName,
+        [
+          {
+            predicates: [
+              {
+                orgid: context?.communityOrgId,
+                searchUserAccess: "groupMember",
+                searchUserName: context?.currentUser?.username,
+                isviewonly: false,
+              },
+              {
+                orgid: context?.communityOrgId,
+                id: idsOfUserAdminGroups,
+              },
+            ],
+          },
+          ...additionalFilters,
+        ],
+        collections,
+        "group"
+      );
+      break;
+    case "publicGroups":
+      validateUserExistence(catalogName, options);
+      catalog = buildCatalog(
+        i18nScope,
+        catalogName,
+        [{ predicates: [{ access: "public" }] }, ...additionalFilters],
+        collections,
+        "group"
+      );
+      break;
   }
+  return catalog;
+}
+
+/**
+ * Build a well-known event catalog
+ *
+ * @param i18nScope Translation scope to be interpolated into the catalog
+ * @param catalogName Name of the well-known catalog
+ * @param options opitional IGetWellKnownCatalogOptions args
+ */
+function getWellknownEventCatalog(
+  i18nScope: string,
+  catalogName: WellKnownCatalog,
+  options?: IGetWellKnownCatalogOptions
+): IHubCatalog {
+  let catalog;
+  const { context, filters: additionalFilters = [] } = options || {};
+  i18nScope = dotifyString(i18nScope);
+
+  const collections = [
+    {
+      key: catalogName,
+      label: catalogName,
+      targetEntity: "event",
+      include: [],
+      scope: {
+        targetEntity: "event",
+        filters: [{ predicates: [] }],
+      },
+    },
+  ] as IHubCollection[];
+  switch (catalogName) {
+    case "myEvents":
+      validateUserExistence(catalogName, options);
+      catalog = buildCatalog(
+        i18nScope,
+        catalogName,
+        [
+          { predicates: [{ owner: getProp(context, "currentUser.id") }] },
+          ...additionalFilters,
+        ],
+        collections,
+        "event"
+      );
+      break;
+    case "orgEvents":
+      validateUserExistence(catalogName, options);
+      catalog = buildCatalog(
+        i18nScope,
+        catalogName,
+        [
+          { predicates: [{ orgid: context?.currentUser?.orgId }] },
+          ...additionalFilters,
+        ],
+        collections,
+        "event"
+      );
+      break;
+    case "worldEvents":
+      validateUserExistence(catalogName, options);
+      catalog = buildCatalog(
+        i18nScope,
+        catalogName,
+        [
+          { predicates: [{ access: ["public", "private", "org"] }] },
+          ...additionalFilters,
+        ],
+        collections,
+        "event"
+      );
+      break;
+  }
+
   return catalog;
 }
 
