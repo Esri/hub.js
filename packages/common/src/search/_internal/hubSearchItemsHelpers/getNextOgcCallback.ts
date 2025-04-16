@@ -7,6 +7,7 @@ import { searchOgcItems } from "./searchOgcItems";
 
 export function getNextOgcCallback(
   response: IOgcItemsResponse,
+  url: string,
   originalQuery: IQuery,
   originalOptions: IHubSearchOptions
 ): (params?: any) => Promise<IHubSearchResponse<IHubSearchResult>> {
@@ -18,7 +19,7 @@ export function getNextOgcCallback(
       const nextUrl = new URL(nextLink.href);
       const start = +nextUrl.searchParams.get("startindex");
       const nextOptions: IHubSearchOptions = { ...originalOptions, start };
-      return searchOgcItems(originalQuery, nextOptions);
+      return searchOgcItems(url, originalQuery, nextOptions);
     };
   }
 
