@@ -9,6 +9,7 @@ on:
       - next
       - alpha
       - beta
+      - PORTAL-11.5
     # If the PR has other files, a push w/ just .md or /docs
     # files will still cause tests to run
     paths-ignore:
