@@ -5,7 +5,7 @@ import { ISearchOgcItemsOptions } from "./interfaces";
  * Serializes the sort options provided from the request options
  * object into a string that the OGC API can understand
  *
- * @param options ISearchOGCItemsOptions that contain sorting information
+ * @param options ISearchOgcItemsOptions that contain sorting information
  * @returns a serialized sort string
  */
 export function getSortByQueryParam(options: ISearchOgcItemsOptions): string {
