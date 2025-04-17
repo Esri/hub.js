@@ -1,8 +1,17 @@
-# Release Process
+# PORTAL-11.5 Release Process
 
-This project uses [semantic release](https://semantic-release.gitbook.io/semantic-release/) which is automated release tooling that uses commit messages to determine the correct semantic version for any given release.
+Mutli-Semantic release can not handle maintenance releases for old versions, so the release process for these long-lived PORTAL-XX.X branches is manual.
 
-The process of initiating a release is simple: merge a PR into the `master` or `beta` branches, and `semantic release` will look at the included commits, compute the next version, and release the packages to NPM.
+Basically, it's old-school npm publish
+
+1. update the package version in the package.json file in the package you are going to release
+1. `npm run build`
+1. `cd packages/{package-to-release}`
+1. `npm publish --tag portal115`
+1. Repeat until all packages are released
+1. `git add -A .`
+1. `git commit -m 'Update package versions for patch release of 11.5`
+1. 🎉
 
 ## Semantic Commit Messages
 
@@ -41,29 +50,11 @@ Not _all_ of the commit types above will result in a new release being published
 
 ## Breaking Changes
 
-To specify a breaking change, you need to use a multi-line commit message, and start a line with `BREAKING CHANGE`.
-
-```
-fix(): solve i18n issue in arcgis-hub-content-gallery
-
-BREAKING CHANGE: i18n strings must be loaded from a new location
-```
-
-If you are writing commit messages at the console, you can do this by just hitting `enter` twice while writing the commit message, _before closing the quotes_.
-
-```sh
-$ git commit -m 'fix(): solve i18n issue in arcgis-hub-content-gallery
-
-BREAKING CHANGE: i18n strings must be loaded from a new location'
-```
-
-Commit messages are run through `commitlint` using `husky` pre-commit hooks.
-
-Please do not use `--no-verify` unless you are _really_ sure you must.
+Since this is a long-lived branch, associated with a specific portal version (11.5) we should not do any actual "API breaking changes". We may have some type related changes which are technically breaking, but generally we can ignore those as long as we update the client.
 
 ## Updating peerDependencies
 
-When releasing a feature or a breaking change to a package, you _may_ need to manually update the `peerDependencies` of any packages that depend on the package you are releasing. 
+When releasing a feature or a breaking change to a package, you _may_ need to manually update the `peerDependencies` of any packages that depend on the package you are releasing.
 
 **Example**: you've added a function to `@esri/hub-common` and _also_ use the new function in another package like `@esri/hub-sites`. The new function will be included in the next release of `@esri/hub-common` with a minor version bump, so in order to use that function in `@esri/hub-sites` you need to update it's peer dependency to point to the new version, which will not yet be published. The _safest_ way to do this is via two pull requests, first one to add the new function to `@esri/hub-common`, and once that has been published, a follow on PR to `@esri/hub-sites` to update the peer dependency and use the new function.
 
