@@ -26,7 +26,7 @@ export interface IOgcItemQueryParams {
  * to the /items endpoint of an OGC API collection
  *
  * @param query an IQuery to derive query params from
- * @param options an ISearchOGCItemsOptions object to derive query params from
+ * @param options an ISearchOgcItemsOptions object to derive query params from
  * @returns a hash of query params to be included in the request
  */
 export function getOgcItemQueryParams(
