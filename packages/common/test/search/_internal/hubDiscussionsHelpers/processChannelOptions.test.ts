@@ -1,4 +1,8 @@
-import { ChannelSort, SortOrder } from "../../../../src/discussions/api/types";
+import {
+  ChannelRelation,
+  ChannelSort,
+  SortOrder,
+} from "../../../../src/discussions/api/types";
 import { processChannelOptions } from "../../../../src/search/_internal/hubDiscussionsHelpers/processChannelOptions";
 
 describe("processChannelOptions", () => {
@@ -33,5 +37,9 @@ describe("processChannelOptions", () => {
     expect(results.sortOrder).toEqual(SortOrder.ASC);
     results = processChannelOptions({ sortOrder: "desc" });
     expect(results.sortOrder).toEqual(SortOrder.DESC);
+  });
+  it("should add channel acl relation", () => {
+    const results = processChannelOptions({});
+    expect(results.relations).toEqual([ChannelRelation.CHANNEL_ACL]);
   });
 });
