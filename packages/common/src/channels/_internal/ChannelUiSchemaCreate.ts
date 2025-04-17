@@ -1,9 +1,12 @@
-import { IUiSchema } from "../../core/schemas/types";
+import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import { IArcGISContext } from "../../types";
 import { IHubChannel } from "../../core/types";
 import { getWellKnownCatalog } from "../../search/wellKnownCatalog";
 import { CANNOT_DISCUSS } from "../../discussions/constants";
 import { ChannelNonePermission } from "./ChannelBusinessRules";
+import { Role } from "../../discussions/api/types";
+import { deriveUserRoleV2 } from "../../discussions/api/utils/channels/derive-user-role-v2";
+import { CHANNEL_ACTION_PRIVS } from "../../discussions/api/utils/channel-permission";
 
 /**
  * @private
@@ -13,9 +16,12 @@ import { ChannelNonePermission } from "./ChannelBusinessRules";
  */
 export const buildUiSchema = async (
   i18nScope: string,
-  _options: Partial<IHubChannel>,
+  options: Partial<IHubChannel>,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
+  const role = Boolean(options.id)
+    ? deriveUserRoleV2(options.channel, context.currentUser)
+    : Role.OWNER;
   const facet = {
     label: `{{${i18nScope}.sections.group.picker.facets.label:translate}}`,
     key: "groups",
@@ -77,6 +83,14 @@ export const buildUiSchema = async (
             labelKey: `${i18nScope}.fields.name.label`,
             type: "Control",
             scope: "/properties/name",
+            rules: [
+              {
+                effect: UiSchemaRuleEffects.DISABLE,
+                conditions: [
+                  !CHANNEL_ACTION_PRIVS.UPDATE_CHANNEL_NAME.includes(role),
+                ],
+              },
+            ],
             options: {
               control: "hub-field-input-input",
               messages: [
@@ -103,6 +117,14 @@ export const buildUiSchema = async (
             type: "Control",
             scope: "/properties/allowAsAnonymous",
             labelKey: `${i18nScope}.fields.allowAsAnonymous.label`,
+            rules: [
+              {
+                effect: UiSchemaRuleEffects.DISABLE,
+                conditions: [
+                  !CHANNEL_ACTION_PRIVS.UPDATE_POST_AS_ANONYMOUS.includes(role),
+                ],
+              },
+            ],
             options: {
               control: "hub-field-input-switch",
               helperText: {
@@ -115,6 +137,14 @@ export const buildUiSchema = async (
             scope: "/properties/blockWords",
             label: "Blocked words",
             labelKey: `${i18nScope}.fields.blockWords.label`,
+            rules: [
+              {
+                effect: UiSchemaRuleEffects.DISABLE,
+                conditions: [
+                  !CHANNEL_ACTION_PRIVS.UPDATE_BLOCKED_WORDS.includes(role),
+                ],
+              },
+            ],
             options: {
               control: "hub-field-input-input",
               type: "textarea",
@@ -156,6 +186,16 @@ export const buildUiSchema = async (
               {
                 type: "Control",
                 scope: "/properties/publicConfigs",
+                rules: [
+                  {
+                    effect: UiSchemaRuleEffects.DISABLE,
+                    conditions: [
+                      !CHANNEL_ACTION_PRIVS.UPDATE_ANONYMOUS_USERS.includes(
+                        role
+                      ),
+                    ],
+                  },
+                ],
                 options: {
                   control: "hub-field-permissions",
                   roles: [
@@ -195,6 +235,14 @@ export const buildUiSchema = async (
               {
                 type: "Control",
                 scope: "/properties/orgConfigs",
+                rules: [
+                  {
+                    effect: UiSchemaRuleEffects.DISABLE,
+                    conditions: [
+                      !CHANNEL_ACTION_PRIVS.UPDATE_ORGS.includes(role),
+                    ],
+                  },
+                ],
                 options: {
                   control: "hub-field-permissions",
                   roles: [
@@ -234,6 +282,14 @@ export const buildUiSchema = async (
               {
                 type: "Control",
                 scope: "/properties/groupConfigs",
+                rules: [
+                  {
+                    effect: UiSchemaRuleEffects.DISABLE,
+                    conditions: [
+                      !CHANNEL_ACTION_PRIVS.UPDATE_GROUPS.includes(role),
+                    ],
+                  },
+                ],
                 options: {
                   control: "hub-field-permissions",
                   actions: [
