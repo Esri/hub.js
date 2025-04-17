@@ -27,8 +27,14 @@ enum ChannelAction {
   IS_OWNER = "isOwner",
 }
 
-// See confluence for privs documentation: https://confluencewikidev.esri.com/pages/viewpage.action?pageId=153747776#Roles&Privileges-ApplicationtoChannels
-const CHANNEL_ACTION_PRIVS: Record<string, Role[]> = {
+/**
+ * A map of update operations & ACL roles where the key is the update operation
+ * and the value is an array of roles that are permitted to perform the update operation.
+ * See confluence for privs documentation: https://confluencewikidev.esri.com/pages/viewpage.action?pageId=153747776#Roles&Privileges-ApplicationtoChannels
+ * @internal
+ * @hidden
+ */
+export const CHANNEL_ACTION_PRIVS: Record<string, Role[]> = {
   // permissions
   UPDATE_OWNERS: [Role.OWNER],
   UPDATE_MANAGERS: [Role.OWNER, Role.MANAGE],
@@ -74,6 +80,10 @@ export class ChannelPermission {
       this.permissionsByCategory[category]?.push(permission) ||
         (this.permissionsByCategory[category] = [permission]);
     });
+  }
+
+  deriveUserRole(user: IDiscussionsUser): Role {
+    return this.determineUserRole(user);
   }
 
   canPostToChannel(user: IDiscussionsUser): boolean {
