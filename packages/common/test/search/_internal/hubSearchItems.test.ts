@@ -22,7 +22,10 @@ import {
 import { getQueryString } from "../../../src/search/_internal/hubSearchItemsHelpers/getQueryString";
 import { getOgcAggregationQueryParams } from "../../../src/search/_internal/hubSearchItemsHelpers/getOgcAggregationQueryParams";
 import { getQQueryParam } from "../../../src/search/_internal/hubSearchItemsHelpers/getQQueryParam";
-import { IOgcItem } from "../../../src/search/_internal/hubSearchItemsHelpers/interfaces";
+import {
+  IOgcItem,
+  ISearchOGCItemsOptions,
+} from "../../../src/search/_internal/hubSearchItemsHelpers/interfaces";
 import * as ogcItemToSearchResultModule from "../../../src/search/_internal/hubSearchItemsHelpers/ogcItemToSearchResult";
 import * as ogcItemToDiscussionPostModule from "../../../src/search/_internal/hubSearchItemsHelpers/ogcItemToDiscussionPostResult";
 import { formatOgcItemsResponse } from "../../../src/search/_internal/hubSearchItemsHelpers/formatOgcItemsResponse";
@@ -385,7 +388,7 @@ describe("hubSearchItems Module |", () => {
       };
 
       it("handles query", () => {
-        const options: IHubSearchOptions = {};
+        const options: ISearchOGCItemsOptions = {};
         const result = getOgcItemQueryParams(query, options);
         const expected = {
           filter: "((type=typeA))",
@@ -402,7 +405,7 @@ describe("hubSearchItems Module |", () => {
       });
 
       it("handles query and auth", () => {
-        const options: IHubSearchOptions = {
+        const options: ISearchOGCItemsOptions = {
           requestOptions: {
             authentication: {
               token: "abc",
@@ -426,7 +429,7 @@ describe("hubSearchItems Module |", () => {
       });
 
       it("handles query, auth and limit", () => {
-        const options: IHubSearchOptions = {
+        const options: ISearchOGCItemsOptions = {
           requestOptions: {
             authentication: {
               token: "abc",
@@ -451,7 +454,7 @@ describe("hubSearchItems Module |", () => {
       });
 
       it("handles query, auth, limit and startindex", () => {
-        const options: IHubSearchOptions = {
+        const options: ISearchOGCItemsOptions = {
           requestOptions: {
             authentication: {
               token: "abc",
@@ -477,7 +480,7 @@ describe("hubSearchItems Module |", () => {
       });
 
       it("handles query, auth, limit, startindex and q", () => {
-        const options: IHubSearchOptions = {
+        const options: ISearchOGCItemsOptions = {
           requestOptions: {
             authentication: {
               token: "abc",
@@ -506,7 +509,7 @@ describe("hubSearchItems Module |", () => {
       });
 
       it("handles query, auth, limit, startindex, q and sortBy", () => {
-        const options: IHubSearchOptions = {
+        const options: ISearchOGCItemsOptions = {
           requestOptions: {
             authentication: {
               token: "abc",
@@ -540,7 +543,7 @@ describe("hubSearchItems Module |", () => {
       });
 
       it("handles query, auth, limit, startindex, q, flatten, fields and sortBy", () => {
-        const options: IHubSearchOptions = {
+        const options: ISearchOGCItemsOptions = {
           requestOptions: {
             authentication: {
               token: "abc",
@@ -698,14 +701,14 @@ describe("hubSearchItems Module |", () => {
 
     describe("getSortByQueryParam |", () => {
       it("returns undefined if no sortField is provided", () => {
-        const options: IHubSearchOptions = {
+        const options: ISearchOGCItemsOptions = {
           sortOrder: "asc",
         };
         const result = getSortByQueryParam(options);
         expect(result).toBeUndefined();
       });
       it("handles sorting in descending order", () => {
-        const options: IHubSearchOptions = {
+        const options: ISearchOGCItemsOptions = {
           sortField: "title",
           sortOrder: "desc",
         };
@@ -970,7 +973,7 @@ describe("hubSearchItems Module |", () => {
         targetEntity: "item",
         filters: [],
       };
-      const options: IHubSearchOptions = { num: 1 };
+      const options: ISearchOGCItemsOptions = { num: 1 };
       const nextResponse: IHubSearchResponse<IHubSearchResult> = {
         total: 0,
         results: [],
@@ -1029,7 +1032,7 @@ describe("hubSearchItems Module |", () => {
         targetEntity: "item",
         filters: [],
       };
-      const requestOptions: IHubSearchOptions = {
+      const requestOptions: ISearchOGCItemsOptions = {
         include: [],
         requestOptions: {},
       };
@@ -1135,7 +1138,7 @@ describe("hubSearchItems Module |", () => {
           return fakeResponse;
         };
 
-        const options: IHubSearchOptions = {
+        const options: ISearchOGCItemsOptions = {
           site: `https://${siteHostname}`,
           requestOptions: {
             fetch: _fetch,
@@ -1157,7 +1160,7 @@ describe("hubSearchItems Module |", () => {
           return fakeResponse;
         };
 
-        const options: IHubSearchOptions = {
+        const options: ISearchOGCItemsOptions = {
           site: hubApiUrl,
           requestOptions: {
             fetch: _fetch,
@@ -1174,7 +1177,7 @@ describe("hubSearchItems Module |", () => {
           status: 404,
         };
         const _fetch: any = async () => fakeResponse;
-        const options: IHubSearchOptions = {
+        const options: ISearchOGCItemsOptions = {
           site: `https://${siteHostname}`,
           requestOptions: {
             fetch: _fetch,

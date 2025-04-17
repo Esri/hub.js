@@ -1,8 +1,7 @@
 import { IQuery } from "../../types/IHubCatalog";
-import { IHubSearchOptions } from "../../types/IHubSearchOptions";
 import { IHubSearchResponse } from "../../types/IHubSearchResponse";
 import { getNextOgcCallback } from "./getNextOgcCallback";
-import { IOgcItemsResponse } from "./interfaces";
+import { IOgcItemsResponse, ISearchOgcItemsOptions } from "./interfaces";
 import { ogcItemToSearchResult } from "./ogcItemToSearchResult";
 import { ogcItemToDiscussionPostResult } from "./ogcItemToDiscussionPostResult";
 import { IHubSearchResult } from "../../types";
@@ -11,7 +10,7 @@ export async function formatOgcItemsResponse(
   response: IOgcItemsResponse,
   url: string,
   originalQuery: IQuery,
-  originalOptions: IHubSearchOptions
+  originalOptions: ISearchOgcItemsOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
   if (originalQuery.targetEntity === "discussionPost") {
     return formatDiscussionPostTargetEntityResponse(
@@ -34,7 +33,7 @@ async function formatDiscussionPostTargetEntityResponse(
   response: IOgcItemsResponse,
   url: string,
   originalQuery: IQuery,
-  originalOptions: IHubSearchOptions
+  originalOptions: ISearchOgcItemsOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
   const formattedResults = await Promise.all(
     response.features.map((f) => ogcItemToDiscussionPostResult(f))
@@ -59,7 +58,7 @@ async function formatItemTargetEntityResponse(
   response: IOgcItemsResponse,
   url: string,
   originalQuery: IQuery,
-  originalOptions: IHubSearchOptions
+  originalOptions: ISearchOgcItemsOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
   const formattedResults = await Promise.all(
     response.features.map((f) =>
