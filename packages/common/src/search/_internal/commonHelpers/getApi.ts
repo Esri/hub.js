@@ -39,7 +39,7 @@ export function getApi(
     // the URL defined in the request options.hubApiUrl
     result = { type: "arcgis-hub", url: null };
   } else if (shouldUseOgcApi(targetEntity, options)) {
-    result = getOgcApiDefinition(targetEntity, options);
+    result = getOgcApiDefinition(targetEntity, options.requestOptions);
   } else {
     result = { type: "arcgis", url: portal };
   }

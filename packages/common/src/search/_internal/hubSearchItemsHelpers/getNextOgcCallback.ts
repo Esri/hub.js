@@ -1,15 +1,14 @@
 import { IQuery } from "../../types/IHubCatalog";
-import { IHubSearchOptions } from "../../types/IHubSearchOptions";
 import { IHubSearchResponse } from "../../types/IHubSearchResponse";
 import { IHubSearchResult } from "../../types/IHubSearchResult";
-import { IOgcItemsResponse } from "./interfaces";
+import { IOgcItemsResponse, ISearchOgcItemsOptions } from "./interfaces";
 import { searchOgcItems } from "./searchOgcItems";
 
 export function getNextOgcCallback(
   response: IOgcItemsResponse,
   url: string,
   originalQuery: IQuery,
-  originalOptions: IHubSearchOptions
+  originalOptions: ISearchOgcItemsOptions
 ): (params?: any) => Promise<IHubSearchResponse<IHubSearchResult>> {
   const nextLink = response.links.find((l) => l.rel === "next");
 
@@ -18,7 +17,7 @@ export function getNextOgcCallback(
     callback = () => {
       const nextUrl = new URL(nextLink.href);
       const start = +nextUrl.searchParams.get("startindex");
-      const nextOptions: IHubSearchOptions = { ...originalOptions, start };
+      const nextOptions: ISearchOgcItemsOptions = { ...originalOptions, start };
       return searchOgcItems(url, originalQuery, nextOptions);
     };
   }

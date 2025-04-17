@@ -1,3 +1,5 @@
+import { IHubSearchOptions } from "../../types/IHubSearchOptions";
+
 // TODO: fill out the 'any' fields of OGC Items
 // with more descriptive interfaces
 export interface IOgcItem {
@@ -37,3 +39,14 @@ export interface IOgcAggregationsResponse {
   timestamp: string;
   links: IOgcLink[];
 }
+
+/**
+ * @private
+ * Interface for the options object passed to the searchOgcItems function.
+ * Unlike IHubSearchOptions, this interface does not accept aggregation
+ * properties or properties marked for deprecation.
+ */
+export type ISearchOgcItemsOptions = Omit<
+  IHubSearchOptions,
+  "aggFields" | "aggLimit" | "api" | "authentication" | "page"
+>;

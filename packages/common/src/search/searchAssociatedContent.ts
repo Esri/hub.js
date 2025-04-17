@@ -2,12 +2,9 @@ import { HubEntity } from "../core/types/HubEntity";
 import { IHubRequestOptions } from "../hub-types";
 import HubError from "../HubError";
 import { getOgcApiDefinition } from "./_internal/commonHelpers/getOgcApiDefinition";
+import { ISearchOgcItemsOptions } from "./_internal/hubSearchItemsHelpers/interfaces";
 import { searchOgcItems } from "./_internal/hubSearchItemsHelpers/searchOgcItems";
-import {
-  IHubSearchOptions,
-  IHubSearchResponse,
-  IHubSearchResult,
-} from "./types";
+import { IHubSearchResponse, IHubSearchResult } from "./types";
 import { IQuery } from "./types/IHubCatalog";
 
 type HubAssociation = "related" | "connected";
@@ -25,7 +22,7 @@ export async function searchAssociatedContent(
   opts: ISearchAssociatedContentOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
   const { scope, requestOptions, num = 4 } = opts;
-  const searchOptions: IHubSearchOptions = {
+  const searchOptions: ISearchOgcItemsOptions = {
     requestOptions,
     num,
   };
@@ -44,7 +41,10 @@ export async function searchAssociatedContent(
 
   // Construct the OGC API URL
   const { association } = opts;
-  const api = getOgcApiDefinition(scope.targetEntity, searchOptions);
+  const api = getOgcApiDefinition(
+    scope.targetEntity,
+    searchOptions.requestOptions
+  );
   const url = `${api.url}/collections/all/items/${hubId}/${association}`;
 
   return searchOgcItems(url, scope, searchOptions);
