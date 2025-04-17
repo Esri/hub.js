@@ -35,7 +35,8 @@
     "format:check": "prettier --check ./{src,test}/**/*.ts"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "tag": "portal115"
   },
   "repository": {
     "type": "git",

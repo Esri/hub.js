@@ -40,7 +40,8 @@
     "y:push": "yalc push"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "tag": "portal115"
   },
   "repository": {
     "type": "git",

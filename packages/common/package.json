@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-common",
-  "version": "15.31.1",
+  "version": "15.31.3",
   "description": "Common TypeScript types and utility functions for @esri/hub.js.",
   "main": "dist/node/index.js",
   "module": "dist/esm/index.js",
@@ -47,7 +47,8 @@
     "y:push": "yalc push"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "tag": "portal115"
   },
   "repository": "github:/Esri/hub.js",
   "contributors": [
