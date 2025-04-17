@@ -79,13 +79,6 @@ export function getThumbnailUiSchemaElement(
         defaultImgUrl,
         maxWidth: 727,
         maxHeight: 484,
-        helperText: {
-          // helper text varies between entity types
-          labelKey: `${i18nScope}.fields._thumbnail.helperText`,
-        },
-        // Advise the user if the entity's thumbnail is either of the default values,
-        // and this notice will appear above the image picker but below the helper text
-        notice,
         ...options,
       },
     },

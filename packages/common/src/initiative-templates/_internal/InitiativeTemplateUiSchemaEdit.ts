@@ -5,6 +5,8 @@ import { IUiSchema, UiSchemaMessageTypes } from "../../core/schemas/types";
 import { getRecommendedTemplatesCatalog } from "./getRecommendedTemplatesCatalog";
 import { getEntityThumbnailUrl } from "../../core/getEntityThumbnailUrl";
 import { getSlugSchemaElement } from "../../core/schemas/internal/getSlugSchemaElement";
+import { getTagItems } from "../../core/schemas/internal/getTagItems";
+import { fetchCategoriesUiSchemaElement } from "../../core/schemas/internal/fetchCategoriesUiSchemaElement";
 
 /**
  * @private
@@ -61,7 +63,99 @@ export const buildUiSchema = async (
               ],
             },
           },
+          {
+            type: "Control",
+            scope: "/properties/summary",
+            labelKey: `${i18nScope}.fields.summary.label`,
+            options: {
+              control: "hub-field-input-input",
+              type: "textarea",
+              rows: 4,
+              messages: [
+                {
+                  type: "ERROR",
+                  keyword: "maxLength",
+                  icon: true,
+                  labelKey: `shared.fields.summary.maxLengthError`,
+                },
+              ],
+            },
+          },
+          ...getThumbnailUiSchemaElement(
+            i18nScope,
+            options.thumbnail,
+            getEntityThumbnailUrl(options),
+            "initiativeTemplate",
+            context.requestOptions
+          ),
           getSlugSchemaElement(i18nScope),
+          {
+            type: "Section",
+            labelKey: `${i18nScope}.sections.description.label`,
+            options: {
+              section: "block",
+              helperText: {
+                labelKey: `${i18nScope}.sections.description.helperText`,
+              },
+            },
+            elements: [
+              // description
+              {
+                type: "Control",
+                scope: "/properties/description",
+                labelKey: `${i18nScope}.fields.description.label`,
+                options: {
+                  control: "hub-field-input-rich-text",
+                  type: "textarea",
+                },
+              },
+            ],
+          },
+          {
+            type: "Section",
+            labelKey: `${i18nScope}.sections.discoverability.label`,
+            options: {
+              section: "block",
+              helperText: {
+                labelKey: `${i18nScope}.sections.discoverability.helperText`,
+              },
+            },
+            elements: [
+              // tags
+              {
+                labelKey: `${i18nScope}.fields.tags.label`,
+                scope: "/properties/tags",
+                type: "Control",
+                options: {
+                  control: "hub-field-input-combobox",
+                  items: await getTagItems(
+                    options.tags,
+                    context.portal.id,
+                    context.hubRequestOptions
+                  ),
+                  allowCustomValues: true,
+                  selectionMode: "multiple",
+                  placeholderIcon: "label",
+                },
+              },
+              // categories
+              ...(await fetchCategoriesUiSchemaElement(i18nScope, context)),
+            ],
+          },
+          // {
+          //   labelKey: `${i18nScope}.fields.license.label`,
+          //   scope: "/properties/licenseInfo",
+          //   type: "Control",
+          //   options: {
+          //     control: "arcgis-hub-license-picker",
+          //   },
+          // },
+        ],
+      },
+      {
+        type: "Section",
+        labelKey: `${i18nScope}.sections.templateDetails.label`,
+        elements: [
           {
             type: "Control",
             scope: "/properties/previewUrl",
@@ -87,53 +181,8 @@ export const buildUiSchema = async (
           },
           {
             type: "Control",
-            scope: "/properties/summary",
-            labelKey: `${i18nScope}.fields.summary.label`,
-            options: {
-              control: "hub-field-input-input",
-              type: "textarea",
-              rows: 4,
-              helperText: {
-                labelKey: `${i18nScope}.fields.summary.helperText`,
-              },
-              messages: [
-                {
-                  type: "ERROR",
-                  keyword: "maxLength",
-                  icon: true,
-                  labelKey: `shared.fields.summary.maxLengthError`,
-                },
-              ],
-            },
-          },
-          {
-            type: "Control",
-            scope: "/properties/description",
-            labelKey: `${i18nScope}.fields.description.label`,
-            options: {
-              control: "hub-field-input-rich-text",
-              type: "textarea",
-              helperText: {
-                labelKey: `${i18nScope}.fields.description.helperText`,
-              },
-            },
-          },
-          ...getThumbnailUiSchemaElement(
-            i18nScope,
-            options.thumbnail,
-            getEntityThumbnailUrl(options),
-            "initiativeTemplate",
-            context.requestOptions
-          ),
-        ],
-      },
-      {
-        type: "Section",
-        labelKey: `${i18nScope}.fields.recommendedTemplates.label`,
-        elements: [
-          {
-            type: "Control",
             scope: "/properties/recommendedTemplates",
+            labelKey: `${i18nScope}.fields.recommendedTemplates.label`,
             options: {
               control: "hub-field-input-gallery-picker",
               targetEntity: "item",
