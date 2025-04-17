@@ -55,15 +55,21 @@ export const buildUiSchema = async (
             },
           },
           {
-            labelKey: `${i18nScope}.fields.description.label`,
-            scope: "/properties/description",
+            labelKey: `${i18nScope}.fields.summary.label`,
+            scope: "/properties/summary",
             type: "Control",
             options: {
-              control: "hub-field-input-rich-text",
+              control: "hub-field-input-input",
               type: "textarea",
-              helperText: {
-                labelKey: `${i18nScope}.fields.description.helperText`,
-              },
+              rows: 4,
+              messages: [
+                {
+                  type: "ERROR",
+                  keyword: "maxLength",
+                  icon: true,
+                  labelKey: `shared.fields.summary.maxLengthError`,
+                },
+              ],
             },
           },
           ...getThumbnailUiSchemaElement(
@@ -73,12 +79,81 @@ export const buildUiSchema = async (
             "event",
             context.requestOptions
           ),
+          // getSlugSchemaElement(i18nScope),
+          {
+            type: "Section",
+            labelKey: `${i18nScope}.sections.description.label`,
+            options: {
+              section: "block",
+              helperText: {
+                labelKey: `${i18nScope}.sections.description.helperText`,
+              },
+            },
+            elements: [
+              {
+                labelKey: `${i18nScope}.fields.description.label`,
+                scope: "/properties/description",
+                type: "Control",
+                options: {
+                  control: "hub-field-input-rich-text",
+                  type: "textarea",
+                },
+              },
+            ],
+          },
+          {
+            type: "Section",
+            labelKey: `${i18nScope}.sections.discoverability.label`,
+            options: {
+              section: "block",
+              helperText: {
+                labelKey: `${i18nScope}.sections.discoverability.helperText`,
+              },
+            },
+            elements: [
+              {
+                labelKey: `${i18nScope}.fields.tags.label`,
+                scope: "/properties/tags",
+                type: "Control",
+                options: {
+                  control: "hub-field-input-combobox",
+                  items: await getTagItems(
+                    options.tags,
+                    context.portal.id,
+                    context.hubRequestOptions
+                  ),
+                  allowCustomValues: true,
+                  selectionMode: "multiple",
+                  placeholderIcon: "label",
+                },
+              },
+              ...(await fetchCategoriesUiSchemaElement(i18nScope, context)),
+            ],
+          },
+          // {
+          //   labelKey: `${i18nScope}.fields.license.label`,
+          //   scope: "/properties/licenseInfo",
+          //   type: "Control",
+          //   options: {
+          //     control: "arcgis-hub-license-picker",
+          //   },
+          // },
         ],
       },
+      // /////
+      // /////
       {
         type: "Section",
         labelKey: `${i18nScope}.sections.dateTime.label`,
         elements: [
+          {
+            labelKey: `${i18nScope}.fields.allDay.label`,
+            type: "Control",
+            scope: "/properties/isAllDay",
+            options: {
+              control: "hub-field-input-switch",
+            },
+          },
           {
             labelKey: `${i18nScope}.fields.startDate.label`,
             scope: "/properties/startDate",
@@ -91,6 +166,29 @@ export const buildUiSchema = async (
                   keyword: "required",
                   icon: true,
                   labelKey: `${i18nScope}.fields.startDate.requiredError`,
+                },
+              ],
+            },
+          },
+          {
+            labelKey: `${i18nScope}.fields.startTime.label`,
+            scope: "/properties/startTime",
+            type: "Control",
+            rule: {
+              condition: {
+                scope: "/properties/isAllDay",
+                schema: { const: false },
+              },
+              effect: UiSchemaRuleEffects.SHOW,
+            },
+            options: {
+              control: "hub-field-input-time",
+              messages: [
+                {
+                  type: "ERROR",
+                  keyword: "required",
+                  icon: true,
+                  labelKey: `${i18nScope}.fields.startTime.requiredError`,
                 },
               ],
             },
@@ -113,37 +211,6 @@ export const buildUiSchema = async (
                   keyword: "formatMinimum",
                   icon: true,
                   labelKey: `${i18nScope}.fields.endDate.minDateError`,
-                },
-              ],
-            },
-          },
-          {
-            labelKey: `${i18nScope}.fields.allDay.label`,
-            type: "Control",
-            scope: "/properties/isAllDay",
-            options: {
-              control: "hub-field-input-switch",
-            },
-          },
-          {
-            labelKey: `${i18nScope}.fields.startTime.label`,
-            scope: "/properties/startTime",
-            type: "Control",
-            rule: {
-              condition: {
-                scope: "/properties/isAllDay",
-                schema: { const: false },
-              },
-              effect: UiSchemaRuleEffects.SHOW,
-            },
-            options: {
-              control: "hub-field-input-time",
-              messages: [
-                {
-                  type: "ERROR",
-                  keyword: "required",
-                  icon: true,
-                  labelKey: `${i18nScope}.fields.startTime.requiredError`,
                 },
               ],
             },
@@ -204,14 +271,22 @@ export const buildUiSchema = async (
             scope: "/properties/attendanceType",
             type: "Control",
             options: {
-              control: "hub-field-input-radio-group",
+              control: "hub-field-input-tile-select",
               enum: { i18nScope: `${i18nScope}.fields.attendanceType` },
+              layout: "horizontal",
             },
           },
           {
             scope: "/properties/location",
             type: "Control",
             labelKey: `${i18nScope}.fields.location.label`,
+            rule: {
+              condition: {
+                scope: "/properties/attendanceType",
+                schema: { const: "online" },
+              },
+              effect: UiSchemaRuleEffects.HIDE,
+            },
             options: {
               control: "hub-field-input-location-picker",
               enableInvalidGeometryWarning: true,
@@ -238,9 +313,14 @@ export const buildUiSchema = async (
             },
           },
           {
-            labelKey: `${i18nScope}.fields.inPersonCapacityType.label`,
-            scope: "/properties/inPersonCapacityType",
-            type: "Control",
+            type: "Section",
+            labelKey: `${i18nScope}.sections.inPersonRegistrationCapacity.label`,
+            options: {
+              section: "block",
+              helperText: {
+                labelKey: `${i18nScope}.sections.inPersonRegistrationCapacity.helperText`,
+              },
+            },
             rule: {
               condition: {
                 scope: "/properties/attendanceType",
@@ -253,51 +333,73 @@ export const buildUiSchema = async (
               },
               effect: UiSchemaRuleEffects.SHOW,
             },
-            options: {
-              control: "hub-field-input-radio-group",
-              enum: { i18nScope: `${i18nScope}.fields.inPersonCapacityType` },
-            },
-          },
-          {
-            labelKey: `${i18nScope}.fields.inPersonCapacity.label`,
-            scope: "/properties/inPersonCapacity",
-            type: "Control",
-            rule: {
-              condition: {
-                schema: {
-                  properties: {
-                    attendanceType: {
+            elements: [
+              {
+                labelKey: `${i18nScope}.fields.inPersonCapacityType.label`,
+                scope: "/properties/inPersonCapacityType",
+                type: "Control",
+                rule: {
+                  condition: {
+                    scope: "/properties/attendanceType",
+                    schema: {
                       enum: [
                         HubEventAttendanceType.InPerson,
                         HubEventAttendanceType.Both,
                       ],
                     },
-                    inPersonCapacityType: {
-                      const: HubEventCapacityType.Fixed,
-                    },
                   },
+                  effect: UiSchemaRuleEffects.SHOW,
+                },
+                options: {
+                  control: "hub-field-input-tile-select",
+                  enum: {
+                    i18nScope: `${i18nScope}.fields.inPersonCapacityType`,
+                  },
+                  layout: "horizontal",
                 },
               },
-              effect: UiSchemaRuleEffects.SHOW,
-            },
-            options: {
-              control: "hub-field-input-input",
-              type: "number",
-              messages: [
-                {
-                  type: "ERROR",
-                  keyword: "required",
-                  icon: true,
-                  labelKey: `${i18nScope}.fields.inPersonCapacity.requiredError`,
+              {
+                labelKey: `${i18nScope}.fields.inPersonCapacity.label`,
+                scope: "/properties/inPersonCapacity",
+                type: "Control",
+                rule: {
+                  condition: {
+                    schema: {
+                      properties: {
+                        attendanceType: {
+                          enum: [
+                            HubEventAttendanceType.InPerson,
+                            HubEventAttendanceType.Both,
+                          ],
+                        },
+                        inPersonCapacityType: {
+                          const: HubEventCapacityType.Fixed,
+                        },
+                      },
+                    },
+                  },
+                  effect: UiSchemaRuleEffects.SHOW,
                 },
-                {
-                  type: "ERROR",
-                  keyword: "minimum",
-                  icon: true,
-                  labelKey: `${i18nScope}.fields.inPersonCapacity.minimumError`,
+                options: {
+                  control: "hub-field-input-input",
+                  type: "number",
+                  messages: [
+                    {
+                      type: "ERROR",
+                      keyword: "required",
+                      icon: true,
+                      labelKey: `${i18nScope}.fields.inPersonCapacity.requiredError`,
+                    },
+                    {
+                      type: "ERROR",
+                      keyword: "minimum",
+                      icon: true,
+                      labelKey: `${i18nScope}.fields.inPersonCapacity.minimumError`,
+                    },
+                  ],
                 },
-              ],
-            },
+              },
+            ],
           },
           {
             labelKey: `${i18nScope}.fields.onlineUrl.label`,
@@ -333,34 +435,16 @@ export const buildUiSchema = async (
               ],
             },
           },
+
           {
-            labelKey: `${i18nScope}.fields.onlineDetails.label`,
-            scope: "/properties/onlineDetails",
-            type: "Control",
-            rule: {
-              condition: {
-                scope: "/properties/attendanceType",
-                schema: {
-                  enum: [
-                    HubEventAttendanceType.Online,
-                    HubEventAttendanceType.Both,
-                  ],
-                },
-              },
-              effect: UiSchemaRuleEffects.SHOW,
-            },
+            type: "Section",
+            labelKey: `${i18nScope}.sections.onlineRegistrationDetails.label`,
             options: {
-              control: "hub-field-input-rich-text",
-              type: "textarea",
+              section: "block",
               helperText: {
-                labelKey: `${i18nScope}.fields.onlineDetails.helperText`,
+                labelKey: `${i18nScope}.sections.onlineRegistrationDetails.helperText`,
               },
             },
-          },
-          {
-            labelKey: `${i18nScope}.fields.onlineCapacityType.label`,
-            scope: "/properties/onlineCapacityType",
-            type: "Control",
             rule: {
               condition: {
                 scope: "/properties/attendanceType",
@@ -373,15 +457,39 @@ export const buildUiSchema = async (
               },
               effect: UiSchemaRuleEffects.SHOW,
             },
-            options: {
-              control: "hub-field-input-radio-group",
-              enum: { i18nScope: `${i18nScope}.fields.onlineCapacityType` },
-            },
+            elements: [
+              {
+                labelKey: `${i18nScope}.fields.onlineDetails.label`,
+                scope: "/properties/onlineDetails",
+                type: "Control",
+                rule: {
+                  condition: {
+                    scope: "/properties/attendanceType",
+                    schema: {
+                      enum: [
+                        HubEventAttendanceType.Online,
+                        HubEventAttendanceType.Both,
+                      ],
+                    },
+                  },
+                  effect: UiSchemaRuleEffects.SHOW,
+                },
+                options: {
+                  control: "hub-field-input-rich-text",
+                  type: "textarea",
+                },
+              },
+            ],
           },
           {
-            labelKey: `${i18nScope}.fields.onlineCapacity.label`,
-            scope: "/properties/onlineCapacity",
-            type: "Control",
+            type: "Section",
+            labelKey: `${i18nScope}.sections.onlineRegistrationCapacity.label`,
+            options: {
+              section: "block",
+              helperText: {
+                labelKey: `${i18nScope}.sections.onlineRegistrationCapacity.helperText`,
+              },
+            },
             rule: {
               condition: {
                 schema: {
@@ -392,41 +500,79 @@ export const buildUiSchema = async (
                         HubEventAttendanceType.Both,
                       ],
                     },
-                    onlineCapacityType: {
-                      const: HubEventCapacityType.Fixed,
-                    },
                   },
                 },
               },
               effect: UiSchemaRuleEffects.SHOW,
             },
-            options: {
-              control: "hub-field-input-input",
-              type: "number",
-              messages: [
-                {
-                  type: "ERROR",
-                  keyword: "required",
-                  icon: true,
-                  labelKey: `${i18nScope}.fields.onlineCapacity.requiredError`,
+            elements: [
+              {
+                labelKey: `${i18nScope}.fields.onlineCapacityType.label`,
+                scope: "/properties/onlineCapacityType",
+                type: "Control",
+                rule: {
+                  condition: {
+                    scope: "/properties/attendanceType",
+                    schema: {
+                      enum: [
+                        HubEventAttendanceType.Online,
+                        HubEventAttendanceType.Both,
+                      ],
+                    },
+                  },
+                  effect: UiSchemaRuleEffects.SHOW,
                 },
-                {
-                  type: "ERROR",
-                  keyword: "minimum",
-                  icon: true,
-                  labelKey: `${i18nScope}.fields.onlineCapacity.minimumError`,
+                options: {
+                  control: "hub-field-input-tile-select",
+                  enum: { i18nScope: `${i18nScope}.fields.onlineCapacityType` },
+                  layout: "horizontal",
                 },
-              ],
-            },
+              },
+              {
+                labelKey: `${i18nScope}.fields.onlineCapacity.label`,
+                scope: "/properties/onlineCapacity",
+                type: "Control",
+                rule: {
+                  condition: {
+                    schema: {
+                      properties: {
+                        attendanceType: {
+                          enum: [
+                            HubEventAttendanceType.Online,
+                            HubEventAttendanceType.Both,
+                          ],
+                        },
+                        onlineCapacityType: {
+                          const: HubEventCapacityType.Fixed,
+                        },
+                      },
+                    },
+                  },
+                  effect: UiSchemaRuleEffects.SHOW,
+                },
+                options: {
+                  control: "hub-field-input-input",
+                  type: "number",
+                  messages: [
+                    {
+                      type: "ERROR",
+                      keyword: "required",
+                      icon: true,
+                      labelKey: `${i18nScope}.fields.onlineCapacity.requiredError`,
+                    },
+                    {
+                      type: "ERROR",
+                      keyword: "minimum",
+                      icon: true,
+                      labelKey: `${i18nScope}.fields.onlineCapacity.minimumError`,
+                    },
+                  ],
+                },
+              },
+            ],
           },
         ],
       },
-      /* This field hidden for future consideration */
-      // {
-      //   type: "Section",
-      //   labelKey: `${i18nScope}.sections.referencedContent.label`,
-      //   elements: [buildReferencedContentSchema(i18nScope, context)],
-      // },
       {
         type: "Section",
         labelKey: `${i18nScope}.sections.discoverability.label`,
@@ -474,6 +620,12 @@ export const buildUiSchema = async (
           },
         ],
       },
+      /* This field hidden for future consideration */
+      // {
+      //   type: "Section",
+      //   labelKey: `${i18nScope}.sections.referencedContent.label`,
+      //   elements: [buildReferencedContentSchema(i18nScope, context)],
+      // },
     ],
   };
 };

@@ -22,6 +22,7 @@ export const buildUiSchema = async (
   return {
     type: "Layout",
     elements: [
+      // basic info section
       {
         type: "Section",
         labelKey: `${i18nScope}.sections.basicInfo.label`,
@@ -66,9 +67,6 @@ export const buildUiSchema = async (
               control: "hub-field-input-input",
               type: "textarea",
               rows: 4,
-              helperText: {
-                labelKey: `${i18nScope}.fields.summary.helperText`,
-              },
               messages: [
                 {
                   type: "ERROR",
@@ -77,18 +75,6 @@ export const buildUiSchema = async (
                   labelKey: `shared.fields.summary.maxLengthError`,
                 },
               ],
-            },
-          },
-          {
-            labelKey: `${i18nScope}.fields.description.label`,
-            scope: "/properties/description",
-            type: "Control",
-            options: {
-              control: "hub-field-input-rich-text",
-              type: "textarea",
-              helperText: {
-                labelKey: `${i18nScope}.fields.description.helperText`,
-              },
             },
           },
           ...getThumbnailUiSchemaElement(
@@ -100,33 +86,71 @@ export const buildUiSchema = async (
           ),
           ...(context.isPortal ? [getSlugSchemaElement(i18nScope)] : []),
           {
-            labelKey: `${i18nScope}.fields.tags.label`,
-            scope: "/properties/tags",
-            type: "Control",
+            type: "Section",
+            labelKey: `${i18nScope}.sections.description.label`,
             options: {
-              control: "hub-field-input-combobox",
-              items: await getTagItems(
-                options.tags,
-                context.portal.id,
-                context.hubRequestOptions
-              ),
-              allowCustomValues: true,
-              selectionMode: "multiple",
-              placeholderIcon: "label",
-              helperText: { labelKey: `${i18nScope}.fields.tags.helperText` },
+              section: "block",
+              helperText: {
+                labelKey: `${i18nScope}.sections.description.helperText`,
+              },
             },
+            elements: [
+              {
+                labelKey: `${i18nScope}.fields.description.label`,
+                scope: "/properties/description",
+                type: "Control",
+                options: {
+                  control: "hub-field-input-rich-text",
+                  type: "textarea",
+                },
+              },
+            ],
           },
-          ...(await fetchCategoriesUiSchemaElement(i18nScope, context)),
+          {
+            type: "Section",
+            labelKey: `${i18nScope}.sections.discoverability.label`,
+            options: {
+              section: "block",
+              helperText: {
+                labelKey: `${i18nScope}.sections.discoverability.helperText`,
+              },
+            },
+            elements: [
+              {
+                labelKey: `${i18nScope}.fields.tags.label`,
+                scope: "/properties/tags",
+                type: "Control",
+                options: {
+                  control: "hub-field-input-combobox",
+                  items: await getTagItems(
+                    options.tags,
+                    context.portal.id,
+                    context.hubRequestOptions
+                  ),
+                  allowCustomValues: true,
+                  selectionMode: "multiple",
+                  placeholderIcon: "label",
+                },
+              },
+              ...(await fetchCategoriesUiSchemaElement(i18nScope, context)),
+            ],
+          },
+          // {
+          //   labelKey: `${i18nScope}.fields.license.label`,
+          //   scope: "/properties/licenseInfo",
+          //   type: "Control",
+          //   options: {
+          //     control: "arcgis-hub-license-picker",
+          //   },
+          // },
         ],
       },
+      // /////////////////////
+      // /////////////////////
+      // /////////////////////
       {
         type: "Section",
         labelKey: `${i18nScope}.sections.location.label`,
-        options: {
-          helperText: {
-            labelKey: `${i18nScope}.sections.location.helperText`,
-          },
-        },
         elements: [
           {
             scope: "/properties/location",
