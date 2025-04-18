@@ -7,41 +7,78 @@ import {
   IGetWellKnownCatalogOptions,
   WellKnownCollection,
   dotifyString,
+  getWellKnownCatalogs,
 } from "../../src/search/wellKnownCatalog";
 import { mockUser } from "../test-helpers/fake-user";
 
 describe("WellKnownCatalog", () => {
-  describe("getWellKnownCatalog", () => {
-    let options: IGetWellKnownCatalogOptions;
-    beforeEach(() => {
-      options = {
-        user: mockUser,
-        collectionNames: [],
-        context: {
-          currentUser: {
-            id: "userid",
-            orgId: "abc123",
-            username: "some-username",
-            groups: [
-              { id: "abc", userMembership: { memberType: "admin" } },
-              { id: "def", userMembership: { memberType: "member" } },
-              { id: "ghi", userMembership: { memberType: "member" } },
-              { id: "jkl", userMembership: { memberType: "admin" } },
-              { id: "mno", userMembership: { memberType: "member" } },
-            ],
-          } as unknown as IUser,
-          isCommunityOrg: false,
-          communityOrgId: "def456",
-          trustedOrgIds: ["abc123", "def456", "ghi789", "kjl012", "mno345"],
-          trustedOrgs: [
-            {
-              from: { orgId: "abc123" },
-              to: { orgId: "def456", name: "c-org name" },
-            },
+  let options: IGetWellKnownCatalogOptions;
+  beforeEach(() => {
+    options = {
+      user: mockUser,
+      collectionNames: [],
+      context: {
+        currentUser: {
+          id: "userid",
+          orgId: "abc123",
+          username: "some-username",
+          groups: [
+            { id: "abc", userMembership: { memberType: "admin" } },
+            { id: "def", userMembership: { memberType: "member" } },
+            { id: "ghi", userMembership: { memberType: "member" } },
+            { id: "jkl", userMembership: { memberType: "admin" } },
+            { id: "mno", userMembership: { memberType: "member" } },
           ],
-        } as ArcGISContext,
-      };
+        } as unknown as IUser,
+        isCommunityOrg: false,
+        communityOrgId: "def456",
+        trustedOrgIds: ["abc123", "def456", "ghi789", "kjl012", "mno345"],
+        trustedOrgs: [
+          {
+            from: { orgId: "abc123" },
+            to: { orgId: "def456", name: "c-org name" },
+          },
+        ],
+      } as ArcGISContext,
+    };
+  });
+  describe("getWellKnownCatalogs", () => {
+    let chk: any;
+    it("throws an error if the requested Catalogs are not for the same targetEntity", () => {
+      try {
+        chk = getWellKnownCatalogs(
+          "mockI18nScope",
+          "item",
+          ["myContent", "myGroups"],
+          options.context,
+          options
+        );
+      } catch (err) {
+        expect(err).toEqual(
+          new Error(
+            "Requested catalogs must be of the same targetEntity type: item"
+          )
+        );
+      }
     });
+    it("returns the requested catalogs", () => {
+      chk = getWellKnownCatalogs(
+        "mockI18nScope",
+        "item",
+        ["myContent", "organization"],
+        options.context,
+        options
+      );
+      expect(chk.length).toEqual(2);
+      expect(chk[0].title).toEqual(
+        "{{mockI18nScope.catalog.myContent:translate}}"
+      );
+      expect(chk[1].title).toEqual(
+        "{{mockI18nScope.catalog.organization:translate}}"
+      );
+    });
+  });
+  describe("getWellKnownCatalog", () => {
     it("returns the expected catalog for items", () => {
       let chk = getWellKnownCatalog(
         "mockI18nScope",
