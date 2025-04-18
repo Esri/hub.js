@@ -1,3 +1,4 @@
+import { IUser } from "@esri/arcgis-rest-types";
 import { ArcGISContext, EntityType } from "../../src";
 import {
   getWellKnownCatalog,
@@ -17,7 +18,18 @@ describe("WellKnownCatalog", () => {
         user: mockUser,
         collectionNames: [],
         context: {
-          currentUser: { orgId: "abc123" },
+          currentUser: {
+            id: "userid",
+            orgId: "abc123",
+            username: "some-username",
+            groups: [
+              { id: "abc", userMembership: { memberType: "admin" } },
+              { id: "def", userMembership: { memberType: "member" } },
+              { id: "ghi", userMembership: { memberType: "member" } },
+              { id: "jkl", userMembership: { memberType: "admin" } },
+              { id: "mno", userMembership: { memberType: "member" } },
+            ],
+          } as unknown as IUser,
           isCommunityOrg: false,
           communityOrgId: "def456",
           trustedOrgIds: ["abc123", "def456", "ghi789", "kjl012", "mno345"],
@@ -339,6 +351,96 @@ describe("WellKnownCatalog", () => {
             ],
           },
         },
+      ]);
+      // verify "myGroups" well known catalog
+      chk = getWellKnownCatalog("mockI18nScope", "myGroups", "group", options);
+      expect(chk.scopes).toBeDefined();
+      expect(chk.scopes?.group?.filters).toEqual([
+        { predicates: [{ owner: "some-username" }] },
+      ]);
+      // verify "orgGroups" well known catalog
+      chk = getWellKnownCatalog("mockI18nScope", "orgGroups", "group", options);
+      expect(chk.scopes).toBeDefined();
+      expect(chk.scopes?.group?.filters).toEqual([
+        {
+          predicates: [
+            {
+              orgid: "abc123",
+              searchUserAccess: "groupMember",
+              searchUserName: "some-username",
+              isviewonly: false,
+            },
+            {
+              orgid: "abc123",
+              id: ["abc", "jkl"],
+            },
+          ],
+        },
+      ]);
+      // verify "communityGroups" well known catalog
+      chk = getWellKnownCatalog(
+        "mockI18nScope",
+        "communityGroups",
+        "group",
+        options
+      );
+      expect(chk.scopes).toBeDefined();
+      expect(chk.scopes?.group?.filters).toEqual([
+        {
+          predicates: [
+            {
+              orgid: "def456",
+              searchUserAccess: "groupMember",
+              searchUserName: "some-username",
+              isviewonly: false,
+            },
+            {
+              orgid: "def456",
+              id: ["abc", "jkl"],
+            },
+          ],
+        },
+      ]);
+      // verify "publicGroups" well known catalog
+      chk = getWellKnownCatalog(
+        "mockI18nScope",
+        "publicGroups",
+        "group",
+        options
+      );
+      expect(chk.scopes).toBeDefined();
+      expect(chk.scopes?.group?.filters).toEqual([
+        { predicates: [{ access: "public" }] },
+      ]);
+    });
+    it("returns the expected catalog for events", () => {
+      // verify "myEvents" well known catalog
+      let chk = getWellKnownCatalog(
+        "mockI18nScope",
+        "myEvents",
+        "event",
+        options
+      );
+      expect(chk.scopes).toBeDefined();
+      expect(chk.scopes?.event?.filters).toEqual([
+        { predicates: [{ owner: "userid" }] },
+      ]);
+      // verify "orgEvents" well known catalog
+      chk = getWellKnownCatalog("mockI18nScope", "orgEvents", "event", options);
+      expect(chk.scopes).toBeDefined();
+      expect(chk.scopes?.event?.filters).toEqual([
+        { predicates: [{ orgid: "abc123" }] },
+      ]);
+      // verify "communityEvents" well known catalog
+      chk = getWellKnownCatalog(
+        "mockI18nScope",
+        "worldEvents",
+        "event",
+        options
+      );
+      expect(chk.scopes).toBeDefined();
+      expect(chk.scopes?.event?.filters).toEqual([
+        { predicates: [{ access: ["public", "private", "org"] }] },
       ]);
     });
     it("throws if not passing a user for a catalog that requires it", () => {

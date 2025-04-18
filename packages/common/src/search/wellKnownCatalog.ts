@@ -351,7 +351,7 @@ function getWellknownGroupCatalog(
     },
   ];
 
-  const idsOfUserAdminGroups = (context.currentUser.groups as any[]).reduce(
+  const idsOfUserAdminGroups = (context?.currentUser?.groups || []).reduce(
     (acc, group) => {
       group.userMembership.memberType === "admin" && acc.push(group.id);
       return acc;
@@ -491,6 +491,8 @@ function getWellknownEventCatalog(
   const { context, filters: additionalFilters = [] } = options || {};
   i18nScope = dotifyString(i18nScope);
 
+  // because collections are needed in arcgis-hub-catalog,
+  // we add an "empty" collection
   const collections = [
     {
       key: catalogName,
