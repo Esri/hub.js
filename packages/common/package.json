@@ -27,6 +27,7 @@
     "@esri/arcgis-rest-request": "~4.2.3"
   },
   "devDependencies": {
+    "@esri/arcgis-rest-feature-service": "~4.0.5",
     "@types/adlib": "^3.0.1",
     "@types/geojson": "^7946.0.13",
     "@types/terraformer__arcgis": "^2.0.5",

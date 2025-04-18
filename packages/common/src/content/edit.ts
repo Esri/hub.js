@@ -28,8 +28,8 @@ import {
   getService,
   IFeatureServiceDefinition,
   parseServiceUrl,
-} from "@esri/arcgis-rest-feature-service";
-import { updateServiceDefinition } from "@esri/arcgis-rest-feature-service";
+} from "../rest/feature-service";
+import { updateServiceDefinition } from "../rest/feature-service";
 import {
   hasServiceCapability,
   isHostedFeatureServiceMainEntity,

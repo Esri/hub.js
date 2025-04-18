@@ -1,5 +1,5 @@
 import type { IItem } from "@esri/arcgis-rest-portal";
-import type { IFeatureServiceDefinition } from "@esri/arcgis-rest-feature-service";
+import type { IFeatureServiceDefinition } from "../../src/rest/feature-service";
 import { IHubEditableContent } from "../../src";
 import {
   hasServiceCapability,

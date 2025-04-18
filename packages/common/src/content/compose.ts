@@ -1,9 +1,9 @@
 import { IItem } from "@esri/arcgis-rest-portal";
-import {
+import type {
   ILayerDefinition,
   IFeatureServiceDefinition,
-  parseServiceUrl,
-} from "@esri/arcgis-rest-feature-service";
+} from "../rest/feature-service";
+import { parseServiceUrl } from "../rest/feature-service";
 import { BBox, IHubRequestOptions } from "../hub-types";
 import { getHubApiUrl } from "../api";
 import { isDownloadable } from "../categories";

@@ -11,7 +11,7 @@ import {
 } from "../../src";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as PortalModule from "@esri/arcgis-rest-portal";
-import * as FLModule from "@esri/arcgis-rest-feature-service";
+import * as FLModule from "../../src/rest/feature-service";
 import * as PSModule from "../../src/search/_internal/portalSearchItems";
 
 describe("resolveMetric:", () => {

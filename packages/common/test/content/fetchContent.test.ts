@@ -1,5 +1,5 @@
 import * as portalModule from "@esri/arcgis-rest-portal";
-import * as featureLayerModule from "@esri/arcgis-rest-feature-service";
+import * as featureLayerModule from "../../src/rest/feature-service";
 import {
   IHubRequestOptions,
   fetchContent,

@@ -1,6 +1,6 @@
 import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import type { IItem } from "@esri/arcgis-rest-portal";
-import { parseServiceUrl } from "@esri/arcgis-rest-feature-service";
+import { parseServiceUrl } from "../rest/feature-service";
 import { getItem } from "@esri/arcgis-rest-portal";
 
 /**

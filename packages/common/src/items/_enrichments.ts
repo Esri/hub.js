@@ -10,7 +10,7 @@ import {
   getAllLayersAndTables,
   getService,
   parseServiceUrl,
-} from "@esri/arcgis-rest-feature-service";
+} from "../rest/feature-service";
 import { IItemEnrichments, IServerEnrichments } from "../core";
 import { IEnrichmentErrorInfo, IHubRequestOptions } from "../hub-types";
 import { IPipeable, createOperationPipeline } from "../utils";

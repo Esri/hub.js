@@ -1,1 +1,2 @@
-export * from "./portal/wrappers";
+export * from "./portal";
+export * from "./feature-service";

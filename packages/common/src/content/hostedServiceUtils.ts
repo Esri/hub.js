@@ -1,4 +1,4 @@
-import { IFeatureServiceDefinition } from "@esri/arcgis-rest-feature-service";
+import { IFeatureServiceDefinition } from "../rest/feature-service";
 import { IItem } from "@esri/arcgis-rest-portal";
 import { IHubEditableContent } from "../core/types/IHubEditableContent";
 

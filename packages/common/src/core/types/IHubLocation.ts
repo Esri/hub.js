@@ -1,4 +1,4 @@
-import type { ISpatialReference } from "@esri/arcgis-rest-feature-service";
+import type { ISpatialReference } from "../../rest/feature-service";
 import { IHubLocationType } from "./types";
 import { HubEntityType } from "./HubEntityType";
 import { IGeometryInstance } from "../..";

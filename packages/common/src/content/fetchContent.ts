@@ -2,7 +2,7 @@ import {
   getLayer,
   parseServiceUrl,
   queryFeatures,
-} from "@esri/arcgis-rest-feature-service";
+} from "../rest/feature-service";
 import { getItem } from "@esri/arcgis-rest-portal";
 import { IHubContent } from "../core";
 import {

@@ -3,7 +3,7 @@ import {
   allCoordinatesPossiblyWGS84,
   GeoJSONPolygonToBBox,
 } from "../../src/extent";
-import type { IExtent } from "@esri/arcgis-rest-feature-service";
+import type { IExtent } from "../../src/rest/feature-service";
 
 describe("isValidExtent", function () {
   it("identifies valid extent coordinate array", function () {

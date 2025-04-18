@@ -1,5 +1,5 @@
 import { IItem, IGroup } from "@esri/arcgis-rest-portal";
-import { ILayerDefinition } from "@esri/arcgis-rest-feature-service";
+import { ILayerDefinition } from "../../rest/feature-service";
 import {
   AccessControl,
   HubFamily,

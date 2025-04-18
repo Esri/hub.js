@@ -1,4 +1,4 @@
-import type { IExtent } from "@esri/arcgis-rest-feature-service";
+import type { IExtent } from "./rest/feature-service";
 import type {
   IPoint,
   IPolygon,

@@ -1,5 +1,5 @@
 import { IQuery } from "../../search/types/IHubCatalog";
-import type { IField } from "@esri/arcgis-rest-feature-service";
+import type { IField } from "../../rest/feature-service";
 import type { FieldType } from "@esri/arcgis-rest-request";
 import { IReference } from "./IReference";
 import { IGeometryInstance, ServiceAggregation } from "../../core/types";

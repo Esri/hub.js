@@ -8,13 +8,13 @@
  * It's probably a good pattern to add functions here first and then
  * move them to index.ts only when they are needed by a consumer.
  */
-import { parseServiceUrl } from "@esri/arcgis-rest-feature-service";
+import { parseServiceUrl } from "../../rest/feature-service";
 import type { IItem, IPortal, IUser } from "@esri/arcgis-rest-portal";
 import type {
   IExtent,
   ILayerDefinition,
   ISpatialReference,
-} from "@esri/arcgis-rest-feature-service";
+} from "../../rest/feature-service";
 import {
   IGeometryInstance,
   IHubContent,
