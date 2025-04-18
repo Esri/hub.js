@@ -66,8 +66,7 @@ describe("WellKnownCatalog", () => {
         "mockI18nScope",
         "item",
         ["myContent", "organization"],
-        options.context,
-        options
+        options.context
       );
       expect(chk.length).toEqual(2);
       expect(chk[0].title).toEqual(
@@ -76,6 +75,17 @@ describe("WellKnownCatalog", () => {
       expect(chk[1].title).toEqual(
         "{{mockI18nScope.catalog.organization:translate}}"
       );
+    });
+    it("returns the requested catalogs with custom collection names", () => {
+      chk = getWellKnownCatalogs(
+        "mockI18nScope",
+        "item",
+        ["myContent", "organization"],
+        options.context,
+        { collectionNames: ["dataset"] }
+      );
+      expect(chk.length).toEqual(2);
+      expect(chk[0].collections.length).toEqual(1);
     });
   });
   describe("getWellKnownCatalog", () => {
@@ -484,6 +494,12 @@ describe("WellKnownCatalog", () => {
       expect(() =>
         getWellKnownCatalog("mockI18nScope", "myContent", "item")
       ).toThrowError('User needed to get "myContent" catalog');
+      expect(() =>
+        getWellKnownCatalog("mockI18nScope", "myGroups", "group")
+      ).toThrowError('User needed to get "myGroups" catalog');
+      expect(() =>
+        getWellKnownCatalog("mockI18nScope", "myEvents", "event")
+      ).toThrowError('User needed to get "myEvents" catalog');
       expect(() =>
         getWellKnownCatalog("mockI18nScope", "favorites", "item")
       ).toThrowError('User needed to get "favorites" catalog');

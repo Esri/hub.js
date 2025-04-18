@@ -1,9 +1,9 @@
-import type { IUser } from "@esri/arcgis-rest-portal";
+import type { IGroup, IUser } from "@esri/arcgis-rest-portal";
 import { getFamilyTypes } from "../content/get-family";
 import { HubFamily } from "../hub-types";
 import { EntityType, IFilter, IHubCatalog, IHubCollection } from "./types";
 import { buildCatalog } from "./_internal/buildCatalog";
-import { getProp } from "../objects";
+import { getProp, getWithDefault } from "../objects";
 import type { IArcGISContext } from "../types/IArcGISContext";
 
 /** well known item catalogs */
@@ -370,13 +370,14 @@ function getWellknownGroupCatalog(
     },
   ];
 
-  const idsOfUserAdminGroups = (context?.currentUser?.groups || []).reduce(
-    (acc, group) => {
-      group.userMembership.memberType === "admin" && acc.push(group.id);
-      return acc;
-    },
-    [] as string[]
-  );
+  const idsOfUserAdminGroups = getWithDefault(
+    context,
+    "currentUser.groups",
+    []
+  ).reduce((acc: string[], group: IGroup) => {
+    group.userMembership.memberType === "admin" && acc.push(group.id);
+    return acc;
+  }, [] as string[]);
 
   switch (catalogName) {
     case "editGroups":
@@ -421,7 +422,7 @@ function getWellknownGroupCatalog(
         i18nScope,
         catalogName,
         [
-          { predicates: [{ owner: context?.currentUser?.username }] },
+          { predicates: [{ owner: getProp(context, "currentUser.username") }] },
           ...additionalFilters,
         ],
         collections,
@@ -437,13 +438,13 @@ function getWellknownGroupCatalog(
           {
             predicates: [
               {
-                orgid: context?.currentUser?.orgId,
+                orgid: getProp(context, "currentUser.orgId"),
                 searchUserAccess: "groupMember",
-                searchUserName: context?.currentUser?.username,
+                searchUserName: getProp(context, "currentUser.username"),
                 isviewonly: false,
               },
               {
-                orgid: context?.currentUser?.orgId,
+                orgid: getProp(context, "currentUser.orgId"),
                 id: idsOfUserAdminGroups,
               },
             ],
@@ -463,13 +464,13 @@ function getWellknownGroupCatalog(
           {
             predicates: [
               {
-                orgid: context?.communityOrgId,
+                orgid: getProp(context, "communityOrgId"),
                 searchUserAccess: "groupMember",
-                searchUserName: context?.currentUser?.username,
+                searchUserName: getProp(context, "currentUser.username"),
                 isviewonly: false,
               },
               {
-                orgid: context?.communityOrgId,
+                orgid: getProp(context, "communityOrgId"),
                 id: idsOfUserAdminGroups,
               },
             ],
@@ -481,7 +482,6 @@ function getWellknownGroupCatalog(
       );
       break;
     case "publicGroups":
-      validateUserExistence(catalogName, options);
       catalog = buildCatalog(
         i18nScope,
         catalogName,
@@ -544,7 +544,7 @@ function getWellknownEventCatalog(
         i18nScope,
         catalogName,
         [
-          { predicates: [{ orgid: context?.currentUser?.orgId }] },
+          { predicates: [{ orgid: getProp(context, "currentUser.orgId") }] },
           ...additionalFilters,
         ],
         collections,
@@ -552,7 +552,6 @@ function getWellknownEventCatalog(
       );
       break;
     case "worldEvents":
-      validateUserExistence(catalogName, options);
       catalog = buildCatalog(
         i18nScope,
         catalogName,
