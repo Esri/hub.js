@@ -12,7 +12,7 @@ const currentModel = {
   data: {
     values: {
       customHostname: "site.city.gov",
-      defaultHostname: "site-city.hub.arcgis.com",
+      defaultHostname: "site-CITY.hub.arcgis.com",
     },
   },
 } as unknown as IModel;
@@ -63,6 +63,30 @@ describe("handleDomainChanges", () => {
     (u as any).data.values = {
       customHostname: "site.city.gov",
       defaultHostname: "",
+    };
+
+    await handleDomainChanges(u, c, MOCK_HUB_REQOPTS);
+
+    expect(addSpy.calls.count()).toBe(0);
+    expect(removeSpy.calls.count()).toBe(0);
+  });
+
+  it("does not attempt to update domains that only have case changes", async () => {
+    const addSpy = spyOn(domainModule, "addDomain").and.returnValue(
+      Promise.resolve()
+    );
+    const removeSpy = spyOn(
+      domainModule,
+      "removeDomainByHostname"
+    ).and.returnValue(Promise.resolve());
+    const c = cloneObject(currentModel);
+    (c as any).data.values = {
+      defaultHostname: "luke-REBELS.hub.arcgis.com",
+    };
+    const u = cloneObject(updatedModel);
+    (u as any).data.values = {
+      defaultHostname: "luke-rebels.hub.arcgis.com",
+      customHostname: "",
     };
 
     await handleDomainChanges(u, c, MOCK_HUB_REQOPTS);
