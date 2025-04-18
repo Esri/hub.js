@@ -1,4 +1,4 @@
-import { ILayerDefinition } from "@esri/arcgis-rest-feature-layer";
+import { ILayerDefinition } from "@esri/arcgis-rest-feature-service";
 import { IItem } from "@esri/arcgis-rest-portal";
 import {
   cloneObject,

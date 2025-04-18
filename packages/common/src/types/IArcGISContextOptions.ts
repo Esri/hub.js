@@ -1,4 +1,4 @@
-import type { UserSession } from "@esri/arcgis-rest-auth";
+import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import type { IPortal } from "@esri/arcgis-rest-portal";
 import type { IUser } from "@esri/arcgis-rest-portal";
 import type { IUserResourceToken } from "./IUserResourceToken";
@@ -30,9 +30,9 @@ export interface IArcGISContextOptions {
    */
   hubUrl?: string;
   /**
-   * The current UserSession
+   * The current ArcGISIdentityManager
    */
-  authentication?: UserSession;
+  authentication?: ArcGISIdentityManager;
   /**
    * If the user is authenticated, the portal should be passed in
    * so various getters can work as expected.

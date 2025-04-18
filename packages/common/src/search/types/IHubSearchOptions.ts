@@ -1,4 +1,4 @@
-import type { UserSession } from "@esri/arcgis-rest-auth";
+import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { IHubRequestOptions } from "../../hub-types";
 import { EntityType } from "./IHubCatalog";
 
@@ -69,7 +69,7 @@ export interface IHubSearchOptions extends IPagingOptions, ISortOptions {
   /**
    * DEPRECATE in favor of requestOptions
    */
-  authentication?: UserSession;
+  authentication?: ArcGISIdentityManager;
   /**
    * While hubSearch requires requestOptions, it is not marked
    * required because that is a breaking change to this

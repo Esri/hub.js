@@ -10,7 +10,7 @@ import {
 import { base64ToUnicode, unicodeToBase64 } from "../src/utils/encoding";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as requestModule from "@esri/arcgis-rest-request";
-import * as authModule from "@esri/arcgis-rest-auth";
+import * as authModule from "@esri/arcgis-rest-request";
 import * as appResourcesModule from "../src/utils/hubUserAppResources";
 import * as userResourcesModule from "../src/utils/internal/userAppResources";
 import * as orgLimitsModule from "../src/org/fetchOrgLimits";

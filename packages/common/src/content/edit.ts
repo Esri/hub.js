@@ -1,4 +1,4 @@
-import type { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import {
   IPortal,
   IUserItemOptions,
@@ -28,8 +28,8 @@ import {
   getService,
   IFeatureServiceDefinition,
   parseServiceUrl,
-} from "@esri/arcgis-rest-feature-layer";
-import { updateServiceDefinition } from "@esri/arcgis-rest-service-admin";
+} from "@esri/arcgis-rest-feature-service";
+import { updateServiceDefinition } from "@esri/arcgis-rest-feature-service";
 import {
   hasServiceCapability,
   isHostedFeatureServiceMainEntity,

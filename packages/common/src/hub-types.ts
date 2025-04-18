@@ -1,15 +1,20 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import type { IItem, IUser, IGroup } from "@esri/arcgis-rest-portal";
 import type {
-  IPolygon,
-  ISpatialReference,
+  IGroup,
+  IItem,
+  IPortal,
+  ISearchResult,
+  IUser,
+} from "@esri/arcgis-rest-portal";
+import type {
+  ArcGISIdentityManager,
   IGeometry,
-} from "@esri/arcgis-rest-types";
-import { IPortal, ISearchResult } from "@esri/arcgis-rest-portal";
-import type { UserSession } from "@esri/arcgis-rest-auth";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
+  IPolygon,
+  IRequestOptions,
+  ISpatialReference,
+} from "@esri/arcgis-rest-request";
 
 /**
  * App keys for User Resources used in Hub
@@ -113,17 +118,21 @@ export interface IHubRequestOptionsPortalSelf extends IPortal {
 }
 
 export interface IHubRequestOptions extends IRequestOptions {
-  authentication?: UserSession;
+  authentication?: ArcGISIdentityManager;
   isPortal?: boolean;
   hubApiUrl?: string;
   portalSelf?: IHubRequestOptionsPortalSelf;
+  /**
+   * The implementation of `fetch` to use. Defaults to a global `fetch`.
+   */
+  fetch?: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
 }
 
 /**
  * Options for requests that require an authenticated user.
  */
 export interface IHubUserRequestOptions extends IHubRequestOptions {
-  authentication: UserSession;
+  authentication: ArcGISIdentityManager;
 }
 
 export interface IHubTrustedOrgsResponse {

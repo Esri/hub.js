@@ -1,4 +1,4 @@
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import {
   ArcGISContextManager,
   IUserHubSettings,
@@ -36,19 +36,23 @@ describe("user-app-resources harness: ", () => {
   let factory: Artifactory;
   const orgName = "hubPremiumAlpha";
   let contextMgr: ArcGISContextManager;
-  let session: UserSession;
+  let session: ArcGISIdentityManager;
 
   beforeAll(async () => {
     jasmine["DEFAULT_TIMEOUT_INTERVAL"] = 200000;
     factory = new Artifactory(config);
     // create a session
-    session = UserSession.fromCredential({
-      userId: "paige_pa",
-      server: factory.getPortalUrl(orgName),
-      token: SITE_TOKEN,
-      expires: new Date().getTime() + 3600 * 24,
-      ssl: true,
-    });
+    // TODO: we probably need serverinfo here
+    session = ArcGISIdentityManager.fromCredential(
+      {
+        userId: "paige_pa",
+        server: factory.getPortalUrl(orgName),
+        token: SITE_TOKEN,
+        expires: new Date().getTime() + 3600 * 24,
+        ssl: true,
+      },
+      undefined
+    );
 
     try {
       contextMgr = await ArcGISContextManager.create({

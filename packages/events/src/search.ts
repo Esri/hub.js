@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { queryFeatures } from "@esri/arcgis-rest-feature-layer";
+import { queryFeatures } from "@esri/arcgis-rest-feature-service";
 
 import { ISearchOptions, searchItems } from "@esri/arcgis-rest-portal";
 import type {
@@ -9,8 +9,11 @@ import type {
   IFeature,
   IQueryFeaturesOptions,
   IQueryFeaturesResponse,
-} from "@esri/arcgis-rest-feature-layer";
-import type { IRequestOptions } from "@esri/arcgis-rest-request";
+} from "@esri/arcgis-rest-feature-service";
+import type {
+  ArcGISIdentityManager,
+  IRequestOptions,
+} from "@esri/arcgis-rest-request";
 
 export interface IEventResourceObject {
   id: number | string;
@@ -70,17 +73,16 @@ export function searchEvents(
       };
     }
     // if authentication is passed, get a reference to the token to tack onto image urls
-    if (queryOptions.authentication) {
-      return queryOptions.authentication
-        .getToken(queryOptions.url)
-        .then((token) => {
-          return buildEventResponse(
-            (response as IQueryFeaturesResponse).features,
-            queryOptions.url,
-            requestOptions as IRequestOptions,
-            token
-          );
-        });
+    const authentication = queryOptions.authentication as ArcGISIdentityManager;
+    if (authentication) {
+      return authentication.getToken(queryOptions.url).then((token) => {
+        return buildEventResponse(
+          (response as IQueryFeaturesResponse).features,
+          queryOptions.url,
+          requestOptions as IRequestOptions,
+          token
+        );
+      });
     } else {
       return buildEventResponse(
         (response as IQueryFeaturesResponse).features,
