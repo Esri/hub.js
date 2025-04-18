@@ -1,3 +1,10 @@
+## @esri/hub-common [16.5.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.5.2...@esri/hub-common@16.5.3) (2025-04-18)
+
+
+### Bug Fixes
+
+* case insensitive subdomain comparison ([#1872](https://github.com/Esri/hub.js/issues/1872)) ([ec5ae45](https://github.com/Esri/hub.js/commit/ec5ae45f452697a2e4183df1216fafbb3283357a))
+
 ## @esri/hub-common [16.5.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.5.1...@esri/hub-common@16.5.2) (2025-04-14)
 
 
