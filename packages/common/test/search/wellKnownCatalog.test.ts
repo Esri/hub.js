@@ -1,3 +1,4 @@
+import { IUser } from "@esri/arcgis-rest-types";
 import { ArcGISContext, EntityType } from "../../src";
 import {
   getWellKnownCatalog,
@@ -6,30 +7,88 @@ import {
   IGetWellKnownCatalogOptions,
   WellKnownCollection,
   dotifyString,
+  getWellKnownCatalogs,
 } from "../../src/search/wellKnownCatalog";
 import { mockUser } from "../test-helpers/fake-user";
 
 describe("WellKnownCatalog", () => {
-  describe("getWellKnownCatalog", () => {
-    let options: IGetWellKnownCatalogOptions;
-    beforeEach(() => {
-      options = {
-        user: mockUser,
-        collectionNames: [],
-        context: {
-          currentUser: { orgId: "abc123" },
-          isCommunityOrg: false,
-          communityOrgId: "def456",
-          trustedOrgIds: ["abc123", "def456", "ghi789", "kjl012", "mno345"],
-          trustedOrgs: [
-            {
-              from: { orgId: "abc123" },
-              to: { orgId: "def456", name: "c-org name" },
-            },
+  let options: IGetWellKnownCatalogOptions;
+  beforeEach(() => {
+    options = {
+      user: mockUser,
+      collectionNames: [],
+      context: {
+        currentUser: {
+          id: "userid",
+          orgId: "abc123",
+          username: "some-username",
+          groups: [
+            { id: "abc", userMembership: { memberType: "admin" } },
+            { id: "def", userMembership: { memberType: "member" } },
+            { id: "ghi", userMembership: { memberType: "member" } },
+            { id: "jkl", userMembership: { memberType: "admin" } },
+            { id: "mno", userMembership: { memberType: "member" } },
           ],
-        } as ArcGISContext,
-      };
+        } as unknown as IUser,
+        isCommunityOrg: false,
+        communityOrgId: "def456",
+        trustedOrgIds: ["abc123", "def456", "ghi789", "kjl012", "mno345"],
+        trustedOrgs: [
+          {
+            from: { orgId: "abc123" },
+            to: { orgId: "def456", name: "c-org name" },
+          },
+        ],
+      } as ArcGISContext,
+    };
+  });
+  describe("getWellKnownCatalogs", () => {
+    let chk: any;
+    it("throws an error if the requested Catalogs are not for the same targetEntity", () => {
+      try {
+        chk = getWellKnownCatalogs(
+          "mockI18nScope",
+          "item",
+          ["myContent", "myGroups"],
+          options.context,
+          options
+        );
+      } catch (err) {
+        expect(err).toEqual(
+          new Error(
+            "Requested catalogs must be of the same targetEntity type: item"
+          )
+        );
+      }
     });
+    it("returns the requested catalogs", () => {
+      chk = getWellKnownCatalogs(
+        "mockI18nScope",
+        "item",
+        ["myContent", "organization"],
+        options.context
+      );
+      expect(chk.length).toEqual(2);
+      expect(chk[0].title).toEqual(
+        "{{mockI18nScope.catalog.myContent:translate}}"
+      );
+      expect(chk[1].title).toEqual(
+        "{{mockI18nScope.catalog.organization:translate}}"
+      );
+    });
+    it("returns the requested catalogs with custom collection names", () => {
+      chk = getWellKnownCatalogs(
+        "mockI18nScope",
+        "item",
+        ["myContent", "organization"],
+        options.context,
+        { collectionNames: ["dataset"] }
+      );
+      expect(chk.length).toEqual(2);
+      expect(chk[0].collections.length).toEqual(1);
+    });
+  });
+  describe("getWellKnownCatalog", () => {
     it("returns the expected catalog for items", () => {
       let chk = getWellKnownCatalog(
         "mockI18nScope",
@@ -340,11 +399,107 @@ describe("WellKnownCatalog", () => {
           },
         },
       ]);
+      // verify "myGroups" well known catalog
+      chk = getWellKnownCatalog("mockI18nScope", "myGroups", "group", options);
+      expect(chk.scopes).toBeDefined();
+      expect(chk.scopes?.group?.filters).toEqual([
+        { predicates: [{ owner: "some-username" }] },
+      ]);
+      // verify "orgGroups" well known catalog
+      chk = getWellKnownCatalog("mockI18nScope", "orgGroups", "group", options);
+      expect(chk.scopes).toBeDefined();
+      expect(chk.scopes?.group?.filters).toEqual([
+        {
+          predicates: [
+            {
+              orgid: "abc123",
+              searchUserAccess: "groupMember",
+              searchUserName: "some-username",
+              isviewonly: false,
+            },
+            {
+              orgid: "abc123",
+              id: ["abc", "jkl"],
+            },
+          ],
+        },
+      ]);
+      // verify "communityGroups" well known catalog
+      chk = getWellKnownCatalog(
+        "mockI18nScope",
+        "communityGroups",
+        "group",
+        options
+      );
+      expect(chk.scopes).toBeDefined();
+      expect(chk.scopes?.group?.filters).toEqual([
+        {
+          predicates: [
+            {
+              orgid: "def456",
+              searchUserAccess: "groupMember",
+              searchUserName: "some-username",
+              isviewonly: false,
+            },
+            {
+              orgid: "def456",
+              id: ["abc", "jkl"],
+            },
+          ],
+        },
+      ]);
+      // verify "publicGroups" well known catalog
+      chk = getWellKnownCatalog(
+        "mockI18nScope",
+        "publicGroups",
+        "group",
+        options
+      );
+      expect(chk.scopes).toBeDefined();
+      expect(chk.scopes?.group?.filters).toEqual([
+        { predicates: [{ access: "public" }] },
+      ]);
+    });
+    it("returns the expected catalog for events", () => {
+      // verify "myEvents" well known catalog
+      let chk = getWellKnownCatalog(
+        "mockI18nScope",
+        "myEvents",
+        "event",
+        options
+      );
+      expect(chk.scopes).toBeDefined();
+      expect(chk.scopes?.event?.filters).toEqual([
+        { predicates: [{ owner: "userid" }] },
+      ]);
+      // verify "orgEvents" well known catalog
+      chk = getWellKnownCatalog("mockI18nScope", "orgEvents", "event", options);
+      expect(chk.scopes).toBeDefined();
+      expect(chk.scopes?.event?.filters).toEqual([
+        { predicates: [{ orgid: "abc123" }] },
+      ]);
+      // verify "communityEvents" well known catalog
+      chk = getWellKnownCatalog(
+        "mockI18nScope",
+        "worldEvents",
+        "event",
+        options
+      );
+      expect(chk.scopes).toBeDefined();
+      expect(chk.scopes?.event?.filters).toEqual([
+        { predicates: [{ access: ["public", "private", "org"] }] },
+      ]);
     });
     it("throws if not passing a user for a catalog that requires it", () => {
       expect(() =>
         getWellKnownCatalog("mockI18nScope", "myContent", "item")
       ).toThrowError('User needed to get "myContent" catalog');
+      expect(() =>
+        getWellKnownCatalog("mockI18nScope", "myGroups", "group")
+      ).toThrowError('User needed to get "myGroups" catalog');
+      expect(() =>
+        getWellKnownCatalog("mockI18nScope", "myEvents", "event")
+      ).toThrowError('User needed to get "myEvents" catalog');
       expect(() =>
         getWellKnownCatalog("mockI18nScope", "favorites", "item")
       ).toThrowError('User needed to get "favorites" catalog');
