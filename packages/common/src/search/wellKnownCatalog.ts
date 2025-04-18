@@ -6,7 +6,7 @@ import { buildCatalog } from "./_internal/buildCatalog";
 import { getProp, getWithDefault } from "../objects";
 import type { IArcGISContext } from "../types/IArcGISContext";
 
-/** well known item catalogs */
+/** well-known item catalogs */
 export const WELL_KNOWN_ITEM_CATALOGS = [
   "myContent",
   "favorites",
@@ -18,7 +18,7 @@ export const WELL_KNOWN_ITEM_CATALOGS = [
 ] as const;
 export type WellKnownItemCatalog = (typeof WELL_KNOWN_ITEM_CATALOGS)[number];
 
-/** well known group catalogs */
+/** well-known group catalogs */
 export const WELL_KNOWN_GROUP_CATALOGS = [
   "editGroups",
   "viewGroups",
@@ -30,6 +30,7 @@ export const WELL_KNOWN_GROUP_CATALOGS = [
 ] as const;
 export type WellKnownGroupCatalog = (typeof WELL_KNOWN_GROUP_CATALOGS)[number];
 
+/** well-known event catalogs */
 export const WELL_KNOWN_EVENT_CATALOGS = [
   "myEvents",
   "orgEvents",
@@ -84,13 +85,13 @@ export function dotifyString(i18nScope: string): string {
 }
 
 /**
- * Helper function to build an array of well known Catalogs
- * note: requested well known Catalogs must be for the same
+ * Helper function to build an array of well-known Catalogs
+ * note: requested well-known Catalogs must be for the same
  * targetEntity type
  *
  * @param i18nScope Translation scope to be interpolated into the catalog
  * @param targetEntity The type of entity to query for
- * @param catalogNames Names of the catalog requested
+ * @param catalogNames Names of the catalogs requested
  * @param context contextual portal & auth information
  * @param opts optional IGetWellKnownCatalogOptions args
  */
@@ -117,7 +118,7 @@ export function getWellKnownCatalogs(
     );
   }
 
-  // 2. build/return the well known Catalogs
+  // 2. build/return the well-known Catalogs
   return catalogNames.map((name: WellKnownCatalog) => {
     const catalog = getWellKnownCatalog(i18nScope, name, targetEntity, {
       ...(opts || {}),
