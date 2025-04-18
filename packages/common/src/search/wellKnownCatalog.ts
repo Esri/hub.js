@@ -85,6 +85,8 @@ export function dotifyString(i18nScope: string): string {
 
 /**
  * Helper function to build an array of well known Catalogs
+ * note: requested well known Catalogs must be for the same
+ * targetEntity type
  *
  * @param i18nScope Translation scope to be interpolated into the catalog
  * @param targetEntity The type of entity to query for
@@ -99,6 +101,23 @@ export function getWellKnownCatalogs(
   context: IArcGISContext,
   opts?: Exclude<IGetWellKnownCatalogOptions, "context" | "user">
 ): IHubCatalog[] {
+  // 1. ensure the requested Catalogs are for the same targetEntity
+  const validCatalogNames = {
+    item: [...WELL_KNOWN_ITEM_CATALOGS] as WellKnownCatalog[],
+    group: [...WELL_KNOWN_GROUP_CATALOGS] as WellKnownCatalog[],
+    event: [...WELL_KNOWN_EVENT_CATALOGS] as WellKnownCatalog[],
+  }[targetEntity as "item" | "group" | "event"];
+  if (
+    !catalogNames.every((name: WellKnownCatalog) =>
+      validCatalogNames.includes(name)
+    )
+  ) {
+    throw new Error(
+      `Requested catalogs must be of the same targetEntity type: ${targetEntity}`
+    );
+  }
+
+  // 2. build/return the well known Catalogs
   return catalogNames.map((name: WellKnownCatalog) => {
     const catalog = getWellKnownCatalog(i18nScope, name, targetEntity, {
       ...(opts || {}),
