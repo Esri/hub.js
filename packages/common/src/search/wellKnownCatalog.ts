@@ -108,11 +108,7 @@ export function getWellKnownCatalogs(
     group: [...WELL_KNOWN_GROUP_CATALOGS] as WellKnownCatalog[],
     event: [...WELL_KNOWN_EVENT_CATALOGS] as WellKnownCatalog[],
   }[targetEntity as "item" | "group" | "event"];
-  if (
-    !catalogNames.every((name: WellKnownCatalog) =>
-      validCatalogNames.includes(name)
-    )
-  ) {
+  if (catalogNames.some(name => !validCatalogNames.includes(name))) {
     throw new Error(
       `Requested catalogs must be of the same targetEntity type: ${targetEntity}`
     );
