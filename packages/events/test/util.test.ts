@@ -12,7 +12,7 @@ import {
 import * as portal from "@esri/arcgis-rest-portal";
 
 import { ISearchOptions } from "@esri/arcgis-rest-portal";
-import { IQueryFeaturesOptions } from "@esri/arcgis-rest-feature-service";
+import { IQueryFeaturesOptions } from "@esri/hub-common";
 
 describe("getEventServiceUrl", () => {
   it("should return admin event service url", (done) => {

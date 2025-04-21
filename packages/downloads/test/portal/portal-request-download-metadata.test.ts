@@ -1,6 +1,6 @@
 import * as fetchMock from "fetch-mock";
 import * as portalModule from "@esri/arcgis-rest-portal";
-import * as featureLayer from "@esri/arcgis-rest-feature-service";
+import * as featureLayer from "@esri/hub-common";
 import { portalRequestDownloadMetadata } from "../../src/portal/portal-request-download-metadata";
 import { ArcGISAuthError } from "@esri/arcgis-rest-request";
 

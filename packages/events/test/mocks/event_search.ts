@@ -3,7 +3,7 @@
 
 import type { IEventResourceObject } from "../../src/search";
 import type { IPoint, IField } from "@esri/arcgis-rest-request";
-import type { IQueryFeaturesResponse } from "@esri/arcgis-rest-feature-service";
+import type { IQueryFeaturesResponse } from "@esri/hub-common";
 import type { IItem, ISearchResult } from "@esri/arcgis-rest-portal";
 
 export const eventQueryResponseEmpty = {

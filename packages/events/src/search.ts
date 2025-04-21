@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { queryFeatures } from "@esri/arcgis-rest-feature-service";
+import { queryFeatures } from "@esri/hub-common";
 
 import { ISearchOptions, searchItems } from "@esri/arcgis-rest-portal";
 import type {
@@ -9,7 +9,7 @@ import type {
   IFeature,
   IQueryFeaturesOptions,
   IQueryFeaturesResponse,
-} from "@esri/arcgis-rest-feature-service";
+} from "@esri/hub-common";
 import type {
   ArcGISIdentityManager,
   IRequestOptions,

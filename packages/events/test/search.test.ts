@@ -12,9 +12,9 @@ import {
   eventResponseWithoutSiteId,
 } from "./mocks/event_search";
 
-import * as featureService from "@esri/arcgis-rest-feature-service";
+import * as featureService from "@esri/hub-common";
 import * as portal from "@esri/arcgis-rest-portal";
-import { IQueryFeaturesOptions } from "@esri/arcgis-rest-feature-service";
+import { IQueryFeaturesOptions } from "@esri/hub-common";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { ISearchOptions } from "@esri/arcgis-rest-portal";
 

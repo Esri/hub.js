@@ -4,8 +4,10 @@
 // add type re-exports here as needed
 export type {
   IExtent,
-  IGetLayerOptions,
+  IFeature,
   IFeatureServiceDefinition,
+  IGeometry,
+  IGetLayerOptions,
   ISpatialReference,
   ILayerDefinition,
   IField,

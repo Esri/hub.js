@@ -3,7 +3,7 @@
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { searchItems, ISearchResult, IItem } from "@esri/arcgis-rest-portal";
-import { IQueryFeaturesOptions } from "@esri/arcgis-rest-feature-service";
+import { IQueryFeaturesOptions } from "@esri/hub-common";
 import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { getHubApiUrl } from "@esri/hub-common";
 

@@ -5,7 +5,7 @@ import {
   getLayer,
   IFeatureServiceDefinition,
   ILayerDefinition,
-} from "@esri/arcgis-rest-feature-service";
+} from "@esri/hub-common";
 import { DownloadFormat, DownloadFormats } from "../download-format";
 import { urlBuilder, composeDownloadId } from "../utils";
 import { DownloadTarget } from "../download-target";
