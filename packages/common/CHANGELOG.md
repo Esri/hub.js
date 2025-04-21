@@ -1,3 +1,10 @@
+# @esri/hub-common [16.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.5.3...@esri/hub-common@16.6.0) (2025-04-21)
+
+
+### Features
+
+* add well-known group and event catalogs ([#1871](https://github.com/Esri/hub.js/issues/1871)) ([3cf57e0](https://github.com/Esri/hub.js/commit/3cf57e086e9239b3f7102509db58d96c0a569b4f))
+
 ## @esri/hub-common [16.5.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.5.2...@esri/hub-common@16.5.3) (2025-04-18)
 
 
