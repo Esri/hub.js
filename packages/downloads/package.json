@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-downloads",
-  "version": "16.0.0",
+  "version": "17.0.0",
   "description": "Service for Hub downloads",
   "main": "dist/node/index.js",
   "module": "dist/esm/index.js",
@@ -18,7 +18,7 @@
     "@esri/hub-common": "^17.0.0"
   },
   "devDependencies": {
-    "@esri/hub-common": "^16.0.0",
+    "@esri/hub-common": "^17.0.0",
     "typescript": "^3.8.1"
   },
   "files": [
