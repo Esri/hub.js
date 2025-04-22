@@ -202,7 +202,7 @@ export interface ISearchAssociatedContentOptions {
    */
   requestOptions: IHubRequestOptions;
   /**
-   * The scope of the search. Must be have targetEntity of "item"
+   * The scope of the search. Must have targetEntity of "item"
    */
   scope: IQuery;
   /**

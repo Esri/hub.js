@@ -1,4 +1,8 @@
-import { getTypeFromEntity } from "../core";
+import { getTypeFromEntity } from "../core/getTypeFromEntity";
+import {
+  HUB_ITEM_ENTITY_TYPES,
+  HubItemEntityType,
+} from "../core/types/HubEntityType";
 import HubError from "../HubError";
 import { getOgcApiDefinition } from "./_internal/commonHelpers/getOgcApiDefinition";
 import { ISearchOgcItemsOptions } from "./_internal/hubSearchItemsHelpers/interfaces";
@@ -29,26 +33,15 @@ export async function searchAssociatedContent(
   };
 
   // Validate that we received an item-based entity
-  // TODO: make a helper function to validate the entity type
-  const entityType = getTypeFromEntity(opts.entity);
-  const itemBasedEntities = [
-    "page",
-    "site",
-    "content",
-    "initiative",
-    "initiativeTemplate",
-    "project",
-    "survey",
-    "template",
-  ];
-  if (!itemBasedEntities.includes(entityType)) {
+  const entityType = getTypeFromEntity(opts.entity) as HubItemEntityType;
+  if (!HUB_ITEM_ENTITY_TYPES.includes(entityType)) {
     throw new HubError(
       "searchAssociatedContent",
       `associated content is not supported for entity type "${entityType}"`
     );
   }
 
-  // For now, we only support searching associated content for item-based entities
+  // For now, we only support searching associated items, not other types of entities
   if (scope.targetEntity !== "item") {
     throw new HubError(
       "searchAssociatedContent",
