@@ -1,3 +1,25 @@
+# @esri/hub-sites [18.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@17.0.0...@esri/hub-sites@18.0.0) (2025-04-22)
+
+
+### Features
+
+* upgrade to ArcGIS REST JS 4 ([#1850](https://github.com/Esri/hub.js/issues/1850)) ([8eb1496](https://github.com/Esri/hub.js/commit/8eb14967af7cc194cdc03b5d5c2648dac77597f0))
+
+
+### BREAKING CHANGES
+
+* ArcGIS REST JS peer dependencies must be v4
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 17.0.0
+* **@esri/hub-initiatives:** upgraded to 17.0.0
+* **@esri/hub-teams:** upgraded to 17.0.0
+
 # @esri/hub-sites [17.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@16.1.0...@esri/hub-sites@17.0.0) (2025-03-28)
 
 
