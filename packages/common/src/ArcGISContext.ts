@@ -1,8 +1,8 @@
 import {
   IUser,
   IUserRequestOptions,
-  UserSession,
-} from "@esri/arcgis-rest-auth";
+  ArcGISIdentityManager,
+} from "@esri/arcgis-rest-request";
 import { IGetUserOptions, IPortal, getUser } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import {
@@ -58,7 +58,7 @@ const HUB_RESOURE_GROUPS: Record<HubEnvironment, string[]> = {
 };
 
 /**
- * Abstraction that holds a `UserSession`, along with
+ * Abstraction that holds a `ArcGISIdentityManager`, along with
  * getters to streamline access to various platform
  * urls, and common constructs like `IRequestOptions`,
  * `IUserRequestOptions` etc.
@@ -76,7 +76,7 @@ export class ArcGISContext implements IArcGISContext {
    * instances being created.
    */
   public id: number;
-  private _authentication: UserSession;
+  private _authentication: ArcGISIdentityManager;
 
   private _portalUrl: string = "https://www.arcgis.com";
 
@@ -143,9 +143,9 @@ export class ArcGISContext implements IArcGISContext {
   }
 
   /**
-   * Return the UserSession if authenticated
+   * Return the ArcGISIdentityManager if authenticated
    */
-  public get session(): UserSession {
+  public get session(): ArcGISIdentityManager {
     return this._authentication;
   }
 

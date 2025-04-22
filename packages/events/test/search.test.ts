@@ -9,12 +9,12 @@ import {
   eventResponseEmpty,
   siteSearchResponse,
   eventQueryResponseWithoutSiteId,
-  eventResponseWithoutSiteId
+  eventResponseWithoutSiteId,
 } from "./mocks/event_search";
 
-import * as featureService from "@esri/arcgis-rest-feature-layer";
+import * as featureService from "@esri/arcgis-rest-feature-service";
 import * as portal from "@esri/arcgis-rest-portal";
-import { IQueryFeaturesOptions } from "@esri/arcgis-rest-feature-layer";
+import { IQueryFeaturesOptions } from "@esri/arcgis-rest-feature-service";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { ISearchOptions } from "@esri/arcgis-rest-portal";
 
@@ -24,30 +24,30 @@ describe("searchEvents", () => {
       portal: "https://some.portal.com/arcgis/sharing/rest",
       getToken() {
         return Promise.resolve("FAKE-TOKEN");
-      }
-    }
+      },
+    },
   } as IRequestOptions;
 
-  it("should query for events when no parameters are passed", done => {
+  it("should query for events when no parameters are passed", (done) => {
     const queryParamsSpy = spyOn(
       featureService,
       "queryFeatures"
     ).and.returnValue(
-      new Promise(resolve => {
+      new Promise((resolve) => {
         resolve(eventQueryResponse);
       })
     );
 
     // stub searchItems
     const siteParamsSpy = spyOn(portal, "searchItems").and.returnValues(
-      new Promise(resolve => {
+      new Promise((resolve) => {
         resolve(siteSearchResponse);
       })
     );
 
     searchEvents({
       url: publicEventSearchResponse.results[0].url + "/0",
-      ...ro
+      ...ro,
     })
       .then(() => {
         expect(queryParamsSpy.calls.count()).toEqual(1);
@@ -66,12 +66,12 @@ describe("searchEvents", () => {
       .catch(() => fail());
   });
 
-  it("should not fetch site info if no features are returned from search", done => {
+  it("should not fetch site info if no features are returned from search", (done) => {
     const queryParamsSpy = spyOn(
       featureService,
       "queryFeatures"
     ).and.returnValue(
-      new Promise(resolve => {
+      new Promise((resolve) => {
         resolve(eventQueryResponseEmpty);
       })
     );
@@ -80,9 +80,9 @@ describe("searchEvents", () => {
 
     searchEvents({
       url: publicEventSearchResponse.results[0].url + "/0",
-      ...ro
+      ...ro,
     })
-      .then(response => {
+      .then((response) => {
         expect(queryParamsSpy.calls.count()).toEqual(1);
         expect(siteParamsSpy.calls.count()).toEqual(0);
 
@@ -100,12 +100,12 @@ describe("searchEvents", () => {
       .catch(() => fail());
   });
 
-  it("should not fetch site info if features don't have siteId set", done => {
+  it("should not fetch site info if features don't have siteId set", (done) => {
     const queryParamsSpy = spyOn(
       featureService,
       "queryFeatures"
     ).and.returnValue(
-      new Promise(resolve => {
+      new Promise((resolve) => {
         resolve(eventQueryResponseWithoutSiteId);
       })
     );
@@ -114,9 +114,9 @@ describe("searchEvents", () => {
 
     searchEvents({
       url: publicEventSearchResponse.results[0].url + "/0",
-      ...ro
+      ...ro,
     })
-      .then(response => {
+      .then((response) => {
         expect(queryParamsSpy.calls.count()).toEqual(1);
         expect(siteParamsSpy.calls.count()).toEqual(0);
 
@@ -136,18 +136,18 @@ describe("searchEvents", () => {
       .catch(() => fail());
   });
 
-  it("should allow users to fetch without geometry", done => {
+  it("should allow users to fetch without geometry", (done) => {
     const queryParamsSpy = spyOn(
       featureService,
       "queryFeatures"
     ).and.returnValue(
-      new Promise(resolve => {
+      new Promise((resolve) => {
         resolve(eventQueryResponse);
       })
     );
 
     const siteParamsSpy = spyOn(portal, "searchItems").and.returnValues(
-      new Promise(resolve => {
+      new Promise((resolve) => {
         resolve(siteSearchResponse);
       })
     );
@@ -155,9 +155,9 @@ describe("searchEvents", () => {
     searchEvents({
       url: publicEventSearchResponse.results[0].url + "/0",
       returnGeometry: false,
-      ...ro
+      ...ro,
     })
-      .then(response => {
+      .then((response) => {
         expect(queryParamsSpy.calls.count()).toEqual(1);
         expect(siteParamsSpy.calls.count()).toEqual(1);
         const queryOpts = queryParamsSpy.calls.argsFor(
@@ -173,26 +173,26 @@ describe("searchEvents", () => {
       .catch(() => fail());
   });
 
-  it("should allow users to fetch without passing authentication", done => {
+  it("should allow users to fetch without passing authentication", (done) => {
     const queryParamsSpy = spyOn(
       featureService,
       "queryFeatures"
     ).and.returnValue(
-      new Promise(resolve => {
+      new Promise((resolve) => {
         resolve(eventQueryResponse);
       })
     );
 
     const siteParamsSpy = spyOn(portal, "searchItems").and.returnValues(
-      new Promise(resolve => {
+      new Promise((resolve) => {
         resolve(siteSearchResponse);
       })
     );
 
     searchEvents({
-      url: publicEventSearchResponse.results[0].url + "/0"
+      url: publicEventSearchResponse.results[0].url + "/0",
     })
-      .then(response => {
+      .then((response) => {
         expect(queryParamsSpy.calls.count()).toEqual(1);
         expect(siteParamsSpy.calls.count()).toEqual(1);
         const queryOpts = queryParamsSpy.calls.argsFor(

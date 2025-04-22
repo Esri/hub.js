@@ -4,7 +4,7 @@ import {
 } from "@esri/arcgis-rest-portal";
 import { DownloadFormat } from "../download-format";
 import * as EventEmitter from "eventemitter3";
-import type { UserSession } from "@esri/arcgis-rest-auth";
+import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { IPoller } from "../poller";
 import { exportSuccessHandler } from "./portal-export-success-handler";
 import { DownloadStatus } from "../download-status";
@@ -17,7 +17,7 @@ interface IPortalPollExportJobStatusParams {
   downloadId: string;
   datasetId: string;
   format: DownloadFormat;
-  authentication: UserSession;
+  authentication: ArcGISIdentityManager;
   jobId: string;
   exportCreated: number;
   eventEmitter: EventEmitter;

@@ -2,11 +2,8 @@
  * Apache-2.0 */
 
 import type { IEventResourceObject } from "../../src/search";
-import type {
-  IGeometry,
-  IField,
-  IQueryFeaturesResponse,
-} from "@esri/arcgis-rest-feature-layer";
+import type { IPoint, IField } from "@esri/arcgis-rest-request";
+import type { IQueryFeaturesResponse } from "@esri/arcgis-rest-feature-service";
 import type { IItem, ISearchResult } from "@esri/arcgis-rest-portal";
 
 export const eventQueryResponseEmpty = {
@@ -626,7 +623,7 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
       geometry: {
         x: -74.310680054965559,
         y: 40.723010058860787,
-      } as IGeometry,
+      } as IPoint,
     },
     {
       attributes: {
@@ -671,7 +668,7 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
       geometry: {
         x: -77.036430054965564,
         y: 38.897929948352669,
-      } as IGeometry,
+      } as IPoint,
     },
     {
       attributes: {
@@ -715,7 +712,7 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
       geometry: {
         x: -77.071490000576887,
         y: 38.895170069969296,
-      } as IGeometry,
+      } as IPoint,
     },
   ],
 };
@@ -1046,7 +1043,7 @@ export const eventQueryResponseWithoutSiteId: IQueryFeaturesResponse = {
       geometry: {
         x: -74.310680054965559,
         y: 40.723010058860787,
-      } as IGeometry,
+      } as IPoint,
     },
   ],
 };

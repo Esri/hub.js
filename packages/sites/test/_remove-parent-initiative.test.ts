@@ -1,6 +1,6 @@
 import { _removeParentInitiative } from "../src";
 import * as commonModule from "@esri/hub-common";
-import type { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 
 describe("_removeParentInitiative", () => {
   it("removes the groups", async () => {

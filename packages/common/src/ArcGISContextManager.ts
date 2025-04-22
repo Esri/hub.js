@@ -1,5 +1,9 @@
 import { getSelf, getUser, IPortal } from "@esri/arcgis-rest-portal";
-import { exchangeToken, IUser, UserSession } from "@esri/arcgis-rest-auth";
+import {
+  exchangeToken,
+  IUser,
+  ArcGISIdentityManager,
+} from "@esri/arcgis-rest-request";
 import { ArcGISContext } from "./ArcGISContext";
 import type { IArcGISContextOptions } from "./types/IArcGISContextOptions";
 import type { IArcGISContext } from "./types/IArcGISContext";
@@ -45,7 +49,7 @@ const CONTEXT_AUTHD_SERIALIZABLE_PROPS: Array<
 > = ["resourceTokens", "portal", "currentUser"];
 
 /**
- * The manager exposes context (`IArcGISContext`), which combines a `UserSession` with
+ * The manager exposes context (`IArcGISContext`), which combines a `ArcGISIdentityManager` with
  * the `portal/self` and `user/self` responses to provide a central lookup for platform
  * information, api urls, and other useful properties for developers such as IRequestOptions
  * IUserRequestOptions, IHubRequestOptions etc.
@@ -68,7 +72,7 @@ export class ArcGISContextManager {
 
   private _context: IArcGISContext;
 
-  private _authentication: UserSession;
+  private _authentication: ArcGISIdentityManager;
 
   private _portalUrl: string = "https://www.arcgis.com";
 
@@ -202,14 +206,14 @@ export class ArcGISContextManager {
     });
     // check if there is a session and if it's still valid
     if (state.session) {
-      const userSession = UserSession.deserialize(state.session);
+      const userSession = ArcGISIdentityManager.deserialize(state.session);
       if (userSession.tokenExpires.getTime() > Date.now()) {
         CONTEXT_AUTHD_SERIALIZABLE_PROPS.forEach((prop) => {
           opts = maybeAdd(prop, getProp(state, prop), opts);
         });
         // CRTITICAL: This must be done after the maybeAdd calls above
         // as those return clones of the opts object, and cloneObject
-        // does not support cloning a UserSession
+        // does not support cloning a ArcGISIdentityManager
         opts.authentication = userSession;
       }
     }
@@ -239,12 +243,12 @@ export class ArcGISContextManager {
   }
 
   /**
-   * Set the Authentication (UserSession) for the context.
+   * Set the Authentication (ArcGISIdentityManager) for the context.
    * This should be called when a user signs into a running
    * application.
    * @param auth
    */
-  async setAuthentication(auth: UserSession): Promise<void> {
+  async setAuthentication(auth: ArcGISIdentityManager): Promise<void> {
     this._authentication = auth;
     this._portalUrl = auth.portal.replace("/sharing/rest", "");
     await this.initialize();
@@ -260,7 +264,7 @@ export class ArcGISContextManager {
   }
 
   /**
-   * Clear the Authentication (UserSession). This should be
+   * Clear the Authentication (ArcGISIdentityManager). This should be
    * called when a user signs out of an application, but
    * the application continues running
    */
@@ -319,7 +323,7 @@ export class ArcGISContextManager {
   }
 
   /**
-   * If we have a UserSession, fetch other resources to populate the context
+   * If we have a ArcGISIdentityManager, fetch other resources to populate the context
    */
   private async initialize(): Promise<void> {
     // setup array to hold promises and one to track promise index
@@ -470,7 +474,7 @@ export class ArcGISContextManager {
       });
       // CRTITICAL: .authentication must be attached after the maybeAdd calls above
       // as those return clones of the opts object, and cloneObject
-      // does not support cloning a UserSession
+      // does not support cloning a ArcGISIdentityManager
       contextOpts.authentication = this._authentication;
     }
     // Handle some special cases where the prop names don't map cleanly
@@ -505,7 +509,7 @@ function getServiceStatus(portalUrl: string): Promise<HubServiceStatus> {
  */
 async function getTrustedOrgs(
   _portalUrl: string,
-  _authentication: UserSession
+  _authentication: ArcGISIdentityManager
 ): Promise<IHubTrustedOrgsResponse[]> {
   const failSafeTrustedOrgs = failSafe(request, { trustedOrgs: [] });
   const trustedOrgs = await failSafeTrustedOrgs(
@@ -537,7 +541,7 @@ function getTrustedOrgIds(trustedOrgs: IHubTrustedOrgsResponse[]): string[] {
  * @returns {IPortal}
  */
 async function getSelfWithLimits(
-  authentication: UserSession
+  authentication: ArcGISIdentityManager
 ): Promise<IPortal> {
   const portal = await getSelf({ authentication });
   const limits = await getPortalLimits(portal.id, authentication);
@@ -556,7 +560,7 @@ async function getSelfWithLimits(
  */
 async function getPortalLimits(
   orgId: string,
-  authentication: UserSession
+  authentication: ArcGISIdentityManager
 ): Promise<Record<string, number>> {
   // TODO: add additional limits as needed
   const limitsToFetch: Array<{

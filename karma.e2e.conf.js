@@ -81,7 +81,6 @@ module.exports = function (config) {
             ],
           }),
         ],
-        exclude: ["@esri/arcgis-rest-types"],
         resolve: {
           // karmas resolver cant figure out the symlinked deps from lerna
           // so we need to manually alias each package here.
