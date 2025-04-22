@@ -10,6 +10,7 @@ import { transformFormValuesToEntityPermissionPolicies } from "./transformFormVa
 export function transformEditorToEntity(
   editor: IHubChannelEditor
 ): Partial<IHubChannel> {
+  // combine permissions
   const permissionValues = [
     ...editor.publicConfigs,
     ...editor.orgConfigs,
