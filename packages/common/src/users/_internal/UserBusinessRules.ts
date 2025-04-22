@@ -69,6 +69,7 @@ export const UserPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:user:workspace:events",
     services: ["events"],
     dependencies: ["hub:user:workspace", "hub:user:owner"],
+    licenses: ["hub-premium"],
   },
   {
     permission: "hub:user:workspace:settings",
