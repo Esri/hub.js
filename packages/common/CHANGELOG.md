@@ -1,3 +1,10 @@
+## @esri/hub-common [17.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.0.0...@esri/hub-common@17.0.1) (2025-04-23)
+
+
+### Bug Fixes
+
+* **hub-common:** gate events pane to premium users ([#1875](https://github.com/Esri/hub.js/issues/1875)) ([25c8a2b](https://github.com/Esri/hub.js/commit/25c8a2bafb9861c0035605b57346ab882d6b2258))
+
 # @esri/hub-common [17.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@16.6.0...@esri/hub-common@17.0.0) (2025-04-22)
 
 
