@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <meta name="date" content="2025-04-23T14:55:18.572Z">
+    <meta name="date" content="2025-04-23T15:52:48.036Z">
     <title>@esri/hub.js</title>
     
     <link rel="stylesheet" href="/hub.js/css/calcite-web.min.css">
@@ -74,7 +74,7 @@
               <path d="M7 4h5l12 12-12 12H7l12-12L7 4z" />
             </svg>
           </button>
-          <a href="/hub.js/api/common/" class="tsd-kind-icon">common</a>&nbsp;<small>v17.0.0</small>
+          <a href="/hub.js/api/common/" class="tsd-kind-icon">common</a>&nbsp;<small>v17.0.1</small>
           <ul id="list1" class="api-package-content-list">
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -514,6 +514,10 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/commitItemUpload/" class="tsd-kind-icon padding-right-1">commitItemUpload</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/compose/" class="tsd-kind-icon padding-right-1">compose</a>
             </li>
             
@@ -663,6 +667,10 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/createId/" class="tsd-kind-icon padding-right-1">createId</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/createItem/" class="tsd-kind-icon padding-right-1">createItem</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -2686,6 +2694,10 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/serializeItemParams/" class="tsd-kind-icon padding-right-1">serializeItemParams</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/serializeModel/" class="tsd-kind-icon padding-right-1">serializeModel</a>
             </li>
             
@@ -2895,6 +2907,10 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/updateHubEntity/" class="tsd-kind-icon padding-right-1">updateHubEntity</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/updateItem/" class="tsd-kind-icon padding-right-1">updateItem</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -7382,7 +7398,7 @@
   
   
   
-  <small class="label right">Version 17.0.0</small>
+  <small class="label right">Version 17.0.1</small>
 <h1 class=" font-size-3 trailer-half code-face">
   <a href="/hub.js/api/common/">@esri/hub-common</a>
 </h1>
@@ -7501,6 +7517,7 @@
   clearMemoizedCache,
   cloneObject,
   combineQueries,
+  commitItemUpload,
   compose,
   composeContent,
   composeHubContent,
@@ -7539,6 +7556,7 @@
   createHubChannel,
   createHubGroup,
   createId,
+  createItem,
   createItemFromFile,
   createItemFromUrl,
   createItemFromUrlOrFile,
@@ -8044,6 +8062,7 @@
   searchPosts,
   searchPostsV2,
   searchVersions,
+  serializeItemParams,
   serializeModel,
   serializeQueryForPortal,
   serializeSpatialReference,
@@ -8097,6 +8116,7 @@
   updateEvent,
   updateHubChannel,
   updateHubEntity,
+  updateItem,
   updateModel,
   updateNotificationSpec,
   updatePortalOrgSettings,
@@ -8601,6 +8621,10 @@
   </li>
   
   <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/commitItemUpload/" class="tsd-kind-icon">commitItemUpload</a>
+  </li>
+  
+  <li class="tsd-kind-function">
     <a href="/hub.js/api/common/compose/" class="tsd-kind-icon">compose</a>
   </li>
   
@@ -8750,6 +8774,10 @@
   
   <li class="tsd-kind-function">
     <a href="/hub.js/api/common/createId/" class="tsd-kind-icon">createId</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/createItem/" class="tsd-kind-icon">createItem</a>
   </li>
   
   <li class="tsd-kind-function">
@@ -10773,6 +10801,10 @@
   </li>
   
   <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/serializeItemParams/" class="tsd-kind-icon">serializeItemParams</a>
+  </li>
+  
+  <li class="tsd-kind-function">
     <a href="/hub.js/api/common/serializeModel/" class="tsd-kind-icon">serializeModel</a>
   </li>
   
@@ -10982,6 +11014,10 @@
   
   <li class="tsd-kind-function">
     <a href="/hub.js/api/common/updateHubEntity/" class="tsd-kind-icon">updateHubEntity</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/updateItem/" class="tsd-kind-icon">updateItem</a>
   </li>
   
   <li class="tsd-kind-function">
@@ -14633,7 +14669,7 @@
   </li>
   
 </ul>
-  <small>v17.0.0</small>
+  <small>v17.0.1</small>
 
   
   <hr>
