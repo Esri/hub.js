@@ -1,4 +1,4 @@
-import * as restPortalModule from "@esri/arcgis-rest-portal";
+import * as commonModule from "@esri/hub-common";
 import { IModel } from "@esri/hub-common";
 import { removeTeamFromItems } from "../src/remove-team-from-items";
 
@@ -75,7 +75,7 @@ describe("remove-team-from-items", function () {
   let updateItemSpy: jasmine.Spy;
 
   beforeEach(() => {
-    updateItemSpy = spyOn(restPortalModule, "updateItem");
+    updateItemSpy = spyOn(commonModule, "updateItem");
   });
   afterEach(() => {
     updateItemSpy.calls.reset();

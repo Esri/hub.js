@@ -1,14 +1,12 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IModel, cloneObject } from "@esri/hub-common";
+import { IModel, cloneObject, createItem, updateItem } from "@esri/hub-common";
 import geometryService from "./geometry";
 import {
-  createItem,
-  updateItem,
   IUpdateItemOptions,
   ICreateItemOptions,
-  ICreateItemResponse
+  ICreateItemResponse,
 } from "@esri/arcgis-rest-portal";
 
 /**
@@ -74,7 +72,7 @@ function createRequestOptions(
   // create the options...
   const opts = {
     item,
-    ...requestOptions
+    ...requestOptions,
   };
   return opts;
 }

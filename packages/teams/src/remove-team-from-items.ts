@@ -1,6 +1,6 @@
 import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
-import { IUpdateItemResponse, updateItem } from "@esri/arcgis-rest-portal";
-import { cloneObject, IModel, without } from "@esri/hub-common";
+import type { IUpdateItemResponse } from "@esri/arcgis-rest-portal";
+import { cloneObject, IModel, without, updateItem } from "@esri/hub-common";
 
 /**
  * Removes a Team from N hub models.

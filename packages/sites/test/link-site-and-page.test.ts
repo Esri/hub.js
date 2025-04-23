@@ -1,6 +1,5 @@
 import { linkSiteAndPage } from "../src";
 import * as commonModule from "@esri/hub-common";
-import * as portalModule from "@esri/arcgis-rest-portal";
 import * as fetchMock from "fetch-mock";
 import { cloneObject } from "@esri/hub-common";
 
@@ -46,7 +45,7 @@ describe("linkSiteAndPage", () => {
       Promise.resolve({})
     );
 
-    updateSpy = spyOn(portalModule, "updateItem").and.callFake((opts: any) =>
+    updateSpy = spyOn(commonModule, "updateItem").and.callFake((opts: any) =>
       Promise.resolve({ success: true, id: opts.item.id })
     );
   });

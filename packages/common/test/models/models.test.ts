@@ -1,6 +1,7 @@
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as itemsModule from "../../src/items";
 import * as resourcesModule from "../../src/resources";
+import * as restPortal from "../../src/rest/portal";
 
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import {
@@ -62,7 +63,7 @@ describe("model utils:", () => {
   });
   describe("createModel:", () => {
     it("creates item and stores it", async () => {
-      const createItemSpy = spyOn(portalModule, "createItem").and.returnValue(
+      const createItemSpy = spyOn(restPortal, "createItem").and.returnValue(
         Promise.resolve({ success: true, id: "bc3" })
       );
       const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
@@ -109,7 +110,7 @@ describe("model utils:", () => {
       expect(opts.item.extent).toBe("1, 2, 3, 4" as unknown as number[][]);
     });
     it("creates item and stores it w/ extent as string", async () => {
-      const createItemSpy = spyOn(portalModule, "createItem").and.returnValue(
+      const createItemSpy = spyOn(restPortal, "createItem").and.returnValue(
         Promise.resolve({ success: true, id: "bc3" })
       );
       const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
@@ -156,7 +157,7 @@ describe("model utils:", () => {
   // longterm TODO: change these to spy on getModel rather than the implementations of it
   describe("updateModel: ", () => {
     it("updates a model", async () => {
-      const updateItemSpy = spyOn(portalModule, "updateItem").and.returnValue(
+      const updateItemSpy = spyOn(restPortal, "updateItem").and.returnValue(
         Promise.resolve({ success: true, id: "00c" })
       );
       const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
@@ -223,7 +224,7 @@ describe("model utils:", () => {
       expect(opts.item.categories).toEqual([]);
     });
     it("updates a model without data", async () => {
-      const updateItemSpy = spyOn(portalModule, "updateItem").and.returnValue(
+      const updateItemSpy = spyOn(restPortal, "updateItem").and.returnValue(
         Promise.resolve({ success: true, id: "00c" })
       );
       const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
@@ -283,7 +284,7 @@ describe("model utils:", () => {
       expect(opts.item.categories).toEqual([]);
     });
     it("updates a model w/ extent as string", async () => {
-      const updateItemSpy = spyOn(portalModule, "updateItem").and.returnValue(
+      const updateItemSpy = spyOn(restPortal, "updateItem").and.returnValue(
         Promise.resolve({ success: true, id: "00c" })
       );
       const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(

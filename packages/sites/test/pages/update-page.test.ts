@@ -1,5 +1,4 @@
 import { updatePage } from "../../src";
-import * as portalModule from "@esri/arcgis-rest-portal";
 import * as commonModule from "@esri/hub-common";
 import { IModel, IHubUserRequestOptions, cloneObject } from "@esri/hub-common";
 
@@ -28,7 +27,7 @@ describe("updatePage", () => {
 
   let updateSpy: jasmine.Spy;
   beforeEach(() => {
-    updateSpy = spyOn(portalModule, "updateItem").and.returnValue(
+    updateSpy = spyOn(commonModule, "updateItem").and.returnValue(
       Promise.resolve({ success: true })
     );
   });

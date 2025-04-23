@@ -6,10 +6,11 @@ import {
   mergeObjects,
   serializeModel,
   getSiteById,
+  updateItem,
 } from "@esri/hub-common";
 import { SITE_UI_VERSION } from "./site-ui-version";
 import { _ensurePortalDomainKeyword } from "./_ensure-portal-domain-keyword";
-import { updateItem, IUpdateItemResponse } from "@esri/arcgis-rest-portal";
+import type { IUpdateItemResponse } from "@esri/arcgis-rest-portal";
 
 /**
  * Update an existing site item

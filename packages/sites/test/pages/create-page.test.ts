@@ -3,7 +3,7 @@ import {
   IHubRequestOptions,
   IModelTemplate,
   IItemResource,
-  cloneObject
+  cloneObject,
 } from "@esri/hub-common";
 import * as commonModule from "@esri/hub-common";
 import * as portalModule from "@esri/arcgis-rest-portal";
@@ -11,27 +11,27 @@ import * as linkModule from "../../src/link-site-and-page";
 import { expectAllCalled } from "../test-helpers.test";
 
 describe("createPage", () => {
-  const ro = ({
+  const ro = {
     authentication: {
       username: "tate",
-      isPortal: false
-    }
-  } as unknown) as IHubRequestOptions;
+      isPortal: false,
+    },
+  } as unknown as IHubRequestOptions;
 
-  const pageModel = ({
+  const pageModel = {
     item: {
-      typeKeywords: []
+      typeKeywords: [],
     },
     data: {
       values: {
-        sites: [{ id: "site-1" }, { id: "site-2" }, { id: "site-3" }]
-      }
-    }
-  } as unknown) as IModelTemplate;
+        sites: [{ id: "site-1" }, { id: "site-2" }, { id: "site-3" }],
+      },
+    },
+  } as unknown as IModelTemplate;
 
   const opts = {
     shareTo: [{ id: "group-1", confirmItemControl: true }, { id: "group-2" }],
-    assets: [{ url: "foobar-asset" } as IItemResource]
+    assets: [{ url: "foobar-asset" } as IItemResource],
   };
 
   const itemId = "id-foo-bar";
@@ -42,7 +42,7 @@ describe("createPage", () => {
   let linkSpy: jasmine.Spy;
   let uploadResourcesSpy: jasmine.Spy;
   beforeEach(() => {
-    createSpy = spyOn(portalModule, "createItem").and.returnValue(
+    createSpy = spyOn(commonModule, "createItem").and.returnValue(
       Promise.resolve({ id: itemId })
     );
     protectSpy = spyOn(portalModule, "protectItem").and.returnValue(
@@ -90,14 +90,14 @@ describe("createPage", () => {
       id: itemId,
       groupId: "group-1",
       authentication: ro.authentication,
-      confirmItemControl: true
+      confirmItemControl: true,
     });
 
     expect(shareItemSpy).toHaveBeenCalledWith({
       id: itemId,
       groupId: "group-2",
       authentication: ro.authentication,
-      confirmItemControl: false
+      confirmItemControl: false,
     });
 
     expect(linkSpy.calls.count()).toBe(3);
@@ -105,7 +105,7 @@ describe("createPage", () => {
       Object.assign(
         {
           siteId: "site-1",
-          pageModel: created
+          pageModel: created,
         },
         ro
       )
@@ -114,7 +114,7 @@ describe("createPage", () => {
       Object.assign(
         {
           siteId: "site-2",
-          pageModel: created
+          pageModel: created,
         },
         ro
       )
@@ -123,7 +123,7 @@ describe("createPage", () => {
       Object.assign(
         {
           siteId: "site-3",
-          pageModel: created
+          pageModel: created,
         },
         ro
       )
