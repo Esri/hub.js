@@ -31,6 +31,7 @@ export * from "./permissions";
 export * from "./projects";
 export * from "./request";
 export * from "./resources";
+export * from "./rest";
 export * from "./search";
 export * from "./sites";
 export * from "./templates";

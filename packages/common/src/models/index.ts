@@ -2,16 +2,15 @@ export * from "./serializeModel";
 
 import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import {
-  createItem,
   FetchReadMethodName,
   getItem,
   getItemData,
   getItemResource,
   IItem,
   IUpdateItemOptions,
-  updateItem,
 } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { createItem, updateItem } from "../rest/portal";
 import { bboxToString } from "../extent";
 import { getItemBySlug } from "../items";
 import { upsertResource } from "../resources";

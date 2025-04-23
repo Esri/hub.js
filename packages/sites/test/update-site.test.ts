@@ -1,6 +1,5 @@
 import { SITE_ITEM_RESPONSE, SITE_DATA_RESPONSE } from "./site-responses.test";
 import * as commonModule from "@esri/hub-common";
-import * as portalModule from "@esri/arcgis-rest-portal";
 import { updateSite } from "../src";
 
 describe("update site", function () {
@@ -16,7 +15,7 @@ describe("update site", function () {
       })
     );
 
-    updateSpy = spyOn(portalModule, "updateItem").and.returnValue(
+    updateSpy = spyOn(commonModule, "updateItem").and.returnValue(
       Promise.resolve({ success: true, id: "3ef" })
     );
 
@@ -54,15 +53,13 @@ describe("update site", function () {
     expect(result.success).toBeTruthy("should return sucess");
     expect(updateSpy).toHaveBeenCalled();
 
-    const updateItem = updateSpy.calls.argsFor(0)[0].item;
+    const item = updateSpy.calls.argsFor(0)[0].item;
     // title wasn't on allow list, so shouldn't update
-    expect(updateItem.title).not.toBe(localSite.item.title);
+    expect(item.title).not.toBe(localSite.item.title);
     // newprop was on allow list, so should update
-    expect(updateItem.properties.newProp).toBe(
-      localSite.item.properties.newProp
-    );
+    expect(item.properties.newProp).toBe(localSite.item.properties.newProp);
     // versions updated
-    expect(updateItem.properties.schemaVersion).toEqual(
+    expect(item.properties.schemaVersion).toEqual(
       localSite.item.properties.schemaVersion
     );
   });
@@ -92,15 +89,15 @@ describe("update site", function () {
     expect(result.success).toBeTruthy("should return sucess");
     expect(updateSpy).toHaveBeenCalled();
 
-    const updateItem = updateSpy.calls.argsFor(0)[0].item;
+    const updatedItem = updateSpy.calls.argsFor(0)[0].item;
     // title wasn't on allow list, so shouldn't update
-    expect(updateItem.title).not.toBe(localSite.item.title);
+    expect(updatedItem.title).not.toBe(localSite.item.title);
     // newprop was on allow list, so should update
-    expect(updateItem.properties.newProp).toBe(
+    expect(updatedItem.properties.newProp).toBe(
       localSite.item.properties.newProp
     );
     // versions not updated
-    expect(updateItem.properties.schemaVersion).toEqual(
+    expect(updatedItem.properties.schemaVersion).toEqual(
       SITE_ITEM_RESPONSE.properties.schemaVersion
     );
   });

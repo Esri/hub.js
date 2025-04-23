@@ -2,6 +2,7 @@ import * as portal from "@esri/arcgis-rest-portal";
 import * as folderHelper from "../../src/portal/portal-get-exports-folder-id";
 import { exportSuccessHandler } from "../../src/portal/portal-export-success-handler";
 import * as EventEmitter from "eventemitter3";
+import * as common from "@esri/hub-common";
 
 function delay(milliseconds: number) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
@@ -30,7 +31,7 @@ describe("portalPollExportJobStatus", () => {
   describe("export-completed handling errors", () => {
     it("updateItem failure", async (done) => {
       try {
-        spyOn(portal, "updateItem").and.callFake(async () => {
+        spyOn(common, "updateItem").and.callFake(async () => {
           return Promise.reject(new Error("5xx"));
         });
 
@@ -50,8 +51,8 @@ describe("portalPollExportJobStatus", () => {
       } catch (err) {
         expect(err.message).toBe("5xx");
       } finally {
-        expect(portal.updateItem).toHaveBeenCalledTimes(1);
-        expect((portal.updateItem as any).calls.first().args).toEqual([
+        expect(common.updateItem).toHaveBeenCalledTimes(1);
+        expect((common.updateItem as any).calls.first().args).toEqual([
           {
             item: {
               id: "download-id",
@@ -73,7 +74,7 @@ describe("portalPollExportJobStatus", () => {
 
     it("setItemAccess failure", async (done) => {
       try {
-        spyOn(portal, "updateItem").and.callFake(async () => {
+        spyOn(common, "updateItem").and.callFake(async () => {
           return Promise.resolve();
         });
 
@@ -97,8 +98,8 @@ describe("portalPollExportJobStatus", () => {
         throw new Error("should have errored");
       } catch (err) {
         expect(err.message).toEqual("5xx");
-        expect(portal.updateItem).toHaveBeenCalledTimes(1);
-        expect((portal.updateItem as any).calls.first().args).toEqual([
+        expect(common.updateItem).toHaveBeenCalledTimes(1);
+        expect((common.updateItem as any).calls.first().args).toEqual([
           {
             item: {
               id: "download-id",
@@ -129,7 +130,7 @@ describe("portalPollExportJobStatus", () => {
 
     it("getExportsFolderId failure", async (done) => {
       try {
-        spyOn(portal, "updateItem").and.callFake(async () => {
+        spyOn(common, "updateItem").and.callFake(async () => {
           return Promise.resolve();
         });
 
@@ -157,8 +158,8 @@ describe("portalPollExportJobStatus", () => {
         throw new Error("should have errored");
       } catch (err) {
         expect(err.message).toEqual("5xx");
-        expect(portal.updateItem).toHaveBeenCalledTimes(1);
-        expect((portal.updateItem as any).calls.first().args).toEqual([
+        expect(common.updateItem).toHaveBeenCalledTimes(1);
+        expect((common.updateItem as any).calls.first().args).toEqual([
           {
             item: {
               id: "download-id",
@@ -193,7 +194,7 @@ describe("portalPollExportJobStatus", () => {
 
     it("moveItem failure", async (done) => {
       try {
-        spyOn(portal, "updateItem").and.callFake(async () => {
+        spyOn(common, "updateItem").and.callFake(async () => {
           return Promise.resolve();
         });
 
@@ -225,8 +226,8 @@ describe("portalPollExportJobStatus", () => {
         throw new Error("should have errored");
       } catch (err) {
         expect(err.message).toEqual("5xx");
-        expect(portal.updateItem).toHaveBeenCalledTimes(1);
-        expect((portal.updateItem as any).calls.first().args).toEqual([
+        expect(common.updateItem).toHaveBeenCalledTimes(1);
+        expect((common.updateItem as any).calls.first().args).toEqual([
           {
             item: {
               id: "download-id",
@@ -271,7 +272,7 @@ describe("portalPollExportJobStatus", () => {
   describe("exported-completed, successful handling", () => {
     it("succeeds without moving download", async (done) => {
       try {
-        spyOn(portal, "updateItem").and.callFake(async () => {
+        spyOn(common, "updateItem").and.callFake(async () => {
           return Promise.resolve();
         });
 
@@ -302,8 +303,8 @@ describe("portalPollExportJobStatus", () => {
         });
 
         await delay(100);
-        expect(portal.updateItem).toHaveBeenCalledTimes(1);
-        expect((portal.updateItem as any).calls.first().args).toEqual([
+        expect(common.updateItem).toHaveBeenCalledTimes(1);
+        expect((common.updateItem as any).calls.first().args).toEqual([
           {
             item: {
               id: "download-id",
@@ -374,7 +375,7 @@ describe("portalPollExportJobStatus", () => {
           })
         );
 
-        spyOn(portal, "updateItem").and.callFake(async () => {
+        spyOn(common, "updateItem").and.callFake(async () => {
           return Promise.resolve();
         });
 
@@ -406,8 +407,8 @@ describe("portalPollExportJobStatus", () => {
         });
 
         await delay(100);
-        expect(portal.updateItem).toHaveBeenCalledTimes(1);
-        expect((portal.updateItem as any).calls.first().args).toEqual([
+        expect(common.updateItem).toHaveBeenCalledTimes(1);
+        expect((common.updateItem as any).calls.first().args).toEqual([
           {
             item: {
               id: "download-id",
@@ -478,7 +479,7 @@ describe("portalPollExportJobStatus", () => {
           })
         );
 
-        spyOn(portal, "updateItem").and.callFake(async () => {
+        spyOn(common, "updateItem").and.callFake(async () => {
           return Promise.resolve();
         });
 
@@ -509,8 +510,8 @@ describe("portalPollExportJobStatus", () => {
         });
 
         await delay(100);
-        expect(portal.updateItem).toHaveBeenCalledTimes(1);
-        expect((portal.updateItem as any).calls.first().args).toEqual([
+        expect(common.updateItem).toHaveBeenCalledTimes(1);
+        expect((common.updateItem as any).calls.first().args).toEqual([
           {
             item: {
               id: "download-id",

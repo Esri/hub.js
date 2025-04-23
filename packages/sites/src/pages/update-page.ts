@@ -4,9 +4,10 @@ import {
   serializeModel,
   getModel,
   getProp,
-  mergeObjects
+  mergeObjects,
+  updateItem,
 } from "@esri/hub-common";
-import { updateItem, IUpdateItemResponse } from "@esri/arcgis-rest-portal";
+import type { IUpdateItemResponse } from "@esri/arcgis-rest-portal";
 
 /**
  * Update a Page item
@@ -39,7 +40,7 @@ export function updatePage(
     prms = getModel(getProp(model, "item.id"), updateSiteOptions);
   }
 
-  return prms.then(modelFromAGO => {
+  return prms.then((modelFromAGO) => {
     if (patchList.length) {
       // "patch" operation
       model = mergeObjects(model, modelFromAGO, patchList);

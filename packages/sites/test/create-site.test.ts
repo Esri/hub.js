@@ -13,14 +13,14 @@ describe("create site :: ", function () {
   let uploadResourcesSpy: jasmine.Spy;
   let shareSpy: jasmine.Spy;
   beforeEach(function () {
-    createSpy = spyOn(portalModule, "createItem").and.returnValue(
+    createSpy = spyOn(commonModule, "createItem").and.returnValue(
       Promise.resolve({ success: true, id: "3ef" })
     );
     protectSpy = spyOn(portalModule, "protectItem").and.returnValue(
       Promise.resolve({ success: true, id: "3ef" })
     );
 
-    updateSpy = spyOn(portalModule, "updateItem").and.returnValue(
+    updateSpy = spyOn(commonModule, "updateItem").and.returnValue(
       Promise.resolve({ success: true, id: "3ef" })
     );
     domainsSpy = spyOn(commonModule, "addSiteDomains").and.returnValue(

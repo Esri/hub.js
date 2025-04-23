@@ -1,14 +1,10 @@
-import {
-  updateItem,
-  removeItem,
-  moveItem,
-  setItemAccess,
-} from "@esri/arcgis-rest-portal";
+import { removeItem, moveItem, setItemAccess } from "@esri/arcgis-rest-portal";
 import {
   getExportLayerTypeKeyword,
   getExportItemTypeKeyword,
   getSpatialRefTypeKeyword,
   parseDatasetId,
+  updateItem,
 } from "@esri/hub-common";
 import { urlBuilder } from "../utils";
 import { getExportsFolderId } from "./portal-get-exports-folder-id";

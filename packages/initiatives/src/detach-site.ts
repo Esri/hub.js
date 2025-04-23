@@ -3,12 +3,13 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import {
   getItem,
-  updateItem,
   shareItemWithGroup,
   IItem,
   IUpdateItemOptions,
-  IGroupSharingOptions
+  IGroupSharingOptions,
 } from "@esri/arcgis-rest-portal";
+import { updateItem } from "@esri/hub-common";
+
 /**
  * Remove the linkage between a site and an Initiative
  * Share the site to the Org's default Collaboration Group
@@ -36,7 +37,7 @@ export function detachSiteFromInitiative(
       // update the site item
       const opts = {
         item: site,
-        ...requestOptions
+        ...requestOptions,
       } as any;
       return updateItem(opts as IUpdateItemOptions);
     })
@@ -46,7 +47,7 @@ export function detachSiteFromInitiative(
         const opts = {
           id: siteId,
           groupId: collaborationGroupId,
-          ...requestOptions
+          ...requestOptions,
         } as IGroupSharingOptions;
         return shareItemWithGroup(opts) as Promise<any>;
       } else {

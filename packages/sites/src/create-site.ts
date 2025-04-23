@@ -3,18 +3,15 @@ import {
   IHubRequestOptions,
   serializeModel,
   cloneObject,
+  createItem,
   interpolateItemId,
   uploadResourcesFromUrl,
   getProp,
   addSiteDomains,
+  updateItem,
 } from "@esri/hub-common";
 import { ensureRequiredSiteProperties } from "./ensure-required-site-properties";
-import {
-  createItem,
-  protectItem,
-  updateItem,
-  shareItemWithGroup,
-} from "@esri/arcgis-rest-portal";
+import { protectItem, shareItemWithGroup } from "@esri/arcgis-rest-portal";
 
 import { updateInitiativeSiteId } from "@esri/hub-initiatives";
 

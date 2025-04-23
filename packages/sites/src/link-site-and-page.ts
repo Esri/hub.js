@@ -11,8 +11,8 @@ import {
   failSafe,
   shareItemToGroups,
   deepSet,
+  updateItem,
 } from "@esri/hub-common";
-import { updateItem } from "@esri/arcgis-rest-portal";
 import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { isSite } from "./is-site";
 
