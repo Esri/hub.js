@@ -1,3 +1,10 @@
+## @esri/hub-common [17.0.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.0.2...@esri/hub-common@17.0.3) (2025-04-23)
+
+
+### Bug Fixes
+
+* **hub-common:** update events types export after nest v10 (swagger) … ([#1870](https://github.com/Esri/hub.js/issues/1870)) ([10a2255](https://github.com/Esri/hub.js/commit/10a2255d3926f857c66490d23bbd5178fc9f2de0))
+
 ## @esri/hub-common [17.0.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.0.1...@esri/hub-common@17.0.2) (2025-04-23)
 
 
