@@ -7,3 +7,4 @@ export * from "./upgradeCatalogSchema";
 export * from "./utils";
 export * from "./wellKnownCatalog";
 export * from "./searchAssociatedContent";
+export * from "./combineQueries";

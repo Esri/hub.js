@@ -9,7 +9,7 @@ import { getIdsFromKeywords } from "./internal/getIdsFromKeywords";
 import { getTypeByNotIdsQuery } from "./internal/getTypeByNotIdsQuery";
 import { negateGroupPredicates } from "../search/negateGroupPredicates";
 import { getTypeByIdsQuery } from "./internal/getTypeByIdsQuery";
-import { combineQueries } from "../search/_internal/combineQueries";
+import { combineQueries } from "../search/combineQueries";
 
 /**
  * An entity can send an "outgoing" request to associate

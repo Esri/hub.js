@@ -3,7 +3,7 @@ import { HubEntity, HubEntityType } from "../../core/types";
 import { getTypesFromEntityType } from "../../core/getTypesFromEntityType";
 import { getProp } from "../../objects/get-prop";
 import { IQuery } from "../../search/types";
-import { combineQueries } from "../../search/_internal/combineQueries";
+import { combineQueries } from "../../search/combineQueries";
 import { getTypeWithKeywordQuery } from "./getTypeWithKeywordQuery";
 import { negateGroupPredicates } from "../../search/negateGroupPredicates";
 import type { IArcGISContext } from "../../types/IArcGISContext";

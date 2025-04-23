@@ -13,7 +13,7 @@ import type { IItem } from "@esri/arcgis-rest-portal";
 import type { IStatisticDefinition } from "@esri/arcgis-rest-feature-service";
 import { getProp } from "../objects/get-prop";
 import { IPredicate, IQuery } from "../search/types/IHubCatalog";
-import { combineQueries } from "../search/_internal/combineQueries";
+import { combineQueries } from "../search/combineQueries";
 import { IHubSearchOptions } from "../search/types/IHubSearchOptions";
 import { portalSearchItemsAsItems } from "../search/_internal/portalSearchItems";
 
