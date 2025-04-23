@@ -17,8 +17,16 @@ export type {
 
 // add re-exports for functions that are not spied on here as needed
 export {
+  addAttachment,
+  addFeatures,
+  deleteAttachments,
+  deleteFeatures,
   getAllLayersAndTables,
+  getAttachments,
+  getFeature,
   parseServiceUrl,
+  updateAttachment,
+  updateFeatures,
 } from "@esri/arcgis-rest-feature-service";
 
 // re-export wrappers
