@@ -236,6 +236,7 @@ export const getContentTypeIcon = (contentType: string) => {
     applicationConfiguration: "app-gear",
     arcgisProMap: "desktop",
     cadDrawing: "file-cad",
+    channel: "channels",
     cityEngineWebScene: "urban-model",
     codeAttachment: "file-code",
     codeSample: "file-code",

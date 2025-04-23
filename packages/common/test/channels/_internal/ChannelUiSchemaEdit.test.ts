@@ -1,13 +1,13 @@
 import { buildUiSchema } from "../../../src/channels/_internal/ChannelUiSchemaEdit";
 import * as ChannelUiSchemaCreateModule from "../../../src/channels/_internal/ChannelUiSchemaCreate";
-import { IChannel } from "../../../src/discussions/api/types";
 import { IArcGISContext } from "../../../src/types/IArcGISContext";
 import { IUiSchema } from "../../../src/core/schemas/types";
+import { IHubChannel } from "../../../src/core/types/IHubChannel";
 
 describe("ChannelUiSchemaEdit", () => {
   describe("buildUiSchema", () => {
     const i18nScope = "myScope";
-    const options: Partial<IChannel> = {};
+    const options: Partial<IHubChannel> = {};
     const context = {
       currentUser: {
         orgId: "orgId123",
