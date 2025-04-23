@@ -5,6 +5,7 @@
     "tslint-config-prettier"
   ],
   "rules": {
+    "import-blacklist": [true, "@esri/arcgis-rest-feature-service"],
     "strict-type-predicates": false,
     "no-use-before-declare": false,
     "ordered-imports": ["any"],

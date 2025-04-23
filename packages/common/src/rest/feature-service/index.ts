@@ -1,6 +1,4 @@
-// TODO: make @esri/arcgis-rest-feature-service a restricted import
-// see https://palantir.github.io/tslint/rules/import-blacklist/
-
+/* tslint:disable:import-blacklist */
 // add type re-exports here as needed
 export type {
   IExtent,
