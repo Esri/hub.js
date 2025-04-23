@@ -1,3 +1,10 @@
+## @esri/hub-teams [17.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-teams@17.0.0...@esri/hub-teams@17.0.1) (2025-04-23)
+
+
+### Bug Fixes
+
+* item.data not saved in commitItemUpload, createItem, and updateItem ([#1876](https://github.com/Esri/hub.js/issues/1876)) ([5e14b88](https://github.com/Esri/hub.js/commit/5e14b886230f151a7a5d0c1017edd2dfec01331a))
+
 # @esri/hub-teams [17.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-teams@16.0.0...@esri/hub-teams@17.0.0) (2025-04-22)
 
 
