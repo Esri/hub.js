@@ -52,14 +52,15 @@ export const buildSchema = (): IConfigurationSchema => {
       onlineUrl: {
         type: "string",
       },
-      referencedContentIds: {
-        type: "array",
-        maxItems: 1,
-        items: {
-          type: "string",
-        },
-        default: [],
-      },
+      /* This field hidden for future consideration */
+      // referencedContentIds: {
+      //   type: "array",
+      //   maxItems: 1,
+      //   items: {
+      //     type: "string",
+      //   },
+      //   default: [],
+      // },
     },
     allOf: [
       URL_VALIDATIONS_WHEN_ONLINE_OR_HYBRID,

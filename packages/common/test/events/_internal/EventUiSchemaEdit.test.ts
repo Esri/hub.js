@@ -15,23 +15,9 @@ import * as getLocationOptionsModule from "../../../src/core/schemas/internal/ge
 import * as buildReferencedContentSchemaModule from "../../../src/events/_internal/buildReferencedContentSchema";
 
 describe("EventUiSchemaEdit", () => {
-  const referencedContentSchema = {
-    scope: "/properties/referencedContentIds",
-    type: "Control",
-  };
-
-  let buildReferencedContentSchemaSpy: jasmine.Spy;
-
   beforeAll(() => {
     jasmine.clock().uninstall();
     jasmine.clock().mockDate(new Date("2024-04-03T16:30:00.000Z"));
-  });
-
-  beforeEach(() => {
-    buildReferencedContentSchemaSpy = spyOn(
-      buildReferencedContentSchemaModule,
-      "buildReferencedContentSchema"
-    ).and.returnValue(referencedContentSchema);
   });
 
   afterAll(() => {
@@ -133,11 +119,6 @@ describe("EventUiSchemaEdit", () => {
       expect(fetchCategoryItemsSpy).toHaveBeenCalledWith(
         authdCtxMgr.context.portal.id,
         authdCtxMgr.context.hubRequestOptions
-      );
-      expect(buildReferencedContentSchemaSpy).toHaveBeenCalledTimes(1);
-      expect(buildReferencedContentSchemaSpy).toHaveBeenCalledWith(
-        "myI18nScope",
-        authdCtxMgr.context
       );
       expect(res).toEqual({
         type: "Layout",
@@ -567,11 +548,6 @@ describe("EventUiSchemaEdit", () => {
                 },
               },
             ],
-          },
-          {
-            type: "Section",
-            labelKey: `myI18nScope.sections.referencedContent.label`,
-            elements: [referencedContentSchema],
           },
           {
             type: "Section",
