@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <meta name="date" content="2025-04-23T21:01:20.065Z">
+    <meta name="date" content="2025-04-24T18:37:06.372Z">
     <title>Working with Hub Discussions v2 | Guide | @esri/hub.js</title>
     
     <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
@@ -575,7 +575,7 @@ Some other common query data are enumerated below:</p>
 <tr>
 <td style="text-align:left">role</td>
 <td style="text-align:left"><a href="https://esri.github.io/hub.js/api/common/Role/">Role</a></td>
-<td style="text-align:left">Role for the permission (<code>manage</code>, <code>readWrite</code>, <code>read</code>) <br> Role: <code>owner</code>, <code>moderate</code>, <code>write</code> not API supported</td>
+<td style="text-align:left">Role for the permission (<code>manage</code>, <code>readWrite</code>, <code>read</code>, <code>write</code>) <br> Role: <code>owner</code>, <code>moderate</code>, not API supported</td>
 </tr>
 </tbody>
 </table>
@@ -698,7 +698,7 @@ Some other common query data are enumerated below:</p>
 </tr>
 <tr>
 <td style="text-align:left">create post in channel</td>
-<td style="text-align:left">- acl entry has category: <code>authenticatedUser</code> with role: <code>readWrite</code> <br> - OR acl entry has category: <code>group</code>, subCategory: <code>admin OR member</code> with role <code>readWrite or manage</code>, and the user is in the group, as a member or admin <br> - OR acl entry has category: <code>org</code>, subCategory: <code>admin OR member</code> with role <code>readWrite or manage</code>, and the user is in the org, as a member or admin</td>
+<td style="text-align:left">- acl entry has category: <code>authenticatedUser</code> with role: <code>readWrite OR write</code> <br> - OR acl entry has category: <code>group</code>, subCategory: <code>admin OR member</code> with role <code>readWrite OR write OR manage</code>, and the user is in the group, as a member or admin <br> - OR acl entry has category: <code>org</code>, subCategory: <code>admin OR member</code> with role <code>readWrite, write, or manage</code>, and the user is in the org, as a member or admin</td>
 </tr>
 <tr>
 <td style="text-align:left">moderate post in channel</td>
