@@ -1,3 +1,10 @@
+# @esri/hub-common [17.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.0.3...@esri/hub-common@17.1.0) (2025-04-24)
+
+
+### Features
+
+* **hub-common:** remove connected content field ([#1878](https://github.com/Esri/hub.js/issues/1878)) ([e64fd86](https://github.com/Esri/hub.js/commit/e64fd86c11dee74218bd2ce423a1c992e0b6bf66))
+
 ## @esri/hub-common [17.0.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.0.2...@esri/hub-common@17.0.3) (2025-04-23)
 
 
