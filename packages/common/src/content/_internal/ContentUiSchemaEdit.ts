@@ -136,14 +136,6 @@ export const buildUiSchema = async (
               ...(await fetchCategoriesUiSchemaElement(i18nScope, context)),
             ],
           },
-          // {
-          //   labelKey: `${i18nScope}.fields.license.label`,
-          //   scope: "/properties/licenseInfo",
-          //   type: "Control",
-          //   options: {
-          //     control: "arcgis-hub-license-picker",
-          //   },
-          // },
           // license
           {
             labelKey: `${i18nScope}.fields.license.label`,

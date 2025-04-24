@@ -1,5 +1,4 @@
 import type { IArcGISContext } from "../../types/IArcGISContext";
-import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 import { IUiSchema, UiSchemaMessageTypes } from "../../core/schemas/types";
 import { getRecommendedTemplatesCatalog } from "./getRecommendedTemplatesCatalog";
@@ -7,6 +6,8 @@ import { getEntityThumbnailUrl } from "../../core/getEntityThumbnailUrl";
 import { getSlugSchemaElement } from "../../core/schemas/internal/getSlugSchemaElement";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { fetchCategoriesUiSchemaElement } from "../../core/schemas/internal/fetchCategoriesUiSchemaElement";
+import { getFeaturedContentCatalogs } from "../../core/schemas/internal/getFeaturedContentCatalogs";
+import { HubEntity, IHubInitiativeTemplate } from "../../core";
 
 /**
  * @private
@@ -21,7 +22,7 @@ import { fetchCategoriesUiSchemaElement } from "../../core/schemas/internal/fetc
  */
 export const buildUiSchema = async (
   i18nScope: string,
-  options: EntityEditorOptions,
+  options: Partial<IHubInitiativeTemplate>,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
   return {
@@ -84,7 +85,7 @@ export const buildUiSchema = async (
           ...getThumbnailUiSchemaElement(
             i18nScope,
             options.thumbnail,
-            getEntityThumbnailUrl(options),
+            getEntityThumbnailUrl(options as HubEntity),
             "initiativeTemplate",
             context.requestOptions
           ),
@@ -142,14 +143,6 @@ export const buildUiSchema = async (
               ...(await fetchCategoriesUiSchemaElement(i18nScope, context)),
             ],
           },
-          // {
-          //   labelKey: `${i18nScope}.fields.license.label`,
-          //   scope: "/properties/licenseInfo",
-          //   type: "Control",
-          //   options: {
-          //     control: "arcgis-hub-license-picker",
-          //   },
-          // },
         ],
       },
       {
@@ -205,6 +198,79 @@ export const buildUiSchema = async (
                 labelKey: `${i18nScope}.fields.recommendedTemplates.pickerTitle`,
               },
             },
+          },
+        ],
+      },
+      // NOTE: this does not work quite right...
+      // {
+      //   type: "Section",
+      //   labelKey: `${i18nScope}.sections.location.label`,
+      //   elements: [
+      //     {
+      //       scope: "/properties/location",
+      //       type: "Control",
+      //       options: {
+      //         control: "hub-field-input-location-picker",
+      //         extent: await getLocationExtent(
+      //           options.location,
+      //           context.hubRequestOptions
+      //         ),
+      //         options: await getLocationOptions(
+      //           options.id,
+      //           options.type,
+      //           options.location,
+      //           context.portal.name,
+      //           context.hubRequestOptions
+      //         ),
+      //         noticeTitleElementAriaLevel: 3,
+      //       },
+      //     },
+      //   ],
+      // },
+      {
+        type: "Section",
+        labelKey: "shared.sections.heroBanner.label",
+        elements: [
+          {
+            type: "Section",
+            labelKey: "shared.sections.heroActions.label",
+            options: {
+              section: "block",
+              helperText: {
+                labelKey: "shared.sections.heroActions.helperText",
+              },
+            },
+            elements: [
+              {
+                scope: "/properties/view/properties/heroActions",
+                type: "Control",
+                options: {
+                  control: "hub-composite-input-action-links",
+                  type: "button",
+                  catalogs: getFeaturedContentCatalogs(context.currentUser), // for now we'll just re-use this util to get the catalogs
+                  facets: [
+                    {
+                      label: "shared.fields.callToAction.facets.type",
+                      key: "type",
+                      display: "multi-select",
+                      field: "type",
+                      options: [],
+                      operation: "OR",
+                      aggLimit: 100,
+                    },
+                    {
+                      label: "shared.fields.callToAction.facets.sharing",
+                      key: "access",
+                      display: "multi-select",
+                      field: "access",
+                      options: [],
+                      operation: "OR",
+                    },
+                  ],
+                  showAllCollectionFacet: true,
+                },
+              },
+            ],
           },
         ],
       },

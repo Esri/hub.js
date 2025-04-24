@@ -79,7 +79,6 @@ export const buildUiSchema = async (
             "event",
             context.requestOptions
           ),
-          // getSlugSchemaElement(i18nScope),
           {
             type: "Section",
             labelKey: `${i18nScope}.sections.description.label`,
@@ -130,18 +129,8 @@ export const buildUiSchema = async (
               ...(await fetchCategoriesUiSchemaElement(i18nScope, context)),
             ],
           },
-          // {
-          //   labelKey: `${i18nScope}.fields.license.label`,
-          //   scope: "/properties/licenseInfo",
-          //   type: "Control",
-          //   options: {
-          //     control: "arcgis-hub-license-picker",
-          //   },
-          // },
         ],
       },
-      // /////
-      // /////
       {
         type: "Section",
         labelKey: `${i18nScope}.sections.dateTime.label`,

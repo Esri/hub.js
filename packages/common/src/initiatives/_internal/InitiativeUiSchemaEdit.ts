@@ -1,4 +1,4 @@
-import { IUiSchema } from "../../core/schemas/types";
+import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import type { IArcGISContext } from "../../types/IArcGISContext";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
@@ -7,6 +7,7 @@ import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThum
 import { IHubInitiative } from "../../core";
 import { fetchCategoriesUiSchemaElement } from "../../core/schemas/internal/fetchCategoriesUiSchemaElement";
 import { getSlugSchemaElement } from "../../core/schemas/internal/getSlugSchemaElement";
+import { getAuthedImageUrl } from "../../core/_internal/getAuthedImageUrl";
 
 /**
  * @private
@@ -134,82 +135,6 @@ export const buildUiSchema = async (
               ...(await fetchCategoriesUiSchemaElement(i18nScope, context)),
             ],
           },
-          // {
-          //   labelKey: `${i18nScope}.fields.license.label`,
-          //   scope: "/properties/licenseInfo",
-          //   type: "Control",
-          //   options: {
-          //     control: "arcgis-hub-license-picker",
-          //   },
-          // },
-          // /////
-          // /////
-          // {
-          //   labelKey: `${i18nScope}.fields.hero.label`,
-          //   scope: "/properties/view/properties/hero",
-          //   type: "Control",
-          //   options: {
-          //     control: "hub-field-input-tile-select",
-          //     layout: "horizontal",
-          //     helperText: {
-          //       labelKey: `${i18nScope}.fields.hero.helperText`,
-          //     },
-          //     labels: [
-          //       `{{${i18nScope}.fields.hero.map.label:translate}}`,
-          //       `{{${i18nScope}.fields.hero.image.label:translate}}`,
-          //     ],
-          //     descriptions: [
-          //       `{{${i18nScope}.fields.hero.map.description:translate}}`,
-          //       `{{${i18nScope}.fields.hero.image.description:translate}}`,
-          //     ],
-          //     icons: ["map-pin", "image"],
-          //   },
-          // },
-          // {
-          //   labelKey: `${i18nScope}.fields.featuredImage.label`,
-          //   scope: "/properties/view/properties/featuredImage",
-          //   type: "Control",
-          //   rule: {
-          //     effect: UiSchemaRuleEffects.HIDE,
-          //     condition: {
-          //       scope: "/properties/view/properties/hero",
-          //       schema: { const: "map" },
-          //     },
-          //   },
-          //   options: {
-          //     control: "hub-field-input-image-picker",
-          //     imgSrc: getAuthedImageUrl(
-          //       options.view?.featuredImageUrl,
-          //       context.requestOptions
-          //     ),
-          //     maxWidth: 727,
-          //     maxHeight: 484,
-          //     aspectRatio: 1.5,
-          //     sizeDescription: {
-          //       labelKey: `${i18nScope}.fields.featuredImage.sizeDescription`,
-          //     },
-          //     helperText: {
-          //       labelKey: `${i18nScope}.fields.featuredImage.helperText`,
-          //     },
-          //   },
-          // },
-          // {
-          //   labelKey: `${i18nScope}.fields.featuredImage.altText.label`,
-          //   scope: "/properties/view/properties/featuredImageAltText",
-          //   type: "Control",
-          //   rule: {
-          //     effect: UiSchemaRuleEffects.HIDE,
-          //     condition: {
-          //       scope: "/properties/view/properties/hero",
-          //       schema: { const: "map" },
-          //     },
-          //   },
-          //   options: {
-          //     helperText: {
-          //       labelKey: `${i18nScope}.fields.featuredImage.altText.helperText`,
-          //     },
-          //   },
-          // },
         ],
       },
       {
@@ -237,13 +162,6 @@ export const buildUiSchema = async (
           },
         ],
       },
-      // {
-      //   type: "Section",
-      //   labelKey: `${i18nScope}.sections.searchDiscoverability.label`,
-      //   elements: [
-
-      //   ],
-      // },
       {
         type: "Section",
         labelKey: `${i18nScope}.sections.status.label`,
@@ -279,6 +197,121 @@ export const buildUiSchema = async (
               },
             ],
           },
+        ],
+      },
+      {
+        type: "Section",
+        labelKey: "shared.sections.heroBanner.label",
+        elements: [
+          {
+            type: "Section",
+            labelKey: "shared.sections.heroBannerAppearance.label",
+            options: {
+              section: "block",
+              helperText: {
+                labelKey: "shared.sections.heroBannerAppearance.helperText",
+              },
+            },
+            elements: [
+              {
+                labelKey: `${i18nScope}.fields.hero.label`,
+                scope: "/properties/view/properties/hero",
+                type: "Control",
+                options: {
+                  control: "hub-field-input-tile-select",
+                  layout: "horizontal",
+                  labels: [
+                    `{{${i18nScope}.fields.hero.map.label:translate}}`,
+                    `{{${i18nScope}.fields.hero.image.label:translate}}`,
+                  ],
+                  descriptions: [
+                    `{{${i18nScope}.fields.hero.map.description:translate}}`,
+                    `{{${i18nScope}.fields.hero.image.description:translate}}`,
+                  ],
+                  icons: ["map-pin", "image"],
+                },
+              },
+              {
+                labelKey: `${i18nScope}.fields.featuredImage.label`,
+                scope: "/properties/view/properties/featuredImage",
+                type: "Control",
+                rule: {
+                  effect: UiSchemaRuleEffects.HIDE,
+                  condition: {
+                    scope: "/properties/view/properties/hero",
+                    schema: { const: "map" },
+                  },
+                },
+                options: {
+                  control: "hub-field-input-image-picker",
+                  imgSrc: getAuthedImageUrl(
+                    options.view?.featuredImageUrl,
+                    context.requestOptions
+                  ),
+                  maxWidth: 727,
+                  maxHeight: 484,
+                  aspectRatio: 1.5,
+                  sizeDescription: {
+                    labelKey: `${i18nScope}.fields.featuredImage.sizeDescription`,
+                  },
+                },
+              },
+              {
+                labelKey: `${i18nScope}.fields.featuredImage.altText.label`,
+                scope: "/properties/view/properties/featuredImageAltText",
+                type: "Control",
+                rule: {
+                  effect: UiSchemaRuleEffects.HIDE,
+                  condition: {
+                    scope: "/properties/view/properties/hero",
+                    schema: { const: "map" },
+                  },
+                },
+              },
+            ],
+          },
+          // NOTE: this will round trip but as far as i can tell it is not displayed on the view
+          // {
+          //   type: "Section",
+          //   labelKey: 'shared.sections.heroActions.label',
+          //   options: {
+          //     section: "block",
+          //     helperText: {
+          //       labelKey: 'shared.sections.heroActions.helperText',
+          //     },
+          //   },
+          //   elements: [
+          //     {
+          //       scope: "/properties/view/properties/heroActions",
+          //       type: "Control",
+          //       options: {
+          //         control: "hub-composite-input-action-links",
+          //         type: "button",
+          //         catalogs: getFeaturedContentCatalogs(context.currentUser), // for now we'll just re-use this util to get the catalogs
+          //         facets: [
+          //           {
+          //             label: `{{${i18nScope}.fields.callToAction.facets.type:translate}}`,
+          //             key: "type",
+          //             display: "multi-select",
+          //             field: "type",
+          //             options: [],
+          //             operation: "OR",
+          //             aggLimit: 100,
+          //           },
+          //           {
+          //             label: `{{${i18nScope}.fields.callToAction.facets.sharing:translate}}`,
+          //             key: "access",
+          //             display: "multi-select",
+          //             field: "access",
+          //             options: [],
+          //             operation: "OR",
+          //           },
+          //         ],
+          //         showAllCollectionFacet: true,
+          //       },
+          //     },
+          //   ]
+          // },
         ],
       },
       // Feature Content - hiding for MVP
