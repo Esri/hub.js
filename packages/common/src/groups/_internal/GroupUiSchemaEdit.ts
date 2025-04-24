@@ -101,35 +101,6 @@ export const buildUiSchema = async (
               },
             ],
           },
-          // {
-          //   type: 'Section',
-          //   labelKey: `${i18nScope}.sections.discoverability.label`,
-          //   options: {
-          //     section: "block",
-          //     helperText: {
-          //       labelKey: `${i18nScope}.sections.discoverability.helperText`,
-          //     }
-          //   },
-          //   elements: [
-          //     // tags
-          //     {
-          //       labelKey: `${i18nScope}.fields.tags.label`,
-          //       scope: "/properties/tags",
-          //       type: "Control",
-          //       options: {
-          //         control: "hub-field-input-combobox",
-          //         items: await getTagItems(
-          //           options.tags,
-          //           context.portal.id,
-          //           context.hubRequestOptions
-          //         ),
-          //         allowCustomValues: true,
-          //         selectionMode: "multiple",
-          //         placeholderIcon: "label",
-          //       },
-          //     }
-          //   ]
-          // },
         ],
       },
     ],
