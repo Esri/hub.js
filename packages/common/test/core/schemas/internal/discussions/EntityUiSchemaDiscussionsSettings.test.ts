@@ -51,6 +51,8 @@ describe("EntityUiSchemaDiscussionsSettings", () => {
                 control: "hub-field-input-gallery-picker",
                 targetEntity: "channel",
                 showSelection: false,
+                showAddContent: true,
+                allowGroupSelection: false,
                 showAllCollectionFacet: false,
                 canReorder: false,
                 linkTarget: "event",

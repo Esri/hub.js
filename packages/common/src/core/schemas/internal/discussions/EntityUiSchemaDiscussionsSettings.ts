@@ -53,6 +53,8 @@ export const buildUiSchema = async (
       options: {
         control: "hub-field-input-gallery-picker",
         targetEntity: "channel",
+        showAddContent: true,
+        allowGroupSelection: false,
         showSelection: false,
         showAllCollectionFacet: false,
         canReorder: false,
