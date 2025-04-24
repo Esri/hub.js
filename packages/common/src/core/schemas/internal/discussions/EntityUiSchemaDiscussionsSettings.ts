@@ -26,6 +26,7 @@ export const buildUiSchema = async (
             scope: "/properties/isDiscussable",
             type: "Control",
             options: {
+              test: true,
               control: "hub-field-input-tile-select",
               labels: [
                 "{{shared.fields.discussable.enabled.label:translate}}",
