@@ -4,10 +4,7 @@ on:
   pull_request:
     types: [opened, reopened, ready_for_review, synchronize]
     branches:
-      - master
-      - next
-      - alpha
-      - beta
+      - "**"
     paths-ignore:
       - "**.md"
       - "docs/**"
