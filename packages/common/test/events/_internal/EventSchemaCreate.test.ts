@@ -58,14 +58,6 @@ describe("EventSchemaCreate", () => {
           onlineUrl: {
             type: "string",
           },
-          referencedContentIds: {
-            type: "array",
-            maxItems: 1,
-            items: {
-              type: "string",
-            },
-            default: [],
-          },
         },
         allOf: [
           URL_VALIDATIONS_WHEN_ONLINE_OR_HYBRID,

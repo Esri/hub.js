@@ -6,23 +6,8 @@ import { MOCK_AUTH } from "../../mocks/mock-auth";
 import { HubEventAttendanceType } from "../../../src/events/types";
 import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
 import * as getDatePickerDateUtils from "../../../src/utils/date/getDatePickerDate";
-import * as buildReferencedContentSchemaModule from "../../../src/events/_internal/buildReferencedContentSchema";
 
 describe("EventUiSchemaCreate", () => {
-  const referencedContentSchema = {
-    scope: "/properties/referencedContentIds",
-    type: "Control",
-  };
-
-  let buildReferencedContentSchemaSpy: jasmine.Spy;
-
-  beforeEach(() => {
-    buildReferencedContentSchemaSpy = spyOn(
-      buildReferencedContentSchemaModule,
-      "buildReferencedContentSchema"
-    ).and.returnValue(referencedContentSchema);
-  });
-
   describe("buildUiSchema", () => {
     it("should return the expected ui schema", async () => {
       const authdCtxMgr = await ArcGISContextManager.create({
@@ -81,12 +66,6 @@ describe("EventUiSchemaCreate", () => {
       expect(getDatePickerDateSpy).toHaveBeenCalledWith(
         jasmine.any(Date),
         entity.timeZone
-      );
-      expect(buildReferencedContentSchemaSpy).toHaveBeenCalledTimes(1);
-      expect(buildReferencedContentSchemaSpy).toHaveBeenCalledWith(
-        "myI18nScope",
-        authdCtxMgr.context,
-        "{{myI18nScope.fields.referencedContent.label:translate}}"
       );
       expect(res).toEqual({
         type: "Layout",
@@ -238,7 +217,6 @@ describe("EventUiSchemaCreate", () => {
               ],
             },
           },
-          referencedContentSchema,
         ],
       });
     });
