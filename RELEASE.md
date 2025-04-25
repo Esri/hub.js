@@ -1,4 +1,4 @@
-# PORTAL-11.5 Release Process
+fixfix# PORTAL-11.5 Release Process
 
 Mutli-Semantic release can not handle maintenance releases for old versions, so the release process for these long-lived PORTAL-XX.X branches is manual.
 
@@ -9,8 +9,10 @@ Basically, it's old-school npm publish
 1. `cd packages/{package-to-release}`
 1. `npm publish --tag portal115`
 1. Repeat until all packages are released
+1. `cd ../..` return to root directory
 1. `git add -A .`
-1. `git commit -m 'Update package versions for patch release of 11.5`
+1. `git commit -m 'fix: Update package versions for patch release of 11.5`
+1. `git push orign PORTAL-11.5`
 1. 🎉
 
 ## Semantic Commit Messages
