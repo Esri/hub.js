@@ -179,31 +179,8 @@ describe("EventUiSchemaEdit", () => {
                   sizeDescription: {
                     labelKey: "shared.fields._thumbnail.sizeDescription",
                   },
+                  notice: "20250425-image-picker-notice",
                 },
-              },
-              {
-                type: "Notice",
-                options: {
-                  notice: {
-                    configuration: {
-                      id: "no-thumbnail-or-png-notice",
-                      noticeType: "notice",
-                      closable: false,
-                      icon: "lightbulb",
-                      kind: "info",
-                      scale: "m",
-                    },
-                    message:
-                      "{{shared.fields._thumbnail.defaultThumbnailNotice:translate}}",
-                    autoShow: true,
-                  },
-                },
-                rules: [
-                  {
-                    effect: UiSchemaRuleEffects.SHOW,
-                    conditions: [true],
-                  },
-                ],
               },
             ],
           },

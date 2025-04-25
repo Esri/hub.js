@@ -31,13 +31,8 @@ describe("getThumbnailUiSchemaElement:", () => {
       entity.type as HubEntityType,
       requestOptions
     );
-    expect(uiSchema.length).toBe(2);
-    expect(uiSchema[1].rules).toEqual([
-      {
-        effect: UiSchemaRuleEffects.SHOW,
-        conditions: [false],
-      },
-    ]);
+    expect(uiSchema.length).toBe(1);
+    expect(uiSchema[0].options.notice).toBeNull();
   });
 
   it("includes the default thumbnail notice if the entity has no thumbnail", () => {
@@ -64,13 +59,8 @@ describe("getThumbnailUiSchemaElement:", () => {
       entity.type as HubEntityType,
       requestOptions
     );
-    expect(uiSchema.length).toBe(2);
-    expect(uiSchema[1].rules).toEqual([
-      {
-        effect: UiSchemaRuleEffects.SHOW,
-        conditions: [true],
-      },
-    ]);
+    expect(uiSchema.length).toBe(1);
+    expect(uiSchema[0].options.notice).not.toBeNull();
   });
 
   it("includes the default thumbnail notice if the entity has the default thumbnail", () => {
@@ -98,13 +88,8 @@ describe("getThumbnailUiSchemaElement:", () => {
       entity.type as HubEntityType,
       requestOptions
     );
-    expect(uiSchema.length).toBe(2);
-    expect(uiSchema[1].rules).toEqual([
-      {
-        effect: UiSchemaRuleEffects.SHOW,
-        conditions: [true],
-      },
-    ]);
+    expect(uiSchema.length).toBe(1);
+    expect(uiSchema[0].options.notice).not.toBeNull();
   });
 
   it("sets default thumbnail when available", () => {
