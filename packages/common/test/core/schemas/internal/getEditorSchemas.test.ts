@@ -32,7 +32,6 @@ import * as SiteBuildTelemetryUiSchema from "../../../../src/sites/_internal/Sit
 import { DiscussionEditorTypes } from "../../../../src/discussions/_internal/DiscussionSchema";
 import * as DiscussionBuildEditUiSchema from "../../../../src/discussions/_internal/DiscussionUiSchemaEdit";
 import * as DiscussionBuildCreateUiSchema from "../../../../src/discussions/_internal/DiscussionUiSchemaCreate";
-import * as DiscussionBuildSettingsUiSchema from "../../../../src/discussions/_internal/DiscussionUiSchemaSettings";
 import * as EntityBuildDiscussionSettingsUiSchema from "../../../../src/core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettings";
 
 import { ChannelEditorTypes } from "../../../../src/channels/_internal/ChannelSchema";
@@ -113,9 +112,8 @@ describe("getEditorSchemas: ", () => {
 
     { type: DiscussionEditorTypes[0], module: DiscussionBuildEditUiSchema },
     { type: DiscussionEditorTypes[1], module: DiscussionBuildCreateUiSchema },
-    { type: DiscussionEditorTypes[2], module: DiscussionBuildSettingsUiSchema },
     {
-      type: DiscussionEditorTypes[3],
+      type: DiscussionEditorTypes[2],
       module: EntityBuildDiscussionSettingsUiSchema,
     },
 
