@@ -11,10 +11,15 @@ import { getPortal } from "@esri/arcgis-rest-portal";
  * @returns
  */
 export function fetchOrg(orgId: string, options?: IRequestOptions) {
-  const orgPortalUrl =
+  let orgPortalUrl =
     getProp(options, "portal") ||
     getProp(options, "authentication.portal") ||
     "www.arcgis.com";
+
+  // if we got the value from authentication, we need to strip off the
+  // "/sharing/rest" part of the url to get the base portal url because
+  // getPortalBaseFromOrgUrl does not know how to handle enterprise urls.
+  orgPortalUrl = orgPortalUrl.split("/sharing/rest")[0];
 
   // In order to get the correct response, we must pass options.portal
   // as a base portal url (e.g., www.arcgis.com, qaext.arcgis.com, etc)

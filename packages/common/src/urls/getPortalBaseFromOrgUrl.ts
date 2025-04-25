@@ -7,7 +7,9 @@
  * @returns
  */
 export function getPortalBaseFromOrgUrl(orgUrl: string): string {
-  let result = orgUrl;
+  // strip off the /sharing/rest part of the url
+  // this will also handle enterprise urls
+  let result = orgUrl.split("/sharing/rest")[0];
 
   if (orgUrl.match(/(qaext|\.mapsqa)\.arcgis.com/)) {
     result = "https://qaext.arcgis.com";
