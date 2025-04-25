@@ -23,4 +23,10 @@ describe("getPortalBaseUrlFromOrgUrl:", () => {
     const chk2 = getPortalBaseFromOrgUrl("https://org.maps.arcgis.com");
     expect(chk2).toBe("https://www.arcgis.com");
   });
+  it("works for enterprise", () => {
+    const chk = getPortalBaseFromOrgUrl(
+      "https://gis.fortcollins.com/portal/sharing/rest"
+    );
+    expect(chk).toBe("https://gis.fortcollins.com/portal");
+  });
 });
