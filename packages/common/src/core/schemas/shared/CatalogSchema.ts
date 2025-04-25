@@ -12,13 +12,33 @@ export const GalleryDisplayConfigSchema: IConfigurationSchema = {
     hidden: { type: "boolean", default: false },
     layout: {
       type: "string",
-      enum: ["list", "grid", "table", "map", "compact"], // removed grid-filled and compact
+      enum: ["list", "grid", "map", "table", "compact", "calendar"], // removed grid-filled and compact
       default: "list",
+    },
+    layouts: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          key: {
+            type: "string",
+            enum: ["list", "grid", "map", "table", "calendar", "compact"],
+          },
+          label: { type: "string" },
+          description: { type: "string" },
+          hidden: { type: "boolean" },
+        },
+      },
     },
     cardTitleTag: {
       type: "string",
       enum: Object.keys(CARD_TITLE_TAGS),
       default: CARD_TITLE_TAGS.h3,
+    },
+    imageType: {
+      type: "string",
+      enum: ["thumbnail", "icon"],
+      default: "thumbnail",
     },
     showThumbnail: {
       type: "string",
