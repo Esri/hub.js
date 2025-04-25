@@ -1,7 +1,7 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getCdnAssetUrl } from "../../../urls";
 import { HubEntityType } from "../../types/HubEntityType";
-import { IUiSchemaElement, UiSchemaRuleEffects } from "../types";
+import { IUiSchemaElement } from "../types";
 
 const DEFAULT_ENTITY_THUMBNAILS: Partial<Record<HubEntityType, string>> = {
   discussion:
@@ -58,6 +58,13 @@ export function getThumbnailUiSchemaElement(
     };
   }
 
+  // We want the thumbnail to appear in the image picker rather than below it
+  // this is a design requirement for proper element indexing
+  const notice =
+    !thumbnail || thumbnail === "thumbnail/ago_downloaded.png"
+      ? "20250425-image-picker-notice"
+      : null;
+
   return [
     {
       labelKey:
@@ -76,35 +83,10 @@ export function getThumbnailUiSchemaElement(
           // helper text varies between entity types
           labelKey: `${i18nScope}.fields._thumbnail.helperText`,
         },
+        // this notice will appear above the image picker but below the helper text
+        notice,
         ...options,
       },
-    },
-    // Advise the user if the entity's thumbnail is either of the default values
-    {
-      type: "Notice",
-      options: {
-        notice: {
-          configuration: {
-            id: "no-thumbnail-or-png-notice",
-            noticeType: "notice",
-            closable: false,
-            icon: "lightbulb",
-            kind: "info",
-            scale: "m",
-          },
-          message:
-            "{{shared.fields._thumbnail.defaultThumbnailNotice:translate}}",
-          autoShow: true,
-        },
-      },
-      rules: [
-        {
-          effect: UiSchemaRuleEffects.SHOW,
-          conditions: [
-            !thumbnail || thumbnail === "thumbnail/ago_downloaded.png",
-          ],
-        },
-      ],
     },
   ];
 }
