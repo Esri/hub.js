@@ -261,7 +261,11 @@ export const buildUiSchema = async (
             type: "Control",
             options: {
               control: "hub-field-input-tile-select",
-              enum: { i18nScope: `${i18nScope}.fields.attendanceType` },
+              labels: [
+                `{{${i18nScope}.fields.attendanceType.inPerson.label:translate}}`,
+                `{{${i18nScope}.fields.attendanceType.online.label:translate}}`,
+                `{{${i18nScope}.fields.attendanceType.both.label:translate}}`,
+              ],
               layout: "horizontal",
             },
           },
@@ -341,9 +345,10 @@ export const buildUiSchema = async (
                 },
                 options: {
                   control: "hub-field-input-tile-select",
-                  enum: {
-                    i18nScope: `${i18nScope}.fields.inPersonCapacityType`,
-                  },
+                  labels: [
+                    `{{${i18nScope}.fields.inPersonCapacityType.unlimited.label:translate}}`,
+                    `{{${i18nScope}.fields.inPersonCapacityType.fixed.label:translate}}`,
+                  ],
                   layout: "horizontal",
                 },
               },
@@ -514,6 +519,10 @@ export const buildUiSchema = async (
                 options: {
                   control: "hub-field-input-tile-select",
                   enum: { i18nScope: `${i18nScope}.fields.onlineCapacityType` },
+                  labels: [
+                    `{{${i18nScope}.fields.onlineCapacityType.unlimited.label:translate}}`,
+                    `{{${i18nScope}.fields.onlineCapacityType.fixed.label:translate}}`,
+                  ],
                   layout: "horizontal",
                 },
               },
