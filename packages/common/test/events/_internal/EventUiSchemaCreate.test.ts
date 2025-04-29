@@ -174,49 +174,6 @@ describe("EventUiSchemaCreate", () => {
               ],
             },
           },
-          {
-            labelKey: `myI18nScope.fields.attendanceType.label`,
-            scope: "/properties/attendanceType",
-            type: "Control",
-            options: {
-              control: "hub-field-input-radio-group",
-              enum: { i18nScope: `myI18nScope.fields.attendanceType` },
-            },
-          },
-          {
-            labelKey: `myI18nScope.fields.onlineUrl.label`,
-            scope: "/properties/onlineUrl",
-            type: "Control",
-            rule: {
-              condition: {
-                scope: "/properties/attendanceType",
-                schema: {
-                  enum: [
-                    HubEventAttendanceType.Online,
-                    HubEventAttendanceType.Both,
-                  ],
-                },
-              },
-              effect: UiSchemaRuleEffects.SHOW,
-            },
-            options: {
-              control: "hub-field-input-input",
-              messages: [
-                {
-                  type: "ERROR",
-                  keyword: "required",
-                  icon: true,
-                  labelKey: `myI18nScope.fields.onlineUrl.requiredError`,
-                },
-                {
-                  type: "ERROR",
-                  keyword: "format",
-                  icon: true,
-                  labelKey: `shared.errors.urlFormat`,
-                },
-              ],
-            },
-          },
         ],
       });
     });
