@@ -58,7 +58,7 @@ export function getThumbnailUiSchemaElement(
     };
   }
 
-  // We want the thumbnail to appear in the image picker rather than below it
+  // We want the notice to appear in the image picker rather than below it
   // this is a design requirement for proper element indexing
   const notice =
     !thumbnail || thumbnail === "thumbnail/ago_downloaded.png"
@@ -83,7 +83,8 @@ export function getThumbnailUiSchemaElement(
           // helper text varies between entity types
           labelKey: `${i18nScope}.fields._thumbnail.helperText`,
         },
-        // this notice will appear above the image picker but below the helper text
+        // Advise the user if the entity's thumbnail is either of the default values,
+        // and this notice will appear above the image picker but below the helper text
         notice,
         ...options,
       },
