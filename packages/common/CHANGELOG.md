@@ -1,3 +1,10 @@
+## @esri/hub-common [17.1.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.1.0...@esri/hub-common@17.1.1) (2025-04-29)
+
+
+### Bug Fixes
+
+* **hub-common:** remove location configuration from event creation ([#1887](https://github.com/Esri/hub.js/issues/1887)) ([c0e0b26](https://github.com/Esri/hub.js/commit/c0e0b26d8a3c20c24d723aa3f0eddb9546fe18bd))
+
 # @esri/hub-common [17.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.0.3...@esri/hub-common@17.1.0) (2025-04-24)
 
 
