@@ -3,7 +3,6 @@ import type { IArcGISContext } from "../../types/IArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 import { getDatePickerDate } from "../../utils/date/getDatePickerDate";
 import { IHubEvent } from "../../core/types/IHubEvent";
-import { HubEventAttendanceType } from "../types";
 
 /**
  * @private
@@ -123,49 +122,6 @@ export const buildUiSchema = async (
               keyword: "formatExclusiveMinimum",
               icon: true,
               labelKey: `${i18nScope}.fields.endTime.minTimeError`,
-            },
-          ],
-        },
-      },
-      {
-        labelKey: `${i18nScope}.fields.attendanceType.label`,
-        scope: "/properties/attendanceType",
-        type: "Control",
-        options: {
-          control: "hub-field-input-radio-group",
-          enum: { i18nScope: `${i18nScope}.fields.attendanceType` },
-        },
-      },
-      {
-        labelKey: `${i18nScope}.fields.onlineUrl.label`,
-        scope: "/properties/onlineUrl",
-        type: "Control",
-        rule: {
-          condition: {
-            scope: "/properties/attendanceType",
-            schema: {
-              enum: [
-                HubEventAttendanceType.Online,
-                HubEventAttendanceType.Both,
-              ],
-            },
-          },
-          effect: UiSchemaRuleEffects.SHOW,
-        },
-        options: {
-          control: "hub-field-input-input",
-          messages: [
-            {
-              type: "ERROR",
-              keyword: "required",
-              icon: true,
-              labelKey: `${i18nScope}.fields.onlineUrl.requiredError`,
-            },
-            {
-              type: "ERROR",
-              keyword: "format",
-              icon: true,
-              labelKey: `shared.errors.urlFormat`,
             },
           ],
         },
