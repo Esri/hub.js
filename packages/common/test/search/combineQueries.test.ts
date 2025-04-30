@@ -1,5 +1,5 @@
-import { combineQueries } from "../../../src/search/_internal/combineQueries";
-import { cloneObject, IQuery } from "../../../src";
+import { combineQueries } from "../../src/search/combineQueries";
+import { cloneObject, IQuery } from "../../src";
 const harnessQueries: IQuery[] = [
   {
     targetEntity: "item",
@@ -60,7 +60,7 @@ describe("combineQueries:", () => {
     try {
       combineQueries(qrys);
     } catch (err) {
-      expect(err.message).toEqual(
+      expect((err as any).message).toEqual(
         "Cannot combine queries for different entity types"
       );
     }
