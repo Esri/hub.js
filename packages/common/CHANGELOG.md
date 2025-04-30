@@ -1,3 +1,10 @@
+# @esri/hub-common [17.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.1.1...@esri/hub-common@17.2.0) (2025-04-30)
+
+
+### Features
+
+* moving notice into image picker ([#1884](https://github.com/Esri/hub.js/issues/1884)) ([9930bcb](https://github.com/Esri/hub.js/commit/9930bcb56e31ad13ceb280f9b7dd21b96ced8559))
+
 ## @esri/hub-common [17.1.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.1.0...@esri/hub-common@17.1.1) (2025-04-29)
 
 
