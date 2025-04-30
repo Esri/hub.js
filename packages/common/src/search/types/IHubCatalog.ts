@@ -197,19 +197,15 @@ export interface IGalleryDisplayConfig {
     | "compact"
     | "grid-filled";
   /**  Gallery layout options to expose in the layout switcher */
-  layouts?: Array<{
-    key:
-      | "list"
-      | "grid"
-      | "map"
-      | "table"
-      | "calendar"
-      | "compact"
-      | "grid-filled";
-    label?: string;
-    description?: string;
-    hidden?: boolean;
-  }>;
+  layouts?: Array<
+    | "list"
+    | "grid"
+    | "map"
+    | "table"
+    | "calendar"
+    | "compact"
+    | "grid-filled"
+  >;
   /** header tag for the gallery card titles - needed for a11y */
   cardTitleTag?: CARD_TITLE_TAGS;
   /** Type of media to render in the layout card */
