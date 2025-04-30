@@ -1,10 +1,12 @@
-import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { IItem, IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
 import { getFamily } from "../content/get-family";
 import { fetchSiteModel } from "./fetchSiteModel";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { handleDomainChanges } from "./_internal";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
+import type {
+  IRequestOptions,
+  IUserRequestOptions,
+} from "@esri/arcgis-rest-request";
 import { fetchItemEnrichments } from "../items/_enrichments";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { deriveLocationFromItem } from "../content/_internal/internalContentUtils";
@@ -405,7 +407,7 @@ export async function updateSite(
   // send updates to the Portal API and get back the updated site model
   const updatedSiteModel = await updateModel(
     modelToUpdate,
-    requestOptions as unknown as IUserItemOptions
+    requestOptions as IUserRequestOptions
   );
   // convert that back into a IHubSite and return it
   const updatedSite = convertModelToSite(updatedSiteModel, requestOptions);
