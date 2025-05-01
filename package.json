@@ -139,7 +139,7 @@
 		"test:firefox": "karma start --single-run --browsers=Firefox",
 		"test:firefox:debug": "karma start --auto-watch --no-single-run --browsers=Firefox",
 		"test:node:debug": "inspect jasmine --config=jasmine.json",
-		"test:node": "echo 'TEMPORARILY DISABLED: jasmine-ts --config=jasmine.json --project tsconfig.json'",
+		"test:node": "jasmine-ts --config=jasmine.node.json --project tsconfig.json",
 		"test:node1": "jasmine --config=jasmine.json ",
 		"test": "npm run test:node && npm run test:chrome",
 		"tsc:v": "lerna run tsc:v",
