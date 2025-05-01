@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-downloads",
-  "version": "17.0.1",
+  "version": "17.1.0",
   "description": "Service for Hub downloads",
   "main": "dist/node/index.js",
   "module": "dist/esm/index.js",
