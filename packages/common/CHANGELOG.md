@@ -1,3 +1,17 @@
+# @esri/hub-common [17.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.2.0...@esri/hub-common@17.3.0) (2025-05-01)
+
+
+### Features
+
+* update to latest version of ArcGIS REST JS packages ([#1889](https://github.com/Esri/hub.js/issues/1889)) ([e132a57](https://github.com/Esri/hub.js/commit/e132a575c7e28d662322eef108be75c41b81fb75))
+
+# @esri/hub-common [17.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.1.1...@esri/hub-common@17.2.0) (2025-04-30)
+
+
+### Features
+
+* moving notice into image picker ([#1884](https://github.com/Esri/hub.js/issues/1884)) ([9930bcb](https://github.com/Esri/hub.js/commit/9930bcb56e31ad13ceb280f9b7dd21b96ced8559))
+
 ## @esri/hub-common [17.1.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.1.0...@esri/hub-common@17.1.1) (2025-04-29)
 
 
