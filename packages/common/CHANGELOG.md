@@ -1,3 +1,10 @@
+# @esri/hub-common [17.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.2.0...@esri/hub-common@17.3.0) (2025-05-01)
+
+
+### Features
+
+* update to latest version of ArcGIS REST JS packages ([#1889](https://github.com/Esri/hub.js/issues/1889)) ([e132a57](https://github.com/Esri/hub.js/commit/e132a575c7e28d662322eef108be75c41b81fb75))
+
 # @esri/hub-common [17.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.1.1...@esri/hub-common@17.2.0) (2025-04-30)
 
 
