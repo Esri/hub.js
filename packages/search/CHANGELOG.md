@@ -1,3 +1,10 @@
+# @esri/hub-search [17.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-search@17.0.0...@esri/hub-search@17.1.0) (2025-05-01)
+
+
+### Features
+
+* update to latest version of ArcGIS REST JS packages ([#1889](https://github.com/Esri/hub.js/issues/1889)) ([e132a57](https://github.com/Esri/hub.js/commit/e132a575c7e28d662322eef108be75c41b81fb75))
+
 # @esri/hub-search [17.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-search@16.0.0...@esri/hub-search@17.0.0) (2025-04-22)
 
 
