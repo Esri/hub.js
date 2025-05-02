@@ -17,6 +17,8 @@ export const ContentPermissions = [
   "hub:content:delete",
   "hub:content:edit",
   "hub:content:view",
+  "hub:content:view:related",
+  "hub:content:view:connected",
   "hub:content:canChangeAccess",
   "hub:content:workspace",
   "hub:content:workspace:overview",
@@ -52,6 +54,38 @@ export const ContentPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:content:view",
     services: ["portal"],
     authenticated: false,
+  },
+  {
+    permission: "hub:content:view:related",
+    dependencies: ["hub:content:view"],
+    services: ["hub-search"],
+    assertions: [
+      {
+        property: "entity:access",
+        type: "eq",
+        value: "public",
+      },
+    ],
+  },
+  // NOTE: The connected content feature is only available for individual _feature layers_ within
+  // a feature / map service. Consumers of this permission are in charge of ensuring that the user
+  // is viewing a feature layer within a feature / map service before applying this permission.
+  {
+    permission: "hub:content:view:connected",
+    dependencies: ["hub:content:view"],
+    services: ["hub-search"],
+    assertions: [
+      {
+        property: "entity:access",
+        type: "eq",
+        value: "public",
+      },
+      {
+        property: "entity:type",
+        type: "included-in",
+        value: ["Feature Service", "Map Service"],
+      },
+    ],
   },
   {
     permission: "hub:content:edit",

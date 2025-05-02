@@ -6,3 +6,4 @@ export * from "./types";
 export * from "./upgradeCatalogSchema";
 export * from "./utils";
 export * from "./wellKnownCatalog";
+export * from "./searchAssociatedContent";

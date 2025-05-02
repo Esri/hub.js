@@ -1,3 +1,10 @@
+# @esri/hub-common [17.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.3.0...@esri/hub-common@17.4.0) (2025-05-02)
+
+
+### Features
+
+* **hub-common:** add searchAssociatedContent() function and permissions ([#1873](https://github.com/Esri/hub.js/issues/1873)) ([f829bb4](https://github.com/Esri/hub.js/commit/f829bb4a1005bb0abf1842b2e76b3776fe48f4de))
+
 # @esri/hub-common [17.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.2.0...@esri/hub-common@17.3.0) (2025-05-01)
 
 

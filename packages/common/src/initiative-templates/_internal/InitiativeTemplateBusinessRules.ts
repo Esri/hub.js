@@ -18,6 +18,7 @@ export const InitiativeTemplatePermissions = [
   "hub:initiativeTemplate:delete",
   "hub:initiativeTemplate:edit",
   "hub:initiativeTemplate:view",
+  "hub:initiativeTemplate:view:related",
   "hub:initiativeTemplate:canChangeAccess",
   "hub:initiativeTemplate:workspace",
   "hub:initiativeTemplate:workspace:dashboard",
@@ -45,6 +46,18 @@ export const InitiativeTemplatePermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:initiativeTemplate:view",
     dependencies: ["hub:initiativeTemplate"],
+  },
+  {
+    permission: "hub:initiativeTemplate:view:related",
+    dependencies: ["hub:initiativeTemplate:view"],
+    services: ["hub-search"],
+    assertions: [
+      {
+        property: "entity:access",
+        type: "eq",
+        value: "public",
+      },
+    ],
   },
   {
     permission: "hub:initiativeTemplate:edit",

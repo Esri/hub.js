@@ -1,7 +1,7 @@
 import { RemoteServerError } from "../../../request";
 import { cloneObject } from "../../../util";
-import { IHubSearchOptions } from "../../types/IHubSearchOptions";
 import { getQueryString } from "./getQueryString";
+import { ISearchOgcItemsOptions } from "./interfaces";
 
 /**
  * Wrapper over fetch for performing common operations when executing a request to an OGC API, such as:
@@ -30,13 +30,16 @@ import { getQueryString } from "./getQueryString";
 export async function ogcApiRequest(
   url: string,
   queryParams: Record<string, any>,
-  options: IHubSearchOptions
+  options: ISearchOgcItemsOptions
 ) {
   const updatedQueryParams = cloneObject(queryParams);
 
-  const targetDomain = new URL(options.site).hostname;
+  let targetDomain;
+  if (options.site) {
+    targetDomain = new URL(options.site).hostname;
+  }
   const urlDomain = new URL(url).hostname;
-  if (targetDomain !== urlDomain) {
+  if (targetDomain && targetDomain !== urlDomain) {
     updatedQueryParams.target = targetDomain;
   }
 
