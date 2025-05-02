@@ -6,7 +6,6 @@ import { HubEventAttendanceType, HubEventCapacityType } from "../types";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { fetchCategoriesUiSchemaElement } from "../../core/schemas/internal/fetchCategoriesUiSchemaElement";
-import { buildReferencedContentSchema } from "./buildReferencedContentSchema";
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 import { getEntityThumbnailUrl } from "../../core/getEntityThumbnailUrl";
 import { HubEntity } from "../../core";
@@ -416,11 +415,12 @@ export const buildUiSchema = async (
           },
         ],
       },
-      {
-        type: "Section",
-        labelKey: `${i18nScope}.sections.referencedContent.label`,
-        elements: [buildReferencedContentSchema(i18nScope, context)],
-      },
+      /* This field hidden for future consideration */
+      // {
+      //   type: "Section",
+      //   labelKey: `${i18nScope}.sections.referencedContent.label`,
+      //   elements: [buildReferencedContentSchema(i18nScope, context)],
+      // },
       {
         type: "Section",
         labelKey: `${i18nScope}.sections.discoverability.label`,

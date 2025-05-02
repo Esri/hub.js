@@ -1,3 +1,38 @@
+# @esri/hub-common [17.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.2.0...@esri/hub-common@17.3.0) (2025-05-01)
+
+
+### Features
+
+* update to latest version of ArcGIS REST JS packages ([#1889](https://github.com/Esri/hub.js/issues/1889)) ([e132a57](https://github.com/Esri/hub.js/commit/e132a575c7e28d662322eef108be75c41b81fb75))
+
+# @esri/hub-common [17.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.1.1...@esri/hub-common@17.2.0) (2025-04-30)
+
+
+### Features
+
+* moving notice into image picker ([#1884](https://github.com/Esri/hub.js/issues/1884)) ([9930bcb](https://github.com/Esri/hub.js/commit/9930bcb56e31ad13ceb280f9b7dd21b96ced8559))
+
+## @esri/hub-common [17.1.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.1.0...@esri/hub-common@17.1.1) (2025-04-29)
+
+
+### Bug Fixes
+
+* **hub-common:** remove location configuration from event creation ([#1887](https://github.com/Esri/hub.js/issues/1887)) ([c0e0b26](https://github.com/Esri/hub.js/commit/c0e0b26d8a3c20c24d723aa3f0eddb9546fe18bd))
+
+# @esri/hub-common [17.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.0.3...@esri/hub-common@17.1.0) (2025-04-24)
+
+
+### Features
+
+* **hub-common:** remove connected content field ([#1878](https://github.com/Esri/hub.js/issues/1878)) ([e64fd86](https://github.com/Esri/hub.js/commit/e64fd86c11dee74218bd2ce423a1c992e0b6bf66))
+
+## @esri/hub-common [17.0.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.0.2...@esri/hub-common@17.0.3) (2025-04-23)
+
+
+### Bug Fixes
+
+* **hub-common:** update events types export after nest v10 (swagger) … ([#1870](https://github.com/Esri/hub.js/issues/1870)) ([10a2255](https://github.com/Esri/hub.js/commit/10a2255d3926f857c66490d23bbd5178fc9f2de0))
+
 ## @esri/hub-common [17.0.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.0.1...@esri/hub-common@17.0.2) (2025-04-23)
 
 

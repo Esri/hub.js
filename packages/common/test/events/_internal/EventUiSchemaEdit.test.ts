@@ -15,23 +15,9 @@ import * as getLocationOptionsModule from "../../../src/core/schemas/internal/ge
 import * as buildReferencedContentSchemaModule from "../../../src/events/_internal/buildReferencedContentSchema";
 
 describe("EventUiSchemaEdit", () => {
-  const referencedContentSchema = {
-    scope: "/properties/referencedContentIds",
-    type: "Control",
-  };
-
-  let buildReferencedContentSchemaSpy: jasmine.Spy;
-
   beforeAll(() => {
     jasmine.clock().uninstall();
     jasmine.clock().mockDate(new Date("2024-04-03T16:30:00.000Z"));
-  });
-
-  beforeEach(() => {
-    buildReferencedContentSchemaSpy = spyOn(
-      buildReferencedContentSchemaModule,
-      "buildReferencedContentSchema"
-    ).and.returnValue(referencedContentSchema);
   });
 
   afterAll(() => {
@@ -134,11 +120,6 @@ describe("EventUiSchemaEdit", () => {
         authdCtxMgr.context.portal.id,
         authdCtxMgr.context.hubRequestOptions
       );
-      expect(buildReferencedContentSchemaSpy).toHaveBeenCalledTimes(1);
-      expect(buildReferencedContentSchemaSpy).toHaveBeenCalledWith(
-        "myI18nScope",
-        authdCtxMgr.context
-      );
       expect(res).toEqual({
         type: "Layout",
         elements: [
@@ -198,31 +179,8 @@ describe("EventUiSchemaEdit", () => {
                   sizeDescription: {
                     labelKey: "shared.fields._thumbnail.sizeDescription",
                   },
+                  notice: "20250425-image-picker-notice",
                 },
-              },
-              {
-                type: "Notice",
-                options: {
-                  notice: {
-                    configuration: {
-                      id: "no-thumbnail-or-png-notice",
-                      noticeType: "notice",
-                      closable: false,
-                      icon: "lightbulb",
-                      kind: "info",
-                      scale: "m",
-                    },
-                    message:
-                      "{{shared.fields._thumbnail.defaultThumbnailNotice:translate}}",
-                    autoShow: true,
-                  },
-                },
-                rules: [
-                  {
-                    effect: UiSchemaRuleEffects.SHOW,
-                    conditions: [true],
-                  },
-                ],
               },
             ],
           },
@@ -567,11 +525,6 @@ describe("EventUiSchemaEdit", () => {
                 },
               },
             ],
-          },
-          {
-            type: "Section",
-            labelKey: `myI18nScope.sections.referencedContent.label`,
-            elements: [referencedContentSchema],
           },
           {
             type: "Section",
