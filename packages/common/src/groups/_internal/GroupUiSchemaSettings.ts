@@ -37,7 +37,7 @@ export const buildUiSchema = async (
             scope: "/properties/membershipAccess",
             type: "Control",
             options: {
-              control: "hub-field-input-radio",
+              control: "hub-field-input-tile-select",
               labels: [
                 `{{${i18nScope}.fields.membershipAccess.org.description:translate}}`,
                 `{{${i18nScope}.fields.membershipAccess.collab.description:translate}}`,
@@ -114,7 +114,7 @@ export const buildUiSchema = async (
             scope: "/properties/isViewOnly",
             type: "Control",
             options: {
-              control: "hub-field-input-radio",
+              control: "hub-field-input-tile-select",
               labels: [
                 `{{${i18nScope}.fields.contributeContent.members.description:translate}}`,
                 `{{${i18nScope}.fields.contributeContent.admins.description:translate}}`,
