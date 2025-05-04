@@ -38,6 +38,12 @@ export interface IMetric {
    * This will be added to the `IMetric` as it's processed.
    */
   entityInfo?: IEntityInfo;
+
+  modified?: Date;
+
+  created?: Date;
+
+  reportingTo?: Array<{ entityId: string; metricId: string }>;
 }
 
 /**
