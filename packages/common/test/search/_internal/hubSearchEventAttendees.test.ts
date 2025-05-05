@@ -225,10 +225,9 @@ describe("hubSearchEventAttendees", () => {
         await results2.next();
         fail("did not reject");
       } catch (e) {
-        expect(1).toEqual(2);
-        // expect(e.message).toEqual(
-        //  "No more hub events for the given query and options"
-        // );
+        expect((e as any).message).toEqual(
+          "No more hub events for the given query and options"
+        );
       }
     });
   });
