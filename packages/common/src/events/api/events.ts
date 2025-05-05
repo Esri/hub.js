@@ -3,7 +3,6 @@ import {
   IPagedEventResponse,
   ICreateEventParams,
   IGetEventParams,
-  IGetEventsParams,
   IUpdateEventParams,
   IDeleteEventParams,
   ISearchEventsParams,
@@ -11,7 +10,6 @@ import {
 import { authenticateRequest } from "./utils/authenticate-request";
 import {
   createEvent as _createEvent,
-  getEvents as _getEvents,
   searchEvents as _searchEvents,
   getEvent as _getEvent,
   updateEvent as _updateEvent,
@@ -29,20 +27,6 @@ export async function createEvent(
 ): Promise<IEvent> {
   options.token = await authenticateRequest(options);
   return _createEvent(options.data, options);
-}
-
-/**
- * get events
- * @deprecated use searchEvents instead
- *
- * @param {IGetEventsParams} options
- * @return {Promise<IPagedEventResponse>}
- */
-export async function getEvents(
-  options: IGetEventsParams
-): Promise<IPagedEventResponse> {
-  options.token = await authenticateRequest(options);
-  return _getEvents(options.data, options);
 }
 
 /**
