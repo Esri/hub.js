@@ -30,6 +30,7 @@ export const ProjectPermissions = [
   "hub:project:workspace:overview",
   "hub:project:workspace:dashboard",
   "hub:project:workspace:details",
+  "hub:project:workspace:discussions",
   "hub:project:workspace:initiatives",
   "hub:project:workspace:settings",
   "hub:project:workspace:collaborators",
@@ -134,6 +135,10 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:project:workspace:details",
+    dependencies: ["hub:project:workspace", "hub:project:edit"],
+  },
+  {
+    permission: "hub:project:workspace:discussions",
     dependencies: ["hub:project:workspace", "hub:project:edit"],
   },
   {
