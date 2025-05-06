@@ -1,5 +1,5 @@
+import { IHubRequestOptions } from "../../../hub-types";
 import { EntityType } from "../../types";
-import { IHubSearchOptions } from "../../types/IHubSearchOptions";
 import { IApiDefinition } from "../../types/types";
 
 /**
@@ -11,9 +11,9 @@ import { IApiDefinition } from "../../types/types";
  */
 export function getOgcApiDefinition(
   targetEntity: EntityType,
-  options: IHubSearchOptions
+  requestOptions: IHubRequestOptions
 ): IApiDefinition {
-  const umbrellaDomain = new URL(options.requestOptions.hubApiUrl).hostname;
+  const umbrellaDomain = new URL(requestOptions.hubApiUrl).hostname;
   return targetEntity === "discussionPost"
     ? {
         type: "arcgis-hub",

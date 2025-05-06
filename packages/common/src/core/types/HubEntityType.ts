@@ -1,17 +1,22 @@
-export const HUB_ENTITY_TYPES = [
+export const HUB_ITEM_ENTITY_TYPES = [
   "content",
-  "discussion",
-  "event",
-  "group",
   "initiative",
   "initiativeTemplate",
-  "org", // TODO: Remove at next breaking change
-  "organization",
   "page",
   "project",
   "site",
   "survey",
   "template",
+] as const;
+export type HubItemEntityType = (typeof HUB_ITEM_ENTITY_TYPES)[number];
+
+export const HUB_ENTITY_TYPES = [
+  ...HUB_ITEM_ENTITY_TYPES,
+  "discussion",
+  "event",
+  "group",
+  "org", // TODO: Remove at next breaking change
+  "organization",
   "user",
   "channel",
 ] as const;
