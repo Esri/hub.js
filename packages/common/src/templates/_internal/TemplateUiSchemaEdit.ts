@@ -63,6 +63,7 @@ export const buildUiSchema = async (
               ],
             },
           },
+          getSlugSchemaElement(i18nScope),
           {
             type: "Control",
             scope: "/properties/summary",
@@ -88,15 +89,11 @@ export const buildUiSchema = async (
             "template",
             context.requestOptions
           ),
-          getSlugSchemaElement(i18nScope),
           {
             type: "Section",
             labelKey: `${i18nScope}.sections.description.label`,
             options: {
               section: "block",
-              helperText: {
-                labelKey: `${i18nScope}.sections.description.helperText`,
-              },
             },
             elements: [
               // description

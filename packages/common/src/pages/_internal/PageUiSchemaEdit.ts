@@ -58,6 +58,7 @@ export const buildUiSchema = async (
               ],
             },
           },
+          getSlugSchemaElement(i18nScope),
           {
             labelKey: `${i18nScope}.fields.summary.label`,
             scope: "/properties/summary",
@@ -83,15 +84,11 @@ export const buildUiSchema = async (
             "page",
             context.requestOptions
           ),
-          getSlugSchemaElement(i18nScope),
           {
             type: "Section",
             labelKey: `${i18nScope}.sections.description.label`,
             options: {
               section: "block",
-              helperText: {
-                labelKey: `${i18nScope}.sections.description.helperText`,
-              },
             },
             elements: [
               {
