@@ -84,9 +84,6 @@ export const buildUiSchema = async (
             labelKey: `${i18nScope}.sections.description.label`,
             options: {
               section: "block",
-              helperText: {
-                labelKey: `${i18nScope}.sections.description.helperText`,
-              },
             },
             elements: [
               {
@@ -568,53 +565,6 @@ export const buildUiSchema = async (
                 },
               },
             ],
-          },
-        ],
-      },
-      {
-        type: "Section",
-        labelKey: `${i18nScope}.sections.discoverability.label`,
-        elements: [
-          {
-            labelKey: `${i18nScope}.fields.tags.label`,
-            scope: "/properties/tags",
-            type: "Control",
-            options: {
-              control: "hub-field-input-combobox",
-              items: await getTagItems(
-                options.tags,
-                context.portal.id,
-                context.hubRequestOptions
-              ),
-              allowCustomValues: true,
-              selectionMode: "multiple",
-              placeholderIcon: "label",
-              helperText: {
-                labelKey: `${i18nScope}.fields.tags.helperText`,
-              },
-            },
-          },
-          ...(await fetchCategoriesUiSchemaElement(i18nScope, context)),
-          {
-            labelKey: `${i18nScope}.fields.summary.label`,
-            scope: "/properties/summary",
-            type: "Control",
-            options: {
-              control: "hub-field-input-input",
-              type: "textarea",
-              rows: 4,
-              helperText: {
-                labelKey: `${i18nScope}.fields.summary.helperText`,
-              },
-              messages: [
-                {
-                  type: "ERROR",
-                  keyword: "maxLength",
-                  icon: true,
-                  labelKey: `shared.fields.summary.maxLengthError`,
-                },
-              ],
-            },
           },
         ],
       },

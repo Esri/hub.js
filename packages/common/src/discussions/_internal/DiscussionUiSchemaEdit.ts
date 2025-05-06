@@ -7,7 +7,6 @@ import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThum
 import { IHubDiscussion } from "../../core/types";
 import { fetchCategoriesUiSchemaElement } from "../../core/schemas/internal/fetchCategoriesUiSchemaElement";
 import { getSlugSchemaElement } from "../../core/schemas/internal/getSlugSchemaElement";
-import { getFeaturedContentCatalogs } from "../../core/schemas/internal/getFeaturedContentCatalogs";
 
 /**
  * @private
@@ -59,6 +58,7 @@ export const buildUiSchema = async (
               ],
             },
           },
+          getSlugSchemaElement(i18nScope),
           {
             labelKey: `${i18nScope}.fields.summary.label`,
             scope: "/properties/summary",
@@ -84,15 +84,11 @@ export const buildUiSchema = async (
             "discussion",
             context.requestOptions
           ),
-          getSlugSchemaElement(i18nScope),
           {
             type: "Section",
             labelKey: `${i18nScope}.sections.description.label`,
             options: {
               section: "block",
-              helperText: {
-                labelKey: `${i18nScope}.sections.description.helperText`,
-              },
             },
             elements: [
               {
@@ -196,53 +192,6 @@ export const buildUiSchema = async (
               // if the map preview is displayed
               showPreview: true,
             },
-          },
-        ],
-      },
-      {
-        type: "Section",
-        labelKey: "shared.sections.heroBanner.label",
-        elements: [
-          {
-            type: "Section",
-            labelKey: "shared.sections.heroActions.label",
-            options: {
-              section: "block",
-              helperText: {
-                labelKey: "shared.sections.heroActions.helperText",
-              },
-            },
-            elements: [
-              {
-                scope: "/properties/view/properties/heroActions",
-                type: "Control",
-                options: {
-                  control: "hub-composite-input-action-links",
-                  type: "button",
-                  catalogs: getFeaturedContentCatalogs(context.currentUser), // for now we'll just re-use this util to get the catalogs
-                  facets: [
-                    {
-                      labelKey: "shared.fields.callToAction.facets.type",
-                      key: "type",
-                      display: "multi-select",
-                      field: "type",
-                      options: [],
-                      operation: "OR",
-                      aggLimit: 100,
-                    },
-                    {
-                      label: "shared.fields.callToAction.facets.sharing",
-                      key: "access",
-                      display: "multi-select",
-                      field: "access",
-                      options: [],
-                      operation: "OR",
-                    },
-                  ],
-                  showAllCollectionFacet: true,
-                },
-              },
-            ],
           },
         ],
       },

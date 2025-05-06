@@ -84,9 +84,6 @@ export const buildUiSchema = async (
             labelKey: `${i18nScope}.sections.description.label`,
             options: {
               section: "block",
-              helperText: {
-                labelKey: `${i18nScope}.sections.description.helperText`,
-              },
             },
             elements: [
               // description

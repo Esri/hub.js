@@ -56,6 +56,7 @@ export const buildUiSchema = async (
               ],
             },
           },
+          getSlugSchemaElement(i18nScope),
           // summary
           {
             labelKey: `${i18nScope}.fields.summary.label`,
@@ -82,15 +83,11 @@ export const buildUiSchema = async (
             "content",
             context.requestOptions
           ),
-          getSlugSchemaElement(i18nScope),
           {
             type: "Section",
             labelKey: `${i18nScope}.sections.description.label`,
             options: {
               section: "block",
-              helperText: {
-                labelKey: `${i18nScope}.sections.description.helperText`,
-              },
             },
             elements: [
               // description
