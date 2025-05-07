@@ -776,6 +776,17 @@ export interface IChannelAclPermissionDefinition {
  * request option for updating a channel ACL permission
  *
  * @export
+ * @interface IChannelAclUpdateDefinition
+ */
+export interface IChannelAclUpdateDefinition
+  extends IChannelAclPermissionDefinition {
+  id?: string;
+}
+
+/**
+ * request option for updating a channel ACL permission
+ *
+ * @export
  * @interface IChannelAclPermissionUpdateDefinition
  * @extends {IChannelAclPermissionDefinition}
  */
@@ -896,7 +907,7 @@ export interface IUpdateChannelPermissions {
  * @interface IUpdateChannelPermissionsV2
  */
 export interface IUpdateChannelPermissionsV2 {
-  channelAclDefinition?: IChannelAclPermissionDefinition[];
+  channelAclDefinition?: IChannelAclUpdateDefinition[];
 }
 
 /**
