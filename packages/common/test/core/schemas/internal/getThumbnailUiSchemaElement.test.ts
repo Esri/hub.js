@@ -6,7 +6,7 @@ import * as urlUtils from "../../../../src/urls";
 import { UiSchemaRuleEffects } from "../../../../src/core/schemas/types";
 
 describe("getThumbnailUiSchemaElement:", () => {
-  it("excludes the default thumbnail notice if the entity has a thumbnail", () => {
+  it("returns schema when the entity has a thumbnail", () => {
     const entity: IHubItemEntity = {
       thumbnail: "thumbnail/my-thumbnail.png",
       itemControl: "",
@@ -32,10 +32,9 @@ describe("getThumbnailUiSchemaElement:", () => {
       requestOptions
     );
     expect(uiSchema.length).toBe(1);
-    expect(uiSchema[0].options.notice).toBeNull();
   });
 
-  it("includes the default thumbnail notice if the entity has no thumbnail", () => {
+  it("returns schema when the entity has no thumbnail", () => {
     const entity: IHubItemEntity = {
       itemControl: "",
       owner: "",
@@ -60,10 +59,9 @@ describe("getThumbnailUiSchemaElement:", () => {
       requestOptions
     );
     expect(uiSchema.length).toBe(1);
-    expect(uiSchema[0].options.notice).not.toBeNull();
   });
 
-  it("includes the default thumbnail notice if the entity has the default thumbnail", () => {
+  it("returns schema when the entity has the default thumbnail", () => {
     const entity: IHubItemEntity = {
       thumbnail: "thumbnail/ago_downloaded.png",
       itemControl: "",
@@ -89,7 +87,6 @@ describe("getThumbnailUiSchemaElement:", () => {
       requestOptions
     );
     expect(uiSchema.length).toBe(1);
-    expect(uiSchema[0].options.notice).not.toBeNull();
   });
 
   it("sets default thumbnail when available", () => {

@@ -9,9 +9,6 @@ describe("getSlugSchemaElement", () => {
       type: "Control",
       options: {
         control: "hub-field-input-input",
-        helperText: {
-          labelKey: "some.scope.fields.slug.helperText",
-        },
         messages: [
           {
             type: "ERROR",
