@@ -58,13 +58,6 @@ export function getThumbnailUiSchemaElement(
     };
   }
 
-  // We want the notice to appear in the image picker rather than below it
-  // this is a design requirement for proper element indexing
-  const notice =
-    !thumbnail || thumbnail === "thumbnail/ago_downloaded.png"
-      ? "20250425-image-picker-notice"
-      : null;
-
   return [
     {
       labelKey:
