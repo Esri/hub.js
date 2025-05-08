@@ -2,12 +2,10 @@ import {
   ICreateEventParams,
   IDeleteEventParams,
   IGetEventParams,
-  IGetEventsParams,
   IUpdateEventParams,
   createEvent,
   deleteEvent,
   getEvent,
-  getEvents,
   searchEvents,
   updateEvent,
   IEvent,
@@ -109,35 +107,6 @@ describe("Events", () => {
 
       expect(authenticateRequestSpy).toHaveBeenCalledWith(options);
       expect(getEventSpy).toHaveBeenCalledWith(options.eventId, {
-        ...options,
-        token,
-      });
-    });
-  });
-
-  describe("getEvents", () => {
-    it("should get events", async () => {
-      const mockEvent = { burrito: "supreme" } as unknown as IEvent;
-      const pagedResponse = {
-        total: 1,
-        nextStart: 2,
-        items: [mockEvent],
-      };
-      const getEventsSpy = spyOn(orvalModule, "getEvents").and.callFake(
-        async () => pagedResponse
-      );
-
-      const options: IGetEventsParams = {
-        data: {
-          startDateTimeBefore: "2024-02-19T21:52:29.525Z",
-        },
-      };
-
-      const result = await getEvents(options);
-      expect(result).toEqual(pagedResponse);
-
-      expect(authenticateRequestSpy).toHaveBeenCalledWith(options);
-      expect(getEventsSpy).toHaveBeenCalledWith(options.data, {
         ...options,
         token,
       });

@@ -323,6 +323,7 @@ describe("EventUiSchemaEdit", () => {
                 labelKey: "myI18nScope.fields.location.label",
                 options: {
                   control: "hub-field-input-location-picker",
+                  enableInvalidGeometryWarning: true,
                   extent: [],
                   options: [],
                   locationNameRequired: true,

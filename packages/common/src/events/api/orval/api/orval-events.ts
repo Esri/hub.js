@@ -7,176 +7,6 @@
  */
 import { customClient } from "../custom-client";
 import { Awaited } from "../awaited-type";
-export type GetRegistrationsParams = {
-  /**
-   * Event id being registered for
-   */
-  eventId?: string;
-  /**
-   * ArcGIS Online id for a user
-   */
-  userId?: string;
-  /**
-   * comma separated string list of registration roles
-   */
-  role?: string;
-  /**
-   * comma separated string list of registration statuses
-   */
-  status?: string;
-  /**
-   * comma separated string list of registration types
-   */
-  type?: string;
-  /**
-   * latest ISO8601 updatedAt for the registrations
-   */
-  updatedAtBefore?: string;
-  /**
-   * earliest ISO8601 updatedAt for the registrations
-   */
-  updatedAtAfter?: string;
-  /**
-   * filter to be matched to firstName, lastName, or username
-   */
-  name?: string;
-  /**
-   * the max amount of registrations to return
-   */
-  num?: string;
-  /**
-   * the index to start at
-   */
-  start?: string;
-  /**
-   * property to sort results by
-   */
-  sortBy?: RegistrationSort;
-  /**
-   * sort order desc or asc
-   */
-  sortOrder?: EventSortOrder;
-};
-
-export type GetEventsParams = {
-  /**
-   * Comma separated string list of EventAccess. Example: PRIVATE,ORG,PUBLIC
-   */
-  access?: string;
-  /**
-   * Comma separated string list of AttendanceTypes. Example:  VIRTUAL,IN_PERSON
-   */
-  attendanceTypes?: string;
-  /**
-   * boolean to filter events that can be edited by the user
-   */
-  canEdit?: string;
-  /**
-   * Comma separated string list of categories
-   */
-  categories?: string;
-  /**
-   * Comma separated string list of createdByIds
-   */
-  createdByIds?: string;
-  /**
-   * Comma separated string list of edit groupIds
-   */
-  editGroups?: string;
-  /**
-   * earliest ISO8601 end date-time for the events
-   */
-  endDateTimeAfter?: string;
-  /**
-   * latest ISO8601 end date-time for the events
-   */
-  endDateTimeBefore?: string;
-  /**
-   * Comma separated string list of associated entityIds
-   */
-  entityIds?: string;
-  /**
-   * Comma separated string list of associated entity types. Example: Hub Site Application,Hub Initiative,Hub Project
-   */
-  entityTypes?: string;
-  /**
-   * Comma separated string list of event ids
-   */
-  eventIds?: string;
-  /**
-   * JSON stringified esri geometry object
-   */
-  geometry?: string;
-  /**
-   * Comma separated string list of relation fields to include in response. Example: associations,creator,location,onlineMeeting,registrations
-   */
-  include?: string;
-  /**
-   * orgId string
-   */
-  orgId?: string;
-  /**
-   * the max amount of events to return
-   */
-  num?: string;
-  /**
-   * Comma separated string list of read groupIds
-   */
-  readGroups?: string;
-  /**
-   * Comma separated string list of shared groupIds
-   */
-  sharedToGroups?: string;
-  /**
-   * Event property to sort results by
-   */
-  sortBy?: EventSort;
-  /**
-   * sort results order desc or asc
-   */
-  sortOrder?: EventSortOrder;
-  /**
-   * the index to start at
-   */
-  start?: string;
-  /**
-   * earliest ISO8601 start date-time for the events
-   */
-  startDateTimeAfter?: string;
-  /**
-   * latest ISO8601 start date-time for the events
-   */
-  startDateTimeBefore?: string;
-  /**
-   * comma separated string list of event statuses. Example: PLANNED,CANCELED,REMOVED
-   */
-  status?: string;
-  /**
-   * Comma separated string list of tags
-   */
-  tags?: string;
-  /**
-   * string to match within an event title
-   */
-  title?: string;
-  /**
-   * earliest ISO8601 updatedAt for the events
-   */
-  updatedAtAfter?: string;
-  /**
-   * latest ISO8601 updatedAt for the events
-   */
-  updatedAtBefore?: string;
-  /**
-   * Comma separated string list of edit groupIds that event is not shared to
-   */
-  withoutEditGroups?: string;
-  /**
-   * Comma separated string list of read groupIds that event is not shared to
-   */
-  withoutReadGroups?: string;
-};
-
 export interface IUpdateRegistration {
   /** Role of the user in the event */
   role?: RegistrationRole;
@@ -305,11 +135,78 @@ export interface IUpdateEvent {
   title?: string;
 }
 
+export interface IPagedEventResponse {
+  items: IEvent[];
+  nextStart: number;
+  total: number;
+}
+
 /**
  * esri geometry object
  */
 export type ISearchEventsGeometry = { [key: string]: unknown };
 
+export enum EventSortOrder {
+  asc = "asc",
+  desc = "desc",
+}
+export type GetRegistrationsParams = {
+  /**
+   * Event id being registered for
+   */
+  eventId?: string;
+  /**
+   * ArcGIS Online id for a user
+   */
+  userId?: string;
+  /**
+   * comma separated string list of registration roles
+   */
+  role?: string;
+  /**
+   * comma separated string list of registration statuses
+   */
+  status?: string;
+  /**
+   * comma separated string list of registration types
+   */
+  type?: string;
+  /**
+   * latest ISO8601 updatedAt for the registrations
+   */
+  updatedAtBefore?: string;
+  /**
+   * earliest ISO8601 updatedAt for the registrations
+   */
+  updatedAtAfter?: string;
+  /**
+   * filter to be matched to firstName, lastName, or username
+   */
+  name?: string;
+  /**
+   * the max amount of registrations to return
+   */
+  num?: string;
+  /**
+   * the index to start at
+   */
+  start?: string;
+  /**
+   * property to sort results by
+   */
+  sortBy?: RegistrationSort;
+  /**
+   * sort order desc or asc
+   */
+  sortOrder?: EventSortOrder;
+};
+
+export enum EventSort {
+  title = "title",
+  startDateTime = "startDateTime",
+  createdAt = "createdAt",
+  updatedAt = "updatedAt",
+}
 export enum GetEventsInclude {
   associations = "associations",
   creator = "creator",
@@ -320,22 +217,6 @@ export enum GetEventsInclude {
 export enum EventsSearchFormat {
   csv = "csv",
   json = "json",
-}
-export interface IPagedEventResponse {
-  items: IEvent[];
-  nextStart: number;
-  total: number;
-}
-
-export enum EventSortOrder {
-  asc = "asc",
-  desc = "desc",
-}
-export enum EventSort {
-  title = "title",
-  startDateTime = "startDateTime",
-  createdAt = "createdAt",
-  updatedAt = "updatedAt",
 }
 export interface ISearchEvents {
   /** Array of EventAccess. Example: PRIVATE,ORG,PUBLIC */
@@ -765,19 +646,6 @@ export const createEvent = (
 };
 
 /**
- * Get a list of events matching request criteria.
- */
-export const getEvents = (
-  params?: GetEventsParams,
-  options?: SecondParameter<typeof customClient>
-) => {
-  return customClient<IPagedEventResponse>(
-    { url: `/api/events/v1/events`, method: "GET", params },
-    options
-  );
-};
-
-/**
  * Search for events matching request criteria.
  */
 export const searchEvents = (
@@ -918,9 +786,6 @@ export const deleteRegistration = (
 
 export type CreateEventResult = NonNullable<
   Awaited<ReturnType<typeof createEvent>>
->;
-export type GetEventsResult = NonNullable<
-  Awaited<ReturnType<typeof getEvents>>
 >;
 export type SearchEventsResult = NonNullable<
   Awaited<ReturnType<typeof searchEvents>>
