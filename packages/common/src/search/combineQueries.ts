@@ -1,4 +1,4 @@
-import { IQuery } from "../types/IHubCatalog";
+import { IQuery } from "./types/IHubCatalog";
 
 /**
  * @internal

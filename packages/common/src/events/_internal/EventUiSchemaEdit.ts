@@ -209,6 +209,7 @@ export const buildUiSchema = async (
             labelKey: `${i18nScope}.fields.location.label`,
             options: {
               control: "hub-field-input-location-picker",
+              enableInvalidGeometryWarning: true,
               extent: await getLocationExtent(
                 options.location,
                 context.hubRequestOptions

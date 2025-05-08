@@ -8,7 +8,7 @@ import { getProp } from "../../objects/get-prop";
 import { IQuery } from "../../search/types/IHubCatalog";
 import { IHubSearchOptions } from "../../search/types/IHubSearchOptions";
 
-import { combineQueries } from "../../search/_internal/combineQueries";
+import { combineQueries } from "../../search/combineQueries";
 import { portalSearchItemsAsItems } from "../../search/_internal/portalSearchItems";
 import { aggregateValues } from "./aggregateValues";
 import { memoize } from "../memoize";

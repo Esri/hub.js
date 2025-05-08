@@ -189,18 +189,15 @@ describe("hubSearchEventAttendees", () => {
         "processOptionsSpy.calls.argsFor(1)"
       );
       expect(getRegistrationsSpy).toHaveBeenCalledTimes(2);
-      expect(getRegistrationsSpy.calls.argsFor(1)).toEqual(
-        [
-          {
-            ...options2.requestOptions,
-            data: {
-              ...processedFilters,
-              ...processedOptions2,
-            },
+      expect(getRegistrationsSpy.calls.argsFor(1)).toEqual([
+        {
+          ...options2.requestOptions,
+          data: {
+            ...processedFilters,
+            ...processedOptions2,
           },
-        ],
-        "getEventsSpy.calls.argsFor(1)"
-      );
+        },
+      ]);
       expect(eventAttendeeToSearchResultSpy).toHaveBeenCalledTimes(4);
       expect(eventAttendeeToSearchResultSpy.calls.argsFor(2)).toEqual(
         [PAGE_2.items[0], options2],
@@ -228,7 +225,7 @@ describe("hubSearchEventAttendees", () => {
         await results2.next();
         fail("did not reject");
       } catch (e) {
-        expect(e.message).toEqual(
+        expect((e as any).message).toEqual(
           "No more hub events for the given query and options"
         );
       }

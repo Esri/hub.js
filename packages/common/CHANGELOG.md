@@ -1,3 +1,24 @@
+# @esri/hub-common [17.7.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.6.0...@esri/hub-common@17.7.0) (2025-05-08)
+
+
+### Features
+
+* additions to gallery display config interface & schema ([#1886](https://github.com/Esri/hub.js/issues/1886)) ([f7063c0](https://github.com/Esri/hub.js/commit/f7063c0de2246a3364b0eda660a88b6bc9f3daf4))
+
+# @esri/hub-common [17.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.5.0...@esri/hub-common@17.6.0) (2025-05-08)
+
+
+### Features
+
+* **hub-common:** deprecate GET /events ([#1892](https://github.com/Esri/hub.js/issues/1892)) ([04c8827](https://github.com/Esri/hub.js/commit/04c8827597a938f94323a603351f848f3d3ac708))
+
+# @esri/hub-common [17.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.4.0...@esri/hub-common@17.5.0) (2025-05-07)
+
+
+### Features
+
+* **hub-common:** update event edit uischema ([#1891](https://github.com/Esri/hub.js/issues/1891)) ([8c56e5e](https://github.com/Esri/hub.js/commit/8c56e5e8c9b4037f034bf54169198b8ae9391765))
+
 # @esri/hub-common [17.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.3.0...@esri/hub-common@17.4.0) (2025-05-02)
 
 
