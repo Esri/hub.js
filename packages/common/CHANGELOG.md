@@ -1,3 +1,10 @@
+# @esri/hub-common [17.7.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.6.0...@esri/hub-common@17.7.0) (2025-05-08)
+
+
+### Features
+
+* additions to gallery display config interface & schema ([#1886](https://github.com/Esri/hub.js/issues/1886)) ([f7063c0](https://github.com/Esri/hub.js/commit/f7063c0de2246a3364b0eda660a88b6bc9f3daf4))
+
 # @esri/hub-common [17.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.5.0...@esri/hub-common@17.6.0) (2025-05-08)
 
 
