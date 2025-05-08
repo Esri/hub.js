@@ -3,7 +3,6 @@ export {
   EventAccess,
   EventAttendanceType,
   EventStatus,
-  GetEventsParams,
   ISearchEvents,
   IEventAssociation,
   ICreateEventAssociation,
@@ -40,7 +39,6 @@ import { IHubRequestOptions } from "../../hub-types";
 import {
   ICreateEvent,
   IUpdateEvent,
-  GetEventsParams,
   ISearchEvents,
   ICreateRegistration,
   IUpdateRegistration,
@@ -67,9 +65,6 @@ export interface IEventsRequestOptions
 
 export interface ICreateEventParams extends IEventsRequestOptions {
   data: ICreateEvent;
-}
-export interface IGetEventsParams extends IEventsRequestOptions {
-  data: GetEventsParams;
 }
 export interface ISearchEventsParams extends IEventsRequestOptions {
   data: ISearchEvents;
