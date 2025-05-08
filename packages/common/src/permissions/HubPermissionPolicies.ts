@@ -138,7 +138,7 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:feature:workspace:user",
     // NOTE: qaext and devext might seem redundant, given that hub:feature:workspace is alpha
     // but we allow users to "opt-in" which overrides that
-    environments: ["qaext", "devext"],
+    environments: ["production", "qaext", "devext"],
     dependencies: ["hub:feature:workspace"],
   },
   {
