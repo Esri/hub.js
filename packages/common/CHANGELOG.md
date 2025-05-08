@@ -1,3 +1,10 @@
+# @esri/hub-common [17.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.5.0...@esri/hub-common@17.6.0) (2025-05-08)
+
+
+### Features
+
+* **hub-common:** deprecate GET /events ([#1892](https://github.com/Esri/hub.js/issues/1892)) ([04c8827](https://github.com/Esri/hub.js/commit/04c8827597a938f94323a603351f848f3d3ac708))
+
 # @esri/hub-common [17.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.4.0...@esri/hub-common@17.5.0) (2025-05-07)
 
 
