@@ -7,9 +7,6 @@ export const getSlugSchemaElement = (i18nScope: string): IUiSchemaElement => {
     type: "Control",
     options: {
       control: "hub-field-input-input",
-      helperText: {
-        labelKey: `${i18nScope}.fields.slug.helperText`,
-      },
       messages: [
         {
           type: "ERROR",

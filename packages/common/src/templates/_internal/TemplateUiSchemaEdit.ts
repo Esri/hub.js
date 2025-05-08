@@ -1,8 +1,12 @@
 import type { IArcGISContext } from "../../types/IArcGISContext";
-import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 import { IUiSchema, UiSchemaMessageTypes } from "../../core/schemas/types";
 import { getEntityThumbnailUrl } from "../../core/getEntityThumbnailUrl";
+import { getSlugSchemaElement } from "../../core/schemas/internal/getSlugSchemaElement";
+import { getTagItems } from "../../core/schemas/internal/getTagItems";
+import { fetchCategoriesUiSchemaElement } from "../../core/schemas/internal/fetchCategoriesUiSchemaElement";
+import { HubEntity, IHubTemplate } from "../../core";
+import { getFeaturedContentCatalogs } from "../../core/schemas/internal/getFeaturedContentCatalogs";
 
 /**
  * @private
@@ -17,7 +21,7 @@ import { getEntityThumbnailUrl } from "../../core/getEntityThumbnailUrl";
  */
 export const buildUiSchema = async (
   i18nScope: string,
-  options: EntityEditorOptions,
+  options: Partial<IHubTemplate>,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
   return {
@@ -26,6 +30,11 @@ export const buildUiSchema = async (
       {
         type: "Section",
         labelKey: `${i18nScope}.sections.basicInfo.label`,
+        options: {
+          helperText: {
+            labelKey: `${i18nScope}.sections.basicInfo.helperText`,
+          },
+        },
         elements: [
           {
             type: "Control",
@@ -54,6 +63,88 @@ export const buildUiSchema = async (
               ],
             },
           },
+          getSlugSchemaElement(i18nScope),
+          {
+            type: "Control",
+            scope: "/properties/summary",
+            labelKey: `${i18nScope}.fields.summary.label`,
+            options: {
+              control: "hub-field-input-input",
+              type: "textarea",
+              rows: 4,
+              messages: [
+                {
+                  type: "ERROR",
+                  keyword: "maxLength",
+                  icon: true,
+                  labelKey: `shared.fields.summary.maxLengthError`,
+                },
+              ],
+            },
+          },
+          ...getThumbnailUiSchemaElement(
+            i18nScope,
+            options.thumbnail,
+            getEntityThumbnailUrl(options as HubEntity),
+            "template",
+            context.requestOptions
+          ),
+          {
+            type: "Section",
+            labelKey: `${i18nScope}.sections.description.label`,
+            options: {
+              section: "block",
+            },
+            elements: [
+              // description
+              {
+                labelKey: `${i18nScope}.fields.description.label`,
+                scope: "/properties/description",
+                type: "Control",
+                options: {
+                  control: "hub-field-input-rich-text",
+                  type: "textarea",
+                },
+              },
+            ],
+          },
+          {
+            type: "Section",
+            labelKey: `${i18nScope}.sections.discoverability.label`,
+            options: {
+              section: "block",
+              helperText: {
+                labelKey: `${i18nScope}.sections.discoverability.helperText`,
+              },
+            },
+            elements: [
+              // tags
+              {
+                labelKey: `${i18nScope}.fields.tags.label`,
+                scope: "/properties/tags",
+                type: "Control",
+                options: {
+                  control: "hub-field-input-combobox",
+                  items: await getTagItems(
+                    options.tags,
+                    context.portal.id,
+                    context.hubRequestOptions
+                  ),
+                  allowCustomValues: true,
+                  selectionMode: "multiple",
+                  placeholderIcon: "label",
+                },
+              },
+              // categories
+              ...(await fetchCategoriesUiSchemaElement(i18nScope, context)),
+            ],
+          },
+        ],
+      },
+      {
+        type: "Section",
+        labelKey: `${i18nScope}.sections.templateDetails.label`,
+        elements: [
           {
             type: "Control",
             scope: "/properties/previewUrl",
@@ -77,46 +168,79 @@ export const buildUiSchema = async (
               ],
             },
           },
+        ],
+      },
+      // NOTE: this does not round-trip....
+      // {
+      //   type: "Section",
+      //   labelKey: `${i18nScope}.sections.location.label`,
+      //   elements: [
+      //     {
+      //       scope: "/properties/location",
+      //       type: "Control",
+      //       options: {
+      //         control: "hub-field-input-location-picker",
+      //         extent: await getLocationExtent(
+      //           options.location,
+      //           context.hubRequestOptions
+      //         ),
+      //         options: await getLocationOptions(
+      //           options.id,
+      //           options.type,
+      //           options.location,
+      //           context.portal.name,
+      //           context.hubRequestOptions
+      //         ),
+      //         noticeTitleElementAriaLevel: 3,
+      //       },
+      //     },
+      //   ],
+      // },
+      {
+        type: "Section",
+        labelKey: "shared.sections.heroBanner.label",
+        elements: [
           {
-            labelKey: `${i18nScope}.fields.summary.label`,
-            scope: "/properties/summary",
-            type: "Control",
+            type: "Section",
+            labelKey: "shared.sections.heroActions.label",
             options: {
-              control: "hub-field-input-input",
-              type: "textarea",
-              rows: 4,
+              section: "block",
               helperText: {
-                labelKey: `${i18nScope}.fields.summary.helperText`,
+                labelKey: "shared.sections.heroActions.helperText",
               },
-              messages: [
-                {
-                  type: "ERROR",
-                  keyword: "maxLength",
-                  icon: true,
-                  labelKey: `shared.fields.summary.maxLengthError`,
+            },
+            elements: [
+              {
+                scope: "/properties/view/properties/heroActions",
+                type: "Control",
+                options: {
+                  control: "hub-composite-input-action-links",
+                  type: "button",
+                  catalogs: getFeaturedContentCatalogs(context.currentUser), // for now we'll just re-use this util to get the catalogs
+                  facets: [
+                    {
+                      label: "shared.fields.callToAction.facets.type",
+                      key: "type",
+                      display: "multi-select",
+                      field: "type",
+                      options: [],
+                      operation: "OR",
+                      aggLimit: 100,
+                    },
+                    {
+                      label: "shared.fields.callToAction.facets.sharing",
+                      key: "access",
+                      display: "multi-select",
+                      field: "access",
+                      options: [],
+                      operation: "OR",
+                    },
+                  ],
+                  showAllCollectionFacet: true,
                 },
-              ],
-            },
-          },
-          {
-            labelKey: `${i18nScope}.fields.description.label`,
-            scope: "/properties/description",
-            type: "Control",
-            options: {
-              control: "hub-field-input-rich-text",
-              type: "textarea",
-              helperText: {
-                labelKey: `${i18nScope}.fields.description.helperText`,
               },
-            },
+            ],
           },
-          ...getThumbnailUiSchemaElement(
-            i18nScope,
-            options.thumbnail,
-            getEntityThumbnailUrl(options),
-            "template",
-            context.requestOptions
-          ),
         ],
       },
     ],

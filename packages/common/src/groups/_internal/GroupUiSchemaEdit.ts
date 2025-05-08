@@ -21,6 +21,11 @@ export const buildUiSchema = async (
       {
         type: "Section",
         labelKey: `${i18nScope}.sections.basicInfo.label`,
+        options: {
+          helperText: {
+            labelKey: `${i18nScope}.sections.basicInfo.helperText`,
+          },
+        },
         elements: [
           {
             labelKey: `${i18nScope}.fields.name.label`,
@@ -67,15 +72,6 @@ export const buildUiSchema = async (
               ],
             },
           },
-          {
-            labelKey: `${i18nScope}.fields.description.label`,
-            scope: "/properties/description",
-            type: "Control",
-            options: {
-              control: "hub-field-input-rich-text",
-              type: "textarea",
-            },
-          },
           ...getThumbnailUiSchemaElement(
             i18nScope,
             options.thumbnail,
@@ -83,6 +79,25 @@ export const buildUiSchema = async (
             "group",
             context.requestOptions
           ),
+          {
+            type: "Section",
+            labelKey: `${i18nScope}.sections.description.label`,
+            options: {
+              section: "block",
+            },
+            elements: [
+              // description
+              {
+                labelKey: `${i18nScope}.fields.description.label`,
+                scope: "/properties/description",
+                type: "Control",
+                options: {
+                  control: "hub-field-input-rich-text",
+                  type: "textarea",
+                },
+              },
+            ],
+          },
         ],
       },
     ],

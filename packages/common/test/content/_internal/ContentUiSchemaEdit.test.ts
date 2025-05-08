@@ -40,6 +40,11 @@ describe("buildUiSchema: content edit", () => {
         {
           type: "Section",
           labelKey: "some.scope.sections.basic.title",
+          options: {
+            helperText: {
+              labelKey: "some.scope.sections.basic.helperText",
+            },
+          },
           elements: [
             {
               labelKey: "some.scope.fields.title.label",
@@ -60,7 +65,29 @@ describe("buildUiSchema: content edit", () => {
                     type: "ERROR",
                     keyword: "maxLength",
                     icon: true,
-                    labelKey: `shared.fields.title.maxLengthError`,
+                    labelKey: "shared.fields.title.maxLengthError",
+                  },
+                ],
+              },
+            },
+            {
+              labelKey: "some.scope.fields.slug.label",
+              scope: "/properties/_slug",
+              type: "Control",
+              options: {
+                control: "hub-field-input-input",
+                messages: [
+                  {
+                    type: "ERROR",
+                    keyword: "pattern",
+                    icon: true,
+                    labelKey: "some.scope.fields.slug.patternError",
+                  },
+                  {
+                    type: "ERROR",
+                    keyword: "isUniqueSlug",
+                    icon: true,
+                    labelKey: "some.scope.fields.slug.isUniqueError",
                   },
                 ],
               },
@@ -73,29 +100,14 @@ describe("buildUiSchema: content edit", () => {
                 control: "hub-field-input-input",
                 type: "textarea",
                 rows: 4,
-                helperText: {
-                  labelKey: "some.scope.fields.summary.hint",
-                },
                 messages: [
                   {
                     type: "ERROR",
                     keyword: "maxLength",
                     icon: true,
-                    labelKey: `shared.fields.summary.maxLengthError`,
+                    labelKey: "shared.fields.summary.maxLengthError",
                   },
                 ],
-              },
-            },
-            {
-              labelKey: "some.scope.fields.description.label",
-              scope: "/properties/description",
-              type: "Control",
-              options: {
-                control: "hub-field-input-rich-text",
-                type: "textarea",
-                helperText: {
-                  labelKey: "some.scope.fields.description.hint",
-                },
               },
             },
             {
@@ -110,85 +122,106 @@ describe("buildUiSchema: content edit", () => {
                 maxWidth: 727,
                 maxHeight: 484,
                 aspectRatio: 1.5,
-                helperText: {
-                  labelKey: "some.scope.fields._thumbnail.helperText",
-                },
                 sizeDescription: {
                   labelKey: "shared.fields._thumbnail.sizeDescription",
                 },
-                notice: null,
               },
             },
             {
-              labelKey: "some.scope.fields.tags.label",
-              scope: "/properties/tags",
-              type: "Control",
+              type: "Section",
+              labelKey: "some.scope.sections.description.label",
               options: {
-                control: "hub-field-input-combobox",
-                items: [],
-                allowCustomValues: true,
-                selectionMode: "multiple",
-                placeholderIcon: "label",
-                helperText: { labelKey: "some.scope.fields.tags.hint" },
+                section: "block",
               },
-            },
-            // categories
-            {
-              labelKey: "shared.fields.categories.label",
-              scope: "/properties/categories",
-              type: "Control",
-              options: {
-                control: "hub-field-input-combobox",
-                items: [
-                  {
-                    value: "/categories",
-                    label: "/categories",
-                  },
-                ],
-                allowCustomValues: false,
-                selectionMode: "ancestors",
-                placeholderIcon: "select-category",
-                helperText: {
-                  labelKey: "some.scope.fields.categories.helperText",
-                },
-              },
-              rules: [
+              elements: [
                 {
-                  effect: UiSchemaRuleEffects.DISABLE,
-                  conditions: [false],
+                  labelKey: "some.scope.fields.description.label",
+                  scope: "/properties/description",
+                  type: "Control",
+                  options: {
+                    control: "hub-field-input-rich-text",
+                    type: "textarea",
+                  },
                 },
               ],
             },
             {
-              type: "Notice",
+              type: "Section",
+              labelKey: "some.scope.sections.discoverability.label",
               options: {
-                notice: {
-                  configuration: {
-                    id: "no-categories-notice",
-                    noticeType: "notice",
-                    closable: false,
-                    icon: "exclamation-mark-triangle",
-                    kind: "warning",
-                    scale: "m",
+                section: "block",
+                helperText: {
+                  labelKey: "some.scope.sections.discoverability.helperText",
+                },
+              },
+              elements: [
+                {
+                  labelKey: "some.scope.fields.tags.label",
+                  scope: "/properties/tags",
+                  type: "Control",
+                  options: {
+                    control: "hub-field-input-combobox",
+                    items: [],
+                    allowCustomValues: true,
+                    selectionMode: "multiple",
+                    placeholderIcon: "label",
                   },
-                  message:
-                    "{{shared.fields.categories.noCategoriesNotice.body:translate}}",
-                  autoShow: true,
-                  actions: [
+                },
+                {
+                  labelKey: "shared.fields.categories.label",
+                  scope: "/properties/categories",
+                  type: "Control",
+                  options: {
+                    control: "hub-field-input-combobox",
+                    items: [
+                      {
+                        value: "/categories",
+                        label: "/categories",
+                      },
+                    ],
+                    allowCustomValues: false,
+                    selectionMode: "ancestors",
+                    placeholderIcon: "select-category",
+                  },
+                  rules: [
                     {
-                      label:
-                        "{{shared.fields.categories.noCategoriesNotice.link:translate}}",
-                      icon: "launch",
-                      href: "https://doc.arcgis.com/en/arcgis-online/reference/content-categories.htm",
-                      target: "_blank",
+                      effect: UiSchemaRuleEffects.DISABLE,
+                      conditions: [false],
                     },
                   ],
                 },
-              },
-              rules: [
                 {
-                  effect: UiSchemaRuleEffects.SHOW,
-                  conditions: [false],
+                  type: "Notice",
+                  options: {
+                    notice: {
+                      configuration: {
+                        id: "no-categories-notice",
+                        noticeType: "notice",
+                        closable: false,
+                        icon: "exclamation-mark-triangle",
+                        kind: "warning",
+                        scale: "m",
+                      },
+                      message:
+                        "{{shared.fields.categories.noCategoriesNotice.body:translate}}",
+                      autoShow: true,
+                      actions: [
+                        {
+                          label:
+                            "{{shared.fields.categories.noCategoriesNotice.link:translate}}",
+                          icon: "launch",
+                          href: "https://doc.arcgis.com/en/arcgis-online/reference/content-categories.htm",
+                          target: "_blank",
+                        },
+                      ],
+                    },
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.SHOW,
+                      conditions: [false],
+                    },
+                  ],
                 },
               ],
             },
@@ -198,9 +231,6 @@ describe("buildUiSchema: content edit", () => {
               type: "Control",
               options: {
                 control: "arcgis-hub-license-picker",
-                helperText: {
-                  labelKey: "some.scope.fields.license.helperText",
-                },
               },
             },
           ],
@@ -208,11 +238,6 @@ describe("buildUiSchema: content edit", () => {
         {
           type: "Section",
           labelKey: "some.scope.sections.location.label",
-          options: {
-            helperText: {
-              labelKey: "some.scope.sections.location.helperText",
-            },
-          },
           elements: [
             {
               scope: "/properties/location",

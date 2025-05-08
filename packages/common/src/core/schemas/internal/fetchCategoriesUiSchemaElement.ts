@@ -30,10 +30,6 @@ export async function fetchCategoriesUiSchemaElement(
         allowCustomValues: false,
         selectionMode: "ancestors",
         placeholderIcon: "select-category",
-        helperText: {
-          // helper text varies between entity types
-          labelKey: `${i18nScope}.fields.categories.helperText`,
-        },
       },
       rules: [
         {
