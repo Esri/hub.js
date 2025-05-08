@@ -187,6 +187,7 @@ export interface IGalleryDisplayConfig {
    * If this is true on a collection's display config, that collection will not be shown in the gallery.
    */
   hidden?: boolean;
+  /** default layout */
   layout?:
     | "list"
     | "grid"
@@ -195,12 +196,39 @@ export interface IGalleryDisplayConfig {
     | "calendar"
     | "compact"
     | "grid-filled";
+  /**  Gallery layout options to expose in the layout switcher */
+  layouts?: Array<
+    | "list"
+    | "grid"
+    | "map"
+    | "table"
+    | "calendar"
+    | "compact"
+    | "grid-filled"
+  >;
+  /** header tag for the gallery card titles - needed for a11y */
   cardTitleTag?: CARD_TITLE_TAGS;
+  /** Type of media to render in the layout card */
+  imageType?: "thumbnail" | "icon";
+  /**
+   * Indicates whether the card render show a thumbnail.
+   * "grid" means the card will only render a thumbnail
+   * if the layout is set to "grid"
+   */
   showThumbnail?: "show" | "hide" | "grid";
+  /** card corner appearance */
   corners?: CORNERS;
+  /** card drop shadow */
   shadow?: DROP_SHADOWS;
+  /**
+   * whether to show a button on the gallery card linking
+   * out to the content - redundant with the title link,
+   * but it's currently supported/desired
+   */
   showLinkButton?: boolean;
+  /** button style if showLinkButton = true */
   linkButtonStyle?: "solid" | "outline" | "outline-fill" | "transparent";
+  /** button text rendered if showLinkButton = true */
   linkButtonText?: string;
   sort?: "relevance" | "title" | "created" | "modified";
   filters?: Array<{

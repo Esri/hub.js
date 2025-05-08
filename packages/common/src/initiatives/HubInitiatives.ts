@@ -42,7 +42,7 @@ import { DEFAULT_INITIATIVE, DEFAULT_INITIATIVE_MODEL } from "./defaults";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
 import { applyInitiativeMigrations } from "./_internal/applyInitiativeMigrations";
-import { combineQueries } from "../search/_internal/combineQueries";
+import { combineQueries } from "../search/combineQueries";
 import { getTypeWithKeywordQuery } from "../associations/internal/getTypeWithKeywordQuery";
 import { negateGroupPredicates } from "../search/negateGroupPredicates";
 import { computeLinks } from "./_internal/computeLinks";
