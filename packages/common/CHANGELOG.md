@@ -1,3 +1,10 @@
+# @esri/hub-common [17.8.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.7.0...@esri/hub-common@17.8.0) (2025-05-09)
+
+
+### Features
+
+* **hub-common:** add interface IChannelAclUpdateDefinition ([#1893](https://github.com/Esri/hub.js/issues/1893)) ([9913e5a](https://github.com/Esri/hub.js/commit/9913e5a17b6f8d5bc1ed3a2a4a73f4037fe32be6))
+
 # @esri/hub-common [17.7.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.6.0...@esri/hub-common@17.7.0) (2025-05-08)
 
 
