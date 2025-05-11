@@ -22,7 +22,6 @@ export function upgradeToOneDotOne(
     // add the assets...
     addDefaultResources(clone, portalUrl);
 
-    clone.data = clone.data || {};
     clone.data.values = clone.data.values || {};
 
     if (!clone.data.values.bannerImage) {
