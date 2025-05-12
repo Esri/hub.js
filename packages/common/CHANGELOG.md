@@ -1,3 +1,10 @@
+# @esri/hub-common [17.9.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.8.0...@esri/hub-common@17.9.0) (2025-05-12)
+
+
+### Features
+
+* **hub-common:** ungate the user workspace permission on prod for workspace users ([#1888](https://github.com/Esri/hub.js/issues/1888)) ([01eb439](https://github.com/Esri/hub.js/commit/01eb4399fa9a586c7b0e6e0dadfbf9037a44ca91))
+
 # @esri/hub-common [17.8.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.7.0...@esri/hub-common@17.8.0) (2025-05-09)
 
 
