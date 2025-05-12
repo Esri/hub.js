@@ -393,41 +393,6 @@ export const buildUiSchema = async (
             ],
           },
           {
-            labelKey: `${i18nScope}.fields.onlineUrl.label`,
-            scope: "/properties/onlineUrl",
-            type: "Control",
-            rule: {
-              condition: {
-                scope: "/properties/attendanceType",
-                schema: {
-                  enum: [
-                    HubEventAttendanceType.Online,
-                    HubEventAttendanceType.Both,
-                  ],
-                },
-              },
-              effect: UiSchemaRuleEffects.SHOW,
-            },
-            options: {
-              control: "hub-field-input-input",
-              messages: [
-                {
-                  type: "ERROR",
-                  keyword: "required",
-                  icon: true,
-                  labelKey: `${i18nScope}.fields.onlineUrl.requiredError`,
-                },
-                {
-                  type: "ERROR",
-                  keyword: "format",
-                  icon: true,
-                  labelKey: `shared.errors.urlFormat`,
-                },
-              ],
-            },
-          },
-
-          {
             type: "Section",
             labelKey: `${i18nScope}.sections.onlineRegistrationDetails.label`,
             options: {
@@ -449,6 +414,40 @@ export const buildUiSchema = async (
               effect: UiSchemaRuleEffects.SHOW,
             },
             elements: [
+              {
+                labelKey: `${i18nScope}.fields.onlineUrl.label`,
+                scope: "/properties/onlineUrl",
+                type: "Control",
+                rule: {
+                  condition: {
+                    scope: "/properties/attendanceType",
+                    schema: {
+                      enum: [
+                        HubEventAttendanceType.Online,
+                        HubEventAttendanceType.Both,
+                      ],
+                    },
+                  },
+                  effect: UiSchemaRuleEffects.SHOW,
+                },
+                options: {
+                  control: "hub-field-input-input",
+                  messages: [
+                    {
+                      type: "ERROR",
+                      keyword: "required",
+                      icon: true,
+                      labelKey: `${i18nScope}.fields.onlineUrl.requiredError`,
+                    },
+                    {
+                      type: "ERROR",
+                      keyword: "format",
+                      icon: true,
+                      labelKey: `shared.errors.urlFormat`,
+                    },
+                  ],
+                },
+              },
               {
                 labelKey: `${i18nScope}.fields.onlineDetails.label`,
                 scope: "/properties/onlineDetails",

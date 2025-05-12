@@ -3,10 +3,7 @@ import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
 import { IHubEvent } from "../../../src/core/types/IHubEvent";
 import { buildUiSchema } from "../../../src/events/_internal/EventUiSchemaEdit";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
-import {
-  HubEventAttendanceType,
-  HubEventCapacityType,
-} from "../../../src/events/types";
+import { HubEventAttendanceType } from "../../../src/events/types";
 import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
 import * as fetchCategoryItemsModule from "../../../src/core/schemas/internal/fetchCategoryItems";
 import * as getTagItemsModule from "../../../src/core/schemas/internal/getTagItems";
@@ -554,37 +551,6 @@ describe("EventUiSchemaEdit", () => {
                 ],
               },
               {
-                labelKey: "myI18nScope.fields.onlineUrl.label",
-                scope: "/properties/onlineUrl",
-                type: "Control",
-                rule: {
-                  condition: {
-                    scope: "/properties/attendanceType",
-                    schema: {
-                      enum: ["online", "both"],
-                    },
-                  },
-                  effect: UiSchemaRuleEffects.SHOW,
-                },
-                options: {
-                  control: "hub-field-input-input",
-                  messages: [
-                    {
-                      type: "ERROR",
-                      keyword: "required",
-                      icon: true,
-                      labelKey: "myI18nScope.fields.onlineUrl.requiredError",
-                    },
-                    {
-                      type: "ERROR",
-                      keyword: "format",
-                      icon: true,
-                      labelKey: "shared.errors.urlFormat",
-                    },
-                  ],
-                },
-              },
-              {
                 type: "Section",
                 labelKey:
                   "myI18nScope.sections.onlineRegistrationDetails.label",
@@ -605,6 +571,38 @@ describe("EventUiSchemaEdit", () => {
                   effect: UiSchemaRuleEffects.SHOW,
                 },
                 elements: [
+                  {
+                    labelKey: "myI18nScope.fields.onlineUrl.label",
+                    scope: "/properties/onlineUrl",
+                    type: "Control",
+                    rule: {
+                      condition: {
+                        scope: "/properties/attendanceType",
+                        schema: {
+                          enum: ["online", "both"],
+                        },
+                      },
+                      effect: UiSchemaRuleEffects.SHOW,
+                    },
+                    options: {
+                      control: "hub-field-input-input",
+                      messages: [
+                        {
+                          type: "ERROR",
+                          keyword: "required",
+                          icon: true,
+                          labelKey:
+                            "myI18nScope.fields.onlineUrl.requiredError",
+                        },
+                        {
+                          type: "ERROR",
+                          keyword: "format",
+                          icon: true,
+                          labelKey: "shared.errors.urlFormat",
+                        },
+                      ],
+                    },
+                  },
                   {
                     labelKey: "myI18nScope.fields.onlineDetails.label",
                     scope: "/properties/onlineDetails",

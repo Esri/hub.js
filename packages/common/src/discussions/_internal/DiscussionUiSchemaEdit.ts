@@ -180,19 +180,6 @@ export const buildUiSchema = async (
               ],
             },
           },
-          {
-            type: "Control",
-            scope: "/properties/view/properties/mapSettings",
-            labelKey: `${i18nScope}.fields.mapSettings.label`,
-            options: {
-              type: "Control",
-              control: "hub-composite-input-map-settings",
-              // the settings that are visible for configuring the map
-              visibleSettings: ["gallery"],
-              // if the map preview is displayed
-              showPreview: true,
-            },
-          },
         ],
       },
     ],
