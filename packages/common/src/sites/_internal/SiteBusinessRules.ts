@@ -166,6 +166,8 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:site:workspace:catalog:events",
     licenses: ["hub-premium"],
     dependencies: ["hub:site:workspace:catalog", "hub:event"],
+    environments: ["qaext"],
+    availability: ["alpha"],
   },
   {
     permission: "hub:site:workspace:pages",
