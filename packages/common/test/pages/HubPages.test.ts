@@ -159,7 +159,7 @@ describe("HubPages Module", () => {
   describe("updatePage: ", () => {
     it("updates backing model", async () => {
       const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
-        Promise.resolve("dcdev-wat-blarg-1")
+        Promise.resolve("dcdev|dcdev-wat-blarg-1")
       );
       const getModelSpy = spyOn(modelUtils, "getModel").and.returnValue(
         Promise.resolve(PAGE_MODEL)
@@ -197,14 +197,16 @@ describe("HubPages Module", () => {
       // should ensure unique slug
       expect(slugSpy.calls.count()).toBe(1);
       expect(slugSpy.calls.argsFor(0)[0]).toEqual(
-        { slug: "dcdev-wat-blarg", existingId: GUID },
+        { slug: "dcdev|dcdev-wat-blarg", existingId: GUID },
         "should recieve slug"
       );
       expect(getModelSpy.calls.count()).toBe(1);
       expect(updateModelSpy.calls.count()).toBe(1);
       const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
       expect(modelToUpdate.item.description).toBe(page.description);
-      expect(modelToUpdate.item.properties.slug).toBe("dcdev-wat-blarg-1");
+      expect(modelToUpdate.item.properties.slug).toBe(
+        "dcdev|dcdev-wat-blarg-1"
+      );
     });
   });
 

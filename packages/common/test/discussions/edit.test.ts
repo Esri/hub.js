@@ -289,7 +289,7 @@ describe("discussions edit:", () => {
   describe("updateDiscussion: ", () => {
     it("updates backing model and creates settings if none exist", async () => {
       const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
-        Promise.resolve("dcdev-wat-blarg-1")
+        Promise.resolve("dcdev|dcdev-wat-blarg-1")
       );
       const getModelSpy = spyOn(modelUtils, "getModel").and.returnValue(
         Promise.resolve(DISCUSSION_MODEL)
@@ -343,7 +343,7 @@ describe("discussions edit:", () => {
       // should ensure unique slug
       expect(slugSpy.calls.count()).toBe(1);
       expect(slugSpy.calls.argsFor(0)[0]).toEqual(
-        { slug: "dcdev-wat-blarg", existingId: GUID },
+        { slug: "dcdev|dcdev-wat-blarg", existingId: GUID },
         "should receive slug"
       );
       expect(getModelSpy.calls.count()).toBe(1);
@@ -364,11 +364,13 @@ describe("discussions edit:", () => {
         ...requestOptions,
       });
       expect(modelToUpdate.item.description).toBe(disc.description);
-      expect(modelToUpdate.item.properties.slug).toBe("dcdev-wat-blarg-1");
+      expect(modelToUpdate.item.properties.slug).toBe(
+        "dcdev|dcdev-wat-blarg-1"
+      );
     });
     it("updates backing model and updates settings when settings id exists", async () => {
       const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
-        Promise.resolve("dcdev-wat-blarg-1")
+        Promise.resolve("dcdev|dcdev-wat-blarg-1")
       );
       const getModelSpy = spyOn(modelUtils, "getModel").and.returnValue(
         Promise.resolve(DISCUSSION_MODEL)
@@ -434,7 +436,7 @@ describe("discussions edit:", () => {
       // should ensure unique slug
       expect(slugSpy.calls.count()).toBe(1);
       expect(slugSpy.calls.argsFor(0)[0]).toEqual(
-        { slug: "dcdev-wat-blarg", existingId: GUID },
+        { slug: "dcdev|dcdev-wat-blarg", existingId: GUID },
         "should receive slug"
       );
       expect(getModelSpy.calls.count()).toBe(1);
@@ -454,12 +456,14 @@ describe("discussions edit:", () => {
       });
       const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
       expect(modelToUpdate.item.description).toBe(disc.description);
-      expect(modelToUpdate.item.properties.slug).toBe("dcdev-wat-blarg-1");
+      expect(modelToUpdate.item.properties.slug).toBe(
+        "dcdev|dcdev-wat-blarg-1"
+      );
     });
     describe("allowedLocations", () => {
       it("processes locations and persists them to settings", async () => {
         const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
-          Promise.resolve("dcdev-wat-blarg-1")
+          Promise.resolve("dcdev|dcdev-wat-blarg-1")
         );
         const getModelSpy = spyOn(modelUtils, "getModel").and.returnValue(
           Promise.resolve(DISCUSSION_MODEL)
@@ -522,7 +526,7 @@ describe("discussions edit:", () => {
         // should ensure unique slug
         expect(slugSpy.calls.count()).toBe(1);
         expect(slugSpy.calls.argsFor(0)[0]).toEqual(
-          { slug: "dcdev-wat-blarg", existingId: GUID },
+          { slug: "dcdev|dcdev-wat-blarg", existingId: GUID },
           "should receive slug"
         );
         expect(getModelSpy.calls.count()).toBe(1);
@@ -530,7 +534,9 @@ describe("discussions edit:", () => {
         expect(updateSettingsSpy.calls.count()).toBe(1);
         const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
         expect(modelToUpdate.item.description).toBe(disc.description);
-        expect(modelToUpdate.item.properties.slug).toBe("dcdev-wat-blarg-1");
+        expect(modelToUpdate.item.properties.slug).toBe(
+          "dcdev|dcdev-wat-blarg-1"
+        );
         // should transform location and persist to settings
         expect(arcgisToGeoJSONSpy.calls.count()).toBe(1);
         const settingsToUpdate = updateSettingsSpy.calls.argsFor(0)[0];
@@ -540,7 +546,7 @@ describe("discussions edit:", () => {
       });
       it("processes locations of type = 'none' and persists them to settings", async () => {
         const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
-          Promise.resolve("dcdev-wat-blarg-1")
+          Promise.resolve("dcdev|dcdev-wat-blarg-1")
         );
         const getModelSpy = spyOn(modelUtils, "getModel").and.returnValue(
           Promise.resolve(DISCUSSION_MODEL)
@@ -602,7 +608,7 @@ describe("discussions edit:", () => {
         // should ensure unique slug
         expect(slugSpy.calls.count()).toBe(1);
         expect(slugSpy.calls.argsFor(0)[0]).toEqual(
-          { slug: "dcdev-wat-blarg", existingId: GUID },
+          { slug: "dcdev|dcdev-wat-blarg", existingId: GUID },
           "should receive slug"
         );
         expect(getModelSpy.calls.count()).toBe(1);
@@ -610,7 +616,9 @@ describe("discussions edit:", () => {
         expect(updateSettingsSpy.calls.count()).toBe(1);
         const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
         expect(modelToUpdate.item.description).toBe(disc.description);
-        expect(modelToUpdate.item.properties.slug).toBe("dcdev-wat-blarg-1");
+        expect(modelToUpdate.item.properties.slug).toBe(
+          "dcdev|dcdev-wat-blarg-1"
+        );
         // should transform location and persist to settings
         expect(arcgisToGeoJSONSpy.calls.count()).toBe(0);
         const settingsToUpdate = updateSettingsSpy.calls.argsFor(0)[0];
@@ -620,7 +628,7 @@ describe("discussions edit:", () => {
       });
       it("processes locations and handles error if thrown", async () => {
         const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
-          Promise.resolve("dcdev-wat-blarg-1")
+          Promise.resolve("dcdev|dcdev-wat-blarg-1")
         );
         const getModelSpy = spyOn(modelUtils, "getModel").and.returnValue(
           Promise.resolve(DISCUSSION_MODEL)
@@ -686,7 +694,7 @@ describe("discussions edit:", () => {
         // should ensure unique slug
         expect(slugSpy.calls.count()).toBe(1);
         expect(slugSpy.calls.argsFor(0)[0]).toEqual(
-          { slug: "dcdev-wat-blarg", existingId: GUID },
+          { slug: "dcdev|dcdev-wat-blarg", existingId: GUID },
           "should receive slug"
         );
         expect(getModelSpy.calls.count()).toBe(1);
@@ -694,7 +702,9 @@ describe("discussions edit:", () => {
         expect(updateSettingsSpy.calls.count()).toBe(1);
         const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
         expect(modelToUpdate.item.description).toBe(disc.description);
-        expect(modelToUpdate.item.properties.slug).toBe("dcdev-wat-blarg-1");
+        expect(modelToUpdate.item.properties.slug).toBe(
+          "dcdev|dcdev-wat-blarg-1"
+        );
         // should transform location and persist to settings
         expect(arcgisToGeoJSONSpy.calls.count()).toBe(1);
         const settingsToUpdate = updateSettingsSpy.calls.argsFor(0)[0];
