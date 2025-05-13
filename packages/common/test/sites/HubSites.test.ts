@@ -469,7 +469,7 @@ describe("HubSites:", () => {
 
       expect(chk.id).toBe(GUID);
       const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
-      expect(modelToUpdate.item.properties.slug).toBe("some-new-slug");
+      expect(modelToUpdate.item.properties.slug).toBe("dcdev|some-new-slug");
     });
     it("reflects collection changes to searchCategories", async () => {
       const updatedSite = commonModule.cloneObject(SITE);

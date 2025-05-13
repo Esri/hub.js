@@ -124,8 +124,9 @@ describe("fetchItem", () => {
       expect(result).toBeNull();
       expect(parseIdentifierSpy.calls.count()).toBe(1);
       expect(parseIdentifierSpy).toHaveBeenCalledWith(identifier);
-      expect(findItemsBySlugSpy.calls.count()).toBe(1);
+      expect(findItemsBySlugSpy.calls.count()).toBe(2);
       expect(findItemsBySlugSpy).toHaveBeenCalledWith(slugInfo, requestOptions);
+      expect(findItemsBySlugSpy).toHaveBeenCalledWith({ slug }, requestOptions);
       expect(getItemSpy.calls.count()).toBe(0);
     });
   });
