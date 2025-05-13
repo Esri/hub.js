@@ -120,7 +120,7 @@ describe("initiative template edit module:", () => {
   describe("updateInitiativeTemplate: ", () => {
     it("updates backing model", async () => {
       const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
-        Promise.resolve("dcdev-wat-blarg-1")
+        Promise.resolve("dcdev|dcdev-wat-blarg-1")
       );
       const getModelSpy = spyOn(modelUtils, "getModel").and.returnValue(
         Promise.resolve(INITIATIVE_TEMPLATE_MODEL)
@@ -169,7 +169,7 @@ describe("initiative template edit module:", () => {
       expect(chk.description).toBe("Some longer description");
       expect(chk.typeKeywords).toEqual([
         "Hub Initiative Template",
-        "slug|dcdev-wat-blarg-1",
+        "slug|dcdev|dcdev-wat-blarg-1",
         "cannotDiscuss",
       ]);
       expect(chk.location).toEqual({
@@ -183,14 +183,16 @@ describe("initiative template edit module:", () => {
       // should ensure unique slug
       expect(slugSpy.calls.count()).toBe(1);
       expect(slugSpy.calls.argsFor(0)[0]).toEqual(
-        { slug: "dcdev-wat-blarg", existingId: GUID },
+        { slug: "dcdev|dcdev-wat-blarg", existingId: GUID },
         "should recieve slug"
       );
       expect(getModelSpy.calls.count()).toBe(1);
       expect(updateModelSpy.calls.count()).toBe(1);
       const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
       expect(modelToUpdate.item.description).toBe(it.description);
-      expect(modelToUpdate.item.properties.slug).toBe("dcdev-wat-blarg-1");
+      expect(modelToUpdate.item.properties.slug).toBe(
+        "dcdev|dcdev-wat-blarg-1"
+      );
     });
   });
 });
