@@ -1,3 +1,10 @@
+## @esri/hub-initiatives [17.1.1](https://github.com/Esri/hub.js/compare/@esri/hub-initiatives@17.1.0...@esri/hub-initiatives@17.1.1) (2025-05-13)
+
+
+### Bug Fixes
+
+* guard against undefined data.values when setting bannerImage in upgradeToOneDotOne fn ([#1894](https://github.com/Esri/hub.js/issues/1894)) ([786fe30](https://github.com/Esri/hub.js/commit/786fe30b9106691dd41260f4bde11f56992a7594))
+
 # @esri/hub-initiatives [17.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-initiatives@17.0.1...@esri/hub-initiatives@17.1.0) (2025-05-01)
 
 
