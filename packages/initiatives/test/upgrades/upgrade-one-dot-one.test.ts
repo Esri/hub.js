@@ -3,7 +3,7 @@
 import { IInitiativeModel, cloneObject } from "@esri/hub-common";
 import {
   upgradeToOneDotOne,
-  getResourceUrl
+  getResourceUrl,
 } from "../../src/migrations/upgrade-one-dot-one";
 import { initiativeVersionOne } from "../mocks/initiative-versionOne";
 
@@ -12,14 +12,14 @@ describe("Applying v1.1 Initiative Schema ::", () => {
   // There is no template specific logic for this upgrade
 
   describe("Upgrade Instance ::", () => {
-    it("should return the model if its at 1.1", done => {
+    it("should return the model if its at 1.1", (done) => {
       const instance = cloneObject(model) as IInitiativeModel;
       instance.item.properties.schemaVersion = 1.1;
       const chk = upgradeToOneDotOne(instance);
       expect(chk).toBe(instance, "should return the same object");
       done();
     });
-    it("should add the schema version and assets", done => {
+    it("should add the schema version and assets", (done) => {
       const instance = cloneObject(model) as IInitiativeModel;
       const chk = upgradeToOneDotOne(instance);
       expect(chk).not.toBe(instance, "should return a new object");
@@ -36,7 +36,7 @@ describe("Applying v1.1 Initiative Schema ::", () => {
       expect(chk.data.values.bannerImage).toBeDefined("should add bannerImage");
       done();
     });
-    it("should add assets with urls using passed in portalUrl", done => {
+    it("should add assets with urls using passed in portalUrl", (done) => {
       const instance = cloneObject(model) as IInitiativeModel;
       const portalUrl = "http://somefoo.com";
       const chk = upgradeToOneDotOne(instance, portalUrl);
@@ -48,13 +48,13 @@ describe("Applying v1.1 Initiative Schema ::", () => {
       );
       done();
     });
-    it("should not add bannerImage if it exists", done => {
+    it("should not add bannerImage if it exists", (done) => {
       const instance = cloneObject(model) as IInitiativeModel;
       instance.data.values.bannerImage = {
         source: "bannerImageOther",
         display: {
-          position: { x: "50%", y: "10%" }
-        }
+          position: { x: "50%", y: "10%" },
+        },
       };
       const chk = upgradeToOneDotOne(instance);
       expect(chk).not.toBe(instance, "should return a new object");
@@ -67,7 +67,7 @@ describe("Applying v1.1 Initiative Schema ::", () => {
       );
       done();
     });
-    it("should not add assets if it exists", done => {
+    it("should not add assets if it exists", (done) => {
       const instance = cloneObject(model) as IInitiativeModel;
       instance.data.assets = [];
       const chk = upgradeToOneDotOne(instance);
@@ -76,10 +76,18 @@ describe("Applying v1.1 Initiative Schema ::", () => {
       expect(chk.data.assets.length).toBe(0, "should add 0 assets");
       done();
     });
+    it("should create an empty data.values if it does not exist", (done) => {
+      const instance = cloneObject(model) as IInitiativeModel;
+      delete instance.data.values;
+      const chk = upgradeToOneDotOne(instance);
+      expect(chk).not.toBe(instance, "should return a new object");
+      expect(chk.data.values).toBeDefined("data.values should be defined");
+      done();
+    });
   });
 
   describe("utils :: getResourceUrl", () => {
-    it("should constuct resource url and default to arcgis.com", done => {
+    it("should constuct resource url and default to arcgis.com", (done) => {
       const url = getResourceUrl("3ef", "test.png");
       expect(url).toEqual(
         "https://www.arcgis.com/sharing/rest/content/items/3ef/resources/test.png"
@@ -87,7 +95,7 @@ describe("Applying v1.1 Initiative Schema ::", () => {
       done();
     });
 
-    it("should constuct resource url using passed portalUrl", done => {
+    it("should constuct resource url using passed portalUrl", (done) => {
       const url = getResourceUrl(
         "3ef",
         "test.png",
@@ -99,7 +107,7 @@ describe("Applying v1.1 Initiative Schema ::", () => {
       done();
     });
 
-    it("should constuct resource url using passed folder", done => {
+    it("should constuct resource url using passed folder", (done) => {
       const url = getResourceUrl(
         "3ef",
         "test.png",
