@@ -1,3 +1,10 @@
+## @esri/hub-common [17.9.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.9.0...@esri/hub-common@17.9.1) (2025-05-13)
+
+
+### Bug Fixes
+
+* page slugs ([#1895](https://github.com/Esri/hub.js/issues/1895)) ([99d2abb](https://github.com/Esri/hub.js/commit/99d2abb1c4e36096185291e26335a6f890b76a5d))
+
 # @esri/hub-common [17.9.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.8.0...@esri/hub-common@17.9.0) (2025-05-12)
 
 
