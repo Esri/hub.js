@@ -1,3 +1,10 @@
+# @esri/hub-common [17.10.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.9.1...@esri/hub-common@17.10.0) (2025-05-13)
+
+
+### Features
+
+* **hub-common:** ungate the hub:site:workspace:catalog permission, remove deprecated hub:site:workspace:content permission ([#1896](https://github.com/Esri/hub.js/issues/1896)) ([d4b3d26](https://github.com/Esri/hub.js/commit/d4b3d2691fca20d5bf4a9b7795902eabff6cd6c3))
+
 ## @esri/hub-common [17.9.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.9.0...@esri/hub-common@17.9.1) (2025-05-13)
 
 
