@@ -1,3 +1,10 @@
+# @esri/hub-common [17.11.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.10.0...@esri/hub-common@17.11.0) (2025-05-14)
+
+
+### Features
+
+* log checkpermission failures with Logger ([#1900](https://github.com/Esri/hub.js/issues/1900)) ([44ef8dd](https://github.com/Esri/hub.js/commit/44ef8ddba454d4cac583679cefa78ad5b879bdca))
+
 # @esri/hub-common [17.10.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.9.1...@esri/hub-common@17.10.0) (2025-05-13)
 
 
