@@ -14,15 +14,15 @@ describe("buildUiSchema: group edit", () => {
       elements: [
         {
           type: "Section",
-          labelKey: `some.scope.sections.basicInfo.label`,
+          labelKey: "some.scope.sections.basicInfo.label",
           options: {
             helperText: {
-              labelKey: `some.scope.sections.basicInfo.helperText`,
+              labelKey: "some.scope.sections.basicInfo.helperText",
             },
           },
           elements: [
             {
-              labelKey: `some.scope.fields.name.label`,
+              labelKey: "some.scope.fields.name.label",
               scope: "/properties/name",
               type: "Control",
               options: {
@@ -31,25 +31,26 @@ describe("buildUiSchema: group edit", () => {
                     type: "ERROR",
                     keyword: "required",
                     icon: true,
-                    labelKey: `some.scope.fields.name.requiredError`,
+                    labelKey: "some.scope.fields.name.requiredError",
                   },
                   {
                     type: "ERROR",
                     keyword: "maxLength",
                     icon: true,
-                    labelKey: `some.scope.fields.name.maxLengthError`,
+                    labelKey: "some.scope.fields.name.maxLengthError",
                   },
                   {
                     type: "ERROR",
                     keyword: "format",
                     icon: true,
-                    labelKey: `some.scope.fields.name.entityTitleValidatorError`,
+                    labelKey:
+                      "some.scope.fields.name.entityTitleValidatorError",
                   },
                 ],
               },
             },
             {
-              labelKey: `some.scope.fields.summary.label`,
+              labelKey: "some.scope.fields.summary.label",
               scope: "/properties/summary",
               type: "Control",
               options: {
@@ -61,7 +62,7 @@ describe("buildUiSchema: group edit", () => {
                     type: "ERROR",
                     keyword: "maxLength",
                     icon: true,
-                    labelKey: `some.scope.fields.summary.maxLengthError`,
+                    labelKey: "some.scope.fields.summary.maxLengthError",
                   },
                 ],
               },
@@ -85,19 +86,42 @@ describe("buildUiSchema: group edit", () => {
             },
             {
               type: "Section",
-              labelKey: `some.scope.sections.description.label`,
+              labelKey: "some.scope.sections.description.label",
               options: {
                 section: "block",
               },
               elements: [
-                // description
                 {
-                  labelKey: `some.scope.fields.description.label`,
+                  labelKey: "some.scope.fields.description.label",
                   scope: "/properties/description",
                   type: "Control",
                   options: {
                     control: "hub-field-input-rich-text",
                     type: "textarea",
+                  },
+                },
+              ],
+            },
+            {
+              type: "Section",
+              labelKey: "some.scope.sections.discoverability.label",
+              options: {
+                section: "block",
+                helperText: {
+                  labelKey: "some.scope.sections.discoverability.helperText",
+                },
+              },
+              elements: [
+                {
+                  labelKey: "some.scope.fields.tags.label",
+                  scope: "/properties/tags",
+                  type: "Control",
+                  options: {
+                    control: "hub-field-input-combobox",
+                    items: [],
+                    allowCustomValues: true,
+                    selectionMode: "multiple",
+                    placeholderIcon: "label",
                   },
                 },
               ],
