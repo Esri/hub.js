@@ -106,6 +106,8 @@ export async function getEditorSchemas(
           import("../../../discussions/_internal/DiscussionUiSchemaEdit"),
         "hub:discussion:create": () =>
           import("../../../discussions/_internal/DiscussionUiSchemaCreate"),
+        "hub:discussion:settings": () =>
+          import("../../../discussions/_internal/DiscussionUiSchemaSettings"),
         "hub:discussion:settings:discussions": () =>
           import(
             "../../../core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettings"
