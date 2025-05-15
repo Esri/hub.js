@@ -184,8 +184,14 @@ export const PRIVACY_CONFIG_SCHEMA = {
 
 export const SLUG_SCHEMA: JSONSchema = {
   type: "string",
-  /** lower case alpha numeric characters and '-' only */
-  // using the same regex as the slug formatter
-  // this will prevent trailing - or multiple - in a row
-  pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+  allOf: [
+    {
+      // if a slug has been entered, ensure it is lower case
+      // alpha-numeric characters any '-' only
+      if: { properties: { _slug: { minLength: 1 } } },
+      then: {
+        properties: { _slug: { pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$" } },
+      },
+    },
+  ],
 };
