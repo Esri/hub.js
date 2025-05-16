@@ -30,6 +30,10 @@ export function editorToEntity(
   if (_slug) {
     // ensure the slug is truncated
     entity.slug = truncateSlug(_slug, entity.orgUrlKey);
+  } else {
+    // if no slug is passed in, save an empty string
+    // so that the slug is not truncated to the orgUrlKey
+    entity.slug = "";
   }
 
   return entity;
