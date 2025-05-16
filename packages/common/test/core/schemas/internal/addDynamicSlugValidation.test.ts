@@ -32,11 +32,26 @@ describe("addDynamicSlugValidation", () => {
     expect(result).toEqual({
       properties: {
         _slug: {
-          pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$",
           maxLength: 256 - ("slug".length + 1) - (options.orgUrlKey.length + 1),
         },
       },
       allOf: [
+        {
+          if: {
+            properties: {
+              _slug: {
+                minLength: 1,
+              },
+            },
+          },
+          then: {
+            properties: {
+              _slug: {
+                pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+              },
+            },
+          },
+        },
         {
           if: {
             properties: {
