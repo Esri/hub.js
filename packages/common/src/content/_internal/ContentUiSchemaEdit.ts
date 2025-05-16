@@ -6,7 +6,7 @@ import { IUiSchema } from "../../core/schemas/types";
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 import { IHubEditableContent } from "../../core/types";
 import { fetchCategoriesUiSchemaElement } from "../../core/schemas/internal/fetchCategoriesUiSchemaElement";
-import { getSlugSchemaElement } from "../../core/schemas/internal/getSlugSchemaElement";
+// import { getSlugSchemaElement } from "../../core/schemas/internal/getSlugSchemaElement";
 
 /**
  * @private
@@ -56,7 +56,7 @@ export const buildUiSchema = async (
               ],
             },
           },
-          getSlugSchemaElement(i18nScope),
+          // getSlugSchemaElement(i18nScope),
           // summary
           {
             labelKey: `${i18nScope}.fields.summary.label`,

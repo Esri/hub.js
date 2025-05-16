@@ -7,7 +7,6 @@ import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThum
 import { IHubProject } from "../../core/types";
 import { getAuthedImageUrl } from "../../core/_internal/getAuthedImageUrl";
 import { fetchCategoriesUiSchemaElement } from "../../core/schemas/internal/fetchCategoriesUiSchemaElement";
-import { getSlugSchemaElement } from "../../core/schemas/internal/getSlugSchemaElement";
 import { getFeaturedContentCatalogs } from "../../core/schemas/internal/getFeaturedContentCatalogs";
 
 /**
@@ -60,7 +59,7 @@ export const buildUiSchema = async (
               ],
             },
           },
-          getSlugSchemaElement(i18nScope),
+          // getSlugSchemaElement(i18nScope),
           {
             labelKey: `${i18nScope}.fields.summary.label`,
             scope: "/properties/summary",

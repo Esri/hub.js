@@ -85,28 +85,6 @@ describe("buildUiSchema: project edit", () => {
               },
             },
             {
-              labelKey: "some.scope.fields.slug.label",
-              scope: "/properties/_slug",
-              type: "Control",
-              options: {
-                control: "hub-field-input-input",
-                messages: [
-                  {
-                    type: "ERROR",
-                    keyword: "pattern",
-                    icon: true,
-                    labelKey: "some.scope.fields.slug.patternError",
-                  },
-                  {
-                    type: "ERROR",
-                    keyword: "isUniqueSlug",
-                    icon: true,
-                    labelKey: "some.scope.fields.slug.isUniqueError",
-                  },
-                ],
-              },
-            },
-            {
               labelKey: "some.scope.fields.summary.label",
               scope: "/properties/summary",
               type: "Control",
@@ -495,28 +473,6 @@ describe("buildUiSchema: project edit", () => {
                     icon: true,
                     labelKey:
                       "some.scope.fields.name.entityTitleValidatorError",
-                  },
-                ],
-              },
-            },
-            {
-              labelKey: "some.scope.fields.slug.label",
-              scope: "/properties/_slug",
-              type: "Control",
-              options: {
-                control: "hub-field-input-input",
-                messages: [
-                  {
-                    type: "ERROR",
-                    keyword: "pattern",
-                    icon: true,
-                    labelKey: "some.scope.fields.slug.patternError",
-                  },
-                  {
-                    type: "ERROR",
-                    keyword: "isUniqueSlug",
-                    icon: true,
-                    labelKey: "some.scope.fields.slug.isUniqueError",
                   },
                 ],
               },

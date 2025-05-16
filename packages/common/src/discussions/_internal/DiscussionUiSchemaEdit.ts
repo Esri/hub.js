@@ -6,7 +6,6 @@ import { getLocationOptions } from "../../core/schemas/internal/getLocationOptio
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 import { IHubDiscussion } from "../../core/types";
 import { fetchCategoriesUiSchemaElement } from "../../core/schemas/internal/fetchCategoriesUiSchemaElement";
-import { getSlugSchemaElement } from "../../core/schemas/internal/getSlugSchemaElement";
 
 /**
  * @private
@@ -58,7 +57,7 @@ export const buildUiSchema = async (
               ],
             },
           },
-          getSlugSchemaElement(i18nScope),
+          // getSlugSchemaElement(i18nScope),
           {
             labelKey: `${i18nScope}.fields.summary.label`,
             scope: "/properties/summary",

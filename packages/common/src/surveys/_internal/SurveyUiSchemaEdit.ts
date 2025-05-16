@@ -4,7 +4,6 @@ import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 import { IUiSchema } from "../../core/schemas/types";
 import { IHubSurvey } from "../../core/types/IHubSurvey";
-import { getSlugSchemaElement } from "../../core/schemas/internal/getSlugSchemaElement";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 
@@ -58,7 +57,7 @@ export const buildUiSchema = async (
               ],
             },
           },
-          getSlugSchemaElement(i18nScope),
+          // getSlugSchemaElement(i18nScope),
           {
             labelKey: `${i18nScope}.fields.summary.label`,
             scope: "/properties/summary",

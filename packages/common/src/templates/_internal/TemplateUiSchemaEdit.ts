@@ -2,7 +2,6 @@ import type { IArcGISContext } from "../../types/IArcGISContext";
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 import { IUiSchema, UiSchemaMessageTypes } from "../../core/schemas/types";
 import { getEntityThumbnailUrl } from "../../core/getEntityThumbnailUrl";
-import { getSlugSchemaElement } from "../../core/schemas/internal/getSlugSchemaElement";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { fetchCategoriesUiSchemaElement } from "../../core/schemas/internal/fetchCategoriesUiSchemaElement";
 import { HubEntity, IHubTemplate } from "../../core";
@@ -62,7 +61,7 @@ export const buildUiSchema = async (
               ],
             },
           },
-          getSlugSchemaElement(i18nScope),
+          // getSlugSchemaElement(i18nScope),
           {
             type: "Control",
             scope: "/properties/summary",
