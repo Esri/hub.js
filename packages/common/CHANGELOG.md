@@ -1,3 +1,10 @@
+# @esri/hub-common [17.12.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.11.0...@esri/hub-common@17.12.0) (2025-05-16)
+
+
+### Features
+
+* **hub-common:** ungate events from alpha ([#1902](https://github.com/Esri/hub.js/issues/1902)) ([836ddef](https://github.com/Esri/hub.js/commit/836ddeff8a4f1a4a4c5fcc938e095dd34a4d3232))
+
 # @esri/hub-common [17.11.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.10.0...@esri/hub-common@17.11.0) (2025-05-14)
 
 
