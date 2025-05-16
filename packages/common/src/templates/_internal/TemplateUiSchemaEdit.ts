@@ -1,8 +1,10 @@
 import type { IArcGISContext } from "../../types/IArcGISContext";
-import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 import { IUiSchema, UiSchemaMessageTypes } from "../../core/schemas/types";
 import { getEntityThumbnailUrl } from "../../core/getEntityThumbnailUrl";
+import { getTagItems } from "../../core/schemas/internal/getTagItems";
+import { fetchCategoriesUiSchemaElement } from "../../core/schemas/internal/fetchCategoriesUiSchemaElement";
+import { HubEntity, IHubTemplate } from "../../core";
 
 /**
  * @private
@@ -17,7 +19,7 @@ import { getEntityThumbnailUrl } from "../../core/getEntityThumbnailUrl";
  */
 export const buildUiSchema = async (
   i18nScope: string,
-  options: EntityEditorOptions,
+  options: Partial<IHubTemplate>,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
   return {
@@ -26,6 +28,11 @@ export const buildUiSchema = async (
       {
         type: "Section",
         labelKey: `${i18nScope}.sections.basicInfo.label`,
+        options: {
+          helperText: {
+            labelKey: `${i18nScope}.sections.basicInfo.helperText`,
+          },
+        },
         elements: [
           {
             type: "Control",
@@ -54,6 +61,88 @@ export const buildUiSchema = async (
               ],
             },
           },
+          // getSlugSchemaElement(i18nScope),
+          {
+            type: "Control",
+            scope: "/properties/summary",
+            labelKey: `${i18nScope}.fields.summary.label`,
+            options: {
+              control: "hub-field-input-input",
+              type: "textarea",
+              rows: 4,
+              messages: [
+                {
+                  type: "ERROR",
+                  keyword: "maxLength",
+                  icon: true,
+                  labelKey: `shared.fields.summary.maxLengthError`,
+                },
+              ],
+            },
+          },
+          ...getThumbnailUiSchemaElement(
+            i18nScope,
+            options.thumbnail,
+            getEntityThumbnailUrl(options as HubEntity),
+            "template",
+            context.requestOptions
+          ),
+          {
+            type: "Section",
+            labelKey: `${i18nScope}.sections.description.label`,
+            options: {
+              section: "block",
+            },
+            elements: [
+              // description
+              {
+                labelKey: `${i18nScope}.fields.description.label`,
+                scope: "/properties/description",
+                type: "Control",
+                options: {
+                  control: "hub-field-input-rich-text",
+                  type: "textarea",
+                },
+              },
+            ],
+          },
+          {
+            type: "Section",
+            labelKey: `${i18nScope}.sections.discoverability.label`,
+            options: {
+              section: "block",
+              helperText: {
+                labelKey: `${i18nScope}.sections.discoverability.helperText`,
+              },
+            },
+            elements: [
+              // tags
+              {
+                labelKey: `${i18nScope}.fields.tags.label`,
+                scope: "/properties/tags",
+                type: "Control",
+                options: {
+                  control: "hub-field-input-combobox",
+                  items: await getTagItems(
+                    options.tags,
+                    context.portal.id,
+                    context.hubRequestOptions
+                  ),
+                  allowCustomValues: true,
+                  selectionMode: "multiple",
+                  placeholderIcon: "label",
+                },
+              },
+              // categories
+              ...(await fetchCategoriesUiSchemaElement(i18nScope, context)),
+            ],
+          },
+        ],
+      },
+      {
+        type: "Section",
+        labelKey: `${i18nScope}.sections.templateDetails.label`,
+        elements: [
           {
             type: "Control",
             scope: "/properties/previewUrl",
@@ -77,46 +166,6 @@ export const buildUiSchema = async (
               ],
             },
           },
-          {
-            labelKey: `${i18nScope}.fields.summary.label`,
-            scope: "/properties/summary",
-            type: "Control",
-            options: {
-              control: "hub-field-input-input",
-              type: "textarea",
-              rows: 4,
-              helperText: {
-                labelKey: `${i18nScope}.fields.summary.helperText`,
-              },
-              messages: [
-                {
-                  type: "ERROR",
-                  keyword: "maxLength",
-                  icon: true,
-                  labelKey: `shared.fields.summary.maxLengthError`,
-                },
-              ],
-            },
-          },
-          {
-            labelKey: `${i18nScope}.fields.description.label`,
-            scope: "/properties/description",
-            type: "Control",
-            options: {
-              control: "hub-field-input-rich-text",
-              type: "textarea",
-              helperText: {
-                labelKey: `${i18nScope}.fields.description.helperText`,
-              },
-            },
-          },
-          ...getThumbnailUiSchemaElement(
-            i18nScope,
-            options.thumbnail,
-            getEntityThumbnailUrl(options),
-            "template",
-            context.requestOptions
-          ),
         ],
       },
     ],
