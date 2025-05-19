@@ -86,11 +86,20 @@ jobs:
           npm set "//registry.npmjs.org/:_authToken" ${{ secrets.NPM_TOKEN }}
           npm whoami
 
+      - name: Wait for NPM auth to propagate
+        run: sleep 10
+
       - name: Release
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 15
+          max_attempts: 4
+          retry_wait_seconds: 45
+          retry_on: error
+          command: npm run release
         env:
           GITHUB_TOKEN: ${{ secrets.ESRI_DCDEV_SERVICE_ACCOUNT_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm run release
 
   deploy-docs:
     name: 'Deploy Documentation'
