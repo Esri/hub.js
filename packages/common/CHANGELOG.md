@@ -1,3 +1,10 @@
+# @esri/hub-common [17.13.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.12.0...@esri/hub-common@17.13.0) (2025-05-19)
+
+
+### Features
+
+* **hub-common:** consistent UI schemas ([#1882](https://github.com/Esri/hub.js/issues/1882)) ([592b2a8](https://github.com/Esri/hub.js/commit/592b2a89167d420f52be5414c497693d35c7043c))
+
 # @esri/hub-common [17.12.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.11.0...@esri/hub-common@17.12.0) (2025-05-16)
 
 
