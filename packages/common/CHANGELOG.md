@@ -1,3 +1,10 @@
+## @esri/hub-common [17.13.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.13.0...@esri/hub-common@17.13.1) (2025-05-19)
+
+
+### Bug Fixes
+
+* configuration editor now allows an empty value for the slug field ([#1901](https://github.com/Esri/hub.js/issues/1901)) ([3ed5725](https://github.com/Esri/hub.js/commit/3ed57250d18869d187ef8ba44e8293206e8eb1b3))
+
 # @esri/hub-common [17.13.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.12.0...@esri/hub-common@17.13.0) (2025-05-19)
 
 
