@@ -18,6 +18,11 @@ describe("buildUiSchema: template edit", () => {
         {
           type: "Section",
           labelKey: "some.scope.sections.basicInfo.label",
+          options: {
+            helperText: {
+              labelKey: "some.scope.sections.basicInfo.helperText",
+            },
+          },
           elements: [
             {
               type: "Control",
@@ -35,17 +40,152 @@ describe("buildUiSchema: template edit", () => {
                     type: "ERROR",
                     keyword: "maxLength",
                     icon: true,
-                    labelKey: `some.scope.fields.name.maxLengthError`,
+                    labelKey: "some.scope.fields.name.maxLengthError",
                   },
                   {
                     type: "ERROR",
                     keyword: "format",
                     icon: true,
-                    labelKey: `some.scope.fields.name.entityTitleValidatorError`,
+                    labelKey:
+                      "some.scope.fields.name.entityTitleValidatorError",
                   },
                 ],
               },
             },
+            {
+              type: "Control",
+              scope: "/properties/summary",
+              labelKey: "some.scope.fields.summary.label",
+              options: {
+                control: "hub-field-input-input",
+                type: "textarea",
+                rows: 4,
+                messages: [
+                  {
+                    type: "ERROR",
+                    keyword: "maxLength",
+                    icon: true,
+                    labelKey: "shared.fields.summary.maxLengthError",
+                  },
+                ],
+              },
+            },
+            {
+              labelKey: "shared.fields._thumbnail.label",
+              scope: "/properties/_thumbnail",
+              type: "Control",
+              options: {
+                control: "hub-field-input-image-picker",
+                imgSrc: "https://some-thumbnail-url.com",
+                defaultImgUrl:
+                  "https://www.customUrl/apps/sites/ember-arcgis-opendata-components/assets/images/placeholders/content.png",
+                maxWidth: 727,
+                maxHeight: 484,
+                aspectRatio: 1.5,
+                sizeDescription: {
+                  labelKey: "shared.fields._thumbnail.sizeDescription",
+                },
+              },
+            },
+            {
+              type: "Section",
+              labelKey: "some.scope.sections.description.label",
+              options: {
+                section: "block",
+              },
+              elements: [
+                {
+                  labelKey: "some.scope.fields.description.label",
+                  scope: "/properties/description",
+                  type: "Control",
+                  options: {
+                    control: "hub-field-input-rich-text",
+                    type: "textarea",
+                  },
+                },
+              ],
+            },
+            {
+              type: "Section",
+              labelKey: "some.scope.sections.discoverability.label",
+              options: {
+                section: "block",
+                helperText: {
+                  labelKey: "some.scope.sections.discoverability.helperText",
+                },
+              },
+              elements: [
+                {
+                  labelKey: "some.scope.fields.tags.label",
+                  scope: "/properties/tags",
+                  type: "Control",
+                  options: {
+                    control: "hub-field-input-combobox",
+                    items: [],
+                    allowCustomValues: true,
+                    selectionMode: "multiple",
+                    placeholderIcon: "label",
+                  },
+                },
+                {
+                  labelKey: "shared.fields.categories.label",
+                  scope: "/properties/categories",
+                  type: "Control",
+                  options: {
+                    control: "hub-field-input-combobox",
+                    items: [],
+                    allowCustomValues: false,
+                    selectionMode: "ancestors",
+                    placeholderIcon: "select-category",
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.DISABLE,
+                      conditions: [true],
+                    },
+                  ],
+                },
+                {
+                  type: "Notice",
+                  options: {
+                    notice: {
+                      configuration: {
+                        id: "no-categories-notice",
+                        noticeType: "notice",
+                        closable: false,
+                        icon: "exclamation-mark-triangle",
+                        kind: "warning",
+                        scale: "m",
+                      },
+                      message:
+                        "{{shared.fields.categories.noCategoriesNotice.body:translate}}",
+                      autoShow: true,
+                      actions: [
+                        {
+                          label:
+                            "{{shared.fields.categories.noCategoriesNotice.link:translate}}",
+                          icon: "launch",
+                          href: "https://doc.arcgis.com/en/arcgis-online/reference/content-categories.htm",
+                          target: "_blank",
+                        },
+                      ],
+                    },
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.SHOW,
+                      conditions: [true],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: "Section",
+          labelKey: "some.scope.sections.templateDetails.label",
+          elements: [
             {
               type: "Control",
               scope: "/properties/previewUrl",
@@ -67,60 +207,6 @@ describe("buildUiSchema: template edit", () => {
                     hidden: true,
                   },
                 ],
-              },
-            },
-            {
-              labelKey: "some.scope.fields.summary.label",
-              scope: "/properties/summary",
-              type: "Control",
-              options: {
-                control: "hub-field-input-input",
-                type: "textarea",
-                rows: 4,
-                helperText: {
-                  labelKey: "some.scope.fields.summary.helperText",
-                },
-                messages: [
-                  {
-                    type: "ERROR",
-                    keyword: "maxLength",
-                    icon: true,
-                    labelKey: `shared.fields.summary.maxLengthError`,
-                  },
-                ],
-              },
-            },
-            {
-              labelKey: "some.scope.fields.description.label",
-              scope: "/properties/description",
-              type: "Control",
-              options: {
-                control: "hub-field-input-rich-text",
-                type: "textarea",
-                helperText: {
-                  labelKey: "some.scope.fields.description.helperText",
-                },
-              },
-            },
-            {
-              labelKey: "shared.fields._thumbnail.label",
-              scope: "/properties/_thumbnail",
-              type: "Control",
-              options: {
-                control: "hub-field-input-image-picker",
-                imgSrc: "https://some-thumbnail-url.com",
-                defaultImgUrl:
-                  "https://www.customUrl/apps/sites/ember-arcgis-opendata-components/assets/images/placeholders/content.png",
-                maxWidth: 727,
-                maxHeight: 484,
-                aspectRatio: 1.5,
-                helperText: {
-                  labelKey: "some.scope.fields._thumbnail.helperText",
-                },
-                sizeDescription: {
-                  labelKey: "shared.fields._thumbnail.sizeDescription",
-                },
-                notice: null,
               },
             },
           ],
