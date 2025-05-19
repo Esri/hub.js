@@ -83,7 +83,8 @@ jobs:
 
       - name: Setup NPM auth
         run: |
-          npm set "//registry.npmjs.org/:_authToken" ${{ secrets.NPM_TOKEN }}
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+          echo "registry=https://registry.npmjs.org/" >> ~/.npmrc
           npm whoami
 
       - name: Release
