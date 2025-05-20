@@ -44,6 +44,44 @@ describe("applyCatalogStructureMigration:", () => {
       collections: [],
     });
   });
+  it("adds a catalog to the umbrella site", () => {
+    const model = {
+      item: {} as IItem,
+      data: {
+        // The groups will be ignored for the umbrella site
+        catalog: { groups: ["00c", "00d"] },
+        values: {
+          isUmbrella: true,
+        },
+      },
+    } as IModel;
+    const chk = applyCatalogStructureMigration(model);
+
+    expect(chk.data?.catalog).toEqual({
+      schemaVersion: 1,
+      title: "Default Site Catalog",
+      scopes: {
+        item: {
+          targetEntity: "item",
+          filters: [
+            {
+              predicates: [
+                {
+                  openData: true,
+                },
+              ],
+            },
+          ],
+        },
+        // There is no openData predicate for the event scope for now
+        event: {
+          targetEntity: "event",
+          filters: [],
+        },
+      },
+      collections: [],
+    });
+  });
   it("handles no catalog", () => {
     const model = {
       item: {
