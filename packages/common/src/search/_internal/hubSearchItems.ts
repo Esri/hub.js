@@ -4,6 +4,7 @@ import {
   IHubSearchResult,
   IQuery,
 } from "../types";
+import { expandPortalQuery } from "../utils";
 import { getOgcCollectionUrl } from "./hubSearchItemsHelpers/getOgcCollectionUrl";
 import { ISearchOgcItemsOptions } from "./hubSearchItemsHelpers/interfaces";
 import { searchOgcAggregations } from "./hubSearchItemsHelpers/searchOgcAggregations";
@@ -20,9 +21,11 @@ export async function hubSearchItems(
   query: IQuery,
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
+  const expanded = expandPortalQuery(query);
+  delete expanded.collection;
   if (options.aggFields?.length) {
-    return searchOgcAggregations(query, options);
+    return searchOgcAggregations(expanded, options);
   }
-  const url = `${getOgcCollectionUrl(query, options)}/items`;
-  return searchOgcItems(url, query, options as ISearchOgcItemsOptions);
+  const url = `${getOgcCollectionUrl(expanded, options)}/items`;
+  return searchOgcItems(url, expanded, options as ISearchOgcItemsOptions);
 }
