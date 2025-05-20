@@ -2,13 +2,10 @@ import { getWithDefault } from "../../objects/get-with-default";
 import { upgradeCatalogSchema } from "../../search/upgradeCatalogSchema";
 import { IModel } from "../../hub-types";
 import { cloneObject } from "../../util";
+import { getProp } from "../../objects/get-prop";
 
 /**
  * Add the default catalog structure to the Site model
- * Note: This in-memory migration is only applies via `fetchSite(..):IHubSite` and not
- * the older `getSiteById(...):IModel`. Changes made in this migration will not be
- * persisted to AGO until all other parts of the application stop relying on the legacy
- * catalog implementation
  * @param model
  * @returns
  */
@@ -19,6 +16,20 @@ export function applyCatalogStructureMigration(model: IModel): IModel {
   if (!siteCatalog.schemaVersion) {
     const clonedModel = cloneObject(model);
     clonedModel.data.catalog = upgradeCatalogSchema(siteCatalog);
+
+    // The umbrella site needs a special predicate added to the catalog to ensure
+    // that its item scope only includes results shared to open data groups.
+    // We also don't want to include the groups from the site model
+    if (getProp(clonedModel, "data.values.isUmbrella")) {
+      clonedModel.data.catalog.scopes.item.filters = [
+        {
+          predicates: [{ openData: true }],
+        },
+      ];
+      // The umbrella site doesn't have an event scope
+      clonedModel.data.catalog.scopes.event.filters = [];
+    }
+
     // applyCatalogSchema sets the catalog to `Default Catalog` but this fn previously
     // set it to `Default Site Catalog`. Overriding title to `Default Site Catalog` here
     // to prevent any potential regressions
