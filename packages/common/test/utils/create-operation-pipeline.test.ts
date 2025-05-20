@@ -154,7 +154,8 @@ describe("createOperationPipeline:: ", () => {
       fetchOwner,
     ]);
     return pipeline(input).catch((err) => {
-      expect(err.name).toBe(
+      const error = err as { name?: string };
+      expect(error.name).toBe(
         "OperationError",
         "Should reject with an OperationError"
       );
@@ -181,14 +182,19 @@ describe("createOperationPipeline:: ", () => {
       fetchOwner,
     ]);
     return pipeline(input).catch((err) => {
-      expect(err.name).toBe(
+      const error = err as {
+        name?: string;
+        message?: string;
+        operationStack?: OperationStack;
+      };
+      expect(error.name).toBe(
         "OperationError",
         "Should reject with an OperationError"
       );
-      expect(err.operationStack.operations.length).toBe(3);
-      expect(err.message).toContain("Operation timeStampName");
-      expect(err.message).toContain("Operation addCreatedAt");
-      expect(err.message).toContain("Operation addOwnerThrows");
+      expect(error.operationStack.getOperations().length).toBe(3);
+      expect(error.message).toContain("Operation timeStampName");
+      expect(error.message).toContain("Operation addCreatedAt");
+      expect(error.message).toContain("Operation addOwnerThrows");
     });
   });
 });

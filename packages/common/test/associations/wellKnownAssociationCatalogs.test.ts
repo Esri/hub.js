@@ -141,7 +141,7 @@ describe("getWellKnownAssociationsCatalog", () => {
         {} as ArcGISContext
       );
     } catch (err) {
-      expect(err.message).toBe(
+      expect((err as Error).message).toBe(
         "getWellKnownAssociationsCatalog: Association between initiative and group is not supported."
       );
     }
@@ -182,7 +182,7 @@ describe("getAvailableToRequestAssociationCatalogs", () => {
         {} as ArcGISContext
       );
     } catch (err) {
-      expect((err as any).message).toBe(
+      expect((err as Error).message).toBe(
         "getAvailableToRequestAssociationCatalogs: Association between initiative and group is not supported."
       );
     }

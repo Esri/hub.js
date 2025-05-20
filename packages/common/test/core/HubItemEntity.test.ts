@@ -110,7 +110,8 @@ describe("HubItemEntity Class: ", () => {
           await instance.shareWithGroup("efUpdate");
           fail("should have thrown");
         } catch (err) {
-          expect(err.name).toBe("HubError");
+          const error = err as { name?: string; message?: string };
+          expect(error.name).toBe("HubError");
         }
       });
     });
@@ -213,7 +214,8 @@ describe("HubItemEntity Class: ", () => {
         try {
           const chk = instance.toJson();
         } catch (err) {
-          expect((err as any).message === "Entity is already destroyed.");
+          const error = err as { name?: string; message?: string };
+          expect(error.message === "Entity is already destroyed.");
         }
       });
 
@@ -489,7 +491,8 @@ describe("HubItemEntity Class: ", () => {
         await instance.clearFeaturedImage();
         fail("should have thrown error");
       } catch (err) {
-        expect(err.name).toBe("HubError");
+        const error = err as { name?: string; message?: string };
+        expect(error.name).toBe("HubError");
       }
       expect(clearImageSpy).toHaveBeenCalledTimes(1);
       const chk = instance.toJson();
@@ -516,7 +519,8 @@ describe("HubItemEntity Class: ", () => {
         await instance.clearFeaturedImage();
         fail("should have thrown error");
       } catch (err) {
-        expect(err.name).toBe("HubError");
+        const error = err as { name?: string; message?: string };
+        expect(error.name).toBe("HubError");
       }
       expect(clearImageSpy).toHaveBeenCalledTimes(1);
       const chk = instance.toJson();
@@ -543,7 +547,8 @@ describe("HubItemEntity Class: ", () => {
         await instance.clearFeaturedImage();
         fail("should have thrown error");
       } catch (err) {
-        expect(err.name).toBe("HubError");
+        const error = err as { name?: string; message?: string };
+        expect(error.name).toBe("HubError");
       }
       expect(clearImageSpy).toHaveBeenCalledTimes(1);
       const chk = instance.toJson();
@@ -676,6 +681,7 @@ describe("HubItemEntity Class: ", () => {
       await instance.setFeaturedImage("fake-file");
       fail("should have thrown error");
     } catch (err) {
+      const error = err as { name?: string; message?: string };
       expect(clearImageSpy).toHaveBeenCalledTimes(1);
       expect(setImageSpy).toHaveBeenCalledTimes(1);
       const chk = instance.toJson();

@@ -48,7 +48,8 @@ describe("resolveMetric:", () => {
       try {
         await resolveMetric(metric, ctx);
       } catch (ex) {
-        expect((ex as any).message).toBe("Unknown metric type passed in.");
+        const error = ex as { message?: string };
+        expect(error.message).toBe("Unknown metric type passed in.");
       }
     });
   });

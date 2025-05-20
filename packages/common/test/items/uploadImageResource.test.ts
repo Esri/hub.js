@@ -64,7 +64,7 @@ describe("uploadImageResource:", () => {
         authentication: MOCK_AUTH,
       });
     } catch (err) {
-      expect(err.name).toBe("HubError");
+      expect((err as Error).name).toBe("HubError");
     }
   });
 
@@ -77,7 +77,7 @@ describe("uploadImageResource:", () => {
         authentication: MOCK_AUTH,
       });
     } catch (err) {
-      expect(err.name).toBe("HubError");
+      expect((err as Error).name).toBe("HubError");
     }
   });
 
@@ -90,7 +90,7 @@ describe("uploadImageResource:", () => {
         authentication: MOCK_AUTH,
       });
     } catch (err) {
-      expect(err.name).toBe("HubError");
+      expect((err as Error).name).toBe("HubError");
     }
   });
 });

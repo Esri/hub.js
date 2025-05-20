@@ -872,7 +872,8 @@ describe("ArcGISContext:", () => {
       try {
         await ArcGISContextManager.create({ authentication: MOCK_AUTH });
       } catch (ex) {
-        expect(ex).toBeDefined();
+        const error = ex as { message?: string };
+        expect(error).toBeDefined();
       }
     });
     it("serializes anon manager to string", async () => {

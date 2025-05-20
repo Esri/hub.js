@@ -19,7 +19,7 @@ describe("stringToBlob", () => {
       );
     } catch (ex) {
       if (typeof Blob === "undefined") {
-        expect(ex.message).toEqual(
+        expect((ex as Error).message).toEqual(
           "stringToBlob is not currently supported on Node"
         );
       }

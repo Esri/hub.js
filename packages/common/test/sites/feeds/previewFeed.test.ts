@@ -72,7 +72,7 @@ describe("previewFeed", () => {
       await previewFeed(options);
       fail("Expected an error to be thrown");
     } catch (error) {
-      expect(error.message).toBe(
+      expect((error as Error).message).toBe(
         "Failed to preview feed: Internal Server Error"
       );
     }

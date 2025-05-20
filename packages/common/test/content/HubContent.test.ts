@@ -111,13 +111,13 @@ describe("HubContent class", () => {
     try {
       await chk.delete();
     } catch (e) {
-      expect(e.message).toEqual("HubContent is already destroyed.");
+      expect((e as Error).message).toEqual("HubContent is already destroyed.");
     }
 
     try {
       await chk.save();
     } catch (e) {
-      expect(e.message).toEqual("HubContent is already destroyed.");
+      expect((e as Error).message).toEqual("HubContent is already destroyed.");
     }
   });
   describe("IWithEditorBehavior:", () => {
@@ -327,7 +327,7 @@ describe("HubContent class", () => {
         try {
           await chk.fromEditor(editor);
         } catch (ex) {
-          expect(ex.message).toContain("Cannot create");
+          expect((ex as Error).message).toContain("Cannot create");
           expect(saveSpy).toHaveBeenCalledTimes(0);
         }
       });

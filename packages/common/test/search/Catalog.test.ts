@@ -218,8 +218,9 @@ describe("Catalog Class:", () => {
       try {
         await Catalog.init("https://somesite.com", context);
       } catch (err) {
-        expect(getProp(err, "name")).toBe("HubError");
-        expect(getProp(err, "message")).toContain("No catalog found");
+        const error = err as { message?: string };
+        expect(getProp(error, "name")).toBe("HubError");
+        expect(getProp(error, "message")).toContain("No catalog found");
         // verify the context was used
         expect(fetchCatalogSpy.calls.argsFor(0)[1]).toBe(context);
       }
@@ -252,8 +253,9 @@ describe("Catalog Class:", () => {
       try {
         instance.getCollection("invalid");
       } catch (err) {
-        expect(getProp(err, "name")).toBe("HubError");
-        expect(getProp(err, "message")).toContain(
+        const error = err as { message?: string };
+        expect(getProp(error, "name")).toBe("HubError");
+        expect(getProp(error, "message")).toContain(
           'Collection "invalid" is not present in the Catalog'
         );
       }

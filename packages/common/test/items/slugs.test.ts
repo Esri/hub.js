@@ -14,7 +14,7 @@ describe("slug utils: ", () => {
       );
       expect(
         slugModule.constructSlug(
-          "A really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really long title",
+          "A really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really long title",
           "qa-bas-hub"
         )
       ).toBe(
@@ -142,8 +142,9 @@ describe("slug utils: ", () => {
           authentication: MOCK_AUTH,
         });
       } catch (ex) {
-        expect(ex).toBeDefined();
-        expect(ex.message).toBe("An error occurred");
+        const error = ex as { message?: string };
+        expect(error).toBeDefined();
+        expect(error.message).toBe("An error occurred");
         expect(searchSpy.calls.count()).toBe(1);
       }
     });
@@ -293,8 +294,9 @@ describe("slug utils: ", () => {
         // Never reach here
         expect(true).toBe(false);
       } catch (err) {
-        expect(err).toBeDefined();
-        expect(err.message).toBe("Error occurred");
+        const error = err as { message?: string };
+        expect(error).toBeDefined();
+        expect(error.message).toBe("Error occurred");
       }
     });
   });
@@ -390,7 +392,8 @@ describe("slug utils: ", () => {
           }
         );
       } catch (ex) {
-        expect(ex).toBeDefined();
+        const error = ex as { message?: string };
+        expect(error).toBeDefined();
         expect(searchSpy.calls.count()).toBe(1);
       }
     });

@@ -1209,7 +1209,8 @@ describe("hubSearchItems Module |", () => {
           await ogcApiRequest(hubApiUrl, queryParams, options);
           expect(true).toBe(false);
         } catch (err) {
-          expect((err as any).message).toEqual("404: Not Found");
+          const error = err as { message?: string };
+          expect(error.message).toEqual("404: Not Found");
         }
       });
     });

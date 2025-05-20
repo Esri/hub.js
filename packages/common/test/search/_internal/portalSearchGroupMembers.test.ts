@@ -26,7 +26,7 @@ describe("portalSearchGroupMembers:", () => {
       try {
         await portalSearchGroupMembers(qry, opts);
       } catch (err) {
-        expect(err.message).toEqual(
+        expect((err as Error).message).toEqual(
           "Group Id required. Please pass as a predicate in the query."
         );
       }
@@ -38,7 +38,7 @@ describe("portalSearchGroupMembers:", () => {
       try {
         await portalSearchGroupMembers(qry, opts);
       } catch (err) {
-        expect(err.message).toEqual(
+        expect((err as Error).message).toEqual(
           "Group Id required. Please pass as a predicate in the query."
         );
       }

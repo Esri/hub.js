@@ -38,7 +38,7 @@ describe("portalFetchOrgs:", () => {
     try {
       await portalFetchOrgs(query, options);
     } catch (e) {
-      expect(e.message).toBe(
+      expect((e as Error).message).toBe(
         "Organization query must contain an id predicate."
       );
     }
