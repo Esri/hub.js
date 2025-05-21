@@ -3475,7 +3475,7 @@ describe("portalRequestDownloadMetadata", () => {
             portal: undefined,
             authentication,
             num: 1,
-            q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:null) AND ( (type:"CSV" AND typekeywords:spatialRefId:4326))',
+            q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:00) AND ( (type:"CSV" AND typekeywords:spatialRefId:4326))',
             sortField: "modified",
             sortOrder: "DESC",
           },
