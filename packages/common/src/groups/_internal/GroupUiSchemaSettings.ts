@@ -1,4 +1,4 @@
-import { IUiSchema, UiSchemaRuleEffects } from "../../core";
+import { IHubGroup, IUiSchema, UiSchemaRuleEffects } from "../../core";
 import type { IArcGISContext } from "../../types/IArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 
@@ -13,6 +13,7 @@ export const buildUiSchema = async (
   options: EntityEditorOptions,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
+  const { isSharedUpdate, leavingDisallowed } = options as IHubGroup;
   return {
     type: "Layout",
     elements: [
@@ -20,24 +21,24 @@ export const buildUiSchema = async (
         type: "Section",
         labelKey: `${i18nScope}.sections.membershipAccess.label`,
         elements: [
-          {
-            // there are schema rules that use this so it must be present or they break, so we hide it when its value is false which is always the case for this uiSchema
-            scope: "/properties/isSharedUpdate",
-            type: "Control",
-            options: {
-              clearOnHidden: false,
-            },
-            rules: [
-              {
-                effect: UiSchemaRuleEffects.HIDE,
-                conditions: [true],
-              },
-              // {
-              //   effect: UiSchemaRuleEffects.DISABLE,
-              //   conditions: [true],
-              // },
-            ],
-          },
+          // {
+          //   // there are schema rules that use this so it must be present or they break, so we hide it when its value is false which is always the case for this uiSchema
+          //   scope: "/properties/isSharedUpdate",
+          //   type: "Control",
+          //   options: {
+          //     clearOnHidden: false,
+          //   },
+          //   rules: [
+          //     {
+          //       effect: UiSchemaRuleEffects.HIDE,
+          //       conditions: [true],
+          //     },
+          //     // {
+          //     //   effect: UiSchemaRuleEffects.DISABLE,
+          //     //   conditions: [true],
+          //     // },
+          //   ],
+          // },
           {
             labelKey: `${i18nScope}.fields.membershipAccess.label`,
             scope: "/properties/membershipAccess",
@@ -59,32 +60,17 @@ export const buildUiSchema = async (
                 [
                   {
                     effect: UiSchemaRuleEffects.DISABLE,
-                    conditions: [
-                      {
-                        scope: "/properties/leavingDisallowed",
-                        schema: { const: true },
-                      },
-                    ],
+                    conditions: [leavingDisallowed],
                   },
                 ],
                 [
                   {
                     effect: UiSchemaRuleEffects.DISABLE,
-                    conditions: [
-                      {
-                        scope: "/properties/leavingDisallowed",
-                        schema: { const: true },
-                      },
-                    ],
+                    conditions: [leavingDisallowed],
                   },
                   {
                     effect: UiSchemaRuleEffects.DISABLE,
-                    conditions: [
-                      {
-                        scope: "/properties/isSharedUpdate",
-                        schema: { const: true },
-                      },
-                    ],
+                    conditions: [isSharedUpdate],
                   },
                 ],
               ],
@@ -103,10 +89,7 @@ export const buildUiSchema = async (
               {
                 effect: UiSchemaRuleEffects.RESET,
                 conditions: [
-                  {
-                    scope: "/properties/isSharedUpdate",
-                    schema: { const: true },
-                  },
+                  isSharedUpdate,
                   {
                     scope: "/properties/membershipAccess",
                     schema: { const: "anyone" },
