@@ -109,8 +109,12 @@ export const buildUiSchema = async (
             type: "Control",
             options: {
               control: "hub-field-input-switch",
+              layout: "inline-space-between",
               helperText: {
                 labelKey: `${i18nScope}.fields.isSharedUpdate.helperText`,
+              },
+              tooltip: {
+                labelKey: `${i18nScope}.fields.isSharedUpdate.tooltip`,
               },
             },
             rule: {
@@ -129,8 +133,12 @@ export const buildUiSchema = async (
             type: "Control",
             options: {
               control: "hub-field-input-switch",
+              layout: "inline-space-between",
               helperText: {
                 labelKey: `${i18nScope}.fields.isAdmin.helperText`,
+              },
+              tooltip: {
+                labelKey: `${i18nScope}.fields.isAdmin.tooltip`,
               },
             },
             rules: [
@@ -151,8 +159,12 @@ export const buildUiSchema = async (
             type: "Control",
             options: {
               control: "hub-field-input-switch",
+              layout: "inline-space-between",
               helperText: {
                 labelKey: `${i18nScope}.fields.isOpenData.helperText`,
+              },
+              tooltip: {
+                labelKey: `${i18nScope}.fields.isOpenData.tooltip`,
               },
               messages: [
                 {
