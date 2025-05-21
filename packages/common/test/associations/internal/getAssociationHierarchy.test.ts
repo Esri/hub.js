@@ -18,7 +18,7 @@ describe("getAssociationHierarchy:", () => {
     try {
       getAssociationHierarchy("unsupportedEntity" as HubEntityType);
     } catch (err) {
-      expect(err.message).toBe(
+      expect((err as Error).message).toBe(
         "getAssociationHierarchy: Invalid type for associations: unsupportedEntity."
       );
     }

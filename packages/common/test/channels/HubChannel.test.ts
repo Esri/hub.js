@@ -59,9 +59,8 @@ describe("HubChannel", () => {
         instance.toJson();
         fail("did not reject");
       } catch (e) {
-        expect((e as Error).message).toEqual(
-          "HubChannel is already destroyed."
-        );
+        const error = e as { message?: string };
+        expect(error.message).toEqual("HubChannel is already destroyed.");
       }
     });
     it("should return a clone of the entity", () => {
@@ -190,9 +189,8 @@ describe("HubChannel", () => {
         await instance.delete();
         fail("did not reject");
       } catch (e) {
-        expect((e as Error).message).toEqual(
-          "HubChannel is already destroyed."
-        );
+        const error = e as { message?: string };
+        expect(error.message).toEqual("HubChannel is already destroyed.");
         expect(deleteHubChannelSpy).not.toHaveBeenCalled();
       }
     });
@@ -220,7 +218,8 @@ describe("HubChannel", () => {
         instance.convertToCardModel({});
         fail("should have thrown");
       } catch (e) {
-        expect((e as Error).message).toEqual("not implemented");
+        const error = e as { message?: string };
+        expect(error.message).toEqual("not implemented");
       }
     });
   });
@@ -417,10 +416,11 @@ describe("HubChannel", () => {
         await HubChannel.fetch("channelId1", context);
         fail("should have thrown");
       } catch (e) {
+        const error = e as { message?: string };
         expect(fetchHubChannelSpy).toHaveBeenCalledTimes(1);
         expect(fetchHubChannelSpy).toHaveBeenCalledWith("channelId1", context);
         expect(fromJsonSpy).not.toHaveBeenCalled();
-        expect((e as Error).message).toEqual("Channel not found.");
+        expect(error.message).toEqual("Channel not found.");
       }
     });
     it("call fetchHubChannel and resolve a HubChannel instance", async () => {

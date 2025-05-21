@@ -83,7 +83,7 @@ describe("poll", () => {
       await promise;
       fail("did not reject");
     } catch (e) {
-      expect(e.message).toEqual("Polling failed after 7 attempts");
+      expect((e as Error).message).toEqual("Polling failed after 7 attempts");
     }
     expect(requestFnSpy).toHaveBeenCalledTimes(7);
   });
@@ -108,7 +108,7 @@ describe("poll", () => {
       await promise;
       fail("did not reject");
     } catch (e) {
-      expect(e.message).toEqual("Polling failed after 3 attempts");
+      expect((e as Error).message).toEqual("Polling failed after 3 attempts");
     }
     expect(requestFnSpy).toHaveBeenCalledTimes(3);
   });
@@ -145,7 +145,7 @@ describe("poll", () => {
       await promise;
       fail("did not reject");
     } catch (e) {
-      expect(e.message).toEqual("Polling failed after 7 attempts");
+      expect((e as Error).message).toEqual("Polling failed after 7 attempts");
     }
     expect(requestFnSpy).toHaveBeenCalledTimes(7);
   });
@@ -182,7 +182,7 @@ describe("poll", () => {
       await promise;
       fail("did not reject");
     } catch (e) {
-      expect(e.message).toEqual("Polling failed after 7 attempts");
+      expect((e as Error).message).toEqual("Polling failed after 7 attempts");
     }
     expect(requestFnSpy).toHaveBeenCalledTimes(7);
   });
@@ -219,7 +219,7 @@ describe("poll", () => {
       await promise;
       fail("did not reject");
     } catch (e) {
-      expect(e.message).toEqual("Polling failed after 7 attempts");
+      expect((e as Error).message).toEqual("Polling failed after 7 attempts");
     }
     expect(requestFnSpy).toHaveBeenCalledTimes(7);
   });
@@ -256,7 +256,7 @@ describe("poll", () => {
       await promise;
       fail("did not reject");
     } catch (e) {
-      expect(e.message).toEqual("Polling failed after 7 attempts");
+      expect((e as Error).message).toEqual("Polling failed after 7 attempts");
     }
     expect(requestFnSpy).toHaveBeenCalledTimes(7);
   });
@@ -293,7 +293,7 @@ describe("poll", () => {
       await promise;
       fail("did not reject");
     } catch (e) {
-      expect(e.message).toEqual("Polling failed after 7 attempts");
+      expect((e as Error).message).toEqual("Polling failed after 7 attempts");
     }
     expect(requestFnSpy).toHaveBeenCalledTimes(7);
   });

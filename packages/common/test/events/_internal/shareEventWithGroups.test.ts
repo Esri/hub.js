@@ -105,7 +105,8 @@ describe("shareEventWithGroups", () => {
       await shareEventWithGroups(["abc", "def"], entity, context);
       fail("did not reject");
     } catch (e) {
-      expect(e.message).toEqual(
+      const error = e as { message?: string };
+      expect(error.message).toEqual(
         "Entity: 62p could not be shared with groups: abc, def"
       );
     }

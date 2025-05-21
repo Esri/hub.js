@@ -60,7 +60,8 @@ describe("combineQueries:", () => {
     try {
       combineQueries(qrys);
     } catch (err) {
-      expect((err as any).message).toEqual(
+      const error = err as { message?: string };
+      expect(error.message).toEqual(
         "Cannot combine queries for different entity types"
       );
     }

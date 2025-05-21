@@ -117,7 +117,8 @@ describe("portalRequestDownloadMetadata", () => {
 
         fail("should reject!");
       } catch (err) {
-        expect(err).toEqual(jasmine.any(NotAnAuthError));
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(jasmine.any(NotAnAuthError));
       }
     });
   });
@@ -138,7 +139,8 @@ describe("portalRequestDownloadMetadata", () => {
           authentication,
         });
       } catch (err) {
-        expect(err.code).toEqual("HTTP 502");
+        const error = err as { message?: string; code?: string };
+        expect(error.code).toEqual("HTTP 502");
       } finally {
         done();
       }
@@ -168,7 +170,8 @@ describe("portalRequestDownloadMetadata", () => {
 
         expect(result).toEqual(undefined);
       } catch (err) {
-        expect(err.message).toEqual("498: Invalid token.");
+        const error = err as { message?: string; code?: string };
+        expect(error.message).toEqual("498: Invalid token.");
       } finally {
         done();
       }
@@ -206,7 +209,8 @@ describe("portalRequestDownloadMetadata", () => {
           status: "not_ready",
         });
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -252,7 +256,8 @@ describe("portalRequestDownloadMetadata", () => {
             "http://portal.com/sharing/rest/content/items/abcdef/data?token=123",
         });
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -298,7 +303,8 @@ describe("portalRequestDownloadMetadata", () => {
             "http://portal.com/sharing/rest/content/items/abcdef/data?token=123",
         });
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -396,7 +402,8 @@ describe("portalRequestDownloadMetadata", () => {
           sortOrder: "DESC",
         });
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -447,7 +454,8 @@ describe("portalRequestDownloadMetadata", () => {
           sortOrder: "DESC",
         });
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -492,7 +500,8 @@ describe("portalRequestDownloadMetadata", () => {
           sortOrder: "DESC",
         });
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -542,7 +551,8 @@ describe("portalRequestDownloadMetadata", () => {
           sortOrder: "DESC",
         });
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -633,7 +643,8 @@ describe("portalRequestDownloadMetadata", () => {
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -723,7 +734,8 @@ describe("portalRequestDownloadMetadata", () => {
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -817,7 +829,8 @@ describe("portalRequestDownloadMetadata", () => {
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -911,7 +924,8 @@ describe("portalRequestDownloadMetadata", () => {
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -1006,7 +1020,8 @@ describe("portalRequestDownloadMetadata", () => {
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -1097,7 +1112,8 @@ describe("portalRequestDownloadMetadata", () => {
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -1196,7 +1212,8 @@ describe("portalRequestDownloadMetadata", () => {
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -1300,7 +1317,8 @@ describe("portalRequestDownloadMetadata", () => {
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -1381,7 +1399,8 @@ describe("portalRequestDownloadMetadata", () => {
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -1481,7 +1500,8 @@ describe("portalRequestDownloadMetadata", () => {
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -1581,7 +1601,8 @@ describe("portalRequestDownloadMetadata", () => {
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -1690,7 +1711,8 @@ describe("portalRequestDownloadMetadata", () => {
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -1794,7 +1816,8 @@ describe("portalRequestDownloadMetadata", () => {
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -1904,7 +1927,8 @@ describe("portalRequestDownloadMetadata", () => {
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -2010,7 +2034,8 @@ describe("portalRequestDownloadMetadata", () => {
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -2124,7 +2149,8 @@ describe("portalRequestDownloadMetadata", () => {
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -2242,7 +2268,8 @@ describe("portalRequestDownloadMetadata", () => {
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -2342,7 +2369,8 @@ describe("portalRequestDownloadMetadata", () => {
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -2451,7 +2479,8 @@ describe("portalRequestDownloadMetadata", () => {
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -2556,7 +2585,8 @@ describe("portalRequestDownloadMetadata", () => {
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -2668,7 +2698,8 @@ describe("portalRequestDownloadMetadata", () => {
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -2776,7 +2807,8 @@ describe("portalRequestDownloadMetadata", () => {
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -2892,7 +2924,8 @@ describe("portalRequestDownloadMetadata", () => {
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -3012,7 +3045,8 @@ describe("portalRequestDownloadMetadata", () => {
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -3122,7 +3156,8 @@ describe("portalRequestDownloadMetadata", () => {
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -3226,7 +3261,8 @@ describe("portalRequestDownloadMetadata", () => {
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -3337,7 +3373,8 @@ describe("portalRequestDownloadMetadata", () => {
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -3444,7 +3481,8 @@ describe("portalRequestDownloadMetadata", () => {
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -3559,7 +3597,8 @@ describe("portalRequestDownloadMetadata", () => {
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -3678,7 +3717,8 @@ describe("portalRequestDownloadMetadata", () => {
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -3784,7 +3824,8 @@ describe("portalRequestDownloadMetadata", () => {
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -3890,7 +3931,8 @@ describe("portalRequestDownloadMetadata", () => {
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -3960,7 +4002,8 @@ describe("portalRequestDownloadMetadata", () => {
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }

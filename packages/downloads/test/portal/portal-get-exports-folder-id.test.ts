@@ -21,7 +21,8 @@ describe("portalPollExportJobStatus", () => {
       await getExportsFolderId(authentication);
       fail();
     } catch (err) {
-      expect(err.message).toEqual("5xx");
+      const error = err as { message?: string };
+      expect(error.message).toEqual("5xx");
       expect(portal.getUserContent).toHaveBeenCalledTimes(1);
       expect((portal.getUserContent as any).calls.first().args).toEqual([
         { authentication },
@@ -48,7 +49,8 @@ describe("portalPollExportJobStatus", () => {
       await getExportsFolderId(authentication);
       fail();
     } catch (err) {
-      expect(err.message).toEqual("5xx");
+      const error = err as { message?: string };
+      expect(error.message).toEqual("5xx");
       expect(portal.getUserContent).toHaveBeenCalledTimes(1);
       expect((portal.getUserContent as any).calls.first().args).toEqual([
         { authentication },
@@ -89,7 +91,8 @@ describe("portalPollExportJobStatus", () => {
         },
       ]);
     } catch (err) {
-      expect(err).toEqual(undefined);
+      const error = err as { message?: string };
+      expect(error).toEqual(undefined);
     } finally {
       done();
     }
@@ -121,7 +124,8 @@ describe("portalPollExportJobStatus", () => {
       ]);
       expect(portal.createFolder).toHaveBeenCalledTimes(0);
     } catch (err) {
-      expect(err).toEqual(undefined);
+      const error = err as { message?: string };
+      expect(error).toEqual(undefined);
     } finally {
       done();
     }

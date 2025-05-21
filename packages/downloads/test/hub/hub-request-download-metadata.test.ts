@@ -17,30 +17,29 @@ const apiResponsefixture = {
         featureSet: "full",
         source: {
           type: "Feature Service",
-          url:
-            "https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/RKI_COVID19/FeatureServer/0?f=json",
+          url: "https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/RKI_COVID19/FeatureServer/0?f=json",
           supportsExtract: true,
           lastEditDate: "2020-06-18T01:17:31.492Z",
-          spatialRefId: "4326"
-        }
+          spatialRefId: "4326",
+        },
       },
       links: {
         content:
-          "https://dev-hub-indexer.s3.amazonaws.com/files/dd4580c810204019a7b8eb3e0b329dd6/0/full/4326/dd4580c810204019a7b8eb3e0b329dd6_0_full_4326.csv"
-      }
-    }
-  ]
+          "https://dev-hub-indexer.s3.amazonaws.com/files/dd4580c810204019a7b8eb3e0b329dd6/0/full/4326/dd4580c810204019a7b8eb3e0b329dd6_0_full_4326.csv",
+      },
+    },
+  ],
 };
 
 describe("hubRequestDownloadMetadata", () => {
   afterEach(() => fetchMock.restore());
 
-  it("handle remote server 502 error", async done => {
+  it("handle remote server 502 error", async (done) => {
     try {
       fetchMock.mock(
         "http://hub.com/api/v3/datasets/abcdef0123456789abcdef0123456789_0/downloads?spatialRefId=4326&formats=csv",
         {
-          status: 502
+          status: 502,
         }
       );
 
@@ -48,10 +47,11 @@ describe("hubRequestDownloadMetadata", () => {
         host: "http://hub.com",
         datasetId: "abcdef0123456789abcdef0123456789_0",
         spatialRefId: "4326",
-        format: "CSV"
+        format: "CSV",
       });
     } catch (err) {
-      const { message, status, url } = err;
+      const error = err as { message?: string; status?: number; url?: string };
+      const { message, status, url } = error;
       expect(message).toEqual("Bad Gateway");
       expect(status).toEqual(502);
       expect(url).toEqual(
@@ -62,13 +62,13 @@ describe("hubRequestDownloadMetadata", () => {
     }
   });
 
-  it("handle missing data property", async done => {
+  it("handle missing data property", async (done) => {
     try {
       fetchMock.mock(
         "http://hub.com/api/v3/datasets/abcdef0123456789abcdef0123456789_0/downloads?spatialRefId=4326&formats=csv",
         {
           status: 200,
-          body: {}
+          body: {},
         }
       );
 
@@ -76,12 +76,13 @@ describe("hubRequestDownloadMetadata", () => {
         host: "http://hub.com",
         datasetId: "abcdef0123456789abcdef0123456789_0",
         spatialRefId: "4326",
-        format: "CSV"
+        format: "CSV",
       });
 
       expect(result).toEqual(undefined);
     } catch (err) {
-      expect(err.message).toEqual(
+      const error = err as { message?: string; status?: number; url?: string };
+      expect(error.message).toEqual(
         'Unexpected API response; no "data" property.'
       );
     } finally {
@@ -89,13 +90,13 @@ describe("hubRequestDownloadMetadata", () => {
     }
   });
 
-  it("handle data is not array", async done => {
+  it("handle data is not array", async (done) => {
     try {
       fetchMock.mock(
         "http://hub.com/api/v3/datasets/abcdef0123456789abcdef0123456789_0/downloads?spatialRefId=4326&formats=csv",
         {
           status: 200,
-          body: { data: {} }
+          body: { data: {} },
         }
       );
 
@@ -103,12 +104,13 @@ describe("hubRequestDownloadMetadata", () => {
         host: "http://hub.com",
         datasetId: "abcdef0123456789abcdef0123456789_0",
         spatialRefId: "4326",
-        format: "CSV"
+        format: "CSV",
       });
 
       expect(result).toEqual(undefined);
     } catch (err) {
-      expect(err.message).toEqual(
+      const error = err as { message?: string; status?: number; url?: string };
+      expect(error.message).toEqual(
         'Unexpected API response; "data" is not an array.'
       );
     } finally {
@@ -116,23 +118,24 @@ describe("hubRequestDownloadMetadata", () => {
     }
   });
 
-  it("handle data array with more than one element", async done => {
+  it("handle data array with more than one element", async (done) => {
     try {
       fetchMock.mock(
         "http://hub.com/api/v3/datasets/abcdef0123456789abcdef0123456789_0/downloads?formats=csv",
         {
           status: 200,
-          body: { data: [{}, {}] }
+          body: { data: [{}, {}] },
         }
       );
 
       await hubRequestDownloadMetadata({
         host: "http://hub.com",
         datasetId: "abcdef0123456789abcdef0123456789_0",
-        format: "CSV"
+        format: "CSV",
       });
     } catch (err) {
-      expect(err.message).toEqual(
+      const error = err as { message?: string; status?: number; url?: string };
+      expect(error.message).toEqual(
         'Unexpected API response; "data" contains more than one download.'
       );
     } finally {
@@ -140,15 +143,15 @@ describe("hubRequestDownloadMetadata", () => {
     }
   });
 
-  it("handle zero download results", async done => {
+  it("handle zero download results", async (done) => {
     try {
       fetchMock.mock(
         "http://hub.com/api/v3/datasets/abcdef0123456789abcdef0123456789_0/downloads?spatialRefId=4326&formats=csv",
         {
           status: 200,
           body: {
-            data: []
-          }
+            data: [],
+          },
         }
       );
 
@@ -156,28 +159,29 @@ describe("hubRequestDownloadMetadata", () => {
         host: "http://hub.com",
         datasetId: "abcdef0123456789abcdef0123456789_0",
         spatialRefId: "4326",
-        format: "CSV"
+        format: "CSV",
       });
 
       expect(result).toEqual({
         downloadId:
           "abcdef0123456789abcdef0123456789_0:CSV:4326:undefined:undefined",
-        status: "not_ready"
+        status: "not_ready",
       });
     } catch (err) {
-      expect(err).toEqual(undefined);
+      const error = err as { message?: string; status?: number; url?: string };
+      expect(error).toEqual(undefined);
     } finally {
       done();
     }
   });
 
-  it("handle downloaded result", async done => {
+  it("handle downloaded result", async (done) => {
     try {
       fetchMock.mock(
         "http://hub.com/api/v3/datasets/abcdef0123456789abcdef0123456789_0/downloads?spatialRefId=4326&formats=csv",
         {
           status: 200,
-          body: apiResponsefixture
+          body: apiResponsefixture,
         }
       );
 
@@ -185,7 +189,7 @@ describe("hubRequestDownloadMetadata", () => {
         host: "http://hub.com",
         datasetId: "abcdef0123456789abcdef0123456789_0",
         spatialRefId: "4326",
-        format: "CSV"
+        format: "CSV",
       });
 
       expect(result).toEqual({
@@ -199,22 +203,23 @@ describe("hubRequestDownloadMetadata", () => {
         downloadUrl:
           "https://dev-hub-indexer.s3.amazonaws.com/files/dd4580c810204019a7b8eb3e0b329dd6/0/full/4326/dd4580c810204019a7b8eb3e0b329dd6_0_full_4326.csv",
         contentLength: 1391454,
-        cacheTime: 13121
+        cacheTime: 13121,
       });
     } catch (err) {
-      expect(err).toEqual(undefined);
+      const error = err as { message?: string; status?: number; url?: string };
+      expect(error).toEqual(undefined);
     } finally {
       done();
     }
   });
 
-  it("handle downloaded result with host including trailing slash", async done => {
+  it("handle downloaded result with host including trailing slash", async (done) => {
     try {
       fetchMock.mock(
         "http://hub.com/api/v3/datasets/abcdef0123456789abcdef0123456789_0/downloads?spatialRefId=4326&formats=csv",
         {
           status: 200,
-          body: apiResponsefixture
+          body: apiResponsefixture,
         }
       );
 
@@ -222,7 +227,7 @@ describe("hubRequestDownloadMetadata", () => {
         host: "http://hub.com/",
         datasetId: "abcdef0123456789abcdef0123456789_0",
         spatialRefId: "4326",
-        format: "CSV"
+        format: "CSV",
       });
 
       expect(result).toEqual({
@@ -236,22 +241,23 @@ describe("hubRequestDownloadMetadata", () => {
         downloadUrl:
           "https://dev-hub-indexer.s3.amazonaws.com/files/dd4580c810204019a7b8eb3e0b329dd6/0/full/4326/dd4580c810204019a7b8eb3e0b329dd6_0_full_4326.csv",
         contentLength: 1391454,
-        cacheTime: 13121
+        cacheTime: 13121,
       });
     } catch (err) {
-      expect(err).toEqual(undefined);
+      const error = err as { message?: string; status?: number; url?: string };
+      expect(error).toEqual(undefined);
     } finally {
       done();
     }
   });
 
-  it("handle downloaded result with geometry filter", async done => {
+  it("handle downloaded result with geometry filter", async (done) => {
     try {
       fetchMock.mock(
         "http://hub.com/api/v3/datasets/abcdef0123456789abcdef0123456789_0/downloads?spatialRefId=4326&formats=csv&geometry=%22%7B%5C%22xmin%5C%22%3A0%2C%5C%22xmax%5C%22%3A10%2C%5C%22ymin%5C%22%3A0%2C%5C%22ymax%5C%22%3A10%2C%5C%22spatialReference%5C%22%3A%7B%5C%22wkid%5C%22%3A4326%7D%7D%22",
         {
           status: 200,
-          body: apiResponsefixture
+          body: apiResponsefixture,
         }
       );
 
@@ -266,9 +272,9 @@ describe("hubRequestDownloadMetadata", () => {
           ymin: 0,
           ymax: 10,
           spatialReference: {
-            wkid: 4326
-          }
-        })
+            wkid: 4326,
+          },
+        }),
       });
 
       expect(result).toEqual({
@@ -282,10 +288,11 @@ describe("hubRequestDownloadMetadata", () => {
         downloadUrl:
           "https://dev-hub-indexer.s3.amazonaws.com/files/dd4580c810204019a7b8eb3e0b329dd6/0/full/4326/dd4580c810204019a7b8eb3e0b329dd6_0_full_4326.csv",
         contentLength: 1391454,
-        cacheTime: 13121
+        cacheTime: 13121,
       });
     } catch (err) {
-      expect(err).toEqual(undefined);
+      const error = err as { message?: string; status?: number; url?: string };
+      expect(error).toEqual(undefined);
     } finally {
       done();
     }

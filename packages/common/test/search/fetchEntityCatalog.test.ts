@@ -30,8 +30,9 @@ describe("fetchEntityCatalog:", () => {
     try {
       await fetchEntityCatalog("not a valid identifier", context);
     } catch (err) {
-      expect(err.name).toBe("HubError");
-      expect(err.message).toBe("Identifier must be a url, item or event id");
+      const error = err as { name?: string; message?: string };
+      expect(error.name).toBe("HubError");
+      expect(error.message).toBe("Identifier must be a url, item or event id");
     }
   });
 

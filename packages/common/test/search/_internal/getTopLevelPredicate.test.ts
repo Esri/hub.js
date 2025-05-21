@@ -28,7 +28,7 @@ describe("getTopLevelPredicate |", () => {
       getTopLevelPredicate("bbox", filters);
       expect(true).toBe(false);
     } catch (err) {
-      expect(err.message).toEqual(
+      expect((err as Error).message).toEqual(
         "Only 1 IFilter can have a 'bbox' predicate but 2 were detected"
       );
     }
@@ -45,7 +45,7 @@ describe("getTopLevelPredicate |", () => {
       getTopLevelPredicate("bbox", filters);
       expect(true).toBe(false);
     } catch (err) {
-      expect(err.message).toEqual(
+      expect((err as Error).message).toEqual(
         "Only 1 'bbox' predicate is allowed but 2 were detected"
       );
     }
@@ -63,7 +63,7 @@ describe("getTopLevelPredicate |", () => {
       getTopLevelPredicate("bbox", filters);
       expect(true).toBe(false);
     } catch (err) {
-      expect(err.message).toEqual(
+      expect((err as Error).message).toEqual(
         "'bbox' predicates cannot be OR'd to other predicates"
       );
     }
@@ -80,7 +80,7 @@ describe("getTopLevelPredicate |", () => {
       getTopLevelPredicate("bbox", filters);
       expect(true).toBe(false);
     } catch (err) {
-      expect(err.message).toEqual(
+      expect((err as Error).message).toEqual(
         "'bbox' predicate must be a string or boolean primitive. string[] and IMatchOptions are not allowed."
       );
     }
@@ -103,7 +103,7 @@ describe("getTopLevelPredicate |", () => {
       getTopLevelPredicate("bbox", filters);
       expect(true).toBe(false);
     } catch (err) {
-      expect(err.message).toEqual(
+      expect((err as Error).message).toEqual(
         "'bbox' predicate must be a string or boolean primitive. string[] and IMatchOptions are not allowed."
       );
     }

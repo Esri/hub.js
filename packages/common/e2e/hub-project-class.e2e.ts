@@ -117,7 +117,8 @@ describe("HubProject Class", () => {
     try {
       await HubProject.fetch(id, ctxMgr.context);
     } catch (ex) {
-      expect(ex.message).toBe("Project not found.");
+      const err = ex as Error;
+      expect(err.message).toBe("Project not found.");
     }
   });
   it("add remove clear catalogs", async () => {
@@ -226,7 +227,8 @@ describe("HubProject Class", () => {
     try {
       await HubProject.fetch(id, ctxMgr.context);
     } catch (ex) {
-      expect(ex.message).toBe("Project not found.");
+      const err = ex as Error;
+      expect(err.message).toBe("Project not found.");
     }
   });
   it("ensure unique slug", async () => {
@@ -269,7 +271,8 @@ describe("HubProject Class", () => {
     try {
       await treesProject.save();
     } catch (ex) {
-      expect(ex.message).toBe("HubProject is already destroyed.");
+      const err = ex as Error;
+      expect(err.message).toBe("HubProject is already destroyed.");
     }
   });
   it("catalog manipulation", async () => {

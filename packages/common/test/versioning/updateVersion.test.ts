@@ -120,7 +120,7 @@ describe("updateVersion", () => {
       await updateVersion(model, version, requestOpts);
       fail("should reject");
     } catch (err) {
-      expect(err.message).toBe(
+      expect((err as Error).message).toBe(
         "Version def456 is stale. Use force to overwrite."
       );
     }
