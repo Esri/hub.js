@@ -24,10 +24,13 @@ export const buildUiSchema = async (
             // there are schema rules that use this so it must be present or they break, so we hide it when its value is false which is always the case for this uiSchema
             scope: "/properties/isSharedUpdate",
             type: "Control",
+            options: {
+              clearOnHidden: false,
+            },
             rules: [
               {
-                effect: UiSchemaRuleEffects.SHOW,
-                conditions: [false],
+                effect: UiSchemaRuleEffects.HIDE,
+                conditions: [true],
               },
               // {
               //   effect: UiSchemaRuleEffects.DISABLE,
