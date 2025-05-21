@@ -3,8 +3,12 @@ import {
   IPipeable,
 } from "../../src/utils/create-operation-pipeline";
 import OperationStack from "../../src/OperationStack";
-import { IHubRequestOptions } from "../../src/hub-types";
+import {
+  IHubRequestOptions,
+  ISerializedOperationStack,
+} from "../../src/hub-types";
 import OperationError from "../../src/OperationError";
+import { getProp } from "../../src";
 // Test Fakes
 interface IFakeItem {
   id: string;
@@ -185,13 +189,15 @@ describe("createOperationPipeline:: ", () => {
       const error = err as {
         name?: string;
         message?: string;
-        operationStack?: OperationStack;
+        operationStack?: ISerializedOperationStack;
       };
       expect(error.name).toBe(
         "OperationError",
         "Should reject with an OperationError"
       );
-      expect(error.operationStack.getOperations().length).toBe(3);
+
+      const ops = getProp(error, "operationStack.operations") || [];
+      expect(ops.length).toBe(3);
       expect(error.message).toContain("Operation timeStampName");
       expect(error.message).toContain("Operation addCreatedAt");
       expect(error.message).toContain("Operation addOwnerThrows");
