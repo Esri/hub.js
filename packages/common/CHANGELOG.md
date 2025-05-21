@@ -1,3 +1,10 @@
+## @esri/hub-common [17.13.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.13.1...@esri/hub-common@17.13.2) (2025-05-21)
+
+
+### Bug Fixes
+
+* **hub-common:** gates user workspace events pane ([#1905](https://github.com/Esri/hub.js/issues/1905)) ([fdeaa7b](https://github.com/Esri/hub.js/commit/fdeaa7be888bbdca1eab2c77fa6990da87c4a8fa))
+
 ## @esri/hub-common [17.13.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.13.0...@esri/hub-common@17.13.1) (2025-05-19)
 
 
