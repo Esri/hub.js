@@ -3380,7 +3380,7 @@ describe("portalRequestDownloadMetadata", () => {
       }
     });
 
-    fit("has lastEditDate within last 10 minutes, cached, stale, targets enterprise", async (done) => {
+    it("has lastEditDate within last 10 minutes, cached, stale, targets enterprise", async (done) => {
       const nineMinutesAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
       try {
         const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
