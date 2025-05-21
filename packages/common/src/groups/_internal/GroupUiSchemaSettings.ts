@@ -26,10 +26,7 @@ export const buildUiSchema = async (
             type: "Control",
             rule: {
               effect: UiSchemaRuleEffects.HIDE,
-              condition: {
-                scope: "/properties/isSharedUpdate",
-                schema: { const: false },
-              },
+              conditions: [true],
             },
           },
           {
