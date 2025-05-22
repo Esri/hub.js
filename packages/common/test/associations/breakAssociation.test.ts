@@ -71,10 +71,9 @@ describe("breakAssociation", () => {
         session: {},
       } as ArcGISContext);
     } catch (err) {
-      expect(err).toEqual(
-        new Error(
-          "breakAssociation: there was an error unsharing child-00a from group-00a: unshare error"
-        )
+      const error = err as Error;
+      expect(error.message).toBe(
+        "breakAssociation: there was an error unsharing child-00a from group-00a: unshare error"
       );
     }
   });

@@ -86,7 +86,7 @@ export const categories: { [key: string]: string[] } = {
  * Is the item type downloadable in the Hub app
  * @param item ArcGIS item with type and type keywords
  */
-export function isDownloadable(item: IItem) {
+export function isDownloadable(item: IItem): boolean {
   return (
     downloadableTypes.indexOf(item.type) !== -1 ||
     (item.typeKeywords &&

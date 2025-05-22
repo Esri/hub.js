@@ -110,7 +110,7 @@ export class HubContent
    * @returns
    */
   async toEditor(
-    editorContext: IEntityEditorContext = {},
+    _editorContext: IEntityEditorContext = {},
     include: string[] = []
   ): Promise<IHubContentEditor> {
     // 1. optionally enrich entity and cast to editor
@@ -143,10 +143,11 @@ export class HubContent
     // Setting the thumbnailCache will ensure that
     // the thumbnail is updated on next save
     if (editor._thumbnail) {
-      if (editor._thumbnail.blob) {
+      const thumb = editor._thumbnail as { blob?: Blob; fileName?: string };
+      if (thumb.blob) {
         this.thumbnailCache = {
-          file: editor._thumbnail.blob,
-          filename: editor._thumbnail.fileName,
+          file: thumb.blob,
+          filename: thumb.fileName,
           clear: false,
         };
       } else {
@@ -163,7 +164,8 @@ export class HubContent
     const entity = editorToContent(editor, this.context.portal);
 
     // copy the location extent up one level
-    entity.extent = editor.location?.extent;
+    entity.extent =
+      (editor as { location?: { extent?: number[][] } }).location?.extent ?? [];
 
     // create it if it does not yet exist...
     if (isCreate) {
@@ -178,7 +180,7 @@ export class HubContent
   }
 
   // TODO: move this to HubItemEntity
-  private _checkDestroyed() {
+  private _checkDestroyed(): void {
     if (this.isDestroyed) {
       throw new Error("HubContent is already destroyed.");
     }

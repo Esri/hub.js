@@ -41,6 +41,7 @@ export class HubGroup
   protected context: IArcGISContext;
   protected entity: IHubGroup;
   protected isDestroyed = false;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   protected thumbnailCache: { file?: any; filename?: string; clear?: boolean } =
     null;
 
@@ -99,7 +100,7 @@ export class HubGroup
   static async create(
     partialGroup: Partial<IHubGroup>,
     context: IArcGISContext,
-    save: boolean = false
+    save = false
   ): Promise<HubGroup> {
     const pojo = this.applyDefaults(partialGroup);
     // return an instance of HubGroup
@@ -263,7 +264,7 @@ export class HubGroup
    * Return the group as an editor object
    */
   async toEditor(
-    editorContext: IEntityEditorContext = {},
+    _editorContext: IEntityEditorContext = {},
     include: string[] = []
   ): Promise<IHubGroupEditor> {
     // 1. optionally enrich entity and cast to editor
@@ -290,10 +291,11 @@ export class HubGroup
     // Setting the thumbnailCache will ensure that
     // the thumbnail is updated on next save
     if (editor._thumbnail) {
-      if (editor._thumbnail.blob) {
+      const thumbnail = editor._thumbnail as { blob?: Blob; fileName?: string };
+      if (thumbnail.blob) {
         this.thumbnailCache = {
-          file: editor._thumbnail.blob,
-          filename: editor._thumbnail.fileName,
+          file: thumbnail.blob,
+          filename: thumbnail.fileName,
           clear: false,
         };
       } else {

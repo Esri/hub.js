@@ -100,7 +100,7 @@ export class HubProject
   static async create(
     partialProject: Partial<IHubProject>,
     context: IArcGISContext,
-    save: boolean = false
+    save = false
   ): Promise<HubProject> {
     const pojo = this.applyDefaults(partialProject, context);
     // return an instance of HubProject
@@ -150,7 +150,7 @@ export class HubProject
   ): IHubProject {
     // ensure we have the orgUrlKey
     if (!partialProject.orgUrlKey) {
-      partialProject.orgUrlKey = context.portal.urlKey;
+      partialProject.orgUrlKey = context.portal.urlKey as string;
     }
     // extend the partial over the defaults
     const pojo = { ...DEFAULT_PROJECT, ...partialProject } as IHubProject;
@@ -204,12 +204,16 @@ export class HubProject
     // 3. handle metrics
     const metrics = getEntityMetrics(this.entity);
     const metric = metrics.find((m) => m.id === editorContext.metricId);
-    const displays = getWithDefault(this.entity, "view.metricDisplays", []);
+    const displays = getWithDefault(
+      this.entity,
+      "view.metricDisplays",
+      []
+    ) as IMetricDisplayConfig[];
     const displayConfig =
       displays.find(
         (display: IMetricDisplayConfig) =>
           display.metricId === editorContext.metricId
-      ) || {};
+      ) || ({} as IMetricDisplayConfig);
     editor._metric = metricToEditor(metric, displayConfig);
 
     // 4. slug life
@@ -225,12 +229,15 @@ export class HubProject
    */
   async fromEditor(
     editor: IHubProjectEditor,
-    editorContext?: IEntityEditorContext
+    _editorContext?: IEntityEditorContext
   ): Promise<IHubProject> {
     // 1. extract the ephemeral props we graft onto the editor
     // note: they will be deleted in the editorToProject function
-    const thumbnail = editor._thumbnail;
-    const featuredImage = editor.view.featuredImage;
+    const thumbnail = editor._thumbnail as { blob?: Blob; fileName?: string };
+    const featuredImage = editor.view.featuredImage as {
+      blob?: Blob;
+      fileName?: string;
+    };
     const autoShareGroups = editor._groups || [];
 
     // 2. convert the editor values back to a project entity

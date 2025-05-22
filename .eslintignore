@@ -21,3 +21,4 @@ templates/*
 # other tooling
 scripts
 support
+*/e2e/*

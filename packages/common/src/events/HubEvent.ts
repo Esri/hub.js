@@ -63,7 +63,7 @@ export class HubEvent
   ): IHubEvent {
     // ensure we have the orgUrlKey
     if (!partialEvent.orgUrlKey) {
-      partialEvent.orgUrlKey = context.portal?.urlKey;
+      partialEvent.orgUrlKey = context.portal?.urlKey as string;
     }
     // extend the partial over the defaults
     const pojo = {
@@ -132,11 +132,11 @@ export class HubEvent
         "Cannot share event with group when no user is logged in."
       );
     }
-    this.entity = (await shareEventWithGroups(
+    this.entity = await shareEventWithGroups(
       [groupId],
       this.entity,
       this.context
-    )) as IHubEvent;
+    );
   }
 
   /**
@@ -144,11 +144,11 @@ export class HubEvent
    * @param groupIds The IDs of the groups to share the Event to
    */
   async shareWithGroups(groupIds: string[]): Promise<void> {
-    this.entity = (await shareEventWithGroups(
+    this.entity = await shareEventWithGroups(
       groupIds,
       this.entity,
       this.context
-    )) as IHubEvent;
+    );
   }
 
   /**
@@ -156,11 +156,11 @@ export class HubEvent
    * @param groupId The ID of the group to unshar ethe Event with
    */
   async unshareWithGroup(groupId: string): Promise<void> {
-    this.entity = (await unshareEventWithGroups(
+    this.entity = await unshareEventWithGroups(
       [groupId],
       this.entity,
       this.context
-    )) as IHubEvent;
+    );
   }
 
   /**
@@ -168,11 +168,11 @@ export class HubEvent
    * @param groupIds The IDs of the groups to unshare the Event with
    */
   async unshareWithGroups(groupIds: string[]): Promise<void> {
-    this.entity = (await unshareEventWithGroups(
+    this.entity = await unshareEventWithGroups(
       groupIds,
       this.entity,
       this.context
-    )) as IHubEvent;
+    );
   }
 
   /**
@@ -218,11 +218,11 @@ export class HubEvent
    * @returns Promise<IHubEventEditor>
    */
   async toEditor(
-    editorContext: IEntityEditorContext = {},
-    include: string[] = []
+    _editorContext: IEntityEditorContext = {},
+    _include: string[] = []
   ): Promise<IHubEventEditor> {
     const editor = cloneObject(this.entity) as IHubEventEditor;
-    return editor;
+    return Promise.resolve(editor);
   }
 
   /**

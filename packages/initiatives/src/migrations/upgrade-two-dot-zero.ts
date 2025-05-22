@@ -1,3 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// Migrations are by definition not type safe
+
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 import { getProp, cloneObject } from "@esri/hub-common";
@@ -7,7 +16,7 @@ import { IInitiativeModel } from "@esri/hub-common";
  * Given an object, conduct checks to see if it is an indicator
  * @protected
  */
-export const isIndicator = function(obj: any) {
+export const isIndicator = function (obj: any): boolean {
   let result = false;
   if (Array.isArray(obj.fields) && obj.fields.length > 0) {
     result = true;
@@ -19,13 +28,13 @@ export const isIndicator = function(obj: any) {
  * Convert the CAS formatted "field" into the new schema
  * @protected
  */
-export const convertIndicatorField = function(field: any) {
+export const convertIndicatorField = function (field: any) {
   return {
     id: field.fieldName,
     name: field.label,
     optional: field.optional || false,
     description: field.tooltip,
-    supportedTypes: [...field.supportedTypes]
+    supportedTypes: [...field.supportedTypes],
   };
 };
 
@@ -33,7 +42,9 @@ export const convertIndicatorField = function(field: any) {
  * Convert a CAS formatted indicator to the .definition in the new schama
  * @protected
  */
-export const convertIndicatorToDefinition = function(ind: any) {
+export const convertIndicatorToDefinition = function (
+  ind: any
+): Record<string, any> {
   const def = {
     id: ind.fieldName,
     type: "Data",
@@ -43,8 +54,8 @@ export const convertIndicatorToDefinition = function(ind: any) {
       description: ind.label || ind.fieldName,
       supportedTypes: [...ind.layerOptions.supportedTypes],
       geometryTypes: [...ind.layerOptions.geometryTypes],
-      fields: ind.fields.map(convertIndicatorField)
-    }
+      fields: ind.fields.map(convertIndicatorField),
+    },
   };
   return def;
 };
@@ -69,7 +80,7 @@ export function convertIndicatorsToDefinitions(indicatorsHash: any) {
  * and return an array of cloned objects
  * @protected
  */
-export const extractIndicators = function(values: any) {
+export const extractIndicators = function (values: any) {
   return Object.keys(values).reduce((acc, prop) => {
     const obj = values[prop];
     if (isIndicator(obj)) {
@@ -87,12 +98,12 @@ export const extractIndicators = function(values: any) {
  * the new format is flattened
  * @protected
  */
-export const flattenField = function(field: any) {
+export const flattenField = function (field: any) {
   return {
     id: field.id,
     name: field.field.name,
     alias: field.field.alias,
-    type: field.field.type
+    type: field.field.type,
   };
 };
 
@@ -101,14 +112,14 @@ export const flattenField = function(field: any) {
  * the properties to create the .source hash
  * @protected
  */
-export const convertIndicatorValueToSource = function(indicator: any) {
+export const convertIndicatorValueToSource = function (indicator: any) {
   return {
     type: "Feature Layer",
     url: indicator.url,
     itemId: indicator.itemId,
     layerId: indicator.layerId,
     name: indicator.name || indicator.id,
-    mappings: indicator.fields.map(flattenField)
+    mappings: indicator.fields.map(flattenField),
   };
 };
 
@@ -116,15 +127,15 @@ export const convertIndicatorValueToSource = function(indicator: any) {
  * Convert the "source" information
  * @protected
  */
-export const convertIndicator = function(indicator: any) {
+export const convertIndicator = function (indicator: any) {
   const result = {
     id: indicator.id,
     type: "Data",
     name: indicator.name || indicator.id,
     definition: {
-      description: indicator.name || indicator.id
+      description: indicator.name || indicator.id,
     },
-    source: convertIndicatorValueToSource(indicator)
+    source: convertIndicatorValueToSource(indicator),
   };
   return result;
 };
@@ -134,7 +145,7 @@ export const convertIndicator = function(indicator: any) {
  * convert them, and return the indicators hash
  * @protected
  */
-export const convertInitiativeIndicators = function(values: any) {
+export const convertInitiativeIndicators = function (values: any) {
   return extractIndicators(values).map(convertIndicator);
 };
 
@@ -143,7 +154,7 @@ export const convertInitiativeIndicators = function(values: any) {
  * updated schema
  * @protected
  */
-export const convertStep = function(step: any) {
+export const convertStep = function (step: any) {
   // can't use object spread b/c there are props we don't want to carry forward
   const templates = step.templates || [];
   const items = step.items || [];
@@ -152,7 +163,7 @@ export const convertStep = function(step: any) {
     description: step.description,
     id: step.id, // needed so we can later flatten out of the array into an object graph. This will be the key in the graph
     templateIds: templates.map(byId),
-    itemIds: items.map(byId)
+    itemIds: items.map(byId),
   };
 };
 
@@ -162,9 +173,9 @@ export const convertStep = function(step: any) {
  * and items arrays to just ids
  * @protected
  */
-export const convertSteps = function(steps: any, values: any) {
+export const convertSteps = function (steps: any, values: any) {
   if (steps && Array.isArray(steps)) {
-    return steps.map(stepName => {
+    return steps.map((stepName) => {
       return convertStep(values[stepName]);
     });
   } else {
@@ -193,11 +204,11 @@ export function byId(entry: any) {
  */
 export function upgradeToTwoDotZero(
   model: IInitiativeModel,
-  portalUrl?: string
+  _portalUrl?: string
 ): IInitiativeModel {
   const curVersion = getProp(model, "item.properties.schemaVersion");
   if (curVersion < 2) {
-    const clone = cloneObject(model) as IInitiativeModel;
+    const clone = cloneObject(model);
     // store the schemaVersion
     clone.item.properties.schemaVersion = 2.0;
     // convert the values and values.steps into data.steps

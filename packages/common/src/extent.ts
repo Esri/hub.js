@@ -15,7 +15,7 @@ import { Polygon } from "geojson";
  * @param bBox bounding box coordinate array
  * @returns extent object
  */
-export const bBoxToExtent = (bBox: BBox) => {
+export const bBoxToExtent = (bBox: BBox): IExtent => {
   const [[xmin, ymin], [xmax, ymax]] = bBox;
   return createExtent(xmin, ymin, xmax, ymax);
 };
@@ -35,7 +35,7 @@ export function createExtent(
   ymin: number,
   xmax: number,
   ymax: number,
-  wkid: number = 4326
+  wkid = 4326
 ): IExtent {
   return {
     xmin,
@@ -78,8 +78,11 @@ export function orgExtent(
   hubRequestOptions: IHubRequestOptions
 ): Promise<IExtent> {
   const portal = hubRequestOptions.portalSelf;
-  const organizationExtent = portal.defaultExtent;
-  const geometryServiceUrl = getProp(portal, "helperServices.geometry.url");
+  const organizationExtent = portal.defaultExtent as IExtent;
+  const geometryServiceUrl = getProp(
+    portal,
+    "helperServices.geometry.url"
+  ) as string;
   // Define a default global extent object
   if (!geometryServiceUrl) {
     return Promise.resolve(GLOBAL_EXTENT);
@@ -109,7 +112,7 @@ export function orgExtent(
     options.authentication = hubRequestOptions.authentication;
   }
   return request(url, options)
-    .then((response) => {
+    .then((response: { geometries: IExtent[] }) => {
       const geom = response.geometries[0];
       return {
         xmin: geom.xmin,
@@ -121,7 +124,7 @@ export function orgExtent(
         },
       };
     })
-    .catch((ex) => {
+    .catch((_ex) => {
       return GLOBAL_EXTENT;
     });
 }
@@ -149,9 +152,9 @@ export const isBBox = (extent: unknown): boolean => {
   );
 };
 
-function isExtentJSON(extent: any) {
+function isExtentJSON(extent: unknown): boolean {
   return ["xmin", "ymin", "xmax", "ymax"].every(
-    (key) => typeof extent[key] === "number"
+    (key) => typeof (extent as Record<string, unknown>)[key] === "number"
   );
 }
 
@@ -160,7 +163,7 @@ function isExtentJSON(extent: any) {
  * @param  {Object} extent extent in any format
  * @return {Boolean}       indicator
  */
-export function isValidExtent(extent: object) {
+export function isValidExtent(extent: unknown): boolean {
   return !!extent && [isBBox, isExtentJSON].some((test) => test(extent));
 }
 
@@ -209,7 +212,10 @@ export const allCoordinatesPossiblyWGS84 = (
 ): boolean => {
   const flattenCoordinates = [].concat(...bboxOrCoordinates);
   for (let i = 0; i < flattenCoordinates.length; i += 2) {
-    const [lon, lat] = [flattenCoordinates[i], flattenCoordinates[i + 1]];
+    const [lon, lat] = [flattenCoordinates[i], flattenCoordinates[i + 1]] as [
+      number,
+      number
+    ];
     if (lat < -90 || lat > 90 || lon < -180 || lon > 180) {
       return false;
     }

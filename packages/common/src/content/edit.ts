@@ -9,6 +9,7 @@ import {
   IDownloadFormatConfiguration,
   IHubContentEditor,
   IHubEditableContent,
+  IHubLocation,
 } from "../core";
 
 // Note - we separate these imports so we can cleanly spy on things in tests
@@ -143,7 +144,10 @@ export async function updateContent(
   // checks are in place to make sure we don't accidentally save configurations in
   // situations where we shouldn't
   const downloadFlow = getDownloadFlow(content);
-  const updatedFormats = getProp(content, "extendedProps.downloads.formats");
+  const updatedFormats = getProp(
+    content,
+    "extendedProps.downloads.formats"
+  ) as string;
   const isMainEntityExtractDisabled =
     isHostedFeatureServiceMainEntity(content) &&
     downloadFlow !== "createReplica";
@@ -253,7 +257,7 @@ export async function deleteContent(
  */
 export function editorToContent(
   editor: IHubContentEditor,
-  portal: IPortal
+  _portal: IPortal
 ): IHubEditableContent {
   // Clone the editor to prevent mutation
   const clonedEditor = cloneObject(editor);
@@ -270,15 +274,16 @@ export function editorToContent(
     // Convert the download format display objects to the stored format
     const forStorage: IDownloadFormatConfiguration[] =
       editor.downloadFormats.map((format) => {
-        const { label, ...rest } = format;
-        return rest;
+        const noLabel = cloneObject(format);
+        delete noLabel.label;
+        return noLabel;
       });
     downloadConfiguration.formats = forStorage;
     setProp("extendedProps.downloads", downloadConfiguration, content, true);
   }
 
   // copy the location extent up one level
-  content.extent = editor.location?.extent;
+  content.extent = (editor.location as IHubLocation)?.extent || [];
 
   return content;
 }

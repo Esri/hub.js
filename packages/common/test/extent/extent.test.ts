@@ -7,7 +7,7 @@ import type { IExtent } from "@esri/arcgis-rest-feature-service";
 
 describe("isValidExtent", function () {
   it("identifies valid extent coordinate array", function () {
-    const extent: object = [
+    const extent = [
       [-122.68, 45.53],
       [-122.45, 45.6],
     ];
@@ -28,7 +28,7 @@ describe("isValidExtent", function () {
     expect(result).toBeTruthy();
   });
   it("identifies invalid extent", function () {
-    const extent: object = {
+    const extent = {
       str: "I am invalid",
     };
     const result = isValidExtent(extent);

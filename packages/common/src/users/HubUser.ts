@@ -97,7 +97,10 @@ export class HubUser implements IWithEditorBehavior {
     if (
       this.context.isOrgAdmin &&
       this.entity.hubOrgSettings &&
-      this.entity.hubOrgSettings.hasOwnProperty("showInformationalBanner")
+      Object.prototype.hasOwnProperty.call(
+        this.entity.hubOrgSettings,
+        "showInformationalBanner"
+      )
     ) {
       // update the portal settings
       await updatePortalOrgSettings(this.entity.hubOrgSettings, this.context);
@@ -114,6 +117,7 @@ export class HubUser implements IWithEditorBehavior {
    * so this function should not be used as of now.
    * @returns
    */
+  // eslint-disable-next-line @typescript-eslint/require-await
   async delete(): Promise<void> {
     if (this.isDestroyed) {
       throw new Error("HubUser is already destroyed.");
@@ -141,7 +145,7 @@ export class HubUser implements IWithEditorBehavior {
    * @param include
    */
   async toEditor(
-    editorContext: IEntityEditorContext = {},
+    _editorContext: IEntityEditorContext = {},
     include: string[] = []
   ): Promise<IHubUser> {
     // 1. optionally enrich entity and cast to editor
@@ -151,7 +155,7 @@ export class HubUser implements IWithEditorBehavior {
           include,
           this.context.hubRequestOptions
         )) as IHubUser)
-      : (cloneObject(this.entity) as IHubUser);
+      : cloneObject(this.entity);
 
     // 2. Apply transforms to relevant entity values
     // so they can be consumed by editor
@@ -164,7 +168,7 @@ export class HubUser implements IWithEditorBehavior {
    * @param editor
    */
   async fromEditor(editor: IHubUser): Promise<IHubUser> {
-    const entity = cloneObject(editor) as IHubUser;
+    const entity = cloneObject(editor);
 
     // save user
     this.entity = entity;

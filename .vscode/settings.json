@@ -4,6 +4,7 @@
         "accum",
         "arcgis"
     ],
+    "eslint.validate": ["typescript"],
     "typescript.preferences.importModuleSpecifier": "relative",
     "typescript.updateImportsOnFileMove.enabled": "always"
 }

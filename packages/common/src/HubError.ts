@@ -18,7 +18,7 @@ export default class HubError extends OperationError {
   constructor(operation: string, message?: string, rootCause?: Error) {
     message = message || "UNKNOWN_ERROR";
     // if the rootCause has a .rootCause, use that so we don't deeply nest
-    rootCause = getWithDefault(rootCause, "rootCause", rootCause);
+    rootCause = getWithDefault(rootCause, "rootCause", rootCause) as Error;
     /* Skip coverage on super(...) as per: 
        https://github.com/Microsoft/TypeScript/issues/13029
        https://github.com/SitePen/remap-istanbul/issues/106 
@@ -30,6 +30,10 @@ export default class HubError extends OperationError {
     // stack. Note: a new Stack will make it look like the error origninated
     // in the HubError constructor. This is only an issue in tests but
     // it can be confusing to debug
-    this.stack = getWithDefault(rootCause, "stack", new Error().stack);
+    this.stack = getWithDefault(
+      rootCause,
+      "stack",
+      new Error().stack
+    ) as string;
   }
 }

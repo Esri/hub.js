@@ -108,9 +108,9 @@ export default class OperationStack {
   start(type: string, params?: Record<string, unknown>): string {
     const op = {
       type,
-      id: getWithDefault(params, "id", createId(`${type}_`)),
-      inputs: getWithDefault(params, "inputs", {}),
-      cleanup: getWithDefault(params, "cleanup", "n/a"),
+      id: getWithDefault(params, "id", createId(`${type}_`)) as string,
+      inputs: getWithDefault(params, "inputs", {}) as Record<string, unknown>,
+      cleanup: getWithDefault(params, "cleanup", "n/a") as unknown,
       startedAt: new Date().getTime(),
       state: "working",
     } as IOperation;

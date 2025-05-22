@@ -1,6 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// This function works on any object, so we need to use any here
 import { _isDate, _isFunction, _isObject, _isRegExp } from ".";
 import { cloneObject } from "../util";
-import { _deepMapValues } from "./_deep-map-values";
 import { getProp } from "./get-prop";
 
 /**

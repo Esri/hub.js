@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
@@ -16,13 +20,13 @@ import { getProp, cloneObject } from "@esri/hub-common";
  */
 export function applyInitialSchema(
   model: IInitiativeModel,
-  portalUrl?: string
+  _portalUrl?: string
 ): IInitiativeModel {
   const curVersion = getProp(model, "item.properties.schemaVersion");
   // if no current version or it's below 1
   if (!curVersion || curVersion < 1) {
     // clone the model because we play by immutable rules
-    const clone = cloneObject(model) as IInitiativeModel;
+    const clone = cloneObject(model);
     // console.debug(`------- CLONE ---------`);
     // console.debug(JSON.stringify(clone, null, 2));
     // console.debug(`------- CLONE ---------`);
@@ -59,9 +63,11 @@ export function applyInitialSchema(
       });
 
       // hoist step names into an array
-      clone.data.values.steps = stepCategory.fields.map((entry: any) => {
-        return entry.fieldName;
-      });
+      clone.data.values.steps = stepCategory.fields.map(
+        (entry: { fieldName: string }) => {
+          return entry.fieldName;
+        }
+      );
 
       // move the label and tooltip to title and description, in the values.<fieldName> prop
       stepCategory.fields.forEach((entry: any) => {

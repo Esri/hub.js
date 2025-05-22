@@ -245,7 +245,7 @@ const site: string[] = ["Hub Site Application", "Site Application"];
  * @returns the Hub collection of a given item type.
  * @private
  */
-export const getCollection = (type?: string) => {
+export const getCollection = (type?: string): string => {
   if (!type) {
     return undefined;
   }
@@ -262,7 +262,9 @@ export const getCollection = (type?: string) => {
  * @returns An array of types, or undefined if collection is not found
  * @private
  */
-export const getCollectionTypes = (collection?: string) => {
+export const getCollectionTypes = (
+  collection?: string
+): string[] | undefined => {
   if (!collection) {
     return undefined;
   }

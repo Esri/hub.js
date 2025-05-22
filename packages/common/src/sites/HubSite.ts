@@ -113,7 +113,7 @@ export class HubSite
   static async create(
     partialSite: Partial<IHubSite>,
     context: IArcGISContext,
-    save: boolean = false
+    save = false
   ): Promise<HubSite> {
     const pojo = this.applyDefaults(partialSite, context);
     // return an instance of HubProject
@@ -410,7 +410,7 @@ export class HubSite
    * @returns
    */
   async toEditor(
-    editorContext: IEntityEditorContext = {},
+    _editorContext: IEntityEditorContext = {},
     include: string[] = []
   ): Promise<IHubSiteEditor> {
     // 1. optionally enrich entity and cast to editor
