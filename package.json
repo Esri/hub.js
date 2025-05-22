@@ -131,6 +131,7 @@
 		"format": "lerna run format",
 		"gen-util": "yo ./scaffolder/index.js",
 		"lint": "eslint --quiet --ext .ts ./packages/*/src/**/*.ts",
+    "lint:warnings": "eslint --ext .ts ./packages/*/src/**/*.ts",
 		"lint:fix": "eslint --quite --ext .ts --fix ./packages/*/src/**/*.ts",
     "lint:generate-baseline": "node ./support/generate-eslint-baseline.js",
 		"tslint:fix": "tslint --project tsconfig.json --fix",
@@ -165,7 +166,7 @@
 	"lint-staged": {
 		"*.ts": [
 			"prettier --write --parser typescript --tab-width 2 --use-tabs false",
-			"tslint --project tsconfig.json --fix",
+			"eslint --quiet --ext .ts ./packages/*/src/**/*.ts",
 			"git add"
 		]
 	},
