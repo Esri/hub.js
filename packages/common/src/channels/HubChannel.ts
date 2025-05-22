@@ -17,7 +17,7 @@ export class HubChannel
 {
   protected context: IArcGISContext;
   protected entity: IHubChannel;
-  protected isDestroyed: boolean = false;
+  protected isDestroyed = false;
 
   constructor(entity: IHubChannel, context: IArcGISContext) {
     this.context = context;
@@ -48,7 +48,7 @@ export class HubChannel
   static async create(
     partialChannel: Partial<IHubChannel>,
     context: IArcGISContext,
-    save: boolean = false
+    save = false
   ): Promise<HubChannel> {
     const pojo = this.applyDefaults(partialChannel, context);
     const instance = HubChannel.fromJson(pojo, context);
@@ -107,7 +107,7 @@ export class HubChannel
    * Can the current user delete the channel?
    * @returns boolean
    */
-  get canDelete() {
+  get canDelete(): boolean {
     return this.entity.canDelete;
   }
 
@@ -115,7 +115,7 @@ export class HubChannel
    * The orgId of the channel
    * @returns the orgId of the channel
    */
-  get orgId() {
+  get orgId(): string {
     return this.entity.orgId;
   }
 
@@ -178,7 +178,7 @@ export class HubChannel
    * @param opts
    * @returns
    */
-  convertToCardModel(opts?: IConvertToCardModelOpts): IHubCardViewModel {
+  convertToCardModel(_opts?: IConvertToCardModelOpts): IHubCardViewModel {
     // TODO
     throw new Error("not implemented");
   }
@@ -204,8 +204,8 @@ export class HubChannel
    * @returns a promise that resolves an IHubChannelEditor object
    */
   async toEditor(
-    editorContext: IEntityEditorContext,
-    include?: string[]
+    _editorContext: IEntityEditorContext,
+    _include?: string[]
   ): Promise<IHubChannelEditor> {
     const { transformEntityToEditor } = await import(
       "./_internal/transformEntityToEditor"
