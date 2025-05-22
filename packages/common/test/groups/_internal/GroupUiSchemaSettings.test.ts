@@ -6,7 +6,7 @@ describe("buildUiSchema: group settings", () => {
   it("returns the full group settings uiSchema", async () => {
     const uiSchema = await buildUiSchema(
       "some.scope",
-      { isSharedUpdate: true } as any,
+      { isSharedUpdate: true, leavingDisallowed: false } as any,
       MOCK_CONTEXT
     );
     expect(uiSchema).toEqual({
@@ -16,17 +16,6 @@ describe("buildUiSchema: group settings", () => {
           type: "Section",
           labelKey: "some.scope.sections.membershipAccess.label",
           elements: [
-            {
-              scope: "/properties/isSharedUpdate",
-              type: "Control",
-              rule: {
-                effect: UiSchemaRuleEffects.HIDE,
-                condition: {
-                  scope: "/properties/isSharedUpdate",
-                  schema: { const: false },
-                },
-              },
-            },
             {
               labelKey: "some.scope.fields.membershipAccess.label",
               scope: "/properties/membershipAccess",
@@ -47,32 +36,17 @@ describe("buildUiSchema: group settings", () => {
                   [
                     {
                       effect: UiSchemaRuleEffects.DISABLE,
-                      conditions: [
-                        {
-                          scope: "/properties/leavingDisallowed",
-                          schema: { const: true },
-                        },
-                      ],
+                      conditions: [false],
                     },
                   ],
                   [
                     {
                       effect: UiSchemaRuleEffects.DISABLE,
-                      conditions: [
-                        {
-                          scope: "/properties/leavingDisallowed",
-                          schema: { const: true },
-                        },
-                      ],
+                      conditions: [false],
                     },
                     {
                       effect: UiSchemaRuleEffects.DISABLE,
-                      conditions: [
-                        {
-                          scope: "/properties/isSharedUpdate",
-                          schema: { const: true },
-                        },
-                      ],
+                      conditions: [true],
                     },
                   ],
                 ],
@@ -80,20 +54,12 @@ describe("buildUiSchema: group settings", () => {
               rules: [
                 {
                   effect: UiSchemaRuleEffects.RESET,
-                  conditions: [
-                    {
-                      scope: "/properties/leavingDisallowed",
-                      schema: { const: true },
-                    },
-                  ],
+                  conditions: [false],
                 },
                 {
                   effect: UiSchemaRuleEffects.RESET,
                   conditions: [
-                    {
-                      scope: "/properties/isSharedUpdate",
-                      schema: { const: true },
-                    },
+                    true,
                     {
                       scope: "/properties/membershipAccess",
                       schema: { const: "anyone" },
