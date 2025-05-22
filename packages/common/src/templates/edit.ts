@@ -94,12 +94,9 @@ export function editorToTemplate(
   const template = cloneObject(editor) as IHubTemplate;
 
   // 2. ensure there's an org url key
-  template.orgUrlKey =
-    typeof editor.orgUrlKey === "string"
-      ? editor.orgUrlKey
-      : typeof portal.urlKey === "string"
-      ? portal.urlKey
-      : "";
+  template.orgUrlKey = (
+    editor.orgUrlKey ? editor.orgUrlKey : portal.urlKey
+  ) as string;
 
   return template;
 }

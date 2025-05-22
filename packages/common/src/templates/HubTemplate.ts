@@ -169,7 +169,7 @@ export class HubTemplate extends HubItemEntity<IHubTemplate> {
       if (thumb.blob) {
         this.thumbnailCache = {
           file: thumb.blob,
-          filename: thumb.filename ?? "thumbnail.png",
+          filename: thumb.filename,
           clear: false,
         };
       } else {

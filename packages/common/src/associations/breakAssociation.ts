@@ -57,11 +57,10 @@ export const breakAssociation = async (
         authentication: context.session,
         owner,
       });
-    } catch (error) {
+    } catch (err) {
+      const error = err as string;
       throw new Error(
-        `breakAssociation: there was an error unsharing ${id} from ${String(
-          associationGroupId
-        )}: ${(error as Error).message}`
+        `breakAssociation: there was an error unsharing ${id} from ${associationGroupId}: ${error}`
       );
     }
   } else {

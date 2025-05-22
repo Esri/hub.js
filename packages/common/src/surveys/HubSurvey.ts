@@ -179,7 +179,7 @@ export class HubSurvey
       if (thumb.blob) {
         this.thumbnailCache = {
           file: thumb.blob,
-          filename: thumb.fileName ?? "thumbnail.png",
+          filename: thumb.fileName,
           clear: false,
         };
       } else {

@@ -60,11 +60,12 @@ export const requestAssociation = async (
         groupId: associationGroupId,
         authentication: context.session,
       });
-    } catch (error) {
+    } catch (err) {
+      const error = err as string;
       throw new Error(
         `requestAssociation: there was an error sharing ${id} to ${String(
           associationGroupId
-        )}: ${(error as Error).message}`
+        )}: ${error}`
       );
     }
   } else {

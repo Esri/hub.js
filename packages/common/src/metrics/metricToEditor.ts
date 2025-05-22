@@ -22,7 +22,7 @@ export function metricToEditor(
     expressionSet,
     fieldType,
     itemId,
-    statistic,
+    // statistic,
     ...config
   } = displayConfig;
   let editor = {
