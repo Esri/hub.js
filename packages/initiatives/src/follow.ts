@@ -1,17 +1,17 @@
 import { request, IRequestOptions } from "@esri/arcgis-rest-request";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import {
   IUser,
   getUserUrl,
   joinGroup,
-  leaveGroup
+  leaveGroup,
 } from "@esri/arcgis-rest-portal";
 import { IInitiativeModel, getProp, unique } from "@esri/hub-common";
 import { getInitiative } from "./get";
 
 export interface IFollowInitiativeOptions extends IRequestOptions {
   initiativeId: string;
-  authentication: UserSession;
+  authentication: ArcGISIdentityManager;
 }
 
 const getUserTag = (initiativeId: string) => `hubInitiativeId|${initiativeId}`;
@@ -21,7 +21,8 @@ const initiativeIdFromUserTag = (tag: string) =>
 const initiativeIdFromGroupTag = (tag: string) =>
   tag.replace(/^hubInitiativeFollowers\|/, "");
 
-const getUpdateUrl = (session: UserSession) => `${getUserUrl(session)}/update`;
+const getUpdateUrl = (session: ArcGISIdentityManager) =>
+  `${getUserUrl(session)}/update`;
 
 const currentlyFollowedInitiativesByUserTag = (user: IUser): string[] =>
   user.tags.map(initiativeIdFromUserTag);
@@ -30,9 +31,9 @@ const currentlyFollowedInitiativesByGroupMembership = (
   user: IUser
 ): string[] => {
   return user.groups
-    .map(group => group.tags)
+    .map((group) => group.tags)
     .reduce((acc, item) => acc.concat(item), [])
-    .filter(tags => tags.indexOf("hubInitiativeFollowers|") === 0)
+    .filter((tags) => tags.indexOf("hubInitiativeFollowers|") === 0)
     .map(initiativeIdFromGroupTag);
 };
 
@@ -62,9 +63,9 @@ export function followInitiative(
 ): Promise<{ success: boolean; username: string }> {
   // we dont call getUser() because the tags are cached and will be mutating
   return request(getUserUrl(requestOptions.authentication), {
-    authentication: requestOptions.authentication
+    authentication: requestOptions.authentication,
   })
-    .then(user => {
+    .then((user) => {
       // don't update if already following
       if (isUserFollowing(user, requestOptions.initiativeId)) {
         return Promise.reject(`user is already following this initiative.`);
@@ -72,16 +73,16 @@ export function followInitiative(
       // if not already following, pass the user on
       return user;
     })
-    .then(user => {
+    .then((user) => {
       return getInitiative(requestOptions.initiativeId, requestOptions).then(
         (initiative: IInitiativeModel) => ({
           user,
           initiative,
-          hasFollowersGroup: false
+          hasFollowersGroup: false,
         })
       );
     })
-    .then(obj => {
+    .then((obj) => {
       // if the initiative has a followersGroupId
       const groupId = getProp(
         obj,
@@ -91,15 +92,15 @@ export function followInitiative(
         // attempt to join it
         return joinGroup({
           id: groupId,
-          authentication: requestOptions.authentication
-        }).then(groupJoinResponse => {
+          authentication: requestOptions.authentication,
+        }).then((groupJoinResponse) => {
           obj.hasFollowersGroup = groupJoinResponse.success;
           return obj;
         });
       }
       return obj;
     })
-    .then(obj => {
+    .then((obj) => {
       if (!obj.hasFollowersGroup) {
         // else add the tag to the user
         const tag = getUserTag(requestOptions.initiativeId);
@@ -108,7 +109,7 @@ export function followInitiative(
 
         return request(getUpdateUrl(requestOptions.authentication), {
           params: { tags },
-          authentication: requestOptions.authentication
+          authentication: requestOptions.authentication,
         });
       }
       // the initiative has a followers group and we successfully joined it
@@ -133,9 +134,9 @@ export function unfollowInitiative(
 ): Promise<{ success: boolean; username: string }> {
   // we dont call getUser() because the tags are cached and will be mutating
   return request(getUserUrl(requestOptions.authentication), {
-    authentication: requestOptions.authentication
+    authentication: requestOptions.authentication,
   })
-    .then(user => {
+    .then((user) => {
       // don't update if not already following
       if (!isUserFollowing(user, requestOptions.initiativeId)) {
         return Promise.reject(`user is not following this initiative.`);
@@ -143,7 +144,7 @@ export function unfollowInitiative(
       // if already following, pass the user on
       return user;
     })
-    .then(user => {
+    .then((user) => {
       const tag = getUserTag(requestOptions.initiativeId);
       const tags = JSON.parse(JSON.stringify(user.tags));
       if (tags.indexOf(tag) > -1) {
@@ -158,17 +159,17 @@ export function unfollowInitiative(
 
         return request(getUpdateUrl(requestOptions.authentication), {
           params: { tags },
-          authentication: requestOptions.authentication
-        }).then(_ => user);
+          authentication: requestOptions.authentication,
+        }).then((_) => user);
       }
       return user;
     })
-    .then(user => {
+    .then((user) => {
       return getInitiative(requestOptions.initiativeId, requestOptions).then(
         (initiative: IInitiativeModel) => ({ user, initiative })
       );
     })
-    .then(obj => {
+    .then((obj) => {
       // if there is an initiative followers group and the user is a member, attempt to leave it
       const groupId = getProp(
         obj,
@@ -182,8 +183,8 @@ export function unfollowInitiative(
       ) {
         return leaveGroup({
           id: groupId,
-          authentication: requestOptions.authentication
-        }).then(groupLeaveResponse => {
+          authentication: requestOptions.authentication,
+        }).then((groupLeaveResponse) => {
           return { success: true, username: obj.user.username };
         });
       }

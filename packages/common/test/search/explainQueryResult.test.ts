@@ -13,7 +13,8 @@ describe("explainQueryResult:", () => {
     try {
       await explainQueryResult(result, query, requestOptions);
     } catch (err) {
-      expect(err.message).toContain(
+      const error = err as { message?: string };
+      expect(error.message).toContain(
         'Only queries with targetEntity: "item" are supported'
       );
     }

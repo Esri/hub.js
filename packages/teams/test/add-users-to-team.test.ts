@@ -1,9 +1,9 @@
-import { IUser } from "@esri/arcgis-rest-auth";
+import type { IUser } from "@esri/arcgis-rest-portal";
 import * as commonModule from "@esri/hub-common";
 import {
   IConsolidatedResult,
   IEmail,
-  IHubRequestOptions
+  IHubRequestOptions,
 } from "@esri/hub-common";
 
 import { addUsersToTeam } from "../src/add-users-to-team";
@@ -15,23 +15,23 @@ describe("addUsersToTeam", () => {
     const primaryRO: IHubRequestOptions = {
       isPortal: false,
       hubApiUrl: "a-url",
-      authentication: null
+      authentication: null,
     };
     const email: IEmail = {
       subject: "this is a test",
-      body: "body"
+      body: "body",
     };
     const secondaryRO: IHubRequestOptions = {
       isPortal: false,
       hubApiUrl: "another-url",
-      authentication: null
+      authentication: null,
     };
 
     const expected: IConsolidatedResult = {
       success: true,
       autoAdd: {
-        success: true
-      }
+        success: true,
+      },
     };
 
     const groupSpy = spyOn(commonModule, "addUsersToGroup").and.callFake(() =>

@@ -17,11 +17,7 @@ describe("remove-users-from-team", function () {
 
   it("Properly iterates over the groups passed in", async () => {
     removeUsersFromTeamsSpy.and.callFake(() => Promise.resolve());
-    const result = await removeUsersFromTeams(
-      ["1234", "4567", "7891"],
-      ["bob"],
-      MOCK_AUTH
-    );
+    await removeUsersFromTeams(["1234", "4567", "7891"], ["bob"], MOCK_AUTH);
     expect(removeUsersFromTeamsSpy).toHaveBeenCalled();
     expect(removeUsersFromTeamsSpy.calls.count()).toEqual(3);
     expect(removeUsersFromTeamsSpy.calls.argsFor(0)[0]).toEqual("1234");

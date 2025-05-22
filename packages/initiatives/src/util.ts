@@ -1,10 +1,10 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import {
   addItemResource,
-  IItemResourceResponse
+  IItemResourceResponse,
 } from "@esri/arcgis-rest-portal";
 import { getPortalApiUrl } from "@esri/hub-common";
 /**
@@ -23,7 +23,7 @@ export function copyImageResources(
   targetItemId: string,
   owner: string,
   assets: string[],
-  requestOptions: IRequestOptions
+  requestOptions: IUserRequestOptions
 ): Promise<boolean> {
   const itemResourceUrl = `${getPortalApiUrl(
     requestOptions
@@ -31,8 +31,8 @@ export function copyImageResources(
   /* istanbul ignore next blob responses are difficult to make cross platform we will just have to trust the isomorphic fetch will do its job */
   return requestOptions.authentication
     .getToken(itemResourceUrl)
-    .then(token => {
-      const assetPromises = assets.map(assetName => {
+    .then((token) => {
+      const assetPromises = assets.map((assetName) => {
         const sourceUrl = `${itemResourceUrl}/${assetName}?token=${token}`;
         return addImageAsResource(
           targetItemId,
@@ -112,7 +112,7 @@ export function addImageAsResource(
   const fetchOptions: RequestInit = {
     method: "GET",
     // ensures behavior mimics XMLHttpRequest. needed to support sending IWA cookies
-    credentials: "same-origin"
+    credentials: "same-origin",
   };
   return (
     // -------------------------------------------------
@@ -120,16 +120,16 @@ export function addImageAsResource(
     // -------------------------------------------------
 
     fetch(url, fetchOptions)
-      .then(x => {
+      .then((x) => {
         return x.blob();
       })
-      .then(blob => {
+      .then((blob) => {
         return addItemResource({
           id,
           owner,
           name,
           resource: blob,
-          authentication: requestOptions.authentication
+          authentication: requestOptions.authentication,
         }).then((response: IItemResourceResponse) => {
           return response.success;
         });

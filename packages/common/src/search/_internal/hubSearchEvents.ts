@@ -2,8 +2,11 @@ import { IQuery } from "../types/IHubCatalog";
 import { IHubSearchOptions } from "../types/IHubSearchOptions";
 import { IHubSearchResponse } from "../types/IHubSearchResponse";
 import { IHubSearchResult } from "../types/IHubSearchResult";
-import { getEvents } from "../../events/api/events";
-import { GetEventsParams } from "../../events/api/orval/api/orval-events";
+import { searchEvents } from "../../events/api/events";
+import {
+  GetEventsInclude,
+  ISearchEvents,
+} from "../../events/api/orval/api/orval-events";
 import { eventToSearchResult } from "./hubEventsHelpers/eventToSearchResult";
 import { processOptions } from "./hubEventsHelpers/processOptions";
 import { processFilters } from "./hubEventsHelpers/processFilters";
@@ -11,22 +14,17 @@ import { processFilters } from "./hubEventsHelpers/processFilters";
 /**
  * Searches for events against the Events 3 API using the given `query` and `options`.
  * Currently supported filters include:
- *   - access: 'public' | 'private' | 'org' | Array<'public' | 'org' | 'access'>;
+ *   - access: 'public' | 'private' | 'org' | Array<'public' | 'org' | 'private'>;
  *   - canEdit: boolean
  *   - entityId: string | string[];
  *   - entityType: string | string[];
  *   - id: string | string[];
- *   - userId: string;
  *   - term: string;
  *   - categories: string | string[];
  *   - tags: string | string[];
- *   - group: string | string[];
- *   - notGroup: string | string[];
- *   - readGroupId: string | string[];
- *   - notReadGroupId: string | string[];
- *   - editGroupId: string | string[];
- *   - notEditGroupId: string | string[];
+ *   - group: string | string[] | { not: string } | { not: string[] };
  *   - attendanceType: 'virtual' | 'in_person' | Array<'virtual' | 'in_person'>;
+ *   - occurrence: 'upcoming' | 'past' | 'inProgress'
  *   - owner: string | string[];
  *   - status: 'planned' | 'canceled' | 'removed' | Array<'planned' | 'canceled' | 'removed'>;
  *   - startDateBefore: string | number;
@@ -36,6 +34,7 @@ import { processFilters } from "./hubEventsHelpers/processFilters";
  *   - endDateBefore: string | number;
  *   - endDateAfter: string | number;
  *   - orgId: string;
+ *   - modified: IDateRange<string | number>;
  * Currently supported sort fields include:
  *   - created
  *   - modified
@@ -49,17 +48,14 @@ export async function hubSearchEvents(
   query: IQuery,
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
-  const processedFilters = await processFilters(
-    query.filters,
-    options.requestOptions
-  );
+  const processedFilters = processFilters(query.filters);
   const processedOptions = processOptions(options);
-  const data: GetEventsParams = {
+  const data: ISearchEvents = {
     ...processedFilters,
     ...processedOptions,
-    include: "creator,location",
+    include: [GetEventsInclude.creator, GetEventsInclude.location],
   };
-  const { items, nextStart, total } = await getEvents({
+  const { items, nextStart, total } = await searchEvents({
     ...options.requestOptions,
     data,
   });

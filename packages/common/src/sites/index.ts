@@ -8,6 +8,7 @@ export * from "./_internal/_migrate-telemetry-config";
 export * from "./_internal/migrateBadBasemap";
 export * from "./_internal/_migrate-link-underlines-capability";
 export * from "./_internal/migrateWebMappingApplicationSites";
+export * from "./_internal/_migrate-to-v2-catalog";
 export * from "./domains";
 export * from "./drafts";
 export * from "./fetchSiteModel";
@@ -26,3 +27,9 @@ export * from "./feeds/types";
 // No longer exported b/c site app registration is now handled
 // by the domain service due to requirement to send signed HMAC request
 // export * from "./registerSiteAsApplication";
+export * from "./get-catalog-from-site-model";
+// Exporting these keys to access in the catalog builder so
+// we can apply translated labels to default site collections
+export { defaultSiteCollectionKeys } from "./defaultSiteCollectionKeys";
+// Exporting temporarily since the content library needs this until it's deleted
+export * from "./searchCategoriesToCollections";

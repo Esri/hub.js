@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../src/ArcGISContext";
+import type { IArcGISContext } from "../src";
 import { fetchHubEntity } from "../src/core/fetchHubEntity";
 import { HubEntity } from "../src/core/types/HubEntity";
 import { checkPermission } from "../src/permissions/checkPermission";
@@ -28,6 +28,33 @@ describe("Check Permissions", () => {
 
       const results = checkPermission("hub:site:edit", context, entity);
       expect(results.access).toBe(true);
+    });
+  });
+  describe("site permissions for ai-assistant", () => {
+    it("site with permission definition returns true", async () => {
+      const siteId = "7aa3465529c74c6098bb9d5902627a9a";
+      const site = await fetchHubEntity("site", siteId, context);
+      // check permission
+      const results = checkPermission(
+        "hub:feature:ai-assistant",
+        context,
+        site
+      );
+
+      expect(results.access).toBe(true);
+    });
+
+    it("site without permission definitoin returns false", async () => {
+      const siteId = "f0094b90e77d426f918437561a80677b";
+      const site = await fetchHubEntity("site", siteId, context);
+      // check permission
+      const results = checkPermission(
+        "hub:feature:ai-assistant",
+        context,
+        site
+      );
+
+      expect(results.access).toBe(false);
     });
   });
 });

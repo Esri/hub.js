@@ -6,23 +6,8 @@ import { MOCK_AUTH } from "../../mocks/mock-auth";
 import { HubEventAttendanceType } from "../../../src/events/types";
 import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
 import * as getDatePickerDateUtils from "../../../src/utils/date/getDatePickerDate";
-import * as buildReferencedContentSchemaModule from "../../../src/events/_internal/buildReferencedContentSchema";
 
 describe("EventUiSchemaCreate", () => {
-  const referencedContentSchema = {
-    scope: "/properties/referencedContentIds",
-    type: "Control",
-  };
-
-  let buildReferencedContentSchemaSpy: jasmine.Spy;
-
-  beforeEach(() => {
-    buildReferencedContentSchemaSpy = spyOn(
-      buildReferencedContentSchemaModule,
-      "buildReferencedContentSchema"
-    ).and.returnValue(referencedContentSchema);
-  });
-
   describe("buildUiSchema", () => {
     it("should return the expected ui schema", async () => {
       const authdCtxMgr = await ArcGISContextManager.create({
@@ -81,12 +66,6 @@ describe("EventUiSchemaCreate", () => {
       expect(getDatePickerDateSpy).toHaveBeenCalledWith(
         jasmine.any(Date),
         entity.timeZone
-      );
-      expect(buildReferencedContentSchemaSpy).toHaveBeenCalledTimes(1);
-      expect(buildReferencedContentSchemaSpy).toHaveBeenCalledWith(
-        "myI18nScope",
-        authdCtxMgr.context,
-        "{{myI18nScope.fields.referencedContent.label:translate}}"
       );
       expect(res).toEqual({
         type: "Layout",
@@ -195,50 +174,6 @@ describe("EventUiSchemaCreate", () => {
               ],
             },
           },
-          {
-            labelKey: `myI18nScope.fields.attendanceType.label`,
-            scope: "/properties/attendanceType",
-            type: "Control",
-            options: {
-              control: "hub-field-input-radio-group",
-              enum: { i18nScope: `myI18nScope.fields.attendanceType` },
-            },
-          },
-          {
-            labelKey: `myI18nScope.fields.onlineUrl.label`,
-            scope: "/properties/onlineUrl",
-            type: "Control",
-            rule: {
-              condition: {
-                scope: "/properties/attendanceType",
-                schema: {
-                  enum: [
-                    HubEventAttendanceType.Online,
-                    HubEventAttendanceType.Both,
-                  ],
-                },
-              },
-              effect: UiSchemaRuleEffects.SHOW,
-            },
-            options: {
-              control: "hub-field-input-input",
-              messages: [
-                {
-                  type: "ERROR",
-                  keyword: "required",
-                  icon: true,
-                  labelKey: `myI18nScope.fields.onlineUrl.requiredError`,
-                },
-                {
-                  type: "ERROR",
-                  keyword: "format",
-                  icon: true,
-                  labelKey: `shared.errors.urlFormat`,
-                },
-              ],
-            },
-          },
-          referencedContentSchema,
         ],
       });
     });

@@ -1,10 +1,8 @@
 import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
-import { IArcGISContext } from "../../ArcGISContext";
+import type { IArcGISContext } from "../../types/IArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 import { getDatePickerDate } from "../../utils/date/getDatePickerDate";
 import { IHubEvent } from "../../core/types/IHubEvent";
-import { HubEventAttendanceType } from "../types";
-import { buildReferencedContentSchema } from "./buildReferencedContentSchema";
 
 /**
  * @private
@@ -128,54 +126,12 @@ export const buildUiSchema = async (
           ],
         },
       },
-      {
-        labelKey: `${i18nScope}.fields.attendanceType.label`,
-        scope: "/properties/attendanceType",
-        type: "Control",
-        options: {
-          control: "hub-field-input-radio-group",
-          enum: { i18nScope: `${i18nScope}.fields.attendanceType` },
-        },
-      },
-      {
-        labelKey: `${i18nScope}.fields.onlineUrl.label`,
-        scope: "/properties/onlineUrl",
-        type: "Control",
-        rule: {
-          condition: {
-            scope: "/properties/attendanceType",
-            schema: {
-              enum: [
-                HubEventAttendanceType.Online,
-                HubEventAttendanceType.Both,
-              ],
-            },
-          },
-          effect: UiSchemaRuleEffects.SHOW,
-        },
-        options: {
-          control: "hub-field-input-input",
-          messages: [
-            {
-              type: "ERROR",
-              keyword: "required",
-              icon: true,
-              labelKey: `${i18nScope}.fields.onlineUrl.requiredError`,
-            },
-            {
-              type: "ERROR",
-              keyword: "format",
-              icon: true,
-              labelKey: `shared.errors.urlFormat`,
-            },
-          ],
-        },
-      },
-      buildReferencedContentSchema(
-        i18nScope,
-        context,
-        `{{${i18nScope}.fields.referencedContent.label:translate}}`
-      ),
+      /* This field hidden for future consideration */
+      // buildReferencedContentSchema(
+      //   i18nScope,
+      //   context,
+      //   `{{${i18nScope}.fields.referencedContent.label:translate}}`
+      // ),
     ],
   };
 };

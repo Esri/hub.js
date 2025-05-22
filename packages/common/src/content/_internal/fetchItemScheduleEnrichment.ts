@@ -2,8 +2,8 @@ import { IItem } from "@esri/arcgis-rest-portal";
 import { IHubSchedule } from "../../core/types/IHubSchedule";
 import { getSchedule, isDownloadSchedulingAvailable } from "../manageSchedule";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IHubRequestOptions } from "../../types";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IHubRequestOptions } from "../../hub-types";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 
 /**
  * @private

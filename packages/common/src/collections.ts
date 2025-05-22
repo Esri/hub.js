@@ -247,7 +247,7 @@ const site: string[] = ["Hub Site Application", "Site Application"];
  */
 export const getCollection = (type?: string) => {
   if (!type) {
-    return;
+    return undefined;
   }
   const lowerCaseType = type.toLocaleLowerCase();
   return Object.keys(collections).find((key) => {
@@ -264,7 +264,7 @@ export const getCollection = (type?: string) => {
  */
 export const getCollectionTypes = (collection?: string) => {
   if (!collection) {
-    return;
+    return undefined;
   }
   const lowerCaseCollection = collection.toLocaleLowerCase();
   return collections[lowerCaseCollection];

@@ -3,13 +3,12 @@
 
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 
-import {
-  ArcGISContextManager,
-  IArcGISContextManagerOptions,
-} from "../../src/ArcGISContextManager";
+import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { getProp } from "../../src/objects";
+import type { IArcGISContextManagerOptions } from "../../src/types/IArcGISContextManagerOptions";
+
 /**
  * @internal
  */
@@ -58,7 +57,7 @@ export default class Artifactory {
    * @param {string} orgType
    * @param {string} role
    */
-  getSession(orgType: string, role: string): UserSession {
+  getSession(orgType: string, role: string): ArcGISIdentityManager {
     const org = this.getOrg(orgType);
     const opts = this.getIdentity(orgType, role);
     if (!org.isPortal) {
@@ -67,7 +66,8 @@ export default class Artifactory {
       opts.portal = org.orgUrl;
     }
 
-    return new UserSession(opts);
+    // NOTE: this might not work
+    return new ArcGISIdentityManager(opts);
   }
 
   async getContextManager(

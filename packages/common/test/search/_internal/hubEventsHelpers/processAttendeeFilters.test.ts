@@ -7,6 +7,9 @@ const FILTERS: IFilter[] = [
       {
         term: "abc",
       },
+      {
+        term: ["def"],
+      },
     ],
   },
   {
@@ -83,7 +86,6 @@ describe("processAttendeeFilters", () => {
     expect(results).toEqual({
       eventId: "an event id",
       userId: "user1",
-      // @ts-ignore
       name: "abc",
       role: "owner,organizer,attendee",
       type: "virtual,in_person",

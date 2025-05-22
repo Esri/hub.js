@@ -11,6 +11,7 @@ export const SurveyPermissions = [
   "hub:survey:delete",
   "hub:survey:edit",
   "hub:survey:view",
+  "hub:survey:view:related",
   "hub:survey:owner",
   "hub:survey:canChangeAccess",
   "hub:survey:workspace",
@@ -34,6 +35,18 @@ export const SurveyPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:survey:view",
     dependencies: ["hub:survey"],
+  },
+  {
+    permission: "hub:survey:view:related",
+    dependencies: ["hub:survey:view"],
+    services: ["hub-search"],
+    assertions: [
+      {
+        property: "entity:access",
+        type: "eq",
+        value: "public",
+      },
+    ],
   },
   {
     permission: "hub:survey:create",

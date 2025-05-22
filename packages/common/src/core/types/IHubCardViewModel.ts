@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../../ArcGISContext";
+import type { IArcGISContext } from "../../types/IArcGISContext";
 import { IHubSearchResult } from "../../search/types/IHubSearchResult";
 import { AccessLevel } from "./types";
 
@@ -60,6 +60,7 @@ export interface ICardActionLink {
   showLabel?: boolean;
   icon?: string;
   buttonStyle?: "outline" | "outline-fill" | "solid" | "transparent";
+  buttonKind?: "brand" | "danger" | "inverse" | "neutral";
   disabled?: boolean;
   tooltip?: string;
 }

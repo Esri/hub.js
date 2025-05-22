@@ -22,12 +22,14 @@ export function upgradeToOneDotOne(
     // add the assets...
     addDefaultResources(clone, portalUrl);
 
+    clone.data.values = clone.data.values || {};
+
     if (!clone.data.values.bannerImage) {
       clone.data.values.bannerImage = {
         source: "bannerImage",
         display: {
-          position: { x: "50%", y: "10%" }
-        }
+          position: { x: "50%", y: "10%" },
+        },
       };
     }
     return clone;
@@ -58,11 +60,11 @@ export function addDefaultResources(
         properties: {
           type: "resource",
           fileName: "detail-image.jpg",
-          mimeType: "image/jepg"
+          mimeType: "image/jepg",
         },
         license: {
-          type: "none"
-        }
+          type: "none",
+        },
       },
       {
         id: "iconDark",
@@ -70,11 +72,11 @@ export function addDefaultResources(
         properties: {
           type: "resource",
           fileName: "icon-dark.png",
-          mimeType: "image/png"
+          mimeType: "image/png",
         },
         license: {
-          type: "none"
-        }
+          type: "none",
+        },
       },
       {
         id: "iconLight",
@@ -82,12 +84,12 @@ export function addDefaultResources(
         properties: {
           type: "resource",
           fileName: "icon-light.png",
-          mimeType: "image/png"
+          mimeType: "image/png",
         },
         license: {
-          type: "none"
-        }
-      }
+          type: "none",
+        },
+      },
     ];
   }
   return model;

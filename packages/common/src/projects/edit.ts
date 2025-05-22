@@ -1,9 +1,8 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 
 // Note - we separate these imports so we can cleanly spy on things in tests
 import { createModel, getModel, updateModel } from "../models";
 import { constructSlug } from "../items/slugs";
-import { truncateSlug } from "../items/_internal/slugs";
 import {
   IPortal,
   IUserItemOptions,
@@ -16,7 +15,7 @@ import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { camelize, cloneObject, createId } from "../util";
 import { setDiscussableKeyword } from "../discussions";
-import { IModel } from "../types";
+import { IModel } from "../hub-types";
 import { setEntityStatusKeyword } from "../utils/internal/setEntityStatusKeyword";
 import { editorToMetric } from "../metrics/editorToMetric";
 import { setMetricAndDisplay } from "../core/schemas/internal/metrics/setMetricAndDisplay";

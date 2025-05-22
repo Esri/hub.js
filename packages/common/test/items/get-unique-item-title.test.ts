@@ -4,12 +4,12 @@ import { IAuthenticationManager } from "@esri/arcgis-rest-request";
 
 describe("getUniqueItemTitle", () => {
   const opts = {
-    typekeywords: "typeX"
+    typekeywords: "typeX",
   };
-  it("generates a unique name", async function() {
+  it("generates a unique name", async function () {
     const initialTitle = "foobar";
     spyOn(doesItemExistWithTitleModule, "doesItemExistWithTitle").and.callFake(
-      function(candidate: string) {
+      function (candidate: string) {
         return Promise.resolve(
           [`${initialTitle}`, `${initialTitle} 1`].indexOf(candidate) !== -1
         );
@@ -25,7 +25,7 @@ describe("getUniqueItemTitle", () => {
     expect(uniqueTitle).toBe("foobar 2");
   });
 
-  it("rejects if error", async function() {
+  it("rejects if error", async function () {
     const initialTitle = "foobar";
     spyOn(
       doesItemExistWithTitleModule,
@@ -40,7 +40,8 @@ describe("getUniqueItemTitle", () => {
       );
       fail("should reject");
     } catch (err) {
-      expect(err).toBeDefined();
+      const error = err as { message?: string };
+      expect(error).toBeDefined();
     }
   });
 });

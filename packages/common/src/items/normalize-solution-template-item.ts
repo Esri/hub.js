@@ -1,5 +1,5 @@
-import { IItem } from "@esri/arcgis-rest-types";
-import { IItemTemplate } from "../types";
+import type { IItem } from "@esri/arcgis-rest-portal";
+import { IItemTemplate } from "../hub-types";
 import { cloneObject } from "../util";
 
 export const itemPropsNotInTemplates = [
@@ -28,7 +28,7 @@ export const itemPropsNotInTemplates = [
   "appCategories",
   "industries",
   "languages",
-  "largeThumbnail"
+  "largeThumbnail",
 ];
 
 /**
@@ -39,7 +39,7 @@ export const itemPropsNotInTemplates = [
 export function normalizeSolutionTemplateItem(item: IItem): IItemTemplate {
   const template = cloneObject(item) as IItemTemplate;
 
-  itemPropsNotInTemplates.forEach(prop => {
+  itemPropsNotInTemplates.forEach((prop) => {
     delete template[prop];
   });
 

@@ -1,5 +1,4 @@
-import * as restPortalModule from "@esri/arcgis-rest-portal";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import * as commonModule from "@esri/hub-common";
 import { IModel } from "@esri/hub-common";
 import { removeTeamFromItems } from "../src/remove-team-from-items";
 
@@ -9,12 +8,12 @@ const TOMORROW = (function () {
   return now;
 })();
 
-const MOCK_USER_SESSION = new UserSession({
+const MOCK_USER_SESSION = {
   username: "casey",
   password: "123456",
   token: "fake-token",
   tokenExpires: TOMORROW,
-});
+} as any;
 
 describe("remove-team-from-items", function () {
   const firstModel: IModel = {
@@ -76,7 +75,7 @@ describe("remove-team-from-items", function () {
   let updateItemSpy: jasmine.Spy;
 
   beforeEach(() => {
-    updateItemSpy = spyOn(restPortalModule, "updateItem");
+    updateItemSpy = spyOn(commonModule, "updateItem");
   });
   afterEach(() => {
     updateItemSpy.calls.reset();

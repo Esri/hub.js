@@ -142,7 +142,9 @@ describe("fetchExportImageDownloadFile", () => {
       await fetchExportImageDownloadFile(options);
       expect(true).toBe(false);
     } catch (error) {
-      expect(error.message).toBe("Extent required for this download operation");
+      expect((error as Error).message).toBe(
+        "Extent required for this download operation"
+      );
     }
   });
 
@@ -177,7 +179,7 @@ describe("fetchExportImageDownloadFile", () => {
       await fetchExportImageDownloadFile(options);
       expect(true).toBe(false);
     } catch (error) {
-      expect(error.message).toBe(
+      expect((error as Error).message).toBe(
         "Only extent geometric filters are supported for this type of download"
       );
     }

@@ -2,7 +2,7 @@ import * as portalModule from "@esri/arcgis-rest-portal";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as modelUtils from "../../src/models";
 import * as slugUtils from "../../src/items/slugs";
-import { IModel } from "../../src/types";
+import { IModel } from "../../src/hub-types";
 import {
   createDiscussion,
   deleteDiscussion,
@@ -13,6 +13,9 @@ import { cloneObject } from "../../src/util";
 import * as settingUtils from "../../src/discussions/api/settings/settings";
 import * as getDefaultEntitySettingsUtils from "../../src/discussions/api/settings/getDefaultEntitySettings";
 import * as terraformer from "@terraformer/arcgis";
+import { EntitySettingType } from "../../src/discussions/api/types";
+import { Polygon } from "geojson";
+import { IGeometryInstance } from "../../src/core/types/IGeometryInstance";
 
 // TODO: update
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
@@ -46,6 +49,18 @@ const DISCUSSION_MODEL = {
 
 const DEFAULT_SETTINGS =
   getDefaultEntitySettingsUtils.getDefaultEntitySettings("discussion");
+
+const requestOptions = { authentication: MOCK_AUTH };
+
+const geometry: Partial<IGeometryInstance> = {
+  type: "polygon",
+  spatialReference: { wkid: 4326 },
+  toJSON: () => null,
+};
+const geometryTransformed: Polygon = {
+  type: "Polygon",
+  coordinates: [[[0], [0]]],
+};
 
 describe("discussions edit:", () => {
   describe("deleteDiscussion:", () => {
@@ -98,7 +113,7 @@ describe("discussions edit:", () => {
       );
       const chk = await createDiscussion(
         { name: "Hello World", orgUrlKey: "dcdev" },
-        { authentication: MOCK_AUTH }
+        requestOptions
       );
 
       expect(chk.id).toBe(GUID);
@@ -116,7 +131,20 @@ describe("discussions edit:", () => {
       // should create the item
       expect(createSpy.calls.count()).toBe(1);
       const modelToCreate = createSpy.calls.argsFor(0)[0];
-      expect(createSettingsSpy.calls.count()).toBe(1);
+      expect(createSettingsSpy).toHaveBeenCalledTimes(1);
+      expect(createSettingsSpy).toHaveBeenCalledWith({
+        data: {
+          id: GUID,
+          type: EntitySettingType.CONTENT,
+          settings: {
+            discussions: {
+              allowedChannelIds: null,
+              allowedLocations: null,
+            },
+          },
+        },
+        ...requestOptions,
+      });
       expect(modelToCreate.item.title).toBe("Hello World");
       expect(modelToCreate.item.type).toBe("Discussion");
       expect(modelToCreate.item.properties.slug).toBe("dcdev|hello-world");
@@ -149,8 +177,12 @@ describe("discussions edit:", () => {
           slug: "dcdev|hello-world", // important for coverage
           description: "my desc",
           orgUrlKey: "dcdev",
+          discussionSettings: {
+            allowedChannelIds: ["c1"],
+            allowedLocations: [geometryTransformed],
+          },
         },
-        { authentication: MOCK_AUTH }
+        requestOptions
       );
       expect(chk.id).toBe(GUID);
       expect(chk.name).toBe("Hello World");
@@ -168,7 +200,87 @@ describe("discussions edit:", () => {
       // should create the item
       expect(createSpy.calls.count()).toBe(1);
       const modelToCreate = createSpy.calls.argsFor(0)[0];
-      expect(createSettingsSpy.calls.count()).toBe(1);
+      expect(createSettingsSpy).toHaveBeenCalledTimes(1);
+      expect(createSettingsSpy).toHaveBeenCalledWith({
+        data: {
+          id: GUID,
+          type: EntitySettingType.CONTENT,
+          settings: {
+            discussions: {
+              allowedChannelIds: ["c1"],
+              allowedLocations: [geometryTransformed],
+            },
+          },
+        },
+        ...requestOptions,
+      });
+      expect(modelToCreate.item.properties.slug).toBe("dcdev|hello-world");
+      expect(modelToCreate.item.properties.orgUrlKey).toBe("dcdev");
+    });
+    it("coerces allowedChannelIds and allowedLocations to null when they are empty arrays", async () => {
+      // Note: this covers a branch when a slug is passed in
+      const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
+        Promise.resolve("dcdev|hello-world")
+      );
+      const createSpy = spyOn(modelUtils, "createModel").and.callFake(
+        (m: IModel) => {
+          const newModel = cloneObject(m);
+          newModel.item.id = GUID;
+          return Promise.resolve(newModel);
+        }
+      );
+      const createSettingsSpy = spyOn(
+        settingUtils,
+        "createSetting"
+      ).and.returnValue(
+        Promise.resolve({
+          id: GUID,
+          ...DEFAULT_SETTINGS,
+        })
+      );
+      const chk = await createDiscussion(
+        {
+          name: "Hello World",
+          slug: "dcdev|hello-world", // important for coverage
+          description: "my desc",
+          orgUrlKey: "dcdev",
+          discussionSettings: {
+            allowedChannelIds: [],
+            allowedLocations: [],
+          },
+        },
+        requestOptions
+      );
+      expect(chk.id).toBe(GUID);
+      expect(chk.name).toBe("Hello World");
+      expect(chk.description).toBe("my desc");
+      expect(chk.entitySettingsId).toBe(GUID);
+      expect(chk.discussionSettings).toEqual(
+        DEFAULT_SETTINGS.settings?.discussions
+      );
+      // should ensure unique slug
+      expect(slugSpy.calls.count()).toBe(1);
+      expect(slugSpy.calls.argsFor(0)[0]).toEqual(
+        { slug: "dcdev|hello-world" },
+        "should recieve slug"
+      );
+      // should create the item
+      expect(createSpy.calls.count()).toBe(1);
+      const modelToCreate = createSpy.calls.argsFor(0)[0];
+      expect(createSettingsSpy).toHaveBeenCalledTimes(1);
+      expect(createSettingsSpy).toHaveBeenCalledWith({
+        data: {
+          id: GUID,
+          type: EntitySettingType.CONTENT,
+          settings: {
+            discussions: {
+              allowedChannelIds: null,
+              allowedLocations: null,
+            },
+          },
+        },
+        ...requestOptions,
+      });
       expect(modelToCreate.item.properties.slug).toBe("dcdev|hello-world");
       expect(modelToCreate.item.properties.orgUrlKey).toBe("dcdev");
     });
@@ -177,7 +289,7 @@ describe("discussions edit:", () => {
   describe("updateDiscussion: ", () => {
     it("updates backing model and creates settings if none exist", async () => {
       const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
-        Promise.resolve("dcdev-wat-blarg-1")
+        Promise.resolve("dcdev|dcdev-wat-blarg-1")
       );
       const getModelSpy = spyOn(modelUtils, "getModel").and.returnValue(
         Promise.resolve(DISCUSSION_MODEL)
@@ -199,7 +311,6 @@ describe("discussions edit:", () => {
       const disc: IHubDiscussion = {
         itemControl: "edit",
         id: GUID,
-
         name: "Hello World",
         tags: ["Transportation"],
         description: "Some longer description",
@@ -221,7 +332,7 @@ describe("discussions edit:", () => {
         canDelete: false,
         typeKeywords: [],
       };
-      const chk = await updateDiscussion(disc, { authentication: MOCK_AUTH });
+      const chk = await updateDiscussion(disc, requestOptions);
       expect(chk.id).toBe(GUID);
       expect(chk.name).toBe("Hello World");
       expect(chk.description).toBe("Some longer description");
@@ -232,19 +343,34 @@ describe("discussions edit:", () => {
       // should ensure unique slug
       expect(slugSpy.calls.count()).toBe(1);
       expect(slugSpy.calls.argsFor(0)[0]).toEqual(
-        { slug: "dcdev-wat-blarg", existingId: GUID },
+        { slug: "dcdev|dcdev-wat-blarg", existingId: GUID },
         "should receive slug"
       );
       expect(getModelSpy.calls.count()).toBe(1);
       expect(updateModelSpy.calls.count()).toBe(1);
       const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
-      expect(createSettingsSpy.calls.count()).toBe(1);
+      expect(createSettingsSpy).toHaveBeenCalledTimes(1);
+      expect(createSettingsSpy).toHaveBeenCalledWith({
+        data: {
+          id: GUID,
+          type: EntitySettingType.CONTENT,
+          settings: {
+            discussions: {
+              allowedChannelIds: null,
+              allowedLocations: null,
+            },
+          },
+        },
+        ...requestOptions,
+      });
       expect(modelToUpdate.item.description).toBe(disc.description);
-      expect(modelToUpdate.item.properties.slug).toBe("dcdev-wat-blarg-1");
+      expect(modelToUpdate.item.properties.slug).toBe(
+        "dcdev|dcdev-wat-blarg-1"
+      );
     });
     it("updates backing model and updates settings when settings id exists", async () => {
       const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
-        Promise.resolve("dcdev-wat-blarg-1")
+        Promise.resolve("dcdev|dcdev-wat-blarg-1")
       );
       const getModelSpy = spyOn(modelUtils, "getModel").and.returnValue(
         Promise.resolve(DISCUSSION_MODEL)
@@ -262,6 +388,9 @@ describe("discussions edit:", () => {
           id: GUID,
           ...DEFAULT_SETTINGS,
         })
+      );
+      spyOn(terraformer, "arcgisToGeoJSON").and.returnValue(
+        geometryTransformed
       );
       const disc: IHubDiscussion = {
         itemControl: "edit",
@@ -287,8 +416,16 @@ describe("discussions edit:", () => {
         canDelete: false,
         typeKeywords: [],
         entitySettingsId: "an id",
+        location: {
+          type: "custom",
+          geometries: [geometry],
+        },
+        discussionSettings: {
+          allowedChannelIds: ["c1"],
+          allowedLocations: [geometryTransformed],
+        },
       };
-      const chk = await updateDiscussion(disc, { authentication: MOCK_AUTH });
+      const chk = await updateDiscussion(disc, requestOptions);
       expect(chk.id).toBe(GUID);
       expect(chk.name).toBe("Hello World");
       expect(chk.description).toBe("Some longer description");
@@ -299,20 +436,34 @@ describe("discussions edit:", () => {
       // should ensure unique slug
       expect(slugSpy.calls.count()).toBe(1);
       expect(slugSpy.calls.argsFor(0)[0]).toEqual(
-        { slug: "dcdev-wat-blarg", existingId: GUID },
+        { slug: "dcdev|dcdev-wat-blarg", existingId: GUID },
         "should receive slug"
       );
       expect(getModelSpy.calls.count()).toBe(1);
       expect(updateModelSpy.calls.count()).toBe(1);
-      expect(updateSettingsSpy.calls.count()).toBe(1);
+      expect(updateSettingsSpy).toHaveBeenCalledTimes(1);
+      expect(updateSettingsSpy).toHaveBeenCalledWith({
+        id: disc.entitySettingsId,
+        data: {
+          settings: {
+            discussions: {
+              allowedChannelIds: ["c1"],
+              allowedLocations: [geometryTransformed],
+            },
+          },
+        },
+        ...requestOptions,
+      });
       const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
       expect(modelToUpdate.item.description).toBe(disc.description);
-      expect(modelToUpdate.item.properties.slug).toBe("dcdev-wat-blarg-1");
+      expect(modelToUpdate.item.properties.slug).toBe(
+        "dcdev|dcdev-wat-blarg-1"
+      );
     });
     describe("allowedLocations", () => {
       it("processes locations and persists them to settings", async () => {
         const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
-          Promise.resolve("dcdev-wat-blarg-1")
+          Promise.resolve("dcdev|dcdev-wat-blarg-1")
         );
         const getModelSpy = spyOn(modelUtils, "getModel").and.returnValue(
           Promise.resolve(DISCUSSION_MODEL)
@@ -325,7 +476,7 @@ describe("discussions edit:", () => {
         const arcgisToGeoJSONSpy = spyOn(
           terraformer,
           "arcgisToGeoJSON"
-        ).and.returnValue({ type: "Point", coordinates: [0, 0] });
+        ).and.returnValue(geometryTransformed);
         const updateSettingsSpy = spyOn(
           settingUtils,
           "updateSetting"
@@ -361,10 +512,10 @@ describe("discussions edit:", () => {
           entitySettingsId: "an id",
           location: {
             type: "custom",
-            geometries: [{ x: 0, y: 0 } as any],
+            geometries: [geometry],
           },
         };
-        const chk = await updateDiscussion(disc, { authentication: MOCK_AUTH });
+        const chk = await updateDiscussion(disc, requestOptions);
         expect(chk.id).toBe(GUID);
         expect(chk.name).toBe("Hello World");
         expect(chk.description).toBe("Some longer description");
@@ -375,7 +526,7 @@ describe("discussions edit:", () => {
         // should ensure unique slug
         expect(slugSpy.calls.count()).toBe(1);
         expect(slugSpy.calls.argsFor(0)[0]).toEqual(
-          { slug: "dcdev-wat-blarg", existingId: GUID },
+          { slug: "dcdev|dcdev-wat-blarg", existingId: GUID },
           "should receive slug"
         );
         expect(getModelSpy.calls.count()).toBe(1);
@@ -383,17 +534,19 @@ describe("discussions edit:", () => {
         expect(updateSettingsSpy.calls.count()).toBe(1);
         const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
         expect(modelToUpdate.item.description).toBe(disc.description);
-        expect(modelToUpdate.item.properties.slug).toBe("dcdev-wat-blarg-1");
+        expect(modelToUpdate.item.properties.slug).toBe(
+          "dcdev|dcdev-wat-blarg-1"
+        );
         // should transform location and persist to settings
         expect(arcgisToGeoJSONSpy.calls.count()).toBe(1);
         const settingsToUpdate = updateSettingsSpy.calls.argsFor(0)[0];
         expect(
           settingsToUpdate.data.settings.discussions.allowedLocations
-        ).toEqual([{ type: "Point", coordinates: [0, 0] }]);
+        ).toEqual([geometryTransformed]);
       });
       it("processes locations of type = 'none' and persists them to settings", async () => {
         const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
-          Promise.resolve("dcdev-wat-blarg-1")
+          Promise.resolve("dcdev|dcdev-wat-blarg-1")
         );
         const getModelSpy = spyOn(modelUtils, "getModel").and.returnValue(
           Promise.resolve(DISCUSSION_MODEL)
@@ -406,7 +559,7 @@ describe("discussions edit:", () => {
         const arcgisToGeoJSONSpy = spyOn(
           terraformer,
           "arcgisToGeoJSON"
-        ).and.returnValue({ type: "Point", coordinates: [0, 0] });
+        ).and.returnValue(geometryTransformed);
         const updateSettingsSpy = spyOn(
           settingUtils,
           "updateSetting"
@@ -444,7 +597,7 @@ describe("discussions edit:", () => {
             type: "none",
           },
         };
-        const chk = await updateDiscussion(disc, { authentication: MOCK_AUTH });
+        const chk = await updateDiscussion(disc, requestOptions);
         expect(chk.id).toBe(GUID);
         expect(chk.name).toBe("Hello World");
         expect(chk.description).toBe("Some longer description");
@@ -455,7 +608,7 @@ describe("discussions edit:", () => {
         // should ensure unique slug
         expect(slugSpy.calls.count()).toBe(1);
         expect(slugSpy.calls.argsFor(0)[0]).toEqual(
-          { slug: "dcdev-wat-blarg", existingId: GUID },
+          { slug: "dcdev|dcdev-wat-blarg", existingId: GUID },
           "should receive slug"
         );
         expect(getModelSpy.calls.count()).toBe(1);
@@ -463,7 +616,9 @@ describe("discussions edit:", () => {
         expect(updateSettingsSpy.calls.count()).toBe(1);
         const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
         expect(modelToUpdate.item.description).toBe(disc.description);
-        expect(modelToUpdate.item.properties.slug).toBe("dcdev-wat-blarg-1");
+        expect(modelToUpdate.item.properties.slug).toBe(
+          "dcdev|dcdev-wat-blarg-1"
+        );
         // should transform location and persist to settings
         expect(arcgisToGeoJSONSpy.calls.count()).toBe(0);
         const settingsToUpdate = updateSettingsSpy.calls.argsFor(0)[0];
@@ -473,7 +628,7 @@ describe("discussions edit:", () => {
       });
       it("processes locations and handles error if thrown", async () => {
         const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
-          Promise.resolve("dcdev-wat-blarg-1")
+          Promise.resolve("dcdev|dcdev-wat-blarg-1")
         );
         const getModelSpy = spyOn(modelUtils, "getModel").and.returnValue(
           Promise.resolve(DISCUSSION_MODEL)
@@ -525,10 +680,10 @@ describe("discussions edit:", () => {
           entitySettingsId: "an id",
           location: {
             type: "custom",
-            geometries: [{ x: 0, y: 0 } as any],
+            geometries: [geometry],
           },
         };
-        const chk = await updateDiscussion(disc, { authentication: MOCK_AUTH });
+        const chk = await updateDiscussion(disc, requestOptions);
         expect(chk.id).toBe(GUID);
         expect(chk.name).toBe("Hello World");
         expect(chk.description).toBe("Some longer description");
@@ -539,7 +694,7 @@ describe("discussions edit:", () => {
         // should ensure unique slug
         expect(slugSpy.calls.count()).toBe(1);
         expect(slugSpy.calls.argsFor(0)[0]).toEqual(
-          { slug: "dcdev-wat-blarg", existingId: GUID },
+          { slug: "dcdev|dcdev-wat-blarg", existingId: GUID },
           "should receive slug"
         );
         expect(getModelSpy.calls.count()).toBe(1);
@@ -547,7 +702,9 @@ describe("discussions edit:", () => {
         expect(updateSettingsSpy.calls.count()).toBe(1);
         const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
         expect(modelToUpdate.item.description).toBe(disc.description);
-        expect(modelToUpdate.item.properties.slug).toBe("dcdev-wat-blarg-1");
+        expect(modelToUpdate.item.properties.slug).toBe(
+          "dcdev|dcdev-wat-blarg-1"
+        );
         // should transform location and persist to settings
         expect(arcgisToGeoJSONSpy.calls.count()).toBe(1);
         const settingsToUpdate = updateSettingsSpy.calls.argsFor(0)[0];

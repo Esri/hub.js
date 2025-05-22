@@ -1,5 +1,5 @@
 import { IHubEvent } from "../core/types/IHubEvent";
-import { IHubRequestOptions } from "../types";
+import { IHubRequestOptions } from "../hub-types";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { EventPropertyMapper } from "./_internal/PropertyMapper";
 import { buildDefaultEventEntity, buildDefaultEventRecord } from "./defaults";
@@ -132,6 +132,7 @@ export async function updateHubEvent(
     status: model.status,
     summary: model.summary?.trim() || null,
     tags: model.tags,
+    thumbnailUrl: model.thumbnailUrl || null,
     timeZone: model.timeZone,
     title: model.title,
     location: model.location,

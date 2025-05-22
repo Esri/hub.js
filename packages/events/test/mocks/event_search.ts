@@ -1,22 +1,22 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IEventResourceObject } from "../../src/search";
-import { IGeometry, IItem, IField } from "@esri/arcgis-rest-types";
-import { IQueryFeaturesResponse } from "@esri/arcgis-rest-feature-layer";
-import { ISearchResult } from "@esri/arcgis-rest-portal";
+import type { IEventResourceObject } from "../../src/search";
+import type { IPoint, IField } from "@esri/arcgis-rest-request";
+import type { IQueryFeaturesResponse } from "@esri/arcgis-rest-feature-service";
+import type { IItem, ISearchResult } from "@esri/arcgis-rest-portal";
 
 export const eventQueryResponseEmpty = {
   objectIdFieldName: "OBJECTID",
   uniqueIdField: {
     name: "OBJECTID",
-    isSystemMaintained: true
+    isSystemMaintained: true,
   },
   globalIdFieldName: "",
   geometryType: "esriGeometryPoint",
   spatialReference: {
     wkid: 4326,
-    latestWkid: 4326
+    latestWkid: 4326,
   },
   fields: [
     {
@@ -24,7 +24,7 @@ export const eventQueryResponseEmpty = {
       type: "esriFieldTypeOID",
       alias: "OBJECTID",
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "title",
@@ -32,7 +32,7 @@ export const eventQueryResponseEmpty = {
       alias: "title",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "location",
@@ -40,7 +40,7 @@ export const eventQueryResponseEmpty = {
       alias: "location",
       length: 2000,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "description",
@@ -48,7 +48,7 @@ export const eventQueryResponseEmpty = {
       alias: "description",
       length: 4000,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "startDate",
@@ -56,7 +56,7 @@ export const eventQueryResponseEmpty = {
       alias: "startDate",
       length: 0,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "endDate",
@@ -64,7 +64,7 @@ export const eventQueryResponseEmpty = {
       alias: "endDate",
       length: 0,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "organizerId",
@@ -72,7 +72,7 @@ export const eventQueryResponseEmpty = {
       alias: "organizerId",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "organizerName",
@@ -80,7 +80,7 @@ export const eventQueryResponseEmpty = {
       alias: "organizerName",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "organizerEmail",
@@ -88,7 +88,7 @@ export const eventQueryResponseEmpty = {
       alias: "organizerEmail",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "url",
@@ -96,7 +96,7 @@ export const eventQueryResponseEmpty = {
       alias: "url",
       length: 2000,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "pageId",
@@ -104,21 +104,21 @@ export const eventQueryResponseEmpty = {
       alias: "pageId",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "capacity",
       type: "esriFieldTypeInteger",
       alias: "capacity",
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "attendance",
       type: "esriFieldTypeInteger",
       alias: "attendance",
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "status",
@@ -126,14 +126,14 @@ export const eventQueryResponseEmpty = {
       alias: "status",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "isCancelled",
       type: "esriFieldTypeInteger",
       alias: "isCancelled",
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "groupId",
@@ -141,7 +141,7 @@ export const eventQueryResponseEmpty = {
       alias: "groupId",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "siteId",
@@ -149,7 +149,7 @@ export const eventQueryResponseEmpty = {
       alias: "siteId",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "initiativeId",
@@ -157,7 +157,7 @@ export const eventQueryResponseEmpty = {
       alias: "initiativeId",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "surveyId",
@@ -165,7 +165,7 @@ export const eventQueryResponseEmpty = {
       alias: "surveyId",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "CreationDate",
@@ -173,7 +173,7 @@ export const eventQueryResponseEmpty = {
       alias: "CreationDate",
       length: 8,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "Creator",
@@ -181,7 +181,7 @@ export const eventQueryResponseEmpty = {
       alias: "Creator",
       length: 50,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "EditDate",
@@ -189,7 +189,7 @@ export const eventQueryResponseEmpty = {
       alias: "EditDate",
       length: 8,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "Editor",
@@ -197,14 +197,14 @@ export const eventQueryResponseEmpty = {
       alias: "Editor",
       length: 50,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "schemaVersion",
       type: "esriFieldTypeDouble",
       alias: "schemaVersion",
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "organizers",
@@ -212,7 +212,7 @@ export const eventQueryResponseEmpty = {
       alias: "organizers",
       length: 4000,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "sponsors",
@@ -220,7 +220,7 @@ export const eventQueryResponseEmpty = {
       alias: "sponsors",
       length: 4000,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "onlineLocation",
@@ -228,7 +228,7 @@ export const eventQueryResponseEmpty = {
       alias: "onlineLocation",
       length: 2000,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "venue",
@@ -236,7 +236,7 @@ export const eventQueryResponseEmpty = {
       alias: "venue",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "address1",
@@ -244,7 +244,7 @@ export const eventQueryResponseEmpty = {
       alias: "address1",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "address2",
@@ -252,14 +252,14 @@ export const eventQueryResponseEmpty = {
       alias: "address2",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "isAllDay",
       type: "esriFieldTypeInteger",
       alias: "isAllDay",
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "timeZone",
@@ -267,7 +267,7 @@ export const eventQueryResponseEmpty = {
       alias: "timeZone",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "appIds",
@@ -275,7 +275,7 @@ export const eventQueryResponseEmpty = {
       alias: "appIds",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "imageAttributes",
@@ -283,7 +283,7 @@ export const eventQueryResponseEmpty = {
       alias: "imageAttributes",
       length: 4000,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "videoUrl",
@@ -291,10 +291,10 @@ export const eventQueryResponseEmpty = {
       alias: "videoUrl",
       length: 2000,
       domain: null,
-      defaultValue: null
-    }
+      defaultValue: null,
+    },
   ] as IField[],
-  features: [] as any
+  features: [] as any,
 };
 
 export const eventQueryResponse: IQueryFeaturesResponse = {
@@ -303,7 +303,7 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
   geometryType: "esriGeometryPoint",
   spatialReference: {
     wkid: 4326,
-    latestWkid: 4326
+    latestWkid: 4326,
   },
   fields: [
     {
@@ -311,7 +311,7 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
       type: "esriFieldTypeOID",
       alias: "OBJECTID",
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "title",
@@ -319,7 +319,7 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
       alias: "title",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "location",
@@ -327,7 +327,7 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
       alias: "location",
       length: 2000,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "description",
@@ -335,7 +335,7 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
       alias: "description",
       length: 4000,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "startDate",
@@ -343,7 +343,7 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
       alias: "startDate",
       length: 0,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "endDate",
@@ -351,7 +351,7 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
       alias: "endDate",
       length: 0,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "organizerId",
@@ -359,7 +359,7 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
       alias: "organizerId",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "organizerName",
@@ -367,7 +367,7 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
       alias: "organizerName",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "organizerEmail",
@@ -375,7 +375,7 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
       alias: "organizerEmail",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "url",
@@ -383,7 +383,7 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
       alias: "url",
       length: 2000,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "pageId",
@@ -391,21 +391,21 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
       alias: "pageId",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "capacity",
       type: "esriFieldTypeInteger",
       alias: "capacity",
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "attendance",
       type: "esriFieldTypeInteger",
       alias: "attendance",
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "status",
@@ -413,14 +413,14 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
       alias: "status",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "isCancelled",
       type: "esriFieldTypeInteger",
       alias: "isCancelled",
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "groupId",
@@ -428,7 +428,7 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
       alias: "groupId",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "siteId",
@@ -436,7 +436,7 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
       alias: "siteId",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "initiativeId",
@@ -444,7 +444,7 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
       alias: "initiativeId",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "surveyId",
@@ -452,7 +452,7 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
       alias: "surveyId",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "CreationDate",
@@ -460,7 +460,7 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
       alias: "CreationDate",
       length: 8,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "Creator",
@@ -468,7 +468,7 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
       alias: "Creator",
       length: 50,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "EditDate",
@@ -476,7 +476,7 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
       alias: "EditDate",
       length: 8,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "Editor",
@@ -484,14 +484,14 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
       alias: "Editor",
       length: 50,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "schemaVersion",
       type: "esriFieldTypeDouble",
       alias: "schemaVersion",
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "organizers",
@@ -499,7 +499,7 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
       alias: "organizers",
       length: 4000,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "sponsors",
@@ -507,7 +507,7 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
       alias: "sponsors",
       length: 4000,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "onlineLocation",
@@ -515,7 +515,7 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
       alias: "onlineLocation",
       length: 2000,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "venue",
@@ -523,7 +523,7 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
       alias: "venue",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "address1",
@@ -531,7 +531,7 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
       alias: "address1",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "address2",
@@ -539,14 +539,14 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
       alias: "address2",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "isAllDay",
       type: "esriFieldTypeInteger",
       alias: "isAllDay",
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "timeZone",
@@ -554,7 +554,7 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
       alias: "timeZone",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "appIds",
@@ -562,7 +562,7 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
       alias: "appIds",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "imageAttributes",
@@ -570,7 +570,7 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
       alias: "imageAttributes",
       length: 4000,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "videoUrl",
@@ -578,8 +578,8 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
       alias: "videoUrl",
       length: 2000,
       domain: null,
-      defaultValue: null
-    }
+      defaultValue: null,
+    },
   ],
   features: [
     {
@@ -618,12 +618,12 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
         timeZone: null,
         appIds: null,
         imageAttributes: null,
-        videoUrl: null
+        videoUrl: null,
       },
       geometry: {
         x: -74.310680054965559,
-        y: 40.723010058860787
-      } as IGeometry
+        y: 40.723010058860787,
+      } as IPoint,
     },
     {
       attributes: {
@@ -663,12 +663,12 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
         appIds: null,
         imageAttributes:
           '{"raw":251,"crop":252,"props":{"transformAxis":"x","position":{"x":0,"y":0},"scale":{"current":0,"original":0},"container":{"width":858,"height":429,"left":54,"top":27},"natural":{"width":700,"height":700},"output":{"width":750,"height":375},"version":2,"rendered":{"width":858,"height":858}}}',
-        videoUrl: null
+        videoUrl: null,
       },
       geometry: {
         x: -77.036430054965564,
-        y: 38.897929948352669
-      } as IGeometry
+        y: 38.897929948352669,
+      } as IPoint,
     },
     {
       attributes: {
@@ -707,14 +707,14 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
         appIds: null,
         imageAttributes:
           '{"raw":251,"props":{"transformAxis":"x","position":{"x":0,"y":0},"scale":{"current":0,"original":0},"container":{"width":858,"height":429,"left":54,"top":27},"natural":{"width":700,"height":700},"output":{"width":750,"height":375},"version":2,"rendered":{"width":858,"height":858}}}',
-        videoUrl: ""
+        videoUrl: "",
       },
       geometry: {
         x: -77.071490000576887,
-        y: 38.895170069969296
-      } as IGeometry
-    }
-  ]
+        y: 38.895170069969296,
+      } as IPoint,
+    },
+  ],
 };
 
 export const eventQueryResponseWithoutSiteId: IQueryFeaturesResponse = {
@@ -723,7 +723,7 @@ export const eventQueryResponseWithoutSiteId: IQueryFeaturesResponse = {
   geometryType: "esriGeometryPoint",
   spatialReference: {
     wkid: 4326,
-    latestWkid: 4326
+    latestWkid: 4326,
   },
   fields: [
     {
@@ -731,7 +731,7 @@ export const eventQueryResponseWithoutSiteId: IQueryFeaturesResponse = {
       type: "esriFieldTypeOID",
       alias: "OBJECTID",
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "title",
@@ -739,7 +739,7 @@ export const eventQueryResponseWithoutSiteId: IQueryFeaturesResponse = {
       alias: "title",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "location",
@@ -747,7 +747,7 @@ export const eventQueryResponseWithoutSiteId: IQueryFeaturesResponse = {
       alias: "location",
       length: 2000,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "description",
@@ -755,7 +755,7 @@ export const eventQueryResponseWithoutSiteId: IQueryFeaturesResponse = {
       alias: "description",
       length: 4000,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "startDate",
@@ -763,7 +763,7 @@ export const eventQueryResponseWithoutSiteId: IQueryFeaturesResponse = {
       alias: "startDate",
       length: 0,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "endDate",
@@ -771,7 +771,7 @@ export const eventQueryResponseWithoutSiteId: IQueryFeaturesResponse = {
       alias: "endDate",
       length: 0,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "organizerId",
@@ -779,7 +779,7 @@ export const eventQueryResponseWithoutSiteId: IQueryFeaturesResponse = {
       alias: "organizerId",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "organizerName",
@@ -787,7 +787,7 @@ export const eventQueryResponseWithoutSiteId: IQueryFeaturesResponse = {
       alias: "organizerName",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "organizerEmail",
@@ -795,7 +795,7 @@ export const eventQueryResponseWithoutSiteId: IQueryFeaturesResponse = {
       alias: "organizerEmail",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "url",
@@ -803,7 +803,7 @@ export const eventQueryResponseWithoutSiteId: IQueryFeaturesResponse = {
       alias: "url",
       length: 2000,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "pageId",
@@ -811,21 +811,21 @@ export const eventQueryResponseWithoutSiteId: IQueryFeaturesResponse = {
       alias: "pageId",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "capacity",
       type: "esriFieldTypeInteger",
       alias: "capacity",
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "attendance",
       type: "esriFieldTypeInteger",
       alias: "attendance",
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "status",
@@ -833,14 +833,14 @@ export const eventQueryResponseWithoutSiteId: IQueryFeaturesResponse = {
       alias: "status",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "isCancelled",
       type: "esriFieldTypeInteger",
       alias: "isCancelled",
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "groupId",
@@ -848,7 +848,7 @@ export const eventQueryResponseWithoutSiteId: IQueryFeaturesResponse = {
       alias: "groupId",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "siteId",
@@ -856,7 +856,7 @@ export const eventQueryResponseWithoutSiteId: IQueryFeaturesResponse = {
       alias: "siteId",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "initiativeId",
@@ -864,7 +864,7 @@ export const eventQueryResponseWithoutSiteId: IQueryFeaturesResponse = {
       alias: "initiativeId",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "surveyId",
@@ -872,7 +872,7 @@ export const eventQueryResponseWithoutSiteId: IQueryFeaturesResponse = {
       alias: "surveyId",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "CreationDate",
@@ -880,7 +880,7 @@ export const eventQueryResponseWithoutSiteId: IQueryFeaturesResponse = {
       alias: "CreationDate",
       length: 8,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "Creator",
@@ -888,7 +888,7 @@ export const eventQueryResponseWithoutSiteId: IQueryFeaturesResponse = {
       alias: "Creator",
       length: 50,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "EditDate",
@@ -896,7 +896,7 @@ export const eventQueryResponseWithoutSiteId: IQueryFeaturesResponse = {
       alias: "EditDate",
       length: 8,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "Editor",
@@ -904,14 +904,14 @@ export const eventQueryResponseWithoutSiteId: IQueryFeaturesResponse = {
       alias: "Editor",
       length: 50,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "schemaVersion",
       type: "esriFieldTypeDouble",
       alias: "schemaVersion",
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "organizers",
@@ -919,7 +919,7 @@ export const eventQueryResponseWithoutSiteId: IQueryFeaturesResponse = {
       alias: "organizers",
       length: 4000,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "sponsors",
@@ -927,7 +927,7 @@ export const eventQueryResponseWithoutSiteId: IQueryFeaturesResponse = {
       alias: "sponsors",
       length: 4000,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "onlineLocation",
@@ -935,7 +935,7 @@ export const eventQueryResponseWithoutSiteId: IQueryFeaturesResponse = {
       alias: "onlineLocation",
       length: 2000,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "venue",
@@ -943,7 +943,7 @@ export const eventQueryResponseWithoutSiteId: IQueryFeaturesResponse = {
       alias: "venue",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "address1",
@@ -951,7 +951,7 @@ export const eventQueryResponseWithoutSiteId: IQueryFeaturesResponse = {
       alias: "address1",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "address2",
@@ -959,14 +959,14 @@ export const eventQueryResponseWithoutSiteId: IQueryFeaturesResponse = {
       alias: "address2",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "isAllDay",
       type: "esriFieldTypeInteger",
       alias: "isAllDay",
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "timeZone",
@@ -974,7 +974,7 @@ export const eventQueryResponseWithoutSiteId: IQueryFeaturesResponse = {
       alias: "timeZone",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "appIds",
@@ -982,7 +982,7 @@ export const eventQueryResponseWithoutSiteId: IQueryFeaturesResponse = {
       alias: "appIds",
       length: 256,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "imageAttributes",
@@ -990,7 +990,7 @@ export const eventQueryResponseWithoutSiteId: IQueryFeaturesResponse = {
       alias: "imageAttributes",
       length: 4000,
       domain: null,
-      defaultValue: null
+      defaultValue: null,
     },
     {
       name: "videoUrl",
@@ -998,8 +998,8 @@ export const eventQueryResponseWithoutSiteId: IQueryFeaturesResponse = {
       alias: "videoUrl",
       length: 2000,
       domain: null,
-      defaultValue: null
-    }
+      defaultValue: null,
+    },
   ],
   features: [
     {
@@ -1038,14 +1038,14 @@ export const eventQueryResponseWithoutSiteId: IQueryFeaturesResponse = {
         timeZone: null,
         appIds: null,
         imageAttributes: null,
-        videoUrl: null
+        videoUrl: null,
       },
       geometry: {
         x: -74.310680054965559,
-        y: 40.723010058860787
-      } as IGeometry
-    }
-  ]
+        y: 40.723010058860787,
+      } as IPoint,
+    },
+  ],
 };
 
 export const siteResponse71a58 = {
@@ -1068,7 +1068,7 @@ export const siteResponse71a58 = {
     "Online Map",
     "OpenData",
     "Web Map",
-    "Registered App"
+    "Registered App",
   ],
   description:
     "DO NOT DELETE OR MODIFY THIS ITEM. This item is managed by the ArcGIS Hub application. To make changes to this site, please visit https://hub.arcgis.com/admin/",
@@ -1099,7 +1099,7 @@ export const siteResponse71a58 = {
   avgRating: 0,
   numViews: 8916,
   scoreCompleteness: 73,
-  groupDesignations: null
+  groupDesignations: null,
 } as IItem;
 
 export const siteResponse7c395 = {
@@ -1122,7 +1122,7 @@ export const siteResponse7c395 = {
     "Online Map",
     "OpenData",
     "Web Map",
-    "Registered App"
+    "Registered App",
   ],
   description:
     "DO NOT DELETE OR MODIFY THIS ITEM. This item is managed by the ArcGIS Hub application. To make changes to this site, please visit https://hub.arcgis.com/admin/",
@@ -1153,7 +1153,7 @@ export const siteResponse7c395 = {
   avgRating: 0,
   numViews: 8916,
   scoreCompleteness: 73,
-  groupDesignations: null
+  groupDesignations: null,
 } as IItem;
 
 export const siteSearchResponse = {
@@ -1162,7 +1162,7 @@ export const siteSearchResponse = {
   start: 1,
   num: 1,
   nextStart: 2,
-  results: [siteResponse71a58, siteResponse7c395]
+  results: [siteResponse71a58, siteResponse7c395],
 } as ISearchResult<IItem>;
 
 const cacheBust = new Date().getTime();
@@ -1172,9 +1172,9 @@ const data = [
     type: "events",
     attributes: {
       imageUrl: null,
-      ...eventQueryResponse.features[0].attributes
+      ...eventQueryResponse.features[0].attributes,
     },
-    geometry: eventQueryResponse.features[0].geometry
+    geometry: eventQueryResponse.features[0].geometry,
   },
   {
     id: 6,
@@ -1184,19 +1184,19 @@ const data = [
         `https://hub.arcgis.com/api/v3/events/5bc/Hub Events (public)/FeatureServer/0/6/attachments/252?v=` +
         { cacheBust } +
         `&token=FAKE-TOKEN`,
-      ...eventQueryResponse.features[1].attributes
+      ...eventQueryResponse.features[1].attributes,
     },
-    geometry: eventQueryResponse.features[1].geometry
+    geometry: eventQueryResponse.features[1].geometry,
   },
   {
     id: 7,
     type: "events",
     attributes: {
       imageUrl: null,
-      ...eventQueryResponse.features[2].attributes
+      ...eventQueryResponse.features[2].attributes,
     },
-    geometry: eventQueryResponse.features[2].geometry
-  }
+    geometry: eventQueryResponse.features[2].geometry,
+  },
 ] as IEventResourceObject[];
 const dataWithoutSiteId = [
   {
@@ -1204,14 +1204,14 @@ const dataWithoutSiteId = [
     type: "events",
     attributes: {
       imageUrl: null,
-      ...eventQueryResponseWithoutSiteId.features[0].attributes
+      ...eventQueryResponseWithoutSiteId.features[0].attributes,
     },
-    geometry: eventQueryResponseWithoutSiteId.features[0].geometry
-  }
+    geometry: eventQueryResponseWithoutSiteId.features[0].geometry,
+  },
 ] as IEventResourceObject[];
 export const eventResponseEmpty = {
   data: [] as IEventResourceObject[],
-  included: [] as IEventResourceObject[]
+  included: [] as IEventResourceObject[],
 };
 
 export const eventResponse = {
@@ -1222,21 +1222,21 @@ export const eventResponse = {
       type: "sites",
       attributes: {
         id: siteResponse71a58.id,
-        url: siteResponse71a58.url
-      }
+        url: siteResponse71a58.url,
+      },
     },
     {
       id: siteResponse7c395.id,
       type: "sites",
       attributes: {
         id: siteResponse7c395.id,
-        url: siteResponse7c395.url
-      }
-    }
-  ] as IEventResourceObject[]
+        url: siteResponse7c395.url,
+      },
+    },
+  ] as IEventResourceObject[],
 };
 
 export const eventResponseWithoutSiteId = {
   data: dataWithoutSiteId,
-  included: [] as IEventResourceObject[]
+  included: [] as IEventResourceObject[],
 };

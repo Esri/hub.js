@@ -1,15 +1,12 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { getItemThumbnailUrl } from "../../resources";
-import { IModel } from "../../types";
+import { IModel } from "../../hub-types";
 
 import { processEntityFeatures } from "../../permissions/_internal/processEntityFeatures";
 import { PageDefaultFeatures } from "./PageBusinessRules";
-import { getItemHomeUrl } from "../../urls/get-item-home-url";
 import { IHubPage } from "../../core/types/IHubPage";
-import { getRelativeWorkspaceUrl } from "../../core/getRelativeWorkspaceUrl";
 import { computeItemProps } from "../../core/_internal/computeItemProps";
-import { getHubRelativeUrl } from "../../content/_internal/internalContentUtils";
 import { computeLinks } from "./computeLinks";
 
 /**
@@ -28,7 +25,8 @@ export function computeProps(
   let token: string;
   // istanbul ignore next - this logic is covered elsewhere and should be refactored into a shared util
   if (requestOptions.authentication) {
-    const session: UserSession = requestOptions.authentication as UserSession;
+    const session: ArcGISIdentityManager =
+      requestOptions.authentication as ArcGISIdentityManager;
     token = session.token;
   }
   // compute base properties on page

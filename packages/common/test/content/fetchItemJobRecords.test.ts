@@ -6,7 +6,7 @@ import {
   JobRecordStatus,
   JobRecordType,
 } from "../../src/content/types";
-import { IArcGISContext } from "../../src/ArcGISContext";
+import type { IArcGISContext } from "../../src";
 import * as fetchMock from "fetch-mock";
 
 describe("fetchItemJobRecords", () => {
@@ -26,7 +26,7 @@ describe("fetchItemJobRecords", () => {
       await fetchItemJobRecords(id, options);
       fail();
     } catch (e) {
-      expect(e.message).toEqual(
+      expect((e as Error).message).toEqual(
         "The following options are not yet implemented: types, statuses"
       );
       expect(fetchMock.calls().length).toBe(0);

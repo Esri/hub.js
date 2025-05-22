@@ -1,4 +1,8 @@
-import { IModelTemplate, IHubRequestOptions, ITemplateAsset } from "../types";
+import {
+  IModelTemplate,
+  IHubRequestOptions,
+  ITemplateAsset,
+} from "../hub-types";
 import { getPortalApiUrl } from "../urls";
 
 /**
@@ -17,9 +21,7 @@ export function addSolutionResourceUrlToAssets(
     const portalRestUrl = getPortalApiUrl(hubRequestOptions.portalSelf);
     // the resources are stored on the solution item, and that Id is attached
     // into the template as .bundleItemId
-    const solutionItemUrl = `${portalRestUrl}/content/items/${
-      template.bundleItemId
-    }`;
+    const solutionItemUrl = `${portalRestUrl}/content/items/${template.bundleItemId}`;
     // the resources on the solution are prefixed with the item id of the item the
     // template was created from, which is stored as .itemId
     const prefix = template.itemId;
@@ -30,7 +32,7 @@ export function addSolutionResourceUrlToAssets(
       return {
         name: asset.name,
         type: asset.type || "resource",
-        url: `${solutionItemUrl}/resources/${prefix}-${asset.name}`
+        url: `${solutionItemUrl}/resources/${prefix}-${asset.name}`,
       };
     });
   }

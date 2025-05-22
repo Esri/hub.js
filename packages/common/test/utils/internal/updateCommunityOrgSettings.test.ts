@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../../../src/ArcGISContext";
+import { IArcGISContext } from "../../../src";
 import { updateCommunityOrgSettings } from "../../../src/utils/internal/updateCommunityOrgSettings";
 import * as requestModule from "@esri/arcgis-rest-request";
 
@@ -47,7 +47,7 @@ describe("updateCommunityOrgSettings", () => {
     }
   });
 
-  it("sends a request to the right url with signup text and terms and conditions", () => {
+  it("sends a request to the right url with signup text and terms and conditions", async () => {
     const settings = {
       signupText: "signup text",
       termsAndConditions: "terms and conditions",
@@ -68,7 +68,7 @@ describe("updateCommunityOrgSettings", () => {
       Promise.resolve({})
     );
 
-    updateCommunityOrgSettings(settings, context);
+    await updateCommunityOrgSettings(settings, context);
 
     expect(requestSpy).toHaveBeenCalledWith(
       "https://www.community-org.hubqa.arcgis.com/sharing/rest/portals/self/setSigninSettings?f=json",
@@ -84,7 +84,7 @@ describe("updateCommunityOrgSettings", () => {
     );
   });
 
-  it("sends an empty string for signup text and terms and conditions if values are empty", () => {
+  it("sends an empty string for signup text and terms and conditions if values are empty", async () => {
     const settings = {
       signupText: "",
       termsAndConditions: "",
@@ -105,7 +105,7 @@ describe("updateCommunityOrgSettings", () => {
       Promise.resolve({})
     );
 
-    updateCommunityOrgSettings(settings, context);
+    await updateCommunityOrgSettings(settings, context);
 
     expect(requestSpy).toHaveBeenCalledWith(
       "https://www.community-org.hubqa.arcgis.com/sharing/rest/portals/self/setSigninSettings?f=json",

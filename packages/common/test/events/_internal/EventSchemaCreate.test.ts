@@ -42,35 +42,12 @@ describe("EventSchemaCreate", () => {
           endTime: {
             type: "string",
           },
-          attendanceType: {
-            type: "string",
-            enum: [
-              HubEventAttendanceType.InPerson,
-              HubEventAttendanceType.Online,
-              HubEventAttendanceType.Both,
-            ],
-            default: HubEventAttendanceType.InPerson,
-          },
           isAllDay: {
             type: "boolean",
             default: false,
           },
-          onlineUrl: {
-            type: "string",
-          },
-          referencedContentIds: {
-            type: "array",
-            maxItems: 1,
-            items: {
-              type: "string",
-            },
-            default: [],
-          },
         },
-        allOf: [
-          URL_VALIDATIONS_WHEN_ONLINE_OR_HYBRID,
-          TIME_VALIDATIONS_WHEN_NOT_ALL_DAY,
-        ],
+        allOf: [TIME_VALIDATIONS_WHEN_NOT_ALL_DAY],
       } as IConfigurationSchema);
     });
   });

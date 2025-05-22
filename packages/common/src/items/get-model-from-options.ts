@@ -1,6 +1,6 @@
 import { failSafe } from "../utils";
 import { getModel } from "../models";
-import { IModel } from "../types";
+import { IModel } from "../hub-types";
 
 /**
  * To streamline passing of either a model id or the model itself, we use this function

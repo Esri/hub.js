@@ -1,5 +1,5 @@
 import * as EventEmitter from "eventemitter3";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { hubPollDownloadMetadata } from "./hub/hub-poll-download-metadata";
 import { portalPollExportJobStatus } from "./portal/portal-poll-export-job-status";
 import { DownloadFormat } from "./download-format";
@@ -26,7 +26,7 @@ export interface IPollDownloadMetadataRequestParams {
   /* A SQL-style WHERE filter for attribute values.  Applicable to Hub API downloads only. */
   where?: string;
   /* Required for Portal downloads only. */
-  authentication?: UserSession;
+  authentication?: ArcGISIdentityManager;
   /* Identifier for the export job. Required for Portal downloads only. */
   jobId?: string;
   /* Time-stamp for export start. Required for Portal downloads only. */
@@ -58,7 +58,7 @@ export function pollDownloadMetadata(
     geometry,
     where,
     host,
-    existingFileDate
+    existingFileDate,
   } = params;
 
   if (!target || target === "hub") {
@@ -72,7 +72,7 @@ export function pollDownloadMetadata(
       spatialRefId,
       geometry,
       where,
-      existingFileDate
+      existingFileDate,
     });
   }
 
@@ -87,6 +87,6 @@ export function pollDownloadMetadata(
     eventEmitter,
     pollingInterval,
     geometry,
-    where
+    where,
   });
 }

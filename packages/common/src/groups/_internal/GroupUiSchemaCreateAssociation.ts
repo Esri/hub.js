@@ -3,7 +3,7 @@ import {
   IUiSchema,
   UiSchemaRuleEffects,
 } from "../../core/schemas/types";
-import { IArcGISContext } from "../../ArcGISContext";
+import type { IArcGISContext } from "../../types/IArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 import { getWellKnownGroup } from "../getWellKnownGroup";
 import { checkPermission } from "../../permissions/checkPermission";

@@ -1,7 +1,7 @@
-import { IHubCollectionPersistance } from "../../../src/search/types/IHubCatalog";
+import { IHubCollection } from "../../../src/search/types/IHubCatalog";
 import { applyDefaultCollectionMigration } from "../../../src/sites/_internal/applyDefaultCollectionMigration";
 import { SearchCategories } from "../../../src/sites/_internal/types";
-import { IModel } from "../../../src/types";
+import { IModel } from "../../../src/hub-types";
 import { cloneObject } from "../../../src/util";
 
 const BASE_MODEL = {
@@ -31,29 +31,22 @@ describe("applyDefaultCollectionMigration", () => {
   it("Adds untouched default collections when no search categories are configured", () => {
     const result = applyDefaultCollectionMigration(site);
     const collectionKeys = result.data.catalog.collections.map(
-      (c: IHubCollectionPersistance) => c.key
+      (c: IHubCollection) => c.key
     );
     expect(collectionKeys).toEqual([
-      "all",
       "site",
       "dataset",
       "document",
       "appAndMap",
     ]);
     const collectionLabels = result.data.catalog.collections.map(
-      (c: IHubCollectionPersistance) => c.label
+      (c: IHubCollection) => c.label
     );
-    expect(collectionLabels).toEqual([null, null, null, null, null]);
+    expect(collectionLabels).toEqual([null, null, null, null]);
     const hiddenStatuses = result.data.catalog.collections.map(
-      (c: IHubCollectionPersistance) => c.hidden
+      (c: IHubCollection) => c.displayConfig?.hidden
     );
-    expect(hiddenStatuses).toEqual([
-      undefined,
-      true,
-      undefined,
-      undefined,
-      undefined,
-    ]);
+    expect(hiddenStatuses).toEqual([true, false, false, false]);
   });
 
   it("Reorders, re-labels, and hides default collections when search categories are configured", () => {
@@ -78,11 +71,10 @@ describe("applyDefaultCollectionMigration", () => {
     ];
     const result = applyDefaultCollectionMigration(site);
     const collectionKeys = result.data.catalog.collections.map(
-      (c: IHubCollectionPersistance) => c.key
+      (c: IHubCollection) => c.key
     );
-    // Note: 'all' collection is always prepended
+
     expect(collectionKeys).toEqual([
-      "all",
       "appAndMap",
       "document",
       "site",
@@ -90,14 +82,14 @@ describe("applyDefaultCollectionMigration", () => {
     ]);
 
     const collectionLabels = result.data.catalog.collections.map(
-      (c: IHubCollectionPersistance) => c.label
+      (c: IHubCollection) => c.label
     );
-    expect(collectionLabels).toEqual([null, null, null, "My Sites", "My Data"]);
+    expect(collectionLabels).toEqual([null, null, "My Sites", "My Data"]);
 
     const hiddenStatuses = result.data.catalog.collections.map(
-      (c: IHubCollectionPersistance) => c.hidden
+      (c: IHubCollection) => c.displayConfig.hidden
     );
-    expect(hiddenStatuses).toEqual([undefined, undefined, true, false, false]);
+    expect(hiddenStatuses).toEqual([false, true, false, false]);
   });
 
   it("Handles when a site has the 'initiatives' search category saved", () => {
@@ -110,20 +102,19 @@ describe("applyDefaultCollectionMigration", () => {
     ];
     const result = applyDefaultCollectionMigration(site);
     const collectionKeys = result.data.catalog.collections.map(
-      (c: IHubCollectionPersistance) => c.key
+      (c: IHubCollection) => c.key
     );
-    // Note: 'all' collection is always prepended
-    expect(collectionKeys).toEqual(["all", "site"]);
+    expect(collectionKeys).toEqual(["site"]);
 
     const collectionLabels = result.data.catalog.collections.map(
-      (c: IHubCollectionPersistance) => c.label
+      (c: IHubCollection) => c.label
     );
-    expect(collectionLabels).toEqual([null, "My Initiatives"]);
+    expect(collectionLabels).toEqual(["My Initiatives"]);
 
     const hiddenStatuses = result.data.catalog.collections.map(
-      (c: IHubCollectionPersistance) => c.hidden
+      (c: IHubCollection) => c.displayConfig.hidden
     );
-    expect(hiddenStatuses).toEqual([undefined, true]);
+    expect(hiddenStatuses).toEqual([true]);
   });
 
   it("Omits unsupported search categories, like an explicit 'all' or events", () => {
@@ -139,19 +130,41 @@ describe("applyDefaultCollectionMigration", () => {
     ];
     const result = applyDefaultCollectionMigration(site);
     const collectionKeys = result.data.catalog.collections.map(
-      (c: IHubCollectionPersistance) => c.key
+      (c: IHubCollection) => c.key
     );
-    // Note: 'all' collection can never be relabeled, hidden, or reordered
-    expect(collectionKeys).toEqual(["all"]);
+
+    expect(collectionKeys).toEqual([]);
 
     const collectionLabels = result.data.catalog.collections.map(
-      (c: IHubCollectionPersistance) => c.label
+      (c: IHubCollection) => c.label
     );
-    expect(collectionLabels).toEqual([null]);
+    expect(collectionLabels).toEqual([]);
 
     const hiddenStatuses = result.data.catalog.collections.map(
-      (c: IHubCollectionPersistance) => c.hidden
+      (c: IHubCollection) => c.displayConfig.hidden
     );
-    expect(hiddenStatuses).toEqual([undefined]);
+    expect(hiddenStatuses).toEqual([]);
+  });
+  it("adds additional predicates for the appAndMap collection", () => {
+    site.data.values.searchCategories = [
+      {
+        key: SearchCategories.APPS_AND_MAPS,
+      },
+    ];
+    const result = applyDefaultCollectionMigration(site);
+    const collectionKeys = result.data.catalog.collections.map(
+      (c: IHubCollection) => c.key
+    );
+    expect(collectionKeys).toEqual(["appAndMap"]);
+
+    const collectionPredicates =
+      result.data.catalog.collections[0].scope.filters[0].predicates;
+    expect(collectionPredicates).toEqual([
+      {
+        type: {
+          any: ["$app", "$map"],
+        },
+      },
+    ]);
   });
 });

@@ -1,24 +1,20 @@
 export * from "./serializeModel";
 
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import {
-  createItem,
   FetchReadMethodName,
   getItem,
   getItemData,
   getItemResource,
-  ICreateItemOptions,
-  ICreateItemResponse,
   IItem,
   IUpdateItemOptions,
-  protectItem,
-  updateItem,
 } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { createItem, updateItem } from "../rest/portal";
 import { bboxToString } from "../extent";
 import { getItemBySlug } from "../items";
 import { upsertResource } from "../resources";
-import { IModel } from "../types";
+import { IModel } from "../hub-types";
 import { cloneObject } from "../util";
 import { failSafe } from "../utils";
 

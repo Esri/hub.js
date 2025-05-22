@@ -1,10 +1,6 @@
-import { IArcGISContext } from "../../../../ArcGISContext";
+import type { IArcGISContext } from "../../../../types/IArcGISContext";
 import { getWellKnownCatalog } from "../../../../search/wellKnownCatalog";
-import {
-  IUiSchema,
-  UiSchemaMessageTypes,
-  UiSchemaRuleEffects,
-} from "../../types";
+import { IUiSchema, UiSchemaRuleEffects } from "../../types";
 import { IEventGalleryCardEditorOptions } from "../EditorOptions";
 import { fetchCategoriesUiSchemaElement } from "../fetchCategoriesUiSchemaElement";
 import { getTagItems } from "../getTagItems";

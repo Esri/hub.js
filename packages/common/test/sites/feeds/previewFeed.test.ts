@@ -3,7 +3,7 @@ import {
   IPreviewFeedOptions,
 } from "../../../src/sites/feeds/previewFeed";
 import * as fetchMock from "fetch-mock";
-import { IArcGISContext } from "../../../src/ArcGISContext";
+import { IArcGISContext } from "../../../src";
 
 describe("previewFeed", () => {
   const context = {
@@ -72,7 +72,7 @@ describe("previewFeed", () => {
       await previewFeed(options);
       fail("Expected an error to be thrown");
     } catch (error) {
-      expect(error.message).toBe(
+      expect((error as Error).message).toBe(
         "Failed to preview feed: Internal Server Error"
       );
     }

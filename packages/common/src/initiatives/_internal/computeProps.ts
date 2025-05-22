@@ -1,15 +1,13 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { getItemThumbnailUrl } from "../../resources";
 
-import { IModel } from "../../types";
+import { IModel } from "../../hub-types";
 
 import { IHubInitiative } from "../../core";
-import { isDiscussable } from "../../discussions";
 import { processEntityFeatures } from "../../permissions/_internal/processEntityFeatures";
 import { InitiativeDefaultFeatures } from "./InitiativeBusinessRules";
 import { computeLinks } from "./computeLinks";
-import { getAuthedImageUrl } from "../../core/_internal/getAuthedImageUrl";
 import { computeItemProps } from "../../core/_internal/computeItemProps";
 import { upgradeCatalogSchema } from "../../search/upgradeCatalogSchema";
 
@@ -28,7 +26,8 @@ export function computeProps(
 ): IHubInitiative {
   let token: string;
   if (requestOptions.authentication) {
-    const session: UserSession = requestOptions.authentication as UserSession;
+    const session: ArcGISIdentityManager =
+      requestOptions.authentication as ArcGISIdentityManager;
     token = session.token;
   }
 

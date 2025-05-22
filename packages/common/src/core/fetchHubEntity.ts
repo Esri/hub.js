@@ -7,12 +7,14 @@ import { fetchSite } from "../sites/HubSites";
 import { fetchTemplate } from "../templates/fetch";
 import { HubEntity } from "./types/HubEntity";
 import { HubEntityType } from "./types/HubEntityType";
-import { IArcGISContext } from "../ArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 import { fetchHubGroup } from "../groups/HubGroups";
 import { fetchInitiativeTemplate } from "../initiative-templates/fetch";
 import { fetchSurvey } from "../surveys/fetch";
 import { fetchEvent } from "../events/fetch";
-import { convertUserToHubUser, fetchHubUser } from "../users";
+import { fetchHubUser } from "../users";
+import { fetchOrganization } from "../org/fetch";
+import { fetchHubChannel } from "../channels/fetch";
 
 /**
  * Fetch a Hub entity by identifier (id or slug)
@@ -40,6 +42,9 @@ export async function fetchHubEntity(
     case "discussion":
       result = await fetchDiscussion(identifier, context.hubRequestOptions);
       break;
+    case "channel":
+      result = await fetchHubChannel(identifier, context);
+      break;
     case "page":
       result = await fetchPage(identifier, context.hubRequestOptions);
       break;
@@ -57,6 +62,9 @@ export async function fetchHubEntity(
       break;
     case "event":
       result = await fetchEvent(identifier, context.hubRequestOptions);
+      break;
+    case "organization":
+      result = await fetchOrganization(identifier, context.requestOptions);
       break;
     case "initiativeTemplate":
       result = await fetchInitiativeTemplate(

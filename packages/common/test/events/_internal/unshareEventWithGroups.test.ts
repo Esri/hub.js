@@ -2,7 +2,7 @@ import { unshareEventWithGroups } from "../../../src/events/_internal/unshareEve
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { IHubEvent } from "../../../src/core/types/IHubEvent";
 import * as eventsModule from "../../../src/events/api/events";
-import { IArcGISContext } from "../../../src/ArcGISContext";
+import { IArcGISContext } from "../../../src";
 
 describe("unshareEventWithGroups", () => {
   let updateEventSpy: jasmine.Spy;
@@ -70,7 +70,7 @@ describe("unshareEventWithGroups", () => {
       await unshareEventWithGroups(["31c", "52n"], entity, context);
       fail("did not reject");
     } catch (e) {
-      expect(e.message).toEqual(
+      expect((e as Error).message).toEqual(
         "Entity: 62p could not be unshared with groups: 31c, 52n"
       );
     }

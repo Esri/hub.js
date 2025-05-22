@@ -1,20 +1,19 @@
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { getTeamById } from "../../src/utils/get-team-by-id";
 import { IHubRequestOptions } from "@esri/hub-common";
-import { UserSession } from "@esri/arcgis-rest-auth";
 
 describe("getTeamById", () => {
-  const authentication = new UserSession({
+  const authentication = {
     username: "portal-user",
     portal: "http://portal.com/sharing/rest",
-    token: "123"
-  });
+    token: "123",
+  } as any;
   authentication.getToken = () =>
-    new Promise(resolve => {
+    new Promise((resolve) => {
       resolve("123");
     });
   const ro = {
-    authentication
+    authentication,
   } as IHubRequestOptions;
 
   it("should call with the right group id", async () => {
@@ -38,7 +37,7 @@ describe("getTeamById", () => {
       Promise.resolve({})
     );
     const unAuthRo = {
-      portal: "https://foo.com"
+      portal: "https://foo.com",
     } as IHubRequestOptions;
     const res = await getTeamById(groupId, unAuthRo);
 

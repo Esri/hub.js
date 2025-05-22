@@ -81,8 +81,9 @@ describe("HubInitiativeTemplate Class: ", () => {
       try {
         await HubInitiativeTemplate.fetch("3ef", authdCtxMgr.context);
       } catch (ex) {
+        const error = ex as { message?: string };
         expect(fetchSpy).toHaveBeenCalledTimes(1);
-        expect((ex as any).message).toBe("Initiative Template not found.");
+        expect(error.message).toBe("Initiative Template not found.");
       }
     });
 
@@ -97,8 +98,9 @@ describe("HubInitiativeTemplate Class: ", () => {
       try {
         await HubInitiativeTemplate.fetch("3ef", authdCtxMgr.context);
       } catch (ex) {
+        const error = ex as { message?: string };
         expect(fetchSpy).toHaveBeenCalledTimes(1);
-        expect((ex as any).message).toBe("ZOMG!");
+        expect(error.message).toBe("ZOMG!");
       }
     });
 
@@ -129,14 +131,14 @@ describe("HubInitiativeTemplate Class: ", () => {
     // });
   });
 
-  it("convertToCardModel: delegates to the initiativeTemplateToCardModel util", async () => {
+  it("convertToCardModel: delegates to the initiativeTemplateToCardModel util", () => {
     const spy = spyOn(viewModule, "initiativeTemplateToCardModel");
 
-    const chk = await HubInitiativeTemplate.fromJson(
+    const chk = HubInitiativeTemplate.fromJson(
       { name: "Test Project" },
       authdCtxMgr.context
     );
-    await chk.convertToCardModel();
+    chk.convertToCardModel();
 
     expect(spy).toHaveBeenCalledTimes(1);
   });
@@ -148,7 +150,7 @@ describe("HubInitiativeTemplate Class: ", () => {
     ).and.callFake((p: IHubInitiativeTemplate) => {
       return Promise.resolve(p);
     });
-    const chk = await HubInitiativeTemplate.fromJson(
+    const chk = HubInitiativeTemplate.fromJson(
       { name: "Test Initiative Template" },
       authdCtxMgr.context
     );
@@ -254,7 +256,8 @@ describe("HubInitiativeTemplate Class: ", () => {
     try {
       await chk.delete();
     } catch (e) {
-      expect((e as any).message).toEqual(
+      const error = e as { message?: string };
+      expect(error.message).toEqual(
         "HubInitiativeTemplate is already destroyed."
       );
     }
@@ -262,7 +265,8 @@ describe("HubInitiativeTemplate Class: ", () => {
     try {
       await chk.save();
     } catch (e) {
-      expect((e as any).message).toEqual(
+      const error = e as { message?: string };
+      expect(error.message).toEqual(
         "HubInitiativeTemplate is already destroyed."
       );
     }

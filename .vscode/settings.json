@@ -3,5 +3,7 @@
     "cSpell.words": [
         "accum",
         "arcgis"
-    ]
+    ],
+    "typescript.preferences.importModuleSpecifier": "relative",
+    "typescript.updateImportsOnFileMove.enabled": "always"
 }

@@ -24,7 +24,7 @@ import {
   HubEventCapacityType,
 } from "../../src/events/types";
 import * as buildEventAssociationsModule from "../../src/events/_internal/buildEventAssociations";
-import { IArcGISContext } from "../../src/ArcGISContext";
+import { IArcGISContext } from "../../src";
 
 describe("HubEvents edit module", () => {
   const context = {
@@ -362,6 +362,7 @@ describe("HubEvents edit module", () => {
           status: EventStatus.CANCELED,
           summary: defaultRecord.summary,
           tags: defaultRecord.tags,
+          thumbnailUrl: null,
           timeZone: defaultRecord.timeZone,
           title: "my event",
           location: {
@@ -476,6 +477,7 @@ describe("HubEvents edit module", () => {
           status: EventStatus.CANCELED,
           summary: defaultRecord.summary,
           tags: defaultRecord.tags,
+          thumbnailUrl: null,
           timeZone: defaultRecord.timeZone,
           title: "my event",
           location: {

@@ -1,6 +1,6 @@
 import * as restPortalModule from "@esri/arcgis-rest-portal";
 import { buildEventAssociations } from "../../../src/events/_internal/buildEventAssociations";
-import { IHubRequestOptions } from "../../../src/types";
+import { IHubRequestOptions } from "../../../src/hub-types";
 import { ICreateEventAssociation } from "../../../src/events/api/orval/api/orval-events";
 
 describe("buildEventAssociations", () => {

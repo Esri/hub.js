@@ -10,7 +10,6 @@ import {
   IQuery,
 } from "../../../src";
 
-import { UserSession } from "@esri/arcgis-rest-auth";
 import {
   formatPredicate,
   formatFilterBlock,
@@ -23,7 +22,10 @@ import {
 import { getQueryString } from "../../../src/search/_internal/hubSearchItemsHelpers/getQueryString";
 import { getOgcAggregationQueryParams } from "../../../src/search/_internal/hubSearchItemsHelpers/getOgcAggregationQueryParams";
 import { getQQueryParam } from "../../../src/search/_internal/hubSearchItemsHelpers/getQQueryParam";
-import { IOgcItem } from "../../../src/search/_internal/hubSearchItemsHelpers/interfaces";
+import {
+  IOgcItem,
+  ISearchOgcItemsOptions,
+} from "../../../src/search/_internal/hubSearchItemsHelpers/interfaces";
 import * as ogcItemToSearchResultModule from "../../../src/search/_internal/hubSearchItemsHelpers/ogcItemToSearchResult";
 import * as ogcItemToDiscussionPostModule from "../../../src/search/_internal/hubSearchItemsHelpers/ogcItemToDiscussionPostResult";
 import { formatOgcItemsResponse } from "../../../src/search/_internal/hubSearchItemsHelpers/formatOgcItemsResponse";
@@ -386,7 +388,7 @@ describe("hubSearchItems Module |", () => {
       };
 
       it("handles query", () => {
-        const options: IHubSearchOptions = {};
+        const options: ISearchOgcItemsOptions = {};
         const result = getOgcItemQueryParams(query, options);
         const expected = {
           filter: "((type=typeA))",
@@ -396,16 +398,18 @@ describe("hubSearchItems Module |", () => {
           q: undefined,
           sortBy: undefined,
           bbox: undefined,
+          flatten: undefined,
+          fields: undefined,
         } as IOgcItemQueryParams;
         expect(result).toEqual(expected);
       });
 
       it("handles query and auth", () => {
-        const options: IHubSearchOptions = {
+        const options: ISearchOgcItemsOptions = {
           requestOptions: {
             authentication: {
               token: "abc",
-            } as UserSession,
+            } as any,
           },
         };
 
@@ -418,16 +422,18 @@ describe("hubSearchItems Module |", () => {
           q: undefined,
           sortBy: undefined,
           bbox: undefined,
+          flatten: undefined,
+          fields: undefined,
         } as IOgcItemQueryParams;
         expect(result).toEqual(expected);
       });
 
       it("handles query, auth and limit", () => {
-        const options: IHubSearchOptions = {
+        const options: ISearchOgcItemsOptions = {
           requestOptions: {
             authentication: {
               token: "abc",
-            } as UserSession,
+            } as any,
           },
           num: 9,
         };
@@ -441,16 +447,18 @@ describe("hubSearchItems Module |", () => {
           q: undefined,
           sortBy: undefined,
           bbox: undefined,
+          flatten: undefined,
+          fields: undefined,
         } as IOgcItemQueryParams;
         expect(result).toEqual(expected);
       });
 
       it("handles query, auth, limit and startindex", () => {
-        const options: IHubSearchOptions = {
+        const options: ISearchOgcItemsOptions = {
           requestOptions: {
             authentication: {
               token: "abc",
-            } as UserSession,
+            } as any,
           },
           num: 9,
           start: 10,
@@ -465,16 +473,18 @@ describe("hubSearchItems Module |", () => {
           q: undefined,
           sortBy: undefined,
           bbox: undefined,
+          flatten: undefined,
+          fields: undefined,
         } as IOgcItemQueryParams;
         expect(result).toEqual(expected);
       });
 
       it("handles query, auth, limit, startindex and q", () => {
-        const options: IHubSearchOptions = {
+        const options: ISearchOgcItemsOptions = {
           requestOptions: {
             authentication: {
               token: "abc",
-            } as UserSession,
+            } as any,
           },
           num: 9,
           start: 10,
@@ -492,16 +502,18 @@ describe("hubSearchItems Module |", () => {
           q: "term1",
           sortBy: undefined,
           bbox: undefined,
+          flatten: undefined,
+          fields: undefined,
         } as IOgcItemQueryParams;
         expect(result).toEqual(expected);
       });
 
       it("handles query, auth, limit, startindex, q and sortBy", () => {
-        const options: IHubSearchOptions = {
+        const options: ISearchOgcItemsOptions = {
           requestOptions: {
             authentication: {
               token: "abc",
-            } as UserSession,
+            } as any,
           },
           num: 9,
           start: 10,
@@ -524,6 +536,47 @@ describe("hubSearchItems Module |", () => {
           q: "term1",
           sortBy: "properties.title",
           bbox: "1,2,3,4",
+          flatten: undefined,
+          fields: undefined,
+        } as IOgcItemQueryParams;
+        expect(result).toEqual(expected);
+      });
+
+      it("handles query, auth, limit, startindex, q, flatten, fields and sortBy", () => {
+        const options: ISearchOgcItemsOptions = {
+          requestOptions: {
+            authentication: {
+              token: "abc",
+            } as any,
+          },
+          num: 9,
+          start: 10,
+          sortField: "title",
+          sortOrder: "asc",
+        };
+
+        const termQuery: IQuery = cloneObject(query);
+        termQuery.filters.push({
+          operation: "AND",
+          predicates: [
+            { term: "term1" },
+            { bbox: "1,2,3,4" },
+            { flatten: true },
+            { fields: "id, slugs" },
+          ],
+        });
+
+        const result = getOgcItemQueryParams(termQuery, options);
+        const expected = {
+          filter: "((type=typeA))",
+          token: "abc",
+          limit: 9,
+          startindex: 10,
+          q: "term1",
+          sortBy: "properties.title",
+          bbox: "1,2,3,4",
+          flatten: true,
+          fields: "id, slugs",
         } as IOgcItemQueryParams;
         expect(result).toEqual(expected);
       });
@@ -591,7 +644,7 @@ describe("hubSearchItems Module |", () => {
           requestOptions: {
             authentication: {
               token: "abc",
-            } as UserSession,
+            } as any,
           },
         };
         const opendataQuery = cloneObject(baseQuery);
@@ -648,14 +701,14 @@ describe("hubSearchItems Module |", () => {
 
     describe("getSortByQueryParam |", () => {
       it("returns undefined if no sortField is provided", () => {
-        const options: IHubSearchOptions = {
+        const options: ISearchOgcItemsOptions = {
           sortOrder: "asc",
         };
         const result = getSortByQueryParam(options);
         expect(result).toBeUndefined();
       });
       it("handles sorting in descending order", () => {
-        const options: IHubSearchOptions = {
+        const options: ISearchOgcItemsOptions = {
           sortField: "title",
           sortOrder: "desc",
         };
@@ -915,11 +968,12 @@ describe("hubSearchItems Module |", () => {
 
     describe("getNextOgcCallback", () => {
       const { getNextOgcCallback } = getNextOgcCallbackModule;
+      const url = "https://my-hub.com/api/search/v1/collections/all/items";
       const query: IQuery = {
         targetEntity: "item",
         filters: [],
       };
-      const options: IHubSearchOptions = { num: 1 };
+      const options: ISearchOgcItemsOptions = { num: 1 };
       const nextResponse: IHubSearchResponse<IHubSearchResult> = {
         total: 0,
         results: [],
@@ -936,7 +990,12 @@ describe("hubSearchItems Module |", () => {
       });
 
       it("returns an empty callback when no next link is present", async () => {
-        const callback = getNextOgcCallback(ogcItemsResponse, query, options);
+        const callback = getNextOgcCallback(
+          ogcItemsResponse,
+          url,
+          query,
+          options
+        );
         const callbackResult = await callback();
         expect(callbackResult).toBeNull();
         // NOTE: using `toHaveBeenCalled` throws a fatal error ONLY in Karma
@@ -948,6 +1007,7 @@ describe("hubSearchItems Module |", () => {
       it("returns a callback with modified options when next link is present", async () => {
         const callback = getNextOgcCallback(
           ogcItemsResponseWithNext,
+          url,
           query,
           options
         );
@@ -959,7 +1019,7 @@ describe("hubSearchItems Module |", () => {
         const numCalls = searchOgcItemsSpy.calls.count();
         expect(numCalls).toBe(1);
         const callInfo = searchOgcItemsSpy.calls.first();
-        expect(callInfo.args).toEqual([query, { ...options, start: 2 }]);
+        expect(callInfo.args).toEqual([url, query, { ...options, start: 2 }]);
       });
     });
 
@@ -967,11 +1027,12 @@ describe("hubSearchItems Module |", () => {
     // Ends up throwing errors ONLY in Karma. Figure out why that is and
     // test that `formatOgcItemsResponse` is delegating accordingly
     describe("formatOgcItemsResponse |", () => {
+      const url = "https://my-hub.com/api/search/v1/collections/all/items";
       const query: IQuery = {
         targetEntity: "item",
         filters: [],
       };
-      const requestOptions: IHubSearchOptions = {
+      const requestOptions: ISearchOgcItemsOptions = {
         include: [],
         requestOptions: {},
       };
@@ -979,6 +1040,7 @@ describe("hubSearchItems Module |", () => {
       it("correctly handles when no next link is present", async () => {
         const formattedResponse = await formatOgcItemsResponse(
           ogcItemsResponse,
+          url,
           query,
           requestOptions
         );
@@ -990,6 +1052,7 @@ describe("hubSearchItems Module |", () => {
       it("correctly handles when the next link is present", async () => {
         const formattedResponse = await formatOgcItemsResponse(
           ogcItemsResponseWithNext,
+          url,
           query,
           requestOptions
         );
@@ -1002,6 +1065,7 @@ describe("hubSearchItems Module |", () => {
       it("correctly handles discussion posts", async () => {
         const formattedResponse = await formatOgcItemsResponse(
           ogcDiscussionPostResponseWithNext,
+          url,
           { targetEntity: "discussionPost", filters: [] },
           requestOptions
         );
@@ -1074,7 +1138,7 @@ describe("hubSearchItems Module |", () => {
           return fakeResponse;
         };
 
-        const options: IHubSearchOptions = {
+        const options: ISearchOgcItemsOptions = {
           site: `https://${siteHostname}`,
           requestOptions: {
             fetch: _fetch,
@@ -1096,8 +1160,29 @@ describe("hubSearchItems Module |", () => {
           return fakeResponse;
         };
 
-        const options: IHubSearchOptions = {
+        const options: ISearchOgcItemsOptions = {
           site: hubApiUrl,
+          requestOptions: {
+            fetch: _fetch,
+            hubApiUrl,
+          },
+        };
+        await ogcApiRequest(hubApiUrl, queryParams, options);
+      });
+
+      it("does not append the ?target query param when there is no target site domain", async () => {
+        const fakeResponse = {
+          ok: true,
+          statusText: "200: Ok",
+          status: 200,
+          json: () => Promise.resolve(),
+        };
+        const _fetch: any = async (finalUrl: string) => {
+          expect(finalUrl).toBe(`${hubApiUrl}?type=CSV`);
+          return fakeResponse;
+        };
+
+        const options: ISearchOgcItemsOptions = {
           requestOptions: {
             fetch: _fetch,
             hubApiUrl,
@@ -1113,7 +1198,7 @@ describe("hubSearchItems Module |", () => {
           status: 404,
         };
         const _fetch: any = async () => fakeResponse;
-        const options: IHubSearchOptions = {
+        const options: ISearchOgcItemsOptions = {
           site: `https://${siteHostname}`,
           requestOptions: {
             fetch: _fetch,
@@ -1124,7 +1209,8 @@ describe("hubSearchItems Module |", () => {
           await ogcApiRequest(hubApiUrl, queryParams, options);
           expect(true).toBe(false);
         } catch (err) {
-          expect(err.message).toEqual("404: Not Found");
+          const error = err as { message?: string };
+          expect(error.message).toEqual("404: Not Found");
         }
       });
     });

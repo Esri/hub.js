@@ -8,25 +8,24 @@
  * It's probably a good pattern to add functions here first and then
  * move them to index.ts only when they are needed by a consumer.
  */
-import { parseServiceUrl } from "@esri/arcgis-rest-feature-layer";
-import { IItem, IPortal } from "@esri/arcgis-rest-portal";
-import {
+import { parseServiceUrl } from "@esri/arcgis-rest-feature-service";
+import type { IItem, IPortal, IUser } from "@esri/arcgis-rest-portal";
+import type {
   IExtent,
   ILayerDefinition,
   ISpatialReference,
-  IUser,
-} from "@esri/arcgis-rest-types";
+} from "@esri/arcgis-rest-feature-service";
 import {
+  IGeometryInstance,
   IHubContent,
   IHubLocation,
   PublisherSource,
-  getTypeFromEntity,
-} from "../../core";
+} from "../../core/types";
 import {
   IHubGeography,
   GeographyProvenance,
   IHubRequestOptions,
-} from "../../types";
+} from "../../hub-types";
 import {
   GeoJSONPolygonToBBox,
   allCoordinatesPossiblyWGS84,
@@ -47,7 +46,7 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { geojsonToArcGIS } from "@terraformer/arcgis";
 import { Polygon } from "geojson";
 import { getHubApiUrl } from "../../api";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { isSiteType } from "../compose";
 
 /**
@@ -163,13 +162,13 @@ export const deriveLocationFromItem = (item: IItem): IHubLocation => {
       // determine the spatial reference of the extent.
       const bbox = GeoJSONPolygonToBBox(extent as any as Polygon);
       const defaultSpatialReference = { wkid: 4326 };
-      const _geometry: Partial<__esri.Geometry> = {
+      const _geometry = {
         type: "polygon",
         ...geojsonToArcGIS(extent as any as Polygon),
         spatialReference: allCoordinatesPossiblyWGS84(bbox)
           ? defaultSpatialReference
           : (getItemSpatialReference(item) as any) || defaultSpatialReference,
-      };
+      } as IGeometryInstance;
       return {
         type: "custom",
         extent: bbox,

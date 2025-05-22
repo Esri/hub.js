@@ -1,21 +1,21 @@
 import { interpolateItemId } from "../../src";
-import { IItem } from "@esri/arcgis-rest-types";
+import type { IItem } from "@esri/arcgis-rest-portal";
 
-describe("interpolateItemId", function() {
-  it("interpolates the item id", function() {
+describe("interpolateItemId", function () {
+  it("interpolates the item id", function () {
     const itemId = "ITEM_ID";
     const toReplace = "{{appid}}";
     const inModel = {
       item: {
-        id: itemId
+        id: itemId,
       } as IItem,
       data: {
         foo: toReplace,
         bar: {
-          baz: toReplace
+          baz: toReplace,
         },
-        boop: "{{prop.no.exist:toISO}}"
-      }
+        boop: "{{prop.no.exist:toISO}}",
+      },
     };
 
     const interpolated = interpolateItemId(inModel);

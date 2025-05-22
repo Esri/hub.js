@@ -1,5 +1,5 @@
 import { getProp } from "../../objects";
-import { IHubRequestOptions, IModel } from "../../types";
+import { IHubRequestOptions, IModel } from "../../hub-types";
 import { addDomain } from "./add-domain";
 
 /**

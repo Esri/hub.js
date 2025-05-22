@@ -1,9 +1,8 @@
 import { getHubApiUrl } from "../src/api";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IHubRequestOptions } from "../src/types";
+import { IHubRequestOptions } from "../src/hub-types";
 
 describe("getHubApiUrl", () => {
-  let ro: IRequestOptions;
+  let ro: any;
   beforeEach(() => {
     ro = {
       authentication: {
@@ -12,7 +11,7 @@ describe("getHubApiUrl", () => {
           return Promise.resolve("FAKE-TOKEN");
         },
       },
-    };
+    } as any;
   });
 
   it("returns undefined for non-AGO URLs", () => {

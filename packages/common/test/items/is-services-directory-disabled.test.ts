@@ -1,5 +1,5 @@
 import { isServicesDirectoryDisabled } from "../../src/items/is-services-directory-disabled";
-import { IItem } from "@esri/arcgis-rest-types";
+import type { IItem } from "@esri/arcgis-rest-portal";
 import * as fetchMock from "fetch-mock";
 import * as restPortal from "@esri/arcgis-rest-portal";
 import {
@@ -11,7 +11,7 @@ describe("isServicesDirectoryDisabled", function () {
   const url =
     "https://maps.bouldercounty.org/arcgis/rest/services/PublicSafety/POLICE_STATIONS/MapServer";
   let item: IItem;
-  let requestOptions: IRequestOptions;
+  let requestOptions: any;
   let getItemSpy: jasmine.Spy;
 
   beforeEach(() => {
@@ -20,7 +20,7 @@ describe("isServicesDirectoryDisabled", function () {
       url,
     } as IItem;
 
-    requestOptions = {} as IRequestOptions;
+    requestOptions = {};
 
     getItemSpy = spyOn(restPortal, "getItem").and.returnValue(
       Promise.resolve(item)

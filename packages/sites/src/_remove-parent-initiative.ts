@@ -1,5 +1,5 @@
 import { IModel, getProp, _unprotectAndRemoveItem } from "@esri/hub-common";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 
 /**
  * Remove the parent initiative item, if it exists

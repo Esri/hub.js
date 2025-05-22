@@ -1,5 +1,5 @@
 import * as portal from "@esri/arcgis-rest-portal";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { _waitForItemReady } from "../../src/items/_internal/_wait-for-item-ready";
 
 describe("_waitForItemReady", () => {
@@ -19,7 +19,8 @@ describe("_waitForItemReady", () => {
       await _waitForItemReady("1234abc", ro, 10);
       expect(portal.getItemStatus).toHaveBeenCalledTimes(2);
     } catch (err) {
-      expect(err).toEqual(undefined);
+      const error = err as { message?: string };
+      expect(error).toEqual(undefined);
     }
   });
   it("throws an error when an error occurs", async () => {
@@ -42,7 +43,8 @@ describe("_waitForItemReady", () => {
       await _waitForItemReady("1234abc", ro, 10);
       expect(portal.getItemStatus).toHaveBeenCalledTimes(2);
     } catch (err) {
-      expect((err as Error).message).toEqual("Upload failed");
+      const error = err as { message?: string };
+      expect(error.message).toEqual("Upload failed");
     }
   });
 });

@@ -5,7 +5,11 @@ import { MOCK_AUTH, MOCK_CONTEXT } from "../mocks/mock-auth";
 import * as modelUtils from "../../src/models";
 import * as slugUtils from "../../src/items/slugs";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { HubEntityStatus, IHubRequestOptions, IModel } from "../../src/types";
+import {
+  HubEntityStatus,
+  IHubRequestOptions,
+  IModel,
+} from "../../src/hub-types";
 import {
   createInitiative,
   enrichInitiativeSearchResult,
@@ -27,7 +31,7 @@ import {
   IQuery,
   getProp,
 } from "../../src";
-import { IArcGISContext } from "../../src/ArcGISContext";
+import { IArcGISContext } from "../../src";
 import * as editorToMetricModule from "../../src/metrics/editorToMetric";
 import * as setMetricAndDisplayModule from "../../src/core/schemas/internal/metrics/setMetricAndDisplay";
 
@@ -291,7 +295,7 @@ describe("HubInitiatives:", () => {
   describe("updateInitiative: ", () => {
     it("updates backing model", async () => {
       const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
-        Promise.resolve("dcdev-wat-blarg-1")
+        Promise.resolve("dcdev|dcdev-wat-blarg-1")
       );
       const getModelSpy = spyOn(modelUtils, "getModel").and.returnValue(
         Promise.resolve(INITIATIVE_MODEL)
@@ -334,14 +338,16 @@ describe("HubInitiatives:", () => {
       // should ensure unique slug
       expect(slugSpy.calls.count()).toBe(1);
       expect(slugSpy.calls.argsFor(0)[0]).toEqual(
-        { slug: "dcdev-wat-blarg", existingId: GUID },
+        { slug: "dcdev|dcdev-wat-blarg", existingId: GUID },
         "should recieve slug"
       );
       expect(getModelSpy.calls.count()).toBe(1);
       expect(updateModelSpy.calls.count()).toBe(1);
       const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
       expect(modelToUpdate.item.description).toBe(prj.description);
-      expect(modelToUpdate.item.properties.slug).toBe("dcdev-wat-blarg-1");
+      expect(modelToUpdate.item.properties.slug).toBe(
+        "dcdev|dcdev-wat-blarg-1"
+      );
     });
   });
 

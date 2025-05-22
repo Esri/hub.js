@@ -1,5 +1,5 @@
 import { checkPermission } from "../../permissions/checkPermission";
-import { IArcGISContext } from "../../ArcGISContext";
+import type { IArcGISContext } from "../../types/IArcGISContext";
 import { IUiSchema } from "../../core/schemas/types";
 import { IHubInitiative } from "../../core/types";
 

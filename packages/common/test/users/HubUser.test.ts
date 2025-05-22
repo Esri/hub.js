@@ -468,7 +468,7 @@ describe("HubUser Class:", () => {
         await chk.save();
         fail("should have thrown");
       } catch (err) {
-        expect(err.message).toEqual("HubUser is already destroyed.");
+        expect((err as any).message).toEqual("HubUser is already destroyed.");
       }
     });
   });
@@ -478,7 +478,7 @@ describe("HubUser Class:", () => {
         { id: "123", name: "Paige" },
         authdCtxMgr.context
       );
-      chk.delete();
+      await chk.delete();
     });
     it("throws an error if destroyed", async () => {
       const chk = HubUser.fromJson(
@@ -491,7 +491,7 @@ describe("HubUser Class:", () => {
         await chk.delete();
         fail("should have thrown");
       } catch (err) {
-        expect(err.message).toEqual("HubUser is already destroyed.");
+        expect((err as any).message).toEqual("HubUser is already destroyed.");
       }
     });
   });

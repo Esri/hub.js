@@ -22,7 +22,7 @@ describe("fetchHubApiDownloadFile", () => {
       });
       expect(true).toBe(false);
     } catch (error) {
-      expect(error.message).toBe("No layers provided for download");
+      expect((error as Error).message).toBe("No layers provided for download");
     }
   });
   it("throws an error if empty layers array is provided", async () => {
@@ -38,7 +38,7 @@ describe("fetchHubApiDownloadFile", () => {
       });
       expect(true).toBe(false);
     } catch (error) {
-      expect(error.message).toBe("No layers provided for download");
+      expect((error as Error).message).toBe("No layers provided for download");
     }
   });
   it("throws an error if multiple layers are provided", async () => {
@@ -54,7 +54,7 @@ describe("fetchHubApiDownloadFile", () => {
       });
       expect(true).toBe(false);
     } catch (error) {
-      expect(error.message).toBe(
+      expect((error as Error).message).toBe(
         "Multiple layer downloads are not yet supported"
       );
     }
@@ -81,7 +81,7 @@ describe("fetchHubApiDownloadFile", () => {
       expect(true).toBe(false);
     } catch (error) {
       expect(error instanceof ArcgisHubDownloadError).toBeTruthy();
-      expect(error.message).toBe("Special Server Error");
+      expect((error as Error).message).toBe("Special Server Error");
     }
   });
   it('throws an error when the api returns a status of "Failed"', async () => {
@@ -102,7 +102,9 @@ describe("fetchHubApiDownloadFile", () => {
       });
       expect(true).toBe(false);
     } catch (error) {
-      expect(error.message).toBe("Download operation failed with a 200");
+      expect((error as Error).message).toBe(
+        "Download operation failed with a 200"
+      );
     }
   });
   it("polls without a progress callback", async () => {
@@ -240,7 +242,7 @@ describe("fetchHubApiDownloadFile", () => {
       geometry: {
         type: "point",
         toJSON: () => ({ type: "point", coordinates: [1, 2] }),
-      } as unknown as __esri.Point,
+      } as any,
       where: "1=1",
     });
 

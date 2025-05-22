@@ -76,6 +76,12 @@ import { UserPermissionPolicies } from "../users/_internal/UserBusinessRules";
  */
 const SystemPermissionPolicies: IPermissionPolicy[] = [
   {
+    permission: "hub:feature:ai-assistant",
+    availability: ["alpha"],
+    flagValue: false, // default to not enabled; site must opt-in
+    entityConfigurable: true,
+  },
+  {
     permission: "hub:feature:privacy",
     // alpha does not do what we want here, it says "grant if the _logged in user_ is in an alpha org"
     // but what we really want is "grant if the _current site_ is in an alpha org" which we can't do
@@ -132,7 +138,7 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:feature:workspace:user",
     // NOTE: qaext and devext might seem redundant, given that hub:feature:workspace is alpha
     // but we allow users to "opt-in" which overrides that
-    environments: ["qaext", "devext"],
+    environments: ["production", "qaext", "devext"],
     dependencies: ["hub:feature:workspace"],
   },
   {
@@ -166,6 +172,26 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:feature:catalogs",
     environments: ["qaext"],
     availability: ["alpha"],
+  },
+  /**
+   * Gates advanced editing (e.g. adding new collections, adding
+   * additional scope filters, appearance settings, etc.) in
+   * the catalog configuration experince.
+   *
+   * TODO: Remove the site entity assertion once all catalog
+   * configuration features are supported by sites
+   */
+  {
+    permission: "hub:feature:catalogs:edit:advanced",
+    entityEdit: true,
+    licenses: ["hub-premium"],
+    assertions: [
+      {
+        property: "entity:type",
+        type: "neq",
+        value: "Hub Site Application",
+      },
+    ],
   },
   {
     // Enable inline-workspace for Entity Views

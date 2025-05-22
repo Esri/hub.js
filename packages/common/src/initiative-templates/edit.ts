@@ -1,18 +1,11 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 
 // Note - we separate these imports so we can cleanly spy on things in tests
 import { createModel, getModel, updateModel } from "../models";
 import { constructSlug } from "../items/slugs";
-import {
-  IPortal,
-  IUserItemOptions,
-  removeItem,
-} from "@esri/arcgis-rest-portal";
+import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
-import {
-  IHubInitiativeTemplate,
-  IHubInitiativeTemplateEditor,
-} from "../core/types/IHubInitiativeTemplate";
+import { IHubInitiativeTemplate } from "../core/types/IHubInitiativeTemplate";
 import {
   DEFAULT_INITIATIVE_TEMPLATE,
   DEFAULT_INITIATIVE_TEMPLATE_MODEL,
@@ -21,10 +14,9 @@ import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { cloneObject } from "../util";
 import { setDiscussableKeyword } from "../discussions";
-import { IModel } from "../types";
+import { IModel } from "../hub-types";
 import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlug";
 import { IHubItemEntity } from "../core";
-import { editorToEntity } from "../core/schemas/internal/metrics/editorToEntity";
 
 /**
  * @private

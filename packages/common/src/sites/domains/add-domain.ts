@@ -1,7 +1,7 @@
 import { _getAuthHeader } from "./_get-auth-header";
 import { _getDomainServiceUrl } from "./_get-domain-service-url";
 import { _checkStatusAndParseJson } from "./_check-status-and-parse-json";
-import { IDomainEntry, IHubRequestOptions } from "../../types";
+import { IDomainEntry, IHubRequestOptions } from "../../hub-types";
 
 /**
  * Create an entry in the domain system

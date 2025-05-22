@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../../../src/ArcGISContext";
+import type { IArcGISContext } from "../../../src";
 import { getIncludesDoesNotReferenceQuery } from "../../../src/associations/internal/getIncludesDoesNotReferenceQuery";
 import { MOCK_PARENT_ENTITY, MOCK_CHILD_ENTITY } from "../fixtures";
 import * as ItemsModule from "@esri/arcgis-rest-portal";

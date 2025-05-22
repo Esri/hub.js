@@ -1,4 +1,4 @@
-import { IGroup, IUser } from "@esri/arcgis-rest-types";
+import type { IGroup, IUser } from "@esri/arcgis-rest-portal";
 
 /**
  * Checks if user has access to edit a team

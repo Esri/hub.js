@@ -1,44 +1,32 @@
 import { getSelf, getUser, IPortal } from "@esri/arcgis-rest-portal";
-import { exchangeToken, IUser, UserSession } from "@esri/arcgis-rest-auth";
 import {
-  ArcGISContext,
-  IArcGISContext,
-  IArcGISContextOptions,
-} from "./ArcGISContext";
+  exchangeToken,
+  IUser,
+  ArcGISIdentityManager,
+} from "@esri/arcgis-rest-request";
+import { ArcGISContext } from "./ArcGISContext";
+import type { IArcGISContextOptions } from "./types/IArcGISContextOptions";
+import type { IArcGISContext } from "./types/IArcGISContext";
 
 import { getHubApiFromPortalUrl } from "./urls/getHubApiFromPortalUrl";
 import { getPortalBaseFromOrgUrl } from "./urls/getPortalBaseFromOrgUrl";
-import { Level, Logger } from "./utils/logger";
+import { Logger } from "./utils/logger";
 import { HubServiceStatus } from "./core";
 import { cloneObject, maybeAdd } from "./util";
 import { base64ToUnicode, unicodeToBase64 } from "./utils/encoding";
 import { IFeatureFlags } from "./permissions";
-import { IHubTrustedOrgsResponse } from "./types";
+import { IHubTrustedOrgsResponse } from "./hub-types";
 import { request } from "@esri/arcgis-rest-request";
 import { failSafe } from "./utils/fail-safe";
 
-import {
-  IUserHubSettings,
-  updateUserHubSettings,
-} from "./utils/hubUserAppResources";
+import { updateUserHubSettings } from "./utils/hubUserAppResources";
+import { IUserHubSettings } from "./utils/IUserHubSettings";
 import { fetchAndMigrateUserHubSettings } from "./utils/internal/fetchAndMigrateUserHubSettings";
-import { getProp, getWithDefault, setProp } from "./objects";
+import { getProp, getWithDefault } from "./objects";
 import { fetchOrgLimits, IOrgLimit, OrgLimitType } from "./org/fetchOrgLimits";
-
-export type UserResourceApp = "self" | "hubforarcgis" | "arcgisonline";
-
-// Passed into ContextManager, specifying what exchangeToken calls
-// should be made
-export interface IUserResourceConfig {
-  app: UserResourceApp;
-  clientId: string;
-}
-
-// After exchangeToken call is successful, this is the structure
-// stored in the context.userResourceTokens prop
-export interface IUserResourceToken extends IUserResourceConfig {
-  token: string;
-}
+import type { IArcGISContextManagerOptions } from "./types/IArcGISContextManagerOptions";
+import type { IUserResourceConfig } from "./types/IUserResourceConfig";
+import type { IUserResourceToken } from "./types/IUserResourceToken";
 
 /**
  * Properties that we can always serialize/deserialize regardless of authentication status
@@ -61,95 +49,7 @@ const CONTEXT_AUTHD_SERIALIZABLE_PROPS: Array<
 > = ["resourceTokens", "portal", "currentUser"];
 
 /**
- * Options that can be passed into `ArcGISContextManager.create`
- */
-export interface IArcGISContextManagerOptions {
-  /**
-   * Existing user session, which may be created from Identity Manager
-   * `const session = UserSession.fromCredential(idMgr.getCredential());`
-   */
-  authentication?: UserSession;
-
-  /**
-   * ArcGIS Online or ArcGIS Enterprise portal url.
-   * Do not include  `/sharing/rest`
-   * Defaults to `https://www.arcgis.com`
-   * For ArcGIS Enterprise, you must include the webadaptor name.
-   * i.e. https://gis.mytown.gov/portal
-   *
-   * When Authentication is present, the UserSession.portal value is
-   * used instead of this property.
-   */
-  portalUrl?: string;
-
-  /**
-   * Portal self for the authenticated user. If not passed into `.create`
-   * with the UserSession, it will be fetched
-   */
-  portal?: IPortal;
-
-  /**
-   * Current user as `IUser`. If not passed into `.create` with the UserSession
-   * it will be fetched.
-   */
-  currentUser?: IUser;
-
-  /**
-   * Any additional properties to expose on the context. This allows
-   * an application to send additional context into the system.
-   * For example, in ArcGIS Hub, many times we want to pass in the
-   * active "Hub Site" as additional context, so we will send that in
-   * as a node on a properties object.
-   */
-  properties?: Record<string, any>;
-
-  /**
-   * Logging level
-   * off > error > warn > info > debug > all
-   * defaults to 'error'
-   */
-  logLevel?: Level;
-
-  /**
-   * Option to pass in service status vs fetching it
-   */
-  serviceStatus?: HubServiceStatus;
-
-  /**
-   * Optional hash of feature flags
-   */
-  featureFlags?: IFeatureFlags;
-
-  /**
-   * Array of Trusted Org Ids
-   */
-  trustedOrgIds?: string[];
-
-  /**
-   * Trusted orgs xhr response
-   */
-  trustedOrgs?: IHubTrustedOrgsResponse[];
-
-  /**
-   * Array of app, clientId's that Context Manager should
-   * exchange tokens for
-   */
-  resourceConfigs?: IUserResourceConfig[];
-
-  /**
-   * Array of app, clientId, token objects which Context
-   * Manager has exchanged tokens for
-   */
-  resourceTokens?: IUserResourceToken[];
-  /**
-   * Hash of user hub settings. These are stored as
-   * user-app-resources, associated with the `hubforarcgis` clientId
-   */
-  userHubSettings?: IUserHubSettings;
-}
-
-/**
- * The manager exposes context (`IArcGISContext`), which combines a `UserSession` with
+ * The manager exposes context (`IArcGISContext`), which combines a `ArcGISIdentityManager` with
  * the `portal/self` and `user/self` responses to provide a central lookup for platform
  * information, api urls, and other useful properties for developers such as IRequestOptions
  * IUserRequestOptions, IHubRequestOptions etc.
@@ -172,7 +72,7 @@ export class ArcGISContextManager {
 
   private _context: IArcGISContext;
 
-  private _authentication: UserSession;
+  private _authentication: ArcGISIdentityManager;
 
   private _portalUrl: string = "https://www.arcgis.com";
 
@@ -183,8 +83,6 @@ export class ArcGISContextManager {
   private _portal: IPortal;
 
   private _currentUser: IUser;
-
-  private _logLevel: Level = Level.error;
 
   private _serviceStatus: HubServiceStatus;
 
@@ -208,10 +106,7 @@ export class ArcGISContextManager {
   private constructor(opts: IArcGISContextManagerOptions) {
     // Having a unique id makes debugging easier
     this.id = new Date().getTime();
-    if (opts.logLevel) {
-      this._logLevel = opts.logLevel;
-    }
-    Logger.setLogLevel(this._logLevel);
+
     Logger.debug(`ArcGISContextManager:ctor: Creating ${this.id}`);
 
     if (opts.properties) {
@@ -311,14 +206,14 @@ export class ArcGISContextManager {
     });
     // check if there is a session and if it's still valid
     if (state.session) {
-      const userSession = UserSession.deserialize(state.session);
+      const userSession = ArcGISIdentityManager.deserialize(state.session);
       if (userSession.tokenExpires.getTime() > Date.now()) {
         CONTEXT_AUTHD_SERIALIZABLE_PROPS.forEach((prop) => {
           opts = maybeAdd(prop, getProp(state, prop), opts);
         });
         // CRTITICAL: This must be done after the maybeAdd calls above
         // as those return clones of the opts object, and cloneObject
-        // does not support cloning a UserSession
+        // does not support cloning a ArcGISIdentityManager
         opts.authentication = userSession;
       }
     }
@@ -348,12 +243,12 @@ export class ArcGISContextManager {
   }
 
   /**
-   * Set the Authentication (UserSession) for the context.
+   * Set the Authentication (ArcGISIdentityManager) for the context.
    * This should be called when a user signs into a running
    * application.
    * @param auth
    */
-  async setAuthentication(auth: UserSession): Promise<void> {
+  async setAuthentication(auth: ArcGISIdentityManager): Promise<void> {
     this._authentication = auth;
     this._portalUrl = auth.portal.replace("/sharing/rest", "");
     await this.initialize();
@@ -369,7 +264,7 @@ export class ArcGISContextManager {
   }
 
   /**
-   * Clear the Authentication (UserSession). This should be
+   * Clear the Authentication (ArcGISIdentityManager). This should be
    * called when a user signs out of an application, but
    * the application continues running
    */
@@ -428,7 +323,7 @@ export class ArcGISContextManager {
   }
 
   /**
-   * If we have a UserSession, fetch other resources to populate the context
+   * If we have a ArcGISIdentityManager, fetch other resources to populate the context
    */
   private async initialize(): Promise<void> {
     // setup array to hold promises and one to track promise index
@@ -482,7 +377,7 @@ export class ArcGISContextManager {
         app: "self",
         token,
         clientId: this._authentication.clientId || "self",
-      });
+      } as IUserResourceToken);
     }
     // Await promises
     let results: any[];
@@ -529,7 +424,7 @@ export class ArcGISContextManager {
     // fetch the users IUserHubSettings extract out the
     // preview properties and cross-walk to permissions
     const hubAppToken = this._userResourceTokens.find(
-      (e) => e.app === "hubforarcgis"
+      (e: any) => e.app === "hubforarcgis"
     );
     if (this._authentication && hubAppToken) {
       this._userHubSettings = await fetchAndMigrateUserHubSettings(
@@ -579,7 +474,7 @@ export class ArcGISContextManager {
       });
       // CRTITICAL: .authentication must be attached after the maybeAdd calls above
       // as those return clones of the opts object, and cloneObject
-      // does not support cloning a UserSession
+      // does not support cloning a ArcGISIdentityManager
       contextOpts.authentication = this._authentication;
     }
     // Handle some special cases where the prop names don't map cleanly
@@ -614,7 +509,7 @@ function getServiceStatus(portalUrl: string): Promise<HubServiceStatus> {
  */
 async function getTrustedOrgs(
   _portalUrl: string,
-  _authentication: UserSession
+  _authentication: ArcGISIdentityManager
 ): Promise<IHubTrustedOrgsResponse[]> {
   const failSafeTrustedOrgs = failSafe(request, { trustedOrgs: [] });
   const trustedOrgs = await failSafeTrustedOrgs(
@@ -646,7 +541,7 @@ function getTrustedOrgIds(trustedOrgs: IHubTrustedOrgsResponse[]): string[] {
  * @returns {IPortal}
  */
 async function getSelfWithLimits(
-  authentication: UserSession
+  authentication: ArcGISIdentityManager
 ): Promise<IPortal> {
   const portal = await getSelf({ authentication });
   const limits = await getPortalLimits(portal.id, authentication);
@@ -665,7 +560,7 @@ async function getSelfWithLimits(
  */
 async function getPortalLimits(
   orgId: string,
-  authentication: UserSession
+  authentication: ArcGISIdentityManager
 ): Promise<Record<string, number>> {
   // TODO: add additional limits as needed
   const limitsToFetch: Array<{

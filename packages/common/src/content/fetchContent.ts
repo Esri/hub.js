@@ -2,7 +2,7 @@ import {
   getLayer,
   parseServiceUrl,
   queryFeatures,
-} from "@esri/arcgis-rest-feature-layer";
+} from "@esri/arcgis-rest-feature-service";
 import { getItem } from "@esri/arcgis-rest-portal";
 import { IHubContent } from "../core";
 import {
@@ -21,7 +21,7 @@ import {
 import { canUseHubApiForItem } from "./_internal/internalContentUtils";
 import { composeContent, getItemLayer, getProxyUrl } from "./compose";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IHubRequestOptions } from "../types";
+import { IHubRequestOptions } from "../hub-types";
 
 const hasFeatures = (contentType: string) =>
   ["Feature Layer", "Table"].includes(contentType);

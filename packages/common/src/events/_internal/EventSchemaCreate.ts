@@ -1,9 +1,7 @@
 import { IConfigurationSchema } from "../../core/schemas/types";
 import { ENTITY_NAME_SCHEMA } from "../../core/schemas/shared/subschemas";
 import { getDefaultEventDatesAndTimes } from "./getDefaultEventDatesAndTimes";
-import { HubEventAttendanceType } from "../types";
 import {
-  URL_VALIDATIONS_WHEN_ONLINE_OR_HYBRID,
   TIME_VALIDATIONS_WHEN_NOT_ALL_DAY,
 } from "./validations";
 
@@ -36,34 +34,20 @@ export const buildSchema = (): IConfigurationSchema => {
       endTime: {
         type: "string",
       },
-      attendanceType: {
-        type: "string",
-        enum: [
-          HubEventAttendanceType.InPerson,
-          HubEventAttendanceType.Online,
-          HubEventAttendanceType.Both,
-        ],
-        default: HubEventAttendanceType.InPerson,
-      },
       isAllDay: {
         type: "boolean",
         default: false,
       },
-      onlineUrl: {
-        type: "string",
-      },
-      referencedContentIds: {
-        type: "array",
-        maxItems: 1,
-        items: {
-          type: "string",
-        },
-        default: [],
-      },
+      /* This field hidden for future consideration */
+      // referencedContentIds: {
+      //   type: "array",
+      //   maxItems: 1,
+      //   items: {
+      //     type: "string",
+      //   },
+      //   default: [],
+      // },
     },
-    allOf: [
-      URL_VALIDATIONS_WHEN_ONLINE_OR_HYBRID,
-      TIME_VALIDATIONS_WHEN_NOT_ALL_DAY,
-    ],
+    allOf: [TIME_VALIDATIONS_WHEN_NOT_ALL_DAY],
   } as IConfigurationSchema;
 };

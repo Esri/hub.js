@@ -4,7 +4,6 @@ import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import {
   ICatalogScope,
   IFilter,
-  IGalleryDisplayConfig,
   IHubCatalog,
   IHubCollection,
   IHubSearchResponse,
@@ -97,14 +96,16 @@ const catalogJson: IHubCatalog = {
     },
   ],
   displayConfig: {
-    hidden: false,
-    showThumbnail: "show",
-    showLinkButton: true,
-    linkButtonStyle: "outline",
-    linkButtonText: "Explore",
-    corners: CORNERS.square,
-    shadow: DROP_SHADOWS.none,
-    layout: "list",
+    item: {
+      hidden: false,
+      showThumbnail: "show",
+      showLinkButton: true,
+      linkButtonStyle: "outline",
+      linkButtonText: "Explore",
+      corners: CORNERS.square,
+      shadow: DROP_SHADOWS.none,
+      layout: "list",
+    },
   },
 };
 
@@ -168,9 +169,7 @@ describe("Catalog Class:", () => {
       instance.title = "Changed Title";
       expect(instance.title).toBe("Changed Title");
       expect(instance.availableScopes).toEqual(["item", "group", "user"]);
-      expect(instance.displayConfig).toEqual(
-        catalogJson.displayConfig as IGalleryDisplayConfig
-      );
+      expect(instance.displayConfig).toEqual(catalogJson.displayConfig);
     });
     it("allows null scopes", () => {
       const instance = Catalog.fromJson(cloneObject(noScopeCatalog), context);
@@ -219,8 +218,9 @@ describe("Catalog Class:", () => {
       try {
         await Catalog.init("https://somesite.com", context);
       } catch (err) {
-        expect(getProp(err, "name")).toBe("HubError");
-        expect(getProp(err, "message")).toContain("No catalog found");
+        const error = err as { message?: string };
+        expect(getProp(error, "name")).toBe("HubError");
+        expect(getProp(error, "message")).toContain("No catalog found");
         // verify the context was used
         expect(fetchCatalogSpy.calls.argsFor(0)[1]).toBe(context);
       }
@@ -253,8 +253,9 @@ describe("Catalog Class:", () => {
       try {
         instance.getCollection("invalid");
       } catch (err) {
-        expect(getProp(err, "name")).toBe("HubError");
-        expect(getProp(err, "message")).toContain(
+        const error = err as { message?: string };
+        expect(getProp(error, "name")).toBe("HubError");
+        expect(getProp(error, "message")).toContain(
           'Collection "invalid" is not present in the Catalog'
         );
       }
@@ -270,6 +271,20 @@ describe("Catalog Class:", () => {
       const instance = Catalog.fromJson(cat, context);
       const teamsCollection = instance.getCollection("teams");
       expect(teamsCollection.scope.filters.length).toBe(1);
+    });
+    it("get collection works without collection scope filters", () => {
+      const instance = Catalog.fromJson(cloneObject(catalogJson), context);
+      instance.addCollection({
+        key: "documents",
+        label: "Documents",
+        targetEntity: "item",
+        scope: {
+          targetEntity: "item",
+          collection: "document",
+        } as IQuery,
+      });
+      const docCollection = instance.getCollection("documents");
+      expect(docCollection.scope.filters.length).toBe(1);
     });
   });
   describe("addCollection", () => {

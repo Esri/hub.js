@@ -1,5 +1,5 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import { updateItem } from "@esri/arcgis-rest-portal";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
+import { updateItem } from "../rest/portal";
 import HubError from "../HubError";
 
 /**

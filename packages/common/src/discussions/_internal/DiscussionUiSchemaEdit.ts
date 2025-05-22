@@ -1,12 +1,11 @@
 import { IUiSchema } from "../../core/schemas/types";
-import { IArcGISContext } from "../../ArcGISContext";
+import type { IArcGISContext } from "../../types/IArcGISContext";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 import { IHubDiscussion } from "../../core/types";
 import { fetchCategoriesUiSchemaElement } from "../../core/schemas/internal/fetchCategoriesUiSchemaElement";
-import { getSlugSchemaElement } from "../../core/schemas/internal/getSlugSchemaElement";
 
 /**
  * @private
@@ -25,6 +24,11 @@ export const buildUiSchema = async (
       {
         type: "Section",
         labelKey: `${i18nScope}.sections.basicInfo.label`,
+        options: {
+          helperText: {
+            labelKey: `${i18nScope}.sections.basicInfo.helperText`,
+          },
+        },
         elements: [
           {
             labelKey: `${i18nScope}.fields.name.label`,
@@ -53,20 +57,21 @@ export const buildUiSchema = async (
               ],
             },
           },
+          // getSlugSchemaElement(i18nScope),
           {
-            labelKey: `${i18nScope}.fields.prompt.label`,
-            scope: "/properties/prompt",
+            labelKey: `${i18nScope}.fields.summary.label`,
+            scope: "/properties/summary",
             type: "Control",
             options: {
-              helperText: {
-                labelKey: `${i18nScope}.fields.prompt.helperText`,
-              },
+              control: "hub-field-input-input",
+              type: "textarea",
+              rows: 4,
               messages: [
                 {
                   type: "ERROR",
                   keyword: "maxLength",
                   icon: true,
-                  labelKey: `${i18nScope}.fields.prompt.maxLengthError`,
+                  labelKey: `shared.fields.purpose.maxLengthError`,
                 },
               ],
             },
@@ -78,16 +83,58 @@ export const buildUiSchema = async (
             "discussion",
             context.requestOptions
           ),
+          {
+            type: "Section",
+            labelKey: `${i18nScope}.sections.description.label`,
+            options: {
+              section: "block",
+            },
+            elements: [
+              {
+                labelKey: `${i18nScope}.fields.description.label`,
+                scope: "/properties/description",
+                type: "Control",
+                options: {
+                  control: "hub-field-input-rich-text",
+                  type: "textarea",
+                },
+              },
+            ],
+          },
+          {
+            type: "Section",
+            labelKey: `${i18nScope}.sections.discoverability.label`,
+            options: {
+              section: "block",
+              helperText: {
+                labelKey: `${i18nScope}.sections.discoverability.helperText`,
+              },
+            },
+            elements: [
+              {
+                labelKey: `${i18nScope}.fields.tags.label`,
+                scope: "/properties/tags",
+                type: "Control",
+                options: {
+                  control: "hub-field-input-combobox",
+                  items: await getTagItems(
+                    options.tags,
+                    context.portal.id,
+                    context.hubRequestOptions
+                  ),
+                  allowCustomValues: true,
+                  selectionMode: "multiple",
+                  placeholderIcon: "label",
+                },
+              },
+              ...(await fetchCategoriesUiSchemaElement(i18nScope, context)),
+            ],
+          },
         ],
       },
       {
         type: "Section",
         labelKey: `${i18nScope}.sections.location.label`,
-        options: {
-          helperText: {
-            labelKey: `${i18nScope}.sections.location.helperText`,
-          },
-        },
         elements: [
           {
             scope: "/properties/location",
@@ -113,57 +160,23 @@ export const buildUiSchema = async (
       },
       {
         type: "Section",
-        labelKey: `${i18nScope}.sections.searchDiscoverability.label`,
+        labelKey: `${i18nScope}.sections.details.label`,
         elements: [
-          getSlugSchemaElement(i18nScope),
           {
-            labelKey: `${i18nScope}.fields.tags.label`,
-            scope: "/properties/tags",
-            type: "Control",
-            options: {
-              control: "hub-field-input-combobox",
-              items: await getTagItems(
-                options.tags,
-                context.portal.id,
-                context.hubRequestOptions
-              ),
-              allowCustomValues: true,
-              selectionMode: "multiple",
-              placeholderIcon: "label",
-            },
-          },
-          ...(await fetchCategoriesUiSchemaElement(i18nScope, context)),
-          {
-            labelKey: `${i18nScope}.fields.summary.label`,
-            scope: "/properties/summary",
+            labelKey: `${i18nScope}.fields.prompt.label`,
+            scope: "/properties/prompt",
             type: "Control",
             options: {
               control: "hub-field-input-input",
               type: "textarea",
-              rows: 4,
-              helperText: {
-                labelKey: `${i18nScope}.fields.summary.helperText`,
-              },
               messages: [
                 {
                   type: "ERROR",
                   keyword: "maxLength",
                   icon: true,
-                  labelKey: `shared.fields.purpose.maxLengthError`,
+                  labelKey: `${i18nScope}.fields.prompt.maxLengthError`,
                 },
               ],
-            },
-          },
-          {
-            labelKey: `${i18nScope}.fields.description.label`,
-            scope: "/properties/description",
-            type: "Control",
-            options: {
-              control: "hub-field-input-rich-text",
-              type: "textarea",
-              helperText: {
-                labelKey: `${i18nScope}.fields.description.helperText`,
-              },
             },
           },
         ],

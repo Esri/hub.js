@@ -1,9 +1,9 @@
 import * as portalModule from "@esri/arcgis-rest-portal";
-import * as featureLayerModule from "@esri/arcgis-rest-feature-layer";
-import * as adminModule from "@esri/arcgis-rest-service-admin";
+import * as featureLayerModule from "@esri/arcgis-rest-feature-service";
+import * as adminModule from "@esri/arcgis-rest-feature-service";
 import { MOCK_AUTH, MOCK_HUB_REQOPTS, TOMORROW } from "../mocks/mock-auth";
 import * as modelUtils from "../../src/models";
-import { IModel } from "../../src/types";
+import { IModel } from "../../src/hub-types";
 import { IHubEditableContent } from "../../src/core/types";
 import {
   createContent,
@@ -11,10 +11,9 @@ import {
   updateContent,
 } from "../../src/content/edit";
 import { cloneObject } from "../../src/util";
-import { UserSession } from "@esri/arcgis-rest-auth";
 
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
-const myMockAuth = new UserSession({
+const myMockAuth = {
   clientId: "clientId",
   redirectUri: "https://example-app.com/redirect-uri",
   token: "fake-token",
@@ -25,7 +24,7 @@ const myMockAuth = new UserSession({
   username: "casey",
   password: "123456",
   portal: MOCK_HUB_REQOPTS.hubApiUrl,
-});
+} as any;
 
 describe("content editing:", () => {
   beforeAll(() => {

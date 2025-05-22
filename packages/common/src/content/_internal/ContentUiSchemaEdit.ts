@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../../ArcGISContext";
+import type { IArcGISContext } from "../../types/IArcGISContext";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
@@ -6,6 +6,7 @@ import { IUiSchema } from "../../core/schemas/types";
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 import { IHubEditableContent } from "../../core/types";
 import { fetchCategoriesUiSchemaElement } from "../../core/schemas/internal/fetchCategoriesUiSchemaElement";
+// import { getSlugSchemaElement } from "../../core/schemas/internal/getSlugSchemaElement";
 
 /**
  * @private
@@ -24,6 +25,11 @@ export const buildUiSchema = async (
       {
         type: "Section",
         labelKey: `${i18nScope}.sections.basic.title`,
+        options: {
+          helperText: {
+            labelKey: `${i18nScope}.sections.basic.helperText`,
+          },
+        },
         elements: [
           // title
           {
@@ -50,6 +56,7 @@ export const buildUiSchema = async (
               ],
             },
           },
+          // getSlugSchemaElement(i18nScope),
           // summary
           {
             labelKey: `${i18nScope}.fields.summary.label`,
@@ -59,9 +66,6 @@ export const buildUiSchema = async (
               control: "hub-field-input-input",
               type: "textarea",
               rows: 4,
-              helperText: {
-                labelKey: `${i18nScope}.fields.summary.hint`,
-              },
               messages: [
                 {
                   type: "ERROR",
@@ -72,19 +76,6 @@ export const buildUiSchema = async (
               ],
             },
           },
-          // description
-          {
-            labelKey: `${i18nScope}.fields.description.label`,
-            scope: "/properties/description",
-            type: "Control",
-            options: {
-              control: "hub-field-input-rich-text",
-              type: "textarea",
-              helperText: {
-                labelKey: `${i18nScope}.fields.description.hint`,
-              },
-            },
-          },
           ...getThumbnailUiSchemaElement(
             i18nScope,
             options.thumbnail,
@@ -92,26 +83,56 @@ export const buildUiSchema = async (
             "content",
             context.requestOptions
           ),
-          // tags
           {
-            labelKey: `${i18nScope}.fields.tags.label`,
-            scope: "/properties/tags",
-            type: "Control",
+            type: "Section",
+            labelKey: `${i18nScope}.sections.description.label`,
             options: {
-              control: "hub-field-input-combobox",
-              items: await getTagItems(
-                options.tags,
-                context.portal.id,
-                context.hubRequestOptions
-              ),
-              allowCustomValues: true,
-              selectionMode: "multiple",
-              placeholderIcon: "label",
-              helperText: { labelKey: `${i18nScope}.fields.tags.hint` },
+              section: "block",
             },
+            elements: [
+              // description
+              {
+                labelKey: `${i18nScope}.fields.description.label`,
+                scope: "/properties/description",
+                type: "Control",
+                options: {
+                  control: "hub-field-input-rich-text",
+                  type: "textarea",
+                },
+              },
+            ],
           },
-          // categories
-          ...(await fetchCategoriesUiSchemaElement(i18nScope, context)),
+          {
+            type: "Section",
+            labelKey: `${i18nScope}.sections.discoverability.label`,
+            options: {
+              section: "block",
+              helperText: {
+                labelKey: `${i18nScope}.sections.discoverability.helperText`,
+              },
+            },
+            elements: [
+              // tags
+              {
+                labelKey: `${i18nScope}.fields.tags.label`,
+                scope: "/properties/tags",
+                type: "Control",
+                options: {
+                  control: "hub-field-input-combobox",
+                  items: await getTagItems(
+                    options.tags,
+                    context.portal.id,
+                    context.hubRequestOptions
+                  ),
+                  allowCustomValues: true,
+                  selectionMode: "multiple",
+                  placeholderIcon: "label",
+                },
+              },
+              // categories
+              ...(await fetchCategoriesUiSchemaElement(i18nScope, context)),
+            ],
+          },
           // license
           {
             labelKey: `${i18nScope}.fields.license.label`,
@@ -119,9 +140,6 @@ export const buildUiSchema = async (
             type: "Control",
             options: {
               control: "arcgis-hub-license-picker",
-              helperText: {
-                labelKey: `${i18nScope}.fields.license.helperText`,
-              },
             },
           },
         ],
@@ -130,11 +148,6 @@ export const buildUiSchema = async (
       {
         type: "Section",
         labelKey: `${i18nScope}.sections.location.label`,
-        options: {
-          helperText: {
-            labelKey: `${i18nScope}.sections.location.helperText`,
-          },
-        },
         elements: [
           {
             scope: "/properties/location",

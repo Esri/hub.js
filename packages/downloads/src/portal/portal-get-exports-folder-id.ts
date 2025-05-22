@@ -1,15 +1,15 @@
 import {
   createFolder,
   IAddFolderResponse,
-  getUserContent
+  getUserContent,
 } from "@esri/arcgis-rest-portal";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 
 /**
  * @private
  */
 export function getExportsFolderId(
-  authentication: UserSession
+  authentication: ArcGISIdentityManager
 ): Promise<string> {
   return getUserContent({ authentication })
     .then((userContent: any) => {

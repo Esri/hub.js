@@ -1,4 +1,4 @@
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { ISearchParams } from "./params";
 import { getProp } from "@esri/hub-common";
 import {
@@ -6,7 +6,7 @@ import {
   hasApiAgg,
   collectionAgg,
   downloadableAgg,
-  flattenCategories
+  flattenCategories,
 } from "./helpers/aggs";
 import { getItems } from "./get-items";
 
@@ -19,7 +19,7 @@ const customAggsSupportedByAgo = ["hasApi", "collection"];
 const customAggsFunctions: { [key: string]: any } = {
   downloadable: downloadableAgg,
   hasApi: hasApiAgg,
-  collection: collectionAgg
+  collection: collectionAgg,
 };
 
 /**
@@ -29,7 +29,7 @@ const customAggsFunctions: { [key: string]: any } = {
  * @param {ISearchParams} params search params
  * @param {String} token AGO token to make a search if calculating custom aggs like downloadable
  * @param {String} portal AGO portal against which search is being done
- * @param {UserSession} authentication UserSession object
+ * @param {ArcGISIdentityManager} authentication ArcGISIdentityManager object
  * @returns {Promise<any>}
  */
 export async function computeItemsFacets(
@@ -37,7 +37,7 @@ export async function computeItemsFacets(
   params: ISearchParams, // query params are needed to another search for custom facets
   token?: string,
   portal?: string,
-  authentication?: UserSession
+  authentication?: ArcGISIdentityManager
 ): Promise<any> {
   const aggFields = getProp(params, "agg.fields");
   const aggs = aggFields ? aggFields.split(",") : [];
@@ -49,7 +49,7 @@ export async function computeItemsFacets(
     const paramsCopy = { ...params, ...{ start: 1, num: 100 } };
     paramsCopy.agg = {};
     const response = await getItems(paramsCopy, token, portal, authentication);
-    customAggs.forEach(customAgg => {
+    customAggs.forEach((customAgg) => {
       const rawCounts = customAggsFunctions[customAgg](response);
       facets1 = { ...facets1, ...format(rawCounts) };
     });
@@ -60,7 +60,7 @@ export async function computeItemsFacets(
       formattedAggs[agg.fieldName] = agg.fieldValues.map((fieldVal: any) => {
         return {
           key: fieldVal.value,
-          docCount: fieldVal.count
+          docCount: fieldVal.count,
         };
       });
       return formattedAggs;
@@ -71,7 +71,7 @@ export async function computeItemsFacets(
   customAggs = intersection(aggs, customAggsSupportedByAgo);
   let facets3 = {};
   if (customAggs.length > 0) {
-    customAggs.forEach(customAgg => {
+    customAggs.forEach((customAgg) => {
       const rawCounts = { ...customAggsFunctions[customAgg](agoAggregations) };
       facets3 = { ...facets3, ...format(rawCounts) };
     });
@@ -85,5 +85,5 @@ export async function computeItemsFacets(
 }
 
 function intersection(arr1: any[], arr2: any[]): any[] {
-  return arr1.filter(val => arr2.indexOf(val) !== -1);
+  return arr1.filter((val) => arr2.indexOf(val) !== -1);
 }

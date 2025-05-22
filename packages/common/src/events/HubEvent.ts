@@ -1,9 +1,9 @@
-import { IGroup } from "@esri/arcgis-rest-types";
+import type { IGroup } from "@esri/arcgis-rest-portal";
 import { HubItemEntity } from "../core/HubItemEntity";
 import { IHubEventEditor, IHubEvent } from "../core/types/IHubEvent";
 import { IWithEditorBehavior } from "../core/behaviors";
 import { SettableAccessLevel } from "../core/types/types";
-import { IArcGISContext } from "../ArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 import { fetchEvent } from "./fetch";
 import { buildDefaultEventEntity } from "./defaults";
 import { IEntityEditorContext } from "../core/types";
@@ -232,7 +232,13 @@ export class HubEvent
    * @returns Promise<IHubEvent>
    */
   async fromEditor(editor: IHubEventEditor): Promise<IHubEvent> {
+    const thumbnail = editor._thumbnail;
     const entity = cloneObject(editor) as IHubEvent;
+
+    if (thumbnail) {
+      entity.thumbnailUrl = thumbnail.url || null;
+    }
+
     this.entity = entity;
     await this.save();
     return this.entity;

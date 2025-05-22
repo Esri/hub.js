@@ -1,4 +1,4 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import {
   IPortal,
   IUserItemOptions,
@@ -21,15 +21,15 @@ import {
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { cloneObject } from "../util";
-import { IModel } from "../types";
+import { IModel } from "../hub-types";
 import { setDiscussableKeyword } from "../discussions";
 import { modelToHubEditableContent } from "./modelToHubEditableContent";
 import {
   getService,
   IFeatureServiceDefinition,
   parseServiceUrl,
-} from "@esri/arcgis-rest-feature-layer";
-import { updateServiceDefinition } from "@esri/arcgis-rest-service-admin";
+} from "@esri/arcgis-rest-feature-service";
+import { updateServiceDefinition } from "@esri/arcgis-rest-feature-service";
 import {
   hasServiceCapability,
   isHostedFeatureServiceMainEntity,

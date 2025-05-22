@@ -1,5 +1,5 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import { IBatch } from "../../types";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
+import { IBatch } from "../../hub-types";
 
 /**
  * Takes a file, file owner, and file AGO item id along with a size limit

@@ -1,8 +1,8 @@
-import { IHubUserRequestOptions } from "../types";
+import { IHubUserRequestOptions } from "../hub-types";
 import { getProp } from "../objects/get-prop";
 import { mergeObjects } from "../objects/merge-objects";
 import { objectToJsonBlob } from "../resources/object-to-json-blob";
-import { IModel } from "../types";
+import { IModel } from "../hub-types";
 import { IVersion } from "./types";
 import { getPrefix } from "./_internal/getPrefix";
 import { getVersionData } from "./_internal/getVersionData";

@@ -1,19 +1,18 @@
 import * as portal from "@esri/arcgis-rest-portal";
-import { UserSession } from "@esri/arcgis-rest-auth";
 import { getExportsFolderId } from "../../src/portal/portal-get-exports-folder-id";
 
 describe("portalPollExportJobStatus", () => {
-  const authentication = new UserSession({
+  const authentication = {
     username: "portal-user",
     portal: "http://portal.com/sharing/rest",
-    token: "123"
-  });
+    token: "123",
+  } as any;
   authentication.getToken = () =>
-    new Promise(resolve => {
+    new Promise((resolve) => {
       resolve("123");
     });
 
-  it("userContent failure", async done => {
+  it("userContent failure", async (done) => {
     try {
       spyOn(portal, "getUserContent").and.callFake(async () => {
         return Promise.reject(new Error("5xx"));
@@ -22,17 +21,18 @@ describe("portalPollExportJobStatus", () => {
       await getExportsFolderId(authentication);
       fail();
     } catch (err) {
-      expect(err.message).toEqual("5xx");
+      const error = err as { message?: string };
+      expect(error.message).toEqual("5xx");
       expect(portal.getUserContent).toHaveBeenCalledTimes(1);
       expect((portal.getUserContent as any).calls.first().args).toEqual([
-        { authentication }
+        { authentication },
       ]);
     } finally {
       done();
     }
   });
 
-  it("createFolder failure", async done => {
+  it("createFolder failure", async (done) => {
     try {
       spyOn(portal, "getUserContent").and.callFake(async () => {
         return Promise.resolve({ folders: [] });
@@ -49,24 +49,25 @@ describe("portalPollExportJobStatus", () => {
       await getExportsFolderId(authentication);
       fail();
     } catch (err) {
-      expect(err.message).toEqual("5xx");
+      const error = err as { message?: string };
+      expect(error.message).toEqual("5xx");
       expect(portal.getUserContent).toHaveBeenCalledTimes(1);
       expect((portal.getUserContent as any).calls.first().args).toEqual([
-        { authentication }
+        { authentication },
       ]);
       expect(portal.createFolder).toHaveBeenCalledTimes(1);
       expect((portal.createFolder as any).calls.first().args).toEqual([
         {
           title: "item-exports",
-          authentication
-        }
+          authentication,
+        },
       ]);
     } finally {
       done();
     }
   });
 
-  it("succeeds without existing exports folder", async done => {
+  it("succeeds without existing exports folder", async (done) => {
     try {
       spyOn(portal, "getUserContent").and.callFake(async () => {
         return Promise.resolve({ folders: [] });
@@ -80,23 +81,24 @@ describe("portalPollExportJobStatus", () => {
       expect(result).toBe("export-folder-id");
       expect(portal.getUserContent).toHaveBeenCalledTimes(1);
       expect((portal.getUserContent as any).calls.first().args).toEqual([
-        { authentication }
+        { authentication },
       ]);
       expect(portal.createFolder).toHaveBeenCalledTimes(1);
       expect((portal.createFolder as any).calls.first().args).toEqual([
         {
           title: "item-exports",
-          authentication
-        }
+          authentication,
+        },
       ]);
     } catch (err) {
-      expect(err).toEqual(undefined);
+      const error = err as { message?: string };
+      expect(error).toEqual(undefined);
     } finally {
       done();
     }
   });
 
-  it("succeeds with existing exports folder", async done => {
+  it("succeeds with existing exports folder", async (done) => {
     try {
       spyOn(portal, "getUserContent").and.returnValue(
         new Promise((resolve, reject) => {
@@ -104,9 +106,9 @@ describe("portalPollExportJobStatus", () => {
             folders: [
               {
                 id: "export-folder-id",
-                title: "item-exports"
-              }
-            ]
+                title: "item-exports",
+              },
+            ],
           });
         })
       );
@@ -118,11 +120,12 @@ describe("portalPollExportJobStatus", () => {
 
       expect(portal.getUserContent).toHaveBeenCalledTimes(1);
       expect((portal.getUserContent as any).calls.first().args).toEqual([
-        { authentication }
+        { authentication },
       ]);
       expect(portal.createFolder).toHaveBeenCalledTimes(0);
     } catch (err) {
-      expect(err).toEqual(undefined);
+      const error = err as { message?: string };
+      expect(error).toEqual(undefined);
     } finally {
       done();
     }

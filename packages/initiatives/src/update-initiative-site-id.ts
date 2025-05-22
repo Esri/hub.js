@@ -1,8 +1,14 @@
 /* Copyright (c) 2020 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
-import { IItem } from "@esri/arcgis-rest-portal";
-import { IModel, IHubRequestOptions, getProp, isGuid } from "@esri/hub-common";
-import { updateItem, getItem } from "@esri/arcgis-rest-portal";
+import type { IItem } from "@esri/arcgis-rest-portal";
+import {
+  IModel,
+  IHubRequestOptions,
+  getProp,
+  isGuid,
+  updateItem,
+} from "@esri/hub-common";
+import { getItem } from "@esri/arcgis-rest-portal";
 
 /**
  * Update the Site associated with an Initiative by setting the
@@ -33,7 +39,7 @@ export function updateInitiativeSiteId(
       );
     } else {
       itemPromise = getItem(maybeModel, {
-        authentication: hubRequestOptions.authentication
+        authentication: hubRequestOptions.authentication,
       });
     }
   } else {
@@ -56,7 +62,7 @@ export function updateInitiativeSiteId(
     // and... update the item
     return updateItem({
       item,
-      authentication: hubRequestOptions.authentication
+      authentication: hubRequestOptions.authentication,
     });
   });
 }

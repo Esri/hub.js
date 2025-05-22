@@ -1,6 +1,5 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IFilter, IPredicate, IQuery } from "./types";
-import { expandQuery } from "./_internal/portalSearchItems";
 import { cloneObject } from "../util";
 import { explainFilter } from "./_internal/explainFilter";
 import { expandPortalQuery } from "./utils";

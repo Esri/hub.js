@@ -1,8 +1,8 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 
 import { IHubGroup } from "../../core/types/IHubGroup";
-import { IGroup } from "@esri/arcgis-rest-types";
+import type { IGroup } from "@esri/arcgis-rest-portal";
 import { isDiscussable } from "../../discussions";
 import { getGroupThumbnailUrl } from "../../search/utils";
 import { computeLinks } from "./computeLinks";
@@ -22,7 +22,8 @@ export function computeProps(
 ): IHubGroup {
   let token: string;
   if (requestOptions.authentication) {
-    const session: UserSession = requestOptions.authentication as UserSession;
+    const session: ArcGISIdentityManager =
+      requestOptions.authentication as ArcGISIdentityManager;
     token = session.token;
   }
   // thumbnail url

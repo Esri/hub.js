@@ -1,7 +1,7 @@
 import { IHubSearchResult } from "../../types/IHubSearchResult";
 import { IRegistration } from "../../../events/api/orval/api/orval-events";
 import { AccessLevel } from "../../../core";
-import { getUser, IUser } from "@esri/arcgis-rest-portal";
+import { getUser } from "@esri/arcgis-rest-portal";
 import { IHubSearchOptions } from "../../types/IHubSearchOptions";
 import { getUserHomeUrl } from "../../../urls/getUserHomeUrl";
 import { getUserThumbnailUrl } from "../../utils";

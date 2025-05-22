@@ -1,10 +1,12 @@
 import { getProp } from "../../../objects/get-prop";
 import { IQuery } from "../../types/IHubCatalog";
-import { IHubSearchOptions } from "../../types/IHubSearchOptions";
 import { getBboxQueryParam } from "./getBboxQueryParam";
+import { getFieldsQueryParam } from "./getFieldsQueryParam";
 import { getFilterQueryParam } from "./getFilterQueryParam";
+import { getFlattenQueryParam } from "./getFlattenQueryParam";
 import { getQQueryParam } from "./getQQueryParam";
 import { getSortByQueryParam } from "./getSortByQueryParam";
+import { ISearchOgcItemsOptions } from "./interfaces";
 
 export interface IOgcItemQueryParams {
   filter?: string;
@@ -14,6 +16,8 @@ export interface IOgcItemQueryParams {
   q?: string;
   sortBy?: string;
   bbox?: string;
+  fields?: string;
+  flatten?: boolean;
 }
 
 /**
@@ -22,12 +26,12 @@ export interface IOgcItemQueryParams {
  * to the /items endpoint of an OGC API collection
  *
  * @param query an IQuery to derive query params from
- * @param options an IHubSearchOptions object to derive query params from
+ * @param options an ISearchOgcItemsOptions object to derive query params from
  * @returns a hash of query params to be included in the request
  */
 export function getOgcItemQueryParams(
   query: IQuery,
-  options: IHubSearchOptions
+  options: ISearchOgcItemsOptions
 ): IOgcItemQueryParams {
   const filter = getFilterQueryParam(query);
   const token = getProp(options, "requestOptions.authentication.token");
@@ -37,6 +41,8 @@ export function getOgcItemQueryParams(
   const q = getQQueryParam(query);
   const sortBy = getSortByQueryParam(options);
   const bbox = getBboxQueryParam(query);
+  const flatten = getFlattenQueryParam(query);
+  const fields = getFieldsQueryParam(query);
 
   return {
     filter,
@@ -46,5 +52,7 @@ export function getOgcItemQueryParams(
     q,
     sortBy,
     bbox,
+    flatten,
+    fields,
   };
 }

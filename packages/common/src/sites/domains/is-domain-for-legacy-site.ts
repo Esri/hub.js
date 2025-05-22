@@ -1,5 +1,5 @@
 import { isGuid } from "../../utils";
-import { IDomainEntry } from "../../types";
+import { IDomainEntry } from "../../hub-types";
 
 /**
  * Determine if a domain entry belongs to a legacy site.

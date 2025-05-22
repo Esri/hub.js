@@ -23,11 +23,9 @@ describe("addOrInviteCommunityUsers:", () => {
     const handleNoUsersSpy = spyOn(
       handleNoUsersModule,
       "handleNoUsers"
-    ).and.callFake(() => {
-      Promise.resolve();
-    });
+    ).and.callFake(() => Promise.resolve());
 
-    const actual = await addOrInviteCommunityUsers(context);
+    await addOrInviteCommunityUsers(context);
     expect(handleNoUsersSpy).toHaveBeenCalled();
   });
   it("Properly autoAdds when an email is supplied", async () => {
@@ -48,10 +46,10 @@ describe("addOrInviteCommunityUsers:", () => {
       processAutoAddUsersModule,
       "processAutoAddUsers"
     ).and.callFake(() => {
-      Promise.resolve();
+      return Promise.resolve();
     });
 
-    const actual = await addOrInviteCommunityUsers(context);
+    await addOrInviteCommunityUsers(context);
     expect(processAutoAddUsersSpy).toHaveBeenCalled();
   });
   it("Properly autoAdds when an email is supplied for a given groupID", async () => {
@@ -72,10 +70,10 @@ describe("addOrInviteCommunityUsers:", () => {
       processAutoAddUsersModule,
       "processAutoAddUsers"
     ).and.callFake(() => {
-      Promise.resolve();
+      return Promise.resolve();
     });
 
-    const actual = await addOrInviteCommunityUsers(context);
+    await addOrInviteCommunityUsers(context);
     expect(processAutoAddUsersSpy).toHaveBeenCalled();
     expect(processAutoAddUsersSpy.calls.count()).toEqual(1);
   });
@@ -97,10 +95,10 @@ describe("addOrInviteCommunityUsers:", () => {
       processInviteUsersModule,
       "processInviteUsers"
     ).and.callFake(() => {
-      Promise.resolve();
+      return Promise.resolve();
     });
 
-    const actual = await addOrInviteCommunityUsers(context);
+    await addOrInviteCommunityUsers(context);
     expect(processInviteUsersSpy).toHaveBeenCalled();
   });
   it("Properly autoAdds when canAutoAdd is supplied", async () => {
@@ -121,10 +119,10 @@ describe("addOrInviteCommunityUsers:", () => {
       processAutoAddUsersModule,
       "processAutoAddUsers"
     ).and.callFake(() => {
-      Promise.resolve();
+      return Promise.resolve();
     });
 
-    const actual = await addOrInviteCommunityUsers(context);
+    await addOrInviteCommunityUsers(context);
     expect(processAutoAddUsersSpy).toHaveBeenCalled();
   });
   it("Properly falls back to inviting users", async () => {
@@ -145,10 +143,10 @@ describe("addOrInviteCommunityUsers:", () => {
       processInviteUsersModule,
       "processInviteUsers"
     ).and.callFake(() => {
-      Promise.resolve();
+      return Promise.resolve();
     });
 
-    const actual = await addOrInviteCommunityUsers(context);
+    await addOrInviteCommunityUsers(context);
     expect(processInviteUsersSpy).toHaveBeenCalled();
   });
 });

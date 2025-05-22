@@ -11,7 +11,6 @@ import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import * as ResolveMetricModule from "../../src/metrics/resolveMetric";
 import { HubItemEntity } from "../../src/core/HubItemEntity";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
-import * as utils from "../../src/util";
 import * as upsertResourceModule from "../../src/resources/upsertResource";
 import * as doesResourceExistModule from "../../src/resources/doesResourceExist";
 import * as removeResourceModule from "../../src/resources/removeResource";
@@ -110,14 +109,14 @@ describe("HubProject Class:", () => {
     });
   });
 
-  it("convertToCardModel: delegates to the projectToCardModel util", async () => {
+  it("convertToCardModel: delegates to the projectToCardModel util", () => {
     const spy = spyOn(viewModule, "projectToCardModel");
 
-    const chk = await HubProject.fromJson(
+    const chk = HubProject.fromJson(
       { name: "Test Project" },
       authdCtxMgr.context
     );
-    await chk.convertToCardModel();
+    chk.convertToCardModel();
 
     expect(spy).toHaveBeenCalledTimes(1);
   });
@@ -128,7 +127,7 @@ describe("HubProject Class:", () => {
         return Promise.resolve(p);
       }
     );
-    const chk = await HubProject.fromJson(
+    const chk = HubProject.fromJson(
       { name: "Test Project" },
       authdCtxMgr.context
     );

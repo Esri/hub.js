@@ -3,8 +3,8 @@ import { cloneObject } from "../util";
 import { deepEqual } from "../objects/deepEqual";
 import { AccessLevel, IHubEditableContent } from "../core";
 import { getSchedulerApiUrl } from "./_internal/internalContentUtils";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import { IHubRequestOptions } from "../types";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
+import { IHubRequestOptions } from "../hub-types";
 
 // Any code referencing these functions must first pass isDownloadSchedulingAvailable
 

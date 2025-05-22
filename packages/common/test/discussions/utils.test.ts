@@ -1,3 +1,4 @@
+import { IGroup } from "@esri/arcgis-rest-portal";
 import {
   CANNOT_DISCUSS,
   isDiscussable,
@@ -14,6 +15,7 @@ import {
   AclCategory,
   AclSubCategory,
   getPostCSVFileName,
+  channelToSearchResult,
 } from "../../src";
 
 describe("discussions utils", () => {
@@ -32,6 +34,10 @@ describe("discussions utils", () => {
       const result = isDiscussable(subject);
       expect(result).toBeFalsy();
     });
+    it("returns false when subject is falsey", () => {
+      const result = isDiscussable(null);
+      expect(result).toBeFalsy();
+    });
     it("returns true if typeKeywords property does not exist", () => {
       const subject = {};
       const result = isDiscussable(subject);
@@ -39,6 +45,10 @@ describe("discussions utils", () => {
     });
   });
   describe("setDiscussableKeyword", () => {
+    it("handles falsey typeKeywords value", () => {
+      const result = setDiscussableKeyword(null, true);
+      expect(result).toEqual([]);
+    });
     it("returns array without CANNOT_DISCUSS when isDiscussable is true", () => {
       const result = setDiscussableKeyword([CANNOT_DISCUSS], true);
       expect(result).toEqual([]);
@@ -63,6 +73,11 @@ describe("discussions utils", () => {
       expect(
         isPublicChannel({
           channelAcl: [{ category: AclCategory.AUTHENTICATED_USER }],
+        } as IChannel)
+      ).toBe(true);
+      expect(
+        isPublicChannel({
+          channelAcl: [{ category: AclCategory.ANONYMOUS_USER }],
         } as IChannel)
       ).toBe(true);
     });
@@ -586,6 +601,41 @@ describe("discussions utils", () => {
       expect(result).toEqual(
         "some-really-really-really-really-long-title-with-non-alpha-numeric-characters-i-can-t-believe-how-long-this-title-is-it-exceeds-250-characters-yet-we-re-still-able-to-produce-a-reasonable-file-name-from-it-geesh-i-m-runni_2024-04-01T16-00-00-000Z.csv"
       );
+    });
+  });
+  describe("channelToSearchResult", () => {
+    it("should transform an IChannel and array of IGroup objects into an IHubSearchResult", () => {
+      const channel: IChannel = {
+        id: "c1",
+        access: "private",
+        name: "My channel",
+        createdAt: new Date("2021-09-23T15:16:27.166Z"),
+        updatedAt: new Date("2025-03-31T06:52:58.476Z"),
+        creator: "juliana",
+        blockWords: ["bad"],
+      } as unknown as IChannel;
+      const groups: IGroup[] = [];
+      const result = channelToSearchResult(channel, groups);
+      expect(result).toEqual({
+        ...channel,
+        id: channel.id,
+        name: channel.name,
+        createdDate: channel.createdAt,
+        createdDateSource: "channel",
+        updatedDate: channel.updatedAt,
+        updatedDateSource: "channel",
+        type: "channel",
+        access: "private",
+        family: "channel",
+        owner: channel.creator,
+        links: {
+          thumbnail: null,
+          self: null,
+          siteRelative: null,
+        },
+        includes: { groups },
+        rawResult: channel,
+      });
     });
   });
 });

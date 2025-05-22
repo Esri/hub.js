@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../../../../ArcGISContext";
+import type { IArcGISContext } from "../../../../types/IArcGISContext";
 import { IFollowCardEditorOptions } from "../EditorOptions";
 import { IUiSchema, UiSchemaRuleEffects } from "../../types";
 import {
@@ -6,7 +6,7 @@ import {
   WellKnownCollection,
   getWellKnownCatalog,
 } from "../../../../search/wellKnownCatalog";
-import { IUser } from "@esri/arcgis-rest-types";
+import type { IUser } from "@esri/arcgis-rest-portal";
 import { IHubCatalog } from "../../../../search/types/IHubCatalog";
 
 // Get the catalogs for the entity gallery picker

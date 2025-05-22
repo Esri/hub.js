@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-auth";
+import type { IUser } from "@esri/arcgis-rest-portal";
 import { IHubRequestOptions } from "@esri/hub-common";
 import { createGroup, protectGroup, IGroup } from "@esri/arcgis-rest-portal";
 import { getUniqueGroupTitle } from "./get-unique-group-title";
@@ -24,29 +24,29 @@ export function _createTeamGroup(
     hubRequestOptions.portalSelf
   );
   return getUniqueGroupTitle(group.title, hubRequestOptions)
-    .then(uniqueTitle => {
+    .then((uniqueTitle) => {
       group.title = uniqueTitle;
       return createGroup({
         group: group as IGroup, // close enough
-        authentication: hubRequestOptions.authentication
+        authentication: hubRequestOptions.authentication,
       });
     })
-    .then(createResponse => {
+    .then((createResponse) => {
       group.id = createResponse.group.id;
       return protectGroup({
         id: group.id,
-        authentication: hubRequestOptions.authentication
+        authentication: hubRequestOptions.authentication,
       });
     })
     .then(() => {
       group.userMembership = {
         username: user.username,
         memberType: "owner",
-        applications: 0
+        applications: 0,
       };
       return group;
     })
-    .catch(ex => {
+    .catch((ex) => {
       throw Error(`Error in team-utils::_createTeamGroup ${ex}`);
     });
 }

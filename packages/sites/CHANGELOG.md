@@ -1,3 +1,80 @@
+# @esri/hub-sites [18.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@18.0.1...@esri/hub-sites@18.1.0) (2025-05-01)
+
+
+### Features
+
+* update to latest version of ArcGIS REST JS packages ([#1889](https://github.com/Esri/hub.js/issues/1889)) ([e132a57](https://github.com/Esri/hub.js/commit/e132a575c7e28d662322eef108be75c41b81fb75))
+
+## @esri/hub-sites [18.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-sites@18.0.0...@esri/hub-sites@18.0.1) (2025-04-23)
+
+
+### Bug Fixes
+
+* item.data not saved in commitItemUpload, createItem, and updateItem ([#1876](https://github.com/Esri/hub.js/issues/1876)) ([5e14b88](https://github.com/Esri/hub.js/commit/5e14b886230f151a7a5d0c1017edd2dfec01331a))
+
+# @esri/hub-sites [18.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@17.0.0...@esri/hub-sites@18.0.0) (2025-04-22)
+
+
+### Features
+
+* upgrade to ArcGIS REST JS 4 ([#1850](https://github.com/Esri/hub.js/issues/1850)) ([8eb1496](https://github.com/Esri/hub.js/commit/8eb14967af7cc194cdc03b5d5c2648dac77597f0))
+
+
+### BREAKING CHANGES
+
+* ArcGIS REST JS peer dependencies must be v4
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 17.0.0
+* **@esri/hub-initiatives:** upgraded to 17.0.0
+* **@esri/hub-teams:** upgraded to 17.0.0
+
+# @esri/hub-sites [17.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@16.1.0...@esri/hub-sites@17.0.0) (2025-03-28)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 16.0.0
+* **@esri/hub-initiatives:** upgraded to 16.0.0
+* **@esri/hub-teams:** upgraded to 16.0.0
+
+# @esri/hub-sites [16.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@16.0.2...@esri/hub-sites@16.1.0) (2025-03-28)
+
+
+### Features
+
+* **hub-common:** remove all collection, update default collection definitions, start persisting IHubCatalog to sites ([#1833](https://github.com/Esri/hub.js/issues/1833)) ([0d09013](https://github.com/Esri/hub.js/commit/0d090137e829d7c0c31e7f0f5021f37ef9c1b75a))
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 15.46.0
+
+## @esri/hub-sites [16.0.2](https://github.com/Esri/hub.js/compare/@esri/hub-sites@16.0.1...@esri/hub-sites@16.0.2) (2025-02-25)
+
+
+### Bug Fixes
+
+* revert "refactor: minimize use of rest-types package" ([#1813](https://github.com/Esri/hub.js/issues/1813)) ([11e151b](https://github.com/Esri/hub.js/commit/11e151b3d13b1a04e73cb85330a606c2dcb749d7))
+
+## @esri/hub-sites [16.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-sites@16.0.0...@esri/hub-sites@16.0.1) (2025-01-22)
+
+
+### Bug Fixes
+
+* export _get-sharing-eligible-models ([#1777](https://github.com/Esri/hub.js/issues/1777)) ([18a3026](https://github.com/Esri/hub.js/commit/18a3026c8ce834d086158dabe51b0da3de02ca9c))
+
 # @esri/hub-sites [16.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@15.0.2...@esri/hub-sites@16.0.0) (2024-11-01)
 
 

@@ -3,7 +3,7 @@
 
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { getProp } from "@esri/hub-common";
 /**
  * @internal
@@ -53,10 +53,10 @@ export default class Artifactory {
    * @param {string} orgType
    * @param {string} role
    */
-  getSession(orgType: string, role: string): UserSession {
+  getSession(orgType: string, role: string): ArcGISIdentityManager {
     const opts = this.getIdentity(orgType, role);
     opts.portal = this.getPortalUrl(orgType) + `/sharing/rest`;
-    return new UserSession(opts);
+    return new ArcGISIdentityManager(opts);
   }
   /**
    * Get the org-short

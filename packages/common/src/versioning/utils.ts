@@ -1,6 +1,6 @@
 import { cloneObject } from "../util";
 import { mergeObjects } from "../objects/merge-objects";
-import { IHubUserRequestOptions, IModel } from "../types";
+import { IHubUserRequestOptions, IModel } from "../hub-types";
 import { IVersion } from "./types/IVersion";
 import { getVersion } from "./getVersion";
 import { getIncludeListFromItemType } from "./_internal/getIncludeListFromItemType";

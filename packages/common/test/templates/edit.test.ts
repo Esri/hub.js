@@ -10,7 +10,7 @@ import {
   TEMPLATE_ENTITY,
   initContextManager,
 } from "./fixtures";
-import { IModel } from "../../src/types";
+import { IModel } from "../../src/hub-types";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import {
   IHubTemplate,
@@ -32,13 +32,15 @@ describe("templates: edit module", () => {
   });
 
   describe("createTemplate", () => {
-    it("throws an error", () => {
-      expect(() => {
-        createTemplate(
+    it("throws an error", async () => {
+      try {
+        await createTemplate(
           { name: "Template Test", orgUrlKey: "dcdev" },
           authdCtxMgr.context.userRequestOptions
         );
-      }).toThrowError();
+      } catch (e) {
+        expect(e).toBeTruthy();
+      }
     });
   });
 

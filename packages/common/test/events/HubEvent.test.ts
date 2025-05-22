@@ -115,14 +115,16 @@ describe("HubEvent Class:", () => {
       await chk.delete();
       fail("delete did not reject");
     } catch (e) {
-      expect(e.message).toEqual("HubEvent is already destroyed.");
+      const error = e as { message?: string };
+      expect(error.message).toEqual("HubEvent is already destroyed.");
     }
 
     try {
       await chk.save();
       fail("save did not reject");
     } catch (e) {
-      expect(e.message).toEqual("HubEvent is already destroyed.");
+      const error = e as { message?: string };
+      expect(error.message).toEqual("HubEvent is already destroyed.");
     }
   });
 
@@ -203,6 +205,52 @@ describe("HubEvent Class:", () => {
         expect(result.name).toEqual("new name");
       });
 
+      it("sets thumbnail url if available", async () => {
+        const chk = HubEvent.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+          },
+          authdCtxMgr.context
+        );
+        // spy on the instance .save method and retrn void
+        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        // make changes to the editor
+        const editor = await chk.toEditor();
+        editor.name = "new name";
+        editor._thumbnail = { url: "https://thumbnail.jpg" };
+        // call fromEditor
+        const result = await chk.fromEditor(editor);
+        // expect the save method to have been called
+        expect(saveSpy).toHaveBeenCalledTimes(1);
+        // expect the name to have been updated
+        expect(result.name).toEqual("new name");
+      });
+
+      it("does not set thumbnail if url is not available", async () => {
+        const chk = HubEvent.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+          },
+          authdCtxMgr.context
+        );
+        // spy on the instance .save method and retrn void
+        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        // make changes to the editor
+        const editor = await chk.toEditor();
+        editor.name = "new name";
+        editor._thumbnail = {};
+        // call fromEditor
+        const result = await chk.fromEditor(editor);
+        // expect the save method to have been called
+        expect(saveSpy).toHaveBeenCalledTimes(1);
+        // expect the name to have been updated
+        expect(result.name).toEqual("new name");
+      });
+
       it("throws if creating", async () => {
         const chk = HubEvent.fromJson(
           {
@@ -220,7 +268,8 @@ describe("HubEvent Class:", () => {
         try {
           await chk.fromEditor(editor);
         } catch (ex) {
-          expect(ex.message).toContain("Cannot create");
+          const error = ex as { message?: string };
+          expect(error.message).toContain("Cannot create");
           expect(saveSpy).toHaveBeenCalledTimes(0);
         }
       });
@@ -249,7 +298,8 @@ describe("HubEvent Class:", () => {
         await chk.shareWithGroup("123");
         fail("not rejected");
       } catch (e) {
-        expect(e.message).toBe(
+        const error = e as { message?: string };
+        expect(error.message).toBe(
           "Cannot share event with group when no user is logged in."
         );
       }
@@ -422,7 +472,8 @@ describe("HubEvent Class:", () => {
         await HubEvent.fetch("31c", authdCtxMgr.context);
         fail("not rejected");
       } catch (e) {
-        expect(e.message).toBe("Event not found.");
+        const error = e as { message?: string };
+        expect(error.message).toBe("Event not found.");
       }
     });
   });

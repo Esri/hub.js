@@ -1,9 +1,9 @@
-import {
+import type {
   IExtent,
   IFeatureServiceDefinition,
   ILayerDefinition,
-} from "@esri/arcgis-rest-types";
-import { ItemType } from "../../types";
+} from "@esri/arcgis-rest-feature-service";
+import { ItemType } from "../../hub-types";
 import { Logger } from "../../utils";
 
 const FEATURE_SERVICE_URL_REGEX = /(feature)server(\/|\/(\d+))?$/i;
@@ -209,7 +209,7 @@ export function detectDataTypeFromHeader(headers: Headers): ItemType {
   let dataType: ItemType;
 
   if (!contentType) {
-    return;
+    return undefined;
   }
   // Only get the "media-type"
   contentType = contentType.split(";").shift();

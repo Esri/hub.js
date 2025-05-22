@@ -1,7 +1,7 @@
 import { IUser } from "@esri/arcgis-rest-portal";
 import { getProp } from "../../objects/get-prop";
 import { getWithDefault } from "../../objects/get-with-default";
-import { IHubRequestOptions } from "../../types";
+import { IHubRequestOptions } from "../../hub-types";
 import { cloneObject } from "../../util";
 import { IConsolidatedResult } from "./interfaces";
 import { _consolidateResults } from "./output-processors/_consolidate-results";

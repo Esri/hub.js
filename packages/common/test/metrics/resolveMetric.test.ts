@@ -11,7 +11,7 @@ import {
 } from "../../src";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as PortalModule from "@esri/arcgis-rest-portal";
-import * as FLModule from "@esri/arcgis-rest-feature-layer";
+import * as FLModule from "@esri/arcgis-rest-feature-service";
 import * as PSModule from "../../src/search/_internal/portalSearchItems";
 
 describe("resolveMetric:", () => {
@@ -48,7 +48,8 @@ describe("resolveMetric:", () => {
       try {
         await resolveMetric(metric, ctx);
       } catch (ex) {
-        expect((ex as any).message).toBe("Unknown metric type passed in.");
+        const error = ex as { message?: string };
+        expect(error.message).toBe("Unknown metric type passed in.");
       }
     });
   });

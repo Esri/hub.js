@@ -3,7 +3,7 @@ import { hubRequestDownloadMetadata } from "./hub/hub-request-download-metadata"
 import { DownloadFormat } from "./download-format";
 import { DownloadTarget } from "./download-target";
 import { DownloadStatuses } from "./download-status";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 
 export interface IDownloadMetadataRequestParams {
   /* API target for downloads: 'hub' (default), 'portal', 'enterprise' */
@@ -21,7 +21,7 @@ export interface IDownloadMetadataRequestParams {
   /* A SQL-style WHERE filter for attribute values.  Applicable to Hub API exports only. */
   where?: string;
   /* Required for Portal downloads only. */
-  authentication?: UserSession;
+  authentication?: ArcGISIdentityManager;
 }
 
 export interface IDownloadMetadataResults {

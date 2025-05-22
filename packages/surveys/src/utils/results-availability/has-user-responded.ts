@@ -1,4 +1,7 @@
-import { queryFeatures, IQueryResponse } from "@esri/arcgis-rest-feature-layer";
+import {
+  queryFeatures,
+  IQueryResponse,
+} from "@esri/arcgis-rest-feature-service";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 /**
@@ -10,7 +13,7 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
  * @param {IRequestOptions} requestOptions The request options
  * @returns {Promise<boolean>}
  */
-export function hasUserResponded (
+export function hasUserResponded(
   url: string,
   username: string,
   requestOptions: IRequestOptions
@@ -18,9 +21,9 @@ export function hasUserResponded (
   const _url = `${url}/0`;
   const params = {
     where: `Creator = '${username}'`,
-    returnCountOnly: true
+    returnCountOnly: true,
   };
   return queryFeatures({ url: _url, params, ...requestOptions }).then(
     ({ count }: IQueryResponse) => count > 0
   );
-};
+}

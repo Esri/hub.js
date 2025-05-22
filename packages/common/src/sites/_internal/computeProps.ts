@@ -1,14 +1,14 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { getItemThumbnailUrl } from "../../resources";
-import { IModel } from "../../types";
+import { IModel } from "../../hub-types";
 import { upgradeCatalogSchema } from "../../search/upgradeCatalogSchema";
-import { isDiscussable } from "../../discussions";
 import { processEntityFeatures } from "../../permissions/_internal/processEntityFeatures";
 import { SiteDefaultFeatures } from "./SiteBusinessRules";
 import { IHubSite } from "../../core/types/IHubSite";
 import { computeItemProps } from "../../core/_internal/computeItemProps";
 import { computeLinks } from "./computeLinks";
+import { getCatalogFromSiteModel } from "../get-catalog-from-site-model";
 
 /**
  * Given a model and a site, set various computed properties that can't be directly mapped
@@ -25,7 +25,8 @@ export function computeProps(
 ): IHubSite {
   let token: string;
   if (requestOptions.authentication) {
-    const session: UserSession = requestOptions.authentication as UserSession;
+    const session: ArcGISIdentityManager =
+      requestOptions.authentication as ArcGISIdentityManager;
     token = session.token;
   }
   // compute base properties on site
@@ -43,6 +44,9 @@ export function computeProps(
     model.data.settings?.features || {},
     SiteDefaultFeatures
   );
+
+  // Get new catalog structure
+  site.catalog = getCatalogFromSiteModel(model);
 
   // Perform schema upgrades on the new catalog structure
   site.catalog = upgradeCatalogSchema(site.catalog);

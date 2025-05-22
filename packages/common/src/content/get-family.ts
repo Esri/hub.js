@@ -1,4 +1,4 @@
-import { HubFamily } from "../types";
+import { HubFamily } from "../hub-types";
 import { getCollection, getCollectionTypes } from "../collections";
 
 // private helper functions
@@ -51,6 +51,9 @@ export function getFamily(type: string) {
       break;
     case "hub initiative":
       family = "initiative";
+      break;
+    case "organization":
+      family = "organization";
       break;
     default:
       // by default derive from collection

@@ -1,10 +1,10 @@
 import { getPageEditUrl } from "../../src";
-import { IItem } from "@esri/arcgis-rest-types";
+import type { IItem } from "@esri/arcgis-rest-portal";
 
 describe("getPageEditUrl", () => {
-  it("gets edit url", function() {
+  it("gets edit url", function () {
     const item = {
-      id: "foo"
+      id: "foo",
     } as IItem;
     const siteUrl = "https://broda-dc.hubqa.arcgis.com";
     let result = getPageEditUrl(item, false, siteUrl);

@@ -1,11 +1,11 @@
 import {
   normalizeSolutionTemplateItem,
-  itemPropsNotInTemplates
+  itemPropsNotInTemplates,
 } from "../../src";
-import { IItem } from "@esri/arcgis-rest-types";
+import type { IItem } from "@esri/arcgis-rest-portal";
 
-describe("normalizeSolutionTemplateItem", function() {
-  it("removes the right attributes and templatizes extent", function() {
+describe("normalizeSolutionTemplateItem", function () {
+  it("removes the right attributes and templatizes extent", function () {
     const item: IItem = {
       id: "c9929fca0892406da79f38fe4efcc116",
       owner: "dcadminqa",
@@ -25,7 +25,7 @@ describe("normalizeSolutionTemplateItem", function() {
         "Online Map",
         "OpenData",
         "selfConfigured",
-        "Web Map"
+        "Web Map",
       ],
       description:
         "DO NOT DELETE OR MODIFY THIS ITEM. This item is managed by the Hub application. To make changes to this Page, please visit https://hub.arcgis.com/admin/",
@@ -43,7 +43,7 @@ describe("normalizeSolutionTemplateItem", function() {
         demoUrl: "https://hub.arcgis.com/admin/",
         source: "2d964e35474c45eb89f84e0252a656f3",
         parentInitiativeId: "a7c9f77c7b564f309ef88dfbcdce80a8",
-        parentId: "2d964e35474c45eb89f84e0252a656f3"
+        parentId: "2d964e35474c45eb89f84e0252a656f3",
       },
       url: "https://opendataqa.arcgis.com/admin/",
       proxyFilter: null,
@@ -63,12 +63,12 @@ describe("normalizeSolutionTemplateItem", function() {
       avgRating: 0,
       numViews: 56,
       scoreCompleteness: 61,
-      groupDesignations: null
+      groupDesignations: null,
     };
 
     const template = normalizeSolutionTemplateItem(item);
 
-    itemPropsNotInTemplates.forEach(prop => {
+    itemPropsNotInTemplates.forEach((prop) => {
       expect(template[prop]).toBeUndefined(`${prop} was deleted`);
     });
     expect(template.extent).toBe(

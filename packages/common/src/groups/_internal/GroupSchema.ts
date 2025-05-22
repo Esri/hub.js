@@ -4,6 +4,7 @@ import {
   ENTITY_IS_DISCUSSABLE_SCHEMA,
   ENTITY_NAME_SCHEMA,
   ENTITY_SUMMARY_SCHEMA,
+  ENTITY_TAGS_SCHEMA,
 } from "../../core/schemas/shared";
 
 export type GroupEditorType = (typeof GroupEditorTypes)[number];
@@ -65,5 +66,6 @@ export const GroupSchema: IConfigurationSchema = {
       default: false,
     },
     isDiscussable: ENTITY_IS_DISCUSSABLE_SCHEMA,
+    tags: ENTITY_TAGS_SCHEMA,
   },
 } as IConfigurationSchema;

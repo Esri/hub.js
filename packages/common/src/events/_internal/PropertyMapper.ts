@@ -3,7 +3,6 @@ import {
   mapEntityToStore,
   mapStoreToEntity,
 } from "../../core/_internal/PropertyMapper";
-import { HubActionLink } from "../../core/types/ActionLinks";
 import { IHubEvent } from "../../core/types/IHubEvent";
 import { SettableAccessLevel } from "../../core/types/types";
 import { cloneObject } from "../../util";
@@ -107,9 +106,12 @@ export class EventPropertyMapper extends PropertyMapper<
     obj.createdDateSource = "createdAt";
     obj.updatedDate = new Date(store.updatedAt);
     obj.updatedDateSource = "updatedAt";
+
     obj.links = computeLinks(store as IEvent);
     obj.slug = getEventSlug(store as IEvent);
-    obj.thumbnailUrl = getEventThumbnail();
+    if (!obj.thumbnailUrl) {
+      obj.thumbnailUrl = getEventThumbnail();
+    }
 
     obj.view = {
       showMap: !!store.location,
@@ -133,8 +135,6 @@ export class EventPropertyMapper extends PropertyMapper<
     entity: Partial<IHubEvent>,
     store: Partial<IEvent>
   ): Partial<IEvent> {
-    // TODO: thumbnail & thumbnail url
-
     const clonedEntity = cloneObject(entity);
 
     const obj = mapEntityToStore(clonedEntity, store, this.mappings);

@@ -1,4 +1,4 @@
-import { IItem, IUser } from "@esri/arcgis-rest-types";
+import type { IItem, IUser } from "@esri/arcgis-rest-portal";
 import { getProp, IHubRequestOptions } from "@esri/hub-common";
 import { getTeamById } from "./get-team-by-id";
 import { ITeamStatus } from "../types";
@@ -59,17 +59,17 @@ export async function getTeamStatus(
         // If it doesn't, then check to see if user can Create team
         result.id = id;
         result.isBroken = true;
-        result.canFix = await canUserCreateTeam(user, teamType, ro);
+        result.canFix = canUserCreateTeam(user, teamType, ro);
       }
     } catch (ex) {
       // If the search errors then check if user can create team
       result.id = id;
       result.isBroken = true;
-      result.canFix = await canUserCreateTeam(user, teamType, ro);
+      result.canFix = canUserCreateTeam(user, teamType, ro);
     }
   } else {
     // If there is not an id then check if the user can create the team
-    result.canFix = await canUserCreateTeam(user, teamType, ro);
+    result.canFix = canUserCreateTeam(user, teamType, ro);
   }
   return result;
 }

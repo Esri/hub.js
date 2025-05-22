@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../ArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 import {
   IItemQueryMetricSource,
   IMetric,
@@ -8,11 +8,12 @@ import {
   IStaticValueMetricSource,
   MetricSource,
 } from "../core/types/Metrics";
-import { queryFeatures } from "@esri/arcgis-rest-feature-layer";
-import { IItem, IStatisticDefinition } from "@esri/arcgis-rest-types";
+import { queryFeatures } from "@esri/arcgis-rest-feature-service";
+import type { IItem } from "@esri/arcgis-rest-portal";
+import type { IStatisticDefinition } from "@esri/arcgis-rest-feature-service";
 import { getProp } from "../objects/get-prop";
 import { IPredicate, IQuery } from "../search/types/IHubCatalog";
-import { combineQueries } from "../search/_internal/combineQueries";
+import { combineQueries } from "../search/combineQueries";
 import { IHubSearchOptions } from "../search/types/IHubSearchOptions";
 import { portalSearchItemsAsItems } from "../search/_internal/portalSearchItems";
 

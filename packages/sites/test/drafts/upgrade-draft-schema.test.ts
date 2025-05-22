@@ -11,6 +11,8 @@ describe("upgradeDraftSchema", () => {
   let migrateEventListCardConfigsSpy: jasmine.Spy;
   let migrateTelemetryConfigSpy: jasmine.Spy;
   let migrateBadBasemapSpy: jasmine.Spy;
+  let migrateToV2CatalogSpy: jasmine.Spy;
+
   beforeEach(() => {
     ensureTelemetrySpy = spyOn(commonModule, "_ensureTelemetry").and.callFake(
       (model: IModel) => model
@@ -30,6 +32,10 @@ describe("upgradeDraftSchema", () => {
     migrateBadBasemapSpy = spyOn(
       commonModule,
       "migrateBadBasemap"
+    ).and.callFake((model: IModel) => model);
+    migrateToV2CatalogSpy = spyOn(
+      commonModule,
+      "_migrateToV2Catalog"
     ).and.callFake((model: IModel) => model);
   });
 
@@ -51,6 +57,7 @@ describe("upgradeDraftSchema", () => {
         migrateEventListCardConfigsSpy,
         migrateTelemetryConfigSpy,
         migrateBadBasemapSpy,
+        migrateToV2CatalogSpy,
       ],
       expect
     );
@@ -95,6 +102,7 @@ describe("upgradeDraftSchema", () => {
         migrateEventListCardConfigsSpy,
         migrateTelemetryConfigSpy,
         migrateBadBasemapSpy,
+        migrateToV2CatalogSpy,
       ],
       expect
     );
@@ -117,6 +125,7 @@ describe("upgradeDraftSchema", () => {
         migrateFeedConfigSpy,
         migrateEventListCardConfigsSpy,
         migrateTelemetryConfigSpy,
+        migrateToV2CatalogSpy,
       ],
       "toHaveBeenCalled",
       false,

@@ -1,11 +1,11 @@
 import { getItem, IItem, searchItems } from "@esri/arcgis-rest-portal";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import {
   getService,
   getLayer,
   IFeatureServiceDefinition,
   ILayerDefinition,
-} from "@esri/arcgis-rest-feature-layer";
+} from "@esri/arcgis-rest-feature-service";
 import { DownloadFormat, DownloadFormats } from "../download-format";
 import { urlBuilder, composeDownloadId } from "../utils";
 import { DownloadTarget } from "../download-target";
@@ -31,7 +31,7 @@ const isCollectionType = (format: DownloadFormat) =>
 export interface IPortalDownloadMetadataRequestParams {
   datasetId: string;
   format: DownloadFormat;
-  authentication?: UserSession;
+  authentication?: ArcGISIdentityManager;
   portal?: string; // optional if authentication is provided
   spatialRefId?: string;
   target?: DownloadTarget;
@@ -88,7 +88,7 @@ export function portalRequestDownloadMetadata(
         }),
         num: 1,
         sortField: "modified",
-        sortOrder: "DESC",
+        sortOrder: "DESC" as any,
         authentication,
         portal,
       });

@@ -1,6 +1,7 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import { createItem, ICreateItemResponse } from "@esri/arcgis-rest-portal";
-import { IItemAdd } from "@esri/arcgis-rest-types";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
+import { ICreateItemResponse } from "@esri/arcgis-rest-portal";
+import type { IItemAdd } from "@esri/arcgis-rest-portal";
+import { createItem } from "../rest/portal";
 
 /**
  * Create AGO item from a URL

@@ -1,7 +1,7 @@
 import * as restPortalModule from "@esri/arcgis-rest-portal";
 import { MOCK_AUTH } from "./fixtures";
 import { updateTeam } from "../src/update-team";
-import { IGroup } from "@esri/arcgis-rest-types";
+import type { IGroup } from "@esri/arcgis-rest-portal";
 
 describe("update-team", function () {
   let updateTeamSpy: jasmine.Spy;
@@ -20,7 +20,7 @@ describe("update-team", function () {
       id: "1234",
       capabilities: ["updateitemcontrol"],
     });
-    const result = await updateTeam(group, MOCK_AUTH);
+    await updateTeam(group, MOCK_AUTH);
     expect(updateTeamSpy).toHaveBeenCalled();
   });
 });

@@ -1,6 +1,6 @@
 import { _removeParentInitiative } from "../src";
 import * as commonModule from "@esri/hub-common";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 
 describe("_removeParentInitiative", () => {
   it("removes the groups", async () => {
@@ -12,9 +12,9 @@ describe("_removeParentInitiative", () => {
     const siteModel = {
       item: {
         properties: {
-          parentInitiativeId: "parent"
-        }
-      }
+          parentInitiativeId: "parent",
+        },
+      },
     } as commonModule.IModel;
 
     await _removeParentInitiative(siteModel, {} as IUserRequestOptions);
@@ -32,9 +32,9 @@ describe("_removeParentInitiative", () => {
     const siteModel = {
       item: {
         properties: {
-          parentInitiativeId: null
-        }
-      }
+          parentInitiativeId: null,
+        },
+      },
     } as commonModule.IModel;
 
     await _removeParentInitiative(siteModel, {} as IUserRequestOptions);

@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../ArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 import { HubContent } from "../content/HubContent";
 import { HubDiscussion } from "../discussions/HubDiscussion";
 import { HubGroup } from "../groups/HubGroup";
@@ -16,7 +16,22 @@ import { HubEntity } from "./types/HubEntity";
 import { HubEntityEditor, IEntityEditorContext } from "./types/HubEntityEditor";
 import { HubEvent } from "../events/HubEvent";
 import { HubUser } from "../users/HubUser";
-import { IHubUser } from "./types";
+import {
+  IHubChannel,
+  IHubDiscussion,
+  IHubEditableContent,
+  IHubEvent,
+  IHubGroup,
+  IHubInitiative,
+  IHubInitiativeTemplate,
+  IHubPage,
+  IHubProject,
+  IHubSite,
+  IHubSurvey,
+  IHubTemplate,
+  IHubUser,
+} from "./types";
+import { HubChannel } from "../channels/HubChannel";
 
 export class EntityEditor {
   instance: IWithEditorBehavior;
@@ -30,49 +45,46 @@ export class EntityEditor {
     // Create the instance and cast to EntityEditor
     let editor: IWithEditorBehavior;
     if (entityType === "project") {
-      editor = HubProject.fromJson(entity, context) as IWithEditorBehavior;
+      editor = HubProject.fromJson(entity as IHubProject, context);
     }
     if (entityType === "initiative") {
-      editor = HubInitiative.fromJson(entity, context) as IWithEditorBehavior;
+      editor = HubInitiative.fromJson(entity as IHubInitiative, context);
     }
     if (entityType === "content") {
-      editor = HubContent.fromJson(entity, context) as IWithEditorBehavior;
+      editor = HubContent.fromJson(entity as IHubEditableContent, context);
     }
     if (entityType === "site") {
-      editor = HubSite.fromJson(entity, context) as IWithEditorBehavior;
+      editor = HubSite.fromJson(entity as IHubSite, context);
     }
     if (entityType === "page") {
-      editor = HubPage.fromJson(entity, context) as IWithEditorBehavior;
+      editor = HubPage.fromJson(entity as IHubPage, context);
     }
     if (entityType === "discussion") {
-      editor = HubDiscussion.fromJson(entity, context) as IWithEditorBehavior;
+      editor = HubDiscussion.fromJson(entity as IHubDiscussion, context);
     }
     if (entityType === "template") {
-      editor = HubTemplate.fromJson(entity, context) as IWithEditorBehavior;
+      editor = HubTemplate.fromJson(entity as IHubTemplate, context);
+    }
+    if (entityType === "channel") {
+      editor = HubChannel.fromJson(entity as IHubChannel, context);
     }
     if (entityType === "survey") {
-      editor = HubSurvey.fromJson(entity, context) as IWithEditorBehavior;
+      editor = HubSurvey.fromJson(entity as IHubSurvey, context);
     }
     if (entityType === "event") {
-      editor = HubEvent.fromJson(entity, context) as IWithEditorBehavior;
+      editor = HubEvent.fromJson(entity as IHubEvent, context);
     }
     if (entityType === "group") {
-      editor = HubGroup.fromJson(
-        entity as unknown as HubGroup,
-        context
-      ) as IWithEditorBehavior;
+      editor = HubGroup.fromJson(entity as IHubGroup, context);
     }
     if (entityType === "initiativeTemplate") {
       editor = HubInitiativeTemplate.fromJson(
-        entity,
+        entity as IHubInitiativeTemplate,
         context
-      ) as IWithEditorBehavior;
+      );
     }
     if (entityType === "user") {
-      editor = HubUser.fromJson(
-        entity as IHubUser,
-        context
-      ) as IWithEditorBehavior;
+      editor = HubUser.fromJson(entity as IHubUser, context);
     }
     if (editor) {
       return new EntityEditor(editor);
@@ -91,12 +103,9 @@ export class EntityEditor {
   toEditor(
     editorContext: IEntityEditorContext = {},
     include: string[] = []
-  ): HubEntityEditor {
+  ): Promise<HubEntityEditor> {
     // This is ugly but it's the only way to get the type to be correct
-    return this.instance.toEditor(
-      editorContext,
-      include
-    ) as unknown as HubEntityEditor;
+    return this.instance.toEditor(editorContext, include);
   }
 
   async save(

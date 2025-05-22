@@ -1,8 +1,9 @@
 import { getWithDefault } from "../../objects/get-with-default";
 import { IHubCatalog } from "../../search/types/IHubCatalog";
 import { getGroupPredicate } from "../../search/utils";
-import { IModel } from "../../types";
+import { IModel } from "../../hub-types";
 import { cloneObject } from "../../util";
+import { getCatalogFromSiteModel } from "../get-catalog-from-site-model";
 
 /**
  * Converts the migrated catalog of a site model back into a legacy catalog format.
@@ -18,9 +19,10 @@ export function convertCatalogToLegacyFormat(
   currentModel: IModel
 ): IModel {
   const updatedModel = cloneObject(modelToUpdate);
-  const legacyCatalog = catalogToLegacy(updatedModel.data.catalog);
-  // If the catalog has groups, we update the model with the legacy catalog
-  if (legacyCatalog.groups.length) {
+  const catalog = getCatalogFromSiteModel(updatedModel);
+  const legacyCatalog = catalogToLegacy(catalog);
+  // If the catalog has groups array, we update the model with the legacy catalog
+  if (Array.isArray(legacyCatalog.groups)) {
     updatedModel.data.catalog = legacyCatalog;
   } else {
     // This shouldn't happen, but in case something is malformed we protect the data integrity

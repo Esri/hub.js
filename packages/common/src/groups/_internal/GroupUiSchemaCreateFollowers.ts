@@ -3,7 +3,7 @@ import {
   IUiSchema,
   UiSchemaRuleEffects,
 } from "../../core/schemas/types";
-import { IArcGISContext } from "../../ArcGISContext";
+import type { IArcGISContext } from "../../types/IArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 import { getWellKnownGroup } from "../getWellKnownGroup";
 import { IHubGroup } from "../../core";
@@ -156,7 +156,6 @@ export const buildDefaults = async (
   options: EntityEditorOptions,
   context: IArcGISContext
 ): Promise<IConfigurationValues> => {
-  const { name } = options;
   return {
     ...getWellKnownGroup("hubFollowersGroup", context),
   };

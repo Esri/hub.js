@@ -1,8 +1,9 @@
 import { WellKnownCollection } from "../../search";
-import { IHubCollectionPersistance } from "../../search/types/IHubCatalog";
-import { IModel } from "../../types";
+import { IHubCollection } from "../../search/types/IHubCatalog";
+import { IModel } from "../../hub-types";
 import { cloneObject } from "../../util";
 import { SearchCategories } from "./types";
+import { getCatalogFromSiteModel } from "../get-catalog-from-site-model";
 
 /**
  * Reflects changes from a site model's collections to the `site.data.values.searchCategories`
@@ -35,8 +36,8 @@ export function reflectCollectionsToSearchCategories(model: IModel) {
       [SearchCategories.APPS_AND_MAPS]: "App,Map",
       [SearchCategories.DOCUMENTS]: "Document",
     };
-  const collections: IHubCollectionPersistance[] =
-    clone.data.catalog.collections;
+  const collections: IHubCollection[] =
+    getCatalogFromSiteModel(clone).collections;
 
   const updatedSearchCategories = collections
     // We don't want to persist any non-standard collection as a search category,
@@ -46,7 +47,7 @@ export function reflectCollectionsToSearchCategories(model: IModel) {
       const searchCategoryKey =
         collectionToSearchCategory[c.key as WellKnownCollection];
       const updated: any = {
-        hidden: c.hidden,
+        hidden: !!c.displayConfig?.hidden,
         key: searchCategoryKey,
         queryParams: {
           collection: searchCategoryToQueryParam[searchCategoryKey],

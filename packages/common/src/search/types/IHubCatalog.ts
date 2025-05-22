@@ -44,11 +44,13 @@ export interface IHubCatalog {
   /**
    * Optional display configuration to control a catalog's appearance in the UI
    */
-  displayConfig?: IGalleryDisplayConfig;
+  displayConfig?: ICatalogDisplayConfig;
 }
 
 export interface ICatalogScope extends Partial<Record<EntityType, IQuery>> {}
 
+export interface ICatalogDisplayConfig
+  extends Partial<Record<EntityType, IGalleryDisplayConfig>> {}
 export interface IHubCollection {
   /**
    * String to show in the UI. translated.
@@ -97,19 +99,9 @@ export const targetEntities = [
   "channel",
   "discussionPost",
   "eventAttendee",
+  "organization",
 ] as const;
 export type EntityType = (typeof targetEntities)[number];
-
-/**
- * @private
- *
- * This interface wraps IHubCollection and provides additional fields
- * for collection configuration. It is the actual interface used when
- * when storing an entity's catalog collections.
- */
-export interface IHubCollectionPersistance extends IHubCollection {
-  hidden?: boolean;
-}
 
 /**
  * IQuery is the fundamental unit used to execute a search. By composing
@@ -195,12 +187,69 @@ export interface IGalleryDisplayConfig {
    * If this is true on a collection's display config, that collection will not be shown in the gallery.
    */
   hidden?: boolean;
-  layout?: "list" | "grid" | "map" | "table" | "calendar" | "compact";
+  /** default layout */
+  layout?:
+    | "list"
+    | "grid"
+    | "map"
+    | "table"
+    | "calendar"
+    | "compact"
+    | "grid-filled";
+  /**  Gallery layout options to expose in the layout switcher */
+  layouts?: Array<
+    | "list"
+    | "grid"
+    | "map"
+    | "table"
+    | "calendar"
+    | "compact"
+    | "grid-filled"
+  >;
+  /** header tag for the gallery card titles - needed for a11y */
   cardTitleTag?: CARD_TITLE_TAGS;
+  /** Type of media to render in the layout card */
+  imageType?: "thumbnail" | "icon";
+  /**
+   * Indicates whether the card render show a thumbnail.
+   * "grid" means the card will only render a thumbnail
+   * if the layout is set to "grid"
+   */
   showThumbnail?: "show" | "hide" | "grid";
+  /** card corner appearance */
   corners?: CORNERS;
+  /** card drop shadow */
   shadow?: DROP_SHADOWS;
+  /**
+   * whether to show a button on the gallery card linking
+   * out to the content - redundant with the title link,
+   * but it's currently supported/desired
+   */
   showLinkButton?: boolean;
+  /** button style if showLinkButton = true */
   linkButtonStyle?: "solid" | "outline" | "outline-fill" | "transparent";
+  /** button text rendered if showLinkButton = true */
   linkButtonText?: string;
+  sort?: "relevance" | "title" | "created" | "modified";
+  filters?: Array<{
+    key:
+      | "location"
+      | "type"
+      | "source"
+      | "event-occurrence"
+      | "event-from"
+      | "event-attendance"
+      | "tags"
+      | "categories"
+      | "license"
+      | "modified"
+      | "access"
+      | "group-role"
+      | "group-type"
+      | "group-access"
+      | "event-access"
+      | "event-date";
+    hidden: boolean;
+    label?: string;
+  }>;
 }

@@ -1,5 +1,4 @@
 import { JSONSchema } from "json-schema-typed";
-import Ajv from "ajv";
 
 import { ProjectEditorTypes } from "../../projects/_internal/ProjectSchema";
 import { InitiativeEditorTypes } from "../../initiatives/_internal/InitiativeSchema";
@@ -15,10 +14,11 @@ import {
   CardEditorOptions,
   EntityEditorOptions,
 } from "./internal/EditorOptions";
-import { IArcGISContext } from "../../ArcGISContext";
+import type { IArcGISContext } from "../../types/IArcGISContext";
 import { EventEditorTypes } from "../../events/_internal/EventSchemaCreate";
 import { HubActionLink } from "../types";
 import { UserEditorTypes } from "../../users/_internal/UserSchema";
+import { ChannelEditorTypes } from "../../channels/_internal/ChannelSchema";
 
 export interface IEditorConfig {
   schema: IConfigurationSchema;
@@ -44,6 +44,7 @@ export const validEntityEditorTypes = [
   ...SurveyEditorTypes,
   ...EventEditorTypes,
   ...UserEditorTypes,
+  ...ChannelEditorTypes,
 ] as const;
 
 /** Defines the possible editor type values for a stat card. These
@@ -150,6 +151,7 @@ export enum UiSchemaElementTypes {
   layout = "Layout",
   slot = "Slot",
   notice = "Notice",
+  text = "Text",
 }
 
 export enum UiSchemaSectionTypes {

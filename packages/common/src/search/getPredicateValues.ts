@@ -1,7 +1,7 @@
-import { IQuery } from "..";
-import { getWithDefault } from "../objects";
+import { IQuery } from "./types/IHubCatalog";
+import { getWithDefault } from "../objects/get-with-default";
 import { unique } from "../util";
-import { expandPredicates } from "./_internal";
+import { expandPredicates } from "./_internal/portalSearchItems";
 
 /**
  * Get all the values for a predicate in a query

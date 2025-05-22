@@ -16,7 +16,7 @@ import * as FeatureServiceItem from "../../../common/test/mocks/items/feature-se
 import * as FieldworkerItem from "../../../common/test/mocks/items/fieldworker-item.json";
 import * as StakeholderItem from "../../../common/test/mocks/items/stakeholder-item.json";
 import { cloneObject, IModel } from "@esri/hub-common";
-import * as featureLayerUtils from "@esri/arcgis-rest-feature-layer";
+import * as featureLayerUtils from "@esri/arcgis-rest-feature-service";
 
 const getFormItem = (
   isDraft: boolean,
@@ -67,7 +67,7 @@ describe("shouldDisplayResults", function () {
       "hasUserResponded"
     ).and.returnValue(Promise.resolve(true));
     const form = getFormItem(false, "after");
-    const result = await shouldDisplayResults(
+    await shouldDisplayResults(
       form,
       StakeholderItem as IStakeholderItem,
       "jdoe",

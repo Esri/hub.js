@@ -8,7 +8,7 @@ import {
 } from "@esri/hub-common";
 import { unlinkSiteAndPage } from "../unlink-site-and-page";
 import { removeItem } from "@esri/arcgis-rest-portal";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 
 /**
  * Remove a Page Item. This deletes the item.

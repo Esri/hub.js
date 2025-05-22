@@ -9,15 +9,16 @@ describe("hubApiRequest", () => {
       status,
     });
     hubApiRequest(route).catch((e) => {
-      expect(e.message).toBe("Forbidden");
-      expect(e.status).toBe(status);
-      expect(e.url).toBe(`https://hub.arcgis.com/api/v3/${route}`);
+      const error = e as { message?: string; status?: number; url?: string };
+      expect(error.message).toBe("Forbidden");
+      expect(error.status).toBe(status);
+      expect(error.url).toBe(`https://hub.arcgis.com/api/v3/${route}`);
       done();
     });
   });
-  it("stringfies params in the body of POST", (done) => {
+  it("stringfies params in the body of POST", async () => {
     fetchMock.once("*", { the: "goods" });
-    hubApiRequest("datasets", {
+    const response = await hubApiRequest("datasets", {
       isPortal: false,
       hubApiUrl: "https://some.url.com/",
       httpMethod: "POST",
@@ -25,13 +26,11 @@ describe("hubApiRequest", () => {
       params: {
         foo: "bar",
       },
-    }).then((response) => {
-      const [url, options] = fetchMock.calls()[0];
-      expect(url).toEqual("https://some.url.com/api/v3/datasets");
-      expect(options.body).toBe('{"foo":"bar"}');
-      expect(response.the).toEqual("goods");
-      done();
     });
+    const [url, options] = fetchMock.calls()[0];
+    expect(url).toEqual("https://some.url.com/api/v3/datasets");
+    expect(options.body).toBe('{"foo":"bar"}');
+    expect(response.the).toEqual("goods");
   });
   // NOTE: additional request cases are covered by tests
   // of functions in other packages that use hubRequest

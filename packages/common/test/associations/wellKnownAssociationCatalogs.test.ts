@@ -141,7 +141,7 @@ describe("getWellKnownAssociationsCatalog", () => {
         {} as ArcGISContext
       );
     } catch (err) {
-      expect(err.message).toBe(
+      expect((err as Error).message).toBe(
         "getWellKnownAssociationsCatalog: Association between initiative and group is not supported."
       );
     }
@@ -173,25 +173,25 @@ describe("getAvailableToRequestAssociationCatalogs", () => {
     getWellknownCatalogSpy.calls.reset();
   });
 
-  it("throws an error if the association is not supported", async () => {
+  it("throws an error if the association is not supported", () => {
     try {
-      await getAvailableToRequestAssociationCatalogs(
+      getAvailableToRequestAssociationCatalogs(
         "some-scope",
         { type: "Hub Initiative" } as HubEntity,
         "group",
         {} as ArcGISContext
       );
     } catch (err) {
-      expect(err.message).toBe(
+      expect((err as Error).message).toBe(
         "getAvailableToRequestAssociationCatalogs: Association between initiative and group is not supported."
       );
     }
   });
-  it("does not provide additional filters if the availableToRequestEntitiesQuery comes back empty", async () => {
+  it("does not provide additional filters if the availableToRequestEntitiesQuery comes back empty", () => {
     // overwrite the spy to return null
     getAvailableToRequestEntitiesQuerySpy.and.returnValue(null);
 
-    await getAvailableToRequestAssociationCatalogs(
+    getAvailableToRequestAssociationCatalogs(
       "some-scope",
       { type: "Hub Project" } as HubEntity,
       "initiative",
@@ -201,8 +201,8 @@ describe("getAvailableToRequestAssociationCatalogs", () => {
     const args = getWellknownCatalogSpy.calls.argsFor(1);
     expect(args[3].filters).toBeUndefined();
   });
-  it('returns an array of valid "availableToRequest" catalogs', async () => {
-    const catalogs = await getAvailableToRequestAssociationCatalogs(
+  it('returns an array of valid "availableToRequest" catalogs', () => {
+    const catalogs = getAvailableToRequestAssociationCatalogs(
       "some-scope",
       { type: "Hub Project" } as HubEntity,
       "initiative",
@@ -220,7 +220,7 @@ describe("getAvailableToRequestAssociationCatalogs", () => {
     ]);
   });
 
-  it('returns an array of valid "availableToRequest" catalogs when given an array of catalogs', async () => {
+  it('returns an array of valid "availableToRequest" catalogs when given an array of catalogs', () => {
     getWellknownCatalogSpy.and.returnValues(
       { schemaVersion: 1, title: "mock-myContent" },
       { schemaVersion: 1, title: "mock-organization" },
@@ -228,7 +228,7 @@ describe("getAvailableToRequestAssociationCatalogs", () => {
       { schemaVersion: 1, title: "mock-partners" }
     );
 
-    const catalogs = await getAvailableToRequestAssociationCatalogs(
+    const catalogs = getAvailableToRequestAssociationCatalogs(
       "some-scope",
       { type: "Hub Project" } as HubEntity,
       "initiative",

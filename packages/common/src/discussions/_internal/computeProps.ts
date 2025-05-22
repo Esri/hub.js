@@ -1,11 +1,10 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { getItemThumbnailUrl } from "../../resources";
-import { IModel } from "../../types";
+import { IModel } from "../../hub-types";
 
 import { IHubDiscussion } from "../../core";
 
-import { isDiscussable } from "../utils";
 import { computeItemProps } from "../../core/_internal/computeItemProps";
 
 /**
@@ -23,7 +22,8 @@ export function computeProps(
 ): IHubDiscussion {
   let token: string;
   if (requestOptions.authentication) {
-    const session: UserSession = requestOptions.authentication as UserSession;
+    const session: ArcGISIdentityManager =
+      requestOptions.authentication as ArcGISIdentityManager;
     token = session.token;
   }
   // compute base properties on discussion

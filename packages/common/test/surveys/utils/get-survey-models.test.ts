@@ -10,7 +10,7 @@ import * as getStakeholderModelUtil from "../../../src/surveys/utils/get-stakeho
 import { mockUserSession } from "../../test-helpers/fake-user-session";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getSurveyModels } from "../../../src/surveys/utils/get-survey-models";
-import { IModel } from "../../../src/types";
+import { IModel } from "../../../src/hub-types";
 
 describe("getSurveyModels", () => {
   let formModel: IModel;

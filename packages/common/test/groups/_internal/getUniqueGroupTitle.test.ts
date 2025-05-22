@@ -1,4 +1,4 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { getUniqueGroupTitle } from "../../../src/groups/_internal/getUniqueGroupTitle";
 import * as SearchModule from "../../../src/search/hubSearch";
 

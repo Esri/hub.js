@@ -36,8 +36,9 @@ export const ProjectPermissions = [
   "hub:project:workspace:content",
   "hub:project:workspace:events",
   "hub:project:workspace:metrics",
-  "hub:project:workspace:catalogs", // deprecated - should be removed
   "hub:project:workspace:catalog",
+  "hub:project:workspace:catalog:content",
+  "hub:project:workspace:catalog:events",
   "hub:project:manage",
 ] as const;
 
@@ -168,19 +169,19 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:project:workspace", "hub:project:edit"],
   },
   {
-    permission: "hub:project:workspace:catalogs", // TODO: remove plural permission
-    dependencies: [
-      "hub:project:workspace",
-      "hub:feature:catalogs",
-      "hub:project:edit",
-    ],
+    permission: "hub:project:workspace:catalog",
+    dependencies: ["hub:project:workspace", "hub:project:edit"],
   },
   {
-    permission: "hub:project:workspace:catalog",
+    permission: "hub:project:workspace:catalog:content",
+    dependencies: ["hub:project:workspace:catalog"],
+  },
+  {
+    permission: "hub:project:workspace:catalog:events",
     dependencies: [
-      "hub:project:workspace",
-      "hub:feature:catalogs",
-      "hub:project:edit",
+      "hub:project:workspace:catalog",
+      "hub:event",
+      "hub:feature:catalogs:edit:advanced",
     ],
   },
   {

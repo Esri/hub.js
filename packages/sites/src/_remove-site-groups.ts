@@ -2,9 +2,9 @@ import {
   IModel,
   maybePush,
   getProp,
-  _unprotectAndRemoveGroup
+  _unprotectAndRemoveGroup,
 } from "@esri/hub-common";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 
 /**
  * Remove the well-known team groups
@@ -21,12 +21,12 @@ export function _removeSiteGroups(
   const teamsToDelete = [
     "collaborationGroupId",
     "contentGroupId",
-    "followersGroupId"
+    "followersGroupId",
   ].reduce((acc, prop) => {
     return maybePush(getProp(siteModel, `item.properties.${prop}`), acc);
   }, []);
 
-  const promises = teamsToDelete.map(id => {
+  const promises = teamsToDelete.map((id) => {
     const opts = Object.assign({ id }, requestOptions);
     return _unprotectAndRemoveGroup(opts);
   });

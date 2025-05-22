@@ -1,4 +1,4 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { removeItemResource } from "@esri/arcgis-rest-portal";
 import HubError from "../HubError";
 

@@ -3,7 +3,7 @@ import {
   convertCatalogToLegacyFormat,
   catalogToLegacy,
 } from "../../../src/sites/_internal/convertCatalogToLegacyFormat";
-import { IModel } from "../../../src/types";
+import { IModel } from "../../../src/hub-types";
 import { IHubCatalog } from "../../../src";
 
 describe("utils:", () => {
@@ -41,11 +41,11 @@ describe("utils:", () => {
     });
   });
   describe("convertCatalogToLegacyFormat", () => {
-    it("leaves the old catalog untouched if no group predicate is present", () => {
+    it("sets the groups array as empty if there is no group predicate", () => {
       const modelToUpdate = {
         item: {} as IItem,
         data: {
-          catalog: {
+          catalogV2: {
             scopes: {
               item: {
                 targetEntity: "item",
@@ -71,6 +71,41 @@ describe("utils:", () => {
       } as IModel;
       const chk = convertCatalogToLegacyFormat(modelToUpdate, currentModel);
 
+      expect(chk.data?.catalog).toEqual({ groups: [] });
+    });
+    it("leaves the old catalog untouched if the group predicate is malformed", () => {
+      const modelToUpdate = {
+        item: {} as IItem,
+        data: {
+          catalogV2: {
+            scopes: {
+              item: {
+                targetEntity: "item",
+                filters: [
+                  {
+                    predicates: [
+                      {
+                        type: "Feature Service",
+                        group: {
+                          any: false,
+                        },
+                      },
+                    ],
+                  },
+                ],
+              },
+            },
+          },
+        },
+      } as IModel;
+      const currentModel = {
+        item: {} as IItem,
+        data: {
+          catalog: { groups: ["00c", "00d"] },
+        },
+      } as IModel;
+      const chk = convertCatalogToLegacyFormat(modelToUpdate, currentModel);
+
       expect(chk.data?.catalog).toEqual({ groups: ["00c", "00d"] });
     });
 
@@ -78,7 +113,7 @@ describe("utils:", () => {
       const modelToUpdate = {
         item: {} as IItem,
         data: {
-          catalog: {
+          catalogV2: {
             scopes: {
               item: {
                 targetEntity: "item",
@@ -111,7 +146,7 @@ describe("utils:", () => {
       const modelToUpdate = {
         item: {} as IItem,
         data: {
-          catalog: {
+          catalogV2: {
             scopes: {
               item: {
                 targetEntity: "item",

@@ -42,6 +42,7 @@ export const ENTITY_CATEGORIES_SCHEMA: JSONSchema = {
   items: {
     type: "string",
   },
+  maxItems: 20,
 };
 
 export const ENTITY_IS_DISCUSSABLE_SCHEMA = {
@@ -102,6 +103,7 @@ export const ENTITY_IMAGE_SCHEMA = {
         size: { type: "number" },
       },
     },
+    url: { type: "string" },
   },
 };
 
@@ -183,5 +185,7 @@ export const PRIVACY_CONFIG_SCHEMA = {
 export const SLUG_SCHEMA: JSONSchema = {
   type: "string",
   /** lower case alpha numeric characters and '-' only */
-  pattern: "^[a-z0-9]+(?:-[a-z0-9]+-*)*$",
+  // using the same regex as the slug formatter
+  // this will prevent trailing - or multiple - in a row
+  pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$",
 };

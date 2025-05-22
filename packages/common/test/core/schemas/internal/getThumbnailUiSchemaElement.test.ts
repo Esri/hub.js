@@ -1,12 +1,12 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IHubItemEntity } from "../../../../src";
 import { getThumbnailUiSchemaElement } from "../../../../src/core/schemas/internal/getThumbnailUiSchemaElement";
-import { HubEntityType } from "../../../../dist/types/core/types/HubEntityType";
+import { HubEntityType } from "../../../../src/core/types/HubEntityType";
 import * as urlUtils from "../../../../src/urls";
 import { UiSchemaRuleEffects } from "../../../../src/core/schemas/types";
 
 describe("getThumbnailUiSchemaElement:", () => {
-  it("excludes the default thumbnail notice if the entity has a thumbnail", () => {
+  it("returns schema when the entity has a thumbnail", () => {
     const entity: IHubItemEntity = {
       thumbnail: "thumbnail/my-thumbnail.png",
       itemControl: "",
@@ -31,16 +31,10 @@ describe("getThumbnailUiSchemaElement:", () => {
       entity.type as HubEntityType,
       requestOptions
     );
-    expect(uiSchema.length).toBe(2);
-    expect(uiSchema[1].rules).toEqual([
-      {
-        effect: UiSchemaRuleEffects.SHOW,
-        conditions: [false],
-      },
-    ]);
+    expect(uiSchema.length).toBe(1);
   });
 
-  it("includes the default thumbnail notice if the entity has no thumbnail", () => {
+  it("returns schema when the entity has no thumbnail", () => {
     const entity: IHubItemEntity = {
       itemControl: "",
       owner: "",
@@ -64,16 +58,10 @@ describe("getThumbnailUiSchemaElement:", () => {
       entity.type as HubEntityType,
       requestOptions
     );
-    expect(uiSchema.length).toBe(2);
-    expect(uiSchema[1].rules).toEqual([
-      {
-        effect: UiSchemaRuleEffects.SHOW,
-        conditions: [true],
-      },
-    ]);
+    expect(uiSchema.length).toBe(1);
   });
 
-  it("includes the default thumbnail notice if the entity has the default thumbnail", () => {
+  it("returns schema when the entity has the default thumbnail", () => {
     const entity: IHubItemEntity = {
       thumbnail: "thumbnail/ago_downloaded.png",
       itemControl: "",
@@ -98,13 +86,7 @@ describe("getThumbnailUiSchemaElement:", () => {
       entity.type as HubEntityType,
       requestOptions
     );
-    expect(uiSchema.length).toBe(2);
-    expect(uiSchema[1].rules).toEqual([
-      {
-        effect: UiSchemaRuleEffects.SHOW,
-        conditions: [true],
-      },
-    ]);
+    expect(uiSchema.length).toBe(1);
   });
 
   it("sets default thumbnail when available", () => {

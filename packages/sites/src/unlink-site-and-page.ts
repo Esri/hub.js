@@ -7,9 +7,9 @@ import {
   getProp,
   failSafeUpdate,
   failSafe,
-  unshareItemFromGroups
+  unshareItemFromGroups,
 } from "@esri/hub-common";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 
 /**
  * Unlink a Page from a Site and vice-versa
@@ -26,21 +26,21 @@ export function unlinkSiteAndPage(unlinkRequestOptions: {
   siteId?: string;
   pageModel?: IModel;
   pageId?: string;
-  authentication: UserSession;
+  authentication: ArcGISIdentityManager;
 }): Promise<{ siteModel: IModel; pageModel: IModel }> {
   let unshareGroups: string[] = [];
   const promises: Array<Promise<any>> = [];
   let pageModel: IModel;
   let siteModel: IModel;
   const requestOptions = {
-    authentication: unlinkRequestOptions.authentication
+    authentication: unlinkRequestOptions.authentication,
   };
   // get the models from the options...
   return Promise.all([
     getModelFromOptions("page", unlinkRequestOptions),
-    getModelFromOptions("site", unlinkRequestOptions)
+    getModelFromOptions("site", unlinkRequestOptions),
   ])
-    .then(models => {
+    .then((models) => {
       [pageModel, siteModel] = models;
       // Handle the site
       if (!siteModel.isMissing) {
@@ -85,7 +85,7 @@ export function unlinkSiteAndPage(unlinkRequestOptions: {
       // return the updated models
       return {
         pageModel,
-        siteModel
+        siteModel,
       };
     });
 }

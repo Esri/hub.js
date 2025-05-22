@@ -1,13 +1,11 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { getItemThumbnailUrl } from "../../resources";
 import { IHubProject } from "../../core";
-import { IModel } from "../../types";
-import { isDiscussable } from "../../discussions";
+import { IModel } from "../../hub-types";
 import { processEntityFeatures } from "../../permissions/_internal/processEntityFeatures";
 import { ProjectDefaultFeatures } from "./ProjectBusinessRules";
 import { computeLinks } from "./computeLinks";
-import { getAuthedImageUrl } from "../../core/_internal/getAuthedImageUrl";
 import { computeItemProps } from "../../core/_internal/computeItemProps";
 import { upgradeCatalogSchema } from "../../search";
 
@@ -26,7 +24,8 @@ export function computeProps(
 ): IHubProject {
   let token: string;
   if (requestOptions.authentication) {
-    const session: UserSession = requestOptions.authentication as UserSession;
+    const session: ArcGISIdentityManager =
+      requestOptions.authentication as ArcGISIdentityManager;
     token = session.token;
   }
   // compute base properties on project

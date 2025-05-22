@@ -2,55 +2,6 @@ import { EntityType, targetEntities } from "../../../search/types/IHubCatalog";
 import { IConfigurationSchema } from "../types";
 import { CARD_TITLE_TAGS, CORNERS, DROP_SHADOWS } from "./enums";
 
-/** JSON schema for an IPredicate */
-export const PredicateSchema: IConfigurationSchema = {
-  type: "object",
-};
-
-/** JSON schema for an IFilter */
-export const FilterSchema: IConfigurationSchema = {
-  type: "object",
-  properties: {
-    operation: {
-      type: "string",
-      enum: ["AND", "OR"],
-    },
-    predicates: {
-      type: "array",
-      minItems: 1,
-      items: PredicateSchema,
-    },
-  },
-};
-
-/** JSON schema for an IQuery */
-export const QuerySchema: IConfigurationSchema = {
-  type: "object",
-  required: ["targetEntity"],
-  properties: {
-    targetEntity: {
-      type: "string",
-      enum: [...targetEntities],
-    },
-    filters: {
-      type: "array",
-      items: FilterSchema,
-    },
-  },
-};
-
-/** JSON schema for an IHubCollection */
-export const CollectionSchema: IConfigurationSchema = {
-  type: "object",
-  required: ["label"],
-  properties: {
-    label: {
-      type: "string",
-    },
-    scope: QuerySchema,
-  },
-};
-
 /**
  * JSON schema for the appearance of a gallery display
  * This can be for a catalog, a collection, a gallery card, etc
@@ -61,13 +12,26 @@ export const GalleryDisplayConfigSchema: IConfigurationSchema = {
     hidden: { type: "boolean", default: false },
     layout: {
       type: "string",
-      enum: ["list", "grid", "table", "map", "compact"],
+      enum: [ 'grid', 'list', 'map', 'compact', 'table', 'calendar' ],
       default: "list",
+    },
+    layouts: {
+      type: "array",
+      items: {
+        type: "string",
+        enum: [ 'grid', 'list', 'map', 'compact', 'table', 'calendar' ]
+      },
+      default: []
     },
     cardTitleTag: {
       type: "string",
       enum: Object.keys(CARD_TITLE_TAGS),
       default: CARD_TITLE_TAGS.h3,
+    },
+    imageType: {
+      type: "string",
+      enum: ["thumbnail", "icon"],
+      default: "thumbnail",
     },
     showThumbnail: {
       type: "string",
@@ -91,6 +55,98 @@ export const GalleryDisplayConfigSchema: IConfigurationSchema = {
       default: "outline-filled",
     },
     linkButtonText: { type: "string", default: "Explore" },
+    sort: {
+      type: "string",
+      enum: ["relevance", "title", "created", "modified"],
+      default: "relevance",
+    },
+    filters: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          key: {
+            type: "string",
+            enum: [
+              "location",
+              "type",
+              "source",
+              "event-occurrence",
+              "event-from",
+              "event-attendance",
+              "tags",
+              "categories",
+              "license",
+              "modified",
+              "access",
+              "group-role",
+              "group-type",
+              "group-access",
+              "event-access",
+              "event-date",
+            ],
+          },
+          hidden: { type: "boolean" },
+          label: { type: "string" },
+        },
+      },
+    },
+  },
+};
+
+/** JSON schema for an IPredicate */
+export const PredicateSchema: IConfigurationSchema = {
+  type: "object",
+  minProperties: 1,
+};
+
+/** JSON schema for an IFilter */
+export const FilterSchema: IConfigurationSchema = {
+  type: "object",
+  minProperties: 1,
+  properties: {
+    operation: {
+      type: "string",
+      enum: ["AND", "OR"],
+    },
+    predicates: {
+      type: "array",
+      items: PredicateSchema,
+      minItems: 1,
+    },
+  },
+};
+
+/** JSON schema for an IQuery */
+export const QuerySchema: IConfigurationSchema = {
+  type: "object",
+  required: ["targetEntity"],
+  properties: {
+    targetEntity: {
+      type: "string",
+      enum: [...targetEntities],
+    },
+    filters: {
+      type: "array",
+      items: FilterSchema,
+      minItems: 1,
+    },
+  },
+};
+
+/** JSON schema for an IHubCollection */
+export const CollectionSchema: IConfigurationSchema = {
+  type: "object",
+  required: ["label"],
+  properties: {
+    label: {
+      type: "string",
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      format: "isNotWhitespace",
+    },
+    scope: QuerySchema,
+    displayConfig: GalleryDisplayConfigSchema,
   },
 };
 
@@ -115,16 +171,15 @@ export const CatalogSchema: IConfigurationSchema = {
       type: "array",
       items: CollectionSchema,
     },
-    displayConfig: GalleryDisplayConfigSchema,
-  },
-};
-
-/**
- * JSON schema for the appearance of an IHubCollection
- */
-export const CollectionAppearanceSchema: IConfigurationSchema = {
-  type: "object",
-  properties: {
-    displayConfig: GalleryDisplayConfigSchema,
+    displayConfig: {
+      type: "object",
+      properties: targetEntities.reduce(
+        (acc: Record<EntityType, any>, targetEntity: EntityType) => {
+          acc[targetEntity] = GalleryDisplayConfigSchema;
+          return acc;
+        },
+        {} as Record<EntityType, any>
+      ),
+    },
   },
 };

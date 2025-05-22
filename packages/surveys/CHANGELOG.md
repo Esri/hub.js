@@ -1,3 +1,47 @@
+# @esri/hub-surveys [17.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-surveys@17.0.0...@esri/hub-surveys@17.1.0) (2025-05-01)
+
+
+### Features
+
+* update to latest version of ArcGIS REST JS packages ([#1889](https://github.com/Esri/hub.js/issues/1889)) ([e132a57](https://github.com/Esri/hub.js/commit/e132a575c7e28d662322eef108be75c41b81fb75))
+
+# @esri/hub-surveys [17.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-surveys@16.0.0...@esri/hub-surveys@17.0.0) (2025-04-22)
+
+
+### Features
+
+* upgrade to ArcGIS REST JS 4 ([#1850](https://github.com/Esri/hub.js/issues/1850)) ([8eb1496](https://github.com/Esri/hub.js/commit/8eb14967af7cc194cdc03b5d5c2648dac77597f0))
+
+
+### BREAKING CHANGES
+
+* ArcGIS REST JS peer dependencies must be v4
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 17.0.0
+
+# @esri/hub-surveys [16.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-surveys@15.0.1...@esri/hub-surveys@16.0.0) (2025-03-28)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 16.0.0
+
+## @esri/hub-surveys [15.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-surveys@15.0.0...@esri/hub-surveys@15.0.1) (2025-02-25)
+
+
+### Bug Fixes
+
+* revert "refactor: minimize use of rest-types package" ([#1813](https://github.com/Esri/hub.js/issues/1813)) ([11e151b](https://github.com/Esri/hub.js/commit/11e151b3d13b1a04e73cb85330a606c2dcb749d7))
+
 # @esri/hub-surveys [15.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-surveys@14.1.1...@esri/hub-surveys@15.0.0) (2024-11-01)
 
 

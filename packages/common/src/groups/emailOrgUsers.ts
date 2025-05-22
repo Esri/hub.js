@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-auth";
+import type { IUser } from "@esri/arcgis-rest-portal";
 import {
   ICreateOrgNotificationResult,
   ICreateOrgNotificationOptions,

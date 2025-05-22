@@ -1,10 +1,9 @@
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { computeItemProps } from "../../core/_internal/computeItemProps";
 import { IHubSurvey } from "../../core/types/IHubSurvey";
-import { IModel } from "../../types";
+import { IModel } from "../../hub-types";
 import { getItemThumbnailUrl } from "../../resources/get-item-thumbnail-url";
-import { isDiscussable } from "../../discussions/utils";
 import { hasMapQuestion } from "../utils/has-map-question";
 import { shouldDisplayMap } from "../utils/should-display-map";
 
@@ -23,7 +22,8 @@ export function computeProps(
 ): IHubSurvey {
   let token: string;
   if (requestOptions.authentication) {
-    const session: UserSession = requestOptions.authentication as UserSession;
+    const session: ArcGISIdentityManager =
+      requestOptions.authentication as ArcGISIdentityManager;
     token = session.token;
   }
   // compute base properties on survey object

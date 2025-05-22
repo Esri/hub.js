@@ -1,4 +1,3 @@
-import { hasMapQuestion } from "../../../src";
 import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
 import { buildUiSchema } from "../../../src/surveys/_internal/SurveyUiSchemaSettings";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";

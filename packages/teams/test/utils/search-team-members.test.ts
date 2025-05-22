@@ -1,35 +1,31 @@
-import * as portalModule from "@esri/arcgis-rest-portal";
 import { searchTeamMembers } from "../../src/utils/search-team-members";
 import { IHubRequestOptions } from "@esri/hub-common";
-import { UserSession } from "@esri/arcgis-rest-auth";
 
 describe("searchTeamMembers", () => {
-  const authentication = new UserSession({
+  const authentication = {
     username: "portal-user",
     portal: "http://portal.com/sharing/rest",
-    token: "123"
-  });
+    token: "123",
+  } as any;
   authentication.getToken = () =>
-    new Promise(resolve => {
+    new Promise((resolve) => {
       resolve("123");
     });
   const ro = {
-    authentication
+    authentication,
   } as IHubRequestOptions;
 
   it("should call with the right group id", async () => {
     const groupId = "3ef";
-    const searchGroupUsersSpy = spyOn(
-      portalModule,
-      "searchGroupUsers"
-    ).and.returnValue(Promise.resolve({}));
-
+    const searchGroupUsersSpy = (ro.request = jasmine
+      .createSpy()
+      .and.returnValue(Promise.resolve({})));
     const res = await searchTeamMembers(groupId, ro);
 
     expect(res).toBeTruthy();
 
-    expect(searchGroupUsersSpy.calls.argsFor(0)[0]).toEqual(
-      groupId,
+    expect(searchGroupUsersSpy.calls.argsFor(0)[0]).toContain(
+      `/groups/${groupId}`,
       "search group users spy called with correct group id"
     );
   });

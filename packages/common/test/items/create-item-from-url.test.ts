@@ -1,6 +1,6 @@
 import { createItemFromUrl } from "../../src/items/create-item-from-url";
-import * as portal from "@esri/arcgis-rest-portal";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import * as portal from "../../src/rest/portal";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 
 describe("createContentWithUrl", () => {
   it("Properly calls createItem", async () => {

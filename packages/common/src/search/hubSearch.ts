@@ -20,6 +20,7 @@ import { hubSearchItems } from "./_internal/hubSearchItems";
 import { hubSearchChannels } from "./_internal/hubSearchChannels";
 import { hubSearchEvents } from "./_internal/hubSearchEvents";
 import { hubSearchEventAttendees } from "./_internal/hubSearchEventAttendees";
+import { portalFetchOrgs } from "./_internal/portalFetchOrgs";
 
 /**
  * Main entrypoint for searching via Hub
@@ -66,7 +67,7 @@ export async function hubSearch(
   const filterType = query.targetEntity;
 
   // NOTE: We want to clone the `options` object to do some expansion operations,
-  // But if we clone `options.requestOptions`, the underlying `UserSession` will
+  // But if we clone `options.requestOptions`, the underlying `ArcGISIdentityManager` will
   // lose some fundamental functions like `getToken`. As a workaround, we just
   // clone everything else on the `options` object.
   const { requestOptions, ...remainder } = options;
@@ -83,6 +84,7 @@ export async function hubSearch(
       portalUser: searchPortalUsers,
       communityUser: searchCommunityUsers,
       groupMember: portalSearchGroupMembers,
+      organization: portalFetchOrgs,
     },
     "arcgis-hub": {
       item: hubSearchItems,

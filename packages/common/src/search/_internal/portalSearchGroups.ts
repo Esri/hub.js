@@ -1,9 +1,9 @@
 import { ISearchOptions, searchGroups } from "@esri/arcgis-rest-portal";
-import { IGroup } from "@esri/arcgis-rest-types";
+import type { IGroup } from "@esri/arcgis-rest-portal";
 
 import { enrichGroupSearchResult } from "../../groups/HubGroups";
 import HubError from "../../HubError";
-import { IHubRequestOptions } from "../../types";
+import { IHubRequestOptions } from "../../hub-types";
 import { serializeQueryForPortal } from "../serializeQueryForPortal";
 import {
   IHubSearchOptions,

@@ -1,5 +1,5 @@
 import { getSelf } from "@esri/arcgis-rest-portal";
-import { IArcGISContext } from "../../ArcGISContext";
+import type { IArcGISContext } from "../../types/IArcGISContext";
 import {
   DynamicValues,
   IDynamicPortalSelfDefinition,

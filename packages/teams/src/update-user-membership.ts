@@ -1,4 +1,4 @@
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import {
   updateUserMemberships,
   IUpdateGroupUsersResult,
@@ -11,14 +11,14 @@ import {
  * @param {string} id Group id that the members belong to
  * @param {string[]} users Array of usernames to update membership level on
  * @param {("member" | "admin")} newMemberType The type of user to update the users to
- * @param {UserSession} authentication authentication
+ * @param {ArcGISIdentityManager} authentication authentication
  * @return {*}  {Promise<IUpdateGroupUsersResult>}
  */
 export async function updateUserMembership(
   id: string,
   users: string[],
   newMemberType: "member" | "admin",
-  authentication: UserSession
+  authentication: ArcGISIdentityManager
 ): Promise<IUpdateGroupUsersResult> {
   return updateUserMemberships({
     id,

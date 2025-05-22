@@ -9,6 +9,7 @@ export const SiteDefaultFeatures: IFeatureFlags = {
   "hub:site:discussions": false,
   "hub:site:feature:follow": true,
   "hub:site:feature:discussions": true,
+  "hub:feature:ai-assistant": false,
 };
 
 /**
@@ -34,7 +35,9 @@ export const SitePermissions = [
   "hub:site:workspace:details",
   "hub:site:workspace:settings",
   "hub:site:workspace:collaborators",
-  "hub:site:workspace:content",
+  "hub:site:workspace:catalog",
+  "hub:site:workspace:catalog:content",
+  "hub:site:workspace:catalog:events",
   "hub:site:workspace:metrics",
   "hub:site:workspace:followers",
   "hub:site:workspace:followers:member",
@@ -152,8 +155,19 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:site:workspace", "hub:site:edit"],
   },
   {
-    permission: "hub:site:workspace:content",
+    permission: "hub:site:workspace:catalog",
     dependencies: ["hub:site:workspace", "hub:site:edit"],
+  },
+  {
+    permission: "hub:site:workspace:catalog:content",
+    dependencies: ["hub:site:workspace:catalog"],
+  },
+  {
+    permission: "hub:site:workspace:catalog:events",
+    licenses: ["hub-premium"],
+    dependencies: ["hub:site:workspace:catalog", "hub:event"],
+    environments: ["qaext"],
+    availability: ["alpha"],
   },
   {
     permission: "hub:site:workspace:pages",

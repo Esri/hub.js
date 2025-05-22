@@ -1,7 +1,6 @@
 import * as fetchMock from "fetch-mock";
 import * as portalModule from "@esri/arcgis-rest-portal";
-import * as featureLayer from "@esri/arcgis-rest-feature-layer";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import * as featureLayer from "@esri/arcgis-rest-feature-service";
 import { portalRequestDownloadMetadata } from "../../src/portal/portal-request-download-metadata";
 import { ArcGISAuthError } from "@esri/arcgis-rest-request";
 
@@ -14,7 +13,7 @@ function buildAuth({
   portal?: string;
   token: string;
 }) {
-  const authentication = new UserSession({ username, portal, token });
+  const authentication = { username, portal, token } as any;
   authentication.getToken = () =>
     new Promise((resolve) => {
       resolve(token);
@@ -31,7 +30,7 @@ describe("portalRequestDownloadMetadata", () => {
   });
   afterEach(() => fetchMock.restore());
 
-  describe('failed service requests', () => {
+  describe("failed service requests", () => {
     // See https://github.com/Esri/arcgis-rest-js/issues/920 for context
     it("retries failed service requests without token if they threw auth error", async () => {
       const featureServiceResponse = { layers: [{ id: 0 }] };
@@ -84,7 +83,9 @@ describe("portalRequestDownloadMetadata", () => {
       expect(mockAuthErrorForServiceCall.retry).toHaveBeenCalled();
       expect(mockAuthErrorForLayerCall.retry).toHaveBeenCalled();
 
-      const getSessionFunc = (mockAuthErrorForServiceCall.retry as jasmine.Spy).calls.argsFor(0)[0];
+      const getSessionFunc = (
+        mockAuthErrorForServiceCall.retry as jasmine.Spy
+      ).calls.argsFor(0)[0];
       expect(await getSessionFunc()).toBeNull();
     });
 
@@ -97,11 +98,15 @@ describe("portalRequestDownloadMetadata", () => {
           modified: new Date(1593450876).getTime(),
           url: "http://feature-service.com/FeatureServer",
         })
-        );
+      );
 
-        spyOn(featureLayer, "getService").and.callFake(() => Promise.reject(new NotAnAuthError()));
+      spyOn(featureLayer, "getService").and.callFake(() =>
+        Promise.reject(new NotAnAuthError())
+      );
 
-        spyOn(featureLayer, "getLayer").and.callFake(() => Promise.reject(new NotAnAuthError()));
+      spyOn(featureLayer, "getLayer").and.callFake(() =>
+        Promise.reject(new NotAnAuthError())
+      );
 
       try {
         await portalRequestDownloadMetadata({
@@ -110,9 +115,10 @@ describe("portalRequestDownloadMetadata", () => {
           authentication,
         });
 
-        fail('should reject!');
+        fail("should reject!");
       } catch (err) {
-        expect(err).toEqual(jasmine.any(NotAnAuthError));
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(jasmine.any(NotAnAuthError));
       }
     });
   });
@@ -133,7 +139,8 @@ describe("portalRequestDownloadMetadata", () => {
           authentication,
         });
       } catch (err) {
-        expect(err.code).toEqual("HTTP 502");
+        const error = err as { message?: string; code?: string };
+        expect(error.code).toEqual("HTTP 502");
       } finally {
         done();
       }
@@ -163,7 +170,8 @@ describe("portalRequestDownloadMetadata", () => {
 
         expect(result).toEqual(undefined);
       } catch (err) {
-        expect(err.message).toEqual("498: Invalid token.");
+        const error = err as { message?: string; code?: string };
+        expect(error.message).toEqual("498: Invalid token.");
       } finally {
         done();
       }
@@ -201,7 +209,8 @@ describe("portalRequestDownloadMetadata", () => {
           status: "not_ready",
         });
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -247,7 +256,8 @@ describe("portalRequestDownloadMetadata", () => {
             "http://portal.com/sharing/rest/content/items/abcdef/data?token=123",
         });
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -293,7 +303,8 @@ describe("portalRequestDownloadMetadata", () => {
             "http://portal.com/sharing/rest/content/items/abcdef/data?token=123",
         });
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -345,7 +356,7 @@ describe("portalRequestDownloadMetadata", () => {
       );
     });
 
-    it("prefers portal param over UserSession portal for base URL", async (done) => {
+    it("prefers portal param over authentication portal for base URL", async (done) => {
       try {
         const urlFromPortalParam = "https://my.portal.base.url/sharing/rest";
 
@@ -386,18 +397,19 @@ describe("portalRequestDownloadMetadata", () => {
           portal: urlFromPortalParam,
           authentication: authWithPortal,
           num: 1,
-          q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:null") AND ( (type:"CSV" AND typekeywords:"spatialRefId:4326"))',
+          q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:null) AND ( (type:"CSV" AND typekeywords:spatialRefId:4326))',
           sortField: "modified",
           sortOrder: "DESC",
         });
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
     });
 
-    it("uses portal param if UserSession doesnt contain a portal URL", async (done) => {
+    it("uses portal param if authentication doesnt contain a portal URL", async (done) => {
       try {
         const urlFromPortalParam = "https://my.portal.base.url/sharing/rest";
 
@@ -437,18 +449,19 @@ describe("portalRequestDownloadMetadata", () => {
           portal: urlFromPortalParam,
           authentication: authWithoutPortal,
           num: 1,
-          q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:null") AND ( (type:"CSV" AND typekeywords:"spatialRefId:4326"))',
+          q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:null) AND ( (type:"CSV" AND typekeywords:spatialRefId:4326))',
           sortField: "modified",
           sortOrder: "DESC",
         });
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
     });
 
-    it("uses portal param if no UserSession", async (done) => {
+    it("uses portal param if no authentication", async (done) => {
       try {
         const urlFromPortalParam = "https://my.portal.base.url/sharing/rest";
 
@@ -482,18 +495,19 @@ describe("portalRequestDownloadMetadata", () => {
           portal: urlFromPortalParam,
           authentication: undefined,
           num: 1,
-          q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:null") AND ( (type:"CSV" AND typekeywords:"spatialRefId:4326"))',
+          q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:null) AND ( (type:"CSV" AND typekeywords:spatialRefId:4326))',
           sortField: "modified",
           sortOrder: "DESC",
         });
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
     });
 
-    it("uses UserSession portal if no portal param", async (done) => {
+    it("uses authentication portal if no portal param", async (done) => {
       try {
         const portalFromAuth = "https://url-from-auth.com/sharing/rest";
         const localAuth = buildAuth({
@@ -532,12 +546,13 @@ describe("portalRequestDownloadMetadata", () => {
           authentication: localAuth,
           portal: undefined,
           num: 1,
-          q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:null") AND ( (type:"CSV" AND typekeywords:"spatialRefId:4326"))',
+          q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:null) AND ( (type:"CSV" AND typekeywords:spatialRefId:4326))',
           sortField: "modified",
           sortOrder: "DESC",
         });
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -622,13 +637,14 @@ describe("portalRequestDownloadMetadata", () => {
             authentication,
             num: 1,
             portal: undefined,
-            q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:null") AND ( (type:"CSV" AND typekeywords:"spatialRefId:4326"))',
+            q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:null) AND ( (type:"CSV" AND typekeywords:spatialRefId:4326))',
             sortField: "modified",
             sortOrder: "DESC",
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -712,13 +728,14 @@ describe("portalRequestDownloadMetadata", () => {
             portal: undefined,
             authentication,
             num: 1,
-            q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:00") AND ( (type:"CSV" AND typekeywords:"spatialRefId:4326"))',
+            q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:00) AND ( (type:"CSV" AND typekeywords:spatialRefId:4326))',
             sortField: "modified",
             sortOrder: "DESC",
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -806,13 +823,14 @@ describe("portalRequestDownloadMetadata", () => {
             portal: undefined,
             authentication,
             num: 1,
-            q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:00") AND ( (type:"CSV" AND typekeywords:"spatialRefId:4326"))',
+            q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:00) AND ( (type:"CSV" AND typekeywords:spatialRefId:4326))',
             sortField: "modified",
             sortOrder: "DESC",
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -900,13 +918,14 @@ describe("portalRequestDownloadMetadata", () => {
             portal: undefined,
             authentication,
             num: 1,
-            q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:00") AND ( (type:"CSV" AND typekeywords:"spatialRefId:4326"))',
+            q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:00) AND ( (type:"CSV" AND typekeywords:spatialRefId:4326))',
             sortField: "modified",
             sortOrder: "DESC",
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -995,13 +1014,14 @@ describe("portalRequestDownloadMetadata", () => {
             portal: undefined,
             authentication,
             num: 1,
-            q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:00") AND ( (type:"CSV" AND typekeywords:"spatialRefId:4326"))',
+            q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:00) AND ( (type:"CSV" AND typekeywords:spatialRefId:4326))',
             sortField: "modified",
             sortOrder: "DESC",
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -1086,13 +1106,14 @@ describe("portalRequestDownloadMetadata", () => {
             portal: undefined,
             authentication,
             num: 1,
-            q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:00") AND ( (type:"CSV" AND typekeywords:"spatialRefId:4326"))',
+            q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:00) AND ( (type:"CSV" AND typekeywords:spatialRefId:4326))',
             sortField: "modified",
             sortOrder: "DESC",
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -1185,13 +1206,14 @@ describe("portalRequestDownloadMetadata", () => {
             portal: undefined,
             authentication,
             num: 1,
-            q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:00") AND ( (type:"CSV" AND typekeywords:"spatialRefId:4326"))',
+            q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:00) AND ( (type:"CSV" AND typekeywords:spatialRefId:4326))',
             sortField: "modified",
             sortOrder: "DESC",
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -1289,13 +1311,14 @@ describe("portalRequestDownloadMetadata", () => {
             portal: undefined,
             authentication,
             num: 1,
-            q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:00") AND ( (type:"CSV" AND typekeywords:"spatialRefId:4326"))',
+            q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:00) AND ( (type:"CSV" AND typekeywords:spatialRefId:4326))',
             sortField: "modified",
             sortOrder: "DESC",
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -1370,13 +1393,14 @@ describe("portalRequestDownloadMetadata", () => {
             portal: undefined,
             authentication,
             num: 1,
-            q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:null") AND ( (type:"CSV" AND typekeywords:"spatialRefId:4326"))',
+            q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:null) AND ( (type:"CSV" AND typekeywords:spatialRefId:4326))',
             sortField: "modified",
             sortOrder: "DESC",
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -1470,13 +1494,14 @@ describe("portalRequestDownloadMetadata", () => {
             portal: undefined,
             authentication,
             num: 1,
-            q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:null") AND ( (type:"CSV Collection" AND typekeywords:"spatialRefId:4326"))',
+            q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:null) AND ( (type:"CSV Collection" AND typekeywords:spatialRefId:4326))',
             sortField: "modified",
             sortOrder: "DESC",
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -1570,13 +1595,14 @@ describe("portalRequestDownloadMetadata", () => {
             portal: undefined,
             authentication,
             num: 1,
-            q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:00") AND ( (type:"CSV" AND typekeywords:"spatialRefId:4326"))',
+            q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:00) AND ( (type:"CSV" AND typekeywords:spatialRefId:4326))',
             sortField: "modified",
             sortOrder: "DESC",
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -1679,13 +1705,14 @@ describe("portalRequestDownloadMetadata", () => {
             portal: undefined,
             authentication,
             num: 1,
-            q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:null") AND ( (type:"CSV Collection" AND typekeywords:"spatialRefId:4326"))',
+            q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:null) AND ( (type:"CSV Collection" AND typekeywords:spatialRefId:4326))',
             sortField: "modified",
             sortOrder: "DESC",
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -1783,13 +1810,14 @@ describe("portalRequestDownloadMetadata", () => {
             portal: undefined,
             authentication,
             num: 1,
-            q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:null") AND ( (type:"CSV Collection" AND typekeywords:"spatialRefId:4326"))',
+            q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:null) AND ( (type:"CSV Collection" AND typekeywords:spatialRefId:4326))',
             sortField: "modified",
             sortOrder: "DESC",
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -1893,13 +1921,14 @@ describe("portalRequestDownloadMetadata", () => {
             portal: undefined,
             authentication,
             num: 1,
-            q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:null") AND ( (type:"CSV Collection" AND typekeywords:"spatialRefId:4326"))',
+            q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:null) AND ( (type:"CSV Collection" AND typekeywords:spatialRefId:4326))',
             sortField: "modified",
             sortOrder: "DESC",
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -1999,13 +2028,14 @@ describe("portalRequestDownloadMetadata", () => {
             portal: undefined,
             authentication,
             num: 1,
-            q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:null") AND ( (type:"CSV Collection" AND typekeywords:"spatialRefId:4326"))',
+            q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:null) AND ( (type:"CSV Collection" AND typekeywords:spatialRefId:4326))',
             sortField: "modified",
             sortOrder: "DESC",
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -2113,13 +2143,14 @@ describe("portalRequestDownloadMetadata", () => {
             portal: undefined,
             authentication,
             num: 1,
-            q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:null") AND ( (type:"CSV Collection" AND typekeywords:"spatialRefId:4326"))',
+            q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:null) AND ( (type:"CSV Collection" AND typekeywords:spatialRefId:4326))',
             sortField: "modified",
             sortOrder: "DESC",
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -2231,13 +2262,14 @@ describe("portalRequestDownloadMetadata", () => {
             portal: undefined,
             authentication,
             num: 1,
-            q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:null") AND ( (type:"CSV Collection" AND typekeywords:"spatialRefId:4326"))',
+            q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:null) AND ( (type:"CSV Collection" AND typekeywords:spatialRefId:4326))',
             sortField: "modified",
             sortOrder: "DESC",
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -2331,13 +2363,14 @@ describe("portalRequestDownloadMetadata", () => {
             portal: undefined,
             authentication,
             num: 1,
-            q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:null") AND ( (type:"CSV" AND typekeywords:"spatialRefId:4326"))',
+            q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:null) AND ( (type:"CSV" AND typekeywords:spatialRefId:4326))',
             sortField: "modified",
             sortOrder: "DESC",
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -2440,13 +2473,14 @@ describe("portalRequestDownloadMetadata", () => {
             portal: undefined,
             authentication,
             num: 1,
-            q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:00") AND ( (type:"CSV" AND typekeywords:"spatialRefId:4326"))',
+            q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:00) AND ( (type:"CSV" AND typekeywords:spatialRefId:4326))',
             sortField: "modified",
             sortOrder: "DESC",
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -2545,13 +2579,14 @@ describe("portalRequestDownloadMetadata", () => {
             portal: undefined,
             authentication,
             num: 1,
-            q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:00") AND ( (type:"CSV" AND typekeywords:"spatialRefId:4326"))',
+            q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:00) AND ( (type:"CSV" AND typekeywords:spatialRefId:4326))',
             sortField: "modified",
             sortOrder: "DESC",
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -2657,13 +2692,14 @@ describe("portalRequestDownloadMetadata", () => {
             portal: undefined,
             authentication,
             num: 1,
-            q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:00") AND ( (type:"CSV" AND typekeywords:"spatialRefId:4326"))',
+            q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:00) AND ( (type:"CSV" AND typekeywords:spatialRefId:4326))',
             sortField: "modified",
             sortOrder: "DESC",
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -2765,13 +2801,14 @@ describe("portalRequestDownloadMetadata", () => {
             portal: undefined,
             authentication,
             num: 1,
-            q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:00") AND ( (type:"CSV" AND typekeywords:"spatialRefId:4326"))',
+            q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:00) AND ( (type:"CSV" AND typekeywords:spatialRefId:4326))',
             sortField: "modified",
             sortOrder: "DESC",
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -2881,13 +2918,14 @@ describe("portalRequestDownloadMetadata", () => {
             portal: undefined,
             authentication,
             num: 1,
-            q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:00") AND ( (type:"CSV" AND typekeywords:"spatialRefId:4326"))',
+            q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:00) AND ( (type:"CSV" AND typekeywords:spatialRefId:4326))',
             sortField: "modified",
             sortOrder: "DESC",
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -3001,13 +3039,14 @@ describe("portalRequestDownloadMetadata", () => {
             authentication,
             num: 1,
             portal: undefined,
-            q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:00") AND ( (type:"CSV" AND typekeywords:"spatialRefId:4326"))',
+            q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:00) AND ( (type:"CSV" AND typekeywords:spatialRefId:4326))',
             sortField: "modified",
             sortOrder: "DESC",
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -3111,13 +3150,14 @@ describe("portalRequestDownloadMetadata", () => {
             portal: undefined,
             authentication,
             num: 1,
-            q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:00") AND ( (type:"CSV" AND typekeywords:"spatialRefId:4326"))',
+            q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:00) AND ( (type:"CSV" AND typekeywords:spatialRefId:4326))',
             sortField: "modified",
             sortOrder: "DESC",
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -3215,13 +3255,14 @@ describe("portalRequestDownloadMetadata", () => {
             portal: undefined,
             authentication,
             num: 1,
-            q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:00") AND ( (type:"CSV" AND typekeywords:"spatialRefId:4326"))',
+            q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:00) AND ( (type:"CSV" AND typekeywords:spatialRefId:4326))',
             sortField: "modified",
             sortOrder: "DESC",
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -3326,13 +3367,14 @@ describe("portalRequestDownloadMetadata", () => {
             portal: undefined,
             authentication,
             num: 1,
-            q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:00") AND ( (type:"CSV" AND typekeywords:"spatialRefId:4326"))',
+            q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:00) AND ( (type:"CSV" AND typekeywords:spatialRefId:4326))',
             sortField: "modified",
             sortOrder: "DESC",
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -3433,13 +3475,14 @@ describe("portalRequestDownloadMetadata", () => {
             portal: undefined,
             authentication,
             num: 1,
-            q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:00") AND ( (type:"CSV" AND typekeywords:"spatialRefId:4326"))',
+            q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:00) AND ( (type:"CSV" AND typekeywords:spatialRefId:4326))',
             sortField: "modified",
             sortOrder: "DESC",
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -3548,13 +3591,14 @@ describe("portalRequestDownloadMetadata", () => {
             portal: undefined,
             authentication,
             num: 1,
-            q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:00") AND ( (type:"CSV" AND typekeywords:"spatialRefId:4326"))',
+            q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:00) AND ( (type:"CSV" AND typekeywords:spatialRefId:4326))',
             sortField: "modified",
             sortOrder: "DESC",
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -3667,13 +3711,14 @@ describe("portalRequestDownloadMetadata", () => {
             portal: undefined,
             authentication,
             num: 1,
-            q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:00") AND ( (type:"CSV" AND typekeywords:"spatialRefId:4326"))',
+            q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:00) AND ( (type:"CSV" AND typekeywords:spatialRefId:4326))',
             sortField: "modified",
             sortOrder: "DESC",
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -3773,13 +3818,14 @@ describe("portalRequestDownloadMetadata", () => {
             portal: undefined,
             authentication,
             num: 1,
-            q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:null") AND ( (type:"KML Collection" AND typekeywords:"spatialRefId:4326"))',
+            q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:null) AND ( (type:"KML Collection" AND typekeywords:spatialRefId:4326))',
             sortField: "modified",
             sortOrder: "DESC",
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -3879,13 +3925,14 @@ describe("portalRequestDownloadMetadata", () => {
             portal: undefined,
             authentication,
             num: 1,
-            q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:null") AND ( (type:"Shapefile" AND typekeywords:"spatialRefId:4326"))',
+            q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:null) AND ( (type:"Shapefile" AND typekeywords:spatialRefId:4326))',
             sortField: "modified",
             sortOrder: "DESC",
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -3946,7 +3993,7 @@ describe("portalRequestDownloadMetadata", () => {
         expect(portalModule.searchItems).toHaveBeenCalledTimes(1);
         expect((portalModule.searchItems as any).calls.first().args).toEqual([
           {
-            q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:null") AND ( (type:"CSV" AND typekeywords:"spatialRefId:4326"))',
+            q: '(typekeywords:exportItem:abcdef0123456789abcdef0123456789 AND typekeywords:exportLayer:null) AND ( (type:"CSV" AND typekeywords:spatialRefId:4326))',
             num: 1,
             sortField: "modified",
             sortOrder: "DESC",
@@ -3955,7 +4002,8 @@ describe("portalRequestDownloadMetadata", () => {
           },
         ]);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string; code?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }

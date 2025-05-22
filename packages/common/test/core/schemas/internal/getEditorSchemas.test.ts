@@ -33,6 +33,11 @@ import { DiscussionEditorTypes } from "../../../../src/discussions/_internal/Dis
 import * as DiscussionBuildEditUiSchema from "../../../../src/discussions/_internal/DiscussionUiSchemaEdit";
 import * as DiscussionBuildCreateUiSchema from "../../../../src/discussions/_internal/DiscussionUiSchemaCreate";
 import * as DiscussionBuildSettingsUiSchema from "../../../../src/discussions/_internal/DiscussionUiSchemaSettings";
+import * as EntityBuildDiscussionSettingsUiSchema from "../../../../src/core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettings";
+
+import { ChannelEditorTypes } from "../../../../src/channels/_internal/ChannelSchema";
+import * as ChannelBuildEditUiSchema from "../../../../src/channels/_internal/ChannelUiSchemaEdit";
+import * as ChannelBuildCreateUiSchema from "../../../../src/channels/_internal/ChannelUiSchemaCreate";
 
 import { ContentEditorTypes } from "../../../../src/content/_internal/ContentSchema";
 import * as ContentBuildEditUiSchema from "../../../../src/content/_internal/ContentUiSchemaEdit";
@@ -109,6 +114,10 @@ describe("getEditorSchemas: ", () => {
     { type: DiscussionEditorTypes[0], module: DiscussionBuildEditUiSchema },
     { type: DiscussionEditorTypes[1], module: DiscussionBuildCreateUiSchema },
     { type: DiscussionEditorTypes[2], module: DiscussionBuildSettingsUiSchema },
+    {
+      type: DiscussionEditorTypes[3],
+      module: EntityBuildDiscussionSettingsUiSchema,
+    },
 
     { type: ContentEditorTypes[0], module: ContentBuildEditUiSchema },
     { type: ContentEditorTypes[1], module: ContentBuildSettingsUiSchema },
@@ -127,6 +136,8 @@ describe("getEditorSchemas: ", () => {
     { type: GroupEditorTypes[5], module: GroupBuildCreateViewUiSchema },
     { type: GroupEditorTypes[6], module: GroupBuildCreateEditUiSchema },
     { type: GroupEditorTypes[7], module: GroupBuildCreateUiSchema },
+    { type: ChannelEditorTypes[0], module: ChannelBuildCreateUiSchema },
+    { type: ChannelEditorTypes[1], module: ChannelBuildEditUiSchema },
 
     {
       type: InitiativeTemplateEditorTypes[0],

@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../../../ArcGISContext";
+import type { IArcGISContext } from "../../../types/IArcGISContext";
 import { IUiSchemaElement, UiSchemaRuleEffects } from "../types";
 import { fetchCategoryItems } from "./fetchCategoryItems";
 
@@ -30,10 +30,6 @@ export async function fetchCategoriesUiSchemaElement(
         allowCustomValues: false,
         selectionMode: "ancestors",
         placeholderIcon: "select-category",
-        helperText: {
-          // helper text varies between entity types
-          labelKey: `${i18nScope}.fields.categories.helperText`,
-        },
       },
       rules: [
         {

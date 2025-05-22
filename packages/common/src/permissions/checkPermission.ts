@@ -1,4 +1,4 @@
-import { IArcGISContext } from "../ArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 import { getProp, getWithDefault } from "../objects";
 import { checkLicense } from "./_internal/checkLicense";
 import { getPermissionPolicy } from "./HubPermissionPolicies";
@@ -20,7 +20,8 @@ import { IPermissionAccessResponse } from "./types/IPermissionAccessResponse";
 import { PolicyResponse } from "./types/PolicyResponse";
 import { IPolicyCheck } from "./types/IPolicyCheck";
 import { IEntityPermissionPolicy } from "./types/IEntityPermissionPolicy";
-import { IUserHubSettings } from "../utils";
+import { IUserHubSettings } from "../utils/IUserHubSettings";
+import { Logger } from "../utils";
 
 /**
  * Type to allow either an entity or and entity and label to be
@@ -59,7 +60,7 @@ export function checkPermission(
       code: getPolicyResponseCode("invalid-permission"),
       checks: [],
     } as IPermissionAccessResponse;
-    // logResponse(invalidPermissionResponse, label);
+    logResponse(invalidPermissionResponse, label);
     return invalidPermissionResponse;
   }
 
@@ -75,7 +76,7 @@ export function checkPermission(
       code: getPolicyResponseCode("no-policy-exists"),
       checks: [],
     } as IPermissionAccessResponse;
-    // logResponse(missingPolicyResponse, label);
+    logResponse(missingPolicyResponse, label);
     return missingPolicyResponse;
   }
 
@@ -145,7 +146,7 @@ export function checkPermission(
         },
       ],
     } as IPermissionAccessResponse;
-    // logResponse(disabledByFlagResponse, label);
+    logResponse(disabledByFlagResponse, label);
     return disabledByFlagResponse;
   }
 
@@ -241,20 +242,16 @@ export function checkPermission(
   }
 
   // log response
-  // logResponse(response, label);
+  logResponse(response, label);
 
   return response;
 }
 
-// function logResponse(response: IPermissionAccessResponse, label: string): void {
-//   if (!response.access && logPermissions) {
-//     // tslint:disable-next-line:no-console
-//     console.info(
-//       `checkPermission: ${label} ${response.policy} : ${response.response}`
-//     );
-//     // tslint:disable-next-line:no-console
-//     console.dir(response);
-//     // tslint:disable-next-line:no-console
-//     console.info(`-----------------------------------------`);
-//   }
-// }
+function logResponse(response: IPermissionAccessResponse, label: string): void {
+  if (!response.access) {
+    Logger.warn(
+      `checkPermission: ${label} ${response.policy} : ${response.response}`,
+      response
+    );
+  }
+}

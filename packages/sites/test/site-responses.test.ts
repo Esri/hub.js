@@ -1,4 +1,4 @@
-import { IItem } from "@esri/arcgis-rest-types";
+import type { IItem } from "@esri/arcgis-rest-portal";
 
 export const SITE_ITEM_RESPONSE = {
   id: "27b9d9a977a14ac28800282fe01d8c2d",

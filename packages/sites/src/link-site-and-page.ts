@@ -11,9 +11,9 @@ import {
   failSafe,
   shareItemToGroups,
   deepSet,
+  updateItem,
 } from "@esri/hub-common";
-import { updateItem } from "@esri/arcgis-rest-portal";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { isSite } from "./is-site";
 
 /**
@@ -32,7 +32,7 @@ export function linkSiteAndPage(linkRequestOptions: {
   pageModel?: IModel;
   pageId?: string;
   pageSlug?: string;
-  authentication: UserSession;
+  authentication: ArcGISIdentityManager;
 }): Promise<{ siteModel: IModel; pageModel: IModel }> {
   let shareGroups: string[] = [];
   const promises: Array<Promise<any>> = [];

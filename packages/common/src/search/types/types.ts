@@ -1,5 +1,6 @@
-import { HubEntityType } from "../../core";
-import { EntityType, IHubCatalog } from "./IHubCatalog";
+import { HubEntity, HubEntityType } from "../../core";
+import { IHubRequestOptions } from "../../hub-types";
+import { EntityType, IHubCatalog, IQuery } from "./IHubCatalog";
 import { IHubSearchResponse } from "./IHubSearchResponse";
 import { IHubSearchResult } from "./IHubSearchResult";
 
@@ -183,3 +184,33 @@ export interface ISearchResponseHash
  * with units as a type
  */
 export type Kilobyte = number;
+
+/**
+ * Options for searching associated content for a given entity
+ */
+export interface ISearchAssociatedContentOptions {
+  /**
+   * The entity to search for associated content
+   */
+  entity: HubEntity;
+  /**
+   * The type of association to search for (e.g., "related", "connected")
+   */
+  association: "related" | "connected";
+  /**
+   * The request options to use for the search
+   */
+  requestOptions: IHubRequestOptions;
+  /**
+   * The scope of the search. Must have targetEntity of "item"
+   */
+  scope: IQuery;
+  /**
+   * Which layer within the entity should be searched. Required for "connected" associations
+   */
+  layerId?: string;
+  /**
+   * The number of results to return
+   */
+  num?: number;
+}

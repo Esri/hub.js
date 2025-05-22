@@ -3,9 +3,8 @@
 // import { IQuery } from "../../../search/types/IHubCatalog";
 import { ISearchOptions, searchItems } from "@esri/arcgis-rest-portal";
 
-import { IHubRequestOptions } from "../../../types";
+import { IHubRequestOptions } from "../../../hub-types";
 import { IUiSchemaComboboxItem } from "../types";
-import { EntityEditorOptions } from "./EditorOptions";
 /**
  * Fetch the entity's org tags (limited to the top 200),
  * merge with any configured on the entity itself, and convert

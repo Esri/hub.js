@@ -45,11 +45,13 @@ export function authenticateRequest(
  * @param {string} route
  * @param {IDiscussionsRequestOptions} options
  * @param {string} [token]
+ * @param {string} [version]
  * @return {*}  {Promise<T>}
  */
 export function apiRequest<T>(
   route: string,
   options: IDiscussionsRequestOptions,
+  version: "v1" | "v2",
   token?: string
 ): Promise<T> {
   let routeWithParams = route;
@@ -71,7 +73,7 @@ export function apiRequest<T>(
     // TODO: we _want_ to use getHubApiUrl(),
     // but have to deal w/ the fact that this package overwrites IHubRequestOptions
     host: options.hubApiUrl || "https://hub.arcgis.com",
-    path: "/api/discussions/v1",
+    path: `/api/discussions/${version}`,
   });
 
   if (options.data) {
@@ -86,7 +88,7 @@ export function apiRequest<T>(
   // this currently only applies to the search post route. we should rework things in the future such that we don't need
   // to do this sort of evaluation in common logic.
   const isCSV =
-    route === "/posts" &&
+    ["/posts", "/posts/search"].includes(route) &&
     (options.data?.f === SearchPostsFormat.CSV ||
       headers.get("Accept") === "text/csv");
 

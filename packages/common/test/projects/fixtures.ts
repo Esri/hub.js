@@ -1,4 +1,4 @@
-import { IItem, IUser } from "@esri/arcgis-rest-types";
+import type { IItem, IUser } from "@esri/arcgis-rest-portal";
 import {
   ArcGISContext,
   HubEntityStatus,
@@ -34,7 +34,7 @@ export const PROJECT_LOCATION: IHubLocation = {
           [-76.8191059305754, 39.08220981728297],
         ],
       ],
-    } as unknown as __esri.Geometry,
+    } as any,
   ],
 };
 

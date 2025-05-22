@@ -1,5 +1,5 @@
 import { ISearchOptions, ISearchResult } from "@esri/arcgis-rest-portal";
-import { SearchableType, SearchFunction } from "../types";
+import { SearchableType, SearchFunction } from "../hub-types";
 import { batch } from "../utils/batch";
 
 const MAX_NUM = 100;
@@ -31,11 +31,11 @@ export function fetchAllPages(
           nextStart: firstStart,
           total: limit,
           results: [],
-          num: pageSize
+          num: pageSize,
         });
 
   return promise
-    .then(firstResponse => {
+    .then((firstResponse) => {
       // no more requests needed, return the first response
       if (firstResponse.nextStart === -1) return [firstResponse];
 
@@ -50,17 +50,17 @@ export function fetchAllPages(
       }
       const batchSearchFunc = (start: number) =>
         searchFunc({ ...opts, start, num: pageSize });
-      return batch(starts, batchSearchFunc, batchSize).then(responses => [
+      return batch(starts, batchSearchFunc, batchSize).then((responses) => [
         firstResponse,
-        ...responses
+        ...responses,
       ]);
     })
-    .then(responses => {
+    .then((responses) => {
       // merge all the search results into a single array
       const results = responses.reduce(
         (acc: SearchableType[], response: ISearchResult<SearchableType>) => [
           ...acc,
-          ...response.results
+          ...response.results,
         ],
         []
       );

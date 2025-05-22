@@ -2,17 +2,17 @@ import {
   ICreateEventParams,
   IDeleteEventParams,
   IGetEventParams,
-  IGetEventsParams,
   IUpdateEventParams,
   createEvent,
   deleteEvent,
   getEvent,
-  getEvents,
+  searchEvents,
   updateEvent,
   IEvent,
   EventAttendanceType,
   EventAccess,
   EventLocationType,
+  ISearchEventsParams,
 } from "../../../src/events/api";
 import * as authenticateRequestModule from "../../../src/events/api/utils/authenticate-request";
 import * as orvalModule from "../../../src/events/api/orval/api/orval-events";
@@ -113,29 +113,29 @@ describe("Events", () => {
     });
   });
 
-  describe("getEvents", () => {
-    it("should get events", async () => {
+  describe("searchEvents", () => {
+    it("should search events", async () => {
       const mockEvent = { burrito: "supreme" } as unknown as IEvent;
       const pagedResponse = {
         total: 1,
         nextStart: 2,
         items: [mockEvent],
       };
-      const getEventsSpy = spyOn(orvalModule, "getEvents").and.callFake(
+      const searchEventsSpy = spyOn(orvalModule, "searchEvents").and.callFake(
         async () => pagedResponse
       );
 
-      const options: IGetEventsParams = {
+      const options: ISearchEventsParams = {
         data: {
           startDateTimeBefore: "2024-02-19T21:52:29.525Z",
         },
       };
 
-      const result = await getEvents(options);
+      const result = await searchEvents(options);
       expect(result).toEqual(pagedResponse);
 
       expect(authenticateRequestSpy).toHaveBeenCalledWith(options);
-      expect(getEventsSpy).toHaveBeenCalledWith(options.data, {
+      expect(searchEventsSpy).toHaveBeenCalledWith(options.data, {
         ...options,
         token,
       });

@@ -6,9 +6,8 @@ import {
 import { IContainsOptions, IContainsResponse } from "../search/types/types";
 import { isCuid } from "../utils/is-cuid";
 import { isGuid } from "../utils/is-guid";
-import { IArcGISContext } from "../ArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 import { hubSearch } from "../search/hubSearch";
-import { getWithDefault } from "../objects/get-with-default";
 
 /**
  * Given an identifier and a catalog, check if the catalog contains the identifier.
@@ -116,11 +115,11 @@ export async function catalogContains(
         isContained = queryResponse.results.reduce(
           (slugKeywordPresent, entry) => {
             // try .keywords, then rawResult.typeKeywords, else empty array
-            const kwds = getWithDefault(
-              entry,
-              "typeKeywords",
-              getWithDefault(entry, "rawResult.typeKeywords", [])
-            );
+            // const kwds = getWithDefault(
+            //   entry,
+            //   "typeKeywords",
+            //   getWithDefault(entry, "rawResult.typeKeywords", [])
+            // );
             // if (kwds.includes(pred.typekeywords)) {
             //   slugKeywordPresent = true;
             // }

@@ -1,5 +1,5 @@
 import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
-import { IArcGISContext } from "../../../src/ArcGISContext";
+import { IArcGISContext } from "../../../src";
 import * as UserUiSchemaSettings from "../../../src/users/_internal/UserUiSchemaSettings";
 import * as FetchOrgModule from "../../../src/org/fetch-org";
 import * as PortalModule from "@esri/arcgis-rest-portal";

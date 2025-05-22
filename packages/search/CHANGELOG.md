@@ -1,3 +1,40 @@
+# @esri/hub-search [17.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-search@17.0.0...@esri/hub-search@17.1.0) (2025-05-01)
+
+
+### Features
+
+* update to latest version of ArcGIS REST JS packages ([#1889](https://github.com/Esri/hub.js/issues/1889)) ([e132a57](https://github.com/Esri/hub.js/commit/e132a575c7e28d662322eef108be75c41b81fb75))
+
+# @esri/hub-search [17.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-search@16.0.0...@esri/hub-search@17.0.0) (2025-04-22)
+
+
+### Features
+
+* upgrade to ArcGIS REST JS 4 ([#1850](https://github.com/Esri/hub.js/issues/1850)) ([8eb1496](https://github.com/Esri/hub.js/commit/8eb14967af7cc194cdc03b5d5c2648dac77597f0))
+
+
+### BREAKING CHANGES
+
+* ArcGIS REST JS peer dependencies must be v4
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 17.0.0
+
+# @esri/hub-search [16.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-search@15.0.0...@esri/hub-search@16.0.0) (2025-03-28)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 16.0.0
+
 # @esri/hub-search [15.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-search@14.2.0...@esri/hub-search@15.0.0) (2024-11-01)
 
 

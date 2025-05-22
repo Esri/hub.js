@@ -51,7 +51,8 @@ describe("follow", function () {
           hubRequestOptions: {},
         } as ArcGISContext);
       } catch (e) {
-        expect(e.message).toBe(
+        const error = e as { message?: string };
+        expect(error.message).toBe(
           "Error fetching entity followers group ID: error"
         );
       }
@@ -122,7 +123,8 @@ describe("follow", function () {
           hubRequestOptions: {},
         } as ArcGISContext);
       } catch (e) {
-        expect(e).toBe("User is already following this entity.");
+        const error = e as string;
+        expect(error).toBe("User is already following this entity.");
       }
     });
 
@@ -149,7 +151,8 @@ describe("follow", function () {
           hubRequestOptions: {},
         } as ArcGISContext);
       } catch (e) {
-        expect(e.message).toBe("Error joining group: error");
+        const error = e as Error;
+        expect(error.message).toBe("Error joining group: error");
       }
     });
   });
@@ -176,7 +179,8 @@ describe("follow", function () {
           hubRequestOptions: {},
         } as ArcGISContext);
       } catch (e) {
-        expect(e).toBe("User is not following this entity.");
+        const error = e as string;
+        expect(error).toBe("User is not following this entity.");
       }
     });
 
@@ -196,7 +200,8 @@ describe("follow", function () {
           hubRequestOptions: {},
         } as ArcGISContext);
       } catch (e) {
-        expect(e.message).toBe("Error leaving group: error");
+        const error = e as Error;
+        expect(error.message).toBe("Error leaving group: error");
       }
     });
   });

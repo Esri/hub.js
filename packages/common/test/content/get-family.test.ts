@@ -1,4 +1,4 @@
-import { getFamilyTypes } from "../../src";
+import { getFamily, getFamilyTypes } from "../../src";
 
 describe("getFamily", () => {
   beforeAll(() => {
@@ -89,6 +89,13 @@ describe("getFamily", () => {
     it("can returns undefined for an invalid family", () => {
       const types = getFamilyTypes("dummy" as any);
       expect(types).toBeUndefined();
+    });
+  });
+
+  describe("getFamily", () => {
+    it("can get types any other valid family", () => {
+      const type = getFamily("organization");
+      expect(type).toBe("organization");
     });
   });
 });

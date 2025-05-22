@@ -1,7 +1,7 @@
 /* Copyright (c) 2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 import { IItem } from "@esri/arcgis-rest-portal";
-import { IModel } from "../types";
+import { IModel } from "../hub-types";
 import { getCollection } from "../collections";
 import { categories as allCategories } from "../categories";
 import { includes, wait } from "../utils";
@@ -25,7 +25,10 @@ import {
   IHubContentStatus,
   IHubServiceBackedContentStatus,
 } from "./types";
-import { getService, IGetLayerOptions } from "@esri/arcgis-rest-feature-layer";
+import {
+  getService,
+  IGetLayerOptions,
+} from "@esri/arcgis-rest-feature-service";
 import { isService } from "../resources/is-service";
 
 // TODO: remove this at next breaking version

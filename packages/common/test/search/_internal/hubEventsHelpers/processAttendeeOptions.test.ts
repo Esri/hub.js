@@ -1,5 +1,4 @@
 import {
-  EventSort,
   RegistrationSort,
   EventSortOrder,
 } from "../../../../src/events/api/orval/api/orval-events";

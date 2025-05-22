@@ -12,7 +12,11 @@ export function getEntityTypeFromType(type: string): EntityType {
   let etype: EntityType = "item";
 
   // Some are just downcased, so we can check them with an array
-  if (["group", "event", "user", "channel"].includes(type.toLowerCase())) {
+  if (
+    ["group", "event", "user", "channel", "organization"].includes(
+      type.toLowerCase()
+    )
+  ) {
     etype = type.toLocaleLowerCase() as EntityType;
   }
 

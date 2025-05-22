@@ -1,9 +1,8 @@
-import { IArcGISContext } from "../ArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 import { ArcGISContextManager } from "../ArcGISContextManager";
-import { fetchHubEntity, HubEntityType } from "../core";
+import { HubEntityType } from "../core";
 import { catalogContains } from "../core/catalogContains";
 import HubError from "../HubError";
-import { getProp } from "../objects/get-prop";
 import { cloneObject } from "../util";
 import { mapBy } from "../utils";
 import { fetchEntityCatalog } from "./fetchEntityCatalog";
@@ -22,7 +21,7 @@ import {
   IQuery,
   IFilter,
   IHubCollection,
-  IGalleryDisplayConfig,
+  ICatalogDisplayConfig,
 } from "./types";
 import { upgradeCatalogSchema } from "./upgradeCatalogSchema";
 
@@ -132,7 +131,7 @@ export class Catalog implements IHubCatalog {
   /**
    * Return the display configuration for the gallery
    */
-  get displayConfig(): IGalleryDisplayConfig {
+  get displayConfig(): ICatalogDisplayConfig {
     return this._catalog.displayConfig;
   }
 
@@ -203,7 +202,10 @@ export class Catalog implements IHubCatalog {
       const clone = cloneObject(json);
       const catalogScope = this.getScope(clone.scope.targetEntity);
       if (catalogScope?.filters) {
-        clone.scope.filters = [...clone.scope.filters, ...catalogScope.filters];
+        clone.scope.filters = [
+          ...(clone.scope.filters || []),
+          ...catalogScope.filters,
+        ];
       }
       return clone;
     } else {

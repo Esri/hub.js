@@ -1,6 +1,5 @@
-import { IArcGISContext } from "../../src/ArcGISContext";
+import type { IArcGISContext, HubEntityType } from "../../src";
 import { fetchHubEntity } from "../../src/core/fetchHubEntity";
-import { HubEntityType } from "../../src/core/types/HubEntityType";
 
 describe("fetchHubEntity:", () => {
   it("returns undefined for non-hub types", async () => {
@@ -29,6 +28,28 @@ describe("fetchHubEntity:", () => {
     ).and.returnValue(Promise.resolve({}));
     await fetchHubEntity("site", "123", ctx);
     expect(spy).toHaveBeenCalledWith("123", "fakeRequestOptions");
+  });
+  it("fetches organization", async () => {
+    const ctx = {
+      requestOptions: "fakeRequestOptions",
+    } as unknown as IArcGISContext;
+    const spy = spyOn(
+      require("../../src/org/fetch"),
+      "fetchOrganization"
+    ).and.returnValue(Promise.resolve({}));
+    await fetchHubEntity("organization", "123", ctx);
+    expect(spy).toHaveBeenCalledWith("123", "fakeRequestOptions");
+  });
+  it("fetches channel", async () => {
+    const ctx = {
+      requestOptions: "fakeRequestOptions",
+    } as unknown as IArcGISContext;
+    const spy = spyOn(
+      require("../../src/channels/fetch"),
+      "fetchHubChannel"
+    ).and.returnValue(Promise.resolve({}));
+    await fetchHubEntity("channel", "123", ctx);
+    expect(spy).toHaveBeenCalledWith("123", ctx);
   });
   it("fetches initiative", async () => {
     const ctx = {

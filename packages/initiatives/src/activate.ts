@@ -1,19 +1,22 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IRequestOptions } from "@esri/arcgis-rest-request";
+import type {
+  IRequestOptions,
+  IUserRequestOptions,
+} from "@esri/arcgis-rest-request";
 import { IInitiativeModel, camelize, IModel } from "@esri/hub-common";
 import { getInitiative } from "./get";
 import {
   createInitiativeModelFromTemplate,
   IInitiativeGroupIds,
-  IInitiativeTemplateOptions
+  IInitiativeTemplateOptions,
 } from "./templates";
 import { addInitiative } from "./add";
 import { copyImageResources, copyEmbeddedImageResources } from "./util";
 import {
   shareItemWithGroup,
-  IGroupSharingOptions
+  IGroupSharingOptions,
 } from "@esri/arcgis-rest-portal";
 import { getProp } from "@esri/hub-common";
 
@@ -33,13 +36,14 @@ export function activateInitiative(
   template: string | any,
   title: string,
   groupIds: IInitiativeGroupIds,
+  // this should probably be an IUserRequestOptions
   requestOptions: IRequestOptions
 ): Promise<IInitiativeModel> {
   // make a copy of the request options so we can mutate things if needed...
-  const ro = { ...requestOptions } as IRequestOptions;
+  const ro = { ...requestOptions } as IUserRequestOptions;
   // create a state container to hold things we accumulate through the various promises
   const state = {
-    initiativeKey: camelize(title)
+    initiativeKey: camelize(title),
   } as any;
   let promise;
   if (typeof template === "string") {
@@ -55,7 +59,7 @@ export function activateInitiative(
         title,
         description: title,
         initiativeKey: state.initiativeKey,
-        groupIds
+        groupIds,
       } as IInitiativeTemplateOptions;
       // cook the template...
       state.initiativeModel = createInitiativeModelFromTemplate(
@@ -80,7 +84,7 @@ export function activateInitiative(
         const wellKnownAssets = [
           "detail-image.jpg",
           "icon-dark.png",
-          "icon-light.png"
+          "icon-light.png",
         ];
         // now copy assets from the parent initiative...
         return copyImageResources(
@@ -92,26 +96,24 @@ export function activateInitiative(
         );
       }
     })
-    .then(
-      (): Promise<any> => {
-        const collaborationGroupId = getProp(
-          state,
-          "initiativeModel.item.properties.collaborationGroupId"
-        );
-        if (collaborationGroupId) {
-          // create sharing options and share to the core team
-          const shareOptions = {
-            id: state.initiativeModel.item.id,
-            groupId: collaborationGroupId,
-            confirmItemControl: true,
-            ...requestOptions
-          } as IGroupSharingOptions;
-          return shareItemWithGroup(shareOptions);
-        } else {
-          return Promise.resolve({ success: true });
-        }
+    .then((): Promise<any> => {
+      const collaborationGroupId = getProp(
+        state,
+        "initiativeModel.item.properties.collaborationGroupId"
+      );
+      if (collaborationGroupId) {
+        // create sharing options and share to the core team
+        const shareOptions = {
+          id: state.initiativeModel.item.id,
+          groupId: collaborationGroupId,
+          confirmItemControl: true,
+          ...requestOptions,
+        } as IGroupSharingOptions;
+        return shareItemWithGroup(shareOptions);
+      } else {
+        return Promise.resolve({ success: true });
       }
-    )
+    })
     .then(() => {
       return state.initiativeModel;
     });

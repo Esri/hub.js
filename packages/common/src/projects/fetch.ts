@@ -9,16 +9,14 @@ import { getItemBySlug } from "../items/slugs";
 import { fetchItemEnrichments } from "../items/_enrichments";
 import { fetchModelFromItem } from "../models";
 import { IHubSearchResult } from "../search";
-import { IQuery } from "../search/types/IHubCatalog";
 import { parseInclude } from "../search/_internal/parseInclude";
-import { IHubRequestOptions, IModel } from "../types";
+import { IHubRequestOptions, IModel } from "../hub-types";
 import { isGuid, mapBy } from "../utils";
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { unique } from "../util";
 import { getProp } from "../objects/get-prop";
 
-import { getTypeByIdsQuery } from "../associations/internal/getTypeByIdsQuery";
 import { computeLinks } from "./_internal/computeLinks";
 import { deriveLocationFromItem } from "../content/_internal/internalContentUtils";
 

@@ -1,21 +1,19 @@
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { IHubRequestOptions } from "@esri/hub-common";
 
-import { UserSession } from "@esri/arcgis-rest-auth";
-
 import { removeUnusedResources } from "../../src/layout";
 import * as _getImageCropIdsFromLayout from "../../src/layout/_get-image-crop-ids-from-layout";
 
 import { ISection } from "../../src/layout/types";
 
-describe("removeUnusedResources", function() {
-  const mockUserSession = new UserSession({
+describe("removeUnusedResources", function () {
+  const mockUserSession = {
     username: "vader",
     password: "123456",
     token: "fake-token",
     tokenExpires: new Date(),
-    portal: "https://vader.maps.arcgis.com/sharing/rest"
-  });
+    portal: "https://vader.maps.arcgis.com/sharing/rest",
+  } as any;
 
   const hubRequestOptions: IHubRequestOptions = {
     isPortal: false,
@@ -24,12 +22,12 @@ describe("removeUnusedResources", function() {
       id: "",
       name: "",
       isPortal: true,
-      portalHostname: "portal-hostname"
+      portalHostname: "portal-hostname",
     },
-    authentication: mockUserSession
+    authentication: mockUserSession,
   };
 
-  it("all cards in all row in section should should have dependencies extracted", async function() {
+  it("all cards in all row in section should should have dependencies extracted", async function () {
     spyOn(
       _getImageCropIdsFromLayout,
       "_getImageCropIdsFromLayout"
@@ -42,15 +40,15 @@ describe("removeUnusedResources", function() {
       Promise.resolve({
         resources: [
           {
-            resource: "hub-image-card-crop-cropId 2.png"
+            resource: "hub-image-card-crop-cropId 2.png",
           },
           {
-            resource: "hub-image-card-crop-cropId 3.png"
+            resource: "hub-image-card-crop-cropId 3.png",
           },
           {
-            resource: "hub-image-card-crop-cropId 4.png"
-          }
-        ]
+            resource: "hub-image-card-crop-cropId 4.png",
+          },
+        ],
       })
     );
 
@@ -63,7 +61,7 @@ describe("removeUnusedResources", function() {
     );
 
     const layout = {
-      sections: [] as ISection[]
+      sections: [] as ISection[],
     };
 
     const res = await removeUnusedResources(
@@ -78,21 +76,21 @@ describe("removeUnusedResources", function() {
     expect(removeItemResourceSpy).toHaveBeenCalledWith({
       id: "id value",
       resource: "hub-image-card-crop-cropId 2.png",
-      authentication: mockUserSession
+      authentication: mockUserSession,
     });
     expect(removeItemResourceSpy).toHaveBeenCalledWith({
       id: "id value",
       resource: "hub-image-card-crop-cropId 4.png",
-      authentication: mockUserSession
+      authentication: mockUserSession,
     });
 
     expect(res).toEqual([
       "removed hub-image-card-crop-cropId 2.png",
-      "removed hub-image-card-crop-cropId 4.png"
+      "removed hub-image-card-crop-cropId 4.png",
     ]);
   });
 
-  it("layout with 0 cropIds should remove all ", async function() {
+  it("layout with 0 cropIds should remove all ", async function () {
     spyOn(
       _getImageCropIdsFromLayout,
       "_getImageCropIdsFromLayout"
@@ -105,15 +103,15 @@ describe("removeUnusedResources", function() {
       Promise.resolve({
         resources: [
           {
-            resource: "hub-image-card-crop-cropId 1.png"
+            resource: "hub-image-card-crop-cropId 1.png",
           },
           {
-            resource: "hub-image-card-crop-cropId 2.png"
+            resource: "hub-image-card-crop-cropId 2.png",
           },
           {
-            resource: "hub-image-card-crop-cropId 3.png"
-          }
-        ]
+            resource: "hub-image-card-crop-cropId 3.png",
+          },
+        ],
       })
     );
 
@@ -127,7 +125,7 @@ describe("removeUnusedResources", function() {
     );
 
     const layout = {
-      sections: [] as ISection[]
+      sections: [] as ISection[],
     };
 
     const res = await removeUnusedResources(
@@ -143,11 +141,11 @@ describe("removeUnusedResources", function() {
     expect(res).toEqual([
       "removed hub-image-card-crop-cropId 1.png",
       "removed hub-image-card-crop-cropId 2.png",
-      "removed hub-image-card-crop-cropId 3.png"
+      "removed hub-image-card-crop-cropId 3.png",
     ]);
   });
 
-  it("layout containing 0 imageCropIds should remove all resources that start with 'hub-image-card-crop-'", async function() {
+  it("layout containing 0 imageCropIds should remove all resources that start with 'hub-image-card-crop-'", async function () {
     spyOn(
       _getImageCropIdsFromLayout,
       "_getImageCropIdsFromLayout"
@@ -160,18 +158,18 @@ describe("removeUnusedResources", function() {
       Promise.resolve({
         resources: [
           {
-            resource: "hub-image-card-crop-1"
+            resource: "hub-image-card-crop-1",
           },
           {
-            resource: "hub-image-card-crop-2"
+            resource: "hub-image-card-crop-2",
           },
           {
-            resource: "non hub-image-card-crop-3"
+            resource: "non hub-image-card-crop-3",
           },
           {
-            resource: "hub-image-card-crop-4"
-          }
-        ]
+            resource: "hub-image-card-crop-4",
+          },
+        ],
       })
     );
 
@@ -185,7 +183,7 @@ describe("removeUnusedResources", function() {
     );
 
     const layout = {
-      sections: [] as ISection[]
+      sections: [] as ISection[],
     };
 
     const res = await removeUnusedResources(
@@ -200,27 +198,27 @@ describe("removeUnusedResources", function() {
     expect(removeItemResourceSpy).toHaveBeenCalledWith({
       id: "id value",
       resource: "hub-image-card-crop-1",
-      authentication: mockUserSession
+      authentication: mockUserSession,
     });
     expect(removeItemResourceSpy).toHaveBeenCalledWith({
       id: "id value",
       resource: "hub-image-card-crop-2",
-      authentication: mockUserSession
+      authentication: mockUserSession,
     });
     expect(removeItemResourceSpy).toHaveBeenCalledWith({
       id: "id value",
       resource: "hub-image-card-crop-4",
-      authentication: mockUserSession
+      authentication: mockUserSession,
     });
 
     expect(res).toEqual([
       "removed hub-image-card-crop-1",
       "removed hub-image-card-crop-2",
-      "removed hub-image-card-crop-4"
+      "removed hub-image-card-crop-4",
     ]);
   });
 
-  it("getItemResources returning 0 resources should not call removeItemResource at all", async function() {
+  it("getItemResources returning 0 resources should not call removeItemResource at all", async function () {
     spyOn(
       _getImageCropIdsFromLayout,
       "_getImageCropIdsFromLayout"
@@ -234,7 +232,7 @@ describe("removeUnusedResources", function() {
     const removeItemResourceSpy = spyOn(portalModule, "removeItemResource");
 
     const layout = {
-      sections: [] as ISection[]
+      sections: [] as ISection[],
     };
 
     const res = await removeUnusedResources(
@@ -250,13 +248,13 @@ describe("removeUnusedResources", function() {
     expect(res).toEqual([]);
   });
 
-  it("getItemResources throwing error should rethrow it", async function() {
+  it("getItemResources throwing error should rethrow it", async function () {
     spyOn(portalModule, "getItemResources").and.throwError(
       "getItemResources threw an error for some reason"
     );
 
     const layout = {
-      sections: [] as ISection[]
+      sections: [] as ISection[],
     };
 
     expect(() =>

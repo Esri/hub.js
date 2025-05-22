@@ -1,10 +1,12 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { IItem, IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
 import { getFamily } from "../content/get-family";
 import { fetchSiteModel } from "./fetchSiteModel";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { handleDomainChanges } from "./_internal";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
+import type {
+  IRequestOptions,
+  IUserRequestOptions,
+} from "@esri/arcgis-rest-request";
 import { fetchItemEnrichments } from "../items/_enrichments";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { deriveLocationFromItem } from "../content/_internal/internalContentUtils";
@@ -19,21 +21,14 @@ import { stripProtocol } from "../urls/strip-protocol";
 import { getHubApiUrl } from "../api";
 import { getOrgDefaultTheme } from "./themes";
 import { cloneObject, unique } from "../util";
-import {
-  createModel,
-  fetchModelFromItem,
-  getModel,
-  updateModel,
-} from "../models";
+import { createModel, fetchModelFromItem, updateModel } from "../models";
 import { addSiteDomains } from "./domains/addSiteDomains";
-import { IHubRequestOptions, IModel } from "../types";
+import { IHubRequestOptions, IModel } from "../hub-types";
 import { removeDomainsBySiteId } from "./domains/remove-domains-by-site-id";
 import { IHubSearchResult } from "../search/types/IHubSearchResult";
 import { mapBy } from "../utils";
 import { getProp, setProp } from "../objects";
-import { applyCatalogStructureMigration } from "./_internal/applyCatalogStructureMigration";
 import { setDiscussableKeyword } from "../discussions";
-import { applyDefaultCollectionMigration } from "./_internal/applyDefaultCollectionMigration";
 import { reflectCollectionsToSearchCategories } from "./_internal/reflectCollectionsToSearchCategories";
 import {
   catalogToLegacy,
@@ -350,7 +345,7 @@ export async function updateSite(
     site.isDiscussable
   );
   // Fetch backing model from the portal
-  const currentModel = await getModel(site.id, requestOptions);
+  const currentModel = await fetchSiteModel(site.id, requestOptions);
   // Note: Although we are fetching the model, and applying changes onto it,
   // we are not attempting to handle "concurrent edit" conflict resolution
   // but this is where we would apply that sort of logic
@@ -380,6 +375,8 @@ export async function updateSite(
   // handle any domain changes
   await handleDomainChanges(modelToUpdate, currentModel, requestOptions);
 
+  // Persist the new catalog to new property until the app is fully migrated
+  modelToUpdate.data.catalogV2 = site.catalog;
   // Because some old (but critical) application code still uses `data.values.searchCategories`
   // as the source of truth for collection display configuration, we port all display changes
   // in `data.catalog.collections` to the search category format.
@@ -410,7 +407,7 @@ export async function updateSite(
   // send updates to the Portal API and get back the updated site model
   const updatedSiteModel = await updateModel(
     modelToUpdate,
-    requestOptions as unknown as IUserItemOptions
+    requestOptions as IUserRequestOptions
   );
   // convert that back into a IHubSite and return it
   const updatedSite = convertModelToSite(updatedSiteModel, requestOptions);
@@ -472,13 +469,7 @@ export function convertModelToSite(
   // Add permissions based on Groups
   // This may get moved to a formal schema migration in the future but for now
   // we can do it here as there is no ux for managing permissions yet.
-  let migrated = applyPermissionMigration(model);
-
-  // Ensure we have the new Catalog structure
-  migrated = applyCatalogStructureMigration(migrated);
-
-  // Add default collections while preserving configuration from `data.values.searchCategories`
-  migrated = applyDefaultCollectionMigration(migrated);
+  const migrated = applyPermissionMigration(model);
 
   // convert to site
   const mapper = new PropertyMapper<Partial<IHubSite>, IModel>(

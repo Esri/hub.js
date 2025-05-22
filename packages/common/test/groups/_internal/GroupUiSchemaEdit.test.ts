@@ -1,4 +1,3 @@
-import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
 import { buildUiSchema } from "../../../src/groups/_internal/GroupUiSchemaEdit";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
 
@@ -9,12 +8,18 @@ describe("buildUiSchema: group edit", () => {
       { thumbnailUrl: "https://some-thumbnail-url.com" } as any,
       MOCK_CONTEXT
     );
+
     expect(uiSchema).toEqual({
       type: "Layout",
       elements: [
         {
           type: "Section",
           labelKey: "some.scope.sections.basicInfo.label",
+          options: {
+            helperText: {
+              labelKey: "some.scope.sections.basicInfo.helperText",
+            },
+          },
           elements: [
             {
               labelKey: "some.scope.fields.name.label",
@@ -32,13 +37,14 @@ describe("buildUiSchema: group edit", () => {
                     type: "ERROR",
                     keyword: "maxLength",
                     icon: true,
-                    labelKey: `some.scope.fields.name.maxLengthError`,
+                    labelKey: "some.scope.fields.name.maxLengthError",
                   },
                   {
                     type: "ERROR",
                     keyword: "format",
                     icon: true,
-                    labelKey: `some.scope.fields.name.entityTitleValidatorError`,
+                    labelKey:
+                      "some.scope.fields.name.entityTitleValidatorError",
                   },
                 ],
               },
@@ -56,18 +62,9 @@ describe("buildUiSchema: group edit", () => {
                     type: "ERROR",
                     keyword: "maxLength",
                     icon: true,
-                    labelKey: `some.scope.fields.summary.maxLengthError`,
+                    labelKey: "some.scope.fields.summary.maxLengthError",
                   },
                 ],
-              },
-            },
-            {
-              labelKey: `some.scope.fields.description.label`,
-              scope: "/properties/description",
-              type: "Control",
-              options: {
-                control: "hub-field-input-rich-text",
-                type: "textarea",
               },
             },
             {
@@ -82,35 +79,50 @@ describe("buildUiSchema: group edit", () => {
                 maxWidth: 727,
                 maxHeight: 484,
                 aspectRatio: 1,
-                helperText: {
-                  labelKey: "some.scope.fields._thumbnail.helperText",
-                },
                 sizeDescription: {
                   labelKey: "some.scope.fields._thumbnail.sizeDescription",
                 },
               },
             },
             {
-              type: "Notice",
+              type: "Section",
+              labelKey: "some.scope.sections.description.label",
               options: {
-                notice: {
-                  configuration: {
-                    id: "no-thumbnail-or-png-notice",
-                    noticeType: "notice",
-                    closable: false,
-                    icon: "lightbulb",
-                    kind: "info",
-                    scale: "m",
+                section: "block",
+              },
+              elements: [
+                {
+                  labelKey: "some.scope.fields.description.label",
+                  scope: "/properties/description",
+                  type: "Control",
+                  options: {
+                    control: "hub-field-input-rich-text",
+                    type: "textarea",
                   },
-                  message:
-                    "{{shared.fields._thumbnail.defaultThumbnailNotice:translate}}",
-                  autoShow: true,
+                },
+              ],
+            },
+            {
+              type: "Section",
+              labelKey: "some.scope.sections.discoverability.label",
+              options: {
+                section: "block",
+                helperText: {
+                  labelKey: "some.scope.sections.discoverability.helperText",
                 },
               },
-              rules: [
+              elements: [
                 {
-                  effect: UiSchemaRuleEffects.SHOW,
-                  conditions: [true],
+                  labelKey: "some.scope.fields.tags.label",
+                  scope: "/properties/tags",
+                  type: "Control",
+                  options: {
+                    control: "hub-field-input-combobox",
+                    items: [],
+                    allowCustomValues: true,
+                    selectionMode: "multiple",
+                    placeholderIcon: "label",
+                  },
                 },
               ],
             },
@@ -118,5 +130,93 @@ describe("buildUiSchema: group edit", () => {
         },
       ],
     });
+    // expect(uiSchema).toEqual({
+    //   type: "Layout",
+    //   elements: [
+    //     {
+    //       type: "Section",
+    //       labelKey: "some.scope.sections.basicInfo.label",
+    //       options: {
+    //         helperText: {
+    //           labelKey: "some.scope.sections.basicInfo.helperText",
+    //         },
+    //       },
+    //       elements: [
+    //         {
+    //           labelKey: "some.scope.fields.name.label",
+    //           scope: "/properties/name",
+    //           type: "Control",
+    //           options: {
+    //             messages: [
+    //               {
+    //                 type: "ERROR",
+    //                 keyword: "required",
+    //                 icon: true,
+    //                 labelKey: "some.scope.fields.name.requiredError",
+    //               },
+    //               {
+    //                 type: "ERROR",
+    //                 keyword: "maxLength",
+    //                 icon: true,
+    //                 labelKey: `some.scope.fields.name.maxLengthError`,
+    //               },
+    //               {
+    //                 type: "ERROR",
+    //                 keyword: "format",
+    //                 icon: true,
+    //                 labelKey: `some.scope.fields.name.entityTitleValidatorError`,
+    //               },
+    //             ],
+    //           },
+    //         },
+    //         {
+    //           labelKey: "some.scope.fields.summary.label",
+    //           scope: "/properties/summary",
+    //           type: "Control",
+    //           options: {
+    //             control: "hub-field-input-input",
+    //             type: "textarea",
+    //             rows: 4,
+    //             messages: [
+    //               {
+    //                 type: "ERROR",
+    //                 keyword: "maxLength",
+    //                 icon: true,
+    //                 labelKey: `some.scope.fields.summary.maxLengthError`,
+    //               },
+    //             ],
+    //           },
+    //         },
+    //         {
+    //           labelKey: `some.scope.fields.description.label`,
+    //           scope: "/properties/description",
+    //           type: "Control",
+    //           options: {
+    //             control: "hub-field-input-rich-text",
+    //             type: "textarea",
+    //           },
+    //         },
+    //         {
+    //           labelKey: "some.scope.fields._thumbnail.label",
+    //           scope: "/properties/_thumbnail",
+    //           type: "Control",
+    //           options: {
+    //             control: "hub-field-input-image-picker",
+    //             imgSrc: "https://some-thumbnail-url.com",
+    //             defaultImgUrl:
+    //               "https://www.customUrl/apps/sites/ember-arcgis-opendata-components/assets/images/placeholders/group.png",
+    //             maxWidth: 727,
+    //             maxHeight: 484,
+    //             aspectRatio: 1,
+    //             sizeDescription: {
+    //               labelKey: "some.scope.fields._thumbnail.sizeDescription",
+    //             },
+    //             notice: "20250425-image-picker-notice",
+    //           },
+    //         },
+    //       ],
+    //     },
+    //   ],
+    // });
   });
 });

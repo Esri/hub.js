@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { ISearchParams, IHubResults } from "./params";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { computeItemsFacets } from "./compute-items-facets";
 import { agoFormatItemCollection } from "./format-item-collection";
 import { getItems } from "./get-items";
@@ -12,14 +12,14 @@ import { getItems } from "./get-items";
  *
  * @export
  * @param {ISearchParams} params (query params from hub indexer)
- * @param {UserSession} authentication
+ * @param {ArcGISIdentityManager} authentication
  * @returns {Promise<ISearchResult>}
  */
 export async function agoSearch(
   params: ISearchParams,
   token?: string,
   portal?: string,
-  authentication?: UserSession
+  authentication?: ArcGISIdentityManager
 ): Promise<IHubResults> {
   const agoResponse = await getItems(params, token, portal, authentication);
   const facets = await computeItemsFacets(

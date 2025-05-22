@@ -4,6 +4,7 @@ import { detachSiteFromInitiative } from "../src/detach-site";
 import { MOCK_REQUEST_OPTIONS } from "./mocks/fake-session";
 import { cloneObject } from "@esri/hub-common";
 import * as portal from "@esri/arcgis-rest-portal";
+import * as common from "@esri/hub-common";
 import { SiteItem } from "./mocks/site-item";
 
 describe("detaching a site from initiative", () => {
@@ -19,7 +20,7 @@ describe("detaching a site from initiative", () => {
         return Promise.resolve(clone.item);
       }
     );
-    updateItemSpy = spyOn(portal, "updateItem").and.callFake(
+    updateItemSpy = spyOn(common, "updateItem").and.callFake(
       (opts: any): Promise<any> => {
         return Promise.resolve({ success: true });
       }
@@ -31,24 +32,24 @@ describe("detaching a site from initiative", () => {
     );
   });
 
-  it("should get the site, reset props, save it and share to now group", done => {
+  it("should get the site, reset props, save it and share to now group", (done) => {
     return detachSiteFromInitiative(
       "FAKESITEID",
       "FAKEODGROUPID",
       MOCK_REQUEST_OPTIONS
-    ).then(result => {
+    ).then((result) => {
       expect(getItemSpy.calls.count()).toBe(1);
       expect(updateItemSpy.calls.count()).toBe(1);
       expect(sharingSpy.calls.count()).toBe(1);
       done();
     });
   });
-  it("should get the site, reset props, save it if new group undefined", done => {
+  it("should get the site, reset props, save it if new group undefined", (done) => {
     return detachSiteFromInitiative(
       "FAKESITEID",
       undefined,
       MOCK_REQUEST_OPTIONS
-    ).then(result => {
+    ).then((result) => {
       expect(getItemSpy.calls.count()).toBe(1);
       expect(updateItemSpy.calls.count()).toBe(1);
       expect(sharingSpy.calls.count()).toBe(0);

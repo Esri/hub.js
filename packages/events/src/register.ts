@@ -1,7 +1,7 @@
 /* Copyright (c) 2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { joinGroup, leaveGroup } from "@esri/arcgis-rest-portal";
 
 export interface IEventRegisterOptions extends IUserRequestOptions {
@@ -29,7 +29,7 @@ export function registerForEvent(
 ): Promise<{ success: boolean; groupId: string }> {
   return joinGroup({
     id: requestOptions.groupId,
-    authentication: requestOptions.authentication
+    authentication: requestOptions.authentication,
   });
 }
 
@@ -52,6 +52,6 @@ export function unregisterForEvent(
 ): Promise<{ success: boolean; groupId: string }> {
   return leaveGroup({
     id: requestOptions.groupId,
-    authentication: requestOptions.authentication
+    authentication: requestOptions.authentication,
   });
 }

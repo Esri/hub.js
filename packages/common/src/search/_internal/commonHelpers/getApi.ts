@@ -35,11 +35,11 @@ export function getApi(
     result = getDiscussionsApiDefinition();
   } else if (shouldUseEventsApi(targetEntity, options)) {
     // Currently, url is null because this is handled internally by the
-    // events request method called by getEvents, which relies on
+    // events request method called by searchEvents, which relies on
     // the URL defined in the request options.hubApiUrl
     result = { type: "arcgis-hub", url: null };
   } else if (shouldUseOgcApi(targetEntity, options)) {
-    result = getOgcApiDefinition(targetEntity, options);
+    result = getOgcApiDefinition(targetEntity, options.requestOptions);
   } else {
     result = { type: "arcgis", url: portal };
   }

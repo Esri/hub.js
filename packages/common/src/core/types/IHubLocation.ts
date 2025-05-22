@@ -1,6 +1,7 @@
-import { ISpatialReference } from "@esri/arcgis-rest-types";
+import type { ISpatialReference } from "@esri/arcgis-rest-feature-service";
 import { IHubLocationType } from "./types";
 import { HubEntityType } from "./HubEntityType";
+import { IGeometryInstance } from "../..";
 
 /**
  * A location associated with an item and stored as a json resource.
@@ -17,14 +18,9 @@ export interface IHubLocation {
   // the extent of the location
   extent?: number[][];
 
-  // array of geometries representing the location
-  // NOTE: we use partial here b/c __esri.Geometry
-  // is the type for instances and includes methods, etc
-  // but we want to be able to pass around POJOs as well as instances
-  // instead, we might want to use __esri.GeometryProperties or
-  // a discriminated union of the point, line, polygon, and extent _property_ types
-  // but for now it is a non-breaking change to relax __esri.Geometry w/ a partial
-  geometries?: Array<Partial<__esri.Geometry>>;
+  // NOTE: at next major release or breaking change we can probably remove the Partial here
+  /** array of[geometries](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html) representing the location */
+  geometries?: Array<Partial<IGeometryInstance>>;
 
   /** The name of the location */
   name?: string;

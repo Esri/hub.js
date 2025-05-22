@@ -18,6 +18,7 @@ export const TemplatePermissions = [
   "hub:template:edit",
   "hub:template:manage",
   "hub:template:view",
+  "hub:template:view:related",
   "hub:template:canChangeAccess",
   "hub:template:workspace",
   "hub:template:workspace:details",
@@ -50,6 +51,18 @@ export const TemplatePermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:template:view",
     dependencies: ["hub:template"],
+  },
+  {
+    permission: "hub:template:view:related",
+    dependencies: ["hub:template:view"],
+    services: ["hub-search"],
+    assertions: [
+      {
+        property: "entity:access",
+        type: "eq",
+        value: "public",
+      },
+    ],
   },
   {
     permission: "hub:template:edit",

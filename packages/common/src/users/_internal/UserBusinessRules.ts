@@ -16,7 +16,6 @@ export const UserPermissions = [
   "hub:user:workspace:content",
   "hub:user:workspace:groups",
   "hub:user:workspace:events",
-  "hub:user:workspace:discussions",
   "hub:user:workspace:shared-with-me",
   "hub:user:manage",
 ] as const;
@@ -49,7 +48,7 @@ export const UserPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:user:workspace",
-    environments: ["qaext", "devext"],
+    environments: ["production", "qaext", "devext"],
     // seems like this should also depend on hub:user,
     // but other entities don't do that
     dependencies: ["hub:feature:workspace"],
@@ -70,12 +69,9 @@ export const UserPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:user:workspace:events",
     services: ["events"],
     dependencies: ["hub:user:workspace", "hub:user:owner"],
-  },
-  {
-    permission: "hub:user:workspace:discussions",
-    availability: ["alpha"],
-    services: ["discussions"],
-    dependencies: ["hub:user:workspace", "hub:user:owner"],
+    licenses: ["hub-premium"],
+    // gating, remove when releasing events 3
+    environments: ["devext", "qaext"],
   },
   {
     permission: "hub:user:workspace:settings",

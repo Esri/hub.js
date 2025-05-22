@@ -1,4 +1,4 @@
-import { IHubUserRequestOptions } from "../types";
+import { IHubUserRequestOptions } from "../hub-types";
 import { ICreateVersionOptions, IVersion } from "./types";
 import { getIncludeListFromItemType } from "./_internal/getIncludeListFromItemType";
 import { getVersionData } from "./_internal/getVersionData";
@@ -7,7 +7,7 @@ import { getProp } from "../objects/get-prop";
 import { mergeObjects } from "../objects/merge-objects";
 import { objectToJsonBlob } from "../resources/object-to-json-blob";
 import { createId } from "../util";
-import { IModel } from "../types";
+import { IModel } from "../hub-types";
 import {
   VERSION_RESOURCE_NAME,
   VERSION_RESOURCE_PROPERTIES,

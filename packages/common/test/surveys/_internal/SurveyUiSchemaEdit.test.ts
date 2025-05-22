@@ -34,10 +34,15 @@ describe("buildUiSchema: survey edit", () => {
       elements: [
         {
           type: "Section",
-          labelKey: `some.scope.sections.basicInfo.label`,
+          labelKey: "some.scope.sections.basicInfo.label",
+          options: {
+            helperText: {
+              labelKey: "some.scope.sections.basicInfo.helperText",
+            },
+          },
           elements: [
             {
-              labelKey: `some.scope.fields.name.label`,
+              labelKey: "some.scope.fields.name.label",
               scope: "/properties/name",
               type: "Control",
               options: {
@@ -46,132 +51,41 @@ describe("buildUiSchema: survey edit", () => {
                     type: "ERROR",
                     keyword: "required",
                     icon: true,
-                    labelKey: `some.scope.fields.name.requiredError`,
+                    labelKey: "some.scope.fields.name.requiredError",
                   },
                   {
                     type: "ERROR",
                     keyword: "maxLength",
                     icon: true,
-                    labelKey: `shared.fields.title.maxLengthError`,
+                    labelKey: "shared.fields.title.maxLengthError",
                   },
                   {
                     type: "ERROR",
                     keyword: "format",
                     icon: true,
-                    labelKey: `some.scope.fields.name.entityTitleValidatorError`,
+                    labelKey:
+                      "some.scope.fields.name.entityTitleValidatorError",
                   },
                 ],
               },
             },
             {
-              labelKey: `some.scope.fields.description.label`,
-              scope: "/properties/description",
-              type: "Control",
-              options: {
-                control: "hub-field-input-rich-text",
-                type: "textarea",
-                helperText: {
-                  labelKey: `some.scope.fields.description.helperText`,
-                },
-              },
-            },
-            {
-              labelKey: `some.scope.fields.summary.label`,
+              labelKey: "some.scope.fields.summary.label",
               scope: "/properties/summary",
               type: "Control",
               options: {
                 control: "hub-field-input-input",
                 type: "textarea",
                 rows: 4,
-                helperText: {
-                  labelKey: `some.scope.fields.summary.helperText`,
-                },
                 messages: [
                   {
                     type: "ERROR",
                     keyword: "maxLength",
                     icon: true,
-                    labelKey: `shared.fields.purpose.maxLengthError`,
+                    labelKey: "shared.fields.purpose.maxLengthError",
                   },
                 ],
               },
-            },
-          ],
-        },
-        {
-          type: "Section",
-          labelKey: `some.scope.sections.searchDiscoverability.label`,
-          elements: [
-            {
-              labelKey: "some.scope.fields.tags.label",
-              scope: "/properties/tags",
-              type: "Control",
-              options: {
-                control: "hub-field-input-combobox",
-                items: [],
-                allowCustomValues: true,
-                selectionMode: "multiple",
-                placeholderIcon: "label",
-              },
-            },
-            {
-              labelKey: "shared.fields.categories.label",
-              scope: "/properties/categories",
-              type: "Control",
-              options: {
-                control: "hub-field-input-combobox",
-                items: [
-                  {
-                    value: "/categories",
-                    label: "/categories",
-                  },
-                ],
-                allowCustomValues: false,
-                selectionMode: "ancestors",
-                placeholderIcon: "select-category",
-                helperText: {
-                  labelKey: "some.scope.fields.categories.helperText",
-                },
-              },
-              rules: [
-                {
-                  effect: UiSchemaRuleEffects.DISABLE,
-                  conditions: [false],
-                },
-              ],
-            },
-            {
-              type: "Notice",
-              options: {
-                notice: {
-                  configuration: {
-                    id: "no-categories-notice",
-                    noticeType: "notice",
-                    closable: false,
-                    icon: "exclamation-mark-triangle",
-                    kind: "warning",
-                    scale: "m",
-                  },
-                  message:
-                    "{{shared.fields.categories.noCategoriesNotice.body:translate}}",
-                  autoShow: true,
-                  actions: [
-                    {
-                      label:
-                        "{{shared.fields.categories.noCategoriesNotice.link:translate}}",
-                      icon: "launch",
-                      href: "https://doc.arcgis.com/en/arcgis-online/reference/content-categories.htm",
-                      target: "_blank",
-                    },
-                  ],
-                },
-              },
-              rules: [
-                {
-                  effect: UiSchemaRuleEffects.SHOW,
-                  conditions: [false],
-                },
-              ],
             },
             {
               labelKey: "shared.fields._thumbnail.label",
@@ -185,37 +99,166 @@ describe("buildUiSchema: survey edit", () => {
                 maxWidth: 727,
                 maxHeight: 484,
                 aspectRatio: 1.5,
-                helperText: {
-                  labelKey: "some.scope.fields._thumbnail.helperText",
-                },
                 sizeDescription: {
                   labelKey: "shared.fields._thumbnail.sizeDescription",
                 },
               },
             },
             {
-              type: "Notice",
+              type: "Section",
+              labelKey: "some.scope.sections.description.label",
               options: {
-                notice: {
-                  configuration: {
-                    id: "no-thumbnail-or-png-notice",
-                    noticeType: "notice",
-                    closable: false,
-                    icon: "lightbulb",
-                    kind: "info",
-                    scale: "m",
-                  },
-                  message:
-                    "{{shared.fields._thumbnail.defaultThumbnailNotice:translate}}",
-                  autoShow: true,
-                },
+                section: "block",
               },
-              rules: [
+              elements: [
                 {
-                  effect: UiSchemaRuleEffects.SHOW,
-                  conditions: [false],
+                  labelKey: "some.scope.fields.description.label",
+                  scope: "/properties/description",
+                  type: "Control",
+                  options: {
+                    control: "hub-field-input-rich-text",
+                    type: "textarea",
+                  },
                 },
               ],
+            },
+            {
+              type: "Section",
+              labelKey: "some.scope.sections.discoverability.label",
+              options: {
+                section: "block",
+                helperText: {
+                  labelKey: "some.scope.sections.discoverability.helperText",
+                },
+              },
+              elements: [
+                {
+                  labelKey: "some.scope.fields.tags.label",
+                  scope: "/properties/tags",
+                  type: "Control",
+                  options: {
+                    control: "hub-field-input-combobox",
+                    items: [],
+                    allowCustomValues: true,
+                    selectionMode: "multiple",
+                    placeholderIcon: "label",
+                  },
+                },
+                {
+                  labelKey: "shared.fields.categories.label",
+                  scope: "/properties/categories",
+                  type: "Control",
+                  options: {
+                    control: "hub-field-input-combobox",
+                    items: [
+                      {
+                        value: "/categories",
+                        label: "/categories",
+                      },
+                    ],
+                    allowCustomValues: false,
+                    selectionMode: "ancestors",
+                    placeholderIcon: "select-category",
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.DISABLE,
+                      conditions: [false],
+                    },
+                  ],
+                },
+                {
+                  type: "Notice",
+                  options: {
+                    notice: {
+                      configuration: {
+                        id: "no-categories-notice",
+                        noticeType: "notice",
+                        closable: false,
+                        icon: "exclamation-mark-triangle",
+                        kind: "warning",
+                        scale: "m",
+                      },
+                      message:
+                        "{{shared.fields.categories.noCategoriesNotice.body:translate}}",
+                      autoShow: true,
+                      actions: [
+                        {
+                          label:
+                            "{{shared.fields.categories.noCategoriesNotice.link:translate}}",
+                          icon: "launch",
+                          href: "https://doc.arcgis.com/en/arcgis-online/reference/content-categories.htm",
+                          target: "_blank",
+                        },
+                      ],
+                    },
+                  },
+                  rules: [
+                    {
+                      effect: UiSchemaRuleEffects.SHOW,
+                      conditions: [false],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: "Section",
+          labelKey: "some.scope.sections.location.label",
+          elements: [
+            {
+              scope: "/properties/location",
+              type: "Control",
+              options: {
+                control: "hub-field-input-location-picker",
+                extent: {
+                  xmin: -180,
+                  ymin: -90,
+                  xmax: 180,
+                  ymax: 90,
+                  spatialReference: {
+                    wkid: 4326,
+                  },
+                },
+                options: [
+                  {
+                    label: "{{shared.fields.location.none:translate}}",
+                    location: {
+                      type: "none",
+                    },
+                  },
+                  {
+                    label: "{{shared.fields.location.org:translate}}",
+                    description: "My org",
+                    location: {
+                      type: "org",
+                      extent: [
+                        [-180, -90],
+                        [180, 90],
+                      ],
+                      spatialReference: {
+                        wkid: 4326,
+                      },
+                    },
+                  },
+                  {
+                    label: "{{shared.fields.location.custom:translate}}",
+                    description:
+                      "{{shared.fields.location.customDescription:translate}}",
+                    entityType: undefined,
+                    location: {
+                      type: "custom",
+                      spatialReference: {
+                        wkid: 4326,
+                      },
+                    },
+                    selected: true,
+                  },
+                ],
+                noticeTitleElementAriaLevel: 3,
+              },
             },
           ],
         },

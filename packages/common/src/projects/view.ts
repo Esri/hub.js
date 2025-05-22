@@ -1,4 +1,3 @@
-import { IArcGISContext, IHubSearchResult } from "..";
 import { getFamily } from "../content";
 import { IHubProject } from "../core";
 import { getShortenedCategories } from "../content/_internal/internalContentUtils";
@@ -12,6 +11,8 @@ import {
   ResultToCardModelFn,
   EntityToCardModelFn,
 } from "../core/types/IHubCardViewModel";
+import type { IArcGISContext } from "../types/IArcGISContext";
+import type { IHubSearchResult } from "../search/types/IHubSearchResult";
 
 /**
  * Convert a project entity into a card view model that can

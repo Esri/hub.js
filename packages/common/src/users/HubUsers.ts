@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-types";
+import type { IUser } from "@esri/arcgis-rest-portal";
 import { getUser } from "@esri/arcgis-rest-portal";
 import { fetchUserEnrichments } from "./_internal/enrichments";
 import { SettableAccessLevel } from "../core/types";
@@ -6,12 +6,12 @@ import { IHubUser } from "../core/types/IHubUser";
 import { getProp } from "../objects";
 import { getUserThumbnailUrl } from "../search/utils";
 import { parseInclude } from "../search/_internal/parseInclude";
-import { IHubRequestOptions } from "../types";
+import { IHubRequestOptions } from "../hub-types";
 import { getUserHomeUrl } from "../urls";
 import { unique } from "../util";
 import { mapBy } from "../utils";
 import { IHubSearchResult } from "../search/types/IHubSearchResult";
-import { IArcGISContext } from "../ArcGISContext";
+import type { IArcGISContext } from "../types/IArcGISContext";
 import { computeProps } from "./_internal/computeProps";
 
 /**

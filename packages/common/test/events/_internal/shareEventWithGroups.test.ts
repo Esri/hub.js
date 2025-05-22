@@ -3,7 +3,7 @@ import * as portalModule from "@esri/arcgis-rest-portal";
 import { IHubEvent } from "../../../src/core/types/IHubEvent";
 import * as eventsModule from "../../../src/events/api/events";
 import * as pollModule from "../../../src/utils/poll";
-import { IArcGISContext } from "../../../src/ArcGISContext";
+import { IArcGISContext } from "../../../src";
 
 describe("shareEventWithGroups", () => {
   let searchGroupsSpy: jasmine.Spy;
@@ -105,7 +105,8 @@ describe("shareEventWithGroups", () => {
       await shareEventWithGroups(["abc", "def"], entity, context);
       fail("did not reject");
     } catch (e) {
-      expect(e.message).toEqual(
+      const error = e as { message?: string };
+      expect(error.message).toEqual(
         "Entity: 62p could not be shared with groups: abc, def"
       );
     }

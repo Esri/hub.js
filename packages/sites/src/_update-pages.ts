@@ -3,9 +3,10 @@ import {
   IHubRequestOptions,
   failSafe,
   serializeModel,
-  IModelTemplate
+  IModelTemplate,
+  updateItem,
 } from "@esri/hub-common";
-import { updateItem, IUpdateItemResponse } from "@esri/arcgis-rest-portal";
+import { IUpdateItemResponse } from "@esri/arcgis-rest-portal";
 import { _secondPassAdlibPages } from "./_second-pass-adlib-pages";
 
 /**
@@ -21,7 +22,7 @@ export function _updatePages(
   hubRequestOptions: IHubRequestOptions
 ): Promise<IUpdateItemResponse[]> {
   // 2) for any page item, check if it has the site in it's pages array and if not add it
-  const pageModels = solutionModels.filter(m => {
+  const pageModels = solutionModels.filter((m) => {
     return m.item.type.indexOf("Page") > -1;
   });
   // Create Fail-safe version of update b/c this is not critical
@@ -30,17 +31,17 @@ export function _updatePages(
   // if not, add and update the item
   const siteEntry = {
     id: siteModel.item.id,
-    title: siteModel.item.title
+    title: siteModel.item.title,
   };
 
   // iterate the pages
   return Promise.all(
-    pageModels.map(m => {
+    pageModels.map((m) => {
       m.data.values.sites.push(siteEntry);
       m = _secondPassAdlibPages(siteModel, m);
       return failSafeUpdate({
-        item: serializeModel((m as unknown) as IModel),
-        authentication: hubRequestOptions.authentication
+        item: serializeModel(m as unknown as IModel),
+        authentication: hubRequestOptions.authentication,
       });
     })
   );

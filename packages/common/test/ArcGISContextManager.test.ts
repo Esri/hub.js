@@ -6,12 +6,11 @@ import {
   IFeatureFlags,
   IHubRequestOptionsPortalSelf,
   IUserHubSettings,
-  Level,
 } from "../src";
 import { base64ToUnicode, unicodeToBase64 } from "../src/utils/encoding";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as requestModule from "@esri/arcgis-rest-request";
-import * as authModule from "@esri/arcgis-rest-auth";
+import * as authModule from "@esri/arcgis-rest-request";
 import * as appResourcesModule from "../src/utils/hubUserAppResources";
 import * as userResourcesModule from "../src/utils/internal/userAppResources";
 import * as orgLimitsModule from "../src/org/fetchOrgLimits";
@@ -356,7 +355,6 @@ describe("ArcGISContext:", () => {
       };
       const mgr = await ArcGISContextManager.create({
         portalUrl: "https://myserver.com/gis",
-        logLevel: Level.debug,
         properties: { site },
       });
       expect(mgr.context.id).toBeGreaterThanOrEqual(t);
@@ -833,9 +831,11 @@ describe("ArcGISContext:", () => {
         }
       );
       // flex case where auth does not have clientId
-      const MOCK_AUTH_NO_CLIENTID = new authModule.UserSession({
+      const token = "fake-token";
+      const MOCK_AUTH_NO_CLIENTID = {
+        getToken: () => Promise.resolve(token),
         redirectUri: "https://example-app.com/redirect-uri",
-        token: "fake-token",
+        token,
         tokenExpires: TOMORROW,
         refreshToken: "refreshToken",
         refreshTokenExpires: TOMORROW,
@@ -843,7 +843,7 @@ describe("ArcGISContext:", () => {
         username: "casey",
         password: "123456",
         portal: "https://myorg.maps.arcgis.com/sharing/rest",
-      });
+      } as any;
 
       await ArcGISContextManager.create({
         authentication: MOCK_AUTH_NO_CLIENTID,
@@ -872,7 +872,8 @@ describe("ArcGISContext:", () => {
       try {
         await ArcGISContextManager.create({ authentication: MOCK_AUTH });
       } catch (ex) {
-        expect(ex).toBeDefined();
+        const error = ex as { message?: string };
+        expect(error).toBeDefined();
       }
     });
     it("serializes anon manager to string", async () => {

@@ -1,5 +1,6 @@
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
+import type { IItem } from "@esri/arcgis-rest-portal";
 import {
-  IItem,
   getItem,
   getItemData,
   getItemGroups,
@@ -9,9 +10,9 @@ import {
   getAllLayersAndTables,
   getService,
   parseServiceUrl,
-} from "@esri/arcgis-rest-feature-layer";
+} from "@esri/arcgis-rest-feature-service";
 import { IItemEnrichments, IServerEnrichments } from "../core";
-import { IEnrichmentErrorInfo, IHubRequestOptions } from "../types";
+import { IEnrichmentErrorInfo, IHubRequestOptions } from "../hub-types";
 import { IPipeable, createOperationPipeline } from "../utils";
 import OperationStack from "../OperationStack";
 // TODO: move these functions here under /items
@@ -139,7 +140,7 @@ const enrichOwnerUser = (
   const { data, stack, requestOptions } = input;
   const opId = stack.start("enrichOwner");
   // w/o the : any here, I get a compile error about
-  // .authentication being incompatible w/ UserSession
+  // .authentication being incompatible w/ ArcGISIdentityManager
   const options: any = {
     username: data.item.owner,
     ...requestOptions,
@@ -227,7 +228,10 @@ const enrichServer = (
   };
   return Promise.all([
     getService(options),
-    isServicesDirectoryDisabled(data.item, requestOptions),
+    isServicesDirectoryDisabled(
+      data.item,
+      requestOptions as IUserRequestOptions
+    ),
   ])
     .then(([server, servicesDirectoryDisabled]) => {
       stack.finish(opId);

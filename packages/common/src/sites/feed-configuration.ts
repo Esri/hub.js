@@ -1,4 +1,4 @@
-import { IModel } from "../types";
+import { IModel } from "../hub-types";
 import { getMajorVersion } from "./feeds/_internal/getMajorVersion";
 
 type FeedFormat = "dcat-us" | "dcat-ap" | "rss";

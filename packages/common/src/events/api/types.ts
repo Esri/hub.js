@@ -3,7 +3,7 @@ export {
   EventAccess,
   EventAttendanceType,
   EventStatus,
-  GetEventsParams,
+  ISearchEvents,
   IEventAssociation,
   ICreateEventAssociation,
   IOnlineMeeting,
@@ -35,11 +35,11 @@ export {
   IPagedRegistrationResponse,
   IPagedEventResponse,
 } from "./orval/api/orval-events";
-import { IHubRequestOptions } from "../../types";
+import { IHubRequestOptions } from "../../hub-types";
 import {
   ICreateEvent,
   IUpdateEvent,
-  GetEventsParams,
+  ISearchEvents,
   ICreateRegistration,
   IUpdateRegistration,
   GetRegistrationsParams,
@@ -66,8 +66,8 @@ export interface IEventsRequestOptions
 export interface ICreateEventParams extends IEventsRequestOptions {
   data: ICreateEvent;
 }
-export interface IGetEventsParams extends IEventsRequestOptions {
-  data: GetEventsParams;
+export interface ISearchEventsParams extends IEventsRequestOptions {
+  data: ISearchEvents;
 }
 export interface IGetEventParams extends IEventsRequestOptions {
   eventId: string;

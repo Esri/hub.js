@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { getWithDefault } from "./objects/get-with-default";
-import { ISerializedOperationStack } from "./types";
+import { ISerializedOperationStack } from "./hub-types";
 
 /**
  * Generic Solution Error with an Error stack as well

@@ -1,6 +1,6 @@
 import { getWithDefault } from "../../objects/get-with-default";
 import { upgradeCatalogSchema } from "../../search/upgradeCatalogSchema";
-import { IModel } from "../../types";
+import { IModel } from "../../hub-types";
 import { cloneObject } from "../../util";
 
 /**

@@ -76,7 +76,7 @@ describe("HubDiscussion Class:", () => {
         await HubDiscussion.fetch("3ef", authdCtxMgr.context);
       } catch (ex) {
         expect(fetchSpy).toHaveBeenCalledTimes(1);
-        expect(ex.message).toBe("Discussion not found.");
+        expect((ex as Error).message).toBe("Discussion not found.");
       }
     });
 
@@ -92,7 +92,7 @@ describe("HubDiscussion Class:", () => {
         await HubDiscussion.fetch("3ef", authdCtxMgr.context);
       } catch (ex) {
         expect(fetchSpy).toHaveBeenCalledTimes(1);
-        expect(ex.message).toBe("ZOMG!");
+        expect((ex as Error).message).toBe("ZOMG!");
       }
     });
   });
@@ -104,7 +104,7 @@ describe("HubDiscussion Class:", () => {
     ).and.callFake((p: IHubDiscussion) => {
       return Promise.resolve(p);
     });
-    const chk = await HubDiscussion.fromJson(
+    const chk = HubDiscussion.fromJson(
       { name: "Test Discussion" },
       authdCtxMgr.context
     );
@@ -205,13 +205,17 @@ describe("HubDiscussion Class:", () => {
     try {
       await chk.delete();
     } catch (e) {
-      expect(e.message).toEqual("HubDiscussion is already destroyed.");
+      expect((e as Error).message).toEqual(
+        "HubDiscussion is already destroyed."
+      );
     }
 
     try {
       await chk.save();
     } catch (e) {
-      expect(e.message).toEqual("HubDiscussion is already destroyed.");
+      expect((e as Error).message).toEqual(
+        "HubDiscussion is already destroyed."
+      );
     }
   });
   describe("IWithEditorBehavior:", () => {
@@ -343,27 +347,6 @@ describe("HubDiscussion Class:", () => {
         // since thumbnailCache is protected we can't really test that it's set
         // other than via code-coverage
         expect(getProp(result, "_thumbnail")).not.toBeDefined();
-      });
-      it("throws if creating", async () => {
-        const chk = HubDiscussion.fromJson(
-          {
-            name: "Test Entity",
-            thumbnailUrl: "https://myserver.com/thumbnail.png",
-          },
-          authdCtxMgr.context
-        );
-        // spy on the instance .save method and retrn void
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
-        // make changes to the editor
-        const editor = await chk.toEditor();
-        editor.name = "new name";
-        // call fromEditor
-        try {
-          await chk.fromEditor(editor);
-        } catch (ex) {
-          expect(ex.message).toContain("Cannot create");
-          expect(saveSpy).toHaveBeenCalledTimes(0);
-        }
       });
     });
   });

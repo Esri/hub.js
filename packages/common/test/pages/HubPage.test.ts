@@ -82,8 +82,9 @@ describe("HubPage Class:", () => {
       try {
         await HubPage.fetch("3ef", authdCtxMgr.context);
       } catch (ex) {
+        const error = ex as { message?: string };
         expect(fetchSpy).toHaveBeenCalledTimes(1);
-        expect((ex as any).message).toBe("Page not found.");
+        expect(error.message).toBe("Page not found.");
       }
     });
 
@@ -97,8 +98,9 @@ describe("HubPage Class:", () => {
       try {
         await HubPage.fetch("3ef", authdCtxMgr.context);
       } catch (ex) {
+        const error = ex as { message?: string };
         expect(fetchSpy).toHaveBeenCalledTimes(1);
-        expect((ex as any).message).toBe("ZOMG!");
+        expect(error.message).toBe("ZOMG!");
       }
     });
   });
@@ -109,10 +111,7 @@ describe("HubPage Class:", () => {
         return Promise.resolve(p);
       }
     );
-    const chk = await HubPage.fromJson(
-      { name: "Test Page" },
-      authdCtxMgr.context
-    );
+    const chk = HubPage.fromJson({ name: "Test Page" }, authdCtxMgr.context);
     await chk.save();
     expect(createSpy).toHaveBeenCalledTimes(1);
     expect(chk.toJson().name).toEqual("Test Page");
@@ -349,7 +348,8 @@ describe("HubPage Class:", () => {
         try {
           await chk.fromEditor(editor);
         } catch (ex) {
-          expect(ex.message).toContain("Cannot create");
+          const error = ex as { message?: string };
+          expect(error.message).toContain("Cannot create");
           expect(saveSpy).toHaveBeenCalledTimes(0);
         }
       });

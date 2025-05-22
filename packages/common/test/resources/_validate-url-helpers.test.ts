@@ -1,8 +1,8 @@
-import {
+import type {
   IExtent,
   IFeatureServiceDefinition,
   ILayerDefinition,
-} from "@esri/arcgis-rest-types";
+} from "@esri/arcgis-rest-feature-service";
 import * as fetchMock from "fetch-mock";
 import { ItemType } from "../../src";
 import {
@@ -40,7 +40,9 @@ describe("_validate-url-helpers", () => {
     try {
       getFileName("test");
     } catch (e) {
-      expect(e.message).toBe("Error getting file name from data url");
+      expect((e as Error).message).toBe(
+        "Error getting file name from data url"
+      );
     }
   });
 

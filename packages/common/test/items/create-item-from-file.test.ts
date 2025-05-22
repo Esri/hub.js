@@ -1,8 +1,9 @@
 import { createItemFromFile } from "../../src/items/create-item-from-file";
 import * as portal from "@esri/arcgis-rest-portal";
 import * as _prepareUploadRequestsModule from "../../src/items/_internal/_prepare-upload-requests";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import { IItemAdd } from "@esri/arcgis-rest-types";
+import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
+import type { IItemAdd } from "@esri/arcgis-rest-portal";
+import * as restPortal from "../../src/rest/portal";
 
 describe("createItemFromFile", () => {
   if (typeof Blob !== "undefined") {
@@ -29,7 +30,7 @@ describe("createItemFromFile", () => {
         file: new Blob(["foo"], { type: "csv" }),
       } as IItemAdd;
       // spies
-      const createItemSpy = spyOn(portal, "createItem").and.returnValue(
+      const createItemSpy = spyOn(restPortal, "createItem").and.returnValue(
         Promise.resolve({ id: "123abc", success: true, folder: "test" })
       );
       const cancelItemSpy = spyOn(portal, "cancelItemUpload").and.returnValue(
@@ -77,7 +78,7 @@ describe("createItemFromFile", () => {
         file: new Blob(["foo"], { type: "csv" }),
       } as unknown as IItemAdd;
       // spies
-      const createItemSpy = spyOn(portal, "createItem").and.returnValue(
+      const createItemSpy = spyOn(restPortal, "createItem").and.returnValue(
         Promise.resolve({ id: "123abc", success: true, folder: "test" })
       );
       const cancelItemSpy = spyOn(portal, "cancelItemUpload").and.returnValue(
@@ -125,7 +126,7 @@ describe("createItemFromFile", () => {
         },
       } as IItemAdd;
       // spies
-      const createItemSpy = spyOn(portal, "createItem").and.returnValue(
+      const createItemSpy = spyOn(restPortal, "createItem").and.returnValue(
         Promise.resolve({ success: true, id: "123abc" })
       );
       const cancelItemSpy = spyOn(portal, "cancelItemUpload").and.returnValue(
@@ -149,6 +150,7 @@ describe("createItemFromFile", () => {
         expect(commitItemUploadSpy).not.toHaveBeenCalled();
         expect(_prepareUploadRequestsSpy).toHaveBeenCalledTimes(1);
       } catch (err) {
+        const error = err as { message?: string };
         expect(cancelItemSpy).toHaveBeenCalledTimes(1);
       }
     });
@@ -172,7 +174,7 @@ describe("createItemFromFile", () => {
         },
       } as IItemAdd;
       // spies
-      const createItemSpy = spyOn(portal, "createItem").and.returnValue(
+      const createItemSpy = spyOn(restPortal, "createItem").and.returnValue(
         Promise.resolve({ success: true, id: "123abc" })
       );
       const cancelItemSpy = spyOn(portal, "cancelItemUpload").and.returnValue(
@@ -196,6 +198,7 @@ describe("createItemFromFile", () => {
         expect(commitItemUploadSpy).not.toHaveBeenCalled();
         expect(_prepareUploadRequestsSpy).toHaveBeenCalledTimes(1);
       } catch (err) {
+        const error = err as { message?: string };
         expect(cancelItemSpy).toHaveBeenCalledTimes(1);
       }
     });

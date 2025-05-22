@@ -3,7 +3,7 @@
 
 // TODO: deprecate all private functions in this file and more them to ./_internal
 
-import { IUser, UserSession } from "@esri/arcgis-rest-auth";
+import { IUser, ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import {
   IGroup,
   ISearchGroupUsersOptions,
@@ -12,7 +12,7 @@ import {
 } from "@esri/arcgis-rest-portal";
 import { isPageType } from "../content/_internal/internalContentUtils";
 import { IHubSite } from "../core";
-import { ISearchResponse } from "../types";
+import { ISearchResponse } from "../hub-types";
 import { cloneObject } from "../util";
 import { IHubSearchResult } from "./types";
 import { IPredicate, IQuery } from "./types/IHubCatalog";
@@ -35,7 +35,6 @@ import {
   applyWellKnownCollectionFilters,
   applyWellKnownItemPredicates,
   expandPredicates,
-  expandQuery,
 } from "./_internal/portalSearchItems";
 
 /**
@@ -192,13 +191,13 @@ export function getNextFunction<T>(
   nextStart: number,
   total: number,
   fn: (r: any) => Promise<ISearchResponse<T>>
-): (authentication?: UserSession) => Promise<ISearchResponse<T>> {
+): (authentication?: ArcGISIdentityManager) => Promise<ISearchResponse<T>> {
   const clonedRequest = cloneObject(request);
 
   // clone will not handle authentication so we do it manually
   if (request.authentication) {
-    clonedRequest.authentication = UserSession.deserialize(
-      (request.authentication as UserSession).serialize()
+    clonedRequest.authentication = ArcGISIdentityManager.deserialize(
+      (request.authentication as ArcGISIdentityManager).serialize()
     );
   }
   // ensure that if we have requestOptions, we have also update the authentication on it
@@ -210,7 +209,7 @@ export function getNextFunction<T>(
   // figure out the start
   clonedRequest.start = nextStart > -1 ? nextStart : total + 1;
 
-  return (authentication?: UserSession) => {
+  return (authentication?: ArcGISIdentityManager) => {
     if (authentication) {
       clonedRequest.authentication = authentication;
       // ensure that if we have requestOptions, we have also update the authentication on it
@@ -295,7 +294,7 @@ export function migrateToCollectionKey(
  * DEPRECATED: Please use `getGroupPredicate`
  * Searches through a catalog scope and retrieves the predicate responsible
  * for determining group sharing requirements.
- * Still in use 10/29/2024
+ * Still in use in opendata-ui as of 03/26/2025
  * @param scope Catalog scope to search through
  * @returns The first predicate with a `group` field (if present)
  */
@@ -319,12 +318,13 @@ export function getScopeGroupPredicate(scope: IQuery): IPredicate {
  * @returns
  */
 export function getGroupPredicate(query: IQuery): IPredicate {
-  const expandedQuery = expandQuery(query);
-  const isGroupPredicate = (predicate: IPredicate) => !!predicate.group;
-  const groupFilter = expandedQuery.filters.find((f) =>
-    f.predicates.find(isGroupPredicate)
+  const predicate = "group";
+  const expandedQuery = expandPortalQuery(query);
+  const isTargetPredicate = (p: IPredicate) => !!p[predicate];
+  const filter = expandedQuery.filters.find((f) =>
+    f.predicates.find(isTargetPredicate)
   );
-  return groupFilter && groupFilter.predicates.find(isGroupPredicate);
+  return filter && filter.predicates.find(isTargetPredicate);
 }
 
 /**
