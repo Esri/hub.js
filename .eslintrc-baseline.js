@@ -33,12 +33,10 @@ module.exports = {
         "packages/common/src/associations/internal/getIncludesAndReferencesQuery.ts",
         "packages/common/src/associations/internal/getIncludesDoesNotReferenceQuery.ts",
         "packages/common/src/associations/wellKnownAssociationCatalogs.ts",
-
         "packages/common/src/channels/HubChannel.ts",
         "packages/common/src/channels/_internal/ChannelUiSchemaCreate.ts",
         "packages/common/src/channels/_internal/transformEntityPermissionPoliciesToFormValues.ts",
         "packages/common/src/channels/_internal/transformFormValuesToEntityPermissionPolicies.ts",
-
         "packages/common/src/content/HubContent.ts",
         "packages/common/src/content/_fetch.ts",
         "packages/common/src/content/_internal/ContentUiSchemaDiscussions.ts",
@@ -152,7 +150,6 @@ module.exports = {
         "packages/common/src/events/api/orval/custom-client.ts",
         "packages/common/src/events/api/types.ts",
         "packages/common/src/events/fetch.ts",
-
         "packages/common/src/groups/HubGroup.ts",
         "packages/common/src/groups/HubGroups.ts",
         "packages/common/src/groups/_internal/GroupUiSchemaCreate.ts",
@@ -178,7 +175,6 @@ module.exports = {
         "packages/common/src/groups/inviteUsers.ts",
         "packages/common/src/groups/isOpenDataGroup.ts",
         "packages/common/src/groups/setGroupThumbnail.ts",
-
         "packages/common/src/i18n/fetch-hub-translation.ts",
         "packages/common/src/i18n/get-culture.ts",
         "packages/common/src/initiative-templates/HubInitiativeTemplate.ts",
