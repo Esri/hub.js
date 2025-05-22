@@ -64,7 +64,7 @@ export class HubTemplate extends HubItemEntity<IHubTemplate> {
   static async create(
     partialTemplate: Partial<IHubTemplate>,
     context: IArcGISContext,
-    save: boolean = false
+    save = false
   ): Promise<HubTemplate> {
     const pojo = this.applyDefaults(partialTemplate, context);
     const instance = HubTemplate.fromJson(pojo, context);
@@ -114,7 +114,7 @@ export class HubTemplate extends HubItemEntity<IHubTemplate> {
   ): IHubTemplate {
     // ensure we have the orgUrlKey
     if (!partialTemplate.orgUrlKey) {
-      partialTemplate.orgUrlKey = context.portal.urlKey;
+      partialTemplate.orgUrlKey = context.portal.urlKey as string;
     }
     // extend the partial over the defaults
     const pojo = { ...DEFAULT_TEMPLATE, ...partialTemplate } as IHubTemplate;
@@ -139,7 +139,7 @@ export class HubTemplate extends HubItemEntity<IHubTemplate> {
    * @param editorContext
    */
   async toEditor(
-    editorContext: IEntityEditorContext = {},
+    _editorContext: IEntityEditorContext = {},
     include: string[] = []
   ): Promise<IHubTemplateEditor> {
     // 1. optionally enrich entity and cast to editor
@@ -165,10 +165,11 @@ export class HubTemplate extends HubItemEntity<IHubTemplate> {
     // Setting the thumbnailCache will ensure that the
     // thumbnail is updated on the next save
     if (editor._thumbnail) {
-      if (editor._thumbnail.blob) {
+      const thumb = editor._thumbnail as { blob?: Blob; filename?: string };
+      if (thumb.blob) {
         this.thumbnailCache = {
-          file: editor._thumbnail.blob,
-          filename: editor._thumbnail.filename,
+          file: thumb.blob,
+          filename: thumb.filename ?? "thumbnail.png",
           clear: false,
         };
       } else {

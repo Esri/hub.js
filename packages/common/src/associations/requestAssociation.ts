@@ -48,7 +48,10 @@ export const requestAssociation = async (
   const isParent = associationHierarchy.children.includes(associationType);
 
   if (isParent) {
-    const associationGroupId = getProp(entity, "associations.groupId");
+    const associationGroupId = getProp(
+      entity,
+      "associations.groupId"
+    ) as string;
     const { owner } = await fetchHubEntity(associationType, id, context);
     try {
       await shareItemWithGroup({
@@ -59,7 +62,9 @@ export const requestAssociation = async (
       });
     } catch (error) {
       throw new Error(
-        `requestAssociation: there was an error sharing ${id} to ${associationGroupId}: ${error}`
+        `requestAssociation: there was an error sharing ${id} to ${String(
+          associationGroupId
+        )}: ${(error as Error).message}`
       );
     }
   } else {

@@ -170,15 +170,16 @@ export class HubSurvey
    */
   async fromEditor(
     editor: HubEntityEditor,
-    editorContext?: IEntityEditorContext
+    _editorContext?: IEntityEditorContext
   ): Promise<IHubSurvey> {
     // Setting the thumbnailCache will ensure that
     // the thumbnail is updated on next save
     if (editor._thumbnail) {
-      if (editor._thumbnail.blob) {
+      const thumb = editor._thumbnail as { blob?: Blob; fileName?: string };
+      if (thumb.blob) {
         this.thumbnailCache = {
-          file: editor._thumbnail.blob,
-          filename: editor._thumbnail.fileName,
+          file: thumb.blob,
+          filename: thumb.fileName ?? "thumbnail.png",
           clear: false,
         };
       } else {
@@ -195,7 +196,8 @@ export class HubSurvey
     const entity = cloneObject(editor) as IHubSurvey;
 
     // copy the location extent up one level
-    entity.extent = editor.location?.extent;
+    entity.extent =
+      (editor as { location?: { extent?: number[][] } }).location?.extent ?? [];
 
     // Save, which will also create new content if new
     this.entity = entity;
