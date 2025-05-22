@@ -131,7 +131,7 @@
 		"format": "lerna run format",
 		"gen-util": "yo ./scaffolder/index.js",
 		"lint": "eslint --quiet --ext .ts ./packages/*/src/**/*.ts",
-		"lint:fix": "eslint . --ext .ts --fix ./packages/*/src/**/*.ts",
+		"lint:fix": "eslint --quite --ext .ts --fix ./packages/*/src/**/*.ts",
     "lint:generate-baseline": "node ./support/generate-eslint-baseline.js",
 		"tslint:fix": "tslint --project tsconfig.json --fix",
 		"tslint": "tslint --project tsconfig.json",
