@@ -78,7 +78,7 @@ export class ArcGISContext implements IArcGISContext {
   public id: number;
   private _authentication: ArcGISIdentityManager;
 
-  private _portalUrl: string = "https://www.arcgis.com";
+  private _portalUrl = "https://www.arcgis.com";
 
   private _hubUrl: string;
 
@@ -170,7 +170,7 @@ export class ArcGISContext implements IArcGISContext {
    */
   public get isAlphaOrg(): boolean {
     let result = false;
-    const orgs = this._properties?.alphaOrgs || [];
+    const orgs: string[] = (this._properties?.alphaOrgs as string[]) || [];
     const orgId = this._portalSelf?.id;
     if (orgs.length && orgId) {
       result = orgs.includes(orgId);
@@ -184,7 +184,7 @@ export class ArcGISContext implements IArcGISContext {
    */
   public get isBetaOrg(): boolean {
     let result = false;
-    const orgs = this._properties?.betaOrgs || [];
+    const orgs: string[] = (this._properties?.betaOrgs as string[]) || [];
     const orgId = this._portalSelf?.id;
     if (orgs.length && orgId) {
       result = orgs.includes(orgId);
@@ -223,7 +223,7 @@ export class ArcGISContext implements IArcGISContext {
    * instance to use (i.e. AGO, Enterprise etc)
    */
   public get requestOptions(): IRequestOptions {
-    let ro: any = {
+    let ro: IRequestOptions = {
       portal: this.sharingApiUrl,
     };
     if (this.isAuthenticated) {
@@ -262,9 +262,11 @@ export class ArcGISContext implements IArcGISContext {
   public get portalUrl(): string {
     if (this.isAuthenticated) {
       if (this.isPortal || !this._portalSelf.urlKey) {
-        return `https://${this._portalSelf.portalHostname}`;
+        return `https://${this._portalSelf.portalHostname as string}`;
       } else {
-        return `https://${this._portalSelf.urlKey}.${this._portalSelf.customBaseUrl}`;
+        return `https://${this._portalSelf.urlKey as string}.${
+          this._portalSelf.customBaseUrl as string
+        }`;
       }
     } else {
       return this._portalUrl;
@@ -281,7 +283,7 @@ export class ArcGISContext implements IArcGISContext {
     } else {
       if (this.isAuthenticated) {
         const hubHostname = this._hubUrl.replace("https://", "");
-        return `https://${this._portalSelf.urlKey}.${hubHostname}`;
+        return `https://${this._portalSelf.urlKey as string}.${hubHostname}`;
       } else {
         return this._hubUrl;
       }
@@ -382,9 +384,12 @@ export class ArcGISContext implements IArcGISContext {
    *
    * `{serviceId: '3ef..', publicViewId: 'bc3...'}`
    */
-  public get eventsConfig(): any {
+  public get eventsConfig(): Record<string, unknown> {
     if (this._portalSelf) {
-      return getProp(this._portalSelf, "portalProperties.hub.settings.events");
+      return getProp(
+        this._portalSelf,
+        "portalProperties.hub.settings.events"
+      ) as Record<string, unknown>;
     }
   }
 
@@ -398,7 +403,7 @@ export class ArcGISContext implements IArcGISContext {
       this._portalSelf,
       "portalProperties.hub.enabled",
       false
-    );
+    ) as boolean;
   }
 
   /**
@@ -409,7 +414,7 @@ export class ArcGISContext implements IArcGISContext {
       return getProp(
         this._portalSelf,
         "portalProperties.hub.settings.communityOrg.orgId"
-      );
+      ) as string;
     }
   }
 
@@ -422,7 +427,7 @@ export class ArcGISContext implements IArcGISContext {
       return getProp(
         this._portalSelf,
         "portalProperties.hub.settings.enterpriseOrg.orgId"
-      );
+      ) as string;
     }
   }
 
@@ -436,7 +441,7 @@ export class ArcGISContext implements IArcGISContext {
       return getProp(
         this._portalSelf,
         "portalProperties.hub.settings.communityOrg.portalHostname"
-      );
+      ) as string;
     }
   }
 
@@ -454,9 +459,9 @@ export class ArcGISContext implements IArcGISContext {
   /**
    * Returns the hash of helper services from portal self
    */
-  public get helperServices(): any {
+  public get helperServices(): Array<unknown> {
     if (this._portalSelf) {
-      return this._portalSelf.helperServices;
+      return this._portalSelf.helperServices as Array<unknown>;
     }
   }
 
@@ -506,7 +511,7 @@ export class ArcGISContext implements IArcGISContext {
       const orgType = getProp(
         this._portalSelf,
         "portalProperties.hub.settings.orgType"
-      );
+      ) as string;
       result = orgType === "community";
     }
     return result;
