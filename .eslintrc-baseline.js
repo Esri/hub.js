@@ -1,11 +1,9 @@
 module.exports = {
-  "plugins": [
-    "disable"
-  ],
-  "processor": "disable/disable",
-  "overrides": [
+  plugins: ["disable"],
+  processor: "disable/disable",
+  overrides: [
     {
-      "files": [
+      files: [
         "packages/common/e2e/catalog-collection-prod.e2e.ts",
         "packages/common/e2e/catalog-collection-qa.e2e.ts",
         "packages/common/e2e/context-manager.e2e.ts",
@@ -26,12 +24,6 @@ module.exports = {
         "packages/common/e2e/purge-domains.e2e.ts",
         "packages/common/e2e/reset-users.e2e.ts",
         "packages/common/e2e/user-app-resources.e2e.ts",
-        "packages/common/src/ArcGISContext.ts",
-        "packages/common/src/ArcGISContextManager.ts",
-        "packages/common/src/Hub.ts",
-        "packages/common/src/HubError.ts",
-        "packages/common/src/OperationError.ts",
-        "packages/common/src/OperationStack.ts",
         "packages/common/src/access/can-edit-event.ts",
         "packages/common/src/access/can-edit-item.ts",
         "packages/common/src/access/can-edit-site-content.ts",
@@ -41,12 +33,12 @@ module.exports = {
         "packages/common/src/associations/internal/getIncludesAndReferencesQuery.ts",
         "packages/common/src/associations/internal/getIncludesDoesNotReferenceQuery.ts",
         "packages/common/src/associations/wellKnownAssociationCatalogs.ts",
-        "packages/common/src/categories.ts",
+
         "packages/common/src/channels/HubChannel.ts",
         "packages/common/src/channels/_internal/ChannelUiSchemaCreate.ts",
         "packages/common/src/channels/_internal/transformEntityPermissionPoliciesToFormValues.ts",
         "packages/common/src/channels/_internal/transformFormValuesToEntityPermissionPolicies.ts",
-        "packages/common/src/collections.ts",
+
         "packages/common/src/content/HubContent.ts",
         "packages/common/src/content/_fetch.ts",
         "packages/common/src/content/_internal/ContentUiSchemaDiscussions.ts",
@@ -160,7 +152,7 @@ module.exports = {
         "packages/common/src/events/api/orval/custom-client.ts",
         "packages/common/src/events/api/types.ts",
         "packages/common/src/events/fetch.ts",
-        "packages/common/src/extent.ts",
+
         "packages/common/src/groups/HubGroup.ts",
         "packages/common/src/groups/HubGroups.ts",
         "packages/common/src/groups/_internal/GroupUiSchemaCreate.ts",
@@ -186,7 +178,7 @@ module.exports = {
         "packages/common/src/groups/inviteUsers.ts",
         "packages/common/src/groups/isOpenDataGroup.ts",
         "packages/common/src/groups/setGroupThumbnail.ts",
-        "packages/common/src/hub-types.ts",
+
         "packages/common/src/i18n/fetch-hub-translation.ts",
         "packages/common/src/i18n/get-culture.ts",
         "packages/common/src/initiative-templates/HubInitiativeTemplate.ts",
@@ -1036,9 +1028,9 @@ module.exports = {
         "packages/teams/test/utils/can-user-create-team.test.ts",
         "packages/teams/test/utils/get-team-by-id.test.ts",
         "packages/teams/test/utils/get-team-members.test.ts",
-        "packages/teams/test/utils/search-team-members.test.ts"
+        "packages/teams/test/utils/search-team-members.test.ts",
       ],
-      "rules": {
+      rules: {
         "@typescript-eslint/no-unused-vars": "warn",
         "@typescript-eslint/explicit-function-return-type": "warn",
         "@typescript-eslint/no-unsafe-assignment": "warn",
@@ -1070,8 +1062,8 @@ module.exports = {
         "@typescript-eslint/unbound-method": "warn",
         "@typescript-eslint/no-floating-promises": "warn",
         "no-control-regex": "warn",
-        "@typescript-eslint/no-extra-semi": "warn"
-      }
-    }
-  ]
+        "@typescript-eslint/no-extra-semi": "warn",
+      },
+    },
+  ],
 };

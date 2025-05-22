@@ -484,7 +484,7 @@ export class ArcGISContext implements IArcGISContext {
    * Useful for app-specific context such as the active
    * Site for ArcGIS Hub
    */
-  public get properties(): Record<string, any> {
+  public get properties(): Record<string, unknown> {
     return this._properties;
   }
 
@@ -566,7 +566,7 @@ export class ArcGISContext implements IArcGISContext {
    * @returns
    */
   public tokenFor(app: UserResourceApp): string {
-    const entry = this._userResourceTokens.find((e: any) => e.app === app);
+    const entry = this._userResourceTokens.find((e) => e.app === app);
     if (entry) {
       return entry.token;
     }

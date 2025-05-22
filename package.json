@@ -166,7 +166,7 @@
 	"lint-staged": {
 		"*.ts": [
 			"prettier --write --parser typescript --tab-width 2 --use-tabs false",
-			"eslint --quiet --ext .ts ./packages/*/src/**/*.ts",
+			"eslint --ext .ts --fix",
 			"git add"
 		]
 	},
