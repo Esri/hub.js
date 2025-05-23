@@ -236,7 +236,7 @@ describe("processFilters", () => {
       expect(result.eventIds).toEqual(["abc", "def", "ghi"]);
     });
 
-    fit("should consolidate and unique values from multiple filters & predicates that contain objects with not property", () => {
+    it("should consolidate and unique values from multiple filters & predicates that contain objects with not property", () => {
       const result = processFilters([
         {
           predicates: [
