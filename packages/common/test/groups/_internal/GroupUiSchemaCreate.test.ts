@@ -94,8 +94,12 @@ describe("GroupUiSchemaCreate", () => {
                 type: "Control",
                 options: {
                   control: "hub-field-input-switch",
+                  layout: "inline-space-between",
                   helperText: {
                     labelKey: `some.scope.fields.isSharedUpdate.helperText`,
+                  },
+                  tooltip: {
+                    labelKey: `some.scope.fields.isSharedUpdate.tooltip`,
                   },
                 },
                 rule: {
@@ -109,8 +113,12 @@ describe("GroupUiSchemaCreate", () => {
                 type: "Control",
                 options: {
                   control: "hub-field-input-switch",
+                  layout: "inline-space-between",
                   helperText: {
                     labelKey: `some.scope.fields.isAdmin.helperText`,
+                  },
+                  tooltip: {
+                    labelKey: `some.scope.fields.isAdmin.tooltip`,
                   },
                 },
                 rules: [
@@ -126,8 +134,12 @@ describe("GroupUiSchemaCreate", () => {
                 type: "Control",
                 options: {
                   control: "hub-field-input-switch",
+                  layout: "inline-space-between",
                   helperText: {
                     labelKey: `some.scope.fields.isOpenData.helperText`,
+                  },
+                  tooltip: {
+                    labelKey: `some.scope.fields.isOpenData.tooltip`,
                   },
                   messages: [
                     {
