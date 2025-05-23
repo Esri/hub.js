@@ -38,7 +38,7 @@ describe("setGroupThumbnail:", () => {
         "fakeOwner"
       );
     } catch (err) {
-      expect(err.name).toBe("HubError");
+      expect((err as Error).name).toBe("HubError");
     }
   });
   it("throws hub error if update rejects with error", async () => {
@@ -56,7 +56,7 @@ describe("setGroupThumbnail:", () => {
         "fakeOwner"
       );
     } catch (err) {
-      expect(err.name).toBe("HubError");
+      expect((err as Error).name).toBe("HubError");
     }
   });
   it("throws hub error if update rejects", async () => {
@@ -74,7 +74,7 @@ describe("setGroupThumbnail:", () => {
         "fakeOwner"
       );
     } catch (err) {
-      expect(err.name).toBe("HubError");
+      expect((err as Error).name).toBe("HubError");
     }
   });
 });

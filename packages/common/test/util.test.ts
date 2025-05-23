@@ -697,7 +697,7 @@ describe("util functions", () => {
       try {
         addDays("hello", 1);
       } catch (e) {
-        expect(e.message).toBe("Invalid Date");
+        expect((e as Error).message).toBe("Invalid Date");
       }
     });
   });

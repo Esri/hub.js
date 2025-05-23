@@ -49,7 +49,8 @@ describe("portalPollExportJobStatus", () => {
         });
         throw new Error("should have errored");
       } catch (err) {
-        expect(err.message).toBe("5xx");
+        const error = err as { message?: string };
+        expect(error.message).toBe("5xx");
       } finally {
         expect(common.updateItem).toHaveBeenCalledTimes(1);
         expect((common.updateItem as any).calls.first().args).toEqual([
@@ -97,7 +98,8 @@ describe("portalPollExportJobStatus", () => {
         });
         throw new Error("should have errored");
       } catch (err) {
-        expect(err.message).toEqual("5xx");
+        const error = err as { message?: string };
+        expect(error.message).toEqual("5xx");
         expect(common.updateItem).toHaveBeenCalledTimes(1);
         expect((common.updateItem as any).calls.first().args).toEqual([
           {
@@ -157,7 +159,8 @@ describe("portalPollExportJobStatus", () => {
         });
         throw new Error("should have errored");
       } catch (err) {
-        expect(err.message).toEqual("5xx");
+        const error = err as { message?: string };
+        expect(error.message).toEqual("5xx");
         expect(common.updateItem).toHaveBeenCalledTimes(1);
         expect((common.updateItem as any).calls.first().args).toEqual([
           {
@@ -225,7 +228,8 @@ describe("portalPollExportJobStatus", () => {
         });
         throw new Error("should have errored");
       } catch (err) {
-        expect(err.message).toEqual("5xx");
+        const error = err as { message?: string };
+        expect(error.message).toEqual("5xx");
         expect(common.updateItem).toHaveBeenCalledTimes(1);
         expect((common.updateItem as any).calls.first().args).toEqual([
           {
@@ -354,7 +358,8 @@ describe("portalPollExportJobStatus", () => {
           )
         ).toEqual(true);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -458,7 +463,8 @@ describe("portalPollExportJobStatus", () => {
           )
         ).toEqual(true);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }
@@ -561,7 +567,8 @@ describe("portalPollExportJobStatus", () => {
           )
         ).toEqual(true);
       } catch (err) {
-        expect(err).toEqual(undefined);
+        const error = err as { message?: string };
+        expect(error).toEqual(undefined);
       } finally {
         done();
       }

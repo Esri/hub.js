@@ -11,8 +11,9 @@ describe("hubSearch Module:", () => {
             {} as unknown as IHubSearchOptions
           );
         } catch (err) {
-          expect(err.name).toBe("HubError");
-          expect(err.message).toBe("Query is required.");
+          const error = err as { name?: string; message?: string };
+          expect(error.name).toBe("HubError");
+          expect(error.message).toBe("Query is required.");
         }
       });
       it("throws if Query does not have filters", async () => {
@@ -22,8 +23,9 @@ describe("hubSearch Module:", () => {
             {} as unknown as IHubSearchOptions
           );
         } catch (err) {
-          expect(err.name).toBe("HubError");
-          expect(err.message).toBe("Query must have a filters array.");
+          const error = err as { name?: string; message?: string };
+          expect(error.name).toBe("HubError");
+          expect(error.message).toBe("Query must have a filters array.");
         }
       });
       it("throws if Query has an empty filters array and no collection prop", async () => {
@@ -33,8 +35,9 @@ describe("hubSearch Module:", () => {
             {} as unknown as IHubSearchOptions
           );
         } catch (err) {
-          expect(err.name).toBe("HubError");
-          expect(err.message).toBe(
+          const error = err as { name?: string; message?: string };
+          expect(error.name).toBe("HubError");
+          expect(error.message).toBe(
             "Query must contain at least one Filter or a collection."
           );
         }
@@ -52,8 +55,9 @@ describe("hubSearch Module:", () => {
         try {
           await hubSearch(qry, {} as unknown as IHubSearchOptions);
         } catch (err) {
-          expect(err.name).toBe("HubError");
-          expect(err.message).toBe(
+          const error = err as { name?: string; message?: string };
+          expect(error.name).toBe("HubError");
+          expect(error.message).toBe(
             "requestOptions: IHubRequestOptions is required."
           );
         }
@@ -77,8 +81,9 @@ describe("hubSearch Module:", () => {
         try {
           await hubSearch(qry, opts);
         } catch (err) {
-          expect(err.name).toBe("HubError");
-          expect(err.message).toBe(
+          const error = err as { name?: string; message?: string };
+          expect(error.name).toBe("HubError");
+          expect(error.message).toBe(
             `Search via "group" filter against "arcgis-hub" api is not implemented. Please ensure "targetEntity" is defined on the query.`
           );
         }

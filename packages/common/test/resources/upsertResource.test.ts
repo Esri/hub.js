@@ -136,7 +136,7 @@ describe("createResource:", () => {
       expect(args.authentication).toEqual(MOCK_AUTH);
     } catch (ex) {
       if (typeof Blob === "undefined") {
-        expect(ex.message).toEqual(
+        expect((ex as Error).message).toEqual(
           "objectToJsonBlob is not currently supported on Node"
         );
       }
@@ -176,7 +176,7 @@ describe("createResource:", () => {
       expect(args.authentication).toEqual(MOCK_AUTH);
     } catch (ex) {
       if (typeof Blob === "undefined") {
-        expect(ex.message).toEqual(
+        expect((ex as Error).message).toEqual(
           "stringToBlob is not currently supported on Node"
         );
       }
@@ -196,7 +196,7 @@ describe("createResource:", () => {
         authentication: MOCK_AUTH,
       });
     } catch (err) {
-      expect(err.name).toBe("HubError");
+      expect((err as Error).name).toBe("HubError");
     }
   });
 
@@ -213,7 +213,7 @@ describe("createResource:", () => {
         authentication: MOCK_AUTH,
       });
     } catch (err) {
-      expect(err.name).toBe("HubError");
+      expect((err as Error).name).toBe("HubError");
     }
   });
 
@@ -230,7 +230,7 @@ describe("createResource:", () => {
         authentication: MOCK_AUTH,
       });
     } catch (err) {
-      expect(err.name).toBe("HubError");
+      expect((err as Error).name).toBe("HubError");
     }
   });
 });

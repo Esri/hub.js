@@ -38,7 +38,8 @@ describe("setItemThumbnail:", () => {
         "fakeOwner"
       );
     } catch (err) {
-      expect(err.name).toBe("HubError");
+      const error = err as { name?: string; message?: string };
+      expect(error.name).toBe("HubError");
     }
   });
   it("throws hub error if update rejects with error", async () => {
@@ -56,7 +57,8 @@ describe("setItemThumbnail:", () => {
         "fakeOwner"
       );
     } catch (err) {
-      expect(err.name).toBe("HubError");
+      const error = err as { name?: string; message?: string };
+      expect(error.name).toBe("HubError");
     }
   });
   it("throws hub error if update rejects", async () => {
@@ -74,7 +76,8 @@ describe("setItemThumbnail:", () => {
         "fakeOwner"
       );
     } catch (err) {
-      expect(err.name).toBe("HubError");
+      const error = err as { name?: string; message?: string };
+      expect(error.name).toBe("HubError");
     }
   });
 });

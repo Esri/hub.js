@@ -3,7 +3,7 @@ import { objectToJsonBlob } from "../../src/resources";
 describe("objectToJsonBlob", () => {
   it("returns a blob given a string", () => {
     const obj = {
-      foo: "bar––"
+      foo: "bar––",
     };
 
     try {
@@ -13,7 +13,7 @@ describe("objectToJsonBlob", () => {
       expect(blob.type).toBe("application/json", "blob of type JSON");
     } catch (ex) {
       if (typeof Blob === "undefined") {
-        expect(ex.message).toEqual(
+        expect((ex as Error).message).toEqual(
           "objectToJsonBlob is not currently supported on Node"
         );
       }

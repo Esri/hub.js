@@ -44,6 +44,7 @@ describe("failSafeUpdate", function () {
         authentication: mockUserSession,
       });
     } catch (_) {
+      const error = _ as { message?: string };
       fail(Error("failSafeUpdate rejected"));
     }
 

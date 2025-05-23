@@ -115,14 +115,16 @@ describe("HubEvent Class:", () => {
       await chk.delete();
       fail("delete did not reject");
     } catch (e) {
-      expect(e.message).toEqual("HubEvent is already destroyed.");
+      const error = e as { message?: string };
+      expect(error.message).toEqual("HubEvent is already destroyed.");
     }
 
     try {
       await chk.save();
       fail("save did not reject");
     } catch (e) {
-      expect(e.message).toEqual("HubEvent is already destroyed.");
+      const error = e as { message?: string };
+      expect(error.message).toEqual("HubEvent is already destroyed.");
     }
   });
 
@@ -266,7 +268,8 @@ describe("HubEvent Class:", () => {
         try {
           await chk.fromEditor(editor);
         } catch (ex) {
-          expect(ex.message).toContain("Cannot create");
+          const error = ex as { message?: string };
+          expect(error.message).toContain("Cannot create");
           expect(saveSpy).toHaveBeenCalledTimes(0);
         }
       });
@@ -295,7 +298,8 @@ describe("HubEvent Class:", () => {
         await chk.shareWithGroup("123");
         fail("not rejected");
       } catch (e) {
-        expect(e.message).toBe(
+        const error = e as { message?: string };
+        expect(error.message).toBe(
           "Cannot share event with group when no user is logged in."
         );
       }
@@ -468,7 +472,8 @@ describe("HubEvent Class:", () => {
         await HubEvent.fetch("31c", authdCtxMgr.context);
         fail("not rejected");
       } catch (e) {
-        expect(e.message).toBe("Event not found.");
+        const error = e as { message?: string };
+        expect(error.message).toBe("Event not found.");
       }
     });
   });

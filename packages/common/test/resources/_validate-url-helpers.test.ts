@@ -40,7 +40,9 @@ describe("_validate-url-helpers", () => {
     try {
       getFileName("test");
     } catch (e) {
-      expect(e.message).toBe("Error getting file name from data url");
+      expect((e as Error).message).toBe(
+        "Error getting file name from data url"
+      );
     }
   });
 

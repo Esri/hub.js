@@ -108,13 +108,13 @@ describe("HubSurvey Class:", () => {
     try {
       await chk.delete();
     } catch (e) {
-      expect(e.message).toEqual("HubSurvey is already destroyed.");
+      expect((e as Error).message).toEqual("HubSurvey is already destroyed.");
     }
 
     try {
       await chk.save();
     } catch (e) {
-      expect(e.message).toEqual("HubSurvey is already destroyed.");
+      expect((e as Error).message).toEqual("HubSurvey is already destroyed.");
     }
   });
 
@@ -296,7 +296,7 @@ describe("HubSurvey Class:", () => {
         try {
           await chk.fromEditor(editor);
         } catch (ex) {
-          expect(ex.message).toContain("Cannot create");
+          expect((ex as Error).message).toContain("Cannot create");
           expect(saveSpy).toHaveBeenCalledTimes(0);
         }
       });
@@ -327,7 +327,7 @@ describe("HubSurvey Class:", () => {
         await HubSurvey.fetch("31c", authdCtxMgr.context);
         fail("not rejected");
       } catch (e) {
-        expect(e.message).toBe("Survey not found.");
+        expect((e as Error).message).toBe("Survey not found.");
       }
     });
     it("should reject with the caught error when an error occurs", async () => {
@@ -336,7 +336,7 @@ describe("HubSurvey Class:", () => {
         await HubSurvey.fetch("31c", authdCtxMgr.context);
         fail("not rejected");
       } catch (e) {
-        expect(e.message).toBe("fail");
+        expect((e as Error).message).toBe("fail");
       }
     });
   });

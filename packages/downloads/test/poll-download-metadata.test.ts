@@ -11,7 +11,7 @@ describe("pollDownloadMetadata", () => {
 
       spyOn(hubPoller, "hubPollDownloadMetadata").and.returnValue(
         new Promise((resolve, _reject) => {
-          resolve();
+          resolve(undefined);
         })
       );
 
@@ -43,7 +43,8 @@ describe("pollDownloadMetadata", () => {
         },
       ]);
     } catch (err) {
-      expect(err).toBeUndefined();
+      const error = err as { message?: string };
+      expect(error).toBeUndefined();
     } finally {
       done();
     }
@@ -66,7 +67,7 @@ describe("pollDownloadMetadata", () => {
 
       spyOn(portalPoller, "portalPollExportJobStatus").and.returnValue(
         new Promise((resolve, reject) => {
-          resolve();
+          resolve(undefined);
         })
       );
 
@@ -104,7 +105,8 @@ describe("pollDownloadMetadata", () => {
         },
       ]);
     } catch (err) {
-      expect(err).toBeUndefined();
+      const error = err as { message?: string };
+      expect(error).toBeUndefined();
     } finally {
       done();
     }
@@ -127,7 +129,7 @@ describe("pollDownloadMetadata", () => {
 
       spyOn(portalPoller, "portalPollExportJobStatus").and.returnValue(
         new Promise((resolve, reject) => {
-          resolve();
+          resolve(undefined);
         })
       );
 
@@ -165,7 +167,8 @@ describe("pollDownloadMetadata", () => {
         },
       ]);
     } catch (err) {
-      expect(err).toBeUndefined();
+      const error = err as { message?: string };
+      expect(error).toBeUndefined();
     } finally {
       done();
     }
