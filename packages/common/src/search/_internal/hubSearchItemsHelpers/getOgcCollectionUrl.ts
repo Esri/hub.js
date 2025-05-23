@@ -20,6 +20,5 @@ export function getOgcCollectionUrl(query: IQuery, options: IHubSearchOptions) {
   if (query.targetEntity === "discussionPost") {
     return `${apiDefinition.url}/collections/discussion-post`;
   }
-  const collectionId = query.collection || "all";
-  return `${apiDefinition.url}/collections/${collectionId}`;
+  return `${apiDefinition.url}/collections/all`;
 }
