@@ -40,7 +40,7 @@ describe("_checkStatusAndParseJson", function () {
       await _checkStatusAndParseJson(res);
       fail("should reject");
     } catch (err) {
-      expect(err.message).toBe("title :: an error :: 404");
+      expect((err as Error).message).toBe("title :: an error :: 404");
     }
   });
 
@@ -59,7 +59,7 @@ describe("_checkStatusAndParseJson", function () {
       await _checkStatusAndParseJson(res);
       fail("should reject");
     } catch (err) {
-      expect(err).toBeDefined("threw generic error");
+      expect(err as Error).toBeDefined("threw generic error");
     }
   });
 });

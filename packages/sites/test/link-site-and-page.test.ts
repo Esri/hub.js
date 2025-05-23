@@ -80,7 +80,9 @@ describe("linkSiteAndPage", () => {
     expect(shareSpy).toHaveBeenCalledWith(
       pageModel.item.id,
       ["collab-id", "content-id"],
-      { authentication: {} }
+      {
+        authentication: {},
+      }
     );
   });
 
@@ -119,7 +121,9 @@ describe("linkSiteAndPage", () => {
     expect(shareSpy).toHaveBeenCalledWith(
       pageModel.item.id,
       ["collab-id", "content-id"],
-      { authentication: {} }
+      {
+        authentication: {},
+      }
     );
   });
 
@@ -142,7 +146,9 @@ describe("linkSiteAndPage", () => {
     expect(shareSpy).toHaveBeenCalledWith(
       pageModel.item.id,
       ["collab-id", "content-id"],
-      { authentication: {} }
+      {
+        authentication: {},
+      }
     );
   });
 
@@ -162,7 +168,8 @@ describe("linkSiteAndPage", () => {
       });
       fail("should reject");
     } catch (err) {
-      expect(err.message).toContain("Site");
+      const error = err as { message?: string };
+      expect(error.message).toContain("Site");
     }
     expect(updateSpy).not.toHaveBeenCalled();
     expect(shareSpy).not.toHaveBeenCalled();
@@ -177,7 +184,8 @@ describe("linkSiteAndPage", () => {
       });
       fail("should reject");
     } catch (err) {
-      expect(err.message).toContain("Page");
+      const error = err as { message?: string };
+      expect(error.message).toContain("Page");
     }
     expect(updateSpy).not.toHaveBeenCalled();
     expect(shareSpy).not.toHaveBeenCalled();
@@ -192,7 +200,8 @@ describe("linkSiteAndPage", () => {
       });
       fail("should reject");
     } catch (err) {
-      expect(err.message).toContain("Both");
+      const error = err as { message?: string };
+      expect(error.message).toContain("Both");
     }
     expect(updateSpy).not.toHaveBeenCalled();
     expect(shareSpy).not.toHaveBeenCalled();

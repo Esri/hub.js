@@ -26,7 +26,7 @@ describe("fetchItemJobRecords", () => {
       await fetchItemJobRecords(id, options);
       fail();
     } catch (e) {
-      expect(e.message).toEqual(
+      expect((e as Error).message).toEqual(
         "The following options are not yet implemented: types, statuses"
       );
       expect(fetchMock.calls().length).toBe(0);

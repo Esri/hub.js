@@ -4,7 +4,7 @@ import { IAuthenticationManager } from "@esri/arcgis-rest-request";
 
 describe("doesItemExistWithTitle", () => {
   const options = {
-    typekeywords: "foo"
+    typekeywords: "foo",
   };
 
   const authMgr = {} as IAuthenticationManager;
@@ -12,11 +12,11 @@ describe("doesItemExistWithTitle", () => {
   it("should resolve true when item with same name exists", async () => {
     const opts = {
       q: `title:"exists"`,
-      authentication: authMgr
+      authentication: authMgr,
     };
     const spy = spyOn(portalModule, "searchItems").and.returnValue(
       Promise.resolve({
-        results: [{}]
+        results: [{}],
       })
     );
     const res = await doesItemExistWithTitle("exists", options, authMgr);
@@ -24,7 +24,7 @@ describe("doesItemExistWithTitle", () => {
 
     const expectedSearchOpts = {
       q: `title:"exists" AND typekeywords:"foo"`,
-      authentication: authMgr
+      authentication: authMgr,
     };
     expect(spy.calls.argsFor(0)[0]).toEqual(
       expectedSearchOpts,
@@ -35,11 +35,11 @@ describe("doesItemExistWithTitle", () => {
   it("should resolve false when item with same name DOES NOT exist", async () => {
     const opts = {
       q: `title:"not-exists"`,
-      authentication: authMgr
+      authentication: authMgr,
     };
     const spy = spyOn(portalModule, "searchItems").and.returnValue(
       Promise.resolve({
-        results: [] // empty
+        results: [], // empty
       })
     );
     const res = await doesItemExistWithTitle("not-exists", options, authMgr);
@@ -47,7 +47,7 @@ describe("doesItemExistWithTitle", () => {
 
     const expectedSearchOpts = {
       q: `title:"not-exists" AND typekeywords:"foo"`,
-      authentication: authMgr
+      authentication: authMgr,
     };
     expect(spy.calls.argsFor(0)[0]).toEqual(
       expectedSearchOpts,
@@ -62,7 +62,8 @@ describe("doesItemExistWithTitle", () => {
       await doesItemExistWithTitle("not-exists", options, authMgr);
       fail("should reject");
     } catch (err) {
-      expect(err).toBeDefined();
+      const error = err as { message?: string };
+      expect(error).toBeDefined();
     }
   });
 });

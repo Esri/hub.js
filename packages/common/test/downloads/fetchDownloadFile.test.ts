@@ -51,7 +51,7 @@ describe("fetchDownloadFile", () => {
       });
       expect(true).toBe(false);
     } catch (err) {
-      expect(err.message).toBe(
+      expect((err as Error).message).toBe(
         `The following format is not enabled for the entity: ${ServiceDownloadFormat.CSV}`
       );
     }
@@ -76,7 +76,7 @@ describe("fetchDownloadFile", () => {
       });
       expect(true).toBe(false);
     } catch (err) {
-      expect(err.message).toBe(
+      expect((err as Error).message).toBe(
         "Downloads are not supported for this item in this environment"
       );
     }

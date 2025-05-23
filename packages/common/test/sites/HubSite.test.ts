@@ -95,7 +95,7 @@ describe("HubSite Class:", () => {
         await HubSite.fetch("3ef", authdCtxMgr.context);
       } catch (ex) {
         expect(fetchSpy).toHaveBeenCalledTimes(1);
-        expect(ex.message).toBe("Site not found.");
+        expect((ex as Error).message).toBe("Site not found.");
       }
     });
 
@@ -110,7 +110,7 @@ describe("HubSite Class:", () => {
         await HubSite.fetch("3ef", authdCtxMgr.context);
       } catch (ex) {
         expect(fetchSpy).toHaveBeenCalledTimes(1);
-        expect(ex.message).toBe("ZOMG!");
+        expect((ex as Error).message).toBe("ZOMG!");
       }
     });
   });
@@ -217,13 +217,13 @@ describe("HubSite Class:", () => {
     try {
       await chk.delete();
     } catch (e) {
-      expect(e.message).toEqual("HubSite is already destroyed.");
+      expect((e as Error).message).toEqual("HubSite is already destroyed.");
     }
 
     try {
       await chk.save();
     } catch (e) {
-      expect(e.message).toEqual("HubSite is already destroyed.");
+      expect((e as Error).message).toEqual("HubSite is already destroyed.");
     }
   });
 
@@ -824,7 +824,7 @@ describe("HubSite Class:", () => {
         try {
           await _chk.fromEditor(editor);
         } catch (ex) {
-          expect(ex.message).toContain("Cannot create");
+          expect((ex as Error).message).toContain("Cannot create");
           expect(saveSpy).toHaveBeenCalledTimes(0);
           expect(_getFollowersGroupSpy).toHaveBeenCalledTimes(1);
         }

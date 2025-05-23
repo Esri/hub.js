@@ -70,7 +70,7 @@ describe("unshareEventWithGroups", () => {
       await unshareEventWithGroups(["31c", "52n"], entity, context);
       fail("did not reject");
     } catch (e) {
-      expect(e.message).toEqual(
+      expect((e as Error).message).toEqual(
         "Entity: 62p could not be unshared with groups: 31c, 52n"
       );
     }

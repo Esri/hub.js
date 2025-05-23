@@ -39,7 +39,8 @@ describe("explainQuery helpers:", () => {
       try {
         await explainDatePredicate(predicate, result, {} as IRequestOptions);
       } catch (err) {
-        expect(err.message).toBe("Not implemented");
+        const error = err as { message?: string };
+        expect(error.message).toBe("Not implemented");
       }
     });
   });
@@ -54,7 +55,8 @@ describe("explainQuery helpers:", () => {
       try {
         await explainPropPredicate(predicate, result, {} as IRequestOptions);
       } catch (err) {
-        expect(err.message).toBe("Not implemented");
+        const error = err as { message?: string };
+        expect(error.message).toBe("Not implemented");
       }
     });
   });

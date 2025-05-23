@@ -104,7 +104,8 @@ describe("shareItemToGroups", function () {
       await shareItemToGroups("abc", ["31c", "56n"], requestOptions, "jdoe");
       fail("not rejected");
     } catch (e) {
-      expect(e.message).toEqual(
+      const error = e as { message?: string };
+      expect(error.message).toEqual(
         "Error sharing item: abc with groups: 31c, 56n"
       );
     }
@@ -141,7 +142,8 @@ describe("shareItemToGroups", function () {
       await shareItemToGroups("abc", ["31c", "56n"], requestOptions, "jdoe");
       fail("not rejected");
     } catch (e) {
-      expect(e.message).toEqual("Error sharing item: abc with group: 56n");
+      const error = e as { message?: string };
+      expect(error.message).toEqual("Error sharing item: abc with group: 56n");
     }
     expect(pollSpy).toHaveBeenCalledTimes(1);
     expect(pollSpy).toHaveBeenCalledWith(
