@@ -113,9 +113,14 @@ export const buildUiSchema = async (
               helperText: {
                 labelKey: `${i18nScope}.fields.isSharedUpdate.helperText`,
               },
-              tooltip: {
-                labelKey: `${i18nScope}.fields.isSharedUpdate.tooltip`,
-              },
+              ...(!checkPermission(
+                "platform:portal:admin:createUpdateCapableGroup",
+                context
+              ).access && {
+                tooltip: {
+                  labelKey: `${i18nScope}.fields.isSharedUpdate.tooltip`,
+                },
+              }),
             },
             rule: {
               effect: UiSchemaRuleEffects.ENABLE,
@@ -137,9 +142,14 @@ export const buildUiSchema = async (
               helperText: {
                 labelKey: `${i18nScope}.fields.isAdmin.helperText`,
               },
-              tooltip: {
-                labelKey: `${i18nScope}.fields.isAdmin.tooltip`,
-              },
+              ...(!checkPermission(
+                "platform:portal:admin:createLeavingDisallowedGroup",
+                context
+              ).access && {
+                tooltip: {
+                  labelKey: `${i18nScope}.fields.isAdmin.tooltip`,
+                },
+              }),
             },
             rules: [
               {
@@ -163,9 +173,14 @@ export const buildUiSchema = async (
               helperText: {
                 labelKey: `${i18nScope}.fields.isOpenData.helperText`,
               },
-              tooltip: {
-                labelKey: `${i18nScope}.fields.isOpenData.tooltip`,
-              },
+              ...(!checkPermission(
+                "platform:opendata:user:designateGroup",
+                context
+              ).access && {
+                tooltip: {
+                  labelKey: `${i18nScope}.fields.isOpenData.tooltip`,
+                },
+              }),
               messages: [
                 {
                   type: "ERROR",
