@@ -44,7 +44,28 @@ export function processFilters(filters: IFilter[]): Partial<ISearchEvents> {
 
   // id
   if (flattenedFilters.id?.length) {
-    processedFilters.eventIds = flattenedFilters.id;
+    const { ids, notIds } = flattenedFilters.id.reduce(
+      (acc, id) =>
+        id.not
+          ? {
+              ...acc,
+              notIds: [
+                ...acc.notIds,
+                ...(Array.isArray(id.not) ? id.not : [id.not]),
+              ],
+            }
+          : {
+              ...acc,
+              ids: [...acc.ids, id],
+            },
+      { ids: [], notIds: [] }
+    );
+    if (ids.length) {
+      processedFilters.eventIds = ids.filter(unique);
+    }
+    if (notIds.length) {
+      processedFilters.notIds = notIds.filter(unique);
+    }
   }
 
   // term
