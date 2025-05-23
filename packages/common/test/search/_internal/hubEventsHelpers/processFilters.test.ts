@@ -259,7 +259,7 @@ describe("processFilters", () => {
           ],
         },
       ]);
-      expect(result.notIds).toEqual(["abc", "def", "ghi"]);
+      expect(result.notEventIds).toEqual(["abc", "def", "ghi"]);
     });
   });
   describe("term", () => {

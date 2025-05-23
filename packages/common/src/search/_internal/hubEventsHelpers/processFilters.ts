@@ -64,7 +64,7 @@ export function processFilters(filters: IFilter[]): Partial<ISearchEvents> {
       processedFilters.eventIds = ids.filter(unique);
     }
     if (notIds.length) {
-      processedFilters.notIds = notIds.filter(unique);
+      processedFilters.notEventIds = notIds.filter(unique);
     }
   }
 

@@ -239,7 +239,7 @@ export interface ISearchEvents {
   entityIds?: string[];
   /** Array of associated entity types. Example: Hub Site Application,Hub Initiative,Hub Project */
   entityTypes?: EventAssociationEntityType[];
-  /** Array of event ids. Cannot be used with notIds. */
+  /** Array of event ids. Cannot be used with notEventIds. */
   eventIds?: string[];
   /** response data format. Example: csv,json */
   f?: EventsSearchFormat;
@@ -248,7 +248,7 @@ export interface ISearchEvents {
   /** Array of relation fields to include in response. Example: associations,creator,location,onlineMeeting,registrations */
   include?: GetEventsInclude[];
   /** Array of event ids to exclude. Cannot be used with eventIds */
-  notIds?: string[];
+  notEventIds?: string[];
   /** the max amount of events to return */
   num?: number;
   /** orgId string */
