@@ -1,3 +1,10 @@
+# @esri/hub-common [17.14.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.13.2...@esri/hub-common@17.14.0) (2025-05-24)
+
+
+### Features
+
+* **hub-common:** add notIds to interface ISearchEvents ([#1911](https://github.com/Esri/hub.js/issues/1911)) ([e4057fd](https://github.com/Esri/hub.js/commit/e4057fd3296cd4bc3889c79541b16f691348f203))
+
 ## @esri/hub-common [17.13.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.13.1...@esri/hub-common@17.13.2) (2025-05-21)
 
 
