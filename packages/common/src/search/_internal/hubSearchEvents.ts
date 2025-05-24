@@ -18,7 +18,7 @@ import { processFilters } from "./hubEventsHelpers/processFilters";
  *   - canEdit: boolean
  *   - entityId: string | string[];
  *   - entityType: string | string[];
- *   - id: string | string[];
+ *   - id: string | string[] | { not: string } | { not: string[] };
  *   - term: string;
  *   - categories: string | string[];
  *   - tags: string | string[];
