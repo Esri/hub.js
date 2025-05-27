@@ -3,7 +3,6 @@ import { getRelativeWorkspaceUrl } from "../../core/getRelativeWorkspaceUrl";
 import { getHubRelativeUrl } from "../../content/_internal/internalContentUtils";
 import { IEvent } from "../api/orval/api/orval-events";
 import { getEventSlug } from "./getEventSlug";
-import { getEventThumbnail } from "./getEventThumbnail";
 
 /**
  * Compute the links that get appended to a Hub Event
@@ -19,6 +18,6 @@ export function computeLinks(event: IEvent): IHubEntityLinks {
     siteRelative,
     siteRelativeEntityType: getHubRelativeUrl("event"),
     workspaceRelative: getRelativeWorkspaceUrl("Event", event.id),
-    thumbnail: event.thumbnailUrl ?? getEventThumbnail(),
+    thumbnail: event.thumbnailUrl, // ?? getEventThumbnail(),
   };
 }
