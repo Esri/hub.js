@@ -26,7 +26,14 @@ export function getBasePropertyMap(): IPropertyMap[] {
     "orgId",
     // NOTE: Read-only props like canRecycle are handled in the PropertyMapper itself
   ];
-  const dataProps = ["display", "geometry", "view", "associations", "catalogs"];
+  const dataProps = [
+    "display",
+    "geometry",
+    "view",
+    "associations",
+    "catalogs",
+    "assistant",
+  ];
   const resourceProps = Object.keys(EntityResourceMap);
   const map: IPropertyMap[] = [];
   itemProps.forEach((entry) => {
