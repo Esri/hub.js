@@ -9,6 +9,7 @@ import { IMetricEditorValues } from "./Metrics";
 import { IWithPermissions } from "../traits/IWithPermissions";
 import { IWithDiscussions } from "../traits/IWithDiscussions";
 import { IWithViewSettings } from "../traits/IWithViewSettings";
+import { IWithAssistant } from "../traits/IWithAssistant";
 
 /**
  * Properties exposed by Entities that are backed by Items
@@ -18,7 +19,8 @@ export interface IHubItemEntity
     IWithPermissions,
     IWithDiscussions,
     IWithFollowers,
-    IWithAssociations {
+    IWithAssociations,
+    IWithAssistant {
   /**
    * Access level of the item ("private" | "org" | "public")
    */
