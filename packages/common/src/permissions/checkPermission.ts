@@ -48,8 +48,14 @@ export function checkPermission(
   context: IArcGISContext,
   entityOrOptions?: EntityOrOptions
 ): IPermissionAccessResponse {
-  const label = entityOrOptions?.label || "";
-  const entity = entityOrOptions?.entity || entityOrOptions;
+  const label =
+    typeof entityOrOptions?.label === "string" ? entityOrOptions.label : "";
+  const entity =
+    typeof entityOrOptions === "object" &&
+    entityOrOptions !== null &&
+    "entity" in entityOrOptions
+      ? (entityOrOptions as { entity?: Record<string, unknown> }).entity
+      : (entityOrOptions as Record<string, unknown> | undefined);
 
   // Is this even a valid permission?
   if (!isPermission(permission)) {
@@ -92,9 +98,16 @@ export function checkPermission(
   // Is this policy configurable by the entity?
   if (systemPolicy.entityConfigurable) {
     // Has the entity provided a flag value?
-    if (entity?.features?.hasOwnProperty(permission)) {
+    if (
+      entity?.features &&
+      typeof entity.features === "object" &&
+      entity.features !== null &&
+      Object.prototype.hasOwnProperty.call(entity.features, permission)
+    ) {
       flagging.hasFlag = true;
-      flagging.value = entity.features[permission];
+      flagging.value = (entity.features as Record<string, unknown>)[
+        permission
+      ] as boolean;
       flagging.type = "entity";
     }
   }
@@ -102,7 +115,10 @@ export function checkPermission(
   // Feature Flags
   // Passed in from the application when context is created,
   // these override entity flags, so they are checked after
-  if (context.featureFlags?.hasOwnProperty(permission)) {
+  if (
+    context.featureFlags &&
+    Object.prototype.hasOwnProperty.call(context.featureFlags, permission)
+  ) {
     flagging.hasFlag = true;
     flagging.value = context.featureFlags[permission];
     flagging.type = "uri-flag";
@@ -120,7 +136,7 @@ export function checkPermission(
     Object.keys(features).forEach((key) => {
       if (permission === `hub:feature:${key}`) {
         flagging.hasFlag = true;
-        flagging.value = getProp(features, key);
+        flagging.value = getProp(features, key) as boolean;
         flagging.type = "feature";
       }
     });
@@ -211,11 +227,11 @@ export function checkPermission(
 
   // Entity policies are treated as "grants" so we only need to pass one
   if (entity) {
-    const entityPolicies: IEntityPermissionPolicy[] = getWithDefault(
+    const entityPolicies = getWithDefault(
       entity,
       "permissions",
       []
-    );
+    ) as unknown as IEntityPermissionPolicy[];
 
     const entityPermissionPolicies = entityPolicies.filter(
       (e) => e.permission === permission
