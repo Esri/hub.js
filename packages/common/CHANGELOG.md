@@ -1,3 +1,10 @@
+# @esri/hub-common [17.15.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.14.0...@esri/hub-common@17.15.0) (2025-05-27)
+
+
+### Features
+
+* **hub-common:** swap group settings ui schema to use a tile select instead of a radio group ([#1779](https://github.com/Esri/hub.js/issues/1779)) ([189793b](https://github.com/Esri/hub.js/commit/189793bec7501ab5c6dc3f3b4c4b76484494d351))
+
 # @esri/hub-common [17.14.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.13.2...@esri/hub-common@17.14.0) (2025-05-24)
 
 
