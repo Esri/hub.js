@@ -262,7 +262,7 @@ const featureFlags: IFeatureFlags = {
   "hub:site:create": false,
 };
 
-describe("ArcGISContext:", () => {
+describe("ArcGISContextManager:", () => {
   describe("AGO:", () => {
     it("verify props when passed nothing", async () => {
       const t = new Date().getTime();
@@ -576,8 +576,8 @@ describe("ArcGISContext:", () => {
         "getUserResource"
       ).and.callFake(() => {
         return Promise.resolve({
-          schemaVersion: 1,
-          preview: {
+          schemaVersion: 1.1,
+          features: {
             workspace: true,
           },
         });
@@ -606,15 +606,15 @@ describe("ArcGISContext:", () => {
       // verify userHubSettings
       expect(fetchSettingsSpy).toHaveBeenCalled();
       expect(mgr.context.userHubSettings).toEqual({
-        schemaVersion: 1,
-        preview: {
+        schemaVersion: 1.1,
+        features: {
           workspace: true,
         },
       });
 
       expect(mgr.context.featureFlags["hub:feature:workspace"]).toBe(true);
     });
-    it("verify flags not set if preview false when passed session", async () => {
+    it("verify flags not set if feature false when passed session", async () => {
       const t = new Date().getTime();
       spyOn(portalModule, "getSelf").and.callFake(() => {
         return Promise.resolve(cloneObject(onlinePortalSelfWithLimitsResponse));
@@ -631,7 +631,7 @@ describe("ArcGISContext:", () => {
       ).and.callFake(() => {
         return Promise.resolve({
           schemaVersion: 1,
-          preview: {
+          features: {
             workspace: false,
           },
         });
@@ -660,15 +660,13 @@ describe("ArcGISContext:", () => {
       // verify userHubSettings
       expect(fetchSettingsSpy).toHaveBeenCalled();
       expect(mgr.context.userHubSettings).toEqual({
-        schemaVersion: 1,
-        preview: {
+        schemaVersion: 1.1,
+        features: {
           workspace: false,
         },
       });
 
-      expect(
-        mgr.context.featureFlags["hub:feature:workspace"]
-      ).not.toBeDefined();
+      expect(mgr.context.featureFlags["hub:feature:workspace"]).toBeFalsy();
     });
     it("verify props when passed session, portalSelf, User, and serviceStatus", async () => {
       const selfSpy = spyOn(portalModule, "getSelf").and.callFake(() => {

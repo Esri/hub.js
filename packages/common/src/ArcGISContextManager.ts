@@ -162,6 +162,10 @@ export class ArcGISContextManager {
     if (opts.resourceTokens) {
       this._userResourceTokens = cloneObject(opts.resourceTokens);
     }
+
+    if (opts.userHubSettings) {
+      this._userHubSettings = cloneObject(opts.userHubSettings);
+    }
   }
 
   /**
@@ -449,16 +453,13 @@ export class ArcGISContextManager {
         this._portalUrl,
         hubAppToken.token
       );
-      // Check for preview settings and walk the into feature flags
-      Object.keys(getWithDefault(this._userHubSettings, "preview", {})).forEach(
-        (key) => {
-          // only set the flag if it's true, otherwise we can override
-          // feature flag query params
-          if (getProp(this._userHubSettings, `preview.${key}`)) {
-            this._featureFlags[`hub:feature:${key}`] = true;
-          }
-        }
-      );
+      // Check for feature settings and walk the into feature flags
+      Object.keys(
+        getWithDefault(this._userHubSettings, "features", {})
+      ).forEach((key) => {
+        const val = getProp(this._userHubSettings, `features.${key}`);
+        this._featureFlags[`hub:feature:${key}`] = val;
+      });
     }
 
     Logger.debug(`ArcGISContextManager-${this.id}: updating context`);
