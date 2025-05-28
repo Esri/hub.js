@@ -12,7 +12,6 @@ Permissions are defined by `IPermissionPolicy` objects, which are considered pla
 
 For an overview of how permissons work, see the [Access Control Guide](../access-control)
 
-
 ### Permission Policy Properties
 
 **Permission**: Permission Identifier. e.g. `hub:projects:create`
@@ -29,7 +28,7 @@ For an overview of how permissons work, see the [Access Control Guide](../access
 
 **entityEdit**: Does this policy require that the user be able to edit the entity?
 
-**licenses**: What Hub Licenses are required? Only specify this if the permission is limited to a subset of licenses. 
+**licenses**: What Hub Licenses are required? Only specify this if the permission is limited to a subset of licenses.
 
 **availability**: `alpha`, `beta` or `general` availability. Can be overridden by passing `?pe=permission:to:enable` in uri
 
@@ -40,7 +39,6 @@ For an overview of how permissons work, see the [Access Control Guide](../access
 **entityConfigurable**: can an entity enable/disable this?
 
 Please see the [`IPermissionPolicy` documentation](/hub.js/api/common/IPermissionPolicy/) for list of all available properties and theur detailed definitions.
-
 
 #### Example Annotated Policy
 
@@ -67,7 +65,7 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
     // this permission controls access to the domain editing UX
     permission: "hub:site:edit:domain",
     // by default, it's the same as hub:site:edit
-    // but by having a separate permission, the site can 
+    // but by having a separate permission, the site can
     // add more rules... see the next section
     dependencies: ["hub:site:edit"],
     // we also stipulate that it depends on the domains service
@@ -104,9 +102,9 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
     environments: ["qaext"],
     // this allows a site entity to turn this off
     // see Entity Feature Flags below
-    entityConfigurable: true
+    entityConfigurable: true,
   },
-]
+];
 ```
 
 ### Entity Permission Policies
@@ -118,34 +116,33 @@ site.permissions = [
   {
     permission: "hub:site:edit:domain",
     collaborationType: "user",
-    collaborationId: "jsmith"
-  }
-]
+    collaborationId: "jsmith",
+  },
+];
 ```
 
-Entity Permission Policies are more limited than the full `IPermissionPolicy`, but they can cover a wide range of collaboration scenarios 
+Entity Permission Policies are more limited than the full `IPermissionPolicy`, but they can cover a wide range of collaboration scenarios
 
-  - is the current user a member of a specified group?
-  - is the current user a member of a specified org?
-  - is the current user specifically granted access by name? (as shown above)
+- is the current user a member of a specified group?
+- is the current user a member of a specified org?
+- is the current user specifically granted access by name? (as shown above)
 
 Entities can define many policies for the same permission, and only one of those needs to pass.
 
 ```js
-
 // In this example jsmith or dvader will be granted access to hub:site:edit:domain
 site.permissions = [
   {
     permission: "hub:site:edit:domain",
     collaborationType: "user",
-    collaborationId: "jsmith"
+    collaborationId: "jsmith",
   },
   {
     permission: "hub:site:edit:domain",
     collaborationType: "user",
-    collaborationId: "dvader"
-  }
-]
+    collaborationId: "dvader",
+  },
+];
 ```
 
 ### Entity Features
@@ -154,14 +151,14 @@ Individual entities can disable "features" (which are represented by a permissio
 
 ```js
 site.features = {
-  // although the general business rules in the example above 
+  // although the general business rules in the example above
   // allow sites to have the chat "feature",
   // by adding an entry for that permission, we can turn it off
-  "hub:site:workspace:chat": false
+  "hub:site:workspace:chat": false,
   // NOTE: these values are only read if the permission policy specifically
   // allows the permission to be "configured" by the entity
   // by specifying entityConfigurable:true
-}
+};
 ```
 
 ### System Feature Flags
@@ -172,7 +169,7 @@ System Feature Flags will override any Entity Feature flags, as well as the `ava
 
 These are typically used to demonstrate upcoming features in customer Production orgs, despite the feature being gated to `qaext`.
 
-Feature Flags are reset when the user formally signs out of the running application. 
+Feature Flags are reset when the user formally signs out of the running application.
 
 ### System Service Flags
 
@@ -180,7 +177,72 @@ As noted, Permission policies can list the services they depend upon (see the `h
 
 Similar to System Feature Flags, these are passed into `ArcGISContextManager.create(...)` as part of the options, and override the live status information.
 
-Service Flags are reset when the user formally signs out of the running application. 
+Service Flags are reset when the user formally signs out of the running application.
+
+### Feature Gating & User Opt-in/out
+
+During development, features are often gated—accessible only when a specific URI parameter is present or when the app runs in certain environments or availability modes (e.g., "alpha"). As release approaches, you may want to let users opt in to preview features. After general release, you may allow users to opt out for a limited time.
+
+#### Defining Gating and Feature Permissions
+
+Start by defining both "gating" and "feature" permissions:
+
+```js
+{
+  // Gating permission: cannot be overridden by user settings
+  permission: "hub:gating:workspace:released",
+  availability: ["alpha"],
+  environments: ["devext", "qaext", "production"],
+},
+{
+  // Feature permission: can be opted in or out by the user
+  permission: "hub:feature:workspace",
+  dependencies: ["hub:gating:workspace:released"],
+},
+```
+
+#### User Opt-in/Opt-out
+
+When users can opt in, provide a UI that updates the `IUserHubSettings.features` object. Initially, users are opted out by default:
+
+```json
+{
+  "features": {
+    "workspace": false
+  }
+}
+```
+
+To release the feature to all users, remove conditions from the gating permission:
+
+```js
+{
+  permission: "hub:gating:workspace:released",
+},
+{
+  permission: "hub:feature:workspace",
+  dependencies: ["hub:gating:workspace:released"],
+},
+```
+
+Update the `getDefaultUserHubSettings(...)` function so the feature is opted in by default:
+
+```js
+{
+  schemaVersion: 1.1,
+  username,
+  updated: new Date().getTime(),
+  features: {
+    workspace: true,
+  },
+}
+```
+
+Update the UI to reflect the feature’s general availability. The boolean value should remain consistent: `true` means the user has the feature, `false` means they do not.
+
+#### Ending the Opt-out Period
+
+When the opt-out period ends, apply a schema migration to remove the feature property from `IUserHubSettings.features`. This prevents users from opting out, even manually, and allows you to remove legacy code.
 
 ### Checking Permission Access
 
@@ -188,20 +250,21 @@ Permissions can be checked directly on an Entity instance via the `instance.chec
 
 ```jsx
 // Check individual permission
+
 checkPermission("hub:events:create", entity, context);
+
 //=> {permission: "hub:events:create", access: false, response: "not-group-member", checks: [{"hub:events:create", value: "group:00c", response:"not-group-member"}]}
 // same function will be exposed on the class instances
+
 site.checkPermission("hub:pages:create");
 //=> {permission: "hub:pages:create", access: true, response: "group-member", checks: [{"hub:pages:create", value: "group:00c", response:"group-member"}]}
 ```
 
-If the check does not grant access, the entire check is logged to the console.
-
 Both return an `IPermissionAccessResponse` . The most important property is `.access` which indicates if the current user has access to the capability. The other properties are for debugging and observability into why the system is returning the `.access` value, and can be used to display different messages to the user.
 
-For example, the `.result` property will be `granted` if access is allowed, but if access is denied, it will be a more informative value. 
+For example, the `.result` property will be `granted` if access is allowed, but if access is denied, it will be a more informative value.
 
-The table below lists all the values, but likely the two most important are:
+The table below lists all the values, but some of most important are:
 
 **not-licensed-available** which means the feature is available, but user lacks a license. This is an opportunity to show an upgrade call-to-action
 
@@ -211,49 +274,46 @@ The table below lists all the values, but likely the two most important are:
 
 Most of the rest of the values are specific to some policy check failing.
 
-| `result` Value | Description |
-| --- | --- | 
-| "granted" | user has access |
-  | "disabled-by-feature-flag" | access denied due to a flag |
-  | "disabled-by-entity-flag" | access denied due to a flag |
-  | "org-member" | user is member of granted org |
-  | "not-org-member" | user is not member of granted org |
-  | "group-member" | user is member of granted org |
-  | "not-group-member" | user is not member of granted group |
-  | "not-group-admin" | user is not admin member of granted group |
-  | "is-user" | user is granted directly |
-  | "not-owner" | user is not the owner |
-  | "not-licensed" | user is not licensed |
-  | "not-licensed-available" | user is not licensed, but could be |
-  | "not-available" | permission not available in this context |
-  | "not-granted" | user does not have permission |
-  | "no-edit-access" | user does not have edit access |
-  | "edit-access" | user has edit access but policy is for non-editors |
-  | "invalid-permission" | permission is invalid |
-  | "invalid-capability" | capability is invalid |
-  | "privilege-required" | user does not have required privilege |
-  | "service-offline" | service is offline |
-  | "service-maintenance" | service is in maintenance mode |
-  | "service-not-available" | service is not available in this environment |
-  | "entity-required" | entity is required but not passed |
-  | "not-authenticated" | user is not authenticated |
-  | "not-alpha-org" | user is not in an alpha org |
-  | "not-beta-org" | user is not in a beta org |
-  | "property-missing" | assertion requires property but is missing from entity |
-  | "property-not-array" | assertion requires array property |
-  | "array-contains-invalid-value" | assertion specifies a value not be included |
-  | "array-missing-required-value" | assertion specifies a value not be included |
-  | "property-mismatch" | assertion values do not match |
-  | "user-not-group-member" | user is not a member of a specified group |
-  | "user-not-group-manager" | user is not a manager of a specified group |
-  | "user-not-group-owner" | user is not a owner of a specified group |
-  | "assertion-property-not-found" | assertion property was not found |
-  | "assertion-failed" | assertion condition was not met |
-  | "assertion-requires-numeric-values" | assertion requires numeric values |
-  | "feature-disabled" | feature has been disabled for the entity |
-  | "feature-enabled" | feature has been enabled for the entity |
-  | "not-in-environment" | user is not in an allowed environment |
-  | "no-policy-exists"; | policy is not defined for this permission |
-
-
-
+| `result` Value                      | Description                                            |
+| ----------------------------------- | ------------------------------------------------------ |
+| "granted"                           | user has access                                        |
+| "disabled-by-feature-flag"          | access denied due to a flag                            |
+| "disabled-by-entity-flag"           | access denied due to a flag                            |
+| "org-member"                        | user is member of granted org                          |
+| "not-org-member"                    | user is not member of granted org                      |
+| "group-member"                      | user is member of granted org                          |
+| "not-group-member"                  | user is not member of granted group                    |
+| "not-group-admin"                   | user is not admin member of granted group              |
+| "is-user"                           | user is granted directly                               |
+| "not-owner"                         | user is not the owner                                  |
+| "not-licensed"                      | user is not licensed                                   |
+| "not-licensed-available"            | user is not licensed, but could be                     |
+| "not-available"                     | permission not available in this context               |
+| "not-granted"                       | user does not have permission                          |
+| "no-edit-access"                    | user does not have edit access                         |
+| "edit-access"                       | user has edit access but policy is for non-editors     |
+| "invalid-permission"                | permission is invalid                                  |
+| "invalid-capability"                | capability is invalid                                  |
+| "privilege-required"                | user does not have required privilege                  |
+| "service-offline"                   | service is offline                                     |
+| "service-maintenance"               | service is in maintenance mode                         |
+| "service-not-available"             | service is not available in this environment           |
+| "entity-required"                   | entity is required but not passed                      |
+| "not-authenticated"                 | user is not authenticated                              |
+| "not-alpha-org"                     | user is not in an alpha org                            |
+| "not-beta-org"                      | user is not in a beta org                              |
+| "property-missing"                  | assertion requires property but is missing from entity |
+| "property-not-array"                | assertion requires array property                      |
+| "array-contains-invalid-value"      | assertion specifies a value not be included            |
+| "array-missing-required-value"      | assertion specifies a value not be included            |
+| "property-mismatch"                 | assertion values do not match                          |
+| "user-not-group-member"             | user is not a member of a specified group              |
+| "user-not-group-manager"            | user is not a manager of a specified group             |
+| "user-not-group-owner"              | user is not a owner of a specified group               |
+| "assertion-property-not-found"      | assertion property was not found                       |
+| "assertion-failed"                  | assertion condition was not met                        |
+| "assertion-requires-numeric-values" | assertion requires numeric values                      |
+| "feature-disabled"                  | feature has been disabled for the entity               |
+| "feature-enabled"                   | feature has been enabled for the entity                |
+| "not-in-environment"                | user is not in an allowed environment                  |
+| "no-policy-exists";                 | policy is not defined for this permission              |
