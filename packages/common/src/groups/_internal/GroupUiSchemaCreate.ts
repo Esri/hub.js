@@ -173,10 +173,11 @@ export const buildUiSchema = async (
               helperText: {
                 labelKey: `${i18nScope}.fields.isOpenData.helperText`,
               },
-              ...(!checkPermission(
+              ...((!checkPermission(
                 "platform:opendata:user:designateGroup",
                 context
-              ).access && {
+              ).access ||
+                options.access !== "public") && {
                 tooltip: {
                   labelKey: `${i18nScope}.fields.isOpenData.tooltip`,
                 },
