@@ -28,6 +28,12 @@ export interface IUserHubSettings {
     workspace: boolean;
   };
   /**
+   * Allow features to be opted in or out of
+   */
+  features?: {
+    workspace: boolean;
+  };
+  /**
    * Optional history of sites/content the user has visited
    */
   history?: IHubHistory;
