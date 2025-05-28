@@ -42,11 +42,15 @@ export async function fetchAndMigrateUserHubSettings(
  * @returns
  */
 function getDefaultUserHubSettings(username: string): IUserHubSettings {
+  // TODO: We may need to consider how we swap the features.workspace flag
+  // based on the release status of the workspace feature.
+  // For now, since we are in the opt-in phase, we will set it to false.
+  // If the workspace feature is released, this should be set to true.
   return {
-    schemaVersion: 1,
+    schemaVersion: 1.1,
     username,
     updated: new Date().getTime(),
-    preview: {
+    features: {
       workspace: false,
     },
   };
