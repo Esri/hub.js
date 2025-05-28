@@ -718,14 +718,10 @@ export class ArcGISContext implements IArcGISContext {
     await updateUserHubSettings(settings, this);
     // update the context
     this._userHubSettings = settings;
-    // update the feature flags
-    Object.keys(getWithDefault(settings, "preview", {})).forEach((key) => {
-      // only set the flag if it's true, otherwise delete the flag so we revert to default behavior
-      if (getProp(settings, `preview.${key}`)) {
-        this._featureFlags[`hub:feature:${key}`] = true;
-      } else {
-        delete this._featureFlags[`hub:feature:${key}`];
-      }
+    // iterate the props in the features object
+    Object.keys(getWithDefault(settings, "features", {})).forEach((key) => {
+      const val = getProp(settings, `features.${key}`);
+      this._featureFlags[`hub:feature:${key}`] = val;
     });
   }
 }
