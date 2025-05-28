@@ -105,25 +105,46 @@ export function checkPermission(
   if (context.featureFlags?.hasOwnProperty(permission)) {
     flagging.hasFlag = true;
     flagging.value = context.featureFlags[permission];
-    flagging.type = "feature";
+    flagging.type = "uri-flag";
   }
 
   // We also check the context.userHubSettings.preview array
   // which can also be used to enable features.
-  if (context.userHubSettings?.preview) {
-    const preview = getWithDefault(
+  // DEPRECATED: REMOVE WITH PR THAT ADDS THE FEATURES OBJECT
+  // if (context.userHubSettings?.preview) {
+  //   const preview = getWithDefault(
+  //     context,
+  //     "userHubSettings.preview",
+  //     {}
+  //   ) as IUserHubSettings["preview"];
+  //   Object.keys(preview).forEach((key) => {
+  //     // only set the flag if it's true, otherwise delete the flag so we revert to default behavior
+  //     if (
+  //       permission === `hub:feature:${key}` &&
+  //       getProp(preview, key) === true
+  //     ) {
+  //       flagging.hasFlag = true;
+  //       flagging.value = true;
+  //       flagging.type = "feature";
+  //     }
+  //   });
+  // }
+
+  // Preview was too limiting as it could only be true, so we
+  // added a features object to userHubSettings that can be
+  // used to enable/disable features
+  // This is a more general purpose flagging system that allows
+  // for more complex feature flags
+  if (context.userHubSettings?.features) {
+    const features = getWithDefault(
       context,
-      "userHubSettings.preview",
+      "userHubSettings.features",
       {}
-    ) as IUserHubSettings["preview"];
-    Object.keys(preview).forEach((key) => {
-      // only set the flag if it's true, otherwise delete the flag so we revert to default behavior
-      if (
-        permission === `hub:feature:${key}` &&
-        getProp(preview, key) === true
-      ) {
+    ) as IUserHubSettings["features"];
+    Object.keys(features).forEach((key) => {
+      if (permission === `hub:feature:${key}`) {
         flagging.hasFlag = true;
-        flagging.value = true;
+        flagging.value = getProp(features, key);
         flagging.type = "feature";
       }
     });
@@ -152,7 +173,6 @@ export function checkPermission(
 
   // required checks - things feature flags can not override
   const requiredChecks: PermissionCheckFunction[] = [
-    checkParents,
     checkServiceStatus,
     checkAuthentication,
     checkPrivileges,
@@ -172,11 +192,17 @@ export function checkPermission(
   let checkFns: PermissionCheckFunction[] = [];
   // If there is a "feature" flag, set to true, for the policy
   // we just run the required checks
-  if (flagging.hasFlag && flagging.value && flagging.type === "feature") {
-    checkFns = [...requiredChecks];
+  if (flagging.hasFlag && flagging.value) {
+    if (flagging.type === "feature") {
+      // feature flags are very limited so they can skip the parents check
+      checkFns = [...requiredChecks];
+    } else {
+      // uri-flag or entity flag must run the parents check
+      checkFns = [checkParents, ...requiredChecks];
+    }
   } else {
     // otherwise we run all the checks
-    checkFns = [...overridableChecks, ...requiredChecks];
+    checkFns = [...overridableChecks, checkParents, ...requiredChecks];
   }
 
   // execute the checks
