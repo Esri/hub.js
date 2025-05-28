@@ -108,33 +108,9 @@ export function checkPermission(
     flagging.type = "uri-flag";
   }
 
-  // We also check the context.userHubSettings.preview array
-  // which can also be used to enable features.
-  // DEPRECATED: REMOVE WITH PR THAT ADDS THE FEATURES OBJECT
-  // if (context.userHubSettings?.preview) {
-  //   const preview = getWithDefault(
-  //     context,
-  //     "userHubSettings.preview",
-  //     {}
-  //   ) as IUserHubSettings["preview"];
-  //   Object.keys(preview).forEach((key) => {
-  //     // only set the flag if it's true, otherwise delete the flag so we revert to default behavior
-  //     if (
-  //       permission === `hub:feature:${key}` &&
-  //       getProp(preview, key) === true
-  //     ) {
-  //       flagging.hasFlag = true;
-  //       flagging.value = true;
-  //       flagging.type = "feature";
-  //     }
-  //   });
-  // }
-
   // Preview was too limiting as it could only be true, so we
   // added a features object to userHubSettings that can be
-  // used to enable/disable features
-  // This is a more general purpose flagging system that allows
-  // for more complex feature flags
+  // used to opt-in/out of features
   if (context.userHubSettings?.features) {
     const features = getWithDefault(
       context,
