@@ -21,8 +21,23 @@ import * as IsPermissionModule from "../../src/permissions/types/Permission";
 const TestPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:feature:workspace",
+    dependencies: ["hub:gating:workspace:released"],
+  },
+  {
+    // Feature that gates the workspace release
+    // when removed, the workspace feature will be available to all users
+    permission: "hub:gating:workspace:released",
     availability: ["alpha"],
-    environments: ["devext", "qaext"],
+    environments: ["devext", "qaext", "production"],
+  },
+  {
+    // Present to verify that the gating is opened when
+    // the conditions are removed
+    permission: "hub:gating:subscriptions:released",
+  },
+  {
+    permission: "hub:feature:subscriptions",
+    dependencies: ["hub:gating:subscriptions:released"],
   },
   {
     permission: "hub:project",
@@ -120,6 +135,8 @@ function isPermission(permission: Permission): boolean {
 
 describe("checkPermission:", () => {
   let basicCtxMgr: ArcGISContextManager;
+  let gatingOptOutCtxMgr: ArcGISContextManager;
+  let gatingOptInCtxMgr: ArcGISContextManager;
   let premiumCtxMgr: ArcGISContextManager;
   let consoleInfoSpy: jasmine.Spy;
   let consoleDirSpy: jasmine.Spy;
@@ -158,6 +175,64 @@ describe("checkPermission:", () => {
         "hub:project:workspace:details": true,
       },
     });
+    gatingOptOutCtxMgr = await ArcGISContextManager.create({
+      authentication: MOCK_AUTH,
+      currentUser: {
+        username: "casey",
+        privileges: ["portal:user:createItem"],
+      } as unknown as IUser,
+      portal: {
+        name: "DC R&D Center",
+        id: "BRXFAKE",
+        urlKey: "fake-org",
+        portalProperties: {
+          hub: {
+            enabled: false,
+          },
+        },
+      } as unknown as IPortal,
+      portalUrl: "https://org.maps.arcgis.com",
+      featureFlags: {},
+      userHubSettings: {
+        features: {
+          // this feature depends on a gating policy, which has no conditions, meaning it's released
+          // but setting this to false will opt the user out of the feature. In the future, to remove
+          // this opt-out, we will apply a migration that will remove this setting when we
+          // remove the ability to opt out
+          subscriptions: false,
+        } as unknown as IUserHubSettings["features"],
+        schemaVersion: 1.1,
+        username: "casey",
+      },
+    });
+    gatingOptInCtxMgr = await ArcGISContextManager.create({
+      authentication: MOCK_AUTH,
+      currentUser: {
+        username: "casey",
+        privileges: ["portal:user:createItem"],
+      } as unknown as IUser,
+      portal: {
+        name: "DC R&D Center",
+        id: "BRXFAKE",
+        urlKey: "fake-org",
+        portalProperties: {
+          hub: {
+            enabled: false,
+          },
+        },
+      } as unknown as IPortal,
+      portalUrl: "https://org.maps.arcgis.com",
+      featureFlags: {},
+      userHubSettings: {
+        features: {
+          // this feature depends on a gating policy, which has conditions, meaning it's not released
+          // but this user has opted in to the feature, which overrides the gating
+          workspace: true,
+        } as unknown as IUserHubSettings["features"],
+        schemaVersion: 1.1,
+        username: "casey",
+      },
+    });
     premiumCtxMgr = await ArcGISContextManager.create({
       authentication: MOCK_AUTH,
       currentUser: {
@@ -184,6 +259,13 @@ describe("checkPermission:", () => {
         "hub:project:content": true,
         // enable hub:project:workspace:hiearchy by enabling hub:feature:workspace
         "hub:feature:workspace": true,
+      },
+      userHubSettings: {
+        features: {
+          workspace: true,
+        } as unknown as IUserHubSettings["features"],
+        schemaVersion: 1.1,
+        username: "casey",
       },
     });
   });
@@ -220,12 +302,40 @@ describe("checkPermission:", () => {
     expect(chk.checks[0].name).toBe("service portal online");
   });
 
-  it("runs system level permission checks fail", () => {
+  it("runs system level permission checks that fail", () => {
     const chk = checkPermission("hub:project:create", basicCtxMgr.context);
     expect(chk.access).toBe(false);
     expect(chk.response).toBe("not-licensed");
     expect(chk.checks.length).toBe(4);
   });
+
+  it("gating returns true if no conditions are specified", () => {
+    const chk = checkPermission(
+      "hub:gating:subscriptions:released",
+      basicCtxMgr.context
+    );
+    expect(chk.access).toBe(true);
+    const chk2 = checkPermission(
+      "hub:feature:subscriptions",
+      basicCtxMgr.context
+    );
+    expect(chk.access).toBe(true);
+  });
+  it("user can opt out ungated feature", () => {
+    const chk = checkPermission(
+      "hub:feature:subscriptions",
+      gatingOptOutCtxMgr.context
+    );
+    expect(chk.access).toBe(false);
+  });
+  it("user can opt into gated feature", () => {
+    const chk = checkPermission(
+      "hub:feature:workspace",
+      gatingOptInCtxMgr.context
+    );
+    expect(chk.access).toBe(true);
+  });
+
   describe("entity permissions: ", () => {
     it("runs entity level permission checks passing", () => {
       const entity = {
@@ -345,8 +455,8 @@ describe("checkPermission:", () => {
         "hub:project:workspace:details",
         basicCtxMgr.context
       );
-
       expect(chk.access).toBe(false);
+      expect(chk.checks.length).toBe(4);
     });
     it("enabled feature flag does not override license with entity", () => {
       const entity = {
@@ -373,7 +483,6 @@ describe("checkPermission:", () => {
         "hub:project:workspace:hierarchy2",
         premiumCtxMgr.context
       );
-
       expect(chk.access).toBe(true);
     });
     it("flags for dependencies do not override child conditions", () => {
@@ -409,10 +518,10 @@ describe("checkPermission:", () => {
       const localCtx = cloneObject(premiumCtxMgr.context);
       localCtx.userHubSettings = {
         schemaVersion: 1,
-        preview: {
+        features: {
           workspace: true,
           otherProp: true,
-        } as unknown as IUserHubSettings["preview"],
+        } as unknown as IUserHubSettings["features"],
       };
       const chk = checkPermission("hub:feature:workspace", localCtx);
 
