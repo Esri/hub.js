@@ -70,11 +70,24 @@ import { UserPermissionPolicies } from "../users/_internal/UserBusinessRules";
 /**
  * Highlevel Permission definitions for the Hub System as a whole
  * Typically other permissions depend on these so a whole set of features
- * can be enabled / disabled by changing a single permission
+ * can be enabled / disabled by changing a single permission.
  * MAKE SURE to add the permission string to the SystemPermissions array
  * in Permissions.ts
  */
 const SystemPermissionPolicies: IPermissionPolicy[] = [
+  // GATING PERMISSIONS
+  // these are used for the final release of a Hub Feature
+  // and should be removed when the feature is released
+  {
+    // Feature that gates the workspace release
+    // when removed, the workspace feature will be available to all users
+    permission: "hub:gating:workspace:released",
+    availability: ["alpha"],
+    environments: ["devext", "qaext", "production"],
+  },
+  // FEATURE PERMISSIONS
+  // these are used to enable/disable features in the Hub
+  // and are expected to be long-lived
   {
     permission: "hub:feature:ai-assistant",
     availability: ["alpha"],
@@ -92,10 +105,14 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     environments: ["devext"],
   },
   {
+    // Feature we can override to opt in/out of workspace
     permission: "hub:feature:workspace",
-    availability: ["alpha"],
-    environments: ["devext", "qaext", "production"],
+    // To release the workspace feature, remove this dependency
+    dependencies: ["hub:gating:workspace:released"],
+    // availability: ["alpha"],
+    // environments: ["devext", "qaext", "production"],
   },
+
   {
     // Enables access to the user preferences section of the user profile
     // This will likely be removed when we swap the user profile to use workspace
