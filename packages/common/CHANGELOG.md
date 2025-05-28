@@ -1,3 +1,10 @@
+# @esri/hub-common [17.16.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.15.0...@esri/hub-common@17.16.0) (2025-05-27)
+
+
+### Features
+
+* **hub-common:** hub assistant data model ([#1913](https://github.com/Esri/hub.js/issues/1913)) ([4566e7f](https://github.com/Esri/hub.js/commit/4566e7f30a7ac938fbc24a72afb2ad6e211a9816))
+
 # @esri/hub-common [17.15.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.14.0...@esri/hub-common@17.15.0) (2025-05-27)
 
 
