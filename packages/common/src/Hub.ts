@@ -1,4 +1,5 @@
 import { ArcGISContextManager } from "./ArcGISContextManager";
+import { IArcGISContext } from "./types";
 import { IArcGISContextManagerOptions } from "./types/IArcGISContextManagerOptions";
 
 /**
@@ -71,7 +72,7 @@ export class Hub {
    * @readonly
    * @memberof Hub
    */
-  get context() {
+  get context(): IArcGISContext {
     return this._contextManager.context;
   }
 

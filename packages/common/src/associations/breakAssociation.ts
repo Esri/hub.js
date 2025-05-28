@@ -45,7 +45,10 @@ export const breakAssociation = async (
   const isParent = associationHierarchy.children.includes(associationType);
 
   if (isParent) {
-    const associationGroupId = getProp(entity, "associations.groupId");
+    const associationGroupId = getProp(
+      entity,
+      "associations.groupId"
+    ) as string;
     const { owner } = await fetchHubEntity(associationType, id, context);
     try {
       await unshareItemWithGroup({
@@ -54,7 +57,8 @@ export const breakAssociation = async (
         authentication: context.session,
         owner,
       });
-    } catch (error) {
+    } catch (err) {
+      const error = err as string;
       throw new Error(
         `breakAssociation: there was an error unsharing ${id} from ${associationGroupId}: ${error}`
       );

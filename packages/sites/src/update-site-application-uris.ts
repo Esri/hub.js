@@ -1,9 +1,4 @@
-import {
-  IModel,
-  IHubRequestOptions,
-  _getHttpAndHttpsUris,
-  includes,
-} from "@esri/hub-common";
+import { IModel, IHubRequestOptions, includes } from "@esri/hub-common";
 import {
   getDomainsForSite,
   IDomainEntry,

@@ -10,16 +10,17 @@ import { IAddOrInviteContext, IAddOrInviteResponse } from "../types";
  * @export
  * @return {IAddOrInviteResponse}
  */
-export async function handleNoUsers(
-  context?: IAddOrInviteContext,
-  userType?: "world" | "org" | "community" | "partnered",
-  shouldEmail?: boolean
+export function handleNoUsers(
+  _context?: IAddOrInviteContext,
+  _userType?: "world" | "org" | "community" | "partnered",
+  _shouldEmail?: boolean
 ): Promise<IAddOrInviteResponse> {
-  return {
+  const response: IAddOrInviteResponse = {
     notAdded: [],
     notEmailed: [],
     notInvited: [],
     users: [],
     errors: [],
   };
+  return Promise.resolve(response);
 }

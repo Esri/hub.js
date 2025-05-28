@@ -14,6 +14,7 @@ import {
   protectItem,
   shareItemWithGroup,
   ISharingResponse,
+  IGroup,
 } from "@esri/arcgis-rest-portal";
 
 /**
@@ -25,7 +26,7 @@ import {
  */
 export function createPage(
   model: IModelTemplate,
-  options: { shareTo?: any[]; assets?: IItemResource[] },
+  options: { shareTo?: Array<Record<string, any>>; assets?: IItemResource[] },
   hubRequestOptions: IHubRequestOptions
 ): Promise<IModel> {
   // ensure we got authentication
@@ -58,31 +59,35 @@ export function createPage(
         authentication: hubRequestOptions.authentication,
       });
     })
-    .then((protectReponse) => {
+    .then((_protectReponse) => {
       // share to any groups
       let sharingPromises: Array<Promise<ISharingResponse>> = [];
       if (Array.isArray(options.shareTo) && options.shareTo.length) {
         // map over the array sharing the item to all groups
-        sharingPromises = options.shareTo.map((groupInfo: any) => {
+        sharingPromises = options.shareTo.map((groupInfo: Partial<IGroup>) => {
+          const confirmItemControl: boolean =
+            (groupInfo.confirmItemControl as boolean) || false;
           return shareItemWithGroup({
             id: newPage.item.id,
             groupId: groupInfo.id,
             authentication: hubRequestOptions.authentication,
-            confirmItemControl: groupInfo.confirmItemControl || false,
+            confirmItemControl,
           });
         });
         newPage.item.access = "shared";
       }
       return Promise.all(sharingPromises);
     })
-    .then((response) => {
+    .then((_response) => {
       // link page to sites
-      const sites = getWithDefault(newPage, "data.values.sites", []);
+      const sites = getWithDefault(newPage, "data.values.sites", []) as Array<{
+        id: string;
+      }>;
       const requestOptions = {
         authentication: hubRequestOptions.authentication,
       };
       return Promise.all(
-        sites.map((entry: any) => {
+        sites.map((entry) => {
           const opts = Object.assign(
             {
               siteId: entry.id,
@@ -94,13 +99,14 @@ export function createPage(
         })
       );
     })
-    .then((siteLinkingResponse) => {
+    .then((_siteLinkingResponse) => {
       // upload resources
       const assets = getWithDefault(options, "assets", []) as IItemResource[];
       return uploadResourcesFromUrl(newPage, assets, hubRequestOptions);
     })
     .then(() => newPage)
     .catch((err) => {
-      throw Error(`createPage: Error creating page: ${err}`);
+      const e = err as string;
+      throw Error(`createPage: Error creating page: ${e}`);
     });
 }
