@@ -255,19 +255,19 @@ describe("ArcGISContext:", () => {
       const ctx = createMockContext();
       await ctx.updateUserHubSettings({
         schemaVersion: 1,
-        preview: {
+        features: {
           workspace: true,
         },
       } as unknown as IUserHubSettings);
       expect(uarSpy).toHaveBeenCalled();
-      expect(ctx.featureFlags["hub:feature:workspace"]).toBeDefined();
+      expect(ctx.featureFlags["hub:feature:workspace"]).toBeTruthy();
       await ctx.updateUserHubSettings({
         schemaVersion: 1,
-        preview: {
+        features: {
           workspace: false,
         },
       } as unknown as IUserHubSettings);
-      expect(ctx.featureFlags["hub:feature:workspace"]).not.toBeDefined();
+      expect(ctx.featureFlags["hub:feature:workspace"]).toBeFalsy();
     });
   });
 });
