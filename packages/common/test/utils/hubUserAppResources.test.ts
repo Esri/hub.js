@@ -53,6 +53,7 @@ describe("hubUserAppResources:", () => {
       expect(username).toBe("jsmith");
       expect(url).toBe(ctx.portalUrl);
       expect(token).toBe("FAKESITETOKEN");
+      expect(replace).toBe(false);
       await updateUserSiteSettings(settings, ctx, true);
       expect(spy.calls.argsFor(1)[4]).toEqual(true);
     });
@@ -78,10 +79,9 @@ describe("hubUserAppResources:", () => {
       });
       try {
         await updateUserSiteSettings(settings, ctx);
-      } catch (ex) {
-        expect((ex as any).message).toContain(
-          "user-app-resource token available"
-        );
+      } catch (err) {
+        const ex = err as Error;
+        expect(ex.message).toContain("user-app-resource token available");
       }
     });
   });
@@ -170,7 +170,7 @@ describe("hubUserAppResources:", () => {
       await updateUserHubSettings(settings, ctx);
       expect(spy).toHaveBeenCalled();
       // inspect the arts
-      const [resource, username, url, token, replace] = spy.calls.argsFor(0);
+      let [resource, username, url, token, replace] = spy.calls.argsFor(0);
       expect(replace).toBe(false);
       expect(resource.key).toBe(USER_HUB_SETTINGS_KEY);
       expect(resource.data.username).toBe("jsmith");
@@ -180,7 +180,8 @@ describe("hubUserAppResources:", () => {
       expect(url).toBe(ctx.portalUrl);
       expect(token).toBe("FAKEHUBTOKEN");
       await updateUserHubSettings(settings, ctx, true);
-      expect(spy.calls.argsFor(1)[4]).toEqual(true);
+      [resource, username, url, token, replace] = spy.calls.argsFor(1);
+      expect(replace).toEqual(true, "replace should be true");
     });
     it("throws if token not found for ", async () => {
       const settings: IUserSiteSettings = {
@@ -204,10 +205,9 @@ describe("hubUserAppResources:", () => {
       });
       try {
         await updateUserHubSettings(settings, ctx);
-      } catch (ex) {
-        expect((ex as any).message).toContain(
-          "user-app-resource token available"
-        );
+      } catch (err) {
+        const ex = err as Error;
+        expect(ex.message).toContain("user-app-resource token available");
       }
     });
   });

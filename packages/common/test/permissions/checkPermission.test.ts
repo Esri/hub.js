@@ -138,18 +138,13 @@ describe("checkPermission:", () => {
   let gatingOptOutCtxMgr: ArcGISContextManager;
   let gatingOptInCtxMgr: ArcGISContextManager;
   let premiumCtxMgr: ArcGISContextManager;
-  let consoleInfoSpy: jasmine.Spy;
-  let consoleDirSpy: jasmine.Spy;
+
   beforeEach(async () => {
-    // tslint:disable-next-line: no-empty
-    consoleInfoSpy = spyOn(console, "info").and.callFake(() => {}); // suppress console output
-    // tslint:disable-next-line: no-empty
-    consoleDirSpy = spyOn(console, "dir").and.callFake(() => {}); // suppress console output
     spyOn(GetPolicyModule, "getPermissionPolicy").and.callFake(
       getPermissionPolicy
     );
     spyOn(IsPermissionModule, "isPermission").and.callFake(isPermission);
-    // unauthdCtxMgr = await ArcGISContextManager.create();
+
     // When we pass in all this information, the context
     // manager will not try to fetch anything, so no need
     // to mock those calls
@@ -280,11 +275,6 @@ describe("checkPermission:", () => {
     expect(chk.access).toBe(false);
     expect(chk.response).toBe("invalid-permission");
     expect(chk.checks.length).toBe(0);
-    // expect(consoleDirSpy).toHaveBeenCalled();
-    // expect(consoleInfoSpy).toHaveBeenCalled();
-    // expect(consoleInfoSpy.calls.argsFor(0)[0]).toContain(
-    //   "checkPermission: YAMMER"
-    // );
   });
   it("fails for missing policy", () => {
     const chk = checkPermission("hub:missing:policy", basicCtxMgr.context);
@@ -319,7 +309,7 @@ describe("checkPermission:", () => {
       "hub:feature:subscriptions",
       basicCtxMgr.context
     );
-    expect(chk.access).toBe(true);
+    expect(chk2.access).toBe(true);
   });
   it("user can opt out ungated feature", () => {
     const chk = checkPermission(

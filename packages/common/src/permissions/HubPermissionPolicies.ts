@@ -80,10 +80,11 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
   // and should be removed when the feature is released
   {
     // Feature that gates the workspace release
-    // when removed, the workspace feature will be available to all users
+    // when all the other condition props are removed,
+    // the workspace feature will be available to all users
     permission: "hub:gating:workspace:released",
-    availability: ["alpha"],
-    environments: ["devext", "qaext", "production"],
+    availability: ["alpha"], // REMOVE THIS WHEN WORKSPACE IS RELEASED
+    environments: ["devext", "qaext", "production"], // REMOVE THIS WHEN WORKSPACE IS RELEASED
   },
   // FEATURE PERMISSIONS
   // these are used to enable/disable features in the Hub

@@ -25,12 +25,12 @@ export async function fetchAndMigrateUserHubSettings(
     getDefaultUserHubSettings(username)
   );
   // fetch the user's Hub Settings
-  const settings = await fsGetResource(
+  const settings = (await fsGetResource(
     username,
     USER_HUB_SETTINGS_KEY,
     portalUrl,
     token
-  );
+  )) as IUserHubSettings;
   // apply any migrations and return the result
   return applyHubSettingsMigrations(settings);
 }
@@ -42,10 +42,9 @@ export async function fetchAndMigrateUserHubSettings(
  * @returns
  */
 function getDefaultUserHubSettings(username: string): IUserHubSettings {
-  // TODO: We may need to consider how we swap the features.workspace flag
-  // based on the release status of the workspace feature.
-  // For now, since we are in the opt-in phase, we will set it to false.
-  // If the workspace feature is released, this should be set to true.
+  // This is current for schemaVersion 1.1 but can be updated as needed
+  // but it is run through migrations after being returned
+  // so it doesn't need to be the latest version
   return {
     schemaVersion: 1.1,
     username,

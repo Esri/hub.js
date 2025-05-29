@@ -331,13 +331,9 @@ export class ArcGISContextManager {
     // update the context
     this._userHubSettings = settings;
     // update the feature flags
-    Object.keys(getWithDefault(settings, "preview", {})).forEach((key) => {
-      // only set the flag if it's true, otherwise delete the flag so we revert to default behavior
-      if (getProp(settings, `preview.${key}`)) {
-        this._featureFlags[`hub:feature:${key}`] = true;
-      } else {
-        delete this._featureFlags[`hub:feature:${key}`];
-      }
+    Object.keys(getWithDefault(settings, "features", {})).forEach((key) => {
+      const value = getProp(settings, `features.${key}`) as boolean;
+      this._featureFlags[`hub:feature:${key}`] = value;
     });
 
     this._context = new ArcGISContext(this.contextOpts);
@@ -444,6 +440,10 @@ export class ArcGISContextManager {
     // if we are auth'd and have a hubforarcgis token,
     // fetch the users IUserHubSettings extract out the
     // preview properties and cross-walk to permissions
+    // ======================================
+    // NOTE: We don't call `fetchUserHubSettings` here because the "context"
+    // is not created yet, so we cannot pass it in to that function.
+    // ======================================
     const hubAppToken = this._userResourceTokens.find(
       (e) => e.app === "hubforarcgis"
     );
@@ -453,11 +453,15 @@ export class ArcGISContextManager {
         this._portalUrl,
         hubAppToken.token
       );
+
       // Check for feature settings and walk the into feature flags
       Object.keys(
         getWithDefault(this._userHubSettings, "features", {})
       ).forEach((key) => {
-        const val = getProp(this._userHubSettings, `features.${key}`);
+        const val = getProp(
+          this._userHubSettings,
+          `features.${key}`
+        ) as boolean;
         this._featureFlags[`hub:feature:${key}`] = val;
       });
     }
