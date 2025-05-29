@@ -32,6 +32,7 @@ module.exports = {
       files: ["**/*.test.ts"], // Files for tests
       rules: {
         // Rules specific for test files
+        "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/require-await": "off", // Disable require-await for tests
         "no-unused-vars": "off", // Disable no-unused-vars
         "no-console": "off", // Disable no-console
