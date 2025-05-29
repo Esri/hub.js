@@ -18,14 +18,12 @@ export interface IUserHubSettings {
      */
     dismissed?: string[];
   };
+
   /**
-   * Features that are enabled for the user in preview mode
+   * Allow features to be opted in or out of
    */
-  preview?: {
-    /**
-     * Enable the workspace feature
-     */
-    workspace: boolean;
+  features?: {
+    workspace?: boolean;
   };
   /**
    * Optional history of sites/content the user has visited

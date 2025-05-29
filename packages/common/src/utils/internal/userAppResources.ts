@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 // These Types and Functions can land in rest-js
 // a friendly name for the scope of the resource
 // the API deals with clientIds, which are
@@ -121,7 +122,7 @@ export async function setUserResource(
   username: string,
   portalUrl: string,
   token: string,
-  replace: boolean = false
+  replace = false
 ): Promise<void> {
   // Ensure we are below 5MB max size
   if (getObjectSize(resource.data).megabytes > 4.95) {
@@ -133,6 +134,7 @@ export async function setUserResource(
   let payload = resource.data;
   if (!replace) {
     const fsGetResource = failSafe(getUserResource, {});
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const currentResource = await fsGetResource(
       username,
       resource.key,
@@ -140,6 +142,7 @@ export async function setUserResource(
       token
     );
     // extend current object witn updated object
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     payload = { ...currentResource, ...resource.data };
   }
   const ro: IRequestOptions = {
@@ -229,7 +232,7 @@ export function listUserResources(
   username: string,
   portalUrl: string,
   token: string,
-  returnAllApps: boolean = false
+  returnAllApps = false
 ): Promise<IUserResourceListResponse> {
   const ro: IRequestOptions = {
     portal: portalUrl,
