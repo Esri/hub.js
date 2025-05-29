@@ -28,7 +28,8 @@ describe("portalRequestDatasetExport", () => {
       });
       expect(result).toBeUndefined();
     } catch (err) {
-      expect(err.message).toEqual("5xx");
+      const error = err as { message?: string };
+      expect(error.message).toEqual("5xx");
       expect(portal.exportItem).toHaveBeenCalledTimes(1);
       expect((portal.exportItem as any).calls.first().args).toEqual([
         {
@@ -78,7 +79,8 @@ describe("portalRequestDatasetExport", () => {
       expect(result.size).toEqual(1000);
       expect(typeof result.exportCreated === "number").toEqual(true);
     } catch (err) {
-      expect(err).toBeUndefined();
+      const error = err as { message?: string };
+      expect(error).toBeUndefined();
     } finally {
       done();
     }
@@ -118,7 +120,8 @@ describe("portalRequestDatasetExport", () => {
       expect(result.size).toEqual(1000);
       expect(typeof result.exportCreated === "number").toEqual(true);
     } catch (err) {
-      expect(err).toBeUndefined();
+      const error = err as { message?: string };
+      expect(error).toBeUndefined();
     } finally {
       done();
     }
@@ -162,7 +165,8 @@ describe("portalRequestDatasetExport", () => {
       expect(result.size).toEqual(1000);
       expect(typeof result.exportCreated === "number").toEqual(true);
     } catch (err) {
-      expect(err).toBeUndefined();
+      const error = err as { message?: string };
+      expect(error).toBeUndefined();
     } finally {
       done();
     }
@@ -205,7 +209,8 @@ describe("portalRequestDatasetExport", () => {
       expect(result.size).toEqual(1000);
       expect(typeof result.exportCreated === "number").toEqual(true);
     } catch (err) {
-      expect(err).toBeUndefined();
+      const error = err as { message?: string };
+      expect(error).toBeUndefined();
     } finally {
       done();
     }
@@ -250,7 +255,8 @@ describe("portalRequestDatasetExport", () => {
       expect(result.size).toEqual(1000);
       expect(typeof result.exportCreated === "number").toEqual(true);
     } catch (err) {
-      expect(err).toBeUndefined();
+      const error = err as { message?: string };
+      expect(error).toBeUndefined();
     } finally {
       done();
     }

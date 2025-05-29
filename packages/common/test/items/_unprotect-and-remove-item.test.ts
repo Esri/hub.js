@@ -2,8 +2,8 @@ import { _unprotectAndRemoveItem } from "../../src";
 import * as portal from "@esri/arcgis-rest-portal";
 import { mockUserSession } from "../test-helpers/fake-user-session";
 
-describe("_unprotectAndRemoveItem", function() {
-  it("unprotects and removes a group", async function() {
+describe("_unprotectAndRemoveItem", function () {
+  it("unprotects and removes a group", async function () {
     const unprotectItemSpy = spyOn(portal, "unprotectItem").and.returnValue(
       Promise.resolve({ success: true })
     );
@@ -13,7 +13,7 @@ describe("_unprotectAndRemoveItem", function() {
 
     const res = await _unprotectAndRemoveItem({
       id: "foo-baz",
-      authentication: mockUserSession
+      authentication: mockUserSession,
     });
 
     expect(res.success).toBeTruthy("resolves to success:true");
@@ -21,7 +21,7 @@ describe("_unprotectAndRemoveItem", function() {
     expect(removeItemSpy.calls.count()).toBe(1, "remove called");
   });
 
-  it("is impervious to failures", async function() {
+  it("is impervious to failures", async function () {
     spyOn(portal, "unprotectItem").and.returnValue(Promise.reject());
     spyOn(portal, "removeItem").and.returnValue(Promise.reject());
 
@@ -29,9 +29,10 @@ describe("_unprotectAndRemoveItem", function() {
     try {
       res = await _unprotectAndRemoveItem({
         id: "foo-baz",
-        authentication: mockUserSession
+        authentication: mockUserSession,
       });
     } catch (_) {
+      const error = _ as { message?: string };
       fail(Error("function rejected"));
     }
 

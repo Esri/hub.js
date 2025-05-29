@@ -154,7 +154,8 @@ describe("HubEvent fetch module:", () => {
         await fetchEvent("123", authdCtxMgr.context.hubRequestOptions);
         fail("did not reject");
       } catch (e) {
-        expect(e.message).toEqual("Failed to fetch event.");
+        const error = e as { message?: string };
+        expect(error.message).toEqual("Failed to fetch event.");
       }
     });
   });

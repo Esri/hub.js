@@ -21,7 +21,7 @@ describe("buildUiSchema: group settings", () => {
               scope: "/properties/membershipAccess",
               type: "Control",
               options: {
-                control: "hub-field-input-radio",
+                control: "hub-field-input-tile-select",
                 labels: [
                   "{{some.scope.fields.membershipAccess.org.description:translate}}",
                   "{{some.scope.fields.membershipAccess.collab.description:translate}}",
@@ -73,7 +73,7 @@ describe("buildUiSchema: group settings", () => {
               scope: "/properties/isViewOnly",
               type: "Control",
               options: {
-                control: "hub-field-input-radio",
+                control: "hub-field-input-tile-select",
                 labels: [
                   "{{some.scope.fields.contributeContent.members.description:translate}}",
                   "{{some.scope.fields.contributeContent.admins.description:translate}}",

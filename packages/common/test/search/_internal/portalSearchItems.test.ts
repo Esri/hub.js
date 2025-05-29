@@ -40,8 +40,10 @@ describe("portalSearchItems Module:", () => {
       try {
         await portalSearchItems(qry, opts);
       } catch (err) {
-        expect(err.name).toBe("HubError");
-        expect(err.message).toBe("options.requestOptions is required.");
+        expect((err as Error).name).toBe("HubError");
+        expect((err as Error).message).toBe(
+          "options.requestOptions is required."
+        );
       }
     });
     it("simple search", async () => {

@@ -225,7 +225,8 @@ describe("hubSearchEventAttendees", () => {
         await results2.next();
         fail("did not reject");
       } catch (e) {
-        expect((e as any).message).toEqual(
+        const error = e as { message?: string };
+        expect(error.message).toEqual(
           "No more hub events for the given query and options"
         );
       }

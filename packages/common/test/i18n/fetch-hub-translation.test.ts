@@ -2,13 +2,13 @@ import { fetchHubTranslation } from "../../src/i18n/fetch-hub-translation";
 import { IPortal } from "@esri/arcgis-rest-portal";
 import * as fetchMock from "fetch-mock";
 
-describe("fetchHubTranslation", function() {
-  it("fetches a translation", async function() {
+describe("fetchHubTranslation", function () {
+  it("fetches a translation", async function () {
     const portal: IPortal = {
       name: "My Portal",
       id: "portal-id",
       isPortal: false,
-      portalHostname: "devext.foo.bar"
+      portalHostname: "devext.foo.bar",
     };
 
     const locale = "es";
@@ -26,12 +26,12 @@ describe("fetchHubTranslation", function() {
     );
   });
 
-  it("allows you to set mode", async function() {
+  it("allows you to set mode", async function () {
     const portal: IPortal = {
       name: "My Portal",
       id: "portal-id",
       isPortal: false,
-      portalHostname: "devext.foo.bar"
+      portalHostname: "devext.foo.bar",
     };
 
     const locale = "es";
@@ -47,12 +47,12 @@ describe("fetchHubTranslation", function() {
     );
   });
 
-  it("throws an error when it fails", async function() {
+  it("throws an error when it fails", async function () {
     const portal: IPortal = {
       name: "My Portal",
       id: "portal-id",
       isPortal: false,
-      portalHostname: "devext.foo.bar"
+      portalHostname: "devext.foo.bar",
     };
 
     const locale = "es";
@@ -63,8 +63,9 @@ describe("fetchHubTranslation", function() {
       await fetchHubTranslation("es", portal);
       fail(Error("translation fetch should not have succeeded"));
     } catch (err) {
-      expect(err).toBeDefined("threw error");
-      expect(err.message).toContain("Attempt to fetch locale");
+      const error = err as { message?: string };
+      expect(error).toBeDefined("threw error");
+      expect(error.message).toContain("Attempt to fetch locale");
     }
   });
 });

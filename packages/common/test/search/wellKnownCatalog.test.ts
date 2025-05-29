@@ -54,7 +54,8 @@ describe("WellKnownCatalog", () => {
           options
         );
       } catch (err) {
-        expect(err).toEqual(
+        const error = err as { message?: string };
+        expect(error).toEqual(
           new Error(
             "Requested catalogs must be of the same targetEntity type: item"
           )

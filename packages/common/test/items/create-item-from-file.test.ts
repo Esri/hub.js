@@ -150,6 +150,7 @@ describe("createItemFromFile", () => {
         expect(commitItemUploadSpy).not.toHaveBeenCalled();
         expect(_prepareUploadRequestsSpy).toHaveBeenCalledTimes(1);
       } catch (err) {
+        const error = err as { message?: string };
         expect(cancelItemSpy).toHaveBeenCalledTimes(1);
       }
     });
@@ -197,6 +198,7 @@ describe("createItemFromFile", () => {
         expect(commitItemUploadSpy).not.toHaveBeenCalled();
         expect(_prepareUploadRequestsSpy).toHaveBeenCalledTimes(1);
       } catch (err) {
+        const error = err as { message?: string };
         expect(cancelItemSpy).toHaveBeenCalledTimes(1);
       }
     });

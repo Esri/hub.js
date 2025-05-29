@@ -1,3 +1,31 @@
+# @esri/hub-common [17.16.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.15.0...@esri/hub-common@17.16.0) (2025-05-27)
+
+
+### Features
+
+* **hub-common:** hub assistant data model ([#1913](https://github.com/Esri/hub.js/issues/1913)) ([4566e7f](https://github.com/Esri/hub.js/commit/4566e7f30a7ac938fbc24a72afb2ad6e211a9816))
+
+# @esri/hub-common [17.15.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.14.0...@esri/hub-common@17.15.0) (2025-05-27)
+
+
+### Features
+
+* **hub-common:** swap group settings ui schema to use a tile select instead of a radio group ([#1779](https://github.com/Esri/hub.js/issues/1779)) ([189793b](https://github.com/Esri/hub.js/commit/189793bec7501ab5c6dc3f3b4c4b76484494d351))
+
+# @esri/hub-common [17.14.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.13.2...@esri/hub-common@17.14.0) (2025-05-24)
+
+
+### Features
+
+* **hub-common:** add notIds to interface ISearchEvents ([#1911](https://github.com/Esri/hub.js/issues/1911)) ([e4057fd](https://github.com/Esri/hub.js/commit/e4057fd3296cd4bc3889c79541b16f691348f203))
+
+## @esri/hub-common [17.13.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.13.1...@esri/hub-common@17.13.2) (2025-05-21)
+
+
+### Bug Fixes
+
+* **hub-common:** gates user workspace events pane ([#1905](https://github.com/Esri/hub.js/issues/1905)) ([fdeaa7b](https://github.com/Esri/hub.js/commit/fdeaa7be888bbdca1eab2c77fa6990da87c4a8fa))
+
 ## @esri/hub-common [17.13.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.13.0...@esri/hub-common@17.13.1) (2025-05-19)
 
 

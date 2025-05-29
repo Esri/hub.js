@@ -29,8 +29,8 @@ describe("searchPortalUsersLegacy module:", () => {
       try {
         await searchPortalUsersLegacy(qry, opts);
       } catch (err) {
-        expect(err.name).toBe("HubError");
-        expect(err.message).toBe(
+        expect((err as Error).name).toBe("HubError");
+        expect((err as Error).message).toBe(
           "requestOptions: IHubRequestOptions is required."
         );
       }
@@ -57,8 +57,10 @@ describe("searchPortalUsersLegacy module:", () => {
       try {
         await searchPortalUsersLegacy(qry, opts);
       } catch (err) {
-        expect(err.name).toBe("HubError");
-        expect(err.message).toBe("requestOptions must pass authentication.");
+        expect((err as Error).name).toBe("HubError");
+        expect((err as Error).message).toBe(
+          "requestOptions must pass authentication."
+        );
       }
     });
     it("simple search", async () => {
@@ -124,8 +126,8 @@ describe("searchPortalUsersLegacy module:", () => {
       try {
         await searchPortalUsers(qry, opts);
       } catch (err) {
-        expect(err.name).toBe("HubError");
-        expect(err.message).toBe(
+        expect((err as Error).name).toBe("HubError");
+        expect((err as Error).message).toBe(
           "requestOptions: IHubRequestOptions is required."
         );
       }
@@ -152,8 +154,10 @@ describe("searchPortalUsersLegacy module:", () => {
       try {
         await searchPortalUsers(qry, opts);
       } catch (err) {
-        expect(err.name).toBe("HubError");
-        expect(err.message).toBe("requestOptions must pass authentication.");
+        expect((err as Error).name).toBe("HubError");
+        expect((err as Error).message).toBe(
+          "requestOptions must pass authentication."
+        );
       }
     });
     it("simple search", async () => {
@@ -219,8 +223,8 @@ describe("searchPortalUsersLegacy module:", () => {
       try {
         await searchCommunityUsers(qry, opts);
       } catch (err) {
-        expect(err.name).toBe("HubError");
-        expect(err.message).toBe(
+        expect((err as Error).name).toBe("HubError");
+        expect((err as Error).message).toBe(
           "requestOptions: IHubRequestOptions is required."
         );
       }
@@ -247,8 +251,10 @@ describe("searchPortalUsersLegacy module:", () => {
       try {
         await searchCommunityUsers(qry, opts);
       } catch (err) {
-        expect(err.name).toBe("HubError");
-        expect(err.message).toBe("requestOptions must pass authentication.");
+        expect((err as Error).name).toBe("HubError");
+        expect((err as Error).message).toBe(
+          "requestOptions must pass authentication."
+        );
       }
     });
     it("simple search", async () => {

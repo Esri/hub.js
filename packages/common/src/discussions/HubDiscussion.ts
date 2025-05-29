@@ -53,7 +53,7 @@ export class HubDiscussion
   static async create(
     partialDiscussion: Partial<IHubDiscussion>,
     context: IArcGISContext,
-    save: boolean = false
+    save = false
   ): Promise<HubDiscussion> {
     const pojo = this.applyDefaults(partialDiscussion, context);
     // return an instance of HubDiscussion
@@ -95,7 +95,7 @@ export class HubDiscussion
   ): IHubDiscussion {
     // ensure we have the orgUrlKey
     if (!partialDiscussion.orgUrlKey) {
-      partialDiscussion.orgUrlKey = context.portal.urlKey;
+      partialDiscussion.orgUrlKey = context.portal.urlKey as string;
     }
     // extend the partial over the defaults
     const pojo = {
@@ -179,7 +179,7 @@ export class HubDiscussion
    * @returns
    */
   async toEditor(
-    editorContext: IEntityEditorContext = {},
+    _editorContext: IEntityEditorContext = {},
     include: string[] = []
   ): Promise<IHubDiscussionEditor> {
     // 1. optionally enrich entity and cast to editor
@@ -207,10 +207,11 @@ export class HubDiscussion
     // Setting the thumbnailCache will ensure that
     // the thumbnail is updated on next save
     if (editor._thumbnail) {
-      if (editor._thumbnail.blob) {
+      const thumb = editor._thumbnail as { blob?: Blob; fileName?: string };
+      if (thumb.blob) {
         this.thumbnailCache = {
-          file: editor._thumbnail.blob,
-          filename: editor._thumbnail.fileName,
+          file: thumb.blob,
+          filename: thumb.fileName,
           clear: false,
         };
       } else {

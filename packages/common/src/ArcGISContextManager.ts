@@ -74,9 +74,9 @@ export class ArcGISContextManager {
 
   private _authentication: ArcGISIdentityManager;
 
-  private _portalUrl: string = "https://www.arcgis.com";
+  private _portalUrl = "https://www.arcgis.com";
 
-  private _properties: Record<string, any> = {};
+  private _properties: Record<string, unknown> = {};
 
   private _hubUrl: string;
 
@@ -196,20 +196,28 @@ export class ArcGISContextManager {
     const decoded = base64ToUnicode(serializedContext);
     const state: Partial<IArcGISContextManagerOptions> & {
       session?: string;
-    } = JSON.parse(decoded);
+    } = JSON.parse(decoded) as Partial<IArcGISContextManagerOptions>;
     // create opts and populate from state
-    let opts: any = {};
+    let opts: Partial<IArcGISContextManagerOptions> = {};
     //
     // iterate the serialized props
     CONTEXT_SERIALIZABLE_PROPS.forEach((prop) => {
-      opts = maybeAdd(prop, getProp(state, prop), opts);
+      opts = maybeAdd(
+        prop,
+        getProp(state, prop),
+        opts
+      ) as Partial<IArcGISContextManagerOptions>;
     });
     // check if there is a session and if it's still valid
     if (state.session) {
       const userSession = ArcGISIdentityManager.deserialize(state.session);
       if (userSession.tokenExpires.getTime() > Date.now()) {
         CONTEXT_AUTHD_SERIALIZABLE_PROPS.forEach((prop) => {
-          opts = maybeAdd(prop, getProp(state, prop), opts);
+          opts = maybeAdd(
+            prop,
+            getProp(state, prop),
+            opts
+          ) as Partial<IArcGISContextManagerOptions>;
         });
         // CRTITICAL: This must be done after the maybeAdd calls above
         // as those return clones of the opts object, and cloneObject
@@ -226,16 +234,25 @@ export class ArcGISContextManager {
    * @returns
    */
   serialize(): string {
-    let state: any = {};
+    let state: Partial<IArcGISContextManagerOptions> & { session?: string } =
+      {};
     // iterate the serializable props...
     CONTEXT_SERIALIZABLE_PROPS.forEach((prop) => {
-      state = maybeAdd(prop, getProp(this, `_${prop}`), state);
+      state = maybeAdd(
+        prop,
+        getProp(this, `_${prop}`),
+        state
+      ) as Partial<IArcGISContextManagerOptions>;
     });
     // If user is authenticated, serialize the session and other auth related props
     if (this._authentication) {
       state.session = this._authentication.serialize();
       CONTEXT_AUTHD_SERIALIZABLE_PROPS.forEach((prop) => {
-        state = maybeAdd(prop, getProp(this, `_${prop}`), state);
+        state = maybeAdd(
+          prop,
+          getProp(this, `_${prop}`),
+          state
+        ) as Partial<IArcGISContextManagerOptions>;
       });
     }
 
@@ -258,7 +275,7 @@ export class ArcGISContextManager {
    * Set the properties hash and re-create the context
    * @param properties
    */
-  setProperties(properties: Record<string, any>): void {
+  setProperties(properties: Record<string, unknown>): void {
     this._properties = properties;
     this._context = new ArcGISContext(this.contextOpts);
   }
@@ -327,7 +344,7 @@ export class ArcGISContextManager {
    */
   private async initialize(): Promise<void> {
     // setup array to hold promises and one to track promise index
-    const promises: Array<Promise<any>> = [];
+    const promises: Array<Promise<unknown>> = [];
     const promiseKeys: string[] = [];
     // We always want service status if it's not passed in
     if (!this._serviceStatus) {
@@ -380,7 +397,7 @@ export class ArcGISContextManager {
       } as IUserResourceToken);
     }
     // Await promises
-    let results: any[];
+    let results: unknown[];
     try {
       results = await Promise.all(promises);
     } catch (ex) {
@@ -424,7 +441,7 @@ export class ArcGISContextManager {
     // fetch the users IUserHubSettings extract out the
     // preview properties and cross-walk to permissions
     const hubAppToken = this._userResourceTokens.find(
-      (e: any) => e.app === "hubforarcgis"
+      (e) => e.app === "hubforarcgis"
     );
     if (this._authentication && hubAppToken) {
       this._userHubSettings = await fetchAndMigrateUserHubSettings(
@@ -465,12 +482,20 @@ export class ArcGISContextManager {
     };
     // iterate the anon props...
     anonProps.forEach((prop) => {
-      contextOpts = maybeAdd(prop, getProp(this, `_${prop}`), contextOpts);
+      contextOpts = maybeAdd(
+        prop,
+        getProp(this, `_${prop}`),
+        contextOpts
+      ) as IArcGISContextOptions;
     });
     // If user is authenticated, we can add other props
     if (this._authentication) {
       authdProps.forEach((prop) => {
-        contextOpts = maybeAdd(prop, getProp(this, `_${prop}`), contextOpts);
+        contextOpts = maybeAdd(
+          prop,
+          getProp(this, `_${prop}`),
+          contextOpts
+        ) as IArcGISContextOptions;
       });
       // CRTITICAL: .authentication must be attached after the maybeAdd calls above
       // as those return clones of the opts object, and cloneObject
@@ -512,15 +537,15 @@ async function getTrustedOrgs(
   _authentication: ArcGISIdentityManager
 ): Promise<IHubTrustedOrgsResponse[]> {
   const failSafeTrustedOrgs = failSafe(request, { trustedOrgs: [] });
-  const trustedOrgs = await failSafeTrustedOrgs(
+  const response = (await failSafeTrustedOrgs(
     `${_portalUrl}/sharing/rest/portals/self/trustedOrgs?f=json`,
     {
       params: {
         token: _authentication.token,
       },
     }
-  );
-  return trustedOrgs.trustedOrgs;
+  )) as { trustedOrgs: [] };
+  return response.trustedOrgs;
 }
 
 /**
@@ -614,7 +639,7 @@ async function getUserResourceTokens(
   const failSafeExchange = failSafe(exchangeToken, null);
   const promises = configs.map((cfg) => {
     return failSafeExchange(currentToken, cfg.clientId, portalUrl).then(
-      (token) => {
+      (token: string | null) => {
         if (token) {
           return { ...cfg, token } as IUserResourceToken;
         }

@@ -56,8 +56,9 @@ describe("unshareItemFromGroups", function () {
         authentication: mockUserSession,
       });
     } catch (err) {
+      const error = err as { message?: string };
       expect(unshareItemSpy).toHaveBeenCalled();
-      expect(err.message).toBe(
+      expect(error.message).toBe(
         "Error unsharing item: item-id with group: grp1"
       );
     }

@@ -23,12 +23,12 @@ import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlu
  * from the context of the Hub application, but scaffolding
  * this util for potential future implementation. For now,
  * we will throw an error
- * @param partialTemplate
- * @param requestOptions
+ * @param _partialTemplate
+ * @param _requestOptions
  */
 export function createTemplate(
-  partialTemplate: Partial<IHubTemplate>,
-  requestOptions: IUserRequestOptions
+  _partialTemplate: Partial<IHubTemplate>,
+  _requestOptions: IUserRequestOptions
 ): Promise<IHubTemplate> {
   throw new Error(
     "Template creation is not currently supported from the context of Hub"
@@ -94,7 +94,9 @@ export function editorToTemplate(
   const template = cloneObject(editor) as IHubTemplate;
 
   // 2. ensure there's an org url key
-  template.orgUrlKey = editor.orgUrlKey ? editor.orgUrlKey : portal.urlKey;
+  template.orgUrlKey = (
+    editor.orgUrlKey ? editor.orgUrlKey : portal.urlKey
+  ) as string;
 
   return template;
 }

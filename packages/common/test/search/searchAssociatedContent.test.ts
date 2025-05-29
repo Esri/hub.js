@@ -35,11 +35,12 @@ describe("searchAssociatedContent", () => {
       await searchAssociatedContent(options);
       fail("Expected HubError to be thrown");
     } catch (error) {
+      const err = error as { message?: string };
       const expectedError = new HubError(
         "searchAssociatedContent",
         'associated content is not supported for entity type "event"'
       );
-      expect(error).toEqual(expectedError);
+      expect(err).toEqual(expectedError);
     }
   });
 
@@ -55,11 +56,12 @@ describe("searchAssociatedContent", () => {
       await searchAssociatedContent(options);
       fail("Expected HubError to be thrown");
     } catch (error) {
+      const err = error as { message?: string };
       const expectedError = new HubError(
         "searchAssociatedContent",
         'associated content scope does not support targetEntity "group"'
       );
-      expect(error).toEqual(expectedError);
+      expect(err).toEqual(expectedError);
     }
   });
 
@@ -74,11 +76,12 @@ describe("searchAssociatedContent", () => {
       await searchAssociatedContent(options);
       fail("Expected HubError to be thrown");
     } catch (error) {
+      const err = error as { message?: string };
       const expectedError = new HubError(
         "searchAssociatedContent",
         '"layerId" is required for searching "connected" content'
       );
-      expect(error).toEqual(expectedError);
+      expect(err).toEqual(expectedError);
     }
   });
 
