@@ -88,6 +88,7 @@ export class ArcGISContext implements IArcGISContext {
 
   private _currentUser: IUser;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private _properties: Record<string, any>;
 
   private _serviceStatus: HubServiceStatus;
@@ -714,13 +715,14 @@ export class ArcGISContext implements IArcGISContext {
         "Cannot update user hub settings without an authenticated user"
       );
     }
-    // update the user-app-resource
-    await updateUserHubSettings(settings, this);
+    // update the user-app-resource replacing it instead of extending
+    // changes onto it. This ensures that migrations are applied.
+    await updateUserHubSettings(settings, this, true);
     // update the context
     this._userHubSettings = settings;
     // iterate the props in the features object
     Object.keys(getWithDefault(settings, "features", {})).forEach((key) => {
-      const val = getProp(settings, `features.${key}`);
+      const val = getProp(settings, `features.${key}`) as boolean;
       this._featureFlags[`hub:feature:${key}`] = val;
     });
   }
