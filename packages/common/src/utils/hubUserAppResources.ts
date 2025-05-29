@@ -27,7 +27,7 @@ import { IUserHubSettings } from "./IUserHubSettings";
 export async function updateUserSiteSettings(
   settings: IUserSiteSettings,
   context: IArcGISContext,
-  replace: boolean = false
+  replace = false
 ): Promise<void> {
   const token = context.tokenFor(USER_SITE_SETTINGS_APP);
 
@@ -71,10 +71,11 @@ export async function fetchUserSiteSettings(
       USER_SITE_SETTINGS_KEY,
       context.portalUrl,
       token
-    )) as Promise<IUserSiteSettings>;
+    )) as IUserSiteSettings;
     // run though schema upgrades
     return applySiteSettingsMigrations(settings);
   } else {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return Promise.resolve(null);
   }
 }
@@ -89,7 +90,7 @@ export async function fetchUserSiteSettings(
 export async function updateUserHubSettings(
   settings: IUserHubSettings,
   context: IArcGISContext,
-  replace: boolean = false
+  replace = false
 ): Promise<void> {
   const token = context.tokenFor(USER_HUB_SETTINGS_APP);
 
@@ -124,7 +125,7 @@ export async function updateUserHubSettings(
  */
 export async function fetchUserHubSettings(
   context: IArcGISContext
-): Promise<IUserHubSettings> {
+): Promise<IUserHubSettings | null> {
   const token = context.tokenFor(USER_HUB_SETTINGS_APP);
   if (token) {
     return await fetchAndMigrateUserHubSettings(
@@ -133,6 +134,7 @@ export async function fetchUserHubSettings(
       token
     );
   } else {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return Promise.resolve(null);
   }
 }

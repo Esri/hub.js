@@ -112,7 +112,7 @@ describe("HubUser Class:", () => {
           {
             id: "123",
             name: "Paige",
-            settings: { schemaVersion: 1, preview: { workspace: false } },
+            settings: { schemaVersion: 1.1, features: { workspace: false } },
           },
           authdCtxMgr.context
         );
@@ -120,9 +120,9 @@ describe("HubUser Class:", () => {
         const result = await chk.fromEditor({
           id: "123",
           name: "Paige",
-          settings: { schemaVersion: 1, preview: { workspace: true } },
+          settings: { schemaVersion: 1.1, features: { workspace: true } },
         } as IHubUser);
-        expect(result.settings?.preview?.workspace).toEqual(true);
+        expect(result.settings?.features?.workspace).toEqual(true);
         expect(saveSpy).toHaveBeenCalledTimes(1);
       });
     });
@@ -133,7 +133,7 @@ describe("HubUser Class:", () => {
       const user = {
         id: "123",
         name: "Paige",
-        settings: { schemaVersion: 1, preview: { workspace: false } },
+        settings: { schemaVersion: 1.1, features: { workspace: false } },
       } as IHubUser;
 
       const updateUserHubSettingsSpy = spyOn(
@@ -468,7 +468,7 @@ describe("HubUser Class:", () => {
         await chk.save();
         fail("should have thrown");
       } catch (err) {
-        expect((err as any).message).toEqual("HubUser is already destroyed.");
+        expect(err.message).toEqual("HubUser is already destroyed.");
       }
     });
   });
@@ -491,7 +491,7 @@ describe("HubUser Class:", () => {
         await chk.delete();
         fail("should have thrown");
       } catch (err) {
-        expect((err as any).message).toEqual("HubUser is already destroyed.");
+        expect(err.message).toEqual("HubUser is already destroyed.");
       }
     });
   });
