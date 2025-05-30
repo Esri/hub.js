@@ -1,4 +1,4 @@
-import { ISearchChannels } from "../../../discussions/api/types";
+import { ChannelFilter, ISearchChannels } from "../../../discussions/api/types";
 import { unique } from "../../../util";
 import { IFilter, IPredicate } from "../../types/IHubCatalog";
 
@@ -63,15 +63,43 @@ export function processChannelFilters(
 ): Partial<ISearchChannels> {
   const channelOptions: Partial<ISearchChannels> = {};
   const flattenedFilters = flattenFilters(filters);
+
+  // term
   if (flattenedFilters.term?.length) {
     channelOptions.name = flattenedFilters.term[0];
   }
-  if (flattenedFilters.groups?.length) {
-    channelOptions.groups = flattenedFilters.groups;
+
+  // group
+  if (flattenedFilters.group?.length) {
+    channelOptions.groups = flattenedFilters.group;
   }
+
+  // access
   if (flattenedFilters.access?.length) {
     channelOptions.access = flattenedFilters.access;
   }
+
+  // orgId
+  if (flattenedFilters.orgId?.length) {
+    channelOptions.orgIds = flattenedFilters.orgId;
+  }
+
+  // discussion
+  if (flattenedFilters.discussion?.length) {
+    channelOptions.discussion = flattenedFilters.discussion[0];
+  }
+
+  // hasUserPosts
+  if (flattenedFilters.hasUserPosts?.[0] === true) {
+    channelOptions.filterBy = ChannelFilter.HAS_USER_POSTS;
+  }
+
+  // owner
+  if (flattenedFilters.owner?.length) {
+    channelOptions.creator = flattenedFilters.owner[0];
+  }
+
+  // id
   if (flattenedFilters.id?.length) {
     const { ids, notIds } = flattenedFilters.id.reduce(
       (acc, id) =>
@@ -96,5 +124,26 @@ export function processChannelFilters(
       channelOptions.notIds = notIds.filter(unique);
     }
   }
+
+  // createdDateRange
+  if (flattenedFilters.createdDateRange?.length) {
+    channelOptions.createdBefore = new Date(
+      flattenedFilters.createdDateRange[0].to
+    );
+    channelOptions.createdAfter = new Date(
+      flattenedFilters.createdDateRange[0].from
+    );
+  }
+
+  // updatedDateRange
+  if (flattenedFilters.updatedDateRange?.length) {
+    channelOptions.updatedBefore = new Date(
+      flattenedFilters.updatedDateRange[0].to
+    );
+    channelOptions.updatedAfter = new Date(
+      flattenedFilters.updatedDateRange[0].from
+    );
+  }
+
   return channelOptions;
 }

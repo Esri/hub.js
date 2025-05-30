@@ -13,9 +13,25 @@ import { channelResultsToSearchResults } from "./hubDiscussionsHelpers/channelRe
 /**
  * @private
  * Executes a Discussions API channel search and resolves an IHubSearchResponse<IHubSearchResult> for the channel results
+ * Currently supported filters include:
+ *   - term: string;
+ *   - group: string | string[];
+ *   - access: 'public' | 'private' | 'org' | Array<'public' | 'org' | 'private'>
+ *   - id: string | string[] | { not: string } | { not: string[] };
+ *   - orgId: string;
+ *   - hasUserPosts: boolean;
+ *   - discussion: string;
+ *   - owner: string;
+ *   - createdDateRange: IDateRange<string | number>;
+ *   - updatedDateRange: IDateRange<string | number>;
+ * Currently supported sort fields include:
+ *   - created
+ *   - modified
+ *   - owner
+ *   - lastActivity
  * @param query an IQuery object
  * @param options an IHubSearchOptions object
- * @returns a promise that resolves an HubSearchResponse<IHubSearchResult> object
+ * @returns a promise that resolves an IHubSearchResponse<IHubSearchResult> object
  */
 export const hubSearchChannels = async (
   query: IQuery,
