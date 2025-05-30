@@ -134,7 +134,7 @@ describe("EntityUiSchemaDiscussionsSettings", () => {
                         selected: false,
                         predicates: [
                           {
-                            groups: "42b",
+                            group: "42b",
                           },
                         ],
                       },
@@ -144,7 +144,7 @@ describe("EntityUiSchemaDiscussionsSettings", () => {
                         selected: false,
                         predicates: [
                           {
-                            groups: "53a",
+                            group: "53a",
                           },
                         ],
                       },
