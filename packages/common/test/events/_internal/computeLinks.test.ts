@@ -1,6 +1,6 @@
 import { IEvent } from "../../../src/events/api/orval/api/orval-events";
 import { computeLinks } from "../../../src/events/_internal/computeLinks";
-import { getEventThumbnail } from "../../../src/events/_internal/getEventThumbnail";
+import { getEventThumbnail } from "../../../src/utils/getEventThumbnail";
 
 describe("computeLinks", () => {
   it("should compute links for an event", () => {

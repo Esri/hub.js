@@ -18,7 +18,6 @@ import {
 import { HubEventAttendanceType, HubEventCapacityType } from "../types";
 import { computeLinks } from "./computeLinks";
 import { getEventSlug } from "./getEventSlug";
-import { getEventThumbnail } from "./getEventThumbnail";
 import { getLocationFromEvent } from "./getLocationFromEvent";
 
 /**
@@ -109,9 +108,6 @@ export class EventPropertyMapper extends PropertyMapper<
 
     obj.links = computeLinks(store as IEvent);
     obj.slug = getEventSlug(store as IEvent);
-    if (!obj.thumbnailUrl) {
-      obj.thumbnailUrl = getEventThumbnail();
-    }
 
     obj.view = {
       showMap: !!store.location,
