@@ -12,6 +12,7 @@ import { processOptions } from "./hubEventsHelpers/processOptions";
 import { processFilters } from "./hubEventsHelpers/processFilters";
 
 /**
+ * @private
  * Searches for events against the Events 3 API using the given `query` and `options`.
  * Currently supported filters include:
  *   - access: 'public' | 'private' | 'org' | Array<'public' | 'org' | 'private'>;
@@ -42,7 +43,7 @@ import { processFilters } from "./hubEventsHelpers/processFilters";
  *   - startDate
  * @param query An IQuery object
  * @param options An IHubSearchOptions object
- * @returns a promise that resolves a <IHubSearchResponse<IHubSearchResult> object
+ * @returns a promise that resolves an IHubSearchResponse<IHubSearchResult> object
  */
 export async function hubSearchEvents(
   query: IQuery,

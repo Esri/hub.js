@@ -5,13 +5,13 @@ import { EntityEditorOptions } from "../EditorOptions";
 /**
  * Builds the UI Schema for the "settings => discussions" workspace pane
  * @param i18nScope the i18n scope for translations
- * @param options an EntityEditorOptions object
+ * @param _options an EntityEditorOptions object
  * @param context an IArcGISContext object
  * @returns a promise that resolves a UI Schema object
  */
-export const buildUiSchema = async (
+export const buildUiSchema = (
   i18nScope: string,
-  options: EntityEditorOptions,
+  _options: EntityEditorOptions,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
   const uiSchema: IUiSchema = {
@@ -136,7 +136,7 @@ export const buildUiSchema = async (
               selected: false,
               predicates: [
                 {
-                  groups: group.id,
+                  group: group.id,
                 },
               ],
             })),
@@ -146,5 +146,5 @@ export const buildUiSchema = async (
       },
     });
   }
-  return uiSchema;
+  return Promise.resolve(uiSchema);
 };
