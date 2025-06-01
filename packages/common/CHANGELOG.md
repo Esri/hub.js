@@ -1,3 +1,31 @@
+## @esri/hub-common [17.16.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.16.0...@esri/hub-common@17.16.1) (2025-05-29)
+
+
+### Bug Fixes
+
+* always hide isSharedUpdate toggle ([#1907](https://github.com/Esri/hub.js/issues/1907)) ([68925db](https://github.com/Esri/hub.js/commit/68925dbd9f756ff28533e36c1b74963ecec120c8))
+
+# @esri/hub-common [17.16.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.15.0...@esri/hub-common@17.16.0) (2025-05-27)
+
+
+### Features
+
+* **hub-common:** hub assistant data model ([#1913](https://github.com/Esri/hub.js/issues/1913)) ([4566e7f](https://github.com/Esri/hub.js/commit/4566e7f30a7ac938fbc24a72afb2ad6e211a9816))
+
+# @esri/hub-common [17.15.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.14.0...@esri/hub-common@17.15.0) (2025-05-27)
+
+
+### Features
+
+* **hub-common:** swap group settings ui schema to use a tile select instead of a radio group ([#1779](https://github.com/Esri/hub.js/issues/1779)) ([189793b](https://github.com/Esri/hub.js/commit/189793bec7501ab5c6dc3f3b4c4b76484494d351))
+
+# @esri/hub-common [17.14.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.13.2...@esri/hub-common@17.14.0) (2025-05-24)
+
+
+### Features
+
+* **hub-common:** add notIds to interface ISearchEvents ([#1911](https://github.com/Esri/hub.js/issues/1911)) ([e4057fd](https://github.com/Esri/hub.js/commit/e4057fd3296cd4bc3889c79541b16f691348f203))
+
 ## @esri/hub-common [17.13.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.13.1...@esri/hub-common@17.13.2) (2025-05-21)
 
 

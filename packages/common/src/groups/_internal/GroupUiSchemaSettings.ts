@@ -1,6 +1,5 @@
-import { IUiSchema, UiSchemaRuleEffects } from "../../core";
+import { IHubGroup, IUiSchema, UiSchemaRuleEffects } from "../../core";
 import type { IArcGISContext } from "../../types/IArcGISContext";
-import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 
 /**
  * @private
@@ -10,9 +9,13 @@ import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
  */
 export const buildUiSchema = async (
   i18nScope: string,
-  options: EntityEditorOptions,
+  options: Partial<IHubGroup>,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
+  // We want to use isSharedUpdate and leavingDisallowed as rules conditions
+  // referencing them from the schema properties requires them to be actual elements
+  // in the uiSchema. Instead the entity is passed in as options and we can get them directly from the entity.
+  const { isSharedUpdate, leavingDisallowed } = options;
   return {
     type: "Layout",
     elements: [
@@ -21,23 +24,11 @@ export const buildUiSchema = async (
         labelKey: `${i18nScope}.sections.membershipAccess.label`,
         elements: [
           {
-            // there are schema rules that use this so it must be present or they break, so we hide it when its value is false which is always the case for this uiSchema
-            scope: "/properties/isSharedUpdate",
-            type: "Control",
-            rule: {
-              effect: UiSchemaRuleEffects.HIDE,
-              condition: {
-                scope: "/properties/isSharedUpdate",
-                schema: { const: false },
-              },
-            },
-          },
-          {
             labelKey: `${i18nScope}.fields.membershipAccess.label`,
             scope: "/properties/membershipAccess",
             type: "Control",
             options: {
-              control: "hub-field-input-radio",
+              control: "hub-field-input-tile-select",
               labels: [
                 `{{${i18nScope}.fields.membershipAccess.org.description:translate}}`,
                 `{{${i18nScope}.fields.membershipAccess.collab.description:translate}}`,
@@ -53,32 +44,17 @@ export const buildUiSchema = async (
                 [
                   {
                     effect: UiSchemaRuleEffects.DISABLE,
-                    conditions: [
-                      {
-                        scope: "/properties/leavingDisallowed",
-                        schema: { const: true },
-                      },
-                    ],
+                    conditions: [leavingDisallowed],
                   },
                 ],
                 [
                   {
                     effect: UiSchemaRuleEffects.DISABLE,
-                    conditions: [
-                      {
-                        scope: "/properties/leavingDisallowed",
-                        schema: { const: true },
-                      },
-                    ],
+                    conditions: [leavingDisallowed],
                   },
                   {
                     effect: UiSchemaRuleEffects.DISABLE,
-                    conditions: [
-                      {
-                        scope: "/properties/isSharedUpdate",
-                        schema: { const: true },
-                      },
-                    ],
+                    conditions: [isSharedUpdate],
                   },
                 ],
               ],
@@ -87,20 +63,12 @@ export const buildUiSchema = async (
             rules: [
               {
                 effect: UiSchemaRuleEffects.RESET,
-                conditions: [
-                  {
-                    scope: "/properties/leavingDisallowed",
-                    schema: { const: true },
-                  },
-                ],
+                conditions: [leavingDisallowed],
               },
               {
                 effect: UiSchemaRuleEffects.RESET,
                 conditions: [
-                  {
-                    scope: "/properties/isSharedUpdate",
-                    schema: { const: true },
-                  },
+                  isSharedUpdate,
                   {
                     scope: "/properties/membershipAccess",
                     schema: { const: "anyone" },
@@ -114,7 +82,7 @@ export const buildUiSchema = async (
             scope: "/properties/isViewOnly",
             type: "Control",
             options: {
-              control: "hub-field-input-radio",
+              control: "hub-field-input-tile-select",
               labels: [
                 `{{${i18nScope}.fields.contributeContent.members.description:translate}}`,
                 `{{${i18nScope}.fields.contributeContent.admins.description:translate}}`,

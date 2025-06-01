@@ -44,7 +44,7 @@ export default class OperationError extends Error {
   constructor(operation: string, message?: string, rootCause?: Error) {
     message = message || "UNKNOWN_ERROR";
     // if the rootCause has a .rootCause, use that so we don't deeply nest
-    rootCause = getWithDefault(rootCause, "rootCause", rootCause);
+    rootCause = getWithDefault(rootCause, "rootCause", rootCause) as Error;
     super(message);
     this.operation = operation;
     this.name = "OperationError";
@@ -54,6 +54,10 @@ export default class OperationError extends Error {
     // message + call stack. If that's not an option, we create a new
     // stack... which is better than nothing, but it will look like
     // OperationError is the source of the error
-    this.stack = getWithDefault(rootCause, "stack", new Error().stack);
+    this.stack = getWithDefault(
+      rootCause,
+      "stack",
+      new Error().stack
+    ) as string;
   }
 }

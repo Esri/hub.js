@@ -76,7 +76,7 @@ export class HubPage
   static async create(
     partialPage: Partial<IHubPage>,
     context: IArcGISContext,
-    save: boolean = false
+    save = false
   ): Promise<HubPage> {
     const pojo = this.applyDefaults(partialPage, context);
     // return an instance of HubPage
@@ -120,7 +120,7 @@ export class HubPage
   ): IHubPage {
     // ensure we have the orgUrlKey
     if (!partialPage.orgUrlKey) {
-      partialPage.orgUrlKey = context.portal.urlKey;
+      partialPage.orgUrlKey = context.portal.urlKey as string;
     }
     // extend the partial over the defaults
     const pojo = { ...DEFAULT_PAGE, ...partialPage } as IHubPage;
@@ -204,7 +204,7 @@ export class HubPage
    * @returns
    */
   async toEditor(
-    editorContext: IEntityEditorContext = {},
+    _editorContext: IEntityEditorContext = {},
     include: string[] = []
   ): Promise<IHubPageEditor> {
     // 1. optionally enrich entity and cast to editor
@@ -232,10 +232,11 @@ export class HubPage
     // Setting the thumbnailCache will ensure that
     // the thumbnail is updated on next save
     if (editor._thumbnail) {
-      if (editor._thumbnail.blob) {
+      const thumbnail = editor._thumbnail as { blob?: Blob; fileName?: string };
+      if (thumbnail.blob) {
         this.thumbnailCache = {
-          file: editor._thumbnail.blob,
-          filename: editor._thumbnail.fileName,
+          file: thumbnail.blob,
+          filename: thumbnail.fileName,
           clear: false,
         };
       } else {
