@@ -46,7 +46,7 @@ export interface IHubAssistantWorkflow {
    */
   description: string;
   /**
-   * Assistant response for the workflow.
+   * Assistant workflow for the response.
    */
   response: IHubAssistantWorkflowResponse[];
 }
@@ -60,11 +60,15 @@ export interface IHubAssistantWorkflowResponse {
    */
   text: string;
   /**
-   * Optional actions to perform after the response.
+   * Steps to perform.
+   */
+  steps: Array<Record<string, string>>;
+  /**
+   * Optional actions to perform.
    */
   actions?: Array<Record<string, string>>;
   /**
-   * Optional sources to include in the response.
+   * Optional sources to include.
    */
   sources?: Array<Record<string, string>>;
 }
