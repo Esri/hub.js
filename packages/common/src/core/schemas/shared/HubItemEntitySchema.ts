@@ -82,5 +82,42 @@ export const HubItemEntitySchema: IAsyncConfigurationSchema = {
       },
     },
     _slug: SLUG_SCHEMA,
+    assistant: {
+      type: "object",
+      required: [
+        "access",
+        "personality",
+        "description",
+        "location",
+        "examplePrompts",
+      ],
+      properties: {
+        schemaVersion: { type: "number" },
+        enabled: {
+          type: "boolean",
+          default: false,
+        },
+        access: ENTITY_ACCESS_SCHEMA,
+        personality: { type: "string" },
+        description: { type: "string" },
+        location: { type: "string" },
+        examplePrompts: { type: "array", items: { type: "string" } },
+        workflows: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              id: { type: "string" },
+              name: { type: "string" },
+              description: { type: "string" },
+              action: { type: "string", enum: ["search", "respond"] },
+              response: { type: "string" },
+              sources: { type: "array", items: { type: "string" } },
+            },
+          },
+        },
+        testPrompts: { type: "array", items: { type: "string" } },
+      },
+    },
   },
 } as IAsyncConfigurationSchema;
