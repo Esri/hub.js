@@ -181,6 +181,11 @@ export const InitiativePermissionPolicies: IPermissionPolicy[] = [
     availability: ["alpha"],
   },
   {
+    permission: "hub:initiative:workspace:events",
+    dependencies: ["hub:initiative:workspace", "hub:initiative:edit"],
+    availability: ["alpha"],
+  },
+  {
     permission: "hub:initiative:workspace:metrics",
     dependencies: ["hub:initiative:workspace", "hub:initiative:edit"],
   },
