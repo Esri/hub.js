@@ -13,6 +13,7 @@ export const SiteEditorTypes = [
   "hub:site:followers",
   "hub:site:discussions",
   "hub:site:settings",
+  "hub:site:assistant",
 ] as const;
 
 /**
