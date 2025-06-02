@@ -94,8 +94,12 @@ describe("GroupUiSchemaCreate", () => {
                 type: "Control",
                 options: {
                   control: "hub-field-input-switch",
+                  layout: "inline-space-between",
                   helperText: {
                     labelKey: `some.scope.fields.isSharedUpdate.helperText`,
+                  },
+                  tooltip: {
+                    labelKey: `some.scope.fields.isSharedUpdate.tooltip`,
                   },
                 },
                 rule: {
@@ -109,8 +113,12 @@ describe("GroupUiSchemaCreate", () => {
                 type: "Control",
                 options: {
                   control: "hub-field-input-switch",
+                  layout: "inline-space-between",
                   helperText: {
                     labelKey: `some.scope.fields.isAdmin.helperText`,
+                  },
+                  tooltip: {
+                    labelKey: `some.scope.fields.isAdmin.tooltip`,
                   },
                 },
                 rules: [
@@ -126,8 +134,12 @@ describe("GroupUiSchemaCreate", () => {
                 type: "Control",
                 options: {
                   control: "hub-field-input-switch",
+                  layout: "inline-space-between",
                   helperText: {
                     labelKey: `some.scope.fields.isOpenData.helperText`,
+                  },
+                  tooltip: {
+                    labelKey: `some.scope.fields.isOpenData.tooltip`,
                   },
                   messages: [
                     {
@@ -420,6 +432,34 @@ describe("GroupUiSchemaCreate", () => {
           },
         ],
       });
+    });
+    it("renders the Open data capability tooltip when group access is not public", async () => {
+      spyOn(
+        require("../../../src/permissions"),
+        "checkPermission"
+      ).and.returnValue({ access: true });
+      const uiSchema = await buildUiSchema(
+        "some.scope",
+        { access: "private" } as IHubGroup,
+        MOCK_CONTEXT
+      );
+      const isOpenDataTooltip =
+        uiSchema.elements[1].elements[2].options.tooltip.labelKey;
+      expect(isOpenDataTooltip).toEqual(`some.scope.fields.isOpenData.tooltip`);
+    });
+    it("renders the Open data capability tooltip when user does not have the permission to do so", async () => {
+      spyOn(
+        require("../../../src/permissions"),
+        "checkPermission"
+      ).and.returnValue({ access: false });
+      const uiSchema = await buildUiSchema(
+        "some.scope",
+        { access: "public" } as IHubGroup,
+        MOCK_CONTEXT
+      );
+      const isOpenDataTooltip =
+        uiSchema.elements[1].elements[2].options.tooltip.labelKey;
+      expect(isOpenDataTooltip).toEqual(`some.scope.fields.isOpenData.tooltip`);
     });
   });
 

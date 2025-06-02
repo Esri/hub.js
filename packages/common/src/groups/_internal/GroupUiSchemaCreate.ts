@@ -109,9 +109,18 @@ export const buildUiSchema = async (
             type: "Control",
             options: {
               control: "hub-field-input-switch",
+              layout: "inline-space-between",
               helperText: {
                 labelKey: `${i18nScope}.fields.isSharedUpdate.helperText`,
               },
+              ...(!checkPermission(
+                "platform:portal:admin:createUpdateCapableGroup",
+                context
+              ).access && {
+                tooltip: {
+                  labelKey: `${i18nScope}.fields.isSharedUpdate.tooltip`,
+                },
+              }),
             },
             rule: {
               effect: UiSchemaRuleEffects.ENABLE,
@@ -129,9 +138,18 @@ export const buildUiSchema = async (
             type: "Control",
             options: {
               control: "hub-field-input-switch",
+              layout: "inline-space-between",
               helperText: {
                 labelKey: `${i18nScope}.fields.isAdmin.helperText`,
               },
+              ...(!checkPermission(
+                "platform:portal:admin:createLeavingDisallowedGroup",
+                context
+              ).access && {
+                tooltip: {
+                  labelKey: `${i18nScope}.fields.isAdmin.tooltip`,
+                },
+              }),
             },
             rules: [
               {
@@ -151,9 +169,19 @@ export const buildUiSchema = async (
             type: "Control",
             options: {
               control: "hub-field-input-switch",
+              layout: "inline-space-between",
               helperText: {
                 labelKey: `${i18nScope}.fields.isOpenData.helperText`,
               },
+              ...((!checkPermission(
+                "platform:opendata:user:designateGroup",
+                context
+              ).access ||
+                options.access !== "public") && {
+                tooltip: {
+                  labelKey: `${i18nScope}.fields.isOpenData.tooltip`,
+                },
+              }),
               messages: [
                 {
                   type: "ERROR",
