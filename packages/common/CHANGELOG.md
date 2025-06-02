@@ -1,3 +1,17 @@
+## @esri/hub-common [17.16.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.16.1...@esri/hub-common@17.16.2) (2025-06-02)
+
+
+### Bug Fixes
+
+* change group capabilities toggles to inline and add tooltips in group creation ([#1909](https://github.com/Esri/hub.js/issues/1909)) ([3f14664](https://github.com/Esri/hub.js/commit/3f146646c8a959fef253ea0ceb5a2dd55ef2cc8d))
+
+## @esri/hub-common [17.16.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.16.0...@esri/hub-common@17.16.1) (2025-05-29)
+
+
+### Bug Fixes
+
+* always hide isSharedUpdate toggle ([#1907](https://github.com/Esri/hub.js/issues/1907)) ([68925db](https://github.com/Esri/hub.js/commit/68925dbd9f756ff28533e36c1b74963ecec120c8))
+
 # @esri/hub-common [17.16.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.15.0...@esri/hub-common@17.16.0) (2025-05-27)
 
 

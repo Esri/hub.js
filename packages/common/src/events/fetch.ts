@@ -40,8 +40,8 @@ export function fetchEvent(
  */
 export async function convertClientEventToHubEvent(
   clientEvent: IEvent,
-  requestOptions: IHubRequestOptions
+  _requestOptions: IHubRequestOptions
 ): Promise<IHubEvent> {
   const mapper = new EventPropertyMapper(getPropertyMap());
-  return mapper.storeToEntity(clientEvent, {}) as IHubEvent;
+  return Promise.resolve(mapper.storeToEntity(clientEvent, {}) as IHubEvent);
 }

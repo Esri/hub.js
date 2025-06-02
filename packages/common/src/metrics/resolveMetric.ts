@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { IArcGISContext } from "../types/IArcGISContext";
 import {
   IItemQueryMetricSource,
@@ -57,7 +59,7 @@ export async function resolveMetric(
  */
 function resolveStaticValueMetric(
   metric: IMetric,
-  context: IArcGISContext
+  _context: IArcGISContext
 ): Promise<IResolvedMetric> {
   const source = metric.source as IStaticValueMetricSource;
   // cut off the parent identifier from the metric id and use that
@@ -107,7 +109,7 @@ async function resolveServiceQueryMetric(
   // Execute the query
   const response = await queryFeatures({
     url: serviceUrl,
-    where: source.where as string,
+    where: source.where,
     f: "json",
     outStatistics: [statsDef],
     authentication: context.requestOptions.authentication,
@@ -115,7 +117,10 @@ async function resolveServiceQueryMetric(
 
   // TODO: If we enable more stats, we will need to update
   // how we fetch the values out of the response
-  const aggregate = getProp(response, `features[0].attributes.${source.field}`);
+  const aggregate = getProp(
+    response,
+    `features[0].attributes.${source.field}`
+  ) as string;
 
   const result: IMetricFeature = {
     attributes: {
@@ -158,7 +163,7 @@ async function resolveItemQueryMetric(
     ],
   };
 
-  const scope = (source.scope as IQuery) || {
+  const scope = source.scope || {
     targetEntity: "item",
     filters: [],
   };
@@ -184,7 +189,7 @@ async function resolveItemQueryMetric(
   // resolved.
 
   const promises = await response.results.reduce(
-    async (valsPromise: any, item: IItem) => {
+    async (valsPromise: Promise<IMetricFeature[]>, item: IItem) => {
       const vals = await valsPromise;
       const valueFromItem = getProp(item, source.propertyPath);
 
@@ -206,22 +211,23 @@ async function resolveItemQueryMetric(
           typeof valueFromItem === "number"
         ) {
           result.attributes[fieldName] = valueFromItem;
-          vals.push(Promise.resolve(result));
+          vals.push(result);
         } else {
+          const vfm: IMetric = valueFromItem as IMetric;
           // valueFromItem is itself a metric so we call resolveDynamicValues again
           // attach in the entity info, so it's present for the next level of recursion
-          valueFromItem.entityInfo = result.attributes;
+          vfm.entityInfo = result.attributes;
           const vResult = await resolveMetric(valueFromItem, context);
           vals.push(...vResult.features);
         }
       }
       return vals;
     },
-    Promise.resolve([] as any[])
+    Promise.resolve([] as never[])
   );
 
   // let everything resolve
-  const outputs = (await Promise.all(promises)) as IMetricFeature[];
+  const outputs = await Promise.all(promises);
 
   // return the results
   return {
