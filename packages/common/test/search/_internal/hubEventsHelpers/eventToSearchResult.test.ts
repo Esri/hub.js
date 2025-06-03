@@ -7,7 +7,7 @@ import {
 } from "../../../../src/events/api/types";
 import { eventToSearchResult } from "../../../../src/search/_internal/hubEventsHelpers/eventToSearchResult";
 import { IHubSearchOptions } from "../../../../src/search/types/IHubSearchOptions";
-import { getEventThumbnail } from "../../../../src/events/_internal/getEventThumbnail";
+import { getEventThumbnail } from "../../../../src/utils/getEventThumbnail";
 import * as getLocationFromEventModule from "../../../../src/events/_internal/getLocationFromEvent";
 import { IHubLocation } from "../../../../src/core/types/IHubLocation";
 
