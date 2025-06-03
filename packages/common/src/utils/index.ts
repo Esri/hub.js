@@ -23,6 +23,7 @@ export * from "./dasherize";
 export * from "./titleize";
 export * from "./memoize";
 export * from "./getEnvironmentFromPortalUrl";
+export * from "./getEventThumbnail";
 export * from "./poll";
 export * from "./hubUserAppResources";
 export * from "./getObjectSize";

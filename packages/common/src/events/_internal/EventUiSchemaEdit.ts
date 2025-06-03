@@ -7,8 +7,6 @@ import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { fetchCategoriesUiSchemaElement } from "../../core/schemas/internal/fetchCategoriesUiSchemaElement";
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
-import { getEntityThumbnailUrl } from "../../core/getEntityThumbnailUrl";
-import { HubEntity } from "../../core";
 
 /**
  * @private
@@ -75,7 +73,7 @@ export const buildUiSchema = async (
           ...getThumbnailUiSchemaElement(
             i18nScope,
             options.thumbnail,
-            getEntityThumbnailUrl(options as HubEntity),
+            options.thumbnailUrl,
             "event",
             context.requestOptions
           ),
