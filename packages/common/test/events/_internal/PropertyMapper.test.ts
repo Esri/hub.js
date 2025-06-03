@@ -1,6 +1,6 @@
 import { IHubEvent } from "../../../src/core/types/IHubEvent";
 import { EventPropertyMapper } from "../../../src/events/_internal/PropertyMapper";
-import { getEventThumbnail } from "../../../src/events/_internal/getEventThumbnail";
+import { getEventThumbnail } from "../../../src/utils/getEventThumbnail";
 import { getPropertyMap } from "../../../src/events/_internal/getPropertyMap";
 import {
   EventAccess,
@@ -185,7 +185,6 @@ describe("PropertyMapper", () => {
           thumbnail: getEventThumbnail(),
         },
         slug: "event-title-31c",
-        thumbnailUrl: getEventThumbnail(),
         view: {
           showMap: true,
         },

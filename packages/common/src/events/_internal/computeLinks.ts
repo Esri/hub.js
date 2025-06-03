@@ -3,7 +3,7 @@ import { getRelativeWorkspaceUrl } from "../../core/getRelativeWorkspaceUrl";
 import { getHubRelativeUrl } from "../../content/_internal/internalContentUtils";
 import { IEvent } from "../api/orval/api/orval-events";
 import { getEventSlug } from "./getEventSlug";
-import { getEventThumbnail } from "./getEventThumbnail";
+import { getEventThumbnail } from "../../utils/getEventThumbnail";
 
 /**
  * Compute the links that get appended to a Hub Event
