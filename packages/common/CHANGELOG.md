@@ -1,3 +1,10 @@
+## @esri/hub-common [17.16.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.16.2...@esri/hub-common@17.16.3) (2025-06-03)
+
+
+### Bug Fixes
+
+* **hub-common:** events thumbnail not set by default ([#1912](https://github.com/Esri/hub.js/issues/1912)) ([1df3702](https://github.com/Esri/hub.js/commit/1df370234894b756eb30b418fd1521c2ed248603))
+
 ## @esri/hub-common [17.16.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.16.1...@esri/hub-common@17.16.2) (2025-06-02)
 
 
