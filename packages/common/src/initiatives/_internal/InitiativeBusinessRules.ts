@@ -35,8 +35,6 @@ export const InitiativePermissions = [
   "hub:initiative:workspace:projects:manager",
   "hub:initiative:workspace:settings",
   "hub:initiative:workspace:collaborators",
-  "hub:initiative:workspace:content",
-  "hub:initiative:workspace:events",
   "hub:initiative:workspace:metrics",
   "hub:initiative:workspace:catalogs", // deprecated -- should be removed
   "hub:initiative:workspace:catalog",
@@ -174,11 +172,6 @@ export const InitiativePermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:initiative:workspace:collaborators",
     dependencies: ["hub:initiative:workspace", "hub:initiative:edit"],
-  },
-  {
-    permission: "hub:initiative:workspace:content",
-    dependencies: ["hub:initiative:workspace", "hub:initiative:edit"],
-    availability: ["alpha"],
   },
   {
     permission: "hub:initiative:workspace:metrics",

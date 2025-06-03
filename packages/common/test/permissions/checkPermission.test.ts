@@ -106,10 +106,6 @@ const TestPermissionPolicies: IPermissionPolicy[] = [
   //   dependencies: ["hub:project:edit"],
   // },
   // {
-  //   permission: "hub:project:workspace:content",
-  //   dependencies: ["hub:project:edit"],
-  // },
-  // {
   //   permission: "hub:project:workspace:metrics",
   //   dependencies: ["hub:project:edit"],
   // },
