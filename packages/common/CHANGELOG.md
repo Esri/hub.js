@@ -1,3 +1,10 @@
+## @esri/hub-common [17.16.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.16.3...@esri/hub-common@17.16.4) (2025-06-04)
+
+
+### Bug Fixes
+
+* **hub-common:** fixed reference to hub page icon ([#1916](https://github.com/Esri/hub.js/issues/1916)) ([0b64e6a](https://github.com/Esri/hub.js/commit/0b64e6a7d0a32b2f3fbc75c907e43ea423d453bd))
+
 ## @esri/hub-common [17.16.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.16.2...@esri/hub-common@17.16.3) (2025-06-03)
 
 
