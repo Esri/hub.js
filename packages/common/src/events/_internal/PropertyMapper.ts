@@ -5,6 +5,7 @@ import {
 } from "../../core/_internal/PropertyMapper";
 import { IHubEvent } from "../../core/types/IHubEvent";
 import { SettableAccessLevel } from "../../core/types/types";
+import { upgradeCatalogSchema } from "../../search/upgradeCatalogSchema";
 import { cloneObject } from "../../util";
 import {
   EventAccess,
@@ -105,6 +106,10 @@ export class EventPropertyMapper extends PropertyMapper<
     obj.createdDateSource = "createdAt";
     obj.updatedDate = new Date(store.updatedAt);
     obj.updatedDateSource = "updatedAt";
+
+    // Ensure we have a catalog and that its at the current schema
+    // Note: catalogs are not hooked up yet, so this will always be the default value.
+    obj.catalog = upgradeCatalogSchema(obj.catalog || {});
 
     obj.links = computeLinks(store as IEvent);
     obj.slug = getEventSlug(store as IEvent);

@@ -136,6 +136,21 @@ describe("PropertyMapper", () => {
         canChangeAccessOrg: true,
         canChangeAccessPrivate: true,
         canChangeAccessPublic: true,
+        catalog: {
+          schemaVersion: 1,
+          title: "Default Catalog",
+          scopes: {
+            item: {
+              targetEntity: "item",
+              filters: [],
+            },
+            event: {
+              targetEntity: "event",
+              filters: [],
+            },
+          },
+          collections: [],
+        },
         orgId: "42b",
         description: "event description",
         id: "31c",
