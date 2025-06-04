@@ -32,6 +32,8 @@ export const EventPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:event",
     services: ["events"],
+    // gate to users that are opted into workspace
+    dependencies: ["hub:feature:workspace"],
     licenses: ["hub-premium"],
   },
   {
@@ -48,7 +50,10 @@ export const EventPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:event:edit",
     authenticated: true,
+    // inherits `hub:feature:workspace` dependency
     dependencies: ["hub:event"],
+    // any hub-basic or hub-premium user with edit authorization (via an edit/update group) can edit the event (when opted into workspace)
+    licenses: ["hub-basic", "hub-premium"],
     entityEdit: true,
   },
   {
@@ -87,6 +92,8 @@ export const EventPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:event:workspace",
+    // gate to users that are opted into workspace
+    dependencies: ["hub:feature:workspace"],
   },
   {
     permission: "hub:event:workspace:dashboard",
