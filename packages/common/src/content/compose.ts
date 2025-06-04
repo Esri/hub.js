@@ -267,7 +267,7 @@ export const getContentTypeIcon = (contentType: string) => {
     group: "users",
     hubInitiative: "initiative",
     hubInitiativeTemplate: "initiative-template",
-    hubPage: "browser",
+    hubPage: "maximize",
     hubProject: "projects",
     hubSiteApplication: "browser",
     image: "file-image",
@@ -400,7 +400,7 @@ export const getProxyUrl = (
  */
 export const getLayerIdFromUrl = (url: string) => {
   const endsWithNumberSegmentRegEx = /\/\d+$/;
-  const matched = url && url.match(endsWithNumberSegmentRegEx);
+  const matched = url && endsWithNumberSegmentRegEx.exec(url);
   return matched && matched[0].slice(1);
 };
 

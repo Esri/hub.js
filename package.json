@@ -129,7 +129,7 @@
 		"gen-util": "yo ./scaffolder/index.js",
 		"lint": "eslint --quiet --ext .ts ./packages/*/src/**/*.ts",
 		"lint:warnings": "eslint --ext .ts ./packages/*/src/**/*.ts",
-		"lint:fix": "eslint --quite --ext .ts --fix ./packages/*/src/**/*.ts",
+		"lint:fix": "eslint --quiet --ext .ts --fix ./packages/*/src/**/*.ts",
 		"lint:generate-baseline": "node ./support/generate-eslint-baseline.js",
 		"precommit": "node exit-if-no-staged.js && lint-staged",
 		"predocs:serve": "npm run docs:typedoc",
