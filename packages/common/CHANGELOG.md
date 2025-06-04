@@ -1,3 +1,10 @@
+## @esri/hub-common [17.16.5](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.16.4...@esri/hub-common@17.16.5) (2025-06-04)
+
+
+### Bug Fixes
+
+* **hub-common:** events have migrated catalog ([#1918](https://github.com/Esri/hub.js/issues/1918)) ([8d08638](https://github.com/Esri/hub.js/commit/8d08638da4c227e58d259c0a620cd3e0360795a2))
+
 ## @esri/hub-common [17.16.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.16.3...@esri/hub-common@17.16.4) (2025-06-04)
 
 
