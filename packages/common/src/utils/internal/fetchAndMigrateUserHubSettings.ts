@@ -50,7 +50,7 @@ function getDefaultUserHubSettings(username: string): IUserHubSettings {
     username,
     updated: new Date().getTime(),
     features: {
-      workspace: false,
+      workspace: true,
     },
   };
 }

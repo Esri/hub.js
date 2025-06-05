@@ -83,8 +83,6 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     // when all the other condition props are removed,
     // the workspace feature will be available to all users
     permission: "hub:gating:workspace:released",
-    availability: ["alpha"], // REMOVE THIS WHEN WORKSPACE IS RELEASED
-    environments: ["devext", "qaext", "production"], // REMOVE THIS WHEN WORKSPACE IS RELEASED
   },
   // FEATURE PERMISSIONS
   // these are used to enable/disable features in the Hub
@@ -108,10 +106,7 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
   {
     // Feature we can override to opt in/out of workspace
     permission: "hub:feature:workspace",
-    // To release the workspace feature, remove this dependency
     dependencies: ["hub:gating:workspace:released"],
-    // availability: ["alpha"],
-    // environments: ["devext", "qaext", "production"],
   },
 
   {
@@ -154,10 +149,7 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
   {
     // When enabled, the manage links will take the user the org home site
     permission: "hub:feature:workspace:user",
-    // NOTE: qaext and devext might seem redundant, given that hub:feature:workspace is alpha
-    // but we allow users to "opt-in" which overrides that
-    environments: ["production", "qaext", "devext"],
-    dependencies: ["hub:feature:workspace"],
+    dependencies: ["hub:gating:workspace:released"],
   },
   {
     // When enabled, the manage links will take the user the org home site
