@@ -93,6 +93,7 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:feature:workspace",
+    availability: ["alpha"],
     environments: ["devext", "qaext", "production"],
   },
   {
