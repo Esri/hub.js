@@ -22,7 +22,7 @@ describe("siteSettingsMigrations", () => {
       } as any;
 
       const result = applyHubSettingsMigrations(settings);
-      expect(result.schemaVersion).toBe(1.2);
+      expect(result.schemaVersion).toBe(1.1);
       expect((result as any).preview).toBeUndefined();
     });
 
@@ -33,7 +33,7 @@ describe("siteSettingsMigrations", () => {
         features: { workspace: true },
       } as any;
       const result = applyHubSettingsMigrations(settings);
-      expect(result.schemaVersion).toBe(1.2);
+      expect(result.schemaVersion).toBe(1.1);
       expect((result as any).preview).toBeUndefined();
     });
 
@@ -47,26 +47,13 @@ describe("siteSettingsMigrations", () => {
       expect((result as any).preview).toBeUndefined();
     });
 
-    it("should clear workspaces for release", () => {
-      const settings = {
-        schemaVersion: 1.1,
-        features: { workspace: true },
-      } as any;
-      const result = applyHubSettingsMigrations(settings);
-      const expected = {
-        schemaVersion: 1.2,
-        features: {},
-      };
-      expect(result).toEqual(expected);
-    });
-
     it("should not set features.workspace if preview.workspace is undefined", () => {
       const settings = {
         schemaVersion: 1.0,
         preview: {},
       } as any;
       const result = applyHubSettingsMigrations(settings);
-      expect(result.schemaVersion).toBe(1.2);
+      expect(result.schemaVersion).toBe(1.1);
       expect(result.features.workspace).not.toBeDefined();
       expect(getProp(result, "preview")).toBeUndefined();
     });
@@ -76,7 +63,7 @@ describe("siteSettingsMigrations", () => {
         schemaVersion: 1.0,
       } as any;
       const result = applyHubSettingsMigrations(settings);
-      expect(result.schemaVersion).toBe(1.2);
+      expect(result.schemaVersion).toBe(1.1);
       expect(result.features).toBeUndefined();
       expect((result as any).preview).toBeUndefined();
     });

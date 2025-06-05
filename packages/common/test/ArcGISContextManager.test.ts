@@ -600,12 +600,15 @@ describe("ArcGISContextManager:", () => {
       // verify userHubSettings
       expect(fetchSettingsSpy).toHaveBeenCalled();
       expect(mgr.context.userHubSettings).toEqual({
-        schemaVersion: 1.2,
-        features: {},
+        schemaVersion: 1.1,
+        features: {
+          workspace: true,
+        },
       });
 
-      expect(mgr.context.featureFlags["hub:feature:workspace"]).toBeUndefined();
+      expect(mgr.context.featureFlags["hub:feature:workspace"]).toBeTruthy();
     });
+
     it("verify flags not set if feature false when passed session", async () => {
       // const t = new Date().getTime();
       spyOn(portalModule, "getSelf").and.callFake(() => {
@@ -652,8 +655,10 @@ describe("ArcGISContextManager:", () => {
       // verify userHubSettings
       expect(fetchSettingsSpy).toHaveBeenCalled();
       expect(mgr.context.userHubSettings).toEqual({
-        schemaVersion: 1.2,
-        features: {},
+        schemaVersion: 1.1,
+        features: {
+          workspace: false,
+        },
       });
 
       expect(mgr.context.featureFlags["hub:feature:workspace"]).toBeFalsy();
