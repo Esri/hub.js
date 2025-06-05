@@ -50,8 +50,8 @@ export const EventPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:event:edit",
     authenticated: true,
-    // inherits `hub:feature:workspace` dependency
-    dependencies: ["hub:event"],
+    services: ["events"],
+    dependencies: ["hub:feature:workspace"],
     // any hub-basic or hub-premium user with edit authorization (via an edit/update group) can edit the event (when opted into workspace)
     licenses: ["hub-basic", "hub-premium"],
     entityEdit: true,
