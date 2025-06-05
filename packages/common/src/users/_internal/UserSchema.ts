@@ -17,7 +17,7 @@ export const UserSchema: IConfigurationSchema = {
           properties: {
             workspace: {
               type: "boolean",
-              default: false,
+              default: true,
             },
           },
         },
