@@ -91,10 +91,6 @@ const TestPermissionPolicies: IPermissionPolicy[] = [
   //   dependencies: ["hub:project:edit"],
   // },
   // {
-  //   permission: "hub:project:workspace:content",
-  //   dependencies: ["hub:project:edit"],
-  // },
-  // {
   //   permission: "hub:project:workspace:metrics",
   //   dependencies: ["hub:project:edit"],
   // },
@@ -121,13 +117,13 @@ function isPermission(permission: Permission): boolean {
 describe("checkPermission:", () => {
   let basicCtxMgr: ArcGISContextManager;
   let premiumCtxMgr: ArcGISContextManager;
-  let consoleInfoSpy: jasmine.Spy;
-  let consoleDirSpy: jasmine.Spy;
+  // let consoleInfoSpy: jasmine.Spy;
+  // let consoleDirSpy: jasmine.Spy;
   beforeEach(async () => {
     // tslint:disable-next-line: no-empty
-    consoleInfoSpy = spyOn(console, "info").and.callFake(() => {}); // suppress console output
+    // consoleInfoSpy = spyOn(console, "info").and.callFake(() => {}); // suppress console output
     // tslint:disable-next-line: no-empty
-    consoleDirSpy = spyOn(console, "dir").and.callFake(() => {}); // suppress console output
+    // consoleDirSpy = spyOn(console, "dir").and.callFake(() => {}); // suppress console output
     spyOn(GetPolicyModule, "getPermissionPolicy").and.callFake(
       getPermissionPolicy
     );
