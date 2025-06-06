@@ -48,8 +48,14 @@ export function checkPermission(
   context: IArcGISContext,
   entityOrOptions?: EntityOrOptions
 ): IPermissionAccessResponse {
-  const label = entityOrOptions?.label || "";
-  const entity = entityOrOptions?.entity || entityOrOptions;
+  const label =
+    typeof entityOrOptions?.label === "string" ? entityOrOptions.label : "";
+  const entity =
+    typeof entityOrOptions === "object" &&
+    entityOrOptions !== null &&
+    "entity" in entityOrOptions
+      ? (entityOrOptions as { entity?: Record<string, unknown> }).entity
+      : (entityOrOptions as Record<string, unknown> | undefined);
 
   // Is this even a valid permission?
   if (!isPermission(permission)) {
@@ -92,9 +98,16 @@ export function checkPermission(
   // Is this policy configurable by the entity?
   if (systemPolicy.entityConfigurable) {
     // Has the entity provided a flag value?
-    if (entity?.features?.hasOwnProperty(permission)) {
+    if (
+      entity?.features &&
+      typeof entity.features === "object" &&
+      entity.features !== null &&
+      Object.prototype.hasOwnProperty.call(entity.features, permission)
+    ) {
       flagging.hasFlag = true;
-      flagging.value = entity.features[permission];
+      flagging.value = (entity.features as Record<string, unknown>)[
+        permission
+      ] as boolean;
       flagging.type = "entity";
     }
   }
@@ -102,28 +115,28 @@ export function checkPermission(
   // Feature Flags
   // Passed in from the application when context is created,
   // these override entity flags, so they are checked after
-  if (context.featureFlags?.hasOwnProperty(permission)) {
+  if (
+    context.featureFlags &&
+    Object.prototype.hasOwnProperty.call(context.featureFlags, permission)
+  ) {
     flagging.hasFlag = true;
     flagging.value = context.featureFlags[permission];
-    flagging.type = "feature";
+    flagging.type = "uri-flag";
   }
 
-  // We also check the context.userHubSettings.preview array
-  // which can also be used to enable features.
-  if (context.userHubSettings?.preview) {
-    const preview = getWithDefault(
+  // Preview was too limiting as it could only be true, so we
+  // added a features object to userHubSettings that can be
+  // used to opt-in/out of features
+  if (context.userHubSettings?.features) {
+    const features = getWithDefault(
       context,
-      "userHubSettings.preview",
+      "userHubSettings.features",
       {}
-    ) as IUserHubSettings["preview"];
-    Object.keys(preview).forEach((key) => {
-      // only set the flag if it's true, otherwise delete the flag so we revert to default behavior
-      if (
-        permission === `hub:feature:${key}` &&
-        getProp(preview, key) === true
-      ) {
+    ) as IUserHubSettings["features"];
+    Object.keys(features).forEach((key) => {
+      if (permission === `hub:feature:${key}`) {
         flagging.hasFlag = true;
-        flagging.value = true;
+        flagging.value = getProp(features, key) as boolean;
         flagging.type = "feature";
       }
     });
@@ -152,7 +165,6 @@ export function checkPermission(
 
   // required checks - things feature flags can not override
   const requiredChecks: PermissionCheckFunction[] = [
-    checkParents,
     checkServiceStatus,
     checkAuthentication,
     checkPrivileges,
@@ -172,11 +184,17 @@ export function checkPermission(
   let checkFns: PermissionCheckFunction[] = [];
   // If there is a "feature" flag, set to true, for the policy
   // we just run the required checks
-  if (flagging.hasFlag && flagging.value && flagging.type === "feature") {
-    checkFns = [...requiredChecks];
+  if (flagging.hasFlag && flagging.value) {
+    if (flagging.type === "feature") {
+      // feature flags are very limited so they can skip the parents check
+      checkFns = [...requiredChecks];
+    } else {
+      // uri-flag or entity flag must run the parents check
+      checkFns = [checkParents, ...requiredChecks];
+    }
   } else {
     // otherwise we run all the checks
-    checkFns = [...overridableChecks, ...requiredChecks];
+    checkFns = [...overridableChecks, checkParents, ...requiredChecks];
   }
 
   // execute the checks
@@ -209,11 +227,11 @@ export function checkPermission(
 
   // Entity policies are treated as "grants" so we only need to pass one
   if (entity) {
-    const entityPolicies: IEntityPermissionPolicy[] = getWithDefault(
+    const entityPolicies = getWithDefault(
       entity,
       "permissions",
       []
-    );
+    ) as unknown as IEntityPermissionPolicy[];
 
     const entityPermissionPolicies = entityPolicies.filter(
       (e) => e.permission === permission

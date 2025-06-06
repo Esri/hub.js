@@ -61,7 +61,7 @@ describe("UserUiSchemaSettings:", () => {
             {
               type: "Control",
               scope:
-                "/properties/settings/properties/preview/properties/workspace",
+                "/properties/settings/properties/features/properties/workspace",
               labelKey: "some.scope.fields.workspacePreview.label",
               options: {
                 type: "Control",
@@ -300,7 +300,7 @@ describe("UserUiSchemaSettings:", () => {
             {
               type: "Control",
               scope:
-                "/properties/settings/properties/preview/properties/workspace",
+                "/properties/settings/properties/features/properties/workspace",
               labelKey: "some.scope.fields.workspacePreview.label",
               options: {
                 type: "Control",
@@ -540,7 +540,7 @@ describe("UserUiSchemaSettings:", () => {
             {
               type: "Control",
               scope:
-                "/properties/settings/properties/preview/properties/workspace",
+                "/properties/settings/properties/features/properties/workspace",
               labelKey: "some.scope.fields.workspacePreview.label",
               options: {
                 type: "Control",
@@ -767,7 +767,7 @@ describe("UserUiSchemaSettings:", () => {
             {
               type: "Control",
               scope:
-                "/properties/settings/properties/preview/properties/workspace",
+                "/properties/settings/properties/features/properties/workspace",
               labelKey: "some.scope.fields.workspacePreview.label",
               options: {
                 type: "Control",
@@ -1001,7 +1001,7 @@ describe("UserUiSchemaSettings:", () => {
             {
               type: "Control",
               scope:
-                "/properties/settings/properties/preview/properties/workspace",
+                "/properties/settings/properties/features/properties/workspace",
               labelKey: "some.scope.fields.workspacePreview.label",
               options: {
                 type: "Control",
@@ -1228,7 +1228,7 @@ describe("UserUiSchemaSettings:", () => {
             {
               type: "Control",
               scope:
-                "/properties/settings/properties/preview/properties/workspace",
+                "/properties/settings/properties/features/properties/workspace",
               labelKey: "some.scope.fields.workspacePreview.label",
               options: {
                 type: "Control",
@@ -1458,7 +1458,7 @@ describe("UserUiSchemaSettings:", () => {
             {
               type: "Control",
               scope:
-                "/properties/settings/properties/preview/properties/workspace",
+                "/properties/settings/properties/features/properties/workspace",
               labelKey: "some.scope.fields.workspacePreview.label",
               options: {
                 type: "Control",
@@ -1690,7 +1690,7 @@ describe("UserUiSchemaSettings:", () => {
             {
               type: "Control",
               scope:
-                "/properties/settings/properties/preview/properties/workspace",
+                "/properties/settings/properties/features/properties/workspace",
               labelKey: "some.scope.fields.workspacePreview.label",
               options: {
                 type: "Control",
@@ -1923,7 +1923,7 @@ describe("UserUiSchemaSettings:", () => {
             {
               type: "Control",
               scope:
-                "/properties/settings/properties/preview/properties/workspace",
+                "/properties/settings/properties/features/properties/workspace",
               labelKey: "some.scope.fields.workspacePreview.label",
               options: {
                 type: "Control",

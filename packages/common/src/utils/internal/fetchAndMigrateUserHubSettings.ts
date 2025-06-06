@@ -25,12 +25,12 @@ export async function fetchAndMigrateUserHubSettings(
     getDefaultUserHubSettings(username)
   );
   // fetch the user's Hub Settings
-  const settings = await fsGetResource(
+  const settings = (await fsGetResource(
     username,
     USER_HUB_SETTINGS_KEY,
     portalUrl,
     token
-  );
+  )) as IUserHubSettings;
   // apply any migrations and return the result
   return applyHubSettingsMigrations(settings);
 }
@@ -42,12 +42,15 @@ export async function fetchAndMigrateUserHubSettings(
  * @returns
  */
 function getDefaultUserHubSettings(username: string): IUserHubSettings {
+  // This is current for schemaVersion 1.1 but can be updated as needed
+  // but it is run through migrations after being returned
+  // so it doesn't need to be the latest version
   return {
-    schemaVersion: 1,
+    schemaVersion: 1.1,
     username,
     updated: new Date().getTime(),
-    preview: {
-      workspace: false,
+    features: {
+      workspace: true,
     },
   };
 }

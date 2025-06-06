@@ -5,6 +5,7 @@ import {
   HubServiceStatus,
   IFeatureFlags,
   IHubRequestOptionsPortalSelf,
+  IPermissionAccessResponse,
   IUserHubSettings,
 } from "../src";
 import { base64ToUnicode, unicodeToBase64 } from "../src/utils/encoding";
@@ -14,6 +15,7 @@ import * as authModule from "@esri/arcgis-rest-request";
 import * as appResourcesModule from "../src/utils/hubUserAppResources";
 import * as userResourcesModule from "../src/utils/internal/userAppResources";
 import * as orgLimitsModule from "../src/org/fetchOrgLimits";
+import * as permissionsModule from "../src/permissions/checkPermission";
 
 import { MOCK_AUTH, MOCK_ENTERPRISE_AUTH } from "./mocks/mock-auth";
 import { IPortal } from "@esri/arcgis-rest-portal";
@@ -68,7 +70,7 @@ const onlinePortalSelfResponse = {
       },
     },
   },
-  user: cloneObject(onlineUserResponse) as portalModule.IUser,
+  user: cloneObject(onlineUserResponse),
   thumbnail: "fake-thumbnail.jpg",
 };
 
@@ -243,7 +245,7 @@ const serializedContext = {
       email: "jvader@deathstar.com",
     },
   },
-  currentUser: cloneObject(onlineUserResponse) as portalModule.IUser,
+  currentUser: cloneObject(onlineUserResponse),
   properties: {
     foo: "bar",
   },
@@ -262,7 +264,7 @@ const featureFlags: IFeatureFlags = {
   "hub:site:create": false,
 };
 
-describe("ArcGISContext:", () => {
+describe("ArcGISContextManager:", () => {
   describe("AGO:", () => {
     it("verify props when passed nothing", async () => {
       const t = new Date().getTime();
@@ -511,17 +513,10 @@ describe("ArcGISContext:", () => {
       spyOn(requestModule, "request").and.callFake(() => {
         return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
       });
-      const fetchSettingsSpy = spyOn(
-        userResourcesModule,
-        "getUserResource"
-      ).and.callFake(() => {
-        return Promise.resolve({
-          schemaVersion: 1,
-          preview: {
-            workspace: true,
-          },
-        });
+      spyOn(permissionsModule, "checkPermission").and.callFake(() => {
+        return { access: true } as IPermissionAccessResponse;
       });
+
       const exchangeTokenSpy = spyOn(authModule, "exchangeToken").and.callFake(
         (_: string, clientId: string) => {
           return Promise.resolve(`FAKE-${clientId}-TOKEN`);
@@ -561,7 +556,6 @@ describe("ArcGISContext:", () => {
       ]);
     });
     it("verify flags when passed session", async () => {
-      const t = new Date().getTime();
       spyOn(portalModule, "getSelf").and.callFake(() => {
         return Promise.resolve(cloneObject(onlinePortalSelfWithLimitsResponse));
       });
@@ -576,8 +570,8 @@ describe("ArcGISContext:", () => {
         "getUserResource"
       ).and.callFake(() => {
         return Promise.resolve({
-          schemaVersion: 1,
-          preview: {
+          schemaVersion: 1.1,
+          features: {
             workspace: true,
           },
         });
@@ -606,16 +600,17 @@ describe("ArcGISContext:", () => {
       // verify userHubSettings
       expect(fetchSettingsSpy).toHaveBeenCalled();
       expect(mgr.context.userHubSettings).toEqual({
-        schemaVersion: 1,
-        preview: {
+        schemaVersion: 1.1,
+        features: {
           workspace: true,
         },
       });
 
-      expect(mgr.context.featureFlags["hub:feature:workspace"]).toBe(true);
+      expect(mgr.context.featureFlags["hub:feature:workspace"]).toBeTruthy();
     });
-    it("verify flags not set if preview false when passed session", async () => {
-      const t = new Date().getTime();
+
+    it("verify flags not set if feature false when passed session", async () => {
+      // const t = new Date().getTime();
       spyOn(portalModule, "getSelf").and.callFake(() => {
         return Promise.resolve(cloneObject(onlinePortalSelfWithLimitsResponse));
       });
@@ -631,7 +626,7 @@ describe("ArcGISContext:", () => {
       ).and.callFake(() => {
         return Promise.resolve({
           schemaVersion: 1,
-          preview: {
+          features: {
             workspace: false,
           },
         });
@@ -660,15 +655,13 @@ describe("ArcGISContext:", () => {
       // verify userHubSettings
       expect(fetchSettingsSpy).toHaveBeenCalled();
       expect(mgr.context.userHubSettings).toEqual({
-        schemaVersion: 1,
-        preview: {
+        schemaVersion: 1.1,
+        features: {
           workspace: false,
         },
       });
 
-      expect(
-        mgr.context.featureFlags["hub:feature:workspace"]
-      ).not.toBeDefined();
+      expect(mgr.context.featureFlags["hub:feature:workspace"]).toBeFalsy();
     });
     it("verify props when passed session, portalSelf, User, and serviceStatus", async () => {
       const selfSpy = spyOn(portalModule, "getSelf").and.callFake(() => {
@@ -887,7 +880,7 @@ describe("ArcGISContext:", () => {
       expect(decoded.portalUrl).toEqual("https://www.arcgis.com");
     });
     it("serializes all props to encoded string", async () => {
-      const t = new Date().getTime();
+      // const t = new Date().getTime();
       spyOn(portalModule, "getSelf").and.callFake(() => {
         return Promise.resolve(cloneObject(onlinePortalSelfWithLimitsResponse));
       });
@@ -919,7 +912,7 @@ describe("ArcGISContext:", () => {
       const serialized = unicodeToBase64(
         JSON.stringify({ portalUrl: "https://www.arcgis.com" })
       );
-      const mgr = await ArcGISContextManager.deserialize(serialized!);
+      const mgr = await ArcGISContextManager.deserialize(serialized);
       expect(mgr.context.portalUrl).toBe("https://www.arcgis.com");
       expect(mgr.context.isAuthenticated).toBeFalsy();
     });
@@ -930,7 +923,7 @@ describe("ArcGISContext:", () => {
           featureFlags: { "hub:project:create": false },
         })
       );
-      const mgr = await ArcGISContextManager.deserialize(serialized!);
+      const mgr = await ArcGISContextManager.deserialize(serialized);
       expect(mgr.context.portalUrl).toBe("https://www.arcgis.com");
       expect(mgr.context.isAuthenticated).toBeFalsy();
       expect(mgr.context.featureFlags).toEqual({ "hub:project:create": false });
@@ -952,7 +945,7 @@ describe("ArcGISContext:", () => {
         JSON.stringify(validSerializedContext)
       );
 
-      const mgr = await ArcGISContextManager.deserialize(serialized!);
+      const mgr = await ArcGISContextManager.deserialize(serialized);
       expect(selfSpy.calls.count()).toBe(0);
       expect(userSpy.calls.count()).toBe(0);
       expect(mgr.context.portalUrl).toBe(
@@ -996,7 +989,7 @@ describe("ArcGISContext:", () => {
       delete sparseValidContext.trustedOrgs;
 
       const serialized = unicodeToBase64(JSON.stringify(sparseValidContext));
-      const mgr = await ArcGISContextManager.deserialize(serialized!);
+      const mgr = await ArcGISContextManager.deserialize(serialized);
       expect(selfSpy.calls.count()).toBe(1);
       expect(userSpy.calls.count()).toBe(1);
       expect(mgr.context.portalUrl).toBe(
@@ -1020,7 +1013,7 @@ describe("ArcGISContext:", () => {
       const serialized = unicodeToBase64(
         JSON.stringify(expiredSerializedContext)
       );
-      const mgr = await ArcGISContextManager.deserialize(serialized!);
+      const mgr = await ArcGISContextManager.deserialize(serialized);
       expect(selfSpy.calls.count()).toBe(0);
       expect(userSpy.calls.count()).toBe(0);
       expect(mgr.context.portalUrl).toBe(
@@ -1039,7 +1032,7 @@ describe("ArcGISContext:", () => {
         expect(ex).toBeDefined();
       }
     });
-    it("updating userHubSettings updates flags if", async () => {
+    it("updating userHubSettings updates flags", async () => {
       // spy on updateUserHubSettings
       const uarSpy = spyOn(
         appResourcesModule,
@@ -1060,24 +1053,22 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.featureFlags["hub:feature:workspace"]).toBeFalsy();
       // update the HubUserSettings
       await mgr.updateUserHubSettings({
-        schemaVersion: 1,
-        preview: {
+        schemaVersion: 1.1,
+        features: {
           workspace: true,
         },
       });
       expect(uarSpy).toHaveBeenCalled();
       // verify the flag was updated
       expect(mgr.context.featureFlags["hub:feature:workspace"]).toBeTruthy();
-      // remove the flag if set to false
+      // set to false
       await mgr.updateUserHubSettings({
-        schemaVersion: 1,
-        preview: {
+        schemaVersion: 1.1,
+        features: {
           workspace: false,
         },
       });
-      expect(
-        mgr.context.featureFlags["hub:feature:workspace"]
-      ).not.toBeDefined();
+      expect(mgr.context.featureFlags["hub:feature:workspace"]).toBeFalsy();
     });
     it("can refresh user", async () => {
       const selfSpy = spyOn(portalModule, "getSelf").and.callFake(() => {
@@ -1103,7 +1094,7 @@ describe("ArcGISContext:", () => {
         JSON.stringify(validSerializedContext)
       );
 
-      const mgr = await ArcGISContextManager.deserialize(serialized!);
+      const mgr = await ArcGISContextManager.deserialize(serialized);
       expect(selfSpy.calls.count()).toBe(0);
       expect(userSpy.calls.count()).toBe(0);
       expect(mgr.context.portalUrl).toBe(
@@ -1118,9 +1109,7 @@ describe("ArcGISContext:", () => {
       await mgr.context.refreshUser();
       expect(userSpy.calls.count()).toBe(1);
       expect(mgr.context.currentUser.groups?.length).toEqual(2);
-      expect(mgr.context.currentUser).toEqual(
-        updatedUserResponse as portalModule.IUser
-      );
+      expect(mgr.context.currentUser).toEqual(updatedUserResponse);
     });
   });
 

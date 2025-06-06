@@ -12,12 +12,12 @@ export const UserSchema: IConfigurationSchema = {
     settings: {
       type: "object",
       properties: {
-        preview: {
+        features: {
           type: "object",
           properties: {
             workspace: {
               type: "boolean",
-              default: false,
+              default: true,
             },
           },
         },

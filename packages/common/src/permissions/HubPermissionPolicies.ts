@@ -70,11 +70,23 @@ import { UserPermissionPolicies } from "../users/_internal/UserBusinessRules";
 /**
  * Highlevel Permission definitions for the Hub System as a whole
  * Typically other permissions depend on these so a whole set of features
- * can be enabled / disabled by changing a single permission
+ * can be enabled / disabled by changing a single permission.
  * MAKE SURE to add the permission string to the SystemPermissions array
  * in Permissions.ts
  */
 const SystemPermissionPolicies: IPermissionPolicy[] = [
+  // GATING PERMISSIONS
+  // these are used for the final release of a Hub Feature
+  // and should be removed when the feature is released
+  {
+    // Feature that gates the workspace release
+    // when all the other condition props are removed,
+    // the workspace feature will be available to all users
+    permission: "hub:gating:workspace:released",
+  },
+  // FEATURE PERMISSIONS
+  // these are used to enable/disable features in the Hub
+  // and are expected to be long-lived
   {
     permission: "hub:feature:ai-assistant",
     availability: ["alpha"],
@@ -92,10 +104,11 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     environments: ["devext"],
   },
   {
+    // Feature we can override to opt in/out of workspace
     permission: "hub:feature:workspace",
-    availability: ["alpha"],
-    environments: ["devext", "qaext", "production"],
+    dependencies: ["hub:gating:workspace:released"],
   },
+
   {
     // Enables access to the user preferences section of the user profile
     // This will likely be removed when we swap the user profile to use workspace
@@ -136,10 +149,7 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
   {
     // When enabled, the manage links will take the user the org home site
     permission: "hub:feature:workspace:user",
-    // NOTE: qaext and devext might seem redundant, given that hub:feature:workspace is alpha
-    // but we allow users to "opt-in" which overrides that
-    environments: ["production", "qaext", "devext"],
-    dependencies: ["hub:feature:workspace"],
+    dependencies: ["hub:gating:workspace:released"],
   },
   {
     // When enabled, the manage links will take the user the org home site

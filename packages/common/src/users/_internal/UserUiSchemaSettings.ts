@@ -83,7 +83,7 @@ export const buildUiSchema = async (
           {
             type: "Control",
             scope:
-              "/properties/settings/properties/preview/properties/workspace",
+              "/properties/settings/properties/features/properties/workspace",
             labelKey: `${i18nScope}.fields.workspacePreview.label`,
             options: {
               type: "Control",
