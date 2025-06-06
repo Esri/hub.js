@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <meta name="date" content="2025-06-04T14:11:11.351Z">
+    <meta name="date" content="2025-06-06T17:36:07.908Z">
     <title>Permissions and Access Controls | Guide | @esri/hub.js</title>
     
     <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
@@ -195,7 +195,7 @@
     <span class="hljs-comment">// this permission controls access to the domain editing UX</span>
     <span class="hljs-attr">permission</span>: <span class="hljs-string">"hub:site:edit:domain"</span>,
     <span class="hljs-comment">// by default, it's the same as hub:site:edit</span>
-    <span class="hljs-comment">// but by having a separate permission, the site can </span>
+    <span class="hljs-comment">// but by having a separate permission, the site can</span>
     <span class="hljs-comment">// add more rules... see the next section</span>
     <span class="hljs-attr">dependencies</span>: [<span class="hljs-string">"hub:site:edit"</span>],
     <span class="hljs-comment">// we also stipulate that it depends on the domains service</span>
@@ -232,9 +232,9 @@
     <span class="hljs-attr">environments</span>: [<span class="hljs-string">"qaext"</span>],
     <span class="hljs-comment">// this allows a site entity to turn this off</span>
     <span class="hljs-comment">// see Entity Feature Flags below</span>
-    <span class="hljs-attr">entityConfigurable</span>: <span class="hljs-literal">true</span>
+    <span class="hljs-attr">entityConfigurable</span>: <span class="hljs-literal">true</span>,
   },
-]
+];
 </code></pre>
 <h3>Entity Permission Policies</h3>
 <p>Entities can add additional &quot;gating&quot; for specific permissions. For example, a Site owner (<code>jsmith</code>) may choose to limit domain editing to themselves. So on the site entity, an <code>IEntityPermissionPolicy</code> would be added to the <code>.permissions</code> array, adding that conditition to the existing <code>IPermissionPolicy</code></p>
@@ -242,9 +242,9 @@
   {
     <span class="hljs-attr">permission</span>: <span class="hljs-string">"hub:site:edit:domain"</span>,
     <span class="hljs-attr">collaborationType</span>: <span class="hljs-string">"user"</span>,
-    <span class="hljs-attr">collaborationId</span>: <span class="hljs-string">"jsmith"</span>
-  }
-]
+    <span class="hljs-attr">collaborationId</span>: <span class="hljs-string">"jsmith"</span>,
+  },
+];
 </code></pre>
 <p>Entity Permission Policies are more limited than the full <code>IPermissionPolicy</code>, but they can cover a wide range of collaboration scenarios</p>
 <ul>
@@ -253,32 +253,31 @@
 <li>is the current user specifically granted access by name? (as shown above)</li>
 </ul>
 <p>Entities can define many policies for the same permission, and only one of those needs to pass.</p>
-<pre><code class="js">
-<span class="hljs-comment">// In this example jsmith or dvader will be granted access to hub:site:edit:domain</span>
+<pre><code class="js"><span class="hljs-comment">// In this example jsmith or dvader will be granted access to hub:site:edit:domain</span>
 site.permissions = [
   {
     <span class="hljs-attr">permission</span>: <span class="hljs-string">"hub:site:edit:domain"</span>,
     <span class="hljs-attr">collaborationType</span>: <span class="hljs-string">"user"</span>,
-    <span class="hljs-attr">collaborationId</span>: <span class="hljs-string">"jsmith"</span>
+    <span class="hljs-attr">collaborationId</span>: <span class="hljs-string">"jsmith"</span>,
   },
   {
     <span class="hljs-attr">permission</span>: <span class="hljs-string">"hub:site:edit:domain"</span>,
     <span class="hljs-attr">collaborationType</span>: <span class="hljs-string">"user"</span>,
-    <span class="hljs-attr">collaborationId</span>: <span class="hljs-string">"dvader"</span>
-  }
-]
+    <span class="hljs-attr">collaborationId</span>: <span class="hljs-string">"dvader"</span>,
+  },
+];
 </code></pre>
 <h3>Entity Features</h3>
 <p>Individual entities can disable &quot;features&quot; (which are represented by a permission). This is done by adding a key for the permission into the <code>entity.features</code> hash. Only permissions with <code>.entityConfigurable:true</code> will be read from this hash, ensuring general business rules can not be overridden.</p>
 <pre><code class="js">site.features = {
-  <span class="hljs-comment">// although the general business rules in the example above </span>
+  <span class="hljs-comment">// although the general business rules in the example above</span>
   <span class="hljs-comment">// allow sites to have the chat "feature",</span>
   <span class="hljs-comment">// by adding an entry for that permission, we can turn it off</span>
-  <span class="hljs-string">"hub:site:workspace:chat"</span>: <span class="hljs-literal">false</span>
+  <span class="hljs-string">"hub:site:workspace:chat"</span>: <span class="hljs-literal">false</span>,
   <span class="hljs-comment">// <span class="hljs-doctag">NOTE:</span> these values are only read if the permission policy specifically</span>
   <span class="hljs-comment">// allows the permission to be "configured" by the entity</span>
   <span class="hljs-comment">// by specifying entityConfigurable:true</span>
-}
+};
 </code></pre>
 <h3>System Feature Flags</h3>
 <p>Hub.js also supports system feature flags. These are passed into the <code>ArcGISContextManager.create(...)</code> as part of the options. The host application is responsible for parsing the values from the url.</p>
@@ -289,19 +288,67 @@ site.permissions = [
 <p>As noted, Permission policies can list the services they depend upon (see the <code>hub:site:edit:domains</code> definition). In order to test our graceful degradation UX, we need a means to simulate a service being offline.</p>
 <p>Similar to System Feature Flags, these are passed into <code>ArcGISContextManager.create(...)</code> as part of the options, and override the live status information.</p>
 <p>Service Flags are reset when the user formally signs out of the running application.</p>
+<h3>Feature Gating &amp; User Opt-in/out</h3>
+<p>During development, features are often gated—accessible only when a specific URI parameter is present or when the app runs in certain environments or availability modes (e.g., &quot;alpha&quot;). As release approaches, you may want to let users opt in to preview features. After general release, you may allow users to opt out for a limited time.</p>
+<h4>Defining Gating and Feature Permissions</h4>
+<p>Start by defining both &quot;gating&quot; and &quot;feature&quot; permissions:</p>
+<pre><code class="js">{
+  <span class="hljs-comment">// Gating permission: cannot be overridden by user settings</span>
+  <span class="hljs-attr">permission</span>: <span class="hljs-string">"hub:gating:workspace:released"</span>,
+  <span class="hljs-attr">availability</span>: [<span class="hljs-string">"alpha"</span>],
+  <span class="hljs-attr">environments</span>: [<span class="hljs-string">"devext"</span>, <span class="hljs-string">"qaext"</span>, <span class="hljs-string">"production"</span>],
+},
+{
+  <span class="hljs-comment">// Feature permission: can be opted in or out by the user</span>
+  <span class="hljs-attr">permission</span>: <span class="hljs-string">"hub:feature:workspace"</span>,
+  <span class="hljs-attr">dependencies</span>: [<span class="hljs-string">"hub:gating:workspace:released"</span>],
+},
+</code></pre>
+<h4>User Opt-in/Opt-out</h4>
+<p>When users can opt in, provide a UI that updates the <code>IUserHubSettings.features</code> object. Initially, users are opted out by default:</p>
+<pre><code class="json">{
+  <span class="hljs-attr">"features"</span>: {
+    <span class="hljs-attr">"workspace"</span>: <span class="hljs-literal">false</span>
+  }
+}
+</code></pre>
+<p>To release the feature to all users, remove conditions from the gating permission:</p>
+<pre><code class="js">{
+  <span class="hljs-attr">permission</span>: <span class="hljs-string">"hub:gating:workspace:released"</span>,
+},
+{
+  <span class="hljs-attr">permission</span>: <span class="hljs-string">"hub:feature:workspace"</span>,
+  <span class="hljs-attr">dependencies</span>: [<span class="hljs-string">"hub:gating:workspace:released"</span>],
+},
+</code></pre>
+<p>Update the <code>getDefaultUserHubSettings(...)</code> function so the feature is opted in by default:</p>
+<pre><code class="js">{
+  <span class="hljs-attr">schemaVersion</span>: <span class="hljs-number">1.1</span>,
+  username,
+  <span class="hljs-attr">updated</span>: <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().getTime(),
+  <span class="hljs-attr">features</span>: {
+    <span class="hljs-attr">workspace</span>: <span class="hljs-literal">true</span>,
+  },
+}
+</code></pre>
+<p>Update the UI to reflect the feature’s general availability. The boolean value should remain consistent: <code>true</code> means the user has the feature, <code>false</code> means they do not.</p>
+<h4>Ending the Opt-out Period</h4>
+<p>When the opt-out period ends, apply a schema migration to remove the feature property from <code>IUserHubSettings.features</code>. This prevents users from opting out, even manually, and allows you to remove legacy code.</p>
 <h3>Checking Permission Access</h3>
 <p>Permissions can be checked directly on an Entity instance via the <code>instance.checkPermission(permission)</code> method. If you don’t have access to an Entity Instance, the <code>checkPermission(permission, context, entity?)</code> function is also available.</p>
 <pre><code class="jsx"><span class="hljs-comment">// Check individual permission</span>
+
 checkPermission(<span class="hljs-string">"hub:events:create"</span>, entity, context);
+
 <span class="hljs-comment">//=&gt; {permission: "hub:events:create", access: false, response: "not-group-member", checks: [{"hub:events:create", value: "group:00c", response:"not-group-member"}]}</span>
 <span class="hljs-comment">// same function will be exposed on the class instances</span>
+
 site.checkPermission(<span class="hljs-string">"hub:pages:create"</span>);
 <span class="hljs-comment">//=&gt; {permission: "hub:pages:create", access: true, response: "group-member", checks: [{"hub:pages:create", value: "group:00c", response:"group-member"}]}</span>
 </code></pre>
-<p>If the check does not grant access, the entire check is logged to the console.</p>
 <p>Both return an <code>IPermissionAccessResponse</code> . The most important property is <code>.access</code> which indicates if the current user has access to the capability. The other properties are for debugging and observability into why the system is returning the <code>.access</code> value, and can be used to display different messages to the user.</p>
 <p>For example, the <code>.result</code> property will be <code>granted</code> if access is allowed, but if access is denied, it will be a more informative value.</p>
-<p>The table below lists all the values, but likely the two most important are:</p>
+<p>The table below lists all the values, but some of most important are:</p>
 <p><strong>not-licensed-available</strong> which means the feature is available, but user lacks a license. This is an opportunity to show an upgrade call-to-action</p>
 <p><strong>service-offline</strong> a required service is currently offline. Application can choose to show a general error message, or continue with a gracefully degraded experience.</p>
 <p><strong>service-not-available</strong> this means that the service is simply not available in the current environment. This is a good means to gate access to a feature that's not currently in Enterprise, but which we could add over time.</p>
