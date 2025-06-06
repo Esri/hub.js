@@ -49,6 +49,28 @@ describe("applyDefaultCollectionMigration", () => {
     expect(hiddenStatuses).toEqual([true, false, false, false]);
   });
 
+  it("handles default collections for the umbrella site", () => {
+    site.data.values.isUmbrella = true;
+    const result = applyDefaultCollectionMigration(site);
+    const collectionKeys = result.data.catalog.collections.map(
+      (c: IHubCollection) => c.key
+    );
+    expect(collectionKeys).toEqual([
+      "site",
+      "dataset",
+      "document",
+      "appAndMap",
+    ]);
+    const collectionLabels = result.data.catalog.collections.map(
+      (c: IHubCollection) => c.label
+    );
+    expect(collectionLabels).toEqual([null, null, null, null]);
+    const hiddenStatuses = result.data.catalog.collections.map(
+      (c: IHubCollection) => c.displayConfig?.hidden
+    );
+    expect(hiddenStatuses).toEqual([false, false, false, false]);
+  });
+
   it("Reorders, re-labels, and hides default collections when search categories are configured", () => {
     site.data.values.searchCategories = [
       {
@@ -145,6 +167,7 @@ describe("applyDefaultCollectionMigration", () => {
     );
     expect(hiddenStatuses).toEqual([]);
   });
+
   it("adds additional predicates for the appAndMap collection", () => {
     site.data.values.searchCategories = [
       {

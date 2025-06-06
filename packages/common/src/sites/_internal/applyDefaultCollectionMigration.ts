@@ -1,6 +1,8 @@
-import { getWithDefault } from "../../objects";
+import { getProp, getWithDefault, setProp } from "../../objects";
 import { IModel } from "../../hub-types";
 import { searchCategoriesToCollections } from "../searchCategoriesToCollections";
+import { SearchCategories } from "./types";
+import { IHubCollection } from "../../search";
 
 /**
  * In-Memory migration that adds default collections to site models that have the
@@ -24,9 +26,20 @@ export function applyDefaultCollectionMigration(model: IModel): IModel {
     model.data,
     "values.searchCategories",
     undefined
-  );
-  model.data.catalog.collections =
+  ) as SearchCategories[];
+
+  const collections: IHubCollection[] =
     searchCategoriesToCollections(searchCategories);
+
+  // The umbrella site needs to have every collection visible by default,
+  // unlike other sites that have the "site" collection hidden by default.
+  if (getProp(model, "data.values.isUmbrella")) {
+    collections.forEach((c) => {
+      c.displayConfig.hidden = false;
+    });
+  }
+
+  setProp("data.catalog.collections", collections, model);
 
   return model;
 }
