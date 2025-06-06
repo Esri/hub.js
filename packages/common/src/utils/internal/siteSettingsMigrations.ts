@@ -1,4 +1,3 @@
-import { getProp } from "../../objects/get-prop";
 import { cloneObject } from "../../util";
 import { hasOwnProperty } from "../hasOwnProperty";
 import { IUserHubSettings } from "../IUserHubSettings";
@@ -30,6 +29,7 @@ export function applyHubSettingsMigrations(
   // so we can chain them together, and at the end we cast back to IUserHubSettings
   let clone = cloneObject(settings) as ILegacyUserHubSettings;
   clone = swapPreviewToFeatures(clone);
+  //clone = clearWorkspaceFeatureForRelease(clone);
   return clone as IUserHubSettings;
 }
 
@@ -46,22 +46,20 @@ function swapPreviewToFeatures(
   if (settings.schemaVersion < 1.1) {
     settings.schemaVersion = 1.1;
     // if we have .preview, we need to copy it to .features
-    if (hasOwnProperty(settings, "preview") && !settings.features) {
-      // if preview has .workspace, copy it to .features
-      if (
-        hasOwnProperty(settings.preview as Record<string, unknown>, "workspace")
-      ) {
-        // If .preview exists and .features does not, copy .preview to .features
-        settings.features = {
-          workspace: getProp(settings, "preview.workspace") as boolean,
-        };
-      } else {
-        // set .features to an empty object
-        settings.features = {};
-      }
+    if (hasOwnProperty(settings, "preview")) {
+      // copy all props from .preview to .features
+      settings.features = cloneObject(settings.preview) as Record<
+        string,
+        unknown
+      >;
+      // remove .preview from settings
+      delete settings.preview;
+      // remove .features.workspace
+      delete settings.features.workspace;
     }
-    // Ensure .preview is removed
-    delete settings.preview;
+    if (!settings.features) {
+      settings.features = {};
+    }
   }
   return settings;
 }

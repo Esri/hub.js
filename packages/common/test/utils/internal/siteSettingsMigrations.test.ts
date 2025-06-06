@@ -24,6 +24,20 @@ describe("siteSettingsMigrations", () => {
       const result = applyHubSettingsMigrations(settings);
       expect(result.schemaVersion).toBe(1.1);
       expect((result as any).preview).toBeUndefined();
+      expect((result as any).features).toBeDefined();
+      expect((result as any).features.workspace).not.toBeDefined();
+    });
+    it("should migrate preview to features if schemaVersion < 1.1 and preview exists", () => {
+      const settings = {
+        schemaVersion: 1.0,
+        preview: { workspace: false },
+      } as any;
+
+      const result = applyHubSettingsMigrations(settings);
+      expect(result.schemaVersion).toBe(1.1);
+      expect((result as any).preview).toBeUndefined();
+      expect((result as any).features).toBeDefined();
+      expect((result as any).features.workspace).not.toBeDefined();
     });
 
     it("should not overwrite features if already present", () => {
@@ -64,7 +78,7 @@ describe("siteSettingsMigrations", () => {
       } as any;
       const result = applyHubSettingsMigrations(settings);
       expect(result.schemaVersion).toBe(1.1);
-      expect(result.features).toBeUndefined();
+      expect(result.features).toBeDefined();
       expect((result as any).preview).toBeUndefined();
     });
   });
