@@ -404,9 +404,9 @@ export function getKilobyteSizeOfQuery(
  * @returns IQuery
  */
 export function expandPortalQuery(query: IQuery): IQuery {
+  // TODO: remove once all usages of IQuery.collection are removed
   let updatedQuery = applyWellKnownCollectionFilters(query);
   // Expand well-known filterGroups
-  // TODO: Should we remove this with the whole idea of collections?
   updatedQuery = applyWellKnownItemPredicates(updatedQuery);
   // Expand the individual predicates in each filter
   return expandPredicates(updatedQuery);
