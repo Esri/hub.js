@@ -6,7 +6,7 @@ import {
 import { expandPredicate } from "../../../src/search/_internal/expandPredicate";
 
 describe("ipredicate-utils", () => {
-  fdescribe("expandPredicates;", () => {
+  describe("expandPredicates;", () => {
     it("expands group predicate", () => {
       const f: IPredicate = {
         term: "Orange",
