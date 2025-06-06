@@ -25,6 +25,7 @@ export const PREDICATE_COPY_PROPS = [
   "searchUserAccess",
   "searchUserName",
   "term",
+  "openData", // boolean used by the OGC Search API to filter items
 ];
 
 /**
