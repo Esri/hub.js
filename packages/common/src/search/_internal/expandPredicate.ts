@@ -54,14 +54,13 @@ export function expandPredicate(predicate: IPredicate): IPredicate {
     }
     // Handle Date fields
     if (PREDICATE_DATE_PROPS.includes(key)) {
-      // NOTE: I needed to add "as IRelativeDate" here because of the new eslint rule,
-      // but I don't think that it's always correct. The Else statement seems to indicate
-      // that the value could be a string or IMatchOptions, but we'd need more digging.
-      const dateFieldValue = cloneObject(
-        getProp(predicate, key)
-      ) as IRelativeDate;
+      const dateFieldValue = cloneObject(getProp(predicate, key)) as unknown;
       if (getProp(predicate, `${key}.type`) === "relative-date") {
-        setProp(key, relativeDateToDateRange(dateFieldValue), result);
+        setProp(
+          key,
+          relativeDateToDateRange(dateFieldValue as IRelativeDate),
+          result
+        );
       } else {
         setProp(key, dateFieldValue, result);
       }
