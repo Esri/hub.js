@@ -1,3 +1,10 @@
+# @esri/hub-common [17.18.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.17.0...@esri/hub-common@17.18.0) (2025-06-09)
+
+
+### Features
+
+* **hub-common:** ungate events ([#1915](https://github.com/Esri/hub.js/issues/1915)) ([07aeedc](https://github.com/Esri/hub.js/commit/07aeedce8a95c2de0ab03c2040fe198205584f53))
+
 # @esri/hub-common [17.17.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.16.5...@esri/hub-common@17.17.0) (2025-06-06)
 
 
