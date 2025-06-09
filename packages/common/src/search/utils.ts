@@ -3,20 +3,10 @@
 
 // TODO: deprecate all private functions in this file and more them to ./_internal
 
-import {
-  IUser,
-  ArcGISIdentityManager,
-  IRequestOptions,
-} from "@esri/arcgis-rest-request";
-import {
-  IGroup,
-  ISearchGroupUsersOptions,
-  ISearchOptions,
-  SearchQueryBuilder,
-} from "@esri/arcgis-rest-portal";
+import { IUser } from "@esri/arcgis-rest-request";
+import { IGroup, SearchQueryBuilder } from "@esri/arcgis-rest-portal";
 import { isPageType } from "../content/_internal/internalContentUtils";
 import { IHubSite } from "../core";
-import { ISearchResponse } from "../hub-types";
 import { cloneObject } from "../util";
 import { IHubSearchResult } from "./types";
 import { IPredicate, IQuery } from "./types/IHubCatalog";
@@ -179,60 +169,6 @@ export function relativeDateToDateRange(
   }
 
   return result;
-}
-
-/**
- * @private
- * Create a `.next()` function for a type
- * @param request
- * @param nextStart
- * @param total
- * @param fn
- * @returns
- */
-export function getNextFunction<T>(
-  request: ISearchOptions | ISearchGroupUsersOptions,
-  nextStart: number,
-  total: number,
-  fn: (r: unknown) => Promise<ISearchResponse<T>>
-): (authentication?: ArcGISIdentityManager) => Promise<ISearchResponse<T>> {
-  const clonedRequest = cloneObject(request);
-
-  // clone will not handle authentication so we do it manually
-  if (request.authentication) {
-    clonedRequest.authentication = ArcGISIdentityManager.deserialize(
-      (request.authentication as ArcGISIdentityManager).serialize()
-    );
-  }
-  // ensure that if we have requestOptions, we have also update the authentication on it
-  //
-  // NOTE: ISearchOptions does not have a requestOptions property so it is treated as "any"
-  // (hence all the casting).
-  //
-  // TODO: See if we can remove this (and identical branch in the return statement) once we
-  // have a better understanding of whether we are passing in requestOptions or not.
-  if ((request.requestOptions as IRequestOptions)?.authentication) {
-    (clonedRequest.requestOptions as IRequestOptions).authentication = (
-      request.requestOptions as IRequestOptions
-    ).authentication;
-  }
-
-  // figure out the start
-  clonedRequest.start = nextStart > -1 ? nextStart : total + 1;
-
-  return (
-    authentication?: ArcGISIdentityManager
-  ): Promise<ISearchResponse<T>> => {
-    if (authentication) {
-      clonedRequest.authentication = authentication;
-      // ensure that if we have requestOptions, we have also update the authentication on it
-      if (clonedRequest.requestOptions) {
-        (clonedRequest.requestOptions as IRequestOptions).authentication =
-          clonedRequest.authentication;
-      }
-    }
-    return fn(clonedRequest);
-  };
 }
 
 /**

@@ -11,8 +11,9 @@ import {
   IHubSearchResult,
   IQuery,
 } from "../types";
-import { getNextFunction, getKilobyteSizeOfQuery } from "../utils";
+import { getKilobyteSizeOfQuery } from "../utils";
 import { expandPredicate } from "./expandPredicate";
+import { getNextPortalCallback } from "./commonHelpers/getNextPortalCallback";
 
 /**
  * @private
@@ -100,7 +101,7 @@ async function searchPortal(
     results,
 
     hasNext: resp.nextStart > -1,
-    next: getNextFunction<IHubSearchResult>(
+    next: getNextPortalCallback<ISearchOptions, IHubSearchResult>(
       searchOptions,
       resp.nextStart,
       resp.total,

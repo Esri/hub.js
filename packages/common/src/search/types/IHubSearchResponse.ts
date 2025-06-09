@@ -27,7 +27,7 @@ export interface IHubSearchResponse<T> {
   /**
    * Function that fetches the next page of results
    */
-  next: (params?: any) => Promise<IHubSearchResponse<T>>;
+  next: () => Promise<IHubSearchResponse<T>>;
   /**
    * Array of requested aggregations
    */
