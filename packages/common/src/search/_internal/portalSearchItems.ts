@@ -20,10 +20,10 @@ import {
 } from "../types";
 import {
   addDefaultItemSearchPredicates,
-  getNextFunction,
   getKilobyteSizeOfQuery,
   expandPortalQuery,
 } from "../utils";
+import { getNextPortalCallback } from "./commonHelpers/getNextPortalCallback";
 import { convertPortalAggregations } from "./portalSearchUtils";
 import { expandPredicate } from "./expandPredicate";
 import HubError from "../../HubError";
@@ -150,7 +150,7 @@ async function searchPortalAsItem(
     results: resp.results,
     aggregations,
     hasNext: resp.nextStart > -1,
-    next: getNextFunction<IItem>(
+    next: getNextPortalCallback<ISearchOptions, IItem>(
       searchOptions,
       resp.nextStart,
       resp.total,
@@ -194,7 +194,7 @@ async function searchPortalAsHubSearchResult(
     results,
     aggregations,
     hasNext: resp.nextStart > -1,
-    next: getNextFunction<IHubSearchResult>(
+    next: getNextPortalCallback<ISearchOptions, IHubSearchResult>(
       searchOptions,
       resp.nextStart,
       resp.total,
