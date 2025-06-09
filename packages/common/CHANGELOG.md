@@ -1,3 +1,10 @@
+## @esri/hub-common [17.18.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.18.0...@esri/hub-common@17.18.1) (2025-06-09)
+
+
+### Bug Fixes
+
+* workspace permission update ([#1919](https://github.com/Esri/hub.js/issues/1919)) ([d1a8761](https://github.com/Esri/hub.js/commit/d1a8761faeac3390864756ef691818906276c713))
+
 # @esri/hub-common [17.18.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.17.0...@esri/hub-common@17.18.0) (2025-06-09)
 
 
