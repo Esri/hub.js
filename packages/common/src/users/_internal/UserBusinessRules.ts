@@ -70,8 +70,6 @@ export const UserPermissionPolicies: IPermissionPolicy[] = [
     services: ["events"],
     dependencies: ["hub:user:workspace", "hub:user:owner"],
     licenses: ["hub-premium"],
-    // gating, remove when releasing events 3
-    environments: ["devext", "qaext"],
   },
   {
     permission: "hub:user:workspace:settings",
