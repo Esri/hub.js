@@ -3,7 +3,11 @@
 
 // TODO: deprecate all private functions in this file and more them to ./_internal
 
-import { IUser, ArcGISIdentityManager } from "@esri/arcgis-rest-request";
+import {
+  IUser,
+  ArcGISIdentityManager,
+  IRequestOptions,
+} from "@esri/arcgis-rest-request";
 import {
   IGroup,
   ISearchGroupUsersOptions,
@@ -190,7 +194,7 @@ export function getNextFunction<T>(
   request: ISearchOptions | ISearchGroupUsersOptions,
   nextStart: number,
   total: number,
-  fn: (r: any) => Promise<ISearchResponse<T>>
+  fn: (r: unknown) => Promise<ISearchResponse<T>>
 ): (authentication?: ArcGISIdentityManager) => Promise<ISearchResponse<T>> {
   const clonedRequest = cloneObject(request);
 
@@ -201,20 +205,29 @@ export function getNextFunction<T>(
     );
   }
   // ensure that if we have requestOptions, we have also update the authentication on it
-  if (request.requestOptions?.authentication) {
-    clonedRequest.requestOptions.authentication =
-      request.requestOptions.authentication;
+  //
+  // NOTE: ISearchOptions does not have a requestOptions property so it is treated as "any"
+  // (hence all the casting).
+  //
+  // TODO: See if we can remove this (and identical branch in the return statement) once we
+  // have a better understanding of whether we are passing in requestOptions or not.
+  if ((request.requestOptions as IRequestOptions)?.authentication) {
+    (clonedRequest.requestOptions as IRequestOptions).authentication = (
+      request.requestOptions as IRequestOptions
+    ).authentication;
   }
 
   // figure out the start
   clonedRequest.start = nextStart > -1 ? nextStart : total + 1;
 
-  return (authentication?: ArcGISIdentityManager) => {
+  return (
+    authentication?: ArcGISIdentityManager
+  ): Promise<ISearchResponse<T>> => {
     if (authentication) {
       clonedRequest.authentication = authentication;
       // ensure that if we have requestOptions, we have also update the authentication on it
       if (clonedRequest.requestOptions) {
-        clonedRequest.requestOptions.authentication =
+        (clonedRequest.requestOptions as IRequestOptions).authentication =
           clonedRequest.authentication;
       }
     }
@@ -304,7 +317,8 @@ export function getScopeGroupPredicate(scope: IQuery): IPredicate {
   console.warn(
     `"getScopeGroupPredicate(query)" is deprecated. Please use "getGroupPredicate(qyr)`
   );
-  const isGroupPredicate = (predicate: IPredicate) => !!predicate.group;
+  const isGroupPredicate = (predicate: IPredicate): boolean =>
+    !!predicate.group;
   const groupFilter = scope.filters.find((f) =>
     f.predicates.find(isGroupPredicate)
   );
@@ -320,7 +334,7 @@ export function getScopeGroupPredicate(scope: IQuery): IPredicate {
 export function getGroupPredicate(query: IQuery): IPredicate {
   const predicate = "group";
   const expandedQuery = expandPortalQuery(query);
-  const isTargetPredicate = (p: IPredicate) => !!p[predicate];
+  const isTargetPredicate = (p: IPredicate): boolean => !!p[predicate];
   const filter = expandedQuery.filters.find((f) =>
     f.predicates.find(isTargetPredicate)
   );

@@ -1,4 +1,7 @@
-import { IHubCollection } from "../../../src/search/types/IHubCatalog";
+import {
+  IHubCatalog,
+  IHubCollection,
+} from "../../../src/search/types/IHubCatalog";
 import { applyDefaultCollectionMigration } from "../../../src/sites/_internal/applyDefaultCollectionMigration";
 import { SearchCategories } from "../../../src/sites/_internal/types";
 import { IModel } from "../../../src/hub-types";
@@ -30,7 +33,7 @@ describe("applyDefaultCollectionMigration", () => {
 
   it("Adds untouched default collections when no search categories are configured", () => {
     const result = applyDefaultCollectionMigration(site);
-    const collectionKeys = result.data.catalog.collections.map(
+    const collectionKeys = (result.data.catalog as IHubCatalog).collections.map(
       (c: IHubCollection) => c.key
     );
     expect(collectionKeys).toEqual([
@@ -39,11 +42,11 @@ describe("applyDefaultCollectionMigration", () => {
       "document",
       "appAndMap",
     ]);
-    const collectionLabels = result.data.catalog.collections.map(
-      (c: IHubCollection) => c.label
-    );
+    const collectionLabels = (
+      result.data.catalog as IHubCatalog
+    ).collections.map((c: IHubCollection) => c.label);
     expect(collectionLabels).toEqual([null, null, null, null]);
-    const hiddenStatuses = result.data.catalog.collections.map(
+    const hiddenStatuses = (result.data.catalog as IHubCatalog).collections.map(
       (c: IHubCollection) => c.displayConfig?.hidden
     );
     expect(hiddenStatuses).toEqual([true, false, false, false]);
@@ -52,7 +55,7 @@ describe("applyDefaultCollectionMigration", () => {
   it("handles default collections for the umbrella site", () => {
     site.data.values.isUmbrella = true;
     const result = applyDefaultCollectionMigration(site);
-    const collectionKeys = result.data.catalog.collections.map(
+    const collectionKeys = (result.data.catalog as IHubCatalog).collections.map(
       (c: IHubCollection) => c.key
     );
     expect(collectionKeys).toEqual([
@@ -61,11 +64,11 @@ describe("applyDefaultCollectionMigration", () => {
       "document",
       "appAndMap",
     ]);
-    const collectionLabels = result.data.catalog.collections.map(
-      (c: IHubCollection) => c.label
-    );
+    const collectionLabels = (
+      result.data.catalog as IHubCatalog
+    ).collections.map((c: IHubCollection) => c.label);
     expect(collectionLabels).toEqual([null, null, null, null]);
-    const hiddenStatuses = result.data.catalog.collections.map(
+    const hiddenStatuses = (result.data.catalog as IHubCatalog).collections.map(
       (c: IHubCollection) => c.displayConfig?.hidden
     );
     expect(hiddenStatuses).toEqual([false, false, false, false]);
@@ -92,7 +95,7 @@ describe("applyDefaultCollectionMigration", () => {
       },
     ];
     const result = applyDefaultCollectionMigration(site);
-    const collectionKeys = result.data.catalog.collections.map(
+    const collectionKeys = (result.data.catalog as IHubCatalog).collections.map(
       (c: IHubCollection) => c.key
     );
 
@@ -103,12 +106,12 @@ describe("applyDefaultCollectionMigration", () => {
       "dataset",
     ]);
 
-    const collectionLabels = result.data.catalog.collections.map(
-      (c: IHubCollection) => c.label
-    );
+    const collectionLabels = (
+      result.data.catalog as IHubCatalog
+    ).collections.map((c: IHubCollection) => c.label);
     expect(collectionLabels).toEqual([null, null, "My Sites", "My Data"]);
 
-    const hiddenStatuses = result.data.catalog.collections.map(
+    const hiddenStatuses = (result.data.catalog as IHubCatalog).collections.map(
       (c: IHubCollection) => c.displayConfig.hidden
     );
     expect(hiddenStatuses).toEqual([false, true, false, false]);
@@ -123,17 +126,17 @@ describe("applyDefaultCollectionMigration", () => {
       },
     ];
     const result = applyDefaultCollectionMigration(site);
-    const collectionKeys = result.data.catalog.collections.map(
+    const collectionKeys = (result.data.catalog as IHubCatalog).collections.map(
       (c: IHubCollection) => c.key
     );
     expect(collectionKeys).toEqual(["site"]);
 
-    const collectionLabels = result.data.catalog.collections.map(
-      (c: IHubCollection) => c.label
-    );
+    const collectionLabels = (
+      result.data.catalog as IHubCatalog
+    ).collections.map((c: IHubCollection) => c.label);
     expect(collectionLabels).toEqual(["My Initiatives"]);
 
-    const hiddenStatuses = result.data.catalog.collections.map(
+    const hiddenStatuses = (result.data.catalog as IHubCatalog).collections.map(
       (c: IHubCollection) => c.displayConfig.hidden
     );
     expect(hiddenStatuses).toEqual([true]);
@@ -151,18 +154,18 @@ describe("applyDefaultCollectionMigration", () => {
       },
     ];
     const result = applyDefaultCollectionMigration(site);
-    const collectionKeys = result.data.catalog.collections.map(
+    const collectionKeys = (result.data.catalog as IHubCatalog).collections.map(
       (c: IHubCollection) => c.key
     );
 
     expect(collectionKeys).toEqual([]);
 
-    const collectionLabels = result.data.catalog.collections.map(
-      (c: IHubCollection) => c.label
-    );
+    const collectionLabels = (
+      result.data.catalog as IHubCatalog
+    ).collections.map((c: IHubCollection) => c.label);
     expect(collectionLabels).toEqual([]);
 
-    const hiddenStatuses = result.data.catalog.collections.map(
+    const hiddenStatuses = (result.data.catalog as IHubCatalog).collections.map(
       (c: IHubCollection) => c.displayConfig.hidden
     );
     expect(hiddenStatuses).toEqual([]);
@@ -175,13 +178,13 @@ describe("applyDefaultCollectionMigration", () => {
       },
     ];
     const result = applyDefaultCollectionMigration(site);
-    const collectionKeys = result.data.catalog.collections.map(
+    const collectionKeys = (result.data.catalog as IHubCatalog).collections.map(
       (c: IHubCollection) => c.key
     );
     expect(collectionKeys).toEqual(["appAndMap"]);
 
-    const collectionPredicates =
-      result.data.catalog.collections[0].scope.filters[0].predicates;
+    const collectionPredicates = (result.data.catalog as IHubCatalog)
+      .collections[0].scope.filters[0].predicates;
     expect(collectionPredicates).toEqual([
       {
         type: {

@@ -1,6 +1,6 @@
 import { getProp, setProp } from "../../objects";
 import { cloneObject } from "../../util";
-import { IPredicate } from "../types";
+import { IPredicate, IRelativeDate } from "../types";
 import { relativeDateToDateRange, valueToMatchOptions } from "../utils";
 
 /**
@@ -54,7 +54,12 @@ export function expandPredicate(predicate: IPredicate): IPredicate {
     }
     // Handle Date fields
     if (PREDICATE_DATE_PROPS.includes(key)) {
-      const dateFieldValue = cloneObject(getProp(predicate, key));
+      // NOTE: I needed to add "as IRelativeDate" here because of the new eslint rule,
+      // but I don't think that it's always correct. The Else statement seems to indicate
+      // that the value could be a string or IMatchOptions, but we'd need more digging.
+      const dateFieldValue = cloneObject(
+        getProp(predicate, key)
+      ) as IRelativeDate;
       if (getProp(predicate, `${key}.type`) === "relative-date") {
         setProp(key, relativeDateToDateRange(dateFieldValue), result);
       } else {
@@ -62,7 +67,10 @@ export function expandPredicate(predicate: IPredicate): IPredicate {
       }
     }
     // Handle fields that are just copied forward
-    if (PREDICATE_COPY_PROPS.includes(key) && predicate.hasOwnProperty(key)) {
+    if (
+      PREDICATE_COPY_PROPS.includes(key) &&
+      Object.prototype.hasOwnProperty.call(predicate, key)
+    ) {
       setProp(key, value, result);
     }
   });
