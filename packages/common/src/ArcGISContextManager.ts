@@ -327,7 +327,7 @@ export class ArcGISContextManager {
       );
     }
     // update the user-app-resource
-    await updateUserHubSettings(settings, this.context);
+    await updateUserHubSettings(settings, this.context, true);
     // update the context
     this._userHubSettings = settings;
     // update the feature flags

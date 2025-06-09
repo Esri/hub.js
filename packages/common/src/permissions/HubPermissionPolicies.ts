@@ -149,7 +149,8 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
   {
     // When enabled, the manage links will take the user the org home site
     permission: "hub:feature:workspace:user",
-    dependencies: ["hub:gating:workspace:released"],
+    // depends on hub:feature:workspace so users can opt out
+    dependencies: ["hub:feature:workspace"],
   },
   {
     // When enabled, the manage links will take the user the org home site
