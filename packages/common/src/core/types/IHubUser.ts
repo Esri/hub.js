@@ -90,6 +90,8 @@ export interface IHubUserOrgSettings {
    * Whether or not to show the informational banner
    */
   showInformationalBanner?: boolean;
+
+  informationalBanner?: Record<string, unknown>;
   /**
    * Whether or not to enable terms and conditions when signing up in a community org
    */
