@@ -2,7 +2,6 @@ import { IPortal, IUser } from "@esri/arcgis-rest-portal";
 import { cloneObject, getProp, IArcGISContext } from "../../src";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import {
-  ICatalogScope,
   IFilter,
   IHubCatalog,
   IHubCollection,
@@ -156,15 +155,11 @@ describe("Catalog Class:", () => {
       const instance = Catalog.fromJson(cloneObject(catalogJson), context);
       expect(instance.toJson()).toEqual(catalogJson);
       expect(instance.schemaVersion).toEqual(catalogJson.schemaVersion);
-      expect(instance.title).toEqual(catalogJson.title as string);
-      expect(instance.scopes).toEqual(catalogJson.scopes as ICatalogScope);
-      expect(instance.getScope("item")).toEqual(
-        catalogJson.scopes?.item as IQuery
-      );
+      expect(instance.title).toEqual(catalogJson.title);
+      expect(instance.scopes).toEqual(catalogJson.scopes);
+      expect(instance.getScope("item")).toEqual(catalogJson.scopes?.item);
       expect(instance.getScope("channel")).toBeUndefined();
-      expect(instance.collections).toEqual(
-        catalogJson.collections as IHubCollection[]
-      );
+      expect(instance.collections).toEqual(catalogJson.collections);
       expect(instance.collectionNames).toEqual(["teams", "environment"]);
       instance.title = "Changed Title";
       expect(instance.title).toBe("Changed Title");
@@ -280,7 +275,6 @@ describe("Catalog Class:", () => {
         targetEntity: "item",
         scope: {
           targetEntity: "item",
-          collection: "document",
         } as IQuery,
       });
       const docCollection = instance.getCollection("documents");
@@ -324,7 +318,7 @@ describe("Catalog Class:", () => {
       expect(collection).toBeDefined();
       expect(collection?.key).toBe("item-custom");
       const json = collection?.toJson();
-      expect(json?.scope).toEqual(catalogJson.scopes?.item as IQuery);
+      expect(json?.scope).toEqual(catalogJson.scopes?.item);
     });
 
     it("adds passed filters to base scope", () => {
@@ -363,7 +357,7 @@ describe("Catalog Class:", () => {
         fake: "response",
       } as unknown as IHubSearchResponse<IHubSearchResult>);
       // check the args
-      const [query, opts] = hubSearchSpy.calls.argsFor(0);
+      const [query] = hubSearchSpy.calls.argsFor(0);
       expect(query.targetEntity).toBe("item");
       expect(query.filters[0].predicates[0].term).toBe("water");
       expect(query.filters[1]).toEqual(catalogJson.scopes?.item?.filters[0]);
@@ -379,7 +373,7 @@ describe("Catalog Class:", () => {
         fake: "response",
       } as unknown as IHubSearchResponse<IHubSearchResult>);
       // check the args
-      const [query, opts] = hubSearchSpy.calls.argsFor(0);
+      const [query] = hubSearchSpy.calls.argsFor(0);
       expect(query.targetEntity).toBe("item");
       expect(query.filters[0].predicates[0].term).toBe("water");
       expect(query.filters[1]).toEqual(catalogJson.scopes?.item?.filters[0]);
@@ -424,7 +418,7 @@ describe("Catalog Class:", () => {
         fake: "response",
       } as unknown as IHubSearchResponse<IHubSearchResult>);
       // check the args
-      const [query, opts] = hubSearchSpy.calls.argsFor(0);
+      const [query] = hubSearchSpy.calls.argsFor(0);
       expect(query.targetEntity).toBe("group");
       expect(query.filters[0].predicates[0].term).toBe("water");
       expect(query.filters[1]).toEqual(catalogJson.scopes?.group?.filters[0]);
@@ -440,7 +434,7 @@ describe("Catalog Class:", () => {
         fake: "response",
       } as unknown as IHubSearchResponse<IHubSearchResult>);
       // check the args
-      const [query, opts] = hubSearchSpy.calls.argsFor(0);
+      const [query] = hubSearchSpy.calls.argsFor(0);
       expect(query.targetEntity).toBe("group");
       expect(query.filters[0].predicates[0].term).toBe("water");
       expect(query.filters[1]).toEqual(catalogJson.scopes?.group?.filters[0]);
@@ -457,7 +451,7 @@ describe("Catalog Class:", () => {
         fake: "response",
       } as unknown as IHubSearchResponse<IHubSearchResult>);
       // check the args
-      const [query, opts] = hubSearchSpy.calls.argsFor(0);
+      const [query] = hubSearchSpy.calls.argsFor(0);
       expect(query.targetEntity).toBe("user");
       expect(query.filters[0].predicates[0].term).toBe("water");
       expect(query.filters[1]).toEqual(catalogJson.scopes?.user?.filters[0]);
