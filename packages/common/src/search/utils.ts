@@ -26,7 +26,6 @@ import {
 } from "./_internal/commonHelpers/isLegacySearchCategory";
 import { toCollectionKey } from "./_internal/commonHelpers/toCollectionKey";
 import {
-  applyWellKnownCollectionFilters,
   applyWellKnownItemPredicates,
   expandPredicates,
 } from "./_internal/portalSearchItems";
@@ -354,10 +353,8 @@ export function getKilobyteSizeOfQuery(
  * @returns IQuery
  */
 export function expandPortalQuery(query: IQuery): IQuery {
-  // TODO: remove once all usages of IQuery.collection are removed
-  let updatedQuery = applyWellKnownCollectionFilters(query);
   // Expand well-known filterGroups
-  updatedQuery = applyWellKnownItemPredicates(updatedQuery);
+  const updatedQuery = applyWellKnownItemPredicates(query);
   // Expand the individual predicates in each filter
   return expandPredicates(updatedQuery);
 }

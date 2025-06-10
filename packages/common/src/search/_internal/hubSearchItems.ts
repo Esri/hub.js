@@ -22,8 +22,6 @@ export async function hubSearchItems(
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
   const expanded = expandPortalQuery(query);
-  // TODO: Remove once all usages of `IQuery.collection` are removed
-  delete expanded.collection;
   if (options.aggFields?.length) {
     return searchOgcAggregations(expanded, options);
   }

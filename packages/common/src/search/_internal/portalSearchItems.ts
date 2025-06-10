@@ -10,7 +10,6 @@ import { enrichTemplateSearchResult } from "../../templates/fetch";
 import { HubFamilies, HubFamily, IHubRequestOptions } from "../../hub-types";
 
 import {
-  IFilter,
   IHubSearchOptions,
   IHubSearchResponse,
   IHubSearchResult,
@@ -29,8 +28,6 @@ import { expandPredicate } from "./expandPredicate";
 import HubError from "../../HubError";
 import { enrichContentSearchResult } from "../../content/search";
 import { cloneObject } from "../../util";
-import { getWellknownCollection } from "../wellKnownCatalog";
-import { getProp } from "../../objects";
 import { getFamilyTypes } from "../../content/get-family";
 
 /**
@@ -406,32 +403,6 @@ export const WellKnownItemPredicates: IWellKnownItemPredicates = {
     },
   ],
 };
-
-/**
- * @private
- * Add filter blocks from a well-known item collection if indicated.
- * This is meant to simplify query construction for common use cases.
- *
- * Only exported for testing.
- *
- * @param query query to add collection filters to
- * @returns a copy of the query with the additional filters
- */
-export function applyWellKnownCollectionFilters(query: IQuery): IQuery {
-  const updated = cloneObject(query);
-  if (updated.collection) {
-    const { collection, targetEntity, filters: queryFilters } = query;
-    const wellKnownCollection = getWellknownCollection(
-      "",
-      targetEntity,
-      collection
-    );
-    const wellKnownFilters: IFilter[] =
-      getProp(wellKnownCollection, "scope.filters") || [];
-    updated.filters = [...queryFilters, ...wellKnownFilters];
-  }
-  return updated;
-}
 
 /**
  * @private

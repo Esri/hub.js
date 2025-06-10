@@ -1,20 +1,12 @@
 import * as Portal from "@esri/arcgis-rest-portal";
-import {
-  cloneObject,
-  getWellknownCollection,
-  IHubSearchOptions,
-  IQuery,
-  WellKnownCollection,
-} from "../../../src";
+import { cloneObject, IHubSearchOptions, IQuery } from "../../../src";
 import { getFamilyTypes } from "../../../src/content/get-family";
 
 import * as SimpleResponse from "../../mocks/portal-search/simple-response.json";
 import * as AllTypesResponse from "../../mocks/portal-search/response-with-key-types.json";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
 import {
-  applyWellKnownCollectionFilters,
   applyWellKnownItemPredicates,
-  isFamilyExpansionType,
   portalSearchItems,
   portalSearchItemsAsItems,
   WellKnownItemPredicates,
@@ -567,69 +559,6 @@ describe("portalSearchItems Module:", () => {
           ...getFamilyTypes("site"),
           "Hub Initiative",
         ]);
-      });
-    });
-    describe("applyWellKnownCollectionFilters", () => {
-      const baseQuery: IQuery = {
-        targetEntity: "item",
-        filters: [
-          {
-            predicates: [
-              {
-                term: "My Search Terms",
-              },
-            ],
-          },
-        ],
-      };
-      it("performs a no-op when no collection collection is indicated", () => {
-        const query = cloneObject(baseQuery);
-        const result = applyWellKnownCollectionFilters(query);
-        expect(result).toEqual(query);
-      });
-
-      it("performs a no-op when an invalid collection id is indicated", () => {
-        const query = cloneObject(baseQuery);
-        query.collection = "fake" as WellKnownCollection;
-        const result = applyWellKnownCollectionFilters(query);
-        expect(result).toEqual(query);
-      });
-
-      it("appends the a collection's filters when available", () => {
-        const query = cloneObject(baseQuery);
-        query.collection = "dataset";
-        const result = applyWellKnownCollectionFilters(query);
-
-        const datasetCollection = getWellknownCollection("", "item", "dataset");
-        const expected = cloneObject(query);
-        expected.filters = [
-          ...expected.filters,
-          ...datasetCollection.scope.filters,
-        ];
-
-        expect(result).toEqual(expected);
-      });
-
-      describe("isFamilyExpansionType", () => {
-        it("returns true for a family type", () => {
-          expect(isFamilyExpansionType("$content")).toBe(true);
-        });
-
-        it("returns false for a non-family type", () => {
-          expect(isFamilyExpansionType("$webmap")).toBe(false);
-        });
-
-        it("returns false for a dollar sign type that is not a family", () => {
-          expect(isFamilyExpansionType("$storymap")).toBe(false);
-        });
-
-        it("returns false for a family type that does not have a dollar sign in front", () => {
-          expect(isFamilyExpansionType("content")).toBe(false);
-        });
-
-        it("returns false for an empty key", () => {
-          expect(isFamilyExpansionType("")).toBe(false);
-        });
       });
     });
   });
