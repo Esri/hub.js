@@ -115,8 +115,9 @@ export function getChannelOrgIds(channel: IChannel): string[] {
     ? channel.channelAcl.reduce(
         (acc, permission) =>
           permission.category === AclCategory.ORG &&
-          permission.subCategory === AclSubCategory.MEMBER
-            ? [...acc, permission.key]
+          !acc.includes(permission.key)
+            ? // permission.subCategory === AclSubCategory.MEMBER
+              [...acc, permission.key]
             : acc,
         []
       )
@@ -156,6 +157,9 @@ export function getChannelUsersQuery(
   currentUsername?: string
 ): IQuery {
   const groupIds = getChannelGroupIds(channel);
+  // TODO: I believe this logic needs to change for V2...
+  // I'm not sure at this time how to build this query correctly...
+  // we need to take into account channel owners, orgs & groups now and users in the future
   const orgIds = getChannelOrgIds(channel);
   const groupsPredicate = { group: groupIds };
   let filters: IFilter[];
