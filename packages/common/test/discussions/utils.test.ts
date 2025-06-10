@@ -14,6 +14,7 @@ import {
   IChannel,
   AclCategory,
   AclSubCategory,
+  Role,
   getPostCSVFileName,
   channelToSearchResult,
 } from "../../src";
@@ -199,10 +200,29 @@ describe("discussions utils", () => {
               category: AclCategory.ORG,
               subCategory: AclSubCategory.MEMBER,
               key: "31c",
+              role: Role.READWRITE,
+            },
+            {
+              category: AclCategory.ORG,
+              subCategory: AclSubCategory.ADMIN,
+              key: "31c",
+              role: Role.MODERATE,
+            },
+            {
+              category: AclCategory.ORG,
+              subCategory: AclSubCategory.ADMIN,
+              key: "31c",
+              role: Role.OWNER,
+            },
+            {
+              category: AclCategory.ORG,
+              subCategory: AclSubCategory.MEMBER,
+              key: "31d",
+              role: Role.READ,
             },
           ],
         } as IChannel)
-      ).toEqual(["31c"]);
+      ).toEqual(["31c", "31d"]);
     });
   });
   describe("getChannelGroupIds", () => {
