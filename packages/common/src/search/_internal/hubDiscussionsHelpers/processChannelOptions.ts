@@ -11,6 +11,7 @@ const SORT_FIELD_MAP: Record<string, ChannelSort> = {
   created: ChannelSort.CREATED_AT,
   modified: ChannelSort.UPDATED_AT,
   owner: ChannelSort.CREATOR,
+  lastActivity: ChannelSort.LAST_ACTIVITY,
 };
 
 const SORT_ORDER_MAP: Record<"desc" | "asc", SortOrder> = {
