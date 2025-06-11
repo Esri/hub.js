@@ -20,7 +20,7 @@ export function transformEntityToEditor(
   return {
     id: entity.id,
     name: entity.name,
-    blockWords: entity.blockWords.join(","),
+    blockWords: (entity.blockWords || []).join(","),
     allowAsAnonymous: entity.allowAsAnonymous,
     publicConfigs: transformEntityPermissionPoliciesToPublicFormValues(
       entity.permissions
