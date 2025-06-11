@@ -25,10 +25,8 @@ export async function updatePortalOrgSettings(
   // grab and clone portalProperties
   const portalProperties = cloneObject(context.portal.portalProperties);
   // grab settings
-  const { showInformationalBanner, informationalBanner } = settings;
+  const { informationalBanner } = settings;
   // update infoBanner value in portalProperties
-  portalProperties.hub.settings.showInformationalBanner =
-    showInformationalBanner;
   portalProperties.hub.settings.informationalBanner = informationalBanner;
   // build the url
   const urlPath = `/sharing/rest/portals/self/update?f=json`;
