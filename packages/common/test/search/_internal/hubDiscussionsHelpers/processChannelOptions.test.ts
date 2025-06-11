@@ -29,6 +29,8 @@ describe("processChannelOptions", () => {
     expect(results.sortBy).toEqual(ChannelSort.UPDATED_AT);
     results = processChannelOptions({ sortField: "owner" });
     expect(results.sortBy).toEqual(ChannelSort.CREATOR);
+    results = processChannelOptions({ sortField: "lastActivity" });
+    expect(results.sortBy).toEqual(ChannelSort.LAST_ACTIVITY);
   });
   it("should support sortOrder", () => {
     let results = processChannelOptions({});
