@@ -48,7 +48,6 @@ export const UserPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:user:workspace",
-    environments: ["production", "qaext", "devext"],
     // seems like this should also depend on hub:user,
     // but other entities don't do that
     dependencies: ["hub:feature:workspace"],
