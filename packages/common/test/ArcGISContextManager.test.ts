@@ -1127,7 +1127,9 @@ describe("ArcGISContextManager:", () => {
       expect(mgr.context.isPortal).toBe(true);
       expect(mgr.context.hubUrl).toBeUndefined();
       expect(mgr.context.ogcApiUrl).toBeUndefined();
-      expect(mgr.context.hubHomeUrl).toBeUndefined();
+      expect(mgr.context.hubHomeUrl).toBe(
+        "https://myenterprise.com/gis/apps/sites/#/home"
+      );
       expect(mgr.context.discussionsServiceUrl).toBeUndefined();
       expect(mgr.context.hubSearchServiceUrl).toBeUndefined();
       expect(mgr.context.domainServiceUrl).toBeUndefined();
