@@ -48,7 +48,7 @@ import { getSortByQueryParam } from "../../../src/search/_internal/hubSearchItem
 describe("hubSearchItems Module |", () => {
   describe("Request Transformation Helpers |", () => {
     describe("getOgcCollectionUrl", () => {
-      it("defaults to the all collection if a collection id is not present", () => {
+      it("points to the all collection if the targetEntity is item", () => {
         const query: IQuery = {
           targetEntity: "item",
           filters: [],
@@ -61,23 +61,6 @@ describe("hubSearchItems Module |", () => {
         };
         const result = getOgcCollectionUrl(query, options);
         expect(result).toBe("https://my-hub.com/api/search/v1/collections/all");
-      });
-      it("points to the provided collection if a collection id is present", () => {
-        const query: IQuery = {
-          targetEntity: "item",
-          collection: "dataset",
-          filters: [],
-        };
-        const options: IHubSearchOptions = {
-          api: {
-            type: "arcgis-hub",
-            url: "https://my-hub.com/api/search/v1",
-          },
-        };
-        const result = getOgcCollectionUrl(query, options);
-        expect(result).toBe(
-          "https://my-hub.com/api/search/v1/collections/dataset"
-        );
       });
       it("points to the V2 Discussion post collection if the targetEntity is discussionPost", () => {
         const query: IQuery = {
@@ -861,11 +844,6 @@ describe("hubSearchItems Module |", () => {
         });
       });
       it("adds item.properties.location on result", async () => {
-        const mockedItemToSearchResultResponse = {
-          id: "9001",
-          type: "Feature Service",
-          family: "map",
-        } as unknown as IHubSearchResult;
         const delegateSpy = spyOn(
           portalSearchItemsModule,
           "itemToSearchResult"
@@ -978,7 +956,7 @@ describe("hubSearchItems Module |", () => {
         total: 0,
         results: [],
         hasNext: false,
-        next: async () => null as any,
+        next: async () => null,
       };
 
       let searchOgcItemsSpy: jasmine.Spy;
@@ -1131,7 +1109,7 @@ describe("hubSearchItems Module |", () => {
           ok: true,
           statusText: "200: Ok",
           status: 200,
-          json: () => Promise.resolve(),
+          json: (): Promise<void> => Promise.resolve(),
         };
         const _fetch: any = async (finalUrl: string) => {
           expect(finalUrl).toBe(`${hubApiUrl}?type=CSV&target=${siteHostname}`);
@@ -1153,7 +1131,7 @@ describe("hubSearchItems Module |", () => {
           ok: true,
           statusText: "200: Ok",
           status: 200,
-          json: () => Promise.resolve(),
+          json: (): Promise<void> => Promise.resolve(),
         };
         const _fetch: any = async (finalUrl: string) => {
           expect(finalUrl).toBe(`${hubApiUrl}?type=CSV`);
@@ -1175,7 +1153,7 @@ describe("hubSearchItems Module |", () => {
           ok: true,
           statusText: "200: Ok",
           status: 200,
-          json: () => Promise.resolve(),
+          json: (): Promise<void> => Promise.resolve(),
         };
         const _fetch: any = async (finalUrl: string) => {
           expect(finalUrl).toBe(`${hubApiUrl}?type=CSV`);
@@ -1216,16 +1194,15 @@ describe("hubSearchItems Module |", () => {
     });
     describe("hubSearchItems", () => {
       describe("searchOgcItems |", () => {
-        afterEach(fetchMock.restore);
-        it("hits the items endpoint for the specified collection", async () => {
+        afterEach(() => fetchMock.restore());
+        it("expands predicates and hits the items endpoint with the specified query", async () => {
           const query: IQuery = {
             targetEntity: "item",
-            collection: "dataset",
             filters: [
               {
                 predicates: [
                   {
-                    type: "Feature Service",
+                    type: "$site", // Well-known predicate for the site collection
                   },
                 ],
               },
@@ -1244,8 +1221,8 @@ describe("hubSearchItems Module |", () => {
           };
 
           fetchMock.once(
-            `https://hubqa.arcgis.com/api/v1/search/collections/dataset/items?filter=${encodeURIComponent(
-              "((type='Feature Service'))"
+            `https://hubqa.arcgis.com/api/v1/search/collections/all/items?filter=${encodeURIComponent(
+              "((type IN ('Hub Site Application', 'Site Application')))"
             )}&limit=1&target=${siteHostname}`,
             ogcItemsResponse
           );
@@ -1257,13 +1234,19 @@ describe("hubSearchItems Module |", () => {
       });
 
       describe("searchOgcAggregations |", () => {
-        afterEach(fetchMock.restore);
-        it("hits the aggregations endpoint for the specified collection api url", async () => {
-          // TODO: add a query once the aggregations endpoint can handle arbitrary filters
+        afterEach(() => fetchMock.restore());
+        it("expands predicates and hits the aggregations endpoint with the specified query ", async () => {
           const query: IQuery = {
             targetEntity: "item",
-            collection: "dataset",
-            filters: [],
+            filters: [
+              {
+                predicates: [
+                  {
+                    type: "$site", // Well-known predicate for the site collection
+                  },
+                ],
+              },
+            ],
           };
           const siteHostname = "my-test-site.arcgis.com";
           const options: IHubSearchOptions = {
@@ -1278,8 +1261,10 @@ describe("hubSearchItems Module |", () => {
           };
 
           fetchMock.once(
-            `https://hubqa.arcgis.com/api/v1/search/collections/dataset/aggregations?aggregations=${encodeURIComponent(
+            `https://hubqa.arcgis.com/api/v1/search/collections/all/aggregations?aggregations=${encodeURIComponent(
               "terms(fields=(access,type))"
+            )}&filter=${encodeURIComponent(
+              "((type IN ('Hub Site Application', 'Site Application')))"
             )}&target=${siteHostname}`,
             ogcAggregationsResponse
           );

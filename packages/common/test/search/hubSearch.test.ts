@@ -28,7 +28,7 @@ describe("hubSearch Module:", () => {
           expect(error.message).toBe("Query must have a filters array.");
         }
       });
-      it("throws if Query has an empty filters array and no collection prop", async () => {
+      it("throws if Query has an empty filters array", async () => {
         try {
           await hubSearch(
             { filters: [] } as unknown as IQuery,
@@ -37,9 +37,7 @@ describe("hubSearch Module:", () => {
         } catch (err) {
           const error = err as { name?: string; message?: string };
           expect(error.name).toBe("HubError");
-          expect(error.message).toBe(
-            "Query must contain at least one Filter or a collection."
-          );
+          expect(error.message).toBe("Query must contain at least one Filter.");
         }
       });
       it("throws if options does not have requestOptions", async () => {
@@ -202,7 +200,6 @@ describe("hubSearch Module:", () => {
       it("items + arcgis-hub: hubSearchItems", async () => {
         const qry: IQuery = {
           targetEntity: "item",
-          collection: "dataset",
           filters: [
             {
               predicates: [{ term: "water" }],
@@ -288,7 +285,6 @@ describe("hubSearch Module:", () => {
       it("discussionPost + arcgis-hub: hubSearchItems", async () => {
         const qry: IQuery = {
           targetEntity: "discussionPost",
-          collection: "discussion-post" as any,
           filters: [
             {
               predicates: [{ term: "water" }],

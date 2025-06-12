@@ -3,16 +3,10 @@
 
 // TODO: deprecate all private functions in this file and more them to ./_internal
 
-import { IUser, ArcGISIdentityManager } from "@esri/arcgis-rest-request";
-import {
-  IGroup,
-  ISearchGroupUsersOptions,
-  ISearchOptions,
-  SearchQueryBuilder,
-} from "@esri/arcgis-rest-portal";
+import { IUser } from "@esri/arcgis-rest-request";
+import { IGroup, SearchQueryBuilder } from "@esri/arcgis-rest-portal";
 import { isPageType } from "../content/_internal/internalContentUtils";
 import { IHubSite } from "../core";
-import { ISearchResponse } from "../hub-types";
 import { cloneObject } from "../util";
 import { IHubSearchResult } from "./types";
 import { IPredicate, IQuery } from "./types/IHubCatalog";
@@ -32,7 +26,6 @@ import {
 } from "./_internal/commonHelpers/isLegacySearchCategory";
 import { toCollectionKey } from "./_internal/commonHelpers/toCollectionKey";
 import {
-  applyWellKnownCollectionFilters,
   applyWellKnownItemPredicates,
   expandPredicates,
 } from "./_internal/portalSearchItems";
@@ -178,51 +171,6 @@ export function relativeDateToDateRange(
 }
 
 /**
- * @private
- * Create a `.next()` function for a type
- * @param request
- * @param nextStart
- * @param total
- * @param fn
- * @returns
- */
-export function getNextFunction<T>(
-  request: ISearchOptions | ISearchGroupUsersOptions,
-  nextStart: number,
-  total: number,
-  fn: (r: any) => Promise<ISearchResponse<T>>
-): (authentication?: ArcGISIdentityManager) => Promise<ISearchResponse<T>> {
-  const clonedRequest = cloneObject(request);
-
-  // clone will not handle authentication so we do it manually
-  if (request.authentication) {
-    clonedRequest.authentication = ArcGISIdentityManager.deserialize(
-      (request.authentication as ArcGISIdentityManager).serialize()
-    );
-  }
-  // ensure that if we have requestOptions, we have also update the authentication on it
-  if (request.requestOptions?.authentication) {
-    clonedRequest.requestOptions.authentication =
-      request.requestOptions.authentication;
-  }
-
-  // figure out the start
-  clonedRequest.start = nextStart > -1 ? nextStart : total + 1;
-
-  return (authentication?: ArcGISIdentityManager) => {
-    if (authentication) {
-      clonedRequest.authentication = authentication;
-      // ensure that if we have requestOptions, we have also update the authentication on it
-      if (clonedRequest.requestOptions) {
-        clonedRequest.requestOptions.authentication =
-          clonedRequest.authentication;
-      }
-    }
-    return fn(clonedRequest);
-  };
-}
-
-/**
  * Construct a the full url to a group thumbnail
  *
  * - If the group has a thumbnail, construct the full url
@@ -304,7 +252,8 @@ export function getScopeGroupPredicate(scope: IQuery): IPredicate {
   console.warn(
     `"getScopeGroupPredicate(query)" is deprecated. Please use "getGroupPredicate(qyr)`
   );
-  const isGroupPredicate = (predicate: IPredicate) => !!predicate.group;
+  const isGroupPredicate = (predicate: IPredicate): boolean =>
+    !!predicate.group;
   const groupFilter = scope.filters.find((f) =>
     f.predicates.find(isGroupPredicate)
   );
@@ -320,7 +269,7 @@ export function getScopeGroupPredicate(scope: IQuery): IPredicate {
 export function getGroupPredicate(query: IQuery): IPredicate {
   const predicate = "group";
   const expandedQuery = expandPortalQuery(query);
-  const isTargetPredicate = (p: IPredicate) => !!p[predicate];
+  const isTargetPredicate = (p: IPredicate): boolean => !!p[predicate];
   const filter = expandedQuery.filters.find((f) =>
     f.predicates.find(isTargetPredicate)
   );
@@ -404,10 +353,8 @@ export function getKilobyteSizeOfQuery(
  * @returns IQuery
  */
 export function expandPortalQuery(query: IQuery): IQuery {
-  let updatedQuery = applyWellKnownCollectionFilters(query);
   // Expand well-known filterGroups
-  // TODO: Should we remove this with the whole idea of collections?
-  updatedQuery = applyWellKnownItemPredicates(updatedQuery);
+  const updatedQuery = applyWellKnownItemPredicates(query);
   // Expand the individual predicates in each filter
   return expandPredicates(updatedQuery);
 }
