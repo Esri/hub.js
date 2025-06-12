@@ -1,3 +1,10 @@
+# @esri/hub-common [17.19.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.18.1...@esri/hub-common@17.19.0) (2025-06-12)
+
+
+### Features
+
+* **hub-common:** context.hubHomeUrl works in enterprise ([#1922](https://github.com/Esri/hub.js/issues/1922)) ([f728613](https://github.com/Esri/hub.js/commit/f728613abbc3ae42cc31e32d388431125d326a0a))
+
 ## @esri/hub-common [17.18.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.18.0...@esri/hub-common@17.18.1) (2025-06-09)
 
 
