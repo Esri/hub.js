@@ -1,5 +1,6 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getPortalUrl } from "./get-portal-url";
+import { ENTERPRISE_SITES_PATH } from "../ArcGISContext";
 
 /**
  * Returns an env-specific CDN asset URL for the given `assetPath` and `requestOptions`.
@@ -19,7 +20,7 @@ export function getCdnAssetUrl(
   } else if (/(www|maps)\.arcgis\.com/.test(portalUrl)) {
     baseUrl = "https://hubcdn.arcgis.com/opendata-ui/assets";
   } else {
-    baseUrl = `${portalUrl}/apps/sites`;
+    baseUrl = `${portalUrl}${ENTERPRISE_SITES_PATH}`;
   }
   const delimiter = assetPath.startsWith("/") ? "" : "/";
   return [baseUrl, assetPath].join(delimiter);

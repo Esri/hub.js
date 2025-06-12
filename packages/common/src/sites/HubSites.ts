@@ -38,6 +38,7 @@ import { convertFeaturesToLegacyCapabilities } from "./_internal/capabilities/co
 import { computeLinks } from "./_internal/computeLinks";
 import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlug";
 import { IHubItemEntity } from "../core";
+import { ENTERPRISE_SITES_PATH } from "../ArcGISContext";
 export const HUB_SITE_ITEM_TYPE = "Hub Site Application";
 export const ENTERPRISE_SITE_ITEM_TYPE = "Site Application";
 
@@ -248,7 +249,7 @@ export async function createSite(
     site.typeKeywords.push(`hubsubdomain|${site.subdomain}`.toLowerCase());
     site.url = `${requestOptions.authentication.portal.replace(
       `/sharing/rest`,
-      `/apps/sites`
+      ENTERPRISE_SITES_PATH
     )}/#/${site.subdomain}`;
   }
 

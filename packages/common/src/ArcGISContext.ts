@@ -32,6 +32,9 @@ import { getOrgThumbnailUrl } from "./resources/get-org-thumbnail-url";
 import type { IArcGISContext } from "./types/IArcGISContext";
 import type { IArcGISContextOptions } from "./types/IArcGISContextOptions";
 
+export const ENTERPRISE_SITES_PATH = "/apps/sites";
+export const ENTERPRISE_HOME_SUBDOMAIN = "home";
+
 /**
  * Hash of Hub API end points so updates
  * are centralized
@@ -276,11 +279,11 @@ export class ArcGISContext implements IArcGISContext {
 
   /**
    * Returns the current user's hub-home url. If not authenticated,
-   * returns the Hub Url. If portal, returns undefined
+   * returns the Hub Url.
    */
   public get hubHomeUrl(): string {
     if (this.isPortal) {
-      return undefined;
+      return `${this.portalUrl}${ENTERPRISE_SITES_PATH}/#/${ENTERPRISE_HOME_SUBDOMAIN}`;
     } else {
       if (this.isAuthenticated) {
         const hubHostname = this._hubUrl.replace("https://", "");

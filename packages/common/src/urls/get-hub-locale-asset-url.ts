@@ -1,6 +1,7 @@
 import { IPortal } from "@esri/arcgis-rest-portal";
 import { getPortalUrl } from "./get-portal-url";
 import { HUB_CDN_URLMAP } from "./hub-cdn-urlmap";
+import { ENTERPRISE_SITES_PATH } from "../ArcGISContext";
 
 // TODO: should this take IHubRequestOptions as well as a portal?
 // if so, address when we tackle https://github.com/Esri/hub.js/issues/321
@@ -13,12 +14,11 @@ export function getHubLocaleAssetUrl(portal: IPortal): string {
   if (portal.isPortal) {
     // Enterprise - use Site app as source for assets
     const baseUrl = getPortalUrl(portal);
-    return `${baseUrl}/apps/sites`;
+    return `${baseUrl}${ENTERPRISE_SITES_PATH}`;
   } else {
     // AGO - Convert portalHostname into CDN url
-    const index: "devext" | "qaext" | "www" = portal.portalHostname.split(
-      "."
-    )[0];
+    const index: "devext" | "qaext" | "www" =
+      portal.portalHostname.split(".")[0];
     const base = HUB_CDN_URLMAP[index] || HUB_CDN_URLMAP.www;
     return `${base}/opendata-ui/assets`;
   }
