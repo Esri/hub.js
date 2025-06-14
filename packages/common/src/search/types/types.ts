@@ -81,28 +81,8 @@ export interface IMatchOptions {
   exact?: string | string[];
 }
 
-export interface IWellKnownApis {
-  arcgis: IApiDefinition;
-  arcgisQA: IApiDefinition;
-  arcgisDEV: IApiDefinition;
-  hub: IApiDefinition;
-  hubQA: IApiDefinition;
-  hubDEV: IApiDefinition;
-}
+export type ApiTarget = 'portal' | 'hub';
 
-// Allows type-safe query "short-cuts"
-export type NamedApis = keyof IWellKnownApis;
-
-// Defines an API
-export interface IApiDefinition {
-  label?: string;
-  // url of the api
-  // - for "arcgis", /sharing/rest will be appended
-  // - for "arcgis-hub", the /v3/search will be added
-  url: string;
-  // We can add types as we add support for more
-  type: "arcgis" | "arcgis-hub";
-}
 /**
  * Base options when checking catalog containment
  */

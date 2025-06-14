@@ -6,7 +6,6 @@ import {
   serializeQueryForPortal,
 } from "../../src/search";
 import {
-  expandApis,
   getUserThumbnailUrl,
   valueToMatchOptions,
   relativeDateToDateRange,
@@ -18,21 +17,6 @@ import {
 } from "../../src/search/utils";
 
 describe("Search Utils:", () => {
-  describe("expandApis", () => {
-    it("expands well known apis", () => {
-      const chk = expandApis(["arcgis", "hub"]);
-      expect(chk.length).toBe(2);
-    });
-
-    it("passes through objects", () => {
-      const chk = expandApis([
-        { url: "https://my.enterprise.com/instance", type: "arcgis" },
-      ]);
-      expect(chk.length).toBe(1);
-      expect(chk[0].type).toBe("arcgis");
-    });
-  });
-
   describe("expansions:", () => {
     describe("matchOptions:", () => {
       it("convert value to MatchOptions", () => {

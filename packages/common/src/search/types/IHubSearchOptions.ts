@@ -2,8 +2,8 @@ import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { IHubRequestOptions } from "../../hub-types";
 import { EntityType } from "./IHubCatalog";
 
-import { NamedApis, IApiDefinition } from "./types";
 import { HTTPMethods } from "@esri/arcgis-rest-request";
+import { ApiTarget } from "./types";
 
 // @private
 // TODO Deprecate in favor of Includable
@@ -55,16 +55,9 @@ export interface IHubSearchOptions extends IPagingOptions, ISortOptions {
   aggLimit?: number;
 
   /**
-   * TODO: Deprecate in favor of `requestOptions` and `siteUrl`
-   * Specify API to call. Defaults to ArcGIS Online Portal API
+   * Specify API to call. Defaults to Portal API defined in requestOptions.
    */
-  api?: NamedApis | IApiDefinition;
-
-  /**
-   * Site whose API should be targeted. Ignored in an enterprise context.
-   * e.g., https://my-site.hub.arcgis.com
-   */
-  site?: string;
+  api?: ApiTarget;
 
   /**
    * DEPRECATE in favor of requestOptions

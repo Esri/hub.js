@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import { IHubSearchOptions, IQuery } from "../../src";
 import { hubSearch } from "../../src/search/hubSearch";
 
@@ -73,7 +74,6 @@ describe("hubSearch Module:", () => {
           requestOptions: {
             portal: "https://qaext.arcgis.com/sharing/rest",
           },
-          api: "hubDEV",
           include: ["server"],
         };
         try {
@@ -183,7 +183,6 @@ describe("hubSearch Module:", () => {
           requestOptions: {
             portal: "https://qaext.arcgis.com/sharing/rest",
           },
-          api: "arcgis",
           include: ["server"],
         };
         const chk = await hubSearch(qry, opts);
@@ -207,7 +206,7 @@ describe("hubSearch Module:", () => {
           ],
         };
         const opts: IHubSearchOptions = {
-          site: "https://my-site.hub.arcgis.com",
+          api: 'hub',
           requestOptions: {
             isPortal: false,
             portal: "https://qaext.arcgis.com/sharing/rest",
@@ -225,10 +224,7 @@ describe("hubSearch Module:", () => {
         expect(options.include).toBeDefined();
         // Any cloning of auth can break downstream functions
         expect(options.requestOptions).toBe(opts.requestOptions);
-        expect(options.api).toEqual({
-          type: "arcgis-hub",
-          url: "https://hubqa.arcgis.com/api/search/v1",
-        });
+        expect(options.api).toEqual('hub');
       });
       it("groups + arcgis: portalSearchGroups", async () => {
         const qry: IQuery = {
@@ -243,7 +239,6 @@ describe("hubSearch Module:", () => {
           requestOptions: {
             portal: "https://qaext.arcgis.com/sharing/rest",
           },
-          api: "arcgis",
           include: ["server"],
         };
         const chk = await hubSearch(qry, opts);
@@ -270,17 +265,13 @@ describe("hubSearch Module:", () => {
           requestOptions: {
             hubApiUrl: "https://hubqa.arcgis.com/api",
           },
-          api: {
-            type: "arcgis-hub",
-            url: null,
-          } as any,
         };
         const chk = await hubSearch(qry, opts);
         expect(chk.total).toBe(99);
         expect(hubSearchChannelsSpy.calls.count()).toBe(1);
         const [query, options] = hubSearchChannelsSpy.calls.argsFor(0);
         expect(query).toEqual(qry);
-        expect(options).toEqual(opts);
+        expect(options).toEqual({ ...opts, api: 'hub' });
       });
       it("discussionPost + arcgis-hub: hubSearchItems", async () => {
         const qry: IQuery = {
@@ -292,7 +283,6 @@ describe("hubSearch Module:", () => {
           ],
         };
         const opts: IHubSearchOptions = {
-          site: "https://my-site.hub.arcgis.com",
           requestOptions: {
             isPortal: false,
             portal: "https://qaext.arcgis.com/sharing/rest",
@@ -310,10 +300,7 @@ describe("hubSearch Module:", () => {
         expect(options.include).toBeDefined();
         // Any cloning of auth can break downstream functions
         expect(options.requestOptions).toBe(opts.requestOptions);
-        expect(options.api).toEqual({
-          type: "arcgis-hub",
-          url: "https://hubqa.arcgis.com/api/search/v2",
-        });
+        expect(options.api).toEqual('hub');
       });
     });
   });

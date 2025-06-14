@@ -234,43 +234,12 @@ export interface IHubSearchOptions {
   aggregations?: string[];
   bbox?: string;
   fields?: string;
-  api?: NamedApis | IApiDefinition;
+  api?: "portal" | "hub";
 }
 ```
 
 ### Specifying the API
 
-**NOTE** This is likely to change!
-
 Searches can be run against the Portal API or against the Hub API. This is specified by the `.api` property of the `IHubSearchOptions`
 
-The `.api` property can take either a well-known name (`NamedApis` type) or an `IApiDefinition`
-
-| NamedApis   | Description              |
-| ----------- | ------------------------ |
-| `arcgis`    | ArcGIS Online Production |
-| `arcgisQA`  | ArcGIS Online QA         |
-| `arcgisDEV` | ArcGIS Online Dev        |
-| `hub`       | ArcGIS Hub Production    |
-| `hubQA`     | ArcGIS Hub QA            |
-| `hubDEV`    | ArcGIS Hub Dev           |
-
-To work with ArcGIS Enterprise, a full `IApiDefinition` must be provided:
-
-```ts
-export interface IApiDefinition {
-  label?: string;
-  // url of the api
-  // - for "arcgis", /sharing/rest will be appended
-  // - for "arcgis-hub", the /v3/search will be added
-  url: string;
-  // We can add types as we add support for more
-  type: "arcgis" | "arcgis-hub";
-}
-
-const myPortalApi: IApiDefinition = {
-  label: "My Portal",
-  url: "https://my.portal.com/gis",
-  type: "arcgis",
-};
-```
+The `.api` property can either be `"portal"` or `"hub"`, but defaults to `"portal"`.
