@@ -72,6 +72,7 @@ export const UserPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:user:workspace:settings",
+    environments: ["devext", "qaext", "production"], // Enterprise intentionally omitted for v12
     dependencies: ["hub:user:workspace", "hub:user:owner"],
   },
   {
