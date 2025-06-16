@@ -87,7 +87,7 @@ export const MOCK_ENTERPRISE_REQOPTS = {
   portalSelf: {
     id: "orgIdFromPortalSelf",
     name: "my spiffy org",
-    urlKey: "org",
+    // urlKey: "org", // urlKey is undefined in Enterprise
     culture: "en-us",
     defaultBasemap: { fake: "basemap" },
   },
