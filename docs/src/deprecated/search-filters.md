@@ -242,4 +242,9 @@ export interface IHubSearchOptions {
 
 Searches can be run against the Portal API or against the Hub API. This is specified by the `.api` property of the `IHubSearchOptions`
 
-The `.api` property can either be `"portal"` or `"hub"`, but defaults to `"portal"`.
+The `.api` property can either be `"portal"` or `"hub"`. If `.api` is not provided, `hubSearch()` will derive a correct default from the the target entity of the query (e.g., events and discussions will be 'hub', groups and items will be 'portal', etc.)
+
+NOTE: `hubSearch()` will ignore `.api` if the value passed in is incompatible with the target entity and environment. For example:
+- passing `hub` while searching items in an _enterprise_ context
+- passing `portal` while searching events
+- etc.
