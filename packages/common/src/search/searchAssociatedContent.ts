@@ -4,7 +4,7 @@ import {
   HubItemEntityType,
 } from "../core/types/HubEntityType";
 import HubError from "../HubError";
-import { getOgcApiDefinition } from "./_internal/commonHelpers/getOgcApiDefinition";
+import { getOgcCollectionUrl } from "./_internal/hubSearchItemsHelpers/getOgcCollectionUrl";
 import { ISearchOgcItemsOptions } from "./_internal/hubSearchItemsHelpers/interfaces";
 import { searchOgcItems } from "./_internal/hubSearchItemsHelpers/searchOgcItems";
 import {
@@ -63,11 +63,8 @@ export async function searchAssociatedContent(
 
   // Construct the OGC API URL
   const { association } = opts;
-  const api = getOgcApiDefinition(
-    scope.targetEntity,
-    searchOptions.requestOptions
-  );
-  const url = `${api.url}/collections/all/items/${hubId}/${association}`;
+  const collectionUrl = getOgcCollectionUrl(scope, searchOptions);
+  const associationUrl = `${collectionUrl}/items/${hubId}/${association}`;
 
-  return searchOgcItems(url, scope, searchOptions);
+  return searchOgcItems(associationUrl, scope, searchOptions);
 }

@@ -12,10 +12,10 @@ export function shouldUseOgcApi(
   options: IHubSearchOptions
 ): boolean {
   const {
-    site,
+    api,
     requestOptions: { isPortal },
   } = options;
   if (isPortal) return false;
   if (targetEntity === "discussionPost") return true;
-  return targetEntity === "item" && !!site;
+  return targetEntity === "item" && api === "hub";
 }

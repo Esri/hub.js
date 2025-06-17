@@ -1,12 +1,7 @@
 import HubError from "../HubError";
 import { getProp } from "../objects";
 import { cloneObject } from "../util";
-import {
-  IHubSearchOptions,
-  IHubSearchResponse,
-  IHubSearchResult,
-  IQuery,
-} from "./types";
+
 import { getApi } from "./_internal/commonHelpers/getApi";
 import { portalSearchGroupMembers } from "./_internal/portalSearchGroupMembers";
 import { portalSearchItems } from "./_internal/portalSearchItems";
@@ -21,6 +16,18 @@ import { hubSearchChannels } from "./_internal/hubSearchChannels";
 import { hubSearchEvents } from "./_internal/hubSearchEvents";
 import { hubSearchEventAttendees } from "./_internal/hubSearchEventAttendees";
 import { portalFetchOrgs } from "./_internal/portalFetchOrgs";
+import { EntityType, IQuery } from "./types/IHubCatalog";
+import { IHubSearchResponse } from "./types/IHubSearchResponse";
+import { IHubSearchOptions } from "./types/IHubSearchOptions";
+import { IHubSearchResult } from "./types/IHubSearchResult";
+import { ApiTarget } from "./types/types";
+
+type HubSearchDelegate = (
+  query: IQuery,
+  options: IHubSearchOptions
+) => Promise<IHubSearchResponse<IHubSearchResult>>;
+
+type HubSearchDelegateMap = Partial<Record<EntityType, HubSearchDelegate>>;
 
 /**
  * Main entrypoint for searching via Hub
@@ -73,8 +80,8 @@ export async function hubSearch(
 
   formattedOptions.api = getApi(filterType, formattedOptions);
 
-  const fnHash = {
-    arcgis: {
+  const fnHash: Record<ApiTarget, HubSearchDelegateMap> = {
+    portal: {
       item: portalSearchItems,
       group: portalSearchGroups,
       user: searchPortalUsersLegacy,
@@ -83,7 +90,7 @@ export async function hubSearch(
       groupMember: portalSearchGroupMembers,
       organization: portalFetchOrgs,
     },
-    "arcgis-hub": {
+    hub: {
       item: hubSearchItems,
       channel: hubSearchChannels,
       discussionPost: hubSearchItems,
@@ -92,11 +99,14 @@ export async function hubSearch(
     },
   };
 
-  const fn = getProp(fnHash, `${formattedOptions.api.type}.${filterType}`);
+  const fn = getProp(
+    fnHash,
+    `${formattedOptions.api}.${filterType}`
+  ) as HubSearchDelegate;
   if (!fn) {
     throw new HubError(
       `hubSearch`,
-      `Search via "${filterType}" filter against "${formattedOptions.api.type}" api is not implemented. Please ensure "targetEntity" is defined on the query.`
+      `Search via "${filterType}" filter against "${formattedOptions.api}" api is not implemented. Please ensure "targetEntity" is defined on the query.`
     );
   }
   return fn(cloneObject(query), formattedOptions);

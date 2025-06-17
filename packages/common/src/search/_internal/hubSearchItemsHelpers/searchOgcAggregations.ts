@@ -5,6 +5,7 @@ import { IHubSearchResult } from "../../types/IHubSearchResult";
 import { formatOgcAggregationsResponse } from "./formatOgcAggregationsResponse";
 import { getOgcAggregationQueryParams } from "./getOgcAggregationQueryParams";
 import { getOgcCollectionUrl } from "./getOgcCollectionUrl";
+import { IOgcAggregationsResponse } from "./interfaces";
 import { ogcApiRequest } from "./ogcApiRequest";
 
 export async function searchOgcAggregations(
@@ -14,7 +15,11 @@ export async function searchOgcAggregations(
   const url = `${getOgcCollectionUrl(query, options)}/aggregations`;
   const queryParams = getOgcAggregationQueryParams(query, options);
 
-  const rawResponse = await ogcApiRequest(url, queryParams, options);
+  const rawResponse = (await ogcApiRequest(
+    url,
+    queryParams,
+    options
+  )) as IOgcAggregationsResponse;
 
   return formatOgcAggregationsResponse(rawResponse);
 }

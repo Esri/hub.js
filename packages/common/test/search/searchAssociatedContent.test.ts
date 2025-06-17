@@ -1,22 +1,19 @@
 import { HubEntity } from "../../src/core/types/HubEntity";
 import HubError from "../../src/HubError";
-import * as getOgcApiDefinitionModule from "../../src/search/_internal/commonHelpers/getOgcApiDefinition";
+import * as getOgcCollectionUrlModule from "../../src/search/_internal/hubSearchItemsHelpers/getOgcCollectionUrl";
 import * as searchOgcItemsModule from "../../src/search/_internal/hubSearchItemsHelpers/searchOgcItems";
 import { searchAssociatedContent } from "../../src/search/searchAssociatedContent";
 import { ISearchAssociatedContentOptions } from "../../src/search/types/types";
 
 describe("searchAssociatedContent", () => {
-  let mockGetOgcApiDefinition: jasmine.Spy;
+  let mockGetOgcCollectionUrl: jasmine.Spy;
   let mockSearchOgcItems: jasmine.Spy;
 
   beforeEach(() => {
-    mockGetOgcApiDefinition = spyOn(
-      getOgcApiDefinitionModule,
-      "getOgcApiDefinition"
-    ).and.returnValue({
-      type: "arcgis-hub",
-      url: "https://example.com/path/to/ogc",
-    });
+    mockGetOgcCollectionUrl = spyOn(
+      getOgcCollectionUrlModule,
+      "getOgcCollectionUrl"
+    ).and.returnValue("https://example.com/path/to/ogc/collections/all");
 
     mockSearchOgcItems = spyOn(
       searchOgcItemsModule,
@@ -97,10 +94,10 @@ describe("searchAssociatedContent", () => {
 
     const expectedUrl =
       "https://example.com/path/to/ogc/collections/all/items/123/related";
-    expect(mockGetOgcApiDefinition).toHaveBeenCalledWith(
-      "item",
-      options.requestOptions
-    );
+    expect(mockGetOgcCollectionUrl).toHaveBeenCalledWith(options.scope, {
+      requestOptions: options.requestOptions,
+      num: 4,
+    });
     expect(mockSearchOgcItems).toHaveBeenCalledWith(
       expectedUrl,
       { targetEntity: "item", filters: [] },

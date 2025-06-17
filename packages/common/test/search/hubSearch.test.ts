@@ -1,4 +1,5 @@
-import { IHubSearchOptions, IQuery } from "../../src";
+/* eslint-disable @typescript-eslint/no-var-requires */
+import { EntityType, IHubSearchOptions, IQuery } from "../../src/search/types";
 import { hubSearch } from "../../src/search/hubSearch";
 
 describe("hubSearch Module:", () => {
@@ -10,6 +11,7 @@ describe("hubSearch Module:", () => {
             null as unknown as IQuery,
             {} as unknown as IHubSearchOptions
           );
+          throw new Error("should not get here");
         } catch (err) {
           const error = err as { name?: string; message?: string };
           expect(error.name).toBe("HubError");
@@ -22,6 +24,7 @@ describe("hubSearch Module:", () => {
             {} as unknown as IQuery,
             {} as unknown as IHubSearchOptions
           );
+          throw new Error("should not get here");
         } catch (err) {
           const error = err as { name?: string; message?: string };
           expect(error.name).toBe("HubError");
@@ -34,6 +37,7 @@ describe("hubSearch Module:", () => {
             { filters: [] } as unknown as IQuery,
             {} as unknown as IHubSearchOptions
           );
+          throw new Error("should not get here");
         } catch (err) {
           const error = err as { name?: string; message?: string };
           expect(error.name).toBe("HubError");
@@ -52,6 +56,7 @@ describe("hubSearch Module:", () => {
 
         try {
           await hubSearch(qry, {} as unknown as IHubSearchOptions);
+          throw new Error("should not get here");
         } catch (err) {
           const error = err as { name?: string; message?: string };
           expect(error.name).toBe("HubError");
@@ -62,7 +67,7 @@ describe("hubSearch Module:", () => {
       });
       it("throws if function is not available", async () => {
         const qry: IQuery = {
-          targetEntity: "group",
+          targetEntity: "non-existent" as unknown as EntityType,
           filters: [
             {
               predicates: [{ term: "water" }],
@@ -73,16 +78,15 @@ describe("hubSearch Module:", () => {
           requestOptions: {
             portal: "https://qaext.arcgis.com/sharing/rest",
           },
-          api: "hubDEV",
-          include: ["server"],
         };
         try {
           await hubSearch(qry, opts);
+          throw new Error("should not get here");
         } catch (err) {
           const error = err as { name?: string; message?: string };
           expect(error.name).toBe("HubError");
           expect(error.message).toBe(
-            `Search via "group" filter against "arcgis-hub" api is not implemented. Please ensure "targetEntity" is defined on the query.`
+            `Search via "non-existent" filter against "portal" api is not implemented. Please ensure "targetEntity" is defined on the query.`
           );
         }
       });
@@ -183,7 +187,6 @@ describe("hubSearch Module:", () => {
           requestOptions: {
             portal: "https://qaext.arcgis.com/sharing/rest",
           },
-          api: "arcgis",
           include: ["server"],
         };
         const chk = await hubSearch(qry, opts);
@@ -207,7 +210,7 @@ describe("hubSearch Module:", () => {
           ],
         };
         const opts: IHubSearchOptions = {
-          site: "https://my-site.hub.arcgis.com",
+          api: "hub",
           requestOptions: {
             isPortal: false,
             portal: "https://qaext.arcgis.com/sharing/rest",
@@ -225,10 +228,7 @@ describe("hubSearch Module:", () => {
         expect(options.include).toBeDefined();
         // Any cloning of auth can break downstream functions
         expect(options.requestOptions).toBe(opts.requestOptions);
-        expect(options.api).toEqual({
-          type: "arcgis-hub",
-          url: "https://hubqa.arcgis.com/api/search/v1",
-        });
+        expect(options.api).toEqual("hub");
       });
       it("groups + arcgis: portalSearchGroups", async () => {
         const qry: IQuery = {
@@ -243,7 +243,6 @@ describe("hubSearch Module:", () => {
           requestOptions: {
             portal: "https://qaext.arcgis.com/sharing/rest",
           },
-          api: "arcgis",
           include: ["server"],
         };
         const chk = await hubSearch(qry, opts);
@@ -270,17 +269,13 @@ describe("hubSearch Module:", () => {
           requestOptions: {
             hubApiUrl: "https://hubqa.arcgis.com/api",
           },
-          api: {
-            type: "arcgis-hub",
-            url: null,
-          } as any,
         };
         const chk = await hubSearch(qry, opts);
         expect(chk.total).toBe(99);
         expect(hubSearchChannelsSpy.calls.count()).toBe(1);
         const [query, options] = hubSearchChannelsSpy.calls.argsFor(0);
         expect(query).toEqual(qry);
-        expect(options).toEqual(opts);
+        expect(options).toEqual({ ...opts, api: "hub" });
       });
       it("discussionPost + arcgis-hub: hubSearchItems", async () => {
         const qry: IQuery = {
@@ -292,7 +287,6 @@ describe("hubSearch Module:", () => {
           ],
         };
         const opts: IHubSearchOptions = {
-          site: "https://my-site.hub.arcgis.com",
           requestOptions: {
             isPortal: false,
             portal: "https://qaext.arcgis.com/sharing/rest",
@@ -310,10 +304,7 @@ describe("hubSearch Module:", () => {
         expect(options.include).toBeDefined();
         // Any cloning of auth can break downstream functions
         expect(options.requestOptions).toBe(opts.requestOptions);
-        expect(options.api).toEqual({
-          type: "arcgis-hub",
-          url: "https://hubqa.arcgis.com/api/search/v2",
-        });
+        expect(options.api).toEqual("hub");
       });
     });
   });
