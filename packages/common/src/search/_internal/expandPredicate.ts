@@ -1,6 +1,6 @@
 import { getProp, setProp } from "../../objects";
 import { cloneObject } from "../../util";
-import { IPredicate } from "../types";
+import { IPredicate, IRelativeDate } from "../types";
 import { relativeDateToDateRange, valueToMatchOptions } from "../utils";
 
 /**
@@ -25,6 +25,7 @@ export const PREDICATE_COPY_PROPS = [
   "searchUserAccess",
   "searchUserName",
   "term",
+  "openData", // boolean used by the OGC Search API to filter items
 ];
 
 /**
@@ -53,15 +54,22 @@ export function expandPredicate(predicate: IPredicate): IPredicate {
     }
     // Handle Date fields
     if (PREDICATE_DATE_PROPS.includes(key)) {
-      const dateFieldValue = cloneObject(getProp(predicate, key));
+      const dateFieldValue = cloneObject(getProp(predicate, key)) as unknown;
       if (getProp(predicate, `${key}.type`) === "relative-date") {
-        setProp(key, relativeDateToDateRange(dateFieldValue), result);
+        setProp(
+          key,
+          relativeDateToDateRange(dateFieldValue as IRelativeDate),
+          result
+        );
       } else {
         setProp(key, dateFieldValue, result);
       }
     }
     // Handle fields that are just copied forward
-    if (PREDICATE_COPY_PROPS.includes(key) && predicate.hasOwnProperty(key)) {
+    if (
+      PREDICATE_COPY_PROPS.includes(key) &&
+      Object.prototype.hasOwnProperty.call(predicate, key)
+    ) {
       setProp(key, value, result);
     }
   });

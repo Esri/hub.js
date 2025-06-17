@@ -361,22 +361,6 @@ export interface IHubTeam extends IGroup {
 }
 
 /**
- * Defines a generic search response interface with parameterized result type
- * for different types of searches
- *
- * total - total number of results
- * results - potentially paginated list of results
- * hasNext - boolean flag for if there are any more pages ofresults
- * next - invokable function for obtaining next page of results
- */
-export interface ISearchResponse<T> {
-  total: number;
-  results: T[];
-  hasNext: boolean;
-  next: (params?: any) => Promise<ISearchResponse<T>>;
-}
-
-/**
  * BEGIN CONTENT UPLOAD RELATED TYPES
  * Please note that the below enum/types are duplicated from the AGO
  * content upload modal. They were brought over for forward compability purposes and changes

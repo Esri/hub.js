@@ -12,7 +12,7 @@ import {
   searchGroupUsers,
 } from "@esri/arcgis-rest-portal";
 import { expandPredicate } from "./expandPredicate";
-import { getNextFunction } from "../utils";
+import { getNextPortalCallback } from "./commonHelpers/getNextPortalCallback";
 import HubError from "../../HubError";
 import { IHubRequestOptions } from "../../hub-types";
 import { enrichUserSearchResult } from "../../users";
@@ -146,7 +146,7 @@ async function searchGroupMembers(
     total: resp.total,
     results,
     hasNext: resp.nextStart > -1,
-    next: getNextFunction<IHubSearchResult>(
+    next: getNextPortalCallback<ISearchGroupUsersOptions, IHubSearchResult>(
       searchOptions,
       resp.nextStart,
       resp.total,

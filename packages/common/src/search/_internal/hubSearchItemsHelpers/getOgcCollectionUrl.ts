@@ -13,13 +13,15 @@ import { IApiDefinition } from "../../types/types";
  * @param options request options, including the base OGC api url
  * @returns the collection url
  */
-export function getOgcCollectionUrl(query: IQuery, options: IHubSearchOptions) {
+export function getOgcCollectionUrl(
+  query: IQuery,
+  options: IHubSearchOptions
+): string {
   const apiDefinition = options.api as IApiDefinition;
   // Discussion posts as a target entity will be searchable with one collection,
   // so simply use that for the URL
   if (query.targetEntity === "discussionPost") {
     return `${apiDefinition.url}/collections/discussion-post`;
   }
-  const collectionId = query.collection || "all";
-  return `${apiDefinition.url}/collections/${collectionId}`;
+  return `${apiDefinition.url}/collections/all`;
 }
