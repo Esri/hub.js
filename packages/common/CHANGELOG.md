@@ -1,3 +1,10 @@
+# @esri/hub-common [17.20.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.19.0...@esri/hub-common@17.20.0) (2025-06-17)
+
+
+### Features
+
+* **hub-common:** modernize hubSearchItems() with well-known predicate support and unneeded feature removal ([#1906](https://github.com/Esri/hub.js/issues/1906)) ([64bf450](https://github.com/Esri/hub.js/commit/64bf4508f2caee4bb597e7e05fb0a12f2cb83ba2))
+
 # @esri/hub-common [17.19.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.18.1...@esri/hub-common@17.19.0) (2025-06-12)
 
 
