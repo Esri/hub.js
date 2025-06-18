@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <meta name="date" content="2025-06-18T18:28:59.506Z">
+    <meta name="date" content="2025-06-18T20:08:06.427Z">
     <title>Searching with Filters | @esri/hub.js</title>
     
     <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
@@ -314,64 +314,18 @@ or
   aggregations?: <span class="hljs-built_in">string</span>[];
   bbox?: <span class="hljs-built_in">string</span>;
   fields?: <span class="hljs-built_in">string</span>;
-  api?: NamedApis | IApiDefinition;
+  api?: <span class="hljs-string">"portal"</span> | <span class="hljs-string">"hub"</span>;
 }
 </code></pre>
 <h3>Specifying the API</h3>
-<p><strong>NOTE</strong> This is likely to change!</p>
 <p>Searches can be run against the Portal API or against the Hub API. This is specified by the <code>.api</code> property of the <code>IHubSearchOptions</code></p>
-<p>The <code>.api</code> property can take either a well-known name (<code>NamedApis</code> type) or an <code>IApiDefinition</code></p>
-<table>
-<thead>
-<tr>
-<th>NamedApis</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>arcgis</code></td>
-<td>ArcGIS Online Production</td>
-</tr>
-<tr>
-<td><code>arcgisQA</code></td>
-<td>ArcGIS Online QA</td>
-</tr>
-<tr>
-<td><code>arcgisDEV</code></td>
-<td>ArcGIS Online Dev</td>
-</tr>
-<tr>
-<td><code>hub</code></td>
-<td>ArcGIS Hub Production</td>
-</tr>
-<tr>
-<td><code>hubQA</code></td>
-<td>ArcGIS Hub QA</td>
-</tr>
-<tr>
-<td><code>hubDEV</code></td>
-<td>ArcGIS Hub Dev</td>
-</tr>
-</tbody>
-</table>
-<p>To work with ArcGIS Enterprise, a full <code>IApiDefinition</code> must be provided:</p>
-<pre><code class="ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> IApiDefinition {
-  label?: <span class="hljs-built_in">string</span>;
-  <span class="hljs-comment">// url of the api</span>
-  <span class="hljs-comment">// - for "arcgis", /sharing/rest will be appended</span>
-  <span class="hljs-comment">// - for "arcgis-hub", the /v3/search will be added</span>
-  url: <span class="hljs-built_in">string</span>;
-  <span class="hljs-comment">// We can add types as we add support for more</span>
-  <span class="hljs-keyword">type</span>: <span class="hljs-string">"arcgis"</span> | <span class="hljs-string">"arcgis-hub"</span>;
-}
-
-<span class="hljs-keyword">const</span> myPortalApi: IApiDefinition = {
-  label: <span class="hljs-string">"My Portal"</span>,
-  url: <span class="hljs-string">"https://my.portal.com/gis"</span>,
-  <span class="hljs-keyword">type</span>: <span class="hljs-string">"arcgis"</span>,
-};
-</code></pre>
+<p>The <code>.api</code> property can either be <code>&quot;portal&quot;</code> or <code>&quot;hub&quot;</code>. If <code>.api</code> is not provided, <code>hubSearch()</code> will derive a correct default from the the target entity of the query (e.g., events and discussions will be 'hub', groups and items will be 'portal', etc.)</p>
+<p>NOTE: <code>hubSearch()</code> will ignore <code>.api</code> if the value passed in is incompatible with the target entity and environment. For example:</p>
+<ul>
+<li>passing <code>hub</code> while searching items in an <em>enterprise</em> context</li>
+<li>passing <code>portal</code> while searching events</li>
+<li>etc.</li>
+</ul>
       </main>
     </div>
 
