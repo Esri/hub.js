@@ -1,3 +1,10 @@
+# @esri/hub-common [17.21.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.20.0...@esri/hub-common@17.21.0) (2025-06-18)
+
+
+### Features
+
+* update permissions and slugs ([#1923](https://github.com/Esri/hub.js/issues/1923)) ([0458fbc](https://github.com/Esri/hub.js/commit/0458fbc0608dc3531ef3fe81e786c170a0454829))
+
 # @esri/hub-common [17.20.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.19.0...@esri/hub-common@17.20.0) (2025-06-17)
 
 
