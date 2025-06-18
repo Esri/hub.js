@@ -1,3 +1,15 @@
+# @esri/hub-sites [19.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@18.2.0...@esri/hub-sites@19.0.0) (2025-06-18)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 18.0.0
+* **@esri/hub-initiatives:** upgraded to 18.0.0
+* **@esri/hub-teams:** upgraded to 18.0.0
+
 # @esri/hub-sites [18.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@18.1.0...@esri/hub-sites@18.2.0) (2025-06-18)
 
 
