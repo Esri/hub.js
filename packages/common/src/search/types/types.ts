@@ -81,28 +81,8 @@ export interface IMatchOptions {
   exact?: string | string[];
 }
 
-export interface IWellKnownApis {
-  arcgis: IApiDefinition;
-  arcgisQA: IApiDefinition;
-  arcgisDEV: IApiDefinition;
-  hub: IApiDefinition;
-  hubQA: IApiDefinition;
-  hubDEV: IApiDefinition;
-}
+export type ApiTarget = "portal" | "hub";
 
-// Allows type-safe query "short-cuts"
-export type NamedApis = keyof IWellKnownApis;
-
-// Defines an API
-export interface IApiDefinition {
-  label?: string;
-  // url of the api
-  // - for "arcgis", /sharing/rest will be appended
-  // - for "arcgis-hub", the /v3/search will be added
-  url: string;
-  // We can add types as we add support for more
-  type: "arcgis" | "arcgis-hub";
-}
 /**
  * Base options when checking catalog containment
  */
@@ -121,7 +101,7 @@ export interface IContainsOptions {
 /**
  * Basic information about a catalog
  */
-export interface ICatalogInfo extends Partial<IDeepCatalogInfo> {}
+export type ICatalogInfo = Partial<IDeepCatalogInfo>;
 
 /**
  * Cacheable information about a catalog
@@ -175,8 +155,10 @@ export interface ICatalogSearchResponse {
  * or entities are grouped into a single object.
  */
 
-export interface ISearchResponseHash
-  extends Record<string, IHubSearchResponse<IHubSearchResult>> {}
+export type ISearchResponseHash = Record<
+  string,
+  IHubSearchResponse<IHubSearchResult>
+>;
 
 /**
  * Type wrapper for a kilobyte

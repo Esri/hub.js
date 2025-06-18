@@ -1,47 +1,29 @@
 import { EntityType } from "../../types/IHubCatalog";
 import { IHubSearchOptions } from "../../types/IHubSearchOptions";
-import { IApiDefinition } from "../../types/types";
-import { expandApi } from "../../utils";
+import { ApiTarget } from "../../types/types";
 import { shouldUseOgcApi } from "./shouldUseOgcApi";
-import { getOgcApiDefinition } from "./getOgcApiDefinition";
 import { shouldUseDiscussionsApi } from "./shouldUseDiscussionsApi";
-import { getDiscussionsApiDefinition } from "./getDiscussionsApiDefinition";
 import { shouldUseEventsApi } from "./shouldUseEventsApi";
 
 /**
  * @private
  * Determines Which API should be hit for the given search parameters.
- * Hierarchy:
- * - Target options.api if available
- * - Target the environment-level OGC API if current parameters allow
- * - Target the Portal API based off options.requestOptions.portal
+ * Defaults to the Portal API unless parameters indicate that a Hub API should be used.
  * @param targetEntity target entity of the query
  * @param options search options
- * @returns an API Definition object describing what should be targeted
+ * @returns the target API, either 'portal' or 'hub'
  */
 export function getApi(
   targetEntity: EntityType,
   options: IHubSearchOptions
-): IApiDefinition {
-  const {
-    api,
-    requestOptions: { portal },
-  } = options;
-
-  let result: IApiDefinition;
-  if (api) {
-    result = expandApi(api);
-  } else if (shouldUseDiscussionsApi(targetEntity, options)) {
-    result = getDiscussionsApiDefinition();
-  } else if (shouldUseEventsApi(targetEntity, options)) {
-    // Currently, url is null because this is handled internally by the
-    // events request method called by searchEvents, which relies on
-    // the URL defined in the request options.hubApiUrl
-    result = { type: "arcgis-hub", url: null };
-  } else if (shouldUseOgcApi(targetEntity, options)) {
-    result = getOgcApiDefinition(targetEntity, options.requestOptions);
-  } else {
-    result = { type: "arcgis", url: portal };
+): ApiTarget {
+  let result: ApiTarget = "portal";
+  if (
+    shouldUseDiscussionsApi(targetEntity, options) ||
+    shouldUseEventsApi(targetEntity, options) ||
+    shouldUseOgcApi(targetEntity, options)
+  ) {
+    result = "hub";
   }
 
   return result;

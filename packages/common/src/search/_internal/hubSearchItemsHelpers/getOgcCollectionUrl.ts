@@ -1,6 +1,5 @@
 import { IQuery } from "../../types/IHubCatalog";
 import { IHubSearchOptions } from "../../types/IHubSearchOptions";
-import { IApiDefinition } from "../../types/types";
 
 /**
  * @private
@@ -17,11 +16,8 @@ export function getOgcCollectionUrl(
   query: IQuery,
   options: IHubSearchOptions
 ): string {
-  const apiDefinition = options.api as IApiDefinition;
-  // Discussion posts as a target entity will be searchable with one collection,
-  // so simply use that for the URL
-  if (query.targetEntity === "discussionPost") {
-    return `${apiDefinition.url}/collections/discussion-post`;
-  }
-  return `${apiDefinition.url}/collections/all`;
+  const umbrellaDomain = new URL(options.requestOptions.hubApiUrl).hostname;
+  return query.targetEntity === "discussionPost"
+    ? `https://${umbrellaDomain}/api/search/v2/collections/discussion-post`
+    : `https://${umbrellaDomain}/api/search/v1/collections/all`;
 }

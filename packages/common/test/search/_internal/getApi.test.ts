@@ -1,85 +1,49 @@
 import { IHubSearchOptions } from "../../../src/search/types/IHubSearchOptions";
-import { IApiDefinition, NamedApis } from "../../../src/search/types/types";
-import { SEARCH_APIS } from "../../../src/search/utils";
 import { getApi } from "../../../src/search/_internal/commonHelpers/getApi";
 
 describe("getApi", () => {
-  const site = "https://my-site.hub.arcgis.com";
-  const hubApiUrl = "https://hub.arcgis.com";
   const targetEntity = "item";
-  it("returns the expanded options.api if available", () => {
+  it("returns 'hub' if the OGC api will be targeted", () => {
     const options = {
-      api: "hubQA" as NamedApis,
-      site,
+      api: "hub",
       requestOptions: {
-        hubApiUrl,
         isPortal: false,
       },
     } as unknown as IHubSearchOptions;
-    expect(getApi(targetEntity, options)).toBe(SEARCH_APIS.hubQA);
+    expect(getApi(targetEntity, options)).toEqual("hub");
   });
-  it("returns reference to OGC API", () => {
+  it("returns 'hub' if the discussions api will be targeted", () => {
     const options = {
-      site,
       requestOptions: {
-        hubApiUrl,
         isPortal: false,
       },
     } as unknown as IHubSearchOptions;
-    expect(getApi(targetEntity, options)).toEqual({
-      type: "arcgis-hub",
-      url: `${hubApiUrl}/api/search/v1`,
-    });
+    expect(getApi("channel", options)).toEqual("hub");
   });
-  it("returns reference to Discussions API", () => {
+  it("returns 'hub' if the events api will be targeted", () => {
     const options = {
       requestOptions: {
-        hubApiUrl,
         isPortal: false,
       },
     } as unknown as IHubSearchOptions;
-    expect(getApi("channel", options)).toEqual({
-      type: "arcgis-hub",
-      url: null,
-    } as any as IApiDefinition);
+    expect(getApi("event", options)).toEqual("hub");
   });
-  it("returns reference to Events API if targetEntity is event", () => {
-    const options = {
-      requestOptions: {
-        hubApiUrl,
-        isPortal: false,
-      },
-    } as unknown as IHubSearchOptions;
-    expect(getApi("event", options)).toEqual({
-      type: "arcgis-hub",
-      url: null,
-    } as any as IApiDefinition);
-  });
-  it("otherwise returns a reference to the Portal API from requestOptions", () => {
+  it("otherwise returns 'portal'", () => {
     const portal = "https://my-enterprise-server.com/sharing/rest";
     const options = {
-      site,
       requestOptions: {
         isPortal: true,
         portal,
       },
     } as unknown as IHubSearchOptions;
-    expect(getApi(targetEntity, options)).toEqual({
-      type: "arcgis",
-      url: portal,
-    });
+    expect(getApi(targetEntity, options)).toEqual("portal");
   });
-  it("returns reference to OGC API V2 API if targetEntity is discussionPost", () => {
+  it("returns 'hub' if targetEntity is discussionPost", () => {
     const options = {
-      site,
       requestOptions: {
-        hubApiUrl,
         isPortal: false,
       },
     } as unknown as IHubSearchOptions;
-    expect(getApi("discussionPost", options)).toEqual({
-      type: "arcgis-hub",
-      url: `${hubApiUrl}/api/search/v2`,
-    });
+    expect(getApi("discussionPost", options)).toEqual("hub");
   });
 });

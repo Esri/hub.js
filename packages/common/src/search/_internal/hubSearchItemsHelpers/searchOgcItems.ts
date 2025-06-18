@@ -13,11 +13,11 @@ export async function searchOgcItems(
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
   const queryParams = getOgcItemQueryParams(query, options);
 
-  const rawResponse: IOgcItemsResponse = await ogcApiRequest(
+  const rawResponse = (await ogcApiRequest(
     url,
     queryParams,
     options
-  );
+  )) as IOgcItemsResponse;
 
   return formatOgcItemsResponse(rawResponse, url, query, options);
 }
