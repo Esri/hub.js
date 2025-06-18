@@ -1,3 +1,19 @@
+# @esri/hub-common [18.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.21.0...@esri/hub-common@18.0.0) (2025-06-18)
+
+
+### Features
+
+* **hub-common:** remove IHubSearchOptions.site, refactor IHubSearchOptions.api to take either 'portal' | 'hub' ([#1925](https://github.com/Esri/hub.js/issues/1925)) ([211fde5](https://github.com/Esri/hub.js/commit/211fde56367994aa5548d80719339a38367a15d9))
+
+
+### BREAKING CHANGES
+
+* **hub-common:** IHubSearchOptions.site has been removed, use IHubSearchOptions.api = 'hub' to target the OGC api via hubSearch() instead
+
+Note that hubSearch() was refactored so it doesn't need IHubSearchOptions.api
+to be an API definition object to function. Based on the string value of IHubSearchOptions.api, each delegate
+calculates the result url from the passed in request options.
+
 # @esri/hub-common [17.21.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.20.0...@esri/hub-common@17.21.0) (2025-06-18)
 
 
