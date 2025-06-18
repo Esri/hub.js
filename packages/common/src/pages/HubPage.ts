@@ -120,7 +120,7 @@ export class HubPage
   ): IHubPage {
     // ensure we have the orgUrlKey
     if (!partialPage.orgUrlKey) {
-      partialPage.orgUrlKey = context.portal.urlKey as string;
+      partialPage.orgUrlKey = (context.portal.urlKey || "") as string;
     }
     // extend the partial over the defaults
     const pojo = { ...DEFAULT_PAGE, ...partialPage } as IHubPage;

@@ -18,23 +18,29 @@ export const TYPEKEYWORD_SLUG_PREFIX = "slug";
  * @param orgKey
  * @returns
  */
-export function truncateSlug(slug: string, orgKey: string, paddingEnd = 0) {
+export function truncateSlug(
+  slug: string,
+  orgKey = "",
+  paddingEnd = 0
+): string {
   // typekeywords have a max length of 256 characters, so we use the slug
   // format that gets persisted in typekeywords as our basis
+  // Although it's removed later, we start with the typekeyword slug prefix
+  // to do the length check.
+  const parts = [TYPEKEYWORD_SLUG_PREFIX];
+  // if orgKey is provided, add it as a segment and ensure it is lowercased
+  if (orgKey) {
+    parts.push(orgKey.toLowerCase());
+  }
+  // add the slug
+  parts.push(slug);
   return (
-    [
-      // add the typekeyword slug prefix
-      TYPEKEYWORD_SLUG_PREFIX,
-      // add the orgKey segment
-      orgKey.toLowerCase(),
-      // add the slugified title segment
-      slug,
-    ]
+    parts
       .join("|")
       .substring(0, TYPEKEYWORD_MAX_LENGTH - paddingEnd)
       // removing tailing hyphens
       .replace(/-+$/, "")
-      // remove typekeyword slug prefix, it's re-added in setSlugKeyword
+      // remove slug prefix, it's re-added in setSlugKeyword
       .replace(new RegExp(`^${TYPEKEYWORD_SLUG_PREFIX}\\|`), "")
   );
 }
@@ -44,7 +50,7 @@ export function truncateSlug(slug: string, orgKey: string, paddingEnd = 0) {
  * @param orgKey
  * @returns
  */
-export function getSlugMaxLength(orgKey: string) {
+export function getSlugMaxLength(orgKey: string): number {
   const prefix = `${TYPEKEYWORD_SLUG_PREFIX}|${orgKey}|`;
   return TYPEKEYWORD_MAX_LENGTH - prefix.length;
 }
@@ -72,8 +78,8 @@ export const parseIdentifier = (identifier: string): IParsedIdentifier => {
     // otherwise try parsing id, slug, and org key from the identifier
     let slugParts;
     [slugParts, id] = identifier.split(SLUG_ID_SEPARATOR);
-    const match = slugParts.match(
-      new RegExp(`^((.*)${SLUG_ORG_SEPARATOR_URI})?(.*)$`)
+    const match = new RegExp(`^((.*)${SLUG_ORG_SEPARATOR_URI})?(.*)$`).exec(
+      slugParts
     );
     // istanbul ignore next - I think that regex will always match at least the slug
     if (match) {

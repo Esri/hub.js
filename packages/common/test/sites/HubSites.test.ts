@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import * as commonModule from "../../src";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as FetchEnrichments from "../../src/items/_enrichments";
@@ -221,7 +222,7 @@ describe("HubSites:", () => {
         { key: "components.search.category_tabs.documents" },
         { key: "components.search.category_tabs.apps_and_maps" },
       ];
-      const borkedSite = cloneObject(SITE_MODEL) as commonModule.IModel;
+      const borkedSite = cloneObject(SITE_MODEL);
       borkedSite.data.values.searchCategories = borkedSearchCategories;
       spyOn(
         require("../../src/sites/fetchSiteModel"),
@@ -324,12 +325,11 @@ describe("HubSites:", () => {
     });
   });
   describe("updateSite removes properties:", () => {
-    let domainChangeSpy: jasmine.Spy;
     let updateModelSpy: jasmine.Spy;
     let fetchSiteModelSpy: jasmine.Spy;
-    let getUniqueSlugSpy: jasmine.Spy;
+
     beforeEach(() => {
-      domainChangeSpy = spyOn(
+      spyOn(
         require("../../src/sites/_internal"),
         "handleDomainChanges"
       ).and.returnValue(Promise.resolve());
@@ -370,11 +370,9 @@ describe("HubSites:", () => {
         "fetchSiteModel"
       ).and.returnValue(Promise.resolve(SiteModelWithExtraProps));
 
-      getUniqueSlugSpy = spyOn(slugUtils, "getUniqueSlug").and.callFake(
-        ({ slug }: any) => {
-          return Promise.resolve(slug as string);
-        }
-      );
+      spyOn(slugUtils, "getUniqueSlug").and.callFake(({ slug }: any) => {
+        return Promise.resolve(slug as string);
+      });
     });
     it("removes props", async () => {
       const updatedSite = commonModule.cloneObject(SITE);
@@ -394,7 +392,7 @@ describe("HubSites:", () => {
     let domainChangeSpy: jasmine.Spy;
     let updateModelSpy: jasmine.Spy;
     let fetchSiteModelSpy: jasmine.Spy;
-    let getUniqueSlugSpy: jasmine.Spy;
+
     beforeEach(() => {
       domainChangeSpy = spyOn(
         require("../../src/sites/_internal"),
@@ -413,11 +411,9 @@ describe("HubSites:", () => {
         "fetchSiteModel"
       ).and.returnValue(Promise.resolve(SITE_MODEL));
 
-      getUniqueSlugSpy = spyOn(slugUtils, "getUniqueSlug").and.callFake(
-        ({ slug }: any) => {
-          return Promise.resolve(slug as string);
-        }
-      );
+      spyOn(slugUtils, "getUniqueSlug").and.callFake(({ slug }: any) => {
+        return Promise.resolve(slug as string);
+      });
     });
     it("updates the backing model", async () => {
       const updatedSite = commonModule.cloneObject(SITE);
@@ -683,7 +679,7 @@ describe("HubSites:", () => {
       it("works in portal", async () => {
         const sparseSite: Partial<commonModule.IHubSite> = {
           name: "my site",
-          orgUrlKey: "dcdev",
+          // orgUrlKey: "dcdev", this is undefined in Enterpris
         };
 
         const chk = await commonModule.createSite(
@@ -699,8 +695,8 @@ describe("HubSites:", () => {
         const modelToCreate = createModelSpy.calls.argsFor(0)[0];
         expect(modelToCreate.item.title).toBe("my site");
         expect(modelToCreate.item.type).toBe("Site Application");
-        expect(modelToCreate.item.properties.slug).toBe("dcdev|my-site");
-        expect(modelToCreate.item.properties.orgUrlKey).toBe("org");
+        expect(modelToCreate.item.properties.slug).toBe("my-site");
+        expect(modelToCreate.item.properties.orgUrlKey).toEqual("");
         const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
         expect(modelToUpdate.data.values.clientId).toBe("arcgisonline");
         expect(chk.url).toBe(

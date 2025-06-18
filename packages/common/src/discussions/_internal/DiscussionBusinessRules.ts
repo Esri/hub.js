@@ -115,6 +115,7 @@ export const DiscussionPermissionPolicies: IPermissionPolicy[] = [
   {
     // TODO: remove this IPermissionPolicy when we deprecate the discussion board participation workspace pane
     permission: "hub:discussion:workspace:discussion",
+    services: ["discussions"],
     dependencies: ["hub:discussion:edit"],
   },
   {

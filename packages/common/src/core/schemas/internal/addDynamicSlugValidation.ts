@@ -22,7 +22,11 @@ export const addDynamicSlugValidation = (
     return schema;
   }
   // add max length to slug
-  const { orgUrlKey } = options as IWithSlug;
+  let { orgUrlKey } = options as IWithSlug;
+  // orgUrlKey is undefined in Enterprise
+  if (!orgUrlKey) {
+    orgUrlKey = "";
+  }
   _slug.maxLength = getSlugMaxLength(orgUrlKey);
   // add conditional validation to ensure slug is unique
   const allOf = cloneObject(schema.allOf) || [];
@@ -44,7 +48,8 @@ export const addDynamicSlugValidation = (
       // only do async isUniqueSlug check if the slug is valid
       if: { properties: { _slug: { pattern } } },
       then: {
-        properties: { _slug: { isUniqueSlug: { id, orgUrlKey } } as any },
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        properties: { _slug: { isUniqueSlug: { id, orgUrlKey } } as unknown },
       },
     }
   );

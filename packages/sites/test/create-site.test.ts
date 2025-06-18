@@ -81,6 +81,32 @@ describe("create site :: ", function () {
       expect
     );
   });
+  it("handles urlKey undefined in Enterprise", async () => {
+    const entRo = {
+      authentication: {},
+      portalSelf: {
+        isPortal: true,
+        //urlKey is undefined in Enterprise
+      } as portalModule.IPortal,
+    } as commonModule.IHubRequestOptions;
+
+    const site = {
+      item: {
+        owner: "luke",
+        title: "Death Star Plans",
+      },
+      data: {
+        values: {
+          defaultHostname: "name-org.hub.arcgis.com",
+          verifySecondPass: "this should be {{appid}} interpolated",
+        },
+      },
+    } as unknown as commonModule.IModel;
+
+    const result = await createSite(site, {}, entRo);
+
+    expect(result.item.id).toBe("3ef", "should attach id into returned model");
+  });
 
   it("updates initiative if created", async () => {
     const site = {

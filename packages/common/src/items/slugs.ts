@@ -13,7 +13,7 @@ import { uriSlugToKeywordSlug } from "./_internal/slugConverters";
  * @param orgKey
  * @returns
  */
-export function constructSlug(title: string, orgKey: string) {
+export function constructSlug(title: string, orgKey = ""): string {
   // allow some padding at the end for incrementing so we don't wind up w/ weird, inconsistent slugs
   // when the increment goes from single to multiple digits,
   // avoid producing the following when deduping:
@@ -117,12 +117,9 @@ export async function findItemsBySlug(
   if (slugInfo.exclude) {
     opts.q = `NOT id:${slugInfo.exclude}`;
   }
-  try {
-    const response = await searchItems(opts);
-    return response.results;
-  } catch (e) {
-    throw e;
-  }
+
+  const response = await searchItems(opts);
+  return response.results;
 }
 
 /**
@@ -143,7 +140,7 @@ export function getUniqueSlug(
     existingId?: string;
   },
   requestOptions: IRequestOptions,
-  step: number = 0
+  step = 0
 ): Promise<string> {
   const combinedSlug = step ? [slugInfo.slug, step].join("-") : slugInfo.slug;
   return findItemsBySlug(
