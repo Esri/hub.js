@@ -120,6 +120,22 @@ export const EventPermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:event:workspace", "hub:event:edit"],
   },
   {
+    permission: "hub:event:workspace:catalog",
+    dependencies: ["hub:event:workspace", "hub:event:edit"],
+  },
+  {
+    permission: "hub:event:workspace:catalog:content",
+    dependencies: ["hub:event:workspace:catalog"],
+  },
+  {
+    permission: "hub:event:workspace:catalog:events",
+    dependencies: [
+      "hub:event:workspace:catalog",
+      "hub:event",
+      "hub:feature:catalogs:edit:advanced",
+    ],
+  },
+  {
     permission: "hub:event:manage",
     dependencies: ["hub:event:edit"],
   },
