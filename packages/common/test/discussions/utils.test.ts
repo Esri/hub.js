@@ -263,21 +263,21 @@ describe("discussions utils", () => {
 
     beforeEach(() => {
       getGroupUsersSpy = spyOn(restPortal, "getGroupUsers").and.callFake(
-        (groupId: string) =>
-          Promise.resolve(
-            {
-              group1: {
-                owner: "ownerUser1",
-                admins: ["admin1", "admin2"],
-                users: ["user1", "user2"],
-              },
-              group2: {
-                owner: "ownerUser2",
-                admins: ["admin3", "admin4", "ownerUser2"],
-                users: ["user3", "user4"],
-              },
-            }[groupId]
-          )
+        (groupId: string) => {
+          const lookup: Record<string, restPortal.IGroupUsersResult> = {
+            group1: {
+              owner: "ownerUser1",
+              admins: ["admin1", "admin2"],
+              users: ["user1", "user2"],
+            },
+            group2: {
+              owner: "ownerUser2",
+              admins: ["admin3", "admin4", "ownerUser2"],
+              users: ["user3", "user4"],
+            },
+          };
+          return Promise.resolve(lookup[groupId]);
+        }
       );
     });
 
