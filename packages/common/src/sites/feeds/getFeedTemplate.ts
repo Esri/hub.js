@@ -46,7 +46,10 @@ function getDefaultTemplate(
   return cloneObject(defaultTemplates[format][majorVersion]);
 }
 
-function getDcatApConfig(feedsConfig: IFeedsConfiguration, version: string) {
+function getDcatApConfig(
+  feedsConfig: IFeedsConfiguration,
+  version: string
+): Record<string, any> {
   if (getMajorVersion(version) === "2") {
     return feedsConfig.dcatAP2XX || feedsConfig.dcatAP201;
   } else if (getMajorVersion(version) === "3") {
@@ -56,7 +59,10 @@ function getDcatApConfig(feedsConfig: IFeedsConfiguration, version: string) {
   throw new Error("Unsupported DCAT AP version");
 }
 
-function getDcatUsConfig(feedsConfig: IFeedsConfiguration, version: string) {
+function getDcatUsConfig(
+  feedsConfig: IFeedsConfiguration,
+  version: string
+): Record<string, any> {
   if (getMajorVersion(version) === "1") {
     const dcatUsConfig = feedsConfig.dcatUS1X || feedsConfig.dcatUS11;
     // Some sites may have dcat us config with invalid
@@ -81,7 +87,10 @@ function getDcatUsConfig(feedsConfig: IFeedsConfiguration, version: string) {
   throw new Error("Unsupported DCAT US version");
 }
 
-function getRssConfig(feedsConfig: IFeedsConfiguration, version: string) {
+function getRssConfig(
+  feedsConfig: IFeedsConfiguration,
+  version: string
+): Record<string, any> {
   if (getMajorVersion(version) === "2") {
     return feedsConfig.rss2;
   }
