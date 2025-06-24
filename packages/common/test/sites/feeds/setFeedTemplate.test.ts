@@ -1,8 +1,5 @@
-import { setFeedTemplate } from "../../../src/sites/feeds/setFeedTemplate";
-import {
-  IFeedsConfiguration,
-  FeedFormat,
-} from "../../../src/sites/feeds/types";
+import { setFeedTemplate } from "../../../src";
+import { IFeedsConfiguration, FeedFormat } from "../../../src";
 
 describe("setFeedTemplate", () => {
   it("sets DCAT US V1 configuration", async () => {
@@ -25,6 +22,7 @@ describe("setFeedTemplate", () => {
     expect(result.dcatUS1X).toBeDefined();
     expect(result.dcatUS1X).toEqual(updatedTemplate);
   });
+
   it("sets DCAT US V3 configuration", async () => {
     const updatedTemplate = {
       title: "{{new_title}}",
@@ -45,6 +43,7 @@ describe("setFeedTemplate", () => {
     expect(result.dcatUS3X).toBeDefined();
     expect(result.dcatUS3X).toEqual(updatedTemplate);
   });
+
   it("sets DCAT US config from old dcatUS11 key", async () => {
     const updatedTemplate = {
       title: "{{new_title}}",
@@ -65,6 +64,7 @@ describe("setFeedTemplate", () => {
     expect(result.dcatUS1X).toBeDefined();
     expect(result.dcatUS1X).toEqual(updatedTemplate);
   });
+
   it("throws error if DCAT US version is not supported", async () => {
     const updatedTemplate = {
       title: "{{new_title}}",
@@ -88,7 +88,8 @@ describe("setFeedTemplate", () => {
       expect(err).toBeDefined();
     }
   });
-  it("sets DCAT AP configuration", async () => {
+
+  it("sets DCAT AP 2XX configuration", async () => {
     const updatedTemplate = {
       title: "{{new_title}}",
     };
@@ -108,6 +109,28 @@ describe("setFeedTemplate", () => {
     expect(result.dcatAP2XX).toBeDefined();
     expect(result.dcatAP2XX).toEqual(updatedTemplate);
   });
+
+  it("sets DCAT AP 3XX configuration", async () => {
+    const updatedTemplate = {
+      title: "{{new_title}}",
+    };
+    const feedsConfig: IFeedsConfiguration = {
+      dcatAP3XX: {
+        title: "{{old_title}}",
+      },
+    };
+    const format: FeedFormat = "dcat-ap";
+    const version = "3.1.0";
+    const result = setFeedTemplate({
+      feedsConfig,
+      format,
+      version,
+      updatedTemplate,
+    });
+    expect(result.dcatAP3X).toBeDefined();
+    expect(result.dcatAP3X).toEqual(updatedTemplate);
+  });
+
   it("sets DCAT AP config from old dcatAP201 key", async () => {
     const updatedTemplate = {
       title: "{{new_title}}",
@@ -128,6 +151,7 @@ describe("setFeedTemplate", () => {
     expect(result.dcatAP2XX).toBeDefined();
     expect(result.dcatAP2XX).toEqual(updatedTemplate);
   });
+
   it("throws error if DCAT AP version is not supported", async () => {
     const updatedTemplate = {
       title: "{{new_title}}",
@@ -138,7 +162,7 @@ describe("setFeedTemplate", () => {
       },
     };
     const format: FeedFormat = "dcat-ap";
-    const version = "3.0";
+    const version = "4.0";
     try {
       setFeedTemplate({
         feedsConfig,
@@ -151,6 +175,7 @@ describe("setFeedTemplate", () => {
       expect(err).toBeDefined();
     }
   });
+
   it("sets RSS configuration", async () => {
     const updatedTemplate = {
       title: "{{new_title}}",
@@ -178,6 +203,7 @@ describe("setFeedTemplate", () => {
     expect(result.rss2).toBeDefined();
     expect(result.rss2).toEqual(updatedTemplate);
   });
+
   it("throws error if RSS version is not supported", async () => {
     const updatedTemplate = {
       title: "{{new_title}}",
@@ -201,6 +227,7 @@ describe("setFeedTemplate", () => {
       expect(err).toBeDefined();
     }
   });
+
   it("throws error if feed is not supported", async () => {
     const updatedTemplate = {
       title: "{{new_title}}",
