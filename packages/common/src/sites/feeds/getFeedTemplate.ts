@@ -1,7 +1,5 @@
-import { IModel } from "../../hub-types";
 import { cloneObject } from "../../util";
 import { getMajorVersion } from "./_internal/getMajorVersion";
-import { getFeedConfiguration } from "../feed-configuration";
 import { getDefaultTemplates } from "./_internal/defaults";
 import { FeedFormat, IFeedsConfiguration } from "./types";
 
@@ -51,6 +49,8 @@ function getDefaultTemplate(
 function getDcatApConfig(feedsConfig: IFeedsConfiguration, version: string) {
   if (getMajorVersion(version) === "2") {
     return feedsConfig.dcatAP2XX || feedsConfig.dcatAP201;
+  } else if (getMajorVersion(version) === "3") {
+    return feedsConfig.dcatAP3X;
   }
 
   throw new Error("Unsupported DCAT AP version");
