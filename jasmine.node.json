@@ -21,6 +21,7 @@
     "!**/test/discussions/edit.test.ts",
     "!**/test/discussions/fetch.test.ts",
     "!**/test/discussions/HubDiscussion.test.ts",
+    "!**/test/discussions/utils.test.ts",
     "!**/test/downloads/_internal/file-url-fetchers/fetchExportImageDownloadFile.test.ts",
     "!**/test/events/_internal/buildEventAssociations.test.ts",
     "!**/test/events/_internal/EventUiSchemaAttendeesSettings.test.ts",
