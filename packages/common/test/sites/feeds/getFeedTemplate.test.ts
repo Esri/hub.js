@@ -1,8 +1,6 @@
-import { getFeedTemplate } from "../../../src/sites/feeds/getFeedTemplate";
-import {
-  FeedFormat,
-  IFeedsConfiguration,
-} from "../../../src/sites/feeds/types";
+import { getFeedTemplate } from "../../../src";
+import { FeedFormat, IFeedsConfiguration } from "../../../src";
+
 describe("getFeedTemplate", () => {
   it("gets DCAT US V1 configuration", async () => {
     const dcatUsConfig = {
@@ -16,6 +14,7 @@ describe("getFeedTemplate", () => {
     const chk = getFeedTemplate({ feedsConfig, format, version });
     expect(chk).toEqual(dcatUsConfig);
   });
+
   it("gets DCAT US V3 configuration", async () => {
     const dcatUsConfig = {
       title: "{{title}}",
@@ -28,6 +27,7 @@ describe("getFeedTemplate", () => {
     const chk = getFeedTemplate({ feedsConfig, format, version });
     expect(chk).toEqual(dcatUsConfig);
   });
+
   it("gets DCAT US config from old dcatUS11 key", async () => {
     const dcatUsConfig = {
       title: "{{title}}",
@@ -40,6 +40,7 @@ describe("getFeedTemplate", () => {
     const chk = getFeedTemplate({ feedsConfig, format, version });
     expect(chk).toEqual(dcatUsConfig);
   });
+
   it("gets DCAT US configuration containing spatial field with valid extent value", async () => {
     const dcatUsConfig = {
       title: "{{title}}",
@@ -56,6 +57,7 @@ describe("getFeedTemplate", () => {
     expect(chk.spatial).toEqual("{{extent:computeSpatialProperty}}");
     expect(chk.title).toEqual("{{title}}");
   });
+
   it("throws error if DCAT US version is not supported", async () => {
     const dcatUsConfig = {
       title: "{{title}}",
@@ -72,7 +74,8 @@ describe("getFeedTemplate", () => {
       expect(err).toBeDefined();
     }
   });
-  it("gets DCAT AP configuration", async () => {
+
+  it("gets DCAT AP 2XX configuration", async () => {
     const dcatApConfig = {
       title: "{{title}}",
     };
@@ -84,6 +87,7 @@ describe("getFeedTemplate", () => {
     const chk = getFeedTemplate({ feedsConfig, format, version });
     expect(chk).toEqual(dcatApConfig);
   });
+
   it("gets DCAT AP config from old dcatAP201 key", async () => {
     const dcatApConfig = {
       title: "{{title}}",
@@ -96,6 +100,20 @@ describe("getFeedTemplate", () => {
     const chk = getFeedTemplate({ feedsConfig, format, version });
     expect(chk).toEqual(dcatApConfig);
   });
+
+  it("gets DCAT AP 3XX configuration", async () => {
+    const dcatApConfig = {
+      title: "{{title}}",
+    };
+    const feedsConfig: IFeedsConfiguration = {
+      dcatAP3XX: dcatApConfig,
+    };
+    const format: FeedFormat = "dcat-ap";
+    const version = "3.0.0";
+    const chk = getFeedTemplate({ feedsConfig, format, version });
+    expect(chk).toEqual(dcatApConfig);
+  });
+
   it("throws error if DCAT AP version is not supported", async () => {
     const dcatApConfig = {
       title: "{{title}}",
@@ -112,6 +130,7 @@ describe("getFeedTemplate", () => {
       expect(err).toBeDefined();
     }
   });
+
   it("gets RSS configuration", async () => {
     const rssConfig = {
       title: "{{title}}",
@@ -124,6 +143,7 @@ describe("getFeedTemplate", () => {
     const chk = getFeedTemplate({ feedsConfig, format, version });
     expect(chk).toEqual(rssConfig);
   });
+
   it("throws error if RSS version is not supported", async () => {
     const rssConfig = {
       title: "{{title}}",
@@ -140,6 +160,7 @@ describe("getFeedTemplate", () => {
       expect(err).toBeDefined();
     }
   });
+
   it("throws error if feed is not supported", async () => {
     const rssConfig = {
       title: "{{title}}",
@@ -156,6 +177,7 @@ describe("getFeedTemplate", () => {
       expect(err).toBeDefined();
     }
   });
+
   it("gets the default template if no template is configured", () => {
     const feedsConfig: IFeedsConfiguration = {};
     const format: FeedFormat = "dcat-ap";
