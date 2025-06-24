@@ -21,6 +21,9 @@ export const EventPermissions = [
   "hub:event:workspace:manage",
   "hub:event:workspace:registrants",
   "hub:event:workspace:content",
+  "hub:event:workspace:catalog",
+  "hub:event:workspace:catalog:content",
+  "hub:event:workspace:catalog:events",
   "hub:event:manage",
 ] as const;
 
