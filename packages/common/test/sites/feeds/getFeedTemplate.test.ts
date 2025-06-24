@@ -122,7 +122,7 @@ describe("getFeedTemplate", () => {
       dcatAP201: dcatApConfig,
     };
     const format: FeedFormat = "dcat-ap";
-    const version = "3.0";
+    const version = "4.0";
     try {
       getFeedTemplate({ feedsConfig, format, version });
       expect(true).toBe(false);
