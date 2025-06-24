@@ -602,6 +602,7 @@ describe("discussions utils", () => {
       expect(getGroupUsersSpy).not.toHaveBeenCalled();
     });
     it("should not add group admin predicates for inaccessible groups", async () => {
+      getGroupUsersSpy.and.returnValue(Promise.reject(new Error("404")));
       const res = await getChannelUsersQuery(
         ["user1", "user2"],
         {
