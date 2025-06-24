@@ -20,7 +20,7 @@ import {
 } from "../../src";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
-fdescribe("discussions utils", () => {
+describe("discussions utils", () => {
   describe("isDiscussable", () => {
     it("returns true if CANNOT_DISCUSS is not present", () => {
       const subject = {
