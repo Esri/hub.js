@@ -273,7 +273,7 @@ describe("discussions utils", () => {
               },
               group2: {
                 owner: "ownerUser2",
-                admins: ["admin3", "admin4"],
+                admins: ["admin3", "admin4", "ownerUser2"],
                 users: ["user3", "user4"],
               },
             }[groupId]
