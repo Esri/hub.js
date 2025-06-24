@@ -50,7 +50,7 @@ function getDcatApConfig(feedsConfig: IFeedsConfiguration, version: string) {
   if (getMajorVersion(version) === "2") {
     return feedsConfig.dcatAP2XX || feedsConfig.dcatAP201;
   } else if (getMajorVersion(version) === "3") {
-    return feedsConfig.dcatAP3X;
+    return feedsConfig.dcatAP3XX;
   }
 
   throw new Error("Unsupported DCAT AP version");

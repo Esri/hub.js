@@ -1,4 +1,4 @@
-export const DCAT_AP_3X_DEFAULT = {
+export const DCAT_AP_3XX_DEFAULT = {
   "@context": {
     "@version": 1.1,
     "@protected": true,

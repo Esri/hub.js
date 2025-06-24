@@ -48,6 +48,6 @@ type DcatAPTemplatePaths =
   // Updated path for the primary DCAT-AP 3.X template. This should be the default
   // template for all DCAT-AP 3.X feeds (unless overriden by a more specific version).
   // 3.0 is the latest version of 3.X as of this writing.
-  | "dcatAP3X";
+  | "dcatAP3XX";
 
 type RssTemplatePaths = "rss2"; // Original path for the RSS 2.0 feed

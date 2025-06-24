@@ -44,7 +44,7 @@ function setDcatApConfig(
     feedsConfig.dcatAP2XX = config;
     return;
   } else if (getMajorVersion(version) === "3") {
-    feedsConfig.dcatAP2XX = config;
+    feedsConfig.dcatAP3XX = config;
     return;
   }
 
