@@ -7,7 +7,6 @@ import {
   AclCategory,
   AclSubCategory,
   IChannel,
-  Role,
   SharingAccess,
 } from "./api/types";
 import { IFilter, IHubSearchResult, IQuery } from "../search";
@@ -172,7 +171,6 @@ export async function getChannelUsersQuery(
     channel.channelAcl.reduce<{ member: string[]; admin: string[] }>(
       (acc, channelAcl) =>
         channelAcl.category === category &&
-        channelAcl.role !== Role.OWNER &&
         !acc[channelAcl.subCategory].includes(channelAcl.key)
           ? {
               ...acc,
