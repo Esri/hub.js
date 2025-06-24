@@ -1,4 +1,3 @@
-// import { IGroup } from "@esri/arcgis-rest-portal";
 import * as restPortal from "@esri/arcgis-rest-portal";
 import {
   CANNOT_DISCUSS,
@@ -304,6 +303,14 @@ fdescribe("discussions utils", () => {
         targetEntity: "communityUser",
         filters: [
           {
+            operation: "AND",
+            predicates: [{ orgid: { from: "0", to: "{" } }],
+          },
+          {
+            operation: "AND",
+            predicates: [{ username: { not: "currentUser" } }],
+          },
+          {
             operation: "OR",
             predicates: [
               { username: "user1" },
@@ -311,14 +318,6 @@ fdescribe("discussions utils", () => {
               { username: "user2" },
               { fullname: "user2" },
             ],
-          },
-          {
-            operation: "AND",
-            predicates: [{ orgid: { from: "0", to: "{" } }],
-          },
-          {
-            operation: "AND",
-            predicates: [{ username: { not: "currentUser" } }],
           },
         ],
       });
@@ -347,6 +346,14 @@ fdescribe("discussions utils", () => {
         targetEntity: "communityUser",
         filters: [
           {
+            operation: "AND",
+            predicates: [{ orgid: { from: "0", to: "{" } }],
+          },
+          {
+            operation: "AND",
+            predicates: [{ username: { not: "currentUser" } }],
+          },
+          {
             operation: "OR",
             predicates: [
               { username: "user1" },
@@ -354,14 +361,6 @@ fdescribe("discussions utils", () => {
               { username: "user2" },
               { fullname: "user2" },
             ],
-          },
-          {
-            operation: "AND",
-            predicates: [{ orgid: { from: "0", to: "{" } }],
-          },
-          {
-            operation: "AND",
-            predicates: [{ username: { not: "currentUser" } }],
           },
         ],
       });
@@ -399,15 +398,6 @@ fdescribe("discussions utils", () => {
           {
             operation: "OR",
             predicates: [
-              { username: "user1" },
-              { fullname: "user1" },
-              { username: "user2" },
-              { fullname: "user2" },
-            ],
-          },
-          {
-            operation: "OR",
-            predicates: [
               { orgid: ["org1", "org2"] },
               { orgid: ["org1"], role: "org_admin" },
             ],
@@ -415,6 +405,15 @@ fdescribe("discussions utils", () => {
           {
             operation: "AND",
             predicates: [{ username: { not: "currentUser" } }],
+          },
+          {
+            operation: "OR",
+            predicates: [
+              { username: "user1" },
+              { fullname: "user1" },
+              { username: "user2" },
+              { fullname: "user2" },
+            ],
           },
         ],
       });
@@ -452,15 +451,6 @@ fdescribe("discussions utils", () => {
           {
             operation: "OR",
             predicates: [
-              { username: "user1" },
-              { fullname: "user1" },
-              { username: "user2" },
-              { fullname: "user2" },
-            ],
-          },
-          {
-            operation: "OR",
-            predicates: [
               { group: ["group1"] },
               {
                 group: "group2",
@@ -471,6 +461,15 @@ fdescribe("discussions utils", () => {
           {
             operation: "AND",
             predicates: [{ username: { not: "currentUser" } }],
+          },
+          {
+            operation: "OR",
+            predicates: [
+              { username: "user1" },
+              { fullname: "user1" },
+              { username: "user2" },
+              { fullname: "user2" },
+            ],
           },
         ],
       });
@@ -519,15 +518,6 @@ fdescribe("discussions utils", () => {
           {
             operation: "OR",
             predicates: [
-              { username: "user1" },
-              { fullname: "user1" },
-              { username: "user2" },
-              { fullname: "user2" },
-            ],
-          },
-          {
-            operation: "OR",
-            predicates: [
               { orgid: ["org1"] },
               {
                 orgid: ["org1", "org2"],
@@ -539,6 +529,15 @@ fdescribe("discussions utils", () => {
           {
             operation: "AND",
             predicates: [{ username: { not: "currentUser" } }],
+          },
+          {
+            operation: "OR",
+            predicates: [
+              { username: "user1" },
+              { fullname: "user1" },
+              { username: "user2" },
+              { fullname: "user2" },
+            ],
           },
         ],
       });
@@ -552,6 +551,10 @@ fdescribe("discussions utils", () => {
         targetEntity: "communityUser",
         filters: [
           {
+            operation: "AND",
+            predicates: [{ orgid: { from: "0", to: "{" } }],
+          },
+          {
             operation: "OR",
             predicates: [
               { username: "user1" },
@@ -560,6 +563,36 @@ fdescribe("discussions utils", () => {
               { fullname: "user2" },
             ],
           },
+        ],
+      });
+      expect(getGroupUsersSpy).not.toHaveBeenCalled();
+    });
+    it("should not add predicates for falsey terms", async () => {
+      const res = await getChannelUsersQuery(["user1", ""], {
+        channelAcl: [{ category: AclCategory.AUTHENTICATED_USER }],
+      } as IChannel);
+      expect(res).toEqual({
+        targetEntity: "communityUser",
+        filters: [
+          {
+            operation: "AND",
+            predicates: [{ orgid: { from: "0", to: "{" } }],
+          },
+          {
+            operation: "OR",
+            predicates: [{ username: "user1" }, { fullname: "user1" }],
+          },
+        ],
+      });
+      expect(getGroupUsersSpy).not.toHaveBeenCalled();
+    });
+    it("should not add filter for terms when no terms provided", async () => {
+      const res = await getChannelUsersQuery([], {
+        channelAcl: [{ category: AclCategory.AUTHENTICATED_USER }],
+      } as IChannel);
+      expect(res).toEqual({
+        targetEntity: "communityUser",
+        filters: [
           {
             operation: "AND",
             predicates: [{ orgid: { from: "0", to: "{" } }],
@@ -567,6 +600,56 @@ fdescribe("discussions utils", () => {
         ],
       });
       expect(getGroupUsersSpy).not.toHaveBeenCalled();
+    });
+    it("should not add group admin predicates for inaccessible groups", async () => {
+      const res = await getChannelUsersQuery(
+        ["user1", "user2"],
+        {
+          channelAcl: [
+            {
+              category: AclCategory.GROUP,
+              subCategory: AclSubCategory.MEMBER,
+              key: "group1",
+            },
+            {
+              category: AclCategory.GROUP,
+              subCategory: AclSubCategory.ADMIN,
+              key: "group1",
+            },
+            {
+              category: AclCategory.GROUP,
+              subCategory: AclSubCategory.ADMIN,
+              key: "group2",
+            },
+          ],
+        } as IChannel,
+        "currentUser",
+        REQUEST_OPTIONS
+      );
+      expect(res).toEqual({
+        targetEntity: "communityUser",
+        filters: [
+          {
+            operation: "OR",
+            predicates: [{ group: ["group1"] }],
+          },
+          {
+            operation: "AND",
+            predicates: [{ username: { not: "currentUser" } }],
+          },
+          {
+            operation: "OR",
+            predicates: [
+              { username: "user1" },
+              { fullname: "user1" },
+              { username: "user2" },
+              { fullname: "user2" },
+            ],
+          },
+        ],
+      });
+      expect(getGroupUsersSpy).toHaveBeenCalledTimes(1);
+      expect(getGroupUsersSpy).toHaveBeenCalledWith("group2", REQUEST_OPTIONS);
     });
   });
   describe("getPostCSVFileName", () => {

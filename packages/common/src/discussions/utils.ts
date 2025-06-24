@@ -10,7 +10,7 @@ import {
   Role,
   SharingAccess,
 } from "./api/types";
-import { IFilter, IHubSearchResult, IPredicate, IQuery } from "../search";
+import { IFilter, IHubSearchResult, IQuery } from "../search";
 
 /**
  * Utility to determine if a given IGroup, IItem, IHubContent, or IHubItemEntity
@@ -153,14 +153,14 @@ export function getChannelGroupIds(channel: IChannel): string[] {
 
 /**
  * A utility method used to build an IQuery to search for users that are permitted to be at-mentioned for the given channel.
- * @param input An array of strings to search for. Each string is mapped to `username` and `fullname`, filters as an OR condition
+ * @param terms An array of strings to search for. Each string is mapped to `username` and `fullname`, filters as an OR condition
  * @param channel An IChannel record
  * @param currentUsername The currently authenticated user's username
  * @param requestOptions An IRequestOptions object
  * @returns a promise that resolves an IQuery
  */
 export async function getChannelUsersQuery(
-  inputs: string[],
+  terms: string[],
   channel: IChannel,
   currentUsername?: string,
   requestOptions?: IRequestOptions
@@ -231,21 +231,29 @@ export async function getChannelUsersQuery(
       // to further refine results to a specific type of membership within that group (e.g. memberType:admin). to do so, we need to fetch the
       // group members via /community/groups/:id/users for each group and then build the appropriate predicates. however, given that group
       // owners & admins will be returned in the results for the member predicate above, we only need to do this for groups whose ID is not
-      // also present in the member predicate above
+      // also present in the above member predicate
       const adminOnlyGroupIds = groupIdsBySubCategory.admin.filter(
         (groupId) => !groupIdsBySubCategory.member.includes(groupId)
       );
       if (adminOnlyGroupIds.length) {
+        // fetch the member list for each channel group
         const groupMemberships = await Promise.all(
           adminOnlyGroupIds.map((groupId) =>
-            getGroupUsers(groupId, requestOptions)
+            // catch & resolve null when an error occurs. depending on the group's visibility settings, the
+            // user may, or may not be able to access the group's user list.
+            getGroupUsers(groupId, requestOptions).catch((_e: unknown) => null)
           )
         );
+        // build the appropriate predicate for each group
         groupMemberships.forEach((groupUserResult: IGroupUsersResult, idx) => {
-          filter.predicates.push({
-            group: adminOnlyGroupIds[idx],
-            username: [groupUserResult.owner, ...groupUserResult.admins],
-          });
+          // only if the user can access the group's user list
+          if (groupUserResult) {
+            filter.predicates.push({
+              group: adminOnlyGroupIds[idx],
+              // restrict results to the group owner and managers/admins
+              username: [groupUserResult.owner, ...groupUserResult.admins],
+            });
+          }
         });
       }
     }
@@ -253,6 +261,7 @@ export async function getChannelUsersQuery(
     filters.push(filter);
   }
 
+  // if the user is authenticated, omit that user from the results
   if (currentUsername) {
     filters.push({
       operation: "AND",
@@ -260,20 +269,32 @@ export async function getChannelUsersQuery(
     });
   }
 
-  const query: IQuery = {
+  // conditionally add terms
+  const inputFilter = terms.reduce<IFilter>(
+    (acc, term) =>
+      term
+        ? {
+            ...acc,
+            predicates: [
+              ...acc.predicates,
+              { username: term },
+              { fullname: term },
+            ],
+          }
+        : acc,
+    {
+      operation: "OR",
+      predicates: [],
+    }
+  );
+  if (inputFilter.predicates.length) {
+    filters.push(inputFilter);
+  }
+
+  return {
     targetEntity: "communityUser",
-    filters: [
-      {
-        operation: "OR",
-        predicates: inputs.reduce<IPredicate[]>(
-          (acc, input) => [...acc, { username: input }, { fullname: input }],
-          []
-        ),
-      },
-      ...filters,
-    ],
+    filters,
   };
-  return query;
 }
 
 /**
