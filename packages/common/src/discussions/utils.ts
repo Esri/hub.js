@@ -10,6 +10,7 @@ import {
   SharingAccess,
 } from "./api/types";
 import { IFilter, IHubSearchResult, IQuery } from "../search";
+import { unique } from "../util";
 
 /**
  * Utility to determine if a given IGroup, IItem, IHubContent, or IHubItemEntity
@@ -249,7 +250,10 @@ export async function getChannelUsersQuery(
             filter.predicates.push({
               group: adminOnlyGroupIds[idx],
               // restrict results to the group owner and managers/admins
-              username: [groupUserResult.owner, ...groupUserResult.admins],
+              username: [
+                groupUserResult.owner,
+                ...groupUserResult.admins,
+              ].filter(unique),
             });
           }
         });
