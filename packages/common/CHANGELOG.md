@@ -1,3 +1,10 @@
+# @esri/hub-common [18.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.1.0...@esri/hub-common@18.2.0) (2025-06-25)
+
+
+### Features
+
+* **hub-common:** add roles to interface ISearchChannels ([#1930](https://github.com/Esri/hub.js/issues/1930)) ([73b0b74](https://github.com/Esri/hub.js/commit/73b0b741f01ce9e23275ae3d16d30a6a1f760778))
+
 # @esri/hub-common [18.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.0.0...@esri/hub-common@18.1.0) (2025-06-25)
 
 
