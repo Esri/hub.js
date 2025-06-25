@@ -1,3 +1,10 @@
+# @esri/hub-common [18.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.0.0...@esri/hub-common@18.1.0) (2025-06-25)
+
+
+### Features
+
+* **hub-common:** add catalog to events ([#1926](https://github.com/Esri/hub.js/issues/1926)) ([893e79b](https://github.com/Esri/hub.js/commit/893e79b280e6a2b48cbfdb319925c0757b148ad7))
+
 # @esri/hub-common [18.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.21.0...@esri/hub-common@18.0.0) (2025-06-18)
 
 
