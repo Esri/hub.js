@@ -108,7 +108,6 @@ export class EventPropertyMapper extends PropertyMapper<
     obj.updatedDateSource = "updatedAt";
 
     // Ensure we have a catalog and that its at the current schema
-    // Note: catalogs are not hooked up yet, so this will always be the default value.
     obj.catalog = upgradeCatalogSchema(obj.catalog || {});
 
     obj.links = computeLinks(store as IEvent);

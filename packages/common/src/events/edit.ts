@@ -118,6 +118,7 @@ export async function updateHubEvent(
     allowRegistration: model.allowRegistration,
     associations,
     attendanceType: model.attendanceType,
+    capabilities: model.capabilities,
     categories: model.categories,
     description: model.description?.trim() || null,
     editGroups: model.editGroups,
