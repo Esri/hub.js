@@ -64,7 +64,16 @@ export const buildUiSchema = (
             schemaVersion: 1,
             title:
               "{{shared.fields.allowedChannelIds.catalog.title:translate}}",
-            scopes: {},
+            scopes: {
+              channel: {
+                targetEntity: "channel",
+                filters: [
+                  {
+                    predicates: [],
+                  },
+                ],
+              },
+            },
             collections: [
               {
                 label:
@@ -74,7 +83,6 @@ export const buildUiSchema = (
                 scope: {
                   targetEntity: "channel",
                   filters: [],
-                  collection: "channel",
                 },
                 include: ["groups"],
               },
