@@ -1052,6 +1052,7 @@ export interface ISearchChannels
   name?: string;
   orgIds?: string[];
   relations?: ChannelRelation[];
+  roles?: Role[];
 }
 
 /**
