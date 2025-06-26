@@ -475,7 +475,7 @@ export interface IPost
   geometry: Geometry | null;
   featureGeometry: Geometry | null;
   postType: PostType;
-  channelId?: string;
+  channelId: string;
   channel?: IChannel;
   parentId?: string;
   parent?: IPost | null;
