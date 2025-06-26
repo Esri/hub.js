@@ -1,8 +1,30 @@
 import {
   ChannelFilter,
+  Role,
   SharingAccess,
 } from "../../../../src/discussions/api/types";
-import { processChannelFilters } from "../../../../src/search/_internal/hubDiscussionsHelpers/processChannelFilters";
+import {
+  parseIdsAndNotIds,
+  processChannelFilters,
+} from "../../../../src/search/_internal/hubDiscussionsHelpers/processChannelFilters";
+
+describe("parseIdsAndNotIds", () => {
+  it("should return the expected results", () => {
+    const results = parseIdsAndNotIds([
+      "a",
+      "b",
+      { not: "c" },
+      { not: ["d", "e"] },
+      { other: "f" },
+      { other: ["g"] },
+      null,
+    ]);
+    expect(results).toEqual({
+      ids: ["a", "b"],
+      notIds: ["c", "d", "e"],
+    });
+  });
+});
 
 describe("processChannelFilters", () => {
   it("should support term", () => {
@@ -47,6 +69,19 @@ describe("processChannelFilters", () => {
       SharingAccess.ORG,
       SharingAccess.PRIVATE,
     ]);
+  });
+  it("should support role", () => {
+    let results = processChannelFilters([]);
+    expect(results.roles).toBeUndefined();
+    results = processChannelFilters([
+      {
+        predicates: [{ role: "read" }, { role: ["write"] }],
+      },
+      {
+        predicates: [{ role: "readWrite" }],
+      },
+    ]);
+    expect(results.roles).toEqual([Role.READ, Role.WRITE, Role.READWRITE]);
   });
   it("should support ids", () => {
     let results = processChannelFilters([]);
