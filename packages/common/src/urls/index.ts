@@ -23,6 +23,7 @@ export * from "./get-campaign-url";
 export * from "./is-safe-redirect-url";
 export * from "./cacheBustUrl";
 export * from "./get-cdn-asset-url";
+export * from "./isEnterprisePortalUrl";
 // For some reason, if this is exported here, random tests
 // start failing. Resolved by moving to the root index
 // export * from "./getCardModelUrl";
@@ -45,7 +46,7 @@ export const isMapOrFeatureServerUrl = (url: string) => {
  * or undefined for other types of URLs
  */
 export const getServiceTypeFromUrl = (url: string) => {
-  const match = url.match(MAP_OR_FEATURE_SERVER_URL_REGEX);
+  const match = MAP_OR_FEATURE_SERVER_URL_REGEX.exec(url);
   const mapOrFeature = match && match[1];
   return mapOrFeature && `${capitalize(mapOrFeature)} Service`;
 };
