@@ -24,6 +24,7 @@ import { channelResultsToSearchResults } from "./hubDiscussionsHelpers/channelRe
  *   - owner: string;
  *   - createdDateRange: IDateRange<string | number>;
  *   - updatedDateRange: IDateRange<string | number>;
+ *   - role: 'read' | 'write' | 'readWrite' | 'moderate' | 'manage' | 'owner' | Array<'read' | 'write' | 'readWrite' | 'moderate' | 'manage' | 'owner'>
  * Currently supported sort fields include:
  *   - created
  *   - modified
@@ -57,7 +58,7 @@ export const hubSearchChannels = async (
     total,
     results,
     hasNext: nextStart > -1,
-    next: () =>
+    next: (): Promise<IHubSearchResponse<IHubSearchResult>> =>
       hubSearchChannels(query, {
         ...searchOptions,
         start: nextStart,
