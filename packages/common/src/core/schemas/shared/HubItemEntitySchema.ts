@@ -98,6 +98,7 @@ export const HubItemEntitySchema: IAsyncConfigurationSchema = {
           default: false,
         },
         access: ENTITY_ACCESS_SCHEMA,
+        accessGroups: { type: "array", items: { type: "string" } },
         personality: { type: "string" },
         description: { type: "string" },
         location: { type: "string" },

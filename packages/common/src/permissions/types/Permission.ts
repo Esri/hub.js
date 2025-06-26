@@ -21,6 +21,7 @@ import { UserPermissions } from "../../users/_internal/UserBusinessRules";
 
 const SystemPermissions = [
   "hub:feature:ai-assistant",
+  "hub:platform:ai-assistant",
   "hub:feature:privacy",
   "hub:feature:workspace",
   "hub:feature:user:preferences",
@@ -91,5 +92,5 @@ export type Permission =
  * @returns
  */
 export function isPermission(maybePermission: string): boolean {
-  return validPermissions.includes(maybePermission as Permission);
+  return validPermissions.includes(maybePermission );
 }

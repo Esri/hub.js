@@ -1,4 +1,10 @@
-import { getSelf, getUser, IPortal } from "@esri/arcgis-rest-portal";
+import {
+  getPortalSettings,
+  getSelf,
+  getUser,
+  IPortal,
+  IPortalSettings,
+} from "@esri/arcgis-rest-portal";
 import {
   exchangeToken,
   IUser,
@@ -46,7 +52,7 @@ const CONTEXT_SERIALIZABLE_PROPS: Array<keyof IArcGISContextManagerOptions> = [
  */
 const CONTEXT_AUTHD_SERIALIZABLE_PROPS: Array<
   keyof IArcGISContextManagerOptions
-> = ["resourceTokens", "portal", "currentUser"];
+> = ["resourceTokens", "portal", "currentUser", "portalSettings"];
 
 /**
  * The manager exposes context (`IArcGISContext`), which combines a `ArcGISIdentityManager` with
@@ -81,6 +87,8 @@ export class ArcGISContextManager {
   private _hubUrl: string;
 
   private _portal: IPortal;
+
+  private _portalSettings: IPortalSettings;
 
   private _currentUser: IUser;
 
@@ -134,6 +142,10 @@ export class ArcGISContextManager {
 
     if (opts.portal) {
       this._portal = cloneObject(opts.portal);
+    }
+
+    if (opts.portalSettings) {
+      this._portalSettings = cloneObject(opts.portalSettings);
     }
 
     if (opts.currentUser) {
@@ -362,6 +374,12 @@ export class ArcGISContextManager {
         promises.push(getSelfWithLimits(this._authentication));
         promiseKeys.push("portal");
       }
+      if (!this._portalSettings) {
+        promises.push(
+          getPortalSettings("self", { authentication: this._authentication })
+        );
+        promiseKeys.push("portalSettings");
+      }
       if (this._portal && !this._portal.limits) {
         promises.push(getPortalLimits(this._portal.id, this._authentication));
         promiseKeys.push("portalLimits");
@@ -414,6 +432,9 @@ export class ArcGISContextManager {
       switch (key) {
         case "portal":
           this._portal = result as IPortal;
+          break;
+        case "portalSettings":
+          this._portalSettings = result as IPortalSettings;
           break;
         case "portalLimits":
           this._portal.limits = result as Record<string, number>;
@@ -479,7 +500,12 @@ export class ArcGISContextManager {
     // up exactly with the prop names on the serialized context so we have to define
     // separate arrays here
     const anonProps = ["hubUrl", ...CONTEXT_SERIALIZABLE_PROPS];
-    const authdProps = ["currentUser", "userResourceTokens", "userHubSettings"];
+    const authdProps = [
+      "currentUser",
+      "userResourceTokens",
+      "userHubSettings",
+      ...CONTEXT_AUTHD_SERIALIZABLE_PROPS,
+    ];
 
     let contextOpts: IArcGISContextOptions = {
       id: this.id,
