@@ -48,6 +48,83 @@ export const buildUiSchema = async (
               },
             },
           },
+          {
+            label: `{{${i18nScope}.assistant.fields.accessGroups.label:translate}}`,
+            scope: "/properties/assistant/properties/accessGroups",
+            type: "Control",
+            options: {
+              control: "hub-field-input-gallery-picker",
+              targetEntity: "group",
+              helperText: {
+                label: `{{${i18nScope}.assistant.fields.accessGroups.helperText:translate}}`,
+              },
+              catalogs: [
+                {
+                  schemaVersion: 1,
+                  scopes: {
+                    group: {
+                      targetEntity: "group",
+                      filters: [
+                        {
+                          predicates: [
+                            {
+                              capabilities: {
+                                not: ["updateitemcontrol"],
+                              },
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  },
+                  collections: [
+                    {
+                      targetEntity: "group",
+                      scope: {
+                        targetEntity: "group",
+                        filters: [
+                          {
+                            predicates: [
+                              {
+                                q: "*",
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+              ],
+              facets: [
+                {
+                  label: `{{${i18nScope}.assistant.fields.accessGroups.facets.label.from:translate}}`,
+                  display: "single-select",
+                  operation: "OR",
+                  options: [
+                    {
+                      label: `{{${i18nScope}.assistant.fields.accessGroups.facets.label.group:translate}}`,
+                      selected: true,
+                      predicates: [
+                        {
+                          owner: context.currentUser.username,
+                        },
+                      ],
+                    },
+                    {
+                      label: `{{${i18nScope}.assistant.fields.accessGroups.facets.label.org:translate}}`,
+                      selected: false,
+                      predicates: [
+                        {
+                          orgid: context.currentUser.orgId,
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          },
         ],
       },
       {
