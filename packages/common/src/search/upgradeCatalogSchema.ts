@@ -25,11 +25,21 @@ const getEventEntityOrgIdPredicates = (orgId: string): IPredicate[] => [
   { orgId },
 ];
 
+const getGroupEntityOrgIdPredicates = (orgId: string): IPredicate[] => [
+  { orgid: orgId },
+];
+
+const getUserEntityOrgIdPredicates = (orgId: string): IPredicate[] => [
+  { orgid: orgId },
+];
+
 const ORG_ID_PREDICATE_FNS_BY_ENTITY_TYPE: Partial<
   Record<EntityType, (orgId: string) => IPredicate[]>
 > = {
   item: getAgoEntityOrgIdPredicates,
   event: getEventEntityOrgIdPredicates,
+  group: getGroupEntityOrgIdPredicates,
+  user: getUserEntityOrgIdPredicates,
 };
 
 /**
@@ -91,7 +101,7 @@ function applyCatalogSchema(original: any): IHubCatalog {
         (acc, entry) => ({
           ...acc,
           [entry[0] as EntityType]: {
-            ...(entry[1] as IQuery),
+            ...entry[1],
             filters: [{ predicates: [{ group: groups }] }],
           },
         }),
@@ -101,13 +111,24 @@ function applyCatalogSchema(original: any): IHubCatalog {
 
     // Handle legacy orgId value, which should only be present
     // for org-level home sites (e.g., "my-org.hub.arcgis.com")
-    const orgId = getProp(original, "orgId");
+    const orgId = getProp(original, "orgId") as string;
     if (orgId) {
+      // Unlike other sites, org-level home sites also have default
+      // group and user scopes, so we add those here
+      catalog.scopes.group = {
+        targetEntity: "group",
+        filters: [],
+      };
+      catalog.scopes.user = {
+        targetEntity: "user",
+        filters: [],
+      };
+
       // add the org ID predicate to all the scope queries
       catalog.scopes = Object.entries(catalog.scopes).reduce<ICatalogScope>(
         (acc, entry) => {
           const entityType: EntityType = entry[0] as EntityType;
-          const query: IQuery = entry[1] as IQuery;
+          const query: IQuery = entry[1];
           return {
             ...acc,
             [entityType]: {
