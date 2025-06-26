@@ -27,6 +27,7 @@ import { fetchOrgLimits, IOrgLimit, OrgLimitType } from "./org/fetchOrgLimits";
 import type { IArcGISContextManagerOptions } from "./types/IArcGISContextManagerOptions";
 import type { IUserResourceConfig } from "./types/IUserResourceConfig";
 import type { IUserResourceToken } from "./types/IUserResourceToken";
+import { isEnterprisePortalUrl } from "./urls";
 
 /**
  * Properties that we can always serialize/deserialize regardless of authentication status
@@ -546,11 +547,10 @@ export class ArcGISContextManager {
  */
 async function getServiceStatus(portalUrl: string): Promise<HubServiceStatus> {
   let status = HUB_SERVICE_STATUS;
-  const isPortal = !/^https?:\/\/([^.]+\.)*arcgis\.com(\/|$)/i.test(portalUrl);
   // When we move to fetching the system status from the API
   // we can use
   // const hubApiUrl = getHubApiFromPortalUrl(portalUrl);
-  if (isPortal) {
+  if (isEnterprisePortalUrl(portalUrl)) {
     status = ENTERPRISE_SITES_SERVICE_STATUS;
   }
 
