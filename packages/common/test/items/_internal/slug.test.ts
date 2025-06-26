@@ -1,7 +1,31 @@
-import { parseIdentifier } from "../../../src/items/_internal/slugs";
+import {
+  parseIdentifier,
+  truncateSlug,
+} from "../../../src/items/_internal/slugs";
 
 describe("item _internal slug", () => {
   const guidId = "67be0486253a423891042361843d1b0a";
+
+  describe("truncateSlug:", () => {
+    it("truncates a slug to 251 characters", () => {
+      const longSlug = "a".repeat(300);
+
+      expect(truncateSlug(longSlug).length).toEqual(251);
+    });
+
+    it("does not truncate a slug that is less than 251 characters", () => {
+      expect(truncateSlug("hello-world")).toEqual("hello-world");
+    });
+
+    it("returns an empty string when given an empty string", () => {
+      expect(truncateSlug("")).toEqual("");
+    });
+    it("handles orgKey passed as undefined", () => {
+      const result = truncateSlug("hello-world", undefined);
+      expect(result).toEqual("hello-world");
+    });
+  });
+
   describe("parseIdentifier", () => {
     it("only returns an id when identifier is a guid", () => {
       const identifier = guidId;

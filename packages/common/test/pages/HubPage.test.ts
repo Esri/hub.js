@@ -10,9 +10,9 @@ import * as EnrichEntityModule from "../../src/core/enrichEntity";
 describe("HubPage Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
   let portalCtxMgr: ArcGISContextManager;
-  let unauthdCtxMgr: ArcGISContextManager;
+  // let unauthdCtxMgr: ArcGISContextManager;
   beforeEach(async () => {
-    unauthdCtxMgr = await ArcGISContextManager.create();
+    // unauthdCtxMgr = await ArcGISContextManager.create();
     // When we pass in all this information, the context
     // manager will not try to fetch anything, so no need
     // to mock those calls
@@ -37,7 +37,7 @@ describe("HubPage Class:", () => {
         isPortal: true,
         name: "My Portal Install",
         id: "BRXFAKE",
-        urlKey: "fake-org",
+        // urlKey is undefined in Enterprise, so it's intentionally not set
       } as unknown as PortalModule.IPortal,
       portalUrl: "https://myserver.com",
     });
@@ -72,7 +72,7 @@ describe("HubPage Class:", () => {
 
     it("throws if page not found", async () => {
       const fetchSpy = spyOn(HubPagesModule, "fetchPage").and.callFake(
-        (id: string) => {
+        (_id: string) => {
           const err = new Error(
             "CONT_0001: Item does not exist or is inaccessible."
           );
@@ -90,7 +90,7 @@ describe("HubPage Class:", () => {
 
     it("handle load errors", async () => {
       const fetchSpy = spyOn(HubPagesModule, "fetchPage").and.callFake(
-        (id: string) => {
+        (_id: string) => {
           const err = new Error("ZOMG!");
           return Promise.reject(err);
         }
@@ -134,16 +134,27 @@ describe("HubPage Class:", () => {
     expect(chk.toJson().name).toEqual("Test Page");
     expect(chk.toJson().type).toEqual("Hub Page");
   });
-  it("create does not save by default", async () => {
-    const createSpy = spyOn(HubPagesModule, "createPage");
-    const chk = await HubPage.create(
-      { name: "Test Page", orgUrlKey: "foo" },
-      portalCtxMgr.context
-    );
+  describe("Enterprise", () => {
+    it("create does not save by default", async () => {
+      const createSpy = spyOn(HubPagesModule, "createPage");
+      const chk = await HubPage.create(
+        { name: "Test Page", orgUrlKey: "foo" },
+        portalCtxMgr.context
+      );
 
-    expect(createSpy).not.toHaveBeenCalled();
-    expect(chk.toJson().name).toEqual("Test Page");
-    expect(chk.toJson().type).toEqual("Site Page");
+      expect(createSpy).not.toHaveBeenCalled();
+      expect(chk.toJson().name).toEqual("Test Page");
+      expect(chk.toJson().type).toEqual("Site Page");
+    });
+
+    it("handles undefined orgUrlKey", async () => {
+      const createSpy = spyOn(HubPagesModule, "createPage");
+      const chk = HubPage.fromJson({ name: "Test Page" }, portalCtxMgr.context);
+      const editor = await chk.toEditor();
+      expect(editor.orgUrlKey).toEqual("");
+      expect(editor.type).toEqual("Site Page");
+      expect(createSpy).not.toHaveBeenCalled();
+    });
   });
 
   it("update applies partial changes to internal state", () => {
@@ -194,13 +205,15 @@ describe("HubPage Class:", () => {
     try {
       await chk.delete();
     } catch (e) {
-      expect((e as any).message).toEqual("HubPage is already destroyed.");
+      const error = e as { message?: string };
+      expect(error.message).toEqual("HubPage is already destroyed.");
     }
 
     try {
       await chk.save();
     } catch (e) {
-      expect((e as any).message).toEqual("HubPage is already destroyed.");
+      const error = e as { message?: string };
+      expect(error.message).toEqual("HubPage is already destroyed.");
     }
   });
 

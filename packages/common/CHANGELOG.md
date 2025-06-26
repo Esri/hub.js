@@ -1,3 +1,47 @@
+# @esri/hub-common [18.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.1.0...@esri/hub-common@18.2.0) (2025-06-25)
+
+
+### Features
+
+* **hub-common:** add roles to interface ISearchChannels ([#1930](https://github.com/Esri/hub.js/issues/1930)) ([73b0b74](https://github.com/Esri/hub.js/commit/73b0b741f01ce9e23275ae3d16d30a6a1f760778))
+
+# @esri/hub-common [18.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.0.0...@esri/hub-common@18.1.0) (2025-06-25)
+
+
+### Features
+
+* **hub-common:** add catalog to events ([#1926](https://github.com/Esri/hub.js/issues/1926)) ([893e79b](https://github.com/Esri/hub.js/commit/893e79b280e6a2b48cbfdb319925c0757b148ad7))
+
+# @esri/hub-common [18.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.21.0...@esri/hub-common@18.0.0) (2025-06-18)
+
+
+### Features
+
+* **hub-common:** remove IHubSearchOptions.site, refactor IHubSearchOptions.api to take either 'portal' | 'hub' ([#1925](https://github.com/Esri/hub.js/issues/1925)) ([211fde5](https://github.com/Esri/hub.js/commit/211fde56367994aa5548d80719339a38367a15d9))
+
+
+### BREAKING CHANGES
+
+* **hub-common:** IHubSearchOptions.site has been removed, use IHubSearchOptions.api = 'hub' to target the OGC api via hubSearch() instead
+
+Note that hubSearch() was refactored so it doesn't need IHubSearchOptions.api
+to be an API definition object to function. Based on the string value of IHubSearchOptions.api, each delegate
+calculates the result url from the passed in request options.
+
+# @esri/hub-common [17.21.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.20.0...@esri/hub-common@17.21.0) (2025-06-18)
+
+
+### Features
+
+* update permissions and slugs ([#1923](https://github.com/Esri/hub.js/issues/1923)) ([0458fbc](https://github.com/Esri/hub.js/commit/0458fbc0608dc3531ef3fe81e786c170a0454829))
+
+# @esri/hub-common [17.20.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.19.0...@esri/hub-common@17.20.0) (2025-06-17)
+
+
+### Features
+
+* **hub-common:** modernize hubSearchItems() with well-known predicate support and unneeded feature removal ([#1906](https://github.com/Esri/hub.js/issues/1906)) ([64bf450](https://github.com/Esri/hub.js/commit/64bf4508f2caee4bb597e7e05fb0a12f2cb83ba2))
+
 # @esri/hub-common [17.19.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@17.18.1...@esri/hub-common@17.19.0) (2025-06-12)
 
 

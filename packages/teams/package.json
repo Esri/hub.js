@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-teams",
-  "version": "17.1.0",
+  "version": "18.0.0",
   "description": "Module to interact with ArcGIS Hub Teams in Node.js and modern browsers.",
   "main": "dist/node/index.js",
   "module": "dist/esm/index.js",
@@ -13,10 +13,10 @@
   "peerDependencies": {
     "@esri/arcgis-rest-portal": "^4.0.0",
     "@esri/arcgis-rest-request": "^4.0.0",
-    "@esri/hub-common": "^17.0.0"
+    "@esri/hub-common": "^18.0.0"
   },
   "devDependencies": {
-    "@esri/hub-common": "^17.0.0",
+    "@esri/hub-common": "^18.0.0",
     "typescript": "^3.8.1"
   },
   "files": [

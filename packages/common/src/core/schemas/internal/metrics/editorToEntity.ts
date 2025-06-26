@@ -1,6 +1,10 @@
 import { IPortal } from "@esri/arcgis-rest-portal";
 import { cloneObject } from "../../../../util";
-import { IHubItemEntity, IHubItemEntityEditor } from "../../../../core/types";
+import {
+  IHubItemEntity,
+  IHubItemEntityEditor,
+  IHubLocation,
+} from "../../../../core/types";
 import { truncateSlug } from "../../../../items/_internal/slugs";
 
 // NOTE: this is covered by pre-existing tests for project to entity
@@ -22,10 +26,14 @@ export function editorToEntity(
   // convert back to an entity. Apply any reverse transforms used in
   // of the toEditor method
   const entity = cloneObject(editor) as IHubItemEntity;
-  entity.orgUrlKey = editor.orgUrlKey ? editor.orgUrlKey : portal.urlKey;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  entity.orgUrlKey = editor.orgUrlKey
+    ? editor.orgUrlKey
+    : portal.urlKey || ("" as string);
 
   // copy the location extent up one level
-  entity.extent = editor.location?.extent;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  entity.extent = (editor.location as IHubLocation)?.extent;
 
   if (_slug) {
     // ensure the slug is truncated

@@ -1,3 +1,13 @@
+# @esri/hub-initiatives [18.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-initiatives@17.1.1...@esri/hub-initiatives@18.0.0) (2025-06-18)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 18.0.0
+
 ## @esri/hub-initiatives [17.1.1](https://github.com/Esri/hub.js/compare/@esri/hub-initiatives@17.1.0...@esri/hub-initiatives@17.1.1) (2025-05-13)
 
 

@@ -213,6 +213,7 @@ describe("project edit module:", () => {
           id: "123",
           cardTitle: "foo",
         },
+        title: "My Project",
         _slug: "new-slug",
       } as unknown as IHubProjectEditor;
 
@@ -231,6 +232,20 @@ describe("project edit module:", () => {
       const res = editorToProject(editor, portal);
 
       expect(res.orgUrlKey).toEqual("bar");
+    });
+    it("handles undefined orgUrlKey", () => {
+      const editor: IHubProjectEditor = {
+        orgUrlKey: undefined,
+        _slug: "my-project",
+      } as unknown as IHubProjectEditor;
+
+      const entPortal = cloneObject(portal);
+      delete entPortal.urlKey;
+
+      const res = editorToProject(editor, entPortal);
+      // should swap to ""
+      expect(res.orgUrlKey).toEqual("");
+      expect(res.slug).toEqual("my-project");
     });
     it("copies the location extent up one level", () => {
       const editor: IHubProjectEditor = {

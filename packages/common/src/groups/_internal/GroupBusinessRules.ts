@@ -248,6 +248,7 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:group:workspace:discussion",
+    services: ["discussions"],
     dependencies: ["hub:group:workspace"],
   },
   {

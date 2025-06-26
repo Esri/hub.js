@@ -34,6 +34,7 @@ describe("HubEvent defaults:", () => {
         access: "private",
         allowRegistration: true,
         attendanceType: HubEventAttendanceType.InPerson,
+        catalog: { schemaVersion: 0 },
         categories: [],
         inPersonCapacity: null,
         inPersonCapacityType: HubEventCapacityType.Unlimited,
@@ -61,7 +62,6 @@ describe("HubEvent defaults:", () => {
         location: {
           type: "none",
         },
-        catalogs: [],
         ...datesAndTimes,
       });
       expect(getDefaultEventDatesAndTimesSpy).toHaveBeenCalledTimes(1);

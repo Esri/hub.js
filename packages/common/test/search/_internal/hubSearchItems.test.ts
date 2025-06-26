@@ -48,36 +48,19 @@ import { getSortByQueryParam } from "../../../src/search/_internal/hubSearchItem
 describe("hubSearchItems Module |", () => {
   describe("Request Transformation Helpers |", () => {
     describe("getOgcCollectionUrl", () => {
-      it("defaults to the all collection if a collection id is not present", () => {
+      it("points to the all collection if the targetEntity is item", () => {
         const query: IQuery = {
           targetEntity: "item",
           filters: [],
         };
         const options: IHubSearchOptions = {
-          api: {
-            type: "arcgis-hub",
-            url: "https://my-hub.com/api/search/v1",
+          api: "hub",
+          requestOptions: {
+            hubApiUrl: "https://my-hub.com/api/v3",
           },
         };
         const result = getOgcCollectionUrl(query, options);
         expect(result).toBe("https://my-hub.com/api/search/v1/collections/all");
-      });
-      it("points to the provided collection if a collection id is present", () => {
-        const query: IQuery = {
-          targetEntity: "item",
-          collection: "dataset",
-          filters: [],
-        };
-        const options: IHubSearchOptions = {
-          api: {
-            type: "arcgis-hub",
-            url: "https://my-hub.com/api/search/v1",
-          },
-        };
-        const result = getOgcCollectionUrl(query, options);
-        expect(result).toBe(
-          "https://my-hub.com/api/search/v1/collections/dataset"
-        );
       });
       it("points to the V2 Discussion post collection if the targetEntity is discussionPost", () => {
         const query: IQuery = {
@@ -85,9 +68,9 @@ describe("hubSearchItems Module |", () => {
           filters: [],
         };
         const options: IHubSearchOptions = {
-          api: {
-            type: "arcgis-hub",
-            url: "https://my-hub.com/api/search/v2",
+          api: "hub",
+          requestOptions: {
+            hubApiUrl: "https://my-hub.com/api/v3",
           },
         };
         const result = getOgcCollectionUrl(query, options);
@@ -861,11 +844,6 @@ describe("hubSearchItems Module |", () => {
         });
       });
       it("adds item.properties.location on result", async () => {
-        const mockedItemToSearchResultResponse = {
-          id: "9001",
-          type: "Feature Service",
-          family: "map",
-        } as unknown as IHubSearchResult;
         const delegateSpy = spyOn(
           portalSearchItemsModule,
           "itemToSearchResult"
@@ -978,7 +956,7 @@ describe("hubSearchItems Module |", () => {
         total: 0,
         results: [],
         hasNext: false,
-        next: async () => null as any,
+        next: async () => null,
       };
 
       let searchOgcItemsSpy: jasmine.Spy;
@@ -1122,73 +1100,32 @@ describe("hubSearchItems Module |", () => {
 
   describe("Main Search Functions |", () => {
     describe("ogcApiRequest", () => {
-      const hubApiUrl = "https://hub.arcgis.com";
-      const siteHostname = "my-hub.com";
+      const requestUrl =
+        "https://hub.arcgis.com/api/search/v1/collections/all/items";
       const queryParams = { type: "CSV" };
 
-      it("appends the ?target query param when the target site domain is different from the url passed in", async () => {
+      it("appends the query parameters onto the request url", async () => {
         const fakeResponse = {
           ok: true,
           statusText: "200: Ok",
           status: 200,
-          json: () => Promise.resolve(),
+          json: (): Promise<void> => Promise.resolve(),
         };
         const _fetch: any = async (finalUrl: string) => {
-          expect(finalUrl).toBe(`${hubApiUrl}?type=CSV&target=${siteHostname}`);
-          return fakeResponse;
-        };
-
-        const options: ISearchOgcItemsOptions = {
-          site: `https://${siteHostname}`,
-          requestOptions: {
-            fetch: _fetch,
-            hubApiUrl,
-          },
-        };
-        await ogcApiRequest(hubApiUrl, queryParams, options);
-      });
-
-      it("does not append the ?target query param when the target site domain is the same as the url passed in", async () => {
-        const fakeResponse = {
-          ok: true,
-          statusText: "200: Ok",
-          status: 200,
-          json: () => Promise.resolve(),
-        };
-        const _fetch: any = async (finalUrl: string) => {
-          expect(finalUrl).toBe(`${hubApiUrl}?type=CSV`);
-          return fakeResponse;
-        };
-
-        const options: ISearchOgcItemsOptions = {
-          site: hubApiUrl,
-          requestOptions: {
-            fetch: _fetch,
-            hubApiUrl,
-          },
-        };
-        await ogcApiRequest(hubApiUrl, queryParams, options);
-      });
-
-      it("does not append the ?target query param when there is no target site domain", async () => {
-        const fakeResponse = {
-          ok: true,
-          statusText: "200: Ok",
-          status: 200,
-          json: () => Promise.resolve(),
-        };
-        const _fetch: any = async (finalUrl: string) => {
-          expect(finalUrl).toBe(`${hubApiUrl}?type=CSV`);
+          expect(finalUrl).toBe(`${requestUrl}?type=CSV`);
           return fakeResponse;
         };
 
         const options: ISearchOgcItemsOptions = {
           requestOptions: {
             fetch: _fetch,
-            hubApiUrl,
           },
         };
-        await ogcApiRequest(hubApiUrl, queryParams, options);
+        await ogcApiRequest(
+          requestUrl,
+          queryParams as unknown as IOgcItemQueryParams,
+          options
+        );
       });
 
       it("throws an error if the response is not ok", async () => {
@@ -1199,14 +1136,16 @@ describe("hubSearchItems Module |", () => {
         };
         const _fetch: any = async () => fakeResponse;
         const options: ISearchOgcItemsOptions = {
-          site: `https://${siteHostname}`,
           requestOptions: {
             fetch: _fetch,
-            hubApiUrl,
           },
         };
         try {
-          await ogcApiRequest(hubApiUrl, queryParams, options);
+          await ogcApiRequest(
+            requestUrl,
+            queryParams as unknown as IOgcItemQueryParams,
+            options
+          );
           expect(true).toBe(false);
         } catch (err) {
           const error = err as { message?: string };
@@ -1216,37 +1155,33 @@ describe("hubSearchItems Module |", () => {
     });
     describe("hubSearchItems", () => {
       describe("searchOgcItems |", () => {
-        afterEach(fetchMock.restore);
-        it("hits the items endpoint for the specified collection", async () => {
+        afterEach(() => fetchMock.restore());
+        it("expands predicates and hits the items endpoint with the specified query", async () => {
           const query: IQuery = {
             targetEntity: "item",
-            collection: "dataset",
             filters: [
               {
                 predicates: [
                   {
-                    type: "Feature Service",
+                    type: "$site", // Well-known predicate for the site collection
                   },
                 ],
               },
             ],
           };
 
-          const siteHostname = "my-test-site.arcgis.com";
           const options: IHubSearchOptions = {
-            api: {
-              type: "arcgis-hub",
-              url: "https://hubqa.arcgis.com/api/v1/search",
-            },
+            api: "hub",
             num: 1,
-            targetEntity: "item",
-            site: `https://${siteHostname}`,
+            requestOptions: {
+              hubApiUrl: "https://hubqa.arcgis.com",
+            },
           };
 
           fetchMock.once(
-            `https://hubqa.arcgis.com/api/v1/search/collections/dataset/items?filter=${encodeURIComponent(
-              "((type='Feature Service'))"
-            )}&limit=1&target=${siteHostname}`,
+            `https://hubqa.arcgis.com/api/search/v1/collections/all/items?filter=${encodeURIComponent(
+              "((type IN ('Hub Site Application', 'Site Application')))"
+            )}&limit=1`,
             ogcItemsResponse
           );
           const response = await hubSearchItems(query, options);
@@ -1257,30 +1192,36 @@ describe("hubSearchItems Module |", () => {
       });
 
       describe("searchOgcAggregations |", () => {
-        afterEach(fetchMock.restore);
-        it("hits the aggregations endpoint for the specified collection api url", async () => {
-          // TODO: add a query once the aggregations endpoint can handle arbitrary filters
+        afterEach(() => fetchMock.restore());
+        it("expands predicates and hits the aggregations endpoint with the specified query ", async () => {
           const query: IQuery = {
             targetEntity: "item",
-            collection: "dataset",
-            filters: [],
+            filters: [
+              {
+                predicates: [
+                  {
+                    type: "$site", // Well-known predicate for the site collection
+                  },
+                ],
+              },
+            ],
           };
-          const siteHostname = "my-test-site.arcgis.com";
           const options: IHubSearchOptions = {
-            api: {
-              type: "arcgis-hub",
-              url: "https://hubqa.arcgis.com/api/v1/search",
-            },
-            site: `https://${siteHostname}`,
+            api: "hub",
             aggFields: ["access", "type"],
+            requestOptions: {
+              hubApiUrl: "https://hubqa.arcgis.com",
+            },
             // TODO: include aggLimit once the aggregations endpoint can handle it
             // aggLimit: 2,
           };
 
           fetchMock.once(
-            `https://hubqa.arcgis.com/api/v1/search/collections/dataset/aggregations?aggregations=${encodeURIComponent(
+            `https://hubqa.arcgis.com/api/search/v1/collections/all/aggregations?aggregations=${encodeURIComponent(
               "terms(fields=(access,type))"
-            )}&target=${siteHostname}`,
+            )}&filter=${encodeURIComponent(
+              "((type IN ('Hub Site Application', 'Site Application')))"
+            )}`,
             ogcAggregationsResponse
           );
           const response = await hubSearchItems(query, options);

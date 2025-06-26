@@ -3,7 +3,6 @@ import {
   CORNERS,
   DROP_SHADOWS,
 } from "../../core/schemas/shared/enums";
-import { WellKnownCollection } from "../wellKnownCatalog";
 
 export type CatalogType = "content" | "exclusion";
 
@@ -47,10 +46,11 @@ export interface IHubCatalog {
   displayConfig?: ICatalogDisplayConfig;
 }
 
-export interface ICatalogScope extends Partial<Record<EntityType, IQuery>> {}
+export type ICatalogScope = Partial<Record<EntityType, IQuery>>;
 
-export interface ICatalogDisplayConfig
-  extends Partial<Record<EntityType, IGalleryDisplayConfig>> {}
+export type ICatalogDisplayConfig = Partial<
+  Record<EntityType, IGalleryDisplayConfig>
+>;
 export interface IHubCollection {
   /**
    * String to show in the UI. translated.
@@ -115,13 +115,6 @@ export interface IQuery {
    * ensure we query the correct API
    */
   targetEntity: EntityType;
-  /**
-   * An id for a well known collection that the query should use.
-   *
-   * Note: The collection's filters will be used _in addition_ to
-   * any existing filters within the IQuery.filters array
-   */
-  collection?: WellKnownCollection;
   /**
    * Filters that make up the query
    */
@@ -198,13 +191,7 @@ export interface IGalleryDisplayConfig {
     | "grid-filled";
   /**  Gallery layout options to expose in the layout switcher */
   layouts?: Array<
-    | "list"
-    | "grid"
-    | "map"
-    | "table"
-    | "calendar"
-    | "compact"
-    | "grid-filled"
+    "list" | "grid" | "map" | "table" | "calendar" | "compact" | "grid-filled"
   >;
   /** header tag for the gallery card titles - needed for a11y */
   cardTitleTag?: CARD_TITLE_TAGS;

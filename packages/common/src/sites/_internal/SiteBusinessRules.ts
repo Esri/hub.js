@@ -224,6 +224,7 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:site:workspace:discussion",
+    services: ["discussions"],
     dependencies: ["hub:site:workspace", "hub:site:edit"],
   },
   {

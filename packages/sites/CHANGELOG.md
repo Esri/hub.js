@@ -1,3 +1,22 @@
+# @esri/hub-sites [19.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@18.2.0...@esri/hub-sites@19.0.0) (2025-06-18)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 18.0.0
+* **@esri/hub-initiatives:** upgraded to 18.0.0
+* **@esri/hub-teams:** upgraded to 18.0.0
+
+# @esri/hub-sites [18.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@18.1.0...@esri/hub-sites@18.2.0) (2025-06-18)
+
+
+### Features
+
+* update permissions and slugs ([#1923](https://github.com/Esri/hub.js/issues/1923)) ([0458fbc](https://github.com/Esri/hub.js/commit/0458fbc0608dc3531ef3fe81e786c170a0454829))
+
 # @esri/hub-sites [18.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@18.0.1...@esri/hub-sites@18.1.0) (2025-05-01)
 
 

@@ -12,6 +12,9 @@ describe("slug utils: ", () => {
       expect(slugModule.constructSlug("E2E Test Project", "qa-bas-hub")).toBe(
         "qa-bas-hub|e2e-test-project"
       );
+      expect(slugModule.constructSlug("E2E Test Project", undefined)).toBe(
+        "e2e-test-project"
+      );
       expect(
         slugModule.constructSlug(
           "A really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really really long title",
@@ -280,9 +283,7 @@ describe("slug utils: ", () => {
     });
 
     it("can re-throw original error", async () => {
-      const searchSpy = spyOn(portalModule, "searchItems").and.throwError(
-        "Error occurred"
-      );
+      spyOn(portalModule, "searchItems").and.throwError("Error occurred");
 
       try {
         await slugModule.findItemsBySlug(

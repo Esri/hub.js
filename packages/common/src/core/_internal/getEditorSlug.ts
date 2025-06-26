@@ -5,7 +5,11 @@ import { IWithSlug } from "../traits/IWithSlug";
  * @param entity
  * @returns
  */
-export const getEditorSlug = (entity: IWithSlug) => {
+export const getEditorSlug = (entity: IWithSlug): string => {
   const { slug = "", orgUrlKey } = entity;
-  return slug.replace(`${orgUrlKey}|`, "");
+  if (orgUrlKey) {
+    return slug.replace(`${orgUrlKey}|`, "");
+  } else {
+    return slug;
+  }
 };

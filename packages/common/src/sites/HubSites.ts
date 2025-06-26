@@ -246,6 +246,7 @@ export async function createSite(
     }`;
   } else {
     // Portal Sites use subdomain in hash based router
+    // Also in Enterprise orgUrlKey is undefined.
     site.typeKeywords.push(`hubsubdomain|${site.subdomain}`.toLowerCase());
     site.url = `${requestOptions.authentication.portal.replace(
       `/sharing/rest`,
@@ -258,7 +259,7 @@ export async function createSite(
   // to a property defined as `IExtent` without using `as unknown as ...`
   // which basically removes typechecking
 
-  site.orgUrlKey = portal.urlKey;
+  site.orgUrlKey = (portal.urlKey || "") as string;
 
   // override only if not set...
   if (!site.theme) {
@@ -315,7 +316,7 @@ export async function createSite(
   // Register domain and at the same time register the site as an application
   // for portal, this will return a single entry with just the clientKey
   const domainResponses = await addSiteDomains(model, requestOptions);
-  model.data.values.clientId = domainResponses[0].clientKey;
+  model.data.values.clientId = domainResponses[0].clientKey as string;
 
   // update the model
   const updatedModel = await updateModel(

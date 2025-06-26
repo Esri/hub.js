@@ -73,5 +73,55 @@ describe("addDynamicSlugValidation", () => {
         },
       ],
     });
+
+    // orgUrlKey can be undefined in Enterprise
+    const options2 = {
+      id: "id",
+    } as any;
+    const result2 = addDynamicSlugValidation(schema, options2);
+    expect(result2).toEqual({
+      properties: {
+        _slug: {
+          maxLength: 256 - ("slug".length + 1) - ("".length + 1),
+        },
+      },
+      allOf: [
+        {
+          if: {
+            properties: {
+              _slug: {
+                minLength: 1,
+              },
+            },
+          },
+          then: {
+            properties: {
+              _slug: {
+                pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+              },
+            },
+          },
+        },
+        {
+          if: {
+            properties: {
+              _slug: {
+                pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+              },
+            },
+          },
+          then: {
+            properties: {
+              _slug: {
+                isUniqueSlug: {
+                  id: "id",
+                  orgUrlKey: "",
+                },
+              } as any,
+            },
+          },
+        },
+      ],
+    });
   });
 });

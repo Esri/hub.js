@@ -21,6 +21,9 @@ export const EventPermissions = [
   "hub:event:workspace:manage",
   "hub:event:workspace:registrants",
   "hub:event:workspace:content",
+  "hub:event:workspace:catalog",
+  "hub:event:workspace:catalog:content",
+  "hub:event:workspace:catalog:events",
   "hub:event:manage",
 ] as const;
 
@@ -118,6 +121,22 @@ export const EventPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:event:workspace:content",
     dependencies: ["hub:event:workspace", "hub:event:edit"],
+  },
+  {
+    permission: "hub:event:workspace:catalog",
+    dependencies: ["hub:event:workspace", "hub:event:edit"],
+  },
+  {
+    permission: "hub:event:workspace:catalog:content",
+    dependencies: ["hub:event:workspace:catalog"],
+  },
+  {
+    permission: "hub:event:workspace:catalog:events",
+    dependencies: [
+      "hub:event:workspace:catalog",
+      "hub:event",
+      "hub:feature:catalogs:edit:advanced",
+    ],
   },
   {
     permission: "hub:event:manage",

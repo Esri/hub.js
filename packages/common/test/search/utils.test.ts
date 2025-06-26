@@ -1,46 +1,20 @@
+import { IGroup, IUser, SearchQueryBuilder } from "@esri/arcgis-rest-portal";
+import { IHubSite, IQuery } from "../../src";
+import { IHubSearchResult, IRelativeDate } from "../../src/search";
 import {
-  IGroup,
-  ISearchOptions,
-  IUser,
-  SearchQueryBuilder,
-} from "@esri/arcgis-rest-portal";
-import { IHubSite, IQuery, ISearchResponse } from "../../src";
-import {
-  IHubSearchResult,
-  IRelativeDate,
-  serializeQueryForPortal,
-} from "../../src/search";
-import {
-  expandApis,
   getUserThumbnailUrl,
   valueToMatchOptions,
   relativeDateToDateRange,
   getGroupThumbnailUrl,
-  getNextFunction,
   migrateToCollectionKey,
   getResultSiteRelativeLink,
   getGroupPredicate,
   getKilobyteSizeOfQuery,
 } from "../../src/search/utils";
-import { MOCK_AUTH } from "../mocks/mock-auth";
-import { mockUserSession } from "../test-helpers/fake-user-session";
+
+import { serializeQueryForPortal } from "../../src/search/serializeQueryForPortal";
 
 describe("Search Utils:", () => {
-  describe("expandApis", () => {
-    it("expands well known apis", () => {
-      const chk = expandApis(["arcgis", "hub"]);
-      expect(chk.length).toBe(2);
-    });
-
-    it("passes through objects", () => {
-      const chk = expandApis([
-        { url: "https://my.enterprise.com/instance", type: "arcgis" },
-      ]);
-      expect(chk.length).toBe(1);
-      expect(chk[0].type).toBe("arcgis");
-    });
-  });
-
   describe("expansions:", () => {
     describe("matchOptions:", () => {
       it("convert value to MatchOptions", () => {
@@ -195,130 +169,6 @@ describe("Search Utils:", () => {
       expect(getGroupThumbnailUrl(portal, group, token)).toEqual(
         "https://foo.com/sharing/rest/community/groups/3ef/info/photo.jpg?token=FAKE_TOKEN"
       );
-    });
-  });
-
-  describe("get next function:", () => {
-    it("uses auth on subsequent calls", async () => {
-      const request = {
-        authentication: MOCK_AUTH,
-      } as unknown as ISearchOptions;
-
-      const Module = {
-        fn: <T>(r: any) => {
-          return Promise.resolve({} as unknown as ISearchResponse<T>);
-        },
-      };
-      const fnSpy = spyOn(Module, "fn").and.callThrough();
-
-      const chk = getNextFunction<IHubSearchResult>(request, 10, 20, fnSpy);
-      await chk();
-      expect(fnSpy).toHaveBeenCalled();
-      // verify it's called with the MOCK_AUTH
-      const opts = fnSpy.calls.mostRecent().args[0];
-      // once the tests using a mock authentication instead of an actual instance
-      // I had to add the .token to the check below b/c comparing the entire object failed
-      expect(opts.authentication.token).toEqual(MOCK_AUTH.token);
-      expect(opts.requestOptions).not.toBeDefined();
-    });
-    it("uses ro.auth on subsequent calls", async () => {
-      const request = {
-        requestOptions: { authentication: MOCK_AUTH },
-      } as unknown as ISearchOptions;
-
-      const Module = {
-        fn: <T>(r: any) => {
-          return Promise.resolve({} as unknown as ISearchResponse<T>);
-        },
-      };
-      const fnSpy = spyOn(Module, "fn").and.callThrough();
-
-      const chk = getNextFunction<IHubSearchResult>(request, 10, 20, fnSpy);
-      await chk();
-      expect(fnSpy).toHaveBeenCalled();
-      // verify it's called with the MOCK_AUTH
-      const opts = fnSpy.calls.mostRecent().args[0];
-      expect(opts.requestOptions.authentication).toEqual(MOCK_AUTH);
-      expect(opts.authentication).not.toBeDefined();
-    });
-    it("updates requestOptions.authentication on subsequent calls", async () => {
-      const request = {
-        authentication: MOCK_AUTH,
-        requestOptions: {
-          authentication: MOCK_AUTH,
-        },
-      } as unknown as ISearchOptions;
-
-      const Module = {
-        fn: <T>(r: any) => {
-          return Promise.resolve({} as unknown as ISearchResponse<T>);
-        },
-      };
-      const fnSpy = spyOn(Module, "fn").and.callThrough();
-
-      const chk = getNextFunction<IHubSearchResult>(request, 10, 20, fnSpy);
-      await chk();
-      expect(fnSpy).toHaveBeenCalled();
-      // verify it's called with the MOCK_AUTH
-      const opts = fnSpy.calls.mostRecent().args[0];
-      // once the tests using a mock authentication instead of an actual instance
-      // I had to add the .token to the check below b/c comparing the entire object failed
-      expect(opts.authentication.token).toEqual(MOCK_AUTH.token);
-      expect(opts.requestOptions.authentication).toEqual(MOCK_AUTH);
-    });
-    it("can change auth on subsequent calls", async () => {
-      const request = {
-        authentication: MOCK_AUTH,
-        requestOptions: {
-          authentication: MOCK_AUTH,
-        },
-      } as unknown as ISearchOptions;
-
-      const Module = {
-        fn: <T>(r: any) => {
-          return Promise.resolve({} as unknown as ISearchResponse<T>);
-        },
-      };
-      const fnSpy = spyOn(Module, "fn").and.callThrough();
-
-      const chk = getNextFunction<IHubSearchResult>(request, 10, 20, fnSpy);
-      await chk();
-      expect(fnSpy).toHaveBeenCalled();
-      // verify it's called with the MOCK_AUTH
-      const opts = fnSpy.calls.mostRecent().args[0];
-      // once the tests using a mock authentication instead of an actual instance
-      // I had to add the .token to the check below b/c comparing the entire object failed
-      expect(opts.authentication.token).toEqual(MOCK_AUTH.token);
-      expect(opts.requestOptions.authentication).toEqual(MOCK_AUTH);
-      await chk(mockUserSession);
-      const opts2 = fnSpy.calls.mostRecent().args[0];
-      expect(opts2.authentication).toEqual(mockUserSession);
-      expect(opts.requestOptions.authentication).toEqual(mockUserSession);
-    });
-    it("can pass auth on subsequent calls", async () => {
-      const request = {} as unknown as ISearchOptions;
-
-      const Module = {
-        fn: <T>(r: any) => {
-          return Promise.resolve({} as unknown as ISearchResponse<T>);
-        },
-      };
-      const fnSpy = spyOn(Module, "fn").and.callThrough();
-
-      const chk = getNextFunction<IHubSearchResult>(
-        request,
-        -2, // weird guard in code, not 100% sure what it's for but I don't want to change it
-        20,
-        fnSpy
-      );
-      await chk();
-      expect(fnSpy).toHaveBeenCalled();
-      // verify it's called with the MOCK_AUTH
-      const opts = fnSpy.calls.mostRecent().args[0];
-      expect(opts.authentication).not.toBeDefined();
-      await chk(mockUserSession);
-      const opts2 = fnSpy.calls.mostRecent().args[0];
-      expect(opts2.authentication).toEqual(mockUserSession);
     });
   });
 

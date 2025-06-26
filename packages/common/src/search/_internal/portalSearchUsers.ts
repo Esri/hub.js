@@ -16,7 +16,7 @@ import {
   IHubSearchResult,
   IQuery,
 } from "../types";
-import { getNextFunction } from "../utils";
+import { getNextPortalCallback } from "./commonHelpers/getNextPortalCallback";
 import { expandPredicate } from "./expandPredicate";
 import { cloneObject } from "../../util";
 import { getKilobyteSizeOfQuery } from "../utils";
@@ -198,7 +198,7 @@ async function searchPortal(
     total: resp.total,
     results,
     hasNext: resp.nextStart > -1,
-    next: getNextFunction<IHubSearchResult>(
+    next: getNextPortalCallback<IUserSearchOptions, IHubSearchResult>(
       searchOptions,
       resp.nextStart,
       resp.total,
@@ -228,7 +228,7 @@ async function searchCommunity(
     total: resp.total,
     results,
     hasNext: resp.nextStart > -1,
-    next: getNextFunction<IHubSearchResult>(
+    next: getNextPortalCallback<IUserSearchOptions, IHubSearchResult>(
       searchOptions,
       resp.nextStart,
       resp.total,

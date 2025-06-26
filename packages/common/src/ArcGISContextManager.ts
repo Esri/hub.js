@@ -682,7 +682,7 @@ async function getUserResourceTokens(
   return results.filter((e) => !!e);
 }
 
-const HUB_SERVICE_STATUS: HubServiceStatus = {
+export const HUB_SERVICE_STATUS: HubServiceStatus = {
   portal: "online",
   discussions: "online",
   events: "online",
@@ -693,7 +693,7 @@ const HUB_SERVICE_STATUS: HubServiceStatus = {
   "hub-downloads": "online",
 };
 
-const ENTERPRISE_SITES_SERVICE_STATUS: HubServiceStatus = {
+export const ENTERPRISE_SITES_SERVICE_STATUS: HubServiceStatus = {
   portal: "online",
   discussions: "not-available",
   events: "not-available",

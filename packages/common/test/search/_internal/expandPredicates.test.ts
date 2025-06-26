@@ -38,6 +38,7 @@ describe("ipredicate-utils", () => {
       const f: IPredicate = {
         term: "Orange",
         title: "Water",
+        openData: true,
         owner: {
           any: ["Dave", "Mike"],
           not: ["Andrew"],
@@ -64,6 +65,7 @@ describe("ipredicate-utils", () => {
       expect((chk.owner as IMatchOptions).any).toEqual(["Dave", "Mike"]);
       expect((chk.owner as IMatchOptions).not).toEqual(["Andrew"]);
       expect(chk.term).toBe("Orange");
+      expect(chk.openData).toBe(true);
       // Pass through random stuff
       expect((chk.snowcover as IMatchOptions).any).toEqual([
         "sparse",
