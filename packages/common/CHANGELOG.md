@@ -1,3 +1,15 @@
+# @esri/hub-common [18.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.2.0...@esri/hub-common@18.3.0) (2025-06-26)
+
+
+### Bug Fixes
+
+* internalize service flag processing in context manager ([#1931](https://github.com/Esri/hub.js/issues/1931)) ([305d775](https://github.com/Esri/hub.js/commit/305d775a8f0e63262b985029dced91d8484c2554))
+
+
+### Features
+
+* **hub-common:** add removeNonDiscussableGroups to interface ISearch… ([#1932](https://github.com/Esri/hub.js/issues/1932)) ([7e7e7af](https://github.com/Esri/hub.js/commit/7e7e7af0562284f55b3b75769d86581363b82080))
+
 # @esri/hub-common [18.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.1.0...@esri/hub-common@18.2.0) (2025-06-25)
 
 
