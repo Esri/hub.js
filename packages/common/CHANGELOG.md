@@ -1,3 +1,10 @@
+## @esri/hub-common [18.3.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.3.0...@esri/hub-common@18.3.1) (2025-06-27)
+
+
+### Bug Fixes
+
+* **hub-common:** discussion post channelId not optional ([#1934](https://github.com/Esri/hub.js/issues/1934)) ([40ccb9a](https://github.com/Esri/hub.js/commit/40ccb9a08dbe61c0803a7f761e06a51517b1b81a))
+
 # @esri/hub-common [18.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.2.0...@esri/hub-common@18.3.0) (2025-06-26)
 
 
