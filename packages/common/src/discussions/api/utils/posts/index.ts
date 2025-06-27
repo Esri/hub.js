@@ -13,3 +13,4 @@ export { canCreateReplyV2 } from "./can-create-reply-v2";
 export { canDeletePostV2 } from "./can-delete-post-v2";
 export { canEditPostStatusV2 } from "./can-edit-post-status-v2";
 export { canEditPostV2 } from "./can-edit-post-v2";
+export { cannotCreatePostGroupsBlockedV2 } from "./cannot-create-post-groups-blocked-v2";
