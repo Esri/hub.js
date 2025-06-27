@@ -41,9 +41,13 @@ type DcatAPTemplatePaths =
   // templates, but we still expose an API endpoint for the 2.0.1 version. We'll
   // need to keep this value for backwards compatibility.
   | "dcatAP201"
-  // Updated path for the primary DCAT-AP 2.X template. This should be the default
+  // Updated path for the primary DCAT-AP 2.X.X template. This should be the default
   // template for all DCAT-AP 2.X.X feeds (unless overriden by a more specific version).
   // 2.1.1 is the latest version of 2.X.X as of this writing.
-  | "dcatAP2XX";
+  | "dcatAP2XX"
+  // Updated path for the primary DCAT-AP 3.X.X template. This should be the default
+  // template for all DCAT-AP 3.X.X feeds (unless overriden by a more specific version).
+  // 3.0.0 is the latest version of 3.X.X as of this writing.
+  | "dcatAP3XX";
 
 type RssTemplatePaths = "rss2"; // Original path for the RSS 2.0 feed
