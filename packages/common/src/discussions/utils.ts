@@ -1,4 +1,6 @@
 import type { IGroup, IItem } from "@esri/arcgis-rest-portal";
+import { IGroupUsersResult, getGroupUsers } from "@esri/arcgis-rest-portal";
+import type { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IHubContent, IHubItemEntity } from "../core";
 import { CANNOT_DISCUSS } from "./constants";
 import {
@@ -7,7 +9,8 @@ import {
   IChannel,
   SharingAccess,
 } from "./api/types";
-import { IFilter, IHubSearchResult, IPredicate, IQuery } from "../search";
+import { IFilter, IHubSearchResult, IQuery } from "../search";
+import { unique } from "../util";
 
 /**
  * Utility to determine if a given IGroup, IItem, IHubContent, or IHubItemEntity
@@ -17,10 +20,10 @@ import { IFilter, IHubSearchResult, IPredicate, IQuery } from "../search";
  */
 export function isDiscussable(
   subject: Partial<IGroup | IItem | IHubContent | IHubItemEntity>
-) {
+): boolean {
   let result = false;
   if (subject) {
-    const typeKeywords = subject.typeKeywords || [];
+    const typeKeywords = (subject.typeKeywords || []) as string[];
     result = !typeKeywords.includes(CANNOT_DISCUSS);
   }
   return result;
@@ -112,10 +115,13 @@ export function getChannelAccess(channel: IChannel): SharingAccess {
  */
 export function getChannelOrgIds(channel: IChannel): string[] {
   return channel.channelAcl
-    ? channel.channelAcl.reduce(
+    ? channel.channelAcl.reduce<string[]>(
         (acc, permission) =>
           permission.category === AclCategory.ORG &&
-          permission.subCategory === AclSubCategory.MEMBER
+          [AclSubCategory.MEMBER, AclSubCategory.ADMIN].includes(
+            permission.subCategory
+          ) &&
+          !acc.includes(permission.key)
             ? [...acc, permission.key]
             : acc,
         []
@@ -131,9 +137,12 @@ export function getChannelOrgIds(channel: IChannel): string[] {
  */
 export function getChannelGroupIds(channel: IChannel): string[] {
   return channel.channelAcl
-    ? channel.channelAcl.reduce(
+    ? channel.channelAcl.reduce<string[]>(
         (acc, permission) =>
           permission.category === AclCategory.GROUP &&
+          [AclSubCategory.MEMBER, AclSubCategory.ADMIN].includes(
+            permission.subCategory
+          ) &&
           !acc.includes(permission.key)
             ? [...acc, permission.key]
             : acc,
@@ -144,64 +153,150 @@ export function getChannelGroupIds(channel: IChannel): string[] {
 
 /**
  * A utility method used to build an IQuery to search for users that are permitted to be at-mentioned for the given channel.
- * @param input An array of strings to search for. Each string is mapped to `username` and `fullname`, filters as an OR condition
+ * @param terms An array of strings to search for. Each string is mapped to `username` and `fullname`, filters as an OR condition
  * @param channel An IChannel record
  * @param currentUsername The currently authenticated user's username
- * @param options An IHubSearchOptions object
- * @returns a promise that resolves an IHubSearchResponse<IHubSearchResult>
+ * @param requestOptions An IRequestOptions object
+ * @returns a promise that resolves an IQuery
  */
-export function getChannelUsersQuery(
-  inputs: string[],
+export async function getChannelUsersQuery(
+  terms: string[],
   channel: IChannel,
-  currentUsername?: string
-): IQuery {
-  const groupIds = getChannelGroupIds(channel);
-  const orgIds = getChannelOrgIds(channel);
-  const groupsPredicate = { group: groupIds };
-  let filters: IFilter[];
+  currentUsername?: string,
+  requestOptions?: IRequestOptions
+): Promise<IQuery> {
+  const getNonOwnerAclKeysByCategory = (
+    category: AclCategory.GROUP | AclCategory.ORG,
+    channel: IChannel
+  ): { member: string[]; admin: string[] } =>
+    channel.channelAcl.reduce<{ member: string[]; admin: string[] }>(
+      (acc, channelAcl) =>
+        channelAcl.category === category &&
+        !acc[channelAcl.subCategory].includes(channelAcl.key)
+          ? {
+              ...acc,
+              [channelAcl.subCategory]: [
+                ...acc[channelAcl.subCategory],
+                channelAcl.key,
+              ],
+            }
+          : acc,
+      { member: [], admin: [] }
+    );
+  const filters: IFilter[] = [];
   if (isPublicChannel(channel)) {
-    filters = [
-      {
-        operation: "OR",
-        predicates: [{ orgid: { from: "0", to: "{" } }],
-      },
-    ];
-  } else if (isOrgChannel(channel)) {
-    const additional = groupIds.length ? [groupsPredicate] : [];
-    filters = [
-      {
-        operation: "OR",
-        predicates: [{ orgid: orgIds }, ...additional],
-      },
-    ];
+    // any authenticated user when channel access is public
+    filters.push({
+      operation: "AND",
+      predicates: [{ orgid: { from: "0", to: "{" } }],
+    });
   } else {
-    filters = [
-      {
-        operation: "AND",
-        predicates: [groupsPredicate],
-      },
-    ];
+    // either org or private
+    const filter: IFilter = {
+      operation: "OR",
+      predicates: [],
+    };
+    // process orgs
+    const orgIdsBySubCategory = getNonOwnerAclKeysByCategory(
+      AclCategory.ORG,
+      channel
+    );
+    // org members
+    if (orgIdsBySubCategory.member.length) {
+      filter.predicates.push({
+        orgid: orgIdsBySubCategory.member,
+      });
+    }
+    // org admins
+    if (orgIdsBySubCategory.admin.length) {
+      filter.predicates.push({
+        orgid: orgIdsBySubCategory.admin,
+        role: "org_admin",
+      });
+    }
+
+    // process groups
+    const groupIdsBySubCategory = getNonOwnerAclKeysByCategory(
+      AclCategory.GROUP,
+      channel
+    );
+    // group members
+    if (groupIdsBySubCategory.member.length) {
+      filter.predicates.push({ group: groupIdsBySubCategory.member });
+    }
+    // group admins
+    if (groupIdsBySubCategory.admin.length) {
+      // the /community/users endpoint supports searching for users that are members of specific groups via `group`, but there's no way
+      // to further refine results to a specific type of membership within that group (e.g. memberType:admin). to do so, we need to fetch the
+      // group members via /community/groups/:id/users for each group and then build the appropriate predicates. however, given that group
+      // owners & admins will be returned in the results for the member predicate above, we only need to do this for groups whose ID is not
+      // also present in the above member predicate
+      const adminOnlyGroupIds = groupIdsBySubCategory.admin.filter(
+        (groupId) => !groupIdsBySubCategory.member.includes(groupId)
+      );
+      if (adminOnlyGroupIds.length) {
+        // fetch the member list for each channel group
+        const groupMemberships = await Promise.all(
+          adminOnlyGroupIds.map((groupId) =>
+            // catch & resolve null when an error occurs. depending on the group's visibility settings, the
+            // user may, or may not be able to access the group's user list.
+            getGroupUsers(groupId, requestOptions).catch((_e: unknown) => null)
+          )
+        );
+        // build the appropriate predicate for each group
+        groupMemberships.forEach((groupUserResult: IGroupUsersResult, idx) => {
+          // only if the user can access the group's user list
+          if (groupUserResult) {
+            filter.predicates.push({
+              group: adminOnlyGroupIds[idx],
+              // restrict results to the group owner and managers/admins
+              username: [
+                groupUserResult.owner,
+                ...groupUserResult.admins,
+              ].filter(unique),
+            });
+          }
+        });
+      }
+    }
+
+    filters.push(filter);
   }
+
+  // if the user is authenticated, omit that user from the results
   if (currentUsername) {
     filters.push({
       operation: "AND",
       predicates: [{ username: { not: currentUsername } }],
     });
   }
-  const query: IQuery = {
+
+  // conditionally add terms
+  const inputFilter = terms.reduce<IFilter>(
+    (acc, term) =>
+      term
+        ? {
+            ...acc,
+            predicates: [
+              ...acc.predicates,
+              { username: term },
+              { fullname: term },
+            ],
+          }
+        : acc,
+    {
+      operation: "OR",
+      predicates: [],
+    }
+  );
+  if (inputFilter.predicates.length) {
+    filters.push(inputFilter);
+  }
+
+  return {
     targetEntity: "communityUser",
-    filters: [
-      {
-        operation: "OR",
-        predicates: inputs.reduce<IPredicate[]>(
-          (acc, input) => [...acc, { username: input }, { fullname: input }],
-          []
-        ),
-      },
-      ...filters,
-    ],
+    filters,
   };
-  return query;
 }
 
 /**

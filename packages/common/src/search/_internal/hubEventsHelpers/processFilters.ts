@@ -7,8 +7,12 @@ import {
   ISearchEvents,
 } from "../../../events/api/orval/api/orval-events";
 import { toEnums } from "./toEnumConverters";
-import { flattenFilters } from "../hubDiscussionsHelpers/processChannelFilters";
+import {
+  flattenFilters,
+  parseIdsAndNotIds,
+} from "../hubDiscussionsHelpers/processChannelFilters";
 import { unique } from "../../../util";
+import { IDateRange } from "../../types/types";
 
 /**
  * Builds a Partial<ISearchEvents> given an Array of IFilter objects
@@ -21,45 +25,33 @@ export function processFilters(filters: IFilter[]): Partial<ISearchEvents> {
 
   // access
   if (flattenedFilters.access?.length) {
-    processedFilters.access = toEnums(flattenedFilters.access, EventAccess);
+    processedFilters.access = toEnums(
+      flattenedFilters.access as string[],
+      EventAccess
+    );
   }
 
   // canEdit
   if (flattenedFilters.canEdit?.length) {
-    processedFilters.canEdit = flattenedFilters.canEdit[0];
+    processedFilters.canEdit = flattenedFilters.canEdit[0] as boolean;
   }
 
   // entityId
   if (flattenedFilters.entityId?.length) {
-    processedFilters.entityIds = flattenedFilters.entityId;
+    processedFilters.entityIds = flattenedFilters.entityId as string[];
   }
 
   // entityType
   if (flattenedFilters.entityType?.length) {
     processedFilters.entityTypes = toEnums(
-      flattenedFilters.entityType,
+      flattenedFilters.entityType as string[],
       EventAssociationEntityType
     );
   }
 
   // id
   if (flattenedFilters.id?.length) {
-    const { ids, notIds } = flattenedFilters.id.reduce(
-      (acc, id) =>
-        id.not
-          ? {
-              ...acc,
-              notIds: [
-                ...acc.notIds,
-                ...(Array.isArray(id.not) ? id.not : [id.not]),
-              ],
-            }
-          : {
-              ...acc,
-              ids: [...acc.ids, id],
-            },
-      { ids: [], notIds: [] }
-    );
+    const { ids, notIds } = parseIdsAndNotIds(flattenedFilters.id);
     if (ids.length) {
       processedFilters.eventIds = ids.filter(unique);
     }
@@ -70,42 +62,27 @@ export function processFilters(filters: IFilter[]): Partial<ISearchEvents> {
 
   // term
   if (flattenedFilters.term?.length) {
-    processedFilters.title = flattenedFilters.term[0];
+    processedFilters.title = flattenedFilters.term[0] as string;
   }
 
   // orgId
   if (flattenedFilters.orgId?.length) {
-    processedFilters.orgId = flattenedFilters.orgId[0];
+    processedFilters.orgId = flattenedFilters.orgId[0] as string;
   }
 
   // categories
   if (flattenedFilters.categories?.length) {
-    processedFilters.categories = flattenedFilters.categories;
+    processedFilters.categories = flattenedFilters.categories as string[];
   }
 
   // tags
   if (flattenedFilters.tags?.length) {
-    processedFilters.tags = flattenedFilters.tags;
+    processedFilters.tags = flattenedFilters.tags as string[];
   }
 
   // group
   if (flattenedFilters.group?.length) {
-    const { ids, notIds } = flattenedFilters.group.reduce(
-      (acc, id) =>
-        id.not
-          ? {
-              ...acc,
-              notIds: [
-                ...acc.notIds,
-                ...(Array.isArray(id.not) ? id.not : [id.not]),
-              ],
-            }
-          : {
-              ...acc,
-              ids: [...acc.ids, id],
-            },
-      { ids: [], notIds: [] }
-    );
+    const { ids, notIds } = parseIdsAndNotIds(flattenedFilters.group);
     if (ids.length) {
       processedFilters.sharedToGroups = ids;
     }
@@ -123,19 +100,19 @@ export function processFilters(filters: IFilter[]): Partial<ISearchEvents> {
   // attendanceType
   if (flattenedFilters.attendanceType?.length) {
     processedFilters.attendanceTypes = toEnums(
-      flattenedFilters.attendanceType,
+      flattenedFilters.attendanceType as string[],
       EventAttendanceType
     );
   }
 
   // owner
   if (flattenedFilters.owner?.length) {
-    processedFilters.createdByIds = flattenedFilters.owner;
+    processedFilters.createdByIds = flattenedFilters.owner as string[];
   }
 
   // status
   processedFilters.status = flattenedFilters.status?.length
-    ? toEnums(flattenedFilters.status, EventStatus)
+    ? toEnums(flattenedFilters.status as string[], EventStatus)
     : [EventStatus.PLANNED, EventStatus.CANCELED];
 
   // if a startDateRange was provided, we prioritize that over individual startDateBefore or startDateAfter
@@ -143,26 +120,26 @@ export function processFilters(filters: IFilter[]): Partial<ISearchEvents> {
   if (flattenedFilters.startDateRange?.length) {
     // We are explicitly checking if the to and from values are present
     // Because w/ Occurrence, we can have just to or from values
-    flattenedFilters.startDateRange[0].to &&
+    (flattenedFilters.startDateRange[0] as IDateRange<string | number>).to &&
       (processedFilters.startDateTimeBefore = new Date(
-        flattenedFilters.startDateRange[0].to
+        (flattenedFilters.startDateRange[0] as IDateRange<string | number>).to
       ).toISOString());
-    flattenedFilters.startDateRange[0].from &&
+    (flattenedFilters.startDateRange[0] as IDateRange<string | number>).from &&
       (processedFilters.startDateTimeAfter = new Date(
-        flattenedFilters.startDateRange[0].from
+        (flattenedFilters.startDateRange[0] as IDateRange<string | number>).from
       ).toISOString());
   } else {
     // startDateBefore
     if (flattenedFilters.startDateBefore?.length) {
       processedFilters.startDateTimeBefore = new Date(
-        flattenedFilters.startDateBefore[0]
+        flattenedFilters.startDateBefore[0] as string | number
       ).toISOString();
     }
 
     // startDateAfter
     if (flattenedFilters.startDateAfter?.length) {
       processedFilters.startDateTimeAfter = new Date(
-        flattenedFilters.startDateAfter[0]
+        flattenedFilters.startDateAfter[0] as string | number
       ).toISOString();
     }
   }
@@ -172,26 +149,26 @@ export function processFilters(filters: IFilter[]): Partial<ISearchEvents> {
   if (flattenedFilters.endDateRange?.length) {
     // We are explicitly checking if the to and from values are present
     // Because w/ Occurrence, we can have just to or from values
-    flattenedFilters.endDateRange[0].to &&
+    (flattenedFilters.endDateRange[0] as IDateRange<string | number>).to &&
       (processedFilters.endDateTimeBefore = new Date(
-        flattenedFilters.endDateRange[0].to
+        (flattenedFilters.endDateRange[0] as IDateRange<string | number>).to
       ).toISOString());
-    flattenedFilters.endDateRange[0].from &&
+    (flattenedFilters.endDateRange[0] as IDateRange<string | number>).from &&
       (processedFilters.endDateTimeAfter = new Date(
-        flattenedFilters.endDateRange[0].from
+        (flattenedFilters.endDateRange[0] as IDateRange<string | number>).from
       ).toISOString());
   } else {
     // endDateBefore
     if (flattenedFilters.endDateBefore?.length) {
       processedFilters.endDateTimeBefore = new Date(
-        flattenedFilters.endDateBefore[0]
+        flattenedFilters.endDateBefore[0] as string | number
       ).toISOString();
     }
 
     // endDateAfter
     if (flattenedFilters.endDateAfter?.length) {
       processedFilters.endDateTimeAfter = new Date(
-        flattenedFilters.endDateAfter[0]
+        flattenedFilters.endDateAfter[0] as string | number
       ).toISOString();
     }
   }
@@ -218,19 +195,15 @@ export function processFilters(filters: IFilter[]): Partial<ISearchEvents> {
   // modified
   if (
     flattenedFilters.modified?.length &&
-    flattenedFilters.modified[0].to &&
-    flattenedFilters.modified[0].from
+    (flattenedFilters.modified[0] as IDateRange<string | number>).to &&
+    (flattenedFilters.modified[0] as IDateRange<string | number>).from
   ) {
     // range
-    // TODO: remove ts-ignore once ISearchEvents supports filtering by updatedAtBefore https://devtopia.esri.com/dc/hub/issues/12925
-    // @ts-ignore
     processedFilters.updatedAtBefore = new Date(
-      flattenedFilters.modified[0].to
+      (flattenedFilters.modified[0] as IDateRange<string | number>).to
     ).toISOString();
-    // TODO: remove ts-ignore once ISearchEvents supports filtering by updatedAtAfter https://devtopia.esri.com/dc/hub/issues/12925
-    // @ts-ignore
     processedFilters.updatedAtAfter = new Date(
-      flattenedFilters.modified[0].from
+      (flattenedFilters.modified[0] as IDateRange<string | number>).from
     ).toISOString();
   }
 
