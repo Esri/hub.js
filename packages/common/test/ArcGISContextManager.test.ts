@@ -748,6 +748,12 @@ describe("ArcGISContextManager:", () => {
       const userSpy = spyOn(portalModule, "getUser").and.callFake(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
       });
+      const portalSettingsSpy = spyOn(
+        portalModule,
+        "getPortalSettings"
+      ).and.callFake(() => {
+        return Promise.resolve({} as portalModule.IPortalSettings);
+      });
       const trustedSpy = spyOn(requestModule, "request").and.callFake(() => {
         return Promise.resolve(cloneObject(onlinePartneredOrgResponse));
       });
@@ -766,6 +772,7 @@ describe("ArcGISContextManager:", () => {
         authentication: MOCK_AUTH,
         serviceStatus: {} as unknown as HubServiceStatus,
         portal: { fake: "portal", limits: {} } as unknown as IPortal,
+        portalSettings: {} as portalModule.IPortalSettings,
         currentUser: { username: "fakeuser" } as unknown as portalModule.IUser,
         trustedOrgs: cloneObject(onlinePartneredOrgResponse.trustedOrgs),
         resourceTokens: [{ app: "self", clientId: "bar", token: "FAKETOKEN" }],
@@ -777,6 +784,7 @@ describe("ArcGISContextManager:", () => {
       expect(trustedSpy).not.toHaveBeenCalled();
       expect(exchangeSpy).not.toHaveBeenCalled();
       expect(orgLimitSpy).not.toHaveBeenCalled();
+      expect(portalSettingsSpy).not.toHaveBeenCalled();
 
       expect(mgr.context.tokenFor("self")).toEqual("FAKETOKEN");
       expect(mgr.context.tokenFor("arcgisonline")).toBeUndefined();

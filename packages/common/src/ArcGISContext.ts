@@ -494,6 +494,9 @@ export class ArcGISContext implements IArcGISContext {
     return this._portalSelf;
   }
 
+  /**
+   * Returns the portal settings object as IPortalSettings
+   */
   public get portalSettings(): IPortalSettings {
     return this._portalSettings;
   }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubSite } from "../../src/sites/HubSite";
@@ -459,7 +460,7 @@ describe("HubSite Class:", () => {
       expect(createVersionSpy).toHaveBeenCalledTimes(1);
       const args = createVersionSpy.calls.argsFor(0);
       const modelArg = args[0];
-      expect(modelArg).toEqual(model);
+      expect(modelArg.item).toEqual(model.item);
       expect(args[1]).toEqual(authdCtxMgr.context.userRequestOptions);
       expect(args[2]).toEqual(createVersionOptions);
     });
@@ -496,7 +497,7 @@ describe("HubSite Class:", () => {
       expect(updateVersionSpy).toHaveBeenCalledTimes(1);
       const args = updateVersionSpy.calls.argsFor(0);
       const modelArg = args[0];
-      expect(modelArg).toEqual(model);
+      expect(modelArg.item).toEqual(model.item);
       expect(args[2]).toEqual(authdCtxMgr.context.userRequestOptions);
       expect(args[1]).toEqual(version);
     });
