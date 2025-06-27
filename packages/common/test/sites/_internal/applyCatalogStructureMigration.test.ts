@@ -73,11 +73,7 @@ describe("applyCatalogStructureMigration:", () => {
             },
           ],
         },
-        // There is no openData predicate for the event scope for now
-        event: {
-          targetEntity: "event",
-          filters: [],
-        },
+        // There is no openData predicate for the other scopes for now
       },
       collections: [],
     });
