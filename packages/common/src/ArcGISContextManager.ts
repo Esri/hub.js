@@ -382,8 +382,11 @@ export class ArcGISContextManager {
         promiseKeys.push("portal");
       }
       if (!this._portalSettings) {
+        const failSafeGetPortalSettings = failSafe(getPortalSettings, {});
         promises.push(
-          getPortalSettings("self", { authentication: this._authentication })
+          failSafeGetPortalSettings("self", {
+            authentication: this._authentication,
+          })
         );
         promiseKeys.push("portalSettings");
       }
@@ -529,7 +532,7 @@ export class ArcGISContextManager {
       "currentUser",
       "userResourceTokens",
       "userHubSettings",
-      ...CONTEXT_AUTHD_SERIALIZABLE_PROPS,
+      "portalSettings",
     ];
 
     let contextOpts: IArcGISContextOptions = {
