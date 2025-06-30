@@ -113,8 +113,16 @@ function applyCatalogSchema(original: any): IHubCatalog {
     // for org-level home sites (e.g., "my-org.hub.arcgis.com")
     const orgId = getProp(original, "orgId") as string;
     if (orgId) {
-      // Unlike other sites, org-level home sites also have default
-      // group and user scopes, so we add those here
+      // Org-level sites should ignore any configured groups.
+      // They also need 'group' and 'user' scopes within the catalog.
+      catalog.scopes.item = {
+        targetEntity: "item",
+        filters: [],
+      };
+      catalog.scopes.event = {
+        targetEntity: "event",
+        filters: [],
+      };
       catalog.scopes.group = {
         targetEntity: "group",
         filters: [],
@@ -134,7 +142,6 @@ function applyCatalogSchema(original: any): IHubCatalog {
             [entityType]: {
               ...query,
               filters: [
-                ...query.filters,
                 {
                   operation: "AND",
                   predicates:
