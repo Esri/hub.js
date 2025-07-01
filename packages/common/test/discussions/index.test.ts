@@ -125,6 +125,8 @@ describe("discussions index", () => {
     "isOrgAdminInOrg",
     "userHasPrivilege",
     "userHasPrivileges",
+    "deriveUserRoleV2",
+    "cannotCreatePostGroupsBlockedV2",
   ];
   const exportedMembers = Object.keys(discussions);
 
