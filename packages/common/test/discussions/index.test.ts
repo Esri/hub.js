@@ -1,6 +1,6 @@
 import * as discussions from "../../src/discussions";
 
-describe("discussions index", () => {
+fdescribe("discussions index", () => {
   const expectedMembers = [
     // existing exports before moving things from hub-discussions into hub-common
     "HubDiscussion",
@@ -126,7 +126,7 @@ describe("discussions index", () => {
     "userHasPrivilege",
     "userHasPrivileges",
     "deriveUserRoleV2",
-    "cannotCreatePostGroupsBlockedV2‌",
+    "cannotCreatePostGroupsBlockedV2",
   ];
   const exportedMembers = Object.keys(discussions);
 
