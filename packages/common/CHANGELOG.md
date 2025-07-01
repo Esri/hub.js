@@ -1,3 +1,10 @@
+# @esri/hub-common [18.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.3.1...@esri/hub-common@18.4.0) (2025-07-01)
+
+
+### Features
+
+* **hub-common:** add group events workspace permission policy ([#1935](https://github.com/Esri/hub.js/issues/1935)) ([327ef10](https://github.com/Esri/hub.js/commit/327ef1028e86518c904ff97c9388949e93ed4413))
+
 ## @esri/hub-common [18.3.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.3.0...@esri/hub-common@18.3.1) (2025-06-27)
 
 
