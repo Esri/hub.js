@@ -1,6 +1,6 @@
 import * as discussions from "../../src/discussions";
 
-fdescribe("discussions index", () => {
+describe("discussions index", () => {
   const expectedMembers = [
     // existing exports before moving things from hub-discussions into hub-common
     "HubDiscussion",
