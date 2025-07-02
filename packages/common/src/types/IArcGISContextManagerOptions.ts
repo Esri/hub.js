@@ -4,7 +4,7 @@ import type { IUser } from "@esri/arcgis-rest-portal";
 import { IUserResourceToken } from "./IUserResourceToken";
 import { IUserResourceConfig } from "./IUserResourceConfig";
 import { HubServiceStatus } from "../core/types/ISystemStatus";
-import { IFeatureFlags } from "../permissions";
+import { IFeatureFlags, IServiceFlags } from "../permissions";
 import { IHubTrustedOrgsResponse } from "../hub-types";
 import { IUserHubSettings } from "../utils/IUserHubSettings";
 
@@ -61,6 +61,11 @@ export interface IArcGISContextManagerOptions {
    * Optional hash of feature flags
    */
   featureFlags?: IFeatureFlags;
+
+  /**
+   * Optional hash of service flags.
+   */
+  serviceFlags?: IServiceFlags;
 
   /**
    * Array of Trusted Org Ids
