@@ -16,8 +16,8 @@ export const DEFAULT_SITE: Partial<IHubSite> = {
     schemaVersion: 0,
     workflows: [
       {
-        id: "search_workflow",
-        name: "Data search",
+        key: "search_workflow",
+        label: "Data search",
         description:
           "This workflow is for questions about geographic data that can be answered from open data.",
         action: "search",
@@ -25,8 +25,8 @@ export const DEFAULT_SITE: Partial<IHubSite> = {
         sources: [],
       },
       {
-        id: "crisis_workflow",
-        name: "Personal crisis topics",
+        key: "crisis_workflow",
+        label: "Personal crisis topics",
         description:
           "Relating to suicide, self harm, or other personal crisis.",
         action: "respond",
@@ -35,8 +35,8 @@ export const DEFAULT_SITE: Partial<IHubSite> = {
         sources: [],
       },
       {
-        id: "disaster_workflow",
-        name: "Disaster response",
+        key: "disaster_workflow",
+        label: "Disaster response",
         description: "Relating preparing for disaster, tornado, hurricanes.",
         action: "respond",
         response: "If this is an emergency, call 911.",

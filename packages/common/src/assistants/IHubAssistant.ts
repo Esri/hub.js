@@ -39,13 +39,14 @@ export interface IHubAssistant {
  */
 export interface IHubAssistantWorkflow {
   /**
-   * Unique identifier for the workflow.
+   * Unique key for the workflow.
+   * This is used to reference the workflow in the configuration list field.
    */
-  id: string;
+  key: string;
   /**
-   * Name of the workflow.
+   * Label of the workflow.
    */
-  name: string;
+  label: string;
   /**
    * Description of the workflow.
    */
