@@ -89,7 +89,7 @@ export const HubItemEntitySchema: IAsyncConfigurationSchema = {
         "personality",
         "description",
         "location",
-        "examplePrompts",
+        // "examplePrompts", // commenting this out for now, as it is not required in the current implementation
       ],
       properties: {
         schemaVersion: { type: "number" },
@@ -108,8 +108,8 @@ export const HubItemEntitySchema: IAsyncConfigurationSchema = {
           items: {
             type: "object",
             properties: {
-              id: { type: "string" },
-              name: { type: "string" },
+              key: { type: "string" },
+              label: { type: "string" },
               description: { type: "string" },
               action: { type: "string", enum: ["search", "respond"] },
               response: { type: "string" },
