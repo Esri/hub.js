@@ -1,29 +1,3 @@
-# @esri/hub-common [18.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.3.1...@esri/hub-common@18.4.0) (2025-07-01)
-
-
-### Features
-
-* **hub-common:** add group events workspace permission policy ([#1935](https://github.com/Esri/hub.js/issues/1935)) ([327ef10](https://github.com/Esri/hub.js/commit/327ef1028e86518c904ff97c9388949e93ed4413))
-
-## @esri/hub-common [18.3.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.3.0...@esri/hub-common@18.3.1) (2025-06-27)
-
-
-### Bug Fixes
-
-* **hub-common:** discussion post channelId not optional ([#1934](https://github.com/Esri/hub.js/issues/1934)) ([40ccb9a](https://github.com/Esri/hub.js/commit/40ccb9a08dbe61c0803a7f761e06a51517b1b81a))
-
-# @esri/hub-common [18.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.2.0...@esri/hub-common@18.3.0) (2025-06-26)
-
-
-### Bug Fixes
-
-* internalize service flag processing in context manager ([#1931](https://github.com/Esri/hub.js/issues/1931)) ([305d775](https://github.com/Esri/hub.js/commit/305d775a8f0e63262b985029dced91d8484c2554))
-
-
-### Features
-
-* **hub-common:** add removeNonDiscussableGroups to interface ISearch… ([#1932](https://github.com/Esri/hub.js/issues/1932)) ([7e7e7af](https://github.com/Esri/hub.js/commit/7e7e7af0562284f55b3b75769d86581363b82080))
-
 # @esri/hub-common [18.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.1.0...@esri/hub-common@18.2.0) (2025-06-25)
 
 

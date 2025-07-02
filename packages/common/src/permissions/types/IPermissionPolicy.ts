@@ -1,5 +1,5 @@
 import { HubLicense } from "./HubLicense";
-import { HubService, HubServiceStatus } from "../../core/types/ISystemStatus";
+import { HubService } from "../../core/types/ISystemStatus";
 import { Permission } from "./Permission";
 import { PlatformPrivilege } from "./PlatformPrivilege";
 
@@ -100,17 +100,7 @@ export interface IPermissionPolicy {
  * access is denied under all conditions. If the value is set to true, licensing,
  * privilege and services checks are run, and if those pass, access is granted.
  */
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IFeatureFlags extends Record<Permission, boolean> {}
-
-/**
- * Hash of service status overrides parsed from query params. This is
- * used by the ContextManager to override the service status, to simulate
- * a service being down, or to test the behavior of the system when a service
- * is unavailable.
- */
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IServiceFlags extends Record<HubService, HubServiceStatus> {}
 
 /**
  * Hub Availability levels

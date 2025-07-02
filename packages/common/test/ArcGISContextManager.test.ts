@@ -1,9 +1,4 @@
-import {
-  ALPHA_ORGS,
-  ArcGISContextManager,
-  ENTERPRISE_SITES_SERVICE_STATUS,
-  HUB_SERVICE_STATUS,
-} from "../src/ArcGISContextManager";
+import { ALPHA_ORGS, ArcGISContextManager } from "../src/ArcGISContextManager";
 import {
   ArcGISContext,
   cloneObject,
@@ -11,7 +6,6 @@ import {
   IFeatureFlags,
   IHubRequestOptionsPortalSelf,
   IPermissionAccessResponse,
-  IServiceFlags,
   IUserHubSettings,
 } from "../src";
 import { base64ToUnicode, unicodeToBase64 } from "../src/utils/encoding";
@@ -309,7 +303,6 @@ describe("ArcGISContextManager:", () => {
       expect(mgr.context.hubRequestOptions).toBeDefined();
       expect(mgr.context.hubRequestOptions.authentication).toBeUndefined();
       expect(mgr.context.serviceStatus).toBeDefined();
-      expect(mgr.context.serviceStatus).toEqual(HUB_SERVICE_STATUS);
       expect(mgr.context.hubLicense).toBe("hub-basic");
       expect(mgr.context.featureFlags).toEqual({});
       expect(mgr.context.trustedOrgIds).toEqual([]);
@@ -336,7 +329,7 @@ describe("ArcGISContextManager:", () => {
       expect(mgr.context.isAlphaOrg).toEqual(true, "Alpha org should be true");
       expect(mgr.context.isBetaOrg).toEqual(true, "Beta org should be true");
     });
-    it("verify props when passed enterprise portalUrl", async () => {
+    it("verify props when passed portalUrl", async () => {
       const t = new Date().getTime();
       const mgr = await ArcGISContextManager.create({
         portalUrl: "https://myserver.com/gis",
@@ -355,30 +348,6 @@ describe("ArcGISContextManager:", () => {
       };
       mgr.setProperties({ hubSite });
       expect(mgr.context.properties.hubSite).toEqual(hubSite);
-      expect(mgr.context.serviceStatus).toEqual(
-        ENTERPRISE_SITES_SERVICE_STATUS
-      );
-    });
-    it("verify props when passed AGO portalUrl", async () => {
-      const t = new Date().getTime();
-      const mgr = await ArcGISContextManager.create({
-        portalUrl: "https://myorg.maps.arcgis.com",
-      });
-      expect(mgr.context.id).toBeGreaterThanOrEqual(t);
-
-      // RequestOptions
-      expect(mgr.context.requestOptions.portal).toBe(mgr.context.sharingApiUrl);
-      expect(mgr.context.requestOptions.authentication).not.toBeDefined();
-      expect(mgr.context.properties.alphaOrgs).toBeDefined();
-      expect(mgr.context.userResourceTokens).toEqual([]);
-      // now call setProperties and ensure it's returned on context
-      const hubSite = {
-        id: "bc3",
-        groups: ["3ef", "00c"],
-      };
-      mgr.setProperties({ hubSite });
-      expect(mgr.context.properties.hubSite).toEqual(hubSite);
-      expect(mgr.context.serviceStatus).toEqual(HUB_SERVICE_STATUS);
     });
     it("verify when passed log level and properties", async () => {
       const t = new Date().getTime();
@@ -406,24 +375,6 @@ describe("ArcGISContextManager:", () => {
       expect(mgr.context.environment).toBe("enterprise");
       expect(mgr.context.featureFlags).not.toBe(featureFlags);
       expect(mgr.context.featureFlags).toEqual(featureFlags);
-    });
-
-    it("verify when passed serviceFlags", async () => {
-      const t = new Date().getTime();
-      const serviceFlags = {
-        discussions: "online",
-        events: "offline",
-        otherProp: "other value", // ensures junk props are ignored
-      } as unknown as IServiceFlags;
-      const mgr = await ArcGISContextManager.create({
-        portalUrl: "https://myserver.com/gis",
-        serviceFlags,
-      });
-      expect(mgr.context.id).toBeGreaterThanOrEqual(t);
-      expect(mgr.context.environment).toBe("enterprise");
-      expect(mgr.context.serviceStatus.discussions).toBe("online");
-      expect(mgr.context.serviceStatus.events).toEqual("offline");
-      expect(mgr.context.serviceStatus.portal).toEqual("online");
     });
 
     it("verify when passed resourceConfigs", async () => {
