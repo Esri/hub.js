@@ -241,6 +241,7 @@ export const buildUiSchema = async (
                 properties: {
                   label: {
                     type: "string",
+                    maxLength: 120,
                   },
                   description: {
                     type: "string",
@@ -254,6 +255,16 @@ export const buildUiSchema = async (
                     type: "string",
                   },
                 },
+                allOf: [
+                  {
+                    if: {
+                      properties: { action: { const: "respond" } },
+                    },
+                    then: {
+                      required: ["response"],
+                    },
+                  },
+                ],
               },
               editUiSchema: {
                 type: "Layout",
