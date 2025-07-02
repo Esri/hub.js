@@ -1,4 +1,7 @@
 import { FeedFormat } from "../types";
+import { DCAT_US_1X_DEFAULT, DCAT_US_3X_DEFAULT } from "./templates/dcatUS";
+import { DCAT_AP_2XX_DEFAULT, DCAT_AP_3XX_DEFAULT } from "./templates/dcatAP";
+import { RSS_2X_DEFAULT } from "./templates/rss";
 
 /**
  * Returns the default templates for each supported major version of each feed format
@@ -11,61 +14,10 @@ export function getDefaultTemplates(): Record<FeedFormat, Record<string, any>> {
     },
     "dcat-ap": {
       "2": DCAT_AP_2XX_DEFAULT,
+      "3": DCAT_AP_3XX_DEFAULT,
     },
     rss: {
       "2": RSS_2X_DEFAULT,
     },
   };
 }
-
-const DCAT_US_1X_DEFAULT = {
-  title: "{{name}}",
-  description: "{{description}}",
-  keyword: "{{tags}}",
-  issued: "{{created:toISO}}",
-  modified: "{{modified:toISO}}",
-  publisher: {
-    name: "{{source}}",
-  },
-  contactPoint: {
-    fn: "{{owner}}",
-    hasEmail: "{{orgContactEmail}}",
-  },
-  spatial: "{{extent:computeSpatialProperty}}",
-};
-
-const DCAT_US_3X_DEFAULT = {
-  "dct:title": "{{ name}}",
-  "dct:description": "{{ description}}",
-  "dct:issued": {
-    "@value":
-      "{{ metadata.metadata.dataIdInfo.idCitation.date.pubDate:toISO || metadata.metadata.dataIdInfo.idCitation.date.createDate:toISO || created:toISO }}",
-    "@type": "xsd:dateTime",
-  },
-};
-
-const DCAT_AP_2XX_DEFAULT = {
-  "dct:title": "{{name}}",
-  "dct:description": "{{description}}",
-  "dcat:contactPoint": {
-    "vcard:fn": "{{owner}}",
-    "vcard:hasEmail": "{{orgContactEmail}}",
-  },
-};
-
-const RSS_2X_DEFAULT = {
-  channel: {
-    title: "{{name}}",
-    description: "{{searchDescription}}",
-    link: "{{siteUrl}}",
-    language: "{{culture}}",
-    category: "{{categories}}",
-    item: {
-      title: "{{name}}",
-      description: "{{searchDescription}}",
-      author: "{{orgContactEmail}}",
-      category: "{{categories}}",
-      pubDate: "{{created:toUTC}}",
-    },
-  },
-};
