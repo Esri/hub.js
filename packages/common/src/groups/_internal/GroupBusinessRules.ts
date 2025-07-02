@@ -25,6 +25,7 @@ export const GroupPermissions = [
   "hub:group:workspace:collaborators",
   "hub:group:workspace:content",
   "hub:group:workspace:members",
+  "hub:group:workspace:events",
   "hub:group:shareContent",
   "hub:group:manage",
 ] as const;
@@ -262,6 +263,12 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:group:workspace:members",
     dependencies: ["hub:group:workspace"],
+  },
+  {
+    permission: "hub:group:workspace:events",
+    services: ["events"],
+    dependencies: ["hub:group:workspace"],
+    licenses: ["hub-premium"],
   },
   // permission to check if you can add/remove content from groups
   {

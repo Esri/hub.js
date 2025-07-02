@@ -17,10 +17,10 @@ import type { IArcGISContext } from "./types/IArcGISContext";
 import { getHubApiFromPortalUrl } from "./urls/getHubApiFromPortalUrl";
 import { getPortalBaseFromOrgUrl } from "./urls/getPortalBaseFromOrgUrl";
 import { Logger } from "./utils/logger";
-import { HubServiceStatus } from "./core";
+import { HubServiceStatus, SystemStatus } from "./core";
 import { cloneObject, maybeAdd } from "./util";
 import { base64ToUnicode, unicodeToBase64 } from "./utils/encoding";
-import { IFeatureFlags } from "./permissions";
+import { IFeatureFlags, IServiceFlags } from "./permissions";
 import { IHubTrustedOrgsResponse } from "./hub-types";
 import { request } from "@esri/arcgis-rest-request";
 import { failSafe } from "./utils/fail-safe";
@@ -33,6 +33,7 @@ import { fetchOrgLimits, IOrgLimit, OrgLimitType } from "./org/fetchOrgLimits";
 import type { IArcGISContextManagerOptions } from "./types/IArcGISContextManagerOptions";
 import type { IUserResourceConfig } from "./types/IUserResourceConfig";
 import type { IUserResourceToken } from "./types/IUserResourceToken";
+import { isEnterprisePortalUrl } from "./urls";
 
 /**
  * Properties that we can always serialize/deserialize regardless of authentication status
@@ -96,6 +97,8 @@ export class ArcGISContextManager {
 
   private _featureFlags: IFeatureFlags = {};
 
+  private _serviceFlags: IServiceFlags;
+
   private _trustedOrgIds: string[] = [];
 
   private _trustedOrgs: IHubTrustedOrgsResponse[] = [];
@@ -158,6 +161,10 @@ export class ArcGISContextManager {
 
     if (opts.featureFlags) {
       this._featureFlags = cloneObject(opts.featureFlags);
+    }
+
+    if (opts.serviceFlags) {
+      this._serviceFlags = cloneObject(opts.serviceFlags);
     }
 
     if (opts.trustedOrgIds) {
@@ -453,7 +460,25 @@ export class ArcGISContextManager {
           ];
           break;
         case "serviceStatus":
-          this._serviceStatus = result as HubServiceStatus;
+          // eslint-disable-next-line no-case-declarations
+          const fetchedStatus = result as HubServiceStatus;
+          // apply any overrides from serviceFlags
+          // We need to do this here because the _serviceFlags prop
+          // is passed into the ArcGISContext and that's what is used
+          // to determine the service status.
+          if (this._serviceFlags) {
+            Object.keys(this._serviceFlags).forEach((key) => {
+              // This guard is present because non-typescript code could pass in
+              // a serviceFlags object that does not have keys of HubServiceStatus.
+              if (fetchedStatus[key as keyof HubServiceStatus]) {
+                fetchedStatus[key as keyof HubServiceStatus] = this
+                  ._serviceFlags[
+                  key as keyof HubServiceStatus
+                ] as unknown as SystemStatus;
+              }
+            });
+          }
+          this._serviceStatus = fetchedStatus;
           break;
       }
     });
@@ -546,13 +571,12 @@ export class ArcGISContextManager {
  * @param portalUrl
  * @returns
  */
-function getServiceStatus(portalUrl: string): Promise<HubServiceStatus> {
+async function getServiceStatus(portalUrl: string): Promise<HubServiceStatus> {
   let status = HUB_SERVICE_STATUS;
-  const isPortal = portalUrl.indexOf("arcgis.com") === -1;
   // When we move to fetching the system status from the API
   // we can use
   // const hubApiUrl = getHubApiFromPortalUrl(portalUrl);
-  if (isPortal) {
+  if (isEnterprisePortalUrl(portalUrl)) {
     status = ENTERPRISE_SITES_SERVICE_STATUS;
   }
 
