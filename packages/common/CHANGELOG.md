@@ -1,3 +1,10 @@
+## @esri/hub-common [18.4.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.4.0...@esri/hub-common@18.4.1) (2025-07-03)
+
+
+### Bug Fixes
+
+* **hub-common:** fix issue where org home sites didn't have default group and user catalog scopes ([#1933](https://github.com/Esri/hub.js/issues/1933)) ([edf8f23](https://github.com/Esri/hub.js/commit/edf8f232eb70a95de914664c3b54f6767e31c628))
+
 # @esri/hub-common [18.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.3.1...@esri/hub-common@18.4.0) (2025-07-01)
 
 
