@@ -222,7 +222,7 @@ describe("ArcGISContext:", () => {
         await anonCtx.updateUserHubSettings({} as IUserHubSettings);
       } catch (ex) {
         // we expect this to throw
-        expect((ex as any).message).toEqual(
+        expect((ex ).message).toEqual(
           "Cannot update user hub settings without an authenticated user"
         );
       }
@@ -268,6 +268,12 @@ describe("ArcGISContext:", () => {
         },
       } as unknown as IUserHubSettings);
       expect(ctx.featureFlags["hub:feature:workspace"]).toBeFalsy();
+    });
+  });
+  describe("portalSettings:", () => {
+    it("returns the portalSettings object", () => {
+      const ctx = createMockContext();
+      expect(ctx.portalSettings).toBe(undefined);
     });
   });
 });

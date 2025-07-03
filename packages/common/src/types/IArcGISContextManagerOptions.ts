@@ -1,6 +1,6 @@
 import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { IPortal } from "@esri/arcgis-rest-portal";
-import type { IUser } from "@esri/arcgis-rest-portal";
+import type { IPortalSettings, IUser } from "@esri/arcgis-rest-portal";
 import { IUserResourceToken } from "./IUserResourceToken";
 import { IUserResourceConfig } from "./IUserResourceConfig";
 import { HubServiceStatus } from "../core/types/ISystemStatus";
@@ -36,6 +36,12 @@ export interface IArcGISContextManagerOptions {
    * with the ArcGISIdentityManager, it will be fetched
    */
   portal?: IPortal;
+
+  /**
+   * Portal settings for the authenticated user. If not passed into `.create`
+   * with the ArcGISIdentityManager, it will be fetched
+   */
+  portalSettings?: IPortalSettings;
 
   /**
    * Current user as `IUser`. If not passed into `.create` with the ArcGISIdentityManager

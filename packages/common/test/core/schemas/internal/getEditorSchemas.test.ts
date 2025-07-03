@@ -28,6 +28,7 @@ import * as SiteBuildCreateUiSchema from "../../../../src/sites/_internal/SiteUi
 import * as SiteBuildFollowersUiSchema from "../../../../src/sites/_internal/SiteUiSchemaFollowers";
 import * as SiteBuildDiscussionsUiSchema from "../../../../src/sites/_internal/SiteUiSchemaDiscussions";
 import * as SiteBuildTelemetryUiSchema from "../../../../src/sites/_internal/SiteUiSchemaSettings";
+import * as SiteBuildAssistantUiSchema from "../../../../src/sites/_internal/SiteUiSchemaAssistant";
 
 import { DiscussionEditorTypes } from "../../../../src/discussions/_internal/DiscussionSchema";
 import * as DiscussionBuildEditUiSchema from "../../../../src/discussions/_internal/DiscussionUiSchemaEdit";
@@ -110,6 +111,7 @@ describe("getEditorSchemas: ", () => {
     { type: SiteEditorTypes[2], module: SiteBuildFollowersUiSchema },
     { type: SiteEditorTypes[3], module: SiteBuildDiscussionsUiSchema },
     { type: SiteEditorTypes[4], module: SiteBuildTelemetryUiSchema },
+    { type: SiteEditorTypes[5], module: SiteBuildAssistantUiSchema },
 
     { type: DiscussionEditorTypes[0], module: DiscussionBuildEditUiSchema },
     { type: DiscussionEditorTypes[1], module: DiscussionBuildCreateUiSchema },

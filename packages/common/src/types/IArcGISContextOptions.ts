@@ -1,5 +1,5 @@
 import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
-import type { IPortal } from "@esri/arcgis-rest-portal";
+import type { IPortal, IPortalSettings } from "@esri/arcgis-rest-portal";
 import type { IUser } from "@esri/arcgis-rest-portal";
 import type { IUserResourceToken } from "./IUserResourceToken";
 import type { HubServiceStatus } from "../core/types/ISystemStatus";
@@ -40,6 +40,14 @@ export interface IArcGISContextOptions {
    * ArcGISContextManager handles this internally
    */
   portalSelf?: IPortal;
+
+  /**
+   * If the user is authenticated, the portal settings should be passed in
+   * so various getters can work as expected.
+   *
+   * ArcGISContextManager handles this internally
+   */
+  portalSettings?: IPortalSettings;
 
   /**
    * If the user is authenticated, the user should be passed in

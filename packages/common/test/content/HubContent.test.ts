@@ -32,6 +32,7 @@ describe("HubContent class", () => {
         id: "BRXFAKE",
         urlKey: "fake-org",
       } as unknown as PortalModule.IPortal,
+      portalSettings: {} as PortalModule.IPortalSettings,
       portalUrl: "https://myserver.com",
     });
   });

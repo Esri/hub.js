@@ -84,6 +84,28 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     // the workspace feature will be available to all users
     permission: "hub:gating:workspace:released",
   },
+
+  // AI Assistant permissions
+  // this is used to enable the AI Assistant feature on an entity
+  // an org must have the AI Assistant feature enabled
+  // and the org bust turn off the beta apps block
+  // to allow the AI Assistant to be enabled on an entity
+  {
+    permission: "hub:platform:ai-assistant",
+    environments: ["devext", "qaext"],
+    assertions: [
+      {
+        property: "context:portalSettings.aiAssistantsEnabled",
+        type: "eq",
+        value: true,
+      },
+      {
+        property: "context:portalSettings.blockBetaApps",
+        type: "eq",
+        value: false,
+      },
+    ],
+  },
   // FEATURE PERMISSIONS
   // these are used to enable/disable features in the Hub
   // and are expected to be long-lived
