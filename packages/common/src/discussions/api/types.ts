@@ -143,6 +143,7 @@ export interface IDiscussionParams {
  */
 export enum PostRelation {
   REPLIES = "replies",
+  REPLY_COUNT = "replyCount",
   REACTIONS = "reactions",
   PARENT = "parent",
   CHANNEL = "channel",
