@@ -1,3 +1,10 @@
+# @esri/hub-common [18.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.4.1...@esri/hub-common@18.5.0) (2025-07-03)
+
+
+### Features
+
+* **hub-common:** 2746 new relation replyCount discussion post query ([#1938](https://github.com/Esri/hub.js/issues/1938)) ([7519587](https://github.com/Esri/hub.js/commit/751958788c2e991b8e5ffbc7f19b97a6c82d3fac))
+
 ## @esri/hub-common [18.4.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.4.0...@esri/hub-common@18.4.1) (2025-07-03)
 
 
