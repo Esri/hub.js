@@ -324,6 +324,54 @@ export const buildUiSchema = async (
           },
         ],
       },
+      // {
+      //   type: "Section",
+      //   label: `{{${i18nScope}.assistant.sections.testPrompts.label:translate}}`,
+      //   options: {
+      //     helperText: {
+      //       label: `{{${i18nScope}.assistant.sections.testPrompts.helperText:translate}}`,
+      //     },
+      //   },
+      //   elements: [
+      //     {
+      //       scope: "/properties/assistant/properties/testPrompts",
+      //       type: "Control",
+      //       options: {
+      //         control: "hub-field-input-list",
+      //         allowEdit: true,
+      //         allowAdd: true,
+      //         allowDelete: true,
+      //         addItemButtonWidth: "fit",
+      //         addItemLabel: `{{${i18nScope}.assistant.sections.testPrompts.addTestPromptLabel:translate}}`,
+      //         newItemModalTitle: `{{${i18nScope}.assistant.sections.testPrompts.modal.newTestPromptModalHeader:translate}}`,
+      //         editItemModalTitle: `{{${i18nScope}.assistant.sections.testPrompts.modal.editTestPromptModalHeader:translate}}`,
+      //         editSchema: {
+      //           type: "object",
+      //           required: ["label"],
+      //           properties: {
+      //             label: {
+      //               type: "string",
+      //               maxLength: 120,
+      //             },
+      //           },
+      //         },
+      //         editUiSchema: {
+      //           type: "Layout",
+      //           elements: [
+      //             {
+      //               label: `{{${i18nScope}.assistant.sections.testPrompts.modal.title:translate}}`,
+      //               scope: "/properties/label",
+      //               type: "Control",
+      //               options: {
+      //                 control: "hub-field-input-input",
+      //               },
+      //             },
+      //           ],
+      //         },
+      //       },
+      //     },
+      //   ],
+      // },
     ],
   };
 };

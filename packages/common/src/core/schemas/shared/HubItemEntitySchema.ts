@@ -117,7 +117,16 @@ export const HubItemEntitySchema: IAsyncConfigurationSchema = {
             },
           },
         },
-        testPrompts: { type: "array", items: { type: "string" } },
+        testPrompts: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              key: { type: "string" },
+              label: { type: "string" },
+            },
+          },
+        },
       },
     },
   },
