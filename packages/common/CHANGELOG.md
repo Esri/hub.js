@@ -1,3 +1,10 @@
+## @esri/hub-common [18.5.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.5.0...@esri/hub-common@18.5.1) (2025-07-07)
+
+
+### Bug Fixes
+
+* add comment in site ai assistant schema ([#1940](https://github.com/Esri/hub.js/issues/1940)) ([a927d97](https://github.com/Esri/hub.js/commit/a927d97222848f0faeab178f8f857e986105a838))
+
 # @esri/hub-common [18.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.4.1...@esri/hub-common@18.5.0) (2025-07-03)
 
 
