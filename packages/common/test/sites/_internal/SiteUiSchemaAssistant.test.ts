@@ -198,6 +198,119 @@ describe("buildUiSchema: site assistant", () => {
             },
           ],
         },
+        {
+          type: "Section",
+          label: `{{some.scope.assistant.sections.workflows.label:translate}}`,
+          options: {
+            helperText: {
+              label: `{{some.scope.assistant.sections.workflows.helperText:translate}}`,
+            },
+          },
+          elements: [
+            {
+              scope: "/properties/assistant/properties/workflows",
+              type: "Control",
+              options: {
+                control: "hub-field-input-list",
+                allowEdit: true,
+                allowAdd: true,
+                allowDelete: true,
+                addItemButtonWidth: "fit",
+                addItemLabel: `{{some.scope.assistant.sections.workflows.addWorkflowLabel:translate}}`,
+                newItemModalTitle: `{{some.scope.assistant.sections.workflows.modal.newWorkflowModalHeader:translate}}`,
+                editItemModalTitle: `{{some.scope.assistant.sections.workflows.modal.editWorkflowModalHeader:translate}}`,
+                // use "action" as the description for the workflow
+                descriptionProp: "action",
+                descriptionPropPostfix: `{{some.scope.assistant.sections.workflows.descriptionPropPostfix:translate}}`,
+                editSchema: {
+                  type: "object",
+                  required: ["label", "description", "action"],
+                  properties: {
+                    label: {
+                      type: "string",
+                      maxLength: 120,
+                    },
+                    description: {
+                      type: "string",
+                    },
+                    action: {
+                      type: "string",
+                      enum: ["search", "respond"],
+                      default: "search",
+                    },
+                    response: {
+                      type: "string",
+                    },
+                  },
+                  allOf: [
+                    {
+                      if: {
+                        properties: { action: { const: "respond" } },
+                      },
+                      then: {
+                        required: ["response"],
+                      },
+                    },
+                  ],
+                },
+                editUiSchema: {
+                  type: "Layout",
+                  elements: [
+                    {
+                      label: `{{some.scope.assistant.sections.workflows.modal.title:translate}}`,
+                      scope: "/properties/label",
+                      type: "Control",
+                      options: {
+                        control: "hub-field-input-input",
+                      },
+                    },
+                    {
+                      label: `{{some.scope.assistant.sections.workflows.modal.description:translate}}`,
+                      scope: "/properties/description",
+                      type: "Control",
+                      options: {
+                        control: "hub-field-input-input",
+                      },
+                    },
+                    {
+                      label: `{{some.scope.assistant.sections.workflows.modal.action.title:translate}}`,
+                      scope: "/properties/action",
+                      type: "Control",
+                      options: {
+                        control: "hub-field-input-tile-select",
+                        layout: "horizontal",
+                        icons: ["search", "speech-bubble"],
+                        labels: [
+                          `{{some.scope.assistant.sections.workflows.modal.action.search:translate}}`,
+                          `{{some.scope.assistant.sections.workflows.modal.action.respond:translate}}`,
+                        ],
+                        descriptions: [
+                          `{{some.scope.assistant.sections.workflows.modal.action.searchDescription:translate}}`,
+                          `{{some.scope.assistant.sections.workflows.modal.action.respondDescription:translate}}`,
+                        ],
+                      },
+                    },
+                    {
+                      label: `{{some.scope.assistant.sections.workflows.modal.action.response:translate}}`,
+                      scope: "/properties/response",
+                      type: "Control",
+                      options: {
+                        control: "hub-field-input-input",
+                      },
+                      rule: {
+                        effect: "HIDE",
+                        condition: {
+                          scope: "/properties/action",
+                          schema: { const: "search" },
+                        },
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          ],
+        },
       ],
     });
   });
