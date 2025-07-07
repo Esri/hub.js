@@ -324,6 +324,7 @@ export const buildUiSchema = async (
           },
         ],
       },
+      // uncomment this for test prompts
       // {
       //   type: "Section",
       //   label: `{{${i18nScope}.assistant.sections.testPrompts.label:translate}}`,
