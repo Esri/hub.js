@@ -108,8 +108,8 @@ export const HubItemEntitySchema: IAsyncConfigurationSchema = {
           items: {
             type: "object",
             properties: {
-              id: { type: "string" },
-              name: { type: "string" },
+              key: { type: "string" },
+              label: { type: "string" },
               description: { type: "string" },
               action: { type: "string", enum: ["search", "respond"] },
               response: { type: "string" },
@@ -117,7 +117,16 @@ export const HubItemEntitySchema: IAsyncConfigurationSchema = {
             },
           },
         },
-        testPrompts: { type: "array", items: { type: "string" } },
+        testPrompts: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              key: { type: "string" },
+              label: { type: "string" },
+            },
+          },
+        },
       },
     },
   },
