@@ -6,23 +6,28 @@ export interface IHubAssistant {
   /**
    * Enable this assistant.
    */
-  enabled: boolean;
+  enabled?: boolean;
+  /**
+   * Access level for the assistant.
+   * This can be public, org, or private.
+   */
+  access?: string;
   /**
    * Personality for the assistant.
    */
-  personality: string;
+  personality?: string;
   /**
    * Example prompts to display to the user.
    */
-  examplePrompts: string[];
+  examplePrompts?: string[];
   /**
    * Workflows for the assistant.
    */
-  workflows: IHubAssistantWorkflow[];
+  workflows?: IHubAssistantWorkflow[];
   /**
    * Test prompts for the assistant.
    */
-  testPrompts: string[];
+  testPrompts?: string[];
   /**
    * Schema version for the assistant.
    */
@@ -34,37 +39,29 @@ export interface IHubAssistant {
  */
 export interface IHubAssistantWorkflow {
   /**
-   * Unique identifier for the workflow.
+   * Unique key for the workflow.
+   * This is used to reference the workflow in the configuration list field.
    */
-  id: string;
+  key: string;
   /**
-   * Name of the workflow.
+   * Label of the workflow.
    */
-  name: string;
+  label: string;
   /**
    * Description of the workflow.
    */
   description: string;
   /**
-   * Assistant response for the workflow.
+   * Action to be performed in the workflow.
+   * This can be "search", or "respond".
    */
-  response: IHubAssistantWorkflowResponse[];
-}
-
-/**
- * Interface representing a Hub Assistant Workflow response.
- */
-export interface IHubAssistantWorkflowResponse {
+  action: "search" | "respond";
   /**
    * Assistant response.
    */
-  text: string;
+  response: string;
   /**
-   * Optional actions to perform after the response.
+   * Data sources to be used in the workflow.
    */
-  actions?: Array<Record<string, string>>;
-  /**
-   * Optional sources to include in the response.
-   */
-  sources?: Array<Record<string, string>>;
+  sources: string[];
 }

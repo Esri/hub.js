@@ -3,7 +3,12 @@ import {
   IUserRequestOptions,
   ArcGISIdentityManager,
 } from "@esri/arcgis-rest-request";
-import { IGetUserOptions, IPortal, getUser } from "@esri/arcgis-rest-portal";
+import {
+  IGetUserOptions,
+  IPortal,
+  IPortalSettings,
+  getUser,
+} from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import {
   IHubHistory,
@@ -89,6 +94,8 @@ export class ArcGISContext implements IArcGISContext {
 
   private _portalSelf: IPortal;
 
+  private _portalSettings: IPortalSettings;
+
   private _currentUser: IUser;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -122,6 +129,10 @@ export class ArcGISContext implements IArcGISContext {
 
     if (opts.portalSelf) {
       this._portalSelf = opts.portalSelf;
+    }
+
+    if (opts.portalSettings) {
+      this._portalSettings = opts.portalSettings;
     }
 
     if (opts.currentUser) {
@@ -481,6 +492,13 @@ export class ArcGISContext implements IArcGISContext {
    */
   public get portal(): IPortal {
     return this._portalSelf;
+  }
+
+  /**
+   * Returns the portal settings object as IPortalSettings
+   */
+  public get portalSettings(): IPortalSettings {
+    return this._portalSettings;
   }
 
   /**
