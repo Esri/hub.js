@@ -209,9 +209,7 @@ describe("settings", () => {
       try {
         getDefaultEntitySettings("site");
       } catch (e) {
-        expect((e as Error).message).toBe(
-          "no default entity settings defined for site"
-        );
+        expect(e.message).toBe("no default entity settings defined for site");
       }
     });
   });

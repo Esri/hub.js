@@ -18,6 +18,26 @@ import {
   SearchPostsFormat,
 } from "../types";
 
+// When the `PostRelation.CHANNEL` relation is provided, the API will include
+// a `channel: IChannel` property on the post, but it removes the `channelId: string`
+// property, which is less than ideal. this simply a stop-gap measure to make sure the
+// `channelId: string` is not lost on posts until the API is updated to not strip that
+// property when it sets `channel: IChannel` on the result.
+const transformPostResult = (post: IPost): IPost => {
+  return post.channel ? { ...post, channelId: post.channel.id } : post;
+};
+
+// Transforms a page of post search results such that the `channelId: string` is not
+// lost when `PostRelation.CHANNEL` is provided.
+const transformPostSearchResults = (
+  results: IPagedResponse<IPost>
+): IPagedResponse<IPost> => {
+  return {
+    ...results,
+    items: results.items.map((post) => transformPostResult(post)),
+  };
+};
+
 /**
  * search posts
  *
@@ -36,7 +56,7 @@ export function searchPosts(
       ...options.data,
     },
     httpMethod: "POST",
-  });
+  }).then(transformPostSearchResults);
 }
 
 /**
@@ -103,7 +123,7 @@ export function createReply(options: ICreateReplyParams): Promise<IPost> {
 export function fetchPost(params: IFetchPostParams): Promise<IPost> {
   const url = `/posts/${params.postId}`;
   params.httpMethod = "GET";
-  return discussionsApiRequest(url, params);
+  return discussionsApiRequest<IPost>(url, params).then(transformPostResult);
 }
 
 /**
@@ -194,7 +214,7 @@ export function searchPostsV2(
       ...options.data,
     },
     httpMethod: "POST",
-  });
+  }).then(transformPostSearchResults);
 }
 
 /**
@@ -257,7 +277,7 @@ export function createReplyV2(options: ICreateReplyParams): Promise<IPost> {
 export function fetchPostV2(params: IFetchPostParams): Promise<IPost> {
   const url = `/posts/${params.postId}`;
   params.httpMethod = "GET";
-  return discussionsApiRequestV2(url, params);
+  return discussionsApiRequestV2<IPost>(url, params).then(transformPostResult);
 }
 
 /**
