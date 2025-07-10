@@ -42,4 +42,5 @@ export interface IFollowCardEditorOptions {}
  */
 export interface IEventGalleryCardEditorOptions {
   tags: string[];
+  categories: string[];
 }

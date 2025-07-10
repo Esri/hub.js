@@ -222,6 +222,11 @@ export type UiSchemaElementOptions = Pick<
   "scope" | "options"
 >;
 
+export interface IUiSchemaComboboxItemGroup {
+  label: string;
+  items: IUiSchemaComboboxItem[];
+}
+
 export interface IUiSchemaComboboxItem {
   value: string;
   label?: string;
