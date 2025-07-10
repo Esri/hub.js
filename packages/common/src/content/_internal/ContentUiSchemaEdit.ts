@@ -130,7 +130,11 @@ export const buildUiSchema = async (
                 },
               },
               // categories
-              ...(await fetchCategoriesUiSchemaElement(i18nScope, context)),
+              ...(await fetchCategoriesUiSchemaElement({
+                source: "org",
+                currentValues: options.categories,
+                context,
+              })),
             ],
           },
           // license
