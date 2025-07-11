@@ -240,3 +240,13 @@ export class ArcgisHubDownloadError extends Error {
     this.operation = options.operation;
   }
 }
+
+/**
+ * Error class specifically for when download files exceed size limits.
+ */
+export class ArcgisHubDownloadFileTooLargeError extends ArcgisHubDownloadError {
+  constructor(options: IArcgisHubDownloadErrorOptions) {
+    super(options);
+    this.name = "ArcgisHubDownloadFileTooLargeError";
+  }
+}

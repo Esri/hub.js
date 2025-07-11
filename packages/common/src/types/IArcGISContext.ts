@@ -2,7 +2,7 @@ import {
   ArcGISIdentityManager,
   IUserRequestOptions,
 } from "@esri/arcgis-rest-request";
-import type { IPortal } from "@esri/arcgis-rest-portal";
+import type { IPortal, IPortalSettings } from "@esri/arcgis-rest-portal";
 import type { IRequestOptions } from "@esri/arcgis-rest-request";
 import type { IUser } from "@esri/arcgis-rest-portal";
 import { HubServiceStatus, HubEntity } from "../core";
@@ -160,6 +160,11 @@ export interface IArcGISContext {
    * Returns the portal object
    */
   portal: IPortal;
+
+  /**
+   * Returns the portal settings object
+   */
+  portalSettings: IPortalSettings;
 
   /**
    * What is the current user's hub license level?

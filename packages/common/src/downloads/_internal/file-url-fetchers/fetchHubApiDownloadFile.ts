@@ -9,6 +9,7 @@ import {
   IFetchDownloadFileResponse,
   ServiceDownloadFormat,
   downloadProgressCallback,
+  ArcgisHubDownloadFileTooLargeError,
 } from "../../types";
 
 /**
@@ -139,6 +140,17 @@ async function pollDownloadApi(
   if (!response.ok) {
     const errorBody = await response.json();
     // TODO: Add standarized messageId when available
+
+    // Checks the "file too large" error
+    if (
+      errorBody.message ==
+      "Error downloading Shapefile. File size is larger than the 2GB limit."
+    ) {
+      throw new ArcgisHubDownloadFileTooLargeError({
+        rawMessage: errorBody.message,
+      });
+    }
+    // throws a generic download error
     throw new ArcgisHubDownloadError({
       rawMessage: errorBody.message,
     });

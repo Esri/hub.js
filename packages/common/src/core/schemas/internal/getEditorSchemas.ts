@@ -74,6 +74,8 @@ export async function getEditorSchemas(
           import("../../../sites/_internal/SiteUiSchemaDiscussions"),
         "hub:site:settings": () =>
           import("../../../sites/_internal/SiteUiSchemaSettings"),
+        "hub:site:assistant": () =>
+          import("../../../sites/_internal/SiteUiSchemaAssistant"),
       }[type as SiteEditorType]();
       uiSchema = await siteModule.buildUiSchema(
         i18nScope,

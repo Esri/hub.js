@@ -1,3 +1,31 @@
+# @esri/hub-common [18.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.5.1...@esri/hub-common@18.6.0) (2025-07-11)
+
+
+### Features
+
+* **hub-common:** added file too large errors to shapefiles ([#1942](https://github.com/Esri/hub.js/issues/1942)) ([8fdc6d9](https://github.com/Esri/hub.js/commit/8fdc6d913256fd35fc6c808c7c02daa200cffcd5))
+
+## @esri/hub-common [18.5.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.5.0...@esri/hub-common@18.5.1) (2025-07-07)
+
+
+### Bug Fixes
+
+* add comment in site ai assistant schema ([#1940](https://github.com/Esri/hub.js/issues/1940)) ([a927d97](https://github.com/Esri/hub.js/commit/a927d97222848f0faeab178f8f857e986105a838))
+
+# @esri/hub-common [18.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.4.1...@esri/hub-common@18.5.0) (2025-07-03)
+
+
+### Features
+
+* **hub-common:** 2746 new relation replyCount discussion post query ([#1938](https://github.com/Esri/hub.js/issues/1938)) ([7519587](https://github.com/Esri/hub.js/commit/751958788c2e991b8e5ffbc7f19b97a6c82d3fac))
+
+## @esri/hub-common [18.4.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.4.0...@esri/hub-common@18.4.1) (2025-07-03)
+
+
+### Bug Fixes
+
+* **hub-common:** fix issue where org home sites didn't have default group and user catalog scopes ([#1933](https://github.com/Esri/hub.js/issues/1933)) ([edf8f23](https://github.com/Esri/hub.js/commit/edf8f232eb70a95de914664c3b54f6767e31c628))
+
 # @esri/hub-common [18.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.3.1...@esri/hub-common@18.4.0) (2025-07-01)
 
 
