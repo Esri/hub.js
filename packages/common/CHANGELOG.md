@@ -1,3 +1,10 @@
+# @esri/hub-common [18.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.5.1...@esri/hub-common@18.6.0) (2025-07-11)
+
+
+### Features
+
+* **hub-common:** added file too large errors to shapefiles ([#1942](https://github.com/Esri/hub.js/issues/1942)) ([8fdc6d9](https://github.com/Esri/hub.js/commit/8fdc6d913256fd35fc6c808c7c02daa200cffcd5))
+
 ## @esri/hub-common [18.5.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.5.0...@esri/hub-common@18.5.1) (2025-07-07)
 
 
