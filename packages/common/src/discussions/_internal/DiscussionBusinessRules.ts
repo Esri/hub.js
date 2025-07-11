@@ -24,6 +24,8 @@ export const DiscussionPermissions = [
   "hub:discussion:workspace:settings:discussions",
   "hub:discussion:manage",
   "temp:hub:discussion:create",
+  "hub:discussion:workspace:catalog",
+  "hub:discussion:workspace:catalog-content",
 ] as const;
 
 /**
@@ -125,5 +127,13 @@ export const DiscussionPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:discussion:manage",
     dependencies: ["hub:discussion:edit"],
+  },
+  {
+    permission: "hub:discussion:workspace:catalog",
+    dependencies: ["hub:discussion:workspace:catalog", "hub:discussion:edit"],
+  },
+  {
+    permission: "hub:discussion:workspace:catalog-content",
+    dependencies: ["hub:discussion:workspace:catalog"],
   },
 ];
