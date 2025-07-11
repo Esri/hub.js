@@ -85,13 +85,15 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:gating:workspace:released",
   },
 
-  // AI Assistant permissions
-  // this is used to enable the AI Assistant feature on an entity
+  // AI Assistant org permissions
+  // this is used to allow AI Assistant features from the org level
   // an org must have the AI Assistant feature enabled
   // and the org bust turn off the beta apps block
+  // and be a premium org
   // to allow the AI Assistant to be enabled on an entity
   {
     permission: "hub:platform:ai-assistant",
+    licenses: ["hub-premium"],
     assertions: [
       {
         property: "context:portalSettings.aiAssistantsEnabled",
