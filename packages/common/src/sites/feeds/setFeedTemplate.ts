@@ -39,9 +39,12 @@ function setDcatApConfig(
   feedsConfig: IFeedsConfiguration,
   version: string,
   config: Record<string, any>
-) {
+): void {
   if (getMajorVersion(version) === "2") {
     feedsConfig.dcatAP2XX = config;
+    return;
+  } else if (getMajorVersion(version) === "3") {
+    feedsConfig.dcatAP3XX = config;
     return;
   }
 
@@ -52,7 +55,7 @@ function setDcatUsConfig(
   feedsConfig: IFeedsConfiguration,
   version: string,
   config: Record<string, any>
-) {
+): void {
   if (getMajorVersion(version) === "1") {
     feedsConfig.dcatUS1X = config;
     return;
@@ -70,7 +73,7 @@ function setRssConfig(
   feedsConfig: IFeedsConfiguration,
   version: string,
   config: Record<string, any>
-) {
+): void {
   if (getMajorVersion(version) === "2") {
     feedsConfig.rss2 = config;
     return;
