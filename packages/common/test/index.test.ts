@@ -183,6 +183,7 @@ xdescribe("index", () => {
     "ServiceDownloadFormat",
     "DownloadOperationStatus",
     "ArcgisHubDownloadError",
+    "ArcgisHubDownloadFileTooLargeError",
     "fetchDownloadFile",
     "canUseCreateReplica",
     "canUseHubDownloadSystem",
