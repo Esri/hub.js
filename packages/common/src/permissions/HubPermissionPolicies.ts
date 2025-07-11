@@ -92,7 +92,6 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
   // to allow the AI Assistant to be enabled on an entity
   {
     permission: "hub:platform:ai-assistant",
-    environments: ["devext", "qaext"],
     assertions: [
       {
         property: "context:portalSettings.aiAssistantsEnabled",
