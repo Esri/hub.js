@@ -141,10 +141,15 @@ async function pollDownloadApi(
     const errorBody = await response.json();
     // TODO: Add standarized messageId when available
 
-    // Checks the "file too large" error
+    // Checks for "file too large" errors from different workflows:
+    // - The following message is returned by the createReplica workflow:
+    //   "Error downloading Shapefile. File size is larger than the 2GB limit."
+    // - The following message is returned by the Hub Download System workflow:
+    //   "The dataset is too large for shapefile generation"
     if (
-      errorBody.message ==
-      "Error downloading Shapefile. File size is larger than the 2GB limit."
+      errorBody.message ===
+        "Error downloading Shapefile. File size is larger than the 2GB limit." ||
+      errorBody.message === "The dataset is too large for shapefile generation"
     ) {
       throw new ArcgisHubDownloadFileTooLargeError({
         rawMessage: errorBody.message,
