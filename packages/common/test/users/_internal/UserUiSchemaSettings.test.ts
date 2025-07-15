@@ -113,7 +113,7 @@ describe("UserUiSchemaSettings:", () => {
                     {
                       ariaLabel: `{{some.scope.notice.actions.goToCommunityOrg:translate}}`,
                       label: `{{some.scope.notice.actions.goToCommunityOrg:translate}}`,
-                      href: `https://qaext.c.arcgis.com/home/organization.html`,
+                      href: `https://qaext.c.arcgis.com/home/index.html`,
                       target: "_blank",
                     },
                   ],
@@ -352,7 +352,7 @@ describe("UserUiSchemaSettings:", () => {
                     {
                       ariaLabel: `{{some.scope.notice.actions.goToStaffOrg:translate}}`,
                       label: `{{some.scope.notice.actions.goToStaffOrg:translate}}`,
-                      href: `https://qaext.arcgis.com/home/organization.html`,
+                      href: `https://qaext.arcgis.com/home/index.html`,
                       target: "_blank",
                     },
                   ],
@@ -592,7 +592,7 @@ describe("UserUiSchemaSettings:", () => {
                     {
                       ariaLabel: `{{some.scope.notice.actions.goToStaffOrg:translate}}`,
                       label: `{{some.scope.notice.actions.goToStaffOrg:translate}}`,
-                      href: `https://qaext.arcgis.com/home/organization.html`,
+                      href: `https://qaext.arcgis.com/home/index.html`,
                       target: "_blank",
                     },
                   ],
@@ -1053,7 +1053,7 @@ describe("UserUiSchemaSettings:", () => {
                     {
                       ariaLabel: `{{some.scope.notice.actions.goToStaffOrg:translate}}`,
                       label: `{{some.scope.notice.actions.goToStaffOrg:translate}}`,
-                      href: `https://qaext.arcgis.com/home/organization.html`,
+                      href: `https://qaext.arcgis.com/home/index.html`,
                       target: "_blank",
                     },
                   ],
@@ -1742,7 +1742,7 @@ describe("UserUiSchemaSettings:", () => {
                     {
                       ariaLabel: `{{some.scope.notice.actions.goToCommunityOrg:translate}}`,
                       label: `{{some.scope.notice.actions.goToCommunityOrg:translate}}`,
-                      href: `https://qaext.c.arcgis.com/home/organization.html`,
+                      href: `https://qaext.c.arcgis.com/home/index.html`,
                       target: "_blank",
                     },
                   ],
@@ -1975,7 +1975,7 @@ describe("UserUiSchemaSettings:", () => {
                     {
                       ariaLabel: `{{some.scope.notice.actions.goToCommunityOrg:translate}}`,
                       label: `{{some.scope.notice.actions.goToCommunityOrg:translate}}`,
-                      href: `https://qaext.c.arcgis.com/home/organization.html`,
+                      href: `https://qaext.c.arcgis.com/home/index.html`,
                       target: "_blank",
                     },
                   ],

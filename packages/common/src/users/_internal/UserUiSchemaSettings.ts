@@ -266,16 +266,22 @@ export const buildUiSchema = async (
 async function _getCommunityOrEnterpriseAGOUrl(
   context: IArcGISContext
 ): Promise<string> {
-  let orgUrl = `${context.communityOrgUrl}/home/organization.html`;
+  let orgUrl = `${context.communityOrgUrl}/home/index.html`;
   // if there's an enterprise org, we need to fetch it to get the url
   if (context.enterpriseOrgId) {
     // Fail safe fetch the e-org
     const fsGetOrg = failSafe(fetchOrg, {});
-    const org = await fsGetOrg(context.enterpriseOrgId, context.requestOptions);
+    const org = (await fsGetOrg(
+      context.enterpriseOrgId,
+      context.requestOptions
+    )) as {
+      urlKey?: string;
+      customBaseUrl?: string;
+    };
     // If the org response has a urlKey it is a real response. If the urlKey is missing the org is private
     if (org.urlKey) {
       // construct the url
-      orgUrl = `https://${org.urlKey}.${org.customBaseUrl}/home/organization.html`;
+      orgUrl = `https://${org.urlKey}.${org.customBaseUrl}/home/index.html`;
     } else {
       // If the org is private, we can't link to it
       orgUrl = undefined;

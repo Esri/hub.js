@@ -1,3 +1,10 @@
+## @esri/hub-common [18.6.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.6.0...@esri/hub-common@18.6.1) (2025-07-15)
+
+
+### Bug Fixes
+
+* community org AGO url ([#1944](https://github.com/Esri/hub.js/issues/1944)) ([3bae9e8](https://github.com/Esri/hub.js/commit/3bae9e82bccde173e407eefe85086b1eb9340fb4))
+
 # @esri/hub-common [18.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.5.1...@esri/hub-common@18.6.0) (2025-07-11)
 
 
