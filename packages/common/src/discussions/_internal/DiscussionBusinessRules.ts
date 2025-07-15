@@ -130,7 +130,7 @@ export const DiscussionPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:discussion:workspace:catalog",
-    dependencies: ["hub:discussion:workspace:catalog", "hub:discussion:edit"],
+    dependencies: ["hub:discussion:edit"],
   },
   {
     permission: "hub:discussion:workspace:catalog-content",
