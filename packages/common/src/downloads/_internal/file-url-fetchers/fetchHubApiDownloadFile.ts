@@ -139,7 +139,7 @@ async function pollDownloadApi(
 
   if (!response.ok) {
     const errorBody = await response.json();
-    const errorMessage = errorBody.message || errorBody?.errors?.message;
+    const errorMessage = errorBody.message || errorBody.errors?.message;
     // TODO: Add standarized messageId when available
 
     // Checks for "file too large" errors from different workflows:
