@@ -129,7 +129,17 @@ export const buildUiSchema = async (
                   placeholderIcon: "label",
                 },
               },
-              ...(await fetchCategoriesUiSchemaElement(i18nScope, context)),
+              ...(await fetchCategoriesUiSchemaElement({
+                source: "org",
+                currentValues: options.categories,
+                context,
+              })),
+              // ...(await fetchCategoriesUiSchemaElement({
+              //   source: 'query',
+              //   query: options.catalog.scopes.item,
+              //   currentValues: options.categories,
+              //   context
+              // })),
             ],
           },
         ],

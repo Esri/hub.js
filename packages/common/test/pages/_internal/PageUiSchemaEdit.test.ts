@@ -3,19 +3,81 @@ import { MOCK_CONTEXT } from "../../mocks/mock-auth";
 import * as getLocationExtentModule from "../../../src/core/schemas/internal/getLocationExtent";
 import * as getLocationOptionsModule from "../../../src/core/schemas/internal/getLocationOptions";
 import * as getTagItemsModule from "../../../src/core/schemas/internal/getTagItems";
-import * as fetchCategoryItemsModule from "../../../src/core/schemas/internal/fetchCategoryItems";
 import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
+import * as fetchCategoriesUiSchemaElementModule from "../../../src/core/schemas/internal/fetchCategoriesUiSchemaElement";
+
+const CATEGORIES_ELEMENTS = [
+  {
+    labelKey: "shared.fields.categories.label",
+    scope: "/properties/categories",
+    type: "Control",
+    options: {
+      control: "hub-field-input-combobox",
+      groups: [
+        {
+          label:
+            "{{shared.fields.categories.recognizedCategoriesGroup.label:translate}}",
+          items: [
+            {
+              value: "/categories",
+              label: "/categories",
+            },
+          ],
+        },
+      ],
+      allowCustomValues: false,
+      selectionMode: "ancestors",
+      placeholderIcon: "select-category",
+    },
+    rules: [
+      {
+        effect: UiSchemaRuleEffects.DISABLE,
+        conditions: [false],
+      },
+    ],
+  },
+  {
+    type: "Notice",
+    options: {
+      notice: {
+        configuration: {
+          id: "no-categories-notice",
+          noticeType: "notice",
+          closable: false,
+          icon: "exclamation-mark-triangle",
+          kind: "warning",
+          scale: "m",
+        },
+        message:
+          "{{shared.fields.categories.noCategoriesNotice.body:translate}}",
+        autoShow: true,
+        actions: [
+          {
+            label:
+              "{{shared.fields.categories.noCategoriesNotice.link:translate}}",
+            icon: "launch",
+            href: "https://doc.arcgis.com/en/arcgis-online/reference/content-categories.htm",
+            target: "_blank",
+          },
+        ],
+      },
+    },
+    rules: [
+      {
+        effect: UiSchemaRuleEffects.SHOW,
+        conditions: [false],
+      },
+    ],
+  },
+];
 
 describe("buildUiSchema: page edit", () => {
+  let fetchCategoriesUiSchemaElementSpy: jasmine.Spy;
   beforeEach(() => {
-    spyOn(fetchCategoryItemsModule, "fetchCategoryItems").and.returnValue(
-      Promise.resolve([
-        {
-          value: "/categories",
-          label: "/categories",
-        },
-      ])
-    );
+    fetchCategoriesUiSchemaElementSpy = spyOn(
+      fetchCategoriesUiSchemaElementModule,
+      "fetchCategoriesUiSchemaElement"
+    ).and.returnValue(Promise.resolve(CATEGORIES_ELEMENTS));
     spyOn(getLocationExtentModule, "getLocationExtent").and.returnValue(
       Promise.resolve([])
     );
@@ -30,11 +92,17 @@ describe("buildUiSchema: page edit", () => {
     const uiSchema = await buildUiSchema(
       "some.scope",
       {
+        categories: ["/categories/category1"],
         thumbnail: "thumbnail/custom.png",
         thumbnailUrl: "https://some-thumbnail-url.com",
       } as any,
       MOCK_CONTEXT
     );
+    expect(fetchCategoriesUiSchemaElementSpy).toHaveBeenCalledWith({
+      source: "org",
+      currentValues: ["/categories/category1"],
+      context: MOCK_CONTEXT,
+    });
     expect(uiSchema).toEqual({
       type: "Layout",
       elements: [
@@ -172,62 +240,7 @@ describe("buildUiSchema: page edit", () => {
                     placeholderIcon: "label",
                   },
                 },
-                {
-                  labelKey: "shared.fields.categories.label",
-                  scope: "/properties/categories",
-                  type: "Control",
-                  options: {
-                    control: "hub-field-input-combobox",
-                    items: [
-                      {
-                        value: "/categories",
-                        label: "/categories",
-                      },
-                    ],
-                    allowCustomValues: false,
-                    selectionMode: "ancestors",
-                    placeholderIcon: "select-category",
-                  },
-                  rules: [
-                    {
-                      effect: UiSchemaRuleEffects.DISABLE,
-                      conditions: [false],
-                    },
-                  ],
-                },
-                {
-                  type: "Notice",
-                  options: {
-                    notice: {
-                      configuration: {
-                        id: "no-categories-notice",
-                        noticeType: "notice",
-                        closable: false,
-                        icon: "exclamation-mark-triangle",
-                        kind: "warning",
-                        scale: "m",
-                      },
-                      message:
-                        "{{shared.fields.categories.noCategoriesNotice.body:translate}}",
-                      autoShow: true,
-                      actions: [
-                        {
-                          label:
-                            "{{shared.fields.categories.noCategoriesNotice.link:translate}}",
-                          icon: "launch",
-                          href: "https://doc.arcgis.com/en/arcgis-online/reference/content-categories.htm",
-                          target: "_blank",
-                        },
-                      ],
-                    },
-                  },
-                  rules: [
-                    {
-                      effect: UiSchemaRuleEffects.SHOW,
-                      conditions: [false],
-                    },
-                  ],
-                },
+                ...CATEGORIES_ELEMENTS,
               ],
             },
           ],
