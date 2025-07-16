@@ -1,6 +1,7 @@
-import * as REQUEST_MODULE from "@esri/arcgis-rest-request";
 import { IHubRequestOptions } from "../../../../../src/hub-types";
 import { fetchOrgCategories } from "../../../../../src/core/schemas/internal/categories/fetchOrgCategories";
+import * as fetchMock from "fetch-mock";
+
 const response = {
   categorySchema: [
     {
@@ -20,13 +21,20 @@ const response = {
 };
 
 describe("fetchOrgCategories:", () => {
+  afterEach(() => {
+    fetchMock.restore();
+  });
+  const portal = "https://my-portal.arcgis.com";
+  const orgId = "orgId";
   it("fetch schemas from org", async () => {
-    const spy = spyOn(REQUEST_MODULE, "request").and.callFake(() => {
-      return Promise.resolve(response);
+    fetchMock.once(`${portal}/portals/${orgId}/categorySchema`, {
+      status: 200,
+      body: response,
     });
-    const ro = {} as IHubRequestOptions;
-    const items = await fetchOrgCategories("orgId", ro);
-    expect(spy).toHaveBeenCalled();
+
+    const ro = { portal } as IHubRequestOptions;
+    const items = await fetchOrgCategories(orgId, ro);
+    expect(fetchMock.calls().length).toBe(1);
     expect(items).toEqual([
       "/Categories/Trending",
       "/Categories/Trending/New and noteworthy",
@@ -36,12 +44,12 @@ describe("fetchOrgCategories:", () => {
   });
 
   it("swallows fetch error", async () => {
-    const spy = spyOn(REQUEST_MODULE, "request").and.callFake(() => {
-      return Promise.reject();
+    fetchMock.once(`${portal}/portals/${orgId}/categorySchema`, {
+      throws: new Error("Network error"),
     });
-    const ro = {} as IHubRequestOptions;
-    const items = await fetchOrgCategories("orgId", ro);
-    expect(spy).toHaveBeenCalled();
+    const ro = { portal } as IHubRequestOptions;
+    const items = await fetchOrgCategories(orgId, ro);
+    expect(fetchMock.calls().length).toBe(1);
     expect(items.length).toBe(0);
   });
 });
