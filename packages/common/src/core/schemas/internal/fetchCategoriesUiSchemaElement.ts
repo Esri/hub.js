@@ -95,13 +95,11 @@ export async function fetchCategoriesUiSchemaElement(
   // Construct groups for the combobox items
   fieldOptions.groups = [
     !!unrecognizedItems.length && {
-      // TODO: Fix label key
       label:
         "{{shared.fields.categories.unrecognizedCategoriesGroup.label:translate}}",
       items: unrecognizedItems,
     },
     !!recognizedItems.length && {
-      // TODO: Fix label key
       label:
         "{{shared.fields.categories.recognizedCategoriesGroup.label:translate}}",
       items: recognizedItems,
@@ -140,8 +138,6 @@ export async function fetchCategoriesUiSchemaElement(
           autoShow: true,
           actions: [
             {
-              // TODO: What happens when this notice is shown when categories come
-              // from a query and not an org? Should we change any wording?
               label:
                 "{{shared.fields.categories.noCategoriesNotice.link:translate}}",
               icon: "launch",

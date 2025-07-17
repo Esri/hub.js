@@ -7,7 +7,7 @@ import { IQuery } from "../../../../src/search/types/IHubCatalog";
 
 describe("fetchCategoriesUiSchemaElement:", () => {
   describe("when source is 'org'", () => {
-    it("fetches categories and builds UI schema element", async () => {
+    it("fetches org categories and builds UI schema element", async () => {
       const fetchOrgCategoriesSpy = spyOn(
         fetchOrgCategoriesModule,
         "fetchOrgCategories"
@@ -66,7 +66,7 @@ describe("fetchCategoriesUiSchemaElement:", () => {
         },
       ]);
     });
-    it("handles current values", async () => {
+    it("handles current org values", async () => {
       spyOn(fetchOrgCategoriesModule, "fetchOrgCategories").and.returnValue(
         Promise.resolve([
           "/Categories/Trending",
@@ -146,7 +146,7 @@ describe("fetchCategoriesUiSchemaElement:", () => {
   });
 
   describe("when source is 'query'", () => {
-    it("fetches categories and builds UI schema element", async () => {
+    it("fetches query categories and builds UI schema element", async () => {
       const fetchQueryCategoriesSpy = spyOn(
         fetchQueryCategoriesModule,
         "fetchQueryCategories"
@@ -204,7 +204,7 @@ describe("fetchCategoriesUiSchemaElement:", () => {
         },
       ]);
     });
-    it("fetches categories and builds UI schema element", async () => {
+    it("handles current query values", async () => {
       spyOn(fetchQueryCategoriesModule, "fetchQueryCategories").and.returnValue(
         Promise.resolve([
           // NOTE: query aggregation categories are all lowercase
@@ -314,7 +314,7 @@ describe("fetchCategoriesUiSchemaElement:", () => {
         },
       ]);
     });
-    it("Leave the controls enabled and hides the categories notice if unrecognized categories are", async () => {
+    it("Leave the controls enabled and hides the categories notice if unrecognized categories ARE present", async () => {
       spyOn(fetchOrgCategoriesModule, "fetchOrgCategories").and.returnValue(
         Promise.resolve([])
       );
