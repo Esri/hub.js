@@ -86,8 +86,9 @@ export async function fetchCategoriesUiSchemaElement(
   const fieldOptions: Record<string, unknown> = {
     control: "hub-field-input-combobox",
     allowCustomValues: false,
-    selectionMode: "ancestors",
-    placeholderIcon: "select-category",
+    placeholder: "{{shared.fields.categories.placeholder:translate}}",
+    selectionDisplay: "fit",
+    selectionMode: "multiple",
   };
 
   // Construct groups for the combobox items
