@@ -94,6 +94,7 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:platform:ai-assistant",
     licenses: ["hub-premium"],
+    services: ["hub-ai-assistant"],
     assertions: [
       {
         property: "context:portalSettings.aiAssistantsEnabled",
