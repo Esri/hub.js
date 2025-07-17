@@ -104,6 +104,10 @@ export async function updateInitiativeTemplate(
   // we are not attempting to handle "concurrent edit" conflict resolution
   // but this is where we would apply that sort of logic
   const modelToUpdate = mapper.entityToStore(initiativeTemplate, model);
+
+  modelToUpdate.item.properties.location = modelToUpdate.resources
+    .location as Record<string, unknown>;
+
   // update the backing item
   const updatedModel = await updateModel(modelToUpdate, requestOptions);
   // now map back into an initiative template and return that
