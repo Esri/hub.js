@@ -1,3 +1,10 @@
+# @esri/hub-common [18.9.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.8.0...@esri/hub-common@18.9.0) (2025-07-17)
+
+
+### Features
+
+* **hub-common:** added file too large error for hub download system workflow ([#1945](https://github.com/Esri/hub.js/issues/1945)) ([04ce949](https://github.com/Esri/hub.js/commit/04ce949db2a74a9d67b4628ef0986a23572f269a))
+
 # @esri/hub-common [18.8.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.7.0...@esri/hub-common@18.8.0) (2025-07-17)
 
 
