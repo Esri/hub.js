@@ -194,6 +194,7 @@ export const MOCK_ENTERPRISE_CONTEXT = new ArcGISContext({
     "hub-search": "not-available",
     domains: "not-available",
     "hub-downloads": "not-available",
+    "hub-ai-assistant": "not-available",
   },
   userHubSettings: {
     schemaVersion: 1,
