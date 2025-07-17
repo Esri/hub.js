@@ -134,12 +134,6 @@ export const buildUiSchema = async (
                 currentValues: options.categories,
                 context,
               })),
-              // ...(await fetchCategoriesUiSchemaElement({
-              //   source: 'query',
-              //   query: options.catalog.scopes.item,
-              //   currentValues: options.categories,
-              //   context
-              // })),
             ],
           },
         ],

@@ -112,12 +112,7 @@ export async function fetchCategoriesUiSchemaElement(
     !recognizedItems.length && !unrecognizedItems.length;
   return [
     {
-      // TODO: Fix label key
-      // labelKey: `shared.fields.categories.label`,
-      label:
-        opts.source === "org"
-          ? "Categories (Populated from organization)"
-          : "Categories (Populated from site's catalog)",
+      labelKey: `shared.fields.categories.label`,
       scope: "/properties/categories",
       type: "Control",
       options: fieldOptions,
@@ -145,6 +140,8 @@ export async function fetchCategoriesUiSchemaElement(
           autoShow: true,
           actions: [
             {
+              // TODO: What happens when this notice is shown when categories come
+              // from a query and not an org? Should we change any wording?
               label:
                 "{{shared.fields.categories.noCategoriesNotice.link:translate}}",
               icon: "launch",

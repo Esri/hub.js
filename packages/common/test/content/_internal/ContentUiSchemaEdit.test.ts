@@ -13,10 +13,16 @@ const CATEGORIES_ELEMENTS = [
     type: "Control",
     options: {
       control: "hub-field-input-combobox",
-      items: [
+      groups: [
         {
-          value: "/categories",
-          label: "/categories",
+          label:
+            "{{shared.fields.categories.recognizedCategoriesGroup.label:translate}}",
+          items: [
+            {
+              value: "/categories",
+              label: "/categories",
+            },
+          ],
         },
       ],
       allowCustomValues: false,
