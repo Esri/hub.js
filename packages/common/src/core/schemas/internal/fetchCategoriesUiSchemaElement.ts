@@ -9,6 +9,7 @@ import {
   IUiSchemaElement,
   UiSchemaRuleEffects,
 } from "../types";
+import { Logger } from "../../../utils/logger";
 
 export type IFetchCategoriesUiSchemaElementOptions =
   | IFromOrgOptions
@@ -72,12 +73,9 @@ export async function fetchCategoriesUiSchemaElement(
   );
 
   // Convert the unrecognized partial categories to top-level combobox items since we don't have a full path for them
-  const unrecognizedPartialItems: IUiSchemaComboboxItem[] =
-    unrecognizedPartialCategories.map((category) => ({
-      label: category,
-      value: category,
-      children: [] as IUiSchemaComboboxItem[],
-    }));
+  const unrecognizedPartialItems = toFlattenedComboboxItems(
+    unrecognizedPartialCategories
+  );
 
   // Place partial items at the front for better visibility
   const unrecognizedItems = [
@@ -161,11 +159,32 @@ function toNestedComboboxItems(categories: string[]): IUiSchemaComboboxItem[] {
   if (!categories.length) {
     return [];
   }
-  // Calculate the category tree from the provided categories
-  const tree = getCategoryTree(categories);
 
-  // Convert the tree to combobox items, excluding the root `/categories/` node
-  return treeToComboboxItems(tree, false);
+  let result: IUiSchemaComboboxItem[];
+  try {
+    // Calculate the category tree from the provided categories
+    const tree = getCategoryTree(categories);
+    // Convert the tree to combobox items, excluding the root `/categories/` node
+    result = treeToComboboxItems(tree, false);
+  } catch (e) {
+    const error = e as Error;
+    Logger.error(
+      `Error building nested category list; falling back to flattened list: ${error.message}`
+    );
+    result = toFlattenedComboboxItems(categories);
+  }
+
+  return result;
+}
+
+function toFlattenedComboboxItems(
+  categories: string[]
+): IUiSchemaComboboxItem[] {
+  return categories.map((category) => ({
+    label: category,
+    value: category,
+    children: [] as IUiSchemaComboboxItem[],
+  }));
 }
 
 function treeToComboboxItems(

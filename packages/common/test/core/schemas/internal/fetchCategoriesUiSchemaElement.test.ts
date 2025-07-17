@@ -361,4 +361,63 @@ describe("fetchCategoriesUiSchemaElement:", () => {
       ]);
     });
   });
+
+  it("falls back to a flattened list for unrecognized categories if the tree cannot be built", async () => {
+    // suppress error messages in the console
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    spyOn(console, "error").and.callFake(() => {});
+    spyOn(fetchOrgCategoriesModule, "fetchOrgCategories").and.returnValue(
+      Promise.resolve([
+        "/Categories/Trending",
+        "/Categories/Trending/New and noteworthy",
+      ])
+    );
+    const context = {
+      portal: {
+        id: "some-org-id",
+        url: "some-org-url",
+      },
+    } as unknown as IArcGISContext;
+    const uiSchema = await fetchCategoriesUiSchemaElement({
+      source: "org",
+      context,
+      currentValues: [
+        // NOTE: Trees cannot be build if org and search categories are mixed in the same list
+        "/Categories/Unrecognized/Nested", // unrecognized fully qualified ORG category
+        "/categories/unrecognized/nested/deeper", // unrecognized fully qualified SEARCH AGG category
+      ],
+    });
+    expect(uiSchema.length).toBe(2);
+    // The first element is a control for categories
+    expect(uiSchema[0].type).toBe("Control");
+    expect(uiSchema[0].scope).toBe("/properties/categories");
+    expect(uiSchema[0].options.groups.length).toBe(2);
+    // The first group contains unrecognized categories
+    expect(uiSchema[0].options.groups[0].items).toEqual([
+      {
+        label: "/Categories/Unrecognized/Nested",
+        value: "/Categories/Unrecognized/Nested",
+        children: [],
+      },
+      {
+        label: "/categories/unrecognized/nested/deeper",
+        value: "/categories/unrecognized/nested/deeper",
+        children: [],
+      },
+    ]);
+    // The second group contains recognized categories
+    expect(uiSchema[0].options.groups[1].items).toEqual([
+      {
+        label: "Trending",
+        value: "/Categories/Trending",
+        children: [
+          {
+            label: "New and noteworthy",
+            value: "/Categories/Trending/New and noteworthy",
+            children: [],
+          },
+        ],
+      },
+    ]);
+  });
 });
