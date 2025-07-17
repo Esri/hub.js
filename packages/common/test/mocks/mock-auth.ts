@@ -123,6 +123,7 @@ export function getMockContextWithPrivilenges(
       "hub-search": "online",
       domains: "online",
       "hub-downloads": "online",
+      "hub-ai-assistant": "online",
     },
     userHubSettings: {
       schemaVersion: 1,
@@ -158,6 +159,7 @@ export const MOCK_CONTEXT = new ArcGISContext({
     "hub-search": "online",
     domains: "online",
     "hub-downloads": "online",
+    "hub-ai-assistant": "online",
   },
   userHubSettings: {
     schemaVersion: 1,
@@ -219,6 +221,7 @@ export const MOCK_ANON_CONTEXT = new ArcGISContext({
     "hub-search": "online",
     domains: "online",
     "hub-downloads": "online",
+    "hub-ai-assistant": "online",
   },
   userHubSettings: {
     schemaVersion: 1,
@@ -251,6 +254,7 @@ export function createMockContext(): ArcGISContext {
       "hub-search": "online",
       domains: "online",
       "hub-downloads": "online",
+      "hub-ai-assistant": "online",
     },
     userHubSettings: {
       schemaVersion: 1,
@@ -280,6 +284,7 @@ export function createMockAnonContext(): ArcGISContext {
       "hub-search": "online",
       domains: "online",
       "hub-downloads": "online",
+      "hub-ai-assistant": "online",
     },
     userHubSettings: {
       schemaVersion: 1,
