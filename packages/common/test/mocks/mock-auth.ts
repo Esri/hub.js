@@ -123,6 +123,7 @@ export function getMockContextWithPrivilenges(
       "hub-search": "online",
       domains: "online",
       "hub-downloads": "online",
+      "hub-ai-assistant": "online",
     },
     userHubSettings: {
       schemaVersion: 1,
@@ -158,6 +159,42 @@ export const MOCK_CONTEXT = new ArcGISContext({
     "hub-search": "online",
     domains: "online",
     "hub-downloads": "online",
+    "hub-ai-assistant": "online",
+  },
+  userHubSettings: {
+    schemaVersion: 1,
+  },
+}) as IArcGISContext;
+
+export const MOCK_ENTERPRISE_CONTEXT = new ArcGISContext({
+  id: 123,
+  currentUser: {
+    username: "mock_user",
+    favGroupId: "456abc",
+    orgId: "789def",
+    privileges: [],
+  },
+  portalUrl: "https://my.server.com/gis",
+  hubUrl: "",
+  authentication: MOCK_ENTERPRISE_AUTH,
+  portalSelf: {
+    id: "123",
+    name: "My org",
+    isPortal: true,
+    urlKey: "www",
+    portalHostname: "host",
+    customBaseUrl: "customUrl",
+  },
+  serviceStatus: {
+    portal: "online",
+    discussions: "not-available",
+    events: "not-available",
+    metrics: "not-available",
+    notifications: "not-available",
+    "hub-search": "not-available",
+    domains: "not-available",
+    "hub-downloads": "not-available",
+    "hub-ai-assistant": "not-available",
   },
   userHubSettings: {
     schemaVersion: 1,
@@ -185,6 +222,7 @@ export const MOCK_ANON_CONTEXT = new ArcGISContext({
     "hub-search": "online",
     domains: "online",
     "hub-downloads": "online",
+    "hub-ai-assistant": "online",
   },
   userHubSettings: {
     schemaVersion: 1,
@@ -217,6 +255,7 @@ export function createMockContext(): ArcGISContext {
       "hub-search": "online",
       domains: "online",
       "hub-downloads": "online",
+      "hub-ai-assistant": "online",
     },
     userHubSettings: {
       schemaVersion: 1,
@@ -246,6 +285,7 @@ export function createMockAnonContext(): ArcGISContext {
       "hub-search": "online",
       domains: "online",
       "hub-downloads": "online",
+      "hub-ai-assistant": "online",
     },
     userHubSettings: {
       schemaVersion: 1,
