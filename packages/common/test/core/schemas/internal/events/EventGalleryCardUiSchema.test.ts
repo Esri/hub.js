@@ -66,10 +66,11 @@ describe("EventGalleryCardUiSchema", () => {
       ).and.returnValue(catalog);
       const result = await buildUiSchema("some.scope", { tags }, context);
       expect(fetchCategoriesUiSchemaElementSpy).toHaveBeenCalledTimes(1);
-      expect(fetchCategoriesUiSchemaElementSpy).toHaveBeenCalledWith(
-        "some.scope.content",
-        context
-      );
+      expect(fetchCategoriesUiSchemaElementSpy).toHaveBeenCalledWith({
+        source: "org",
+        context,
+        currentValues: [],
+      });
       expect(getWellKnownCatalogSpy).toHaveBeenCalledTimes(1);
       expect(getWellKnownCatalogSpy).toHaveBeenCalledWith(
         "some.scope.content.entityIds",
