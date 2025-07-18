@@ -139,7 +139,6 @@ export async function fetchCategoriesUiSchemaElement(
             {
               label:
                 "{{shared.fields.categories.noCategoriesNotice.link:translate}}",
-              icon: "launch",
               href: "https://doc.arcgis.com/en/arcgis-online/reference/content-categories.htm",
               target: "_blank",
             },
