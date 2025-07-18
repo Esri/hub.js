@@ -23,6 +23,7 @@ const validServices = [
   "hub-search",
   "domains",
   "hub-downloads",
+  "hub-ai-assistant",
 ] as const;
 
 export type HubService = (typeof validServices)[number];

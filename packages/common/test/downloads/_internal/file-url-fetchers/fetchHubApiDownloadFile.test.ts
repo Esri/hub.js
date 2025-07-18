@@ -10,7 +10,7 @@ import { fetchHubApiDownloadFile } from "../../../../src/downloads/_internal/fil
 import * as fetchMock from "fetch-mock";
 
 describe("fetchHubApiDownloadFile", () => {
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
   it("throws an error if no layers are provided", async () => {
     try {
       await fetchHubApiDownloadFile({
@@ -85,7 +85,8 @@ describe("fetchHubApiDownloadFile", () => {
       expect((error as Error).message).toBe("Special Server Error");
     }
   });
-  it("throws ArcgisHubDownloadFileTooLargeError if the file is too big", async () => {
+  it("throws ArcgisHubDownloadFileTooLargeError for 'file too large' error messages", async () => {
+    // First error message (createReplica workflow)
     fetchMock.once(
       "https://hubqa.arcgis.com/api/download/v1/items/123/shapefile?redirect=false&layers=0",
       {
@@ -113,6 +114,66 @@ describe("fetchHubApiDownloadFile", () => {
       expect((error as Error).message).toBe(
         "Error downloading Shapefile. File size is larger than the 2GB limit."
       );
+    }
+    fetchMock.reset();
+    // Second error message (Hub Download System workflow)
+    fetchMock.once(
+      "https://hubqa.arcgis.com/api/download/v1/items/123/shapefile?redirect=false&layers=0",
+      {
+        status: 500,
+        body: {
+          errors: {
+            message: "The dataset is too large for shapefile generation",
+          },
+        },
+      }
+    );
+    try {
+      await fetchHubApiDownloadFile({
+        entity: { id: "123" } as unknown as IHubEditableContent,
+        format: ServiceDownloadFormat.SHAPEFILE,
+        context: {
+          hubUrl: "https://hubqa.arcgis.com",
+          hubRequestOptions: {},
+        } as unknown as IArcGISContext,
+        layers: [0],
+        pollInterval: 0,
+      });
+      expect(true).toBe(false);
+    } catch (error) {
+      expect(error instanceof ArcgisHubDownloadFileTooLargeError).toBeTruthy();
+      expect((error as Error).message).toBe(
+        "The dataset is too large for shapefile generation"
+      );
+    }
+  });
+  it("throws ArcgisHubDownloadError if errorBody is undefined", async () => {
+    // Case 1: errorBody is defined, but no 'errors' property (already covered)
+    fetchMock.once(
+      "https://hubqa.arcgis.com/api/download/v1/items/123/shapefile?redirect=false&layers=0",
+      {
+        status: 500,
+        body: {
+          // No 'errors' property
+          foo: "bar",
+        },
+      }
+    );
+    try {
+      await fetchHubApiDownloadFile({
+        entity: { id: "123" } as unknown as IHubEditableContent,
+        format: ServiceDownloadFormat.SHAPEFILE,
+        context: {
+          hubUrl: "https://hubqa.arcgis.com",
+          hubRequestOptions: {},
+        } as unknown as IArcGISContext,
+        layers: [0],
+        pollInterval: 0,
+      });
+      expect(true).toBe(false);
+    } catch (error) {
+      expect(error instanceof ArcgisHubDownloadError).toBeTruthy();
+      expect((error as Error).message).toBe(undefined);
     }
   });
   it('throws an error when the api returns a status of "Failed"', async () => {

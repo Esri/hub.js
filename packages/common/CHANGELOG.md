@@ -1,3 +1,24 @@
+# @esri/hub-common [18.9.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.8.0...@esri/hub-common@18.9.0) (2025-07-17)
+
+
+### Features
+
+* **hub-common:** added file too large error for hub download system workflow ([#1945](https://github.com/Esri/hub.js/issues/1945)) ([04ce949](https://github.com/Esri/hub.js/commit/04ce949db2a74a9d67b4628ef0986a23572f269a))
+
+# @esri/hub-common [18.8.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.7.0...@esri/hub-common@18.8.0) (2025-07-17)
+
+
+### Features
+
+* **hub-common:** add service to platform AI permission check ([#1943](https://github.com/Esri/hub.js/issues/1943)) ([b5f8332](https://github.com/Esri/hub.js/commit/b5f8332fc5dc8607ff890d9f7d3a454f2f04a7a9))
+
+# @esri/hub-common [18.7.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.6.1...@esri/hub-common@18.7.0) (2025-07-16)
+
+
+### Features
+
+* hide privacy config in enterprise ([#1946](https://github.com/Esri/hub.js/issues/1946)) ([b00f51c](https://github.com/Esri/hub.js/commit/b00f51c976832640d5c5335fb3860bf83b179104))
+
 ## @esri/hub-common [18.6.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.6.0...@esri/hub-common@18.6.1) (2025-07-15)
 
 

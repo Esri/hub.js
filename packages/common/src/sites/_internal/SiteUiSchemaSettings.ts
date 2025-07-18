@@ -18,7 +18,7 @@ export const buildUiSchema = async (
   // the component will use the authenticated user's org
   // which may not be the same as the site's org
   const orgUrlKey = (options as IHubSite).orgUrlKey;
-  return {
+  const result: IUiSchema = {
     type: "Layout",
     elements: [
       {
@@ -49,19 +49,28 @@ export const buildUiSchema = async (
           },
         ],
       },
-      {
-        type: "Section",
-        labelKey: `${i18nScope}.sections.privacy.label`,
-        elements: [
-          {
-            scope: "/properties/telemetry/properties/consentNotice",
-            type: "Control",
-            options: {
-              control: "arcgis-privacy-config",
-            },
-          },
-        ],
-      },
     ],
   };
+
+  // Only Add this is it's not an enterprise environment
+  // This is better than using a condition, as that is applied after
+  // the UI renders, but and sometimes we get a flash of the privacy section
+  if (!context.isPortal) {
+    result.elements.push({
+      type: "Section",
+      labelKey: `${i18nScope}.sections.privacy.label`,
+
+      elements: [
+        {
+          scope: "/properties/telemetry/properties/consentNotice",
+          type: "Control",
+          options: {
+            control: "arcgis-privacy-config",
+          },
+        },
+      ],
+    });
+  }
+
+  return result;
 };
