@@ -187,61 +187,61 @@ describe("buildUiSchema: initiative template edit", () => {
                 },
               ],
             },
+          ],
+        },
+        {
+          type: "Section",
+          labelKey: "some.scope.sections.location.label",
+          elements: [
             {
-              type: "Section",
-              labelKey: "some.scope.sections.location.label",
-              elements: [
-                {
-                  scope: "/properties/location",
-                  type: "Control",
-                  options: {
-                    control: "hub-field-input-location-picker",
-                    extent: {
-                      spatialReference: { wkid: 4326 },
-                      xmax: 180,
-                      xmin: -180,
-                      ymax: 90,
-                      ymin: -90,
-                    },
-                    options: [
-                      {
-                        label: "{{shared.fields.location.none:translate}}",
-                        location: {
-                          type: "none",
-                        },
-                      },
-                      {
-                        description: "My org",
-                        label: "{{shared.fields.location.org:translate}}",
-                        location: {
-                          extent: [
-                            [-180, -90],
-                            [180, 90],
-                          ],
-                          spatialReference: {
-                            wkid: 4326,
-                          },
-                          type: "org",
-                        },
-                      },
-                      {
-                        description:
-                          "{{shared.fields.location.customDescription:translate}}",
-                        entityType: undefined,
-                        label: "{{shared.fields.location.custom:translate}}",
-                        location: {
-                          spatialReference: {
-                            wkid: 4326,
-                          },
-                          type: "custom",
-                        },
-                        selected: true,
-                      },
-                    ],
-                    noticeTitleElementAriaLevel: 3,
-                  },
+              scope: "/properties/location",
+              type: "Control",
+              options: {
+                control: "hub-field-input-location-picker",
+                extent: {
+                  spatialReference: { wkid: 4326 },
+                  xmax: 180,
+                  xmin: -180,
+                  ymax: 90,
+                  ymin: -90,
                 },
-              ],
+                options: [
+                  {
+                    label: "{{shared.fields.location.none:translate}}",
+                    location: {
+                      type: "none",
+                    },
+                  },
+                  {
+                    description: "My org",
+                    label: "{{shared.fields.location.org:translate}}",
+                    location: {
+                      extent: [
+                        [-180, -90],
+                        [180, 90],
+                      ],
+                      spatialReference: {
+                        wkid: 4326,
+                      },
+                      type: "org",
+                    },
+                  },
+                  {
+                    description:
+                      "{{shared.fields.location.customDescription:translate}}",
+                    entityType: undefined,
+                    label: "{{shared.fields.location.custom:translate}}",
+                    location: {
+                      spatialReference: {
+                        wkid: 4326,
+                      },
+                      type: "custom",
+                    },
+                    selected: true,
+                  },
+                ],
+                noticeTitleElementAriaLevel: 3,
+              },
             },
           ],
         },

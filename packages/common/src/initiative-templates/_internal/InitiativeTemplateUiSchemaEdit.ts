@@ -140,30 +140,30 @@ export const buildUiSchema = async (
               ...(await fetchCategoriesUiSchemaElement(i18nScope, context)),
             ],
           },
+        ],
+      },
+      {
+        type: "Section",
+        labelKey: `${i18nScope}.sections.location.label`,
+        elements: [
           {
-            type: "Section",
-            labelKey: `${i18nScope}.sections.location.label`,
-            elements: [
-              {
-                scope: "/properties/location",
-                type: "Control",
-                options: {
-                  control: "hub-field-input-location-picker",
-                  extent: await getLocationExtent(
-                    options.location,
-                    context.hubRequestOptions
-                  ),
-                  options: await getLocationOptions(
-                    options.id,
-                    options.type,
-                    options.location,
-                    context.portal.name,
-                    context.hubRequestOptions
-                  ),
-                  noticeTitleElementAriaLevel: 3,
-                },
-              },
-            ],
+            scope: "/properties/location",
+            type: "Control",
+            options: {
+              control: "hub-field-input-location-picker",
+              extent: await getLocationExtent(
+                options.location,
+                context.hubRequestOptions
+              ),
+              options: await getLocationOptions(
+                options.id,
+                options.type,
+                options.location,
+                context.portal.name,
+                context.hubRequestOptions
+              ),
+              noticeTitleElementAriaLevel: 3,
+            },
           },
         ],
       },
