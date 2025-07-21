@@ -5,8 +5,15 @@ import {
 import { cloneObject } from "../../../util";
 import { IHubSearchResponse } from "../../types/IHubSearchResponse";
 import { IPagingParams } from "@esri/arcgis-rest-portal";
+import { IHubRequestOptions } from "../../../hub-types";
+import { getProp } from "../../../objects/get-prop";
 
-type ICommonNextOptions = IRequestOptions & IPagingParams;
+type ICommonNextOptions = IRequestOptions &
+  IPagingParams & {
+    // The upstream `processSearchParams()` stabs this onto every request and many downstream
+    // functions seem to prefer it over the top-level `authentication` property.
+    requestOptions?: IHubRequestOptions;
+  };
 
 /**
  * @private
@@ -30,6 +37,14 @@ export function getNextPortalCallback<I extends ICommonNextOptions, O>(
     clonedRequest.authentication = ArcGISIdentityManager.deserialize(
       (request.authentication as ArcGISIdentityManager).serialize()
     );
+  }
+
+  // do the same workaround for requestOptions.authentication
+  if (getProp(request, "requestOptions.authentication")) {
+    clonedRequest.requestOptions.authentication =
+      ArcGISIdentityManager.deserialize(
+        request.requestOptions.authentication.serialize()
+      );
   }
 
   // figure out the start
