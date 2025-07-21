@@ -129,7 +129,11 @@ export const buildUiSchema = async (
                   placeholderIcon: "label",
                 },
               },
-              ...(await fetchCategoriesUiSchemaElement(i18nScope, context)),
+              ...(await fetchCategoriesUiSchemaElement({
+                source: "org",
+                currentValues: options.categories,
+                context,
+              })),
             ],
           },
         ],
