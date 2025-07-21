@@ -1,3 +1,10 @@
+# @esri/hub-common [18.10.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.9.1...@esri/hub-common@18.10.0) (2025-07-21)
+
+
+### Features
+
+* **hub-common:** categories ui element has a separate group for saved (but unrecognized) values; can support aggregation-backed categories ([#1941](https://github.com/Esri/hub.js/issues/1941)) ([cca0bda](https://github.com/Esri/hub.js/commit/cca0bdaa26f97e71cc046d2e5871cb1a2365ee0b))
+
 ## @esri/hub-common [18.9.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.9.0...@esri/hub-common@18.9.1) (2025-07-21)
 
 
