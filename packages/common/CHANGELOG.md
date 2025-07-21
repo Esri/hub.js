@@ -1,3 +1,10 @@
+## @esri/hub-common [18.9.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.9.0...@esri/hub-common@18.9.1) (2025-07-21)
+
+
+### Bug Fixes
+
+* **hub-common:** fix issue with hubSearch() where .next() functions would fail for portal-based searches ([#1949](https://github.com/Esri/hub.js/issues/1949)) ([d5e845e](https://github.com/Esri/hub.js/commit/d5e845e0b152593baf0d149f299f09b60a2d4cf8))
+
 # @esri/hub-common [18.9.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.8.0...@esri/hub-common@18.9.0) (2025-07-17)
 
 
