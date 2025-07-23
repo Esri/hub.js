@@ -1,3 +1,10 @@
+# @esri/hub-common [18.11.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.10.0...@esri/hub-common@18.11.0) (2025-07-23)
+
+
+### Features
+
+* **hub-common:** discussions v1 to v2 ([#1853](https://github.com/Esri/hub.js/issues/1853)) ([e58efae](https://github.com/Esri/hub.js/commit/e58efae4861515b6eb58fbc4069c43b611738a94))
+
 # @esri/hub-common [18.10.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.9.1...@esri/hub-common@18.10.0) (2025-07-21)
 
 
