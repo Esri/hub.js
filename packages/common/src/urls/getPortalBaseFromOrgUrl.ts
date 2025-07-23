@@ -7,15 +7,17 @@
  * @returns
  */
 export function getPortalBaseFromOrgUrl(orgUrl: string): string {
-  let result = orgUrl;
+  // strip off the /sharing/rest part of the url
+  // this will also handle enterprise urls
+  let result = orgUrl.split("/sharing/rest")[0];
 
-  if (orgUrl.match(/(qaext|\.mapsqa)\.arcgis.com/)) {
+  if (/(qaext|\.mapsqa)\.arcgis.com/.exec(orgUrl)) {
     result = "https://qaext.arcgis.com";
-  } else if (orgUrl.match(/(devext|\.mapsdevext)\.arcgis.com/)) {
+  } else if (/(devext|\.mapsdevext)\.arcgis.com/.exec(orgUrl)) {
     result = "https://devext.arcgis.com";
   } else {
     /* istanbul ignore else */
-    if (orgUrl.match(/(www|\.maps)\.arcgis.com/)) {
+    if (/(www|\.maps)\.arcgis.com/.exec(orgUrl)) {
       result = "https://www.arcgis.com";
     }
   }

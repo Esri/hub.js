@@ -5,6 +5,10 @@ import type {
 } from "@esri/arcgis-rest-feature-service";
 import { ItemType } from "../../hub-types";
 import { Logger } from "../../utils";
+import {
+  isNoCorsRequestRequired,
+  sendNoCorsRequest,
+} from "@esri/arcgis-rest-request";
 
 const FEATURE_SERVICE_URL_REGEX = /(feature)server(\/|\/(\d+))?$/i;
 
@@ -82,7 +86,7 @@ export function isFeatureService(url: string): boolean {
  * @return {*}  {boolean}
  */
 export function isFeatureLayer(url: string): boolean {
-  const results = url.match(FEATURE_SERVICE_URL_REGEX);
+  const results = FEATURE_SERVICE_URL_REGEX.exec(url);
   return results && !!results[3];
 }
 
@@ -93,7 +97,7 @@ export function isFeatureLayer(url: string): boolean {
  * @return {*}  {string}
  */
 export function getFeatureServiceTitle(url: string): string {
-  return url.match(/\/services\/(.+)\/(feature|map|image)server/i)[1];
+  return /\/services\/(.+)\/(feature|map|image)server/i.exec(url)[1];
 }
 
 /**
@@ -155,6 +159,13 @@ export function getFeatureServiceItem(
 export async function pingUrl(
   url: string
 ): Promise<{ ok: boolean; headers?: Headers }> {
+  // ensure that we handle any no-cors requirements
+  /* istanbul ignore next */
+  if (isNoCorsRequestRequired(url)) {
+    await sendNoCorsRequest(url);
+  }
+  // If may be possible to use request, and set rawResponse to true and method: HEAD
+
   const response = await fetch(url, { method: "HEAD" });
 
   return {
@@ -176,6 +187,12 @@ export async function pingFeatureService(
   // make sure the response is in json format
   const parsed = new URL(url);
   parsed.searchParams.set("f", "json");
+
+  // ensure that we handle any no-cors requirements
+  /* istanbul ignore next */
+  if (isNoCorsRequestRequired(url)) {
+    await sendNoCorsRequest(url);
+  }
 
   // Since the feature service can return a 200 response with error (e.g. for
   // non-existing layer), we can only request the full metadata by a GET, not HEAD
