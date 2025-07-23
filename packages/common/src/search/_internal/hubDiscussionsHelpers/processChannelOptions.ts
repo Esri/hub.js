@@ -1,4 +1,5 @@
 import {
+  ChannelRelation,
   ChannelSort,
   ISearchChannels,
   SortOrder,
@@ -10,6 +11,7 @@ const SORT_FIELD_MAP: Record<string, ChannelSort> = {
   created: ChannelSort.CREATED_AT,
   modified: ChannelSort.UPDATED_AT,
   owner: ChannelSort.CREATOR,
+  lastActivity: ChannelSort.LAST_ACTIVITY,
 };
 
 const SORT_ORDER_MAP: Record<"desc" | "asc", SortOrder> = {
@@ -27,7 +29,9 @@ const SORT_ORDER_MAP: Record<"desc" | "asc", SortOrder> = {
 export function processChannelOptions(
   options: IHubSearchOptions
 ): Partial<ISearchChannels> {
-  const channelOptions: Partial<ISearchChannels> = {};
+  const channelOptions: Partial<ISearchChannels> = {
+    relations: [ChannelRelation.CHANNEL_ACL],
+  };
   if (options.num) {
     channelOptions.num = options.num;
   }

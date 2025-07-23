@@ -6,6 +6,7 @@ import {
 import { IChannel } from "../../discussions/api/types";
 import type { IUser } from "@esri/arcgis-rest-portal";
 import { transformAclPermissionToEntityPermissionPolicy } from "./transformAclPermissionToEntityPermissionPolicy";
+import { getChannelAccess } from "../../discussions/utils";
 
 /**
  * @private
@@ -19,7 +20,7 @@ export function transformChannelToEntity(
   user: IUser
 ): IHubChannel {
   return {
-    access: channel.access,
+    access: getChannelAccess(channel),
     id: channel.id,
     name: channel.name,
     createdDate: new Date(channel.createdAt),
