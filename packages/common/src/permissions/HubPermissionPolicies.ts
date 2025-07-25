@@ -203,6 +203,13 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     environments: ["qaext"],
     availability: ["flag"],
   },
+  // DEPRECATED PERMISSION - TODO: remove at next major version
+  {
+    // Enables catalog configuration and viewing
+    permission: "hub:feature:catalogs",
+    environments: ["qaext"],
+    availability: ["alpha"],
+  },
   /**
    * Gates advanced editing (e.g. adding new collections, adding
    * additional scope filters, etc.) in the catalog configuration

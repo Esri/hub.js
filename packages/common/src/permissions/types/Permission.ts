@@ -31,7 +31,7 @@ const SystemPermissions = [
   "hub:feature:keyboardshortcuts",
   "hub:feature:newentityview",
   "hub:feature:history",
-  "hub:feature:catalogs",
+  "hub:feature:catalogs", // DEPRECATED - TODO: remove at next major version
   /** remove once sites support all catalog configuration features */
   "hub:feature:catalogs:edit:advanced",
   "hub:feature:inline-workspace",
