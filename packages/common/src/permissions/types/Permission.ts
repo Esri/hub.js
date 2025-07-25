@@ -31,9 +31,10 @@ const SystemPermissions = [
   "hub:feature:keyboardshortcuts",
   "hub:feature:newentityview",
   "hub:feature:history",
-  "hub:feature:catalogs",
+  "hub:feature:catalogs", // DEPRECATED - TODO: remove at next major version
   /** remove once sites support all catalog configuration features */
   "hub:feature:catalogs:edit:advanced",
+  "hub:feature:catalogs:edit:appearance",
   "hub:feature:inline-workspace",
   "hub:feature:pagescatalog",
   "hub:license:hub-premium",
@@ -92,5 +93,5 @@ export type Permission =
  * @returns
  */
 export function isPermission(maybePermission: string): boolean {
-  return validPermissions.includes(maybePermission );
+  return validPermissions.includes(maybePermission);
 }
