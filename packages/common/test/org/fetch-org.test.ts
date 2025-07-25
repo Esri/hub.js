@@ -15,8 +15,12 @@ describe("fetchOrg", () => {
       Promise.resolve(mockPortal)
     );
   });
+
   it("Derives base portal from options.portal", async () => {
-    const mockAuth = { portal: "authentication-portal.mapsdevext.arcgis.com" };
+    const mockAuth = {
+      portal:
+        "https://authentication-portal.mapsdevext.arcgis.com/sharing/rest",
+    };
     const requestOptions = {
       portal: "top-level-portal.mapsqa.arcgis.com",
       authentication: mockAuth,
@@ -30,7 +34,10 @@ describe("fetchOrg", () => {
     expect(result).toBe(mockPortal);
   });
   it("Derives base portal from option.authentication.portal", async () => {
-    const mockAuth = { portal: "authentication-portal.mapsdevext.arcgis.com" };
+    const mockAuth = {
+      portal:
+        "https://authentication-portal.mapsdevext.arcgis.com/sharing/rest",
+    };
     const requestOptions = {
       authentication: mockAuth,
     } as unknown as IRequestOptions;
@@ -38,6 +45,20 @@ describe("fetchOrg", () => {
     await fetchOrg(orgId, requestOptions);
     expect(getPortalStub).toHaveBeenCalledWith(orgId, {
       portal: "https://devext.arcgis.com/sharing/rest",
+      authentication: mockAuth,
+    });
+  });
+  it("Derives base portal from option.authentication.portal for Enterprise", async () => {
+    const mockAuth = {
+      portal: "https://gis.fortcollins.com/portal/sharing/rest",
+    };
+    const requestOptions = {
+      authentication: mockAuth,
+    } as unknown as IRequestOptions;
+
+    await fetchOrg(orgId, requestOptions);
+    expect(getPortalStub).toHaveBeenCalledWith(orgId, {
+      portal: "https://gis.fortcollins.com/portal/sharing/rest",
       authentication: mockAuth,
     });
   });
