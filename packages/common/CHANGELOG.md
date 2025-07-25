@@ -1,3 +1,10 @@
+# @esri/hub-common [18.12.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.11.0...@esri/hub-common@18.12.0) (2025-07-25)
+
+
+### Features
+
+* add permission for catalog appearance ([#1953](https://github.com/Esri/hub.js/issues/1953)) ([ed7d2dc](https://github.com/Esri/hub.js/commit/ed7d2dcda0a8a66af67856f909f8222ad679b1e2))
+
 # @esri/hub-common [18.11.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.10.0...@esri/hub-common@18.11.0) (2025-07-23)
 
 
