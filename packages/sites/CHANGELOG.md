@@ -1,3 +1,10 @@
+## @esri/hub-sites [19.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-sites@19.0.0...@esri/hub-sites@19.0.1) (2025-07-25)
+
+
+### Bug Fixes
+
+* apply updates made specifically for 11.5 ([#1951](https://github.com/Esri/hub.js/issues/1951)) ([0e98d3f](https://github.com/Esri/hub.js/commit/0e98d3f65bb345ae274e24e3f75690ca4f236a7a))
+
 # @esri/hub-sites [19.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@18.2.0...@esri/hub-sites@19.0.0) (2025-06-18)
 
 
