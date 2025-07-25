@@ -12,7 +12,7 @@
   },
   "peerDependencies": {
     "@esri/arcgis-rest-portal": "^4.0.0",
-    "@esri/arcgis-rest-request": "^4.0.0",
+    "@esri/arcgis-rest-request": "^4.7.1",
     "@esri/hub-common": "^18.0.0",
     "@esri/hub-initiatives": "^18.0.0",
     "@esri/hub-teams": "^18.0.0"

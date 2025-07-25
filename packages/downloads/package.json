@@ -14,7 +14,7 @@
   "peerDependencies": {
     "@esri/arcgis-rest-feature-service": "^4.0.0",
     "@esri/arcgis-rest-portal": "^4.0.0",
-    "@esri/arcgis-rest-request": "^4.0.0",
+    "@esri/arcgis-rest-request": "^4.7.1",
     "@esri/hub-common": "^18.0.0"
   },
   "devDependencies": {
