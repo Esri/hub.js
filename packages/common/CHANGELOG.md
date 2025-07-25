@@ -1,3 +1,45 @@
+# @esri/hub-common [18.11.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.10.0...@esri/hub-common@18.11.0) (2025-07-23)
+
+
+### Features
+
+* **hub-common:** discussions v1 to v2 ([#1853](https://github.com/Esri/hub.js/issues/1853)) ([e58efae](https://github.com/Esri/hub.js/commit/e58efae4861515b6eb58fbc4069c43b611738a94))
+
+# @esri/hub-common [18.10.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.9.1...@esri/hub-common@18.10.0) (2025-07-21)
+
+
+### Features
+
+* **hub-common:** categories ui element has a separate group for saved (but unrecognized) values; can support aggregation-backed categories ([#1941](https://github.com/Esri/hub.js/issues/1941)) ([cca0bda](https://github.com/Esri/hub.js/commit/cca0bdaa26f97e71cc046d2e5871cb1a2365ee0b))
+
+## @esri/hub-common [18.9.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.9.0...@esri/hub-common@18.9.1) (2025-07-21)
+
+
+### Bug Fixes
+
+* **hub-common:** fix issue with hubSearch() where .next() functions would fail for portal-based searches ([#1949](https://github.com/Esri/hub.js/issues/1949)) ([d5e845e](https://github.com/Esri/hub.js/commit/d5e845e0b152593baf0d149f299f09b60a2d4cf8))
+
+# @esri/hub-common [18.9.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.8.0...@esri/hub-common@18.9.0) (2025-07-17)
+
+
+### Features
+
+* **hub-common:** added file too large error for hub download system workflow ([#1945](https://github.com/Esri/hub.js/issues/1945)) ([04ce949](https://github.com/Esri/hub.js/commit/04ce949db2a74a9d67b4628ef0986a23572f269a))
+
+# @esri/hub-common [18.8.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.7.0...@esri/hub-common@18.8.0) (2025-07-17)
+
+
+### Features
+
+* **hub-common:** add service to platform AI permission check ([#1943](https://github.com/Esri/hub.js/issues/1943)) ([b5f8332](https://github.com/Esri/hub.js/commit/b5f8332fc5dc8607ff890d9f7d3a454f2f04a7a9))
+
+# @esri/hub-common [18.7.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.6.1...@esri/hub-common@18.7.0) (2025-07-16)
+
+
+### Features
+
+* hide privacy config in enterprise ([#1946](https://github.com/Esri/hub.js/issues/1946)) ([b00f51c](https://github.com/Esri/hub.js/commit/b00f51c976832640d5c5335fb3860bf83b179104))
+
 ## @esri/hub-common [18.6.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.6.0...@esri/hub-common@18.6.1) (2025-07-15)
 
 

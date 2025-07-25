@@ -1,3 +1,5 @@
+import { IPermissionPolicy } from "../../permissions/types/IPermissionPolicy";
+
 /**
  * @private
  * An array of all supported channel permissions
@@ -57,3 +59,13 @@ export const CHANNEL_PERMISSIONS: Record<
   channelReadWrite: "hub:channel:readWrite",
   channelModerate: "hub:channel:moderate",
 };
+
+export const ChannelPermissionPolicies: IPermissionPolicy[] = [
+  {
+    permission: CHANNEL_PERMISSIONS.channelCreate,
+    dependencies: ["hub:discussion"],
+    authenticated: true,
+    privileges: ["portal:user:createItem"],
+    licenses: ["hub-premium"],
+  },
+];

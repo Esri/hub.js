@@ -1,5 +1,5 @@
 import { buildUiSchema } from "../../../src/sites/_internal/SiteUiSchemaSettings";
-import { MOCK_CONTEXT } from "../../mocks/mock-auth";
+import { MOCK_CONTEXT, MOCK_ENTERPRISE_CONTEXT } from "../../mocks/mock-auth";
 
 describe("buildUiSchema: site settings", () => {
   it("returns the full site settings uiSchema", async () => {
@@ -50,6 +50,48 @@ describe("buildUiSchema: site settings", () => {
               type: "Control",
               options: {
                 control: "arcgis-privacy-config",
+              },
+            },
+          ],
+        },
+      ],
+    });
+  });
+  it("does not return the Privacy section in enterprise", async () => {
+    const i18nScope = "some.scope";
+    const orgUrlKey = "my-org";
+    const uiSchema = await buildUiSchema(
+      i18nScope,
+      { orgUrlKey } as any,
+      MOCK_ENTERPRISE_CONTEXT
+    );
+    expect(uiSchema).toEqual({
+      type: "Layout",
+      elements: [
+        {
+          type: "Section",
+          labelKey: `${i18nScope}.sections.siteUrl.label`,
+          options: {
+            requiredHelperText: {
+              labelKey: `${i18nScope}.sections.defaultRequiredHelperText`,
+            },
+          },
+          elements: [
+            {
+              scope: "/properties/_urlInfo",
+              type: "Control",
+              options: {
+                type: "Control",
+                control: "hub-composite-input-site-url",
+                orgUrlKey,
+                messages: [
+                  {
+                    type: "ERROR",
+                    keyword: "isUniqueDomain",
+                    labelKey: `${i18nScope}.fields.siteUrl.isUniqueError`,
+                    icon: true,
+                  },
+                ],
               },
             },
           ],

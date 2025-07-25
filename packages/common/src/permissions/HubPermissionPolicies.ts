@@ -2,6 +2,7 @@ import { InitiativePermissionPolicies } from "../initiatives/_internal/Initiativ
 import { ProjectPermissionPolicies } from "../projects/_internal/ProjectBusinessRules";
 import { SitesPermissionPolicies } from "../sites/_internal/SiteBusinessRules";
 import { DiscussionPermissionPolicies } from "../discussions/_internal/DiscussionBusinessRules";
+import { ChannelPermissionPolicies } from "../channels/_internal/ChannelBusinessRules";
 import { ContentPermissionPolicies } from "../content/_internal/ContentBusinessRules";
 
 import { IPermissionPolicy, Permission } from "./types";
@@ -85,14 +86,16 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:gating:workspace:released",
   },
 
-  // AI Assistant permissions
-  // this is used to enable the AI Assistant feature on an entity
+  // AI Assistant org permissions
+  // this is used to allow AI Assistant features from the org level
   // an org must have the AI Assistant feature enabled
   // and the org bust turn off the beta apps block
+  // and be a premium org
   // to allow the AI Assistant to be enabled on an entity
   {
     permission: "hub:platform:ai-assistant",
-    environments: ["devext", "qaext"],
+    licenses: ["hub-premium"],
+    services: ["hub-ai-assistant"],
     assertions: [
       {
         property: "context:portalSettings.aiAssistantsEnabled",
@@ -286,6 +289,7 @@ export const HubPermissionsPolicies: IPermissionPolicy[] = [
   ...ProjectPermissionPolicies,
   ...InitiativePermissionPolicies,
   ...DiscussionPermissionPolicies,
+  ...ChannelPermissionPolicies,
   ...ContentPermissionPolicies,
   ...GroupPermissionPolicies,
   ...PagePermissionPolicies,

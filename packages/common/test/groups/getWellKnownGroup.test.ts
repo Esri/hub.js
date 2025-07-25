@@ -30,6 +30,7 @@ describe("getWellKnownGroup: ", () => {
       "hub-search": "online",
       domains: "online",
       "hub-downloads": "online",
+      "hub-ai-assistant": "online",
     },
     userHubSettings: {
       schemaVersion: 1,

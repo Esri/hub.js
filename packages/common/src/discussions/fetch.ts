@@ -8,7 +8,7 @@ import { computeProps } from "./_internal/computeProps";
 import { getDefaultEntitySettings } from "./api/settings/getDefaultEntitySettings";
 import { IHubRequestOptions, IModel } from "../hub-types";
 import { isGuid } from "../utils/is-guid";
-import { fetchSetting } from "./api/settings/settings";
+import { fetchSettingV2 } from "./api/settings/settings";
 
 /**
  * @private
@@ -49,7 +49,7 @@ export async function convertItemToDiscussion(
   const model = await fetchModelFromItem(item, requestOptions);
   let entitySettings;
   try {
-    entitySettings = await fetchSetting({ id: item.id, ...requestOptions });
+    entitySettings = await fetchSettingV2({ id: item.id, ...requestOptions });
   } catch (e) {
     const defaultSettings = getDefaultEntitySettings("discussion");
     entitySettings = {

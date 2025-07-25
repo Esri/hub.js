@@ -718,6 +718,7 @@ export const HUB_SERVICE_STATUS: HubServiceStatus = {
   "hub-search": "online",
   domains: "online",
   "hub-downloads": "online",
+  "hub-ai-assistant": "online",
 };
 
 export const ENTERPRISE_SITES_SERVICE_STATUS: HubServiceStatus = {
@@ -729,6 +730,7 @@ export const ENTERPRISE_SITES_SERVICE_STATUS: HubServiceStatus = {
   "hub-search": "not-available",
   domains: "not-available",
   "hub-downloads": "not-available",
+  "hub-ai-assistant": "not-available",
 };
 
 const DEV_ALPHA_ORGS = [

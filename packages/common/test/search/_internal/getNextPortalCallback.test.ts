@@ -31,6 +31,9 @@ describe("getNextPortalCallback:", () => {
   it("uses auth on subsequent calls", async () => {
     const request = {
       authentication: MOCK_AUTH,
+      requestOptions: {
+        authentication: MOCK_AUTH,
+      },
     } as unknown as ISearchOptions;
 
     const Module = {
@@ -50,12 +53,12 @@ describe("getNextPortalCallback:", () => {
     expect(fnSpy).toHaveBeenCalled();
     // verify it's called with the MOCK_AUTH
     const opts = fnSpy.calls.mostRecent().args[0];
-    // once the tests using a mock authentication instead of an actual instance
+    // once the test started using a mock authentication instead of an actual instance
     // I had to add the .token to the check below b/c comparing the entire object failed
     expect(opts.authentication.token).toEqual(MOCK_AUTH.token);
+    expect(opts.requestOptions.authentication.token).toEqual(MOCK_AUTH.token);
     expect(opts.start).toBe(10);
   });
-  // I don't know why this condition is in the code, but it is. Adding for coverage.
   it("handles negative 'nextStart'", async () => {
     const request = {} as unknown as ISearchOptions;
 
