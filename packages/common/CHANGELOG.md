@@ -1,3 +1,10 @@
+## @esri/hub-common [18.12.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.12.1...@esri/hub-common@18.12.2) (2025-07-28)
+
+
+### Bug Fixes
+
+* **hub-common:** site subdomain not kept in sync w slug in enterprise ([#1954](https://github.com/Esri/hub.js/issues/1954)) ([eb75707](https://github.com/Esri/hub.js/commit/eb75707eecac02c70e3a0f61867cabe5c8f0bdc2))
+
 ## @esri/hub-common [18.12.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.12.0...@esri/hub-common@18.12.1) (2025-07-25)
 
 
