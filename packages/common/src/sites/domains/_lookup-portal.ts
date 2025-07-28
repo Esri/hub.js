@@ -1,6 +1,7 @@
 import { searchItems } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { includes } from "../../utils";
+import { getSubdomainKeyword } from "../_internal/subdomains";
 
 /**
  * Lookup a domain in Portal
@@ -19,7 +20,7 @@ export function _lookupPortal(
     subdomain = hostname.split("#/")[1];
   }
 
-  const queryTerm = `hubsubdomain|${subdomain}`;
+  const queryTerm = getSubdomainKeyword(subdomain);
   const opts = Object.assign(
     {
       q: `typekeywords: ${queryTerm}`,
