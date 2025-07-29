@@ -8,7 +8,6 @@ import {
   IWithCardBehavior,
   IHubProjectEditor,
   IEntityEditorContext,
-  SettableAccessLevel,
 } from "../core";
 
 import { Catalog } from "../search/Catalog";
@@ -31,15 +30,12 @@ import {
 } from "../core/types/IHubCardViewModel";
 import { projectToCardModel } from "./view";
 import { cloneObject } from "../util";
-import { createProject, editorToProject, updateProject } from "./edit";
+import { createProject, updateProject } from "./edit";
 import { ProjectEditorType } from "./_internal/ProjectSchema";
 import { enrichEntity } from "../core/enrichEntity";
 import { getWithDefault } from "../objects";
 import { metricToEditor } from "../metrics/metricToEditor";
 import { IMetricDisplayConfig } from "../core/types/Metrics";
-import { upsertResource } from "../resources/upsertResource";
-import { doesResourceExist } from "../resources/doesResourceExist";
-import { removeResource } from "../resources/removeResource";
 import { getEditorSlug } from "../core/_internal/getEditorSlug";
 
 /**
@@ -55,8 +51,6 @@ export class HubProject
     IWithCardBehavior,
     IWithEditorBehavior
 {
-  private _catalog: Catalog;
-
   /**
    * Private constructor so we don't have `new` all over the place. Allows for
    * more flexibility in how we create the HubProjectManager over time.
@@ -223,90 +217,22 @@ export class HubProject
   }
 
   /**
-   * Load the project from the editor object
-   * @param editor
-   * @returns
+   * Convert editor values back into a HubProject entity,
+   * performing any necessary pre-save operations/transforms.
+   * @param editor - the editor object to convert
+   * @param _editorContext - optional editor context
    */
   async fromEditor(
     editor: IHubProjectEditor,
     _editorContext?: IEntityEditorContext
   ): Promise<IHubProject> {
-    // 1. extract the ephemeral props we graft onto the editor
-    // note: they will be deleted in the editorToProject function
-    const thumbnail = editor._thumbnail as { blob?: Blob; fileName?: string };
-    const featuredImage = editor.view.featuredImage as {
-      blob?: Blob;
-      fileName?: string;
-    };
-    const autoShareGroups = editor._groups || [];
+    // defer to the parent class (HubItemEntity) to
+    // handle shared "fromEditor" logic
+    const project = (await super._fromEditor(editor)) as IHubProject;
 
-    // 2. convert the editor values back to a project entity
-    const entity = editorToProject(editor, this.context.portal);
-
-    // 3. set the thumbnailCache to ensure that
-    // the thumbnail is updated on the next save
-    if (thumbnail) {
-      if (thumbnail.blob) {
-        this.thumbnailCache = {
-          file: thumbnail.blob,
-          filename: thumbnail.fileName,
-          clear: false,
-        };
-      } else {
-        this.thumbnailCache = {
-          clear: true,
-        };
-      }
-    }
-
-    // 4. upsert or remove the configured featured image
-    if (featuredImage) {
-      let featuredImageUrl: string | null = null;
-      if (featuredImage.blob) {
-        featuredImageUrl = await upsertResource(
-          entity.id,
-          entity.owner,
-          featuredImage.blob,
-          "featuredImage.png",
-          this.context.userRequestOptions
-        );
-      } else if (
-        await doesResourceExist(
-          entity.id,
-          "featuredImage.png",
-          this.context.userRequestOptions
-        )
-      ) {
-        await removeResource(
-          entity.id,
-          "featuredImage.png",
-          entity.owner,
-          this.context.userRequestOptions
-        );
-      }
-
-      entity.view = {
-        ...entity.view,
-        featuredImageUrl,
-      };
-    }
-
-    // 5. save or create the entity
-    this.entity = entity;
+    // save or create the entity
+    this.entity = project;
     await this.save();
-
-    // 6. share the entity with the configured groups
-    const isCreate = !editor.id;
-    if (isCreate) {
-      await this.setAccess(editor.access as SettableAccessLevel);
-      if (autoShareGroups.length) {
-        await Promise.all(
-          autoShareGroups.map((id: string) => {
-            return this.shareWithGroup(id);
-          })
-        );
-      }
-    }
 
     return this.entity;
   }

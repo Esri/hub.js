@@ -3,24 +3,17 @@ import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 // Note - we separate these imports so we can cleanly spy on things in tests
 import { createModel, getModel, updateModel } from "../models";
 import { constructSlug } from "../items/slugs";
-import {
-  IPortal,
-  IUserItemOptions,
-  removeItem,
-} from "@esri/arcgis-rest-portal";
+import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
-import { IHubItemEntity, IHubProject, IHubProjectEditor } from "../core/types";
+import { IHubItemEntity, IHubProject } from "../core/types";
 import { DEFAULT_PROJECT, DEFAULT_PROJECT_MODEL } from "./defaults";
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
-import { camelize, cloneObject, createId } from "../util";
+import { cloneObject } from "../util";
 import { setDiscussableKeyword } from "../discussions";
 import { IModel } from "../hub-types";
 import { setEntityStatusKeyword } from "../utils/internal/setEntityStatusKeyword";
-import { editorToMetric } from "../metrics/editorToMetric";
-import { setMetricAndDisplay } from "../core/schemas/internal/metrics/setMetricAndDisplay";
 import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlug";
-import { editorToEntity } from "../core/schemas/internal/metrics/editorToEntity";
 
 /**
  * @private
@@ -67,44 +60,6 @@ export async function createProject(
   newProject = computeProps(model, newProject, requestOptions);
   // and return it
   return newProject as IHubProject;
-}
-
-/**
- * Convert a IHubProjectEditor back to an IHubProject
- * @param editor
- * @param portal
- * @returns
- */
-export function editorToProject(
-  editor: IHubProjectEditor,
-  portal: IPortal
-): IHubProject {
-  const _metric = editor._metric;
-
-  // 1. remove the ephemeral props we graft onto the editor
-  delete editor._groups;
-  delete editor._thumbnail;
-  delete editor.view?.featuredImage;
-  delete editor._metric;
-  delete editor._groups;
-
-  // 2. clone into a HubProject and extract common properties
-  let project = editorToEntity(editor, portal) as IHubProject;
-
-  // 4. handle configured metric:
-  //   a. transform editor values into metric + displayConfig
-  //   b. set metric and displayConfig on project
-  if (_metric && Object.keys(_metric).length) {
-    const metricId =
-      _metric.metricId || createId(camelize(`${_metric.cardTitle}_`));
-    const { metric, displayConfig } = editorToMetric(_metric, metricId, {
-      metricName: _metric.cardTitle,
-    });
-
-    project = setMetricAndDisplay(project, metric, displayConfig);
-  }
-
-  return project;
 }
 
 /**
