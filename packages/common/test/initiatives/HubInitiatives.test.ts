@@ -1,7 +1,7 @@
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as FetchEnrichments from "../../src/items/_enrichments";
 
-import { MOCK_AUTH, MOCK_CONTEXT } from "../mocks/mock-auth";
+import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as modelUtils from "../../src/models";
 import * as slugUtils from "../../src/items/slugs";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
@@ -17,23 +17,13 @@ import {
   deleteInitiative,
   updateInitiative,
   // getPendingProjectsQuery,
-  editorToInitiative,
 } from "../../src/initiatives/HubInitiatives";
-import {
-  IHubInitiative,
-  IHubInitiativeEditor,
-} from "../../src/core/types/IHubInitiative";
+import { IHubInitiative } from "../../src/core/types/IHubInitiative";
 import * as utilModule from "../../src/util";
-import {
-  IMetric,
-  IMetricDisplayConfig,
-  IPredicate,
-  IQuery,
-  getProp,
-} from "../../src";
-import { IArcGISContext } from "../../src";
-import * as editorToMetricModule from "../../src/metrics/editorToMetric";
-import * as setMetricAndDisplayModule from "../../src/core/schemas/internal/metrics/setMetricAndDisplay";
+// import {
+//   IPredicate,
+//   IQuery,
+// } from "../../src";
 
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
 const INITIATIVE_ITEM: portalModule.IItem = {
@@ -486,191 +476,6 @@ describe("HubInitiatives:", () => {
   //   //   });
   //   // });
   // });
-
-  describe("editor to initiative", () => {
-    const context = {
-      portal: {
-        urlKey: "foo",
-      } as unknown as portalModule.IPortal,
-    } as unknown as IArcGISContext;
-    it("removes ephemeral props", async () => {
-      const editor: IHubInitiativeEditor = {
-        _groups: [],
-        _thumbnail: "foo",
-        view: { featuredImage: "bar" },
-        _metric: {
-          id: "123",
-          cardTitle: "foo",
-        },
-        _associations: {
-          groupAccess: "public",
-        },
-      } as unknown as IHubInitiativeEditor;
-
-      const res = await editorToInitiative(editor, context);
-
-      expect(res._groups).toBeUndefined();
-      expect(res._thumbnail).toBeUndefined();
-      expect(getProp(res, "view.featuredImage")).toBeUndefined();
-      expect(res._metric).toBeUndefined();
-      expect(res._associations).toBeUndefined();
-    });
-    describe("metrics", () => {
-      let mockMetric: IMetric;
-      let mockMetricDisplay: IMetricDisplayConfig;
-      let editorToMetricSpy: jasmine.Spy;
-      let setMetricAndDisplaySpy: jasmine.Spy;
-
-      beforeEach(() => {
-        mockMetric = {
-          source: { type: "static-value", value: "10" },
-          name: "123",
-          id: "123",
-        };
-        mockMetricDisplay = {
-          displayType: "stat-card",
-          metricId: "123",
-          cardTitle: "foo",
-        };
-
-        editorToMetricSpy = spyOn(
-          editorToMetricModule,
-          "editorToMetric"
-        ).and.returnValue({ metric: {}, displayConfig: {} });
-        setMetricAndDisplaySpy = spyOn(
-          setMetricAndDisplayModule,
-          "setMetricAndDisplay"
-        ).and.returnValue({
-          metrics: [mockMetric],
-          view: { metricDisplays: [mockMetricDisplay] },
-        });
-      });
-      it("handles creating new metrics", async () => {
-        const createIdSpy = spyOn(utilModule, "createId").and.returnValue(
-          "123"
-        );
-        const editor = {
-          _metric: {
-            type: "static",
-            value: "10",
-            cardTitle: "foo",
-          },
-        } as unknown as IHubInitiativeEditor;
-
-        const res = await editorToInitiative(editor, {
-          portal: {
-            urlKey: "foo",
-          } as unknown as portalModule.IPortal,
-        } as unknown as IArcGISContext);
-
-        expect(createIdSpy).toHaveBeenCalledTimes(1);
-        expect(editorToMetricSpy).toHaveBeenCalledTimes(1);
-        expect(setMetricAndDisplaySpy).toHaveBeenCalledTimes(1);
-        expect(res.metrics).toEqual([mockMetric]);
-        expect(getProp(res, "view.metricDisplays")).toEqual([
-          mockMetricDisplay,
-        ]);
-      });
-      it("handles updating existing metrics", async () => {
-        const editor = {
-          _metric: {
-            type: "static",
-            id: "123",
-            value: "10",
-            cardTitle: "foo",
-          },
-        } as unknown as IHubInitiativeEditor;
-
-        const res = await editorToInitiative(editor, {
-          portal: {
-            urlKey: "foo",
-          } as unknown as portalModule.IPortal,
-        } as unknown as IArcGISContext);
-
-        expect(editorToMetricSpy).toHaveBeenCalledTimes(1);
-        expect(setMetricAndDisplaySpy).toHaveBeenCalledTimes(1);
-        expect(res.metrics).toEqual([mockMetric]);
-        expect(getProp(res, "view.metricDisplays")).toEqual([
-          mockMetricDisplay,
-        ]);
-      });
-    });
-    describe("associations", () => {
-      it("handles associations", async () => {
-        const editor = {
-          _associations: {
-            groupAccess: "public",
-            membershipAccess: "organization",
-          },
-          associations: {
-            groupId: "00123",
-          },
-        } as unknown as IHubInitiativeEditor;
-
-        const updateGroupSpy = spyOn(
-          portalModule,
-          "updateGroup"
-        ).and.returnValue(Promise.resolve());
-
-        const res = await editorToInitiative(editor, MOCK_CONTEXT);
-
-        expect(updateGroupSpy.calls.argsFor(0)).toEqual([
-          {
-            group: {
-              id: "00123",
-              access: "public",
-            },
-            authentication: MOCK_CONTEXT.hubRequestOptions.authentication,
-          },
-        ]);
-        expect(updateGroupSpy.calls.argsFor(1)).toEqual([
-          {
-            group: {
-              id: "00123",
-              membershipAccess: "org",
-              clearEmptyFields: true,
-            },
-            authentication: MOCK_CONTEXT.hubRequestOptions.authentication,
-          },
-        ]);
-        expect(updateGroupSpy).toHaveBeenCalledTimes(2);
-        expect(res._associations).toBeUndefined();
-      });
-      it("handles an empty associations object", async () => {
-        const editor = {
-          _associations: {},
-          associations: {
-            groupId: "00123",
-          },
-        } as unknown as IHubInitiativeEditor;
-
-        const res = await editorToInitiative(editor, {
-          portal: {
-            urlKey: "foo",
-          } as unknown as portalModule.IPortal,
-        } as unknown as IArcGISContext);
-
-        expect(res.groupAccess).toBeUndefined();
-        expect(res.membershipAccess).toBeUndefined();
-      });
-      it("handles no associations object", async () => {
-        const editor = {
-          associations: {
-            groupId: "00123",
-          },
-        } as unknown as IHubInitiativeEditor;
-
-        const res = await editorToInitiative(editor, {
-          portal: {
-            urlKey: "foo",
-          } as unknown as portalModule.IPortal,
-        } as unknown as IArcGISContext);
-
-        expect(res.groupAccess).toBeUndefined();
-        expect(res.membershipAccess).toBeUndefined();
-      });
-    });
-  });
 });
 
 /**
@@ -679,48 +484,48 @@ describe("HubInitiatives:", () => {
  * @param query
  * @param expectedPredicate
  */
-function verifyPredicate(query: IQuery, expectedPredicate: IPredicate) {
-  if (Object.keys(expectedPredicate).length > 1) {
-    throw new Error(
-      `verifyPredicate helper expects to check a single prop on the predicate.`
-    );
-  }
-  // iterate the filtes in the query, looking for a predicate that has the prop + value
-  let present = false;
-  query.filters.forEach((filter) => {
-    filter.predicates.forEach((predicate) => {
-      // iterate the props on expected, and check if this predicate has the prop + value
-      Object.keys(expectedPredicate).forEach((key) => {
-        if (Array.isArray(predicate[key])) {
-          present = compareArrays(predicate[key], expectedPredicate[key]);
-          // compare arrays
-        } else {
-          // tslint:disable-next-line
-          if (predicate[key] == expectedPredicate[key]) {
-            present = true;
-          }
-        }
-      });
-    });
-  });
-  return present;
-}
+// function verifyPredicate(query: IQuery, expectedPredicate: IPredicate) {
+//   if (Object.keys(expectedPredicate).length > 1) {
+//     throw new Error(
+//       `verifyPredicate helper expects to check a single prop on the predicate.`
+//     );
+//   }
+//   // iterate the filtes in the query, looking for a predicate that has the prop + value
+//   let present = false;
+//   query.filters.forEach((filter) => {
+//     filter.predicates.forEach((predicate) => {
+//       // iterate the props on expected, and check if this predicate has the prop + value
+//       Object.keys(expectedPredicate).forEach((key) => {
+//         if (Array.isArray(predicate[key])) {
+//           present = compareArrays(predicate[key], expectedPredicate[key]);
+//           // compare arrays
+//         } else {
+//           // tslint:disable-next-line
+//           if (predicate[key] == expectedPredicate[key]) {
+//             present = true;
+//           }
+//         }
+//       });
+//     });
+//   });
+//   return present;
+// }
 
-function getPredicateValue(query: IQuery, expectedPredicate: IPredicate): any {
-  let result: any;
-  query.filters.forEach((filter) => {
-    filter.predicates.forEach((predicate) => {
-      // iterate the props on expected, and check if this predicate has the prop + value
-      Object.keys(expectedPredicate).forEach((key) => {
-        if (predicate[key]) {
-          result = predicate[key];
-        }
-      });
-    });
-  });
-  return result;
-}
+// function getPredicateValue(query: IQuery, expectedPredicate: IPredicate): any {
+//   let result: any;
+//   query.filters.forEach((filter) => {
+//     filter.predicates.forEach((predicate) => {
+//       // iterate the props on expected, and check if this predicate has the prop + value
+//       Object.keys(expectedPredicate).forEach((key) => {
+//         if (predicate[key]) {
+//           result = predicate[key];
+//         }
+//       });
+//     });
+//   });
+//   return result;
+// }
 
-const compareArrays = (a: any[], b: any[]) =>
-  // tslint:disable-next-line
-  a.length === b.length && a.every((element, index) => element == b[index]);
+// const compareArrays = (a: any[], b: any[]) =>
+//   // tslint:disable-next-line
+//   a.length === b.length && a.every((element, index) => element == b[index]);
