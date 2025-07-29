@@ -1,6 +1,6 @@
 import { getWithDefault } from "../../../../objects";
 import { cloneObject } from "../../../../util";
-import { IHubItemEntity } from "../../../types";
+import { IHubItemEntity } from "../../../types/IHubItemEntity";
 import { IMetric, IMetricDisplayConfig } from "../../../types/Metrics";
 
 /**

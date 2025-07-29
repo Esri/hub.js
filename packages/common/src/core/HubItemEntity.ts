@@ -41,12 +41,14 @@ import { IHubItemEntity, IHubItemEntityEditor } from "./types/IHubItemEntity";
 import { SettableAccessLevel } from "./types/types";
 import { sharedWith } from "./_internal/sharedWith";
 import { IWithDiscussionsBehavior } from "./behaviors/IWithDiscussionsBehavior";
-import { setDiscussableKeyword } from "../discussions";
+import { setDiscussableKeyword } from "../discussions/utils";
 import { IWithFollowersBehavior } from "./behaviors/IWithFollowersBehavior";
 import { initCatalogOnEntityCreate } from "../search/initCatalogOnEntityCreate";
-import { Catalog, editorToMetric, IHubLocation } from "..";
 import { setMetricAndDisplay } from "./schemas/internal/metrics/setMetricAndDisplay";
 import { truncateSlug } from "../items/_internal/slugs";
+import { Catalog } from "../search/Catalog";
+import { IHubLocation } from "../core/types/IHubLocation";
+import { editorToMetric } from "../metrics/editorToMetric";
 
 const FEATURED_IMAGE_FILENAME = "featuredImage.png";
 

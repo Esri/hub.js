@@ -1,15 +1,16 @@
 import { DEFAULT_PROJECT } from "./defaults";
 import {
-  IHubProject,
   IWithCatalogBehavior,
   IWithStoreBehavior,
   IWithSharingBehavior,
-  IResolvedMetric,
   IWithCardBehavior,
+} from "../core/behaviors";
+import {
+  IHubProject,
   IHubProjectEditor,
   IEntityEditorContext,
-} from "../core";
-
+  IResolvedMetric,
+} from "../core/types";
 import { Catalog } from "../search/Catalog";
 import type { IArcGISContext } from "../types/IArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
