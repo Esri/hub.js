@@ -26,7 +26,6 @@ import {
 import { enrichEntity } from "../core/enrichEntity";
 import { InitiativeTemplateEditorType } from "./_internal/InitiativeTemplateSchema";
 import { getEditorSlug } from "../core/_internal/getEditorSlug";
-import { editorToEntity } from "../core/schemas/internal/metrics/editorToEntity";
 
 /**
  * Hub Initiative Template Class
@@ -35,8 +34,6 @@ export class HubInitiativeTemplate
   extends HubItemEntity<IHubInitiativeTemplate>
   implements IWithCatalogBehavior, IWithEditorBehavior, IWithCardBehavior
 {
-  private _catalog: Catalog;
-
   private constructor(
     initiativeTemplate: IHubInitiativeTemplate,
     context: IArcGISContext
@@ -188,31 +185,14 @@ export class HubInitiativeTemplate
    * @param editor
    */
   async fromEditor(editor: IHubInitiativeTemplateEditor): Promise<HubEntity> {
-    // Setting the thumbnailCache will ensure that the thumbnail is updated on next save
-    if (editor._thumbnail) {
-      const thumbnail = editor._thumbnail as { blob?: Blob; fileName?: string };
-      if (thumbnail.blob) {
-        this.thumbnailCache = {
-          file: thumbnail.blob,
-          filename: thumbnail.fileName,
-          clear: false,
-        };
-      } else {
-        this.thumbnailCache = {
-          clear: true,
-        };
-      }
-    }
-
-    delete editor._thumbnail;
-
-    const entity = editorToEntity(
-      editor,
-      this.context.portal
-    ) as IHubInitiativeTemplate;
+    // defer to the parent class (HubItemEntity) to
+    // handle shared "fromEditor" logic
+    const initiativeTemplate = (await super._fromEditor(
+      editor
+    )) as IHubInitiativeTemplate;
 
     // save, which will also create an entity if we don't have an id for it
-    this.entity = entity;
+    this.entity = initiativeTemplate;
     await this.save();
 
     return this.entity;
