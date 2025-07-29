@@ -10,6 +10,7 @@ import { IWithPermissions } from "../traits/IWithPermissions";
 import { IWithDiscussions } from "../traits/IWithDiscussions";
 import { IWithViewSettings } from "../traits/IWithViewSettings";
 import { IWithAssistant } from "../traits/IWithAssistant";
+import { ICatalogSetup } from "../../search";
 
 /**
  * Properties exposed by Entities that are backed by Items
@@ -184,4 +185,5 @@ export type IHubItemEntityEditor<T> = Omit<T, "extent"> & {
    * (i.e. w/o the orgUrlKey prefix)
    */
   _slug?: string;
+  _catalogSetup?: ICatalogSetup;
 };
