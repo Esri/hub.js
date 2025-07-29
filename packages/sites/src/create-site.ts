@@ -9,6 +9,7 @@ import {
   getProp,
   addSiteDomains,
   updateItem,
+  setProp,
 } from "@esri/hub-common";
 import { ensureRequiredSiteProperties } from "./ensure-required-site-properties";
 import { protectItem, shareItemWithGroup } from "@esri/arcgis-rest-portal";
@@ -55,7 +56,7 @@ export function createSite(
         authentication: hubRequestOptions.authentication,
       });
     })
-    .then((protectResponse) => {
+    .then((_protectResponse) => {
       // get the clientId out of the addSiteDomains call
       return addSiteDomains(model, hubRequestOptions);
     })
@@ -63,16 +64,21 @@ export function createSite(
       // client id will be the same for all domain resonses so we can just grab the first one
       model.data.values.clientId = domainResponses[0].clientKey;
 
-      // If we have a dcat section, hoist it out as it may contain complex adlib
-      // templates that are needed at run-time
-      // If we have data.values.dcatConfig, yank it off b/c that may have adlib template stuff in it
+      // If we have dcat or feeds, temporarily remove it
+      // b/c it if it has template tokens, they are intended to be interpolated at runtime
       const dcatConfig = cloneObject(model.data.values.dcatConfig);
       delete model.data.values.dcatConfig;
+      const feedsPath = "data.feeds";
+      const feeds = cloneObject(getProp(model, feedsPath));
+      delete model.data.feeds;
       // with the id of the actual item
       model = interpolateItemId(model);
       // re-attach if we got anything...
       if (dcatConfig) {
         model.data.values.dcatConfig = dcatConfig;
+      }
+      if (feeds) {
+        setProp(feedsPath, feeds, model);
       }
 
       return updateItem({
@@ -80,7 +86,7 @@ export function createSite(
         authentication: hubRequestOptions.authentication,
       });
     })
-    .then((updateResponse) => {
+    .then((_updateResponse) => {
       // upload resources from url
 
       return uploadResourcesFromUrl(
@@ -89,7 +95,7 @@ export function createSite(
         hubRequestOptions
       );
     })
-    .then((uploadResponses) => {
+    .then((_uploadResponses) => {
       // default to a success response
       let sharePrms: Promise<any> = Promise.resolve({ success: true });
       // share it to the collab team if that got created
@@ -107,7 +113,7 @@ export function createSite(
       }
       return sharePrms;
     })
-    .then((resp) => {
+    .then((_resp) => {
       // if we created an initiative, ensure we inject the site Id into it
       const initiativeItemId = getProp(
         model,
@@ -124,7 +130,7 @@ export function createSite(
         return Promise.resolve(true);
       }
     })
-    .then((resp) => {
+    .then((_resp) => {
       return model;
     })
     .catch((err) => {
