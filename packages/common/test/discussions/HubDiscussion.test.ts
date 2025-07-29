@@ -7,13 +7,11 @@ import * as discussionsEditModule from "../../src/discussions/edit";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
 import { IHubDiscussion } from "../../src/core/types";
-import { getProp } from "../../src/objects/get-prop";
+import { HubItemEntity } from "../../src/core/HubItemEntity";
 
 describe("HubDiscussion Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
-  let unauthdCtxMgr: ArcGISContextManager;
   beforeEach(async () => {
-    unauthdCtxMgr = await ArcGISContextManager.create();
     // When we pass in all this information, the context
     // manager will not try to fetch anything, so no need
     // to mock those calls
@@ -66,7 +64,7 @@ describe("HubDiscussion Class:", () => {
       const fetchSpy = spyOn(
         discussionsFetchModule,
         "fetchDiscussion"
-      ).and.callFake((id: string) => {
+      ).and.callFake(() => {
         const err = new Error(
           "CONT_0001: Item does not exist or is inaccessible."
         );
@@ -84,7 +82,7 @@ describe("HubDiscussion Class:", () => {
       const fetchSpy = spyOn(
         discussionsFetchModule,
         "fetchDiscussion"
-      ).and.callFake((id: string) => {
+      ).and.callFake(() => {
         const err = new Error("ZOMG!");
         return Promise.reject(err);
       });
@@ -277,6 +275,27 @@ describe("HubDiscussion Class:", () => {
     });
 
     describe("fromEditor:", () => {
+      let parentSpy: jasmine.Spy;
+      beforeEach(() => {
+        parentSpy = spyOn(
+          HubItemEntity.prototype as any,
+          "_fromEditor"
+        ).and.callThrough();
+      });
+      it("delegates to the parent class to handle shared logic", async () => {
+        const chk = HubDiscussion.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+          },
+          authdCtxMgr.context
+        );
+        spyOn(chk, "save").and.returnValue(Promise.resolve());
+        const editor = await chk.toEditor();
+        await chk.fromEditor(editor);
+        expect(parentSpy).toHaveBeenCalledTimes(1);
+      });
       it("handles simple prop change", async () => {
         const chk = HubDiscussion.fromJson(
           {
@@ -297,56 +316,6 @@ describe("HubDiscussion Class:", () => {
         expect(saveSpy).toHaveBeenCalledTimes(1);
         // expect the name to have been updated
         expect(result.name).toEqual("new name");
-      });
-      it("handles thumbnail change", async () => {
-        const chk = HubDiscussion.fromJson(
-          {
-            id: "bc3",
-            name: "Test Entity",
-            thumbnailUrl: "https://myserver.com/thumbnail.png",
-          },
-          authdCtxMgr.context
-        );
-        // spy on the instance .save method and retrn void
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
-        // make changes to the editor
-        const editor = await chk.toEditor();
-        editor.name = "new name";
-        editor._thumbnail = {
-          blob: "fake blob",
-          filename: "thumbnail.png",
-        };
-        // call fromEditor
-        const result = await chk.fromEditor(editor);
-        // expect the save method to have been called
-        expect(saveSpy).toHaveBeenCalledTimes(1);
-        // since thumbnailCache is protected we can't really test that it's set
-        // other than via code-coverage
-        expect(getProp(result, "_thumbnail")).not.toBeDefined();
-      });
-
-      it("handles thumbnail clear", async () => {
-        const chk = HubDiscussion.fromJson(
-          {
-            id: "bc3",
-            name: "Test Entity",
-            thumbnailUrl: "https://myserver.com/thumbnail.png",
-          },
-          authdCtxMgr.context
-        );
-        // spy on the instance .save method and retrn void
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
-        // make changes to the editor
-        const editor = await chk.toEditor();
-        editor.name = "new name";
-        editor._thumbnail = {};
-        // call fromEditor
-        const result = await chk.fromEditor(editor);
-        // expect the save method to have been called
-        expect(saveSpy).toHaveBeenCalledTimes(1);
-        // since thumbnailCache is protected we can't really test that it's set
-        // other than via code-coverage
-        expect(getProp(result, "_thumbnail")).not.toBeDefined();
       });
     });
   });
