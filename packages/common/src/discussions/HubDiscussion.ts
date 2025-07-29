@@ -15,7 +15,6 @@ import { cloneObject } from "../util";
 import { DiscussionEditorType } from "./_internal/DiscussionSchema";
 import { enrichEntity } from "../core/enrichEntity";
 import { getEditorSlug } from "../core/_internal/getEditorSlug";
-import { editorToEntity } from "../core/schemas/internal/metrics/editorToEntity";
 
 /**
  * Hub Discussion Class
@@ -203,28 +202,12 @@ export class HubDiscussion
    * @returns
    */
   async fromEditor(editor: IHubDiscussionEditor): Promise<IHubDiscussion> {
-    // TODO: move this into a util
-    // Setting the thumbnailCache will ensure that
-    // the thumbnail is updated on next save
-    if (editor._thumbnail) {
-      const thumb = editor._thumbnail as { blob?: Blob; fileName?: string };
-      if (thumb.blob) {
-        this.thumbnailCache = {
-          file: thumb.blob,
-          filename: thumb.fileName,
-          clear: false,
-        };
-      } else {
-        this.thumbnailCache = {
-          clear: true,
-        };
-      }
-    }
-
-    delete editor._thumbnail;
+    // defer to the parent class (HubItemEntity) to
+    // handle shared "fromEditor" logic
+    const discussion = (await super._fromEditor(editor)) as IHubDiscussion;
 
     // Save, which will also create new content if new
-    this.entity = editorToEntity(editor, this.context.portal) as IHubDiscussion;
+    this.entity = discussion;
     await this.save();
 
     return this.entity;
