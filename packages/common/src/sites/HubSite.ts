@@ -53,7 +53,6 @@ import {
 } from "../index";
 import { SiteEditorType } from "./_internal/SiteSchema";
 import { getEditorSlug } from "../core/_internal/getEditorSlug";
-import { editorToEntity } from "../core/schemas/internal/metrics/editorToEntity";
 
 /**
  * Hub Site Class
@@ -69,7 +68,7 @@ export class HubSite
     IWithVersioningBehavior,
     IWithEditorBehavior
 {
-  private _catalog: Catalog;
+  // private _catalog: Catalog;
 
   private _catalogCache: Record<string, IHubCatalog> = {};
   /**
@@ -459,52 +458,34 @@ export class HubSite
    * @returns
    */
   async fromEditor(editor: IHubSiteEditor): Promise<IHubSite> {
-    // 1. Perform any pre-save operations e.g. storing
-    // image resources on the item, setting access, etc.
+    // 1. defer to the parent class (HubItemEntity) to
+    // handle shared "fromEditor" logic and convert
+    // the editor back into an IHubSite entity
+    const entity = (await super._fromEditor(editor)) as IHubSite;
 
-    // Setting the thumbnailCache will ensure that
-    // the thumbnail is updated on next save
-    if (editor._thumbnail) {
-      if (editor._thumbnail.blob) {
-        this.thumbnailCache = {
-          file: editor._thumbnail.blob,
-          filename: editor._thumbnail.fileName,
-          clear: false,
-        };
-      } else {
-        this.thumbnailCache = {
-          clear: true,
-        };
-      }
-    }
-
-    delete editor._thumbnail;
-
-    // set whether or not the followers group is discussable
+    // 2. handle site-specific operations
+    // a. set whether or not the followers group is discussable
     if (editor._followers?.isDiscussable) {
       await this.setFollowersGroupIsDiscussable(
         editor._followers.isDiscussable
       );
     }
 
-    // set the followers group access
+    // b. set the followers group access
     if (editor._followers?.groupAccess) {
       await this.setFollowersGroupAccess(
         editor._followers.groupAccess as SettableAccessLevel
       );
     }
 
-    // 2. Convert editor values back to an entity e.g. apply
-    // any reverse transforms used in the toEditor method
-    const entity = editorToEntity(editor, this.context.portal) as IHubSite;
-
+    // c. set site feature flags
     entity.features = {
       ...entity.features,
       "hub:site:feature:follow": editor._followers?.showFollowAction,
       "hub:site:feature:discussions": editor._discussions,
     };
 
-    // site URL info
+    // d. handle site URL info
     const { url, subdomain, defaultHostname } = editor._urlInfo;
     entity.url = url;
     entity.subdomain = subdomain;
