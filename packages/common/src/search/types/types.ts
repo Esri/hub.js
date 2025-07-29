@@ -199,8 +199,8 @@ export interface ISearchAssociatedContentOptions {
 
 /**
  * When creating an entity, an editor can elect to initialize
- * the catalog with a new group or an existing group. The
- * following types enumerate these options.
+ * the entity's catalog with a new group or an existing group.
+ * The following types enumerate these options.
  */
 export const CATALOG_SETUP_TYPES = [
   "blank",
