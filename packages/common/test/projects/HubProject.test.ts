@@ -80,9 +80,9 @@ describe("HubProject Class:", () => {
       });
       try {
         await HubProject.fetch("3ef", authdCtxMgr.context);
-      } catch (ex: any) {
+      } catch (ex) {
         expect(fetchSpy).toHaveBeenCalledTimes(1);
-        expect(ex.message).toBe("Project not found.");
+        expect((ex as Error).message).toBe("Project not found.");
       }
     });
 
@@ -93,9 +93,9 @@ describe("HubProject Class:", () => {
       });
       try {
         await HubProject.fetch("3ef", authdCtxMgr.context);
-      } catch (ex: any) {
+      } catch (ex) {
         expect(fetchSpy).toHaveBeenCalledTimes(1);
-        expect(ex.message).toBe("ZOMG!");
+        expect((ex as Error).message).toBe("ZOMG!");
       }
     });
   });
@@ -216,14 +216,14 @@ describe("HubProject Class:", () => {
     // async calls
     try {
       await chk.delete();
-    } catch (e: any) {
-      expect(e.message).toEqual("HubProject is already destroyed.");
+    } catch (e) {
+      expect((e as Error).message).toEqual("HubProject is already destroyed.");
     }
 
     try {
       await chk.save();
-    } catch (e: any) {
-      expect(e.message).toEqual("HubProject is already destroyed.");
+    } catch (e) {
+      expect((e as Error).message).toEqual("HubProject is already destroyed.");
     }
   });
 
@@ -255,8 +255,10 @@ describe("HubProject Class:", () => {
       );
       try {
         await chk.resolveMetric("projectBudget_00c");
-      } catch (e: any) {
-        expect(e.message).toEqual("Metric projectBudget_00c not found.");
+      } catch (e) {
+        expect((e as Error).message).toEqual(
+          "Metric projectBudget_00c not found."
+        );
       }
     });
 
