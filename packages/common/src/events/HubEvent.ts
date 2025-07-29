@@ -233,14 +233,20 @@ export class HubEvent
    */
   async fromEditor(editor: IHubEventEditor): Promise<IHubEvent> {
     const thumbnail = editor._thumbnail;
-    const entity = cloneObject(editor) as IHubEvent;
 
+    // defer to the parent class (HubItemEntity) to
+    // handle shared "fromEditor" logic
+    const event = (await super._fromEditor(editor)) as IHubEvent;
+
+    // 2. handle event-specific operations
     if (thumbnail) {
-      entity.thumbnailUrl = thumbnail.url || null;
+      event.thumbnailUrl = (thumbnail.url as string) || null;
     }
 
-    this.entity = entity;
+    // save or create the entity
+    this.entity = event;
     await this.save();
+
     return this.entity;
   }
 }
