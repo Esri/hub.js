@@ -11,13 +11,12 @@ import * as unshareEventWithGroupsModule from "../../src/events/_internal/unshar
 import * as getEventGroupsModule from "../../src/events/getEventGroups";
 import * as eventsModule from "../../src/events/api/events";
 import { IArcGISContext } from "../../src";
+import { HubItemEntity } from "../../src/core/HubItemEntity";
 
 /* @ts-ignore no-unnecessary-qualifier */
 describe("HubEvent Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
-  let unauthdCtxMgr: ArcGISContextManager;
   beforeEach(async () => {
-    unauthdCtxMgr = await ArcGISContextManager.create();
     // When we pass in all this information, the context
     // manager will not try to fetch anything, so no need
     // to mock those calls
@@ -183,6 +182,27 @@ describe("HubEvent Class:", () => {
     });
 
     describe("fromEditor:", () => {
+      let parentSpy: jasmine.Spy;
+      beforeEach(() => {
+        parentSpy = spyOn(
+          HubItemEntity.prototype as any,
+          "_fromEditor"
+        ).and.callThrough();
+      });
+      it("delegates to the parent class to handle shared logic", async () => {
+        const chk = HubEvent.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+          },
+          authdCtxMgr.context
+        );
+        spyOn(chk, "save").and.returnValue(Promise.resolve());
+        const editor = await chk.toEditor();
+        await chk.fromEditor(editor);
+        expect(parentSpy).toHaveBeenCalledTimes(1);
+      });
       it("handles simple prop change", async () => {
         const chk = HubEvent.fromJson(
           {
