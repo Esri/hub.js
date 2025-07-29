@@ -61,6 +61,7 @@ export async function createHubEvent(
     allowRegistration: model.allowRegistration,
     associations,
     attendanceType: model.attendanceType,
+    capabilities: model.capabilities,
     categories: model.categories,
     description: model.description,
     editGroups: model.editGroups,
