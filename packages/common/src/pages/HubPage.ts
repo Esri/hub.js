@@ -23,7 +23,6 @@ import { PageEditorType } from "./_internal/PageSchema";
 import { cloneObject } from "../util";
 import { enrichEntity } from "../core/enrichEntity";
 import { getEditorSlug } from "../core/_internal/getEditorSlug";
-import { editorToEntity } from "../core/schemas/internal/metrics/editorToEntity";
 
 /*
   TODO:
@@ -229,31 +228,12 @@ export class HubPage
    * @returns
    */
   async fromEditor(editor: IHubPageEditor): Promise<IHubPage> {
-    // Setting the thumbnailCache will ensure that
-    // the thumbnail is updated on next save
-    if (editor._thumbnail) {
-      const thumbnail = editor._thumbnail as { blob?: Blob; fileName?: string };
-      if (thumbnail.blob) {
-        this.thumbnailCache = {
-          file: thumbnail.blob,
-          filename: thumbnail.fileName,
-          clear: false,
-        };
-      } else {
-        this.thumbnailCache = {
-          clear: true,
-        };
-      }
-    }
-
-    delete editor._thumbnail;
-
-    // convert back to an entity. Apply any reverse transforms used in
-    // of the toEditor method
-    const entity = editorToEntity(editor, this.context.portal) as IHubPage;
+    // defer to the parent class (HubItemEntity) to
+    // handle shared "fromEditor" logic
+    const page = (await super._fromEditor(editor)) as IHubPage;
 
     // create it if it does not yet exist...
-    this.entity = entity;
+    this.entity = page;
     await this.save();
 
     return this.entity;
