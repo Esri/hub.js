@@ -185,7 +185,7 @@ export class HubInitiativeTemplate
    * @param editor
    */
   async fromEditor(editor: IHubInitiativeTemplateEditor): Promise<HubEntity> {
-    // defer to the parent class (HubItemEntity) to
+    // delegate to the parent class (HubItemEntity) to
     // handle shared "fromEditor" logic
     const initiativeTemplate = (await super._fromEditor(
       editor

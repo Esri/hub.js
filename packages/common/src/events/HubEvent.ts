@@ -234,7 +234,7 @@ export class HubEvent
   async fromEditor(editor: IHubEventEditor): Promise<IHubEvent> {
     const thumbnail = editor._thumbnail;
 
-    // defer to the parent class (HubItemEntity) to
+    // delegate to the parent class (HubItemEntity) to
     // handle shared "fromEditor" logic
     const event = (await super._fromEditor(editor)) as IHubEvent;
 

@@ -458,7 +458,7 @@ export class HubSite
    * @returns
    */
   async fromEditor(editor: IHubSiteEditor): Promise<IHubSite> {
-    // 1. defer to the parent class (HubItemEntity) to
+    // 1. delegate to the parent class (HubItemEntity) to
     // handle shared "fromEditor" logic and convert
     // the editor back into an IHubSite entity
     const entity = (await super._fromEditor(editor)) as IHubSite;

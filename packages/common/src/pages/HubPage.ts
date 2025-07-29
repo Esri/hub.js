@@ -228,7 +228,7 @@ export class HubPage
    * @returns
    */
   async fromEditor(editor: IHubPageEditor): Promise<IHubPage> {
-    // defer to the parent class (HubItemEntity) to
+    // delegate to the parent class (HubItemEntity) to
     // handle shared "fromEditor" logic
     const page = (await super._fromEditor(editor)) as IHubPage;
 

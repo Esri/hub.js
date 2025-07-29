@@ -319,7 +319,7 @@ export class HubInitiative
     const _associations = editor._associations;
     delete editor._associations;
 
-    // 1. defer to the parent class (HubItemEntity) to
+    // 1. delegate to the parent class (HubItemEntity) to
     // handle shared "fromEditor" logic
     const initiative = (await super._fromEditor(editor)) as IHubInitiative;
 

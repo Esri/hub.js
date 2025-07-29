@@ -202,7 +202,7 @@ export class HubDiscussion
    * @returns
    */
   async fromEditor(editor: IHubDiscussionEditor): Promise<IHubDiscussion> {
-    // defer to the parent class (HubItemEntity) to
+    // delegate to the parent class (HubItemEntity) to
     // handle shared "fromEditor" logic
     const discussion = (await super._fromEditor(editor)) as IHubDiscussion;
 
