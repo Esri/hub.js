@@ -11,7 +11,7 @@ import * as viewModule from "../../src/initiative-templates/view";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import { HubInitiativeTemplate } from "../../src/initiative-templates/HubInitiativeTemplate";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
-import { HubItemEntity } from "../../src/core/HubItemEntity";
+import * as hubItemEntityFromEditorModule from "../../src/core/_internal/hubItemEntityFromEditor";
 
 describe("HubInitiativeTemplate Class: ", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -351,11 +351,11 @@ describe("HubInitiativeTemplate Class: ", () => {
 
     describe("fromEditor:", () => {
       let createSpy: jasmine.Spy;
-      let parentSpy: jasmine.Spy;
+      let hubItemEntityFromEditorSpy: jasmine.Spy;
       beforeEach(() => {
-        parentSpy = spyOn(
-          HubItemEntity.prototype as any,
-          "_fromEditor"
+        hubItemEntityFromEditorSpy = spyOn(
+          hubItemEntityFromEditorModule,
+          "hubItemEntityFromEditor"
         ).and.callThrough();
         createSpy = spyOn(editModule, "createInitiativeTemplate").and.callFake(
           (e: any) => {
@@ -364,7 +364,7 @@ describe("HubInitiativeTemplate Class: ", () => {
           }
         );
       });
-      it("delegates to the parent class to handle shared logic", async () => {
+      it("delegates to the hubItemEntityFromEditor util to handle shared logic", async () => {
         const chk = HubInitiativeTemplate.fromJson(
           {
             id: "bc3",
@@ -376,7 +376,7 @@ describe("HubInitiativeTemplate Class: ", () => {
         spyOn(chk, "save").and.returnValue(Promise.resolve());
         const editor = await chk.toEditor();
         await chk.fromEditor(editor);
-        expect(parentSpy).toHaveBeenCalledTimes(1);
+        expect(hubItemEntityFromEditorSpy).toHaveBeenCalledTimes(1);
       });
       it("handles simple prop change", async () => {
         const chk = HubInitiativeTemplate.fromJson(

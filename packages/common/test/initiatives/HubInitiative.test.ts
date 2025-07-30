@@ -11,7 +11,7 @@ import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
 import * as metricToEditorModule from "../../src/metrics/metricToEditor";
 import * as restPortalModule from "@esri/arcgis-rest-portal";
-import { HubItemEntity } from "../../src/core/HubItemEntity";
+import * as hubItemEntityFromEditorModule from "../../src/core/_internal/hubItemEntityFromEditor";
 import { IHubAssociationRules } from "../../src/associations/types";
 
 describe("HubInitiative Class:", () => {
@@ -442,14 +442,14 @@ describe("HubInitiative Class:", () => {
     });
 
     describe("fromEditor:", () => {
-      let parentSpy: jasmine.Spy;
+      let hubItemEntityFromEditorSpy: jasmine.Spy;
       beforeEach(() => {
-        parentSpy = spyOn(
-          HubItemEntity.prototype as any,
-          "_fromEditor"
+        hubItemEntityFromEditorSpy = spyOn(
+          hubItemEntityFromEditorModule,
+          "hubItemEntityFromEditor"
         ).and.callThrough();
       });
-      it("delegates to the parent class to handle shared logic", async () => {
+      it("delegates to the hubItemEntityFromEditor util to handle shared logic", async () => {
         const chk = HubInitiative.fromJson(
           {
             id: "bc3",
@@ -461,7 +461,7 @@ describe("HubInitiative Class:", () => {
         spyOn(chk, "save").and.returnValue(Promise.resolve());
         const editor = await chk.toEditor();
         await chk.fromEditor(editor);
-        expect(parentSpy).toHaveBeenCalledTimes(1);
+        expect(hubItemEntityFromEditorSpy).toHaveBeenCalledTimes(1);
       });
     });
   });

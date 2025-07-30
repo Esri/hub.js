@@ -11,7 +11,7 @@ import * as unshareEventWithGroupsModule from "../../src/events/_internal/unshar
 import * as getEventGroupsModule from "../../src/events/getEventGroups";
 import * as eventsModule from "../../src/events/api/events";
 import { IArcGISContext } from "../../src";
-import { HubItemEntity } from "../../src/core/HubItemEntity";
+import * as hubItemEntityFromEditorModule from "../../src/core/_internal/hubItemEntityFromEditor";
 
 /* @ts-ignore no-unnecessary-qualifier */
 describe("HubEvent Class:", () => {
@@ -182,14 +182,14 @@ describe("HubEvent Class:", () => {
     });
 
     describe("fromEditor:", () => {
-      let parentSpy: jasmine.Spy;
+      let hubItemEntityFromEditorSpy: jasmine.Spy;
       beforeEach(() => {
-        parentSpy = spyOn(
-          HubItemEntity.prototype as any,
-          "_fromEditor"
+        hubItemEntityFromEditorSpy = spyOn(
+          hubItemEntityFromEditorModule,
+          "hubItemEntityFromEditor"
         ).and.callThrough();
       });
-      it("delegates to the parent class to handle shared logic", async () => {
+      it("delegates to the hubItemEntityFromEditor util to handle shared logic", async () => {
         const chk = HubEvent.fromJson(
           {
             id: "bc3",
@@ -201,7 +201,7 @@ describe("HubEvent Class:", () => {
         spyOn(chk, "save").and.returnValue(Promise.resolve());
         const editor = await chk.toEditor();
         await chk.fromEditor(editor);
-        expect(parentSpy).toHaveBeenCalledTimes(1);
+        expect(hubItemEntityFromEditorSpy).toHaveBeenCalledTimes(1);
       });
       it("handles simple prop change", async () => {
         const chk = HubEvent.fromJson(

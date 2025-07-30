@@ -7,7 +7,7 @@ import * as discussionsEditModule from "../../src/discussions/edit";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
 import { IHubDiscussion } from "../../src/core/types";
-import { HubItemEntity } from "../../src/core/HubItemEntity";
+import * as hubItemEntityFromEditorModule from "../../src/core/_internal/hubItemEntityFromEditor";
 
 describe("HubDiscussion Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -275,14 +275,14 @@ describe("HubDiscussion Class:", () => {
     });
 
     describe("fromEditor:", () => {
-      let parentSpy: jasmine.Spy;
+      let hubItemEntityFromEditorSpy: jasmine.Spy;
       beforeEach(() => {
-        parentSpy = spyOn(
-          HubItemEntity.prototype as any,
-          "_fromEditor"
+        hubItemEntityFromEditorSpy = spyOn(
+          hubItemEntityFromEditorModule,
+          "hubItemEntityFromEditor"
         ).and.callThrough();
       });
-      it("delegates to the parent class to handle shared logic", async () => {
+      it("delegates to the hubItemEntityFromEditor util to handle shared logic", async () => {
         const chk = HubDiscussion.fromJson(
           {
             id: "bc3",
@@ -294,7 +294,7 @@ describe("HubDiscussion Class:", () => {
         spyOn(chk, "save").and.returnValue(Promise.resolve());
         const editor = await chk.toEditor();
         await chk.fromEditor(editor);
-        expect(parentSpy).toHaveBeenCalledTimes(1);
+        expect(hubItemEntityFromEditorSpy).toHaveBeenCalledTimes(1);
       });
       it("handles simple prop change", async () => {
         const chk = HubDiscussion.fromJson(
