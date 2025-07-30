@@ -1,7 +1,17 @@
 import { buildUiSchema } from "../../../src/initiatives/_internal/InitiativeUiSchemaCreate2";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
+import * as buildCatalogModule from "../../../src/core/schemas/internal/buildCatalogSetupUiSchemaElement";
 
 describe("buildUiSchema: initiative create", () => {
+  const mockCatalogSetupElements = [
+    { scope: "/properties/_catalogSetup", type: "Control", options: {} },
+  ];
+  beforeEach(() => {
+    spyOn(
+      buildCatalogModule,
+      "buildCatalogSetupUiSchemaElement"
+    ).and.returnValue(mockCatalogSetupElements);
+  });
   it("returns the full initiative create uiSchema", async () => {
     const uiSchema = await buildUiSchema("some.scope", {} as any, MOCK_CONTEXT);
     expect(uiSchema).toEqual({
@@ -34,6 +44,7 @@ describe("buildUiSchema: initiative create", () => {
             ],
           },
         },
+        ...mockCatalogSetupElements,
       ],
     });
   });
