@@ -28,8 +28,8 @@ export const hubItemEntityFromEditor = async (
   let catalog;
   let thumbnailCache;
 
-  // // 1. extract the ephemeral props we graft onto the
-  // // editor for later user
+  // 1. extract the ephemeral props we graft onto the
+  // editor for later user
   const _thumbnail = editor._thumbnail as { blob?: Blob; fileName?: string };
   const _catalogSetup = editor._catalogSetup;
   const _metric = editor._metric;
@@ -39,7 +39,7 @@ export const hubItemEntityFromEditor = async (
     fileName?: string;
   };
 
-  // // 2. remove the ephemeral props we graft onto the editor
+  // 2. remove the ephemeral props we graft onto the editor
   delete editor._groups;
   delete editor._thumbnail;
   delete editor.view?.featuredImage;
@@ -49,19 +49,19 @@ export const hubItemEntityFromEditor = async (
 
   let entity = cloneObject(editor) as IHubItemEntity;
 
-  // // 3. ensure orgUrlKey is set
+  // 3. ensure orgUrlKey is set
   entity.orgUrlKey = editor.orgUrlKey
     ? (editor.orgUrlKey as string)
     : (context.portal.urlKey as string) || ("" as string);
 
-  // // 4. copy the configured location extent up one level
-  // // on the entity.
+  // 4. copy the configured location extent up one level
+  // on the entity.
   entity.extent = (editor.location as IHubLocation)?.extent;
 
-  // // 5. Perform pre-save operations using the ephemeral
-  // // properties that were extracted above.
+  // 5. Perform pre-save operations using the ephemeral
+  // properties that were extracted above.
 
-  // // a. ensure the slug is truncated
+  // a. ensure the slug is truncated
   if (_slug) {
     // ensure the slug is truncated
     entity.slug = truncateSlug(_slug, entity.orgUrlKey);
@@ -72,9 +72,9 @@ export const hubItemEntityFromEditor = async (
     entity.slug = "";
   }
 
-  // // b. conditionally set the thumbnailCache to
-  // // ensure that the configured thumbnail is updated
-  // // on the next save
+  // b. conditionally set the thumbnailCache to
+  // ensure that the configured thumbnail is updated
+  // on the next save
   if (_thumbnail) {
     if (_thumbnail.blob) {
       thumbnailCache = {
@@ -89,8 +89,8 @@ export const hubItemEntityFromEditor = async (
     }
   }
 
-  // // c. conditionally upsert or remove the configured
-  // // featured image
+  // c. conditionally upsert or remove the configured
+  // featured image
   if (_featuredImage) {
     let featuredImageUrl: string | null = null;
     if (_featuredImage.blob) {
@@ -122,7 +122,7 @@ export const hubItemEntityFromEditor = async (
     };
   }
 
-  // // d. handle catalog setup
+  // d. handle catalog setup
   if (
     _catalogSetup?.type === "newGroup" ||
     (_catalogSetup?.type === "existingGroup" && _catalogSetup.groupId)
@@ -135,7 +135,7 @@ export const hubItemEntityFromEditor = async (
     catalog = Catalog.fromJson(entity.catalog, context);
   }
 
-  // // e. handle metrics
+  // e. handle metrics
   if (_metric && Object.keys(_metric).length) {
     const metricId =
       (_metric.metricId as string) ||
