@@ -6,7 +6,8 @@ import * as discussionsFetchModule from "../../src/discussions/fetch";
 import * as discussionsEditModule from "../../src/discussions/edit";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
-import { IHubDiscussion } from "../../src/core/types";
+import * as slugsModule from "../../src/items/_internal/slugs";
+import { IHubDiscussion, IHubDiscussionEditor } from "../../src/core/types";
 
 describe("HubDiscussion Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -274,9 +275,11 @@ describe("HubDiscussion Class:", () => {
     });
 
     describe("fromEditor:", () => {
-      beforeEach(() => {});
-      it("handles simple prop change", async () => {
-        const chk = HubDiscussion.fromJson(
+      let chk: HubDiscussion;
+      let saveSpy: jasmine.Spy;
+      let editor: IHubDiscussionEditor;
+      beforeEach(async () => {
+        chk = HubDiscussion.fromJson(
           {
             id: "bc3",
             name: "Test Entity",
@@ -284,10 +287,11 @@ describe("HubDiscussion Class:", () => {
           },
           authdCtxMgr.context
         );
-        // spy on the instance .save method and retrn void
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        editor = await chk.toEditor();
+      });
+      it("handles simple prop change", async () => {
         // make changes to the editor
-        const editor = await chk.toEditor();
         editor.name = "new name";
         // call fromEditor
         const result = await chk.fromEditor(editor);
@@ -295,6 +299,65 @@ describe("HubDiscussion Class:", () => {
         expect(saveSpy).toHaveBeenCalledTimes(1);
         // expect the name to have been updated
         expect(result.name).toEqual("new name");
+      });
+
+      it("sets extent correctly", async () => {
+        const mockExtent = [[5], [6]];
+        const result = await chk.fromEditor({
+          ...editor,
+          location: { extent: mockExtent },
+        } as IHubDiscussionEditor);
+
+        expect(result.extent).toEqual(mockExtent);
+      });
+
+      it("handles slug truncation and empty slug", async () => {
+        const truncateSpy = spyOn(slugsModule, "truncateSlug").and.returnValue(
+          "truncated"
+        );
+        const result = await chk.fromEditor({
+          ...editor,
+          _slug: "slug",
+        } as IHubDiscussionEditor);
+        expect(truncateSpy).toHaveBeenCalledWith("slug", "fake-org");
+        expect(result.slug).toBe("truncated");
+
+        const result2 = await chk.fromEditor(editor);
+        expect(result2.slug).toBe("");
+      });
+
+      it("handles thumbnail cache with and without blob", async () => {
+        const result = await chk.fromEditor({
+          _thumbnail: { blob: {} as Blob, fileName: "file.png" },
+        } as IHubDiscussionEditor);
+        expect(result._thumbnail).toBeUndefined();
+
+        const result2 = await chk.fromEditor({
+          _thumbnail: {},
+        } as IHubDiscussionEditor);
+        expect(result2._thumbnail).toBeUndefined();
+      });
+
+      it("sets orgUrlKey to empty string if not present on context.portal", async () => {
+        // Create a context with no portal.urlKey
+        const contextWithoutUrlKey = {
+          ...authdCtxMgr.context,
+          portal: {}, // no urlKey
+        };
+        const chk = HubDiscussion.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            orgUrlKey: undefined,
+          },
+          contextWithoutUrlKey as any
+        );
+        spyOn(chk, "save").and.returnValue(Promise.resolve());
+        const editor = await chk.toEditor();
+        // Remove orgUrlKey from editor to simulate missing value
+        delete editor.orgUrlKey;
+        const result = await chk.fromEditor(editor);
+        expect(result.orgUrlKey).toBe("");
       });
     });
   });

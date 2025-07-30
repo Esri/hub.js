@@ -1,18 +1,22 @@
 import * as PortalModule from "@esri/arcgis-rest-portal";
-import { IHubInitiative, IMetric, IResolvedMetric } from "../../src";
+import {
+  IHubInitiative,
+  IHubInitiativeEditor,
+  IMetric,
+  IResolvedMetric,
+} from "../../src";
 import { Catalog } from "../../src";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubInitiative } from "../../src/initiatives/HubInitiative";
 import { MOCK_AUTH } from "../mocks/mock-auth";
+import { IHubAssociationRules } from "../../src/associations/types";
 import * as HubInitiativesModule from "../../src/initiatives/HubInitiatives";
 import * as ResolveMetricModule from "../../src/metrics/resolveMetric";
 import * as viewModule from "../../src/initiatives/view";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
 import * as metricToEditorModule from "../../src/metrics/metricToEditor";
-import * as restPortalModule from "@esri/arcgis-rest-portal";
 import * as hubItemEntityFromEditorModule from "../../src/core/_internal/hubItemEntityFromEditor";
-import { IHubAssociationRules } from "../../src/associations/types";
 
 describe("HubInitiative Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -363,7 +367,7 @@ describe("HubInitiative Class:", () => {
           },
           authdCtxMgr.context
         );
-        spyOn(restPortalModule, "getGroup").and.returnValue(
+        spyOn(PortalModule, "getGroup").and.returnValue(
           Promise.resolve({
             id: "00123",
             access: "public",
@@ -443,14 +447,10 @@ describe("HubInitiative Class:", () => {
 
     describe("fromEditor:", () => {
       let hubItemEntityFromEditorSpy: jasmine.Spy;
+      let chk: HubInitiative;
+
       beforeEach(() => {
-        hubItemEntityFromEditorSpy = spyOn(
-          hubItemEntityFromEditorModule,
-          "hubItemEntityFromEditor"
-        ).and.callThrough();
-      });
-      it("delegates to the hubItemEntityFromEditor util to handle shared logic", async () => {
-        const chk = HubInitiative.fromJson(
+        chk = HubInitiative.fromJson(
           {
             id: "bc3",
             name: "Test Entity",
@@ -458,10 +458,84 @@ describe("HubInitiative Class:", () => {
           },
           authdCtxMgr.context
         );
+
+        hubItemEntityFromEditorSpy = spyOn(
+          hubItemEntityFromEditorModule,
+          "hubItemEntityFromEditor"
+        ).and.callThrough();
         spyOn(chk, "save").and.returnValue(Promise.resolve());
+      });
+      it("delegates to the hubItemEntityFromEditor util to handle shared logic", async () => {
         const editor = await chk.toEditor();
         await chk.fromEditor(editor);
         expect(hubItemEntityFromEditorSpy).toHaveBeenCalledTimes(1);
+      });
+      it("handles associations", async () => {
+        const editor = {
+          _associations: {
+            groupAccess: "public",
+            membershipAccess: "organization",
+          },
+          associations: {
+            groupId: "00123",
+          },
+        } as unknown as IHubInitiativeEditor;
+
+        const updateGroupSpy = spyOn(
+          PortalModule,
+          "updateGroup"
+        ).and.returnValue(Promise.resolve());
+
+        const res = await chk.fromEditor(editor);
+
+        expect(updateGroupSpy.calls.argsFor(0)).toEqual([
+          {
+            group: {
+              id: "00123",
+              access: "public",
+            },
+            authentication:
+              authdCtxMgr.context.hubRequestOptions.authentication,
+          },
+        ]);
+        expect(updateGroupSpy.calls.argsFor(1)).toEqual([
+          {
+            group: {
+              id: "00123",
+              membershipAccess: "org",
+              clearEmptyFields: true,
+            },
+            authentication:
+              authdCtxMgr.context.hubRequestOptions.authentication,
+          },
+        ]);
+        expect(updateGroupSpy).toHaveBeenCalledTimes(2);
+        expect(res._associations).toBeUndefined();
+      });
+      it("handles an empty associations object", async () => {
+        const editor = {
+          _associations: {},
+          associations: {
+            groupId: "00123",
+          },
+        } as unknown as IHubInitiativeEditor;
+
+        const res = await chk.fromEditor(editor);
+
+        expect(res.groupAccess).toBeUndefined();
+        expect(res.membershipAccess).toBeUndefined();
+      });
+      it("handles no associations object", async () => {
+        const editor = {
+          associations: {
+            groupId: "00123",
+          },
+        } as unknown as IHubInitiativeEditor;
+
+        const res = await chk.fromEditor(editor);
+
+        expect(res.groupAccess).toBeUndefined();
+        expect(res.membershipAccess).toBeUndefined();
       });
     });
   });
