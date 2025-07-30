@@ -17,6 +17,8 @@ import HubError from "../HubError";
 import { updateEvent } from "./api/events";
 import { EventAccess } from "./api/orval/api/orval-events";
 import { getEventGroups } from "./getEventGroups";
+import { hubItemEntityFromEditor } from "../core/_internal/hubItemEntityFromEditor";
+import { setProp } from "../objects";
 
 /**
  * Defines the properties of a Hub Event object
@@ -234,9 +236,13 @@ export class HubEvent
   async fromEditor(editor: IHubEventEditor): Promise<IHubEvent> {
     const thumbnail = editor._thumbnail;
 
-    // delegate to the parent class (HubItemEntity) to
+    // delegate to an item-specific fromEditor util to
     // handle shared "fromEditor" logic
-    const event = (await super._fromEditor(editor)) as IHubEvent;
+    const res = await hubItemEntityFromEditor(editor, this.context);
+    const event = res.entity as IHubEvent;
+    Object.entries(res).forEach(([key, value]) => {
+      setProp(key, value, this);
+    });
 
     // 2. handle event-specific operations
     if (thumbnail) {

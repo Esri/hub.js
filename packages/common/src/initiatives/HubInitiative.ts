@@ -35,12 +35,13 @@ import {
 } from "../core";
 import { IEditorConfig } from "../core/schemas/types";
 import { enrichEntity } from "../core/enrichEntity";
-import { getProp, getWithDefault } from "../objects";
+import { getProp, getWithDefault, setProp } from "../objects";
 import { metricToEditor } from "../metrics/metricToEditor";
 import { getGroup, updateGroup } from "@esri/arcgis-rest-portal";
 import { convertGroupToHubGroup } from "../groups/_internal/convertGroupToHubGroup";
 import { getEditorSlug } from "../core/_internal/getEditorSlug";
 import { convertHubGroupToGroup } from "../groups/_internal/convertHubGroupToGroup";
+import { hubItemEntityFromEditor } from "../core/_internal/hubItemEntityFromEditor";
 
 /**
  * Hub Initiative Class
@@ -319,9 +320,13 @@ export class HubInitiative
     const _associations = editor._associations;
     delete editor._associations;
 
-    // 1. delegate to the parent class (HubItemEntity) to
+    // 1. delegate to an item-specific fromEditor util to
     // handle shared "fromEditor" logic
-    const initiative = (await super._fromEditor(editor)) as IHubInitiative;
+    const res = await hubItemEntityFromEditor(editor, this.context);
+    const initiative = res.entity as IHubInitiative;
+    Object.entries(res).forEach(([key, value]) => {
+      setProp(key, value, this);
+    });
 
     // 2. handle initiative-specific operations
     // a. handle association group settings

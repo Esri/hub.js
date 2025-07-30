@@ -34,10 +34,11 @@ import { cloneObject } from "../util";
 import { createProject, updateProject } from "./edit";
 import { ProjectEditorType } from "./_internal/ProjectSchema";
 import { enrichEntity } from "../core/enrichEntity";
-import { getWithDefault } from "../objects";
+import { getWithDefault, setProp } from "../objects";
 import { metricToEditor } from "../metrics/metricToEditor";
 import { IMetricDisplayConfig } from "../core/types/Metrics";
 import { getEditorSlug } from "../core/_internal/getEditorSlug";
+import { hubItemEntityFromEditor } from "../core/_internal/hubItemEntityFromEditor";
 
 /**
  * Hub Project Class
@@ -227,12 +228,14 @@ export class HubProject
     editor: IHubProjectEditor,
     _editorContext?: IEntityEditorContext
   ): Promise<IHubProject> {
-    // delegate to the parent class (HubItemEntity) to
+    // delegate to an item-specific fromEditor util to
     // handle shared "fromEditor" logic
-    const project = (await super._fromEditor(editor)) as IHubProject;
+    const res = await hubItemEntityFromEditor(editor, this.context);
+    Object.entries(res).forEach(([key, value]) => {
+      setProp(key, value, this);
+    });
 
     // save or create the entity
-    this.entity = project;
     await this.save();
 
     return this.entity;

@@ -21,14 +21,8 @@ import {
   Permission,
   removePermissionPolicy,
 } from "../permissions";
-import {
-  doesResourceExist,
-  getItemThumbnailUrl,
-  IThumbnailOptions,
-  removeResource,
-  upsertResource,
-} from "../resources";
-import { camelize, cloneObject, createId } from "../util";
+import { getItemThumbnailUrl, IThumbnailOptions } from "../resources";
+import { cloneObject } from "../util";
 import {
   IWithSharingBehavior,
   IWithStoreBehavior,
@@ -37,18 +31,13 @@ import {
 } from "./behaviors";
 
 import { IWithThumbnailBehavior } from "./behaviors/IWithThumbnailBehavior";
-import { IHubItemEntity, IHubItemEntityEditor } from "./types/IHubItemEntity";
+import { IHubItemEntity } from "./types/IHubItemEntity";
 import { SettableAccessLevel } from "./types/types";
 import { sharedWith } from "./_internal/sharedWith";
 import { IWithDiscussionsBehavior } from "./behaviors/IWithDiscussionsBehavior";
 import { setDiscussableKeyword } from "../discussions/utils";
 import { IWithFollowersBehavior } from "./behaviors/IWithFollowersBehavior";
-import { initCatalogOnEntityCreate } from "../search/initCatalogOnEntityCreate";
-import { setMetricAndDisplay } from "./schemas/internal/metrics/setMetricAndDisplay";
-import { truncateSlug } from "../items/_internal/slugs";
 import { Catalog } from "../search/Catalog";
-import { IHubLocation } from "../core/types/IHubLocation";
-import { editorToMetric } from "../metrics/editorToMetric";
 
 const FEATURED_IMAGE_FILENAME = "featuredImage.png";
 
@@ -478,135 +467,5 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
       isDiscussable
     );
     this.update({ typeKeywords, isDiscussable } as Partial<T>);
-  }
-
-  /**
-   * Convert editor values back into an IHubItemEntity,
-   * performing any pre-save operations/XHRs/transforms.
-   * @param editor - the editor object to convert
-   */
-  async _fromEditor(
-    editor: IHubItemEntityEditor<IHubItemEntity>
-  ): Promise<IHubItemEntity> {
-    // 1. extract the ephemeral props we graft onto the
-    // editor for later user
-    const _thumbnail = editor._thumbnail as { blob?: Blob; fileName?: string };
-    const _catalogSetup = editor._catalogSetup;
-    const _metric = editor._metric;
-    const _slug = editor._slug;
-    const _featuredImage = editor.view?.featuredImage as {
-      blob?: Blob;
-      fileName?: string;
-    };
-
-    // 2. remove the ephemeral props we graft onto the editor
-    delete editor._groups;
-    delete editor._thumbnail;
-    delete editor.view?.featuredImage;
-    delete editor._metric;
-    delete editor._catalogSetup;
-    delete editor._slug;
-
-    let entity = cloneObject(editor) as IHubItemEntity;
-
-    // 3. ensure orgUrlKey is set
-    entity.orgUrlKey = editor.orgUrlKey
-      ? (editor.orgUrlKey as string)
-      : (this.context.portal.urlKey as string) || ("" as string);
-
-    // 4. copy the configured location extent up one level
-    // on the entity.
-    entity.extent = (editor.location as IHubLocation)?.extent;
-
-    // 5. Perform pre-save operations using the ephemeral
-    // properties that were extracted above.
-
-    // a. ensure the slug is truncated
-    if (_slug) {
-      // ensure the slug is truncated
-      entity.slug = truncateSlug(_slug, entity.orgUrlKey);
-    } else {
-      // if no slug is passed in, save an empty string as
-      // the slug, so that it is not saved as the orgUrlKey
-      // truncated with an empty string
-      entity.slug = "";
-    }
-
-    // b. conditionally set the thumbnailCache to
-    // ensure that the configured thumbnail is updated
-    // on the next save
-    if (_thumbnail) {
-      if (_thumbnail.blob) {
-        this.thumbnailCache = {
-          file: _thumbnail.blob,
-          filename: _thumbnail.fileName,
-          clear: false,
-        };
-      } else {
-        this.thumbnailCache = {
-          clear: true,
-        };
-      }
-    }
-
-    // c. conditionally upsert or remove the configured
-    // featured image
-    if (_featuredImage) {
-      let featuredImageUrl: string | null = null;
-      if (_featuredImage.blob) {
-        featuredImageUrl = await upsertResource(
-          entity.id,
-          entity.owner,
-          _featuredImage.blob,
-          "featuredImage.png",
-          this.context.userRequestOptions
-        );
-      } else if (
-        await doesResourceExist(
-          entity.id,
-          "featuredImage.png",
-          this.context.userRequestOptions
-        )
-      ) {
-        await removeResource(
-          entity.id,
-          "featuredImage.png",
-          entity.owner,
-          this.context.userRequestOptions
-        );
-      }
-
-      entity.view = {
-        ...entity.view,
-        featuredImageUrl,
-      };
-    }
-
-    // d. handle catalog setup
-    if (
-      _catalogSetup?.type === "newGroup" ||
-      (_catalogSetup?.type === "existingGroup" && _catalogSetup.groupId)
-    ) {
-      entity.catalog = await initCatalogOnEntityCreate(
-        entity,
-        _catalogSetup,
-        this.context
-      );
-      this._catalog = Catalog.fromJson(entity.catalog, this.context);
-    }
-
-    // e. handle metrics
-    if (_metric && Object.keys(_metric).length) {
-      const metricId =
-        (_metric.metricId as string) ||
-        createId(camelize(`${_metric.cardTitle as string}_`));
-      const { metric, displayConfig } = editorToMetric(_metric, metricId, {
-        metricName: _metric.cardTitle as string,
-      });
-
-      entity = setMetricAndDisplay(entity, metric, displayConfig);
-    }
-
-    return entity;
   }
 }

@@ -23,6 +23,8 @@ import { PageEditorType } from "./_internal/PageSchema";
 import { cloneObject } from "../util";
 import { enrichEntity } from "../core/enrichEntity";
 import { getEditorSlug } from "../core/_internal/getEditorSlug";
+import { hubItemEntityFromEditor } from "../core/_internal/hubItemEntityFromEditor";
+import { setProp } from "../objects";
 
 /*
   TODO:
@@ -228,12 +230,14 @@ export class HubPage
    * @returns
    */
   async fromEditor(editor: IHubPageEditor): Promise<IHubPage> {
-    // delegate to the parent class (HubItemEntity) to
+    // delegate to an item-specific fromEditor util to
     // handle shared "fromEditor" logic
-    const page = (await super._fromEditor(editor)) as IHubPage;
+    const res = await hubItemEntityFromEditor(editor, this.context);
+    Object.entries(res).forEach(([key, value]) => {
+      setProp(key, value, this);
+    });
 
     // create it if it does not yet exist...
-    this.entity = page;
     await this.save();
 
     return this.entity;

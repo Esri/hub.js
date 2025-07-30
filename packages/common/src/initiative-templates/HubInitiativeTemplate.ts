@@ -26,6 +26,8 @@ import {
 import { enrichEntity } from "../core/enrichEntity";
 import { InitiativeTemplateEditorType } from "./_internal/InitiativeTemplateSchema";
 import { getEditorSlug } from "../core/_internal/getEditorSlug";
+import { hubItemEntityFromEditor } from "../core/_internal/hubItemEntityFromEditor";
+import { setProp } from "../objects";
 
 /**
  * Hub Initiative Template Class
@@ -185,14 +187,14 @@ export class HubInitiativeTemplate
    * @param editor
    */
   async fromEditor(editor: IHubInitiativeTemplateEditor): Promise<HubEntity> {
-    // delegate to the parent class (HubItemEntity) to
+    // delegate to an item-specific fromEditor util to
     // handle shared "fromEditor" logic
-    const initiativeTemplate = (await super._fromEditor(
-      editor
-    )) as IHubInitiativeTemplate;
+    const res = await hubItemEntityFromEditor(editor, this.context);
+    Object.entries(res).forEach(([key, value]) => {
+      setProp(key, value, this);
+    });
 
     // save, which will also create an entity if we don't have an id for it
-    this.entity = initiativeTemplate;
     await this.save();
 
     return this.entity;

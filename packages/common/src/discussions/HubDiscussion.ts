@@ -15,6 +15,8 @@ import { cloneObject } from "../util";
 import { DiscussionEditorType } from "./_internal/DiscussionSchema";
 import { enrichEntity } from "../core/enrichEntity";
 import { getEditorSlug } from "../core/_internal/getEditorSlug";
+import { hubItemEntityFromEditor } from "../core/_internal/hubItemEntityFromEditor";
+import { setProp } from "../objects";
 
 /**
  * Hub Discussion Class
@@ -202,12 +204,14 @@ export class HubDiscussion
    * @returns
    */
   async fromEditor(editor: IHubDiscussionEditor): Promise<IHubDiscussion> {
-    // delegate to the parent class (HubItemEntity) to
+    // delegate to an item-specific fromEditor util to
     // handle shared "fromEditor" logic
-    const discussion = (await super._fromEditor(editor)) as IHubDiscussion;
+    const res = await hubItemEntityFromEditor(editor, this.context);
+    Object.entries(res).forEach(([key, value]) => {
+      setProp(key, value, this);
+    });
 
     // Save, which will also create new content if new
-    this.entity = discussion;
     await this.save();
 
     return this.entity;

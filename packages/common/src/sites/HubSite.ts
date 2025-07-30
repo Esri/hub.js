@@ -53,6 +53,7 @@ import {
 } from "../index";
 import { SiteEditorType } from "./_internal/SiteSchema";
 import { getEditorSlug } from "../core/_internal/getEditorSlug";
+import { hubItemEntityFromEditor } from "../core/_internal/hubItemEntityFromEditor";
 
 /**
  * Hub Site Class
@@ -458,10 +459,13 @@ export class HubSite
    * @returns
    */
   async fromEditor(editor: IHubSiteEditor): Promise<IHubSite> {
-    // 1. delegate to the parent class (HubItemEntity) to
-    // handle shared "fromEditor" logic and convert
-    // the editor back into an IHubSite entity
-    const entity = (await super._fromEditor(editor)) as IHubSite;
+    // 1. delegate to an item-specific fromEditor util to
+    // handle shared "fromEditor" logic
+    const res = await hubItemEntityFromEditor(editor, this.context);
+    const entity = res.entity as IHubSite;
+    Object.entries(res).forEach(([key, value]) => {
+      setProp(key, value, this);
+    });
 
     // 2. handle site-specific operations
     // a. set whether or not the followers group is discussable
