@@ -37,9 +37,6 @@ export function getTypeFromEntity(
     case "Group":
       type = "group";
       break;
-    case "Form":
-      type = "survey";
-      break;
     case "Hub Initiative Template":
       type = "initiativeTemplate";
       break;
@@ -53,8 +50,15 @@ export function getTypeFromEntity(
     //   type = "content";
     //   break;
     default:
-      // TODO: other families go here? feedback? solution? template?
-      const contentFamilies = ["app", "content", "dataset", "document", "map"];
+      // TODO: other families go here? solution? template?
+      const contentFamilies = [
+        "app",
+        "content",
+        "dataset",
+        "document",
+        "map",
+        "feedback",
+      ];
       if (contentFamilies.includes(getFamily(entity.type || ""))) {
         type = "content";
       }
