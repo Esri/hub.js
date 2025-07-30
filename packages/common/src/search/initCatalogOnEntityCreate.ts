@@ -1,6 +1,7 @@
-import { IHubItemEntity } from "../core";
-import { getWellKnownGroup, HubGroup } from "../groups";
-import { IArcGISContext } from "../types";
+import { IHubItemEntity } from "../core/types/IHubItemEntity";
+import { getWellKnownGroup } from "../groups/getWellKnownGroup";
+import { createHubGroup } from "../groups/HubGroups";
+import { IArcGISContext } from "../types/IArcGISContext";
 import { ICatalogSetup, IHubCatalog } from "./types";
 import { CATALOG_SCHEMA_VERSION } from "./upgradeCatalogSchema";
 
@@ -29,8 +30,11 @@ export const initCatalogOnEntityCreate = async (
       ...getWellKnownGroup("hubViewGroup", context),
       name: `${entity.name} Content`,
     };
-    const group = await HubGroup.create(partialGroup, context, true);
-    groupId = group.toJson().id;
+    const group = await createHubGroup(
+      partialGroup,
+      context.userRequestOptions
+    );
+    groupId = group.id;
   }
 
   return {
