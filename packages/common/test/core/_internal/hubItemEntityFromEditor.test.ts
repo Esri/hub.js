@@ -186,12 +186,19 @@ describe("hubItemEntityFromEditor", () => {
       },
     };
     const mockExtent = [[5], [6]];
-    const result = await hubItemEntityFromEditor(
+    let result = await hubItemEntityFromEditor(
       { ...editor, orgUrlKey: undefined, location: { extent: mockExtent } },
       context
     );
     expect(result.entity.orgUrlKey).toBe("orgKey");
     expect(result.entity.extent).toEqual(mockExtent);
+
+    context.portal.urlKey = undefined;
+    result = await hubItemEntityFromEditor(
+      { ...editor, orgUrlKey: undefined },
+      context
+    );
+    expect(result.entity.orgUrlKey).toBe("");
   });
 
   it("returns correct structure", async () => {
