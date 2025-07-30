@@ -2,10 +2,8 @@ import { isServicesDirectoryDisabled } from "../../src/items/is-services-directo
 import type { IItem } from "@esri/arcgis-rest-portal";
 import * as fetchMock from "fetch-mock";
 import * as restPortal from "@esri/arcgis-rest-portal";
-import {
-  IAuthenticationManager,
-  IRequestOptions,
-} from "@esri/arcgis-rest-request";
+import * as restRequest from "@esri/arcgis-rest-request";
+import { IAuthenticationManager } from "@esri/arcgis-rest-request";
 
 describe("isServicesDirectoryDisabled", function () {
   const url =
@@ -47,40 +45,77 @@ describe("isServicesDirectoryDisabled", function () {
   });
 
   it("should fetch the item when given an id", async () => {
-    fetchMock.get(url, 200);
+    const requestSpy = spyOn(restRequest, "request").and.returnValue(
+      Promise.resolve({ status: 200 })
+    );
     const result = await isServicesDirectoryDisabled(item.id, requestOptions);
     expect(getItemSpy).toHaveBeenCalledTimes(1);
     expect(getItemSpy).toHaveBeenCalledWith(item.id, requestOptions);
     expect(result).toBe(false);
+    expect(requestSpy).toHaveBeenCalledTimes(1);
+    expect(requestSpy).toHaveBeenCalledWith(url, {
+      ...requestOptions,
+      rawResponse: true,
+      httpMethod: "GET",
+    });
   });
 
   it("should resolve true when the status is not 200", async () => {
-    fetchMock.get(url, 403);
+    const requestSpy = spyOn(restRequest, "request").and.returnValue(
+      Promise.resolve({ status: 403 })
+    );
     const result = await isServicesDirectoryDisabled(item, requestOptions);
     expect(getItemSpy).not.toHaveBeenCalled();
+    expect(requestSpy).toHaveBeenCalledTimes(1);
+    expect(requestSpy).toHaveBeenCalledWith(url, {
+      ...requestOptions,
+      rawResponse: true,
+      httpMethod: "GET",
+    });
     expect(result).toBe(true);
   });
 
   it("should append the token when access is not public and user has a session", async () => {
     const token = "token123";
-    const getTokenSpy = jasmine.createSpy().and.returnValue(token);
+    const getTokenSpy = jasmine
+      .createSpy()
+      .and.returnValue(Promise.resolve(token));
+
     requestOptions.authentication = {
       getToken: getTokenSpy,
     } as any as IAuthenticationManager;
-    fetchMock.get(`${url}?token=${token}`, 200);
+    const requestSpy = spyOn(restRequest, "request").and.returnValue(
+      Promise.resolve({ status: 200 })
+    );
     const result = await isServicesDirectoryDisabled(item, requestOptions);
     expect(getItemSpy).not.toHaveBeenCalled();
+    expect(requestSpy).toHaveBeenCalledTimes(1);
+    expect(requestSpy).toHaveBeenCalledWith(`${url}?token=${token}`, {
+      ...requestOptions,
+      rawResponse: true,
+      httpMethod: "GET",
+    });
     expect(result).toBe(false);
   });
 
   it("should not append the token when a token is not returned", async () => {
-    const getTokenSpy = jasmine.createSpy().and.returnValue(null);
+    const getTokenSpy = jasmine
+      .createSpy()
+      .and.returnValue(Promise.resolve(""));
     requestOptions.authentication = {
       getToken: getTokenSpy,
     } as any as IAuthenticationManager;
-    fetchMock.get(url, 200);
+    const requestSpy = spyOn(restRequest, "request").and.returnValue(
+      Promise.resolve({ status: 200 })
+    );
     const result = await isServicesDirectoryDisabled(item, requestOptions);
     expect(getItemSpy).not.toHaveBeenCalled();
     expect(result).toBe(false);
+    expect(requestSpy).toHaveBeenCalledTimes(1);
+    expect(requestSpy).toHaveBeenCalledWith(url, {
+      ...requestOptions,
+      rawResponse: true,
+      httpMethod: "GET",
+    });
   });
 });

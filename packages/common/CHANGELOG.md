@@ -1,3 +1,24 @@
+## @esri/hub-common [18.12.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.12.1...@esri/hub-common@18.12.2) (2025-07-28)
+
+
+### Bug Fixes
+
+* **hub-common:** site subdomain not kept in sync w slug in enterprise ([#1954](https://github.com/Esri/hub.js/issues/1954)) ([eb75707](https://github.com/Esri/hub.js/commit/eb75707eecac02c70e3a0f61867cabe5c8f0bdc2))
+
+## @esri/hub-common [18.12.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.12.0...@esri/hub-common@18.12.1) (2025-07-25)
+
+
+### Bug Fixes
+
+* apply updates made specifically for 11.5 ([#1951](https://github.com/Esri/hub.js/issues/1951)) ([0e98d3f](https://github.com/Esri/hub.js/commit/0e98d3f65bb345ae274e24e3f75690ca4f236a7a))
+
+# @esri/hub-common [18.12.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.11.0...@esri/hub-common@18.12.0) (2025-07-25)
+
+
+### Features
+
+* add permission for catalog appearance ([#1953](https://github.com/Esri/hub.js/issues/1953)) ([ed7d2dc](https://github.com/Esri/hub.js/commit/ed7d2dcda0a8a66af67856f909f8222ad679b1e2))
+
 # @esri/hub-common [18.11.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.10.0...@esri/hub-common@18.11.0) (2025-07-23)
 
 

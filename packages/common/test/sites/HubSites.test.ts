@@ -434,6 +434,26 @@ describe("HubSites:", () => {
       expect(modelToUpdate.item.title).toBe(updatedSite.name);
     });
 
+    it("handles change to slug in enterprise", async () => {
+      const updatedSite = commonModule.cloneObject(SITE);
+      updatedSite.slug = "updated-slug";
+      const ro = { ...MOCK_HUB_REQOPTS, isPortal: true };
+      const chk = await commonModule.updateSite(updatedSite, ro);
+
+      expect(chk.id).toBe(GUID);
+      expect(chk.subdomain).toBe("updated-slug");
+
+      // should not have made add/remove domain calls
+      expect(domainChangeSpy.calls.count()).toBe(0);
+
+      expect(fetchSiteModelSpy.calls.count()).toBe(1);
+      expect(updateModelSpy.calls.count()).toBe(1);
+      const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
+      expect(modelToUpdate.item.typeKeywords).toContain(
+        `hubsubdomain|${updatedSite.subdomain}`.toLowerCase()
+      );
+    });
+
     it("updates domain configurations", async () => {
       const updatedHostname = "my-cool-hostname.dev";
       const updatedSite = commonModule.cloneObject(SITE);

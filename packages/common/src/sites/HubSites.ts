@@ -37,8 +37,8 @@ import {
 import { convertFeaturesToLegacyCapabilities } from "./_internal/capabilities/convertFeaturesToLegacyCapabilities";
 import { computeLinks } from "./_internal/computeLinks";
 import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlug";
+import { handleSubdomainChange } from "./_internal/subdomains";
 import { IHubItemEntity } from "../core";
-import { ENTERPRISE_SITES_PATH } from "../ArcGISContext";
 export const HUB_SITE_ITEM_TYPE = "Hub Site Application";
 export const ENTERPRISE_SITE_ITEM_TYPE = "Site Application";
 
@@ -247,11 +247,7 @@ export async function createSite(
   } else {
     // Portal Sites use subdomain in hash based router
     // Also in Enterprise orgUrlKey is undefined.
-    site.typeKeywords.push(`hubsubdomain|${site.subdomain}`.toLowerCase());
-    site.url = `${requestOptions.authentication.portal.replace(
-      `/sharing/rest`,
-      ENTERPRISE_SITES_PATH
-    )}/#/${site.subdomain}`;
+    handleSubdomainChange(site, requestOptions);
   }
 
   // Note:  We used to use adlib for this, but it's much harder to
@@ -342,6 +338,11 @@ export async function updateSite(
 ): Promise<IHubSite> {
   // verify that the slug is unique, excluding the current site
   await ensureUniqueEntitySlug(site as IHubItemEntity, requestOptions);
+  if (requestOptions.isPortal) {
+    // keep subdomain in sync with slug
+    site.subdomain = site.slug.replace(site.orgUrlKey + "|", "");
+    handleSubdomainChange(site, requestOptions);
+  }
   site.typeKeywords = setDiscussableKeyword(
     site.typeKeywords,
     site.isDiscussable
@@ -375,7 +376,11 @@ export async function updateSite(
   delete modelToUpdate.item?.properties?.telemetry;
 
   // handle any domain changes
-  await handleDomainChanges(modelToUpdate, currentModel, requestOptions);
+  // we'd like to base this check on existence of the domain service,
+  // but we only have requestOptions and not a context
+  if (!requestOptions.isPortal) {
+    await handleDomainChanges(modelToUpdate, currentModel, requestOptions);
+  }
 
   // Persist the new catalog to new property until the app is fully migrated
   modelToUpdate.data.catalogV2 = site.catalog;

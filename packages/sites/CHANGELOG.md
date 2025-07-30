@@ -1,3 +1,17 @@
+## @esri/hub-sites [19.0.2](https://github.com/Esri/hub.js/compare/@esri/hub-sites@19.0.1...@esri/hub-sites@19.0.2) (2025-07-29)
+
+
+### Bug Fixes
+
+* temporarily remove feeds config before interpolating new site ([#1956](https://github.com/Esri/hub.js/issues/1956)) ([12a58da](https://github.com/Esri/hub.js/commit/12a58da922b4875fb05e7612fa3a2e1494bac413))
+
+## @esri/hub-sites [19.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-sites@19.0.0...@esri/hub-sites@19.0.1) (2025-07-25)
+
+
+### Bug Fixes
+
+* apply updates made specifically for 11.5 ([#1951](https://github.com/Esri/hub.js/issues/1951)) ([0e98d3f](https://github.com/Esri/hub.js/commit/0e98d3f65bb345ae274e24e3f75690ca4f236a7a))
+
 # @esri/hub-sites [19.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@18.2.0...@esri/hub-sites@19.0.0) (2025-06-18)
 
 
