@@ -44,13 +44,8 @@ import { cloneObject } from "../util";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 
-import {
-  IHubSiteEditor,
-  IModel,
-  isDiscussable,
-  setProp,
-  SettableAccessLevel,
-} from "../index";
+import { IHubSiteEditor, IModel, setProp, SettableAccessLevel } from "../index";
+import { isDiscussable } from "../discussions/utils";
 import { SiteEditorType } from "./_internal/SiteSchema";
 import { getEditorSlug } from "../core/_internal/getEditorSlug";
 import { hubItemEntityFromEditor } from "../core/_internal/hubItemEntityFromEditor";
