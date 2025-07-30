@@ -7,7 +7,6 @@ import * as discussionsEditModule from "../../src/discussions/edit";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
 import { IHubDiscussion } from "../../src/core/types";
-import * as hubItemEntityFromEditorModule from "../../src/core/_internal/hubItemEntityFromEditor";
 
 describe("HubDiscussion Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -275,27 +274,7 @@ describe("HubDiscussion Class:", () => {
     });
 
     describe("fromEditor:", () => {
-      let hubItemEntityFromEditorSpy: jasmine.Spy;
-      beforeEach(() => {
-        hubItemEntityFromEditorSpy = spyOn(
-          hubItemEntityFromEditorModule,
-          "hubItemEntityFromEditor"
-        ).and.callThrough();
-      });
-      it("delegates to the hubItemEntityFromEditor util to handle shared logic", async () => {
-        const chk = HubDiscussion.fromJson(
-          {
-            id: "bc3",
-            name: "Test Entity",
-            thumbnailUrl: "https://myserver.com/thumbnail.png",
-          },
-          authdCtxMgr.context
-        );
-        spyOn(chk, "save").and.returnValue(Promise.resolve());
-        const editor = await chk.toEditor();
-        await chk.fromEditor(editor);
-        expect(hubItemEntityFromEditorSpy).toHaveBeenCalledTimes(1);
-      });
+      beforeEach(() => {});
       it("handles simple prop change", async () => {
         const chk = HubDiscussion.fromJson(
           {

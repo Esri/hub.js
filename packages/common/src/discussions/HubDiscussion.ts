@@ -5,6 +5,7 @@ import {
   IEntityEditorContext,
   IHubDiscussion,
   IHubDiscussionEditor,
+  IHubLocation,
 } from "../core/types";
 import { HubItemEntity } from "../core/HubItemEntity";
 import { fetchDiscussion } from "./fetch";
@@ -15,8 +16,7 @@ import { cloneObject } from "../util";
 import { DiscussionEditorType } from "./_internal/DiscussionSchema";
 import { enrichEntity } from "../core/enrichEntity";
 import { getEditorSlug } from "../core/_internal/getEditorSlug";
-import { hubItemEntityFromEditor } from "../core/_internal/hubItemEntityFromEditor";
-import { setProp } from "../objects";
+import { truncateSlug } from "../items/_internal/slugs";
 
 /**
  * Hub Discussion Class
@@ -204,14 +204,67 @@ export class HubDiscussion
    * @returns
    */
   async fromEditor(editor: IHubDiscussionEditor): Promise<IHubDiscussion> {
-    // delegate to an item-specific fromEditor util to
-    // handle shared "fromEditor" logic
-    const res = await hubItemEntityFromEditor(editor, this.context);
-    Object.entries(res).forEach(([key, value]) => {
-      setProp(key, value, this);
-    });
+    // TODO: Ideally we should delegate out to the
+    // hubItemEntityFromEditor util to handle shared
+    // "fromEditor" logic; however, when I attempted
+    // to do this, I ran into issues with circular
+    // dependencies and test failures that felt out
+    // of scope for this work. For now, we'll copy
+    // the relevant logic here.
+
+    // 1. extract the ephemeral props we graft onto the
+    // editor for later user
+    const _thumbnail = editor._thumbnail as { blob?: Blob; fileName?: string };
+    const _slug = editor._slug;
+
+    // 2. remove the ephemeral props we graft onto the editor
+    delete editor._thumbnail;
+    delete editor._slug;
+
+    const entity = cloneObject(editor) as IHubDiscussion;
+
+    // 3. ensure orgUrlKey is set
+    entity.orgUrlKey = editor.orgUrlKey
+      ? (editor.orgUrlKey as string)
+      : (this.context.portal.urlKey as string) || ("" as string);
+
+    // 4. copy the configured location extent up one level
+    // on the entity.
+    entity.extent = (editor.location as IHubLocation)?.extent;
+
+    // 5. Perform pre-save operations using the ephemeral
+    // properties that were extracted above.
+
+    // a. ensure the slug is truncated
+    if (_slug) {
+      // ensure the slug is truncated
+      entity.slug = truncateSlug(_slug, entity.orgUrlKey);
+    } else {
+      // if no slug is passed in, save an empty string as
+      // the slug, so that it is not saved as the orgUrlKey
+      // truncated with an empty string
+      entity.slug = "";
+    }
+
+    // b. conditionally set the thumbnailCache to
+    // ensure that the configured thumbnail is updated
+    // on the next save
+    if (_thumbnail) {
+      if (_thumbnail.blob) {
+        this.thumbnailCache = {
+          file: _thumbnail.blob,
+          filename: _thumbnail.fileName,
+          clear: false,
+        };
+      } else {
+        this.thumbnailCache = {
+          clear: true,
+        };
+      }
+    }
 
     // Save, which will also create new content if new
+    this.entity = entity;
     await this.save();
 
     return this.entity;
