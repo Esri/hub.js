@@ -11,7 +11,6 @@ export * from "./IHubEditableContent";
 export * from "./IHubEntityBase";
 export * from "./IHubEvent";
 export * from "./IHubChannel";
-export * from "./IHubSurvey";
 export * from "./IHubGroup";
 export * from "./IHubImage";
 export * from "./IHubInitiative";
