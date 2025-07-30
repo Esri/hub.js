@@ -101,7 +101,7 @@ export class HubInitiative
   static async create(
     partialInitiative: Partial<IHubInitiative>,
     context: IArcGISContext,
-    save = false
+    save: boolean = false
   ): Promise<HubInitiative> {
     const pojo = this.applyDefaults(partialInitiative, context);
     // return an instance of HubInitiative

@@ -1,4 +1,4 @@
-import { CANNOT_DISCUSS } from "../../discussions/constants";
+import { CANNOT_DISCUSS } from "../../discussions";
 import { isDiscussable } from "../../discussions/utils";
 import { deepSet, getProp, setProp } from "../../objects";
 import { cloneObject } from "../../util";

@@ -1,6 +1,6 @@
 import type { IArcGISContext } from "../types/IArcGISContext";
 import { ArcGISContextManager } from "../ArcGISContextManager";
-import { HubEntityType } from "../core/types/HubEntityType";
+import { HubEntityType } from "../core";
 import { catalogContains } from "../core/catalogContains";
 import HubError from "../HubError";
 import { cloneObject } from "../util";
