@@ -53,6 +53,8 @@ export class HubProject
     IWithCardBehavior,
     IWithEditorBehavior
 {
+  private _catalog: Catalog;
+
   /**
    * Private constructor so we don't have `new` all over the place. Allows for
    * more flexibility in how we create the HubProjectManager over time.

@@ -36,6 +36,8 @@ export class HubInitiativeTemplate
   extends HubItemEntity<IHubInitiativeTemplate>
   implements IWithCatalogBehavior, IWithEditorBehavior, IWithCardBehavior
 {
+  private _catalog: Catalog;
+
   private constructor(
     initiativeTemplate: IHubInitiativeTemplate,
     context: IArcGISContext

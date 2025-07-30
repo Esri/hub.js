@@ -69,7 +69,7 @@ export class HubSite
     IWithVersioningBehavior,
     IWithEditorBehavior
 {
-  // private _catalog: Catalog;
+  private _catalog: Catalog;
 
   private _catalogCache: Record<string, IHubCatalog> = {};
   /**

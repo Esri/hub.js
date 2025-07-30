@@ -35,9 +35,8 @@ import { IHubItemEntity } from "./types/IHubItemEntity";
 import { SettableAccessLevel } from "./types/types";
 import { sharedWith } from "./_internal/sharedWith";
 import { IWithDiscussionsBehavior } from "./behaviors/IWithDiscussionsBehavior";
-import { setDiscussableKeyword } from "../discussions/utils";
+import { setDiscussableKeyword } from "../discussions";
 import { IWithFollowersBehavior } from "./behaviors/IWithFollowersBehavior";
-import { Catalog } from "../search/Catalog";
 
 const FEATURED_IMAGE_FILENAME = "featuredImage.png";
 
@@ -59,7 +58,6 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
   protected isDestroyed = false;
   protected thumbnailCache: { file?: any; filename?: string; clear?: boolean } =
     null;
-  protected _catalog: Catalog;
 
   constructor(entity: T, context: IArcGISContext) {
     this.context = context;
@@ -386,7 +384,10 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
    * to keep the number of resources in control
    * @param file
    */
-  async setFeaturedImage(file: any, clearExisting = false): Promise<void> {
+  async setFeaturedImage(
+    file: any,
+    clearExisting = false
+  ): Promise<void> {
     try {
       // If we have a featured image then clear it out.
       if (this.entity.view?.featuredImageUrl || clearExisting) {
