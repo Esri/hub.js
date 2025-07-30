@@ -49,7 +49,7 @@ export function getTypeFromEntity(
     // case "Hub Content": // needed for future ticket in getLocationOptions
     //   type = "content";
     //   break;
-    default:
+    default: {
       // TODO: other families go here? solution? template?
       const contentFamilies = [
         "app",
@@ -62,6 +62,7 @@ export function getTypeFromEntity(
       if (contentFamilies.includes(getFamily(entity.type || ""))) {
         type = "content";
       }
+    }
   }
   return type;
 }
