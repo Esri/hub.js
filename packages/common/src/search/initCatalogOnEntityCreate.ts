@@ -25,7 +25,7 @@ export const initCatalogOnEntityCreate = async (
 
   // If a user elects to initialize the catalog with a
   // new group, we create the new group
-  if (catalogSetup?.type === "newGroup") {
+  if (catalogSetup.type === "newGroup") {
     const partialGroup = {
       ...getWellKnownGroup("hubViewGroup", context),
       name: `${entity.name} Content`,
