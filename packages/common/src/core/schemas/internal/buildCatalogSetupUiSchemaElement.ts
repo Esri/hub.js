@@ -1,6 +1,7 @@
 import { IArcGISContext } from "../../../types/IArcGISContext";
 import { getWellKnownCatalogs } from "../../../search";
 import { IUiSchemaElement, UiSchemaRuleEffects } from "../types";
+import { checkPermission } from "../../../permissions/checkPermission";
 
 /**
  * When creating an entity, an editor can elect to initialize
@@ -15,6 +16,10 @@ export function buildCatalogSetupUiSchemaElement(
   i18nScope: string,
   context: IArcGISContext
 ): IUiSchemaElement[] {
+  const canCreateViewGroup = checkPermission(
+    "hub:group:create:view",
+    context
+  ).access;
   return [
     {
       scope: "/properties/_catalogSetup/properties/type",
@@ -36,6 +41,18 @@ export function buildCatalogSetupUiSchemaElement(
           "{{shared.fields._catalogSetup.type.blank.description:translate}}",
           "{{shared.fields._catalogSetup.type.newGroup.description:translate}}",
           "{{shared.fields._catalogSetup.type.existingGroup.description:translate}}",
+        ],
+        rules: [
+          undefined,
+          // only show the "quick start" option if the user is
+          // able to create a view group
+          [
+            {
+              effect: "SHOW",
+              conditions: [canCreateViewGroup],
+            },
+          ],
+          undefined,
         ],
         icons: ["rectangle", "rectangle-plus", "group"],
       },

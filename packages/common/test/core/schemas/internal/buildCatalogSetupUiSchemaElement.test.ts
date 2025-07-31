@@ -1,5 +1,6 @@
 import { buildCatalogSetupUiSchemaElement } from "../../../../src/core/schemas/internal/buildCatalogSetupUiSchemaElement";
 import * as searchModule from "../../../../src/search";
+import * as checkPermissionModule from "../../../../src/permissions/checkPermission";
 import { IArcGISContext } from "../../../../src/types/IArcGISContext";
 
 describe("buildCatalogSetupUiSchemaElement", () => {
@@ -16,8 +17,13 @@ describe("buildCatalogSetupUiSchemaElement", () => {
       searchModule,
       "getWellKnownCatalogs"
     ).and.returnValue(["mockCatalog"]);
+    spyOn(checkPermissionModule, "checkPermission").and.returnValues(
+      { access: true },
+      { access: false }
+    );
+
     const i18nScope = "test.scope";
-    const result = buildCatalogSetupUiSchemaElement(i18nScope, context);
+    let result = buildCatalogSetupUiSchemaElement(i18nScope, context);
 
     // 1. Result should be an array with two uiSchema elements
     expect(Array.isArray(result)).toBe(true);
@@ -42,5 +48,10 @@ describe("buildCatalogSetupUiSchemaElement", () => {
       ["myGroups", "orgGroups", "communityGroups", "publicGroups"],
       context
     );
+    // 5. verify the "quick-select" option only renders if
+    // the current user can create a view group
+    expect(result[0].options.rules[1][0].conditions[0]).toBe(true);
+    result = buildCatalogSetupUiSchemaElement(i18nScope, context);
+    expect(result[0].options.rules[1][0].conditions[0]).toBe(false);
   });
 });
