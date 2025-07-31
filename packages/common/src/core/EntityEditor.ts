@@ -8,7 +8,6 @@ import { HubPage } from "../pages/HubPage";
 import { HubProject } from "../projects/HubProject";
 import { HubSite } from "../sites/HubSite";
 import { HubTemplate } from "../templates";
-import { HubSurvey } from "../surveys/HubSurvey";
 import { IEditorConfig, EntityEditorType } from "./schemas/types";
 import { IWithEditorBehavior } from "./behaviors";
 import { getTypeFromEntity } from "./getTypeFromEntity";
@@ -27,7 +26,6 @@ import {
   IHubPage,
   IHubProject,
   IHubSite,
-  IHubSurvey,
   IHubTemplate,
   IHubUser,
 } from "./types";
@@ -67,9 +65,6 @@ export class EntityEditor {
     }
     if (entityType === "channel") {
       editor = HubChannel.fromJson(entity as IHubChannel, context);
-    }
-    if (entityType === "survey") {
-      editor = HubSurvey.fromJson(entity as IHubSurvey, context);
     }
     if (entityType === "event") {
       editor = HubEvent.fromJson(entity as IHubEvent, context);

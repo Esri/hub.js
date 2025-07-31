@@ -65,10 +65,6 @@ import * as GroupBuildCreateUiSchema from "../../../../src/groups/_internal/Grou
 import { InitiativeTemplateEditorTypes } from "../../../../src/initiative-templates/_internal/InitiativeTemplateSchema";
 import * as InitiativeTemplateBuildEditUiSchema from "../../../../src/initiative-templates/_internal/InitiativeTemplateUiSchemaEdit";
 
-import { SurveyEditorTypes } from "../../../../src/surveys/_internal/SurveySchema";
-import * as SurveyBuildEditUiSchema from "../../../../src/surveys/_internal/SurveyUiSchemaEdit";
-import * as SurveyBuildSettingsUiSchema from "../../../../src/surveys/_internal/SurveyUiSchemaSettings";
-
 import { EventEditorTypes } from "../../../../src/events/_internal/EventSchemaCreate";
 import * as EventBuildCreateUiSchema from "../../../../src/events/_internal/EventUiSchemaCreate";
 import * as EventBuildEditUiSchema from "../../../../src/events/_internal/EventUiSchemaEdit";
@@ -80,8 +76,8 @@ import * as UserBuildUiSchemaSettings from "../../../../src/users/_internal/User
 import * as statUiSchemaModule from "../../../../src/core/schemas/internal/metrics/StatCardUiSchema";
 
 describe("getEditorSchemas: ", () => {
-  let uiSchemaBuildFnSpy: any;
-  let defaultsFnSpy: any;
+  let uiSchemaBuildFnSpy: jasmine.Spy;
+  let defaultsFnSpy: jasmine.Spy;
   afterEach(() => {
     uiSchemaBuildFnSpy.calls.reset();
 
@@ -145,9 +141,6 @@ describe("getEditorSchemas: ", () => {
       type: InitiativeTemplateEditorTypes[0],
       module: InitiativeTemplateBuildEditUiSchema,
     },
-
-    { type: SurveyEditorTypes[0], module: SurveyBuildEditUiSchema },
-    { type: SurveyEditorTypes[1], module: SurveyBuildSettingsUiSchema },
 
     { type: EventEditorTypes[0], module: EventBuildCreateUiSchema },
     { type: EventEditorTypes[1], module: EventBuildEditUiSchema },
