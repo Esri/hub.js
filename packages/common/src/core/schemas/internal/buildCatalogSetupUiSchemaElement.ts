@@ -6,11 +6,11 @@ import { checkPermission } from "../../../permissions/checkPermission";
 /**
  * When creating an entity, an editor can elect to initialize
  * the entity's catalog with a new group or an existing group.
- * The following util builds the UiSchema element to render
+ * The following util builds the UiSchema elements to render
  * this configuration in various creation flows.
  *
- * @param i18nScope intl scope for translations
- * @param context contextual portal & auth information
+ * @param i18nScope intl - scope for translations
+ * @param context contextual - portal & auth information
  */
 export function buildCatalogSetupUiSchemaElement(
   i18nScope: string,

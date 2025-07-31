@@ -16,6 +16,7 @@ import { IHubItemEntity, IHubItemEntityEditor, IHubLocation } from "../types";
  * Convert editor values back into an IHubItemEntity,
  * performing any pre-save operations/XHRs/transforms.
  * @param editor - the editor object to convert
+ * @param context - contextual portal & auth information
  */
 export const hubItemEntityFromEditor = async (
   editor: IHubItemEntityEditor<IHubItemEntity>,
@@ -29,7 +30,7 @@ export const hubItemEntityFromEditor = async (
   let thumbnailCache;
 
   // 1. extract the ephemeral props we graft onto the
-  // editor for later user
+  // editor for later use
   const _thumbnail = editor._thumbnail as { blob?: Blob; fileName?: string };
   const _catalogSetup = editor._catalogSetup;
   const _metric = editor._metric;

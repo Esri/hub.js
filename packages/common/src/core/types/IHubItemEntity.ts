@@ -185,5 +185,10 @@ export type IHubItemEntityEditor<T> = Omit<T, "extent"> & {
    * (i.e. w/o the orgUrlKey prefix)
    */
   _slug?: string;
+  /**
+   * catalog setup settings: when creating an entity,
+   * an editor can elect to initialize the entity's
+   * catalog with a new group or an existing group.
+   */
   _catalogSetup?: ICatalogSetup;
 };
