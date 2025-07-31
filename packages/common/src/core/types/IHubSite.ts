@@ -103,8 +103,6 @@ export interface IHubSite
 }
 
 export type IHubSiteEditor = IHubItemEntityEditor<IHubSite> & {
-  _discussions?: boolean;
-
   // used by the site URL composite field
   _urlInfo?: IHubSiteUrlInfo;
 };
