@@ -41,6 +41,11 @@ describe("slug utils: ", () => {
       expect(chk.length).toBe(1);
       expect(chk[0]).toBe("slug|hello-world");
     });
+    it("handles mixed case", () => {
+      const chk = slugModule.setSlugKeyword(["slug|old-slug"], "Hello-World");
+      expect(chk.length).toBe(1);
+      expect(chk[0]).toBe("slug|hello-world");
+    });
     it("adds slug entry", () => {
       const chk = slugModule.setSlugKeyword(["otherKeyword"], "hello-world");
       expect(chk.length).toBe(2);

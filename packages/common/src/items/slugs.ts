@@ -22,7 +22,7 @@ export function constructSlug(title: string, orgKey = ""): string {
   // slug|qa-pre-a-hub|some-really-really-...-really-l-11
   // slug|qa-pre-a-hub|some-really-really-...-really-100
   const paddingEnd = 4;
-  return truncateSlug(slugify(title), orgKey, paddingEnd);
+  return truncateSlug(slugify(title), orgKey.toLowerCase(), paddingEnd);
 }
 
 /**
@@ -40,7 +40,9 @@ export function setSlugKeyword(typeKeywords: string[], slug: string): string[] {
   );
 
   // now add it
-  updatedTypekeywords.push([TYPEKEYWORD_SLUG_PREFIX, slug].join("|"));
+  updatedTypekeywords.push(
+    [TYPEKEYWORD_SLUG_PREFIX, slug.toLowerCase()].join("|")
+  );
   return updatedTypekeywords;
 }
 

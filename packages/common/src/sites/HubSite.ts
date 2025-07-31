@@ -154,6 +154,8 @@ export class HubSite
     if (!partialSite.orgUrlKey) {
       partialSite.orgUrlKey = context.portal?.urlKey;
     }
+    // ensure lower case
+    partialSite.orgUrlKey = partialSite.orgUrlKey.toLowerCase();
     // extend the partial over the defaults
     const pojo = { ...DEFAULT_SITE, ...partialSite } as IHubSite;
     pojo.type = context.isPortal
