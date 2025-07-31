@@ -8,6 +8,7 @@ import {
 import { truncateSlug } from "../../../../items/_internal/slugs";
 
 // NOTE: this is covered by pre-existing tests for project to entity
+// NOTE: This file seems like it should in a few levels up the tree
 /**
  * extract the common ephemeral properties from the editor
  * and then clone into an entity that has all common properties
@@ -28,8 +29,8 @@ export function editorToEntity(
   const entity = cloneObject(editor) as IHubItemEntity;
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   entity.orgUrlKey = editor.orgUrlKey
-    ? editor.orgUrlKey
-    : portal.urlKey || ("" as string);
+    ? (editor.orgUrlKey as string).toLowerCase()
+    : (portal.orgUrlKey as string)?.toLowerCase() || ("" as string);
 
   // copy the location extent up one level
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

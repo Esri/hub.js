@@ -595,7 +595,7 @@ describe("HubSites:", () => {
       it("works with a sparse IHubSite", async () => {
         const sparseSite: Partial<commonModule.IHubSite> = {
           name: "my site",
-          orgUrlKey: "dcdev",
+          orgUrlKey: "DCdev", // this is intentionally overwritten by portalself.urlKey
         };
 
         const chk = await commonModule.createSite(sparseSite, MOCK_HUB_REQOPTS);
@@ -610,13 +610,45 @@ describe("HubSites:", () => {
         const modelToCreate = createModelSpy.calls.argsFor(0)[0];
         expect(modelToCreate.item.title).toBe("my site");
         expect(modelToCreate.item.type).toBe("Hub Site Application");
-        expect(modelToCreate.item.properties.slug).toBe("dcdev|my-site");
+        // orgUrlKey is pulled from portalSelf.urlKey, which is "org"
+        expect(modelToCreate.item.properties.slug).toBe("org|my-site");
         expect(modelToCreate.item.properties.orgUrlKey).toBe("org");
+
         const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
         expect(modelToUpdate.data.values.clientId).toBe("FAKE_CLIENT_KEY");
 
         expect(chk.name).toBe("my site");
         expect(chk.url).toBe("https://my-site-org.hubqa.arcgis.com");
+      });
+      it("works with a sparse IHubSite without orgUrlKey", async () => {
+        const sparseSite: Partial<commonModule.IHubSite> = {
+          name: "my site",
+        };
+
+        const hubRO = cloneObject(MOCK_HUB_REQOPTS);
+        // mixed case is intentional
+        hubRO.portalSelf.urlKey = "DCdev";
+
+        const chk = await commonModule.createSite(sparseSite, hubRO);
+
+        expect(ensureUniqueEntitySlugSpy.calls.count()).toBe(1);
+        expect(uniqueDomainSpy.calls.count()).toBe(1);
+        expect(createModelSpy.calls.count()).toBe(1);
+        expect(updateModelSpy.calls.count()).toBe(1);
+
+        expect(addDomainsSpy.calls.count()).toBe(1);
+
+        const modelToCreate = createModelSpy.calls.argsFor(0)[0];
+        expect(modelToCreate.item.title).toBe("my site");
+        expect(modelToCreate.item.type).toBe("Hub Site Application");
+        expect(modelToCreate.item.properties.slug).toBe("dcdev|my-site");
+        // does not match sparse sight
+        expect(modelToCreate.item.properties.orgUrlKey).toBe("dcdev");
+        const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
+        expect(modelToUpdate.data.values.clientId).toBe("FAKE_CLIENT_KEY");
+
+        expect(chk.name).toBe("my site");
+        expect(chk.url).toBe("https://my-site-dcdev.hubqa.arcgis.com");
       });
       it("works with a full IHubSite", async () => {
         const site: Partial<commonModule.IHubSite> = {
@@ -662,7 +694,7 @@ describe("HubSites:", () => {
               },
             },
           },
-          orgUrlKey: "dcdev",
+          orgUrlKey: "DCdev",
           layout: {
             sections: [{}],
             header: {

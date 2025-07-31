@@ -6,9 +6,10 @@ import { IWithSlug } from "../traits/IWithSlug";
  * @returns
  */
 export const getEditorSlug = (entity: IWithSlug): string => {
-  const { slug = "", orgUrlKey } = entity;
+  const slug = (entity.slug || "").toLowerCase();
+  const orgUrlKey = (entity.orgUrlKey || "").toLowerCase();
   if (orgUrlKey) {
-    return slug.replace(`${orgUrlKey}|`, "");
+    return slug.replace(new RegExp(`${orgUrlKey}\\|`, "gi"), "");
   } else {
     return slug;
   }
