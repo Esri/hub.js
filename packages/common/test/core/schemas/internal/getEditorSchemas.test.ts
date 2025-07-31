@@ -76,8 +76,8 @@ import * as UserBuildUiSchemaSettings from "../../../../src/users/_internal/User
 import * as statUiSchemaModule from "../../../../src/core/schemas/internal/metrics/StatCardUiSchema";
 
 describe("getEditorSchemas: ", () => {
-  let uiSchemaBuildFnSpy: any;
-  let defaultsFnSpy: any;
+  let uiSchemaBuildFnSpy: jasmine.Spy;
+  let defaultsFnSpy: jasmine.Spy;
   afterEach(() => {
     uiSchemaBuildFnSpy.calls.reset();
 
