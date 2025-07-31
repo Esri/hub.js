@@ -22,8 +22,13 @@ import {
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { cloneObject } from "../util";
-import { IModel } from "../hub-types";
-import { setDiscussableKeyword } from "../discussions";
+import { IHubRequestOptions, IModel } from "../hub-types";
+import {
+  createSettingV2,
+  getDefaultEntitySettings,
+  setDiscussableKeyword,
+  updateSettingV2,
+} from "../discussions";
 import { modelToHubEditableContent } from "./modelToHubEditableContent";
 import {
   getService,
@@ -47,6 +52,8 @@ import { deepEqual, getProp, setProp } from "../objects";
 import { getDownloadFlow } from "../downloads/_internal/getDownloadFlow";
 import { getDownloadConfiguration } from "../downloads/getDownloadConfiguration";
 import { shouldShowDownloadsConfiguration } from "./_internal/shouldShowDownloadsConfiguration";
+import { Polygon } from "geojson";
+import { arcgisToGeoJSON } from "@terraformer/arcgis";
 
 // TODO: move this to defaults?
 const DEFAULT_CONTENT_MODEL: IModel = {
@@ -69,7 +76,7 @@ const DEFAULT_CONTENT_MODEL: IModel = {
  */
 export async function createContent(
   partialContent: Partial<IHubEditableContent>,
-  requestOptions: IUserRequestOptions
+  requestOptions: IHubRequestOptions
 ): Promise<IHubEditableContent> {
   // let resources;
   // merge incoming with the default
@@ -97,7 +104,7 @@ export async function createContent(
   //   delete model.resources;
   // }
   // create the item
-  model = await createModel(model, requestOptions);
+  model = await createModel(model, requestOptions as IUserRequestOptions);
 
   // TODO: if we have resources, create them, then re-attach them to the model
   // if (resources) {
@@ -119,7 +126,7 @@ export async function createContent(
  */
 export async function updateContent(
   content: IHubEditableContent,
-  requestOptions: IUserRequestOptions
+  requestOptions: IHubRequestOptions
 ): Promise<IHubEditableContent> {
   // Get the backing item
   // NOTE: We can't just call `getModel` because we need to be able
@@ -181,7 +188,10 @@ export async function updateContent(
   // }
 
   // update the backing item
-  const updatedModel = await updateModel(modelToUpdate, requestOptions);
+  const updatedModel = await updateModel(
+    modelToUpdate,
+    requestOptions as IUserRequestOptions
+  );
 
   // update enrichment values
   const enrichments: IItemAndIServerEnrichments = {};
@@ -223,15 +233,70 @@ export async function updateContent(
     // if schedule has "Force Update" checked and clicked save, initiate an update
     if (deepEqual(content._forceUpdate, [true])) {
       // [true]
-      await forceUpdateContent(item.id, requestOptions);
+      await forceUpdateContent(item.id, requestOptions as IUserRequestOptions);
     }
 
     delete content._forceUpdate;
 
-    await maybeUpdateSchedule(content, requestOptions);
+    await maybeUpdateSchedule(content, requestOptions as IUserRequestOptions);
   }
 
-  return modelToHubEditableContent(updatedModel, requestOptions, enrichments);
+  // map back into a content
+  const updatedContent = modelToHubEditableContent(
+    updatedModel,
+    requestOptions,
+    enrichments,
+    content
+  );
+
+  // persist location geometries to discussion settings as Polygon[]
+  let allowedLocations: Polygon[];
+  try {
+    allowedLocations =
+      updatedContent.location.geometries?.map(
+        (geometry) => arcgisToGeoJSON(geometry) as any as Polygon
+      ) || null;
+  } catch (e) {
+    allowedLocations = null;
+    /* tslint:disable no-console */
+    console.warn("Esri JSON conversion failed", e);
+  }
+
+  const defaultSettings = getDefaultEntitySettings("content");
+  const settings = {
+    ...defaultSettings.settings,
+    discussions: {
+      ...defaultSettings.settings.discussions,
+      ...updatedContent.discussionSettings,
+      allowedLocations,
+    },
+  };
+
+  if (!settings.discussions.allowedChannelIds?.length) {
+    settings.discussions.allowedChannelIds = null;
+  }
+  if (!settings.discussions.allowedLocations?.length) {
+    settings.discussions.allowedLocations = null;
+  }
+
+  const newOrUpdatedSettings = updatedContent.entitySettingsId
+    ? await updateSettingV2({
+        id: updatedContent.entitySettingsId,
+        data: { settings },
+        ...requestOptions,
+      })
+    : await createSettingV2({
+        data: {
+          id: updatedContent.id,
+          type: defaultSettings.type,
+          settings,
+        },
+        ...requestOptions,
+      });
+  updatedContent.entitySettingsId = newOrUpdatedSettings.id;
+  updatedContent.discussionSettings = newOrUpdatedSettings.settings.discussions;
+
+  return updatedContent;
 }
 
 /**
@@ -242,7 +307,7 @@ export async function updateContent(
  */
 export async function deleteContent(
   id: string,
-  requestOptions: IUserRequestOptions
+  requestOptions: IHubRequestOptions
 ): Promise<void> {
   const ro = { ...requestOptions, ...{ id } } as IUserItemOptions;
   await removeItem(ro);

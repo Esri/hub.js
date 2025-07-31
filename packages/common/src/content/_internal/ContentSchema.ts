@@ -6,6 +6,7 @@ export const ContentEditorTypes = [
   "hub:content:edit",
   "hub:content:settings",
   "hub:content:discussions",
+  "hub:content:settings:discussions",
 ] as const;
 
 /**
@@ -36,6 +37,24 @@ export const ContentSchema: IConfigurationSchema = {
       type: "array",
       items: {
         type: "object",
+      },
+    },
+    // TODO: externalize & spread onto HubItemEntitySchema rather than here
+    discussionSettings: {
+      type: "object",
+      properties: {
+        allowedChannelIds: {
+          type: "array",
+          items: {
+            type: "string",
+          },
+        },
+        allowedLocations: {
+          type: "array",
+          items: {
+            type: "object",
+          },
+        },
       },
     },
   },

@@ -14,6 +14,7 @@ export const SiteEditorTypes = [
   "hub:site:discussions",
   "hub:site:settings",
   "hub:site:assistant",
+  "hub:site:settings:discussions",
 ] as const;
 
 /**
@@ -36,6 +37,23 @@ export const getSiteSchema = (siteId: string) =>
           subdomain: {
             type: "string",
             format: "slug" as any,
+          },
+        },
+      },
+      discussionSettings: {
+        type: "object",
+        properties: {
+          allowedChannelIds: {
+            type: "array",
+            items: {
+              type: "string",
+            },
+          },
+          allowedLocations: {
+            type: "array",
+            items: {
+              type: "object",
+            },
           },
         },
       },
