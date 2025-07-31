@@ -191,7 +191,7 @@ export const SLUG_SCHEMA: JSONSchema = {
   pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$",
 };
 
-export const ENTITY_CATALOG_SETUP_SCHEMA = {
+export const ENTITY_CATALOG_SETUP_SCHEMA: JSONSchema = {
   type: "object",
   properties: {
     type: {
@@ -207,4 +207,15 @@ export const ENTITY_CATALOG_SETUP_SCHEMA = {
       },
     },
   },
+  allOf: [
+    {
+      if: {
+        required: ["type"],
+        properties: { type: { const: "existingGroup" } },
+      },
+      then: {
+        required: ["groupId"],
+      },
+    },
+  ],
 };
