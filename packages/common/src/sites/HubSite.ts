@@ -458,6 +458,8 @@ export class HubSite
     // handle shared "fromEditor" logic
     const res = await hubItemEntityFromEditor(editor, this.context);
     const entity = res.entity as IHubSite;
+    // iterate over the res object keys and set the values
+    // on the HubSite instance
     Object.entries(res).forEach(([key, value]) => {
       setProp(key, value, this);
     });

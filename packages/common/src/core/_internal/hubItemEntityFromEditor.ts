@@ -1,4 +1,4 @@
-import { Catalog } from "../..";
+import { Catalog } from "../../search/Catalog";
 import { truncateSlug } from "../../items/_internal/slugs";
 import { editorToMetric } from "../../metrics";
 import {

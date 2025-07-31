@@ -101,7 +101,7 @@ export class HubInitiative
   static async create(
     partialInitiative: Partial<IHubInitiative>,
     context: IArcGISContext,
-    save: boolean = false
+    save = false
   ): Promise<HubInitiative> {
     const pojo = this.applyDefaults(partialInitiative, context);
     // return an instance of HubInitiative
@@ -326,6 +326,8 @@ export class HubInitiative
     // handle shared "fromEditor" logic
     const res = await hubItemEntityFromEditor(editor, this.context);
     const initiative = res.entity as IHubInitiative;
+    // iterate over the res object keys and set the values
+    // on the HubInitiative instance
     Object.entries(res).forEach(([key, value]) => {
       setProp(key, value, this);
     });

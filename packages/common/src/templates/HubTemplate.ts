@@ -162,6 +162,8 @@ export class HubTemplate extends HubItemEntity<IHubTemplate> {
     // delegate to an item-specific fromEditor util to
     // handle shared "fromEditor" logic
     const res = await hubItemEntityFromEditor(editor, this.context);
+    // iterate over the res object keys and set the values
+    // on the HubTemplate instance
     Object.entries(res).forEach(([key, value]) => {
       setProp(key, value, this);
     });

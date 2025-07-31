@@ -240,6 +240,8 @@ export class HubEvent
     // handle shared "fromEditor" logic
     const res = await hubItemEntityFromEditor(editor, this.context);
     const event = res.entity as IHubEvent;
+    // iterate over the res object keys and set the values
+    // on the HubEvent instance
     Object.entries(res).forEach(([key, value]) => {
       setProp(key, value, this);
     });
