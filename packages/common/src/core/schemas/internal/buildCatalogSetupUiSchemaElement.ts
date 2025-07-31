@@ -43,7 +43,12 @@ export function buildCatalogSetupUiSchemaElement(
           "{{shared.fields._catalogSetup.type.existingGroup.description:translate}}",
         ],
         rules: [
-          undefined,
+          [
+            {
+              effect: "SHOW",
+              conditions: [true],
+            },
+          ],
           // only show the "quick start" option if the user is
           // able to create a view group
           [
@@ -52,7 +57,12 @@ export function buildCatalogSetupUiSchemaElement(
               conditions: [canCreateViewGroup],
             },
           ],
-          undefined,
+          [
+            {
+              effect: "SHOW",
+              conditions: [true],
+            },
+          ],
         ],
         icons: ["rectangle", "rectangle-plus", "group"],
       },
