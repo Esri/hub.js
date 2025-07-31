@@ -1,3 +1,10 @@
+# @esri/hub-common [18.13.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.12.2...@esri/hub-common@18.13.0) (2025-07-31)
+
+
+### Features
+
+* **hub-common:** refactor getTypeFromEntity to return "content" for … ([#1957](https://github.com/Esri/hub.js/issues/1957)) ([418770e](https://github.com/Esri/hub.js/commit/418770e7e559f8dff74a55b166a4b6b567848d9c))
+
 ## @esri/hub-common [18.12.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.12.1...@esri/hub-common@18.12.2) (2025-07-28)
 
 
