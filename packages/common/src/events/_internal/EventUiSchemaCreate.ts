@@ -3,6 +3,7 @@ import type { IArcGISContext } from "../../types/IArcGISContext";
 import { EntityEditorOptions } from "../../core/schemas/internal/EditorOptions";
 import { getDatePickerDate } from "../../utils/date/getDatePickerDate";
 import { IHubEvent } from "../../core/types/IHubEvent";
+import { buildCatalogSetupUiSchemaElement } from "../../core/schemas/internal/buildCatalogSetupUiSchemaElement";
 
 /**
  * @private
@@ -126,6 +127,7 @@ export const buildUiSchema = async (
           ],
         },
       },
+      ...buildCatalogSetupUiSchemaElement(i18nScope, context),
       /* This field hidden for future consideration */
       // buildReferencedContentSchema(
       //   i18nScope,

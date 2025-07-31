@@ -1,7 +1,17 @@
 import { buildUiSchema } from "../../../src/sites/_internal/SiteUiSchemaCreate";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
+import * as buildCatalogModule from "../../../src/core/schemas/internal/buildCatalogSetupUiSchemaElement";
 
 describe("buildUiSchema: site create", () => {
+  const mockCatalogSetupElements = [
+    { scope: "/properties/_catalogSetup", type: "Control", options: {} },
+  ];
+  beforeEach(() => {
+    spyOn(
+      buildCatalogModule,
+      "buildCatalogSetupUiSchemaElement"
+    ).and.returnValue(mockCatalogSetupElements);
+  });
   it("returns the full site create uiSchema", async () => {
     const uiSchema = await buildUiSchema(
       "some.scope",
@@ -55,6 +65,7 @@ describe("buildUiSchema: site create", () => {
             ],
           },
         },
+        ...mockCatalogSetupElements,
       ],
     });
   });

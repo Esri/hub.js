@@ -5,7 +5,6 @@ import { cloneObject } from "../util";
 import {
   createInitiative,
   deleteInitiative,
-  editorToInitiative,
   fetchInitiative,
   updateInitiative,
 } from "./HubInitiatives";
@@ -31,19 +30,18 @@ import {
   IWithCardBehavior,
   IWithEditorBehavior,
   IHubInitiativeEditor,
-  SettableAccessLevel,
   IMetricDisplayConfig,
+  IHubGroup,
 } from "../core";
 import { IEditorConfig } from "../core/schemas/types";
 import { enrichEntity } from "../core/enrichEntity";
-import { getProp, getWithDefault } from "../objects";
-import { upsertResource } from "../resources/upsertResource";
-import { doesResourceExist } from "../resources/doesResourceExist";
-import { removeResource } from "../resources/removeResource";
+import { getProp, getWithDefault, setProp } from "../objects";
 import { metricToEditor } from "../metrics/metricToEditor";
-import { getGroup } from "@esri/arcgis-rest-portal";
+import { getGroup, updateGroup } from "@esri/arcgis-rest-portal";
 import { convertGroupToHubGroup } from "../groups/_internal/convertGroupToHubGroup";
 import { getEditorSlug } from "../core/_internal/getEditorSlug";
+import { convertHubGroupToGroup } from "../groups/_internal/convertHubGroupToGroup";
+import { hubItemEntityFromEditor } from "../core/_internal/hubItemEntityFromEditor";
 
 /**
  * Hub Initiative Class
@@ -103,7 +101,7 @@ export class HubInitiative
   static async create(
     partialInitiative: Partial<IHubInitiative>,
     context: IArcGISContext,
-    save: boolean = false
+    save = false
   ): Promise<HubInitiative> {
     const pojo = this.applyDefaults(partialInitiative, context);
     // return an instance of HubInitiative
@@ -321,90 +319,53 @@ export class HubInitiative
    * @returns
    */
   async fromEditor(editor: IHubInitiativeEditor): Promise<IHubInitiative> {
-    // 1. extract the ephemeral props we graft onto the editor
-    // note: they will be deleted in the editorToInitiative function
-    const thumbnail = editor._thumbnail;
-    const featuredImage = editor.view.featuredImage;
-    const autoShareGroups = editor._groups || [];
+    const _associations = editor._associations;
+    delete editor._associations;
 
-    // 2. convert the editor values back to a initiative entity
-    let entity = await editorToInitiative(editor, this.context);
+    // 1. delegate to an item-specific fromEditor util to
+    // handle shared "fromEditor" logic
+    const res = await hubItemEntityFromEditor(editor, this.context);
+    const initiative = res.entity as IHubInitiative;
+    // iterate over the res object keys and set the values
+    // on the HubInitiative instance
+    Object.entries(res).forEach(([key, value]) => {
+      setProp(key, value, this);
+    });
 
-    // 3. If the entity hasn't been created then we need to do that before we can
-    // create a featured image, if one has been provided.
-    if (!entity.id && featuredImage) {
-      // update this.entity so that the save method will work
-      this.entity = entity;
-      // save the entity to get an id / create it
-      await this.save();
-      // update the local entity let so that the featured image call can pick up the id
-      entity = this.entity;
-    }
+    // 2. handle initiative-specific operations
+    // a. handle association group settings
+    const assocGroupId = initiative.associations?.groupId;
+    if (assocGroupId && _associations) {
+      const associationGroup = convertHubGroupToGroup(
+        _associations as IHubGroup
+      );
 
-    // 4. set the thumbnailCache to ensure that
-    // the thumbnail is updated on the next save
-    if (thumbnail) {
-      if (thumbnail.blob) {
-        this.thumbnailCache = {
-          file: thumbnail.blob,
-          filename: thumbnail.fileName,
-          clear: false,
-        };
-      } else {
-        this.thumbnailCache = {
-          clear: true,
-        };
+      // handle group access
+      if (_associations.groupAccess) {
+        await updateGroup({
+          group: {
+            id: assocGroupId,
+            access: _associations.groupAccess,
+          },
+          authentication: this.context.hubRequestOptions.authentication,
+        });
+      }
+      // handle membership access
+      if (_associations.membershipAccess) {
+        await updateGroup({
+          group: {
+            id: assocGroupId,
+            membershipAccess: associationGroup.membershipAccess as string,
+            clearEmptyFields: true,
+          },
+          authentication: this.context.hubRequestOptions.authentication,
+        });
       }
     }
 
-    // 5. upsert or remove the configured featured image
-    if (featuredImage) {
-      let featuredImageUrl: string | null = null;
-      if (featuredImage.blob) {
-        featuredImageUrl = await upsertResource(
-          entity.id,
-          entity.owner,
-          featuredImage.blob,
-          "featuredImage.png",
-          this.context.userRequestOptions
-        );
-      } else if (
-        await doesResourceExist(
-          entity.id,
-          "featuredImage.png",
-          this.context.userRequestOptions
-        )
-      ) {
-        await removeResource(
-          entity.id,
-          "featuredImage.png",
-          entity.owner,
-          this.context.userRequestOptions
-        );
-      }
-
-      entity.view = {
-        ...entity.view,
-        featuredImageUrl,
-      };
-    }
-
-    // 6. save or create the entity
-    this.entity = entity;
+    // save or create the entity
+    this.entity = initiative;
     await this.save();
-
-    // 7. share the entity with the configured groups
-    const isCreate = !editor.id;
-    if (isCreate) {
-      await this.setAccess(editor.access as SettableAccessLevel);
-      if (autoShareGroups.length) {
-        await Promise.all(
-          autoShareGroups.map((id: string) => {
-            return this.shareWithGroup(id);
-          })
-        );
-      }
-    }
 
     return this.entity;
   }

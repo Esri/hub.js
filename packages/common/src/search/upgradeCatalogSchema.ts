@@ -8,7 +8,8 @@ import {
   IQuery,
 } from "./types";
 
-const CATALOG_SCHEMA_VERSION = 1.0;
+// The current catalog schema version
+export const CATALOG_SCHEMA_VERSION = 1.0;
 
 const getAgoEntityOrgIdPredicates = (orgId: string): IPredicate[] => [
   // Portal uses `orgid` instead of `orgId`, so we comply.

@@ -7,6 +7,7 @@ import * as editModule from "../../src/templates/edit";
 import * as fetchModule from "../../src/templates/fetch";
 import * as getEditorConfigModule from "../../src/core/schemas/getEditorConfig";
 import * as enrichEntityModule from "../../src/core/enrichEntity";
+import * as hubItemEntityFromEditorModule from "../../src/core/_internal/hubItemEntityFromEditor";
 
 describe("HubTemplate Class", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -78,7 +79,7 @@ describe("HubTemplate Class", () => {
           await HubTemplate.fetch("00c", authdCtxMgr.context);
         } catch (ex) {
           expect(fetchSpy).toHaveBeenCalledTimes(1);
-          expect((ex as any).message).toBe("Template 00c not found.");
+          expect((ex ).message).toBe("Template 00c not found.");
         }
       });
       it("catches other errors", async () => {
@@ -90,7 +91,7 @@ describe("HubTemplate Class", () => {
           await HubTemplate.fetch("00c", authdCtxMgr.context);
         } catch (ex) {
           expect(fetchSpy).toHaveBeenCalledTimes(1);
-          expect((ex as any).message).toBe("error");
+          expect((ex ).message).toBe("error");
         }
       });
     });
@@ -177,12 +178,30 @@ describe("HubTemplate Class", () => {
 
     describe("fromEditor:", () => {
       let createSpy: jasmine.Spy;
+      let hubItemEntityFromEditorSpy: jasmine.Spy;
       beforeEach(() => {
         createSpy = spyOn(editModule, "createTemplate").and.callFake(() =>
           Promise.resolve({ id: "00c" })
         );
+        hubItemEntityFromEditorSpy = spyOn(
+          hubItemEntityFromEditorModule,
+          "hubItemEntityFromEditor"
+        ).and.callThrough();
       });
-
+      it("delegates to the hubItemEntityFromEditor util to handle shared logic", async () => {
+        const chk = HubTemplate.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+          },
+          authdCtxMgr.context
+        );
+        spyOn(chk, "save").and.returnValue(Promise.resolve());
+        const editor = await chk.toEditor();
+        await chk.fromEditor(editor);
+        expect(hubItemEntityFromEditorSpy).toHaveBeenCalledTimes(1);
+      });
       it("handles simple value change", async () => {
         const chk = HubTemplate.fromJson(
           { id: "00c", name: "Test Template" },
@@ -303,12 +322,12 @@ describe("HubTemplate Class", () => {
       try {
         await chk.delete();
       } catch (e) {
-        expect((e as any).message).toEqual(destroyedError);
+        expect((e ).message).toEqual(destroyedError);
       }
       try {
         await chk.save();
       } catch (e) {
-        expect((e as any).message).toEqual(destroyedError);
+        expect((e ).message).toEqual(destroyedError);
       }
     });
   });

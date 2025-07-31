@@ -2,7 +2,6 @@ import * as PortalModule from "@esri/arcgis-rest-portal";
 import {
   ArcGISContextManager,
   Catalog,
-  getProp,
   IHubInitiativeTemplate,
 } from "../../src";
 import { MOCK_AUTH } from "../mocks/mock-auth";
@@ -12,12 +11,11 @@ import * as viewModule from "../../src/initiative-templates/view";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import { HubInitiativeTemplate } from "../../src/initiative-templates/HubInitiativeTemplate";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
+import * as hubItemEntityFromEditorModule from "../../src/core/_internal/hubItemEntityFromEditor";
 
 describe("HubInitiativeTemplate Class: ", () => {
   let authdCtxMgr: ArcGISContextManager;
-  let unauthdCtxMgr: ArcGISContextManager;
   beforeEach(async () => {
-    unauthdCtxMgr = await ArcGISContextManager.create();
     // When we pass in all this information, the context
     // manager will not try to fetch anything, so no need
     // to mock those calls
@@ -72,7 +70,7 @@ describe("HubInitiativeTemplate Class: ", () => {
       const fetchSpy = spyOn(
         fetchModule,
         "fetchInitiativeTemplate"
-      ).and.callFake((id: string) => {
+      ).and.callFake(() => {
         const err = new Error(
           "CONT_0001: Item does not exist or is inaccessible."
         );
@@ -91,7 +89,7 @@ describe("HubInitiativeTemplate Class: ", () => {
       const fetchSpy = spyOn(
         fetchModule,
         "fetchInitiativeTemplate"
-      ).and.callFake((id: string) => {
+      ).and.callFake(() => {
         const err = new Error("ZOMG!");
         return Promise.reject(err);
       });
@@ -352,20 +350,33 @@ describe("HubInitiativeTemplate Class: ", () => {
     });
 
     describe("fromEditor:", () => {
-      let updateSpy: jasmine.Spy;
       let createSpy: jasmine.Spy;
+      let hubItemEntityFromEditorSpy: jasmine.Spy;
       beforeEach(() => {
-        updateSpy = spyOn(editModule, "updateInitiativeTemplate").and.callFake(
-          (p: IHubInitiativeTemplate) => {
-            return Promise.resolve(p);
-          }
-        );
+        hubItemEntityFromEditorSpy = spyOn(
+          hubItemEntityFromEditorModule,
+          "hubItemEntityFromEditor"
+        ).and.callThrough();
         createSpy = spyOn(editModule, "createInitiativeTemplate").and.callFake(
           (e: any) => {
             e.id = "3ef";
             return Promise.resolve(e);
           }
         );
+      });
+      it("delegates to the hubItemEntityFromEditor util to handle shared logic", async () => {
+        const chk = HubInitiativeTemplate.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+          },
+          authdCtxMgr.context
+        );
+        spyOn(chk, "save").and.returnValue(Promise.resolve());
+        const editor = await chk.toEditor();
+        await chk.fromEditor(editor);
+        expect(hubItemEntityFromEditorSpy).toHaveBeenCalledTimes(1);
       });
       it("handles simple prop change", async () => {
         const chk = HubInitiativeTemplate.fromJson(
@@ -388,57 +399,6 @@ describe("HubInitiativeTemplate Class: ", () => {
         // expect the name to have been updated
         expect(result.name).toEqual("new name");
       });
-      it("handles thumbnail change", async () => {
-        const chk = HubInitiativeTemplate.fromJson(
-          {
-            id: "bc3",
-            name: "Test Entity",
-            thumbnailUrl: "https://myserver.com/thumbnail.png",
-          },
-          authdCtxMgr.context
-        );
-        // spy on the instance .save method and retrn void
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
-        // make changes to the editor
-        const editor = await chk.toEditor();
-        editor.name = "new name";
-        editor._thumbnail = {
-          blob: "fake blob",
-          filename: "thumbnail.png",
-        };
-        // call fromEditor
-        const result = await chk.fromEditor(editor);
-        // expect the save method to have been called
-        expect(saveSpy).toHaveBeenCalledTimes(1);
-        // since thumbnailCache is protected we can't really test that it's set
-        // other than via code-coverage
-        expect(getProp(result, "_thumbnail")).not.toBeDefined();
-      });
-
-      it("handles thumbnail clear", async () => {
-        const chk = HubInitiativeTemplate.fromJson(
-          {
-            id: "bc3",
-            name: "Test Entity",
-            thumbnailUrl: "https://myserver.com/thumbnail.png",
-          },
-          authdCtxMgr.context
-        );
-        // spy on the instance .save method and retrn void
-        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
-        // make changes to the editor
-        const editor = await chk.toEditor();
-        editor.name = "new name";
-        editor._thumbnail = {};
-        // call fromEditor
-        const result = await chk.fromEditor(editor);
-        // expect the save method to have been called
-        expect(saveSpy).toHaveBeenCalledTimes(1);
-        // since thumbnailCache is protected we can't really test that it's set
-        // other than via code-coverage
-        expect(getProp(result, "_thumbnail")).not.toBeDefined();
-      });
-
       it("works on create", async () => {
         const chk = HubInitiativeTemplate.fromJson(
           {

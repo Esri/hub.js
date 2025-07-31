@@ -10,6 +10,7 @@ import { IWithPermissions } from "../traits/IWithPermissions";
 import { IWithDiscussions } from "../traits/IWithDiscussions";
 import { IWithViewSettings } from "../traits/IWithViewSettings";
 import { IWithAssistant } from "../traits/IWithAssistant";
+import { ICatalogSetup } from "../../search/types";
 
 /**
  * Properties exposed by Entities that are backed by Items
@@ -184,4 +185,10 @@ export type IHubItemEntityEditor<T> = Omit<T, "extent"> & {
    * (i.e. w/o the orgUrlKey prefix)
    */
   _slug?: string;
+  /**
+   * catalog setup settings: when creating an entity,
+   * an editor can elect to initialize the entity's
+   * catalog with a new group or an existing group.
+   */
+  _catalogSetup?: ICatalogSetup;
 };

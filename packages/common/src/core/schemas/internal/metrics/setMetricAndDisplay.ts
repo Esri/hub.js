@@ -1,6 +1,6 @@
 import { getWithDefault } from "../../../../objects";
 import { cloneObject } from "../../../../util";
-import { IHubProject } from "../../../types/IHubProject";
+import { IHubItemEntity } from "../../../types/IHubItemEntity";
 import { IMetric, IMetricDisplayConfig } from "../../../types/Metrics";
 
 /**
@@ -14,10 +14,10 @@ import { IMetric, IMetricDisplayConfig } from "../../../types/Metrics";
  * other entities can be allowed.
  */
 export function setMetricAndDisplay(
-  entity: IHubProject,
+  entity: IHubItemEntity,
   metric: IMetric,
   displayConfig: IMetricDisplayConfig
-): IHubProject {
+): IHubItemEntity {
   const entityCopy = cloneObject(entity);
   const metricId = metric.id;
 

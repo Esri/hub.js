@@ -6,8 +6,18 @@ import { MOCK_AUTH } from "../../mocks/mock-auth";
 import { HubEventAttendanceType } from "../../../src/events/types";
 import { UiSchemaRuleEffects } from "../../../src/core/schemas/types";
 import * as getDatePickerDateUtils from "../../../src/utils/date/getDatePickerDate";
+import * as buildCatalogModule from "../../../src/core/schemas/internal/buildCatalogSetupUiSchemaElement";
 
 describe("EventUiSchemaCreate", () => {
+  const mockCatalogSetupElements = [
+    { scope: "/properties/_catalogSetup", type: "Control", options: {} },
+  ];
+  beforeEach(() => {
+    spyOn(
+      buildCatalogModule,
+      "buildCatalogSetupUiSchemaElement"
+    ).and.returnValue(mockCatalogSetupElements);
+  });
   describe("buildUiSchema", () => {
     it("should return the expected ui schema", async () => {
       const authdCtxMgr = await ArcGISContextManager.create({
@@ -174,6 +184,7 @@ describe("EventUiSchemaCreate", () => {
               ],
             },
           },
+          ...mockCatalogSetupElements,
         ],
       });
     });

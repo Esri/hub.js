@@ -1,6 +1,7 @@
 import type { IArcGISContext } from "../../types/IArcGISContext";
 import { IUiSchema } from "../../core/schemas/types";
 import { IHubSite } from "../../core/types";
+import { buildCatalogSetupUiSchemaElement } from "../../core/schemas/internal/buildCatalogSetupUiSchemaElement";
 
 /**
  * @private
@@ -67,6 +68,7 @@ export const buildUiSchema = async (
           ],
         },
       },
+      ...buildCatalogSetupUiSchemaElement(i18nScope, context),
     ],
   };
 };
