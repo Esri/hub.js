@@ -75,6 +75,10 @@ export async function getEditorSchemas(
           import("../../../sites/_internal/SiteUiSchemaSettings"),
         "hub:site:assistant": () =>
           import("../../../sites/_internal/SiteUiSchemaAssistant"),
+        "hub:site:settings:discussions": () =>
+          import(
+            "../../../core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettings"
+          ),
       }[type as SiteEditorType]();
       uiSchema = await siteModule.buildUiSchema(
         i18nScope,
@@ -284,6 +288,10 @@ export async function getEditorSchemas(
           import("../../../content/_internal/ContentUiSchemaDiscussions"),
         "hub:content:settings": () =>
           import("../../../content/_internal/ContentUiSchemaSettings"),
+        "hub:content:settings:discussions": () =>
+          import(
+            "../../../core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettings"
+          ),
       }[type as ContentEditorType]();
       uiSchema = await contentModule.buildUiSchema(
         i18nScope,
@@ -358,6 +366,10 @@ export async function getEditorSchemas(
           import("../../../groups/_internal/GroupUiSchemaSettings"),
         "hub:group:discussions": () =>
           import("../../../groups/_internal/GroupUiSchemaDiscussions"),
+        "hub:group:settings:discussions": () =>
+          import(
+            "../../../core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettings"
+          ),
       }[type as GroupEditorType]();
       uiSchema = await groupModule.buildUiSchema(
         i18nScope,
