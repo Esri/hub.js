@@ -254,7 +254,7 @@ export async function updateContent(
   try {
     allowedLocations =
       updatedContent.location.geometries?.map(
-        (geometry) => arcgisToGeoJSON(geometry) as any as Polygon
+        (geometry) => arcgisToGeoJSON(geometry) as Polygon
       ) || null;
   } catch (e) {
     allowedLocations = null;
