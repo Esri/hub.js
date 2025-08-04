@@ -4,6 +4,7 @@
  */
 
 import { JSONSchema } from "json-schema-typed";
+import { CATALOG_SETUP_TYPES } from "../../../search/types";
 
 export const ENTITY_NAME_SCHEMA = {
   type: "string",
@@ -188,4 +189,37 @@ export const SLUG_SCHEMA: JSONSchema = {
   // using the same regex as the slug formatter
   // this will prevent trailing - or multiple - in a row
   pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+};
+
+// When creating an entity, an editor can elect to initialize
+// the entity's catalog with a new group or an existing group.
+// The following schema defines the properties for this setup
+// experience.
+export const ENTITY_CATALOG_SETUP_SCHEMA: JSONSchema = {
+  type: "object",
+  properties: {
+    type: {
+      type: "string",
+      enum: [...CATALOG_SETUP_TYPES],
+      default: "blank",
+    },
+    groupId: {
+      type: "array",
+      maxItems: 1,
+      items: {
+        type: "string",
+      },
+    },
+  },
+  allOf: [
+    {
+      if: {
+        required: ["type"],
+        properties: { type: { const: "existingGroup" } },
+      },
+      then: {
+        required: ["groupId"],
+      },
+    },
+  ],
 };

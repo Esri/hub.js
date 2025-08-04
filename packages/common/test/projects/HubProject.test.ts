@@ -9,11 +9,8 @@ import * as fetchModule from "../../src/projects/fetch";
 import * as viewModule from "../../src/projects/view";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import * as ResolveMetricModule from "../../src/metrics/resolveMetric";
-import { HubItemEntity } from "../../src/core/HubItemEntity";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
-import * as upsertResourceModule from "../../src/resources/upsertResource";
-import * as doesResourceExistModule from "../../src/resources/doesResourceExist";
-import * as removeResourceModule from "../../src/resources/removeResource";
+import * as hubItemEntityFromEditorModule from "../../src/core/_internal/hubItemEntityFromEditor";
 
 const initContextManager = async (opts = {}) => {
   const defaults = {
@@ -36,9 +33,7 @@ const initContextManager = async (opts = {}) => {
 
 describe("HubProject Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
-  let unauthdCtxMgr: ArcGISContextManager;
   beforeEach(async () => {
-    unauthdCtxMgr = await ArcGISContextManager.create();
     // When we pass in all this information, the context
     // manager will not try to fetch anything, so no need
     // to mock those calls
@@ -77,34 +72,30 @@ describe("HubProject Class:", () => {
     });
 
     it("handle load missing projects", async () => {
-      const fetchSpy = spyOn(fetchModule, "fetchProject").and.callFake(
-        (id: string) => {
-          const err = new Error(
-            "CONT_0001: Item does not exist or is inaccessible."
-          );
-          return Promise.reject(err);
-        }
-      );
+      const fetchSpy = spyOn(fetchModule, "fetchProject").and.callFake(() => {
+        const err = new Error(
+          "CONT_0001: Item does not exist or is inaccessible."
+        );
+        return Promise.reject(err);
+      });
       try {
         await HubProject.fetch("3ef", authdCtxMgr.context);
       } catch (ex) {
         expect(fetchSpy).toHaveBeenCalledTimes(1);
-        expect((ex as any).message).toBe("Project not found.");
+        expect((ex as Error).message).toBe("Project not found.");
       }
     });
 
     it("handle load errors", async () => {
-      const fetchSpy = spyOn(fetchModule, "fetchProject").and.callFake(
-        (id: string) => {
-          const err = new Error("ZOMG!");
-          return Promise.reject(err);
-        }
-      );
+      const fetchSpy = spyOn(fetchModule, "fetchProject").and.callFake(() => {
+        const err = new Error("ZOMG!");
+        return Promise.reject(err);
+      });
       try {
         await HubProject.fetch("3ef", authdCtxMgr.context);
       } catch (ex) {
         expect(fetchSpy).toHaveBeenCalledTimes(1);
-        expect((ex as any).message).toBe("ZOMG!");
+        expect((ex as Error).message).toBe("ZOMG!");
       }
     });
   });
@@ -226,13 +217,13 @@ describe("HubProject Class:", () => {
     try {
       await chk.delete();
     } catch (e) {
-      expect((e as any).message).toEqual("HubProject is already destroyed.");
+      expect((e as Error).message).toEqual("HubProject is already destroyed.");
     }
 
     try {
       await chk.save();
     } catch (e) {
-      expect((e as any).message).toEqual("HubProject is already destroyed.");
+      expect((e as Error).message).toEqual("HubProject is already destroyed.");
     }
   });
 
@@ -265,7 +256,7 @@ describe("HubProject Class:", () => {
       try {
         await chk.resolveMetric("projectBudget_00c");
       } catch (e) {
-        expect((e as any).message).toEqual(
+        expect((e as Error).message).toEqual(
           "Metric projectBudget_00c not found."
         );
       }
@@ -404,27 +395,19 @@ describe("HubProject Class:", () => {
           },
           authdCtxMgr.context
         );
-        const result = await chk.toEditor({ metricId: "metric123" });
+        await chk.toEditor({ metricId: "metric123" });
       });
     });
 
     describe("fromEditor:", () => {
-      let updateSpy: jasmine.Spy;
-      let createSpy: jasmine.Spy;
+      let hubItemEntityFromEditorSpy: jasmine.Spy;
       beforeEach(() => {
-        updateSpy = spyOn(editModule, "updateProject").and.callFake(
-          (p: IHubProject) => {
-            return Promise.resolve(p);
-          }
-        );
-        createSpy = spyOn(editModule, "createProject").and.callFake(
-          (e: any) => {
-            e.id = "3ef";
-            return Promise.resolve(e);
-          }
-        );
+        hubItemEntityFromEditorSpy = spyOn(
+          hubItemEntityFromEditorModule,
+          "hubItemEntityFromEditor"
+        ).and.callThrough();
       });
-      it("handles setting featuredImage", async () => {
+      it("delegates to the hubItemEntityFromEditor util to handle shared logic", async () => {
         const chk = HubProject.fromJson(
           {
             id: "bc3",
@@ -433,159 +416,10 @@ describe("HubProject Class:", () => {
           },
           authdCtxMgr.context
         );
-        const editorContext = { metricId: "metric123" };
+        spyOn(chk, "save").and.returnValue(Promise.resolve());
         const editor = await chk.toEditor();
-        editor.view = {
-          featuredImage: {
-            blob: "fake blob",
-            filename: "thumbnail.png",
-          },
-        };
-        const spy = spyOn(
-          upsertResourceModule,
-          "upsertResource"
-        ).and.returnValue(
-          Promise.resolve("https://blah.com/some-featuredImage.png")
-        );
         await chk.fromEditor(editor);
-        expect(updateSpy).toHaveBeenCalledTimes(1);
-        expect(createSpy).not.toHaveBeenCalled();
-        expect(spy).toHaveBeenCalledTimes(1);
-      });
-      it("handles setting featuredImage and clearing prior image", async () => {
-        const chk = HubProject.fromJson(
-          {
-            id: "bc3",
-            name: "Test Entity",
-            thumbnailUrl: "https://myserver.com/thumbnail.png",
-            view: {
-              featuredImageUrl: "https://myserver.com/featuredImage.png",
-            },
-          },
-          authdCtxMgr.context
-        );
-        const editorContext = { metricId: "metric123" };
-        const editor = await chk.toEditor();
-        editor.view = {
-          ...editor.view,
-          featuredImage: {
-            blob: "fake blob",
-            filename: "thumbnail.png",
-          },
-        };
-        const spy = spyOn(
-          upsertResourceModule,
-          "upsertResource"
-        ).and.returnValue(
-          Promise.resolve("https://blah.com/some-featuredImage.png")
-        );
-        await chk.fromEditor(editor);
-        expect(updateSpy).toHaveBeenCalledTimes(1);
-        expect(createSpy).not.toHaveBeenCalled();
-        expect(spy).toHaveBeenCalledTimes(1);
-      });
-      it("handles clearing featuredImage", async () => {
-        const chk = HubProject.fromJson(
-          {
-            id: "bc3",
-            name: "Test Entity",
-            thumbnailUrl: "https://myserver.com/thumbnail.png",
-          },
-          authdCtxMgr.context
-        );
-        const editor = await chk.toEditor();
-        editor.view = {
-          featuredImage: {}, // Will clear b/c .blob is not defined
-        };
-        const spy = spyOn(
-          doesResourceExistModule,
-          "doesResourceExist"
-        ).and.returnValue(Promise.resolve(true));
-        const removeResourceSpy = spyOn(
-          removeResourceModule,
-          "removeResource"
-        ).and.returnValue(Promise.resolve());
-        await chk.fromEditor(editor);
-        expect(updateSpy).toHaveBeenCalledTimes(1);
-        expect(createSpy).not.toHaveBeenCalled();
-        expect(spy).toHaveBeenCalledTimes(1);
-        expect(removeResourceSpy).toHaveBeenCalledTimes(1);
-      });
-      it("handles clearing featuredImage when resource doesnt exist", async () => {
-        const chk = HubProject.fromJson(
-          {
-            id: "bc3",
-            name: "Test Entity",
-            thumbnailUrl: "https://myserver.com/thumbnail.png",
-          },
-          authdCtxMgr.context
-        );
-        const editor = await chk.toEditor();
-        editor.view = {
-          featuredImage: {}, // Will clear b/c .blob is not defined
-        };
-        const spy = spyOn(
-          doesResourceExistModule,
-          "doesResourceExist"
-        ).and.returnValue(Promise.resolve(false));
-        const removeResourceSpy = spyOn(
-          removeResourceModule,
-          "removeResource"
-        ).and.returnValue(Promise.resolve());
-        await chk.fromEditor(editor);
-        expect(updateSpy).toHaveBeenCalledTimes(1);
-        expect(createSpy).not.toHaveBeenCalled();
-        expect(spy).toHaveBeenCalledTimes(1);
-        expect(removeResourceSpy).not.toHaveBeenCalled();
-      });
-      it("sets access on create", async () => {
-        const chk = HubProject.fromJson(
-          {
-            name: "Test Entity",
-            thumbnailUrl: "https://myserver.com/thumbnail.png",
-          },
-          authdCtxMgr.context
-        );
-        const editor = await chk.toEditor();
-
-        editor.access = "org";
-
-        const accessSpy = spyOn(
-          HubItemEntity.prototype,
-          "setAccess"
-        ).and.returnValue(Promise.resolve());
-
-        await chk.fromEditor(editor);
-        expect(createSpy).toHaveBeenCalledTimes(1);
-        expect(accessSpy).toHaveBeenCalledTimes(1);
-        expect(accessSpy).toHaveBeenCalledWith("org");
-      });
-      it("handles sharing on create", async () => {
-        const chk = HubProject.fromJson(
-          {
-            name: "Test Entity",
-            thumbnailUrl: "https://myserver.com/thumbnail.png",
-          },
-          authdCtxMgr.context
-        );
-        const editor = await chk.toEditor();
-        editor._groups = ["3ef"];
-        editor.access = "org";
-        const accessSpy = spyOn(
-          HubItemEntity.prototype,
-          "setAccess"
-        ).and.returnValue(Promise.resolve());
-
-        const shareSpy = spyOn(
-          HubItemEntity.prototype,
-          "shareWithGroup"
-        ).and.returnValue(Promise.resolve());
-        await chk.fromEditor(editor);
-        expect(createSpy).toHaveBeenCalledTimes(1);
-        expect(accessSpy).toHaveBeenCalledTimes(1);
-        expect(accessSpy).toHaveBeenCalledWith("org");
-        expect(shareSpy).toHaveBeenCalledTimes(1);
-        expect(shareSpy).toHaveBeenCalledWith("3ef");
+        expect(hubItemEntityFromEditorSpy).toHaveBeenCalledTimes(1);
       });
       it("handles simple prop change", async () => {
         const chk = HubProject.fromJson(

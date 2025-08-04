@@ -1,3 +1,22 @@
+# @esri/hub-common [19.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.14.0...@esri/hub-common@19.0.0) (2025-08-04)
+
+
+### Bug Fixes
+
+* lint error; will be used to force breaking change ([#1960](https://github.com/Esri/hub.js/issues/1960)) ([6837b61](https://github.com/Esri/hub.js/commit/6837b614114cb9a9fd46f42ee33179673d7cb746))
+
+
+### BREAKING CHANGES
+
+* removes editorToProject, editorToInitiative utils
+
+# @esri/hub-common [18.14.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.13.0...@esri/hub-common@18.14.0) (2025-08-04)
+
+
+### Features
+
+* enable catalog initialization on entity creation ([#1955](https://github.com/Esri/hub.js/issues/1955)) ([34a7fc7](https://github.com/Esri/hub.js/commit/34a7fc712f4677509a6bb1d1800daf3bb93d3a0b))
+
 # @esri/hub-common [18.13.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.12.2...@esri/hub-common@18.13.0) (2025-07-31)
 
 

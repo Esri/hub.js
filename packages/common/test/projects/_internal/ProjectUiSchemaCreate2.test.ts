@@ -1,7 +1,17 @@
 import { buildUiSchema } from "../../../src/projects/_internal/ProjectUiSchemaCreate2";
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
+import * as buildCatalogModule from "../../../src/core/schemas/internal/buildCatalogSetupUiSchemaElement";
 
 describe("buildUiSchema: project create", () => {
+  const mockCatalogSetupElements = [
+    { scope: "/properties/_catalogSetup", type: "Control", options: {} },
+  ];
+  beforeEach(() => {
+    spyOn(
+      buildCatalogModule,
+      "buildCatalogSetupUiSchemaElement"
+    ).and.returnValue(mockCatalogSetupElements);
+  });
   it("returns the full project create uiSchema", async () => {
     const uiSchema = await buildUiSchema("some.scope", {} as any, MOCK_CONTEXT);
     expect(uiSchema).toEqual({
@@ -34,6 +44,7 @@ describe("buildUiSchema: project create", () => {
             ],
           },
         },
+        ...mockCatalogSetupElements,
       ],
     });
   });

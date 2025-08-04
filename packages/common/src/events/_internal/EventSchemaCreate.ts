@@ -1,9 +1,10 @@
 import { IConfigurationSchema } from "../../core/schemas/types";
-import { ENTITY_NAME_SCHEMA } from "../../core/schemas/shared/subschemas";
-import { getDefaultEventDatesAndTimes } from "./getDefaultEventDatesAndTimes";
 import {
-  TIME_VALIDATIONS_WHEN_NOT_ALL_DAY,
-} from "./validations";
+  ENTITY_CATALOG_SETUP_SCHEMA,
+  ENTITY_NAME_SCHEMA,
+} from "../../core/schemas/shared/subschemas";
+import { getDefaultEventDatesAndTimes } from "./getDefaultEventDatesAndTimes";
+import { TIME_VALIDATIONS_WHEN_NOT_ALL_DAY } from "./validations";
 
 export type EventEditorType = (typeof EventEditorTypes)[number];
 export const EventEditorTypes = [
@@ -38,6 +39,7 @@ export const buildSchema = (): IConfigurationSchema => {
         type: "boolean",
         default: false,
       },
+      _catalogSetup: ENTITY_CATALOG_SETUP_SCHEMA,
       /* This field hidden for future consideration */
       // referencedContentIds: {
       //   type: "array",

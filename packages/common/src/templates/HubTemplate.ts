@@ -5,16 +5,13 @@ import { HubItemEntity } from "../core/HubItemEntity";
 import { IHubTemplate, IHubTemplateEditor } from "../core/types/IHubTemplate";
 import { TemplateEditorType } from "./_internal/TemplateSchema";
 import { DEFAULT_TEMPLATE } from "./defaults";
-import {
-  createTemplate,
-  deleteTemplate,
-  editorToTemplate,
-  updateTemplate,
-} from "./edit";
+import { createTemplate, deleteTemplate, updateTemplate } from "./edit";
 import { fetchTemplate } from "./fetch";
 import { IEntityEditorContext } from "../core/types";
 import { enrichEntity } from "../core/enrichEntity";
 import { cloneObject } from "../util";
+import { setProp } from "../objects";
+import { hubItemEntityFromEditor } from "../core/_internal/hubItemEntityFromEditor";
 
 /**
  * Hub Template Class - this class encapsulates the standard
@@ -162,29 +159,16 @@ export class HubTemplate extends HubItemEntity<IHubTemplate> {
    * @param editor
    */
   async fromEditor(editor: IHubTemplateEditor): Promise<IHubTemplate> {
-    // Setting the thumbnailCache will ensure that the
-    // thumbnail is updated on the next save
-    if (editor._thumbnail) {
-      const thumb = editor._thumbnail as { blob?: Blob; filename?: string };
-      if (thumb.blob) {
-        this.thumbnailCache = {
-          file: thumb.blob,
-          filename: thumb.filename,
-          clear: false,
-        };
-      } else {
-        this.thumbnailCache = {
-          clear: true,
-        };
-      }
-    }
-
-    delete editor._thumbnail;
-
-    const entity = editorToTemplate(editor, this.context.portal);
+    // delegate to an item-specific fromEditor util to
+    // handle shared "fromEditor" logic
+    const res = await hubItemEntityFromEditor(editor, this.context);
+    // iterate over the res object keys and set the values
+    // on the HubTemplate instance
+    Object.entries(res).forEach(([key, value]) => {
+      setProp(key, value, this);
+    });
 
     // save, which will also create
-    this.entity = entity;
     await this.save();
 
     return this.entity;
