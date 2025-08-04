@@ -84,7 +84,6 @@ module.exports = {
         "packages/common/src/core/schemas/internal/metrics/InitiativeUiSchemaMetrics.ts",
         "packages/common/src/core/schemas/internal/metrics/ProjectUiSchemaMetrics.ts",
         "packages/common/src/core/schemas/internal/metrics/StatCardUiSchema.ts",
-        "packages/common/src/core/schemas/internal/metrics/editorToEntity.ts",
         "packages/common/src/core/schemas/internal/metrics/setMetricAndDisplay.ts",
         "packages/common/src/core/schemas/shared/CatalogSchema.ts",
         "packages/common/src/core/schemas/types.ts",
