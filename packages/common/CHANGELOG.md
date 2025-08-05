@@ -1,3 +1,10 @@
+## @esri/hub-common [19.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.0.0...@esri/hub-common@19.0.1) (2025-08-05)
+
+
+### Bug Fixes
+
+* getWellKnownGroup - hubViewGroup returns access level based on… ([#1962](https://github.com/Esri/hub.js/issues/1962)) ([b19f47d](https://github.com/Esri/hub.js/commit/b19f47da7c96fc28fd21d12b9280d6f76f5941f1))
+
 # @esri/hub-common [19.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.14.0...@esri/hub-common@19.0.0) (2025-08-04)
 
 
