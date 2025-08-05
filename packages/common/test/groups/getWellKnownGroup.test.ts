@@ -1,41 +1,10 @@
 import { getWellKnownGroup } from "../../src/groups/getWellKnownGroup";
-import { MOCK_CONTEXT, MOCK_AUTH } from "../mocks/mock-auth";
-import { ArcGISContext } from "../../src/ArcGISContext";
-import type { IArcGISContext } from "../../src";
+import {
+  MOCK_CONTEXT,
+  getMockContextWithPrivilenges,
+} from "../mocks/mock-auth";
 
 describe("getWellKnownGroup: ", () => {
-  const MOCK_CONTEXT_WITH_PRIVILEGES = new ArcGISContext({
-    id: 123,
-    currentUser: {
-      username: "mock_user",
-      favGroupId: "456abc",
-      orgId: "789def",
-      privileges: ["portal:user:addExternalMembersToGroup"],
-    },
-    portalUrl: "https://qaext.arcgis.com",
-    hubUrl: "https://hubqa.arcgis.com",
-    authentication: MOCK_AUTH,
-    portalSelf: {
-      id: "123",
-      name: "My org",
-      isPortal: false,
-      urlKey: "www",
-    },
-    serviceStatus: {
-      portal: "online",
-      discussions: "online",
-      events: "online",
-      metrics: "online",
-      notifications: "online",
-      "hub-search": "online",
-      domains: "online",
-      "hub-downloads": "online",
-      "hub-ai-assistant": "online",
-    },
-    userHubSettings: {
-      schemaVersion: 1,
-    },
-  }) as IArcGISContext;
   it("returns a followers group", () => {
     const resp = getWellKnownGroup("hubFollowersGroup", MOCK_CONTEXT);
     expect(resp).toEqual({
@@ -49,7 +18,7 @@ describe("getWellKnownGroup: ", () => {
   it("returns a view group", () => {
     const resp = getWellKnownGroup("hubViewGroup", MOCK_CONTEXT);
     expect(resp).toEqual({
-      access: "org",
+      access: "private",
       autoJoin: false,
       isSharedUpdate: false,
       isInvitationOnly: false,
@@ -63,7 +32,24 @@ describe("getWellKnownGroup: ", () => {
   it("returns a view group with membershipAccess set to anyone", () => {
     const resp = getWellKnownGroup(
       "hubViewGroup",
-      MOCK_CONTEXT_WITH_PRIVILEGES
+      getMockContextWithPrivilenges(["portal:user:addExternalMembersToGroup"])
+    );
+    expect(resp).toEqual({
+      access: "private",
+      autoJoin: false,
+      isSharedUpdate: false,
+      isInvitationOnly: false,
+      hiddenMembers: false,
+      isViewOnly: false,
+      leavingDisallowed: false,
+      tags: ["Hub Group"],
+      membershipAccess: "anyone",
+    });
+  });
+  it('returns a view group with access set to "org"', () => {
+    const resp = getWellKnownGroup(
+      "hubViewGroup",
+      getMockContextWithPrivilenges(["portal:user:shareGroupToOrg"])
     );
     expect(resp).toEqual({
       access: "org",
@@ -74,7 +60,24 @@ describe("getWellKnownGroup: ", () => {
       isViewOnly: false,
       leavingDisallowed: false,
       tags: ["Hub Group"],
-      membershipAccess: "anyone",
+      membershipAccess: "organization",
+    });
+  });
+  it('returns a view group with access set to "public"', () => {
+    const resp = getWellKnownGroup(
+      "hubViewGroup",
+      getMockContextWithPrivilenges(["portal:user:shareGroupToPublic"])
+    );
+    expect(resp).toEqual({
+      access: "public",
+      autoJoin: false,
+      isSharedUpdate: false,
+      isInvitationOnly: false,
+      hiddenMembers: false,
+      isViewOnly: false,
+      leavingDisallowed: false,
+      tags: ["Hub Group"],
+      membershipAccess: "organization",
     });
   });
   it("returns an edit group", () => {
@@ -94,7 +97,7 @@ describe("getWellKnownGroup: ", () => {
   it("returns an edit group with membershipAccess set to collaborators", () => {
     const resp = getWellKnownGroup(
       "hubEditGroup",
-      MOCK_CONTEXT_WITH_PRIVILEGES
+      getMockContextWithPrivilenges(["portal:user:addExternalMembersToGroup"])
     );
     expect(resp).toEqual({
       access: "org",
@@ -125,7 +128,7 @@ describe("getWellKnownGroup: ", () => {
   it("returns an associations group with membershipAccess set to anyone", () => {
     const resp = getWellKnownGroup(
       "hubAssociationsGroup",
-      MOCK_CONTEXT_WITH_PRIVILEGES
+      getMockContextWithPrivilenges(["portal:user:addExternalMembersToGroup"])
     );
     expect(resp).toEqual({
       access: "public",

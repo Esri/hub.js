@@ -18,6 +18,14 @@ export function getWellKnownGroup(
   groupType: WellKnownGroup,
   context: IArcGISContext
 ): Partial<IHubGroup> {
+  // Check permissions for sharing view groups to public or org
+  // They are either the string OR false
+  const hasShareGroupToPublic =
+    checkPermission("platform:portal:user:shareGroupToPublic", context)
+      .access && "public";
+  const hasShareGroupToOrg =
+    checkPermission("platform:portal:user:shareGroupToOrg", context).access &&
+    "org";
   const configs: Record<WellKnownGroup, Partial<IHubGroup>> = {
     hubGroup: {
       access: "private",
@@ -31,7 +39,7 @@ export function getWellKnownGroup(
       membershipAccess: "organization",
     },
     hubViewGroup: {
-      access: "org",
+      access: hasShareGroupToPublic || hasShareGroupToOrg || "private",
       autoJoin: false,
       isSharedUpdate: false,
       isInvitationOnly: false,
