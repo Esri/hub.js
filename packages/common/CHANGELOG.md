@@ -1,3 +1,10 @@
+# @esri/hub-common [19.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.0.1...@esri/hub-common@19.1.0) (2025-08-05)
+
+
+### Features
+
+* **hub-common:** enable catalogs on hub discussion boards ([#1929](https://github.com/Esri/hub.js/issues/1929)) ([430e6d8](https://github.com/Esri/hub.js/commit/430e6d886f08b594ef3a0123239605425d7ad3aa))
+
 ## @esri/hub-common [19.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.0.0...@esri/hub-common@19.0.1) (2025-08-05)
 
 
