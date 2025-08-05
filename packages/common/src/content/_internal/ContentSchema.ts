@@ -39,23 +39,5 @@ export const ContentSchema: IConfigurationSchema = {
         type: "object",
       },
     },
-    // TODO: externalize & spread onto HubItemEntitySchema rather than here
-    discussionSettings: {
-      type: "object",
-      properties: {
-        allowedChannelIds: {
-          type: "array",
-          items: {
-            type: "string",
-          },
-        },
-        allowedLocations: {
-          type: "array",
-          items: {
-            type: "object",
-          },
-        },
-      },
-    },
   },
 } as IConfigurationSchema;

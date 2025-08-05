@@ -51,6 +51,24 @@ export const ENTITY_IS_DISCUSSABLE_SCHEMA = {
   default: true,
 };
 
+export const DISCUSSION_SETTINGS_SCHEMA = {
+  type: "object",
+  properties: {
+    allowedChannelIds: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+    },
+    allowedLocations: {
+      type: "array",
+      items: {
+        type: "object",
+      },
+    },
+  },
+};
+
 export const ENTITY_FEATURED_CONTENT_SCHEMA = {
   type: "array",
   maxItems: 4,
