@@ -31,7 +31,12 @@ export function getWellKnownGroup(
       membershipAccess: "organization",
     },
     hubViewGroup: {
-      access: "org",
+      access: checkPermission(
+        "platform:portal:user:addExternalMembersToGroup",
+        context
+      ).access
+        ? "public"
+        : "org",
       autoJoin: false,
       isSharedUpdate: false,
       isInvitationOnly: false,
