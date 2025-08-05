@@ -20,7 +20,7 @@
 		"@chiragrupani/karma-chromium-edge-launcher": "^2.0.0",
 		"@commitlint/cli": "^11.0.0",
 		"@commitlint/config-conventional": "^11.0.0",
-		"@commitlint/config-lerna-scopes": "^11.0.0",
+		"@commitlint/config-lerna-scopes": "^19.8.1",
 		"@commitlint/prompt": "^11.0.0",
 		"@esri/arcgis-rest-feature-service": "^4.1.0",
 		"@esri/arcgis-rest-portal": "^4.6.1",
@@ -53,7 +53,7 @@
 		"eslint-plugin-disable": "^2.0.3",
 		"fetch-mock": "^7.0.0",
 		"gh-pages": "^1.2.0",
-		"gh-release": "^3.4.0",
+		"gh-release": "^7.0.2",
 		"husky": "^4.3.0",
 		"jasmine": "^3.6.4",
 		"jasmine-core": "3.4.0",
@@ -70,7 +70,7 @@
 		"karma-spec-reporter": "^0.0.32",
 		"karma-typescript": "^5.5.0",
 		"karma-typescript-es6-transform": "^5.5.0",
-		"lerna": "^3.22.1",
+		"lerna": "^8.2.3",
 		"lint-staged": "^4.3.0",
 		"madge": "^6.0.0",
 		"minimatch": "^3.0.4",
@@ -84,13 +84,13 @@
 		"ts-node": "^10.2.1",
 		"typedoc": "^0.14.2",
 		"typescript": "^3.8.1",
-		"yo": "^3.1.1"
+		"yo": "^5.1.0"
 	},
 	"dependencies": {
 		"cross-fetch": "^3.0.6",
 		"es6-promise": "^4.2.1",
 		"isomorphic-fetch": "^2.2.1",
-		"isomorphic-form-data": "^1.0.0",
+		"isomorphic-form-data": "^2.0.0",
 		"node-fetch": "^2.0.1",
 		"tslib": "^1.13.0",
 		"ultra-runner": "^3.10.5"
