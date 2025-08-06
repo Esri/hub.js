@@ -118,10 +118,9 @@ export const ENTITY_TIMELINE_SCHEMA = {
       type: "array",
       items: {
         type: "object",
+        required: ["title"],
         properties: {
-          // we should make title required or add minLength: 1
-          // once we know how to handle in the UI
-          title: { type: "string" },
+          title: { type: "string", minLength: 1 },
           timeframe: { type: "string" },
           stageDescription: { type: "string" },
           status: { type: "string" },
