@@ -50,10 +50,11 @@ export const hubItemEntityFromEditor = async (
 
   let entity = cloneObject(editor) as IHubItemEntity;
 
-  // 3. ensure orgUrlKey is set
+  // 3. ensure orgUrlKey is set and downcased
   entity.orgUrlKey = editor.orgUrlKey
     ? (editor.orgUrlKey as string)
     : (context.portal.urlKey as string) || ("" as string);
+  entity.orgUrlKey = (entity.orgUrlKey as string).toLowerCase();
 
   // 4. copy the configured location extent up one level
   // on the entity.

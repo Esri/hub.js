@@ -146,13 +146,20 @@ export class HubSite
     }
   }
 
+  /**
+   * Ensure the Site has the baseline set of properties
+   * that are required for a HubSite.
+   * @param partialSite
+   * @param context
+   * @returns
+   */
   private static applyDefaults(
     partialSite: Partial<IHubSite>,
     context: IArcGISContext
   ): IHubSite {
     // ensure we have the orgUrlKey
     if (!partialSite.orgUrlKey) {
-      partialSite.orgUrlKey = context.portal?.urlKey;
+      partialSite.orgUrlKey = context.portal.urlKey as string;
     }
     // ensure lower case
     partialSite.orgUrlKey = partialSite.orgUrlKey.toLowerCase();

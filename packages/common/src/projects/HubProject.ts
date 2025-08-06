@@ -150,6 +150,8 @@ export class HubProject
     if (!partialProject.orgUrlKey) {
       partialProject.orgUrlKey = context.portal.urlKey as string;
     }
+    // ensure orgUrlKey is lowercase
+    partialProject.orgUrlKey = partialProject.orgUrlKey.toLowerCase();
     // extend the partial over the defaults
     const pojo = { ...DEFAULT_PROJECT, ...partialProject } as IHubProject;
     return pojo;

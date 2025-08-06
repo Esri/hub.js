@@ -67,6 +67,11 @@ export class HubEvent
     if (!partialEvent.orgUrlKey) {
       partialEvent.orgUrlKey = context.portal?.urlKey as string;
     }
+    // ensure orgUrlKey is lowercase
+    if (partialEvent.orgUrlKey) {
+      partialEvent.orgUrlKey = partialEvent.orgUrlKey.toLowerCase();
+    }
+
     // extend the partial over the defaults
     const pojo = {
       ...buildDefaultEventEntity(),

@@ -28,7 +28,7 @@ describe("HubEvent Class:", () => {
       portal: {
         name: "DC R&D Center",
         id: "BRXFAKE",
-        urlKey: "fake-org",
+        urlKey: "fake-Org",
       } as unknown as portalModule.IPortal,
       portalUrl: "https://myserver.com",
     });
@@ -47,6 +47,7 @@ describe("HubEvent Class:", () => {
       ],
     });
     expect(chk.toJson().name).toEqual("Test Event 2");
+    expect(chk.toJson().orgUrlKey).toEqual("fake-org");
 
     chk.update({ tags: ["one", "two"] });
     expect(chk.toJson().tags).toEqual(["one", "two"]);

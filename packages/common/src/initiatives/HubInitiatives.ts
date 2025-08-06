@@ -63,6 +63,9 @@ export async function createInitiative(
   // this expansion solves the typing somehow
   const initiative = { ...DEFAULT_INITIATIVE, ...partialInitiative };
 
+  // ensure orgUrlKey is lowercase
+  initiative.orgUrlKey = initiative.orgUrlKey.toLowerCase();
+
   // Create a slug from the title if one is not passed in
   if (!initiative.slug) {
     initiative.slug = constructSlug(initiative.name, initiative.orgUrlKey);

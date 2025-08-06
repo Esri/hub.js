@@ -130,6 +130,10 @@ export class HubInitiativeTemplate
     if (!partialInitiativeTemplate.orgUrlKey) {
       partialInitiativeTemplate.orgUrlKey = context.portal.urlKey as string;
     }
+    // ensure orgUrlKey is lowercase
+    partialInitiativeTemplate.orgUrlKey =
+      partialInitiativeTemplate.orgUrlKey.toLowerCase();
+
     const pojo = {
       ...DEFAULT_INITIATIVE_TEMPLATE,
       ...partialInitiativeTemplate,

@@ -38,6 +38,9 @@ export async function createDiscussion(
   // this expansion solves the typing somehow
   const discussion = { ...DEFAULT_DISCUSSION, ...partialDiscussion };
 
+  // ensure orgUrlKey is set and downcased
+  discussion.orgUrlKey = discussion.orgUrlKey.toLowerCase();
+
   // Create a slug from the title if one is not passed in
   if (!discussion.slug) {
     discussion.slug = constructSlug(discussion.name, discussion.orgUrlKey);

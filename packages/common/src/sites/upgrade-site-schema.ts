@@ -21,7 +21,7 @@ import { ensureLowercaseOrgUrlKey } from "./_internal/ensureLowercaseOrgUrlKey";
  * Upgrades the schema upgrades
  * @param model IModel
  */
-export function upgradeSiteSchema(model: IModel) {
+export function upgradeSiteSchema(model: IModel): IModel {
   // WARNING - If you are writing a site schema migration,
   // you probably need to apply it to site drafts as well!
   // Specifically, add the migration to upgrade-draft-schema.ts file
