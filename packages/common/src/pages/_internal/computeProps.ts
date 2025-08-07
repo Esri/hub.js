@@ -8,6 +8,7 @@ import { PageDefaultFeatures } from "./PageBusinessRules";
 import { IHubPage } from "../../core/types/IHubPage";
 import { computeItemProps } from "../../core/_internal/computeItemProps";
 import { computeLinks } from "./computeLinks";
+import { applyPageMigrations } from "./applyPageMigrations";
 
 /**
  * Given a model and a page, set various computed properties that can't be directly mapped
@@ -45,6 +46,9 @@ export function computeProps(
     model.data.settings?.features || {},
     PageDefaultFeatures
   );
+
+  // Apply migrations
+  page = applyPageMigrations(page as IHubPage);
 
   // cast b/c this takes a partial but returns a full page
   return page as IHubPage;
