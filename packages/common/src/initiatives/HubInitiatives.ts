@@ -37,7 +37,6 @@ import { fetchItemEnrichments } from "../items/_enrichments";
 import { DEFAULT_INITIATIVE, DEFAULT_INITIATIVE_MODEL } from "./defaults";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
-import { applyInitiativeMigrations } from "./_internal/applyInitiativeMigrations";
 import { combineQueries } from "../search/combineQueries";
 import { getTypeWithKeywordQuery } from "../associations/internal/getTypeWithKeywordQuery";
 import { negateGroupPredicates } from "../search/negateGroupPredicates";
@@ -190,9 +189,7 @@ export async function convertItemToInitiative(
   item: IItem,
   requestOptions: IRequestOptions
 ): Promise<IHubInitiative> {
-  let model = await fetchModelFromItem(item, requestOptions);
-  // apply migrations
-  model = await applyInitiativeMigrations(model, requestOptions);
+  const model = await fetchModelFromItem(item, requestOptions);
   const mapper = new PropertyMapper<Partial<IHubInitiative>, IModel>(
     getPropertyMap()
   );
