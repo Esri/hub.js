@@ -8,6 +8,7 @@ import { ProjectDefaultFeatures } from "./ProjectBusinessRules";
 import { computeLinks } from "./computeLinks";
 import { computeItemProps } from "../../core/_internal/computeItemProps";
 import { upgradeCatalogSchema } from "../../search";
+import { applyProjectMigrations } from "./projectMigrations";
 
 /**
  * Given a model and a project, set various computed properties that can't be directly mapped
@@ -49,6 +50,9 @@ export function computeProps(
   );
 
   project.links = computeLinks(model.item, requestOptions);
+
+  // apply migrations
+  project = applyProjectMigrations(project as IHubProject);
 
   // cast b/c this takes a partial but returns a full project
   return project as IHubProject;
