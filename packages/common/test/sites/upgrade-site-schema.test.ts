@@ -12,6 +12,7 @@ import * as _migrateLinkUnderlinesCapability from "../../src/sites/_internal/_mi
 import * as migrateBadBasemapModule from "../../src/sites/_internal/migrateBadBasemap";
 import * as ensureBaseTelemetry from "../../src/sites/_internal/ensureBaseTelemetry";
 import * as _migrateToV2CatalogModule from "../../src/sites/_internal/_migrate-to-v2-catalog";
+import * as ensureLowercaseOrgUrlKeySlugAndKeywordModule from "../../src/sites/_internal/ensureLowercaseOrgUrlKeySlugAndKeyword";
 
 import { IModel } from "../../src";
 import { SITE_SCHEMA_VERSION } from "../../src/sites/site-schema-version";
@@ -31,6 +32,7 @@ describe("upgradeSiteSchema", () => {
   let migrateBadBasemapSpy: jasmine.Spy;
   let ensureBaseTelemetrySpy: jasmine.Spy;
   let migrateToV2CatalogSpy: jasmine.Spy;
+  let slugFixSpy: jasmine.Spy;
 
   beforeEach(() => {
     applySpy = spyOn(_applySiteSchemaModule, "_applySiteSchema").and.callFake(
@@ -84,6 +86,11 @@ describe("upgradeSiteSchema", () => {
       _migrateToV2CatalogModule,
       "_migrateToV2Catalog"
     ).and.callFake((model: IModel) => model);
+
+    slugFixSpy = spyOn(
+      ensureLowercaseOrgUrlKeySlugAndKeywordModule,
+      "ensureLowercaseOrgUrlKeySlugAndKeyword"
+    ).and.callFake((model: IModel) => model);
   });
 
   it("runs schema upgrades", async () => {
@@ -112,6 +119,7 @@ describe("upgradeSiteSchema", () => {
         ensureBaseTelemetrySpy,
         migrateLinkUnderlinesCapabilitySpy,
         migrateToV2CatalogSpy,
+        slugFixSpy,
       ],
       expect
     );
@@ -148,7 +156,7 @@ describe("upgradeSiteSchema", () => {
     expectAll([migrateBadBasemapSpy], "toHaveBeenCalled", true, expect);
     expectAll([ensureBaseTelemetrySpy], "toHaveBeenCalled", true, expect);
     expectAll(
-      [migrateLinkUnderlinesCapabilitySpy],
+      [migrateLinkUnderlinesCapabilitySpy, slugFixSpy],
       "toHaveBeenCalled",
       true,
       expect

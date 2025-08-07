@@ -15,7 +15,7 @@ import { ensureBaseTelemetry } from "./_internal/ensureBaseTelemetry";
 import { migrateWebMappingApplicationSites } from "./_internal/migrateWebMappingApplicationSites";
 import { _migrateLinkUnderlinesCapability } from "./_internal/_migrate-link-underlines-capability";
 import { _migrateToV2Catalog } from "./_internal/_migrate-to-v2-catalog";
-import { ensureLowercaseOrgUrlKey } from "./_internal/ensureLowercaseOrgUrlKey";
+import { ensureLowercaseOrgUrlKeySlugAndKeyword } from "./_internal/ensureLowercaseOrgUrlKeySlugAndKeyword";
 
 /**
  * Upgrades the schema upgrades
@@ -46,7 +46,7 @@ export function upgradeSiteSchema(model: IModel): IModel {
   model = ensureBaseTelemetry(model);
   model = migrateWebMappingApplicationSites(model);
   model = _migrateLinkUnderlinesCapability(model);
-  model = ensureLowercaseOrgUrlKey(model);
+  model = ensureLowercaseOrgUrlKeySlugAndKeyword(model);
 
   return model;
 }

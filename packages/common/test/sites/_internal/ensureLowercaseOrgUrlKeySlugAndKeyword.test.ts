@@ -1,8 +1,8 @@
-import { ensureLowercaseOrgUrlKey } from "../../../src/sites/_internal/ensureLowercaseOrgUrlKey";
+import { ensureLowercaseOrgUrlKeySlugAndKeyword } from "../../../src/sites/_internal/ensureLowercaseOrgUrlKeySlugAndKeyword";
 import { IModel } from "../../../src/hub-types";
 import { cloneObject } from "../../../src";
 
-describe("ensureLowercaseOrgUrlKey", () => {
+describe("ensureLowercaseOrgUrlKeySlugAndKeyword:", () => {
   it("should lowercase orgUrlKey", () => {
     const model: IModel = {
       item: {
@@ -13,7 +13,7 @@ describe("ensureLowercaseOrgUrlKey", () => {
         typeKeywords: [],
       },
     } as IModel;
-    const result = ensureLowercaseOrgUrlKey(model);
+    const result = ensureLowercaseOrgUrlKeySlugAndKeyword(model);
     expect(result.item.properties.orgUrlKey).toBe("essiso1");
   });
 
@@ -26,7 +26,7 @@ describe("ensureLowercaseOrgUrlKey", () => {
         typeKeywords: [],
       },
     } as IModel;
-    const result = ensureLowercaseOrgUrlKey(model);
+    const result = ensureLowercaseOrgUrlKeySlugAndKeyword(model);
     expect(result.item).toEqual(model.item);
   });
 
@@ -40,8 +40,10 @@ describe("ensureLowercaseOrgUrlKey", () => {
         typeKeywords: [],
       },
     } as IModel;
-    const result = ensureLowercaseOrgUrlKey(model);
+
+    const result = ensureLowercaseOrgUrlKeySlugAndKeyword(model);
     expect(result.item.properties.slug).toBe("essiso1|my-site");
+    expect(result.item.typeKeywords).toContain("slug|essiso1|my-site");
   });
 
   it("should update typeKeywords with new slug", () => {
@@ -51,10 +53,10 @@ describe("ensureLowercaseOrgUrlKey", () => {
           slug: "ESSIso1|my-site",
           orgUrlKey: "ESSIso1",
         },
-        typeKeywords: ["slug|ESSIso1|my-site", "other|keyword"],
+        typeKeywords: ["slug|essiso1|my-site", "other|keyword"],
       },
     } as IModel;
-    const result = ensureLowercaseOrgUrlKey(model);
+    const result = ensureLowercaseOrgUrlKeySlugAndKeyword(model);
     expect(result.item.typeKeywords).toContain("slug|essiso1|my-site");
     expect(result.item.typeKeywords).not.toContain("slug|ESSIso1|my-site");
     expect(result.item.typeKeywords).toContain("other|keyword");
@@ -67,10 +69,10 @@ describe("ensureLowercaseOrgUrlKey", () => {
           slug: "ESSIso1|my-site",
           orgUrlKey: "ESSIso1",
         },
-        typeKeywords: ["slug|ESSIso1|my-site", "other|keyword"],
+        typeKeywords: ["slug|essiso1|my-site", "other|keyword"],
       },
     } as IModel;
-    const result = ensureLowercaseOrgUrlKey(model);
+    const result = ensureLowercaseOrgUrlKeySlugAndKeyword(model);
     expect(result.item.typeKeywords).toContain("slug|essiso1|my-site");
     expect(result.item.typeKeywords).not.toContain("slug|ESSIso1|my-site");
     expect(result.item.typeKeywords).toContain("other|keyword");
@@ -86,7 +88,7 @@ describe("ensureLowercaseOrgUrlKey", () => {
         typeKeywords: ["other|keyword"],
       },
     } as IModel;
-    const result = ensureLowercaseOrgUrlKey(model);
+    const result = ensureLowercaseOrgUrlKeySlugAndKeyword(model);
     expect(result.item.typeKeywords).toContain("slug|essiso1|my-site");
     expect(result.item.typeKeywords).toContain("other|keyword");
   });
@@ -102,7 +104,7 @@ describe("ensureLowercaseOrgUrlKey", () => {
       },
     } as IModel;
     const original = cloneObject(model);
-    ensureLowercaseOrgUrlKey(model);
+    ensureLowercaseOrgUrlKeySlugAndKeyword(model);
     expect(model).toEqual(original);
   });
 });
