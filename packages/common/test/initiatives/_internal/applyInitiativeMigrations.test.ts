@@ -24,6 +24,55 @@ describe("initiative migrations:", () => {
     expect(c).toBe(m);
   });
 
+  it("skip on schema version >= 2.1", async () => {
+    const m: IModel = {
+      item: {
+        id: "00c",
+        type: "Hub Initiative",
+        owner: "Bob",
+        created: 123,
+        properties: {
+          contentGroupId: "abc",
+          schemaVersion: 2.1,
+        },
+      } as unknown as IItem,
+      data: {},
+    };
+    const c = await applyInitiativeMigrations(m, {});
+    expect(c).toBe(m);
+  });
+
+  describe("invalid timeline migration:", () => {
+    it("removes single stage with no title and updates schemaVersion to 2.1", async () => {
+      const m: IModel = {
+        item: {
+          id: "00c",
+          type: "Hub Initiative",
+          owner: "Bob",
+          created: 123,
+          properties: {
+            schemaVersion: 1.1,
+          },
+        } as unknown as IItem,
+        data: {
+          view: {
+            timeline: {
+              stages: [
+                {
+                  // an invalid stage - no title
+                },
+              ],
+            },
+          },
+        },
+      };
+      const c = await applyInitiativeMigrations(m, {});
+      expect(c).not.toBe(m);
+      expect(c.data?.view?.timeline?.stages).toEqual([]);
+      expect(c.item.properties.schemaVersion).toBe(2.1);
+    });
+  });
+
   describe("default catalog:", () => {
     it("add default catalog", async () => {
       const m: IModel = {
@@ -67,24 +116,6 @@ describe("initiative migrations:", () => {
         "data.catalog.scopes.item.filters[0].predicates[0].group"
       );
       expect(groups).toEqual([]);
-    });
-
-    it("skip os schema version >= 1.1", async () => {
-      const m: IModel = {
-        item: {
-          id: "00c",
-          type: "Hub Initiative",
-          owner: "Bob",
-          created: 123,
-          properties: {
-            contentGroupId: "abc",
-            schemaVersion: 1.1,
-          },
-        } as unknown as IItem,
-        data: {},
-      };
-      const c = await applyInitiativeMigrations(m, {});
-      expect(c).toBe(m);
     });
   });
 });

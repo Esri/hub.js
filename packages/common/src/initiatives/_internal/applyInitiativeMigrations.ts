@@ -3,8 +3,9 @@ import { getProp } from "../../objects/get-prop";
 import { IHubCatalog } from "../../search/types/IHubCatalog";
 import { IModel } from "../../hub-types";
 import { cloneObject } from "../../util";
+import { migrateInvalidTimeline } from "../../utils/internal/migrateInvalidTimeline";
 
-export const INITIATIVE_SCHEMA_VERSION = 2;
+export const INITIATIVE_SCHEMA_VERSION = 2.1;
 
 /**
  * Apply all Initiative model migrations
@@ -13,7 +14,7 @@ export const INITIATIVE_SCHEMA_VERSION = 2;
  */
 export function applyInitiativeMigrations(
   model: IModel,
-  requestOptions: IRequestOptions
+  _requestOptions: IRequestOptions
 ): Promise<IModel> {
   if (
     getProp(model, "item.properties.schemaVersion") ===
@@ -23,6 +24,7 @@ export function applyInitiativeMigrations(
   } else {
     // apply upgrade functions in order...
     model = addDefaultCatalog(model);
+    model = migrateInvalidTimeline(model, INITIATIVE_SCHEMA_VERSION);
 
     return Promise.resolve(model);
   }
@@ -74,3 +76,5 @@ function addDefaultCatalog(model: IModel): IModel {
     return clone;
   }
 }
+
+// migrateInvalidTimeline is now imported from util

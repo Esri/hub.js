@@ -19,6 +19,7 @@ import { getProp } from "../objects/get-prop";
 
 import { computeLinks } from "./_internal/computeLinks";
 import { deriveLocationFromItem } from "../content/_internal/internalContentUtils";
+import { applyProjectMigrations } from "./_internal/applyProjectMigrations";
 
 /**
  * @private
@@ -55,7 +56,9 @@ export async function convertItemToProject(
   item: IItem,
   requestOptions: IRequestOptions
 ): Promise<IHubProject> {
-  const model = await fetchModelFromItem(item, requestOptions);
+  let model = await fetchModelFromItem(item, requestOptions);
+  // apply migrations
+  model = await applyProjectMigrations(model, requestOptions);
   // TODO: In the future we will handle the boundary fetching from resource
   const mapper = new PropertyMapper<Partial<IHubProject>, IModel>(
     getPropertyMap()
