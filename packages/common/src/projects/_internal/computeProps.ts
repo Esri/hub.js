@@ -8,7 +8,7 @@ import { ProjectDefaultFeatures } from "./ProjectBusinessRules";
 import { computeLinks } from "./computeLinks";
 import { computeItemProps } from "../../core/_internal/computeItemProps";
 import { upgradeCatalogSchema } from "../../search";
-import { applyProjectMigrations } from "./projectMigrations";
+import { applyProjectMigrations } from "./applyProjectMigrations";
 
 /**
  * Given a model and a project, set various computed properties that can't be directly mapped

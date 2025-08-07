@@ -1,11 +1,10 @@
-import { applyProjectMigrations } from "../../../src/projects/_internal/projectMigrations";
-
+import { applyProjectMigrations } from "../../../src/projects/_internal/applyProjectMigrations";
 import { IHubProject } from "../../../src/core/types/IHubProject";
 import { HUB_PROJECT_CURRENT_SCHEMA_VERSION } from "../../../src/projects/defaults";
 
 import * as migrateProjectSlugAndOrgUrlKeyModule from "../../../src/projects/_internal/migrateProjectSlugAndOrgUrlKey";
 
-describe("projectMigrations", () => {
+describe("applyProjectMigrations", () => {
   let project: IHubProject;
 
   beforeEach(() => {
@@ -35,6 +34,14 @@ describe("projectMigrations", () => {
       ).and.callThrough();
       applyProjectMigrations(project);
       expect(spy).toHaveBeenCalledWith(project);
+    });
+    it("handles undefined typeKeywords", () => {
+      const projectWithUndefinedTypeKeywords = {
+        ...project,
+      };
+      delete projectWithUndefinedTypeKeywords.typeKeywords;
+      const result = applyProjectMigrations(projectWithUndefinedTypeKeywords);
+      expect(result.typeKeywords).toEqual(["slug|orgkey|test-slug"]);
     });
   });
 });
