@@ -1220,6 +1220,7 @@ export interface IEntitySetting
  */
 export enum EntitySettingType {
   CONTENT = "content",
+  GROUP = "group",
 }
 
 /**
