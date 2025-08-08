@@ -439,7 +439,7 @@ export class HubSite
     const followersGroup = await this.getFollowersGroup();
     setProp("_followers.isDiscussable", isDiscussable(followersGroup), editor);
 
-    editor._discussions = this.entity.features["hub:site:feature:discussions"];
+    editor.isDiscussable = this.entity.features["hub:site:feature:discussions"];
 
     // used by the site URL composite field
     if (!editor._urlInfo) {
@@ -492,7 +492,7 @@ export class HubSite
     entity.features = {
       ...entity.features,
       "hub:site:feature:follow": editor._followers?.showFollowAction,
-      "hub:site:feature:discussions": editor._discussions,
+      "hub:site:feature:discussions": editor.isDiscussable,
     };
 
     // d. handle site URL info
