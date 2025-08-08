@@ -3,7 +3,7 @@ import { InitiativeDefaultFeatures } from "../initiatives/_internal/InitiativeBu
 import { IModel, HubEntityStatus } from "../hub-types";
 
 export const HUB_PROJECT_ITEM_TYPE = "Hub Project";
-export const HUB_PROJECT_CURRENT_SCHEMA_VERSION = 1.1;
+export const HUB_PROJECT_CURRENT_SCHEMA_VERSION = 1.2;
 /**
  * Default values of a IHubProject
  */
