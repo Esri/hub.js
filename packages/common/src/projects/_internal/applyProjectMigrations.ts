@@ -1,3 +1,4 @@
+import { migrateInvalidTimelineStages } from "./migrateInvalidTimelineStages";
 import { IHubProject } from "../../core/types/IHubProject";
 import { HUB_PROJECT_CURRENT_SCHEMA_VERSION } from "../defaults";
 import { migrateProjectSlugAndOrgUrlKey } from "./migrateProjectSlugAndOrgUrlKey";
@@ -14,7 +15,8 @@ export function applyProjectMigrations(project: IHubProject): IHubProject {
     return project;
   }
   // Apply the migrations
-  const migrated = migrateProjectSlugAndOrgUrlKey(project);
+  let migrated = migrateProjectSlugAndOrgUrlKey(project);
+  migrated = migrateInvalidTimelineStages(migrated);
   // add more migration here as needed
   // e.g. migrated = anotherMigration(migrated);
   return migrated;

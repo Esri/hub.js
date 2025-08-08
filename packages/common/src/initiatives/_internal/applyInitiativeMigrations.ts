@@ -1,3 +1,4 @@
+import { migrateInvalidTimelineStages } from "./migrateInvalidTimelineStages";
 import { HUB_INITIATIVE_CURRENT_SCHEMA_VERSION } from "../defaults";
 import { IHubInitiative } from "../../core/types/IHubInitiative";
 import { migrateInitiativeSlugAndOrgUrlKey } from "./migrateInitiativeSlugAndOrgUrlKey";
@@ -18,6 +19,7 @@ export function applyInitiativeMigrations(
   // Apply the migrations
   let migrated = migrateInitiativeAddDefaultCatalog(initiative);
   migrated = migrateInitiativeSlugAndOrgUrlKey(migrated);
+  migrated = migrateInvalidTimelineStages(migrated);
   // add more migration here as needed
   // e.g. migrated = anotherMigration(migrated);
   return migrated;

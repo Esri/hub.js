@@ -3,7 +3,7 @@ import { HubEntityHero, HubEntityStatus, IModel } from "../hub-types";
 import { InitiativeDefaultFeatures } from "./_internal/InitiativeBusinessRules";
 
 export const HUB_INITIATIVE_ITEM_TYPE = "Hub Initiative";
-export const HUB_INITIATIVE_CURRENT_SCHEMA_VERSION = 2.1;
+export const HUB_INITIATIVE_CURRENT_SCHEMA_VERSION = 2.2;
 
 /**
  * Default values of a IHubInitiative

@@ -2,7 +2,9 @@ import { applyInitiativeMigrations } from "../../../src/initiatives/_internal/ap
 import { HUB_INITIATIVE_CURRENT_SCHEMA_VERSION } from "../../../src/initiatives/defaults";
 import * as migrations from "../../../src/initiatives/_internal/migrateInitiativeSlugAndOrgUrlKey";
 import * as defaultCatalogMigration from "../../../src/initiatives/_internal/migrateInitiativeAddDefaultCatalog";
+import * as timelineMigration from "../../../src/initiatives/_internal/migrateInvalidTimelineStages";
 import { IHubInitiative } from "../../../src/core/types/IHubInitiative";
+import { IHubStage } from "../../../src/core/types/IHubTimeline";
 
 describe("applyInitiativeMigrations function", () => {
   let slugAndOrgUrlKeySpy: jasmine.Spy;
@@ -51,5 +53,40 @@ describe("applyInitiativeMigrations function", () => {
     applyInitiativeMigrations(initiative);
 
     expect(addDefaultCatalogSpy).toHaveBeenCalledBefore(slugAndOrgUrlKeySpy);
+  });
+
+  it("calls migrateInvalidTimelineStages and removes invalid stages", () => {
+    const timelineMigrationSpy = spyOn(
+      timelineMigration,
+      "migrateInvalidTimelineStages"
+    ).and.callThrough();
+
+    const initiative: IHubInitiative = {
+      schemaVersion: 2.1,
+      view: {
+        timeline: {
+          schemaVersion: 1.0,
+          title: "Test Timeline",
+          description: "A test timeline",
+          canCollapse: true,
+          stages: [
+            {},
+            { title: "Valid Stage" },
+            { title: "" },
+            { title: "Another Valid Stage" },
+            { foo: "bar" },
+          ] as IHubStage[],
+        },
+      },
+      // other required properties
+    } as IHubInitiative;
+
+    const result = applyInitiativeMigrations(initiative);
+
+    expect(timelineMigrationSpy).toHaveBeenCalledWith(initiative);
+    expect(result.view.timeline.stages).toEqual([
+      { title: "Valid Stage" },
+      { title: "Another Valid Stage" },
+    ] as IHubStage[]);
   });
 });
