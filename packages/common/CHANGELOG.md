@@ -1,3 +1,10 @@
+## @esri/hub-common [19.1.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.1.0...@esri/hub-common@19.1.1) (2025-08-08)
+
+
+### Bug Fixes
+
+* address problems with mixed-case org urlKeys ([#1959](https://github.com/Esri/hub.js/issues/1959)) ([001bb42](https://github.com/Esri/hub.js/commit/001bb426c009933bf193843ecb309251667a20ef))
+
 # @esri/hub-common [19.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.0.1...@esri/hub-common@19.1.0) (2025-08-05)
 
 
