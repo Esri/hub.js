@@ -11,6 +11,8 @@ import {
   IHubCatalog,
   IHubSite,
   IHubSiteEditor,
+  IHubTrustedOrgsResponse,
+  IUserHubSettings,
   IVersion,
   IVersionMetadata,
   getProp,
@@ -18,13 +20,37 @@ import {
 import { Catalog } from "../../src/search/Catalog";
 import * as ContainsModule from "../../src/core/_internal/deepContains";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
+import * as fetchMock from "fetch-mock";
 
 describe("HubSite Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
   let portalCtxMgr: ArcGISContextManager;
-  let unauthdCtxMgr: ArcGISContextManager;
+
   beforeEach(async () => {
-    unauthdCtxMgr = await ArcGISContextManager.create();
+    fetchMock.post(
+      "https://myorg.maps.arcgis.com/sharing/rest/portals/BRXFAKE/limits?limitsType=Groups&limitName=MaxNumUserGroups&f=json",
+      {
+        status: 200,
+        body: {
+          type: "Groups",
+          name: "MaxNumUserGroups",
+          limitValue: 512,
+        },
+      }
+    );
+    fetchMock.post(
+      "https://myorg.maps.arcgis.com/sharing/rest/portals/self/trustedOrgs?f=json",
+      {
+        status: 200,
+        body: {
+          total: 0,
+          start: 1,
+          num: 10,
+          nextStart: -1,
+          trustedOrgs: [],
+        },
+      }
+    );
     // When we pass in all this information, the context
     // manager will not try to fetch anything, so no need
     // to mock those calls
@@ -39,6 +65,10 @@ describe("HubSite Class:", () => {
         urlKey: "fake-org",
       } as unknown as PortalModule.IPortal,
       portalUrl: "https://fake-org.maps.arcgis.com",
+      portalSettings: {} as PortalModule.IPortalSettings,
+      userHubSettings: {} as IUserHubSettings,
+      trustedOrgIds: ["BRXFAKE"],
+      trustedOrgs: [] as IHubTrustedOrgsResponse[],
     });
     portalCtxMgr = await ArcGISContextManager.create({
       authentication: MOCK_AUTH,
@@ -52,7 +82,14 @@ describe("HubSite Class:", () => {
         urlKey: "fake-org",
       } as unknown as PortalModule.IPortal,
       portalUrl: "https://myserver.com",
+      portalSettings: {} as PortalModule.IPortalSettings,
+      userHubSettings: {} as IUserHubSettings,
+      trustedOrgIds: ["BRXFAKE"],
+      trustedOrgs: [] as IHubTrustedOrgsResponse[],
     });
+  });
+  afterEach(() => {
+    fetchMock.restore();
   });
 
   describe("static methods:", () => {
@@ -157,7 +194,21 @@ describe("HubSite Class:", () => {
     expect(chk.toJson().type).toEqual("Site Application");
   });
 
-  it("update applies partial chagnes to internal state", () => {
+  it("fromJson applies defaults and downcases urlKey", () => {
+    const chk = HubSite.fromJson(
+      { name: "Test Site", orgUrlKey: "FOO" },
+      authdCtxMgr.context
+    );
+    expect(chk.toJson().orgUrlKey).toEqual("foo");
+  });
+
+  it("fromJson applies defaults and uses portalUrl urlKey downcased", () => {
+    authdCtxMgr.context.portal.urlKey = "FOO";
+    const chk = HubSite.fromJson({ name: "Test Site" }, authdCtxMgr.context);
+    expect(chk.toJson().orgUrlKey).toEqual("foo");
+  });
+
+  it("update applies partial changes to internal state", () => {
     const chk = HubSite.fromJson(
       { name: "Test Site", catalog: { schemaVersion: 0 } },
       authdCtxMgr.context
@@ -231,7 +282,7 @@ describe("HubSite Class:", () => {
   it("internal instance accessors", () => {
     const chk = HubSite.fromJson(
       { name: "Test Site", catalog: { schemaVersion: 0 } },
-      unauthdCtxMgr.context
+      authdCtxMgr.context
     );
 
     expect(chk.catalog instanceof Catalog).toBeTruthy();

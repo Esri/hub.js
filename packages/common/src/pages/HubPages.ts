@@ -44,6 +44,9 @@ export async function createPage(
   // this expansion solves the typing somehow
   const page = { ...DEFAULT_PAGE, ...partialPage };
 
+  // ensure orgUrlKey is lowercase
+  page.orgUrlKey = page.orgUrlKey.toLowerCase();
+
   // Create a slug from the title if one is not passed in
   if (!page.slug) {
     page.slug = constructSlug(page.name, page.orgUrlKey);

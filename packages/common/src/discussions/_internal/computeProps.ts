@@ -6,6 +6,7 @@ import { IModel } from "../../hub-types";
 import { IHubDiscussion } from "../../core";
 
 import { computeItemProps } from "../../core/_internal/computeItemProps";
+import { applyDiscussionMigrations } from "./applyDiscussionMigrations";
 
 /**
  * Given a model and a Discussion, set various computed properties that can't be directly mapped
@@ -35,6 +36,9 @@ export function computeProps(
     requestOptions,
     token
   );
+
+  // Apply migrations
+  discussion = applyDiscussionMigrations(discussion as IHubDiscussion);
 
   // cast b/c this takes a partial but returns a full object
   return discussion as IHubDiscussion;

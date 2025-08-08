@@ -32,7 +32,7 @@ describe("hubItemEntityFromEditor", () => {
       { ...editor, _slug: "slug" },
       context
     );
-    expect(truncateSpy).toHaveBeenCalledWith("slug", "orgKey");
+    expect(truncateSpy).toHaveBeenCalledWith("slug", "orgkey");
     expect(result.entity.slug).toBe("truncated");
 
     const result2 = await hubItemEntityFromEditor({ ...editor }, context);
@@ -190,7 +190,7 @@ describe("hubItemEntityFromEditor", () => {
       { ...editor, orgUrlKey: undefined, location: { extent: mockExtent } },
       context
     );
-    expect(result.entity.orgUrlKey).toBe("orgKey");
+    expect(result.entity.orgUrlKey).toBe("orgkey");
     expect(result.entity.extent).toEqual(mockExtent);
 
     context.portal.urlKey = undefined;
