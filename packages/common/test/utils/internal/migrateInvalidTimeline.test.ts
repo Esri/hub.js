@@ -48,4 +48,37 @@ describe("migrateInvalidTimeline", () => {
     expect(result.item.properties).toBeDefined();
     expect(result.item.properties.schemaVersion).toBe(1.1);
   });
+
+  it("removes all stages without a title", () => {
+    const m: IModel = {
+      item: {
+        id: "3",
+        type: "Hub Project",
+        owner: "Alice",
+        created: 123,
+        properties: {
+          schemaVersion: 1.0,
+        },
+      } as unknown as IItem,
+      data: {
+        view: {
+          timeline: {
+            stages: [
+              {},
+              { title: "Valid Stage" },
+              { title: "" },
+              { title: "Another Valid Stage" },
+              { foo: "bar" },
+            ],
+          },
+        },
+      },
+    };
+    const result = migrateInvalidTimeline(m, 1.1);
+    expect(result.data.view.timeline.stages).toEqual([
+      { title: "Valid Stage" },
+      { title: "Another Valid Stage" },
+    ]);
+    expect(result.item.properties.schemaVersion).toBe(1.1);
+  });
 });

@@ -18,14 +18,14 @@ export function migrateInvalidTimeline(
     const clone = cloneObject(model);
 
     const stages = getProp(clone, "data.view.timeline.stages") || [];
-    if (stages.length === 1) {
-      // if there is only one stage
-      if (!stages[0].title) {
-        // and it has no title, then we can just remove that stage
-        // this is because we had a json schema validation issue
-        // that allowed a single stage with no title
-        clone.data.view.timeline.stages = [];
-      }
+    if (
+      clone.data &&
+      clone.data.view &&
+      clone.data.view.timeline &&
+      Array.isArray(stages)
+    ) {
+      // Remove any stage without a title
+      clone.data.view.timeline.stages = stages.filter((stage) => !!stage.title);
     }
 
     // set the schema version
