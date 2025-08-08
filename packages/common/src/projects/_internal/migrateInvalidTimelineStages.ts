@@ -1,8 +1,3 @@
-/**
- * Remove any timeline stages without a title
- * @param project
- * @returns project with cleaned timeline
- */
 import { IHubProject } from "../../core/types/IHubProject";
 import { cloneObject } from "../../util";
 

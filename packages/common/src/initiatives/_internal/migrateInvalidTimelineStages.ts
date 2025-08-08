@@ -1,8 +1,3 @@
-/**
- * Remove any timeline stages without a title
- * @param initiative
- * @returns initiative with cleaned timeline
- */
 import { cloneObject } from "../..";
 import { IHubInitiative } from "../../core/types/IHubInitiative";
 

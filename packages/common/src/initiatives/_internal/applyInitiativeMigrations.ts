@@ -1,8 +1,3 @@
-/**
- * Remove any timeline stages without a title
- * @param initiative
- * @returns initiative with cleaned timeline
- */
 import { migrateInvalidTimelineStages } from "./migrateInvalidTimelineStages";
 import { HUB_INITIATIVE_CURRENT_SCHEMA_VERSION } from "../defaults";
 import { IHubInitiative } from "../../core/types/IHubInitiative";

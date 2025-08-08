@@ -1,8 +1,3 @@
-/**
- * Remove any timeline stages without a title
- * @param project
- * @returns project with cleaned timeline
- */
 import { migrateInvalidTimelineStages } from "./migrateInvalidTimelineStages";
 import { IHubProject } from "../../core/types/IHubProject";
 import { HUB_PROJECT_CURRENT_SCHEMA_VERSION } from "../defaults";
