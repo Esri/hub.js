@@ -1,3 +1,10 @@
+## @esri/hub-common [19.1.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.1.1...@esri/hub-common@19.1.2) (2025-08-08)
+
+
+### Bug Fixes
+
+* make stage title required, migrate invalid stages ([#1966](https://github.com/Esri/hub.js/issues/1966)) ([d5c69c3](https://github.com/Esri/hub.js/commit/d5c69c354d894cfafbd6a4db9b5a7d9a4cc3127e))
+
 ## @esri/hub-common [19.1.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.1.0...@esri/hub-common@19.1.1) (2025-08-08)
 
 
