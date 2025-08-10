@@ -12,3 +12,10 @@
 
 1. [ ] updated `peerDependencies` as needed. **CRITICAL** our automated release system can **not** be counted on to update `peerDependencies` so we _must_ do it manually in our PRs when needed. See the [updating peerDependencies](/RELEASE.md#Updating-peerDependencies) section of the release instructions for more details.
  
+***CRITICAL** 
+If you are making a breaking change, make sure to add the `BREAKING CHANGE` comment _in the merge commit message_. If this is not done, `semantic-release` will not do the right thing. 
+
+If you find yourself in this position...
+1) open a PR to master with a trivial change - fix a linting problem or something.
+2) when you merge that, make sure you add the `BREAKING CHANGE` message in the merge commit.
+3) then run `npm deprecate @esri/{package-name}@v{version-you-don't-want-out}`

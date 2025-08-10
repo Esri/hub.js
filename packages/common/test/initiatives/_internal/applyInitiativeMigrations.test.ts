@@ -1,90 +1,92 @@
-import { IItem } from "@esri/arcgis-rest-portal";
-import { IModel, getProp } from "../../../src";
-import {
-  applyInitiativeMigrations,
-  INITIATIVE_SCHEMA_VERSION,
-} from "../../../src/initiatives/_internal/applyInitiativeMigrations";
+import { applyInitiativeMigrations } from "../../../src/initiatives/_internal/applyInitiativeMigrations";
+import { HUB_INITIATIVE_CURRENT_SCHEMA_VERSION } from "../../../src/initiatives/defaults";
+import * as migrations from "../../../src/initiatives/_internal/migrateInitiativeSlugAndOrgUrlKey";
+import * as defaultCatalogMigration from "../../../src/initiatives/_internal/migrateInitiativeAddDefaultCatalog";
+import * as timelineMigration from "../../../src/initiatives/_internal/migrateInvalidTimelineStages";
+import { IHubInitiative } from "../../../src/core/types/IHubInitiative";
+import { IHubStage } from "../../../src/core/types/IHubTimeline";
 
-describe("initiative migrations:", () => {
-  it("skips if on current version", async () => {
-    const m: IModel = {
-      item: {
-        id: "00c",
-        type: "Hub Initiative",
-        owner: "Bob",
-        created: 123,
-        properties: {
-          contentGroupId: "abc",
-          schemaVersion: INITIATIVE_SCHEMA_VERSION,
-        },
-      } as unknown as IItem,
-      data: {},
-    };
-    const c = await applyInitiativeMigrations(m, {});
-    expect(c).toBe(m);
+describe("applyInitiativeMigrations function", () => {
+  let slugAndOrgUrlKeySpy: jasmine.Spy;
+  let addDefaultCatalogSpy: jasmine.Spy;
+
+  beforeEach(() => {
+    slugAndOrgUrlKeySpy = spyOn(
+      migrations,
+      "migrateInitiativeSlugAndOrgUrlKey"
+    ).and.callThrough();
+    addDefaultCatalogSpy = spyOn(
+      defaultCatalogMigration,
+      "migrateInitiativeAddDefaultCatalog"
+    ).and.callThrough();
   });
 
-  describe("default catalog:", () => {
-    it("add default catalog", async () => {
-      const m: IModel = {
-        item: {
-          id: "00c",
-          type: "Hub Initiative",
-          owner: "Bob",
-          created: 123,
-          properties: {
-            contentGroupId: "abc",
-            schemaVersion: 1.0,
-          },
-        } as unknown as IItem,
-        data: {},
-      };
-      const c = await applyInitiativeMigrations(m, {});
-      expect(c).not.toBe(m);
-      expect(c.data?.catalog).toBeDefined();
-      const groups = getProp(
-        c,
-        "data.catalog.scopes.item.filters[0].predicates[0].group"
-      );
-      expect(groups).toEqual(["abc"]);
-    });
+  it("calls migration functions when schemaVersion is not current", () => {
+    const initiative: IHubInitiative = {
+      schemaVersion: 1.0,
+      // other required properties
+    } as IHubInitiative;
 
-    it("add default catalog handles no contentGroupId", async () => {
-      const m: IModel = {
-        item: {
-          id: "00c",
-          type: "Hub Initiative",
-          owner: "Bob",
-          created: 123,
-        } as unknown as IItem,
-        data: {},
-      };
-      const c = await applyInitiativeMigrations(m, {});
-      expect(c).not.toBe(m);
-      expect(c.data?.catalog).toBeDefined();
-      const groups = getProp(
-        c,
-        "data.catalog.scopes.item.filters[0].predicates[0].group"
-      );
-      expect(groups).toEqual([]);
-    });
+    applyInitiativeMigrations(initiative);
 
-    it("skip os schema version >= 1.1", async () => {
-      const m: IModel = {
-        item: {
-          id: "00c",
-          type: "Hub Initiative",
-          owner: "Bob",
-          created: 123,
-          properties: {
-            contentGroupId: "abc",
-            schemaVersion: 1.1,
-          },
-        } as unknown as IItem,
-        data: {},
-      };
-      const c = await applyInitiativeMigrations(m, {});
-      expect(c).toBe(m);
-    });
+    expect(addDefaultCatalogSpy).toHaveBeenCalledWith(initiative);
+    expect(slugAndOrgUrlKeySpy).toHaveBeenCalled();
+  });
+
+  it("does not call migration functions when schemaVersion is current", () => {
+    const initiative: IHubInitiative = {
+      schemaVersion: HUB_INITIATIVE_CURRENT_SCHEMA_VERSION,
+      // other required properties
+    } as IHubInitiative;
+
+    applyInitiativeMigrations(initiative);
+
+    expect(addDefaultCatalogSpy).not.toHaveBeenCalled();
+    expect(slugAndOrgUrlKeySpy).not.toHaveBeenCalled();
+  });
+
+  it("calls migration functions in correct order", () => {
+    const initiative: IHubInitiative = {
+      schemaVersion: 1.0,
+    } as IHubInitiative;
+
+    applyInitiativeMigrations(initiative);
+
+    expect(addDefaultCatalogSpy).toHaveBeenCalledBefore(slugAndOrgUrlKeySpy);
+  });
+
+  it("calls migrateInvalidTimelineStages and removes invalid stages", () => {
+    const timelineMigrationSpy = spyOn(
+      timelineMigration,
+      "migrateInvalidTimelineStages"
+    ).and.callThrough();
+
+    const initiative: IHubInitiative = {
+      schemaVersion: 2.1,
+      view: {
+        timeline: {
+          schemaVersion: 1.0,
+          title: "Test Timeline",
+          description: "A test timeline",
+          canCollapse: true,
+          stages: [
+            {},
+            { title: "Valid Stage" },
+            { title: "" },
+            { title: "Another Valid Stage" },
+            { foo: "bar" },
+          ] as IHubStage[],
+        },
+      },
+      // other required properties
+    } as IHubInitiative;
+
+    const result = applyInitiativeMigrations(initiative);
+
+    expect(timelineMigrationSpy).toHaveBeenCalledWith(initiative);
+    expect(result.view.timeline.stages).toEqual([
+      { title: "Valid Stage" },
+      { title: "Another Valid Stage" },
+    ] as IHubStage[]);
   });
 });

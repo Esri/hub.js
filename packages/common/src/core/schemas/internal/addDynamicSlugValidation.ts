@@ -27,6 +27,9 @@ export const addDynamicSlugValidation = (
   if (!orgUrlKey) {
     orgUrlKey = "";
   }
+  // ensure orgUrlKey is lowercase
+  orgUrlKey = orgUrlKey.toLowerCase();
+
   _slug.maxLength = getSlugMaxLength(orgUrlKey);
   // add conditional validation to ensure slug is unique
   const allOf = cloneObject(schema.allOf) || [];

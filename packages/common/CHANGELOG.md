@@ -1,3 +1,57 @@
+## @esri/hub-common [19.1.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.1.1...@esri/hub-common@19.1.2) (2025-08-08)
+
+
+### Bug Fixes
+
+* make stage title required, migrate invalid stages ([#1966](https://github.com/Esri/hub.js/issues/1966)) ([d5c69c3](https://github.com/Esri/hub.js/commit/d5c69c354d894cfafbd6a4db9b5a7d9a4cc3127e))
+
+## @esri/hub-common [19.1.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.1.0...@esri/hub-common@19.1.1) (2025-08-08)
+
+
+### Bug Fixes
+
+* address problems with mixed-case org urlKeys ([#1959](https://github.com/Esri/hub.js/issues/1959)) ([001bb42](https://github.com/Esri/hub.js/commit/001bb426c009933bf193843ecb309251667a20ef))
+
+# @esri/hub-common [19.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.0.1...@esri/hub-common@19.1.0) (2025-08-05)
+
+
+### Features
+
+* **hub-common:** enable catalogs on hub discussion boards ([#1929](https://github.com/Esri/hub.js/issues/1929)) ([430e6d8](https://github.com/Esri/hub.js/commit/430e6d886f08b594ef3a0123239605425d7ad3aa))
+
+## @esri/hub-common [19.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.0.0...@esri/hub-common@19.0.1) (2025-08-05)
+
+
+### Bug Fixes
+
+* getWellKnownGroup - hubViewGroup returns access level based on… ([#1962](https://github.com/Esri/hub.js/issues/1962)) ([b19f47d](https://github.com/Esri/hub.js/commit/b19f47da7c96fc28fd21d12b9280d6f76f5941f1))
+
+# @esri/hub-common [19.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.14.0...@esri/hub-common@19.0.0) (2025-08-04)
+
+
+### Bug Fixes
+
+* lint error; will be used to force breaking change ([#1960](https://github.com/Esri/hub.js/issues/1960)) ([6837b61](https://github.com/Esri/hub.js/commit/6837b614114cb9a9fd46f42ee33179673d7cb746))
+
+
+### BREAKING CHANGES
+
+* removes editorToProject, editorToInitiative utils
+
+# @esri/hub-common [18.14.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.13.0...@esri/hub-common@18.14.0) (2025-08-04)
+
+
+### Features
+
+* enable catalog initialization on entity creation ([#1955](https://github.com/Esri/hub.js/issues/1955)) ([34a7fc7](https://github.com/Esri/hub.js/commit/34a7fc712f4677509a6bb1d1800daf3bb93d3a0b))
+
+# @esri/hub-common [18.13.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.12.2...@esri/hub-common@18.13.0) (2025-07-31)
+
+
+### Features
+
+* **hub-common:** refactor getTypeFromEntity to return "content" for … ([#1957](https://github.com/Esri/hub.js/issues/1957)) ([418770e](https://github.com/Esri/hub.js/commit/418770e7e559f8dff74a55b166a4b6b567848d9c))
+
 ## @esri/hub-common [18.12.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@18.12.1...@esri/hub-common@18.12.2) (2025-07-28)
 
 

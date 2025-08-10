@@ -98,6 +98,9 @@ export function editorToTemplate(
     editor.orgUrlKey ? editor.orgUrlKey : portal.urlKey
   ) as string;
 
+  // 3. ensure orgUrlKey is lowercase
+  template.orgUrlKey = template.orgUrlKey.toLowerCase();
+
   return template;
 }
 

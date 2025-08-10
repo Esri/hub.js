@@ -111,17 +111,6 @@ describe("updateHubEntity:", () => {
     await updateHubEntity("group", {} as HubEntity, ctx);
     expect(spy).toHaveBeenCalledWith({}, "fakeRequestOptions");
   });
-  it("updates survey", async () => {
-    const ctx = {
-      userRequestOptions: "fakeRequestOptions",
-    } as unknown as IArcGISContext;
-    const spy = spyOn(
-      require("../../src/surveys/edit"),
-      "updateSurvey"
-    ).and.returnValue(Promise.resolve({}));
-    await updateHubEntity("survey", {} as HubEntity, ctx);
-    expect(spy).toHaveBeenCalledWith({}, "fakeRequestOptions");
-  });
   it("updates event", async () => {
     const ctx = {
       hubRequestOptions: "fakeRequestOptions",

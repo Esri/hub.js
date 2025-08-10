@@ -17,6 +17,8 @@ import HubError from "../HubError";
 import { updateEvent } from "./api/events";
 import { EventAccess } from "./api/orval/api/orval-events";
 import { getEventGroups } from "./getEventGroups";
+import { hubItemEntityFromEditor } from "../core/_internal/hubItemEntityFromEditor";
+import { setProp } from "../objects";
 
 /**
  * Defines the properties of a Hub Event object
@@ -65,6 +67,11 @@ export class HubEvent
     if (!partialEvent.orgUrlKey) {
       partialEvent.orgUrlKey = context.portal?.urlKey as string;
     }
+    // ensure orgUrlKey is lowercase
+    if (partialEvent.orgUrlKey) {
+      partialEvent.orgUrlKey = partialEvent.orgUrlKey.toLowerCase();
+    }
+
     // extend the partial over the defaults
     const pojo = {
       ...buildDefaultEventEntity(),
@@ -233,14 +240,26 @@ export class HubEvent
    */
   async fromEditor(editor: IHubEventEditor): Promise<IHubEvent> {
     const thumbnail = editor._thumbnail;
-    const entity = cloneObject(editor) as IHubEvent;
 
+    // delegate to an item-specific fromEditor util to
+    // handle shared "fromEditor" logic
+    const res = await hubItemEntityFromEditor(editor, this.context);
+    const event = res.entity as IHubEvent;
+    // iterate over the res object keys and set the values
+    // on the HubEvent instance
+    Object.entries(res).forEach(([key, value]) => {
+      setProp(key, value, this);
+    });
+
+    // 2. handle event-specific operations
     if (thumbnail) {
-      entity.thumbnailUrl = thumbnail.url || null;
+      event.thumbnailUrl = (thumbnail.url as string) || null;
     }
 
-    this.entity = entity;
+    // save or create the entity
+    this.entity = event;
     await this.save();
+
     return this.entity;
   }
 }

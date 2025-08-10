@@ -44,16 +44,11 @@ import { cloneObject } from "../util";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 
-import {
-  IHubSiteEditor,
-  IModel,
-  isDiscussable,
-  setProp,
-  SettableAccessLevel,
-} from "../index";
+import { IHubSiteEditor, IModel, setProp, SettableAccessLevel } from "../index";
+import { isDiscussable } from "../discussions/utils";
 import { SiteEditorType } from "./_internal/SiteSchema";
 import { getEditorSlug } from "../core/_internal/getEditorSlug";
-import { editorToEntity } from "../core/schemas/internal/metrics/editorToEntity";
+import { hubItemEntityFromEditor } from "../core/_internal/hubItemEntityFromEditor";
 
 /**
  * Hub Site Class
@@ -151,14 +146,23 @@ export class HubSite
     }
   }
 
+  /**
+   * Ensure the Site has the baseline set of properties
+   * that are required for a HubSite.
+   * @param partialSite
+   * @param context
+   * @returns
+   */
   private static applyDefaults(
     partialSite: Partial<IHubSite>,
     context: IArcGISContext
   ): IHubSite {
     // ensure we have the orgUrlKey
     if (!partialSite.orgUrlKey) {
-      partialSite.orgUrlKey = context.portal?.urlKey;
+      partialSite.orgUrlKey = context.portal.urlKey as string;
     }
+    // ensure lower case
+    partialSite.orgUrlKey = partialSite.orgUrlKey.toLowerCase();
     // extend the partial over the defaults
     const pojo = { ...DEFAULT_SITE, ...partialSite } as IHubSite;
     pojo.type = context.isPortal
@@ -459,52 +463,39 @@ export class HubSite
    * @returns
    */
   async fromEditor(editor: IHubSiteEditor): Promise<IHubSite> {
-    // 1. Perform any pre-save operations e.g. storing
-    // image resources on the item, setting access, etc.
+    // 1. delegate to an item-specific fromEditor util to
+    // handle shared "fromEditor" logic
+    const res = await hubItemEntityFromEditor(editor, this.context);
+    const entity = res.entity as IHubSite;
+    // iterate over the res object keys and set the values
+    // on the HubSite instance
+    Object.entries(res).forEach(([key, value]) => {
+      setProp(key, value, this);
+    });
 
-    // Setting the thumbnailCache will ensure that
-    // the thumbnail is updated on next save
-    if (editor._thumbnail) {
-      if (editor._thumbnail.blob) {
-        this.thumbnailCache = {
-          file: editor._thumbnail.blob,
-          filename: editor._thumbnail.fileName,
-          clear: false,
-        };
-      } else {
-        this.thumbnailCache = {
-          clear: true,
-        };
-      }
-    }
-
-    delete editor._thumbnail;
-
-    // set whether or not the followers group is discussable
+    // 2. handle site-specific operations
+    // a. set whether or not the followers group is discussable
     if (editor._followers?.isDiscussable) {
       await this.setFollowersGroupIsDiscussable(
         editor._followers.isDiscussable
       );
     }
 
-    // set the followers group access
+    // b. set the followers group access
     if (editor._followers?.groupAccess) {
       await this.setFollowersGroupAccess(
         editor._followers.groupAccess as SettableAccessLevel
       );
     }
 
-    // 2. Convert editor values back to an entity e.g. apply
-    // any reverse transforms used in the toEditor method
-    const entity = editorToEntity(editor, this.context.portal) as IHubSite;
-
+    // c. set site feature flags
     entity.features = {
       ...entity.features,
       "hub:site:feature:follow": editor._followers?.showFollowAction,
       "hub:site:feature:discussions": editor.isDiscussable,
     };
 
-    // site URL info
+    // d. handle site URL info
     const { url, subdomain, defaultHostname } = editor._urlInfo;
     entity.url = url;
     entity.subdomain = subdomain;

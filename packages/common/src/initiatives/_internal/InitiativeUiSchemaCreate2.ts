@@ -1,6 +1,7 @@
 import type { IArcGISContext } from "../../types/IArcGISContext";
 import { IUiSchema } from "../../core/schemas/types";
 import { IHubInitiative } from "../../core/types";
+import { buildCatalogSetupUiSchemaElement } from "../../core/schemas/internal/buildCatalogSetupUiSchemaElement";
 
 /**
  * @private
@@ -10,7 +11,7 @@ import { IHubInitiative } from "../../core/types";
  */
 export const buildUiSchema = async (
   i18nScope: string,
-  options: Partial<IHubInitiative>,
+  _options: Partial<IHubInitiative>,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
   return {
@@ -43,6 +44,7 @@ export const buildUiSchema = async (
           ],
         },
       },
+      ...buildCatalogSetupUiSchemaElement(i18nScope, context),
     ],
   };
 };

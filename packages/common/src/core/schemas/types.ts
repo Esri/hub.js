@@ -9,7 +9,6 @@ import { ContentEditorTypes } from "../../content/_internal/ContentSchema";
 import { TemplateEditorTypes } from "../../templates/_internal/TemplateSchema";
 import { GroupEditorTypes } from "../../groups/_internal/GroupSchema";
 import { InitiativeTemplateEditorTypes } from "../../initiative-templates/_internal/InitiativeTemplateSchema";
-import { SurveyEditorTypes } from "../../surveys/_internal/SurveySchema";
 import {
   CardEditorOptions,
   EntityEditorOptions,
@@ -41,7 +40,6 @@ export const validEntityEditorTypes = [
   ...TemplateEditorTypes,
   ...GroupEditorTypes,
   ...InitiativeTemplateEditorTypes,
-  ...SurveyEditorTypes,
   ...EventEditorTypes,
   ...UserEditorTypes,
   ...ChannelEditorTypes,

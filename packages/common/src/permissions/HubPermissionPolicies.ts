@@ -11,7 +11,6 @@ import { PagePermissionPolicies } from "../pages/_internal/PageBusinessRules";
 import { PlatformPermissionPolicies } from "./PlatformPermissionPolicies";
 import { InitiativeTemplatePermissionPolicies } from "../initiative-templates/_internal/InitiativeTemplateBusinessRules";
 import { TemplatePermissionPolicies } from "../templates/_internal/TemplateBusinessRules";
-import { SurveyPermissionPolicies } from "../surveys/_internal/SurveyBusinessRules";
 import { EventPermissionPolicies } from "../events/_internal/EventBusinessRules";
 import { UserPermissionPolicies } from "../users/_internal/UserBusinessRules";
 
@@ -314,7 +313,6 @@ export const HubPermissionsPolicies: IPermissionPolicy[] = [
   ...PlatformPermissionPolicies,
   ...InitiativeTemplatePermissionPolicies,
   ...SystemPermissionPolicies,
-  ...SurveyPermissionPolicies,
   ...EventPermissionPolicies,
   ...UserPermissionPolicies,
 ];

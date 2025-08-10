@@ -2,6 +2,7 @@ import { IHubDiscussion } from "../core/types";
 import { IModel } from "../hub-types";
 
 export const HUB_DISCUSSION_ITEM_TYPE = "Discussion";
+export const HUB_DISCUSSION_CURRENT_SCHEMA_VERSION = 1.1;
 
 /**
  * Default values of a IHubDiscussion
@@ -11,8 +12,8 @@ export const DEFAULT_DISCUSSION: Partial<IHubDiscussion> = {
   tags: [],
   typeKeywords: ["Hub Discussion"],
   permissions: [],
-  catalogs: [],
-  schemaVersion: 1,
+  catalog: { schemaVersion: 0 },
+  schemaVersion: HUB_DISCUSSION_CURRENT_SCHEMA_VERSION,
   isDiscussable: true,
 };
 
@@ -29,11 +30,11 @@ export const DEFAULT_DISCUSSION_MODEL: IModel = {
     typeKeywords: ["Hub Discussion"],
     properties: {
       slug: "",
-      schemaVersion: 1,
+      schemaVersion: HUB_DISCUSSION_CURRENT_SCHEMA_VERSION,
     },
   },
   data: {
-    catalogs: [],
+    catalog: { schemaVersion: 0 },
     prompt: "",
   },
 } as unknown as IModel;

@@ -214,8 +214,12 @@ export async function createSite(
   partialSite: Partial<IHubSite>,
   requestOptions: IHubRequestOptions
 ): Promise<IHubSite> {
-  const site = { ...DEFAULT_SITE, ...partialSite };
   const portal = requestOptions.portalSelf;
+  // Ensure we are always using the urlKey from the portal, and downcasing
+  const orgUrlKey: string = ((portal.urlKey || "") as string).toLowerCase();
+  partialSite.orgUrlKey = orgUrlKey;
+
+  const site = { ...DEFAULT_SITE, ...partialSite };
   // Set the type based on the environment we are working in
   site.type = requestOptions.isPortal
     ? ENTERPRISE_SITE_ITEM_TYPE
@@ -236,7 +240,7 @@ export async function createSite(
   // Domains
   if (!requestOptions.isPortal) {
     // now that we know the subdomain is available, set the defaultHostname
-    site.defaultHostname = `${site.subdomain}-${portal.urlKey}.${stripProtocol(
+    site.defaultHostname = `${site.subdomain}-${orgUrlKey}.${stripProtocol(
       getHubApiUrl(requestOptions)
     )}`;
 
@@ -249,13 +253,6 @@ export async function createSite(
     // Also in Enterprise orgUrlKey is undefined.
     handleSubdomainChange(site, requestOptions);
   }
-
-  // Note:  We used to use adlib for this, but it's much harder to
-  // use templates with typescript. i.e. you can't assign a string template
-  // to a property defined as `IExtent` without using `as unknown as ...`
-  // which basically removes typechecking
-
-  site.orgUrlKey = (portal.urlKey || "") as string;
 
   // override only if not set...
   if (!site.theme) {
@@ -337,6 +334,8 @@ export async function updateSite(
   site: IHubSite,
   requestOptions: IHubRequestOptions
 ): Promise<IHubSite> {
+  // ensure the orgUrlKey is lowercase
+  site.orgUrlKey = site.orgUrlKey.toLowerCase();
   // verify that the slug is unique, excluding the current site
   await ensureUniqueEntitySlug(site as IHubItemEntity, requestOptions);
   if (requestOptions.isPortal) {

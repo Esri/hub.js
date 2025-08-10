@@ -3,6 +3,7 @@ import { IAsyncConfigurationSchema } from "../types";
 import {
   DISCUSSION_SETTINGS_SCHEMA,
   ENTITY_ACCESS_SCHEMA,
+  ENTITY_CATALOG_SETUP_SCHEMA,
   ENTITY_CATEGORIES_SCHEMA,
   ENTITY_FEATURED_CONTENT_SCHEMA,
   ENTITY_IMAGE_SCHEMA,
@@ -35,36 +36,6 @@ export const HubItemEntitySchema: IAsyncConfigurationSchema = {
     categories: ENTITY_CATEGORIES_SCHEMA,
     isDiscussable: ENTITY_IS_DISCUSSABLE_SCHEMA,
     discussionSettings: DISCUSSION_SETTINGS_SCHEMA,
-    _thumbnail: ENTITY_IMAGE_SCHEMA,
-    _followers: {
-      type: "object",
-      properties: {
-        groupAccess: {
-          ...ENTITY_ACCESS_SCHEMA,
-          enum: ["private", "org", "public"],
-        },
-        showFollowAction: {
-          type: "boolean",
-          default: true,
-        },
-        isDiscussable: ENTITY_IS_DISCUSSABLE_SCHEMA,
-      },
-    },
-    _associations: {
-      type: "object",
-      properties: {
-        groupAccess: {
-          ...ENTITY_ACCESS_SCHEMA,
-          enum: ["private", "org", "public"],
-          default: "private",
-        },
-        membershipAccess: {
-          type: "string",
-          enum: ["organization", "collaborators", "anyone"],
-          default: "organization",
-        },
-      },
-    },
     view: {
       type: "object",
       properties: {
@@ -83,7 +54,6 @@ export const HubItemEntitySchema: IAsyncConfigurationSchema = {
         heroActions: { type: "array" },
       },
     },
-    _slug: SLUG_SCHEMA,
     assistant: {
       type: "object",
       required: [
@@ -131,5 +101,42 @@ export const HubItemEntitySchema: IAsyncConfigurationSchema = {
         },
       },
     },
+    // "ephemeral" properties that are not actually persisted
+    // on the entity themselves - instead, they are used to
+    // perform after-save actions/xhrs/transformations. For
+    // example, we take the inputs from the _thumbnail property
+    // to persist a thumbnail resource on the underlying item.
+    _thumbnail: ENTITY_IMAGE_SCHEMA,
+    _slug: SLUG_SCHEMA,
+    _followers: {
+      type: "object",
+      properties: {
+        groupAccess: {
+          ...ENTITY_ACCESS_SCHEMA,
+          enum: ["private", "org", "public"],
+        },
+        showFollowAction: {
+          type: "boolean",
+          default: true,
+        },
+        isDiscussable: ENTITY_IS_DISCUSSABLE_SCHEMA,
+      },
+    },
+    _associations: {
+      type: "object",
+      properties: {
+        groupAccess: {
+          ...ENTITY_ACCESS_SCHEMA,
+          enum: ["private", "org", "public"],
+          default: "private",
+        },
+        membershipAccess: {
+          type: "string",
+          enum: ["organization", "collaborators", "anyone"],
+          default: "organization",
+        },
+      },
+    },
+    _catalogSetup: ENTITY_CATALOG_SETUP_SCHEMA,
   },
 } as IAsyncConfigurationSchema;

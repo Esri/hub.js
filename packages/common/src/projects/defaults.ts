@@ -3,7 +3,7 @@ import { InitiativeDefaultFeatures } from "../initiatives/_internal/InitiativeBu
 import { IModel, HubEntityStatus } from "../hub-types";
 
 export const HUB_PROJECT_ITEM_TYPE = "Hub Project";
-
+export const HUB_PROJECT_CURRENT_SCHEMA_VERSION = 1.2;
 /**
  * Default values of a IHubProject
  */
@@ -11,7 +11,7 @@ export const DEFAULT_PROJECT: Partial<IHubProject> = {
   catalog: { schemaVersion: 0 },
   name: "",
   permissions: [],
-  schemaVersion: 1,
+  schemaVersion: HUB_PROJECT_CURRENT_SCHEMA_VERSION,
   status: HubEntityStatus.notStarted,
   tags: [],
   typeKeywords: [HUB_PROJECT_ITEM_TYPE],
@@ -37,7 +37,7 @@ export const DEFAULT_PROJECT_MODEL: IModel = {
     typeKeywords: [HUB_PROJECT_ITEM_TYPE],
     properties: {
       slug: "",
-      schemaVersion: 1,
+      schemaVersion: HUB_PROJECT_CURRENT_SCHEMA_VERSION,
     },
   },
   data: {

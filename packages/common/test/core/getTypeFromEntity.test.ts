@@ -41,7 +41,7 @@ describe("getTypeFromEntity:", () => {
       "discussion",
       "group",
       "initiativeTemplate",
-      "survey",
+      "content",
       "user",
     ];
     types.forEach((type, i) => {
