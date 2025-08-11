@@ -1,5 +1,6 @@
 import type { IItem } from "@esri/arcgis-rest-portal";
 import type { IFeatureServiceDefinition } from "@esri/arcgis-rest-feature-service";
+import * as getDefaultEntitySettingsUtils from "../../src/discussions/api/settings/getDefaultEntitySettings";
 
 export const HOSTED_FEATURE_SERVICE_GUID = "A1295DEF67814571B99EDDEA65748143";
 export const HOSTED_FEATURE_SERVICE_URL =
@@ -87,3 +88,6 @@ export const PDF_ITEM: IItem = {
   properties: {},
   size: 1001,
 };
+
+export const DEFAULT_SETTINGS =
+  getDefaultEntitySettingsUtils.getDefaultEntitySettings("discussion");

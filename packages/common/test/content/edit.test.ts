@@ -4,13 +4,16 @@ import * as adminModule from "@esri/arcgis-rest-feature-service";
 import { MOCK_AUTH, MOCK_HUB_REQOPTS, TOMORROW } from "../mocks/mock-auth";
 import * as modelUtils from "../../src/models";
 import { IModel } from "../../src/hub-types";
-import { IHubEditableContent } from "../../src/core/types";
+import { IGeometryInstance, IHubEditableContent } from "../../src/core/types";
 import {
   createContent,
   deleteContent,
   updateContent,
 } from "../../src/content/edit";
 import { cloneObject } from "../../src/util";
+import * as discussionsModule from "../../src/discussions";
+import * as getDefaultEntitySettingsUtils from "../../src/discussions/api/settings/getDefaultEntitySettings";
+import { Polygon } from "geojson";
 
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
 const myMockAuth = {
@@ -24,7 +27,10 @@ const myMockAuth = {
   username: "casey",
   password: "123456",
   portal: MOCK_HUB_REQOPTS.hubApiUrl,
+  getToken: () => Promise.resolve("fake-token"),
 } as any;
+export const DEFAULT_SETTINGS =
+  getDefaultEntitySettingsUtils.getDefaultEntitySettings("content");
 
 describe("content editing:", () => {
   beforeAll(() => {
@@ -61,6 +67,9 @@ describe("content editing:", () => {
     let getServiceSpy: jasmine.Spy;
     let updateModelSpy: jasmine.Spy;
     let updateServiceSpy: jasmine.Spy;
+    let createSettingsSpy: jasmine.Spy;
+    let updateSettingsSpy: jasmine.Spy;
+
     beforeEach(() => {
       getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
         Promise.resolve({
@@ -81,12 +90,22 @@ describe("content editing:", () => {
       ).and.callFake((_url: string, opts: any) =>
         Promise.resolve(opts.updateDefinition)
       );
+      createSettingsSpy = spyOn(
+        discussionsModule,
+        "createSettingV2"
+      ).and.returnValue(Promise.resolve({ id: GUID, ...DEFAULT_SETTINGS }));
+      updateSettingsSpy = spyOn(
+        discussionsModule,
+        "updateSettingV2"
+      ).and.returnValue(Promise.resolve({ id: GUID, ...DEFAULT_SETTINGS }));
     });
     afterEach(() => {
       getItemSpy.calls.reset();
       getServiceSpy.calls.reset();
       updateModelSpy.calls.reset();
       updateServiceSpy.calls.reset();
+      createSettingsSpy.calls.reset();
+      updateSettingsSpy.calls.reset();
     });
     it("converts to a model and updates the item", async () => {
       const content: IHubEditableContent = {
@@ -318,6 +337,108 @@ describe("content editing:", () => {
       });
       expect(chk.extendedProps?.downloads).toEqual(
         content.extendedProps?.downloads
+      );
+    });
+    it("creates settings if none exists", async () => {
+      const content: IHubEditableContent = {
+        itemControl: "edit",
+        id: GUID,
+        name: "Hello World",
+        tags: ["Transportation"],
+        description: "Some longer description",
+        slug: "dcdev-wat-blarg",
+        orgUrlKey: "dcdev",
+        owner: "dcdev_dude",
+        type: "Hub Initiative",
+        createdDate: new Date(1595878748000),
+        createdDateSource: "item.created",
+        updatedDate: new Date(1595878750000),
+        updatedDateSource: "item.modified",
+        thumbnailUrl: "",
+        permissions: [],
+        schemaVersion: 1,
+        canEdit: false,
+        canDelete: false,
+        location: { type: "none" },
+        licenseInfo: "",
+        schedule: { mode: "automatic" },
+      };
+      const auth = {
+        ...MOCK_HUB_REQOPTS,
+        authentication: myMockAuth,
+      };
+      const chk = await updateContent(content, {
+        ...MOCK_HUB_REQOPTS,
+        authentication: myMockAuth,
+      });
+      expect(createSettingsSpy).toHaveBeenCalledTimes(1);
+      expect(createSettingsSpy).toHaveBeenCalledWith({
+        data: {
+          id: GUID,
+          type: discussionsModule.EntitySettingType.CONTENT,
+          settings: {
+            discussions: {
+              allowedChannelIds: null,
+              allowedLocations: null,
+            },
+          },
+        },
+        ...auth,
+      });
+      expect(chk.entitySettingsId).toBe(GUID);
+      expect(chk.discussionSettings).toEqual(
+        DEFAULT_SETTINGS.settings?.discussions
+      );
+    });
+    it("updates settings when settings id exists", async () => {
+      const geometryTransformed: Polygon = {
+        type: "Polygon",
+        coordinates: [[[0], [0]]],
+      };
+      const geometry: Partial<IGeometryInstance> = {
+        type: "polygon",
+        spatialReference: { wkid: 4326 },
+        toJSON: () => null,
+      };
+      const content: IHubEditableContent = {
+        itemControl: "edit",
+        id: GUID,
+        name: "Hello World",
+        tags: ["Transportation"],
+        description: "Some longer description",
+        slug: "dcdev-wat-blarg",
+        orgUrlKey: "dcdev",
+        owner: "dcdev_dude",
+        type: "Hub Initiative",
+        createdDate: new Date(1595878748000),
+        createdDateSource: "item.created",
+        updatedDate: new Date(1595878750000),
+        updatedDateSource: "item.modified",
+        thumbnailUrl: "",
+        permissions: [],
+        schemaVersion: 1,
+        canEdit: false,
+        canDelete: false,
+        licenseInfo: "",
+        schedule: { mode: "automatic" },
+        entitySettingsId: "mock entity settings id",
+        location: {
+          type: "custom",
+          geometries: [geometry],
+        },
+        discussionSettings: {
+          allowedChannelIds: ["c1"],
+          allowedLocations: [geometryTransformed],
+        },
+      };
+      const chk = await updateContent(content, {
+        ...MOCK_HUB_REQOPTS,
+        authentication: myMockAuth,
+      });
+      expect(chk.entitySettingsId).toBe(GUID);
+      expect(updateSettingsSpy).toHaveBeenCalledTimes(1);
+      expect(chk.discussionSettings).toEqual(
+        DEFAULT_SETTINGS.settings?.discussions
       );
     });
   });

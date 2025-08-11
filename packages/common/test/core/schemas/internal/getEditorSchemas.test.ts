@@ -43,7 +43,6 @@ import * as ChannelBuildCreateUiSchema from "../../../../src/channels/_internal/
 import { ContentEditorTypes } from "../../../../src/content/_internal/ContentSchema";
 import * as ContentBuildEditUiSchema from "../../../../src/content/_internal/ContentUiSchemaEdit";
 import * as ContentBuildSettingsUiSchema from "../../../../src/content/_internal/ContentUiSchemaSettings";
-import * as ContentBuildDiscussionsUiSchema from "../../../../src/content/_internal/ContentUiSchemaDiscussions";
 
 import { PageEditorTypes } from "../../../../src/pages/_internal/PageSchema";
 import * as PageBuildEditUiSchema from "../../../../src/pages/_internal/PageUiSchemaEdit";
@@ -108,6 +107,16 @@ describe("getEditorSchemas: ", () => {
     { type: SiteEditorTypes[3], module: SiteBuildDiscussionsUiSchema },
     { type: SiteEditorTypes[4], module: SiteBuildTelemetryUiSchema },
     { type: SiteEditorTypes[5], module: SiteBuildAssistantUiSchema },
+    { type: SiteEditorTypes[6], module: EntityBuildDiscussionSettingsUiSchema },
+
+    {
+      type: InitiativeTemplateEditorTypes[0],
+      module: InitiativeTemplateBuildEditUiSchema,
+    },
+
+    { type: DiscussionEditorTypes[0], module: DiscussionBuildEditUiSchema },
+    { type: DiscussionEditorTypes[1], module: DiscussionBuildCreateUiSchema },
+    { type: DiscussionEditorTypes[2], module: DiscussionBuildSettingsUiSchema },
 
     { type: DiscussionEditorTypes[0], module: DiscussionBuildEditUiSchema },
     { type: DiscussionEditorTypes[1], module: DiscussionBuildCreateUiSchema },
@@ -119,7 +128,10 @@ describe("getEditorSchemas: ", () => {
 
     { type: ContentEditorTypes[0], module: ContentBuildEditUiSchema },
     { type: ContentEditorTypes[1], module: ContentBuildSettingsUiSchema },
-    { type: ContentEditorTypes[2], module: ContentBuildDiscussionsUiSchema },
+    {
+      type: ContentEditorTypes[2],
+      module: EntityBuildDiscussionSettingsUiSchema,
+    },
 
     { type: PageEditorTypes[0], module: PageBuildEditUiSchema },
     { type: PageEditorTypes[1], module: PageBuildCreateUiSchema },
@@ -134,6 +146,7 @@ describe("getEditorSchemas: ", () => {
     { type: GroupEditorTypes[5], module: GroupBuildCreateViewUiSchema },
     { type: GroupEditorTypes[6], module: GroupBuildCreateEditUiSchema },
     { type: GroupEditorTypes[7], module: GroupBuildCreateUiSchema },
+
     { type: ChannelEditorTypes[0], module: ChannelBuildCreateUiSchema },
     { type: ChannelEditorTypes[1], module: ChannelBuildEditUiSchema },
 
