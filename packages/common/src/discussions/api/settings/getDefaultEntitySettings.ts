@@ -16,10 +16,7 @@ const DEFAULT_ENTITY_SETTINGS_BY_ENTITY_TYPE: Record<
     type: EntitySettingType.CONTENT,
     settings: { ...DISCUSSION_SETTINGS },
   },
-  site: {
-    type: EntitySettingType.CONTENT,
-    settings: { ...DISCUSSION_SETTINGS },
-  },
+  site: null,
   project: null,
   initiative: null,
   initiativeTemplate: null,

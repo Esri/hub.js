@@ -284,8 +284,6 @@ export async function getEditorSchemas(
       const contentModule: IEntityEditorModuleType = await {
         "hub:content:edit": () =>
           import("../../../content/_internal/ContentUiSchemaEdit"),
-        "hub:content:discussions": () =>
-          import("../../../content/_internal/ContentUiSchemaDiscussions"),
         "hub:content:settings": () =>
           import("../../../content/_internal/ContentUiSchemaSettings"),
         "hub:content:settings:discussions": () =>
