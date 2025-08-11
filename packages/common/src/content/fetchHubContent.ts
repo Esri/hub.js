@@ -56,7 +56,7 @@ export const fetchHubContent = async (
 export const convertItemToContent = async (
   item: IItem,
   requestOptions: IHubRequestOptions,
-  enrichments: IHubEditableContentEnrichments = {}
+  enrichments?: IHubEditableContentEnrichments
 ): Promise<IHubEditableContent> => {
   const model = await fetchModelFromItem(item, requestOptions);
   let entitySettings;

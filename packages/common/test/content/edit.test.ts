@@ -14,6 +14,7 @@ import { cloneObject } from "../../src/util";
 import * as discussionsModule from "../../src/discussions";
 import * as getDefaultEntitySettingsUtils from "../../src/discussions/api/settings/getDefaultEntitySettings";
 import { Polygon } from "geojson";
+import * as terraformer from "@terraformer/arcgis";
 
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
 const myMockAuth = {
@@ -33,10 +34,11 @@ export const DEFAULT_SETTINGS =
   getDefaultEntitySettingsUtils.getDefaultEntitySettings("content");
 
 describe("content editing:", () => {
+  let consoleWarnSpy: jasmine.Spy;
   beforeAll(() => {
-    // suppress deprecation warnings
-    // tslint:disable-next-line: no-empty
-    spyOn(console, "warn").and.callFake(() => {});
+    consoleWarnSpy = spyOn(console, "warn").and.callFake(() => {
+      return;
+    });
   });
   describe("create content:", () => {
     it("converts to a model and creates the item", async () => {
@@ -185,6 +187,73 @@ describe("content editing:", () => {
       // No service is associated with Hub Initiatives
       expect(getServiceSpy).not.toHaveBeenCalled();
       expect(updateServiceSpy).not.toHaveBeenCalled();
+    });
+    it("processes locations and handles error if thrown", async () => {
+      const geometryTransformed: Polygon = {
+        type: "Polygon",
+        coordinates: [[[0], [0]]],
+      };
+      const geometry: Partial<IGeometryInstance> = {
+        type: "polygon",
+        spatialReference: { wkid: 4326 },
+        toJSON: () => null,
+      };
+      const content: IHubEditableContent = {
+        itemControl: "edit",
+        id: GUID,
+        name: "Hello World",
+        tags: ["Transportation"],
+        description: "Some longer description",
+        slug: "dcdev-wat-blarg",
+        orgUrlKey: "dcdev",
+        owner: "dcdev_dude",
+        type: "Hub Initiative",
+        createdDate: new Date(1595878748000),
+        createdDateSource: "item.created",
+        updatedDate: new Date(1595878750000),
+        updatedDateSource: "item.modified",
+        thumbnailUrl: "",
+        permissions: [],
+        schemaVersion: 1,
+        canEdit: false,
+        canDelete: false,
+        licenseInfo: "",
+        schedule: { mode: "automatic" },
+        entitySettingsId: "mock entity settings id",
+        location: {
+          type: "custom",
+          geometries: [geometry],
+        },
+        discussionSettings: {
+          allowedChannelIds: ["c1"],
+          allowedLocations: [geometryTransformed],
+        },
+      };
+      const arcgisToGeoJSONSpy = spyOn(
+        terraformer,
+        "arcgisToGeoJSON"
+      ).and.throwError("error message");
+      updateSettingsSpy.and.returnValue(
+        Promise.resolve({
+          id: GUID,
+          ...DEFAULT_SETTINGS,
+        })
+      );
+      const chk = await updateContent(content, {
+        ...MOCK_HUB_REQOPTS,
+        portal: "https://not-portal.com",
+        authentication: myMockAuth,
+      });
+
+      expect(chk.id).toBe(GUID);
+      expect(updateModelSpy.calls.count()).toBe(1);
+      expect(updateSettingsSpy.calls.count()).toBe(1);
+      expect(arcgisToGeoJSONSpy.calls.count()).toBe(1);
+      const settingsToUpdate = updateSettingsSpy.calls.argsFor(0)[0];
+      expect(
+        settingsToUpdate.data.settings.discussions.allowedLocations
+      ).toEqual(null);
+      expect(consoleWarnSpy.calls.count()).toBe(1);
     });
     it("doesn't update the hosted service if configurations haven't changed", async () => {
       const currentDefinition: Partial<featureLayerModule.IFeatureServiceDefinition> =
