@@ -30,15 +30,34 @@ const myMockAuth = {
   portal: MOCK_HUB_REQOPTS.hubApiUrl,
   getToken: () => Promise.resolve("fake-token"),
 } as any;
+const geometryTransformed: Polygon = {
+  type: "Polygon",
+  coordinates: [[[0], [0]]],
+};
+const geometry: Partial<IGeometryInstance> = {
+  type: "polygon",
+  spatialReference: { wkid: 4326 },
+  toJSON: () => null,
+};
 export const DEFAULT_SETTINGS =
   getDefaultEntitySettingsUtils.getDefaultEntitySettings("content");
 
 describe("content editing:", () => {
   let consoleWarnSpy: jasmine.Spy;
+  let createSettingsSpy: jasmine.Spy;
+  let updateSettingsSpy: jasmine.Spy;
   beforeAll(() => {
     consoleWarnSpy = spyOn(console, "warn").and.callFake(() => {
       return;
     });
+    createSettingsSpy = spyOn(
+      discussionsModule,
+      "createSettingV2"
+    ).and.returnValue(Promise.resolve({ id: GUID, ...DEFAULT_SETTINGS }));
+    updateSettingsSpy = spyOn(
+      discussionsModule,
+      "updateSettingV2"
+    ).and.returnValue(Promise.resolve({ id: GUID, ...DEFAULT_SETTINGS }));
   });
   describe("create content:", () => {
     it("converts to a model and creates the item", async () => {
@@ -51,7 +70,10 @@ describe("content editing:", () => {
       );
       const chk = await createContent(
         { name: "Hello World", orgUrlKey: "dcdev" },
-        { authentication: MOCK_AUTH }
+        {
+          ...MOCK_HUB_REQOPTS,
+          authentication: myMockAuth,
+        }
       );
 
       expect(chk.id).toBe(GUID);
@@ -69,8 +91,6 @@ describe("content editing:", () => {
     let getServiceSpy: jasmine.Spy;
     let updateModelSpy: jasmine.Spy;
     let updateServiceSpy: jasmine.Spy;
-    let createSettingsSpy: jasmine.Spy;
-    let updateSettingsSpy: jasmine.Spy;
 
     beforeEach(() => {
       getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
@@ -92,14 +112,6 @@ describe("content editing:", () => {
       ).and.callFake((_url: string, opts: any) =>
         Promise.resolve(opts.updateDefinition)
       );
-      createSettingsSpy = spyOn(
-        discussionsModule,
-        "createSettingV2"
-      ).and.returnValue(Promise.resolve({ id: GUID, ...DEFAULT_SETTINGS }));
-      updateSettingsSpy = spyOn(
-        discussionsModule,
-        "updateSettingV2"
-      ).and.returnValue(Promise.resolve({ id: GUID, ...DEFAULT_SETTINGS }));
     });
     afterEach(() => {
       getItemSpy.calls.reset();
@@ -189,15 +201,6 @@ describe("content editing:", () => {
       expect(updateServiceSpy).not.toHaveBeenCalled();
     });
     it("processes locations and handles error if thrown", async () => {
-      const geometryTransformed: Polygon = {
-        type: "Polygon",
-        coordinates: [[[0], [0]]],
-      };
-      const geometry: Partial<IGeometryInstance> = {
-        type: "polygon",
-        spatialReference: { wkid: 4326 },
-        toJSON: () => null,
-      };
       const content: IHubEditableContent = {
         itemControl: "edit",
         id: GUID,
@@ -460,15 +463,6 @@ describe("content editing:", () => {
       );
     });
     it("updates settings when settings id exists", async () => {
-      const geometryTransformed: Polygon = {
-        type: "Polygon",
-        coordinates: [[[0], [0]]],
-      };
-      const geometry: Partial<IGeometryInstance> = {
-        type: "polygon",
-        spatialReference: { wkid: 4326 },
-        toJSON: () => null,
-      };
       const content: IHubEditableContent = {
         itemControl: "edit",
         id: GUID,

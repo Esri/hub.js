@@ -106,6 +106,24 @@ export async function createContent(
   // create the item
   model = await createModel(model, requestOptions as IUserRequestOptions);
 
+  // create the entity settings
+  const defaultSettings = getDefaultEntitySettings("discussion");
+  const settings = {
+    ...defaultSettings.settings,
+    discussions: {
+      ...defaultSettings.settings.discussions,
+      ...content.discussionSettings,
+    },
+  };
+  model.entitySettings = await createSettingV2({
+    data: {
+      id: model.item.id,
+      type: defaultSettings.type,
+      settings,
+    },
+    ...requestOptions,
+  });
+
   // TODO: if we have resources, create them, then re-attach them to the model
   // if (resources) {
   //   model = await upsertModelResources(model, resources, requestOptions);
