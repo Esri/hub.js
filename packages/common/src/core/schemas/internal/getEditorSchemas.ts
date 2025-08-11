@@ -366,10 +366,6 @@ export async function getEditorSchemas(
           import("../../../groups/_internal/GroupUiSchemaSettings"),
         "hub:group:discussions": () =>
           import("../../../groups/_internal/GroupUiSchemaDiscussions"),
-        "hub:group:settings:discussions": () =>
-          import(
-            "../../../core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettings"
-          ),
       }[type as GroupEditorType]();
       uiSchema = await groupModule.buildUiSchema(
         i18nScope,

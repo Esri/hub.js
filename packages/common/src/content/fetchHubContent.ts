@@ -49,14 +49,19 @@ export const fetchHubContent = async (
   return convertItemToContent(item, requestOptions, editableContentEnrichments);
 };
 
-export async function convertItemToContent(
+/**
+ * Convert an Item to an editable Hub Content object,
+ * fetch any additional information that may be required
+ */
+export const convertItemToContent = async (
   item: IItem,
   requestOptions: IHubRequestOptions,
   enrichments: IHubEditableContentEnrichments = {}
-): Promise<IHubEditableContent> {
+): Promise<IHubEditableContent> => {
   const model = await fetchModelFromItem(item, requestOptions);
   let entitySettings;
   try {
+    // fetch entity settings
     entitySettings = await fetchSettingV2({ id: item.id, ...requestOptions });
   } catch (e) {
     const defaultSettings = getDefaultEntitySettings("content");
@@ -73,4 +78,4 @@ export async function convertItemToContent(
   );
 
   return content as IHubEditableContent;
-}
+};

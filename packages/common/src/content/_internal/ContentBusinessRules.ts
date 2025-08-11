@@ -24,7 +24,6 @@ export const ContentPermissions = [
   "hub:content:workspace:overview",
   "hub:content:workspace:dashboard",
   "hub:content:workspace:details",
-  "hub:content:workspace:discussion", // TODO: remove hub:content:workspace:discussion when discussions pane is removed
   "hub:content:workspace:settings",
   "hub:content:workspace:settings:schedule",
   "hub:content:workspace:settings:discussions",
@@ -137,13 +136,6 @@ export const ContentPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:content:workspace:details",
-    dependencies: ["hub:content:workspace", "hub:content:edit"],
-  },
-  // TODO: remove hub:content:workspace:discussion when discussions pane is removed
-  {
-    permission: "hub:content:workspace:discussion",
-    services: ["discussions"],
-    licenses: ["hub-premium"],
     dependencies: ["hub:content:workspace", "hub:content:edit"],
   },
   {
