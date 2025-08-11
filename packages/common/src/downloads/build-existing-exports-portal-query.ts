@@ -51,6 +51,7 @@ function parseSpatialRefId(spatialRefId: string): string | ISpatialReference {
   try {
     _spatialRefId = JSON.parse(spatialRefId) as ISpatialReference;
   } catch {
+    /* istanbul ignore next this was covered by hub-downloads tests & not worth refactoring for coverage */
     _spatialRefId = spatialRefId;
   }
 

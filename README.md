@@ -57,7 +57,6 @@ Some useful commands include:
 ### Packages
 
 - [`@esri/hub-common`](./packages/common) - Common TypeScript types and utility functions.
-- [`@esri/hub-downloads`](./packages/downloads) - Helper functions for working with downloads.
 - [`@esri/hub-events`](./packages/events) - Helper functions for working with Events.
 - [`@esri/hub-initiatives`](./packages/initiatives) - Helper functions for working with [Initiatives](http://doc.arcgis.com/en/hub/initiatives/initiatives-overview.htm).
 - [`@esri/hub-search`](./packages/search) - Helper functions for search on ArcGIS Online.
@@ -72,6 +71,7 @@ Some useful commands include:
 - [`@esri/hub-types`](https://github.com/Esri/hub.js/tree/v6.10.0/packages/types) - moved to [`@esri/hub-common`](./packages/common)
 - [`@esri/hub-content`](https://github.com/Esri/hub.js/tree/2379fbeb1672d059025c6efdc84b34b78ce23709/packages/content) - moved to [`@esri/hub-common`](./packages/common)
 - [`@esri/hub-discussions`](https://github.com/Esri/hub.js/tree/7f8863e1cb2cb061f85409704bb35ca8b4df6650/packages/discussions) - moved to [`@esri/hub-common`](./packages/common)
+- [`@esri/hub-downloads`](https://github.com/Esri/hub.js/tree/a14ba77f2685d71cc31d13e277218407ed8a6d50/packages/downloads) - [moved to `@esri/hub-componets`](https://github.com/ArcGIS/opendata-ui/pull/15111) as it's no longer used outside of the `hub-download-card` component
 
 ### Design Philosophy
 
