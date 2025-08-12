@@ -71,6 +71,10 @@ export function getBasePropertyMap(): IPropertyMap[] {
     storeKey: "item.properties.boundary",
   });
   map.push({
+    entityKey: "location",
+    storeKey: "item.properties.location",
+  });
+  map.push({
     entityKey: "discussionSettings",
     storeKey: "entitySettings.settings.discussions",
   });

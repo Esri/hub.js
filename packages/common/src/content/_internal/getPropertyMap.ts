@@ -21,11 +21,6 @@ export function getPropertyMap(): IPropertyMap[] {
   map.push({ entityKey: "permissions", storeKey: "data.permissions" });
 
   map.push({
-    entityKey: "location",
-    storeKey: "item.properties.location",
-  });
-
-  map.push({
     entityKey: "licenseInfo",
     storeKey: "item.licenseInfo",
   });

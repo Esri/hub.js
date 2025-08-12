@@ -28,11 +28,6 @@ export function getPropertyMap(): IPropertyMap[] {
   map.push({ entityKey: "metrics", storeKey: "item.properties.metrics" });
 
   map.push({
-    entityKey: "location",
-    storeKey: "item.properties.location",
-  });
-
-  map.push({
     entityKey: "followersGroupId",
     storeKey: "item.properties.followersGroupId",
   });
