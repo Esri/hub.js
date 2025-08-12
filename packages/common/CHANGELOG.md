@@ -1,3 +1,10 @@
+## @esri/hub-common [19.1.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.1.2...@esri/hub-common@19.1.3) (2025-08-12)
+
+
+### Bug Fixes
+
+* **hub-common:** page maps location property ([#1967](https://github.com/Esri/hub.js/issues/1967)) ([f1b35ef](https://github.com/Esri/hub.js/commit/f1b35ef51c39f294afad96e2888ebabea0998bac))
+
 ## @esri/hub-common [19.1.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.1.1...@esri/hub-common@19.1.2) (2025-08-08)
 
 
