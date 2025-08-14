@@ -23,12 +23,7 @@ import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { cloneObject } from "../util";
 import { IHubRequestOptions, IModel } from "../hub-types";
-import {
-  createSettingV2,
-  getDefaultEntitySettings,
-  setDiscussableKeyword,
-  updateSettingV2,
-} from "../discussions";
+import { setDiscussableKeyword } from "../discussions";
 import { modelToHubEditableContent } from "./modelToHubEditableContent";
 import {
   getService,
@@ -52,8 +47,7 @@ import { deepEqual, getProp, setProp } from "../objects";
 import { getDownloadFlow } from "../downloads/_internal/getDownloadFlow";
 import { getDownloadConfiguration } from "../downloads/getDownloadConfiguration";
 import { shouldShowDownloadsConfiguration } from "./_internal/shouldShowDownloadsConfiguration";
-import { Polygon } from "geojson";
-import { arcgisToGeoJSON } from "@terraformer/arcgis";
+import { createOrUpdateEntitySettings } from "../core/_internal/createOrUpdateEntitySettings";
 
 // TODO: move this to defaults?
 const DEFAULT_CONTENT_MODEL: IModel = {
@@ -106,34 +100,25 @@ export async function createContent(
   // create the item
   model = await createModel(model, requestOptions as IUserRequestOptions);
 
-  // create the entity settings
-  const defaultSettings = getDefaultEntitySettings("discussion");
-  const settings = {
-    ...defaultSettings.settings,
-    discussions: {
-      ...defaultSettings.settings.discussions,
-      ...content.discussionSettings,
-    },
-  };
-  model.entitySettings = await createSettingV2({
-    data: {
-      id: model.item.id,
-      type: defaultSettings.type,
-      settings,
-    },
-    ...requestOptions,
-  });
-
   // TODO: if we have resources, create them, then re-attach them to the model
   // if (resources) {
   //   model = await upsertModelResources(model, resources, requestOptions);
   // }
   // map the model back into a IHubEditableContent
-  const newContent = mapper.storeToEntity(model, {});
+  const newContent = mapper.storeToEntity(model, {}) as IHubEditableContent;
+
+  // create the entity settings
+  const entitySetting = await createOrUpdateEntitySettings(
+    newContent,
+    requestOptions
+  );
+  newContent.entitySettingsId = entitySetting.id;
+  newContent.discussionSettings = entitySetting.settings.discussions;
+
   // TODO:
   // newContent = computeProps(model, newContent, requestOptions);
   // and return it
-  return newContent as IHubEditableContent;
+  return newContent;
 }
 
 /**
@@ -267,52 +252,13 @@ export async function updateContent(
     content
   );
 
-  // persist location geometries to discussion settings as Polygon[]
-  let allowedLocations: Polygon[];
-  try {
-    allowedLocations =
-      updatedContent.location.geometries?.map(
-        (geometry) => arcgisToGeoJSON(geometry) as Polygon
-      ) || null;
-  } catch (e) {
-    allowedLocations = null;
-    /* tslint:disable no-console */
-    console.warn("Esri JSON conversion failed", e);
-  }
-
-  const defaultSettings = getDefaultEntitySettings("content");
-  const settings = {
-    ...defaultSettings.settings,
-    discussions: {
-      ...defaultSettings.settings.discussions,
-      ...updatedContent.discussionSettings,
-      allowedLocations,
-    },
-  };
-
-  if (!settings.discussions.allowedChannelIds?.length) {
-    settings.discussions.allowedChannelIds = null;
-  }
-  if (!settings.discussions.allowedLocations?.length) {
-    settings.discussions.allowedLocations = null;
-  }
-
-  const newOrUpdatedSettings = updatedContent.entitySettingsId
-    ? await updateSettingV2({
-        id: updatedContent.entitySettingsId,
-        data: { settings },
-        ...requestOptions,
-      })
-    : await createSettingV2({
-        data: {
-          id: updatedContent.id,
-          type: defaultSettings.type,
-          settings,
-        },
-        ...requestOptions,
-      });
-  updatedContent.entitySettingsId = newOrUpdatedSettings.id;
-  updatedContent.discussionSettings = newOrUpdatedSettings.settings.discussions;
+  // create or update entity settings
+  const entitySetting = await createOrUpdateEntitySettings(
+    updatedContent,
+    requestOptions
+  );
+  updatedContent.entitySettingsId = entitySetting.id;
+  updatedContent.discussionSettings = entitySetting.settings.discussions;
 
   return updatedContent;
 }

@@ -13,6 +13,7 @@ import { getDefaultEntitySettings } from "../discussions/api/settings/getDefault
 import { IHubRequestOptions } from "../hub-types";
 import { fetchModelFromItem } from "../models";
 import { IItem } from "@esri/arcgis-rest-portal";
+import { IEntitySetting } from "../discussions/api/types";
 
 /**
  * fetch a content entity by identifier
@@ -58,18 +59,16 @@ export const convertItemToContent = async (
   requestOptions: IHubRequestOptions,
   enrichments?: IHubEditableContentEnrichments
 ): Promise<IHubEditableContent> => {
-  const model = await fetchModelFromItem(item, requestOptions);
-  let entitySettings;
-  try {
-    // fetch entity settings
-    entitySettings = await fetchSettingV2({ id: item.id, ...requestOptions });
-  } catch (e) {
-    const defaultSettings = getDefaultEntitySettings("content");
-    entitySettings = {
-      id: null,
-      ...defaultSettings,
-    };
-  }
+  const [model, entitySettings] = await Promise.all([
+    fetchModelFromItem(item, requestOptions),
+    fetchSettingV2({ id: item.id, ...requestOptions }).catch(
+      () =>
+        ({
+          id: null,
+          ...getDefaultEntitySettings("content"),
+        } as IEntitySetting)
+    ),
+  ]);
   model.entitySettings = entitySettings;
   const content: Partial<IHubEditableContent> = modelToHubEditableContent(
     model,

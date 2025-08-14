@@ -11,10 +11,8 @@ import {
   updateContent,
 } from "../../src/content/edit";
 import { cloneObject } from "../../src/util";
-import * as discussionsModule from "../../src/discussions";
 import * as getDefaultEntitySettingsUtils from "../../src/discussions/api/settings/getDefaultEntitySettings";
-import { Polygon } from "geojson";
-import * as terraformer from "@terraformer/arcgis";
+import * as createOrUpdateEntitySettingsUtils from "../../src/core/_internal/createOrUpdateEntitySettings";
 
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
 const myMockAuth = {
@@ -30,10 +28,6 @@ const myMockAuth = {
   portal: MOCK_HUB_REQOPTS.hubApiUrl,
   getToken: () => Promise.resolve("fake-token"),
 } as any;
-const geometryTransformed: Polygon = {
-  type: "Polygon",
-  coordinates: [[[0], [0]]],
-};
 const geometry: Partial<IGeometryInstance> = {
   type: "polygon",
   spatialReference: { wkid: 4326 },
@@ -43,22 +37,7 @@ export const DEFAULT_SETTINGS =
   getDefaultEntitySettingsUtils.getDefaultEntitySettings("content");
 
 describe("content editing:", () => {
-  let consoleWarnSpy: jasmine.Spy;
-  let createSettingsSpy: jasmine.Spy;
-  let updateSettingsSpy: jasmine.Spy;
-  beforeAll(() => {
-    consoleWarnSpy = spyOn(console, "warn").and.callFake(() => {
-      return;
-    });
-    createSettingsSpy = spyOn(
-      discussionsModule,
-      "createSettingV2"
-    ).and.returnValue(Promise.resolve({ id: GUID, ...DEFAULT_SETTINGS }));
-    updateSettingsSpy = spyOn(
-      discussionsModule,
-      "updateSettingV2"
-    ).and.returnValue(Promise.resolve({ id: GUID, ...DEFAULT_SETTINGS }));
-  });
+  let createOrUpdateEntitySettingsSpy: jasmine.Spy;
   describe("create content:", () => {
     it("converts to a model and creates the item", async () => {
       const createSpy = spyOn(modelUtils, "createModel").and.callFake(
@@ -68,8 +47,21 @@ describe("content editing:", () => {
           return Promise.resolve(newModel);
         }
       );
+      createOrUpdateEntitySettingsSpy = spyOn(
+        createOrUpdateEntitySettingsUtils,
+        "createOrUpdateEntitySettings"
+      ).and.returnValue(
+        Promise.resolve({
+          id: GUID,
+          ...DEFAULT_SETTINGS,
+        })
+      );
       const chk = await createContent(
-        { name: "Hello World", orgUrlKey: "dcdev" },
+        {
+          name: "Hello World",
+          orgUrlKey: "dcdev",
+          type: "Web Map",
+        },
         {
           ...MOCK_HUB_REQOPTS,
           authentication: myMockAuth,
@@ -84,6 +76,7 @@ describe("content editing:", () => {
       expect(modelToCreate.item.title).toBe("Hello World");
       // expect(modelToCreate.item.type).toBe("Hub Content");
       expect(modelToCreate.item.properties.orgUrlKey).toBe("dcdev");
+      expect(createOrUpdateEntitySettingsSpy.calls.count()).toBe(1);
     });
   });
   describe("update content:", () => {
@@ -91,6 +84,7 @@ describe("content editing:", () => {
     let getServiceSpy: jasmine.Spy;
     let updateModelSpy: jasmine.Spy;
     let updateServiceSpy: jasmine.Spy;
+    let createOrUpdateEntitySettingsSpy: jasmine.Spy;
 
     beforeEach(() => {
       getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
@@ -112,14 +106,22 @@ describe("content editing:", () => {
       ).and.callFake((_url: string, opts: any) =>
         Promise.resolve(opts.updateDefinition)
       );
+      createOrUpdateEntitySettingsSpy = spyOn(
+        createOrUpdateEntitySettingsUtils,
+        "createOrUpdateEntitySettings"
+      ).and.returnValue(
+        Promise.resolve({
+          id: GUID,
+          ...DEFAULT_SETTINGS,
+        })
+      );
     });
     afterEach(() => {
       getItemSpy.calls.reset();
       getServiceSpy.calls.reset();
       updateModelSpy.calls.reset();
       updateServiceSpy.calls.reset();
-      createSettingsSpy.calls.reset();
-      updateSettingsSpy.calls.reset();
+      createOrUpdateEntitySettingsSpy.calls.reset();
     });
     it("converts to a model and updates the item", async () => {
       const content: IHubEditableContent = {
@@ -159,6 +161,7 @@ describe("content editing:", () => {
       // No service is associated with Hub Initiatives
       expect(getServiceSpy).not.toHaveBeenCalled();
       expect(updateServiceSpy).not.toHaveBeenCalled();
+      expect(createOrUpdateEntitySettingsSpy.calls.count()).toBe(1);
     });
     it("handles when a location is explicitly set", async () => {
       const content: IHubEditableContent = {
@@ -199,64 +202,6 @@ describe("content editing:", () => {
       // No service is associated with Hub Initiatives
       expect(getServiceSpy).not.toHaveBeenCalled();
       expect(updateServiceSpy).not.toHaveBeenCalled();
-    });
-    it("processes locations and handles error if thrown", async () => {
-      const content: IHubEditableContent = {
-        itemControl: "edit",
-        id: GUID,
-        name: "Hello World",
-        tags: ["Transportation"],
-        description: "Some longer description",
-        slug: "dcdev-wat-blarg",
-        orgUrlKey: "dcdev",
-        owner: "dcdev_dude",
-        type: "Hub Initiative",
-        createdDate: new Date(1595878748000),
-        createdDateSource: "item.created",
-        updatedDate: new Date(1595878750000),
-        updatedDateSource: "item.modified",
-        thumbnailUrl: "",
-        permissions: [],
-        schemaVersion: 1,
-        canEdit: false,
-        canDelete: false,
-        licenseInfo: "",
-        schedule: { mode: "automatic" },
-        entitySettingsId: "mock entity settings id",
-        location: {
-          type: "custom",
-          geometries: [geometry],
-        },
-        discussionSettings: {
-          allowedChannelIds: ["c1"],
-          allowedLocations: [geometryTransformed],
-        },
-      };
-      const arcgisToGeoJSONSpy = spyOn(
-        terraformer,
-        "arcgisToGeoJSON"
-      ).and.throwError("error message");
-      updateSettingsSpy.and.returnValue(
-        Promise.resolve({
-          id: GUID,
-          ...DEFAULT_SETTINGS,
-        })
-      );
-      const chk = await updateContent(content, {
-        ...MOCK_HUB_REQOPTS,
-        portal: "https://not-portal.com",
-        authentication: myMockAuth,
-      });
-
-      expect(chk.id).toBe(GUID);
-      expect(updateModelSpy.calls.count()).toBe(1);
-      expect(updateSettingsSpy.calls.count()).toBe(1);
-      expect(arcgisToGeoJSONSpy.calls.count()).toBe(1);
-      const settingsToUpdate = updateSettingsSpy.calls.argsFor(0)[0];
-      expect(
-        settingsToUpdate.data.settings.discussions.allowedLocations
-      ).toEqual(null);
-      expect(consoleWarnSpy.calls.count()).toBe(1);
     });
     it("doesn't update the hosted service if configurations haven't changed", async () => {
       const currentDefinition: Partial<featureLayerModule.IFeatureServiceDefinition> =
@@ -435,27 +380,9 @@ describe("content editing:", () => {
         licenseInfo: "",
         schedule: { mode: "automatic" },
       };
-      const auth = {
-        ...MOCK_HUB_REQOPTS,
-        authentication: myMockAuth,
-      };
       const chk = await updateContent(content, {
         ...MOCK_HUB_REQOPTS,
         authentication: myMockAuth,
-      });
-      expect(createSettingsSpy).toHaveBeenCalledTimes(1);
-      expect(createSettingsSpy).toHaveBeenCalledWith({
-        data: {
-          id: GUID,
-          type: discussionsModule.EntitySettingType.CONTENT,
-          settings: {
-            discussions: {
-              allowedChannelIds: null,
-              allowedLocations: null,
-            },
-          },
-        },
-        ...auth,
       });
       expect(chk.entitySettingsId).toBe(GUID);
       expect(chk.discussionSettings).toEqual(
@@ -491,7 +418,7 @@ describe("content editing:", () => {
         },
         discussionSettings: {
           allowedChannelIds: ["c1"],
-          allowedLocations: [geometryTransformed],
+          allowedLocations: null,
         },
       };
       const chk = await updateContent(content, {
@@ -499,10 +426,10 @@ describe("content editing:", () => {
         authentication: myMockAuth,
       });
       expect(chk.entitySettingsId).toBe(GUID);
-      expect(updateSettingsSpy).toHaveBeenCalledTimes(1);
       expect(chk.discussionSettings).toEqual(
         DEFAULT_SETTINGS.settings?.discussions
       );
+      expect(createOrUpdateEntitySettingsSpy.calls.count()).toBe(1);
     });
   });
   describe("delete content", () => {

@@ -275,7 +275,6 @@ export async function createSite(
     setProp("layout.header.component.settings.title", site.name, site);
   }
 
-  // TODO: do we still need this?
   site.typeKeywords = setDiscussableKeyword(
     site.typeKeywords,
     site.isDiscussable

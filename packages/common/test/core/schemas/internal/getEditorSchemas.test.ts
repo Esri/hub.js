@@ -26,7 +26,6 @@ import { SiteEditorTypes } from "../../../../src/sites/_internal/SiteSchema";
 import * as SiteBuildEditUiSchema from "../../../../src/sites/_internal/SiteUiSchemaEdit";
 import * as SiteBuildCreateUiSchema from "../../../../src/sites/_internal/SiteUiSchemaCreate";
 import * as SiteBuildFollowersUiSchema from "../../../../src/sites/_internal/SiteUiSchemaFollowers";
-import * as SiteBuildDiscussionsUiSchema from "../../../../src/sites/_internal/SiteUiSchemaDiscussions";
 import * as SiteBuildTelemetryUiSchema from "../../../../src/sites/_internal/SiteUiSchemaSettings";
 import * as SiteBuildAssistantUiSchema from "../../../../src/sites/_internal/SiteUiSchemaAssistant";
 
@@ -104,10 +103,9 @@ describe("getEditorSchemas: ", () => {
     { type: SiteEditorTypes[0], module: SiteBuildEditUiSchema },
     { type: SiteEditorTypes[1], module: SiteBuildCreateUiSchema },
     { type: SiteEditorTypes[2], module: SiteBuildFollowersUiSchema },
-    { type: SiteEditorTypes[3], module: SiteBuildDiscussionsUiSchema },
-    { type: SiteEditorTypes[4], module: SiteBuildTelemetryUiSchema },
-    { type: SiteEditorTypes[5], module: SiteBuildAssistantUiSchema },
-    { type: SiteEditorTypes[6], module: EntityBuildDiscussionSettingsUiSchema },
+    { type: SiteEditorTypes[3], module: SiteBuildTelemetryUiSchema },
+    { type: SiteEditorTypes[4], module: SiteBuildAssistantUiSchema },
+    { type: SiteEditorTypes[5], module: EntityBuildDiscussionSettingsUiSchema },
 
     {
       type: InitiativeTemplateEditorTypes[0],

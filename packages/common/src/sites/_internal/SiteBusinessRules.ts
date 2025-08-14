@@ -43,7 +43,6 @@ export const SitePermissions = [
   "hub:site:workspace:followers:member",
   "hub:site:workspace:followers:manager",
   "hub:site:workspace:followers:create",
-  "hub:site:workspace:discussion", // TODO: remove once we remove the discussion pane
   "hub:site:workspace:pages",
   "hub:site:workspace:events",
   "hub:site:workspace:projects",
@@ -226,11 +225,6 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:site:workspace:followers:create",
     dependencies: ["hub:site:workspace:followers", "hub:group:create"],
     privileges: ["portal:user:addExternalMembersToGroup"],
-  },
-  {
-    permission: "hub:site:workspace:discussion",
-    services: ["discussions"],
-    dependencies: ["hub:site:workspace", "hub:site:edit"],
   },
   {
     permission: "hub:site:workspace:projects",

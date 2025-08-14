@@ -69,8 +69,6 @@ export async function getEditorSchemas(
           import("../../../sites/_internal/SiteUiSchemaCreate"),
         "hub:site:followers": () =>
           import("../../../sites/_internal/SiteUiSchemaFollowers"),
-        "hub:site:discussions": () =>
-          import("../../../sites/_internal/SiteUiSchemaDiscussions"),
         "hub:site:settings": () =>
           import("../../../sites/_internal/SiteUiSchemaSettings"),
         "hub:site:assistant": () =>
