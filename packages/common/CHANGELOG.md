@@ -1,3 +1,10 @@
+# @esri/hub-common [19.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.1.3...@esri/hub-common@19.2.0) (2025-08-14)
+
+
+### Features
+
+* **hub-common:** add events catalog permissions for discussions ([#1969](https://github.com/Esri/hub.js/issues/1969)) ([e63fcde](https://github.com/Esri/hub.js/commit/e63fcde4744efaab48c5b33a0df0573fbf855d92))
+
 ## @esri/hub-common [19.1.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.1.2...@esri/hub-common@19.1.3) (2025-08-12)
 
 
