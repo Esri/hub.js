@@ -1,3 +1,10 @@
+## @esri/hub-common [19.3.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.3.0...@esri/hub-common@19.3.1) (2025-08-14)
+
+
+### Bug Fixes
+
+* url key not present breaks enterprise ([#1970](https://github.com/Esri/hub.js/issues/1970)) ([68485f2](https://github.com/Esri/hub.js/commit/68485f25449406a9804b57c797eb7695bb899a16))
+
 # @esri/hub-common [19.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.2.0...@esri/hub-common@19.3.0) (2025-08-14)
 
 
