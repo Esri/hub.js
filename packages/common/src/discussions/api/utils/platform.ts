@@ -3,11 +3,15 @@ import { IDiscussionsUser } from "../types";
 
 type Privilege =
   | "portal:admin:deleteItems"
+  | "portal:admin:deleteGroups"
   | "portal:admin:shareToOrg"
   | "portal:admin:shareToPublic"
   | "portal:admin:updateItems"
+  | "portal:admin:updateGroups"
   | "portal:admin:viewItems"
+  | "portal:admin:viewGroups"
   | "portal:user:createItem"
+  | "portal:user:createGroup"
   | "portal:user:shareToGroup"
   | "portal:user:shareToOrg"
   | "portal:user:shareToPublic"
