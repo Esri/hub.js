@@ -39,22 +39,5 @@ export const getSiteSchema = (siteId: string) =>
           },
         },
       },
-      discussionSettings: {
-        type: "object",
-        properties: {
-          allowedChannelIds: {
-            type: "array",
-            items: {
-              type: "string",
-            },
-          },
-          allowedLocations: {
-            type: "array",
-            items: {
-              type: "object",
-            },
-          },
-        },
-      },
     },
   } as IAsyncConfigurationSchema);
