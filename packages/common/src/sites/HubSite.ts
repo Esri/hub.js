@@ -44,7 +44,13 @@ import { cloneObject } from "../util";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 
-import { IHubSiteEditor, IModel, setProp, SettableAccessLevel } from "../index";
+import {
+  getWithDefault,
+  IHubSiteEditor,
+  IModel,
+  setProp,
+  SettableAccessLevel,
+} from "../index";
 import { isDiscussable } from "../discussions/utils";
 import { SiteEditorType } from "./_internal/SiteSchema";
 import { getEditorSlug } from "../core/_internal/getEditorSlug";
@@ -159,7 +165,12 @@ export class HubSite
   ): IHubSite {
     // ensure we have the orgUrlKey
     if (!partialSite.orgUrlKey) {
-      partialSite.orgUrlKey = context.portal.urlKey as string;
+      // if we're in enterprise, there is no portalUrlKey
+      partialSite.orgUrlKey = getWithDefault(
+        context,
+        "portal.urlKey",
+        ""
+      ) as string;
     }
     // ensure lower case
     partialSite.orgUrlKey = partialSite.orgUrlKey.toLowerCase();
