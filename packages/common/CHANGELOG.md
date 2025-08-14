@@ -1,3 +1,10 @@
+# @esri/hub-common [19.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.2.0...@esri/hub-common@19.3.0) (2025-08-14)
+
+
+### Features
+
+* **hub-common:** add group to EntitySettingType enum ([#1964](https://github.com/Esri/hub.js/issues/1964)) ([7e13e6d](https://github.com/Esri/hub.js/commit/7e13e6dab7af5ac62ee5996648301892b5d9efe8))
+
 # @esri/hub-common [19.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.1.3...@esri/hub-common@19.2.0) (2025-08-14)
 
 
