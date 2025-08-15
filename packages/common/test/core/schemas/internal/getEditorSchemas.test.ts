@@ -34,6 +34,7 @@ import * as DiscussionBuildEditUiSchema from "../../../../src/discussions/_inter
 import * as DiscussionBuildCreateUiSchema from "../../../../src/discussions/_internal/DiscussionUiSchemaCreate";
 import * as DiscussionBuildSettingsUiSchema from "../../../../src/discussions/_internal/DiscussionUiSchemaSettings";
 import * as EntityBuildDiscussionSettingsUiSchema from "../../../../src/core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettings";
+import * as EntityUiSchemaDiscussionsSettingsCompact from "../../../../src/core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettingsCompact";
 
 import { ChannelEditorTypes } from "../../../../src/channels/_internal/ChannelSchema";
 import * as ChannelBuildEditUiSchema from "../../../../src/channels/_internal/ChannelUiSchemaEdit";
@@ -129,6 +130,10 @@ describe("getEditorSchemas: ", () => {
     {
       type: ContentEditorTypes[2],
       module: EntityBuildDiscussionSettingsUiSchema,
+    },
+    {
+      type: ContentEditorTypes[3],
+      module: EntityUiSchemaDiscussionsSettingsCompact,
     },
 
     { type: PageEditorTypes[0], module: PageBuildEditUiSchema },

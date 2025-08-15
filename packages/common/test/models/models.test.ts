@@ -344,6 +344,20 @@ describe("model utils:", () => {
       );
       expect(chk.item).toEqual({ id: "3ef" } as portalModule.IItem);
       expect(chk.data).toEqual({ data: "values" });
+      expect(getItemDataSpy.calls.count()).toBe(1);
+    });
+    it("returns null if no item", async () => {
+      const getItemDataSpy = spyOn(portalModule, "getItemData").and.returnValue(
+        Promise.reject("no item")
+      );
+      const chk = await fetchModelFromItem(
+        { id: "3ef" } as portalModule.IItem,
+        {
+          authentication: MOCK_AUTH,
+        }
+      );
+      expect(chk.data).toBeNull();
+      expect(getItemDataSpy.calls.count()).toBe(1);
     });
   });
 
