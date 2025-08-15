@@ -75,7 +75,7 @@ describe("fetchHubEntity:", () => {
   });
   it("fetches content", async () => {
     const ctx = {
-      requestOptions: "fakeRequestOptions",
+      hubRequestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
     const spy = spyOn(
       require("../../src/content/fetchHubContent"),

@@ -52,13 +52,13 @@ export class HubContent
       // update it
       this.entity = await updateContent(
         this.entity,
-        this.context.userRequestOptions
+        this.context.hubRequestOptions
       );
     } else {
       // create it
       this.entity = await createContent(
         this.entity,
-        this.context.userRequestOptions
+        this.context.hubRequestOptions
       );
     }
     // call the after save hook on superclass
@@ -87,7 +87,7 @@ export class HubContent
     this.isDestroyed = true;
     const { deleteContent } = await import("./edit");
     // Delegate to module fn
-    await deleteContent(this.entity.id, this.context.userRequestOptions);
+    await deleteContent(this.entity.id, this.context.hubRequestOptions);
   }
 
   /*

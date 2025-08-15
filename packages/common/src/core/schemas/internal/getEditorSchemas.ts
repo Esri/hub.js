@@ -69,12 +69,14 @@ export async function getEditorSchemas(
           import("../../../sites/_internal/SiteUiSchemaCreate"),
         "hub:site:followers": () =>
           import("../../../sites/_internal/SiteUiSchemaFollowers"),
-        "hub:site:discussions": () =>
-          import("../../../sites/_internal/SiteUiSchemaDiscussions"),
         "hub:site:settings": () =>
           import("../../../sites/_internal/SiteUiSchemaSettings"),
         "hub:site:assistant": () =>
           import("../../../sites/_internal/SiteUiSchemaAssistant"),
+        "hub:site:settings:discussions": () =>
+          import(
+            "../../../core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettings"
+          ),
       }[type as SiteEditorType]();
       uiSchema = await siteModule.buildUiSchema(
         i18nScope,
@@ -280,10 +282,16 @@ export async function getEditorSchemas(
       const contentModule: IEntityEditorModuleType = await {
         "hub:content:edit": () =>
           import("../../../content/_internal/ContentUiSchemaEdit"),
-        "hub:content:discussions": () =>
-          import("../../../content/_internal/ContentUiSchemaDiscussions"),
         "hub:content:settings": () =>
           import("../../../content/_internal/ContentUiSchemaSettings"),
+        "hub:content:settings:discussions": () =>
+          import(
+            "../../../core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettings"
+          ),
+        "hub:content:settings:discussions:compact": () =>
+          import(
+            "../../../core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettingsCompact"
+          ),
       }[type as ContentEditorType]();
       uiSchema = await contentModule.buildUiSchema(
         i18nScope,

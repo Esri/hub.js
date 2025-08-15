@@ -183,7 +183,7 @@ describe("discussions fetch:", () => {
       const fetchSettingsSpy = spyOn(
         settingUtils,
         "fetchSettingV2"
-      ).and.throwError("none found");
+      ).and.returnValue(Promise.reject(new Error("none found")));
       const getDefaultEntitySettingsSpy = spyOn(
         getDefaultEntitySettingsUtils,
         "getDefaultEntitySettings"

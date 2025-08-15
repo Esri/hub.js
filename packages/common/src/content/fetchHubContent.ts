@@ -1,11 +1,19 @@
-import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { EditableContentEnrichment } from "../items/_enrichments";
+import {
+  EditableContentEnrichment,
+  IHubEditableContentEnrichments,
+} from "../items/_enrichments";
 import { IHubEditableContent } from "../core/types/IHubEditableContent";
 import { fetchContent, IFetchContentOptions } from "./fetchContent";
 import { fetchEditableContentEnrichments } from "./_internal/fetchEditableContentEnrichments";
 import { normalizeItemType } from "./compose";
 import { setProp } from "../objects/set-prop";
 import { modelToHubEditableContent } from "./modelToHubEditableContent";
+import { fetchSettingV2 } from "../discussions/api/settings/settings";
+import { getDefaultEntitySettings } from "../discussions/api/settings/getDefaultEntitySettings";
+import { IHubRequestOptions } from "../hub-types";
+import { fetchModelFromItem } from "../models";
+import { IItem } from "@esri/arcgis-rest-portal";
+import { IEntitySetting } from "../discussions/api/types";
 
 /**
  * fetch a content entity by identifier
@@ -15,7 +23,7 @@ import { modelToHubEditableContent } from "./modelToHubEditableContent";
  */
 export const fetchHubContent = async (
   identifier: string,
-  requestOptions: IRequestOptions,
+  requestOptions: IHubRequestOptions,
   enrichments?: EditableContentEnrichment[]
 ): Promise<IHubEditableContent> => {
   // NOTE: b/c we have to support slugs, we use fetchContent() to get the item
@@ -39,9 +47,34 @@ export const fetchHubContent = async (
   const type = normalizeItemType(item);
   setProp("type", type, item);
 
-  return modelToHubEditableContent(
-    { item },
+  return convertItemToContent(item, requestOptions, editableContentEnrichments);
+};
+
+/**
+ * Convert an Item to an editable Hub Content object,
+ * fetch any additional information that may be required
+ */
+export const convertItemToContent = async (
+  item: IItem,
+  requestOptions: IHubRequestOptions,
+  enrichments?: IHubEditableContentEnrichments
+): Promise<IHubEditableContent> => {
+  const [model, entitySettings] = await Promise.all([
+    fetchModelFromItem(item, requestOptions),
+    fetchSettingV2({ id: item.id, ...requestOptions }).catch(
+      () =>
+        ({
+          id: null,
+          ...getDefaultEntitySettings("content"),
+        } as IEntitySetting)
+    ),
+  ]);
+  model.entitySettings = entitySettings;
+  const content: Partial<IHubEditableContent> = modelToHubEditableContent(
+    model,
     requestOptions,
-    editableContentEnrichments
+    enrichments
   );
+
+  return content as IHubEditableContent;
 };

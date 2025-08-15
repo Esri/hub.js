@@ -1,6 +1,7 @@
 import * as fetchContentModule from "../../src/content/fetchContent";
 import * as fetchEditableContentEnrichmentsModule from "../../src/content/_internal/fetchEditableContentEnrichments";
 import {
+  DISCUSSION_SETTINGS,
   HOSTED_FEATURE_SERVICE_DEFINITION,
   HOSTED_FEATURE_SERVICE_GUID,
   HOSTED_FEATURE_SERVICE_ITEM,
@@ -9,18 +10,24 @@ import {
 } from "./fixtures";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import { fetchHubContent } from "../../src/content/fetchHubContent";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IServiceExtendedProps } from "../../src";
+import { IHubRequestOptions, IServiceExtendedProps } from "../../src";
+import * as modelsModule from "../../src/models";
+import * as fetchSettingsModule from "../../src/discussions/api/settings/settings";
 
 describe("fetchHubContent", () => {
   let fetchContentSpy: jasmine.Spy;
   let fetchEditableContentEnrichmentsSpy: jasmine.Spy;
+  let fetchModelFromItemSpy: jasmine.Spy;
+  let fetchSettingsSpy: jasmine.Spy;
+
   beforeEach(() => {
     fetchContentSpy = spyOn(fetchContentModule, "fetchContent");
     fetchEditableContentEnrichmentsSpy = spyOn(
       fetchEditableContentEnrichmentsModule,
       "fetchEditableContentEnrichments"
     );
+    fetchModelFromItemSpy = spyOn(modelsModule, "fetchModelFromItem");
+    fetchSettingsSpy = spyOn(fetchSettingsModule, "fetchSettingV2");
   });
 
   it("gets feature service content", async () => {
@@ -31,11 +38,24 @@ describe("fetchHubContent", () => {
       metadata: null,
       server: HOSTED_FEATURE_SERVICE_DEFINITION,
     });
-
+    fetchModelFromItemSpy.and.returnValue(
+      Promise.resolve(
+        Promise.resolve({
+          item: HOSTED_FEATURE_SERVICE_ITEM,
+          data: { values: {} },
+        })
+      )
+    );
+    fetchSettingsSpy.and.returnValue(
+      Promise.resolve({
+        id: HOSTED_FEATURE_SERVICE_GUID,
+        ...DISCUSSION_SETTINGS,
+      })
+    );
     const requestOptions = {
       portal: MOCK_AUTH.portal,
       authentication: MOCK_AUTH,
-    } as IRequestOptions;
+    } as IHubRequestOptions;
 
     const chk = await fetchHubContent(
       HOSTED_FEATURE_SERVICE_GUID,
@@ -58,13 +78,29 @@ describe("fetchHubContent", () => {
       requestOptions,
       undefined
     );
+    expect(fetchModelFromItemSpy).toHaveBeenCalledTimes(1);
+    expect(fetchSettingsSpy).toHaveBeenCalledTimes(1);
   });
 
   it("gets non-service content", async () => {
     fetchContentSpy.and.returnValue(Promise.resolve({ item: PDF_ITEM }));
     fetchEditableContentEnrichmentsSpy.and.returnValue({ metadata: null });
+    fetchModelFromItemSpy.and.returnValue(
+      Promise.resolve(
+        Promise.resolve({
+          item: PDF_ITEM,
+          data: { values: {} },
+        })
+      )
+    );
+    fetchSettingsSpy.and.returnValue(
+      Promise.resolve({
+        id: PDF_GUID,
+        ...DISCUSSION_SETTINGS,
+      })
+    );
 
-    const requestOptions = { authentication: MOCK_AUTH } as IRequestOptions;
+    const requestOptions = { authentication: MOCK_AUTH } as IHubRequestOptions;
     const chk = await fetchHubContent(PDF_GUID, requestOptions);
     expect(chk.id).toBe(PDF_GUID);
     expect(chk.owner).toBe(PDF_ITEM.owner);
@@ -87,11 +123,25 @@ describe("fetchHubContent", () => {
     fetchEditableContentEnrichmentsSpy.and.returnValue({
       metadata: { metadata: "value" },
     });
+    fetchModelFromItemSpy.and.returnValue(
+      Promise.resolve(
+        Promise.resolve({
+          item: HOSTED_FEATURE_SERVICE_ITEM,
+          data: { values: {} },
+        })
+      )
+    );
+    fetchSettingsSpy.and.returnValue(
+      Promise.resolve({
+        id: HOSTED_FEATURE_SERVICE_GUID,
+        ...DISCUSSION_SETTINGS,
+      })
+    );
 
     const requestOptions = {
       portal: MOCK_AUTH.portal,
       authentication: MOCK_AUTH,
-    } as IRequestOptions;
+    } as IHubRequestOptions;
 
     const chk = await fetchHubContent(
       HOSTED_FEATURE_SERVICE_GUID,
@@ -128,6 +178,58 @@ describe("fetchHubContent", () => {
       })
     );
     fetchEditableContentEnrichmentsSpy.and.returnValue({ metadata: null });
+    fetchModelFromItemSpy.and.returnValue(
+      Promise.resolve(
+        Promise.resolve({
+          item: {
+            id: "ae3",
+            type: "Hub Site Application",
+            typeKeywords: ["hubSite"],
+          },
+          data: { values: {} },
+        })
+      )
+    );
+    fetchSettingsSpy.and.returnValue(
+      Promise.resolve({
+        id: "ae3",
+        ...DISCUSSION_SETTINGS,
+      })
+    );
+
+    const chk = await fetchHubContent("ae3", {
+      authentication: MOCK_AUTH,
+    });
+
+    expect(chk.type).toBe("Hub Site Application");
+  });
+
+  it("uses default settings if fetchSettings fails", async () => {
+    fetchContentSpy.and.returnValue(
+      Promise.resolve({
+        item: {
+          id: "ae3",
+          type: "Web Mapping Application",
+          typeKeywords: ["hubSite"],
+        },
+      })
+    );
+    fetchEditableContentEnrichmentsSpy.and.returnValue({ metadata: null });
+    fetchModelFromItemSpy.and.returnValue(
+      Promise.resolve(
+        Promise.resolve({
+          item: {
+            id: "ae3",
+            type: "Hub Site Application",
+            typeKeywords: ["hubSite"],
+          },
+          data: { values: {} },
+        })
+      )
+    );
+    fetchSettingsSpy.and.returnValue(
+      Promise.reject(new Error("Failed to fetch settings"))
+    );
 
     const chk = await fetchHubContent("ae3", {
       authentication: MOCK_AUTH,

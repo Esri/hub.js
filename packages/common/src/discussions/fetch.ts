@@ -9,6 +9,7 @@ import { getDefaultEntitySettings } from "./api/settings/getDefaultEntitySetting
 import { IHubRequestOptions, IModel } from "../hub-types";
 import { isGuid } from "../utils/is-guid";
 import { fetchSettingV2 } from "./api/settings/settings";
+import { IEntitySetting } from "./api/types";
 
 /**
  * @private
@@ -46,17 +47,16 @@ export async function convertItemToDiscussion(
   item: IItem,
   requestOptions: IHubRequestOptions
 ): Promise<IHubDiscussion> {
-  const model = await fetchModelFromItem(item, requestOptions);
-  let entitySettings;
-  try {
-    entitySettings = await fetchSettingV2({ id: item.id, ...requestOptions });
-  } catch (e) {
-    const defaultSettings = getDefaultEntitySettings("discussion");
-    entitySettings = {
-      id: null,
-      ...defaultSettings,
-    };
-  }
+  const [model, entitySettings] = await Promise.all([
+    fetchModelFromItem(item, requestOptions),
+    fetchSettingV2({ id: item.id, ...requestOptions }).catch(
+      () =>
+        ({
+          id: null,
+          ...getDefaultEntitySettings("discussion"),
+        } as IEntitySetting)
+    ),
+  ]);
   model.entitySettings = entitySettings;
   const mapper = new PropertyMapper<Partial<IHubDiscussion>, IModel>(
     getPropertyMap()

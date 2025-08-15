@@ -26,7 +26,6 @@ import { SiteEditorTypes } from "../../../../src/sites/_internal/SiteSchema";
 import * as SiteBuildEditUiSchema from "../../../../src/sites/_internal/SiteUiSchemaEdit";
 import * as SiteBuildCreateUiSchema from "../../../../src/sites/_internal/SiteUiSchemaCreate";
 import * as SiteBuildFollowersUiSchema from "../../../../src/sites/_internal/SiteUiSchemaFollowers";
-import * as SiteBuildDiscussionsUiSchema from "../../../../src/sites/_internal/SiteUiSchemaDiscussions";
 import * as SiteBuildTelemetryUiSchema from "../../../../src/sites/_internal/SiteUiSchemaSettings";
 import * as SiteBuildAssistantUiSchema from "../../../../src/sites/_internal/SiteUiSchemaAssistant";
 
@@ -35,6 +34,7 @@ import * as DiscussionBuildEditUiSchema from "../../../../src/discussions/_inter
 import * as DiscussionBuildCreateUiSchema from "../../../../src/discussions/_internal/DiscussionUiSchemaCreate";
 import * as DiscussionBuildSettingsUiSchema from "../../../../src/discussions/_internal/DiscussionUiSchemaSettings";
 import * as EntityBuildDiscussionSettingsUiSchema from "../../../../src/core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettings";
+import * as EntityUiSchemaDiscussionsSettingsCompact from "../../../../src/core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettingsCompact";
 
 import { ChannelEditorTypes } from "../../../../src/channels/_internal/ChannelSchema";
 import * as ChannelBuildEditUiSchema from "../../../../src/channels/_internal/ChannelUiSchemaEdit";
@@ -43,7 +43,6 @@ import * as ChannelBuildCreateUiSchema from "../../../../src/channels/_internal/
 import { ContentEditorTypes } from "../../../../src/content/_internal/ContentSchema";
 import * as ContentBuildEditUiSchema from "../../../../src/content/_internal/ContentUiSchemaEdit";
 import * as ContentBuildSettingsUiSchema from "../../../../src/content/_internal/ContentUiSchemaSettings";
-import * as ContentBuildDiscussionsUiSchema from "../../../../src/content/_internal/ContentUiSchemaDiscussions";
 
 import { PageEditorTypes } from "../../../../src/pages/_internal/PageSchema";
 import * as PageBuildEditUiSchema from "../../../../src/pages/_internal/PageUiSchemaEdit";
@@ -105,9 +104,18 @@ describe("getEditorSchemas: ", () => {
     { type: SiteEditorTypes[0], module: SiteBuildEditUiSchema },
     { type: SiteEditorTypes[1], module: SiteBuildCreateUiSchema },
     { type: SiteEditorTypes[2], module: SiteBuildFollowersUiSchema },
-    { type: SiteEditorTypes[3], module: SiteBuildDiscussionsUiSchema },
-    { type: SiteEditorTypes[4], module: SiteBuildTelemetryUiSchema },
-    { type: SiteEditorTypes[5], module: SiteBuildAssistantUiSchema },
+    { type: SiteEditorTypes[3], module: SiteBuildTelemetryUiSchema },
+    { type: SiteEditorTypes[4], module: SiteBuildAssistantUiSchema },
+    { type: SiteEditorTypes[5], module: EntityBuildDiscussionSettingsUiSchema },
+
+    {
+      type: InitiativeTemplateEditorTypes[0],
+      module: InitiativeTemplateBuildEditUiSchema,
+    },
+
+    { type: DiscussionEditorTypes[0], module: DiscussionBuildEditUiSchema },
+    { type: DiscussionEditorTypes[1], module: DiscussionBuildCreateUiSchema },
+    { type: DiscussionEditorTypes[2], module: DiscussionBuildSettingsUiSchema },
 
     { type: DiscussionEditorTypes[0], module: DiscussionBuildEditUiSchema },
     { type: DiscussionEditorTypes[1], module: DiscussionBuildCreateUiSchema },
@@ -119,7 +127,14 @@ describe("getEditorSchemas: ", () => {
 
     { type: ContentEditorTypes[0], module: ContentBuildEditUiSchema },
     { type: ContentEditorTypes[1], module: ContentBuildSettingsUiSchema },
-    { type: ContentEditorTypes[2], module: ContentBuildDiscussionsUiSchema },
+    {
+      type: ContentEditorTypes[2],
+      module: EntityBuildDiscussionSettingsUiSchema,
+    },
+    {
+      type: ContentEditorTypes[3],
+      module: EntityUiSchemaDiscussionsSettingsCompact,
+    },
 
     { type: PageEditorTypes[0], module: PageBuildEditUiSchema },
     { type: PageEditorTypes[1], module: PageBuildCreateUiSchema },
@@ -134,6 +149,7 @@ describe("getEditorSchemas: ", () => {
     { type: GroupEditorTypes[5], module: GroupBuildCreateViewUiSchema },
     { type: GroupEditorTypes[6], module: GroupBuildCreateEditUiSchema },
     { type: GroupEditorTypes[7], module: GroupBuildCreateUiSchema },
+
     { type: ChannelEditorTypes[0], module: ChannelBuildCreateUiSchema },
     { type: ChannelEditorTypes[1], module: ChannelBuildEditUiSchema },
 

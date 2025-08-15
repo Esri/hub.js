@@ -211,4 +211,37 @@ describe("EntityUiSchemaDiscussionsSettings", () => {
       ],
     });
   });
+  it("should render the correct tile select layout for default variant", async () => {
+    const entity: IHubDiscussion = { id: "31c" } as unknown as IHubDiscussion;
+    const context: IArcGISContext = {
+      hubLicense: "hub-premium",
+      currentUser: {
+        groups: [
+          { id: "42b", title: "Group 1" },
+          { id: "53a", title: "Group 2" },
+        ],
+      },
+    } as unknown as IArcGISContext;
+    const results = await buildUiSchema("myI18nScope", entity, context);
+    expect(results.elements[0].elements[0].options.layout).toBe("horizontal");
+  });
+  it("should build correct tile select layout for a compact variant", async () => {
+    const entity: IHubDiscussion = { id: "31c" } as unknown as IHubDiscussion;
+    const context: IArcGISContext = {
+      hubLicense: "hub-premium",
+      currentUser: {
+        groups: [
+          { id: "42b", title: "Group 1" },
+          { id: "53a", title: "Group 2" },
+        ],
+      },
+    } as unknown as IArcGISContext;
+    const results = await buildUiSchema(
+      "myI18nScope",
+      entity,
+      context,
+      "compact"
+    );
+    expect(results.elements[0].elements[0].options.layout).toBe("vertical");
+  });
 });

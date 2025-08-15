@@ -22,7 +22,7 @@ import {
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { cloneObject } from "../util";
-import { IModel } from "../hub-types";
+import { IHubRequestOptions, IModel } from "../hub-types";
 import { setDiscussableKeyword } from "../discussions";
 import { modelToHubEditableContent } from "./modelToHubEditableContent";
 import {
@@ -47,6 +47,7 @@ import { deepEqual, getProp, setProp } from "../objects";
 import { getDownloadFlow } from "../downloads/_internal/getDownloadFlow";
 import { getDownloadConfiguration } from "../downloads/getDownloadConfiguration";
 import { shouldShowDownloadsConfiguration } from "./_internal/shouldShowDownloadsConfiguration";
+import { createOrUpdateEntitySettings } from "../core/_internal/createOrUpdateEntitySettings";
 
 // TODO: move this to defaults?
 const DEFAULT_CONTENT_MODEL: IModel = {
@@ -69,7 +70,7 @@ const DEFAULT_CONTENT_MODEL: IModel = {
  */
 export async function createContent(
   partialContent: Partial<IHubEditableContent>,
-  requestOptions: IUserRequestOptions
+  requestOptions: IHubRequestOptions
 ): Promise<IHubEditableContent> {
   // let resources;
   // merge incoming with the default
@@ -97,18 +98,27 @@ export async function createContent(
   //   delete model.resources;
   // }
   // create the item
-  model = await createModel(model, requestOptions);
+  model = await createModel(model, requestOptions as IUserRequestOptions);
 
   // TODO: if we have resources, create them, then re-attach them to the model
   // if (resources) {
   //   model = await upsertModelResources(model, resources, requestOptions);
   // }
   // map the model back into a IHubEditableContent
-  const newContent = mapper.storeToEntity(model, {});
+  const newContent = mapper.storeToEntity(model, {}) as IHubEditableContent;
+
+  // create the entity settings
+  const entitySetting = await createOrUpdateEntitySettings(
+    newContent,
+    requestOptions
+  );
+  newContent.entitySettingsId = entitySetting.id;
+  newContent.discussionSettings = entitySetting.settings.discussions;
+
   // TODO:
   // newContent = computeProps(model, newContent, requestOptions);
   // and return it
-  return newContent as IHubEditableContent;
+  return newContent;
 }
 
 /**
@@ -119,7 +129,7 @@ export async function createContent(
  */
 export async function updateContent(
   content: IHubEditableContent,
-  requestOptions: IUserRequestOptions
+  requestOptions: IHubRequestOptions
 ): Promise<IHubEditableContent> {
   // Get the backing item
   // NOTE: We can't just call `getModel` because we need to be able
@@ -181,7 +191,10 @@ export async function updateContent(
   // }
 
   // update the backing item
-  const updatedModel = await updateModel(modelToUpdate, requestOptions);
+  const updatedModel = await updateModel(
+    modelToUpdate,
+    requestOptions as IUserRequestOptions
+  );
 
   // update enrichment values
   const enrichments: IItemAndIServerEnrichments = {};
@@ -223,15 +236,31 @@ export async function updateContent(
     // if schedule has "Force Update" checked and clicked save, initiate an update
     if (deepEqual(content._forceUpdate, [true])) {
       // [true]
-      await forceUpdateContent(item.id, requestOptions);
+      await forceUpdateContent(item.id, requestOptions as IUserRequestOptions);
     }
 
     delete content._forceUpdate;
 
-    await maybeUpdateSchedule(content, requestOptions);
+    await maybeUpdateSchedule(content, requestOptions as IUserRequestOptions);
   }
 
-  return modelToHubEditableContent(updatedModel, requestOptions, enrichments);
+  // map back into a content
+  const updatedContent = modelToHubEditableContent(
+    updatedModel,
+    requestOptions,
+    enrichments,
+    content
+  );
+
+  // create or update entity settings
+  const entitySetting = await createOrUpdateEntitySettings(
+    updatedContent,
+    requestOptions
+  );
+  updatedContent.entitySettingsId = entitySetting.id;
+  updatedContent.discussionSettings = entitySetting.settings.discussions;
+
+  return updatedContent;
 }
 
 /**
@@ -242,7 +271,7 @@ export async function updateContent(
  */
 export async function deleteContent(
   id: string,
-  requestOptions: IUserRequestOptions
+  requestOptions: IHubRequestOptions
 ): Promise<void> {
   const ro = { ...requestOptions, ...{ id } } as IUserItemOptions;
   await removeItem(ro);
