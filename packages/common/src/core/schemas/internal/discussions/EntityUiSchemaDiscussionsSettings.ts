@@ -12,7 +12,8 @@ import { EntityEditorOptions } from "../EditorOptions";
 export const buildUiSchema = (
   i18nScope: string,
   options: EntityEditorOptions,
-  context: IArcGISContext
+  context: IArcGISContext,
+  variant: "default" | "compact" = "default"
 ): Promise<IUiSchema> => {
   const uiSchema: IUiSchema = {
     type: "Layout",
@@ -36,7 +37,7 @@ export const buildUiSchema = (
                 `{{${i18nScope}.fields.discussable.disabled.description:translate}}`,
               ],
               icons: ["speech-bubbles", "circle-disallowed"],
-              layout: "horizontal",
+              layout: variant === "compact" ? "vertical" : "horizontal",
               styles: { "max-width": "45rem" },
               type: "radio",
             },

@@ -227,7 +227,7 @@ export async function fetchModelFromItem(
   item: IItem,
   requestOptions: IRequestOptions
 ): Promise<IModel> {
-  const data = await getItemData(item.id, requestOptions);
+  const data = await getItemData(item.id, requestOptions).catch(() => null);
   return {
     item,
     data,

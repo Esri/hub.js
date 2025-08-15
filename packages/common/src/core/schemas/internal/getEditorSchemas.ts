@@ -288,6 +288,10 @@ export async function getEditorSchemas(
           import(
             "../../../core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettings"
           ),
+        "hub:content:settings:discussions:compact": () =>
+          import(
+            "../../../core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettingsCompact"
+          ),
       }[type as ContentEditorType]();
       uiSchema = await contentModule.buildUiSchema(
         i18nScope,
