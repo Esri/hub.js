@@ -13,8 +13,7 @@
 		"packages/teams",
 		"packages/sites",
 		"packages/surveys",
-		"packages/search",
-		"./demos/*"
+		"packages/search"
 	],
 	"devDependencies": {
 		"@chiragrupani/karma-chromium-edge-launcher": "^2.0.0",
@@ -101,8 +100,8 @@
 		"build:tests": "npm run build:esm && npm run build:node",
 		"build": "npm run build:esm && npm run build:node",
 		"c": "npm run precommit && git-cz",
-		"clean:deps": "rm -rf node_modules && rm -rf packages/*/node_modules/ demos/*/node_modules/",
-		"clean:dist": "rm -rf packages/*/dist/ demos/ember-app/dist/ demos/node/dist",
+		"clean:deps": "rm -rf node_modules && rm -rf packages/*/node_modules/",
+		"clean:dist": "rm -rf packages/*/dist/",
 		"clean": "npm run clean:dist & npm run clean:deps",
 		"dev:ember": "npm run dev -- esm \"@esri/hub-common\" & lerna run dev --scope ember-app --parallel",
 		"dev": "support/dev.sh",

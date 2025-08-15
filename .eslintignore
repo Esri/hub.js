@@ -5,9 +5,8 @@ node_modules
 packages/**/dist
 packages/**/node_modules
 
-# don't lint coverage output or demos or docs
+# don't lint coverage output or docs
 coverage
-demos
 docs
 
 

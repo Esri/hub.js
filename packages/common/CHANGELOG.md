@@ -1,3 +1,31 @@
+## @esri/hub-common [19.3.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.3.0...@esri/hub-common@19.3.1) (2025-08-14)
+
+
+### Bug Fixes
+
+* url key not present breaks enterprise ([#1970](https://github.com/Esri/hub.js/issues/1970)) ([68485f2](https://github.com/Esri/hub.js/commit/68485f25449406a9804b57c797eb7695bb899a16))
+
+# @esri/hub-common [19.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.2.0...@esri/hub-common@19.3.0) (2025-08-14)
+
+
+### Features
+
+* **hub-common:** add group to EntitySettingType enum ([#1964](https://github.com/Esri/hub.js/issues/1964)) ([7e13e6d](https://github.com/Esri/hub.js/commit/7e13e6dab7af5ac62ee5996648301892b5d9efe8))
+
+# @esri/hub-common [19.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.1.3...@esri/hub-common@19.2.0) (2025-08-14)
+
+
+### Features
+
+* **hub-common:** add events catalog permissions for discussions ([#1969](https://github.com/Esri/hub.js/issues/1969)) ([e63fcde](https://github.com/Esri/hub.js/commit/e63fcde4744efaab48c5b33a0df0573fbf855d92))
+
+## @esri/hub-common [19.1.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.1.2...@esri/hub-common@19.1.3) (2025-08-12)
+
+
+### Bug Fixes
+
+* **hub-common:** page maps location property ([#1967](https://github.com/Esri/hub.js/issues/1967)) ([f1b35ef](https://github.com/Esri/hub.js/commit/f1b35ef51c39f294afad96e2888ebabea0998bac))
+
 ## @esri/hub-common [19.1.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.1.1...@esri/hub-common@19.1.2) (2025-08-08)
 
 
