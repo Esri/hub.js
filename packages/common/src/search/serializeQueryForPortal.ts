@@ -119,6 +119,7 @@ function serializePredicate(predicate: IPredicate): ISearchOptions {
     "categories",
     "categoriesAsParam",
     "categoryFilter",
+    "contentstatus",
     "description",
     "disabled",
     "email",
