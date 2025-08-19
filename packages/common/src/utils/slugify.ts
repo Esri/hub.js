@@ -1,21 +1,24 @@
 /**
- * Perform the following operations on a string to make it slug-friendly:
- * 1. trim it
- * 2. convert to lowercase
- * 3. remove any character not a-z or 0-9
- * 4. dasherize it
- * 5. remove leading and trailing dashes
- * @param {String} value String to slugify
+ * Converts a string to a slug-friendly format by:
+ * 1. Trimming leading and trailing spaces
+ * 2. Converting to lowercase
+ * 3. Removing single and double quotes
+ * 4. Replacing any character not a-z, 0-9, or hyphen with a hyphen
+ * 5. Collapsing multiple hyphens into one
+ * 6. Removing leading and trailing hyphens
+ * @param value String to slugify
+ * @returns Slugified string, or original value if not a string
  */
 export function slugify<T>(value: T): T {
   if (typeof value === "string") {
     // @ts-ignore
     return value
-      .trim()
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-") // replace runs of anything NOT a-z or 0-9 with "-"
-      .replace(/-+/g, "-") // collapse multiple "-" into one
-      .replace(/^-+|-+$/g, ""); // trim leading/trailing "-"
+      .trim() // remove leading/trailing spaces
+      .toLowerCase() // convert to lowercase
+      .replace(/['"]/g, "") // remove single and double quotes
+      .replace(/[^a-z0-9-]+/g, "-") // replace anything not a-z, 0-9, or hyphen with a hyphen
+      .replace(/-+/g, "-") // collapse multiple hyphens into one
+      .replace(/^-+|-+$/g, ""); // remove leading/trailing hyphens
   } else {
     return value;
   }

@@ -95,4 +95,24 @@ describe("slugify", function () {
     const input = "foo_bar!@#baz";
     expect(slugify(input)).toEqual("foo-bar-baz");
   });
+
+  it("removes single quotes", () => {
+    const input = "it's a test";
+    expect(slugify(input)).toEqual("its-a-test");
+  });
+
+  it("removes double quotes", () => {
+    const input = 'the "best" slug';
+    expect(slugify(input)).toEqual("the-best-slug");
+  });
+
+  it("removes both single and double quotes", () => {
+    const input = '"hello" it\'s me';
+    expect(slugify(input)).toEqual("hello-its-me");
+  });
+
+  it("removes only quotes and leaves other valid characters", () => {
+    const input = "'quoted'word";
+    expect(slugify(input)).toEqual("quotedword");
+  });
 });
