@@ -61,16 +61,6 @@ describe("slugify", function () {
     expect(slugify(input)).toEqual("hello-world");
   });
 
-  it("handles only non-alphanumeric characters", () => {
-    const input = "!!!@@@###";
-    expect(slugify(input)).toEqual("");
-  });
-
-  it("handles string with only underscores", () => {
-    const input = "___";
-    expect(slugify(input)).toEqual("");
-  });
-
   it("handles string with leading and trailing underscores", () => {
     const input = "__hello_world__";
     expect(slugify(input)).toEqual("hello-world");
@@ -114,5 +104,12 @@ describe("slugify", function () {
   it("removes only quotes and leaves other valid characters", () => {
     const input = "'quoted'word";
     expect(slugify(input)).toEqual("quotedword");
+  });
+
+  it("return an empty string if the sanitized slug is an empty string or just a hyphen", () => {
+    const toTest = ["!!!@@@###", "___", "   ", "''\"\"''", "-", "--", " - "];
+    toTest.forEach((input) => {
+      expect(slugify(input)).toEqual("");
+    });
   });
 });

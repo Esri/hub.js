@@ -22,7 +22,14 @@ export function constructSlug(title: string, orgKey = ""): string {
   // slug|qa-pre-a-hub|some-really-really-...-really-l-11
   // slug|qa-pre-a-hub|some-really-really-...-really-100
   const paddingEnd = 4;
-  return truncateSlug(slugify(title), orgKey.toLowerCase(), paddingEnd);
+  const slugified = slugify(title);
+  if (!slugified) {
+    // If slugify returns an empty string, return an empty string for the complete slug as well.
+    // This is a rather strange edge case where in the process of auto-slugging a title for a Page or Event,
+    // we end up with an invalid slug because the title did not include any valid characters for a slug [a-z0-9].
+    return "";
+  }
+  return truncateSlug(slugified, orgKey.toLowerCase(), paddingEnd);
 }
 
 /**

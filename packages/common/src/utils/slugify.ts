@@ -11,14 +11,22 @@
  */
 export function slugify<T>(value: T): T {
   if (typeof value === "string") {
-    // @ts-ignore
-    return value
+    const sanitized = value
       .trim() // remove leading/trailing spaces
       .toLowerCase() // convert to lowercase
       .replace(/['"]/g, "") // remove single and double quotes
       .replace(/[^a-z0-9-]+/g, "-") // replace anything not a-z, 0-9, or hyphen with a hyphen
       .replace(/-+/g, "-") // collapse multiple hyphens into one
       .replace(/^-+|-+$/g, ""); // remove leading/trailing hyphens
+
+    // If the title input cannot produce a valid slug, we return an empty string
+    // because we can't return something incomplete/invalid
+    if (sanitized === "" || sanitized === "-") {
+      // @ts-ignore
+      return "";
+    }
+    // @ts-ignore
+    return sanitized;
   } else {
     return value;
   }
