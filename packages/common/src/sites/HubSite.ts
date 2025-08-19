@@ -44,7 +44,13 @@ import { cloneObject } from "../util";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 
-import { IHubSiteEditor, IModel, setProp, SettableAccessLevel } from "../index";
+import {
+  getWithDefault,
+  IHubSiteEditor,
+  IModel,
+  setProp,
+  SettableAccessLevel,
+} from "../index";
 import { isDiscussable } from "../discussions/utils";
 import { SiteEditorType } from "./_internal/SiteSchema";
 import { getEditorSlug } from "../core/_internal/getEditorSlug";
@@ -146,14 +152,28 @@ export class HubSite
     }
   }
 
+  /**
+   * Ensure the Site has the baseline set of properties
+   * that are required for a HubSite.
+   * @param partialSite
+   * @param context
+   * @returns
+   */
   private static applyDefaults(
     partialSite: Partial<IHubSite>,
     context: IArcGISContext
   ): IHubSite {
     // ensure we have the orgUrlKey
     if (!partialSite.orgUrlKey) {
-      partialSite.orgUrlKey = context.portal?.urlKey;
+      // if we're in enterprise, there is no portalUrlKey
+      partialSite.orgUrlKey = getWithDefault(
+        context,
+        "portal.urlKey",
+        ""
+      ) as string;
     }
+    // ensure lower case
+    partialSite.orgUrlKey = partialSite.orgUrlKey.toLowerCase();
     // extend the partial over the defaults
     const pojo = { ...DEFAULT_SITE, ...partialSite } as IHubSite;
     pojo.type = context.isPortal

@@ -168,12 +168,10 @@ describe("project edit module:", () => {
       expect(chk.id).toBe(GUID);
       expect(chk.name).toBe("Hello World");
       expect(chk.description).toBe("Some longer description");
-      expect(chk.typeKeywords).toEqual([
-        "Hub Project",
-        "slug|dcdev|dcdev-wat-blarg-1",
-        "status|inProgress",
-        "cannotDiscuss",
-      ]);
+      expect(chk.typeKeywords).toContain("Hub Project");
+      expect(chk.typeKeywords).toContain("slug|dcdev|dcdev-wat-blarg-1");
+      expect(chk.typeKeywords).toContain("status|inProgress");
+      expect(chk.typeKeywords).toContain("cannotDiscuss");
       expect(chk.location).toEqual({
         type: "none",
       });

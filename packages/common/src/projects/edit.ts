@@ -31,6 +31,8 @@ export async function createProject(
   // merge incoming with the default
   // this expansion solves the typing somehow
   const project = { ...DEFAULT_PROJECT, ...partialProject };
+  // ensure lowercase orgUrlKey
+  project.orgUrlKey = project.orgUrlKey.toLowerCase();
 
   // Create a slug from the title if one is not passed in
   if (!project.slug) {

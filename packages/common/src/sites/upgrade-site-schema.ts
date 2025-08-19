@@ -15,12 +15,13 @@ import { ensureBaseTelemetry } from "./_internal/ensureBaseTelemetry";
 import { migrateWebMappingApplicationSites } from "./_internal/migrateWebMappingApplicationSites";
 import { _migrateLinkUnderlinesCapability } from "./_internal/_migrate-link-underlines-capability";
 import { _migrateToV2Catalog } from "./_internal/_migrate-to-v2-catalog";
+import { ensureLowercaseOrgUrlKeySlugAndKeyword } from "./_internal/ensureLowercaseOrgUrlKeySlugAndKeyword";
 
 /**
  * Upgrades the schema upgrades
  * @param model IModel
  */
-export function upgradeSiteSchema(model: IModel) {
+export function upgradeSiteSchema(model: IModel): IModel {
   // WARNING - If you are writing a site schema migration,
   // you probably need to apply it to site drafts as well!
   // Specifically, add the migration to upgrade-draft-schema.ts file
@@ -45,6 +46,7 @@ export function upgradeSiteSchema(model: IModel) {
   model = ensureBaseTelemetry(model);
   model = migrateWebMappingApplicationSites(model);
   model = _migrateLinkUnderlinesCapability(model);
+  model = ensureLowercaseOrgUrlKeySlugAndKeyword(model);
 
   return model;
 }

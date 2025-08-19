@@ -113,6 +113,9 @@ export class HubTemplate extends HubItemEntity<IHubTemplate> {
     if (!partialTemplate.orgUrlKey) {
       partialTemplate.orgUrlKey = context.portal.urlKey as string;
     }
+    // ensure orgUrlKey is lowercase
+    partialTemplate.orgUrlKey = partialTemplate.orgUrlKey.toLowerCase();
+
     // extend the partial over the defaults
     const pojo = { ...DEFAULT_TEMPLATE, ...partialTemplate } as IHubTemplate;
     return pojo;

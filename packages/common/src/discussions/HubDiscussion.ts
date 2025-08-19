@@ -228,6 +228,11 @@ export class HubDiscussion
       ? (editor.orgUrlKey as string)
       : (this.context.portal.urlKey as string) || ("" as string);
 
+    // ensure orgUrlKey is lowercase
+    if (entity.orgUrlKey) {
+      entity.orgUrlKey = entity.orgUrlKey.toLowerCase();
+    }
+
     // 4. copy the configured location extent up one level
     // on the entity.
     entity.extent = (editor.location as IHubLocation)?.extent;

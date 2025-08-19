@@ -123,6 +123,8 @@ export class HubPage
     if (!partialPage.orgUrlKey) {
       partialPage.orgUrlKey = (context.portal.urlKey || "") as string;
     }
+    // ensure orgUrlKey is lowercase
+    partialPage.orgUrlKey = partialPage.orgUrlKey.toLowerCase();
     // extend the partial over the defaults
     const pojo = { ...DEFAULT_PAGE, ...partialPage } as IHubPage;
     pojo.type = context.isPortal

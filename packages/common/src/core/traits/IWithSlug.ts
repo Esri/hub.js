@@ -9,7 +9,7 @@ export interface IWithSlug {
   slug?: string;
   /**
    * Organization urlKey used to construct the
-   * slug
+   * slug. Should always be lowercase.
    */
   orgUrlKey: string;
 }
