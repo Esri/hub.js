@@ -36,6 +36,7 @@ const SystemPermissions = [
   "hub:feature:catalogs:edit:appearance",
   "hub:feature:inline-workspace",
   "hub:feature:pagescatalog",
+  "hub:feature:gallery-card:enterprise",
   "hub:license:hub-premium",
   "hub:license:hub-basic",
   "hub:license:enterprise-sites",
