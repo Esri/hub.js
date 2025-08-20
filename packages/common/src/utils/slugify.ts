@@ -22,11 +22,9 @@ export function slugify<T>(value: T): T {
     // If the title input cannot produce a valid slug, we return an empty string
     // because we can't return something incomplete/invalid
     if (sanitized === "" || sanitized === "-") {
-      // @ts-ignore
-      return "";
+      return "" as unknown as T;
     }
-    // @ts-ignore
-    return sanitized;
+    return sanitized as unknown as T;
   } else {
     return value;
   }
