@@ -8,13 +8,12 @@
  */
 export function slugify<T>(value: T): T {
   if (typeof value === "string") {
-    // @ts-ignore
     return value
       .trim()
       .toLowerCase()
       .replace(/ +/g, "-")
       .replace(/[^\w-]/g, "")
-      .replace(/-+/g, "-");
+      .replace(/-+/g, "-") as unknown as T;
   } else {
     return value;
   }

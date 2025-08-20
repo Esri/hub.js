@@ -155,6 +155,7 @@ export function getUniqueSlug(
         : getUniqueSlug(slugInfo, requestOptions, step + 1)
     )
     .catch((e) => {
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       throw Error(`Error in getUniqueSlug ${e}`);
     });
 }

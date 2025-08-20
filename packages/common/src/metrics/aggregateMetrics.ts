@@ -21,12 +21,14 @@ export function aggregateMetrics(
 
   switch (aggregation) {
     case "sum":
+      // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
       aggregate = values.reduce((acc, v) => acc + v, 0);
       break;
     case "count":
       aggregate = values.length;
       break;
     case "avg":
+      // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
       aggregate = values.reduce((acc, v) => acc + v, 0) / values.length;
       break;
     case "min":

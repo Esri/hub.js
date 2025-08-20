@@ -20,6 +20,6 @@ export const getItemDataUrl = (
   const regExp = new RegExp(pattern);
   // TODO: re-append f param based on item.type?
   return (
-    url && url.replace(regExp, `/${item.id}/data`).replace(/\&token/, "?token")
+    url && url.replace(regExp, `/${item.id}/data`).replace(/&token/, "?token")
   );
 };
