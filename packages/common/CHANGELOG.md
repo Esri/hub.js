@@ -1,3 +1,10 @@
+## @esri/hub-common [19.4.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.4.0...@esri/hub-common@19.4.1) (2025-08-20)
+
+
+### Bug Fixes
+
+* page slugify regex ([#1974](https://github.com/Esri/hub.js/issues/1974)) ([bf1e283](https://github.com/Esri/hub.js/commit/bf1e28348248afb0d40c787806d270017b3d0dcb))
+
 # @esri/hub-common [19.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.3.1...@esri/hub-common@19.4.0) (2025-08-20)
 
 
