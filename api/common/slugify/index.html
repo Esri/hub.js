@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <meta name="date" content="2025-08-20T15:55:06.930Z">
+    <meta name="date" content="2025-08-20T18:17:34.244Z">
     <title>slugify | API Reference | @esri/hub.js</title>
     
     <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
@@ -7524,12 +7524,14 @@
 
 
 
-  <p>Perform the following operations on a string to make it slug-friendly:</p>
+  <p>Converts a string to a slug-friendly format by:</p>
 <ol>
-<li>trim it</li>
-<li>convert to lowercase</li>
-<li>remove any character not a-z, 0-9, or _</li>
-<li>dasherize it</li>
+<li>Trimming leading and trailing spaces</li>
+<li>Converting to lowercase</li>
+<li>Removing single and double quotes</li>
+<li>Replacing any character not a-z, 0-9, or hyphen with a hyphen</li>
+<li>Collapsing multiple hyphens into one</li>
+<li>Removing leading and trailing hyphens</li>
 </ol>
 
 
@@ -7599,7 +7601,8 @@
     
   
 
-  <h2 class="font-size-1 trailer-half">Returns</h2>
+  <h2 class="font-size-1 trailer-half">Returns</h2><p>Slugified string, or original value if not a string</p>
+
 
   <div class="fonts-size--1 panel padding-leader-half padding-trailer-half padding-right-half padding-left-half trailer-half">
   
@@ -7613,7 +7616,7 @@
 
 
 
-<small class="font-size--2">Function defined in <a href="https://github.com/Esri/hub.js/blob/master/packages/common/src/utils/slugify.ts#L9">common/src/utils/slugify.ts:9</a></small>
+<small class="font-size--2">Function defined in <a href="https://github.com/Esri/hub.js/blob/master/packages/common/src/utils/slugify.ts#L12">common/src/utils/slugify.ts:12</a></small>
 
 
     </div>
