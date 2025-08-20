@@ -15,6 +15,8 @@
 
 > Module to interact with ArcGIS Hub Surveys in Node.js and modern browsers.
 
+> **DEPRECATED** This package is no longer under active development and will soon be retired. The corresponding functionality has been added to `@esri/hub-common`.
+
 ### Example
 
 ```bash
