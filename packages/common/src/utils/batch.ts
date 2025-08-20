@@ -12,7 +12,7 @@ import { splitArrayByLength } from "./_array";
 export function batch(
   values: IBatch,
   fn: IBatchTransform,
-  batchSize: number = 5
+  batchSize = 5
 ): Promise<any> {
   const toSerialBatchChain = (
     promise: Promise<any>,

@@ -9,11 +9,11 @@
 export function getHubApiFromPortalUrl(portalUrl: string): string {
   let result;
 
-  if (portalUrl.match(/(qaext|\.mapsqa)\.arcgis.com/)) {
+  if (/(qaext|\.mapsqa)\.arcgis.com/.exec(portalUrl)) {
     result = "https://hubqa.arcgis.com";
-  } else if (portalUrl.match(/(devext|\.mapsdevext)\.arcgis.com/)) {
+  } else if (/(devext|\.mapsdevext)\.arcgis.com/.exec(portalUrl)) {
     result = "https://hubdev.arcgis.com";
-  } else if (portalUrl.match(/(www|\.maps)\.arcgis.com/)) {
+  } else if (/(www|\.maps)\.arcgis.com/.exec(portalUrl)) {
     result = "https://hub.arcgis.com";
   }
 

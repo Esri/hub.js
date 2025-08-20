@@ -45,7 +45,7 @@ import { isService } from "../resources/is-service";
  * @returns the category of a given item type.
  */
 /* istanbul ignore next deprecated */
-export function getCategory(itemType: string = ""): string {
+export function getCategory(itemType = ""): string {
   /* tslint:disable no-console */
   console.warn(
     "DEPRECATED: Use getFamily() instead. getCategory will be removed at the next breaking version"
@@ -68,7 +68,7 @@ export function getCategory(itemType: string = ""): string {
  * @returns all the item types for the given category.
  *
  */
-export function getTypes(category: string = ""): string[] {
+export function getTypes(category = ""): string[] {
   return allCategories[category.toLowerCase()];
 }
 

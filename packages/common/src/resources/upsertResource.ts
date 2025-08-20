@@ -23,7 +23,7 @@ export async function upsertResource(
   resource: any,
   name: string,
   ro: IUserRequestOptions,
-  prefix: string = ""
+  prefix = ""
 ): Promise<string> {
   try {
     const extension = name.split(".").pop();
