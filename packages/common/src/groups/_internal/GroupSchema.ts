@@ -67,22 +67,5 @@ export const GroupSchema: IConfigurationSchema = {
     },
     isDiscussable: ENTITY_IS_DISCUSSABLE_SCHEMA,
     tags: ENTITY_TAGS_SCHEMA,
-    discussionSettings: {
-      type: "object",
-      properties: {
-        allowedChannelIds: {
-          type: "array",
-          items: {
-            type: "string",
-          },
-        },
-        allowedLocations: {
-          type: "array",
-          items: {
-            type: "object",
-          },
-        },
-      },
-    },
   },
 } as IConfigurationSchema;
