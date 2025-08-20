@@ -1,3 +1,10 @@
+## @esri/hub-initiatives [19.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-initiatives@19.0.0...@esri/hub-initiatives@19.0.1) (2025-08-20)
+
+
+### Bug Fixes
+
+* add deprecation message to package README files ([#1972](https://github.com/Esri/hub.js/issues/1972)) ([98b8440](https://github.com/Esri/hub.js/commit/98b8440da176c5534e665f4b99c930cfc4115e52))
+
 # @esri/hub-initiatives [19.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-initiatives@18.0.1...@esri/hub-initiatives@19.0.0) (2025-08-04)
 
 
