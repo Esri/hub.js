@@ -7,6 +7,7 @@
  * @private
  */
 export const maybeConcat = (arrays: any[][]) => {
+  // eslint-disable-next-line prefer-spread
   const result = [].concat.apply([], arrays.filter(Array.isArray));
   return result.length ? result : undefined;
 };

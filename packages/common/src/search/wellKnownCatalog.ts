@@ -108,7 +108,7 @@ export function getWellKnownCatalogs(
     group: [...WELL_KNOWN_GROUP_CATALOGS] as WellKnownCatalog[],
     event: [...WELL_KNOWN_EVENT_CATALOGS] as WellKnownCatalog[],
   }[targetEntity as "item" | "group" | "event"];
-  if (catalogNames.some(name => !validCatalogNames.includes(name))) {
+  if (catalogNames.some((name) => !validCatalogNames.includes(name))) {
     throw new Error(
       `Requested catalogs must be of the same targetEntity type: ${targetEntity}`
     );
@@ -227,6 +227,7 @@ function getWellknownItemCatalog(
       break;
     case "partners":
       // Get trusted orgs that aren't the current user's org or the community org
+      // eslint-disable-next-line no-case-declarations
       const trustedOrgIds = context.trustedOrgIds.filter((orgId: string) => {
         return (
           orgId !== context.currentUser.orgId &&
@@ -255,6 +256,7 @@ function getWellknownItemCatalog(
       }
       break;
     case "community":
+      // eslint-disable-next-line no-case-declarations
       const communityOrgId = _getCOrgOrEOrgId(context);
       // only build the catalog if there is a community org id
       if (communityOrgId) {

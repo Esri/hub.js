@@ -257,7 +257,7 @@ export function getStructuredLicense(rawLicense: string) {
     // b. check if the raw license is simply a link (i.e. an anchor tag with an href)
     else if (isSingleAnchorWithHrefAttribute(rawLicense)) {
       const hrefRegex = new RegExp(/href\s?=\s?["'](.*?)["']/);
-      const match = rawLicense.match(hrefRegex);
+      const match = hrefRegex.exec(rawLicense);
       const href = match[1];
 
       url = href;
@@ -320,7 +320,7 @@ function isParseableAsURL(value: string) {
  */
 function isSingleAnchorWithHrefAttribute(rawLicense: string) {
   const isSingleAnchorTagRegex = new RegExp(
-    /^<a[\s]+(href\s?=\s?["'].*?["'])+([^>]?)>((?:.(?!\<\/a\>))*.)?<\/a>$|^<a[\s]+(href\s?=\s?["'].*?["'])+([^>]?)\/>/
+    /^<a[\s]+(href\s?=\s?["'].*?["'])+([^>]?)>((?:.(?!<\/a>))*.)?<\/a>$|^<a[\s]+(href\s?=\s?["'].*?["'])+([^>]?)\/>/
   );
 
   return isSingleAnchorTagRegex.test(rawLicense);

@@ -11,17 +11,18 @@ export function doesItemExistWithTitle(
 ) {
   // if options have multiple properties, put them into one string separated with 'AND'
   const optionsQuery = Object.keys(options)
-    .map(key => {
+    .map((key) => {
       return `${key}:"${options[key]}"`;
     })
     .join(" AND ");
   const opts = {
     q: `title:"${itemTitle}" AND ${optionsQuery}`,
-    authentication: authMgr
+    authentication: authMgr,
   };
   return searchItems(opts)
-    .then(searchResponse => searchResponse.results.length > 0)
-    .catch(e => {
+    .then((searchResponse) => searchResponse.results.length > 0)
+    .catch((e) => {
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       throw Error(`Error in doesItemExistWithTitle ${e}`);
     });
 }
