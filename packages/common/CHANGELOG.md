@@ -1,3 +1,10 @@
+# @esri/hub-common [19.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.3.1...@esri/hub-common@19.4.0) (2025-08-20)
+
+
+### Features
+
+* add Discussions to Settings pane for site and content workspaces ([#1958](https://github.com/Esri/hub.js/issues/1958)) ([22f0d2e](https://github.com/Esri/hub.js/commit/22f0d2ea88fd0295e7df3e895a6f0368fd6d3fdc))
+
 ## @esri/hub-common [19.3.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.3.0...@esri/hub-common@19.3.1) (2025-08-14)
 
 

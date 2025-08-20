@@ -5,14 +5,15 @@ import { EntityEditorOptions } from "../EditorOptions";
 /**
  * Builds the UI Schema for the "settings => discussions" workspace pane
  * @param i18nScope the i18n scope for translations
- * @param _options an EntityEditorOptions object
+ * @param options an EntityEditorOptions object
  * @param context an IArcGISContext object
  * @returns a promise that resolves a UI Schema object
  */
 export const buildUiSchema = (
   i18nScope: string,
-  _options: EntityEditorOptions,
-  context: IArcGISContext
+  options: EntityEditorOptions,
+  context: IArcGISContext,
+  variant: "default" | "compact" = "default"
 ): Promise<IUiSchema> => {
   const uiSchema: IUiSchema = {
     type: "Layout",
@@ -36,7 +37,7 @@ export const buildUiSchema = (
                 `{{${i18nScope}.fields.discussable.disabled.description:translate}}`,
               ],
               icons: ["speech-bubbles", "circle-disallowed"],
-              layout: "horizontal",
+              layout: variant === "compact" ? "vertical" : "horizontal",
               styles: { "max-width": "45rem" },
               type: "radio",
             },
@@ -45,7 +46,10 @@ export const buildUiSchema = (
       },
     ],
   };
-  if (context.hubLicense === "hub-premium") {
+  if (
+    context.hubLicense === "hub-premium" &&
+    options.type !== "Hub Site Application"
+  ) {
     uiSchema.elements[0].elements.push({
       labelKey: "shared.fields.allowedChannelIds.label",
       scope: "/properties/discussionSettings/properties/allowedChannelIds",

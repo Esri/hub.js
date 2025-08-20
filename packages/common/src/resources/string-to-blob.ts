@@ -4,10 +4,7 @@
  * NOTE: This is not currently supported in Node
  * @param {string} the string
  */
-export function stringToBlob(
-  s: string,
-  type: string = "application/octet-stream"
-) {
+export function stringToBlob(s: string, type = "application/octet-stream") {
   /* istanbul ignore next */
   if (typeof Blob !== "undefined") {
     const bytes = [];

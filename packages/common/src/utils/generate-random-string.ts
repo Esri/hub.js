@@ -7,8 +7,7 @@ export function generateRandomString(chars: number): string {
   let d = new Date().getTime();
   const result = Array(chars)
     .fill(0)
-    .reduce(function(acc) {
-      /* tslint:disable-next-line */
+    .reduce(function (acc: string) {
       const r = (d + Math.random() * 16) % 16 | 0;
       d = Math.floor(d / 16);
       acc = `${acc}${r.toString(16)}`;

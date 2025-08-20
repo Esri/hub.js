@@ -28,7 +28,7 @@ export function _deepMapValues(
   }
 
   function deepMapValuesIteratee(value: any, key: string | number): any {
-    const valuePath = "" + (propertyPath ? propertyPath + "." + key : key);
+    const valuePath = propertyPath ? `${propertyPath}.${key}` : String(key);
     return _deepMapValues(value, callback, valuePath);
   }
 }

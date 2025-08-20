@@ -33,6 +33,7 @@ export function getItemAssets(
       return {
         name: e.resource,
         type: "resource",
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         url: `${itemUrl}/resources/${e.resource}`,
       };
     });

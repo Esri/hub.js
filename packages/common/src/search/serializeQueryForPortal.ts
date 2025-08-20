@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { ISearchOptions } from "@esri/arcgis-rest-portal";
 import {
   IDateRange,

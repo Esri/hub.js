@@ -52,11 +52,11 @@ export async function convertItemToInitiativeTemplate(
   return computeProps(model, it, requestOptions);
 }
 
-export async function enrichInitiativeTemplateSearchResult(
+export function enrichInitiativeTemplateSearchResult(
   item: IItem,
   include: string[],
   requestOptions: IHubRequestOptions
-): Promise<IHubSearchResult> {
+): IHubSearchResult {
   const result: IHubSearchResult = {
     access: item.access,
     id: item.id,

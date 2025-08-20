@@ -45,8 +45,10 @@ export function getPortalUrl(
     if (portalHostname || (urlKey && customBaseUrl)) {
       // user passed in a portal object, we'll use that to build the URL
       if (portal.isPortal) {
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         return `https://${portal.portalHostname}`;
       } else {
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         return `https://${portal.urlKey}.${portal.customBaseUrl}`;
       }
     }

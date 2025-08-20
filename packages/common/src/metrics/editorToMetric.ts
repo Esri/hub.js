@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { isNil } from "../util";
 import {
   IMetric,
@@ -148,14 +149,14 @@ export function buildWhereClause(expressionSet: IExpression[] = []): string {
             // just the first bounding value
             if (typeof values[0] === "string") {
               clause = `${field.name} >= timestamp '${escape(
-                values[0] as string
+                values[0]
               )} 00:00:00'`;
             }
 
             // just the second bounding value
             if (typeof values[1] === "string") {
               clause = `${field.name} <= timestamp '${escape(
-                values[1] as string
+                values[1]
               )} 23:59:59'`;
             }
 
@@ -165,9 +166,9 @@ export function buildWhereClause(expressionSet: IExpression[] = []): string {
               typeof values[1] === "string"
             ) {
               clause = `${field.name} >= timestamp '${escape(
-                values[0] as string
+                values[0]
               )} 00:00:00' AND ${field.name} <= timestamp '${escape(
-                values[1] as string
+                values[1]
               )} 23:59:59'`;
             }
             break;

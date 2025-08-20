@@ -227,7 +227,7 @@ export async function fetchModelFromItem(
   item: IItem,
   requestOptions: IRequestOptions
 ): Promise<IModel> {
-  const data = await getItemData(item.id, requestOptions);
+  const data = await getItemData(item.id, requestOptions).catch(() => null);
   return {
     item,
     data,
@@ -246,6 +246,8 @@ export async function fetchModelFromItem(
  * @param {IRequestOptions} requestOptions
  * @return {*}  {Promise<Record<string, any>>}
  */
+// we should actually resolve this lint error
+// eslint-disable-next-line @typescript-eslint/require-await
 export async function fetchModelResources(
   item: IItem,
   resourceNamePairs: {

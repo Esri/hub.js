@@ -7,7 +7,7 @@ const createCacheKeyFromArgs = (args: any[]) =>
   args.reduce(
     (cacheKey, arg) =>
       (cacheKey += `_${
-        typeof arg === "object" ? JSON.stringify(args) : `${arg}`
+        typeof arg === "object" ? JSON.stringify(args) : String(arg)
       }_`),
     ""
   );

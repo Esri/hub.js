@@ -19,7 +19,7 @@ export async function uploadImageResource(
   file: any,
   filename: string,
   ro: IUserRequestOptions,
-  prefix: string = ""
+  prefix = ""
 ): Promise<string> {
   try {
     // Add item resource

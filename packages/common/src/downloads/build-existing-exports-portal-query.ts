@@ -31,7 +31,7 @@ export function serializeSpatialReference(
 ): string {
   if (typeof spatialReference === "object") {
     const { wkid, wkt } = spatialReference;
-    return wkid ? wkid + "" : btoa(wkt);
+    return wkid ? String(wkid) : btoa(wkt);
   } else {
     return spatialReference;
   }
