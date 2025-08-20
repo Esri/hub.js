@@ -16,11 +16,15 @@ import { computeProps } from "./_internal/computeProps";
 export function modelToHubEditableContent(
   model: IModel,
   requestOptions: IRequestOptions,
-  enrichments: IItemAndIServerEnrichments
+  enrichments: IItemAndIServerEnrichments,
+  content: Partial<IHubEditableContent> = {}
 ) {
   const mapper = new PropertyMapper<Partial<IHubEditableContent>, IModel>(
     getPropertyMap()
   );
-  const content = mapper.storeToEntity(model, {}) as IHubEditableContent;
-  return computeProps(model, content, requestOptions, enrichments);
+  const updatedContent = mapper.storeToEntity(
+    model,
+    content
+  ) as IHubEditableContent;
+  return computeProps(model, updatedContent, requestOptions, enrichments);
 }

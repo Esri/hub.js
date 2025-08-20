@@ -1,6 +1,7 @@
 import { HubEntityHero } from "../../../hub-types";
 import { IAsyncConfigurationSchema } from "../types";
 import {
+  DISCUSSION_SETTINGS_SCHEMA,
   ENTITY_ACCESS_SCHEMA,
   ENTITY_CATALOG_SETUP_SCHEMA,
   ENTITY_CATEGORIES_SCHEMA,
@@ -34,6 +35,7 @@ export const HubItemEntitySchema: IAsyncConfigurationSchema = {
     tags: ENTITY_TAGS_SCHEMA,
     categories: ENTITY_CATEGORIES_SCHEMA,
     isDiscussable: ENTITY_IS_DISCUSSABLE_SCHEMA,
+    discussionSettings: DISCUSSION_SETTINGS_SCHEMA,
     view: {
       type: "object",
       properties: {

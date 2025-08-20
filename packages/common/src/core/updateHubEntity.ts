@@ -63,7 +63,7 @@ export const updateHubEntity = async (
     case "content":
       result = await updateContent(
         entity as IHubEditableContent,
-        context.userRequestOptions
+        context.hubRequestOptions
       );
       break;
     case "page":

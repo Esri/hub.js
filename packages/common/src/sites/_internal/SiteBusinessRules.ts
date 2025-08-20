@@ -43,7 +43,6 @@ export const SitePermissions = [
   "hub:site:workspace:followers:member",
   "hub:site:workspace:followers:manager",
   "hub:site:workspace:followers:create",
-  "hub:site:workspace:discussion",
   "hub:site:workspace:pages",
   "hub:site:workspace:events",
   "hub:site:workspace:projects",
@@ -51,6 +50,7 @@ export const SitePermissions = [
   "hub:site:manage",
   "hub:site:workspace:feeds",
   "hub:site:workspace:assistant",
+  "hub:site:workspace:settings:discussions",
 ] as const;
 
 /**
@@ -152,6 +152,10 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:site:workspace", "hub:site:edit"],
   },
   {
+    permission: "hub:site:workspace:settings:discussions",
+    dependencies: ["hub:site:workspace", "hub:site:edit"],
+  },
+  {
     permission: "hub:site:workspace:collaborators",
     dependencies: ["hub:site:workspace", "hub:site:edit"],
   },
@@ -221,11 +225,6 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:site:workspace:followers:create",
     dependencies: ["hub:site:workspace:followers", "hub:group:create"],
     privileges: ["portal:user:addExternalMembersToGroup"],
-  },
-  {
-    permission: "hub:site:workspace:discussion",
-    services: ["discussions"],
-    dependencies: ["hub:site:workspace", "hub:site:edit"],
   },
   {
     permission: "hub:site:workspace:projects",
