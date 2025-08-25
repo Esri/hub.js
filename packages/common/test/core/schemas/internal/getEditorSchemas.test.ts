@@ -168,8 +168,7 @@ describe("getEditorSchemas: ", () => {
     },
   ];
 
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
-  modules.forEach(async ({ type, module }) => {
+  modules.forEach(({ type, module }) => {
     it("returns a schema & uiSchema for a given entity and editor type", async () => {
       uiSchemaBuildFnSpy = spyOn(module, "buildUiSchema").and.returnValue(
         Promise.resolve({})
