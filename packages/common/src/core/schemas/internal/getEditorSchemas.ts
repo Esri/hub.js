@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import { cloneObject } from "../../../util";
 import { HubEntity } from "../../types/HubEntity";
 import {
@@ -364,8 +365,10 @@ export async function getEditorSchemas(
           import("../../../groups/_internal/GroupUiSchemaEdit"),
         "hub:group:settings": () =>
           import("../../../groups/_internal/GroupUiSchemaSettings"),
-        "hub:group:discussions": () =>
-          import("../../../groups/_internal/GroupUiSchemaDiscussions"),
+        "hub:group:workspace:settings:discussions": () =>
+          import(
+            "../../../core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettings"
+          ),
       }[type as GroupEditorType]();
       uiSchema = await groupModule.buildUiSchema(
         i18nScope,
