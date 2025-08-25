@@ -54,7 +54,6 @@ import * as TemplateBuildEditUiSchema from "../../../../src/templates/_internal/
 import { GroupEditorTypes } from "../../../../src/groups/_internal/GroupSchema";
 import * as GroupBuildEditUiSchema from "../../../../src/groups/_internal/GroupUiSchemaEdit";
 import * as GroupBuildSettingsUiSchema from "../../../../src/groups/_internal/GroupUiSchemaSettings";
-import * as GroupBuildDiscussionsUiSchema from "../../../../src/groups/_internal/GroupUiSchemaDiscussions";
 import * as GroupBuildCreateFollowersUiSchema from "../../../../src/groups/_internal/GroupUiSchemaCreateFollowers";
 import * as GroupBuildCreateAssociationUiSchema from "../../../../src/groups/_internal/GroupUiSchemaCreateAssociation";
 import * as GroupBuildCreateViewUiSchema from "../../../../src/groups/_internal/GroupUiSchemaCreateView";
@@ -143,7 +142,6 @@ describe("getEditorSchemas: ", () => {
 
     { type: GroupEditorTypes[0], module: GroupBuildEditUiSchema },
     { type: GroupEditorTypes[1], module: GroupBuildSettingsUiSchema },
-    { type: GroupEditorTypes[2], module: GroupBuildDiscussionsUiSchema },
     { type: GroupEditorTypes[3], module: GroupBuildCreateFollowersUiSchema },
     { type: GroupEditorTypes[4], module: GroupBuildCreateAssociationUiSchema },
     { type: GroupEditorTypes[5], module: GroupBuildCreateViewUiSchema },
@@ -170,6 +168,7 @@ describe("getEditorSchemas: ", () => {
     },
   ];
 
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   modules.forEach(async ({ type, module }) => {
     it("returns a schema & uiSchema for a given entity and editor type", async () => {
       uiSchemaBuildFnSpy = spyOn(module, "buildUiSchema").and.returnValue(
