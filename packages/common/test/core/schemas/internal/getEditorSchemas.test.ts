@@ -142,6 +142,10 @@ describe("getEditorSchemas: ", () => {
 
     { type: GroupEditorTypes[0], module: GroupBuildEditUiSchema },
     { type: GroupEditorTypes[1], module: GroupBuildSettingsUiSchema },
+    {
+      type: GroupEditorTypes[2],
+      module: EntityBuildDiscussionSettingsUiSchema,
+    },
     { type: GroupEditorTypes[3], module: GroupBuildCreateFollowersUiSchema },
     { type: GroupEditorTypes[4], module: GroupBuildCreateAssociationUiSchema },
     { type: GroupEditorTypes[5], module: GroupBuildCreateViewUiSchema },
