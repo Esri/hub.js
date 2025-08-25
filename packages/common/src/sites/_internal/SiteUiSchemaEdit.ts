@@ -6,7 +6,6 @@ import { IUiSchema } from "../../core/schemas/types";
 import { getThumbnailUiSchemaElement } from "../../core/schemas/internal/getThumbnailUiSchemaElement";
 import { IHubSite } from "../../core/types";
 import { fetchCategoriesUiSchemaElement } from "../../core/schemas/internal/fetchCategoriesUiSchemaElement";
-import { getSlugSchemaElement } from "../../core/schemas/internal/getSlugSchemaElement";
 
 /**
  * @private
@@ -84,7 +83,6 @@ export const buildUiSchema = async (
             "site",
             context.requestOptions
           ),
-          ...(context.isPortal ? [getSlugSchemaElement(i18nScope)] : []),
           {
             type: "Section",
             labelKey: `${i18nScope}.sections.description.label`,

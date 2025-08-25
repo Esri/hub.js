@@ -14,7 +14,6 @@ import { applyPermissionMigration } from "./_internal/applyPermissionMigration";
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { IHubSite } from "../core/types/IHubSite";
-import { constructSlug } from "../items/slugs";
 import { slugify } from "../utils/slugify";
 import { ensureUniqueDomainName } from "./domains/ensure-unique-domain-name";
 import { stripProtocol } from "../urls/strip-protocol";
@@ -36,9 +35,7 @@ import {
 } from "./_internal/convertCatalogToLegacyFormat";
 import { convertFeaturesToLegacyCapabilities } from "./_internal/capabilities/convertFeaturesToLegacyCapabilities";
 import { computeLinks } from "./_internal/computeLinks";
-import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlug";
 import { handleSubdomainChange } from "./_internal/subdomains";
-import { IHubItemEntity } from "../core";
 export const HUB_SITE_ITEM_TYPE = "Hub Site Application";
 export const ENTERPRISE_SITE_ITEM_TYPE = "Site Application";
 
@@ -114,7 +111,8 @@ const DEFAULT_SITE_MODEL: IModel = {
     tags: [],
     typeKeywords: ["Hub Site", "hubSite", "DELETEMESITE"],
     properties: {
-      slug: "",
+      // sites don't have slugs
+      // slug: "",
       orgUrlKey: "",
       defaultHostname: "",
       customHostname: "",
@@ -224,12 +222,6 @@ export async function createSite(
   site.type = requestOptions.isPortal
     ? ENTERPRISE_SITE_ITEM_TYPE
     : HUB_SITE_ITEM_TYPE;
-  // Create a slug from the title if one is not passed in
-  if (!site.slug) {
-    site.slug = constructSlug(site.name, site.orgUrlKey);
-  }
-  // Ensure slug is  unique
-  await ensureUniqueEntitySlug(site as IHubItemEntity, requestOptions);
 
   if (!site.subdomain) {
     site.subdomain = slugify(site.name);
@@ -335,11 +327,7 @@ export async function updateSite(
 ): Promise<IHubSite> {
   // ensure the orgUrlKey is lowercase
   site.orgUrlKey = site.orgUrlKey.toLowerCase();
-  // verify that the slug is unique, excluding the current site
-  await ensureUniqueEntitySlug(site as IHubItemEntity, requestOptions);
   if (requestOptions.isPortal) {
-    // keep subdomain in sync with slug
-    site.subdomain = site.slug.replace(site.orgUrlKey + "|", "");
     handleSubdomainChange(site, requestOptions);
   }
   site.typeKeywords = setDiscussableKeyword(
@@ -373,6 +361,10 @@ export async function updateSite(
   delete modelToUpdate.data?.values?.telemetry;
   /* istanbul ignore next */
   delete modelToUpdate.item?.properties?.telemetry;
+
+  // old slug
+  /* istanbul ignore next */
+  delete modelToUpdate.item?.properties?.slug;
 
   // handle any domain changes
   // we'd like to base this check on existence of the domain service,

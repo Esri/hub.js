@@ -29,13 +29,11 @@ const SITE_ITEM: portalModule.IItem = {
   created: 1643646881000,
   modified: 1643646881000,
   tags: ["Transportation"],
-  typeKeywords: ["slug|dcdev-wat-blarg"],
+  typeKeywords: [],
   thumbnail: "vader.png",
   numViews: 10,
   size: 0,
-  properties: {
-    slug: "dcdev-wat-blarg",
-  },
+  properties: {},
 };
 const SITE_DATA = {
   catalog: { groups: ["00c"] },
@@ -60,7 +58,6 @@ const SITE: commonModule.IHubSite = {
   name: "Fake Site",
   tags: ["Transportation"],
   description: "Some longer description",
-  slug: "dcdev-wat-blarg",
   orgUrlKey: "dcdev",
   owner: "dcdev_dude",
   type: "Hub Site Application",
@@ -364,6 +361,17 @@ describe("HubSites:", () => {
         { fake: "props.telemetry" },
         SiteModelWithExtraProps
       );
+      // emulate a site that has slug set
+      commonModule.setProp(
+        "item.properties.slug",
+        "dcdev-wat-blarg",
+        SiteModelWithExtraProps
+      );
+      commonModule.setProp(
+        "item.typeKeywords",
+        ["slug|dcdev-wat-blarg"],
+        SiteModelWithExtraProps
+      );
 
       fetchSiteModelSpy = spyOn(
         require("../../src/sites/fetchSiteModel"),
@@ -386,6 +394,12 @@ describe("HubSites:", () => {
       expect(modelToUpdate.data.values.map.title).not.toBeDefined();
       expect(modelToUpdate.item.properties?.telemetry).not.toBeDefined();
       expect(modelToUpdate.data.values.telemetry).not.toBeDefined();
+      // old slug
+      expect(modelToUpdate.item.properties?.slug).not.toBeDefined();
+      const hasSlugKeyword = (modelToUpdate.item.typeKeywords as string[]).some(
+        (kw) => kw.startsWith("slug|")
+      );
+      expect(hasSlugKeyword).toBe(false);
     });
   });
   describe("updateSite:", () => {
@@ -434,14 +448,14 @@ describe("HubSites:", () => {
       expect(modelToUpdate.item.title).toBe(updatedSite.name);
     });
 
-    it("handles change to slug in enterprise", async () => {
+    it("handles change to subdomain in enterprise", async () => {
       const updatedSite = commonModule.cloneObject(SITE);
-      updatedSite.slug = "updated-slug";
+      updatedSite.subdomain = "updated-subdomain";
       const ro = { ...MOCK_HUB_REQOPTS, isPortal: true };
       const chk = await commonModule.updateSite(updatedSite, ro);
 
       expect(chk.id).toBe(GUID);
-      expect(chk.subdomain).toBe("updated-slug");
+      expect(chk.subdomain).toBe("updated-subdomain");
 
       // should not have made add/remove domain calls
       expect(domainChangeSpy.calls.count()).toBe(0);
@@ -476,16 +490,6 @@ describe("HubSites:", () => {
       expect(updateModelSpy.calls.count()).toBe(1);
       const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
       expect(modelToUpdate.item.title).toBe(updatedSite.name);
-    });
-    it("handles slug changes", async () => {
-      const updatedSite = commonModule.cloneObject(SITE);
-      updatedSite.name = "Updated Name";
-      updatedSite.slug = "some-new-slug";
-      const chk = await commonModule.updateSite(updatedSite, MOCK_HUB_REQOPTS);
-
-      expect(chk.id).toBe(GUID);
-      const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
-      expect(modelToUpdate.item.properties.slug).toBe("dcdev|some-new-slug");
     });
     it("reflects collection changes to searchCategories", async () => {
       const updatedSite = commonModule.cloneObject(SITE);
@@ -600,7 +604,8 @@ describe("HubSites:", () => {
 
         const chk = await commonModule.createSite(sparseSite, MOCK_HUB_REQOPTS);
 
-        expect(ensureUniqueEntitySlugSpy.calls.count()).toBe(1);
+        // sites don't have slugs
+        expect(ensureUniqueEntitySlugSpy.calls.count()).toBe(0);
         expect(uniqueDomainSpy.calls.count()).toBe(1);
         expect(createModelSpy.calls.count()).toBe(1);
         expect(updateModelSpy.calls.count()).toBe(1);
@@ -611,7 +616,7 @@ describe("HubSites:", () => {
         expect(modelToCreate.item.title).toBe("my site");
         expect(modelToCreate.item.type).toBe("Hub Site Application");
         // orgUrlKey is pulled from portalSelf.urlKey, which is "org"
-        expect(modelToCreate.item.properties.slug).toBe("org|my-site");
+        expect(modelToCreate.item.properties.slug).toBeUndefined();
         expect(modelToCreate.item.properties.orgUrlKey).toBe("org");
 
         const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
@@ -631,7 +636,8 @@ describe("HubSites:", () => {
 
         const chk = await commonModule.createSite(sparseSite, hubRO);
 
-        expect(ensureUniqueEntitySlugSpy.calls.count()).toBe(1);
+        // sites don't have slugs
+        expect(ensureUniqueEntitySlugSpy.calls.count()).toBe(0);
         expect(uniqueDomainSpy.calls.count()).toBe(1);
         expect(createModelSpy.calls.count()).toBe(1);
         expect(updateModelSpy.calls.count()).toBe(1);
@@ -641,7 +647,7 @@ describe("HubSites:", () => {
         const modelToCreate = createModelSpy.calls.argsFor(0)[0];
         expect(modelToCreate.item.title).toBe("my site");
         expect(modelToCreate.item.type).toBe("Hub Site Application");
-        expect(modelToCreate.item.properties.slug).toBe("dcdev|my-site");
+        expect(modelToCreate.item.properties.slug).toBeUndefined();
         // does not match sparse sight
         expect(modelToCreate.item.properties.orgUrlKey).toBe("dcdev");
         const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
@@ -709,7 +715,8 @@ describe("HubSites:", () => {
 
         const chk = await commonModule.createSite(site, MOCK_HUB_REQOPTS);
 
-        expect(ensureUniqueEntitySlugSpy.calls.count()).toBe(1);
+        // sites don't have slugs
+        expect(ensureUniqueEntitySlugSpy.calls.count()).toBe(0);
         expect(uniqueDomainSpy.calls.count()).toBe(1);
         expect(createModelSpy.calls.count()).toBe(1);
         expect(updateModelSpy.calls.count()).toBe(1);
@@ -739,7 +746,8 @@ describe("HubSites:", () => {
           MOCK_ENTERPRISE_REQOPTS
         );
 
-        expect(ensureUniqueEntitySlugSpy.calls.count()).toBe(1);
+        // sites don't have slugs
+        expect(ensureUniqueEntitySlugSpy.calls.count()).toBe(0);
         expect(uniqueDomainSpy.calls.count()).toBe(1);
         expect(createModelSpy.calls.count()).toBe(1);
         expect(updateModelSpy.calls.count()).toBe(1);
@@ -747,7 +755,7 @@ describe("HubSites:", () => {
         const modelToCreate = createModelSpy.calls.argsFor(0)[0];
         expect(modelToCreate.item.title).toBe("my site");
         expect(modelToCreate.item.type).toBe("Site Application");
-        expect(modelToCreate.item.properties.slug).toBe("my-site");
+        expect(modelToCreate.item.properties.slug).toBeUndefined();
         expect(modelToCreate.item.properties.orgUrlKey).toEqual("");
         const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
         expect(modelToUpdate.data.values.clientId).toBe("arcgisonline");
@@ -807,6 +815,7 @@ describe("HubSites:", () => {
       expect(chk.links?.self).toEqual(ITM.url);
       expect(chk.links?.siteRelative).toEqual(`/content/${ITM.id}`);
       expect(chk.links?.thumbnail).toEqual(
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         `${hubRo.portal}/content/items/${ITM.id}/info/${ITM.thumbnail}`
       );
     });
