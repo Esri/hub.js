@@ -1,3 +1,10 @@
+## @esri/hub-common [20.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.0.0...@esri/hub-common@20.0.1) (2025-08-27)
+
+
+### Bug Fixes
+
+* **hub-common:** settings => discussions pane is not accessible in en… ([#1984](https://github.com/Esri/hub.js/issues/1984)) ([0954ab6](https://github.com/Esri/hub.js/commit/0954ab601093284a704c2d4e1ef6469bf239a154))
+
 # @esri/hub-common [20.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.4.1...@esri/hub-common@20.0.0) (2025-08-25)
 
 

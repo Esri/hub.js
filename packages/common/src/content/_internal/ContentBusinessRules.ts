@@ -173,5 +173,6 @@ export const ContentPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:content:workspace:settings:discussions",
     dependencies: ["hub:content:workspace", "hub:content:edit"],
+    licenses: ["hub-basic", "hub-premium"],
   },
 ];
