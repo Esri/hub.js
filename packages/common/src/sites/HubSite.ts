@@ -53,7 +53,6 @@ import {
 } from "../index";
 import { isDiscussable } from "../discussions/utils";
 import { SiteEditorType } from "./_internal/SiteSchema";
-import { getEditorSlug } from "../core/_internal/getEditorSlug";
 import { hubItemEntityFromEditor } from "../core/_internal/hubItemEntityFromEditor";
 
 /**
@@ -445,12 +444,10 @@ export class HubSite
       editor
     );
 
-    editor._slug = getEditorSlug(this.entity);
-
     const followersGroup = await this.getFollowersGroup();
     setProp("_followers.isDiscussable", isDiscussable(followersGroup), editor);
 
-    editor._discussions = this.entity.features["hub:site:feature:discussions"];
+    editor.isDiscussable = this.entity.features["hub:site:feature:discussions"];
 
     // used by the site URL composite field
     if (!editor._urlInfo) {
@@ -503,7 +500,7 @@ export class HubSite
     entity.features = {
       ...entity.features,
       "hub:site:feature:follow": editor._followers?.showFollowAction,
-      "hub:site:feature:discussions": editor._discussions,
+      "hub:site:feature:discussions": editor.isDiscussable,
     };
 
     // d. handle site URL info

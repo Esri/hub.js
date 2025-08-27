@@ -31,6 +31,7 @@ export async function poll<T>(
       throw new Error(`Polling failed after ${_maxAttempts} attempts`);
     }
     const results = await new Promise<T>((resolve) => {
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       setTimeout(async () => {
         const res = await requestFn();
         resolve(res);

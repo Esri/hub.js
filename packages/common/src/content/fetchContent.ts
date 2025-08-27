@@ -41,7 +41,7 @@ const maybeFetchLayerEnrichments = async (
   // fetch the fully hydrated target layer and stab it onto the layers array.
   // See https://devtopia.esri.com/dc/hub/issues/3488 for more details
   if (layer && !layer.type) {
-    const layerUrl = parseServiceUrl(item.url) + "/" + layer.id;
+    const layerUrl = `${parseServiceUrl(item.url)}/${layer.id}`;
     const getLayerOptions = Object.assign({ url: layerUrl }, options); // works whether options is defined or not
     layer = await getLayer(getLayerOptions);
     layers = layers.map((unhydratedLayer) => {

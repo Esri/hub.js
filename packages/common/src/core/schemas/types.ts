@@ -69,6 +69,15 @@ export const validEventGalleryCardEditorTypes = [
 export type EventGalleryCardEditorType =
   (typeof validEventGalleryCardEditorTypes)[number];
 
+export const validDiscussionSettingsEditorTypes = [
+  "hub:discussion:settings:discussions",
+  "hub:site:settings:discussions",
+  "hub:content:settings:discussions",
+  "hub:content:settings:discussions:compact",
+] as const;
+export type DiscussionSettingsEditorType =
+  (typeof validDiscussionSettingsEditorTypes)[number];
+
 /**
  * Defines the possible editor type values for any layout card. These
  * correspond to the supported/defined uiSchema configurations for cards.

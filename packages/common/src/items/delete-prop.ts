@@ -11,6 +11,7 @@ export function deleteProp(target: Record<string, any>, lookupStr: string) {
   const lookupKeys = lookupStr.split(".");
 
   for (let i = 0; i < lookupKeys.length - 1; i++) {
+    // eslint-disable-next-line no-prototype-builtins
     if (!target.hasOwnProperty(lookupKeys[i])) return;
     target = target[lookupKeys[i]];
   }

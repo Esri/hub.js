@@ -27,6 +27,7 @@ export async function getEntityFollowersGroupId(
     )) as IWithFollowers;
     return entity.followersGroupId;
   } catch (e) {
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     throw new Error(`Error fetching entity followers group ID: ${e}`);
   }
 }
@@ -97,6 +98,7 @@ export async function followEntity(
     // successfully joined the group
     return { success: true, username: user.username };
   } catch (error) {
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     throw new Error(`Error joining group: ${error}`);
   }
 }
@@ -139,6 +141,7 @@ export async function unfollowEntity(
     // successfully left the group
     return { success: true, username: user.username };
   } catch (error) {
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     throw new Error(`Error leaving group: ${error}`);
   }
 }

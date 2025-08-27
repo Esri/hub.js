@@ -25,7 +25,7 @@ export function getUniqueItemTitle(
   }
 
   return doesItemExistWithTitle(combinedName, options, authMgr)
-    .then(result => {
+    .then((result) => {
       if (result) {
         step++;
         return getUniqueItemTitle(title, options, authMgr, step);
@@ -33,7 +33,8 @@ export function getUniqueItemTitle(
         return combinedName;
       }
     })
-    .catch(e => {
+    .catch((e) => {
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       throw Error(`Error in getUniqueItemTitle ${e}`);
     });
 }

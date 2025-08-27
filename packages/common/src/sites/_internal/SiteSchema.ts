@@ -11,10 +11,14 @@ export const SiteEditorTypes = [
   "hub:site:edit",
   "hub:site:create",
   "hub:site:followers",
-  "hub:site:discussions",
   "hub:site:settings",
   "hub:site:assistant",
+  "hub:site:settings:discussions",
 ] as const;
+
+// sites don't have slugs
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const { _slug, ...propertiesWithoutSlug } = HubItemEntitySchema.properties;
 
 /**
  * defines the JSON schema for a Hub Site's editable fields
@@ -24,7 +28,7 @@ export const getSiteSchema = (siteId: string) =>
     $async: true,
     ...HubItemEntitySchema,
     properties: {
-      ...HubItemEntitySchema.properties,
+      ...propertiesWithoutSlug,
       name: SITE_ENTITY_NAME_SCHEMA,
       _discussions: ENTITY_IS_DISCUSSABLE_SCHEMA,
       telemetry: PRIVACY_CONFIG_SCHEMA,

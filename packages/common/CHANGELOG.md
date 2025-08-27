@@ -1,3 +1,29 @@
+# @esri/hub-common [20.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.4.1...@esri/hub-common@20.0.0) (2025-08-25)
+
+
+### Bug Fixes
+
+* **hub-common:** fix site workspace shows slug editor ([#1980](https://github.com/Esri/hub.js/issues/1980)) ([60abb75](https://github.com/Esri/hub.js/commit/60abb75cf4e0dba730bc18258beb69695499a497))
+
+
+### BREAKING CHANGES
+
+* **hub-common:** update site entity so that sites do not have slugs
+
+## @esri/hub-common [19.4.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.4.0...@esri/hub-common@19.4.1) (2025-08-20)
+
+
+### Bug Fixes
+
+* page slugify regex ([#1974](https://github.com/Esri/hub.js/issues/1974)) ([bf1e283](https://github.com/Esri/hub.js/commit/bf1e28348248afb0d40c787806d270017b3d0dcb))
+
+# @esri/hub-common [19.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.3.1...@esri/hub-common@19.4.0) (2025-08-20)
+
+
+### Features
+
+* add Discussions to Settings pane for site and content workspaces ([#1958](https://github.com/Esri/hub.js/issues/1958)) ([22f0d2e](https://github.com/Esri/hub.js/commit/22f0d2ea88fd0295e7df3e895a6f0368fd6d3fdc))
+
 ## @esri/hub-common [19.3.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.3.0...@esri/hub-common@19.3.1) (2025-08-14)
 
 

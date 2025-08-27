@@ -49,7 +49,7 @@ import { cloneObject } from "../../src/util";
 import * as documentItem from "../mocks/items/document.json";
 import * as documentsJson from "../mocks/datasets/document.json";
 import * as featureLayerJson from "../mocks/datasets/feature-layer.json";
-import { MOCK_REQUEST_OPTIONS } from "../../../initiatives/test/mocks/fake-session";
+import { MOCK_REQUEST_OPTIONS } from "../mocks/fake-session";
 import * as fetchMock from "fetch-mock";
 import { IHubServiceBackedContentStatus } from "../../src/content/types";
 import { ArcGISRequestError } from "@esri/arcgis-rest-request";
@@ -1513,7 +1513,7 @@ describe("content: ", () => {
       };
 
       fetchMock.once(
-        entity.url as string,
+        entity.url,
         {
           status: 200,
           body: { message: "Success" },
@@ -1523,7 +1523,7 @@ describe("content: ", () => {
 
       const result = (await getServiceStatus(entity, {
         ...MOCK_REQUEST_OPTIONS,
-        url: entity.url as string,
+        url: entity.url,
       })) as IHubServiceBackedContentStatus;
       expect(result.service.availability).toEqual("available");
     });
@@ -1551,7 +1551,7 @@ describe("content: ", () => {
       };
 
       fetchMock.once(
-        entity.url as string,
+        entity.url,
         {
           status: 200,
           body: { message: "Success" },
@@ -1561,7 +1561,7 @@ describe("content: ", () => {
 
       const result = (await getServiceStatus(entity, {
         ...MOCK_REQUEST_OPTIONS,
-        url: entity.url as string,
+        url: entity.url,
       })) as IHubServiceBackedContentStatus;
       expect(result.service.availability).toEqual("slow");
     });
@@ -1606,7 +1606,7 @@ describe("content: ", () => {
       // Call `getServiceStatus` and expect the result to be "unavailable"
       await getServiceStatus(entity, {
         ...MOCK_REQUEST_OPTIONS,
-        url: entity.url as string,
+        url: entity.url,
       }).then((result) => {
         expect(
           (result as IHubServiceBackedContentStatus).service.availability
@@ -1644,7 +1644,7 @@ describe("content: ", () => {
       // Call `getServiceStatus` and expect the result to be "auth-required"
       await getServiceStatus(entity, {
         ...MOCK_REQUEST_OPTIONS,
-        url: entity.url as string,
+        url: entity.url,
       }).then((result) => {
         expect(
           (result as IHubServiceBackedContentStatus).service.availability
@@ -1682,7 +1682,7 @@ describe("content: ", () => {
       // Call `getServiceStatus` and expect the result to be "auth-required"
       await getServiceStatus(entity, {
         ...MOCK_REQUEST_OPTIONS,
-        url: entity.url as string,
+        url: entity.url,
       }).then((result) => {
         expect(
           (result as IHubServiceBackedContentStatus).service.availability
