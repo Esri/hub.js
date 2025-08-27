@@ -1,3 +1,10 @@
+# @esri/hub-common [20.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.0.1...@esri/hub-common@20.1.0) (2025-08-27)
+
+
+### Features
+
+* serialize catalog scope query function ([#1975](https://github.com/Esri/hub.js/issues/1975)) ([b350124](https://github.com/Esri/hub.js/commit/b3501246d9e6a6072950483e9b5c87bd75939dcb))
+
 ## @esri/hub-common [20.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.0.0...@esri/hub-common@20.0.1) (2025-08-27)
 
 
