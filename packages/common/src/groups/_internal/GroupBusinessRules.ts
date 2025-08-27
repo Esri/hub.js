@@ -255,6 +255,7 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:group:settings:discussions",
     services: ["discussions"],
     dependencies: ["hub:group:workspace:settings"],
+    licenses: ["hub-basic", "hub-premium"],
   },
   {
     permission: "hub:group:workspace:content",
