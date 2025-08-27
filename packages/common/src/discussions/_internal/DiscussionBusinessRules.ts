@@ -53,12 +53,14 @@ export const DiscussionPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:discussion:edit",
     authenticated: true,
     dependencies: ["hub:discussion"],
+    licenses: ["hub-basic", "hub-premium"],
     entityEdit: true,
   },
   {
     permission: "hub:discussion:delete",
     authenticated: true,
     dependencies: ["hub:discussion"],
+    licenses: ["hub-basic", "hub-premium"],
     entityDelete: true,
   },
   {

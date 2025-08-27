@@ -154,6 +154,7 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:site:workspace:settings:discussions",
     dependencies: ["hub:site:workspace", "hub:site:edit"],
+    licenses: ["hub-basic", "hub-premium"],
   },
   {
     permission: "hub:site:workspace:collaborators",
