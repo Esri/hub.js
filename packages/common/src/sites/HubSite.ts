@@ -53,7 +53,6 @@ import {
 } from "../index";
 import { isDiscussable } from "../discussions/utils";
 import { SiteEditorType } from "./_internal/SiteSchema";
-import { getEditorSlug } from "../core/_internal/getEditorSlug";
 import { hubItemEntityFromEditor } from "../core/_internal/hubItemEntityFromEditor";
 
 /**
@@ -444,8 +443,6 @@ export class HubSite
       this.entity.features["hub:site:feature:follow"],
       editor
     );
-
-    editor._slug = getEditorSlug(this.entity);
 
     const followersGroup = await this.getFollowersGroup();
     setProp("_followers.isDiscussable", isDiscussable(followersGroup), editor);
