@@ -12,7 +12,7 @@ export type GroupEditorType = (typeof GroupEditorTypes)[number];
 export const GroupEditorTypes = [
   "hub:group:edit",
   "hub:group:settings",
-  "hub:group:workspace:settings:discussions",
+  "hub:group:settings:discussions",
   // editor to create a followers group
   "hub:group:create:followers",
   // editor to create an association group

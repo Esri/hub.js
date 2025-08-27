@@ -21,7 +21,7 @@ export const GroupPermissions = [
   "hub:group:workspace:dashboard",
   "hub:group:workspace:details",
   "hub:group:workspace:settings",
-  "hub:group:workspace:settings:discussions",
+  "hub:group:settings:discussions",
   "hub:group:workspace:collaborators",
   "hub:group:workspace:content",
   "hub:group:workspace:members",
@@ -252,7 +252,7 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:group:workspace"],
   },
   {
-    permission: "hub:group:workspace:settings:discussions",
+    permission: "hub:group:settings:discussions",
     services: ["discussions"],
     dependencies: ["hub:group:workspace:settings"],
   },
