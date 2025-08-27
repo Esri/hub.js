@@ -174,10 +174,7 @@ export class HubGroup
     }
     if (this.entity.id) {
       // update it
-      this.entity = await updateHubGroup(
-        this.entity,
-        this.context.userRequestOptions
-      );
+      this.entity = await updateHubGroup(this.entity, this.context);
     } else {
       // create it
       this.entity = await createHubGroup(

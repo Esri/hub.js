@@ -4,6 +4,7 @@ import { MOCK_AUTH } from "../mocks/mock-auth";
 import {
   cloneObject,
   enrichGroupSearchResult,
+  IArcGISContext,
   IHubRequestOptions,
 } from "../../src";
 import * as HubGroupsModule from "../../src/groups/HubGroups";
@@ -271,7 +272,7 @@ describe("HubGroups Module:", () => {
       ).and.returnValue(Promise.resolve(TEST_HUB_GROUP));
       const chk = await HubGroupsModule.updateHubGroup(
         TEST_HUB_GROUP as IHubGroup,
-        { authentication: MOCK_AUTH }
+        { requestOptions: { authentication: MOCK_AUTH } } as IArcGISContext
       );
       expect(chk.name).toBe("A new hub group");
       expect(portalUpdateGroupSpy).toHaveBeenCalledTimes(1);
@@ -280,7 +281,7 @@ describe("HubGroups Module:", () => {
       const portalUpdateGroupSpy = spyOn(PortalModule, "updateGroup");
       const chk = await HubGroupsModule.updateHubGroup(
         { ...TEST_HUB_GROUP, membershipAccess: "anyone" } as IHubGroup,
-        { authentication: MOCK_AUTH }
+        { requestOptions: { authentication: MOCK_AUTH } } as IArcGISContext
       );
       expect(chk.membershipAccess).toBe("anyone");
       // If membershipAccess is "anyone", we will set
@@ -297,7 +298,7 @@ describe("HubGroups Module:", () => {
       const portalUpdateGroupSpy = spyOn(PortalModule, "updateGroup");
       const chk = await HubGroupsModule.updateHubGroup(
         { ...TEST_HUB_GROUP, membershipAccess: "organization" } as IHubGroup,
-        { authentication: MOCK_AUTH }
+        { requestOptions: { authentication: MOCK_AUTH } } as IArcGISContext
       );
       expect(chk.membershipAccess).toBe("organization");
       expect(
@@ -308,7 +309,7 @@ describe("HubGroups Module:", () => {
       const portalUpdateGroupSpy = spyOn(PortalModule, "updateGroup");
       const chk = await HubGroupsModule.updateHubGroup(
         { ...TEST_HUB_GROUP, membershipAccess: "collaborators" } as IHubGroup,
-        { authentication: MOCK_AUTH }
+        { requestOptions: { authentication: MOCK_AUTH } } as IArcGISContext
       );
       expect(chk.membershipAccess).toBe("collaborators");
       expect(
