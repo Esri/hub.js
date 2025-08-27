@@ -22,6 +22,7 @@ import { setDiscussableKeyword } from "../discussions";
 import { IHubSearchResult } from "../search/types/IHubSearchResult";
 import { computeLinks } from "./_internal/computeLinks";
 import { getUniqueGroupTitle } from "./_internal/getUniqueGroupTitle";
+import { createOrUpdateEntitySettings } from "../core/_internal/createOrUpdateEntitySettings";
 
 /**
  * Enrich a generic search result
@@ -113,6 +114,15 @@ export async function createHubGroup(
     hubGroup.typeKeywords,
     hubGroup.isDiscussable
   );
+
+  // create or update entity settings
+  const entitySetting = await createOrUpdateEntitySettings(
+    hubGroup,
+    requestOptions as IHubRequestOptions
+  );
+  hubGroup.entitySettingsId = entitySetting.id;
+  hubGroup.discussionSettings = entitySetting.settings.discussions;
+
   const group = convertHubGroupToGroup(hubGroup);
   const opts = {
     group,
@@ -165,6 +175,15 @@ export async function updateHubGroup(
     hubGroup.typeKeywords,
     hubGroup.isDiscussable
   );
+
+  // create or update entity settings
+  const entitySetting = await createOrUpdateEntitySettings(
+    hubGroup,
+    requestOptions as IHubRequestOptions
+  );
+  hubGroup.entitySettingsId = entitySetting.id;
+  hubGroup.discussionSettings = entitySetting.settings.discussions;
+
   const group = convertHubGroupToGroup(hubGroup);
 
   const opts = {

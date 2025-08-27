@@ -27,7 +27,10 @@ const DEFAULT_ENTITY_SETTINGS_BY_ENTITY_TYPE: Record<
   },
   organization: null,
   org: null,
-  group: null,
+  group: {
+    type: EntitySettingType.CONTENT,
+    settings: { ...DISCUSSION_SETTINGS },
+  },
   template: null,
   survey: null,
   event: null,
