@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import { cloneObject } from "../../../util";
 import { HubEntity } from "../../types/HubEntity";
 import {
@@ -54,13 +55,14 @@ export async function getEditorSchemas(
   let schema: IConfigurationSchema;
   let uiSchema: IUiSchema;
   let defaults: IConfigurationValues;
+
   switch (editorType) {
     case "site": {
       const { getSiteSchema } = await import(
         "../../../sites/_internal/SiteSchema"
       );
       // site id is needed for validation of site url
-      schema = getSiteSchema((options as HubEntity).id);
+      schema = getSiteSchema((options as HubEntity).id, context);
 
       const siteModule: IEntityEditorModuleType = await {
         "hub:site:edit": () =>
