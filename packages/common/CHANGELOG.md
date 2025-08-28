@@ -1,3 +1,11 @@
+## @esri/hub-common [20.1.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.1.0...@esri/hub-common@20.1.1) (2025-08-28)
+
+
+### Bug Fixes
+
+* collection schema label maxLength ([#1983](https://github.com/Esri/hub.js/issues/1983)) ([d4425f5](https://github.com/Esri/hub.js/commit/d4425f51d7fed1914098c37e0ab4c1cb2f2d8337))
+* limit maxLength of site name to 240 characters in enterprise ([#1985](https://github.com/Esri/hub.js/issues/1985)) ([f8b0987](https://github.com/Esri/hub.js/commit/f8b0987c91f247bd2006cb64888759a41a4fea90))
+
 # @esri/hub-common [20.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.0.1...@esri/hub-common@20.1.0) (2025-08-27)
 
 
