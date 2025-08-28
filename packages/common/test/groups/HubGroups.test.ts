@@ -182,7 +182,7 @@ describe("HubGroups Module:", () => {
       });
       const chk = await HubGroupsModule.createHubGroup(
         { name: TEST_GROUP.title, protected: TEST_GROUP.protected },
-        { requestOptions: { authentication: MOCK_AUTH } } as IArcGISContext
+        { userRequestOptions: { authentication: MOCK_AUTH } } as IArcGISContext
       );
       expect(chk.name).toBe("dev followers Content");
       expect(getUniqueGroupTitleSpy).toHaveBeenCalledTimes(1);
@@ -221,7 +221,7 @@ describe("HubGroups Module:", () => {
       });
       const chk = await HubGroupsModule.createHubGroup(
         { name: TEST_GROUP.title, protected: false },
-        { requestOptions: { authentication: MOCK_AUTH } } as IArcGISContext
+        { userRequestOptions: { authentication: MOCK_AUTH } } as IArcGISContext
       );
       expect(chk.name).toBe("dev followers Content");
       expect(getUniqueGroupTitleSpy).toHaveBeenCalledTimes(1);
@@ -260,7 +260,7 @@ describe("HubGroups Module:", () => {
       });
       const chk = await HubGroupsModule.createHubGroup(
         { name: TEST_GROUP.title, protected: TEST_GROUP.protected },
-        { requestOptions: { authentication: MOCK_AUTH } } as IArcGISContext
+        { userRequestOptions: { authentication: MOCK_AUTH } } as IArcGISContext
       );
       expect(chk.name).toBe("dev followers Content");
       expect(getUniqueGroupTitleSpy).toHaveBeenCalledTimes(1);
