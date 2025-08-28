@@ -101,13 +101,16 @@ export async function enrichGroupSearchResult(
  */
 export async function createHubGroup(
   partialGroup: Partial<IHubGroup>,
-  requestOptions: IUserRequestOptions
+  context: IArcGISContext
 ): Promise<IHubGroup> {
   // merge the incoming and default groups
   const hubGroup = { ...DEFAULT_GROUP, ...partialGroup } as IHubGroup;
 
   // ensure the group has a unique title
-  const uniqueTitle = await getUniqueGroupTitle(hubGroup.name, requestOptions);
+  const uniqueTitle = await getUniqueGroupTitle(
+    hubGroup.name,
+    context.userRequestOptions
+  );
   hubGroup.name = uniqueTitle;
 
   hubGroup.typeKeywords = setDiscussableKeyword(
@@ -118,7 +121,7 @@ export async function createHubGroup(
   // create or update entity settings
   const entitySetting = await createOrUpdateEntitySettings(
     hubGroup,
-    requestOptions
+    context.hubRequestOptions
   );
   hubGroup.entitySettingsId = entitySetting.id;
   hubGroup.discussionSettings = entitySetting.settings.discussions;
@@ -126,7 +129,7 @@ export async function createHubGroup(
   const group = convertHubGroupToGroup(hubGroup);
   const opts = {
     group,
-    authentication: requestOptions.authentication,
+    authentication: context.userRequestOptions.authentication,
   };
   const result = await createGroup(opts);
   // createGroup does not set a protection value based on the value of 'protected'
@@ -135,12 +138,12 @@ export async function createHubGroup(
     result.group.protected = (
       await protectGroup({
         id: result.group.id,
-        authentication: requestOptions.authentication,
+        authentication: context.userRequestOptions.authentication,
       })
     ).success;
   }
 
-  return await convertGroupToHubGroup(result.group, requestOptions);
+  return await convertGroupToHubGroup(result.group, context.userRequestOptions);
 }
 
 /**
