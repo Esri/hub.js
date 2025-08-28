@@ -20,6 +20,13 @@ export const SITE_ENTITY_NAME_SCHEMA = {
   format: "siteEntityTitleValidator",
 };
 
+export const ENTERPRISE_SITE_ENTITY_NAME_SCHEMA = {
+  type: "string",
+  minLength: 1,
+  maxLength: 240, // 256 - 'hubsubdomain|' minus an extra 3 characters for a round number
+  format: "siteEntityTitleValidator",
+};
+
 export const ENTITY_SUMMARY_SCHEMA = {
   type: "string",
   maxLength: 2048,
