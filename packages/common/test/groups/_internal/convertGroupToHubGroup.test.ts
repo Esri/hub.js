@@ -33,7 +33,7 @@ describe("groups: convertGroupToHubGroup:", () => {
       } as unknown as PortalModule.IPortal,
       portalUrl: "https://myserver.com",
     });
-    const chk = convertGroupToHubGroup(
+    const chk = await convertGroupToHubGroup(
       group,
       authdCtxMgr.context.userRequestOptions
     );

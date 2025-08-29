@@ -57,7 +57,7 @@ export async function getEditorSchemas(
   let defaults: IConfigurationValues;
 
   switch (editorType) {
-    case "site":
+    case "site": {
       const { getSiteSchema } = await import(
         "../../../sites/_internal/SiteSchema"
       );
@@ -99,8 +99,9 @@ export async function getEditorSchemas(
       }
 
       break;
+    }
     // ----------------------------------------------------
-    case "discussion":
+    case "discussion": {
       const { DiscussionSchema } = await import(
         "../../../discussions/_internal/DiscussionSchema"
       );
@@ -137,8 +138,9 @@ export async function getEditorSchemas(
       }
 
       break;
+    }
     // ----------------------------------------------------
-    case "channel":
+    case "channel": {
       const { ChannelSchema } = await import(
         "../../../channels/_internal/ChannelSchema"
       );
@@ -169,8 +171,9 @@ export async function getEditorSchemas(
       }
 
       break;
+    }
     // ----------------------------------------------------
-    case "project":
+    case "project": {
       const { ProjectSchema } = await import(
         "../../../projects/_internal/ProjectSchema"
       );
@@ -203,8 +206,9 @@ export async function getEditorSchemas(
       }
 
       break;
+    }
     // ----------------------------------------------------
-    case "initiative":
+    case "initiative": {
       const { InitiativeSchema } = await import(
         "../../../initiatives/_internal/InitiativeSchema"
       );
@@ -242,8 +246,9 @@ export async function getEditorSchemas(
       }
 
       break;
+    }
     // ----------------------------------------------------
-    case "page":
+    case "page": {
       const { PageSchema } = await import(
         "../../../pages/_internal/PageSchema"
       );
@@ -274,8 +279,9 @@ export async function getEditorSchemas(
       }
 
       break;
+    }
     // ----------------------------------------------------
-    case "content":
+    case "content": {
       const { ContentSchema } = await import(
         "../../../content/_internal/ContentSchema"
       );
@@ -314,8 +320,9 @@ export async function getEditorSchemas(
       }
 
       break;
+    }
     // ----------------------------------------------------
-    case "template":
+    case "template": {
       const { TemplateSchema } = await import(
         "../../../templates/_internal/TemplateSchema"
       );
@@ -344,8 +351,9 @@ export async function getEditorSchemas(
       }
 
       break;
+    }
     // ----------------------------------------------------
-    case "group":
+    case "group": {
       const { GroupSchema } = await import(
         "../../../groups/_internal/GroupSchema"
       );
@@ -366,8 +374,10 @@ export async function getEditorSchemas(
           import("../../../groups/_internal/GroupUiSchemaEdit"),
         "hub:group:settings": () =>
           import("../../../groups/_internal/GroupUiSchemaSettings"),
-        "hub:group:discussions": () =>
-          import("../../../groups/_internal/GroupUiSchemaDiscussions"),
+        "hub:group:settings:discussions": () =>
+          import(
+            "../../../core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettings"
+          ),
       }[type as GroupEditorType]();
       uiSchema = await groupModule.buildUiSchema(
         i18nScope,
@@ -385,8 +395,9 @@ export async function getEditorSchemas(
       }
 
       break;
+    }
     // ----------------------------------------------------
-    case "event":
+    case "event": {
       const eventSchemaModule = await {
         "hub:event:create": () =>
           import("../../../events/_internal/EventSchemaCreate"),
@@ -410,8 +421,9 @@ export async function getEditorSchemas(
         context
       );
       break;
-
-    case "initiativeTemplate":
+    }
+    // ----------------------------------------------------
+    case "initiativeTemplate": {
       const { InitiativeTemplateSchema } = await import(
         "../../../initiative-templates/_internal/InitiativeTemplateSchema"
       );
@@ -442,8 +454,9 @@ export async function getEditorSchemas(
       }
 
       break;
-
-    case "user":
+    }
+    // ----------------------------------------------------
+    case "user": {
       const { UserSchema } = await import(
         "../../../users/_internal/UserSchema"
       );
@@ -473,8 +486,9 @@ export async function getEditorSchemas(
       }
 
       break;
-
-    case "card":
+    }
+    // ----------------------------------------------------
+    case "card": {
       const result = await getCardEditorSchemas(
         i18nScope,
         type as CardEditorType,
@@ -484,6 +498,7 @@ export async function getEditorSchemas(
       schema = result.schema;
       uiSchema = result.uiSchema;
       defaults = result.defaults;
+    }
   }
 
   // filter out properties not used in the UI schema

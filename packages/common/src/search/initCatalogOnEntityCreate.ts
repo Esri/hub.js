@@ -30,10 +30,7 @@ export const initCatalogOnEntityCreate = async (
       ...getWellKnownGroup("hubViewGroup", context),
       name: `${entity.name} Content`,
     };
-    const group = await createHubGroup(
-      partialGroup,
-      context.userRequestOptions
-    );
+    const group = await createHubGroup(partialGroup, context);
     groupId = group.id;
   }
 
