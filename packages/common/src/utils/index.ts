@@ -32,3 +32,4 @@ export * from "./isComboboxItemSelected";
 export * from "./wait";
 export * from "./IUserHubSettings";
 export * from "./IUserSiteSettings";
+export * from "./array";
