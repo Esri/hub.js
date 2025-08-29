@@ -1,3 +1,10 @@
+# @esri/hub-common [20.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.1.1...@esri/hub-common@20.2.0) (2025-08-29)
+
+
+### Features
+
+* **hub-common:** Prevent items list from being resorted on save event ([#1982](https://github.com/Esri/hub.js/issues/1982)) ([1925493](https://github.com/Esri/hub.js/commit/19254931ce3256d5f2978e51271ddaab23f613cc))
+
 ## @esri/hub-common [20.1.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.1.0...@esri/hub-common@20.1.1) (2025-08-28)
 
 
