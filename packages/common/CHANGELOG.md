@@ -1,3 +1,10 @@
+# @esri/hub-common [20.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.2.0...@esri/hub-common@20.3.0) (2025-08-29)
+
+
+### Features
+
+* **hub-common:** add group workspace discussions settings permissions ([#1981](https://github.com/Esri/hub.js/issues/1981)) ([5e3796a](https://github.com/Esri/hub.js/commit/5e3796a37348273595c2a9e2e2d19870b8de27a8))
+
 # @esri/hub-common [20.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.1.1...@esri/hub-common@20.2.0) (2025-08-29)
 
 
