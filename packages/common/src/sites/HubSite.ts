@@ -45,6 +45,7 @@ import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 
 import {
+  IEntityPermissionPolicy,
   getWithDefault,
   IHubSiteEditor,
   IModel,
@@ -508,6 +509,22 @@ export class HubSite
     entity.url = url;
     entity.subdomain = subdomain;
     entity.defaultHostname = defaultHostname;
+
+    // assistant group permissions
+    // 1. Remove any existing 'hub:site:assistant:access' group permissions
+    entity.permissions = entity.permissions.filter(
+      (p) => p.permission !== "hub:site:assistant:access"
+    );
+    // 2. Add new group permissions from assistant.accessGroups if any exist
+    if (entity.assistant.accessGroups?.length > 0) {
+      const assistantPermissions: IEntityPermissionPolicy[] =
+        entity.assistant.accessGroups.map((groupId: string) => ({
+          permission: "hub:site:assistant:access",
+          collaborationType: "group",
+          collaborationId: groupId,
+        }));
+      entity.permissions = [...entity.permissions, ...assistantPermissions];
+    }
 
     // 3. create or update the in-memory entity and save
     this.entity = entity;
