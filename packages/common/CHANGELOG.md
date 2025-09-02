@@ -1,3 +1,10 @@
+# @esri/hub-common [20.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.3.0...@esri/hub-common@20.4.0) (2025-09-02)
+
+
+### Features
+
+* **hub-common:** add permissions for ai assistant ([#1986](https://github.com/Esri/hub.js/issues/1986)) ([1dd52a3](https://github.com/Esri/hub.js/commit/1dd52a3a1eb3aa8e198e52ab3ae8dd59c84e03e1))
+
 # @esri/hub-common [20.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.2.0...@esri/hub-common@20.3.0) (2025-08-29)
 
 
