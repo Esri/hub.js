@@ -881,6 +881,78 @@ describe("HubSite Class:", () => {
           expect(_getFollowersGroupSpy).toHaveBeenCalledTimes(1);
         }
       });
+      it("handles assistant group permissions in fromEditor with existing permissions", async () => {
+        const chk = HubSite.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            permissions: [
+              {
+                permission: "hub:site:assistant:access",
+                collaborationType: "group",
+                collaborationId: "old-group",
+              },
+              {
+                permission: "hub:site:project:create",
+                collaborationType: "group",
+                collaborationId: "3ef",
+              },
+            ],
+            assistant: {
+              schemaVersion: 1,
+              accessGroups: ["group1", "group2"],
+            },
+          },
+          authdCtxMgr.context
+        );
+        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        const editor = await chk.toEditor();
+        // Call fromEditor
+        const result = await chk.fromEditor(editor);
+        // Should remove old assistant:access and add new ones
+        const assistantPerms = result.permissions.filter(
+          (p: any) => p.permission === "hub:site:assistant:access"
+        );
+        expect(assistantPerms.length).toBe(2);
+        expect(assistantPerms[0].collaborationId).toBe("group1");
+        expect(assistantPerms[1].collaborationId).toBe("group2");
+        // Should preserve other permissions
+        const projectPerms = result.permissions.filter(
+          (p: any) => p.permission === "hub:site:project:create"
+        );
+        expect(projectPerms.length).toBe(1);
+        expect(saveSpy).toHaveBeenCalledTimes(1);
+      });
+      it("handles assistant group permissions in fromEditor with no existing site with no permissions or assistant", async () => {
+        const fetchSpy = spyOn(HubSitesModule, "fetchSite").and.callFake(
+          (id: string) => {
+            return Promise.resolve({
+              id,
+              name: "Test Site",
+            });
+          }
+        );
+
+        const chk = await HubSite.fetch("3ef", authdCtxMgr.context);
+        expect(fetchSpy).toHaveBeenCalledTimes(1);
+        expect(chk.toJson().id).toBe("3ef");
+        expect(chk.toJson().name).toBe("Test Site");
+        console.log(chk.toJson());
+        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        const editor = await chk.toEditor();
+        const result = await chk.fromEditor(editor);
+        // Should remove old assistant:access and add new ones
+        const assistantPerms = result.permissions.filter(
+          (p: any) => p.permission === "hub:site:assistant:access"
+        );
+        expect(assistantPerms.length).toBe(0);
+        // Should preserve other permissions
+        const projectPerms = result.permissions.filter(
+          (p: any) => p.permission !== "hub:site:assistant:access"
+        );
+        expect(projectPerms.length).toBe(0);
+        expect(saveSpy).toHaveBeenCalledTimes(1);
+      });
     });
   });
 });
