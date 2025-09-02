@@ -42,7 +42,7 @@
 		"commitizen": "^4.2.1",
 		"concurrently": "^3.5.1",
 		"cpx": "^1.5.0",
-		"cross-spawn": "^5.1.0",
+		"cross-spawn": "^6.0.6",
 		"cz-conventional-changelog": "^3.3.0",
 		"cz-lerna-changelog": "^2.0.3",
 		"dasherize": "^2.0.0",
