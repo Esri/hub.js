@@ -296,8 +296,9 @@ export class HubInitiative
         this.context.requestOptions
       );
 
-      const hubAssociationGroup = await convertGroupToHubGroup(
+      const hubAssociationGroup = convertGroupToHubGroup(
         associationGroup,
+        null,
         this.context.userRequestOptions
       );
       const _associations = {
