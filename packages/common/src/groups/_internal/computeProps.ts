@@ -1,6 +1,5 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
-
 import { IHubGroup } from "../../core/types/IHubGroup";
 import type { IGroup } from "@esri/arcgis-rest-portal";
 import {

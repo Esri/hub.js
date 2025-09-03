@@ -143,7 +143,7 @@ export async function createHubGroup(
 
   // create or update entity settings
   const entitySetting = await createOrUpdateEntitySettings(
-    hubGroup,
+    { ...hubGroup, id: entity.id },
     context.hubRequestOptions
   );
   entity.entitySettingsId = entitySetting.id;
