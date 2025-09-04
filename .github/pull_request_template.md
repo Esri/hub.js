@@ -10,7 +10,11 @@
   
 1. [ ] PR title follows semantic commit format (**CRITICAL** if the title is not in a semantic format, the release automation will not run!)
 
-1. [ ] updated `peerDependencies` as needed. **CRITICAL** our automated release system can **not** be counted on to update `peerDependencies` so we _must_ do it manually in our PRs when needed. See the [updating peerDependencies](/RELEASE.md#Updating-peerDependencies) section of the release instructions for more details.
+1. [ ] Updated `peerDependencies` as needed. **CRITICAL** our automated release system can **not** be counted on to update `peerDependencies` so we _must_ do it manually in our PRs when needed. See the [updating peerDependencies](/RELEASE.md#Updating-peerDependencies) section of the release instructions for more details.
+
+1. [ ] These changes have been verified by QA using a `?uiVersion` that includes a PR-Preview of this branch and the `v_req` label has been applied to the issue.
+
+1. [ ] OD-UI E2E tests pass against these changes using a `?uiVersion` that includes a PR-Preview of this branch
  
 ***CRITICAL** 
 If you are making a breaking change, make sure to add the `BREAKING CHANGE` comment _in the merge commit message_. If this is not done, `semantic-release` will not do the right thing. 
