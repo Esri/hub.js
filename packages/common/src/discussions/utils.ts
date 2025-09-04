@@ -11,6 +11,7 @@ import {
 } from "./api/types";
 import { IFilter, IHubSearchResult, IQuery } from "../search";
 import { unique } from "../util";
+import { Cadence } from "../newsletters/api/orval/api/orval-newsletters";
 
 /**
  * Utility to determine if a given IGroup, IItem, IHubContent, or IHubItemEntity
@@ -356,4 +357,15 @@ export function getPostCSVFileName(entityTitle: string): string {
     // replace trailing hyphens
     .replace(/-$/, "");
   return [prefix, suffix].join("");
+}
+
+export function getCadenceComboBoxItems(): {
+  value: Cadence;
+  labelKey: string;
+}[] {
+  return [
+    { value: Cadence.DAILY, labelKey: "..." },
+    { value: Cadence.WEEKLY, labelKey: "..." },
+    { value: Cadence.MONTHLY, labelKey: "..." },
+  ];
 }
