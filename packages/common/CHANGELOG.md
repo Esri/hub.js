@@ -1,3 +1,10 @@
+## @esri/hub-common [20.4.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.0...@esri/hub-common@20.4.1) (2025-09-04)
+
+
+### Bug Fixes
+
+* **hub-common:** fix create group discussion settings ([#1988](https://github.com/Esri/hub.js/issues/1988)) ([51eabc2](https://github.com/Esri/hub.js/commit/51eabc2eb287448610e604ac814a1bfbde351ecb))
+
 # @esri/hub-common [20.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.3.0...@esri/hub-common@20.4.0) (2025-09-02)
 
 

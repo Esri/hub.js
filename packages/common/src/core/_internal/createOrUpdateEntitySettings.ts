@@ -19,7 +19,7 @@ import { IWithDiscussions } from "../traits/IWithDiscussions";
  * @returns a promise that resolves an IEntitySetting object
  */
 export async function createOrUpdateEntitySettings<
-  T extends IWithDiscussions & { id: string }
+  T extends IWithDiscussions & { id: string; type: string }
 >(
   entity: T,
   requestOptions: IHubRequestOptions,

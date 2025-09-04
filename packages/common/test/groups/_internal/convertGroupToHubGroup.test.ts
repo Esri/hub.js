@@ -3,6 +3,7 @@ import { MOCK_AUTH } from "../../mocks/mock-auth";
 import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import { convertGroupToHubGroup } from "../../../src/groups/_internal/convertGroupToHubGroup";
+import { EntitySettingType, IEntitySetting } from "../../../dist/types";
 
 describe("groups: convertGroupToHubGroup:", () => {
   it("converts an IGroup to a HubGroup", async () => {
@@ -18,6 +19,11 @@ describe("groups: convertGroupToHubGroup:", () => {
       },
       capabilities: ["updateitemcontrol"],
     } as unknown as IGroup;
+    const settings = {
+      id: "abc",
+      type: "group" as EntitySettingType,
+      settings: {},
+    } as IEntitySetting;
     // When we pass in all this information, the context
     // manager will not try to fetch anything, so no need
     // to mock those calls
@@ -33,8 +39,9 @@ describe("groups: convertGroupToHubGroup:", () => {
       } as unknown as PortalModule.IPortal,
       portalUrl: "https://myserver.com",
     });
-    const chk = await convertGroupToHubGroup(
+    const chk = convertGroupToHubGroup(
       group,
+      settings,
       authdCtxMgr.context.userRequestOptions
     );
     expect(chk.id).toBe("3ef");
