@@ -18,7 +18,7 @@ describe("HubPermissionPolicies:", () => {
   it("verifies all HubPermissionPolicies are valid permissions", () => {
     HubPermissionsPolicies.forEach((policy) => {
       expect(isPermission(policy.permission)).toBeTruthy(
-        `Permission ${policy.permission} is not included in HubPermissionsPolicies`
+        `Permission ${policy.permission} is not included in HubPermissions`
       );
     });
   });
