@@ -8,6 +8,7 @@ describe("getWellKnownGroup: ", () => {
   it("returns a followers group", () => {
     const resp = getWellKnownGroup("hubFollowersGroup", MOCK_CONTEXT);
     expect(resp).toEqual({
+      type: "Group",
       access: "public",
       autoJoin: true,
       isInvitationOnly: false,
@@ -18,6 +19,7 @@ describe("getWellKnownGroup: ", () => {
   it("returns a view group", () => {
     const resp = getWellKnownGroup("hubViewGroup", MOCK_CONTEXT);
     expect(resp).toEqual({
+      type: "Group",
       access: "private",
       autoJoin: false,
       isSharedUpdate: false,
@@ -35,6 +37,7 @@ describe("getWellKnownGroup: ", () => {
       getMockContextWithPrivilenges(["portal:user:addExternalMembersToGroup"])
     );
     expect(resp).toEqual({
+      type: "Group",
       access: "private",
       autoJoin: false,
       isSharedUpdate: false,
@@ -52,6 +55,7 @@ describe("getWellKnownGroup: ", () => {
       getMockContextWithPrivilenges(["portal:user:shareGroupToOrg"])
     );
     expect(resp).toEqual({
+      type: "Group",
       access: "org",
       autoJoin: false,
       isSharedUpdate: false,
@@ -69,6 +73,7 @@ describe("getWellKnownGroup: ", () => {
       getMockContextWithPrivilenges(["portal:user:shareGroupToPublic"])
     );
     expect(resp).toEqual({
+      type: "Group",
       access: "public",
       autoJoin: false,
       isSharedUpdate: false,
@@ -83,6 +88,7 @@ describe("getWellKnownGroup: ", () => {
   it("returns an edit group", () => {
     const resp = getWellKnownGroup("hubEditGroup", MOCK_CONTEXT);
     expect(resp).toEqual({
+      type: "Group",
       access: "org",
       autoJoin: false,
       isSharedUpdate: true,
@@ -100,6 +106,7 @@ describe("getWellKnownGroup: ", () => {
       getMockContextWithPrivilenges(["portal:user:addExternalMembersToGroup"])
     );
     expect(resp).toEqual({
+      type: "Group",
       access: "org",
       autoJoin: false,
       isSharedUpdate: true,
@@ -115,6 +122,7 @@ describe("getWellKnownGroup: ", () => {
   it("returns an associations group", () => {
     const resp = getWellKnownGroup("hubAssociationsGroup", MOCK_CONTEXT);
     expect(resp).toEqual({
+      type: "Group",
       access: "public",
       autoJoin: false,
       isInvitationOnly: false,
@@ -131,6 +139,7 @@ describe("getWellKnownGroup: ", () => {
       getMockContextWithPrivilenges(["portal:user:addExternalMembersToGroup"])
     );
     expect(resp).toEqual({
+      type: "Group",
       access: "public",
       autoJoin: false,
       isInvitationOnly: false,

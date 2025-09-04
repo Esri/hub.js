@@ -146,6 +146,7 @@ describe("GroupUiSchemaCreateView", () => {
       );
 
       expect(defaults).toEqual({
+        type: "Group",
         access: "private",
         autoJoin: false,
         isSharedUpdate: false,
@@ -168,6 +169,7 @@ describe("GroupUiSchemaCreateView", () => {
         ])
       );
       expect(defaults).toEqual({
+        type: "Group",
         access: "org",
         autoJoin: false,
         isSharedUpdate: false,
