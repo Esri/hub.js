@@ -4,7 +4,7 @@ import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
 import { computeProps } from "../../../src/groups/_internal/computeProps";
 import { IHubGroup } from "../../../src/core/types/IHubGroup";
 import * as computeLinksModule from "../../../src/groups/_internal/computeLinks";
-import { EntitySettingType } from "../../../dist/types";
+import { EntitySettingType } from "../../../src";
 
 describe("groups: computeProps:", () => {
   let group: IGroup;
