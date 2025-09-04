@@ -1,3 +1,17 @@
+## @esri/hub-common [20.4.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.2...@esri/hub-common@20.4.3) (2025-09-04)
+
+
+### Bug Fixes
+
+* ensure all permissions are in HubPermissions array ([#1991](https://github.com/Esri/hub.js/issues/1991)) ([a38dddf](https://github.com/Esri/hub.js/commit/a38dddf64e08e142f48607618b832d25561dd3b4))
+
+## @esri/hub-common [20.4.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.1...@esri/hub-common@20.4.2) (2025-09-04)
+
+
+### Bug Fixes
+
+* **hub-common:** partial groups have group typing ([#1990](https://github.com/Esri/hub.js/issues/1990)) ([6a9e8a9](https://github.com/Esri/hub.js/commit/6a9e8a96454b90bad19857d9a41392649cedffee))
+
 ## @esri/hub-common [20.4.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.0...@esri/hub-common@20.4.1) (2025-09-04)
 
 
