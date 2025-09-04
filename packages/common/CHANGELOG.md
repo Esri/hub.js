@@ -1,3 +1,10 @@
+## @esri/hub-common [20.4.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.2...@esri/hub-common@20.4.3) (2025-09-04)
+
+
+### Bug Fixes
+
+* ensure all permissions are in HubPermissions array ([#1991](https://github.com/Esri/hub.js/issues/1991)) ([a38dddf](https://github.com/Esri/hub.js/commit/a38dddf64e08e142f48607618b832d25561dd3b4))
+
 ## @esri/hub-common [20.4.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.1...@esri/hub-common@20.4.2) (2025-09-04)
 
 
