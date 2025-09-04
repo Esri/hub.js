@@ -134,6 +134,7 @@ describe("GroupUiSchemaCreateEdit", () => {
         MOCK_CONTEXT
       );
       expect(defaults).toEqual({
+        type: "Group",
         access: "org",
         autoJoin: false,
         isSharedUpdate: true,
@@ -152,6 +153,7 @@ describe("GroupUiSchemaCreateEdit", () => {
         getMockContextWithPrivilenges(["portal:user:addExternalMembersToGroup"])
       );
       expect(defaults).toEqual({
+        type: "Group",
         access: "org",
         autoJoin: false,
         isSharedUpdate: true,
