@@ -8,3 +8,4 @@ export * from "./utils";
 export * from "./wellKnownCatalog";
 export * from "./searchAssociatedContent";
 export * from "./combineQueries";
+export * from "./serializeCatalogScopeQuery";

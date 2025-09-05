@@ -28,6 +28,7 @@ export function getWellKnownGroup(
     "org";
   const configs: Record<WellKnownGroup, Partial<IHubGroup>> = {
     hubGroup: {
+      type: "Group",
       access: "private",
       autoJoin: false,
       isSharedUpdate: false,
@@ -39,6 +40,7 @@ export function getWellKnownGroup(
       membershipAccess: "organization",
     },
     hubViewGroup: {
+      type: "Group",
       access: hasShareGroupToPublic || hasShareGroupToOrg || "private",
       autoJoin: false,
       isSharedUpdate: false,
@@ -55,6 +57,7 @@ export function getWellKnownGroup(
         : "organization",
     },
     hubEditGroup: {
+      type: "Group",
       access: "org",
       autoJoin: false,
       isSharedUpdate: true,
@@ -71,6 +74,7 @@ export function getWellKnownGroup(
         : "organization",
     },
     hubFollowersGroup: {
+      type: "Group",
       access: "public",
       autoJoin: true,
       isInvitationOnly: false,
@@ -78,6 +82,7 @@ export function getWellKnownGroup(
       leavingDisallowed: false,
     },
     hubAssociationsGroup: {
+      type: "Group",
       access: "public",
       autoJoin: false,
       isInvitationOnly: false,

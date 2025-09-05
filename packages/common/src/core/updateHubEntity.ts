@@ -82,10 +82,7 @@ export const updateHubEntity = async (
       );
       break;
     case "group":
-      result = await updateHubGroup(
-        entity as IHubGroup,
-        context.requestOptions
-      );
+      result = await updateHubGroup(entity as IHubGroup, context);
       break;
     case "event":
       result = await updateHubEvent(

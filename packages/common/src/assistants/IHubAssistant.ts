@@ -13,6 +13,10 @@ export interface IHubAssistant {
    */
   access?: string;
   /**
+   * Assistant access groups when not public.
+   */
+  accessGroups?: string[];
+  /**
    * Personality for the assistant.
    */
   personality?: string;

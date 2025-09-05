@@ -12,16 +12,17 @@ import {
   updateGroup,
   protectGroup,
 } from "@esri/arcgis-rest-portal";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IHubGroup } from "../core/types/IHubGroup";
 import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { DEFAULT_GROUP } from "./defaults";
 import { convertHubGroupToGroup } from "./_internal/convertHubGroupToGroup";
 import { convertGroupToHubGroup } from "./_internal/convertGroupToHubGroup";
-import { setDiscussableKeyword } from "../discussions";
+import { fetchSettingV2, setDiscussableKeyword } from "../discussions";
 import { IHubSearchResult } from "../search/types/IHubSearchResult";
 import { computeLinks } from "./_internal/computeLinks";
 import { getUniqueGroupTitle } from "./_internal/getUniqueGroupTitle";
+import { createOrUpdateEntitySettings } from "../core/_internal/createOrUpdateEntitySettings";
+import { IArcGISContext } from "../types";
 
 /**
  * Enrich a generic search result
@@ -100,23 +101,27 @@ export async function enrichGroupSearchResult(
  */
 export async function createHubGroup(
   partialGroup: Partial<IHubGroup>,
-  requestOptions: IUserRequestOptions
+  context: IArcGISContext
 ): Promise<IHubGroup> {
   // merge the incoming and default groups
   const hubGroup = { ...DEFAULT_GROUP, ...partialGroup } as IHubGroup;
 
   // ensure the group has a unique title
-  const uniqueTitle = await getUniqueGroupTitle(hubGroup.name, requestOptions);
+  const uniqueTitle = await getUniqueGroupTitle(
+    hubGroup.name,
+    context.userRequestOptions
+  );
   hubGroup.name = uniqueTitle;
 
   hubGroup.typeKeywords = setDiscussableKeyword(
     hubGroup.typeKeywords,
     hubGroup.isDiscussable
   );
+
   const group = convertHubGroupToGroup(hubGroup);
   const opts = {
     group,
-    authentication: requestOptions.authentication,
+    authentication: context.userRequestOptions.authentication,
   };
   const result = await createGroup(opts);
   // createGroup does not set a protection value based on the value of 'protected'
@@ -125,12 +130,26 @@ export async function createHubGroup(
     result.group.protected = (
       await protectGroup({
         id: result.group.id,
-        authentication: requestOptions.authentication,
+        authentication: context.userRequestOptions.authentication,
       })
     ).success;
   }
 
-  return convertGroupToHubGroup(result.group, requestOptions);
+  const entity = convertGroupToHubGroup(
+    result.group,
+    null,
+    context.userRequestOptions
+  );
+
+  // create or update entity settings
+  const entitySetting = await createOrUpdateEntitySettings(
+    { ...hubGroup, id: entity.id },
+    context.hubRequestOptions
+  );
+  entity.entitySettingsId = entitySetting.id;
+  entity.discussionSettings = entitySetting.settings.discussions;
+
+  return entity;
 }
 
 /**
@@ -144,7 +163,16 @@ export async function fetchHubGroup(
   requestOptions: IHubRequestOptions
 ): Promise<IHubGroup> {
   const group = await getGroup(identifier, requestOptions);
-  return convertGroupToHubGroup(group, requestOptions);
+  const entitySettings = await fetchSettingV2({
+    id: group.id,
+    ...requestOptions,
+  }).catch((): null => null);
+  const hubGroup = convertGroupToHubGroup(
+    group,
+    entitySettings,
+    requestOptions
+  );
+  return hubGroup;
 }
 
 /**
@@ -157,7 +185,7 @@ export async function fetchHubGroup(
  */
 export async function updateHubGroup(
   hubGroup: IHubGroup,
-  requestOptions: IRequestOptions
+  context: IArcGISContext
 ): Promise<IHubGroup> {
   // TODO: fetch the upstream group and convert to a HubGroup so we can compare props
 
@@ -165,11 +193,12 @@ export async function updateHubGroup(
     hubGroup.typeKeywords,
     hubGroup.isDiscussable
   );
+
   const group = convertHubGroupToGroup(hubGroup);
 
   const opts = {
     group,
-    authentication: requestOptions.authentication,
+    authentication: context.requestOptions.authentication,
   };
   // if we have a field we are trying to clear
   // We need to send clearEmptyFields: true to the updateGroup call
@@ -177,6 +206,15 @@ export async function updateHubGroup(
     setProp("params.clearEmptyFields", true, opts);
   }
   await updateGroup(opts);
+
+  // create or update entity settings
+  const entitySetting = await createOrUpdateEntitySettings(
+    hubGroup,
+    context.hubRequestOptions
+  );
+  hubGroup.entitySettingsId = entitySetting.id;
+  hubGroup.discussionSettings = entitySetting.settings.discussions;
+
   return hubGroup;
 }
 

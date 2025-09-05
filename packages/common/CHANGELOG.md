@@ -1,3 +1,74 @@
+## @esri/hub-common [20.4.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.3...@esri/hub-common@20.4.4) (2025-09-04)
+
+
+### Bug Fixes
+
+* **hub-common:** fix issue where existing download export requests were not serialized correctly ([#1987](https://github.com/Esri/hub.js/issues/1987)) ([cebb78a](https://github.com/Esri/hub.js/commit/cebb78af4ad618d29dd57fd8e8872b75c21a27ff))
+
+## @esri/hub-common [20.4.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.2...@esri/hub-common@20.4.3) (2025-09-04)
+
+
+### Bug Fixes
+
+* ensure all permissions are in HubPermissions array ([#1991](https://github.com/Esri/hub.js/issues/1991)) ([a38dddf](https://github.com/Esri/hub.js/commit/a38dddf64e08e142f48607618b832d25561dd3b4))
+
+## @esri/hub-common [20.4.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.1...@esri/hub-common@20.4.2) (2025-09-04)
+
+
+### Bug Fixes
+
+* **hub-common:** partial groups have group typing ([#1990](https://github.com/Esri/hub.js/issues/1990)) ([6a9e8a9](https://github.com/Esri/hub.js/commit/6a9e8a96454b90bad19857d9a41392649cedffee))
+
+## @esri/hub-common [20.4.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.0...@esri/hub-common@20.4.1) (2025-09-04)
+
+
+### Bug Fixes
+
+* **hub-common:** fix create group discussion settings ([#1988](https://github.com/Esri/hub.js/issues/1988)) ([51eabc2](https://github.com/Esri/hub.js/commit/51eabc2eb287448610e604ac814a1bfbde351ecb))
+
+# @esri/hub-common [20.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.3.0...@esri/hub-common@20.4.0) (2025-09-02)
+
+
+### Features
+
+* **hub-common:** add permissions for ai assistant ([#1986](https://github.com/Esri/hub.js/issues/1986)) ([1dd52a3](https://github.com/Esri/hub.js/commit/1dd52a3a1eb3aa8e198e52ab3ae8dd59c84e03e1))
+
+# @esri/hub-common [20.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.2.0...@esri/hub-common@20.3.0) (2025-08-29)
+
+
+### Features
+
+* **hub-common:** add group workspace discussions settings permissions ([#1981](https://github.com/Esri/hub.js/issues/1981)) ([5e3796a](https://github.com/Esri/hub.js/commit/5e3796a37348273595c2a9e2e2d19870b8de27a8))
+
+# @esri/hub-common [20.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.1.1...@esri/hub-common@20.2.0) (2025-08-29)
+
+
+### Features
+
+* **hub-common:** Prevent items list from being resorted on save event ([#1982](https://github.com/Esri/hub.js/issues/1982)) ([1925493](https://github.com/Esri/hub.js/commit/19254931ce3256d5f2978e51271ddaab23f613cc))
+
+## @esri/hub-common [20.1.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.1.0...@esri/hub-common@20.1.1) (2025-08-28)
+
+
+### Bug Fixes
+
+* collection schema label maxLength ([#1983](https://github.com/Esri/hub.js/issues/1983)) ([d4425f5](https://github.com/Esri/hub.js/commit/d4425f51d7fed1914098c37e0ab4c1cb2f2d8337))
+* limit maxLength of site name to 240 characters in enterprise ([#1985](https://github.com/Esri/hub.js/issues/1985)) ([f8b0987](https://github.com/Esri/hub.js/commit/f8b0987c91f247bd2006cb64888759a41a4fea90))
+
+# @esri/hub-common [20.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.0.1...@esri/hub-common@20.1.0) (2025-08-27)
+
+
+### Features
+
+* serialize catalog scope query function ([#1975](https://github.com/Esri/hub.js/issues/1975)) ([b350124](https://github.com/Esri/hub.js/commit/b3501246d9e6a6072950483e9b5c87bd75939dcb))
+
+## @esri/hub-common [20.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.0.0...@esri/hub-common@20.0.1) (2025-08-27)
+
+
+### Bug Fixes
+
+* **hub-common:** settings => discussions pane is not accessible in en… ([#1984](https://github.com/Esri/hub.js/issues/1984)) ([0954ab6](https://github.com/Esri/hub.js/commit/0954ab601093284a704c2d4e1ef6469bf239a154))
+
 # @esri/hub-common [20.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@19.4.1...@esri/hub-common@20.0.0) (2025-08-25)
 
 

@@ -51,6 +51,7 @@ export const SitePermissions = [
   "hub:site:workspace:feeds",
   "hub:site:workspace:assistant",
   "hub:site:workspace:settings:discussions",
+  "hub:site:assistant:access",
 ] as const;
 
 /**
@@ -154,6 +155,7 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:site:workspace:settings:discussions",
     dependencies: ["hub:site:workspace", "hub:site:edit"],
+    licenses: ["hub-basic", "hub-premium"],
   },
   {
     permission: "hub:site:workspace:collaborators",
@@ -251,6 +253,10 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
     licenses: ["hub-premium"],
     dependencies: ["hub:site:workspace", "hub:site:edit"],
     environments: ["devext", "qaext", "production"],
+  },
+  {
+    permission: "hub:site:assistant:access",
+    licenses: ["hub-premium"],
   },
 ];
 

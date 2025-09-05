@@ -91,10 +91,12 @@ export function buildExistingExportsPortalQuery(
 
   const queryBuilder = new SearchQueryBuilder()
     .startGroup()
-    .match(getExportItemTypeKeyword(itemId))
+    // We have to wrap this in quotes to escape the ":" delimiter
+    .match(`"${getExportItemTypeKeyword(itemId)}"`)
     .in("typekeywords")
     .and()
-    .match(getExportLayerTypeKeyword(layerId))
+    // We have to wrap this in quotes to escape the ":" delimiter
+    .match(`"${getExportLayerTypeKeyword(layerId)}"`)
     .in("typekeywords")
     .endGroup()
     .and()
@@ -148,9 +150,10 @@ function buildExportTypesClause(
       .in("type")
       .and()
       .match(
-        getSpatialRefTypeKeyword(
+        // We have to wrap this in quotes to escape the ":" delimiter
+        `"${getSpatialRefTypeKeyword(
           getSpatialRefIdWithDefaults(spatialRefId, type)
-        )
+        )}"`
       )
       .in("typekeywords")
       .endGroup();

@@ -74,6 +74,7 @@ export const validDiscussionSettingsEditorTypes = [
   "hub:site:settings:discussions",
   "hub:content:settings:discussions",
   "hub:content:settings:discussions:compact",
+  "hub:group:settings:discussions",
 ] as const;
 export type DiscussionSettingsEditorType =
   (typeof validDiscussionSettingsEditorTypes)[number];

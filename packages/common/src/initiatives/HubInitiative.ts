@@ -298,6 +298,7 @@ export class HubInitiative
 
       const hubAssociationGroup = convertGroupToHubGroup(
         associationGroup,
+        null,
         this.context.userRequestOptions
       );
       const _associations = {

@@ -60,7 +60,7 @@ export async function getTagItems(
      * any empty values and convert them to the IUiSchemaComboboxItem format
      */
     const entityTags = tags || [];
-    return [...new Set([...tagsAgg.values.map((t) => t.value), ...entityTags])]
+    return [...new Set([...entityTags, ...tagsAgg.values.map((t) => t.value)])]
       .filter((t) => t)
       .map((t) => ({ value: t }));
   } catch (e) {

@@ -13,6 +13,7 @@ export const ContentDefaultFeatures: IFeatureFlags = {
  * @private
  */
 export const ContentPermissions = [
+  "hub:content",
   "hub:content:create",
   "hub:content:delete",
   "hub:content:edit",
@@ -173,5 +174,6 @@ export const ContentPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:content:workspace:settings:discussions",
     dependencies: ["hub:content:workspace", "hub:content:edit"],
+    licenses: ["hub-basic", "hub-premium"],
   },
 ];

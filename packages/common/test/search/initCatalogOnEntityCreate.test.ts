@@ -70,7 +70,7 @@ describe("initCatalogOnEntityCreate", () => {
     expect(getWellKnownGroupSpy).toHaveBeenCalledWith("hubViewGroup", context);
     expect(createHubGroupSpy).toHaveBeenCalledWith(
       { foo: "bar", name: "Test Entity Content" },
-      context.userRequestOptions
+      context
     );
     expect(result.scopes.item.filters[0].predicates[0].group).toEqual([
       "newGroupId",
