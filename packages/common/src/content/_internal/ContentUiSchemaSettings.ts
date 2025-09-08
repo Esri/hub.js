@@ -16,7 +16,7 @@ import { shouldShowDownloadsConfiguration } from "./shouldShowDownloadsConfigura
  * This defines how the schema properties should be
  * rendered in the content settings editing experience
  */
-export const buildUiSchema = async (
+export const buildUiSchema = (
   i18nScope: string,
   options: EntityEditorOptions,
   _context: IArcGISContext
@@ -25,6 +25,24 @@ export const buildUiSchema = async (
     type: "Layout",
     elements: [],
   };
+
+  uiSchema.elements.push({
+    type: "Section",
+    labelKey: "Display Settings",
+    elements: [
+      {
+        type: "Control",
+        scope: "/properties/view/properties/mapSettings",
+        options: {
+          type: "Control",
+          control: "hub-composite-input-map-settings",
+          visibleSettings: ["displaySettings"],
+          showPreview: false,
+        },
+      },
+    ],
+  });
+
   if (
     checkPermission(
       "hub:content:workspace:settings:schedule",
