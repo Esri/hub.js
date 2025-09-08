@@ -145,6 +145,7 @@ describe("GroupUiSchemaCreateAssociation", () => {
         MOCK_CONTEXT
       );
       expect(defaults).toEqual({
+        type: "Group",
         access: "public",
         autoJoin: false,
         isInvitationOnly: false,
@@ -164,6 +165,7 @@ describe("GroupUiSchemaCreateAssociation", () => {
         mockContext
       );
       expect(defaults).toEqual({
+        type: "Group",
         access: "public",
         autoJoin: false,
         isInvitationOnly: false,

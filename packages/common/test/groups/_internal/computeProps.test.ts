@@ -4,6 +4,7 @@ import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
 import { computeProps } from "../../../src/groups/_internal/computeProps";
 import { IHubGroup } from "../../../src/core/types/IHubGroup";
 import * as computeLinksModule from "../../../src/groups/_internal/computeLinks";
+import { EntitySettingType } from "../../../src";
 
 describe("groups: computeProps:", () => {
   let group: IGroup;
@@ -50,9 +51,15 @@ describe("groups: computeProps:", () => {
   describe("computeProps:", () => {
     describe("computed props", () => {
       it("computes the correct props", async () => {
+        const settings = {
+          id: "abc",
+          type: "group" as EntitySettingType,
+          settings: {},
+        };
         let chk = computeProps(
           group,
           hubGroup,
+          settings,
           authdCtxMgr.context.requestOptions
         );
         expect(chk.createdDate).toBeDefined();
@@ -82,12 +89,22 @@ describe("groups: computeProps:", () => {
           } as unknown as IPortal,
           portalUrl: "https://org.maps.arcgis.com",
         });
-        chk = computeProps(group, hubGroup, authdCtxMgr.context.requestOptions);
+        chk = computeProps(
+          group,
+          hubGroup,
+          settings,
+          authdCtxMgr.context.requestOptions
+        );
         expect(chk.thumbnailUrl).toBe(
           "https://org.maps.arcgis.com/sharing/rest/community/groups/3ef/info/group.jpg"
         );
       });
       it("generates a links hash", () => {
+        const settings = {
+          id: "abc",
+          type: "group" as EntitySettingType,
+          settings: {},
+        };
         const computeLinksSpy = spyOn(
           computeLinksModule,
           "computeLinks"
@@ -95,6 +112,7 @@ describe("groups: computeProps:", () => {
         const chk = computeProps(
           group,
           hubGroup,
+          settings,
           authdCtxMgr.context.requestOptions
         );
         expect(computeLinksSpy).toHaveBeenCalledTimes(1);
@@ -105,9 +123,15 @@ describe("groups: computeProps:", () => {
           id: "3ef",
           name: "Test group",
         } as unknown as IGroup;
+        const settings = {
+          id: "abc",
+          type: "group" as EntitySettingType,
+          settings: {},
+        };
         const chk = computeProps(
           group,
           hubGroup,
+          settings,
           authdCtxMgr.context.requestOptions
         );
         expect(chk.memberType).toBeFalsy();

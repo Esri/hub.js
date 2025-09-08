@@ -13,6 +13,7 @@ export const ContentDefaultFeatures: IFeatureFlags = {
  * @private
  */
 export const ContentPermissions = [
+  "hub:content",
   "hub:content:create",
   "hub:content:delete",
   "hub:content:edit",

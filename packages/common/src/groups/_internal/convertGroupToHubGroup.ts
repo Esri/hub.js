@@ -4,8 +4,6 @@ import { IHubGroup } from "../../core/types/IHubGroup";
 import { computeProps } from "./computeProps";
 import { getPropertyMap } from "./getPropertyMap";
 import { IHubRequestOptions } from "../../hub-types";
-import { getDefaultEntitySettings } from "../../discussions/api/settings/getDefaultEntitySettings";
-import { fetchSettingV2 } from "../../discussions/api/settings/settings";
 import { IEntitySetting } from "../../discussions/api/types";
 
 /**
@@ -14,25 +12,14 @@ import { IEntitySetting } from "../../discussions/api/types";
  * @param requestOptions
  */
 
-export async function convertGroupToHubGroup(
+export function convertGroupToHubGroup(
   group: IGroup,
+  entitySettings: IEntitySetting,
   requestOptions: IHubRequestOptions
-): Promise<IHubGroup> {
+): IHubGroup {
   const mapper = new PropertyMapper<Partial<IHubGroup>, IGroup>(
     getPropertyMap()
   );
   const hubGroup = mapper.storeToEntity(group, {}) as IHubGroup;
-  const entitySettings = await fetchSettingV2({
-    id: group.id,
-    ...requestOptions,
-  }).catch(
-    () =>
-      ({
-        id: null,
-        ...getDefaultEntitySettings("group"),
-      } as IEntitySetting)
-  );
-  hubGroup.entitySettingsId = entitySettings.id;
-  hubGroup.discussionSettings = entitySettings.settings.discussions;
-  return computeProps(group, hubGroup, requestOptions);
+  return computeProps(group, hubGroup, entitySettings, requestOptions);
 }

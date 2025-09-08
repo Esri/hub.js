@@ -141,6 +141,7 @@ describe("GroupUiSchemaCreateFollowers", () => {
         MOCK_CONTEXT
       );
       expect(defaults).toEqual({
+        type: "Group",
         access: "public",
         autoJoin: true,
         isInvitationOnly: false,
