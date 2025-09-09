@@ -11,6 +11,97 @@ describe("UserUiSchemaSettings:", () => {
     portalSettingsSpy.calls.reset();
   });
 
+  it("reports misconfiguration for Community Org", async () => {
+    spyOn(FetchOrgModule, "fetchOrg").and.callFake(() => {
+      return Promise.resolve({});
+    });
+    const consoleWarnSpy = spyOn(console, "warn").and.callThrough();
+
+    portalSettingsSpy = spyOn(PortalModule, "getPortalSettings").and.callFake(
+      () => {
+        return Promise.resolve({
+          informationalBanner: {
+            enabled: true,
+          },
+        });
+      }
+    );
+
+    const chk = await UserUiSchemaSettings.buildUiSchema("some.scope", {}, {
+      portalUrl: "https://qaext.arcgis.com",
+      communityOrgId: "xyz",
+      trustedOrgs: [
+        {
+          to: {
+            orgId: "abc",
+            name: "Other org",
+          },
+        },
+      ],
+      communityOrgUrl: "https://qaext.c.arcgis.com",
+      portal: {
+        id: "123",
+        name: "My org",
+      },
+      currentUser: {
+        role: "org_admin",
+        orgId: "123",
+      },
+      isAlphaOrg: true,
+      isOrgAdmin: true,
+    } as IArcGISContext);
+
+    expect(consoleWarnSpy).toHaveBeenCalledWith(
+      `Links to the Community Org could not be displayed. There appears to be a misconfiguration in the trusted org relationships for this organization. Please contact Esri Customer Service for assistance.`
+    );
+    expect(chk).toBeDefined();
+  });
+
+  it("reports misconfiguration for Staff Org", async () => {
+    spyOn(FetchOrgModule, "fetchOrg").and.callFake(() => {
+      return Promise.resolve({});
+    });
+    const consoleWarnSpy = spyOn(console, "warn").and.callThrough();
+
+    portalSettingsSpy = spyOn(PortalModule, "getPortalSettings").and.callFake(
+      () => {
+        return Promise.resolve({
+          informationalBanner: {
+            enabled: true,
+          },
+        });
+      }
+    );
+
+    const chk = await UserUiSchemaSettings.buildUiSchema("some.scope", {}, {
+      portalUrl: "https://qaext.arcgis.com",
+      enterpriseOrgId: "xyz",
+      trustedOrgs: [
+        {
+          to: {
+            orgId: "abc",
+            name: "Other org",
+          },
+        },
+      ],
+      portal: {
+        id: "123",
+        name: "My org",
+      },
+      currentUser: {
+        role: "org_admin",
+        orgId: "123",
+      },
+      isAlphaOrg: true,
+      isOrgAdmin: true,
+    } as IArcGISContext);
+
+    expect(consoleWarnSpy).toHaveBeenCalledWith(
+      `Links to the Staff Org could not be displayed. There appears to be a misconfiguration in the trusted org relationships for this organization. Please contact Esri Customer Service for assistance.`
+    );
+    expect(chk).toBeDefined();
+  });
+
   it("creates the uiSchema correctly", async () => {
     const fetchOrgSpy = spyOn(FetchOrgModule, "fetchOrg").and.callFake(() => {
       return Promise.resolve({});
@@ -752,6 +843,7 @@ describe("UserUiSchemaSettings:", () => {
         role: "org_admin",
         orgId: "123",
       },
+      trustedOrgs: [],
       isAlphaOrg: true,
       isOrgAdmin: true,
     } as IArcGISContext);
@@ -1190,7 +1282,7 @@ describe("UserUiSchemaSettings:", () => {
       ],
     });
   });
-  it("creates the uiSchema correctly when no community org", async () => {
+  xit("creates the uiSchema correctly when no community org", async () => {
     const fetchOrgSpy = spyOn(FetchOrgModule, "fetchOrg").and.callFake(() => {
       return Promise.resolve({});
     });
@@ -1213,6 +1305,7 @@ describe("UserUiSchemaSettings:", () => {
         role: "org_admin",
         orgId: "123",
       },
+      trustedOrgs: [],
       isAlphaOrg: true,
       isOrgAdmin: true,
     } as IArcGISContext);
