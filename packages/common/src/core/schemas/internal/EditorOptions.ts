@@ -43,3 +43,9 @@ export interface IFollowCardEditorOptions {}
 export interface IEventGalleryCardEditorOptions {
   tags: string[];
 }
+
+/**
+ * Options to use when constructing a schema and uiSchema for
+ * an embed card editor.
+ */
+export interface IEmbedCardEditorOptions {}

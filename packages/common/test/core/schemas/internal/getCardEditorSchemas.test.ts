@@ -9,9 +9,11 @@ import {
 import * as statUiSchemaModule from "../../../../src/core/schemas/internal/metrics/StatCardUiSchema";
 import * as followUiSchemaModule from "../../../../src/core/schemas/internal/follow/FollowCardUiSchema";
 import * as eventGalleryUiSchemaModule from "../../../../src/core/schemas/internal/events/EventGalleryCardUiSchema";
+import * as embedUiSchemaModule from "../../../../src/core/schemas/internal/embed/EmbedUiSchema";
 import { IArcGISContext } from "../../../../src";
 import { IEventGalleryCardEditorOptions } from "../../../../src/core/schemas/internal/EditorOptions";
 import { EventGalleryCardSchema } from "../../../../src/core/schemas/internal/events/EventGalleryCardSchema";
+import { EmbedCardSchema } from "../../../../src/core/schemas/internal/embed/EmbedSchema";
 
 describe("getCardEditorSchemas", () => {
   let uiSchemaBuildFnSpy: jasmine.Spy;
@@ -24,7 +26,7 @@ describe("getCardEditorSchemas", () => {
   });
 
   [{ type: "hub:card:stat", buildFn: statUiSchemaModule }].forEach(
-    async ({ type, buildFn }) => {
+    ({ type, buildFn }) => {
       it("returns a schema & uiSchema for a given card and card type", async () => {
         uiSchemaBuildFnSpy = spyOn(buildFn, "buildUiSchema").and.returnValue({
           type: "Layout",
@@ -64,7 +66,7 @@ describe("getCardEditorSchemas", () => {
   });
 
   [{ type: "hub:card:follow", buildFn: followUiSchemaModule }].forEach(
-    async ({ type, buildFn }) => {
+    ({ type, buildFn }) => {
       it("returns a schema & uiSchema for a given card and card type", async () => {
         uiSchemaBuildFnSpy = spyOn(buildFn, "buildUiSchema").and.returnValue({
           type: "Layout",
@@ -139,7 +141,48 @@ describe("getCardEditorSchemas", () => {
         EventGalleryCardSchema,
         uiSchema
       );
-      expect(results).toEqual({ schema: filteredSchema, uiSchema });
+      expect(results).toEqual({
+        schema: filteredSchema,
+        uiSchema,
+        defaults: undefined,
+      });
+    });
+  });
+  describe("embed", () => {
+    it("should build the embed schema and ui schema", async () => {
+      const filteredSchema = {
+        ...EmbedCardSchema,
+        filtered: true,
+      } as unknown as IConfigurationSchema;
+      const uiSchema = { uiSchema: true } as unknown as IUiSchema;
+      const filterSchemaToUiSchemaSpy = spyOn(
+        filterSchemaModule,
+        "filterSchemaToUiSchema"
+      ).and.returnValue(filteredSchema);
+      uiSchemaBuildFnSpy = spyOn(
+        embedUiSchemaModule,
+        "buildUiSchema"
+      ).and.returnValue(uiSchema);
+
+      const results = await getCardEditorSchemas(
+        "",
+        "hub:card:embed",
+        {},
+        context
+      );
+
+      expect(uiSchemaBuildFnSpy).toHaveBeenCalledTimes(1);
+      expect(uiSchemaBuildFnSpy).toHaveBeenCalledWith("", {}, context);
+      expect(filterSchemaToUiSchemaSpy).toHaveBeenCalledTimes(1);
+      expect(filterSchemaToUiSchemaSpy).toHaveBeenCalledWith(
+        EmbedCardSchema,
+        uiSchema
+      );
+      expect(results).toEqual({
+        schema: filteredSchema,
+        uiSchema,
+        defaults: { embeds: [] },
+      });
     });
   });
 });
