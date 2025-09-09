@@ -52,7 +52,9 @@ export async function getCardEditorSchemas(
       // get correct module
       schemaPromise = import("./metrics/MetricSchema");
       uiSchemaPromise = {
-        "hub:card:stat": () => import("./metrics/StatCardUiSchema"),
+        "hub:card:stat": (): Promise<
+          typeof import("./metrics/StatCardUiSchema")
+        > => import("./metrics/StatCardUiSchema"),
       }[type as StatCardEditorType];
 
       // Allow imports to run in parallel
@@ -84,7 +86,9 @@ export async function getCardEditorSchemas(
       // get correct module
       schemaPromise = import("./follow/FollowSchema");
       uiSchemaPromise = {
-        "hub:card:follow": () => import("./follow/FollowCardUiSchema"),
+        "hub:card:follow": (): Promise<
+          typeof import("./follow/FollowCardUiSchema")
+        > => import("./follow/FollowCardUiSchema"),
       }[type as FollowCardEditorType];
 
       // Allow imports to run in parallel

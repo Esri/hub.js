@@ -34,7 +34,7 @@ export interface IStatCardEditorOptions {
  * Options to use when constructing a schema and uiSchema for
  * a follow card editor.
  */
-export interface IFollowCardEditorOptions {}
+export type IFollowCardEditorOptions = Record<string, never>;
 
 /**
  * Options to use when constructing a schema and uiSchema for
@@ -48,4 +48,4 @@ export interface IEventGalleryCardEditorOptions {
  * Options to use when constructing a schema and uiSchema for
  * an embed card editor.
  */
-export interface IEmbedCardEditorOptions {}
+export type IEmbedCardEditorOptions = Record<string, never>;
