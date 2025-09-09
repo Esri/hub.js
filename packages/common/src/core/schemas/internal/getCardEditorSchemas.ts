@@ -8,6 +8,7 @@ import { getCardType } from "./getCardType";
 import { filterSchemaToUiSchema } from "./filterSchemaToUiSchema";
 import {
   CardEditorOptions,
+  IEmbedCardEditorOptions,
   IEventGalleryCardEditorOptions,
   IFollowCardEditorOptions,
   IStatCardEditorOptions,
@@ -47,7 +48,7 @@ export async function getCardEditorSchemas(
   let defaults;
 
   switch (cardType) {
-    case "stat":
+    case "stat": {
       // get correct module
       schemaPromise = import("./metrics/MetricSchema");
       uiSchemaPromise = {
@@ -78,7 +79,8 @@ export async function getCardEditorSchemas(
       );
 
       break;
-    case "follow":
+    }
+    case "follow": {
       // get correct module
       schemaPromise = import("./follow/FollowSchema");
       uiSchemaPromise = {
@@ -98,7 +100,24 @@ export async function getCardEditorSchemas(
         }
       );
       break;
-    case "eventGallery":
+    }
+    case "embed": {
+      schemaPromise = import("./embed/EmbedSchema");
+      uiSchemaPromise = import("./embed/EmbedUiSchema");
+      const [{ EmbedCardSchema }, { buildUiSchema }] = await Promise.all([
+        schemaPromise,
+        uiSchemaPromise,
+      ]);
+      schema = cloneObject(EmbedCardSchema);
+      uiSchema = buildUiSchema(
+        i18nScope,
+        options as IEmbedCardEditorOptions,
+        context
+      );
+      defaults = { embeds: [] };
+      break;
+    }
+    case "eventGallery": {
       schemaPromise = import("./events/EventGalleryCardSchema");
       uiSchemaPromise = import("./events/EventGalleryCardUiSchema");
       const [{ EventGalleryCardSchema }, { buildUiSchema }] = await Promise.all(
@@ -111,9 +130,10 @@ export async function getCardEditorSchemas(
         context
       );
       break;
+    }
   }
   // filter out properties not used in uiSchema
   schema = filterSchemaToUiSchema(schema, uiSchema);
 
-  return Promise.resolve({ schema, uiSchema });
+  return Promise.resolve({ schema, uiSchema, defaults });
 }
