@@ -34,8 +34,8 @@ describe("getCardEditorSchemas", () => {
         const { schema, uiSchema } = await getCardEditorSchemas(
           "some.scope",
           type as CardEditorType,
-          {} as any,
-          {} as any
+          {},
+          context
         );
 
         expect(uiSchemaBuildFnSpy).toHaveBeenCalledTimes(1);
@@ -54,12 +54,7 @@ describe("getCardEditorSchemas", () => {
       "buildUiSchema"
     ).and.returnValue({});
 
-    await getCardEditorSchemas(
-      "some.scope",
-      "hub:card:stat",
-      {} as any,
-      {} as any
-    );
+    await getCardEditorSchemas("some.scope", "hub:card:stat", {}, context);
 
     expect(uiSchemaBuildFnSpy).toHaveBeenCalledTimes(1);
     expect(filterSchemaToUiSchemaSpy).toHaveBeenCalledTimes(1);
@@ -74,8 +69,8 @@ describe("getCardEditorSchemas", () => {
         const { schema, uiSchema } = await getCardEditorSchemas(
           "some.scope",
           type as CardEditorType,
-          {} as any,
-          {} as any
+          {},
+          context
         );
 
         expect(uiSchemaBuildFnSpy).toHaveBeenCalledTimes(1);
@@ -94,12 +89,7 @@ describe("getCardEditorSchemas", () => {
       "buildUiSchema"
     ).and.returnValue({});
 
-    await getCardEditorSchemas(
-      "some.scope",
-      "hub:card:follow",
-      {} as any,
-      {} as any
-    );
+    await getCardEditorSchemas("some.scope", "hub:card:follow", {}, context);
 
     expect(uiSchemaBuildFnSpy).toHaveBeenCalledTimes(1);
     expect(filterSchemaToUiSchemaSpy).toHaveBeenCalledTimes(1);
