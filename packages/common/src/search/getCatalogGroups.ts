@@ -3,7 +3,7 @@ import { unique } from "../util";
 import { Catalog } from "./Catalog";
 import type { IGroupsByMembership } from "./types/IGroupsByMembership";
 import { getUserGroupsFromQuery } from "./getUserGroupsFromQuery";
-import type { IHubCatalog, IQuery } from "./types/IHubCatalog";
+import type { IHubCatalog } from "./types/IHubCatalog";
 
 /**
  * Return an IGroupsByMembership object that contains all the groups, from all the
@@ -47,7 +47,7 @@ export function getCatalogGroups(
   );
 
   const scopeUserGroups = nakedScopeTargetEntities.map((targetEntity) => {
-    const scopeQuery = instance.getScope(targetEntity) as IQuery;
+    const scopeQuery = instance.getScope(targetEntity);
     return getUserGroupsFromQuery(scopeQuery, context.currentUser);
   });
 

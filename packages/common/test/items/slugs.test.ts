@@ -33,11 +33,22 @@ describe("slug utils: ", () => {
         "qa-bas-hub|a-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-really-reallllly",
         "does not end with hyphen"
       );
+      // branch: slugify returns empty string (invalid input)
+      expect(slugModule.constructSlug("!!!@@@###", "myorg")).toBe("");
+      expect(slugModule.constructSlug("", "myorg")).toBe("");
+      expect(slugModule.constructSlug("!!!@@@###")).toBe("");
+      expect(slugModule.constructSlug("")).toBe("");
+      expect(slugModule.constructSlug("-")).toBe("");
     });
   });
   describe("setSlugKeyword:", () => {
     it("removes existing slug keyword, add new one", () => {
       const chk = slugModule.setSlugKeyword(["slug|old-slug"], "hello-world");
+      expect(chk.length).toBe(1);
+      expect(chk[0]).toBe("slug|hello-world");
+    });
+    it("handles mixed case", () => {
+      const chk = slugModule.setSlugKeyword(["slug|old-slug"], "Hello-World");
       expect(chk.length).toBe(1);
       expect(chk[0]).toBe("slug|hello-world");
     });

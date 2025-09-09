@@ -26,7 +26,8 @@ import {
 import { enrichEntity } from "../core/enrichEntity";
 import { InitiativeTemplateEditorType } from "./_internal/InitiativeTemplateSchema";
 import { getEditorSlug } from "../core/_internal/getEditorSlug";
-import { editorToEntity } from "../core/schemas/internal/metrics/editorToEntity";
+import { hubItemEntityFromEditor } from "../core/_internal/hubItemEntityFromEditor";
+import { setProp } from "../objects";
 
 /**
  * Hub Initiative Template Class
@@ -129,6 +130,10 @@ export class HubInitiativeTemplate
     if (!partialInitiativeTemplate.orgUrlKey) {
       partialInitiativeTemplate.orgUrlKey = context.portal.urlKey as string;
     }
+    // ensure orgUrlKey is lowercase
+    partialInitiativeTemplate.orgUrlKey =
+      partialInitiativeTemplate.orgUrlKey.toLowerCase();
+
     const pojo = {
       ...DEFAULT_INITIATIVE_TEMPLATE,
       ...partialInitiativeTemplate,
@@ -188,31 +193,16 @@ export class HubInitiativeTemplate
    * @param editor
    */
   async fromEditor(editor: IHubInitiativeTemplateEditor): Promise<HubEntity> {
-    // Setting the thumbnailCache will ensure that the thumbnail is updated on next save
-    if (editor._thumbnail) {
-      const thumbnail = editor._thumbnail as { blob?: Blob; fileName?: string };
-      if (thumbnail.blob) {
-        this.thumbnailCache = {
-          file: thumbnail.blob,
-          filename: thumbnail.fileName,
-          clear: false,
-        };
-      } else {
-        this.thumbnailCache = {
-          clear: true,
-        };
-      }
-    }
-
-    delete editor._thumbnail;
-
-    const entity = editorToEntity(
-      editor,
-      this.context.portal
-    ) as IHubInitiativeTemplate;
+    // delegate to an item-specific fromEditor util to
+    // handle shared "fromEditor" logic
+    const res = await hubItemEntityFromEditor(editor, this.context);
+    // iterate over the res object keys and set the values
+    // on the HubInitiativeTemplate instance
+    Object.entries(res).forEach(([key, value]) => {
+      setProp(key, value, this);
+    });
 
     // save, which will also create an entity if we don't have an id for it
-    this.entity = entity;
     await this.save();
 
     return this.entity;

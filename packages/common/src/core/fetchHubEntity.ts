@@ -10,7 +10,6 @@ import { HubEntityType } from "./types/HubEntityType";
 import type { IArcGISContext } from "../types/IArcGISContext";
 import { fetchHubGroup } from "../groups/HubGroups";
 import { fetchInitiativeTemplate } from "../initiative-templates/fetch";
-import { fetchSurvey } from "../surveys/fetch";
 import { fetchEvent } from "../events/fetch";
 import { fetchHubUser } from "../users";
 import { fetchOrganization } from "../org/fetch";
@@ -49,16 +48,13 @@ export async function fetchHubEntity(
       result = await fetchPage(identifier, context.hubRequestOptions);
       break;
     case "content":
-      result = await fetchHubContent(identifier, context.requestOptions);
+      result = await fetchHubContent(identifier, context.hubRequestOptions);
       break;
     case "template":
       result = await fetchTemplate(identifier, context.requestOptions);
       break;
     case "group":
       result = await fetchHubGroup(identifier, context.hubRequestOptions);
-      break;
-    case "survey":
-      result = await fetchSurvey(identifier, context.hubRequestOptions);
       break;
     case "event":
       result = await fetchEvent(identifier, context.hubRequestOptions);

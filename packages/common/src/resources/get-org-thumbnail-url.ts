@@ -14,6 +14,7 @@ export function getOrgThumbnailUrl(portal: IPortal, token?: string): string {
   let thumbnailUrl = null;
   if (portal?.thumbnail) {
     const portalUrl = getPortalUrl(portal);
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     thumbnailUrl = `${portalUrl}/sharing/rest/portals/${portal.id}/resources/${portal.thumbnail}`;
     if (token && portal.access !== "public") {
       thumbnailUrl = `${thumbnailUrl}?token=${token}`;

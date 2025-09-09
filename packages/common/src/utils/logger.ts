@@ -91,7 +91,7 @@ export class Logger {
   }
 
   private static isLevelPermitted(level: Level) {
-    const configuredLevel = Level[logLevel as keyof typeof Level];
+    const configuredLevel = Level[logLevel];
     return configuredLevel <= level;
   }
 }

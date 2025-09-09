@@ -65,7 +65,7 @@ describe("addDynamicSlugValidation", () => {
               _slug: {
                 isUniqueSlug: {
                   id: "id",
-                  orgUrlKey: "orgUrlKey",
+                  orgUrlKey: "orgurlkey",
                 },
               } as any,
             },

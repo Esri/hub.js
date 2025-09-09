@@ -55,7 +55,7 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
 {
   protected context: IArcGISContext;
   protected entity: T;
-  protected isDestroyed: boolean = false;
+  protected isDestroyed = false;
   protected thumbnailCache: { file?: any; filename?: string; clear?: boolean } =
     null;
 
@@ -362,7 +362,7 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
    * Return the full url to the thumbnail, optionally with a width parameter
    * @param width
    */
-  getThumbnailUrl(width: number = 200): string {
+  getThumbnailUrl(width = 200): string {
     const minimalItem = {
       id: this.entity.id,
       access: this.entity.access,
@@ -384,10 +384,7 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
    * to keep the number of resources in control
    * @param file
    */
-  async setFeaturedImage(
-    file: any,
-    clearExisting: boolean = false
-  ): Promise<void> {
+  async setFeaturedImage(file: any, clearExisting = false): Promise<void> {
     try {
       // If we have a featured image then clear it out.
       if (this.entity.view?.featuredImageUrl || clearExisting) {

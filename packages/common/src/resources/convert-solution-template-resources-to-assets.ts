@@ -21,6 +21,7 @@ export function convertSolutionTemplateResourcesToAssets(
     const portalRestUrl = getPortalApiUrl(hubRequestOptions.portalSelf);
     // the resources are stored on the solution item, and that Id is attached
     // into the template as .bundleItemId
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     const solutionItemUrl = `${portalRestUrl}/content/items/${template.bundleItemId}`;
     // the resources on the solution are prefixed with the item id of the item the
     // template was created from, which is stored as .itemId

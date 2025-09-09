@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-common",
-  "version": "18.9.0",
+  "version": "20.4.4",
   "description": "Common TypeScript types and utility functions for @esri/hub.js.",
   "main": "dist/node/index.js",
   "module": "dist/esm/index.js",
@@ -24,7 +24,7 @@
   "peerDependencies": {
     "@esri/arcgis-rest-feature-service": "^4.0.0",
     "@esri/arcgis-rest-portal": "^4.0.0",
-    "@esri/arcgis-rest-request": "^4.0.0"
+    "@esri/arcgis-rest-request": "^4.7.1"
   },
   "devDependencies": {
     "@types/adlib": "^3.0.1",

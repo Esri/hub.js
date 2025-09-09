@@ -11,13 +11,12 @@ import * as unshareEventWithGroupsModule from "../../src/events/_internal/unshar
 import * as getEventGroupsModule from "../../src/events/getEventGroups";
 import * as eventsModule from "../../src/events/api/events";
 import { IArcGISContext } from "../../src";
+import * as hubItemEntityFromEditorModule from "../../src/core/_internal/hubItemEntityFromEditor";
 
 /* @ts-ignore no-unnecessary-qualifier */
 describe("HubEvent Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
-  let unauthdCtxMgr: ArcGISContextManager;
   beforeEach(async () => {
-    unauthdCtxMgr = await ArcGISContextManager.create();
     // When we pass in all this information, the context
     // manager will not try to fetch anything, so no need
     // to mock those calls
@@ -29,7 +28,7 @@ describe("HubEvent Class:", () => {
       portal: {
         name: "DC R&D Center",
         id: "BRXFAKE",
-        urlKey: "fake-org",
+        urlKey: "fake-Org",
       } as unknown as portalModule.IPortal,
       portalUrl: "https://myserver.com",
     });
@@ -48,6 +47,7 @@ describe("HubEvent Class:", () => {
       ],
     });
     expect(chk.toJson().name).toEqual("Test Event 2");
+    expect(chk.toJson().orgUrlKey).toEqual("fake-org");
 
     chk.update({ tags: ["one", "two"] });
     expect(chk.toJson().tags).toEqual(["one", "two"]);
@@ -183,6 +183,27 @@ describe("HubEvent Class:", () => {
     });
 
     describe("fromEditor:", () => {
+      let hubItemEntityFromEditorSpy: jasmine.Spy;
+      beforeEach(() => {
+        hubItemEntityFromEditorSpy = spyOn(
+          hubItemEntityFromEditorModule,
+          "hubItemEntityFromEditor"
+        ).and.callThrough();
+      });
+      it("delegates to the hubItemEntityFromEditor util to handle shared logic", async () => {
+        const chk = HubEvent.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+          },
+          authdCtxMgr.context
+        );
+        spyOn(chk, "save").and.returnValue(Promise.resolve());
+        const editor = await chk.toEditor();
+        await chk.fromEditor(editor);
+        expect(hubItemEntityFromEditorSpy).toHaveBeenCalledTimes(1);
+      });
       it("handles simple prop change", async () => {
         const chk = HubEvent.fromJson(
           {

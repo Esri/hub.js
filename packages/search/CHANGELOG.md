@@ -1,3 +1,30 @@
+# @esri/hub-search [20.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-search@19.0.0...@esri/hub-search@20.0.0) (2025-08-25)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 20.0.0
+
+# @esri/hub-search [19.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-search@18.0.1...@esri/hub-search@19.0.0) (2025-08-04)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 19.0.0
+
+## @esri/hub-search [18.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-search@18.0.0...@esri/hub-search@18.0.1) (2025-07-25)
+
+
+### Bug Fixes
+
+* apply updates made specifically for 11.5 ([#1951](https://github.com/Esri/hub.js/issues/1951)) ([0e98d3f](https://github.com/Esri/hub.js/commit/0e98d3f65bb345ae274e24e3f75690ca4f236a7a))
+
 # @esri/hub-search [18.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-search@17.1.0...@esri/hub-search@18.0.0) (2025-06-18)
 
 

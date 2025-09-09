@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import { cloneObject } from "../../../util";
 import { HubEntity } from "../../types/HubEntity";
 import {
@@ -27,7 +28,6 @@ import {
 import type { IArcGISContext } from "../../../types/IArcGISContext";
 import { InitiativeTemplateEditorType } from "../../../initiative-templates/_internal/InitiativeTemplateSchema";
 import { getCardEditorSchemas } from "./getCardEditorSchemas";
-import { SurveyEditorType } from "../../../surveys/_internal/SurveySchema";
 import { EventEditorType } from "../../../events/_internal/EventSchemaCreate";
 import { UserEditorType } from "../../../users/_internal/UserSchema";
 import { addDynamicSlugValidation } from "./addDynamicSlugValidation";
@@ -55,13 +55,14 @@ export async function getEditorSchemas(
   let schema: IConfigurationSchema;
   let uiSchema: IUiSchema;
   let defaults: IConfigurationValues;
+
   switch (editorType) {
-    case "site":
+    case "site": {
       const { getSiteSchema } = await import(
         "../../../sites/_internal/SiteSchema"
       );
       // site id is needed for validation of site url
-      schema = getSiteSchema((options as HubEntity).id);
+      schema = getSiteSchema((options as HubEntity).id, context);
 
       const siteModule: IEntityEditorModuleType = await {
         "hub:site:edit": () =>
@@ -70,12 +71,14 @@ export async function getEditorSchemas(
           import("../../../sites/_internal/SiteUiSchemaCreate"),
         "hub:site:followers": () =>
           import("../../../sites/_internal/SiteUiSchemaFollowers"),
-        "hub:site:discussions": () =>
-          import("../../../sites/_internal/SiteUiSchemaDiscussions"),
         "hub:site:settings": () =>
           import("../../../sites/_internal/SiteUiSchemaSettings"),
         "hub:site:assistant": () =>
           import("../../../sites/_internal/SiteUiSchemaAssistant"),
+        "hub:site:settings:discussions": () =>
+          import(
+            "../../../core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettings"
+          ),
       }[type as SiteEditorType]();
       uiSchema = await siteModule.buildUiSchema(
         i18nScope,
@@ -96,8 +99,9 @@ export async function getEditorSchemas(
       }
 
       break;
+    }
     // ----------------------------------------------------
-    case "discussion":
+    case "discussion": {
       const { DiscussionSchema } = await import(
         "../../../discussions/_internal/DiscussionSchema"
       );
@@ -134,8 +138,9 @@ export async function getEditorSchemas(
       }
 
       break;
+    }
     // ----------------------------------------------------
-    case "channel":
+    case "channel": {
       const { ChannelSchema } = await import(
         "../../../channels/_internal/ChannelSchema"
       );
@@ -166,8 +171,9 @@ export async function getEditorSchemas(
       }
 
       break;
+    }
     // ----------------------------------------------------
-    case "project":
+    case "project": {
       const { ProjectSchema } = await import(
         "../../../projects/_internal/ProjectSchema"
       );
@@ -200,8 +206,9 @@ export async function getEditorSchemas(
       }
 
       break;
+    }
     // ----------------------------------------------------
-    case "initiative":
+    case "initiative": {
       const { InitiativeSchema } = await import(
         "../../../initiatives/_internal/InitiativeSchema"
       );
@@ -239,8 +246,9 @@ export async function getEditorSchemas(
       }
 
       break;
+    }
     // ----------------------------------------------------
-    case "page":
+    case "page": {
       const { PageSchema } = await import(
         "../../../pages/_internal/PageSchema"
       );
@@ -271,8 +279,9 @@ export async function getEditorSchemas(
       }
 
       break;
+    }
     // ----------------------------------------------------
-    case "content":
+    case "content": {
       const { ContentSchema } = await import(
         "../../../content/_internal/ContentSchema"
       );
@@ -281,10 +290,16 @@ export async function getEditorSchemas(
       const contentModule: IEntityEditorModuleType = await {
         "hub:content:edit": () =>
           import("../../../content/_internal/ContentUiSchemaEdit"),
-        "hub:content:discussions": () =>
-          import("../../../content/_internal/ContentUiSchemaDiscussions"),
         "hub:content:settings": () =>
           import("../../../content/_internal/ContentUiSchemaSettings"),
+        "hub:content:settings:discussions": () =>
+          import(
+            "../../../core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettings"
+          ),
+        "hub:content:settings:discussions:compact": () =>
+          import(
+            "../../../core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettingsCompact"
+          ),
       }[type as ContentEditorType]();
       uiSchema = await contentModule.buildUiSchema(
         i18nScope,
@@ -305,8 +320,9 @@ export async function getEditorSchemas(
       }
 
       break;
+    }
     // ----------------------------------------------------
-    case "template":
+    case "template": {
       const { TemplateSchema } = await import(
         "../../../templates/_internal/TemplateSchema"
       );
@@ -335,8 +351,9 @@ export async function getEditorSchemas(
       }
 
       break;
+    }
     // ----------------------------------------------------
-    case "group":
+    case "group": {
       const { GroupSchema } = await import(
         "../../../groups/_internal/GroupSchema"
       );
@@ -357,8 +374,10 @@ export async function getEditorSchemas(
           import("../../../groups/_internal/GroupUiSchemaEdit"),
         "hub:group:settings": () =>
           import("../../../groups/_internal/GroupUiSchemaSettings"),
-        "hub:group:discussions": () =>
-          import("../../../groups/_internal/GroupUiSchemaDiscussions"),
+        "hub:group:settings:discussions": () =>
+          import(
+            "../../../core/schemas/internal/discussions/EntityUiSchemaDiscussionsSettings"
+          ),
       }[type as GroupEditorType]();
       uiSchema = await groupModule.buildUiSchema(
         i18nScope,
@@ -376,27 +395,9 @@ export async function getEditorSchemas(
       }
 
       break;
+    }
     // ----------------------------------------------------
-    case "survey":
-      const { SurveySchema } = await import(
-        "../../../surveys/_internal/SurveySchema"
-      );
-      schema = cloneObject(SurveySchema);
-
-      const surveyModule = await {
-        "hub:survey:edit": () =>
-          import("../../../surveys/_internal/SurveyUiSchemaEdit"),
-        "hub:survey:settings": () =>
-          import("../../../surveys/_internal/SurveyUiSchemaSettings"),
-      }[type as SurveyEditorType]();
-      uiSchema = await surveyModule.buildUiSchema(
-        i18nScope,
-        options as EntityEditorOptions,
-        context
-      );
-      break;
-    // ----------------------------------------------------
-    case "event":
+    case "event": {
       const eventSchemaModule = await {
         "hub:event:create": () =>
           import("../../../events/_internal/EventSchemaCreate"),
@@ -420,8 +421,9 @@ export async function getEditorSchemas(
         context
       );
       break;
-
-    case "initiativeTemplate":
+    }
+    // ----------------------------------------------------
+    case "initiativeTemplate": {
       const { InitiativeTemplateSchema } = await import(
         "../../../initiative-templates/_internal/InitiativeTemplateSchema"
       );
@@ -452,8 +454,9 @@ export async function getEditorSchemas(
       }
 
       break;
-
-    case "user":
+    }
+    // ----------------------------------------------------
+    case "user": {
       const { UserSchema } = await import(
         "../../../users/_internal/UserSchema"
       );
@@ -483,8 +486,9 @@ export async function getEditorSchemas(
       }
 
       break;
-
-    case "card":
+    }
+    // ----------------------------------------------------
+    case "card": {
       const result = await getCardEditorSchemas(
         i18nScope,
         type as CardEditorType,
@@ -494,6 +498,7 @@ export async function getEditorSchemas(
       schema = result.schema;
       uiSchema = result.uiSchema;
       defaults = result.defaults;
+    }
   }
 
   // filter out properties not used in the UI schema

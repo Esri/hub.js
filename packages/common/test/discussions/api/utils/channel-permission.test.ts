@@ -110,6 +110,21 @@ describe("ChannelPermission class", () => {
     });
   });
 
+  describe("deriveUserRole", () => {
+    it("derives the user role for the channel", () => {
+      const user = buildUser();
+      const channelAcl = buildCompleteAcl();
+
+      const channel = {
+        allowReply: true,
+        channelAcl,
+      } as IChannel;
+      const channelPermission = new ChannelPermission(channel);
+
+      expect(channelPermission.deriveUserRole(user)).toBe(Role.READ);
+    });
+  });
+
   describe("canPostToChannel", () => {
     describe("all permission cases", () => {
       it("returns false if user logged in and channel permissions are empty", async () => {

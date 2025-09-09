@@ -60,7 +60,6 @@ export async function getWellKnownAssociationsCatalog(
   associationType: HubEntityType,
   context: IArcGISContext
 ): Promise<IHubCatalog> {
-  let catalog: IHubCatalog;
   const entityType = getTypeFromEntity(entity);
   const isSupported = isAssociationSupported(entityType, associationType);
 
@@ -114,15 +113,13 @@ export async function getWellKnownAssociationsCatalog(
   const filters = query?.filters
     ? query.filters
     : [{ predicates: [{ type: ["Code Attachment"] }] }];
-  catalog = buildCatalog(
+  return buildCatalog(
     i18nScope,
     catalogName,
     filters,
     collections,
     targetEntity
   );
-
-  return catalog;
 }
 
 /**

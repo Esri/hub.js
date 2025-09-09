@@ -3,22 +3,18 @@ import { IHubDiscussion, IHubItemEntity } from "../core/types";
 import { createModel, getModel, updateModel } from "../models";
 import { constructSlug } from "../items/slugs";
 import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlug";
-import {
-  createSetting,
-  removeSetting,
-  updateSetting,
-} from "./api/settings/settings";
+import { removeSettingV2 } from "./api/settings/settings";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
 import { DEFAULT_DISCUSSION, DEFAULT_DISCUSSION_MODEL } from "./defaults";
-import { getDefaultEntitySettings } from "./api/settings/getDefaultEntitySettings";
 import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
 import { setDiscussableKeyword } from "./utils";
 import { IHubRequestOptions, IModel } from "../hub-types";
 import { cloneObject } from "../util";
 import { arcgisToGeoJSON } from "@terraformer/arcgis";
 import { Polygon } from "geojson";
+import { createOrUpdateEntitySettings } from "../core/_internal/createOrUpdateEntitySettings";
 
 /**
  * @private
@@ -37,6 +33,9 @@ export async function createDiscussion(
   // merge incoming with the default
   // this expansion solves the typing somehow
   const discussion = { ...DEFAULT_DISCUSSION, ...partialDiscussion };
+
+  // ensure orgUrlKey is set and downcased
+  discussion.orgUrlKey = discussion.orgUrlKey.toLowerCase();
 
   // Create a slug from the title if one is not passed in
   if (!discussion.slug) {
@@ -59,34 +58,17 @@ export async function createDiscussion(
   );
   // create the item
   model = await createModel(model, requestOptions as IUserRequestOptions);
-  const defaultSettings = getDefaultEntitySettings("discussion");
-  const settings = {
-    ...defaultSettings.settings,
-    discussions: {
-      ...defaultSettings.settings.discussions,
-      ...discussion.discussionSettings,
-    },
-  };
-  if (!settings.discussions.allowedChannelIds?.length) {
-    settings.discussions.allowedChannelIds = null;
-  }
-  if (!settings.discussions.allowedLocations?.length) {
-    settings.discussions.allowedLocations = null;
-  }
+  const newDiscussion = mapper.storeToEntity(model, {}) as IHubDiscussion;
+
   // create the entity settings
-  model.entitySettings = await createSetting({
-    data: {
-      id: model.item.id,
-      type: defaultSettings.type,
-      settings,
-    },
-    ...requestOptions,
-  });
-  // map the model back into a IHubDiscussion
-  let newDiscussion = mapper.storeToEntity(model, {});
-  newDiscussion = computeProps(model, newDiscussion, requestOptions);
-  // and return it
-  return newDiscussion as IHubDiscussion;
+  const entitySettings = await createOrUpdateEntitySettings(
+    newDiscussion,
+    requestOptions
+  );
+  newDiscussion.entitySettingsId = entitySettings.id;
+  newDiscussion.discussionSettings = entitySettings.settings.discussions;
+
+  return newDiscussion;
 }
 
 /**
@@ -122,8 +104,11 @@ export async function updateDiscussion(
     requestOptions as IUserRequestOptions
   );
   // now map back into a discussion and return that
-  let updatedDiscussion = mapper.storeToEntity(updatedModel, discussion);
-  updatedDiscussion = computeProps(model, updatedDiscussion, requestOptions);
+  const updatedDiscussion = computeProps(
+    model,
+    mapper.storeToEntity(updatedModel, discussion),
+    requestOptions
+  );
 
   // persist location geometries to discussion settings as Polygon[]
   let allowedLocations: Polygon[];
@@ -139,41 +124,16 @@ export async function updateDiscussion(
   }
 
   // create or update entity settings
-  const defaultSettings = getDefaultEntitySettings("discussion");
-  const settings = {
-    ...defaultSettings.settings,
-    discussions: {
-      ...defaultSettings.settings.discussions,
-      ...updatedDiscussion.discussionSettings,
-      allowedLocations,
-    },
-  };
-  if (!settings.discussions.allowedChannelIds?.length) {
-    settings.discussions.allowedChannelIds = null;
-  }
-  if (!settings.discussions.allowedLocations?.length) {
-    settings.discussions.allowedLocations = null;
-  }
-  const newOrUpdatedSettings = updatedDiscussion.entitySettingsId
-    ? await updateSetting({
-        id: updatedDiscussion.entitySettingsId,
-        data: { settings },
-        ...requestOptions,
-      })
-    : await createSetting({
-        data: {
-          id: updatedDiscussion.id,
-          type: defaultSettings.type,
-          settings,
-        },
-        ...requestOptions,
-      });
-  updatedDiscussion.entitySettingsId = newOrUpdatedSettings.id;
-  updatedDiscussion.discussionSettings =
-    newOrUpdatedSettings.settings.discussions;
-  // the casting is needed because modelToObject returns a `Partial<T>`
-  // where as this function returns a `T`
-  return updatedDiscussion as IHubDiscussion;
+  const entitySettings = await createOrUpdateEntitySettings(
+    updatedDiscussion,
+    requestOptions,
+    allowedLocations
+  );
+
+  updatedDiscussion.entitySettingsId = entitySettings.id;
+  updatedDiscussion.discussionSettings = entitySettings.settings.discussions;
+
+  return updatedDiscussion;
 }
 
 /**
@@ -189,7 +149,7 @@ export async function deleteDiscussion(
 ): Promise<void> {
   const ro = { ...requestOptions, ...{ id } } as IUserItemOptions;
   try {
-    await removeSetting({ id, ...requestOptions });
+    await removeSettingV2({ id, ...requestOptions });
   } catch (e) {
     // suppress error
   }

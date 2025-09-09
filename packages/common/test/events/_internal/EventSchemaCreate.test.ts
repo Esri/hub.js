@@ -2,11 +2,8 @@ import { buildSchema } from "../../../src/events/_internal/EventSchemaCreate";
 import { IConfigurationSchema } from "../../../src/core/schemas/types";
 import * as getDefaultEventDatesAndTimesModule from "../../../src/events/_internal/getDefaultEventDatesAndTimes";
 import { ENTITY_NAME_SCHEMA } from "../../../src/core/schemas/shared/subschemas";
-import { HubEventAttendanceType } from "../../../src/events/types";
-import {
-  TIME_VALIDATIONS_WHEN_NOT_ALL_DAY,
-  URL_VALIDATIONS_WHEN_ONLINE_OR_HYBRID,
-} from "../../../src/events/_internal/validations";
+import { TIME_VALIDATIONS_WHEN_NOT_ALL_DAY } from "../../../src/events/_internal/validations";
+import { ENTITY_CATALOG_SETUP_SCHEMA } from "../../../src/core/schemas/shared/subschemas";
 
 describe("EventSchemaCreate", () => {
   describe("buildSchema", () => {
@@ -46,6 +43,7 @@ describe("EventSchemaCreate", () => {
             type: "boolean",
             default: false,
           },
+          _catalogSetup: ENTITY_CATALOG_SETUP_SCHEMA,
         },
         allOf: [TIME_VALIDATIONS_WHEN_NOT_ALL_DAY],
       } as IConfigurationSchema);

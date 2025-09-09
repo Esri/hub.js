@@ -12,16 +12,16 @@ export const GalleryDisplayConfigSchema: IConfigurationSchema = {
     hidden: { type: "boolean", default: false },
     layout: {
       type: "string",
-      enum: [ 'grid', 'list', 'map', 'compact', 'table', 'calendar' ],
+      enum: ["grid", "list", "map", "compact", "table", "calendar"],
       default: "list",
     },
     layouts: {
       type: "array",
       items: {
         type: "string",
-        enum: [ 'grid', 'list', 'map', 'compact', 'table', 'calendar' ]
+        enum: ["grid", "list", "map", "compact", "table", "calendar"],
       },
-      default: []
+      default: [],
     },
     cardTitleTag: {
       type: "string",
@@ -144,6 +144,7 @@ export const CollectionSchema: IConfigurationSchema = {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       format: "isNotWhitespace",
+      maxLength: 64,
     },
     scope: QuerySchema,
     displayConfig: GalleryDisplayConfigSchema,

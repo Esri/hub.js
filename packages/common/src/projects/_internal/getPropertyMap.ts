@@ -25,10 +25,6 @@ export function getPropertyMap(): IPropertyMap[] {
     entityKey: "features",
     storeKey: "data.settings.features",
   });
-  map.push({
-    entityKey: "location",
-    storeKey: "item.properties.location",
-  });
   map.push({ entityKey: "metrics", storeKey: "item.properties.metrics" });
 
   return map;

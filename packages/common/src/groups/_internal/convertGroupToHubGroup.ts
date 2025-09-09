@@ -4,6 +4,7 @@ import { IHubGroup } from "../../core/types/IHubGroup";
 import { computeProps } from "./computeProps";
 import { getPropertyMap } from "./getPropertyMap";
 import { IHubRequestOptions } from "../../hub-types";
+import { IEntitySetting } from "../../discussions/api/types";
 
 /**
  * Convert an IGroup to a Hub Group
@@ -13,11 +14,12 @@ import { IHubRequestOptions } from "../../hub-types";
 
 export function convertGroupToHubGroup(
   group: IGroup,
+  entitySettings: IEntitySetting,
   requestOptions: IHubRequestOptions
 ): IHubGroup {
   const mapper = new PropertyMapper<Partial<IHubGroup>, IGroup>(
     getPropertyMap()
   );
   const hubGroup = mapper.storeToEntity(group, {}) as IHubGroup;
-  return computeProps(group, hubGroup, requestOptions);
+  return computeProps(group, hubGroup, entitySettings, requestOptions);
 }

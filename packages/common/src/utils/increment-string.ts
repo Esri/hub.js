@@ -4,7 +4,7 @@
  * @param {string} str String to increment
  */
 export function incrementString(str: string) {
-  const matches = str.match(/-\s(\d+$)/);
+  const matches = /-\s(\d+$)/.exec(str);
   if (matches) {
     // get the number
     const current = parseInt(matches[1], 10);

@@ -1,5 +1,4 @@
 import type { IUserRequestOptions } from "@esri/arcgis-rest-request";
-import { editorToEntity } from "../core/schemas/internal/metrics/editorToEntity";
 
 // Note - we separate these imports so we can cleanly spy on things in tests
 import {
@@ -20,8 +19,6 @@ import {
   IHubRequestOptions,
   setDiscussableKeyword,
   IModel,
-  IHubInitiativeEditor,
-  camelize,
 } from "../index";
 import { IQuery } from "../search/types/IHubCatalog";
 import {
@@ -29,7 +26,6 @@ import {
   IUserItemOptions,
   removeItem,
   getItem,
-  updateGroup,
 } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
@@ -41,19 +37,12 @@ import { fetchItemEnrichments } from "../items/_enrichments";
 import { DEFAULT_INITIATIVE, DEFAULT_INITIATIVE_MODEL } from "./defaults";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
-import { applyInitiativeMigrations } from "./_internal/applyInitiativeMigrations";
 import { combineQueries } from "../search/combineQueries";
 import { getTypeWithKeywordQuery } from "../associations/internal/getTypeWithKeywordQuery";
 import { negateGroupPredicates } from "../search/negateGroupPredicates";
 import { computeLinks } from "./_internal/computeLinks";
 import { deriveLocationFromItem } from "../content/_internal/internalContentUtils";
 import { setEntityStatusKeyword } from "../utils/internal/setEntityStatusKeyword";
-import { editorToMetric } from "../metrics/editorToMetric";
-import { setMetricAndDisplay } from "../core/schemas/internal/metrics/setMetricAndDisplay";
-import { createId } from "../util";
-import type { IArcGISContext } from "../types/IArcGISContext";
-import { convertHubGroupToGroup } from "../groups/_internal/convertHubGroupToGroup";
-import { IHubGroup } from "../core/types/IHubGroup";
 import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlug";
 
 /**
@@ -72,6 +61,9 @@ export async function createInitiative(
   // merge incoming with the default
   // this expansion solves the typing somehow
   const initiative = { ...DEFAULT_INITIATIVE, ...partialInitiative };
+
+  // ensure orgUrlKey is lowercase
+  initiative.orgUrlKey = initiative.orgUrlKey.toLowerCase();
 
   // Create a slug from the title if one is not passed in
   if (!initiative.slug) {
@@ -104,76 +96,6 @@ export async function createInitiative(
   newInitiative = computeProps(model, newInitiative, requestOptions);
   // and return it
   return newInitiative as IHubInitiative;
-}
-
-/**
- * Convert a IHubInitiativeEditor back to an IHubInitiative
- * @param editor
- * @param portal
- * @returns
- */
-export async function editorToInitiative(
-  editor: IHubInitiativeEditor,
-  context: IArcGISContext
-): Promise<IHubInitiative> {
-  const _metric = editor._metric;
-  const _associations = editor._associations;
-
-  // 1. remove the ephemeral props we graft onto the editor
-  delete editor._groups;
-  delete editor._thumbnail;
-  delete editor.view?.featuredImage;
-  delete editor._metric;
-  delete editor._groups;
-  delete editor._associations;
-
-  // 2. clone into a HubInitiative and extract common properties
-  let initiative = editorToEntity(editor, context.portal) as IHubInitiative;
-
-  // 4. handle configured metric:
-  //   a. transform editor values into metric + displayConfig
-  //   b. set metric and displayConfig on initiative
-  if (_metric && Object.keys(_metric).length) {
-    const metricId =
-      _metric.metricId || createId(camelize(`${_metric.cardTitle}_`));
-    const { metric, displayConfig } = editorToMetric(_metric, metricId, {
-      metricName: _metric.cardTitle,
-    });
-
-    initiative = setMetricAndDisplay(initiative, metric, displayConfig);
-  }
-
-  // 5. handle association group settings
-  const assocGroupId = initiative.associations?.groupId;
-
-  if (assocGroupId && _associations) {
-    const associationGroup = convertHubGroupToGroup(_associations as IHubGroup);
-
-    // handle group access
-    if (_associations.groupAccess) {
-      await updateGroup({
-        group: {
-          id: assocGroupId,
-          access: _associations.groupAccess,
-        },
-        authentication: context.hubRequestOptions.authentication,
-      });
-    }
-
-    // handle membership access
-    if (_associations.membershipAccess) {
-      await updateGroup({
-        group: {
-          id: assocGroupId,
-          membershipAccess: associationGroup.membershipAccess,
-          clearEmptyFields: true,
-        },
-        authentication: context.hubRequestOptions.authentication,
-      });
-    }
-  }
-
-  return initiative;
 }
 
 /**
@@ -267,9 +189,7 @@ export async function convertItemToInitiative(
   item: IItem,
   requestOptions: IRequestOptions
 ): Promise<IHubInitiative> {
-  let model = await fetchModelFromItem(item, requestOptions);
-  // apply migrations
-  model = await applyInitiativeMigrations(model, requestOptions);
+  const model = await fetchModelFromItem(item, requestOptions);
   const mapper = new PropertyMapper<Partial<IHubInitiative>, IModel>(
     getPropertyMap()
   );

@@ -25,7 +25,7 @@ export function getItemThumbnailUrl(
     // TODO: handle image types by returning the image (item data) itself?
     return null;
   }
-  // tslint:disable-next-line prefer-const
+  // eslint-disable-next-line prefer-const
   let { token, width } = (optionsOrToken as IThumbnailOptions) || {};
   // TODO: at the next breaking change drop support for passing token as string
   if (!token && typeof optionsOrToken === "string") {
@@ -36,9 +36,10 @@ export function getItemThumbnailUrl(
   const searchParams = new URLSearchParams(search);
   searchParams.delete("f");
   if (width) {
-    searchParams.append("w", width + "");
+    searchParams.append("w", String(width));
   }
   const newSearch = searchParams.toString();
+  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
   const url = `${baseUrl}/info/${item.thumbnail}`;
   return newSearch ? `${url}?${newSearch}` : url;
 }

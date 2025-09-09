@@ -146,7 +146,8 @@ describe("GroupUiSchemaCreateView", () => {
       );
 
       expect(defaults).toEqual({
-        access: "org",
+        type: "Group",
+        access: "private",
         autoJoin: false,
         isSharedUpdate: false,
         isInvitationOnly: false,
@@ -162,9 +163,13 @@ describe("GroupUiSchemaCreateView", () => {
       const defaults = await buildDefaults(
         "some.scope",
         { isSharedUpdate: true } as IHubGroup,
-        getMockContextWithPrivilenges(["portal:user:addExternalMembersToGroup"])
+        getMockContextWithPrivilenges([
+          "portal:user:addExternalMembersToGroup",
+          "portal:user:shareGroupToOrg",
+        ])
       );
       expect(defaults).toEqual({
+        type: "Group",
         access: "org",
         autoJoin: false,
         isSharedUpdate: false,

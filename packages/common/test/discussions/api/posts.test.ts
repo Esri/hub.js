@@ -29,6 +29,9 @@ import {
   Role,
   SearchPostsFormat,
   SharingAccess,
+  IPagedResponse,
+  IPost,
+  PostRelation,
 } from "../../../src/discussions/api/types";
 
 describe("posts V1", () => {
@@ -47,9 +50,16 @@ describe("posts V1", () => {
   });
 
   it("queries posts with no parameters", (done) => {
+    const response: IPagedResponse<IPost> = {
+      items: [{ id: "postId", channelId: "channelId" } as IPost],
+      total: 1,
+      nextStart: -1,
+    };
+    requestSpy.and.returnValue(Promise.resolve(response));
     const options = { ...baseOpts };
     searchPosts(options)
-      .then(() => {
+      .then((results) => {
+        expect(results).toEqual(response);
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
         expect(url).toEqual(`/posts/search`);
@@ -64,6 +74,12 @@ describe("posts V1", () => {
   });
 
   it("queries posts with parameters", (done) => {
+    const response: IPagedResponse<IPost> = {
+      items: [{ id: "postId", channelId: "channelId" } as IPost],
+      total: 1,
+      nextStart: -1,
+    };
+    requestSpy.and.returnValue(Promise.resolve(response));
     const query = {
       access: [SharingAccess.PUBLIC],
       groups: ["foo"],
@@ -71,7 +87,43 @@ describe("posts V1", () => {
 
     const options = { ...baseOpts, data: query };
     searchPosts(options)
-      .then(() => {
+      .then((results) => {
+        expect(results).toEqual(response);
+        expect(requestSpy.calls.count()).toEqual(1);
+        const [url, opts] = requestSpy.calls.argsFor(0);
+        expect(url).toEqual(`/posts/search`);
+        expect(opts).toEqual({ ...options, httpMethod: "POST" });
+        done();
+      })
+      .catch(() => fail());
+  });
+
+  it("queries posts with channel relation", (done) => {
+    const response: IPagedResponse<IPost> = {
+      items: [{ id: "postId", channel: { id: "channelId" } } as IPost],
+      total: 1,
+      nextStart: -1,
+    };
+    requestSpy.and.returnValue(Promise.resolve(response));
+    const query = {
+      access: [SharingAccess.PUBLIC],
+      groups: ["foo"],
+      relations: [PostRelation.CHANNEL],
+    };
+
+    const options = { ...baseOpts, data: query };
+    searchPosts(options)
+      .then((results) => {
+        expect(results).toEqual({
+          ...response,
+          items: [
+            {
+              id: "postId",
+              channelId: "channelId",
+              channel: { id: "channelId" },
+            } as IPost,
+          ],
+        });
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
         expect(url).toEqual(`/posts/search`);
@@ -82,6 +134,12 @@ describe("posts V1", () => {
   });
 
   it("queries posts with geometry", (done) => {
+    const response: IPagedResponse<IPost> = {
+      items: [{ id: "postId", channelId: "channelId" } as IPost],
+      total: 1,
+      nextStart: -1,
+    };
+    requestSpy.and.returnValue(Promise.resolve(response));
     const geometry: Geometry = {
       type: "Polygon",
       coordinates: [
@@ -102,7 +160,8 @@ describe("posts V1", () => {
 
     const options = { ...baseOpts, data: query };
     searchPosts(options)
-      .then(() => {
+      .then((results) => {
+        expect(results).toEqual(response);
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
         expect(url).toEqual(`/posts/search`);
@@ -116,6 +175,12 @@ describe("posts V1", () => {
   });
 
   it("queries posts with featureGeometry", (done) => {
+    const response: IPagedResponse<IPost> = {
+      items: [{ id: "postId", channelId: "channelId" } as IPost],
+      total: 1,
+      nextStart: -1,
+    };
+    requestSpy.and.returnValue(Promise.resolve(response));
     const geometry: Geometry = {
       type: "Polygon",
       coordinates: [
@@ -136,7 +201,8 @@ describe("posts V1", () => {
 
     const options = { ...baseOpts, data: query };
     searchPosts(options)
-      .then(() => {
+      .then((results) => {
+        expect(results).toEqual(response);
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
         expect(url).toEqual(`/posts/search`);
@@ -329,10 +395,34 @@ describe("posts V1", () => {
 
   it("gets post", (done) => {
     const postId = "postId";
+    const response = { id: postId, channelId: "channelId" } as IPost;
+    requestSpy.and.returnValue(Promise.resolve(response));
 
     const options = { ...baseOpts, postId };
     fetchPost(options as IFetchPostParams)
-      .then(() => {
+      .then((result) => {
+        expect(result).toEqual(response);
+        expect(requestSpy.calls.count()).toEqual(1);
+        const [url, opts] = requestSpy.calls.argsFor(0);
+        expect(url).toEqual(`/posts/${postId}`);
+        expect(opts).toEqual({ ...options, httpMethod: "GET" });
+        done();
+      })
+      .catch(() => fail());
+  });
+
+  it("gets post with channel relation", (done) => {
+    const postId = "postId";
+    const response = { id: postId, channel: { id: "channelId" } } as IPost;
+    requestSpy.and.returnValue(Promise.resolve(response));
+
+    const options = { ...baseOpts, relations: [PostRelation.CHANNEL], postId };
+    fetchPost(options as IFetchPostParams)
+      .then((result) => {
+        expect(result).toEqual({
+          ...response,
+          channelId: "channelId",
+        });
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
         expect(url).toEqual(`/posts/${postId}`);
@@ -437,9 +527,16 @@ describe("posts V2", () => {
   });
 
   it("queries posts with no parameters", (done) => {
+    const response: IPagedResponse<IPost> = {
+      items: [{ id: "postId", channelId: "channelId" } as IPost],
+      total: 1,
+      nextStart: -1,
+    };
+    requestSpyV2.and.returnValue(Promise.resolve(response));
     const options = { ...baseOpts };
     searchPostsV2(options)
-      .then(() => {
+      .then((results) => {
+        expect(results).toEqual(response);
         expect(requestSpyV2.calls.count()).toEqual(1);
         const [url, opts] = requestSpyV2.calls.argsFor(0);
         expect(url).toEqual(`/posts/search`);
@@ -454,6 +551,12 @@ describe("posts V2", () => {
   });
 
   it("queries posts with parameters", (done) => {
+    const response: IPagedResponse<IPost> = {
+      items: [{ id: "postId", channelId: "channelId" } as IPost],
+      total: 1,
+      nextStart: -1,
+    };
+    requestSpyV2.and.returnValue(Promise.resolve(response));
     const query = {
       access: [SharingAccess.PUBLIC],
       groups: ["foo"],
@@ -461,7 +564,43 @@ describe("posts V2", () => {
 
     const options = { ...baseOpts, data: query };
     searchPostsV2(options)
-      .then(() => {
+      .then((results) => {
+        expect(results).toEqual(response);
+        expect(requestSpyV2.calls.count()).toEqual(1);
+        const [url, opts] = requestSpyV2.calls.argsFor(0);
+        expect(url).toEqual(`/posts/search`);
+        expect(opts).toEqual({ ...options, httpMethod: "POST" });
+        done();
+      })
+      .catch(() => fail());
+  });
+
+  it("queries posts with channel relation", (done) => {
+    const response: IPagedResponse<IPost> = {
+      items: [{ id: "postId", channel: { id: "channelId" } } as IPost],
+      total: 1,
+      nextStart: -1,
+    };
+    requestSpyV2.and.returnValue(Promise.resolve(response));
+    const query = {
+      access: [SharingAccess.PUBLIC],
+      groups: ["foo"],
+      relations: [PostRelation.CHANNEL],
+    };
+
+    const options = { ...baseOpts, data: query };
+    searchPostsV2(options)
+      .then((results) => {
+        expect(results).toEqual({
+          ...response,
+          items: [
+            {
+              id: "postId",
+              channelId: "channelId",
+              channel: { id: "channelId" },
+            } as IPost,
+          ],
+        });
         expect(requestSpyV2.calls.count()).toEqual(1);
         const [url, opts] = requestSpyV2.calls.argsFor(0);
         expect(url).toEqual(`/posts/search`);
@@ -472,6 +611,12 @@ describe("posts V2", () => {
   });
 
   it("queries posts with geometry", (done) => {
+    const response: IPagedResponse<IPost> = {
+      items: [{ id: "postId", channelId: "channelId" } as IPost],
+      total: 1,
+      nextStart: -1,
+    };
+    requestSpyV2.and.returnValue(Promise.resolve(response));
     const geometry: Geometry = {
       type: "Polygon",
       coordinates: [
@@ -492,7 +637,8 @@ describe("posts V2", () => {
 
     const options = { ...baseOpts, data: query };
     searchPostsV2(options)
-      .then(() => {
+      .then((results) => {
+        expect(results).toEqual(response);
         expect(requestSpyV2.calls.count()).toEqual(1);
         const [url, opts] = requestSpyV2.calls.argsFor(0);
         expect(url).toEqual(`/posts/search`);
@@ -506,6 +652,12 @@ describe("posts V2", () => {
   });
 
   it("queries posts with featureGeometry", (done) => {
+    const response: IPagedResponse<IPost> = {
+      items: [{ id: "postId", channelId: "channelId" } as IPost],
+      total: 1,
+      nextStart: -1,
+    };
+    requestSpyV2.and.returnValue(Promise.resolve(response));
     const geometry: Geometry = {
       type: "Polygon",
       coordinates: [
@@ -526,7 +678,8 @@ describe("posts V2", () => {
 
     const options = { ...baseOpts, data: query };
     searchPostsV2(options)
-      .then(() => {
+      .then((results) => {
+        expect(results).toEqual(response);
         expect(requestSpyV2.calls.count()).toEqual(1);
         const [url, opts] = requestSpyV2.calls.argsFor(0);
         expect(url).toEqual(`/posts/search`);
@@ -658,10 +811,34 @@ describe("posts V2", () => {
 
   it("gets post", (done) => {
     const postId = "postId";
+    const response = { id: postId, channelId: "channelId" } as IPost;
+    requestSpyV2.and.returnValue(Promise.resolve(response));
 
     const options = { ...baseOpts, postId };
     fetchPostV2(options as IFetchPostParams)
-      .then(() => {
+      .then((result) => {
+        expect(result).toEqual(response);
+        expect(requestSpyV2.calls.count()).toEqual(1);
+        const [url, opts] = requestSpyV2.calls.argsFor(0);
+        expect(url).toEqual(`/posts/${postId}`);
+        expect(opts).toEqual({ ...options, httpMethod: "GET" });
+        done();
+      })
+      .catch(() => fail());
+  });
+
+  it("gets post with channel relation", (done) => {
+    const postId = "postId";
+    const response = { id: postId, channel: { id: "channelId" } } as IPost;
+    requestSpyV2.and.returnValue(Promise.resolve(response));
+
+    const options = { ...baseOpts, relations: [PostRelation.CHANNEL], postId };
+    fetchPostV2(options as IFetchPostParams)
+      .then((result) => {
+        expect(result).toEqual({
+          ...response,
+          channelId: "channelId",
+        });
         expect(requestSpyV2.calls.count()).toEqual(1);
         const [url, opts] = requestSpyV2.calls.argsFor(0);
         expect(url).toEqual(`/posts/${postId}`);

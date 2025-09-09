@@ -10,10 +10,11 @@ export async function buildUiSchema(
   options: IEventGalleryCardEditorOptions,
   context: IArcGISContext
 ): Promise<IUiSchema> {
-  const categoriesUiSchema = await fetchCategoriesUiSchemaElement(
-    `${i18nScope}.content`,
-    context
-  );
+  const categoriesUiSchema = await fetchCategoriesUiSchemaElement({
+    source: "org",
+    context,
+    currentValues: [],
+  });
   categoriesUiSchema[0].rules = [
     {
       effect: UiSchemaRuleEffects.SHOW,

@@ -23,7 +23,8 @@ import { PageEditorType } from "./_internal/PageSchema";
 import { cloneObject } from "../util";
 import { enrichEntity } from "../core/enrichEntity";
 import { getEditorSlug } from "../core/_internal/getEditorSlug";
-import { editorToEntity } from "../core/schemas/internal/metrics/editorToEntity";
+import { hubItemEntityFromEditor } from "../core/_internal/hubItemEntityFromEditor";
+import { setProp } from "../objects";
 
 /*
   TODO:
@@ -122,6 +123,8 @@ export class HubPage
     if (!partialPage.orgUrlKey) {
       partialPage.orgUrlKey = (context.portal.urlKey || "") as string;
     }
+    // ensure orgUrlKey is lowercase
+    partialPage.orgUrlKey = partialPage.orgUrlKey.toLowerCase();
     // extend the partial over the defaults
     const pojo = { ...DEFAULT_PAGE, ...partialPage } as IHubPage;
     pojo.type = context.isPortal
@@ -229,31 +232,16 @@ export class HubPage
    * @returns
    */
   async fromEditor(editor: IHubPageEditor): Promise<IHubPage> {
-    // Setting the thumbnailCache will ensure that
-    // the thumbnail is updated on next save
-    if (editor._thumbnail) {
-      const thumbnail = editor._thumbnail as { blob?: Blob; fileName?: string };
-      if (thumbnail.blob) {
-        this.thumbnailCache = {
-          file: thumbnail.blob,
-          filename: thumbnail.fileName,
-          clear: false,
-        };
-      } else {
-        this.thumbnailCache = {
-          clear: true,
-        };
-      }
-    }
-
-    delete editor._thumbnail;
-
-    // convert back to an entity. Apply any reverse transforms used in
-    // of the toEditor method
-    const entity = editorToEntity(editor, this.context.portal) as IHubPage;
+    // delegate to an item-specific fromEditor util to
+    // handle shared "fromEditor" logic
+    const res = await hubItemEntityFromEditor(editor, this.context);
+    // iterate over the res object keys and set the values
+    // on the HubPage instance
+    Object.entries(res).forEach(([key, value]) => {
+      setProp(key, value, this);
+    });
 
     // create it if it does not yet exist...
-    this.entity = entity;
     await this.save();
 
     return this.entity;

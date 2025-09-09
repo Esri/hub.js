@@ -9,10 +9,11 @@ import { EntityEditorOptions } from "../EditorOptions";
  * @param context an IArcGISContext object
  * @returns a promise that resolves a UI Schema object
  */
-export const buildUiSchema = async (
+export const buildUiSchema = (
   i18nScope: string,
   options: EntityEditorOptions,
-  context: IArcGISContext
+  context: IArcGISContext,
+  variant: "default" | "compact" = "default"
 ): Promise<IUiSchema> => {
   const uiSchema: IUiSchema = {
     type: "Layout",
@@ -36,7 +37,7 @@ export const buildUiSchema = async (
                 `{{${i18nScope}.fields.discussable.disabled.description:translate}}`,
               ],
               icons: ["speech-bubbles", "circle-disallowed"],
-              layout: "horizontal",
+              layout: variant === "compact" ? "vertical" : "horizontal",
               styles: { "max-width": "45rem" },
               type: "radio",
             },
@@ -45,104 +46,117 @@ export const buildUiSchema = async (
       },
     ],
   };
-  // if (context.hubLicense === "hub-premium") {
-  //   uiSchema.elements[0].elements.push({
-  //     labelKey: "shared.fields.allowedChannelIds.label",
-  //     scope: "/properties/discussionSettings/properties/allowedChannelIds",
-  //     type: "Control",
-  //     options: {
-  //       control: "hub-field-input-gallery-picker",
-  //       targetEntity: "channel",
-  //       showSelection: false,
-  //       showAllCollectionFacet: false,
-  //       canReorder: false,
-  //       catalogs: [
-  //         {
-  //           schemaVersion: 1,
-  //           title:
-  //             "{{shared.fields.allowedChannelIds.catalog.title:translate}}",
-  //           scopes: {},
-  //           collections: [
-  //             {
-  //               label:
-  //                 "{{shared.fields.allowedChannelIds.catalog.title:translate}}",
-  //               key: "channels",
-  //               targetEntity: "channel",
-  //               scope: {
-  //                 targetEntity: "channel",
-  //                 filters: [],
-  //                 collection: "channel",
-  //               },
-  //               include: ["groups"],
-  //             },
-  //           ],
-  //         },
-  //       ],
-  //       facets: [
-  //         {
-  //           label:
-  //             "{{shared.fields.allowedChannelIds.facets.access.label:translate}}",
-  //           key: "access",
-  //           display: "multi-select",
-  //           operation: "OR",
-  //           options: [
-  //             {
-  //               label:
-  //                 "{{shared.fields.allowedChannelIds.facets.access.options.public.label:translate}}",
-  //               key: "public",
-  //               selected: false,
-  //               predicates: [
-  //                 {
-  //                   access: "public",
-  //                 },
-  //               ],
-  //             },
-  //             {
-  //               label:
-  //                 "{{shared.fields.allowedChannelIds.facets.access.options.org.label:translate}}",
-  //               key: "organization",
-  //               selected: false,
-  //               predicates: [
-  //                 {
-  //                   access: "org",
-  //                 },
-  //               ],
-  //             },
-  //             {
-  //               label:
-  //                 "{{shared.fields.allowedChannelIds.facets.access.options.private.label:translate}}",
-  //               key: "private",
-  //               selected: false,
-  //               predicates: [
-  //                 {
-  //                   access: "private",
-  //                 },
-  //               ],
-  //             },
-  //           ],
-  //         },
-  //         {
-  //           label:
-  //             "{{shared.fields.allowedChannelIds.facets.groups.label:translate}}",
-  //           key: "groups",
-  //           display: "multi-select",
-  //           operation: "OR",
-  //           options: context.currentUser.groups.map((group) => ({
-  //             label: group.title,
-  //             key: group.title,
-  //             selected: false,
-  //             predicates: [
-  //               {
-  //                 groups: group.id,
-  //               },
-  //             ],
-  //           })),
-  //         },
-  //       ],
-  //       include: "groups",
-  //       canReorder: false,
-  //     },
-  //   });
-  // }
-  return uiSchema;
+  if (
+    context.hubLicense === "hub-premium" &&
+    options.type !== "Hub Site Application"
+  ) {
+    uiSchema.elements[0].elements.push({
+      labelKey: "shared.fields.allowedChannelIds.label",
+      scope: "/properties/discussionSettings/properties/allowedChannelIds",
+      type: "Control",
+      options: {
+        control: "hub-field-input-gallery-picker",
+        targetEntity: "channel",
+        showAddContent: true,
+        allowGroupSelection: false,
+        showSelection: false,
+        showAllCollectionFacet: false,
+        canReorder: false,
+        linkTarget: "event",
+        catalogs: [
+          {
+            schemaVersion: 1,
+            title:
+              "{{shared.fields.allowedChannelIds.catalog.title:translate}}",
+            scopes: {
+              channel: {
+                targetEntity: "channel",
+                filters: [
+                  {
+                    predicates: [],
+                  },
+                ],
+              },
+            },
+            collections: [
+              {
+                label:
+                  "{{shared.fields.allowedChannelIds.catalog.title:translate}}",
+                key: "channels",
+                targetEntity: "channel",
+                scope: {
+                  targetEntity: "channel",
+                  filters: [],
+                },
+                include: ["groups"],
+              },
+            ],
+          },
+        ],
+        facets: [
+          {
+            label:
+              "{{shared.fields.allowedChannelIds.facets.access.label:translate}}",
+            key: "access",
+            display: "multi-select",
+            operation: "OR",
+            options: [
+              {
+                label:
+                  "{{shared.fields.allowedChannelIds.facets.access.options.public.label:translate}}",
+                key: "public",
+                selected: false,
+                predicates: [
+                  {
+                    access: "public",
+                  },
+                ],
+              },
+              {
+                label:
+                  "{{shared.fields.allowedChannelIds.facets.access.options.org.label:translate}}",
+                key: "organization",
+                selected: false,
+                predicates: [
+                  {
+                    access: "org",
+                  },
+                ],
+              },
+              {
+                label:
+                  "{{shared.fields.allowedChannelIds.facets.access.options.private.label:translate}}",
+                key: "private",
+                selected: false,
+                predicates: [
+                  {
+                    access: "private",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            label:
+              "{{shared.fields.allowedChannelIds.facets.groups.label:translate}}",
+            key: "groups",
+            display: "multi-select",
+            operation: "OR",
+            options: context.currentUser.groups.map((group) => ({
+              label: group.title,
+              key: group.title,
+              selected: false,
+              predicates: [
+                {
+                  group: group.id,
+                },
+              ],
+            })),
+          },
+        ],
+        include: "groups",
+      },
+    });
+  }
+  return Promise.resolve(uiSchema);
 };

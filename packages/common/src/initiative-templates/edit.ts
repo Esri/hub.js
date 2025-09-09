@@ -34,6 +34,8 @@ export async function createInitiativeTemplate(
     ...partialInitiativeTemplate,
   };
 
+  initiativeTemplate.orgUrlKey = initiativeTemplate.orgUrlKey.toLowerCase();
+
   // Create slug from the title if one is not passed in
   if (!initiativeTemplate.slug) {
     initiativeTemplate.slug = constructSlug(

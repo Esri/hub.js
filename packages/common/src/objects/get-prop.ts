@@ -17,7 +17,7 @@
  */
 export const getProp = (obj: { [index: string]: any }, path: string): any => {
   return path.split(".").reduce(function (prev: any, curr: string) {
-    const match = curr.match(/\[(.*?)\]$/);
+    const match = /\[(.*?)\]$/.exec(curr);
     if (match) {
       const indexOrFnName = match[1];
       const propName = curr.replace(match[0], "");
@@ -64,8 +64,10 @@ function applyOperation(arr: any[], operation: string): any {
     .map((p) => p.trim());
   switch (fnName) {
     case "findBy":
+      /* eslint-disable no-case-declarations */
       const prop = args[0];
       let val: number | string;
+      /* eslint-enable no-case-declarations */
       if (isNumeric(args[1])) {
         val = parseFloat(args[1]);
       } else {

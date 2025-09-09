@@ -23,10 +23,7 @@ describe("Hub Groups", () => {
         summary: "New group summary",
         membershipAccess: "organization",
       };
-      const newGroup = await createHubGroup(
-        hubGroup,
-        ctxMgr.context.userRequestOptions
-      );
+      const newGroup = await createHubGroup(hubGroup, ctxMgr.context);
       expect(newGroup).toBeDefined();
       expect(newGroup.summary).toBe("New group summary");
       expect(newGroup.membershipAccess).toBe("organization");
@@ -43,10 +40,7 @@ describe("Hub Groups", () => {
         summary: "Updated group summary",
         membershipAccess: "anyone",
       } as IHubGroup;
-      const updatedGroup = await updateHubGroup(
-        newHubGroup,
-        ctxMgr.context.userRequestOptions
-      );
+      const updatedGroup = await updateHubGroup(newHubGroup, ctxMgr.context);
       expect(updatedGroup.summary).toBe("Updated group summary");
       expect(updatedGroup.membershipAccess).toBe("anyone");
       await deleteHubGroup(newGroup.id, ctxMgr.context.userRequestOptions);
@@ -54,7 +48,7 @@ describe("Hub Groups", () => {
         await fetchHubGroup(newGroup.id, ctxMgr.context.hubRequestOptions);
         fail("should have thrown error");
       } catch (e) {
-        expect((e as any).message).toBe(
+        expect((e ).message).toBe(
           "COM_0003: Group does not exist or is inaccessible."
         );
       }
@@ -121,7 +115,7 @@ describe("HubGroup Class", () => {
       try {
         await HubGroup.fetch(id, ctxMgr.context);
       } catch (e) {
-        expect((e as any).message).toBe("Group not found.");
+        expect((e ).message).toBe("Group not found.");
       }
     });
   });

@@ -11,6 +11,8 @@ import {
   IHubCatalog,
   IHubSite,
   IHubSiteEditor,
+  IHubTrustedOrgsResponse,
+  IUserHubSettings,
   IVersion,
   IVersionMetadata,
   getProp,
@@ -18,13 +20,37 @@ import {
 import { Catalog } from "../../src/search/Catalog";
 import * as ContainsModule from "../../src/core/_internal/deepContains";
 import * as EnrichEntityModule from "../../src/core/enrichEntity";
+import * as fetchMock from "fetch-mock";
 
 describe("HubSite Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
   let portalCtxMgr: ArcGISContextManager;
-  let unauthdCtxMgr: ArcGISContextManager;
+
   beforeEach(async () => {
-    unauthdCtxMgr = await ArcGISContextManager.create();
+    fetchMock.post(
+      "https://myorg.maps.arcgis.com/sharing/rest/portals/BRXFAKE/limits?limitsType=Groups&limitName=MaxNumUserGroups&f=json",
+      {
+        status: 200,
+        body: {
+          type: "Groups",
+          name: "MaxNumUserGroups",
+          limitValue: 512,
+        },
+      }
+    );
+    fetchMock.post(
+      "https://myorg.maps.arcgis.com/sharing/rest/portals/self/trustedOrgs?f=json",
+      {
+        status: 200,
+        body: {
+          total: 0,
+          start: 1,
+          num: 10,
+          nextStart: -1,
+          trustedOrgs: [],
+        },
+      }
+    );
     // When we pass in all this information, the context
     // manager will not try to fetch anything, so no need
     // to mock those calls
@@ -39,6 +65,10 @@ describe("HubSite Class:", () => {
         urlKey: "fake-org",
       } as unknown as PortalModule.IPortal,
       portalUrl: "https://fake-org.maps.arcgis.com",
+      portalSettings: {} as PortalModule.IPortalSettings,
+      userHubSettings: {} as IUserHubSettings,
+      trustedOrgIds: ["BRXFAKE"],
+      trustedOrgs: [] as IHubTrustedOrgsResponse[],
     });
     portalCtxMgr = await ArcGISContextManager.create({
       authentication: MOCK_AUTH,
@@ -52,7 +82,14 @@ describe("HubSite Class:", () => {
         urlKey: "fake-org",
       } as unknown as PortalModule.IPortal,
       portalUrl: "https://myserver.com",
+      portalSettings: {} as PortalModule.IPortalSettings,
+      userHubSettings: {} as IUserHubSettings,
+      trustedOrgIds: ["BRXFAKE"],
+      trustedOrgs: [] as IHubTrustedOrgsResponse[],
     });
+  });
+  afterEach(() => {
+    fetchMock.restore();
   });
 
   describe("static methods:", () => {
@@ -157,7 +194,21 @@ describe("HubSite Class:", () => {
     expect(chk.toJson().type).toEqual("Site Application");
   });
 
-  it("update applies partial chagnes to internal state", () => {
+  it("fromJson applies defaults and downcases urlKey", () => {
+    const chk = HubSite.fromJson(
+      { name: "Test Site", orgUrlKey: "FOO" },
+      authdCtxMgr.context
+    );
+    expect(chk.toJson().orgUrlKey).toEqual("foo");
+  });
+
+  it("fromJson applies defaults and uses portalUrl urlKey downcased", () => {
+    authdCtxMgr.context.portal.urlKey = "FOO";
+    const chk = HubSite.fromJson({ name: "Test Site" }, authdCtxMgr.context);
+    expect(chk.toJson().orgUrlKey).toEqual("foo");
+  });
+
+  it("update applies partial changes to internal state", () => {
     const chk = HubSite.fromJson(
       { name: "Test Site", catalog: { schemaVersion: 0 } },
       authdCtxMgr.context
@@ -231,7 +282,7 @@ describe("HubSite Class:", () => {
   it("internal instance accessors", () => {
     const chk = HubSite.fromJson(
       { name: "Test Site", catalog: { schemaVersion: 0 } },
-      unauthdCtxMgr.context
+      authdCtxMgr.context
     );
 
     expect(chk.catalog instanceof Catalog).toBeTruthy();
@@ -829,6 +880,78 @@ describe("HubSite Class:", () => {
           expect(saveSpy).toHaveBeenCalledTimes(0);
           expect(_getFollowersGroupSpy).toHaveBeenCalledTimes(1);
         }
+      });
+      it("handles assistant group permissions in fromEditor with existing permissions", async () => {
+        const chk = HubSite.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            permissions: [
+              {
+                permission: "hub:site:assistant:access",
+                collaborationType: "group",
+                collaborationId: "old-group",
+              },
+              {
+                permission: "hub:site:project:create",
+                collaborationType: "group",
+                collaborationId: "3ef",
+              },
+            ],
+            assistant: {
+              schemaVersion: 1,
+              accessGroups: ["group1", "group2"],
+            },
+          },
+          authdCtxMgr.context
+        );
+        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        const editor = await chk.toEditor();
+        // Call fromEditor
+        const result = await chk.fromEditor(editor);
+        // Should remove old assistant:access and add new ones
+        const assistantPerms = result.permissions.filter(
+          (p: any) => p.permission === "hub:site:assistant:access"
+        );
+        expect(assistantPerms.length).toBe(2);
+        expect(assistantPerms[0].collaborationId).toBe("group1");
+        expect(assistantPerms[1].collaborationId).toBe("group2");
+        // Should preserve other permissions
+        const projectPerms = result.permissions.filter(
+          (p: any) => p.permission === "hub:site:project:create"
+        );
+        expect(projectPerms.length).toBe(1);
+        expect(saveSpy).toHaveBeenCalledTimes(1);
+      });
+      it("handles assistant group permissions in fromEditor with no existing site with no permissions or assistant", async () => {
+        const fetchSpy = spyOn(HubSitesModule, "fetchSite").and.callFake(
+          (id: string) => {
+            return Promise.resolve({
+              id,
+              name: "Test Site",
+            });
+          }
+        );
+
+        const chk = await HubSite.fetch("3ef", authdCtxMgr.context);
+        expect(fetchSpy).toHaveBeenCalledTimes(1);
+        expect(chk.toJson().id).toBe("3ef");
+        expect(chk.toJson().name).toBe("Test Site");
+        console.log(chk.toJson());
+        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        const editor = await chk.toEditor();
+        const result = await chk.fromEditor(editor);
+        // Should remove old assistant:access and add new ones
+        const assistantPerms = result.permissions.filter(
+          (p: any) => p.permission === "hub:site:assistant:access"
+        );
+        expect(assistantPerms.length).toBe(0);
+        // Should preserve other permissions
+        const projectPerms = result.permissions.filter(
+          (p: any) => p.permission !== "hub:site:assistant:access"
+        );
+        expect(projectPerms.length).toBe(0);
+        expect(saveSpy).toHaveBeenCalledTimes(1);
       });
     });
   });

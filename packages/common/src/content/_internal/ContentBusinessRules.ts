@@ -13,6 +13,7 @@ export const ContentDefaultFeatures: IFeatureFlags = {
  * @private
  */
 export const ContentPermissions = [
+  "hub:content",
   "hub:content:create",
   "hub:content:delete",
   "hub:content:edit",
@@ -24,9 +25,9 @@ export const ContentPermissions = [
   "hub:content:workspace:overview",
   "hub:content:workspace:dashboard",
   "hub:content:workspace:details",
-  "hub:content:workspace:discussion",
   "hub:content:workspace:settings",
   "hub:content:workspace:settings:schedule",
+  "hub:content:workspace:settings:discussions",
   "hub:content:workspace:collaborators",
   "hub:content:manage",
   "hub:content:canRecordDownloadErrors",
@@ -139,12 +140,6 @@ export const ContentPermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:content:workspace", "hub:content:edit"],
   },
   {
-    permission: "hub:content:workspace:discussion",
-    services: ["discussions"],
-    licenses: ["hub-premium"],
-    dependencies: ["hub:content:workspace", "hub:content:edit"],
-  },
-  {
     permission: "hub:content:workspace:settings",
     dependencies: ["hub:content:workspace", "hub:content:edit"],
   },
@@ -175,5 +170,10 @@ export const ContentPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:content:document:create",
     dependencies: ["hub:content:create"],
+  },
+  {
+    permission: "hub:content:workspace:settings:discussions",
+    dependencies: ["hub:content:workspace", "hub:content:edit"],
+    licenses: ["hub-basic", "hub-premium"],
   },
 ];

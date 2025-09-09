@@ -1,3 +1,37 @@
+## @esri/hub-downloads [20.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-downloads@20.0.0...@esri/hub-downloads@20.0.1) (2025-09-04)
+
+
+### Bug Fixes
+
+* **hub-common:** fix issue where existing download export requests were not serialized correctly ([#1987](https://github.com/Esri/hub.js/issues/1987)) ([cebb78a](https://github.com/Esri/hub.js/commit/cebb78af4ad618d29dd57fd8e8872b75c21a27ff))
+
+# @esri/hub-downloads [20.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-downloads@19.0.0...@esri/hub-downloads@20.0.0) (2025-08-25)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 20.0.0
+
+# @esri/hub-downloads [19.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-downloads@18.0.1...@esri/hub-downloads@19.0.0) (2025-08-04)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 19.0.0
+
+## @esri/hub-downloads [18.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-downloads@18.0.0...@esri/hub-downloads@18.0.1) (2025-07-25)
+
+
+### Bug Fixes
+
+* apply updates made specifically for 11.5 ([#1951](https://github.com/Esri/hub.js/issues/1951)) ([0e98d3f](https://github.com/Esri/hub.js/commit/0e98d3f65bb345ae274e24e3f75690ca4f236a7a))
+
 # @esri/hub-downloads [18.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-downloads@17.1.0...@esri/hub-downloads@18.0.0) (2025-06-18)
 
 

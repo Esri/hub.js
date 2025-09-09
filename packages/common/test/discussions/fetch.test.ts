@@ -46,7 +46,7 @@ describe("discussions fetch:", () => {
       );
       const fetchSettingsSpy = spyOn(
         settingUtils,
-        "fetchSetting"
+        "fetchSettingV2"
       ).and.returnValue(
         Promise.resolve({
           id: GUID,
@@ -79,7 +79,7 @@ describe("discussions fetch:", () => {
       );
       const fetchSettingsSpy = spyOn(
         settingUtils,
-        "fetchSetting"
+        "fetchSettingV2"
       ).and.returnValue(
         Promise.resolve({
           id: GUID,
@@ -112,7 +112,7 @@ describe("discussions fetch:", () => {
       );
       const fetchSettingsSpy = spyOn(
         settingUtils,
-        "fetchSetting"
+        "fetchSettingV2"
       ).and.returnValue(
         Promise.resolve({
           id: GUID,
@@ -149,7 +149,7 @@ describe("discussions fetch:", () => {
       );
       const fetchSettingsSpy = spyOn(
         settingUtils,
-        "fetchSetting"
+        "fetchSettingV2"
       ).and.returnValue(
         Promise.resolve({
           id: GUID,
@@ -182,8 +182,8 @@ describe("discussions fetch:", () => {
       );
       const fetchSettingsSpy = spyOn(
         settingUtils,
-        "fetchSetting"
-      ).and.throwError("none found");
+        "fetchSettingV2"
+      ).and.returnValue(Promise.reject(new Error("none found")));
       const getDefaultEntitySettingsSpy = spyOn(
         getDefaultEntitySettingsUtils,
         "getDefaultEntitySettings"

@@ -210,6 +210,9 @@ describe("create site :: ", function () {
             foo: "{{some.undefined.thing}}",
           },
         },
+        feeds: {
+          foo: "{{some.other.undefined.thing}}",
+        },
       },
     } as unknown as commonModule.IModel;
 
@@ -218,6 +221,11 @@ describe("create site :: ", function () {
     expect(result.data?.values.dcatConfig.foo).toBe(
       "{{some.undefined.thing}}",
       "dcatConfig not interpolated"
+    );
+
+    expect(result.data?.feeds.foo).toBe(
+      "{{some.other.undefined.thing}}",
+      "feeds not interpolated"
     );
   });
 

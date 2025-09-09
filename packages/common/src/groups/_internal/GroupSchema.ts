@@ -1,5 +1,6 @@
 import { IConfigurationSchema } from "../../core";
 import {
+  DISCUSSION_SETTINGS_SCHEMA,
   ENTITY_IMAGE_SCHEMA,
   ENTITY_IS_DISCUSSABLE_SCHEMA,
   ENTITY_NAME_SCHEMA,
@@ -11,7 +12,7 @@ export type GroupEditorType = (typeof GroupEditorTypes)[number];
 export const GroupEditorTypes = [
   "hub:group:edit",
   "hub:group:settings",
-  "hub:group:discussions",
+  "hub:group:settings:discussions",
   // editor to create a followers group
   "hub:group:create:followers",
   // editor to create an association group
@@ -66,6 +67,7 @@ export const GroupSchema: IConfigurationSchema = {
       default: false,
     },
     isDiscussable: ENTITY_IS_DISCUSSABLE_SCHEMA,
+    discussionSettings: DISCUSSION_SETTINGS_SCHEMA,
     tags: ENTITY_TAGS_SCHEMA,
   },
 } as IConfigurationSchema;

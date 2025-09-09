@@ -18,12 +18,13 @@ export const DiscussionPermissions = [
   "hub:discussion:workspace:details",
   "hub:discussion:workspace:settings",
   "hub:discussion:workspace:collaborators",
-  // TODO: remove `hub:discussion:workspace:discussion` when we deprecate the discussion board participation workspace pane
-  "hub:discussion:workspace:discussion",
   "hub:discussion:workspace:metrics",
   "hub:discussion:workspace:settings:discussions",
   "hub:discussion:manage",
   "temp:hub:discussion:create",
+  "hub:discussion:workspace:catalog",
+  "hub:discussion:workspace:catalog:content",
+  "hub:discussion:workspace:catalog:events",
 ] as const;
 
 /**
@@ -52,12 +53,14 @@ export const DiscussionPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:discussion:edit",
     authenticated: true,
     dependencies: ["hub:discussion"],
+    licenses: ["hub-basic", "hub-premium"],
     entityEdit: true,
   },
   {
     permission: "hub:discussion:delete",
     authenticated: true,
     dependencies: ["hub:discussion"],
+    licenses: ["hub-basic", "hub-premium"],
     entityDelete: true,
   },
   {
@@ -113,17 +116,27 @@ export const DiscussionPermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:discussion:edit"],
   },
   {
-    // TODO: remove this IPermissionPolicy when we deprecate the discussion board participation workspace pane
-    permission: "hub:discussion:workspace:discussion",
-    services: ["discussions"],
-    dependencies: ["hub:discussion:edit"],
-  },
-  {
     permission: "hub:discussion:workspace:metrics",
     dependencies: ["hub:discussion:edit"],
   },
   {
     permission: "hub:discussion:manage",
     dependencies: ["hub:discussion:edit"],
+  },
+  {
+    permission: "hub:discussion:workspace:catalog",
+    dependencies: ["hub:discussion:edit"],
+  },
+  {
+    permission: "hub:discussion:workspace:catalog:content",
+    dependencies: ["hub:discussion:workspace:catalog"],
+  },
+  {
+    permission: "hub:discussion:workspace:catalog:events",
+    dependencies: [
+      "hub:discussion:workspace:catalog",
+      "hub:event",
+      "hub:feature:catalogs:edit:advanced",
+    ],
   },
 ];

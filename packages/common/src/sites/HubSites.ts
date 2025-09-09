@@ -14,7 +14,6 @@ import { applyPermissionMigration } from "./_internal/applyPermissionMigration";
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { IHubSite } from "../core/types/IHubSite";
-import { constructSlug } from "../items/slugs";
 import { slugify } from "../utils/slugify";
 import { ensureUniqueDomainName } from "./domains/ensure-unique-domain-name";
 import { stripProtocol } from "../urls/strip-protocol";
@@ -36,9 +35,7 @@ import {
 } from "./_internal/convertCatalogToLegacyFormat";
 import { convertFeaturesToLegacyCapabilities } from "./_internal/capabilities/convertFeaturesToLegacyCapabilities";
 import { computeLinks } from "./_internal/computeLinks";
-import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlug";
-import { IHubItemEntity } from "../core";
-import { ENTERPRISE_SITES_PATH } from "../ArcGISContext";
+import { handleSubdomainChange } from "./_internal/subdomains";
 export const HUB_SITE_ITEM_TYPE = "Hub Site Application";
 export const ENTERPRISE_SITE_ITEM_TYPE = "Site Application";
 
@@ -114,7 +111,8 @@ const DEFAULT_SITE_MODEL: IModel = {
     tags: [],
     typeKeywords: ["Hub Site", "hubSite", "DELETEMESITE"],
     properties: {
-      slug: "",
+      // sites don't have slugs
+      // slug: "",
       orgUrlKey: "",
       defaultHostname: "",
       customHostname: "",
@@ -214,18 +212,16 @@ export async function createSite(
   partialSite: Partial<IHubSite>,
   requestOptions: IHubRequestOptions
 ): Promise<IHubSite> {
-  const site = { ...DEFAULT_SITE, ...partialSite };
   const portal = requestOptions.portalSelf;
+  // Ensure we are always using the urlKey from the portal, and downcasing
+  const orgUrlKey: string = ((portal.urlKey || "") as string).toLowerCase();
+  partialSite.orgUrlKey = orgUrlKey;
+
+  const site = { ...DEFAULT_SITE, ...partialSite };
   // Set the type based on the environment we are working in
   site.type = requestOptions.isPortal
     ? ENTERPRISE_SITE_ITEM_TYPE
     : HUB_SITE_ITEM_TYPE;
-  // Create a slug from the title if one is not passed in
-  if (!site.slug) {
-    site.slug = constructSlug(site.name, site.orgUrlKey);
-  }
-  // Ensure slug is  unique
-  await ensureUniqueEntitySlug(site as IHubItemEntity, requestOptions);
 
   if (!site.subdomain) {
     site.subdomain = slugify(site.name);
@@ -236,7 +232,7 @@ export async function createSite(
   // Domains
   if (!requestOptions.isPortal) {
     // now that we know the subdomain is available, set the defaultHostname
-    site.defaultHostname = `${site.subdomain}-${portal.urlKey}.${stripProtocol(
+    site.defaultHostname = `${site.subdomain}-${orgUrlKey}.${stripProtocol(
       getHubApiUrl(requestOptions)
     )}`;
 
@@ -247,19 +243,8 @@ export async function createSite(
   } else {
     // Portal Sites use subdomain in hash based router
     // Also in Enterprise orgUrlKey is undefined.
-    site.typeKeywords.push(`hubsubdomain|${site.subdomain}`.toLowerCase());
-    site.url = `${requestOptions.authentication.portal.replace(
-      `/sharing/rest`,
-      ENTERPRISE_SITES_PATH
-    )}/#/${site.subdomain}`;
+    handleSubdomainChange(site, requestOptions);
   }
-
-  // Note:  We used to use adlib for this, but it's much harder to
-  // use templates with typescript. i.e. you can't assign a string template
-  // to a property defined as `IExtent` without using `as unknown as ...`
-  // which basically removes typechecking
-
-  site.orgUrlKey = (portal.urlKey || "") as string;
 
   // override only if not set...
   if (!site.theme) {
@@ -340,8 +325,11 @@ export async function updateSite(
   site: IHubSite,
   requestOptions: IHubRequestOptions
 ): Promise<IHubSite> {
-  // verify that the slug is unique, excluding the current site
-  await ensureUniqueEntitySlug(site as IHubItemEntity, requestOptions);
+  // ensure the orgUrlKey is lowercase
+  site.orgUrlKey = site.orgUrlKey.toLowerCase();
+  if (requestOptions.isPortal) {
+    handleSubdomainChange(site, requestOptions);
+  }
   site.typeKeywords = setDiscussableKeyword(
     site.typeKeywords,
     site.isDiscussable
@@ -374,8 +362,16 @@ export async function updateSite(
   /* istanbul ignore next */
   delete modelToUpdate.item?.properties?.telemetry;
 
+  // old slug
+  /* istanbul ignore next */
+  delete modelToUpdate.item?.properties?.slug;
+
   // handle any domain changes
-  await handleDomainChanges(modelToUpdate, currentModel, requestOptions);
+  // we'd like to base this check on existence of the domain service,
+  // but we only have requestOptions and not a context
+  if (!requestOptions.isPortal) {
+    await handleDomainChanges(modelToUpdate, currentModel, requestOptions);
+  }
 
   // Persist the new catalog to new property until the app is fully migrated
   modelToUpdate.data.catalogV2 = site.catalog;

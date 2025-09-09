@@ -2,6 +2,7 @@ import { InitiativePermissionPolicies } from "../initiatives/_internal/Initiativ
 import { ProjectPermissionPolicies } from "../projects/_internal/ProjectBusinessRules";
 import { SitesPermissionPolicies } from "../sites/_internal/SiteBusinessRules";
 import { DiscussionPermissionPolicies } from "../discussions/_internal/DiscussionBusinessRules";
+import { ChannelPermissionPolicies } from "../channels/_internal/ChannelBusinessRules";
 import { ContentPermissionPolicies } from "../content/_internal/ContentBusinessRules";
 
 import { IPermissionPolicy, Permission } from "./types";
@@ -10,7 +11,6 @@ import { PagePermissionPolicies } from "../pages/_internal/PageBusinessRules";
 import { PlatformPermissionPolicies } from "./PlatformPermissionPolicies";
 import { InitiativeTemplatePermissionPolicies } from "../initiative-templates/_internal/InitiativeTemplateBusinessRules";
 import { TemplatePermissionPolicies } from "../templates/_internal/TemplateBusinessRules";
-import { SurveyPermissionPolicies } from "../surveys/_internal/SurveyBusinessRules";
 import { EventPermissionPolicies } from "../events/_internal/EventBusinessRules";
 import { UserPermissionPolicies } from "../users/_internal/UserBusinessRules";
 
@@ -202,6 +202,7 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
     environments: ["qaext"],
     availability: ["flag"],
   },
+  // DEPRECATED PERMISSION - TODO: remove at next major version
   {
     // Enables catalog configuration and viewing
     permission: "hub:feature:catalogs",
@@ -210,8 +211,8 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
   },
   /**
    * Gates advanced editing (e.g. adding new collections, adding
-   * additional scope filters, appearance settings, etc.) in
-   * the catalog configuration experince.
+   * additional scope filters, etc.) in the catalog configuration
+   * experince.
    *
    * TODO: Remove the site entity assertion once all catalog
    * configuration features are supported by sites
@@ -227,6 +228,22 @@ const SystemPermissionPolicies: IPermissionPolicy[] = [
         value: "Hub Site Application",
       },
     ],
+  },
+  /**
+   * Gates catalog & collection appearance editing
+   * in the catalog configuration experience.
+   *
+   * TODO: remove environment & availability gating once
+   * we are ready to release catalog appearance
+   * configuration. Alternatively, we can remove it entirely
+   * in favor of the "hub:feature:caatalogs:edit:advanced"
+   * permission
+   */
+  {
+    permission: "hub:feature:catalogs:edit:appearance",
+    dependencies: ["hub:feature:catalogs:edit:advanced"],
+    environments: ["qaext"],
+    availability: ["alpha"],
   },
   {
     // Enable inline-workspace for Entity Views
@@ -288,6 +305,7 @@ export const HubPermissionsPolicies: IPermissionPolicy[] = [
   ...ProjectPermissionPolicies,
   ...InitiativePermissionPolicies,
   ...DiscussionPermissionPolicies,
+  ...ChannelPermissionPolicies,
   ...ContentPermissionPolicies,
   ...GroupPermissionPolicies,
   ...PagePermissionPolicies,
@@ -295,7 +313,6 @@ export const HubPermissionsPolicies: IPermissionPolicy[] = [
   ...PlatformPermissionPolicies,
   ...InitiativeTemplatePermissionPolicies,
   ...SystemPermissionPolicies,
-  ...SurveyPermissionPolicies,
   ...EventPermissionPolicies,
   ...UserPermissionPolicies,
 ];

@@ -3,29 +3,41 @@ import {
   ENTITY_IS_DISCUSSABLE_SCHEMA,
   PRIVACY_CONFIG_SCHEMA,
   SITE_ENTITY_NAME_SCHEMA,
+  ENTERPRISE_SITE_ENTITY_NAME_SCHEMA,
 } from "../../core/schemas/shared";
 import { HubItemEntitySchema } from "../../core/schemas/shared/HubItemEntitySchema";
+import { checkPermission } from "../../permissions/checkPermission";
+import { IArcGISContext } from "../../types/IArcGISContext";
 
 export type SiteEditorType = (typeof SiteEditorTypes)[number];
 export const SiteEditorTypes = [
   "hub:site:edit",
   "hub:site:create",
   "hub:site:followers",
-  "hub:site:discussions",
   "hub:site:settings",
   "hub:site:assistant",
+  "hub:site:settings:discussions",
 ] as const;
 
 /**
  * defines the JSON schema for a Hub Site's editable fields
  */
-export const getSiteSchema = (siteId: string) =>
-  ({
+export const getSiteSchema = (siteId: string, context: IArcGISContext) => {
+  // sites don't have slugs
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { _slug, ...propertiesWithoutSlug } = HubItemEntitySchema.properties;
+
+  const nameSchema = checkPermission("hub:environment:enterprise", context)
+    .access
+    ? ENTERPRISE_SITE_ENTITY_NAME_SCHEMA
+    : SITE_ENTITY_NAME_SCHEMA;
+
+  return {
     $async: true,
     ...HubItemEntitySchema,
     properties: {
-      ...HubItemEntitySchema.properties,
-      name: SITE_ENTITY_NAME_SCHEMA,
+      ...propertiesWithoutSlug,
+      name: nameSchema,
       _discussions: ENTITY_IS_DISCUSSABLE_SCHEMA,
       telemetry: PRIVACY_CONFIG_SCHEMA,
       _urlInfo: {
@@ -40,4 +52,5 @@ export const getSiteSchema = (siteId: string) =>
         },
       },
     },
-  } as IAsyncConfigurationSchema);
+  } as IAsyncConfigurationSchema;
+};

@@ -21,10 +21,16 @@ const DEFAULT_ENTITY_SETTINGS_BY_ENTITY_TYPE: Record<
   initiative: null,
   initiativeTemplate: null,
   page: null,
-  content: null,
+  content: {
+    type: EntitySettingType.CONTENT,
+    settings: { ...DISCUSSION_SETTINGS },
+  },
   organization: null,
   org: null,
-  group: null,
+  group: {
+    type: EntitySettingType.GROUP,
+    settings: { ...DISCUSSION_SETTINGS },
+  },
   template: null,
   survey: null,
   event: null,

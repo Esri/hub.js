@@ -9,7 +9,6 @@ import { PagePermissions } from "../../pages/_internal/PageBusinessRules";
 import { PlatformPermissions } from "../PlatformPermissionPolicies";
 import { InitiativeTemplatePermissions } from "../../initiative-templates/_internal/InitiativeTemplateBusinessRules";
 import { TemplatePermissions } from "../../templates/_internal/TemplateBusinessRules";
-import { SurveyPermissions } from "../../surveys/_internal/SurveyBusinessRules";
 import { EventPermissions } from "../../events/_internal/EventBusinessRules";
 import { UserPermissions } from "../../users/_internal/UserBusinessRules";
 
@@ -20,6 +19,7 @@ import { UserPermissions } from "../../users/_internal/UserBusinessRules";
  */
 
 const SystemPermissions = [
+  "hub:gating:workspace:released",
   "hub:feature:ai-assistant",
   "hub:platform:ai-assistant",
   "hub:feature:privacy",
@@ -31,9 +31,10 @@ const SystemPermissions = [
   "hub:feature:keyboardshortcuts",
   "hub:feature:newentityview",
   "hub:feature:history",
-  "hub:feature:catalogs",
+  "hub:feature:catalogs", // DEPRECATED - TODO: remove at next major version
   /** remove once sites support all catalog configuration features */
   "hub:feature:catalogs:edit:advanced",
+  "hub:feature:catalogs:edit:appearance",
   "hub:feature:inline-workspace",
   "hub:feature:pagescatalog",
   "hub:license:hub-premium",
@@ -60,7 +61,6 @@ const validPermissions = [
   ...InitiativeTemplatePermissions,
   ...TemplatePermissions,
   ...SystemPermissions,
-  ...SurveyPermissions,
   ...EventPermissions,
   ...UserPermissions,
   ...ChannelPermissions,
@@ -81,7 +81,6 @@ export type Permission =
   | (typeof InitiativeTemplatePermissions)[number]
   | (typeof TemplatePermissions)[number]
   | (typeof SystemPermissions)[number]
-  | (typeof SurveyPermissions)[number]
   | (typeof EventPermissions)[number]
   | (typeof UserPermissions)[number]
   | (typeof ChannelPermissions)[number];
@@ -92,5 +91,5 @@ export type Permission =
  * @returns
  */
 export function isPermission(maybePermission: string): boolean {
-  return validPermissions.includes(maybePermission );
+  return validPermissions.includes(maybePermission);
 }

@@ -65,8 +65,10 @@ export function portalToOrganization(
   portal: IPortal,
   token?: string
 ): IHubOrganization {
+  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
   let portalUrl = `https://${portal.portalHostname}`;
   if (portal.urlKey) {
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     portalUrl = `https://${portal.urlKey}.${portal.customBaseUrl}`;
   }
   return {

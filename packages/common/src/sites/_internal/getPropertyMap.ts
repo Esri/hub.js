@@ -10,7 +10,8 @@ import { getBasePropertyMap } from "../../core/_internal/getBasePropertyMap";
  * @returns
  */
 export function getPropertyMap(): IPropertyMap[] {
-  const map = getBasePropertyMap();
+  // sites don't have slugs
+  const map = getBasePropertyMap().filter((prop) => prop.entityKey !== "slug");
   // Site specific mappings
   map.push({ entityKey: "feeds", storeKey: "data.feeds" });
   map.push({ entityKey: "permissions", storeKey: "data.permissions" });
@@ -40,10 +41,6 @@ export function getPropertyMap(): IPropertyMap[] {
 
   // Deeper/Indirect mappings
   map.push({
-    entityKey: "slug",
-    storeKey: "item.properties.slug",
-  });
-  map.push({
     entityKey: "followersGroupId",
     storeKey: "item.properties.followersGroupId",
   });
@@ -58,10 +55,6 @@ export function getPropertyMap(): IPropertyMap[] {
   map.push({
     entityKey: "name",
     storeKey: "item.title",
-  });
-  map.push({
-    entityKey: "location",
-    storeKey: "item.properties.location",
   });
   map.push({
     entityKey: "legacyTeams",
