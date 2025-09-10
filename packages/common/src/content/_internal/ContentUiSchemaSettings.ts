@@ -16,112 +16,133 @@ import { shouldShowDownloadsConfiguration } from "./shouldShowDownloadsConfigura
  * This defines how the schema properties should be
  * rendered in the content settings editing experience
  */
-export const buildUiSchema = async (
+export const buildUiSchema = (
   i18nScope: string,
   options: EntityEditorOptions,
   _context: IArcGISContext
 ): Promise<IUiSchema> => {
-  const uiSchema: IUiSchema = {
-    type: "Layout",
-    elements: [],
-  };
-  if (
-    checkPermission(
-      "hub:content:workspace:settings:schedule",
-      _context,
-      options
-    ).access
-  ) {
-    const scheduleSectionElements: IUiSchemaElement[] = [
-      {
-        type: "Control",
-        scope: "/properties/schedule",
-        labelKey: `${i18nScope}.sections.schedule.helperText`,
-        options: {
-          type: "Control",
-          control: "hub-field-input-scheduler",
-          labelKey: "fieldHeader",
-          format: "select",
-          inputs: [
-            { type: "automatic" },
-            { type: "daily" },
-            { type: "weekly" },
-            { type: "monthly" },
-            { type: "yearly" },
-            {
-              type: "manual",
-              helperActionIcon: "information-f",
-              helperActionText: `{{${i18nScope}.fields.schedule.manual.helperActionText:translate}}`,
-            },
-          ],
-        },
-        rules: [
-          {
-            effect: UiSchemaRuleEffects.DISABLE,
-            conditions: [options.access !== "public"],
-          },
-        ],
-      },
-      {
-        type: "Notice",
-        options: {
-          notice: {
-            configuration: {
-              id: "schedule-unavailable-notice",
-              noticeType: "notice",
-              closable: false,
-              kind: "warning",
-              icon: "exclamation-mark-triangle",
-              scale: "m",
-            },
-            title: `{{${i18nScope}.fields.schedule.unavailableNotice.title:translate}}`,
-            message: `{{${i18nScope}.fields.schedule.unavailableNotice.body:translate}}`,
-            autoShow: true,
-          },
-        },
-        rules: [
-          {
-            effect: UiSchemaRuleEffects.SHOW,
-            conditions: [options.access !== "public"],
-          },
-        ],
-      },
-      {
-        type: "Control",
-        scope: "/properties/_forceUpdate",
-        options: {
-          control: "hub-field-input-tile-select",
-          type: "checkbox",
-          labels: [
-            `{{${i18nScope}.fields.schedule.forceUpdateButton.label:translate}}`,
-          ],
-          descriptions: [
-            `{{${i18nScope}.fields.schedule.forceUpdateButton.description:translate}}`,
-          ],
-        },
-        rules: [
-          {
-            effect: UiSchemaRuleEffects.SHOW,
-            conditions: [options.access === "public"],
-          },
-        ],
-      },
-    ];
-
+  return new Promise((resolve) => {
+    const uiSchema: IUiSchema = {
+      type: "Layout",
+      elements: [],
+    };
+    // map display settings for feature layer content
     uiSchema.elements.push({
       type: "Section",
-      labelKey: `${i18nScope}.sections.schedule.label`,
-      elements: scheduleSectionElements,
+      labelKey: `${i18nScope}.sections.mapSettings.label`,
+      elements: [
+        {
+          type: "Control",
+          scope: "/properties/view/properties/mapSettings",
+          options: {
+            type: "Control",
+            control: "hub-composite-input-map-settings",
+            visibleSettings: ["displaySettings"],
+            showPreview: false,
+          },
+        },
+      ],
     });
-  }
 
-  if (shouldShowDownloadsConfiguration(options as IHubEditableContent)) {
-    const downloadsSection = getDownloadsSection(
-      i18nScope,
-      options as IHubEditableContent
-    );
-    uiSchema.elements.push(downloadsSection);
-  }
+    // schedule settings
+    if (
+      checkPermission(
+        "hub:content:workspace:settings:schedule",
+        _context,
+        options
+      ).access
+    ) {
+      const scheduleSectionElements: IUiSchemaElement[] = [
+        {
+          type: "Control",
+          scope: "/properties/schedule",
+          labelKey: `${i18nScope}.sections.schedule.helperText`,
+          options: {
+            type: "Control",
+            control: "hub-field-input-scheduler",
+            labelKey: "fieldHeader",
+            format: "select",
+            inputs: [
+              { type: "automatic" },
+              { type: "daily" },
+              { type: "weekly" },
+              { type: "monthly" },
+              { type: "yearly" },
+              {
+                type: "manual",
+                helperActionIcon: "information-f",
+                helperActionText: `{{${i18nScope}.fields.schedule.manual.helperActionText:translate}}`,
+              },
+            ],
+          },
+          rules: [
+            {
+              effect: UiSchemaRuleEffects.DISABLE,
+              conditions: [options.access !== "public"],
+            },
+          ],
+        },
+        {
+          type: "Notice",
+          options: {
+            notice: {
+              configuration: {
+                id: "schedule-unavailable-notice",
+                noticeType: "notice",
+                closable: false,
+                kind: "warning",
+                icon: "exclamation-mark-triangle",
+                scale: "m",
+              },
+              title: `{{${i18nScope}.fields.schedule.unavailableNotice.title:translate}}`,
+              message: `{{${i18nScope}.fields.schedule.unavailableNotice.body:translate}}`,
+              autoShow: true,
+            },
+          },
+          rules: [
+            {
+              effect: UiSchemaRuleEffects.SHOW,
+              conditions: [options.access !== "public"],
+            },
+          ],
+        },
+        {
+          type: "Control",
+          scope: "/properties/_forceUpdate",
+          options: {
+            control: "hub-field-input-tile-select",
+            type: "checkbox",
+            labels: [
+              `{{${i18nScope}.fields.schedule.forceUpdateButton.label:translate}}`,
+            ],
+            descriptions: [
+              `{{${i18nScope}.fields.schedule.forceUpdateButton.description:translate}}`,
+            ],
+          },
+          rules: [
+            {
+              effect: UiSchemaRuleEffects.SHOW,
+              conditions: [options.access === "public"],
+            },
+          ],
+        },
+      ];
 
-  return uiSchema;
+      uiSchema.elements.push({
+        type: "Section",
+        labelKey: `${i18nScope}.sections.schedule.label`,
+        elements: scheduleSectionElements,
+      });
+    }
+
+    if (shouldShowDownloadsConfiguration(options as IHubEditableContent)) {
+      const downloadsSection = getDownloadsSection(
+        i18nScope,
+        options as IHubEditableContent
+      );
+      uiSchema.elements.push(downloadsSection);
+    }
+
+    resolve(uiSchema);
+  });
 };
