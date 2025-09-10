@@ -105,9 +105,9 @@ export class ArcGISContext implements IArcGISContext {
 
   private _featureFlags: IFeatureFlags = {};
 
-  private _trustedOrgIds: string[];
+  private _trustedOrgIds: string[] = [];
 
-  private _trustedOrgs: IHubTrustedOrgsResponse[];
+  private _trustedOrgs: IHubTrustedOrgsResponse[] = [];
 
   private _userResourceTokens: IUserResourceToken[] = [];
 
