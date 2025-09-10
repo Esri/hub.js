@@ -47,6 +47,7 @@ const SystemPermissions = [
   "hub:environment:devext",
   "hub:environment:production",
   "hub:environment:enterprise",
+  "hub:card:embed",
 ];
 
 const validPermissions = [
