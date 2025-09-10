@@ -38,6 +38,7 @@ export const SitePermissions = [
   "hub:site:workspace:catalog",
   "hub:site:workspace:catalog:content",
   "hub:site:workspace:catalog:events",
+  "hub:site:workspace:catalog:upgrade",
   "hub:site:workspace:metrics",
   "hub:site:workspace:followers",
   "hub:site:workspace:followers:member",
@@ -173,6 +174,12 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:site:workspace:catalog:events",
     licenses: ["hub-premium"],
     dependencies: ["hub:site:workspace:catalog", "hub:event"],
+  },
+  // Temporary permission to support catalog upgrade process
+  {
+    permission: "hub:site:workspace:catalog:upgrade",
+    dependencies: ["hub:site:workspace:catalog"],
+    availability: ["flag"],
   },
   {
     permission: "hub:site:workspace:pages",
