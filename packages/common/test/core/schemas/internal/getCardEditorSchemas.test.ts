@@ -11,7 +11,7 @@ import * as followUiSchemaModule from "../../../../src/core/schemas/internal/fol
 import * as eventGalleryUiSchemaModule from "../../../../src/core/schemas/internal/events/EventGalleryCardUiSchema";
 import * as embedUiSchemaModule from "../../../../src/core/schemas/internal/embed/EmbedUiSchema";
 import { IArcGISContext } from "../../../../src";
-import { IEventGalleryCardEditorOptions } from "../../../../src/core/schemas/internal/EditorOptions";
+import { EventGalleryCardEditorOptions } from "../../../../src/core/schemas/internal/EditorOptions";
 import { EventGalleryCardSchema } from "../../../../src/core/schemas/internal/events/EventGalleryCardSchema";
 import { EmbedCardSchema } from "../../../../src/core/schemas/internal/embed/EmbedSchema";
 
@@ -96,7 +96,7 @@ describe("getCardEditorSchemas", () => {
   });
   describe("eventGallery", () => {
     it("should build the eventGallery schema and ui schema", async () => {
-      const options: IEventGalleryCardEditorOptions = {
+      const options: EventGalleryCardEditorOptions = {
         tags: ["tag1", "tag2"],
       };
       const filteredSchema = {

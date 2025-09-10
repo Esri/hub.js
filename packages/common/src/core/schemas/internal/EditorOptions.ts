@@ -18,15 +18,16 @@ export type EntityEditorOptions = HubEntity;
  * layout card editor options, i.e. IStatCardEditorOptions | ICountdownCardEditorOptions | ...
  */
 export type CardEditorOptions =
-  | IStatCardEditorOptions
-  | IFollowCardEditorOptions
-  | IEventGalleryCardEditorOptions;
+  | StatCardEditorOptions
+  | FollowCardEditorOptions
+  | EventGalleryCardEditorOptions
+  | EmbedCardEditorOptions;
 
 /**
  * Options to use when constructing a schema and uiSchema for
  * a stat card editor.
  */
-export interface IStatCardEditorOptions {
+export interface StatCardEditorOptions {
   themeColors: string[];
 }
 
@@ -34,13 +35,13 @@ export interface IStatCardEditorOptions {
  * Options to use when constructing a schema and uiSchema for
  * a follow card editor.
  */
-export type IFollowCardEditorOptions = Record<string, never>;
+export type FollowCardEditorOptions = Record<string, never>;
 
 /**
  * Options to use when constructing a schema and uiSchema for
  * an event gallery card editor.
  */
-export interface IEventGalleryCardEditorOptions {
+export interface EventGalleryCardEditorOptions {
   tags: string[];
 }
 
@@ -48,4 +49,4 @@ export interface IEventGalleryCardEditorOptions {
  * Options to use when constructing a schema and uiSchema for
  * an embed card editor.
  */
-export type IEmbedCardEditorOptions = Record<string, never>;
+export type EmbedCardEditorOptions = Record<string, never>;

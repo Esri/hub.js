@@ -1,10 +1,10 @@
 import type { IArcGISContext } from "../../../../types/IArcGISContext";
-import { IEmbedCardEditorOptions } from "../EditorOptions";
+import { EmbedCardEditorOptions } from "../EditorOptions";
 import { IUiSchema } from "../../types";
 
 export const buildUiSchema = (
   _i18nScope: string,
-  _config: IEmbedCardEditorOptions,
+  _config: EmbedCardEditorOptions,
   _context: IArcGISContext
 ): IUiSchema => {
   return {
