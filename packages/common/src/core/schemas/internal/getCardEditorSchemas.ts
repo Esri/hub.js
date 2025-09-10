@@ -8,10 +8,10 @@ import { getCardType } from "./getCardType";
 import { filterSchemaToUiSchema } from "./filterSchemaToUiSchema";
 import {
   CardEditorOptions,
-  IEmbedCardEditorOptions,
-  IEventGalleryCardEditorOptions,
-  IFollowCardEditorOptions,
-  IStatCardEditorOptions,
+  EmbedCardEditorOptions,
+  EventGalleryCardEditorOptions,
+  FollowCardEditorOptions,
+  StatCardEditorOptions,
 } from "./EditorOptions";
 import { cloneObject } from "../../../util";
 import type { IArcGISContext } from "../../../types/IArcGISContext";
@@ -64,7 +64,7 @@ export async function getCardEditorSchemas(
           schema = cloneObject(MetricSchema);
           uiSchema = await uiSchemaModuleResolved.buildUiSchema(
             i18nScope,
-            options as IStatCardEditorOptions,
+            options as StatCardEditorOptions,
             context
           );
 
@@ -98,7 +98,7 @@ export async function getCardEditorSchemas(
           schema = cloneObject(FollowSchema);
           uiSchema = uiSchemaModuleResolved.buildUiSchema(
             i18nScope,
-            options as IFollowCardEditorOptions,
+            options as FollowCardEditorOptions,
             context
           );
         }
@@ -115,7 +115,7 @@ export async function getCardEditorSchemas(
       schema = cloneObject(EmbedCardSchema);
       uiSchema = buildUiSchema(
         i18nScope,
-        options as IEmbedCardEditorOptions,
+        options as EmbedCardEditorOptions,
         context
       );
       defaults = { embeds: [] };
@@ -130,7 +130,7 @@ export async function getCardEditorSchemas(
       schema = cloneObject(EventGalleryCardSchema);
       uiSchema = await buildUiSchema(
         i18nScope,
-        options as IEventGalleryCardEditorOptions,
+        options as EventGalleryCardEditorOptions,
         context
       );
       break;

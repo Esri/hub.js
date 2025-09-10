@@ -1,13 +1,13 @@
 import type { IArcGISContext } from "../../../../types/IArcGISContext";
 import { getWellKnownCatalog } from "../../../../search/wellKnownCatalog";
 import { IUiSchema, UiSchemaRuleEffects } from "../../types";
-import { IEventGalleryCardEditorOptions } from "../EditorOptions";
+import { EventGalleryCardEditorOptions } from "../EditorOptions";
 import { fetchCategoriesUiSchemaElement } from "../fetchCategoriesUiSchemaElement";
 import { getTagItems } from "../getTagItems";
 
 export async function buildUiSchema(
   i18nScope: string,
-  options: IEventGalleryCardEditorOptions,
+  options: EventGalleryCardEditorOptions,
   context: IArcGISContext
 ): Promise<IUiSchema> {
   const categoriesUiSchema = await fetchCategoriesUiSchemaElement({
@@ -242,7 +242,7 @@ export async function buildUiSchema(
                           selected: true,
                           predicates: [
                             {
-                              owner: (context.currentUser as any).id,
+                              owner: context.currentUser.id,
                             },
                           ],
                         },
