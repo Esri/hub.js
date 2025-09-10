@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import {
   ALPHA_ORGS,
   ArcGISContextManager,
@@ -456,6 +457,7 @@ describe("ArcGISContextManager:", () => {
         onlinePartneredOrgResponse.trustedOrgs
       );
     });
+
     it("verify props when passed session", async () => {
       const t = new Date().getTime();
       spyOn(portalModule, "getSelf").and.callFake(() => {

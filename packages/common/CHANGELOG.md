@@ -1,3 +1,38 @@
+## @esri/hub-common [20.4.5](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.4...@esri/hub-common@20.4.5) (2025-09-10)
+
+
+### Bug Fixes
+
+* user settings schema tolerant of misconfigured trustedOrgs ([#1994](https://github.com/Esri/hub.js/issues/1994)) ([8ba01f9](https://github.com/Esri/hub.js/commit/8ba01f92c8bbdf5256da5b5afc3e2edfb18bfebf))
+
+## @esri/hub-common [20.4.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.3...@esri/hub-common@20.4.4) (2025-09-04)
+
+
+### Bug Fixes
+
+* **hub-common:** fix issue where existing download export requests were not serialized correctly ([#1987](https://github.com/Esri/hub.js/issues/1987)) ([cebb78a](https://github.com/Esri/hub.js/commit/cebb78af4ad618d29dd57fd8e8872b75c21a27ff))
+
+## @esri/hub-common [20.4.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.2...@esri/hub-common@20.4.3) (2025-09-04)
+
+
+### Bug Fixes
+
+* ensure all permissions are in HubPermissions array ([#1991](https://github.com/Esri/hub.js/issues/1991)) ([a38dddf](https://github.com/Esri/hub.js/commit/a38dddf64e08e142f48607618b832d25561dd3b4))
+
+## @esri/hub-common [20.4.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.1...@esri/hub-common@20.4.2) (2025-09-04)
+
+
+### Bug Fixes
+
+* **hub-common:** partial groups have group typing ([#1990](https://github.com/Esri/hub.js/issues/1990)) ([6a9e8a9](https://github.com/Esri/hub.js/commit/6a9e8a96454b90bad19857d9a41392649cedffee))
+
+## @esri/hub-common [20.4.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.4.0...@esri/hub-common@20.4.1) (2025-09-04)
+
+
+### Bug Fixes
+
+* **hub-common:** fix create group discussion settings ([#1988](https://github.com/Esri/hub.js/issues/1988)) ([51eabc2](https://github.com/Esri/hub.js/commit/51eabc2eb287448610e604ac814a1bfbde351ecb))
+
 # @esri/hub-common [20.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@20.3.0...@esri/hub-common@20.4.0) (2025-09-02)
 
 

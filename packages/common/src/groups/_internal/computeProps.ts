@@ -1,9 +1,12 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import type { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
-
 import { IHubGroup } from "../../core/types/IHubGroup";
 import type { IGroup } from "@esri/arcgis-rest-portal";
-import { isDiscussable } from "../../discussions";
+import {
+  getDefaultEntitySettings,
+  IEntitySetting,
+  isDiscussable,
+} from "../../discussions";
 import { getGroupThumbnailUrl } from "../../search/utils";
 import { computeLinks } from "./computeLinks";
 
@@ -18,6 +21,7 @@ import { computeLinks } from "./computeLinks";
 export function computeProps(
   group: IGroup,
   hubGroup: Partial<IHubGroup>,
+  entitySettings: Partial<IEntitySetting>,
   requestOptions: IRequestOptions
 ): IHubGroup {
   let token: string;
@@ -65,6 +69,10 @@ export function computeProps(
   hubGroup.canDelete = hubGroup.canEdit;
 
   hubGroup.links = computeLinks(group, requestOptions);
+
+  const settings = entitySettings || getDefaultEntitySettings("group");
+  hubGroup.entitySettingsId = settings.id ?? null;
+  hubGroup.discussionSettings = settings.settings.discussions;
 
   // cast b/c this takes a partial but returns a full group
   return hubGroup as IHubGroup;

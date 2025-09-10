@@ -1,3 +1,10 @@
+## @esri/hub-downloads [20.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-downloads@20.0.0...@esri/hub-downloads@20.0.1) (2025-09-04)
+
+
+### Bug Fixes
+
+* **hub-common:** fix issue where existing download export requests were not serialized correctly ([#1987](https://github.com/Esri/hub.js/issues/1987)) ([cebb78a](https://github.com/Esri/hub.js/commit/cebb78af4ad618d29dd57fd8e8872b75c21a27ff))
+
 # @esri/hub-downloads [20.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-downloads@19.0.0...@esri/hub-downloads@20.0.0) (2025-08-25)
 
 

@@ -7,6 +7,7 @@ import {
   MOCK_CONTEXT,
   getMockContextWithPrivilenges,
 } from "../../mocks/mock-auth";
+import * as permissionsModule from "../../../src/permissions";
 
 describe("GroupUiSchemaCreate", () => {
   describe("buildUiSchema: create group", () => {
@@ -434,10 +435,9 @@ describe("GroupUiSchemaCreate", () => {
       });
     });
     it("renders the Open data capability tooltip when group access is not public", async () => {
-      spyOn(
-        require("../../../src/permissions"),
-        "checkPermission"
-      ).and.returnValue({ access: true });
+      spyOn(permissionsModule, "checkPermission").and.returnValue({
+        access: true,
+      });
       const uiSchema = await buildUiSchema(
         "some.scope",
         { access: "private" } as IHubGroup,
@@ -448,10 +448,9 @@ describe("GroupUiSchemaCreate", () => {
       expect(isOpenDataTooltip).toEqual(`some.scope.fields.isOpenData.tooltip`);
     });
     it("renders the Open data capability tooltip when user does not have the permission to do so", async () => {
-      spyOn(
-        require("../../../src/permissions"),
-        "checkPermission"
-      ).and.returnValue({ access: false });
+      spyOn(permissionsModule, "checkPermission").and.returnValue({
+        access: false,
+      });
       const uiSchema = await buildUiSchema(
         "some.scope",
         { access: "public" } as IHubGroup,
@@ -472,6 +471,7 @@ describe("GroupUiSchemaCreate", () => {
       );
 
       expect(defaults).toEqual({
+        type: "Group",
         access: "private",
         autoJoin: false,
         isSharedUpdate: true,
@@ -491,6 +491,7 @@ describe("GroupUiSchemaCreate", () => {
         getMockContextWithPrivilenges(["portal:user:addExternalMembersToGroup"])
       );
       expect(defaults).toEqual({
+        type: "Group",
         access: "private",
         autoJoin: false,
         isSharedUpdate: true,
