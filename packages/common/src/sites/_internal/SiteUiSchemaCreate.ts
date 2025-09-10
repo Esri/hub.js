@@ -2,6 +2,7 @@ import type { IArcGISContext } from "../../types/IArcGISContext";
 import { IUiSchema } from "../../core/schemas/types";
 import { IHubSite } from "../../core/types";
 import { buildCatalogSetupUiSchemaElement } from "../../core/schemas/internal/buildCatalogSetupUiSchemaElement";
+import { getLayoutSetupUiSchemaElement } from "../../core/schemas/internal/getLayoutSetupUiSchemaElement";
 
 /**
  * @private
@@ -69,6 +70,7 @@ export const buildUiSchema = async (
         },
       },
       ...buildCatalogSetupUiSchemaElement(i18nScope, context),
+      ...getLayoutSetupUiSchemaElement(),
     ],
   };
 };
