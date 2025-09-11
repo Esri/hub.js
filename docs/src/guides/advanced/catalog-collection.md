@@ -8,19 +8,15 @@ group: 4-advanced
 
 ## Catalogs and Collections
 
-A Catalog defines a set of platform entities (items/users/groups/events etc) which can be searched. Catalogs can have futher subsets called Collections.
+A Catalog is a JSON structure that defines which ArcGIS platform entities (such as items, users, groups, events, etc.) can be searched and displayed. Catalogs can be further divided into Collections, which are subsets focused on a single entity type (for example, only items or only groups).
 
-When executing queries, additional filters can be applied at the Catalog or Collection level.
+Hub Sites use Catalogs to control what content appears in site searches and displays. Hub Premium entities—Events, Projects, and Initiatives—can also have their own Catalogs to specify associated content.
 
-While a Catalog can reference any set of platform entities, any individual Collection can only reference a single platform entity type (i.e. items vs groups)
+Content hierarchy (such as linking Projects to Initiatives and Sites) is not managed automatically; it must be organized manually, typically by grouping related content and referencing those groups in parent Catalogs.
 
-Hub Sites utilize a Catalog to define what content is available on a site search. Catalogs are also used for Hub Projects and Hub Initiatives.
+For Hub Entities, the Catalog is stored in the `.catalog` property of the item's `data.json`. Other applications should follow this convention for consistency.
 
-Any hierarchy of content between Sites, Initiatives and Projects must be manually maintained, and will not be automatic. This is typically done by organizing content by Groups, and then adding Project Catalog groups to their parent Initiative Catalog, and then up to the Site Catalog.
-
-Catalogs associated with Hub Sites, Hub Initiatives and Hub Projects will all be stored in the `.catalog` property of the item's data.json. If other applications want to leverage the Catalog system, we recommend storing the information in this same location.
-
-The Catalog structure is expected to change over time so it's important to either fetch the Site/Project/Initiative via the cooresponding Class instances, or use the `upgradeCatalogSchema(..)` function to ensure you are working with the latest structure before executing searches.
+Because the Catalog structure may evolve, always fetch the latest version using the [`fetchHubEntity(type, id, context)`](../api/common/fetchHubEntity) function or upgrade it with [`upgradeCatalogSchema(..)`](../api/common/upgradeCatalogSchema) before performing searches.
 
 ## Interfaces
 
@@ -28,9 +24,9 @@ The Catalog structure is expected to change over time so it's important to eithe
 
 ## Defining a Catalog
 
-Catalogs and Collections are defined using json structure, specified in typescript via the `IHubCatalog` and `IHubCollection` interfaces.
+Catalogs and Collections are defined using json, specified in typescript via the [`IHubCatalog`](../api/common/IHubCatalog) and [`IHubCollection`](../api/commonIHubCollection) interfaces.
 
-The Catalog defines a set of "scopes" for each resource type to be included in the Catalog. Each scope is an [`IQuery`](../api/common/IQuery) object.
+The Catalog defines a set of "scopes" for each target entity in the Catalog. While each scope is defined as an [`IQuery`](../api/common/IQuery) object, in practice, the Hub UI limits the predicates in scopes to `groups`. In the future this may expand.
 
 ```js
 // Example Catalog setting the scope for "item" searches to content
@@ -51,13 +47,6 @@ const seventhStreetProjectCatalog: IHubCatalog = {
             },
           ],
         },
-        {
-          predicates: [
-            {
-              owner: "data_mart",
-            },
-          ],
-        },
       ],
     },
   },
@@ -67,14 +56,14 @@ const seventhStreetProjectCatalog: IHubCatalog = {
 
 ## Collections in Catalogs
 
-A Collection is a subset of the Catalog, constrained to a single platform entity, specified by the `targetEntity` property. The `.scope` of a Collection is an [`IQuery`](../api/common/IQuery) object which adds additional critera, creating the "subset".
+A Collection is a subset of the Catalog, constrained to a target entity, specified by the `targetEntity` property. The `.scope` of a Collection is an [`IQuery`](../api/common/IQuery) object which adds additional critera, creating the "subset".
 
 ```js
 // This example adds a collection, which adds additional constraints on top of
 // the catalog itself.
 //
 // Searching the Web Maps collection will limit the search to items in the
-// ("c4059b70af8d4773910a812f7d712dc8" group OR owned by data_mart) AND
+// "c4059b70af8d4773910a812f7d712dc8" group AND
 // which have type:"Web Map" AND NOT type: "Web Mapping Application"
 const seventhStreetProjectCatalog: IHubCatalog = {
   title: "Seventh Street Project",
@@ -88,13 +77,6 @@ const seventhStreetProjectCatalog: IHubCatalog = {
           predicates: [
             {
               group: ["c4059b70af8d4773910a812f7d712dc8"],
-            },
-          ],
-        },
-        {
-          predicates: [
-            {
-              owner: "data_mart",
             },
           ],
         },
@@ -151,7 +133,7 @@ In the example above, no authentication information or server information has be
 
 ### Catalog Search "Scopes"
 
-Although the Catalog specification supports many different entity searches (item, group, user, event etc ), and individual Catalog instance may not support all the entities. Attempting to search for an entity that does not have a scope defined, will result in an exception.
+Although the Catalog specification supports many different target entities (item, group, user, event etc ), any individual Catalog instance may not support all the target entities. Attempting to search for an entity that does not have a scope defined, will result in an exception.
 
 To determine what scopes are available, user the `.availableScopes` property to get an array of them.
 

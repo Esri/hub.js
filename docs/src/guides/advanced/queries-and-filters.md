@@ -10,25 +10,24 @@ group: 4-advanced
 
 ### Building a Query
 
-The IQuery interface is used to express both simple and extremely very complex structures.
+The IQuery interface is used to express both simple and complex queries.
 
-A query must declare the target entity type. This is needed so the query can be routed to the correct backing api.
+The first step in creating a Query is to declare the target entity type. This is needed so the query can be routed to the correct api.
 
-| Entity Type | Description and backing API end-point                            |
-| ----------- | ---------------------------------------------------------------- |
-| `item`      | ArcGIS Portal Item <br> `/sharing/rest/search`                   |
-| `group`     | ArcGIS Portal Group <br> `/sharing/rest/community/groups/search` |
-| `user`      | ArcGIS Portal User <br> `/sharing/rest/portal/self/users`        |
+| Entity Type      | Description and backing API end-point                                         |
+| ---------------- | ----------------------------------------------------------------------------- |
+| `item`           | ArcGIS Portal Item <br> `/sharing/rest/search`                                |
+| `group`          | ArcGIS Portal Group <br> `/sharing/rest/community/groups/search`              |
+| `portalUser`     | ArcGIS Portal User <br> `/sharing/rest/portal/self/users`                     |
+| `communityUser`  | ArcGIS Portal User <br> `/sharing/rest/portal/self/users`                     |
+| `groupMember`    | ArcGIS Portal Group Users <br> `/sharing/rest/community/groups/{id}/userlist` |
+| `organization`   | ArcGIS Portal <br> `/sharing/rest/portals/{id}`                               |
+| `event`          | ArcGIS Hub Event <br> Events API                                              |
+| `eventAttendee`  | ArcGIS Hub Event <br> Events API                                              |
+| `discussionPost` | ArcGIS Hub Discussion Posts <br> Discussions API                              |
+| `channel`        | ArcGIS Hub Discussion Channel <br> Discussions API                            |
 
 ![Query Model](/hub.js/img/query-filter.png)
-
-These entities are not currently implemented
-
-| Entity Type   | Description and backing API end-point                                         |
-| ------------- | ----------------------------------------------------------------------------- |
-| `groupMember` | ArcGIS Portal Group Users <br> `/sharing/rest/community/groups/{id}/userlist` |
-| `event`       | ArcGIS Hub Event                                                              |
-| `post`        | ArcGIS Hub Discussion Posts                                                   |
 
 ## Query, Filters, Predicates
 
@@ -38,8 +37,10 @@ When the query structure is serialized into an API request the following logic i
 
 Within a Query...
 
+- all predicates are expanded into `IMatchOptions` objects
 - all Filters are `AND`ed together
 - all Predicates within a Filter use the `filer.operation` to control how they are connected
+- all filters and predicates are converted into the native query syntax of the backing API
 
 ```json
 {
@@ -100,9 +101,9 @@ We can also express this more concisely as:
 
 In this example we see that a property on an `IPredicate` can be a string, or an `IMatchOptions`
 
-### Using MatchOptions
+### Query Expansion and MatchOptions
 
-As noted above, most predicate properties will work with a `IMatchOptions` structure, which allows more specificity with how the query is serialized for the backing API.
+As noted above, most predicate properties will work with a `IMatchOptions` structure, which allows more specificity with how the query is serialized for the backing API. Prior to serialization, predicates are "expanded" into their match options form, which enables deterministic combining of the filters and predicates. Note: not all predicates support Match Options. See the Predicate Properties table below for details.
 
 ```json
 {
@@ -132,6 +133,12 @@ This reads as:
   - WITH tag `authoritative`
   - AND tag `water` OR tag `lake`
   - WITHOUT tag `rivers`
+
+...and is serialized into the `q` parameter of the Item search api as:
+
+```
+type="Feature Service" AND ((tag="authoritative") AND (tag="water" OR tag="lake") AND (-tag="rivers"))
+```
 
 We can combine predicates via the `.operation` to construct more complex queries
 
@@ -177,9 +184,23 @@ This reads as:
   - AND tag `wildfire` OR tag `fire`
   - owned by `jsmith`
 
+...and is serialized into the `q` parameter of the Item search api as:
+
+```
+(type="Feature Service" AND ((tag="authoritative") AND (tag="water" OR tag="lake") AND (-tag="rivers")))
+OR
+(type="Web Map" AND ((tag="authoritative") AND (tag="wildfire" OR tag="fire")) AND (owner="jsmith"))
+```
+
+## Query Execution and `hubSearch`
+
+Within Hub, all searches are executed via [`hubSearch`](../api/common/HubSearch) which takes an [`IQuery`](../api/common/IQuery) and [`IHubSearchOptions`](../api/common/IHubSearchOptions) .
+
+Hub Search uses a provider pattern to execute the search. Based on the target entity of the `IQuery`, the actual search is delegated to internal, entity specific search functions. These functions handle transforming the `IQuery` into the API specific request, as well as transforming the API response into an `IHubSearchResponse<IHubSearchResult>`. Providers will only use predicates they support and will ignore all others.
+
 ## Predicate Properties
 
-Although the `IPredicate` structure allows for any key, value combinations, the following table lists the properties and their allowed types, for queries being serialized to the ArcGIS Portal API.
+Although the `IPredicate` structure allows for any key, value combinations, the following table lists the properties and their allowed types, for queries being serialized to the ArcGIS Portal API. The [Portal API search reference](https://developers.arcgis.com/rest/users-groups-and-items/search-reference/) describes the properties supportes for Items and Groups.
 
 | Property           | Entity                  | Allowed Types                         |
 | ------------------ | ----------------------- | ------------------------------------- |
