@@ -152,12 +152,10 @@ export const hubItemEntityFromEditor = async (
   }
 
   // f. handle layout setups in sites and pages
-  if (!_layoutSetup) {
-    entity.layout = "blank";
-  } else {
-    // disabling is temporary while developing
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+  if (_layoutSetup && _layoutSetup?.type) {
     entity.layout = _layoutSetup;
+  } else {
+    entity.layout = "blank";
   }
 
   return {

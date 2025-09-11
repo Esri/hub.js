@@ -256,6 +256,7 @@ export const ENTITY_LAYOUT_SETUP_SCHEMA: JSONSchema = {
     layout: {
       type: "string",
       enum: ["blank", "simple"],
+      default: "blank",
     },
   },
 };

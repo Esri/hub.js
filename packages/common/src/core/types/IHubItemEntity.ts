@@ -192,5 +192,5 @@ export type IHubItemEntityEditor<T> = Omit<T, "extent"> & {
    */
   _catalogSetup?: ICatalogSetup;
 
-  _layoutSetup?: string;
+  _layoutSetup?: Record<string, unknown>;
 };
