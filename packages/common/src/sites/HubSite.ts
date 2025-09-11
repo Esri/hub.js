@@ -5,6 +5,8 @@ import {
   IWithStoreBehavior,
   IWithSharingBehavior,
   IWithVersioningBehavior,
+  IHubSiteEditor,
+  SettableAccessLevel,
 } from "../core";
 
 import { Catalog } from "../search/Catalog";
@@ -43,18 +45,13 @@ import { cloneObject } from "../util";
 
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
-
-import {
-  IEntityPermissionPolicy,
-  getWithDefault,
-  IHubSiteEditor,
-  IModel,
-  setProp,
-  SettableAccessLevel,
-} from "../index";
 import { isDiscussable } from "../discussions/utils";
 import { SiteEditorType } from "./_internal/SiteSchema";
 import { hubItemEntityFromEditor } from "../core/_internal/hubItemEntityFromEditor";
+import { getWithDefault } from "../objects/get-with-default";
+import { IModel } from "../hub-types";
+import { setProp } from "../objects/set-prop";
+import { IEntityPermissionPolicy } from "../permissions/types/IEntityPermissionPolicy";
 
 /**
  * Hub Site Class

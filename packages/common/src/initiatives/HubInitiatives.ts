@@ -8,18 +8,6 @@ import {
   updateModel,
 } from "../models";
 import { constructSlug, getItemBySlug } from "../items/slugs";
-
-import {
-  isGuid,
-  cloneObject,
-  unique,
-  mapBy,
-  getProp,
-  getFamily,
-  IHubRequestOptions,
-  setDiscussableKeyword,
-  IModel,
-} from "../index";
 import { IQuery } from "../search/types/IHubCatalog";
 import {
   IItem,
@@ -44,6 +32,13 @@ import { computeLinks } from "./_internal/computeLinks";
 import { deriveLocationFromItem } from "../content/_internal/internalContentUtils";
 import { setEntityStatusKeyword } from "../utils/internal/setEntityStatusKeyword";
 import { ensureUniqueEntitySlug } from "../items/_internal/ensureUniqueEntitySlug";
+import { IHubRequestOptions, IModel } from "../hub-types";
+import { setDiscussableKeyword } from "../discussions/utils";
+import { cloneObject, unique } from "../util";
+import { isGuid } from "../utils/is-guid";
+import { getFamily } from "../content/get-family";
+import { getProp } from "../objects/get-prop";
+import { mapBy } from "../utils/map-by";
 
 /**
  * @private
