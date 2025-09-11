@@ -14,25 +14,20 @@ export function getLayoutSetupUiSchemaElement(): IUiSchemaElement[] {
   // i18nScope: string,
   return [
     {
-      type: "Layout",
-      elements: [
-        {
-          label: "Page Layout",
-          scope: "/properties/layout",
-          type: "Control",
-          options: {
-            control: "hub-field-input-tile-select",
-            labels: ["Blank", "Simple"],
-            descriptions: [
-              // TODO: translate these
-              "Quick start with blank layout",
-              "Include a few example rows and cards",
-            ],
-            icons: ["rectangle", "group-layout-elements"],
-            layout: "horizontal",
-          },
-        },
-      ],
+      label: "Page Layout",
+      scope: "/properties/_layoutSetup/properties/layout",
+      type: "Control",
+      options: {
+        control: "hub-field-input-tile-select",
+        labels: ["Blank", "Simple"],
+        descriptions: [
+          // TODO: translate these
+          "Quick start with blank layout",
+          "Include a few example rows and cards",
+        ],
+        icons: ["rectangle", "group-layout-elements"],
+        layout: "horizontal",
+      },
     },
   ];
 }
